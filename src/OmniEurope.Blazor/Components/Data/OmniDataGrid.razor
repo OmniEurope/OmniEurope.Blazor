@@ -81,6 +81,33 @@
         }
     </div>;
 
+    @* The export bar, above or under the table: one button per format somebody can write. The one
+       being written is busy, the others wait, and a cancel action ends the reading. *@
+    RenderFragment exportBar = @<div class="omni-data-grid__export" role="group" aria-label="@Localize("GridExportBar")">
+        <span class="omni-data-grid__export-label">@Localize("GridExportAll")</span>
+        @foreach (var format in Export.Formats)
+        {
+            <OmniButton Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small" Class="omni-data-grid__export-button"
+                        Busy="@(Export.Running == format)" Disabled="@(Export.Running is not null && Export.Running != format)"
+                        OnClick="@(() => Export.RunAsync(format))">
+                <OmniIcon Name="OmniIconName.Download" />
+                <span>@Export.FormatName(format)</span>
+            </OmniButton>
+        }
+        @if (Export.Running is not null)
+        {
+            <OmniButton Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small" Class="omni-data-grid__export-cancel" OnClick="Export.Cancel">@Localize("Cancel")</OmniButton>
+        }
+        @if (Export.Failed)
+        {
+            <span class="omni-data-grid__export-message omni-data-grid__export-message--error" role="alert">@Localize("GridExportFailed")</span>
+        }
+        else if (Export.Notice is not null)
+        {
+            <span class="omni-data-grid__export-message" role="status">@Export.Notice</span>
+        }
+    </div>;
+
     @* Shortcut out of a filter: emptying one is the action worth a single click, and the cross only
        exists while there is something to empty. *@
     RenderFragment<OmniDataGridColumnDefinition<TItem>> filterReset = context => @<button type="button"
@@ -145,6 +172,10 @@
                        ShowFirstLast="true"
                        HorizontalAlign="@PagerHorizontalAlign"
                        NumericPageCount="@NumericPageCount" />
+        }
+        @if (Export.ShowTop)
+        {
+            @exportBar
         }
         @* Detach control of the frozen columns: outside the scrolled area so it stays put, placed on
            their trailing edge by omni-grid.js. Its name is stable, aria-pressed carries the state and
@@ -495,6 +526,10 @@
                        ShowFirstLast="true"
                        HorizontalAlign="@PagerHorizontalAlign"
                        NumericPageCount="@NumericPageCount" />
+        }
+        @if (Export.ShowBottom)
+        {
+            @exportBar
         }
     }
 </div>

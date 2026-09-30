@@ -358,6 +358,9 @@
 .omni-data-grid th:is(.omni-data-grid__column--align-center, .omni-data-grid__column--align-end) .omni-data-grid__sort-icon { margin-inline-start: 0; }
 .omni-data-grid th.omni-data-grid__column--align-center .omni-data-grid__header:has(> .omni-data-grid__sort-icon)::before { content: ""; flex: none; inline-size: 0.9em; }
 .omni-data-grid__summary { color: var(--omni-color-text-muted); margin: 0; }
+/* The export bar: a label, one small button per format, then what the last export has to say. */
+.omni-data-grid__export { align-items: center; color: var(--omni-color-text-muted); display: flex; flex-wrap: wrap; font-size: var(--omni-font-size-sm); gap: var(--omni-space-xs); }
+.omni-data-grid__export-message--error { color: var(--omni-color-danger); }
 .omni-data-grid--lines-none .omni-data-grid__table :is(th, td) { border: 0; }
 .omni-data-grid--lines-vertical tbody td { border-block-end: 0; }
 .omni-data-grid:is(.omni-data-grid--lines-vertical, .omni-data-grid--lines-both) :is(th, td) { border-inline-end: var(--omni-border-width) solid var(--omni-color-border); }

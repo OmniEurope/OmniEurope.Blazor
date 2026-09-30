@@ -647,6 +647,14 @@
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Export neúplný: exportovalo sa {0} z {1, plural, one {# očakávaného riadka} few {# očakávaných riadkov} other {# očakávaných riadkov}}, údaje sa počas čítania zmenili.</value></data>
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Obmedzený export: dosiahol sa limit {0, plural, one {# riadka} few {# riadkov} other {# riadkov}} a zdroj neuvádza celkový počet, môžu existovať ďalšie riadky.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Žiadne riadky.</value></data>
+  <data name="FormFieldHelp" xml:space="preserve"><value>Pomocník</value></data>
+  <data name="GridExportBar" xml:space="preserve"><value>Export tabuľky</value></data>
+  <data name="GridExportAll" xml:space="preserve"><value>Exportovať všetko</value></data>
+  <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>
+  <data name="GridExportFormatCsv" xml:space="preserve"><value>CSV</value></data>
+  <data name="GridExportFormatExcel" xml:space="preserve"><value>Excel</value></data>
+  <data name="GridExportFormatPdf" xml:space="preserve"><value>PDF</value></data>
+  <data name="GridExportFailed" xml:space="preserve"><value>Export zlyhal.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Zaregistrovať sa</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Nemáte účet?</value></data>
   <data name="UnsavedChangesTitle" xml:space="preserve"><value>Neuložené zmeny</value></data>

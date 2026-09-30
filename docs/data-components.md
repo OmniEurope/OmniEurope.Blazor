@@ -480,6 +480,70 @@ le libellé localisé du bouton. Quand la source n'annonce pas de total et que l
 page pleine à la limite de lignes, le document écrit « N sur au moins M » et une note le dit :
 `OmniMarkdownTableDocument.TotalIsLowerBound` est alors vrai et `IsComplete` faux.
 
+## Barre d'export de la grille : `ExportFormats`
+
+`OmniDataGrid` porte une barre « Tout exporter » dès que `ExportFormats` nomme au moins un format que
+quelqu'un sait écrire : `Markdown` et `Csv` sont écrits par le paquet, sans dépendance ; `Excel` et `Pdf`
+le sont par l'hôte, qui enregistre un `IOmniTableExportRenderer` (un format que personne n'écrit n'a pas
+de bouton). `ExportPosition` place la barre sous le tableau (défaut), au-dessus, ou aux deux endroits.
+
+```razor
+<OmniDataGrid TItem="Commande" Load="ChargerAsync" KeyOf="@(c => c.Id)"
+              ExportFormats="Formats" ExportFileName="commandes" ExportTitle="Commandes"
+              ExportFields="@(new OmniTableExportField[] { new("Application", "Boutique") })">
+    <Columns>
+        <OmniDataGridColumn TItem="Commande" Property="Reference" Title="Référence" />
+        <OmniDataGridColumn TItem="Commande" Title="Statut" ExportValue="@(c => Libelle(c.Statut))">
+            <Template Context="c"><OmniBadge Text="@Libelle(c.Statut)" /></Template>
+        </OmniDataGridColumn>
+    </Columns>
+</OmniDataGrid>
+```
+
+- **Lignes.** Toutes celles que les filtres en cours retiennent, dans le tri en cours, et non la page ou
+  la fenêtre affichée : l'ensemble filtré et trié d'une grille à `Items` ; pour une grille à `Load`, des
+  appels successifs de 200 lignes avec les tris et filtres en cours, jusqu'au total annoncé ou à
+  `ExportRowLimit` (5 000 par défaut). `ExportLoad` remplace `Load` pour cette lecture quand `Load` fait
+  plus que répondre à sa requête (il retient la page servie, par exemple). L'export ne change rien à ce
+  que la grille affiche ; un bouton « Annuler » l'interrompt, et quitter la page aussi.
+- **Colonnes.** Les colonnes visibles qui lisent une valeur (`Property` ou `Value`). Une colonne faite
+  d'un seul `Template` (actions) n'est pas écrite, sauf si elle donne `ExportValue`, qui remplace aussi la
+  valeur d'une colonne dont le gabarit montre autre chose (un statut traduit). `Exportable="false"` retire
+  une colonne de l'export.
+- **Document.** `OmniTableExportDocument` : titre (`ExportTitle`, à défaut `Caption`), lignes d'en-tête
+  (`ExportFields`, puis un filtre actif par ligne, ajouté par la grille), colonnes avec leur nature
+  (`Text`, `Number`, `Date`, `Boolean`), cellules (le texte affiché, et la valeur typée quand il y en a
+  une), heure de génération, total annoncé, limite, culture. Il ne porte ni délégué ni composant : il se
+  sérialise tel quel en JSON, ce qui permet à un hôte WebAssembly de l'envoyer à son serveur, qui y écrit
+  le classeur ou le PDF.
+- **CSV.** RFC 4180, fins de ligne CRLF, UTF-8 avec marque d'ordre d'octets ; séparateur `;` quand la
+  culture écrit les décimales avec une virgule ; un nombre est écrit en valeur, sans séparateur de
+  milliers ; un texte qui commence par `=`, `+`, `-`, `@`, une tabulation ou un retour chariot est
+  précédé d'une apostrophe, pour qu'un tableur ne l'exécute pas comme une formule.
+- **Fichier.** `{ExportFileName}-{yyyyMMdd-HHmmss}.{extension}`, heure UTC. `OnExport` reçoit le document
+  une fois le fichier remis au navigateur. Un export coupé par la limite le dit dans la barre ; un échec
+  y affiche « L'export a échoué. », ne produit aucun fichier et passe l'exception à `OnExportError`.
+- **Hors grille.** `OmniTableExporter` (service enregistré par `AddOmniEuropeBlazor`) écrit un document
+  dans un format : `Supports`, `RenderAsync`, `ToMarkdown`, `ToCsv`.
+
+```csharp
+// Hôte : les formats que le paquet n'écrit pas.
+builder.Services.AddScoped<IOmniTableExportRenderer, RenduParLeServeur>();
+
+public sealed class RenduParLeServeur(HttpClient http) : IOmniTableExportRenderer
+{
+    public bool Supports(OmniTableExportFormat format) => format is OmniTableExportFormat.Excel or OmniTableExportFormat.Pdf;
+
+    public async Task<OmniTableExportFile> RenderAsync(OmniTableExportDocument document, OmniTableExportFormat format, CancellationToken cancellationToken)
+    {
+        using var response = await http.PostAsJsonAsync($"api/exports/{format}", document, cancellationToken);
+        response.EnsureSuccessStatusCode();
+        return new(await response.Content.ReadAsByteArrayAsync(cancellationToken),
+            response.Content.Headers.ContentType!.ToString(), format == OmniTableExportFormat.Pdf ? "pdf" : "xlsx");
+    }
+}
+```
+
 ## Tableau de cartes : `OmniKanban`
 
 `OmniKanban<TItem>` range des cartes en colonnes et laisse le lecteur déplacer une carte d'une colonne

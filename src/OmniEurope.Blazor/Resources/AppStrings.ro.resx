@@ -647,6 +647,14 @@
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Export incomplet: {0, plural, one {# rând exportat} few {# rânduri exportate} other {# de rânduri exportate}} din {1} anunțate, datele s-au modificat în timpul citirii.</value></data>
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Export limitat: limita de {0, plural, one {# rând} few {# rânduri} other {# de rânduri}} a fost atinsă, iar sursa nu anunță un total, pot exista mai multe rânduri.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Niciun rând.</value></data>
+  <data name="FormFieldHelp" xml:space="preserve"><value>Ajutor</value></data>
+  <data name="GridExportBar" xml:space="preserve"><value>Exportul tabelului</value></data>
+  <data name="GridExportAll" xml:space="preserve"><value>Exportă tot</value></data>
+  <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>
+  <data name="GridExportFormatCsv" xml:space="preserve"><value>CSV</value></data>
+  <data name="GridExportFormatExcel" xml:space="preserve"><value>Excel</value></data>
+  <data name="GridExportFormatPdf" xml:space="preserve"><value>PDF</value></data>
+  <data name="GridExportFailed" xml:space="preserve"><value>Exportul a eșuat.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Înregistrare</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Nu aveți cont?</value></data>
   <data name="UnsavedChangesTitle" xml:space="preserve"><value>Modificări nesalvate</value></data>

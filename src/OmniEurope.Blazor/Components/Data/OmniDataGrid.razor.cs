@@ -40,6 +40,7 @@ public partial class OmniDataGrid<TItem>
         Highlight = new(this);
         Persistence = new(this);
         Classes = new(this);
+        Export = new(this);
     }
 
     internal GridColumnSet<TItem> ColumnSet { get; }
@@ -61,12 +62,16 @@ public partial class OmniDataGrid<TItem>
     internal GridNewRowHighlight<TItem> Highlight { get; }
     internal GridStatePersistence<TItem> Persistence { get; }
     internal GridCssClasses<TItem> Classes { get; }
+    internal GridExport<TItem> Export { get; }
 
     [Inject]
     internal IJSRuntime JavaScript { get; set; } = default!;
 
     [Inject]
     internal IOmniDataGridStateStore? InjectedStateStore { get; set; }
+
+    [Inject]
+    internal IServiceProvider Services { get; set; } = default!;
 
     /// <summary>
     /// The rows the grid holds and pages, sorts, filters and groups itself. Ignored when
@@ -572,6 +577,64 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public OmniDataGridPosition FooterPosition { get; set; }
 
+    // ---- export ---------------------------------------------------------------------------------
+
+    /// <summary>
+    /// The formats of the export bar: each button exports every row the filters in force select, in the
+    /// current sort order, not only the page or window on screen. Empty, the default, shows no bar. A
+    /// format nobody writes (no <see cref="IOmniTableExportRenderer"/> of the host supports it) has no
+    /// button; Markdown and CSV are written by the package. The columns exported are the visible ones
+    /// that read a value (see <see cref="OmniDataGridColumn{TItem}.ExportValue"/>).
+    /// </summary>
+    [Parameter]
+    public IReadOnlyList<OmniTableExportFormat> ExportFormats { get; set; } = Array.Empty<OmniTableExportFormat>();
+
+    /// <summary>Where the export bar goes: under the table (the default), above it, or both.</summary>
+    [Parameter]
+    public OmniDataGridPosition ExportPosition { get; set; }
+
+    /// <summary>The title of the exported document; null uses <see cref="Caption"/>, then a localized "Table export".</summary>
+    [Parameter]
+    public string? ExportTitle { get; set; }
+
+    /// <summary>
+    /// Header lines of the exported document that say where the rows come from (the application, the
+    /// period). The active column filters are added after them by the grid.
+    /// </summary>
+    [Parameter]
+    public IReadOnlyList<OmniTableExportField> ExportFields { get; set; } = Array.Empty<OmniTableExportField>();
+
+    /// <summary>
+    /// The exported file's name without extension; the generation time (UTC) and the format's extension
+    /// are appended, as in <c>errors-20260926-140509.csv</c>.
+    /// </summary>
+    [Parameter]
+    public string ExportFileName { get; set; } = "export";
+
+    /// <summary>Most rows an export reads, 5000 by default; beyond it the bar says the export is truncated.</summary>
+    [Parameter]
+    public int ExportRowLimit { get; set; } = 5000;
+
+    /// <summary>
+    /// Reads the rows of an export, in place of <see cref="Load"/>: asked page after page, 200 rows at a
+    /// time, with the sorts and filters in force. Set it when <see cref="Load"/> does more than answer
+    /// its request (it keeps the page it served, say), which an export must not disturb. Null, the
+    /// default, exports through <see cref="Load"/>, or from <see cref="Items"/> when there is none.
+    /// </summary>
+    [Parameter]
+    public Func<OmniDataGridLoadRequest, Task<OmniDataGridResult<TItem>>>? ExportLoad { get; set; }
+
+    /// <summary>Raised with the exported document after its file was handed to the browser.</summary>
+    [Parameter]
+    public EventCallback<OmniTableExportDocument> OnExport { get; set; }
+
+    /// <summary>
+    /// Raised with the exception when an export fails (a page that could not be read, a renderer that
+    /// threw); no file is produced and the bar says the export failed. A cancelled export is not a failure.
+    /// </summary>
+    [Parameter]
+    public EventCallback<Exception> OnExportError { get; set; }
+
     internal bool DisposeRequested => _disposeRequested;
 
     internal ElementReference Viewport => _viewport;
@@ -586,6 +649,8 @@ public partial class OmniDataGrid<TItem>
     internal Task DispatchAsync(Func<Task> work) => InvokeAsync(work);
 
     internal string Text(string name, params object[] arguments) => Localize(name, arguments);
+
+    internal DateTimeOffset Now() => Clock.GetUtcNow();
 
     /// <summary>Narrowest the table may become, as a CSS length (see <see cref="GridColumnLayout{TItem}.TableMinimumWidth"/>).</summary>
     internal string TableMinimumWidth() => ColumnLayout.TableMinimumWidth();
@@ -855,6 +920,7 @@ public partial class OmniDataGrid<TItem>
         {
             await Script.DisposeAsync();
             await Highlight.DisposeAsync();
+            await Export.DisposeAsync();
             Script.ReleasePreparation();
             await View.DisposeAsync();
         }

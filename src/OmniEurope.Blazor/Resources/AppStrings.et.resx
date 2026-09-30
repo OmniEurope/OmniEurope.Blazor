@@ -647,6 +647,14 @@
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Eksport puudulik: eksporditud {0}/{1} teatatud reast, andmed muutusid lugemise ajal.</value></data>
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Piiratud eksport: piirang ({0} rida) on täis ja allikas ei teata koguarvu, ridu võib olla rohkem.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Ridu pole.</value></data>
+  <data name="FormFieldHelp" xml:space="preserve"><value>Abi</value></data>
+  <data name="GridExportBar" xml:space="preserve"><value>Tabeli eksport</value></data>
+  <data name="GridExportAll" xml:space="preserve"><value>Ekspordi kõik</value></data>
+  <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>
+  <data name="GridExportFormatCsv" xml:space="preserve"><value>CSV</value></data>
+  <data name="GridExportFormatExcel" xml:space="preserve"><value>Excel</value></data>
+  <data name="GridExportFormatPdf" xml:space="preserve"><value>PDF</value></data>
+  <data name="GridExportFailed" xml:space="preserve"><value>Eksport ebaõnnestus.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Registreeru</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Kontot pole?</value></data>
   <data name="UnsavedChangesTitle" xml:space="preserve"><value>Salvestamata muudatused</value></data>

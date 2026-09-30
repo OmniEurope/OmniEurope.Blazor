@@ -647,6 +647,14 @@
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Eksports nepilnīgs: eksportēto rindu skaits {0} no {1} norādītajām, lasīšanas laikā dati mainījās.</value></data>
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Ierobežots eksports: sasniegts rindu ierobežojums ({0}), un avots nenorāda kopskaitu, var būt vēl citas rindas.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Nav rindu.</value></data>
+  <data name="FormFieldHelp" xml:space="preserve"><value>Palīdzība</value></data>
+  <data name="GridExportBar" xml:space="preserve"><value>Tabulas eksports</value></data>
+  <data name="GridExportAll" xml:space="preserve"><value>Eksportēt visu</value></data>
+  <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>
+  <data name="GridExportFormatCsv" xml:space="preserve"><value>CSV</value></data>
+  <data name="GridExportFormatExcel" xml:space="preserve"><value>Excel</value></data>
+  <data name="GridExportFormatPdf" xml:space="preserve"><value>PDF</value></data>
+  <data name="GridExportFailed" xml:space="preserve"><value>Eksportēšana neizdevās.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Reģistrēties</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Nav konta?</value></data>
   <data name="UnsavedChangesTitle" xml:space="preserve"><value>Nesaglabātas izmaiņas</value></data>

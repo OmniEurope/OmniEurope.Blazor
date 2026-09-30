@@ -647,6 +647,14 @@
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Export onvolledig: {0} van {1, plural, one {# aangekondigde rij} other {# aangekondigde rijen}} geëxporteerd, de gegevens zijn tijdens het lezen gewijzigd.</value></data>
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Beperkte export: de limiet van {0, plural, one {# rij} other {# rijen}} is bereikt en de bron meldt geen totaal, er kunnen meer rijen zijn.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Geen rijen.</value></data>
+  <data name="FormFieldHelp" xml:space="preserve"><value>Help</value></data>
+  <data name="GridExportBar" xml:space="preserve"><value>Export van de tabel</value></data>
+  <data name="GridExportAll" xml:space="preserve"><value>Alles exporteren</value></data>
+  <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>
+  <data name="GridExportFormatCsv" xml:space="preserve"><value>CSV</value></data>
+  <data name="GridExportFormatExcel" xml:space="preserve"><value>Excel</value></data>
+  <data name="GridExportFormatPdf" xml:space="preserve"><value>PDF</value></data>
+  <data name="GridExportFailed" xml:space="preserve"><value>De export is mislukt.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Registreren</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Nog geen account?</value></data>
   <data name="UnsavedChangesTitle" xml:space="preserve"><value>Niet-opgeslagen wijzigingen</value></data>

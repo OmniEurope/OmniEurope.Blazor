@@ -316,6 +316,12 @@ ctor public OmniEurope.Blazor.Components.OmniStepTimelineStep(System.String Name
 ctor public OmniEurope.Blazor.Components.OmniSteps()
 ctor public OmniEurope.Blazor.Components.OmniStepsItem()
 ctor public OmniEurope.Blazor.Components.OmniSwitch<TValue>()
+ctor public OmniEurope.Blazor.Components.OmniTableExportCell(System.String Text)
+ctor public OmniEurope.Blazor.Components.OmniTableExportColumn(System.String Title, OmniEurope.Blazor.Components.OmniTableExportValueKind Kind)
+ctor public OmniEurope.Blazor.Components.OmniTableExportDocument()
+ctor public OmniEurope.Blazor.Components.OmniTableExportField(System.String Label, System.String Value)
+ctor public OmniEurope.Blazor.Components.OmniTableExportFile(System.ReadOnlyMemory<System.Byte> Content, System.String ContentType, System.String Extension)
+ctor public OmniEurope.Blazor.Components.OmniTableExporter(OmniEurope.Blazor.Components.OmniMarkdownTableExporter markdown, System.Collections.Generic.IEnumerable<OmniEurope.Blazor.Components.IOmniTableExportRenderer> renderers)
 ctor public OmniEurope.Blazor.Components.OmniTabs()
 ctor public OmniEurope.Blazor.Components.OmniTabsItem()
 ctor public OmniEurope.Blazor.Components.OmniTemplateForm<TModel>()
@@ -853,6 +859,14 @@ field public static OmniEurope.Blazor.Components.OmniStepTimelineStatus.Failed :
 field public static OmniEurope.Blazor.Components.OmniStepTimelineStatus.Running : OmniEurope.Blazor.Components.OmniStepTimelineStatus const = 1
 field public static OmniEurope.Blazor.Components.OmniStepTimelineStatus.Skipped : OmniEurope.Blazor.Components.OmniStepTimelineStatus const = 3
 field public static OmniEurope.Blazor.Components.OmniStepTimelineStatus.Success : OmniEurope.Blazor.Components.OmniStepTimelineStatus const = 0
+field public static OmniEurope.Blazor.Components.OmniTableExportFormat.Csv : OmniEurope.Blazor.Components.OmniTableExportFormat const = 1
+field public static OmniEurope.Blazor.Components.OmniTableExportFormat.Excel : OmniEurope.Blazor.Components.OmniTableExportFormat const = 2
+field public static OmniEurope.Blazor.Components.OmniTableExportFormat.Markdown : OmniEurope.Blazor.Components.OmniTableExportFormat const = 0
+field public static OmniEurope.Blazor.Components.OmniTableExportFormat.Pdf : OmniEurope.Blazor.Components.OmniTableExportFormat const = 3
+field public static OmniEurope.Blazor.Components.OmniTableExportValueKind.Boolean : OmniEurope.Blazor.Components.OmniTableExportValueKind const = 3
+field public static OmniEurope.Blazor.Components.OmniTableExportValueKind.Date : OmniEurope.Blazor.Components.OmniTableExportValueKind const = 2
+field public static OmniEurope.Blazor.Components.OmniTableExportValueKind.Number : OmniEurope.Blazor.Components.OmniTableExportValueKind const = 1
+field public static OmniEurope.Blazor.Components.OmniTableExportValueKind.Text : OmniEurope.Blazor.Components.OmniTableExportValueKind const = 0
 field public static OmniEurope.Blazor.Components.OmniTextBoxType.Email : OmniEurope.Blazor.Components.OmniTextBoxType const = 1
 field public static OmniEurope.Blazor.Components.OmniTextBoxType.Search : OmniEurope.Blazor.Components.OmniTextBoxType const = 4
 field public static OmniEurope.Blazor.Components.OmniTextBoxType.Tel : OmniEurope.Blazor.Components.OmniTextBoxType const = 2
@@ -1484,6 +1498,23 @@ method public OmniEurope.Blazor.Components.OmniStepTimelineStep.<Clone>$() : Omn
 method public OmniEurope.Blazor.Components.OmniStepTimelineStep.Deconstruct(out System.String Name, out System.DateTimeOffset? StartedAt, out System.DateTimeOffset? CompletedAt, out OmniEurope.Blazor.Components.OmniStepTimelineStatus Status, out System.Boolean Secondary) : System.Void
 method public OmniEurope.Blazor.Components.OmniStepTimelineStep.Equals(OmniEurope.Blazor.Components.OmniStepTimelineStep? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniStepsItem.Dispose() : System.Void
+method public OmniEurope.Blazor.Components.OmniTableExportCell.<Clone>$() : OmniEurope.Blazor.Components.OmniTableExportCell
+method public OmniEurope.Blazor.Components.OmniTableExportCell.Deconstruct(out System.String Text) : System.Void
+method public OmniEurope.Blazor.Components.OmniTableExportCell.Equals(OmniEurope.Blazor.Components.OmniTableExportCell? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniTableExportColumn.<Clone>$() : OmniEurope.Blazor.Components.OmniTableExportColumn
+method public OmniEurope.Blazor.Components.OmniTableExportColumn.Deconstruct(out System.String Title, out OmniEurope.Blazor.Components.OmniTableExportValueKind Kind) : System.Void
+method public OmniEurope.Blazor.Components.OmniTableExportColumn.Equals(OmniEurope.Blazor.Components.OmniTableExportColumn? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniTableExportDocument.<Clone>$() : OmniEurope.Blazor.Components.OmniTableExportDocument
+method public OmniEurope.Blazor.Components.OmniTableExportDocument.Equals(OmniEurope.Blazor.Components.OmniTableExportDocument? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniTableExportField.<Clone>$() : OmniEurope.Blazor.Components.OmniTableExportField
+method public OmniEurope.Blazor.Components.OmniTableExportField.Deconstruct(out System.String Label, out System.String Value) : System.Void
+method public OmniEurope.Blazor.Components.OmniTableExportField.Equals(OmniEurope.Blazor.Components.OmniTableExportField? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniTableExportFile.<Clone>$() : OmniEurope.Blazor.Components.OmniTableExportFile
+method public OmniEurope.Blazor.Components.OmniTableExportFile.Deconstruct(out System.ReadOnlyMemory<System.Byte> Content, out System.String ContentType, out System.String Extension) : System.Void
+method public OmniEurope.Blazor.Components.OmniTableExportFile.Equals(OmniEurope.Blazor.Components.OmniTableExportFile? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniTableExporter.RenderAsync(OmniEurope.Blazor.Components.OmniTableExportDocument document, OmniEurope.Blazor.Components.OmniTableExportFormat format, System.Threading.CancellationToken cancellationToken = null) : System.Threading.Tasks.Task<OmniEurope.Blazor.Components.OmniTableExportFile>
+method public OmniEurope.Blazor.Components.OmniTableExporter.Supports(OmniEurope.Blazor.Components.OmniTableExportFormat format) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniTableExporter.ToMarkdown(OmniEurope.Blazor.Components.OmniTableExportDocument document) : System.String
 method public OmniEurope.Blazor.Components.OmniTabs.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniTemplateForm<TModel>.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniThemeFont.<Clone>$() : OmniEurope.Blazor.Components.OmniThemeFont
@@ -1515,6 +1546,8 @@ method public OmniEurope.Blazor.Localization.OmniTextOverrideLocalizer.GetAllStr
 method public abstract OmniEurope.Blazor.Components.IOmniBreadcrumbResolver.Resolve(System.String relativePath) : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniBreadcrumbEntry>
 method public abstract OmniEurope.Blazor.Components.IOmniDataGridStateStore.LoadAsync(System.String key, System.Threading.CancellationToken cancellationToken = null) : System.Threading.Tasks.Task<System.String?>
 method public abstract OmniEurope.Blazor.Components.IOmniDataGridStateStore.SaveAsync(System.String key, System.String state, System.Threading.CancellationToken cancellationToken = null) : System.Threading.Tasks.Task
+method public abstract OmniEurope.Blazor.Components.IOmniTableExportRenderer.RenderAsync(OmniEurope.Blazor.Components.OmniTableExportDocument document, OmniEurope.Blazor.Components.OmniTableExportFormat format, System.Threading.CancellationToken cancellationToken) : System.Threading.Tasks.Task<OmniEurope.Blazor.Components.OmniTableExportFile>
+method public abstract OmniEurope.Blazor.Components.IOmniTableExportRenderer.Supports(OmniEurope.Blazor.Components.OmniTableExportFormat format) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniBreadcrumbEntry.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniBreadcrumbEntry.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniBreadcrumbEntry.ToString() : System.String
@@ -1692,6 +1725,21 @@ method public override OmniEurope.Blazor.Components.OmniStepTimelineColumn.ToStr
 method public override OmniEurope.Blazor.Components.OmniStepTimelineStep.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniStepTimelineStep.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniStepTimelineStep.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniTableExportCell.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniTableExportCell.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniTableExportCell.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniTableExportColumn.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniTableExportColumn.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniTableExportColumn.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniTableExportDocument.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniTableExportDocument.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniTableExportDocument.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniTableExportField.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniTableExportField.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniTableExportField.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniTableExportFile.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniTableExportFile.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniTableExportFile.ToString() : System.String
 method public override OmniEurope.Blazor.Components.OmniThemeFont.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniThemeFont.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniThemeFont.ToString() : System.String
@@ -1852,6 +1900,17 @@ method public static OmniEurope.Blazor.Components.OmniStepTimelineColumn.op_Equa
 method public static OmniEurope.Blazor.Components.OmniStepTimelineColumn.op_Inequality(OmniEurope.Blazor.Components.OmniStepTimelineColumn? left, OmniEurope.Blazor.Components.OmniStepTimelineColumn? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniStepTimelineStep.op_Equality(OmniEurope.Blazor.Components.OmniStepTimelineStep? left, OmniEurope.Blazor.Components.OmniStepTimelineStep? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniStepTimelineStep.op_Inequality(OmniEurope.Blazor.Components.OmniStepTimelineStep? left, OmniEurope.Blazor.Components.OmniStepTimelineStep? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniTableExportCell.op_Equality(OmniEurope.Blazor.Components.OmniTableExportCell? left, OmniEurope.Blazor.Components.OmniTableExportCell? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniTableExportCell.op_Inequality(OmniEurope.Blazor.Components.OmniTableExportCell? left, OmniEurope.Blazor.Components.OmniTableExportCell? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniTableExportColumn.op_Equality(OmniEurope.Blazor.Components.OmniTableExportColumn? left, OmniEurope.Blazor.Components.OmniTableExportColumn? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniTableExportColumn.op_Inequality(OmniEurope.Blazor.Components.OmniTableExportColumn? left, OmniEurope.Blazor.Components.OmniTableExportColumn? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniTableExportDocument.op_Equality(OmniEurope.Blazor.Components.OmniTableExportDocument? left, OmniEurope.Blazor.Components.OmniTableExportDocument? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniTableExportDocument.op_Inequality(OmniEurope.Blazor.Components.OmniTableExportDocument? left, OmniEurope.Blazor.Components.OmniTableExportDocument? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniTableExportField.op_Equality(OmniEurope.Blazor.Components.OmniTableExportField? left, OmniEurope.Blazor.Components.OmniTableExportField? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniTableExportField.op_Inequality(OmniEurope.Blazor.Components.OmniTableExportField? left, OmniEurope.Blazor.Components.OmniTableExportField? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniTableExportFile.op_Equality(OmniEurope.Blazor.Components.OmniTableExportFile? left, OmniEurope.Blazor.Components.OmniTableExportFile? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniTableExportFile.op_Inequality(OmniEurope.Blazor.Components.OmniTableExportFile? left, OmniEurope.Blazor.Components.OmniTableExportFile? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniTableExporter.ToCsv(OmniEurope.Blazor.Components.OmniTableExportDocument document) : System.String
 method public static OmniEurope.Blazor.Components.OmniThemeFont.op_Equality(OmniEurope.Blazor.Components.OmniThemeFont? left, OmniEurope.Blazor.Components.OmniThemeFont? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniThemeFont.op_Inequality(OmniEurope.Blazor.Components.OmniThemeFont? left, OmniEurope.Blazor.Components.OmniThemeFont? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniThemePalette.op_Equality(OmniEurope.Blazor.Components.OmniThemePalette? left, OmniEurope.Blazor.Components.OmniThemePalette? right) : System.Boolean
@@ -2116,6 +2175,13 @@ property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.EstimatedRowHei
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExpandMode : OmniEurope.Blazor.Components.OmniDataGridRowMode {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExpandedKeys : System.Collections.Generic.IReadOnlyList<System.Object> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExpandedKeysChanged : Microsoft.AspNetCore.Components.EventCallback<System.Collections.Generic.IReadOnlyList<System.Object>> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportFields : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniTableExportField> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportFileName : System.String {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportFormats : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniTableExportFormat> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportLoad : System.Func<OmniEurope.Blazor.Components.OmniDataGridLoadRequest,System.Threading.Tasks.Task<OmniEurope.Blazor.Components.OmniDataGridResult<TItem>>>? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportPosition : OmniEurope.Blazor.Components.OmniDataGridPosition {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportRowLimit : System.Int32 {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportTitle : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.FillAvailableHeight : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.FilterMode : OmniEurope.Blazor.Components.OmniDataGridFilterMode {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.Filterable : System.Boolean {get(public);set(public)} [Parameter]
@@ -2141,6 +2207,8 @@ property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.MinHeight : Sys
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.NewRowHighlight : System.TimeSpan? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.NumericPageCount : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnColumnResize : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniDataGridColumnWidthChange> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnExport : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniTableExportDocument> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnExportError : Microsoft.AspNetCore.Components.EventCallback<System.Exception> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnLoadError : Microsoft.AspNetCore.Components.EventCallback<System.Exception> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnRowClick : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniDataGridRowMouseEventArgs<TItem>> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnRowCollapse : Microsoft.AspNetCore.Components.EventCallback<TItem> {get(public);set(public)} [Parameter]
@@ -2179,6 +2247,8 @@ property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.AutoFit :
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Class : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.DefaultFilterValue : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.EditTemplate : Microsoft.AspNetCore.Components.RenderFragment<TItem>? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.ExportValue : System.Func<TItem,System.Object?>? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Exportable : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.FilterIncludesTime : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.FilterOperator : OmniEurope.Blazor.Components.OmniDataGridFilterOperator {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.FilterOperators : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniDataGridFilterOperator>? {get(public);set(public)} [Parameter]
@@ -2408,6 +2478,7 @@ property public OmniEurope.Blazor.Components.OmniFormField.Disabled : System.Boo
 property public OmniEurope.Blazor.Components.OmniFormField.EndContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniFormField.Error : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniFormField.For : System.String {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniFormField.Help : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniFormField.Label : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniFormField.LabelContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniFormField.Required : System.Boolean {get(public);set(public)} [Parameter]
@@ -3027,6 +3098,26 @@ property public OmniEurope.Blazor.Components.OmniSwitch<TValue>.ChildContent : M
 property public OmniEurope.Blazor.Components.OmniSwitch<TValue>.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSwitch<TValue>.IndeterminateDescription : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSwitch<TValue>.TextFirst : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniTableExportCell.Boolean : System.Boolean? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniTableExportCell.Date : System.DateTimeOffset? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniTableExportCell.Number : System.Decimal? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniTableExportCell.Text : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniTableExportColumn.Kind : OmniEurope.Blazor.Components.OmniTableExportValueKind {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniTableExportColumn.Title : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniTableExportDocument.Culture : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniTableExportDocument.Fields : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniTableExportField> {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniTableExportDocument.GeneratedAt : System.DateTimeOffset {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniTableExportDocument.IsComplete : System.Boolean {get(public)}
+property public OmniEurope.Blazor.Components.OmniTableExportDocument.RowCount : System.Int32 {get(public)}
+property public OmniEurope.Blazor.Components.OmniTableExportDocument.RowLimit : System.Int32 {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniTableExportDocument.TotalCount : System.Int32 {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniTableExportDocument.TotalIsLowerBound : System.Boolean {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniTableExportDocument.Truncated : System.Boolean {get(public)}
+property public OmniEurope.Blazor.Components.OmniTableExportField.Label : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniTableExportField.Value : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniTableExportFile.Content : System.ReadOnlyMemory<System.Byte> {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniTableExportFile.ContentType : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniTableExportFile.Extension : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniTabs.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTabs.Density : OmniEurope.Blazor.Components.OmniDensity? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTabs.Label : System.String? {get(public);set(public)} [Parameter]
@@ -3212,6 +3303,9 @@ property public required OmniEurope.Blazor.Components.OmniMindMapNode.Id : Syste
 property public required OmniEurope.Blazor.Components.OmniMindMapNote.AttachedTo : System.String {get(public);init(public)}
 property public required OmniEurope.Blazor.Components.OmniStatusStripItem.Label : System.String {get(public);init(public)}
 property public required OmniEurope.Blazor.Components.OmniStatusStripItem.Status : System.String {get(public);init(public)}
+property public required OmniEurope.Blazor.Components.OmniTableExportDocument.Columns : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniTableExportColumn> {get(public);init(public)}
+property public required OmniEurope.Blazor.Components.OmniTableExportDocument.Rows : System.Collections.Generic.IReadOnlyList<System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniTableExportCell>> {get(public);init(public)}
+property public required OmniEurope.Blazor.Components.OmniTableExportDocument.Title : System.String {get(public);init(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.AddColumnAfter : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.AddColumnBefore : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.AddRowAbove : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
@@ -3278,6 +3372,7 @@ property public virtual OmniEurope.Blazor.Components.OmniHtmlEditorExtension.Tra
 type public Microsoft.Extensions.DependencyInjection.OmniEuropeBlazorServiceCollectionExtensions [static-class, static]
 type public OmniEurope.Blazor.Components.IOmniBreadcrumbResolver [interface, abstract]
 type public OmniEurope.Blazor.Components.IOmniDataGridStateStore [interface, abstract]
+type public OmniEurope.Blazor.Components.IOmniTableExportRenderer [interface, abstract]
 type public OmniEurope.Blazor.Components.OmniAlert [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniAlignment [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniAppearance [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
@@ -3528,6 +3623,14 @@ type public OmniEurope.Blazor.Components.OmniStepTimelineStep [class, sealed] : 
 type public OmniEurope.Blazor.Components.OmniSteps [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniStepsItem [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniSwitch<TValue> [class] : OmniEurope.Blazor.Components.OmniInputBase<TValue>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
+type public OmniEurope.Blazor.Components.OmniTableExportCell [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniTableExportCell>
+type public OmniEurope.Blazor.Components.OmniTableExportColumn [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniTableExportColumn>
+type public OmniEurope.Blazor.Components.OmniTableExportDocument [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniTableExportDocument>
+type public OmniEurope.Blazor.Components.OmniTableExportField [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniTableExportField>
+type public OmniEurope.Blazor.Components.OmniTableExportFile [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniTableExportFile>
+type public OmniEurope.Blazor.Components.OmniTableExportFormat [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
+type public OmniEurope.Blazor.Components.OmniTableExportValueKind [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
+type public OmniEurope.Blazor.Components.OmniTableExporter [class, sealed]
 type public OmniEurope.Blazor.Components.OmniTabs [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniTabsItem [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniTemplateForm<TModel> [class] where TModel : class : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable

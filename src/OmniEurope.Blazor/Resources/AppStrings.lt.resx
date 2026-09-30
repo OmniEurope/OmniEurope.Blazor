@@ -647,6 +647,14 @@
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Eksportas nepilnas: eksportuota eilučių {0} iš {1} nurodytų, duomenys pasikeitė skaitymo metu.</value></data>
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Ribotas eksportas: pasiekta eilučių riba ({0}), o šaltinis nenurodo bendro skaičiaus, gali būti daugiau eilučių.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Eilučių nėra.</value></data>
+  <data name="FormFieldHelp" xml:space="preserve"><value>Pagalba</value></data>
+  <data name="GridExportBar" xml:space="preserve"><value>Lentelės eksportas</value></data>
+  <data name="GridExportAll" xml:space="preserve"><value>Eksportuoti viską</value></data>
+  <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>
+  <data name="GridExportFormatCsv" xml:space="preserve"><value>CSV</value></data>
+  <data name="GridExportFormatExcel" xml:space="preserve"><value>Excel</value></data>
+  <data name="GridExportFormatPdf" xml:space="preserve"><value>PDF</value></data>
+  <data name="GridExportFailed" xml:space="preserve"><value>Eksportuoti nepavyko.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Užsiregistruoti</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Neturite paskyros?</value></data>
   <data name="UnsavedChangesTitle" xml:space="preserve"><value>Neišsaugoti pakeitimai</value></data>

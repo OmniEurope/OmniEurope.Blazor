@@ -647,6 +647,14 @@
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Ofullständig export: {0} av {1, plural, one {# angiven rad} other {# angivna rader}} exporterade, data ändrades under läsningen.</value></data>
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Begränsad export: gränsen på {0, plural, one {# rad} other {# rader}} har nåtts och källan anger inget totalt antal, det kan finnas fler rader.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Inga rader.</value></data>
+  <data name="FormFieldHelp" xml:space="preserve"><value>Hjälp</value></data>
+  <data name="GridExportBar" xml:space="preserve"><value>Export av tabellen</value></data>
+  <data name="GridExportAll" xml:space="preserve"><value>Exportera allt</value></data>
+  <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>
+  <data name="GridExportFormatCsv" xml:space="preserve"><value>CSV</value></data>
+  <data name="GridExportFormatExcel" xml:space="preserve"><value>Excel</value></data>
+  <data name="GridExportFormatPdf" xml:space="preserve"><value>PDF</value></data>
+  <data name="GridExportFailed" xml:space="preserve"><value>Exporten misslyckades.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Registrera dig</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Inget konto?</value></data>
   <data name="UnsavedChangesTitle" xml:space="preserve"><value>Osparade ändringar</value></data>

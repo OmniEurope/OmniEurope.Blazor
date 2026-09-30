@@ -1,3 +1,4 @@
+using System.Globalization;
 using OmniEurope.Blazor.Showcase.Resources;
 
 namespace OmniEurope.Blazor.Showcase.Components.Demos;
@@ -67,6 +68,23 @@ public partial class DataListDemo
 
     private void MoveWorkflowRow(OmniKanbanMove<GridRow> move) =>
         WorkflowPositions[move.Item.Reference] = move.ToColumn;
+
+    /// <summary>The export of the card list: every file, read page by page as a remote source would serve it.</summary>
+    private OmniMarkdownTableExport<GridRow> CreateExport() => new()
+    {
+        Title = Text["DemoGridOpenCases"],
+        Columns =
+        [
+            new(Text["DemoGridColumnReference"], row => row.Reference),
+            new(Text["DemoGridColumnApplicant"], row => row.Applicant),
+            new(Text["DemoGridColumnCountry"], row => row.Country),
+            new(Text["DemoGridColumnAmount"], row => row.Amount.ToString("C0", CultureInfo.CurrentCulture))
+        ],
+        Fields = [new(Text["DemoGridExportSort"], Text["DemoGridExportSortValue"])],
+        PageSize = 3,
+        LoadPage = request => Task.FromResult(new OmniDataGridResult<GridRow>(
+            [.. Rows.OrderBy(row => row.Reference, StringComparer.Ordinal).Skip(request.Skip).Take(request.PageSize)], Rows.Count))
+    };
 
     private void ChangePageSize(int size)
     {

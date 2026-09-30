@@ -21,6 +21,11 @@
                NumericPageCount="5"
                ShowFirstLast="true"
                HorizontalAlign="OmniJustification.Center" />
+
+    @* Export Markdown pour une IA, hors grille : toutes les lignes annoncées, lues page par page par le
+       fournisseur, pas seulement la page de cartes affichée ; en-tête avec le titre, le tri, la limite,
+       l'heure et le compte. Une grille exporte par sa propre barre (ExportFormats). *@
+    <OmniMarkdownExportButton TItem="GridRow" Export="CreateExport" FileName="@Text["DemoGridExportFileName"]" />
 </OmniStack>
 
 <OmniLogViewer Lines="LogLines" Label="@Text["DemoDataListLog"]" ShowLevels="true"

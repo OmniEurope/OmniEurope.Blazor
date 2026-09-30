@@ -647,6 +647,14 @@
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Eksporten er ufuldstændig: {0} af {1, plural, one {# angivet række} other {# angivne rækker}} eksporteret, dataene blev ændret under læsningen.</value></data>
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Begrænset eksport: grænsen på {0, plural, one {# række} other {# rækker}} er nået, og kilden angiver intet samlet antal, der kan findes flere rækker.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Ingen rækker.</value></data>
+  <data name="FormFieldHelp" xml:space="preserve"><value>Hjælp</value></data>
+  <data name="GridExportBar" xml:space="preserve"><value>Eksport af tabellen</value></data>
+  <data name="GridExportAll" xml:space="preserve"><value>Eksportér alt</value></data>
+  <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>
+  <data name="GridExportFormatCsv" xml:space="preserve"><value>CSV</value></data>
+  <data name="GridExportFormatExcel" xml:space="preserve"><value>Excel</value></data>
+  <data name="GridExportFormatPdf" xml:space="preserve"><value>PDF</value></data>
+  <data name="GridExportFailed" xml:space="preserve"><value>Eksporten mislykkedes.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Tilmeld dig</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Har du ikke en konto?</value></data>
   <data name="UnsavedChangesTitle" xml:space="preserve"><value>Ikke-gemte ændringer</value></data>

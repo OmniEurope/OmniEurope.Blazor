@@ -44,6 +44,11 @@ public static class OmniEuropeBlazorServiceCollectionExtensions
         services.TryAddScoped(provider => new OmniMarkdownTableExporter(
             provider.GetRequiredService<IStringLocalizer<AppStrings>>(),
             provider.GetService<TimeProvider>() ?? TimeProvider.System));
+        // Table exports in every format: Markdown and CSV from the package, the others from the
+        // IOmniTableExportRenderer services the host registers.
+        services.TryAddScoped(provider => new OmniTableExporter(
+            provider.GetRequiredService<OmniMarkdownTableExporter>(),
+            provider.GetServices<IOmniTableExportRenderer>()));
         return services;
     }
 
