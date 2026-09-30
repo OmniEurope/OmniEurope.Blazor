@@ -130,7 +130,9 @@ await send('Page.navigate', { url: siteUrl });
 await waitFor('la vitrine', "document.readyState === 'complete'");
 await evaluate("(() => { try { localStorage.removeItem('omnieurope.showcase.theme'); } catch { } })()");
 await send('Page.navigate', { url: siteUrl });
-await waitFor('le runtime Blazor', "typeof Blazor !== 'undefined' && typeof Blazor.navigateTo === 'function' && document.querySelector('main, #app') !== null");
+// #showcase-theme is rendered by the application itself; #app is already in the static page, and a
+// navigation asked before the router listens changes the address and leaves the home page shown.
+await waitFor('le runtime Blazor', "typeof Blazor !== 'undefined' && typeof Blazor.navigateTo === 'function' && document.getElementById('showcase-theme') !== null");
 await pause(1500);
 await evaluate("Blazor.navigateTo('/composants/grille')");
 await waitFor('la grille virtualisée de la vitrine', `document.querySelectorAll('${grid} tbody tr[data-omni-row-index]').length > 3`);
