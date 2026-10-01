@@ -13,5 +13,6 @@ Ces composants disent où en est quelque chose : un message, un état, une progr
 | `OmniProgressBar` | Avancement d'une tâche (`role="progressbar"`), en ligne ou en anneau, teinté par `Tone` (`Accent` par défaut), indéterminé tant que la fin n'est pas connue (`ShowValue` affiche alors « En cours » ou `ValueText`, jamais un faux pourcentage). |
 | `OmniLoadingBar` | Barre fine de chargement de page, en balayage ou en remplissage continu, qui reste le temps de finir sa course puis s'efface. |
 | `OmniSkeleton` | Silhouette de chargement, décorative ou région `status` nommée, d'une à dix lignes. |
+| `OmniLogoLoader` | Indicateur de chargement au logo du site (`ChildContent` : une image, un SVG ou une `OmniIcon`), en trois tailles (`Size`) : le logo flotte de haut en bas sans jamais tourner, reste immobile si l'utilisateur demande moins de mouvement, et l'état est dit en mots (`Label`, région `status`). |
 
 Détails : `OmniBadge`, `OmniIcon`, `OmniImage`, `OmniProgressBar` et `OmniSkeleton` dans [foundation-components.md](foundation-components.md) ; `OmniStatusStrip` dans sa section « Bande d'états et écran de démarrage ».

@@ -67,6 +67,7 @@ component OmniEurope.Blazor.Components.OmniListBox<TValue,TSelection>
 component OmniEurope.Blazor.Components.OmniLoadingBar
 component OmniEurope.Blazor.Components.OmniLogViewer
 component OmniEurope.Blazor.Components.OmniLoginShell
+component OmniEurope.Blazor.Components.OmniLogoLoader
 component OmniEurope.Blazor.Components.OmniMain
 component OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>
 component OmniEurope.Blazor.Components.OmniMarkers
@@ -247,6 +248,7 @@ ctor public OmniEurope.Blazor.Components.OmniLocalStorageDataGridStateStore(Micr
 ctor public OmniEurope.Blazor.Components.OmniLogLine(System.String Text, OmniEurope.Blazor.Components.OmniLogLevel Level = OmniEurope.Blazor.Components.OmniLogLevel.Information, System.DateTimeOffset? Timestamp = null)
 ctor public OmniEurope.Blazor.Components.OmniLogViewer()
 ctor public OmniEurope.Blazor.Components.OmniLoginShell()
+ctor public OmniEurope.Blazor.Components.OmniLogoLoader()
 ctor public OmniEurope.Blazor.Components.OmniMain()
 ctor public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>()
 ctor public OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>(System.String Title, System.Func<TItem,System.String?> Value)
@@ -1057,6 +1059,7 @@ method protected override OmniEurope.Blazor.Components.OmniLogViewer.BuildRender
 method protected override OmniEurope.Blazor.Components.OmniLogViewer.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniLogViewer.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniLoginShell.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniLogoLoader.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMain.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMain.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
@@ -2708,6 +2711,9 @@ property public OmniEurope.Blazor.Components.OmniLoginShell.SignUpHref : System.
 property public OmniEurope.Blazor.Components.OmniLoginShell.SignUpPrompt : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniLoginShell.SignUpText : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniLoginShell.Title : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniLogoLoader.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
+property public OmniEurope.Blazor.Components.OmniLogoLoader.Label : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniLogoLoader.Size : OmniEurope.Blazor.Components.OmniControlSize {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMain.AriaLabelledBy : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMain.AutoHideScrollbar : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMain.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
@@ -3576,6 +3582,7 @@ type public OmniEurope.Blazor.Components.OmniLogLevel [enum, sealed] : System.IC
 type public OmniEurope.Blazor.Components.OmniLogLine [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniLogLine>
 type public OmniEurope.Blazor.Components.OmniLogViewer [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniLoginShell [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
+type public OmniEurope.Blazor.Components.OmniLogoLoader [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniMain [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem> [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem> [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>>
