@@ -138,9 +138,10 @@ internal sealed class GridFilterEditor<TItem>(OmniDataGrid<TItem> grid)
     /// </summary>
     internal IReadOnlyList<string> DistinctFilterValues(OmniDataGridColumnDefinition<TItem> column) =>
         column.FilterValues is { } declared
+            // Declared values keep their order, as an enum's members do: a host lists them in their own
+            // sense (severity, workflow), which an alphabetical sort would break.
             ? declared.Where(value => !string.IsNullOrEmpty(value))
                 .Distinct(StringComparer.OrdinalIgnoreCase)
-                .OrderBy(value => value, StringComparer.OrdinalIgnoreCase)
                 .ToArray()
             : DerivedFilterValues(column);
 

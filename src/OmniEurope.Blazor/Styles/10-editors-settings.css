@@ -135,6 +135,10 @@
    tiles; the value is the largest text of the tile and never wraps; label and detail stay muted.
    Clickable, it is a real button that keeps the card look, with the settings-tile hover. */
 .omni-stat-tile { align-items: center; background: var(--omni-card-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); color: var(--omni-color-text); display: flex; font: inherit; gap: var(--omni-space-sm); min-inline-size: 0; padding: var(--omni-tile-pad-y) 0.875rem; text-align: start; }
+/* Border and padding count inside the size of a card or tile: one stretched to its column (height:
+   100%, or a grid row) fills it exactly and keeps the gap to the next block, instead of overflowing
+   by its border and padding. */
+.omni-card, .omni-settings-tile, .omni-stat-tile { box-sizing: border-box; }
 .omni-stat-tile__icon { align-items: center; background: var(--omni-color-accent-subtle); block-size: var(--omni-icon-box); border-radius: var(--omni-radius); color: var(--omni-color-accent-strong); display: inline-flex; flex: none; inline-size: var(--omni-icon-box); justify-content: center; }
 .omni-stat-tile__text { display: flex; flex-direction: column; min-inline-size: 0; }
 .omni-stat-tile__value { font-size: 1.375rem; font-weight: 600; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
