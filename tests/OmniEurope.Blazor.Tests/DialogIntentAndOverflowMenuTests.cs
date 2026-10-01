@@ -106,8 +106,10 @@ public sealed class DialogIntentAndOverflowMenuTests : OmniBunitContext
         Assert.Equal("0", ShippedLookTests.Value(close, "border"));
         // The drawn button is smaller, its target keeps the audited 44 px.
         Assert.Equal("min(0px, calc((var(--omni-control-height) - 2.75rem) / 2))", ShippedLookTests.Value(ShippedLookTests.Body(".omni-dialog .omni-dialog__close::before"), "inset"));
-        var bands = ShippedLookTests.Body(":is(.omni-dialog--intent-accent, .omni-dialog--intent-info, .omni-dialog--intent-success, .omni-dialog--intent-warning, .omni-dialog--intent-danger) > :is(.omni-dialog__header, .omni-dialog__footer)");
-        Assert.Equal("var(--omni-dialog-band)", ShippedLookTests.Value(bands, "background"));
+        // The bands stay neutral whatever the intention (Aetheus R2-029): only the mark takes its tint.
+        Assert.DoesNotContain(ShippedLookTests.Rules(), rule => rule.Selector.Contains("omni-dialog--intent", StringComparison.Ordinal)
+            && rule.Selector.Contains("omni-dialog__footer", StringComparison.Ordinal));
+        Assert.StartsWith("var(--omni-dialog-band,", ShippedLookTests.Value(ShippedLookTests.Body(".omni-dialog__intent"), "background"), StringComparison.Ordinal);
         Assert.Equal("var(--omni-color-warning-subtle)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-dialog--intent-warning"), "--omni-dialog-band"));
         Assert.Equal("var(--omni-color-accent-subtle)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-dialog--intent-accent"), "--omni-dialog-band"));
     }
