@@ -10,7 +10,7 @@
    pair renders exactly as the single element used to. *@
 <aside @attributes="AdditionalAttributes"
        id="@Id"
-       class="@Css("omni-sidebar", $"omni-sidebar--{Position.ToString().ToLowerInvariant()}", $"omni-sidebar--{Reveal.ToString().ToLowerInvariant()}", $"omni-sidebar--collapse-{Collapse.ToString().ToLowerInvariant()}", Open ? "omni-sidebar--open" : "omni-sidebar--closed", Header is not null ? "omni-sidebar--has-header" : null, Smooth ? "omni-sidebar--smooth" : null)"
+       class="@Css("omni-sidebar", $"omni-sidebar--{Position.ToString().ToLowerInvariant()}", $"omni-sidebar--{EffectiveReveal.ToString().ToLowerInvariant()}", $"omni-sidebar--collapse-{Collapse.ToString().ToLowerInvariant()}", Open ? "omni-sidebar--open" : "omni-sidebar--closed", Header is not null ? "omni-sidebar--has-header" : null, Smooth ? "omni-sidebar--smooth" : null)"
        aria-label="@EffectiveLabel"
        aria-hidden="@(Concealed ? "true" : null)"
        inert="@Concealed"

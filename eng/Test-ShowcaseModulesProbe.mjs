@@ -228,8 +228,9 @@ await waitFor('l\'état enfoncé du bouton Gras', `${boldButton}.getAttribute('a
 results.push('commande Gras appliquée à la sélection, bouton enfoncé');
 
 // 4. Frozen scale of the appearance window (omni-dialog.js): the window freezes its measures when it
-// opens, and a row that arrives afterwards (the moving field setting, offered under Givre only) must
-// move what follows it instead of being drawn over it, then leave no hole when it goes.
+// opens, and a setting that arrives afterwards (the moving field switch, offered under Givre only and
+// drawn under the theme in its row) must grow its row and move what follows instead of being drawn over
+// it, then leave no hole when it goes.
 const appearanceWindow = '.omni-appearance-window';
 const windowRows = () => evaluate(`(() => {
   const dialog = document.querySelector(${JSON.stringify(appearanceWindow)});
@@ -243,7 +244,10 @@ const windowRows = () => evaluate(`(() => {
     }
   }
   const lowest = Math.max(...rows.map(row => row.bottom));
-  return { rows: rows.length, overlap: Math.round(overlap), room: Math.round(content.bottom - lowest), switches: dialog.querySelectorAll('[role="switch"]').length };
+  // The switch drawn outside the row that holds it would cover the next one.
+  const toggle = dialog.querySelector('[role="switch"]')?.getBoundingClientRect();
+  const held = !toggle || rows.some(row => toggle.top >= row.top - 1 && toggle.bottom <= row.bottom + 1 && toggle.left >= row.left - 1 && toggle.right <= row.right + 1);
+  return { rows: rows.length, overlap: Math.round(overlap), room: Math.round(content.bottom - lowest), switches: dialog.querySelectorAll('[role="switch"]').length, held };
 })()`);
 const pickTheme = name => evaluate(`(() => {
   const select = document.querySelector(${JSON.stringify(`${appearanceWindow} select`)});
@@ -259,17 +263,17 @@ await waitFor('le gel de la fenêtre d\'apparence', `document.querySelector(${JS
 const frozen = await windowRows();
 check(frozen.switches === 0 && frozen.overlap <= 0, `Fenêtre d'apparence inattendue à l'ouverture : ${JSON.stringify(frozen)}.`);
 await pickTheme('Givre');
-await waitFor('la ligne du fond animé', `document.querySelector(${JSON.stringify(`${appearanceWindow} [role="switch"]`)}) !== null`);
+await waitFor('l\'interrupteur du fond animé', `document.querySelector(${JSON.stringify(`${appearanceWindow} [role="switch"]`)}) !== null`);
 await pause(300);
 const grown = await windowRows();
-check(grown.rows === frozen.rows + 1, `La ligne du fond animé n'est pas arrivée : ${JSON.stringify(grown)}.`);
-check(grown.overlap <= 0 && grown.room === frozen.room, `La ligne arrivée après le gel recouvre ce qui la suit : ${JSON.stringify(grown)}.`);
+check(grown.rows === frozen.rows && grown.switches === 1 && grown.held, `L'interrupteur du fond animé n'est pas arrivé dans la ligne du thème : ${JSON.stringify(grown)}.`);
+check(grown.overlap <= 0 && grown.room === frozen.room, `L'interrupteur arrivé après le gel recouvre ce qui le suit : ${JSON.stringify(grown)}.`);
 await pickTheme('Essentiel');
-await waitFor('le départ de la ligne du fond animé', `document.querySelector(${JSON.stringify(`${appearanceWindow} [role="switch"]`)}) === null`);
+await waitFor('le départ de l\'interrupteur du fond animé', `document.querySelector(${JSON.stringify(`${appearanceWindow} [role="switch"]`)}) === null`);
 await pause(300);
 const shrunk = await windowRows();
-check(shrunk.rows === frozen.rows && shrunk.overlap <= 0 && shrunk.room === frozen.room, `La ligne partie laisse un trou : ${JSON.stringify(shrunk)}.`);
-results.push('fenêtre d\'apparence gelée : une ligne arrive et repart sans recouvrement ni trou');
+check(shrunk.rows === frozen.rows && shrunk.overlap <= 0 && shrunk.room === frozen.room, `L'interrupteur parti laisse un trou : ${JSON.stringify(shrunk)}.`);
+results.push('fenêtre d\'apparence gelée : un réglage arrive et repart sans recouvrement ni trou');
 
 // A new look retakes the measures: under Octet the labels are spaced capitals in a heavier face, and a
 // width frozen for the previous theme would let them run over their button. The scale stays frozen.

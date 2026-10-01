@@ -19,7 +19,7 @@ structurelles ; un plan décrit un travail, pas l'état du produit.
 | Plan | Travail restant | ADR |
 |---|---|---|
 | [PLAN-009](PLAN-009-themes-et-reliquats.md) | Thèmes (lots 2 à 7), demandes OE d'une application cliente (lots 8 et 9), décisions en attente du propriétaire | Sans ADR supplémentaire |
-| [PLAN-010](PLAN-010-poids-et-langues-longues.md) | Poids de l'assembly et langues longues : lots 1, 2, 3, 4 et 6 faits ; restent deux décisions du propriétaire (menu `push` sur téléphone, lot 5) | Sans ADR supplémentaire |
+| [PLAN-010](PLAN-010-poids-et-langues-longues.md) | Poids de l'assembly et langues longues : lots 1, 2, 3, 4 et 6 faits ; reste la décision du propriétaire sur le lot 5 | Sans ADR supplémentaire |
 
 ## Archives
 

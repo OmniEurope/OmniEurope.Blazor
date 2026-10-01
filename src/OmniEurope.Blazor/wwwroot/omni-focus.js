@@ -1,7 +1,8 @@
 // Focus management, the module the components import (OmniModules.Focus): the focus trap and the
 // focus return of dialogs and windows, the non-modal popover, the date and time pickers, the native
-// <details> disclosures and fieldsets, and the Escape listener of a floating sidebar. The menus and
-// the tab strips live in ./focus/ and are re-exported here, so every export keeps this address.
+// <details> disclosures and fieldsets, the Escape listener of a floating sidebar and the phone width
+// watch of a pushing one. The menus and the tab strips live in ./focus/ and are re-exported here, so
+// every export keeps this address.
 import { returnTargets, rememberTarget, viewportMargin, pressedOutside } from './focus/shared.js';
 
 export { openMenu, closeMenu, moveMenuFocus } from './focus/menus.js';
@@ -449,5 +450,26 @@ export function detachEscape(owner) {
     if (listener) {
         document.removeEventListener('keydown', listener);
         escapeListeners.delete(owner);
+    }
+}
+
+// A pushing sidebar floats over the page on a phone, under the same 40rem threshold as the stylesheet:
+// the sidebar is told the width class now and on every change.
+const narrowWatchers = new Map();
+
+export function watchNarrow(owner, dotnet) {
+    unwatchNarrow(owner);
+    const query = window.matchMedia('(max-width: 39.99rem)');
+    const listener = () => dotnet.invokeMethodAsync('SetNarrowAsync', query.matches);
+    query.addEventListener('change', listener);
+    narrowWatchers.set(owner, { query, listener });
+    listener();
+}
+
+export function unwatchNarrow(owner) {
+    const watcher = narrowWatchers.get(owner);
+    if (watcher) {
+        watcher.query.removeEventListener('change', watcher.listener);
+        narrowWatchers.delete(owner);
     }
 }

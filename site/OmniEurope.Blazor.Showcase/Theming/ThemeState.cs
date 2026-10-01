@@ -66,6 +66,9 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
     /// <summary>The mode the visitor is previewing.</summary>
     public ThemeMode Mode { get; private set; } = ThemeMode.Light;
 
+    /// <summary>The mode drawn: <see cref="Mode"/>, except under a theme drawn in dark mode only, always dark.</summary>
+    public ThemeMode EffectiveMode => Theme.DarkOnly ? ThemeMode.Dark : Mode;
+
     /// <summary>The density of the whole page, which a section with a density of its own overrides.</summary>
     public OmniDensity Density { get; private set; } = OmniDensity.Comfortable;
 
@@ -248,7 +251,7 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
 
     private string? CombinationValueOf(string name)
     {
-        var half = Mode is ThemeMode.Dark ? _painted.Dark : _painted.Light;
+        var half = EffectiveMode is ThemeMode.Dark ? _painted.Dark : _painted.Light;
         return _edits.TryGetValue(name, out var edited) ? edited : half.TryGetValue(name, out var value) ? value : null;
     }
 
@@ -355,7 +358,7 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
             cancellationToken,
             Light,
             Dark,
-            Mode.ToString().ToLowerInvariant(),
+            EffectiveMode.ToString().ToLowerInvariant(),
             StorageKey,
             Serialize()).ConfigureAwait(false);
         Changed?.Invoke();

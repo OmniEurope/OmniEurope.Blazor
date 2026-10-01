@@ -97,9 +97,10 @@ public sealed class InteractionComponentTests : OmniBunitContext
         var closedOverlay = Toggle(open: false, OmniSidebarReveal.Overlay);
         var forced = Toggle(open: true, OmniSidebarReveal.Overlay, OmniIconName.Menu);
 
-        // One glyph whatever the width: the mode, not the viewport, says whether the menu covers the page.
-        Assert.Single(pushed.FindAll("path"));
-        Assert.Equal(PathOf(OmniIconName.Menu), pushed.Find("path").GetAttribute("d"));
+        // Overlaid, one glyph whatever the width. Pushed, the width rule: the menu glyph beside the
+        // content, the cross on a phone, where a pushing sidebar floats.
+        Assert.Equal(PathOf(OmniIconName.Menu), pushed.Find(".omni-sidebar-toggle__wide path").GetAttribute("d"));
+        Assert.Equal(PathOf(OmniIconName.Close), pushed.Find(".omni-sidebar-toggle__narrow path").GetAttribute("d"));
         Assert.Single(overlaid.FindAll("path"));
         Assert.Equal(PathOf(OmniIconName.Close), overlaid.Find("path").GetAttribute("d"));
         Assert.Equal(PathOf(OmniIconName.Menu), closedOverlay.Find("path").GetAttribute("d"));

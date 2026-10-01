@@ -223,6 +223,49 @@ public sealed class NavigationComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task Sidebar_Pushing_FloatsWithItsVeilOnAPhone()
+    {
+        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
+        var open = true;
+        var sidebar = Render<OmniSidebar>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.Reveal, OmniSidebarReveal.Push)
+            .Add(component => component.OpenChanged, value => open = value)
+            .AddChildContent("Navigation"));
+        Assert.Single(module.Invocations["watchNarrow"]);
+
+        await sidebar.InvokeAsync(() => sidebar.Instance.SetNarrowAsync(true));
+        Assert.Contains("omni-sidebar--overlay", sidebar.Find("aside").ClassList);
+        Assert.NotNull(sidebar.Find(".omni-sidebar__backdrop"));
+        Assert.Single(module.Invocations["attachEscape"]);
+
+        await sidebar.InvokeAsync(() => sidebar.Instance.SetNarrowAsync(false));
+        Assert.Contains("omni-sidebar--push", sidebar.Find("aside").ClassList);
+        Assert.Empty(sidebar.FindAll(".omni-sidebar__backdrop"));
+        Assert.Single(module.Invocations["detachEscape"]);
+
+        await sidebar.InvokeAsync(() => sidebar.Instance.SetNarrowAsync(true));
+        Services.GetRequiredService<NavigationManager>().NavigateTo("/elsewhere");
+        Assert.False(open);
+    }
+
+    [Fact]
+    public async Task Sidebar_PushingThatTheHostNeverCloses_KeepsPushingOnAPhone()
+    {
+        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
+        var sidebar = Render<OmniSidebar>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.Reveal, OmniSidebarReveal.Push)
+            .AddChildContent("Navigation"));
+
+        await sidebar.InvokeAsync(() => sidebar.Instance.SetNarrowAsync(true));
+
+        Assert.Empty(module.Invocations["watchNarrow"]);
+        Assert.Contains("omni-sidebar--push", sidebar.Find("aside").ClassList);
+        Assert.Empty(sidebar.FindAll(".omni-sidebar__backdrop"));
+    }
+
+    [Fact]
     public void Sidebar_Pushing_StaysOpenAcrossNavigation()
     {
         var open = true;

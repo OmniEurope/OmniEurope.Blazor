@@ -142,7 +142,7 @@ Controle : décompte inchangé et déjà consigné dans `docs/performance-budget
 
 - Version : la version qui portera ce plan est la `1.3.0`. La rupture de `OmniDataGridColumn.Filterable` y passe en version mineure, assumée. Le numéro est posé à la publication.
 - Publication : pas de `1.2.1` ; le propriétaire publie plus tard, d'autres changements sont attendus.
-- Paquets NuGet anciens à délister : le propriétaire s'en charge.
+- Paquets NuGet anciens à délister : le propriétaire s'en charge. Constaté le 2026-10-01 : `0.1.0-alpha.1` et `1.0.0` sont délistés.
 - Listes déroulantes (point 39 de la recette) : l'habillage CSS est gardé (Chromium 135 et suivants, liste du système ailleurs) ; le `<select>` natif reste.
 - Nom d'un projet privé du propriétaire, cité dans le dépôt public : retiré des fichiers (lot 10).
 - `STD-FILESIZE` : le compteur de lignes effectives est porté dans le contrôle des règles du kit (lot 11).
@@ -155,7 +155,7 @@ Rien ici n'est exécuté sans réponse.
 
 - Ce même nom dans cinq messages de commit déjà poussés : réécrire ou non l'historique.
 - Grille `Load` : charger dès le prérendu avec les défauts des colonnes, ou garder le premier rendu interactif. Avis de l'exécutant : garder le premier rendu interactif. Le rendu interactif part d'un composant neuf et recharge de toute façon : charger au prérendu ferait deux requêtes par affichage, sauf état persisté que l'hôte devrait fournir. L'état enregistré (`StateKey`) n'est pas lisible au prérendu : la première requête ignorerait les filtres et tris gardés, et les lignes changeraient au passage à l'interactif. Enfin le prérendu attendrait les données avant d'envoyer la page, là où la grille montre aujourd'hui son état de chargement tout de suite. Un chargement au prérendu ne vaudrait que comme option à demander, pour un hôte qui veut des lignes dans le HTML servi.
-- Trou noir : l'anneau reste discret en clair pour tenir les seuils de contraste avec toutes les palettes. Le rendre plus visible demande de marquer le thème « contraste non garanti ». Le propriétaire regarde le thème avant de trancher.
+- Trou noir : redessiné depuis (toujours sombre, shader WebGL). Le propriétaire le juge moyen et y reviendra plus tard (2026-10-01).
 
 ## Ordre et dépendances
 
