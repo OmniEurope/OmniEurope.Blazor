@@ -101,7 +101,7 @@ ou par `OmniHtmlEditorCommandContext.ExecuteAsync` :
   couperait une autre cellule fusionnée ne change rien ; le contenu des cellules absorbées rejoint la
   cellule, séparé par un saut de ligne. Supprimer la dernière ligne ou colonne retire le tableau.
 
-Seule `Copy` a une icône par défaut ; les autres affichent leur libellé localisé, et `Icon`
+Seules `Copy` et `InsertTable` ont une icône par défaut ; les autres affichent leur libellé localisé, et `Icon`
 en pose une.
 
 ### Position du curseur
@@ -350,7 +350,7 @@ C'est le fournisseur de liens YAML d'Aetheus (`pipeline: nom`) rendu générique
 `OmniCodeViewer` affiche du code en lecture seule, numéros de ligne à côté du texte (jamais dedans,
 une copie à la main ne les prend pas). `FirstLineNumber` (1 par défaut, ramené à 1 en dessous) numérote
 un extrait comme dans son fichier : les lignes 631 à 640 autour d'un constat gardent leurs numéros.
-`HighlightedLines` (`IReadOnlyList<int>`) et les numéros rapportés par `LinkActivated` comptent de la même façon.
+`HighlightedLines` (`IReadOnlyList<int>?`) et les numéros rapportés par `LinkActivated` comptent de la même façon.
 `OnCopy` (`EventCallback<bool>`) est levé après une copie, avec l'acceptation du presse-papiers ;
 `OmniCodeViewer` et `OmniCodeBlock` partagent le même en-tête (titre et bouton de copie).
 

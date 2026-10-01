@@ -1,6 +1,6 @@
 # Mise en page (famille Layout)
 
-Ces composants posent la structure d'une application et d'une page : la coquille et ses landmarks, les conteneurs, les réglages et la portée de thème. Ils ne rendent que du HTML sémantique et des classes de la feuille statique.
+Ces composants posent la structure d'une application et d'une page : la coquille et ses landmarks, les conteneurs, les réglages et la portée de thème. Ils rendent du HTML sémantique et des classes de la feuille statique ; `OmniThemeScope`, `OmniMain`, `OmniStack`, `OmniFieldset` et `OmniBootSplash` chargent en plus un module JavaScript (jetons de thème écrits par le CSSOM, voir [csp-contract.md](contracts/csp-contract.md)).
 
 | Composant | Rôle |
 | --- | --- |
@@ -16,6 +16,6 @@ Ces composants posent la structure d'une application et d'une page : la coquille
 | `OmniFieldset` | Groupe de champs natif avec `legend` obligatoire, désactivable, repliable. |
 | `OmniSettingsSection` | Carte d'une rubrique de réglages : son titre, une ligne sur ce qu'elle change, puis ses réglages. |
 | `OmniSettingsTile` | Un réglage dans une tuile de sa rubrique : icône, nom et effet à gauche, contrôle à droite ; un interrupteur ou une case à côté du nom fait de toute la tuile son libellé cliquable. |
-| `OmniThemeScope` | Portée d'apparence : mode clair, sombre ou système, thème, palette, densité et échelles, appliqués à tout son contenu. |
+| `OmniThemeScope` | Portée d'apparence : mode clair, sombre ou système, thème, palette, densité, police et fond animé, appliqués à tout son contenu. Un mot trop long pour sa ligne y est coupé dans sa boîte (`overflow-wrap: break-word`), sauf dans le code. |
 
 Détails : coquille, largeur du contenu, piles, rangées et colonnes dans [foundation-components.md](foundation-components.md) ; `OmniBody` et la barre latérale dans [form-components.md](form-components.md) ; thèmes, palettes et densité dans [foundation-components.md](foundation-components.md), « Thèmes, palettes et densité ».
