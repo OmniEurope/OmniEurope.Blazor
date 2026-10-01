@@ -1,6 +1,8 @@
 .omni-label { color: var(--omni-color-text); display: inline-flex; font-size: var(--omni-font-size-label); font-weight: 600; gap: var(--omni-space-xs); }
 .omni-label__required { color: var(--omni-color-danger); }
 .omni-form-field { display: grid; gap: var(--omni-field-gap); }
+/* A form's actions: one row at the end, like a dialog footer (OmniFormActions). */
+.omni-form-actions { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: end; }
 .omni-form-field__description { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); }
 /* The help mark of a field sits at the end of its label, never inside it. */
 .omni-form-field__label-row { align-items: center; display: flex; gap: var(--omni-space-xs); }

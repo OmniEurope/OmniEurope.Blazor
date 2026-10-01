@@ -87,7 +87,9 @@ l'historique) ; `NotFoundContent` remplace cet état entier.
 
 `OmniLoginShell` place `Logo` au-dessus d'une carte centrée (25rem au plus) qui porte le titre
 (`Title`, « Connexion » par défaut, niveau `Level`), `Description`, le formulaire (`ChildContent`) et
-`Footer`. La carte est nommée par son titre. Aucune authentification n'est embarquée.
+`Footer`. La carte est nommée par son titre. Aucune authentification n'est embarquée. Le bouton
+Connexion reste dans le formulaire de l'hôte, dans un `OmniFormActions` en fin de formulaire, aligné à
+droite ; le pied de la carte ne le reçoit pas, puisqu'il serait hors du `<form>`.
 
 Un site qui propose l'inscription passe `SignUpHref` : le pied commence alors par une ligne de texte
 discrète, « Pas de compte ? S'inscrire » (`SignUpPrompt`, `SignUpText`), le lien au rang de « Mot de

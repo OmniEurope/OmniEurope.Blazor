@@ -47,6 +47,7 @@ component OmniEurope.Blazor.Components.OmniDropDown<TValue>
 component OmniEurope.Blazor.Components.OmniDynamicForm
 component OmniEurope.Blazor.Components.OmniEmptyState
 component OmniEurope.Blazor.Components.OmniFieldset
+component OmniEurope.Blazor.Components.OmniFormActions
 component OmniEurope.Blazor.Components.OmniFormField
 component OmniEurope.Blazor.Components.OmniGantt
 component OmniEurope.Blazor.Components.OmniGitGraph<TItem>
@@ -209,6 +210,7 @@ ctor public OmniEurope.Blazor.Components.OmniDynamicField(System.String Name, Sy
 ctor public OmniEurope.Blazor.Components.OmniDynamicForm()
 ctor public OmniEurope.Blazor.Components.OmniEmptyState()
 ctor public OmniEurope.Blazor.Components.OmniFieldset()
+ctor public OmniEurope.Blazor.Components.OmniFormActions()
 ctor public OmniEurope.Blazor.Components.OmniFormField()
 ctor public OmniEurope.Blazor.Components.OmniGantt()
 ctor public OmniEurope.Blazor.Components.OmniGanttTask()
@@ -1022,6 +1024,7 @@ method protected override OmniEurope.Blazor.Components.OmniEmptyState.BuildRende
 method protected override OmniEurope.Blazor.Components.OmniFieldset.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniFieldset.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniFieldset.OnParametersSet() : System.Void
+method protected override OmniEurope.Blazor.Components.OmniFormActions.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniFormField.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniGantt.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniGantt.OnParametersSet() : System.Void
@@ -2515,6 +2518,7 @@ property public OmniEurope.Blazor.Components.OmniFieldset.Disabled : System.Bool
 property public OmniEurope.Blazor.Components.OmniFieldset.Expanded : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniFieldset.ExpandedChanged : Microsoft.AspNetCore.Components.EventCallback<System.Boolean> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniFieldset.Legend : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
+property public OmniEurope.Blazor.Components.OmniFormActions.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniFormField.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniFormField.Description : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniFormField.Disabled : System.Boolean {get(public);set(public)} [Parameter]
@@ -3525,6 +3529,7 @@ type public OmniEurope.Blazor.Components.OmniDynamicForm [class] : OmniEurope.Bl
 type public OmniEurope.Blazor.Components.OmniEmptyState [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniFieldset [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniFill [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
+type public OmniEurope.Blazor.Components.OmniFormActions [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniFormField [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniGantt [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniGanttTask [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniGanttTask>

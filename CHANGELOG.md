@@ -2,6 +2,12 @@
 
 Les changements notables de ce projet seront documentés ici selon le format Keep a Changelog.
 
+## [Non publié]
+
+### Added
+
+- `OmniFormActions` : la rangée d'actions d'un formulaire, posée dans le `<form>` pour que son bouton de soumission le soumette, alignée à droite comme le pied d'un dialogue et qui passe à la ligne si la place manque. Le bouton Connexion d'`OmniLoginShell` s'y place, en fin du formulaire de l'hôte (recette R-375).
+
 ## [1.4.1] - 2026-10-01
 
 ### Fixed
