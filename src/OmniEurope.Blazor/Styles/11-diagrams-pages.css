@@ -85,6 +85,9 @@
 .omni-page-header__trail { block-size: var(--omni-page-header-trail); flex: none; font-size: var(--omni-font-size-sm); line-height: var(--omni-page-header-trail); min-inline-size: 0; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; white-space: nowrap; }
 .omni-page-header__trail .omni-breadcrumb__list { flex-wrap: nowrap; white-space: nowrap; }
 .omni-page-header__trail .omni-breadcrumb__item { color: var(--omni-color-text-muted); }
+/* A placeholder crumb sits on the line of the others: the skeleton is a grid, which a list item would
+   draw as a block taller than the trail, its slash on top. */
+.omni-page-header__crumb-loading { align-items: center; display: inline-flex; }
 .omni-page-header__crumb-loading .omni-skeleton { inline-size: 5.5rem; }
 .omni-page-header__trail-text { color: var(--omni-color-text-muted); margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .omni-page-header__subtitle { color: var(--omni-color-text-muted); margin: 0; max-inline-size: 46rem; }

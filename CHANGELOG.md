@@ -2,6 +2,12 @@
 
 Les changements notables de ce projet seront documentés ici selon le format Keep a Changelog.
 
+## [Non publié]
+
+### Fixed
+
+- `OmniPageHeader` : un segment du fil d'Ariane en chargement (`.omni-page-header__crumb-loading`) se tient sur la ligne des autres. Son squelette, une grille, faisait de l'élément de liste un bloc de 35,8 px dans une piste de 19,8 px : la barre oblique montait en haut, les autres segments descendaient de 8 px et le squelette était coupé. Le segment est maintenant en `inline-flex` centré, 19,8 px, squelette entier (recette Aetheus R2-035).
+
 ## [1.4.0] - 2026-10-01
 
 ### Added
