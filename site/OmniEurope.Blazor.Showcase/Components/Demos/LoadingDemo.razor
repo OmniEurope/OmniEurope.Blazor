@@ -25,6 +25,8 @@
     </OmniRow>
     <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
         <OmniProgressBar Shape="OmniProgressShape.Circular" Indeterminate="true" Label="@Text["LoadingWaiting"]" />
+        @* The site's logo as the loader: it floats, never turns (the plane of an aviation site, here). *@
+        <OmniLogoLoader Label="@Text["LoadingWaiting"]"><OmniIcon Name="OmniIconName.Airplane" /></OmniLogoLoader>
         <OmniButton Busy="true"><OmniIcon Name="OmniIconName.RocketLaunch" /><span>@Text["LoadingDeploying"]</span></OmniButton>
         <OmniButton Variant="OmniButtonVariant.Secondary" Busy="true"><OmniIcon Name="OmniIconName.ListChecks" /><span>@Text["LoadingChecking"]</span></OmniButton>
         <OmniButton Busy="true" Label="@Text["LoadingSaving"]"><OmniIcon Name="OmniIconName.Check" /></OmniButton>
