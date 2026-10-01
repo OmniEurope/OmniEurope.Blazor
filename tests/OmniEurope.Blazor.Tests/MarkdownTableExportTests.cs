@@ -301,6 +301,24 @@ public sealed class MarkdownTableExportTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task Button_AHandlerOfOnExportThatThrows_IsNotReportedAsAFailedExport()
+    {
+        var module = JSInterop.SetupModule(DownloadModulePath);
+        module.SetupVoid("download", _ => true).SetVoidResult();
+        Exception? error = null;
+        var button = Render<OmniMarkdownExportButton<Row>>(parameters => parameters
+            .Add(component => component.Export, () => Export(3, []))
+            .Add(component => component.OnExport, _ => throw new InvalidOperationException("host handler failed"))
+            .Add(component => component.OnExportError, exception => error = exception));
+
+        // The file is already with the browser: the host's exception reaches the caller, not OnExportError.
+        await Assert.ThrowsAsync<InvalidOperationException>(() => button.Find("button").ClickAsync(new()));
+
+        Assert.Single(module.Invocations["download"]);
+        Assert.Null(error);
+    }
+
+    [Fact]
     public void Button_WhileReading_IsBusyNotDisabled()
     {
         var pending = new TaskCompletionSource<OmniDataGridResult<Row>>();

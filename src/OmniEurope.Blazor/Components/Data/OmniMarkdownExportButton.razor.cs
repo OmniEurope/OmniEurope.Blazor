@@ -77,13 +77,14 @@ public partial class OmniMarkdownExportButton<TItem>
         }
 
         _busy = true;
+        OmniMarkdownTableDocument? delivered = null;
         try
         {
             var document = await Exporter.ExportAsync(Export());
             _module ??= await JSRuntime.InvokeAsync<IJSObjectReference>("import", DownloadModulePath);
             await _module.InvokeVoidAsync("download", StampedFileName(FileName, document.GeneratedAt),
                 "text/markdown;charset=utf-8", document.Markdown);
-            await OnExport.InvokeAsync(document);
+            delivered = document;
         }
         catch (Exception exception) when (OnExportError.HasDelegate && exception is not OperationCanceledException)
         {
@@ -92,6 +93,13 @@ public partial class OmniMarkdownExportButton<TItem>
         finally
         {
             _busy = false;
+        }
+
+        // Outside the try, as in the grid's export bar: the file is already with the browser, so an
+        // exception of the host's handler is not an export failure and propagates like any handler's.
+        if (delivered is not null)
+        {
+            await OnExport.InvokeAsync(delivered);
         }
     }
 
