@@ -310,7 +310,8 @@ span.omni-unified-diff__toggle { cursor: default; }
 /* OmniKanban: columns side by side that scroll sideways when the board is narrower than they are. A
    state is marked by a background, a dashed slot or a shadow, never by a bar on one edge. */
 .omni-kanban { display: grid; min-inline-size: 0; }
-.omni-kanban__columns { align-items: start; display: grid; gap: var(--omni-space-md); grid-auto-columns: minmax(12rem, 1fr); grid-auto-flow: column; overflow-x: auto; padding-block-end: var(--omni-space-xs); }
+/* Positioned, so the text a column hides for screen readers (absolutely placed) scrolls with the columns instead of widening the page. */
+.omni-kanban__columns { align-items: start; display: grid; position: relative; gap: var(--omni-space-md); grid-auto-columns: minmax(12rem, 1fr); grid-auto-flow: column; overflow-x: auto; padding-block-end: var(--omni-space-xs); }
 /* A column is a lane tinted like a settings tile, a card is drawn with the card tokens. */
 .omni-kanban__column { background: color-mix(in srgb, var(--omni-color-text) 4%, var(--omni-card-background, var(--omni-color-surface))); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-card-radius, var(--omni-radius)); display: grid; gap: var(--omni-space-sm); min-inline-size: 0; padding: var(--omni-space-sm); }
 .omni-kanban__column--drop { background: var(--omni-color-accent-subtle); border-color: var(--omni-color-accent); }

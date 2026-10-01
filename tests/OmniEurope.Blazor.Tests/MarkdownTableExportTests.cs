@@ -79,6 +79,19 @@ public sealed class MarkdownTableExportTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task Export_WithTheLargestRowLimit_StillReadsEveryPage()
+    {
+        var requests = new List<OmniMarkdownTablePageRequest>();
+
+        // int.MaxValue stands for "no limit": the count of pages must not overflow into zero pages.
+        var document = await Exporter.ExportAsync(Export(450, requests, rowLimit: int.MaxValue), Xunit.TestContext.Current.CancellationToken);
+
+        Assert.Equal([1, 2, 3], requests.Select(request => request.Page));
+        Assert.Equal(450, document.RowCount);
+        Assert.True(document.IsComplete);
+    }
+
+    [Fact]
     public async Task Export_BeyondTheLimit_StopsAtIt_AndSaysItIsTruncated()
     {
         var requests = new List<OmniMarkdownTablePageRequest>();

@@ -1,5 +1,5 @@
 <OmniStack Gap="OmniSpacing.Large">
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true">
         <OmniButton Variant="OmniButtonVariant.Primary" OnClick="@(_ => DialogOpen = true)">
             @Text["DemoOverlayOpenDialog"]
         </OmniButton>
@@ -54,7 +54,7 @@
        voile (la croix et Échap ferment toujours) ; Dismissible="false" retire la croix, ignore Échap
        et le voile, annonce un alertdialog, et seul son contenu le ferme par CloseDialog. *@
     <OmniComponentsHost OverlayService="Overlays">
-        <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
+        <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true">
             <OmniButton Id="demo-dialog-sticky" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenStickyDialog())">
                 @Text["DemoOverlayStickyButton"]
             </OmniButton>
@@ -98,7 +98,7 @@
 
     @* Menu « ⋮ » : trois points seuls, sans cadre, qui ouvrent une liste verticale (icône puis libellé).
        Il reste dans la fenêtre, s'ouvre au-dessus faute de place, et rend le focus au bouton. *@
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Center">
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Center" Wrap="true">
         <OmniOverflowMenu Id="demo-overflow-menu" Label="@Text["DemoOverlayPipelineActions"]">
             <OmniMenuItem OnClick="@(() => Last = Text["DemoOverlayEdit"])"><Icon><OmniIcon Name="OmniIconName.Edit" /></Icon><ChildContent>@Text["DemoOverlayEdit"]</ChildContent></OmniMenuItem>
             <OmniMenuItem OnClick="@(() => Last = Text["DemoOverlayUpdate"])"><Icon><OmniIcon Name="OmniIconName.Refresh" /></Icon><ChildContent>@Text["DemoOverlayUpdate"]</ChildContent></OmniMenuItem>

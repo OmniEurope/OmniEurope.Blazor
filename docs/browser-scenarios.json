@@ -31,45 +31,52 @@
     },
     {
       "id": "showcase-mindmap-gestures",
-      "host": "Static WebAssembly showcase with strict CSP headers, served by eng/Test-ShowcaseHost.ps1 (one of its six default probes; manual gate, not in CI)",
+      "host": "Static WebAssembly showcase with strict CSP headers, served by eng/Test-ShowcaseHost.ps1 (one of its seven default probes; manual gate, not in CI)",
       "script": "eng/Test-ShowcaseMindMapProbe.mjs",
       "components": ["OmniMindMap", "OmniMindMapNodeProperties"],
       "assertions": ["trusted mouse drag moves the node and its link, committed by .NET", "wheel zooms in", "arrow keys move aria-activedescendant", "N adds a node and Ctrl+Z removes it", "context menu takes the focus, ArrowDown walks it, Escape closes it and returns the focus to the canvas", "double click on the background adds a node", "zero CSP violations", "zero inline style attributes", "zero browser console errors"]
     },
     {
       "id": "showcase-grid-column-autofit",
-      "host": "Static WebAssembly showcase with strict CSP headers, served by eng/Test-ShowcaseHost.ps1 (one of its six default probes; manual gate, not in CI)",
+      "host": "Static WebAssembly showcase with strict CSP headers, served by eng/Test-ShowcaseHost.ps1 (one of its seven default probes; manual gate, not in CI)",
       "script": "eng/Test-ShowcaseGridAutoFitProbe.mjs",
       "components": ["OmniDataGrid", "OmniDataGridColumn"],
       "assertions": ["AllowColumnAutoFit offers the fit on Demandeur, AutoFit=\"false\" withdraws it from Référence, both keep the drag", "trusted double click on Référence leaves its width unchanged", "trusted double click on Demandeur fits it to the long value of virtual row 7777, off screen", "row 7777 scrolled into view is not clipped", "a drag narrows the column, Enter on the focused handle fits it again", "a second fit keeps the width", "no measurement probe left in the grid", "zero CSP violations", "zero browser console errors"]
     },
     {
       "id": "showcase-pickers-keyboard-mouse",
-      "host": "Static WebAssembly showcase with strict CSP headers, served by eng/Test-ShowcaseHost.ps1 (one of its six default probes; manual gate, not in CI)",
+      "host": "Static WebAssembly showcase with strict CSP headers, served by eng/Test-ShowcaseHost.ps1 (one of its seven default probes; manual gate, not in CI)",
       "script": "eng/Test-ShowcasePickerProbe.mjs",
       "components": ["OmniDatePicker", "OmniTimePicker", "OmniDateTimePicker"],
       "assertions": ["trusted keyboard and mouse events drive the calendar grid and the time columns", "Escape closes the panel and returns the focus to the field", "an outside press closes the panel", "one panel open at a time", "density, light and dark", "zero CSP violations", "zero browser console errors"]
     },
     {
       "id": "showcase-density-every-page",
-      "host": "Static WebAssembly showcase with strict CSP headers, served by eng/Test-ShowcaseHost.ps1 (one of its six default probes; manual gate, not in CI)",
+      "host": "Static WebAssembly showcase with strict CSP headers, served by eng/Test-ShowcaseHost.ps1 (one of its seven default probes; manual gate, not in CI)",
       "script": "eng/Test-ShowcaseDensityProbe.mjs",
       "components": ["every component of the showcase gallery"],
       "assertions": ["every gallery page measured in compact then spacious density", "an element the package stylesheet sizes (block size, minimum block size, vertical padding) changes height between the two", "exemptions only for the selectors listed with their reason in the script", "fails when nothing is measured"]
     },
     {
       "id": "showcase-theme-contrast-matrix",
-      "host": "Static WebAssembly showcase with strict CSP headers, served by eng/Test-ShowcaseHost.ps1 (one of its six default probes; manual gate, not in CI)",
+      "host": "Static WebAssembly showcase with strict CSP headers, served by eng/Test-ShowcaseHost.ps1 (one of its seven default probes; manual gate, not in CI)",
       "script": "eng/Test-ThemeContrastProbe.mjs",
       "components": ["OmniThemeScope", "OmniButton", "OmniLink", "OmniTabs", "OmniDataGrid", "OmniBadge", "OmniAlert", "OmniCard", "OmniKanban", "OmniStatusStrip"],
       "assertions": ["every theme x palette x mode combination of the catalogue (450 on 2026-09-30) applied through the customizer pickers", "painted colour against the effective background at rest, under forced hover and under focus, at the static thresholds", "shortfalls of the waived themes (Relief, Givre, Aplat) counted under acceptedContrastWaiver, the focus state never waived", "shipped look equal to Essentiel + Essentiel", "grid cells stay table-cell, icon-only buttons show their icon whole", "no horizontal overflow at 375 px", "empty failure registry in artifacts/theme-contrast-registry.json"]
     },
     {
       "id": "showcase-script-modules",
-      "host": "Static WebAssembly showcase with strict CSP headers, served by eng/Test-ShowcaseHost.ps1 (one of its six default probes; manual gate, not in CI)",
+      "host": "Static WebAssembly showcase with strict CSP headers, served by eng/Test-ShowcaseHost.ps1 (one of its seven default probes; manual gate, not in CI)",
       "script": "eng/Test-ShowcaseModulesProbe.mjs",
       "components": ["OmniDataGrid", "OmniPageHeader", "OmniHtmlEditor"],
       "assertions": ["a trusted click opens a filter popover of the advanced grid, placed inside the window by custom properties only", "one popover open at a time", "Escape and a press outside close it", "a longer title folds the header's badges and actions behind the toggle at desktop width, the toggle shows them, a short title unfolds them", "text typed in the visual editor reaches .NET", "the Bold command wraps the selection and presses its button", "zero CSP violations", "zero browser console errors"]
+    },
+    {
+      "id": "showcase-long-languages",
+      "host": "Static WebAssembly showcase with strict CSP headers, served by eng/Test-ShowcaseHost.ps1 (one of its seven default probes; manual gate, not in CI)",
+      "script": "eng/Test-ShowcaseLanguagesProbe.mjs",
+      "components": ["every component of the showcase gallery"],
+      "assertions": ["every gallery page, the home page, the customizer and the documentation in German, Finnish, Greek and Hungarian, at 1280 and 390 px", "no text node reaches past the padding box of the element laying it out (across by more than 1 px, down by more than half a line)", "text cut on purpose with an ellipsis, inside a scroll container, SVG text and code exempted", "no page scrolls sideways (a width that lasts 600 ms)", "only the rendered page is measured: menus, lists and dialogs stay closed", "the detector sees a box and a row it overflows on purpose before each language, or the probe fails", "fails when nothing is measured", "zero CSP violations", "zero browser console errors"]
     }
   ]
 }

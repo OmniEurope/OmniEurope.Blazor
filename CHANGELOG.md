@@ -7,13 +7,18 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 ### Changed
 
 - Assembly plus léger, sans changement d'API (PLAN-010) : les tracés d'icônes intégrés quittent le code pour une ressource UTF-8 (`Internal/PhosphorIcons.txt`), lue une fois au premier rendu d'une icône, et les attributs de nullabilité ne sont plus posés que sur la surface publique (`nullablePublicOnly`). `OmniEurope.Blazor.dll` passe de 2 031 104 à 1 900 544 octets ; publié en WebAssembly, 500 585 octets en brotli au lieu de 510 061.
-- Langues longues (PLAN-010) : dans un `OmniThemeScope`, un mot trop long pour sa ligne passe à la ligne au lieu de sortir de sa boîte (`overflow-wrap: break-word`), avec un trait d'union dans la langue de la page là où le navigateur a le dictionnaire (`hyphens: auto`, mots de 10 lettres et plus) ; le code garde ses lignes. `OmniBadge` ne rétrécit plus sous son texte dans une rangée trop étroite.
+- Langues longues (PLAN-010) : dans un `OmniThemeScope`, un mot trop long pour sa ligne est coupé dans sa boîte au lieu d'en sortir (`overflow-wrap: break-word`) ; le code garde ses lignes. Aucune césure automatique : son rendu dépend des dictionnaires de chaque navigateur et n'a pas été observé. `OmniBadge` ne rétrécit plus sous son texte dans une rangée trop étroite.
+
+### Fixed
+
+- Export d'`OmniDataGrid` et `OmniMarkdownTableExporter` : un `ExportRowLimit` (ou `RowLimit`) proche de `int.MaxValue`, pour « sans limite », ne produit plus un fichier vide présenté comme complet ; le nombre de pages débordait et aucune page n'était lue.
+- `OmniKanban` : le texte réservé aux lecteurs d'écran de l'en-tête des colonnes défile avec elles ; placé en absolu hors du conteneur qui défile, il élargissait la page sur un écran étroit (52 px à 390 px).
+- Barre d'export d'`OmniDataGrid` : une exception du gestionnaire `OnExport` de l'hôte ne fait plus afficher « L'export a échoué. » ni appeler `OnExportError`, puisque le fichier est déjà remis au navigateur ; elle remonte comme celle de tout gestionnaire d'événement.
 
 ### Outillage du dépôt (sans effet sur le paquet publié)
 
-- Sondes de la vitrine : septième sonde `Languages` (`eng/Test-ShowcaseLanguagesProbe.mjs`), lancée par défaut par `eng/Test-ShowcaseHost.ps1` : chaque page en allemand, finnois, grec et hongrois, à 1280 et 390 px, échoue sur tout texte qui sort de sa boîte ; elle se vérifie d'abord sur un débordement provoqué. Les rangées de badges de la démonstration passent à la ligne.
+- Sondes de la vitrine : septième sonde `Languages` (`eng/Test-ShowcaseLanguagesProbe.mjs`), lancée par défaut par `eng/Test-ShowcaseHost.ps1` : chaque page en allemand, finnois, grec et hongrois, à 1280 et 390 px, échoue sur tout texte qui sort de sa boîte et sur toute page qui défile en largeur ; elle se vérifie d'abord sur un débordement provoqué et ne mesure que la page rendue (menus, listes et dialogues fermés). Les rangées de badges, de boutons, des superpositions et des retours de la démonstration passent à la ligne : la page des boutons défilait de 415 px en largeur à 1280 px, en français comme ailleurs.
 - Documentation : `OmniMarkdownExportButton` est présenté comme l'export hors grille ; une grille exporte par sa barre `ExportFormats`.
-
 - Dépendances : `coverlet.MTP` 10.1.0 et `Microsoft.Web.WebView2` 1.0.4258.31 (couverture des tests et exemple Hybrid), ce qui retire les deux avertissements de dérive du catalogue NuGet. Les tâches Linux de la CI sont fixées sur `ubuntu-24.04` : le passage d'`ubuntu-latest` à Ubuntu 26, le 2026-10-19, ne s'appliquera pas sans une décision.
 
 ## [1.3.0] - 2026-09-30

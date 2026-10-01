@@ -1,5 +1,5 @@
-// File download of the HTML editor status bar and the Markdown export button: the one thing they
-// need the browser for, handing a file to the user. The content is built in .NET; this only wraps it
+// File download of the HTML editor status bar, the Markdown export button and the export bar of
+// OmniDataGrid: the one thing they need the browser for, handing a file to the user. The content is built in .NET; this only wraps it
 // in a Blob and follows a download link, which navigates nowhere and needs no permission from the
 // content security policy.
 export function download(fileName, mimeType, content) {

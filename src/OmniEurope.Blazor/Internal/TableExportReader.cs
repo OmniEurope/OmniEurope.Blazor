@@ -24,7 +24,9 @@ internal static class TableExportReader
         CancellationToken cancellationToken)
     {
         pageSize = Math.Min(pageSize, rowLimit);
-        var maxPages = (rowLimit + pageSize - 1) / pageSize;
+        // Counted without the sum rowLimit + pageSize, which overflows for a limit near int.MaxValue
+        // ("no limit") and would leave the loop unread.
+        var maxPages = rowLimit / pageSize + (rowLimit % pageSize == 0 ? 0 : 1);
         var rows = new List<TItem>();
         var seen = new HashSet<object>();
         var totalCount = 0;
