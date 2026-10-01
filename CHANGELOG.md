@@ -2,12 +2,11 @@
 
 Les changements notables de ce projet seront documentés ici selon le format Keep a Changelog.
 
-## [Non publié]
+## [1.4.0] - 2026-10-01
 
 ### Added
 
 - `OmniLogoLoader` : un indicateur de chargement au logo du site, réutilisable partout (`ChildContent` : image, SVG ou `OmniIcon` ; `Size` petit, moyen, grand ; `Label` dit en mots dans une région `status`). Le logo flotte de haut en bas, lentement, et ne tourne jamais ; il reste immobile sous `prefers-reduced-motion` (recette R-536, décision D11 : rien ne tourne).
-
 - Barre d'export d'`OmniDataGrid` : chaque bouton porte l'icône de fichier de son format (`OmniIconName.FileMd`, `FileCsv` et `FileXls`, nouvelles, et `FilePdf`) au lieu de `Download`, et `ExportVariants` donne une variante par format, `Ghost` restant le défaut (recette R2-009).
 - Noms des fichiers exportés lisibles : `{nom}-{yyyy-MM-dd-HHmm}.{extension}` (`shop-logs-2026-10-01-0840.md`) pour la barre d'export et `OmniMarkdownExportButton` ; sans `ExportFileName` (désormais `string?`, null par défaut), la grille nomme le fichier d'après `ExportTitle` puis `Caption`, en minuscules sans accents (recette R2-036). L'horodatage perd ses secondes.
 - `OmniTextBox.Copyable` : un bouton Copier soudé à la fin du champ, qui met la valeur dans le presse-papiers (URL de clonage, clé) ; il garde son mot et sa taille, montre une coche après la copie (`CopiedFeedbackDuration`) et l'issue est annoncée ; `OnCopy` la reçoit (recette R2-002). `OmniTextBox` devient `IAsyncDisposable`.
