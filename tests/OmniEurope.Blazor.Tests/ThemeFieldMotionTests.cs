@@ -41,13 +41,33 @@ public sealed class ThemeFieldMotionTests : OmniBunitContext
         Assert.Equal("none", ShippedLookTests.Value(ShippedLookTests.Body(".omni-theme-scope[data-omni-backdrop-motion=\"off\"]"), "animation"));
         Assert.Matches(@"@media \(prefers-reduced-motion: reduce\) \{ \.omni-theme-scope \{ animation: none; \} \}", Css);
 
-        // The tilted layer over the field (Trou noir's disc) turns with the same motion and holds still
-        // with it: the angle does not reach a pseudo-element, so the layer runs its own animation.
-        var layer = ShippedLookTests.Body(".omni-theme-scope::before");
-        Assert.Equal("var(--omni-scope-motion, none)", ShippedLookTests.Value(layer, "animation"));
-        Assert.Equal("none", ShippedLookTests.Value(layer, "pointer-events"));
-        Assert.Equal("none", ShippedLookTests.Value(ShippedLookTests.Body(".omni-theme-scope[data-omni-backdrop-motion=\"off\"]::before"), "animation"));
-        Assert.Matches(@"@media \(prefers-reduced-motion: reduce\) \{ \.omni-theme-scope::before \{ animation: none; \} \}", Css);
+        // A field drawn on a canvas sits under the content and takes no pointer; while it draws, the CSS
+        // field it replaces is dropped.
+        var canvas = ShippedLookTests.Body(".omni-theme-scope__canvas");
+        Assert.Equal("-1", ShippedLookTests.Value(canvas, "z-index"));
+        Assert.Equal("none", ShippedLookTests.Value(canvas, "pointer-events"));
+        Assert.Equal("none", ShippedLookTests.Value(ShippedLookTests.Body(".omni-theme-scope--canvas"), "background-image"));
+    }
+
+    [Fact]
+    public void Trou_noir_draws_its_field_on_a_canvas_and_no_other_theme_has_one()
+    {
+        // Owner decision of 2026-10-01: the black hole is drawn by a shader, no other theme needs one.
+        Assert.Equal(["Trou noir"], OmniThemePresets.All.Where(theme => theme.Shape.ContainsKey("--omni-scope-canvas")).Select(theme => theme.Name));
+
+        var trouNoir = Render<OmniThemeScope>(parameters => parameters
+            .Add(component => component.Preset, OmniThemePresets.All.Single(theme => theme.Name == "Trou noir"))
+            .Add(component => component.BackdropMotion, false)
+            .AddChildContent("<p>page</p>"));
+        var canvas = trouNoir.Find(".omni-theme-scope > canvas.omni-theme-scope__canvas");
+        Assert.Equal("true", canvas.GetAttribute("aria-hidden"));
+        var start = Assert.Single(JSInterop.Invocations, invocation => invocation.Identifier == "start");
+        Assert.Equal(false, start.Arguments[2]);
+
+        var givre = Render<OmniThemeScope>(parameters => parameters
+            .Add(component => component.Preset, OmniThemePresets.All.Single(theme => theme.Name == "Givre"))
+            .AddChildContent("<p>page</p>"));
+        Assert.Empty(givre.FindAll("canvas"));
     }
 
     [Fact]
@@ -125,9 +145,9 @@ public sealed class ThemeFieldMotionTests : OmniBunitContext
         var moving = new List<string>();
         foreach (var preset in OmniThemePresets.All)
         {
-            // The angle turns the field itself (Givre) or the layer laid over it (Trou noir's disc).
-            var reads = new[] { "--omni-backdrop", "--omni-scope-layer", "--omni-scope-layer-mask" }
-                .Any(token => preset.Shape.TryGetValue(token, out var drawn) && drawn.Contains(Turn, StringComparison.Ordinal));
+            // The angle turns the CSS field (Givre); a field drawn on a canvas (Trou noir) moves with its shader.
+            var reads = (preset.Shape.TryGetValue("--omni-backdrop", out var drawn) && drawn.Contains(Turn, StringComparison.Ordinal))
+                || preset.Shape.ContainsKey("--omni-scope-canvas");
             var moves = preset.Shape.TryGetValue(MotionToken, out var motion);
             Assert.True(reads == moves, $"{preset.Name}: the field reads the angle = {reads}, the theme sets the motion = {moves}.");
             Assert.False(preset.DarkShape.ContainsKey(MotionToken), $"{preset.Name}: the motion is one for both modes.");

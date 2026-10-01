@@ -51,6 +51,9 @@ internal static class OmniModules
     /// <summary>The theme scope: applying and clearing its tokens.</summary>
     internal const string Theme = Root + "omni-theme.js";
 
+    /// <summary>Trou noir's field: the black hole drawn by a WebGL shader on the scope's canvas.</summary>
+    internal const string BlackHole = Root + "omni-black-hole.js";
+
     /// <summary>Tooltips, including the ones installed for native <c>title</c> attributes.</summary>
     internal const string Tooltip = Root + "omni-tooltip.js";
 }
