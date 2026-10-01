@@ -27,6 +27,13 @@ public partial class AppShellDemo
 
     private string? Last { get; set; }
 
+    private OmniAppearance MenuAppearance { get; set; } = OmniAppearance.System;
+
+    private string LanguageCode { get; set; } = "fr";
+
+    private static readonly IReadOnlyList<OmniAppMenuLanguage> Languages =
+        [new("fr", "Français"), new("en", "English"), new("de", "Deutsch")];
+
     private bool Maximized { get; set; }
 
     /// <summary>The unread notifications the bell announces.</summary>

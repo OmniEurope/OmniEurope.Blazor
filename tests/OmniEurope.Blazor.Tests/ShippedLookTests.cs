@@ -384,7 +384,11 @@ public sealed partial class ShippedLookTests : OmniBunitContext
         {
             Assert.False(preset.Shape.ContainsKey("--omni-card-position"), preset.Name);
             Assert.False(preset.Shape.ContainsKey("--omni-card-frost"), preset.Name);
-            Assert.Equal(preset.Shape.ContainsKey("--omni-card-filter"), preset.Shape.ContainsKey("--omni-scope-isolation"));
+            // The scope is isolated for the frost of its cards (Givre) or for the layer over its field
+            // (Trou noir's disc), and for nothing else.
+            Assert.Equal(
+                preset.Shape.ContainsKey("--omni-card-filter") || preset.Shape.ContainsKey("--omni-scope-layer"),
+                preset.Shape.ContainsKey("--omni-scope-isolation"));
         });
     }
 

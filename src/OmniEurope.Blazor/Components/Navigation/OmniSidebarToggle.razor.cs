@@ -35,6 +35,17 @@ public partial class OmniSidebarToggle
     public OmniIconName? OpenIcon { get; set; }
 
     /// <summary>
+    /// How the controlled sidebar opens, when the host knows it. Set, the open toggle follows the mode
+    /// rather than the width: <see cref="OmniSidebarReveal.Push"/> keeps the menu glyph, since the sidebar
+    /// sits beside the content, and <see cref="OmniSidebarReveal.Overlay"/> shows the close cross, since the
+    /// sidebar covers the page. Pass the reveal the sidebar actually uses, including the overlay a host
+    /// switches to on a phone. Null, the default, falls back to the width rule of <see cref="OpenIcon"/>;
+    /// <see cref="OpenIcon"/> wins when both are set.
+    /// </summary>
+    [Parameter]
+    public OmniSidebarReveal? Reveal { get; set; }
+
+    /// <summary>
     /// Replaces the default glyphs, in both states. Null, the default, shows the menu glyph while closed
     /// and the glyph described on <see cref="OpenIcon"/> while open.
     /// </summary>

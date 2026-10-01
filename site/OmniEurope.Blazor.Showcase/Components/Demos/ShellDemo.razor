@@ -4,7 +4,7 @@
     <OmniLayout>
         <OmniHeader>
             <OmniSidebarToggle Open="SidebarOpen" OpenChanged="@(value => SidebarOpen = value)"
-                               Controls="shell-demo-sidebar" Label="@Text["DemoShellToggleMenu"]" />
+                               Controls="shell-demo-sidebar" Reveal="OmniSidebarReveal.Push" Label="@Text["DemoShellToggleMenu"]" />
             <OmniHeading Level="OmniHeadingLevel.H4">@Text["DemoShellAppName"]</OmniHeading>
             <OmniButton Variant="OmniButtonVariant.Ghost" Label="@Text["DemoShellChangeAppearance"]" OnClick="ToggleAppearance">
                 <OmniIcon Name="@(Appearance == OmniAppearance.Dark ? OmniIconName.ThemeLight : OmniIconName.ThemeDark)" />
@@ -73,7 +73,7 @@
     <OmniLayout>
         <OmniHeader>
             <OmniSidebarToggle Open="RailOpen" OpenChanged="@(value => RailOpen = value)"
-                               Controls="shell-demo-rail" Label="@Text["DemoShellToggleFloatingMenu"]" />
+                               Controls="shell-demo-rail" Reveal="OmniSidebarReveal.Overlay" Label="@Text["DemoShellToggleFloatingMenu"]" />
             <OmniHeading Level="OmniHeadingLevel.H4">@Text["DemoShellFloatingMenu"]</OmniHeading>
         </OmniHeader>
         <OmniBody>

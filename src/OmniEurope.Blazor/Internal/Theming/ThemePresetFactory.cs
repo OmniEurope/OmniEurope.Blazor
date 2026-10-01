@@ -52,6 +52,7 @@ internal static class ThemePresetFactory
             Shape = theme.Shape,
             DarkShape = theme.DarkShape,
             ContrastWaiver = theme.ContrastWaiver,
+            DarkOnly = theme.DarkOnly,
         };
         return bare.With(palette);
     }

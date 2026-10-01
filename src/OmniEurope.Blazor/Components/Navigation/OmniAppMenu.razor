@@ -1,0 +1,92 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+@* The menu at the end of the app bar, the same in every application: who is signed in (name and role,
+   when there is one), what the application adds, the language when it offers several, the mode, the
+   theme, the settings, then the version and signing out. The mode and the theme are always there; every
+   other row shows only when the host gives what it needs, so the menu never offers a row that does
+   nothing. Every row has one height and the same grid (icon, label, value at the end). *@
+<OmniPopover AdditionalAttributes="AdditionalAttributes" Class="@Css("omni-app-menu")"
+             Open="@IsOpen" OpenChanged="SetOpenAsync"
+             Label="@EffectiveLabel" PopupLabel="@EffectiveLabel" TriggerTitle="@EffectiveLabel"
+             TriggerVariant="@(UserName is null ? OmniButtonVariant.Ghost : OmniButtonVariant.Primary)"
+             TriggerClass="omni-app-menu__trigger" Disabled="Disabled">
+    <TriggerContent>
+        <OmniIcon Name="@(UserName is null ? OmniIconName.Sliders : OmniIconName.User)" />
+        @if (UserName is not null)
+        {
+            <span class="omni-app-menu__trigger-name">@UserName</span>
+            <OmniIcon Name="@(IsOpen ? OmniIconName.ChevronUp : OmniIconName.ChevronDown)" />
+        }
+    </TriggerContent>
+    <ChildContent>
+        <div class="omni-app-menu__card">
+            @if (UserName is not null)
+            {
+                <div class="omni-app-menu__row omni-app-menu__identity">
+                    <OmniIcon Name="OmniIconName.User" />
+                    <strong class="omni-app-menu__label">@UserName</strong>
+                    @if (!string.IsNullOrWhiteSpace(Role))
+                    {
+                        <OmniBadge Fill="OmniFill.Solid" Tone="OmniTone.Accent" title="@Localize("AppMenuRole")">@Role</OmniBadge>
+                    }
+                </div>
+            }
+            @if (ChildContent is not null)
+            {
+                <div class="omni-app-menu__extra">@ChildContent</div>
+            }
+            @if (ShowsLanguages)
+            {
+                <div class="omni-app-menu__row">
+                    <OmniIcon Name="OmniIconName.Globe" />
+                    <span class="omni-app-menu__label" id="@RowId("language")">@Localize("AppMenuLanguage")</span>
+                    @if (ShowFlags && CurrentLanguage?.FlagSource is { } flag)
+                    {
+                        <OmniImage Source="@flag" Alt="" Class="omni-app-menu__flag" />
+                    }
+                    <OmniDropDown TValue="string" Options="@LanguageOptions" Class="omni-app-menu__language"
+                                  @bind-Value:get="Language" @bind-Value:set="SetLanguageAsync" Label="@Localize("AppMenuLanguage")" />
+                </div>
+            }
+            <div class="omni-app-menu__row">
+                <OmniIcon Name="@(ShownAppearance == OmniAppearance.Dark ? OmniIconName.ThemeDark : OmniIconName.ThemeLight)" />
+                <span class="omni-app-menu__label" id="@RowId("mode")">@Localize("SettingsMode")</span>
+                @* Three joined square buttons, an icon each, the pressed one is the mode in force. A theme
+                   drawn in dark mode only shows the dark one, fixed, and says why. *@
+                <div class="omni-app-menu__modes" role="radiogroup" aria-labelledby="@RowId("mode")"
+                     aria-disabled="@(DarkOnly ? "true" : null)" title="@(DarkOnly ? Localize("SettingsDarkOnly") : null)">
+                    @foreach (var mode in Modes)
+                    {
+                        var selected = mode.Value == ShownAppearance;
+                        <OmniButton Variant="@(selected ? OmniButtonVariant.Primary : OmniButtonVariant.Secondary)"
+                                    Class="omni-app-menu__mode" Disabled="DarkOnly" Label="@mode.Text" title="@mode.Text"
+                                    role="radio" aria-checked="@(selected ? "true" : "false")"
+                                    OnClick="@(() => SetAppearanceAsync(mode.Value))"><OmniIcon Name="@ModeIcon(mode.Value)" /></OmniButton>
+                    }
+                </div>
+            </div>
+            <OmniButton Variant="OmniButtonVariant.Ghost" Class="omni-app-menu__item omni-app-menu__theme" OnClick="OpenThemeAsync">
+                <OmniIcon Name="OmniIconName.Palette" /><span>@Localize("SettingsTheme")</span>
+            </OmniButton>
+            @if (OnSettings.HasDelegate)
+            {
+                <OmniButton Variant="OmniButtonVariant.Ghost" Class="omni-app-menu__item omni-app-menu__settings" OnClick="OpenSettingsAsync">
+                    <OmniIcon Name="OmniIconName.Settings" /><span>@Localize("AppMenuSettings")</span>
+                </OmniButton>
+            }
+            @if (!string.IsNullOrWhiteSpace(Version) || OnSignOut.HasDelegate)
+            {
+                <div class="omni-app-menu__row omni-app-menu__footer">
+                    <span class="omni-app-menu__version">@Version</span>
+                    @if (OnSignOut.HasDelegate)
+                    {
+                        <OmniButton Variant="OmniButtonVariant.Secondary" Class="omni-app-menu__sign-out" OnClick="SignOutAsync">
+                            <OmniIcon Name="OmniIconName.SignOut" /><span>@Localize("AppMenuSignOut")</span>
+                        </OmniButton>
+                    }
+                </div>
+            }
+        </div>
+    </ChildContent>
+</OmniPopover>

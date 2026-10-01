@@ -8,8 +8,10 @@
     <div class="omni-appearance-settings__row">
         <span class="omni-appearance-settings__label"><OmniIcon Name="OmniIconName.Palette" /> @Localize("SettingsMode")</span>
         <div class="omni-appearance-settings__actions">
+            @* A theme drawn in dark mode only shows the mode it draws, fixed, and says why. *@
             <OmniSelectBar TValue="OmniAppearance" Options="@ModeOptions" IconFor="@ModeIcon" Label="@Localize("SettingsMode")"
-                           @bind-Value:get="Appearance" @bind-Value:set="SetAppearanceAsync" />
+                           Disabled="@DarkOnly" title="@(DarkOnly ? Localize("SettingsDarkOnly") : null)"
+                           @bind-Value:get="ShownAppearance" @bind-Value:set="SetAppearanceAsync" />
         </div>
     </div>
     <div class="omni-appearance-settings__row">

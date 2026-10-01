@@ -71,7 +71,7 @@ public partial class OmniThemeScope
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         var unchanged = ReferenceEquals(Preset, _appliedPreset) && ReferenceEquals(Palette, _appliedPalette) && ReferenceEquals(Font, _appliedFont);
-        if (unchanged && ((Preset is null && Palette is null && Font is null) || Appearance == _appliedAppearance))
+        if (unchanged && ((Preset is null && Palette is null && Font is null) || EffectiveAppearance == _appliedAppearance))
         {
             return;
         }
@@ -84,14 +84,20 @@ public partial class OmniThemeScope
         }
         else
         {
-            await _themeModule.InvokeVoidAsync("apply", _element, light, dark, Appearance.ToString().ToLowerInvariant());
+            await _themeModule.InvokeVoidAsync("apply", _element, light, dark, EffectiveAppearance.ToString().ToLowerInvariant());
         }
 
         _appliedPreset = Preset;
         _appliedPalette = Palette;
         _appliedFont = Font;
-        _appliedAppearance = Appearance;
+        _appliedAppearance = EffectiveAppearance;
     }
+
+    /// <summary>
+    /// The mode the scope is drawn in: <see cref="Appearance"/>, except under a theme that is only ever
+    /// dark (<see cref="OmniThemePreset.DarkOnly"/>), which draws its dark half whatever the mode asked.
+    /// </summary>
+    internal OmniAppearance EffectiveAppearance => Preset?.DarkOnly == true ? OmniAppearance.Dark : Appearance;
 
     private (IReadOnlyDictionary<string, string>? Light, IReadOnlyDictionary<string, string>? Dark) Resolve()
     {

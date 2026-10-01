@@ -45,13 +45,21 @@
    back to one column as soon as two of 19rem no longer fit; at its full width a third never does. */
 .omni-appearance-window { inline-size: 46rem; max-inline-size: calc(100vw - 2rem); }
 .omni-appearance-settings--window { grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); }
-/* Every row reads the same: its name on a line (the random draw beside the theme's), its controls
-   across the width under it, then the slider of a scale. Two rows of a line share its height, so the
-   content of the shorter one stays at the top. */
+/* Every row reads the same: its name on a line, its controls across the width under it, then the
+   slider of a scale or the motion of a moving theme. A name line is as tall as a control whatever the
+   size of the controls, so the selects of two rows of a line (theme and palette, density and font)
+   start at the same height; the shorter row keeps its content at the top. */
 .omni-appearance-settings--window .omni-appearance-settings__row { align-content: start; flex-wrap: wrap; }
-.omni-appearance-settings--window .omni-appearance-settings__label { flex: 1 1 6em; min-inline-size: 6em; }
+.omni-appearance-settings--window .omni-appearance-settings__label { flex: 1 1 100%; min-block-size: max(var(--omni-icon-box), var(--omni-control-height)); min-inline-size: 6em; }
 .omni-appearance-settings--window .omni-appearance-settings__actions { flex: 1 1 100%; flex-wrap: nowrap; }
 .omni-appearance-settings--window .omni-appearance-settings__actions:has(.omni-drop-down) { inline-size: 100%; }
+.omni-appearance-settings__motion { align-items: center; display: flex; flex: 1 1 100%; gap: var(--omni-space-sm); }
+.omni-appearance-settings__motion > span { align-items: center; display: inline-flex; gap: var(--omni-space-xs); }
+/* The footer: the actions on the whole look at the start (random, all back to the defaults), the
+   decision at the end (Cancel, Apply); on a narrow window the decision wraps under, still at the end. */
+.omni-appearance-window__footer { align-items: center; display: flex; flex: 1 1 100%; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: space-between; }
+.omni-appearance-window__tools, .omni-appearance-window__decision { display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); }
+.omni-appearance-window__decision { margin-inline-start: auto; }
 .omni-appearance-settings--window .omni-badge { inline-size: 3.25em; min-height: var(--omni-control-height); }
 
 .omni-data-grid--preparing tbody > tr:not(.omni-data-grid__preparation, .omni-data-grid__spacer) { visibility: hidden; }

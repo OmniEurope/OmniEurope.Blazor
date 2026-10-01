@@ -11,7 +11,13 @@
   <data name="AppearanceLight" xml:space="preserve"><value>Jasny</value></data>
   <data name="AppearanceDark" xml:space="preserve"><value>Ciemny</value></data>
   <data name="AppearanceSystem" xml:space="preserve"><value>Systemowy</value></data>
+  <data name="AppMenuLabel" xml:space="preserve"><value>Menu aplikacji</value></data>
+  <data name="AppMenuLanguage" xml:space="preserve"><value>Język</value></data>
+  <data name="AppMenuRole" xml:space="preserve"><value>Rola</value></data>
+  <data name="AppMenuSettings" xml:space="preserve"><value>Ustawienia</value></data>
+  <data name="AppMenuSignOut" xml:space="preserve"><value>Wyloguj</value></data>
   <data name="SettingsMode" xml:space="preserve"><value>Tryb</value></data>
+  <data name="SettingsDarkOnly" xml:space="preserve"><value>Ten motyw jest zawsze ciemny</value></data>
   <data name="SettingsTheme" xml:space="preserve"><value>Motyw</value></data>
   <data name="SettingsPalette" xml:space="preserve"><value>Paleta</value></data>
   <data name="SettingsFont" xml:space="preserve"><value>Czcionka</value></data>
@@ -22,6 +28,8 @@
   <data name="SettingsDefault" xml:space="preserve"><value>Domyślnie</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Losowo</value></data>
   <data name="SettingsRandomTitle" xml:space="preserve"><value>Wylosuj motyw i paletę</value></data>
+  <data name="SettingsApply" xml:space="preserve"><value>Zastosuj</value></data>
+  <data name="SettingsResetAll" xml:space="preserve"><value>Przywróć wszystko</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>domyślnie</value></data>
   <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Zmniejsz rozmiar tekstu</value></data>
   <data name="SettingsTextSizeIncrease" xml:space="preserve"><value>Zwiększ rozmiar tekstu</value></data>

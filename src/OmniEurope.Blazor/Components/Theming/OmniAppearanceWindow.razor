@@ -2,12 +2,14 @@
 @inherits OmniComponentBase
 
 @* The window of the look, one grid of rows laid two by two where it is wide enough: theme and palette,
-   the text size and the size of the controls, then the density, the font and, under a theme that moves
-   its field, its motion. Modeless and draggable, so the page stays in view while the user tries a
-   setting; each row shows only once the host binds its change, so the window never offers a setting
-   that does nothing. Every row is a group named by its label, so its buttons are read with it. *@
+   the text size and the size of the controls, then the density and the font. The motion of a theme that
+   moves its field sits under the theme it belongs to. Modeless and draggable, so the page stays in view
+   while the user tries a setting; each row shows only once the host binds its change, so the window
+   never offers a setting that does nothing. Every row is a group named by its label, so its buttons are
+   read with it. The footer holds the actions on the whole look: a random one, all back to the defaults,
+   then Cancel, which puts back the look the window opened on, and Apply, which keeps the current one. *@
 <OmniDialog AdditionalAttributes="AdditionalAttributes" Id="@Id" Class="@Css("omni-appearance-window")"
-            Open="@Open" OpenChanged="OpenChanged" Modal="false" Draggable="true" FreezeScale="true" Title="@EffectiveTitle">
+            Open="@Open" OpenChanged="OnDialogOpenChangedAsync" Modal="false" Draggable="true" FreezeScale="true" Title="@EffectiveTitle">
     <ChildContent>
         @if (ShowsRows)
         {
@@ -16,12 +18,14 @@
                 {
                     <div class="omni-appearance-settings__row">
                         <span class="omni-appearance-settings__label" id="@RowId("theme")"><OmniIcon Name="OmniIconName.Layers" /> @Localize("SettingsTheme")</span>
-                        @* Beside the name of the row: a theme and a palette drawn at random. *@
-                        <OmniButton Variant="OmniButtonVariant.Secondary" Class="omni-appearance-settings__random" title="@Localize("SettingsRandomTitle")" OnClick="RandomLookAsync"><OmniIcon Name="OmniIconName.Dice" /><span>@Localize("SettingsRandom")</span></OmniButton>
                         <div class="omni-appearance-settings__actions" role="group" aria-labelledby="@RowId("theme")">
                             <OmniDropDown TValue="string" Options="@ThemeOptions" @bind-Value:get="ThemeName" @bind-Value:set="SetThemeAsync" Label="@Localize("SettingsTheme")" />
                             <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(Preset is null)" OnClick="ResetThemeAsync"><OmniIcon Name="OmniIconName.Reset" /><span>@Localize("SettingsDefault")</span></OmniButton>
                         </div>
+                        @if (ShowsBackdropMotion)
+                        {
+                            @MotionSwitch
+                        }
                     </div>
                 }
                 @if (PaletteChanged.HasDelegate)
@@ -33,6 +37,11 @@
                             <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(Palette is null)" OnClick="ResetPaletteAsync"><OmniIcon Name="OmniIconName.Reset" /><span>@Localize("SettingsDefault")</span></OmniButton>
                         </div>
                     </div>
+                }
+                @if (ShowsBackdropMotion && !PresetChanged.HasDelegate)
+                {
+                    @* No theme row to sit under: the motion keeps a row of its own. *@
+                    <div class="omni-appearance-settings__row">@MotionSwitch</div>
                 }
                 @if (TextSizeLevelChanged.HasDelegate)
                 {
@@ -62,17 +71,26 @@
                         </div>
                     </div>
                 }
-                @if (ShowsBackdropMotion)
-                {
-                    <div class="omni-appearance-settings__row">
-                        <span class="omni-appearance-settings__label" id="@RowId("motion")"><OmniIcon Name="OmniIconName.Sparkle" /> @Localize("SettingsBackdropMotion")</span>
-                        <div class="omni-appearance-settings__actions">
-                            <OmniSwitch TValue="bool" aria-labelledby="@RowId("motion")"
-                                        @bind-Value:get="BackdropMotion" @bind-Value:set="SetBackdropMotionAsync" />
-                        </div>
-                    </div>
-                }
             </div>
         }
     </ChildContent>
+    <Footer>
+        @if (ShowsRows)
+        {
+            <div class="omni-appearance-window__footer">
+                <div class="omni-appearance-window__tools">
+                    @if (PresetChanged.HasDelegate)
+                    {
+                        <OmniButton Variant="OmniButtonVariant.Secondary" Class="omni-appearance-settings__random" title="@Localize("SettingsRandomTitle")" OnClick="RandomLookAsync"><OmniIcon Name="OmniIconName.Dice" /><span>@Localize("SettingsRandom")</span></OmniButton>
+                    }
+                    <OmniButton Variant="OmniButtonVariant.Secondary" Class="omni-appearance-window__reset" Disabled="@IsDefaultLook" OnClick="ResetAllAsync"><OmniIcon Name="OmniIconName.Reset" /><span>@Localize("SettingsResetAll")</span></OmniButton>
+                </div>
+                <div class="omni-appearance-window__decision">
+                    <OmniButton Variant="OmniButtonVariant.Danger" Class="omni-appearance-window__cancel" OnClick="CancelAsync"><OmniIcon Name="OmniIconName.Close" /><span>@Localize("Cancel")</span></OmniButton>
+                    <OmniButton Variant="OmniButtonVariant.Primary" Class="omni-appearance-window__apply" OnClick="ApplyAsync"><OmniIcon Name="OmniIconName.Check" /><span>@Localize("SettingsApply")</span></OmniButton>
+                </div>
+            </div>
+        }
+    </Footer>
 </OmniDialog>
+
