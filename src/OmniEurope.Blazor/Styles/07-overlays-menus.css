@@ -40,15 +40,16 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-dialog .omni-dialog__close::before { content: ""; inset: min(0px, calc((var(--omni-control-height) - 2.75rem) / 2)); position: absolute; }
 .omni-dialog .omni-dialog__close:hover { background: color-mix(in srgb, var(--omni-color-text) 10%, transparent); color: var(--omni-color-text); }
 .omni-dialog .omni-dialog__close:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
-/* An intention tints both bands alike and leads the title with a round mark carrying its icon; the
-   body stays on the surface of the dialog. Only the palette's own tokens, so every theme follows. */
+/* An intention leads the title with a round mark carrying its icon, on the tint of the intention:
+   the bands stay on the surface of the dialog, which reads neutral whatever its gravity (recette
+   R2-029, the tinted bands read as an odd brown under a warning). Only the palette's own tokens, so
+   every theme follows. */
 .omni-dialog--intent-accent { --omni-dialog-band: var(--omni-color-accent-subtle); --omni-dialog-intent-ink: var(--omni-color-accent-strong); }
 .omni-dialog--intent-info { --omni-dialog-band: var(--omni-color-info-subtle); --omni-dialog-intent-ink: var(--omni-color-info); }
 .omni-dialog--intent-success { --omni-dialog-band: var(--omni-color-success-subtle); --omni-dialog-intent-ink: var(--omni-color-success); }
 .omni-dialog--intent-warning { --omni-dialog-band: var(--omni-color-warning-subtle); --omni-dialog-intent-ink: var(--omni-color-warning); }
 .omni-dialog--intent-danger { --omni-dialog-band: var(--omni-color-danger-subtle); --omni-dialog-intent-ink: var(--omni-color-danger); }
-:is(.omni-dialog--intent-accent, .omni-dialog--intent-info, .omni-dialog--intent-success, .omni-dialog--intent-warning, .omni-dialog--intent-danger) > :is(.omni-dialog__header, .omni-dialog__footer) { background: var(--omni-dialog-band); }
-.omni-dialog__intent { align-items: center; background: color-mix(in srgb, var(--omni-color-text) 12%, transparent); block-size: var(--omni-control-height); border-radius: var(--omni-radius-circle); color: var(--omni-dialog-intent-ink, var(--omni-color-accent-strong)); display: inline-flex; flex: none; inline-size: var(--omni-control-height); justify-content: center; }
+.omni-dialog__intent { align-items: center; background: var(--omni-dialog-band, color-mix(in srgb, var(--omni-color-text) 12%, transparent)); block-size: var(--omni-control-height); border-radius: var(--omni-radius-circle); color: var(--omni-dialog-intent-ink, var(--omni-color-accent-strong)); display: inline-flex; flex: none; inline-size: var(--omni-control-height); justify-content: center; }
 .omni-dialog__intent .omni-icon,
 .omni-dialog__glyph { block-size: 1.125rem; inline-size: 1.125rem; }
 @media (prefers-reduced-motion: reduce) { .omni-dialog .omni-dialog__close { transition: none; } }

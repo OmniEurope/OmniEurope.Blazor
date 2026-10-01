@@ -87,10 +87,10 @@ public partial class OmniDialog
     /// <summary>
     /// What the dialog is for: <see cref="OmniTone.Accent"/> for a form, <see cref="OmniTone.Warning"/>
     /// for a question that is hard to undo, <see cref="OmniTone.Danger"/> for what is lost for good.
-    /// The header and the footer take its tint and the title is led by a round mark carrying the glyph
-    /// of the severity of the same name (the information glyph for Accent), the glyph of
-    /// <see cref="OmniAlert"/> and <see cref="OmniNotification"/>. <see cref="OmniTone.Neutral"/>,
-    /// the default, draws no tint and no mark.
+    /// The title is led by a round mark, on the tint of the intention, carrying the glyph of the
+    /// severity of the same name (the information glyph for Accent), the glyph of
+    /// <see cref="OmniAlert"/> and <see cref="OmniNotification"/>; the header and the footer stay
+    /// neutral. <see cref="OmniTone.Neutral"/>, the default, draws no mark.
     /// </summary>
     [Parameter]
     public OmniTone Intent { get; set; } = OmniTone.Neutral;
