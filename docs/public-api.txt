@@ -1471,6 +1471,7 @@ method public OmniEurope.Blazor.Components.OmniSeriesDataLabels.Dispose() : Syst
 method public OmniEurope.Blazor.Components.OmniSidebar.CloseFromEscapeAsync() : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniSidebar.Dispose() : System.Void
 method public OmniEurope.Blazor.Components.OmniSidebar.DisposeAsync() : System.Threading.Tasks.ValueTask
+method public OmniEurope.Blazor.Components.OmniSidebar.SetNarrowAsync(System.Boolean narrow) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniSidebarState.<Clone>$() : OmniEurope.Blazor.Components.OmniSidebarState
 method public OmniEurope.Blazor.Components.OmniSidebarState.Deconstruct(out System.Boolean Open, out OmniEurope.Blazor.Components.OmniSidebarCollapse Collapse) : System.Void
 method public OmniEurope.Blazor.Components.OmniSidebarState.Equals(OmniEurope.Blazor.Components.OmniSidebarState? other) : System.Boolean

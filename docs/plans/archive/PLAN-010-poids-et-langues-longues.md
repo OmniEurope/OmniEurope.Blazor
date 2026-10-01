@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # PLAN-010 : Poids de l'assembly et langues longues
 
-> Statut : **ouvert**. Établi le 2026-09-30, après la publication de la 1.3.0 ; décisions du propriétaire du même jour (recommandations 1 et 2 sur l'assembly, les trois volets des langues longues, la page d'export). Lots 1, 2, 3, 4 et 6 faits ; reste la décision du propriétaire sur le lot 5.
+> Statut : **terminé** le 2026-10-01. Établi le 2026-09-30, après la publication de la 1.3.0 ; décisions du propriétaire du même jour (recommandations 1 et 2 sur l'assembly, les trois volets des langues longues, la page d'export). Lots 1, 2, 3, 4 et 6 faits ; lot 5 abandonné par le propriétaire le 2026-10-01.
 
 ## Objectif
 
@@ -115,8 +115,8 @@ sont pour la plupart des traductions justes et plus longues par nature (« Casse
 déborder. Un test sur le seul rapport de longueurs demanderait 245 exceptions ou 245 raccourcis faits
 sans locuteur natif.
 
-- [ ] Décision du propriétaire : abandonner ce lot au profit de la sonde `Languages`, qui mesure le
-  rendu, ou le restreindre à une liste de clés affichées dans une place fixe.
+- [x] Décision du propriétaire (2026-10-01) : lot abandonné au profit de la sonde `Languages`, qui
+  mesure le rendu (320 pages en quatre langues, à 1280 et 390 px).
 
 ### Lot 6 : page d'export
 

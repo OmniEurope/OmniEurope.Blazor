@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # PLAN-009 : Thèmes excellents et reliquats
 
-> Statut : **ouvert**. Établi le 2026-09-30 ; lots 1 à 13 faits (le 11 dans le kit, non commité). Restent les décisions en attente du propriétaire.
+> Statut : **ouvert**. Établi le 2026-09-30 ; lots 1 à 13 faits (le 11 dans le kit, non commité). Reste une décision du propriétaire (Trou noir, reportée).
 
 ## Objectif
 
@@ -149,12 +149,16 @@ Controle : décompte inchangé et déjà consigné dans `docs/performance-budget
 - Pluriels après un nombre : le standard, soit les règles de pluriel par langue (lot 12).
 - Sous-modules JS à regrouper au build : laissé au jugement de l'exécutant (lot 13).
 
+## Décisions prises le 2026-10-01
+
+- Ce même nom dans cinq messages de commit déjà poussés : historique non réécrit (2026-10-01, recommandation de l'exécutant suivie). La réécriture changerait les 284 commits suivants sur `develop` et `main`, déplacerait les étiquettes 1.0.1 à 1.3.0, couperait le lien vers le code source des paquets publiés et laisserait les anciens commits consultables sur GitHub jusqu'à leur purge. À rouvrir seulement si le nom devient sensible.
+- Version qui portera le travail non publié : `1.4.0` (2026-10-01) ; elle ajoute de l'API et change des comportements, une `1.3.1` serait trompeuse.
+- Grille `Load` : décision du 2026-10-01, le premier rendu interactif est gardé (recommandation de l'exécutant suivie). Le rendu interactif part d'un composant neuf et recharge de toute façon : charger au prérendu ferait deux requêtes par affichage, sauf état persisté que l'hôte devrait fournir. L'état enregistré (`StateKey`) n'est pas lisible au prérendu : la première requête ignorerait les filtres et tris gardés, et les lignes changeraient au passage à l'interactif. Enfin le prérendu attendrait les données avant d'envoyer la page, là où la grille montre aujourd'hui son état de chargement tout de suite. Un chargement au prérendu ne vaudrait que comme option à demander, pour un hôte qui veut des lignes dans le HTML servi.
+
 ## Décisions en attente du propriétaire
 
 Rien ici n'est exécuté sans réponse.
 
-- Ce même nom dans cinq messages de commit déjà poussés : réécrire ou non l'historique.
-- Grille `Load` : charger dès le prérendu avec les défauts des colonnes, ou garder le premier rendu interactif. Avis de l'exécutant : garder le premier rendu interactif. Le rendu interactif part d'un composant neuf et recharge de toute façon : charger au prérendu ferait deux requêtes par affichage, sauf état persisté que l'hôte devrait fournir. L'état enregistré (`StateKey`) n'est pas lisible au prérendu : la première requête ignorerait les filtres et tris gardés, et les lignes changeraient au passage à l'interactif. Enfin le prérendu attendrait les données avant d'envoyer la page, là où la grille montre aujourd'hui son état de chargement tout de suite. Un chargement au prérendu ne vaudrait que comme option à demander, pour un hôte qui veut des lignes dans le HTML servi.
 - Trou noir : redessiné depuis (toujours sombre, shader WebGL). Le propriétaire le juge moyen et y reviendra plus tard (2026-10-01).
 
 ## Ordre et dépendances
