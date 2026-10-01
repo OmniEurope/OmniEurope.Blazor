@@ -218,6 +218,13 @@ public sealed partial class ThemeContrastMatrixTests
     {
         var theme = OmniThemePresets.All.Single(entry => entry.Name == themeName);
         var palette = OmniThemePalettes.All.Single(entry => entry.Name == paletteName);
+        if (theme.DarkOnly && mode == OmniAppearance.Light)
+        {
+            // A theme drawn in dark mode only never paints its field on a light page: the scope draws its
+            // dark half whatever the mode (OmniThemeScope.EffectiveAppearance, tested on its own).
+            return;
+        }
+
         var tokens = theme.With(palette).For(mode);
         var declared = tokens.Keys
             .Where(key => key.StartsWith("--omni-backdrop-", StringComparison.Ordinal))

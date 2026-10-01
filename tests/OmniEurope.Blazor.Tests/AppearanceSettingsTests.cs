@@ -227,7 +227,9 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         // the markup is the order on screen, so the keyboard follows what the eye reads.
         var names = window.FindAll(".omni-appearance-settings--window > .omni-appearance-settings__row > .omni-appearance-settings__label")
             .Select(label => label.TextContent.Trim());
-        Assert.Equal(["Thème", "Palette", "Taille du texte", "Taille des contrôles", "Densité", "Police", "Fond animé"], names);
+        Assert.Equal(["Thème", "Palette", "Taille du texte", "Taille des contrôles", "Densité", "Police"], names);
+        // The motion of a moving theme sits under the theme it belongs to, not in a row of its own.
+        Assert.Equal("Fond animé", window.Find(".omni-appearance-settings__row:first-child .omni-appearance-settings__motion").TextContent.Trim());
 
         // Two columns of at least 19rem in a window of 46rem: two fit, a third never does, and one
         // remains when the screen narrows the window.
@@ -320,5 +322,87 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         Assert.Equal("reglages", root.GetAttribute("id"));
         Assert.Equal("entete", root.GetAttribute("data-zone"));
         Assert.Equal("Apparence", root.GetAttribute("aria-label"));
+    }
+
+    /// <summary>A host that applies every change it receives, as a real one does, and records the closes.</summary>
+    private sealed class LookHost
+    {
+        public OmniThemePreset? Preset;
+        public int TextSize = 8;
+        public OmniDensity Density = OmniDensity.Spacious;
+        public readonly List<bool> Closes = [];
+        public int Changes;
+    }
+
+    private IRenderedComponent<OmniAppearanceWindow> RenderLookWindow(LookHost host)
+    {
+        IRenderedComponent<OmniAppearanceWindow>? window = null;
+        void Bind(ComponentParameterCollectionBuilder<OmniAppearanceWindow> parameters) => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.Preset, host.Preset)
+            .Add(component => component.TextSizeLevel, host.TextSize)
+            .Add(component => component.Density, host.Density)
+            .Add(component => component.PresetChanged, value => { host.Changes++; host.Preset = value; })
+            .Add(component => component.TextSizeLevelChanged, value => { host.Changes++; host.TextSize = value; })
+            .Add(component => component.DensityChanged, value => { host.Changes++; host.Density = value; })
+            .Add(component => component.OpenChanged, value => host.Closes.Add(value));
+        window = Render<OmniAppearanceWindow>(Bind);
+        return window;
+    }
+
+    private static void Reapply(IRenderedComponent<OmniAppearanceWindow> window, LookHost host) => window.Render(parameters => parameters
+        .Add(component => component.Preset, host.Preset)
+        .Add(component => component.TextSizeLevel, host.TextSize)
+        .Add(component => component.Density, host.Density));
+
+    [Fact]
+    public void Reset_all_puts_every_bound_setting_back_to_its_default_and_keeps_the_window_open()
+    {
+        var host = new LookHost { Preset = OmniThemePresets.All[3] };
+        var window = RenderLookWindow(host);
+
+        window.Find(".omni-appearance-window__reset").Click();
+
+        Assert.Equal((null, 5, OmniDensity.Comfortable), (host.Preset, host.TextSize, host.Density));
+        Assert.Empty(host.Closes);
+        Reapply(window, host);
+        Assert.True(window.Find(".omni-appearance-window__reset").HasAttribute("disabled"));
+    }
+
+    [Theory]
+    [InlineData(".omni-appearance-window__cancel")]
+    [InlineData(".omni-dialog__close")]
+    public void Cancel_and_the_close_button_put_back_the_look_the_window_opened_on(string closer)
+    {
+        var opened = OmniThemePresets.All[2];
+        var host = new LookHost { Preset = opened };
+        var window = RenderLookWindow(host);
+        window.Find(".omni-appearance-window__reset").Click();
+        Reapply(window, host);
+
+        window.Find(closer).Click();
+
+        Assert.Equal((opened, 8, OmniDensity.Spacious), (host.Preset, host.TextSize, host.Density));
+        Assert.Equal([false], host.Closes);
+    }
+
+    [Fact]
+    public void Apply_keeps_the_look_tried_and_only_closes()
+    {
+        var host = new LookHost();
+        var window = RenderLookWindow(host);
+        window.Find(".omni-appearance-window__reset").Click();
+        Reapply(window, host);
+        var changes = host.Changes;
+
+        var apply = window.Find(".omni-appearance-window__apply");
+        Assert.Equal("Valider", apply.TextContent.Trim());
+        Assert.Contains("omni-button--primary", apply.ClassList);
+        Assert.Contains("omni-button--danger", window.Find(".omni-appearance-window__cancel").ClassList);
+        apply.Click();
+
+        Assert.Equal(changes, host.Changes);
+        Assert.Equal((5, OmniDensity.Comfortable), (host.TextSize, host.Density));
+        Assert.Equal([false], host.Closes);
     }
 }

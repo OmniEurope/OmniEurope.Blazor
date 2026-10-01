@@ -21,7 +21,10 @@ public partial class OmniAppearanceWindow
     [Parameter]
     public bool Open { get; set; }
 
-    /// <summary>Raised when the window closes (its close button, Escape).</summary>
+    /// <summary>
+    /// Raised when the window closes: Apply keeps the look tried; Cancel, the close button and Escape
+    /// first raise the changes that put back the look the window opened on.
+    /// </summary>
     [Parameter]
     public EventCallback<bool> OpenChanged { get; set; }
 
@@ -97,7 +100,102 @@ public partial class OmniAppearanceWindow
     [Parameter]
     public EventCallback<int> ControlSizeLevelChanged { get; set; }
 
+    /// <summary>The look the window opened on, put back by Cancel, the close button and Escape.</summary>
+    private Look? _openedOn;
+
+    private bool _wasOpen;
+
+    /// <summary>
+    /// The look as the host passed it: what <see cref="ResetAllAsync"/> compares with the defaults and
+    /// what the window keeps when it opens.
+    /// </summary>
+    private Look Current => new(Preset, Palette, Font, BackdropMotion, TextSizeLevel, Density, ControlSizeLevel);
+
+    private bool IsDefaultLook => Current == Look.Default;
+
     private string EffectiveTitle => LocalizeOr(Title, "AppearanceWindowTitle");
+
+    /// <summary>Keeps the look in force each time the window opens, for Cancel to put it back.</summary>
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        if (Open && !_wasOpen)
+        {
+            _openedOn = Current;
+        }
+
+        _wasOpen = Open;
+    }
+
+    /// <summary>The close button and Escape cancel, as the Cancel button does: only Apply keeps the look tried.</summary>
+    private Task OnDialogOpenChangedAsync(bool open) => open ? OpenChanged.InvokeAsync(true) : CancelAsync();
+
+    /// <summary>Puts back the look the window opened on, then closes it.</summary>
+    private async Task CancelAsync()
+    {
+        if (_openedOn is { } openedOn)
+        {
+            await ApplyLookAsync(openedOn);
+        }
+
+        await CloseAsync();
+    }
+
+    /// <summary>Keeps the look in force and closes the window.</summary>
+    private Task ApplyAsync() => CloseAsync();
+
+    private async Task CloseAsync()
+    {
+        _openedOn = null;
+        await OpenChanged.InvokeAsync(false);
+    }
+
+    /// <summary>Every bound setting back to its default; the window stays open, Cancel can still undo it.</summary>
+    private Task ResetAllAsync() => ApplyLookAsync(Look.Default);
+
+    /// <summary>
+    /// Raises the change of every bound setting that differs from <paramref name="look"/>. The palette and
+    /// the font follow a new theme even when they look unchanged, since the host drops them with it.
+    /// </summary>
+    private async Task ApplyLookAsync(Look look)
+    {
+        var current = Current;
+        var themeChanged = PresetChanged.HasDelegate && !Equals(current.Preset, look.Preset);
+        if (themeChanged)
+        {
+            await PresetChanged.InvokeAsync(look.Preset);
+        }
+
+        if (PaletteChanged.HasDelegate && (themeChanged || !Equals(current.Palette, look.Palette)))
+        {
+            await PaletteChanged.InvokeAsync(look.Palette);
+        }
+
+        if (FontChanged.HasDelegate && (themeChanged || !Equals(current.Font, look.Font)))
+        {
+            await FontChanged.InvokeAsync(look.Font);
+        }
+
+        if (BackdropMotionChanged.HasDelegate && current.BackdropMotion != look.BackdropMotion)
+        {
+            await BackdropMotionChanged.InvokeAsync(look.BackdropMotion);
+        }
+
+        if (TextSizeLevelChanged.HasDelegate && current.TextSizeLevel != look.TextSizeLevel)
+        {
+            await TextSizeLevelChanged.InvokeAsync(look.TextSizeLevel);
+        }
+
+        if (DensityChanged.HasDelegate && current.Density != look.Density)
+        {
+            await DensityChanged.InvokeAsync(look.Density);
+        }
+
+        if (ControlSizeLevelChanged.HasDelegate && current.ControlSizeLevel != look.ControlSizeLevel)
+        {
+            await ControlSizeLevelChanged.InvokeAsync(look.ControlSizeLevel);
+        }
+    }
 
     private bool ShowsBackdropMotion => BackdropMotionChanged.HasDelegate && AppearanceChoices.MovesBackdrop(Preset);
 
@@ -279,12 +377,51 @@ public partial class OmniAppearanceWindow
         builder.CloseElement();
     };
 
+    /// <summary>
+    /// The motion of a theme that moves its field: a switch named by its text. It sits under the theme
+    /// row, or in a row of its own when the host binds no theme.
+    /// </summary>
+    private RenderFragment MotionSwitch => builder =>
+    {
+        var labelId = RowId("motion");
+        builder.OpenElement(0, "div");
+        builder.AddAttribute(1, "class", "omni-appearance-settings__motion");
+        builder.OpenComponent<OmniSwitch<bool>>(2);
+        builder.AddComponentParameter(3, nameof(OmniSwitch<bool>.Value), BackdropMotion);
+        builder.AddComponentParameter(4, nameof(OmniSwitch<bool>.ValueChanged), EventCallback.Factory.Create<bool>(this, SetBackdropMotionAsync));
+        builder.AddComponentParameter(5, nameof(OmniSwitch<bool>.ValueExpression), (Expression<Func<bool>>)(() => BackdropMotion));
+        builder.AddComponentParameter(6, "aria-labelledby", labelId);
+        builder.CloseComponent();
+        builder.OpenElement(7, "span");
+        builder.AddAttribute(8, "id", labelId);
+        builder.OpenComponent<OmniIcon>(9);
+        builder.AddComponentParameter(10, nameof(OmniIcon.Name), OmniIconName.Sparkle);
+        builder.CloseComponent();
+        builder.AddContent(11, " " + Localize("SettingsBackdropMotion"));
+        builder.CloseElement();
+        builder.CloseElement();
+    };
+
     private static RenderFragment Icon(OmniIconName icon) => builder =>
     {
         builder.OpenComponent<OmniIcon>(0);
         builder.AddComponentParameter(1, nameof(OmniIcon.Name), icon);
         builder.CloseComponent();
     };
+
+    /// <summary>Every setting of the window at once, as the host holds them.</summary>
+    private sealed record Look(
+        OmniThemePreset? Preset,
+        OmniThemePalette? Palette,
+        OmniThemeFont? Font,
+        bool BackdropMotion,
+        int TextSizeLevel,
+        OmniDensity Density,
+        int ControlSizeLevel)
+    {
+        /// <summary>The look of a host that never chose anything: the parameters' own defaults.</summary>
+        public static Look Default { get; } = new(null, null, null, true, 5, OmniDensity.Comfortable, 5);
+    }
 
     /// <summary>What differs between the scale rows: ids, icon, texts, level, change and the slider's binding.</summary>
     private sealed record ScaleSetting(

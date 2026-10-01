@@ -21,6 +21,12 @@
     {
         <OmniIcon Name="@openIcon" />
     }
+    else if (Reveal is { } reveal)
+    {
+        @* The sidebar's own mode decides: a pushed menu sits beside the content and keeps the menu glyph,
+           an overlaid one covers the page and shows how to dismiss it. *@
+        <OmniIcon Name="@(reveal == OmniSidebarReveal.Overlay ? OmniIconName.Close : OmniIconName.Menu)" />
+    }
     else
     {
         @* Both glyphs, one shown per width: the menu while the sidebar sits beside the content, the cross

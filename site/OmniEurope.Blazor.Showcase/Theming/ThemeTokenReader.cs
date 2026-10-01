@@ -120,7 +120,7 @@ public sealed partial class ThemeTokenReader(HttpClient http)
         _ when name.StartsWith("--omni-shadow", StringComparison.Ordinal) || name.EndsWith("-shadow", StringComparison.Ordinal) => ThemeTokenGroup.Elevation,
         _ when name.StartsWith("--omni-layer-", StringComparison.Ordinal) || name.StartsWith("--omni-elevation-", StringComparison.Ordinal) || name.StartsWith("--omni-overlay-", StringComparison.Ordinal) => ThemeTokenGroup.Elevation,
         "--omni-focus-ring" or "--omni-focus-ring-danger" or "--omni-focus-ring-inset" or "--omni-color-overlay" or "--omni-scrim-filter" or "--omni-card-filter" => ThemeTokenGroup.Elevation,
-        _ when name.StartsWith("--omni-backdrop", StringComparison.Ordinal) => ThemeTokenGroup.Elevation,
+        _ when name.StartsWith("--omni-backdrop", StringComparison.Ordinal) || name.StartsWith("--omni-scope-layer", StringComparison.Ordinal) => ThemeTokenGroup.Elevation,
         // The stacking layers: how high a surface stands above the page.
         _ when name.StartsWith("--omni-z-", StringComparison.Ordinal) => ThemeTokenGroup.Elevation,
         // How long a part takes to move, beside the movement of a pressed button.

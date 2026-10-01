@@ -20,10 +20,12 @@ namespace OmniEurope.Blazor.Internal;
 /// contrast checks keep measuring it and report its shortfalls as accepted instead of failing, except
 /// the focus ring, which stays mandatory everywhere.
 /// </param>
+/// <param name="DarkOnly">True for a theme drawn in dark mode only, whatever mode the host asks.</param>
 internal sealed record ThemeDefinition(
     string Name,
     string Description,
     string DefaultPalette,
     IReadOnlyDictionary<string, string> Shape,
     IReadOnlyDictionary<string, string> DarkShape,
-    string? ContrastWaiver = null);
+    string? ContrastWaiver = null,
+    bool DarkOnly = false);

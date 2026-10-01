@@ -7,9 +7,18 @@
     /* A theme that frosts its cards (--omni-card-filter, Givre) makes the scope a stacking context
        (isolate), so the frost of a card paints just above the colour field. The consequence is
        deliberate: under such a theme a scope nested in a page keeps every layer it holds (popovers,
-       dialogs, notifications) inside it, below a positioned element of the page drawn over the scope. */
+       dialogs, notifications) inside it, below a positioned element of the page drawn over the scope.
+       A theme with a tilted layer over its field (--omni-scope-layer, Trou noir) isolates the scope the
+       same way, so the layer sits between the field and the content. */
     --omni-scope-isolation: auto;
     --omni-scope-motion: none;
+    /* The tilted layer over the field (Trou noir's accretion disc). */
+    --omni-scope-layer: none;
+    --omni-scope-layer-mask: none;
+    --omni-scope-layer-x: 50%;
+    --omni-scope-layer-y: 50%;
+    --omni-scope-layer-size: 100vmax;
+    --omni-scope-layer-tilt: 0deg;
     --omni-shell-background: initial;
     --omni-card-filter: none;
     --omni-input-shadow: 0 0 #0000;

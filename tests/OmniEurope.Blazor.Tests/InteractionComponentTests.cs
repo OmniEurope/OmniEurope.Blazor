@@ -82,6 +82,31 @@ public sealed class InteractionComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public void SidebarToggle_FollowsTheRevealOfItsSidebarWhenTheHostGivesIt()
+    {
+        string PathOf(OmniIconName name) => Render<OmniIcon>(parameters => parameters.Add(icon => icon.Name, name)).Find("path").GetAttribute("d")!;
+        IRenderedComponent<OmniSidebarToggle> Toggle(bool open, OmniSidebarReveal reveal, OmniIconName? openIcon = null)
+            => Render<OmniSidebarToggle>(parameters => parameters
+                .Add(component => component.Controls, "sidebar")
+                .Add(component => component.Open, open)
+                .Add(component => component.Reveal, reveal)
+                .Add(component => component.OpenIcon, openIcon));
+
+        var pushed = Toggle(open: true, OmniSidebarReveal.Push);
+        var overlaid = Toggle(open: true, OmniSidebarReveal.Overlay);
+        var closedOverlay = Toggle(open: false, OmniSidebarReveal.Overlay);
+        var forced = Toggle(open: true, OmniSidebarReveal.Overlay, OmniIconName.Menu);
+
+        // One glyph whatever the width: the mode, not the viewport, says whether the menu covers the page.
+        Assert.Single(pushed.FindAll("path"));
+        Assert.Equal(PathOf(OmniIconName.Menu), pushed.Find("path").GetAttribute("d"));
+        Assert.Single(overlaid.FindAll("path"));
+        Assert.Equal(PathOf(OmniIconName.Close), overlaid.Find("path").GetAttribute("d"));
+        Assert.Equal(PathOf(OmniIconName.Menu), closedOverlay.Find("path").GetAttribute("d"));
+        Assert.Equal(PathOf(OmniIconName.Menu), forced.Find("path").GetAttribute("d"));
+    }
+
+    [Fact]
     public void ControlledToggles_ReportTheirNextState()
     {
         var sidebarState = false;

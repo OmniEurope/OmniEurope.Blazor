@@ -40,6 +40,39 @@ public sealed class ThemeFieldMotionTests : OmniBunitContext
         Assert.Equal("none", ShippedLookTests.Value(ShippedLookTests.Body("[data-omni-theme]"), MotionToken));
         Assert.Equal("none", ShippedLookTests.Value(ShippedLookTests.Body(".omni-theme-scope[data-omni-backdrop-motion=\"off\"]"), "animation"));
         Assert.Matches(@"@media \(prefers-reduced-motion: reduce\) \{ \.omni-theme-scope \{ animation: none; \} \}", Css);
+
+        // The tilted layer over the field (Trou noir's disc) turns with the same motion and holds still
+        // with it: the angle does not reach a pseudo-element, so the layer runs its own animation.
+        var layer = ShippedLookTests.Body(".omni-theme-scope::before");
+        Assert.Equal("var(--omni-scope-motion, none)", ShippedLookTests.Value(layer, "animation"));
+        Assert.Equal("none", ShippedLookTests.Value(layer, "pointer-events"));
+        Assert.Equal("none", ShippedLookTests.Value(ShippedLookTests.Body(".omni-theme-scope[data-omni-backdrop-motion=\"off\"]::before"), "animation"));
+        Assert.Matches(@"@media \(prefers-reduced-motion: reduce\) \{ \.omni-theme-scope::before \{ animation: none; \} \}", Css);
+    }
+
+    [Fact]
+    public void A_dark_only_theme_draws_its_dark_half_whatever_the_mode_and_fixes_the_mode_setting()
+    {
+        var trouNoir = OmniThemePresets.All.Single(theme => theme.Name == "Trou noir");
+        Assert.True(trouNoir.DarkOnly);
+        // Owner decision of 2026-10-01: Trou noir is the only theme without a light half.
+        Assert.Equal(["Trou noir"], OmniThemePresets.All.Where(theme => theme.DarkOnly).Select(theme => theme.Name));
+
+        var scope = Render<OmniThemeScope>(parameters => parameters
+            .Add(component => component.Appearance, OmniAppearance.Light)
+            .Add(component => component.Preset, trouNoir)
+            .AddChildContent("<p>page</p>"));
+        Assert.Equal("dark", scope.Find(".omni-theme-scope").GetAttribute("data-omni-theme"));
+
+        var settings = Render<OmniAppearanceSettings>(parameters => parameters
+            .Add(component => component.Appearance, OmniAppearance.Light)
+            .Add(component => component.Preset, trouNoir)
+            .Add(component => component.AppearanceChanged, _ => { }));
+        var mode = settings.Find(".omni-select-bar");
+        Assert.Equal("true", mode.GetAttribute("aria-disabled"));
+        Assert.Equal("Ce thème est toujours sombre", mode.GetAttribute("title"));
+        Assert.Equal("true", settings.Find(".omni-select-bar__item--selected").GetAttribute("aria-checked"));
+        Assert.Contains("Sombre", settings.Find(".omni-select-bar__item--selected").TextContent);
     }
 
     [Fact]
@@ -92,7 +125,9 @@ public sealed class ThemeFieldMotionTests : OmniBunitContext
         var moving = new List<string>();
         foreach (var preset in OmniThemePresets.All)
         {
-            var reads = preset.Shape.TryGetValue("--omni-backdrop", out var field) && field.Contains(Turn, StringComparison.Ordinal);
+            // The angle turns the field itself (Givre) or the layer laid over it (Trou noir's disc).
+            var reads = new[] { "--omni-backdrop", "--omni-scope-layer", "--omni-scope-layer-mask" }
+                .Any(token => preset.Shape.TryGetValue(token, out var drawn) && drawn.Contains(Turn, StringComparison.Ordinal));
             var moves = preset.Shape.TryGetValue(MotionToken, out var motion);
             Assert.True(reads == moves, $"{preset.Name}: the field reads the angle = {reads}, the theme sets the motion = {moves}.");
             Assert.False(preset.DarkShape.ContainsKey(MotionToken), $"{preset.Name}: the motion is one for both modes.");

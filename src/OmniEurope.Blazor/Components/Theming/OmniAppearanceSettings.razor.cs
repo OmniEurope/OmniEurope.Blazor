@@ -12,6 +12,11 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public partial class OmniAppearanceSettings
 {
+    /// <summary>True under a theme drawn in dark mode only: the mode is shown as dark and cannot change.</summary>
+    private bool DarkOnly => Preset?.DarkOnly == true;
+
+    private OmniAppearance ShownAppearance => DarkOnly ? OmniAppearance.Dark : Appearance;
+
     private readonly string _idPrefix = $"omni-appearance-settings-{Guid.NewGuid():N}";
     private bool _windowOpen;
     private bool? _windowOpenParameter;

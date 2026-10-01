@@ -392,27 +392,33 @@ internal static class ThemeCatalog
                 ("--omni-font-family", Humanist)),
             Shape()),
 
-        // A black hole: the page is the palette's surface and nothing else (pure black with Horizon in
-        // dark mode, pure white in light mode), the cards are a faint veil of the text colour closed by
-        // a hairline, so the field shows through them, and the only light is the accent: the glow of
-        // the buttons in dark mode and the ring of the horizon behind the page, which turns once in
-        // four minutes. Every stop of the field stays close to the page, so the theme holds the
-        // contrast thresholds with every palette; the dense surfaces (grids, dialogs) are opaque.
-        new("Trou noir", "Noir absolu, cartes à peine voilées, filet fin et anneau d’accent qui tourne lentement derrière la page.", "Horizon",
+        // A black hole, always dark (owner decision of 2026-10-01: no light half): the page is the
+        // palette's surface (pure black with Horizon), the cards are a faint veil of the text colour
+        // closed by a hairline, so the field shows through them. High on the right, the horizon is a disc
+        // of the page colour ringed by a thin white photon ring; across it lies a white accretion disc,
+        // tilted down to the left, whose brighter arcs turn once in two minutes. Every white stays sober,
+        // a tenth of the text colour at most, so the theme holds the contrast thresholds with every palette; the
+        // dense surfaces (grids, dialogs) are opaque.
+        new("Trou noir", "Toujours sombre : noir absolu, cartes à peine voilées, disque d’accrétion blanc incliné qui tourne lentement derrière la page.", "Horizon",
             Shape(
                 // Press: the light falls in, the button shrinks and darkens from its edge.
                 ("--omni-button-press-transform", "scale(0.96)"), ("--omni-button-press-shadow", "inset 0 0 0.75rem rgb(0 0 0 / 55%)"),
                 ("--omni-radius", "0.5rem"), ("--omni-radius-sm", "0.375rem"), ("--omni-radius-lg", "0.875rem"),
                 ("--omni-button-radius", "0.5rem"), ("--omni-card-radius", "0.875rem"), ("--omni-alert-radius", "0.625rem"),
-                // The stops are as far from the page as text, the rule and the neutral badge still read on
-                // them with every palette: 7 % of the accent on a light page, 20 % on a dark one (below).
-                ("--omni-backdrop-ring", "color-mix(in srgb, var(--omni-color-accent) 7%, var(--omni-color-surface))"),
-                ("--omni-backdrop-disc", "color-mix(in srgb, var(--omni-color-accent) 5%, var(--omni-color-surface))"),
-                ("--omni-backdrop-glow", "color-mix(in srgb, var(--omni-color-accent) 3%, var(--omni-color-surface))"),
+                // White on the black page, as the text colour is (a theme writes no colour of its own), and
+                // sober: the stops stay as far from the page as text, the rule and the neutral badge still
+                // read on them with every palette.
+                ("--omni-backdrop-disk", "color-mix(in srgb, var(--omni-color-text) 9%, var(--omni-color-surface))"),
+                ("--omni-backdrop-halo", "color-mix(in srgb, var(--omni-color-text) 4%, var(--omni-color-surface))"),
                 // A firmer rule than the palette's: it keeps its floor on the stops of the field too.
                 ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 36%, var(--omni-color-surface))"),
                 ("--omni-backdrop", TrouNoirField),
-                ("--omni-scope-motion", "omni-scope-turn 240s linear infinite"),
+                // The accretion disc is a layer of its own, tilted, which a background cannot be.
+                ("--omni-scope-layer", TrouNoirDisk), ("--omni-scope-layer-mask", TrouNoirDiskLight),
+                ("--omni-scope-layer-x", "76%"), ("--omni-scope-layer-y", "26%"),
+                ("--omni-scope-layer-size", "92vmax"), ("--omni-scope-layer-tilt", "-16deg"),
+                ("--omni-scope-isolation", "isolate"),
+                ("--omni-scope-motion", "omni-scope-turn 120s linear infinite"),
                 ("--omni-card-background", "color-mix(in srgb, var(--omni-color-text) 4%, transparent)"),
                 ("--omni-card-border-color", "color-mix(in srgb, var(--omni-color-text) 13%, transparent)"),
                 ("--omni-card-shadow", "0 1px 2px rgb(0 0 0 / 5%)"),
@@ -427,14 +433,12 @@ internal static class ThemeCatalog
                 ("--omni-heading-letter-spacing", "0.01em"),
                 ("--omni-font-family", Geometric)),
             Shape(
-                ("--omni-backdrop-ring", "color-mix(in srgb, var(--omni-color-accent) 20%, var(--omni-color-surface))"),
-                ("--omni-backdrop-disc", "color-mix(in srgb, var(--omni-color-accent) 13%, var(--omni-color-surface))"),
-                ("--omni-backdrop-glow", "color-mix(in srgb, var(--omni-color-accent) 7%, var(--omni-color-surface))"),
                 // On black a dark shadow shows nothing: the card takes a top highlight and the buttons
                 // glow with the accent, as does the floating layer.
                 ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 5%)"),
                 ("--omni-button-shadow", "inset 0 1px 0 rgb(255 255 255 / 12%), 0 0 1.125rem color-mix(in srgb, var(--omni-color-accent) 26%, transparent)"),
-                ("--omni-overlay-shadow", "0 0 0 1px color-mix(in srgb, var(--omni-color-text) 14%, transparent), 0 1.5rem 4rem rgb(0 0 0 / 85%), 0 0 3.5rem color-mix(in srgb, var(--omni-color-accent) 10%, transparent)"))),
+                ("--omni-overlay-shadow", "0 0 0 1px color-mix(in srgb, var(--omni-color-text) 14%, transparent), 0 1.5rem 4rem rgb(0 0 0 / 85%), 0 0 3.5rem color-mix(in srgb, var(--omni-color-accent) 10%, transparent)")),
+            DarkOnly: true),
     ];
 
     /// <summary>
@@ -474,15 +478,28 @@ internal static class ThemeCatalog
 
     /// <summary>
     /// Trou noir's field, centred high on the right of the viewport: the disc of the horizon in the page
-    /// colour, a thin ring around it that fades outward, a veil that returns to the page further out,
-    /// and under them a conic glow whose origin is the scope's turning angle, so the light sweeps slowly
-    /// around the horizon. Every stop stays close to the page, so text reads on all of them.
+    /// colour, its thin photon ring, and a faint halo that returns to the page further out.
     /// </summary>
     private const string TrouNoirField =
-        "radial-gradient(circle at 76% 26%, var(--omni-color-surface) 0 12vmax, transparent 12.15vmax), "
-        + "radial-gradient(circle at 76% 26%, transparent 0 12vmax, var(--omni-backdrop-ring) 12.2vmax, transparent 17vmax), "
-        + "radial-gradient(circle at 76% 26%, transparent 0 15vmax, var(--omni-color-surface) 52vmax), "
-        + $"conic-gradient(from {Turn} at 76% 26%, var(--omni-backdrop-disc), transparent 20%, var(--omni-backdrop-glow) 48%, transparent 70%, var(--omni-backdrop-disc))";
+        "radial-gradient(circle at 76% 26%, var(--omni-color-surface) 0 12vmax, transparent 12.1vmax), "
+        + "radial-gradient(circle at 76% 26%, transparent 0 12.05vmax, var(--omni-backdrop-disk) 12.3vmax, transparent 13.4vmax), "
+        + "radial-gradient(circle at 76% 26%, transparent 0 12vmax, var(--omni-backdrop-halo) 12.6vmax, transparent 26vmax)";
+
+    /// <summary>
+    /// Trou noir's accretion disc, drawn on the scope's layer (centred on the horizon and tilted down to the
+    /// left by the layer tokens): a flat ring of white whose inner edge clears the horizon sideways and
+    /// crosses in front of it, fading outward.
+    /// </summary>
+    private const string TrouNoirDisk =
+        "radial-gradient(ellipse 40vmax 6.5vmax at 50% 50%, transparent 0 31%, var(--omni-backdrop-disk) 34%, "
+        + "color-mix(in srgb, var(--omni-backdrop-disk) 45%, transparent) 58%, transparent 100%)";
+
+    /// <summary>
+    /// The light of the disc: two brighter arcs opposite each other, turning with the scope's angle, so the
+    /// matter seems to circle the horizon.
+    /// </summary>
+    private const string TrouNoirDiskLight =
+        $"conic-gradient(from {Turn}, rgb(0 0 0 / 100%), rgb(0 0 0 / 35%) 25%, rgb(0 0 0 / 100%) 50%, rgb(0 0 0 / 35%) 75%, rgb(0 0 0 / 100%))";
 
     /// <summary>
     /// Relief's dark shadow in light mode: the page darkened, so the shadow keeps the hue of the

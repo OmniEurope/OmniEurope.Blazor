@@ -29,31 +29,13 @@
                     </OmniButton>
                     <span class="demo-appbar__dot" aria-hidden="true"></span>
                 </span>
-                <OmniProfileMenu Label="@Text["ShellAccount"]" Class="demo-appbar__account">
-                    <Summary>
-                        <span class="omni-disc demo-appbar__avatar"><OmniIcon Name="OmniIconName.User" /></span>
-                    </Summary>
-                    <ChildContent>
-                        <OmniMenuItem OnClick="@(() => Last = Text["ShellSettings"])">
-                            <span class="demo-menu-item">
-                                <span class="omni-disc"><OmniIcon Name="OmniIconName.Settings" /></span>
-                                <span>@Text["ShellSettings"]<small>@Text["ShellSettingsHint"]</small></span>
-                            </span>
-                        </OmniMenuItem>
-                        <OmniMenuItem OnClick="@(() => Last = Text["ShellAppearance"])">
-                            <span class="demo-menu-item">
-                                <span class="omni-disc"><OmniIcon Name="OmniIconName.Palette" /></span>
-                                <span>@Text["ShellAppearance"]<small>@Text["ShellAppearanceHint"]</small></span>
-                            </span>
-                        </OmniMenuItem>
-                        <OmniMenuItem OnClick="@(() => Last = Text["ShellSignOut"])">
-                            <span class="demo-menu-item">
-                                <span class="omni-disc"><OmniIcon Name="OmniIconName.SignOut" /></span>
-                                <span>@Text["ShellSignOut"]</span>
-                            </span>
-                        </OmniMenuItem>
-                    </ChildContent>
-                </OmniProfileMenu>
+                @* The standard app menu of the package: name and role, the language, the mode, the theme, the
+                   settings, then the version and signing out; in the showcase every action only reports itself. *@
+                <OmniAppMenu UserName="admin" Role="@Text["ShellAccount"]" Class="demo-appbar__account"
+                             Languages="@Languages" Language="@LanguageCode" LanguageChanged="@(code => LanguageCode = code)"
+                             Appearance="MenuAppearance" AppearanceChanged="@(value => MenuAppearance = value)"
+                             OnTheme="@(() => Last = Text["ShellAppearance"])" OnSettings="@(() => Last = Text["ShellSettings"])"
+                             Version="@Text["ShellBrand"]" OnSignOut="@(() => Last = Text["ShellSignOut"])" />
             </span>
             @* The caption buttons of a borderless desktop window; in the showcase they only report the click. *@
             <OmniWindowControls OnMinimize="@(() => Last = Text["DemoAppShellMinimize"])"

@@ -115,6 +115,26 @@
 /* Kept inside the window by omni-focus.js: shifted sideways near an edge, above the trigger when there is no room below. */
 .omni-popover__panel { max-block-size: calc(100vh - 2 * var(--omni-space-md)); overflow: auto; translate: var(--omni-popover-shift-x, 0) 0; }
 .omni-popover__panel--above { inset-block-end: calc(100% + var(--omni-space-xs)); inset-block-start: auto; }
+/* The app menu (OmniAppMenu): a popover whose panel is the frame and whose rows reach its edges. Every
+   row has one height, the mode's control plus a padding, and one grid: icon, label, value at the end; a
+   rule separates the rows. The trigger shows the user's name when there is one. */
+.omni-app-menu .omni-popover__panel { inline-size: 20rem; padding: 0; }
+.omni-app-menu__trigger-name { max-inline-size: 12rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.omni-app-menu__card { --omni-app-menu-row: calc(var(--omni-control-height) + 1rem); display: flex; flex-direction: column; }
+.omni-app-menu__row, .omni-app-menu__card > .omni-button.omni-app-menu__item { align-items: center; border-block-end: var(--omni-border-width) solid var(--omni-color-border); box-sizing: border-box; display: flex; gap: var(--omni-space-sm); min-block-size: var(--omni-app-menu-row); padding: 0 var(--omni-space-md); }
+.omni-app-menu__card > .omni-button.omni-app-menu__item { border-radius: 0; inline-size: 100%; justify-content: flex-start; }
+.omni-app-menu__card > .omni-button.omni-app-menu__item:hover { background: var(--omni-color-surface-highlight); }
+.omni-app-menu__label { flex: 1 1 auto; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.omni-app-menu__extra { border-block-end: var(--omni-border-width) solid var(--omni-color-border); display: flex; flex-direction: column; gap: var(--omni-space-xs); padding: var(--omni-space-sm) var(--omni-space-md); }
+.omni-app-menu__language { flex: 0 1 9rem; min-inline-size: 0; }
+.omni-app-menu__flag { block-size: 1rem; border-radius: 2px; inline-size: auto; }
+/* Light, dark, system: three joined square buttons, only the outer corners rounded. */
+.omni-app-menu__modes { display: inline-flex; flex: none; }
+.omni-app-menu__modes > .omni-button.omni-app-menu__mode { border-radius: 0; inline-size: var(--omni-control-height); min-inline-size: var(--omni-control-height); padding: 0; }
+.omni-app-menu__modes > .omni-button.omni-app-menu__mode:first-child { border-end-start-radius: var(--omni-radius-sm); border-start-start-radius: var(--omni-radius-sm); }
+.omni-app-menu__modes > .omni-button.omni-app-menu__mode:last-child { border-end-end-radius: var(--omni-radius-sm); border-start-end-radius: var(--omni-radius-sm); }
+.omni-app-menu__footer { border-block-end: 0; justify-content: space-between; }
+.omni-app-menu__version { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); }
 .omni-profile-menu { display: inline-block; position: relative; }
 /* The trigger is a button that looks like what it shows (the avatar, or the host's Summary). */
 .omni-profile-menu__trigger { align-items: center; background: transparent; border: 0; border-radius: var(--omni-radius); color: inherit; cursor: pointer; display: inline-flex; font: inherit; gap: var(--omni-space-sm); padding: 0; }
