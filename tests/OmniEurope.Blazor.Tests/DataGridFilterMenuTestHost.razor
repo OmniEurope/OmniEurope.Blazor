@@ -12,7 +12,8 @@
                             Value="region => region.Name"
                             Filterable="true"
                             FilterType="OmniDataGridColumnFilterType.MultiSelect"
-                            FilterSearchable="@FilterSearchable" />
+                            FilterSearchable="@FilterSearchable"
+                            FilterValues="@NameValues" />
         <OmniDataGridColumn TItem="Region"
                             Key="code"
                             Title="Code"
@@ -47,6 +48,8 @@
     [Parameter] public bool IgnoreDiacritics { get; set; }
 
     [Parameter] public bool FilterSearchable { get; set; }
+
+    [Parameter] public IReadOnlyList<string>? NameValues { get; set; }
 
     public sealed record Region(int Id, string Name, string Code);
 }

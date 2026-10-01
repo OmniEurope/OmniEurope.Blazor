@@ -88,6 +88,18 @@ public sealed class DataGridFilterSurfaceTests : OmniBunitContext
     }
 
     [Fact]
+    public void DeclaredFilterValues_KeepTheOrderTheHostGave()
+    {
+        // A host lists values in their own sense (severity, workflow): never sorted alphabetically.
+        var host = Render<DataGridFilterMenuTestHost>(parameters => parameters
+            .Add(component => component.NameValues, ["Namur", "Liège", "Anvers", "namur"]));
+
+        var options = host.FindAll("th[data-omni-col=\"name\"] .omni-multi-select__option");
+
+        Assert.Equal(["Namur", "Liège", "Anvers"], options.Select(option => option.TextContent.Trim()));
+    }
+
+    [Fact]
     public void FilterTemplate_ReplacesTheEditorAndAppliesTheValueItPublishes()
     {
         var grid = Render<DataGridFilterMenuTestHost>();

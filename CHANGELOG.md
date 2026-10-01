@@ -22,6 +22,8 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Fixed
 
+- `OmniCard`, `OmniSettingsTile` et `OmniStatTile` comptent leur bordure et leur rembourrage dans leur taille (`box-sizing: border-box`) : une tuile étirée à la hauteur de sa colonne (`height: 100%`) débordait d'environ 14 px et mangeait l'espacement du bloc suivant (recette R2-006).
+- `OmniDataGridColumn.FilterValues` : les valeurs déclarées sont proposées dans l'ordre donné, comme les membres d'une énumération, et non plus triées par ordre alphabétique (recette R2-012, niveaux TRACE à FATAL).
 - Export d'`OmniDataGrid` et `OmniMarkdownTableExporter` : un `ExportRowLimit` (ou `RowLimit`) proche de `int.MaxValue`, pour « sans limite », ne produit plus un fichier vide présenté comme complet ; le nombre de pages débordait et aucune page n'était lue.
 - `OmniKanban` : le texte réservé aux lecteurs d'écran de l'en-tête des colonnes défile avec elles ; placé en absolu hors du conteneur qui défile, il élargissait la page sur un écran étroit (52 px à 390 px).
 - Barre d'export d'`OmniDataGrid` : une exception du gestionnaire `OnExport` de l'hôte ne fait plus afficher « L'export a échoué. » ni appeler `OnExportError`, puisque le fichier est déjà remis au navigateur ; elle remonte comme celle de tout gestionnaire d'événement. `OmniMarkdownExportButton` fait de même : une exception de son `OnExport` n'est plus passée à `OnExportError`.

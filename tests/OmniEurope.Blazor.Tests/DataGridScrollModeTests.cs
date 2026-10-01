@@ -123,6 +123,16 @@ public sealed class DataGridScrollModeTests : OmniBunitContext
     }
 
     [Fact]
+    public void Cards_and_tiles_count_border_and_padding_inside_their_size()
+    {
+        // A tile stretched to its column (height: 100%) overflowed by its border and padding and ate
+        // the gap to the next block (recette R2-006).
+        var tiles = ShippedLookTests.Body(".omni-card, .omni-settings-tile, .omni-stat-tile");
+
+        Assert.Equal("border-box", ShippedLookTests.Value(tiles, "box-sizing"));
+    }
+
+    [Fact]
     public void A_fixed_row_is_exactly_the_declared_height_padding_and_rule_included()
     {
         // The scroll total is computed from the declared height: a cell that added its padding and its

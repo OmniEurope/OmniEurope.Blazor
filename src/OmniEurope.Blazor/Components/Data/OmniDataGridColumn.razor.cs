@@ -70,6 +70,8 @@ public partial class OmniDataGridColumn<TItem>
     /// Explicit list of Select/Combo suggestions. Left unset the grid derives them from the values
     /// this column reads, which only works when it reads a single value per row and the grid holds
     /// every row. Set it for a column built from a collection, or for a grid fed page by page.
+    /// The values are offered in the order given (duplicates dropped), never sorted: a host lists
+    /// them in their own sense, such as severity levels.
     /// </summary>
     [Parameter]
     public IReadOnlyList<string>? FilterValues { get; set; }
