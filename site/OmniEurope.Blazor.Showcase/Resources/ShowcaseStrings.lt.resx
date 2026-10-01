@@ -1173,6 +1173,9 @@
   <data name="DemoMediaIconBriefcase" xml:space="preserve"><value>Užduotis</value></data>
   <data name="DemoMediaIconIdentificationBadge" xml:space="preserve"><value>Identifikavimo kortelė</value></data>
   <data name="DemoMediaIconFilePdf" xml:space="preserve"><value>PDF dokumentas</value></data>
+  <data name="DemoMediaIconFileMd" xml:space="preserve"><value>Markdown dokumentas</value></data>
+  <data name="DemoMediaIconFileCsv" xml:space="preserve"><value>CSV dokumentas</value></data>
+  <data name="DemoMediaIconFileXls" xml:space="preserve"><value>Excel dokumentas</value></data>
   <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Pagalba</value></data>
   <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Partnerystė</value></data>
   <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Augimas</value></data>

@@ -491,5 +491,11 @@ public enum OmniIconName
     /// <summary>Handshake.</summary>
     Handshake,
     /// <summary>Arrow up.</summary>
-    ArrowUp
+    ArrowUp,
+    /// <summary>Markdown file (the letters M and D on a page): the Markdown export of a table.</summary>
+    FileMd,
+    /// <summary>CSV file: the CSV export of a table.</summary>
+    FileCsv,
+    /// <summary>Spreadsheet file (XLS): the Excel export of a table.</summary>
+    FileXls
 }

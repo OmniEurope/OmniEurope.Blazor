@@ -602,9 +602,12 @@ field public static OmniEurope.Blazor.Components.OmniIconName.Eraser : OmniEurop
 field public static OmniEurope.Blazor.Components.OmniIconName.Error : OmniEurope.Blazor.Components.OmniIconName const = 35
 field public static OmniEurope.Blazor.Components.OmniIconName.Eye : OmniEurope.Blazor.Components.OmniIconName const = 86
 field public static OmniEurope.Blazor.Components.OmniIconName.EyeSlash : OmniEurope.Blazor.Components.OmniIconName const = 152
+field public static OmniEurope.Blazor.Components.OmniIconName.FileCsv : OmniEurope.Blazor.Components.OmniIconName const = 244
 field public static OmniEurope.Blazor.Components.OmniIconName.FileHtml : OmniEurope.Blazor.Components.OmniIconName const = 178
+field public static OmniEurope.Blazor.Components.OmniIconName.FileMd : OmniEurope.Blazor.Components.OmniIconName const = 243
 field public static OmniEurope.Blazor.Components.OmniIconName.FilePdf : OmniEurope.Blazor.Components.OmniIconName const = 239
 field public static OmniEurope.Blazor.Components.OmniIconName.FilePlus : OmniEurope.Blazor.Components.OmniIconName const = 181
+field public static OmniEurope.Blazor.Components.OmniIconName.FileXls : OmniEurope.Blazor.Components.OmniIconName const = 245
 field public static OmniEurope.Blazor.Components.OmniIconName.Filter : OmniEurope.Blazor.Components.OmniIconName const = 6
 field public static OmniEurope.Blazor.Components.OmniIconName.Flag : OmniEurope.Blazor.Components.OmniIconName const = 194
 field public static OmniEurope.Blazor.Components.OmniIconName.Flask : OmniEurope.Blazor.Components.OmniIconName const = 36
@@ -2211,12 +2214,13 @@ property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExpandMode : Om
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExpandedKeys : System.Collections.Generic.IReadOnlyList<System.Object> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExpandedKeysChanged : Microsoft.AspNetCore.Components.EventCallback<System.Collections.Generic.IReadOnlyList<System.Object>> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportFields : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniTableExportField> {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportFileName : System.String {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportFileName : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportFormats : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniTableExportFormat> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportLoad : System.Func<OmniEurope.Blazor.Components.OmniDataGridLoadRequest,System.Threading.Tasks.Task<OmniEurope.Blazor.Components.OmniDataGridResult<TItem>>>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportPosition : OmniEurope.Blazor.Components.OmniDataGridPosition {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportRowLimit : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportTitle : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportVariants : System.Collections.Generic.IReadOnlyDictionary<OmniEurope.Blazor.Components.OmniTableExportFormat,OmniEurope.Blazor.Components.OmniButtonVariant>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.FillAvailableHeight : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.FilterMode : OmniEurope.Blazor.Components.OmniDataGridFilterMode {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.Filterable : System.Boolean {get(public);set(public)} [Parameter]

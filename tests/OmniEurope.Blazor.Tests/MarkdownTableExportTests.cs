@@ -273,7 +273,7 @@ public sealed class MarkdownTableExportTests : OmniBunitContext
         button.Find("button").Click();
 
         var download = Assert.Single(module.Invocations["download"]);
-        Assert.Equal("erreurs-app3-20260926-140509.md", download.Arguments[0]);
+        Assert.Equal("erreurs-app3-2026-09-26-1405.md", download.Arguments[0]);
         Assert.Equal("text/markdown;charset=utf-8", download.Arguments[1]);
         Assert.Equal(250, TableRows((string)download.Arguments[2]!));
         Assert.Equal(2, requests.Count);

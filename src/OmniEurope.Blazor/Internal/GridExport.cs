@@ -41,6 +41,20 @@ internal sealed class GridExport<TItem>(OmniDataGrid<TItem> grid) : IAsyncDispos
 
     internal string FormatName(OmniTableExportFormat format) => grid.Text($"GridExportFormat{format}");
 
+    /// <summary>The variant of a format's button: the host's choice (<c>ExportVariants</c>), else Ghost.</summary>
+    internal OmniButtonVariant VariantOf(OmniTableExportFormat format) =>
+        grid.ExportVariants is { } variants && variants.TryGetValue(format, out var variant) ? variant : OmniButtonVariant.Ghost;
+
+    /// <summary>The file icon of a format's button.</summary>
+    internal static OmniIconName IconOf(OmniTableExportFormat format) => format switch
+    {
+        OmniTableExportFormat.Markdown => OmniIconName.FileMd,
+        OmniTableExportFormat.Csv => OmniIconName.FileCsv,
+        OmniTableExportFormat.Excel => OmniIconName.FileXls,
+        OmniTableExportFormat.Pdf => OmniIconName.FilePdf,
+        _ => OmniIconName.Download
+    };
+
     /// <summary>The columns an export writes: the visible ones that read a value, unless they opted out.</summary>
     internal IReadOnlyList<OmniDataGridColumnDefinition<TItem>> Columns() => grid.ColumnSet.VisibleColumns
         .Where(column => column.Exportable && (column.ExportValue is not null || column.HasValueSource))
@@ -148,11 +162,11 @@ internal sealed class GridExport<TItem>(OmniDataGrid<TItem> grid) : IAsyncDispos
         .Where(grid.Query.HasActiveFilter)
         .Select(column => new OmniTableExportField(grid.Text("GridFilterColumn", column.Title), grid.FilterEditor.FilterSummary(column)));
 
-    private string FileName(DateTimeOffset generatedAt, string extension)
-    {
-        var name = string.IsNullOrWhiteSpace(grid.ExportFileName) ? "export" : grid.ExportFileName.Trim();
-        return string.Create(CultureInfo.InvariantCulture, $"{name}-{generatedAt.UtcDateTime:yyyyMMdd-HHmmss}.{extension}");
-    }
+    // The host's name as given; else what the table holds, from its export title or caption.
+    private string FileName(DateTimeOffset generatedAt, string extension) => ExportFileName.Stamp(
+        !string.IsNullOrWhiteSpace(grid.ExportFileName) ? grid.ExportFileName
+            : ExportFileName.Slug(!string.IsNullOrWhiteSpace(grid.ExportTitle) ? grid.ExportTitle : grid.Caption),
+        generatedAt, extension);
 
     private string? NoticeOf(OmniTableExportDocument document)
     {

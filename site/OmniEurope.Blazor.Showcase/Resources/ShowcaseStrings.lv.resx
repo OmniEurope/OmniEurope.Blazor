@@ -1173,6 +1173,9 @@
   <data name="DemoMediaIconBriefcase" xml:space="preserve"><value>Uzdevums</value></data>
   <data name="DemoMediaIconIdentificationBadge" xml:space="preserve"><value>Identifikācijas karte</value></data>
   <data name="DemoMediaIconFilePdf" xml:space="preserve"><value>PDF dokuments</value></data>
+  <data name="DemoMediaIconFileMd" xml:space="preserve"><value>Markdown dokuments</value></data>
+  <data name="DemoMediaIconFileCsv" xml:space="preserve"><value>CSV dokuments</value></data>
+  <data name="DemoMediaIconFileXls" xml:space="preserve"><value>Excel dokuments</value></data>
   <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Atbalsts</value></data>
   <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Partnerība</value></data>
   <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Pieaugums</value></data>
