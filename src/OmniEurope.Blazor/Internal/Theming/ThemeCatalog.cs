@@ -409,7 +409,7 @@ internal static class ThemeCatalog
                 // sober: the stops stay as far from the page as text, the rule and the neutral badge still
                 // read on them with every palette.
                 ("--omni-backdrop-disk", "color-mix(in srgb, var(--omni-color-text) 9%, var(--omni-color-surface))"),
-                ("--omni-backdrop-halo", "color-mix(in srgb, var(--omni-color-text) 4%, var(--omni-color-surface))"),
+                ("--omni-backdrop-halo", "color-mix(in srgb, var(--omni-color-text) 2%, var(--omni-color-surface))"),
                 // A firmer rule than the palette's: it keeps its floor on the stops of the field too.
                 ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 36%, var(--omni-color-surface))"),
                 ("--omni-backdrop", TrouNoirField),
