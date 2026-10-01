@@ -51,7 +51,7 @@ public partial class Customizer : IDisposable
 
     /// <summary>The pairs measured on the half previewed; the system mode shows the light one.</summary>
     private IReadOnlyList<ContrastResult> Contrasts =>
-        ContrastAudit.Measure(Theme.Mode is ThemeMode.Dark ? Theme.Dark : Theme.Light, Theme.Tokens);
+        ContrastAudit.Measure(Theme.EffectiveMode is ThemeMode.Dark ? Theme.Dark : Theme.Light, Theme.Tokens);
 
     private int Failures => Contrasts.Count(result => !result.Passes);
 
@@ -93,7 +93,7 @@ public partial class Customizer : IDisposable
 
     private string SwatchValue(string name)
     {
-        var half = Theme.Mode is ThemeMode.Dark ? Theme.Dark : Theme.Light;
+        var half = Theme.EffectiveMode is ThemeMode.Dark ? Theme.Dark : Theme.Light;
         return half.TryGetValue(name, out var value)
             ? value
             : Theme.Tokens.FirstOrDefault(token => token.Name == name)?.DefaultValue ?? string.Empty;

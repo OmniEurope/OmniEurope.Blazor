@@ -1,6 +1,6 @@
 // PLAN-004 lot 10: the contrasts of the published showcase measured in a real Chromium, on every
-// combination a visitor can build (every theme x every palette x light and dark). The static matrix
-// (ThemeContrastMatrixTests) proves the token pairs; this probe proves what the browser paints once the
+// combination a visitor can build (every theme x every palette x light and dark; dark alone for a theme
+// drawn dark only). The static matrix (ThemeContrastMatrixTests) proves the token pairs; this probe proves what the browser paints once the
 // stylesheet has combined them: the colour a text really gets, on the background it really sits on, at
 // rest, under a forced hover and under focus.
 //
@@ -667,6 +667,10 @@ const shots = [];
 // 3:1 in the four themes that draw a solid ring (Relief, Givre, Aplat, Épure) with every palette, waiver or not (owner decision of 2026-09-28: only the ring
 // stays mandatory). Geometry, overflow, CSP, console and coverage are never waived.
 const waivers = {};
+// Themes drawn in dark mode only (OmniThemePreset.DarkOnly): the customizer fixes their mode picker on
+// dark, so their light half is never drawn and is not measured; asking for it must still draw dark.
+const darkOnly = {};
+const modesOf = theme => darkOnly[theme] ? chosenModes.filter(mode => mode === 'dark') : chosenModes;
 const acceptedContrastWaiver = [];
 const WAIVABLE_CHECKS = new Set(['texte', 'bordure', 'marque non textuelle', 'voile d\'occupation']);
 
@@ -931,7 +935,13 @@ for (const theme of chosenThemes) {
   await waitFor(`le thème ${theme}`, `document.getElementById('workshop-theme').selectedOptions[0]?.textContent.trim() === ${JSON.stringify(theme)}`);
   defaultPalette[theme] = (await readState()).palette;
   waivers[theme] = await evaluate(`document.querySelector('[data-contrast-waiver]')?.dataset.contrastWaiver ?? null`);
-  for (const mode of chosenModes) {
+  darkOnly[theme] = await evaluate("document.getElementById('workshop-mode').getAttribute('aria-disabled') === 'true'");
+  if (darkOnly[theme]) {
+    measures++;
+    const drawn = await evaluate("document.getElementById('showcase-theme').getAttribute('data-omni-theme')");
+    if (drawn !== 'dark') fail({ theme, palette: defaultPalette[theme], mode: 'light' }, { page: CUSTOMIZER, check: 'thème sombre seulement', detail: `mode dessiné ${drawn}, attendu dark` });
+  }
+  for (const mode of modesOf(theme)) {
     for (const palette of chosenPalettes) {
       const combo = { theme, palette, mode };
       await apply(theme, palette, mode);
@@ -959,7 +969,7 @@ for (const theme of chosenThemes) {
 // 3. No horizontal overflow at 375 px (RET-002 n°28), each theme in both modes: palettes only paint.
 await send('Emulation.setDeviceMetricsOverride', { width: 375, height: 812, deviceScaleFactor: 1, mobile: true });
 for (const theme of chosenThemes) {
-  for (const mode of chosenModes) {
+  for (const mode of modesOf(theme)) {
     await navigate(CUSTOMIZER, READY[CUSTOMIZER]);
     await apply(theme, defaultPalette[theme] ?? 'Essentiel', mode);
     for (const page of NARROW_PAGES) {
@@ -980,7 +990,7 @@ socket.close();
 for (const violation of csp) failures.push({ check: 'CSP', detail: violation });
 for (const error of consoleErrors) failures.push({ check: 'console', detail: error });
 
-const expected = chosenThemes.length * chosenPalettes.length * chosenModes.length;
+const expected = chosenThemes.reduce((sum, theme) => sum + modesOf(theme).length, 0) * chosenPalettes.length;
 if (!partial && combinations !== expected) failures.push({ check: 'couverture', detail: `${combinations} combinaisons mesurées au lieu de ${expected}` });
 
 await mkdir(artifacts, { recursive: true });

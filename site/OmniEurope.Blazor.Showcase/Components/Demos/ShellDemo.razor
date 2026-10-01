@@ -11,7 +11,7 @@
             </OmniButton>
         </OmniHeader>
         <OmniBody>
-            <OmniSidebar Id="shell-demo-sidebar" Open="SidebarOpen" Label="@Text["DemoShellMenu"]" Position="OmniSidebarPosition.Start">
+            <OmniSidebar Id="shell-demo-sidebar" Open="SidebarOpen" OpenChanged="@(value => SidebarOpen = value)" Label="@Text["DemoShellMenu"]" Position="OmniSidebarPosition.Start">
                 <OmniPanelMenu Label="@Text["DemoShellSections"]" DisplayStyle="OmniPanelMenuDisplayStyle.IconAndText">
                     <OmniPanelMenuItem Text="@Text["DemoShellDashboard"]" Href="composants/coquille" Match="OmniNavMatch.Exact">
                         <Icon><OmniIcon Name="OmniIconName.Home" /></Icon>

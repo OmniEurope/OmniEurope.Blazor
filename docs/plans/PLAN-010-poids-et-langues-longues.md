@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # PLAN-010 : Poids de l'assembly et langues longues
 
-> Statut : **ouvert**. Établi le 2026-09-30, après la publication de la 1.3.0 ; décisions du propriétaire du même jour (recommandations 1 et 2 sur l'assembly, les trois volets des langues longues, la page d'export). Lots 1, 2, 3, 4 et 6 faits ; restent deux décisions du propriétaire (menu `push` sur téléphone, lot 5).
+> Statut : **ouvert**. Établi le 2026-09-30, après la publication de la 1.3.0 ; décisions du propriétaire du même jour (recommandations 1 et 2 sur l'assembly, les trois volets des langues longues, la page d'export). Lots 1, 2, 3, 4 et 6 faits ; reste la décision du propriétaire sur le lot 5.
 
 ## Objectif
 
@@ -95,9 +95,13 @@ reprendre demande une mesure dans un navigateur doté des dictionnaires.
 - [x] Contrôle : sonde `Languages` validée sur 320 pages (de, fi, el, hu à 1280 et 390 px), aucun
   texte hors de sa boîte, aucune page qui défile en largeur (2026-10-01), aucune violation CSP,
   console propre.
-- [ ] Reste, décision du propriétaire : dans la démonstration de coquille, le menu `push` ouvert à
-  390 px ne laisse que 68 px au contenu, qui passe à la ligne mot par mot sans plus déborder. Une
-  proposition : un menu `push` se superpose au contenu sous 40rem, comme le mode `overlay`.
+- [x] Décision du propriétaire (2026-10-01) : pas de `push` sur téléphone. Sous 40rem, un
+  `OmniSidebar` `Push` que l'hôte peut fermer (`OpenChanged` lié) se superpose au contenu, voile
+  compris, et se ferme par le voile, Échap ou le choix d'une entrée ; celui que l'hôte ne ferme jamais
+  reste poussé, puisqu'un voile que rien ne lève bloquerait la page. La largeur est suivie par
+  `watchNarrow` (`omni-focus.js`). Mesuré dans la vitrine (`/composants/coquille`) : à 390 px, menu
+  superposé, voile, croix sur le bouton, 322 px de contenu au lieu de 68, Échap le ferme ; à 1280 px,
+  poussé, hamburger.
 
 ### Lot 5 : garde sur la longueur des traductions
 

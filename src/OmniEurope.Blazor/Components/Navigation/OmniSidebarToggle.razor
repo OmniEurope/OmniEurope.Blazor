@@ -21,16 +21,15 @@
     {
         <OmniIcon Name="@openIcon" />
     }
-    else if (Reveal is { } reveal)
+    else if (Reveal == OmniSidebarReveal.Overlay)
     {
-        @* The sidebar's own mode decides: a pushed menu sits beside the content and keeps the menu glyph,
-           an overlaid one covers the page and shows how to dismiss it. *@
-        <OmniIcon Name="@(reveal == OmniSidebarReveal.Overlay ? OmniIconName.Close : OmniIconName.Menu)" />
+        @* An overlaid menu covers the page at every width and shows how to dismiss it. *@
+        <OmniIcon Name="OmniIconName.Close" />
     }
     else
     {
         @* Both glyphs, one shown per width: the menu while the sidebar sits beside the content, the cross
-           on a phone where it covers the page. *@
+           on a phone where it covers the page (a pushing sidebar floats there too). *@
         <OmniIcon Name="OmniIconName.Menu" Class="omni-sidebar-toggle__wide" />
         <OmniIcon Name="OmniIconName.Close" Class="omni-sidebar-toggle__narrow" />
     }

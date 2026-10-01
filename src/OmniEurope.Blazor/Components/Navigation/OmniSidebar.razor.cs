@@ -4,13 +4,17 @@ namespace OmniEurope.Blazor.Components;
 /// The application's navigation column, an <c>&lt;aside&gt;</c> landmark. It is controlled: it shows
 /// <see cref="Open"/> and asks the host to change it through <see cref="OpenChanged"/>. It either pushes
 /// the content aside or floats over it (<see cref="Reveal"/>), and when closed either leaves a rail of
-/// icons or disappears (<see cref="Collapse"/>). Its open state is cascaded to the menu inside it.
+/// icons or disappears (<see cref="Collapse"/>). On a phone (under 40rem) a pushing sidebar the host
+/// can close (<see cref="OpenChanged"/> bound) floats over the content instead, with its veil, since
+/// pushing would leave the page a sliver of width. Its open state is cascaded to the menu inside it.
 /// </summary>
 public partial class OmniSidebar
 {
     private IJSObjectReference? _focusModule;
     private DotNetObjectReference<OmniSidebar>? _selfReference;
     private bool _escapeAttached;
+    private bool _narrowWatched;
+    private bool _narrow;
     private readonly string _escapeKey = Guid.NewGuid().ToString("N");
 
     /// <summary>The content of the sidebar, typically an <see cref="OmniPanelMenu"/>. Required.</summary>
@@ -37,7 +41,11 @@ public partial class OmniSidebar
     [Parameter]
     public OmniSidebarPosition Position { get; set; }
 
-    /// <summary>Whether opening pushes the content aside or floats over it.</summary>
+    /// <summary>
+    /// Whether opening pushes the content aside or floats over it. A pushing sidebar floats on a phone
+    /// (under 40rem), veil included, once the page is interactive, when <see cref="OpenChanged"/> is bound:
+    /// one the host never closes keeps pushing, since a veil nothing can lift would lock the page.
+    /// </summary>
     [Parameter]
     public OmniSidebarReveal Reveal { get; set; } = OmniSidebarReveal.Push;
 
@@ -55,7 +63,8 @@ public partial class OmniSidebar
 
     /// <summary>
     /// Dims the content behind an open floating sidebar and closes it on click. Meaningless while
-    /// the sidebar pushes, since nothing is covered then.
+    /// the sidebar pushes, since nothing is covered then; a pushing sidebar that floats on a phone
+    /// always has its veil.
     /// </summary>
     [Parameter]
     public bool Backdrop { get; set; }
@@ -86,12 +95,18 @@ public partial class OmniSidebar
     private bool Rendered => Open || Collapse == OmniSidebarCollapse.Icons || Smooth;
 
     /// <summary>The smooth transition applies to the push mode only.</summary>
-    private bool Smooth => Transition == OmniSidebarTransition.Smooth && Reveal == OmniSidebarReveal.Push;
+    private bool Smooth => Transition == OmniSidebarTransition.Smooth && EffectiveReveal == OmniSidebarReveal.Push;
+
+    /// <summary>The mode in force: <see cref="Reveal"/>, except a pushing sidebar the host can close, which floats on a phone.</summary>
+    private OmniSidebarReveal EffectiveReveal => _narrow && FloatsOnPhone ? OmniSidebarReveal.Overlay : Reveal;
+
+    /// <summary>A pushing sidebar floats on a phone only when the host can close it.</summary>
+    private bool FloatsOnPhone => Reveal == OmniSidebarReveal.Push && OpenChanged.HasDelegate;
 
     /// <summary>A closed sidebar that leaves no rail is out of reach, even while it stays in the page to slide.</summary>
     private bool Concealed => !Open && Collapse == OmniSidebarCollapse.Hidden;
 
-    private bool ShowBackdrop => Open && Backdrop && Reveal == OmniSidebarReveal.Overlay;
+    private bool ShowBackdrop => Open && EffectiveReveal == OmniSidebarReveal.Overlay && (Backdrop || FloatsOnPhone);
 
     /// <summary>
     /// Cached so the cascaded state compares equal between renders while nothing changed: a new
@@ -108,17 +123,18 @@ public partial class OmniSidebar
     private Task CloseAsync() => OpenChanged.InvokeAsync(false);
 
     /// <summary>A floating sidebar listens for Escape on the whole document while it is open.</summary>
-    private bool Floating => Open && Reveal == OmniSidebarReveal.Overlay;
+    private bool Floating => Open && EffectiveReveal == OmniSidebarReveal.Overlay;
 
     /// <summary>
-    /// Attaches the document-wide Escape listener when the sidebar starts floating open, and detaches it
-    /// when it stops. A lost circuit is ignored.
+    /// Watches the phone width while the sidebar pushes, attaches the document-wide Escape listener when
+    /// the sidebar starts floating open, and detaches it when it stops. A lost circuit is ignored.
     /// </summary>
     /// <param name="firstRender">True on the first render of the component.</param>
-    /// <returns>A task that completes once the listener is attached or detached.</returns>
+    /// <returns>A task that completes once the listeners are attached or detached.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (Floating == _escapeAttached)
+        var watchesNarrow = FloatsOnPhone;
+        if (Floating == _escapeAttached && watchesNarrow == _narrowWatched)
         {
             return;
         }
@@ -126,9 +142,21 @@ public partial class OmniSidebar
         try
         {
             _focusModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Focus);
+            _selfReference ??= DotNetObjectReference.Create(this);
+            if (watchesNarrow != _narrowWatched)
+            {
+                _narrowWatched = watchesNarrow;
+                await _focusModule.InvokeVoidAsync(watchesNarrow ? "watchNarrow" : "unwatchNarrow", _escapeKey, _selfReference);
+                _narrow &= watchesNarrow;
+            }
+
+            if (Floating == _escapeAttached)
+            {
+                return;
+            }
+
             if (Floating)
             {
-                _selfReference ??= DotNetObjectReference.Create(this);
                 await _focusModule.InvokeVoidAsync("attachEscape", _escapeKey, _selfReference);
             }
             else
@@ -147,6 +175,21 @@ public partial class OmniSidebar
     [JSInvokable]
     public Task CloseFromEscapeAsync() => Floating ? InvokeAsync(CloseAsync) : Task.CompletedTask;
 
+    /// <summary>Called by the width watch: whether the page is phone width (under 40rem).</summary>
+    /// <param name="narrow">True under 40rem.</param>
+    /// <returns>A task that completes once the sidebar is drawn in the mode that fits.</returns>
+    [JSInvokable]
+    public Task SetNarrowAsync(bool narrow)
+    {
+        if (narrow == _narrow)
+        {
+            return Task.CompletedTask;
+        }
+
+        _narrow = narrow;
+        return InvokeAsync(StateHasChanged);
+    }
+
     /// <summary>Subscribes to navigation, so that choosing an entry closes a floating sidebar.</summary>
     protected override void OnInitialized() => Navigation.LocationChanged += HandleLocationChanged;
 
@@ -156,7 +199,7 @@ public partial class OmniSidebar
     /// </summary>
     private void HandleLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs args)
     {
-        if (Open && Reveal == OmniSidebarReveal.Overlay)
+        if (Open && EffectiveReveal == OmniSidebarReveal.Overlay)
         {
             _ = InvokeAsync(CloseAsync);
         }
@@ -180,6 +223,11 @@ public partial class OmniSidebar
                 if (_escapeAttached)
                 {
                     await _focusModule.InvokeVoidAsync("detachEscape", _escapeKey);
+                }
+
+                if (_narrowWatched)
+                {
+                    await _focusModule.InvokeVoidAsync("unwatchNarrow", _escapeKey);
                 }
 
                 await _focusModule.DisposeAsync();

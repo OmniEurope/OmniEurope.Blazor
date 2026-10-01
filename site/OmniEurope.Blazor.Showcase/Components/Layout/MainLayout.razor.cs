@@ -14,7 +14,7 @@ public partial class MainLayout : IDisposable
     [Inject]
     private ThemeState Theme { get; set; } = default!;
 
-    private OmniAppearance CurrentAppearance => Theme.Mode switch
+    private OmniAppearance CurrentAppearance => Theme.EffectiveMode switch
     {
         ThemeMode.Dark => OmniAppearance.Dark,
         ThemeMode.System => OmniAppearance.System,
