@@ -8,6 +8,11 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 - `OmniFormActions` : la rangée d'actions d'un formulaire, posée dans le `<form>` pour que son bouton de soumission le soumette, alignée à droite comme le pied d'un dialogue et qui passe à la ligne si la place manque. Le bouton Connexion d'`OmniLoginShell` s'y place, en fin du formulaire de l'hôte (recette Aetheus R-375).
 
+### Outillage du dépôt (sans effet sur le paquet publié)
+
+- Sonde `Contrast` : le contrôle d'un thème sombre seulement demande vraiment le mode clair avant de choisir le thème ; publié en 1.4.0, il ne le demandait pas et ne pouvait pas échouer. Vérifié : avec `EffectiveMode` neutralisé dans la vitrine, la sonde échoue sur « thème sombre seulement ». L'état du sélecteur est lu après le rendu du thème.
+- Sonde `Modules` : le menu poussé de la démonstration de coquille est mesuré à 390 px (superposé, voile, Échap ferme) puis à 1280 px (poussé) ; avec `watchNarrow` neutralisé, elle échoue.
+
 ## [1.4.1] - 2026-10-01
 
 ### Fixed
@@ -16,11 +21,14 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [1.4.0] - 2026-10-01
 
+### Breaking changes
+
+- Nom par défaut des fichiers exportés : `OmniDataGrid.ExportFileName` devient `string?`, null par défaut au lieu de `"export"` ; sans lui, la grille nomme le fichier d'après `ExportTitle` puis `Caption`, en minuscules sans accents, et l'horodatage perd ses secondes : `{nom}-{yyyy-MM-dd-HHmm}.{extension}` (`aetheus-logs-2026-10-01-0840.md`), pour la barre d'export comme pour `OmniMarkdownExportButton` (recette Aetheus R2-036). Un hôte qui attend `export-…` passe `ExportFileName="export"`. Consigné après publication : les notes de la 1.4.0 l'annonçaient comme un ajout.
+
 ### Added
 
 - `OmniLogoLoader` : un indicateur de chargement au logo du site, réutilisable partout (`ChildContent` : image, SVG ou `OmniIcon` ; `Size` petit, moyen, grand ; `Label` dit en mots dans une région `status`). Le logo flotte de haut en bas, lentement, et ne tourne jamais ; il reste immobile sous `prefers-reduced-motion` (recette Aetheus R-536, décision D11 : rien ne tourne).
 - Barre d'export d'`OmniDataGrid` : chaque bouton porte l'icône de fichier de son format (`OmniIconName.FileMd`, `FileCsv` et `FileXls`, nouvelles, et `FilePdf`) au lieu de `Download`, et `ExportVariants` donne une variante par format, `Ghost` restant le défaut (recette Aetheus R2-009).
-- Noms des fichiers exportés lisibles : `{nom}-{yyyy-MM-dd-HHmm}.{extension}` (`aetheus-logs-2026-10-01-0840.md`) pour la barre d'export et `OmniMarkdownExportButton` ; sans `ExportFileName` (désormais `string?`, null par défaut), la grille nomme le fichier d'après `ExportTitle` puis `Caption`, en minuscules sans accents (recette Aetheus R2-036). L'horodatage perd ses secondes.
 - `OmniTextBox.Copyable` : un bouton Copier soudé à la fin du champ, qui met la valeur dans le presse-papiers (URL de clonage, clé) ; il garde son mot et sa taille, montre une coche après la copie (`CopiedFeedbackDuration`) et l'issue est annoncée ; `OnCopy` la reçoit (recette Aetheus R2-002). `OmniTextBox` devient `IAsyncDisposable`.
 - `OmniAppMenu` : le menu standard du bout de la barre d'application, le même dans toutes les applications (recette Atlas du 2026-10-01). De haut en bas : l'utilisateur et son rôle (`UserName`, `Role`), les lignes propres à l'application (`ChildContent`), la langue quand il y en a au moins deux (`Languages` d'`OmniAppMenuLanguage`, `Language`, `LanguageChanged`, drapeau optionnel par `ShowFlags`), le mode clair, sombre ou système en trois boutons carrés joints (`Appearance`, `AppearanceChanged`, obligatoires), le thème (`OnTheme`, obligatoire : l'hôte ouvre sa fenêtre d'apparence), les paramètres (`OnSettings`), la version et la déconnexion (`Version`, `OnSignOut`). Une ligne ne s'affiche que si l'hôte fournit ce qu'il lui faut ; pas de police dans ce menu.
 - `OmniSidebarToggle.Reveal` : le glyphe du bouton ouvert suit le mode du menu ; superposé, une croix à toutes les largeurs ; poussé, la règle de largeur (le hamburger à côté du contenu, la croix sur téléphone, où un menu poussé se superpose). `OpenIcon` l'emporte toujours.

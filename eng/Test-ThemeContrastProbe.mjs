@@ -670,7 +670,9 @@ const waivers = {};
 // Themes drawn in dark mode only (OmniThemePreset.DarkOnly): the customizer fixes their mode picker on
 // dark, so their light half is never drawn and is not measured; asking for it must still draw dark.
 const darkOnly = {};
-const modesOf = theme => darkOnly[theme] ? chosenModes.filter(mode => mode === 'dark') : chosenModes;
+// A dark-only theme found drawn light is reported once and not measured further.
+const unmeasurable = new Set();
+const modesOf = theme => unmeasurable.has(theme) ? [] : darkOnly[theme] ? chosenModes.filter(mode => mode === 'dark') : chosenModes;
 const acceptedContrastWaiver = [];
 const WAIVABLE_CHECKS = new Set(['texte', 'bordure', 'marque non textuelle', 'voile d\'occupation']);
 
@@ -931,15 +933,26 @@ if (chosenModes.length > 0) {
 const defaultPalette = {};
 const startedAt = Date.now();
 for (const theme of chosenThemes) {
+  // Light is asked before each theme while the mode picker allows it, so a dark-only theme proves it
+  // draws dark whatever the mode asked.
+  const lightAsked = await evaluate("document.getElementById('workshop-mode').getAttribute('aria-disabled') !== 'true'");
+  if (lightAsked && (await readState()).mode !== 'light') await setMode('light');
   await pick('workshop-theme', theme);
   await waitFor(`le thème ${theme}`, `document.getElementById('workshop-theme').selectedOptions[0]?.textContent.trim() === ${JSON.stringify(theme)}`);
+  // The picker's state is read once the theme is rendered, not as soon as the select holds it.
+  await lib('settle()');
   defaultPalette[theme] = (await readState()).palette;
   waivers[theme] = await evaluate(`document.querySelector('[data-contrast-waiver]')?.dataset.contrastWaiver ?? null`);
   darkOnly[theme] = await evaluate("document.getElementById('workshop-mode').getAttribute('aria-disabled') === 'true'");
-  if (darkOnly[theme]) {
+  if (darkOnly[theme] && lightAsked) {
     measures++;
     const drawn = await evaluate("document.getElementById('showcase-theme').getAttribute('data-omni-theme')");
-    if (drawn !== 'dark') fail({ theme, palette: defaultPalette[theme], mode: 'light' }, { page: CUSTOMIZER, check: 'thème sombre seulement', detail: `mode dessiné ${drawn}, attendu dark` });
+    if (drawn !== 'dark') {
+      // Its combinations cannot be applied either: the mode picker stays fixed while the page is light.
+      fail({ theme, palette: defaultPalette[theme], mode: 'light' }, { page: CUSTOMIZER, check: 'thème sombre seulement', detail: `mode dessiné ${drawn}, attendu dark` });
+      unmeasurable.add(theme);
+      continue;
+    }
   }
   for (const mode of modesOf(theme)) {
     for (const palette of chosenPalettes) {

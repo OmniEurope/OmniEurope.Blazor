@@ -28,12 +28,12 @@ More than a hundred components, one static stylesheet, no inline style, no `unsa
 | Layout | Application shell (layout, header, sidebar, body), rows and columns, stacks, cards, fieldsets, scoped themes |
 | Theming | Appearance settings and a movable appearance window (mode, theme, palette, font, text size, density, control size) |
 | Typography | Headings and text with consistent scale and tone |
-| Forms | Text, multi-line, numeric and password inputs, checkboxes and switches (nullable too), labels, form fields, template forms with an unsaved-changes guard, schema-driven forms, validators |
+| Forms | Text, multi-line, numeric and password inputs, checkboxes and switches (nullable too), labels, form fields, template forms with an unsaved-changes guard, form action rows, schema-driven forms, validators |
 | Selection | Dropdowns, list boxes, multi-select, autocomplete, radio and checkbox lists, select bars, selectable cards and card groups, rating, sliders, date, time and date-time pickers, colour picker, upload |
 | Data | Data grid with virtualisation, sorting, filtering, grouping, paging, frozen columns, editing and a loading bar; data lists, trees, pagers, spreadsheet, kanban board, log viewer, Markdown export |
-| Navigation | Panel menus, profile menus, sidebars, tabs, steps, breadcrumbs, links |
+| Navigation | Panel menus, profile menus, application menu, sidebars, tabs, steps, breadcrumbs, links |
 | Overlays | Dialogs, notifications, tooltips, popovers, context and overflow menus |
-| Feedback | Alerts, badges, status badges and strips, icons, images, progress and loading bars, skeletons |
+| Feedback | Alerts, badges, status badges and strips, icons, images, progress and loading bars, logo loader, skeletons |
 | Charts | Line, area, column and horizontal bar series (stackable), pie and donut, arc gauges, with axes, legends, markers, data labels and an accessible data table |
 | Scheduling | Scheduler with day, week and month views, timelines, Gantt chart, step timeline |
 | Editor | Extensible HTML editor with sanitised output, code editor, diff viewer, code viewer and code block, unified diff |

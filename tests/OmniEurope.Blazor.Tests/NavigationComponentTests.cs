@@ -250,6 +250,28 @@ public sealed class NavigationComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task Sidebar_StopsWatchingTheWidth_WhenItCanNoLongerFloat_AndWhenDisposed()
+    {
+        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
+        var sidebar = Render<OmniSidebar>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.Reveal, OmniSidebarReveal.Push)
+            .Add(component => component.OpenChanged, _ => { })
+            .AddChildContent("Navigation"));
+        await sidebar.InvokeAsync(() => sidebar.Instance.SetNarrowAsync(true));
+        Assert.Contains("omni-sidebar--overlay", sidebar.Find("aside").ClassList);
+
+        // A host that turns the sidebar to overlay no longer needs the width: the watch is dropped.
+        sidebar.Render(parameters => parameters.Add(component => component.Reveal, OmniSidebarReveal.Overlay));
+        Assert.Single(module.Invocations["unwatchNarrow"]);
+
+        sidebar.Render(parameters => parameters.Add(component => component.Reveal, OmniSidebarReveal.Push));
+        Assert.Equal(2, module.Invocations["watchNarrow"].Count);
+        await sidebar.InvokeAsync(() => sidebar.Instance.DisposeAsync().AsTask());
+        Assert.Equal(2, module.Invocations["unwatchNarrow"].Count);
+    }
+
+    [Fact]
     public async Task Sidebar_PushingThatTheHostNeverCloses_KeepsPushingOnAPhone()
     {
         var module = JSInterop.SetupModule(Internal.OmniModules.Focus);

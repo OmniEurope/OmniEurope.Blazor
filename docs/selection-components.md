@@ -17,7 +17,7 @@ valeur (« Note : 3 sur 5 »), hors de l'ordre de tabulation, et dessine ses ét
 `OmniOption<TValue>` porte la valeur, le texte, l'état désactivé et le groupe éventuel. Ce modèle alimente :
 
 - `OmniDropDown<TValue>` (seule source des choix, par `Options` ; `Filterable` ajoute une recherche, `Label` le nomme, rendu en `aria-label` seulement s'il est posé ; sans `Filterable` c'est un `<select>` natif dont la liste ouverte est habillée comme un menu du paquet là où le navigateur le permet, `appearance: base-select`, Chromium 135 et suivants, et dessinée par le système ailleurs) et `OmniMultiSelect<TValue>` ;
-- `OmniListBox<TValue, TSelection>` et `OmniCheckBoxList<TValue>` (`Error` marque la liste `aria-invalid` et la fait décrire par l'erreur) ;
+- `OmniListBox<TValue, TSelection>`, et `OmniCheckBoxList<TValue>`, dont `Error` marque la liste `aria-invalid` et la fait décrire par l'erreur ;
 - `OmniRadioButtonList<TValue>`, qui dessine lui-même chaque bouton radio ; `Error` (facultatif) dessine sous les choix, dans le `fieldset`, la ligne d'erreur d'`OmniFormField` (glyphe décoratif, dans une région live polie, identifiant `{Id}-error`, ou `{Name}-error` sans identifiant), marque le groupe `aria-invalid="true"` (aussi quand l'`EditContext` porte une erreur), le fait décrire par cette ligne après `AriaDescribedBy` et borde chaque bouton radio de la couleur de danger ; les options désactivées sont marquées comme telles ;
 - `OmniSelectBar<TValue>`, qui dessine lui-même chaque option.
 

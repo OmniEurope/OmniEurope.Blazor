@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # PLAN-009 : Thèmes excellents et reliquats
 
-> Statut : **ouvert**. Établi le 2026-09-30 ; lots 1 à 13 faits (le 11 dans le kit, non commité). Reste une décision du propriétaire (Trou noir, reportée).
+> Statut : **ouvert**. Établi le 2026-09-30 ; lots 1 à 13 faits (le 11 dans le kit, commité dans `_Generic` en `57ac017` le 2026-09-30). Restent deux décisions du propriétaire : l'historique public, Trou noir (reportée).
 
 ## Objectif
 
@@ -122,7 +122,7 @@ Controle : `git grep -i` sur ce nom ne rend plus rien dans le dépôt ; suite ve
 
 ### Lot 11 - `STD-FILESIZE` en lignes effectives dans le kit
 - [x] `verify-rules.ps1` du kit `_Generic`, son registre `docs/code-rules.md`, son modèle `docs/tests-template/FileSizeAuditTests.cs` et le texte de ses deux `remind-file-rules.js` comptent les lignes effectives : une ligne vide ou faite d'un seul commentaire (`//`, `///`, bloc `/* */`, et dans un `.razor` bloc `@* *@` ou `<!-- -->`) ne compte pas ; du code suivi d'un commentaire compte.
-Fait dans l'arbre de travail du kit le 2026-09-30, sur décision du propriétaire, sans commit : le kit porte les modifications non commitées d'une autre session dans les mêmes fichiers, le commit lui revient. Le script `verify-rules.ps1` n'est jamais copié et tourne au lancement de chaque projet : il est à jour pour tous dès qu'il change. Ce qui dérive, ce sont les copies, d'où une règle ajoutée au kit le même jour sur décision du propriétaire, `STD-KITCOPY` : chaque modèle de `docs/tests-template` porte sa version en tête (`// kit-model <Nom> <n>`), une copie garde cette ligne, et le script signale une copie sans version ou en retard, ainsi qu'un crochet déployé dans `~/.claude/hooks` dont le texte diffère de sa source. Au jour du changement il signale 13 copies dans 7 projets (dont les deux `FileSizeAuditTests.cs` qui comptent encore les lignes brutes) et le crochet `remind-file-rules.js` déployé ; OE n'a aucune copie de modèle.
+Fait dans le kit le 2026-09-30, sur décision du propriétaire, et commité avec les modifications de l'autre session dans les mêmes fichiers (`_Generic` `57ac017`). Le script `verify-rules.ps1` n'est jamais copié et tourne au lancement de chaque projet : il est à jour pour tous dès qu'il change. Ce qui dérive, ce sont les copies, d'où une règle ajoutée au kit le même jour sur décision du propriétaire, `STD-KITCOPY` : chaque modèle de `docs/tests-template` porte sa version en tête (`// kit-model <Nom> <n>`), une copie garde cette ligne, et le script signale une copie sans version ou en retard, ainsi qu'un crochet déployé dans `~/.claude/hooks` dont le texte diffère de sa source. Au jour du changement il signale 13 copies dans 7 projets (dont les deux `FileSizeAuditTests.cs` qui comptent encore les lignes brutes) et le crochet `remind-file-rules.js` déployé ; OE n'a aucune copie de modèle.
 Controle : `verify-rules.ps1 -Root C:DevOmniEurope.Blazor -Warn -Rule STD-FILESIZE` ne rend plus de constat (5 avant : `OmniDataGrid.razor.cs` 365 lignes effectives sur 866, `OmniHtmlEditor.razor.cs` 533 sur 832, `OmniChartContext.cs` 511 sur 732, `omni-html-editor.js` 551 sur 713, `omni-mindmap.js` 560 sur 698). Autres projets, avant puis après : Atlas 4 puis 2 (dont un par un découpage fait chez lui le même jour), Orpheus 8 puis 5, kit 1 puis 1, les cinq autres 0. Le script et le modèle de test rendent le même compte sur neuf fichiers, `.razor` compris.
 
 ### Lot 12 - Pluriels par langue
@@ -151,7 +151,6 @@ Controle : décompte inchangé et déjà consigné dans `docs/performance-budget
 
 ## Décisions prises le 2026-10-01
 
-- Ce même nom dans cinq messages de commit déjà poussés : historique non réécrit (2026-10-01, recommandation de l'exécutant suivie). La réécriture changerait les 284 commits suivants sur `develop` et `main`, déplacerait les étiquettes 1.0.1 à 1.3.0, couperait le lien vers le code source des paquets publiés et laisserait les anciens commits consultables sur GitHub jusqu'à leur purge. À rouvrir seulement si le nom devient sensible.
 - Version qui portera le travail non publié : `1.4.0` (2026-10-01) ; elle ajoute de l'API et change des comportements, une `1.3.1` serait trompeuse.
 - Grille `Load` : décision du 2026-10-01, le premier rendu interactif est gardé (recommandation de l'exécutant suivie). Le rendu interactif part d'un composant neuf et recharge de toute façon : charger au prérendu ferait deux requêtes par affichage, sauf état persisté que l'hôte devrait fournir. L'état enregistré (`StateKey`) n'est pas lisible au prérendu : la première requête ignorerait les filtres et tris gardés, et les lignes changeraient au passage à l'interactif. Enfin le prérendu attendrait les données avant d'envoyer la page, là où la grille montre aujourd'hui son état de chargement tout de suite. Un chargement au prérendu ne vaudrait que comme option à demander, pour un hôte qui veut des lignes dans le HTML servi.
 
@@ -159,6 +158,7 @@ Controle : décompte inchangé et déjà consigné dans `docs/performance-budget
 
 Rien ici n'est exécuté sans réponse.
 
+- Nom du projet privé dans l'historique public : le 2026-10-01 le propriétaire a écrit « Réécrit », puis « fais ce que tu recommandes » sur une recommandation conditionnelle ; rien n'est réécrit et la décision reste à prendre. Périmètre réel, plus large que les « cinq messages » annoncés : le nom est dans 9 commits (`git log -S`) et dans le contenu des étiquettes 1.0.1, 1.1.0 et 1.2.0 (4 à 7 fichiers, dont un commentaire de documentation XML livré dans ces paquets) ; il n'est plus dans 1.3.0 ni après. Réécrire les seuls messages ne le retirerait pas des paquets publiés. Choix : réécriture complète (contenu et messages, étiquettes déplacées, délistage de 1.0.1 à 1.2.0, autre session OE arrêtée), ou acceptation en l'état.
 - Trou noir : redessiné depuis (toujours sombre, shader WebGL). Le propriétaire le juge moyen et y reviendra plus tard (2026-10-01).
 
 ## Ordre et dépendances

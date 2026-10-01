@@ -296,7 +296,7 @@ dit au modèle où il est rendu.
                     FilterType="OmniDataGridColumnFilterType.MultiSelect" FilterSearchable="true" />
 ```
 
-`FilterValues` (`IReadOnlyList<string>?`) impose la liste des candidats quand la grille ne peut pas la déduire, notamment sur une
+`FilterValues` (`IReadOnlyList<string>?`) impose la liste des candidats, proposés dans l'ordre donné et sans tri (des niveaux de TRACE à FATAL, par exemple), quand la grille ne peut pas la déduire, notamment sur une
 grille alimentée par `Load` qui ne voit que la page courante.
 
 ### Filtre entièrement sur mesure
@@ -479,7 +479,8 @@ de pages de l'export, et non la seule page affichée. Il est occupé pendant la 
 `OnExport` reçoit le document produit une fois le fichier remis (une exception de son gestionnaire remonte, ce n'est pas un échec de l'export), `OnExportError` l'exception d'un échec ; `Text` (`string?`) remplace
 le libellé localisé du bouton. Quand la source n'annonce pas de total et que la lecture s'arrête sur une
 page pleine à la limite de lignes, le document écrit « N sur au moins M » et une note le dit :
-`OmniMarkdownTableDocument.TotalIsLowerBound` est alors vrai et `IsComplete` faux.
+`OmniMarkdownTableDocument.TotalIsLowerBound` est alors vrai et `IsComplete` faux. Le fichier se nomme
+`{FileName}-{yyyy-MM-dd-HHmm}.md`, heure UTC (`FileName` vaut `export` par défaut).
 
 ## Barre d'export de la grille : `ExportFormats`
 

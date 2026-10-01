@@ -15,7 +15,7 @@
 - `samples/` : hôte Server de référence (`OmniEurope.Blazor.Catalog`) et hôtes de fumée WebAssembly, Interactive Auto (serveur et client) et MAUI Hybrid, ce dernier hors de `OmniEurope.Blazor.slnx` ([compatibility.md](compatibility.md)) ;
 - `site/OmniEurope.Blazor.Showcase` : vitrine WebAssembly statique (page produit, documentation, galerie, personnalisateur de thème) ;
 - `docs` : contrats, conventions, guides de famille et plans numérotés (`docs/plans`) ;
-- `eng` : scripts de vérification et de génération, décrits dans [reproducibility.md](reproducibility.md), analyseurs de conventions du dépôt `GEN001` à `GEN008` (`eng/OmniEurope.Analyzers`, tests dans `eng/OmniEurope.Analyzers.Tests`) et extracteur de la baseline d'API publique (`eng/OmniEurope.PublicApiGuard`) ;
+- `eng` : scripts de vérification et de génération, décrits dans [testing.md](testing.md) (portée) et [reproducibility.md](reproducibility.md) (verrous et paquet), analyseurs de conventions du dépôt `GEN001` à `GEN008` (`eng/OmniEurope.Analyzers`, tests dans `eng/OmniEurope.Analyzers.Tests`) et extracteur de la baseline d'API publique (`eng/OmniEurope.PublicApiGuard`) ;
 - `ylaunch.ps1` et `scripts/ylaunch-core.ps1` : lanceur local du kit ;
 - `artifacts/packages` : paquets locaux, ignorés par Git.
 

@@ -1,8 +1,8 @@
 // Drives, in the published showcase and in a real Chromium through CDP, the script paths no other
 // probe reaches: the filter popovers of the data grid (grid/filter-menus.js), the fold of the page
 // header's badges and actions (omni-page-header.js), the visual face of the HTML editor
-// (omni-html-editor.js and its html-editor/ parts) and the frozen scale of the appearance window
-// (omni-dialog.js). It fails on any console error or Content Security
+// (omni-html-editor.js and its html-editor/ parts), the frozen scale of the appearance window
+// (omni-dialog.js) and the phone width watch of a pushing sidebar (omni-focus.js). It fails on any console error or Content Security
 // Policy violation, the showcase being served with `style-src 'self'`.
 //
 // Usage: node Test-ShowcaseModulesProbe.mjs --endpoint http://127.0.0.1:<cdp port> --url http://127.0.0.1:<site port>/
@@ -304,6 +304,36 @@ results.push(`libellés à leur place après un changement de thème (${spaced.s
 await evaluate(`[...document.querySelectorAll(${JSON.stringify(`${appearanceWindow} .omni-button`)})].filter(button => !button.textContent.trim())[0].click()`);
 await pickTheme('Essentiel');
 await pause(300);
+
+// 5. Phone width watch of a pushing sidebar (omni-focus.js, watchNarrow): under 40rem the shell demo's
+// pushing menu, whose host binds OpenChanged, floats over the content with its veil and Escape closes
+// it; wider, it pushes again.
+const sidebar = '#shell-demo-sidebar';
+const sidebarToggle = '[aria-controls="shell-demo-sidebar"]';
+const sidebarState = () => evaluate(`(() => {
+  const aside = document.querySelector(${JSON.stringify(sidebar)});
+  const main = aside.parentElement.querySelector('main') ?? aside.nextElementSibling;
+  return { overlay: aside.classList.contains('omni-sidebar--overlay'), push: aside.classList.contains('omni-sidebar--push'), open: aside.classList.contains('omni-sidebar--open'), veil: aside.querySelector('.omni-sidebar__backdrop') !== null, main: Math.round(main.getBoundingClientRect().width) };
+})()`);
+const openSidebar = async () => {
+  if (!(await sidebarState()).open) await evaluate(`document.querySelector(${JSON.stringify(sidebarToggle)}).click()`);
+  await waitFor('le menu de la coquille ouvert', `document.querySelector(${JSON.stringify(sidebar)}).classList.contains('omni-sidebar--open')`);
+};
+await send('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
+await evaluate("Blazor.navigateTo('/composants/coquille')");
+await waitFor('la démonstration de coquille', `document.querySelector(${JSON.stringify(sidebar)}) !== null`);
+await openSidebar();
+await waitFor('le menu poussé superposé sur téléphone', `document.querySelector(${JSON.stringify(sidebar)}).classList.contains('omni-sidebar--overlay')`);
+const narrow = await sidebarState();
+check(narrow.veil && narrow.main > 200, `Menu poussé mal superposé à 390 px : ${JSON.stringify(narrow)}.`);
+await key('Escape', 'Escape', 27);
+await waitFor('Échap qui ferme le menu superposé', `!document.querySelector(${JSON.stringify(sidebar)}).classList.contains('omni-sidebar--open')`);
+await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
+await waitFor('le retour au menu poussé', `document.querySelector(${JSON.stringify(sidebar)}).classList.contains('omni-sidebar--push')`);
+await openSidebar();
+const wide = await sidebarState();
+check(wide.push && !wide.veil, `Menu toujours superposé à 1280 px : ${JSON.stringify(wide)}.`);
+results.push(`menu poussé superposé à 390 px (voile, ${narrow.main} px de contenu, Échap ferme), poussé à 1280 px`);
 
 await pause(300);
 const csp = await evaluate('window.__omniCsp');

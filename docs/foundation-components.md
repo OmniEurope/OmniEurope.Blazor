@@ -39,6 +39,7 @@ Les pièces de la barre supérieure de la maquette de PLAN-004 (`docs/plans/arch
 - logo et nom : `OmniHeader.BrandLogo` et `OmniHeader.Brand` ;
 - recherche : `OmniTextBox` avec `Icon` (voir `docs/form-components.md`) ;
 - pastille de la cloche : `OmniButton.Indicator` pose un point du remplissage de danger au coin haut de fin du bouton, cerné de la surface (de l'accent sur le bandeau). Il est décoratif (`aria-hidden`) : ce qu'il signale va dans le nom accessible, par exemple `Label="Notifications, 3 non lues"` ;
+- menu de l'application : `OmniAppMenu`, le même dans toutes les applications (utilisateur et rôle, lignes de l'application, langue, mode, thème, paramètres, version et déconnexion ; voir `docs/navigation-components.md`) ;
 - avatar et menu de compte : `OmniProfileMenu` sans `Summary`, avec `Initials` et `Header`, et ses `OmniMenuItem` avec `Icon` (voir `docs/selection-components.md`).
 
 ```razor
@@ -109,7 +110,7 @@ Toute palette peint tout thème : quinze thèmes par quinze palettes, deux cent 
 | Givre | Verre dépoli : grandes taches pastel peintes par la portée sous le contenu, qui dérivent lentement, cartes dépolies (flou et saturation) à liseré clair, barre du haut et menu latéral en verre, calques flottants et voile de dialogue floutés, boutons pilule | Opale |
 | Aplat | Design plat : aucune ombre ni dégradé, cartes pleines sans bordure, boutons pilule, appui qui ne fait que foncer, police géométrique | Pastel |
 | Épure | Minimalisme : angles vifs, filets fins, aucune ombre, action principale à l’encre, très grands titres en 800, Inter | Encre |
-| Trou noir | Page nue (noir pur avec Horizon en sombre), cartes à peine voilées fermées par un filet fin, anneau d'accent derrière la page dont la lueur tourne lentement, boutons qui luisent de l'accent en sombre, police géométrique | Horizon |
+| Trou noir | Toujours sombre (`DarkOnly`) : page noire (noir pur avec Horizon), cartes à peine voilées fermées par un filet fin, trou noir lentillé derrière la page dont le disque d'accrétion blanc tourne lentement (shader WebGL), boutons qui luisent de l'accent, police géométrique | Horizon |
 
 | Palette | Accent clair | Allure |
 |---|---|---|
@@ -157,18 +158,19 @@ Toute palette peint tout thème : quinze thèmes par quinze palettes, deux cent 
 }
 ```
 
-Le thème ne repeint que sa portée. Les valeurs sont des surcharges des variables de la feuille, écrites par le CSSOM (`omni-theme.js`), jamais par un attribut `style` ; le mode suit `Appearance`, et `System` suit le réglage du système quand il change. Les variables de forme (`--omni-button-*`, `--omni-card-*`, `--omni-heading-*`, `--omni-border-width`) valent par défaut l'apparence livrée : une application peut aussi les redéfinir elle-même.
+Le thème ne repeint que sa portée. Les valeurs sont des surcharges des variables de la feuille, écrites par le CSSOM (`omni-theme.js`), jamais par un attribut `style` ; le mode suit `Appearance`, et `System` suit le réglage du système quand il change. Sous un thème marqué `OmniThemePreset.DarkOnly` (Trou noir), la portée peint toujours sa moitié sombre, quel que soit `Appearance`, et le choix du mode d'`OmniAppearanceSettings` et d'`OmniAppMenu` est figé sur Sombre avec la mention « Ce thème est toujours sombre ». Les variables de forme (`--omni-button-*`, `--omni-card-*`, `--omni-heading-*`, `--omni-border-width`) valent par défaut l'apparence livrée : une application peut aussi les redéfinir elle-même.
 
 ### Relief, Givre, Aplat, Épure et Trou noir
 
-Les quatre premiers reprennent l'esprit de quatre styles d'interface (néomorphisme, verre dépoli, design plat, minimalisme), redessinés avec les jetons du paquet ; Trou noir est une page nue que seul son accent éclaire.
+Les quatre premiers reprennent l'esprit de quatre styles d'interface (néomorphisme, verre dépoli, design plat, minimalisme), redessinés avec les jetons du paquet ; Trou noir est une page noire qu'éclaire un disque d'accrétion blanc.
 
 Relief, Givre et Aplat sont marqués **contraste non garanti** (décision du propriétaire du 2026-09-28) : leur style prime sur les seuils de contraste. La raison est déclarée dans le catalogue (`ThemeDefinition.ContrastWaiver`) et exposée par `OmniThemePreset.ContrastWaiver`, que la vitrine affiche sous l'aperçu. Ces thèmes restent mesurés : `ThemeContrastMatrixTests` écrit leurs écarts dans la sortie du test au lieu d'échouer, et la sonde de contraste les compte sous `acceptedContrastWaiver`. Seul l'anneau de focus n'est jamais couvert : il reste plein et à 3:1 au moins dans tous les thèmes et avec toutes les palettes (`ThemePaletteTests`). Le texte et la bordure d'un contrôle focalisé suivent la dérogation comme les autres états (décision du 2026-09-28). La liste des thèmes marqués est figée dans le test : en marquer un de plus est une modification délibérée, et l'apparence livrée (Essentiel) ne peut pas l'être. Une application qui doit garantir les contrastes choisit un thème non marqué. Épure et Trou noir gardent les garanties complètes.
 
-Ils lisent treize crochets de la feuille, neutres pour tout autre thème et remis à zéro sur chaque portée (`[data-omni-theme]`) pour qu'une portée imbriquée ne les hérite pas :
+Ils lisent quatorze crochets de la feuille, neutres pour tout autre thème et remis à zéro sur chaque portée (`[data-omni-theme]`) pour qu'une portée imbriquée ne les hérite pas :
 
-- `--omni-backdrop` : calques d'image peints par la portée derrière tout son contenu, fixés à la fenêtre (`none` par défaut). Givre y pose quatre très grandes taches en dégradés radiaux sans cœur dur, dimensionnées sur la fenêtre pour se recouvrir sous le contenu : `--omni-backdrop-middle` (l'accent), `--omni-backdrop-start` (l'information), `--omni-backdrop-end` (le succès) et la lueur `--omni-backdrop-glow` (l'avertissement en clair, le danger en sombre), sur un fond qui glisse de la page vers l'information. Trou noir y pose le disque de l'horizon à la couleur de la page, un anneau fin `--omni-backdrop-ring` et une lueur conique (`--omni-backdrop-disc`, `--omni-backdrop-glow`), tous très proches de la page (7 % d'accent au plus en clair, 20 % en sombre). Les contrôles de contraste mesurent chaque arrêt `--omni-backdrop-*` que le fond nomme ;
+- `--omni-backdrop` : calques d'image peints par la portée derrière tout son contenu, fixés à la fenêtre (`none` par défaut). Givre y pose quatre très grandes taches en dégradés radiaux sans cœur dur, dimensionnées sur la fenêtre pour se recouvrir sous le contenu : `--omni-backdrop-middle` (l'accent), `--omni-backdrop-start` (l'information), `--omni-backdrop-end` (le succès) et la lueur `--omni-backdrop-glow` (l'avertissement en clair, le danger en sombre), sur un fond qui glisse de la page vers l'information. Trou noir y pose, pour un navigateur sans WebGL, l'horizon à la couleur de la page, un anneau de photons fin (`--omni-backdrop-disk`, 9 % du texte) et un halo (`--omni-backdrop-halo`, 2 % du texte), en haut à droite, là où le shader dessine le trou. Les contrôles de contraste mesurent chaque arrêt `--omni-backdrop-*` que le fond nomme ;
 - `--omni-scope-motion` : l'animation de ce fond (`none` par défaut), décrite sous « Fond animé » ;
+- `--omni-scope-canvas` : un fond qu'un arrière-plan CSS ne sait pas dessiner (`none` par défaut) ; Trou noir y pose `black-hole`, et la portée rend alors sous son contenu un `canvas` (`omni-theme-scope__canvas`) que dessine `omni-black-hole.js`, le fond CSS restant visible sans WebGL ;
 - `--omni-shell-background` : fond de la barre du haut (`.omni-header`) et du menu latéral (`.omni-sidebar__panel`), repli sur la surface de la page. Givre y pose un verre translucide, si bien que le champ de couleur court d'un bord à l'autre ; la barre et le menu portent alors le même dépoli que les cartes (un `::before` en `z-index: -1` qui applique `--omni-card-filter`), et un thème qui pose ce crochet pose donc aussi `--omni-card-filter`. Un menu latéral ouvert en surimpression, hors de ce dépoli, prend le verre dense du dialogue (`--omni-dialog-background`) ;
 - `--omni-card-filter` et `--omni-scope-isolation` : le dépoli des cartes, en un seul crochet (`none` et `auto` par défaut). Toute surface peinte du fond de carte (carte, tuile de statistique, tuile de réglage, ligne d'apparence, carte à choisir, fichier d'un envoi) est positionnée et porte un pseudo-élément `::before` étiré sous elle, en `z-index: -1`, qui applique `--omni-card-filter` en `backdrop-filter` ; Givre y pose son givre et fait de la portée un contexte d'empilement (`--omni-scope-isolation: isolate`). Le pseudo-élément floute et sature le fond, et la carte pose par-dessus son remplissage translucide, son liseré et son reflet. Le filtre n'est jamais posé sur la carte, qui deviendrait le bloc conteneur des infobulles, menus et popovers fixes qu'elle contient, et la carte ne crée pas de contexte d'empilement, si bien que ses popovers passent toujours au-dessus des cartes suivantes ;
 - `--omni-input-shadow` : ombre des champs (`.omni-input`, `.omni-password`), gardée sous l'anneau de focus ; Relief y creuse ses champs ;
@@ -183,10 +185,10 @@ Sans `backdrop-filter`, un calque flottant translucide retombe sur la surface op
 
 #### Fond animé
 
-Givre et Trou noir font bouger leur fond, et eux seuls (décision du propriétaire du 2026-09-30, figée dans `ThemeFieldMotionTests`). Le mouvement est en CSS pur, sans script :
+Givre et Trou noir font bouger leur fond, et eux seuls (décision du propriétaire du 2026-09-30, figée dans `ThemeFieldMotionTests`). Le mouvement de Givre est en CSS pur, sans script ; celui de Trou noir est dessiné par `omni-black-hole.js` (WebGL, 30 images par seconde, en pause quand la page est cachée, une seule image si `BackdropMotion` est coupé ou si le mouvement est réduit). Pour le fond CSS :
 
 - la feuille enregistre un angle, `@property --omni-scope-turn` (`<angle>`, non hérité, `0deg`), qu'une animation `omni-scope-turn` mène à 360 degrés ; `--omni-backdrop` est enregistré non hérité lui aussi, pour que ni l'angle ni le fond ne soient recalculés sur chaque élément de la portée à chaque image ;
-- la portée porte `animation: var(--omni-scope-motion, none)` ; un thème qui bouge pose `--omni-scope-motion: omni-scope-turn <N>s linear infinite` (120 s pour Givre, 240 s pour Trou noir, jamais moins d'une minute) et lit `var(--omni-scope-turn)` dans son `--omni-backdrop` : l'orbite des taches de Givre, l'origine de la lueur conique de Trou noir ;
+- la portée porte `animation: var(--omni-scope-motion, none)` ; un thème qui bouge pose `--omni-scope-motion: omni-scope-turn <N>s linear infinite` (120 s pour Givre comme pour Trou noir, jamais moins d'une minute) et lit `var(--omni-scope-turn)` dans son `--omni-backdrop` : l'orbite des taches de Givre ;
 - le fond reste immobile, angle à zéro, quand `OmniThemeScope.BackdropMotion` vaut `false` (la portée pose `data-omni-backdrop-motion="off"`) et toujours sous `prefers-reduced-motion: reduce`. Un navigateur sans `@property` garde lui aussi le fond immobile.
 
 `BackdropMotion` vaut `true` par défaut. `OmniAppearanceWindow` et `OmniAppearanceSettings` exposent `BackdropMotion` et `BackdropMotionChanged` : la ligne « Fond animé » (un interrupteur, texte dans les 24 langues) n'apparaît que sous un thème qui bouge son fond et seulement si l'hôte lie le changement ; l'hôte stocke la valeur et la remet à sa portée.
@@ -205,7 +207,7 @@ Le parti pris de chacun (sous les seuils pour les trois premiers) :
 - Givre : verre dépoli aéré. En clair, quatre très grandes taches pastel (lavande, ciel, menthe, pêche) sur un blanc froid, qui se recouvrent sous le contenu au lieu de rester dans les coins ; en sombre, des taches plus profondes sur une nuit bleutée, la lueur chaude prenant la teinte du danger, une aurore. Chaque tache dérive sur une petite orbite, un tour en deux minutes. La barre du haut et le menu latéral sont du même verre. L'accent reste une seule couleur franche et profonde, qui se détache de toutes les teintes du fond. Les cartes sont réellement dépolies : le fond est flouté et saturé sous elles (voir les crochets ci-dessus), puis la carte pose un remplissage laiteux translucide, un liseré clair de 1 px, un reflet en haut et une grande ombre douce ; les champs, le bouton secondaire et les grilles sont du même verre, plus dense pour les grilles. Libéré des seuils, seul l'anneau de focus reste garanti ; le texte atténué est un cran plus clair que le texte et reste lisible à l'œil sur les taches.
 - Aplat : les cartes sont un aplat franc de l'accent, le bouton principal une pastille claire de l'accent à l'encre presque noire, le bouton secondaire un aplat de l'information, les grilles et le dialogue restent des panneaux de la page, cernés comme les menus d'un filet plat de 1 px qui les détache d'elle, et les alertes pleines perdent leur lueur ; le texte atténué reste celui de la palette.
 - Épure : l'action principale est dessinée à l'encre du texte, son survol prend l'accent fort de la palette, seule touche de couleur avec les liens et l'onglet courant.
-- Trou noir : la page est la surface de la palette et rien d'autre (noir pur avec Horizon en sombre, blanc pur en clair). Les cartes sont un voile de 4 % du texte fermé par un filet fin, si bien que le fond se voit à travers ; grilles et dialogues sont opaques, un cran au-dessus de la page. La seule lumière est l'accent : la lueur des boutons et des calques flottants en sombre, et l'anneau de l'horizon derrière la page, en haut à droite, dont la lueur fait un tour en quatre minutes. Le filet est plus ferme que celui de la palette (36 % du texte) pour tenir son plancher sur les arrêts du fond. Le thème garde les seuils de contraste avec toutes les palettes : l'anneau est donc volontairement discret, surtout en clair.
+- Trou noir : toujours sombre (`DarkOnly`), la page est la surface sombre de la palette et rien d'autre (noir pur avec Horizon). Les cartes sont un voile de 4 % du texte fermé par un filet fin, si bien que le fond se voit à travers ; grilles et dialogues sont opaques, un cran au-dessus de la page. En haut à droite, un trou noir lentillé : le disque d'accrétion blanc, incliné, passe devant l'horizon et sa face arrière forme un arc au-dessus et un anneau en dessous ; sa lumière est plafonnée à 62 % de la couleur du texte, et ce calque n'est pas mesuré par les tests de contraste. L'accent ne luit plus que sur les boutons et les calques flottants. Le filet est plus ferme que celui de la palette (36 % du texte) pour tenir son plancher sur les arrêts du fond CSS.
 
 ### L'apparence livrée
 
@@ -229,8 +231,8 @@ l'ouverture de cette fenêtre, ce qui permet à l'hôte de retirer son éventuel
 Cette fenêtre est aussi un composant, `OmniAppearanceWindow`, qu'un hôte ouvre depuis sa propre entrée
 de menu (« Thème ») par `Open`/`OpenChanged`. Plus large que haute (46rem, jamais plus que l'écran), elle
 range ses réglages deux par deux, dans l'ordre de lecture : thème et palette, taille du texte et taille
-des contrôles, puis densité, police et fond animé ; une seule colonne dès que deux de 19rem ne tiennent
-plus. À côté du nom du thème, le bouton « Aléatoire » tire un thème autre que le courant et, si la
+des contrôles, puis densité et police ; l'interrupteur « Fond animé » se place sous la liste des thèmes. Une seule colonne dès que deux de 19rem ne tiennent
+plus. Dans le pied de la fenêtre, le bouton « Aléatoire » tire un thème autre que le courant et, si la
 palette est liée, une palette autre que celle en vigueur (`PresetChanged`, `PaletteChanged`, puis
 `FontChanged` avec `null` pour une police choisie pour l'ancien thème). Chaque ligne n'apparaît que si l'hôte lie son changement
 (`PresetChanged`, `PaletteChanged`, `FontChanged`, `TextSizeLevelChanged`, `DensityChanged`,
@@ -254,8 +256,10 @@ La densité est un `OmniDensity` (`Density`/`DensityChanged`), choisi dans un gr
 (Compacte, Confortable, Aérée), que l'hôte passe tel quel à `OmniThemeScope.Density`. La taille du texte
 et la taille des contrôles proposent les niveaux 1 à 10 : un curseur suit les boutons moins et plus de
 chaque réglage. Le contrôle reçoit les valeurs et émet leurs changements ; l'application conserve
-la responsabilité du stockage et les applique à sa portée. Les boutons Défaut restaurent les valeurs
-initiales.
+la responsabilité du stockage et les applique à sa portée. Les boutons Défaut restaurent la valeur
+initiale de leur ligne, « Tout par défaut » toutes à la fois. Le pied de la fenêtre range à gauche « Aléatoire » et « Tout par défaut »,
+à droite « Annuler » (rouge) et « Valider » (bleu). Les changements s'appliquent en direct pendant l'essai ; « Annuler », la croix et
+Échap rétablissent l'apparence en vigueur à l'ouverture avant de fermer, seul « Valider » la garde.
 Le réglage Police propose les dix polices d'`OmniThemeFonts.All` : six piles système et quatre polices web
 libres (Inter, Lexend, Source Serif 4, JetBrains Mono, OFL 1.1) servies par le paquet depuis `fonts/`, avec repli système ;
 celle du thème est marquée « (défaut) » et `OmniThemePresets.DefaultFontFor(preset)` la fournit.

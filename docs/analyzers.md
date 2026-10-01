@@ -1,6 +1,6 @@
 # Analyseurs de conventions
 
-Le projet `eng/OmniEurope.Analyzers` fournit les diagnostics `GEN*` compilés avec la RCL ; `src/OmniEurope.Blazor.Analyzers` fournit `OE0001`, livré dans le paquet (voir plus bas). `.editorconfig` porte leur sévérité et `tests/OmniEurope.Blazor.Tests/ConventionGuardTests.cs` protège les conventions qui nécessitent une vue dépôt.
+Le projet `eng/OmniEurope.Analyzers` fournit les diagnostics `GEN*` compilés avec la RCL ; `src/OmniEurope.Blazor.Analyzers` fournit `OE0001`, livré dans le paquet (voir plus bas). `.editorconfig` porte la sévérité des `GEN*` (`OE0001` est une erreur par son descripteur) et `tests/OmniEurope.Blazor.Tests/ConventionGuardTests.cs` protège les conventions qui nécessitent une vue dépôt.
 
 | Diagnostic | Contrat | Sévérité (`.editorconfig`) | Applicabilité à la RCL |
 | --- | --- | --- | --- |
