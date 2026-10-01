@@ -16,7 +16,7 @@ Ces règles sont celles de la passe de cohérence 1.2.0 ([PLAN-007](plans/archiv
 - Collections en paramètre : `IReadOnlyList<T>` ; une absence de sélection multiple est une liste vide, jamais `null`.
 - Une valeur réellement optionnelle utilise un type nullable (`DateOnly?`, `bool?`, `double?`, `CultureInfo?`). Les composants non nullables ne donnent pas de sens implicite à `default`.
 - L'icône d'un composant est un fragment nommé `Icon`, en général un `OmniIcon`, rendu décoratif par le composant. Le composant dimensionne une `OmniIcon` sans `Size` par la propriété `--omni-icon-size` (badge, bouton partagé, petit bouton) ; une `Size` posée sur l'icône, ou une classe du consommateur qui la dimensionne, l'emporte.
-- Les opérations distantes reçoivent un `CancellationToken`. `OmniDataList`, `OmniDataGrid`, `OmniScheduler` et `OmniAutocomplete` rendent chargement et erreur observables et proposent une reprise : `LoadingContent`, `ErrorContent` et `OnLoadError` (`OnSearchError` pour l'autocomplétion, qui reçoit l'exception sans l'afficher).
+- Les opérations distantes reçoivent un `CancellationToken`. `OmniDataList`, `OmniDataGrid`, `OmniScheduler` et `OmniAutocomplete` rendent chargement et erreur observables et proposent une reprise : `LoadingContent`, `ErrorContent` et `OnLoadError` ; l'autocomplétion n'a pas de `LoadingContent` et propose `ErrorContent`, `OnSearchError` (qui reçoit l'exception) et `SearchErrorMessage`.
 - Les événements asynchrones sont des `EventCallback` ou des délégués retournant `Task`.
 
 ## Ton, remplissage, sévérité et emphase
@@ -38,7 +38,9 @@ Ces règles sont celles de la passe de cohérence 1.2.0 ([PLAN-007](plans/archiv
 
 ## Exceptions documentées
 
-- `OmniLogViewer.ShowSearch` : la recherche du journal marque les occurrences et les parcourt sans masquer de ligne ; ce n'est pas un filtre d'options (`Filterable`), et le nom suit les autres bascules de sa barre (`ShowLevelFilter`).
+- `ErrorContent` est un `RenderFragment<Exception>` (grille, liste, agenda, autocomplétion) : il porte l'exception à afficher, mais garde le suffixe `Content` des zones de remplacement qu'il partage avec `LoadingContent` et `EmptyContent`.
+- `OmniUpload.FilesSelected`, `OmniUpload.FileRemoved`, `OmniCodeEditor.LinkActivated`, `OmniCodeViewer.LinkActivated` et `OmniValidatorBase<TValue>.ValidationFailed` : nommés avant la règle `On` + sujet + verbe, gardés pour ne pas rompre l'API publique.
+- `OmniLogViewer.ShowSearch` et `OmniLogViewer.SearchPlaceholder` : la recherche du journal marque les occurrences et les parcourt sans masquer de ligne ; ce n'est pas un filtre d'options (`Filterable`), et le nom suit les autres bascules de sa barre (`ShowLevelFilter`).
 - `OmniDataGridColumn.FilterSearchable` et `OmniDataGridColumn.FormatFilterValue` : `Filterable` et `FormatValue` y désignent déjà le filtre de la colonne et l'affichage de ses cellules ; le préfixe `Filter` situe ces deux réglages dans la liste de choix du filtre (`FilterSearchable` alimente le `Filterable` de cette liste, `FormatFilterValue` le texte de chaque valeur candidate).
 - `OmniListBox<TValue, TSelection>` : le second paramètre générique est ce que lie `@bind-Value`, une valeur d'option ou une collection avec `Multiple` ; l'inférence les déduit tous deux.
 - `OmniSelectableCardGroup<TValue, TSelection>` : même raison, `TValue` est la valeur d'une carte, `TSelection` la valeur liée (une seule valeur, ou une collection avec `Multiple`).

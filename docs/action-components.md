@@ -1,6 +1,6 @@
 # Actions (famille Actions)
 
-Les actions déclenchent quelque chose : un bouton natif (`button type="button"` par défaut), aux trois mêmes tailles et aux mêmes variantes d'emphase dans toute la famille. Un bouton à icône seule est carré et doit recevoir un nom accessible (`Label`) ; sa cible reste de 44 px (`STD-BTN`, [code-rules.md](code-rules.md)).
+Les actions déclenchent quelque chose : un bouton natif (`button type="button"` par défaut), aux trois mêmes tailles dans toute la famille ; `OmniButton` et `OmniSplitButton` partagent les variantes d'emphase (`Variant`), que `OmniToggleButton` n'a pas. Un bouton à icône seule est carré et doit recevoir un nom accessible (`Label`) ; sa cible reste de 44 px (`STD-BTN`, [code-rules.md](code-rules.md)).
 
 | Composant | Rôle |
 | --- | --- |

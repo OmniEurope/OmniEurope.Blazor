@@ -495,7 +495,7 @@ de bouton). `ExportPosition` place la barre sous le tableau (défaut), au-dessus
     <Columns>
         <OmniDataGridColumn TItem="Commande" Property="Reference" Title="Référence" />
         <OmniDataGridColumn TItem="Commande" Title="Statut" ExportValue="@(c => Libelle(c.Statut))">
-            <Template Context="c"><OmniBadge Text="@Libelle(c.Statut)" /></Template>
+            <Template Context="c"><OmniBadge>@Libelle(c.Statut)</OmniBadge></Template>
         </OmniDataGridColumn>
     </Columns>
 </OmniDataGrid>

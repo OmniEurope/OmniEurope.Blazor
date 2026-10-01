@@ -48,7 +48,7 @@
       "host": "Static WebAssembly showcase with strict CSP headers, served by eng/Test-ShowcaseHost.ps1 (one of its seven default probes; manual gate, not in CI)",
       "script": "eng/Test-ShowcasePickerProbe.mjs",
       "components": ["OmniDatePicker", "OmniTimePicker", "OmniDateTimePicker"],
-      "assertions": ["trusted keyboard and mouse events drive the calendar grid and the time columns", "Escape closes the panel and returns the focus to the field", "an outside press closes the panel", "one panel open at a time", "density, light and dark", "zero CSP violations", "zero browser console errors"]
+      "assertions": ["trusted keyboard and mouse events drive the calendar grid and the time columns", "Escape closes the panel and returns the focus to the field", "an outside press closes the panel", "one panel open at a time", "density, light and dark", "inside a dialog the calendar opens over it, without a scroll bar, and stays under its field after the dialog is dragged", "zero CSP violations", "zero inline style attributes", "zero browser console errors"]
     },
     {
       "id": "showcase-density-every-page",
@@ -68,8 +68,8 @@
       "id": "showcase-script-modules",
       "host": "Static WebAssembly showcase with strict CSP headers, served by eng/Test-ShowcaseHost.ps1 (one of its seven default probes; manual gate, not in CI)",
       "script": "eng/Test-ShowcaseModulesProbe.mjs",
-      "components": ["OmniDataGrid", "OmniPageHeader", "OmniHtmlEditor"],
-      "assertions": ["a trusted click opens a filter popover of the advanced grid, placed inside the window by custom properties only", "one popover open at a time", "Escape and a press outside close it", "a longer title folds the header's badges and actions behind the toggle at desktop width, the toggle shows them, a short title unfolds them", "text typed in the visual editor reaches .NET", "the Bold command wraps the selection and presses its button", "zero CSP violations", "zero browser console errors"]
+      "components": ["OmniDataGrid", "OmniPageHeader", "OmniHtmlEditor", "OmniDialog", "OmniAppearanceWindow"],
+      "assertions": ["a trusted click opens a filter popover of the advanced grid, placed inside the window by custom properties only", "one popover open at a time", "Escape and a press outside close it", "a longer title folds the header's badges and actions behind the toggle at desktop width, the toggle shows them, a short title unfolds them", "text typed in the visual editor reaches .NET", "the Bold command wraps the selection and presses its button", "the frozen appearance window (FreezeScale): a row arrives and leaves without overlap or gap, labels fit their buttons after a theme change, the window does not move when the text size changes", "zero CSP violations", "zero browser console errors"]
     },
     {
       "id": "showcase-long-languages",
