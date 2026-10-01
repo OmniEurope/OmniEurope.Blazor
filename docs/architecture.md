@@ -15,7 +15,7 @@
 - `samples/` : hôte Server de référence (`OmniEurope.Blazor.Catalog`) et hôtes de fumée WebAssembly, Interactive Auto (serveur et client) et MAUI Hybrid, ce dernier hors de `OmniEurope.Blazor.slnx` ([compatibility.md](compatibility.md)) ;
 - `site/OmniEurope.Blazor.Showcase` : vitrine WebAssembly statique (page produit, documentation, galerie, personnalisateur de thème) ;
 - `docs` : contrats, conventions, guides de famille et plans numérotés (`docs/plans`) ;
-- `eng` : scripts de vérification et de génération, décrits dans [reproducibility.md](reproducibility.md), analyseurs de conventions du dépôt `GEN001` à `GEN008` (`eng/OmniEurope.Analyzers`, tests dans `eng/OmniEurope.Analyzers.Tests`) et extracteur de la baseline d'API publique (`eng/OmniEurope.PublicApiGuard`) ;
+- `eng` : scripts de vérification et de génération, décrits dans [testing.md](testing.md) (portée) et [reproducibility.md](reproducibility.md) (verrous et paquet), analyseurs de conventions du dépôt `GEN001` à `GEN008` (`eng/OmniEurope.Analyzers`, tests dans `eng/OmniEurope.Analyzers.Tests`) et extracteur de la baseline d'API publique (`eng/OmniEurope.PublicApiGuard`) ;
 - `artifacts/packages` : paquets locaux, ignorés par Git.
 
 Les composants complexes conservent une façade déclarative publique et délèguent leurs mécanismes à des moteurs internes : projection/chargement pour la grille, projection/domaines pour les graphiques et coordination ordonnée pour les superpositions. Les contextes en cascade de grille, onglets, étapes et arbre ne font pas partie de l'API publique.

@@ -273,16 +273,22 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
     public void FormActions_StayInTheFormOfTheSignInCard_AlignedToTheEnd()
     {
         // recette R-375: the sign-in button sits in the host's form, so it submits it, at the end of the row.
-        var shell = Render<OmniLoginShell>(parameters => parameters
-            .AddChildContent("<form id=\"sign-in\"><input name=\"user\" /></form>"));
-        var actions = Render<OmniFormActions>(parameters => parameters
-            .Add(component => component.Id, "sign-in-actions")
-            .AddChildContent("<button type=\"submit\">Se connecter</button>"));
+        RenderFragment form = builder =>
+        {
+            builder.OpenElement(0, "form");
+            builder.AddAttribute(1, "id", "sign-in");
+            builder.OpenComponent<OmniFormActions>(2);
+            builder.AddComponentParameter(3, nameof(OmniFormActions.Id), "sign-in-actions");
+            builder.AddComponentParameter(4, nameof(OmniFormActions.ChildContent), (RenderFragment)(button => button.AddMarkupContent(0, "<button type=\"submit\">Se connecter</button>")));
+            builder.CloseComponent();
+            builder.CloseElement();
+        };
+        var shell = Render<OmniLoginShell>(parameters => parameters.Add(component => component.ChildContent, form));
 
-        var row = actions.Find("div.omni-form-actions");
+        var row = shell.Find(".omni-card__body form#sign-in > div.omni-form-actions");
         Assert.Equal("sign-in-actions", row.Id);
         Assert.Equal("submit", row.QuerySelector("button")!.GetAttribute("type"));
-        Assert.NotNull(shell.Find(".omni-card__body form#sign-in"));
+        Assert.Empty(shell.FindAll(".omni-card__footer .omni-form-actions"));
 
         var rule = ShippedLookTests.Body(".omni-form-actions");
         Assert.Equal("flex", ShippedLookTests.Value(rule, "display"));

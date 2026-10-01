@@ -29,3 +29,7 @@ Délister n'est pas supprimer : un projet qui épingle `1.0.0` continue de la re
 ## Rupture assumée : `1.3.0`
 
 `1.3.0` porte des ruptures dans une version mineure : `OmniDataGridColumn.Filterable` devient `bool?` et suit la grille quand il n'est pas réglé, les textes du paquet qui suivent un nombre portent un bloc `plural` ICU (une lecture directe par `IStringLocalizer<AppStrings>` avec des arguments lève `FormatException`), et deux classes CSS changent (`OmniAppearanceWindow`, tableaux masqués d'`OmniChart`). Décision du propriétaire du 2026-09-30 (PLAN-009) : numéro `1.3.0` plutôt que `2.0.0`, pour le même motif qu'en `1.2.0` (le propriétaire est le seul consommateur du paquet). Chaque rupture est listée sous « Breaking changes » dans `CHANGELOG.md`, avec sa migration.
+
+## Rupture assumée : `1.4.0`
+
+`1.4.0` change une valeur par défaut dans une version mineure : sans `ExportFileName` (désormais `string?`, null par défaut au lieu de `"export"`), le fichier exporté prend le nom du titre ou de la légende de la grille, horodaté à la minute. Les autres changements visibles de cette version (pastille seule pour `OmniDialog.Intent`, menu `Push` superposé sur téléphone, fenêtre d'apparence qui rétablit son réglage d'ouverture quand on la ferme par la croix ou Échap) sont marqués **Aspect** ou **Comportement** dans le journal. La rupture n'a été consignée qu'après la publication : les notes de la release GitHub `1.4.0` la rangent encore parmi les ajouts (« Added »), et le message du commit de publication (`1ed6c26`) dit « No breaking change ».

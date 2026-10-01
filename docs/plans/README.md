@@ -18,7 +18,7 @@ structurelles ; un plan décrit un travail, pas l'état du produit.
 
 | Plan | Travail restant | ADR |
 |---|---|---|
-| [PLAN-009](PLAN-009-themes-et-reliquats.md) | Thèmes (lots 2 à 7), demandes OE d'une application cliente (lots 8 et 9), Trou noir à revoir plus tard (décision du propriétaire) | Sans ADR supplémentaire |
+| [PLAN-009](PLAN-009-themes-et-reliquats.md) | Décisions du propriétaire (historique public, Trou noir) ; prévenir la session d'une application cliente à la livraison (lots 8 et 9) | Sans ADR supplémentaire |
 
 ## Archives
 
@@ -35,5 +35,5 @@ lot 2) ; leurs anciens numéros locaux étaient respectivement 004, 007 et 008.
 | [PLAN-005](archive/PLAN-005-remediation-audit-2026-09-27.md) | Remédiation de l'audit 360 du 2026-09-27 | Terminé le 2026-09-29, KIT-001/KIT-002 clos par décision (fichiers privés gardés) |
 | [PLAN-006](archive/PLAN-006-editeur-html-extensible.md) | Éditeur HTML extensible : objet d'extension, primitives, fonctions frontière, suggestion de suite | Terminé le 2026-09-27, consommé par une application cliente (PLAN-009) |
 | [PLAN-007](archive/PLAN-007-coherence-et-24-langues.md) | Passe de cohérence de la 1.2.0 et textes du paquet et de la vitrine dans les 24 langues de l'Union | Terminé le 2026-09-29, 12 lots sur 12, CI verte à `9889582` |
-| [PLAN-010](archive/PLAN-010-poids-et-langues-longues.md) | Poids de l'assembly et langues longues | Terminé le 2026-10-01, lots 1 à 4 et 6 faits, lot 5 abandonné au profit de la sonde `Languages` |
 | [PLAN-008](archive/PLAN-008-reliquats-1-2-0.md) | Reliquats de la 1.2.0 : contrats, fichiers privés, comportements différés, fichiers sous 600 lignes effectives | Terminé le 2026-09-29, 5 lots sur 5, CI verte à `35969ce` |
+| [PLAN-010](archive/PLAN-010-poids-et-langues-longues.md) | Poids de l'assembly et langues longues | Terminé le 2026-10-01, lots 1 à 4 et 6 faits, lot 5 abandonné au profit de la sonde `Languages` |

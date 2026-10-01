@@ -10,6 +10,6 @@ Les actions déclenchent quelque chose : un bouton natif (`button type="button"`
 
 Les entrées d'un menu de bouton scindé sont les `OmniMenuItem` des autres menus du paquet (voir [overlay-components.md](overlay-components.md)).
 
-Les bascules d'apparence propres à une application (mode clair ou sombre) se construisent avec un `OmniButton` nommé qui change `OmniThemeScope.Appearance`, ou passent par les réglages d'apparence ([foundation-components.md](foundation-components.md), « Réglages d'apparence réutilisables »).
+Le mode clair, sombre ou système se choisit dans `OmniAppMenu` ([navigation-components.md](navigation-components.md)), dans les réglages d'apparence ([foundation-components.md](foundation-components.md), « Réglages d'apparence réutilisables »), ou avec un `OmniButton` nommé qui change `OmniThemeScope.Appearance` ; un thème `DarkOnly` reste sombre quel que soit ce choix.
 
 Démontré dans la vitrine (page Boutons) ; les conventions de bouton de dialogue sont dans [ui-conventions.md](ui-conventions.md).

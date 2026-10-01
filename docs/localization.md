@@ -44,7 +44,7 @@ Ces textes se lisent par les composants du paquet. Un code qui lirait lui-même 
 
 ## Garanties
 
-Une clé absente constitue une régression : les tests doivent vérifier `ResourceNotFound == false` dans les cultures prises en charge. La ressource française sans suffixe reste le repli déterministe de la bibliothèque. `LibraryTranslationTests` exige un fichier pour chacune des 23 langues autres que le français, et, pour chacune, exactement les clés de la ressource neutre, les mêmes marqueurs `{n}` et aucune valeur vide là où le français en a une : une clé ajoutée sans ses traductions fait échouer la suite au lieu d'afficher du français dans une page allemande ou grecque.
+Une clé absente constitue une régression : les tests doivent vérifier `ResourceNotFound == false` dans les cultures prises en charge. La ressource française sans suffixe reste le repli déterministe de la bibliothèque. `LibraryTranslationTests` exige un fichier pour chacune des 23 langues autres que le français, et, pour chacune, exactement les clés de la ressource neutre, les mêmes arguments numérotés (chacun compté une fois, format et bloc `plural` ignorés ; les formes sont vérifiées par `PluralTextTests`) et aucune valeur vide là où le français en a une : une clé ajoutée sans ses traductions fait échouer la suite au lieu d'afficher du français dans une page allemande ou grecque.
 
 ## Vitrine
 
