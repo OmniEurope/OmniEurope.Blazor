@@ -56,6 +56,28 @@ public partial class OmniTextBox
     [Parameter]
     public TimeSpan Debounce { get; set; }
 
+    /// <summary>
+    /// Welds a Copy button to the end of the field, which puts the value on the clipboard: a URL to
+    /// clone, a key, an identifier, usually with <see cref="ReadOnly"/>. The button keeps its word
+    /// "Copy" and shows a check after a copy for <see cref="CopiedFeedbackDuration"/>; the outcome
+    /// ("Copied", or "Copy failed") is announced to assistive technologies. It is disabled while the
+    /// field is empty or disabled. Off by default.
+    /// </summary>
+    [Parameter]
+    public bool Copyable { get; set; }
+
+    /// <summary>How long the Copy button of <see cref="Copyable"/> shows the outcome of a copy.</summary>
+    [Parameter]
+    public TimeSpan CopiedFeedbackDuration { get; set; } = TimeSpan.FromSeconds(2);
+
+    /// <summary>Raised after a copy by the <see cref="Copyable"/> button, with whether the clipboard accepted it.</summary>
+    [Parameter]
+    public EventCallback<bool> OnCopy { get; set; }
+
+    [Inject]
+    private IJSRuntime JavaScript { get; set; } = default!;
+
+    private OmniClipboardCopy? _clipboard;
     private CancellationTokenSource? _debounce;
     private string? _pendingText;
     private bool _hasPendingText;
@@ -112,6 +134,37 @@ public partial class OmniTextBox
     }
 
     private void FlushOnValidationRequested(object? sender, ValidationRequestedEventArgs args) => FlushPendingText();
+
+    private OmniClipboardCopy Clipboard => _clipboard ??= new OmniClipboardCopy(JavaScript, () => InvokeAsync(StateHasChanged));
+
+    private bool? CopyResult => _clipboard?.Result;
+
+    // The button keeps its word and its size; the icon shows the outcome and the live region says it.
+    private string CopyLabel => Localize(OmniClipboardCopy.LabelKey(null));
+
+    private string CopyAnnouncement => OmniClipboardCopy.AnnouncementKey(CopyResult) is { } key ? Localize(key) : string.Empty;
+
+    // Copies the value as the field shows it, the text still in the debounce delay included.
+    private async Task CopyAsync()
+    {
+        var text = _hasPendingText ? _pendingText ?? string.Empty : CurrentValueAsString ?? string.Empty;
+        var copied = await Clipboard.CopyAsync(text, CopiedFeedbackDuration, Clock);
+        await OnCopy.InvokeAsync(copied);
+    }
+
+    /// <summary>Releases the clipboard module of <see cref="Copyable"/> and disposes the input.</summary>
+    public async ValueTask DisposeAsync()
+    {
+        // Blazor calls only DisposeAsync on a component that has both: the debounce flush and the form
+        // subscription are released through Dispose.
+        ((IDisposable)this).Dispose();
+        if (_clipboard is not null)
+        {
+            await _clipboard.DisposeAsync();
+        }
+
+        GC.SuppressFinalize(this);
+    }
 
     // Takes the text still waiting for the end of the delay, now; nothing when none is waiting.
     private void FlushPendingText()

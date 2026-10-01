@@ -1525,6 +1525,7 @@ method public OmniEurope.Blazor.Components.OmniTableExporter.Supports(OmniEurope
 method public OmniEurope.Blazor.Components.OmniTableExporter.ToMarkdown(OmniEurope.Blazor.Components.OmniTableExportDocument document) : System.String
 method public OmniEurope.Blazor.Components.OmniTabs.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniTemplateForm<TModel>.DisposeAsync() : System.Threading.Tasks.ValueTask
+method public OmniEurope.Blazor.Components.OmniTextBox.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniThemeFont.<Clone>$() : OmniEurope.Blazor.Components.OmniThemeFont
 method public OmniEurope.Blazor.Components.OmniThemeFont.Deconstruct(out System.String Name, out System.String Description, out System.String Family) : System.Void
 method public OmniEurope.Blazor.Components.OmniThemeFont.Equals(OmniEurope.Blazor.Components.OmniThemeFont? other) : System.Boolean
@@ -3189,9 +3190,12 @@ property public OmniEurope.Blazor.Components.OmniTextArea.Rows : System.Int32 {g
 property public OmniEurope.Blazor.Components.OmniTextArea.ShowCount : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTextBox.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTextBox.Autocomplete : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniTextBox.CopiedFeedbackDuration : System.TimeSpan {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniTextBox.Copyable : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTextBox.Debounce : System.TimeSpan {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTextBox.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTextBox.Icon : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniTextBox.OnCopy : Microsoft.AspNetCore.Components.EventCallback<System.Boolean> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTextBox.Placeholder : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTextBox.ReadOnly : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTextBox.Type : OmniEurope.Blazor.Components.OmniTextBoxType {get(public);set(public)} [Parameter]
@@ -3674,7 +3678,7 @@ type public OmniEurope.Blazor.Components.OmniTabsItem [class] : OmniEurope.Blazo
 type public OmniEurope.Blazor.Components.OmniTemplateForm<TModel> [class] where TModel : class : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniText [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniTextArea [class] : OmniEurope.Blazor.Components.OmniInputBase<System.String>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
-type public OmniEurope.Blazor.Components.OmniTextBox [class] : OmniEurope.Blazor.Components.OmniInputBase<System.String>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
+type public OmniEurope.Blazor.Components.OmniTextBox [class] : OmniEurope.Blazor.Components.OmniInputBase<System.String>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniTextBoxType [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniTextElement [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniTextTone [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
