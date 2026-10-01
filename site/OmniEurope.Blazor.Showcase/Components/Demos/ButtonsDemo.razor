@@ -1,7 +1,7 @@
 @using Microsoft.AspNetCore.Components.Forms
 
 <OmniStack Gap="OmniSpacing.Large">
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true">
         <OmniButton Variant="OmniButtonVariant.Primary" OnClick="@(_ => Count++)">
             @Text["DemoButtonsPrimary"]
         </OmniButton>
@@ -16,7 +16,7 @@
     </OmniStack>
 
     @* Busy garde le contenu et la taille exacts du repos : un voile respire par-dessus. *@
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Center">
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true" Align="OmniAlignment.Center">
         <OmniButton Id="demo-save" Busy="Saving" OnClick="SaveAsync">
             <OmniIcon Name="OmniIconName.Check" />
             <span>@Text["DemoButtonsSave"]</span>
@@ -27,7 +27,7 @@
 
     @* Trois tailles réellement distinctes : hauteur, marge et corps de texte changent ensemble. Une
        icône seule rend le bouton carré à sa taille ; le bouton bascule et le bouton partagé suivent. *@
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Center">
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true" Align="OmniAlignment.Center">
         <OmniButton Size="OmniControlSize.Small">@Text["DemoButtonsSmall"]</OmniButton>
         <OmniButton Size="OmniControlSize.Medium">@Text["DemoButtonsMedium"]</OmniButton>
         <OmniButton Size="OmniControlSize.Large">@Text["DemoButtonsLarge"]</OmniButton>
@@ -36,7 +36,7 @@
         <OmniButton Size="OmniControlSize.Large" Variant="OmniButtonVariant.Secondary" Label="@Text["DemoButtonsSearch"]"><OmniIcon Name="OmniIconName.Search" /></OmniButton>
     </OmniStack>
 
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Center">
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true" Align="OmniAlignment.Center">
         <OmniToggleButton Size="OmniControlSize.Small" @bind-Value="Pinned">@Text["DemoButtonsPin"]</OmniToggleButton>
         <OmniToggleButton Size="OmniControlSize.Large" @bind-Value="Pinned">@Text["DemoButtonsPin"]</OmniToggleButton>
         <OmniToggleButton @bind-Value="Pinned" Label="@Text["DemoButtonsPin"]"><OmniIcon Name="OmniIconName.Pin" /></OmniToggleButton>
@@ -47,7 +47,7 @@
     @* Le bouton partagé prend les variantes d'OmniButton, les deux parties ensemble ; Secondary, son
        apparence d'origine, reste la valeur par défaut. Une icône peut précéder le texte de la partie
        principale, le chevron du menu ne change pas. *@
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Center">
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true" Align="OmniAlignment.Center">
         <OmniSplitButton Id="demo-split-primary" Text="@Text["DemoButtonsPublish"]" Variant="OmniButtonVariant.Primary" OnClick="@(() => Count++)">
             <Icon><OmniIcon Name="OmniIconName.RocketLaunch" /></Icon>
             <ChildContent>
@@ -64,7 +64,7 @@
 
     @* Dans un formulaire, le type décide de ce que le bouton déclenche. *@
     <EditForm Model="this" OnValidSubmit="SendAsync">
-        <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
+        <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true">
             <OmniButton Id="demo-send" ButtonType="OmniButtonType.Submit" Busy="Sending">@Text["DemoButtonsSend"]</OmniButton>
             <OmniButton ButtonType="OmniButtonType.Reset" Variant="OmniButtonVariant.Ghost">@Text["DemoButtonsReset"]</OmniButton>
             <OmniButton ButtonType="OmniButtonType.Button" Variant="OmniButtonVariant.Secondary">@Text["DemoButtonsNoFormEffect"]</OmniButton>

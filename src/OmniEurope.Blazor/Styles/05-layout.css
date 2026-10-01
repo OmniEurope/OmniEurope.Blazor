@@ -380,15 +380,12 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
     animation: var(--omni-scope-motion, none);
     font-family: var(--omni-font-family);
     font-size: var(--omni-font-size-base);
-    /* Long words (German, Finnish, Hungarian compounds) break inside their box instead of leaving it.
-       A word of 10 letters or more may be hyphenated at a line end in the page language (<html lang>,
-       set by the package) where the browser has the dictionary; a word still longer than its line is
-       cut as a last resort, the only part every browser guarantees. Code keeps its lines (below). */
-    hyphenate-limit-chars: 10 4 4;
-    hyphens: auto;
+    /* Long words (German, Finnish, Hungarian compounds) break inside their box instead of leaving it:
+       a word longer than its line is cut there. No automatic hyphenation: its result depends on the
+       dictionaries of each browser and was never observed (PLAN-010). Code keeps its lines (below). */
     overflow-wrap: break-word;
 }
-.omni-theme-scope :is(pre, code, kbd, samp) { hyphens: manual; overflow-wrap: normal; }
+.omni-theme-scope :is(pre, code, kbd, samp) { overflow-wrap: normal; }
 /* The field stands still when the scope asks for it (OmniThemeScope.BackdropMotion) and whenever the
    user asked the system for less motion. */
 .omni-theme-scope[data-omni-backdrop-motion="off"] { animation: none; }

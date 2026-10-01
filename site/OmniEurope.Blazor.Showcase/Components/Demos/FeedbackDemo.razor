@@ -17,12 +17,12 @@
         <OmniProgressBar Label="@Text["DemoFeedbackAnalysing"]" Indeterminate="true" ShowValue="true" />
     </OmniStack>
 
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Large" Align="OmniAlignment.Center">
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Large" Align="OmniAlignment.Center" Wrap="true">
         <OmniProgressBar Label="@Text["DemoFeedbackProgress"]" Value="45" ShowValue="true" Shape="OmniProgressShape.Circular" />
         <OmniProgressBar Label="@Text["DemoFeedbackNoKnownEnd"]" Indeterminate="true" Shape="OmniProgressShape.Circular" />
     </OmniStack>
 
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true">
         <OmniTooltip Text="@Text["DemoFeedbackQuotaTooltip"]">
             <OmniBadge Tone="OmniTone.Neutral">@Text["DemoFeedbackQuota"]</OmniBadge>
         </OmniTooltip>
@@ -46,7 +46,7 @@
     <OmniButton Variant="OmniButtonVariant.Secondary" title="@Text["DemoFeedbackTitleTooltip"]">@Text["DemoFeedbackHover"]</OmniButton>
 
     @* Le squelette prend la forme de ce qu'il remplace le temps du chargement. *@
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Start">
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Start" Wrap="true">
         <OmniSkeleton Shape="OmniSkeletonShape.Circle" Label="@Text["DemoFeedbackLoadingAvatar"]" />
         <OmniSkeleton Shape="OmniSkeletonShape.Rectangle" Label="@Text["DemoFeedbackLoadingThumbnail"]" />
         <OmniSkeleton Shape="OmniSkeletonShape.Text" LineCount="3" Label="@Text["DemoFeedbackLoadingFile"]" />
@@ -59,7 +59,7 @@
     </OmniStack>
 </OmniStack>
 
-<OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
+<OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true">
     <OmniStatusBadge TValue="string" Value="@("ready")" Map="DemoStatuses" />
     <OmniStatusBadge TValue="string" Value="@("failed")" Map="DemoStatuses" />
 </OmniStack>

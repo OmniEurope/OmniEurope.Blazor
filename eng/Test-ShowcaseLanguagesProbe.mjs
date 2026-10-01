@@ -6,7 +6,9 @@
 // that lays it out (its nearest ancestor that is not inline): the text then spills over a border or a
 // neighbour, or is cut without a mark when that element hides its overflow. A text cut on purpose
 // with an ellipsis (text-overflow: ellipsis) is not a failure, nor is text inside a scroll container
-// that scrolls it. The exemptions are listed in EXEMPT below, each with its reason. Every
+// that scrolls it. The exemptions are listed in EXEMPT below, each with its reason. The page itself
+// must not scroll sideways: a box that keeps its text whole (a badge) can still push its row past the
+// window. Only the page as rendered is measured: menus, lists and dialogs stay closed. Every
 // demonstration of the gallery is visited (read from the gallery page, so a new one is covered
 // without editing this file), plus the home page, the customizer and the documentation. Before the
 // walk, the probe checks itself on a box it overflows on purpose, so a detector that stopped seeing
@@ -40,7 +42,7 @@ const EXEMPT = [
   // Source code keeps its lines: a code block scrolls, it does not wrap.
   ['pre, code', 'code source : ses lignes défilent, elles ne passent pas à la ligne'],
   // SVG text is placed by coordinates, not laid out in a box: a chart label has no padding box to
-  // leave. Its fit is the chart layout's business (OmniChartContext), tested in bUnit.
+  // leave. Whether a long label fits its chart is not measured, here or anywhere else.
   ['svg', 'texte SVG placé par coordonnées, sans boîte de mise en page']
 ];
 
@@ -211,7 +213,14 @@ try {
       document.getElementById('showcase-theme').append(box);
       const seen = window.__omniTextOverflow([]).some(entry => entry.element === 'div.omni-probe-overflow');
       box.remove();
-      return seen;
+      // The sideways measure must see a row wider than the window as well.
+      const row = document.createElement('div');
+      row.style.setProperty('inline-size', '5000px');
+      row.style.setProperty('block-size', '1px');
+      document.getElementById('showcase-theme').append(row);
+      const wide = document.documentElement.scrollWidth - document.documentElement.clientWidth > 1;
+      row.remove();
+      return seen && wide;
     })()`);
     if (!selfCheck) throw new Error(`Langues : le détecteur ne voit pas un débordement provoqué exprès (${language}), la sonde ne prouverait rien.`);
 
@@ -231,6 +240,29 @@ try {
         const found = await evaluate(`window.__omniTextOverflow(${JSON.stringify(exemptSelectors)})`);
         measuredPages++;
         for (const entry of found) failures.push({ language, width, path, ...entry });
+        const measureSideways = () => evaluate('document.documentElement.scrollWidth - document.documentElement.clientWidth');
+        let sideways = await measureSideways();
+        if (sideways > 1) {
+          // A notification sliding in widens the page for a moment: only a width that stays counts.
+          await pause(600);
+          sideways = await measureSideways();
+        }
+        if (sideways > 1) {
+          // Names the widest element past the window, so the failure says what to fix.
+          const culprit = await evaluate(`(() => {
+            const edge = document.documentElement.clientWidth;
+            const past = [...document.querySelectorAll('#showcase-theme *')]
+              .map(element => ({ element, right: element.getBoundingClientRect().right }))
+              .filter(entry => entry.right > edge + 1)
+              .sort((left, right) => right.right - left.right);
+            // The outermost element past the window is the one whose box overflows; its descendants follow it.
+            const outermost = past.map(entry => entry.element).filter(element => !past.some(other => other.element !== element && other.element.contains(element)));
+            return outermost.slice(0, 3).map(element => element.tagName.toLowerCase()
+              + (typeof element.className === 'string' && element.className.trim() ? '.' + element.className.trim().split(/\\s+/).join('.') : '')
+              + ' « ' + element.textContent.trim().slice(0, 30) + ' »').join(', ') || 'élément introuvable';
+          })()`);
+          failures.push({ language, width, path, element: 'page', beyond: sideways, clipped: false, text: `défilement horizontal de la page, par ${culprit}` });
+        }
       }
     }
 
@@ -273,5 +305,5 @@ if (consoleErrors.length > 0) {
   process.exitCode = 1;
 }
 if (!process.exitCode) {
-  console.log(`Sonde des langues validée : ${measuredPages} pages mesurées en ${LANGUAGES.join(', ')} à ${WIDTHS.join(' et ')} px, aucun texte ne sort de sa boîte ; aucune violation CSP, console sans erreur.`);
+  console.log(`Sonde des langues validée : ${measuredPages} pages mesurées en ${LANGUAGES.join(', ')} à ${WIDTHS.join(' et ')} px, aucun texte ne sort de sa boîte, aucune page ne défile en largeur ; aucune violation CSP, console sans erreur.`);
 }

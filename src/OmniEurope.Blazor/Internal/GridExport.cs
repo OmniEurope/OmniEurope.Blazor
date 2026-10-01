@@ -60,6 +60,7 @@ internal sealed class GridExport<TItem>(OmniDataGrid<TItem> grid) : IAsyncDispos
         using var cancellation = new CancellationTokenSource();
         _cancellation = cancellation;
         var token = cancellation.Token;
+        OmniTableExportDocument? delivered = null;
         try
         {
             var document = await BuildDocumentAsync(token);
@@ -67,7 +68,7 @@ internal sealed class GridExport<TItem>(OmniDataGrid<TItem> grid) : IAsyncDispos
             _module ??= await grid.JavaScript.InvokeAsync<IJSObjectReference>("import", token, OmniModules.DocumentEditor);
             await _module.InvokeVoidAsync("download", token, FileName(document.GeneratedAt, file.Extension), file.ContentType, file.Content.ToArray());
             Notice = NoticeOf(document);
-            await grid.OnExport.InvokeAsync(document);
+            delivered = document;
         }
         catch (OperationCanceledException) when (token.IsCancellationRequested)
         {
@@ -82,6 +83,13 @@ internal sealed class GridExport<TItem>(OmniDataGrid<TItem> grid) : IAsyncDispos
         {
             _cancellation = null;
             Running = null;
+        }
+
+        // Outside the try: the file is already with the browser, so an exception of the host's handler
+        // must not report the export as failed. It propagates to the caller like any event handler's.
+        if (delivered is not null)
+        {
+            await grid.OnExport.InvokeAsync(delivered);
         }
     }
 

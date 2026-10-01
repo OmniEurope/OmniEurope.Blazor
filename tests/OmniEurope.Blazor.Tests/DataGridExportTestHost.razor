@@ -11,9 +11,17 @@
               ExportFields="@Fields"
               ExportFileName="commandes"
               ExportRowLimit="@RowLimit"
-              OnExport="@(document => Exported = document)"
+              OnExport="@Deliver"
               OnExportError="@(exception => Failure = exception)">
     <Columns>
+        @if (OnlyTemplates)
+        {
+            <OmniDataGridColumn TItem="Row" Title="Actions">
+                <Template Context="row"><button type="button">Ouvrir</button></Template>
+            </OmniDataGridColumn>
+        }
+        else
+        {
         <OmniDataGridColumn TItem="Row" Property="Id" Title="N°" />
         <OmniDataGridColumn TItem="Row" Property="Name" Title="Nom" DefaultFilterValue="@NameFilter" SortOrder="@NameSort" />
         <OmniDataGridColumn TItem="Row" Property="Amount" Title="Montant" FormatString="{0:n2} EUR" />
@@ -26,6 +34,7 @@
         <OmniDataGridColumn TItem="Row" Title="Actions">
             <Template Context="row"><button type="button">Ouvrir</button></Template>
         </OmniDataGridColumn>
+        }
     </Columns>
 </OmniDataGrid>
 
@@ -52,7 +61,21 @@
 
     [Parameter] public OmniDataGridSortOrder? NameSort { get; set; }
 
+    [Parameter] public bool ThrowOnExport { get; set; }
+
+    [Parameter] public bool OnlyTemplates { get; set; }
+
     public OmniTableExportDocument? Exported { get; private set; }
+
+    // A host handler that fails after the file was handed over, when ThrowOnExport asks for it.
+    private void Deliver(OmniTableExportDocument document)
+    {
+        Exported = document;
+        if (ThrowOnExport)
+        {
+            throw new InvalidOperationException("host handler failed");
+        }
+    }
 
     public Exception? Failure { get; private set; }
 

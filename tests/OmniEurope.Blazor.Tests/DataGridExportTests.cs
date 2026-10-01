@@ -256,6 +256,51 @@ public sealed class DataGridExportTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task ASourceWithoutTotal_StoppedOnAFullPageByTheLimit_SaysMoreRowsMayExist()
+    {
+        // Pages are always full and the source announces no total (0): the reading stops at the limit.
+        var host = Render<DataGridExportTestHost>(parameters => parameters
+            .Add(component => component.Load, request => Task.FromResult(new OmniDataGridResult<Row>(
+                Enumerable.Range(1, request.PageSize).Select(id => new Row(((request.Page - 1) * request.PageSize) + id, $"ligne {id}", id, new DateOnly(2026, 9, 1), false)).ToArray(), 0)))
+            .Add(component => component.RowLimit, 3)
+            .Add(component => component.Formats, [OmniTableExportFormat.Csv]));
+        host.WaitForAssertion(() => Assert.Equal(2, host.FindAll("tbody tr").Count));
+
+        await Button(host, "CSV").ClickAsync(new());
+
+        var document = host.Instance.Exported!;
+        Assert.Equal(3, document.RowCount);
+        Assert.True(document.TotalIsLowerBound);
+        Assert.Contains("la source n'annonce pas de total", host.Find(".omni-data-grid__export-message").TextContent, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task AGridWithNoColumnToExport_FailsWithoutAFile_AndReportsWhy()
+    {
+        var host = Render<DataGridExportTestHost>(parameters => parameters
+            .Add(component => component.Items, Rows)
+            .Add(component => component.OnlyTemplates, true)
+            .Add(component => component.Formats, [OmniTableExportFormat.Csv]));
+
+        await Button(host, "CSV").ClickAsync(new());
+
+        Assert.Empty(_download.Invocations["download"]);
+        Assert.IsType<InvalidOperationException>(host.Instance.Failure);
+        Assert.Equal("L'export a échoué.", host.Find(".omni-data-grid__export-message--error").TextContent);
+    }
+
+    [Fact]
+    public async Task TheRowLimit_DefaultsTo5000_AndAFormatNobodyWrites_IsRefused()
+    {
+        Assert.Equal(5000, new OmniDataGrid<Row>().ExportRowLimit);
+        var exporter = Services.GetRequiredService<OmniTableExporter>();
+        var document = new OmniTableExportDocument { Title = "Commandes", Columns = [new("Nom", OmniTableExportValueKind.Text)], Rows = [] };
+
+        Assert.False(exporter.Supports(OmniTableExportFormat.Excel));
+        await Assert.ThrowsAsync<NotSupportedException>(() => exporter.RenderAsync(document, OmniTableExportFormat.Excel, Xunit.TestContext.Current.CancellationToken));
+    }
+
+    [Fact]
     public async Task TheHostRenderer_WritesTheFormatsThePackageDoesNot()
     {
         var renderer = new RecordingRenderer();
@@ -343,6 +388,42 @@ public sealed class DataGridExportTests : OmniBunitContext
         };
 
         Assert.Equal("Name,Amount\r\n\"Smith, John\",1234.5\r\n'-dash,\r\n", OmniTableExporter.ToCsv(document));
+    }
+
+    [Theory]
+    [InlineData("+1+2", "'+1+2")]
+    [InlineData("@SUM(A1)", "'@SUM(A1)")]
+    [InlineData("\tcmd", "'\tcmd")]
+    [InlineData("\rcmd", "\"'\rcmd\"")]
+    public void Csv_PrefixesEveryFormulaTrigger_InCellsAndInColumnTitles(string text, string written)
+    {
+        var document = new OmniTableExportDocument
+        {
+            Title = "Orders",
+            Culture = "en-GB",
+            Columns = [new("=cmd", OmniTableExportValueKind.Text), new("Amount", OmniTableExportValueKind.Number)],
+            Rows = [[new(text), new("-2") { Number = -2m }]]
+        };
+
+        // A spreadsheet runs a cell that starts with = + - @, a tab or a carriage return: the title and
+        // the text are prefixed, a typed number is written as is.
+        Assert.Equal($"'=cmd,Amount\r\n{written},-2\r\n", OmniTableExporter.ToCsv(document));
+    }
+
+    [Fact]
+    public async Task AHandlerOfOnExportThatThrows_LeavesTheExportDelivered_NotFailed()
+    {
+        var host = Render<DataGridExportTestHost>(parameters => parameters
+            .Add(component => component.Items, Rows)
+            .Add(component => component.ThrowOnExport, true)
+            .Add(component => component.Formats, [OmniTableExportFormat.Csv]));
+
+        // The host's exception reaches the caller, as any event handler's does.
+        await Assert.ThrowsAsync<InvalidOperationException>(() => Button(host, "CSV").ClickAsync(new()));
+
+        Assert.Single(_download.Invocations["download"]);
+        Assert.NotNull(host.Instance.Exported);
+        Assert.Null(host.Instance.Failure);
     }
 
     [Fact]

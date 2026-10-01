@@ -66,7 +66,16 @@ se coupe sans points de suspension.
   - Corps de carte à 1 px (`/composants/mise-en-page`, finnois, 390 px).
   - Écartés en réglant le détecteur, avant la liste ci-dessus : 2 à 3 px en hauteur sur les titres et
     boutons (la boîte de la police dépasse une hauteur de ligne serrée ; seuil passé à une demi-ligne)
-    et les libellés SVG des graphiques, placés par coordonnées.
+    et les libellés SVG des graphiques, placés par coordonnées : qu'un libellé long tienne dans son
+    graphique n'est mesuré nulle part.
+- Portée réelle : la page telle qu'elle se rend, menus, listes et dialogues fermés, en quatre langues.
+- Ajout du 2026-10-01 (revue de session) : la page ne doit pas défiler en largeur, puisqu'un badge
+  qui garde son texte entier peut pousser sa rangée hors de la fenêtre ; une largeur passagère (une
+  notification qui entre) est remesurée 600 ms plus tard. Première passe : la page des boutons
+  défilait de 415 px à 1280 px, en français aussi (rangées de démonstration sans `Wrap`) ; à 390 px,
+  les superpositions et les retours (rangées sans `Wrap`, dont une infobulle dont la largeur dépend
+  du chargement de la police) et les listes (texte masqué d'`OmniKanban` placé en absolu hors du
+  conteneur qui défile, 52 px).
 
 ### Lot 4 : corrections dans le paquet
 
@@ -74,15 +83,18 @@ Là où la sonde trouve un débordement : `hyphens: auto` et `overflow-wrap` sur
 alertes et cartes ; barres de boutons qui passent à la ligne ; largeurs fixes remplacées par des
 largeurs qui suivent le contenu.
 
-Fait : `overflow-wrap: break-word`, `hyphens: auto` et `hyphenate-limit-chars: 10 4 4` sur
-`.omni-theme-scope` (le code garde ses lignes) ; `.omni-badge` ne rétrécit plus (`flex-shrink: 0`) ;
-les rangées de badges de la démonstration passent à la ligne (`Wrap`). La césure dépend du navigateur :
-les navigateurs de vérification (Chromium intégré, Edge sans tête) n'ont aucun dictionnaire (un mot
-long de 60 px reste sur une ligne en allemand comme en anglais), si bien qu'un mot trop long y est
-coupé sans trait d'union ; seul `overflow-wrap` est garanti partout.
+Fait : `overflow-wrap: break-word` sur `.omni-theme-scope` (le code garde ses lignes) ;
+`.omni-badge` ne rétrécit plus (`flex-shrink: 0`) ; `.omni-kanban__columns` est positionné, pour que
+le texte masqué de ses en-têtes défile avec lui ; les rangées de badges, de boutons, des
+superpositions et des retours de la démonstration passent à la ligne (`Wrap`). La césure
+automatique (`hyphens: auto`) a été posée puis retirée le 2026-10-01 : les navigateurs de vérification (Chromium intégré,
+Edge sans tête) n'ont aucun dictionnaire (un mot long de 60 px reste sur une ligne en allemand comme
+en anglais), si bien que son rendu n'a jamais été observé ; seul `overflow-wrap` est mesuré. La
+reprendre demande une mesure dans un navigateur doté des dictionnaires.
 
 - [x] Contrôle : sonde `Languages` validée sur 320 pages (de, fi, el, hu à 1280 et 390 px), aucun
-  texte hors de sa boîte, aucune violation CSP, console propre.
+  texte hors de sa boîte, aucune page qui défile en largeur (2026-10-01), aucune violation CSP,
+  console propre.
 - [ ] Reste, décision du propriétaire : dans la démonstration de coquille, le menu `push` ouvert à
   390 px ne laisse que 68 px au contenu, qui passe à la ligne mot par mot sans plus déborder. Une
   proposition : un menu `push` se superpose au contenu sous 40rem, comme le mode `overlay`.

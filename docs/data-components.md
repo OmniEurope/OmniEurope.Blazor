@@ -524,6 +524,8 @@ de bouton). `ExportPosition` place la barre sous le tableau (défaut), au-dessus
 - **Fichier.** `{ExportFileName}-{yyyyMMdd-HHmmss}.{extension}`, heure UTC. `OnExport` reçoit le document
   une fois le fichier remis au navigateur. Un export coupé par la limite le dit dans la barre ; un échec
   y affiche « L'export a échoué. », ne produit aucun fichier et passe l'exception à `OnExportError`.
+  Une exception levée par le gestionnaire `OnExport` n'est pas un échec de l'export (le fichier est
+  déjà remis) : elle remonte comme celle de tout gestionnaire d'événement.
 - **Hors grille.** `OmniTableExporter` (service enregistré par `AddOmniEuropeBlazor`) écrit un document
   dans un format : `Supports`, `RenderAsync`, `ToMarkdown`, `ToCsv`.
 
