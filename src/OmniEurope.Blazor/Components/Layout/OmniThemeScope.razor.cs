@@ -12,6 +12,11 @@ public partial class OmniThemeScope
     private OmniThemePalette? _appliedPalette;
     private OmniThemeFont? _appliedFont;
     private OmniAppearance _appliedAppearance;
+    private ElementReference _canvas;
+    private IJSObjectReference? _canvasModule;
+    private bool _canvasRunning;
+    private bool _canvasDrawn;
+    private bool _canvasMotion;
 
     /// <summary>The content the scope themes. Required.</summary>
     [Parameter, EditorRequired]
@@ -70,10 +75,17 @@ public partial class OmniThemeScope
     /// </summary>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        var tokensChanged = await ApplyTokensAsync();
+        await SyncCanvasAsync(tokensChanged);
+    }
+
+    /// <summary>Writes or clears the tokens when the look changed; true when it did.</summary>
+    private async Task<bool> ApplyTokensAsync()
+    {
         var unchanged = ReferenceEquals(Preset, _appliedPreset) && ReferenceEquals(Palette, _appliedPalette) && ReferenceEquals(Font, _appliedFont);
         if (unchanged && ((Preset is null && Palette is null && Font is null) || EffectiveAppearance == _appliedAppearance))
         {
-            return;
+            return false;
         }
 
         _themeModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Theme);
@@ -91,6 +103,51 @@ public partial class OmniThemeScope
         _appliedPalette = Palette;
         _appliedFont = Font;
         _appliedAppearance = EffectiveAppearance;
+        return true;
+    }
+
+    /// <summary>
+    /// The field a theme draws on a canvas rather than in CSS (`--omni-scope-canvas`, Trou noir's black
+    /// hole through `omni-black-hole.js`), or null for every other theme.
+    /// </summary>
+    private string? CanvasField => Preset?.Shape.GetValueOrDefault("--omni-scope-canvas") is { } kind && kind != "none" ? kind : null;
+
+    /// <summary>
+    /// Starts the canvas field when the theme asks for one, restarts it when the motion setting
+    /// changes, repaints it with the new colours when the tokens changed, and stops it when the theme
+    /// no longer asks. While it draws, the scope drops the CSS field it replaces
+    /// (`omni-theme-scope--canvas`); without WebGL the CSS field stays.
+    /// </summary>
+    private async Task SyncCanvasAsync(bool tokensChanged)
+    {
+        if (CanvasField is null)
+        {
+            if (_canvasRunning)
+            {
+                _canvasRunning = false;
+                _canvasDrawn = false;
+                StateHasChanged();
+            }
+
+            return;
+        }
+
+        _canvasModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.BlackHole);
+        if (!_canvasRunning || _canvasMotion != BackdropMotion)
+        {
+            var drawn = await _canvasModule.InvokeAsync<bool>("start", _canvas, _element, BackdropMotion);
+            _canvasRunning = true;
+            _canvasMotion = BackdropMotion;
+            if (drawn != _canvasDrawn)
+            {
+                _canvasDrawn = drawn;
+                StateHasChanged();
+            }
+        }
+        else if (tokensChanged)
+        {
+            await _canvasModule.InvokeVoidAsync("refresh", _canvas);
+        }
     }
 
     /// <summary>
@@ -132,9 +189,21 @@ public partial class OmniThemeScope
         return Palette is null ? (null, null) : (Palette.Light, Palette.Dark);
     }
 
-    /// <summary>Clears the tokens written on the scope and releases the theme script, if it was loaded.</summary>
+    /// <summary>Clears the tokens written on the scope and releases the theme and canvas scripts, if they were loaded.</summary>
     public async ValueTask DisposeAsync()
     {
+        if (_canvasModule is not null)
+        {
+            try
+            {
+                await _canvasModule.InvokeVoidAsync("stop", _canvas);
+                await _canvasModule.DisposeAsync();
+            }
+            catch (JSDisconnectedException)
+            {
+            }
+        }
+
         if (_themeModule is not null)
         {
             try

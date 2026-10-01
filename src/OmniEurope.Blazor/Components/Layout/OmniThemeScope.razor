@@ -6,9 +6,14 @@
 <div @attributes="AdditionalAttributes"
      @ref="_element"
      id="@Id"
-     class="@Css("omni-theme-scope")"
+     class="@Css("omni-theme-scope", _canvasDrawn ? "omni-theme-scope--canvas" : null)"
      data-omni-theme="@EffectiveAppearance.ToString().ToLowerInvariant()"
      data-omni-density="@Density.ToString().ToLowerInvariant()"
      data-omni-backdrop-motion="@(BackdropMotion ? null : "off")">
+    @if (CanvasField is not null)
+    {
+        @* A field a CSS background cannot draw (Trou noir's lensed black hole), behind the content. *@
+        <canvas @ref="_canvas" class="omni-theme-scope__canvas" aria-hidden="true"></canvas>
+    }
     @ChildContent
 </div>

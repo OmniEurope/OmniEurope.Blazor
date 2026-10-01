@@ -395,8 +395,8 @@ internal static class ThemeCatalog
         // A black hole, always dark (owner decision of 2026-10-01: no light half): the page is the
         // palette's surface (pure black with Horizon), the cards are a faint veil of the text colour
         // closed by a hairline, so the field shows through them. High on the right, the horizon is a disc
-        // of the page colour ringed by a thin white photon ring; across it lies a white accretion disc,
-        // tilted down to the left, whose brighter arcs turn once in two minutes. Every white stays sober,
+        // ringed by a thin photon ring, its white accretion disc tilted down to the left and bent by the
+        // hole, the far side arching over the horizon (a WebGL shader, omni-black-hole.js). Every white stays sober,
         // a tenth of the text colour at most, so the theme holds the contrast thresholds with every palette; the
         // dense surfaces (grids, dialogs) are opaque.
         new("Trou noir", "Toujours sombre : noir absolu, cartes à peine voilées, disque d’accrétion blanc incliné qui tourne lentement derrière la page.", "Horizon",
@@ -413,10 +413,9 @@ internal static class ThemeCatalog
                 // A firmer rule than the palette's: it keeps its floor on the stops of the field too.
                 ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 36%, var(--omni-color-surface))"),
                 ("--omni-backdrop", TrouNoirField),
-                // The accretion disc is a layer of its own, tilted, which a background cannot be.
-                ("--omni-scope-layer", TrouNoirDisk), ("--omni-scope-layer-mask", TrouNoirDiskLight),
-                ("--omni-scope-layer-x", "76%"), ("--omni-scope-layer-y", "26%"),
-                ("--omni-scope-layer-size", "92vmax"), ("--omni-scope-layer-tilt", "-16deg"),
+                // The lensed black hole is drawn by a shader on the scope's canvas (omni-black-hole.js), which
+                // a background cannot do; the field above is what shows without WebGL.
+                ("--omni-scope-canvas", "black-hole"),
                 ("--omni-scope-isolation", "isolate"),
                 ("--omni-scope-motion", "omni-scope-turn 120s linear infinite"),
                 ("--omni-card-background", "color-mix(in srgb, var(--omni-color-text) 4%, transparent)"),
@@ -477,29 +476,13 @@ internal static class ThemeCatalog
         + "linear-gradient(160deg, var(--omni-color-surface), color-mix(in srgb, var(--omni-color-info-fill) 8%, var(--omni-color-surface)))";
 
     /// <summary>
-    /// Trou noir's field, centred high on the right of the viewport: the disc of the horizon in the page
-    /// colour, its thin photon ring, and a faint halo that returns to the page further out.
+    /// Trou noir's field without WebGL, where the shader puts the hole (high on the right, a shadow of
+    /// 9vmax): the horizon in the page colour, its thin photon ring, and a faint halo further out.
     /// </summary>
     private const string TrouNoirField =
-        "radial-gradient(circle at 76% 26%, var(--omni-color-surface) 0 12vmax, transparent 12.1vmax), "
-        + "radial-gradient(circle at 76% 26%, transparent 0 12.05vmax, var(--omni-backdrop-disk) 12.3vmax, transparent 13.4vmax), "
-        + "radial-gradient(circle at 76% 26%, transparent 0 12vmax, var(--omni-backdrop-halo) 12.6vmax, transparent 26vmax)";
-
-    /// <summary>
-    /// Trou noir's accretion disc, drawn on the scope's layer (centred on the horizon and tilted down to the
-    /// left by the layer tokens): a flat ring of white whose inner edge clears the horizon sideways and
-    /// crosses in front of it, fading outward.
-    /// </summary>
-    private const string TrouNoirDisk =
-        "radial-gradient(ellipse 40vmax 6.5vmax at 50% 50%, transparent 0 31%, var(--omni-backdrop-disk) 34%, "
-        + "color-mix(in srgb, var(--omni-backdrop-disk) 45%, transparent) 58%, transparent 100%)";
-
-    /// <summary>
-    /// The light of the disc: two brighter arcs opposite each other, turning with the scope's angle, so the
-    /// matter seems to circle the horizon.
-    /// </summary>
-    private const string TrouNoirDiskLight =
-        $"conic-gradient(from {Turn}, rgb(0 0 0 / 100%), rgb(0 0 0 / 35%) 25%, rgb(0 0 0 / 100%) 50%, rgb(0 0 0 / 35%) 75%, rgb(0 0 0 / 100%))";
+        "radial-gradient(circle at 76% 26%, var(--omni-color-surface) 0 9vmax, transparent 9.1vmax), "
+        + "radial-gradient(circle at 76% 26%, transparent 0 9.05vmax, var(--omni-backdrop-disk) 9.3vmax, transparent 10.4vmax), "
+        + "radial-gradient(circle at 76% 26%, transparent 0 9vmax, var(--omni-backdrop-halo) 9.6vmax, transparent 22vmax)";
 
     /// <summary>
     /// Relief's dark shadow in light mode: the page darkened, so the shadow keeps the hue of the

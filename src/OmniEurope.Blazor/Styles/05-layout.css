@@ -386,31 +386,16 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
     overflow-wrap: break-word;
 }
 .omni-theme-scope :is(pre, code, kbd, samp) { overflow-wrap: normal; }
-/* A theme may lay one more layer over its field, one a background cannot draw because it is tilted
-   (--omni-scope-layer, Trou noir's accretion disc): a fixed box centred on a point of the viewport,
-   turned by --omni-scope-layer-tilt, lit through --omni-scope-layer-mask. It sits under the content of
-   the isolated scope and takes no pointer. It turns with its own angle, the scope's does not reach a
-   pseudo-element (--omni-scope-turn does not inherit). Without a layer the box paints nothing. */
-.omni-theme-scope::before {
-    animation: var(--omni-scope-motion, none);
-    background: var(--omni-scope-layer, none);
-    block-size: var(--omni-scope-layer-size, 100vmax);
-    content: "";
-    inline-size: var(--omni-scope-layer-size, 100vmax);
-    inset-block-start: var(--omni-scope-layer-y, 50%);
-    inset-inline-start: var(--omni-scope-layer-x, 50%);
-    mask-image: var(--omni-scope-layer-mask, none);
-    pointer-events: none;
-    position: fixed;
-    transform: translate(-50%, -50%) rotate(var(--omni-scope-layer-tilt, 0deg));
-    z-index: -1;
-}
-/* The field and its layer stand still when the scope asks for it (OmniThemeScope.BackdropMotion) and whenever the
+/* A theme may draw its field on a canvas where a background cannot (--omni-scope-canvas, Trou noir's
+   lensed black hole, omni-black-hole.js): fixed to the viewport under the content of the isolated
+   scope, taking no pointer. While it draws, the scope drops the CSS field it replaces; without WebGL the
+   canvas stays empty and that field shows. */
+.omni-theme-scope__canvas { block-size: 100vh; inline-size: 100vw; inset: 0; pointer-events: none; position: fixed; z-index: -1; }
+.omni-theme-scope--canvas { background-image: none; }
+/* The field stands still when the scope asks for it (OmniThemeScope.BackdropMotion) and whenever the
    user asked the system for less motion. */
 .omni-theme-scope[data-omni-backdrop-motion="off"] { animation: none; }
-.omni-theme-scope[data-omni-backdrop-motion="off"]::before { animation: none; }
 @media (prefers-reduced-motion: reduce) { .omni-theme-scope { animation: none; } }
-@media (prefers-reduced-motion: reduce) { .omni-theme-scope::before { animation: none; } }
 .omni-body { box-sizing: border-box; display: flex; flex: 1 1 auto; min-height: 0; min-width: 0; }
 /* Two axes: reveal (push takes width, overlay floats) and collapse (nothing, or an icon rail). The
    aside is the slot in the flow, the panel what is painted. */
