@@ -37,6 +37,9 @@ const EXEMPT = [
   // mockup (.omni-field__error svg there, .omni-form-field__error-icon in the package), which no
   // density rule of the mockup resizes.
   ['.omni-icon, .omni-date__toggle svg, .omni-form-field__error-icon', 'glyphe d\'icône, marque de texte gardée fixe par la maquette ; sa boîte suit la densité'],
+  // The logo of OmniLogoLoader is the site's mark at the size its Size parameter chooses (1.5, 3 or
+  // 5 rem): the consumer's explicit choice, as an icon's size is, not a control the density scales.
+  ['.omni-logo-loader__mark', 'logo d\'OmniLogoLoader à la taille choisie par Size, comme une icône'],
   // Status dots: a mark the size of a letter, not a control; the plan exempts them. The status strip
   // is a row of them (or, in its segment form, a status bar).
   ['.omni-status, .omni-status-strip', 'pastille de statut : repère de la taille d\'une lettre, pas un contrôle'],
