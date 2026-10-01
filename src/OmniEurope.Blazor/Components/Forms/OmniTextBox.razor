@@ -1,11 +1,13 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniInputBase<string>
+@implements IAsyncDisposable
 
-@* With an Icon the input sits in a positioning wrapper and the icon is laid over its start padding,
-   decorative and click-through, like the magnifier of a search field. Without one the input is
-   rendered alone, as it always was. Class goes on the outermost element (the input alone, or the
-   wrapper); Id and the additional attributes always on the input. *@
-@if (Icon is null)
+@* With an Icon or Copyable the input sits in a wrapper: the icon is laid over its start padding,
+   decorative and click-through, like the magnifier of a search field, and the copy button is welded
+   to its end. Without either the input is rendered alone, as it always was. Class goes on the
+   outermost element (the input alone, or the wrapper); Id and the additional attributes always on
+   the input. *@
+@if (Icon is null && !Copyable)
 {
     <input @attributes="AdditionalAttributes"
            id="@Id"
@@ -23,11 +25,14 @@
 }
 else
 {
-    <span class="@WrapperCss("omni-text-box-field")">
-        <span class="omni-text-box-field__icon" aria-hidden="true">@Icon</span>
+    <span class="@WrapperCss("omni-text-box-field", Copyable ? "omni-text-box-field--copy" : null)">
+        @if (Icon is not null)
+        {
+            <span class="omni-text-box-field__icon" aria-hidden="true">@Icon</span>
+        }
         <input @attributes="AdditionalAttributes"
                id="@Id"
-               class="@InnerInputCss("omni-input", "omni-text-box", "omni-text-box--icon")"
+               class="@InnerInputCss("omni-input", "omni-text-box", Icon is not null ? "omni-text-box--icon" : null)"
                type="@TypeAttribute"
                value="@CurrentValueAsString"
                placeholder="@Placeholder"
@@ -38,5 +43,16 @@ else
                aria-describedby="@AriaDescribedBy"
                @oninput="HandleInput"
                @onblur="BlurCallback" />
+        @if (Copyable)
+        {
+            <OmniButton Class="omni-text-box-field__copy"
+                        Variant="OmniButtonVariant.Secondary"
+                        Disabled="@(Disabled || string.IsNullOrEmpty(CurrentValueAsString))"
+                        OnClick="CopyAsync">
+                <OmniIcon Name="@(CopyResult == true ? OmniIconName.Check : OmniIconName.Copy)" />
+                <span>@CopyLabel</span>
+            </OmniButton>
+            <span class="omni-visually-hidden" role="status" aria-live="polite">@CopyAnnouncement</span>
+        }
     </span>
 }
