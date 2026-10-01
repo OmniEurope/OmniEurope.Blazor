@@ -17,9 +17,9 @@ La documentation officielle de [`dotnet pack`](https://learn.microsoft.com/dotne
 Les contrôles actuellement rejouables dans le dépôt vérifient séparément :
 
 - la restauration `--locked-mode` ;
-- la baseline API partielle décrite dans [public-api-conventions.md](public-api-conventions.md) ;
+- la baseline API complète décrite dans [public-api-conventions.md](public-api-conventions.md) ;
 - le contenu du paquet principal et du paquet de symboles ;
-- la dépendance client-compatible `Microsoft.AspNetCore.Components.Web` ;
+- les dépendances du paquet (`HtmlSanitizer`, `Microsoft.AspNetCore.Components.Web`, `Microsoft.Extensions.Localization`), comparées aux versions centrales ;
 - la licence EUPL-1.2 ;
 - les budgets de taille de l'assembly et du paquet NuGet, et la minification de la feuille livrée.
 
