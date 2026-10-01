@@ -476,7 +476,7 @@ sert aux exports hors grille : une liste de cartes, un tableau de bord, un rappo
 télécharge des lignes en fichier Markdown (`OmniMarkdownTableExporter`, service enregistré par
 `AddOmniEuropeBlazor`), pour une lecture par une IA : toutes les lignes annoncées, lues par le fournisseur
 de pages de l'export, et non la seule page affichée. Il est occupé pendant la lecture, et une page en échec ne produit aucun fichier.
-`OnExport` reçoit le document produit, `OnExportError` l'exception d'un échec ; `Text` (`string?`) remplace
+`OnExport` reçoit le document produit une fois le fichier remis (une exception de son gestionnaire remonte, ce n'est pas un échec de l'export), `OnExportError` l'exception d'un échec ; `Text` (`string?`) remplace
 le libellé localisé du bouton. Quand la source n'annonce pas de total et que la lecture s'arrête sur une
 page pleine à la limite de lignes, le document écrit « N sur au moins M » et une note le dit :
 `OmniMarkdownTableDocument.TotalIsLowerBound` est alors vrai et `IsComplete` faux.

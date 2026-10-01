@@ -13,7 +13,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 - Export d'`OmniDataGrid` et `OmniMarkdownTableExporter` : un `ExportRowLimit` (ou `RowLimit`) proche de `int.MaxValue`, pour « sans limite », ne produit plus un fichier vide présenté comme complet ; le nombre de pages débordait et aucune page n'était lue.
 - `OmniKanban` : le texte réservé aux lecteurs d'écran de l'en-tête des colonnes défile avec elles ; placé en absolu hors du conteneur qui défile, il élargissait la page sur un écran étroit (52 px à 390 px).
-- Barre d'export d'`OmniDataGrid` : une exception du gestionnaire `OnExport` de l'hôte ne fait plus afficher « L'export a échoué. » ni appeler `OnExportError`, puisque le fichier est déjà remis au navigateur ; elle remonte comme celle de tout gestionnaire d'événement.
+- Barre d'export d'`OmniDataGrid` : une exception du gestionnaire `OnExport` de l'hôte ne fait plus afficher « L'export a échoué. » ni appeler `OnExportError`, puisque le fichier est déjà remis au navigateur ; elle remonte comme celle de tout gestionnaire d'événement. `OmniMarkdownExportButton` fait de même : une exception de son `OnExport` n'est plus passée à `OnExportError`.
 
 ### Outillage du dépôt (sans effet sur le paquet publié)
 

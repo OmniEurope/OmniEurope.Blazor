@@ -5,8 +5,8 @@
       "id": "catalog-critical-interactions",
       "host": "Server catalog",
       "script": "eng/Test-CatalogProbe.mjs",
-      "components": ["OmniButton", "OmniComponentsHost", "OmniDialog", "OmniNotification"],
-      "assertions": ["five catalog families", "dialog opens and owns focus", "dialog closes", "notification live role", "zero browser console errors", "zero client CSP violations"]
+      "components": ["OmniButton", "OmniComponentsHost", "OmniDialog", "OmniNotification", "OmniHtmlEditor"],
+      "assertions": ["five catalog families", "dialog opens and owns focus", "dialog closes", "notification live role", "the Bold command of the HTML editor wraps the real selection and restores it", "without a selection the editor keeps a deterministic caret", "zero browser console errors", "zero client CSP violations"]
     },
     {
       "id": "wasm-counter-progress",
