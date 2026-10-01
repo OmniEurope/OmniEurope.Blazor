@@ -1,0 +1,8 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+@* The actions of a form, inside it so a submit button submits it: one row aligned to the end, like a
+   dialog footer, wrapping under a narrow width. *@
+<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-form-actions")">
+    @ChildContent
+</div>

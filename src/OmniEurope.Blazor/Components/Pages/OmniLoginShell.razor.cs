@@ -25,7 +25,7 @@ public partial class OmniLoginShell
     [Parameter]
     public OmniHeadingLevel Level { get; set; } = OmniHeadingLevel.H1;
 
-    /// <summary>The form: fields, messages and the submit button.</summary>
+    /// <summary>The form: fields, messages, and its submit button in an <see cref="OmniFormActions"/> at the end of the form, aligned to the end.</summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 

@@ -62,7 +62,10 @@
                             <LabelContent>@Text["DemoFlowsPassword"]</LabelContent>
                             <ChildContent><OmniPassword Id="flows-demo-password" @bind-Value="Credentials.Secret" Revealable="true" Autocomplete="current-password" /></ChildContent>
                         </OmniFormField>
-                        <OmniButton ButtonType="OmniButtonType.Submit"><OmniIcon Name="OmniIconName.SignIn" /><span>@Text["DemoFlowsSignIn"]</span></OmniButton>
+                        @* OmniFormActions : le bouton reste dans le formulaire et se range à droite. *@
+                        <OmniFormActions>
+                            <OmniButton ButtonType="OmniButtonType.Submit"><OmniIcon Name="OmniIconName.SignIn" /><span>@Text["DemoFlowsSignIn"]</span></OmniButton>
+                        </OmniFormActions>
                     </OmniStack>
                 </EditForm>
             </ChildContent>
