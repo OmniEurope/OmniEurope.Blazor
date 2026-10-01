@@ -87,10 +87,10 @@
         <span class="omni-data-grid__export-label">@Localize("GridExportAll")</span>
         @foreach (var format in Export.Formats)
         {
-            <OmniButton Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small" Class="omni-data-grid__export-button"
+            <OmniButton Variant="@Export.VariantOf(format)" Size="OmniControlSize.Small" Class="omni-data-grid__export-button"
                         Busy="@(Export.Running == format)" Disabled="@(Export.Running is not null && Export.Running != format)"
                         OnClick="@(() => Export.RunAsync(format))">
-                <OmniIcon Name="OmniIconName.Download" />
+                <OmniIcon Name="@(GridExport<TItem>.IconOf(format))" />
                 <span>@Export.FormatName(format)</span>
             </OmniButton>
         }

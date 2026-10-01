@@ -116,7 +116,7 @@ public sealed class DataGridExportTests : OmniBunitContext
         await Button(host, "CSV").ClickAsync(new());
 
         var download = Assert.Single(_download.Invocations["download"]);
-        Assert.Equal("commandes-20260930-081500.csv", download.Arguments[0]);
+        Assert.Equal("commandes-2026-09-30-0815.csv", download.Arguments[0]);
         Assert.Equal("text/csv;charset=utf-8", download.Arguments[1]);
         var bytes = (byte[])download.Arguments[2]!;
         Assert.Equal(Encoding.UTF8.GetPreamble(), bytes.Take(3));
@@ -169,7 +169,7 @@ public sealed class DataGridExportTests : OmniBunitContext
         Assert.Equal("payée", delta[4].Text);
 
         var download = Assert.Single(_download.Invocations["download"]);
-        Assert.Equal("commandes-20260930-081500.md", download.Arguments[0]);
+        Assert.Equal("commandes-2026-09-30-0815.md", download.Arguments[0]);
         var markdown = Encoding.UTF8.GetString((byte[])download.Arguments[2]!);
         Assert.StartsWith("# Commandes", markdown, StringComparison.Ordinal);
         Assert.Contains("- Application : Boutique", markdown, StringComparison.Ordinal);
@@ -317,7 +317,7 @@ public sealed class DataGridExportTests : OmniBunitContext
         Assert.Equal("Commandes du mois", document.Title);
         Assert.Equal(5, document.RowCount);
         var download = Assert.Single(_download.Invocations["download"]);
-        Assert.Equal("commandes-20260930-081500.pdf", download.Arguments[0]);
+        Assert.Equal("commandes-2026-09-30-0815.pdf", download.Arguments[0]);
         Assert.Equal("application/pdf", download.Arguments[1]);
         Assert.Equal([1, 2, 3], (byte[])download.Arguments[2]!);
     }
@@ -408,6 +408,37 @@ public sealed class DataGridExportTests : OmniBunitContext
         // A spreadsheet runs a cell that starts with = + - @, a tab or a carriage return: the title and
         // the text are prefixed, a typed number is written as is.
         Assert.Equal($"'=cmd,Amount\r\n{written},-2\r\n", OmniTableExporter.ToCsv(document));
+    }
+
+    [Fact]
+    public void EachFormat_HasItsFileIcon_AndTheVariantTheHostChose()
+    {
+        var host = Render<DataGridExportTestHost>(parameters => parameters
+            .Add(component => component.Items, Rows)
+            .Add(component => component.Formats, [OmniTableExportFormat.Markdown, OmniTableExportFormat.Csv])
+            .Add(component => component.Variants, new Dictionary<OmniTableExportFormat, OmniButtonVariant> { [OmniTableExportFormat.Markdown] = OmniButtonVariant.Primary }));
+
+        // Markdown in the host's blue, CSV left Ghost: an export is a secondary action by default.
+        Assert.Contains("omni-button--primary", Button(host, "Markdown").ClassList);
+        Assert.Contains("omni-button--ghost", Button(host, "CSV").ClassList);
+        var markdownIcon = Button(host, "Markdown").QuerySelector("path")!.GetAttribute("d");
+        var csvIcon = Button(host, "CSV").QuerySelector("path")!.GetAttribute("d");
+        Assert.NotEqual(markdownIcon, csvIcon);
+        Assert.Equal(Render<OmniIcon>(parameters => parameters.Add(icon => icon.Name, OmniIconName.FileMd)).Find("path").GetAttribute("d"), markdownIcon);
+    }
+
+    [Fact]
+    public async Task WithoutAFileName_TheFileIsNamedAfterTheExportTitle_ThenTheDate()
+    {
+        var host = Render<DataGridExportTestHost>(parameters => parameters
+            .Add(component => component.Items, Rows)
+            .Add(component => component.FileName, null)
+            .Add(component => component.Title, "Journaux d'Aetheus : étape 3")
+            .Add(component => component.Formats, [OmniTableExportFormat.Csv]));
+
+        await Button(host, "CSV").ClickAsync(new());
+
+        Assert.Equal("journaux-d-aetheus-etape-3-2026-09-30-0815.csv", Assert.Single(_download.Invocations["download"]).Arguments[0]);
     }
 
     [Fact]

@@ -9,7 +9,8 @@
               ExportPosition="@Position"
               ExportTitle="@Title"
               ExportFields="@Fields"
-              ExportFileName="commandes"
+              ExportFileName="@FileName"
+              ExportVariants="@Variants"
               ExportRowLimit="@RowLimit"
               OnExport="@Deliver"
               OnExportError="@(exception => Failure = exception)">
@@ -62,6 +63,10 @@
     [Parameter] public OmniDataGridSortOrder? NameSort { get; set; }
 
     [Parameter] public bool ThrowOnExport { get; set; }
+
+    [Parameter] public string? FileName { get; set; } = "commandes";
+
+    [Parameter] public IReadOnlyDictionary<OmniTableExportFormat, OmniButtonVariant>? Variants { get; set; }
 
     [Parameter] public bool OnlyTemplates { get; set; }
 

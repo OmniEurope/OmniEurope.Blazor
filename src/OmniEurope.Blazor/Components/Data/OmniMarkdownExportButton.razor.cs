@@ -27,8 +27,8 @@ public partial class OmniMarkdownExportButton<TItem>
     public Func<OmniMarkdownTableExport<TItem>>? Export { get; set; }
 
     /// <summary>
-    /// The file name without extension; the generation time (UTC) and <c>.md</c> are appended, as in
-    /// <c>errors-20260926-140509.md</c>.
+    /// The file name without extension, best the application then the content (<c>aetheus-logs</c>);
+    /// the generation time (UTC) and <c>.md</c> are appended, as in <c>aetheus-logs-2026-10-01-0840.md</c>.
     /// </summary>
     [Parameter]
     public string FileName { get; set; } = "export";
@@ -63,11 +63,8 @@ public partial class OmniMarkdownExportButton<TItem>
     private string EffectiveText => string.IsNullOrWhiteSpace(Text) ? Localize("MarkdownExportButton") : Text;
 
     /// <summary>The downloaded file's name for a document generated at <paramref name="generatedAt"/>.</summary>
-    internal static string StampedFileName(string fileName, DateTimeOffset generatedAt)
-    {
-        var name = string.IsNullOrWhiteSpace(fileName) ? "export" : fileName.Trim();
-        return string.Create(CultureInfo.InvariantCulture, $"{name}-{generatedAt.UtcDateTime:yyyyMMdd-HHmmss}.md");
-    }
+    internal static string StampedFileName(string fileName, DateTimeOffset generatedAt) =>
+        Internal.ExportFileName.Stamp(fileName, generatedAt, "md");
 
     private async Task ExportAsync()
     {

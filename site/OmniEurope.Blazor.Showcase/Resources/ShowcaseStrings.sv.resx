@@ -1173,6 +1173,9 @@
   <data name="DemoMediaIconBriefcase" xml:space="preserve"><value>Uppdrag</value></data>
   <data name="DemoMediaIconIdentificationBadge" xml:space="preserve"><value>ID-bricka</value></data>
   <data name="DemoMediaIconFilePdf" xml:space="preserve"><value>PDF-dokument</value></data>
+  <data name="DemoMediaIconFileMd" xml:space="preserve"><value>Markdown-dokument</value></data>
+  <data name="DemoMediaIconFileCsv" xml:space="preserve"><value>CSV-dokument</value></data>
+  <data name="DemoMediaIconFileXls" xml:space="preserve"><value>Excel-dokument</value></data>
   <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Support</value></data>
   <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Partnerskap</value></data>
   <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Ökning</value></data>

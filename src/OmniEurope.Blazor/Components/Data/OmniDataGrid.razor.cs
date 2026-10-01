@@ -605,11 +605,23 @@ public partial class OmniDataGrid<TItem>
     public IReadOnlyList<OmniTableExportField> ExportFields { get; set; } = Array.Empty<OmniTableExportField>();
 
     /// <summary>
-    /// The exported file's name without extension; the generation time (UTC) and the format's extension
-    /// are appended, as in <c>errors-20260926-140509.csv</c>.
+    /// The exported file's name without extension, best the application then the content
+    /// (<c>aetheus-logs</c>); the generation time (UTC) and the format's extension are appended, as in
+    /// <c>aetheus-logs-2026-10-01-0840.md</c>. Null, the default, derives it from <see cref="ExportTitle"/>,
+    /// then <see cref="Caption"/>, in lowercase without accents and with hyphens between words
+    /// (<c>export</c> when neither is set).
     /// </summary>
     [Parameter]
-    public string ExportFileName { get; set; } = "export";
+    public string? ExportFileName { get; set; }
+
+    /// <summary>
+    /// The variant of each format's button in the export bar; a format absent from it keeps
+    /// <see cref="OmniButtonVariant.Ghost"/>, an export being a secondary action. Each button carries
+    /// the file icon of its format (<see cref="OmniIconName.FileMd"/>, <see cref="OmniIconName.FileCsv"/>,
+    /// <see cref="OmniIconName.FileXls"/>, <see cref="OmniIconName.FilePdf"/>).
+    /// </summary>
+    [Parameter]
+    public IReadOnlyDictionary<OmniTableExportFormat, OmniButtonVariant>? ExportVariants { get; set; }
 
     /// <summary>Most rows an export reads, 5000 by default; beyond it the bar says the export is truncated.</summary>
     [Parameter]
