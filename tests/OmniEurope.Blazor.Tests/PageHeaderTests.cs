@@ -219,6 +219,15 @@ public sealed class PageHeaderTests : OmniBunitContext
     }
 
     [Fact]
+    public void LoadingCrumb_SitsOnTheLineOfTheOthers()
+    {
+        // A list item holding the skeleton's grid grew to twice the trail, its slash on top (recette R2-035).
+        var crumb = ShippedLookTests.Body(".omni-page-header__crumb-loading");
+        Assert.Equal("inline-flex", ShippedLookTests.Value(crumb, "display"));
+        Assert.Equal("center", ShippedLookTests.Value(crumb, "align-items"));
+    }
+
+    [Fact]
     public async Task Header_CrumbsStillLoading_ShowPlaceholdersInsteadOfTextOrTitle()
     {
         var service = Services.GetRequiredService<OmniBreadcrumbService>();
