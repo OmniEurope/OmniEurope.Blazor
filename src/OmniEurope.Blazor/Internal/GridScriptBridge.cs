@@ -23,6 +23,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
     private bool _filterMenuAttached;
     private bool _fillAttached;
     private bool _frozenScrollAttached;
+    private bool _cutTooltipsInstalled;
     private string? _wheelScopeAttached;
     private bool _renderReady;
 
@@ -70,6 +71,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
             await EnsureFillInteropAsync();
             await EnsureWheelScopeInteropAsync();
             await EnsureFrozenScrollInteropAsync();
+            await EnsureCutTooltipsAsync();
             await CompletePreparationAsync();
             return;
         }
@@ -80,6 +82,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         await EnsureFillInteropAsync();
         await EnsureWheelScopeInteropAsync();
         await EnsureFrozenScrollInteropAsync();
+        await EnsureCutTooltipsAsync();
         if (!_virtualAttached)
         {
             await module.InvokeVoidAsync("attach", grid.Viewport, SelfReference);
@@ -107,6 +110,22 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         {
             await CompletePreparationAsync();
         }
+    }
+
+    /// <summary>
+    /// A text cell cut by its ellipsis shows its whole value in the package tooltip while the pointer
+    /// or the focus is on it (recette R-032). The page shares one set of listeners for every grid.
+    /// </summary>
+    private async Task EnsureCutTooltipsAsync()
+    {
+        if (_cutTooltipsInstalled)
+        {
+            return;
+        }
+
+        var module = await ModuleAsync();
+        await module.InvokeVoidAsync("installCutTooltips");
+        _cutTooltipsInstalled = true;
     }
 
     private async Task CompletePreparationAsync()
@@ -306,6 +325,12 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
             {
                 _frozenScrollAttached = false;
                 await _gridModule.InvokeVoidAsync("detachFrozenScroll", grid.Viewport);
+            }
+
+            if (_cutTooltipsInstalled && _gridModule is not null)
+            {
+                _cutTooltipsInstalled = false;
+                await _gridModule.InvokeVoidAsync("uninstallCutTooltips");
             }
 
             if (_gridModule is not null)

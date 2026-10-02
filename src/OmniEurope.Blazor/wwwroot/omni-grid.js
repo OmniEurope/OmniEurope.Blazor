@@ -9,6 +9,8 @@ export { applyColumns, applyFrozen, attachFrozenScroll, detachFrozenScroll } fro
 export { attachResize, detachResize, autoFitColumn } from './grid/resize.js';
 export { attachFilterMenus, closeFilterMenus, detachFilterMenus } from './grid/filter-menus.js';
 export { attachList, detachList, syncList, applyListLayout } from './grid/list.js';
+// A text cell cut by its ellipsis shows its whole value in the package tooltip.
+export { installCutTooltips, uninstallCutTooltips } from './omni-tooltip.js';
 
 const attachments = new Map();
 

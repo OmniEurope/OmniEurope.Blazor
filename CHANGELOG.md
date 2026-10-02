@@ -11,6 +11,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 ### Changed
 
 - `OmniDataGrid` : les boutons de la barre d'export sont désactivés (`disabled`) tant que la grille ne tient et ne compte aucune ligne (grille vide, filtres sans résultat, premier chargement) ; un appel qui contourne le bouton n'écrit rien non plus. Une source qui n'annonce pas de total (0) mais affiche des lignes exporte toujours (demande d'une application cliente).
+- `OmniDataGrid` : une cellule de texte coupée par ses points de suspension montre sa valeur entière dans l'infobulle du paquet, au survol ou au focus clavier, seulement tant qu'elle est réellement coupée (texte plus large que la cellule). Chaque grille l'active, que l'hôte ait placé `OmniTitleTooltips` ou non ; le texte entier reste dans la page pour les lecteurs d'écran (recette R-032).
+- `OmniDataGrid` : les boutons de la barre d'export passent en `Secondary` (gris neutre) par défaut au lieu de `Ghost` ; `ExportVariants` en choisit toujours une autre par format (recette R-031).
+- `OmniAppMenu` : sous 40rem, le bouton du menu ne montre plus le nom de l'utilisateur, qui débordait de la barre sur téléphone ; il garde son icône, son chevron et son nom accessible, et le nom reste en tête du menu ouvert. Les sites retirent leur règle locale (recette R-034).
+- `OmniFormActions` : la documentation suit l'ordre des pieds de dialogue et de `ConfirmAsync`, l'action principale d'abord puis « Annuler », groupées à droite ; elle disait l'action principale en dernier (recette R-009).
 
 ### Outillage du dépôt (sans effet sur le paquet publié)
 

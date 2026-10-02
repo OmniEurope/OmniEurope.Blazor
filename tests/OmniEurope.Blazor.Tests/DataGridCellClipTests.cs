@@ -38,6 +38,21 @@ public sealed class DataGridCellClipTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task EveryGrid_TurnsOnTheTooltipOfCutCells_AndTurnsItOffWhenItGoes()
+    {
+        // The script shows the whole value of a cell only while it is cut (measured in the browser,
+        // omni-tooltip.js); the grid's part is to turn it on once and off when it is disposed.
+        var grid = Render<DataGridLoopColumnsTestHost>(parameters => parameters.Add(component => component.CaptureValue, true));
+
+        Assert.Single(JSInterop.Invocations, invocation => invocation.Identifier == "installCutTooltips");
+        grid.Render();
+        Assert.Single(JSInterop.Invocations, invocation => invocation.Identifier == "installCutTooltips");
+
+        await DisposeComponentsAsync();
+        Assert.Single(JSInterop.Invocations, invocation => invocation.Identifier == "uninstallCutTooltips");
+    }
+
+    [Fact]
     public void Stylesheet_ClipsTextCellsWithAnEllipsis()
     {
         var body = ShippedLookTests.Body(".omni-data-grid tbody td.omni-data-grid__cell--text");

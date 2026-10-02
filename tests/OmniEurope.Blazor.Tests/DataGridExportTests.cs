@@ -447,9 +447,9 @@ public sealed class DataGridExportTests : OmniBunitContext
             .Add(component => component.Formats, [OmniTableExportFormat.Markdown, OmniTableExportFormat.Csv])
             .Add(component => component.Variants, new Dictionary<OmniTableExportFormat, OmniButtonVariant> { [OmniTableExportFormat.Markdown] = OmniButtonVariant.Primary }));
 
-        // Markdown in the host's blue, CSV left Ghost: an export is a secondary action by default.
+        // Markdown in the host's blue, CSV left neutral grey (Secondary): an export is another action of its zone.
         Assert.Contains("omni-button--primary", Button(host, "Markdown").ClassList);
-        Assert.Contains("omni-button--ghost", Button(host, "CSV").ClassList);
+        Assert.Contains("omni-button--secondary", Button(host, "CSV").ClassList);
         var markdownIcon = Button(host, "Markdown").QuerySelector("path")!.GetAttribute("d");
         var csvIcon = Button(host, "CSV").QuerySelector("path")!.GetAttribute("d");
         Assert.NotEqual(markdownIcon, csvIcon);

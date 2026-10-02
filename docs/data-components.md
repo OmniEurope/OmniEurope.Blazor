@@ -487,7 +487,7 @@ page pleine à la limite de lignes, le document écrit « N sur au moins M » et
 `OmniDataGrid` porte une barre « Tout exporter » dès que `ExportFormats` nomme au moins un format que
 quelqu'un sait écrire : `Markdown` et `Csv` sont écrits par le paquet, sans dépendance ; `Excel` et `Pdf`
 le sont par l'hôte, qui enregistre un `IOmniTableExportRenderer` (un format que personne n'écrit n'a pas
-de bouton). `ExportPosition` place la barre sous le tableau (défaut), au-dessus, ou aux deux endroits. Chaque bouton porte l'icône de fichier de son format (`FileMd`, `FileCsv`, `FileXls`, `FilePdf`) et la variante `Ghost`, une exportation étant une action secondaire ; `ExportVariants` en donne une autre par format (le Markdown en `Primary`, par exemple).
+de bouton). `ExportPosition` place la barre sous le tableau (défaut), au-dessus, ou aux deux endroits. Chaque bouton porte l'icône de fichier de son format (`FileMd`, `FileCsv`, `FileXls`, `FilePdf`) et la variante `Secondary` (gris neutre), une exportation étant une autre action de sa zone ; `ExportVariants` en donne une autre par format (le Markdown en `Primary`, par exemple).
 
 ```razor
 <OmniDataGrid TItem="Commande" Load="ChargerAsync" KeyOf="@(c => c.Id)"

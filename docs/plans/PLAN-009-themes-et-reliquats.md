@@ -138,6 +138,13 @@ Controle : `PluralTextTests` (110 cas) : règle de chaque langue sur ses nombres
 - [x] Décision : pas de regroupement au build. Il demanderait un outil de regroupement (esbuild ou Rollup, donc Node) dans la construction du paquet, qui n'en a aucun aujourd'hui, pour un gain limité au premier usage : 6 requêtes au lieu d'une pour la grille, 4 pour le focus, 5 pour l'éditeur, en deux vagues, ensuite servies par le cache du navigateur. Un assemblage maison qui recollerait des modules ES en retirant leurs `import` serait fragile pour le même gain.
 Controle : décompte inchangé et déjà consigné dans `docs/performance-budgets.md`.
 
+### Lot 14 - Demandes OE de la recette (2026-10-02)
+- [x] R-009 : ordre des actions, l'action d'abord puis « Annuler », groupées à droite, dans `OmniFormActions`, `OmniConfirmFooter` et le pied d'`OmniDialog`. Accordé le 2026-10-02. Les pieds de dialogue d'OE et `ConfirmAsync` suivaient déjà cet ordre ; seule la documentation d'`OmniFormActions` disait le contraire.
+- [x] R-031 : boutons de la barre d'export d'`OmniDataGrid` en `Secondary` (gris neutre) par défaut au lieu de `Ghost`, décision du propriétaire du 2026-10-02 (« neutre, pas ghost »).
+- [x] R-032 : cellule de texte d'`OmniDataGrid` tronquée par des points de suspension : valeur entière dans un `OmniTooltip`, seulement quand la cellule est réellement tronquée.
+- [x] R-034 : `omni-app-menu__trigger-name` masqué sous 40rem dans le composant ; des applications clientes retirent alors leur règle locale.
+Controle : un test par point, R-032 et R-034 vérifiés en navigateur à 375 px et 1200 px ; une application cliente reçoit les références de commit.
+
 ## Décisions prises le 2026-09-30 (seconde série)
 
 - Version : la version qui portera ce plan est la `1.3.0`. La rupture de `OmniDataGridColumn.Filterable` y passe en version mineure, assumée. Le numéro est posé à la publication.
@@ -159,7 +166,7 @@ Controle : décompte inchangé et déjà consigné dans `docs/performance-budget
 Rien ici n'est exécuté sans réponse.
 
 - Nom du projet privé dans l'historique public : le 2026-10-01 le propriétaire a écrit « Réécrit », puis « fais ce que tu recommandes » sur une recommandation conditionnelle ; rien n'est réécrit et la décision reste à prendre. Périmètre réel, plus large que les « cinq messages » annoncés : le nom est dans 9 commits (`git log -S`) et dans le contenu des étiquettes 1.0.1, 1.1.0 et 1.2.0 (4 à 7 fichiers, dont un commentaire de documentation XML livré dans ces paquets) ; il n'est plus dans 1.3.0 ni après. Réécrire les seuls messages ne le retirerait pas des paquets publiés. Choix : réécriture complète (contenu et messages, étiquettes déplacées, délistage de 1.0.1 à 1.2.0, autre session OE arrêtée), ou acceptation en l'état.
-- Trou noir : redessiné depuis (toujours sombre, shader WebGL). Le propriétaire le juge moyen et y reviendra plus tard (2026-10-01).
+- Trou noir : redessiné depuis (toujours sombre, shader WebGL). Le propriétaire le juge moyen et y reviendra plus tard (2026-10-01). Le 2026-10-02 : « beaucoup mieux » mais trop grand et trop lumineux ; redessiné (plus petit, plus sombre, gaz couleur d'accent, filaments, halo, étoiles), non commité, en attente de son avis.
 
 ## Ordre et dépendances
 
