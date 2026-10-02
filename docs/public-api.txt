@@ -607,6 +607,7 @@ field public static OmniEurope.Blazor.Components.OmniIconName.Error : OmniEurope
 field public static OmniEurope.Blazor.Components.OmniIconName.Eye : OmniEurope.Blazor.Components.OmniIconName const = 86
 field public static OmniEurope.Blazor.Components.OmniIconName.EyeSlash : OmniEurope.Blazor.Components.OmniIconName const = 152
 field public static OmniEurope.Blazor.Components.OmniIconName.FileCsv : OmniEurope.Blazor.Components.OmniIconName const = 244
+field public static OmniEurope.Blazor.Components.OmniIconName.FileDoc : OmniEurope.Blazor.Components.OmniIconName const = 246
 field public static OmniEurope.Blazor.Components.OmniIconName.FileHtml : OmniEurope.Blazor.Components.OmniIconName const = 178
 field public static OmniEurope.Blazor.Components.OmniIconName.FileMd : OmniEurope.Blazor.Components.OmniIconName const = 243
 field public static OmniEurope.Blazor.Components.OmniIconName.FilePdf : OmniEurope.Blazor.Components.OmniIconName const = 239
@@ -2003,6 +2004,8 @@ property public OmniEurope.Blazor.Components.OmniAppearanceSettings.TextSizeLeve
 property public OmniEurope.Blazor.Components.OmniAppearanceSettings.TextSizeLevelChanged : Microsoft.AspNetCore.Components.EventCallback<System.Int32> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppearanceSettings.WindowOpen : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppearanceSettings.WindowOpenChanged : Microsoft.AspNetCore.Components.EventCallback<System.Boolean> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniAppearanceWindow.Appearance : OmniEurope.Blazor.Components.OmniAppearance {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniAppearanceWindow.AppearanceChanged : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniAppearance> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppearanceWindow.BackdropMotion : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppearanceWindow.BackdropMotionChanged : Microsoft.AspNetCore.Components.EventCallback<System.Boolean> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppearanceWindow.ControlSizeLevel : System.Int32 {get(public);set(public)} [Parameter]
@@ -2627,6 +2630,7 @@ property public OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.AdditionalT
 property public OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.AllowAnyClass : System.Boolean {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.AllowDataAttributes : System.Boolean {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.AllowImageDataUris : System.Boolean {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniIcon.FormatColor : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniIcon.Glyph : OmniEurope.Blazor.Components.OmniIconGlyph? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniIcon.Label : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniIcon.Name : OmniEurope.Blazor.Components.OmniIconName {get(public);set(public)} [Parameter]
@@ -2642,6 +2646,7 @@ property public OmniEurope.Blazor.Components.OmniImage.Width : System.Int32? {ge
 property public OmniEurope.Blazor.Components.OmniInputBase<TValue>.Class : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniInputBase<TValue>.Id : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniInputBase<TValue>.PresetName : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniInputBase<TValue>.Size : OmniEurope.Blazor.Components.OmniControlSize? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniKanban<TItem>.CardTemplate : Microsoft.AspNetCore.Components.RenderFragment<TItem>? {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniKanban<TItem>.ColumnHeaderTemplate : Microsoft.AspNetCore.Components.RenderFragment<OmniEurope.Blazor.Components.OmniKanbanColumn>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniKanban<TItem>.ColumnOf : System.Func<TItem,System.String> {get(public);set(public)} [Parameter, EditorRequired]

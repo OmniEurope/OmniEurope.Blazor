@@ -249,8 +249,10 @@ qui défile, ou la page, ne rend que les éléments proches de la zone visible, 
   les opérateurs proposés par une colonne ; un opérateur que son type ne permet pas est écarté.
 - Dans un panneau, une condition simple garde opérateur, valeur et « Effacer » sur une même ligne ; la
   liste cochable, la plage de dates et le filtre avancé restent empilés.
-- `ShowHeaderFilterMenu` range le même éditeur que la rangée (opérateur en `SimpleWithMenu`, les deux
-  conditions en `Advanced`) dans un menu ouvert par l'entonnoir du titre, et retire la rangée.
+- `ShowHeaderFilterMenu`, actif par défaut depuis la recette Astraia R-041, range l'éditeur de filtre
+  (opérateur en `SimpleWithMenu`, les deux conditions en `Advanced`) dans un menu ouvert par l'entonnoir
+  du titre : l'en-tête reste sur une ligne. `ShowHeaderFilterMenu="false"` rend à la place la rangée de
+  filtres en ligne sous l'en-tête.
 - Les panneaux (menu d'en-tête, filtre avancé, liste cochable repliée) et la liste de suggestions
   du filtre `Combo` sont placés en position fixe par `omni-grid.js` sous leur déclencheur : le
   viewport qui défile ne les rogne plus. Un seul est ouvert à la fois ; un clic ailleurs ou Échap le

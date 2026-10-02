@@ -236,9 +236,20 @@
         <OmniIcon Name="OmniIconName.FileMd" Label="@Text["DemoMediaIconFileMd"]" />
         <OmniIcon Name="OmniIconName.FileCsv" Label="@Text["DemoMediaIconFileCsv"]" />
         <OmniIcon Name="OmniIconName.FileXls" Label="@Text["DemoMediaIconFileXls"]" />
+        <OmniIcon Name="OmniIconName.FileDoc" Label="@Text["DemoMediaIconFileDoc"]" />
         <OmniIcon Name="OmniIconName.Headset" Label="@Text["DemoMediaIconHeadset"]" />
         <OmniIcon Name="OmniIconName.Handshake" Label="@Text["DemoMediaIconHandshake"]" />
         <OmniIcon Name="OmniIconName.ArrowUp" Label="@Text["DemoMediaIconArrowUp"]" />
+    </OmniRow>
+
+    @* Les icônes de fichier dans la couleur de leur format (FormatColor) : seul le tracé change, le
+       bouton qui les porte garde sa variante. *@
+    <OmniRow Gap="OmniSpacing.Small" Align="OmniAlignment.Center">
+        <OmniIcon Name="OmniIconName.FilePdf" FormatColor="true" Label="@Text["DemoMediaIconFilePdf"]" />
+        <OmniIcon Name="OmniIconName.FileDoc" FormatColor="true" Label="@Text["DemoMediaIconFileDoc"]" />
+        <OmniIcon Name="OmniIconName.FileXls" FormatColor="true" Label="@Text["DemoMediaIconFileXls"]" />
+        <OmniIcon Name="OmniIconName.FileCsv" FormatColor="true" Label="@Text["DemoMediaIconFileCsv"]" />
+        <OmniIcon Name="OmniIconName.FileMd" FormatColor="true" Label="@Text["DemoMediaIconFileMd"]" />
     </OmniRow>
 
     @* Les trois façons de faire tenir une image dans la boîte qu'on lui donne. *@

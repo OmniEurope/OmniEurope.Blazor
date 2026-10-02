@@ -497,5 +497,7 @@ public enum OmniIconName
     /// <summary>CSV file: the CSV export of a table.</summary>
     FileCsv,
     /// <summary>Spreadsheet file (XLS): the Excel export of a table.</summary>
-    FileXls
+    FileXls,
+    /// <summary>Word processing file (DOC): a Word document, an export to Word.</summary>
+    FileDoc
 }

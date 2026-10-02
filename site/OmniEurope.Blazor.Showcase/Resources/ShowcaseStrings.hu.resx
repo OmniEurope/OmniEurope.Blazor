@@ -1176,6 +1176,7 @@
   <data name="DemoMediaIconFileMd" xml:space="preserve"><value>Markdown-dokumentum</value></data>
   <data name="DemoMediaIconFileCsv" xml:space="preserve"><value>CSV-dokumentum</value></data>
   <data name="DemoMediaIconFileXls" xml:space="preserve"><value>Excel-dokumentum</value></data>
+  <data name="DemoMediaIconFileDoc" xml:space="preserve"><value>Word-dokumentum</value></data>
   <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Ügyfélszolgálat</value></data>
   <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Partnerség</value></data>
   <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Emelkedés</value></data>

@@ -41,6 +41,15 @@
    'normal' line height added a pixel over it. A select ignores line-height, so it takes the height. */
 input.omni-input { line-height: 1.25; }
 select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-height); padding-block: 0; }
+/* A one-line field of another size (OmniInputBase.Size) takes the height of the button of that size,
+   so a small drop-down sits on the line of small buttons; the toggle of a date field follows. */
+.omni-input.omni-input--small,
+select.omni-input.omni-input--small:not([multiple]):not([size]) { block-size: calc(var(--omni-control-height) - 0.5rem); font-size: var(--omni-font-size-sm); min-height: 0; padding-block: 0; }
+.omni-input.omni-input--large,
+select.omni-input.omni-input--large:not([multiple]):not([size]) { block-size: calc(var(--omni-control-height) + 0.5rem); font-size: var(--omni-font-size-lg); min-height: 0; padding-block: 0; }
+.omni-date__field:has(.omni-input--small) .omni-date__toggle { block-size: calc(var(--omni-control-height) - 0.875rem); }
+.omni-password:has(.omni-input--small) { --omni-password-toggle-size: calc(var(--omni-control-height) - 0.5rem); }
+.omni-password:has(.omni-input--large) { --omni-password-toggle-size: calc(var(--omni-control-height) + 0.5rem); }
 /* The open list of a select, dressed as a menu of the package wherever the browser lets a select be
    styled (appearance: base-select, Chromium 135 and later); elsewhere the system goes on drawing it.
    The element stays a native select: its keyboard, its form value and its accessibility are the

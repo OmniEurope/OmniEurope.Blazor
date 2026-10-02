@@ -22,7 +22,7 @@
         </EditForm>
         @if (GuardUnsavedChanges)
         {
-            <OmniUnsavedChangesGuard HasChanges="@(_dirty && !_submitting)" />
+            <OmniUnsavedChangesGuard HasChanges="@(_snapshot.IsModified && !_submitting)" />
         }
     </div>
 }

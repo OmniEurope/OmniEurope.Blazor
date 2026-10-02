@@ -10,6 +10,8 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 - `OmniSidebar` : un menu plus haut que la fenêtre défile sans barre de défilement, sous deux chevrons (haut et bas) qui n'apparaissent que tant que des entrées sont cachées de ce côté, comme les onglets trop larges (recette Atlas, point 91). Le contenu est posé dans `.omni-sidebar__viewport` ; `omni-focus.js` gagne `configureSidebarOverflow`, le défilement des chevrons existant passant en option verticale.
 - `OmniAppearanceWindow.Appearance` et `AppearanceChanged` : liés, le mode clair, sombre ou système s'affiche en trois boutons icônes collés, comme dans `OmniAppMenu`, au bout de la ligne de titre de la tuile Palette (sur une ligne à lui sans palette) ; figé en sombre sous un thème sombre seulement, et « Restaurer » le remet comme le reste. `OmniAppearanceSettings` le transmet à sa fenêtre (recette Atlas, point 92).
 - Jeton de thème `--omni-scope-page` : la couleur de page d'un thème qui la veut plus profonde que la surface de la palette ; `initial` par défaut, la portée garde alors sa surface. Trou noir s'en sert pour un noir profond quelle que soit la palette (surface à 25 %, le reste en noir neutre, recette Atlas, point 83), et son trou noir y prend la couleur de son horizon.
+- `OmniIconName.FileDoc` : icône de document Word (tracé Phosphor `file-doc`) ; `OmniIcon.FormatColor` colore une icône de fichier de la couleur de son format (PDF danger, Word info, tableurs succès, Markdown atténué), le bouton qui la porte gardant sa variante (recette Astraia R-051).
+- `Size` (`OmniControlSize`) sur les champs d'une ligne (`OmniTextBox`, `OmniPassword`, `OmniNumeric`, `OmniDropDown`, sélecteurs de date et d'heure, `OmniAutocomplete`) : `Small` et `Large` prennent la hauteur du bouton de même taille, pour qu'une barre d'outils mêlant liste déroulante et boutons reste alignée (recette Astraia R-052).
 
 ### Changed
 
@@ -20,6 +22,8 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 - `OmniDataGrid` : les boutons de la barre d'export passent en `Secondary` (gris neutre) par défaut au lieu de `Ghost` ; `ExportVariants` en choisit toujours une autre par format (recette Astraia R-031).
 - `OmniAppMenu` : sous 40rem, le bouton du menu ne montre plus le nom de l'utilisateur, qui débordait de la barre sur téléphone ; il garde son icône, son chevron et son nom accessible, et le nom reste en tête du menu ouvert. Les sites retirent leur règle locale (recette Astraia R-034).
 - `OmniFormActions` : la documentation suit l'ordre des pieds de dialogue et de `ConfirmAsync`, l'action principale d'abord puis « Annuler », groupées à droite ; elle disait l'action principale en dernier (recette Astraia R-009).
+- `OmniDataGrid` : le filtre d'en-tête (`ShowHeaderFilterMenu`) est actif par défaut, pour tous les sites ; la rangée de filtres en ligne n'est plus rendue que sur demande (`ShowHeaderFilterMenu="false"`). Changement de comportement : une grille qui comptait sur la rangée la redemande (recette Astraia R-041).
+- `OmniTemplateForm` : « modifié » compare les valeurs courantes à celles du départ ou du dernier enregistrement ; taper puis effacer laisse le formulaire non modifié et sa garde ne demande plus rien. Avant, le premier changement le marquait modifié jusqu'à l'envoi (recette Astraia R-061).
 
 ### Fixed
 

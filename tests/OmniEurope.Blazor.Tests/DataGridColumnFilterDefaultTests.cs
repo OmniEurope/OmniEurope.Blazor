@@ -18,7 +18,9 @@ public sealed class DataGridColumnFilterDefaultTests : OmniBunitContext
     private IRenderedComponent<OmniDataGrid<Row>> RenderGrid(bool? gridFilterable, bool? cityFilterable) =>
         Render<OmniDataGrid<Row>>(parameters =>
         {
+            // These tests read the inline filter row, which a grid now asks for (R-041).
             parameters.Add(grid => grid.Items, Rows);
+            parameters.Add(grid => grid.ShowHeaderFilterMenu, false);
             if (gridFilterable is { } onGrid)
             {
                 parameters.Add(grid => grid.Filterable, onGrid);
@@ -52,6 +54,24 @@ public sealed class DataGridColumnFilterDefaultTests : OmniBunitContext
         .Where(cell => cell.QuerySelector(".omni-data-grid__filter") is not null)
         .Select(cell => cell.GetAttribute("data-omni-col")!)
         .ToArray();
+
+    [Fact]
+    public void A_grid_that_says_nothing_filters_from_its_header_menu_without_the_inline_row()
+    {
+        // Astraia recette R-041: the header menu is the default for every site; the row is asked for.
+        var grid = Render<OmniDataGrid<Row>>(parameters => parameters
+            .Add(grid => grid.Items, Rows)
+            .Add(grid => grid.Columns, (RenderFragment)(builder =>
+            {
+                builder.OpenComponent<OmniDataGridColumn<Row>>(0);
+                builder.AddComponentParameter(1, nameof(OmniDataGridColumn<Row>.Property), nameof(Row.Name));
+                builder.CloseComponent();
+            })));
+
+        Assert.True(grid.Instance.ShowHeaderFilterMenu);
+        Assert.Empty(grid.FindAll(".omni-data-grid__filters"));
+        Assert.Single(grid.FindAll("thead .omni-data-grid__filter-menu"));
+    }
 
     [Fact]
     public void A_column_that_says_nothing_follows_its_grid_which_filters_by_default()
@@ -93,6 +113,7 @@ public sealed class DataGridColumnFilterDefaultTests : OmniBunitContext
     {
         var grid = Render<OmniDataGrid<Row>>(parameters => parameters
             .Add(grid => grid.Items, Rows)
+            .Add(grid => grid.ShowHeaderFilterMenu, false)
             .Add(grid => grid.Columns, (RenderFragment)(builder =>
             {
                 builder.OpenComponent<OmniDataGridColumn<Row>>(0);
@@ -114,6 +135,7 @@ public sealed class DataGridColumnFilterDefaultTests : OmniBunitContext
         // gets the advanced editor the grid declares, not a plain box.
         var grid = Render<OmniDataGrid<Row>>(parameters => parameters
             .Add(grid => grid.Items, Rows)
+            .Add(grid => grid.ShowHeaderFilterMenu, false)
             .Add(grid => grid.Filterable, false)
             .Add(grid => grid.FilterMode, OmniDataGridFilterMode.Advanced)
             .Add(grid => grid.Columns, (RenderFragment)(builder =>

@@ -71,7 +71,7 @@ public partial class OmniDateTimePicker
     // Class goes on the outermost element; the validation classes of the form stay on the input they describe.
     private string RootClass => OmniEurope.Blazor.Internal.CssClassBuilder.Combine(["omni-date", "omni-date--datetime", Class]);
 
-    private string InputClass => OmniEurope.Blazor.Internal.CssClassBuilder.Combine(["omni-input", "omni-date-input", "omni-date-time-picker", CssClass]);
+    private string InputClass => OmniEurope.Blazor.Internal.CssClassBuilder.Combine(["omni-input", "omni-date-input", "omni-date-time-picker", SizeClass, CssClass]);
 
     private PickerPopup Popup => _popup ??= new PickerPopup(JavaScript, DismissAsync);
 

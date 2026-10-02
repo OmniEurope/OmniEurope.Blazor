@@ -341,6 +341,11 @@
 .omni-icon--small { height: 1rem; width: 1rem; }
 .omni-icon--medium { height: 1.25rem; width: 1.25rem; }
 .omni-icon--large { height: 1.5rem; width: 1.5rem; }
+/* A file icon in the colour of its format (OmniIcon.FormatColor): the glyph only, from the palette tones. */
+.omni-icon--format-pdf { color: var(--omni-color-danger); }
+.omni-icon--format-doc { color: var(--omni-color-info); }
+.omni-icon--format-sheet { color: var(--omni-color-success); }
+.omni-icon--format-text { color: var(--omni-color-text-muted); }
 
 /* Pastille tonale : l'encre de la variante mêlée à la surface et au texte, lisible en clair et en sombre. */
 .omni-badge { --omni-badge-ink: var(--omni-color-text-muted); align-items: center; background: color-mix(in srgb, var(--omni-badge-ink) 14%, var(--omni-color-surface)); border: var(--omni-border-width) solid color-mix(in srgb, var(--omni-badge-ink) 32%, transparent); border-radius: var(--omni-radius-sm); box-sizing: border-box; color: color-mix(in srgb, var(--omni-badge-ink) 40%, var(--omni-color-text)); display: inline-flex; font-size: calc(var(--omni-control-font) - 0.0625rem); font-variant-numeric: tabular-nums; font-weight: 650; gap: var(--omni-space-xs); justify-content: center; line-height: 1; min-height: var(--omni-badge-height); min-width: var(--omni-badge-height); padding: var(--omni-badge-pad-y) 0.5rem; white-space: nowrap; }
