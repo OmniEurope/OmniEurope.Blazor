@@ -198,6 +198,14 @@ public sealed class PageHeaderTests : OmniBunitContext
 
         var bare = Render<OmniPageHeader>(parameters => parameters.Add(component => component.Title, "Sans icône"));
         Assert.Empty(bare.FindAll(".omni-page-header__icon"));
+
+        // The icon box shares the font and line height of the title, and the icon sits on the middle of
+        // the capitals through ex and cap units (review point 95).
+        Assert.Contains("omni-heading--h1", row.Children[0].ClassList);
+        var icon = ShippedLookTests.Body(".omni-page-header__icon > *");
+        Assert.Equal("calc(0.5ex - 0.5cap)", ShippedLookTests.Value(icon, "inset-block-start"));
+        Assert.Equal("middle", ShippedLookTests.Value(icon, "vertical-align"));
+        Assert.Equal("var(--omni-page-header-line)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-page-header .omni-page-header__icon"), "line-height"));
     }
 
     [Fact]

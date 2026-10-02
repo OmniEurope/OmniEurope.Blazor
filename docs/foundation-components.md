@@ -230,7 +230,7 @@ quand l'hôte lie `FontChanged` (recette, points 84 et 92) ; le mode y est repri
 l'ouverture de cette fenêtre, ce qui permet à l'hôte de retirer son éventuel voile de menu.
 Cette fenêtre est aussi un composant, `OmniAppearanceWindow`, qu'un hôte ouvre depuis sa propre entrée
 de menu (« Thème ») par `Open`/`OpenChanged`. Plus large que haute (46rem, jamais plus que l'écran), elle
-range ses réglages deux par deux, dans l'ordre de lecture : thème et police, palette et densité, puis
+range ses réglages deux par deux, dans l'ordre de lecture : thème et palette, police et densité, puis
 taille du texte et taille des contrôles ; l'interrupteur « Fond animé » se place au bout de la ligne de
 titre du thème. Quand l'hôte lie `AppearanceChanged` (avec `Appearance`), le mode s'affiche en trois
 boutons icônes collés, comme dans `OmniAppMenu`, au bout de la ligne de titre de la palette (sur une ligne

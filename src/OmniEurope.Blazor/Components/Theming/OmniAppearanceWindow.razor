@@ -1,8 +1,8 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-@* The window of the look, one grid of rows laid two by two where it is wide enough: theme and font,
-   palette (the mode on its title line) and density, then the text size and the size of the controls. The
+@* The window of the look, one grid of rows laid two by two where it is wide enough: theme and palette
+   (the mode on its title line), font and density, then the text size and the size of the controls. The
    motion of a theme that moves its field sits on the title line of the theme it belongs to. Modeless
    and draggable, so the page stays in view while the user tries a setting; each row shows only once the host binds its
    change, so the window never offers a setting that does nothing. Every row is a group named by its
@@ -27,16 +27,6 @@
                         <div class="omni-appearance-settings__actions" role="group" aria-labelledby="@RowId("theme")">
                             <OmniDropDown TValue="string" Options="@ThemeOptions" @bind-Value:get="ThemeName" @bind-Value:set="SetThemeAsync" Label="@Localize("SettingsTheme")" />
                             <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(Preset is null)" OnClick="ResetThemeAsync"><OmniIcon Name="OmniIconName.Reset" /><span>@Localize("SettingsDefault")</span></OmniButton>
-                        </div>
-                    </div>
-                }
-                @if (FontChanged.HasDelegate)
-                {
-                    <div class="omni-appearance-settings__row">
-                        <span class="omni-appearance-settings__label" id="@RowId("font")"><OmniIcon Name="OmniIconName.TextItalic" /> @Localize("SettingsFont")</span>
-                        <div class="omni-appearance-settings__actions" role="group" aria-labelledby="@RowId("font")">
-                            <OmniDropDown TValue="string" Options="@FontOptions" @bind-Value:get="FontName" @bind-Value:set="SetFontAsync" Label="@Localize("SettingsFont")" />
-                            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(Font is null)" OnClick="ResetFontAsync"><OmniIcon Name="OmniIconName.Reset" /><span>@Localize("SettingsDefault")</span></OmniButton>
                         </div>
                     </div>
                 }
@@ -70,6 +60,16 @@
                                 <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(Palette is null)" OnClick="ResetPaletteAsync"><OmniIcon Name="OmniIconName.Reset" /><span>@Localize("SettingsDefault")</span></OmniButton>
                             </div>
                         }
+                    </div>
+                }
+                @if (FontChanged.HasDelegate)
+                {
+                    <div class="omni-appearance-settings__row">
+                        <span class="omni-appearance-settings__label" id="@RowId("font")"><OmniIcon Name="OmniIconName.TextItalic" /> @Localize("SettingsFont")</span>
+                        <div class="omni-appearance-settings__actions" role="group" aria-labelledby="@RowId("font")">
+                            <OmniDropDown TValue="string" Options="@FontOptions" @bind-Value:get="FontName" @bind-Value:set="SetFontAsync" Label="@Localize("SettingsFont")" />
+                            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(Font is null)" OnClick="ResetFontAsync"><OmniIcon Name="OmniIconName.Reset" /><span>@Localize("SettingsDefault")</span></OmniButton>
+                        </div>
                     </div>
                 }
                 @if (ShowsBackdropMotion && !PresetChanged.HasDelegate)

@@ -224,12 +224,12 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
             .Add(component => component.DensityChanged, _ => { })
             .Add(component => component.ControlSizeLevelChanged, _ => { }));
 
-        // Owner order of 2026-10-02 (review point 85): theme beside font, palette beside density,
+        // Owner order of 2026-10-02 (review points 85 and 94): theme beside palette, font beside density,
         // then the two sizes. The order of the markup is the order on screen, so the keyboard follows
         // what the eye reads.
         var names = window.FindAll(".omni-appearance-settings--window > .omni-appearance-settings__row > .omni-appearance-settings__label")
             .Select(label => label.TextContent.Trim());
-        Assert.Equal(["Thème", "Police", "Palette", "Densité", "Taille du texte", "Taille des contrôles"], names);
+        Assert.Equal(["Thème", "Palette", "Police", "Densité", "Taille du texte", "Taille des contrôles"], names);
         // The motion of a moving theme sits at the end of its title line (point 86), right after the
         // label and before the list, not in a row of its own.
         var motion = window.Find(".omni-appearance-settings__row:first-child > .omni-appearance-settings__label + .omni-appearance-settings__motion");

@@ -1,7 +1,7 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-@* The mode inline; the theme, the font, the palette with the mode again, and the scales in the
+@* The mode inline; the theme, the palette with the mode again, the font and the scales in the
    appearance window, opened from the last row (review points 84 and 92: the font only there). The mode is a segmented choice (radio group): the
    chosen mode reads by its state, not by its colour alone. *@
 <div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-appearance-settings", Compact ? "omni-appearance-settings--compact" : null)">
@@ -27,7 +27,7 @@
         </div>
     </div>
 </div>
-@* The window of the look: theme, font, palette and mode, the density and the scales. The same window
+@* The window of the look: theme, palette and mode, font, the density and the scales. The same window
    a host opens from its own menu entry (OmniAppearanceWindow). *@
 <OmniAppearanceWindow Open="@_windowOpen" OpenChanged="SetWindowOpenAsync"
                       Appearance="Appearance" AppearanceChanged="WindowAppearanceChanged"

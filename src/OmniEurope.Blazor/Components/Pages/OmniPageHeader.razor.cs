@@ -70,6 +70,9 @@ public partial class OmniPageHeader
     [Parameter]
     public OmniHeadingLevel Level { get; set; } = OmniHeadingLevel.H1;
 
+    /// <summary>The size class of the heading level, which the icon box takes to share the font of the title.</summary>
+    private string IconLevelClass => $"omni-heading--{Level.ToString().ToLowerInvariant()}";
+
     /// <summary>
     /// Whether line 2 shows the breadcrumb when the page has ancestors; true by default. False, line 2
     /// shows the subtitle instead. The line keeps its height either way.
