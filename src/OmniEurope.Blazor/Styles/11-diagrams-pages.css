@@ -71,7 +71,16 @@
 .omni-page-header__frame[data-title-start] .omni-page-header__scroll--start,
 .omni-page-header__frame[data-title-end] .omni-page-header__scroll--end { display: inline-flex; }
 .omni-page-header__scroll .omni-icon:dir(rtl) { transform: scaleX(-1); }
-.omni-page-header__icon { align-items: center; color: var(--omni-color-accent-strong); display: inline-flex; flex: none; }
+/* The icon sits in a line box of the same font and height as the title, so the two baselines meet.
+   vertical-align: middle puts the middle of the icon half an x-height above that baseline; the
+   relative shift moves it on to half a cap height, the middle of the capitals, whatever the font
+   (Atlas review point 95). The units resolve against the font of the title, which the icon box takes
+   through the heading classes; an icon given a font size of its own should keep the title's. */
+.omni-page-header .omni-page-header__icon { color: var(--omni-color-accent-strong); display: block; flex: none; line-height: var(--omni-page-header-line); margin: 0; overflow-wrap: normal; white-space: nowrap; }
+/* Equal negative margins keep the middle where it is while the icon no longer counts in the height of
+   the line: a logo taller than the line would otherwise grow it and move the baseline down. Inline,
+   since an image is a block of its own (omni-image) and a block ignores vertical-align. */
+.omni-page-header__icon > * { display: inline-block; inset-block-start: calc(0.5ex - 0.5cap); margin-block: calc(-1 * var(--omni-page-header-line)); position: relative; vertical-align: middle; }
 .omni-page-header__title-loading { flex: 0 1 16rem; }
 .omni-page-header__title-loading .omni-skeleton__item { min-height: calc(var(--omni-control-height) - 0.75rem); }
 .omni-page-header__row .omni-badge,

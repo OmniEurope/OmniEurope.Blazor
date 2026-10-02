@@ -2,7 +2,7 @@ namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Controlled appearance picker: the mode (light, dark, system) inline, then a row that opens the
-/// <see cref="OmniAppearanceWindow"/> for the theme, the font, the palette with the mode, and the scales. The host
+/// <see cref="OmniAppearanceWindow"/> for the theme, the palette with the mode, the font and the scales. The host
 /// keeps every value and applies it to its theme scope; this component only raises the changes.
 /// </summary>
 /// <remarks>

@@ -1,8 +1,8 @@
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
-/// The small draggable window of the look, modeless so the page stays in view: theme, font, palette and mode,
-/// then the text size, the density and the size of the controls. Controlled like
+/// The small draggable window of the look, modeless so the page stays in view: theme, palette and mode,
+/// font and density, then the text size and the size of the controls. Controlled like
 /// <see cref="OmniAppearanceSettings"/> (the host keeps and applies every value), and each row only
 /// shows once its change is bound. A host opens it from a menu entry ("Theme") through
 /// <see cref="Open"/>; <see cref="OmniAppearanceSettings"/> opens the same window from its look row.
