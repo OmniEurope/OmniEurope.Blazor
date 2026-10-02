@@ -232,8 +232,9 @@ public sealed class ThemePaletteTests : OmniBunitContext
     }
 
     /// <summary>
-    /// A shape follows any palette only if it writes no colour of its own. Neutral shadows are the one
-    /// tolerated exception (PLAN-004 lot 6).
+    /// A shape follows any palette only if it writes no colour of its own. Neutral black and white
+    /// (shadows, Trou noir's deep page mixed into the surface) are the one tolerated exception
+    /// (PLAN-004 lot 6).
     /// </summary>
     [Fact]
     public void No_theme_shape_writes_a_colour_of_its_own()

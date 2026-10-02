@@ -325,4 +325,36 @@ public sealed class NavigationComponentTests : OmniBunitContext
         Assert.Empty(sidebar.FindAll(".omni-sidebar__header"));
         Assert.DoesNotContain("omni-sidebar--has-header", sidebar.Find("aside").ClassName, StringComparison.Ordinal);
     }
+
+    [Fact]
+    public void Sidebar_menu_taller_than_the_window_scrolls_under_chevrons_not_a_scrollbar()
+    {
+        // review point 91 (2026-10-02): no scrollbar beside the menu, a chevron above and below
+        // as on a tab strip, hidden until the script finds items hidden that way.
+        var sidebar = Render<OmniSidebar>(parameters => parameters
+            .Add(component => component.Open, true)
+            .AddChildContent("<nav class=\"menu\">Navigation</nav>"));
+
+        var panel = sidebar.Find(".omni-sidebar__panel");
+        var children = panel.Children.Select(child => child.ClassName).ToArray();
+        Assert.Equal(
+            ["omni-sidebar__scroll omni-sidebar__scroll--start", "omni-sidebar__viewport", "omni-sidebar__scroll omni-sidebar__scroll--end"],
+            children);
+        Assert.NotNull(sidebar.Find(".omni-sidebar__viewport > .menu"));
+        foreach (var chevron in sidebar.FindAll(".omni-sidebar__scroll"))
+        {
+            Assert.True(chevron.HasAttribute("hidden"));
+            Assert.Equal("-1", chevron.GetAttribute("tabindex"));
+            Assert.Equal("true", chevron.GetAttribute("aria-hidden"));
+        }
+
+        var configure = Assert.Single(JSInterop.Invocations, invocation => invocation.Identifier == "configureSidebarOverflow");
+        Assert.IsType<ElementReference>(configure.Arguments[0]);
+
+        Assert.Equal("hidden", ShippedLookTests.Value(ShippedLookTests.Body(".omni-sidebar__panel"), "overflow"));
+        var viewport = ShippedLookTests.Body(".omni-sidebar__viewport");
+        Assert.Equal("auto", ShippedLookTests.Value(viewport, "overflow-y"));
+        Assert.Equal("none", ShippedLookTests.Value(viewport, "scrollbar-width"));
+        Assert.Equal("none", ShippedLookTests.Value(ShippedLookTests.Body(".omni-sidebar__scroll[hidden]"), "display"));
+    }
 }

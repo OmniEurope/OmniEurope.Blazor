@@ -27,8 +27,9 @@
   <data name="SettingsControlSize" xml:space="preserve"><value>Størrelse på kontrolelementer</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Standard</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Tilfældig</value></data>
-  <data name="SettingsRandomTitle" xml:space="preserve"><value>Vælg et tilfældigt tema og en tilfældig palet</value></data>
+  <data name="SettingsRandomTitle" xml:space="preserve"><value>Vælg et tilfældigt tema, en tilfældig palet og en tilfældig skrifttype</value></data>
   <data name="SettingsApply" xml:space="preserve"><value>Anvend</value></data>
+  <data name="SettingsRestore" xml:space="preserve"><value>Gendan</value></data>
   <data name="SettingsResetAll" xml:space="preserve"><value>Alt til standard</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>standard</value></data>
   <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Formindsk tekststørrelsen</value></data>

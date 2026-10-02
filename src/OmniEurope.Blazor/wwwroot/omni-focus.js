@@ -13,6 +13,8 @@ export {
     configureScrollOverflow,
     disposeScrollOverflow,
     configureSelectBarOverflow,
+    configureSidebarOverflow,
+    disposeSidebarOverflow,
     disposeTabsOverflow,
     attachTabsWheelScope,
     detachTabsWheelScope

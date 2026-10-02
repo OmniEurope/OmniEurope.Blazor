@@ -27,8 +27,9 @@
   <data name="SettingsControlSize" xml:space="preserve"><value>Daqs tal-kontrolli</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Prestabbilit</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Każwali</value></data>
-  <data name="SettingsRandomTitle" xml:space="preserve"><value>Agħżel tema u paletta b’mod każwali</value></data>
+  <data name="SettingsRandomTitle" xml:space="preserve"><value>Agħżel tema, paletta u font b’mod każwali</value></data>
   <data name="SettingsApply" xml:space="preserve"><value>Applika</value></data>
+  <data name="SettingsRestore" xml:space="preserve"><value>Irrestawra</value></data>
   <data name="SettingsResetAll" xml:space="preserve"><value>Irrisettja kollox</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>prestabbilit</value></data>
   <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Naqqas id-daqs tat-test</value></data>

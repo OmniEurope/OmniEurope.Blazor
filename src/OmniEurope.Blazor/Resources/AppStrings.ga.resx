@@ -27,8 +27,9 @@
   <data name="SettingsControlSize" xml:space="preserve"><value>Méid na rialtán</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Réamhshocrú</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Randamach</value></data>
-  <data name="SettingsRandomTitle" xml:space="preserve"><value>Roghnaigh téama agus pailéad go randamach</value></data>
+  <data name="SettingsRandomTitle" xml:space="preserve"><value>Roghnaigh téama, pailéad agus cló go randamach</value></data>
   <data name="SettingsApply" xml:space="preserve"><value>Cuir i bhfeidhm</value></data>
+  <data name="SettingsRestore" xml:space="preserve"><value>Athchóirigh</value></data>
   <data name="SettingsResetAll" xml:space="preserve"><value>Athshocraigh gach rud</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>réamhshocrú</value></data>
   <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Laghdaigh méid an téacs</value></data>

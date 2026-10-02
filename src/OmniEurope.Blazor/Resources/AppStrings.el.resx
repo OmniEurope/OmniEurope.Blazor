@@ -27,8 +27,9 @@
   <data name="SettingsControlSize" xml:space="preserve"><value>Μέγεθος στοιχείων ελέγχου</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Προεπιλογή</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Τυχαία</value></data>
-  <data name="SettingsRandomTitle" xml:space="preserve"><value>Τυχαία επιλογή θέματος και παλέτας</value></data>
+  <data name="SettingsRandomTitle" xml:space="preserve"><value>Τυχαία επιλογή θέματος, παλέτας και γραμματοσειράς</value></data>
   <data name="SettingsApply" xml:space="preserve"><value>Εφαρμογή</value></data>
+  <data name="SettingsRestore" xml:space="preserve"><value>Επαναφορά</value></data>
   <data name="SettingsResetAll" xml:space="preserve"><value>Επαναφορά όλων</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>προεπιλογή</value></data>
   <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Μείωση μεγέθους κειμένου</value></data>

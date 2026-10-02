@@ -10,8 +10,8 @@ namespace OmniEurope.Blazor.Internal;
 /// </summary>
 /// <remarks>
 /// A shape writes no colour of its own: a coloured shadow or border is drawn from a colour token, so it
-/// follows any palette. Only neutral shadows (<c>rgb(0 0 0 / x%)</c>, <c>rgb(255 255 255 / x%)</c>) are
-/// literal. Fonts come from <see cref="FontCatalog"/>: system stacks and four web fonts the package serves itself.
+/// follows any palette. Only neutral black and white (<c>rgb(0 0 0 / x%)</c>, <c>rgb(255 255 255 / x%)</c>)
+/// are literal: the shadows, and Trou noir's page, the palette surface mixed with black. Fonts come from <see cref="FontCatalog"/>: system stacks and four web fonts the package serves itself.
 /// </remarks>
 internal static class ThemeCatalog
 {
@@ -393,13 +393,13 @@ internal static class ThemeCatalog
             Shape()),
 
         // A black hole, always dark (owner decision of 2026-10-01: no light half): the page is the
-        // palette's surface (pure black with Horizon), the cards are a faint veil of the text colour
+        // palette's surface taken three quarters of the way to black (--omni-scope-page), the cards are a faint veil of the text colour
         // closed by a hairline, so the field shows through them. High on the right, the horizon is a disc
         // ringed by a thin photon ring, its white accretion disc tilted down to the left and bent by the
         // hole, the far side arching over the horizon (a WebGL shader, omni-black-hole.js). Every white stays sober,
         // a tenth of the text colour at most, so the theme holds the contrast thresholds with every palette; the
         // dense surfaces (grids, dialogs) are opaque.
-        new("Trou noir", "Toujours sombre : noir absolu, cartes à peine voilées, disque d’accrétion blanc incliné qui tourne lentement derrière la page.", "Horizon",
+        new("Trou noir", "Toujours sombre : noir absolu, cartes à peine voilées, disque d’accrétion incliné, blanc au bord intérieur puis couleur d’accent, qui tourne lentement derrière la page.", "Horizon",
             Shape(
                 // Press: the light falls in, the button shrinks and darkens from its edge.
                 ("--omni-button-press-transform", "scale(0.96)"), ("--omni-button-press-shadow", "inset 0 0 0.75rem rgb(0 0 0 / 55%)"),
@@ -416,6 +416,10 @@ internal static class ThemeCatalog
                 // The lensed black hole is drawn by a shader on the scope's canvas (omni-black-hole.js), which
                 // a background cannot do; the field above is what shows without WebGL.
                 ("--omni-scope-canvas", "black-hole"),
+                // A deep black page whatever the palette: its dark surface three quarters of the way to
+                // black (owner decision of 2026-10-02), a neutral black as the shadows are. Text and fills
+                // are measured against the surface, so a darker page only widens their contrast.
+                ("--omni-scope-page", "color-mix(in srgb, var(--omni-color-surface) 25%, rgb(0 0 0 / 100%))"),
                 ("--omni-scope-isolation", "isolate"),
                 ("--omni-scope-motion", "omni-scope-turn 120s linear infinite"),
                 ("--omni-card-background", "color-mix(in srgb, var(--omni-color-text) 4%, transparent)"),

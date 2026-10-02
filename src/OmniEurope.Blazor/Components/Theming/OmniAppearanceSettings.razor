@@ -1,8 +1,8 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-@* The mode and the font inline; the theme, the palette, the scales and the font again in the
-   appearance window, opened from the last row. The mode is a segmented choice (radio group): the
+@* The mode inline; the theme, the font, the palette with the mode again, and the scales in the
+   appearance window, opened from the last row (review points 84 and 92: the font only there). The mode is a segmented choice (radio group): the
    chosen mode reads by its state, not by its colour alone. *@
 <div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-appearance-settings", Compact ? "omni-appearance-settings--compact" : null)">
     <div class="omni-appearance-settings__row">
@@ -12,13 +12,6 @@
             <OmniSelectBar TValue="OmniAppearance" Options="@ModeOptions" IconFor="@ModeIcon" Label="@Localize("SettingsMode")"
                            Disabled="@DarkOnly" title="@(DarkOnly ? Localize("SettingsDarkOnly") : null)"
                            @bind-Value:get="ShownAppearance" @bind-Value:set="SetAppearanceAsync" />
-        </div>
-    </div>
-    <div class="omni-appearance-settings__row">
-        <span class="omni-appearance-settings__label" id="@RowId("font")"><OmniIcon Name="OmniIconName.TextItalic" /> @Localize("SettingsFont")</span>
-        <div class="omni-appearance-settings__actions" role="group" aria-labelledby="@RowId("font")">
-            <OmniDropDown TValue="string" Options="@FontOptions" @bind-Value:get="FontName" @bind-Value:set="SetFontAsync" Label="@Localize("SettingsFont")" />
-            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(Font is null)" OnClick="ResetFontAsync"><OmniIcon Name="OmniIconName.Reset" /><span>@Localize("SettingsDefault")</span></OmniButton>
         </div>
     </div>
     @* Compact, the look reads as one short label and a summary beside the edit action, instead of a
@@ -34,10 +27,10 @@
         </div>
     </div>
 </div>
-@* The window of the look: theme and palette, the scales, the density and the font. The same window a
-   host opens from its own menu entry (OmniAppearanceWindow); the font is offered there too, beside the
-   inline row, once the host binds it. *@
+@* The window of the look: theme, font, palette and mode, the density and the scales. The same window
+   a host opens from its own menu entry (OmniAppearanceWindow). *@
 <OmniAppearanceWindow Open="@_windowOpen" OpenChanged="SetWindowOpenAsync"
+                      Appearance="Appearance" AppearanceChanged="WindowAppearanceChanged"
                       Preset="Preset" PresetChanged="ChangeThemeAsync"
                       Palette="Palette" PaletteChanged="ChangePaletteAsync"
                       Font="Font" FontChanged="WindowFontChanged"

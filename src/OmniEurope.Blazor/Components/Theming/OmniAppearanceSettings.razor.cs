@@ -1,8 +1,8 @@
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
-/// Controlled appearance picker: the mode (light, dark, system) and the font inline, then a row that
-/// opens the <see cref="OmniAppearanceWindow"/> for the theme, the palette, the scales and the font. The host
+/// Controlled appearance picker: the mode (light, dark, system) inline, then a row that opens the
+/// <see cref="OmniAppearanceWindow"/> for the theme, the font, the palette with the mode, and the scales. The host
 /// keeps every value and applies it to its theme scope; this component only raises the changes.
 /// </summary>
 /// <remarks>
@@ -45,7 +45,7 @@ public partial class OmniAppearanceSettings
     /// <summary>The chosen font, or null for the one the theme is drawn with.</summary>
     [Parameter] public OmniThemeFont? Font { get; set; }
 
-    /// <summary>Raised with the font picked, null for the theme's own.</summary>
+    /// <summary>Raised with the font picked in the window, null for the theme's own; bound, the window shows the font row.</summary>
     [Parameter] public EventCallback<OmniThemeFont?> FontChanged { get; set; }
 
     /// <summary>
@@ -118,13 +118,14 @@ public partial class OmniAppearanceSettings
         new(OmniAppearance.System, Localize("AppearanceSystem"))
     ];
 
-    private string FontName => AppearanceChoices.FontName(Preset, Font);
-
-    private IReadOnlyList<OmniOption<string>> FontOptions => AppearanceChoices.FontOptions(Preset, Localize("SettingsDefaultSuffix"));
-
     /// <summary>The window gets the control size change only when the host binds it, as it shows the row only then.</summary>
     private EventCallback<int> WindowControlSizeChanged => ShowsControlSize
         ? EventCallback.Factory.Create<int>(this, ChangeControlSizeAsync)
+        : default;
+
+    /// <summary>The window gets the mode change only when the host binds it, as it shows the mode only then.</summary>
+    private EventCallback<OmniAppearance> WindowAppearanceChanged => AppearanceChanged.HasDelegate
+        ? EventCallback.Factory.Create<OmniAppearance>(this, SetAppearanceAsync)
         : default;
 
     /// <summary>The window gets the font change only when the host binds it, as it shows the row only then.</summary>
@@ -158,10 +159,6 @@ public partial class OmniAppearanceSettings
     }
 
     private Task SetAppearanceAsync(OmniAppearance mode) => AppearanceChanged.InvokeAsync(mode);
-
-    private Task SetFontAsync(string? name) => FontChanged.InvokeAsync(AppearanceChoices.Font(Preset, name));
-
-    private Task ResetFontAsync() => FontChanged.InvokeAsync(null);
 
     private Task OpenWindowAsync() => SetWindowOpenAsync(true);
 

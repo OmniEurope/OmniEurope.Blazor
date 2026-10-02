@@ -64,10 +64,30 @@ public sealed class ThemeFieldMotionTests : OmniBunitContext
         var start = Assert.Single(JSInterop.Invocations, invocation => invocation.Identifier == "start");
         Assert.Equal(false, start.Arguments[2]);
 
+        // Leaving the theme drops the canvas and stops it, still field included: no loop would notice.
+        Assert.DoesNotContain(JSInterop.Invocations, invocation => invocation.Identifier == "sweep");
+        trouNoir.Render(parameters => parameters.Add(component => component.Preset, OmniThemePresets.All.Single(theme => theme.Name == "Givre")));
+        Assert.Empty(trouNoir.FindAll("canvas"));
+        Assert.Single(JSInterop.Invocations, invocation => invocation.Identifier == "sweep");
+
         var givre = Render<OmniThemeScope>(parameters => parameters
             .Add(component => component.Preset, OmniThemePresets.All.Single(theme => theme.Name == "Givre"))
             .AddChildContent("<p>page</p>"));
         Assert.Empty(givre.FindAll("canvas"));
+    }
+
+    [Fact]
+    public void Trou_noir_paints_a_page_deeper_than_the_palette_surface_and_no_other_theme_does()
+    {
+        // Owner decision of 2026-10-02: a deep black page whatever the palette, the surface three
+        // quarters of the way to black; every other scope keeps the palette surface.
+        Assert.Equal(["Trou noir"], OmniThemePresets.All.Where(theme => theme.Shape.ContainsKey("--omni-scope-page")).Select(theme => theme.Name));
+        var trouNoir = OmniThemePresets.All.Single(theme => theme.Name == "Trou noir");
+        Assert.Equal("color-mix(in srgb, var(--omni-color-surface) 25%, rgb(0 0 0 / 100%))", trouNoir.Shape["--omni-scope-page"]);
+
+        Assert.Equal("var(--omni-scope-page, var(--omni-color-surface))", ShippedLookTests.Value(ShippedLookTests.Body(".omni-theme-scope"), "background"));
+        // initial: the var() fallback, so a scope without the token keeps its surface.
+        Assert.Equal("initial", ShippedLookTests.Value(ShippedLookTests.Body("[data-omni-theme]"), "--omni-scope-page"));
     }
 
     [Fact]

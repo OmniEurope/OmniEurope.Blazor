@@ -7,14 +7,24 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 ### Added
 
 - `OmniFormActions` : la rangée d'actions d'un formulaire, posée dans le `<form>` pour que son bouton de soumission le soumette, alignée à droite comme le pied d'un dialogue et qui passe à la ligne si la place manque. Le bouton Connexion d'`OmniLoginShell` s'y place, en fin du formulaire de l'hôte (recette R-375).
+- `OmniSidebar` : un menu plus haut que la fenêtre défile sans barre de défilement, sous deux chevrons (haut et bas) qui n'apparaissent que tant que des entrées sont cachées de ce côté, comme les onglets trop larges (recette, point 91). Le contenu est posé dans `.omni-sidebar__viewport` ; `omni-focus.js` gagne `configureSidebarOverflow`, le défilement des chevrons existant passant en option verticale.
+- `OmniAppearanceWindow.Appearance` et `AppearanceChanged` : liés, le mode clair, sombre ou système s'affiche en trois boutons icônes collés, comme dans `OmniAppMenu`, au bout de la ligne de titre de la tuile Palette (sur une ligne à lui sans palette) ; figé en sombre sous un thème sombre seulement, et « Restaurer » le remet comme le reste. `OmniAppearanceSettings` le transmet à sa fenêtre (recette, point 92).
+- Jeton de thème `--omni-scope-page` : la couleur de page d'un thème qui la veut plus profonde que la surface de la palette ; `initial` par défaut, la portée garde alors sa surface. Trou noir s'en sert pour un noir profond quelle que soit la palette (surface à 25 %, le reste en noir neutre, recette, point 83), et son trou noir y prend la couleur de son horizon.
 
 ### Changed
 
 - `OmniDataGrid` : les boutons de la barre d'export sont désactivés (`disabled`) tant que la grille ne tient et ne compte aucune ligne (grille vide, filtres sans résultat, premier chargement) ; un appel qui contourne le bouton n'écrit rien non plus. Une source qui n'annonce pas de total (0) mais affiche des lignes exporte toujours (demande d'une application cliente).
+- Trou noir : le trou noir du fond est redessiné, plus petit d'environ 30 % (ombre de 90 px de rayon dans une fenêtre de 1440 x 900) et moins lumineux (lumière adoucie, sous 50 % au lieu de 62 %). Le gaz est blanc au bord intérieur puis de la couleur d'accent de la palette, braise sur le bord. Il s'enroule en filaments striés de poussière sombre et baigne dans un halo. L'anneau de photons est un trait continu, et quelques étoiles pâles, déviées près de l'ombre, se voient autour. Une image coûte environ 3 ms.
+- `OmniAppearanceWindow` (recette, points 85 à 90) : lignes dans l'ordre Thème, Police, Palette, Densité, Taille du texte, Taille des contrôles ; « Fond animé » au bout de la ligne de titre du thème, sans ligne de plus ; pied Aléatoire, Tout par défaut, Valider puis « Restaurer » (nouveau libellé `SettingsRestore`, 24 langues, icône Restore), qui remplace « Annuler » ; la croix et Échap ferment seulement la fenêtre et gardent l'apparence essayée, seul « Restaurer » revient à celle de l'ouverture (point 88) ; « Aléatoire » tire aussi une police autre que celle en vigueur.
 - `OmniDataGrid` : une cellule de texte coupée par ses points de suspension montre sa valeur entière dans l'infobulle du paquet, au survol ou au focus clavier, seulement tant qu'elle est réellement coupée (texte plus large que la cellule). Chaque grille l'active, que l'hôte ait placé `OmniTitleTooltips` ou non ; le texte entier reste dans la page pour les lecteurs d'écran (recette R-032).
 - `OmniDataGrid` : les boutons de la barre d'export passent en `Secondary` (gris neutre) par défaut au lieu de `Ghost` ; `ExportVariants` en choisit toujours une autre par format (recette R-031).
 - `OmniAppMenu` : sous 40rem, le bouton du menu ne montre plus le nom de l'utilisateur, qui débordait de la barre sur téléphone ; il garde son icône, son chevron et son nom accessible, et le nom reste en tête du menu ouvert. Les sites retirent leur règle locale (recette R-034).
 - `OmniFormActions` : la documentation suit l'ordre des pieds de dialogue et de `ConfirmAsync`, l'action principale d'abord puis « Annuler », groupées à droite ; elle disait l'action principale en dernier (recette R-009).
+
+### Fixed
+
+- Trou noir : quitter le thème alors que son fond est immobile (`BackdropMotion` coupé ou mouvement réduit) arrête son canvas ; jusque-là, sans boucle d'animation pour le remarquer, le contexte WebGL et ses deux écouteurs (`resize`, `visibilitychange`) restaient jusqu'au rechargement. `OmniThemeScope` appelle `sweep` du module, qui arrête tout canvas sorti de la page.
+- `OmniAppearanceSettings` : la police ne se règle plus en ligne, seulement dans la fenêtre qu'ouvre « Modifier », dès que l'hôte lie `FontChanged` ; sans liaison, la ligne affichée ne changeait rien (recette, points 84 et 92).
 
 ### Outillage du dépôt (sans effet sur le paquet publié)
 

@@ -146,13 +146,13 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
             .Add(component => component.PaletteChanged, value => paletteReset = value is null)
             .Add(component => component.FontChanged, value => fontReset = value is null));
 
-        var options = settings.Find("select[aria-label='Police']").QuerySelectorAll("option");
+        // The font and the theme are picked in the window. The drop-down posts the option index: Galet
+        // is the third theme.
+        settings.Find(".omni-appearance-settings__row--scale button").Click();
+        var options = settings.Find(".omni-appearance-window select[aria-label='Police']").QuerySelectorAll("option");
         Assert.Equal(10, options.Length);
         Assert.Single(options, option => option.TextContent == "Source Serif (défaut)");
         Assert.Equal("Source Serif", OmniThemePresets.DefaultFontFor(theme).Name);
-
-        // The theme is picked in the window. The drop-down posts the option index: Galet is the third theme.
-        settings.Find(".omni-appearance-settings__row--scale button").Click();
         settings.Find("select[aria-label='Thème']").Change("2");
 
         Assert.Equal("Galet", chosenTheme?.Name);
@@ -190,7 +190,7 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
     }
 
     [Fact]
-    public void Font_is_offered_in_the_window_too_once_the_host_binds_it()
+    public void Font_is_offered_in_the_window_only_once_the_host_binds_it()
     {
         OmniThemeFont? picked = null;
         var unbound = Render<OmniAppearanceSettings>();
@@ -201,8 +201,9 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
             .Add(component => component.FontChanged, value => picked = value));
         settings.Find(".omni-appearance-settings__row--scale button").Click();
 
-        // The inline row stays, the window repeats it; the drop-down posts the option index.
-        Assert.Single(settings.FindAll(".omni-appearance-settings:not(.omni-appearance-settings--window) > .omni-appearance-settings__row select[aria-label='Police']"));
+        // No inline row (review points 84 and 92): the window holds it; the drop-down posts the
+        // option index.
+        Assert.Empty(settings.FindAll(".omni-appearance-settings:not(.omni-appearance-settings--window) > .omni-appearance-settings__row select[aria-label='Police']"));
         var inWindow = settings.Find(".omni-appearance-window select[aria-label='Police']");
         var index = OmniThemeFonts.All.ToList().FindIndex(font => font.Name == "JetBrains Mono");
         inWindow.Change(index.ToString(System.Globalization.CultureInfo.InvariantCulture));
@@ -223,13 +224,18 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
             .Add(component => component.DensityChanged, _ => { })
             .Add(component => component.ControlSizeLevelChanged, _ => { }));
 
-        // Theme beside palette, text size beside the size of the controls, then the rest: the order of
-        // the markup is the order on screen, so the keyboard follows what the eye reads.
+        // Owner order of 2026-10-02 (review point 85): theme beside font, palette beside density,
+        // then the two sizes. The order of the markup is the order on screen, so the keyboard follows
+        // what the eye reads.
         var names = window.FindAll(".omni-appearance-settings--window > .omni-appearance-settings__row > .omni-appearance-settings__label")
             .Select(label => label.TextContent.Trim());
-        Assert.Equal(["Thème", "Palette", "Taille du texte", "Taille des contrôles", "Densité", "Police"], names);
-        // The motion of a moving theme sits under the theme it belongs to, not in a row of its own.
-        Assert.Equal("Fond animé", window.Find(".omni-appearance-settings__row:first-child .omni-appearance-settings__motion").TextContent.Trim());
+        Assert.Equal(["Thème", "Police", "Palette", "Densité", "Taille du texte", "Taille des contrôles"], names);
+        // The motion of a moving theme sits at the end of its title line (point 86), right after the
+        // label and before the list, not in a row of its own.
+        var motion = window.Find(".omni-appearance-settings__row:first-child > .omni-appearance-settings__label + .omni-appearance-settings__motion");
+        Assert.Equal("Fond animé", motion.TextContent.Trim());
+        Assert.Equal("omni-appearance-settings__actions", motion.NextElementSibling!.ClassName);
+        Assert.Equal("0 0 auto", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-settings__label + .omni-appearance-settings__motion"), "flex"));
 
         // Two columns of at least 19rem in a window of 46rem: two fit, a third never does, and one
         // remains when the screen narrows the window.
@@ -242,41 +248,122 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
     }
 
     [Fact]
-    public void Random_draws_another_theme_and_another_palette_and_drops_the_font()
+    public void Mode_joins_the_palette_row_as_three_icon_buttons_and_restore_puts_it_back()
+    {
+        var mode = OmniAppearance.Light;
+        IRenderedComponent<OmniAppearanceWindow> window = null!;
+        window = Render<OmniAppearanceWindow>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.Appearance, mode)
+            .Add(component => component.AppearanceChanged, value =>
+            {
+                mode = value;
+                window.Render(update => update.Add(component => component.Appearance, value));
+            })
+            .Add(component => component.PaletteChanged, _ => { })
+            .Add(component => component.OpenChanged, _ => { }));
+
+        // Owner request of 2026-10-02 (review point 92): in the palette tile, three icon buttons
+        // joined in one group on the title line, right after the label and before the list, which keeps
+        // its width; the chosen one reads by its state.
+        var modesGroup = window.Find(".omni-appearance-settings__row > .omni-appearance-settings__label + .omni-appearance-window__modes");
+        Assert.Equal("Palette", modesGroup.PreviousElementSibling!.TextContent.Trim());
+        Assert.Equal("omni-appearance-settings__actions", modesGroup.NextElementSibling!.ClassName);
+        Assert.NotNull(modesGroup.NextElementSibling.QuerySelector("select[aria-label='Palette']"));
+        var buttons = window.FindAll(".omni-appearance-window__modes > button[role=radio]");
+        Assert.Equal(["Clair", "Sombre", "Système"], buttons.Select(button => button.GetAttribute("aria-label")).ToArray());
+        Assert.All(buttons, button => Assert.NotNull(button.QuerySelector("svg")));
+        Assert.Equal("true", buttons[0].GetAttribute("aria-checked"));
+
+        // Joined: no radius between the buttons; pushed to the end of the title line.
+        Assert.Equal("0", ShippedLookTests.Value(ShippedLookTests.Body(".omni-app-menu__modes > .omni-button.omni-app-menu__mode, .omni-appearance-window__modes > .omni-button.omni-appearance-window__mode"), "border-radius"));
+        Assert.Equal("auto", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-settings__label + .omni-appearance-window__modes"), "margin-inline-start"));
+
+        window.FindAll(".omni-appearance-window__modes > button[role=radio]")[1].Click();
+        Assert.Equal(OmniAppearance.Dark, mode);
+        Assert.Equal("true", window.FindAll(".omni-appearance-window__modes > button[role=radio]")[1].GetAttribute("aria-checked"));
+
+        // Restore puts back the mode the window opened on, as every other setting.
+        window.Find(".omni-appearance-window__cancel").Click();
+        Assert.Equal(OmniAppearance.Light, mode);
+    }
+
+    [Fact]
+    public void Mode_keeps_a_row_of_its_own_without_a_palette_and_is_fixed_under_a_dark_only_theme()
+    {
+        OmniAppearance? raised = null;
+        var window = Render<OmniAppearanceWindow>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.Preset, OmniThemePresets.All.First(theme => theme.DarkOnly))
+            .Add(component => component.Appearance, OmniAppearance.Light)
+            .Add(component => component.AppearanceChanged, value => raised = value));
+
+        var row = window.Find(".omni-appearance-settings__row:has(.omni-appearance-window__modes)");
+        Assert.Equal("Mode", row.QuerySelector(".omni-appearance-settings__label")!.TextContent.Trim());
+        var buttons = window.FindAll(".omni-appearance-window__modes > button[role=radio]");
+        Assert.All(buttons, button => Assert.True(button.HasAttribute("disabled")));
+        Assert.Equal("true", buttons[1].GetAttribute("aria-checked"));
+        Assert.Null(raised);
+
+        // Unbound, the window offers no mode at all.
+        var unbound = Render<OmniAppearanceWindow>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.PaletteChanged, _ => { }));
+        Assert.Empty(unbound.FindAll(".omni-appearance-window__modes"));
+    }
+
+    [Fact]
+    public void Settings_open_a_window_that_carries_the_mode()
+    {
+        OmniAppearance? raised = null;
+        var settings = Render<OmniAppearanceSettings>(parameters => parameters
+            .Add(component => component.PaletteChanged, _ => { })
+            .Add(component => component.AppearanceChanged, value => raised = value));
+        settings.Find(".omni-appearance-settings__row--scale button").Click();
+
+        settings.FindAll(".omni-appearance-window__modes > button[role=radio]")[1].Click();
+        Assert.Equal(OmniAppearance.Dark, raised);
+    }
+
+    [Fact]
+    public void Random_draws_another_theme_another_palette_and_another_font()
     {
         var theme = OmniThemePresets.All.Single(item => item.Name == "Papier");
         OmniThemePalette? palette = OmniThemePalettes.All.Single(item => item.Name == "Mono");
-        var fontDrops = 0;
+        OmniThemeFont? font = OmniThemeFonts.All.Single(item => item.Name == "JetBrains Mono");
         var window = Render<OmniAppearanceWindow>(parameters => parameters
             .Add(component => component.Open, true)
             .Add(component => component.Preset, theme)
             .Add(component => component.Palette, palette)
-            .Add(component => component.Font, OmniThemeFonts.All.Single(font => font.Name == "JetBrains Mono")));
+            .Add(component => component.Font, font));
 
         for (var draw = 0; draw < 60; draw++)
         {
             var themeBefore = theme;
             var paletteBefore = (palette ?? OmniThemePresets.DefaultPaletteFor(theme)).Name;
+            var fontBefore = (font ?? OmniThemePresets.DefaultFontFor(theme)).Name;
             var themeEvents = 0;
             var paletteEvents = 0;
+            var fontEvents = 0;
             window.Render(parameters => parameters
                 .Add(component => component.Preset, theme)
                 .Add(component => component.Palette, palette)
+                .Add(component => component.Font, font)
                 .Add(component => component.PresetChanged, value => { themeEvents++; theme = value ?? OmniThemePresets.All[0]; })
                 .Add(component => component.PaletteChanged, value => { paletteEvents++; palette = value; })
-                .Add(component => component.FontChanged, value => fontDrops += value is null ? 1 : 0));
+                .Add(component => component.FontChanged, value => { fontEvents++; font = value; }));
 
             var random = window.Find(".omni-appearance-settings__random");
             Assert.Equal("Aléatoire", random.TextContent.Trim());
             random.Click();
 
-            Assert.Equal((1, 1), (themeEvents, paletteEvents));
+            Assert.Equal((1, 1, 1), (themeEvents, paletteEvents, fontEvents));
             Assert.Contains(theme, OmniThemePresets.All);
             Assert.NotSame(themeBefore, theme);
             Assert.NotEqual(paletteBefore, (palette ?? OmniThemePresets.DefaultPaletteFor(theme)).Name);
+            // review point 90: the font is drawn too, never the one in force.
+            Assert.NotEqual(fontBefore, (font ?? OmniThemePresets.DefaultFontFor(theme)).Name);
         }
-
-        Assert.Equal(60, fontDrops);
     }
 
     [Fact]
@@ -369,10 +456,8 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         Assert.True(window.Find(".omni-appearance-window__reset").HasAttribute("disabled"));
     }
 
-    [Theory]
-    [InlineData(".omni-appearance-window__cancel")]
-    [InlineData(".omni-dialog__close")]
-    public void Cancel_and_the_close_button_put_back_the_look_the_window_opened_on(string closer)
+    [Fact]
+    public void Restore_puts_back_the_look_the_window_opened_on()
     {
         var opened = OmniThemePresets.All[2];
         var host = new LookHost { Preset = opened };
@@ -380,9 +465,26 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         window.Find(".omni-appearance-window__reset").Click();
         Reapply(window, host);
 
-        window.Find(closer).Click();
+        window.Find(".omni-appearance-window__cancel").Click();
 
         Assert.Equal((opened, 8, OmniDensity.Spacious), (host.Preset, host.TextSize, host.Density));
+        Assert.Equal([false], host.Closes);
+    }
+
+    [Fact]
+    public void The_close_button_only_closes_and_keeps_the_look_tried()
+    {
+        // Owner decision of 2026-10-02 (review point 88): closing is not restoring.
+        var host = new LookHost { Preset = OmniThemePresets.All[2] };
+        var window = RenderLookWindow(host);
+        window.Find(".omni-appearance-window__reset").Click();
+        Reapply(window, host);
+        var changes = host.Changes;
+
+        window.Find(".omni-dialog__close").Click();
+
+        Assert.Equal(changes, host.Changes);
+        Assert.Equal((null, 5, OmniDensity.Comfortable), (host.Preset, host.TextSize, host.Density));
         Assert.Equal([false], host.Closes);
     }
 
@@ -398,7 +500,11 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         var apply = window.Find(".omni-appearance-window__apply");
         Assert.Equal("Valider", apply.TextContent.Trim());
         Assert.Contains("omni-button--primary", apply.ClassList);
-        Assert.Contains("omni-button--danger", window.Find(".omni-appearance-window__cancel").ClassList);
+        var restore = window.Find(".omni-appearance-window__cancel");
+        Assert.Equal("Restaurer", restore.TextContent.Trim());
+        Assert.Contains("omni-button--danger", restore.ClassList);
+        // Owner decision of 2026-10-02 (review point 87): Apply comes before Restore.
+        Assert.Contains("omni-appearance-window__cancel", apply.NextElementSibling!.ClassList);
         apply.Click();
 
         Assert.Equal(changes, host.Changes);

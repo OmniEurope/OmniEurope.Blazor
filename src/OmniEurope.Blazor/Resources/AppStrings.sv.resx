@@ -27,8 +27,9 @@
   <data name="SettingsControlSize" xml:space="preserve"><value>Kontrollernas storlek</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Standard</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Slumpa</value></data>
-  <data name="SettingsRandomTitle" xml:space="preserve"><value>Välj ett tema och en palett slumpmässigt</value></data>
+  <data name="SettingsRandomTitle" xml:space="preserve"><value>Välj ett tema, en palett och ett typsnitt slumpmässigt</value></data>
   <data name="SettingsApply" xml:space="preserve"><value>Verkställ</value></data>
+  <data name="SettingsRestore" xml:space="preserve"><value>Återställ</value></data>
   <data name="SettingsResetAll" xml:space="preserve"><value>Återställ allt</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>standard</value></data>
   <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Minska textstorleken</value></data>
