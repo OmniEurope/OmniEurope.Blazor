@@ -184,16 +184,42 @@ export function install() {
 // (chevron) toward the cursor. The title moves to data-omni-title only while the element is hovered or
 // focused, so the native tooltip never shows, and comes back as soon as it is left: the accessible name
 // and every title selector stay intact.
+//
+// The same box shows the whole text of a data grid cell cut by its ellipsis, only while it is cut (the
+// cell is narrower than its text). Every grid turns this on (installCutTooltips), whether or not the
+// host replaced its title tooltips; the cell keeps its full text in the page for screen readers.
 
 const TITLE_DELAY = 450;
-// How many OmniTitleTooltips are placed: the listeners are installed by the first and removed with the last.
+// How many OmniTitleTooltips are placed: with the grids below, they share one set of listeners.
 let titleInstalls = 0;
 let titleBox = null;
 let titleTarget = null;
 let titleTimer = 0;
 let titlePointer = { x: 0, y: 0 };
+// How many grids are on the page: cut cells get the tooltip while one is.
+let cutInstalls = 0;
+const CUT_CELL = '.omni-data-grid__cell--text';
 
-const titleOf = element => element.getAttribute('title') || element.getAttribute('data-omni-title') || '';
+const isCut = element => element.scrollWidth > element.clientWidth + 1;
+
+// What a pointer or the focus reaches: an element with a title once a host replaced title tooltips,
+// else a grid cell whose text is cut.
+const tipTarget = target => {
+    if (!(target instanceof Element)) {
+        return null;
+    }
+
+    const titled = titleInstalls > 0 ? target.closest('[title], [data-omni-title]') : null;
+    if (titled) {
+        return titled;
+    }
+
+    const cell = cutInstalls > 0 ? target.closest(CUT_CELL) : null;
+    return cell && isCut(cell) ? cell : null;
+};
+
+const titleOf = element => element.getAttribute('title') || element.getAttribute('data-omni-title')
+    || (element.matches(CUT_CELL) ? element.textContent.trim() : '');
 
 const adoptTitle = element => {
     const title = element.getAttribute('title');
@@ -219,7 +245,9 @@ const hideTitle = () => {
     titleBox?.classList.remove('omni-title-tooltip--visible');
 };
 
-const showTitle = (text, x, y) => {
+// The box lives at the end of the body, outside any theme scope: it takes the font of the element it
+// describes, so a themed page does not get the browser's default serif in its tooltips.
+const showTitle = (text, x, y, source) => {
     if (!titleBox) {
         titleBox = document.createElement('div');
         titleBox.className = 'omni-title-tooltip';
@@ -228,6 +256,7 @@ const showTitle = (text, x, y) => {
     }
 
     titleBox.textContent = text;
+    titleBox.style.fontFamily = source ? getComputedStyle(source).fontFamily : '';
     titleBox.classList.remove('omni-title-tooltip--below');
     const box = titleBox.getBoundingClientRect();
     const half = box.width / 2;
@@ -243,7 +272,7 @@ const showTitle = (text, x, y) => {
 };
 
 const onTitleOver = event => {
-    const element = event.target instanceof Element ? event.target.closest('[title], [data-omni-title]') : null;
+    const element = tipTarget(event.target);
     if (element === titleTarget) {
         return;
     }
@@ -262,7 +291,7 @@ const onTitleOver = event => {
     titleTarget = element;
     titleTimer = window.setTimeout(() => {
         if (titleTarget === element && element.isConnected) {
-            showTitle(text, titlePointer.x, titlePointer.y);
+            showTitle(text, titlePointer.x, titlePointer.y, element);
         }
     }, TITLE_DELAY);
 };
@@ -272,7 +301,7 @@ const onTitleMove = event => {
 };
 
 const onTitleFocus = event => {
-    const element = event.target instanceof Element ? event.target.closest('[title], [data-omni-title]') : null;
+    const element = tipTarget(event.target);
     hideTitle();
     if (!element || !event.target.matches(':focus-visible')) {
         return;
@@ -286,7 +315,7 @@ const onTitleFocus = event => {
 
     titleTarget = element;
     const box = element.getBoundingClientRect();
-    showTitle(text, box.left + box.width / 2, box.top);
+    showTitle(text, box.left + box.width / 2, box.top, element);
 };
 
 const onTitleKey = event => {
@@ -295,41 +324,61 @@ const onTitleKey = event => {
     }
 };
 
+const listen = add => {
+    const method = add ? 'addEventListener' : 'removeEventListener';
+    document[method]('pointerover', onTitleOver, { capture: true, passive: true });
+    document[method]('pointermove', onTitleMove, { capture: true, passive: true });
+    document[method]('pointerdown', hideTitle, { capture: true, passive: true });
+    document[method]('focusin', onTitleFocus, { capture: true, passive: true });
+    document[method]('focusout', hideTitle, { capture: true, passive: true });
+    document[method]('scroll', hideTitle, { capture: true, passive: true });
+    document[method]('keydown', onTitleKey, { capture: true });
+};
+
+// The first user (a title host or a grid) installs the listeners.
+const acquire = () => {
+    if (titleInstalls + cutInstalls === 1) {
+        listen(true);
+    }
+};
+
+// The last one removes them, gives the hovered element its title back and removes the floating box, so
+// the browser's tooltips return; while another remains, only the tooltip shown now is closed.
+const release = () => {
+    hideTitle();
+    if (titleInstalls + cutInstalls === 0) {
+        listen(false);
+        titleBox?.remove();
+        titleBox = null;
+    }
+};
+
 export function installTitleTooltips() {
     titleInstalls++;
-    if (titleInstalls > 1) {
-        return;
-    }
-
-    document.addEventListener('pointerover', onTitleOver, { capture: true, passive: true });
-    document.addEventListener('pointermove', onTitleMove, { capture: true, passive: true });
-    document.addEventListener('pointerdown', hideTitle, { capture: true, passive: true });
-    document.addEventListener('focusin', onTitleFocus, { capture: true, passive: true });
-    document.addEventListener('focusout', hideTitle, { capture: true, passive: true });
-    document.addEventListener('scroll', hideTitle, { capture: true, passive: true });
-    document.addEventListener('keydown', onTitleKey, { capture: true });
+    acquire();
 }
 
-// Called by each OmniTitleTooltips that goes away: the last one removes the listeners, gives the
-// hovered element its title back and removes the floating box, so the browser's tooltips return.
+// Called by each OmniTitleTooltips that goes away.
 export function uninstallTitleTooltips() {
     if (titleInstalls === 0) {
         return;
     }
 
     titleInstalls--;
-    if (titleInstalls > 0) {
+    release();
+}
+
+// Called by each data grid placed on the page, then when it goes away.
+export function installCutTooltips() {
+    cutInstalls++;
+    acquire();
+}
+
+export function uninstallCutTooltips() {
+    if (cutInstalls === 0) {
         return;
     }
 
-    document.removeEventListener('pointerover', onTitleOver, { capture: true });
-    document.removeEventListener('pointermove', onTitleMove, { capture: true });
-    document.removeEventListener('pointerdown', hideTitle, { capture: true });
-    document.removeEventListener('focusin', onTitleFocus, { capture: true });
-    document.removeEventListener('focusout', hideTitle, { capture: true });
-    document.removeEventListener('scroll', hideTitle, { capture: true });
-    document.removeEventListener('keydown', onTitleKey, { capture: true });
-    hideTitle();
-    titleBox?.remove();
-    titleBox = null;
+    cutInstalls--;
+    release();
 }

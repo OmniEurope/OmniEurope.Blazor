@@ -120,6 +120,9 @@
    rule separates the rows. The trigger shows the user's name when there is one. */
 .omni-app-menu .omni-popover__panel { inline-size: 20rem; padding: 0; }
 .omni-app-menu__trigger-name { max-inline-size: 12rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* On a phone the bar has no room for the name: the trigger keeps its icon, its label and the chevron,
+   and the name stays in the menu it opens. */
+@media (max-width: 39.99rem) { .omni-app-menu__trigger-name { display: none; } }
 .omni-app-menu__card { --omni-app-menu-row: calc(var(--omni-control-height) + 1rem); display: flex; flex-direction: column; }
 .omni-app-menu__row, .omni-app-menu__card > .omni-button.omni-app-menu__item { align-items: center; border-block-end: var(--omni-border-width) solid var(--omni-color-border); box-sizing: border-box; display: flex; gap: var(--omni-space-sm); min-block-size: var(--omni-app-menu-row); padding: 0 var(--omni-space-md); }
 .omni-app-menu__card > .omni-button.omni-app-menu__item { border-radius: 0; inline-size: 100%; justify-content: flex-start; }

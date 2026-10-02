@@ -615,8 +615,8 @@ public partial class OmniDataGrid<TItem>
     public string? ExportFileName { get; set; }
 
     /// <summary>
-    /// The variant of each format's button in the export bar; a format absent from it keeps
-    /// <see cref="OmniButtonVariant.Ghost"/>, an export being a secondary action. Each button carries
+    /// The variant of each format's button in the export bar; a format absent from it is
+    /// <see cref="OmniButtonVariant.Secondary"/> (neutral grey), an export being one of the other actions of its zone. Each button carries
     /// the file icon of its format (<see cref="OmniIconName.FileMd"/>, <see cref="OmniIconName.FileCsv"/>,
     /// <see cref="OmniIconName.FileXls"/>, <see cref="OmniIconName.FilePdf"/>).
     /// </summary>

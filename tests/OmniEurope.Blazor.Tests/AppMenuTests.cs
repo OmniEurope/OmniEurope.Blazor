@@ -26,6 +26,21 @@ public sealed class AppMenuTests : OmniBunitContext
     }
 
     [Fact]
+    public void On_a_phone_the_trigger_drops_the_name_which_stays_in_the_menu()
+    {
+        // The width query is the stylesheet's (the browser applies it; Astraia recette R-034): the name
+        // overflowed the app bar at 375 px. The trigger keeps its label, the open menu names the user.
+        Assert.Matches(@"@media \(max-width: 39\.99rem\) \{ \.omni-app-menu__trigger-name \{ display: none; \} \}", StylesheetSource.Read());
+
+        var menu = Render<OmniAppMenu>(parameters => parameters
+            .Add(component => component.UserName, "admin")
+            .Add(component => component.AppearanceChanged, _ => { }));
+        Assert.Equal("Menu de l’application", menu.Find(".omni-app-menu__trigger").GetAttribute("aria-label"));
+        menu.Find(".omni-app-menu__trigger").Click();
+        Assert.Equal("admin", menu.Find(".omni-app-menu__identity .omni-app-menu__label").TextContent);
+    }
+
+    [Fact]
     public void Every_row_shows_once_the_host_gives_what_it_needs_in_the_order_of_the_standard()
     {
         var menu = Render<OmniAppMenu>(parameters => parameters

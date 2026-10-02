@@ -47,9 +47,9 @@ internal sealed class GridExport<TItem>(OmniDataGrid<TItem> grid) : IAsyncDispos
 
     internal string FormatName(OmniTableExportFormat format) => grid.Text($"GridExportFormat{format}");
 
-    /// <summary>The variant of a format's button: the host's choice (<c>ExportVariants</c>), else Ghost.</summary>
+    /// <summary>The variant of a format's button: the host's choice (<c>ExportVariants</c>), else Secondary.</summary>
     internal OmniButtonVariant VariantOf(OmniTableExportFormat format) =>
-        grid.ExportVariants is { } variants && variants.TryGetValue(format, out var variant) ? variant : OmniButtonVariant.Ghost;
+        grid.ExportVariants is { } variants && variants.TryGetValue(format, out var variant) ? variant : OmniButtonVariant.Secondary;
 
     /// <summary>The file icon of a format's button.</summary>
     internal static OmniIconName IconOf(OmniTableExportFormat format) => format switch
