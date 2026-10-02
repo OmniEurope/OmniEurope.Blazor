@@ -82,13 +82,14 @@
     </div>;
 
     @* The export bar, above or under the table: one button per format somebody can write. The one
-       being written is busy, the others wait, and a cancel action ends the reading. *@
+       being written is busy, the others wait, and a cancel action ends the reading. An empty grid has
+       nothing to write: its buttons are disabled. *@
     RenderFragment exportBar = @<div class="omni-data-grid__export" role="group" aria-label="@Localize("GridExportBar")">
         <span class="omni-data-grid__export-label">@Localize("GridExportAll")</span>
         @foreach (var format in Export.Formats)
         {
             <OmniButton Variant="@Export.VariantOf(format)" Size="OmniControlSize.Small" Class="omni-data-grid__export-button"
-                        Busy="@(Export.Running == format)" Disabled="@(Export.Running is not null && Export.Running != format)"
+                        Busy="@(Export.Running == format)" Disabled="@(Export.NothingToExport || (Export.Running is not null && Export.Running != format))"
                         OnClick="@(() => Export.RunAsync(format))">
                 <OmniIcon Name="@(GridExport<TItem>.IconOf(format))" />
                 <span>@Export.FormatName(format)</span>
