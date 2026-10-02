@@ -27,8 +27,9 @@
   <data name="SettingsControlSize" xml:space="preserve"><value>Juhtelementide suurus</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Vaikimisi</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Juhuslik</value></data>
-  <data name="SettingsRandomTitle" xml:space="preserve"><value>Vali juhuslik teema ja palett</value></data>
+  <data name="SettingsRandomTitle" xml:space="preserve"><value>Vali juhuslik teema, palett ja font</value></data>
   <data name="SettingsApply" xml:space="preserve"><value>Rakenda</value></data>
+  <data name="SettingsRestore" xml:space="preserve"><value>Taasta</value></data>
   <data name="SettingsResetAll" xml:space="preserve"><value>Taasta kõik</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>vaikimisi</value></data>
   <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Vähenda teksti suurust</value></data>

@@ -27,8 +27,9 @@
   <data name="SettingsControlSize" xml:space="preserve"><value>Dimensiunea controalelor</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Implicit</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Aleatoriu</value></data>
-  <data name="SettingsRandomTitle" xml:space="preserve"><value>Alege la întâmplare o temă și o paletă</value></data>
+  <data name="SettingsRandomTitle" xml:space="preserve"><value>Alege la întâmplare o temă, o paletă și un font</value></data>
   <data name="SettingsApply" xml:space="preserve"><value>Aplică</value></data>
+  <data name="SettingsRestore" xml:space="preserve"><value>Restaurează</value></data>
   <data name="SettingsResetAll" xml:space="preserve"><value>Resetează tot</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>implicit</value></data>
   <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Micșorează textul</value></data>

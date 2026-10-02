@@ -1,6 +1,6 @@
 // Part of omni-focus.js, which re-exports these: the roving focus of a tab strip, the sideways
-// overflow chevrons of the tab strips, scrolling OmniStack rows and OmniSelectBar, and the wheel
-// scope of OmniTabs.
+// overflow chevrons of the tab strips, scrolling OmniStack rows and OmniSelectBar, the upright ones
+// of OmniSidebar, and the wheel scope of OmniTabs.
 
 const tabHandlers = new WeakMap();
 const tabOverflow = new WeakMap();
@@ -59,7 +59,17 @@ export function configureScrollOverflow(strip) {
     configureOverflow(strip, ':scope > .omni-stack-scroll__viewport', ':scope > .omni-stack-scroll__button--start', ':scope > .omni-stack-scroll__button--end');
 }
 
-function configureOverflow(strip, viewportSelector, startSelector, endSelector) {
+// The menu of an OmniSidebar taller than the window works the same way upright: no scrollbar, a
+// chevron above and below while items are hidden that way, gone at the stop.
+export function configureSidebarOverflow(panel) {
+    configureOverflow(panel, ':scope > .omni-sidebar__viewport', ':scope > .omni-sidebar__scroll--start', ':scope > .omni-sidebar__scroll--end', true);
+}
+
+export function disposeSidebarOverflow(panel) {
+    disposeTabsOverflow(panel);
+}
+
+function configureOverflow(strip, viewportSelector, startSelector, endSelector, upright = false) {
     if (!strip || tabOverflow.has(strip)) {
         return;
     }
@@ -85,20 +95,21 @@ function configureOverflow(strip, viewportSelector, startSelector, endSelector) 
 
         const box = viewport.getBoundingClientRect();
         const padding = getComputedStyle(viewport);
-        const left = box.left + parseFloat(padding.paddingLeft);
-        const right = box.right - parseFloat(padding.paddingRight);
         const item = focused.getBoundingClientRect();
-        const delta = item.left < left ? item.left - left : item.right > right ? item.right - right : 0;
+        const [low, high, itemLow, itemHigh] = upright
+            ? [box.top + parseFloat(padding.paddingTop), box.bottom - parseFloat(padding.paddingBottom), item.top, item.bottom]
+            : [box.left + parseFloat(padding.paddingLeft), box.right - parseFloat(padding.paddingRight), item.left, item.right];
+        const delta = itemLow < low ? itemLow - low : itemHigh > high ? itemHigh - high : 0;
         if (Math.abs(delta) > 0.5) {
-            viewport.scrollBy({ left: delta, behavior: 'instant' });
+            viewport.scrollBy({ [upright ? 'top' : 'left']: delta, behavior: 'instant' });
         }
     };
 
     const update = () => {
         // Right-to-left scrolling reports scrollLeft as negative or decreasing, so the distance to
         // each edge is measured in absolute terms rather than from the raw value.
-        const offset = Math.abs(viewport.scrollLeft);
-        const hidden = viewport.scrollWidth - viewport.clientWidth;
+        const offset = Math.abs(upright ? viewport.scrollTop : viewport.scrollLeft);
+        const hidden = upright ? viewport.scrollHeight - viewport.clientHeight : viewport.scrollWidth - viewport.clientWidth;
         // A sub-pixel remainder is not an overflow: rounding alone would keep a chevron lit on a
         // strip that has nothing left to show.
         const atStart = offset <= 1;
@@ -112,7 +123,8 @@ function configureOverflow(strip, viewportSelector, startSelector, endSelector) 
     const scrollBy = direction => {
         // A step short of a full page keeps one tab in common between the two views, so the reader
         // never loses their place.
-        viewport.scrollBy({ left: direction * viewport.clientWidth * 0.8, behavior: 'smooth' });
+        const page = upright ? viewport.clientHeight : viewport.clientWidth;
+        viewport.scrollBy({ [upright ? 'top' : 'left']: direction * page * 0.8, behavior: 'smooth' });
     };
 
     const onStart = () => scrollBy(-1);

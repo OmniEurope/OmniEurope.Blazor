@@ -53,10 +53,18 @@
 .omni-appearance-settings--window .omni-appearance-settings__label { flex: 1 1 100%; min-block-size: max(var(--omni-icon-box), var(--omni-control-height)); min-inline-size: 6em; }
 .omni-appearance-settings--window .omni-appearance-settings__actions { flex: 1 1 100%; flex-wrap: nowrap; }
 .omni-appearance-settings--window .omni-appearance-settings__actions:has(.omni-drop-down) { inline-size: 100%; }
+
 .omni-appearance-settings__motion { align-items: center; display: flex; flex: 1 1 100%; gap: var(--omni-space-sm); }
+/* On the theme title line (point 86 of the Atlas review), the motion switch sits at the end of the label
+   line instead of under it: the label gives up the full width it takes in the window. */
+.omni-appearance-settings--window .omni-appearance-settings__label:has(+ .omni-appearance-settings__motion) { flex: 1 1 auto; }
+.omni-appearance-settings__label + .omni-appearance-settings__motion { flex: 0 0 auto; margin-inline-start: auto; }
+/* The mode joined to the palette sits on the title line the same way (Atlas review point 92). */
+.omni-appearance-settings--window .omni-appearance-settings__label:has(+ .omni-appearance-window__modes) { flex: 1 1 auto; }
+.omni-appearance-settings__label + .omni-appearance-window__modes { margin-inline-start: auto; }
 .omni-appearance-settings__motion > span { align-items: center; display: inline-flex; gap: var(--omni-space-xs); }
 /* The footer: the actions on the whole look at the start (random, all back to the defaults), the
-   decision at the end (Cancel, Apply); on a narrow window the decision wraps under, still at the end. */
+   decision at the end (Apply, then Restore, owner order of 2026-10-02); on a narrow window the decision wraps under, still at the end. */
 .omni-appearance-window__footer { align-items: center; display: flex; flex: 1 1 100%; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: space-between; }
 .omni-appearance-window__tools, .omni-appearance-window__decision { display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); }
 .omni-appearance-window__decision { margin-inline-start: auto; }

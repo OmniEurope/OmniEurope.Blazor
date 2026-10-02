@@ -27,8 +27,9 @@
   <data name="SettingsControlSize" xml:space="preserve"><value>Velikost ovládacích prvků</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Výchozí</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Náhodně</value></data>
-  <data name="SettingsRandomTitle" xml:space="preserve"><value>Náhodně vybrat motiv a paletu</value></data>
+  <data name="SettingsRandomTitle" xml:space="preserve"><value>Náhodně vybrat motiv, paletu a písmo</value></data>
   <data name="SettingsApply" xml:space="preserve"><value>Použít</value></data>
+  <data name="SettingsRestore" xml:space="preserve"><value>Obnovit</value></data>
   <data name="SettingsResetAll" xml:space="preserve"><value>Vše výchozí</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>výchozí</value></data>
   <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Zmenšit velikost textu</value></data>

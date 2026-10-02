@@ -27,8 +27,9 @@
   <data name="SettingsControlSize" xml:space="preserve"><value>Taille des contrôles</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Défaut</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Aléatoire</value></data>
-  <data name="SettingsRandomTitle" xml:space="preserve"><value>Tirer au hasard un thème et une palette</value></data>
+  <data name="SettingsRandomTitle" xml:space="preserve"><value>Tirer au hasard un thème, une palette et une police</value></data>
   <data name="SettingsApply" xml:space="preserve"><value>Valider</value></data>
+  <data name="SettingsRestore" xml:space="preserve"><value>Restaurer</value></data>
   <data name="SettingsResetAll" xml:space="preserve"><value>Tout par défaut</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>défaut</value></data>
   <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Réduire la taille du texte</value></data>

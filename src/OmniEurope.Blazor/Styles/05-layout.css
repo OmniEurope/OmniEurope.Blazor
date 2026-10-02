@@ -378,7 +378,8 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
    and was never applied at the root, so a control rendered at whatever size the surrounding page
    used while the grid beside it rendered at the token: two sizes in one component set. */
 .omni-theme-scope {
-    background: var(--omni-color-surface);
+    /* The page: the palette surface, or the deeper page a theme asks for (--omni-scope-page, Trou noir). */
+    background: var(--omni-scope-page, var(--omni-color-surface));
     /* A theme may lay a colour field behind everything (--omni-backdrop, Givre's gradient), pinned to
        the viewport so the translucent panels scroll over it; none for every other theme. */
     background-attachment: fixed;
@@ -429,11 +430,21 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
     background: var(--omni-shell-background, var(--omni-color-surface));
     border-inline-end: var(--omni-border-width) solid var(--omni-color-border);
     box-sizing: border-box;
+    display: flex;
     flex: 1 1 auto;
+    flex-direction: column;
     min-block-size: 0;
     min-inline-size: 0;
-    overflow: auto;
+    overflow: hidden;
 }
+/* The menu scrolls in its viewport without a scrollbar: the chevrons above and below are the
+   affordance (omni-focus.js, configureSidebarOverflow), as on a tab strip. */
+.omni-sidebar__viewport { flex: 1 1 auto; min-block-size: 0; overflow-x: hidden; overflow-y: auto; scrollbar-width: none; }
+.omni-sidebar__viewport::-webkit-scrollbar { display: none; }
+.omni-sidebar__scroll { align-items: center; background: var(--omni-shell-background, var(--omni-color-surface)); border: 0; color: var(--omni-color-text); cursor: pointer; display: flex; flex: 0 0 auto; justify-content: center; padding: var(--omni-space-xs); }
+.omni-sidebar__scroll:hover { background: var(--omni-color-surface-hover); }
+.omni-sidebar__scroll[hidden] { display: none; }
+.omni-sidebar__chevron { block-size: 1.25em; inline-size: 1.25em; }
 .omni-sidebar--end { order: 2; }
 .omni-sidebar--end > .omni-sidebar__panel { border-inline-end: 0; border-inline-start: var(--omni-border-width) solid var(--omni-color-border); }
 

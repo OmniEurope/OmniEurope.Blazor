@@ -124,6 +124,9 @@ public partial class OmniThemeScope
         {
             if (_canvasRunning)
             {
+                // The canvas is already out of the page, so it cannot be named: the module stops every
+                // canvas it draws that the page dropped (a still field has no loop that would notice).
+                await _canvasModule!.InvokeVoidAsync("sweep");
                 _canvasRunning = false;
                 _canvasDrawn = false;
                 StateHasChanged();

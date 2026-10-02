@@ -27,8 +27,9 @@
   <data name="SettingsControlSize" xml:space="preserve"><value>Размер на контролите</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>По подразбиране</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Случайно</value></data>
-  <data name="SettingsRandomTitle" xml:space="preserve"><value>Избиране на случайна тема и палитра</value></data>
+  <data name="SettingsRandomTitle" xml:space="preserve"><value>Избиране на случайна тема, палитра и шрифт</value></data>
   <data name="SettingsApply" xml:space="preserve"><value>Приложи</value></data>
+  <data name="SettingsRestore" xml:space="preserve"><value>Възстанови</value></data>
   <data name="SettingsResetAll" xml:space="preserve"><value>Всичко по подразбиране</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>по подразбиране</value></data>
   <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Намаляване на размера на текста</value></data>

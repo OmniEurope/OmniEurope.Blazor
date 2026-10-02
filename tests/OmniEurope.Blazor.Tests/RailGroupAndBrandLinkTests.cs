@@ -88,7 +88,7 @@ public sealed class RailGroupAndBrandLinkTests : OmniBunitContext
     }
 
     [Fact]
-    public void Appearance_settings_pair_their_rows_two_by_two_mode_beside_font()
+    public void Appearance_settings_pair_their_rows_two_by_two_mode_beside_the_look()
     {
         // The track floor is at least half the width: two 30rem columns side by side, a third never fits.
         var grid = ShippedLookTests.Body(".omni-appearance-settings:not(.omni-appearance-settings--compact, .omni-appearance-settings--window)");
@@ -96,12 +96,16 @@ public sealed class RailGroupAndBrandLinkTests : OmniBunitContext
             "repeat(auto-fit, minmax(min(100%, max(30rem, calc((100% - var(--omni-space-md)) / 2))), 1fr))",
             ShippedLookTests.Value(grid, "grid-template-columns"));
 
-        // Mode then font, then the row that opens the window of the theme, the palette and the scales.
-        var settings = Render<OmniAppearanceSettings>();
-        var labels = settings.FindAll(".omni-appearance-settings > .omni-appearance-settings__row > .omni-appearance-settings__label")
+        // The mode, then the row that opens the window. A bound font is picked in the window only, never
+        // inline (Atlas review points 84 and 92).
+        var settings = Render<OmniAppearanceSettings>(parameters => parameters.Add(component => component.FontChanged, _ => { }));
+        Assert.Equal(["Mode", "Thème, palette et tailles"], Labels(settings));
+        Assert.Equal(["Mode", "Thème, palette et tailles"], Labels(Render<OmniAppearanceSettings>()));
+
+        static string[] Labels(IRenderedComponent<OmniAppearanceSettings> rendered) => rendered
+            .FindAll(".omni-appearance-settings > .omni-appearance-settings__row > .omni-appearance-settings__label")
             .Select(label => label.TextContent.Trim())
             .ToArray();
-        Assert.Equal(["Mode", "Police", "Thème, palette et tailles"], labels);
     }
 
     [Fact]

@@ -49,17 +49,17 @@ public sealed class ControlScaleAndScrollOptionsTests : OmniBunitContext
             .Add(component => component.ControlSizeLevelChanged, value => controlSize = value));
 
         settings.Find(".omni-appearance-settings__row--scale button").Click();
-        // Theme and palette, then the two sizes side by side, then the density.
+        // Theme and palette, then the density, then the two sizes side by side (point 85).
         var rows = settings.FindAll(".omni-appearance-settings--window .omni-appearance-settings__row");
         Assert.Equal(5, rows.Count);
-        Assert.Contains("Taille des contrôles", rows[3].TextContent, StringComparison.Ordinal);
-        Assert.Contains("8/10", rows[3].TextContent, StringComparison.Ordinal);
+        Assert.Contains("Taille des contrôles", rows[4].TextContent, StringComparison.Ordinal);
+        Assert.Contains("8/10", rows[4].TextContent, StringComparison.Ordinal);
 
-        // Text size and controls have a slider each; the density row after them has none.
+        // Text size and controls have a slider each; the density row before them has none.
         settings.FindAll(".omni-appearance-settings--window input[type=range]")[1].Input("3");
         Assert.Equal(3, controlSize);
 
-        settings.FindAll(".omni-appearance-settings--window .omni-appearance-settings__row")[3].QuerySelectorAll("button").Last().Click();
+        settings.FindAll(".omni-appearance-settings--window .omni-appearance-settings__row")[4].QuerySelectorAll("button").Last().Click();
         Assert.Equal(5, controlSize);
     }
 

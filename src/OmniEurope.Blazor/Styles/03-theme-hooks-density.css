@@ -14,6 +14,9 @@
     --omni-scope-motion: none;
     /* The field a theme draws on a canvas (Trou noir's black hole), read by OmniThemeScope. */
     --omni-scope-canvas: none;
+    /* The page colour of a theme that wants it deeper than the palette surface (Trou noir); initial
+       leaves the scope, and a host page that reads it, on their own colour. */
+    --omni-scope-page: initial;
     --omni-shell-background: initial;
     --omni-card-filter: none;
     --omni-input-shadow: 0 0 #0000;

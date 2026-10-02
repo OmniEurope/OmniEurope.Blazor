@@ -25,15 +25,32 @@
                 title="@EffectiveCloseLabel"
                 @onclick="CloseAsync"></button>
     }
-    <div class="omni-sidebar__panel">
+    <div class="omni-sidebar__panel" @ref="_panel">
         @* Shown only while the panel floats open, when it rises over the application header and
            must carry what it covers. The rest of the time the header above it is the real one. *@
         @if (Header is not null)
         {
             <div class="omni-sidebar__header">@Header</div>
         }
-        <CascadingValue Value="State">
-            @ChildContent
-        </CascadingValue>
+        @* A menu taller than the window scrolls without a scrollbar: a chevron above and below shows
+           that items are hidden that way and scrolls to them, as the tab strips do sideways. The
+           chevrons are for the pointer; the keyboard reaches every item and brings it into view. *@
+        <button type="button" class="omni-sidebar__scroll omni-sidebar__scroll--start" tabindex="-1" aria-hidden="true" hidden>
+            <svg class="omni-sidebar__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true">
+                <path d="M6 15l6-6 6 6" />
+            </svg>
+        </button>
+        <div class="omni-sidebar__viewport">
+            <CascadingValue Value="State">
+                @ChildContent
+            </CascadingValue>
+        </div>
+        <button type="button" class="omni-sidebar__scroll omni-sidebar__scroll--end" tabindex="-1" aria-hidden="true" hidden>
+            <svg class="omni-sidebar__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" />
+            </svg>
+        </button>
     </div>
 </aside>

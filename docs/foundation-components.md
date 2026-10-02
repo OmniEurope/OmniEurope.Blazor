@@ -110,7 +110,7 @@ Toute palette peint tout thème : quinze thèmes par quinze palettes, deux cent 
 | Givre | Verre dépoli : grandes taches pastel peintes par la portée sous le contenu, qui dérivent lentement, cartes dépolies (flou et saturation) à liseré clair, barre du haut et menu latéral en verre, calques flottants et voile de dialogue floutés, boutons pilule | Opale |
 | Aplat | Design plat : aucune ombre ni dégradé, cartes pleines sans bordure, boutons pilule, appui qui ne fait que foncer, police géométrique | Pastel |
 | Épure | Minimalisme : angles vifs, filets fins, aucune ombre, action principale à l’encre, très grands titres en 800, Inter | Encre |
-| Trou noir | Toujours sombre (`DarkOnly`) : page noire (noir pur avec Horizon), cartes à peine voilées fermées par un filet fin, trou noir lentillé derrière la page dont le disque d'accrétion blanc tourne lentement (shader WebGL), boutons qui luisent de l'accent, police géométrique | Horizon |
+| Trou noir | Toujours sombre (`DarkOnly`) : page noire (noir pur avec Horizon), cartes à peine voilées fermées par un filet fin, trou noir lentillé derrière la page dont le disque d'accrétion, blanc au bord intérieur puis couleur d'accent, tourne lentement (shader WebGL), boutons qui luisent de l'accent, police géométrique | Horizon |
 
 | Palette | Accent clair | Allure |
 |---|---|---|
@@ -162,7 +162,7 @@ Le thème ne repeint que sa portée. Les valeurs sont des surcharges des variabl
 
 ### Relief, Givre, Aplat, Épure et Trou noir
 
-Les quatre premiers reprennent l'esprit de quatre styles d'interface (néomorphisme, verre dépoli, design plat, minimalisme), redessinés avec les jetons du paquet ; Trou noir est une page noire qu'éclaire un disque d'accrétion blanc.
+Les quatre premiers reprennent l'esprit de quatre styles d'interface (néomorphisme, verre dépoli, design plat, minimalisme), redessinés avec les jetons du paquet ; Trou noir est une page noire qu'éclaire un disque d'accrétion aux couleurs de l'accent.
 
 Relief, Givre et Aplat sont marqués **contraste non garanti** (décision du propriétaire du 2026-09-28) : leur style prime sur les seuils de contraste. La raison est déclarée dans le catalogue (`ThemeDefinition.ContrastWaiver`) et exposée par `OmniThemePreset.ContrastWaiver`, que la vitrine affiche sous l'aperçu. Ces thèmes restent mesurés : `ThemeContrastMatrixTests` écrit leurs écarts dans la sortie du test au lieu d'échouer, et la sonde de contraste les compte sous `acceptedContrastWaiver`. Seul l'anneau de focus n'est jamais couvert : il reste plein et à 3:1 au moins dans tous les thèmes et avec toutes les palettes (`ThemePaletteTests`). Le texte et la bordure d'un contrôle focalisé suivent la dérogation comme les autres états (décision du 2026-09-28). La liste des thèmes marqués est figée dans le test : en marquer un de plus est une modification délibérée, et l'apparence livrée (Essentiel) ne peut pas l'être. Une application qui doit garantir les contrastes choisit un thème non marqué. Épure et Trou noir gardent les garanties complètes.
 
@@ -207,7 +207,7 @@ Le parti pris de chacun (sous les seuils pour les trois premiers) :
 - Givre : verre dépoli aéré. En clair, quatre très grandes taches pastel (lavande, ciel, menthe, pêche) sur un blanc froid, qui se recouvrent sous le contenu au lieu de rester dans les coins ; en sombre, des taches plus profondes sur une nuit bleutée, la lueur chaude prenant la teinte du danger, une aurore. Chaque tache dérive sur une petite orbite, un tour en deux minutes. La barre du haut et le menu latéral sont du même verre. L'accent reste une seule couleur franche et profonde, qui se détache de toutes les teintes du fond. Les cartes sont réellement dépolies : le fond est flouté et saturé sous elles (voir les crochets ci-dessus), puis la carte pose un remplissage laiteux translucide, un liseré clair de 1 px, un reflet en haut et une grande ombre douce ; les champs, le bouton secondaire et les grilles sont du même verre, plus dense pour les grilles. Libéré des seuils, seul l'anneau de focus reste garanti ; le texte atténué est un cran plus clair que le texte et reste lisible à l'œil sur les taches.
 - Aplat : les cartes sont un aplat franc de l'accent, le bouton principal une pastille claire de l'accent à l'encre presque noire, le bouton secondaire un aplat de l'information, les grilles et le dialogue restent des panneaux de la page, cernés comme les menus d'un filet plat de 1 px qui les détache d'elle, et les alertes pleines perdent leur lueur ; le texte atténué reste celui de la palette.
 - Épure : l'action principale est dessinée à l'encre du texte, son survol prend l'accent fort de la palette, seule touche de couleur avec les liens et l'onglet courant.
-- Trou noir : toujours sombre (`DarkOnly`), la page est la surface sombre de la palette et rien d'autre (noir pur avec Horizon). Les cartes sont un voile de 4 % du texte fermé par un filet fin, si bien que le fond se voit à travers ; grilles et dialogues sont opaques, un cran au-dessus de la page. En haut à droite, un trou noir lentillé : le disque d'accrétion blanc, incliné, passe devant l'horizon et sa face arrière forme un arc au-dessus et un anneau en dessous ; sa lumière est plafonnée à 62 % de la couleur du texte, et ce calque n'est pas mesuré par les tests de contraste. L'accent ne luit plus que sur les boutons et les calques flottants. Le filet est plus ferme que celui de la palette (36 % du texte) pour tenir son plancher sur les arrêts du fond CSS.
+- Trou noir : toujours sombre (`DarkOnly`), la page est la surface sombre de la palette et rien d'autre (noir pur avec Horizon). Les cartes sont un voile de 4 % du texte fermé par un filet fin, si bien que le fond se voit à travers ; grilles et dialogues sont opaques, un cran au-dessus de la page. En haut à droite, un trou noir lentillé : le disque d'accrétion, incliné, passe devant l'horizon et sa face arrière forme un arc au-dessus et un anneau en dessous. Le gaz est blanc au bord intérieur (couleur du texte), puis de la couleur d'accent, puis braise sur le bord ; il s'enroule en filaments striés de poussière sombre, baigne dans un halo, et quelques étoiles pâles se voient autour. Sa lumière s'adoucit sans saturer et reste sous 50 % ; ce calque n'est pas mesuré par les tests de contraste. Le filet est plus ferme que celui de la palette (36 % du texte) pour tenir son plancher sur les arrêts du fond CSS.
 
 ### L'apparence livrée
 
@@ -223,19 +223,22 @@ Chaque sévérité (succès, information, avertissement, danger) et l'accent ont
 
 ### Réglages d'apparence réutilisables
 
-`OmniAppearanceSettings` porte en ligne le mode clair/sombre/système (groupe radio segmenté) et la police,
-puis une ligne « Thème, palette et tailles » dont le bouton Modifier (`Primary`, l'action principale de
-la ligne) ouvre la fenêtre de l'apparence, sans voile et déplaçable. La police se règle en ligne et,
-quand l'hôte lie `FontChanged`, dans la fenêtre aussi. `WindowOpen` et `WindowOpenChanged` suivent
+`OmniAppearanceSettings` porte en ligne le mode clair/sombre/système (groupe radio segmenté), puis une
+ligne « Thème, palette et tailles » dont le bouton Modifier (`Primary`, l'action principale de la ligne)
+ouvre la fenêtre de l'apparence, sans voile et déplaçable. La police ne se règle que dans cette fenêtre,
+quand l'hôte lie `FontChanged` (recette Atlas, points 84 et 92) ; le mode y est repris. `WindowOpen` et `WindowOpenChanged` suivent
 l'ouverture de cette fenêtre, ce qui permet à l'hôte de retirer son éventuel voile de menu.
 Cette fenêtre est aussi un composant, `OmniAppearanceWindow`, qu'un hôte ouvre depuis sa propre entrée
 de menu (« Thème ») par `Open`/`OpenChanged`. Plus large que haute (46rem, jamais plus que l'écran), elle
-range ses réglages deux par deux, dans l'ordre de lecture : thème et palette, taille du texte et taille
-des contrôles, puis densité et police ; l'interrupteur « Fond animé » se place sous la liste des thèmes. Une seule colonne dès que deux de 19rem ne tiennent
+range ses réglages deux par deux, dans l'ordre de lecture : thème et police, palette et densité, puis
+taille du texte et taille des contrôles ; l'interrupteur « Fond animé » se place au bout de la ligne de
+titre du thème. Quand l'hôte lie `AppearanceChanged` (avec `Appearance`), le mode s'affiche en trois
+boutons icônes collés, comme dans `OmniAppMenu`, au bout de la ligne de titre de la palette (sur une ligne
+à lui si la palette n'est pas liée), figé en sombre sous un thème `DarkOnly`. Une seule colonne dès que deux de 19rem ne tiennent
 plus. Dans le pied de la fenêtre, le bouton « Aléatoire » tire un thème autre que le courant et, si la
-palette est liée, une palette autre que celle en vigueur (`PresetChanged`, `PaletteChanged`, puis
+palette est liée, une palette autre que celle en vigueur, et de même une police si elle est liée (`PresetChanged`, `PaletteChanged`, puis
 `FontChanged` avec `null` pour une police choisie pour l'ancien thème). Chaque ligne n'apparaît que si l'hôte lie son changement
-(`PresetChanged`, `PaletteChanged`, `FontChanged`, `TextSizeLevelChanged`, `DensityChanged`,
+(`AppearanceChanged`, `PresetChanged`, `PaletteChanged`, `FontChanged`, `TextSizeLevelChanged`, `DensityChanged`,
 `ControlSizeLevelChanged`) ; la ligne « Fond animé » (`BackdropMotionChanged`) demande en plus un thème
 qui bouge son fond (voir « Fond animé »). Chaque ligne est un groupe nommé par son libellé ; les boutons moins et plus
 d'une échelle portent des noms distincts.
@@ -258,8 +261,9 @@ et la taille des contrôles proposent les niveaux 1 à 10 : un curseur suit les 
 chaque réglage. Le contrôle reçoit les valeurs et émet leurs changements ; l'application conserve
 la responsabilité du stockage et les applique à sa portée. Les boutons Défaut restaurent la valeur
 initiale de leur ligne, « Tout par défaut » toutes à la fois. Le pied de la fenêtre range à gauche « Aléatoire » et « Tout par défaut »,
-à droite « Annuler » (rouge) et « Valider » (bleu). Les changements s'appliquent en direct pendant l'essai ; « Annuler », la croix et
-Échap rétablissent l'apparence en vigueur à l'ouverture avant de fermer, seul « Valider » la garde.
+à droite « Valider » (bleu) puis « Restaurer » (rouge). Les changements s'appliquent en direct pendant
+l'essai ; « Valider », la croix et Échap ferment en gardant l'apparence essayée, seul « Restaurer »
+rétablit l'apparence en vigueur à l'ouverture (mode compris) avant de fermer (recette Atlas, point 88).
 Le réglage Police propose les dix polices d'`OmniThemeFonts.All` : six piles système et quatre polices web
 libres (Inter, Lexend, Source Serif 4, JetBrains Mono, OFL 1.1) servies par le paquet depuis `fonts/`, avec repli système ;
 celle du thème est marquée « (défaut) » et `OmniThemePresets.DefaultFontFor(preset)` la fournit.

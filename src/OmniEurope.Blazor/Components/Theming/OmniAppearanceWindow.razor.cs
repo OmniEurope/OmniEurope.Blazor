@@ -1,7 +1,7 @@
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
-/// The small draggable window of the look, modeless so the page stays in view: theme, palette and font,
+/// The small draggable window of the look, modeless so the page stays in view: theme, font, palette and mode,
 /// then the text size, the density and the size of the controls. Controlled like
 /// <see cref="OmniAppearanceSettings"/> (the host keeps and applies every value), and each row only
 /// shows once its change is bound. A host opens it from a menu entry ("Theme") through
@@ -22,8 +22,8 @@ public partial class OmniAppearanceWindow
     public bool Open { get; set; }
 
     /// <summary>
-    /// Raised when the window closes: Apply keeps the look tried; Cancel, the close button and Escape
-    /// first raise the changes that put back the look the window opened on.
+    /// Raised when the window closes: Apply, the close button and Escape keep the look tried; Restore
+    /// first raises the changes that put back the look the window opened on.
     /// </summary>
     [Parameter]
     public EventCallback<bool> OpenChanged { get; set; }
@@ -42,6 +42,17 @@ public partial class OmniAppearanceWindow
     /// </summary>
     [Parameter]
     public EventCallback<OmniThemePreset?> PresetChanged { get; set; }
+
+    /// <summary>The light, dark or system mode, shown fixed to dark while the theme is drawn in dark only.</summary>
+    [Parameter]
+    public OmniAppearance Appearance { get; set; } = OmniAppearance.System;
+
+    /// <summary>
+    /// Raised with the mode picked; bound, the mode shows as three icon buttons joined beside the palette
+    /// (Atlas review point 92), or on a row of its own when the palette is not bound.
+    /// </summary>
+    [Parameter]
+    public EventCallback<OmniAppearance> AppearanceChanged { get; set; }
 
     /// <summary>The chosen palette, or null for the theme's own.</summary>
     [Parameter]
@@ -100,7 +111,7 @@ public partial class OmniAppearanceWindow
     [Parameter]
     public EventCallback<int> ControlSizeLevelChanged { get; set; }
 
-    /// <summary>The look the window opened on, put back by Cancel, the close button and Escape.</summary>
+    /// <summary>The look the window opened on, put back by Restore.</summary>
     private Look? _openedOn;
 
     private bool _wasOpen;
@@ -109,7 +120,7 @@ public partial class OmniAppearanceWindow
     /// The look as the host passed it: what <see cref="ResetAllAsync"/> compares with the defaults and
     /// what the window keeps when it opens.
     /// </summary>
-    private Look Current => new(Preset, Palette, Font, BackdropMotion, TextSizeLevel, Density, ControlSizeLevel);
+    private Look Current => new(Appearance, Preset, Palette, Font, BackdropMotion, TextSizeLevel, Density, ControlSizeLevel);
 
     private bool IsDefaultLook => Current == Look.Default;
 
@@ -127,8 +138,11 @@ public partial class OmniAppearanceWindow
         _wasOpen = Open;
     }
 
-    /// <summary>The close button and Escape cancel, as the Cancel button does: only Apply keeps the look tried.</summary>
-    private Task OnDialogOpenChangedAsync(bool open) => open ? OpenChanged.InvokeAsync(true) : CancelAsync();
+    /// <summary>
+    /// The close button and Escape only close the window, keeping the look tried as Apply does (owner
+    /// decision of 2026-10-02, Atlas review point 88): only Restore puts back the look it opened on.
+    /// </summary>
+    private Task OnDialogOpenChangedAsync(bool open) => open ? OpenChanged.InvokeAsync(true) : CloseAsync();
 
     /// <summary>Puts back the look the window opened on, then closes it.</summary>
     private async Task CancelAsync()
@@ -160,6 +174,11 @@ public partial class OmniAppearanceWindow
     private async Task ApplyLookAsync(Look look)
     {
         var current = Current;
+        if (AppearanceChanged.HasDelegate && current.Appearance != look.Appearance)
+        {
+            await AppearanceChanged.InvokeAsync(look.Appearance);
+        }
+
         var themeChanged = PresetChanged.HasDelegate && !Equals(current.Preset, look.Preset);
         if (themeChanged)
         {
@@ -199,8 +218,28 @@ public partial class OmniAppearanceWindow
 
     private bool ShowsBackdropMotion => BackdropMotionChanged.HasDelegate && AppearanceChoices.MovesBackdrop(Preset);
 
-    private bool ShowsRows => PresetChanged.HasDelegate || PaletteChanged.HasDelegate || FontChanged.HasDelegate || ShowsBackdropMotion
+    private bool ShowsRows => AppearanceChanged.HasDelegate || PresetChanged.HasDelegate || PaletteChanged.HasDelegate || FontChanged.HasDelegate || ShowsBackdropMotion
         || TextSizeLevelChanged.HasDelegate || DensityChanged.HasDelegate || ControlSizeLevelChanged.HasDelegate;
+
+    private bool DarkOnly => Preset?.DarkOnly == true;
+
+    private OmniAppearance ShownAppearance => DarkOnly ? OmniAppearance.Dark : Appearance;
+
+    private IReadOnlyList<OmniOption<OmniAppearance>> Modes =>
+    [
+        new(OmniAppearance.Light, Localize("AppearanceLight")),
+        new(OmniAppearance.Dark, Localize("AppearanceDark")),
+        new(OmniAppearance.System, Localize("AppearanceSystem"))
+    ];
+
+    private static OmniIconName ModeIcon(OmniAppearance mode) => mode switch
+    {
+        OmniAppearance.Light => OmniIconName.ThemeLight,
+        OmniAppearance.Dark => OmniIconName.ThemeDark,
+        _ => OmniIconName.ThemeSystem
+    };
+
+    private Task SetAppearanceAsync(OmniAppearance mode) => DarkOnly ? Task.CompletedTask : AppearanceChanged.InvokeAsync(mode);
 
     private string ThemeName => AppearanceChoices.ThemeName(Preset);
 
@@ -260,8 +299,8 @@ public partial class OmniAppearanceWindow
 
     /// <summary>
     /// A theme drawn at random, other than the current one, and with it a palette other than the one in
-    /// force when the palette is bound: any palette paints any theme. The font chosen for the previous
-    /// theme is dropped, as on any new theme.
+    /// force when the palette is bound: any palette paints any theme. A font other than the one in force
+    /// is drawn the same way when the font is bound.
     /// </summary>
     private async Task RandomLookAsync()
     {
@@ -275,9 +314,13 @@ public partial class OmniAppearanceWindow
             await PaletteChanged.InvokeAsync(AppearanceChoices.Palette(preset, palette.Name));
         }
 
-        if (Font is not null && FontChanged.HasDelegate)
+        if (FontChanged.HasDelegate)
         {
-            await FontChanged.InvokeAsync(null);
+            // A font drawn too, other than the one in force (Atlas review point 90): any font sets any
+            // theme. The new theme's own font comes back as null, as when it is picked in the list.
+            var inForceFont = OmniThemeFonts.All.FirstOrDefault(item => item.Name == AppearanceChoices.FontName(Preset, Font));
+            var font = AppearanceChoices.RandomOther(OmniThemeFonts.All, inForceFont);
+            await FontChanged.InvokeAsync(AppearanceChoices.Font(preset, font.Name));
         }
     }
 
@@ -378,27 +421,27 @@ public partial class OmniAppearanceWindow
     };
 
     /// <summary>
-    /// The motion of a theme that moves its field: a switch named by its text. It sits under the theme
-    /// row, or in a row of its own when the host binds no theme.
+    /// The motion of a theme that moves its field: its text, then the switch it names. It sits at the end
+    /// of the theme row's title line, or in a row of its own when the host binds no theme.
     /// </summary>
     private RenderFragment MotionSwitch => builder =>
     {
         var labelId = RowId("motion");
         builder.OpenElement(0, "div");
         builder.AddAttribute(1, "class", "omni-appearance-settings__motion");
-        builder.OpenComponent<OmniSwitch<bool>>(2);
-        builder.AddComponentParameter(3, nameof(OmniSwitch<bool>.Value), BackdropMotion);
-        builder.AddComponentParameter(4, nameof(OmniSwitch<bool>.ValueChanged), EventCallback.Factory.Create<bool>(this, SetBackdropMotionAsync));
-        builder.AddComponentParameter(5, nameof(OmniSwitch<bool>.ValueExpression), (Expression<Func<bool>>)(() => BackdropMotion));
-        builder.AddComponentParameter(6, "aria-labelledby", labelId);
+        builder.OpenElement(2, "span");
+        builder.AddAttribute(3, "id", labelId);
+        builder.OpenComponent<OmniIcon>(4);
+        builder.AddComponentParameter(5, nameof(OmniIcon.Name), OmniIconName.Sparkle);
         builder.CloseComponent();
-        builder.OpenElement(7, "span");
-        builder.AddAttribute(8, "id", labelId);
-        builder.OpenComponent<OmniIcon>(9);
-        builder.AddComponentParameter(10, nameof(OmniIcon.Name), OmniIconName.Sparkle);
-        builder.CloseComponent();
-        builder.AddContent(11, " " + Localize("SettingsBackdropMotion"));
+        builder.AddContent(6, " " + Localize("SettingsBackdropMotion"));
         builder.CloseElement();
+        builder.OpenComponent<OmniSwitch<bool>>(7);
+        builder.AddComponentParameter(8, nameof(OmniSwitch<bool>.Value), BackdropMotion);
+        builder.AddComponentParameter(9, nameof(OmniSwitch<bool>.ValueChanged), EventCallback.Factory.Create<bool>(this, SetBackdropMotionAsync));
+        builder.AddComponentParameter(10, nameof(OmniSwitch<bool>.ValueExpression), (Expression<Func<bool>>)(() => BackdropMotion));
+        builder.AddComponentParameter(11, "aria-labelledby", labelId);
+        builder.CloseComponent();
         builder.CloseElement();
     };
 
@@ -411,6 +454,7 @@ public partial class OmniAppearanceWindow
 
     /// <summary>Every setting of the window at once, as the host holds them.</summary>
     private sealed record Look(
+        OmniAppearance Appearance,
         OmniThemePreset? Preset,
         OmniThemePalette? Palette,
         OmniThemeFont? Font,
@@ -420,7 +464,7 @@ public partial class OmniAppearanceWindow
         int ControlSizeLevel)
     {
         /// <summary>The look of a host that never chose anything: the parameters' own defaults.</summary>
-        public static Look Default { get; } = new(null, null, null, true, 5, OmniDensity.Comfortable, 5);
+        public static Look Default { get; } = new(OmniAppearance.System, null, null, null, true, 5, OmniDensity.Comfortable, 5);
     }
 
     /// <summary>What differs between the scale rows: ids, icon, texts, level, change and the slider's binding.</summary>

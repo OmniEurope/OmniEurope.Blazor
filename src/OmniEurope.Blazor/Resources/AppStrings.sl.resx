@@ -27,8 +27,9 @@
   <data name="SettingsControlSize" xml:space="preserve"><value>Velikost kontrolnikov</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Privzeto</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Naključno</value></data>
-  <data name="SettingsRandomTitle" xml:space="preserve"><value>Naključno izberi temo in paleto</value></data>
+  <data name="SettingsRandomTitle" xml:space="preserve"><value>Naključno izberi temo, paleto in pisavo</value></data>
   <data name="SettingsApply" xml:space="preserve"><value>Uporabi</value></data>
+  <data name="SettingsRestore" xml:space="preserve"><value>Obnovi</value></data>
   <data name="SettingsResetAll" xml:space="preserve"><value>Ponastavi vse</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>privzeto</value></data>
   <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Zmanjšaj velikost besedila</value></data>

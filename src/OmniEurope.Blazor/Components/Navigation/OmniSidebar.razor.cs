@@ -114,6 +114,11 @@ public partial class OmniSidebar
     /// </summary>
     private Func<Task>? _expand;
 
+    /// <summary>The panel, whose menu scrolls under the chevrons once it is taller than the window.</summary>
+    private ElementReference _panel;
+
+    private bool _overflowConfigured;
+
     private OmniSidebarState State => new(Open, Collapse) { Expand = OpenChanged.HasDelegate ? _expand ??= () => OpenChanged.InvokeAsync(true) : null };
 
     private string EffectiveLabel => LocalizeOr(Label, "SidebarLabel");
@@ -126,15 +131,16 @@ public partial class OmniSidebar
     private bool Floating => Open && EffectiveReveal == OmniSidebarReveal.Overlay;
 
     /// <summary>
-    /// Watches the phone width while the sidebar pushes, attaches the document-wide Escape listener when
-    /// the sidebar starts floating open, and detaches it when it stops. A lost circuit is ignored.
+    /// Sets up the chevrons of a menu taller than the window, watches the phone width while the sidebar
+    /// pushes, attaches the document-wide Escape listener when the sidebar starts floating open, and
+    /// detaches it when it stops. A lost circuit is ignored.
     /// </summary>
     /// <param name="firstRender">True on the first render of the component.</param>
     /// <returns>A task that completes once the listeners are attached or detached.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         var watchesNarrow = FloatsOnPhone;
-        if (Floating == _escapeAttached && watchesNarrow == _narrowWatched)
+        if (_overflowConfigured && Floating == _escapeAttached && watchesNarrow == _narrowWatched)
         {
             return;
         }
@@ -142,6 +148,12 @@ public partial class OmniSidebar
         try
         {
             _focusModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Focus);
+            if (!_overflowConfigured)
+            {
+                _overflowConfigured = true;
+                await _focusModule.InvokeVoidAsync("configureSidebarOverflow", _panel);
+            }
+
             _selfReference ??= DotNetObjectReference.Create(this);
             if (watchesNarrow != _narrowWatched)
             {
@@ -228,6 +240,11 @@ public partial class OmniSidebar
                 if (_narrowWatched)
                 {
                     await _focusModule.InvokeVoidAsync("unwatchNarrow", _escapeKey);
+                }
+
+                if (_overflowConfigured)
+                {
+                    await _focusModule.InvokeVoidAsync("disposeSidebarOverflow", _panel);
                 }
 
                 await _focusModule.DisposeAsync();
