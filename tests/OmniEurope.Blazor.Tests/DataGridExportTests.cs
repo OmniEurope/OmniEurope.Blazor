@@ -104,6 +104,35 @@ public sealed class DataGridExportTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task AnEmptyGrid_DisablesItsButtons_UntilRowsArrive()
+    {
+        var host = Render<DataGridExportTestHost>(parameters => parameters
+            .Add(component => component.Formats, [OmniTableExportFormat.Markdown, OmniTableExportFormat.Csv]));
+
+        Assert.All(host.FindAll(".omni-data-grid__export-button"), button => Assert.True(button.HasAttribute("disabled")));
+        // A call that bypasses the disabled button writes nothing either.
+        var grid = host.FindComponent<OmniDataGrid<Row>>().Instance;
+        await host.InvokeAsync(() => grid.Export.RunAsync(OmniTableExportFormat.Csv));
+        Assert.Empty(_download.Invocations["download"]);
+        Assert.Null(host.Instance.Exported);
+
+        host.Render(parameters => parameters.Add(component => component.Items, Rows));
+
+        Assert.All(host.FindAll(".omni-data-grid__export-button"), button => Assert.False(button.HasAttribute("disabled")));
+    }
+
+    [Fact]
+    public void AGridWhoseFiltersLeaveNoRow_DisablesItsButtons()
+    {
+        var host = Render<DataGridExportTestHost>(parameters => parameters
+            .Add(component => component.Items, Rows)
+            .Add(component => component.NameFilter, "introuvable")
+            .Add(component => component.Formats, [OmniTableExportFormat.Csv]));
+
+        Assert.True(Button(host, "CSV").HasAttribute("disabled"));
+    }
+
+    [Fact]
     public async Task Csv_OfALocalGrid_HoldsEveryFilteredRowInTheSortOrder_NotThePage()
     {
         var host = Render<DataGridExportTestHost>(parameters => parameters

@@ -8,6 +8,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 - `OmniFormActions` : la rangée d'actions d'un formulaire, posée dans le `<form>` pour que son bouton de soumission le soumette, alignée à droite comme le pied d'un dialogue et qui passe à la ligne si la place manque. Le bouton Connexion d'`OmniLoginShell` s'y place, en fin du formulaire de l'hôte (recette Aetheus R-375).
 
+### Changed
+
+- `OmniDataGrid` : les boutons de la barre d'export sont désactivés (`disabled`) tant que la grille ne tient et ne compte aucune ligne (grille vide, filtres sans résultat, premier chargement) ; un appel qui contourne le bouton n'écrit rien non plus. Une source qui n'annonce pas de total (0) mais affiche des lignes exporte toujours (demande Aetheus).
+
 ### Outillage du dépôt (sans effet sur le paquet publié)
 
 - Sonde `Contrast` : le contrôle d'un thème sombre seulement demande vraiment le mode clair avant de choisir le thème ; publié en 1.4.0, il ne le demandait pas et ne pouvait pas échouer. Vérifié : avec `EffectiveMode` neutralisé dans la vitrine, la sonde échoue sur « thème sombre seulement ». L'état du sélecteur est lu après le rendu du thème.

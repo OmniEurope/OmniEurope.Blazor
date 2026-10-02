@@ -19,6 +19,12 @@ internal sealed class GridExport<TItem>(OmniDataGrid<TItem> grid) : IAsyncDispos
     /// <summary>The format being written, or null.</summary>
     internal OmniTableExportFormat? Running { get; private set; }
 
+    /// <summary>
+    /// The grid holds no row and counts none: there is nothing to write. A source that announces no total
+    /// (0) while it shows rows still exports.
+    /// </summary>
+    internal bool NothingToExport => grid.View.IsEmpty && grid.View.TotalCount == 0;
+
     /// <summary>The last export failed; cleared by the next one.</summary>
     internal bool Failed { get; private set; }
 
@@ -63,7 +69,7 @@ internal sealed class GridExport<TItem>(OmniDataGrid<TItem> grid) : IAsyncDispos
     /// <summary>Reads the rows, writes the file and hands it to the browser. One export at a time.</summary>
     internal async Task RunAsync(OmniTableExportFormat format)
     {
-        if (Running is not null || Exporter is not { } exporter)
+        if (Running is not null || NothingToExport || Exporter is not { } exporter)
         {
             return;
         }
