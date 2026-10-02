@@ -1176,6 +1176,7 @@
   <data name="DemoMediaIconFileMd" xml:space="preserve"><value>Έγγραφο Markdown</value></data>
   <data name="DemoMediaIconFileCsv" xml:space="preserve"><value>Έγγραφο CSV</value></data>
   <data name="DemoMediaIconFileXls" xml:space="preserve"><value>Έγγραφο Excel</value></data>
+  <data name="DemoMediaIconFileDoc" xml:space="preserve"><value>Έγγραφο Word</value></data>
   <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Υποστήριξη</value></data>
   <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Συνεργασία</value></data>
   <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Άνοδος</value></data>

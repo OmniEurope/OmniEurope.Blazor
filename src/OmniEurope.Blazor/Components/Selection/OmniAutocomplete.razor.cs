@@ -101,7 +101,7 @@ public partial class OmniAutocomplete<TValue>
 
     // Class goes on the outermost element; the validation classes of the form stay on the input they describe.
     private string RootClass => CssClassBuilder.Combine(["omni-autocomplete", Class]);
-    private string InputClass => CssClassBuilder.Combine(["omni-input", "omni-autocomplete__input", CssClass]);
+    private string InputClass => CssClassBuilder.Combine(["omni-input", "omni-autocomplete__input", SizeClass, CssClass]);
 
     private string EffectiveSearchErrorMessage => string.IsNullOrWhiteSpace(SearchErrorMessage)
         ? Localize("AutocompleteSearchFailed")

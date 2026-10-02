@@ -42,6 +42,26 @@ public abstract class OmniInputBase<TValue> : InputBase<TValue>
     [Parameter]
     public string? Class { get; set; }
 
+    /// <summary>
+    /// The height of a one-line field, matched to the button of the same size so that a toolbar mixing
+    /// them lines up (recette R-052): <see cref="OmniControlSize.Small"/> is the control height
+    /// less 0.5rem with the small text, <see cref="OmniControlSize.Large"/> the control height plus
+    /// 0.5rem with the large text. Null or <see cref="OmniControlSize.Medium"/> keeps the control height.
+    /// Honoured by the one-line fields: <see cref="OmniTextBox"/>, <see cref="OmniPassword"/>,
+    /// <see cref="OmniNumeric{TValue}"/>, <see cref="OmniDropDown{TValue}"/>, the date and time pickers and
+    /// <see cref="OmniAutocomplete{TItem}"/>; the other controls ignore it.
+    /// </summary>
+    [Parameter]
+    public OmniControlSize? Size { get; set; }
+
+    /// <summary>The class of <see cref="Size"/> on the field element, or null at the control height.</summary>
+    private protected string? SizeClass => Size switch
+    {
+        OmniControlSize.Small => "omni-input--small",
+        OmniControlSize.Large => "omni-input--large",
+        _ => null
+    };
+
     /// <summary>What an enclosing <see cref="OmniFormField"/> cascades: the id its label names and the label's id.</summary>
     [CascadingParameter]
     private OmniFormFieldLabel? EnclosingFormFieldLabel { get; set; }
@@ -83,7 +103,7 @@ public abstract class OmniInputBase<TValue> : InputBase<TValue>
     /// </summary>
     /// <param name="values">The control's own classes.</param>
     protected string InputCss(params string?[] values) =>
-        CssClassBuilder.Combine(values.Append(CssClass).Append(Class));
+        CssClassBuilder.Combine(values.Append(SizeClass).Append(CssClass).Append(Class));
 
     /// <summary>
     /// The control's classes, then the validation classes of the edit context, without
@@ -92,7 +112,7 @@ public abstract class OmniInputBase<TValue> : InputBase<TValue>
     /// </summary>
     /// <param name="values">The input's own classes.</param>
     protected string InnerInputCss(params string?[] values) =>
-        CssClassBuilder.Combine(values.Append(CssClass));
+        CssClassBuilder.Combine(values.Append(SizeClass).Append(CssClass));
 
     /// <summary>The wrapper's classes followed by <see cref="Class"/>: the outermost element of a wrapped control.</summary>
     /// <param name="values">The wrapper's own classes.</param>

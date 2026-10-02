@@ -1176,6 +1176,7 @@
   <data name="DemoMediaIconFileMd" xml:space="preserve"><value>Doiciméad Markdown</value></data>
   <data name="DemoMediaIconFileCsv" xml:space="preserve"><value>Doiciméad CSV</value></data>
   <data name="DemoMediaIconFileXls" xml:space="preserve"><value>Doiciméad Excel</value></data>
+  <data name="DemoMediaIconFileDoc" xml:space="preserve"><value>Doiciméad Word</value></data>
   <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Tacaíocht</value></data>
   <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Comhpháirtíocht</value></data>
   <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Ardú</value></data>

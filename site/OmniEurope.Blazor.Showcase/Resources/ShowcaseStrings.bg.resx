@@ -1176,6 +1176,7 @@
   <data name="DemoMediaIconFileMd" xml:space="preserve"><value>Markdown документ</value></data>
   <data name="DemoMediaIconFileCsv" xml:space="preserve"><value>CSV документ</value></data>
   <data name="DemoMediaIconFileXls" xml:space="preserve"><value>Excel документ</value></data>
+  <data name="DemoMediaIconFileDoc" xml:space="preserve"><value>Word документ</value></data>
   <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Поддръжка</value></data>
   <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Партньорство</value></data>
   <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Ръст</value></data>

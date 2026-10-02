@@ -35,6 +35,25 @@ public partial class OmniIcon
     private string? SizeClass => Size is { } size ? $"omni-icon--{size.ToString().ToLowerInvariant()}" : null;
 
     /// <summary>
+    /// Colours a file icon with its format, as file lists and download buttons do: <see cref="OmniIconName.FilePdf"/>
+    /// in the danger tone, <see cref="OmniIconName.FileDoc"/> in the info tone, <see cref="OmniIconName.FileXls"/>
+    /// and <see cref="OmniIconName.FileCsv"/> in the success tone, <see cref="OmniIconName.FileMd"/> muted. The
+    /// tones follow the palette and the mode. Only the glyph changes: a button holding it keeps its own
+    /// variant (Secondary for an export). Off by default; no effect on another icon or on a <see cref="Glyph"/>.
+    /// </summary>
+    [Parameter]
+    public bool FormatColor { get; set; }
+
+    private string? FormatClass => FormatColor && Glyph is null ? Name switch
+    {
+        OmniIconName.FilePdf => "omni-icon--format-pdf",
+        OmniIconName.FileDoc => "omni-icon--format-doc",
+        OmniIconName.FileXls or OmniIconName.FileCsv => "omni-icon--format-sheet",
+        OmniIconName.FileMd => "omni-icon--format-text",
+        _ => null
+    } : null;
+
+    /// <summary>
     /// Accessible name of the icon, also shown as its tooltip. Null by default: the icon is decorative
     /// and hidden from assistive technologies (its meaning comes from the text next to it).
     /// </summary>

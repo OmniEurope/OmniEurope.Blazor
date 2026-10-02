@@ -12,7 +12,7 @@ where TModel : class
 {
     private EditContext? _resolvedEditContext;
     private EditContext? _trackedEditContext;
-    private bool _dirty;
+    private readonly Internal.FormSnapshot _snapshot = new();
     private bool _submitting;
     private TModel? _lastModel;
     private ElementReference _formRoot;
@@ -51,7 +51,10 @@ where TModel : class
     /// a navigation inside the application waits for a confirmation, and closing or reloading the tab
     /// raises the browser's question. Off by default, opt-in: a page that already guards its changes
     /// would otherwise ask twice. A valid submit counts as saved: the question stops until a field
-    /// changes again, and a navigation the submit handler starts is never held.
+    /// changes again, and a navigation the submit handler starts is never held. A field brought back to
+    /// the value it had when the form started (or was last saved) no longer counts: typing then erasing
+    /// leaves the form unmodified. A form kept in a hidden tab panel (<see cref="OmniTabsItem"/> keeps a
+    /// visited panel) still guards its changes, which are still unsaved.
     /// </summary>
     [Parameter]
     public bool GuardUnsavedChanges { get; set; }
@@ -79,7 +82,8 @@ where TModel : class
         Track(_resolvedEditContext);
     }
 
-    // A new edit context is a new form: it starts clean, and only its own changes count.
+    // A new edit context is a new form: it starts clean, and only its own changes count, measured against
+    // the values its model holds now.
     private void Track(EditContext? context)
     {
         if (ReferenceEquals(context, _trackedEditContext))
@@ -93,7 +97,7 @@ where TModel : class
         }
 
         _trackedEditContext = context;
-        _dirty = false;
+        _snapshot.Take(context?.Model);
         if (context is not null)
         {
             context.OnFieldChanged += HandleFieldChanged;
@@ -102,9 +106,8 @@ where TModel : class
 
     private void HandleFieldChanged(object? sender, FieldChangedEventArgs args)
     {
-        if (!_dirty)
+        if (_snapshot.Update(args.FieldIdentifier))
         {
-            _dirty = true;
             StateHasChanged();
         }
     }
@@ -119,7 +122,7 @@ where TModel : class
         try
         {
             await OnValidSubmit.InvokeAsync(context);
-            _dirty = false;
+            _snapshot.Take(context.Model);
         }
         finally
         {

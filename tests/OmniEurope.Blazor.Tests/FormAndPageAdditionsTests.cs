@@ -110,11 +110,56 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
         Assert.False(guard.Instance.HasChanges);
 
         var editContext = form.FindComponent<EditForm>().Instance.EditContext!;
+        model.Name = "Ada";
         form.InvokeAsync(() => editContext.NotifyFieldChanged(editContext.Field(nameof(GuardedModel.Name))));
         Assert.True(form.FindComponent<OmniUnsavedChangesGuard>().Instance.HasChanges);
 
         form.Find("form").Submit();
         form.WaitForAssertion(() => Assert.False(form.FindComponent<OmniUnsavedChangesGuard>().Instance.HasChanges));
+
+        // Saved: "Ada" is the new reference, so a change back to it after an edit is no change.
+        model.Name = "Grace";
+        form.InvokeAsync(() => editContext.NotifyFieldChanged(editContext.Field(nameof(GuardedModel.Name))));
+        Assert.True(form.FindComponent<OmniUnsavedChangesGuard>().Instance.HasChanges);
+        model.Name = "Ada";
+        form.InvokeAsync(() => editContext.NotifyFieldChanged(editContext.Field(nameof(GuardedModel.Name))));
+        Assert.False(form.FindComponent<OmniUnsavedChangesGuard>().Instance.HasChanges);
+    }
+
+    [Fact]
+    public void TemplateForm_TypingThenErasing_LeavesTheFormUnmodified()
+    {
+        // recette R-061: one keystroke in an empty password field, then erased, kept the form
+        // modified and a tab click asked to leave. Empty text and no text are the same value.
+        var model = new GuardedModel { Address = new GuardedAddress { City = "Lyon" }, Tags = ["a"] };
+        var form = Render<OmniTemplateForm<GuardedModel>>(parameters => parameters
+            .Add(component => component.Model, model)
+            .Add(component => component.GuardUnsavedChanges, true)
+            .Add(component => component.ChildContent, (RenderFragment<EditContext>)(_ => _ => { })));
+        var editContext = form.FindComponent<EditForm>().Instance.EditContext!;
+        bool Modified() => form.FindComponent<OmniUnsavedChangesGuard>().Instance.HasChanges;
+        void Changed(object owner, string field) => form.InvokeAsync(() => editContext.NotifyFieldChanged(new FieldIdentifier(owner, field)));
+
+        model.Name = "x";
+        Changed(model, nameof(GuardedModel.Name));
+        Assert.True(Modified());
+        model.Name = "";
+        Changed(model, nameof(GuardedModel.Name));
+        Assert.False(Modified());
+
+        // A field of an object the model holds, and a list edited in place.
+        model.Address.City = "Paris";
+        Changed(model.Address, nameof(GuardedAddress.City));
+        Assert.True(Modified());
+        model.Address.City = "Lyon";
+        Changed(model.Address, nameof(GuardedAddress.City));
+        Assert.False(Modified());
+        model.Tags.Add("b");
+        Changed(model, nameof(GuardedModel.Tags));
+        Assert.True(Modified());
+        model.Tags.Remove("b");
+        Changed(model, nameof(GuardedModel.Tags));
+        Assert.False(Modified());
     }
 
     [Fact]
@@ -521,5 +566,14 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
     public sealed class GuardedModel
     {
         public string? Name { get; set; }
+
+        public GuardedAddress Address { get; set; } = new();
+
+        public List<string> Tags { get; set; } = [];
+    }
+
+    public sealed class GuardedAddress
+    {
+        public string? City { get; set; }
     }
 }

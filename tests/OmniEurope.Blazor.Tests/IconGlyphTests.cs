@@ -23,6 +23,25 @@ public sealed class IconGlyphTests : OmniBunitContext
         }
     }
 
+    [Theory]
+    [InlineData(OmniIconName.FilePdf, "omni-icon--format-pdf")]
+    [InlineData(OmniIconName.FileDoc, "omni-icon--format-doc")]
+    [InlineData(OmniIconName.FileXls, "omni-icon--format-sheet")]
+    [InlineData(OmniIconName.FileCsv, "omni-icon--format-sheet")]
+    [InlineData(OmniIconName.FileMd, "omni-icon--format-text")]
+    public void FormatColor_TintsAFileIconWithItsFormat_OnlyWhenAsked(OmniIconName name, string formatClass)
+    {
+        // recette R-051: the glyph takes its format colour, the button around it keeps its variant.
+        var tinted = Render<OmniIcon>(parameters => parameters.Add(item => item.Name, name).Add(item => item.FormatColor, true)).Find("svg");
+        var plain = Render<OmniIcon>(parameters => parameters.Add(item => item.Name, name)).Find("svg");
+
+        Assert.Contains(formatClass, tinted.ClassList);
+        Assert.DoesNotContain(plain.ClassList, value => value.StartsWith("omni-icon--format-", StringComparison.Ordinal));
+        var other = Render<OmniIcon>(parameters => parameters.Add(item => item.Name, OmniIconName.Check).Add(item => item.FormatColor, true)).Find("svg");
+        Assert.DoesNotContain(other.ClassList, value => value.StartsWith("omni-icon--format-", StringComparison.Ordinal));
+        Assert.Matches(@"\.omni-icon--format-doc \{ color: var\(--omni-color-info\); \}", StylesheetSource.Read());
+    }
+
     [Fact]
     public void ExplicitGlyph_WinsOverName()
     {
