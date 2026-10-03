@@ -310,7 +310,14 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 .omni-logo-loader--small { --omni-logo-loader-size: 1.5rem; }
 .omni-logo-loader--large { --omni-logo-loader-size: 5rem; }
 @keyframes omni-float { from { transform: translateY(12%); } to { transform: translateY(-12%); } }
-@media (prefers-reduced-motion: reduce) { .omni-logo-loader__mark { animation: none; } }
+/* A logo that animates itself (AnimatedMark) plays its own animation and is not floated. */
+.omni-logo-loader--animated .omni-logo-loader__mark { animation: none; }
+/* Less motion: the float stops, and so do the CSS animations of a logo that animates itself, whatever
+   rule of the site starts them (hence the priority). */
+@media (prefers-reduced-motion: reduce) {
+    .omni-logo-loader__mark { animation: none; }
+    .omni-logo-loader--animated .omni-logo-loader__mark * { animation: none !important; }
+}
 
 @media (min-width: 40rem) {
     .omni-column--sm-1 { flex: 0 0 calc(100% * 1 / 12 - var(--omni-row-gap, 0px) * 11 / 12); max-width: calc(100% * 1 / 12 - var(--omni-row-gap, 0px) * 11 / 12); }

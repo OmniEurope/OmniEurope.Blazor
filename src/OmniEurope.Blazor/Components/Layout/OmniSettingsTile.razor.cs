@@ -42,4 +42,11 @@ public partial class OmniSettingsTile
     /// </summary>
     [Parameter]
     public OmniDensity? Density { get; set; }
+
+    /// <summary>
+    /// In a <see cref="OmniSettingsSection.Paired"/> section, takes the whole row instead of half of it (a
+    /// wide setting: a list, an editor). No effect in a section that is not paired.
+    /// </summary>
+    [Parameter]
+    public bool FullWidth { get; set; }
 }

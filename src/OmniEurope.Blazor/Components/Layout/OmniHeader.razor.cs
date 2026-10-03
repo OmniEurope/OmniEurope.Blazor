@@ -41,6 +41,16 @@ public partial class OmniHeader
     [Parameter]
     public string? BrandHref { get; set; }
 
+    /// <summary>
+    /// The sidebar toggle (an <see cref="OmniSidebarToggle"/>), drawn by the header at its very start,
+    /// before the brand, on the axis of the icons of the sidebar rail (Astraia recette R-037). The
+    /// header places it itself, so no wrapper of the application can shift it: give the toggle here and
+    /// the brand through <see cref="Brand"/>, <see cref="BrandLogo"/> and <see cref="BrandHref"/>, never
+    /// inside an element of the application's own (whose padding would move the toggle off the axis).
+    /// </summary>
+    [Parameter]
+    public RenderFragment? SidebarToggle { get; set; }
+
     private bool HasBrand => !string.IsNullOrWhiteSpace(Brand) || !string.IsNullOrWhiteSpace(BrandLogo);
 
     private bool HasName => !string.IsNullOrWhiteSpace(Brand);

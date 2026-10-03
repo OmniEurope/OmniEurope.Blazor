@@ -16,6 +16,17 @@ public partial class OmniLogoLoader
     [Parameter]
     public OmniControlSize Size { get; set; } = OmniControlSize.Medium;
 
+    /// <summary>
+    /// Says that the logo animates itself (an animated SVG with its own keyframes, the product's
+    /// loading animation): the loader then plays it as it is instead of floating it. Everything else is
+    /// unchanged (status role, label, sizes, centring). Under reduced motion the loader holds the CSS
+    /// animations of the logo still as well, so a site needs no rule of its own; animations written in
+    /// SVG markup (SMIL, <c>&lt;animate&gt;</c>) are outside CSS and keep running. False by default: the
+    /// logo floats.
+    /// </summary>
+    [Parameter]
+    public bool AnimatedMark { get; set; }
+
     /// <summary>What is announced while it shows; the localized "Loading in progress" when null or blank.</summary>
     [Parameter]
     public string? Label { get; set; }

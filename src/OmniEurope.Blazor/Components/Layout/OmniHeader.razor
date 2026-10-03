@@ -1,13 +1,15 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-@* The brand opens the header in the source; a sidebar toggle among the children is drawn before it
-   (CSS order), since the toggle belongs at the very edge. Beside a name, the logo is decorative and
+@* The sidebar toggle (SidebarToggle) opens the header, then the brand: the header places both, so the
+   toggle stays on the axis of the rail icons whatever the application wraps around its own content. A
+   toggle given among the children instead is still drawn first (CSS order), as before. Beside a name, the logo is decorative and
    the name is text; alone, the logo carries a name of its own (LogoAlt), so a logo-only link is never
    nameless. Given BrandHref, the brand is a link, which is how an application's name leads back home. *@
 <header @attributes="AdditionalAttributes"
         id="@Id"
         class="@Css("omni-header", Sticky ? "omni-header--sticky" : null, Tone == OmniHeaderTone.Accent ? "omni-header--accent" : null, HasBrand ? "omni-header--branded" : null)">
+    @SidebarToggle
     @if (HasBrand && SafeBrandHref is not null)
     {
         <a class="omni-header__brand omni-header__brand--link" href="@SafeBrandHref">

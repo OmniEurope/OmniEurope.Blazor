@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # PLAN-011 : Demandes OE de la recette Astraia
 
-> Statut : **ouvert**. Établi le 2026-10-02 à partir de neuf demandes de la recette Astraia décidées par le propriétaire ; lot 1 fait (R-052 mesuré : liste et bouton `Small` à 28 px, `Medium` 36 px, `Large` 44 px) ; lot 2 fait (à 620 px, `ToolbarRows="1"` tient la barre du document sur une ligne et passe 12 boutons dans « ⋮ », ouvert au clavier, une commande lancée depuis le menu s'applique ; infobulle « nom, puis description » vérifiée).
+> Statut : **terminé** le 2026-10-03, à archiver. Établi le 2026-10-02 à partir de neuf demandes de la recette Astraia décidées par le propriétaire ; lot 1 fait (R-052 mesuré : liste et bouton `Small` à 28 px, `Medium` 36 px, `Large` 44 px) ; lot 2 fait (à 620 px, `ToolbarRows="1"` tient la barre du document sur une ligne et passe 12 boutons dans « ⋮ », ouvert au clavier, une commande lancée depuis le menu s'applique ; infobulle « nom, puis description » vérifiée). Lot 3 fait : burger sur l'axe du rail (615 px et 615 px), tuiles de même hauteur (149 px) à 1280 px et empilées à 375 px, paires côte à côte à 1920 px (1088 px puis 2 x 538 px) et empilées à 375 px.
 
 ## Objectif
 
@@ -49,9 +49,9 @@ Controle : un test par point ; R-052 mesuré en navigateur (select `Small` et bo
 Controle : extension de 50 commandes en vitrine tenue en deux lignes au plus à 1280 px, débordement atteignable au clavier ; infobulle visible en navigateur.
 
 ### Lot 3 - Mise en page
-- [ ] R-036 : tuile de navigation (icône sur carré teinté, titre, description optionnelle, `Href`, ton) et sa démonstration.
-- [ ] R-060 : appariement des tuiles de réglages (option de section ou composant de paire), deux colonnes empilées sous environ 24rem, sans plafond.
-- [ ] R-037 : `OmniHeader` porte la marque et le burger, alignés sur l'axe des icônes du rail quel que soit l'enveloppeur ; doc : ne pas les envelopper.
+- [x] R-036 : tuile de navigation (icône sur carré teinté, titre, description optionnelle, `Href`, ton) et sa démonstration.
+- [x] R-060 : appariement des tuiles de réglages (option de section ou composant de paire), deux colonnes empilées sous environ 24rem, sans plafond.
+- [x] R-037 : `OmniHeader` porte la marque et le burger, alignés sur l'axe des icônes du rail quel que soit l'enveloppeur ; doc : ne pas les envelopper.
 Controle : burger sur l'axe du rail en navigateur avec un enveloppeur à marge intérieure ; tuiles et paires mesurées à 1280 et 375 px.
 
 ## Ordre et dépendances

@@ -78,4 +78,24 @@
             <Icon><OmniIcon Name="OmniIconName.CalendarCheck" /></Icon>
         </OmniStatTile>
     </OmniStack>
+
+    @* Tuiles de navigation : chacune est un vrai lien, son icône sur un carré à la teinte de son ton ;
+       au survol, seule l'ombre change. Elles prennent la hauteur de leur colonne. *@
+    <OmniRow Gap="OmniSpacing.Medium">
+        <OmniColumn Span="12" MediumSpan="4">
+            <OmniNavTile Href="composants/grille" Title="@Text["DemoGridTitle"]" Description="@Text["DemoGridSummary"]">
+                <Icon><OmniIcon Name="OmniIconName.Table" /></Icon>
+            </OmniNavTile>
+        </OmniColumn>
+        <OmniColumn Span="12" MediumSpan="4">
+            <OmniNavTile Href="composants/editeur" Title="@Text["DemoEditorTitle"]" Tone="OmniTone.Info">
+                <Icon><OmniIcon Name="OmniIconName.FileDoc" /></Icon>
+            </OmniNavTile>
+        </OmniColumn>
+        <OmniColumn Span="12" MediumSpan="4">
+            <OmniNavTile Href="composants/medias" Title="@Text["DemoMediaTitle"]" Description="@Text["DemoMediaSummary"]" Tone="OmniTone.Success">
+                <Icon><OmniIcon Name="OmniIconName.Image" /></Icon>
+            </OmniNavTile>
+        </OmniColumn>
+    </OmniRow>
 </OmniStack>

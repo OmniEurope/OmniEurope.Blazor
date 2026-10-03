@@ -131,6 +131,10 @@
 /* Réglages : une carte par thème, chaque réglage en encadré. */
 .omni-settings-section > .omni-card__body { display: flex; flex-direction: column; gap: calc(var(--omni-form-gap) - 4px); padding: var(--omni-section-pad); }
 .omni-settings-section__heading { display: grid; gap: 0.25rem; }
+/* Paired tiles (OmniSettingsSection.Paired): two per row, each at least about 24rem or the whole row
+   when there is no room for two; the heading and a FullWidth tile span the row. No width cap. */
+.omni-settings-section--paired > .omni-card__body { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, max(24rem, calc((100% - (var(--omni-form-gap) - 4px)) / 2))), 1fr)); }
+.omni-settings-section--paired > .omni-card__body > :is(.omni-settings-section__heading, .omni-settings-tile--full) { grid-column: 1 / -1; }
 .omni-settings-section__title { font-size: var(--omni-font-size-lg); font-weight: 650; margin: 0; }
 .omni-settings-hint { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-label); margin: 0; }
 /* The tile stands out from its card on a fill of its own: identical to the card in light mode, it
@@ -156,6 +160,22 @@
 .omni-stat-tile--action { cursor: pointer; transition: background-color var(--omni-duration-fast) ease; }
 .omni-stat-tile--action:hover { background: color-mix(in srgb, var(--omni-color-text) 6%, var(--omni-card-background, var(--omni-color-surface))); }
 .omni-stat-tile--action:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+/* A navigation tile (OmniNavTile): a card that is one link, the icon on a square tinted with its tone,
+   the title, an optional muted description. It fills the height of its column; hovered, only its
+   shadow changes (no movement); the focus ring marks it for the keyboard. */
+.omni-nav-tile { --omni-nav-tile-tone: var(--omni-color-accent-strong); --omni-nav-tile-tint: var(--omni-color-accent-subtle); align-items: center; background: var(--omni-card-background, var(--omni-color-surface)); block-size: 100%; border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-card-shadow, none); box-sizing: border-box; color: var(--omni-color-text); display: flex; flex-direction: column; gap: var(--omni-space-sm); padding: var(--omni-space-lg) var(--omni-space-md); text-align: center; text-decoration: none; transition: box-shadow var(--omni-duration-fast) ease; }
+.omni-nav-tile:hover { box-shadow: var(--omni-shadow-md); }
+.omni-nav-tile:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-nav-tile__icon { align-items: center; background: var(--omni-nav-tile-tint); block-size: 3rem; border-radius: var(--omni-radius); color: var(--omni-nav-tile-tone); display: inline-flex; flex: none; inline-size: 3rem; justify-content: center; }
+.omni-nav-tile__icon .omni-icon { block-size: 1.5rem; inline-size: 1.5rem; }
+.omni-nav-tile__title { font-weight: 600; overflow-wrap: anywhere; }
+.omni-nav-tile__description { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); overflow-wrap: anywhere; }
+.omni-nav-tile--neutral { --omni-nav-tile-tone: var(--omni-color-text-muted); --omni-nav-tile-tint: var(--omni-color-surface-muted); }
+.omni-nav-tile--info { --omni-nav-tile-tone: var(--omni-color-info); --omni-nav-tile-tint: var(--omni-color-info-subtle); }
+.omni-nav-tile--success { --omni-nav-tile-tone: var(--omni-color-success); --omni-nav-tile-tint: var(--omni-color-success-subtle); }
+.omni-nav-tile--warning { --omni-nav-tile-tone: var(--omni-color-warning); --omni-nav-tile-tint: var(--omni-color-warning-subtle); }
+.omni-nav-tile--danger { --omni-nav-tile-tone: var(--omni-color-danger); --omni-nav-tile-tint: var(--omni-color-danger-subtle); }
+@media (prefers-reduced-motion: reduce) { .omni-nav-tile { transition: none; } }
 .omni-settings-tile__row { align-items: center; display: flex; flex-wrap: wrap; gap: 0.75rem 1rem; }
 .omni-settings-tile__icon { align-items: center; background: var(--omni-color-accent-subtle); block-size: var(--omni-icon-box); border-radius: var(--omni-radius); color: var(--omni-color-accent-strong); display: inline-flex; flex: 0 0 auto; inline-size: var(--omni-icon-box); justify-content: center; }
 .omni-settings-tile__text { display: flex; flex: 1 1 12rem; flex-direction: column; gap: 0.25rem; }

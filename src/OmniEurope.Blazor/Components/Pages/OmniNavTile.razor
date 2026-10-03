@@ -1,0 +1,17 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+@* A tile that leads to a part of the site: the icon on a square tinted with its tone, the title and
+   an optional description, the whole tile one real link (a middle click opens it in a tab, the
+   browser shows where it goes). Hovered, it lifts by its shadow only and never moves. *@
+<a @attributes="AdditionalAttributes" id="@Id" href="@Href" class="@Css("omni-nav-tile", $"omni-nav-tile--{Tone.ToString().ToLowerInvariant()}")">
+    @if (Icon is not null)
+    {
+        <span class="omni-nav-tile__icon" aria-hidden="true">@Icon</span>
+    }
+    <span class="omni-nav-tile__title">@Title</span>
+    @if (!string.IsNullOrWhiteSpace(Description))
+    {
+        <span class="omni-nav-tile__description">@Description</span>
+    }
+</a>
