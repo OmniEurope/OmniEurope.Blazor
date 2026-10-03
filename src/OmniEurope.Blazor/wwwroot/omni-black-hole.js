@@ -164,7 +164,8 @@ function readColour(scope, token, fallback) {
  * scope keeps the theme's CSS field. moving false draws one still frame.
  */
 export function start(canvas, scope, moving) {
-    stop(canvas);
+    // A restart keeps the context: once lost, the canvas hands the same lost context back.
+    halt(canvas, false);
     if (!canvas || !scope) {
         return false;
     }
@@ -172,7 +173,7 @@ export function start(canvas, scope, moving) {
     const gl = canvas.getContext('webgl', { premultipliedAlpha: true, antialias: false, alpha: true });
     const vertex = gl && compile(gl, gl.VERTEX_SHADER, VERTEX);
     const fragment = gl && compile(gl, gl.FRAGMENT_SHADER, FRAGMENT);
-    if (!vertex || !fragment) {
+    if (!vertex || !fragment || gl.isContextLost()) {
         return false;
     }
 
@@ -180,12 +181,17 @@ export function start(canvas, scope, moving) {
     gl.attachShader(program, vertex);
     gl.attachShader(program, fragment);
     gl.linkProgram(program);
+    // Linked, the program keeps what it needs: the shaders go with it.
+    gl.deleteShader(vertex);
+    gl.deleteShader(fragment);
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+        gl.deleteProgram(program);
         return false;
     }
 
     gl.useProgram(program);
-    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+    const buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
     const position = gl.getAttribLocation(program, 'a_position');
     gl.enableVertexAttribArray(position);
@@ -193,7 +199,7 @@ export function start(canvas, scope, moving) {
 
     const uniform = name => gl.getUniformLocation(program, name);
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const state = { gl, frame: 0, last: 0, origin: performance.now(), moving, reduced, colours: null, resize: null, visibility: null };
+    const state = { gl, program, buffer, frame: 0, last: 0, origin: performance.now(), moving, reduced, colours: null, resize: null, visibility: null };
     const animated = () => state.moving && !state.reduced.matches;
 
     const draw = now => {
@@ -270,6 +276,10 @@ export function refresh(canvas) {
 
 /** Stops drawing and releases the WebGL context. */
 export function stop(canvas) {
+    halt(canvas, true);
+}
+
+function halt(canvas, release) {
     const state = canvas ? states.get(canvas) : undefined;
     if (!state) {
         return;
@@ -280,7 +290,14 @@ export function stop(canvas) {
     }
     window.removeEventListener('resize', state.resize);
     document.removeEventListener('visibilitychange', state.visibility);
-    state.gl.getExtension('WEBGL_lose_context')?.loseContext();
+    if (release) {
+        state.gl.getExtension('WEBGL_lose_context')?.loseContext();
+    }
+    else {
+        // The context stays for the next start, which makes its own program and buffer.
+        state.gl.deleteProgram(state.program);
+        state.gl.deleteBuffer(state.buffer);
+    }
     states.delete(canvas);
     running.delete(canvas);
 }

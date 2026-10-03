@@ -110,15 +110,44 @@ internal sealed class FormSnapshot
         }
     }
 
-    // A collection is kept as a copy of its items: a list edited in place must not compare with itself.
-    private static object? Capture(object? value) =>
-        value is IEnumerable items and not string ? items.Cast<object?>().ToArray() : value;
+    // A collection is kept as a copy of its items: a list edited in place must not compare with itself. Bytes (a
+    // picture, an attachment) are copied as bytes; a sequence that is no collection (a query, a generator) is never
+    // run and is kept as it is; a collection that fails to list its items is unknown, so it counts as changed.
+    private static object? Capture(object? value)
+    {
+        if (value is byte[] bytes)
+        {
+            return bytes.ToArray();
+        }
+
+        if (value is string || value is not IEnumerable items || !IsCollection(value))
+        {
+            return value;
+        }
+
+        try
+        {
+            return items.Cast<object?>().ToArray();
+        }
+        catch (Exception exception) when (exception is not OutOfMemoryException)
+        {
+            return Unknown;
+        }
+    }
+
+    private static bool IsCollection(object value) =>
+        value is ICollection || value.GetType().GetInterfaces().Any(type => type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IReadOnlyCollection<>));
 
     private static bool Same(object? original, object? current)
     {
         if (ReferenceEquals(current, Unknown))
         {
             return false;
+        }
+
+        if (original is byte[] bytesBefore && current is byte[] bytesAfter)
+        {
+            return bytesBefore.AsSpan().SequenceEqual(bytesAfter);
         }
 
         if (original is object?[] before && current is object?[] after)

@@ -54,10 +54,17 @@ internal sealed class HtmlEditorContextMenu(OmniHtmlEditor owner, IJSRuntime jav
         }
     }
 
-    /// <summary>Closes the menu; the focus goes back to the surface with <paramref name="restoreFocus"/>.</summary>
-    public Task CloseAsync(bool restoreFocus) => _controller is null
-        ? Task.CompletedTask
-        : _controller.SetOpenAsync(false, null, default, owner.Rerender, restoreFocus);
+    /// <summary>
+    /// Closes the menu; the focus goes back to the surface with <paramref name="restoreFocus"/>. Corrections still
+    /// being asked for are no longer wanted.
+    /// </summary>
+    public Task CloseAsync(bool restoreFocus)
+    {
+        owner.CancelProofreadingSuggestions();
+        return _controller is null
+            ? Task.CompletedTask
+            : _controller.SetOpenAsync(false, null, default, owner.Rerender, restoreFocus);
+    }
 
     /// <summary>Brings the script in line with the menu's open state, placed at the pointer. Called after each render.</summary>
     internal async Task SyncAsync()

@@ -2,6 +2,16 @@
 
 Les changements notables de ce projet seront documentés ici selon le format Keep a Changelog.
 
+## [Non publié]
+
+### Fixed
+
+- `OmniNavTile` : `Href` passe par la politique d'URI du paquet comme tout autre lien ; un schéma actif (`javascript:`, `data:`, `vbscript:`) lève `InvalidOperationException` au lieu d'être rendu tel quel.
+- Trou noir : redémarrer le dessin sur le même canvas (ce que fait `OmniThemeScope` quand « Fond animé » change) libérait d'abord le contexte WebGL, que le navigateur rend ensuite toujours perdu : le trou noir laissait place au champ CSS de repli. Le redémarrage garde le contexte et libère seulement le programme et le tampon précédents ; l'arrêt libère tout. Mesuré dans Chromium sur le module seul : vingt démarrages de suite réussis sans erreur WebGL, contre un sur trois avant ; la bascule dans la vitrine n'a pas été rejouée.
+- `OmniHtmlEditor`, relecture : un éditeur verrouillé (`ReadOnly`, `Disabled`), la face source ou des relecteurs tous en échec répondent « rien de relu » (null) au lieu de « aucune anomalie » ; le script ne garde alors aucune réponse et redemande plus tard, si bien que les blocs se soulignent une fois l'éditeur déverrouillé ou le relecteur revenu. Fermer le menu ou retirer l'éditeur annule les corrections encore demandées, comme `SuggestAsync` le documente ; un passage décrit hors bornes par le script n'ouvre plus de menu.
+- `OmniTemplateForm`, « modifié » : un `byte[]` (photo, pièce jointe) est comparé octet à octet sans un objet par octet, une séquence qui n'est pas une collection (requête, générateur) n'est jamais énumérée, et une collection qui lève en énumérant compte pour modifiée au lieu de faire échouer le formulaire.
+- `OmniHtmlEditor.ToolbarRows` : un rendu qui ne change ni la largeur de la barre, ni ses commandes, ni leurs textes, ni la police ou la hauteur des contrôles ne remesure plus la barre ; une frappe en faisait environ 200 lectures de mise en page, mesuré à 0 dans la vitrine.
+
 ## [1.5.0] - 2026-10-03
 
 ### Breaking changes

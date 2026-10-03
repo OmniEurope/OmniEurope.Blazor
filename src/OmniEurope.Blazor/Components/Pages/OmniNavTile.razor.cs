@@ -13,6 +13,8 @@ public partial class OmniNavTile
     [Parameter, EditorRequired]
     public string Href { get; set; } = string.Empty;
 
+    private string? SafeHref => OmniUriPolicy.EnsureSafe(Href, nameof(Href));
+
     /// <summary>The name of the destination, the accessible name of the link with the description.</summary>
     [Parameter, EditorRequired]
     public string Title { get; set; } = string.Empty;

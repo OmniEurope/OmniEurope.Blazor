@@ -110,7 +110,8 @@ async function proofread(state) {
             return;
         }
 
-        if (ticket !== state.proofreadTicket || !editors.has(surface)) {
+        // Null: nothing was checked (the editor locked, every proofreader failing), so nothing is kept as clean.
+        if (ticket !== state.proofreadTicket || !editors.has(surface) || answer == null) {
             return;
         }
 
@@ -122,7 +123,7 @@ async function proofread(state) {
             state.proofreadCache.set(block.key, []);
         }
 
-        for (const [p, t, s, l, k, m] of JSON.parse(answer || '[]')) {
+        for (const [p, t, s, l, k, m] of JSON.parse(answer)) {
             const block = missing[t];
             if (block && s >= 0 && l > 0 && s + l <= block.text.length) {
                 state.proofreadCache.get(block.key).push({ p, s, l, k, m });

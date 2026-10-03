@@ -60,6 +60,54 @@ public sealed class HtmlEditorProofreadingTests : OmniBunitContext
         Assert.Equal([new OmniHtmlEditorProofreadingText("Some speling here.", "en"), new OmniHtmlEditorProofreadingText("the the end", null)], checkedTexts);
     }
 
+    // Nothing checked is not "no issue": the script keeps no answer for these blocks and asks again later, so a
+    // block is underlined once the editor is unlocked or the proofreader is back.
+    [Fact]
+    public async Task ALockedEditor_OrProofreadersThatAllFail_AnswerNull_SoNothingIsKeptAsClean()
+    {
+        JSInterop.SetupModule(ModulePath);
+        var proofreader = new TestProofreader { Check = _ => [new(0, 5, 7)] };
+        var value = "<p>A</p>";
+        var locked = Render<OmniHtmlEditor>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.ReadOnly, true)
+            .Add(component => component.Extensions, [new ProofreadingExtension(proofreader)]));
+
+        Assert.Null(await locked.InvokeAsync(() => new HtmlEditorInteropBridge(locked.Instance).OnProofreadRequested(["Some speling"], [null])));
+        Assert.Empty(proofreader.Checked);
+
+        var failing = RenderEditor(new ProofreadingExtension(new TestProofreader { Check = _ => throw new HttpRequestException("offline") }));
+        Assert.Null(await failing.InvokeAsync(() => new HtmlEditorInteropBridge(failing.Instance).OnProofreadRequested(["Some speling"], [null])));
+
+        // A proofreader that answers "nothing to flag" is an answer: the blocks are kept as clean.
+        var clean = RenderEditor(new ProofreadingExtension(new TestProofreader()));
+        Assert.Equal("[]", await clean.InvokeAsync(() => new HtmlEditorInteropBridge(clean.Instance).OnProofreadRequested(["Fine"], [null])));
+    }
+
+    [Fact]
+    public async Task ClosingTheMenu_OrRemovingTheEditor_CancelsTheCorrectionsStillAskedFor()
+    {
+        JSInterop.SetupModule(ModulePath);
+        SetUpMenu();
+        var proofreader = new TestProofreader { Pending = true };
+        var editor = RenderEditor(new ProofreadingExtension(proofreader));
+        var bridge = new HtmlEditorInteropBridge(editor.Instance);
+
+        var opening = editor.InvokeAsync(() => bridge.OnContextMenu(40, 20, null, Flagged));
+        var first = Assert.Single(proofreader.SuggestTokens);
+        Assert.False(first.IsCancellationRequested);
+        await editor.Find("[role=menu]").KeyDownAsync(new KeyboardEventArgs { Key = "Escape" });
+        Assert.True(first.IsCancellationRequested);
+        await opening;
+
+        _ = editor.InvokeAsync(() => bridge.OnContextMenu(40, 20, null, Flagged));
+        var second = proofreader.SuggestTokens[^1];
+        Assert.False(second.IsCancellationRequested);
+        await DisposeComponentsAsync();
+        Assert.True(second.IsCancellationRequested);
+    }
+
     [Fact]
     public async Task TheSourceFace_ChecksNothing()
     {
@@ -72,7 +120,7 @@ public sealed class HtmlEditorProofreadingTests : OmniBunitContext
             .Add(component => component.Mode, OmniHtmlEditorMode.Source)
             .Add(component => component.Extensions, [new ProofreadingExtension(proofreader)]));
 
-        Assert.Equal("[]", await editor.InvokeAsync(() => new HtmlEditorInteropBridge(editor.Instance).OnProofreadRequested(["x"], [null])));
+        Assert.Null(await editor.InvokeAsync(() => new HtmlEditorInteropBridge(editor.Instance).OnProofreadRequested(["x"], [null])));
         Assert.Empty(proofreader.Checked);
     }
 
@@ -163,6 +211,8 @@ public sealed class HtmlEditorProofreadingTests : OmniBunitContext
         await editor.InvokeAsync(() => bridge.OnContextMenu(40, 20, null, "{\"p\":0,\"text\":\"abc\",\"s\":2,\"l\":5,\"k\":0}"));
         await editor.InvokeAsync(() => bridge.OnContextMenu(40, 20, null, "not json"));
         await editor.InvokeAsync(() => bridge.OnContextMenu(40, 20, null, Flagged.Replace("\"p\":0", "\"p\":4", StringComparison.Ordinal)));
+        await editor.InvokeAsync(() => bridge.OnContextMenu(40, 20, null, Flagged.Replace("\"p\":0", "\"p\":-1", StringComparison.Ordinal)));
+        await editor.InvokeAsync(() => bridge.OnContextMenu(40, 20, null, Flagged.Replace("\"l\":7", "\"l\":2147483647", StringComparison.Ordinal)));
 
         Assert.Empty(editor.FindAll("[role=menu]"));
     }
@@ -242,6 +292,11 @@ public sealed class HtmlEditorProofreadingTests : OmniBunitContext
 
         public bool AddToDictionary { get; init; }
 
+        // The corrections never come: the menu stays loading until it is cancelled.
+        public bool Pending { get; init; }
+
+        public List<CancellationToken> SuggestTokens { get; } = [];
+
         public List<IReadOnlyList<OmniHtmlEditorProofreadingText>> Checked { get; } = [];
 
         public List<(OmniHtmlEditorProofreadingText Text, OmniHtmlEditorProofreadingIssue Issue)> Suggested { get; } = [];
@@ -263,7 +318,8 @@ public sealed class HtmlEditorProofreadingTests : OmniBunitContext
             OmniHtmlEditorProofreadingText text, OmniHtmlEditorProofreadingIssue issue, CancellationToken cancellationToken)
         {
             Suggested.Add((text, issue));
-            return Task.FromResult(Suggest(text, issue));
+            SuggestTokens.Add(cancellationToken);
+            return Pending ? Task.Delay(Timeout.Infinite, cancellationToken).ContinueWith<IReadOnlyList<string>>(_ => [], TaskScheduler.Default) : Task.FromResult(Suggest(text, issue));
         }
 
         public override Task IgnoreAllAsync(string passage, string? language)

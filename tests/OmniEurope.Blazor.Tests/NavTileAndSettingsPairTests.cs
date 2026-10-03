@@ -32,6 +32,17 @@ public sealed class NavTileAndSettingsPairTests : OmniBunitContext
         Assert.DoesNotContain(ShippedLookTests.Rules(), rule => rule.Selector.StartsWith(".omni-nav-tile", StringComparison.Ordinal) && rule.Body.Contains("transform", StringComparison.Ordinal));
     }
 
+    [Theory]
+    [InlineData("javascript:alert(1)")]
+    [InlineData("data:text/html,<script>alert(1)</script>")]
+    public void ANavTile_RejectsActiveUriSchemes_LikeEveryLinkOfThePackage(string href)
+    {
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            Render<OmniNavTile>(parameters => parameters.Add(component => component.Href, href).Add(component => component.Title, "Piège")));
+
+        Assert.Contains("URI scheme", exception.Message, StringComparison.Ordinal);
+    }
+
     [Fact]
     public void ANavTile_WithoutDescription_NorIcon_StaysALinkWithItsTitle()
     {

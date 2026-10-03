@@ -2,13 +2,22 @@
 // R-042). Every command is rendered in the bar; this script hides, from the end, the buttons that would
 // open a row beyond the limit (data-omni-overflow, an attribute .NET never renders, so a render never
 // undoes it) and reports their names to .NET, which lists them in the "more" menu at the end of the bar.
-// The lists (block, size, case) always stay in the bar. The bar is fitted again when its width changes
-// and after each render.
+// The lists (block, size, case) always stay in the bar. The bar is fitted again when its width changes,
+// and after a render that changed what decides its rows (the commands, their texts, the font, the
+// control height); a render that changed none of them (a keystroke) measures nothing.
 
 const fits = new Map();
 
 // A row is a distinct top edge: offsetTop would be measured from each group (positioned), not the bar.
 const rowsOf = items => new Set(items.map(item => Math.round(item.getBoundingClientRect().top))).size;
+
+// What decides how many rows the bar takes, besides its width (followed by the observer).
+function layoutOf(state) {
+    const { toolbar } = state;
+    const style = getComputedStyle(toolbar);
+    const commands = [...toolbar.querySelectorAll('[data-command]')].map(control => control.getAttribute('data-command')).join(',');
+    return [state.rows, toolbar.clientWidth, style.font, style.getPropertyValue('--omni-control-height'), toolbar.textContent.length, commands, state.more?.getAttribute('data-omni-fixed') ?? ''].join('|');
+}
 
 function fit(state) {
     const { toolbar, more } = state;
@@ -16,6 +25,8 @@ function fit(state) {
         unfit(toolbar);
         return;
     }
+
+    state.layout = layoutOf(state);
 
     const buttons = [...toolbar.querySelectorAll('.omni-html-editor__group > button[data-command]')];
     for (const button of buttons) {
@@ -65,7 +76,7 @@ export function fitToolbar(toolbar, rows, dotnet) {
 
     let state = fits.get(toolbar);
     if (!state) {
-        state = { toolbar, dotnet, rows, reported: null, more: null, observer: null, frame: 0 };
+        state = { toolbar, dotnet, rows, reported: null, more: null, observer: null, frame: 0, layout: null };
         const schedule = () => {
             if (state.frame === 0) {
                 state.frame = window.requestAnimationFrame(() => {
@@ -82,7 +93,9 @@ export function fitToolbar(toolbar, rows, dotnet) {
     state.rows = Math.max(1, rows);
     state.dotnet = dotnet;
     state.more = toolbar.querySelector('.omni-html-editor__more');
-    fit(state);
+    if (state.layout !== layoutOf(state)) {
+        fit(state);
+    }
 }
 
 /** Stops following the toolbar and shows every button again. */

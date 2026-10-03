@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.DependencyInjection;
 using OmniEurope.Blazor.Components;
+using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Tests;
 
@@ -160,6 +161,28 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
         model.Tags.Remove("b");
         Changed(model, nameof(GuardedModel.Tags));
         Assert.False(Modified());
+    }
+
+    [Fact]
+    public void TheFormRecord_ComparesBytesAsBytes_NeverRunsAQuery_AndSurvivesACollectionThatThrows()
+    {
+        var model = new RecordedModel { Photo = [1, 2, 3] };
+        var snapshot = new FormSnapshot();
+
+        snapshot.Take(model);
+
+        // A sequence that is no collection is kept as it is, never listed.
+        Assert.Equal(0, model.Listed);
+        model.Photo[1] = 9;
+        snapshot.Update(new FieldIdentifier(model, nameof(RecordedModel.Photo)));
+        Assert.True(snapshot.IsModified);
+        model.Photo[1] = 2;
+        snapshot.Update(new FieldIdentifier(model, nameof(RecordedModel.Photo)));
+        Assert.False(snapshot.IsModified);
+        // A collection that cannot list its items is unknown: changed, never thrown.
+        snapshot.Update(new FieldIdentifier(model, nameof(RecordedModel.Broken)));
+        Assert.True(snapshot.IsModified);
+        Assert.Equal(0, model.Listed);
     }
 
     [Fact]
@@ -570,6 +593,36 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
         public GuardedAddress Address { get; set; } = new();
 
         public List<string> Tags { get; set; } = [];
+    }
+
+    public sealed class RecordedModel
+    {
+        public byte[] Photo { get; set; } = [];
+
+        public int Listed { get; private set; }
+
+        public IEnumerable<int> Query => Count();
+
+        public BrokenCollection Broken { get; } = new();
+
+        private IEnumerable<int> Count()
+        {
+            Listed++;
+            yield return 1;
+        }
+    }
+
+    public sealed class BrokenCollection : System.Collections.ICollection
+    {
+        public int Count => 1;
+
+        public bool IsSynchronized => false;
+
+        public object SyncRoot => this;
+
+        public void CopyTo(Array array, int index) => throw new InvalidOperationException("closed");
+
+        public System.Collections.IEnumerator GetEnumerator() => throw new InvalidOperationException("closed");
     }
 
     public sealed class GuardedAddress
