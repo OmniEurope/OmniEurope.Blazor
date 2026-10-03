@@ -37,6 +37,21 @@ function menuTrigger(anchor) {
     return anchor.matches('[aria-haspopup]') ? anchor : anchor.querySelector('[aria-haspopup]') ?? anchor;
 }
 
+// Scrolls a menu taller than the window (it scrolls inside itself) so the focused row is seen.
+function revealItem(surface, item) {
+    if (!item || surface.scrollHeight <= surface.clientHeight) {
+        return;
+    }
+
+    const box = surface.getBoundingClientRect();
+    const row = item.getBoundingClientRect();
+    if (row.top < box.top) {
+        surface.scrollTop -= box.top - row.top;
+    } else if (row.bottom > box.bottom) {
+        surface.scrollTop += row.bottom - box.bottom;
+    }
+}
+
 function placeMenu(surface, anchor, placement, x, y) {
     const margin = viewportMargin;
     const gap = 4;
@@ -127,7 +142,9 @@ function showMenu(key, options) {
 
     placeMenu(menuSurface(menu), options.anchor, options.placement, options.x, options.y);
     const items = menuItems(menu);
-    ((options.focusLast ? items.at(-1) : items[0]) ?? menu).focus({ preventScroll: true });
+    const first = options.focusLast ? items.at(-1) : items[0];
+    (first ?? menu).focus({ preventScroll: true });
+    revealItem(menuSurface(menu), first);
 }
 
 export function openMenu(menuId, key, anchor, placement, x, y, focusLast, closeOnOutsideClick, dotnet) {
@@ -187,5 +204,6 @@ export function moveMenuFocus(menuOrId, key) {
     if (key === 'ArrowUp') next = (current - 1 + items.length) % items.length;
     if (key === 'Home') next = 0;
     if (key === 'End') next = items.length - 1;
-    items[next].focus();
+    items[next].focus({ preventScroll: true });
+    revealItem(menuSurface(menu), items[next]);
 }

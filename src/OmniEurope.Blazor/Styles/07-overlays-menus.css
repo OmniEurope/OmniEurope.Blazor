@@ -235,6 +235,10 @@ body:has(.omni-overlay) { overflow: hidden; }
    rules that size the buttons of a grid row do not reach them. */
 .omni-menu { backdrop-filter: var(--omni-overlay-filter, none); background: var(--omni-overlay-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-overlay-shadow, var(--omni-shadow-md)); display: grid; gap: 1px; inset: auto; left: var(--omni-menu-x, var(--omni-space-md)); min-width: 11rem; padding: calc(var(--omni-pop-pad) - 2px); position: fixed; top: var(--omni-menu-y, var(--omni-space-md)); z-index: var(--omni-z-portal); }
 .omni-menu:not([data-omni-placed]) { visibility: hidden; }
+/* Never taller than the window, less its margin (8px each side, the margin omni-focus.js keeps): a long
+   menu scrolls inside itself, without scrolling the page behind it, and the focus script keeps the
+   focused row in view. Its top is placed inside the window. */
+.omni-menu { box-sizing: border-box; max-block-size: calc(100vh - 16px); max-block-size: calc(100dvh - 16px); overflow-y: auto; overscroll-behavior: contain; }
 .omni-menu:focus-visible,
 .omni-menu [role="menu"]:focus-visible { outline: none; }
 .omni-menu__item { align-items: center; background: transparent; border: 0; border-radius: var(--omni-radius-sm); box-sizing: border-box; color: var(--omni-color-text); cursor: pointer; display: flex; font: inherit; font-size: var(--omni-control-font); gap: var(--omni-space-sm); inline-size: 100%; padding: var(--omni-item-pad-y) 0.625rem; text-align: start; text-decoration: none; white-space: nowrap; }

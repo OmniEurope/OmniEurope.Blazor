@@ -33,6 +33,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Fixed
 
+- Menus (débordement « ⋮ », contextuel, bouton partagé, profil) : un menu n'est jamais plus haut que la fenêtre moins ses marges ; plus long, il défile en lui-même sans faire défiler la page, et les flèches, Début et Fin gardent la ligne focalisée en vue. Un menu de 25 commandes sortait d'une fenêtre de 720 px, ses dernières lignes hors d'atteinte (recette Astraia, suite de R-042).
 - `OmniPageHeader` : l'icône (`Icon`) se pose sur le milieu des capitales du titre, quelle que soit la police : sa boîte prend la police et la hauteur de ligne du titre, l'icône y est placée par `vertical-align: middle` puis décalée de `0.5ex - 0.5cap`, et un logo plus haut que la ligne ne la grandit plus. Mesuré à 0 px dans Firefox et 0,3 px dans Chromium (recette Atlas, point 95).
 - Trou noir : quitter le thème alors que son fond est immobile (`BackdropMotion` coupé ou mouvement réduit) arrête son canvas ; jusque-là, sans boucle d'animation pour le remarquer, le contexte WebGL et ses deux écouteurs (`resize`, `visibilitychange`) restaient jusqu'au rechargement. `OmniThemeScope` appelle `sweep` du module, qui arrête tout canvas sorti de la page.
 - `OmniAppearanceSettings` : la police ne se règle plus en ligne, seulement dans la fenêtre qu'ouvre « Modifier », dès que l'hôte lie `FontChanged` ; sans liaison, la ligne affichée ne changeait rien (recette Atlas, points 84 et 92).
