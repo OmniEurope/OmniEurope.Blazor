@@ -14,9 +14,9 @@ const rowsOf = items => new Set(items.map(item => Math.round(item.getBoundingCli
 // What decides how many rows the bar takes, besides its width (followed by the observer).
 function layoutOf(state) {
     const { toolbar } = state;
-    const style = getComputedStyle(toolbar);
+    const computed = getComputedStyle(toolbar);
     const commands = [...toolbar.querySelectorAll('[data-command]')].map(control => control.getAttribute('data-command')).join(',');
-    return [state.rows, toolbar.clientWidth, style.font, style.getPropertyValue('--omni-control-height'), toolbar.textContent.length, commands, state.more?.getAttribute('data-omni-fixed') ?? ''].join('|');
+    return [state.rows, toolbar.clientWidth, computed.font, computed.getPropertyValue('--omni-control-height'), toolbar.textContent.length, commands, state.more?.getAttribute('data-omni-fixed') ?? ''].join('|');
 }
 
 function fit(state) {
