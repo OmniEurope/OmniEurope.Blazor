@@ -157,6 +157,17 @@ public sealed class DialogIntentAndOverflowMenuTests : OmniBunitContext
     }
 
     [Fact]
+    public void EveryMenu_IsNeverTallerThanTheWindow_AndScrollsInsideItself()
+    {
+        // recette: 25 commands in the editor's "⋮" menu ran below a 720px window, out of reach.
+        var menu = ShippedLookTests.Rules().Last(rule => rule.Selector == ".omni-menu" && rule.Body.Contains("max-block-size", StringComparison.Ordinal)).Body;
+        // The dynamic window height, after a static fallback for browsers without dvh.
+        Assert.Contains("max-block-size: calc(100dvh - 16px)", menu, StringComparison.Ordinal);
+        Assert.Equal("auto", ShippedLookTests.Value(menu, "overflow-y"));
+        Assert.Equal("contain", ShippedLookTests.Value(menu, "overscroll-behavior"));
+    }
+
+    [Fact]
     public void OverflowMenu_Item_ClosesTheMenuWithTheFocusBackBeforeItsActionRuns()
     {
         var module = JSInterop.SetupModule(FocusModule);
