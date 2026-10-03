@@ -33,3 +33,7 @@ Délister n'est pas supprimer : un projet qui épingle `1.0.0` continue de la re
 ## Rupture assumée : `1.4.0`
 
 `1.4.0` change une valeur par défaut dans une version mineure : sans `ExportFileName` (désormais `string?`, null par défaut au lieu de `"export"`), le fichier exporté prend le nom du titre ou de la légende de la grille, horodaté à la minute. Les autres changements visibles de cette version (pastille seule pour `OmniDialog.Intent`, menu `Push` superposé sur téléphone, fenêtre d'apparence qui rétablit son réglage d'ouverture quand on la ferme par la croix ou Échap) sont marqués **Aspect** ou **Comportement** dans le journal. La rupture n'a été consignée qu'après la publication : les notes de la release GitHub `1.4.0` la rangent encore parmi les ajouts (« Added »), et le message du commit de publication (`1ed6c26`) dit « No breaking change ».
+
+## Rupture assumée : `1.5.0`
+
+`1.5.0` change une valeur par défaut dans une version mineure : le filtre d'en-tête d'`OmniDataGrid` (`ShowHeaderFilterMenu`) est actif par défaut et la rangée de filtres en ligne n'est plus rendue que sur demande (`ShowHeaderFilterMenu="false"`). Décision du propriétaire du 2026-10-03 : numéro `1.5.0` plutôt que `2.0.0`, pour le même motif qu'en `1.2.0` (le propriétaire est le seul consommateur du paquet). La rupture est listée sous « Breaking changes » dans `CHANGELOG.md`, avec sa migration ; les autres changements visibles (« modifié » d'`OmniTemplateForm` comparé aux valeurs, boutons d'export en `Secondary`) sont sous « Changed ».
