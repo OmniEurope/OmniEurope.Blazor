@@ -241,6 +241,8 @@ public partial class OmniHtmlEditor
     /// <summary>The proofreaders of the extensions as the surface script and the context menu use them.</summary>
     internal HtmlEditorProofreading Proofreading => _proofreading ??= new(this);
 
+    internal void CancelProofreadingSuggestions() => _proofreading?.Cancel();
+
     /// <summary>The source face, created on first use once the script runtime is injected.</summary>
     private HtmlEditorSourceFace SourceFace => _sourceFace ??= new(this, JSRuntime);
 

@@ -33,16 +33,18 @@ internal sealed class HtmlEditorProofreading(OmniHtmlEditor owner) : IDisposable
 
     /// <summary>
     /// Checks the blocks with every proofreader, as JSON rows <c>[proofreader, text, start, length, kind, message]</c>.
-    /// A proofreader that throws gives nothing; the others still answer.
+    /// A proofreader that throws gives nothing; the others still answer. Null when nothing was checked (the editor
+    /// locked, the source face, every proofreader failing): the script then keeps no answer and asks again later.
     /// </summary>
-    internal async Task<string> CheckAsync(string[] texts, string?[] languages)
+    internal async Task<string?> CheckAsync(string[] texts, string?[] languages)
     {
         var proofreaders = owner.ExtensionSet.Proofreaders;
         if (proofreaders.Count == 0 || texts.Length == 0 || owner.IsLocked || owner.CurrentMode != OmniHtmlEditorMode.Visual)
         {
-            return "[]";
+            return null;
         }
 
+        var answered = false;
         var blocks = texts.Select((text, index) => new OmniHtmlEditorProofreadingText(text ?? string.Empty, index < languages.Length ? languages[index] : null)).ToList();
         using var buffer = new MemoryStream();
         using (var writer = new Utf8JsonWriter(buffer))
@@ -60,6 +62,7 @@ internal sealed class HtmlEditorProofreading(OmniHtmlEditor owner) : IDisposable
                     continue;
                 }
 
+                answered = true;
                 foreach (var issue in issues.Where(issue => issue.TextIndex >= 0 && issue.TextIndex < blocks.Count && issue.Length > 0))
                 {
                     writer.WriteStartArray();
@@ -84,7 +87,7 @@ internal sealed class HtmlEditorProofreading(OmniHtmlEditor owner) : IDisposable
             writer.WriteEndArray();
         }
 
-        return Encoding.UTF8.GetString(buffer.ToArray());
+        return answered ? Encoding.UTF8.GetString(buffer.ToArray()) : null;
     }
 
     /// <summary>
@@ -184,7 +187,7 @@ internal sealed class HtmlEditorProofreading(OmniHtmlEditor owner) : IDisposable
     {
         _life.Cancel();
         _life.Dispose();
-        _menu?.Dispose();
+        Cancel();
     }
 }
 
@@ -209,13 +212,14 @@ internal sealed record ProofreadingMenuIssue(int Proofreader, string Text, strin
             var start = root.GetProperty("s").GetInt32();
             var length = root.GetProperty("l").GetInt32();
             var kind = root.GetProperty("k").GetInt32();
-            if (start < 0 || length <= 0 || start + length > text.Length || !Enum.IsDefined(typeof(OmniHtmlEditorProofreadingKind), kind))
+            var proofreader = root.GetProperty("p").GetInt32();
+            if (proofreader < 0 || start < 0 || length <= 0 || start > text.Length || length > text.Length - start || !Enum.IsDefined(typeof(OmniHtmlEditorProofreadingKind), kind))
             {
                 return null;
             }
 
             return new(
-                root.GetProperty("p").GetInt32(),
+                proofreader,
                 text,
                 root.TryGetProperty("lang", out var language) && language.ValueKind == JsonValueKind.String ? language.GetString() : null,
                 start,

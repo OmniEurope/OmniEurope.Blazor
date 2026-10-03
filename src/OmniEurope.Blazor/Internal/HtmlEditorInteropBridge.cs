@@ -53,7 +53,10 @@ internal sealed class HtmlEditorInteropBridge(OmniHtmlEditor owner)
     [JSInvokable]
     public Task<string?> OnSuggestionRequested(string textBeforeCaret) => owner.SuggestAsync(textBeforeCaret);
 
-    /// <summary>Typing paused: the blocks of the surface whose text changed, with their languages, checked by the proofreaders.</summary>
+    /// <summary>
+    /// Typing paused: the blocks of the surface whose text changed, with their languages, checked by the proofreaders;
+    /// null when nothing was checked.
+    /// </summary>
     [JSInvokable]
-    public Task<string> OnProofreadRequested(string[] texts, string?[] languages) => owner.Proofreading.CheckAsync(texts, languages);
+    public Task<string?> OnProofreadRequested(string[] texts, string?[] languages) => owner.Proofreading.CheckAsync(texts, languages);
 }

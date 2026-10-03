@@ -136,7 +136,8 @@ teinté, décoratif). Avec `OnClick`, la tuile entière devient un bouton, nomm�
 
 L'accueil d'une administration ou d'un regroupement de rubriques : `Icon` sur un carré teinté du ton
 `Tone` (`Accent` par défaut), `Title` (obligatoire) et `Description` (ligne atténuée facultative), la
-tuile entière étant un vrai lien vers `Href` (clic du milieu, adresse visible au survol). Au survol,
+tuile entière étant un vrai lien vers `Href` (clic du milieu, adresse visible au survol ; adresse vérifiée
+par la politique d'URI du paquet comme celle d'`OmniLink`, un schéma dangereux tel que `javascript:` lève). Au survol,
 seule l'ombre change, la tuile ne bouge pas. Elle prend la hauteur de sa colonne : posées dans un
 `OmniRow` d'`OmniColumn`, les tuiles d'une ligne s'alignent quelles que soient leurs descriptions.
 

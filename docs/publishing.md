@@ -20,7 +20,7 @@ Conséquence : un paquet ne peut être publié que s'il provient d'un run CI ré
 
 ## Étapes
 
-1. **Publier `main`.** Le push de `main` est une action humaine, jamais déléguée à un agent.
+1. **Publier `main`.** Le push de `main` n'a lieu qu'à la demande explicite du propriétaire, dans le message courant ; un agent le fait alors avec le marqueur d'intention que reconnaît la garde `guard-git-push.js` (voir `AGENTS.md`).
 
    ```bash
    git push origin main

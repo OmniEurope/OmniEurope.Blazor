@@ -261,13 +261,16 @@ extension n'en fournit.
   proche qui en a un, dans la surface ou autour de l'éditeur, puis celle de la page.
 - `CheckAsync(textes, jeton)` est appelé au montage, puis quand la frappe marque une pause (700 ms), pour les seuls
   blocs dont le texte a changé ; il rend des `OmniHtmlEditorProofreadingIssue` (indice du texte, début, longueur,
-  `Kind`, `Message`). Une exception du relecteur écarte sa réponse sans toucher au document.
+  `Kind`, `Message`). Une exception du relecteur écarte sa réponse sans toucher au document. Quand rien n'a été
+  relu (éditeur verrouillé par `ReadOnly` ou `Disabled`, face source, tous les relecteurs en échec), aucun bloc
+  n'est tenu pour juste : ils sont redemandés à la relecture suivante.
 - Les passages sont soulignés par des surligneurs nommés de la CSS Custom Highlight API (`omni-proofreading-spelling`
   en couleur de danger, `omni-proofreading-grammar` en couleur d'information) : le document n'est jamais modifié et
   la valeur reste celle de l'utilisateur. Un navigateur sans cette API ne souligne rien.
 - Un clic droit (ou la touche menu) sur un passage souligné ouvre le menu de l'éditeur, même sans `ContextMenu` :
   le `Message` du passage, puis les corrections de `SuggestAsync` (cinq au plus, demandées à l'ouverture, ce qui
-  laisse les suggestions coûteuses hors de la frappe), « Ignorer » (ce passage, tant que son bloc garde son texte),
+  laisse les suggestions coûteuses hors de la frappe ; fermer le menu ou retirer l'éditeur annule le jeton d'une
+  demande encore en cours), « Ignorer » (ce passage, tant que son bloc garde son texte),
   « Tout ignorer » (`CanIgnoreAll`, `IgnoreAllAsync`) et « Ajouter au dictionnaire » (`CanAddToDictionary`,
   `AddToDictionaryAsync`), suivis des commandes des extensions. Une correction remplace le passage comme une frappe :
   une étape d'historique et `ValueChanged`. Après « Tout ignorer » ou un ajout au dictionnaire, tout est relu.

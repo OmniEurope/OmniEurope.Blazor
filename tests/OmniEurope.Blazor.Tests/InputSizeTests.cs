@@ -21,6 +21,7 @@ public sealed class InputSizeTests : OmniBunitContext
         var text = "";
         DateOnly? day = null;
         TimeOnly? time = null;
+        DateTime? moment = null;
         var fields = new[]
         {
             Render<OmniDropDown<int>>(parameters => parameters.Add(c => c.Options, Options).Add(c => c.Value, value).Add(c => c.ValueExpression, () => value).Add(c => c.Size, size)).Find("select"),
@@ -28,7 +29,10 @@ public sealed class InputSizeTests : OmniBunitContext
             Render<OmniPassword>(parameters => parameters.Add(c => c.Value, text).Add(c => c.ValueExpression, () => text).Add(c => c.Size, size)).Find("input"),
             Render<OmniNumeric<int>>(parameters => parameters.Add(c => c.Value, value).Add(c => c.ValueExpression, () => value).Add(c => c.Size, size)).Find("input"),
             Render<OmniDatePicker>(parameters => parameters.Add(c => c.Value, day).Add(c => c.ValueExpression, () => day).Add(c => c.Size, size)).Find("input"),
-            Render<OmniTimePicker>(parameters => parameters.Add(c => c.Value, time).Add(c => c.ValueExpression, () => time).Add(c => c.Size, size)).Find("input")
+            Render<OmniTimePicker>(parameters => parameters.Add(c => c.Value, time).Add(c => c.ValueExpression, () => time).Add(c => c.Size, size)).Find("input"),
+            Render<OmniDateTimePicker>(parameters => parameters.Add(c => c.Value, moment).Add(c => c.ValueExpression, () => moment).Add(c => c.Size, size)).Find("input"),
+            Render<OmniAutocomplete<string>>(parameters => parameters.Add(c => c.Value, text).Add(c => c.ValueExpression, () => text).Add(c => c.Size, size)
+                .Add(c => c.Search, (_, _) => Task.FromResult<IReadOnlyList<OmniOption<string>>>([]))).Find("input")
         };
 
         Assert.All(fields, field => Assert.Contains(sizeClass, field.ClassList));
