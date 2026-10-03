@@ -158,6 +158,11 @@
   <data name="HtmlEditorLabel" xml:space="preserve"><value>Urejevalnik HTML</value></data>
   <data name="HtmlEditorToolbar" xml:space="preserve"><value>Orodja za oblikovanje</value></data>
   <data name="HtmlEditorContextMenu" xml:space="preserve"><value>Dejanja urejevalnika</value></data>
+  <data name="HtmlEditorProofreadingLoading" xml:space="preserve"><value>Iskanje popravkov…</value></data>
+  <data name="HtmlEditorProofreadingNoSuggestion" xml:space="preserve"><value>Ni predlogov</value></data>
+  <data name="HtmlEditorProofreadingIgnore" xml:space="preserve"><value>Prezri</value></data>
+  <data name="HtmlEditorProofreadingIgnoreAll" xml:space="preserve"><value>Prezri vse</value></data>
+  <data name="HtmlEditorProofreadingAddToDictionary" xml:space="preserve"><value>Dodaj v slovar</value></data>
   <data name="HtmlEditorChangeCase" xml:space="preserve"><value>Velike in male črke</value></data>
   <data name="HtmlEditorCaseUpper" xml:space="preserve"><value>VELIKE ČRKE</value></data>
   <data name="HtmlEditorCaseLower" xml:space="preserve"><value>male črke</value></data>

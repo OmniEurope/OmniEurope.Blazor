@@ -1312,6 +1312,10 @@
   <data name="DemoEditorOpinionNote" xml:space="preserve"><value>kontrolli tähtaega</value></data>
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>tingimusel</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value>, et seda kontrollitakse</value></data>
+  <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Kontroll joonib alla kahtlase õigekirri ja korduva korduva sõna.</value></data>
+  <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>õigekirri</value></data>
+  <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>õigekiri</value></data>
+  <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Korduv sõna</value></data>
   <data name="DemoEditorReportParagraph" xml:space="preserve"><value>See lõik on {0}.</value></data>
   <data name="DemoEditorReportImportant" xml:space="preserve"><value>oluline</value></data>
   <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>Esimene punkt</value></data>

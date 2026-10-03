@@ -158,6 +158,11 @@
   <data name="HtmlEditorLabel" xml:space="preserve"><value>HTML-redigerare</value></data>
   <data name="HtmlEditorToolbar" xml:space="preserve"><value>Formateringsverktyg</value></data>
   <data name="HtmlEditorContextMenu" xml:space="preserve"><value>Redigerarens åtgärder</value></data>
+  <data name="HtmlEditorProofreadingLoading" xml:space="preserve"><value>Söker efter rättelser…</value></data>
+  <data name="HtmlEditorProofreadingNoSuggestion" xml:space="preserve"><value>Inga förslag</value></data>
+  <data name="HtmlEditorProofreadingIgnore" xml:space="preserve"><value>Ignorera</value></data>
+  <data name="HtmlEditorProofreadingIgnoreAll" xml:space="preserve"><value>Ignorera alla</value></data>
+  <data name="HtmlEditorProofreadingAddToDictionary" xml:space="preserve"><value>Lägg till i ordlistan</value></data>
   <data name="HtmlEditorChangeCase" xml:space="preserve"><value>Skiftläge</value></data>
   <data name="HtmlEditorCaseUpper" xml:space="preserve"><value>VERSALER</value></data>
   <data name="HtmlEditorCaseLower" xml:space="preserve"><value>gemener</value></data>

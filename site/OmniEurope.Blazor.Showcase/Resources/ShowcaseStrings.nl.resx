@@ -1312,6 +1312,10 @@
   <data name="DemoEditorOpinionNote" xml:space="preserve"><value>termijn controleren</value></data>
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>onder voorbehoud</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> van controle</value></data>
+  <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>De controle onderstreept een twijfelachtige spellig en een herhaald herhaald woord.</value></data>
+  <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>spellig</value></data>
+  <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>spelling</value></data>
+  <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Herhaald woord</value></data>
   <data name="DemoEditorReportParagraph" xml:space="preserve"><value>Een {0} alinea.</value></data>
   <data name="DemoEditorReportImportant" xml:space="preserve"><value>belangrijke</value></data>
   <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>Eerste punt</value></data>

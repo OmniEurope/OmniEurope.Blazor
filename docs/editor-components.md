@@ -247,6 +247,30 @@ Les extensions sont comparées par instance : un parent peut repasser une nouvel
 | `TableReaders` | `new OmniHtmlEditorTableReader([".xlsx"], (nom, flux) => ...)` : lignes de cellules pour un format que `ImportTable` ne lit pas lui-même (une feuille lue par un serveur). |
 | `TracksSelection`, `OnSelectionChangedAsync` | Reçoit la position du curseur, comme `SelectionChanged`. |
 | `SuggestsText`, `SuggestAsync(texteAvant)` | Propose la suite après le curseur quand la frappe marque une pause (au moins cinq caractères avant lui dans son texte) : affichée en grisé, Tab la tape, Échap ou toute autre touche l'écarte ; elle n'entre jamais dans la valeur. La première extension qui propose l'emporte. |
+| `Proofreader` | Relecteur d'orthographe ou de grammaire de l'hôte (`OmniHtmlEditorProofreader`), voir [Relecture](#relecture). |
+
+#### Relecture
+
+L'éditeur ne contient ni moteur ni dictionnaire : un `OmniHtmlEditorProofreader` de l'hôte (correcteur Hunspell,
+liste de mots, vérification grammaticale) relit le texte de la face visuelle. Rien ne change tant qu'aucune
+extension n'en fournit.
+
+- Le texte part bloc par bloc (paragraphe, titre, élément de liste, cellule, citation), le balisage en ligne
+  traversé (un mot en gras reste dans sa phrase), les éléments non éditables (`contenteditable="false"`) et le
+  texte proposé après le curseur exclus. Chaque bloc porte sa langue : l'attribut `lang` de l'élément le plus
+  proche qui en a un, dans la surface ou autour de l'éditeur, puis celle de la page.
+- `CheckAsync(textes, jeton)` est appelé au montage, puis quand la frappe marque une pause (700 ms), pour les seuls
+  blocs dont le texte a changé ; il rend des `OmniHtmlEditorProofreadingIssue` (indice du texte, début, longueur,
+  `Kind`, `Message`). Une exception du relecteur écarte sa réponse sans toucher au document.
+- Les passages sont soulignés par des surligneurs nommés de la CSS Custom Highlight API (`omni-proofreading-spelling`
+  en couleur de danger, `omni-proofreading-grammar` en couleur d'information) : le document n'est jamais modifié et
+  la valeur reste celle de l'utilisateur. Un navigateur sans cette API ne souligne rien.
+- Un clic droit (ou la touche menu) sur un passage souligné ouvre le menu de l'éditeur, même sans `ContextMenu` :
+  le `Message` du passage, puis les corrections de `SuggestAsync` (cinq au plus, demandées à l'ouverture, ce qui
+  laisse les suggestions coûteuses hors de la frappe), « Ignorer » (ce passage, tant que son bloc garde son texte),
+  « Tout ignorer » (`CanIgnoreAll`, `IgnoreAllAsync`) et « Ajouter au dictionnaire » (`CanAddToDictionary`,
+  `AddToDictionaryAsync`), suivis des commandes des extensions. Une correction remplace le passage comme une frappe :
+  une étape d'historique et `ValueChanged`. Après « Tout ignorer » ou un ajout au dictionnaire, tout est relu.
 
 Le contexte d'une commande (`OmniHtmlEditorCommandContext`) offre aussi, en face visuelle :
 `ReplaceClosestAsync(selecteur, html)` (remplace l'élément le plus proche autour de la sélection, par

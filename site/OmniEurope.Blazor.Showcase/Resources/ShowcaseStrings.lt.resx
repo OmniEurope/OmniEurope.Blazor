@@ -1312,6 +1312,10 @@
   <data name="DemoEditorOpinionNote" xml:space="preserve"><value>patikrinti terminą</value></data>
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>su sąlyga</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value>, kad bus patikrinta</value></data>
+  <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Tikrintuvas pabraukia abejotiną rašiba ir pakartotą pakartotą žodį.</value></data>
+  <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>rašiba</value></data>
+  <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>rašyba</value></data>
+  <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Pakartotas žodis</value></data>
   <data name="DemoEditorReportParagraph" xml:space="preserve"><value>Tai {0} pastraipa.</value></data>
   <data name="DemoEditorReportImportant" xml:space="preserve"><value>svarbi</value></data>
   <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>Pirmas punktas</value></data>

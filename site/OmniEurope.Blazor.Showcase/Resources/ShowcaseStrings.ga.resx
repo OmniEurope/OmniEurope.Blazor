@@ -1312,6 +1312,10 @@
   <data name="DemoEditorOpinionNote" xml:space="preserve"><value>seiceáil an spriocdháta</value></data>
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>faoi réir</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> fíoraithe</value></data>
+  <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Cuireann an seiceálaí líne faoi litrú amhrasach agus faoi fhocal fhocal athráite.</value></data>
+  <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>litrú</value></data>
+  <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>litriú</value></data>
+  <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Focal athráite</value></data>
   <data name="DemoEditorReportParagraph" xml:space="preserve"><value>Alt {0}.</value></data>
   <data name="DemoEditorReportImportant" xml:space="preserve"><value>tábhachtach</value></data>
   <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>An chéad phointe</value></data>

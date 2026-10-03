@@ -13,13 +13,15 @@
 // This entry module, the one the component imports (OmniModules.HtmlEditor), keeps the lifecycle,
 // the events, the selection reports and every export .NET calls. The document model and its
 // normalisation live in ./html-editor/model.js, the formatting commands in commands.js, the table
-// editing in tables.js and the text an extension proposes after the caret in suggestions.js.
+// editing in tables.js, the text an extension proposes after the caret in suggestions.js and the
+// passages a proofreader flags in proofreading.js.
 import {
     editors, allowedClasses, normalise, elementOf, caretFromPoint, caretOffset, placeCaret, joinInstead, insertBlocks
 } from './html-editor/model.js';
 import { describe, apply, readClipboard } from './html-editor/commands.js';
 import { moveBetweenCells } from './html-editor/tables.js';
 import { requestSuggestion, clearSuggestion, acceptSuggestion } from './html-editor/suggestions.js';
+import { requestProofreading, proofreadAgain, clearProofreading, issueAt, replaceIssue, ignoreIssue } from './html-editor/proofreading.js';
 // The toolbar held to a number of rows, and the package tooltips of its controls.
 export { fitToolbar, unfit as unfitToolbar } from './html-editor/toolbar.js';
 export { installPackageTooltips, uninstallPackageTooltips } from './omni-tooltip.js';
@@ -35,7 +37,8 @@ export function mount(surface, dotnet, html, options) {
     const state = {
         surface, dotnet, timer: 0, range: null, key: '', sent: null, listeners: [], classes: allowedClasses, policy: false,
         selection: false, selectionTimer: 0, selectionKey: '', shortcuts: new Map(), inline: [], menu: false, activated: null,
-        suggest: false, suggestion: null, suggestTimer: 0, suggestTicket: 0
+        suggest: false, suggestion: null, suggestTimer: 0, suggestTicket: 0,
+        proofread: false, proofreadTimer: 0, proofreadTicket: 0, proofreadCache: new Map(), proofreadIgnored: new Set(), proofreadIssues: [], menuIssue: null
     };
     editors.set(surface, state);
     configure(surface, options);
@@ -46,6 +49,7 @@ export function mount(surface, dotnet, html, options) {
     listen(state, surface, 'input', () => {
         schedule(state);
         requestSuggestion(state);
+        requestProofreading(state);
     });
     listen(state, surface, 'mousedown', () => clearSuggestion(state));
     listen(state, surface, 'paste', event => paste(state, event));
@@ -56,6 +60,7 @@ export function mount(surface, dotnet, html, options) {
     listen(state, document, 'selectionchange', () => selectionChanged(state));
     listen(state, surface, 'click', event => activate(state, event));
     listen(state, surface, 'contextmenu', event => contextMenu(state, event));
+    requestProofreading(state, true);
 }
 
 export function configure(surface, options) {
@@ -79,6 +84,17 @@ export function configure(surface, options) {
         state.inline = Array.isArray(options?.inline) ? options.inline : [];
         state.menu = options?.menu === true;
         state.suggest = options?.suggest === true;
+        // Whether an extension brings a proofreader: its passages are underlined, or the underlining goes.
+        const proofread = options?.proofread === true;
+        if (state.proofread !== proofread) {
+            state.proofread = proofread;
+            if (proofread) {
+                requestProofreading(state, true);
+            }
+            else {
+                clearProofreading(state);
+            }
+        }
     }
 }
 
@@ -121,6 +137,7 @@ export function setHtml(surface, html) {
     }
 
     report(state, true);
+    requestProofreading(state, true);
 }
 
 export async function exec(surface, action, argument) {
@@ -205,6 +222,33 @@ export function replaceActivated(surface, html) {
     surface.focus({ preventScroll: true });
     replaceNode(target, html);
     return settle(state);
+}
+
+// A correction of a proofreader replaces the passage the menu was opened on, reported as typing is.
+export function proofreadReplace(surface, text) {
+    const state = editors.get(surface);
+    if (state && replaceIssue(state, text ?? '')) {
+        surface.focus({ preventScroll: true });
+        schedule(state);
+        requestProofreading(state, true);
+    }
+}
+
+// "Ignore": the passage the menu was opened on is no longer underlined while its block keeps its text.
+export function proofreadIgnore(surface) {
+    const state = editors.get(surface);
+    if (state) {
+        ignoreIssue(state);
+    }
+}
+
+// The proofreaders' word lists changed ("Ignore all", "Add to dictionary"): every block is checked again.
+export function proofreadRecheck(surface) {
+    const state = editors.get(surface);
+    if (state) {
+        state.menuIssue = null;
+        proofreadAgain(state);
+    }
 }
 
 // Puts back the selection the context menu opened on: closing the menu returns the focus to the
@@ -327,7 +371,9 @@ function activate(state, event) {
 // The extensions' menu replaces the browser's. From the keyboard (the context-menu key, Shift+F10)
 // the event has no pointer position, so the menu opens at the caret.
 function contextMenu(state, event) {
-    if (!state.menu) {
+    // A flagged passage under the pointer opens the menu of its corrections, even without extension commands.
+    const issue = issueAt(state, event);
+    if (!state.menu && !issue) {
         return;
     }
 
@@ -356,7 +402,7 @@ function contextMenu(state, event) {
 
     // The selection goes with the request, so the entries are enabled for where the menu opens
     // rather than for where the caret was a moment ago.
-    state.dotnet.invokeMethodAsync('OnContextMenu', x, y, describeSelection(state.surface));
+    state.dotnet.invokeMethodAsync('OnContextMenu', x, y, describeSelection(state.surface), issue ? JSON.stringify(issue) : null);
 }
 
 // The innermost element from the target up that matches the selector of an inline element.
@@ -430,6 +476,7 @@ export function dispose(surface) {
     window.clearTimeout(state.selectionTimer);
     window.clearTimeout(state.suggestTimer);
     clearSuggestion(state);
+    clearProofreading(state);
     for (const [target, type, handler] of state.listeners) {
         target.removeEventListener(type, handler);
     }

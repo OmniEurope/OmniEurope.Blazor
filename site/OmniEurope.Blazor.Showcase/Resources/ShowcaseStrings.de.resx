@@ -1312,6 +1312,10 @@
   <data name="DemoEditorOpinionNote" xml:space="preserve"><value>Frist prüfen</value></data>
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>unter Vorbehalt</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> der Prüfung</value></data>
+  <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Die Prüfung unterstreicht eine fragliche Rechtschreibng und ein doppeltes doppeltes Wort.</value></data>
+  <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>Rechtschreibng</value></data>
+  <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>Rechtschreibung</value></data>
+  <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Doppeltes Wort</value></data>
   <data name="DemoEditorReportParagraph" xml:space="preserve"><value>Ein {0} Absatz.</value></data>
   <data name="DemoEditorReportImportant" xml:space="preserve"><value>wichtiger</value></data>
   <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>Erster Punkt</value></data>

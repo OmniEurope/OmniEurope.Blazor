@@ -39,3 +39,4 @@ lot 2) ; leurs anciens numéros locaux étaient respectivement 004, 007 et 008.
 | [PLAN-008](archive/PLAN-008-reliquats-1-2-0.md) | Reliquats de la 1.2.0 : contrats, fichiers privés, comportements différés, fichiers sous 600 lignes effectives | Terminé le 2026-09-29, 5 lots sur 5, CI verte à `35969ce` |
 | [PLAN-010](archive/PLAN-010-poids-et-langues-longues.md) | Poids de l'assembly et langues longues | Terminé le 2026-10-01, lots 1 à 4 et 6 faits, lot 5 abandonné au profit de la sonde `Languages` |
 | [PLAN-011](archive/PLAN-011-demandes-astraia.md) | Neuf demandes OE de la recette Astraia du 2026-10-02 | Terminé le 2026-10-03, 3 lots sur 3, chaque point testé et vérifié en navigateur |
+| [PLAN-012](archive/PLAN-012-relecture-editeur-html.md) | Relecture branchable dans `OmniHtmlEditor` (orthographe, grammaire) | Terminé le 2026-10-03, 3 lots sur 3, suite à 4101 tests verte |

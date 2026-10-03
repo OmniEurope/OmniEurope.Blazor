@@ -158,6 +158,11 @@
   <data name="HtmlEditorLabel" xml:space="preserve"><value>HTML-editori</value></data>
   <data name="HtmlEditorToolbar" xml:space="preserve"><value>Muotoilutyökalut</value></data>
   <data name="HtmlEditorContextMenu" xml:space="preserve"><value>Editorin toiminnot</value></data>
+  <data name="HtmlEditorProofreadingLoading" xml:space="preserve"><value>Haetaan korjauksia…</value></data>
+  <data name="HtmlEditorProofreadingNoSuggestion" xml:space="preserve"><value>Ei ehdotuksia</value></data>
+  <data name="HtmlEditorProofreadingIgnore" xml:space="preserve"><value>Ohita</value></data>
+  <data name="HtmlEditorProofreadingIgnoreAll" xml:space="preserve"><value>Ohita kaikki</value></data>
+  <data name="HtmlEditorProofreadingAddToDictionary" xml:space="preserve"><value>Lisää sanastoon</value></data>
   <data name="HtmlEditorChangeCase" xml:space="preserve"><value>Kirjainkoko</value></data>
   <data name="HtmlEditorCaseUpper" xml:space="preserve"><value>ISOT KIRJAIMET</value></data>
   <data name="HtmlEditorCaseLower" xml:space="preserve"><value>pienet kirjaimet</value></data>

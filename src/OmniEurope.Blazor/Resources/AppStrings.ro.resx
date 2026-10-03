@@ -158,6 +158,11 @@
   <data name="HtmlEditorLabel" xml:space="preserve"><value>Editor HTML</value></data>
   <data name="HtmlEditorToolbar" xml:space="preserve"><value>Instrumente de formatare</value></data>
   <data name="HtmlEditorContextMenu" xml:space="preserve"><value>Acțiuni editor</value></data>
+  <data name="HtmlEditorProofreadingLoading" xml:space="preserve"><value>Se caută corecturi…</value></data>
+  <data name="HtmlEditorProofreadingNoSuggestion" xml:space="preserve"><value>Nicio sugestie</value></data>
+  <data name="HtmlEditorProofreadingIgnore" xml:space="preserve"><value>Ignoră</value></data>
+  <data name="HtmlEditorProofreadingIgnoreAll" xml:space="preserve"><value>Ignoră tot</value></data>
+  <data name="HtmlEditorProofreadingAddToDictionary" xml:space="preserve"><value>Adaugă în dicționar</value></data>
   <data name="HtmlEditorChangeCase" xml:space="preserve"><value>Majuscule/minuscule</value></data>
   <data name="HtmlEditorCaseUpper" xml:space="preserve"><value>MAJUSCULE</value></data>
   <data name="HtmlEditorCaseLower" xml:space="preserve"><value>minuscule</value></data>

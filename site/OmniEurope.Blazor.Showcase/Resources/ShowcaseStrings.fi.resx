@@ -1312,6 +1312,10 @@
   <data name="DemoEditorOpinionNote" xml:space="preserve"><value>tarkista määräaika</value></data>
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>sillä varauksella</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value>, että asia tarkistetaan</value></data>
+  <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Tarkistus alleviivaa epäilyttävän oikeinkirjotuksen ja toistetun toistetun sanan.</value></data>
+  <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>oikeinkirjotuksen</value></data>
+  <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>oikeinkirjoituksen</value></data>
+  <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Toistettu sana</value></data>
   <data name="DemoEditorReportParagraph" xml:space="preserve"><value>Tämä kappale on {0}.</value></data>
   <data name="DemoEditorReportImportant" xml:space="preserve"><value>tärkeä</value></data>
   <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>Ensimmäinen kohta</value></data>

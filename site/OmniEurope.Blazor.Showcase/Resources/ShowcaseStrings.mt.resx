@@ -1312,6 +1312,10 @@
   <data name="DemoEditorOpinionNote" xml:space="preserve"><value>ivverifika l-iskadenza</value></data>
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>soġġett għal</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> verifika</value></data>
+  <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Il-kontroll jissottolinja ortografja dubjuża u kelma ripetuta ripetuta.</value></data>
+  <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>ortografja</value></data>
+  <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>ortografija</value></data>
+  <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Kelma ripetuta</value></data>
   <data name="DemoEditorReportParagraph" xml:space="preserve"><value>Paragrafu {0}.</value></data>
   <data name="DemoEditorReportImportant" xml:space="preserve"><value>importanti</value></data>
   <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>L-ewwel punt</value></data>

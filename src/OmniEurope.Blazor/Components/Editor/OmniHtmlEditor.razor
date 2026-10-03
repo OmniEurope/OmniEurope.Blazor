@@ -9,6 +9,48 @@
     @* The rows of the context menu: the menu around them is the package's one menu (ContextMenuList). *@
     RenderFragment contextMenuItems =
         @<text>
+            @* A passage a proofreader flagged: its explanation, its corrections, then what can be done with it. *@
+            @if (_proofreading?.Issue is { } issue && _proofreading.Proofreader is { } proofreader)
+            {
+                @if (!string.IsNullOrWhiteSpace(issue.Message))
+                {
+                    <OmniMenuItem Disabled="true" data-proofreading="message"><ChildContent>@issue.Message</ChildContent></OmniMenuItem>
+                }
+
+                @if (_proofreading.Loading)
+                {
+                    <OmniMenuItem Disabled="true" data-proofreading="loading"><ChildContent>@Localize("HtmlEditorProofreadingLoading")</ChildContent></OmniMenuItem>
+                }
+                else if (_proofreading.Suggestions.Count == 0)
+                {
+                    <OmniMenuItem Disabled="true" data-proofreading="none"><ChildContent>@Localize("HtmlEditorProofreadingNoSuggestion")</ChildContent></OmniMenuItem>
+                }
+                else
+                {
+                    @foreach (var suggestion in _proofreading.Suggestions)
+                    {
+                        <OmniMenuItem data-proofreading="suggestion" OnClick="() => ApplyCorrectionAsync(suggestion)"><ChildContent><strong>@suggestion</strong></ChildContent></OmniMenuItem>
+                    }
+                }
+
+                <span class="omni-html-editor__menu-separator" role="separator"></span>
+                <OmniMenuItem data-proofreading="ignore" OnClick="IgnoreIssueAsync"><ChildContent>@Localize("HtmlEditorProofreadingIgnore")</ChildContent></OmniMenuItem>
+                @if (proofreader.CanIgnoreAll)
+                {
+                    <OmniMenuItem data-proofreading="ignore-all" OnClick="() => RecordIssueAsync(false)"><ChildContent>@Localize("HtmlEditorProofreadingIgnoreAll")</ChildContent></OmniMenuItem>
+                }
+
+                @if (proofreader.CanAddToDictionary)
+                {
+                    <OmniMenuItem data-proofreading="add" OnClick="() => RecordIssueAsync(true)"><ChildContent>@Localize("HtmlEditorProofreadingAddToDictionary")</ChildContent></OmniMenuItem>
+                }
+
+                @if (_extensionSet.ContextMenu.Count > 0)
+                {
+                    <span class="omni-html-editor__menu-separator" role="separator"></span>
+                }
+            }
+
             @foreach (var command in _extensionSet.ContextMenu)
             {
                 if (command.Action == OmniHtmlEditorAction.Separator)
@@ -232,7 +274,10 @@
             }
             @if (_mode == OmniHtmlEditorMode.Visual)
             {
-                <div @attributes="AdditionalAttributes"
+                @* The browser's spell checker is on unless the host says otherwise (a host with its own proofreader turns it off):
+                   set before the host's attributes so that theirs wins. *@
+                <div spellcheck="true"
+                     @attributes="AdditionalAttributes"
                      @ref="_surface"
                      id="@SurfaceId"
                      class="omni-html-editor__surface omni-rich-text"
@@ -245,8 +290,7 @@
                      aria-readonly="@(ReadOnly && !Disabled ? "true" : null)"
                      aria-disabled="@(Disabled ? "true" : null)"
                      aria-invalid="@AriaInvalid"
-                     aria-describedby="@AriaDescribedBy"
-                     spellcheck="true"></div>
+                     aria-describedby="@AriaDescribedBy"></div>
                 @if (IsMenuOpen)
                 {
                     @ContextMenuList(contextMenuItems)

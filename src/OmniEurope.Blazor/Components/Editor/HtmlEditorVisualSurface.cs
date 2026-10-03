@@ -64,6 +64,11 @@ internal sealed class HtmlEditorVisualSurface(OmniHtmlEditor owner, IJSRuntime j
                 options["suggest"] = true;
             }
 
+            if (set.Proofreaders.Count > 0)
+            {
+                options["proofread"] = true;
+            }
+
             if (owner.TracksSelection)
             {
                 options["selection"] = true;
@@ -252,6 +257,33 @@ internal sealed class HtmlEditorVisualSurface(OmniHtmlEditor owner, IJSRuntime j
         string.IsNullOrEmpty(text) || !Visual
             ? Task.CompletedTask
             : ExecuteAsync("inserttext", text);
+
+    /// <summary>A correction replaces the flagged passage the context menu was opened on.</summary>
+    internal async Task ProofreadReplaceAsync(string text)
+    {
+        if (Editable)
+        {
+            await _module!.InvokeVoidAsync("proofreadReplace", owner.SurfaceElement, text);
+        }
+    }
+
+    /// <summary>The flagged passage the context menu was opened on is no longer underlined.</summary>
+    internal async Task ProofreadIgnoreAsync()
+    {
+        if (Ready)
+        {
+            await _module!.InvokeVoidAsync("proofreadIgnore", owner.SurfaceElement);
+        }
+    }
+
+    /// <summary>Every block is checked again (a proofreader's word lists changed).</summary>
+    internal async Task ProofreadRecheckAsync()
+    {
+        if (Ready)
+        {
+            await _module!.InvokeVoidAsync("proofreadRecheck", owner.SurfaceElement);
+        }
+    }
 
     /// <summary>Puts back the selection the context menu was opened on.</summary>
     internal async Task RestoreMenuSelectionAsync()

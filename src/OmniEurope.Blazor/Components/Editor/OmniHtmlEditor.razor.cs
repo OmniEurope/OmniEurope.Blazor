@@ -26,6 +26,7 @@ public partial class OmniHtmlEditor
     private ElementReference _surface;
     private ElementReference _linkInput;
     private HtmlEditorVisualSurface? _visual;
+    private HtmlEditorProofreading? _proofreading;
     private HtmlEditorSourceFace? _sourceFace;
     private HtmlEditorContextMenu? _menu;
     private OmniHtmlEditorMode _mode;
@@ -236,6 +237,9 @@ public partial class OmniHtmlEditor
 
     /// <summary>The visual face, created on first use once the script runtime is injected.</summary>
     private HtmlEditorVisualSurface Visual => _visual ??= new(this, JSRuntime);
+
+    /// <summary>The proofreaders of the extensions as the surface script and the context menu use them.</summary>
+    internal HtmlEditorProofreading Proofreading => _proofreading ??= new(this);
 
     /// <summary>The source face, created on first use once the script runtime is injected.</summary>
     private HtmlEditorSourceFace SourceFace => _sourceFace ??= new(this, JSRuntime);
@@ -698,11 +702,16 @@ public partial class OmniHtmlEditor
     /// <summary>The <c>role="menu"</c> list around the given rows, drawn by the shared engine.</summary>
     private RenderFragment<RenderFragment> ContextMenuList => Menu.List;
 
-    internal Task HandleContextMenuAsync(double x, double y, string? selection)
+    /// <summary>
+    /// Opens the context menu: on a passage a proofreader flagged, its corrections and actions come first and are asked
+    /// for once the menu shows; elsewhere, the extensions' entries alone, and no menu when they have none.
+    /// </summary>
+    internal async Task HandleContextMenuAsync(double x, double y, string? selection, string? issue = null)
     {
-        if (_extensionSet.ContextMenu.Count == 0 || _mode != OmniHtmlEditorMode.Visual)
+        var flagged = _mode == OmniHtmlEditorMode.Visual && Proofreading.Begin(issue);
+        if ((_extensionSet.ContextMenu.Count == 0 && !flagged) || _mode != OmniHtmlEditorMode.Visual)
         {
-            return Task.CompletedTask;
+            return;
         }
 
         if (selection is not null)
@@ -710,7 +719,32 @@ public partial class OmniHtmlEditor
             _caret = OmniHtmlEditorSelection.Parse(selection);
         }
 
-        return Menu.OpenAsync(x, y);
+        await Menu.OpenAsync(x, y);
+        if (flagged)
+        {
+            await Proofreading.LoadSuggestionsAsync();
+            // The corrections came after the menu was placed with one row: placed again, it stays in the window.
+            Menu.Replace();
+        }
+    }
+
+    // The entries of a flagged passage: the item has closed the menu and given the focus back to the surface.
+    private async Task ApplyCorrectionAsync(string text)
+    {
+        Proofreading.Forget();
+        await Visual.ProofreadReplaceAsync(text);
+    }
+
+    private async Task IgnoreIssueAsync()
+    {
+        Proofreading.Forget();
+        await Visual.ProofreadIgnoreAsync();
+    }
+
+    private async Task RecordIssueAsync(bool dictionary)
+    {
+        await Proofreading.RecordAsync(dictionary);
+        await Visual.ProofreadRecheckAsync();
     }
 
     /// <summary>Closes the context menu; the focus goes back to the surface with <paramref name="restoreFocus"/>.</summary>
@@ -847,6 +881,8 @@ public partial class OmniHtmlEditor
             // Detaches the script from a menu still open and releases its module; a lost circuit is ignored there.
             await _menu.DisposeAsync();
         }
+
+        _proofreading?.Dispose();
 
         if (_toolbarFit is not null)
         {

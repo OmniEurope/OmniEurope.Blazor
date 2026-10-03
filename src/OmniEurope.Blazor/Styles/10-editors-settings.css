@@ -33,6 +33,10 @@
 .omni-html-editor__link-error { color: var(--omni-color-danger); flex-basis: 100%; margin: 0; }
 /* The text an extension proposes after the caret: dimmed, not selectable, gone at the next key. */
 .omni-html-editor__suggestion { color: var(--omni-color-text-muted); opacity: 0.75; pointer-events: none; user-select: none; }
+/* What a proofreader of the host flags, underlined by named highlights: the document itself never changes. */
+::highlight(omni-proofreading-spelling) { text-decoration: underline wavy var(--omni-color-danger); text-decoration-skip-ink: none; text-underline-offset: 0.2em; }
+::highlight(omni-proofreading-grammar) { text-decoration: underline wavy var(--omni-color-info); text-decoration-skip-ink: none; text-underline-offset: 0.2em; }
+.omni-html-editor__menu-message { color: var(--omni-color-text-muted); font-size: var(--omni-control-font); margin: 0; max-inline-size: 22rem; padding: var(--omni-space-xs) var(--omni-space-sm); }
 /* The panels of the built-in special characters and table import sit where the link field does. */
 .omni-html-editor__panel { background: var(--omni-color-surface-muted); border-block-end: var(--omni-border-width) solid var(--omni-color-border); display: grid; gap: var(--omni-space-sm); padding: var(--omni-space-sm); }
 .omni-html-editor__panel-bar, .omni-html-editor__categories { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); }

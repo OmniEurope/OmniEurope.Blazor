@@ -1312,6 +1312,10 @@
   <data name="DemoEditorOpinionNote" xml:space="preserve"><value>να ελεγχθεί η προθεσμία</value></data>
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>υπό την επιφύλαξη</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> επαλήθευσης</value></data>
+  <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Ο έλεγχος υπογραμμίζει μια αμφίβολη ορθογραφεία και μια επαναλαμβανόμενη επαναλαμβανόμενη λέξη.</value></data>
+  <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>ορθογραφεία</value></data>
+  <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>ορθογραφία</value></data>
+  <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Επαναλαμβανόμενη λέξη</value></data>
   <data name="DemoEditorReportParagraph" xml:space="preserve"><value>Μια {0} παράγραφος.</value></data>
   <data name="DemoEditorReportImportant" xml:space="preserve"><value>σημαντική</value></data>
   <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>Πρώτο σημείο</value></data>

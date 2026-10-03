@@ -41,11 +41,19 @@ internal sealed class HtmlEditorInteropBridge(OmniHtmlEditor owner)
     public Task OnElementActivated(int index, string element, string text) =>
         owner.DispatchAsync(() => owner.HandleElementActivatedAsync(index, element, text));
 
-    /// <summary>A right-click or the context-menu key in the surface, at this point of the viewport, with the selection there.</summary>
+    /// <summary>
+    /// A right-click or the context-menu key in the surface, at this point of the viewport, with the selection there
+    /// and the passage a proofreader flagged under it, if any.
+    /// </summary>
     [JSInvokable]
-    public Task OnContextMenu(double x, double y, string? selection) => owner.DispatchAsync(() => owner.HandleContextMenuAsync(x, y, selection));
+    public Task OnContextMenu(double x, double y, string? selection, string? issue) =>
+        owner.DispatchAsync(() => owner.HandleContextMenuAsync(x, y, selection, issue));
 
     /// <summary>Typing paused: what an extension proposes after the caret, given the text before it, or null.</summary>
     [JSInvokable]
     public Task<string?> OnSuggestionRequested(string textBeforeCaret) => owner.SuggestAsync(textBeforeCaret);
+
+    /// <summary>Typing paused: the blocks of the surface whose text changed, with their languages, checked by the proofreaders.</summary>
+    [JSInvokable]
+    public Task<string> OnProofreadRequested(string[] texts, string?[] languages) => owner.Proofreading.CheckAsync(texts, languages);
 }

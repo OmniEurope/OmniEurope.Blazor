@@ -9,6 +9,8 @@ internal sealed class HtmlEditorContextMenu(OmniHtmlEditor owner, IJSRuntime jav
 {
     private OmniMenuController? _controller;
     private RenderFragment<RenderFragment>? _list;
+    private double _x;
+    private double _y;
 
     /// <summary>The identifier of the <c>role="menu"</c> element.</summary>
     internal string MenuId => owner.SurfaceId + "-menu";
@@ -35,8 +37,21 @@ internal sealed class HtmlEditorContextMenu(OmniHtmlEditor owner, IJSRuntime jav
     /// <summary>Opens the menu at this point of the viewport, its first item focused.</summary>
     internal Task OpenAsync(double x, double y)
     {
+        (_x, _y) = (x, y);
         Controller.RequestPlacement(focusLast: false, x, y);
         return Controller.SetOpenAsync(true, null, default, owner.Rerender);
+    }
+
+    /// <summary>
+    /// Places the open menu again at the point it opened at, once its rows changed (a proofreader's corrections came):
+    /// grown since, it would otherwise run past the window.
+    /// </summary>
+    internal void Replace()
+    {
+        if (IsOpen)
+        {
+            Controller.RequestPlacement(focusLast: false, _x, _y);
+        }
     }
 
     /// <summary>Closes the menu; the focus goes back to the surface with <paramref name="restoreFocus"/>.</summary>

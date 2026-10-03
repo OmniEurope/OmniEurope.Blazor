@@ -158,6 +158,11 @@
   <data name="HtmlEditorLabel" xml:space="preserve"><value>Πρόγραμμα επεξεργασίας HTML</value></data>
   <data name="HtmlEditorToolbar" xml:space="preserve"><value>Εργαλεία μορφοποίησης</value></data>
   <data name="HtmlEditorContextMenu" xml:space="preserve"><value>Ενέργειες προγράμματος επεξεργασίας</value></data>
+  <data name="HtmlEditorProofreadingLoading" xml:space="preserve"><value>Αναζήτηση διορθώσεων…</value></data>
+  <data name="HtmlEditorProofreadingNoSuggestion" xml:space="preserve"><value>Καμία πρόταση</value></data>
+  <data name="HtmlEditorProofreadingIgnore" xml:space="preserve"><value>Παράβλεψη</value></data>
+  <data name="HtmlEditorProofreadingIgnoreAll" xml:space="preserve"><value>Παράβλεψη όλων</value></data>
+  <data name="HtmlEditorProofreadingAddToDictionary" xml:space="preserve"><value>Προσθήκη στο λεξικό</value></data>
   <data name="HtmlEditorChangeCase" xml:space="preserve"><value>Πεζά-κεφαλαία</value></data>
   <data name="HtmlEditorCaseUpper" xml:space="preserve"><value>ΚΕΦΑΛΑΙΑ</value></data>
   <data name="HtmlEditorCaseLower" xml:space="preserve"><value>πεζά</value></data>

@@ -1312,6 +1312,10 @@
   <data name="DemoEditorOpinionNote" xml:space="preserve"><value>pārbaudīt termiņu</value></data>
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>ar nosacījumu</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value>, ka tiks pārbaudīts</value></data>
+  <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Pārbaude pasvītro apšaubāmu pareizrakstiba un atkārtotu atkārtotu vārdu.</value></data>
+  <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>pareizrakstiba</value></data>
+  <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>pareizrakstība</value></data>
+  <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Atkārtots vārds</value></data>
   <data name="DemoEditorReportParagraph" xml:space="preserve"><value>Šī ir {0} rindkopa.</value></data>
   <data name="DemoEditorReportImportant" xml:space="preserve"><value>svarīga</value></data>
   <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>Pirmais punkts</value></data>

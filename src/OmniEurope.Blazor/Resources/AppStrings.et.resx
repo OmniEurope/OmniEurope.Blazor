@@ -158,6 +158,11 @@
   <data name="HtmlEditorLabel" xml:space="preserve"><value>HTML-redaktor</value></data>
   <data name="HtmlEditorToolbar" xml:space="preserve"><value>Vormindustööriistad</value></data>
   <data name="HtmlEditorContextMenu" xml:space="preserve"><value>Redaktori toimingud</value></data>
+  <data name="HtmlEditorProofreadingLoading" xml:space="preserve"><value>Parandusi otsitakse…</value></data>
+  <data name="HtmlEditorProofreadingNoSuggestion" xml:space="preserve"><value>Soovitusi pole</value></data>
+  <data name="HtmlEditorProofreadingIgnore" xml:space="preserve"><value>Eira</value></data>
+  <data name="HtmlEditorProofreadingIgnoreAll" xml:space="preserve"><value>Eira kõiki</value></data>
+  <data name="HtmlEditorProofreadingAddToDictionary" xml:space="preserve"><value>Lisa sõnastikku</value></data>
   <data name="HtmlEditorChangeCase" xml:space="preserve"><value>Tähesuurus</value></data>
   <data name="HtmlEditorCaseUpper" xml:space="preserve"><value>SUURTÄHED</value></data>
   <data name="HtmlEditorCaseLower" xml:space="preserve"><value>väiketähed</value></data>

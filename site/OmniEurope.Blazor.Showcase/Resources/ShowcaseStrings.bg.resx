@@ -1312,6 +1312,10 @@
   <data name="DemoEditorOpinionNote" xml:space="preserve"><value>проверка на срока</value></data>
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>с резерва за</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> проверка</value></data>
+  <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Коректорът подчертава съмнителен правапис и повторена повторена дума.</value></data>
+  <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>правапис</value></data>
+  <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>правопис</value></data>
+  <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Повторена дума</value></data>
   <data name="DemoEditorReportParagraph" xml:space="preserve"><value>Един {0} абзац.</value></data>
   <data name="DemoEditorReportImportant" xml:space="preserve"><value>важен</value></data>
   <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>Първа точка</value></data>

@@ -158,6 +158,11 @@
   <data name="HtmlEditorLabel" xml:space="preserve"><value>Editor HTML</value></data>
   <data name="HtmlEditorToolbar" xml:space="preserve"><value>Nástroje formátovania</value></data>
   <data name="HtmlEditorContextMenu" xml:space="preserve"><value>Akcie editora</value></data>
+  <data name="HtmlEditorProofreadingLoading" xml:space="preserve"><value>Hľadajú sa opravy…</value></data>
+  <data name="HtmlEditorProofreadingNoSuggestion" xml:space="preserve"><value>Žiadne návrhy</value></data>
+  <data name="HtmlEditorProofreadingIgnore" xml:space="preserve"><value>Ignorovať</value></data>
+  <data name="HtmlEditorProofreadingIgnoreAll" xml:space="preserve"><value>Ignorovať všetko</value></data>
+  <data name="HtmlEditorProofreadingAddToDictionary" xml:space="preserve"><value>Pridať do slovníka</value></data>
   <data name="HtmlEditorChangeCase" xml:space="preserve"><value>Veľkosť písmen</value></data>
   <data name="HtmlEditorCaseUpper" xml:space="preserve"><value>VEĽKÉ PÍSMENÁ</value></data>
   <data name="HtmlEditorCaseLower" xml:space="preserve"><value>malé písmená</value></data>

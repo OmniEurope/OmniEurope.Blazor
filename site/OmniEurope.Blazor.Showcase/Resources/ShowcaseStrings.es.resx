@@ -1312,6 +1312,10 @@
   <data name="DemoEditorOpinionNote" xml:space="preserve"><value>comprobar el plazo</value></data>
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>a reserva</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> de verificación</value></data>
+  <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>El corrector subraya una hortografía dudosa y una palabra repetida repetida.</value></data>
+  <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>hortografía</value></data>
+  <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>ortografía</value></data>
+  <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Palabra repetida</value></data>
   <data name="DemoEditorReportParagraph" xml:space="preserve"><value>Un párrafo {0}.</value></data>
   <data name="DemoEditorReportImportant" xml:space="preserve"><value>importante</value></data>
   <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>Primer punto</value></data>

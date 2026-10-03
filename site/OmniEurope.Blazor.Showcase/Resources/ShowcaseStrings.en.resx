@@ -1315,6 +1315,10 @@
   <data name="DemoEditorOpinionNote" xml:space="preserve"><value>check the deadline</value></data>
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>subject to</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> verification</value></data>
+  <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>The checker underlines a doubtful speling and a repeated repeated word.</value></data>
+  <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>speling</value></data>
+  <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>spelling</value></data>
+  <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Repeated word</value></data>
   <data name="DemoEditorReportParagraph" xml:space="preserve"><value>An {0} paragraph.</value></data>
   <data name="DemoEditorReportImportant" xml:space="preserve"><value>important</value></data>
   <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>First point</value></data>

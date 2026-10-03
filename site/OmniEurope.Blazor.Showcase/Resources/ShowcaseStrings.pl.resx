@@ -1312,6 +1312,10 @@
   <data name="DemoEditorOpinionNote" xml:space="preserve"><value>sprawdzić termin</value></data>
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>z zastrzeżeniem</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> weryfikacji</value></data>
+  <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Korektor podkreśla wątpliwą pisowina i powtórzone powtórzone słowo.</value></data>
+  <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>pisowina</value></data>
+  <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>pisownia</value></data>
+  <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Powtórzone słowo</value></data>
   <data name="DemoEditorReportParagraph" xml:space="preserve"><value>To jest {0} akapit.</value></data>
   <data name="DemoEditorReportImportant" xml:space="preserve"><value>ważny</value></data>
   <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>Pierwszy punkt</value></data>
