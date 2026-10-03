@@ -158,6 +158,11 @@
   <data name="HtmlEditorLabel" xml:space="preserve"><value>HTML-szerkesztő</value></data>
   <data name="HtmlEditorToolbar" xml:space="preserve"><value>Formázóeszközök</value></data>
   <data name="HtmlEditorContextMenu" xml:space="preserve"><value>Szerkesztő műveletei</value></data>
+  <data name="HtmlEditorProofreadingLoading" xml:space="preserve"><value>Javítások keresése…</value></data>
+  <data name="HtmlEditorProofreadingNoSuggestion" xml:space="preserve"><value>Nincs javaslat</value></data>
+  <data name="HtmlEditorProofreadingIgnore" xml:space="preserve"><value>Kihagyás</value></data>
+  <data name="HtmlEditorProofreadingIgnoreAll" xml:space="preserve"><value>Összes kihagyása</value></data>
+  <data name="HtmlEditorProofreadingAddToDictionary" xml:space="preserve"><value>Hozzáadás a szótárhoz</value></data>
   <data name="HtmlEditorChangeCase" xml:space="preserve"><value>Kis- és nagybetűk</value></data>
   <data name="HtmlEditorCaseUpper" xml:space="preserve"><value>NAGYBETŰK</value></data>
   <data name="HtmlEditorCaseLower" xml:space="preserve"><value>kisbetűk</value></data>

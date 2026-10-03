@@ -70,4 +70,10 @@ public abstract class OmniHtmlEditorExtension
     /// </summary>
     /// <param name="textBeforeCaret">Up to the last 200 characters of the text before the caret.</param>
     public virtual Task<string?> SuggestAsync(string textBeforeCaret) => Task.FromResult<string?>(null);
+
+    /// <summary>
+    /// The spelling or grammar checker this extension brings, or null: the editor underlines what it flags in the
+    /// visual face and offers its corrections on a right-click. Several extensions may each bring one.
+    /// </summary>
+    public virtual OmniHtmlEditorProofreader? Proofreader => null;
 }

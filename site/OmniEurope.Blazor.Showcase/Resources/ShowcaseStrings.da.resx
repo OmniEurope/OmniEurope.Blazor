@@ -1312,6 +1312,10 @@
   <data name="DemoEditorOpinionNote" xml:space="preserve"><value>kontrollér fristen</value></data>
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>med forbehold</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> for kontrol</value></data>
+  <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Kontrollen understreger en tvivlsom stavening og et gentaget gentaget ord.</value></data>
+  <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>stavening</value></data>
+  <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>stavning</value></data>
+  <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Gentaget ord</value></data>
   <data name="DemoEditorReportParagraph" xml:space="preserve"><value>Et {0} afsnit.</value></data>
   <data name="DemoEditorReportImportant" xml:space="preserve"><value>vigtigt</value></data>
   <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>Første punkt</value></data>

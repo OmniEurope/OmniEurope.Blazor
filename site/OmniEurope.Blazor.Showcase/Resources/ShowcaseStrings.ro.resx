@@ -1312,6 +1312,10 @@
   <data name="DemoEditorOpinionNote" xml:space="preserve"><value>verificării termenului</value></data>
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>sub rezerva</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> verificării</value></data>
+  <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Corectorul subliniază o ortografe îndoielnică și un cuvânt repetat repetat.</value></data>
+  <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>ortografe</value></data>
+  <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>ortografie</value></data>
+  <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Cuvânt repetat</value></data>
   <data name="DemoEditorReportParagraph" xml:space="preserve"><value>Un paragraf {0}.</value></data>
   <data name="DemoEditorReportImportant" xml:space="preserve"><value>important</value></data>
   <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>Primul punct</value></data>

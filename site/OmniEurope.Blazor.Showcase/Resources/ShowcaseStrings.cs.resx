@@ -1312,6 +1312,10 @@
   <data name="DemoEditorOpinionNote" xml:space="preserve"><value>ověřit lhůtu</value></data>
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>s výhradou</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> ověření</value></data>
+  <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Kontrola podtrhne pochybný pravapis a opakované opakované slovo.</value></data>
+  <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>pravapis</value></data>
+  <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>pravopis</value></data>
+  <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Opakované slovo</value></data>
   <data name="DemoEditorReportParagraph" xml:space="preserve"><value>Toto je {0} odstavec.</value></data>
   <data name="DemoEditorReportImportant" xml:space="preserve"><value>důležitý</value></data>
   <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>První bod</value></data>

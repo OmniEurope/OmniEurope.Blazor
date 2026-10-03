@@ -1312,6 +1312,10 @@
   <data name="DemoEditorOpinionNote" xml:space="preserve"><value>preverite rok</value></data>
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>s pridržkom</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> preverjanja</value></data>
+  <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Preverjanje podčrta dvomljiv pravapis in ponovljeno ponovljeno besedo.</value></data>
+  <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>pravapis</value></data>
+  <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>pravopis</value></data>
+  <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Ponovljena beseda</value></data>
   <data name="DemoEditorReportParagraph" xml:space="preserve"><value>Odstavek, ki je {0}.</value></data>
   <data name="DemoEditorReportImportant" xml:space="preserve"><value>pomemben</value></data>
   <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>Prva točka</value></data>

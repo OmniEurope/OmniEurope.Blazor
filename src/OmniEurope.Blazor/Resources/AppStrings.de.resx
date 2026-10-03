@@ -158,6 +158,11 @@
   <data name="HtmlEditorLabel" xml:space="preserve"><value>HTML-Editor</value></data>
   <data name="HtmlEditorToolbar" xml:space="preserve"><value>Formatierungswerkzeuge</value></data>
   <data name="HtmlEditorContextMenu" xml:space="preserve"><value>Editor-Aktionen</value></data>
+  <data name="HtmlEditorProofreadingLoading" xml:space="preserve"><value>Korrekturen werden gesucht…</value></data>
+  <data name="HtmlEditorProofreadingNoSuggestion" xml:space="preserve"><value>Keine Vorschläge</value></data>
+  <data name="HtmlEditorProofreadingIgnore" xml:space="preserve"><value>Ignorieren</value></data>
+  <data name="HtmlEditorProofreadingIgnoreAll" xml:space="preserve"><value>Alle ignorieren</value></data>
+  <data name="HtmlEditorProofreadingAddToDictionary" xml:space="preserve"><value>Zum Wörterbuch hinzufügen</value></data>
   <data name="HtmlEditorChangeCase" xml:space="preserve"><value>Groß-/Kleinschreibung</value></data>
   <data name="HtmlEditorCaseUpper" xml:space="preserve"><value>GROSSBUCHSTABEN</value></data>
   <data name="HtmlEditorCaseLower" xml:space="preserve"><value>kleinbuchstaben</value></data>

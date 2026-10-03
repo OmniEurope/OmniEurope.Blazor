@@ -158,6 +158,11 @@
   <data name="HtmlEditorLabel" xml:space="preserve"><value>Editur HTML</value></data>
   <data name="HtmlEditorToolbar" xml:space="preserve"><value>Għodod tal-ifformattjar</value></data>
   <data name="HtmlEditorContextMenu" xml:space="preserve"><value>Azzjonijiet tal-editur</value></data>
+  <data name="HtmlEditorProofreadingLoading" xml:space="preserve"><value>Qed jitfittxew korrezzjonijiet…</value></data>
+  <data name="HtmlEditorProofreadingNoSuggestion" xml:space="preserve"><value>L-ebda suġġeriment</value></data>
+  <data name="HtmlEditorProofreadingIgnore" xml:space="preserve"><value>Injora</value></data>
+  <data name="HtmlEditorProofreadingIgnoreAll" xml:space="preserve"><value>Injora kollox</value></data>
+  <data name="HtmlEditorProofreadingAddToDictionary" xml:space="preserve"><value>Żid mad-dizzjunarju</value></data>
   <data name="HtmlEditorChangeCase" xml:space="preserve"><value>Tip ta' ittri</value></data>
   <data name="HtmlEditorCaseUpper" xml:space="preserve"><value>ITTRI KBAR</value></data>
   <data name="HtmlEditorCaseLower" xml:space="preserve"><value>ittri żgħar</value></data>

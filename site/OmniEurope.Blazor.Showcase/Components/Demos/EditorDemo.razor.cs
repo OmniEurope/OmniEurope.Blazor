@@ -127,7 +127,8 @@ public partial class EditorDemo
         Extended = "<p>" + string.Format(
             CultureInfo.CurrentCulture,
             Encoded("DemoEditorOpinion"),
-            $"<span class=\"demo-note\" data-state=\"new\" contenteditable=\"false\">{Encoded("DemoEditorOpinionNote")}</span>") + "</p>";
+            $"<span class=\"demo-note\" data-state=\"new\" contenteditable=\"false\">{Encoded("DemoEditorOpinionNote")}</span>") + "</p>"
+            + $"<p>{Encoded("DemoEditorProofreadingSample")}</p>";
 
         Report =
             $"<h1>{Encoded("DemoEditorReportLabel")}</h1>" +
@@ -176,6 +177,7 @@ public partial class EditorDemo
                 context => context.ReplaceClosestAsync(".demo-note", string.Empty),
                 OmniIconName.Delete) with { Enabled = selection => selection?.ClosestWithClass("demo-note") is not null };
             _suggestTrigger = text["DemoEditorSuggestTrigger"];
+            Proofreader = new DemoProofreader(text["DemoEditorProofreadingWrong"], text["DemoEditorProofreadingRight"], text["DemoEditorProofreadingRepeated"]);
             _suggestCompletion = text["DemoEditorSuggestCompletion"];
         }
 
@@ -197,6 +199,9 @@ public partial class EditorDemo
         ];
 
         public override IReadOnlyList<OmniHtmlEditorCommand> ContextMenu => [_addNote, _removeNote];
+
+        /// <summary>Underlines a misspelled word and a repeated one; a right-click offers the correction.</summary>
+        public override OmniHtmlEditorProofreader? Proofreader { get; }
 
         public override bool SuggestsText => true;
 

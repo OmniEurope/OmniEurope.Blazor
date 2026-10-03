@@ -18,6 +18,7 @@ internal sealed class HtmlEditorExtensionSet
         InlineElements = [.. extensions.SelectMany(extension => extension.InlineElements)];
         ContextMenu = [.. extensions.SelectMany(extension => extension.ContextMenu)];
         TableReaders = [.. extensions.SelectMany(extension => extension.TableReaders)];
+        Proofreaders = [.. extensions.Select(extension => extension.Proofreader).OfType<OmniHtmlEditorProofreader>()];
         var keys = Shortcuts.Select(shortcut => shortcut.Normalized).ToList();
         var duplicate = keys.GroupBy(key => key, StringComparer.Ordinal).FirstOrDefault(group => group.Count() > 1);
         if (duplicate is not null)
@@ -43,6 +44,9 @@ internal sealed class HtmlEditorExtensionSet
     internal IReadOnlyList<OmniHtmlEditorCommand> ContextMenu { get; }
 
     internal IReadOnlyList<OmniHtmlEditorTableReader> TableReaders { get; }
+
+    /// <summary>The proofreaders of the extensions that bring one, in order.</summary>
+    internal IReadOnlyList<OmniHtmlEditorProofreader> Proofreaders { get; }
 
     internal bool TracksSelection => Source.Any(extension => extension.TracksSelection)
         || ContextMenu.Any(command => command.Pressed is not null || command.Enabled is not null);

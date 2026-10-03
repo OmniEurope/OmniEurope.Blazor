@@ -1312,6 +1312,10 @@
   <data name="DemoEditorOpinionNote" xml:space="preserve"><value>kontrollera tidsfristen</value></data>
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>med förbehåll</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> för kontroll</value></data>
+  <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Kontrollen stryker under en tveksam stavnig och ett upprepat upprepat ord.</value></data>
+  <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>stavnig</value></data>
+  <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>stavning</value></data>
+  <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Upprepat ord</value></data>
   <data name="DemoEditorReportParagraph" xml:space="preserve"><value>Ett {0} stycke.</value></data>
   <data name="DemoEditorReportImportant" xml:space="preserve"><value>viktigt</value></data>
   <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>Första punkten</value></data>

@@ -324,7 +324,7 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
         Assert.True(options.GetProperty("menu").GetBoolean());
         Assert.Empty(editor.FindAll("[role=menu]"));
 
-        await editor.InvokeAsync(() => new HtmlEditorInteropBridge(editor.Instance).OnContextMenu(120, 80, null));
+        await editor.InvokeAsync(() => new HtmlEditorInteropBridge(editor.Instance).OnContextMenu(120, 80, null, null));
 
         // The package's one menu engine, opened at the pointer over the surface.
         var open = Assert.Single(focus.Invocations["openMenu"]);
@@ -360,7 +360,7 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
         focus.SetupVoid("moveMenuFocus", _ => true).SetVoidResult();
         var extension = new TestExtension { Menu = [OmniHtmlEditorCommand.Create("edit-note", "Modifier la note", _ => Task.CompletedTask)] };
         var editor = RenderEditor(extension, null);
-        await editor.InvokeAsync(() => new HtmlEditorInteropBridge(editor.Instance).OnContextMenu(10, 10, null));
+        await editor.InvokeAsync(() => new HtmlEditorInteropBridge(editor.Instance).OnContextMenu(10, 10, null, null));
 
         await editor.Find("[role=menu]").KeyDownAsync(new KeyboardEventArgs { Key = "ArrowDown" });
         Assert.Equal("ArrowDown", Assert.Single(focus.Invocations["moveMenuFocus"]).Arguments[1]);
@@ -383,7 +383,7 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
         var editor = RenderEditor(extension, null);
 
         await editor.InvokeAsync(() => new HtmlEditorInteropBridge(editor.Instance).OnContextMenu(
-            5, 5, "{\"collapsed\":false,\"ancestors\":[{\"tag\":\"span\",\"classes\":[\"note\"],\"data\":{}}]}"));
+            5, 5, "{\"collapsed\":false,\"ancestors\":[{\"tag\":\"span\",\"classes\":[\"note\"],\"data\":{}}]}", null));
 
         Assert.False(editor.Find("[role=menuitem][data-command=remove-note]").HasAttribute("disabled"));
     }
@@ -397,7 +397,7 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
         var options = JsonSerializer.SerializeToElement(Assert.Single(module.Invocations["mount"]).Arguments[3]);
         Assert.False(options.TryGetProperty("menu", out _));
 
-        await editor.InvokeAsync(() => new HtmlEditorInteropBridge(editor.Instance).OnContextMenu(10, 10, null));
+        await editor.InvokeAsync(() => new HtmlEditorInteropBridge(editor.Instance).OnContextMenu(10, 10, null, null));
 
         Assert.Empty(editor.FindAll("[role=menu]"));
     }

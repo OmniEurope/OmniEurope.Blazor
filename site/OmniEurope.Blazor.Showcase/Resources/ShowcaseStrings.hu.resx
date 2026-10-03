@@ -1312,6 +1312,10 @@
   <data name="DemoEditorOpinionNote" xml:space="preserve"><value>a határidő ellenőrzése</value></data>
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>azzal a feltétellel</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value>, hogy ellenőrizzük</value></data>
+  <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Az ellenőrző aláhúzza a kétes helyesíras és az ismételt ismételt szót.</value></data>
+  <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>helyesíras</value></data>
+  <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>helyesírás</value></data>
+  <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Ismételt szó</value></data>
   <data name="DemoEditorReportParagraph" xml:space="preserve"><value>Egy {0} bekezdés.</value></data>
   <data name="DemoEditorReportImportant" xml:space="preserve"><value>fontos</value></data>
   <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>Első pont</value></data>
