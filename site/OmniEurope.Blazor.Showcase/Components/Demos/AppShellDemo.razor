@@ -7,40 +7,46 @@
    feuille de la vitrine (app.css) : le paquet n'a pas de composant pour eux. *@
 <div class="demo-appshell">
     <OmniLayout>
+        @* Le bouton de repli passe par SidebarToggle : l'en-tête le pose lui-même sur l'axe des icônes du
+           rail, quel que soit le contenu qui suit. *@
         <OmniHeader>
-            <OmniSidebarToggle Controls="appshell-menu" Open="MenuOpen" OpenChanged="@(value => MenuOpen = value)"
-                               Label="@Text["ShellToggle"]" />
-            <span class="demo-appbar__brand">
-                <span class="demo-appbar__logo" aria-hidden="true">@Text["ShellLogo"]</span>
-                <span>@Text["ShellBrand"]</span>
-            </span>
-            <EditForm Model="this" class="demo-appbar__search" role="search">
-                <OmniIcon Name="OmniIconName.Search" />
-                <OmniTextBox Id="appshell-search" Type="OmniTextBoxType.Search" aria-label="@Text["ShellSearch"]"
-                             Placeholder="@Text["ShellSearchPlaceholder"]" @bind-Value="Search" />
-            </EditForm>
-            <span class="demo-appbar__actions">
-                <OmniButton Variant="OmniButtonVariant.Ghost" Label="@Text["ShellHelp"]">
-                    <OmniIcon Name="OmniIconName.Question" />
-                </OmniButton>
-                <span class="demo-appbar__bell">
-                    <OmniButton Variant="OmniButtonVariant.Ghost" Label="@Text["ShellNotifications", Unread]">
-                        <OmniIcon Name="OmniIconName.Bell" />
-                    </OmniButton>
-                    <span class="demo-appbar__dot" aria-hidden="true"></span>
+            <SidebarToggle>
+                <OmniSidebarToggle Controls="appshell-menu" Open="MenuOpen" OpenChanged="@(value => MenuOpen = value)"
+                                   Label="@Text["ShellToggle"]" />
+            </SidebarToggle>
+            <ChildContent>
+                <span class="demo-appbar__brand">
+                    <span class="demo-appbar__logo" aria-hidden="true">@Text["ShellLogo"]</span>
+                    <span>@Text["ShellBrand"]</span>
                 </span>
-                @* The standard app menu of the package: name and role, the language, the mode, the theme, the
-                   settings, then the version and signing out; in the showcase every action only reports itself. *@
-                <OmniAppMenu UserName="admin" Role="@Text["ShellAccount"]" Class="demo-appbar__account"
-                             Languages="@Languages" Language="@LanguageCode" LanguageChanged="@(code => LanguageCode = code)"
-                             Appearance="MenuAppearance" AppearanceChanged="@(value => MenuAppearance = value)"
-                             OnTheme="@(() => Last = Text["ShellAppearance"])" OnSettings="@(() => Last = Text["ShellSettings"])"
-                             Version="@Text["ShellBrand"]" OnSignOut="@(() => Last = Text["ShellSignOut"])" />
-            </span>
-            @* The caption buttons of a borderless desktop window; in the showcase they only report the click. *@
-            <OmniWindowControls OnMinimize="@(() => Last = Text["DemoAppShellMinimize"])"
-                                OnMaximizeRestore="@(() => { Maximized = !Maximized; Last = Text["DemoAppShellMaximize"]; })"
-                                IsMaximized="Maximized" OnClose="@(() => Last = Text["DemoAppShellClose"])" />
+                <EditForm Model="this" class="demo-appbar__search" role="search">
+                    <OmniIcon Name="OmniIconName.Search" />
+                    <OmniTextBox Id="appshell-search" Type="OmniTextBoxType.Search" aria-label="@Text["ShellSearch"]"
+                                 Placeholder="@Text["ShellSearchPlaceholder"]" @bind-Value="Search" />
+                </EditForm>
+                <span class="demo-appbar__actions">
+                    <OmniButton Variant="OmniButtonVariant.Ghost" Label="@Text["ShellHelp"]">
+                        <OmniIcon Name="OmniIconName.Question" />
+                    </OmniButton>
+                    <span class="demo-appbar__bell">
+                        <OmniButton Variant="OmniButtonVariant.Ghost" Label="@Text["ShellNotifications", Unread]">
+                            <OmniIcon Name="OmniIconName.Bell" />
+                        </OmniButton>
+                        <span class="demo-appbar__dot" aria-hidden="true"></span>
+                    </span>
+                    @* The standard app menu of the package: name and role, the language, the mode, the theme, the
+                       settings, then the version and signing out; in the showcase every action only reports itself. *@
+                    <OmniAppMenu UserName="admin" Role="@Text["ShellAccount"]" Class="demo-appbar__account"
+                                 Languages="@Languages" Language="@LanguageCode" LanguageChanged="@(code => LanguageCode = code)"
+                                 Appearance="MenuAppearance" AppearanceChanged="@(value => MenuAppearance = value)"
+                                 OnTheme="@(() => Last = Text["ShellAppearance"])" OnSettings="@(() => Last = Text["ShellSettings"])"
+                                 Version="@Text["ShellBrand"]" OnSignOut="@(() => Last = Text["ShellSignOut"])" />
+                </span>
+                @* The caption buttons of a borderless desktop window; in the showcase they only report the click. *@
+                <OmniWindowControls OnMinimize="@(() => Last = Text["DemoAppShellMinimize"])"
+                                    OnMaximizeRestore="@(() => { Maximized = !Maximized; Last = Text["DemoAppShellMaximize"]; })"
+                                    IsMaximized="Maximized" OnClose="@(() => Last = Text["DemoAppShellClose"])" />
+            </ChildContent>
         </OmniHeader>
         <OmniBody>
             <OmniSidebar Id="appshell-menu" Open="MenuOpen" OpenChanged="@(value => MenuOpen = value)"

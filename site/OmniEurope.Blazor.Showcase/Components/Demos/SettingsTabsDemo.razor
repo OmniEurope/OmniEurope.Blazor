@@ -9,8 +9,10 @@
         <OmniTabsItem Key="general" Title="@Text["SettingsGeneral"]">
             <Icon><OmniIcon Name="OmniIconName.Settings" /></Icon>
             <ChildContent>
-                <OmniSettingsSection Title="@Text["SettingsGeneral"]" Description="@Text["SettingsGeneralLead"]">
-                    <OmniSettingsTile Title="@Text["SettingsFolder"]" Description="@Text["SettingsFolderHint"]">
+                @* Réglages par paires (Paired) : deux tuiles par ligne, empilées sous environ 24rem ; le dossier,
+                   plus large, prend toute la ligne (FullWidth). *@
+                <OmniSettingsSection Title="@Text["SettingsGeneral"]" Description="@Text["SettingsGeneralLead"]" Paired="true">
+                    <OmniSettingsTile Title="@Text["SettingsFolder"]" Description="@Text["SettingsFolderHint"]" FullWidth="true">
                         <Icon><OmniIcon Name="OmniIconName.FolderOpen" /></Icon>
                         <ChildContent>
                             <span class="demo-tile-control">

@@ -1,11 +1,12 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-@* The site's own mark as the loading indicator: the logo floats up and down, nothing turns. The
+@* The site's own mark as the loading indicator: the logo floats up and down, nothing turns, unless it
+   animates itself (AnimatedMark), which it then does alone. The
    status is said in words to assistive technologies; the mark itself is decorative. *@
 <span @attributes="AdditionalAttributes"
       id="@Id"
-      class="@Css("omni-logo-loader", $"omni-logo-loader--{Size.ToString().ToLowerInvariant()}")"
+      class="@Css("omni-logo-loader", $"omni-logo-loader--{Size.ToString().ToLowerInvariant()}", AnimatedMark ? "omni-logo-loader--animated" : null)"
       role="status">
     <span class="omni-logo-loader__mark" aria-hidden="true">@ChildContent</span>
     <span class="omni-visually-hidden">@EffectiveLabel</span>

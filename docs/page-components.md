@@ -132,6 +132,24 @@ paragraphe ; `Level` en fait un titre quand l'état vide ouvre une section.
 teinté, décoratif). Avec `OnClick`, la tuile entière devient un bouton, nommé « libellé : valeur » ; sans lui, un simple bloc que rien n'active. La valeur ne passe pas
 à la ligne, le libellé et le détail peuvent se couper.
 
+## Tuile de navigation : `OmniNavTile`
+
+L'accueil d'une administration ou d'un regroupement de rubriques : `Icon` sur un carré teinté du ton
+`Tone` (`Accent` par défaut), `Title` (obligatoire) et `Description` (ligne atténuée facultative), la
+tuile entière étant un vrai lien vers `Href` (clic du milieu, adresse visible au survol). Au survol,
+seule l'ombre change, la tuile ne bouge pas. Elle prend la hauteur de sa colonne : posées dans un
+`OmniRow` d'`OmniColumn`, les tuiles d'une ligne s'alignent quelles que soient leurs descriptions.
+
+```razor
+<OmniRow Gap="OmniSpacing.Medium">
+    <OmniColumn Span="12" MediumSpan="4">
+        <OmniNavTile Href="admin/utilisateurs" Title="Utilisateurs" Description="Comptes et rôles" Tone="OmniTone.Info">
+            <Icon><OmniIcon Name="OmniIconName.Users" /></Icon>
+        </OmniNavTile>
+    </OmniColumn>
+</OmniRow>
+```
+
 ## Assistant : `OmniWizard` et `OmniWizardStep`
 
 ```razor

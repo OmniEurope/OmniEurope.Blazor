@@ -14,6 +14,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 - `Size` (`OmniControlSize`) sur les champs d'une ligne (`OmniTextBox`, `OmniPassword`, `OmniNumeric`, `OmniDropDown`, sélecteurs de date et d'heure, `OmniAutocomplete`) : `Small` et `Large` prennent la hauteur du bouton de même taille, pour qu'une barre d'outils mêlant liste déroulante et boutons reste alignée (recette R-052).
 - `OmniHtmlEditor` : `ToolbarRows` borne la barre d'outils à un nombre de lignes, les boutons qui ouvriraient une ligne de plus passant dans un menu « ⋮ » au bout de la barre ; `OmniHtmlEditorCommand.Overflow` y range une commande secondaire ; `ToolbarLabels` affiche les noms à côté des icônes à partir de 64 rem (recette R-042).
 - `OmniHtmlEditor` : chaque contrôle de la barre porte l'infobulle du paquet au lieu du `title` natif, et `OmniHtmlEditorCommand.Description` y ajoute à quoi sert la commande (`aria-description`) ; le moteur d'infobulle de la grille et de l'éditeur sert tout élément `data-omni-tip` (recette R-043).
+- `OmniLogoLoader.AnimatedMark` : un logo qui s'anime lui-même joue sa propre animation au lieu de flotter ; sous mouvement réduit, le chargeur fige aussi ses animations CSS, sans règle du site. Par défaut le logo flotte comme avant (demande d'une application cliente du 2026-10-03).
+- `OmniNavTile` : tuile de navigation, icône sur un carré teinté du ton (`Tone`), titre et description facultative, la tuile entière étant un lien (`Href`) ; au survol seule l'ombre change (recette R-036).
+- `OmniSettingsSection.Paired` et `OmniSettingsTile.FullWidth` : tuiles de réglages deux par ligne, empilées sous environ 24 rem par tuile, une tuile pleine largeur sur sa ligne ; la rubrique n'a pas de plafond de largeur (recette R-060).
+- `OmniHeader.SidebarToggle` : l'en-tête pose lui-même la bascule de barre latérale au bord, sur l'axe des icônes du rail, quel que soit l'enveloppeur de l'application ; la documentation demande de ne plus envelopper la bascule ni la marque (recette R-037).
 
 ### Changed
 

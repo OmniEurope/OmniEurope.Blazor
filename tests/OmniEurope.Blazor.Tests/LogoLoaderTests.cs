@@ -40,6 +40,30 @@ public sealed class LogoLoaderTests : OmniBunitContext
         Assert.True(keyframes.Success, "No @keyframes omni-float in the stylesheet.");
         Assert.Contains("translateY", keyframes.Value, StringComparison.Ordinal);
         Assert.DoesNotContain("rotate", keyframes.Value, StringComparison.Ordinal);
-        Assert.Contains("@media (prefers-reduced-motion: reduce) { .omni-logo-loader__mark { animation: none; } }", css, StringComparison.Ordinal);
+        Assert.Contains("    .omni-logo-loader__mark { animation: none; }", ReducedMotionBlock(css), StringComparison.Ordinal);
+    }
+
+    // The reduced-motion block of the loader: from its media query to its closing brace.
+    private static string ReducedMotionBlock(string css)
+    {
+        var start = css.IndexOf("@media (prefers-reduced-motion: reduce) {\n    .omni-logo-loader__mark", StringComparison.Ordinal);
+        Assert.True(start >= 0, "No reduced-motion block for the logo loader.");
+        return css[start..css.IndexOf("\n}", start, StringComparison.Ordinal)];
+    }
+
+    [Fact]
+    public void ALogoThatAnimatesItself_PlaysItsOwnAnimation_AndHoldsStillForLessMotion()
+    {
+        // Request of 2026-10-03: an animated plane must play its own keyframes rather than float.
+        var animated = Render<OmniLogoLoader>(parameters => parameters
+            .Add(component => component.AnimatedMark, true)
+            .AddChildContent("<svg class=\"plane\"></svg>"));
+        var plain = Render<OmniLogoLoader>(parameters => parameters.AddChildContent("<svg></svg>"));
+
+        Assert.Contains("omni-logo-loader--animated", animated.Find(".omni-logo-loader").ClassList);
+        Assert.DoesNotContain("omni-logo-loader--animated", plain.Find(".omni-logo-loader").ClassList);
+        Assert.Equal("status", animated.Find(".omni-logo-loader").GetAttribute("role"));
+        Assert.Equal("none", ShippedLookTests.Value(ShippedLookTests.Body(".omni-logo-loader--animated .omni-logo-loader__mark"), "animation"));
+        Assert.Contains(".omni-logo-loader--animated .omni-logo-loader__mark * { animation: none !important; }", ReducedMotionBlock(StylesheetSource.Read()), StringComparison.Ordinal);
     }
 }

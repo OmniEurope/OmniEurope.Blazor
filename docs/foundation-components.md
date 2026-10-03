@@ -28,7 +28,7 @@ Ce lot fournit 15 composants. Ils produisent du HTML sémantique, refusent les a
 | `OmniColumn` | Colonne sur douze unités avec variantes responsive `SmallSpan`, `MediumSpan` et `LargeSpan`. |
 | `OmniLayout` | Conteneur de page pleine largeur (en-tête, corps, barre latérale) ; la largeur du contenu se règle sur `OmniMain.ContentWidth`. |
 | `OmniMain` | Landmark `main`, ciblable par un lien d'évitement grâce à `FocusTarget`. `ContentWidth` centre le contenu seul (`Wide`, 90rem, ou `Content`, 72rem) ; `Scrollable` en fait le conteneur de défilement de la page. |
-| `OmniHeader` | Landmark `header`, avec position collante optionnelle définie dans la feuille statique. `Brand` (nom de l'application, en gras) et `BrandLogo` (logo en image, décoratif) ouvrent la barre ; `BrandHref` en fait un lien vers l'accueil ; une bascule de barre latérale posée dans l'en-tête reste dessinée au bord, avant eux. |
+| `OmniHeader` | Landmark `header`, avec position collante optionnelle définie dans la feuille statique. `Brand` (nom de l'application, en gras) et `BrandLogo` (logo en image, décoratif) ouvrent la barre ; `BrandHref` en fait un lien vers l'accueil ; `SidebarToggle` reçoit la bascule de barre latérale, que l'en-tête pose lui-même au bord, avant la marque, sur l'axe des icônes du rail. C'est la seule façon fiable de la placer : enveloppée dans un élément de l'application, sa marge intérieure la décalerait de l'axe ; ne pas envelopper la bascule ni la marque. Une bascule posée parmi les enfants reste dessinée au bord, comme avant. |
 | `OmniFieldset` | Groupe de champs natif avec `legend` obligatoire et état désactivé ; `Collapsible` le replie avec l'élément natif `details`, déplié tant que `Expanded` vaut vrai (par défaut). `ExpandedChanged` (facultatif) rapporte l'état quand le lecteur ouvre ou ferme le groupe, ce qui permet `@bind-Expanded` : l'événement natif `toggle` est écouté par `omni-focus.js`, sans gestionnaire en ligne, et seulement si le paramètre a un délégué ; sans lui, le groupe est rendu et se comporte comme avant, sans script. |
 | `OmniProgressBar` | Progression linéaire ou circulaire, déterminée ou indéterminée, avec valeurs ARIA. L'indéterminée linéaire glisse d'un mouvement continu, sans arrêt ni retour ; sans mouvement demandé, la piste se remplit à demi-teinte. |
 
@@ -44,7 +44,10 @@ Les pièces de la barre supérieure de la maquette de PLAN-004 (`docs/plans/arch
 
 ```razor
 <OmniHeader Brand="Boutique" BrandLogo="img/logo.svg">
-    <OmniSidebarToggle Controls="menu" Open="open" OpenChanged="@(value => open = value)" Label="Menu" />
+    <SidebarToggle>
+        <OmniSidebarToggle Controls="menu" Open="open" OpenChanged="@(value => open = value)" Label="Menu" />
+    </SidebarToggle>
+    <ChildContent>
     <OmniTextBox Type="OmniTextBoxType.Search" aria-label="Rechercher" @bind-Value="search">
         <Icon><OmniIcon Name="OmniIconName.Search" /></Icon>
     </OmniTextBox>
@@ -60,6 +63,7 @@ Les pièces de la barre supérieure de la maquette de PLAN-004 (`docs/plans/arch
             </OmniMenuItem>
         </ChildContent>
     </OmniProfileMenu>
+    </ChildContent>
 </OmniHeader>
 ```
 
