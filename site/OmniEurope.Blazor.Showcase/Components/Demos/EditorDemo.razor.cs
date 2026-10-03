@@ -110,7 +110,7 @@ public partial class EditorDemo
                 "demo-note",
                 Text["DemoEditorAddNote"],
                 context => context.InsertHtmlAsync($"<aside class=\"demo-note\" data-marker=\"2\">{newNote}</aside>"),
-                OmniIconName.Chat) with { Pressed = selection => selection?.ClosestWithClass("demo-note") is not null },
+                OmniIconName.Chat) with { Pressed = selection => selection?.ClosestWithClass("demo-note") is not null, Description = Text["DemoEditorAddNoteDescription"] },
             OmniHtmlEditorCommands.Separator,
             .. OmniHtmlEditorCommands.Clipboard, OmniHtmlEditorCommands.InsertParagraph, OmniHtmlEditorCommands.Separator,
             .. OmniHtmlEditorCommands.Table, OmniHtmlEditorCommands.Separator,

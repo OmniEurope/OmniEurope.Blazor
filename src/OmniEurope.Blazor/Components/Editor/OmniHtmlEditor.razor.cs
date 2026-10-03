@@ -38,6 +38,8 @@ public partial class OmniHtmlEditor
     private bool _showBlocks;
     private bool _disposed;
     private IJSObjectReference? _downloadModule;
+    private HtmlEditorToolbarFit? _toolbarFit;
+    private ElementReference _toolbar;
     private string? _countedValue;
     private bool _counted;
     private (int Words, int Characters) _statistics;
@@ -158,6 +160,19 @@ public partial class OmniHtmlEditor
     /// </summary>
     [Parameter] public IReadOnlyList<OmniHtmlEditorCommand>? Commands { get; set; }
 
+    /// <summary>
+    /// The most rows the toolbar takes (Astraia recette R-042): the buttons that would open a row beyond
+    /// it move, from the end, into the "more" menu (⋮) at the end of the bar, and come back when the bar
+    /// widens. Null, the default: the bar wraps onto as many rows as its commands need.
+    /// </summary>
+    [Parameter] public int? ToolbarRows { get; set; }
+
+    /// <summary>
+    /// Shows each command's name beside its icon while the toolbar is at least 64rem wide; narrower, the
+    /// icons stand alone and the name stays in the tooltip. Off by default.
+    /// </summary>
+    [Parameter] public bool ToolbarLabels { get; set; }
+
     /// <summary>The face shown. The editor's own source button changes it and raises <see cref="ModeChanged"/>.</summary>
     [Parameter] public OmniHtmlEditorMode Mode { get; set; }
     /// <summary>Raised with the new face when the editor's own source button switches it; not raised when the parent changes <see cref="Mode"/>.</summary>
@@ -225,8 +240,24 @@ public partial class OmniHtmlEditor
     /// <summary>The source face, created on first use once the script runtime is injected.</summary>
     private HtmlEditorSourceFace SourceFace => _sourceFace ??= new(this, JSRuntime);
 
-    /// <summary>The toolbar cut at its separators into groups of commands (see <see cref="HtmlEditorToolbar.Groups"/>).</summary>
-    private List<List<OmniHtmlEditorCommand>> ToolbarGroups => HtmlEditorToolbar.Groups(ArrangedCommands);
+    /// <summary>The toolbar cut at its separators into groups of commands (see <see cref="HtmlEditorToolbar.Groups"/>), the commands placed in the menu left out.</summary>
+    private List<List<OmniHtmlEditorCommand>> ToolbarGroups => HtmlEditorToolbar.Groups(ArrangedCommands.Where(command => !HtmlEditorToolbar.InMenu(command)).ToList());
+
+    /// <summary>The script's view of the toolbar: its tooltips and, under a row limit, what moves to the menu.</summary>
+    private HtmlEditorToolbarFit ToolbarFit => _toolbarFit ??= new(this, JSRuntime);
+
+    /// <summary>The commands of the "more" menu, in toolbar order: those placed there, then those the row limit moved.</summary>
+    private IReadOnlyList<OmniHtmlEditorCommand> MenuCommands => ArrangedCommands
+        .Where(command => command.Action != OmniHtmlEditorAction.Separator
+            && (HtmlEditorToolbar.InMenu(command) || (_toolbarFit?.Overflowed.Contains(command.Name) ?? false)))
+        .ToList();
+
+    /// <summary>Whether the bar ends with the "more" menu: a row limit, or a command placed in the menu.</summary>
+    private bool ShowsMoreMenu => ToolbarRows is not null || ArrangedCommands.Any(HtmlEditorToolbar.InMenu);
+
+    /// <summary>The package tooltip of a toolbar control: its name, then the command's description on the next line.</summary>
+    private string TipOf(OmniHtmlEditorCommand command) =>
+        string.IsNullOrWhiteSpace(command.Description) ? LabelOf(command) : LabelOf(command) + "\n" + command.Description;
 
     /// <summary>
     /// Rebuilds the extension set when <see cref="Extensions"/> holds other instances, then checks the
@@ -298,6 +329,8 @@ public partial class OmniHtmlEditor
         {
             await Visual.SyncAsync();
         }
+
+        await ToolbarFit.SyncAsync(_toolbar, ToolbarRows);
 
         if (_panels.FocusLink)
         {
@@ -813,6 +846,12 @@ public partial class OmniHtmlEditor
         {
             // Detaches the script from a menu still open and releases its module; a lost circuit is ignored there.
             await _menu.DisposeAsync();
+        }
+
+        if (_toolbarFit is not null)
+        {
+            // Stops the row limit and releases this editor's share of the tooltips; a lost circuit is ignored there.
+            await _toolbarFit.DisposeAsync();
         }
 
         if (_downloadModule is not null)

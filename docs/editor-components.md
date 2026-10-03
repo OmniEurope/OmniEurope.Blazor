@@ -55,6 +55,14 @@ private static readonly IReadOnlyList<OmniHtmlEditorCommand> Commands =
 ];
 ```
 
+Chaque contrôle de la barre porte l'infobulle du paquet (son nom), sans le `title` natif du navigateur,
+lent à paraître ; `Description` ajoute sous le nom à quoi sert la commande, aussi donnée aux
+technologies d'assistance (`aria-description`). Une barre longue reste courte : `Overflow = true` range
+une commande secondaire dans le menu « ⋮ » au bout de la barre, et `ToolbarRows` borne la barre à un
+nombre de lignes, les boutons qui ouvriraient une ligne de plus passant, depuis la fin, dans ce menu
+(ils reviennent quand la barre s'élargit ; les listes de style, de taille et de casse restent dans la
+barre). `ToolbarLabels` affiche le nom à côté de l'icône tant que la barre fait au moins 64 rem.
+
 Une commande intégrée n'a besoin que de son `OmniHtmlEditorAction` : libellé localisé et icône viennent
 de l'éditeur, et `Label` ou `Icon` les remplacent. Une commande `Custom` reçoit un
 `OmniHtmlEditorCommandContext` : `Html` (valeur courante, frappe récente comprise), `Mode`,

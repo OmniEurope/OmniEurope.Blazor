@@ -1298,6 +1298,7 @@
   <data name="DemoEditorAddSignature" xml:space="preserve"><value>Dodaj podpis</value></data>
   <data name="DemoEditorInsertReference" xml:space="preserve"><value>Vstavi sklic</value></data>
   <data name="DemoEditorAddNote" xml:space="preserve"><value>Dodaj opombo</value></data>
+  <data name="DemoEditorAddNoteDescription" xml:space="preserve"><value>Vstavi oštevilčeno opombo na rob besedila.</value></data>
   <data name="DemoEditorNewNoteSentence" xml:space="preserve"><value>Nova opomba.</value></data>
   <data name="DemoEditorNewNote" xml:space="preserve"><value>Nova opomba</value></data>
   <data name="DemoEditorRemoveNote" xml:space="preserve"><value>Odstrani opombo</value></data>

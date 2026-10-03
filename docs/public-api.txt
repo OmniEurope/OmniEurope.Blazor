@@ -2594,13 +2594,17 @@ property public OmniEurope.Blazor.Components.OmniHtmlEditor.SelectionChanged : M
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.Sheet : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.ShowPreview : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.ShowStatusBar : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniHtmlEditor.ToolbarLabels : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniHtmlEditor.ToolbarRows : System.Int32? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.WordCount : System.Int32 {get(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Action : OmniEurope.Blazor.Components.OmniHtmlEditorAction {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Description : System.String? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Enabled : System.Func<OmniEurope.Blazor.Components.OmniHtmlEditorSelection?,System.Boolean>? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Execute : System.Func<OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext,System.Threading.Tasks.Task>? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Icon : OmniEurope.Blazor.Components.OmniIconName? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Label : System.String? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Name : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Overflow : System.Boolean {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Pressed : System.Func<OmniEurope.Blazor.Components.OmniHtmlEditorSelection?,System.Boolean>? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.Command : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.Html : System.String {get(public)}

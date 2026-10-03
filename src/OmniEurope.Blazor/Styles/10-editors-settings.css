@@ -16,6 +16,15 @@
    padding (0.25rem) keeps the focus rings (0.2rem) inside the clip. */
 .omni-html-editor__toolbar { column-gap: calc(var(--omni-space-xs) * 4 + var(--omni-border-width)); overflow: hidden; }
 .omni-html-editor__group { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); position: relative; }
+/* A row limit (OmniHtmlEditor.ToolbarRows): the script hides the buttons that would open a row beyond
+   it, and a group left without a control goes with them; the "more" menu ends the last row. */
+.omni-html-editor__toolbar [data-omni-overflow] { display: none; }
+.omni-html-editor__group:not(:has(> [data-command]:not([data-omni-overflow]))) { display: none; }
+.omni-html-editor__more { margin-inline-start: auto; }
+/* Names beside the icons (ToolbarLabels) while the bar is wide enough; narrower, the tooltip names them. */
+.omni-html-editor__toolbar--labels { container-type: inline-size; }
+.omni-html-editor__tool-label { font-size: var(--omni-font-size-sm); margin-inline-start: var(--omni-space-xs); white-space: nowrap; }
+@container (max-width: 63.99rem) { .omni-html-editor__tool-label { display: none; } }
 .omni-html-editor__separator { border-inline-start: var(--omni-border-width) solid var(--omni-color-border); inset-block: 0; inset-inline-start: calc(-2 * var(--omni-space-xs) - var(--omni-border-width)); position: absolute; }
 /* The context menu of the extensions is a package menu (.omni-menu, OmniMenuItem rows); only the line
    between two groups of entries is its own. */
