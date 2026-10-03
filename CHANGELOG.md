@@ -2,7 +2,13 @@
 
 Les changements notables de ce projet seront documentés ici selon le format Keep a Changelog.
 
-## [Non publié]
+## [1.5.0] - 2026-10-03
+
+### Breaking changes
+
+- `OmniDataGrid` : le filtre d'en-tête (`ShowHeaderFilterMenu`) est actif par défaut, pour tous les sites ; la rangée de filtres en ligne n'est plus rendue que sur demande (`ShowHeaderFilterMenu="false"`). Migration : une grille qui comptait sur la rangée la redemande par `ShowHeaderFilterMenu="false"` (recette R-041).
+
+Les changements de comportement d'`OmniTemplateForm` (R-061) et de variante des boutons d'export (R-031), listés sous « Changed », ne demandent aucune migration.
 
 ### Added
 
@@ -29,7 +35,6 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 - `OmniDataGrid` : les boutons de la barre d'export passent en `Secondary` (gris neutre) par défaut au lieu de `Ghost` ; `ExportVariants` en choisit toujours une autre par format (recette R-031).
 - `OmniAppMenu` : sous 40rem, le bouton du menu ne montre plus le nom de l'utilisateur, qui débordait de la barre sur téléphone ; il garde son icône, son chevron et son nom accessible, et le nom reste en tête du menu ouvert. Les sites retirent leur règle locale (recette R-034).
 - `OmniFormActions` : la documentation suit l'ordre des pieds de dialogue et de `ConfirmAsync`, l'action principale d'abord puis « Annuler », groupées à droite ; elle disait l'action principale en dernier (recette R-009).
-- `OmniDataGrid` : le filtre d'en-tête (`ShowHeaderFilterMenu`) est actif par défaut, pour tous les sites ; la rangée de filtres en ligne n'est plus rendue que sur demande (`ShowHeaderFilterMenu="false"`). Changement de comportement : une grille qui comptait sur la rangée la redemande (recette R-041).
 - `OmniTemplateForm` : « modifié » compare les valeurs courantes à celles du départ ou du dernier enregistrement ; taper puis effacer laisse le formulaire non modifié et sa garde ne demande plus rien. Avant, le premier changement le marquait modifié jusqu'à l'envoi (recette R-061).
 
 ### Fixed
