@@ -170,6 +170,9 @@
   <data name="HtmlEditorInsertSpecialCharacter" xml:space="preserve"><value>Karattru speċjali</value></data>
   <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Fittex karattru</value></data>
   <data name="HtmlEditorCharNone" xml:space="preserve"><value>L-ebda karattru ma jaqbel.</value></data>
+  <data name="CharacterPaletteLabel" xml:space="preserve"><value>Karattri speċjali</value></data>
+  <data name="CharacterPaletteUppercase" xml:space="preserve"><value>Ittri kbar</value></data>
+  <data name="CharacterPaletteInsert" xml:space="preserve"><value>Daħħal {0}</value></data>
   <data name="HtmlEditorCharCategoryCommon" xml:space="preserve"><value>Komuni</value></data>
   <data name="HtmlEditorCharCategoryCurrency" xml:space="preserve"><value>Muniti</value></data>
   <data name="HtmlEditorCharCategoryArrows" xml:space="preserve"><value>Vleġeġ</value></data>

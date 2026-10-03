@@ -291,6 +291,11 @@
                      aria-disabled="@(Disabled ? "true" : null)"
                      aria-invalid="@AriaInvalid"
                      aria-describedby="@AriaDescribedBy"></div>
+                @* The host's characters under the surface: a press keeps the caret there (OmniCharacterPalette). *@
+                @if (ShowsCharacterPalette)
+                {
+                    <OmniCharacterPalette Class="omni-html-editor__palette" Characters="Characters!" OnSelect="InsertPaletteCharacterAsync" aria-controls="@SurfaceId" />
+                }
                 @if (IsMenuOpen)
                 {
                     @ContextMenuList(contextMenuItems)

@@ -170,6 +170,9 @@
   <data name="HtmlEditorInsertSpecialCharacter" xml:space="preserve"><value>Erimärk</value></data>
   <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Otsi märki</value></data>
   <data name="HtmlEditorCharNone" xml:space="preserve"><value>Ükski märk ei vasta.</value></data>
+  <data name="CharacterPaletteLabel" xml:space="preserve"><value>Erimärgid</value></data>
+  <data name="CharacterPaletteUppercase" xml:space="preserve"><value>Suurtähed</value></data>
+  <data name="CharacterPaletteInsert" xml:space="preserve"><value>Lisa {0}</value></data>
   <data name="HtmlEditorCharCategoryCommon" xml:space="preserve"><value>Levinud</value></data>
   <data name="HtmlEditorCharCategoryCurrency" xml:space="preserve"><value>Valuutad</value></data>
   <data name="HtmlEditorCharCategoryArrows" xml:space="preserve"><value>Nooled</value></data>

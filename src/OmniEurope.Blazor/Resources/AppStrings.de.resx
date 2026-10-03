@@ -170,6 +170,9 @@
   <data name="HtmlEditorInsertSpecialCharacter" xml:space="preserve"><value>Sonderzeichen</value></data>
   <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Zeichen suchen</value></data>
   <data name="HtmlEditorCharNone" xml:space="preserve"><value>Kein Zeichen gefunden.</value></data>
+  <data name="CharacterPaletteLabel" xml:space="preserve"><value>Sonderzeichen</value></data>
+  <data name="CharacterPaletteUppercase" xml:space="preserve"><value>Großbuchstaben</value></data>
+  <data name="CharacterPaletteInsert" xml:space="preserve"><value>{0} einfügen</value></data>
   <data name="HtmlEditorCharCategoryCommon" xml:space="preserve"><value>Häufig</value></data>
   <data name="HtmlEditorCharCategoryCurrency" xml:space="preserve"><value>Währungen</value></data>
   <data name="HtmlEditorCharCategoryArrows" xml:space="preserve"><value>Pfeile</value></data>

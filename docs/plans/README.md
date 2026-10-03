@@ -19,6 +19,7 @@ structurelles ; un plan décrit un travail, pas l'état du produit.
 | Plan | Travail restant | ADR |
 |---|---|---|
 | [PLAN-009](PLAN-009-themes-et-reliquats.md) | Décisions du propriétaire (historique public, Trou noir) ; prévenir la session d'une application cliente à la livraison (lots 8 et 9) | Sans ADR supplémentaire |
+| [PLAN-013](PLAN-013-palette-de-caracteres.md) | Palette de caractères spéciaux (`OmniCharacterPalette`) sous `OmniHtmlEditor` : livrée, à archiver après relecture du propriétaire | Sans ADR supplémentaire |
 
 ## Archives
 

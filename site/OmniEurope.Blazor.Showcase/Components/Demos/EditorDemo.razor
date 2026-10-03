@@ -35,6 +35,22 @@
                         Commands="ExtendedCommands"
                         Extensions="[NoteExtension]" />
 
+        @* Les lettres de la langue saisie sous la surface : l'hôte donne le jeu, un clic l'insère au
+           curseur (une étape d'annulation, comme une frappe), Maj+clic ou la bascule ⇧ en majuscule. *@
+        <OmniHtmlEditor Id="editor-palette"
+                        @bind-Value="Accented"
+                        Label="@Text["DemoEditorPaletteLabel"]"
+                        Rows="4"
+                        Commands="PaletteCommands"
+                        Characters="FrenchCharacters" />
+
+        @* La palette seule : l'hôte reçoit le caractère choisi et en fait ce qu'il veut. *@
+        <OmniCharacterPalette Id="editor-palette-german"
+                              Label="@Text["DemoEditorPaletteGerman"]"
+                              Characters="GermanCharacters"
+                              OnSelect="Choose" />
+        <p id="editor-palette-chosen" aria-live="polite">@Text["DemoEditorPaletteChosen", Chosen.Length == 0 ? Text["DemoEditorPaletteNone"] : Chosen]</p>
+
         <OmniHtmlEditor Id="editor-document"
                         @bind-Value="Report"
                         Label="@Text["DemoEditorReportLabel"]"

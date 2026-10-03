@@ -170,6 +170,9 @@
   <data name="HtmlEditorInsertSpecialCharacter" xml:space="preserve"><value>Carachtar speisialta</value></data>
   <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Cuardaigh carachtar</value></data>
   <data name="HtmlEditorCharNone" xml:space="preserve"><value>Níl aon charachtar comhoiriúnach.</value></data>
+  <data name="CharacterPaletteLabel" xml:space="preserve"><value>Carachtair speisialta</value></data>
+  <data name="CharacterPaletteUppercase" xml:space="preserve"><value>Ceannlitreacha</value></data>
+  <data name="CharacterPaletteInsert" xml:space="preserve"><value>Cuir isteach {0}</value></data>
   <data name="HtmlEditorCharCategoryCommon" xml:space="preserve"><value>Coitianta</value></data>
   <data name="HtmlEditorCharCategoryCurrency" xml:space="preserve"><value>Airgeadraí</value></data>
   <data name="HtmlEditorCharCategoryArrows" xml:space="preserve"><value>Saighde</value></data>

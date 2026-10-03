@@ -1313,6 +1313,11 @@
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>sillä varauksella</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value>, että asia tarkistetaan</value></data>
   <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Tarkistus alleviivaa epäilyttävän oikeinkirjotuksen ja toistetun toistetun sanan.</value></data>
+  <data name="DemoEditorPaletteLabel" xml:space="preserve"><value>Huomautus ranskaksi</value></data>
+  <data name="DemoEditorPaletteSample" xml:space="preserve"><value>Napsauta tekstin alla: valittu kirjain lisätään kohdistimen kohtaan, Vaihto+napsautus antaa ison kirjaimen.</value></data>
+  <data name="DemoEditorPaletteGerman" xml:space="preserve"><value>Saksan kirjaimet</value></data>
+  <data name="DemoEditorPaletteChosen" xml:space="preserve"><value>Valitut merkit: {0}</value></data>
+  <data name="DemoEditorPaletteNone" xml:space="preserve"><value>ei mitään</value></data>
   <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>oikeinkirjotuksen</value></data>
   <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>oikeinkirjoituksen</value></data>
   <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Toistettu sana</value></data>

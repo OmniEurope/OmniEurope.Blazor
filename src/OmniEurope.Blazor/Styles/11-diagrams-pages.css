@@ -65,7 +65,11 @@
 .omni-page-header__frame { background: var(--omni-color-surface); block-size: calc(var(--omni-page-header-line) + 0.125rem + var(--omni-page-header-trail)); border: var(--omni-border-width) solid color-mix(in srgb, var(--omni-color-accent) 24%, var(--omni-color-border)); border-radius: var(--omni-radius); box-sizing: content-box; display: flex; flex-direction: column; gap: 0.125rem; min-inline-size: 0; padding: var(--omni-space-sm) var(--omni-space-md); }
 .omni-page-header__frame--plain { background: transparent; border: 0; border-radius: 0; padding: 0; }
 .omni-page-header__row { align-items: center; block-size: var(--omni-page-header-line); display: flex; flex: none; flex-wrap: nowrap; gap: var(--omni-space-sm); min-inline-size: 0; }
-.omni-page-header .omni-page-header__title { flex: 0 1 auto; line-height: var(--omni-page-header-line); margin: 0; min-inline-size: 0; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; text-overflow: clip; white-space: nowrap; }
+/* A scroll container clips at its padding box, and the line height of the title is shorter than its
+   glyphs: without room above and below, the descenders of g, j, p, q and y were cut by about 3 px in
+   Firefox. The padding gives them that room and the equal negative margin keeps the line where it was
+   (OE 1.5.0 check). */
+.omni-page-header .omni-page-header__title { flex: 0 1 auto; line-height: var(--omni-page-header-line); margin: -0.25em 0; min-inline-size: 0; overflow-x: auto; overflow-y: hidden; padding-block: 0.25em; scrollbar-width: none; text-overflow: clip; white-space: nowrap; }
 .omni-page-header .omni-page-header__title::-webkit-scrollbar { display: none; }
 .omni-page-header__scroll { display: none; flex: none; }
 .omni-page-header__frame[data-title-start] .omni-page-header__scroll--start,

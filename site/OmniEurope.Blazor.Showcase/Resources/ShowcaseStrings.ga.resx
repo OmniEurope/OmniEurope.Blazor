@@ -1313,6 +1313,11 @@
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>faoi réir</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> fíoraithe</value></data>
   <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Cuireann an seiceálaí líne faoi litrú amhrasach agus faoi fhocal fhocal athráite.</value></data>
+  <data name="DemoEditorPaletteLabel" xml:space="preserve"><value>Nóta i bhFraincis</value></data>
+  <data name="DemoEditorPaletteSample" xml:space="preserve"><value>Cliceáil faoin téacs: cuirtear an litir roghnaithe isteach ag an gcúrsóir, Shift+cliceáil don cheannlitir.</value></data>
+  <data name="DemoEditorPaletteGerman" xml:space="preserve"><value>Litreacha Gearmáinise</value></data>
+  <data name="DemoEditorPaletteChosen" xml:space="preserve"><value>Carachtair roghnaithe: {0}</value></data>
+  <data name="DemoEditorPaletteNone" xml:space="preserve"><value>dada</value></data>
   <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>litrú</value></data>
   <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>litriú</value></data>
   <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Focal athráite</value></data>

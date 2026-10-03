@@ -170,6 +170,9 @@
   <data name="HtmlEditorInsertSpecialCharacter" xml:space="preserve"><value>Специален знак</value></data>
   <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Търсене на знак</value></data>
   <data name="HtmlEditorCharNone" xml:space="preserve"><value>Няма съвпадащ знак.</value></data>
+  <data name="CharacterPaletteLabel" xml:space="preserve"><value>Специални знаци</value></data>
+  <data name="CharacterPaletteUppercase" xml:space="preserve"><value>Главни букви</value></data>
+  <data name="CharacterPaletteInsert" xml:space="preserve"><value>Вмъкване на {0}</value></data>
   <data name="HtmlEditorCharCategoryCommon" xml:space="preserve"><value>Често използвани</value></data>
   <data name="HtmlEditorCharCategoryCurrency" xml:space="preserve"><value>Валути</value></data>
   <data name="HtmlEditorCharCategoryArrows" xml:space="preserve"><value>Стрелки</value></data>

@@ -1313,6 +1313,11 @@
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>tingimusel</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value>, et seda kontrollitakse</value></data>
   <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Kontroll joonib alla kahtlase õigekirri ja korduva korduva sõna.</value></data>
+  <data name="DemoEditorPaletteLabel" xml:space="preserve"><value>Märkus prantsuse keeles</value></data>
+  <data name="DemoEditorPaletteSample" xml:space="preserve"><value>Klõpsake teksti all: valitud täht lisatakse kursori kohale, Shift+klõps suurtähe jaoks.</value></data>
+  <data name="DemoEditorPaletteGerman" xml:space="preserve"><value>Saksa tähed</value></data>
+  <data name="DemoEditorPaletteChosen" xml:space="preserve"><value>Valitud märgid: {0}</value></data>
+  <data name="DemoEditorPaletteNone" xml:space="preserve"><value>puuduvad</value></data>
   <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>õigekirri</value></data>
   <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>õigekiri</value></data>
   <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Korduv sõna</value></data>

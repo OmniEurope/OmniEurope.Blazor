@@ -1313,6 +1313,11 @@
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>z zastrzeżeniem</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> weryfikacji</value></data>
   <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Korektor podkreśla wątpliwą pisowina i powtórzone powtórzone słowo.</value></data>
+  <data name="DemoEditorPaletteLabel" xml:space="preserve"><value>Notatka po francusku</value></data>
+  <data name="DemoEditorPaletteSample" xml:space="preserve"><value>Kliknij pod tekstem: wybrana litera zostanie wstawiona w miejscu kursora, Shift+kliknięcie wstawia wielką literę.</value></data>
+  <data name="DemoEditorPaletteGerman" xml:space="preserve"><value>Litery niemieckie</value></data>
+  <data name="DemoEditorPaletteChosen" xml:space="preserve"><value>Wybrane znaki: {0}</value></data>
+  <data name="DemoEditorPaletteNone" xml:space="preserve"><value>brak</value></data>
   <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>pisowina</value></data>
   <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>pisownia</value></data>
   <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Powtórzone słowo</value></data>

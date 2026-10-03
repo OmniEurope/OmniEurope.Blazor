@@ -1313,6 +1313,11 @@
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>unter Vorbehalt</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> der Prüfung</value></data>
   <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Die Prüfung unterstreicht eine fragliche Rechtschreibng und ein doppeltes doppeltes Wort.</value></data>
+  <data name="DemoEditorPaletteLabel" xml:space="preserve"><value>Notiz auf Französisch</value></data>
+  <data name="DemoEditorPaletteSample" xml:space="preserve"><value>Unter dem Text klicken: Der gewählte Buchstabe wird an der Einfügemarke eingefügt, Umschalt+Klick für den Großbuchstaben.</value></data>
+  <data name="DemoEditorPaletteGerman" xml:space="preserve"><value>Deutsche Buchstaben</value></data>
+  <data name="DemoEditorPaletteChosen" xml:space="preserve"><value>Gewählte Zeichen: {0}</value></data>
+  <data name="DemoEditorPaletteNone" xml:space="preserve"><value>keine</value></data>
   <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>Rechtschreibng</value></data>
   <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>Rechtschreibung</value></data>
   <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Doppeltes Wort</value></data>

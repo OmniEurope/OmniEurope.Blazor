@@ -1313,6 +1313,11 @@
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>s výhradou</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> overenia</value></data>
   <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Kontrola podčiarkne pochybný pravapis a opakované opakované slovo.</value></data>
+  <data name="DemoEditorPaletteLabel" xml:space="preserve"><value>Poznámka vo francúzštine</value></data>
+  <data name="DemoEditorPaletteSample" xml:space="preserve"><value>Kliknite pod textom: vybrané písmeno sa vloží na miesto kurzora, Shift+kliknutie vloží veľké písmeno.</value></data>
+  <data name="DemoEditorPaletteGerman" xml:space="preserve"><value>Nemecké písmená</value></data>
+  <data name="DemoEditorPaletteChosen" xml:space="preserve"><value>Vybrané znaky: {0}</value></data>
+  <data name="DemoEditorPaletteNone" xml:space="preserve"><value>žiadne</value></data>
   <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>pravapis</value></data>
   <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>pravopis</value></data>
   <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Opakované slovo</value></data>

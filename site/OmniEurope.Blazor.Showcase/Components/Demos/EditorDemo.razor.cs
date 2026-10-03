@@ -62,6 +62,26 @@ public partial class EditorDemo
         OmniHtmlEditorCommands.Undo, OmniHtmlEditorCommands.Redo
     ];
 
+    /// <summary>The special letters of French, as a host would pick them for the language being typed.</summary>
+    private static readonly IReadOnlyList<string> FrenchCharacters = ["é", "è", "ê", "ë", "à", "â", "ç", "î", "ï", "ô", "û", "ù", "œ", "æ", "«", "»"];
+
+    /// <summary>The special letters of German and its quotation marks; ß has no single uppercase letter and stays as it is.</summary>
+    private static readonly IReadOnlyList<string> GermanCharacters = ["ä", "ö", "ü", "ß", "„", "“"];
+
+    /// <summary>A short toolbar: the palette is the point of this editor.</summary>
+    private static readonly IReadOnlyList<OmniHtmlEditorCommand> PaletteCommands =
+    [
+        OmniHtmlEditorCommands.Bold, OmniHtmlEditorCommands.Italic, OmniHtmlEditorCommands.Separator,
+        OmniHtmlEditorCommands.Undo, OmniHtmlEditorCommands.Redo
+    ];
+
+    private string Accented { get; set; } = string.Empty;
+
+    /// <summary>What the standalone palette handed out, in order.</summary>
+    private string Chosen { get; set; } = string.Empty;
+
+    private void Choose(string character) => Chosen += character;
+
     private DemoNoteExtension NoteExtension { get; set; } = default!;
 
     private string Extended { get; set; } = string.Empty;
@@ -129,6 +149,8 @@ public partial class EditorDemo
             Encoded("DemoEditorOpinion"),
             $"<span class=\"demo-note\" data-state=\"new\" contenteditable=\"false\">{Encoded("DemoEditorOpinionNote")}</span>") + "</p>"
             + $"<p>{Encoded("DemoEditorProofreadingSample")}</p>";
+
+        Accented = $"<p>{Encoded("DemoEditorPaletteSample")}</p>";
 
         Report =
             $"<h1>{Encoded("DemoEditorReportLabel")}</h1>" +

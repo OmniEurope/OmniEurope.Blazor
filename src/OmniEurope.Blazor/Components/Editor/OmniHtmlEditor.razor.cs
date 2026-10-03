@@ -174,6 +174,17 @@ public partial class OmniHtmlEditor
     /// </summary>
     [Parameter] public bool ToolbarLabels { get; set; }
 
+    /// <summary>
+    /// The special characters offered under the editing surface (the letters of the language being typed: the
+    /// accented letters of French, the umlauts of German), one character or grapheme per item, drawn by an <see cref="OmniCharacterPalette"/>.
+    /// A click types the character at the caret as one undo step, exactly like typing it. Shown on the visual
+    /// face only, while the editor is editable (neither <see cref="ReadOnly"/> nor <see cref="Disabled"/>) and
+    /// the list is not empty. Null, the default: no palette.
+    /// </summary>
+    [Parameter] public IReadOnlyList<string>? Characters { get; set; }
+
+    private bool ShowsCharacterPalette => Characters is { Count: > 0 } && !IsLocked && _mode == OmniHtmlEditorMode.Visual;
+
     /// <summary>The face shown. The editor's own source button changes it and raises <see cref="ModeChanged"/>.</summary>
     [Parameter] public OmniHtmlEditorMode Mode { get; set; }
     /// <summary>Raised with the new face when the editor's own source button switches it; not raised when the parent changes <see cref="Mode"/>.</summary>
@@ -683,7 +694,11 @@ public partial class OmniHtmlEditor
         }
     }
 
-    private string TableAccept => HtmlEditorPanels.TableAccept(_extensionSet.TableReaders);
+    /// <summary>A character of the palette under the surface, typed at the caret through the surface's own text insertion.</summary>
+    private Task InsertPaletteCharacterAsync(string character) =>
+        IsLocked || _mode != OmniHtmlEditorMode.Visual ? Task.CompletedTask : InsertTextAsync(character);
+
+    private string TableAccept =>HtmlEditorPanels.TableAccept(_extensionSet.TableReaders);
 
     private Task ReadTableFileAsync(IReadOnlyList<IBrowserFile> files) => _panels.ReadTableFileAsync(files, _extensionSet.TableReaders);
 

@@ -1,0 +1,27 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+@* A row of characters the host chose (the special letters of a language) that a click hands back.
+   The buttons never take the focus on a press, so an editor beside them keeps its caret and selection. *@
+<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-character-palette")" role="toolbar" aria-label="@EffectiveLabel">
+    @if (ShowsToggle)
+    {
+        <button type="button"
+                class="omni-character-palette__case"
+                aria-pressed="@(_uppercase ? "true" : "false")"
+                aria-label="@EffectiveUppercaseLabel"
+                title="@EffectiveUppercaseLabel"
+                @onmousedown:preventDefault
+                @onclick="ToggleCase"><span aria-hidden="true">⇧</span></button>
+        <span class="omni-character-palette__separator" role="separator" aria-orientation="vertical"></span>
+    }
+    @foreach (var (character, index) in Shown)
+    {
+        <button @key="index"
+                type="button"
+                class="omni-character-palette__character"
+                aria-label="@Localize("CharacterPaletteInsert", Displayed(character))"
+                @onmousedown:preventDefault
+                @onclick="args => SelectAsync(character, args)">@Displayed(character)</button>
+    }
+</div>

@@ -1316,6 +1316,11 @@
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>subject to</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> verification</value></data>
   <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>The checker underlines a doubtful speling and a repeated repeated word.</value></data>
+  <data name="DemoEditorPaletteLabel" xml:space="preserve"><value>Note in French</value></data>
+  <data name="DemoEditorPaletteSample" xml:space="preserve"><value>Click below the text: the chosen letter is inserted at the caret, Shift+click for the capital.</value></data>
+  <data name="DemoEditorPaletteGerman" xml:space="preserve"><value>German letters</value></data>
+  <data name="DemoEditorPaletteChosen" xml:space="preserve"><value>Characters chosen: {0}</value></data>
+  <data name="DemoEditorPaletteNone" xml:space="preserve"><value>none</value></data>
   <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>speling</value></data>
   <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>spelling</value></data>
   <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Repeated word</value></data>

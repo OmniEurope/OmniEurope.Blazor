@@ -170,6 +170,9 @@
   <data name="HtmlEditorInsertSpecialCharacter" xml:space="preserve"><value>Specialtegn</value></data>
   <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Søg efter et tegn</value></data>
   <data name="HtmlEditorCharNone" xml:space="preserve"><value>Intet tegn matcher.</value></data>
+  <data name="CharacterPaletteLabel" xml:space="preserve"><value>Specialtegn</value></data>
+  <data name="CharacterPaletteUppercase" xml:space="preserve"><value>Store bogstaver</value></data>
+  <data name="CharacterPaletteInsert" xml:space="preserve"><value>Indsæt {0}</value></data>
   <data name="HtmlEditorCharCategoryCommon" xml:space="preserve"><value>Almindelige</value></data>
   <data name="HtmlEditorCharCategoryCurrency" xml:space="preserve"><value>Valuta</value></data>
   <data name="HtmlEditorCharCategoryArrows" xml:space="preserve"><value>Pile</value></data>

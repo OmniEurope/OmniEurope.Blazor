@@ -16,6 +16,7 @@ component OmniEurope.Blazor.Components.OmniBreadcrumbItem
 component OmniEurope.Blazor.Components.OmniButton
 component OmniEurope.Blazor.Components.OmniCard
 component OmniEurope.Blazor.Components.OmniCategoryAxis
+component OmniEurope.Blazor.Components.OmniCharacterPalette
 component OmniEurope.Blazor.Components.OmniChart
 component OmniEurope.Blazor.Components.OmniCheckBox<TValue>
 component OmniEurope.Blazor.Components.OmniCheckBoxList<TValue>
@@ -165,6 +166,7 @@ ctor public OmniEurope.Blazor.Components.OmniBreadcrumbService(Microsoft.AspNetC
 ctor public OmniEurope.Blazor.Components.OmniButton()
 ctor public OmniEurope.Blazor.Components.OmniCard()
 ctor public OmniEurope.Blazor.Components.OmniCategoryAxis()
+ctor public OmniEurope.Blazor.Components.OmniCharacterPalette()
 ctor public OmniEurope.Blazor.Components.OmniChart()
 ctor public OmniEurope.Blazor.Components.OmniChartPoint(System.Double X, System.Double Y, System.String? Label = null)
 ctor public OmniEurope.Blazor.Components.OmniChartSlice(System.String Label, System.Double Value)
@@ -956,6 +958,7 @@ method protected override OmniEurope.Blazor.Components.OmniButton.BuildRenderTre
 method protected override OmniEurope.Blazor.Components.OmniCard.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniCategoryAxis.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniCategoryAxis.OnParametersSet() : System.Void
+method protected override OmniEurope.Blazor.Components.OmniCharacterPalette.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniChart.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniChart.OnInitialized() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniChart.OnParametersSet() : System.Void
@@ -2112,6 +2115,12 @@ property public OmniEurope.Blazor.Components.OmniCard.Density : OmniEurope.Blazo
 property public OmniEurope.Blazor.Components.OmniCard.Footer : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniCard.Header : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniCategoryAxis.Labels : System.Collections.Generic.IReadOnlyList<System.String> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniCharacterPalette.Characters : System.Collections.Generic.IReadOnlyList<System.String> {get(public);set(public)} [Parameter, EditorRequired]
+property public OmniEurope.Blazor.Components.OmniCharacterPalette.IsUppercase : System.Boolean {get(public)}
+property public OmniEurope.Blazor.Components.OmniCharacterPalette.Label : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniCharacterPalette.OnSelect : Microsoft.AspNetCore.Components.EventCallback<System.String> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniCharacterPalette.ShowUppercaseToggle : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniCharacterPalette.UppercaseLabel : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniChart.AspectRatio : System.Double {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniChart.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniChart.DataTableContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
@@ -2609,6 +2618,7 @@ property public OmniEurope.Blazor.Components.OmniHtmlCaretSplit.After : System.S
 property public OmniEurope.Blazor.Components.OmniHtmlCaretSplit.Before : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.CharacterCount : System.Int32 {get(public)}
+property public OmniEurope.Blazor.Components.OmniHtmlEditor.Characters : System.Collections.Generic.IReadOnlyList<System.String>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.Commands : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniHtmlEditorCommand>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.DocumentTitle : System.String? {get(public);set(public)} [Parameter]
@@ -3510,6 +3520,7 @@ type public OmniEurope.Blazor.Components.OmniButtonVariant [enum, sealed] : Syst
 type public OmniEurope.Blazor.Components.OmniCalendarView [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniCard [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniCategoryAxis [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
+type public OmniEurope.Blazor.Components.OmniCharacterPalette [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniChart [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniChartPoint [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniChartPoint>
 type public OmniEurope.Blazor.Components.OmniChartSlice [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniChartSlice>

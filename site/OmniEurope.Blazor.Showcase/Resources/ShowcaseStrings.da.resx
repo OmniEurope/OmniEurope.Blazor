@@ -1313,6 +1313,11 @@
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>med forbehold</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> for kontrol</value></data>
   <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Kontrollen understreger en tvivlsom stavening og et gentaget gentaget ord.</value></data>
+  <data name="DemoEditorPaletteLabel" xml:space="preserve"><value>Note på fransk</value></data>
+  <data name="DemoEditorPaletteSample" xml:space="preserve"><value>Klik under teksten: det valgte bogstav indsættes ved markøren, Skift+klik for det store bogstav.</value></data>
+  <data name="DemoEditorPaletteGerman" xml:space="preserve"><value>Tyske bogstaver</value></data>
+  <data name="DemoEditorPaletteChosen" xml:space="preserve"><value>Valgte tegn: {0}</value></data>
+  <data name="DemoEditorPaletteNone" xml:space="preserve"><value>ingen</value></data>
   <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>stavening</value></data>
   <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>stavning</value></data>
   <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Gentaget ord</value></data>

@@ -1313,6 +1313,11 @@
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>ar nosacījumu</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value>, ka tiks pārbaudīts</value></data>
   <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Pārbaude pasvītro apšaubāmu pareizrakstiba un atkārtotu atkārtotu vārdu.</value></data>
+  <data name="DemoEditorPaletteLabel" xml:space="preserve"><value>Piezīme franču valodā</value></data>
+  <data name="DemoEditorPaletteSample" xml:space="preserve"><value>Noklikšķiniet zem teksta: izvēlētais burts tiek ievietots kursora vietā, Shift+klikšķis ievieto lielo burtu.</value></data>
+  <data name="DemoEditorPaletteGerman" xml:space="preserve"><value>Vācu burti</value></data>
+  <data name="DemoEditorPaletteChosen" xml:space="preserve"><value>Izvēlētās rakstzīmes: {0}</value></data>
+  <data name="DemoEditorPaletteNone" xml:space="preserve"><value>nav</value></data>
   <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>pareizrakstiba</value></data>
   <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>pareizrakstība</value></data>
   <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Atkārtots vārds</value></data>

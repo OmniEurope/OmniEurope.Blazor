@@ -170,6 +170,9 @@
   <data name="HtmlEditorInsertSpecialCharacter" xml:space="preserve"><value>Erikoismerkki</value></data>
   <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Hae merkkiä</value></data>
   <data name="HtmlEditorCharNone" xml:space="preserve"><value>Vastaavia merkkejä ei ole.</value></data>
+  <data name="CharacterPaletteLabel" xml:space="preserve"><value>Erikoismerkit</value></data>
+  <data name="CharacterPaletteUppercase" xml:space="preserve"><value>Isot kirjaimet</value></data>
+  <data name="CharacterPaletteInsert" xml:space="preserve"><value>Lisää {0}</value></data>
   <data name="HtmlEditorCharCategoryCommon" xml:space="preserve"><value>Yleiset</value></data>
   <data name="HtmlEditorCharCategoryCurrency" xml:space="preserve"><value>Valuutat</value></data>
   <data name="HtmlEditorCharCategoryArrows" xml:space="preserve"><value>Nuolet</value></data>

@@ -170,6 +170,9 @@
   <data name="HtmlEditorInsertSpecialCharacter" xml:space="preserve"><value>Specialtecken</value></data>
   <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Sök efter ett tecken</value></data>
   <data name="HtmlEditorCharNone" xml:space="preserve"><value>Inget tecken matchar.</value></data>
+  <data name="CharacterPaletteLabel" xml:space="preserve"><value>Specialtecken</value></data>
+  <data name="CharacterPaletteUppercase" xml:space="preserve"><value>Versaler</value></data>
+  <data name="CharacterPaletteInsert" xml:space="preserve"><value>Infoga {0}</value></data>
   <data name="HtmlEditorCharCategoryCommon" xml:space="preserve"><value>Vanliga</value></data>
   <data name="HtmlEditorCharCategoryCurrency" xml:space="preserve"><value>Valutor</value></data>
   <data name="HtmlEditorCharCategoryArrows" xml:space="preserve"><value>Pilar</value></data>

@@ -170,6 +170,9 @@
   <data name="HtmlEditorInsertSpecialCharacter" xml:space="preserve"><value>Caracter special</value></data>
   <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Caută un caracter</value></data>
   <data name="HtmlEditorCharNone" xml:space="preserve"><value>Niciun caracter nu corespunde.</value></data>
+  <data name="CharacterPaletteLabel" xml:space="preserve"><value>Caractere speciale</value></data>
+  <data name="CharacterPaletteUppercase" xml:space="preserve"><value>Majuscule</value></data>
+  <data name="CharacterPaletteInsert" xml:space="preserve"><value>Inserează {0}</value></data>
   <data name="HtmlEditorCharCategoryCommon" xml:space="preserve"><value>Uzuale</value></data>
   <data name="HtmlEditorCharCategoryCurrency" xml:space="preserve"><value>Monede</value></data>
   <data name="HtmlEditorCharCategoryArrows" xml:space="preserve"><value>Săgeți</value></data>

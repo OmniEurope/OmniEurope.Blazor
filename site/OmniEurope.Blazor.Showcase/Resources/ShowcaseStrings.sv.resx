@@ -1313,6 +1313,11 @@
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>med förbehåll</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> för kontroll</value></data>
   <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Kontrollen stryker under en tveksam stavnig och ett upprepat upprepat ord.</value></data>
+  <data name="DemoEditorPaletteLabel" xml:space="preserve"><value>Anteckning på franska</value></data>
+  <data name="DemoEditorPaletteSample" xml:space="preserve"><value>Klicka under texten: den valda bokstaven infogas vid markören, Skift+klick för versalen.</value></data>
+  <data name="DemoEditorPaletteGerman" xml:space="preserve"><value>Tyska bokstäver</value></data>
+  <data name="DemoEditorPaletteChosen" xml:space="preserve"><value>Valda tecken: {0}</value></data>
+  <data name="DemoEditorPaletteNone" xml:space="preserve"><value>inga</value></data>
   <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>stavnig</value></data>
   <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>stavning</value></data>
   <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Upprepat ord</value></data>

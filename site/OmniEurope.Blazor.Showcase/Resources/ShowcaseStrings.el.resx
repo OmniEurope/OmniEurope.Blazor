@@ -1313,6 +1313,11 @@
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>υπό την επιφύλαξη</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> επαλήθευσης</value></data>
   <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Ο έλεγχος υπογραμμίζει μια αμφίβολη ορθογραφεία και μια επαναλαμβανόμενη επαναλαμβανόμενη λέξη.</value></data>
+  <data name="DemoEditorPaletteLabel" xml:space="preserve"><value>Σημείωση στα γαλλικά</value></data>
+  <data name="DemoEditorPaletteSample" xml:space="preserve"><value>Κάντε κλικ κάτω από το κείμενο: το επιλεγμένο γράμμα εισάγεται στη θέση του δρομέα, Shift+κλικ για το κεφαλαίο.</value></data>
+  <data name="DemoEditorPaletteGerman" xml:space="preserve"><value>Γερμανικά γράμματα</value></data>
+  <data name="DemoEditorPaletteChosen" xml:space="preserve"><value>Επιλεγμένοι χαρακτήρες: {0}</value></data>
+  <data name="DemoEditorPaletteNone" xml:space="preserve"><value>κανένας</value></data>
   <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>ορθογραφεία</value></data>
   <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>ορθογραφία</value></data>
   <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Επαναλαμβανόμενη λέξη</value></data>

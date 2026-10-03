@@ -1313,6 +1313,11 @@
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>soġġett għal</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> verifika</value></data>
   <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Il-kontroll jissottolinja ortografja dubjuża u kelma ripetuta ripetuta.</value></data>
+  <data name="DemoEditorPaletteLabel" xml:space="preserve"><value>Nota bil-Franċiż</value></data>
+  <data name="DemoEditorPaletteSample" xml:space="preserve"><value>Ikklikkja taħt it-test: l-ittra magħżula tiddaħħal fejn hemm il-kursur, Shift+klikk għall-ittra kbira.</value></data>
+  <data name="DemoEditorPaletteGerman" xml:space="preserve"><value>Ittri Ġermaniżi</value></data>
+  <data name="DemoEditorPaletteChosen" xml:space="preserve"><value>Karattri magħżula: {0}</value></data>
+  <data name="DemoEditorPaletteNone" xml:space="preserve"><value>xejn</value></data>
   <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>ortografja</value></data>
   <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>ortografija</value></data>
   <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Kelma ripetuta</value></data>

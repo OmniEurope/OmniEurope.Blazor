@@ -46,6 +46,17 @@
 .omni-html-editor__character { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius-sm); color: var(--omni-color-text); cursor: pointer; font: inherit; font-size: 1.125rem; min-height: 2.5rem; }
 .omni-html-editor__character:hover { background: var(--omni-color-surface-hover); }
 .omni-html-editor__character:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+/* OmniCharacterPalette: the host's characters in a wrapping row; each button follows the density and keeps a
+   44 px target, across by its width and up and down through a transparent layer (::before), as the pager does. */
+.omni-character-palette { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); padding: var(--omni-space-xs) var(--omni-space-sm); }
+.omni-character-palette__character, .omni-character-palette__case { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius-sm); color: var(--omni-color-text); cursor: pointer; font: inherit; font-size: 1.125rem; line-height: 1; min-height: var(--omni-control-height); min-width: 2.75rem; position: relative; }
+.omni-character-palette__character::before, .omni-character-palette__case::before { content: ""; inset-block: min(0px, calc((var(--omni-control-height) - 2.75rem) / 2)); inset-inline: 0; position: absolute; }
+.omni-character-palette__character:hover, .omni-character-palette__case:hover { background: var(--omni-color-surface-hover); }
+.omni-character-palette__character:focus-visible, .omni-character-palette__case:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-character-palette__case[aria-pressed="true"] { background: var(--omni-color-accent-fill); border-color: var(--omni-color-accent-fill); color: var(--omni-color-on-accent-fill); }
+.omni-character-palette__case[aria-pressed="true"]:hover { background: var(--omni-color-accent-fill-hover); }
+.omni-character-palette__separator { align-self: stretch; border-inline-start: var(--omni-border-width) solid var(--omni-color-border); margin-inline: var(--omni-space-xs); }
+.omni-html-editor__palette { background: var(--omni-color-surface-muted); border-block-start: var(--omni-border-width) solid var(--omni-color-border); }
 .omni-html-editor__table-preview { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius-sm); max-height: 14rem; overflow: auto; padding: var(--omni-space-xs); }
 .omni-html-editor__check { align-items: center; display: inline-flex; flex: 1 1 auto; gap: var(--omni-space-xs); }
 /* Show blocks: every block of the document gets a dashed outline, its structure visible while writing. */

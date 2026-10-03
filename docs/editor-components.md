@@ -1,6 +1,6 @@
 # Éditeurs : WYSIWYG, traitement de texte et code
 
-La famille Editor couvre six composants :
+La famille Editor couvre sept composants :
 
 | Composant | Rôle |
 | --- | --- |
@@ -10,8 +10,9 @@ La famille Editor couvre six composants :
 | `OmniCodeViewer` | Code en lecture seule, numéroté, lignes surlignées et liens, bouton de copie. |
 | `OmniCodeBlock` | Commande, extrait ou jeton à copier ; un secret reste masqué jusqu'à ce qu'on le révèle. |
 | `OmniUnifiedDiff` | Diff unifié (`git diff`) dessiné sans Monaco, un bloc repliable par fichier. |
+| `OmniCharacterPalette` | Rangée de caractères fournis par l'hôte (lettres de la langue saisie) ; un clic rend le caractère sans retirer le focus d'un éditeur. |
 
-`OmniHtmlEditor` produit du HTML assaini ; `OmniCodeEditor` édite du texte brut ; les quatre autres affichent sans éditer.
+`OmniHtmlEditor` produit du HTML assaini ; `OmniCodeEditor` édite du texte brut ; `OmniCharacterPalette` fournit des caractères à insérer ; les quatre autres affichent sans éditer.
 
 ## OmniHtmlEditor
 
@@ -230,6 +231,19 @@ défaut) :
 
 `ChangeCase` et `ShowBlocks` sont désactivées en face source.
 
+### Caractères de la langue saisie
+
+`Characters` (`IReadOnlyList<string>?`, null par défaut, aucune palette) pose une `OmniCharacterPalette` sous la
+surface d'édition : les lettres particulières de la langue que l'utilisateur tape (é è ê à ç œ « » en français,
+ä ö ü ß en allemand). L'hôte fournit le jeu, et le change quand la langue change ; le paquet ne contient aucune
+table de langue. Un clic tape le caractère au curseur par l'insertion de texte de la surface, comme une frappe :
+une seule étape d'historique, `ValueChanged` levé. La palette n'apparaît qu'en face visuelle, liste non vide,
+éditeur modifiable (ni `ReadOnly` ni `Disabled`) ; elle porte `aria-controls` vers la surface.
+
+```razor
+<OmniHtmlEditor @bind-Value="Text" Characters="@(["é", "è", "ê", "à", "ç", "œ", "«", "»"])" />
+```
+
 ### Extensions
 
 `Extensions` (`IReadOnlyList<OmniHtmlEditorExtension>`) : ce qu'une application ajoute à l'éditeur, sans
@@ -322,6 +336,34 @@ accessible de l'éditeur, « Traitement de texte » par défaut avec `Sheet`.
 - Les boutons de la barre d'état téléchargent `FileName.html` et `FileName.txt` par
   `omni-document-editor.js` (un `Blob` et un lien de téléchargement).
 - `Disabled` verrouille la page, `Rows` en donne la hauteur minimale.
+
+## OmniCharacterPalette : lettres de la langue saisie
+
+Une rangée de boutons, un par caractère fourni par l'hôte ; un clic lève `OnSelect` avec le caractère.
+`OmniHtmlEditor.Characters` en pose une sous l'éditeur ; seule, elle sert tout champ que l'hôte complète
+lui-même.
+
+| Paramètre | Rôle |
+| --- | --- |
+| `Characters` | Obligatoire, `IReadOnlyList<string>` : un caractère ou un graphème par élément (`"é"`, `"«"`, `"ß"`, une lettre suivie d'un accent combinant) ; les éléments vides sont ignorés. |
+| `OnSelect` | `EventCallback<string>`, le caractère choisi dans la casse affichée. |
+| `Label` | Nom accessible de la barre ; null donne « Caractères spéciaux » localisé. |
+| `UppercaseLabel` | Nom accessible de la bascule majuscules ; null donne « Majuscules » localisé. |
+| `ShowUppercaseToggle` | Vrai par défaut ; faux retire la bascule (Maj+clic reste actif). |
+
+- Majuscules : la bascule (`aria-pressed`, glyphe ⇧) n'apparaît que si au moins un caractère a une forme
+  majuscule distincte (`ToUpper` en culture invariante). Pressée, les boutons montrent et rendent les
+  majuscules ; Maj+clic rend la majuscule d'un seul caractère. Un caractère sans majuscule (ponctuation, ß,
+  que la culture invariante ne change pas) reste tel quel. `IsUppercase` lit l'état de la bascule.
+- Focus : le `mousedown` de chaque bouton est neutralisé, si bien qu'un clic ne retire ni le focus ni la
+  sélection d'un éditeur voisin. Au clavier : `role="toolbar"` et des boutons natifs atteints par Tab,
+  actionnés par Entrée ou Espace, comme la barre d'`OmniHtmlEditor` (pas de focus itinérant).
+- Chaque bouton est nommé « Insérer é » (`CharacterPaletteInsert`), dans les 24 langues. Chaque cible garde
+  44 px de large et, par une couche transparente, 44 px de haut ; le bouton lui-même suit la densité.
+
+```razor
+<OmniCharacterPalette Label="Lettres allemandes" Characters="@(["ä", "ö", "ü", "ß"])" OnSelect="Append" />
+```
 
 ## OmniCodeEditor
 

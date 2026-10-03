@@ -206,6 +206,12 @@ public sealed class PageHeaderTests : OmniBunitContext
         Assert.Equal("calc(0.5ex - 0.5cap)", ShippedLookTests.Value(icon, "inset-block-start"));
         Assert.Equal("middle", ShippedLookTests.Value(icon, "vertical-align"));
         Assert.Equal("var(--omni-page-header-line)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-page-header .omni-page-header__icon"), "line-height"));
+
+        // The title scrolls, so it clips at its padding box: the padding leaves the descenders their room
+        // and the equal negative margin keeps the line in place.
+        var title = ShippedLookTests.Body(".omni-page-header .omni-page-header__title");
+        Assert.Equal("0.25em", ShippedLookTests.Value(title, "padding-block"));
+        Assert.Equal("-0.25em 0", ShippedLookTests.Value(title, "margin"));
     }
 
     [Fact]

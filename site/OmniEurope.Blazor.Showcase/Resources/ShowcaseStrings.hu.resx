@@ -1313,6 +1313,11 @@
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>azzal a feltétellel</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value>, hogy ellenőrizzük</value></data>
   <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Az ellenőrző aláhúzza a kétes helyesíras és az ismételt ismételt szót.</value></data>
+  <data name="DemoEditorPaletteLabel" xml:space="preserve"><value>Jegyzet franciául</value></data>
+  <data name="DemoEditorPaletteSample" xml:space="preserve"><value>Kattintson a szöveg alatt: a választott betű a kurzorhoz kerül, Shift+kattintás a nagybetűhöz.</value></data>
+  <data name="DemoEditorPaletteGerman" xml:space="preserve"><value>Német betűk</value></data>
+  <data name="DemoEditorPaletteChosen" xml:space="preserve"><value>Választott karakterek: {0}</value></data>
+  <data name="DemoEditorPaletteNone" xml:space="preserve"><value>nincs</value></data>
   <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>helyesíras</value></data>
   <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>helyesírás</value></data>
   <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Ismételt szó</value></data>

@@ -1313,6 +1313,11 @@
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>onder voorbehoud</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> van controle</value></data>
   <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>De controle onderstreept een twijfelachtige spellig en een herhaald herhaald woord.</value></data>
+  <data name="DemoEditorPaletteLabel" xml:space="preserve"><value>Notitie in het Frans</value></data>
+  <data name="DemoEditorPaletteSample" xml:space="preserve"><value>Klik onder de tekst: de gekozen letter wordt bij de cursor ingevoegd, Shift+klik voor de hoofdletter.</value></data>
+  <data name="DemoEditorPaletteGerman" xml:space="preserve"><value>Duitse letters</value></data>
+  <data name="DemoEditorPaletteChosen" xml:space="preserve"><value>Gekozen tekens: {0}</value></data>
+  <data name="DemoEditorPaletteNone" xml:space="preserve"><value>geen</value></data>
   <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>spellig</value></data>
   <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>spelling</value></data>
   <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Herhaald woord</value></data>

@@ -1313,6 +1313,11 @@
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>с резерва за</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> проверка</value></data>
   <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Коректорът подчертава съмнителен правапис и повторена повторена дума.</value></data>
+  <data name="DemoEditorPaletteLabel" xml:space="preserve"><value>Бележка на френски</value></data>
+  <data name="DemoEditorPaletteSample" xml:space="preserve"><value>Щракнете под текста: избраната буква се вмъква при курсора, Shift+щракване за главна.</value></data>
+  <data name="DemoEditorPaletteGerman" xml:space="preserve"><value>Немски букви</value></data>
+  <data name="DemoEditorPaletteChosen" xml:space="preserve"><value>Избрани знаци: {0}</value></data>
+  <data name="DemoEditorPaletteNone" xml:space="preserve"><value>няма</value></data>
   <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>правапис</value></data>
   <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>правопис</value></data>
   <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Повторена дума</value></data>

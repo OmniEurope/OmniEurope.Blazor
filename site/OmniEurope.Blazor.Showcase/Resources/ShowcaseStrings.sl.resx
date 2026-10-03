@@ -1313,6 +1313,11 @@
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>s pridržkom</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> preverjanja</value></data>
   <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Preverjanje podčrta dvomljiv pravapis in ponovljeno ponovljeno besedo.</value></data>
+  <data name="DemoEditorPaletteLabel" xml:space="preserve"><value>Opomba v francoščini</value></data>
+  <data name="DemoEditorPaletteSample" xml:space="preserve"><value>Kliknite pod besedilom: izbrana črka se vstavi na mesto kazalke, Shift+klik za veliko črko.</value></data>
+  <data name="DemoEditorPaletteGerman" xml:space="preserve"><value>Nemške črke</value></data>
+  <data name="DemoEditorPaletteChosen" xml:space="preserve"><value>Izbrani znaki: {0}</value></data>
+  <data name="DemoEditorPaletteNone" xml:space="preserve"><value>nobenega</value></data>
   <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>pravapis</value></data>
   <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>pravopis</value></data>
   <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Ponovljena beseda</value></data>

@@ -170,6 +170,9 @@
   <data name="HtmlEditorInsertSpecialCharacter" xml:space="preserve"><value>Poseban znak</value></data>
   <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Traži znak</value></data>
   <data name="HtmlEditorCharNone" xml:space="preserve"><value>Nijedan znak ne odgovara.</value></data>
+  <data name="CharacterPaletteLabel" xml:space="preserve"><value>Posebni znakovi</value></data>
+  <data name="CharacterPaletteUppercase" xml:space="preserve"><value>Velika slova</value></data>
+  <data name="CharacterPaletteInsert" xml:space="preserve"><value>Umetni {0}</value></data>
   <data name="HtmlEditorCharCategoryCommon" xml:space="preserve"><value>Uobičajeni</value></data>
   <data name="HtmlEditorCharCategoryCurrency" xml:space="preserve"><value>Valute</value></data>
   <data name="HtmlEditorCharCategoryArrows" xml:space="preserve"><value>Strelice</value></data>

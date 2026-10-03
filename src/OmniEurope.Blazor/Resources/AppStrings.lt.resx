@@ -170,6 +170,9 @@
   <data name="HtmlEditorInsertSpecialCharacter" xml:space="preserve"><value>Specialusis simbolis</value></data>
   <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Ieškoti simbolio</value></data>
   <data name="HtmlEditorCharNone" xml:space="preserve"><value>Atitinkančių simbolių nėra.</value></data>
+  <data name="CharacterPaletteLabel" xml:space="preserve"><value>Specialieji simboliai</value></data>
+  <data name="CharacterPaletteUppercase" xml:space="preserve"><value>Didžiosios raidės</value></data>
+  <data name="CharacterPaletteInsert" xml:space="preserve"><value>Įterpti {0}</value></data>
   <data name="HtmlEditorCharCategoryCommon" xml:space="preserve"><value>Dažni</value></data>
   <data name="HtmlEditorCharCategoryCurrency" xml:space="preserve"><value>Valiutos</value></data>
   <data name="HtmlEditorCharCategoryArrows" xml:space="preserve"><value>Rodyklės</value></data>

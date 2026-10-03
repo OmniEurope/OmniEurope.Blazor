@@ -1313,6 +1313,11 @@
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>a reserva</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> de verificación</value></data>
   <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>El corrector subraya una hortografía dudosa y una palabra repetida repetida.</value></data>
+  <data name="DemoEditorPaletteLabel" xml:space="preserve"><value>Nota en francés</value></data>
+  <data name="DemoEditorPaletteSample" xml:space="preserve"><value>Haga clic bajo el texto: la letra elegida se inserta en el cursor, Mayús+clic para la mayúscula.</value></data>
+  <data name="DemoEditorPaletteGerman" xml:space="preserve"><value>Letras alemanas</value></data>
+  <data name="DemoEditorPaletteChosen" xml:space="preserve"><value>Caracteres elegidos: {0}</value></data>
+  <data name="DemoEditorPaletteNone" xml:space="preserve"><value>ninguno</value></data>
   <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>hortografía</value></data>
   <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>ortografía</value></data>
   <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Palabra repetida</value></data>

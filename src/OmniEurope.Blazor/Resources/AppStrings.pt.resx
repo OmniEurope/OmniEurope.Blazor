@@ -170,6 +170,9 @@
   <data name="HtmlEditorInsertSpecialCharacter" xml:space="preserve"><value>Caráter especial</value></data>
   <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Procurar um caráter</value></data>
   <data name="HtmlEditorCharNone" xml:space="preserve"><value>Nenhum caráter corresponde.</value></data>
+  <data name="CharacterPaletteLabel" xml:space="preserve"><value>Carateres especiais</value></data>
+  <data name="CharacterPaletteUppercase" xml:space="preserve"><value>Maiúsculas</value></data>
+  <data name="CharacterPaletteInsert" xml:space="preserve"><value>Inserir {0}</value></data>
   <data name="HtmlEditorCharCategoryCommon" xml:space="preserve"><value>Comuns</value></data>
   <data name="HtmlEditorCharCategoryCurrency" xml:space="preserve"><value>Moedas</value></data>
   <data name="HtmlEditorCharCategoryArrows" xml:space="preserve"><value>Setas</value></data>

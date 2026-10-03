@@ -1313,6 +1313,11 @@
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>sub rezerva</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> verificării</value></data>
   <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Corectorul subliniază o ortografe îndoielnică și un cuvânt repetat repetat.</value></data>
+  <data name="DemoEditorPaletteLabel" xml:space="preserve"><value>Notă în franceză</value></data>
+  <data name="DemoEditorPaletteSample" xml:space="preserve"><value>Faceți clic sub text: litera aleasă se inserează la cursor, Shift+clic pentru majusculă.</value></data>
+  <data name="DemoEditorPaletteGerman" xml:space="preserve"><value>Litere germane</value></data>
+  <data name="DemoEditorPaletteChosen" xml:space="preserve"><value>Caractere alese: {0}</value></data>
+  <data name="DemoEditorPaletteNone" xml:space="preserve"><value>niciunul</value></data>
   <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>ortografe</value></data>
   <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>ortografie</value></data>
   <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Cuvânt repetat</value></data>

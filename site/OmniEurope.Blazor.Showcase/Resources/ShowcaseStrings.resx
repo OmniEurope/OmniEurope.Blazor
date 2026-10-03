@@ -1316,6 +1316,11 @@
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>sous réserve</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> de vérification</value></data>
   <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>Le correcteur souligne une ortografe douteuse et un mot répété répété.</value></data>
+  <data name="DemoEditorPaletteLabel" xml:space="preserve"><value>Note en français</value></data>
+  <data name="DemoEditorPaletteSample" xml:space="preserve"><value>Cliquez sous le texte : la lettre choisie s'insère au curseur, Maj+clic pour la majuscule.</value></data>
+  <data name="DemoEditorPaletteGerman" xml:space="preserve"><value>Lettres allemandes</value></data>
+  <data name="DemoEditorPaletteChosen" xml:space="preserve"><value>Caractères choisis : {0}</value></data>
+  <data name="DemoEditorPaletteNone" xml:space="preserve"><value>aucun</value></data>
   <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>ortografe</value></data>
   <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>orthographe</value></data>
   <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Mot répété</value></data>

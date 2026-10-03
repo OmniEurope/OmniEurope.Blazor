@@ -170,6 +170,9 @@
   <data name="HtmlEditorInsertSpecialCharacter" xml:space="preserve"><value>Speciální znak</value></data>
   <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Hledat znak</value></data>
   <data name="HtmlEditorCharNone" xml:space="preserve"><value>Žádný znak neodpovídá.</value></data>
+  <data name="CharacterPaletteLabel" xml:space="preserve"><value>Speciální znaky</value></data>
+  <data name="CharacterPaletteUppercase" xml:space="preserve"><value>Velká písmena</value></data>
+  <data name="CharacterPaletteInsert" xml:space="preserve"><value>Vložit {0}</value></data>
   <data name="HtmlEditorCharCategoryCommon" xml:space="preserve"><value>Běžné</value></data>
   <data name="HtmlEditorCharCategoryCurrency" xml:space="preserve"><value>Měny</value></data>
   <data name="HtmlEditorCharCategoryArrows" xml:space="preserve"><value>Šipky</value></data>
