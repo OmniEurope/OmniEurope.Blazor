@@ -52,6 +52,11 @@ internal static class HtmlEditorToolbar
         return groups;
     }
 
+    /// <summary>Whether a command sits in the "more" menu rather than the bar: placed there, and not a list.</summary>
+    internal static bool InMenu(OmniHtmlEditorCommand command) => command.Overflow
+        && command.Action is not (OmniHtmlEditorAction.Separator or OmniHtmlEditorAction.BlockFormat
+            or OmniHtmlEditorAction.FontSize or OmniHtmlEditorAction.ChangeCase);
+
     /// <summary>The name the surface script knows a built-in action by.</summary>
     internal static string ScriptName(OmniHtmlEditorAction action) => action.ToString().ToLowerInvariant();
 

@@ -1298,6 +1298,7 @@
   <data name="DemoEditorAddSignature" xml:space="preserve"><value>Añadir la firma</value></data>
   <data name="DemoEditorInsertReference" xml:space="preserve"><value>Insertar la referencia</value></data>
   <data name="DemoEditorAddNote" xml:space="preserve"><value>Añadir una nota</value></data>
+  <data name="DemoEditorAddNoteDescription" xml:space="preserve"><value>Inserta una nota numerada en el margen del texto.</value></data>
   <data name="DemoEditorNewNoteSentence" xml:space="preserve"><value>Nueva nota.</value></data>
   <data name="DemoEditorNewNote" xml:space="preserve"><value>Nueva nota</value></data>
   <data name="DemoEditorRemoveNote" xml:space="preserve"><value>Quitar la nota</value></data>

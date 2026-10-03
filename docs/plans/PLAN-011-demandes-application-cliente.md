@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # PLAN-011 : Demandes OE de la recette
 
-> Statut : **ouvert**. Établi le 2026-10-02 à partir de neuf demandes de la recette décidées par le propriétaire ; lot 1 fait (R-052 mesuré : liste et bouton `Small` à 28 px, `Medium` 36 px, `Large` 44 px).
+> Statut : **ouvert**. Établi le 2026-10-02 à partir de neuf demandes de la recette décidées par le propriétaire ; lot 1 fait (R-052 mesuré : liste et bouton `Small` à 28 px, `Medium` 36 px, `Large` 44 px) ; lot 2 fait (à 620 px, `ToolbarRows="1"` tient la barre du document sur une ligne et passe 12 boutons dans « ⋮ », ouvert au clavier, une commande lancée depuis le menu s'applique ; infobulle « nom, puis description » vérifiée).
 
 ## Objectif
 
@@ -44,8 +44,8 @@ fichier `docs/guides/recette-ui-a-faire.md`.
 Controle : un test par point ; R-052 mesuré en navigateur (select `Small` et bouton `Small` de même hauteur).
 
 ### Lot 2 - Éditeur HTML
-- [ ] R-042 : menu « ⋮ » (`OmniOverflowMenu`) en bout de barre pour les commandes secondaires ou qui ne tiennent pas, nombre de lignes borné, libellés visibles en option sur grand écran ; une commande dit si elle est principale.
-- [ ] R-043 : infobulle OE sur chaque contrôle de la barre ; description optionnelle par commande (`OmniHtmlEditorCommand`) montrée dans l'infobulle.
+- [x] R-042 : menu « ⋮ » (`OmniOverflowMenu`) en bout de barre pour les commandes secondaires ou qui ne tiennent pas, nombre de lignes borné, libellés visibles en option sur grand écran ; une commande dit si elle est principale.
+- [x] R-043 : infobulle OE sur chaque contrôle de la barre ; description optionnelle par commande (`OmniHtmlEditorCommand`) montrée dans l'infobulle.
 Controle : extension de 50 commandes en vitrine tenue en deux lignes au plus à 1280 px, débordement atteignable au clavier ; infobulle visible en navigateur.
 
 ### Lot 3 - Mise en page

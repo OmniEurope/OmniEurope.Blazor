@@ -1298,6 +1298,7 @@
   <data name="DemoEditorAddSignature" xml:space="preserve"><value>Dodaj potpis</value></data>
   <data name="DemoEditorInsertReference" xml:space="preserve"><value>Umetni referencu</value></data>
   <data name="DemoEditorAddNote" xml:space="preserve"><value>Dodaj bilješku</value></data>
+  <data name="DemoEditorAddNoteDescription" xml:space="preserve"><value>Umeće numeriranu bilješku na rub teksta.</value></data>
   <data name="DemoEditorNewNoteSentence" xml:space="preserve"><value>Nova bilješka.</value></data>
   <data name="DemoEditorNewNote" xml:space="preserve"><value>Nova bilješka</value></data>
   <data name="DemoEditorRemoveNote" xml:space="preserve"><value>Ukloni bilješku</value></data>

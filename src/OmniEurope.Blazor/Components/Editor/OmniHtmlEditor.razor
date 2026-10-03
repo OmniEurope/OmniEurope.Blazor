@@ -32,7 +32,7 @@
 
     RenderFragment editor =
         @<section class="@EditorClass" aria-label="@VisualAriaLabel" aria-labelledby="@VisualLabelledBy">
-            <div class="omni-html-editor__toolbar" role="toolbar" aria-label="@Localize("HtmlEditorToolbar")" aria-controls="@SurfaceId">
+            <div @ref="_toolbar" class="@(ToolbarLabels ? "omni-html-editor__toolbar omni-html-editor__toolbar--labels" : "omni-html-editor__toolbar")" role="toolbar" aria-label="@Localize("HtmlEditorToolbar")" aria-controls="@SurfaceId">
                 @foreach (var (group, groupIndex) in ToolbarGroups.Select((group, index) => (group, index)))
                 {
                     <span class="omni-html-editor__group">
@@ -45,7 +45,7 @@
                             @switch (command.Action)
                             {
                                 case OmniHtmlEditorAction.BlockFormat:
-                                    <select @key="(command, _selectGeneration)" class="omni-html-editor__select" data-command="@command.Name" aria-label="@LabelOf(command)" title="@LabelOf(command)" disabled="@IsDisabled(command)" value="@_selection.Block" @onchange="args => ChooseAsync(command, args)">
+                                    <select @key="(command, _selectGeneration)" class="omni-html-editor__select" data-command="@command.Name" aria-label="@LabelOf(command)" aria-description="@command.Description" data-omni-tip="@TipOf(command)" disabled="@IsDisabled(command)" value="@_selection.Block" @onchange="args => ChooseAsync(command, args)">
                                         @foreach (var (value, key) in HtmlEditorToolbar.BlockFormats)
                                         {
                                             <option value="@value">@Localize(key)</option>
@@ -53,7 +53,7 @@
                                     </select>
                                     break;
                                 case OmniHtmlEditorAction.FontSize:
-                                    <select @key="(command, _selectGeneration)" class="omni-html-editor__select" data-command="@command.Name" aria-label="@LabelOf(command)" title="@LabelOf(command)" disabled="@IsDisabled(command)" value="@_selection.Size" @onchange="args => ChooseAsync(command, args)">
+                                    <select @key="(command, _selectGeneration)" class="omni-html-editor__select" data-command="@command.Name" aria-label="@LabelOf(command)" aria-description="@command.Description" data-omni-tip="@TipOf(command)" disabled="@IsDisabled(command)" value="@_selection.Size" @onchange="args => ChooseAsync(command, args)">
                                         @foreach (var (value, key) in HtmlEditorToolbar.FontSizes)
                                         {
                                             <option value="@value">@Localize(key)</option>
@@ -62,7 +62,7 @@
                                     break;
                                 case OmniHtmlEditorAction.ChangeCase:
                                     @* An action rather than a state: the list shows its name and comes back to it once a case is chosen. *@
-                                    <select @key="(command, _selectGeneration)" class="omni-html-editor__select" data-command="@command.Name" aria-label="@LabelOf(command)" title="@LabelOf(command)" disabled="@IsDisabled(command)" value="" @onchange="args => ChooseAsync(command, args)">
+                                    <select @key="(command, _selectGeneration)" class="omni-html-editor__select" data-command="@command.Name" aria-label="@LabelOf(command)" aria-description="@command.Description" data-omni-tip="@TipOf(command)" disabled="@IsDisabled(command)" value="" @onchange="args => ChooseAsync(command, args)">
                                         <option value="" disabled>@LabelOf(command)</option>
                                         <option value="upper">@Localize("HtmlEditorCaseUpper")</option>
                                         <option value="lower">@Localize("HtmlEditorCaseLower")</option>
@@ -75,7 +75,8 @@
                                             class="@(icon is null ? "omni-html-editor__tool omni-html-editor__tool--text" : "omni-html-editor__tool")"
                                             data-command="@command.Name"
                                             aria-label="@LabelOf(command)"
-                                            title="@LabelOf(command)"
+                                            aria-description="@command.Description"
+                                            data-omni-tip="@TipOf(command)"
                                             aria-pressed="@PressedOf(command)"
                                             disabled="@IsDisabled(command)"
                                             @onmousedown:preventDefault
@@ -83,6 +84,10 @@
                                         @if (icon is { } name)
                                         {
                                             <OmniIcon Name="name" />
+                                            @if (ToolbarLabels)
+                                            {
+                                                <span class="omni-html-editor__tool-label" aria-hidden="true">@LabelOf(command)</span>
+                                            }
                                         }
                                         else
                                         {
@@ -92,6 +97,29 @@
                                     break;
                             }
                         }
+                    </span>
+                }
+                @* The commands placed in the menu, and those a row limit moved there (ToolbarRows): the
+                   script hides the button of the menu while nothing has to go in it. *@
+                @if (ShowsMoreMenu)
+                {
+                    var menuCommands = MenuCommands;
+                    <span class="omni-html-editor__more" data-omni-fixed="@ArrangedCommands.Count(HtmlEditorToolbar.InMenu)">
+                        <OmniOverflowMenu Size="OmniControlSize.Small" Disabled="@(menuCommands.Count == 0)">
+                            @foreach (var command in menuCommands)
+                            {
+                                var menuIcon = IconOf(command);
+                                <OmniMenuItem data-command="@command.Name" data-omni-tip="@(string.IsNullOrWhiteSpace(command.Description) ? null : command.Description)" Disabled="@IsDisabled(command)" OnClick="() => RunAsync(command)">
+                                    <Icon>
+                                        @if (menuIcon is { } menuIconName)
+                                        {
+                                            <OmniIcon Name="menuIconName" />
+                                        }
+                                    </Icon>
+                                    <ChildContent>@LabelOf(command)</ChildContent>
+                                </OmniMenuItem>
+                            }
+                        </OmniOverflowMenu>
                     </span>
                 }
             </div>

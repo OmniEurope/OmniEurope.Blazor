@@ -19,6 +19,21 @@ public sealed record OmniHtmlEditorCommand(string Name, OmniHtmlEditorAction Act
     /// <summary>The icon. Null keeps the icon of a built-in action; a custom command without one shows its label.</summary>
     public OmniIconName? Icon { get; init; }
 
+    /// <summary>
+    /// What the command is for, shown under its name in the package tooltip of its toolbar control and
+    /// given to assistive technologies as its description (<c>aria-description</c>). Null: the name alone.
+    /// </summary>
+    public string? Description { get; init; }
+
+    /// <summary>
+    /// Places the command in the "more" menu (⋮) at the end of the toolbar rather than in the bar: the
+    /// secondary commands of a long toolbar. False, the default: in the bar, where
+    /// <see cref="OmniHtmlEditor.ToolbarRows"/> may still move it to the menu when it does not fit. The
+    /// lists (<see cref="OmniHtmlEditorAction.BlockFormat"/>, <see cref="OmniHtmlEditorAction.FontSize"/>,
+    /// <see cref="OmniHtmlEditorAction.ChangeCase"/>) always stay in the bar.
+    /// </summary>
+    public bool Overflow { get; init; }
+
     /// <summary>The handler of a <see cref="OmniHtmlEditorAction.Custom"/> command.</summary>
     public Func<OmniHtmlEditorCommandContext, Task>? Execute { get; init; }
 

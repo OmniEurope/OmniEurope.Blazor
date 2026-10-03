@@ -20,6 +20,9 @@ import {
 import { describe, apply, readClipboard } from './html-editor/commands.js';
 import { moveBetweenCells } from './html-editor/tables.js';
 import { requestSuggestion, clearSuggestion, acceptSuggestion } from './html-editor/suggestions.js';
+// The toolbar held to a number of rows, and the package tooltips of its controls.
+export { fitToolbar, unfit as unfitToolbar } from './html-editor/toolbar.js';
+export { installPackageTooltips, uninstallPackageTooltips } from './omni-tooltip.js';
 
 const inputDelay = 250;
 const selectionDelay = 120;

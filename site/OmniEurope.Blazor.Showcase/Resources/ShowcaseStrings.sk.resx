@@ -1298,6 +1298,7 @@
   <data name="DemoEditorAddSignature" xml:space="preserve"><value>Pridať podpis</value></data>
   <data name="DemoEditorInsertReference" xml:space="preserve"><value>Vložiť značku</value></data>
   <data name="DemoEditorAddNote" xml:space="preserve"><value>Pridať poznámku</value></data>
+  <data name="DemoEditorAddNoteDescription" xml:space="preserve"><value>Vloží očíslovanú poznámku na okraj textu.</value></data>
   <data name="DemoEditorNewNoteSentence" xml:space="preserve"><value>Nová poznámka.</value></data>
   <data name="DemoEditorNewNote" xml:space="preserve"><value>Nová poznámka</value></data>
   <data name="DemoEditorRemoveNote" xml:space="preserve"><value>Odobrať poznámku</value></data>

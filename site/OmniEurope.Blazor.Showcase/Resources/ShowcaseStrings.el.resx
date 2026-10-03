@@ -1298,6 +1298,7 @@
   <data name="DemoEditorAddSignature" xml:space="preserve"><value>Προσθήκη υπογραφής</value></data>
   <data name="DemoEditorInsertReference" xml:space="preserve"><value>Εισαγωγή του αριθμού αναφοράς</value></data>
   <data name="DemoEditorAddNote" xml:space="preserve"><value>Προσθήκη σημείωσης</value></data>
+  <data name="DemoEditorAddNoteDescription" xml:space="preserve"><value>Εισάγει μια αριθμημένη σημείωση στο περιθώριο του κειμένου.</value></data>
   <data name="DemoEditorNewNoteSentence" xml:space="preserve"><value>Νέα σημείωση.</value></data>
   <data name="DemoEditorNewNote" xml:space="preserve"><value>Νέα σημείωση</value></data>
   <data name="DemoEditorRemoveNote" xml:space="preserve"><value>Αφαίρεση της σημείωσης</value></data>

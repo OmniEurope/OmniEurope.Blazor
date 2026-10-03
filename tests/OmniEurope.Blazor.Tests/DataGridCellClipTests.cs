@@ -44,12 +44,12 @@ public sealed class DataGridCellClipTests : OmniBunitContext
         // omni-tooltip.js); the grid's part is to turn it on once and off when it is disposed.
         var grid = Render<DataGridLoopColumnsTestHost>(parameters => parameters.Add(component => component.CaptureValue, true));
 
-        Assert.Single(JSInterop.Invocations, invocation => invocation.Identifier == "installCutTooltips");
+        Assert.Single(JSInterop.Invocations, invocation => invocation.Identifier == "installPackageTooltips");
         grid.Render();
-        Assert.Single(JSInterop.Invocations, invocation => invocation.Identifier == "installCutTooltips");
+        Assert.Single(JSInterop.Invocations, invocation => invocation.Identifier == "installPackageTooltips");
 
         await DisposeComponentsAsync();
-        Assert.Single(JSInterop.Invocations, invocation => invocation.Identifier == "uninstallCutTooltips");
+        Assert.Single(JSInterop.Invocations, invocation => invocation.Identifier == "uninstallPackageTooltips");
     }
 
     [Fact]

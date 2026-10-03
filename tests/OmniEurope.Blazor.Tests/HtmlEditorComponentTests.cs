@@ -105,7 +105,8 @@ public sealed class HtmlEditorComponentTests : OmniBunitContext
         editor.Find("textarea").Input("<p>Changed</p>");
 
         Assert.Equal("<p>Bonjour</p>", value);
-        Assert.Empty(JSInterop.Invocations);
+        // The only script calls are the toolbar's tooltips (module import and install), which change no content.
+        Assert.All(JSInterop.Invocations, invocation => Assert.Contains(invocation.Identifier, new[] { "import", "installPackageTooltips" }));
     }
 
     [Theory]

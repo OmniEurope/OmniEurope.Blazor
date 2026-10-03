@@ -185,9 +185,12 @@ export function install() {
 // focused, so the native tooltip never shows, and comes back as soon as it is left: the accessible name
 // and every title selector stay intact.
 //
-// The same box shows the whole text of a data grid cell cut by its ellipsis, only while it is cut (the
-// cell is narrower than its text). Every grid turns this on (installCutTooltips), whether or not the
-// host replaced its title tooltips; the cell keeps its full text in the page for screen readers.
+// The same box serves the package's own tips, whether or not the host replaced its title tooltips: the
+// whole text of a data grid cell cut by its ellipsis, only while it is cut (the cell is narrower than
+// its text), and the text of an element carrying data-omni-tip (the toolbar of the HTML editor, with
+// a command's description on its second line). A grid or an editor turns them on
+// (installPackageTooltips). The cell keeps its full text in the page for screen readers, and an
+// element with a tip keeps its accessible name.
 
 const TITLE_DELAY = 450;
 // How many OmniTitleTooltips are placed: with the grids below, they share one set of listeners.
@@ -196,14 +199,14 @@ let titleBox = null;
 let titleTarget = null;
 let titleTimer = 0;
 let titlePointer = { x: 0, y: 0 };
-// How many grids are on the page: cut cells get the tooltip while one is.
-let cutInstalls = 0;
+// How many grids and editors are on the page: cut cells and data-omni-tip get the tooltip while one is.
+let packageInstalls = 0;
 const CUT_CELL = '.omni-data-grid__cell--text';
 
 const isCut = element => element.scrollWidth > element.clientWidth + 1;
 
 // What a pointer or the focus reaches: an element with a title once a host replaced title tooltips,
-// else a grid cell whose text is cut.
+// else an element with a package tip, else a grid cell whose text is cut.
 const tipTarget = target => {
     if (!(target instanceof Element)) {
         return null;
@@ -214,12 +217,21 @@ const tipTarget = target => {
         return titled;
     }
 
-    const cell = cutInstalls > 0 ? target.closest(CUT_CELL) : null;
+    if (packageInstalls === 0) {
+        return null;
+    }
+
+    const tipped = target.closest('[data-omni-tip]');
+    if (tipped) {
+        return tipped;
+    }
+
+    const cell = target.closest(CUT_CELL);
     return cell && isCut(cell) ? cell : null;
 };
 
 const titleOf = element => element.getAttribute('title') || element.getAttribute('data-omni-title')
-    || (element.matches(CUT_CELL) ? element.textContent.trim() : '');
+    || element.getAttribute('data-omni-tip') || (element.matches(CUT_CELL) ? element.textContent.trim() : '');
 
 const adoptTitle = element => {
     const title = element.getAttribute('title');
@@ -337,7 +349,7 @@ const listen = add => {
 
 // The first user (a title host or a grid) installs the listeners.
 const acquire = () => {
-    if (titleInstalls + cutInstalls === 1) {
+    if (titleInstalls + packageInstalls === 1) {
         listen(true);
     }
 };
@@ -346,7 +358,7 @@ const acquire = () => {
 // the browser's tooltips return; while another remains, only the tooltip shown now is closed.
 const release = () => {
     hideTitle();
-    if (titleInstalls + cutInstalls === 0) {
+    if (titleInstalls + packageInstalls === 0) {
         listen(false);
         titleBox?.remove();
         titleBox = null;
@@ -368,17 +380,17 @@ export function uninstallTitleTooltips() {
     release();
 }
 
-// Called by each data grid placed on the page, then when it goes away.
-export function installCutTooltips() {
-    cutInstalls++;
+// Called by each data grid and HTML editor placed on the page, then when it goes away.
+export function installPackageTooltips() {
+    packageInstalls++;
     acquire();
 }
 
-export function uninstallCutTooltips() {
-    if (cutInstalls === 0) {
+export function uninstallPackageTooltips() {
+    if (packageInstalls === 0) {
         return;
     }
 
-    cutInstalls--;
+    packageInstalls--;
     release();
 }

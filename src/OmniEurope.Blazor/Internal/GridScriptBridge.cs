@@ -124,7 +124,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         }
 
         var module = await ModuleAsync();
-        await module.InvokeVoidAsync("installCutTooltips");
+        await module.InvokeVoidAsync("installPackageTooltips");
         _cutTooltipsInstalled = true;
     }
 
@@ -330,7 +330,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
             if (_cutTooltipsInstalled && _gridModule is not null)
             {
                 _cutTooltipsInstalled = false;
-                await _gridModule.InvokeVoidAsync("uninstallCutTooltips");
+                await _gridModule.InvokeVoidAsync("uninstallPackageTooltips");
             }
 
             if (_gridModule is not null)

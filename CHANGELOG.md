@@ -12,6 +12,8 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 - Jeton de thème `--omni-scope-page` : la couleur de page d'un thème qui la veut plus profonde que la surface de la palette ; `initial` par défaut, la portée garde alors sa surface. Trou noir s'en sert pour un noir profond quelle que soit la palette (surface à 25 %, le reste en noir neutre, recette, point 83), et son trou noir y prend la couleur de son horizon.
 - `OmniIconName.FileDoc` : icône de document Word (tracé Phosphor `file-doc`) ; `OmniIcon.FormatColor` colore une icône de fichier de la couleur de son format (PDF danger, Word info, tableurs succès, Markdown atténué), le bouton qui la porte gardant sa variante (recette R-051).
 - `Size` (`OmniControlSize`) sur les champs d'une ligne (`OmniTextBox`, `OmniPassword`, `OmniNumeric`, `OmniDropDown`, sélecteurs de date et d'heure, `OmniAutocomplete`) : `Small` et `Large` prennent la hauteur du bouton de même taille, pour qu'une barre d'outils mêlant liste déroulante et boutons reste alignée (recette R-052).
+- `OmniHtmlEditor` : `ToolbarRows` borne la barre d'outils à un nombre de lignes, les boutons qui ouvriraient une ligne de plus passant dans un menu « ⋮ » au bout de la barre ; `OmniHtmlEditorCommand.Overflow` y range une commande secondaire ; `ToolbarLabels` affiche les noms à côté des icônes à partir de 64 rem (recette R-042).
+- `OmniHtmlEditor` : chaque contrôle de la barre porte l'infobulle du paquet au lieu du `title` natif, et `OmniHtmlEditorCommand.Description` y ajoute à quoi sert la commande (`aria-description`) ; le moteur d'infobulle de la grille et de l'éditeur sert tout élément `data-omni-tip` (recette R-043).
 
 ### Changed
 
