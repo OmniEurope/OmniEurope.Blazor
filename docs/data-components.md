@@ -327,6 +327,40 @@ comme n'importe quel autre filtre.
   panneau `ShowGroupPanel` les affiche avec un retrait par regroupement. `AllGroupsExpanded` fixe
   l'état initial ; chaque en-tête de groupe se replie individuellement.
 
+### Agrégats et pieds de groupe
+
+`Aggregate` (`OmniDataGridAggregate` : `None` par défaut, `Sum`, `Average`, `Min`, `Max`, `Count`) fait
+calculer une colonne. Le résultat va dans la ligne de pied de la grille, sur toutes les lignes que les
+filtres retiennent (toutes les pages d'une grille à `Items`, les lignes chargées d'une grille à `Load`),
+et, tant que des groupes sont actifs, dans une ligne qui ferme chaque groupe, sur les lignes du groupe.
+`AggregateFormat` écrit le pied de grille (`Total : {0:n2}`), `GroupAggregateFormat` le pied de groupe
+(`Sous-total : {0:n2}`) ; sans eux, `FormatString` puis la valeur en texte. `Sum` et `Average` additionnent
+les nombres (en `decimal`, en `double` dès qu'une valeur est `double` ou `float`), `Min` et `Max` comparent
+des valeurs d'un même type (nombres, dates, textes), `Count` compte les lignes ; une valeur vide est
+ignorée. Une colonne qui a un `FooterContent` le garde dans le pied de grille.
+
+`GroupFooterTemplate` (`RenderFragment<OmniDataGridGroupContext<TItem>>`) remplace l'agrégat dans la ligne
+de pied de groupe : le contexte donne la valeur groupée (`Key`), la colonne groupée (`ColumnKey`), le niveau
+(`Level`, 0 pour le regroupement extérieur) et les lignes du groupe (`Items`, groupes imbriqués compris).
+
+```razor
+<OmniDataGrid TItem="Poste" Items="Postes" AllowGrouping="true" Groups="@([new OmniDataGridGroup("Groupe")])">
+    <Columns>
+        <OmniDataGridColumn TItem="Poste" Property="Groupe" Title="Groupe">
+            <GroupFooterTemplate>@context.Key</GroupFooterTemplate>
+        </OmniDataGridColumn>
+        <OmniDataGridColumn TItem="Poste" Property="Emissions" Title="tCO2e" Aggregate="OmniDataGridAggregate.Sum"
+                            AggregateFormat="Total : {0:n2}" GroupAggregateFormat="Sous total : {0:n2}" />
+    </Columns>
+</OmniDataGrid>
+```
+
+La ligne de pied de groupe (`omni-data-grid__group-footer`, `data-omni-group-level`) n'existe que si une
+colonne visible porte un `Aggregate` ou un `GroupFooterTemplate`. Elle suit la dernière ligne du groupe,
+les groupes intérieurs avant les extérieurs ; un groupe replié garde la sienne sous son en-tête, un groupe
+caché par un ancêtre replié n'en a pas. Comme les compteurs des en-têtes, elle porte sur les lignes de la
+vue : la page affichée d'une grille paginée. L'export n'écrit ni pieds de groupe ni agrégats.
+
 ## Sélection, lignes et édition
 
 - `SelectionMode` et `Value`/`ValueChanged` (lignes choisies, `IReadOnlyList<TItem>`) ; `KeyOf` donne la
@@ -366,6 +400,43 @@ comme n'importe quel autre filtre.
   et `ShowExpandAll` ; le nom accessible du chevron vient des ressources. Le bouton d'en-tête de
   `ShowExpandAll` ouvre ou ferme les lignes de la page affichée, sans toucher aux autres pages, et n'est
   proposé qu'en `OmniDataGridRowMode.Multiple`.
+
+## Lignes en arbre
+
+`ChildrenOf` (`Func<TItem, IReadOnlyList<TItem>?>`) fait de la grille une arborescence : `Items` donne les
+lignes de premier niveau et `ChildrenOf` les enfants d'une ligne (null ou vide pour une feuille). Les lignes
+sont reconnues par `KeyOf`.
+
+```razor
+<OmniDataGrid TItem="Poste" Items="Categories" KeyOf="p => p.Id" ChildrenOf="p => p.Enfants"
+              CanToggleTreeRow="p => p.Niveau > 0" InitiallyExpanded="p => false"
+              ToggleTreeOnRowClick="true" @bind-TreeExpandedKeys="Ouverts" OnCellDoubleClick="DetaillerAsync">
+```
+
+- **Rendu.** La colonne d'arbre (`TreeColumnKey`, à défaut la première colonne visible) commence par un retrait
+  par niveau (`--omni-data-grid-tree-indent`, 1,25 rem ; le 8e niveau et au-delà partagent le même), puis le
+  chevron d'une ligne qui a des enfants, ou un blanc de même largeur sur une feuille pour aligner les textes.
+  La ligne porte `data-omni-tree-level` (profondeur depuis 0), sur laquelle l'hôte peut mettre en forme un
+  niveau (`RowRender` donne aussi une classe par ligne).
+- **État.** `TreeExpandedKeys` / `TreeExpandedKeysChanged` lient les clés des lignes ouvertes ; la grille tient
+  son propre état, remplacé par une nouvelle liste de l'hôte. `InitiallyExpanded` décide une seule fois de
+  l'état d'une ligne que la grille rencontre et que la liste n'a pas déjà décidée ; sans lui, tout part fermé.
+  `CanToggleTreeRow` à `false` rend une ligne toujours ouverte et sans chevron : ses enfants restent visibles.
+  Fermer une ligne cache toute sa descendance. `ExpandAllTreeRowsAsync()` et `CollapseAllTreeRowsAsync()`
+  ouvrent ou ferment toutes les lignes qui peuvent l'être et le rapportent une fois.
+- **Clavier et accessibilité.** La table prend `role="treegrid"`, chaque ligne `aria-level` (depuis 1) et, si
+  elle peut s'ouvrir, `aria-expanded`. Le chevron est un vrai bouton (nom « Développer la ligne » ou « Réduire
+  la ligne »), qui garde ses clics et ses touches. Avec `ToggleTreeOnRowClick`, un clic sur la ligne, Entrée
+  ou Espace l'ouvrent ou la ferment, Droite l'ouvre et Gauche la ferme ; les lignes deviennent focalisables.
+  Chaque clic bascule la ligne, si bien qu'un double clic la laisse dans son état (ouverte puis refermée, ou
+  l'inverse) : le double clic sur une cellule (`OnCellDoubleClick`) garde son action sans changer l'arbre.
+- **Tri et filtres.** Le tri range les frères sous leur parent, à chaque niveau. Un filtre garde les lignes
+  qu'il retient, leurs ancêtres (pour les situer) et leurs descendants ; tant qu'il est actif, chaque ligne
+  gardée est montrée ouverte, sans toucher à l'état enregistré.
+- **Limites.** Une grille en arbre rend toutes ses lignes : `ScrollMode`, la pagination et la virtualisation ne
+  s'y appliquent pas, ni le regroupement (`Groups` est ignoré). `Load` est refusé par une exception, l'arbre
+  demandant toutes les lignes. L'agrégat de pied de grille porte sur les lignes de premier niveau ; l'export
+  écrit toutes les lignes retenues, à tous les niveaux et dans l'ordre de l'arbre, sans retrait.
 
 ## Pagination
 

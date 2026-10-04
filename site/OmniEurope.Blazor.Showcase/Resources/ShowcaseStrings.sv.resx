@@ -1516,4 +1516,24 @@
   <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Före den 15:e</value></data>
   <data name="DemoGridAdvancedCellHint" xml:space="preserve"><value>Dubbelklicka på en cell: den visas här.</value></data>
   <data name="DemoGridAdvancedCellRead" xml:space="preserve"><value>{0} för {1}: {2}</value></data>
+  <data name="DemoGridAdvancedAggregate" xml:space="preserve"><value>Beräkning av belopp</value></data>
+  <data name="DemoGridAdvancedAggregateSum" xml:space="preserve"><value>Summa</value></data>
+  <data name="DemoGridAdvancedAggregateAverage" xml:space="preserve"><value>Medelvärde</value></data>
+  <data name="DemoGridAdvancedAggregateMin" xml:space="preserve"><value>Minimum</value></data>
+  <data name="DemoGridAdvancedAggregateMax" xml:space="preserve"><value>Maximum</value></data>
+  <data name="DemoGridAdvancedAggregateCount" xml:space="preserve"><value>Antal rader</value></data>
+  <data name="DemoGridAdvancedGroupFooter" xml:space="preserve"><value>{0}, ärenden: {1}</value></data>
+  <data name="DemoGridAdvancedAggregateNone" xml:space="preserve"><value>Ingen</value></data>
+  <data name="DemoGridTreeCaption" xml:space="preserve"><value>Resultaträkning</value></data>
+  <data name="DemoGridTreeColumnItem" xml:space="preserve"><value>Post</value></data>
+  <data name="DemoGridTreeVariation" xml:space="preserve"><value>Förändring</value></data>
+  <data name="DemoGridTreeIncome" xml:space="preserve"><value>Intäkter</value></data>
+  <data name="DemoGridTreeSales" xml:space="preserve"><value>Försäljning</value></data>
+  <data name="DemoGridTreeServices" xml:space="preserve"><value>Tjänster</value></data>
+  <data name="DemoGridTreeGoods" xml:space="preserve"><value>Varor</value></data>
+  <data name="DemoGridTreeExpenses" xml:space="preserve"><value>Kostnader</value></data>
+  <data name="DemoGridTreePurchases" xml:space="preserve"><value>Inköp</value></data>
+  <data name="DemoGridTreeStaff" xml:space="preserve"><value>Personal</value></data>
+  <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Fäll ut alla</value></data>
+  <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Fäll ihop alla</value></data>
 </root>

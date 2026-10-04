@@ -22,8 +22,39 @@ public partial class DataGridDemo
 
     private IReadOnlyList<RunRow> SelectedRuns { get; set; } = [];
 
+    private IReadOnlyList<StatementLine> Statement { get; set; } = [];
+
+    private OmniDataGrid<StatementLine>? StatementGrid { get; set; }
+
+    private Task ExpandStatementAsync() => StatementGrid?.ExpandAllTreeRowsAsync() ?? Task.CompletedTask;
+
+    private Task CollapseStatementAsync() => StatementGrid?.CollapseAllTreeRowsAsync() ?? Task.CompletedTask;
+
     protected override void OnInitialized()
     {
+        Statement =
+        [
+            new("P", Text["DemoGridTreeIncome"], 0, 412000, 455500,
+            [
+                new("P70", Text["DemoGridTreeSales"], 1, 398000, 441000,
+                [
+                    new("706", "706 " + Text["DemoGridTreeServices"], 2, 310000, 352000),
+                    new("707", "707 " + Text["DemoGridTreeGoods"], 2, 88000, 89000)
+                ]),
+                new("758", "758 " + Text["DemoGridTreeIncome"], 1, 14000, 14500)
+            ]),
+            new("C", Text["DemoGridTreeExpenses"], 0, 351000, 372800,
+            [
+                new("C60", Text["DemoGridTreePurchases"], 1, 121000, 118300,
+                [
+                    new("607", "607 " + Text["DemoGridTreeGoods"], 2, 121000, 118300)
+                ]),
+                new("C64", Text["DemoGridTreeStaff"], 1, 230000, 254500,
+                [
+                    new("641", "641 " + Text["DemoGridTreeStaff"], 2, 230000, 254500)
+                ])
+            ])
+        ];
         Rows =
         [
             new("D-2401", "Camille Durand", Text["DemoGridCountryBelgium"], 12400),

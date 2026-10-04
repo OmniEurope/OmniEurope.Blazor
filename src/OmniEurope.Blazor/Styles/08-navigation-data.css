@@ -357,6 +357,19 @@
 .omni-data-grid :is(.omni-data-grid__expand, .omni-data-grid__group-expand) > svg { transform: rotate(-90deg); }
 .omni-data-grid :is(.omni-data-grid__expand, .omni-data-grid__group-expand):not(.omni-data-grid__expand--open):dir(rtl) > svg { transform: rotate(90deg); }
 .omni-data-grid .omni-data-grid__expand--open > svg { transform: none; }
+/* Tree rows (ChildrenOf): the lead of the tree column, indented by depth (the 8th level and beyond share
+   one indent), then the chevron, or a spacer as wide on a leaf so the texts of a level line up. */
+.omni-data-grid { --omni-data-grid-tree-indent: 1.25rem; }
+.omni-data-grid__tree { align-items: center; display: inline-flex; margin-inline: calc(var(--omni-tree-depth, 0) * var(--omni-data-grid-tree-indent)) var(--omni-space-xs); vertical-align: middle; }
+.omni-data-grid__tree[data-omni-tree-level="1"] { --omni-tree-depth: 1; }
+.omni-data-grid__tree[data-omni-tree-level="2"] { --omni-tree-depth: 2; }
+.omni-data-grid__tree[data-omni-tree-level="3"] { --omni-tree-depth: 3; }
+.omni-data-grid__tree[data-omni-tree-level="4"] { --omni-tree-depth: 4; }
+.omni-data-grid__tree[data-omni-tree-level="5"] { --omni-tree-depth: 5; }
+.omni-data-grid__tree[data-omni-tree-level="6"] { --omni-tree-depth: 6; }
+.omni-data-grid__tree[data-omni-tree-level="7"] { --omni-tree-depth: 7; }
+.omni-data-grid__tree[data-omni-tree-level="8"] { --omni-tree-depth: 8; }
+.omni-data-grid__tree-spacer { display: inline-block; inline-size: var(--omni-badge-height); }
 .omni-data-grid tbody > .omni-data-grid__detail > td { background: var(--omni-color-surface-muted); }
 .omni-data-grid__actions { white-space: nowrap; }
 .omni-data-grid__action--save { color: var(--omni-color-success); }
@@ -373,6 +386,8 @@
 .omni-data-grid__group th { background: var(--omni-color-surface-muted); color: var(--omni-color-text); padding-block: 0; }
 .omni-data-grid__group[data-omni-group-level="1"] th { padding-inline-start: var(--omni-space-lg); }
 .omni-data-grid__group[data-omni-group-level="2"] th { padding-inline-start: var(--omni-space-xl); }
+/* The footer row closing a group: its subtotals under a rule, in 600 like the selected rows' text. */
+.omni-data-grid tbody > .omni-data-grid__group-footer > td { border-block-start: var(--omni-border-width) solid var(--omni-color-border); font-weight: 600; }
 /* The column alignment (TextAlign) names the table so it outranks the cell default above
    (.omni-data-grid__table :is(th, td), 0,1,1): a bare class (0,1,0) lost to it on every header and cell. */
 .omni-data-grid__table .omni-data-grid__column--align-start { text-align: start; }

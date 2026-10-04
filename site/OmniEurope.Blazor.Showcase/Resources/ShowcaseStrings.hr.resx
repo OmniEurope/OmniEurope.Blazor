@@ -1516,4 +1516,24 @@
   <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Prije 15.</value></data>
   <data name="DemoGridAdvancedCellHint" xml:space="preserve"><value>Dvaput kliknite ćeliju: prikazuje se ovdje.</value></data>
   <data name="DemoGridAdvancedCellRead" xml:space="preserve"><value>{0} za {1}: {2}</value></data>
+  <data name="DemoGridAdvancedAggregate" xml:space="preserve"><value>Izračun iznosa</value></data>
+  <data name="DemoGridAdvancedAggregateSum" xml:space="preserve"><value>Zbroj</value></data>
+  <data name="DemoGridAdvancedAggregateAverage" xml:space="preserve"><value>Prosjek</value></data>
+  <data name="DemoGridAdvancedAggregateMin" xml:space="preserve"><value>Najmanje</value></data>
+  <data name="DemoGridAdvancedAggregateMax" xml:space="preserve"><value>Najviše</value></data>
+  <data name="DemoGridAdvancedAggregateCount" xml:space="preserve"><value>Broj redaka</value></data>
+  <data name="DemoGridAdvancedGroupFooter" xml:space="preserve"><value>{0}, predmeti: {1}</value></data>
+  <data name="DemoGridAdvancedAggregateNone" xml:space="preserve"><value>Bez</value></data>
+  <data name="DemoGridTreeCaption" xml:space="preserve"><value>Račun dobiti i gubitka</value></data>
+  <data name="DemoGridTreeColumnItem" xml:space="preserve"><value>Stavka</value></data>
+  <data name="DemoGridTreeVariation" xml:space="preserve"><value>Promjena</value></data>
+  <data name="DemoGridTreeIncome" xml:space="preserve"><value>Prihodi</value></data>
+  <data name="DemoGridTreeSales" xml:space="preserve"><value>Prodaja</value></data>
+  <data name="DemoGridTreeServices" xml:space="preserve"><value>Usluge</value></data>
+  <data name="DemoGridTreeGoods" xml:space="preserve"><value>Roba</value></data>
+  <data name="DemoGridTreeExpenses" xml:space="preserve"><value>Rashodi</value></data>
+  <data name="DemoGridTreePurchases" xml:space="preserve"><value>Nabava</value></data>
+  <data name="DemoGridTreeStaff" xml:space="preserve"><value>Osoblje</value></data>
+  <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Proširi sve</value></data>
+  <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Sažmi sve</value></data>
 </root>

@@ -102,3 +102,34 @@
         <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="@Text["DemoGridColumnApplicant"]" />
     </Columns>
 </OmniDataGrid>
+
+@* Un compte de résultat en arbre (ChildrenOf) : les catégories, toujours ouvertes (CanToggleTreeRow),
+   portent leurs sous-totaux, qui s'ouvrent d'un clic sur la ligne (ToggleTreeOnRowClick) ou par leur
+   chevron, Droite et Gauche au clavier ; les deux boutons ouvrent et ferment tout. Le tri range les
+   frères sous leur parent ; la colonne survolée se teinte (HighlightColumnOnHover). *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniRow Gap="OmniSpacing.Small">
+        <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="ExpandStatementAsync">
+            <OmniIcon Name="OmniIconName.CornersOut" /><span>@Text["DemoGridTreeExpandAll"]</span>
+        </OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="CollapseStatementAsync">
+            <OmniIcon Name="OmniIconName.CornersIn" /><span>@Text["DemoGridTreeCollapseAll"]</span>
+        </OmniButton>
+    </OmniRow>
+    <OmniDataGrid @ref="StatementGrid" TItem="StatementLine" Id="demo-grid-tree"
+                  Items="Statement"
+                  Caption="@Text["DemoGridTreeCaption"]"
+                  KeyOf="line => line.Id"
+                  ChildrenOf="line => line.Children"
+                  CanToggleTreeRow="line => line.Level > 0"
+                  ToggleTreeOnRowClick="true"
+                  HighlightColumnOnHover="true"
+                  Filterable="false">
+        <Columns>
+            <OmniDataGridColumn TItem="StatementLine" Property="Label" Title="@Text["DemoGridTreeColumnItem"]" HighlightOnHover="false" />
+            <OmniDataGridColumn TItem="StatementLine" Property="Previous" Title="2025" FormatString="{0:C0}" />
+            <OmniDataGridColumn TItem="StatementLine" Property="Current" Title="2026" FormatString="{0:C0}" />
+            <OmniDataGridColumn TItem="StatementLine" Property="Variation" Title="@Text["DemoGridTreeVariation"]" FormatString="{0:P1}" />
+        </Columns>
+    </OmniDataGrid>
+</OmniStack>

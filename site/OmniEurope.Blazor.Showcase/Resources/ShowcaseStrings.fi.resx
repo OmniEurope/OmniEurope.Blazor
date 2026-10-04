@@ -1516,4 +1516,24 @@
   <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Ennen 15. päivää</value></data>
   <data name="DemoGridAdvancedCellHint" xml:space="preserve"><value>Kaksoisnapsauta solua: se näytetään tässä.</value></data>
   <data name="DemoGridAdvancedCellRead" xml:space="preserve"><value>{0} – {1}: {2}</value></data>
+  <data name="DemoGridAdvancedAggregate" xml:space="preserve"><value>Summan laskenta</value></data>
+  <data name="DemoGridAdvancedAggregateSum" xml:space="preserve"><value>Summa</value></data>
+  <data name="DemoGridAdvancedAggregateAverage" xml:space="preserve"><value>Keskiarvo</value></data>
+  <data name="DemoGridAdvancedAggregateMin" xml:space="preserve"><value>Pienin</value></data>
+  <data name="DemoGridAdvancedAggregateMax" xml:space="preserve"><value>Suurin</value></data>
+  <data name="DemoGridAdvancedAggregateCount" xml:space="preserve"><value>Rivien määrä</value></data>
+  <data name="DemoGridAdvancedGroupFooter" xml:space="preserve"><value>{0}, asiakirjat: {1}</value></data>
+  <data name="DemoGridAdvancedAggregateNone" xml:space="preserve"><value>Ei mitään</value></data>
+  <data name="DemoGridTreeCaption" xml:space="preserve"><value>Tuloslaskelma</value></data>
+  <data name="DemoGridTreeColumnItem" xml:space="preserve"><value>Erä</value></data>
+  <data name="DemoGridTreeVariation" xml:space="preserve"><value>Muutos</value></data>
+  <data name="DemoGridTreeIncome" xml:space="preserve"><value>Tuotot</value></data>
+  <data name="DemoGridTreeSales" xml:space="preserve"><value>Myynti</value></data>
+  <data name="DemoGridTreeServices" xml:space="preserve"><value>Palvelut</value></data>
+  <data name="DemoGridTreeGoods" xml:space="preserve"><value>Tavarat</value></data>
+  <data name="DemoGridTreeExpenses" xml:space="preserve"><value>Kulut</value></data>
+  <data name="DemoGridTreePurchases" xml:space="preserve"><value>Ostot</value></data>
+  <data name="DemoGridTreeStaff" xml:space="preserve"><value>Henkilöstö</value></data>
+  <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Laajenna kaikki</value></data>
+  <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Tiivistä kaikki</value></data>
 </root>

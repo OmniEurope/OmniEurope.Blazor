@@ -111,6 +111,13 @@ internal sealed class GridCssClasses<TItem>(OmniDataGrid<TItem> grid)
         grid.ColumnSet.HasFrozenColumns ? "omni-data-grid__column--frozen" : null
     ]);
 
+    /// <summary>Whether a body cell carries the tree lead: the tree column (or the first visible one) of a tree row.</summary>
+    internal bool IsTreeColumn(GridRenderRow<TItem> row, OmniDataGridColumnDefinition<TItem> column) =>
+        row.Tree is not null
+        && (grid.TreeColumnKey is { } key && grid.ColumnSet.FindVisible(key) is not null
+            ? column.Key == key
+            : ReferenceEquals(column, grid.ColumnSet.VisibleColumns[0]));
+
     internal string ExpandButtonClass(bool expanded) => expanded
         ? "omni-data-grid__expand omni-data-grid__expand--open"
         : "omni-data-grid__expand";

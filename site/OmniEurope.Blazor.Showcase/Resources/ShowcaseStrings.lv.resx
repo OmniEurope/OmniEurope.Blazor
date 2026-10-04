@@ -1516,4 +1516,24 @@
   <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Līdz 15. datumam</value></data>
   <data name="DemoGridAdvancedCellHint" xml:space="preserve"><value>Veiciet dubultklikšķi uz šūnas: tā tiek parādīta šeit.</value></data>
   <data name="DemoGridAdvancedCellRead" xml:space="preserve"><value>{0} – {1}: {2}</value></data>
+  <data name="DemoGridAdvancedAggregate" xml:space="preserve"><value>Summas aprēķins</value></data>
+  <data name="DemoGridAdvancedAggregateSum" xml:space="preserve"><value>Summa</value></data>
+  <data name="DemoGridAdvancedAggregateAverage" xml:space="preserve"><value>Vidējais</value></data>
+  <data name="DemoGridAdvancedAggregateMin" xml:space="preserve"><value>Minimums</value></data>
+  <data name="DemoGridAdvancedAggregateMax" xml:space="preserve"><value>Maksimums</value></data>
+  <data name="DemoGridAdvancedAggregateCount" xml:space="preserve"><value>Rindu skaits</value></data>
+  <data name="DemoGridAdvancedGroupFooter" xml:space="preserve"><value>{0}, lietas: {1}</value></data>
+  <data name="DemoGridAdvancedAggregateNone" xml:space="preserve"><value>Nav</value></data>
+  <data name="DemoGridTreeCaption" xml:space="preserve"><value>Peļņas vai zaudējumu aprēķins</value></data>
+  <data name="DemoGridTreeColumnItem" xml:space="preserve"><value>Postenis</value></data>
+  <data name="DemoGridTreeVariation" xml:space="preserve"><value>Izmaiņas</value></data>
+  <data name="DemoGridTreeIncome" xml:space="preserve"><value>Ieņēmumi</value></data>
+  <data name="DemoGridTreeSales" xml:space="preserve"><value>Pārdošana</value></data>
+  <data name="DemoGridTreeServices" xml:space="preserve"><value>Pakalpojumi</value></data>
+  <data name="DemoGridTreeGoods" xml:space="preserve"><value>Preces</value></data>
+  <data name="DemoGridTreeExpenses" xml:space="preserve"><value>Izmaksas</value></data>
+  <data name="DemoGridTreePurchases" xml:space="preserve"><value>Iepirkumi</value></data>
+  <data name="DemoGridTreeStaff" xml:space="preserve"><value>Personāls</value></data>
+  <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Izvērst visu</value></data>
+  <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Sakļaut visu</value></data>
 </root>

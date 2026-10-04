@@ -1,3 +1,5 @@
+using OmniEurope.Blazor.Components;
+
 namespace OmniEurope.Blazor.Internal;
 
 /// <summary>
@@ -15,4 +17,11 @@ internal sealed record GridRenderRow<TItem>(
     string? Class,
     bool Expandable,
     bool Selectable,
-    int Slot = -1);
+    int Slot = -1)
+{
+    /// <summary>The group footer rows that close after this entry, innermost group first.</summary>
+    public IReadOnlyList<OmniDataGridGroupContext<TItem>> Footers { get; init; } = [];
+
+    /// <summary>The row's place in a tree grid, or null outside one.</summary>
+    public GridTreeNode<TItem>? Tree { get; init; }
+}

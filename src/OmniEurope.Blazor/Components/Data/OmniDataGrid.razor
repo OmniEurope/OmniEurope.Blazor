@@ -12,7 +12,14 @@
         @foreach (var column in ColumnSet.VisibleColumns)
         {
             <td class="@Classes.ColumnClass(column, false)" data-omni-col="@column.Key">
-                @column.FooterContent
+                @if (column.FooterContent is not null)
+                {
+                    @column.FooterContent
+                }
+                else if (column.Aggregate != OmniDataGridAggregate.None)
+                {
+                    @Aggregates.FooterText(column)
+                }
             </td>
         }
         @if (ColumnSet.HasEditing) { <td></td> }
@@ -109,6 +116,24 @@
         }
     </div>;
 
+    @* The tree column's lead: the indentation of the row's depth, then its chevron, or a spacer of the same
+       width on a leaf or an always-open row so the texts of one level line up. The chevron keeps its clicks
+       and keys: the row would otherwise toggle a second time. *@
+    RenderFragment<GridRenderRow<TItem>> treeLead = row => @<span class="omni-data-grid__tree" data-omni-tree-level="@Math.Min(row.Tree!.Level, 8)">
+        @if (row.Tree.HasChildren && row.Tree.Toggleable)
+        {
+            <button type="button" class="@Classes.ExpandButtonClass(row.Tree.Expanded) omni-data-grid__tree-toggle" aria-expanded="@(row.Tree.Expanded ? "true" : "false")"
+                    aria-label="@(row.Tree.Expanded ? Localize("GridCollapseRow") : Localize("GridExpandRow"))"
+                    @onclick="() => Tree.ToggleAsync(row.Item)" @onclick:stopPropagation="true" @ondblclick:stopPropagation="true" @onkeydown:stopPropagation="true">
+                <OmniIcon Name="OmniIconName.ChevronDown" Size="OmniControlSize.Small" />
+            </button>
+        }
+        else
+        {
+            <span class="omni-data-grid__tree-spacer" aria-hidden="true"></span>
+        }
+    </span>;
+
     @* Shortcut out of a filter: emptying one is the action worth a single click, and the cross only
        exists while there is something to empty. *@
     RenderFragment<OmniDataGridColumnDefinition<TItem>> filterReset = context => @<button type="button"
@@ -192,7 +217,7 @@
             </button>
         }
         <div @ref="_viewport" class="@Classes.ViewportClass()">
-            <table class="omni-data-grid__table" aria-rowcount="@Virtual.RowCountAttribute()">
+            <table class="omni-data-grid__table" role="@(Tree.Active ? "treegrid" : null)" aria-rowcount="@Virtual.RowCountAttribute()">
                 @if (!string.IsNullOrWhiteSpace(Caption))
                 {
                     <caption>@Caption</caption>
@@ -447,6 +472,9 @@
                                     data-omni-slot="@Rows.SlotAttribute(row)"
                                     aria-rowindex="@Virtual.RowIndexAttribute(row.Index)"
                                     aria-selected="@Selection.SelectionState(row.Item)"
+                                    aria-level="@(row.Tree is null ? null : row.Tree.Level + 1)"
+                                    aria-expanded="@(row.Tree is { HasChildren: true, Toggleable: true } ? (row.Tree.Expanded ? "true" : "false") : null)"
+                                    data-omni-tree-level="@row.Tree?.Level"
                                     tabindex="@(Selection.RowsAreInteractive && row.Selectable ? "0" : null)"
                                     @onclick="Selection.RowClickCallback(row)"
                                     @ondblclick="Selection.RowDoubleClickCallback(row)"
@@ -479,11 +507,11 @@
                                            after its own cell events when the host listens to them. *@
                                         @if (editing)
                                         {
-                                            <td class="@Classes.BodyCellClass(column, true)" data-omni-col="@column.Key" data-omni-label="@column.Title" @onclick:stopPropagation="true" @ondblclick:stopPropagation="true" @onkeydown:stopPropagation="true">@FilterControls.Cell(column, row.Item, true)</td>
+                                            <td class="@Classes.BodyCellClass(column, true)" data-omni-col="@column.Key" data-omni-label="@column.Title" @onclick:stopPropagation="true" @ondblclick:stopPropagation="true" @onkeydown:stopPropagation="true">@if (Classes.IsTreeColumn(row, column)) { @treeLead(row) }@FilterControls.Cell(column, row.Item, true)</td>
                                         }
                                         else
                                         {
-                                            <td class="@Classes.BodyCellClass(column, false)" data-omni-col="@column.Key" data-omni-label="@column.Title" @onclick="Selection.CellClickCallback(row, column)" @ondblclick="Selection.CellDoubleClickCallback(row, column)">@FilterControls.Cell(column, row.Item, false)</td>
+                                            <td class="@Classes.BodyCellClass(column, false)" data-omni-col="@column.Key" data-omni-label="@column.Title" @onclick="Selection.CellClickCallback(row, column)" @ondblclick="Selection.CellDoubleClickCallback(row, column)">@if (Classes.IsTreeColumn(row, column)) { @treeLead(row) }@FilterControls.Cell(column, row.Item, false)</td>
                                         }
                                     }
                                     @if (ColumnSet.HasEditing)
@@ -507,6 +535,28 @@
                             @if (row.ShowDetail && DetailTemplate is not null)
                             {
                                 <tr class="omni-data-grid__detail" data-omni-slot="@Rows.SlotAttribute(row)"><td colspan="@ColumnSet.ColumnSpan">@DetailTemplate(row.Item)</td></tr>
+                            }
+                            @* The footer rows of the groups this entry closes, innermost first: a column's template or aggregate. *@
+                            @foreach (var footer in row.Footers)
+                            {
+                                <tr class="omni-data-grid__group-footer" data-omni-group-level="@footer.Level" data-omni-slot="@Rows.SlotAttribute(row)">
+                                    @if (ColumnSet.ShowDetailColumn) { <td class="@Classes.ControlClass("expand")" data-omni-control="expand"></td> }
+                                    @if (SelectionMode != OmniDataGridSelectionMode.None) { <td class="@Classes.ControlClass("select")" data-omni-control="select"></td> }
+                                    @foreach (var column in ColumnSet.VisibleColumns)
+                                    {
+                                        <td class="@Classes.ColumnClass(column, false)" data-omni-col="@column.Key">
+                                            @if (column.GroupFooterTemplate is not null)
+                                            {
+                                                @column.GroupFooterTemplate(footer)
+                                            }
+                                            else if (column.Aggregate != OmniDataGridAggregate.None)
+                                            {
+                                                @Aggregates.GroupText(column, footer)
+                                            }
+                                        </td>
+                                    }
+                                    @if (ColumnSet.HasEditing) { <td></td> }
+                                </tr>
                             }
                         }
                     }

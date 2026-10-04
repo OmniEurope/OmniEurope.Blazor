@@ -1516,4 +1516,24 @@
   <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Do 15.</value></data>
   <data name="DemoGridAdvancedCellHint" xml:space="preserve"><value>Dvakrát kliknite na bunku: zobrazí sa tu.</value></data>
   <data name="DemoGridAdvancedCellRead" xml:space="preserve"><value>{0} pre {1}: {2}</value></data>
+  <data name="DemoGridAdvancedAggregate" xml:space="preserve"><value>Výpočet sumy</value></data>
+  <data name="DemoGridAdvancedAggregateSum" xml:space="preserve"><value>Súčet</value></data>
+  <data name="DemoGridAdvancedAggregateAverage" xml:space="preserve"><value>Priemer</value></data>
+  <data name="DemoGridAdvancedAggregateMin" xml:space="preserve"><value>Minimum</value></data>
+  <data name="DemoGridAdvancedAggregateMax" xml:space="preserve"><value>Maximum</value></data>
+  <data name="DemoGridAdvancedAggregateCount" xml:space="preserve"><value>Počet riadkov</value></data>
+  <data name="DemoGridAdvancedGroupFooter" xml:space="preserve"><value>{0}, spisy: {1}</value></data>
+  <data name="DemoGridAdvancedAggregateNone" xml:space="preserve"><value>Žiadny</value></data>
+  <data name="DemoGridTreeCaption" xml:space="preserve"><value>Výkaz ziskov a strát</value></data>
+  <data name="DemoGridTreeColumnItem" xml:space="preserve"><value>Položka</value></data>
+  <data name="DemoGridTreeVariation" xml:space="preserve"><value>Zmena</value></data>
+  <data name="DemoGridTreeIncome" xml:space="preserve"><value>Výnosy</value></data>
+  <data name="DemoGridTreeSales" xml:space="preserve"><value>Tržby</value></data>
+  <data name="DemoGridTreeServices" xml:space="preserve"><value>Služby</value></data>
+  <data name="DemoGridTreeGoods" xml:space="preserve"><value>Tovar</value></data>
+  <data name="DemoGridTreeExpenses" xml:space="preserve"><value>Náklady</value></data>
+  <data name="DemoGridTreePurchases" xml:space="preserve"><value>Nákupy</value></data>
+  <data name="DemoGridTreeStaff" xml:space="preserve"><value>Osobné náklady</value></data>
+  <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Rozbaliť všetko</value></data>
+  <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Zbaliť všetko</value></data>
 </root>

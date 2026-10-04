@@ -1516,4 +1516,24 @@
   <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Vor dem 15.</value></data>
   <data name="DemoGridAdvancedCellHint" xml:space="preserve"><value>Doppelklicken Sie auf eine Zelle: Sie wird hier gelesen.</value></data>
   <data name="DemoGridAdvancedCellRead" xml:space="preserve"><value>{0} von {1}: {2}</value></data>
+  <data name="DemoGridAdvancedAggregate" xml:space="preserve"><value>Betragsberechnung</value></data>
+  <data name="DemoGridAdvancedAggregateSum" xml:space="preserve"><value>Summe</value></data>
+  <data name="DemoGridAdvancedAggregateAverage" xml:space="preserve"><value>Durchschnitt</value></data>
+  <data name="DemoGridAdvancedAggregateMin" xml:space="preserve"><value>Minimum</value></data>
+  <data name="DemoGridAdvancedAggregateMax" xml:space="preserve"><value>Maximum</value></data>
+  <data name="DemoGridAdvancedAggregateCount" xml:space="preserve"><value>Zeilenanzahl</value></data>
+  <data name="DemoGridAdvancedGroupFooter" xml:space="preserve"><value>{0}, Akten: {1}</value></data>
+  <data name="DemoGridAdvancedAggregateNone" xml:space="preserve"><value>Keine</value></data>
+  <data name="DemoGridTreeCaption" xml:space="preserve"><value>Gewinn- und Verlustrechnung</value></data>
+  <data name="DemoGridTreeColumnItem" xml:space="preserve"><value>Posten</value></data>
+  <data name="DemoGridTreeVariation" xml:space="preserve"><value>Veränderung</value></data>
+  <data name="DemoGridTreeIncome" xml:space="preserve"><value>Erträge</value></data>
+  <data name="DemoGridTreeSales" xml:space="preserve"><value>Umsatzerlöse</value></data>
+  <data name="DemoGridTreeServices" xml:space="preserve"><value>Dienstleistungen</value></data>
+  <data name="DemoGridTreeGoods" xml:space="preserve"><value>Waren</value></data>
+  <data name="DemoGridTreeExpenses" xml:space="preserve"><value>Aufwendungen</value></data>
+  <data name="DemoGridTreePurchases" xml:space="preserve"><value>Einkäufe</value></data>
+  <data name="DemoGridTreeStaff" xml:space="preserve"><value>Personal</value></data>
+  <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Alle aufklappen</value></data>
+  <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Alle zuklappen</value></data>
 </root>

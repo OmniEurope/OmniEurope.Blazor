@@ -1519,4 +1519,24 @@
   <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Before the 15th</value></data>
   <data name="DemoGridAdvancedCellHint" xml:space="preserve"><value>Double-click a cell: it is read here.</value></data>
   <data name="DemoGridAdvancedCellRead" xml:space="preserve"><value>{0} of {1}: {2}</value></data>
+  <data name="DemoGridAdvancedAggregate" xml:space="preserve"><value>Amount figure</value></data>
+  <data name="DemoGridAdvancedAggregateSum" xml:space="preserve"><value>Sum</value></data>
+  <data name="DemoGridAdvancedAggregateAverage" xml:space="preserve"><value>Average</value></data>
+  <data name="DemoGridAdvancedAggregateMin" xml:space="preserve"><value>Minimum</value></data>
+  <data name="DemoGridAdvancedAggregateMax" xml:space="preserve"><value>Maximum</value></data>
+  <data name="DemoGridAdvancedAggregateCount" xml:space="preserve"><value>Row count</value></data>
+  <data name="DemoGridAdvancedGroupFooter" xml:space="preserve"><value>{0}, files: {1}</value></data>
+  <data name="DemoGridAdvancedAggregateNone" xml:space="preserve"><value>None</value></data>
+  <data name="DemoGridTreeCaption" xml:space="preserve"><value>Income statement</value></data>
+  <data name="DemoGridTreeColumnItem" xml:space="preserve"><value>Item</value></data>
+  <data name="DemoGridTreeVariation" xml:space="preserve"><value>Change</value></data>
+  <data name="DemoGridTreeIncome" xml:space="preserve"><value>Income</value></data>
+  <data name="DemoGridTreeSales" xml:space="preserve"><value>Sales</value></data>
+  <data name="DemoGridTreeServices" xml:space="preserve"><value>Services</value></data>
+  <data name="DemoGridTreeGoods" xml:space="preserve"><value>Goods</value></data>
+  <data name="DemoGridTreeExpenses" xml:space="preserve"><value>Expenses</value></data>
+  <data name="DemoGridTreePurchases" xml:space="preserve"><value>Purchases</value></data>
+  <data name="DemoGridTreeStaff" xml:space="preserve"><value>Staff</value></data>
+  <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Expand all</value></data>
+  <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Collapse all</value></data>
 </root>

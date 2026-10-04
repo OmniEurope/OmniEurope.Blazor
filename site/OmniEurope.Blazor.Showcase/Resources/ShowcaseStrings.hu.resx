@@ -1516,4 +1516,24 @@
   <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>15-e előtt</value></data>
   <data name="DemoGridAdvancedCellHint" xml:space="preserve"><value>Kattintson duplán egy cellára: itt jelenik meg.</value></data>
   <data name="DemoGridAdvancedCellRead" xml:space="preserve"><value>{1} – {0}: {2}</value></data>
+  <data name="DemoGridAdvancedAggregate" xml:space="preserve"><value>Összeg számítása</value></data>
+  <data name="DemoGridAdvancedAggregateSum" xml:space="preserve"><value>Összeg</value></data>
+  <data name="DemoGridAdvancedAggregateAverage" xml:space="preserve"><value>Átlag</value></data>
+  <data name="DemoGridAdvancedAggregateMin" xml:space="preserve"><value>Minimum</value></data>
+  <data name="DemoGridAdvancedAggregateMax" xml:space="preserve"><value>Maximum</value></data>
+  <data name="DemoGridAdvancedAggregateCount" xml:space="preserve"><value>Sorok száma</value></data>
+  <data name="DemoGridAdvancedGroupFooter" xml:space="preserve"><value>{0}, ügyiratok: {1}</value></data>
+  <data name="DemoGridAdvancedAggregateNone" xml:space="preserve"><value>Nincs</value></data>
+  <data name="DemoGridTreeCaption" xml:space="preserve"><value>Eredménykimutatás</value></data>
+  <data name="DemoGridTreeColumnItem" xml:space="preserve"><value>Tétel</value></data>
+  <data name="DemoGridTreeVariation" xml:space="preserve"><value>Változás</value></data>
+  <data name="DemoGridTreeIncome" xml:space="preserve"><value>Bevételek</value></data>
+  <data name="DemoGridTreeSales" xml:space="preserve"><value>Értékesítés</value></data>
+  <data name="DemoGridTreeServices" xml:space="preserve"><value>Szolgáltatások</value></data>
+  <data name="DemoGridTreeGoods" xml:space="preserve"><value>Áruk</value></data>
+  <data name="DemoGridTreeExpenses" xml:space="preserve"><value>Ráfordítások</value></data>
+  <data name="DemoGridTreePurchases" xml:space="preserve"><value>Beszerzések</value></data>
+  <data name="DemoGridTreeStaff" xml:space="preserve"><value>Személyi jellegű</value></data>
+  <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Összes kibontása</value></data>
+  <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Összes összecsukása</value></data>
 </root>

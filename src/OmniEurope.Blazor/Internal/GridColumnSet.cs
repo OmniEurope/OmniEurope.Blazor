@@ -44,7 +44,10 @@ internal sealed class GridColumnSet<TItem>(OmniDataGrid<TItem> grid)
 
     internal bool HasFrozenColumns => VisibleColumns.Any(column => column.Frozen);
 
-    internal bool HasFooter => VisibleColumns.Any(column => column.FooterContent is not null);
+    internal bool HasFooter => VisibleColumns.Any(column => column.FooterContent is not null || column.Aggregate != OmniDataGridAggregate.None);
+
+    /// <summary>Whether a grouped grid closes each group with a footer row: a visible column fills it.</summary>
+    internal bool HasGroupFooter => VisibleColumns.Any(column => column.GroupFooterTemplate is not null || column.Aggregate != OmniDataGridAggregate.None);
 
     internal bool HasTopFooter => HasFooter && grid.FooterPosition is OmniDataGridPosition.Top or OmniDataGridPosition.TopAndBottom;
 

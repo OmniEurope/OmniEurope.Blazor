@@ -41,6 +41,8 @@ public partial class OmniDataGrid<TItem>
         Persistence = new(this);
         Classes = new(this);
         Export = new(this);
+        Aggregates = new(this);
+        Tree = new(this);
     }
 
     internal GridColumnSet<TItem> ColumnSet { get; }
@@ -63,6 +65,8 @@ public partial class OmniDataGrid<TItem>
     internal GridStatePersistence<TItem> Persistence { get; }
     internal GridCssClasses<TItem> Classes { get; }
     internal GridExport<TItem> Export { get; }
+    internal GridAggregates<TItem> Aggregates { get; }
+    internal GridTree<TItem> Tree { get; }
 
     [Inject]
     internal IJSRuntime JavaScript { get; set; } = default!;
@@ -304,6 +308,58 @@ public partial class OmniDataGrid<TItem>
     /// <summary>Raised with the item whose detail row was closed.</summary>
     [Parameter]
     public EventCallback<TItem> OnRowCollapse { get; set; }
+
+    // ---- tree rows ----------------------------------------------------------------------------
+
+    /// <summary>
+    /// Turns the grid into a tree: <see cref="Items"/> are the top-level rows and this gives the children of a
+    /// row (null or empty for a leaf). Each row with children gets a chevron in the tree column
+    /// (<see cref="TreeColumnKey"/>) and every level an indentation; closing a row hides all its descendants.
+    /// Siblings are sorted by the grid's sorts within their parent; a filter keeps the rows it matches with
+    /// their ancestors and descendants, every kept row shown open while it is active. A tree grid renders all
+    /// its rows: <see cref="ScrollMode"/>, the pager and grouping do not apply, and <see cref="Load"/> is refused.
+    /// Rows are identified by <see cref="KeyOf"/>.
+    /// </summary>
+    [Parameter]
+    public Func<TItem, IReadOnlyList<TItem>?>? ChildrenOf { get; set; }
+
+    /// <summary>Key of the column that carries the chevron and the indentation; null uses the first visible column.</summary>
+    [Parameter]
+    public string? TreeColumnKey { get; set; }
+
+    /// <summary>
+    /// Keys (see <see cref="KeyOf"/>) of the open tree rows (<c>@bind-TreeExpandedKeys</c>). The grid keeps its
+    /// own state and reports each change through <see cref="TreeExpandedKeysChanged"/>; a new list from the host
+    /// replaces it.
+    /// </summary>
+    [Parameter]
+    public IReadOnlyList<object> TreeExpandedKeys { get; set; } = Array.Empty<object>();
+
+    /// <summary>Raised with the keys of the open tree rows each time a row opens or closes.</summary>
+    [Parameter]
+    public EventCallback<IReadOnlyList<object>> TreeExpandedKeysChanged { get; set; }
+
+    /// <summary>
+    /// Whether a tree row starts open, asked once per row the first time the grid meets it, unless
+    /// <see cref="TreeExpandedKeys"/> already decided it. Null starts every row closed.
+    /// </summary>
+    [Parameter]
+    public Func<TItem, bool>? InitiallyExpanded { get; set; }
+
+    /// <summary>
+    /// Whether the reader can close a tree row. A row for which this returns false is always open and shows
+    /// no chevron: its children are always visible. Null lets every row with children be toggled.
+    /// </summary>
+    [Parameter]
+    public Func<TItem, bool>? CanToggleTreeRow { get; set; }
+
+    /// <summary>
+    /// A click on a tree row with children (or Enter, Space on the focused row) also opens or closes it. Each
+    /// click toggles, so a double click leaves the row as it was and a double click on a cell keeps its own
+    /// action. Rows become focusable; Right and Left arrows open and close the focused row.
+    /// </summary>
+    [Parameter]
+    public bool ToggleTreeOnRowClick { get; set; }
 
     // ---- grouping ---------------------------------------------------------------------------
 
@@ -733,6 +789,12 @@ public partial class OmniDataGrid<TItem>
                 + "Use Items for a grouped or detailed virtualized grid.");
         }
 
+        if (Tree.Active && Load is not null)
+        {
+            throw new InvalidOperationException(
+                "OmniDataGrid cannot build a tree (ChildrenOf) from a remote Load: the tree needs every row. Use Items.");
+        }
+
         MirrorParameters();
     }
 
@@ -745,6 +807,7 @@ public partial class OmniDataGrid<TItem>
     {
         Paging.Mirror();
         Selection.Mirror();
+        Tree.Mirror();
     }
 
     /// <inheritdoc />
@@ -882,6 +945,14 @@ public partial class OmniDataGrid<TItem>
     /// <param name="item">The row to edit, found by its key.</param>
     /// <returns>A task that completes when <see cref="OnRowEdit"/> has run.</returns>
     public Task EditRowAsync(TItem item) => Editing.EditAsync(item);
+
+    /// <summary>Opens every tree row that has children and can be toggled, then reports the keys through <see cref="TreeExpandedKeysChanged"/>.</summary>
+    /// <returns>A task that completes when the change is reported.</returns>
+    public Task ExpandAllTreeRowsAsync() => Tree.SetAllAsync(true);
+
+    /// <summary>Closes every tree row that can be toggled, then reports the keys through <see cref="TreeExpandedKeysChanged"/>.</summary>
+    /// <returns>A task that completes when the change is reported.</returns>
+    public Task CollapseAllTreeRowsAsync() => Tree.SetAllAsync(false);
 
     /// <summary>Closes the edit state of a row and reports the update through <see cref="OnRowUpdate"/>.</summary>
     /// <param name="item">The edited row, found by its key.</param>

@@ -54,6 +54,37 @@ public partial class OmniDataGridColumn<TItem>
     [Parameter]
     public RenderFragment? FooterContent { get; set; }
 
+    /// <summary>
+    /// The figure this column computes (sum, average, minimum, maximum, count), shown in the grid's footer row
+    /// over every row the filters keep (the rows loaded, for a <c>Load</c> grid) and, while rows are grouped, in
+    /// the footer row of each group over its rows. <see cref="FooterContent"/> and <see cref="GroupFooterTemplate"/>
+    /// take precedence over it in their row. None by default.
+    /// </summary>
+    [Parameter]
+    public OmniDataGridAggregate Aggregate { get; set; }
+
+    /// <summary>
+    /// Composite format of the <see cref="Aggregate"/> in the grid footer, for example <c>Total : {0:n2}</c>.
+    /// Null uses <see cref="FormatString"/>, then the value as text.
+    /// </summary>
+    [Parameter]
+    public string? AggregateFormat { get; set; }
+
+    /// <summary>
+    /// Composite format of the <see cref="Aggregate"/> in a group footer, for example <c>Sous-total : {0:n2}</c>.
+    /// Null uses <see cref="AggregateFormat"/>.
+    /// </summary>
+    [Parameter]
+    public string? GroupAggregateFormat { get; set; }
+
+    /// <summary>
+    /// Content of this column's cell in the footer row that closes each group while rows are grouped, from the
+    /// group's value, level and rows; in place of the <see cref="Aggregate"/> text. A group footer row is drawn
+    /// as soon as one visible column sets this or an <see cref="Aggregate"/>.
+    /// </summary>
+    [Parameter]
+    public RenderFragment<OmniDataGridGroupContext<TItem>>? GroupFooterTemplate { get; set; }
+
     /// <summary>Replaces the header's title (and its sort button) with custom content; the grouping, filter and resize controls stay.</summary>
     [Parameter]
     public RenderFragment? HeaderContent { get; set; }
@@ -269,6 +300,10 @@ public partial class OmniDataGridColumn<TItem>
             Template = Template,
             EditTemplate = EditTemplate,
             FooterContent = FooterContent,
+            Aggregate = Aggregate,
+            AggregateFormat = AggregateFormat,
+            GroupAggregateFormat = GroupAggregateFormat,
+            GroupFooterTemplate = GroupFooterTemplate,
             HeaderContent = HeaderContent,
             FilterPredicate = FilterPredicate,
             FilterValues = FilterValues,
@@ -339,6 +374,7 @@ public partial class OmniDataGridColumn<TItem>
             || !Equals(registered.Template, latest.Template)
             || !Equals(registered.EditTemplate, latest.EditTemplate)
             || !Equals(registered.FooterContent, latest.FooterContent)
+            || !Equals(registered.GroupFooterTemplate, latest.GroupFooterTemplate)
             || !Equals(registered.HeaderContent, latest.HeaderContent)
             || !Equals(registered.FilterPredicate, latest.FilterPredicate)
             || !Equals(registered.FilterTemplate, latest.FilterTemplate)
@@ -349,6 +385,7 @@ public partial class OmniDataGridColumn<TItem>
         registered.Template = latest.Template;
         registered.EditTemplate = latest.EditTemplate;
         registered.FooterContent = latest.FooterContent;
+        registered.GroupFooterTemplate = latest.GroupFooterTemplate;
         registered.HeaderContent = latest.HeaderContent;
         registered.FilterPredicate = latest.FilterPredicate;
         registered.FilterTemplate = latest.FilterTemplate;
@@ -401,6 +438,10 @@ public partial class OmniDataGridColumn<TItem>
         && Equivalent(left.Template, right.Template)
         && Equivalent(left.EditTemplate, right.EditTemplate)
         && Equivalent(left.FooterContent, right.FooterContent)
+        && Equivalent(left.GroupFooterTemplate, right.GroupFooterTemplate)
+        && left.Aggregate == right.Aggregate
+        && string.Equals(left.AggregateFormat, right.AggregateFormat, StringComparison.Ordinal)
+        && string.Equals(left.GroupAggregateFormat, right.GroupAggregateFormat, StringComparison.Ordinal)
         && Equivalent(left.HeaderContent, right.HeaderContent)
         && Equivalent(left.FilterPredicate, right.FilterPredicate)
         && SameContent(left.FilterValues, right.FilterValues)

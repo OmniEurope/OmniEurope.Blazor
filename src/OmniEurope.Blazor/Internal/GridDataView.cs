@@ -21,8 +21,9 @@ internal sealed class GridDataView<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisp
     private bool _columnsRendered;
     private bool _parametersObserved;
 
-    internal bool Virtualized => grid.ScrollMode == OmniDataGridScrollMode.Virtual;
-    internal bool Paged => grid.ScrollMode == OmniDataGridScrollMode.Paged;
+    // A tree grid renders all its rows: neither paged nor virtualized, whatever ScrollMode says.
+    internal bool Virtualized => grid.ScrollMode == OmniDataGridScrollMode.Virtual && !grid.Tree.Active;
+    internal bool Paged => grid.ScrollMode == OmniDataGridScrollMode.Paged && !grid.Tree.Active;
 
     /// <summary>
     /// A local virtualized grid whose body is not one row per item: group header rows and detail rows
@@ -32,7 +33,7 @@ internal sealed class GridDataView<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisp
     internal bool StructuredVirtual => Virtualized && grid.Load is null
         && (grid.DetailTemplate is not null || grid.Grouping.ActiveGroups.Count > 0);
 
-    internal IReadOnlyList<TItem> VirtualLocalItems => _virtualLocalItems ??= GridProjection<TItem>.Create(
+    internal IReadOnlyList<TItem> VirtualLocalItems => grid.Tree.Active ? grid.Tree.AllItems : _virtualLocalItems ??= GridProjection<TItem>.Create(
         grid.Items, grid.ColumnSet.EffectiveColumns, grid.Query.Filters, grid.Query.Sorts,
         grid.CaseSensitiveFilters, grid.IgnoreDiacritics, 1, int.MaxValue).Items;
 
@@ -42,11 +43,13 @@ internal sealed class GridDataView<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisp
 
     internal IReadOnlyList<TItem> VisibleItems => Virtualized
         ? Array.Empty<TItem>()
+        : grid.Tree.Active ? grid.Tree.Nodes.Select(node => node.Item).ToArray()
         : grid.Load is null ? LocalView.Items : _remote.Items;
 
     internal int TotalCount => grid.Count
         ?? (Virtualized
             ? grid.Load is null ? VirtualLocalItems.Count : _virtualSource.TotalCount
+            : grid.Tree.Active ? grid.Tree.Nodes.Count
             : grid.Load is null ? LocalView.TotalCount : _remote.TotalCount);
 
     internal int BlockSize => grid.VirtualBlockSize > 0 ? grid.VirtualBlockSize : Math.Max(1, grid.Paging.PageSize);
@@ -98,6 +101,7 @@ internal sealed class GridDataView<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisp
     {
         _localProjection = null;
         _virtualLocalItems = null;
+        grid.Tree.Invalidate();
         grid.Rows.ForgetSlots();
     }
 

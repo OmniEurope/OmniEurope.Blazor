@@ -32,6 +32,23 @@ public partial class DataGridAdvancedDemo
 
     private IReadOnlyList<OmniOption<OmniDataGridPosition>> FooterOptions { get; set; } = [];
 
+    private IReadOnlyList<OmniOption<OmniDataGridAggregate>> AggregateOptions { get; set; } = [];
+
+    // Grouped by country from the start, so each group closes on its subtotal row.
+    private IReadOnlyList<OmniDataGridGroup> Grouping { get; set; } = [new(nameof(GridRow.Country))];
+
+    private OmniDataGridAggregate Aggregate { get; set; } = OmniDataGridAggregate.Sum;
+
+    // A count is a number of rows, not an amount; a sum reads as the total in the grid footer.
+    private string AggregateFormat => Aggregate switch
+    {
+        OmniDataGridAggregate.Sum => Text["DemoGridAdvancedTotal"].Value,
+        OmniDataGridAggregate.Count => "{0}",
+        _ => "{0:C0}"
+    };
+
+    private string GroupAggregateFormat => Aggregate == OmniDataGridAggregate.Count ? "{0}" : "{0:C0}";
+
     private IReadOnlyList<GridRow> Rows { get; set; } = [];
 
     private IReadOnlyList<GridRow> Selection { get; set; } = [];
@@ -110,6 +127,15 @@ public partial class DataGridAdvancedDemo
             new(OmniDataGridPosition.Bottom, Text["DemoGridAdvancedFooterBottom"]),
             new(OmniDataGridPosition.Top, Text["DemoGridAdvancedFooterTop"]),
             new(OmniDataGridPosition.TopAndBottom, Text["DemoGridAdvancedFooterBoth"])
+        ];
+        AggregateOptions =
+        [
+            new(OmniDataGridAggregate.None, Text["DemoGridAdvancedAggregateNone"]),
+            new(OmniDataGridAggregate.Sum, Text["DemoGridAdvancedAggregateSum"]),
+            new(OmniDataGridAggregate.Average, Text["DemoGridAdvancedAggregateAverage"]),
+            new(OmniDataGridAggregate.Min, Text["DemoGridAdvancedAggregateMin"]),
+            new(OmniDataGridAggregate.Max, Text["DemoGridAdvancedAggregateMax"]),
+            new(OmniDataGridAggregate.Count, Text["DemoGridAdvancedAggregateCount"])
         ];
         Rows =
         [

@@ -31,7 +31,8 @@ internal sealed class GridSelection<TItem>(OmniDataGrid<TItem> grid)
 
     internal bool IsSelected(object key) => _selectedKeyIndex.Contains(key);
 
-    internal bool RowsAreInteractive => grid.AllowRowSelectOnRowClick || grid.OnRowClick.HasDelegate || grid.OnRowDoubleClick.HasDelegate;
+    internal bool RowsAreInteractive => grid.AllowRowSelectOnRowClick || grid.OnRowClick.HasDelegate || grid.OnRowDoubleClick.HasDelegate
+        || (grid.ToggleTreeOnRowClick && grid.Tree.Active);
 
     internal async Task ToggleSelectionAsync(TItem item)
     {
@@ -121,6 +122,13 @@ internal sealed class GridSelection<TItem>(OmniDataGrid<TItem> grid)
 
     private async Task ActivateRowAsync(GridRenderRow<TItem> row, MouseEventArgs? mouse = null)
     {
+        // Each click toggles, so the two clicks of a double click bring the row back to where it was: a
+        // double click on a cell is the cell's action (a drill-down), not a request to open or close the row.
+        if (grid.ToggleTreeOnRowClick && row.Tree is { HasChildren: true, Toggleable: true })
+        {
+            await grid.Tree.ToggleAsync(row.Item);
+        }
+
         if (!row.Selectable)
         {
             return;
@@ -137,8 +145,14 @@ internal sealed class GridSelection<TItem>(OmniDataGrid<TItem> grid)
         }
     }
 
-    private Task RowKeyDownAsync(KeyboardEventArgs args, GridRenderRow<TItem> row) =>
-        args.Key is "Enter" or " " ? ActivateRowAsync(row) : Task.CompletedTask;
+    private Task RowKeyDownAsync(KeyboardEventArgs args, GridRenderRow<TItem> row) => args.Key switch
+    {
+        "Enter" or " " => ActivateRowAsync(row),
+        // A tree row opens with the right arrow and closes with the left one, as in a tree view.
+        "ArrowRight" or "ArrowLeft" when row.Tree is { HasChildren: true, Toggleable: true } tree
+            && tree.Expanded != (args.Key == "ArrowRight") => grid.Tree.ToggleAsync(row.Item),
+        _ => Task.CompletedTask
+    };
 
     internal EventCallback<MouseEventArgs> RowClickCallback(GridRenderRow<TItem> row) => RowsAreInteractive
         ? EventCallback.Factory.Create<MouseEventArgs>(grid, mouse => ActivateRowAsync(row, mouse))

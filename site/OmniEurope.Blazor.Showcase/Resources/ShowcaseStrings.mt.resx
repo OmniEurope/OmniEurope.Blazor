@@ -1516,4 +1516,24 @@
   <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Qabel il-15</value></data>
   <data name="DemoGridAdvancedCellHint" xml:space="preserve"><value>Agħfas darbtejn fuq ċellola: tidher hawn.</value></data>
   <data name="DemoGridAdvancedCellRead" xml:space="preserve"><value>{0} ta' {1}: {2}</value></data>
+  <data name="DemoGridAdvancedAggregate" xml:space="preserve"><value>Kalkolu tal-ammont</value></data>
+  <data name="DemoGridAdvancedAggregateSum" xml:space="preserve"><value>Somma</value></data>
+  <data name="DemoGridAdvancedAggregateAverage" xml:space="preserve"><value>Medja</value></data>
+  <data name="DemoGridAdvancedAggregateMin" xml:space="preserve"><value>Minimu</value></data>
+  <data name="DemoGridAdvancedAggregateMax" xml:space="preserve"><value>Massimu</value></data>
+  <data name="DemoGridAdvancedAggregateCount" xml:space="preserve"><value>Numru ta' ringieli</value></data>
+  <data name="DemoGridAdvancedGroupFooter" xml:space="preserve"><value>{0}, fajls: {1}</value></data>
+  <data name="DemoGridAdvancedAggregateNone" xml:space="preserve"><value>Xejn</value></data>
+  <data name="DemoGridTreeCaption" xml:space="preserve"><value>Rapport tad-dħul</value></data>
+  <data name="DemoGridTreeColumnItem" xml:space="preserve"><value>Partita</value></data>
+  <data name="DemoGridTreeVariation" xml:space="preserve"><value>Bidla</value></data>
+  <data name="DemoGridTreeIncome" xml:space="preserve"><value>Dħul</value></data>
+  <data name="DemoGridTreeSales" xml:space="preserve"><value>Bejgħ</value></data>
+  <data name="DemoGridTreeServices" xml:space="preserve"><value>Servizzi</value></data>
+  <data name="DemoGridTreeGoods" xml:space="preserve"><value>Merkanzija</value></data>
+  <data name="DemoGridTreeExpenses" xml:space="preserve"><value>Spejjeż</value></data>
+  <data name="DemoGridTreePurchases" xml:space="preserve"><value>Xiri</value></data>
+  <data name="DemoGridTreeStaff" xml:space="preserve"><value>Persunal</value></data>
+  <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Espandi kollox</value></data>
+  <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Ikkollassa kollox</value></data>
 </root>

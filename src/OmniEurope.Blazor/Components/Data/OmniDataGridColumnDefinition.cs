@@ -19,6 +19,10 @@ internal sealed class OmniDataGridColumnDefinition<TItem>
     public RenderFragment<TItem>? Template { get; set; }
     public RenderFragment<TItem>? EditTemplate { get; set; }
     public RenderFragment? FooterContent { get; set; }
+    public OmniDataGridAggregate Aggregate { get; init; }
+    public string? AggregateFormat { get; init; }
+    public string? GroupAggregateFormat { get; init; }
+    public RenderFragment<OmniDataGridGroupContext<TItem>>? GroupFooterTemplate { get; set; }
     public RenderFragment? HeaderContent { get; set; }
     public Func<TItem, string, bool>? FilterPredicate { get; set; }
     public string? FormatString { get; init; }

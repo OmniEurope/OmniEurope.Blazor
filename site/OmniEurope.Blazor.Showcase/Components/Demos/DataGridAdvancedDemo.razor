@@ -51,6 +51,12 @@
                 <OmniDropDown TValue="OmniDataGridPosition" Id="grid-footer" Options="FooterOptions" @bind-Value="Footer" />
             </ChildContent>
         </OmniFormField>
+        <OmniFormField For="grid-aggregate">
+            <LabelContent>@Text["DemoGridAdvancedAggregate"]</LabelContent>
+            <ChildContent>
+                <OmniDropDown TValue="OmniDataGridAggregate" Id="grid-aggregate" Options="AggregateOptions" @bind-Value="Aggregate" />
+            </ChildContent>
+        </OmniFormField>
     </OmniRow>
 
 <OmniDataGrid TItem="GridRow"
@@ -73,6 +79,7 @@
               FilterMode="Filters"
               PagerPosition="Pager"
               Density="Density"
+              @bind-Groups="Grouping"
               Value="Selection"
               ValueChanged="@(value => Selection = value)"
               OnCellDoubleClick="ReadCell"
@@ -82,6 +89,7 @@
         <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="@Text["DemoGridColumnReference"]" Frozen="true" HighlightOnHover="false" FilterOperators="ReferenceOperators" />
         <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="@Text["DemoGridColumnApplicant"]"
                             FilterType="OmniDataGridColumnFilterType.Combo" FilterSearchable="true">
+            <GroupFooterTemplate>@Text["DemoGridAdvancedGroupFooter", context.Key ?? string.Empty, context.Items.Count]</GroupFooterTemplate>
             <FilterTemplate>
                 @* The same control the column would raise on its own, placed by hand to show that a
                    host can take the filter over without losing what the grid provides. *@
@@ -114,9 +122,7 @@
             </FilterTemplate>
         </OmniDataGridColumn>
         <OmniDataGridColumn TItem="GridRow" Property="Amount" Title="@Text["DemoGridColumnAmount"]" FormatString="{0:C0}" FilterType="OmniDataGridColumnFilterType.Number"
-                            TextAlign="OmniDataGridTextAlign.End">
-            <FooterContent>@Text["DemoGridAdvancedTotal", Rows.Sum(row => row.Amount)]</FooterContent>
-        </OmniDataGridColumn>
+                            TextAlign="OmniDataGridTextAlign.End" Aggregate="Aggregate" AggregateFormat="@AggregateFormat" GroupAggregateFormat="@GroupAggregateFormat" />
     </Columns>
 </OmniDataGrid>
 

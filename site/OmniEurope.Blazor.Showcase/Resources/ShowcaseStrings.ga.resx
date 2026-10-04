@@ -1516,4 +1516,24 @@
   <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Roimh an 15ú</value></data>
   <data name="DemoGridAdvancedCellHint" xml:space="preserve"><value>Cliceáil faoi dhó ar chill: taispeántar anseo í.</value></data>
   <data name="DemoGridAdvancedCellRead" xml:space="preserve"><value>{0} de {1}: {2}</value></data>
+  <data name="DemoGridAdvancedAggregate" xml:space="preserve"><value>Ríomh na suime</value></data>
+  <data name="DemoGridAdvancedAggregateSum" xml:space="preserve"><value>Suim</value></data>
+  <data name="DemoGridAdvancedAggregateAverage" xml:space="preserve"><value>Meán</value></data>
+  <data name="DemoGridAdvancedAggregateMin" xml:space="preserve"><value>Íosmhéid</value></data>
+  <data name="DemoGridAdvancedAggregateMax" xml:space="preserve"><value>Uasmhéid</value></data>
+  <data name="DemoGridAdvancedAggregateCount" xml:space="preserve"><value>Líon na sraitheanna</value></data>
+  <data name="DemoGridAdvancedGroupFooter" xml:space="preserve"><value>{0}, comhaid: {1}</value></data>
+  <data name="DemoGridAdvancedAggregateNone" xml:space="preserve"><value>Dada</value></data>
+  <data name="DemoGridTreeCaption" xml:space="preserve"><value>Ráiteas ioncaim</value></data>
+  <data name="DemoGridTreeColumnItem" xml:space="preserve"><value>Mír</value></data>
+  <data name="DemoGridTreeVariation" xml:space="preserve"><value>Athrú</value></data>
+  <data name="DemoGridTreeIncome" xml:space="preserve"><value>Ioncam</value></data>
+  <data name="DemoGridTreeSales" xml:space="preserve"><value>Díolacháin</value></data>
+  <data name="DemoGridTreeServices" xml:space="preserve"><value>Seirbhísí</value></data>
+  <data name="DemoGridTreeGoods" xml:space="preserve"><value>Earraí</value></data>
+  <data name="DemoGridTreeExpenses" xml:space="preserve"><value>Costais</value></data>
+  <data name="DemoGridTreePurchases" xml:space="preserve"><value>Ceannacháin</value></data>
+  <data name="DemoGridTreeStaff" xml:space="preserve"><value>Foireann</value></data>
+  <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Leathnaigh gach rud</value></data>
+  <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Laghdaigh gach rud</value></data>
 </root>

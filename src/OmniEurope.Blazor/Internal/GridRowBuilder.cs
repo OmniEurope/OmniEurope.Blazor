@@ -45,6 +45,7 @@ internal sealed class GridRowBuilder<TItem>(OmniDataGrid<TItem> grid)
             signature.Add(slot.Index);
             signature.Add(slot.Headers.Count);
             signature.Add(slot.ShowDetail);
+            signature.Add(slot.Footers.Count);
         }
 
         var shape = signature.ToHashCode();
@@ -84,6 +85,11 @@ internal sealed class GridRowBuilder<TItem>(OmniDataGrid<TItem> grid)
             return virtualRows;
         }
 
+        if (grid.Tree.Active)
+        {
+            return TreeRows();
+        }
+
         var groups = grid.Grouping.ActiveGroups;
         var visible = grid.View.VisibleItems;
         return groups.Count > 0 ? grid.Grouping.GroupedRows(groups, visible) : FlatRows(visible);
@@ -97,6 +103,19 @@ internal sealed class GridRowBuilder<TItem>(OmniDataGrid<TItem> grid)
         {
             rows.Add(Describe(item, index, [], grid.DetailTemplate is not null && grid.Expansion.IsExpanded(grid.ItemKey(item))));
             index++;
+        }
+
+        return rows;
+    }
+
+    private List<GridRenderRow<TItem>> TreeRows()
+    {
+        var nodes = grid.Tree.Nodes;
+        var rows = new List<GridRenderRow<TItem>>(nodes.Count);
+        for (var index = 0; index < nodes.Count; index++)
+        {
+            var item = nodes[index].Item;
+            rows.Add(Describe(item, index, [], grid.DetailTemplate is not null && grid.Expansion.IsExpanded(grid.ItemKey(item))) with { Tree = nodes[index] });
         }
 
         return rows;
