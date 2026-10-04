@@ -3345,6 +3345,7 @@ property public OmniEurope.Blazor.Components.OmniThemeScope.Density : OmniEurope
 property public OmniEurope.Blazor.Components.OmniThemeScope.Font : OmniEurope.Blazor.Components.OmniThemeFont? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniThemeScope.Palette : OmniEurope.Blazor.Components.OmniThemePalette? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniThemeScope.Preset : OmniEurope.Blazor.Components.OmniThemePreset? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniThemeScope.SnapshotKey : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTimePicker.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTimePicker.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTimePicker.Maximum : System.TimeOnly? {get(public);set(public)} [Parameter]
