@@ -714,6 +714,7 @@
   <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Point hebdomadaire</value></data>
   <data name="DemoSchedulerRoom" xml:space="preserve"><value>Salle {0}</value></data>
   <data name="DemoSchedulerFreeSlot" xml:space="preserve"><value>Créneau libre choisi : {0}</value></data>
+  <data name="DemoSchedulerMarkPast" xml:space="preserve"><value>Hachurer les créneaux passés</value></data>
   <!-- Demo texts: batch A -->
   <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Colonne fluide</value></data>
   <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Pleine largeur en petit écran, un tiers en grand.</value></data>

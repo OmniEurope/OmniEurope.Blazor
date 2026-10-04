@@ -132,7 +132,7 @@
                                 @foreach (var day in days)
                                 {
                                     var target = new MoveTarget(day, slotIndex);
-                                    <td class="@TargetCss(DayCss("omni-scheduler-grid__cell", day, today), target)"
+                                    <td class="@PastCss(TargetCss(DayCss("omni-scheduler-grid__cell", day, today), target), day, slotIndex)"
                                         @ondragenter="() => DragEnter(target)"
                                         @ondragover:preventDefault="@Movable"
                                         @ondrop="() => DropAsync(target)"
@@ -156,7 +156,7 @@
             @switch (_view)
             {
                 case OmniCalendarView.Day:
-                    <section class="omni-scheduler-view omni-day-view" aria-label="@Text("DayViewLabel")">
+                    <section class="@PastCss("omni-scheduler-view omni-day-view", DateOnly.FromDateTime(date.Date), null)" aria-label="@Text("DayViewLabel")">
                         @{ SlotButton(DateOnly.FromDateTime(date.Date), null); }
                         @* The date of a view is not a heading: the host decides the outline of its page. *@
                         <p class="omni-scheduler__date"><time datetime="@date.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)">@date.ToString("D", Formats)</time></p>
@@ -174,7 +174,7 @@
                         {
                             var day = DateOnly.FromDateTime(weekDay.Date);
                             var target = new MoveTarget(day, null);
-                            <article class="@TargetCss(DayCss("omni-week-view__day", day, today), target)" aria-current="@(day == today ? "date" : null)"
+                            <article class="@PastCss(TargetCss(DayCss("omni-week-view__day", day, today), target), day, null)" aria-current="@(day == today ? "date" : null)"
                                      @ondragenter="() => DragEnter(target)"
                                      @ondragover:preventDefault="@Movable"
                                      @ondrop="() => DropAsync(target)"
@@ -212,7 +212,7 @@
                                     else
                                     {
                                         var target = new MoveTarget(day, null);
-                                        <div class="@TargetCss(DayCss("omni-month-view__day", day, today), target)" role="cell" aria-current="@(day == today ? "date" : null)" data-date="@day.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)"
+                                        <div class="@PastCss(TargetCss(DayCss("omni-month-view__day", day, today), target), day, null)" role="cell" aria-current="@(day == today ? "date" : null)" data-date="@day.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)"
                                              @ondragenter="() => DragEnter(target)"
                                              @ondragover:preventDefault="@Movable"
                                              @ondrop="() => DropAsync(target)"

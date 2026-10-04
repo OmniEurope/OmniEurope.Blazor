@@ -713,6 +713,7 @@
   <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Iganädalane koosolek</value></data>
   <data name="DemoSchedulerRoom" xml:space="preserve"><value>Ruum {0}</value></data>
   <data name="DemoSchedulerFreeSlot" xml:space="preserve"><value>Valitud vaba aeg: {0}</value></data>
+  <data name="DemoSchedulerMarkPast" xml:space="preserve"><value>Viirutada möödunud ajad</value></data>
   <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Paindlik veerg</value></data>
   <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Väikesel ekraanil täislaius, suurel kolmandik.</value></data>
   <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Päisega kaart</value></data>

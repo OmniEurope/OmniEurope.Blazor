@@ -713,6 +713,7 @@
   <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Tjedni sastanak</value></data>
   <data name="DemoSchedulerRoom" xml:space="preserve"><value>Dvorana {0}</value></data>
   <data name="DemoSchedulerFreeSlot" xml:space="preserve"><value>Odabrani slobodni termin: {0}</value></data>
+  <data name="DemoSchedulerMarkPast" xml:space="preserve"><value>Šrafiraj prošle termine</value></data>
   <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Fluidni stupac</value></data>
   <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Puna širina na malom zaslonu, trećina na velikom.</value></data>
   <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Kartica sa zaglavljem</value></data>

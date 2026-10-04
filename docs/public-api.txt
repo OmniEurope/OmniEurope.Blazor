@@ -3048,6 +3048,7 @@ property public OmniEurope.Blazor.Components.OmniScheduler.ErrorContent : Micros
 property public OmniEurope.Blazor.Components.OmniScheduler.Items : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniSchedulerAppointment> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.Load : System.Func<System.DateTimeOffset,System.DateTimeOffset,System.Threading.CancellationToken,System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniSchedulerAppointment>>>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.LoadingContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniScheduler.MarkPastSlots : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.OnAppointmentClick : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniSchedulerAppointment> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.OnAppointmentMove : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.OnLoadError : Microsoft.AspNetCore.Components.EventCallback<System.Exception> {get(public);set(public)} [Parameter]

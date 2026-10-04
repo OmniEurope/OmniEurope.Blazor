@@ -713,6 +713,7 @@
   <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Ședință săptămânală</value></data>
   <data name="DemoSchedulerRoom" xml:space="preserve"><value>Sala {0}</value></data>
   <data name="DemoSchedulerFreeSlot" xml:space="preserve"><value>Interval liber ales: {0}</value></data>
+  <data name="DemoSchedulerMarkPast" xml:space="preserve"><value>Hașurează intervalele trecute</value></data>
   <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Coloană fluidă</value></data>
   <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Lățime completă pe ecran mic, o treime pe ecran mare.</value></data>
   <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Card cu antet</value></data>

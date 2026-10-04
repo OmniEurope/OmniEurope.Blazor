@@ -713,6 +713,7 @@
   <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Týdenní porada</value></data>
   <data name="DemoSchedulerRoom" xml:space="preserve"><value>Místnost {0}</value></data>
   <data name="DemoSchedulerFreeSlot" xml:space="preserve"><value>Vybraný volný termín: {0}</value></data>
+  <data name="DemoSchedulerMarkPast" xml:space="preserve"><value>Šrafovat uplynulé termíny</value></data>
   <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Plynulý sloupec</value></data>
   <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Plná šířka na malé obrazovce, třetina na velké.</value></data>
   <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Karta se záhlavím</value></data>

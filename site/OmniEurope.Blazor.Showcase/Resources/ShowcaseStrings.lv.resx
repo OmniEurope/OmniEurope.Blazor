@@ -713,6 +713,7 @@
   <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Iknedēļas sanāksme</value></data>
   <data name="DemoSchedulerRoom" xml:space="preserve"><value>Telpa {0}</value></data>
   <data name="DemoSchedulerFreeSlot" xml:space="preserve"><value>Izvēlētais brīvais laiks: {0}</value></data>
+  <data name="DemoSchedulerMarkPast" xml:space="preserve"><value>Svītrot pagājušo laiku</value></data>
   <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Elastīga kolonna</value></data>
   <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Pilns platums mazā ekrānā, trešdaļa lielā.</value></data>
   <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Kartīte ar galveni</value></data>

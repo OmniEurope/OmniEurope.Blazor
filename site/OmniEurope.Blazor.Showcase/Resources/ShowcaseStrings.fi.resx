@@ -713,6 +713,7 @@
   <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Viikkopalaveri</value></data>
   <data name="DemoSchedulerRoom" xml:space="preserve"><value>Huone {0}</value></data>
   <data name="DemoSchedulerFreeSlot" xml:space="preserve"><value>Valittu vapaa aika: {0}</value></data>
+  <data name="DemoSchedulerMarkPast" xml:space="preserve"><value>Viivoita menneet ajat</value></data>
   <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Joustava sarake</value></data>
   <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Koko leveys pienellä näytöllä, kolmannes suurella.</value></data>
   <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Kortti ylätunnisteella</value></data>

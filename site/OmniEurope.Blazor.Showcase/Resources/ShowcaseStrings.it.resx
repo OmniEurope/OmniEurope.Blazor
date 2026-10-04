@@ -713,6 +713,7 @@
   <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Riunione settimanale</value></data>
   <data name="DemoSchedulerRoom" xml:space="preserve"><value>Sala {0}</value></data>
   <data name="DemoSchedulerFreeSlot" xml:space="preserve"><value>Fascia libera scelta: {0}</value></data>
+  <data name="DemoSchedulerMarkPast" xml:space="preserve"><value>Tratteggia le fasce passate</value></data>
   <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Colonna fluida</value></data>
   <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Tutta la larghezza su schermo piccolo, un terzo su schermo grande.</value></data>
   <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Card con intestazione</value></data>

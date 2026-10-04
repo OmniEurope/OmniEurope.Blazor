@@ -27,6 +27,7 @@ pour qu'un hôte en distingue certains, par exemple les heures facturables).
 | `OnAppointmentClick` | Fait de chaque rendez-vous un bouton ; reçoit le rendez-vous tel que l'hôte l'a donné. |
 | `OnAppointmentMove` | Rend les rendez-vous déplaçables ; reçoit un `OmniSchedulerAppointmentMove` (le rendez-vous d'origine, son nouveau début et sa nouvelle fin). |
 | `OnSlotClick` | Fait de la partie libre de chaque créneau (grille horaire) ou de chaque jour (semaine en liste, mois, jour en liste) un bouton ; reçoit un `OmniSchedulerSlot` (`Start`, `End`, `Duration`), pour que l'hôte ouvre son dialogue de création. Non posé par défaut : aucun créneau n'est un bouton. |
+| `MarkPastSlots` | Hachure ce qui est déjà passé et atténue sa date : un créneau de la grille dès que sa fin est passée, un jour (semaine en liste, mois, jour en liste) dès qu'il précède aujourd'hui. `false` par défaut. |
 
 La grille horaire est un tableau : une ligne par créneau, une colonne par jour. Un rendez-vous se
 place dans le créneau où il commence, ses heures écrites dessus ; celui qui commence avant le premier
@@ -43,6 +44,14 @@ entier va de minuit à minuit. Les bornes portent le décalage du fuseau de l'ag
 un déplacement. Les boutons disparaissent pendant qu'un rendez-vous est saisi pour être déplacé, et
 reviennent ensuite. Chaque créneau étant un arrêt de tabulation, une semaine de 8 h à 18 h en compte
 70 : il n'y a pas de navigation par flèches entre créneaux.
+
+Avec `MarkPastSlots`, le passé porte la classe `omni-scheduler__past` : des hachures diagonales,
+un motif et non une couleur seule, lisibles par une personne qui ne distingue pas les teintes, posées
+par-dessus la teinte du jour courant ou d'une cible de dépôt. L'instant présent est lu sur le
+`TimeProvider` de l'hôte (l'horloge système sinon), dans le fuseau de l'agenda : un test fixe
+l'heure en enregistrant son propre `TimeProvider`. Le créneau en cours n'est pas marqué. Le marquage
+est visuel : les boutons de créneau restent actifs dans le passé, l'hôte décide s'il accepte une
+création à une date passée.
 
 L'agenda ne modifie jamais `Items` : un déplacement est rapporté et l'hôte l'applique (et
 l'enregistre), le rendez-vous restant à sa place sinon. Il se fait de deux façons :

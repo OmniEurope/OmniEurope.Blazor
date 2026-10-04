@@ -713,6 +713,7 @@
   <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Heti egyeztetés</value></data>
   <data name="DemoSchedulerRoom" xml:space="preserve"><value>{0} terem</value></data>
   <data name="DemoSchedulerFreeSlot" xml:space="preserve"><value>Kiválasztott szabad idősáv: {0}</value></data>
+  <data name="DemoSchedulerMarkPast" xml:space="preserve"><value>Elmúlt idősávok vonalkázása</value></data>
   <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Rugalmas oszlop</value></data>
   <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Kis képernyőn teljes szélesség, nagy képernyőn egyharmad.</value></data>
   <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Kártya fejléccel</value></data>

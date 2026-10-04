@@ -120,6 +120,14 @@ public partial class OmniScheduler
     /// </summary>
     [Parameter] public EventCallback<OmniSchedulerSlot> OnSlotClick { get; set; }
 
+    /// <summary>
+    /// Hatches what is already over, a pattern rather than a colour alone, and mutes its date: a slot of
+    /// the time grid once its end has passed, a day of the week list, of the month or of the day list
+    /// once it is before today. Now is read on the host's registered <see cref="TimeProvider"/> (the
+    /// system clock otherwise), in <see cref="TimeZone"/>. False by default: nothing is marked.
+    /// </summary>
+    [Parameter] public bool MarkPastSlots { get; set; }
+
     internal string Announcement => _announcement;
 
     /// <summary>The date drawn: <see cref="Date"/>, or the period the reader navigated to since.</summary>
@@ -369,6 +377,15 @@ public partial class OmniScheduler
         var limit = DayEnd!.Value.ToTimeSpan();
         return new OmniSchedulerSlot(CreateBoundary(midnight + start), CreateBoundary(midnight + (end < limit ? end : limit)));
     }
+
+    /// <summary>Adds the past mark to a slot or day container when <see cref="MarkPastSlots"/> is on and it is over.</summary>
+    private string PastCss(string css, DateOnly day, int? slot) =>
+        MarkPastSlots && IsPast(day, slot) ? $"{css} omni-scheduler__past" : css;
+
+    /// <summary>A slot is over once its end has passed; a whole day, once it is before today.</summary>
+    private bool IsPast(DateOnly day, int? slot) => slot is null
+        ? day < LocalToday
+        : CreateSlot(day, slot).End <= Clock.GetUtcNow();
 
     private string SlotLabel(OmniSchedulerSlot slot, bool timed) =>
         Text("SchedulerNewAppointment", slot.Start.ToString(timed ? "f" : "D", Formats));

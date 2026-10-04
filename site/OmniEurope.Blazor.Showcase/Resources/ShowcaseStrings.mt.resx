@@ -713,6 +713,7 @@
   <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Laqgħa ta' kull ġimgħa</value></data>
   <data name="DemoSchedulerRoom" xml:space="preserve"><value>Kamra {0}</value></data>
   <data name="DemoSchedulerFreeSlot" xml:space="preserve"><value>Ħin liberu magħżul: {0}</value></data>
+  <data name="DemoSchedulerMarkPast" xml:space="preserve"><value>Immarka l-ħinijiet li għaddew</value></data>
   <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Kolonna fluwida</value></data>
   <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Wisa' sħiħa fuq skrin żgħir, terz fuq skrin kbir.</value></data>
   <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Kard b'intestatura</value></data>

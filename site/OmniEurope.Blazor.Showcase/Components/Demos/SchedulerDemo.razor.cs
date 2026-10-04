@@ -19,6 +19,8 @@ public partial class SchedulerDemo
 
     private bool TimeGrid { get; set; } = true;
 
+    private bool MarkPast { get; set; }
+
     private string Chosen { get; set; } = string.Empty;
 
     protected override void OnInitialized()

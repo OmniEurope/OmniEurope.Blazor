@@ -714,6 +714,7 @@
   <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Weekly check-in</value></data>
   <data name="DemoSchedulerRoom" xml:space="preserve"><value>Room {0}</value></data>
   <data name="DemoSchedulerFreeSlot" xml:space="preserve"><value>Free slot chosen: {0}</value></data>
+  <data name="DemoSchedulerMarkPast" xml:space="preserve"><value>Hatch past slots</value></data>
   <!-- Demo texts: batch A -->
   <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Fluid column</value></data>
   <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Full width on a small screen, one third on a large one.</value></data>

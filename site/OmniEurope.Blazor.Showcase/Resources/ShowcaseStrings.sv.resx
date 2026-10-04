@@ -713,6 +713,7 @@
   <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Veckoavstämning</value></data>
   <data name="DemoSchedulerRoom" xml:space="preserve"><value>Rum {0}</value></data>
   <data name="DemoSchedulerFreeSlot" xml:space="preserve"><value>Vald ledig tid: {0}</value></data>
+  <data name="DemoSchedulerMarkPast" xml:space="preserve"><value>Streckmarkera passerade tider</value></data>
   <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Flytande kolumn</value></data>
   <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Full bredd på liten skärm, en tredjedel på stor.</value></data>
   <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Kort med sidhuvud</value></data>
