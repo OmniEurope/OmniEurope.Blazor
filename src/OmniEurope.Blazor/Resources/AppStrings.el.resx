@@ -378,6 +378,11 @@
   <data name="HeaderLogo" xml:space="preserve"><value>Λογότυπο</value></data>
   <data name="RadioButtonListInvalid" xml:space="preserve"><value>Η επιλογή κουμπιού επιλογής δεν είναι έγκυρη.</value></data>
   <data name="RequiredValidatorMessage" xml:space="preserve"><value>Αυτό το πεδίο είναι υποχρεωτικό.</value></data>
+  <data name="EmailValidatorMessage" xml:space="preserve"><value>Αυτό το πεδίο δεν περιέχει έγκυρη διεύθυνση e-mail.</value></data>
+  <data name="LengthValidatorMinimum" xml:space="preserve"><value>Αυτό το πεδίο πρέπει να περιέχει τουλάχιστον {0, plural, one {# χαρακτήρα} other {# χαρακτήρες}}.</value></data>
+  <data name="LengthValidatorMaximum" xml:space="preserve"><value>Αυτό το πεδίο πρέπει να περιέχει το πολύ {0, plural, one {# χαρακτήρα} other {# χαρακτήρες}}.</value></data>
+  <data name="LengthValidatorRange" xml:space="preserve"><value>Αυτό το πεδίο πρέπει να περιέχει από {0} έως {1, plural, one {# χαρακτήρα} other {# χαρακτήρες}}.</value></data>
+  <data name="LengthValidatorExact" xml:space="preserve"><value>Αυτό το πεδίο πρέπει να περιέχει ακριβώς {0, plural, one {# χαρακτήρα} other {# χαρακτήρες}}.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Προηγούμενη περίοδος</value></data>
   <data name="SchedulerNextPeriod" xml:space="preserve"><value>Επόμενη περίοδος</value></data>
   <data name="SchedulerViewLabel" xml:space="preserve"><value>Προβολή ημερολογίου</value></data>

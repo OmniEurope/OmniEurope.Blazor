@@ -378,6 +378,11 @@
   <data name="HeaderLogo" xml:space="preserve"><value>Logo</value></data>
   <data name="RadioButtonListInvalid" xml:space="preserve"><value>L-għażla tar-radju mhix valida.</value></data>
   <data name="RequiredValidatorMessage" xml:space="preserve"><value>Dan il-qasam huwa obbligatorju.</value></data>
+  <data name="EmailValidatorMessage" xml:space="preserve"><value>Dan il-qasam ma fihx indirizz tal-email validu.</value></data>
+  <data name="LengthValidatorMinimum" xml:space="preserve"><value>Dan il-qasam irid ikun fih mill-inqas {0, plural, one {# karattru} two {# karattri} few {# karattri} many {#-il karattru} other {# karattru}}.</value></data>
+  <data name="LengthValidatorMaximum" xml:space="preserve"><value>Dan il-qasam irid ikun fih mhux aktar minn {0, plural, one {# karattru} two {# karattri} few {# karattri} many {#-il karattru} other {# karattru}}.</value></data>
+  <data name="LengthValidatorRange" xml:space="preserve"><value>Dan il-qasam irid ikun fih bejn {0} u {1, plural, one {# karattru} two {# karattri} few {# karattri} many {#-il karattru} other {# karattru}}.</value></data>
+  <data name="LengthValidatorExact" xml:space="preserve"><value>Dan il-qasam irid ikun fih eżattament {0, plural, one {# karattru} two {# karattri} few {# karattri} many {#-il karattru} other {# karattru}}.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Il-perjodu ta' qabel</value></data>
   <data name="SchedulerNextPeriod" xml:space="preserve"><value>Il-perjodu li jmiss</value></data>
   <data name="SchedulerViewLabel" xml:space="preserve"><value>Veduta tal-kalendarju</value></data>

@@ -378,6 +378,11 @@
   <data name="HeaderLogo" xml:space="preserve"><value>Logo</value></data>
   <data name="RadioButtonListInvalid" xml:space="preserve"><value>Valintanappien valinta ei kelpaa.</value></data>
   <data name="RequiredValidatorMessage" xml:space="preserve"><value>Tämä kenttä on pakollinen.</value></data>
+  <data name="EmailValidatorMessage" xml:space="preserve"><value>Tämä kenttä ei sisällä kelvollista sähköpostiosoitetta.</value></data>
+  <data name="LengthValidatorMinimum" xml:space="preserve"><value>Tämän kentän pituuden on oltava vähintään {0, plural, one {# merkki} other {# merkkiä}}.</value></data>
+  <data name="LengthValidatorMaximum" xml:space="preserve"><value>Tämän kentän pituus saa olla enintään {0, plural, one {# merkki} other {# merkkiä}}.</value></data>
+  <data name="LengthValidatorRange" xml:space="preserve"><value>Tämän kentän pituuden on oltava {0}–{1, plural, one {# merkki} other {# merkkiä}}.</value></data>
+  <data name="LengthValidatorExact" xml:space="preserve"><value>Tämän kentän pituuden on oltava tasan {0, plural, one {# merkki} other {# merkkiä}}.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Edellinen jakso</value></data>
   <data name="SchedulerNextPeriod" xml:space="preserve"><value>Seuraava jakso</value></data>
   <data name="SchedulerViewLabel" xml:space="preserve"><value>Kalenterinäkymä</value></data>

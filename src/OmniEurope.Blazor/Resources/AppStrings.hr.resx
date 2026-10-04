@@ -378,6 +378,11 @@
   <data name="HeaderLogo" xml:space="preserve"><value>Logotip</value></data>
   <data name="RadioButtonListInvalid" xml:space="preserve"><value>Odabir izbornog gumba nije valjan.</value></data>
   <data name="RequiredValidatorMessage" xml:space="preserve"><value>Ovo je polje obavezno.</value></data>
+  <data name="EmailValidatorMessage" xml:space="preserve"><value>Ovo polje ne sadrži valjanu adresu e-pošte.</value></data>
+  <data name="LengthValidatorMinimum" xml:space="preserve"><value>Ovo polje mora sadržavati najmanje {0, plural, one {# znak} few {# znaka} other {# znakova}}.</value></data>
+  <data name="LengthValidatorMaximum" xml:space="preserve"><value>Ovo polje smije sadržavati najviše {0, plural, one {# znak} few {# znaka} other {# znakova}}.</value></data>
+  <data name="LengthValidatorRange" xml:space="preserve"><value>Ovo polje mora sadržavati od {0} do {1, plural, one {# znaka} few {# znaka} other {# znakova}}.</value></data>
+  <data name="LengthValidatorExact" xml:space="preserve"><value>Ovo polje mora sadržavati točno {0, plural, one {# znak} few {# znaka} other {# znakova}}.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Prethodno razdoblje</value></data>
   <data name="SchedulerNextPeriod" xml:space="preserve"><value>Sljedeće razdoblje</value></data>
   <data name="SchedulerViewLabel" xml:space="preserve"><value>Prikaz kalendara</value></data>

@@ -378,6 +378,11 @@
   <data name="HeaderLogo" xml:space="preserve"><value>Lógó</value></data>
   <data name="RadioButtonListInvalid" xml:space="preserve"><value>Tá an rogha raidió neamhbhailí.</value></data>
   <data name="RequiredValidatorMessage" xml:space="preserve"><value>Tá an réimse seo riachtanach.</value></data>
+  <data name="EmailValidatorMessage" xml:space="preserve"><value>Níl seoladh ríomhphoist bailí sa réimse seo.</value></data>
+  <data name="LengthValidatorMinimum" xml:space="preserve"><value>Ní mór {0, plural, one {# charachtar} two {# charachtar} few {# charachtar} many {# gcarachtar} other {# carachtar}} ar a laghad a bheith sa réimse seo.</value></data>
+  <data name="LengthValidatorMaximum" xml:space="preserve"><value>Ní féidir níos mó ná {0, plural, one {# charachtar} two {# charachtar} few {# charachtar} many {# gcarachtar} other {# carachtar}} a bheith sa réimse seo.</value></data>
+  <data name="LengthValidatorRange" xml:space="preserve"><value>Ní mór idir {0} agus {1, plural, one {# charachtar} two {# charachtar} few {# charachtar} many {# gcarachtar} other {# carachtar}} a bheith sa réimse seo.</value></data>
+  <data name="LengthValidatorExact" xml:space="preserve"><value>Ní mór {0, plural, one {# charachtar} two {# charachtar} few {# charachtar} many {# gcarachtar} other {# carachtar}} go díreach a bheith sa réimse seo.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>An tréimhse roimhe seo</value></data>
   <data name="SchedulerNextPeriod" xml:space="preserve"><value>An chéad tréimhse eile</value></data>
   <data name="SchedulerViewLabel" xml:space="preserve"><value>Amharc féilire</value></data>

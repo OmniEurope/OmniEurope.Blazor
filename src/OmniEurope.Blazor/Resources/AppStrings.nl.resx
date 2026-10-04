@@ -378,6 +378,11 @@
   <data name="HeaderLogo" xml:space="preserve"><value>Logo</value></data>
   <data name="RadioButtonListInvalid" xml:space="preserve"><value>De keuzerondjesselectie is ongeldig.</value></data>
   <data name="RequiredValidatorMessage" xml:space="preserve"><value>Dit veld is verplicht.</value></data>
+  <data name="EmailValidatorMessage" xml:space="preserve"><value>Dit veld bevat geen geldig e-mailadres.</value></data>
+  <data name="LengthValidatorMinimum" xml:space="preserve"><value>Dit veld moet minstens {0, plural, one {# teken} other {# tekens}} bevatten.</value></data>
+  <data name="LengthValidatorMaximum" xml:space="preserve"><value>Dit veld mag maximaal {0, plural, one {# teken} other {# tekens}} bevatten.</value></data>
+  <data name="LengthValidatorRange" xml:space="preserve"><value>Dit veld moet tussen {0} en {1, plural, one {# teken} other {# tekens}} bevatten.</value></data>
+  <data name="LengthValidatorExact" xml:space="preserve"><value>Dit veld moet precies {0, plural, one {# teken} other {# tekens}} bevatten.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Vorige periode</value></data>
   <data name="SchedulerNextPeriod" xml:space="preserve"><value>Volgende periode</value></data>
   <data name="SchedulerViewLabel" xml:space="preserve"><value>Agendaweergave</value></data>

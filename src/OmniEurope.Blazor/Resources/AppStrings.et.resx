@@ -378,6 +378,11 @@
   <data name="HeaderLogo" xml:space="preserve"><value>Logo</value></data>
   <data name="RadioButtonListInvalid" xml:space="preserve"><value>Raadionuppude valik on vigane.</value></data>
   <data name="RequiredValidatorMessage" xml:space="preserve"><value>See väli on kohustuslik.</value></data>
+  <data name="EmailValidatorMessage" xml:space="preserve"><value>See väli ei sisalda kehtivat e-posti aadressi.</value></data>
+  <data name="LengthValidatorMinimum" xml:space="preserve"><value>Selle välja pikkus peab olema vähemalt {0, plural, one {# märk} other {# märki}}.</value></data>
+  <data name="LengthValidatorMaximum" xml:space="preserve"><value>Selle välja pikkus võib olla kuni {0, plural, one {# märk} other {# märki}}.</value></data>
+  <data name="LengthValidatorRange" xml:space="preserve"><value>Selle välja pikkus peab olema {0} kuni {1, plural, one {# märk} other {# märki}}.</value></data>
+  <data name="LengthValidatorExact" xml:space="preserve"><value>Selle välja pikkus peab olema täpselt {0, plural, one {# märk} other {# märki}}.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Eelmine periood</value></data>
   <data name="SchedulerNextPeriod" xml:space="preserve"><value>Järgmine periood</value></data>
   <data name="SchedulerViewLabel" xml:space="preserve"><value>Kalendrivaade</value></data>

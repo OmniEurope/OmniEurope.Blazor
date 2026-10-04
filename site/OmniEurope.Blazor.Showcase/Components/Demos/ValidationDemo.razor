@@ -9,6 +9,8 @@
             <ChildContent>
                 <OmniTextBox Id="validation-name" @bind-Value="Model.Name" />
                 <OmniRequiredValidator TValue="string" For="@(() => Model.Name)" Message="@Text["DemoValidationNameRequired"]" />
+                @* La longueur et l'adresse laissent passer un champ vide : l'obligation reste au validateur Required. *@
+                <OmniLengthValidator For="@(() => Model.Name)" Min="2" Max="40" />
             </ChildContent>
         </OmniFormField>
 
@@ -17,6 +19,7 @@
             <ChildContent>
                 <OmniTextBox Id="validation-mail" @bind-Value="Model.Mail" />
                 <OmniRequiredValidator TValue="string" For="@(() => Model.Mail)" Message="@Text["DemoValidationMailRequired"]" />
+                <OmniEmailValidator For="@(() => Model.Mail)" />
             </ChildContent>
         </OmniFormField>
 

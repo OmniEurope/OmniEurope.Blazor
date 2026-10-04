@@ -378,6 +378,11 @@
   <data name="HeaderLogo" xml:space="preserve"><value>Лого</value></data>
   <data name="RadioButtonListInvalid" xml:space="preserve"><value>Изборът с радиобутони е невалиден.</value></data>
   <data name="RequiredValidatorMessage" xml:space="preserve"><value>Това поле е задължително.</value></data>
+  <data name="EmailValidatorMessage" xml:space="preserve"><value>Това поле не съдържа валиден имейл адрес.</value></data>
+  <data name="LengthValidatorMinimum" xml:space="preserve"><value>Това поле трябва да съдържа поне {0, plural, one {# знак} other {# знака}}.</value></data>
+  <data name="LengthValidatorMaximum" xml:space="preserve"><value>Това поле трябва да съдържа най-много {0, plural, one {# знак} other {# знака}}.</value></data>
+  <data name="LengthValidatorRange" xml:space="preserve"><value>Това поле трябва да съдържа между {0} и {1, plural, one {# знак} other {# знака}}.</value></data>
+  <data name="LengthValidatorExact" xml:space="preserve"><value>Това поле трябва да съдържа точно {0, plural, one {# знак} other {# знака}}.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Предишен период</value></data>
   <data name="SchedulerNextPeriod" xml:space="preserve"><value>Следващ период</value></data>
   <data name="SchedulerViewLabel" xml:space="preserve"><value>Изглед на календара</value></data>

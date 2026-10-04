@@ -378,6 +378,11 @@
   <data name="HeaderLogo" xml:space="preserve"><value>Logotipo</value></data>
   <data name="RadioButtonListInvalid" xml:space="preserve"><value>La selección del botón de opción no es válida.</value></data>
   <data name="RequiredValidatorMessage" xml:space="preserve"><value>Este campo es obligatorio.</value></data>
+  <data name="EmailValidatorMessage" xml:space="preserve"><value>Este campo no contiene una dirección de correo electrónico válida.</value></data>
+  <data name="LengthValidatorMinimum" xml:space="preserve"><value>Este campo debe contener al menos {0, plural, one {# carácter} other {# caracteres}}.</value></data>
+  <data name="LengthValidatorMaximum" xml:space="preserve"><value>Este campo debe contener como máximo {0, plural, one {# carácter} other {# caracteres}}.</value></data>
+  <data name="LengthValidatorRange" xml:space="preserve"><value>Este campo debe contener entre {0} y {1, plural, one {# carácter} other {# caracteres}}.</value></data>
+  <data name="LengthValidatorExact" xml:space="preserve"><value>Este campo debe contener exactamente {0, plural, one {# carácter} other {# caracteres}}.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Período anterior</value></data>
   <data name="SchedulerNextPeriod" xml:space="preserve"><value>Período siguiente</value></data>
   <data name="SchedulerViewLabel" xml:space="preserve"><value>Vista del calendario</value></data>

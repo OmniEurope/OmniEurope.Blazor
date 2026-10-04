@@ -378,6 +378,11 @@
   <data name="HeaderLogo" xml:space="preserve"><value>Logotipas</value></data>
   <data name="RadioButtonListInvalid" xml:space="preserve"><value>Pasirinkta parinktis neteisinga.</value></data>
   <data name="RequiredValidatorMessage" xml:space="preserve"><value>Šis laukas yra privalomas.</value></data>
+  <data name="EmailValidatorMessage" xml:space="preserve"><value>Šiame lauke nurodytas netinkamas el. pašto adresas.</value></data>
+  <data name="LengthValidatorMinimum" xml:space="preserve"><value>Šiame lauke turi būti ne mažiau kaip {0} simb.</value></data>
+  <data name="LengthValidatorMaximum" xml:space="preserve"><value>Šiame lauke gali būti ne daugiau kaip {0} simb.</value></data>
+  <data name="LengthValidatorRange" xml:space="preserve"><value>Šiame lauke turi būti nuo {0} iki {1} simb.</value></data>
+  <data name="LengthValidatorExact" xml:space="preserve"><value>Šiame lauke turi būti lygiai {0} simb.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Ankstesnis laikotarpis</value></data>
   <data name="SchedulerNextPeriod" xml:space="preserve"><value>Kitas laikotarpis</value></data>
   <data name="SchedulerViewLabel" xml:space="preserve"><value>Kalendoriaus rodinys</value></data>

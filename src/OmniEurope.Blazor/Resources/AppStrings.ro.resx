@@ -378,6 +378,11 @@
   <data name="HeaderLogo" xml:space="preserve"><value>Logo</value></data>
   <data name="RadioButtonListInvalid" xml:space="preserve"><value>Selecția radio nu este validă.</value></data>
   <data name="RequiredValidatorMessage" xml:space="preserve"><value>Acest câmp este obligatoriu.</value></data>
+  <data name="EmailValidatorMessage" xml:space="preserve"><value>Acest câmp nu conține o adresă de e-mail validă.</value></data>
+  <data name="LengthValidatorMinimum" xml:space="preserve"><value>Acest câmp trebuie să conțină cel puțin {0, plural, one {# caracter} few {# caractere} other {# de caractere}}.</value></data>
+  <data name="LengthValidatorMaximum" xml:space="preserve"><value>Acest câmp trebuie să conțină cel mult {0, plural, one {# caracter} few {# caractere} other {# de caractere}}.</value></data>
+  <data name="LengthValidatorRange" xml:space="preserve"><value>Acest câmp trebuie să conțină între {0} și {1, plural, one {# caracter} few {# caractere} other {# de caractere}}.</value></data>
+  <data name="LengthValidatorExact" xml:space="preserve"><value>Acest câmp trebuie să conțină exact {0, plural, one {# caracter} few {# caractere} other {# de caractere}}.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Perioada anterioară</value></data>
   <data name="SchedulerNextPeriod" xml:space="preserve"><value>Perioada următoare</value></data>
   <data name="SchedulerViewLabel" xml:space="preserve"><value>Vizualizare calendar</value></data>

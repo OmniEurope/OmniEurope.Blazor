@@ -378,6 +378,11 @@
   <data name="HeaderLogo" xml:space="preserve"><value>Logo</value></data>
   <data name="RadioButtonListInvalid" xml:space="preserve"><value>Výber prepínača nie je platný.</value></data>
   <data name="RequiredValidatorMessage" xml:space="preserve"><value>Toto pole je povinné.</value></data>
+  <data name="EmailValidatorMessage" xml:space="preserve"><value>Toto pole neobsahuje platnú e-mailovú adresu.</value></data>
+  <data name="LengthValidatorMinimum" xml:space="preserve"><value>Počet znakov v tomto poli musí byť aspoň {0}.</value></data>
+  <data name="LengthValidatorMaximum" xml:space="preserve"><value>Počet znakov v tomto poli nesmie prekročiť {0}.</value></data>
+  <data name="LengthValidatorRange" xml:space="preserve"><value>Počet znakov v tomto poli musí byť od {0} do {1}.</value></data>
+  <data name="LengthValidatorExact" xml:space="preserve"><value>Počet znakov v tomto poli musí byť presne {0}.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Predchádzajúce obdobie</value></data>
   <data name="SchedulerNextPeriod" xml:space="preserve"><value>Nasledujúce obdobie</value></data>
   <data name="SchedulerViewLabel" xml:space="preserve"><value>Zobrazenie kalendára</value></data>

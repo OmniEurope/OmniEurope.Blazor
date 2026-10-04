@@ -378,6 +378,11 @@
   <data name="HeaderLogo" xml:space="preserve"><value>Logó</value></data>
   <data name="RadioButtonListInvalid" xml:space="preserve"><value>A választógombos kijelölés érvénytelen.</value></data>
   <data name="RequiredValidatorMessage" xml:space="preserve"><value>A mező kitöltése kötelező.</value></data>
+  <data name="EmailValidatorMessage" xml:space="preserve"><value>A mező nem érvényes e-mail-címet tartalmaz.</value></data>
+  <data name="LengthValidatorMinimum" xml:space="preserve"><value>A mezőnek legalább {0} karakterből kell állnia.</value></data>
+  <data name="LengthValidatorMaximum" xml:space="preserve"><value>A mező legfeljebb {0} karakter lehet.</value></data>
+  <data name="LengthValidatorRange" xml:space="preserve"><value>A mező hosszának {0} és {1} karakter között kell lennie.</value></data>
+  <data name="LengthValidatorExact" xml:space="preserve"><value>A mezőnek pontosan {0} karakterből kell állnia.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Előző időszak</value></data>
   <data name="SchedulerNextPeriod" xml:space="preserve"><value>Következő időszak</value></data>
   <data name="SchedulerViewLabel" xml:space="preserve"><value>Naptárnézet</value></data>
