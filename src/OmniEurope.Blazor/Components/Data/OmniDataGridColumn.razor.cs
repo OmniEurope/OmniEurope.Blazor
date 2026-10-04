@@ -223,6 +223,13 @@ public partial class OmniDataGridColumn<TItem>
     [Parameter]
     public string? HeaderClass { get; set; }
 
+    /// <summary>
+    /// Whether this column is tinted under the pointer when the grid's <c>HighlightColumnOnHover</c> is on. True
+    /// by default; false leaves the column out (a label column, a column of actions): hovering it tints nothing.
+    /// </summary>
+    [Parameter]
+    public bool HighlightOnHover { get; set; } = true;
+
     /// <summary>Whether the reader can group rows by this column, when the grid's <c>AllowGrouping</c> is on. True by default.</summary>
     [Parameter]
     public bool Groupable { get; set; } = true;
@@ -291,6 +298,7 @@ public partial class OmniDataGridColumn<TItem>
             Class = Class,
             HeaderClass = HeaderClass,
             Groupable = Groupable,
+            HighlightOnHover = HighlightOnHover,
             ExportValue = ExportValue,
             Exportable = Exportable,
             HasValueSource = Property is not null || Value is not null
@@ -419,6 +427,7 @@ public partial class OmniDataGridColumn<TItem>
         && string.Equals(left.Class, right.Class, StringComparison.Ordinal)
         && string.Equals(left.HeaderClass, right.HeaderClass, StringComparison.Ordinal)
         && left.Groupable == right.Groupable
+        && left.HighlightOnHover == right.HighlightOnHover
         && Equivalent(left.ExportValue, right.ExportValue)
         && left.Exportable == right.Exportable
         && left.HasValueSource == right.HasValueSource;

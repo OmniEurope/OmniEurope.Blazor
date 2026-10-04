@@ -76,9 +76,10 @@
               Value="Selection"
               ValueChanged="@(value => Selection = value)"
               OnCellDoubleClick="ReadCell"
+              HighlightColumnOnHover="true"
               GridLines="Lines">
     <Columns>
-        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="@Text["DemoGridColumnReference"]" Frozen="true" FilterOperators="ReferenceOperators" />
+        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="@Text["DemoGridColumnReference"]" Frozen="true" HighlightOnHover="false" FilterOperators="ReferenceOperators" />
         <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="@Text["DemoGridColumnApplicant"]"
                             FilterType="OmniDataGridColumnFilterType.Combo" FilterSearchable="true">
             <FilterTemplate>

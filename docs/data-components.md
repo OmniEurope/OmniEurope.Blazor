@@ -386,6 +386,17 @@ l'hôte : la barre et le résumé n'annoncent plus « page 5 sur 1 ».
 porte son intitulé en attribut `data-omni-label` et la feuille de styles empile la ligne en carte
 sous 40 rem.
 
+`HighlightRowOnHover` teinte la ligne sous le pointeur ; `HighlightColumnOnHover` (désactivé par défaut)
+teinte la colonne entière de la cellule du corps sous le pointeur, en-tête, rangée de filtres et pied
+compris, pour suivre un chiffre dans un tableau large. Le survol d'un en-tête, d'une cellule de contrôle
+ou d'une grille imbriquée ne teinte rien. `HighlightOnHover="false"` sur une colonne la retire du jeu :
+survolée, elle ne teinte rien (classe `omni-data-grid__column--no-hover`). Mise en oeuvre : la racine porte
+`omni-data-grid--column-hover` et `grid/column-hover.js` (`attachColumnHover`, `detachColumnHover`
+d'`omni-grid.js`) pose et retire la classe `omni-data-grid__column--hover` sur les cellules de la colonne,
+sans aller-retour .NET ni attribut `style` ; la feuille peint la teinte en image de fond, par-dessus la
+couleur d'une cellule figée et l'état de la ligne. Une cellule redessinée par Blazor pendant le survol
+reprend sa teinte au mouvement suivant du pointeur.
+
 ## Ce qui n'est délibérément pas fourni
 
 - `Style` : un attribut `style` violerait le contrat CSP. Le remplacement est `Class`, `Height`,

@@ -62,6 +62,8 @@ internal sealed class OmniDataGridColumnDefinition<TItem>
     public string? Class { get; init; }
     public string? HeaderClass { get; init; }
     public bool Groupable { get; init; } = true;
+    /// <summary>Tinted under the pointer when the grid highlights the hovered column.</summary>
+    public bool HighlightOnHover { get; init; } = true;
     /// <summary>The value an export writes, in place of <see cref="Value"/>.</summary>
     public Func<TItem, object?>? ExportValue { get; set; }
     public bool Exportable { get; init; } = true;

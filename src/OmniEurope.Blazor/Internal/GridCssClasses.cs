@@ -15,6 +15,7 @@ internal sealed class GridCssClasses<TItem>(OmniDataGrid<TItem> grid)
         grid.Script.Veiled ? "omni-data-grid--preparing" : null,
         grid.FillAvailableHeight ? "omni-data-grid--fill" : null,
         grid.HighlightRowOnHover ? "omni-data-grid--row-hover" : null,
+        grid.HighlightColumnOnHover ? "omni-data-grid--column-hover" : null,
         grid.AllowAlternatingRows ? "omni-data-grid--striped" : null,
         grid.View.Virtualized ? "omni-data-grid--virtual" : null,
         grid.Responsive ? "omni-data-grid--responsive" : null,
@@ -47,6 +48,7 @@ internal sealed class GridCssClasses<TItem>(OmniDataGrid<TItem> grid)
         column.Frozen ? "omni-data-grid__column--frozen" : null,
         grid.HighlightActiveColumn && grid.Query.IsColumnActive(column) ? "omni-data-grid__column--active" : null,
         header && grid.Query.IsSortable(column) ? "omni-data-grid__column--sortable" : null,
+        grid.HighlightColumnOnHover && !column.HighlightOnHover ? "omni-data-grid__column--no-hover" : null,
         header ? column.HeaderClass : column.Class
     ]);
 

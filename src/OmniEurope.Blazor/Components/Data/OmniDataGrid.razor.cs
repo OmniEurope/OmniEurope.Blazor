@@ -420,6 +420,14 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public bool HighlightRowOnHover { get; set; }
 
+    /// <summary>
+    /// Tints the whole column of the body cell under the pointer, its header and footer included, to
+    /// follow a figure across a wide table. Done in the browser by toggling a class, without a round trip
+    /// or a style attribute. Off by default; a column opts out with its own <c>HighlightOnHover</c>.
+    /// </summary>
+    [Parameter]
+    public bool HighlightColumnOnHover { get; set; }
+
     /// <summary>Which rules separate the cells; a rule under each row by default.</summary>
     [Parameter]
     public OmniDataGridLines GridLines { get; set; } = OmniDataGridLines.Horizontal;

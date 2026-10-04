@@ -24,6 +24,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
     private bool _fillAttached;
     private bool _frozenScrollAttached;
     private bool _cutTooltipsInstalled;
+    private bool _columnHoverAttached;
     private string? _wheelScopeAttached;
     private bool _renderReady;
 
@@ -72,6 +73,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
             await EnsureWheelScopeInteropAsync();
             await EnsureFrozenScrollInteropAsync();
             await EnsureCutTooltipsAsync();
+            await EnsureColumnHoverAsync();
             await CompletePreparationAsync();
             return;
         }
@@ -83,6 +85,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         await EnsureWheelScopeInteropAsync();
         await EnsureFrozenScrollInteropAsync();
         await EnsureCutTooltipsAsync();
+        await EnsureColumnHoverAsync();
         if (!_virtualAttached)
         {
             await module.InvokeVoidAsync("attach", grid.Viewport, SelfReference);
@@ -126,6 +129,22 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         var module = await ModuleAsync();
         await module.InvokeVoidAsync("installPackageTooltips");
         _cutTooltipsInstalled = true;
+    }
+
+    /// <summary>
+    /// Wires the column hover once the grid first highlights the hovered column; the script reads the
+    /// grid root class on each move, so turning the option off again needs no detach.
+    /// </summary>
+    private async Task EnsureColumnHoverAsync()
+    {
+        if (_columnHoverAttached || !grid.HighlightColumnOnHover)
+        {
+            return;
+        }
+
+        var module = await ModuleAsync();
+        await module.InvokeVoidAsync("attachColumnHover", grid.Viewport);
+        _columnHoverAttached = true;
     }
 
     private async Task CompletePreparationAsync()
@@ -325,6 +344,12 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
             {
                 _frozenScrollAttached = false;
                 await _gridModule.InvokeVoidAsync("detachFrozenScroll", grid.Viewport);
+            }
+
+            if (_columnHoverAttached && _gridModule is not null)
+            {
+                _columnHoverAttached = false;
+                await _gridModule.InvokeVoidAsync("detachColumnHover", grid.Viewport);
             }
 
             if (_cutTooltipsInstalled && _gridModule is not null)

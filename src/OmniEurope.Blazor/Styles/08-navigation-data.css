@@ -320,6 +320,13 @@
 .omni-status--danger { --omni-status-dot: var(--omni-color-danger-fill); }
 .omni-data-grid tbody td { background: linear-gradient(var(--omni-row-fill), var(--omni-row-fill)); }
 .omni-data-grid tbody td.omni-data-grid__column--active { background: linear-gradient(var(--omni-column-active-fill), var(--omni-column-active-fill)), linear-gradient(var(--omni-row-fill), var(--omni-row-fill)); }
+/* HighlightColumnOnHover: the column of the body cell under the pointer, header and footer included,
+   marked by grid/column-hover.js with a class. Painted as images over the background colour, so an
+   opaque frozen cell keeps its colour under the tint and the row states stay visible through it. */
+.omni-data-grid { --omni-column-hover-fill: color-mix(in srgb, var(--omni-color-accent) 8%, transparent); }
+.omni-data-grid thead .omni-data-grid__column--hover { --omni-header-fill: color-mix(in srgb, var(--omni-color-accent) 9%, var(--omni-grid-frame)); --omni-header-fill-hover: color-mix(in srgb, var(--omni-color-accent) 15%, var(--omni-grid-frame)); }
+.omni-data-grid tbody td.omni-data-grid__column--hover { background-image: linear-gradient(var(--omni-column-hover-fill), var(--omni-column-hover-fill)), linear-gradient(var(--omni-row-fill), var(--omni-row-fill)); }
+.omni-data-grid tfoot td.omni-data-grid__column--hover { background-image: linear-gradient(var(--omni-column-hover-fill), var(--omni-column-hover-fill)); }
 .omni-data-grid__table .omni-data-grid__column--frozen { inset-inline-start: var(--omni-col-offset, 0px); position: sticky; z-index: 2; }
 .omni-data-grid :is(tbody, tfoot) td.omni-data-grid__column--frozen { background-color: var(--omni-grid-frame); }
 /* The last frozen column casts a shadow on its trailing edge only while rows scroll under it, so it
