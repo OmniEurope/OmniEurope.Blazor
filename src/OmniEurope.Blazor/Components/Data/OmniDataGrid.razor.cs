@@ -665,7 +665,7 @@ public partial class OmniDataGrid<TItem>
     /// The formats of the export bar: each button exports every row the filters in force select, in the
     /// current sort order, not only the page or window on screen. Empty, the default, shows no bar. A
     /// format nobody writes (no <see cref="IOmniTableExportRenderer"/> of the host supports it) has no
-    /// button; Markdown and CSV are written by the package. The columns exported are the visible ones
+    /// button; Markdown, CSV and Excel are written by the package. The columns exported are the visible ones
     /// that read a value (see <see cref="OmniDataGridColumn{TItem}.ExportValue"/>).
     /// </summary>
     [Parameter]

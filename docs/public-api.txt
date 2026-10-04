@@ -338,6 +338,7 @@ ctor public OmniEurope.Blazor.Components.OmniSwitch<TValue>()
 ctor public OmniEurope.Blazor.Components.OmniTableExportCell(System.String Text)
 ctor public OmniEurope.Blazor.Components.OmniTableExportColumn(System.String Title, OmniEurope.Blazor.Components.OmniTableExportValueKind Kind)
 ctor public OmniEurope.Blazor.Components.OmniTableExportDocument()
+ctor public OmniEurope.Blazor.Components.OmniTableExportDownloader(Microsoft.JSInterop.IJSRuntime javaScript, OmniEurope.Blazor.Components.OmniTableExporter exporter)
 ctor public OmniEurope.Blazor.Components.OmniTableExportField(System.String Label, System.String Value)
 ctor public OmniEurope.Blazor.Components.OmniTableExportFile(System.ReadOnlyMemory<System.Byte> Content, System.String ContentType, System.String Extension)
 ctor public OmniEurope.Blazor.Components.OmniTableExporter(OmniEurope.Blazor.Components.OmniMarkdownTableExporter markdown, System.Collections.Generic.IEnumerable<OmniEurope.Blazor.Components.IOmniTableExportRenderer> renderers)
@@ -898,6 +899,7 @@ field public static OmniEurope.Blazor.Components.OmniTableExportValueKind.Boolea
 field public static OmniEurope.Blazor.Components.OmniTableExportValueKind.Date : OmniEurope.Blazor.Components.OmniTableExportValueKind const = 2
 field public static OmniEurope.Blazor.Components.OmniTableExportValueKind.Number : OmniEurope.Blazor.Components.OmniTableExportValueKind const = 1
 field public static OmniEurope.Blazor.Components.OmniTableExportValueKind.Text : OmniEurope.Blazor.Components.OmniTableExportValueKind const = 0
+field public static OmniEurope.Blazor.Components.OmniTableExporter.XlsxContentType : System.String const = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 field public static OmniEurope.Blazor.Components.OmniTextBoxType.Email : OmniEurope.Blazor.Components.OmniTextBoxType const = 1
 field public static OmniEurope.Blazor.Components.OmniTextBoxType.Search : OmniEurope.Blazor.Components.OmniTextBoxType const = 4
 field public static OmniEurope.Blazor.Components.OmniTextBoxType.Tel : OmniEurope.Blazor.Components.OmniTextBoxType const = 2
@@ -1564,6 +1566,8 @@ method public OmniEurope.Blazor.Components.OmniTableExportColumn.Deconstruct(out
 method public OmniEurope.Blazor.Components.OmniTableExportColumn.Equals(OmniEurope.Blazor.Components.OmniTableExportColumn? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniTableExportDocument.<Clone>$() : OmniEurope.Blazor.Components.OmniTableExportDocument
 method public OmniEurope.Blazor.Components.OmniTableExportDocument.Equals(OmniEurope.Blazor.Components.OmniTableExportDocument? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniTableExportDownloader.DisposeAsync() : System.Threading.Tasks.ValueTask
+method public OmniEurope.Blazor.Components.OmniTableExportDownloader.DownloadAsync(OmniEurope.Blazor.Components.OmniTableExportDocument document, OmniEurope.Blazor.Components.OmniTableExportFormat format, System.String fileName, System.Threading.CancellationToken cancellationToken = null) : System.Threading.Tasks.Task<OmniEurope.Blazor.Components.OmniTableExportFile>
 method public OmniEurope.Blazor.Components.OmniTableExportField.<Clone>$() : OmniEurope.Blazor.Components.OmniTableExportField
 method public OmniEurope.Blazor.Components.OmniTableExportField.Deconstruct(out System.String Label, out System.String Value) : System.Void
 method public OmniEurope.Blazor.Components.OmniTableExportField.Equals(OmniEurope.Blazor.Components.OmniTableExportField? other) : System.Boolean
@@ -1992,6 +1996,7 @@ method public static OmniEurope.Blazor.Components.OmniTableExportField.op_Inequa
 method public static OmniEurope.Blazor.Components.OmniTableExportFile.op_Equality(OmniEurope.Blazor.Components.OmniTableExportFile? left, OmniEurope.Blazor.Components.OmniTableExportFile? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniTableExportFile.op_Inequality(OmniEurope.Blazor.Components.OmniTableExportFile? left, OmniEurope.Blazor.Components.OmniTableExportFile? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniTableExporter.ToCsv(OmniEurope.Blazor.Components.OmniTableExportDocument document) : System.String
+method public static OmniEurope.Blazor.Components.OmniTableExporter.ToXlsx(OmniEurope.Blazor.Components.OmniTableExportDocument document) : System.Byte[]
 method public static OmniEurope.Blazor.Components.OmniThemeFont.op_Equality(OmniEurope.Blazor.Components.OmniThemeFont? left, OmniEurope.Blazor.Components.OmniThemeFont? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniThemeFont.op_Inequality(OmniEurope.Blazor.Components.OmniThemeFont? left, OmniEurope.Blazor.Components.OmniThemeFont? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniThemePalette.op_Equality(OmniEurope.Blazor.Components.OmniThemePalette? left, OmniEurope.Blazor.Components.OmniThemePalette? right) : System.Boolean
@@ -3835,6 +3840,7 @@ type public OmniEurope.Blazor.Components.OmniSwitch<TValue> [class] : OmniEurope
 type public OmniEurope.Blazor.Components.OmniTableExportCell [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniTableExportCell>
 type public OmniEurope.Blazor.Components.OmniTableExportColumn [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniTableExportColumn>
 type public OmniEurope.Blazor.Components.OmniTableExportDocument [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniTableExportDocument>
+type public OmniEurope.Blazor.Components.OmniTableExportDownloader [class, sealed] : System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniTableExportField [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniTableExportField>
 type public OmniEurope.Blazor.Components.OmniTableExportFile [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniTableExportFile>
 type public OmniEurope.Blazor.Components.OmniTableExportFormat [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32

@@ -2,7 +2,7 @@ namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// A file format a table is exported to (<see cref="OmniDataGrid{TItem}.ExportFormats"/>). The package
-/// writes <see cref="Markdown"/> and <see cref="Csv"/> itself; the others are written by the host,
+/// writes <see cref="Markdown"/>, <see cref="Csv"/> and <see cref="Excel"/> itself; <see cref="Pdf"/> is written by the host,
 /// through an <see cref="IOmniTableExportRenderer"/>.
 /// </summary>
 public enum OmniTableExportFormat
@@ -13,7 +13,7 @@ public enum OmniTableExportFormat
     /// <summary>Comma-separated values (RFC 4180), the table alone. Written by the package.</summary>
     Csv,
 
-    /// <summary>A spreadsheet workbook (<c>.xlsx</c>). Written by the host's renderer.</summary>
+    /// <summary>A spreadsheet workbook (<c>.xlsx</c>), typed cells under a bold heading row. Written by the package.</summary>
     Excel,
 
     /// <summary>A PDF document. Written by the host's renderer.</summary>

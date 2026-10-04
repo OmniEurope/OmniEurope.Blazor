@@ -1,3 +1,4 @@
+using System.Globalization;
 using OmniEurope.Blazor.Showcase.Resources;
 
 namespace OmniEurope.Blazor.Showcase.Components.Demos;
@@ -29,6 +30,31 @@ public partial class DataGridDemo
     private Task ExpandStatementAsync() => StatementGrid?.ExpandAllTreeRowsAsync() ?? Task.CompletedTask;
 
     private Task CollapseStatementAsync() => StatementGrid?.CollapseAllTreeRowsAsync() ?? Task.CompletedTask;
+
+    [Inject]
+    private OmniTableExportDownloader Downloader { get; set; } = default!;
+
+    // A table the page builds itself, every line at its depth: the label indented by two spaces a level.
+    private Task ExportStatementAsync()
+    {
+        IEnumerable<StatementLine> Flatten(IEnumerable<StatementLine> lines) =>
+            lines.SelectMany(line => Flatten(line.Children ?? []).Prepend(line));
+        OmniTableExportCell Amount(decimal value) => new(value.ToString("C0", CultureInfo.CurrentCulture)) { Number = value };
+        var document = new OmniTableExportDocument
+        {
+            Title = Text["DemoGridTreeCaption"],
+            Columns =
+            [
+                new(Text["DemoGridTreeColumnItem"], OmniTableExportValueKind.Text),
+                new("2025", OmniTableExportValueKind.Number),
+                new("2026", OmniTableExportValueKind.Number)
+            ],
+            Rows = Flatten(Statement)
+                .Select(line => (IReadOnlyList<OmniTableExportCell>)[new(new string(' ', line.Level * 2) + line.Label), Amount(line.Previous), Amount(line.Current)])
+                .ToArray()
+        };
+        return Downloader.DownloadAsync(document, OmniTableExportFormat.Excel, Text["DemoGridTreeCaption"]);
+    }
 
     protected override void OnInitialized()
     {

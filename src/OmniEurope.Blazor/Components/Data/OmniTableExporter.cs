@@ -3,10 +3,10 @@ using System.Text;
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
-/// Turns an <see cref="OmniTableExportDocument"/> into a file. The package writes Markdown and CSV
-/// itself, with no dependency; any other format, and either of those two when the host prefers its
-/// own, is written by the <see cref="IOmniTableExportRenderer"/> services of the host. A format nobody
-/// writes is not supported, and a grid then offers no button for it.
+/// Turns an <see cref="OmniTableExportDocument"/> into a file. The package writes Markdown, CSV and Excel
+/// (<c>.xlsx</c>) itself, with no dependency; PDF, and any of those three when the host prefers its own, is
+/// written by the <see cref="IOmniTableExportRenderer"/> services of the host. A format nobody writes is not
+/// supported, and a grid then offers no button for it.
 /// </summary>
 public sealed class OmniTableExporter
 {
@@ -32,9 +32,9 @@ public sealed class OmniTableExporter
 
     /// <summary>Whether a file can be written in <paramref name="format"/>, by the package or by a host renderer.</summary>
     /// <param name="format">The format asked for.</param>
-    /// <returns>True for Markdown and CSV, and for any format a registered renderer supports.</returns>
+    /// <returns>True for Markdown, CSV and Excel, and for any format a registered renderer supports.</returns>
     public bool Supports(OmniTableExportFormat format) =>
-        format is OmniTableExportFormat.Markdown or OmniTableExportFormat.Csv || RendererOf(format) is not null;
+        format is OmniTableExportFormat.Markdown or OmniTableExportFormat.Csv or OmniTableExportFormat.Excel || RendererOf(format) is not null;
 
     /// <summary>Writes the document in <paramref name="format"/>.</summary>
     /// <param name="document">The rows to write.</param>
@@ -57,6 +57,7 @@ public sealed class OmniTableExporter
             // The byte order mark is what makes a spreadsheet read the file as UTF-8.
             OmniTableExportFormat.Csv => new OmniTableExportFile(
                 (byte[])[.. Encoding.UTF8.GetPreamble(), .. Encoding.UTF8.GetBytes(ToCsv(document))], "text/csv;charset=utf-8", "csv"),
+            OmniTableExportFormat.Excel => new OmniTableExportFile(ToXlsx(document), XlsxContentType, "xlsx"),
             _ => throw new NotSupportedException($"No IOmniTableExportRenderer is registered for the {format} format.")
         };
     }
@@ -112,6 +113,27 @@ public sealed class OmniTableExporter
 
         return csv.ToString();
     }
+
+    /// <summary>
+    /// The rows as an Office Open XML workbook (<c>.xlsx</c>), written with the base library alone, so in
+    /// WebAssembly too: one sheet named after the title (31 characters at most, without the characters a sheet
+    /// name refuses), a bold heading row kept on screen while scrolling and carrying a filter, then one row per
+    /// row of the document. A number is stored as a number, a date as a date (with its time when it has one), a
+    /// boolean as a boolean, any other cell as its text; columns are as wide as their longest text, within
+    /// bounds. No cell holds a formula, and a text that starts like one (<c>=</c>, <c>+</c>, <c>-</c>, <c>@</c>)
+    /// is marked as text, so editing it does not run it.
+    /// </summary>
+    /// <param name="document">The rows to write.</param>
+    /// <returns>The bytes of the workbook.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="document"/> is null.</exception>
+    public static byte[] ToXlsx(OmniTableExportDocument document)
+    {
+        ArgumentNullException.ThrowIfNull(document);
+        return Internal.XlsxWriter.Write(document);
+    }
+
+    /// <summary>The media type of an <c>.xlsx</c> workbook.</summary>
+    public const string XlsxContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
     private IOmniTableExportRenderer? RendererOf(OmniTableExportFormat format) =>
         _renderers.FirstOrDefault(renderer => renderer.Supports(format));

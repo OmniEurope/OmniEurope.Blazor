@@ -1,8 +1,8 @@
 @* The grid in its everyday form, with one column of each filter shape and each text alignment. The
    columns say nothing about their filter and follow the grid, which filters by default; Amount takes
    itself out with Filterable="false". Its export bar, under the table, writes every row the filters
-   select and not the page on screen: Markdown and CSV come from the package, while Excel and PDF only
-   get a button in a host that registers an IOmniTableExportRenderer, which this static site does not. *@
+   select and not the page on screen: Markdown, CSV and Excel come from the package, while PDF only gets a
+   button in a host that registers an IOmniTableExportRenderer, which this static site does not. *@
 <OmniDataGrid TItem="GridRow"
               Items="Rows"
               ExportFormats="ExportFormats"
@@ -106,7 +106,9 @@
 @* Un compte de résultat en arbre (ChildrenOf) : les catégories, toujours ouvertes (CanToggleTreeRow),
    portent leurs sous-totaux, qui s'ouvrent d'un clic sur la ligne (ToggleTreeOnRowClick) ou par leur
    chevron, Droite et Gauche au clavier ; les deux boutons ouvrent et ferment tout. Le tri range les
-   frères sous leur parent ; la colonne survolée se teinte (HighlightColumnOnHover). *@
+   frères sous leur parent ; la colonne survolée se teinte (HighlightColumnOnHover). Le troisième bouton
+   écrit le tableau construit par la page, toutes lignes ouvertes, en classeur Excel
+   (OmniTableExportDownloader). *@
 <OmniStack Gap="OmniSpacing.Small">
     <OmniRow Gap="OmniSpacing.Small">
         <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="ExpandStatementAsync">
@@ -114,6 +116,9 @@
         </OmniButton>
         <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="CollapseStatementAsync">
             <OmniIcon Name="OmniIconName.CornersIn" /><span>@Text["DemoGridTreeCollapseAll"]</span>
+        </OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="ExportStatementAsync">
+            <OmniIcon Name="OmniIconName.FileXls" /><span>@Text["DemoGridTreeExport"]</span>
         </OmniButton>
     </OmniRow>
     <OmniDataGrid @ref="StatementGrid" TItem="StatementLine" Id="demo-grid-tree"

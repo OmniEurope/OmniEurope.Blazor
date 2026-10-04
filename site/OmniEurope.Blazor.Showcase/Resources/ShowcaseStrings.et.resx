@@ -1536,4 +1536,5 @@
   <data name="DemoGridTreeStaff" xml:space="preserve"><value>Personal</value></data>
   <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Laienda kõik</value></data>
   <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Ahenda kõik</value></data>
+  <data name="DemoGridTreeExport" xml:space="preserve"><value>Ekspordi Excelisse</value></data>
 </root>

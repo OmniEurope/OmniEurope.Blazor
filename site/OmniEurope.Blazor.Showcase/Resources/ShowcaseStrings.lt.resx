@@ -1536,4 +1536,5 @@
   <data name="DemoGridTreeStaff" xml:space="preserve"><value>Personalas</value></data>
   <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Išskleisti viską</value></data>
   <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Suskleisti viską</value></data>
+  <data name="DemoGridTreeExport" xml:space="preserve"><value>Eksportuoti į Excel</value></data>
 </root>

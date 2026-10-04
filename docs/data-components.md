@@ -578,9 +578,9 @@ page pleine à la limite de lignes, le document écrit « N sur au moins M » et
 ## Barre d'export de la grille : `ExportFormats`
 
 `OmniDataGrid` porte une barre « Tout exporter » dès que `ExportFormats` nomme au moins un format que
-quelqu'un sait écrire : `Markdown` et `Csv` sont écrits par le paquet, sans dépendance ; `Excel` et `Pdf`
-le sont par l'hôte, qui enregistre un `IOmniTableExportRenderer` (un format que personne n'écrit n'a pas
-de bouton). `ExportPosition` place la barre sous le tableau (défaut), au-dessus, ou aux deux endroits. Chaque bouton porte l'icône de fichier de son format (`FileMd`, `FileCsv`, `FileXls`, `FilePdf`) et la variante `Secondary` (gris neutre), une exportation étant une autre action de sa zone ; `ExportVariants` en donne une autre par format (le Markdown en `Primary`, par exemple).
+quelqu'un sait écrire : `Markdown`, `Csv` et `Excel` sont écrits par le paquet, sans dépendance ; `Pdf`
+l'est par l'hôte, qui enregistre un `IOmniTableExportRenderer` (un format que personne n'écrit n'a pas
+de bouton ; un moteur de l'hôte qui écrit l'un des trois premiers remplace celui du paquet). `ExportPosition` place la barre sous le tableau (défaut), au-dessus, ou aux deux endroits. Chaque bouton porte l'icône de fichier de son format (`FileMd`, `FileCsv`, `FileXls`, `FilePdf`) et la variante `Secondary` (gris neutre), une exportation étant une autre action de sa zone ; `ExportVariants` en donne une autre par format (le Markdown en `Primary`, par exemple).
 
 ```razor
 <OmniDataGrid TItem="Commande" Load="ChargerAsync" KeyOf="@(c => c.Id)"
@@ -615,16 +615,42 @@ de bouton). `ExportPosition` place la barre sous le tableau (défaut), au-dessus
   culture écrit les décimales avec une virgule ; un nombre est écrit en valeur, sans séparateur de
   milliers ; un texte qui commence par `=`, `+`, `-`, `@`, une tabulation ou un retour chariot est
   précédé d'une apostrophe, pour qu'un tableur ne l'exécute pas comme une formule.
+- **Excel.** Un classeur Office Open XML (`.xlsx`) écrit par la seule bibliothèque de base
+  (`System.IO.Compression` et un écrivain XML), donc aussi sous WebAssembly, sans paquet NuGet de plus
+  (`OmniTableExporter.ToXlsx`). Une feuille nommée d'après le titre (31 caractères au plus, sans les
+  caractères `[ ] : * ? / \` qu'un nom de feuille refuse), une ligne d'en-tête en gras, figée au défilement
+  et porteuse d'un filtre automatique, puis une ligne par ligne exportée : un nombre en nombre, une date en
+  date (format court de la machine, ou `yyyy-mm-dd hh:mm` quand elle a une heure), un booléen en booléen, le
+  reste en texte. Chaque colonne est aussi large que son plus long texte, entre 8 et 60 caractères. Aucune
+  cellule ne porte de formule ; un texte qui commence comme une formule (`=`, `+`, `-`, `@`, tabulation,
+  retour chariot) est marqué comme texte (`quotePrefix`) : le modifier dans le tableur ne l'exécute pas. Les
+  caractères de contrôle interdits en XML sont retirés. Comme en CSV, le titre et les lignes d'en-tête du
+  document ne sont pas écrits dans la feuille.
 - **Fichier.** `{ExportFileName}-{yyyy-MM-dd-HHmm}.{extension}`, heure UTC (`shop-logs-2026-10-01-0840.md`) ; sans `ExportFileName`, le nom vient d'`ExportTitle`, puis de `Caption`, en minuscules sans accents et avec des traits d'union (`export` à défaut). `OnExport` reçoit le document
   une fois le fichier remis au navigateur. Un export coupé par la limite le dit dans la barre ; un échec
   y affiche « L'export a échoué. », ne produit aucun fichier et passe l'exception à `OnExportError`.
   Une exception levée par le gestionnaire `OnExport` n'est pas un échec de l'export (le fichier est
   déjà remis) : elle remonte comme celle de tout gestionnaire d'événement.
 - **Hors grille.** `OmniTableExporter` (service enregistré par `AddOmniEuropeBlazor`) écrit un document
-  dans un format : `Supports`, `RenderAsync`, `ToMarkdown`, `ToCsv`.
+  dans un format : `Supports`, `RenderAsync`, `ToMarkdown`, `ToCsv`, `ToXlsx` (et `XlsxContentType`).
+  `OmniTableExportDownloader` (même enregistrement) écrit un tableau que l'hôte construit lui-même, un
+  compte de résultat ou un bilan, et le remet au navigateur : `DownloadAsync(document, format, fileName)`
+  télécharge `{fileName}.{extension}` et rend le fichier.
 
 ```csharp
-// Hôte : les formats que le paquet n'écrit pas.
+@inject OmniTableExportDownloader Telechargement
+
+var document = new OmniTableExportDocument
+{
+    Title = "Compte de résultat 2026",
+    Columns = [new("Poste", OmniTableExportValueKind.Text), new("2026", OmniTableExportValueKind.Number)],
+    Rows = Postes.Select(p => (IReadOnlyList<OmniTableExportCell>)[new(p.Libelle), new(p.Montant.ToString("n2")) { Number = p.Montant }]).ToArray()
+};
+await Telechargement.DownloadAsync(document, OmniTableExportFormat.Excel, "compte-de-resultat-2026");
+```
+
+```csharp
+// Hôte : le format que le paquet n'écrit pas (et, ici, son propre classeur au lieu de celui du paquet).
 builder.Services.AddScoped<IOmniTableExportRenderer, RenduParLeServeur>();
 
 public sealed class RenduParLeServeur(HttpClient http) : IOmniTableExportRenderer

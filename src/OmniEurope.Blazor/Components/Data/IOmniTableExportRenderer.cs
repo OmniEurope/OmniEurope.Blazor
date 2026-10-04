@@ -1,10 +1,10 @@
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
-/// Writes a table export in a format the package does not write itself (a spreadsheet, a PDF). The
-/// host registers one in its container; the grid then offers the formats it supports. A renderer that
-/// supports <see cref="OmniTableExportFormat.Markdown"/> or <see cref="OmniTableExportFormat.Csv"/>
-/// replaces the package's own writer for that format.
+/// Writes a table export in a format the package does not write itself (a PDF). The host registers one in
+/// its container; the grid then offers the formats it supports. A renderer that supports
+/// <see cref="OmniTableExportFormat.Markdown"/>, <see cref="OmniTableExportFormat.Csv"/> or
+/// <see cref="OmniTableExportFormat.Excel"/> replaces the package's own writer for that format.
 /// </summary>
 public interface IOmniTableExportRenderer
 {

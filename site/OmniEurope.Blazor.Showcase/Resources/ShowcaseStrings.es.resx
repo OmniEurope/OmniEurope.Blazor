@@ -1536,4 +1536,5 @@
   <data name="DemoGridTreeStaff" xml:space="preserve"><value>Personal</value></data>
   <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Desplegar todo</value></data>
   <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Plegar todo</value></data>
+  <data name="DemoGridTreeExport" xml:space="preserve"><value>Exportar a Excel</value></data>
 </root>

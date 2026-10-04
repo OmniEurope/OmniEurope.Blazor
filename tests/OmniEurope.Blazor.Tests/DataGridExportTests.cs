@@ -81,7 +81,8 @@ public sealed class DataGridExportTests : OmniBunitContext
             .Add(component => component.Items, Rows)
             .Add(component => component.Formats, [OmniTableExportFormat.Markdown, OmniTableExportFormat.Csv, OmniTableExportFormat.Excel, OmniTableExportFormat.Pdf]));
 
-        Assert.Equal(["Markdown", "CSV"], host.FindAll(".omni-data-grid__export-button").Select(button => button.TextContent.Trim()));
+        // Markdown, CSV and Excel are written by the package; PDF needs a host renderer.
+        Assert.Equal(["Markdown", "CSV", "Excel"], host.FindAll(".omni-data-grid__export-button").Select(button => button.TextContent.Trim()));
     }
 
     [Theory]
@@ -325,8 +326,8 @@ public sealed class DataGridExportTests : OmniBunitContext
         var exporter = Services.GetRequiredService<OmniTableExporter>();
         var document = new OmniTableExportDocument { Title = "Commandes", Columns = [new("Nom", OmniTableExportValueKind.Text)], Rows = [] };
 
-        Assert.False(exporter.Supports(OmniTableExportFormat.Excel));
-        await Assert.ThrowsAsync<NotSupportedException>(() => exporter.RenderAsync(document, OmniTableExportFormat.Excel, Xunit.TestContext.Current.CancellationToken));
+        Assert.False(exporter.Supports(OmniTableExportFormat.Pdf));
+        await Assert.ThrowsAsync<NotSupportedException>(() => exporter.RenderAsync(document, OmniTableExportFormat.Pdf, Xunit.TestContext.Current.CancellationToken));
     }
 
     [Fact]
