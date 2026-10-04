@@ -15,6 +15,10 @@ public partial class OmniTreeItem<TValue>
     [CascadingParameter]
     private OmniTreeContext<TValue>? Context { get; set; }
 
+    // The item this one is nested in, so a drag never drops an item into its own branch.
+    [CascadingParameter(Name = "OmniTreeParentItem")]
+    private OmniTreeItem<TValue>? ParentItem { get; set; }
+
     /// <summary>The value this item stands for in the tree's selection.</summary>
     [Parameter]
     public TValue Value { get; set; } = default!;
@@ -78,9 +82,15 @@ public partial class OmniTreeItem<TValue>
         var load = false;
         if (_observedExpanded is null || _observedExpanded.Value != Expanded)
         {
-            _expanded = Expanded;
+            // Rendered under a tree being expanded as a whole: opens too, and says so to its host.
+            var openedByTree = _observedExpanded is null && !Expanded && Context?.ExpandAll == true && HasChildren;
+            _expanded = Expanded || openedByTree;
             _observedExpanded = Expanded;
             load = _expanded;
+            if (openedByTree)
+            {
+                _ = InvokeAsync(() => ExpandedChanged.InvokeAsync(true));
+            }
         }
         if (!Equals(_observedLoader, LoadChildren))
         {
@@ -163,6 +173,107 @@ public partial class OmniTreeItem<TValue>
             }
         }
     }
+    /// <summary>Opens or closes the item from its tree (expand or collapse all), loading its children when it opens.</summary>
+    internal async Task SetExpandedAsync(bool expanded)
+    {
+        if (!HasChildren || _expanded == expanded)
+        {
+            return;
+        }
+
+        await ToggleExpandedAsync();
+        StateHasChanged();
+    }
+
+    /// <inheritdoc />
+    protected override void OnInitialized() => Context?.Items.Add(this);
+
+    private OmniTree<TValue>? Tree => Context?.Tree;
+
+    private bool CanDragThis => Tree is { AllowDragDrop: true } tree && !Disabled && (tree.CanDrag?.Invoke(Value) ?? true);
+
+    /// <summary>Whether the item being dragged may land here: not itself, not into its own branch, and the host agrees.</summary>
+    private bool AcceptsDrop => Context?.Dragged is { } dragged && Tree is { AllowDragDrop: true } tree
+        && !ReferenceEquals(dragged, this) && !IsInside(dragged)
+        && (tree.CanDrop?.Invoke(dragged.Value, Value) ?? true);
+
+    private bool IsInside(OmniTreeItem<TValue> ancestor)
+    {
+        for (var parent = ParentItem; parent is not null; parent = parent.ParentItem)
+        {
+            if (ReferenceEquals(parent, ancestor))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private string RowClass => Internal.CssClassBuilder.Combine([
+        "omni-tree__row",
+        Context?.Dragged == this ? "omni-tree__row--dragging" : null,
+        Context?.DropTarget == this ? "omni-tree__row--drop-target" : null]);
+
+    private void DragStart()
+    {
+        if (Context is null || !CanDragThis)
+        {
+            return;
+        }
+
+        Context.Dragged = this;
+        Context.DropTarget = null;
+        Context.Redraw();
+    }
+
+    private void DragEnd()
+    {
+        if (Context?.Dragged is null)
+        {
+            return;
+        }
+
+        Context.Dragged = null;
+        Context.DropTarget = null;
+        Context.Redraw();
+    }
+
+    private void DragEnter()
+    {
+        if (Context is not null && AcceptsDrop && Context.DropTarget != this)
+        {
+            Context.DropTarget = this;
+            Context.Redraw();
+        }
+    }
+
+    private void DragLeave()
+    {
+        if (Context?.DropTarget == this)
+        {
+            Context.DropTarget = null;
+            Context.Redraw();
+        }
+    }
+
+    private async Task DropAsync()
+    {
+        if (Context?.Dragged is not { } dragged)
+        {
+            return;
+        }
+
+        var accepted = AcceptsDrop;
+        Context.Dragged = null;
+        Context.DropTarget = null;
+        Context.Redraw();
+        if (accepted && Tree is { } tree)
+        {
+            await tree.OnItemDropped.InvokeAsync(new OmniTreeDropEventArgs<TValue>(dragged.Value, Value));
+        }
+    }
+
     private Task SelectAsync() => Disabled || Context is null ? Task.CompletedTask : Context.ToggleSelectionAsync(Value);
 
     private Task HandleKeyDownAsync(KeyboardEventArgs args)
@@ -187,6 +298,7 @@ public partial class OmniTreeItem<TValue>
     /// <returns>A completed task.</returns>
     public ValueTask DisposeAsync()
     {
+        Context?.Items.Remove(this);
         _loadCancellation?.Cancel();
         _loadCancellation?.Dispose();
         return ValueTask.CompletedTask;

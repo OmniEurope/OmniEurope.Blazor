@@ -1537,4 +1537,7 @@
   <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Razširi vse</value></data>
   <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Strni vse</value></data>
   <data name="DemoGridTreeExport" xml:space="preserve"><value>Izvozi v Excel</value></data>
+  <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Kontni načrt</value></data>
+  <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Povlecite konto na drugega, da ga uvrstite tja.</value></data>
+  <data name="DemoTreeMoved" xml:space="preserve"><value>{0} uvrščen pod {1}</value></data>
 </root>

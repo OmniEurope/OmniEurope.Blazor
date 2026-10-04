@@ -1537,4 +1537,7 @@
   <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Разгъване на всички</value></data>
   <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Свиване на всички</value></data>
   <data name="DemoGridTreeExport" xml:space="preserve"><value>Експорт в Excel</value></data>
+  <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Сметкоплан</value></data>
+  <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Плъзнете сметка върху друга, за да я подредите там.</value></data>
+  <data name="DemoTreeMoved" xml:space="preserve"><value>{0} е подредена под {1}</value></data>
 </root>

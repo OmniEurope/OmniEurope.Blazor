@@ -12,7 +12,13 @@
      tabindex="0"
      @onkeydown="HandleKeyDownAsync"
      @onkeydown:stopPropagation="true">
-    <div class="omni-tree__row">
+    @* Dragged with the pointer when the tree allows it (the whole row); a row that accepts the item carried
+       lets it be dropped (dragover default prevented) and is highlighted while the pointer is over it. *@
+    <div class="@RowClass" draggable="@(CanDragThis ? "true" : null)"
+         @ondragstart="DragStart" @ondragend="DragEnd"
+         @ondragenter="DragEnter" @ondragleave="DragLeave"
+         @ondragover:preventDefault="@AcceptsDrop"
+         @ondrop="DropAsync" @ondrop:preventDefault="true">
         @if (HasChildren)
         {
             <button type="button" class="omni-tree__toggle" aria-label="@(_expanded ? Localize("TreeCollapse") : Localize("TreeExpand"))" @onclick="ToggleExpandedAsync">@(_expanded ? "▾" : "▸")</button>
@@ -36,6 +42,6 @@
         {
             <span class="omni-tree__state" role="alert">@Localize("TreeLoadFailed")</span>
         }
-        <div class="omni-tree__level" role="group">@ChildContent</div>
+        <div class="omni-tree__level" role="group"><CascadingValue Value="this" Name="OmniTreeParentItem" IsFixed="true">@ChildContent</CascadingValue></div>
     }
 </div>

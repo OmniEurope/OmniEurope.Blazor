@@ -1537,4 +1537,7 @@
   <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Leathnaigh gach rud</value></data>
   <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Laghdaigh gach rud</value></data>
   <data name="DemoGridTreeExport" xml:space="preserve"><value>Easpórtáil go Excel</value></data>
+  <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Cairt cuntas</value></data>
+  <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Tarraing cuntas ar cheann eile chun é a chur ansin.</value></data>
+  <data name="DemoTreeMoved" xml:space="preserve"><value>{0} curtha faoi {1}</value></data>
 </root>

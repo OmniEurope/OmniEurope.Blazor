@@ -1537,4 +1537,7 @@
   <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Extinde tot</value></data>
   <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Restrânge tot</value></data>
   <data name="DemoGridTreeExport" xml:space="preserve"><value>Exportă în Excel</value></data>
+  <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Plan de conturi</value></data>
+  <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Trageți un cont peste altul pentru a-l așeza acolo.</value></data>
+  <data name="DemoTreeMoved" xml:space="preserve"><value>{0} așezat sub {1}</value></data>
 </root>

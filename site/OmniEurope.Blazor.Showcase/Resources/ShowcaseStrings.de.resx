@@ -1537,4 +1537,7 @@
   <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Alle aufklappen</value></data>
   <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Alle zuklappen</value></data>
   <data name="DemoGridTreeExport" xml:space="preserve"><value>Nach Excel exportieren</value></data>
+  <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Kontenplan</value></data>
+  <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Ziehen Sie ein Konto auf ein anderes, um es dort einzuordnen.</value></data>
+  <data name="DemoTreeMoved" xml:space="preserve"><value>{0} unter {1} eingeordnet</value></data>
 </root>

@@ -1537,4 +1537,7 @@
   <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Rozbalit vše</value></data>
   <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Sbalit vše</value></data>
   <data name="DemoGridTreeExport" xml:space="preserve"><value>Exportovat do Excelu</value></data>
+  <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Účtový rozvrh</value></data>
+  <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Přetáhněte účet na jiný a zařaďte jej pod něj.</value></data>
+  <data name="DemoTreeMoved" xml:space="preserve"><value>{0} zařazen pod {1}</value></data>
 </root>

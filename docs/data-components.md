@@ -494,6 +494,39 @@ mention), indépendamment des éléments enfants de `ChildContent`. Il est rendu
 ligne, donc sans élément interactif, et `Text` devient alors le nom accessible de la ligne. Sans lui,
 la ligne affiche `Text` comme avant.
 
+### Tout ouvrir, tout fermer
+
+`ExpandAllAsync()` ouvre chaque entrée qui a des enfants, puis celles qu'elle révèle à mesure qu'elles se
+rendent (une branche à chargement à la demande charge ses enfants) ; `CollapseAllAsync()` les ferme toutes.
+Chaque entrée le rapporte par son `ExpandedChanged`, si bien qu'un `@bind-Expanded` de l'hôte suit.
+
+### Glisser-déposer
+
+`AllowDragDrop` (désactivé par défaut) laisse glisser une entrée sur une autre à la souris (glisser-déposer
+HTML) ; l'arbre ne se réorganise pas lui-même : `OnItemDropped` reçoit un `OmniTreeDropEventArgs<TValue>`
+(`Dragged`, la valeur glissée, et `Target`, celle de l'entrée d'arrivée), et l'hôte fait de la cible le
+nouveau parent dans ses données, puis rend l'arbre de nouveau (un `@key` par entrée garde l'état de chacune).
+
+```razor
+<OmniTree TValue="string" AllowDragDrop="true" CanDrag="n => n.Length > 1" CanDrop="(n, cible) => cible != n"
+          OnItemDropped="Ranger">
+```
+
+- **Règles.** `CanDrag` dit si une entrée se glisse (toutes les entrées actives par défaut) ; `CanDrop` dit si
+  l'entrée glissée peut arriver sur une cible. Jamais sur elle-même ni dans sa propre branche : le paquet
+  l'interdit avant de demander à l'hôte. Une cible refusée n'est pas mise en évidence et le navigateur montre
+  le dépôt interdit (le `dragover` n'est pas annulé).
+- **Retour visuel.** La ligne glissée s'estompe (`omni-tree__row--dragging`), la ligne qui accepte l'entrée
+  sous le pointeur prend un fond teinté et un contour en pointillé (`omni-tree__row--drop-target`), la
+  racine porte `omni-tree--dragging` pendant le glisser. Aucun attribut `style`.
+- **Script et CSP.** `omni-tree.js` (`attachTreeDrag`, `detachTreeDrag`) ne fait que donner au glisser la
+  donnée que certains navigateurs exigent pour le commencer ; l'état reste en .NET, sans gestionnaire en
+  ligne.
+- **Limites.** Pas d'équivalent clavier : un hôte qui en a besoin propose sa propre action « Déplacer vers ».
+  Pas de dépôt entre deux entrées ni à la racine : le dépôt se fait sur une entrée, qui devient le parent.
+  Vérifié dans Chromium ; un glisser qui commence sur le bouton de la ligne n'est pas garanti dans tous les
+  navigateurs.
+
 ## Tableur
 
 `OmniSpreadsheet` est un tableur simple, pas un Excel : une grille de cellules nommées par des lettres

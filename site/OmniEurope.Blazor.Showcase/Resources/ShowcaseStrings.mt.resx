@@ -1537,4 +1537,7 @@
   <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Espandi kollox</value></data>
   <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Ikkollassa kollox</value></data>
   <data name="DemoGridTreeExport" xml:space="preserve"><value>Esporta lejn Excel</value></data>
+  <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Pjan tal-kontijiet</value></data>
+  <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Kaxkar kont fuq ieħor biex tqiegħdu hemm.</value></data>
+  <data name="DemoTreeMoved" xml:space="preserve"><value>{0} imqiegħed taħt {1}</value></data>
 </root>

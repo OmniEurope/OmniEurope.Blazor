@@ -1537,4 +1537,7 @@
   <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Izvērst visu</value></data>
   <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Sakļaut visu</value></data>
   <data name="DemoGridTreeExport" xml:space="preserve"><value>Eksportēt uz Excel</value></data>
+  <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Kontu plāns</value></data>
+  <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Velciet kontu uz citu, lai to tur novietotu.</value></data>
+  <data name="DemoTreeMoved" xml:space="preserve"><value>{0} novietots zem {1}</value></data>
 </root>

@@ -1537,4 +1537,7 @@
   <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Alles uitklappen</value></data>
   <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Alles samenvouwen</value></data>
   <data name="DemoGridTreeExport" xml:space="preserve"><value>Exporteren naar Excel</value></data>
+  <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Rekeningstelsel</value></data>
+  <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Sleep een rekening op een andere om ze daar onder te brengen.</value></data>
+  <data name="DemoTreeMoved" xml:space="preserve"><value>{0} ondergebracht onder {1}</value></data>
 </root>

@@ -24,4 +24,43 @@
     </OmniTree>
 
     <p>@Text["DemoTreeSelection", Selected.Count == 0 ? Text["DemoTreeNoSelection"] : string.Join(", ", Selected)]</p>
+
+    @* Un plan de comptes réorganisé à la souris (AllowDragDrop) : un compte glissé sur un autre devient son
+       enfant ; l'arbre rapporte la paire (OnItemDropped) et la page déplace le compte dans ses données. Un
+       compte ne se range ni sous lui-même ni dans sa propre branche, et une classe (un chiffre) ne se déplace
+       pas (CanDrag). Les deux boutons ouvrent et ferment tout l'arbre. *@
+    @{
+        RenderFragment<Account> account = null!;
+        @* A leaf declares no child content: content, even empty, would give it a toggle. *@
+        account = node => @<text>@if (ChildrenOf(node.Number).Any())
+        {
+            <OmniTreeItem @key="node.Number" TValue="string" Value="@node.Number" Text="@node.Label"
+                          Expanded="@Open.Contains(node.Number)" ExpandedChanged="@(open => SetOpen(node.Number, open))">
+                @foreach (var child in ChildrenOf(node.Number))
+                {
+                    @account(child)
+                }
+            </OmniTreeItem>
+        }
+        else
+        {
+            <OmniTreeItem @key="node.Number" TValue="string" Value="@node.Number" Text="@node.Label" />
+        }</text>;
+    }
+    <OmniRow Gap="OmniSpacing.Small">
+        <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="ExpandAccountsAsync">
+            <OmniIcon Name="OmniIconName.CornersOut" /><span>@Text["DemoGridTreeExpandAll"]</span>
+        </OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="CollapseAccountsAsync">
+            <OmniIcon Name="OmniIconName.CornersIn" /><span>@Text["DemoGridTreeCollapseAll"]</span>
+        </OmniButton>
+    </OmniRow>
+    <OmniTree @ref="AccountTree" TValue="string" Id="demo-tree-accounts" Label="@Text["DemoTreeAccountsLabel"]"
+              AllowDragDrop="true" CanDrag="number => number.Length > 1" OnItemDropped="MoveAccount">
+        @foreach (var root in ChildrenOf(null))
+        {
+            @account(root)
+        }
+    </OmniTree>
+    <p role="status">@(Moved ?? Text["DemoTreeAccountsHint"].Value)</p>
 </OmniStack>

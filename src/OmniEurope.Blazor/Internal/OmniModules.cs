@@ -30,6 +30,9 @@ internal static class OmniModules
     /// <summary>The HTML editor surface.</summary>
     internal const string HtmlEditor = Root + "omni-html-editor.js";
 
+    /// <summary>The drag data of the tree items.</summary>
+    internal const string Tree = Root + "omni-tree.js";
+
     /// <summary>The Kanban board surface and card focus.</summary>
     internal const string Kanban = Root + "omni-kanban.js";
 

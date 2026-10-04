@@ -194,6 +194,13 @@
 .omni-tree__select { border-radius: var(--omni-radius); flex: 1; padding-inline: var(--omni-space-sm); text-align: start; }
 .omni-tree__item--selected > .omni-tree__row > .omni-tree__select { background: var(--omni-color-surface-muted); color: var(--omni-color-accent-strong); font-weight: 650; }
 .omni-tree__item:focus-visible { border-radius: var(--omni-radius); box-shadow: var(--omni-focus-ring); outline: none; }
+/* Drag and drop (AllowDragDrop): the row carried fades, the row that accepts it is tinted with a dashed
+   outline, a cue that is not colour alone. While a drag runs, the buttons of the rows let the pointer
+   through, so moving over them does not count as leaving the row. */
+.omni-tree__row[draggable="true"] { cursor: grab; }
+.omni-tree--dragging .omni-tree__row > * { pointer-events: none; }
+.omni-tree__row--dragging { opacity: 0.5; }
+.omni-tree__row--drop-target { background: color-mix(in srgb, var(--omni-color-accent) 12%, transparent); border-radius: var(--omni-radius); outline: 2px dashed var(--omni-color-accent); outline-offset: -2px; }
 
 /* The frame of the grid is its scrolling viewport, dressed like a card: the card's fill, rule, radius
    and shadow, unless a theme gives grids a fill of their own (--omni-grid-background, Aplat). Its

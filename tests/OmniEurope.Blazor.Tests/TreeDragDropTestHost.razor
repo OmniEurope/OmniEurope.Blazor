@@ -1,0 +1,20 @@
+@* A chart-of-accounts layout: classes holding accounts, a node dropped onto another becomes its child. *@
+<OmniTree @ref="Tree" TValue="string" AllowDragDrop="AllowDragDrop" CanDrag="CanDrag" CanDrop="CanDrop" OnItemDropped="Dropped">
+    <OmniTreeItem TValue="string" Value="@("6")" Text="6 - Charges" @bind-Expanded="ChargesOpen">
+        <OmniTreeItem TValue="string" Value="@("60")" Text="60 - Achats" @bind-Expanded="AchatsOpen">
+            <OmniTreeItem TValue="string" Value="@("607")" Text="607 - Marchandises" />
+        </OmniTreeItem>
+    </OmniTreeItem>
+    <OmniTreeItem TValue="string" Value="@("7")" Text="7 - Produits" />
+</OmniTree>
+
+@code {
+    public OmniTree<string>? Tree { get; set; }
+    [Parameter] public bool AllowDragDrop { get; set; } = true;
+    [Parameter] public Func<string, bool>? CanDrag { get; set; }
+    [Parameter] public Func<string, string, bool>? CanDrop { get; set; }
+    public List<OmniTreeDropEventArgs<string>> Drops { get; } = [];
+    public bool ChargesOpen { get; set; } = true;
+    public bool AchatsOpen { get; set; }
+    private void Dropped(OmniTreeDropEventArgs<string> drop) => Drops.Add(drop);
+}

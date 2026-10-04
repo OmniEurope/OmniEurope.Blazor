@@ -1537,4 +1537,7 @@
   <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Espandi tutto</value></data>
   <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Comprimi tutto</value></data>
   <data name="DemoGridTreeExport" xml:space="preserve"><value>Esporta in Excel</value></data>
+  <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Piano dei conti</value></data>
+  <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Trascinate un conto su un altro per collocarlo lì.</value></data>
+  <data name="DemoTreeMoved" xml:space="preserve"><value>{0} collocato sotto {1}</value></data>
 </root>

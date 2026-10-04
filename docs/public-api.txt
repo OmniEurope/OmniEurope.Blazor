@@ -359,6 +359,7 @@ ctor public OmniEurope.Blazor.Components.OmniTitleTooltips()
 ctor public OmniEurope.Blazor.Components.OmniToggleButton()
 ctor public OmniEurope.Blazor.Components.OmniTooltip()
 ctor public OmniEurope.Blazor.Components.OmniTree<TValue>()
+ctor public OmniEurope.Blazor.Components.OmniTreeDropEventArgs<TValue>(TValue Dragged, TValue Target)
 ctor public OmniEurope.Blazor.Components.OmniTreeItem<TValue>()
 ctor public OmniEurope.Blazor.Components.OmniUnifiedDiff()
 ctor public OmniEurope.Blazor.Components.OmniUnsavedChangesGuard()
@@ -1227,9 +1228,11 @@ method protected override OmniEurope.Blazor.Components.OmniToggleButton.BuildRen
 method protected override OmniEurope.Blazor.Components.OmniTooltip.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniTooltip.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniTree<TValue>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniTree<TValue>.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniTree<TValue>.OnInitialized() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniTree<TValue>.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniTreeItem<TValue>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniTreeItem<TValue>.OnInitialized() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniTreeItem<TValue>.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniUnifiedDiff.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniUnifiedDiff.OnParametersSet() : System.Void
@@ -1594,6 +1597,12 @@ method public OmniEurope.Blazor.Components.OmniThemePreset.For(OmniEurope.Blazor
 method public OmniEurope.Blazor.Components.OmniThemePreset.With(OmniEurope.Blazor.Components.OmniThemePalette palette) : OmniEurope.Blazor.Components.OmniThemePreset
 method public OmniEurope.Blazor.Components.OmniThemeScope.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniTitleTooltips.DisposeAsync() : System.Threading.Tasks.ValueTask
+method public OmniEurope.Blazor.Components.OmniTree<TValue>.CollapseAllAsync() : System.Threading.Tasks.Task
+method public OmniEurope.Blazor.Components.OmniTree<TValue>.DisposeAsync() : System.Threading.Tasks.ValueTask
+method public OmniEurope.Blazor.Components.OmniTree<TValue>.ExpandAllAsync() : System.Threading.Tasks.Task
+method public OmniEurope.Blazor.Components.OmniTreeDropEventArgs<TValue>.<Clone>$() : OmniEurope.Blazor.Components.OmniTreeDropEventArgs<TValue>
+method public OmniEurope.Blazor.Components.OmniTreeDropEventArgs<TValue>.Deconstruct(out TValue Dragged, out TValue Target) : System.Void
+method public OmniEurope.Blazor.Components.OmniTreeDropEventArgs<TValue>.Equals(OmniEurope.Blazor.Components.OmniTreeDropEventArgs<TValue>? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniTreeItem<TValue>.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniUpload.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniUploadFile.<Clone>$() : OmniEurope.Blazor.Components.OmniUploadFile
@@ -1825,6 +1834,9 @@ method public override OmniEurope.Blazor.Components.OmniThemePalette.ToString() 
 method public override OmniEurope.Blazor.Components.OmniThemePreset.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniThemePreset.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniThemePreset.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniTreeDropEventArgs<TValue>.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniTreeDropEventArgs<TValue>.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniTreeDropEventArgs<TValue>.ToString() : System.String
 method public override OmniEurope.Blazor.Components.OmniUploadFile.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniUploadFile.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniUploadFile.ToString() : System.String
@@ -2005,6 +2017,8 @@ method public static OmniEurope.Blazor.Components.OmniThemePreset.op_Equality(Om
 method public static OmniEurope.Blazor.Components.OmniThemePreset.op_Inequality(OmniEurope.Blazor.Components.OmniThemePreset? left, OmniEurope.Blazor.Components.OmniThemePreset? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniThemePresets.DefaultFontFor(OmniEurope.Blazor.Components.OmniThemePreset? theme) : OmniEurope.Blazor.Components.OmniThemeFont
 method public static OmniEurope.Blazor.Components.OmniThemePresets.DefaultPaletteFor(OmniEurope.Blazor.Components.OmniThemePreset? theme) : OmniEurope.Blazor.Components.OmniThemePalette
+method public static OmniEurope.Blazor.Components.OmniTreeDropEventArgs<TValue>.op_Equality(OmniEurope.Blazor.Components.OmniTreeDropEventArgs<TValue>? left, OmniEurope.Blazor.Components.OmniTreeDropEventArgs<TValue>? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniTreeDropEventArgs<TValue>.op_Inequality(OmniEurope.Blazor.Components.OmniTreeDropEventArgs<TValue>? left, OmniEurope.Blazor.Components.OmniTreeDropEventArgs<TValue>? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniUnifiedDiffParser.Parse(System.String? diff) : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniDiffFile>
 method public static OmniEurope.Blazor.Components.OmniUploadFile.op_Equality(OmniEurope.Blazor.Components.OmniUploadFile? left, OmniEurope.Blazor.Components.OmniUploadFile? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniUploadFile.op_Inequality(OmniEurope.Blazor.Components.OmniUploadFile? left, OmniEurope.Blazor.Components.OmniUploadFile? right) : System.Boolean
@@ -3405,11 +3419,17 @@ property public OmniEurope.Blazor.Components.OmniTooltip.Focusable : System.Bool
 property public OmniEurope.Blazor.Components.OmniTooltip.MaxWidth : OmniEurope.Blazor.Components.OmniTooltipWidth {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTooltip.Text : System.String {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniTooltip.Tracking : OmniEurope.Blazor.Components.OmniTooltipTracking {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniTree<TValue>.AllowDragDrop : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniTree<TValue>.CanDrag : System.Func<TValue,System.Boolean>? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniTree<TValue>.CanDrop : System.Func<TValue,TValue,System.Boolean>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTree<TValue>.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTree<TValue>.Label : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTree<TValue>.Multiple : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniTree<TValue>.OnItemDropped : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniTreeDropEventArgs<TValue>> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTree<TValue>.Value : System.Collections.Generic.IReadOnlyList<TValue> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTree<TValue>.ValueChanged : Microsoft.AspNetCore.Components.EventCallback<System.Collections.Generic.IReadOnlyList<TValue>> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniTreeDropEventArgs<TValue>.Dragged : TValue {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniTreeDropEventArgs<TValue>.Target : TValue {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniTreeItem<TValue>.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTreeItem<TValue>.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTreeItem<TValue>.Expanded : System.Boolean {get(public);set(public)} [Parameter]
@@ -3872,7 +3892,8 @@ type public OmniEurope.Blazor.Components.OmniTone [enum, sealed] : System.ICompa
 type public OmniEurope.Blazor.Components.OmniTooltip [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniTooltipTracking [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniTooltipWidth [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
-type public OmniEurope.Blazor.Components.OmniTree<TValue> [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
+type public OmniEurope.Blazor.Components.OmniTree<TValue> [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
+type public OmniEurope.Blazor.Components.OmniTreeDropEventArgs<TValue> [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniTreeDropEventArgs<TValue>>
 type public OmniEurope.Blazor.Components.OmniTreeItem<TValue> [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniUnifiedDiff [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniUnifiedDiffParser [static-class, static]

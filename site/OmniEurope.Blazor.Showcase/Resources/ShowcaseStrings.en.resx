@@ -1540,4 +1540,7 @@
   <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Expand all</value></data>
   <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Collapse all</value></data>
   <data name="DemoGridTreeExport" xml:space="preserve"><value>Export to Excel</value></data>
+  <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Chart of accounts</value></data>
+  <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Drag an account onto another to file it there.</value></data>
+  <data name="DemoTreeMoved" xml:space="preserve"><value>{0} filed under {1}</value></data>
 </root>

@@ -1537,4 +1537,7 @@
   <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Laajenna kaikki</value></data>
   <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Tiivistä kaikki</value></data>
   <data name="DemoGridTreeExport" xml:space="preserve"><value>Vie Exceliin</value></data>
+  <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Tilikartta</value></data>
+  <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Vedä tili toisen päälle siirtääksesi sen sen alle.</value></data>
+  <data name="DemoTreeMoved" xml:space="preserve"><value>{0} siirretty kohteen {1} alle</value></data>
 </root>

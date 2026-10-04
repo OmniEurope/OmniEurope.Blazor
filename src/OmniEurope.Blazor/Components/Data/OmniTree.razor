@@ -1,7 +1,8 @@
 @namespace OmniEurope.Blazor.Components
 @typeparam TValue
 @inherits OmniComponentBase
+@implements IAsyncDisposable
 
-<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-tree")" role="tree" aria-label="@EffectiveLabel" aria-multiselectable="@(Multiple ? "true" : "false")">
+<div @ref="_root" @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-tree", Context.Dragged is not null ? "omni-tree--dragging" : null)" role="tree" aria-label="@EffectiveLabel" aria-multiselectable="@(Multiple ? "true" : "false")">
     <CascadingValue Value="Context">@ChildContent</CascadingValue>
 </div>
