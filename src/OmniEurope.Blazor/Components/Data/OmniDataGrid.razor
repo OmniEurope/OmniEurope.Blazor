@@ -475,7 +475,16 @@
                                     }
                                     @foreach (var column in ColumnSet.VisibleColumns)
                                     {
-                                        <td class="@Classes.BodyCellClass(column, editing)" data-omni-col="@column.Key" data-omni-label="@column.Title" @onclick:stopPropagation="@editing" @ondblclick:stopPropagation="@editing" @onkeydown:stopPropagation="@editing">@FilterControls.Cell(column, row.Item, editing)</td>
+                                        @* A cell being edited keeps its events; any other cell lets them reach its row,
+                                           after its own cell events when the host listens to them. *@
+                                        @if (editing)
+                                        {
+                                            <td class="@Classes.BodyCellClass(column, true)" data-omni-col="@column.Key" data-omni-label="@column.Title" @onclick:stopPropagation="true" @ondblclick:stopPropagation="true" @onkeydown:stopPropagation="true">@FilterControls.Cell(column, row.Item, true)</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="@Classes.BodyCellClass(column, false)" data-omni-col="@column.Key" data-omni-label="@column.Title" @onclick="Selection.CellClickCallback(row, column)" @ondblclick="Selection.CellDoubleClickCallback(row, column)">@FilterControls.Cell(column, row.Item, false)</td>
+                                        }
                                     }
                                     @if (ColumnSet.HasEditing)
                                     {

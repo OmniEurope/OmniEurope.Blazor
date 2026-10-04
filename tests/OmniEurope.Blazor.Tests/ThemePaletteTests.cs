@@ -71,11 +71,17 @@ public sealed class ThemePaletteTests : OmniBunitContext
     }
 
     [Fact]
-    public void A_scope_without_theme_nor_palette_never_loads_the_script()
+    public void A_scope_without_theme_nor_palette_paints_no_token()
     {
+        // The default mode follows the system: the script is loaded only to resolve that mode
+        // (data-omni-theme-resolved), and paints nothing.
+        var module = JSInterop.SetupModule(ThemeModule);
+
         Render<OmniThemeScope>(parameters => parameters.AddChildContent("Contenu"));
 
-        Assert.DoesNotContain(JSInterop.Invocations, invocation => invocation.Identifier == "import");
+        Assert.Single(module.Invocations["followSystem"]);
+        Assert.Empty(module.Invocations["apply"]);
+        Assert.Empty(module.Invocations["clear"]);
     }
 
     [Fact]

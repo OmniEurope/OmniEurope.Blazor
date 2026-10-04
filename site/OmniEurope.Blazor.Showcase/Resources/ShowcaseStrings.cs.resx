@@ -1514,4 +1514,6 @@
   <data name="DemoDiagramNodeTruck" xml:space="preserve"><value>Rezervovat dodávku</value></data>
   <data name="DemoDiagramNodeNeighbours" xml:space="preserve"><value>Upozornit sousedy</value></data>
   <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Do 15.</value></data>
+  <data name="DemoGridAdvancedCellHint" xml:space="preserve"><value>Poklepejte na buňku: zobrazí se zde.</value></data>
+  <data name="DemoGridAdvancedCellRead" xml:space="preserve"><value>{0} u {1}: {2}</value></data>
 </root>

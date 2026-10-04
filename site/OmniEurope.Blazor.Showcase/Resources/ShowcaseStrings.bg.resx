@@ -1514,4 +1514,6 @@
   <data name="DemoDiagramNodeTruck" xml:space="preserve"><value>Резервиране на камиона</value></data>
   <data name="DemoDiagramNodeNeighbours" xml:space="preserve"><value>Уведомяване на съседите</value></data>
   <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Преди 15-и</value></data>
+  <data name="DemoGridAdvancedCellHint" xml:space="preserve"><value>Щракнете двукратно върху клетка: тя се показва тук.</value></data>
+  <data name="DemoGridAdvancedCellRead" xml:space="preserve"><value>{0} на {1}: {2}</value></data>
 </root>

@@ -405,6 +405,16 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
     overflow-wrap: break-word;
 }
 .omni-theme-scope :is(pre, code, kbd, samp) { overflow-wrap: normal; }
+/* Before Blazor starts, omni-boot.js lays the look the application's scope painted last on the root
+   (OmniThemeScope.SnapshotKey) and marks it data-omni-theme-boot until the scope takes over: the page
+   is painted as the scope paints itself, so the first frame is already in the stored look. */
+:root[data-omni-theme-boot] {
+    background: var(--omni-scope-page, var(--omni-color-surface));
+    background-attachment: fixed;
+    background-image: var(--omni-backdrop, none);
+    color: var(--omni-color-text);
+    font-family: var(--omni-font-family);
+}
 /* A theme may draw its field on a canvas where a background cannot (--omni-scope-canvas, Trou noir's
    lensed black hole, omni-black-hole.js): fixed to the viewport under the content of the isolated
    scope, taking no pointer. While it draws, the scope drops the CSS field it replaces; without WebGL the

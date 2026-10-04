@@ -1514,4 +1514,6 @@
   <data name="DemoDiagramNodeTruck" xml:space="preserve"><value>Rezerviraj kombi</value></data>
   <data name="DemoDiagramNodeNeighbours" xml:space="preserve"><value>Obvesti sosede</value></data>
   <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Pred 15.</value></data>
+  <data name="DemoGridAdvancedCellHint" xml:space="preserve"><value>Dvokliknite celico: prikaže se tukaj.</value></data>
+  <data name="DemoGridAdvancedCellRead" xml:space="preserve"><value>{0} za {1}: {2}</value></data>
 </root>

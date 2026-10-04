@@ -1514,4 +1514,6 @@
   <data name="DemoDiagramNodeTruck" xml:space="preserve"><value>Užsakyti furgoną</value></data>
   <data name="DemoDiagramNodeNeighbours" xml:space="preserve"><value>Įspėti kaimynus</value></data>
   <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Iki 15 d.</value></data>
+  <data name="DemoGridAdvancedCellHint" xml:space="preserve"><value>Dukart spustelėkite langelį: jis rodomas čia.</value></data>
+  <data name="DemoGridAdvancedCellRead" xml:space="preserve"><value>{0} – {1}: {2}</value></data>
 </root>

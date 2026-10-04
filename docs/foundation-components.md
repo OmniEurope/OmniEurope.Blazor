@@ -141,7 +141,7 @@ Toute palette peint tout thème : quinze thèmes par quinze palettes, deux cent 
 - `Preset` seul : le thème avec sa palette par défaut ;
 - `Preset` et `Palette` : la forme du thème, les couleurs de la palette ;
 - `Palette` seule : les couleurs de la palette sur la forme livrée ;
-- ni l'un ni l'autre : l'apparence livrée, sans aucun script.
+- ni l'un ni l'autre : l'apparence livrée, sans aucun jeton peint (le script n'est chargé, en mode `System`, que pour résoudre le mode, voir plus bas).
 
 `OmniThemePreset.With(palette)` fait la même combinaison en code : les jetons de la palette, puis `Shape` (la forme, posée sur les deux modes), puis `DarkShape` (les réglages propres au sombre, posés sur le seul mode sombre ; Galet, Halo, Néon, Papier, Nénuphar, Velours, Relief, Givre et Trou noir y relèvent leurs cartes, leurs ombres ou leurs lueurs, et Aplat rapproche ses aplats clairs du texte clair ; Essentiel, Ardoise, Rétro, Octet et Épure n’en ont pas). Le nom et la description restent ceux du thème. Un preset écrit à la main (`new OmniThemePreset(nom, description, clair, sombre)`) a une `Shape` et une `DarkShape` vides.
 
@@ -163,6 +163,45 @@ Toute palette peint tout thème : quinze thèmes par quinze palettes, deux cent 
 ```
 
 Le thème ne repeint que sa portée. Les valeurs sont des surcharges des variables de la feuille, écrites par le CSSOM (`omni-theme.js`), jamais par un attribut `style` ; le mode suit `Appearance`, et `System` suit le réglage du système quand il change. Sous un thème marqué `OmniThemePreset.DarkOnly` (Trou noir), la portée peint toujours sa moitié sombre, quel que soit `Appearance`, et le choix du mode d'`OmniAppearanceSettings` et d'`OmniAppMenu` est figé sur Sombre avec la mention « Ce thème est toujours sombre ». Les variables de forme (`--omni-button-*`, `--omni-card-*`, `--omni-heading-*`, `--omni-border-width`) valent par défaut l'apparence livrée : une application peut aussi les redéfinir elle-même.
+
+### Mode résolu
+
+`data-omni-theme` garde la valeur demandée (`light`, `dark` ou `system`). La portée porte en plus `data-omni-theme-resolved`, toujours `light` ou `dark` : le mode réellement dessiné. En clair ou en sombre (et sous un thème `DarkOnly`, toujours `dark`), le balisage le rend directement ; en `System`, seul le navigateur connaît le réglage, si bien que `omni-theme.js` l'écrit après le rendu et le réécrit quand le réglage du système change. Une règle du site vise ainsi le mode dessiné sans recopier la préférence du système :
+
+```css
+[data-omni-theme-resolved="dark"] .app-logo { filter: invert(1); }
+```
+
+Une portée claire ou sombre sans thème, palette, police ni clé d'instantané ne charge toujours aucun script ; une portée qui suit le système charge `omni-theme.js` pour ce seul attribut.
+
+### Peindre l'apparence avant Blazor
+
+Le thème d'un site est porté entièrement par le paquet, première image comprise. La portée qui peint l'application reçoit `SnapshotKey` : à chaque changement d'apparence, elle range dans `localStorage`, sous cette clé, un instantané de ce qu'elle a peint. `omni-boot.js`, chargé dans le `head` avant Blazor, le rejoue sur la racine du document avant la première image. Rien n'y est recalculé : les valeurs sont celles que la portée a écrites, à l'identique.
+
+```html
+<head>
+    <link rel="stylesheet" href="_content/OmniEurope.Blazor/omnieurope.blazor.css" />
+    <script src="_content/OmniEurope.Blazor/omni-boot.js"
+            data-theme-snapshot-key="mon-site:theme"></script>
+</head>
+```
+
+```razor
+<OmniThemeScope SnapshotKey="mon-site:theme" Appearance="@Appearance" Preset="@Preset"
+                Palette="@Palette" Font="@Font" Density="@Density">
+    ...
+</OmniThemeScope>
+```
+
+Contrat de l'instantané (version 1), un objet JSON : `version` (1), `appearance` (`light`, `dark` ou `system`, la valeur de `data-omni-theme`), `density` (`compact`, `comfortable` ou `spacious`), `backdropMotion` (booléen), `light` et `dark` (les jetons des deux moitiés tels que la portée les pose, ou `null` sans thème, palette ni police). Les deux moitiés sont gardées : en `System`, le script de démarrage choisit celle du réglage du système au moment du chargement. Un instantané d'une autre version, illisible ou mal formé est ignoré ; seules les propriétés `--*` à valeur texte sont posées.
+
+Au démarrage, la racine reçoit les attributs de la portée (`data-omni-theme`, `data-omni-theme-resolved`, `data-omni-density`, `data-omni-backdrop-motion`), les jetons de la moitié résolue et `data-omni-theme-boot`, sur lequel la feuille peint la page comme la portée se peint (fond de page ou surface, fond de thème, texte et police). Dès que Blazor rend la portée (repérée par `data-omni-theme-snapshot`, la même clé), les mêmes jetons y sont posés, si elle dessine la même moitié : sa première image est déjà l'apparence enregistrée. En `System`, la copie suit un changement du réglage du système jusqu'à la passation. Le fond animé de Trou noir (WebGL) ne se dessine qu'une fois la portée active ; son fond CSS de repli s'affiche d'ici là.
+
+Passation : dans l'appel qui la peint pour la première fois, la portée appelle `OmniBoot.handOverTheme()`. La copie quitte aussitôt la portée, puis la racine dès qu'aucun élément ne correspond au sélecteur `data-theme-hold` (par défaut `.omni-boot-splash`, l'écran de démarrage du paquet, peint aux couleurs de la copie jusqu'à son retrait ; une valeur vide libère tout de suite ; un site qui a son propre écran donne son sélecteur, par exemple `data-theme-hold="#app-splash"`). Les jetons de la racine sont retirés, `data-omni-theme-boot` aussi, et chaque attribut posé reprend sa valeur d'avant, sauf si quelque chose d'autre l'a changé entre-temps. `OmniBoot.releaseTheme()` libère tout immédiatement. Aucun jeton n'est donc en double sur la racine une fois la portée en place.
+
+Pour que la première image et la portée concordent, le site rend la portée avec les choix enregistrés dès son premier rendu : une portée rendue d'abord avec les valeurs par défaut prend la main avec celles-ci, et écrit un instantané par défaut jusqu'au chargement des choix. Sans `data-theme-snapshot-key` ni `SnapshotKey`, rien ne change. `omni-boot.js` lit aussi, sur les clés que l'hôte nomme, la taille du texte et la taille des contrôles (`data-text-size-key`, `data-control-size-key`, niveau 1 à 10), posées comme `omni-appearance.js` les pose et laissées en place.
+
+Vérification manuelle (aucun banc de test JavaScript dans le dépôt) : servir une page avec `omni-boot.js` sous la CSP stricte, enregistrer un instantané par `snapshot` d'`omni-theme.js`, recharger, puis lire dans un script exécuté juste après `omni-boot.js` les attributs, les jetons et `getComputedStyle(document.documentElement).backgroundColor` de la racine ; ajouter un élément `data-omni-theme-snapshot` et constater les jetons posés avant l'image suivante ; appeler `apply(..., true)` et constater la libération de la racine au retrait de l'écran de démarrage ; en `System`, basculer `prefers-color-scheme` (émulation CDP) avant et après la passation. Les tests bUnit couvrent l'écriture de l'instantané, l'attribut résolu et le contrat partagé entre `omni-boot.js`, `omni-theme.js` et la feuille (`ThemeScopeBootSnapshotTests`).
 
 ### Relief, Givre, Aplat, Épure et Trou noir
 
@@ -370,8 +409,10 @@ attribut qu'on lui passe est refusé au rendu plutôt qu'ignoré. Le retrait ne 
 onglet en arrière-plan, et le mouvement réduit supprime l'écran sans fondu. `omni-boot.js`, script
 classique à inclure dans le `head` avant Blazor (aucun script en ligne, donc compatible
 `script-src 'self'`), applique avant la première image l'apparence, le thème et la langue enregistrés
-sous les clés que l'hôte nomme (`data-appearance-key`, `data-theme-key`, `data-language-key`) et
-publie `window.OmniBoot` (`culture`, `hideSplash(id)`).
+sous les clés que l'hôte nomme (`data-appearance-key`, `data-theme-key`, `data-text-size-key`, `data-control-size-key`,
+`data-language-key`), rejoue l'instantané d'`OmniThemeScope.SnapshotKey` (`data-theme-snapshot-key`, voir
+« Peindre l'apparence avant Blazor ») et
+publie `window.OmniBoot` (`culture`, `hideSplash(id)`, `handOverTheme()`, `releaseTheme()`).
 
 Preuves : `StatusStripAndBootSplashTests` (rôles et noms, tons, formes, liens, boutons, textes, appel du
 retrait et son résultat).

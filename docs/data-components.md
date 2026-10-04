@@ -344,6 +344,15 @@ comme n'importe quel autre filtre.
   clavier), pour sélectionner au Ctrl ou Maj clic et agir sur un clic simple. `OnRowContextMenu` reçoit le
   même objet au clic droit d'une ligne, sans le menu du navigateur ; l'événement remonte, si bien qu'un
   `OmniContextMenu` qui englobe la grille s'ouvre au pointeur.
+- `OnCellClick` et `OnCellDoubleClick` reçoivent un `OmniDataGridCellMouseEventArgs<TItem>` : l'élément et sa
+  position (`RowIndex`), la colonne de la cellule (`ColumnKey`, `ColumnTitle`, `ColumnProperty`, `ColumnIndex`
+  parmi les colonnes de données visibles, colonnes de contrôle non comptées), la valeur lue par la colonne
+  (`Value`, non formatée) et les touches et la position du pointeur, pour ouvrir le détail du chiffre
+  double-cliqué. L'événement de cellule part d'abord, celui de ligne (`OnRowClick`, `OnRowDoubleClick`)
+  ensuite ; les deux restent actifs ensemble. Ce sont des événements de pointeur seulement : le clavier
+  active des lignes, pas des cellules, et l'hôte donne au clavier un autre chemin vers la même action.
+  Ni les cellules de contrôle ni une ligne en édition ne les lèvent ; sans gestionnaire, la cellule ne
+  porte aucun écouteur.
 - `RowRender` reçoit un `OmniDataGridRowRenderArgs<TItem>` : classe CSS supplémentaire (`Class`), ligne non
   sélectionnable, ligne non dépliable. Il ne peut pas produire de style inline.
 - `ShowEditColumn`, actif par défaut, ajoute la colonne d'actions d'édition dès qu'au moins une

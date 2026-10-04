@@ -52,6 +52,12 @@ public partial class DataGridAdvancedDemo
 
     private OmniDataGridPosition Footer { get; set; } = OmniDataGridPosition.Bottom;
 
+    private string? CellRead { get; set; }
+
+    // The cell double-clicked, read back as the host of a drill-down would: its column, its row, its value.
+    private void ReadCell(OmniDataGridCellMouseEventArgs<GridRow> cell) =>
+        CellRead = Text["DemoGridAdvancedCellRead", cell.ColumnTitle, cell.Item.Reference, cell.Value ?? string.Empty];
+
     protected override void OnInitialized()
     {
         string belgium = Text["DemoGridCountryBelgium"], france = Text["DemoGridCountryFrance"],

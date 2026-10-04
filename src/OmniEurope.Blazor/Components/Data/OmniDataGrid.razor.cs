@@ -220,6 +220,23 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public EventCallback<OmniDataGridRowMouseEventArgs<TItem>> OnRowContextMenu { get; set; }
 
+    /// <summary>
+    /// Raised by a click on a data cell, with the row's item and index, the cell's column (key, title,
+    /// property, index), the value it reads, the modifier keys and the pointer position. The row's own
+    /// <see cref="OnRowClick"/> is still raised after it. A pointer event only: the keyboard activates
+    /// rows, not cells. Not raised in the control columns nor in a row being edited.
+    /// </summary>
+    [Parameter]
+    public EventCallback<OmniDataGridCellMouseEventArgs<TItem>> OnCellClick { get; set; }
+
+    /// <summary>
+    /// Raised by a double click on a data cell, with the same details as <see cref="OnCellClick"/>, for a
+    /// drill-down on the figure under the pointer; <see cref="OnRowDoubleClick"/> is still raised after it.
+    /// A pointer event only: give keyboard readers another way to the same action (a row click, a button).
+    /// </summary>
+    [Parameter]
+    public EventCallback<OmniDataGridCellMouseEventArgs<TItem>> OnCellDoubleClick { get; set; }
+
     /// <summary>Called for every rendered row so the host can add a class or veto its controls.</summary>
     [Parameter]
     public Action<OmniDataGridRowRenderArgs<TItem>>? RowRender { get; set; }

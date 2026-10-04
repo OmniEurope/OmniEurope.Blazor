@@ -154,6 +154,35 @@ internal sealed class GridSelection<TItem>(OmniDataGrid<TItem> grid)
             grid.OnRowDoubleClick.InvokeAsync(new OmniDataGridRowMouseEventArgs<TItem>(row.Item, row.Index, mouse)))
         : default;
 
+    /// <summary>The click of a data cell, or nothing while the host does not listen; a row being edited renders its cells without it.</summary>
+    internal EventCallback<MouseEventArgs> CellClickCallback(GridRenderRow<TItem> row, OmniDataGridColumnDefinition<TItem> column) =>
+        CellCallback(grid.OnCellClick, row, column);
+
+    /// <summary>The double click of a data cell, or nothing while the host does not listen; a row being edited renders its cells without it.</summary>
+    internal EventCallback<MouseEventArgs> CellDoubleClickCallback(GridRenderRow<TItem> row, OmniDataGridColumnDefinition<TItem> column) =>
+        CellCallback(grid.OnCellDoubleClick, row, column);
+
+    private EventCallback<MouseEventArgs> CellCallback(
+        EventCallback<OmniDataGridCellMouseEventArgs<TItem>> target, GridRenderRow<TItem> row, OmniDataGridColumnDefinition<TItem> column) =>
+        target.HasDelegate
+            ? EventCallback.Factory.Create<MouseEventArgs>(grid, mouse => target.InvokeAsync(
+                new OmniDataGridCellMouseEventArgs<TItem>(row.Item, row.Index, column, IndexOfVisible(column), mouse)))
+            : default;
+
+    private int IndexOfVisible(OmniDataGridColumnDefinition<TItem> column)
+    {
+        var columns = grid.ColumnSet.VisibleColumns;
+        for (var index = 0; index < columns.Count; index++)
+        {
+            if (ReferenceEquals(columns[index], column))
+            {
+                return index;
+            }
+        }
+
+        return -1;
+    }
+
     internal EventCallback<KeyboardEventArgs> RowKeyDownCallback(GridRenderRow<TItem> row) => RowsAreInteractive
         ? EventCallback.Factory.Create<KeyboardEventArgs>(grid, args => RowKeyDownAsync(args, row))
         : default;

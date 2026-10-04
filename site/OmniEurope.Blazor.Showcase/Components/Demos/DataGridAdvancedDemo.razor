@@ -75,6 +75,7 @@
               Density="Density"
               Value="Selection"
               ValueChanged="@(value => Selection = value)"
+              OnCellDoubleClick="ReadCell"
               GridLines="Lines">
     <Columns>
         <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="@Text["DemoGridColumnReference"]" Frozen="true" FilterOperators="ReferenceOperators" />
@@ -119,4 +120,5 @@
 </OmniDataGrid>
 
 <p>@Text["DemoGridAdvancedRetained", Selection.Count == 0 ? Text["DemoGridAdvancedRetainedNone"].Value : string.Join(", ", Selection.Select(row => row.Reference))]</p>
+<p role="status">@(CellRead ?? Text["DemoGridAdvancedCellHint"].Value)</p>
 </OmniStack>

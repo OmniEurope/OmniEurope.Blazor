@@ -1514,4 +1514,6 @@
   <data name="DemoDiagramNodeTruck" xml:space="preserve"><value>Rezervă camionul</value></data>
   <data name="DemoDiagramNodeNeighbours" xml:space="preserve"><value>Anunță vecinii</value></data>
   <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Înainte de 15</value></data>
+  <data name="DemoGridAdvancedCellHint" xml:space="preserve"><value>Faceți dublu clic pe o celulă: este afișată aici.</value></data>
+  <data name="DemoGridAdvancedCellRead" xml:space="preserve"><value>{0} pentru {1}: {2}</value></data>
 </root>

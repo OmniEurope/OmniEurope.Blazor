@@ -1514,4 +1514,6 @@
   <data name="DemoDiagramNodeTruck" xml:space="preserve"><value>Cuir an veain in áirithe</value></data>
   <data name="DemoDiagramNodeNeighbours" xml:space="preserve"><value>Cuir na comharsana ar an eolas</value></data>
   <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Roimh an 15ú</value></data>
+  <data name="DemoGridAdvancedCellHint" xml:space="preserve"><value>Cliceáil faoi dhó ar chill: taispeántar anseo í.</value></data>
+  <data name="DemoGridAdvancedCellRead" xml:space="preserve"><value>{0} de {1}: {2}</value></data>
 </root>

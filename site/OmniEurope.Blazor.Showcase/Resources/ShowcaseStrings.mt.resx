@@ -1514,4 +1514,6 @@
   <data name="DemoDiagramNodeTruck" xml:space="preserve"><value>Ibbukkja l-vann</value></data>
   <data name="DemoDiagramNodeNeighbours" xml:space="preserve"><value>Għarraf lill-ġirien</value></data>
   <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Qabel il-15</value></data>
+  <data name="DemoGridAdvancedCellHint" xml:space="preserve"><value>Agħfas darbtejn fuq ċellola: tidher hawn.</value></data>
+  <data name="DemoGridAdvancedCellRead" xml:space="preserve"><value>{0} ta' {1}: {2}</value></data>
 </root>

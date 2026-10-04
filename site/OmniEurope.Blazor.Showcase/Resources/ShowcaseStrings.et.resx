@@ -1514,4 +1514,6 @@
   <data name="DemoDiagramNodeTruck" xml:space="preserve"><value>Broneeri kaubik</value></data>
   <data name="DemoDiagramNodeNeighbours" xml:space="preserve"><value>Teavita naabreid</value></data>
   <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Enne 15. kuupäeva</value></data>
+  <data name="DemoGridAdvancedCellHint" xml:space="preserve"><value>Topeltklõpsake lahtrit: see kuvatakse siin.</value></data>
+  <data name="DemoGridAdvancedCellRead" xml:space="preserve"><value>{0} – {1}: {2}</value></data>
 </root>

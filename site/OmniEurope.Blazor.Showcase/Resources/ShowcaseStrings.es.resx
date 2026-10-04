@@ -1514,4 +1514,6 @@
   <data name="DemoDiagramNodeTruck" xml:space="preserve"><value>Reservar el camión</value></data>
   <data name="DemoDiagramNodeNeighbours" xml:space="preserve"><value>Avisar a los vecinos</value></data>
   <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Antes del 15</value></data>
+  <data name="DemoGridAdvancedCellHint" xml:space="preserve"><value>Haga doble clic en una celda: se lee aquí.</value></data>
+  <data name="DemoGridAdvancedCellRead" xml:space="preserve"><value>{0} de {1}: {2}</value></data>
 </root>

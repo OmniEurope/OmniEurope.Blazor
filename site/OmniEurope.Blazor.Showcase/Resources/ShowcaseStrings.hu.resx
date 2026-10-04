@@ -1514,4 +1514,6 @@
   <data name="DemoDiagramNodeTruck" xml:space="preserve"><value>Teherautó foglalása</value></data>
   <data name="DemoDiagramNodeNeighbours" xml:space="preserve"><value>A szomszédok értesítése</value></data>
   <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>15-e előtt</value></data>
+  <data name="DemoGridAdvancedCellHint" xml:space="preserve"><value>Kattintson duplán egy cellára: itt jelenik meg.</value></data>
+  <data name="DemoGridAdvancedCellRead" xml:space="preserve"><value>{1} – {0}: {2}</value></data>
 </root>

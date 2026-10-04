@@ -7,9 +7,11 @@
      @ref="_element"
      id="@Id"
      class="@Css("omni-theme-scope", _canvasDrawn ? "omni-theme-scope--canvas" : null)"
-     data-omni-theme="@EffectiveAppearance.ToString().ToLowerInvariant()"
+     data-omni-theme="@AppearanceValue"
+     data-omni-theme-resolved="@ResolvedValue"
      data-omni-density="@Density.ToString().ToLowerInvariant()"
-     data-omni-backdrop-motion="@(BackdropMotion ? null : "off")">
+     data-omni-backdrop-motion="@(BackdropMotion ? null : "off")"
+     data-omni-theme-snapshot="@SnapshotStorageKey">
     @if (CanvasField is not null)
     {
         @* A field a CSS background cannot draw (Trou noir's lensed black hole), behind the content. *@

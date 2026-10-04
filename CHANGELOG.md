@@ -2,6 +2,12 @@
 
 Les changements notables de ce projet seront documentés ici selon le format Keep a Changelog.
 
+## [Unreleased]
+
+### Added
+
+- `OmniDataGrid.OnCellClick` et `OnCellDoubleClick` (`EventCallback<OmniDataGridCellMouseEventArgs<TItem>>`) : le clic et le double clic d'une cellule de données rapportent l'élément, sa position (`RowIndex`), la colonne (`ColumnKey`, `ColumnTitle`, `ColumnProperty`, `ColumnIndex`), la valeur lue (`Value`), les touches et la position du pointeur, pour ouvrir le détail d'un chiffre. L'événement de ligne part ensuite comme avant ; ni les cellules de contrôle ni une ligne en édition ne les lèvent, et sans gestionnaire aucune cellule ne porte d'écouteur. Vitrine : page Grille avancée.
+
 ## [1.6.0] - 2026-10-03
 
 ### Added
