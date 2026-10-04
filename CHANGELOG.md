@@ -2,7 +2,7 @@
 
 Les changements notables de ce projet seront documentés ici selon le format Keep a Changelog.
 
-## [Non publié]
+## [1.6.0] - 2026-10-03
 
 ### Added
 
