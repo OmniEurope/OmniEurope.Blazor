@@ -499,5 +499,7 @@ public enum OmniIconName
     /// <summary>Spreadsheet file (XLS): the Excel export of a table.</summary>
     FileXls,
     /// <summary>Word processing file (DOC): a Word document, an export to Word.</summary>
-    FileDoc
+    FileDoc,
+    /// <summary>Leaf: ecology, environmental footprint.</summary>
+    Leaf
 }

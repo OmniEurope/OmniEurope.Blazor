@@ -1182,6 +1182,7 @@
   <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Tuki</value></data>
   <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Kumppanuus</value></data>
   <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Nousu</value></data>
+  <data name="DemoMediaIconLeaf" xml:space="preserve"><value>Ekologia</value></data>
   <data name="DemoAnnotatedValidationName" xml:space="preserve"><value>Projektin nimi</value></data>
   <data name="DemoAnnotatedValidationMail" xml:space="preserve"><value>Vastuuhenkilön sähköposti</value></data>
   <data name="DemoAnnotatedValidationMailConfirmation" xml:space="preserve"><value>Sähköpostin vahvistus</value></data>

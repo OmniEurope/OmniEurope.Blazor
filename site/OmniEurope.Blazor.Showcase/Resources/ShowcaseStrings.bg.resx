@@ -1182,6 +1182,7 @@
   <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Поддръжка</value></data>
   <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Партньорство</value></data>
   <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Ръст</value></data>
+  <data name="DemoMediaIconLeaf" xml:space="preserve"><value>Екология</value></data>
   <data name="DemoAnnotatedValidationName" xml:space="preserve"><value>Име на проекта</value></data>
   <data name="DemoAnnotatedValidationMail" xml:space="preserve"><value>Имейл на отговорника</value></data>
   <data name="DemoAnnotatedValidationMailConfirmation" xml:space="preserve"><value>Потвърждение на имейла</value></data>

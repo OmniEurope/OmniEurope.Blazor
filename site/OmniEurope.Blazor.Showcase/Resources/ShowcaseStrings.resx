@@ -1184,6 +1184,7 @@
   <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Assistance</value></data>
   <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Partenariat</value></data>
   <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Hausse</value></data>
+  <data name="DemoMediaIconLeaf" xml:space="preserve"><value>Écologie</value></data>
   <data name="DemoAnnotatedValidationName" xml:space="preserve"><value>Nom du projet</value></data>
   <data name="DemoAnnotatedValidationMail" xml:space="preserve"><value>Courriel du responsable</value></data>
   <data name="DemoAnnotatedValidationMailConfirmation" xml:space="preserve"><value>Confirmation du courriel</value></data>

@@ -668,6 +668,7 @@ field public static OmniEurope.Blazor.Components.OmniIconName.Key : OmniEurope.B
 field public static OmniEurope.Blazor.Components.OmniIconName.Keyboard : OmniEurope.Blazor.Components.OmniIconName const = 193
 field public static OmniEurope.Blazor.Components.OmniIconName.Layers : OmniEurope.Blazor.Components.OmniIconName const = 45
 field public static OmniEurope.Blazor.Components.OmniIconName.Layout : OmniEurope.Blazor.Components.OmniIconName const = 104
+field public static OmniEurope.Blazor.Components.OmniIconName.Leaf : OmniEurope.Blazor.Components.OmniIconName const = 247
 field public static OmniEurope.Blazor.Components.OmniIconName.Lightbulb : OmniEurope.Blazor.Components.OmniIconName const = 192
 field public static OmniEurope.Blazor.Components.OmniIconName.Lightning : OmniEurope.Blazor.Components.OmniIconName const = 155
 field public static OmniEurope.Blazor.Components.OmniIconName.Link : OmniEurope.Blazor.Components.OmniIconName const = 102
