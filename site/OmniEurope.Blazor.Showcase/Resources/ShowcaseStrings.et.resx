@@ -1219,6 +1219,8 @@
   <data name="DemoOverlaySizeFull" xml:space="preserve"><value>Täislaius</value></data>
   <data name="DemoOverlaySizedTitle" xml:space="preserve"><value>Dialoogi laius</value></data>
   <data name="DemoOverlaySizedBody" xml:space="preserve"><value>See dialoog on avatud suuruses {0}.</value></data>
+  <data name="DemoOverlaySizeFree" xml:space="preserve"><value>Vaba laius (30rem)</value></data>
+  <data name="DemoOverlayWidthBody" xml:space="preserve"><value>Selle dialoogi vaba laius on {0}, alati ekraaniga piiratud.</value></data>
   <data name="DemoOverlayIntentAccent" xml:space="preserve"><value>Vorm (aktsent)</value></data>
   <data name="DemoOverlayIntentInfo" xml:space="preserve"><value>Teave</value></data>
   <data name="DemoOverlayIntentSuccess" xml:space="preserve"><value>Õnnestumine</value></data>

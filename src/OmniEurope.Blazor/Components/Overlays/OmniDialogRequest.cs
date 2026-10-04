@@ -52,6 +52,49 @@ public sealed record OmniDialogRequest(string Title, RenderFragment Content, str
     public OmniDialogSize Size { get; init; }
 
     /// <summary>
+    /// A free width in place of <see cref="Size"/>, passed to <see cref="OmniDialog.Width"/>: a positive
+    /// number followed by px, rem, em, ch, vw or % (<c>30rem</c>). Checked when the dialog is opened:
+    /// <see cref="OmniOverlayService.OpenDialog(OmniDialogRequest)"/> throws
+    /// <see cref="ArgumentException"/> for anything else. Null by default.
+    /// </summary>
+    public string? Width { get; init; }
+
+    /// <summary>
+    /// A request whose content is <typeparamref name="TComponent"/>, each entry of
+    /// <paramref name="parameters"/> passed to it as the parameter of that name, as
+    /// <see cref="OmniOverlayService.OpenDialogAsync{TComponent}(string, IReadOnlyDictionary{string, object?}?, string)"/>
+    /// builds it; set the other options with <c>with</c> (<c>Width</c>, <c>CloseOnBackdrop</c>...)
+    /// before passing it to <see cref="OmniOverlayService.OpenDialogAsync(OmniDialogRequest)"/>.
+    /// </summary>
+    /// <typeparam name="TComponent">The component drawn in the dialog body.</typeparam>
+    /// <param name="title">The dialog title.</param>
+    /// <param name="parameters">The parameters of the component, by name; null passes none.</param>
+    /// <param name="closeLabel">Accessible name of the close button; null is the localized "Close".</param>
+    /// <returns>The request, every other option at its default.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="title"/> is null.</exception>
+    public static OmniDialogRequest ForComponent<TComponent>(
+        string title,
+        IReadOnlyDictionary<string, object?>? parameters = null,
+        string? closeLabel = null)
+        where TComponent : IComponent
+    {
+        ArgumentNullException.ThrowIfNull(title);
+        return new OmniDialogRequest(title, builder =>
+        {
+            builder.OpenComponent<TComponent>(0);
+            if (parameters is not null)
+            {
+                foreach (var (name, value) in parameters)
+                {
+                    builder.AddComponentParameter(1, name, value);
+                }
+            }
+
+            builder.CloseComponent();
+        }, closeLabel);
+    }
+
+    /// <summary>
     /// What the dialog is for, passed to <see cref="OmniDialog.Intent"/>: its header and footer take the
     /// tint and the title the mark. <see cref="OmniTone.Neutral"/> by default: no tint, no mark.
     /// </summary>

@@ -15,6 +15,7 @@ public partial class OmniDialog
     private IJSObjectReference? _dialogModule;
     private bool _focusActivated;
     private bool _attached;
+    private string? _appliedWidth;
 
     /// <summary>False opens a modeless window: no veil, inert page, or focus trap.</summary>
     [Parameter] public bool Modal { get; set; } = true;
@@ -85,6 +86,19 @@ public partial class OmniDialog
     public OmniDialogSize Size { get; set; }
 
     /// <summary>
+    /// A free width, in place of <see cref="Size"/>: a positive number followed by <c>px</c>, <c>rem</c>,
+    /// <c>em</c>, <c>ch</c>, <c>vw</c> or <c>%</c> (<c>30rem</c>, <c>500px</c>). Like every size it is a
+    /// ceiling capped by the viewport, so a narrow screen still gets a full-width dialog. The page's
+    /// policy forbids a <c>style</c> attribute, so the dialog script writes it as a custom property once
+    /// the dialog is drawn; the dialog stays transparent until then (a second at most, then at the
+    /// 40rem width if no script answers). Null, the default, leaves <see cref="Size"/> in charge and
+    /// loads no script for it.
+    /// </summary>
+    /// <exception cref="ArgumentException">The value is not such a length.</exception>
+    [Parameter]
+    public string? Width { get; set; }
+
+    /// <summary>
     /// What the dialog is for: <see cref="OmniTone.Accent"/> for a form, <see cref="OmniTone.Warning"/>
     /// for a question that is hard to undo, <see cref="OmniTone.Danger"/> for what is lost for good.
     /// The title is led by a round mark, on the tint of the intention, carrying the glyph of the
@@ -117,7 +131,7 @@ public partial class OmniDialog
 
     // Medium carries no modifier: the base rule is its width, so a dialog that never set a size
     // renders exactly the classes it always had.
-    private string? SizeClass => Size switch
+    private string? SizeClass => Width is not null ? "omni-dialog--width" : Size switch
     {
         OmniDialogSize.Small => "omni-dialog--small",
         OmniDialogSize.Large => "omni-dialog--large",
@@ -132,6 +146,14 @@ public partial class OmniDialog
         : $"omni-dialog--intent-{Intent.ToString().ToLowerInvariant()}";
 
     private string IntentGlyph => OmniSeverityGlyph.For(Intent);
+
+    /// <summary>Checks <see cref="Width"/> before anything is drawn with it.</summary>
+    /// <exception cref="ArgumentException"><see cref="Width"/> is not a number followed by px, rem, em, ch, vw or %.</exception>
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        Internal.DialogWidth.Validate(Width, nameof(Width));
+    }
 
     private async Task CloseAsync()
     {
@@ -154,6 +176,20 @@ public partial class OmniDialog
         if (firstRender)
         {
             _focusModule = await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Focus);
+        }
+
+        // The free width first: the frozen scale and the focus then see the dialog at its own size.
+        if (Open && !string.Equals(Width, _appliedWidth, StringComparison.Ordinal))
+        {
+            _dialogModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Dialog);
+            if (Width is null) await _dialogModule.InvokeVoidAsync("clearWidth", _dialog);
+            else await _dialogModule.InvokeVoidAsync("setWidth", _dialog, Width);
+            _appliedWidth = Width;
+        }
+        else if (!Open)
+        {
+            // Closed, the panel is gone: the next opening draws a new one, without the property.
+            _appliedWidth = null;
         }
 
         if (Open && !_attached && (Draggable || FreezeScale))

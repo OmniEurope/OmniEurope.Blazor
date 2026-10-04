@@ -72,10 +72,13 @@
         <OmniButton Id="demo-dialog-size-large" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenSized(OmniDialogSize.Large))">@Text["DemoOverlaySizeLarge"]</OmniButton>
         <OmniButton Id="demo-dialog-size-xlarge" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenSized(OmniDialogSize.ExtraLarge))">@Text["DemoOverlaySizeExtraLarge"]</OmniButton>
         <OmniButton Id="demo-dialog-size-full" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenSized(OmniDialogSize.FullWidth))">@Text["DemoOverlaySizeFull"]</OmniButton>
+        @* Width : une largeur libre à la place de la taille, écrite par le script du dialogue (la
+           politique de la page interdit l'attribut style), bornée par l'écran comme les tailles. *@
+        <OmniButton Id="demo-dialog-size-free" Variant="OmniButtonVariant.Secondary" OnClick="OpenFreeWidth">@Text["DemoOverlaySizeFree"]</OmniButton>
     </OmniStack>
 
-    <OmniDialog Title="@Text["DemoOverlaySizedTitle"]" Open="SizedOpen" OpenChanged="@(value => SizedOpen = value)" Size="SizedDialog">
-        <p>@Text["DemoOverlaySizedBody", SizedDialog]</p>
+    <OmniDialog Title="@Text["DemoOverlaySizedTitle"]" Open="SizedOpen" OpenChanged="@(value => SizedOpen = value)" Size="SizedDialog" Width="@SizedWidth">
+        <p>@(SizedWidth is null ? Text["DemoOverlaySizedBody", SizedDialog] : Text["DemoOverlayWidthBody", SizedWidth])</p>
     </OmniDialog>
 
     @* Intention : l'en-tête et le pied prennent la teinte de l'intention, le titre est précédé d'une pastille

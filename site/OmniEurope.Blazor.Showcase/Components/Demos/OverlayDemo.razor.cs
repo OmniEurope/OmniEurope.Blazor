@@ -21,6 +21,8 @@ public partial class OverlayDemo : IDisposable
 
     private OmniDialogSize SizedDialog { get; set; }
 
+    private string? SizedWidth { get; set; }
+
     private bool IntentOpen { get; set; }
 
     private OmniTone IntentDialog { get; set; }
@@ -37,6 +39,13 @@ public partial class OverlayDemo : IDisposable
     private void OpenSized(OmniDialogSize size)
     {
         SizedDialog = size;
+        SizedWidth = null;
+        SizedOpen = true;
+    }
+
+    private void OpenFreeWidth()
+    {
+        SizedWidth = "30rem";
         SizedOpen = true;
     }
 

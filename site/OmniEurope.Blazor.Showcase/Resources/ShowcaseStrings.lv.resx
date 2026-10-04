@@ -1219,6 +1219,8 @@
   <data name="DemoOverlaySizeFull" xml:space="preserve"><value>Pilns platums</value></data>
   <data name="DemoOverlaySizedTitle" xml:space="preserve"><value>Dialoglodziņa platums</value></data>
   <data name="DemoOverlaySizedBody" xml:space="preserve"><value>Šis dialoglodziņš ir atvērts izmērā {0}.</value></data>
+  <data name="DemoOverlaySizeFree" xml:space="preserve"><value>Brīvs platums (30rem)</value></data>
+  <data name="DemoOverlayWidthBody" xml:space="preserve"><value>Šim dialogam ir brīvs platums {0}, ko vienmēr ierobežo ekrāns.</value></data>
   <data name="DemoOverlayIntentAccent" xml:space="preserve"><value>Veidlapa (akcents)</value></data>
   <data name="DemoOverlayIntentInfo" xml:space="preserve"><value>Informācija</value></data>
   <data name="DemoOverlayIntentSuccess" xml:space="preserve"><value>Panākums</value></data>

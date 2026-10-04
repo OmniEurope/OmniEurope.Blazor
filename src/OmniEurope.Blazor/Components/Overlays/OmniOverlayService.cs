@@ -54,9 +54,13 @@ public sealed class OmniOverlayService : IDisposable
     /// </summary>
     /// <param name="request">The dialog to open.</param>
     /// <exception cref="ArgumentNullException"><paramref name="request"/> is null.</exception>
+    /// <exception cref="ArgumentException">
+    /// <see cref="OmniDialogRequest.Width"/> is set and is not a number followed by px, rem, em, ch, vw or %.
+    /// </exception>
     public void OpenDialog(OmniDialogRequest request)
     {
         ArgumentNullException.ThrowIfNull(request);
+        Internal.DialogWidth.Validate(request.Width, nameof(request));
         _dialogs.Push(request);
         RaiseChanged();
     }
@@ -85,6 +89,8 @@ public sealed class OmniOverlayService : IDisposable
     public Task<object?> OpenDialogAsync(OmniDialogRequest request)
     {
         ArgumentNullException.ThrowIfNull(request);
+        // Checked before a completion is registered: a refused width leaves no caller waiting.
+        Internal.DialogWidth.Validate(request.Width, nameof(request));
         var completion = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
 
         // Reopening the same instance while a caller still waits on it would drop that caller's
@@ -125,19 +131,7 @@ public sealed class OmniOverlayService : IDisposable
         where TComponent : Microsoft.AspNetCore.Components.IComponent
     {
         ArgumentNullException.ThrowIfNull(title);
-        return OpenDialogAsync(new OmniDialogRequest(title, builder =>
-        {
-            builder.OpenComponent<TComponent>(0);
-            if (parameters is not null)
-            {
-                foreach (var (name, value) in parameters)
-                {
-                    builder.AddComponentParameter(1, name, value);
-                }
-            }
-
-            builder.CloseComponent();
-        }, closeLabel)
+        return OpenDialogAsync(OmniDialogRequest.ForComponent<TComponent>(title, parameters, closeLabel) with
         {
             Size = size
         });

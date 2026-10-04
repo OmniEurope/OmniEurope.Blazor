@@ -1219,6 +1219,8 @@
   <data name="DemoOverlaySizeFull" xml:space="preserve"><value>Plná šírka</value></data>
   <data name="DemoOverlaySizedTitle" xml:space="preserve"><value>Šírka dialógu</value></data>
   <data name="DemoOverlaySizedBody" xml:space="preserve"><value>Tento dialóg je otvorený vo veľkosti: {0}.</value></data>
+  <data name="DemoOverlaySizeFree" xml:space="preserve"><value>Voľná šírka (30rem)</value></data>
+  <data name="DemoOverlayWidthBody" xml:space="preserve"><value>Tento dialóg má voľnú šírku {0}, vždy obmedzenú obrazovkou.</value></data>
   <data name="DemoOverlayIntentAccent" xml:space="preserve"><value>Formulár (akcent)</value></data>
   <data name="DemoOverlayIntentInfo" xml:space="preserve"><value>Informácia</value></data>
   <data name="DemoOverlayIntentSuccess" xml:space="preserve"><value>Úspech</value></data>

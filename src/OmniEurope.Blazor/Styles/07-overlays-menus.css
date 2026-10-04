@@ -18,6 +18,13 @@ body:has(.omni-overlay) { overflow: hidden; }
 /* OmniDialogSize: each width is a ceiling capped by the viewport; the overlay padding keeps a narrow screen full width. */
 .omni-dialog--small { max-width: min(25rem, calc(100vw - 2rem)); } .omni-dialog--large { max-width: min(56rem, calc(100vw - 2rem)); } .omni-dialog--xlarge { max-width: min(72rem, calc(100vw - 2rem)); }
 .omni-dialog--full { max-height: calc(100vh - 1rem); max-width: min(96vw, 100rem); }
+/* OmniDialog.Width: a free ceiling, written by omni-dialog.js as --omni-dialog-width (the policy forbids a style
+   attribute) and capped by the viewport like the sizes. Until the script marks it ready the dialog waits
+   transparent, still focusable, so it does not jump from 40rem to its width; with no script, the wait ends
+   after a second and the dialog shows at 40rem. */
+.omni-dialog--width { max-width: min(var(--omni-dialog-width, 40rem), calc(100vw - 2rem)); }
+.omni-dialog--width:not([data-omni-dialog-width-ready]) { animation: omni-dialog-width-wait 1s step-end; }
+@keyframes omni-dialog-width-wait { from { opacity: 0; } }
 .omni-dialog--resizable { min-height: 12rem; min-width: 18rem; resize: both; }
 /* Dragged by its relative offsets (omni-dialog.js writes left and top): unlike a transform, they leave
    the position: fixed surfaces the dialog holds anchored to the window. */

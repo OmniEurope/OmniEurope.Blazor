@@ -1219,6 +1219,8 @@
   <data name="DemoOverlaySizeFull" xml:space="preserve"><value>Polna širina</value></data>
   <data name="DemoOverlaySizedTitle" xml:space="preserve"><value>Širina pogovornega okna</value></data>
   <data name="DemoOverlaySizedBody" xml:space="preserve"><value>To pogovorno okno je odprto v velikosti {0}.</value></data>
+  <data name="DemoOverlaySizeFree" xml:space="preserve"><value>Prosta širina (30rem)</value></data>
+  <data name="DemoOverlayWidthBody" xml:space="preserve"><value>To pogovorno okno ima prosto širino {0}, ki jo vedno omejuje zaslon.</value></data>
   <data name="DemoOverlayIntentAccent" xml:space="preserve"><value>Obrazec (poudarek)</value></data>
   <data name="DemoOverlayIntentInfo" xml:space="preserve"><value>Informacija</value></data>
   <data name="DemoOverlayIntentSuccess" xml:space="preserve"><value>Uspeh</value></data>

@@ -1219,6 +1219,8 @@
   <data name="DemoOverlaySizeFull" xml:space="preserve"><value>Ancho completo</value></data>
   <data name="DemoOverlaySizedTitle" xml:space="preserve"><value>Ancho del diálogo</value></data>
   <data name="DemoOverlaySizedBody" xml:space="preserve"><value>Este diálogo está abierto en tamaño {0}.</value></data>
+  <data name="DemoOverlaySizeFree" xml:space="preserve"><value>Ancho libre (30rem)</value></data>
+  <data name="DemoOverlayWidthBody" xml:space="preserve"><value>Este diálogo tiene un ancho libre de {0}, siempre limitado por la pantalla.</value></data>
   <data name="DemoOverlayIntentAccent" xml:space="preserve"><value>Formulario (acento)</value></data>
   <data name="DemoOverlayIntentInfo" xml:space="preserve"><value>Información</value></data>
   <data name="DemoOverlayIntentSuccess" xml:space="preserve"><value>Éxito</value></data>

@@ -1222,6 +1222,8 @@
   <data name="DemoOverlaySizeFull" xml:space="preserve"><value>Full width</value></data>
   <data name="DemoOverlaySizedTitle" xml:space="preserve"><value>Dialog width</value></data>
   <data name="DemoOverlaySizedBody" xml:space="preserve"><value>This dialog is open at size {0}.</value></data>
+  <data name="DemoOverlaySizeFree" xml:space="preserve"><value>Free width (30rem)</value></data>
+  <data name="DemoOverlayWidthBody" xml:space="preserve"><value>This dialog has a free width of {0}, always capped by the screen.</value></data>
   <data name="DemoOverlayIntentAccent" xml:space="preserve"><value>Form (accent)</value></data>
   <data name="DemoOverlayIntentInfo" xml:space="preserve"><value>Information</value></data>
   <data name="DemoOverlayIntentSuccess" xml:space="preserve"><value>Success</value></data>

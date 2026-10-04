@@ -1028,6 +1028,7 @@ method protected override OmniEurope.Blazor.Components.OmniDescriptionList.Build
 method protected override OmniEurope.Blazor.Components.OmniDetailShell.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDialog.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDialog.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
+method protected override OmniEurope.Blazor.Components.OmniDialog.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDiffViewer.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDiffViewer.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniDiffViewer.OnParametersSet() : System.Void
@@ -1856,6 +1857,7 @@ method public static OmniEurope.Blazor.Components.OmniDataGridResult<TItem>.op_E
 method public static OmniEurope.Blazor.Components.OmniDataGridResult<TItem>.op_Inequality(OmniEurope.Blazor.Components.OmniDataGridResult<TItem>? left, OmniEurope.Blazor.Components.OmniDataGridResult<TItem>? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniDataGridSort.op_Equality(OmniEurope.Blazor.Components.OmniDataGridSort? left, OmniEurope.Blazor.Components.OmniDataGridSort? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniDataGridSort.op_Inequality(OmniEurope.Blazor.Components.OmniDataGridSort? left, OmniEurope.Blazor.Components.OmniDataGridSort? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniDialogRequest.ForComponent<TComponent>(System.String title, System.Collections.Generic.IReadOnlyDictionary<System.String,System.Object?>? parameters = null, System.String? closeLabel = null) : OmniEurope.Blazor.Components.OmniDialogRequest where TComponent : Microsoft.AspNetCore.Components.IComponent
 method public static OmniEurope.Blazor.Components.OmniDialogRequest.op_Equality(OmniEurope.Blazor.Components.OmniDialogRequest? left, OmniEurope.Blazor.Components.OmniDialogRequest? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniDialogRequest.op_Inequality(OmniEurope.Blazor.Components.OmniDialogRequest? left, OmniEurope.Blazor.Components.OmniDialogRequest? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniDiffFile.op_Equality(OmniEurope.Blazor.Components.OmniDiffFile? left, OmniEurope.Blazor.Components.OmniDiffFile? right) : System.Boolean
@@ -2496,6 +2498,7 @@ property public OmniEurope.Blazor.Components.OmniDialog.ShowClose : System.Boole
 property public OmniEurope.Blazor.Components.OmniDialog.Size : OmniEurope.Blazor.Components.OmniDialogSize {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDialog.Title : System.String {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniDialog.TitleContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDialog.Width : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDialogRequest.CloseLabel : System.String? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniDialogRequest.CloseOnBackdrop : System.Boolean {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniDialogRequest.Content : Microsoft.AspNetCore.Components.RenderFragment {get(public);init(public)}
@@ -2508,6 +2511,7 @@ property public OmniEurope.Blazor.Components.OmniDialogRequest.ShowClose : Syste
 property public OmniEurope.Blazor.Components.OmniDialogRequest.Size : OmniEurope.Blazor.Components.OmniDialogSize {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniDialogRequest.Title : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniDialogRequest.TitleContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniDialogRequest.Width : System.String? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniDiffFile.Additions : System.Int32 {get(public)}
 property public OmniEurope.Blazor.Components.OmniDiffFile.Deletions : System.Int32 {get(public)}
 property public OmniEurope.Blazor.Components.OmniDiffFile.Hunks : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniDiffHunk> {get(public);init(public)}

@@ -1219,6 +1219,8 @@
   <data name="DemoOverlaySizeFull" xml:space="preserve"><value>Full bredd</value></data>
   <data name="DemoOverlaySizedTitle" xml:space="preserve"><value>Dialogrutans bredd</value></data>
   <data name="DemoOverlaySizedBody" xml:space="preserve"><value>Den här dialogrutan är öppnad i storleken {0}.</value></data>
+  <data name="DemoOverlaySizeFree" xml:space="preserve"><value>Fri bredd (30rem)</value></data>
+  <data name="DemoOverlayWidthBody" xml:space="preserve"><value>Den här dialogen har en fri bredd på {0}, alltid begränsad av skärmen.</value></data>
   <data name="DemoOverlayIntentAccent" xml:space="preserve"><value>Formulär (accent)</value></data>
   <data name="DemoOverlayIntentInfo" xml:space="preserve"><value>Information</value></data>
   <data name="DemoOverlayIntentSuccess" xml:space="preserve"><value>Lyckat</value></data>

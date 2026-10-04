@@ -1219,6 +1219,8 @@
   <data name="DemoOverlaySizeFull" xml:space="preserve"><value>Fuld bredde</value></data>
   <data name="DemoOverlaySizedTitle" xml:space="preserve"><value>Dialogboksens bredde</value></data>
   <data name="DemoOverlaySizedBody" xml:space="preserve"><value>Denne dialogboks er åbnet i størrelsen {0}.</value></data>
+  <data name="DemoOverlaySizeFree" xml:space="preserve"><value>Fri bredde (30rem)</value></data>
+  <data name="DemoOverlayWidthBody" xml:space="preserve"><value>Denne dialog har en fri bredde på {0}, altid begrænset af skærmen.</value></data>
   <data name="DemoOverlayIntentAccent" xml:space="preserve"><value>Formular (accent)</value></data>
   <data name="DemoOverlayIntentInfo" xml:space="preserve"><value>Information</value></data>
   <data name="DemoOverlayIntentSuccess" xml:space="preserve"><value>Succes</value></data>

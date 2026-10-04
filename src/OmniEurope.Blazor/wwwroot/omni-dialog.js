@@ -144,3 +144,18 @@ export function detach(dialog) {
     state.handle.removeEventListener('pointerdown', state.onPointerDown);
     attached.delete(dialog);
 }
+
+// OmniDialog.Width: the free width, checked on the server to be a number and a unit, written as a custom
+// property through the CSSOM (never a style attribute). The ready mark ends the transparent wait of
+// .omni-dialog--width, so the dialog appears at its own width instead of jumping from the default one.
+export function setWidth(dialog, width) {
+    if (!dialog) return;
+    dialog.style.setProperty('--omni-dialog-width', width);
+    dialog.setAttribute('data-omni-dialog-width-ready', '');
+}
+
+export function clearWidth(dialog) {
+    if (!dialog) return;
+    dialog.style.removeProperty('--omni-dialog-width');
+    dialog.removeAttribute('data-omni-dialog-width-ready');
+}
