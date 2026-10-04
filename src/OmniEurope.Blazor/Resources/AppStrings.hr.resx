@@ -389,6 +389,7 @@
   <data name="SchedulerMoveAppointment" xml:space="preserve"><value>Premjesti {0}</value></data>
   <data name="SchedulerMoveHere" xml:space="preserve"><value>Smjesti ovdje: {0}, {1}</value></data>
   <data name="SchedulerMoveHereShort" xml:space="preserve"><value>Smjesti ovdje</value></data>
+  <data name="SchedulerNewAppointment" xml:space="preserve"><value>Novi sastanak: {0}</value></data>
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Otkaži premještanje</value></data>
   <data name="SchedulerMoving" xml:space="preserve"><value>Odabrano za premještanje: {0}. Odaberite novo mjesto, Esc za odustajanje.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} ostaje na svojem mjestu.</value></data>

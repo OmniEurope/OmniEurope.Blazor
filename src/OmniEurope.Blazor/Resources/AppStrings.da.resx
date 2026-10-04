@@ -389,6 +389,7 @@
   <data name="SchedulerMoveAppointment" xml:space="preserve"><value>Flyt {0}</value></data>
   <data name="SchedulerMoveHere" xml:space="preserve"><value>Placer her: {0}, {1}</value></data>
   <data name="SchedulerMoveHereShort" xml:space="preserve"><value>Placer her</value></data>
+  <data name="SchedulerNewAppointment" xml:space="preserve"><value>Ny aftale: {0}</value></data>
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Annuller flytningen</value></data>
   <data name="SchedulerMoving" xml:space="preserve"><value>{0} samlet op: vælg den nye placering, Esc for at annullere.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} bliver på sin plads.</value></data>

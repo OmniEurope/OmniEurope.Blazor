@@ -712,6 +712,7 @@
   <data name="DemoSchedulerReadingCommittee" xml:space="preserve"><value>Begutachtungsausschuss</value></data>
   <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Wöchentliche Besprechung</value></data>
   <data name="DemoSchedulerRoom" xml:space="preserve"><value>Raum {0}</value></data>
+  <data name="DemoSchedulerFreeSlot" xml:space="preserve"><value>Gewählter freier Zeitraum: {0}</value></data>
   <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Flexible Spalte</value></data>
   <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Volle Breite auf kleinem Bildschirm, ein Drittel auf großem.</value></data>
   <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Karte mit Kopfzeile</value></data>

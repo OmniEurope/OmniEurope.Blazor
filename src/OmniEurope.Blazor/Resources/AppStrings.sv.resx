@@ -389,6 +389,7 @@
   <data name="SchedulerMoveAppointment" xml:space="preserve"><value>Flytta {0}</value></data>
   <data name="SchedulerMoveHere" xml:space="preserve"><value>Placera här: {0}, {1}</value></data>
   <data name="SchedulerMoveHereShort" xml:space="preserve"><value>Placera här</value></data>
+  <data name="SchedulerNewAppointment" xml:space="preserve"><value>Nytt möte: {0}</value></data>
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Avbryt flytten</value></data>
   <data name="SchedulerMoving" xml:space="preserve"><value>{0} har plockats upp: välj en ny plats, Esc för att avbryta.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} ligger kvar på sin plats.</value></data>

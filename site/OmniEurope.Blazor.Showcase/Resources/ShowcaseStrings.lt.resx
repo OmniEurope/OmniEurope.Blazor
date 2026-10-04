@@ -712,6 +712,7 @@
   <data name="DemoSchedulerReadingCommittee" xml:space="preserve"><value>Vertinimo komitetas</value></data>
   <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Savaitinis pasitarimas</value></data>
   <data name="DemoSchedulerRoom" xml:space="preserve"><value>Salė {0}</value></data>
+  <data name="DemoSchedulerFreeSlot" xml:space="preserve"><value>Pasirinktas laisvas laikas: {0}</value></data>
   <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Lankstus stulpelis</value></data>
   <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Visas plotis mažame ekrane, trečdalis dideliame.</value></data>
   <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Kortelė su antrašte</value></data>

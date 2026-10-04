@@ -389,6 +389,7 @@
   <data name="SchedulerMoveAppointment" xml:space="preserve"><value>Bog {0}</value></data>
   <data name="SchedulerMoveHere" xml:space="preserve"><value>Cuir anseo: {0}, {1}</value></data>
   <data name="SchedulerMoveHereShort" xml:space="preserve"><value>Cuir anseo</value></data>
+  <data name="SchedulerNewAppointment" xml:space="preserve"><value>Coinne nua: {0}</value></data>
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Cealaigh an bogadh</value></data>
   <data name="SchedulerMoving" xml:space="preserve"><value>Tá {0} pioctha suas: roghnaigh an áit nua, nó brúigh Escape chun cealú.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>Fanann {0} san áit a raibh sé.</value></data>

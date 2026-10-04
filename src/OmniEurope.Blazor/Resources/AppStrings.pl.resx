@@ -389,6 +389,7 @@
   <data name="SchedulerMoveAppointment" xml:space="preserve"><value>Przenieś: {0}</value></data>
   <data name="SchedulerMoveHere" xml:space="preserve"><value>Umieść tutaj: {0}, {1}</value></data>
   <data name="SchedulerMoveHereShort" xml:space="preserve"><value>Umieść tutaj</value></data>
+  <data name="SchedulerNewAppointment" xml:space="preserve"><value>Nowe spotkanie: {0}</value></data>
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Anuluj przenoszenie</value></data>
   <data name="SchedulerMoving" xml:space="preserve"><value>Przenoszenie: {0}. Wybierz nowe miejsce, Esc, aby anulować.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} pozostaje na swoim miejscu.</value></data>

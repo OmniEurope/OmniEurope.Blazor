@@ -26,11 +26,23 @@ pour qu'un hôte en distingue certains, par exemple les heures facturables).
 | `DayStart`, `DayEnd`, `SlotDuration` | Avec les deux bornes, les vues jour et semaine deviennent une grille horaire de créneaux de `SlotDuration` (`TimeSpan`, une heure par défaut). |
 | `OnAppointmentClick` | Fait de chaque rendez-vous un bouton ; reçoit le rendez-vous tel que l'hôte l'a donné. |
 | `OnAppointmentMove` | Rend les rendez-vous déplaçables ; reçoit un `OmniSchedulerAppointmentMove` (le rendez-vous d'origine, son nouveau début et sa nouvelle fin). |
+| `OnSlotClick` | Fait de la partie libre de chaque créneau (grille horaire) ou de chaque jour (semaine en liste, mois, jour en liste) un bouton ; reçoit un `OmniSchedulerSlot` (`Start`, `End`, `Duration`), pour que l'hôte ouvre son dialogue de création. Non posé par défaut : aucun créneau n'est un bouton. |
 
 La grille horaire est un tableau : une ligne par créneau, une colonne par jour. Un rendez-vous se
 place dans le créneau où il commence, ses heures écrites dessus ; celui qui commence avant le premier
 créneau ou après le dernier se range dans ce créneau, rien n'est caché. Le jour courant est teinté et
 porte `aria-current="date"` dans toutes les vues.
+
+Avec `OnSlotClick`, chaque créneau porte, sous ses rendez-vous, un bouton transparent qui couvre sa
+cellule : un clic sur un rendez-vous reste le sien, un clic ailleurs dans la cellule (la date
+comprise) active le créneau. Le bouton est un vrai `<button>`, atteint par Tab et activé par Entrée
+ou Espace, nommé par la date et l'heure (« Nouveau rendez-vous : mardi 9 juin 2026 09:00 », la date
+seule pour un jour entier) ; survolé ou focalisé, il se teinte et montre une marque +. Un créneau de
+la grille va de son début à son début plus `SlotDuration`, le dernier s'arrêtant à `DayEnd` ; un jour
+entier va de minuit à minuit. Les bornes portent le décalage du fuseau de l'agenda ce jour-là, comme
+un déplacement. Les boutons disparaissent pendant qu'un rendez-vous est saisi pour être déplacé, et
+reviennent ensuite. Chaque créneau étant un arrêt de tabulation, une semaine de 8 h à 18 h en compte
+70 : il n'y a pas de navigation par flèches entre créneaux.
 
 L'agenda ne modifie jamais `Items` : un déplacement est rapporté et l'hôte l'applique (et
 l'enregistre), le rendez-vous restant à sa place sinon. Il se fait de deux façons :

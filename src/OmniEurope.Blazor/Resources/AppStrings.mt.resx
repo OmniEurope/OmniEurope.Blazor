@@ -389,6 +389,7 @@
   <data name="SchedulerMoveAppointment" xml:space="preserve"><value>Ċaqlaq {0}</value></data>
   <data name="SchedulerMoveHere" xml:space="preserve"><value>Poġġi hawn: {0}, {1}</value></data>
   <data name="SchedulerMoveHereShort" xml:space="preserve"><value>Poġġi hawn</value></data>
+  <data name="SchedulerNewAppointment" xml:space="preserve"><value>Appuntament ġdid: {0}</value></data>
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Ikkanċella ċ-ċaqliq</value></data>
   <data name="SchedulerMoving" xml:space="preserve"><value>{0} inqabad: agħżel il-post il-ġdid tiegħu, Escape biex tikkanċella.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} jibqa' fejn kien.</value></data>

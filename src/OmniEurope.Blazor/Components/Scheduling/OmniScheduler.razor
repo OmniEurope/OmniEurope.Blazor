@@ -37,6 +37,17 @@
         </div>
     }
 
+    // The free area of a slot or a day as a button, under its appointments, while the host listens for
+    // slot clicks and nothing is being moved; its accessible name gives the date, and the time of a slot.
+    void SlotButton(DateOnly day, int? slotIndex)
+    {
+        if (SlotClickable && _moving is null)
+        {
+            var slot = CreateSlot(day, slotIndex);
+            <button type="button" class="omni-scheduler__slot" aria-label="@SlotLabel(slot, slotIndex is not null)" @onclick="() => SlotClickAsync(slot)"><span class="omni-scheduler__slot-mark" aria-hidden="true">+</span></button>
+        }
+    }
+
     // While an appointment is picked up, the button that puts it in this cell.
     void PlaceButton(MoveTarget target)
     {
@@ -126,6 +137,7 @@
                                         @ondragover:preventDefault="@Movable"
                                         @ondrop="() => DropAsync(target)"
                                         @ondrop:preventDefault="@Movable">
+                                        @{ SlotButton(day, slotIndex); }
                                         @foreach (var appointment in AppointmentsInSlot(appointments, day, slotIndex))
                                         {
                                             AppointmentItem(appointment);
@@ -145,6 +157,7 @@
             {
                 case OmniCalendarView.Day:
                     <section class="omni-scheduler-view omni-day-view" aria-label="@Text("DayViewLabel")">
+                        @{ SlotButton(DateOnly.FromDateTime(date.Date), null); }
                         @* The date of a view is not a heading: the host decides the outline of its page. *@
                         <p class="omni-scheduler__date"><time datetime="@date.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)">@date.ToString("D", Formats)</time></p>
                         <ol class="omni-scheduler__appointments">
@@ -166,6 +179,7 @@
                                      @ondragover:preventDefault="@Movable"
                                      @ondrop="() => DropAsync(target)"
                                      @ondrop:preventDefault="@Movable">
+                                @{ SlotButton(day, null); }
                                 <time class="omni-scheduler__date" datetime="@day.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)">@weekDay.ToString("ddd d", Formats)</time>
                                 @foreach (var appointment in AppointmentsOn(appointments, weekDay.Date))
                                 {
@@ -203,6 +217,7 @@
                                              @ondragover:preventDefault="@Movable"
                                              @ondrop="() => DropAsync(target)"
                                              @ondrop:preventDefault="@Movable">
+                                            @{ SlotButton(day, null); }
                                             <time class="omni-scheduler__date" datetime="@day.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)">@day.Day.ToString(Formats)</time>
                                             @foreach (var appointment in AppointmentsOn(appointments, day.ToDateTime(TimeOnly.MinValue)))
                                             {

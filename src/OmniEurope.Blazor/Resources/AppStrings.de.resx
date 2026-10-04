@@ -389,6 +389,7 @@
   <data name="SchedulerMoveAppointment" xml:space="preserve"><value>{0} verschieben</value></data>
   <data name="SchedulerMoveHere" xml:space="preserve"><value>Hier platzieren: {0}, {1}</value></data>
   <data name="SchedulerMoveHereShort" xml:space="preserve"><value>Hier platzieren</value></data>
+  <data name="SchedulerNewAppointment" xml:space="preserve"><value>Neuer Termin: {0}</value></data>
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Verschieben abbrechen</value></data>
   <data name="SchedulerMoving" xml:space="preserve"><value>{0} aufgenommen: Wählen Sie den neuen Platz, Esc zum Abbrechen.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} bleibt an seinem Platz.</value></data>

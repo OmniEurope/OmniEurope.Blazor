@@ -712,6 +712,7 @@
   <data name="DemoSchedulerReadingCommittee" xml:space="preserve"><value>Recenzijski odbor</value></data>
   <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Tedenski sestanek</value></data>
   <data name="DemoSchedulerRoom" xml:space="preserve"><value>Soba {0}</value></data>
+  <data name="DemoSchedulerFreeSlot" xml:space="preserve"><value>Izbrani prosti termin: {0}</value></data>
   <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Prilagodljiv stolpec</value></data>
   <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Polna širina na majhnem zaslonu, tretjina na velikem.</value></data>
   <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Kartica z glavo</value></data>

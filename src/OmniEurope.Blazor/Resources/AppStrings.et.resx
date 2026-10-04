@@ -389,6 +389,7 @@
   <data name="SchedulerMoveAppointment" xml:space="preserve"><value>Teisalda: {0}</value></data>
   <data name="SchedulerMoveHere" xml:space="preserve"><value>Paiguta siia: {0}, {1}</value></data>
   <data name="SchedulerMoveHereShort" xml:space="preserve"><value>Paiguta siia</value></data>
+  <data name="SchedulerNewAppointment" xml:space="preserve"><value>Uus kohtumine: {0}</value></data>
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Tühista teisaldamine</value></data>
   <data name="SchedulerMoving" xml:space="preserve"><value>{0} haaratud: valige uus koht, Esc tühistab.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} jääb oma kohale.</value></data>

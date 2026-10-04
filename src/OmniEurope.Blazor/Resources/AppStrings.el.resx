@@ -389,6 +389,7 @@
   <data name="SchedulerMoveAppointment" xml:space="preserve"><value>Μετακίνηση {0}</value></data>
   <data name="SchedulerMoveHere" xml:space="preserve"><value>Τοποθέτηση εδώ: {0}, {1}</value></data>
   <data name="SchedulerMoveHereShort" xml:space="preserve"><value>Τοποθέτηση εδώ</value></data>
+  <data name="SchedulerNewAppointment" xml:space="preserve"><value>Νέο ραντεβού: {0}</value></data>
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Ακύρωση μετακίνησης</value></data>
   <data name="SchedulerMoving" xml:space="preserve"><value>Το {0} επιλέχθηκε: διαλέξτε τη νέα του θέση, Esc για ακύρωση.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>Το {0} παραμένει στη θέση του.</value></data>

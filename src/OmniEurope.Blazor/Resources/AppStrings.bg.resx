@@ -389,6 +389,7 @@
   <data name="SchedulerMoveAppointment" xml:space="preserve"><value>Преместване на {0}</value></data>
   <data name="SchedulerMoveHere" xml:space="preserve"><value>Поставяне тук: {0}, {1}</value></data>
   <data name="SchedulerMoveHereShort" xml:space="preserve"><value>Поставяне тук</value></data>
+  <data name="SchedulerNewAppointment" xml:space="preserve"><value>Нова среща: {0}</value></data>
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Отказ от преместването</value></data>
   <data name="SchedulerMoving" xml:space="preserve"><value>{0} е взето: изберете новото място, Esc за отказ.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} остава на мястото си.</value></data>

@@ -712,6 +712,7 @@
   <data name="DemoSchedulerReadingCommittee" xml:space="preserve"><value>Комисия за преглед</value></data>
   <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Седмична среща</value></data>
   <data name="DemoSchedulerRoom" xml:space="preserve"><value>Зала {0}</value></data>
+  <data name="DemoSchedulerFreeSlot" xml:space="preserve"><value>Избран свободен интервал: {0}</value></data>
   <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Гъвкава колона</value></data>
   <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Пълна ширина на малък екран, една трета на голям.</value></data>
   <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Карта със заглавка</value></data>

@@ -111,6 +111,15 @@ public partial class OmniScheduler
     /// <summary>Raised when an appointment is dropped at another start; appointments can be moved when it is set.</summary>
     [Parameter] public EventCallback<OmniSchedulerAppointmentMove> OnAppointmentMove { get; set; }
 
+    /// <summary>
+    /// Raised with the slot the user activates in its free area: a slot of the time grid, or a whole day
+    /// of the week list, of the month or of the day list. When it is set, that free area becomes a
+    /// button under the appointments (reached by Tab, activated by Enter or Space, named by its date and
+    /// time), so the host can open its own creation dialog; it is withdrawn while an appointment is
+    /// being moved. Unset by default: no slot is a button.
+    /// </summary>
+    [Parameter] public EventCallback<OmniSchedulerSlot> OnSlotClick { get; set; }
+
     internal string Announcement => _announcement;
 
     /// <summary>The date drawn: <see cref="Date"/>, or the period the reader navigated to since.</summary>
@@ -121,6 +130,7 @@ public partial class OmniScheduler
 
     private bool Clickable => OnAppointmentClick.HasDelegate;
     private bool Movable => OnAppointmentMove.HasDelegate;
+    private bool SlotClickable => OnSlotClick.HasDelegate;
     private bool HasTimeGrid => DayStart is { } start && DayEnd is { } end && end > start && SlotDuration > TimeSpan.Zero;
     private int SlotCount => (int)Math.Ceiling((DayEnd!.Value - DayStart!.Value).TotalMinutes / SlotDuration.TotalMinutes);
     private DateTimeOffset LocalDate => TimeZoneInfo.ConvertTime(_date, TimeZone);
@@ -339,6 +349,29 @@ public partial class OmniScheduler
 
     private Task ClickAsync(OmniSchedulerAppointment local) =>
         Original(local) is { } original ? OnAppointmentClick.InvokeAsync(original) : Task.CompletedTask;
+
+    private Task SlotClickAsync(OmniSchedulerSlot slot) => OnSlotClick.InvokeAsync(slot);
+
+    /// <summary>
+    /// A slot of the time grid (its start, and its end capped by <see cref="DayEnd"/>), or a whole day
+    /// when <paramref name="slot"/> is null, with the offsets of the scheduler's time zone.
+    /// </summary>
+    private OmniSchedulerSlot CreateSlot(DateOnly day, int? slot)
+    {
+        var midnight = day.ToDateTime(TimeOnly.MinValue);
+        if (slot is not { } index)
+        {
+            return new OmniSchedulerSlot(CreateBoundary(midnight), CreateBoundary(midnight.AddDays(1)));
+        }
+
+        var start = DayStart!.Value.ToTimeSpan() + SlotDuration * index;
+        var end = DayStart.Value.ToTimeSpan() + SlotDuration * (index + 1);
+        var limit = DayEnd!.Value.ToTimeSpan();
+        return new OmniSchedulerSlot(CreateBoundary(midnight + start), CreateBoundary(midnight + (end < limit ? end : limit)));
+    }
+
+    private string SlotLabel(OmniSchedulerSlot slot, bool timed) =>
+        Text("SchedulerNewAppointment", slot.Start.ToString(timed ? "f" : "D", Formats));
 
     /// <summary>The move button: picks the appointment up, or puts it back when it is the one carried.</summary>
     private void PickUp(OmniSchedulerAppointment local)

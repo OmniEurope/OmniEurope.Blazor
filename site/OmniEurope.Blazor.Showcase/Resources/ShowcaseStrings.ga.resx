@@ -712,6 +712,7 @@
   <data name="DemoSchedulerReadingCommittee" xml:space="preserve"><value>Coiste léitheoireachta</value></data>
   <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Cruinniú seachtainiúil</value></data>
   <data name="DemoSchedulerRoom" xml:space="preserve"><value>Seomra {0}</value></data>
+  <data name="DemoSchedulerFreeSlot" xml:space="preserve"><value>Sliotán saor roghnaithe: {0}</value></data>
   <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Colún solúbtha</value></data>
   <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Leithead iomlán ar scáileán beag, trian ar scáileán mór.</value></data>
   <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Cárta le ceanntásc</value></data>

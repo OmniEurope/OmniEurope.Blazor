@@ -712,6 +712,7 @@
   <data name="DemoSchedulerReadingCommittee" xml:space="preserve"><value>Leescommissie</value></data>
   <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Wekelijks overleg</value></data>
   <data name="DemoSchedulerRoom" xml:space="preserve"><value>Zaal {0}</value></data>
+  <data name="DemoSchedulerFreeSlot" xml:space="preserve"><value>Gekozen vrij tijdvak: {0}</value></data>
   <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Vloeiende kolom</value></data>
   <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Volledige breedte op een klein scherm, een derde op een groot.</value></data>
   <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Kaart met koptekst</value></data>

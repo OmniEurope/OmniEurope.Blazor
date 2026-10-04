@@ -712,6 +712,7 @@
   <data name="DemoSchedulerReadingCommittee" xml:space="preserve"><value>Læseudvalg</value></data>
   <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Ugentligt møde</value></data>
   <data name="DemoSchedulerRoom" xml:space="preserve"><value>Lokale {0}</value></data>
+  <data name="DemoSchedulerFreeSlot" xml:space="preserve"><value>Valgt ledigt tidsrum: {0}</value></data>
   <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Flydende kolonne</value></data>
   <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Fuld bredde på en lille skærm, en tredjedel på en stor.</value></data>
   <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Kort med hoved</value></data>

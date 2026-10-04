@@ -389,6 +389,7 @@
   <data name="SchedulerMoveAppointment" xml:space="preserve"><value>Mută {0}</value></data>
   <data name="SchedulerMoveHere" xml:space="preserve"><value>Plasează aici: {0}, {1}</value></data>
   <data name="SchedulerMoveHereShort" xml:space="preserve"><value>Plasează aici</value></data>
+  <data name="SchedulerNewAppointment" xml:space="preserve"><value>Programare nouă: {0}</value></data>
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Anulează mutarea</value></data>
   <data name="SchedulerMoving" xml:space="preserve"><value>{0} preluat: alegeți noul loc, Esc pentru anulare.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} rămâne pe loc.</value></data>

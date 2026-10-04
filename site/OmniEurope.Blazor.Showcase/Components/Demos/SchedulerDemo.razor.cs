@@ -40,6 +40,9 @@ public partial class SchedulerDemo
     private void Open(OmniSchedulerAppointment appointment) =>
         Chosen = $"{appointment.Title}, {appointment.Start:dd/MM HH:mm}–{appointment.End:HH:mm}";
 
+    private void PickSlot(OmniSchedulerSlot slot) =>
+        Chosen = Text["DemoSchedulerFreeSlot", $"{slot.Start:dd/MM HH:mm}–{slot.End:dd/MM HH:mm}"];
+
     private void Move(OmniSchedulerAppointmentMove move) =>
         Appointments = Appointments
             .Select(item => item.Id == move.Appointment.Id ? item with { Start = move.Start, End = move.End } : item)

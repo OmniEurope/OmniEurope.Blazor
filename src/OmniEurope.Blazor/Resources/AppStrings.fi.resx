@@ -389,6 +389,7 @@
   <data name="SchedulerMoveAppointment" xml:space="preserve"><value>Siirrä: {0}</value></data>
   <data name="SchedulerMoveHere" xml:space="preserve"><value>Sijoita tähän: {0}, {1}</value></data>
   <data name="SchedulerMoveHereShort" xml:space="preserve"><value>Sijoita tähän</value></data>
+  <data name="SchedulerNewAppointment" xml:space="preserve"><value>Uusi tapaaminen: {0}</value></data>
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Peruuta siirto</value></data>
   <data name="SchedulerMoving" xml:space="preserve"><value>{0} poimittu: valitse uusi paikka, Esc peruuttaa.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} pysyy paikallaan.</value></data>

@@ -12,7 +12,9 @@
     @* De 8 h à 18 h, les vues jour et semaine sont une grille horaire ; sans ces heures, la vue jour
        est une liste des rendez-vous et la vue semaine une colonne par jour. Un rendez-vous se glisse
        sur un autre créneau, ou se déplace par son bouton ⇄ ; l'agenda rapporte le déplacement et la
-       démo l'applique. Un clic sur un rendez-vous le nomme sous l'agenda. *@
+       démo l'applique. Un clic sur un rendez-vous le nomme sous l'agenda ; un clic sur la partie
+       libre d'un créneau ou d'un jour (OnSlotClick) en donne le début et la fin, là où une
+       application ouvrirait son dialogue de création. *@
     <OmniScheduler Date="Anchor"
                    DateChanged="@(value => Anchor = value)"
                    View="View"
@@ -21,6 +23,7 @@
                    DayStart="@(TimeGrid ? new TimeOnly(8, 0) : null)"
                    DayEnd="@(TimeGrid ? new TimeOnly(18, 0) : null)"
                    OnAppointmentClick="Open"
-                   OnAppointmentMove="Move" />
+                   OnAppointmentMove="Move"
+                   OnSlotClick="PickSlot" />
     <p role="status">@Chosen</p>
 </OmniStack>

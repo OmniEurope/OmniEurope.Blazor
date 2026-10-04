@@ -712,6 +712,7 @@
   <data name="DemoSchedulerReadingCommittee" xml:space="preserve"><value>Επιτροπή αξιολόγησης</value></data>
   <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Εβδομαδιαία ενημέρωση</value></data>
   <data name="DemoSchedulerRoom" xml:space="preserve"><value>Αίθουσα {0}</value></data>
+  <data name="DemoSchedulerFreeSlot" xml:space="preserve"><value>Επιλεγμένο ελεύθερο διάστημα: {0}</value></data>
   <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Ρευστή στήλη</value></data>
   <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Πλήρες πλάτος σε μικρή οθόνη, ένα τρίτο σε μεγάλη.</value></data>
   <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Κάρτα με κεφαλίδα</value></data>

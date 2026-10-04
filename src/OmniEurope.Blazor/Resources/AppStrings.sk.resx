@@ -389,6 +389,7 @@
   <data name="SchedulerMoveAppointment" xml:space="preserve"><value>Presunúť: {0}</value></data>
   <data name="SchedulerMoveHere" xml:space="preserve"><value>Umiestniť sem: {0}, {1}</value></data>
   <data name="SchedulerMoveHereShort" xml:space="preserve"><value>Umiestniť sem</value></data>
+  <data name="SchedulerNewAppointment" xml:space="preserve"><value>Nové stretnutie: {0}</value></data>
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Zrušiť presun</value></data>
   <data name="SchedulerMoving" xml:space="preserve"><value>Presun: {0}. Vyberte nové miesto, Esc na zrušenie.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} zostáva na svojom mieste.</value></data>

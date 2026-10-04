@@ -712,6 +712,7 @@
   <data name="DemoSchedulerReadingCommittee" xml:space="preserve"><value>Posudzovacia komisia</value></data>
   <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Týždenná porada</value></data>
   <data name="DemoSchedulerRoom" xml:space="preserve"><value>Miestnosť {0}</value></data>
+  <data name="DemoSchedulerFreeSlot" xml:space="preserve"><value>Vybraný voľný termín: {0}</value></data>
   <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Plynulý stĺpec</value></data>
   <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Plná šírka na malej obrazovke, tretina na veľkej.</value></data>
   <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Karta s hlavičkou</value></data>
