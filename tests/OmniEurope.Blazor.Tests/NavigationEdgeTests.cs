@@ -355,6 +355,17 @@ public sealed class NavigationEdgeTests : OmniBunitContext
             extra?.Invoke(parameters);
         });
 
+    [Fact]
+    public async Task TabsWhoseScriptNeverLoaded_ReleaseNothing()
+    {
+        Services.AddSingleton<IJSRuntime>(new ManualJSRuntime { ImportFailure = new JSDisconnectedException("perdu") });
+        var tabs = RenderTabs([]);
+
+        await tabs.Instance.DisposeAsync();
+
+        Assert.Equal(3, tabs.FindAll("[role=tab]").Count);
+    }
+
     [Theory]
     [InlineData("Home", "a")]
     [InlineData("ArrowLeft", "a")]

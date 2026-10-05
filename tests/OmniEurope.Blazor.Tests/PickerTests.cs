@@ -139,6 +139,7 @@ public sealed class PickerTests : OmniBunitContext
     [InlineData("PageDown", false, "2026-10-21")]
     [InlineData("PageUp", false, "2026-08-21")]
     [InlineData("PageDown", true, "2027-09-21")]
+    [InlineData("PageUp", true, "2025-09-21")]
     [InlineData("Home", false, "2026-09-21")]
     [InlineData("End", false, "2026-09-27")]
     public void DatePicker_GridKeys_MoveTheFocusedDay(string key, bool shift, string expected)

@@ -170,8 +170,9 @@ public partial class OmniTextBox
         }
 
         _hasPendingText = false;
-        _debounce?.Cancel();
-        _debounce?.Dispose();
+        // The delay is started with the pending text and only cleared here, so a pending text has one.
+        _debounce!.Cancel();
+        _debounce.Dispose();
         _debounce = null;
         CurrentValueAsString = _pendingText;
     }

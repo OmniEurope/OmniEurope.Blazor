@@ -82,11 +82,6 @@
       "branches": 3
     },
     {
-      "file": "Components/Editor/HtmlEditorProofreading.cs",
-      "lines": 2,
-      "branches": 5
-    },
-    {
       "file": "Components/Editor/OmniHtmlEditor.razor.cs",
       "lines": 0,
       "branches": 4
@@ -99,16 +94,6 @@
     {
       "file": "Components/Feedback/OmniIcon.razor.cs",
       "lines": 0,
-      "branches": 1
-    },
-    {
-      "file": "Components/Feedback/OmniStatusBadge.razor.cs",
-      "lines": 0,
-      "branches": 2
-    },
-    {
-      "file": "Components/Forms/OmniNumeric.razor.cs",
-      "lines": 1,
       "branches": 1
     },
     {
@@ -134,7 +119,7 @@
     {
       "file": "Components/Forms/OmniTextBox.razor.cs",
       "lines": 0,
-      "branches": 3
+      "branches": 1
     },
     {
       "file": "Components/Layout/OmniRow.razor",
@@ -145,11 +130,6 @@
       "file": "Components/Layout/OmniThemeScope.razor.cs",
       "lines": 0,
       "branches": 1
-    },
-    {
-      "file": "Components/Navigation/OmniTabs.razor.cs",
-      "lines": 0,
-      "branches": 2
     },
     {
       "file": "Components/Overlays/OmniNotification.razor.cs",
@@ -178,11 +158,6 @@
     },
     {
       "file": "Components/Theming/OmniThemePresets.cs",
-      "lines": 0,
-      "branches": 2
-    },
-    {
-      "file": "Internal/FormSnapshot.cs",
       "lines": 0,
       "branches": 2
     },
@@ -273,21 +248,6 @@
     },
     {
       "file": "Internal/OmniTextMatch.cs",
-      "lines": 0,
-      "branches": 2
-    },
-    {
-      "file": "Internal/PhosphorIconGlyphs.cs",
-      "lines": 0,
-      "branches": 1
-    },
-    {
-      "file": "Internal/PickerCalendar.cs",
-      "lines": 0,
-      "branches": 1
-    },
-    {
-      "file": "Internal/PickerFormat.cs",
       "lines": 0,
       "branches": 2
     },

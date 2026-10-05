@@ -220,6 +220,43 @@ public sealed class InternalHelpersEdgeTests
         Assert.True(store.Remove(free, notify: false));
     }
 
+    // ---- pickers, text match, form snapshot --------------------------------------------------------
+
+    [Fact]
+    public void PickerFormats_ReadAWrittenOutDate_ThatNoFixedPatternMatches()
+    {
+        var french = CultureInfo.GetCultureInfo("fr-FR");
+
+        Assert.True(PickerFormat.TryParseDate("5 octobre 2026", french, out var date));
+        Assert.Equal(new DateOnly(2026, 10, 5), date);
+        Assert.True(PickerFormat.TryParseDateTime("5 octobre 2026 10:30", french, out var moment));
+        Assert.Equal(new DateTime(2026, 10, 5, 10, 30, 0), moment);
+    }
+
+    [Fact]
+    public void TextMatch_OfABlankQuery_MatchesEverything()
+    {
+        Assert.True(OmniTextMatch.Contains("Facture", "   "));
+        Assert.Single(OmniTextMatch.Split("Facture", "   "));
+    }
+
+    [Fact]
+    public void FormSnapshot_FollowsAnObjectOfAnAnonymousType()
+    {
+        var model = new Holder();
+        var snapshot = new FormSnapshot();
+        snapshot.Take(model);
+
+        // An anonymous type has no namespace: it is an object of the application, read field by field.
+        Assert.False(snapshot.Update(new Microsoft.AspNetCore.Components.Forms.FieldIdentifier(model.Extra, "Inner")));
+        Assert.False(snapshot.IsModified);
+    }
+
+    public sealed class Holder
+    {
+        public object Extra { get; set; } = new { Inner = "x" };
+    }
+
     // ---- sanitiser --------------------------------------------------------------------------------
 
     [Fact]

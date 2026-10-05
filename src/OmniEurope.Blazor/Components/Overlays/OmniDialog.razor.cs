@@ -181,7 +181,13 @@ public partial class OmniDialog
         // The free width first: the frozen scale and the focus then see the dialog at its own size.
         await SyncWidthAsync();
         await SyncAttachmentAsync();
-        await SyncFocusAsync(_focusModule!);
+
+        // On Blazor Server a later render can run while the first one still awaits the focus module:
+        // it has no module yet and leaves the focus to the first render, which syncs it once loaded.
+        if (_focusModule is { } focus)
+        {
+            await SyncFocusAsync(focus);
+        }
     }
 
     /// <summary>Writes the free width on an open dialog when it changed; a closed dialog forgets it.</summary>

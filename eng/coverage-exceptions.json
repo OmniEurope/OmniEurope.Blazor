@@ -90,6 +90,30 @@
       "lines": 2,
       "branches": 0,
       "reason": "TextSizeValue et ControlSizeValue ne servent que de cible à l'expression de liaison des curseurs (ValueExpression, lue par FieldIdentifier sans être évaluée) : leur corps n'est jamais exécuté."
+    },
+    {
+      "file": "Components/Editor/HtmlEditorProofreading.cs",
+      "lines": 2,
+      "branches": 5,
+      "reason": "Proofreader sans passage ouvert, LoadSuggestionsAsync et RecordAsync sans passage ou sans relecteur : Proofreader n'est lu qu'avec un passage ouvert, le menu n'appelle LoadSuggestionsAsync qu'à son ouverture, sur le passage qu'il vient d'ouvrir, et ne dessine les entrées de RecordAsync que tant que le passage a un relecteur (elles disparaissent quand les extensions changent) ; seul un clic déjà en vol sur Blazor Server y mène."
+    },
+    {
+      "file": "Components/Feedback/OmniStatusBadge.razor.cs",
+      "lines": 0,
+      "branches": 2,
+      "reason": "TimestampText sans horodatage : il n'est lu que dans la marque « périmé », qui exige un horodatage. Un délai négatif au moment de poser la minuterie : la valeur vient d'être lue non périmée sur la même horloge, seul un temps écoulé entre les deux lectures (une horloge avancée par un autre fil) y mène ; le délai est alors ramené à zéro."
+    },
+    {
+      "file": "Components/Forms/OmniNumeric.razor.cs",
+      "lines": 1,
+      "branches": 1,
+      "reason": "ClampToBounds d'une valeur nulle : InputBase ne passe à TryParseValueFromString qu'un texte non vide pour un type nullable, et la conversion d'un texte non vide ne donne jamais null ; un type non nullable ne peut pas valoir null. La garde évite de comparer null aux bornes."
+    },
+    {
+      "file": "Internal/PhosphorIconGlyphs.cs",
+      "lines": 0,
+      "branches": 1,
+      "reason": "Le catalogue d'icônes est une ressource incorporée à l'assemblage par le projet : son absence est une erreur de construction, que l'exception nomme au lieu d'une NullReferenceException."
     }
   ]
 }

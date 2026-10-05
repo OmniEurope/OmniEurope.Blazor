@@ -41,6 +41,31 @@ public sealed class DialogScriptTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task RenderWhileTheFocusScriptStillLoads_WaitsForIt_ThenTheDialogTakesTheFocus()
+    {
+        // Blazor Server: the first render awaits the focus module while a second render already runs. That
+        // second render has no module and must leave the focus alone instead of failing the circuit (the
+        // Server catalog smoke test caught the dialog that no longer closed).
+        var runtime = new ManualJSRuntime { HoldImports = true };
+        Services.AddSingleton<IJSRuntime>(runtime);
+        var dialog = RenderDialog(_ => { });
+
+        dialog.Render(parameters => parameters.Add(component => component.Title, "Préférences"));
+        Assert.Empty(runtime.Module.Calls);
+
+        runtime.PendingImport.SetResult(runtime.Module);
+
+        // The first render resumes on the renderer once the import is answered; no render follows it.
+        for (var attempt = 0; attempt < 1000 && !runtime.Module.Calls.Contains("activateDialog"); attempt++)
+        {
+            await dialog.InvokeAsync(() => { });
+            await Task.Delay(10, Xunit.TestContext.Current.CancellationToken);
+        }
+
+        Assert.Equal(["activateDialog"], runtime.Module.Calls);
+    }
+
+    [Fact]
     public void ModelessWindowWithoutCloseButton_HasNoSentinelAndNoCloseControl()
     {
         var dialog = RenderDialog(parameters => parameters.Add(component => component.Modal, false).Add(component => component.ShowClose, false));

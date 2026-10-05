@@ -57,6 +57,20 @@ public sealed class HtmlEditorProofreadingEdgeTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task ProofreaderWithdrawnWhileItsMenuIsOpen_TakesItsEntriesAway()
+    {
+        var editor = RenderEditor(new FailingProofreader());
+        await editor.InvokeAsync(() => new HtmlEditorInteropBridge(editor.Instance).OnContextMenu(40, 20, null, Flagged));
+        Assert.NotEmpty(editor.FindAll("[role=menuitem][data-proofreading=ignore-all]"));
+
+        editor.Render(parameters => parameters.Add(component => component.Extensions, Array.Empty<OmniHtmlEditorExtension>()));
+
+        // The passage no longer has a proofreader: its entries go, nothing is left to record it.
+        Assert.Empty(editor.FindAll("[role=menuitem][data-proofreading=ignore-all]"));
+        Assert.Empty(editor.FindAll("[role=menuitem][data-proofreading=add]"));
+    }
+
+    [Fact]
     public async Task PassageWithNullTextOrOddTypes_IsReadWithoutItsLanguageAndMessage()
     {
         var editor = RenderEditor(new FailingProofreader());

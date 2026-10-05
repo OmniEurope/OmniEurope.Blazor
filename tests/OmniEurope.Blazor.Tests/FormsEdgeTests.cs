@@ -112,6 +112,23 @@ public sealed class FormsEdgeTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task TextBox_CopiesTheTypedTextStillInItsDelay()
+    {
+        var module = JSInterop.SetupModule(OmniModules.Interop);
+        module.Setup<bool>("copyText", _ => true).SetResult(true);
+        var box = Render<OmniTextBox>(parameters => parameters
+            .Add(component => component.Value, "valeur")
+            .Add(component => component.Debounce, TimeSpan.FromDays(1))
+            .Add(component => component.Copyable, true)
+            .Add(component => component.ValueExpression, () => _text));
+
+        _ = box.Find("input").InputAsync(new ChangeEventArgs { Value = "tapé" });
+        await box.Find(".omni-text-box-field__copy").ClickAsync(new());
+
+        Assert.Equal("tapé", Assert.Single(module.Invocations["copyText"]).Arguments[0]);
+    }
+
+    [Fact]
     public void TextBox_HandsItsDelayedTextToTheFormOnValidation()
     {
         var form = new EditContext(new object());

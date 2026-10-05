@@ -143,7 +143,8 @@ public partial class OmniTabs
             return Task.CompletedTask;
         }
 
-        var current = Math.Max(0, keys.IndexOf(EffectiveValue ?? string.Empty));
+        // With a navigable tab, EffectiveValue falls back to the first registered key: never null here.
+        var current = Math.Max(0, keys.IndexOf(EffectiveValue!));
         var next = args.Key switch
         {
             "Home" => 0,
