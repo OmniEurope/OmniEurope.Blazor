@@ -20,6 +20,7 @@ structurelles ; un plan décrit un travail, pas l'état du produit.
 |---|---|---|
 | [PLAN-009](PLAN-009-themes-et-reliquats.md) | Décisions du propriétaire (historique public, Trou noir) ; prévenir la session d'une application cliente à la livraison (lots 8 et 9) | Sans ADR supplémentaire |
 | [PLAN-013](PLAN-013-palette-de-caracteres.md) | Palette de caractères spéciaux (`OmniCharacterPalette`) sous `OmniHtmlEditor` : livrée, à archiver après relecture du propriétaire | Sans ADR supplémentaire |
+| [PLAN-015](PLAN-015-barres-de-grille.md) | Barres d'en-tête et de pied d'`OmniDataGrid` dans le cadre du tableau, export en icônes, formats un par un (demande d'une application cliente) | Sans ADR supplémentaire |
 | [PLAN-014](PLAN-014-crap-et-zero-point-aveugle.md) | Cinq correctifs de l'audit du 2026-10-04, porte CRAP à 30 avec exceptions justifiées, zéro point aveugle (C# et JavaScript) | Sans ADR supplémentaire |
 
 ## Archives

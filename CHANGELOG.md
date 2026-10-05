@@ -6,6 +6,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Added
 
+- Barres d'`OmniDataGrid` dans le cadre du tableau (même bordure, même fond) : `ShowHeaderBar` et `ShowFooterBar` (`bool`, `false`), contenu de l'hôte `HeaderBarContent` et `FooterBarContent` (`RenderFragment`), boutons d'export portés par une barre au début ou à la fin (`HeaderBarExport`, `FooterBarExport`, `OmniDataGridBarExport` : `None`, `Start`, `End`) ; formats choisis un par un, tous actifs par défaut (`ExportMarkdown`, `ExportCsv`, `ExportExcel`, `ExportPdf`, `bool`). Sans barre, la grille se rend comme avant. Demande d'une application cliente (PLAN-015).
 - `OmniDataGrid.OnCellClick` et `OnCellDoubleClick` (`EventCallback<OmniDataGridCellMouseEventArgs<TItem>>`) : le clic et le double clic d'une cellule de données rapportent l'élément, sa position (`RowIndex`), la colonne (`ColumnKey`, `ColumnTitle`, `ColumnProperty`, `ColumnIndex`), la valeur lue (`Value`), les touches et la position du pointeur, pour ouvrir le détail d'un chiffre. L'événement de ligne part ensuite comme avant ; ni les cellules de contrôle ni une ligne en édition ne les lèvent, et sans gestionnaire aucune cellule ne porte d'écouteur. Vitrine : page Grille avancée.
 - `OmniDataGrid.HighlightColumnOnHover` (`bool`, `false` par défaut) : la cellule du corps sous le pointeur teinte sa colonne entière, en-tête et pied compris ; `OmniDataGridColumn.HighlightOnHover` (`true` par défaut) en retire une colonne. Le navigateur bascule une classe (`omni-data-grid__column--hover`, `grid/column-hover.js`), sans aller-retour ni style inline. Vitrine : page Grille avancée.
 - Agrégats de colonne et pieds de groupe d'`OmniDataGrid` : `OmniDataGridColumn.Aggregate` (`OmniDataGridAggregate` : `Sum`, `Average`, `Min`, `Max`, `Count`) calcule la colonne dans le pied de la grille, sur toutes les lignes que les filtres retiennent, et, tant que des groupes sont actifs, dans une ligne qui ferme chaque groupe (`omni-data-grid__group-footer`) ; `AggregateFormat` et `GroupAggregateFormat` les écrivent (`Total : {0:n2}`, `Sous total : {0:n2}`). `GroupFooterTemplate` (`RenderFragment<OmniDataGridGroupContext<TItem>>` : `Key`, `ColumnKey`, `Level`, `Items`) remplace l'agrégat dans le pied de groupe. Sans agrégat ni modèle, rien ne change. Vitrine : page Grille avancée, groupée par pays, calcul au choix.
@@ -19,6 +20,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 - `OmniLegendPosition.Top` : la légende au-dessus du graphique, la même liste HTML que `Bottom` placée avant le dessin (`ul.omni-chart__legend--above`) ; le tracé garde toute la largeur. Vitrine : page Graphiques (entrées et sorties empilées). Demande de migration d'une application cliente.
 - `OmniIconName.CurrencyBtc` et `OmniIconName.Percent` : tracés Phosphor `regular` 2.1.1 `currency-btc` et `percent`, ajoutés en fin d'énumération (les valeurs existantes ne changent pas). Vitrine : page Médias. Demande de migration d'une application cliente.
 - `OmniIconName.Leaf` : tracé Phosphor `regular` 2.1.1 `leaf`, ajouté en fin d'énumération (les valeurs existantes ne changent pas), pour l'écologie et l'empreinte environnementale. Vitrine : page Médias. Demande d'une application cliente (pages d'empreinte carbone, à la place de `GlobeHemisphereWest`).
+
+### Deprecated
+
+- `OmniDataGrid.ExportFormats` et `ExportPosition` : toujours pris en charge (la barre qu'ils nomment s'affiche d'office), ils avertissent à la compilation (CS0618) et renvoient à `ShowHeaderBar` ou `ShowFooterBar`, `HeaderBarExport` ou `FooterBarExport` et aux quatre interrupteurs de formats.
 
 ### Fixed
 
@@ -43,6 +48,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Changed
 
+- Boutons d'export d'`OmniDataGrid` : icône seule, plus petits qu'un bouton `Small` et suivant la densité, nommés et titrés « Exporter en Markdown » ; le libellé « Tout exporter » disparaît (le groupe garde son nom « Export du tableau »). La barre qu'affichait `ExportFormats` passe dans le cadre du tableau, au-dessus ou au-dessous des lignes.
 - `OmniDataGrid` : `Excel` dans `ExportFormats` donne désormais un bouton sans moteur de l'hôte, le paquet écrivant le classeur ; un `IOmniTableExportRenderer` de l'hôte qui écrit Excel reste prioritaire. `OmniTableExporter.Supports(Excel)` vaut vrai.
 - `OmniThemeScope` : une portée en `System` charge désormais `omni-theme.js` pour résoudre le mode, même sans thème, palette ni police ; elle ne peint aucun jeton. Une portée claire ou sombre sans thème ne charge toujours aucun script.
 

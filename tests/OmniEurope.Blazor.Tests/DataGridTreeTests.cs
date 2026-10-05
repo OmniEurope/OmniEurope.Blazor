@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using OmniEurope.Blazor.Components;
 
+// The former export bar (ExportFormats) stays supported and under test.
+#pragma warning disable CS0618
+
 namespace OmniEurope.Blazor.Tests;
 
 /// <summary>

@@ -193,6 +193,19 @@ public sealed class MiscInternalsTests
         Assert.Contains(AppearanceChoices.RandomOther<string>(["a", "b"], "c"), new[] { "a", "b" });
     }
 
+    [Fact]
+    public void RandomChoice_SkipsTheCurrentEntry_AndReachesTheOthersOnBothSidesOfIt()
+    {
+        // The draw among the others is shifted past the current one: entries before it and after it are
+        // both reached. 400 draws of one chance in two leave a miss at 2^-400, so the test never flakes and
+        // the coverage of the shift does not depend on the run.
+        IReadOnlyList<string> all = ["avant", "courant", "après"];
+        var drawn = Enumerable.Range(0, 400).Select(_ => AppearanceChoices.RandomOther(all, all[1])).ToHashSet();
+
+        Assert.DoesNotContain("courant", drawn);
+        Assert.Equal(new HashSet<string> { "avant", "après" }, drawn);
+    }
+
     [Theory]
     [InlineData("   ", "Export")]
     [InlineData("Un titre de feuille beaucoup trop long pour Excel", "Un titre de feuille beaucoup tr")]

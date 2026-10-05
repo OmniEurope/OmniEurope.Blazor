@@ -411,7 +411,17 @@
 .omni-data-grid th.omni-data-grid__column--align-center .omni-data-grid__header:has(> .omni-data-grid__sort-icon)::before { content: ""; flex: none; inline-size: 0.9em; }
 .omni-data-grid__summary { color: var(--omni-color-text-muted); margin: 0; }
 /* The export bar: a label, one small button per format, then what the last export has to say. */
-.omni-data-grid__export { align-items: center; color: var(--omni-color-text-muted); display: flex; flex-wrap: wrap; font-size: var(--omni-font-size-sm); gap: var(--omni-space-xs); }
+/* Bars of the table's frame: the frame carries the border and background the table had alone, the
+   rows inside it lose theirs, and each bar is set apart from the rows by a rule. */
+.omni-data-grid__frame { background: var(--omni-grid-frame); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-card-shadow, 0 0 #0000); display: grid; min-inline-size: 0; overflow: hidden; }
+.omni-data-grid__frame > .omni-data-grid__viewport { border: 0; border-radius: 0; box-shadow: none; }
+.omni-data-grid__bar { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); min-block-size: calc(var(--omni-control-height) - 0.25rem); padding: var(--omni-space-xs) var(--omni-space-sm); }
+.omni-data-grid__bar--header { border-block-end: var(--omni-border-width) solid var(--omni-color-border); }
+.omni-data-grid__bar--footer { border-block-start: var(--omni-border-width) solid var(--omni-color-border); }
+.omni-data-grid__bar-content { flex: 1 1 auto; min-inline-size: 0; }
+.omni-data-grid__export { align-items: center; color: var(--omni-color-text-muted); display: flex; flex: none; flex-wrap: wrap; font-size: var(--omni-font-size-sm); gap: var(--omni-space-xs); }
+/* Icon-only export buttons, smaller than a small button and still following the density. */
+.omni-data-grid__export-button.omni-button { --omni-button-size: calc(var(--omni-control-height) - 0.75rem); --omni-icon-size: 0.875rem; }
 .omni-data-grid__export-message--error { color: var(--omni-color-danger); }
 .omni-data-grid--lines-none .omni-data-grid__table :is(th, td) { border: 0; }
 .omni-data-grid--lines-vertical tbody td { border-block-end: 0; }

@@ -118,7 +118,4 @@ public partial class DataGridDemo
     private RunRow Run(string run, string pipeline, int seconds, string statusKey, string tone) =>
         new(run, pipeline, seconds, Text[statusKey], tone);
 
-    /// <summary>The formats asked of the first grid's export bar; the ones nobody writes get no button.</summary>
-    private static readonly IReadOnlyList<OmniTableExportFormat> ExportFormats =
-        [OmniTableExportFormat.Markdown, OmniTableExportFormat.Csv, OmniTableExportFormat.Excel, OmniTableExportFormat.Pdf];
 }

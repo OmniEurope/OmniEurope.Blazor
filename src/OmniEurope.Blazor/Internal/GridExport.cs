@@ -33,19 +33,69 @@ internal sealed class GridExport<TItem>(OmniDataGrid<TItem> grid) : IAsyncDispos
 
     private OmniTableExporter? Exporter => grid.Services.GetService(typeof(OmniTableExporter)) as OmniTableExporter;
 
+    // The former ExportFormats and ExportPosition are still honoured, which is the one place they are read.
+#pragma warning disable CS0618
+    private IReadOnlyList<OmniTableExportFormat> FormerFormats => grid.ExportFormats;
+
+    private OmniDataGridPosition FormerPosition => grid.ExportPosition;
+#pragma warning restore CS0618
+
     /// <summary>
-    /// The formats asked for that somebody can write, once each, in the order asked. A grid that asks for
-    /// none, the usual case, does not even look for the exporter.
+    /// The former export bar: formats listed while neither bar asks for the buttons. Its bar is shown
+    /// with them at its start, wherever <c>ExportPosition</c> put it.
     /// </summary>
-    internal IReadOnlyList<OmniTableExportFormat> Formats => grid.ExportFormats.Count > 0 && Exporter is { } exporter
-        ? grid.ExportFormats.Distinct().Where(exporter.Supports).ToArray()
-        : [];
+    private bool Former => FormerFormats.Count > 0
+        && grid.HeaderBarExport == OmniDataGridBarExport.None && grid.FooterBarExport == OmniDataGridBarExport.None;
 
-    internal bool ShowTop => Formats.Count > 0 && grid.ExportPosition is OmniDataGridPosition.Top or OmniDataGridPosition.TopAndBottom;
+    private OmniDataGridBarExport HeaderAsked => Former
+        ? (FormerPosition != OmniDataGridPosition.Bottom ? OmniDataGridBarExport.Start : OmniDataGridBarExport.None)
+        : grid.ShowHeaderBar ? grid.HeaderBarExport : OmniDataGridBarExport.None;
 
-    internal bool ShowBottom => Formats.Count > 0 && grid.ExportPosition is OmniDataGridPosition.Bottom or OmniDataGridPosition.TopAndBottom;
+    private OmniDataGridBarExport FooterAsked => Former
+        ? (FormerPosition != OmniDataGridPosition.Top ? OmniDataGridBarExport.Start : OmniDataGridBarExport.None)
+        : grid.ShowFooterBar ? grid.FooterBarExport : OmniDataGridBarExport.None;
+
+    /// <summary>The formats switched on, in the order of their buttons, or the former list when one is given.</summary>
+    private IEnumerable<OmniTableExportFormat> Asked()
+    {
+        if (FormerFormats.Count > 0)
+        {
+            return FormerFormats.Distinct();
+        }
+
+        var asked = new List<OmniTableExportFormat>(4);
+        if (grid.ExportMarkdown) asked.Add(OmniTableExportFormat.Markdown);
+        if (grid.ExportCsv) asked.Add(OmniTableExportFormat.Csv);
+        if (grid.ExportExcel) asked.Add(OmniTableExportFormat.Excel);
+        if (grid.ExportPdf) asked.Add(OmniTableExportFormat.Pdf);
+        return asked;
+    }
+
+    /// <summary>
+    /// The formats asked for that somebody can write, once each, in their order. A grid whose bars carry
+    /// no export button, the usual case, does not even look for the exporter.
+    /// </summary>
+    internal IReadOnlyList<OmniTableExportFormat> Formats =>
+        (HeaderAsked != OmniDataGridBarExport.None || FooterAsked != OmniDataGridBarExport.None) && Exporter is { } exporter
+            ? Asked().Where(exporter.Supports).ToArray()
+            : [];
+
+    /// <summary>Where the header bar carries the export buttons: nowhere when no format can be written.</summary>
+    internal OmniDataGridBarExport HeaderSide => Formats.Count > 0 ? HeaderAsked : OmniDataGridBarExport.None;
+
+    /// <summary>Where the footer bar carries the export buttons: nowhere when no format can be written.</summary>
+    internal OmniDataGridBarExport FooterSide => Formats.Count > 0 ? FooterAsked : OmniDataGridBarExport.None;
+
+    /// <summary>The header bar is shown when asked, or when the former export bar is above the rows.</summary>
+    internal bool ShowHeaderBar => grid.ShowHeaderBar || (Former && HeaderSide != OmniDataGridBarExport.None);
+
+    /// <summary>The footer bar is shown when asked, or when the former export bar is under the rows.</summary>
+    internal bool ShowFooterBar => grid.ShowFooterBar || (Former && FooterSide != OmniDataGridBarExport.None);
 
     internal string FormatName(OmniTableExportFormat format) => grid.Text($"GridExportFormat{format}");
+
+    /// <summary>The name and tooltip of a format's button: "Export as Markdown".</summary>
+    internal string ButtonLabel(OmniTableExportFormat format) => grid.Text("GridExportAs", FormatName(format));
 
     /// <summary>The variant of a format's button: the host's choice (<c>ExportVariants</c>), else Secondary.</summary>
     internal OmniButtonVariant VariantOf(OmniTableExportFormat format) =>

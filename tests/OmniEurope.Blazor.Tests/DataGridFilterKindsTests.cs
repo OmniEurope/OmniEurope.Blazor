@@ -2,6 +2,9 @@ using Bunit;
 using OmniEurope.Blazor.Components;
 using static OmniEurope.Blazor.Tests.DataGridFilterKindsTestHost;
 
+// The former export bar (ExportFormats) stays supported and under test.
+#pragma warning disable CS0618
+
 namespace OmniEurope.Blazor.Tests;
 
 /// <summary>

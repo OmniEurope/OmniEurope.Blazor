@@ -2,7 +2,7 @@
 
 Procédure opérationnelle pour publier `OmniEurope.Blazor` sur NuGet.org. La politique de versionnement est dans [versioning.md](versioning.md); ce guide ne décrit que les gestes et les liens.
 
-Dépôt : `OmniEurope/OmniEurope.Blazor`. Version déclarée dans `src/OmniEurope.Blazor/OmniEurope.Blazor.csproj` : `1.6.0`.
+Dépôt : `OmniEurope/OmniEurope.Blazor`. Version déclarée dans `src/OmniEurope.Blazor/OmniEurope.Blazor.csproj` : `1.7.0`.
 
 ## Principe
 

@@ -8,6 +8,9 @@ using OmniEurope.Blazor.Components;
 using OmniEurope.Blazor.Internal;
 using Row = OmniEurope.Blazor.Tests.DataGridExportTestHost.Row;
 
+// The former export bar (ExportFormats) stays supported and under test.
+#pragma warning disable CS0618
+
 namespace OmniEurope.Blazor.Tests;
 
 /// <summary>

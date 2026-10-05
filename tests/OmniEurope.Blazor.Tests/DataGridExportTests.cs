@@ -64,7 +64,7 @@ public sealed class DataGridExportTests : OmniBunitContext
     private static string CsvOf(JSRuntimeInvocation download) => Encoding.UTF8.GetString((byte[])download.Arguments[2]!);
 
     private static AngleSharp.Dom.IElement Button(IRenderedComponent<DataGridExportTestHost> host, string text) =>
-        host.FindAll(".omni-data-grid__export-button").Single(button => button.TextContent.Trim() == text);
+        host.FindAll(".omni-data-grid__export-button").Single(button => button.GetAttribute("aria-label") == $"Exporter en {text}");
 
     [Fact]
     public void WithoutFormats_TheGridHasNoExportBar()
@@ -82,7 +82,7 @@ public sealed class DataGridExportTests : OmniBunitContext
             .Add(component => component.Formats, [OmniTableExportFormat.Markdown, OmniTableExportFormat.Csv, OmniTableExportFormat.Excel, OmniTableExportFormat.Pdf]));
 
         // Markdown, CSV and Excel are written by the package; PDF needs a host renderer.
-        Assert.Equal(["Markdown", "CSV", "Excel"], host.FindAll(".omni-data-grid__export-button").Select(button => button.TextContent.Trim()));
+        Assert.Equal(["Exporter en Markdown", "Exporter en CSV", "Exporter en Excel"], host.FindAll(".omni-data-grid__export-button").Select(button => button.GetAttribute("aria-label")));
     }
 
     [Theory]
@@ -95,13 +95,15 @@ public sealed class DataGridExportTests : OmniBunitContext
             .Add(component => component.Position, position)
             .Add(component => component.Formats, [OmniTableExportFormat.Csv]));
 
-        var grid = host.Find(".omni-data-grid");
-        var children = grid.Children.ToList();
-        var bar = Assert.Single(children, child => child.ClassList.Contains("omni-data-grid__export"));
+        // The bar now lives in the table's frame, above or under the rows.
+        var frame = host.Find(".omni-data-grid__frame");
+        var children = frame.Children.ToList();
+        var bar = Assert.Single(children, child => child.ClassList.Contains("omni-data-grid__bar"));
         var viewport = children.Single(child => child.ClassList.Contains("omni-data-grid__viewport"));
         Assert.Equal(above, children.IndexOf(bar) < children.IndexOf(viewport));
-        Assert.Equal("group", bar.GetAttribute("role"));
-        Assert.Equal("Export du tableau", bar.GetAttribute("aria-label"));
+        var group = bar.QuerySelector(".omni-data-grid__export")!;
+        Assert.Equal("group", group.GetAttribute("role"));
+        Assert.Equal("Export du tableau", group.GetAttribute("aria-label"));
     }
 
     [Fact]

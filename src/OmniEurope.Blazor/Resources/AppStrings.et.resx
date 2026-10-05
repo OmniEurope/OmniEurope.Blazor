@@ -672,7 +672,7 @@
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Ridu pole.</value></data>
   <data name="FormFieldHelp" xml:space="preserve"><value>Abi</value></data>
   <data name="GridExportBar" xml:space="preserve"><value>Tabeli eksport</value></data>
-  <data name="GridExportAll" xml:space="preserve"><value>Ekspordi kõik</value></data>
+  <data name="GridExportAs" xml:space="preserve"><value>Ekspordi vormingus {0}</value></data>
   <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>
   <data name="GridExportFormatCsv" xml:space="preserve"><value>CSV</value></data>
   <data name="GridExportFormatExcel" xml:space="preserve"><value>Excel</value></data>

@@ -672,7 +672,7 @@
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Ei rivejä.</value></data>
   <data name="FormFieldHelp" xml:space="preserve"><value>Ohje</value></data>
   <data name="GridExportBar" xml:space="preserve"><value>Taulukon vienti</value></data>
-  <data name="GridExportAll" xml:space="preserve"><value>Vie kaikki</value></data>
+  <data name="GridExportAs" xml:space="preserve"><value>Vie muodossa {0}</value></data>
   <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>
   <data name="GridExportFormatCsv" xml:space="preserve"><value>CSV</value></data>
   <data name="GridExportFormatExcel" xml:space="preserve"><value>Excel</value></data>

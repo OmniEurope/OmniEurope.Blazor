@@ -672,7 +672,7 @@
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Ingen rækker.</value></data>
   <data name="FormFieldHelp" xml:space="preserve"><value>Hjælp</value></data>
   <data name="GridExportBar" xml:space="preserve"><value>Eksport af tabellen</value></data>
-  <data name="GridExportAll" xml:space="preserve"><value>Eksportér alt</value></data>
+  <data name="GridExportAs" xml:space="preserve"><value>Eksportér som {0}</value></data>
   <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>
   <data name="GridExportFormatCsv" xml:space="preserve"><value>CSV</value></data>
   <data name="GridExportFormatExcel" xml:space="preserve"><value>Excel</value></data>

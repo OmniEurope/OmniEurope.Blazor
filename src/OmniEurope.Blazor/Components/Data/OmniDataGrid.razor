@@ -88,23 +88,25 @@
         }
     </div>;
 
-    @* The export bar, above or under the table: one button per format somebody can write. The one
-       being written is busy, the others wait, and a cancel action ends the reading. An empty grid has
-       nothing to write: its buttons are disabled. *@
-    RenderFragment exportBar = @<div class="omni-data-grid__export" role="group" aria-label="@Localize("GridExportBar")">
-        <span class="omni-data-grid__export-label">@Localize("GridExportAll")</span>
+    @* The export buttons of a bar: one icon per format somebody can write, named and titled
+       "Export as ...". The one being written is busy, the others wait, and a cancel action ends the
+       reading. An empty grid has nothing to write: its buttons are disabled. *@
+    RenderFragment exportGroup = @<div class="omni-data-grid__export" role="group" aria-label="@Localize("GridExportBar")">
         @foreach (var format in Export.Formats)
         {
             <OmniButton Variant="@Export.VariantOf(format)" Size="OmniControlSize.Small" Class="omni-data-grid__export-button"
+                        Label="@Export.ButtonLabel(format)" title="@Export.ButtonLabel(format)"
                         Busy="@(Export.Running == format)" Disabled="@(Export.NothingToExport || (Export.Running is not null && Export.Running != format))"
                         OnClick="@(() => Export.RunAsync(format))">
                 <OmniIcon Name="@(GridExport<TItem>.IconOf(format))" />
-                <span>@Export.FormatName(format)</span>
             </OmniButton>
         }
         @if (Export.Running is not null)
         {
-            <OmniButton Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small" Class="omni-data-grid__export-cancel" OnClick="Export.Cancel">@Localize("Cancel")</OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small" Class="omni-data-grid__export-button omni-data-grid__export-cancel"
+                        Label="@Localize("Cancel")" title="@Localize("Cancel")" OnClick="Export.Cancel">
+                <OmniIcon Name="OmniIconName.Close" />
+            </OmniButton>
         }
         @if (Export.Failed)
         {
@@ -113,6 +115,20 @@
         else if (Export.Notice is not null)
         {
             <span class="omni-data-grid__export-message" role="status">@Export.Notice</span>
+        }
+    </div>;
+
+    @* A bar of the table's frame, above or under the rows: the export buttons at its start or its end,
+       the host's content in the rest of it. *@
+    RenderFragment<(string Part, OmniDataGridBarExport Side, RenderFragment? Content)> bar = context => @<div class="omni-data-grid__bar omni-data-grid__bar--@context.Part">
+        @if (context.Side == OmniDataGridBarExport.Start)
+        {
+            @exportGroup
+        }
+        <div class="omni-data-grid__bar-content">@context.Content</div>
+        @if (context.Side == OmniDataGridBarExport.End)
+        {
+            @exportGroup
         }
     </div>;
 
@@ -144,6 +160,363 @@
             @onclick="() => FilterEditor.ClearFilterAsync(context)">
         <OmniIcon Name="OmniIconName.Close" Size="OmniControlSize.Small" />
     </button>;
+
+    @* The table itself, alone or inside the frame of the bars. *@
+    RenderFragment table = @<div @ref="_viewport" class="@Classes.ViewportClass()">
+        <table class="omni-data-grid__table" role="@(Tree.Active ? "treegrid" : null)" aria-rowcount="@Virtual.RowCountAttribute()">
+            @if (!string.IsNullOrWhiteSpace(Caption))
+            {
+                <caption>@Caption</caption>
+            }
+            <colgroup>
+                @if (ColumnSet.ShowDetailColumn) { <col class="omni-data-grid__col--control omni-data-grid__col--expand" /> }
+                @if (SelectionMode != OmniDataGridSelectionMode.None) { <col class="omni-data-grid__col--control omni-data-grid__col--select" /> }
+                @foreach (var column in ColumnSet.VisibleColumns)
+                {
+                    <col class="omni-data-grid__col" data-omni-col="@column.Key" />
+                }
+                @if (ColumnSet.HasEditing) { <col class="omni-data-grid__col--control omni-data-grid__col--edit" /> }
+            </colgroup>
+            <thead>
+                <tr class="omni-data-grid__header-row">
+                    @if (ColumnSet.ShowDetailColumn)
+                    {
+                        <th scope="col" class="@Classes.ControlClass("expand")" data-omni-control="expand">
+                            @if (Expansion.ShowsExpandAll)
+                            {
+                                <button type="button" class="@Classes.ExpandButtonClass(Expansion.AllVisibleExpanded)" aria-label="@Localize("GridExpandAll")" title="@Localize("GridExpandAll")" aria-expanded="@(Expansion.AllVisibleExpanded ? "true" : "false")" @onclick="Expansion.ToggleAllExpandedAsync">
+                                    <OmniIcon Name="OmniIconName.ChevronDown" Size="OmniControlSize.Small" />
+                                </button>
+                            }
+                            else
+                            {
+                                <span class="omni-visually-hidden">@Localize("GridDetailColumn")</span>
+                            }
+                        </th>
+                    }
+                    @if (SelectionMode != OmniDataGridSelectionMode.None)
+                    {
+                        <th scope="col" class="@Classes.ControlClass("select")" data-omni-control="select">
+                            @if (SelectionMode == OmniDataGridSelectionMode.Multiple && !View.Virtualized)
+                            {
+                                <input type="checkbox"
+                                       class="omni-checkbox omni-data-grid__select-all"
+                                       checked="@Selection.AllVisibleSelected"
+                                       disabled="@(!Selection.HasSelectableVisibleRows)"
+                                       aria-label="@Localize("GridSelectAll")"
+                                       title="@Localize("GridSelectAll")"
+                                       @onchange="Selection.ToggleAllSelectionAsync" />
+                            }
+                            else
+                            {
+                                <span class="omni-visually-hidden">@Localize("GridSelectionColumn")</span>
+                            }
+                        </th>
+                    }
+                    @foreach (var column in ColumnSet.VisibleColumns)
+                    {
+                        @* The whole cell sorts, not just its title: the click handler sits on the th and the
+                           controls that mean something else (filter menu, grouping, resize handle) stop the
+                           event from reaching it. The inner button stays for the keyboard and for screen
+                           readers, which need a real control to announce. *@
+                        <th class="@Classes.ColumnClass(column, true)"
+                            data-omni-col="@column.Key"
+                            scope="col"
+                            aria-sort="@Query.AriaSort(column)"
+                            @onclick="args => Query.SortAsync(column.Key, args.ShiftKey)">
+                            <div class="omni-data-grid__header">
+                                @if (column.HeaderContent is not null)
+                                {
+                                    @column.HeaderContent
+                                }
+                                else if (Query.IsSortable(column))
+                                {
+                                    <button type="button" class="omni-data-grid__sort" @onclick:stopPropagation="true" @onclick="args => Query.SortAsync(column.Key, args.ShiftKey)">
+                                        <span class="omni-data-grid__title">@column.Title</span>
+                                    </button>
+                                }
+                                else
+                                {
+                                    <span class="omni-data-grid__title">@column.Title</span>
+                                }
+                                @if (Grouping.IsGroupable(column))
+                                {
+                                    <button type="button" class="@Classes.HeaderActionClass("omni-data-grid__group-toggle", Grouping.IsGrouped(column.Key))" aria-pressed="@(Grouping.IsGrouped(column.Key) ? "true" : "false")" aria-label="@Localize("GridGroupColumn", column.Title)" title="@Localize("GridGroupColumn", column.Title)" @onclick:stopPropagation="true" @onclick="() => Grouping.ToggleGroupingAsync(column)">
+                                        <OmniIcon Name="OmniIconName.Layers" Size="OmniControlSize.Small" />
+                                    </button>
+                                }
+                                @* The header filter menu and the inline filter row are two places for the same
+                                   editor: HasFilterRow is false as soon as the menu is on, so a column never shows
+                                   the same value control twice. *@
+                                @if (ShowHeaderFilterMenu && FilterEditor.IsFilterable(column))
+                                {
+                                    <details class="omni-data-grid__filter-menu omni-data-grid__popover" data-omni-popover @onclick:stopPropagation="true">
+                                        <summary class="@Classes.FilterToggleClass(column)" aria-label="@Localize("GridFilterColumn", column.Title)" title="@Localize("GridFilterColumn", column.Title)" aria-haspopup="true">
+                                            <OmniIcon Name="OmniIconName.Filter" Size="OmniControlSize.Small" />
+                                        </summary>
+                                        <div class="omni-data-grid__filter-menu-panel omni-data-grid__popover-panel" role="group" aria-label="@Localize("GridFilterColumn", column.Title)">
+                                            @filterEditor(new FilterEditorRequest(column, FilterEditor.HeaderFilterId(column), true))
+                                        </div>
+                                    </details>
+                                    @if (Query.HasActiveFilter(column))
+                                    {
+                                        @filterReset(column)
+                                    }
+                                }
+                                @* Always last, and always occupying its slot: a column that gains a sort must
+                                   not shift its title sideways, which is what an icon appearing from nowhere
+                                   does on a narrow column. *@
+                                @if (Query.IsSortable(column))
+                                {
+                                    <span class="@Classes.SortIconClass(column)" aria-hidden="true">
+                                        <OmniIcon Name="@(Query.SortIcon(column) ?? OmniIconName.SortAscending)" Size="OmniControlSize.Small" />
+                                    </span>
+                                }
+                            </div>
+                            @* Handle on the column's trailing edge, for two separate gestures: the drag
+                               (data-omni-drag) and the double click that fits the column to its content
+                               (data-omni-autofit). Both run in omni-grid.js and report the final width once;
+                               the arrow keys and Enter are their keyboard paths. *@
+                            @if (ColumnLayout.HasEdgeHandle(column))
+                            {
+                                <span class="omni-data-grid__resize-handle"
+                                      data-omni-resize="@column.Key"
+                                      data-omni-drag="@ColumnLayout.IsResizable(column)"
+                                      data-omni-autofit="@ColumnLayout.IsAutoFit(column)"
+                                      aria-keyshortcuts="@(ColumnLayout.IsAutoFit(column) ? "Enter" : null)"
+                                      role="separator"
+                                      aria-orientation="vertical"
+                                      aria-valuemin="@(GridColumnLayout<TItem>.MinimumColumnWidth)"
+                                      aria-valuemax="2000"
+                                      aria-valuenow="@ColumnLayout.ResizeAriaValueNow(column)"
+                                      tabindex="0"
+                                      aria-label="@Localize("GridResizeColumn", column.Title)"
+                                      @onclick:stopPropagation="true"
+                                      @onkeydown="args => ColumnLayout.ResizeKeyDownAsync(column, args.Key)"></span>
+                            }
+                        </th>
+                    }
+                    @if (ColumnSet.HasEditing)
+                    {
+                        <th scope="col" class="omni-data-grid__edit-header"><span class="omni-visually-hidden">@Localize("GridEditColumn")</span></th>
+                    }
+                </tr>
+                @if (FilterEditor.HasFilterRow)
+                {
+                    <tr class="omni-data-grid__filters">
+                        @if (ColumnSet.ShowDetailColumn) { <td class="@Classes.ControlClass("expand")" data-omni-control="expand"></td> }
+                        @if (SelectionMode != OmniDataGridSelectionMode.None) { <td class="@Classes.ControlClass("select")" data-omni-control="select"></td> }
+                        @foreach (var column in ColumnSet.VisibleColumns)
+                        {
+                            <td class="@Classes.FilterCellClass(column)" data-omni-col="@column.Key">
+                                @if (FilterEditor.IsFilterable(column))
+                                {
+                                    @if (FilterEditor.EditsInPopover)
+                                    {
+                                        <div class="omni-data-grid__filter-field">
+                                            <details class="omni-data-grid__popover omni-data-grid__advanced" data-omni-popover>
+                                                <summary class="omni-input omni-data-grid__advanced-toggle" aria-label="@Localize("GridFilterColumn", column.Title)" aria-haspopup="true">
+                                                    <OmniIcon Name="OmniIconName.Filter" Size="OmniControlSize.Small" />
+                                                    <span class="omni-data-grid__advanced-summary">@FilterEditor.FilterSummary(column)</span>
+                                                </summary>
+                                                <div class="omni-data-grid__popover-panel" role="group" aria-label="@Localize("GridFilterColumn", column.Title)">
+                                                    @filterEditor(new FilterEditorRequest(column, FilterEditor.FilterId(column), true))
+                                                </div>
+                                            </details>
+                                            @if (Query.HasActiveFilter(column))
+                                            {
+                                                @filterReset(column)
+                                            }
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="omni-data-grid__filter-field">
+                                            @filterEditor(new FilterEditorRequest(column, FilterEditor.FilterId(column), false))
+                                            @if (Query.HasActiveFilter(column))
+                                            {
+                                                @filterReset(column)
+                                            }
+                                        </div>
+                                    }
+                                }
+                            </td>
+                        }
+                        @if (ColumnSet.HasEditing) { <td></td> }
+                    </tr>
+                }
+                @if (ColumnSet.HasTopFooter)
+                {
+                    @footerRow
+                }
+                @* A load is running, the grid's own request or the host's (Busy): a bar drawn over the foot of
+                   the headers, on the table only, in a row of no height, so nothing moves when it comes or goes
+                   and the rows already there stay readable under it. *@
+                @if (View.ShowsLoadingBar)
+                {
+                    <tr class="omni-data-grid__progress" aria-hidden="true">
+                        <td colspan="@ColumnSet.ColumnSpan"><div class="@Classes.LoadingBarClass"><span class="omni-loading-bar__track"><span class="omni-loading-bar__indicator"></span></span></div></td>
+                    </tr>
+                }
+            </thead>
+            <tbody>
+                @if (View.Virtualized)
+                {
+                    <tr class="omni-data-grid__spacer" data-omni-spacer="top" aria-hidden="true"><td colspan="@ColumnSet.ColumnSpan"></td></tr>
+                }
+                @* Waiting for the images of the rows: the template takes the first row, under the headers, and
+                   the rows stay laid out but unseen so their images still load. *@
+                @if (Script.Veiled)
+                {
+                    <tr class="omni-data-grid__preparation"><td colspan="@ColumnSet.ColumnSpan" class="omni-data-grid__state omni-data-grid__state--loading" role="status">@LoadingContent</td></tr>
+                }
+                @* No row yet, loading under the bar: the body waits empty (the host's template when it gave one)
+                   rather than announcing an empty grid the rows are about to fill. *@
+                @if (View.ShowPendingRow || ColumnSet.AwaitingColumns)
+                {
+                    <tr class="omni-data-grid__pending"><td colspan="@ColumnSet.ColumnSpan" class="omni-data-grid__state omni-data-grid__state--loading" role="status">@if (LoadingContent is not null) { @LoadingContent } else { <span class="omni-visually-hidden">@Localize("Loading")</span> }</td></tr>
+                }
+                else if (View.ShowLoadingRow)
+                {
+                    <tr><td colspan="@ColumnSet.ColumnSpan" class="omni-data-grid__state omni-data-grid__state--loading" role="status">@if (LoadingContent is not null) { @LoadingContent } else { @Localize("Loading") }</td></tr>
+                }
+                else if (View.IsEmpty)
+                {
+                    <tr><td colspan="@ColumnSet.ColumnSpan" class="omni-data-grid__state">@if (EmptyContent is not null) { @EmptyContent } else { @View.EmptyMessage }</td></tr>
+                }
+                else
+                {
+                    @foreach (var row in Rows.RenderRows())
+                    {
+                        @foreach (var header in row.Headers)
+                        {
+                            <tr class="omni-data-grid__group" data-omni-group-level="@header.Level" data-omni-slot="@Rows.SlotAttribute(row)">
+                                <th colspan="@ColumnSet.ColumnSpan" scope="rowgroup">
+                                    @* The whole title is the toggle: a bigger target, and its text is the button's name. *@
+                                    <button type="button" class="@Classes.GroupExpandClass(header.Expanded)" aria-expanded="@(header.Expanded ? "true" : "false")" @onclick="() => Grouping.ToggleGroup(header.Path)">
+                                        <OmniIcon Name="OmniIconName.ChevronDown" Size="OmniControlSize.Small" />
+                                        <span>@header.Text</span>
+                                    </button>
+                                </th>
+                            </tr>
+                        }
+                        @if (row.Index < 0)
+                        {
+                            @* group header only, its rows are collapsed *@
+                        }
+                        else if (!row.HasItem)
+                        {
+                            <tr class="omni-data-grid__row--placeholder" data-omni-row-index="@row.Index" aria-rowindex="@Virtual.RowIndexAttribute(row.Index)">
+                                <td colspan="@ColumnSet.ColumnSpan"><span class="omni-visually-hidden">@Localize("GridRowsLoading")</span></td>
+                            </tr>
+                        }
+                        else
+                        {
+                            var editing = Editing.IsRowEditing(row.Item);
+                            <tr class="@Classes.RowClass(row)"
+                                data-omni-row-index="@row.Index"
+                                data-omni-slot="@Rows.SlotAttribute(row)"
+                                aria-rowindex="@Virtual.RowIndexAttribute(row.Index)"
+                                aria-selected="@Selection.SelectionState(row.Item)"
+                                aria-level="@(row.Tree is null ? null : row.Tree.Level + 1)"
+                                aria-expanded="@(row.Tree is { HasChildren: true, Toggleable: true } ? (row.Tree.Expanded ? "true" : "false") : null)"
+                                data-omni-tree-level="@row.Tree?.Level"
+                                tabindex="@(Selection.RowsAreInteractive && row.Selectable ? "0" : null)"
+                                @onclick="Selection.RowClickCallback(row)"
+                                @ondblclick="Selection.RowDoubleClickCallback(row)"
+                                @oncontextmenu="Selection.RowContextMenuCallback(row)"
+                                @oncontextmenu:preventDefault="OnRowContextMenu.HasDelegate"
+                                @onkeydown="Selection.RowKeyDownCallback(row)">
+                                @* The control cells and a row being edited keep their clicks and keys to
+                                   themselves: a tick in the checkbox is not also a row click, and a space typed
+                                   in an editor is not a request to select the row. *@
+                                @if (ColumnSet.ShowDetailColumn)
+                                {
+                                    <td class="@Classes.ControlClass("expand")" data-omni-control="expand" @onclick:stopPropagation="true" @ondblclick:stopPropagation="true" @onkeydown:stopPropagation="true">
+                                        @if (row.Expandable)
+                                        {
+                                            <button type="button" class="@Classes.ExpandButtonClass(Expansion.IsExpanded(ItemKey(row.Item)))" aria-expanded="@(Expansion.IsExpanded(ItemKey(row.Item)) ? "true" : "false")" aria-label="@(Expansion.IsExpanded(ItemKey(row.Item)) ? Localize("GridCollapseRow") : Localize("GridExpandRow"))" @onclick="() => Expansion.ToggleExpandedAsync(row.Item)">
+                                                <OmniIcon Name="OmniIconName.ChevronDown" Size="OmniControlSize.Small" />
+                                            </button>
+                                        }
+                                    </td>
+                                }
+                                @if (SelectionMode != OmniDataGridSelectionMode.None)
+                                {
+                                    <td class="@Classes.ControlClass("select")" data-omni-control="select" @onclick:stopPropagation="true" @ondblclick:stopPropagation="true" @onkeydown:stopPropagation="true">
+                                        <input type="checkbox" class="omni-checkbox" disabled="@(!row.Selectable)" checked="@Selection.IsSelected(ItemKey(row.Item))" aria-label="@Localize("GridSelectRow")" @onchange="() => Selection.ToggleSelectionAsync(row.Item)" />
+                                    </td>
+                                }
+                                @foreach (var column in ColumnSet.VisibleColumns)
+                                {
+                                    @* A cell being edited keeps its events; any other cell lets them reach its row,
+                                       after its own cell events when the host listens to them. *@
+                                    @if (editing)
+                                    {
+                                        <td class="@Classes.BodyCellClass(column, true)" data-omni-col="@column.Key" data-omni-label="@column.Title" @onclick:stopPropagation="true" @ondblclick:stopPropagation="true" @onkeydown:stopPropagation="true">@if (Classes.IsTreeColumn(row, column)) { @treeLead(row) }@FilterControls.Cell(column, row.Item, true)</td>
+                                    }
+                                    else
+                                    {
+                                        <td class="@Classes.BodyCellClass(column, false)" data-omni-col="@column.Key" data-omni-label="@column.Title" @onclick="Selection.CellClickCallback(row, column)" @ondblclick="Selection.CellDoubleClickCallback(row, column)">@if (Classes.IsTreeColumn(row, column)) { @treeLead(row) }@FilterControls.Cell(column, row.Item, false)</td>
+                                    }
+                                }
+                                @if (ColumnSet.HasEditing)
+                                {
+                                    <td class="omni-data-grid__actions" @onclick:stopPropagation="true" @ondblclick:stopPropagation="true" @onkeydown:stopPropagation="true">
+                                        <span class="omni-data-grid__actions-group">
+                                            @if (editing)
+                                            {
+                                                <button type="button" class="omni-data-grid__icon-button omni-data-grid__action--save" aria-label="@Localize("Save")" title="@Localize("Save")" @onclick="() => UpdateRowAsync(row.Item)"><OmniIcon Name="OmniIconName.Check" Size="OmniControlSize.Small" /></button>
+                                                <button type="button" class="omni-data-grid__icon-button omni-data-grid__action--cancel" aria-label="@Localize("Cancel")" title="@Localize("Cancel")" @onclick="() => CancelEditAsync(row.Item)"><OmniIcon Name="OmniIconName.Close" Size="OmniControlSize.Small" /></button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="omni-data-grid__icon-button" aria-label="@Localize("Edit")" title="@Localize("Edit")" @onclick="() => EditRowAsync(row.Item)"><OmniIcon Name="OmniIconName.Edit" Size="OmniControlSize.Small" /></button>
+                                            }
+                                        </span>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                        @if (row.ShowDetail && DetailTemplate is not null)
+                        {
+                            <tr class="omni-data-grid__detail" data-omni-slot="@Rows.SlotAttribute(row)"><td colspan="@ColumnSet.ColumnSpan">@DetailTemplate(row.Item)</td></tr>
+                        }
+                        @* The footer rows of the groups this entry closes, innermost first: a column's template or aggregate. *@
+                        @foreach (var footer in row.Footers)
+                        {
+                            <tr class="omni-data-grid__group-footer" data-omni-group-level="@footer.Level" data-omni-slot="@Rows.SlotAttribute(row)">
+                                @if (ColumnSet.ShowDetailColumn) { <td class="@Classes.ControlClass("expand")" data-omni-control="expand"></td> }
+                                @if (SelectionMode != OmniDataGridSelectionMode.None) { <td class="@Classes.ControlClass("select")" data-omni-control="select"></td> }
+                                @foreach (var column in ColumnSet.VisibleColumns)
+                                {
+                                    <td class="@Classes.ColumnClass(column, false)" data-omni-col="@column.Key">
+                                        @if (column.GroupFooterTemplate is not null)
+                                        {
+                                            @column.GroupFooterTemplate(footer)
+                                        }
+                                        else if (column.Aggregate != OmniDataGridAggregate.None)
+                                        {
+                                            @Aggregates.GroupText(column, footer)
+                                        }
+                                    </td>
+                                }
+                                @if (ColumnSet.HasEditing) { <td></td> }
+                            </tr>
+                        }
+                    }
+                }
+                @if (View.Virtualized)
+                {
+                    <tr class="omni-data-grid__spacer" data-omni-spacer="bottom" aria-hidden="true"><td colspan="@ColumnSet.ColumnSpan"></td></tr>
+                }
+            </tbody>
+            @if (ColumnSet.HasBottomFooter)
+            {
+                <tfoot>@footerRow</tfoot>
+            }
+        </table>
+    </div>;
 }
 
 <CascadingValue Value="_context" IsFixed="true">@Columns</CascadingValue>
@@ -199,10 +572,6 @@
                        HorizontalAlign="@PagerHorizontalAlign"
                        NumericPageCount="@NumericPageCount" />
         }
-        @if (Export.ShowTop)
-        {
-            @exportBar
-        }
         @* Detach control of the frozen columns: outside the scrolled area so it stays put, placed on
            their trailing edge by omni-grid.js. Its name is stable, aria-pressed carries the state and
            the tooltip names the next action (cycle in docs/data-components.md). *@
@@ -216,361 +585,26 @@
                 <OmniIcon Name="@(FrozenState.FrozenDetached ? OmniIconName.Lock : OmniIconName.LockOpen)" Size="OmniControlSize.Small" />
             </button>
         }
-        <div @ref="_viewport" class="@Classes.ViewportClass()">
-            <table class="omni-data-grid__table" role="@(Tree.Active ? "treegrid" : null)" aria-rowcount="@Virtual.RowCountAttribute()">
-                @if (!string.IsNullOrWhiteSpace(Caption))
+        @* The bars share the table's frame: border and background around bars and rows together. Without
+           a bar the table is rendered alone, exactly as before. *@
+        @if (Export.ShowHeaderBar || Export.ShowFooterBar)
+        {
+            <div class="omni-data-grid__frame">
+                @if (Export.ShowHeaderBar)
                 {
-                    <caption>@Caption</caption>
+                    @bar(("header", Export.HeaderSide, HeaderBarContent))
                 }
-                <colgroup>
-                    @if (ColumnSet.ShowDetailColumn) { <col class="omni-data-grid__col--control omni-data-grid__col--expand" /> }
-                    @if (SelectionMode != OmniDataGridSelectionMode.None) { <col class="omni-data-grid__col--control omni-data-grid__col--select" /> }
-                    @foreach (var column in ColumnSet.VisibleColumns)
-                    {
-                        <col class="omni-data-grid__col" data-omni-col="@column.Key" />
-                    }
-                    @if (ColumnSet.HasEditing) { <col class="omni-data-grid__col--control omni-data-grid__col--edit" /> }
-                </colgroup>
-                <thead>
-                    <tr class="omni-data-grid__header-row">
-                        @if (ColumnSet.ShowDetailColumn)
-                        {
-                            <th scope="col" class="@Classes.ControlClass("expand")" data-omni-control="expand">
-                                @if (Expansion.ShowsExpandAll)
-                                {
-                                    <button type="button" class="@Classes.ExpandButtonClass(Expansion.AllVisibleExpanded)" aria-label="@Localize("GridExpandAll")" title="@Localize("GridExpandAll")" aria-expanded="@(Expansion.AllVisibleExpanded ? "true" : "false")" @onclick="Expansion.ToggleAllExpandedAsync">
-                                        <OmniIcon Name="OmniIconName.ChevronDown" Size="OmniControlSize.Small" />
-                                    </button>
-                                }
-                                else
-                                {
-                                    <span class="omni-visually-hidden">@Localize("GridDetailColumn")</span>
-                                }
-                            </th>
-                        }
-                        @if (SelectionMode != OmniDataGridSelectionMode.None)
-                        {
-                            <th scope="col" class="@Classes.ControlClass("select")" data-omni-control="select">
-                                @if (SelectionMode == OmniDataGridSelectionMode.Multiple && !View.Virtualized)
-                                {
-                                    <input type="checkbox"
-                                           class="omni-checkbox omni-data-grid__select-all"
-                                           checked="@Selection.AllVisibleSelected"
-                                           disabled="@(!Selection.HasSelectableVisibleRows)"
-                                           aria-label="@Localize("GridSelectAll")"
-                                           title="@Localize("GridSelectAll")"
-                                           @onchange="Selection.ToggleAllSelectionAsync" />
-                                }
-                                else
-                                {
-                                    <span class="omni-visually-hidden">@Localize("GridSelectionColumn")</span>
-                                }
-                            </th>
-                        }
-                        @foreach (var column in ColumnSet.VisibleColumns)
-                        {
-                            @* The whole cell sorts, not just its title: the click handler sits on the th and the
-                               controls that mean something else (filter menu, grouping, resize handle) stop the
-                               event from reaching it. The inner button stays for the keyboard and for screen
-                               readers, which need a real control to announce. *@
-                            <th class="@Classes.ColumnClass(column, true)"
-                                data-omni-col="@column.Key"
-                                scope="col"
-                                aria-sort="@Query.AriaSort(column)"
-                                @onclick="args => Query.SortAsync(column.Key, args.ShiftKey)">
-                                <div class="omni-data-grid__header">
-                                    @if (column.HeaderContent is not null)
-                                    {
-                                        @column.HeaderContent
-                                    }
-                                    else if (Query.IsSortable(column))
-                                    {
-                                        <button type="button" class="omni-data-grid__sort" @onclick:stopPropagation="true" @onclick="args => Query.SortAsync(column.Key, args.ShiftKey)">
-                                            <span class="omni-data-grid__title">@column.Title</span>
-                                        </button>
-                                    }
-                                    else
-                                    {
-                                        <span class="omni-data-grid__title">@column.Title</span>
-                                    }
-                                    @if (Grouping.IsGroupable(column))
-                                    {
-                                        <button type="button" class="@Classes.HeaderActionClass("omni-data-grid__group-toggle", Grouping.IsGrouped(column.Key))" aria-pressed="@(Grouping.IsGrouped(column.Key) ? "true" : "false")" aria-label="@Localize("GridGroupColumn", column.Title)" title="@Localize("GridGroupColumn", column.Title)" @onclick:stopPropagation="true" @onclick="() => Grouping.ToggleGroupingAsync(column)">
-                                            <OmniIcon Name="OmniIconName.Layers" Size="OmniControlSize.Small" />
-                                        </button>
-                                    }
-                                    @* The header filter menu and the inline filter row are two places for the same
-                                       editor: HasFilterRow is false as soon as the menu is on, so a column never shows
-                                       the same value control twice. *@
-                                    @if (ShowHeaderFilterMenu && FilterEditor.IsFilterable(column))
-                                    {
-                                        <details class="omni-data-grid__filter-menu omni-data-grid__popover" data-omni-popover @onclick:stopPropagation="true">
-                                            <summary class="@Classes.FilterToggleClass(column)" aria-label="@Localize("GridFilterColumn", column.Title)" title="@Localize("GridFilterColumn", column.Title)" aria-haspopup="true">
-                                                <OmniIcon Name="OmniIconName.Filter" Size="OmniControlSize.Small" />
-                                            </summary>
-                                            <div class="omni-data-grid__filter-menu-panel omni-data-grid__popover-panel" role="group" aria-label="@Localize("GridFilterColumn", column.Title)">
-                                                @filterEditor(new FilterEditorRequest(column, FilterEditor.HeaderFilterId(column), true))
-                                            </div>
-                                        </details>
-                                        @if (Query.HasActiveFilter(column))
-                                        {
-                                            @filterReset(column)
-                                        }
-                                    }
-                                    @* Always last, and always occupying its slot: a column that gains a sort must
-                                       not shift its title sideways, which is what an icon appearing from nowhere
-                                       does on a narrow column. *@
-                                    @if (Query.IsSortable(column))
-                                    {
-                                        <span class="@Classes.SortIconClass(column)" aria-hidden="true">
-                                            <OmniIcon Name="@(Query.SortIcon(column) ?? OmniIconName.SortAscending)" Size="OmniControlSize.Small" />
-                                        </span>
-                                    }
-                                </div>
-                                @* Handle on the column's trailing edge, for two separate gestures: the drag
-                                   (data-omni-drag) and the double click that fits the column to its content
-                                   (data-omni-autofit). Both run in omni-grid.js and report the final width once;
-                                   the arrow keys and Enter are their keyboard paths. *@
-                                @if (ColumnLayout.HasEdgeHandle(column))
-                                {
-                                    <span class="omni-data-grid__resize-handle"
-                                          data-omni-resize="@column.Key"
-                                          data-omni-drag="@ColumnLayout.IsResizable(column)"
-                                          data-omni-autofit="@ColumnLayout.IsAutoFit(column)"
-                                          aria-keyshortcuts="@(ColumnLayout.IsAutoFit(column) ? "Enter" : null)"
-                                          role="separator"
-                                          aria-orientation="vertical"
-                                          aria-valuemin="@(GridColumnLayout<TItem>.MinimumColumnWidth)"
-                                          aria-valuemax="2000"
-                                          aria-valuenow="@ColumnLayout.ResizeAriaValueNow(column)"
-                                          tabindex="0"
-                                          aria-label="@Localize("GridResizeColumn", column.Title)"
-                                          @onclick:stopPropagation="true"
-                                          @onkeydown="args => ColumnLayout.ResizeKeyDownAsync(column, args.Key)"></span>
-                                }
-                            </th>
-                        }
-                        @if (ColumnSet.HasEditing)
-                        {
-                            <th scope="col" class="omni-data-grid__edit-header"><span class="omni-visually-hidden">@Localize("GridEditColumn")</span></th>
-                        }
-                    </tr>
-                    @if (FilterEditor.HasFilterRow)
-                    {
-                        <tr class="omni-data-grid__filters">
-                            @if (ColumnSet.ShowDetailColumn) { <td class="@Classes.ControlClass("expand")" data-omni-control="expand"></td> }
-                            @if (SelectionMode != OmniDataGridSelectionMode.None) { <td class="@Classes.ControlClass("select")" data-omni-control="select"></td> }
-                            @foreach (var column in ColumnSet.VisibleColumns)
-                            {
-                                <td class="@Classes.FilterCellClass(column)" data-omni-col="@column.Key">
-                                    @if (FilterEditor.IsFilterable(column))
-                                    {
-                                        @if (FilterEditor.EditsInPopover)
-                                        {
-                                            <div class="omni-data-grid__filter-field">
-                                                <details class="omni-data-grid__popover omni-data-grid__advanced" data-omni-popover>
-                                                    <summary class="omni-input omni-data-grid__advanced-toggle" aria-label="@Localize("GridFilterColumn", column.Title)" aria-haspopup="true">
-                                                        <OmniIcon Name="OmniIconName.Filter" Size="OmniControlSize.Small" />
-                                                        <span class="omni-data-grid__advanced-summary">@FilterEditor.FilterSummary(column)</span>
-                                                    </summary>
-                                                    <div class="omni-data-grid__popover-panel" role="group" aria-label="@Localize("GridFilterColumn", column.Title)">
-                                                        @filterEditor(new FilterEditorRequest(column, FilterEditor.FilterId(column), true))
-                                                    </div>
-                                                </details>
-                                                @if (Query.HasActiveFilter(column))
-                                                {
-                                                    @filterReset(column)
-                                                }
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <div class="omni-data-grid__filter-field">
-                                                @filterEditor(new FilterEditorRequest(column, FilterEditor.FilterId(column), false))
-                                                @if (Query.HasActiveFilter(column))
-                                                {
-                                                    @filterReset(column)
-                                                }
-                                            </div>
-                                        }
-                                    }
-                                </td>
-                            }
-                            @if (ColumnSet.HasEditing) { <td></td> }
-                        </tr>
-                    }
-                    @if (ColumnSet.HasTopFooter)
-                    {
-                        @footerRow
-                    }
-                    @* A load is running, the grid's own request or the host's (Busy): a bar drawn over the foot of
-                       the headers, on the table only, in a row of no height, so nothing moves when it comes or goes
-                       and the rows already there stay readable under it. *@
-                    @if (View.ShowsLoadingBar)
-                    {
-                        <tr class="omni-data-grid__progress" aria-hidden="true">
-                            <td colspan="@ColumnSet.ColumnSpan"><div class="@Classes.LoadingBarClass"><span class="omni-loading-bar__track"><span class="omni-loading-bar__indicator"></span></span></div></td>
-                        </tr>
-                    }
-                </thead>
-                <tbody>
-                    @if (View.Virtualized)
-                    {
-                        <tr class="omni-data-grid__spacer" data-omni-spacer="top" aria-hidden="true"><td colspan="@ColumnSet.ColumnSpan"></td></tr>
-                    }
-                    @* Waiting for the images of the rows: the template takes the first row, under the headers, and
-                       the rows stay laid out but unseen so their images still load. *@
-                    @if (Script.Veiled)
-                    {
-                        <tr class="omni-data-grid__preparation"><td colspan="@ColumnSet.ColumnSpan" class="omni-data-grid__state omni-data-grid__state--loading" role="status">@LoadingContent</td></tr>
-                    }
-                    @* No row yet, loading under the bar: the body waits empty (the host's template when it gave one)
-                       rather than announcing an empty grid the rows are about to fill. *@
-                    @if (View.ShowPendingRow || ColumnSet.AwaitingColumns)
-                    {
-                        <tr class="omni-data-grid__pending"><td colspan="@ColumnSet.ColumnSpan" class="omni-data-grid__state omni-data-grid__state--loading" role="status">@if (LoadingContent is not null) { @LoadingContent } else { <span class="omni-visually-hidden">@Localize("Loading")</span> }</td></tr>
-                    }
-                    else if (View.ShowLoadingRow)
-                    {
-                        <tr><td colspan="@ColumnSet.ColumnSpan" class="omni-data-grid__state omni-data-grid__state--loading" role="status">@if (LoadingContent is not null) { @LoadingContent } else { @Localize("Loading") }</td></tr>
-                    }
-                    else if (View.IsEmpty)
-                    {
-                        <tr><td colspan="@ColumnSet.ColumnSpan" class="omni-data-grid__state">@if (EmptyContent is not null) { @EmptyContent } else { @View.EmptyMessage }</td></tr>
-                    }
-                    else
-                    {
-                        @foreach (var row in Rows.RenderRows())
-                        {
-                            @foreach (var header in row.Headers)
-                            {
-                                <tr class="omni-data-grid__group" data-omni-group-level="@header.Level" data-omni-slot="@Rows.SlotAttribute(row)">
-                                    <th colspan="@ColumnSet.ColumnSpan" scope="rowgroup">
-                                        @* The whole title is the toggle: a bigger target, and its text is the button's name. *@
-                                        <button type="button" class="@Classes.GroupExpandClass(header.Expanded)" aria-expanded="@(header.Expanded ? "true" : "false")" @onclick="() => Grouping.ToggleGroup(header.Path)">
-                                            <OmniIcon Name="OmniIconName.ChevronDown" Size="OmniControlSize.Small" />
-                                            <span>@header.Text</span>
-                                        </button>
-                                    </th>
-                                </tr>
-                            }
-                            @if (row.Index < 0)
-                            {
-                                @* group header only, its rows are collapsed *@
-                            }
-                            else if (!row.HasItem)
-                            {
-                                <tr class="omni-data-grid__row--placeholder" data-omni-row-index="@row.Index" aria-rowindex="@Virtual.RowIndexAttribute(row.Index)">
-                                    <td colspan="@ColumnSet.ColumnSpan"><span class="omni-visually-hidden">@Localize("GridRowsLoading")</span></td>
-                                </tr>
-                            }
-                            else
-                            {
-                                var editing = Editing.IsRowEditing(row.Item);
-                                <tr class="@Classes.RowClass(row)"
-                                    data-omni-row-index="@row.Index"
-                                    data-omni-slot="@Rows.SlotAttribute(row)"
-                                    aria-rowindex="@Virtual.RowIndexAttribute(row.Index)"
-                                    aria-selected="@Selection.SelectionState(row.Item)"
-                                    aria-level="@(row.Tree is null ? null : row.Tree.Level + 1)"
-                                    aria-expanded="@(row.Tree is { HasChildren: true, Toggleable: true } ? (row.Tree.Expanded ? "true" : "false") : null)"
-                                    data-omni-tree-level="@row.Tree?.Level"
-                                    tabindex="@(Selection.RowsAreInteractive && row.Selectable ? "0" : null)"
-                                    @onclick="Selection.RowClickCallback(row)"
-                                    @ondblclick="Selection.RowDoubleClickCallback(row)"
-                                    @oncontextmenu="Selection.RowContextMenuCallback(row)"
-                                    @oncontextmenu:preventDefault="OnRowContextMenu.HasDelegate"
-                                    @onkeydown="Selection.RowKeyDownCallback(row)">
-                                    @* The control cells and a row being edited keep their clicks and keys to
-                                       themselves: a tick in the checkbox is not also a row click, and a space typed
-                                       in an editor is not a request to select the row. *@
-                                    @if (ColumnSet.ShowDetailColumn)
-                                    {
-                                        <td class="@Classes.ControlClass("expand")" data-omni-control="expand" @onclick:stopPropagation="true" @ondblclick:stopPropagation="true" @onkeydown:stopPropagation="true">
-                                            @if (row.Expandable)
-                                            {
-                                                <button type="button" class="@Classes.ExpandButtonClass(Expansion.IsExpanded(ItemKey(row.Item)))" aria-expanded="@(Expansion.IsExpanded(ItemKey(row.Item)) ? "true" : "false")" aria-label="@(Expansion.IsExpanded(ItemKey(row.Item)) ? Localize("GridCollapseRow") : Localize("GridExpandRow"))" @onclick="() => Expansion.ToggleExpandedAsync(row.Item)">
-                                                    <OmniIcon Name="OmniIconName.ChevronDown" Size="OmniControlSize.Small" />
-                                                </button>
-                                            }
-                                        </td>
-                                    }
-                                    @if (SelectionMode != OmniDataGridSelectionMode.None)
-                                    {
-                                        <td class="@Classes.ControlClass("select")" data-omni-control="select" @onclick:stopPropagation="true" @ondblclick:stopPropagation="true" @onkeydown:stopPropagation="true">
-                                            <input type="checkbox" class="omni-checkbox" disabled="@(!row.Selectable)" checked="@Selection.IsSelected(ItemKey(row.Item))" aria-label="@Localize("GridSelectRow")" @onchange="() => Selection.ToggleSelectionAsync(row.Item)" />
-                                        </td>
-                                    }
-                                    @foreach (var column in ColumnSet.VisibleColumns)
-                                    {
-                                        @* A cell being edited keeps its events; any other cell lets them reach its row,
-                                           after its own cell events when the host listens to them. *@
-                                        @if (editing)
-                                        {
-                                            <td class="@Classes.BodyCellClass(column, true)" data-omni-col="@column.Key" data-omni-label="@column.Title" @onclick:stopPropagation="true" @ondblclick:stopPropagation="true" @onkeydown:stopPropagation="true">@if (Classes.IsTreeColumn(row, column)) { @treeLead(row) }@FilterControls.Cell(column, row.Item, true)</td>
-                                        }
-                                        else
-                                        {
-                                            <td class="@Classes.BodyCellClass(column, false)" data-omni-col="@column.Key" data-omni-label="@column.Title" @onclick="Selection.CellClickCallback(row, column)" @ondblclick="Selection.CellDoubleClickCallback(row, column)">@if (Classes.IsTreeColumn(row, column)) { @treeLead(row) }@FilterControls.Cell(column, row.Item, false)</td>
-                                        }
-                                    }
-                                    @if (ColumnSet.HasEditing)
-                                    {
-                                        <td class="omni-data-grid__actions" @onclick:stopPropagation="true" @ondblclick:stopPropagation="true" @onkeydown:stopPropagation="true">
-                                            <span class="omni-data-grid__actions-group">
-                                                @if (editing)
-                                                {
-                                                    <button type="button" class="omni-data-grid__icon-button omni-data-grid__action--save" aria-label="@Localize("Save")" title="@Localize("Save")" @onclick="() => UpdateRowAsync(row.Item)"><OmniIcon Name="OmniIconName.Check" Size="OmniControlSize.Small" /></button>
-                                                    <button type="button" class="omni-data-grid__icon-button omni-data-grid__action--cancel" aria-label="@Localize("Cancel")" title="@Localize("Cancel")" @onclick="() => CancelEditAsync(row.Item)"><OmniIcon Name="OmniIconName.Close" Size="OmniControlSize.Small" /></button>
-                                                }
-                                                else
-                                                {
-                                                    <button type="button" class="omni-data-grid__icon-button" aria-label="@Localize("Edit")" title="@Localize("Edit")" @onclick="() => EditRowAsync(row.Item)"><OmniIcon Name="OmniIconName.Edit" Size="OmniControlSize.Small" /></button>
-                                                }
-                                            </span>
-                                        </td>
-                                    }
-                                </tr>
-                            }
-                            @if (row.ShowDetail && DetailTemplate is not null)
-                            {
-                                <tr class="omni-data-grid__detail" data-omni-slot="@Rows.SlotAttribute(row)"><td colspan="@ColumnSet.ColumnSpan">@DetailTemplate(row.Item)</td></tr>
-                            }
-                            @* The footer rows of the groups this entry closes, innermost first: a column's template or aggregate. *@
-                            @foreach (var footer in row.Footers)
-                            {
-                                <tr class="omni-data-grid__group-footer" data-omni-group-level="@footer.Level" data-omni-slot="@Rows.SlotAttribute(row)">
-                                    @if (ColumnSet.ShowDetailColumn) { <td class="@Classes.ControlClass("expand")" data-omni-control="expand"></td> }
-                                    @if (SelectionMode != OmniDataGridSelectionMode.None) { <td class="@Classes.ControlClass("select")" data-omni-control="select"></td> }
-                                    @foreach (var column in ColumnSet.VisibleColumns)
-                                    {
-                                        <td class="@Classes.ColumnClass(column, false)" data-omni-col="@column.Key">
-                                            @if (column.GroupFooterTemplate is not null)
-                                            {
-                                                @column.GroupFooterTemplate(footer)
-                                            }
-                                            else if (column.Aggregate != OmniDataGridAggregate.None)
-                                            {
-                                                @Aggregates.GroupText(column, footer)
-                                            }
-                                        </td>
-                                    }
-                                    @if (ColumnSet.HasEditing) { <td></td> }
-                                </tr>
-                            }
-                        }
-                    }
-                    @if (View.Virtualized)
-                    {
-                        <tr class="omni-data-grid__spacer" data-omni-spacer="bottom" aria-hidden="true"><td colspan="@ColumnSet.ColumnSpan"></td></tr>
-                    }
-                </tbody>
-                @if (ColumnSet.HasBottomFooter)
+                @table
+                @if (Export.ShowFooterBar)
                 {
-                    <tfoot>@footerRow</tfoot>
+                    @bar(("footer", Export.FooterSide, FooterBarContent))
                 }
-            </table>
-        </div>
+            </div>
+        }
+        else
+        {
+            @table
+        }
         @if (ShowPagingSummary)
         {
             <p class="omni-data-grid__summary" aria-live="polite">@Paging.PagingSummary()</p>
@@ -586,10 +620,6 @@
                        ShowFirstLast="true"
                        HorizontalAlign="@PagerHorizontalAlign"
                        NumericPageCount="@NumericPageCount" />
-        }
-        @if (Export.ShowBottom)
-        {
-            @exportBar
         }
     }
 </div>

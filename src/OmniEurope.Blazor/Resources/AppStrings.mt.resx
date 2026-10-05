@@ -672,7 +672,7 @@
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>L-ebda ringiela.</value></data>
   <data name="FormFieldHelp" xml:space="preserve"><value>Għajnuna</value></data>
   <data name="GridExportBar" xml:space="preserve"><value>Esportazzjoni tat-tabella</value></data>
-  <data name="GridExportAll" xml:space="preserve"><value>Esporta kollox</value></data>
+  <data name="GridExportAs" xml:space="preserve"><value>Esporta bħala {0}</value></data>
   <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>
   <data name="GridExportFormatCsv" xml:space="preserve"><value>CSV</value></data>
   <data name="GridExportFormatExcel" xml:space="preserve"><value>Excel</value></data>

@@ -1,3 +1,7 @@
+@* The former export bar (ExportFormats, ExportPosition) stays supported and under test. *@
+@{
+#pragma warning disable CS0618
+}
 <OmniDataGrid TItem="Row"
               Items="@Items"
               Load="@Load"
@@ -7,6 +11,16 @@
               Caption="@Caption"
               ExportFormats="@Formats"
               ExportPosition="@Position"
+              ShowHeaderBar="@ShowHeaderBar"
+              ShowFooterBar="@ShowFooterBar"
+              HeaderBarExport="@HeaderBarExport"
+              FooterBarExport="@FooterBarExport"
+              HeaderBarContent="@HeaderBarContent"
+              FooterBarContent="@FooterBarContent"
+              ExportMarkdown="@ExportMarkdown"
+              ExportCsv="@ExportCsv"
+              ExportExcel="@ExportExcel"
+              ExportPdf="@ExportPdf"
               ExportTitle="@Title"
               ExportFields="@Fields"
               ExportFileName="@FileName"
@@ -49,6 +63,26 @@
     [Parameter] public IReadOnlyList<OmniTableExportFormat> Formats { get; set; } = [];
 
     [Parameter] public OmniDataGridPosition Position { get; set; }
+
+    [Parameter] public bool ShowHeaderBar { get; set; }
+
+    [Parameter] public bool ShowFooterBar { get; set; }
+
+    [Parameter] public OmniDataGridBarExport HeaderBarExport { get; set; }
+
+    [Parameter] public OmniDataGridBarExport FooterBarExport { get; set; }
+
+    [Parameter] public RenderFragment? HeaderBarContent { get; set; }
+
+    [Parameter] public RenderFragment? FooterBarContent { get; set; }
+
+    [Parameter] public bool ExportMarkdown { get; set; } = true;
+
+    [Parameter] public bool ExportCsv { get; set; } = true;
+
+    [Parameter] public bool ExportExcel { get; set; } = true;
+
+    [Parameter] public bool ExportPdf { get; set; } = true;
 
     [Parameter] public string? Caption { get; set; }
 

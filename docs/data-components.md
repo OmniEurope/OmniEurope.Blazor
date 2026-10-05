@@ -597,7 +597,7 @@ de zéro).
 
 ## Export Markdown : `OmniMarkdownExportButton`
 
-Une grille exporte par sa propre barre (`ExportFormats`, section suivante). `OmniMarkdownExportButton<TItem>`
+Une grille exporte par ses propres barres (section suivante). `OmniMarkdownExportButton<TItem>`
 sert aux exports hors grille : une liste de cartes, un tableau de bord, un rapport. C'est un bouton qui
 télécharge des lignes en fichier Markdown (`OmniMarkdownTableExporter`, service enregistré par
 `AddOmniEuropeBlazor`), pour une lecture par une IA : toutes les lignes annoncées, lues par le fournisseur
@@ -608,17 +608,32 @@ page pleine à la limite de lignes, le document écrit « N sur au moins M » et
 `OmniMarkdownTableDocument.TotalIsLowerBound` est alors vrai et `IsComplete` faux. Le fichier se nomme
 `{FileName}-{yyyy-MM-dd-HHmm}.md`, heure UTC (`FileName` vaut `export` par défaut).
 
-## Barre d'export de la grille : `ExportFormats`
+## Barres d'en-tête et de pied de la grille, export
 
-`OmniDataGrid` porte une barre « Tout exporter » dès que `ExportFormats` nomme au moins un format que
-quelqu'un sait écrire : `Markdown`, `Csv` et `Excel` sont écrits par le paquet, sans dépendance ; `Pdf`
-l'est par l'hôte, qui enregistre un `IOmniTableExportRenderer` (un format que personne n'écrit n'a pas
-de bouton ; un moteur de l'hôte qui écrit l'un des trois premiers remplace celui du paquet). `ExportPosition` place la barre sous le tableau (défaut), au-dessus, ou aux deux endroits. Chaque bouton porte l'icône de fichier de son format (`FileMd`, `FileCsv`, `FileXls`, `FilePdf`) et la variante `Secondary` (gris neutre), une exportation étant une autre action de sa zone ; `ExportVariants` en donne une autre par format (le Markdown en `Primary`, par exemple).
+`ShowHeaderBar` et `ShowFooterBar` (`bool`, `false`) ajoutent une barre au-dessus ou au-dessous des lignes,
+dans le cadre du tableau : la bordure et le fond qui entouraient le tableau entourent alors barres et lignes
+ensemble, chaque barre séparée des lignes par un trait. Sans barre, la grille se rend comme avant. Chaque
+barre reçoit le contenu de l'hôte (`HeaderBarContent`, `FooterBarContent`, `RenderFragment`) et, si
+`HeaderBarExport` ou `FooterBarExport` le demande (`OmniDataGridBarExport` : `None` par défaut, `Start`,
+`End`), les boutons d'export, au début ou à la fin de la barre, le contenu prenant le reste. Une barre
+masquée ne porte rien.
+
+Les formats se choisissent un par un : `ExportMarkdown`, `ExportCsv`, `ExportExcel`, `ExportPdf` (`bool`,
+`true` par défaut). `Markdown`, `Csv` et `Excel` sont écrits par le paquet, sans dépendance ; `Pdf` l'est
+par l'hôte, qui enregistre un `IOmniTableExportRenderer` (un format que personne n'écrit n'a pas de bouton ;
+un moteur de l'hôte qui écrit l'un des trois premiers remplace celui du paquet). Chaque bouton est une icône
+seule, plus petite qu'un bouton `Small` et qui suit la densité, nommée et titrée « Exporter en Markdown »
+(`FileMd`, `FileCsv`, `FileXls`, `FilePdf`) ; le groupe se nomme « Export du tableau ». Les boutons sont
+en variante `Secondary` (gris neutre), une exportation étant une autre action de sa zone ; `ExportVariants`
+en donne une autre par format (le Markdown en `Primary`, par exemple).
 
 ```razor
 <OmniDataGrid TItem="Commande" Load="ChargerAsync" KeyOf="@(c => c.Id)"
-              ExportFormats="Formats" ExportFileName="commandes" ExportTitle="Commandes"
+              ShowFooterBar="true" FooterBarExport="OmniDataGridBarExport.End"
+              ExportCsv="false" ExportExcel="false" ExportPdf="false"
+              ExportFileName="commandes" ExportTitle="Commandes"
               ExportFields="@(new OmniTableExportField[] { new("Application", "Boutique") })">
+    <FooterBarContent><span>Données à J-1</span></FooterBarContent>
     <Columns>
         <OmniDataGridColumn TItem="Commande" Property="Reference" Title="Référence" />
         <OmniDataGridColumn TItem="Commande" Title="Statut" ExportValue="@(c => Libelle(c.Statut))">
@@ -628,6 +643,10 @@ de bouton ; un moteur de l'hôte qui écrit l'un des trois premiers remplace cel
 </OmniDataGrid>
 ```
 
+- **Ancienne barre.** `ExportFormats` et `ExportPosition` restent pris en charge et sont obsolètes
+  (avertissement CS0618 à la compilation, qui nomme les paramètres ci-dessus) : tant qu'aucune barre ne
+  demande les boutons, la barre que nommait `ExportPosition` s'affiche d'office avec eux à son début, dans
+  le cadre du tableau ; une liste `ExportFormats` non vide remplace les quatre interrupteurs de formats.
 - **Lignes.** Toutes celles que les filtres en cours retiennent, dans le tri en cours, et non la page ou
   la fenêtre affichée : l'ensemble filtré et trié d'une grille à `Items` ; pour une grille à `Load`, des
   appels successifs de 200 lignes avec les tris et filtres en cours, jusqu'au total annoncé ou à

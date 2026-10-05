@@ -672,7 +672,7 @@
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>No hay filas.</value></data>
   <data name="FormFieldHelp" xml:space="preserve"><value>Ayuda</value></data>
   <data name="GridExportBar" xml:space="preserve"><value>Exportación de la tabla</value></data>
-  <data name="GridExportAll" xml:space="preserve"><value>Exportar todo</value></data>
+  <data name="GridExportAs" xml:space="preserve"><value>Exportar como {0}</value></data>
   <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>
   <data name="GridExportFormatCsv" xml:space="preserve"><value>CSV</value></data>
   <data name="GridExportFormatExcel" xml:space="preserve"><value>Excel</value></data>

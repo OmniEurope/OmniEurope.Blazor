@@ -661,20 +661,79 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public OmniDataGridPosition FooterPosition { get; set; }
 
-    // ---- export ---------------------------------------------------------------------------------
+    // ---- bars and export ------------------------------------------------------------------------
 
     /// <summary>
-    /// The formats of the export bar: each button exports every row the filters in force select, in the
-    /// current sort order, not only the page or window on screen. Empty, the default, shows no bar. A
-    /// format nobody writes (no <see cref="IOmniTableExportRenderer"/> of the host supports it) has no
-    /// button; Markdown, CSV and Excel are written by the package. The columns exported are the visible ones
-    /// that read a value (see <see cref="OmniDataGridColumn{TItem}.ExportValue"/>).
+    /// Shows a bar above the rows, inside the table's frame (same border, same background): the export
+    /// buttons (<see cref="HeaderBarExport"/>) and the host's content (<see cref="HeaderBarContent"/>).
     /// </summary>
     [Parameter]
+    public bool ShowHeaderBar { get; set; }
+
+    /// <summary>
+    /// Shows a bar under the rows, inside the table's frame (same border, same background): the export
+    /// buttons (<see cref="FooterBarExport"/>) and the host's content (<see cref="FooterBarContent"/>).
+    /// </summary>
+    [Parameter]
+    public bool ShowFooterBar { get; set; }
+
+    /// <summary>
+    /// Whether the header bar carries the export buttons, at its start or its end. Ignored while
+    /// <see cref="ShowHeaderBar"/> is false.
+    /// </summary>
+    [Parameter]
+    public OmniDataGridBarExport HeaderBarExport { get; set; }
+
+    /// <summary>
+    /// Whether the footer bar carries the export buttons, at its start or its end. Ignored while
+    /// <see cref="ShowFooterBar"/> is false.
+    /// </summary>
+    [Parameter]
+    public OmniDataGridBarExport FooterBarExport { get; set; }
+
+    /// <summary>The host's content of the header bar, beside its export buttons.</summary>
+    [Parameter]
+    public RenderFragment? HeaderBarContent { get; set; }
+
+    /// <summary>The host's content of the footer bar, beside its export buttons.</summary>
+    [Parameter]
+    public RenderFragment? FooterBarContent { get; set; }
+
+    /// <summary>
+    /// Offers the Markdown export, true by default. Each button exports every row the filters in force
+    /// select, in the current sort order, not only the page or window on screen; the columns exported are
+    /// the visible ones that read a value (see <see cref="OmniDataGridColumn{TItem}.ExportValue"/>).
+    /// </summary>
+    [Parameter]
+    public bool ExportMarkdown { get; set; } = true;
+
+    /// <summary>Offers the CSV export, true by default.</summary>
+    [Parameter]
+    public bool ExportCsv { get; set; } = true;
+
+    /// <summary>Offers the Excel export (<c>.xlsx</c>), true by default.</summary>
+    [Parameter]
+    public bool ExportExcel { get; set; } = true;
+
+    /// <summary>
+    /// Offers the PDF export, true by default. The package writes no PDF: the button appears only when an
+    /// <see cref="IOmniTableExportRenderer"/> of the host supports it.
+    /// </summary>
+    [Parameter]
+    public bool ExportPdf { get; set; } = true;
+
+    /// <summary>
+    /// The formats of the former export bar, in their order. Non-empty, they replace the four format
+    /// switches; while neither bar asks for the buttons, the bar named by <see cref="ExportPosition"/> is
+    /// shown with them at its start.
+    /// </summary>
+    [Parameter]
+    [Obsolete("Use ShowHeaderBar or ShowFooterBar with HeaderBarExport or FooterBarExport, and ExportMarkdown, ExportCsv, ExportExcel and ExportPdf to choose the formats one by one.")]
     public IReadOnlyList<OmniTableExportFormat> ExportFormats { get; set; } = Array.Empty<OmniTableExportFormat>();
 
-    /// <summary>Where the export bar goes: under the table (the default), above it, or both.</summary>
+    /// <summary>The bar of the former <see cref="ExportFormats"/>: under the table (the default), above it, or both.</summary>
     [Parameter]
+    [Obsolete("Use ShowHeaderBar or ShowFooterBar with HeaderBarExport or FooterBarExport.")]
     public OmniDataGridPosition ExportPosition { get; set; }
 
     /// <summary>The title of the exported document; null uses <see cref="Caption"/>, then a localized "Table export".</summary>

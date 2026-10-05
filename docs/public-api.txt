@@ -410,6 +410,9 @@ field public static OmniEurope.Blazor.Components.OmniDataGridAggregate.Max : Omn
 field public static OmniEurope.Blazor.Components.OmniDataGridAggregate.Min : OmniEurope.Blazor.Components.OmniDataGridAggregate const = 3
 field public static OmniEurope.Blazor.Components.OmniDataGridAggregate.None : OmniEurope.Blazor.Components.OmniDataGridAggregate const = 0
 field public static OmniEurope.Blazor.Components.OmniDataGridAggregate.Sum : OmniEurope.Blazor.Components.OmniDataGridAggregate const = 1
+field public static OmniEurope.Blazor.Components.OmniDataGridBarExport.End : OmniEurope.Blazor.Components.OmniDataGridBarExport const = 2
+field public static OmniEurope.Blazor.Components.OmniDataGridBarExport.None : OmniEurope.Blazor.Components.OmniDataGridBarExport const = 0
+field public static OmniEurope.Blazor.Components.OmniDataGridBarExport.Start : OmniEurope.Blazor.Components.OmniDataGridBarExport const = 1
 field public static OmniEurope.Blazor.Components.OmniDataGridColumnFilterType.Combo : OmniEurope.Blazor.Components.OmniDataGridColumnFilterType const = 2
 field public static OmniEurope.Blazor.Components.OmniDataGridColumnFilterType.DateRange : OmniEurope.Blazor.Components.OmniDataGridColumnFilterType const = 4
 field public static OmniEurope.Blazor.Components.OmniDataGridColumnFilterType.MultiSelect : OmniEurope.Blazor.Components.OmniDataGridColumnFilterType const = 3
@@ -2315,10 +2318,14 @@ property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.EstimatedRowHei
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExpandMode : OmniEurope.Blazor.Components.OmniDataGridRowMode {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExpandedKeys : System.Collections.Generic.IReadOnlyList<System.Object> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExpandedKeysChanged : Microsoft.AspNetCore.Components.EventCallback<System.Collections.Generic.IReadOnlyList<System.Object>> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportCsv : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportExcel : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportFields : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniTableExportField> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportFileName : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportFormats : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniTableExportFormat> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportLoad : System.Func<OmniEurope.Blazor.Components.OmniDataGridLoadRequest,System.Threading.Tasks.Task<OmniEurope.Blazor.Components.OmniDataGridResult<TItem>>>? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportMarkdown : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportPdf : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportPosition : OmniEurope.Blazor.Components.OmniDataGridPosition {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportRowLimit : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportTitle : System.String? {get(public);set(public)} [Parameter]
@@ -2327,11 +2334,15 @@ property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.FillAvailableHe
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.FilterMode : OmniEurope.Blazor.Components.OmniDataGridFilterMode {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.Filterable : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.FixedRowHeight : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.FooterBarContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.FooterBarExport : OmniEurope.Blazor.Components.OmniDataGridBarExport {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.FooterPosition : OmniEurope.Blazor.Components.OmniDataGridPosition {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.GridLines : OmniEurope.Blazor.Components.OmniDataGridLines {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.GroupLabel : System.Func<System.Object?,System.Int32,System.String>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.Groups : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniDataGridGroup> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.GroupsChanged : Microsoft.AspNetCore.Components.EventCallback<System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniDataGridGroup>> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.HeaderBarContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.HeaderBarExport : OmniEurope.Blazor.Components.OmniDataGridBarExport {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.HeaderWrap : OmniEurope.Blazor.Components.OmniDataGridHeaderWrap {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.Height : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.HideFilterMenuOnSelect : System.Boolean {get(public);set(public)} [Parameter]
@@ -2377,7 +2388,9 @@ property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.SelectionMode :
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowEditColumn : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowExpandAll : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowExpandColumn : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowFooterBar : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowGroupPanel : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowHeaderBar : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowHeaderFilterMenu : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowLoadingBar : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowPagingSummary : System.Boolean {get(public);set(public)} [Parameter]
@@ -3649,6 +3662,7 @@ type public OmniEurope.Blazor.Components.OmniControlSize [enum, sealed] : System
 type public OmniEurope.Blazor.Components.OmniDataAnnotationsValidator [class, sealed] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniDataGrid<TItem> [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniDataGridAggregate [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
+type public OmniEurope.Blazor.Components.OmniDataGridBarExport [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniDataGridCellMouseEventArgs<TItem> [class, sealed]
 type public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem> [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniDataGridColumnFilterType [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
