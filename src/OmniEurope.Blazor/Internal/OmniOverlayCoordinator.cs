@@ -38,15 +38,4 @@ internal sealed class OmniOverlayCoordinator
             Changed?.Invoke();
         }
     }
-
-    internal async Task CloseTopAsync()
-    {
-        if (_entries.LastOrDefault() is not { } entry)
-        {
-            return;
-        }
-
-        await entry.CloseAsync();
-        Unregister(entry.Owner);
-    }
 }

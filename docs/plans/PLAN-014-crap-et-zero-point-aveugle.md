@@ -111,9 +111,10 @@ sanitiseur, thèmes), MindMap et ses panneaux, Forms, Feedback, Pages, Navigatio
 Scheduler, menus et portail, pickers, raccourcis de l'éditeur HTML. Les « branches Razor non
 expliquées » sont pour la plupart des ternaires d'attributs que le compilateur attribue à la ligne
 voisine (`@ChildContent`, `@if`) : elles se couvrent par la variante d'attribut manquante. Gardes en
-vol ou déjà vérifiées par leur unique appelant admises dans `eng/coverage-exceptions.json` (17 entrées),
-dont deux codes morts (`OmniOverlayCoordinator.CloseTopAsync`, `MindMapSelection.Many`) en attente
-de la décision de suppression du propriétaire.
+vol ou déjà vérifiées par leur unique appelant admises dans `eng/coverage-exceptions.json`. Deux codes
+morts relevés par la campagne ont été supprimés (`OmniOverlayCoordinator.CloseTopAsync`,
+`MindMapSelection.Many`). `eng/Show-CoverageGaps.mjs` liste les écarts d'un rapport avec leur source
+et, avec `--conditions`, l'issue manquante de chaque condition.
 
 ### Lot final - JavaScript
 - [ ] Couverture V8 relevée par les sondes de la vitrine, porte sur les fonctions de `wwwroot/**/*.js`.

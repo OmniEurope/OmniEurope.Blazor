@@ -13,9 +13,6 @@ internal sealed class MindMapSelection
     /// <summary>The single selected node, or null.</summary>
     public string? NodeId { get; set; }
 
-    /// <summary>The nodes a lasso selected, empty when none.</summary>
-    public IReadOnlyCollection<string> Many => _many;
-
     /// <summary>The document index of the selected link, -1 when none.</summary>
     public int EdgeIndex { get; set; } = -1;
 

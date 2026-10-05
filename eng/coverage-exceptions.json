@@ -90,18 +90,6 @@
       "lines": 2,
       "branches": 0,
       "reason": "TextSizeValue et ControlSizeValue ne servent que de cible à l'expression de liaison des curseurs (ValueExpression, lue par FieldIdentifier sans être évaluée) : leur corps n'est jamais exécuté."
-    },
-    {
-      "file": "Internal/OmniOverlayCoordinator.cs",
-      "lines": 5,
-      "branches": 2,
-      "reason": "CloseTopAsync n'a aucun appelant dans la bibliothèque : code mort dont la suppression attend la décision du propriétaire (PLAN-014). Le retirer d'ici quand la méthode est supprimée ou reprend un appelant."
-    },
-    {
-      "file": "Internal/MindMapSelection.cs",
-      "lines": 1,
-      "branches": 0,
-      "reason": "La propriété Many n'est lue nulle part : code mort dont la suppression attend la décision du propriétaire (PLAN-014). Le retirer d'ici quand la propriété est supprimée ou reprend un lecteur."
     }
   ]
 }
