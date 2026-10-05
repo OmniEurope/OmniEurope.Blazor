@@ -119,6 +119,28 @@ morts relevés par la campagne ont été supprimés (`OmniOverlayCoordinator.Clo
 et, avec `--conditions`, l'issue manquante de chaque condition.
 
 ### Lot final - JavaScript
-- [ ] Couverture V8 relevée par les sondes de la vitrine, porte sur les fonctions de `wwwroot/**/*.js`.
-- [ ] Sondes complétées pour chaque fonction non exécutée, ou exception justifiée.
-Contrôle : rapport de couverture JS sans fonction non exécutée hors exceptions.
+- [x] Couverture V8 relevée par les sondes de la vitrine, porte sur les fonctions de `wwwroot/**/*.js`
+  (`eng/JsCoverage.mjs`, `eng/Test-JsCoverage.mjs`, `eng/Test-ShowcaseHost.ps1 -JsCoverage`) ; liste
+  `eng/js-coverage-baseline.json` qui ne peut que rétrécir, exceptions `eng/js-coverage-exceptions.json`.
+- [ ] Sondes complétées pour chaque fonction non exécutée, ou exception justifiée. Nouvelle sonde `Scripts`
+  (`eng/Test-ShowcaseScriptsProbe.mjs`, parties `eng/scripts-probe/`) : 253 fonctions jamais exécutées à la
+  première mesure (34 fichiers), 68 restantes (14 fichiers) et 9 admises (rejets d'appels .NET en vol, repli
+  sans canevas, nouvelle tentative d'un menu pas encore rendu).
+Contrôle : rapport de couverture JS sans fonction non exécutée hors exceptions. Non atteint : les 68
+restantes n'ont aucun chemin dans la vitrine et attendent une décision du propriétaire, démonstration ou
+exception : Monaco (`omni-code-editor.js`, 26 : la vitrine force `PlainText`, Monaco demande ses fichiers et
+une CSP relâchée), `OmniDataGrid` `FillAvailableHeight`, `WheelScrollScope`, `LoadingContent`,
+`FixedRowHeight`, grille groupée virtualisée et `HideFilterMenuOnSelect` (`omni-grid.js`, `filter-menus.js`),
+`OmniDataList.Virtualize` (`list.js`, 7), classement par canevas d'une colonne de plus de 8 textes distincts
+(`resize.js`, 4), `OmniTabs.WheelScrollScope`, `OmniThemeScope.SnapshotKey` et `omni-boot.js`,
+`OmniMain.AutoHideScrollbar`, retour arrière sans `BackHref`, écran de démarrage, `setDocumentMetadata`
+(échantillons seulement), `OmniMindMap.Directed`, commande `Highlight`, `GetHtmlAroundCaretAsync`,
+`GetSelectedTextAsync` et `SetTextAsync` d'un élément en ligne, `OmniDialog.Width` retiré pendant
+l'ouverture ; `trapDialogTab` et `insertHtml` n'ont aucun appelant.
+
+Mesure du 2026-10-05 : les huit sondes vertes sur la vitrine publiée, porte JS verte. Défauts réels trouvés
+et corrigés par la sonde, chacun prouvé : violations `style-src-attr` de l'éditeur HTML (insertion, retrait
+de liste), soulignements du correcteur perdus après une commande, observateurs de `FreezeScale` jamais
+déconnectés, modules de grille jamais détachés à la destruction (écouteurs laissés sur le document à chaque
+visite, compte des écouteurs avant et après dans la partie `leaks`), et deux sondes devenues fausses
+(`Modules` depuis R-041, `Density` sur la tuile de navigation).

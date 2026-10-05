@@ -11,8 +11,16 @@ param(
     # Languages: no text leaves its box and no page scrolls sideways in German, Finnish, Greek and
     # Hungarian, at 1280 and 390 px.
     # Omitted: every probe of $scripts below, in its order.
-    [ValidateSet('Pickers', 'Density', 'Contrast', 'AutoFit', 'MindMap', 'Modules', 'Languages')]
-    [string[]]$Probe
+    [ValidateSet('Pickers', 'Density', 'Contrast', 'AutoFit', 'MindMap', 'Modules', 'Languages', 'Scripts')]
+    [string[]]$Probe,
+    # PLAN-014: takes the V8 precise coverage of the package scripts during the probes and checks every
+    # function of wwwroot/**/*.js against eng/js-coverage-baseline.json and eng/js-coverage-exceptions.json.
+    [switch]$JsCoverage,
+    # With -JsCoverage: rewrites eng/js-coverage-baseline.json from this pass, refusing any growing gap.
+    [switch]$UpdateJsBaseline,
+    # With -JsCoverage: keeps the takes in this folder instead of a temporary one, and merges those an
+    # earlier pass left there, so a single probe can be rerun against the takes of all the others.
+    [string]$JsCoverageDirectory
 )
 
 # Serves the published showcase (dotnet publish site/OmniEurope.Blazor.Showcase -o artifacts/showcase-smoke)
@@ -37,6 +45,7 @@ $scripts = [ordered]@{
     MindMap = 'Test-ShowcaseMindMapProbe.mjs'
     Modules = 'Test-ShowcaseModulesProbe.mjs'
     Languages = 'Test-ShowcaseLanguagesProbe.mjs'
+    Scripts = 'Test-ShowcaseScriptsProbe.mjs'
 }
 if (-not $Probe) { $Probe = @($scripts.Keys) }
 
@@ -97,10 +106,23 @@ try {
     $browser = Start-Process @browserStart
     $browserPort = & (Join-Path $PSScriptRoot 'Get-BrowserDebugPort.ps1') -BrowserProfile $browserProfile -Browser $browser
 
+    $coverageDirectory = $null
+    if ($JsCoverage) {
+        $coverageDirectory = if ($JsCoverageDirectory) { $JsCoverageDirectory } else { Join-Path ([IO.Path]::GetTempPath()) ('omni-js-coverage-' + [guid]::NewGuid().ToString('N')) }
+        New-Item -ItemType Directory -Path $coverageDirectory -Force | Out-Null
+        $env:OMNI_JS_COVERAGE_DIR = $coverageDirectory
+    }
+
     $failed = @()
     foreach ($name in $Probe) {
         & node (Join-Path $PSScriptRoot $scripts[$name]) --endpoint "http://127.0.0.1:$browserPort" --url "$baseUri/"
         if ($LASTEXITCODE -ne 0) { $failed += $name }
+    }
+    if ($JsCoverage) {
+        $gateArguments = @((Join-Path $PSScriptRoot 'Test-JsCoverage.mjs'), '--coverage', $coverageDirectory)
+        if ($UpdateJsBaseline) { $gateArguments += '--update-baseline' }
+        & node @gateArguments
+        if ($LASTEXITCODE -ne 0) { $failed += 'JsCoverage' }
     }
     if ($failed.Count -gt 0) { throw ($psText.CdpFailed -f ('vitrine (' + ($failed -join ', ') + ')'), 1) }
 
@@ -125,6 +147,10 @@ finally {
         if ($resolvedProfile.StartsWith($resolvedTemp, [StringComparison]::OrdinalIgnoreCase)) {
             Remove-Item -LiteralPath $resolvedProfile -Recurse -Force -ErrorAction SilentlyContinue
         }
+    }
+    if ($coverageDirectory) {
+        Remove-Item Env:OMNI_JS_COVERAGE_DIR -ErrorAction SilentlyContinue
+        if (-not $JsCoverageDirectory) { Remove-Item -LiteralPath $coverageDirectory -Recurse -Force -ErrorAction SilentlyContinue }
     }
     Remove-Item -LiteralPath $stdout.FullName, $stderr.FullName -Force -ErrorAction SilentlyContinue
 }

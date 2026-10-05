@@ -4,6 +4,7 @@
 // columns, the resize and auto-fit gestures, the filter popovers and the virtualised data list live
 // in ./grid/ and are re-exported here, so every export keeps this address.
 import { notifyDotNet } from './grid/notify.js';
+import { release } from './grid/release.js';
 
 export { applyColumns, applyFrozen, attachFrozenScroll, detachFrozenScroll } from './grid/columns.js';
 export { attachResize, detachResize, autoFitColumn } from './grid/resize.js';
@@ -159,11 +160,7 @@ export function attach(viewport, reference) {
 }
 
 export function detach(viewport) {
-    const attachment = attachments.get(viewport);
-    if (attachment) {
-        attachment.dispose();
-        attachments.delete(viewport);
-    }
+    release(attachments, viewport);
 }
 
 /**
@@ -396,11 +393,7 @@ export function attachFill(viewport) {
 }
 
 export function detachFill(viewport) {
-    const fill = fills.get(viewport);
-    if (fill) {
-        fill.dispose();
-        fills.delete(viewport);
-    }
+    release(fills, viewport);
 }
 
 const wheelScopes = new Map();
@@ -462,11 +455,7 @@ export function attachWheelScope(viewport, selector) {
 }
 
 export function detachWheelScope(viewport) {
-    const dispose = wheelScopes.get(viewport);
-    if (dispose) {
-        dispose();
-        wheelScopes.delete(viewport);
-    }
+    release(wheelScopes, viewport, run => run());
 }
 
 const readyImageTimeout = 2000;

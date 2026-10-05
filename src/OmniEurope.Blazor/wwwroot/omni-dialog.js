@@ -1,5 +1,7 @@
 const attached = new WeakMap();
-const scaleLocks = new WeakMap();
+// A Map, not a WeakMap: a dialog that closes has already left the page when detach runs, and its
+// reference then arrives as null, so the locks of dialogs gone from the page are found by a sweep.
+const scaleLocks = new Map();
 // What the freeze wrote on each element, with the inline value it replaced.
 const frozen = new WeakMap();
 
@@ -137,8 +139,12 @@ export function attach(dialog) {
 }
 
 export function detach(dialog) {
-    scaleLocks.get(dialog)?.disconnect();
-    scaleLocks.delete(dialog);
+    for (const [locked, lock] of scaleLocks) {
+        if (locked === dialog || !locked.isConnected) {
+            lock.disconnect();
+            scaleLocks.delete(locked);
+        }
+    }
     const state = attached.get(dialog);
     if (!state) return;
     state.handle.removeEventListener('pointerdown', state.onPointerDown);

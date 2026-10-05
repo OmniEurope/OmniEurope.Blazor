@@ -8,6 +8,8 @@
 // Usage: node Test-ShowcasePickerProbe.mjs --endpoint http://127.0.0.1:<cdp port> --url http://127.0.0.1:<site port>/
 // The browser (started with --remote-debugging-port) and the static server are the caller's.
 
+import { createJsCoverage } from './JsCoverage.mjs';
+
 const options = new Map();
 for (let index = 2; index < process.argv.length; index += 2) {
   options.set(process.argv[index], process.argv[index + 1]);
@@ -62,7 +64,7 @@ socket.addEventListener('message', event => {
   }
 });
 
-const send = (method, params = {}) => {
+const sendCdp = (method, params = {}) => {
   const id = ++commandId;
   socket.send(JSON.stringify({ id, method, params }));
   return new Promise((resolve, reject) => pending.set(id, { resolve, reject }));
@@ -131,9 +133,12 @@ const timeToggle = '#inputs-start ~ .omni-date__toggle';
 const momentToggle = '#inputs-appointment ~ .omni-date__toggle';
 const results = [];
 
+const coverage = createJsCoverage(sendCdp, 'Pickers');
+const send = coverage.send;
 await send('Runtime.enable');
 await send('Log.enable');
 await send('Page.enable');
+await coverage.start();
 await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
 await send('Page.addScriptToEvaluateOnNewDocument', {
   source: "window.__omniCsp = []; document.addEventListener('securitypolicyviolation', event => window.__omniCsp.push(`${event.violatedDirective} ${event.blockedURI}`));"
@@ -344,6 +349,7 @@ results.push('dans un dialogue : calendrier par-dessus, sans barre de défilemen
 await pause(300);
 const csp = await evaluate('window.__omniCsp');
 const inlineStyles = await evaluate(`document.querySelectorAll('.omni-date [style], .omni-date[style]').length`);
+await coverage.finish();
 socket.close();
 
 check(csp.length === 0, `Violations CSP : ${csp.join(' | ')}`);

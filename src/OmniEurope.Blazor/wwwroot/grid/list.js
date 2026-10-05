@@ -1,5 +1,6 @@
 // Part of omni-grid.js, which re-exports attachList, detachList, syncList and applyListLayout.
 import { notifyDotNet } from './notify.js';
+import { release } from './release.js';
 
 // ---- virtualised data list ------------------------------------------------------------------
 // A data list has no viewport of its own: like the page flow it lives in, it scrolls inside the
@@ -103,11 +104,7 @@ export function attachList(root, reference) {
 }
 
 export function detachList(root) {
-    const attachment = listAttachments.get(root);
-    if (attachment) {
-        attachment.dispose();
-        listAttachments.delete(root);
-    }
+    release(listAttachments, root);
 }
 
 /** Reads the list geometry and the height of every rendered item in one round trip. */

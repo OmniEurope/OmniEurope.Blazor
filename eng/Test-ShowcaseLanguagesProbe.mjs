@@ -17,6 +17,8 @@
 // Usage: node Test-ShowcaseLanguagesProbe.mjs --endpoint http://127.0.0.1:<cdp port> --url http://127.0.0.1:<site port>/
 // The browser (started with --remote-debugging-port) and the static server are the caller's.
 
+import { createJsCoverage } from './JsCoverage.mjs';
+
 const options = new Map();
 for (let index = 2; index < process.argv.length; index += 2) {
   options.set(process.argv[index], process.argv[index + 1]);
@@ -89,7 +91,7 @@ socket.addEventListener('message', event => {
   }
 });
 
-const send = (method, params = {}) => {
+const sendCdp = (method, params = {}) => {
   const id = ++commandId;
   socket.send(JSON.stringify({ id, method, params }));
   return new Promise((resolve, reject) => pending.set(id, { resolve, reject }));
@@ -178,9 +180,12 @@ window.__omniTextOverflow = exempt => {
   return found;
 };`;
 
+const coverage = createJsCoverage(sendCdp, 'Languages');
+const send = coverage.send;
 await send('Runtime.enable');
 await send('Log.enable');
 await send('Page.enable');
+await coverage.start();
 await send('Page.addScriptToEvaluateOnNewDocument', {
   source: "window.__omniCsp = []; document.addEventListener('securitypolicyviolation', event => window.__omniCsp.push(`${event.violatedDirective} ${event.blockedURI}`));"
 });
@@ -271,6 +276,7 @@ try {
 } finally {
   // The next probe of the pass starts in French, as the host's browser does.
   try { await evaluate(`localStorage.removeItem(${JSON.stringify(CULTURE_KEY)})`); } catch { /* page gone */ }
+  await coverage.finish();
   socket.close();
 }
 

@@ -1,6 +1,7 @@
 // Part of omni-grid.js, which re-exports attachResize, detachResize and autoFitColumn: the drag
 // that resizes a column and the fit of a column to its widest content.
 import { notifyDotNet } from './notify.js';
+import { release } from './release.js';
 
 const resizeAttachments = new Map();
 
@@ -122,11 +123,7 @@ export function attachResize(viewport, reference, minimumWidth) {
 }
 
 export function detachResize(viewport) {
-    const attachment = resizeAttachments.get(viewport);
-    if (attachment) {
-        attachment.dispose();
-        resizeAttachments.delete(viewport);
-    }
+    release(resizeAttachments, viewport);
 }
 
 /**

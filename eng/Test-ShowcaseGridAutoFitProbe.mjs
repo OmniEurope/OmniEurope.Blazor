@@ -8,6 +8,8 @@
 // The browser (started with --remote-debugging-port) and the static server are the caller's.
 
 
+import { createJsCoverage } from './JsCoverage.mjs';
+
 const options = new Map();
 for (let index = 2; index < process.argv.length; index += 2) {
   options.set(process.argv[index], process.argv[index + 1]);
@@ -62,7 +64,7 @@ socket.addEventListener('message', event => {
   }
 });
 
-const send = (method, params = {}) => {
+const sendCdp = (method, params = {}) => {
   const id = ++commandId;
   socket.send(JSON.stringify({ id, method, params }));
   return new Promise((resolve, reject) => pending.set(id, { resolve, reject }));
@@ -117,9 +119,12 @@ const neededWidth = () => evaluate(`(() => {
 })()`);
 const hasLongText = `[...document.querySelectorAll('${grid} tbody td')].some(cell => cell.textContent.trim() === ${JSON.stringify(longText)})`;
 
+const coverage = createJsCoverage(sendCdp, 'AutoFit');
+const send = coverage.send;
 await send('Runtime.enable');
 await send('Log.enable');
 await send('Page.enable');
+await coverage.start();
 await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
 await send('Page.addScriptToEvaluateOnNewDocument', {
   source: "window.__omniCsp = []; document.addEventListener('securitypolicyviolation', event => window.__omniCsp.push(`${event.violatedDirective} ${event.blockedURI}`));"
@@ -206,6 +211,7 @@ results.push(`nouvel ajustement stable à ${Math.round(refitAfter)} px`);
 await pause(300);
 const csp = await evaluate('window.__omniCsp');
 const probes = await evaluate(`document.querySelectorAll('${grid} table:not(.omni-data-grid__table), ${grid} div[aria-hidden="true"]').length`);
+await coverage.finish();
 socket.close();
 
 check(csp.length === 0, `Violations CSP : ${csp.join(' | ')}`);

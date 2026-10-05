@@ -8,6 +8,8 @@
 // Usage: node Test-ShowcaseModulesProbe.mjs --endpoint http://127.0.0.1:<cdp port> --url http://127.0.0.1:<site port>/
 // The browser (started with --remote-debugging-port) and the static server are the caller's.
 
+import { createJsCoverage } from './JsCoverage.mjs';
+
 const options = new Map();
 for (let index = 2; index < process.argv.length; index += 2) {
   options.set(process.argv[index], process.argv[index + 1]);
@@ -62,7 +64,7 @@ socket.addEventListener('message', event => {
   }
 });
 
-const send = (method, params = {}) => {
+const sendCdp = (method, params = {}) => {
   const id = ++commandId;
   socket.send(JSON.stringify({ id, method, params }));
   return new Promise((resolve, reject) => pending.set(id, { resolve, reject }));
@@ -111,9 +113,12 @@ const key = async (name, code, virtualKey, modifiers = 0) => {
 const centerOf = selector => evaluate(`(() => { const box = document.querySelector(${JSON.stringify(selector)}).getBoundingClientRect(); return { x: box.left + box.width / 2, y: box.top + box.height / 2 }; })()`);
 const results = [];
 
+const coverage = createJsCoverage(sendCdp, 'Modules');
+const send = coverage.send;
 await send('Runtime.enable');
 await send('Log.enable');
 await send('Page.enable');
+await coverage.start();
 await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
 await send('Page.addScriptToEvaluateOnNewDocument', {
   source: "window.__omniCsp = []; document.addEventListener('securitypolicyviolation', event => window.__omniCsp.push(`${event.violatedDirective} ${event.blockedURI}`));"
@@ -128,9 +133,10 @@ await send('Page.navigate', { url: siteUrl });
 // navigation asked before the router listens changes the address and leaves the home page shown.
 await waitFor('le runtime Blazor', "typeof Blazor !== 'undefined' && typeof Blazor.navigateTo === 'function' && document.getElementById('showcase-theme') !== null");
 
-// 1. Filter popovers of the advanced grid: opened by a real click, placed by the script, one open at a
-// time, closed by Escape and by a press outside.
-const popover = column => `.omni-data-grid td[data-omni-col="${column}"] details[data-omni-popover]`;
+// 1. Filter popovers of the advanced grid, in the header since ShowHeaderFilterMenu is on by default:
+// opened by a real click, placed by the script, one open at a time, closed by Escape and by a press
+// outside.
+const popover = column => `.omni-data-grid th[data-omni-col="${column}"] details[data-omni-popover]`;
 const isOpen = column => evaluate(`document.querySelector(${JSON.stringify(popover(column))}).open`);
 await evaluate("Blazor.navigateTo('/composants/grille-avancee')");
 await waitFor('les filtres de la grille avancée', `document.querySelectorAll('.omni-data-grid details[data-omni-popover]').length >= 2`);
@@ -337,6 +343,7 @@ results.push(`menu poussé superposé à 390 px (voile, ${narrow.main} px de con
 
 await pause(300);
 const csp = await evaluate('window.__omniCsp');
+await coverage.finish();
 socket.close();
 
 check(csp.length === 0, `Violations CSP : ${csp.join(' | ')}`);

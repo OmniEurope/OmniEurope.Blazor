@@ -185,6 +185,75 @@ export function insertBlocks(surface, range, html) {
     return true;
 }
 
+// Inserts HTML at the range, in place of insertHTML: Chrome stages the fragment of insertHTML in an
+// element it gives an inline style, which a strict style-src refuses (two violations at each
+// insertion, plain text included). Blocks go through insertBlocks; anything else is inserted as
+// nodes at the range, the caret after the last one. The history lives in .NET, so nothing is lost
+// by leaving the browser's own undo stack out.
+export function insertHtmlAt(surface, range, html) {
+    if (insertBlocks(surface, range, html)) {
+        return;
+    }
+
+    const template = document.createElement('template');
+    template.innerHTML = html;
+    const last = template.content.lastChild;
+    if (!last) {
+        return;
+    }
+
+    range.deleteContents();
+    range.insertNode(template.content);
+    const after = document.createRange();
+    after.setStartAfter(last);
+    after.collapse(true);
+    document.getSelection().removeAllRanges();
+    document.getSelection().addRange(after);
+}
+
+// Turns the items of a list the range touches into paragraphs, in place of the list command run
+// again inside its own list, which writes styled spans a strict style-src refuses. The items before
+// stay in the list, those after go into a copy of it; the caret keeps its text position.
+export function unlist(range, item) {
+    const list = item.parentElement;
+    const items = [...list.children].filter(child => child.tagName === 'LI' && range.intersectsNode(child));
+    const caret = { node: range.startContainer, offset: range.startOffset };
+    const tail = list.cloneNode(false);
+    for (let next = items[items.length - 1].nextSibling; next; next = items[items.length - 1].nextSibling) {
+        tail.appendChild(next);
+    }
+
+    const paragraphs = items.map(entry => {
+        const paragraph = document.createElement('p');
+        while (entry.firstChild) {
+            paragraph.appendChild(entry.firstChild);
+        }
+
+        if (!paragraph.firstChild) {
+            paragraph.appendChild(document.createElement('br'));
+        }
+
+        entry.remove();
+        return paragraph;
+    });
+    list.after(...paragraphs, ...(tail.childNodes.length > 0 ? [tail] : []));
+    if (list.children.length === 0) {
+        list.remove();
+    }
+
+    const restored = document.createRange();
+    if (caret.node.isConnected && caret.node !== item) {
+        restored.setStart(caret.node, Math.min(caret.offset, caret.node.nodeType === Node.TEXT_NODE ? caret.node.length : caret.node.childNodes.length));
+    }
+    else {
+        restored.selectNodeContents(paragraphs[0]);
+        restored.collapse(false);
+    }
+    restored.collapse(true);
+    document.getSelection().removeAllRanges();
+    document.getSelection().addRange(restored);
+}
+
 // Keeps the document equal to what the sanitiser in .NET would produce from it, so the value
 // round-trips: no style attribute, no font element, no class outside the allowed ones, no empty
 // span, the rel protection on every link, and no block inside a paragraph. Returns whether a block

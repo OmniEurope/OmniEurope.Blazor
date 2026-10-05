@@ -1,5 +1,6 @@
 // Part of omni-grid.js, which re-exports attachFilterMenus, closeFilterMenus and detachFilterMenus.
 
+import { release } from './release.js';
 const menuAttachments = new Map();
 
 const popoverSelector = 'details[data-omni-popover]';
@@ -172,9 +173,5 @@ export function closeFilterMenus(viewport) {
 }
 
 export function detachFilterMenus(viewport) {
-    const attachment = menuAttachments.get(viewport);
-    if (attachment) {
-        attachment.dispose();
-        menuAttachments.delete(viewport);
-    }
+    release(menuAttachments, viewport);
 }

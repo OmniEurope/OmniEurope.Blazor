@@ -1,7 +1,8 @@
 // Part of omni-html-editor.js: the toolbar state read at the caret (describe) and the formatting
 // commands (apply), with the clipboard fallbacks of cut, copy and paste.
 import {
-    blockSelector, alignClassByDirection, alignClasses, sizeClasses, unwrap, elementOf, escapeHtml, escapeAttribute
+    blockSelector, alignClassByDirection, alignClasses, sizeClasses, unwrap, elementOf, escapeHtml, escapeAttribute,
+    insertHtmlAt, unlist
 } from './model.js';
 import { editTable, tableHtml } from './tables.js';
 
@@ -106,11 +107,18 @@ export function apply(surface, range, action, argument) {
             applySize(surface, argument in sizeClasses ? argument : 'normal');
             break;
         case 'bulletlist':
-            document.execCommand('insertUnorderedList');
+        case 'numberedlist': {
+            // The same list asked again inside itself turns its items back into paragraphs.
+            const item = within('li');
+            const same = action === 'bulletlist' ? 'UL' : 'OL';
+            if (item && item.parentElement?.tagName === same) {
+                unlist(range, item);
+            }
+            else {
+                document.execCommand(action === 'bulletlist' ? 'insertUnorderedList' : 'insertOrderedList');
+            }
             break;
-        case 'numberedlist':
-            document.execCommand('insertOrderedList');
-            break;
+        }
         case 'indent':
             if (within('li')) {
                 document.execCommand('indent');
@@ -139,7 +147,7 @@ export function apply(surface, range, action, argument) {
             document.execCommand('formatBlock', false, within('pre') ? '<p>' : '<pre>');
             break;
         case 'link':
-            applyLink(range, within, argument);
+            applyLink(surface, range, within, argument);
             break;
         case 'unlink':
             if (within('a')) {
@@ -156,14 +164,14 @@ export function apply(surface, range, action, argument) {
             applyAlignment(surface, action.slice('align'.length));
             break;
         case 'inserttable':
-            document.execCommand('insertHTML', false, tableHtml(argument));
+            insertHtmlAt(surface, range, tableHtml(argument));
             break;
         case 'clearformatting':
             clearFormatting(surface);
             break;
         case 'inserthtml':
             if (argument) {
-                document.execCommand('insertHTML', false, argument);
+                insertHtmlAt(surface, range, argument);
             }
             break;
         case 'inserttext':
@@ -308,7 +316,7 @@ function toggleInlineCode(range, within) {
     selection.addRange(inside);
 }
 
-function applyLink(range, within, url) {
+function applyLink(surface, range, within, url) {
     if (!url) {
         return;
     }
@@ -318,7 +326,7 @@ function applyLink(range, within, url) {
         anchor.setAttribute('href', url);
     }
     else if (range.collapsed) {
-        document.execCommand('insertHTML', false, `<a href="${escapeAttribute(url)}">${escapeHtml(url)}</a>`);
+        insertHtmlAt(surface, range, `<a href="${escapeAttribute(url)}">${escapeHtml(url)}</a>`);
     }
     else {
         document.execCommand('createLink', false, url);

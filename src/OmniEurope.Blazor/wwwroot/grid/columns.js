@@ -2,6 +2,7 @@
 // detachFrozenScroll: column widths, headers never narrower than their title, frozen columns and
 // their detach control.
 import { notifyDotNet } from './notify.js';
+import { release } from './release.js';
 
 /**
  * Applies the CSS length of every column and the sticky offset of the frozen ones. Widths land on
@@ -270,11 +271,7 @@ export function attachFrozenScroll(viewport, reference) {
 }
 
 export function detachFrozenScroll(viewport) {
-    const attachment = frozenScrollAttachments.get(viewport);
-    if (attachment) {
-        attachment.dispose();
-        frozenScrollAttachments.delete(viewport);
-    }
+    release(frozenScrollAttachments, viewport);
 }
 
 const scrollFollowers = new WeakSet();

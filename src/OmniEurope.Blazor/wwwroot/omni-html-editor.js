@@ -3,8 +3,10 @@
 // Blazor renders the surface empty and never diffs into it: this module owns its children. The
 // browser's editing commands are used where they produce plain elements (b, i, u, lists, headings,
 // links); alignment and text size are applied here as classes, because the commands that do them
-// natively write a style attribute. normalise() removes any style attribute the editing engine
-// still leaves behind (a merge of two paragraphs can create one), so the strict CSP holds.
+// natively write a style attribute. HTML is inserted as nodes (insertHtmlAt), and a list asked again
+// inside itself is undone by hand (unlist): insertHTML and that list command stage styled elements a
+// strict style-src refuses. normalise() removes any style attribute the editing engine still leaves
+// behind (a merge of two paragraphs can create one), so the strict CSP holds.
 //
 // Pasted and dropped content never reaches the document raw: it goes through .NET, where the same
 // HtmlSanitizer allow-list as the value applies, and only the sanitised result is inserted. The
@@ -16,7 +18,7 @@
 // editing in tables.js, the text an extension proposes after the caret in suggestions.js and the
 // passages a proofreader flags in proofreading.js.
 import {
-    editors, allowedClasses, normalise, elementOf, caretFromPoint, caretOffset, placeCaret, joinInstead, insertBlocks
+    editors, allowedClasses, normalise, elementOf, caretFromPoint, caretOffset, placeCaret, joinInstead, insertHtmlAt
 } from './html-editor/model.js';
 import { describe, apply, readClipboard } from './html-editor/commands.js';
 import { moveBetweenCells } from './html-editor/tables.js';
@@ -165,9 +167,7 @@ export async function exec(surface, action, argument) {
     prepareDocument();
     const range = restore(state);
     if (clean !== null) {
-        if (!insertBlocks(surface, range, clean)) {
-            document.execCommand('insertHTML', false, clean);
-        }
+        insertHtmlAt(surface, range, clean);
     }
     else {
         // Only cut and copy wait: for the clipboard, where the browser refuses its own command.
@@ -339,6 +339,8 @@ function replaceNode(target, html) {
 }
 
 // The tail of every change made here rather than typed: tidied, reported as sent, selection kept.
+// A command changed the document, often without an input event (the classes, the tables, the inserted
+// nodes): the underlined passages are read again, or they would keep ranges the command detached.
 function settle(state) {
     tidy(state.surface);
     window.clearTimeout(state.timer);
@@ -346,6 +348,7 @@ function settle(state) {
     state.sent = state.surface.innerHTML;
     remember(state);
     report(state, true);
+    requestProofreading(state, true);
     return state.sent;
 }
 
@@ -562,12 +565,11 @@ async function insertTransfer(state, html, text) {
 
     prepareDocument();
     const range = restore(state);
-    if (!insertBlocks(state.surface, range, clean)) {
-        document.execCommand('insertHTML', false, clean);
-    }
+    insertHtmlAt(state.surface, range, clean);
 
     tidy(state.surface);
     schedule(state);
+    requestProofreading(state);
 }
 
 function keydown(state, event) {

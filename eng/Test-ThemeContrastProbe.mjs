@@ -41,6 +41,8 @@
 // The filters exist to replay a failure quickly; a filtered run says so and never counts as the gate.
 // The browser (started with --remote-debugging-port) and the static server are the caller's.
 
+import { createJsCoverage } from './JsCoverage.mjs';
+
 import { mkdir, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
@@ -615,7 +617,7 @@ socket.addEventListener('message', event => {
   }
 });
 
-const send = (method, params = {}) => {
+const sendCdp = (method, params = {}) => {
   const id = ++commandId;
   socket.send(JSON.stringify({ id, method, params }));
   return new Promise((done, reject) => pending.set(id, { done, reject }));
@@ -685,9 +687,12 @@ const fail = (combo, entry) => {
   failures.push(record);
 };
 
+const coverage = createJsCoverage(sendCdp, 'Contrast');
+const send = coverage.send;
 await send('Runtime.enable');
 await send('Log.enable');
 await send('Page.enable');
+await coverage.start();
 await send('DOM.enable');
 await send('CSS.enable');
 const DESKTOP = { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false };
@@ -999,6 +1004,7 @@ for (const theme of chosenThemes) {
 await send('Emulation.setDeviceMetricsOverride', DESKTOP);
 
 const csp = await evaluate('window.__omniCsp');
+await coverage.finish();
 socket.close();
 for (const violation of csp) failures.push({ check: 'CSP', detail: violation });
 for (const error of consoleErrors) failures.push({ check: 'console', detail: error });

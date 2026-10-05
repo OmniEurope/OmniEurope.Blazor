@@ -1,0 +1,61 @@
+{
+  "$comment": "Scripts du paquet pas encore entièrement exécutés par les sondes de la vitrine (PLAN-014) : nombre de fonctions jamais appelées. La liste ne peut que rétrécir ; un fichier absent doit être entièrement couvert. Réécrite par eng/Test-JsCoverage.mjs --update-baseline.",
+  "files": [
+    {
+      "file": "focus/tabs.js",
+      "functions": 2
+    },
+    {
+      "file": "grid/filter-menus.js",
+      "functions": 2
+    },
+    {
+      "file": "grid/list.js",
+      "functions": 7
+    },
+    {
+      "file": "grid/resize.js",
+      "functions": 4
+    },
+    {
+      "file": "html-editor/commands.js",
+      "functions": 1
+    },
+    {
+      "file": "omni-boot.js",
+      "functions": 1
+    },
+    {
+      "file": "omni-code-editor.js",
+      "functions": 26
+    },
+    {
+      "file": "omni-dialog.js",
+      "functions": 1
+    },
+    {
+      "file": "omni-focus.js",
+      "functions": 1
+    },
+    {
+      "file": "omni-grid.js",
+      "functions": 10
+    },
+    {
+      "file": "omni-html-editor.js",
+      "functions": 4
+    },
+    {
+      "file": "omni-mindmap.js",
+      "functions": 2
+    },
+    {
+      "file": "omni-theme.js",
+      "functions": 2
+    },
+    {
+      "file": "omniInterop.js",
+      "functions": 5
+    }
+  ]
+}

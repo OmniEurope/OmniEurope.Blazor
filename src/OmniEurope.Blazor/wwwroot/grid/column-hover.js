@@ -3,6 +3,8 @@
 // holds under a strict CSP. The grid root carries omni-data-grid--column-hover while the option is on;
 // a column that opts out carries omni-data-grid__column--no-hover and marks nothing.
 
+import { release } from './release.js';
+
 const HOVER = 'omni-data-grid__column--hover';
 const hovers = new Map();
 
@@ -61,9 +63,5 @@ export function attachColumnHover(viewport) {
 }
 
 export function detachColumnHover(viewport) {
-    const dispose = hovers.get(viewport);
-    if (dispose) {
-        dispose();
-        hovers.delete(viewport);
-    }
+    release(hovers, viewport, run => run());
 }

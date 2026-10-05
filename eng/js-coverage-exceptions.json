@@ -1,0 +1,45 @@
+{
+  "$comment": "Fonctions des scripts du paquet qu'aucune sonde de la vitrine ne peut exécuter, chacune avec sa raison (PLAN-014). Le nombre est celui des fonctions admises dans le fichier ; le reste de ses écarts relève de eng/js-coverage-baseline.json. Lu par eng/Test-JsCoverage.mjs.",
+  "exceptions": [
+    {
+      "file": "grid/notify.js",
+      "functions": 1,
+      "reason": "(anonyme) ligne 10 : le gestionnaire de rejet de notifyDotNet. Il ne tourne que si l'appel .NET est rejeté, c'est-à-dire si la grille a été détruite pendant qu'une notification était en vol ; aucune action d'un lecteur ne produit ce rejet de façon déterministe."
+    },
+    {
+      "file": "grid/columns.js",
+      "functions": 1,
+      "reason": "(anonyme) ligne 246 : le témoin de vie () => live passé à notifyDotNet, que notify.js n'évalue que dans son gestionnaire de rejet (voir grid/notify.js)."
+    },
+    {
+      "file": "grid/resize.js",
+      "functions": 2,
+      "reason": "(anonyme) ligne 77 : le témoin de vie () => live passé à notifyDotNet, évalué seulement sur un rejet (voir grid/notify.js). (anonyme) ligne 292 : le tri des textes par longueur quand le canevas 2D n'a pas de contexte ; Chromium en fournit toujours un, ce repli ne sert qu'aux navigateurs sans canevas."
+    },
+    {
+      "file": "omni-grid.js",
+      "functions": 1,
+      "reason": "(anonyme) ligne 94 : le témoin de vie () => live passé à notifyDotNet, évalué seulement sur un rejet (voir grid/notify.js)."
+    },
+    {
+      "file": "html-editor/toolbar.js",
+      "functions": 1,
+      "reason": "(anonyme) ligne 64 : le .catch(() => { }) de OnToolbarOverflow, appelé seulement si l'appel .NET est rejeté (éditeur détruit pendant un ajustement de la barre)."
+    },
+    {
+      "file": "omni-kanban.js",
+      "functions": 1,
+      "reason": "(anonyme) ligne 70 : le .catch(() => { }) de OnCardKey, appelé seulement si l'appel .NET est rejeté (tableau détruit pendant la frappe)."
+    },
+    {
+      "file": "omni-mindmap.js",
+      "functions": 1,
+      "reason": "(anonyme) ligne 63 : le .catch(() => { }) de notify, appelé seulement si l'appel .NET est rejeté (carte détruite pendant un geste)."
+    },
+    {
+      "file": "focus/menus.js",
+      "functions": 1,
+      "reason": "(anonyme) ligne 130 : la nouvelle tentative, 16 ms plus tard, quand le menu n'est pas encore dans le document au moment de l'ouvrir. Sous WebAssembly le menu est toujours rendu avant l'appel ; le repli sert la latence d'un circuit Server, que la vitrine statique n'a pas."
+    }
+  ]
+}
