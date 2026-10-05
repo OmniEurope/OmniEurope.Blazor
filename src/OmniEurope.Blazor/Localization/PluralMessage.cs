@@ -120,9 +120,12 @@ internal static class PluralMessage
         sbyte or byte or short or ushort or int or uint or long => Convert.ToInt64(value, CultureInfo.InvariantCulture),
         ulong large => large > long.MaxValue ? long.MaxValue : (long)large,
         double real when real % 1 == 0 && Math.Abs(real) < long.MaxValue => (long)real,
-        decimal exact when exact % 1 == 0 => (long)exact,
+        decimal exact when exact % 1 == 0 => WholeOf(exact),
         _ => null
     };
+
+    // Out of the range of a long, the cast would throw: such a count takes the form of the largest.
+    private static long WholeOf(decimal exact) => Math.Abs(exact) <= long.MaxValue ? (long)exact : long.MaxValue;
 
     /// <summary>The form with each <c>#</c> outside a placeholder turned into the placeholder of the counted argument.</summary>
     private static string WithNumber(string form, int argument)

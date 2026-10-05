@@ -5,8 +5,8 @@ internal sealed class OmniTreeContext<TValue>
     public IReadOnlyList<TValue> SelectedValues { get; set; } = Array.Empty<TValue>();
     public required Func<TValue, Task> ToggleSelectionAsync { get; init; }
 
-    /// <summary>The tree, for its drag-and-drop settings; null for an item outside a tree.</summary>
-    public OmniTree<TValue>? Tree { get; init; }
+    /// <summary>The tree that created the context, for its drag-and-drop settings. An item outside a tree has no context.</summary>
+    public required OmniTree<TValue> Tree { get; init; }
 
     /// <summary>The items rendered in the tree, for expanding or collapsing them all.</summary>
     public HashSet<OmniTreeItem<TValue>> Items { get; } = [];
@@ -24,5 +24,5 @@ internal sealed class OmniTreeContext<TValue>
     /// Redraws the tree, and with it every item, which reads this context: a drag started or ended, or the
     /// target changed, which changes where a drop is accepted and highlighted.
     /// </summary>
-    public void Redraw() => Tree?.Redraw();
+    public void Redraw() => Tree.Redraw();
 }

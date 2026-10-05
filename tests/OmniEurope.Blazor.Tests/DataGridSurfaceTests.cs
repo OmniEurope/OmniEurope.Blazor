@@ -130,6 +130,15 @@ public sealed class DataGridSurfaceTests : OmniBunitContext
         headers[0].QuerySelector(".omni-data-grid__group-expand")!.Click();
 
         Assert.Single(grid.FindAll("tbody tr[data-omni-row-index]"));
+
+        // A second click reopens the group.
+        grid.FindAll(".omni-data-grid__group")[0].QuerySelector(".omni-data-grid__group-expand")!.Click();
+        Assert.Equal(3, grid.FindAll("tbody tr[data-omni-row-index]").Count);
+
+        // The chip's remove action ungroups the column, as the header toggle would.
+        grid.Find(".omni-data-grid__group-remove").Click();
+        Assert.Empty(grid.FindAll(".omni-data-grid__group"));
+        Assert.Empty(grid.Instance.Groups);
     }
 
     [Fact]
@@ -187,6 +196,12 @@ public sealed class DataGridSurfaceTests : OmniBunitContext
         Assert.Empty(grid.FindAll(".omni-data-grid__filter"));
         Assert.Empty(grid.FindAll(".omni-pager"));
         Assert.Equal(3, grid.FindAll("tbody tr").Count);
+
+        // The whole header cell carries the sort handler: on a grid that does not sort, a click is turned away.
+        var order = grid.Find("tbody").TextContent;
+        grid.Find("th[data-omni-col=\"customer\"]").Click();
+        Assert.Null(grid.Find("th[data-omni-col=\"customer\"]").GetAttribute("aria-sort"));
+        Assert.Equal(order, grid.Find("tbody").TextContent);
     }
 
     [Fact]

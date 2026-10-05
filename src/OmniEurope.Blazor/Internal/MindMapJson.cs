@@ -154,9 +154,9 @@ internal static class MindMapJson
             ? array.EnumerateArray().Where(item => item.ValueKind == JsonValueKind.Object).ToArray()
             : [];
 
+    // Only ever read on objects: the root is checked by Read, the items are filtered by Items.
     private static string? String(JsonElement element, string name, string? fallback) =>
-        element.ValueKind == JsonValueKind.Object
-        && element.TryGetProperty(name, out var value)
+        element.TryGetProperty(name, out var value)
         && value.ValueKind == JsonValueKind.String
             ? value.GetString()
             : fallback;

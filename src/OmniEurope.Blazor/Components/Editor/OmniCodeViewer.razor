@@ -10,7 +10,8 @@
     @Header
     <div class="omni-code-viewer__body">
         <div class="omni-code-viewer__code" role="region" aria-labelledby="@TitleId" tabindex="0">
-            @if (_lines.Count == 0 || (_lines.Count == 1 && _lines[0].Length == 0))
+            @* Splitting always yields one line at least: an empty code is that one empty line. *@
+            @if (_lines is [{ Length: 0 }])
             {
                 <p class="omni-code-viewer__empty">@EffectiveEmptyText</p>
             }

@@ -1,0 +1,13 @@
+@* A page that streams lines into a log without binding Follow, MinimumLevel nor SearchText: its own
+   renders must not undo what the reader chose in the log. *@
+<OmniLogViewer Lines="@Lines" ShowLevelFilter="true" ShowSearch="true" TimeZone="TimeZoneInfo.Utc" />
+
+@code {
+    public List<OmniLogLine> Lines { get; } = [new("Démarrage"), new("Connexion perdue", OmniLogLevel.Error)];
+
+    public void Append(string text)
+    {
+        Lines.Add(new OmniLogLine(text, OmniLogLevel.Error));
+        StateHasChanged();
+    }
+}

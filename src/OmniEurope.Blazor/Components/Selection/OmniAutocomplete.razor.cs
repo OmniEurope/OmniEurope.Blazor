@@ -97,7 +97,8 @@ public partial class OmniAutocomplete<TValue>
     private string ErrorId => $"{BaseId}-error";
     private string OptionId(int index) => $"{ResultsId}-{index.ToString(CultureInfo.InvariantCulture)}";
     private bool IsOpen => !_closed && _results.Count > 0;
-    private string? ActiveOptionId => IsOpen && _activeIndex >= 0 && _activeIndex < _results.Count ? OptionId(_activeIndex) : null;
+    // Every change of the suggestions resets the highlight, so a highlighted index is always one of them.
+    private string? ActiveOptionId => IsOpen && _activeIndex >= 0 ? OptionId(_activeIndex) : null;
 
     // Class goes on the outermost element; the validation classes of the form stay on the input they describe.
     private string RootClass => CssClassBuilder.Combine(["omni-autocomplete", Class]);
@@ -244,7 +245,7 @@ public partial class OmniAutocomplete<TValue>
             case "End" when IsOpen && _activeIndex >= 0:
                 _activeIndex = _results.Count - 1;
                 break;
-            case "Enter" when IsOpen && _activeIndex >= 0 && _activeIndex < _results.Count:
+            case "Enter" when IsOpen && _activeIndex >= 0:
                 Select(_results[_activeIndex]);
                 break;
             case "Escape" when IsOpen:

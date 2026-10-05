@@ -109,9 +109,10 @@ public partial class OmniDropDown<TValue>
 
     private void HandleAutocompleteChange(TValue value) => CurrentValue = value;
 
+    // The autocomplete formats only a value it holds, never null.
     private string FormatValue(TValue value) => Options
         .FirstOrDefault(option => EqualityComparer<TValue>.Default.Equals(option.Value, value))?.Text
-        ?? value?.ToString()
+        ?? value!.ToString()
         ?? string.Empty;
 
     /// <summary>

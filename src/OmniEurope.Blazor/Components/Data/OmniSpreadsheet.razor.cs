@@ -265,93 +265,87 @@ public partial class OmniSpreadsheet
 
     // ---- keyboard ---------------------------------------------------------------------------------
 
-    private async Task OnGridKeyDownAsync(KeyboardEventArgs args)
+    private Task OnGridKeyDownAsync(KeyboardEventArgs args)
     {
         if (!HasCells || args.AltKey || args.MetaKey)
         {
-            return;
+            return Task.CompletedTask;
         }
 
-        var jump = args.CtrlKey;
-        switch (args.Key)
-        {
-            case "ArrowUp":
-                await MoveToAsync(jump ? 0 : _row - 1, _column);
-                break;
-            case "ArrowDown":
-                await MoveToAsync(jump ? Sheet.RowCount - 1 : _row + 1, _column);
-                break;
-            case "ArrowLeft":
-                await MoveToAsync(_row, jump ? 0 : _column - 1);
-                break;
-            case "ArrowRight":
-                await MoveToAsync(_row, jump ? Sheet.ColumnCount - 1 : _column + 1);
-                break;
-            case "Tab":
-                // At the edge of the row Tab leaves the sheet: the script let the browser move focus.
-                if (args.ShiftKey ? _column > 0 : _column < Sheet.ColumnCount - 1)
-                {
-                    await MoveToAsync(_row, _column + (args.ShiftKey ? -1 : 1));
-                }
-
-                break;
-            case "Home":
-                await MoveToAsync(jump ? 0 : _row, 0);
-                break;
-            case "End":
-                await MoveToAsync(jump ? Sheet.RowCount - 1 : _row, Sheet.ColumnCount - 1);
-                break;
-            case "PageUp":
-                await MoveToAsync(_row - PageStep, _column);
-                break;
-            case "PageDown":
-                await MoveToAsync(_row + PageStep, _column);
-                break;
-            case "Enter" when !jump:
-            case "F2":
-                await BeginCellEditAsync(_row, _column, keepInput: true);
-                break;
-            case "Delete" or "Backspace" when !jump:
-                await WriteAsync(_row, _column, string.Empty);
-                break;
-            default:
-                if (!jump && args.Key.Length == 1)
-                {
-                    await BeginTypingAsync(args.Key);
-                }
-
-                break;
-        }
+        return TargetOf(args) is { } target ? MoveToAsync(target.Row, target.Column) : EditFromKeyAsync(args);
     }
 
-    private async Task OnEditorKeyDownAsync(KeyboardEventArgs args)
+    /// <summary>The cell a navigation key goes to (Ctrl jumps to the edge), or null for a key that does not move.</summary>
+    private (int Row, int Column)? TargetOf(KeyboardEventArgs args) => args.Key switch
     {
-        switch (args.Key)
+        "Tab" => TabTarget(args.ShiftKey),
+        "Home" => (args.CtrlKey ? 0 : _row, 0),
+        "End" => (args.CtrlKey ? Sheet.RowCount - 1 : _row, Sheet.ColumnCount - 1),
+        "PageUp" => (_row - PageStep, _column),
+        "PageDown" => (_row + PageStep, _column),
+        _ => ArrowTarget(args.Key, args.CtrlKey)
+    };
+
+    /// <summary>The cell an arrow goes to: the next one that way, or with Ctrl the edge of the sheet.</summary>
+    private (int Row, int Column)? ArrowTarget(string key, bool jump) => key switch
+    {
+        "ArrowUp" => (jump ? 0 : _row - 1, _column),
+        "ArrowDown" => (jump ? Sheet.RowCount - 1 : _row + 1, _column),
+        "ArrowLeft" => (_row, jump ? 0 : _column - 1),
+        "ArrowRight" => (_row, jump ? Sheet.ColumnCount - 1 : _column + 1),
+        _ => null
+    };
+
+    // At the edge of the row Tab leaves the sheet: the script let the browser move focus.
+    private (int Row, int Column)? TabTarget(bool backwards) =>
+        (backwards ? _column > 0 : _column < Sheet.ColumnCount - 1) ? (_row, _column + (backwards ? -1 : 1)) : null;
+
+    /// <summary>Enter or F2 edits the cell, Delete empties it, a printable key starts typing over it.</summary>
+    private Task EditFromKeyAsync(KeyboardEventArgs args)
+    {
+        var jump = args.CtrlKey;
+        return args.Key switch
         {
-            case "Enter":
-                await CommitAsync();
-                await MoveToAsync(_row + (args.ShiftKey ? -1 : 1), _column);
-                _focusGrid = true;
-                break;
-            case "Tab":
-                await CommitAsync();
-                await MoveToAsync(_row, _column + (args.ShiftKey ? -1 : 1));
-                _focusGrid = true;
-                break;
-            case "Escape":
-                CancelEdit();
-                _focusGrid = true;
-                break;
-            case "ArrowUp" or "ArrowDown" or "ArrowLeft" or "ArrowRight" when _replacing:
-                // Typing over a cell is the quick entry mode: an arrow commits and moves, as in any
-                // spreadsheet. Once in edit mode (Enter, F2, double click) the arrows move the caret.
-                await CommitAsync();
-                await MoveToAsync(
-                    _row + (args.Key == "ArrowDown" ? 1 : args.Key == "ArrowUp" ? -1 : 0),
-                    _column + (args.Key == "ArrowRight" ? 1 : args.Key == "ArrowLeft" ? -1 : 0));
-                _focusGrid = true;
-                break;
-        }
+            "Enter" when !jump => BeginCellEditAsync(_row, _column, keepInput: true),
+            "F2" => BeginCellEditAsync(_row, _column, keepInput: true),
+            "Delete" or "Backspace" when !jump => WriteAsync(_row, _column, string.Empty),
+            _ when !jump && args.Key.Length == 1 => BeginTypingAsync(args.Key),
+            _ => Task.CompletedTask
+        };
+    }
+
+    private Task OnEditorKeyDownAsync(KeyboardEventArgs args) => args.Key switch
+    {
+        "Enter" => CommitAndMoveAsync(args.ShiftKey ? -1 : 1, 0),
+        "Tab" => CommitAndMoveAsync(0, args.ShiftKey ? -1 : 1),
+        "Escape" => CancelToGridAsync(),
+        // Typing over a cell is the quick entry mode: an arrow commits and moves, as in any spreadsheet.
+        // Once in edit mode (Enter, F2, double click) the arrows move the caret.
+        _ when _replacing && ArrowSteps.TryGetValue(args.Key, out var step) => CommitAndMoveAsync(step.Rows, step.Columns),
+        _ => Task.CompletedTask
+    };
+
+    private static readonly Dictionary<string, (int Rows, int Columns)> ArrowSteps = new(StringComparer.Ordinal)
+    {
+        ["ArrowUp"] = (-1, 0),
+        ["ArrowDown"] = (1, 0),
+        ["ArrowLeft"] = (0, -1),
+        ["ArrowRight"] = (0, 1),
+    };
+
+    /// <summary>Commits the edit, moves by the given steps and gives the focus back to the grid.</summary>
+    private async Task CommitAndMoveAsync(int rows, int columns)
+    {
+        await CommitAsync();
+        await MoveToAsync(_row + rows, _column + columns);
+        _focusGrid = true;
+    }
+
+    private Task CancelToGridAsync()
+    {
+        CancelEdit();
+        _focusGrid = true;
+        return Task.CompletedTask;
     }
 
     private async Task OnEditorBlurAsync()
@@ -369,18 +363,12 @@ public partial class OmniSpreadsheet
             return;
         }
 
-        switch (args.Key)
+        await (args.Key switch
         {
-            case "Enter":
-                await CommitAsync();
-                await MoveToAsync(_row + (args.ShiftKey ? -1 : 1), _column);
-                _focusGrid = true;
-                break;
-            case "Escape":
-                CancelEdit();
-                _focusGrid = true;
-                break;
-        }
+            "Enter" => CommitAndMoveAsync(args.ShiftKey ? -1 : 1, 0),
+            "Escape" => CancelToGridAsync(),
+            _ => Task.CompletedTask
+        });
     }
 
     private async Task OnBarBlurAsync()

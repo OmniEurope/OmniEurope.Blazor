@@ -72,11 +72,14 @@ internal static class SpreadsheetAddress
             index++;
         }
 
-        if (index != text.Length
-            || index == digitsStart
-            || index - digitsStart > 7
-            || !int.TryParse(text[digitsStart..index], NumberStyles.None, CultureInfo.InvariantCulture, out var rowNumber)
-            || rowNumber < 1)
+        // Seven digits at most always fit an int.
+        if (index != text.Length || index == digitsStart || index - digitsStart > 7)
+        {
+            return false;
+        }
+
+        var rowNumber = int.Parse(text[digitsStart..index], NumberStyles.None, CultureInfo.InvariantCulture);
+        if (rowNumber < 1)
         {
             return false;
         }

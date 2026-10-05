@@ -141,67 +141,95 @@ public partial class OmniDiffViewer
 
         try
         {
-            if (!string.Equals(Height, _appliedHeight, StringComparison.Ordinal))
-            {
-                _appliedHeight = Height;
-                if (!await EnsureModuleAsync())
-                {
-                    return;
-                }
-
-                await _module!.InvokeVoidAsync("setHeight", _root, Height);
-            }
-
-            if (_startedEngine != Engine)
-            {
-                _startedEngine = Engine;
-                await UnmountAsync();
-                if (Engine == OmniCodeEditorEngine.Monaco)
-                {
-                    await LoadAsync();
-                    return;
-                }
-            }
-
-            if (_disposed || _phase != DiffPhase.Ready || _module is null)
-            {
-                return;
-            }
-
-            if (!_mounted)
-            {
-                // Claimed before the await, so a render arriving meanwhile does not mount a second editor.
-                _mounted = true;
-                _bridge ??= DotNetObjectReference.Create(new DiffViewerInteropBridge(HandleModifiedChangedAsync));
-                (_shownOriginal, _shownModified) = (Original ?? string.Empty, Modified ?? string.Empty);
-                _appliedOptions = OptionsSignature();
-                if (!await _module.InvokeAsync<bool>("mountDiff", _host, _bridge, Options(_shownOriginal, _shownModified)))
-                {
-                    _mounted = false;
-                    _phase = DiffPhase.Failed;
-                    StateHasChanged();
-                }
-
-                return;
-            }
-
-            if (!string.Equals(Original ?? string.Empty, _shownOriginal, StringComparison.Ordinal)
-                || !string.Equals(Modified ?? string.Empty, _shownModified, StringComparison.Ordinal))
-            {
-                (_shownOriginal, _shownModified) = (Original ?? string.Empty, Modified ?? string.Empty);
-                await _module.InvokeVoidAsync("setDiff", _host, _shownOriginal, _shownModified);
-            }
-
-            var signature = OptionsSignature();
-            if (!string.Equals(signature, _appliedOptions, StringComparison.Ordinal))
-            {
-                _appliedOptions = signature;
-                await _module.InvokeVoidAsync("configureDiff", _host, Options(null, null));
-            }
+            await SyncAsync();
         }
         catch (JSDisconnectedException)
         {
             // The circuit is gone, and the editor with it.
+        }
+    }
+
+    private async Task SyncAsync()
+    {
+        if (!await SyncHeightAsync())
+        {
+            return;
+        }
+
+        if (_startedEngine != Engine)
+        {
+            _startedEngine = Engine;
+            await UnmountAsync();
+            if (Engine == OmniCodeEditorEngine.Monaco)
+            {
+                await LoadAsync();
+                return;
+            }
+        }
+
+        if (_disposed || _phase != DiffPhase.Ready || _module is null)
+        {
+            return;
+        }
+
+        if (!_mounted)
+        {
+            await MountAsync(_module);
+            return;
+        }
+
+        await PushChangesAsync(_module);
+    }
+
+    /// <summary>Applies a new height; false when the viewer went while its script loaded.</summary>
+    private async Task<bool> SyncHeightAsync()
+    {
+        if (string.Equals(Height, _appliedHeight, StringComparison.Ordinal))
+        {
+            return true;
+        }
+
+        _appliedHeight = Height;
+        if (!await EnsureModuleAsync())
+        {
+            return false;
+        }
+
+        await _module!.InvokeVoidAsync("setHeight", _root, Height);
+        return true;
+    }
+
+    /// <summary>Mounts the diff editor with both texts; falls back to the plain view when it cannot.</summary>
+    private async Task MountAsync(IJSObjectReference module)
+    {
+        // Claimed before the await, so a render arriving meanwhile does not mount a second editor.
+        _mounted = true;
+        _bridge ??= DotNetObjectReference.Create(new DiffViewerInteropBridge(HandleModifiedChangedAsync));
+        (_shownOriginal, _shownModified) = (Original ?? string.Empty, Modified ?? string.Empty);
+        _appliedOptions = OptionsSignature();
+        if (!await module.InvokeAsync<bool>("mountDiff", _host, _bridge, Options(_shownOriginal, _shownModified)))
+        {
+            _mounted = false;
+            _phase = DiffPhase.Failed;
+            StateHasChanged();
+        }
+    }
+
+    /// <summary>Pushes to the mounted editor texts or options that changed since they were last given.</summary>
+    private async Task PushChangesAsync(IJSObjectReference module)
+    {
+        var (original, modified) = (Original ?? string.Empty, Modified ?? string.Empty);
+        if (!string.Equals(original, _shownOriginal, StringComparison.Ordinal) || !string.Equals(modified, _shownModified, StringComparison.Ordinal))
+        {
+            (_shownOriginal, _shownModified) = (original, modified);
+            await module.InvokeVoidAsync("setDiff", _host, _shownOriginal, _shownModified);
+        }
+
+        var signature = OptionsSignature();
+        if (!string.Equals(signature, _appliedOptions, StringComparison.Ordinal))
+        {
+            _appliedOptions = signature;
+            await module.InvokeVoidAsync("configureDiff", _host, Options(null, null));
         }
     }
 

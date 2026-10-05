@@ -6,6 +6,11 @@ namespace OmniEurope.Blazor.Tests;
 
 public sealed class LoadingBarTests : OmniBunitContext
 {
+    // The finish ends when this clock says so, never on the time a busy machine takes.
+    private readonly ManualTimeProvider _clock = new();
+
+    public LoadingBarTests() => Services.AddSingleton<TimeProvider>(_clock);
+
     [Fact]
     public void LoadingBar_TakesNoPlaceOutsideALoad()
     {
@@ -32,9 +37,10 @@ public sealed class LoadingBarTests : OmniBunitContext
         bar.WaitForAssertion(() => Assert.Contains("omni-loading-bar--done", bar.Find(".omni-loading-bar").ClassName, StringComparison.Ordinal));
         Assert.Equal("omni-loading-bar__indicator", bar.Find(".omni-loading-bar__indicator").ClassName);
 
-        bar.WaitForAssertion(
-            () => Assert.Empty(bar.FindAll(".omni-loading-bar__track")),
-            TimeSpan.FromSeconds(5));
+        bar.WaitForAssertion(() => Assert.Equal(1, _clock.Pending));
+        _clock.Advance(OmniLoadingBar.FinishDuration);
+
+        bar.WaitForAssertion(() => Assert.Empty(bar.FindAll(".omni-loading-bar__track")));
         Assert.DoesNotContain("omni-loading-bar--done", bar.Find(".omni-loading-bar").ClassName, StringComparison.Ordinal);
     }
 

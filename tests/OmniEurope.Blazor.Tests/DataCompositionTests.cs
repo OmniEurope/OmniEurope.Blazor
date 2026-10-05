@@ -143,6 +143,41 @@ public sealed class DataCompositionTests : OmniBunitContext
         Assert.True(host.Instance.Form!.IsValid);
     }
 
+    [Theory]
+    [InlineData(OmniDynamicFieldKind.Text, "42", OmniDynamicFieldKind.Number, "42")]
+    [InlineData(OmniDynamicFieldKind.Number, "7", OmniDynamicFieldKind.Text, "7")]
+    [InlineData(OmniDynamicFieldKind.Text, "true", OmniDynamicFieldKind.Boolean, "true")]
+    public void DynamicForm_FieldChangingKindUnderTheSameName_KeepsItsValue(OmniDynamicFieldKind before, string held, OmniDynamicFieldKind after, string expected)
+    {
+        // The new kind read its own empty member while the values were left alone: the 42 typed as text
+        // vanished once the field became a number (audit RCL-DYNAMIC-KIND-001).
+        var values = new Dictionary<string, string> { ["port"] = held };
+        var form = Render<OmniDynamicForm>(parameters => parameters
+            .Add(component => component.Fields, [new OmniDynamicField("port", "Port", before)])
+            .Add(component => component.Values, values));
+
+        form.Render(parameters => parameters
+            .Add(component => component.Fields, [new OmniDynamicField("port", "Port", after)])
+            .Add(component => component.Values, values));
+
+        Assert.Equal(expected, form.Instance.CurrentValues["port"]);
+    }
+
+    [Fact]
+    public void DynamicForm_EmptyFieldChangingKind_TakesItsNewDefault()
+    {
+        var values = new Dictionary<string, string>();
+        var form = Render<OmniDynamicForm>(parameters => parameters
+            .Add(component => component.Fields, [new OmniDynamicField("port", "Port")])
+            .Add(component => component.Values, values));
+
+        form.Render(parameters => parameters
+            .Add(component => component.Fields, [new OmniDynamicField("port", "Port", OmniDynamicFieldKind.Number) { DefaultValue = "8080" }])
+            .Add(component => component.Values, values));
+
+        Assert.Equal("8080", form.Instance.CurrentValues["port"]);
+    }
+
     // ---- OmniStatusBadge -------------------------------------------------------------------------
 
     private enum RunState
@@ -248,6 +283,52 @@ public sealed class DataCompositionTests : OmniBunitContext
         Assert.Empty(clock.Pending);
 
         badge.Instance.Dispose();
+    }
+
+    [Fact]
+    public void StatusBadge_RenderedAgainWhileFresh_KeepsItsTimer_AndANegativeThresholdNeverStales()
+    {
+        var clock = new ManualClock(Now);
+        Services.AddSingleton<TimeProvider>(clock);
+        var badge = Render<OmniStatusBadge<RunState?>>(parameters => parameters
+            .Add(component => component.Value, RunState.Succeeded)
+            .Add(component => component.Map, RunStates)
+            .Add(component => component.Timestamp, Now.AddMinutes(-10))
+            .Add(component => component.StaleAfter, TimeSpan.FromMinutes(15)));
+        var timer = Assert.Single(clock.Pending);
+
+        badge.Render();
+        Assert.Same(timer, Assert.Single(clock.Pending));
+
+        badge.Render(parameters => parameters.Add(component => component.StaleAfter, TimeSpan.FromMinutes(-1)));
+        Assert.False(badge.Instance.IsStale);
+        Assert.Empty(clock.Pending);
+        badge.Instance.Dispose();
+    }
+
+    [Fact]
+    public void StatusBadge_WithATimestampButNoThreshold_NeverStales()
+    {
+        var clock = new ManualClock(Now);
+        Services.AddSingleton<TimeProvider>(clock);
+        var badge = Render<OmniStatusBadge<RunState?>>(parameters => parameters
+            .Add(component => component.Value, RunState.Succeeded)
+            .Add(component => component.Map, RunStates)
+            .Add(component => component.Timestamp, Now.AddDays(-30)));
+
+        Assert.False(badge.Instance.IsStale);
+        Assert.Empty(clock.Pending);
+    }
+
+    [Fact]
+    public void StatusMap_CountsItsValues_EnumeratesThem_AndDrawsNullWithItsEmptyStatus()
+    {
+        var map = new OmniStatusMap<string> { Empty = new OmniStatus(OmniTone.Info, "Aucun") };
+        map.Add("a", OmniTone.Success, "A").Add("b", OmniTone.Danger, "B");
+
+        Assert.Equal(2, map.Count);
+        Assert.Equal(2, ((System.Collections.IEnumerable)map).Cast<object>().Count());
+        Assert.Equal("Aucun", map.Resolve(null).Text);
     }
 
     private sealed class KeyLocalizer : IStringLocalizer

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Accepted: a small covered method, generated code over the threshold (Razor render tree, lambda,
+     closure class) and an async method admitted by exceptions.json under its source name. -->
+<coverage line-rate="1" branch-rate="1">
+  <packages>
+    <package name="Fixture">
+      <classes>
+        <class name="Fixture.Small" filename="Small.cs">
+          <methods>
+            <method name="Run" signature="()" complexity="5">
+              <lines><line number="1" hits="1" /><line number="2" hits="1" /></lines>
+            </method>
+            <method name="BuildRenderTree" signature="(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder)" complexity="90">
+              <lines><line number="3" hits="0" /></lines>
+            </method>
+            <method name="&lt;Run&gt;b__4_0" signature="()" complexity="40">
+              <lines><line number="4" hits="0" /></lines>
+            </method>
+          </methods>
+        </class>
+        <class name="Fixture.Small/&lt;&gt;c__DisplayClass2_0" filename="Small.cs">
+          <methods>
+            <method name="&lt;Run&gt;b__0" signature="()" complexity="40">
+              <lines><line number="5" hits="0" /></lines>
+            </method>
+          </methods>
+        </class>
+        <class name="Fixture.Table/&lt;LoadAsync&gt;d__3" filename="Table.cs">
+          <methods>
+            <method name="MoveNext" signature="()" complexity="40">
+              <lines><line number="6" hits="1" /><line number="7" hits="1" /></lines>
+            </method>
+          </methods>
+        </class>
+      </classes>
+    </package>
+  </packages>
+</coverage>

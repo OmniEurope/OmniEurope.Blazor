@@ -79,6 +79,17 @@ public sealed class PluralTextTests : OmniBunitContext
     [InlineData("mt", 11, "many")]
     [InlineData("mt", 19, "many")]
     [InlineData("mt", 20, "other")]
+    [InlineData("es", 1, "one")]
+    [InlineData("it", 1_000_000, "many")]
+    [InlineData("pt", 2, "other")]
+    [InlineData("cs", 0, "other")]
+    [InlineData("lt", 102, "few")]
+    [InlineData("ro", 100, "other")]
+    [InlineData("ga", 0, "other")]
+    [InlineData("mt", 102, "other")]
+    // The sign is ignored, the smallest long included.
+    [InlineData("en", -1, "one")]
+    [InlineData("en", long.MinValue, "other")]
     // A language the package does not ship shows the French text, so it takes the French rule.
     [InlineData("ja", 0, "one")]
     public void Each_language_files_a_whole_number_in_its_cldr_category(string language, long count, string expected)
@@ -225,5 +236,15 @@ public sealed class PluralTextTests : OmniBunitContext
         var path = Path.Combine(ShippedLookTests.RepositoryRoot(), "src", "OmniEurope.Blazor", "Resources", name);
         return XDocument.Load(path).Root!.Elements("data")
             .Select(data => ((string)data.Attribute("name")!, (string?)data.Element("value") ?? string.Empty));
+    }
+
+    [Fact]
+    public void PluralCount_WritesItsNumberInItsFormat_UnlessAnotherIsAsked()
+    {
+        var count = new PluralCount(12_500, "N0");
+
+        Assert.Equal("12,500", count.ToString(null, CultureInfo.InvariantCulture));
+        Assert.Equal("12500.0", count.ToString("F1", CultureInfo.InvariantCulture));
+        Assert.Equal(12_500.ToString("N0", CultureInfo.CurrentCulture), count.ToString());
     }
 }

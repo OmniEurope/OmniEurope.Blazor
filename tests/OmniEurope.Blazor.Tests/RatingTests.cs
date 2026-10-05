@@ -126,4 +126,56 @@ public sealed class RatingTests : OmniBunitContext
         Assert.Contains("omni-rating--disabled", root.ClassList);
         Assert.Equal(5, rating.FindAll("input[type=radio]:disabled").Count);
     }
+
+    [Fact]
+    public void Change_OnADisabledOrReadOnlyRating_IsRefused()
+    {
+        int? value = 2;
+        var disabled = Render<OmniRating>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.ValueChanged, selected => value = selected)
+            .Add(component => component.Disabled, true));
+
+        // A change event for a star of a disabled rating (a click raced with the switch to disabled).
+        disabled.FindAll("input[type=radio]")[4].Change(true);
+        Assert.Equal(2, value);
+
+        // Disabled and read-only together draw the disabled radios: read-only refuses the change too.
+        var both = Render<OmniRating>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.ValueChanged, selected => value = selected)
+            .Add(component => component.Disabled, true)
+            .Add(component => component.ReadOnly, true));
+        both.FindAll("input[type=radio]")[4].Change(true);
+        Assert.Equal(2, value);
+    }
+
+    [Theory]
+    [InlineData("", true, null)]
+    [InlineData(null, true, null)]
+    [InlineData("0", true, 0)]
+    [InlineData("5", true, 5)]
+    [InlineData("6", false, 6)]
+    [InlineData("-1", false, -1)]
+    [InlineData("trois", false, null)]
+    public void Text_IsARatingFromZeroToTheMaximum_OrEmpty(string? text, bool valid, int? expected)
+    {
+        var rating = Render<ParsingRating>(parameters => parameters
+            .Add(component => component.Value, null)
+            .Add(component => component.ValueExpression, () => _none));
+
+        Assert.Equal(valid, rating.Instance.Parse(text, out var result, out var message));
+        Assert.Equal(expected, result);
+        Assert.Equal(valid ? string.Empty : "La valeur saisie n'est pas valide.", message);
+    }
+
+    private readonly int? _none = null;
+
+    /// <summary>Opens the text parsing of the rating, which no markup of the rating reaches.</summary>
+    public sealed class ParsingRating : OmniRating
+    {
+        public bool Parse(string? text, out int? result, out string message) => TryParseValueFromString(text, out result, out message);
+    }
 }

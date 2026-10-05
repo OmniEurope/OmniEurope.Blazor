@@ -84,9 +84,10 @@ public static class OmniDataGridDateRange
             DateOnly day => day.ToDateTime(TimeOnly.MinValue),
             _ => null
         };
+        // Compared as plain dates: a lifted comparison of nullables would test a value already known.
         return moment is { } at
-            && (start is null || at >= start)
-            && (endExclusive is null || at < endExclusive);
+            && (start is not { } from || at >= from)
+            && (endExclusive is not { } until || at < until);
     }
 
     /// <summary>How a bound travels to a remote loader: invariant, sortable, without offset.</summary>

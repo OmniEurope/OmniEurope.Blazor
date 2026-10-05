@@ -327,13 +327,9 @@ public partial class OmniKanban<TItem>
         }
     }
 
+    /// <summary>Puts the card being carried back; both callers hold a card.</summary>
     private void CancelGrab()
     {
-        if (_grabbed < 0)
-        {
-            return;
-        }
-
         var item = _rendered[_grabbed];
         _grabbed = -1;
         Announce(Localize("KanbanCancelled", LabelOf(item), TitleOf(_grabFrom)));

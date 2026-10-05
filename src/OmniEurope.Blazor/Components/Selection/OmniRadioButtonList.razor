@@ -12,8 +12,10 @@
     {
         <legend class="omni-choice-list__legend">@Label</legend>
     }
-    @foreach (var option in Options)
+    @* An index loop: a foreach over the interface leaves an enumerator check no list can take. *@
+    @for (var index = 0; index < Options.Count; index++)
     {
+        var option = Options[index];
         <label class="@ItemClass(option)">
             <input type="radio"
                    class="omni-radio"

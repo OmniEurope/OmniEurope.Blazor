@@ -6,6 +6,7 @@
               KeyOf="@(ticket => ticket.Id)"
               ScrollMode="OmniDataGridScrollMode.All"
               FilterMode="@FilterMode"
+              ExportFormats="@ExportFormats"
               ShowHeaderFilterMenu="true">
     <Columns>
         <OmniDataGridColumn TItem="Ticket" Property="Id" Title="N°" Filterable="true" />
@@ -40,6 +41,8 @@
     [Parameter] public bool IncludesTime { get; set; }
 
     [Parameter] public OmniDataGridFilterMode FilterMode { get; set; } = OmniDataGridFilterMode.Simple;
+
+    [Parameter] public IReadOnlyList<OmniTableExportFormat> ExportFormats { get; set; } = [];
 
     [Parameter] public Func<OmniDataGridLoadRequest, Task<OmniDataGridResult<Ticket>>>? Load { get; set; }
 

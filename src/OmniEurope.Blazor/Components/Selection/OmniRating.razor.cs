@@ -48,7 +48,8 @@ public partial class OmniRating
 
     private void Select(int star)
     {
-        if (!Disabled && !ReadOnly) CurrentValue = star;
+        // Read-only without Disabled draws no radio at all: only a disabled rating has stars to refuse.
+        if (!Disabled) CurrentValue = star;
     }
 
     /// <summary>Checks the parameters.</summary>

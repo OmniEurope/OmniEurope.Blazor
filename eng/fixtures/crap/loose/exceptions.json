@@ -1,0 +1,5 @@
+{
+  "exceptions": [
+    { "method": "Fixture.Table::LoadAsync", "complexity": 45, "reason": "Fixture: the ceiling stayed above the method's complexity." }
+  ]
+}

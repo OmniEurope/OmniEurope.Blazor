@@ -76,15 +76,14 @@ public partial class OmniSelectableCard
     // Only a radio group keeps a single card in the tab order; elsewhere every card is a plain button.
     private string? TabIndex => Group is { Multiple: false } group ? (group.IsTabStop(this) ? "0" : "-1") : null;
 
-    /// <summary>Joins the group around the card, or leaves the one it was in.</summary>
+    /// <summary>Joins the group around the card, once: the group cascades itself as a fixed value.</summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        if (!ReferenceEquals(_registeredIn, Group))
+        if (_registeredIn is null && Group is { } group)
         {
-            _registeredIn?.Unregister(this);
-            _registeredIn = Group;
-            _registeredIn?.Register(this);
+            _registeredIn = group;
+            group.Register(this);
         }
     }
 

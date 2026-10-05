@@ -88,22 +88,17 @@ public partial class OmniTextBox
         ? EventCallback.Factory.Create<FocusEventArgs>(this, FlushPendingText)
         : default;
 
-    /// <summary>Follows the form's validation requests, so a submit takes the text still in the delay.</summary>
+    /// <summary>
+    /// Follows the form's validation requests, so a submit takes the text still in the delay. An input
+    /// keeps the form it started in (InputBase refuses another), so it subscribes once.
+    /// </summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        if (!ReferenceEquals(_flushedEditContext, EditContext))
+        if (_flushedEditContext is null && EditContext is { } form)
         {
-            if (_flushedEditContext is not null)
-            {
-                _flushedEditContext.OnValidationRequested -= FlushOnValidationRequested;
-            }
-
-            _flushedEditContext = EditContext;
-            if (_flushedEditContext is not null)
-            {
-                _flushedEditContext.OnValidationRequested += FlushOnValidationRequested;
-            }
+            _flushedEditContext = form;
+            form.OnValidationRequested += FlushOnValidationRequested;
         }
     }
 

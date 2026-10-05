@@ -149,7 +149,8 @@ internal static class OmniOverlayHosts
             }
         }));
         builder.AddAttribute(9, nameof(OmniNotification.OnDismiss), EventCallback.Factory.Create(service, () => { service.Dismiss(notification.Id); }));
-        if (notification.Action is { } action && !string.IsNullOrWhiteSpace(notification.ActionText))
+        // Notify refuses an action without its text: one comes with the other.
+        if (notification.Action is { } action)
         {
             builder.AddAttribute(10, nameof(OmniNotification.ActionText), notification.ActionText);
             builder.AddAttribute(11, nameof(OmniNotification.OnActionClick), EventCallback.Factory.Create(service, async () =>

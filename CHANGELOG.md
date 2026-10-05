@@ -16,6 +16,18 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 - `data-omni-theme-resolved` sur `OmniThemeScope` : le mode réellement dessiné, `light` ou `dark`, rendu par le balisage en clair et en sombre (et sous un thème `DarkOnly`), écrit par `omni-theme.js` en `System` et réécrit quand le réglage du système change. `data-omni-theme` garde sa valeur (`system` compris).
 - `OmniIconName.Leaf` : tracé Phosphor `regular` 2.1.1 `leaf`, ajouté en fin d'énumération (les valeurs existantes ne changent pas), pour l'écologie et l'empreinte environnementale. Vitrine : page Médias. Demande d'une application cliente (pages d'empreinte carbone, à la place de `GlobeHemisphereWest`).
 
+### Fixed
+
+- `OmniDataGrid` : la case « tout sélectionner » et le bouton « tout déplier » décrivent chaque ligne avec l'index sous lequel elle est rendue ; un `RowRender` qui refuse une ligne par `Index` la voyait cochée ou ouverte par l'en-tête, car toutes les lignes lui arrivaient avec l'index 0. Une ligne d'un groupe fermé, non rendue, garde sa position dans la page. Audit du 2026-10-04 (RCL-GRID-ROW-INDEX-001).
+- `OmniDataGrid` groupée : deux groupes dont les valeurs contiennent une barre oblique (`a/b` puis `c`, `a` puis `b/c`) partageaient leur compte et leur état ouvert, et une valeur nulle tombait dans le groupe du texte « System.Object » ; chaque niveau est maintenant échappé. Audit du 2026-10-04 (RCL-GRID-GROUP-KEY-001).
+- Mode `System` imbriqué dans une portée sombre : sans thème, palette ni police, il héritait des couleurs sombres sur un système clair ; `[data-omni-theme="system"]` reçoit les jetons clairs, que le bloc `prefers-color-scheme: dark` remplace sur un système sombre. Vérifié dans Chromium sous les deux préférences. Audit du 2026-10-04 (RCL-THEME-SYSTEM-001).
+- `AddOmniEuropePreset` : une valeur qu'aucun type d'élément ne peut recevoir (une chaîne pour `Items`, une liste) est refusée au démarrage ; une valeur de la bonne forme mais du mauvais type d'élément échoue au premier rendu avec un message qui nomme le preset et le paramètre, au lieu d'une exception de réflexion. Audit du 2026-10-04 (RCL-PRESET-001).
+- `OmniDynamicForm` : un champ qui change de genre sous le même nom (texte devenu nombre) garde sa valeur, convertie ; il perdait le « 42 » saisi, absent de `CurrentValues`. Audit du 2026-10-04 (RCL-DYNAMIC-KIND-001).
+- `OmniLogViewer` sans liaison de `Follow`, du niveau ou de la recherche : un rendu de l'hôte ramenait le lecteur en fin de journal et effaçait le filtre et la recherche qu'il avait choisis ; chaque valeur n'est reprise que lorsque l'hôte la change. Le filtre de niveau a désormais un nom accessible (`Label` au lieu d'un `aria-label` écrasé). Campagne de couverture PLAN-014.
+- `PluralMessage` : un nombre décimal entier au-delà de la plage d'un `long` levait une `OverflowException` ; il prend la forme du plus grand. Campagne de couverture PLAN-014.
+- `OmniSpreadsheetData.FromJson` : un `columnCount` qui n'est pas un nombre levait une `InvalidOperationException` non documentée ; il compte pour zéro. Campagne de couverture PLAN-014.
+- `OmniDataGrid` groupée : un groupe qui ne nomme aucune colonne décalait le sens de tri des groupes suivants ; il est écarté avec son sens. Campagne de couverture PLAN-014.
+
 ### Changed
 
 - `OmniDataGrid` : `Excel` dans `ExportFormats` donne désormais un bouton sans moteur de l'hôte, le paquet écrivant le classeur ; un `IOmniTableExportRenderer` de l'hôte qui écrit Excel reste prioritaire. `OmniTableExporter.Supports(Excel)` vaut vrai.

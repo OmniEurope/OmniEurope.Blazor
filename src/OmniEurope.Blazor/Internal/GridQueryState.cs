@@ -144,7 +144,7 @@ internal sealed class GridQueryState<TItem>(OmniDataGrid<TItem> grid)
         else if (existing >= 0) _sorts.RemoveAt(existing);
         if (!clear)
         {
-            _sorts.Add(new OmniDataGridSort(key, existing >= 0) { Property = column?.SortProperty ?? column?.Property });
+            _sorts.Add(new OmniDataGridSort(key, existing >= 0) { Property = column.SortProperty ?? column.Property });
         }
 
         await grid.View.QueryChangedAsync();

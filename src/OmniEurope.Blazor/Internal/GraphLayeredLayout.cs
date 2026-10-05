@@ -31,122 +31,161 @@ internal static class GraphLayeredLayout
         var layerSpacing = Sanitize(options.LayerSpacing);
         var leftToRight = options.Direction == OmniGraphDirection.LeftToRight;
 
-        // Real nodes, first occurrence of an identifier wins.
-        var index = new Dictionary<string, int>(StringComparer.Ordinal);
-        var ids = new List<string>(nodes.Count);
-        var mainSizes = new List<double>(nodes.Count);
-        var crossSizes = new List<double>(nodes.Count);
-        foreach (var node in nodes)
-        {
-            if (node?.Id is null || !index.TryAdd(node.Id, ids.Count))
-            {
-                continue;
-            }
-
-            ids.Add(node.Id);
-            var width = Sanitize(node.Width);
-            var height = Sanitize(node.Height);
-            mainSizes.Add(leftToRight ? width : height);
-            crossSizes.Add(leftToRight ? height : width);
-        }
-
-        var realCount = ids.Count;
-        if (realCount == 0)
+        var drawing = Drawing.Of(nodes, leftToRight);
+        if (drawing.RealCount == 0)
         {
             return new OmniGraphLayoutResult(new Dictionary<string, OmniGraphPoint>(StringComparer.Ordinal), 0, 0);
         }
 
-        var dag = BreakCycles(realCount, DistinctEdges(edges, index));
-        var layerOf = AssignLayers(realCount, dag);
+        var dag = BreakCycles(drawing.RealCount, DistinctEdges(edges, drawing.Index));
+        drawing.Chain(dag, AssignLayers(drawing.RealCount, dag));
+        var layers = drawing.Layers();
+        var position = new int[drawing.Total];
+        OrderLayers(layers, position, drawing.Predecessors, drawing.Successors);
 
-        // Every node of the drawing, real ones first, then the virtual nodes long edges pass through.
-        var isVirtual = new List<bool>(realCount);
-        for (var node = 0; node < realCount; node++)
+        var cross = PlaceAlongLayers(layers, drawing.Predecessors, drawing.Successors, drawing.CrossSizes, drawing.IsVirtual, nodeSpacing);
+        var (mainCentre, extentMain) = MainAxis(layers, drawing.MainSizes, layerSpacing);
+        var (crossMin, extentCross) = CrossExtent(cross, drawing.CrossSizes);
+
+        var positions = new Dictionary<string, OmniGraphPoint>(drawing.RealCount, StringComparer.Ordinal);
+        for (var node = 0; node < drawing.RealCount; node++)
         {
-            isVirtual.Add(false);
-        }
-
-        var predecessors = new List<List<int>>(realCount);
-        var successors = new List<List<int>>(realCount);
-        for (var node = 0; node < realCount; node++)
-        {
-            predecessors.Add([]);
-            successors.Add([]);
-        }
-
-        foreach (var (from, to) in dag)
-        {
-            var previous = from;
-            for (var layer = layerOf[from] + 1; layer < layerOf[to]; layer++)
-            {
-                var chain = isVirtual.Count;
-                isVirtual.Add(true);
-                layerOf.Add(layer);
-                mainSizes.Add(0);
-                crossSizes.Add(0);
-                predecessors.Add([]);
-                successors.Add([]);
-                Link(previous, chain);
-                previous = chain;
-            }
-
-            Link(previous, to);
-        }
-
-        var total = isVirtual.Count;
-        var layerCount = layerOf.Max() + 1;
-        var layers = new List<int>[layerCount];
-        for (var layer = 0; layer < layerCount; layer++)
-        {
-            layers[layer] = [];
-        }
-
-        for (var node = 0; node < total; node++)
-        {
-            layers[layerOf[node]].Add(node);
-        }
-
-        var position = new int[total];
-        OrderLayers(layers, position, predecessors, successors);
-
-        var cross = PlaceAlongLayers(layers, predecessors, successors, crossSizes, isVirtual, nodeSpacing);
-
-        // Along the flow: each layer as thick as its thickest node, the layers a fixed gap apart.
-        var mainCentre = new double[layerCount];
-        var mainStart = 0d;
-        for (var layer = 0; layer < layerCount; layer++)
-        {
-            var thickness = layers[layer].Count == 0 ? 0 : layers[layer].Max(node => mainSizes[node]);
-            mainCentre[layer] = mainStart + (thickness / 2);
-            mainStart += thickness + (layer < layerCount - 1 ? layerSpacing : 0);
-        }
-
-        var crossMin = double.MaxValue;
-        var crossMax = double.MinValue;
-        for (var node = 0; node < total; node++)
-        {
-            crossMin = Math.Min(crossMin, cross[node] - (crossSizes[node] / 2));
-            crossMax = Math.Max(crossMax, cross[node] + (crossSizes[node] / 2));
-        }
-
-        var positions = new Dictionary<string, OmniGraphPoint>(realCount, StringComparer.Ordinal);
-        for (var node = 0; node < realCount; node++)
-        {
-            var along = mainCentre[layerOf[node]];
+            var along = mainCentre[drawing.LayerOf[node]];
             var across = cross[node] - crossMin;
-            positions[ids[node]] = leftToRight ? new OmniGraphPoint(along, across) : new OmniGraphPoint(across, along);
+            positions[drawing.Ids[node]] = leftToRight ? new OmniGraphPoint(along, across) : new OmniGraphPoint(across, along);
         }
 
-        var extentMain = mainStart;
-        var extentCross = crossMax - crossMin;
         return leftToRight
             ? new OmniGraphLayoutResult(positions, extentMain, extentCross)
             : new OmniGraphLayoutResult(positions, extentCross, extentMain);
+    }
 
-        void Link(int from, int to)
+    /// <summary>Along the flow: each layer as thick as its thickest node, the layers a fixed gap apart.</summary>
+    private static (double[] Centre, double Extent) MainAxis(List<int>[] layers, List<double> mainSizes, double layerSpacing)
+    {
+        var centre = new double[layers.Length];
+        var start = 0d;
+        for (var layer = 0; layer < layers.Length; layer++)
         {
-            successors[from].Add(to);
-            predecessors[to].Add(from);
+            // Longest-path layering leaves no layer empty: a node of a layer has its predecessor in the one before.
+            var thickness = layers[layer].Max(node => mainSizes[node]);
+            centre[layer] = start + (thickness / 2);
+            start += thickness + (layer < layers.Length - 1 ? layerSpacing : 0);
+        }
+
+        return (centre, start);
+    }
+
+    /// <summary>Across the flow: where the drawing starts, and how wide it is.</summary>
+    private static (double Min, double Extent) CrossExtent(double[] cross, List<double> crossSizes)
+    {
+        var min = double.MaxValue;
+        var max = double.MinValue;
+        for (var node = 0; node < cross.Length; node++)
+        {
+            min = Math.Min(min, cross[node] - (crossSizes[node] / 2));
+            max = Math.Max(max, cross[node] + (crossSizes[node] / 2));
+        }
+
+        return (min, max - min);
+    }
+
+    /// <summary>
+    /// Every node of the drawing, real ones first, then the virtual nodes long edges pass through, with
+    /// their sizes along and across the flow, their layer and their neighbours.
+    /// </summary>
+    private sealed class Drawing
+    {
+        public Dictionary<string, int> Index { get; } = new(StringComparer.Ordinal);
+
+        public List<string> Ids { get; } = [];
+
+        public List<double> MainSizes { get; } = [];
+
+        public List<double> CrossSizes { get; } = [];
+
+        public List<bool> IsVirtual { get; } = [];
+
+        public List<List<int>> Predecessors { get; } = [];
+
+        public List<List<int>> Successors { get; } = [];
+
+        public List<int> LayerOf { get; private set; } = [];
+
+        public int RealCount => Ids.Count;
+
+        public int Total => IsVirtual.Count;
+
+        /// <summary>The real nodes, the first occurrence of an identifier winning.</summary>
+        public static Drawing Of(IReadOnlyList<OmniGraphLayoutNode> nodes, bool leftToRight)
+        {
+            var drawing = new Drawing();
+            foreach (var node in nodes)
+            {
+                if (node?.Id is null || !drawing.Index.TryAdd(node.Id, drawing.Ids.Count))
+                {
+                    continue;
+                }
+
+                drawing.Ids.Add(node.Id);
+                var width = Sanitize(node.Width);
+                var height = Sanitize(node.Height);
+                drawing.Add(leftToRight ? width : height, leftToRight ? height : width, isVirtual: false);
+            }
+
+            return drawing;
+        }
+
+        /// <summary>Takes the layers of the real nodes and cuts each long edge into a chain of virtual nodes.</summary>
+        public void Chain(List<(int From, int To)> dag, List<int> layerOf)
+        {
+            LayerOf = layerOf;
+            foreach (var (from, to) in dag)
+            {
+                var previous = from;
+                for (var layer = LayerOf[from] + 1; layer < LayerOf[to]; layer++)
+                {
+                    var chain = Total;
+                    Add(0, 0, isVirtual: true);
+                    LayerOf.Add(layer);
+                    Link(previous, chain);
+                    previous = chain;
+                }
+
+                Link(previous, to);
+            }
+        }
+
+        /// <summary>The nodes of each layer, in the order they were made.</summary>
+        public List<int>[] Layers()
+        {
+            var layers = new List<int>[LayerOf.Max() + 1];
+            for (var layer = 0; layer < layers.Length; layer++)
+            {
+                layers[layer] = [];
+            }
+
+            for (var node = 0; node < Total; node++)
+            {
+                layers[LayerOf[node]].Add(node);
+            }
+
+            return layers;
+        }
+
+        private void Add(double main, double cross, bool isVirtual)
+        {
+            MainSizes.Add(main);
+            CrossSizes.Add(cross);
+            IsVirtual.Add(isVirtual);
+            Predecessors.Add([]);
+            Successors.Add([]);
+        }
+
+        private void Link(int from, int to)
+        {
+            Successors[from].Add(to);
+            Predecessors[to].Add(from);
         }
     }
 

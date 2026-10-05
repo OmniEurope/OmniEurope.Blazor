@@ -95,12 +95,12 @@ public partial class OmniUnifiedDiff
         ? Localize("UnifiedDiffRenamedPath", file.OldPath, file.NewPath)
         : file.Path ?? Localize("UnifiedDiffUntitled");
 
+    // Only a file that is not merely modified wears a badge: added, deleted, or else renamed.
     private static OmniTone StatusTone(OmniDiffFileStatus status) => status switch
     {
         OmniDiffFileStatus.Added => OmniTone.Success,
         OmniDiffFileStatus.Deleted => OmniTone.Danger,
-        OmniDiffFileStatus.Renamed => OmniTone.Accent,
-        _ => OmniTone.Neutral
+        _ => OmniTone.Accent
     };
 
     private string StatusText(OmniDiffFileStatus status) => Localize($"UnifiedDiffStatus{status}");

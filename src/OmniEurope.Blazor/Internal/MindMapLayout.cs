@@ -34,9 +34,13 @@ internal static class MindMapLayout
         }
 
         var children = nodes.ToDictionary(node => node.Id, _ => new List<string>(), StringComparer.Ordinal);
-        foreach (var edge in edges.Where(edge => known.Contains(edge.From) && known.Contains(edge.To)))
+        for (var index = 0; index < edges.Count; index++)
         {
-            children[edge.From].Add(edge.To);
+            var edge = edges[index];
+            if (known.Contains(edge.From) && known.Contains(edge.To))
+            {
+                children[edge.From].Add(edge.To);
+            }
         }
 
         var width = Math.Max(canvasWidth, 800);
@@ -137,7 +141,7 @@ internal static class MindMapLayout
         }
     }
 
-    private static bool Separate(Box a, Box b)
+    internal static bool Separate(Box a, Box b)
     {
         var dx = b.X - a.X;
         var dy = b.Y - a.Y;
@@ -166,7 +170,7 @@ internal static class MindMapLayout
         return true;
     }
 
-    private sealed class Box(string id, double x, double y, double width, double height)
+    internal sealed class Box(string id, double x, double y, double width, double height)
     {
         public string Id { get; } = id;
 

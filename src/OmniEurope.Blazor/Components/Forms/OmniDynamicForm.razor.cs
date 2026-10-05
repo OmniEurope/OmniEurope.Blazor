@@ -78,7 +78,8 @@ public partial class OmniDynamicForm : IDisposable
     /// Throws when <see cref="Fields"/> is null or two fields share a name (compared ignoring case). When
     /// the fields or the incoming <see cref="Values"/> change, reloads each field from its value, else its
     /// default, else empty, and re-checks the fields already showing a message; when a default was used,
-    /// raises <see cref="ValuesChanged"/> once.
+    /// raises <see cref="ValuesChanged"/> once. A field whose kind changed under the same name keeps what
+    /// it held, converted to its new kind (a text 42 becomes the number 42).
     /// </summary>
     protected override async Task OnParametersSetAsync()
     {
@@ -115,7 +116,17 @@ public partial class OmniDynamicForm : IDisposable
                 }
                 else if (!valuesChanged)
                 {
-                    continue;
+                    if (state.Kind == field.Kind)
+                    {
+                        continue;
+                    }
+
+                    // Same name, another kind: each kind reads its own member, so the value is carried over.
+                    if (state.Write(state.Kind) is { } held)
+                    {
+                        state.Load(field.Kind, held);
+                        continue;
+                    }
                 }
 
                 if (Values is not null && Values.TryGetValue(field.Name, out var value))
@@ -232,41 +243,50 @@ public partial class OmniDynamicForm : IDisposable
     private string? Check(OmniDynamicField field)
     {
         var state = _states[field.Name];
-        switch (field.Kind)
+        return field.Kind switch
         {
-            case OmniDynamicFieldKind.Boolean:
-                return field.Required && !state.Answered ? Localize("DynamicFormRequired", field.Label) : null;
-            case OmniDynamicFieldKind.Number:
-                if (state.InvalidNumber is not null)
-                {
-                    return Localize("DynamicFormNumber", field.Label);
-                }
+            OmniDynamicFieldKind.Boolean => state.Answered ? null : Required(field),
+            OmniDynamicFieldKind.Number => CheckNumber(field, state),
+            OmniDynamicFieldKind.Choice => CheckChoice(field, state),
+            _ => string.IsNullOrWhiteSpace(state.Text) ? Required(field) : null
+        };
+    }
 
-                if (state.Number is not { } number)
-                {
-                    return field.Required ? Localize("DynamicFormRequired", field.Label) : null;
-                }
+    /// <summary>The message of a field left empty: required, or none.</summary>
+    private string? Required(OmniDynamicField field) => field.Required ? Localize("DynamicFormRequired", field.Label) : null;
 
-                if (field.Minimum is { } minimum && number < minimum)
-                {
-                    return Localize("DynamicFormMinimum", field.Label, minimum.ToString(CultureInfo.CurrentCulture));
-                }
-
-                return field.Maximum is { } maximum && number > maximum
-                    ? Localize("DynamicFormMaximum", field.Label, maximum.ToString(CultureInfo.CurrentCulture))
-                    : null;
-            case OmniDynamicFieldKind.Choice:
-                if (string.IsNullOrEmpty(state.Text))
-                {
-                    return field.Required ? Localize("DynamicFormRequired", field.Label) : null;
-                }
-
-                return field.Options.Any(option => string.Equals(option.Value, state.Text, StringComparison.Ordinal))
-                    ? null
-                    : Localize("DynamicFormChoice", field.Label);
-            default:
-                return field.Required && string.IsNullOrWhiteSpace(state.Text) ? Localize("DynamicFormRequired", field.Label) : null;
+    private string? CheckNumber(OmniDynamicField field, FieldState state)
+    {
+        if (state.InvalidNumber is not null)
+        {
+            return Localize("DynamicFormNumber", field.Label);
         }
+
+        if (state.Number is not { } number)
+        {
+            return Required(field);
+        }
+
+        if (field.Minimum is { } minimum && number < minimum)
+        {
+            return Localize("DynamicFormMinimum", field.Label, minimum.ToString(CultureInfo.CurrentCulture));
+        }
+
+        return field.Maximum is { } maximum && number > maximum
+            ? Localize("DynamicFormMaximum", field.Label, maximum.ToString(CultureInfo.CurrentCulture))
+            : null;
+    }
+
+    private string? CheckChoice(OmniDynamicField field, FieldState state)
+    {
+        if (string.IsNullOrEmpty(state.Text))
+        {
+            return Required(field);
+        }
+
+        return field.Options.Any(option => string.Equals(option.Value, state.Text, StringComparison.Ordinal))
+            ? null
+            : Localize("DynamicFormChoice", field.Label);
     }
 
     private string? ErrorOf(OmniDynamicField field)
@@ -329,6 +349,9 @@ public partial class OmniDynamicForm : IDisposable
 
         public string? InvalidNumber { get; set; }
 
+        /// <summary>The kind the state was last loaded for.</summary>
+        public OmniDynamicFieldKind Kind { get; private set; }
+
         public FieldIdentifier Identifier(OmniDynamicFieldKind kind) => kind switch
         {
             OmniDynamicFieldKind.Boolean => new FieldIdentifier(this, nameof(Flag)),
@@ -338,6 +361,7 @@ public partial class OmniDynamicForm : IDisposable
 
         public void Load(OmniDynamicFieldKind kind, string? value)
         {
+            Kind = kind;
             Text = null;
             Number = null;
             Flag = false;

@@ -67,6 +67,24 @@ public sealed class HtmlEditorDocumentTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task ShortcutsOfTheSurface_UndoRedoAndOpenTheLink()
+    {
+        JSInterop.SetupModule(EditorModulePath);
+        var value = "<p>Un</p>";
+        var document = RenderDocument(value, updated => value = updated);
+        var bridge = new HtmlEditorInteropBridge(document.Instance);
+        await document.InvokeAsync(() => bridge.OnVisualInput("<p>Un deux</p>"));
+
+        await document.InvokeAsync(() => bridge.OnHistoryShortcut(false));
+        Assert.Equal("<p>Un</p>", value);
+        await document.InvokeAsync(() => bridge.OnHistoryShortcut(true));
+        Assert.Equal("<p>Un deux</p>", value);
+
+        await document.InvokeAsync(bridge.OnLinkShortcut);
+        document.WaitForAssertion(() => Assert.NotEmpty(document.FindAll(".omni-html-editor__link")));
+    }
+
+    [Fact]
     public async Task ExportHtml_IsAStandaloneFile_WithTheClassesTurnedIntoDeclarations()
     {
         JSInterop.SetupModule(EditorModulePath);

@@ -39,7 +39,8 @@ public partial class OmniListBox<TValue, TSelection>
 
     private bool IsSelected(TValue value) => Multiple
         ? CurrentValue is IEnumerable<TValue> selected && selected.Contains(value, EqualityComparer<TValue>.Default)
-        : CurrentValue is null ? value is null : CurrentValue is TValue current && EqualityComparer<TValue>.Default.Equals(current, value);
+        // Without Multiple the selection is a TValue or its nullable form (EnsureSelectionType).
+        : CurrentValue is null ? value is null : EqualityComparer<TValue>.Default.Equals((TValue)(object)CurrentValue, value);
 
     /// <summary>Checks that <typeparamref name="TSelection"/> fits <see cref="Multiple"/>.</summary>
     /// <exception cref="InvalidOperationException">

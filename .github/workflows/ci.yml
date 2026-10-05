@@ -57,6 +57,14 @@ jobs:
       - name: Verify coverage artifact
         shell: pwsh
         run: ./eng/Test-Coverage.ps1 -CoverageRoot artifacts/coverage
+      - name: CRAP gate self-test
+        # Each fixture report breaks the gate for one reason; the gate must refuse each for that reason.
+        shell: pwsh
+        run: ./eng/Test-CrapFixtures.ps1
+      - name: CRAP gate
+        # No method of the library above a CRAP score of 30 outside eng/crap-exceptions.json (PLAN-014).
+        shell: pwsh
+        run: ./eng/Test-Crap.ps1 -CoverageRoot artifacts/coverage
       - name: Shipped analyzer tests
         # OE0001 ships in the package: its suite runs on the captured Razor generator output.
         run: >-

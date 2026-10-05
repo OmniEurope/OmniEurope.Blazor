@@ -45,7 +45,8 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
     internal bool Veiled => Preparing && !grid.View.Loading;
 
     /// <summary>Whether Enter on a resize handle can fit its column to content.</summary>
-    internal bool CanAutoFit => _gridModule is not null && _resizeAttached;
+    // The resize gesture is attached only once the module is loaded.
+    internal bool CanAutoFit => _resizeAttached;
 
     internal Task AutoFitColumnAsync(string key) => _gridModule!.InvokeVoidAsync("autoFitColumn", grid.Viewport, key).AsTask();
 
@@ -316,50 +317,15 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         try
         {
             await DetachViewportAsync();
-            if (_resizeAttached && _gridModule is not null)
-            {
-                _resizeAttached = false;
-                await _gridModule.InvokeVoidAsync("detachResize", grid.Viewport);
-            }
-
-            if (_filterMenuAttached && _gridModule is not null)
-            {
-                _filterMenuAttached = false;
-                await _gridModule.InvokeVoidAsync("detachFilterMenus", grid.Viewport);
-            }
-
-            if (_wheelScopeAttached is not null && _gridModule is not null)
-            {
-                _wheelScopeAttached = null;
-                await _gridModule.InvokeVoidAsync("detachWheelScope", grid.Viewport);
-            }
-
-            if (_fillAttached && _gridModule is not null)
-            {
-                _fillAttached = false;
-                await _gridModule.InvokeVoidAsync("detachFill", grid.Viewport);
-            }
-
-            if (_frozenScrollAttached && _gridModule is not null)
-            {
-                _frozenScrollAttached = false;
-                await _gridModule.InvokeVoidAsync("detachFrozenScroll", grid.Viewport);
-            }
-
-            if (_columnHoverAttached && _gridModule is not null)
-            {
-                _columnHoverAttached = false;
-                await _gridModule.InvokeVoidAsync("detachColumnHover", grid.Viewport);
-            }
-
-            if (_cutTooltipsInstalled && _gridModule is not null)
-            {
-                _cutTooltipsInstalled = false;
-                await _gridModule.InvokeVoidAsync("uninstallPackageTooltips");
-            }
-
+            // Every listener is attached once the module is loaded: without a module, nothing is attached.
             if (_gridModule is not null)
             {
+                foreach (var function in TakeAttached())
+                {
+                    object?[] arguments = function == UninstallTooltips ? [] : [grid.Viewport];
+                    await _gridModule.InvokeVoidAsync(function, arguments);
+                }
+
                 await _gridModule.DisposeAsync();
             }
         }
@@ -368,5 +334,51 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         }
 
         _selfReference?.Dispose();
+    }
+
+    private const string UninstallTooltips = "uninstallPackageTooltips";
+
+    /// <summary>The script functions that undo what is attached, in order; each is forgotten once named.</summary>
+    private List<string> TakeAttached()
+    {
+        var functions = new List<string>();
+        if (_resizeAttached)
+        {
+            functions.Add("detachResize");
+        }
+
+        if (_filterMenuAttached)
+        {
+            functions.Add("detachFilterMenus");
+        }
+
+        if (_wheelScopeAttached is not null)
+        {
+            functions.Add("detachWheelScope");
+        }
+
+        if (_fillAttached)
+        {
+            functions.Add("detachFill");
+        }
+
+        if (_frozenScrollAttached)
+        {
+            functions.Add("detachFrozenScroll");
+        }
+
+        if (_columnHoverAttached)
+        {
+            functions.Add("detachColumnHover");
+        }
+
+        if (_cutTooltipsInstalled)
+        {
+            functions.Add(UninstallTooltips);
+        }
+
+        (_resizeAttached, _filterMenuAttached, _wheelScopeAttached, _fillAttached) = (false, false, null, false);
+        (_frozenScrollAttached, _columnHoverAttached, _cutTooltipsInstalled) = (false, false, false);
+        return functions;
     }
 }

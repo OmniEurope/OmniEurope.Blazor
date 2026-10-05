@@ -158,11 +158,7 @@ internal sealed class GridDataView<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisp
     /// </summary>
     internal async Task ColumnsRenderedAsync()
     {
-        if (_columnsRendered)
-        {
-            return;
-        }
-
+        // Called once, after the first render.
         _columnsRendered = true;
         // A state still being restored: the first parameters pass that follows sends the request.
         if (grid.Load is null || !_parametersObserved)

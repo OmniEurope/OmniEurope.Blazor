@@ -26,6 +26,11 @@ public sealed class OmniPresetRegistry
     /// taken or reserved, when a second default is declared, or when a value names no parameter of the
     /// component or has the wrong type: a mistake fails the host at startup, not a page at render.
     /// </summary>
+    /// <remarks>
+    /// A parameter whose type depends on the component's type parameter (<c>Items</c> of a grid) can only
+    /// be checked for its shape at startup: a string for a list fails here, a list of the wrong item type
+    /// fails on the first render of the closed component, with a message naming the preset.
+    /// </remarks>
     public void Add(Type componentType, string name, IReadOnlyDictionary<string, object?> values, bool isDefault = false)
     {
         ArgumentNullException.ThrowIfNull(componentType);
@@ -58,24 +63,30 @@ public sealed class OmniPresetRegistry
     /// </summary>
     internal void Apply(IComponent component, ParameterView parameters, string? presetName)
     {
-        var values = Resolve(component.GetType(), presetName);
+        var type = component.GetType();
+        var (name, values) = Resolve(type, presetName);
         if (values is null) return;
         foreach (var (parameter, value) in values)
         {
             if (parameters.TryGetValue<object?>(parameter, out _)) continue;
-            PropertyOf(component.GetType(), parameter).SetValue(component, value);
+            var property = PropertyOf(type, parameter);
+            // Only a parameter typed by the component's type parameter can still be wrong here: the
+            // registration checked every other one against its property type.
+            if (!Accepts(property.PropertyType, value))
+                throw new InvalidOperationException($"Preset '{name}' of {KeyOf(type).Name} gives '{parameter}' {(value is null ? "null" : $"a {value.GetType().Name}")}; this component expects a {property.PropertyType.Name}.");
+            property.SetValue(component, value);
         }
     }
 
-    private IReadOnlyDictionary<string, object?>? Resolve(Type type, string? presetName)
+    private (string? Name, IReadOnlyDictionary<string, object?>? Values) Resolve(Type type, string? presetName)
     {
-        if (string.Equals(presetName, None, StringComparison.OrdinalIgnoreCase)) return null;
-        var key = type.IsGenericType ? type.GetGenericTypeDefinition() : type;
+        if (string.Equals(presetName, None, StringComparison.OrdinalIgnoreCase)) return (null, null);
+        var key = KeyOf(type);
         _presets.TryGetValue(key, out var byName);
         if (presetName is null)
-            return _defaults.TryGetValue(key, out var fallback) ? byName![fallback] : null;
+            return _defaults.TryGetValue(key, out var fallback) ? (fallback, byName![fallback]) : (null, null);
         return byName is not null && byName.TryGetValue(presetName, out var named)
-            ? named
+            ? (presetName, named)
             : throw new InvalidOperationException($"No preset named '{presetName}' is registered for {key.Name}.");
     }
 
@@ -83,7 +94,7 @@ public sealed class OmniPresetRegistry
     internal static void ThrowUnregistered(Type type, string presetName)
     {
         if (string.Equals(presetName, None, StringComparison.OrdinalIgnoreCase)) return;
-        var key = type.IsGenericType ? type.GetGenericTypeDefinition() : type;
+        var key = KeyOf(type);
         throw new InvalidOperationException($"No preset named '{presetName}' is registered for {key.Name}.");
     }
 
@@ -100,12 +111,35 @@ public sealed class OmniPresetRegistry
             throw new ArgumentException($"'{parameter}' of {componentType.Name} cannot be set by a preset.", nameof(parameter));
 
         var type = property.PropertyType;
-        if (type.ContainsGenericParameters) return;
-        var accepted = value is null
-            ? !type.IsValueType || Nullable.GetUnderlyingType(type) is not null
-            : type.IsInstanceOfType(value);
+        var accepted = type.ContainsGenericParameters ? MayFit(type, value) : Accepts(type, value);
         if (!accepted)
             throw new ArgumentException($"'{parameter}' of {componentType.Name} is a {type.Name}; the preset gives {(value is null ? "null" : value.GetType().Name)}.", nameof(parameter));
+    }
+
+    private static Type KeyOf(Type type) => type.IsGenericType ? type.GetGenericTypeDefinition() : type;
+
+    private static bool Accepts(Type type, object? value) => value is null
+        ? !type.IsValueType || Nullable.GetUnderlyingType(type) is not null
+        : type.IsInstanceOfType(value);
+
+    /// <summary>
+    /// Whether a value can fit a parameter typed by the component's type parameter for some item type: a
+    /// list for <c>IReadOnlyList&lt;TItem&gt;</c>. A null value or a bare <c>TValue</c> can fit a closed
+    /// type; the first render checks the rest.
+    /// </summary>
+    private static bool MayFit(Type type, object? value)
+    {
+        if (value is null || !type.IsGenericType) return true;
+        var valueType = value.GetType();
+        var definition = type.GetGenericTypeDefinition();
+        return SelfAndAncestors(valueType).Concat(valueType.GetInterfaces())
+            .Any(candidate => candidate.IsGenericType && candidate.GetGenericTypeDefinition() == definition);
+    }
+
+    private static IEnumerable<Type> SelfAndAncestors(Type type)
+    {
+        for (var current = type; current is not null; current = current.BaseType)
+            yield return current;
     }
 
     private static bool IsPackageComponent(Type type)

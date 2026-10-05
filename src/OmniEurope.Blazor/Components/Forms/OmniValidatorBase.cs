@@ -178,7 +178,8 @@ public abstract class OmniValidatorBase<TValue> : ComponentBase, IDisposable
         _validationDelay = null;
         if (_subscribedEditContext is not null)
         {
-            _messages?.Clear(_field);
+            // Subscribed and given a message store together, in OnParametersSet.
+            _messages!.Clear(_field);
             _subscribedEditContext.OnValidationRequested -= HandleValidationRequested;
             _subscribedEditContext.OnFieldChanged -= HandleFieldChanged;
             _subscribedEditContext.OnValidationStateChanged -= HandleValidationStateChanged;

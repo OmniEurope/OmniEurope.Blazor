@@ -203,6 +203,45 @@ public sealed class DataGridTreeTests : OmniBunitContext
         Assert.Equal("2", grid.Find("tfoot td[data-omni-col='Amount']").TextContent.Trim());
     }
 
+    [Theory]
+    [InlineData("Amount", "Amount")]
+    [InlineData("Absent", "Label")]
+    public void TreeColumnKey_PutsTheChevronInThatColumn_OrInTheFirstWhenItIsNotShown(string key, string expected)
+    {
+        var grid = RenderGrid(parameters => parameters.Add(g => g.TreeColumnKey, key));
+
+        var toggle = Assert.Single(grid.FindAll("tbody tr[data-omni-row-index]")[0].QuerySelectorAll(".omni-data-grid__tree-toggle"));
+        Assert.Equal(expected, toggle.Closest("td")!.GetAttribute("data-omni-col"));
+    }
+
+    [Fact]
+    public void Groups_AreIgnoredByATreeGrid()
+    {
+        var grid = RenderGrid(parameters => parameters
+            .Add(g => g.AllowGrouping, true)
+            .Add(g => g.Groups, [new OmniDataGridGroup(nameof(Line.Label))]));
+
+        Assert.Empty(grid.FindAll("tbody tr.omni-data-grid__group"));
+        Assert.Equal(["Produits", "Charges"], Labels(grid));
+    }
+
+    [Fact]
+    public void CsvExport_WritesEveryRowAtEveryDepth_HoweverFewAreOpen()
+    {
+        var download = JSInterop.SetupModule(Internal.OmniModules.DocumentEditor);
+        download.SetupVoid("download", _ => true).SetVoidResult();
+        var grid = RenderGrid(parameters => parameters.Add(g => g.ExportFormats, [OmniTableExportFormat.Csv]));
+        Assert.Equal(["Produits", "Charges"], Labels(grid));
+
+        grid.Find(".omni-data-grid__export-button").Click();
+
+        var csv = System.Text.Encoding.UTF8.GetString((byte[])Assert.Single(download.Invocations["download"]).Arguments[2]!);
+        foreach (var label in new[] { "Produits", "Ventes", "Prestations", "Produits finis", "Autres produits", "Charges", "Achats", "Marchandises" })
+        {
+            Assert.Contains(label, csv, StringComparison.Ordinal);
+        }
+    }
+
     [Fact]
     public void RemoteLoad_IsRefused()
     {

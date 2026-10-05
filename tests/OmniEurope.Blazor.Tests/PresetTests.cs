@@ -121,4 +121,56 @@ public sealed class PresetTests : OmniBunitContext
         Assert.Throws<ArgumentException>(() => registry.Add(typeof(OmniDataGrid<>), "compact", CompactGrid));
         Assert.Throws<ArgumentException>(() => registry.Add(typeof(OmniDataGrid<>), "other", CompactGrid, isDefault: true));
     }
+
+    [Fact]
+    public void Registration_RejectsAValueThatNoItemTypeCanFit()
+    {
+        // Items is an IReadOnlyList<TItem>: a string fits no grid, whatever its item type
+        // (audit RCL-PRESET-001, it used to pass and fail every page at render).
+        var registry = new OmniPresetRegistry();
+
+        var error = Assert.Throws<ArgumentException>(() => registry.Add(typeof(OmniDataGrid<>), "bad",
+            new Dictionary<string, object?> { [nameof(OmniDataGrid<Row>.Items)] = "texte" }));
+        Assert.Contains("String", error.Message, StringComparison.Ordinal);
+
+        // A list fits some grid and a null fits any: both wait for the closed type.
+        registry.Add(typeof(OmniDataGrid<>), "list", new Dictionary<string, object?> { [nameof(OmniDataGrid<Row>.Items)] = new[] { 1, 2 } });
+        registry.Add(typeof(OmniDataGrid<>), "unset", new Dictionary<string, object?> { [nameof(OmniDataGrid<Row>.Items)] = null });
+    }
+
+    [Fact]
+    public void GenericValueOfTheWrongItemType_FailsAtRender_NamingThePreset()
+    {
+        Services.AddOmniEuropePreset(typeof(OmniDataGrid<>), "numbers", new Dictionary<string, object?>
+        {
+            [nameof(OmniDataGrid<Row>.Items)] = new[] { 1, 2 },
+        });
+
+        var error = Assert.ThrowsAny<InvalidOperationException>(() =>
+            Render<OmniDataGrid<Row>>(parameters => parameters.Add(grid => grid.PresetName, "numbers")));
+
+        Assert.Contains("'numbers'", error.Message, StringComparison.Ordinal);
+        Assert.Contains("'Items'", error.Message, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void BareGenericValue_FitsTheClosedTypeOrFailsAtRender()
+    {
+        Services.AddOmniEuropePreset(typeof(OmniStatusBadge<>), "word", new Dictionary<string, object?>
+        {
+            [nameof(OmniStatusBadge<int>.Value)] = "actif",
+        });
+        Services.AddOmniEuropePreset(typeof(OmniStatusBadge<>), "empty", new Dictionary<string, object?>
+        {
+            [nameof(OmniStatusBadge<int>.Value)] = null,
+        });
+
+        Assert.Equal("actif", Render<OmniStatusBadge<string>>(parameters => parameters.Add(badge => badge.PresetName, "word").Add(badge => badge.Map, new OmniStatusMap<string>())).Instance.Value);
+        var wrong = Assert.ThrowsAny<InvalidOperationException>(() =>
+            Render<OmniStatusBadge<int>>(parameters => parameters.Add(badge => badge.PresetName, "word").Add(badge => badge.Map, new OmniStatusMap<int>())));
+        Assert.Contains("a String", wrong.Message, StringComparison.Ordinal);
+        var empty = Assert.ThrowsAny<InvalidOperationException>(() =>
+            Render<OmniStatusBadge<int>>(parameters => parameters.Add(badge => badge.PresetName, "empty").Add(badge => badge.Map, new OmniStatusMap<int>())));
+        Assert.Contains("gives 'Value' null", empty.Message, StringComparison.Ordinal);
+    }
 }

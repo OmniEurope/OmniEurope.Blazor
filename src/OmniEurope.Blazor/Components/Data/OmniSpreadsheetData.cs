@@ -197,7 +197,9 @@ public sealed record OmniSpreadsheetData
             throw new JsonException("The text holds no spreadsheet.");
         }
 
-        var columns = root.TryGetProperty("columnCount", out var count) && count.TryGetInt32(out var declared) ? Math.Max(0, declared) : 0;
+        var columns = root.TryGetProperty("columnCount", out var count) && count.ValueKind == JsonValueKind.Number && count.TryGetInt32(out var declared)
+            ? Math.Max(0, declared)
+            : 0;
         var rows = new List<IEnumerable<string?>>();
         if (root.TryGetProperty("rows", out var items) && items.ValueKind == JsonValueKind.Array)
         {

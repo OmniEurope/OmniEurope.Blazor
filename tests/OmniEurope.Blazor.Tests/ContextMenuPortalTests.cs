@@ -120,6 +120,25 @@ public sealed class ContextMenuPortalTests : OmniBunitContext
     }
 
     [Fact]
+    public void Trigger_OpensOnShiftF10Only()
+    {
+        JSInterop.SetupModule(FocusModule).Mode = JSRuntimeMode.Loose;
+        var opened = new List<bool>();
+        var menu = Render<OmniContextMenu>(parameters => parameters
+            .Add(component => component.Id, "cible")
+            .Add(component => component.OpenChanged, value => opened.Add(value))
+            .Add(component => component.TriggerContent, (RenderFragment)(builder => builder.AddContent(0, "Cible")))
+            .AddChildContent<OmniMenuItem>(item => item.AddChildContent("Action")));
+
+        menu.Find("#cible").KeyDown(new KeyboardEventArgs { Key = "F10" });
+        menu.Find("#cible").KeyDown(new KeyboardEventArgs { Key = "a", ShiftKey = true });
+        Assert.Empty(opened);
+
+        menu.Find("#cible").KeyDown(new KeyboardEventArgs { Key = "F10", ShiftKey = true });
+        Assert.Equal([true], opened);
+    }
+
+    [Fact]
     public void WithoutAPortal_ThePopupRendersInPlaceAndItsKeysAreNotHandledTwice()
     {
         var module = JSInterop.SetupModule(FocusModule);

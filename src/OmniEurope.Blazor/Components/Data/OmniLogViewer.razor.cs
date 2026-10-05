@@ -45,7 +45,7 @@ public partial class OmniLogViewer : IAsyncDisposable
     private int _observedCount;
     private OmniLogLine? _observedLast;
     private OmniLogLevel? _filteredLevel;
-    private string _searchedText = string.Empty;
+    private string? _searchedText;
 
     private bool _following = true;
     private bool _observedFollow = true;
@@ -53,7 +53,7 @@ public partial class OmniLogViewer : IAsyncDisposable
     private int _unseen;
     private OmniLogLevel? _minimumLevel;
     private OmniLogLevel? _observedMinimumLevel;
-    private string _search = string.Empty;
+    private string? _search;
     private string? _observedSearch;
     private int _matchCursor = -1;
     private double? _pendingReveal;
@@ -157,7 +157,7 @@ public partial class OmniLogViewer : IAsyncDisposable
 
     private bool HasToolbar => ShowLevelFilter || ShowSearch;
 
-    private string CurrentSearch => _search;
+    private string? CurrentSearch => _search;
 
     private bool HasSearch => !string.IsNullOrWhiteSpace(_search);
 
@@ -218,7 +218,7 @@ public partial class OmniLogViewer : IAsyncDisposable
         if (!string.Equals(SearchText, _observedSearch, StringComparison.Ordinal))
         {
             _observedSearch = SearchText;
-            _search = SearchText ?? string.Empty;
+            _search = SearchText;
         }
 
         SyncLines();
@@ -305,7 +305,7 @@ public partial class OmniLogViewer : IAsyncDisposable
         }
 
         var compare = CultureInfo.CurrentCulture.CompareInfo;
-        var needle = _search.Trim();
+        var needle = _search!.Trim();
         for (var position = fromPosition; position < _visible.Count; position++)
         {
             if (compare.IndexOf(Lines[_visible[position]].Text, needle, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace) >= 0)
@@ -338,8 +338,9 @@ public partial class OmniLogViewer : IAsyncDisposable
             return;
         }
 
+        // _observedFollow keeps the last value received: a host that does not bind Follow passes its
+        // unchanged default on every render, which must not pull the reader back to the tail.
         SetFollowing(following);
-        _observedFollow = following;
         ComputeRange();
         await FollowChanged.InvokeAsync(following);
     }
@@ -352,15 +353,13 @@ public partial class OmniLogViewer : IAsyncDisposable
     private async Task SetMinimumLevelAsync(OmniLogLevel? level)
     {
         _minimumLevel = level;
-        _observedMinimumLevel = level;
         SyncLines();
         await MinimumLevelChanged.InvokeAsync(level);
     }
 
     private async Task SetSearchAsync(string? text)
     {
-        _search = text ?? string.Empty;
-        _observedSearch = text;
+        _search = text;
         SyncLines();
         await SearchTextChanged.InvokeAsync(text);
     }
@@ -369,14 +368,12 @@ public partial class OmniLogViewer : IAsyncDisposable
 
     private Task PreviousMatchAsync() => MoveToMatchAsync(-1);
 
-    /// <summary>Steps to the next or previous match, wrapping around, and scrolls it into view.</summary>
+    /// <summary>
+    /// Steps to the next or previous match, wrapping around, and scrolls it into view. Only the step
+    /// buttons call it, and they are disabled without a match (a disabled OmniButton raises no click).
+    /// </summary>
     private async Task MoveToMatchAsync(int step)
     {
-        if (_matches.Count == 0)
-        {
-            return;
-        }
-
         _matchCursor = _matchCursor < 0
             ? (step > 0 ? FirstMatchFromView() : LastMatchBeforeView())
             : ((_matchCursor + step) % _matches.Count + _matches.Count) % _matches.Count;

@@ -65,6 +65,28 @@ public sealed class GitGraphComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public void Layout_MergesIntoTheLaneAlreadyWaitingForTheSecondParent()
+    {
+        // x already drew a lane down to b: the merge m sends its second line into that lane.
+        var layout = Build([new("x", ["b"]), new("m", ["a", "b"]), new("a", []), new("b", [])]);
+
+        Assert.Equal(2, layout.LaneCount);
+        Assert.Equal(1, layout.Rows[1].Lane);
+        Assert.Contains(new GitGraphSegment(1, 0, Upper: false, ColorLane: 0), layout.Rows[1].Segments);
+        Assert.True(layout.Rows[1].IsMerge);
+    }
+
+    [Fact]
+    public void Layout_ReusesALaneARootCommitFreed()
+    {
+        // p ends its lane; z, awaited by nobody, takes that free lane instead of a third one.
+        var layout = Build([new("x", ["p"]), new("y", ["q"]), new("p", []), new("z", ["q"]), new("q", [])]);
+
+        Assert.Equal(0, layout.Rows[3].Lane);
+        Assert.Equal(2, layout.LaneCount);
+    }
+
+    [Fact]
     public void Layout_OpensNoSecondLane_ForAParentNamedTwice()
     {
         var layout = Build([new("a", ["b", "b"]), new("b", [])]);

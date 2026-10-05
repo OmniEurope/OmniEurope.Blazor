@@ -40,6 +40,19 @@ public sealed class ShippedThemeTokensTests
     }
 
     [Fact]
+    public void A_system_scope_has_its_own_light_values_before_the_dark_media_block()
+    {
+        // A system scope nested in a dark one inherited the dark tokens on a light system: it needs light
+        // values of its own, declared before the media block that replaces them on a dark system.
+        var css = Render();
+        var light = css.IndexOf("[data-omni-theme=\"system\"] {\n    --omni-chart-color-0: " + Shipped().Light["--omni-chart-color-0"], StringComparison.Ordinal);
+        var media = css.IndexOf("@media (prefers-color-scheme: dark)", StringComparison.Ordinal);
+
+        Assert.True(light >= 0, "The system scope has no light colour tokens.");
+        Assert.True(light < media, "The light values of the system scope come after its dark media block.");
+    }
+
+    [Fact]
     public void Every_generated_colour_token_has_a_light_and_a_dark_value()
     {
         var preset = Shipped();
@@ -117,8 +130,10 @@ public sealed class ShippedThemeTokensTests
     private static OmniThemePreset Shipped() => OmniThemePresets.All[0];
 
     /// <summary>
-    /// Light values on the root and on a light scope, dark values on a dark scope and on a system scope
-    /// whose system is dark. The shape is declared on the root and again on every scope: several shape
+    /// Light values on the root, on a light scope and on a system scope, dark values on a dark scope and
+    /// on a system scope whose system is dark (the media block comes later and wins). Without its own
+    /// light values, a system scope nested in a dark one inherited the dark tokens on a light system
+    /// (audit RCL-THEME-SYSTEM-001). The shape is declared on the root and again on every scope: several shape
     /// values name a mode token (the card background, the shadows), and a custom property resolves the
     /// var() it names where it is declared, so declared on the root alone a dark scope would inherit
     /// the light values.
@@ -131,7 +146,7 @@ public sealed class ShippedThemeTokensTests
         builder.Append(StartMarker).Append('\n');
         builder.Append("/* Generated from the theme ").Append(preset.Name).Append(" and its palette ").Append(ThemeCatalog.All[0].DefaultPalette)
             .Append(" by ShippedThemeTokensTests: do not edit by hand. */\n");
-        Block(builder, ":root,\n[data-omni-theme=\"light\"]", colourNames.Select(name => (name, preset.Light[name])), string.Empty, null);
+        Block(builder, ":root,\n[data-omni-theme=\"light\"],\n[data-omni-theme=\"system\"]", colourNames.Select(name => (name, preset.Light[name])), string.Empty, null);
         Block(builder, ":root,\n[data-omni-theme]", preset.Shape.OrderBy(pair => pair.Key, StringComparer.Ordinal).Select(pair => (pair.Key, pair.Value)), string.Empty, null);
         Block(builder, "[data-omni-theme=\"dark\"]", colourNames.Select(name => (name, preset.Dark[name])), string.Empty, "dark");
         builder.Append("@media (prefers-color-scheme: dark) {\n");

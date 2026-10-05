@@ -141,8 +141,9 @@ public partial class OmniAppearanceWindow
     /// <summary>
     /// The close button and Escape only close the window, keeping the look tried as Apply does (owner
     /// decision of 2026-10-02, review point 88): only Restore puts back the look it opened on.
+    /// OmniDialog reports only its closing.
     /// </summary>
-    private Task OnDialogOpenChangedAsync(bool open) => open ? OpenChanged.InvokeAsync(true) : CloseAsync();
+    private Task OnDialogOpenChangedAsync(bool _) => CloseAsync();
 
     /// <summary>Puts back the look the window opened on, then closes it.</summary>
     private async Task CancelAsync()
@@ -174,47 +175,20 @@ public partial class OmniAppearanceWindow
     private async Task ApplyLookAsync(Look look)
     {
         var current = Current;
-        if (AppearanceChanged.HasDelegate && current.Appearance != look.Appearance)
-        {
-            await AppearanceChanged.InvokeAsync(look.Appearance);
-        }
-
         var themeChanged = PresetChanged.HasDelegate && !Equals(current.Preset, look.Preset);
-        if (themeChanged)
-        {
-            await PresetChanged.InvokeAsync(look.Preset);
-        }
-
-        if (PaletteChanged.HasDelegate && (themeChanged || !Equals(current.Palette, look.Palette)))
-        {
-            await PaletteChanged.InvokeAsync(look.Palette);
-        }
-
-        if (FontChanged.HasDelegate && (themeChanged || !Equals(current.Font, look.Font)))
-        {
-            await FontChanged.InvokeAsync(look.Font);
-        }
-
-        if (BackdropMotionChanged.HasDelegate && current.BackdropMotion != look.BackdropMotion)
-        {
-            await BackdropMotionChanged.InvokeAsync(look.BackdropMotion);
-        }
-
-        if (TextSizeLevelChanged.HasDelegate && current.TextSizeLevel != look.TextSizeLevel)
-        {
-            await TextSizeLevelChanged.InvokeAsync(look.TextSizeLevel);
-        }
-
-        if (DensityChanged.HasDelegate && current.Density != look.Density)
-        {
-            await DensityChanged.InvokeAsync(look.Density);
-        }
-
-        if (ControlSizeLevelChanged.HasDelegate && current.ControlSizeLevel != look.ControlSizeLevel)
-        {
-            await ControlSizeLevelChanged.InvokeAsync(look.ControlSizeLevel);
-        }
+        await RaiseAsync(AppearanceChanged, current.Appearance != look.Appearance, look.Appearance);
+        await RaiseAsync(PresetChanged, themeChanged, look.Preset);
+        await RaiseAsync(PaletteChanged, themeChanged || !Equals(current.Palette, look.Palette), look.Palette);
+        await RaiseAsync(FontChanged, themeChanged || !Equals(current.Font, look.Font), look.Font);
+        await RaiseAsync(BackdropMotionChanged, current.BackdropMotion != look.BackdropMotion, look.BackdropMotion);
+        await RaiseAsync(TextSizeLevelChanged, current.TextSizeLevel != look.TextSizeLevel, look.TextSizeLevel);
+        await RaiseAsync(DensityChanged, current.Density != look.Density, look.Density);
+        await RaiseAsync(ControlSizeLevelChanged, current.ControlSizeLevel != look.ControlSizeLevel, look.ControlSizeLevel);
     }
+
+    /// <summary>Raises a bound setting's change when it is bound and the value differs.</summary>
+    private static Task RaiseAsync<T>(EventCallback<T> changed, bool differs, T value) =>
+        changed.HasDelegate && differs ? changed.InvokeAsync(value) : Task.CompletedTask;
 
     private bool ShowsBackdropMotion => BackdropMotionChanged.HasDelegate && AppearanceChoices.MovesBackdrop(Preset);
 
@@ -239,7 +213,8 @@ public partial class OmniAppearanceWindow
         _ => OmniIconName.ThemeSystem
     };
 
-    private Task SetAppearanceAsync(OmniAppearance mode) => DarkOnly ? Task.CompletedTask : AppearanceChanged.InvokeAsync(mode);
+    // A dark-only theme disables the mode buttons, and a disabled OmniButton raises no click.
+    private Task SetAppearanceAsync(OmniAppearance mode) => AppearanceChanged.InvokeAsync(mode);
 
     private string ThemeName => AppearanceChoices.ThemeName(Preset);
 

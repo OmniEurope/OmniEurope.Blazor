@@ -271,14 +271,13 @@ public partial class OmniDataGridColumn<TItem>
 
     /// <summary>
     /// Registers the column with its grid, or registers it again when a parameter changed. A change of
-    /// grid or of key first removes the previous registration; changed delegates alone are adopted in
-    /// place without re-registering.
+    /// key first removes the previous registration; changed delegates alone are adopted in place without
+    /// re-registering. The grid cascades one context for its whole life, so a column never changes grid.
     /// </summary>
     protected override void OnParametersSet()
     {
         var key = EffectiveKey;
-        if (_registeredContext is not null
-            && (!ReferenceEquals(_registeredContext, Context) || !string.Equals(_registeredKey, key, StringComparison.Ordinal)))
+        if (_registeredContext is not null && !string.Equals(_registeredKey, key, StringComparison.Ordinal))
         {
             _registeredContext.Unregister(_registeredKey!);
             _definition = null;

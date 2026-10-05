@@ -19,8 +19,8 @@ internal sealed class HtmlEditorContextMenu(OmniHtmlEditor owner, IJSRuntime jav
         javaScript,
         restoreFocus => owner.DispatchAsync(() => CloseAsync(restoreFocus)));
 
-    /// <summary>Whether the menu is open over the visual face.</summary>
-    internal bool IsOpen => owner.CurrentMode == OmniHtmlEditorMode.Visual && _controller is not null && _controller.IsOpen(null);
+    /// <summary>Whether the menu is open over the visual face. The editor creates the menu only to open it.</summary>
+    internal bool IsOpen => owner.CurrentMode == OmniHtmlEditorMode.Visual && Controller.IsOpen(null);
 
     /// <summary>The <c>role="menu"</c> list around the given rows, drawn by the shared engine.</summary>
     internal RenderFragment<RenderFragment> List => _list ??= items => builder => OmniMenuController.BuildMenuList(
@@ -61,9 +61,7 @@ internal sealed class HtmlEditorContextMenu(OmniHtmlEditor owner, IJSRuntime jav
     public Task CloseAsync(bool restoreFocus)
     {
         owner.CancelProofreadingSuggestions();
-        return _controller is null
-            ? Task.CompletedTask
-            : _controller.SetOpenAsync(false, null, default, owner.Rerender, restoreFocus);
+        return Controller.SetOpenAsync(false, null, default, owner.Rerender, restoreFocus);
     }
 
     /// <summary>Brings the script in line with the menu's open state, placed at the pointer. Called after each render.</summary>

@@ -128,7 +128,9 @@ public partial class OmniCodeEditor
             throw new ArgumentException($"{nameof(MonacoPath)} must be a path on the origin of the page: the package never loads a script from another origin.", nameof(MonacoPath));
         }
 
-        if (string.IsNullOrWhiteSpace(InteropModulePath) || Uri.TryCreate(InteropModulePath, UriKind.Absolute, out _) || InteropModulePath.StartsWith("//", StringComparison.Ordinal) || InteropModulePath.Contains('\\'))
+        // The text checks first: whether //host or \\host reads as an absolute URI depends on the system.
+        if (string.IsNullOrWhiteSpace(InteropModulePath) || InteropModulePath.StartsWith("//", StringComparison.Ordinal)
+            || InteropModulePath.Contains('\\') || Uri.TryCreate(InteropModulePath, UriKind.Absolute, out _))
         {
             throw new ArgumentException($"{nameof(InteropModulePath)} must be a path on the origin of the page.", nameof(InteropModulePath));
         }
@@ -182,32 +184,44 @@ public partial class OmniCodeEditor
 
         if (!_mounted)
         {
-            // Claimed before the await, so a render arriving meanwhile does not mount a second editor.
-            _mounted = true;
-            _bridge ??= DotNetObjectReference.Create(new CodeEditorInteropBridge(this));
-            _editorValue = CurrentValue ?? string.Empty;
-            _appliedOptions = OptionsSignature();
-            if (!await _module.InvokeAsync<bool>("mount", _host, _bridge, Options(_editorValue)))
-            {
-                _mounted = false;
-                _phase = CodePhase.Failed;
-                StateHasChanged();
-            }
-
+            await MountAsync(_module);
             return;
         }
 
-        if (!string.Equals(CurrentValue ?? string.Empty, _editorValue, StringComparison.Ordinal))
+        await PushChangesAsync(_module);
+    }
+
+    /// <summary>Mounts Monaco with the value and the options; falls back to the text area when it cannot.</summary>
+    private async Task MountAsync(IJSObjectReference module)
+    {
+        // Claimed before the await, so a render arriving meanwhile does not mount a second editor.
+        _mounted = true;
+        _bridge ??= DotNetObjectReference.Create(new CodeEditorInteropBridge(this));
+        _editorValue = CurrentValue ?? string.Empty;
+        _appliedOptions = OptionsSignature();
+        if (!await module.InvokeAsync<bool>("mount", _host, _bridge, Options(_editorValue)))
         {
-            _editorValue = CurrentValue ?? string.Empty;
-            await _module.InvokeVoidAsync("setValue", _host, _editorValue);
+            _mounted = false;
+            _phase = CodePhase.Failed;
+            StateHasChanged();
+        }
+    }
+
+    /// <summary>Pushes to the mounted editor a value or options that changed since they were last given.</summary>
+    private async Task PushChangesAsync(IJSObjectReference module)
+    {
+        var value = CurrentValue ?? string.Empty;
+        if (!string.Equals(value, _editorValue, StringComparison.Ordinal))
+        {
+            _editorValue = value;
+            await module.InvokeVoidAsync("setValue", _host, _editorValue);
         }
 
         var signature = OptionsSignature();
         if (!string.Equals(signature, _appliedOptions, StringComparison.Ordinal))
         {
             _appliedOptions = signature;
-            await _module.InvokeVoidAsync("configure", _host, Options(null));
+            await module.InvokeVoidAsync("configure", _host, Options(null));
         }
     }
 

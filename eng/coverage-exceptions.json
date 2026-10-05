@@ -1,0 +1,107 @@
+{
+  "$comment": "Écarts de couverture définitifs de la RCL (PLAN-014) : lignes et branches qu'aucun test ne peut atteindre, avec leur raison. lines et branches sont les maxima admis pour le fichier ; un écart non admis ici ni dans eng/coverage-baseline.json fait échouer eng/Test-Coverage.ps1.",
+  "exceptions": [
+    {
+      "file": "Components/Editor/HtmlEditorVisualSurface.cs",
+      "lines": 0,
+      "branches": 1,
+      "reason": "Ready refuse une surface démontée dont le module est chargé : c'est l'état de la face source, où chaque appelant teste d'abord la face (Visual) et ne lit donc jamais Ready. La garde reste pour qu'un futur appelant n'écrive pas dans une surface démontée."
+    },
+    {
+      "file": "Internal/OmniHtmlText.cs",
+      "lines": 2,
+      "branches": 1,
+      "reason": "AppendChildren saute un nœud ni texte ni élément (commentaire, instruction) : l'assainisseur les retire avant l'analyse, aucun n'arrive jusque-là. Le saut reste pour qu'un tel nœud ne soit jamais écrit dans le texte exporté."
+    },
+    {
+      "file": "Internal/GridScriptBridge.cs",
+      "lines": 0,
+      "branches": 1,
+      "reason": "À la disposition, des info-bulles non installées alors que le module est chargé : seul un rendu dont l'installation a échoué y mène, et cet échec emporte le circuit avant la disposition (OnAfterRenderAsync ne passe pas par une ErrorBoundary). La condition reste : la page compte les grilles qui ont installé les écouteurs partagés, une désinstallation de trop priverait les autres."
+    },
+    {
+      "file": "Components/Data/OmniSpreadsheet.razor.cs",
+      "lines": 1,
+      "branches": 1,
+      "reason": "CommitAsync sans saisie en cours : seul un second Entrée ou Tab déjà en vol sur Blazor Server y mène (le serveur garde le gestionnaire de l'éditeur retiré jusqu'à l'accusé du rendu), ce que bUnit ne peut pas livrer après le rendu. Sans la garde, ce second appui écrirait un brouillon vide et effacerait la cellule."
+    },
+    {
+      "file": "Components/Data/OmniKanban.razor.cs",
+      "lines": 0,
+      "branches": 1,
+      "reason": "PlaceWithout pour une carte absente de la colonne visée : seul un dragenter déjà en vol sur Blazor Server, parti d'un rendu antérieur à un rafraîchissement des cartes, porte une colonne et un index qui ne vont plus ensemble ; bUnit ne livre pas un événement d'un gestionnaire retiré. La carte tombe alors en fin de colonne au lieu d'un index -1 envoyé à OnItemMove."
+    },
+    {
+      "file": "Internal/GridSelection.cs",
+      "lines": 1,
+      "branches": 1,
+      "reason": "IndexOfVisible ne trouve pas la colonne d'une cellule cliquée : le rappel est construit au rendu pour une colonne visible, seul un clic déjà en vol sur Blazor Server, parti d'un rendu antérieur au masquage de la colonne, y mène ; bUnit ne livre pas l'événement d'une cellule retirée. La garde rend -1 au lieu d'un index d'une autre colonne."
+    },
+    {
+      "file": "Components/Data/OmniDataGridColumn.razor.cs",
+      "lines": 0,
+      "branches": 2,
+      "reason": "Equivalent compare les types des cibles de deux délégués de même méthode mais inégaux : leurs cibles sont alors non nulles, sauf pour un délégué statique fermé sur null (Delegate.CreateDelegate). Les ?. restent pour qu'un tel délégué ne lève pas pendant le rendu."
+    },
+    {
+      "file": "Internal/MindMapContextMenu.cs",
+      "lines": 0,
+      "branches": 5,
+      "reason": "Les actions du menu (couleur, ajout de nœud, fermeture) sans menu ouvert, et IsNodeGroup sur un menu sans nœud ou dont le nœud n'est plus dessiné : les pastilles ne sont dessinées que pour un menu ouvert sur un nœud, et toute nouvelle carte ferme le menu ; seul un clic déjà en vol sur Blazor Server, parti d'un rendu antérieur, y mène. Les gardes évitent d'agir sur un nœud absent."
+    },
+    {
+      "file": "Internal/MindMapEditor.cs",
+      "lines": 2,
+      "branches": 5,
+      "reason": "Gardes que les appelants vérifient déjà : SelectedNode d'un identifiant que Prune a déjà retiré, CancelLinkMode hors mode lien (seul Échap l'appelle, après avoir testé IsLinking), SelectNodeAsync d'un nœud non dessiné ou de null avec une sélection (les gestes, le clavier et le menu ne passent que des nœuds dessinés), SetNodeGroupAsync d'un nœud disparu (clic en vol). Elles gardent l'éditeur cohérent si un futur appelant les oublie."
+    },
+    {
+      "file": "Internal/MindMapModel.cs",
+      "lines": 0,
+      "branches": 1,
+      "reason": "TakeNextId reprend sa boucle quand node_N existe déjà : NextNumericId part du plus grand node_N du document à chaque Set, donc l'identifiant proposé est libre au premier tour. La boucle reste pour qu'un identifiant ne soit jamais réutilisé."
+    },
+    {
+      "file": "Components/Diagram/OmniMindMapNodeProperties.razor.cs",
+      "lines": 0,
+      "branches": 4,
+      "reason": "Le panneau n'est dessiné qu'avec un nœud sélectionné : SelectedGroup et EditAsync sans nœud ne sont atteints que par une saisie déjà en vol sur Blazor Server après la fin de la sélection. SetGroupAsync d'un groupe nul ou hors palette : la liste déroulante et les pastilles ne proposent que la palette. La liaison exige une propriété (FieldIdentifier), d'où SelectedGroup."
+    },
+    {
+      "file": "Internal/OmniHtmlSanitizer.cs",
+      "lines": 1,
+      "branches": 1,
+      "reason": "KeepChildren d'un conteneur sans parent : les conteneurs retirés sont des éléments du corps du document analysé, qui ont toujours un parent, même quand un conteneur englobant a été détaché avant eux. La garde évite une exception sur un nœud racine."
+    },
+    {
+      "file": "Components/Scheduling/OmniScheduler.razor.cs",
+      "lines": 2,
+      "branches": 4,
+      "reason": "Clic, prise, glisser et pose d'un rendez-vous dont l'original n'est plus dans Items, et pose sans rendez-vous porté : chaque rendu retire le port d'un rendez-vous disparu et le bouton de pose n'existe que pendant un port ; seul un événement déjà en vol sur Blazor Server, parti d'un rendu antérieur, y mène."
+    },
+    {
+      "file": "Components/Pages/OmniWizard.razor.cs",
+      "lines": 0,
+      "branches": 1,
+      "reason": "PreviousAsync à la première étape : le bouton Précédent n'est dessiné qu'à partir de la deuxième ; seul un clic déjà en vol sur Blazor Server y mène."
+    },
+    {
+      "file": "Components/Theming/OmniAppearanceWindow.razor.cs",
+      "lines": 2,
+      "branches": 0,
+      "reason": "TextSizeValue et ControlSizeValue ne servent que de cible à l'expression de liaison des curseurs (ValueExpression, lue par FieldIdentifier sans être évaluée) : leur corps n'est jamais exécuté."
+    },
+    {
+      "file": "Internal/OmniOverlayCoordinator.cs",
+      "lines": 5,
+      "branches": 2,
+      "reason": "CloseTopAsync n'a aucun appelant dans la bibliothèque : code mort dont la suppression attend la décision du propriétaire (PLAN-014). Le retirer d'ici quand la méthode est supprimée ou reprend un appelant."
+    },
+    {
+      "file": "Internal/MindMapSelection.cs",
+      "lines": 1,
+      "branches": 0,
+      "reason": "La propriété Many n'est lue nulle part : code mort dont la suppression attend la décision du propriétaire (PLAN-014). Le retirer d'ici quand la propriété est supprimée ou reprend un lecteur."
+    }
+  ]
+}

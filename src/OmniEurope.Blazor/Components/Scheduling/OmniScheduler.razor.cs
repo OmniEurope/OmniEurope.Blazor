@@ -325,7 +325,7 @@ public partial class OmniScheduler
         };
         _date = next;
         await DateChanged.InvokeAsync(next);
-        if (Load is not null) await ReloadAsync();
+        await ReloadAsync();
     }
 
     private Task PreviousAsync() => NavigateAsync(-1);
@@ -335,14 +335,14 @@ public partial class OmniScheduler
     {
         _date = TimeZoneInfo.ConvertTime(Clock.GetUtcNow(), TimeZone);
         await DateChanged.InvokeAsync(_date);
-        if (Load is not null) await ReloadAsync();
+        await ReloadAsync();
     }
 
     private async Task ChangeViewAsync(OmniCalendarView view)
     {
         _view = view;
         await ViewChanged.InvokeAsync(view);
-        if (Load is not null) await ReloadAsync();
+        await ReloadAsync();
     }
 
     private string ViewClass(OmniCalendarView view) => _view == view ? "omni-select-bar__item omni-select-bar__item--selected" : "omni-select-bar__item";
@@ -491,7 +491,7 @@ public partial class OmniScheduler
             ? target.Day.ToDateTime(SlotStart(slot))
             : target.Day.ToDateTime(TimeOnly.FromTimeSpan(local.Start.TimeOfDay)));
 
-    private bool CanPlace(MoveTarget target) => _moving is { } moving && NewStart(moving.Local, target) != moving.Local.Start;
+    private bool CanPlace(Carried moving, MoveTarget target) => NewStart(moving.Local, target) != moving.Local.Start;
 
     private string TargetLabel(Carried moving, MoveTarget target) => NewStart(moving.Local, target).ToString("f", Formats);
 

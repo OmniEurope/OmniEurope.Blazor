@@ -119,7 +119,8 @@ public partial class OmniLoadingBar
 
         try
         {
-            await Task.Delay(FinishDuration, finish.Token);
+            // Through the clock of the host, so a test or a host with its own clock decides when the finish ends.
+            await Task.Delay(FinishDuration, Clock, finish.Token);
         }
         catch (TaskCanceledException)
         {

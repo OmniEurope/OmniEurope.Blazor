@@ -30,7 +30,9 @@ public partial class OmniComponentsHost
     public RenderFragment? ChildContent { get; set; }
 
     private OmniOverlayService? _service;
-    private OmniOverlayService Service => _service ?? throw new InvalidOperationException("The overlay service has not been initialized.");
+
+    // Set by the first OnParametersSet, before anything renders or reads it.
+    private OmniOverlayService Service => _service!;
     private readonly OmniOverlayCoordinator _coordinator = new();
     private bool _ownsService;
 
@@ -44,7 +46,7 @@ public partial class OmniComponentsHost
     protected override void OnParametersSet()
     {
         var requested = OverlayService;
-        if (requested is null && _ownsService && _service is not null)
+        if (requested is null && _ownsService)
         {
             return;
         }
@@ -73,13 +75,10 @@ public partial class OmniComponentsHost
         _service.Changed += HandleChanged;
     }
 
-    private Task HandleDialogOpenChanged(bool open)
+    // OmniDialog reports only its closing.
+    private Task HandleDialogOpenChanged(bool _)
     {
-        if (!open)
-        {
-            Service.CloseDialog();
-        }
-
+        Service.CloseDialog();
         return Task.CompletedTask;
     }
 
@@ -95,9 +94,9 @@ public partial class OmniComponentsHost
             _service.Changed -= HandleChanged;
         }
         _coordinator.Changed -= HandleChanged;
-        if (_ownsService && _service is not null)
+        if (_ownsService)
         {
-            _service.Dispose();
+            _service!.Dispose();
         }
     }
 }

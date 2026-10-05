@@ -68,10 +68,8 @@ public partial class OmniSelectableCardGroup<TValue, TSelection> : IOmniSelectab
                 $"The OmniSelectableCard '{card.Title}' stands for a {card.Choice?.GetType().Name ?? "null"}; its OmniSelectableCardGroup holds {typeof(TValue).Name} values.");
         }
 
-        if (!_cards.Contains(card))
-        {
-            _cards.Add(card);
-        }
+        // A card registers once, when it first renders inside the group.
+        _cards.Add(card);
     }
 
     void IOmniSelectableCardGroup.Unregister(OmniSelectableCard card) => _cards.Remove(card);
@@ -88,7 +86,8 @@ public partial class OmniSelectableCardGroup<TValue, TSelection> : IOmniSelectab
 
     async Task IOmniSelectableCardGroup.MoveAsync(OmniSelectableCard card, string key)
     {
-        if (Multiple || key is not ("ArrowRight" or "ArrowDown" or "ArrowLeft" or "ArrowUp" or "Home" or "End"))
+        // Only a card of a radio group calls it (OmniSelectableCard.HandleKeyDownAsync).
+        if (key is not ("ArrowRight" or "ArrowDown" or "ArrowLeft" or "ArrowUp" or "Home" or "End"))
         {
             return;
         }
@@ -114,7 +113,9 @@ public partial class OmniSelectableCardGroup<TValue, TSelection> : IOmniSelectab
 
     private void Pick(OmniSelectableCard card)
     {
-        if (card.IsDisabled || !TryChoice(card, out var choice))
+        // A disabled card never gets here: it refuses its own click, and the arrows skip it. Its choice may
+        // have turned to another type since it registered.
+        if (!TryChoice(card, out var choice))
         {
             return;
         }
@@ -148,7 +149,8 @@ public partial class OmniSelectableCardGroup<TValue, TSelection> : IOmniSelectab
 
     private IEnumerable<TValue> SelectedValues() => Multiple
         ? CurrentValue as IEnumerable<TValue> ?? []
-        : CurrentValue is TValue current ? [current] : CurrentValue is null && default(TValue) is null ? [default!] : [];
+        // One choice binds TValue or its nullable form (EnsureSelectionType): a value that is no TValue is null.
+        : CurrentValue is TValue current ? [current] : default(TValue) is null ? [default!] : [];
 
     /// <summary>The card Tab reaches in a radio group: the chosen available card, else the first available one.</summary>
     private OmniSelectableCard? TabStop() =>

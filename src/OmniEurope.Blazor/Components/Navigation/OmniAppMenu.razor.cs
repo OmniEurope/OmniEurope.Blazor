@@ -98,10 +98,11 @@ public partial class OmniAppMenu
 
     private bool ShowsLanguages => Languages is { Count: > 1 };
 
-    private OmniAppMenuLanguage? CurrentLanguage => Languages?.FirstOrDefault(language => language.Code == Language);
+    // Both are read only in the language row, drawn when ShowsLanguages: Languages is then a list.
+    private OmniAppMenuLanguage? CurrentLanguage => Languages!.FirstOrDefault(language => language.Code == Language);
 
     private IReadOnlyList<OmniOption<string>> LanguageOptions =>
-        [.. (Languages ?? []).Select(language => new OmniOption<string>(language.Code, language.Name))];
+        [.. Languages!.Select(language => new OmniOption<string>(language.Code, language.Name))];
 
     private IReadOnlyList<OmniOption<OmniAppearance>> Modes =>
     [
@@ -125,9 +126,11 @@ public partial class OmniAppMenu
         await OpenChanged.InvokeAsync(open);
     }
 
-    private Task SetAppearanceAsync(OmniAppearance mode) => DarkOnly ? Task.CompletedTask : AppearanceChanged.InvokeAsync(mode);
+    // A dark-only theme disables the mode buttons, and a disabled OmniButton raises no click.
+    private Task SetAppearanceAsync(OmniAppearance mode) => AppearanceChanged.InvokeAsync(mode);
 
-    private Task SetLanguageAsync(string? code) => code is null ? Task.CompletedTask : LanguageChanged.InvokeAsync(code);
+    // The list offers only the codes of Languages, and no empty choice.
+    private Task SetLanguageAsync(string? code) => LanguageChanged.InvokeAsync(code!);
 
     private async Task OpenThemeAsync()
     {

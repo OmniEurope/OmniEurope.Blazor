@@ -100,7 +100,7 @@ public partial class OmniGantt
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        if (_lastScaleParameter != Scale)
+        if (_lastScaleParameter is not { } last || last != Scale)
         {
             _lastScaleParameter = Scale;
             _scale = Scale;
@@ -115,13 +115,9 @@ public partial class OmniGantt
     /// <summary>The short name of an ISO week in the week zoom header: "S12" in French, "W12" in English.</summary>
     private string WeekLabel(int week) => Text("GanttWeekNumber", week.ToString(Formats));
 
+    // The scale bar is an OmniSelectBar, which reports a choice only when it differs from its value.
     private async Task SetScaleAsync(OmniCalendarView scale)
     {
-        if (scale == _scale)
-        {
-            return;
-        }
-
         // Works without a binding too: the chart then keeps the zoom the reader picked.
         _scale = scale;
         Layout = BuildLayout();

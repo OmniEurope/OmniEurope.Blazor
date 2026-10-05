@@ -198,20 +198,30 @@ internal sealed class GridExport<TItem>(OmniDataGrid<TItem> grid) : IAsyncDispos
         var text = (!string.IsNullOrWhiteSpace(column.FormatString)
             ? string.Format(CultureInfo.CurrentCulture, column.FormatString, value)
             : Convert.ToString(value, CultureInfo.CurrentCulture)) ?? string.Empty;
-        return value switch
-        {
-            bool boolean => new OmniTableExportCell(text) { Boolean = boolean },
-            DateTimeOffset date => new OmniTableExportCell(text) { Date = date },
-            // An unspecified time is written as it is, without shifting it by the machine's zone.
-            DateTime date => new OmniTableExportCell(text) { Date = date.Kind == DateTimeKind.Local ? new DateTimeOffset(date) : new DateTimeOffset(DateTime.SpecifyKind(date, DateTimeKind.Utc)) },
-            DateOnly date => new OmniTableExportCell(text) { Date = new DateTimeOffset(date.ToDateTime(TimeOnly.MinValue, DateTimeKind.Utc)) },
-            sbyte or byte or short or ushort or int or uint or long or ulong or decimal => new OmniTableExportCell(text) { Number = Convert.ToDecimal(value, CultureInfo.InvariantCulture) },
-            // A value a decimal cannot hold (NaN, an infinity, a magnitude out of range) stays a text.
-            float or double when Convert.ToDouble(value, CultureInfo.InvariantCulture) is var number && double.IsFinite(number) && Math.Abs(number) < (double)decimal.MaxValue
-                => new OmniTableExportCell(text) { Number = (decimal)number },
-            _ => new OmniTableExportCell(text)
-        };
+        return Typed(text, value);
     }
+
+    /// <summary>The cell of a value with its text, carrying the value itself when a sheet can type it.</summary>
+    private static OmniTableExportCell Typed(string text, object? value) => value switch
+    {
+        bool boolean => new OmniTableExportCell(text) { Boolean = boolean },
+        DateTimeOffset date => new OmniTableExportCell(text) { Date = date },
+        DateTime date => new OmniTableExportCell(text) { Date = OffsetOf(date) },
+        DateOnly date => new OmniTableExportCell(text) { Date = new DateTimeOffset(date.ToDateTime(TimeOnly.MinValue, DateTimeKind.Utc)) },
+        sbyte or byte or short or ushort or int or uint or long or ulong or decimal => new OmniTableExportCell(text) { Number = Convert.ToDecimal(value, CultureInfo.InvariantCulture) },
+        float or double => FromDouble(text, Convert.ToDouble(value, CultureInfo.InvariantCulture)),
+        _ => new OmniTableExportCell(text)
+    };
+
+    // An unspecified time is written as it is, without shifting it by the machine's zone.
+    private static DateTimeOffset OffsetOf(DateTime date) =>
+        date.Kind == DateTimeKind.Local ? new DateTimeOffset(date) : new DateTimeOffset(DateTime.SpecifyKind(date, DateTimeKind.Utc));
+
+    // A value a decimal cannot hold (NaN, an infinity, a magnitude out of range) stays a text.
+    private static OmniTableExportCell FromDouble(string text, double number) =>
+        double.IsFinite(number) && Math.Abs(number) < (double)decimal.MaxValue
+            ? new OmniTableExportCell(text) { Number = (decimal)number }
+            : new OmniTableExportCell(text);
 
     /// <summary>
     /// What a column holds: the one kind its filled cells share, or text when they differ. A column with

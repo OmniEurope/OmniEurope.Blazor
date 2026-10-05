@@ -34,6 +34,32 @@ public sealed class DataGridRowsTests : OmniBunitContext
     }
 
     [Fact]
+    public void SelectAll_SkipsTheRowAnIndexedRowCallbackVetoes()
+    {
+        // The callback vetoes the second row by its index: the header used to describe every row as
+        // index 0 and selected the disabled row with the others (audit RCL-GRID-ROW-INDEX-001).
+        var host = Render<DataGridRowsTestHost>(parameters => parameters
+            .Add(component => component.RowRender, args => args.Selectable = args.Index != 1));
+        Assert.True(host.FindAll("tbody input.omni-checkbox")[1].HasAttribute("disabled"));
+
+        host.Find(".omni-data-grid__select-all").Change(true);
+
+        Assert.Equal([1], host.Instance.SelectedKeys);
+        Assert.True(host.Find(".omni-data-grid__select-all").HasAttribute("checked"));
+    }
+
+    [Fact]
+    public void ExpandAll_SkipsTheRowAnIndexedRowCallbackVetoes()
+    {
+        var host = Render<DataGridRowsTestHost>(parameters => parameters
+            .Add(component => component.RowRender, args => args.Expandable = args.Index != 1));
+
+        host.Find("thead .omni-data-grid__expand").Click();
+
+        Assert.Equal([1], host.Instance.ExpandedKeys);
+    }
+
+    [Fact]
     public void SelectAll_LeavesTheSelectionOfOtherPagesAlone()
     {
         var host = Render<DataGridRowsTestHost>();
@@ -131,6 +157,20 @@ public sealed class DataGridRowsTests : OmniBunitContext
 
         host.Find("thead .omni-data-grid__expand").Click();
         Assert.Equal([3], host.Instance.ExpandedKeys);
+    }
+
+    [Fact]
+    public void ExpandAll_WithNoRowOnScreen_StaysClosedAndOpensNothing()
+    {
+        var host = Render<DataGridRowsTestHost>(parameters => parameters
+            .Add(component => component.Items, Array.Empty<DataGridRowsTestHost.Row>()));
+        var expandAll = host.Find("thead .omni-data-grid__expand");
+        Assert.Equal("false", expandAll.GetAttribute("aria-expanded"));
+
+        expandAll.Click();
+
+        Assert.Empty(host.Instance.ExpandedKeys);
+        Assert.Equal("false", host.Find("thead .omni-data-grid__expand").GetAttribute("aria-expanded"));
     }
 
     [Fact]
@@ -259,6 +299,44 @@ public sealed class DataGridRowsTests : OmniBunitContext
         Assert.Equal("Contient e", host.Find("td[data-omni-col=\"name\"] .omni-data-grid__advanced-summary").TextContent);
         Assert.Equal(["Alice", "Chloe"], host.FindAll("tbody tr[data-omni-row-index] td[data-omni-col=\"name\"]").Select(td => td.TextContent));
         Assert.NotNull(host.Find("td[data-omni-col=\"name\"] .omni-data-grid__filter-reset"));
+    }
+
+    [Fact]
+    public void AdvancedFilter_CombinesTwoConditions_AndReadsAnUnknownChoiceAsTheDefault()
+    {
+        var host = Render<DataGridRowsTestHost>(parameters => parameters
+            .Add(component => component.FilterMode, OmniDataGridFilterMode.Advanced)
+            .Add(component => component.PageSize, 10));
+        const string Cell = "td[data-omni-col=\"name\"]";
+        string[] Names() => [.. host.FindAll("tbody tr[data-omni-row-index] td[data-omni-col=\"name\"]").Select(td => td.TextContent)];
+        string Summary() => host.Find($"{Cell} .omni-data-grid__advanced-summary").TextContent;
+        void Apply() => host.Find($"{Cell} .omni-data-grid__filter-apply").Click();
+
+        host.FindAll($"{Cell} .omni-data-grid__filter")[0].Input("li");
+        host.Find($"{Cell} .omni-data-grid__filter-logical").Change(nameof(OmniDataGridLogicalOperator.Or));
+        host.FindAll($"{Cell} .omni-data-grid__filter-operator")[1].Change(nameof(OmniDataGridFilterOperator.StartsWith));
+        host.FindAll($"{Cell} .omni-data-grid__filter")[1].Input("E");
+        // Staged only: the second condition waits for the apply action like the first.
+        Assert.Equal(5, Names().Length);
+        Apply();
+
+        Assert.Equal("Contient li ou Commence par E", Summary());
+        Assert.Equal(["Alice", "Emma"], Names());
+
+        // A choice the editor does not know falls back to the column's defaults: And, and its own second operator.
+        host.Find($"{Cell} .omni-data-grid__filter-logical").Change("bogus");
+        host.FindAll($"{Cell} .omni-data-grid__filter-operator")[1].Change("bogus");
+        Apply();
+
+        Assert.Equal("Contient li et Contient E", Summary());
+        Assert.Equal(["Alice"], Names());
+
+        // With the first value emptied, the second condition alone filters and alone is summarised.
+        host.FindAll($"{Cell} .omni-data-grid__filter")[0].Input(string.Empty);
+        Apply();
+
+        Assert.Equal("Contient E", Summary());
+        Assert.Equal(["Alice", "Chloe", "Emma"], Names());
     }
 
     [Fact]

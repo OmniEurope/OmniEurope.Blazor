@@ -36,7 +36,9 @@ public sealed class DataGridAggregateTests : OmniBunitContext
         OmniDataGridAggregate aggregate,
         bool grouped,
         RenderFragment<OmniDataGridGroupContext<Row>>? groupFooter = null,
-        string property = nameof(Row.Amount))
+        string property = nameof(Row.Amount),
+        IReadOnlyList<OmniDataGridGroup>? groups = null,
+        bool allGroupsExpanded = true)
     {
         RenderFragment columns = builder =>
         {
@@ -61,7 +63,8 @@ public sealed class DataGridAggregateTests : OmniBunitContext
             .Add(grid => grid.Items, Rows)
             .Add(grid => grid.Columns, columns)
             .Add(grid => grid.AllowGrouping, grouped)
-            .Add(grid => grid.Groups, grouped ? [new OmniDataGridGroup(nameof(Row.Group))] : []));
+            .Add(grid => grid.Groups, groups ?? (grouped ? [new OmniDataGridGroup(nameof(Row.Group))] : []))
+            .Add(grid => grid.AllGroupsExpanded, allGroupsExpanded));
     }
 
     private static string FooterOf(IRenderedComponent<OmniDataGrid<Row>> grid, string key) =>
@@ -138,6 +141,39 @@ public sealed class DataGridAggregateTests : OmniBunitContext
 
         var body = grid.FindAll("tbody tr").Select(row => row.ClassList.Contains("omni-data-grid__group-footer") ? "F" : row.ClassList.Contains("omni-data-grid__group") ? "H" : "R");
         Assert.Equal("HFHRRF", string.Concat(body));
+    }
+
+    [Fact]
+    public void ClosedOuterGroup_KeepsItsSubtotal_AndHidesTheFootersOfTheGroupsInside()
+    {
+        var grid = RenderGrid(OmniDataGridAggregate.Sum, grouped: true,
+            groups: [new OmniDataGridGroup(nameof(Row.Group)), new OmniDataGridGroup(nameof(Row.Amount))]);
+        string Body() => string.Concat(grid.FindAll("tbody tr").Select(row => row.ClassList.Contains("omni-data-grid__group-footer") ? "F" : row.ClassList.Contains("omni-data-grid__group") ? "H" : "R"));
+        Assert.Equal("HHRFHRFFHHRFHRFF", Body());
+
+        grid.FindAll("tbody tr.omni-data-grid__group button")[0].Click();
+
+        Assert.Equal("HFHHRFHRFF", Body());
+    }
+
+    [Fact]
+    public void GroupsClosedAtFirst_OpenOneByOne()
+    {
+        var grid = RenderGrid(OmniDataGridAggregate.Sum, grouped: true, allGroupsExpanded: false);
+        string Body() => string.Concat(grid.FindAll("tbody tr").Select(row => row.ClassList.Contains("omni-data-grid__group-footer") ? "F" : row.ClassList.Contains("omni-data-grid__group") ? "H" : "R"));
+        Assert.Equal("HFHF", Body());
+
+        grid.FindAll("tbody tr.omni-data-grid__group button")[1].Click();
+
+        Assert.Equal("HFHRRF", Body());
+    }
+
+    [Fact]
+    public void AnAggregateWithNothingToAverage_LeavesItsCellEmpty()
+    {
+        var grid = RenderGrid(OmniDataGridAggregate.Average, grouped: false, property: nameof(Row.Name));
+
+        Assert.Equal(string.Empty, FooterOf(grid, nameof(Row.Name)));
     }
 
     [Fact]

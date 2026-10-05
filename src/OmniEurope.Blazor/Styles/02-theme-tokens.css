@@ -1,7 +1,8 @@
 /* omni:theme-tokens:start */
 /* Generated from the theme Essentiel and its palette Essentiel by ShippedThemeTokensTests: do not edit by hand. */
 :root,
-[data-omni-theme="light"] {
+[data-omni-theme="light"],
+[data-omni-theme="system"] {
     --omni-chart-color-0: #4340d2;
     --omni-chart-color-1: #327535;
     --omni-chart-color-2: #925600;

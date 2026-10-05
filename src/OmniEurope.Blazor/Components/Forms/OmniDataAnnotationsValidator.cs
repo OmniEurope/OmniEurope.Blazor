@@ -127,8 +127,9 @@ public sealed class OmniDataAnnotationsValidator : ComponentBase, IDisposable
         var required = attributes.OfType<RequiredAttribute>().FirstOrDefault();
         if (required is not null)
         {
+            // A rule that passes answers ValidationResult.Success, which is null.
             var requiredResult = required.GetValidationResult(value, context);
-            if (requiredResult is not null && requiredResult != ValidationResult.Success)
+            if (requiredResult is not null)
             {
                 _messages.Add(field, Message(required, requiredResult, displayName, model));
                 return;
@@ -138,7 +139,7 @@ public sealed class OmniDataAnnotationsValidator : ComponentBase, IDisposable
         foreach (var attribute in attributes.Where(attribute => attribute is not RequiredAttribute))
         {
             var result = attribute.GetValidationResult(value, context);
-            if (result is null || result == ValidationResult.Success)
+            if (result is null)
             {
                 continue;
             }
@@ -154,7 +155,7 @@ public sealed class OmniDataAnnotationsValidator : ComponentBase, IDisposable
         foreach (var attribute in model.GetType().GetCustomAttributes<ValidationAttribute>(inherit: true))
         {
             var result = attribute.GetValidationResult(model, context);
-            if (result is null || result == ValidationResult.Success)
+            if (result is null)
             {
                 continue;
             }
@@ -163,7 +164,8 @@ public sealed class OmniDataAnnotationsValidator : ComponentBase, IDisposable
             var message = attribute.ErrorMessageResourceType is null && HasCustomMessage(attribute)
                 ? Lookup(attribute.ErrorMessage!) ?? result.ErrorMessage
                 : result.ErrorMessage;
-            AddResult(model, result, message ?? string.Empty);
+            // GetValidationResult fills an empty message with the rule's own: the text is never null.
+            AddResult(model, result, message!);
         }
     }
 
@@ -180,12 +182,12 @@ public sealed class OmniDataAnnotationsValidator : ComponentBase, IDisposable
     {
         if (attribute.ErrorMessageResourceType is not null)
         {
-            return result.ErrorMessage ?? string.Empty;
+            return result.ErrorMessage!;
         }
 
         if (HasCustomMessage(attribute))
         {
-            return Lookup(attribute.ErrorMessage!) ?? result.ErrorMessage ?? attribute.ErrorMessage!;
+            return Lookup(attribute.ErrorMessage!) ?? result.ErrorMessage!;
         }
 
         return attribute switch
@@ -247,7 +249,8 @@ public sealed class OmniDataAnnotationsValidator : ComponentBase, IDisposable
     }
 
     private static string Format(object? value) =>
-        Convert.ToString(value, CultureInfo.CurrentCulture) ?? string.Empty;
+        // The bounds of a RangeAttribute are numbers or the texts of its constructor, never null.
+        Convert.ToString(value, CultureInfo.CurrentCulture)!;
 
     /// <summary>A package message whose wording follows a length: "1 character", "2 characters".</summary>
     private string Counted(string name, params object[] arguments) => PluralMessage.Localize(Strings, name, arguments);
@@ -266,7 +269,7 @@ public sealed class OmniDataAnnotationsValidator : ComponentBase, IDisposable
 
         _subscribed.OnValidationRequested -= OnValidationRequested;
         _subscribed.OnFieldChanged -= OnFieldChanged;
-        _messages?.Clear();
+        _messages!.Clear();
         _subscribed = null;
     }
 

@@ -26,7 +26,7 @@ public partial class OmniCodeViewer : IAsyncDisposable
     private static readonly TimeSpan PatternTimeout = TimeSpan.FromSeconds(1);
 
     private readonly string _generatedId = $"omni-code-viewer-{Guid.NewGuid():N}";
-    private List<string> _lines = [];
+    private List<string> _lines = [string.Empty];
     private string? _splitCode;
     private IReadOnlyList<(OmniCodeEditorLink Link, Regex Pattern)> _patterns = [];
     private IReadOnlyList<OmniCodeEditorLink>? _compiledLinks;

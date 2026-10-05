@@ -39,30 +39,9 @@ internal sealed record GitGraphLayout(IReadOnlyList<GitGraphRow> Rows, int LaneC
         var laneCount = 0;
         for (var row = 0; row < ids.Count; row++)
         {
-            var id = ids[row];
-            var segments = new List<GitGraphSegment>();
-
-            var mine = new List<int>();
-            for (var lane = 0; lane < lanes.Count; lane++)
-            {
-                if (string.Equals(lanes[lane], id, StringComparison.Ordinal))
-                {
-                    mine.Add(lane);
-                }
-            }
-
+            var mine = LanesAwaiting(lanes, ids[row]);
             var column = mine.Count > 0 ? mine[0] : FreeOrAppend(lanes);
-            for (var lane = 0; lane < lanes.Count; lane++)
-            {
-                if (lanes[lane] is null)
-                {
-                    continue;
-                }
-
-                segments.Add(mine.Contains(lane)
-                    ? new GitGraphSegment(lane, column, Upper: true, ColorLane: lane)
-                    : new GitGraphSegment(lane, lane, Upper: true, ColorLane: lane));
-            }
+            var segments = Incoming(lanes, mine, column);
 
             // The other children converging on this commit free their lanes.
             foreach (var lane in mine.Skip(1))
@@ -70,56 +49,101 @@ internal sealed record GitGraphLayout(IReadOnlyList<GitGraphRow> Rows, int LaneC
                 lanes[lane] = null;
             }
 
-            var opened = new HashSet<int>();
             var commitParents = parents[row];
-            if (commitParents.Count > 0)
-            {
-                lanes[column] = commitParents[0];
-                opened.Add(column);
-                for (var index = 1; index < commitParents.Count; index++)
-                {
-                    var parent = commitParents[index];
-                    if (string.Equals(parent, commitParents[0], StringComparison.Ordinal))
-                    {
-                        continue;
-                    }
-
-                    var existing = lanes.IndexOf(parent);
-                    var lane = existing >= 0 ? existing : FreeOrAppend(lanes);
-                    lanes[lane] = parent;
-                    opened.Add(lane);
-                }
-            }
-            else
-            {
-                lanes[column] = null;
-            }
-
-            for (var lane = 0; lane < lanes.Count; lane++)
-            {
-                if (lanes[lane] is null)
-                {
-                    continue;
-                }
-
-                if (opened.Contains(lane))
-                {
-                    segments.Add(new GitGraphSegment(column, lane, Upper: false, ColorLane: lane));
-                }
-
-                // A lane passing by continues; a lane this commit merges into an existing one both
-                // continues and receives the merge line.
-                if (lane != column && segments.Any(segment => segment.Upper && segment.FromLane == lane && segment.ToLane == lane))
-                {
-                    segments.Add(new GitGraphSegment(lane, lane, Upper: false, ColorLane: lane));
-                }
-            }
-
+            var opened = OpenParents(lanes, column, commitParents);
+            Outgoing(lanes, column, opened, segments);
             laneCount = Math.Max(laneCount, lanes.Count);
             rows.Add(new GitGraphRow(column, commitParents.Count > 1, segments));
         }
 
         return new GitGraphLayout(rows, Math.Max(1, laneCount));
+    }
+
+    /// <summary>The lanes that wait for the commit: its children drew a line down to it.</summary>
+    private static List<int> LanesAwaiting(List<string?> lanes, string id)
+    {
+        var mine = new List<int>();
+        for (var lane = 0; lane < lanes.Count; lane++)
+        {
+            if (string.Equals(lanes[lane], id, StringComparison.Ordinal))
+            {
+                mine.Add(lane);
+            }
+        }
+
+        return mine;
+    }
+
+    /// <summary>The upper half of the row: every lane goes on, those that wait for the commit bend to its column.</summary>
+    private static List<GitGraphSegment> Incoming(List<string?> lanes, List<int> mine, int column)
+    {
+        var segments = new List<GitGraphSegment>();
+        for (var lane = 0; lane < lanes.Count; lane++)
+        {
+            if (lanes[lane] is not null)
+            {
+                segments.Add(new GitGraphSegment(lane, mine.Contains(lane) ? column : lane, Upper: true, ColorLane: lane));
+            }
+        }
+
+        return segments;
+    }
+
+    /// <summary>
+    /// Gives the commit's column to its first parent, a lane to each other parent (the lane already
+    /// waiting for it, else a free one), and returns the lanes opened; a root commit frees its column.
+    /// </summary>
+    private static HashSet<int> OpenParents(List<string?> lanes, int column, IReadOnlyList<string> commitParents)
+    {
+        var opened = new HashSet<int>();
+        if (commitParents.Count == 0)
+        {
+            lanes[column] = null;
+            return opened;
+        }
+
+        lanes[column] = commitParents[0];
+        opened.Add(column);
+        // A for loop over the list: a foreach over a LINQ query leaves a null check of its enumerator no input can take.
+        for (var index = 1; index < commitParents.Count; index++)
+        {
+            var parent = commitParents[index];
+            if (string.Equals(parent, commitParents[0], StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            var existing = lanes.IndexOf(parent);
+            var lane = existing >= 0 ? existing : FreeOrAppend(lanes);
+            lanes[lane] = parent;
+            opened.Add(lane);
+        }
+
+        return opened;
+    }
+
+    /// <summary>The lower half of the row: lines from the commit to the lanes it opened, and the lanes passing by.</summary>
+    private static void Outgoing(List<string?> lanes, int column, HashSet<int> opened, List<GitGraphSegment> segments)
+    {
+        for (var lane = 0; lane < lanes.Count; lane++)
+        {
+            if (lanes[lane] is null)
+            {
+                continue;
+            }
+
+            if (opened.Contains(lane))
+            {
+                segments.Add(new GitGraphSegment(column, lane, Upper: false, ColorLane: lane));
+            }
+
+            // A lane passing by continues; a lane this commit merges into an existing one both
+            // continues and receives the merge line.
+            if (lane != column && segments.Any(segment => segment.Upper && segment.FromLane == lane && segment.ToLane == lane))
+            {
+                segments.Add(new GitGraphSegment(lane, lane, Upper: false, ColorLane: lane));
+            }
+        }
     }
 
     /// <summary>Centre of a lane, across the row.</summary>

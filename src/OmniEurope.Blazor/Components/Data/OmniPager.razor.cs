@@ -72,11 +72,7 @@ public partial class OmniPager
     {
         get
         {
-            if (NumericPageCount <= 0)
-            {
-                yield break;
-            }
-
+            // Read only when NumericPageCount is positive: the markup draws no numbers otherwise.
             var half = NumericPageCount / 2;
             var start = Math.Max(1, Math.Min(Page - half, Math.Max(1, PageCount - NumericPageCount + 1)));
             var end = Math.Min(PageCount, start + NumericPageCount - 1);

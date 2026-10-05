@@ -19,11 +19,13 @@
            @onblur="CloseList" />
     @if (IsOpen)
     {
+        // Matches filters the suggestions on every read: read once per render.
+        var matches = Matches;
         <ul id="@ListId" class="omni-combo__list" role="listbox">
-            @for (var index = 0; index < Matches.Count; index++)
+            @for (var index = 0; index < matches.Count; index++)
             {
                 var position = index;
-                var candidate = Matches[position];
+                var candidate = matches[position];
                 <li id="@OptionId(position)"
                     class="@OptionClass(position)"
                     role="option"

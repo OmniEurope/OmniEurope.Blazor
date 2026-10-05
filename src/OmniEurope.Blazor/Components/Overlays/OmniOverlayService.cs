@@ -77,7 +77,8 @@ public sealed class OmniOverlayService : IDisposable
         var pending = _dialogs.Current;
         if (_dialogs.Pop())
         {
-            Complete(pending, null);
+            // A dialog was open, so the stack had a current one.
+            Complete(pending!, null);
             RaiseChanged();
         }
     }
@@ -173,14 +174,14 @@ public sealed class OmniOverlayService : IDisposable
         var pending = _dialogs.Current;
         if (_dialogs.Pop())
         {
-            Complete(pending, result);
+            Complete(pending!, result);
             RaiseChanged();
         }
     }
 
-    private void Complete(OmniDialogRequest? request, object? result)
+    private void Complete(OmniDialogRequest request, object? result)
     {
-        if (request is not null && _pending.Remove(request, out var completion))
+        if (_pending.Remove(request, out var completion))
         {
             completion.TrySetResult(result);
         }

@@ -50,7 +50,7 @@ internal static class PluralRules
                 : tens is >= 2 and <= 4 && hundreds is not (>= 12 and <= 14) ? Few
                 : Other,
             "sl" => hundreds == 1 ? One : hundreds == 2 ? Two : hundreds is 3 or 4 ? Few : Other,
-            "lt" => hundreds is >= 11 and <= 19 ? Other : tens == 1 ? One : tens is >= 2 and <= 9 ? Few : Other,
+            "lt" => hundreds is >= 11 and <= 19 ? Other : tens == 1 ? One : tens >= 2 ? Few : Other,
             "lv" => tens == 0 || hundreds is >= 11 and <= 19 ? Zero : tens == 1 ? One : Other,
             "ro" => n == 1 ? One : n == 0 || hundreds is >= 1 and <= 19 ? Few : Other,
             "ga" => n == 1 ? One : n == 2 ? Two : n is >= 3 and <= 6 ? Few : n is >= 7 and <= 10 ? Many : Other,

@@ -91,18 +91,12 @@ internal sealed class FormSnapshot
         && type.Namespace?.StartsWith("System", StringComparison.Ordinal) != true
         && type.Namespace?.StartsWith("Microsoft", StringComparison.Ordinal) != true;
 
+    // Read only for a field the snapshot recorded: a public, readable, unindexed property of that model.
     private static object? Read(object model, string name)
     {
-        const BindingFlags Flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
-        var type = model.GetType();
         try
         {
-            if (type.GetProperty(name, Flags) is { CanRead: true } property && property.GetIndexParameters().Length == 0)
-            {
-                return property.GetValue(model);
-            }
-
-            return type.GetField(name, Flags) is { } field ? field.GetValue(model) : Unknown;
+            return model.GetType().GetProperty(name, BindingFlags.Public | BindingFlags.Instance)!.GetValue(model);
         }
         catch (TargetInvocationException)
         {

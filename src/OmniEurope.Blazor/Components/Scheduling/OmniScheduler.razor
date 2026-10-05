@@ -51,7 +51,7 @@
     // While an appointment is picked up, the button that puts it in this cell.
     void PlaceButton(MoveTarget target)
     {
-        if (_moving is { } moving && CanPlace(target))
+        if (_moving is { } moving && CanPlace(moving, target))
         {
             <button type="button" class="omni-scheduler__place" aria-label="@Text("SchedulerMoveHere", moving.Local.Title, TargetLabel(moving, target))" @onclick="() => PlaceAsync(target)">@Text("SchedulerMoveHereShort")</button>
         }

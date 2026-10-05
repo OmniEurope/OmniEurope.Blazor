@@ -90,6 +90,69 @@ public sealed class DataGridInitialLoadTests : OmniBunitContext
     }
 
     [Fact]
+    public void SavedSortReadAtOnce_WinsOverTheColumnDefault()
+    {
+        // The store answers before the columns register: the Name column finds its key already sorted
+        // (ascending, saved) and does not add its own descending default.
+        const string saved = "{\"Filters\":{},\"Sorts\":[{\"Key\":\"Name\",\"Descending\":false}],\"ColumnWidths\":{}}";
+        var requests = new List<OmniDataGridLoadRequest>();
+        var grid = Render<DataGridInitialLoadTestHost>(parameters => parameters
+            .Add(component => component.StateKey, "tickets")
+            .Add(component => component.StateStore, new ReadyStore(saved))
+            .Add(component => component.Load, request => Answer(requests, request, slow: false)));
+
+        grid.WaitForAssertion(() => Assert.Equal(2, grid.FindAll("tbody tr[data-omni-row-index]").Count));
+        var sort = Assert.Single(Assert.Single(requests).Sorts);
+        Assert.Equal("Name", sort.Key);
+        Assert.False(sort.Descending);
+    }
+
+    [Fact]
+    public void ShiftClick_AddsAColumnToTheSorts_AndDropsOneThatWasDescending()
+    {
+        var requests = new List<OmniDataGridLoadRequest>();
+        var grid = Render<DataGridInitialLoadTestHost>(parameters => parameters
+            .Add(component => component.Load, request => Answer(requests, request, slow: false)));
+        grid.WaitForAssertion(() => Assert.Single(requests));
+        string[] Sorts() => [.. requests[^1].Sorts.Select(sort => $"{sort.Key}{(sort.Descending ? "-" : "+")}")];
+        var shift = new MouseEventArgs { ShiftKey = true };
+
+        grid.Find("th[data-omni-col=\"Id\"]").Click(shift);
+        Assert.Equal(["Name-", "Id+"], Sorts());
+
+        // Name was descending: a third click on it removes it and leaves the others in place.
+        grid.Find("th[data-omni-col=\"Name\"]").Click(shift);
+        Assert.Equal(["Id+"], Sorts());
+
+        // A plain click replaces every sort with the clicked column's next state.
+        grid.Find("th[data-omni-col=\"Id\"]").Click();
+        Assert.Equal(["Id-"], Sorts());
+    }
+
+    [Fact]
+    public void RemoteDateRange_WithOnlyAnEnd_SendsTheUpperBound_AndUnreadableSidesSendNothing()
+    {
+        var requests = new List<OmniDataGridLoadRequest>();
+        var grid = Render<DataGridFilterKindsTestHost>(parameters => parameters
+            .Add(component => component.Load, request =>
+            {
+                requests.Add(request);
+                return Task.FromResult(new OmniDataGridResult<DataGridFilterKindsTestHost.Ticket>([], 0));
+            }));
+
+        grid.Find("th[data-omni-col=\"Opened\"] .omni-data-grid__date-range-end").Change("2026-08-30");
+
+        var filter = Assert.Single(requests[^1].Filters);
+        Assert.Equal(OmniDataGridFilterOperator.LessThan, filter.Operator);
+        Assert.Equal("2026-08-31T00:00:00", filter.Value);
+        Assert.Null(filter.SecondOperator);
+
+        grid.Find("th[data-omni-col=\"Opened\"] .omni-data-grid__date-range-end").Change("garbage");
+
+        Assert.Empty(requests[^1].Filters);
+    }
+
+    [Fact]
     public async Task StaticRender_ShowsTheLoadingState_AndSendsNoRequest()
     {
         // A prerender or a static server render never runs OnAfterRender, where the columns are known
@@ -130,6 +193,13 @@ public sealed class DataGridInitialLoadTests : OmniBunitContext
             await Task.Delay(20, cancellationToken);
             return state;
         }
+
+        public Task SaveAsync(string key, string state, CancellationToken cancellationToken = default) => Task.CompletedTask;
+    }
+
+    private sealed class ReadyStore(string state) : IOmniDataGridStateStore
+    {
+        public Task<string?> LoadAsync(string key, CancellationToken cancellationToken = default) => Task.FromResult<string?>(state);
 
         public Task SaveAsync(string key, string state, CancellationToken cancellationToken = default) => Task.CompletedTask;
     }

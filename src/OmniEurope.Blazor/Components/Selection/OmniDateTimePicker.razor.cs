@@ -145,7 +145,7 @@ public partial class OmniDateTimePicker
     {
         base.OnParametersSet();
         OmniTimePicker.StepMinutes(Step);
-        if (Minimum is not null && Maximum is not null && Minimum > Maximum)
+        if (Minimum is { } minimum && Maximum is { } maximum && minimum > maximum)
         {
             throw new InvalidOperationException("Minimum cannot be greater than Maximum.");
         }

@@ -1,0 +1,6 @@
+{
+  "exceptions": [
+    { "method": "Fixture.Table::LoadAsync", "complexity": 40, "reason": "Fixture: still needed." },
+    { "method": "Fixture.Small::Run", "complexity": 5, "reason": "Fixture: no longer needed, the method scores under the threshold." }
+  ]
+}

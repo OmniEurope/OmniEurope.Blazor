@@ -73,7 +73,8 @@ public partial class OmniTooltip
     {
         get
         {
-            var limit = CompactLength ?? Text.Length;
+            // Read only when IsExpandable, which needs a positive CompactLength.
+            var limit = CompactLength!.Value;
             var cut = Text.LastIndexOf(' ', Math.Min(limit, Text.Length - 1));
             var end = cut > limit / 2 ? cut : limit;
             return string.Concat(Text.AsSpan(0, end).TrimEnd(), "…");

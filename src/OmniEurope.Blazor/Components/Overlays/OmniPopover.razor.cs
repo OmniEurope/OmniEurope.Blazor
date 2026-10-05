@@ -92,7 +92,8 @@ public partial class OmniPopover
         ? "omni-popover--bottom-start"
         : "omni-popover--bottom-end";
 
-    private Task ToggleAsync() => Disabled && !IsOpen ? Task.CompletedTask : SetOpenAsync(!IsOpen, returnFocus: false);
+    // A disabled trigger is a disabled OmniButton, which raises no click.
+    private Task ToggleAsync() => SetOpenAsync(!IsOpen, returnFocus: false);
 
     /// <summary>Closes the panel, as a click outside or Escape does.</summary>
     public Task CloseAsync() => SetOpenAsync(false, returnFocus: true);
@@ -146,16 +147,12 @@ public partial class OmniPopover
         }
     }
 
+    // Called only for an active panel, which the module was loaded to activate.
     private async Task DeactivateAsync(bool restore)
     {
-        if (_module is null)
-        {
-            return;
-        }
-
         try
         {
-            await _module.InvokeVoidAsync("detachPopover", PanelId, restore);
+            await _module!.InvokeVoidAsync("detachPopover", PanelId, restore);
         }
         catch (JSDisconnectedException)
         {

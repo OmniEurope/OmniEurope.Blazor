@@ -101,7 +101,7 @@ internal static partial class OmniHtmlText
         _ => null
     };
 
-    private static void AppendChildren(INode parent, StringBuilder builder, bool preformatted)
+    private static void AppendChildren(IElement parent, StringBuilder builder, bool preformatted)
     {
         var ordinal = 0;
         foreach (var child in parent.ChildNodes)
@@ -129,7 +129,7 @@ internal static partial class OmniHtmlText
                 case "li":
                     ordinal++;
                     builder.Append('\n');
-                    builder.Append(string.Equals(parent is IElement list ? list.LocalName : null, "ol", StringComparison.Ordinal)
+                    builder.Append(string.Equals(parent.LocalName, "ol", StringComparison.Ordinal)
                         ? $"{ordinal.ToString(CultureInfo.InvariantCulture)}. "
                         : "- ");
                     AppendChildren(element, builder, preformatted);

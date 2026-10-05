@@ -56,8 +56,9 @@ internal sealed class GridSelection<TItem>(OmniDataGrid<TItem> grid)
     /// Rows of other pages are left as they are, which is what a reader expects from a box that sits
     /// above the rows it can see.
     /// </summary>
-    private IReadOnlyList<TItem> SelectableVisibleRows => grid.View.VisibleItems
-        .Where(item => grid.RowRender is null || grid.Rows.Describe(item, 0, [], false).Selectable)
+    private IReadOnlyList<TItem> SelectableVisibleRows => grid.Rows.PageRows()
+        .Where(row => row.Selectable)
+        .Select(row => row.Item)
         .ToArray();
 
     internal bool HasSelectableVisibleRows => SelectableVisibleRows.Count > 0;

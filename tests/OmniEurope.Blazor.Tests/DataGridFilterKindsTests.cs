@@ -142,6 +142,24 @@ public sealed class DataGridFilterKindsTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task MarkdownExport_SummarisesARangeAsItsTwoDates_AndListedValuesWithTheirText()
+    {
+        var download = JSInterop.SetupModule(Internal.OmniModules.DocumentEditor);
+        download.SetupVoid("download", _ => true).SetVoidResult();
+        var grid = Render<DataGridFilterKindsTestHost>(parameters => parameters
+            .Add(component => component.StatusDefault, nameof(TicketStatus.Closed))
+            .Add(component => component.ExportFormats, [OmniTableExportFormat.Markdown]));
+        await grid.InvokeAsync(() => grid.Instance.Grid!.SetFiltersAsync(
+            new Dictionary<string, string?> { ["Opened"] = "2026-08-24/2026-08-30" }));
+
+        grid.Find(".omni-data-grid__export-button").Click();
+
+        var markdown = System.Text.Encoding.UTF8.GetString((byte[])Assert.Single(download.Invocations["download"]).Arguments[2]!);
+        Assert.Contains("2026-08-24 - 2026-08-30", markdown, StringComparison.Ordinal);
+        Assert.Contains("T:Closed", markdown, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void AdvancedMenu_OffersOnlyTheOperatorsTheColumnTypeSupports()
     {
         var grid = Render<DataGridFilterKindsTestHost>(parameters => parameters

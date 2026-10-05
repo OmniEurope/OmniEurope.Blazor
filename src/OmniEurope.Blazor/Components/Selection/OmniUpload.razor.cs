@@ -221,7 +221,9 @@ public partial class OmniUpload
 
     private async Task RemoveAsync(int index)
     {
-        if (!IsBound || Disabled || _uploading || index < 0 || index >= Files.Count)
+        // The index comes from the rendered list, never negative; a host that replaced or unbound the list
+        // since that render can still send a click already on its way.
+        if (!IsBound || Disabled || _uploading || index >= Files.Count)
         {
             return;
         }
@@ -391,15 +393,11 @@ public partial class OmniUpload
 
     /// <summary>
     /// Empties the list. Bound, each entry is reported through <see cref="FileRemoved"/> before the
-    /// empty list is sent, as a removal one by one would; unbound, the listed selection is cleared.
+    /// empty list is sent, as a removal one by one would; unbound, the listed selection is cleared. Its
+    /// button is disabled while locked, uploading or empty, and a disabled OmniButton raises no click.
     /// </summary>
     private async Task RemoveAllAsync()
     {
-        if (Disabled || _uploading || ListedCount == 0)
-        {
-            return;
-        }
-
         _showAll = false;
         _hasError = false;
         _progress = 0;

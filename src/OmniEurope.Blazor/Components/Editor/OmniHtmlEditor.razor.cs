@@ -252,7 +252,7 @@ public partial class OmniHtmlEditor
     /// <summary>The proofreaders of the extensions as the surface script and the context menu use them.</summary>
     internal HtmlEditorProofreading Proofreading => _proofreading ??= new(this);
 
-    internal void CancelProofreadingSuggestions() => _proofreading?.Cancel();
+    internal void CancelProofreadingSuggestions() => Proofreading.Cancel();
 
     /// <summary>The source face, created on first use once the script runtime is injected.</summary>
     private HtmlEditorSourceFace SourceFace => _sourceFace ??= new(this, JSRuntime);
@@ -434,40 +434,11 @@ public partial class OmniHtmlEditor
             return;
         }
 
-        switch (action)
+        if (EditorAction(action, argument) is { } handled)
         {
-            case OmniHtmlEditorAction.Custom:
-            case OmniHtmlEditorAction.Separator:
-                return;
-            case OmniHtmlEditorAction.Undo:
-                await UndoAsync();
-                return;
-            case OmniHtmlEditorAction.Redo:
-                await RedoAsync();
-                return;
-            case OmniHtmlEditorAction.ToggleSource:
-                await SwitchModeAsync(_mode == OmniHtmlEditorMode.Visual ? OmniHtmlEditorMode.Source : OmniHtmlEditorMode.Visual, notify: true);
-                return;
-            case OmniHtmlEditorAction.Link when argument is null:
-                await OpenLinkAsync();
-                return;
-            case OmniHtmlEditorAction.ShowBlocks:
-                _showBlocks = !_showBlocks;
-                return;
-            case OmniHtmlEditorAction.ChangeCase when argument is not ("upper" or "lower" or "title"):
-                return;
-            case OmniHtmlEditorAction.InsertSpecialCharacter when string.IsNullOrEmpty(argument):
-                _panels.Open(HtmlEditorPanel.Characters);
-                return;
-            case OmniHtmlEditorAction.InsertSpecialCharacter:
-                await InsertCharacterAsync(argument!);
-                return;
-            case OmniHtmlEditorAction.ImportTable:
-                _panels.Open(HtmlEditorPanel.Table);
-                return;
+            await handled;
         }
-
-        if (_mode == OmniHtmlEditorMode.Visual)
+        else if (_mode == OmniHtmlEditorMode.Visual)
         {
             await Visual.ExecuteAsync(HtmlEditorToolbar.ScriptName(action), argument);
         }
@@ -475,6 +446,38 @@ public partial class OmniHtmlEditor
         {
             await SourceFace.ExecuteAsync(action, argument);
         }
+    }
+
+    /// <summary>
+    /// The work of an action the editor does itself (history, faces, panels, the link field), or null
+    /// for an action the face writes into the document.
+    /// </summary>
+    private Task? EditorAction(OmniHtmlEditorAction action, string? argument) => action switch
+    {
+        OmniHtmlEditorAction.Custom or OmniHtmlEditorAction.Separator => Task.CompletedTask,
+        OmniHtmlEditorAction.Undo => UndoAsync(),
+        OmniHtmlEditorAction.Redo => RedoAsync(),
+        OmniHtmlEditorAction.ToggleSource =>
+            SwitchModeAsync(_mode == OmniHtmlEditorMode.Visual ? OmniHtmlEditorMode.Source : OmniHtmlEditorMode.Visual, notify: true),
+        OmniHtmlEditorAction.Link when argument is null => OpenLinkAsync(),
+        OmniHtmlEditorAction.ShowBlocks => ToggleBlocks(),
+        OmniHtmlEditorAction.ChangeCase when argument is not ("upper" or "lower" or "title") => Task.CompletedTask,
+        OmniHtmlEditorAction.InsertSpecialCharacter when string.IsNullOrEmpty(argument) => OpenPanel(HtmlEditorPanel.Characters),
+        OmniHtmlEditorAction.InsertSpecialCharacter => InsertCharacterAsync(argument!),
+        OmniHtmlEditorAction.ImportTable => OpenPanel(HtmlEditorPanel.Table),
+        _ => null
+    };
+
+    private Task ToggleBlocks()
+    {
+        _showBlocks = !_showBlocks;
+        return Task.CompletedTask;
+    }
+
+    private Task OpenPanel(HtmlEditorPanel panel)
+    {
+        _panels.Open(panel);
+        return Task.CompletedTask;
     }
 
     internal async Task InsertHtmlAsync(string html)

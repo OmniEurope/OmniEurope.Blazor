@@ -121,6 +121,29 @@ internal sealed class GridRowBuilder<TItem>(OmniDataGrid<TItem> grid)
         return rows;
     }
 
+    /// <summary>
+    /// The rows of the page the header checkbox and the header expand button act on, each described with
+    /// the index it is rendered under, so a row callback that reads the index vetoes the same row in the
+    /// header as in the body. A row of a closed group is not rendered: it keeps its position on the page.
+    /// </summary>
+    internal IEnumerable<GridRenderRow<TItem>> PageRows()
+    {
+        var items = grid.View.VisibleItems;
+        if (grid.RowRender is null || items.Count == 0)
+        {
+            return items.Select((item, position) => new GridRenderRow<TItem>(position, item, true, [], false, null, true, true));
+        }
+
+        var rendered = new Dictionary<object, GridRenderRow<TItem>>();
+        foreach (var row in RenderRows().Where(row => row.HasItem))
+        {
+            rendered.TryAdd(grid.ItemKey(row.Item), row);
+        }
+
+        return items.Select((item, position) =>
+            rendered.TryGetValue(grid.ItemKey(item), out var row) ? row : Describe(item, position, [], false));
+    }
+
     /// <summary>A row of an item, with the class and the controls the host's row callback gives it.</summary>
     internal GridRenderRow<TItem> Describe(TItem item, int index, IReadOnlyList<GridGroupHeader> headers, bool showDetail)
     {

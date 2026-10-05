@@ -179,37 +179,56 @@ public partial class OmniDialog
         }
 
         // The free width first: the frozen scale and the focus then see the dialog at its own size.
-        if (Open && !string.Equals(Width, _appliedWidth, StringComparison.Ordinal))
-        {
-            _dialogModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Dialog);
-            if (Width is null) await _dialogModule.InvokeVoidAsync("clearWidth", _dialog);
-            else await _dialogModule.InvokeVoidAsync("setWidth", _dialog, Width);
-            _appliedWidth = Width;
-        }
-        else if (!Open)
+        await SyncWidthAsync();
+        await SyncAttachmentAsync();
+        await SyncFocusAsync(_focusModule!);
+    }
+
+    /// <summary>Writes the free width on an open dialog when it changed; a closed dialog forgets it.</summary>
+    private async Task SyncWidthAsync()
+    {
+        if (!Open)
         {
             // Closed, the panel is gone: the next opening draws a new one, without the property.
             _appliedWidth = null;
+            return;
         }
 
-        if (Open && !_attached && (Draggable || FreezeScale))
-        {
-            _dialogModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Dialog);
-            await _dialogModule.InvokeVoidAsync("attach", _dialog);
-            if (FreezeScale) await _dialogModule.InvokeVoidAsync("freezeScale", _dialog);
-            _attached = true;
-        }
-        else if (!Open && _attached)
-        {
-            if (_dialogModule is not null) await _dialogModule.InvokeVoidAsync("detach", _dialog);
-            _attached = false;
-        }
-
-        if (_focusModule is null)
+        if (string.Equals(Width, _appliedWidth, StringComparison.Ordinal))
         {
             return;
         }
 
+        var module = _dialogModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Dialog);
+        if (Width is null) await module.InvokeVoidAsync("clearWidth", _dialog);
+        else await module.InvokeVoidAsync("setWidth", _dialog, Width);
+        _appliedWidth = Width;
+    }
+
+    /// <summary>Attaches dragging and the frozen scale when the dialog opens with them, detaches them when it closes.</summary>
+    private async Task SyncAttachmentAsync()
+    {
+        if (Open && !_attached && (Draggable || FreezeScale))
+        {
+            var module = _dialogModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Dialog);
+            await module.InvokeVoidAsync("attach", _dialog);
+            if (FreezeScale) await module.InvokeVoidAsync("freezeScale", _dialog);
+            _attached = true;
+        }
+        else if (!Open && _attached)
+        {
+            // Attached only once the module was loaded.
+            await _dialogModule!.InvokeVoidAsync("detach", _dialog);
+            _attached = false;
+        }
+    }
+
+    /// <summary>
+    /// Moves focus into the dialog as it opens (a modal traps it, a modeless window lets Tab leave), and
+    /// gives it back to where it was when it closes.
+    /// </summary>
+    private async Task SyncFocusAsync(IJSObjectReference focus)
+    {
         if (Open && !_focusActivated)
         {
             _focusActivated = true;
@@ -218,21 +237,21 @@ public partial class OmniDialog
             // dialog passes the flag: a dialog whose backdrop closes it makes the call it always made.
             if (!Modal)
             {
-                await _focusModule.InvokeVoidAsync("activateWindow", _dialog, _focusKey);
+                await focus.InvokeVoidAsync("activateWindow", _dialog, _focusKey);
             }
             else if (CloseOnBackdrop && Dismissible)
             {
-                await _focusModule.InvokeVoidAsync("activateDialog", _dialog, _focusKey);
+                await focus.InvokeVoidAsync("activateDialog", _dialog, _focusKey);
             }
             else
             {
-                await _focusModule.InvokeVoidAsync("activateDialog", _dialog, _focusKey, true);
+                await focus.InvokeVoidAsync("activateDialog", _dialog, _focusKey, true);
             }
         }
         else if (!Open && _focusActivated)
         {
             _focusActivated = false;
-            await _focusModule.InvokeVoidAsync("restoreFocus", _focusKey);
+            await focus.InvokeVoidAsync("restoreFocus", _focusKey);
         }
     }
 

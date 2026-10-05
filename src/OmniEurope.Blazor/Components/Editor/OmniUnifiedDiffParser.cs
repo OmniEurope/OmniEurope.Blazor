@@ -99,7 +99,8 @@ public static partial class OmniUnifiedDiffParser
                 continue;
             }
 
-            if (HunkHeader().Match(line) is { Success: true } header)
+            var header = HunkHeader().Match(line);
+            if (header.Success)
             {
                 // The numbers come from external text: a range that does not fit an int, line numbers
                 // included, makes the header malformed, and the hunk is skipped rather than thrown on.

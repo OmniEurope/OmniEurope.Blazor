@@ -46,6 +46,7 @@
     SbomWritten = 'SBOM et registre de licences générés : {0} composants.'
     SbomPassed = 'SBOM validé : {0} composants uniques, licences et textes locaux cohérents.'
     CoveragePassed = 'Couverture validée : {0} tests, {1} lignes valides, taux de lignes {2}%.'
+    CrapPassed = 'Porte CRAP validée : {0} méthodes notées, aucune au-dessus de {1} hors des {2} exceptions justifiées.'
     DependencyPolicyPassed = 'Politique de dépendances validée : versions centrales, verrous, SDK, workload et actions immuables.'
     ProvenanceWritten = 'Provenance de paquet générée : commit {0}, exécution {1}, deux artefacts empreintés.'
 

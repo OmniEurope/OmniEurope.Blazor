@@ -132,12 +132,9 @@ internal sealed class GridVirtualWindow
         var top = Math.Clamp(double.IsNaN(scrollTop) ? 0d : scrollTop, 0d, Math.Max(0d, TotalHeight - height));
         var safeOverscan = Math.Max(0, overscan);
 
+        // IndexAt never decreases with the offset, so the window holds at least the row at the top.
         var start = Math.Max(0, IndexAt(top) - safeOverscan);
         var end = Math.Min(_count, IndexAt(top + height) + 1 + safeOverscan);
-        if (end <= start)
-        {
-            end = Math.Min(_count, start + 1);
-        }
 
         var topSpacer = OffsetOf(start);
         var bottomSpacer = Math.Max(0d, TotalHeight - OffsetOf(end));

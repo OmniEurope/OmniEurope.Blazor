@@ -87,6 +87,17 @@ public sealed class GraphLayeredLayoutTests
     }
 
     [Fact]
+    public void TwoWayEdge_IsDrawnOnceInOneDirection()
+    {
+        // Reversing b->a to break the cycle gives a second a->b: the drawing keeps one.
+        var twoWay = OmniGraphLayout.Layered([Box("a"), Box("b")], [new("a", "b"), new("b", "a")]);
+        var oneWay = OmniGraphLayout.Layered([Box("a"), Box("b")], [new("a", "b")]);
+
+        Assert.Equal(oneWay.Positions, twoWay.Positions);
+        Assert.Equal((oneWay.Width, oneWay.Height), (twoWay.Width, twoWay.Height));
+    }
+
+    [Fact]
     public void CrossingReduction_UntanglesTwoEdgesGivenCrossed()
     {
         // In input order the second layer is c, d: a->d and b->c would cross.

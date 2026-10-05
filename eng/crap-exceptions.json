@@ -1,0 +1,75 @@
+{
+  "$comment": "Méthodes de la RCL admises au-dessus d'un score CRAP de 30 (PLAN-014). Seules les tables de correspondance, les règles normatives recopiées et les analyseurs dont chaque branche est une forme de la grammaire sont admis. complexity est le plafond : la porte échoue si la méthode le dépasse, si elle descend dessous (abaisser le plafond) ou si l'exception ne sert plus.",
+  "exceptions": [
+    {
+      "method": "OmniEurope.Blazor.Localization.PluralRules::Category",
+      "complexity": 122,
+      "reason": "Règles de pluriel CLDR des 24 langues de l'Union, recopiées telles quelles : une branche par règle normative, les découper éloignerait le code de sa source."
+    },
+    {
+      "method": "OmniEurope.Blazor.Components.HtmlEditorToolbar::IconOf",
+      "complexity": 48,
+      "reason": "Table de correspondance : une commande de la barre vers son icône."
+    },
+    {
+      "method": "OmniEurope.Blazor.Components.HtmlEditorToolbar::LabelKey",
+      "complexity": 46,
+      "reason": "Table de correspondance : une commande de la barre vers la clé de son libellé."
+    },
+    {
+      "method": "OmniEurope.Blazor.Components.HtmlEditorToolbar::PressedOf",
+      "complexity": 40,
+      "reason": "Table de correspondance : une commande de la barre vers l'état de sélection qui la montre enfoncée."
+    },
+    {
+      "method": "OmniEurope.Blazor.Components.HtmlEditorToolbar::IsDisabled",
+      "complexity": 31,
+      "reason": "Table de correspondance : une commande de la barre vers la condition qui la désactive."
+    },
+    {
+      "method": "OmniEurope.Blazor.Internal.ThemePresetFactory::BuildColors",
+      "complexity": 48,
+      "reason": "Recette de la maquette de référence (PLAN-004, buildTokens) : une ligne par jeton, chaque alternative clair ou sombre compte une branche ; l'ordre des opérations fixe les valeurs livrées."
+    },
+    {
+      "method": "OmniEurope.Blazor.Internal.OmniHtmlSanitizer::CreateSanitizer",
+      "complexity": 32,
+      "reason": "Configuration de l'assainisseur : la liste des balises, attributs et schémas admis."
+    },
+    {
+      "method": "OmniEurope.Blazor.Internal.SpreadsheetFormula::Call",
+      "complexity": 39,
+      "reason": "Table de correspondance : un nom de fonction du tableur vers son calcul."
+    },
+    {
+      "method": "OmniEurope.Blazor.Internal.SpreadsheetFormula::ReadNumber",
+      "complexity": 32,
+      "reason": "Analyseur : chaque branche lit une forme de la grammaire des nombres d'une formule."
+    },
+    {
+      "method": "OmniEurope.Blazor.Localization.PluralMessage::TryRead",
+      "complexity": 40,
+      "reason": "Analyseur : chaque branche lit une forme de la grammaire des messages au pluriel."
+    },
+    {
+      "method": "OmniEurope.Blazor.Components.OmniUnifiedDiffParser::Parse",
+      "complexity": 54,
+      "reason": "Analyseur du format unified diff : chaque branche reconnaît une forme de ligne (contexte, ajout, retrait, note, en-têtes de fichier et de bloc)."
+    },
+    {
+      "method": "OmniEurope.Blazor.Components.HtmlEditorTableFile::ReadDelimited",
+      "complexity": 34,
+      "reason": "Analyseur CSV (RFC 4180) : chaque branche lit une forme de la grammaire (guillemets, séparateur, fin de ligne)."
+    },
+    {
+      "method": "OmniEurope.Blazor.Internal.MindMapKeyboard::CommandOf",
+      "complexity": 40,
+      "reason": "Table de correspondance : une touche de la carte mentale vers sa commande (flèches, Début, Entrée, Échap, zoom, menu)."
+    },
+    {
+      "method": "OmniEurope.Blazor.Components.OmniDataGridColumn`1::Matches",
+      "complexity": 84,
+      "reason": "Égalité champ par champ de deux définitions de colonne : une conjonction par paramètre, sans autre logique."
+    }
+  ]
+}

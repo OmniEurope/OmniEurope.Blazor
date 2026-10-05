@@ -36,9 +36,9 @@ internal sealed class GridExpansion<TItem>(OmniDataGrid<TItem> grid)
     }
 
     /// <summary>The expandable rows on screen, the ones the header button acts on.</summary>
-    private IReadOnlyList<object> ExpandableVisibleKeys => grid.View.VisibleItems
-        .Where(item => grid.RowRender is null || grid.Rows.Describe(item, 0, [], false).Expandable)
-        .Select(grid.ItemKey)
+    private IReadOnlyList<object> ExpandableVisibleKeys => grid.Rows.PageRows()
+        .Where(row => row.Expandable)
+        .Select(row => grid.ItemKey(row.Item))
         .ToArray();
 
     internal bool AllVisibleExpanded

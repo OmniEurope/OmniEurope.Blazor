@@ -17,97 +17,52 @@ internal sealed class MindMapKeyboard(
     MindMapContextMenu menu)
 {
     /// <summary>Runs the command of a key pressed on the canvas.</summary>
-    public async Task KeyDownAsync(KeyboardEventArgs args)
+    public Task KeyDownAsync(KeyboardEventArgs args)
     {
         viewport.TakeFromCanvas();
-        if (args.CtrlKey || args.MetaKey)
-        {
-            if (args.AltKey)
-            {
-                return;
-            }
-
-            if (Is(args, "z") && !args.ShiftKey)
-            {
-                await editor.UndoAsync();
-            }
-            else if (Is(args, "y") || (Is(args, "z") && args.ShiftKey))
-            {
-                await editor.RedoAsync();
-            }
-
-            return;
-        }
-
         if (args.AltKey)
         {
-            return;
+            return Task.CompletedTask;
         }
 
-        switch (args.Key)
-        {
-            case "ArrowUp":
-                await ArrowAsync(args, 0, -1);
-                return;
-            case "ArrowDown":
-                await ArrowAsync(args, 0, 1);
-                return;
-            case "ArrowLeft":
-                await ArrowAsync(args, -1, 0);
-                return;
-            case "ArrowRight":
-                await ArrowAsync(args, 1, 0);
-                return;
-            case "Home":
-                await editor.SelectNodeAsync(model.Root?.Id);
-                return;
-            case "Enter" or "F2":
-                if (selection.IsLinking && selection.NodeId is not null)
-                {
-                    await editor.PickLinkEndAsync(selection.NodeId);
-                }
-                else
-                {
-                    await owner.RequestRenameAsync();
-                }
-
-                return;
-            case "Escape":
-                await EscapeAsync();
-                return;
-            case "Delete" or "Backspace":
-                await editor.DeleteSelectionAsync();
-                return;
-            case "+" or "=":
-                await viewport.ZoomByAsync(OmniMindMap.ZoomStep);
-                return;
-            case "-" or "_":
-                await viewport.ZoomByAsync(1 / OmniMindMap.ZoomStep);
-                return;
-            case "0":
-                await viewport.FitAsync();
-                return;
-            case "ContextMenu":
-                await menu.OpenFromKeyboardAsync();
-                return;
-            case "F10" when args.ShiftKey:
-                await menu.OpenFromKeyboardAsync();
-                return;
-        }
-
-        if (Is(args, "n"))
-        {
-            await editor.AddNodeAsync();
-        }
-        else if (Is(args, "d"))
-        {
-            await editor.DuplicateSelectionAsync();
-        }
-        else if (Is(args, "c"))
-        {
-            await owner.CenterOnSelectionAsync();
-        }
+        return args.CtrlKey || args.MetaKey ? HistoryAsync(args) : CommandOf(args);
     }
+
+    /// <summary>Ctrl+Z undoes; Ctrl+Y and Ctrl+Shift+Z redo.</summary>
+    private Task HistoryAsync(KeyboardEventArgs args) =>
+        Is(args, "z") && !args.ShiftKey ? editor.UndoAsync()
+        : Is(args, "y") || Is(args, "z") ? editor.RedoAsync()
+        : Task.CompletedTask;
+
+    private Task CommandOf(KeyboardEventArgs args) => args.Key switch
+    {
+        "ArrowUp" => ArrowAsync(args, 0, -1),
+        "ArrowDown" => ArrowAsync(args, 0, 1),
+        "ArrowLeft" => ArrowAsync(args, -1, 0),
+        "ArrowRight" => ArrowAsync(args, 1, 0),
+        "Home" => editor.SelectNodeAsync(model.Root?.Id),
+        "Enter" or "F2" => EnterAsync(),
+        "Escape" => EscapeAsync(),
+        "Delete" or "Backspace" => editor.DeleteSelectionAsync(),
+        "+" or "=" => viewport.ZoomByAsync(OmniMindMap.ZoomStep),
+        "-" or "_" => viewport.ZoomByAsync(1 / OmniMindMap.ZoomStep),
+        "0" => viewport.FitAsync(),
+        "ContextMenu" => menu.OpenFromKeyboardAsync(),
+        "F10" when args.ShiftKey => menu.OpenFromKeyboardAsync(),
+        _ => LetterAsync(args)
+    };
+
+    /// <summary>Ends the link being drawn on the selected node, else renames it.</summary>
+    private Task EnterAsync() => selection.IsLinking && selection.NodeId is not null
+        ? editor.PickLinkEndAsync(selection.NodeId)
+        : owner.RequestRenameAsync();
+
+    /// <summary>N adds a node, D duplicates the selection, C centres on it.</summary>
+    private Task LetterAsync(KeyboardEventArgs args) =>
+        Is(args, "n") ? editor.AddNodeAsync()
+        : Is(args, "d") ? editor.DuplicateSelectionAsync()
+        : Is(args, "c") ? owner.CenterOnSelectionAsync()
+        : Task.CompletedTask;
 
     private static bool Is(KeyboardEventArgs args, string letter) =>
         string.Equals(args.Key, letter, StringComparison.OrdinalIgnoreCase);
@@ -150,7 +105,8 @@ internal sealed class MindMapKeyboard(
     {
         if (editor.SelectedNode is not { } current)
         {
-            await editor.SelectNodeAsync((model.Root ?? model.Drawable.FirstOrDefault())?.Id);
+            // The root, or the first drawn node when there is none (MindMapModel.Root).
+            await editor.SelectNodeAsync(model.Root?.Id);
             return;
         }
 

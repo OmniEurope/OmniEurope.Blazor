@@ -1,0 +1,5 @@
+{
+  "exceptions": [
+    { "method": "Fixture.Table::LoadAsync", "complexity": 40, "reason": "Fixture: an admitted async method, scored under its source name." }
+  ]
+}

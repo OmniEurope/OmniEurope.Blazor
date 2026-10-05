@@ -49,6 +49,29 @@ public sealed class DataGridPreparationTests : OmniBunitContext
     }
 
     [Fact]
+    public void ImagesReady_ShowTheGrid()
+    {
+        var module = JSInterop.SetupModule(ModulePath);
+        module.Setup<bool>("waitForReady", _ => true).SetResult(true);
+
+        var grid = RenderPreparedGrid();
+
+        grid.WaitForAssertion(() => Assert.Empty(grid.FindAll(".omni-data-grid--preparing")));
+        Assert.Equal(2, grid.FindAll("tbody tr[data-omni-row-index]").Count);
+    }
+
+    [Fact]
+    public void ImagesNotReady_KeepTheGridPreparing()
+    {
+        var module = JSInterop.SetupModule(ModulePath);
+        module.Setup<bool>("waitForReady", _ => true).SetResult(false);
+
+        var grid = RenderPreparedGrid();
+
+        Assert.NotEmpty(grid.FindAll(".omni-data-grid--preparing"));
+    }
+
+    [Fact]
     public void WhileTheImagesAreAwaited_TheHeadersStayAndTheTemplateTakesTheFirstRow()
     {
         var module = JSInterop.SetupModule(ModulePath);
