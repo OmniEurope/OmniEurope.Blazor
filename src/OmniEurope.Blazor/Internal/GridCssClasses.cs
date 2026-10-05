@@ -64,10 +64,11 @@ internal sealed class GridCssClasses<TItem>(OmniDataGrid<TItem> grid)
         column.Template is null && !(editing && column.EditTemplate is not null) ? "omni-data-grid__cell--text" : null
     ]);
 
+    // Drawn for a row that holds its item only: a row still loading has its own placeholder markup.
     internal string RowClass(GridRenderRow<TItem> row) => CssClassBuilder.Combine([
         "omni-data-grid__row",
-        row.HasItem && grid.Selection.IsSelected(grid.ItemKey(row.Item)) ? "omni-data-grid__row--selected" : null,
-        row.HasItem && grid.Highlight.IsNewRow(row.Item) ? "omni-data-grid__row--new" : null,
+        grid.Selection.IsSelected(grid.ItemKey(row.Item)) ? "omni-data-grid__row--selected" : null,
+        grid.Highlight.IsNewRow(row.Item) ? "omni-data-grid__row--new" : null,
         grid.AllowAlternatingRows && row.Index % 2 == 1 ? "omni-data-grid__row--alternate" : null,
         grid.Selection.RowsAreInteractive && row.Selectable ? "omni-data-grid__row--interactive" : null,
         row.Class

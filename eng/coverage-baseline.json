@@ -157,11 +157,6 @@
       "branches": 1
     },
     {
-      "file": "Internal/GridCssClasses.cs",
-      "lines": 0,
-      "branches": 2
-    },
-    {
       "file": "Internal/GridDataView.cs",
       "lines": 2,
       "branches": 5
@@ -180,11 +175,6 @@
       "file": "Internal/GridNewRowHighlight.cs",
       "lines": 0,
       "branches": 1
-    },
-    {
-      "file": "Internal/GridPaging.cs",
-      "lines": 0,
-      "branches": 4
     },
     {
       "file": "Internal/GridProjection.cs",

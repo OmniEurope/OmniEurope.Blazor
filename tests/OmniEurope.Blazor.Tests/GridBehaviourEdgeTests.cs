@@ -136,6 +136,7 @@ public sealed class GridBehaviourEdgeTests : OmniBunitContext
     [InlineData("1vw", "ArrowRight", "192px")]
     [InlineData("abc", "ArrowLeft", "128px")]
     [InlineData("120", "ArrowLeft", "88px")]
+    [InlineData("120px", "ArrowRight", "152px")]
     [InlineData(null, "ArrowLeft", "128px")]
     public void KeyboardResize_FromAWidthToGuess_StepsFromTheEstimate(string? width, string key, string expected)
     {

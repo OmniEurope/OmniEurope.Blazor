@@ -196,6 +196,48 @@ public sealed class GridBranchEdgeTests : OmniBunitContext
     }
 
     [Fact]
+    public void RemotePagedGrid_LoadsAgainOnANewPageAndANewPageSize()
+    {
+        var requests = new List<OmniDataGridLoadRequest>();
+        var grid = Render<OmniDataGrid<Row>>(parameters => parameters
+            .Add(component => component.Load, request =>
+            {
+                requests.Add(request);
+                return Task.FromResult(new OmniDataGridResult<Row>(Rows.Take(request.PageSize).ToArray(), 30));
+            })
+            .Add(component => component.KeyOf, row => row.Name)
+            .Add(component => component.PageSize, 2)
+            .Add(component => component.PageSizeOptions, [2, 5])
+            .Add(component => component.Columns, Columns()));
+        grid.WaitForAssertion(() => Assert.Single(requests));
+
+        grid.Find(".omni-pager button[aria-label=\"Page suivante\"]").Click();
+        grid.WaitForAssertion(() => Assert.Equal(2, requests[^1].Page));
+        grid.Find(".omni-pager__page-size").Change("5");
+
+        grid.WaitForAssertion(() => Assert.Equal(5, requests[^1].PageSize));
+        Assert.Equal(1, requests[^1].Page);
+    }
+
+    [Fact]
+    public async Task VirtualGridWhoseItemsShrink_DrawsOnlyTheRowsLeft()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        var many = Enumerable.Range(0, 200).Select(index => new Row($"r{index}", index, default)).ToArray();
+        var grid = Render<OmniDataGrid<Row>>(parameters => parameters
+            .Add(component => component.Items, many)
+            .Add(component => component.KeyOf, row => row.Name)
+            .Add(component => component.Columns, Columns())
+            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
+            .Add(component => component.EstimatedRowHeight, 40d));
+        await grid.InvokeAsync(() => grid.Instance.OnViewportChangedAsync(7_000d, 400d));
+
+        grid.Render(parameters => parameters.Add(component => component.Items, Rows));
+
+        Assert.Equal(["a", "b", "c"], grid.FindAll("tbody tr[data-omni-row-index] td[data-omni-col='Name']").Select(cell => cell.TextContent.Trim()));
+    }
+
+    [Fact]
     public void EditColumnAsked_WithoutAnyEditor_IsNotDrawn()
     {
         var grid = RenderGrid(parameters => parameters.Add(component => component.ShowEditColumn, true));
