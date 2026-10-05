@@ -1182,6 +1182,8 @@
   <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Ügyfélszolgálat</value></data>
   <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Partnerség</value></data>
   <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Emelkedés</value></data>
+  <data name="DemoMediaIconCurrencyBtc" xml:space="preserve"><value>Összeg bitcoinban</value></data>
+  <data name="DemoMediaIconPercent" xml:space="preserve"><value>Százalék</value></data>
   <data name="DemoMediaIconLeaf" xml:space="preserve"><value>Ökológia</value></data>
   <data name="DemoAnnotatedValidationName" xml:space="preserve"><value>Projekt neve</value></data>
   <data name="DemoAnnotatedValidationMail" xml:space="preserve"><value>A felelős e-mail-címe</value></data>

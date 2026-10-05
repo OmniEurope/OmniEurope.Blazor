@@ -9,7 +9,7 @@
         type="@ButtonType.ToString().ToLowerInvariant()"
         disabled="@Disabled"
         aria-busy="@(Busy ? "true" : null)"
-        aria-label="@Label"
+        aria-label="@Internal.OmniAriaLabel.Of(Label, AdditionalAttributes)"
         @onclick="HandleClickAsync"
         @onclick:preventDefault="Busy">
     <span class="omni-button__content">@ChildContent</span>

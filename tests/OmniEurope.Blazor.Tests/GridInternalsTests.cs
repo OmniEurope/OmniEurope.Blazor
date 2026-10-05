@@ -107,6 +107,30 @@ public sealed class GridInternalsTests
         Assert.Equal(["x", "z", "y", "n1", "n2"], Sorted(true));
     }
 
+    [Theory]
+    [InlineData(typeof(DateOnly))]
+    [InlineData(typeof(TimeOnly))]
+    public void FilterOperators_OfADayOrATime_AreThoseOfAnOrderedValue(Type type)
+    {
+        var column = new OmniDataGridColumnDefinition<Row> { Key = "t", Title = "t", Value = row => row.Value, ValueType = type };
+
+        Assert.Contains(OmniDataGridFilterOperator.LessThan, GridFilterOperators<Row>.OperatorsFor(column));
+        Assert.DoesNotContain(OmniDataGridFilterOperator.Contains, GridFilterOperators<Row>.OperatorsFor(column));
+    }
+
+    [Fact]
+    public void Projection_FirstConditionAnsweredByThePredicate()
+    {
+        var rows = new List<Row> { new("a", 1), new("b", 2) };
+        var column = Column(value: row => row.Value);
+        column.FilterPredicate = (row, text) => row.Name == text;
+        var filter = GridColumnFilter.Empty with { Value = "b" };
+
+        var result = GridProjection<Row>.Create(rows, [column], new Dictionary<string, GridColumnFilter> { ["v"] = filter }, [], false, false, 1, 10);
+
+        Assert.Equal(["b"], result.Items.Select(row => row.Name));
+    }
+
     [Fact]
     public void FilterOperators_OfAnOrderedValueType_AndAnUnknownName()
     {

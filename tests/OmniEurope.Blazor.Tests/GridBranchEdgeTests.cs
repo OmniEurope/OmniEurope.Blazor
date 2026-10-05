@@ -238,6 +238,73 @@ public sealed class GridBranchEdgeTests : OmniBunitContext
     }
 
     [Fact]
+    public void ActiveColumnHighlight_MarksOnlyTheSortedOrFilteredColumn()
+    {
+        var grid = RenderGrid(parameters => parameters.Add(component => component.HighlightActiveColumn, true));
+
+        grid.FindAll(".omni-data-grid__sort")[0].Click();
+
+        Assert.Contains("omni-data-grid__column--active", grid.Find("th[data-omni-col='Name']").ClassList);
+        Assert.DoesNotContain("omni-data-grid__column--active", grid.Find("th[data-omni-col='Amount']").ClassList);
+
+        // A column filtered but not sorted is active too.
+        var filtered = RenderGrid(parameters => parameters.Add(component => component.HighlightActiveColumn, true).Add(component => component.Filterable, true));
+        filtered.Find("[data-omni-col='Amount'] .omni-data-grid__filter").Input("2");
+        Assert.Contains("omni-data-grid__column--active", filtered.Find("th[data-omni-col='Amount']").ClassList);
+    }
+
+    [Fact]
+    public void VirtualGrid_SelectingARow_ReportsIt_AndTheHeaderBoxSelectsTheRowsItHolds()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        IReadOnlyList<Row> selected = [];
+        var grid = RenderGrid(parameters => parameters
+            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
+            .Add(component => component.SelectionMode, OmniDataGridSelectionMode.Multiple)
+            .Add(component => component.ValueChanged, rows => selected = rows));
+
+        grid.FindAll("tbody td[data-omni-control='select'] input")[1].Change(true);
+
+        Assert.Equal(["b"], selected.Select(row => row.Name));
+    }
+
+    [Fact]
+    public async Task RemoteVirtualGrid_ReportsALoadFailureOnce_AcrossAPassThatLoadsNothing()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        var errors = new List<Exception>();
+        var fail = false;
+        var grid = Render<OmniDataGrid<Row>>(parameters => parameters
+            .Add(component => component.Load, _ => fail ? Task.FromException<OmniDataGridResult<Row>>(new InvalidOperationException("panne")) : Task.FromResult(new OmniDataGridResult<Row>(Rows, Rows.Count)))
+            .Add(component => component.KeyOf, row => row.Name)
+            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
+            .Add(component => component.OnLoadError, error => errors.Add(error))
+            .Add(component => component.Columns, Columns()));
+        grid.WaitForAssertion(() => Assert.Equal(3, grid.FindAll("tbody tr[data-omni-row-index]").Count));
+
+        fail = true;
+        await grid.InvokeAsync(grid.Instance.RefreshAsync);
+        await grid.InvokeAsync(() => grid.Instance.OnViewportChangedAsync(0d, 400d));
+
+        Assert.Single(errors);
+    }
+
+    [Fact]
+    public void VirtualGrid_OffersNoExpandAll_LikeItOffersNoSelectAll()
+    {
+        // The button read the rows of a page a virtual grid does not have: it was shown and opened nothing.
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        RenderFragment<Row> detail = row => builder => builder.AddContent(0, row.Name);
+        var grid = RenderGrid(parameters => parameters
+            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
+            .Add(component => component.DetailTemplate, detail)
+            .Add(component => component.ShowExpandAll, true));
+
+        Assert.Empty(grid.FindAll("thead .omni-data-grid__expand"));
+        Assert.NotEmpty(grid.FindAll("tbody td[data-omni-control='expand'] button"));
+    }
+
+    [Fact]
     public void EditColumnAsked_WithoutAnyEditor_IsNotDrawn()
     {
         var grid = RenderGrid(parameters => parameters.Add(component => component.ShowEditColumn, true));

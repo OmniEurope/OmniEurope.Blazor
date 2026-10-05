@@ -8,7 +8,7 @@
    class="@Css("omni-link", ShowsExternalIcon ? "omni-link--external" : null)"
    target="@EffectiveTarget"
    rel="@EffectiveRel"
-   aria-label="@Label"
+   aria-label="@Internal.OmniAriaLabel.Of(Label, AdditionalAttributes)"
    @onclick="OnClick"
    href="@SafeHref">
     @ChildContent

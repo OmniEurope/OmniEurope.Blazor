@@ -237,6 +237,14 @@ public sealed class DataGridTreeTests : OmniBunitContext
     }
 
     [Fact]
+    public void PagingSummary_OfATree_CountsTheRowsOnScreen()
+    {
+        var grid = RenderGrid(parameters => parameters.Add(g => g.ShowPagingSummary, true));
+
+        Assert.Equal("1 à 2 sur 2", grid.Find(".omni-data-grid__summary").TextContent.Trim());
+    }
+
+    [Fact]
     public void CsvExport_WritesEveryRowAtEveryDepth_HoweverFewAreOpen()
     {
         var download = JSInterop.SetupModule(Internal.OmniModules.DocumentEditor);

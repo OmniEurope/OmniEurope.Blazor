@@ -12,22 +12,25 @@
     </OmniChart>
 
     @* Thirty days: the chart widens on its own, the day labels thin out without overlapping, and the
-       long series names go below the drawing. *@
-    <OmniChart Title="@Text["DemoChartsExtendedDailyTitle"]">
+       long series names go below the drawing. One hover text per day names both series (SharedTooltip),
+       and the visitors line is dashed. *@
+    <OmniChart Title="@Text["DemoChartsExtendedDailyTitle"]" SharedTooltip="true">
         <OmniGridLines />
         <OmniCategoryAxis Labels="Days" />
         <OmniValueAxis Maximum="400" TickCount="4" />
         <OmniColumnSeries Title="@Text["DemoChartsExtendedPageViews"]" ColorIndex="1" Data="PageViews" />
-        <OmniLineSeries Title="@Text["DemoChartsExtendedVisitors"]" ColorIndex="0" Data="Visitors" />
+        <OmniLineSeries Title="@Text["DemoChartsExtendedVisitors"]" ColorIndex="0" Data="Visitors" Dashed="true" />
         <OmniLegend Position="OmniLegendPosition.Bottom" />
     </OmniChart>
 
+    @* The legend above the drawing, and the backlog area outlined in dashes. *@
     <OmniChart Title="@Text["DemoChartsExtendedStackedTitle"]">
         <OmniCategoryAxis Labels="Months" />
         <OmniValueAxis />
         <OmniColumnSeries Stacked="true" Title="@Text["DemoChartsExtendedIncoming"]" ColorIndex="0" Data="Deposits" />
         <OmniColumnSeries Stacked="true" Title="@Text["DemoChartsExtendedOutgoing"]" ColorIndex="2" Data="Decisions" />
-        <OmniAreaSeries Stacked="true" Title="@Text["DemoChartsExtendedBacklog"]" ColorIndex="3" Data="Backlog" />
+        <OmniAreaSeries Stacked="true" Dashed="true" Title="@Text["DemoChartsExtendedBacklog"]" ColorIndex="3" Data="Backlog" />
+        <OmniLegend Position="OmniLegendPosition.Top" />
     </OmniChart>
 
     <OmniChart Title="@Text["DemoChartsExtendedHorizontalTitle"]">

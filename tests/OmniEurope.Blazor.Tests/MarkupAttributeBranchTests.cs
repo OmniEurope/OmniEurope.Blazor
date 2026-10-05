@@ -32,11 +32,13 @@ public sealed class MarkupAttributeBranchTests : OmniBunitContext
     }
 
     [Fact]
-    public void Row_ThatWraps_SaysSo()
+    public void Row_WrapsByDefault_AndNotWhenAskedNotTo()
     {
-        var row = Render<OmniRow>(parameters => parameters.Add(component => component.Wrap, true));
+        var wrapping = Render<OmniRow>();
+        var single = Render<OmniRow>(parameters => parameters.Add(component => component.Wrap, false));
 
-        Assert.Contains("omni-row--wrap", row.Find(".omni-row").ClassList);
+        Assert.Contains("omni-row--wrap", wrapping.Find(".omni-row").ClassList);
+        Assert.DoesNotContain("omni-row--wrap", single.Find(".omni-row").ClassList);
     }
 
     [Fact]
@@ -141,5 +143,45 @@ public sealed class MarkupAttributeBranchTests : OmniBunitContext
         Assert.NotNull(date.Find(".omni-date__toggle").GetAttribute("disabled"));
         Assert.NotNull(time.Find("button[aria-haspopup]").GetAttribute("disabled"));
         Assert.NotNull(moment.Find("button[aria-haspopup]").GetAttribute("disabled"));
+    }
+
+    [Fact]
+    public void DatePickers_Disabled_DisableTheirToggle()
+    {
+        var date = Render<OmniDatePicker>(parameters => parameters.Add(component => component.Disabled, true).Add(component => component.ValueExpression, () => _date));
+        var time = Render<OmniTimePicker>(parameters => parameters.Add(component => component.Disabled, true).Add(component => component.ValueExpression, () => _time));
+        var moment = Render<OmniDateTimePicker>(parameters => parameters.Add(component => component.Disabled, true).Add(component => component.ValueExpression, () => _moment));
+
+        Assert.NotNull(date.Find(".omni-date__toggle").GetAttribute("disabled"));
+        Assert.NotNull(time.Find("button[aria-haspopup]").GetAttribute("disabled"));
+        Assert.NotNull(moment.Find("button[aria-haspopup]").GetAttribute("disabled"));
+    }
+
+    private readonly string _text = string.Empty;
+
+    [Fact]
+    public void Password_NotRevealable_HasNoEye_AndADisabledCopyableBox_DisablesItsCopy()
+    {
+        var password = Render<OmniPassword>(parameters => parameters
+            .Add(component => component.Revealable, false)
+            .Add(component => component.ValueExpression, () => _text));
+        var box = Render<OmniTextBox>(parameters => parameters
+            .Add(component => component.Value, "secret")
+            .Add(component => component.Copyable, true)
+            .Add(component => component.Disabled, true)
+            .Add(component => component.ValueExpression, () => _text));
+
+        Assert.Empty(password.FindAll(".omni-password__toggle"));
+        Assert.NotNull(box.Find(".omni-text-box-field__copy").GetAttribute("disabled"));
+    }
+
+    [Fact]
+    public void Upload_Disabled_DisablesItsInput_AsAZoneAndAsAField()
+    {
+        var zone = Render<OmniUpload>(parameters => parameters.Add(component => component.Disabled, true));
+        var field = Render<OmniUpload>(parameters => parameters.Add(component => component.Disabled, true).Add(component => component.Display, OmniUploadDisplay.Field));
+
+        Assert.NotNull(zone.Find("input[type=file]").GetAttribute("disabled"));
+        Assert.NotNull(field.Find(".omni-upload__field input[type=file]").GetAttribute("disabled"));
     }
 }

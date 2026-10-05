@@ -1,8 +1,8 @@
 @namespace OmniEurope.Blazor.Components
 @* On the right the legend takes the column right of the plot, which the chart narrows while such a
-   legend is present, so an entry never covers a data point. Below, the chart draws it in HTML after
-   the drawing, and this part draws nothing inside it. *@
-@if (!Below)
+   legend is present, so an entry never covers a data point. Below or above, the chart draws it in
+   HTML after or before the drawing, and this part draws nothing inside it. *@
+@if (!Outside)
 {
     var entries = Entries;
     @* Named for a legend drawn in an SVG of the host; inside a chart, the image and its data table speak. *@

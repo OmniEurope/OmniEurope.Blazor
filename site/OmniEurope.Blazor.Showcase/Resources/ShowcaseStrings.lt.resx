@@ -1182,6 +1182,8 @@
   <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Pagalba</value></data>
   <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Partnerystė</value></data>
   <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Augimas</value></data>
+  <data name="DemoMediaIconCurrencyBtc" xml:space="preserve"><value>Suma bitkoinais</value></data>
+  <data name="DemoMediaIconPercent" xml:space="preserve"><value>Procentas</value></data>
   <data name="DemoMediaIconLeaf" xml:space="preserve"><value>Ekologija</value></data>
   <data name="DemoAnnotatedValidationName" xml:space="preserve"><value>Projekto pavadinimas</value></data>
   <data name="DemoAnnotatedValidationMail" xml:space="preserve"><value>Atsakingo asmens el. paštas</value></data>

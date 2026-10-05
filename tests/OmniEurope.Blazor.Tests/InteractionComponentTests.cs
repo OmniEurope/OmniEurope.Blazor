@@ -370,6 +370,8 @@ public sealed class InteractionComponentTests : OmniBunitContext
     [Fact]
     public void TemplateForm_FocusesTheFirstInvalidControlThroughTheStaticModule()
     {
+        // The focus script runs only in an interactive render (a static form posts without a circuit).
+        SetRendererInfo(new RendererInfo("Server", isInteractive: true));
         JSInterop.Mode = JSRuntimeMode.Strict;
         var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
         module.SetupVoid("focusFirstInvalid", _ => true);
@@ -388,6 +390,8 @@ public sealed class InteractionComponentTests : OmniBunitContext
     [Fact]
     public void TemplateForm_ContainsExpectedInteropFailuresDuringInvalidSubmission()
     {
+        // The focus script runs only in an interactive render (a static form posts without a circuit).
+        SetRendererInfo(new RendererInfo("Server", isInteractive: true));
         JSInterop.Mode = JSRuntimeMode.Strict;
         var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
         module.SetupVoid("focusFirstInvalid", _ => true).SetException(new JSException("unavailable"));

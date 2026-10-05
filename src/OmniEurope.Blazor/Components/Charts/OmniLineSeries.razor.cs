@@ -20,12 +20,21 @@ public partial class OmniLineSeries
     /// <summary>Rank in the palette of eight chart colours; a larger index wraps around.</summary>
     [Parameter] public int ColorIndex { get; set; }
 
+    /// <summary>
+    /// Draws the line in dashes (<c>omni-chart__line--dashed</c>), for a target, a forecast or a
+    /// series to set apart from the others; the dashes keep their screen size like the stroke. Off by
+    /// default: a solid line.
+    /// </summary>
+    [Parameter] public bool Dashed { get; set; }
+
     /// <summary>Registers the series with its chart so the shared plot takes its points into account.</summary>
     protected override void OnParametersSet() => ChartContext?.RegisterSeries(this, OmniChartSeriesKind.Line, Data, Title, ColorIndex);
 
     private string PointText => ChartContext?.Points(this) ?? OmniChartGeometry.Points(Data);
 
     private string ColorClass => ChartColor.Class(ColorIndex);
+
+    private string CssClass => Dashed ? $"omni-chart__line omni-chart__line--dashed {ColorClass}" : $"omni-chart__line {ColorClass}";
 
     /// <summary>Removes the series from its chart.</summary>
     public void Dispose()

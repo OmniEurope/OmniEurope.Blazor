@@ -9,7 +9,7 @@
      id="@Id"
      class="@InputCss("omni-selectable-card-group")"
      role="@(Multiple ? "group" : "radiogroup")"
-     aria-label="@Label"
+     aria-label="@Internal.OmniAriaLabel.Of(Label, AdditionalAttributes)"
      aria-labelledby="@(string.IsNullOrWhiteSpace(Label) ? FormFieldLabelId : null)"
      aria-disabled="@(Disabled ? "true" : null)"
      aria-invalid="@AriaInvalid">

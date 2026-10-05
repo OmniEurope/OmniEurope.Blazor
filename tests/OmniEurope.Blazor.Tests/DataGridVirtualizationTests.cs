@@ -272,6 +272,43 @@ public sealed class DataGridVirtualizationTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task GroupedVirtualGrid_WithAFixedRowHeight_StillMeasuresItsSlots_AndSelectsTheRowsItShows()
+    {
+        var module = JSInterop.SetupModule(OmniModules.Grid);
+        module.Mode = JSRuntimeMode.Loose;
+        module.Setup<GridViewportSnapshot?>("sync", _ => true).SetResult(new GridViewportSnapshot { ViewportHeight = 400d });
+        IReadOnlyList<Line> selected = [];
+        Microsoft.AspNetCore.Components.RenderFragment columns = builder =>
+        {
+            builder.OpenComponent<OmniDataGridColumn<Line>>(0);
+            builder.AddComponentParameter(1, nameof(OmniDataGridColumn<Line>.Key), "bucket");
+            builder.AddComponentParameter(2, nameof(OmniDataGridColumn<Line>.Property), nameof(Line.Bucket));
+            builder.CloseComponent();
+            builder.OpenComponent<OmniDataGridColumn<Line>>(3);
+            builder.AddComponentParameter(4, nameof(OmniDataGridColumn<Line>.Key), "value");
+            builder.AddComponentParameter(5, nameof(OmniDataGridColumn<Line>.Property), nameof(Line.Value));
+            builder.CloseComponent();
+        };
+        var grid = Render<OmniDataGrid<Line>>(parameters => parameters
+            .Add(component => component.Items, Enumerable.Range(0, 300).Select(value => new Line(value, value / 100)).ToArray())
+            .Add(component => component.KeyOf, line => line.Value)
+            .Add(component => component.Columns, columns)
+            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
+            .Add(component => component.FixedRowHeight, true)
+            .Add(component => component.EstimatedRowHeight, 40d)
+            .Add(component => component.AllowGrouping, true)
+            .Add(component => component.Groups, [new OmniDataGridGroup("bucket")])
+            .Add(component => component.SelectionMode, OmniDataGridSelectionMode.Multiple)
+            .Add(component => component.ValueChanged, lines => selected = lines));
+
+        await grid.InvokeAsync(() => grid.Instance.OnViewportChangedAsync(0d, 400d));
+        grid.FindAll("tbody td[data-omni-control='select'] input")[0].Change(true);
+
+        Assert.NotEmpty(grid.FindAll("tbody tr.omni-data-grid__group"));
+        Assert.Equal([0], selected.Select(line => line.Value));
+    }
+
+    [Fact]
     public async Task VirtualizedGrid_LoadsFurtherWindowsFromTheRemoteLoaderWhileScrolling()
     {
         JSInterop.Mode = JSRuntimeMode.Loose;

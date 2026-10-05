@@ -500,6 +500,10 @@ public enum OmniIconName
     FileXls,
     /// <summary>Word processing file (DOC): a Word document, an export to Word.</summary>
     FileDoc,
+    /// <summary>Bitcoin currency sign.</summary>
+    CurrencyBtc,
+    /// <summary>Percent sign.</summary>
+    Percent,
     /// <summary>Leaf: ecology, environmental footprint.</summary>
     Leaf
 }

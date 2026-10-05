@@ -47,7 +47,8 @@ public partial class OmniValueAxis
 
     /// <summary>
     /// Registers the axis with the chart (or with its own layout outside a chart): automatic, with its
-    /// tick count, or with its fixed bounds.
+    /// tick count, or with its fixed bounds, and its <see cref="FormatValue"/>, which the chart's
+    /// shared tooltip writes its values with.
     /// </summary>
     /// <exception cref="ArgumentOutOfRangeException">
     /// <see cref="TickCount"/> is zero or less, or fixed bounds where <see cref="Maximum"/> is not greater than <see cref="Minimum"/>.
@@ -55,6 +56,7 @@ public partial class OmniValueAxis
     protected override void OnParametersSet()
     {
         if (TickCount <= 0) throw new ArgumentOutOfRangeException(nameof(TickCount), TickCount, "TickCount must be greater than zero.");
+        Context.SetValueFormat(this, FormatValue);
         if (Automatic)
         {
             Context.RegisterAutomaticValueAxis(this, TickCount);

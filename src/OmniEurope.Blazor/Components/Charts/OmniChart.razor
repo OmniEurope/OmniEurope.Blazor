@@ -2,6 +2,17 @@
 @inherits OmniComponentBase
 
 <figure @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-chart")">
+    @* A legend above the chart is the same HTML list as one below, placed before the drawing. *@
+    @foreach (var legend in _context.LegendsAbove)
+    {
+        var entries = _context.LegendEntries(legend);
+        <ul class="omni-chart__legend omni-chart__legend--above" aria-label="@legend.Label">
+            @foreach (var entry in entries)
+            {
+                <li class="omni-chart__legend-item"><span class="omni-chart__swatch omni-chart-color-@entry.ColorSlot" aria-hidden="true"></span>@entry.Text</li>
+            }
+        </ul>
+    }
     @* One image for assistive technology, named by the title and described by the description when
        there is one; what the drawing shows is read from the data table after it. *@
     <svg class="@SvgClass" viewBox="@ViewBox" role="img" aria-labelledby="@TitleId" aria-describedby="@(HasDescription ? DescriptionId : null)" preserveAspectRatio="xMidYMid meet">
@@ -12,7 +23,9 @@
         }
         @* Not fixed: every render of the chart refreshes every part, so a part registered late (a legend
            narrowing the plot, a series turning it into bands) moves the parts that rendered before it. *@
-        <CascadingValue Value="_context" IsFixed="false">@ChildContent</CascadingValue>
+        @* The shared tooltip comes last: its bands lie over the series, and it renders after the
+           parts have registered their points and the value axis its format. *@
+        <CascadingValue Value="_context" IsFixed="false">@ChildContent@SharedTooltipLayer</CascadingValue>
     </svg>
     @* A legend below the chart is HTML: it wraps on a narrow screen and keeps the page's text size,
        where text inside the drawing shrinks with it. *@

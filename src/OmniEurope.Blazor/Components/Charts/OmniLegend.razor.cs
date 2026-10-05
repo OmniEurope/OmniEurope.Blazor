@@ -29,9 +29,9 @@ public partial class OmniLegend
     [Parameter] public IReadOnlyList<string> Items { get; set; } = Array.Empty<string>();
 
     /// <summary>
-    /// Right of the plot, below the chart, or <see cref="OmniLegendPosition.Auto"/> (the default):
-    /// right while the longest entry fits a narrow column, below otherwise. Outside a chart the
-    /// legend is always drawn on the right.
+    /// Right of the plot, below the chart, above it, or <see cref="OmniLegendPosition.Auto"/> (the
+    /// default): right while the longest entry fits a narrow column, below otherwise. Outside a chart
+    /// the legend is always drawn on the right.
     /// </summary>
     [Parameter] public OmniLegendPosition Position { get; set; } = OmniLegendPosition.Auto;
 
@@ -47,7 +47,7 @@ public partial class OmniLegend
     /// <summary>Registers the legend, its label, items and position, with its chart; outside a chart, nothing to register.</summary>
     protected override void OnParametersSet() => ChartContext?.RegisterLegend(this, Registration);
 
-    private bool Below => ChartContext?.IsLegendBelow(this) == true;
+    private bool Outside => ChartContext?.IsLegendOutside(this) == true;
 
     // The legend column right of the plot; it moves with the plot when the chart is wide.
     private double LegendLeft => ChartContext?.LegendLeft ?? 79;

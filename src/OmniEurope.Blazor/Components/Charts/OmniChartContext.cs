@@ -109,7 +109,7 @@ internal sealed class OmniChartContext
         get
         {
             var needed = _legends.Values
-                .Where(item => !IsBelow(item))
+                .Where(item => !IsOutside(item))
                 .Select(ColumnNeeded)
                 .DefaultIfEmpty(DefaultLegendColumn)
                 .Max();
@@ -123,6 +123,7 @@ internal sealed class OmniChartContext
     private readonly List<SeriesRegistration> _series = [];
     private readonly Dictionary<object, (double Minimum, double Maximum)> _valueAxes = [];
     private readonly Dictionary<object, int> _automaticValueAxes = [];
+    private readonly Dictionary<object, Func<double, string>> _valueFormats = [];
     private readonly Dictionary<object, IReadOnlyList<string>> _categoryAxes = [];
     private readonly Dictionary<object, LegendRegistration> _legends = [];
     private readonly List<PieRegistration> _pies = [];
@@ -134,16 +135,24 @@ internal sealed class OmniChartContext
 
     internal event Action? Changed;
 
-    internal double PlotRight => _legends.Values.Any(item => !IsBelow(item)) ? PlotRightWithLegend : PlotRightAlone;
+    internal double PlotRight => _legends.Values.Any(item => !IsOutside(item)) ? PlotRightWithLegend : PlotRightAlone;
 
     /// <summary>The legend column starts just right of the plot.</summary>
     internal double LegendLeft => PlotRightWithLegend + 3;
 
-    /// <summary>The legends drawn below the chart, in HTML, in the order they registered.</summary>
-    internal IEnumerable<LegendRegistration> LegendsBelow => _legends.Values.Where(IsBelow);
+    /// <summary>The legends drawn above the chart, in HTML, in the order they registered.</summary>
+    internal IEnumerable<LegendRegistration> LegendsAbove =>
+        _legends.Values.Where(item => item.Position == OmniLegendPosition.Top);
 
-    /// <summary>Whether the legend <paramref name="owner"/> registered is drawn below the chart.</summary>
-    internal bool IsLegendBelow(object owner) => _legends.TryGetValue(owner, out var legend) && IsBelow(legend);
+    /// <summary>The legends drawn below the chart, in HTML, in the order they registered.</summary>
+    internal IEnumerable<LegendRegistration> LegendsBelow =>
+        _legends.Values.Where(item => item.Position != OmniLegendPosition.Top && IsOutside(item));
+
+    /// <summary>
+    /// Whether the legend <paramref name="owner"/> registered is drawn outside the drawing, as an HTML
+    /// list below or above it, rather than in the column right of the plot.
+    /// </summary>
+    internal bool IsLegendOutside(object owner) => _legends.TryGetValue(owner, out var legend) && IsOutside(legend);
 
     /// <summary>
     /// Widens the view box to <paramref name="aspectRatio"/> (width over height, 1 = square); null
@@ -162,6 +171,30 @@ internal sealed class OmniChartContext
         var labels = _categoryAxes.Values.MaxBy(item => item.Count);
         return labels is not null && index >= 0 && index < labels.Count ? labels[index] : null;
     }
+
+    /// <summary>The number of labels of the longest category axis, zero without one.</summary>
+    internal int CategoryLabelCount => _categoryAxes.Values.Select(item => item.Count).DefaultIfEmpty(0).Max();
+
+    /// <summary>
+    /// Keeps the <see cref="OmniValueAxis.FormatValue"/> of an axis, or forgets it when null. Not a
+    /// change of layout, so it notifies nobody: a host lambda is a new delegate on every render, and
+    /// a notification would redraw the chart forever. The parts that read it render after the axis.
+    /// </summary>
+    internal void SetValueFormat(object owner, Func<double, string>? format)
+    {
+        if (format is null)
+        {
+            _valueFormats.Remove(owner);
+        }
+        else
+        {
+            _valueFormats[owner] = format;
+        }
+    }
+
+    /// <summary>A value as the value axis writes it: its <c>FormatValue</c> when it has one, else the current culture.</summary>
+    internal string FormatValue(double value) =>
+        _valueFormats.Values.FirstOrDefault() is { } format ? format(value) : OmniChartGeometry.Display(value);
 
     /// <summary>
     /// The hover text of one point: its own label, else its category and value, so a category whose
@@ -367,6 +400,7 @@ internal sealed class OmniChartContext
 
     internal void UnregisterValueAxis(object owner)
     {
+        _valueFormats.Remove(owner);
         if (_valueAxes.Remove(owner) | _automaticValueAxes.Remove(owner))
         {
             _domainsDirty = true;
@@ -526,14 +560,14 @@ internal sealed class OmniChartContext
     /// own place, and all the series of the shared kind (the stacked ones) take a single place, where
     /// the first of them appears.
     /// </summary>
-    private (int Slot, int Slots) SlotOf(SeriesRegistration series, OmniChartSeriesKind separate, OmniChartSeriesKind? shared)
+    private (int Slot, int Slots) SlotOf(SeriesRegistration series, OmniChartSeriesKind separate, OmniChartSeriesKind shared)
     {
         var slot = 0;
         var slots = 0;
         var sharedSlot = -1;
         foreach (var item in _series)
         {
-            var isShared = shared is { } kind && item.Kind == kind;
+            var isShared = item.Kind == shared;
             if (item.Kind != separate && !isShared)
             {
                 continue;
@@ -691,12 +725,13 @@ internal sealed class OmniChartContext
             : domain;
 
     /// <summary>
-    /// Below when asked, or, for <see cref="OmniLegendPosition.Auto"/>, when the longest entry needs a
-    /// wider column than the default one and than a fifth of the view box.
+    /// Outside the drawing, as an HTML list, when asked (below or above), or, for
+    /// <see cref="OmniLegendPosition.Auto"/>, below when the longest entry needs a wider column than
+    /// the default one and than a fifth of the view box.
     /// </summary>
-    private bool IsBelow(LegendRegistration legend) => legend.Position switch
+    private bool IsOutside(LegendRegistration legend) => legend.Position switch
     {
-        OmniLegendPosition.Bottom => true,
+        OmniLegendPosition.Bottom or OmniLegendPosition.Top => true,
         OmniLegendPosition.Right => false,
         _ => ColumnNeeded(legend) > Math.Max(DefaultLegendColumn, 0.2 * ViewWidth)
     };

@@ -1184,6 +1184,8 @@
   <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Support</value></data>
   <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Partnership</value></data>
   <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Rise</value></data>
+  <data name="DemoMediaIconCurrencyBtc" xml:space="preserve"><value>Amount in bitcoin</value></data>
+  <data name="DemoMediaIconPercent" xml:space="preserve"><value>Percentage</value></data>
   <data name="DemoMediaIconLeaf" xml:space="preserve"><value>Ecology</value></data>
   <data name="DemoAnnotatedValidationName" xml:space="preserve"><value>Project name</value></data>
   <data name="DemoAnnotatedValidationMail" xml:space="preserve"><value>Owner's email</value></data>

@@ -41,7 +41,28 @@ public partial class OmniChart
     /// </summary>
     [Parameter] public double AspectRatio { get; set; } = 1;
 
+    /// <summary>
+    /// One hover text per category instead of one per point: hovering anywhere in a category's band
+    /// of the plot shows the category, then each series' title and value there, one line per series
+    /// in their order, the values written by the <see cref="OmniValueAxis.FormatValue"/> of the
+    /// chart's value axis (the current culture without one). The bands lie over the series, so the
+    /// per-point hover texts give way to them; they are hidden from assistive technology, which reads
+    /// the data table. Off by default: each point, column or marker keeps its own hover text.
+    /// </summary>
+    [Parameter] public bool SharedTooltip { get; set; }
+
     private bool HasDescription => !string.IsNullOrWhiteSpace(Description);
+
+    /// <summary>The bands of the shared tooltip, after the parts of the chart; nothing when it is off.</summary>
+    private RenderFragment? SharedTooltipLayer => SharedTooltip
+        ? builder =>
+        {
+            builder.OpenComponent<OmniChartSharedTooltip>(0);
+            builder.AddComponentParameter(1, nameof(OmniChartSharedTooltip.Context), _context);
+            builder.AddComponentParameter(2, nameof(OmniChartSharedTooltip.SeriesName), (Func<OmniChartContext.ChartSeriesView, int, string>)SeriesName);
+            builder.CloseComponent();
+        }
+        : null;
 
     private string SvgClass => _context.IsWide ? "omni-chart__svg omni-chart__svg--wide" : "omni-chart__svg";
 

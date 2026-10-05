@@ -1182,6 +1182,8 @@
   <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Asistencia</value></data>
   <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Colaboración</value></data>
   <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Subida</value></data>
+  <data name="DemoMediaIconCurrencyBtc" xml:space="preserve"><value>Importe en bitcoins</value></data>
+  <data name="DemoMediaIconPercent" xml:space="preserve"><value>Porcentaje</value></data>
   <data name="DemoMediaIconLeaf" xml:space="preserve"><value>Ecología</value></data>
   <data name="DemoAnnotatedValidationName" xml:space="preserve"><value>Nombre del proyecto</value></data>
   <data name="DemoAnnotatedValidationMail" xml:space="preserve"><value>Correo electrónico del responsable</value></data>

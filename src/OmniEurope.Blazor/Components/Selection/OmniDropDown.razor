@@ -26,7 +26,7 @@ else
             id="@Id"
             class="@InputCss("omni-input", "omni-drop-down")"
             disabled="@Disabled"
-            aria-label="@Label"
+            aria-label="@Internal.OmniAriaLabel.Of(Label, AdditionalAttributes)"
             aria-invalid="@AriaInvalid"
             aria-describedby="@AriaDescribedBy"
             value="@SelectedOptionValue"

@@ -57,15 +57,17 @@ public partial class OmniHtmlEditor
     /// they fall back to the localized "HTML editor", or "word processor" when <see cref="Sheet"/> is set.
     /// </summary>
     [Parameter] public string? Label { get; set; }
-    private string EffectiveLabel => string.IsNullOrWhiteSpace(Label)
-        ? Localize(Sheet ? "DocumentEditorLabel" : "HtmlEditorLabel")
-        : Label;
+    // The name of the visual face when neither its Label nor the host names it.
+    private string DefaultLabel => Localize(Sheet ? "DocumentEditorLabel" : "HtmlEditorLabel");
 
     /// <summary>The label of the enclosing form field when it names this editor and no <see cref="Label"/> is set.</summary>
     private string? VisualLabelledBy => string.IsNullOrWhiteSpace(Label) ? FormFieldLabelId : null;
 
-    /// <summary>The <c>aria-label</c> of the visual face and its regions: none when a form field label names them.</summary>
-    private string? VisualAriaLabel => VisualLabelledBy is null ? EffectiveLabel : null;
+    /// <summary>
+    /// The <c>aria-label</c> of the visual face and its regions: none when a form field label names them,
+    /// else the Label, else the host's own <c>aria-label</c>, else the default name.
+    /// </summary>
+    private string? VisualAriaLabel => VisualLabelledBy is null ? Internal.OmniAriaLabel.Of(Label, AdditionalAttributes) ?? DefaultLabel : null;
 
     /// <summary>
     /// Presents the visual face as a word processor: a sheet of paper centred on a muted background,

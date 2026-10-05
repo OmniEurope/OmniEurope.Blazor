@@ -27,6 +27,13 @@ public partial class OmniAreaSeries
     /// </summary>
     [Parameter] public bool Stacked { get; set; }
 
+    /// <summary>
+    /// Draws the outline of the area in dashes (<c>omni-chart__area--dashed</c>), the fill unchanged,
+    /// for a target, a forecast or a series to set apart from the others; the dashes keep their screen
+    /// size like the stroke. Off by default: a solid outline.
+    /// </summary>
+    [Parameter] public bool Dashed { get; set; }
+
     /// <summary>Registers the series, plain or stacked, with its chart so the shared plot takes its points into account.</summary>
     protected override void OnParametersSet() =>
         ChartContext?.RegisterSeries(this, Stacked ? OmniChartSeriesKind.StackedArea : OmniChartSeriesKind.Area, Data, Title, ColorIndex);
@@ -35,7 +42,8 @@ public partial class OmniAreaSeries
 
     private string ColorClass => ChartColor.Class(ColorIndex);
 
-    private string CssClass => Stacked ? $"omni-chart__area omni-chart__area--stacked {ColorClass}" : $"omni-chart__area {ColorClass}";
+    private string CssClass =>
+        $"omni-chart__area{(Stacked ? " omni-chart__area--stacked" : null)}{(Dashed ? " omni-chart__area--dashed" : null)} {ColorClass}";
 
     /// <summary>Removes the series from its chart.</summary>
     public void Dispose()

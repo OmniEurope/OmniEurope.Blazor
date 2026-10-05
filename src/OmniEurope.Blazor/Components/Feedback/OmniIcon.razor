@@ -9,7 +9,7 @@
      focusable="false"
      role="@(string.IsNullOrWhiteSpace(Label) ? null : "img")"
      aria-hidden="@(string.IsNullOrWhiteSpace(Label) ? "true" : null)"
-     aria-label="@Label">
+     aria-label="@Internal.OmniAriaLabel.Of(Label, AdditionalAttributes)">
     @* An SVG shows no tooltip for a title attribute, only for a <title> child: the accessible name,
        or else a title the caller passed as an attribute, becomes that child. *@
     @if (!string.IsNullOrWhiteSpace(TooltipText))

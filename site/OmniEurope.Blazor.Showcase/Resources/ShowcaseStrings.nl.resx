@@ -1182,6 +1182,8 @@
   <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Ondersteuning</value></data>
   <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Partnerschap</value></data>
   <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Stijging</value></data>
+  <data name="DemoMediaIconCurrencyBtc" xml:space="preserve"><value>Bedrag in bitcoin</value></data>
+  <data name="DemoMediaIconPercent" xml:space="preserve"><value>Percentage</value></data>
   <data name="DemoMediaIconLeaf" xml:space="preserve"><value>Ecologie</value></data>
   <data name="DemoAnnotatedValidationName" xml:space="preserve"><value>Projectnaam</value></data>
   <data name="DemoAnnotatedValidationMail" xml:space="preserve"><value>E-mail van de verantwoordelijke</value></data>

@@ -14,7 +14,7 @@
            type="search"
            value="@_searchText"
            placeholder="@Placeholder"
-           aria-label="@Label"
+           aria-label="@Internal.OmniAriaLabel.Of(Label, AdditionalAttributes)"
            autocomplete="off"
            disabled="@Disabled"
            role="combobox"
@@ -42,7 +42,7 @@
     }
     @if (IsOpen)
     {
-        <ul id="@ResultsId" class="omni-autocomplete__results" role="listbox" aria-label="@Label">
+        <ul id="@ResultsId" class="omni-autocomplete__results" role="listbox" aria-label="@Internal.OmniAriaLabel.Of(Label, AdditionalAttributes)">
             @for (var index = 0; index < _results.Count; index++)
             {
                 var position = index;

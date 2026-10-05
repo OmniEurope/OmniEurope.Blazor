@@ -5,7 +5,7 @@
         id="@Id"
         type="button"
         class="@Css("omni-toggle-button", $"omni-toggle-button--{Size.ToString().ToLowerInvariant()}", Value ? "omni-toggle-button--pressed" : null, Busy ? "omni-busy" : null)"
-        aria-label="@Label"
+        aria-label="@Internal.OmniAriaLabel.Of(Label, AdditionalAttributes)"
         aria-pressed="@(Value ? "true" : "false")"
         disabled="@Disabled"
         aria-busy="@(Busy ? "true" : null)"

@@ -1182,6 +1182,8 @@
   <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Appoġġ</value></data>
   <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Sħubija</value></data>
   <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Żieda</value></data>
+  <data name="DemoMediaIconCurrencyBtc" xml:space="preserve"><value>Ammont f'bitcoin</value></data>
+  <data name="DemoMediaIconPercent" xml:space="preserve"><value>Perċentwal</value></data>
   <data name="DemoMediaIconLeaf" xml:space="preserve"><value>Ekoloġija</value></data>
   <data name="DemoAnnotatedValidationName" xml:space="preserve"><value>Isem il-proġett</value></data>
   <data name="DemoAnnotatedValidationMail" xml:space="preserve"><value>Email tar-responsabbli</value></data>

@@ -26,6 +26,17 @@
 .omni-chart__axis line,
 .omni-chart__grid-lines line,
 .omni-chart__markers circle { vector-effect: non-scaling-stroke; }
+/* A dashed series: with the non-scaling stroke above, the dash pattern is measured in screen pixels
+   too, so the dashes keep their length at every size of the drawing. The round caps of a line
+   lengthen each dash by its width, hence the wider gap; an area keeps its fill, only its outline
+   is dashed. */
+.omni-chart__line--dashed { stroke-dasharray: 8 7; }
+.omni-chart__area--dashed { stroke-dasharray: 6 4; }
+/* The shared tooltip: one transparent band per category, drawn over the series so the pointer
+   finds it anywhere in the plot; its SVG title is the hover text. The band it is over darkens
+   slightly to show which category the text names. */
+.omni-chart__hover-band { fill: transparent; pointer-events: all; }
+.omni-chart__hover-band:hover { fill: var(--omni-color-text); fill-opacity: 0.06; }
 .omni-chart-color-0 { color: var(--omni-chart-color-0); fill: var(--omni-chart-color-0); stroke: var(--omni-chart-color-0); }
 .omni-chart-color-1 { color: var(--omni-chart-color-1); fill: var(--omni-chart-color-1); stroke: var(--omni-chart-color-1); }
 .omni-chart-color-2 { color: var(--omni-chart-color-2); fill: var(--omni-chart-color-2); stroke: var(--omni-chart-color-2); }
@@ -39,10 +50,12 @@
    a polygon. */
 polyline.omni-chart__line { fill: none; }
 .omni-chart__markers circle { fill: var(--omni-color-surface); }
-/* A legend below the chart is an HTML list: it keeps the page's text size, which text inside the
-   drawing loses as the drawing shrinks, and wraps on a narrow screen. The swatch takes the series
-   colour from its colour class through currentColor. */
-.omni-chart__legend--below { color: var(--omni-color-text); display: flex; flex-wrap: wrap; font-size: var(--omni-font-size-sm); gap: var(--omni-space-xs) var(--omni-space-md); justify-content: center; list-style: none; margin: var(--omni-space-xs) 0 0; padding: 0; }
+/* A legend below or above the chart is an HTML list: it keeps the page's text size, which text
+   inside the drawing loses as the drawing shrinks, and wraps on a narrow screen. The swatch takes
+   the series colour from its colour class through currentColor. */
+.omni-chart__legend--below,
+.omni-chart__legend--above { color: var(--omni-color-text); display: flex; flex-wrap: wrap; font-size: var(--omni-font-size-sm); gap: var(--omni-space-xs) var(--omni-space-md); justify-content: center; list-style: none; margin: var(--omni-space-xs) 0 0; padding: 0; }
+.omni-chart__legend--above { margin: 0 0 var(--omni-space-xs); }
 .omni-chart__legend-item { align-items: center; display: inline-flex; gap: var(--omni-space-xs); }
 .omni-chart__swatch { background: currentColor; block-size: 0.75em; border-radius: var(--omni-radius-sm); flex: none; inline-size: 0.75em; }
 /* A wide chart shrinks more than a square one on a phone, so its axis text is drawn half as large

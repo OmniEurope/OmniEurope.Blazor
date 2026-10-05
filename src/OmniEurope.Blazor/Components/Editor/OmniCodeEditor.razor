@@ -13,7 +13,7 @@
               disabled="@Disabled"
               spellcheck="false"
               wrap="@(Wrap ? "soft" : "off")"
-              aria-label="@Label"
+              aria-label="@Internal.OmniAriaLabel.Of(Label, AdditionalAttributes)"
               aria-invalid="@AriaInvalid"
               aria-describedby="@AriaDescribedBy"
               @oninput="HandleFallbackInputAsync"></textarea>

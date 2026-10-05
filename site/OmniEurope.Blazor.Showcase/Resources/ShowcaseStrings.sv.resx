@@ -1182,6 +1182,8 @@
   <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Support</value></data>
   <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Partnerskap</value></data>
   <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Ökning</value></data>
+  <data name="DemoMediaIconCurrencyBtc" xml:space="preserve"><value>Belopp i bitcoin</value></data>
+  <data name="DemoMediaIconPercent" xml:space="preserve"><value>Procent</value></data>
   <data name="DemoMediaIconLeaf" xml:space="preserve"><value>Ekologi</value></data>
   <data name="DemoAnnotatedValidationName" xml:space="preserve"><value>Projektnamn</value></data>
   <data name="DemoAnnotatedValidationMail" xml:space="preserve"><value>Ansvarigs e-post</value></data>

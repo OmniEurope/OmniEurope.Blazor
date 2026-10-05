@@ -1182,6 +1182,8 @@
   <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Atbalsts</value></data>
   <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Partnerība</value></data>
   <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Pieaugums</value></data>
+  <data name="DemoMediaIconCurrencyBtc" xml:space="preserve"><value>Summa bitkoinos</value></data>
+  <data name="DemoMediaIconPercent" xml:space="preserve"><value>Procenti</value></data>
   <data name="DemoMediaIconLeaf" xml:space="preserve"><value>Ekoloģija</value></data>
   <data name="DemoAnnotatedValidationName" xml:space="preserve"><value>Projekta nosaukums</value></data>
   <data name="DemoAnnotatedValidationMail" xml:space="preserve"><value>Atbildīgās personas e-pasts</value></data>

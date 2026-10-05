@@ -612,6 +612,7 @@ field public static OmniEurope.Blazor.Components.OmniIconName.Copy : OmniEurope.
 field public static OmniEurope.Blazor.Components.OmniIconName.CornersIn : OmniEurope.Blazor.Components.OmniIconName const = 219
 field public static OmniEurope.Blazor.Components.OmniIconName.CornersOut : OmniEurope.Blazor.Components.OmniIconName const = 150
 field public static OmniEurope.Blazor.Components.OmniIconName.Cpu : OmniEurope.Blazor.Components.OmniIconName const = 180
+field public static OmniEurope.Blazor.Components.OmniIconName.CurrencyBtc : OmniEurope.Blazor.Components.OmniIconName const = 247
 field public static OmniEurope.Blazor.Components.OmniIconName.CurrencyEur : OmniEurope.Blazor.Components.OmniIconName const = 234
 field public static OmniEurope.Blazor.Components.OmniIconName.Database : OmniEurope.Blazor.Components.OmniIconName const = 28
 field public static OmniEurope.Blazor.Components.OmniIconName.Delete : OmniEurope.Blazor.Components.OmniIconName const = 29
@@ -668,7 +669,7 @@ field public static OmniEurope.Blazor.Components.OmniIconName.Key : OmniEurope.B
 field public static OmniEurope.Blazor.Components.OmniIconName.Keyboard : OmniEurope.Blazor.Components.OmniIconName const = 193
 field public static OmniEurope.Blazor.Components.OmniIconName.Layers : OmniEurope.Blazor.Components.OmniIconName const = 45
 field public static OmniEurope.Blazor.Components.OmniIconName.Layout : OmniEurope.Blazor.Components.OmniIconName const = 104
-field public static OmniEurope.Blazor.Components.OmniIconName.Leaf : OmniEurope.Blazor.Components.OmniIconName const = 247
+field public static OmniEurope.Blazor.Components.OmniIconName.Leaf : OmniEurope.Blazor.Components.OmniIconName const = 249
 field public static OmniEurope.Blazor.Components.OmniIconName.Lightbulb : OmniEurope.Blazor.Components.OmniIconName const = 192
 field public static OmniEurope.Blazor.Components.OmniIconName.Lightning : OmniEurope.Blazor.Components.OmniIconName const = 155
 field public static OmniEurope.Blazor.Components.OmniIconName.Link : OmniEurope.Blazor.Components.OmniIconName const = 102
@@ -699,6 +700,7 @@ field public static OmniEurope.Blazor.Components.OmniIconName.Path : OmniEurope.
 field public static OmniEurope.Blazor.Components.OmniIconName.Pattern : OmniEurope.Blazor.Components.OmniIconName const = 56
 field public static OmniEurope.Blazor.Components.OmniIconName.Pause : OmniEurope.Blazor.Components.OmniIconName const = 183
 field public static OmniEurope.Blazor.Components.OmniIconName.PauseCircle : OmniEurope.Blazor.Components.OmniIconName const = 221
+field public static OmniEurope.Blazor.Components.OmniIconName.Percent : OmniEurope.Blazor.Components.OmniIconName const = 248
 field public static OmniEurope.Blazor.Components.OmniIconName.PictureInPicture : OmniEurope.Blazor.Components.OmniIconName const = 57
 field public static OmniEurope.Blazor.Components.OmniIconName.Pin : OmniEurope.Blazor.Components.OmniIconName const = 58
 field public static OmniEurope.Blazor.Components.OmniIconName.Play : OmniEurope.Blazor.Components.OmniIconName const = 59
@@ -810,6 +812,7 @@ field public static OmniEurope.Blazor.Components.OmniLayoutWidth.Wide : OmniEuro
 field public static OmniEurope.Blazor.Components.OmniLegendPosition.Auto : OmniEurope.Blazor.Components.OmniLegendPosition const = 0
 field public static OmniEurope.Blazor.Components.OmniLegendPosition.Bottom : OmniEurope.Blazor.Components.OmniLegendPosition const = 2
 field public static OmniEurope.Blazor.Components.OmniLegendPosition.Right : OmniEurope.Blazor.Components.OmniLegendPosition const = 1
+field public static OmniEurope.Blazor.Components.OmniLegendPosition.Top : OmniEurope.Blazor.Components.OmniLegendPosition const = 3
 field public static OmniEurope.Blazor.Components.OmniLoadingBarMode.Continuous : OmniEurope.Blazor.Components.OmniLoadingBarMode const = 1
 field public static OmniEurope.Blazor.Components.OmniLoadingBarMode.Sweep : OmniEurope.Blazor.Components.OmniLoadingBarMode const = 0
 field public static OmniEurope.Blazor.Components.OmniLogLevel.Critical : OmniEurope.Blazor.Components.OmniLogLevel const = 5
@@ -2112,6 +2115,7 @@ property public OmniEurope.Blazor.Components.OmniArcGaugeScaleValue.FormatValue 
 property public OmniEurope.Blazor.Components.OmniArcGaugeScaleValue.ShowValue : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniArcGaugeScaleValue.Value : System.Double {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAreaSeries.ColorIndex : System.Int32 {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniAreaSeries.Dashed : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAreaSeries.Data : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniChartPoint> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAreaSeries.Stacked : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAreaSeries.Title : System.String? {get(public);set(public)} [Parameter]
@@ -2173,6 +2177,7 @@ property public OmniEurope.Blazor.Components.OmniChart.AspectRatio : System.Doub
 property public OmniEurope.Blazor.Components.OmniChart.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniChart.DataTableContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniChart.Description : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniChart.SharedTooltip : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniChart.Title : System.String {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniChartPoint.Label : System.String? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniChartPoint.X : System.Double {get(public);init(public)}
@@ -2807,6 +2812,7 @@ property public OmniEurope.Blazor.Components.OmniLengthValidator.Max : System.In
 property public OmniEurope.Blazor.Components.OmniLengthValidator.Message : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniLengthValidator.Min : System.Int32? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniLineSeries.ColorIndex : System.Int32 {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniLineSeries.Dashed : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniLineSeries.Data : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniChartPoint> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniLineSeries.Title : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniLink.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]

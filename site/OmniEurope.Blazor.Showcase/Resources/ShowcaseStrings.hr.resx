@@ -1182,6 +1182,8 @@
   <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Podrška</value></data>
   <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Partnerstvo</value></data>
   <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Rast</value></data>
+  <data name="DemoMediaIconCurrencyBtc" xml:space="preserve"><value>Iznos u bitcoinima</value></data>
+  <data name="DemoMediaIconPercent" xml:space="preserve"><value>Postotak</value></data>
   <data name="DemoMediaIconLeaf" xml:space="preserve"><value>Ekologija</value></data>
   <data name="DemoAnnotatedValidationName" xml:space="preserve"><value>Naziv projekta</value></data>
   <data name="DemoAnnotatedValidationMail" xml:space="preserve"><value>E-pošta odgovorne osobe</value></data>

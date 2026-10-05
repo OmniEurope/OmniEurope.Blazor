@@ -16,5 +16,11 @@ public enum OmniLegendPosition
     /// Below the chart, as an HTML list that wraps on narrow screens and keeps the page's text size;
     /// the plot takes the full width.
     /// </summary>
-    Bottom
+    Bottom,
+
+    /// <summary>
+    /// Above the chart, as the same HTML list as <see cref="Bottom"/> placed before the drawing; the
+    /// plot takes the full width.
+    /// </summary>
+    Top
 }

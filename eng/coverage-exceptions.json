@@ -132,6 +132,66 @@
       "lines": 0,
       "branches": 1,
       "reason": "FilterSummary d'un filtre actif sans aucune condition : IsActive exige une première ou une seconde condition, donc first ou second n'est jamais nul à la fois ; le repli vide reste pour ne jamais écrire null dans l'en-tête."
+    },
+    {
+      "file": "Components/Charts/OmniChartContext.cs",
+      "lines": 0,
+      "branches": 2,
+      "reason": "VisibleCategoryIndexes avec un pas de catégorie nul ou négatif : au-delà de deux catégories, deux positions voisines diffèrent toujours d'une largeur de tracé positive. StackBaseline qui parcourt toutes les séries sans trouver la sienne : elle n'est appelée que pour une série enregistrée, qui figure donc dans la liste et arrête la boucle."
+    },
+    {
+      "file": "Components/Charts/OmniChartGeometry.cs",
+      "lines": 1,
+      "branches": 1,
+      "reason": "Domains d'une liste vide : AreaPoints rend déjà une chaîne vide sans points, et les autres appelants (Points, ProjectedPoint, ColumnRect, BarRect) indexent un point existant. La garde évite Min et Max sur une suite vide."
+    },
+    {
+      "file": "Components/Editor/OmniHtmlEditor.razor.cs",
+      "lines": 0,
+      "branches": 4,
+      "reason": "SurfaceReference en face visuelle sans surface montée : SyncAsync revendique le montage avant tout await, au rendu qui suit le passage en face visuelle ; seule une commande déjà en vol entre ce passage et ce rendu y mène. InsertPaletteCharacterAsync verrouillé ou en face source : la palette n'est dessinée qu'en face visuelle et déverrouillée, seul un clic en vol l'atteint."
+    },
+    {
+      "file": "Components/Forms/OmniTemplateForm.razor",
+      "lines": 0,
+      "branches": 1,
+      "reason": "Le rendu sans contexte d'édition résolu : OnParametersSet lève sans Model ni EditContext et résout toujours l'un des deux avant le premier rendu."
+    },
+    {
+      "file": "Components/Forms/OmniTextBox.razor.cs",
+      "lines": 0,
+      "branches": 1,
+      "reason": "CopyAsync sans texte en attente et sans valeur (CurrentValueAsString nul) : le bouton de copie est désactivé quand la valeur est vide (Disabled || IsNullOrEmpty), un OmniButton désactivé ne reçoit aucun clic."
+    },
+    {
+      "file": "Components/Theming/OmniThemePresets.cs",
+      "lines": 0,
+      "branches": 2,
+      "reason": "DefaultFontFor d'un thème sans police ou d'une police hors catalogue : les 15 thèmes du catalogue déclarent chacun une police du catalogue, invariant que fixe EveryCatalogueTheme_NamesACatalogueFont_ItsDefault ; le repli sert un futur thème."
+    },
+    {
+      "file": "Internal/GridColumnLayout.cs",
+      "lines": 0,
+      "branches": 1,
+      "reason": "ParseWidth : test de nullité que le compilateur engendre en tête d'un switch sur une chaîne (offset IL 126) ; l'unité vient de ReadOnlySpan.ToString().ToLowerInvariant(), jamais nulle."
+    },
+    {
+      "file": "Internal/GridDataView.cs",
+      "lines": 2,
+      "branches": 3,
+      "reason": "VisibleItems d'une grille virtualisée : RenderRows rend les lignes virtuelles avant de le lire, et les deux commandes d'en-tête qui le lisent (tout sélectionner, tout déplier) ne sont pas proposées en mode virtuel. TryGetVirtualItem hors de la liste locale : la fenêtre est recalculée sur la liste courante avant chaque rendu (vérifié : une liste qui rétrécit sous une grille défilée ne l'atteint pas)."
+    },
+    {
+      "file": "Internal/GridNewRowHighlight.cs",
+      "lines": 0,
+      "branches": 1,
+      "reason": "MarkNewRows : test du délégué que le compilateur met en cache dans la fermeture (offset IL 101) ; chaque appel crée une nouvelle fermeture, le cache y est toujours vide."
+    },
+    {
+      "file": "Internal/Theming/ThemePresetFactory.cs",
+      "lines": 0,
+      "branches": 2,
+      "reason": "ExtraSeries, seconde boucle : test du délégué que le compilateur met en cache dans la fermeture (offset IL 217, toujours vide à chaque appel), et fin d'énumération après un ajout (offset IL 302) : dix candidates pour trois places, la boucle s'arrête à trois bien avant d'épuiser la liste."
     }
   ]
 }

@@ -192,6 +192,33 @@ public sealed class InternalHelpersEdgeTests
         Assert.True(ThemeColor.Contrast(colors["--omni-color-text"], colors["--omni-color-surface"]) > 2);
     }
 
+    [Fact]
+    public void SeriesColours_WhenThePaletteHuesBlockTheCandidates_AreCompletedWithTheFirstUnusedOnes()
+    {
+        // Yellow, cyan, violet and pink leave no chromatic candidate 36 degrees away: only the neutral slate
+        // fits, and the first unused candidates complete the three extra series.
+        var palette = new PaletteDefinition(
+            "Saturée", "Teintes partout", "#ffd500", "#00d4ff", "#8000ff", "#ff0080", "#ff0080",
+            "#ffffff", "#111111", "#111111", "#ffffff");
+
+        var colors = ThemePresetFactory.BuildColors(palette, OmniAppearance.Light);
+
+        Assert.All(new[] { 5, 6, 7 }, index => Assert.True(colors.ContainsKey($"--omni-chart-color-{index}")));
+        Assert.Equal(3, new[] { 5, 6, 7 }.Select(index => colors[$"--omni-chart-color-{index}"]).Distinct().Count());
+    }
+
+    [Fact]
+    public void EveryCatalogueTheme_NamesACatalogueFont_ItsDefault()
+    {
+        // DefaultFontFor falls back to the first font only for a theme without one: none of the catalogue.
+        Assert.All(ThemeCatalog.All, theme =>
+        {
+            Assert.True(theme.Shape.TryGetValue("--omni-font-family", out var family));
+            Assert.Contains(OmniThemeFonts.All, font => font.Family == family);
+        });
+        Assert.All(OmniThemePresets.All, preset => Assert.Contains(OmniThemePresets.DefaultFontFor(preset), OmniThemeFonts.All));
+    }
+
     // ---- notifications ----------------------------------------------------------------------------
 
     // A clock whose reading moves without firing anything: its timers are the system's, far longer than the test.
@@ -264,6 +291,17 @@ public sealed class InternalHelpersEdgeTests
     public sealed class Holder
     {
         public object Extra { get; set; } = new { Inner = "x" };
+    }
+
+    [Fact]
+    public void AriaLabel_KeepsTheLabel_ElseTheHostValue_ElseNothing()
+    {
+        var host = new Dictionary<string, object> { ["aria-label"] = "Hôte" };
+
+        Assert.Equal("Nom", OmniAriaLabel.Of("Nom", host));
+        Assert.Equal("Hôte", OmniAriaLabel.Of(" ", host));
+        Assert.Null(OmniAriaLabel.Of(null, null));
+        Assert.Null(OmniAriaLabel.Of(null, new Dictionary<string, object> { ["aria-label"] = null! }));
     }
 
     // ---- sanitiser --------------------------------------------------------------------------------

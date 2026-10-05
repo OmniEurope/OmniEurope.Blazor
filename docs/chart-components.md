@@ -8,16 +8,16 @@ leurs coordonnées dans un même contexte : elles s'alignent par construction.
 
 | Composant | Rôle |
 | --- | --- |
-| `OmniChart` | Conteneur SVG : titre, description (`Description`, `string?`, posée en `desc` et `aria-describedby` seulement quand elle est donnée), rapport largeur sur hauteur ; toutes les parties y lisent leurs coordonnées. `DataTableContent` fournit l'alternative en tableau ; sans lui, un tableau des données masqué visuellement est généré depuis les séries. |
+| `OmniChart` | Conteneur SVG : titre, description (`Description`, `string?`, posée en `desc` et `aria-describedby` seulement quand elle est donnée), rapport largeur sur hauteur ; toutes les parties y lisent leurs coordonnées. `DataTableContent` fournit l'alternative en tableau ; sans lui, un tableau des données masqué visuellement est généré depuis les séries. `SharedTooltip` donne un texte de survol par catégorie (voir Disposition). |
 | `OmniCategoryAxis`, `OmniValueAxis` | Axe des catégories et axe des valeurs (bornes fixes ou automatiques), graduations et libellés. |
 | `OmniAxisTitle` | Titre d'un axe, horizontal en bas ou vertical à gauche, tourné. |
 | `OmniGridLines` | Lignes de grille du tracé. |
-| `OmniLineSeries`, `OmniAreaSeries` | Série en courbe, ou en aire, empilable (`Stacked`). |
+| `OmniLineSeries`, `OmniAreaSeries` | Série en courbe, ou en aire, empilable (`Stacked`) ; `Dashed` trace la courbe, ou le contour de l'aire, en tirets. |
 | `OmniColumnSeries` | Colonnes verticales groupées par catégorie, empilables (`Stacked`) ; `Horizontal="true"` en fait des barres horizontales sur axes tournés. |
 | `OmniPieSeries` | Secteurs d'un disque, ou d'un anneau (`Donut`). |
 | `OmniMarkers` | Points marqués sur les valeurs d'une série. |
 | `OmniSeriesDataLabels` | Valeurs écrites sur les points d'une série, avec leur format (`FormatValue`). |
-| `OmniLegend` | Légende hors du tracé, à droite ou dessous. |
+| `OmniLegend` | Légende hors du tracé, à droite, dessous ou dessus. |
 | `OmniArcGauge`, `OmniArcGaugeScale`, `OmniArcGaugeScaleValue` | Jauge en demi-cercle, son échelle et la valeur qu'elle montre (`FormatValue`) ; le nom accessible de la jauge porte sa valeur. |
 
 ## Disposition
@@ -36,7 +36,8 @@ leurs coordonnées dans un même contexte : elles s'alignent par construction.
   élargit la colonne à l'entrée la plus longue, jusqu'à 40 % du dessin. `Bottom` (ou `Auto` avec des
   entrées longues) la dessine sous le SVG en liste HTML (`ul.omni-chart__legend--below`) : elle
   garde la taille de texte de la page au lieu de rétrécir avec le dessin, passe à la ligne sur un
-  écran étroit, et le tracé reprend toute la largeur. Les entrées se construisent depuis les séries du graphique,
+  écran étroit, et le tracé reprend toute la largeur. `Top` dessine la même liste au-dessus du SVG
+  (`ul.omni-chart__legend--above`), le tracé gardant lui aussi toute la largeur. Les entrées se construisent depuis les séries du graphique,
   chacune avec la teinte de la série qu'elle nomme ; `Items` les remplace. `Label` (`string?`) nomme la
   légende.
 - `OmniCategoryAxis` n'écrit que les libellés qui tiennent sans se chevaucher : quand tous ne
@@ -47,6 +48,17 @@ leurs coordonnées dans un même contexte : elles s'alignent par construction.
   l'alternative accessible complète. Les nombres (graduations, valeurs, texte de survol) suivent la culture
   courante, et `FormatValue` d'`OmniValueAxis`, d'`OmniSeriesDataLabels` et d'`OmniArcGaugeScaleValue`
   remplace leur texte.
+- `OmniChart.SharedTooltip` remplace ces textes par point par un texte par catégorie : une bande
+  transparente par catégorie (`omni-chart__hover-band`), sur toute la hauteur du tracé (toute sa
+  largeur pour des barres), dessinée après les séries pour recevoir le pointeur partout, porte un
+  `title` SVG de la forme « mars », puis « Ventes · 12 » et « Objectif · 15 », une ligne par série dans
+  leur ordre (une série sans titre prend le nom de repli du tableau, « Série 2 »). Les valeurs y sont
+  écrites par le `FormatValue` d'`OmniValueAxis`, sinon dans la culture courante. Les catégories se
+  comptent par rang, comme pour l'axe et le tableau : la bande `i` couvre les points de rang `i` ;
+  avec des colonnes ou des barres elle est exactement leur bande, avec des courbes seules elle va
+  d'un point à mi-chemin des points voisins. Les bandes sont `aria-hidden`, le tableau de données
+  restant l'alternative accessible ; la bande survolée s'assombrit légèrement. Le texte apparaît par
+  l'infobulle native du navigateur, sans script ni style inline.
 - Des colonnes ou des barres découpent l'axe des catégories en bandes, une par catégorie, et chaque
   libellé se place au milieu de sa bande. Plusieurs `OmniColumnSeries` se rangent côte à côte dans la
   bande ; toutes les séries empilées y partagent une place. Une ligne tracée avec des colonnes passe
@@ -60,6 +72,11 @@ leurs coordonnées dans un même contexte : elles s'alignent par construction.
   d'écran (`vector-effect: non-scaling-stroke`) : un graphique petit dans une carte ou large sur une
   page garde le même trait. Une `OmniLineSeries` n'est jamais remplie, et un marqueur est un cercle de
   la couleur de surface cerclé de la teinte de sa série.
+- `Dashed` d'`OmniLineSeries` et d'`OmniAreaSeries` trace la courbe, ou le contour de l'aire, en tirets
+  (`omni-chart__line--dashed` : 8 pixels, 7 d'écart, les bouts arrondis allongeant chaque tiret ;
+  `omni-chart__area--dashed` : 6 et 4) ; le remplissage d'une aire ne change pas. Le trait restant non
+  mis à l'échelle, les tirets se mesurent aussi en pixels d'écran et gardent leur longueur à toute
+  taille du dessin.
 
 - `OmniValueAxis.Automatic` cale l'axe sur les séries : bornes arrondies vers l'extérieur (pas de 1, 2, 2,5 ou 5
   fois une puissance de dix) pour `TickCount` graduations, de zéro (ou de la plus basse valeur) à la plus
@@ -86,3 +103,12 @@ côte à côte, barres tournées, légende, disque entier) et la règle de feuil
 vides. Le rendu des quatre pages de graphiques du module OE Démo d'une application cliente a été contrôlé dans
 Chromium sur des pages statiques produites par bUnit avec la feuille réelle, en clair, et en sombre
 pour les courbes et les jauges.
+
+`ChartSeriesOptionsTests` fixe les tirets (classes et règles de feuille), les bandes du texte de
+survol partagé (une par catégorie, dernières du dessin, `aria-hidden`, géométrie en colonnes, en
+courbes seules et en barres, texte et `FormatValue`) et la légende `Top`. Contrôlé dans Chromium sur
+une page statique produite par bUnit avec la feuille réelle, servie sous CSP stricte (console vide) :
+tirets de 8/7 et 6/4 pixels, trait non mis à l'échelle, remplissage de l'aire gardé, légende avant le
+dessin, et le point au centre d'une colonne touche la bande de sa catégorie (dont le `title` porte les
+trois séries) qui s'assombrit au survol. L'infobulle native elle-même n'est pas capturable et n'a pas
+été vue à l'écran.

@@ -133,7 +133,9 @@ where TModel : class
     private async Task HandleInvalidSubmitAsync(EditContext context)
     {
         await OnInvalidSubmit.InvokeAsync(context);
-        if (FocusOnFirstInvalid)
+        // A statically rendered form (a sign-in page posted without a circuit) has no script to call:
+        // the interop would throw and turn a validation message into a server error.
+        if (FocusOnFirstInvalid && RendererInfo.IsInteractive)
         {
             try
             {

@@ -1182,6 +1182,8 @@
   <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Υποστήριξη</value></data>
   <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Συνεργασία</value></data>
   <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Άνοδος</value></data>
+  <data name="DemoMediaIconCurrencyBtc" xml:space="preserve"><value>Ποσό σε bitcoin</value></data>
+  <data name="DemoMediaIconPercent" xml:space="preserve"><value>Ποσοστό</value></data>
   <data name="DemoMediaIconLeaf" xml:space="preserve"><value>Οικολογία</value></data>
   <data name="DemoAnnotatedValidationName" xml:space="preserve"><value>Όνομα του έργου</value></data>
   <data name="DemoAnnotatedValidationMail" xml:space="preserve"><value>E-mail του υπευθύνου</value></data>

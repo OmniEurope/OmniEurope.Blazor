@@ -52,9 +52,10 @@ internal sealed class GridExpansion<TItem>(OmniDataGrid<TItem> grid)
 
     /// <summary>
     /// Only offered when several rows may be open at once: under a single-row expand mode the
-    /// button could only ever break the rule it sits above.
+    /// button could only ever break the rule it sits above. A virtualized grid has no page of rows to
+    /// act on, as for the header checkbox: the button opened nothing there and is not offered.
     /// </summary>
-    internal bool ShowsExpandAll => grid.ShowExpandAll && grid.ExpandMode == OmniDataGridRowMode.Multiple;
+    internal bool ShowsExpandAll => grid.ShowExpandAll && grid.ExpandMode == OmniDataGridRowMode.Multiple && !grid.View.Virtualized;
 
     /// <summary>
     /// Opens every expandable row on screen, or closes them all when they already are open. Rows of

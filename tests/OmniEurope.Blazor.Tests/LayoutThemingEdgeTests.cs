@@ -235,4 +235,18 @@ public sealed class LayoutThemingEdgeTests : OmniBunitContext
         Assert.Null(palette);
         Assert.Null(font);
     }
+
+    [Fact]
+    public void ScopeOfAPresetWhoseCanvasIsNone_DrawsNoCanvas()
+    {
+        var preset = new OmniThemePreset("Sans fond", "Aucun champ", new Dictionary<string, string>(), new Dictionary<string, string>())
+        {
+            Shape = new Dictionary<string, string> { ["--omni-scope-canvas"] = "none" }
+        };
+
+        var scope = Render<OmniThemeScope>(parameters => parameters.Add(component => component.Preset, preset).AddChildContent("page"));
+
+        Assert.Empty(scope.FindAll("canvas"));
+        Assert.DoesNotContain("omni-theme-scope--canvas", scope.Find(".omni-theme-scope").ClassList);
+    }
 }

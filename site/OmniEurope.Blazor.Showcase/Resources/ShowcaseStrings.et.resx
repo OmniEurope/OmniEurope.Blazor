@@ -1182,6 +1182,8 @@
   <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Tugi</value></data>
   <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Partnerlus</value></data>
   <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Tõus</value></data>
+  <data name="DemoMediaIconCurrencyBtc" xml:space="preserve"><value>Summa bitcoinides</value></data>
+  <data name="DemoMediaIconPercent" xml:space="preserve"><value>Protsent</value></data>
   <data name="DemoMediaIconLeaf" xml:space="preserve"><value>Ökoloogia</value></data>
   <data name="DemoAnnotatedValidationName" xml:space="preserve"><value>Projekti nimi</value></data>
   <data name="DemoAnnotatedValidationMail" xml:space="preserve"><value>Vastutaja e-post</value></data>
