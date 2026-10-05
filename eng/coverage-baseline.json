@@ -2,11 +2,6 @@
   "$comment": "RCL source files not yet fully covered (PLAN-014): lines never run and branch outcomes never taken. The list may only shrink; a file absent from it must be fully covered. Rewritten by eng/Test-Coverage.ps1 -UpdateBaseline.",
   "files": [
     {
-      "file": "Components/Actions/OmniSplitButton.razor.cs",
-      "lines": 0,
-      "branches": 1
-    },
-    {
       "file": "Components/Charts/OmniArcGauge.razor.cs",
       "lines": 0,
       "branches": 1
@@ -162,11 +157,6 @@
       "branches": 5
     },
     {
-      "file": "Internal/GridFilterEditor.cs",
-      "lines": 0,
-      "branches": 1
-    },
-    {
       "file": "Internal/GridFilterOperators.cs",
       "lines": 0,
       "branches": 2
@@ -193,16 +183,6 @@
     },
     {
       "file": "Internal/GridVirtualViewport.cs",
-      "lines": 0,
-      "branches": 1
-    },
-    {
-      "file": "Internal/GridVirtualWindow.cs",
-      "lines": 0,
-      "branches": 1
-    },
-    {
-      "file": "Internal/OmniPortalSlot.cs",
       "lines": 0,
       "branches": 1
     },

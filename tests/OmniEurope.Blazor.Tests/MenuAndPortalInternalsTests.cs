@@ -72,6 +72,16 @@ public sealed class MenuAndPortalInternalsTests : OmniBunitContext
     }
 
     [Fact]
+    public void PortalSlot_DisposedBeforeItsFirstParameters_HasNothingToLeave()
+    {
+        var slot = new OmniPortalSlot();
+
+        slot.Dispose();
+
+        Assert.Null(slot.Coordinator);
+    }
+
+    [Fact]
     public void PortalSlot_FollowsOnlyItsOwner_AndLeavesACoordinatorItNoLongerShows()
     {
         var first = new OmniOverlayCoordinator();

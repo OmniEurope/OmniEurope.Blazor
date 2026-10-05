@@ -120,6 +120,18 @@
       "lines": 1,
       "branches": 1,
       "reason": "ApplyColumnLayoutAsync sans module : ses deux appelants viennent d'attendre le module (ModuleAsync, la synchronisation du défilement) ; seule une disposition de la grille survenue pendant ces attentes le retire, ce que bUnit ne sait pas intercaler. La garde évite d'appeler un module libéré (leçon de OmniDialog, 1f70239)."
+    },
+    {
+      "file": "Components/Actions/OmniSplitButton.razor.cs",
+      "lines": 0,
+      "branches": 1,
+      "reason": "OpenAsync d'un bouton désactivé : la flèche est alors un OmniButton désactivé, qui ne reçoit ni clic ni focus, donc ni touche ; seul l'état occupé (Busy), qui garde le focus, atteint la garde."
+    },
+    {
+      "file": "Internal/GridFilterEditor.cs",
+      "lines": 0,
+      "branches": 1,
+      "reason": "FilterSummary d'un filtre actif sans aucune condition : IsActive exige une première ou une seconde condition, donc first ou second n'est jamais nul à la fois ; le repli vide reste pour ne jamais écrire null dans l'en-tête."
     }
   ]
 }

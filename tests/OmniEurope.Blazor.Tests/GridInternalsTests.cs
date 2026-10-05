@@ -161,8 +161,11 @@ public sealed class GridInternalsTests
         Assert.False(window.Measure(0, 20d));
         Assert.True(window.Measure(1, 60d));
         Assert.False(window.Measure(1, 60.2d));
+        // Row 2 measures what the next estimate will be: once rebuilt, it differs from it by nothing.
+        Assert.True(window.Measure(2, 30d));
         window.Configure(100, 30d);
         Assert.Equal(60d, window.HeightOf(1));
+        Assert.Equal(30d, window.HeightOf(2));
         Assert.Equal(0, window.IndexAt(-5));
 
         var range = window.Compute(double.NaN, 0d, 2);
