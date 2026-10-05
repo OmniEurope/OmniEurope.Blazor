@@ -8,9 +8,11 @@
 > Mesure de départ du 2026-10-04 (Release, 4 281 tests) : 265 fichiers à écarts, 1 081 lignes jamais
 > exécutées, 1 797 branches jamais prises ; 49 méthodes au-dessus d'un CRAP de 30, dont 13 admises.
 >
-> Mesure courante du 2026-10-05 (Release, 5 174 tests) : 60 fichiers à écarts, 26 lignes jamais
-> exécutées, 138 branches jamais prises (hors Charts et OmniTemplateForm : 43 fichiers, 6 lignes,
-> 76 branches) ; aucune méthode au-dessus de 30 hors des 14 exceptions.
+> Mesure courante du 2026-10-05 (Release, 5 185 tests, arbre commité `a5bd39c`) : 42 fichiers à écarts,
+> 19 lignes jamais exécutées, 98 branches jamais prises, dont 17 fichiers Charts et `OmniTemplateForm` laissés
+> à la session parallèle ; aucune méthode au-dessus de 30 hors des 14 exceptions. Depuis `1f70239`, chaque
+> commit est rejoué localement sur un export de l'index (fumées Server, WebAssembly et Auto, tests, portes) :
+> une garde retirée par la campagne (`OmniDialog`, module de focus) n'était atteignable que sur Blazor Server.
 
 ## Objectif
 
