@@ -870,6 +870,13 @@ public partial class OmniDataGrid<TItem>
         // it, so it already carries their default filters and sorts.
         if (firstRender)
         {
+            // A columns fragment that declared no column: the implicit column takes over from the loading row.
+            if (ColumnSet.ColumnsFragmentRendered())
+            {
+                RebuildRenderSnapshot();
+                await RenderLaterAsync();
+            }
+
             await View.ColumnsRenderedAsync();
         }
 

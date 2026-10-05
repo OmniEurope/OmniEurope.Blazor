@@ -426,7 +426,7 @@
                     }
                     @* No row yet, loading under the bar: the body waits empty (the host's template when it gave one)
                        rather than announcing an empty grid the rows are about to fill. *@
-                    @if (View.ShowPendingRow)
+                    @if (View.ShowPendingRow || ColumnSet.AwaitingColumns)
                     {
                         <tr class="omni-data-grid__pending"><td colspan="@ColumnSet.ColumnSpan" class="omni-data-grid__state omni-data-grid__state--loading" role="status">@if (LoadingContent is not null) { @LoadingContent } else { <span class="omni-visually-hidden">@Localize("Loading")</span> }</td></tr>
                     }

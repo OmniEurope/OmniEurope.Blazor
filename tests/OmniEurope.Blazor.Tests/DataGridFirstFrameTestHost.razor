@@ -1,0 +1,29 @@
+<OmniDataGrid TItem="Item" Items="@Items" KeyOf="@(item => item.Id)" ScrollMode="@ScrollMode"
+              HeaderWrap="OmniDataGridHeaderWrap.Truncate">
+    <Columns>
+        @if (DeclareColumn)
+        {
+            <OmniDataGridColumn TItem="Item" Property="Name" Title="Nom" />
+        }
+    </Columns>
+</OmniDataGrid>
+
+@code {
+    [Parameter] public IReadOnlyList<Item> Items { get; set; } = [];
+
+    [Parameter] public bool DeclareColumn { get; set; } = true;
+
+    [Parameter] public OmniDataGridScrollMode ScrollMode { get; set; } = OmniDataGridScrollMode.All;
+
+    /// <summary>An item whose raw text is counted: drawing it through the implicit column calls ToString.</summary>
+    public sealed record Item(int Id, string Name)
+    {
+        public static int RawTextReads;
+
+        public override string ToString()
+        {
+            Interlocked.Increment(ref RawTextReads);
+            return $"RAW {Name}";
+        }
+    }
+}

@@ -16,13 +16,39 @@ internal sealed class GridColumnSet<TItem>(OmniDataGrid<TItem> grid)
     private int _columnSpan;
     // The columns fragment whose adopted delegates already queued a render (see RenderAdoptedDelegates).
     private RenderFragment? _adoptedFor;
+    // Set once the grid has rendered its columns fragment for the first time (see ColumnsFragmentRendered).
+    private bool _columnsFragmentRendered;
 
     /// <summary>The columns registered by the column components, in registration order.</summary>
     internal IReadOnlyList<OmniDataGridColumnDefinition<TItem>> Declared => _columns;
 
-    /// <summary>The registered columns, or the implicit column when there is none.</summary>
+    /// <summary>
+    /// A grid that declares columns, before they registered: its column components only run after the grid's
+    /// first render, so that render has no column yet. It must not draw the items through the implicit column
+    /// (their raw text, replaced a moment later by the real cells): the body shows its loading row instead.
+    /// </summary>
+    internal bool AwaitingColumns => _columns.Count == 0 && grid.Columns is not null && !_columnsFragmentRendered;
+
+    /// <summary>The registered columns, none while they are awaited, or the implicit column when there is none.</summary>
     internal IReadOnlyList<OmniDataGridColumnDefinition<TItem>> EffectiveColumns =>
-        _columns.Count == 0 ? [ImplicitColumn] : _columns;
+        _columns.Count > 0 ? _columns
+        : AwaitingColumns ? Array.Empty<OmniDataGridColumnDefinition<TItem>>()
+        : [ImplicitColumn];
+
+    /// <summary>
+    /// Called after the first render: the columns fragment ran. True when it registered no column, so the grid
+    /// renders once more with its implicit column instead of keeping the loading row.
+    /// </summary>
+    internal bool ColumnsFragmentRendered()
+    {
+        if (_columnsFragmentRendered)
+        {
+            return false;
+        }
+
+        _columnsFragmentRendered = true;
+        return _columns.Count == 0 && grid.Columns is not null;
+    }
 
     private OmniDataGridColumnDefinition<TItem> ImplicitColumn => _implicitColumn ??= new OmniDataGridColumnDefinition<TItem>
     {
