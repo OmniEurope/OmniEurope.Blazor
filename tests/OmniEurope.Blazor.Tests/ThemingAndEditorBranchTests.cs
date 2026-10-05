@@ -44,5 +44,9 @@ public sealed class ThemingAndEditorBranchTests : OmniBunitContext
             .Add(component => component.Files, [new OmniDiffFile(null, "src/nouveau.cs", OmniDiffFileStatus.Renamed, false, [])]));
 
         Assert.Contains("src/nouveau.cs", diff.Markup, StringComparison.Ordinal);
+
+        var withoutNew = Render<OmniUnifiedDiff>(parameters => parameters
+            .Add(component => component.Files, [new OmniDiffFile("src/ancien.cs", null, OmniDiffFileStatus.Renamed, false, [])]));
+        Assert.Contains("src/ancien.cs", withoutNew.Markup, StringComparison.Ordinal);
     }
 }

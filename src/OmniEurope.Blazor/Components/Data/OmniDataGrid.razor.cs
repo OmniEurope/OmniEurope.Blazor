@@ -71,8 +71,10 @@ public partial class OmniDataGrid<TItem>
     [Inject]
     internal IJSRuntime JavaScript { get; set; } = default!;
 
+    // AddOmniEuropeBlazor always registers one (TryAdd keeps a host's own), and an [Inject] property
+    // the container cannot fill fails the component's activation: it is never null here.
     [Inject]
-    internal IOmniDataGridStateStore? InjectedStateStore { get; set; }
+    internal IOmniDataGridStateStore InjectedStateStore { get; set; } = default!;
 
     [Inject]
     internal IServiceProvider Services { get; set; } = default!;

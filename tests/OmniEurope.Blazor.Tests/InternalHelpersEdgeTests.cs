@@ -234,6 +234,15 @@ public sealed class InternalHelpersEdgeTests
     }
 
     [Fact]
+    public void TextMatch_OfANullText_FindsNothing_AndAMarkAloneMarksNothing()
+    {
+        Assert.False(OmniTextMatch.Contains(null!, "a"));
+        // A combining accent alone matches with a length of zero: nothing to mark, the text stays whole.
+        var segments = OmniTextMatch.Split("cafe\u0301", "\u0301");
+        Assert.Equal("cafe\u0301", string.Concat(segments.Select(segment => segment.Text)));
+    }
+
+    [Fact]
     public void TextMatch_OfABlankQuery_MatchesEverything()
     {
         Assert.True(OmniTextMatch.Contains("Facture", "   "));

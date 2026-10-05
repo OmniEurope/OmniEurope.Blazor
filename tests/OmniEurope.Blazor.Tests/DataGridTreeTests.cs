@@ -226,6 +226,17 @@ public sealed class DataGridTreeTests : OmniBunitContext
     }
 
     [Fact]
+    public void TreeRows_WithADetailTemplate_OpenTheirDetail()
+    {
+        RenderFragment<Line> detail = line => builder => builder.AddContent(0, $"Détail {line.Label}");
+        var grid = RenderGrid(parameters => parameters.Add(g => g.DetailTemplate, detail));
+
+        grid.Find("tbody td[data-omni-control='expand'] button").Click();
+
+        Assert.Contains("Détail Produits", grid.Find(".omni-data-grid__detail").TextContent, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void CsvExport_WritesEveryRowAtEveryDepth_HoweverFewAreOpen()
     {
         var download = JSInterop.SetupModule(Internal.OmniModules.DocumentEditor);

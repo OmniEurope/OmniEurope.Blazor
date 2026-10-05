@@ -140,6 +140,28 @@ public sealed class HtmlEditorEdgeTests : OmniBunitContext
         Assert.Equal(OmniHtmlEditorMode.Visual, mode);
     }
 
+    [Fact]
+    public async Task CommandContext_InTheSourceFace_HasNoSurface()
+    {
+        Modules();
+        ElementReference? seen = default(ElementReference);
+        OmniHtmlEditorMode? mode = null;
+        var command = OmniHtmlEditorCommand.Create("probe", "Sonder", context =>
+        {
+            seen = context.SurfaceElement;
+            mode = context.Mode;
+            return Task.CompletedTask;
+        });
+        var editor = RenderEditor(parameters => parameters
+            .Add(editor => editor.Commands, [command])
+            .Add(editor => editor.Mode, OmniHtmlEditorMode.Source));
+
+        await editor.Find("[data-command=probe]").ClickAsync(new());
+
+        Assert.Equal(OmniHtmlEditorMode.Source, mode);
+        Assert.Null(seen);
+    }
+
     private sealed class MenuExtension : OmniHtmlEditorExtension
     {
         public override IReadOnlyList<OmniHtmlEditorCommand> ContextMenu { get; } =

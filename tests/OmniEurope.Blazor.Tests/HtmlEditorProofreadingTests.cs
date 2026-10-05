@@ -102,7 +102,9 @@ public sealed class HtmlEditorProofreadingTests : OmniBunitContext
         await opening;
 
         _ = editor.InvokeAsync(() => bridge.OnContextMenu(40, 20, null, Flagged));
-        var second = proofreader.SuggestTokens[^1];
+        // The second opening is not awaited (its corrections never come): wait until it asked for them.
+        editor.WaitForAssertion(() => Assert.Equal(2, proofreader.SuggestTokens.Count));
+        var second = proofreader.SuggestTokens[1];
         Assert.False(second.IsCancellationRequested);
         await DisposeComponentsAsync();
         Assert.True(second.IsCancellationRequested);

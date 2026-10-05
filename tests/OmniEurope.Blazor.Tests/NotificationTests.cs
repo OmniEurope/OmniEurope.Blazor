@@ -169,6 +169,13 @@ public sealed class NotificationTests : OmniBunitContext
         Assert.Contains("omni-notification--tinted", classes);
         Assert.Contains("omni-notification--t2", classes);
         Assert.Contains("omni-notification--u7", classes);
+
+        var round = Render<OmniNotification>(parameters => parameters
+            .Add(component => component.Message, "Saved")
+            .Add(component => component.ShowCountdown, true)
+            .Add(component => component.Duration, TimeSpan.FromSeconds(20)));
+        Assert.Contains("omni-notification--t2", round.Find("article").ClassList);
+        Assert.DoesNotContain(round.Find("article").ClassList, name => name.StartsWith("omni-notification--u", StringComparison.Ordinal));
     }
 
     [Fact]

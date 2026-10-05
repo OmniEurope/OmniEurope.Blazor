@@ -87,11 +87,6 @@
       "branches": 4
     },
     {
-      "file": "Components/Editor/OmniUnifiedDiff.razor.cs",
-      "lines": 0,
-      "branches": 1
-    },
-    {
       "file": "Components/Feedback/OmniIcon.razor.cs",
       "lines": 0,
       "branches": 1
@@ -132,11 +127,6 @@
       "branches": 1
     },
     {
-      "file": "Components/Overlays/OmniNotification.razor.cs",
-      "lines": 0,
-      "branches": 1
-    },
-    {
       "file": "Components/Selection/OmniDatePicker.razor",
       "lines": 0,
       "branches": 1
@@ -162,14 +152,9 @@
       "branches": 2
     },
     {
-      "file": "Internal/GridAggregates.cs",
-      "lines": 0,
-      "branches": 1
-    },
-    {
       "file": "Internal/GridColumnLayout.cs",
       "lines": 0,
-      "branches": 3
+      "branches": 1
     },
     {
       "file": "Internal/GridCssClasses.cs",
@@ -189,16 +174,6 @@
     {
       "file": "Internal/GridFilterOperators.cs",
       "lines": 0,
-      "branches": 2
-    },
-    {
-      "file": "Internal/GridGrouping.cs",
-      "lines": 0,
-      "branches": 2
-    },
-    {
-      "file": "Internal/GridLayoutInterop.cs",
-      "lines": 1,
       "branches": 2
     },
     {
@@ -224,12 +199,7 @@
     {
       "file": "Internal/GridRowBuilder.cs",
       "lines": 0,
-      "branches": 3
-    },
-    {
-      "file": "Internal/GridStatePersistence.cs",
-      "lines": 0,
-      "branches": 3
+      "branches": 2
     },
     {
       "file": "Internal/GridVirtualViewport.cs",
@@ -243,16 +213,6 @@
     },
     {
       "file": "Internal/OmniPortalSlot.cs",
-      "lines": 0,
-      "branches": 1
-    },
-    {
-      "file": "Internal/OmniTextMatch.cs",
-      "lines": 0,
-      "branches": 2
-    },
-    {
-      "file": "Internal/PickerTimeColumns.cs",
       "lines": 0,
       "branches": 1
     },

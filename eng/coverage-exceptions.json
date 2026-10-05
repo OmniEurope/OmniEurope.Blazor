@@ -114,6 +114,12 @@
       "lines": 0,
       "branches": 1,
       "reason": "Le catalogue d'icônes est une ressource incorporée à l'assemblage par le projet : son absence est une erreur de construction, que l'exception nomme au lieu d'une NullReferenceException."
+    },
+    {
+      "file": "Internal/GridLayoutInterop.cs",
+      "lines": 1,
+      "branches": 1,
+      "reason": "ApplyColumnLayoutAsync sans module : ses deux appelants viennent d'attendre le module (ModuleAsync, la synchronisation du défilement) ; seule une disposition de la grille survenue pendant ces attentes le retire, ce que bUnit ne sait pas intercaler. La garde évite d'appeler un module libéré (leçon de OmniDialog, 1f70239)."
     }
   ]
 }

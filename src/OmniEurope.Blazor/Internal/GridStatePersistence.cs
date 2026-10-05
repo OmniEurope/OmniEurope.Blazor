@@ -10,15 +10,12 @@ namespace OmniEurope.Blazor.Internal;
 /// </summary>
 internal sealed class GridStatePersistence<TItem>(OmniDataGrid<TItem> grid)
 {
-    private IOmniDataGridStateStore? _fallbackStateStore;
-
     private sealed record PersistedState(
         Dictionary<string, GridColumnFilter> Filters,
         List<OmniDataGridSort> Sorts,
         Dictionary<string, string?> ColumnWidths);
 
-    private IOmniDataGridStateStore EffectiveStateStore =>
-        grid.StateStore ?? grid.InjectedStateStore ?? (_fallbackStateStore ??= new OmniLocalStorageDataGridStateStore(grid.JavaScript));
+    private IOmniDataGridStateStore EffectiveStateStore => grid.StateStore ?? grid.InjectedStateStore;
 
     internal async Task LoadAsync(string key)
     {

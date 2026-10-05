@@ -98,6 +98,9 @@ public sealed class GridBehaviourEdgeTests : OmniBunitContext
     [InlineData("10rem", "calc(10rem)")]
     [InlineData("12ch", "calc(12ch)")]
     [InlineData("5vw", "calc(5vw)")]
+    [InlineData("10px", "calc(10px)")]
+    [InlineData("2em", "calc(2em)")]
+    [InlineData("10pt", "calc(10pt)")]
     [InlineData("50%", "calc(var(--omni-data-grid-column-min-width))")]
     [InlineData("12xx", "calc(var(--omni-data-grid-column-min-width))")]
     [InlineData("px", "calc(var(--omni-data-grid-column-min-width))")]
@@ -132,6 +135,7 @@ public sealed class GridBehaviourEdgeTests : OmniBunitContext
     [InlineData("12pt", "ArrowLeft", "48px")]
     [InlineData("1vw", "ArrowRight", "192px")]
     [InlineData("abc", "ArrowLeft", "128px")]
+    [InlineData("120", "ArrowLeft", "88px")]
     [InlineData(null, "ArrowLeft", "128px")]
     public void KeyboardResize_FromAWidthToGuess_StepsFromTheEstimate(string? width, string key, string expected)
     {

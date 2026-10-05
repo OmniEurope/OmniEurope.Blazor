@@ -134,6 +134,67 @@ public sealed class GridBranchEdgeTests : OmniBunitContext
         Assert.Equal("[6]", grid.Find("tr.omni-data-grid__footer-row td[data-omni-col='Amount']").TextContent.Trim());
     }
 
+    /// <summary>A value whose text is null, as a type of the application may write it.</summary>
+    public sealed record Mute(int Rank) : IComparable
+    {
+        public int CompareTo(object? other) => other is Mute mute ? Rank.CompareTo(mute.Rank) : 1;
+
+        public override string? ToString() => null;
+    }
+
+    [Fact]
+    public void Aggregate_OfAValueWithoutText_LeavesItsCellEmpty()
+    {
+        RenderFragment columns = builder =>
+        {
+            builder.OpenComponent<OmniDataGridColumn<Row>>(0);
+            builder.AddComponentParameter(1, nameof(OmniDataGridColumn<Row>.Title), "Rang");
+            builder.AddComponentParameter(2, nameof(OmniDataGridColumn<Row>.Key), "rank");
+            builder.AddComponentParameter(3, nameof(OmniDataGridColumn<Row>.Value), (Func<Row, object?>)(row => new Mute(row.Amount)));
+            builder.AddComponentParameter(4, nameof(OmniDataGridColumn<Row>.Aggregate), OmniDataGridAggregate.Max);
+            builder.CloseComponent();
+        };
+
+        var grid = RenderGrid(columns: columns);
+
+        Assert.Equal(string.Empty, grid.Find("tr.omni-data-grid__footer-row td[data-omni-col='rank']").TextContent.Trim());
+    }
+
+    [Fact]
+    public void AutoFitTexts_OfAColumnTheGridDoesNotShow_AreNone()
+    {
+        var grid = RenderGrid();
+
+        Assert.Null(grid.Instance.GetColumnAutoFitTexts("absente"));
+    }
+
+    [Fact]
+    public void GroupOfAKeyWithoutColumn_IsNamedByItsKeyInThePanel()
+    {
+        var grid = RenderGrid(parameters => parameters
+            .Add(component => component.AllowGrouping, true)
+            .Add(component => component.ShowGroupPanel, true)
+            .Add(component => component.Groups, [new OmniDataGridGroup("absente"), new OmniDataGridGroup("Name")]));
+
+        var chips = grid.FindAll(".omni-data-grid__group-chip").Select(chip => chip.TextContent).ToArray();
+        Assert.Contains(chips, text => text.Contains("absente", StringComparison.Ordinal));
+        Assert.Contains(chips, text => text.Contains("Name", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public void FillAvailableHeight_WithABlankMinimum_SendsNoMinimum()
+    {
+        var module = JSInterop.SetupModule(OmniModules.Grid);
+        module.Mode = JSRuntimeMode.Loose;
+
+        RenderGrid(parameters => parameters
+            .Add(component => component.FillAvailableHeight, true)
+            .Add(component => component.MinHeight, " "));
+
+        var layout = Assert.Single(module.Invocations["applyLayout"]);
+        Assert.Null(layout.Arguments[4]);
+    }
+
     [Fact]
     public void EditColumnAsked_WithoutAnyEditor_IsNotDrawn()
     {
@@ -214,7 +275,7 @@ public sealed class GridBranchEdgeTests : OmniBunitContext
     }
 
     [Fact]
-    public void StateWithoutAnyStore_GoesToTheBrowserStorageEachTime()
+    public void StateWithTheDefaultStore_GoesToTheBrowserStorageEachTime()
     {
         JSInterop.Mode = JSRuntimeMode.Loose;
 

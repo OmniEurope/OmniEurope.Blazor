@@ -66,6 +66,19 @@ public sealed class PickerInternalsTests : OmniBunitContext
     }
 
     [Fact]
+    public void TimeColumns_WhoseValueIsOutOfRange_PutTheTabStopOnTheFirstAllowedValue()
+    {
+        var columns = Render<PickerTimeColumns>(parameters => parameters
+            .Add(component => component.IdPrefix, "heure")
+            .Add(component => component.Value, new TimeOnly(23, 0))
+            .Add(component => component.IsRangeAllowed, (from, _) => from.Hour < 12));
+
+        var stop = columns.Find("#heure-hour [tabindex='0']");
+        Assert.Equal("00", stop.TextContent);
+        Assert.NotNull(columns.Find("#heure-hour [aria-selected='true']").GetAttribute("disabled"));
+    }
+
+    [Fact]
     public void TimeColumns_WithoutAValue_StartFromTheFirstHourOnArrowUp()
     {
         var changes = new List<PickerTimeChange>();
