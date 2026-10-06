@@ -1543,4 +1543,9 @@
   <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Účtový rozvrh</value></data>
   <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Přetáhněte účet na jiný a zařaďte jej pod něj.</value></data>
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} zařazen pod {1}</value></data>
+  <data name="DemoGridScopeHint" xml:space="preserve"><value>Otočte kolečkem kdekoli v tomto rámečku: řádky mřížky se posunou.</value></data>
+  <data name="DemoGridFillCaption" xml:space="preserve"><value>Dva tisíce spisů podle země</value></data>
+  <data name="DemoDiagramDirected" xml:space="preserve"><value>Orientované vazby</value></data>
+  <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Kontrolovaný text, zpočátku uzamčený</value></data>
+  <data name="DemoEditorReadOnly" xml:space="preserve"><value>Jen pro čtení</value></data>
 </root>

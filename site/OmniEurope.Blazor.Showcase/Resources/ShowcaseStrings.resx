@@ -1546,4 +1546,9 @@
   <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Plan de comptes</value></data>
   <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Glissez un compte sur un autre pour l'y ranger.</value></data>
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} rangé sous {1}</value></data>
+  <data name="DemoGridScopeHint" xml:space="preserve"><value>Tournez la molette n&apos;importe où dans ce cadre : les lignes de la grille défilent.</value></data>
+  <data name="DemoGridFillCaption" xml:space="preserve"><value>Deux mille dossiers par pays</value></data>
+  <data name="DemoDiagramDirected" xml:space="preserve"><value>Liens orientés</value></data>
+  <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Texte relu, verrouillé au départ</value></data>
+  <data name="DemoEditorReadOnly" xml:space="preserve"><value>Lecture seule</value></data>
 </root>

@@ -15,8 +15,9 @@
         <Header>
             @* Ligne 1 : retour (Primary par défaut), titre, badges, actions et menu « ⋮ » ; ligne 2 : le fil
                d'Ariane, qui finit par le titre. Le sous-titre passe sous le bloc, la ligne 2 portant le fil.
-               Framed dessine le cadre ; sans lui, le bloc est posé sur la page, à la même hauteur fixe. *@
-            <OmniPageHeader Framed="true" ShowBack="true" BackHref="composants/pages" Subtitle="@Text["DemoPagesSubtitle"]">
+               Framed dessine le cadre ; sans lui, le bloc est posé sur la page, à la même hauteur fixe. Sans
+               BackHref, le retour fait un pas en arrière dans l'historique, comme le bouton du navigateur. *@
+            <OmniPageHeader Framed="true" ShowBack="true" Subtitle="@Text["DemoPagesSubtitle"]">
                 <Badges>
                     <OmniBadge Tone="OmniTone.Success">@Text["DemoPagesOnline"]</OmniBadge>
                 </Badges>

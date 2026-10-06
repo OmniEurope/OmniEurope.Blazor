@@ -1543,4 +1543,9 @@
   <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Cairt cuntas</value></data>
   <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Tarraing cuntas ar cheann eile chun é a chur ansin.</value></data>
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} curtha faoi {1}</value></data>
+  <data name="DemoGridScopeHint" xml:space="preserve"><value>Cas an roth áit ar bith sa fhráma seo: scrollaíonn sraitheanna na greille.</value></data>
+  <data name="DemoGridFillCaption" xml:space="preserve"><value>Dhá mhíle comhad de réir tíre</value></data>
+  <data name="DemoDiagramDirected" xml:space="preserve"><value>Naisc threoraithe</value></data>
+  <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Téacs profáilte, faoi ghlas ar dtús</value></data>
+  <data name="DemoEditorReadOnly" xml:space="preserve"><value>Inléite amháin</value></data>
 </root>

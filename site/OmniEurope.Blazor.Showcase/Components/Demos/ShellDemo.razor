@@ -1,12 +1,13 @@
 @* The application shell, shown in miniature: the same components this site is itself built from.
    Its menu slides open and shut (Transition Smooth); the next ones switch at once. *@
-<OmniThemeScope Appearance="Appearance" Density="OmniDensity.Compact">
+@* SnapshotKey : la portée garde l'instantané de ce qu'elle peint, qu'omni-boot.js rejoue au prochain démarrage. *@
+<OmniThemeScope Appearance="Appearance" Density="OmniDensity.Compact" SnapshotKey="omnieurope.showcase.shell-theme">
     <OmniLayout>
         <OmniHeader>
             <OmniSidebarToggle Open="SidebarOpen" OpenChanged="@(value => SidebarOpen = value)"
                                Controls="shell-demo-sidebar" Reveal="OmniSidebarReveal.Push" Label="@Text["DemoShellToggleMenu"]" />
             <OmniHeading Level="OmniHeadingLevel.H4">@Text["DemoShellAppName"]</OmniHeading>
-            <OmniButton Variant="OmniButtonVariant.Ghost" Label="@Text["DemoShellChangeAppearance"]" OnClick="ToggleAppearance">
+            <OmniButton Id="shell-demo-appearance" Variant="OmniButtonVariant.Ghost" Label="@Text["DemoShellChangeAppearance"]" OnClick="ToggleAppearance">
                 <OmniIcon Name="@(Appearance == OmniAppearance.Dark ? OmniIconName.ThemeLight : OmniIconName.ThemeDark)" />
             </OmniButton>
         </OmniHeader>
@@ -113,7 +114,7 @@
                         </OmniPanelMenuItem>
                     </OmniPanelMenu>
                 </OmniSidebar>
-                <OmniMain Scrollable="true" ContentWidth="OmniLayoutWidth.Content" AriaLabelledBy="shell-demo-scroll-title">
+                <OmniMain Id="shell-demo-scroll-main" Scrollable="true" AutoHideScrollbar="true" ContentWidth="OmniLayoutWidth.Content" AriaLabelledBy="shell-demo-scroll-title">
                     <OmniHeading Id="shell-demo-scroll-title" Level="OmniHeadingLevel.H5">@Text["DemoShellReadingColumn"]</OmniHeading>
                     @foreach (var paragraph in ScrollParagraphs)
                     {
@@ -124,6 +125,21 @@
         </OmniLayout>
     </div>
 </OmniThemeScope>
+
+@* Des onglets dans un cadre de hauteur fixe : seul le panneau choisi défile (ScrollablePanels), et la
+   molette tournée n'importe où dans le cadre, sur la barre d'onglets comprise, le fait défiler
+   (WheelScrollScope). *@
+<div id="shell-demo-tabs-scope" class="demo-tabs-scope">
+    <OmniTabs Label="@Text["DemoShellSections"]" ScrollablePanels="true" WheelScrollScope="#shell-demo-tabs-scope">
+        <OmniTabsItem Key="reading" Title="@Text["DemoShellReadingColumn"]">
+            @foreach (var paragraph in ScrollParagraphs)
+            {
+                <p>@Text[paragraph]</p>
+            }
+        </OmniTabsItem>
+        <OmniTabsItem Key="wide" Title="@Text["DemoShellWideView"]"><p>@Text["DemoShellWideText"]</p></OmniTabsItem>
+    </OmniTabs>
+</div>
 
 @* A host-owned startup splash sits outside Blazor's root. This demo exercises the safe absence path. *@
 <OmniBootSplash SplashId="showcase-shell-splash" OnHidden="@(found => SplashFound = found)" />

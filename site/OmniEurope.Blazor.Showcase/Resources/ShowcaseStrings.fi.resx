@@ -1543,4 +1543,9 @@
   <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Tilikartta</value></data>
   <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Vedä tili toisen päälle siirtääksesi sen sen alle.</value></data>
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} siirretty kohteen {1} alle</value></data>
+  <data name="DemoGridScopeHint" xml:space="preserve"><value>Pyöritä rullaa missä tahansa tässä kehyksessä: ruudukon rivit vierivät.</value></data>
+  <data name="DemoGridFillCaption" xml:space="preserve"><value>Kaksituhatta asiaa maittain</value></data>
+  <data name="DemoDiagramDirected" xml:space="preserve"><value>Suunnatut linkit</value></data>
+  <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Oikoluettu teksti, aluksi lukittu</value></data>
+  <data name="DemoEditorReadOnly" xml:space="preserve"><value>Vain luku</value></data>
 </root>

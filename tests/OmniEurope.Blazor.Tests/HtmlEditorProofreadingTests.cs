@@ -85,6 +85,30 @@ public sealed class HtmlEditorProofreadingTests : OmniBunitContext
         Assert.Equal("[]", await clean.InvokeAsync(() => new HtmlEditorInteropBridge(clean.Instance).OnProofreadRequested(["Fine"], [null])));
     }
 
+    // The script keeps no answer for a locked editor and only asks again when something requests it: unlocking
+    // is that request, so the blocks are underlined without waiting for a keystroke. Locking again asks nothing.
+    [Fact]
+    public void UnlockingTheEditor_AsksTheScriptToProofreadAgain()
+    {
+        var module = JSInterop.SetupModule(ModulePath);
+        module.Mode = JSRuntimeMode.Loose;
+        var value = "<p>Some speling</p>";
+        var editor = Render<OmniHtmlEditor>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.ReadOnly, true)
+            .Add(component => component.Extensions, [new ProofreadingExtension(new TestProofreader())]));
+        Assert.Single(module.Invocations["mount"]);
+        Assert.Empty(module.Invocations["proofreadRecheck"]);
+
+        editor.Render(parameters => parameters.Add(component => component.ReadOnly, false));
+        Assert.Single(module.Invocations["proofreadRecheck"]);
+
+        editor.Render(parameters => parameters.Add(component => component.Disabled, true));
+        editor.Render(parameters => parameters.Add(component => component.Disabled, false));
+        Assert.Equal(2, module.Invocations["proofreadRecheck"].Count);
+    }
+
     [Fact]
     public async Task ClosingTheMenu_OrRemovingTheEditor_CancelsTheCorrectionsStillAskedFor()
     {

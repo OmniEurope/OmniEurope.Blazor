@@ -16,6 +16,7 @@ internal sealed class HtmlEditorVisualSurface(OmniHtmlEditor owner, IJSRuntime j
     private int _rows;
     private bool _tracking;
     private HtmlEditorExtensionSet? _set;
+    private bool _locked;
 
     /// <summary>Whether the surface is mounted, or being mounted.</summary>
     internal bool Mounted { get; private set; }
@@ -80,7 +81,8 @@ internal sealed class HtmlEditorVisualSurface(OmniHtmlEditor owner, IJSRuntime j
 
     /// <summary>
     /// Mounts the surface with the sanitised value, or pushes to it a value or options that changed
-    /// since. Called after each render of the visual face.
+    /// since, and asks the proofreading again when the editor was just unlocked. Called after each
+    /// render of the visual face.
     /// </summary>
     internal async Task SyncAsync()
     {
@@ -95,6 +97,7 @@ internal sealed class HtmlEditorVisualSurface(OmniHtmlEditor owner, IJSRuntime j
             _value = owner.EditorValue;
             _tracking = owner.TracksSelection;
             _set = owner.ExtensionSet;
+            _locked = owner.IsLocked;
             await _module.InvokeVoidAsync("mount", owner.SurfaceElement, _bridge, owner.Clean(owner.EditorValue), Options);
         }
         else if (_module is not null)
@@ -112,6 +115,17 @@ internal sealed class HtmlEditorVisualSurface(OmniHtmlEditor owner, IJSRuntime j
                 _tracking = owner.TracksSelection;
                 _set = owner.ExtensionSet;
                 await _module.InvokeVoidAsync("configure", owner.SurfaceElement, Options);
+            }
+
+            // A locked editor answers the proofreading script "nothing checked", which it keeps no answer
+            // for: once unlocked, its blocks are asked again now rather than at the next keystroke.
+            if (_locked != owner.IsLocked)
+            {
+                _locked = owner.IsLocked;
+                if (!_locked)
+                {
+                    await _module.InvokeVoidAsync("proofreadRecheck", owner.SurfaceElement);
+                }
             }
         }
     }

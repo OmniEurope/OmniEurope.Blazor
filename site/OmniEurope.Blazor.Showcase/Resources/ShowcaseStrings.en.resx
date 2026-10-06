@@ -1546,4 +1546,9 @@
   <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Chart of accounts</value></data>
   <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Drag an account onto another to file it there.</value></data>
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} filed under {1}</value></data>
+  <data name="DemoGridScopeHint" xml:space="preserve"><value>Turn the wheel anywhere in this frame: the grid rows scroll.</value></data>
+  <data name="DemoGridFillCaption" xml:space="preserve"><value>Two thousand files by country</value></data>
+  <data name="DemoDiagramDirected" xml:space="preserve"><value>Directed links</value></data>
+  <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Proofread text, locked at first</value></data>
+  <data name="DemoEditorReadOnly" xml:space="preserve"><value>Read-only</value></data>
 </root>

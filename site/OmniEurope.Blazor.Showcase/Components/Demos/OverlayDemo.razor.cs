@@ -43,6 +43,12 @@ public partial class OverlayDemo : IDisposable
         SizedOpen = true;
     }
 
+    private void BackToMedium()
+    {
+        SizedDialog = OmniDialogSize.Medium;
+        SizedWidth = null;
+    }
+
     private void OpenFreeWidth()
     {
         SizedWidth = "30rem";

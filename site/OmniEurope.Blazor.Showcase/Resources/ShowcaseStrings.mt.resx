@@ -1543,4 +1543,9 @@
   <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Pjan tal-kontijiet</value></data>
   <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Kaxkar kont fuq ieħor biex tqiegħdu hemm.</value></data>
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} imqiegħed taħt {1}</value></data>
+  <data name="DemoGridScopeHint" xml:space="preserve"><value>Dawwar ir-rota kullimkien f&apos;dan il-qafas: ir-ringieli tal-grilja jiskrollaw.</value></data>
+  <data name="DemoGridFillCaption" xml:space="preserve"><value>Elfejn fajl skont il-pajjiż</value></data>
+  <data name="DemoDiagramDirected" xml:space="preserve"><value>Links diretti</value></data>
+  <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Test rivedut, imsakkar fil-bidu</value></data>
+  <data name="DemoEditorReadOnly" xml:space="preserve"><value>Qari biss</value></data>
 </root>

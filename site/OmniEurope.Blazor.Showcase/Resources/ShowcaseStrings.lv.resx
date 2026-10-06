@@ -1543,4 +1543,9 @@
   <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Kontu plāns</value></data>
   <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Velciet kontu uz citu, lai to tur novietotu.</value></data>
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} novietots zem {1}</value></data>
+  <data name="DemoGridScopeHint" xml:space="preserve"><value>Grieziet ritenīti jebkurā vietā šajā rāmī: režģa rindas ritinās.</value></data>
+  <data name="DemoGridFillCaption" xml:space="preserve"><value>Divi tūkstoši lietu pa valstīm</value></data>
+  <data name="DemoDiagramDirected" xml:space="preserve"><value>Virzītas saites</value></data>
+  <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Pārbaudīts teksts, sākumā bloķēts</value></data>
+  <data name="DemoEditorReadOnly" xml:space="preserve"><value>Tikai lasāms</value></data>
 </root>

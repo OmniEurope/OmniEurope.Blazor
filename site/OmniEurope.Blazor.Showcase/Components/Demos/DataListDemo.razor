@@ -28,6 +28,15 @@
     <OmniMarkdownExportButton TItem="GridRow" Export="CreateExport" FileName="@Text["DemoGridExportFileName"]" />
 </OmniStack>
 
+@* Virtualize : deux mille dossiers, dont seuls ceux de la fenêtre sont rendus ; la liste défile dans son cadre,
+   le premier ancêtre qui défile, et deux espaces tiennent la place des autres. *@
+<div class="demo-list-scroll">
+    <OmniDataList TItem="GridRow" Id="demo-list-virtual" Items="ManyRows" Virtualize="true">
+        <ItemTemplate><strong>@context.Reference</strong> : @context.Applicant, @context.Country</ItemTemplate>
+        <EmptyContent>@Text["DemoDataListEmpty"]</EmptyContent>
+    </OmniDataList>
+</div>
+
 <OmniLogViewer Lines="LogLines" Label="@Text["DemoDataListLog"]" ShowLevels="true"
                ShowLevelFilter="true" ShowSearch="true" Height="14rem" />
 

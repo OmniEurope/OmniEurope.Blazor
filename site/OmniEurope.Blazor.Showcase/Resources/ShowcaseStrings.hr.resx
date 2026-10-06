@@ -1543,4 +1543,9 @@
   <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Kontni plan</value></data>
   <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Povucite konto na drugi kako biste ga tamo smjestili.</value></data>
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} smješten pod {1}</value></data>
+  <data name="DemoGridScopeHint" xml:space="preserve"><value>Okrenite kotačić bilo gdje u ovom okviru: retci mreže se pomiču.</value></data>
+  <data name="DemoGridFillCaption" xml:space="preserve"><value>Dvije tisuće predmeta po državi</value></data>
+  <data name="DemoDiagramDirected" xml:space="preserve"><value>Usmjerene veze</value></data>
+  <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Provjereni tekst, isprva zaključan</value></data>
+  <data name="DemoEditorReadOnly" xml:space="preserve"><value>Samo za čitanje</value></data>
 </root>

@@ -1543,4 +1543,9 @@
   <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Sąskaitų planas</value></data>
   <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Nutempkite sąskaitą ant kitos, kad ją ten priskirtumėte.</value></data>
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} priskirta prie {1}</value></data>
+  <data name="DemoGridScopeHint" xml:space="preserve"><value>Sukite ratuką bet kurioje šio rėmelio vietoje: tinklelio eilutės slenka.</value></data>
+  <data name="DemoGridFillCaption" xml:space="preserve"><value>Du tūkstančiai bylų pagal šalį</value></data>
+  <data name="DemoDiagramDirected" xml:space="preserve"><value>Kryptiniai ryšiai</value></data>
+  <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Patikrintas tekstas, iš pradžių užrakintas</value></data>
+  <data name="DemoEditorReadOnly" xml:space="preserve"><value>Tik skaityti</value></data>
 </root>

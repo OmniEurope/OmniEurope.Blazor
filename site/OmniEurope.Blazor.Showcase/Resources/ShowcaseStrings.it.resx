@@ -1543,4 +1543,9 @@
   <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Piano dei conti</value></data>
   <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Trascinate un conto su un altro per collocarlo lì.</value></data>
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} collocato sotto {1}</value></data>
+  <data name="DemoGridScopeHint" xml:space="preserve"><value>Girate la rotellina in qualsiasi punto di questo riquadro: le righe della griglia scorrono.</value></data>
+  <data name="DemoGridFillCaption" xml:space="preserve"><value>Duemila pratiche per paese</value></data>
+  <data name="DemoDiagramDirected" xml:space="preserve"><value>Collegamenti orientati</value></data>
+  <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Testo corretto, bloccato all&apos;inizio</value></data>
+  <data name="DemoEditorReadOnly" xml:space="preserve"><value>Sola lettura</value></data>
 </root>

@@ -18,8 +18,13 @@
     },
     {
       "file": "omni-grid.js",
+      "functions": 2,
+      "reason": "(anonyme) ligne 94 et (anonyme) ligne 121 : les témoins de vie () => live passés à notifyDotNet par notify et par remeasure, évalués seulement sur un rejet (voir grid/notify.js)."
+    },
+    {
+      "file": "grid/list.js",
       "functions": 1,
-      "reason": "(anonyme) ligne 94 : le témoin de vie () => live passé à notifyDotNet, évalué seulement sur un rejet (voir grid/notify.js)."
+      "reason": "(anonyme) ligne 89 : le témoin de vie () => live passé à notifyDotNet par notify de attachList, évalué seulement sur un rejet (voir grid/notify.js)."
     },
     {
       "file": "html-editor/toolbar.js",
@@ -40,6 +45,11 @@
       "file": "focus/menus.js",
       "functions": 1,
       "reason": "(anonyme) ligne 130 : la nouvelle tentative, 16 ms plus tard, quand le menu n'est pas encore dans le document au moment de l'ouvrir. Sous WebAssembly le menu est toujours rendu avant l'appel ; le repli sert la latence d'un circuit Server, que la vitrine statique n'a pas."
+    },
+    {
+      "file": "omni-code-editor.js",
+      "functions": 26,
+      "reason": "Le côté Monaco d'OmniCodeEditor et d'OmniDiffViewer : load (ligne 32), mount (ligne 84), mountDiff (ligne 224) et les 23 autres, qui n'agissent que sur Monaco en cours de chargement (monacoLocale) ou sur un éditeur Monaco monté. Le paquet ne livre pas Monaco (en-tête du fichier, lignes 1 à 8) et la vitrine ne le sert pas : ses deux éditeurs de code (EditorDemo.razor, editor-code et le comparateur) sont en Engine=PlainText, qui n'appelle que setHeight (OmniCodeEditor.razor.cs ligne 166, OmniDiffViewer.razor.cs ligne 198). Avec Engine=Monaco sans les fichiers, load demande loader.js sous MonacoPath et reçoit un 404 que la console de la sonde compte comme erreur ; mount et les suivantes exigent window.monaco. Servir Monaco demanderait d'embarquer le paquet monaco-editor dans la vitrine et d'y relâcher la CSP style-src 'self', Monaco écrivant des éléments style à l'exécution (en-tête du fichier)."
     }
   ]
 }

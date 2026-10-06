@@ -40,7 +40,7 @@ public partial class EditorDemo
         AllowDataAttributes = true
     };
 
-    /// <summary>The policy handed to the editor: an extension that only widens the allow-list.</summary>
+    /// <summary>The policy handed to the editor, with the click on a note.</summary>
     private static readonly AnnotationPolicyExtension AnnotationExtension = new();
 
     /// <summary>
@@ -57,7 +57,7 @@ public partial class EditorDemo
     /// <summary>The built-in commands that applications used to write themselves, then the extension's.</summary>
     private static readonly IReadOnlyList<OmniHtmlEditorCommand> ExtendedCommands =
     [
-        OmniHtmlEditorCommands.Bold, OmniHtmlEditorCommands.Italic, OmniHtmlEditorCommands.ChangeCase, OmniHtmlEditorCommands.Separator,
+        OmniHtmlEditorCommands.Bold, OmniHtmlEditorCommands.Italic, OmniHtmlEditorCommands.Highlight, OmniHtmlEditorCommands.ChangeCase, OmniHtmlEditorCommands.Separator,
         OmniHtmlEditorCommands.InsertSpecialCharacter, OmniHtmlEditorCommands.ImportTable, OmniHtmlEditorCommands.ShowBlocks, OmniHtmlEditorCommands.Separator,
         OmniHtmlEditorCommands.Undo, OmniHtmlEditorCommands.Redo
     ];
@@ -85,6 +85,13 @@ public partial class EditorDemo
     private DemoNoteExtension NoteExtension { get; set; } = default!;
 
     private string Extended { get; set; } = string.Empty;
+
+    /// <summary>The proofreader alone, on the text that starts locked.</summary>
+    private ProofreadingOnlyExtension ProofreadingExtension { get; set; } = default!;
+
+    private string Locked { get; set; } = string.Empty;
+
+    private bool LockedReadOnly { get; set; } = true;
 
     private string Report { get; set; } = string.Empty;
 
@@ -119,7 +126,12 @@ public partial class EditorDemo
             OmniHtmlEditorCommands.Separator,
             OmniHtmlEditorCommand.Create("signature-block", Text["DemoEditorInsertSignatureBlock"], context => context.InsertHtmlAsync($"<p><strong>{signature}</strong></p>"), OmniIconName.Edit),
             OmniHtmlEditorCommand.Create("signature", Text["DemoEditorAddSignature"], context => context.SetHtmlAsync(context.Html + $"<p>{signature}</p>")),
-            OmniHtmlEditorCommand.Create("reference", Text["DemoEditorInsertReference"], context => context.SetHtmlAsync(context.Html + $"<p>{reference}</p>"))
+            // At the caret: the content before and after it, a paragraph split in two, around the new one.
+            OmniHtmlEditorCommand.Create("reference", Text["DemoEditorInsertReference"], async context =>
+            {
+                var around = await context.GetHtmlAroundCaretAsync();
+                await context.SetHtmlAsync(around.Before + $"<p>{reference}</p>" + around.After);
+            })
         ];
 
         var newNote = Encoded("DemoEditorNewNoteSentence");
@@ -129,7 +141,12 @@ public partial class EditorDemo
             OmniHtmlEditorCommand.Create(
                 "demo-note",
                 Text["DemoEditorAddNote"],
-                context => context.InsertHtmlAsync($"<aside class=\"demo-note\" data-marker=\"2\">{newNote}</aside>"),
+                // The selected words become the note; without a selection, the stock sentence.
+                async context =>
+                {
+                    var selected = (await context.GetSelectedTextAsync()).Trim();
+                    await context.InsertHtmlAsync($"<aside class=\"demo-note\" data-marker=\"2\">{(selected.Length == 0 ? newNote : Escape(selected))}</aside>");
+                },
                 OmniIconName.Chat) with { Pressed = selection => selection?.ClosestWithClass("demo-note") is not null, Description = Text["DemoEditorAddNoteDescription"] },
             OmniHtmlEditorCommands.Separator,
             .. OmniHtmlEditorCommands.Clipboard, OmniHtmlEditorCommands.InsertParagraph, OmniHtmlEditorCommands.Separator,
@@ -144,6 +161,8 @@ public partial class EditorDemo
             $"<aside class=\"demo-note\" data-marker=\"1\" contenteditable=\"false\">{Encoded("DemoEditorArticleNote")}</aside>";
 
         NoteExtension = new DemoNoteExtension(Text);
+        ProofreadingExtension = new ProofreadingOnlyExtension(new DemoProofreader(Text["DemoEditorProofreadingWrong"], Text["DemoEditorProofreadingRight"], Text["DemoEditorProofreadingRepeated"]));
+        Locked = $"<p>{Encoded("DemoEditorProofreadingSample")}</p>";
         Extended = "<p>" + string.Format(
             CultureInfo.CurrentCulture,
             Encoded("DemoEditorOpinion"),
@@ -167,10 +186,27 @@ public partial class EditorDemo
     private static string Escape(string text) =>
         text.Replace("&", "&amp;", StringComparison.Ordinal).Replace("<", "&lt;", StringComparison.Ordinal).Replace(">", "&gt;", StringComparison.Ordinal);
 
-    /// <summary>An extension whose only member is a policy: the markup of the annotated article.</summary>
+    /// <summary>The markup of the annotated article as a policy, and a note ticked or unticked by a click.</summary>
     private sealed class AnnotationPolicyExtension : OmniHtmlEditorExtension
     {
         public override OmniHtmlSanitizerPolicy SanitizerPolicy => AnnotationPolicy;
+
+        /// <summary>A click on a note ticks it, or unticks it: its text changes, the note and its attributes stay.</summary>
+        public override IReadOnlyList<OmniHtmlEditorInlineElement> InlineElements { get; } =
+        [
+            new(".demo-note", context => context.SetTextAsync(context.Text.StartsWith(ReadMark, StringComparison.Ordinal)
+                ? context.Text[ReadMark.Length..]
+                : ReadMark + context.Text))
+        ];
+    }
+
+    /// <summary>The mark a ticked note starts with.</summary>
+    private const string ReadMark = "✓ ";
+
+    /// <summary>An extension that brings a proofreader and nothing else.</summary>
+    private sealed class ProofreadingOnlyExtension(OmniHtmlEditorProofreader proofreader) : OmniHtmlEditorExtension
+    {
+        public override OmniHtmlEditorProofreader? Proofreader { get; } = proofreader;
     }
 
     /// <summary>

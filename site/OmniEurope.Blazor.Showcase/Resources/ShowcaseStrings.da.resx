@@ -1543,4 +1543,9 @@
   <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Kontoplan</value></data>
   <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Træk en konto hen på en anden for at placere den der.</value></data>
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} placeret under {1}</value></data>
+  <data name="DemoGridScopeHint" xml:space="preserve"><value>Drej hjulet hvor som helst i denne ramme: gitterets rækker ruller.</value></data>
+  <data name="DemoGridFillCaption" xml:space="preserve"><value>To tusind sager pr. land</value></data>
+  <data name="DemoDiagramDirected" xml:space="preserve"><value>Rettede forbindelser</value></data>
+  <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Korrekturlæst tekst, låst til at begynde med</value></data>
+  <data name="DemoEditorReadOnly" xml:space="preserve"><value>Skrivebeskyttet</value></data>
 </root>

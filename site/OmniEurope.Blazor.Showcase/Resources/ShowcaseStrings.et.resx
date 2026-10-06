@@ -1543,4 +1543,9 @@
   <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Kontoplaan</value></data>
   <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Lohistage konto teisele, et see sinna paigutada.</value></data>
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} paigutatud alla {1}</value></data>
+  <data name="DemoGridScopeHint" xml:space="preserve"><value>Keerake ratast kõikjal selles raamis: ruudustiku read kerivad.</value></data>
+  <data name="DemoGridFillCaption" xml:space="preserve"><value>Kaks tuhat toimikut riikide kaupa</value></data>
+  <data name="DemoDiagramDirected" xml:space="preserve"><value>Suunatud lingid</value></data>
+  <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Korrektuuritud tekst, alguses lukus</value></data>
+  <data name="DemoEditorReadOnly" xml:space="preserve"><value>Kirjutuskaitstud</value></data>
 </root>

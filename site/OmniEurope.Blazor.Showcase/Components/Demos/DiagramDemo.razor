@@ -1,9 +1,14 @@
 <OmniStack Gap="OmniSpacing.Large">
-    <OmniToggleButton @bind-Value="ReadOnly">@Text["DemoDiagramReadOnly"]</OmniToggleButton>
+    <OmniRow Gap="OmniSpacing.Small" Wrap="true">
+        <OmniToggleButton @bind-Value="ReadOnly">@Text["DemoDiagramReadOnly"]</OmniToggleButton>
+        @* Directed : chaque lien part du bord d'un nœud et finit par une flèche sur le bord de l'autre. *@
+        <OmniToggleButton Id="demo-mindmap-directed" @bind-Value="Directed">@Text["DemoDiagramDirected"]</OmniToggleButton>
+    </OmniRow>
     <OmniMindMap Id="demo-mindmap"
                  @bind-Document="Map"
                  @bind-ViewState="View"
                  ReadOnly="ReadOnly"
+                 Directed="Directed"
                  Label="@Text["DemoDiagramMindMapLabel"]"
                  ContextLabels="Labels">
         <ToolbarContent>

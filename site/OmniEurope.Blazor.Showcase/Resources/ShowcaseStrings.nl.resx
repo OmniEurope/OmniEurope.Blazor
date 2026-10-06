@@ -1543,4 +1543,9 @@
   <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Rekeningstelsel</value></data>
   <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Sleep een rekening op een andere om ze daar onder te brengen.</value></data>
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} ondergebracht onder {1}</value></data>
+  <data name="DemoGridScopeHint" xml:space="preserve"><value>Draai het wieltje ergens in dit kader: de rijen van het raster scrollen.</value></data>
+  <data name="DemoGridFillCaption" xml:space="preserve"><value>Tweeduizend dossiers per land</value></data>
+  <data name="DemoDiagramDirected" xml:space="preserve"><value>Gerichte verbindingen</value></data>
+  <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Nagekeken tekst, eerst vergrendeld</value></data>
+  <data name="DemoEditorReadOnly" xml:space="preserve"><value>Alleen-lezen</value></data>
 </root>

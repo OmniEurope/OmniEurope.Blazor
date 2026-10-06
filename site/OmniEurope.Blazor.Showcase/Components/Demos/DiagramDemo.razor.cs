@@ -32,6 +32,8 @@ public partial class DiagramDemo
 
     private bool ReadOnly { get; set; }
 
+    private bool Directed { get; set; }
+
     private string Summary => Text["DemoDiagramMapSummary", Map.Nodes.Count, Map.Edges.Count, Map.ToJson().Length];
 
     protected override void OnInitialized()

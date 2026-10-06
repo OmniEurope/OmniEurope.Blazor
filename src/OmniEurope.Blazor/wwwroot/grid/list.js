@@ -36,6 +36,14 @@ function listGeometry(root, container) {
     };
 }
 
+// Whether a scroll area stands at its end. Items are placed on an estimated height until they are
+// measured: a jump to the end (the scrollbar dragged down, End) renders the last items, which then
+// prove taller than estimated, the content grows and the end moves away while the scroll stays put,
+// leaving the last item out of sight. applyListLayout keeps such an area at its end, as the grid does.
+function atEndOf(scroller) {
+    return scroller.scrollTop > 0 && scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 2;
+}
+
 function collectListItems(root) {
     // The list lays its items out on a grid with a row gap: an item occupies its own height plus
     // that gap, which is what the offset index must count.
@@ -64,6 +72,11 @@ export function attachList(root, reference) {
 
     const container = scrollContainerOf(root);
     const target = container ?? window;
+    const scroller = container ?? document.scrollingElement ?? document.documentElement;
+    const state = { atEnd: false };
+    const track = () => {
+        state.atEnd = atEndOf(scroller);
+    };
     let live = true;
     let frame = 0;
     const notify = () => {
@@ -81,6 +94,7 @@ export function attachList(root, reference) {
         }
     };
 
+    target.addEventListener('scroll', track, { passive: true });
     target.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule, { passive: true });
     const resizeObserver = typeof ResizeObserver === 'function' ? new ResizeObserver(schedule) : null;
@@ -88,12 +102,15 @@ export function attachList(root, reference) {
 
     listAttachments.set(root, {
         container,
+        scroller,
+        state,
         dispose: () => {
             live = false;
             if (frame !== 0) {
                 window.cancelAnimationFrame(frame);
             }
 
+            target.removeEventListener('scroll', track);
             target.removeEventListener('scroll', schedule);
             window.removeEventListener('resize', schedule);
             resizeObserver?.disconnect();
@@ -119,7 +136,9 @@ export function syncList(root) {
 
 /**
  * Sizes the two spacers of a virtualised list through a custom property, never the style
- * attribute, so the strict CSP still holds.
+ * attribute, so the strict CSP still holds. A scroll area left at its end stays there while the
+ * items it reached are measured: the scroll this sets notifies .NET again, which renders what the
+ * new end shows, until nothing grows.
  */
 export function applyListLayout(root, topSpacer, bottomSpacer) {
     if (!(root instanceof HTMLElement)) {
@@ -130,4 +149,13 @@ export function applyListLayout(root, topSpacer, bottomSpacer) {
         ?.style.setProperty('--omni-data-list-spacer', `${Math.max(0, topSpacer)}px`);
     root.querySelector(':scope > [data-omni-spacer="bottom"]')
         ?.style.setProperty('--omni-data-list-spacer', `${Math.max(0, bottomSpacer)}px`);
+
+    const attachment = listAttachments.get(root);
+    if (attachment?.state.atEnd) {
+        const { scroller } = attachment;
+        const end = scroller.scrollHeight - scroller.clientHeight;
+        if (end - scroller.scrollTop > 1) {
+            scroller.scrollTop = end;
+        }
+    }
 }

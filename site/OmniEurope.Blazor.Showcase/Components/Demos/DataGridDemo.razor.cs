@@ -21,6 +21,12 @@ public partial class DataGridDemo
 
     private IReadOnlyList<GridRow> ManyRows { get; set; } = [];
 
+    // Two thousand files grouped by country; one amount, far from the first window, is much wider than
+    // the others, so the fit to content of Amount has to rank every text, rendered or not.
+    private IReadOnlyList<GridRow> FillRows { get; set; } = [];
+
+    private IReadOnlyList<OmniDataGridGroup> FillGrouping { get; set; } = [new(nameof(GridRow.Country))];
+
     private IReadOnlyList<RunRow> SelectedRuns { get; set; } = [];
 
     private IReadOnlyList<StatementLine> Statement { get; set; } = [];
@@ -110,6 +116,12 @@ public partial class DataGridDemo
                 Reference = $"D-{index:00000}",
                 // Far outside the first window: the fit to content still has to see it.
                 Applicant = index == 7_777 ? LongApplicant : Rows[index % Rows.Count].Applicant
+            })];
+        FillRows = [.. Enumerable.Range(1, 2_000)
+            .Select(index => Rows[index % Rows.Count] with
+            {
+                Reference = $"F-{index:0000}",
+                Amount = index == 1_999 ? 123_456_789_012_345_678m : 1_000m + (index * 37m)
             })];
         SelectedRuns = [.. Runs.Where(run => run.Run == "#2395")];
     }

@@ -1543,4 +1543,9 @@
   <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Számlatükör</value></data>
   <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Húzzon egy számlát egy másikra, hogy alá sorolja.</value></data>
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} a(z) {1} alá sorolva</value></data>
+  <data name="DemoGridScopeHint" xml:space="preserve"><value>Görgessen bárhol ebben a keretben: a táblázat sorai görögnek.</value></data>
+  <data name="DemoGridFillCaption" xml:space="preserve"><value>Kétezer ügy országonként</value></data>
+  <data name="DemoDiagramDirected" xml:space="preserve"><value>Irányított kapcsolatok</value></data>
+  <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Ellenőrzött szöveg, kezdetben zárolva</value></data>
+  <data name="DemoEditorReadOnly" xml:space="preserve"><value>Csak olvasható</value></data>
 </root>

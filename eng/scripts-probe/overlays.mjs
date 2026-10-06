@@ -1,6 +1,7 @@
-// Menus, dialogs, popovers, tooltips, disclosures, tabs, scroll strips, the appearance window and the
-// form helpers of omniInterop.js, each driven on its showcase page as a reader would, with the state
-// the page shows after it asserted.
+// The boot splash, menus, dialogs, popovers, tooltips, disclosures, tabs (their wheel scope included),
+// scroll strips, the shell's theme snapshot and self-hiding scrollbar, the page header's history back,
+// the appearance window and the form helpers of omniInterop.js, each driven on its showcase page as a
+// reader would, with the state the page shows after it asserted.
 
 export async function overlaySteps(session, results) {
   const { evaluate, waitFor, key, pause, check, send, clickOn, hover, mouse } = session;
@@ -9,6 +10,12 @@ export async function overlaySteps(session, results) {
     results.push(label);
   };
   const focusedText = () => evaluate('document.activeElement?.textContent.trim() ?? ""');
+
+  // 0. The boot splash the served page carries is faded out and removed once the application rendered.
+  const servedPage = await evaluate("fetch('/', { cache: 'no-store' }).then(response => response.text())");
+  check(servedPage.includes('id="omni-boot-splash"'), 'La page servie n\'a pas d\'écran de démarrage : son retrait ne prouverait rien.');
+  await waitFor('l\'écran de démarrage retiré', "document.getElementById('omni-boot-splash') === null");
+  step('écran de démarrage de la page retiré après le premier rendu');
 
   // 1. Menus: the overflow menu by the keyboard, the context menu closed by a press outside.
   await session.visit('/composants/superpositions', '#demo-overflow-menu');
@@ -63,9 +70,15 @@ export async function overlaySteps(session, results) {
   await clickOn('#demo-dialog-size-free');
   await waitFor('la largeur libre posée', "document.querySelector('section.omni-dialog[data-omni-dialog-width-ready]')?.style.getPropertyValue('--omni-dialog-width') === '30rem'");
   check(await evaluate("!/(^|;)\\s*(?!--)[a-z-]+\\s*:/i.test(document.querySelector('section.omni-dialog').getAttribute('style') ?? '')"), 'La largeur libre a écrit une propriété ordinaire.');
+  // The free width removed while the dialog is open: the custom property and its ready mark leave, the
+  // dialog stays open and takes the medium size, wider than 30rem.
+  const freeWidth = await evaluate("document.querySelector('section.omni-dialog').getBoundingClientRect().width");
+  await clickOn('#demo-dialog-size-back');
+  await waitFor('la largeur libre retirée, le dialogue ouvert', "(() => { const dialog = document.querySelector('section.omni-dialog'); return dialog !== null && document.getElementById('demo-dialog-size-back') === null && dialog.style.getPropertyValue('--omni-dialog-width') === '' && !dialog.hasAttribute('data-omni-dialog-width-ready'); })()");
+  await waitFor('la taille moyenne reprise', `document.querySelector('section.omni-dialog').getBoundingClientRect().width > ${freeWidth} + 100`);
   await clickOn('.omni-overlay .omni-dialog__close');
   await waitFor('la boîte à largeur libre fermée', "document.querySelector('section.omni-dialog') === null");
-  step('largeur libre de la boîte');
+  step('largeur libre de la boîte, retirée pendant l\'ouverture');
 
   // 3. Popovers: placed inside the window when opened, released when closed.
   await clickOn('.omni-popover > button[aria-haspopup="dialog"]');
@@ -125,9 +138,33 @@ export async function overlaySteps(session, results) {
   await waitFor('le premier onglet', `document.activeElement === document.activeElement?.closest('[role="tablist"]').querySelector('[role="tab"]')`);
   step('onglets au clavier');
 
-  // The shell demo's sidebar watches its overflow; leaving the page releases it.
+  // The shell demo's sidebar watches its overflow; leaving the page releases it. Its first theme scope
+  // keeps the snapshot of its look (SnapshotKey), rewritten when the appearance changes.
+  const snapshotKey = 'omnieurope.showcase.shell-theme';
+  await evaluate(`localStorage.removeItem(${JSON.stringify(snapshotKey)})`);
   await session.visit('/composants/coquille', '#shell-demo-sidebar');
-  await pause(300);
+  const snapshot = `JSON.parse(localStorage.getItem(${JSON.stringify(snapshotKey)}) ?? 'null')`;
+  await waitFor('l\'instantané du thème écrit', `${snapshot}?.appearance === 'light' && ${snapshot}.density === 'compact' && ${snapshot}.version === 1`);
+  await clickOn('#shell-demo-appearance');
+  await waitFor('l\'instantané réécrit en sombre', `${snapshot}?.appearance === 'dark'`);
+  await clickOn('#shell-demo-appearance');
+  await waitFor('l\'instantané revenu en clair', `${snapshot}?.appearance === 'light'`);
+  step('instantané du thème écrit puis réécrit à chaque apparence');
+
+  // The main element that scrolls on its own shows its scrollbar while it moves, then hides it again.
+  const scrollMain = '#shell-demo-scroll-main';
+  await mouse('mouseWheel', await session.pointOf(`${scrollMain} p`), { button: 'none', deltaX: 0, deltaY: 60 });
+  await waitFor('la barre montrée pendant le défilement', `document.querySelector(${JSON.stringify(scrollMain)}).scrollTop > 0 && document.querySelector(${JSON.stringify(scrollMain)}).classList.contains('omni-main--scrolling')`);
+  await waitFor('la barre cachée après le défilement', `!document.querySelector(${JSON.stringify(scrollMain)}).classList.contains('omni-main--scrolling')`, 5_000);
+  step('barre de défilement montrée le temps du défilement');
+
+  // Tabs whose selected panel scrolls on its own: a wheel turn over the tab strip, outside the
+  // panel but inside the named frame, scrolls the panel.
+  const tabsPanel = "[...document.querySelectorAll('#shell-demo-tabs-scope .omni-tabs__panel')].find(panel => !panel.hidden)";
+  check(await evaluate(`${tabsPanel}.scrollHeight > ${tabsPanel}.clientHeight + 10`), 'Le panneau des onglets ne déborde pas : la molette ne prouverait rien.');
+  await mouse('mouseWheel', await session.pointOf('#shell-demo-tabs-scope [role="tab"]'), { button: 'none', deltaX: 0, deltaY: 80 });
+  await waitFor('le panneau défilé par la molette sur la barre d\'onglets', `${tabsPanel}.scrollTop > 20`);
+  step('molette sur la barre d\'onglets qui fait défiler le panneau');
 
   // 7. A bound fieldset that reports its toggle, and a scroll strip driven by its chevrons on a phone.
   await session.visit('/composants/mise-en-page', '#demo-fieldset-bound');
@@ -166,6 +203,14 @@ export async function overlaySteps(session, results) {
   step('titre d\'en-tête long défilé par son chevron à 375 px');
   await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
   await pause(300);
+
+  // The header's back button names no destination: it steps back in the history, to the page the
+  // reader came from.
+  await session.visit('/composants/badges', '.omni-badge');
+  await session.visit('/composants/pages', '#pages-demo-shell .omni-page-header__back');
+  await clickOn('#pages-demo-shell .omni-page-header__back');
+  await waitFor('le retour à la page précédente', "location.pathname === '/composants/badges'");
+  step('retour sans destination : un pas en arrière dans l\'historique');
 
   // 9. The appearance window: the control size and the Black hole theme, whose canvas the scope draws.
   await session.visit('/composants/themes', '#demo-appearance-window');

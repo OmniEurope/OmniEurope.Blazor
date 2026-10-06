@@ -1543,4 +1543,9 @@
   <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Plan de conturi</value></data>
   <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Trageți un cont peste altul pentru a-l așeza acolo.</value></data>
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} așezat sub {1}</value></data>
+  <data name="DemoGridScopeHint" xml:space="preserve"><value>Rotiți rotița oriunde în acest cadru: rândurile grilei derulează.</value></data>
+  <data name="DemoGridFillCaption" xml:space="preserve"><value>Două mii de dosare pe țară</value></data>
+  <data name="DemoDiagramDirected" xml:space="preserve"><value>Legături orientate</value></data>
+  <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Text verificat, blocat la început</value></data>
+  <data name="DemoEditorReadOnly" xml:space="preserve"><value>Doar citire</value></data>
 </root>

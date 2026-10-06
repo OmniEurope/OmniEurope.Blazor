@@ -152,6 +152,12 @@
    défile dedans et sa barre reste au bord droit du cadre, colonne centrée ou non. */
 .demo-shell-viewport { block-size: 14rem; border: var(--omni-border-width) solid var(--omni-color-border); }
 .demo-shell-viewport > .omni-layout { block-size: 100%; }
+/* Cadres de hauteur fixe : la grille qui prend le reste du sien, les onglets dont le panneau défile
+   seul, la liste virtuelle que son cadre fait défiler. */
+.demo-grid-scope { block-size: 30rem; border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: flex; flex-direction: column; gap: var(--omni-space-sm); overflow-y: auto; padding: var(--omni-space-md); }
+.demo-grid-scope > .demo-hint { margin: 0; }
+.demo-tabs-scope { block-size: 13rem; border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: flex; flex-direction: column; padding: var(--omni-space-sm); }
+.demo-list-scroll { border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); max-block-size: 16rem; overflow-y: auto; padding: var(--omni-space-sm); }
 
 /* La page de connexion en miniature : un fond discret la détache du reste de la démonstration. */
 .showcase-preview-frame { background: var(--omni-color-surface-muted); border: var(--omni-border-width) dashed var(--omni-color-border); border-radius: var(--omni-radius); padding-inline: var(--omni-space-md); }

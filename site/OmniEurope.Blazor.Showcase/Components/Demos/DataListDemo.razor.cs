@@ -16,6 +16,8 @@ public partial class DataListDemo
 
     private IReadOnlyList<GridRow> KanbanRows { get; set; } = [];
 
+    private IReadOnlyList<GridRow> ManyRows { get; set; } = [];
+
     private IReadOnlyList<OmniLogLine> LogLines { get; set; } = [];
 
     private Dictionary<string, string> WorkflowPositions { get; } = new()
@@ -49,6 +51,7 @@ public partial class DataListDemo
             new("D-2406", "Piet de Vries", Text["DemoGridCountryNetherlands"], 9100)
         ];
         KanbanRows = [.. Rows.Take(3)];
+        ManyRows = [.. Enumerable.Range(1, 2_000).Select(index => Rows[index % Rows.Count] with { Reference = $"L-{index:0000}" })];
         LogLines =
         [
             new(Text["DemoDataListLogSearch"], OmniLogLevel.Trace),

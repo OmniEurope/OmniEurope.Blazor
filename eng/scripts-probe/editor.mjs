@@ -117,6 +117,18 @@ export async function editorSteps(session, results) {
 
   // 1. #editor-body, inline formatting and blocks.
   await scrollTo('editor-body');
+  // A host command reads the content around the caret and puts its paragraph there, between the two
+  // halves, not at the end of the document; Undo takes it back.
+  const firstText = await evaluate(`${surface('editor-body')}.querySelector('p').textContent`);
+  await caretIn('editor-body', 'p', true);
+  await command('editor-body', 'reference');
+  const lastText = await evaluate(`[...${surface('editor-body')}.querySelectorAll('p')].at(-1).textContent`);
+  await waitFor('la référence insérée au curseur', `(() => { const blocks = [...${surface('editor-body')}.querySelectorAll('p')].filter(block => block.textContent.trim().length > 0); return blocks.length === 3 && blocks[0].textContent === ${JSON.stringify(firstText)} && blocks[1].textContent.includes('D-2401') && blocks[2].textContent === ${JSON.stringify(lastText)}; })()`, 10_000).catch(async error => { throw new Error(error.message + ' HTML : ' + await html('editor-body')); });
+  await caretIn('editor-body', 'p', true);
+  await command('editor-body', 'undo');
+  await waitFor('la référence annulée', `${surface('editor-body')}.querySelectorAll('p').length === 2 && !${surface('editor-body')}.textContent.includes('D-2401')`, 5_000).catch(async error => { throw new Error(error.message + ' HTML : ' + await html('editor-body')); });
+  step('référence insérée entre les deux moitiés du curseur, puis annulée');
+
   await select('editor-body', 'dossier');
   await command('editor-body', 'inline-code');
   await waitFor('le code en ligne', `${surface('editor-body')}.querySelector('code')?.textContent === 'dossier'`);
@@ -228,7 +240,17 @@ export async function editorSteps(session, results) {
   await waitFor('les initiales en capitale', `${surface('editor-extended')}.textContent.includes('Douteuse')`);
   step('casse changée');
 
+  // Highlight: a mark around the selection, removed with the caret inside it.
+  await select('editor-extended', 'favorable');
+  await command('editor-extended', 'highlight');
+  await waitFor('le texte surligné', `${surface('editor-extended')}.querySelector('mark')?.textContent === 'favorable'`);
+  await caretIn('editor-extended', 'mark');
+  await command('editor-extended', 'highlight');
+  await waitFor('le surlignage retiré', `${surface('editor-extended')}.querySelector('mark') === null && ${surface('editor-extended')}.textContent.includes('favorable')`);
+  step('surlignage posé puis retiré');
+
   await waitFor('la faute soulignée sur son texte', "[...(CSS.highlights?.get('omni-proofreading-spelling') ?? [])].some(range => range.toString() === 'ortografe')", 20_000);
+
   await rightClickText('editor-extended', 'ortografe');
   await menuItem('[data-proofreading="suggestion"]');
   await waitFor('la suggestion appliquée', `${surface('editor-extended')}.textContent.includes('orthographe')`);
@@ -245,6 +267,19 @@ export async function editorSteps(session, results) {
   // Ignore all forgets the answers and asks again: the word is no longer flagged anywhere.
   await waitFor('tout ignoré puis revérifié', "![...(CSS.highlights.get('omni-proofreading-spelling') ?? [])].some(range => range.toString().trim() === 'ortografe')", 20_000);
   step('correcteur : remplacer, ignorer, tout ignorer');
+
+  // The same proofreader on a text that starts read-only: nothing is underlined while it is locked
+  // (the editor above, mounted with it, was), the misspelling is once it is unlocked.
+  const lockedIssues = "[...CSS.highlights.keys()].filter(name => name.startsWith('omni-proofreading')).flatMap(name => [...CSS.highlights.get(name)]).filter(range => document.getElementById('editor-locked').contains(range.startContainer)).length";
+  await scrollTo('editor-locked');
+  await pause(1_500);
+  check(await evaluate(`${surface('editor-locked')}.getAttribute('contenteditable') !== 'true'`), 'Le texte verrouillé est modifiable.');
+  check(await evaluate(lockedIssues) === 0, 'Le texte en lecture seule est souligné par le correcteur.');
+  await session.clickOn('#editor-locked-toggle');
+  await waitFor('le texte déverrouillé', `${surface('editor-locked')}.getAttribute('contenteditable') === 'true'`);
+  await waitFor('la faute soulignée une fois déverrouillé', `[...(CSS.highlights.get('omni-proofreading-spelling') ?? [])].some(range => range.toString() === 'ortografe' && document.getElementById('editor-locked').contains(range.startContainer))`, 20_000);
+  step('correcteur : rien de souligné en lecture seule, la faute soulignée une fois déverrouillé');
+  await scrollTo('editor-extended');
 
   await caretIn('editor-extended', 'p:last-of-type', true);
   await type(' sous réserve');
@@ -264,6 +299,18 @@ export async function editorSteps(session, results) {
 
   // 4. #editor-annotated: selection path, clipboard and table commands.
   await scrollTo('editor-annotated');
+  // A host command reads the selected words and makes them a note; a click on a note ticks it, then
+  // unticks it, its text changed and its attributes kept.
+  await select('editor-annotated', 'règlement');
+  await command('editor-annotated', 'demo-note');
+  await waitFor('la sélection devenue une note', `${surface('editor-annotated')}.querySelector('.demo-note[data-marker="2"]')?.textContent.trim() === 'règlement'`);
+  const tick = '#editor-annotated .demo-note[data-marker="1"]';
+  const noteText = await evaluate(`document.querySelector(${JSON.stringify(tick)}).textContent`);
+  await click(await centerOf(tick));
+  await waitFor('la note cochée', `document.querySelector(${JSON.stringify(tick)})?.textContent === ${JSON.stringify('✓ ' + noteText)} && document.querySelector(${JSON.stringify(tick)}).getAttribute('contenteditable') === 'false'`);
+  await click(await centerOf(tick));
+  await waitFor('la note décochée', `document.querySelector(${JSON.stringify(tick)})?.textContent === ${JSON.stringify(noteText)}`);
+  step('note tirée de la sélection, cochée puis décochée au clic');
   await click(await centerOf('#editor-annotated td'));
   await waitFor('le chemin de la sélection', "document.getElementById('editor-annotated-path').textContent.includes('td')");
   await enabled('editor-annotated', 'add-row-below');

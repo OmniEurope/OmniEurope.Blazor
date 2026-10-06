@@ -1543,4 +1543,9 @@
   <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Сметкоплан</value></data>
   <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Плъзнете сметка върху друга, за да я подредите там.</value></data>
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} е подредена под {1}</value></data>
+  <data name="DemoGridScopeHint" xml:space="preserve"><value>Завъртете колелцето навсякъде в тази рамка: редовете на таблицата се превъртат.</value></data>
+  <data name="DemoGridFillCaption" xml:space="preserve"><value>Две хиляди преписки по държава</value></data>
+  <data name="DemoDiagramDirected" xml:space="preserve"><value>Насочени връзки</value></data>
+  <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Проверен текст, заключен в началото</value></data>
+  <data name="DemoEditorReadOnly" xml:space="preserve"><value>Само за четене</value></data>
 </root>

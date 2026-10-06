@@ -79,6 +79,11 @@
 
     <OmniDialog Title="@Text["DemoOverlaySizedTitle"]" Open="SizedOpen" OpenChanged="@(value => SizedOpen = value)" Size="SizedDialog" Width="@SizedWidth">
         <p>@(SizedWidth is null ? Text["DemoOverlaySizedBody", SizedDialog] : Text["DemoOverlayWidthBody", SizedWidth])</p>
+        @* Width retiré pendant l'ouverture : le dialogue reprend sa taille, sans se refermer. *@
+        @if (SizedWidth is not null)
+        {
+            <OmniButton Id="demo-dialog-size-back" Variant="OmniButtonVariant.Secondary" OnClick="BackToMedium">@Text["DemoOverlaySizeMedium"]</OmniButton>
+        }
     </OmniDialog>
 
     @* Intention : l'en-tête et le pied prennent la teinte de l'intention, le titre est précédé d'une pastille

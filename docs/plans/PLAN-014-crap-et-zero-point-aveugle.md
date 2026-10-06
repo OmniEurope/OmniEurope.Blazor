@@ -124,19 +124,43 @@ et, avec `--conditions`, l'issue manquante de chaque condition.
   `eng/js-coverage-baseline.json` qui ne peut que rétrécir, exceptions `eng/js-coverage-exceptions.json`.
 - [ ] Sondes complétées pour chaque fonction non exécutée, ou exception justifiée. Nouvelle sonde `Scripts`
   (`eng/Test-ShowcaseScriptsProbe.mjs`, parties `eng/scripts-probe/`) : 253 fonctions jamais exécutées à la
-  première mesure (34 fichiers), 68 restantes (14 fichiers) et 9 admises (rejets d'appels .NET en vol, repli
-  sans canevas, nouvelle tentative d'un menu pas encore rendu).
-Contrôle : rapport de couverture JS sans fonction non exécutée hors exceptions. Non atteint : les 68
-restantes n'ont aucun chemin dans la vitrine et attendent une décision du propriétaire, démonstration ou
-exception : Monaco (`omni-code-editor.js`, 26 : la vitrine force `PlainText`, Monaco demande ses fichiers et
-une CSP relâchée), `OmniDataGrid` `FillAvailableHeight`, `WheelScrollScope`, `LoadingContent`,
-`FixedRowHeight`, grille groupée virtualisée et `HideFilterMenuOnSelect` (`omni-grid.js`, `filter-menus.js`),
-`OmniDataList.Virtualize` (`list.js`, 7), classement par canevas d'une colonne de plus de 8 textes distincts
-(`resize.js`, 4), `OmniTabs.WheelScrollScope`, `OmniThemeScope.SnapshotKey` et `omni-boot.js`,
-`OmniMain.AutoHideScrollbar`, retour arrière sans `BackHref`, écran de démarrage, `setDocumentMetadata`
-(échantillons seulement), `OmniMindMap.Directed`, commande `Highlight`, `GetHtmlAroundCaretAsync`,
-`GetSelectedTextAsync` et `SetTextAsync` d'un élément en ligne, `OmniDialog.Width` retiré pendant
-l'ouverture ; `trapDialogTab` et `insertHtml` n'ont aucun appelant.
+  première mesure (34 fichiers), 66 restantes (13 fichiers) et 9 admises au début du 2026-10-06, 4 restantes
+  (3 fichiers) et 37 admises à la mesure du 2026-10-06.
+Contrôle : rapport de couverture JS sans fonction non exécutée hors exceptions. Non atteint, 4 restent.
+
+Passe du 2026-10-06 : 38 des 66 fermées par une démonstration et une étape de sonde qui vérifie ce que le
+lecteur voit. Grille qui remplit son cadre (`FillAvailableHeight`, `MinHeight`), virtualisée et groupée,
+`FixedRowHeight`, `LoadingContent`, `WheelScrollScope`, `HideFilterMenuOnSelect` (pays choisi, suggestion
+prise) et ajustement de Montant classé par canevas sur deux mille textes (`omni-grid.js` 10,
+`filter-menus.js` 2, `resize.js` 4) ; `OmniDataList.Virtualize` (`list.js`, 7) ; `OmniTabs.WheelScrollScope`
+(`focus/tabs.js`, 2) ; `OmniThemeScope.SnapshotKey` (`omni-theme.js`, 2) ; `OmniMain.AutoHideScrollbar`,
+retour sans `BackHref` et écran de démarrage de la vitrine retiré par `OmniBootSplash` (`omniInterop.js`, 4) ;
+`OmniMindMap.Directed` (`omni-mindmap.js`, 2) ; commande `Highlight` (`commands.js`, 1) ;
+`GetHtmlAroundCaretAsync`, `GetSelectedTextAsync` et `SetTextAsync` d'une note (`omni-html-editor.js`, 3) ;
+`OmniDialog.Width` retiré pendant l'ouverture (`omni-dialog.js`, 1). Cinq textes de vitrine ajoutés dans les
+24 langues ; un éditeur verrouillé avec correcteur, déverrouillé par la sonde.
+
+Exceptions ajoutées : Monaco (`omni-code-editor.js`, 26 : le paquet ne le livre pas, la vitrine n'a que des
+éditeurs `PlainText`, `load` sans les fichiers finit en 404 compté comme erreur, le servir demanderait une
+CSP relâchée), et deux témoins de vie `() => live` révélés par les nouvelles démonstrations (`list.js` ligne
+89, `omni-grid.js` ligne 121), évalués seulement sur un rejet comme ceux déjà admis. La sonde `Density`
+exempte avec sa raison les onglets à panneaux défilants (100 % du cadre de l'hôte) et les espaces d'une
+liste virtuelle (hauteur calculée).
+
+Mis de côté, dans la liste : `omni-boot.js` (module jamais chargé : le charger dans la vitrine remplacerait
+`showcase-theme.js` et `showcase-culture.js`, et la porte exige alors ses quelque trente fonctions d'un
+coup, au-delà du temps de la passe), `setDocumentMetadata` (aucun composant ne l'appelle ; la vitrine titre
+ses pages par `PageTitle` et pose sa langue avant Blazor, l'appeler en plus ferait deux écrivains du titre :
+démonstration ou exception à décider par le propriétaire), et l'attente des images d'une grille à
+`LoadingContent` (`omni-grid.js` lignes 467 et 473 : aucune ligne de démonstration ne porte d'image, et
+l'attente d'une image pas encore chargée ne s'exécute de façon sûre qu'avec une image servie lentement).
+
+Défauts réels trouvés et corrigés : un `OmniHtmlEditor` déverrouillé (`ReadOnly`, `Disabled`) ne
+redemandait sa relecture qu'à la frappe suivante, contrairement à ce que dit le CHANGELOG 1.6.0 (preuve
+bUnit `UnlockingTheEditor_AsksTheScriptToProofreadAgain`, rouge sans le correctif, et étape de la sonde) ;
+un saut à la fin d'une `OmniDataList` virtualisée laissait les derniers éléments hors de vue, leur hauteur
+mesurée dépassant l'estimation (`list.js` garde désormais la zone à sa fin comme la grille ; la sonde
+montrait les éléments 1982 à 1995 au lieu de 1999 avant le correctif).
 
 Mesure du 2026-10-05 : les huit sondes vertes sur la vitrine publiée, porte JS verte. Défauts réels trouvés
 et corrigés par la sonde, chacun prouvé : violations `style-src-attr` de l'éditeur HTML (insertion, retrait

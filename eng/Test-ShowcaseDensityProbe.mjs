@@ -63,6 +63,11 @@ const EXEMPT = [
   // page density must not override it. Only such an explicit height is exempted; without it the
   // element keeps being measured.
   ['.omni-log-viewer__viewport[style*="--omni-grid-viewport:"], [style*="--omni-code-editor-height:"] .omni-diff-viewer__text', 'hauteur explicite du consommateur (paramètre Height), que la densité ne remplace pas'],
+  // Heights that are not a control's: tabs with scrollable panels fill their parent (block-size 100%), so
+  // they are as tall as the frame the host sized; the spacers of a virtual data list stand for the items
+  // outside its window, their height the sum the list computed, not a size of their own.
+  ['.omni-tabs--scrollable-panels', 'onglets à panneaux défilants : 100 % du cadre que l\'hôte dimensionne'],
+  ['.omni-data-list__spacer', 'espace d\'une liste virtuelle : la hauteur calculée des éléments hors fenêtre'],
   // The Gantt chart is drawn in pixels computed in C# (GanttLayout.RowHeight 36, HeaderHeight 44,
   // BarHeight 20), because a dependency arrow's path cannot mix units, and the name column mirrors
   // that row height so each name faces its bar. The density is an inherited CSS value the render does

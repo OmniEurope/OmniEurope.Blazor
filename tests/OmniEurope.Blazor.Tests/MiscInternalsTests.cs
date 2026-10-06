@@ -194,6 +194,16 @@ public sealed class MiscInternalsTests
     }
 
     [Fact]
+    public void ThemeOfAnOption_IsNullForTheDefault_OrAnUnknownName()
+    {
+        // The default theme was otherwise reached only when a random look happened to draw it.
+        var named = OmniThemePresets.All[1];
+        Assert.Null(AppearanceChoices.Theme(AppearanceChoices.DefaultTheme));
+        Assert.Same(named, AppearanceChoices.Theme(named.Name));
+        Assert.Null(AppearanceChoices.Theme("inconnu"));
+    }
+
+    [Fact]
     public void RandomChoice_SkipsTheCurrentEntry_AndReachesTheOthersOnBothSidesOfIt()
     {
         // The draw among the others is shifted past the current one: entries before it and after it are

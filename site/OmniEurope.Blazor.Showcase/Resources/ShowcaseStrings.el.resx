@@ -1543,4 +1543,9 @@
   <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Λογιστικό σχέδιο</value></data>
   <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Σύρετε έναν λογαριασμό πάνω σε άλλον για να τον τοποθετήσετε εκεί.</value></data>
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} τοποθετήθηκε κάτω από {1}</value></data>
+  <data name="DemoGridScopeHint" xml:space="preserve"><value>Γυρίστε τη ροδέλα οπουδήποτε σε αυτό το πλαίσιο: οι γραμμές του πλέγματος κυλούν.</value></data>
+  <data name="DemoGridFillCaption" xml:space="preserve"><value>Δύο χιλιάδες φάκελοι ανά χώρα</value></data>
+  <data name="DemoDiagramDirected" xml:space="preserve"><value>Κατευθυνόμενοι σύνδεσμοι</value></data>
+  <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Ελεγμένο κείμενο, αρχικά κλειδωμένο</value></data>
+  <data name="DemoEditorReadOnly" xml:space="preserve"><value>Μόνο για ανάγνωση</value></data>
 </root>

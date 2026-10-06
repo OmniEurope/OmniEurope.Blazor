@@ -150,3 +150,37 @@
         <OmniDataGridColumn TItem="StatementLine" Property="Variation" Title="@Text["DemoGridTreeVariation"]" FormatString="{0:P1}" />
     </Columns>
 </OmniDataGrid>
+
+@* Une grille qui occupe ce qui reste de son cadre (FillAvailableHeight, plancher MinHeight) : virtualisée,
+   groupée par pays, chaque ligne à la même hauteur (FixedRowHeight), voilée par LoadingContent jusqu'à
+   son premier rendu prêt. La molette tournée n'importe où dans le cadre fait défiler ses lignes
+   (WheelScrollScope) ; un pays choisi dans le filtre, ou un demandeur pris dans les suggestions, ferme le
+   menu (HideFilterMenuOnSelect) ; le double clic sur le bord de Montant ajuste la colonne au montant le
+   plus large des deux mille dossiers, rendus ou non. *@
+<div id="demo-grid-scope" class="demo-grid-scope">
+    <p class="demo-hint">@Text["DemoGridScopeHint"]</p>
+    <OmniDataGrid TItem="GridRow" Id="demo-grid-fill"
+                  Items="FillRows"
+                  Caption="@Text["DemoGridFillCaption"]"
+                  ScrollMode="OmniDataGridScrollMode.Virtual"
+                  AllowGrouping="true"
+                  Groups="FillGrouping"
+                  GroupsChanged="@(value => FillGrouping = value)"
+                  AllGroupsExpanded="true"
+                  FixedRowHeight="true"
+                  EstimatedRowHeight="36"
+                  FillAvailableHeight="true"
+                  MinHeight="8rem"
+                  WheelScrollScope="#demo-grid-scope"
+                  HideFilterMenuOnSelect="true"
+                  AllowColumnAutoFit="true">
+        <LoadingContent>@Text["DemoDataListLoading"]</LoadingContent>
+        <Columns>
+            <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="@Text["DemoGridColumnReference"]" Filterable="false" AutoFit="false" />
+            <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="@Text["DemoGridColumnApplicant"]" FilterType="OmniDataGridColumnFilterType.Combo" />
+            <OmniDataGridColumn TItem="GridRow" Property="Country" Title="@Text["DemoGridColumnCountry"]" FilterType="OmniDataGridColumnFilterType.Select" Groupable="true" />
+            <OmniDataGridColumn TItem="GridRow" Property="Amount" Title="@Text["DemoGridColumnAmount"]" FormatString="{0:C0}" Filterable="false"
+                                TextAlign="OmniDataGridTextAlign.End" />
+        </Columns>
+    </OmniDataGrid>
+</div>

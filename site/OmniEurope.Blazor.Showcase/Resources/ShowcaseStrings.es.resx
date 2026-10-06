@@ -1543,4 +1543,9 @@
   <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Plan de cuentas</value></data>
   <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Arrastre una cuenta sobre otra para colocarla allí.</value></data>
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} colocada bajo {1}</value></data>
+  <data name="DemoGridScopeHint" xml:space="preserve"><value>Gire la rueda en cualquier parte de este marco: las filas de la cuadrícula se desplazan.</value></data>
+  <data name="DemoGridFillCaption" xml:space="preserve"><value>Dos mil expedientes por país</value></data>
+  <data name="DemoDiagramDirected" xml:space="preserve"><value>Enlaces dirigidos</value></data>
+  <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Texto revisado, bloqueado al principio</value></data>
+  <data name="DemoEditorReadOnly" xml:space="preserve"><value>Solo lectura</value></data>
 </root>
