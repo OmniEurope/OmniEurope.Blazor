@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Added
+
+- `OmniDataGrid.ShowExportButtonText` (`bool`, `false` par défaut) : chaque bouton d'export montre le nom de son format à côté de l'icône (« Markdown », « CSV », « Excel », « PDF »), et le bouton d'annulation son « Annuler » ; nom accessible et titre inchangés (« Exporter en Markdown »), le texte visible y étant contenu (WCAG 2.5.3). Sans l'option, les boutons restent des icônes seules. Vitrine : grille de la page Grille. Demande d'une application cliente du 2026-10-06 (icône seule illisible dans une grande barre de pied).
+
 ## [1.6.0] - 2026-10-06
 
 ### Added

@@ -89,8 +89,9 @@
     </div>;
 
     @* The export buttons of a bar: one icon per format somebody can write, named and titled
-       "Export as ...". The one being written is busy, the others wait, and a cancel action ends the
-       reading. An empty grid has nothing to write: its buttons are disabled. *@
+       "Export as ...", with the format's name beside it when ShowExportButtonText asks (the name then
+       contains the visible text). The one being written is busy, the others wait, and a cancel action
+       ends the reading. An empty grid has nothing to write: its buttons are disabled. *@
     RenderFragment exportGroup = @<div class="omni-data-grid__export" role="group" aria-label="@Localize("GridExportBar")">
         @foreach (var format in Export.Formats)
         {
@@ -99,6 +100,10 @@
                         Busy="@(Export.Running == format)" Disabled="@(Export.NothingToExport || (Export.Running is not null && Export.Running != format))"
                         OnClick="@(() => Export.RunAsync(format))">
                 <OmniIcon Name="@(GridExport<TItem>.IconOf(format))" />
+                @if (ShowExportButtonText)
+                {
+                    <span>@Export.FormatName(format)</span>
+                }
             </OmniButton>
         }
         @if (Export.Running is not null)
@@ -106,6 +111,10 @@
             <OmniButton Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small" Class="omni-data-grid__export-button omni-data-grid__export-cancel"
                         Label="@Localize("Cancel")" title="@Localize("Cancel")" OnClick="Export.Cancel">
                 <OmniIcon Name="OmniIconName.Close" />
+                @if (ShowExportButtonText)
+                {
+                    <span>@Localize("Cancel")</span>
+                }
             </OmniButton>
         }
         @if (Export.Failed)

@@ -2388,6 +2388,7 @@ property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.SelectionMode :
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowEditColumn : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowExpandAll : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowExpandColumn : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowExportButtonText : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowFooterBar : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowGroupPanel : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowHeaderBar : System.Boolean {get(public);set(public)} [Parameter]
