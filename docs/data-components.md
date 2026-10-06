@@ -613,10 +613,11 @@ page pleine à la limite de lignes, le document écrit « N sur au moins M » et
 `ShowHeaderBar` et `ShowFooterBar` (`bool`, `false`) ajoutent une barre au-dessus ou au-dessous des lignes,
 dans le cadre du tableau : la bordure et le fond qui entouraient le tableau entourent alors barres et lignes
 ensemble, chaque barre séparée des lignes par un trait. Sans barre, la grille se rend comme avant. Chaque
-barre reçoit le contenu de l'hôte (`HeaderBarContent`, `FooterBarContent`, `RenderFragment`) et, si
-`HeaderBarExport` ou `FooterBarExport` le demande (`OmniDataGridBarExport` : `None` par défaut, `Start`,
-`End`), les boutons d'export, au début ou à la fin de la barre, le contenu prenant le reste. Une barre
-masquée ne porte rien.
+barre reçoit le contenu de l'hôte (`HeaderBarContent`, `FooterBarContent`, `RenderFragment`) et les
+boutons d'export, au début de la barre par défaut ; `HeaderBarExport` et `FooterBarExport`
+(`OmniDataGridBarExport` : `Start` par défaut, `End`, `None`) les mettent à la fin ou les retirent, le
+contenu prenant le reste. Deux barres affichées portent donc chacune les boutons, sauf `None` sur l'une
+d'elles. Une barre masquée ne porte rien.
 
 Les formats se choisissent un par un : `ExportMarkdown`, `ExportCsv`, `ExportExcel`, `ExportPdf` (`bool`,
 `true` par défaut). `Markdown`, `Csv` et `Excel` sont écrits par le paquet, sans dépendance ; `Pdf` l'est
@@ -644,8 +645,8 @@ en donne une autre par format (le Markdown en `Primary`, par exemple).
 ```
 
 - **Ancienne barre.** `ExportFormats` et `ExportPosition` restent pris en charge et sont obsolètes
-  (avertissement CS0618 à la compilation, qui nomme les paramètres ci-dessus) : tant qu'aucune barre ne
-  demande les boutons, la barre que nommait `ExportPosition` s'affiche d'office avec eux à son début, dans
+  (avertissement CS0618 à la compilation, qui nomme les paramètres ci-dessus) : tant qu'aucune barre
+  affichée ne porte les boutons, la barre que nommait `ExportPosition` s'affiche d'office avec eux à son début, dans
   le cadre du tableau ; une liste `ExportFormats` non vide remplace les quatre interrupteurs de formats.
 - **Lignes.** Toutes celles que les filtres en cours retiennent, dans le tri en cours, et non la page ou
   la fenêtre affichée : l'ensemble filtré et trié d'une grille à `Items` ; pour une grille à `Load`, des

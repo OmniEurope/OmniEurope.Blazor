@@ -1,8 +1,8 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # PLAN-015 : Barres d'en-tête et de pied d'`OmniDataGrid`, export en icônes
 
-> Statut : **livré sur develop**, version 1.7.0 déclarée, non publiée. Établi le 2026-10-05 à la demande d'une application cliente, transmise par le propriétaire.
-> Version visée : 1.7.0, non publiée pour l'instant (décision du propriétaire du 2026-10-05).
+> Statut : **livré sur develop**, embarqué dans la 1.6.0. Établi le 2026-10-05 à la demande d'une application cliente, transmise par le propriétaire.
+> Version : 1.6.0, la 1.6.0 n'ayant jamais été publiée (décision du propriétaire du 2026-10-06, qui remplace la 1.7.0 déclarée le 2026-10-05).
 
 ## Objectif
 
@@ -15,8 +15,9 @@ contenu du consommateur.
 
 - **Barres** : `ShowHeaderBar` et `ShowFooterBar` (`bool`, `false`) ; dans le cadre du tableau, même
   bordure et même fond. Sans barre, le rendu de la grille ne change pas.
-- **Boutons dans une barre** : `HeaderBarExport` et `FooterBarExport` (`OmniDataGridBarExport` : `None` par
-  défaut, `Start`, `End`) ; une barre masquée ne porte rien.
+- **Boutons dans une barre** : `HeaderBarExport` et `FooterBarExport` (`OmniDataGridBarExport` : `Start` par
+  défaut, `End`, `None`) ; une barre affichée porte les boutons à son début sauf `None`, une barre masquée ne
+  porte rien (décision du propriétaire du 2026-10-06, le défaut était `None` à la livraison).
 - **Formats un par un** (décision du propriétaire) : `ExportMarkdown`, `ExportCsv`, `ExportExcel`,
   `ExportPdf` (`bool`, `true`). Pdf n'apparaît qu'avec un moteur de l'hôte qui l'écrit, comme avant.
 - **Contenu du consommateur** : `HeaderBarContent` et `FooterBarContent` (`RenderFragment`).

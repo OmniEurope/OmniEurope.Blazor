@@ -180,10 +180,6 @@ export async function exec(surface, action, argument) {
     return settle(state);
 }
 
-export function insertHtml(surface, html) {
-    return exec(surface, 'inserthtml', html);
-}
-
 // Replaces the innermost element around the selection (or the one kept while a dialog was open)
 // that matches the selector, with HTML .NET has already sanitised. Null when there is none.
 export function replaceClosest(surface, selector, html) {

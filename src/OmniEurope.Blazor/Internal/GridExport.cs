@@ -40,20 +40,24 @@ internal sealed class GridExport<TItem>(OmniDataGrid<TItem> grid) : IAsyncDispos
     private OmniDataGridPosition FormerPosition => grid.ExportPosition;
 #pragma warning restore CS0618
 
+    private OmniDataGridBarExport HeaderBarAsks => grid.ShowHeaderBar ? grid.HeaderBarExport : OmniDataGridBarExport.None;
+
+    private OmniDataGridBarExport FooterBarAsks => grid.ShowFooterBar ? grid.FooterBarExport : OmniDataGridBarExport.None;
+
     /// <summary>
-    /// The former export bar: formats listed while neither bar asks for the buttons. Its bar is shown
+    /// The former export bar: formats listed while no shown bar carries the buttons. Its bar is shown
     /// with them at its start, wherever <c>ExportPosition</c> put it.
     /// </summary>
     private bool Former => FormerFormats.Count > 0
-        && grid.HeaderBarExport == OmniDataGridBarExport.None && grid.FooterBarExport == OmniDataGridBarExport.None;
+        && HeaderBarAsks == OmniDataGridBarExport.None && FooterBarAsks == OmniDataGridBarExport.None;
 
     private OmniDataGridBarExport HeaderAsked => Former
         ? (FormerPosition != OmniDataGridPosition.Bottom ? OmniDataGridBarExport.Start : OmniDataGridBarExport.None)
-        : grid.ShowHeaderBar ? grid.HeaderBarExport : OmniDataGridBarExport.None;
+        : HeaderBarAsks;
 
     private OmniDataGridBarExport FooterAsked => Former
         ? (FormerPosition != OmniDataGridPosition.Top ? OmniDataGridBarExport.Start : OmniDataGridBarExport.None)
-        : grid.ShowFooterBar ? grid.FooterBarExport : OmniDataGridBarExport.None;
+        : FooterBarAsks;
 
     /// <summary>The formats switched on, in the order of their buttons, or the former list when one is given.</summary>
     private IEnumerable<OmniTableExportFormat> Asked()

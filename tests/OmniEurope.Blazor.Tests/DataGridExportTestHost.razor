@@ -68,9 +68,9 @@
 
     [Parameter] public bool ShowFooterBar { get; set; }
 
-    [Parameter] public OmniDataGridBarExport HeaderBarExport { get; set; }
+    [Parameter] public OmniDataGridBarExport HeaderBarExport { get; set; } = OmniDataGridBarExport.Start;
 
-    [Parameter] public OmniDataGridBarExport FooterBarExport { get; set; }
+    [Parameter] public OmniDataGridBarExport FooterBarExport { get; set; } = OmniDataGridBarExport.Start;
 
     [Parameter] public RenderFragment? HeaderBarContent { get; set; }
 

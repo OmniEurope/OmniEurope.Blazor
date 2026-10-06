@@ -43,13 +43,44 @@ public sealed class DataGridBarsTests : OmniBunitContext
     {
         var host = Grid(builder => builder
             .Add(component => component.ShowHeaderBar, true)
-            .Add(component => component.ShowFooterBar, true));
+            .Add(component => component.ShowFooterBar, true)
+            .Add(component => component.HeaderBarExport, OmniDataGridBarExport.None)
+            .Add(component => component.FooterBarExport, OmniDataGridBarExport.None));
 
         var frame = host.Find(".omni-data-grid__frame");
         Assert.Equal(["omni-data-grid__bar--header", "omni-data-grid__viewport", "omni-data-grid__bar--footer"],
             frame.Children.Select(child => child.ClassList.First(name => name is "omni-data-grid__bar--header" or "omni-data-grid__viewport" or "omni-data-grid__bar--footer")));
-        // A bar asked without export carries no button.
+        // A bar whose export is None carries no button.
         Assert.Empty(host.FindAll(".omni-data-grid__export"));
+    }
+
+    [Fact]
+    public void AShownBar_CarriesTheButtons_AtItsStart_ByDefault()
+    {
+        var host = Grid(builder => builder
+            .Add(component => component.ShowHeaderBar, true)
+            .Add(component => component.ShowFooterBar, true)
+            .Add(component => component.HeaderBarContent, (RenderFragment)(content => content.AddContent(0, "en-tête"))));
+
+        foreach (var bar in host.FindAll(".omni-data-grid__bar"))
+        {
+            Assert.Equal(["Exporter en Markdown", "Exporter en CSV", "Exporter en Excel"], Labels(bar));
+            Assert.True(bar.Children[0].ClassList.Contains("omni-data-grid__export"));
+        }
+
+        Assert.Equal(2, host.FindAll(".omni-data-grid__bar").Count);
+    }
+
+    [Fact]
+    public void TheFormerExportBar_StillShows_WhenTheShownBarCarriesNoButton()
+    {
+        var host = Grid(builder => builder
+            .Add(component => component.ShowHeaderBar, true)
+            .Add(component => component.HeaderBarExport, OmniDataGridBarExport.None)
+            .Add(component => component.Formats, [OmniTableExportFormat.Csv]));
+
+        Assert.Empty(host.Find(".omni-data-grid__bar--header").QuerySelectorAll(".omni-data-grid__export"));
+        Assert.Equal(["Exporter en CSV"], Labels(host.Find(".omni-data-grid__bar--footer")));
     }
 
     [Fact]
@@ -121,6 +152,7 @@ public sealed class DataGridBarsTests : OmniBunitContext
     {
         var host = Grid(builder => builder
             .Add(component => component.ShowHeaderBar, true)
+            .Add(component => component.HeaderBarExport, OmniDataGridBarExport.None)
             .Add(component => component.FooterBarExport, OmniDataGridBarExport.End)
             .Add(component => component.HeaderBarContent, (RenderFragment)(content => content.AddContent(0, "en-tête"))));
 

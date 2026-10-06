@@ -83,22 +83,6 @@ export function activateWindow(dialog, key) {
     (focusableElements(dialog)[0] ?? dialog)?.focus({ preventScroll: true });
 }
 
-export function trapDialogTab(dialog, shiftKey) {
-    const items = focusableElements(dialog);
-    if (items.length === 0) {
-        dialog?.focus();
-        return;
-    }
-
-    const first = items[0];
-    const last = items[items.length - 1];
-    if (shiftKey && document.activeElement === first) {
-        last.focus();
-    } else if (!shiftKey && document.activeElement === last) {
-        first.focus();
-    }
-}
-
 export function focusBoundary(dialog, last) {
     const items = focusableElements(dialog);
     (last ? items.at(-1) : items[0] ?? dialog)?.focus();

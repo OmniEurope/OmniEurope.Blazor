@@ -35,16 +35,12 @@
       "functions": 1
     },
     {
-      "file": "omni-focus.js",
-      "functions": 1
-    },
-    {
       "file": "omni-grid.js",
       "functions": 10
     },
     {
       "file": "omni-html-editor.js",
-      "functions": 4
+      "functions": 3
     },
     {
       "file": "omni-mindmap.js",

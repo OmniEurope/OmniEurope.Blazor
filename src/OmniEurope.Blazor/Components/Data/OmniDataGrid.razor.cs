@@ -678,18 +678,20 @@ public partial class OmniDataGrid<TItem>
     public bool ShowFooterBar { get; set; }
 
     /// <summary>
-    /// Whether the header bar carries the export buttons, at its start or its end. Ignored while
+    /// Whether the header bar carries the export buttons, at its start (the default) or its end;
+    /// <see cref="OmniDataGridBarExport.None"/> leaves the bar to the host. Ignored while
     /// <see cref="ShowHeaderBar"/> is false.
     /// </summary>
     [Parameter]
-    public OmniDataGridBarExport HeaderBarExport { get; set; }
+    public OmniDataGridBarExport HeaderBarExport { get; set; } = OmniDataGridBarExport.Start;
 
     /// <summary>
-    /// Whether the footer bar carries the export buttons, at its start or its end. Ignored while
+    /// Whether the footer bar carries the export buttons, at its start (the default) or its end;
+    /// <see cref="OmniDataGridBarExport.None"/> leaves the bar to the host. Ignored while
     /// <see cref="ShowFooterBar"/> is false.
     /// </summary>
     [Parameter]
-    public OmniDataGridBarExport FooterBarExport { get; set; }
+    public OmniDataGridBarExport FooterBarExport { get; set; } = OmniDataGridBarExport.Start;
 
     /// <summary>The host's content of the header bar, beside its export buttons.</summary>
     [Parameter]
@@ -724,7 +726,7 @@ public partial class OmniDataGrid<TItem>
 
     /// <summary>
     /// The formats of the former export bar, in their order. Non-empty, they replace the four format
-    /// switches; while neither bar asks for the buttons, the bar named by <see cref="ExportPosition"/> is
+    /// switches; while no shown bar carries the buttons, the bar named by <see cref="ExportPosition"/> is
     /// shown with them at its start.
     /// </summary>
     [Parameter]
