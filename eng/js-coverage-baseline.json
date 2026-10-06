@@ -1,5 +1,5 @@
 {
-  "$comment": "Scripts du paquet pas encore entièrement exécutés par les sondes de la vitrine (PLAN-014) : nombre de fonctions jamais appelées. La liste ne peut que rétrécir ; un fichier absent doit être entièrement couvert. Réécrite par eng/Test-JsCoverage.mjs --update-baseline.",
+  "$comment": "Scripts du paquet pas encore entièrement exécutés par les sondes de la vitrine (PLAN-014) : nombre de fonctions jamais appelées. La liste ne peut que rétrécir ; un module qu'aucune sonde ne charge n'y est admis que marqué \"unloaded\" ; un fichier absent doit être entièrement couvert. Réécrite par eng/Test-JsCoverage.mjs --update-baseline.",
   "files": [
     {
       "file": "focus/tabs.js",
@@ -23,7 +23,8 @@
     },
     {
       "file": "omni-boot.js",
-      "functions": 1
+      "functions": 1,
+      "unloaded": true
     },
     {
       "file": "omni-code-editor.js",

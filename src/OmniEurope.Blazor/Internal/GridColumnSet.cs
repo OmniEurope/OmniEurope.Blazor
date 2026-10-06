@@ -41,11 +41,6 @@ internal sealed class GridColumnSet<TItem>(OmniDataGrid<TItem> grid)
     /// </summary>
     internal bool ColumnsFragmentRendered()
     {
-        if (_columnsFragmentRendered)
-        {
-            return false;
-        }
-
         _columnsFragmentRendered = true;
         return _columns.Count == 0 && grid.Columns is not null;
     }

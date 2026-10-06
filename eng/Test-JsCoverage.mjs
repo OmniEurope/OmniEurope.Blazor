@@ -122,6 +122,9 @@ const read = (file, fallback) => fs.existsSync(file) ? JSON.parse(fs.readFileSyn
 const exceptions = new Map(read(exceptionsPath, { exceptions: [] }).exceptions.map(entry => [entry.file, entry]));
 const baselineDocument = read(baselinePath, null);
 const baseline = new Map((baselineDocument?.files ?? []).map(entry => [entry.file, entry.functions]));
+// A module no probe loads counts as one gap, its functions never compiled: only an entry that says so
+// ("unloaded": true) admits it, so a module that stops loading cannot hide its gaps behind a larger count.
+const unloadedAdmitted = new Set((baselineDocument?.files ?? []).filter(entry => entry.unloaded === true).map(entry => entry.file));
 
 // A file may hold definitive gaps (its exception) and gaps still to close (its baseline entry): the
 // exception admits its count first, the baseline holds what remains.
@@ -132,6 +135,11 @@ for (const [file, list] of gaps) {
   total += list.length;
   const admitted = exceptions.get(file)?.functions ?? 0;
   const residual = list.length - admitted;
+  if (!loaded.has(file)) {
+    residuals.set(file, residual);
+    if (!unloadedAdmitted.has(file) && (baselineDocument !== null || !update)) failures.push(`${file} : module jamais chargé par une sonde, que la liste n'admet pas comme tel ("unloaded": true).`);
+    continue;
+  }
   if (residual <= 0) continue;
   residuals.set(file, residual);
   const allowed = baseline.get(file);
@@ -139,6 +147,9 @@ for (const [file, list] of gaps) {
   if (allowed === undefined && baselineDocument !== null) failures.push(`${file} : ${what}, fichier hors de la liste.`);
   else if (allowed !== undefined && residual > allowed) failures.push(`${file} : ${what}, plus que les ${allowed} de la liste.`);
   else if (!update && allowed !== undefined && residual < allowed) failures.push(`${file} : ${what} au lieu de ${allowed} : réduire la liste (--update-baseline).`);
+}
+for (const file of unloadedAdmitted) {
+  if (loaded.has(file) && !update) failures.push(`${file} : chargé désormais, à reprendre dans la liste avec son compte (--update-baseline).`);
 }
 for (const [file] of baseline) {
   if (!residuals.has(file) && !update) failures.push(`${file} : plus d'écart hors exception, à retirer de la liste (--update-baseline).`);
@@ -154,14 +165,14 @@ for (const [file, list] of gaps) console.log(`== ${file}${exceptions.has(file) ?
 for (const url of unmatched) console.log(`?? script du paquet sans source : ${url}`);
 
 if (update) {
-  const grown = failures.filter(failure => failure.includes('plus que') || failure.includes('hors de la liste'));
+  const grown = failures.filter(failure => failure.includes('plus que') || failure.includes('hors de la liste') || failure.includes('jamais chargé'));
   if (grown.length > 0 && baselineDocument !== null) {
     console.error(`La liste ne peut pas absorber un écart qui grandit :\n  ${grown.join('\n  ')}`);
     process.exit(1);
   }
-  const entries = [...residuals].map(([file, functions]) => ({ file, functions }));
+  const entries = [...residuals].map(([file, functions]) => loaded.has(file) ? { file, functions } : { file, functions, unloaded: true });
   fs.writeFileSync(baselinePath, JSON.stringify({
-    $comment: "Scripts du paquet pas encore entièrement exécutés par les sondes de la vitrine (PLAN-014) : nombre de fonctions jamais appelées. La liste ne peut que rétrécir ; un fichier absent doit être entièrement couvert. Réécrite par eng/Test-JsCoverage.mjs --update-baseline.",
+    $comment: "Scripts du paquet pas encore entièrement exécutés par les sondes de la vitrine (PLAN-014) : nombre de fonctions jamais appelées. La liste ne peut que rétrécir ; un module qu'aucune sonde ne charge n'y est admis que marqué \"unloaded\" ; un fichier absent doit être entièrement couvert. Réécrite par eng/Test-JsCoverage.mjs --update-baseline.",
     files: entries
   }, null, 2) + '\n');
   console.log(`Liste réécrite : ${entries.length} fichier(s) à écarts.`);
