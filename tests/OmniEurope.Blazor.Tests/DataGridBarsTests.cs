@@ -72,6 +72,27 @@ public sealed class DataGridBarsTests : OmniBunitContext
     }
 
     [Fact]
+    public void TheGridItself_PutsTheButtons_AtTheStartOfAShownBar_ByDefault()
+    {
+        // Rendered without the test host, which always passes a value of its own: only the grid's default
+        // decides here.
+        var grid = Render<OmniDataGrid<Row>>(builder => builder
+            .Add(component => component.Items, Rows)
+            .Add(component => component.ShowHeaderBar, true)
+            .Add(component => component.ShowFooterBar, true));
+
+        Assert.Equal(OmniDataGridBarExport.Start, grid.Instance.HeaderBarExport);
+        Assert.Equal(OmniDataGridBarExport.Start, grid.Instance.FooterBarExport);
+        foreach (var bar in grid.FindAll(".omni-data-grid__bar"))
+        {
+            Assert.NotEmpty(Labels(bar));
+            Assert.True(bar.Children[0].ClassList.Contains("omni-data-grid__export"));
+        }
+
+        Assert.Equal(2, grid.FindAll(".omni-data-grid__bar").Count);
+    }
+
+    [Fact]
     public void TheFormerExportBar_StillShows_WhenTheShownBarCarriesNoButton()
     {
         var host = Grid(builder => builder
