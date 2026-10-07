@@ -1,4 +1,6 @@
 @namespace OmniEurope.Blazor.Components
+@if (!Hidden)
+{
 <g class="omni-chart__labels">
     @for (var index = 0; index < Data.Count; index++)
     {
@@ -16,5 +18,6 @@
         }
     }
 </g>
+}
 
 @implements IDisposable

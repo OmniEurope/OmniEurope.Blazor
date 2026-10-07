@@ -25,6 +25,7 @@
               ExportFields="@Fields"
               ExportFileName="@FileName"
               ExportVariants="@Variants"
+              ShowExportButtonText="@ShowExportButtonText"
               ExportRowLimit="@RowLimit"
               OnExport="@Deliver"
               OnExportError="@(exception => Failure = exception)">
@@ -103,6 +104,8 @@
     [Parameter] public IReadOnlyDictionary<OmniTableExportFormat, OmniButtonVariant>? Variants { get; set; }
 
     [Parameter] public bool OnlyTemplates { get; set; }
+
+    [Parameter] public bool ShowExportButtonText { get; set; }
 
     public OmniTableExportDocument? Exported { get; private set; }
 

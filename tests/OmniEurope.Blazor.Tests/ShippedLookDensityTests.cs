@@ -43,8 +43,8 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     }
 
     [Theory]
-    // The control tokens keep the mockup values at the drawn control size (scale 1).
-    [InlineData("--omni-control-height", "calc(2.25rem * var(--omni-control-scale, 1))", "calc(1.625rem * var(--omni-control-scale, 1))", "calc(2.75rem * var(--omni-control-scale, 1))")]
+    // The control heights: 28 px by default, one step down (24 px) and one up (34 px), at scale 1.
+    [InlineData("--omni-control-height", "calc(1.75rem * var(--omni-control-scale, 1))", "calc(1.5rem * var(--omni-control-scale, 1))", "calc(2.125rem * var(--omni-control-scale, 1))")]
     [InlineData("--omni-control-font", "calc(0.875rem * var(--omni-control-scale, 1))", "calc(0.75rem * var(--omni-control-scale, 1))", "calc(0.9375rem * var(--omni-control-scale, 1))")]
     // The mockup's pixels written in rem (16 px each), so the host's text size scales them with the text.
     [InlineData("--omni-cell-pad-y", "0.5rem", "0.125rem", "0.75rem")]
@@ -56,6 +56,25 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
         Assert.Equal(comfortable, ShippedLookTests.Value(ShippedLookTests.Body(ComfortableDensity), token));
         Assert.Equal(compact, ShippedLookTests.Value(ShippedLookTests.Body(CompactDensity), token));
         Assert.Equal(spacious, ShippedLookTests.Value(ShippedLookTests.Body(SpaciousDensity), token));
+    }
+
+    [Fact]
+    public void PageAndCodeBlockHeaders_FollowTheControlHeight_WithoutAFixedFloor()
+    {
+        // A rem floor (2.25rem, 2rem) outgrew the lower control heights and kept both headers at the
+        // same height in compact and spacious density, which the showcase density probe refuses.
+        Assert.Equal("calc(var(--omni-control-height) + 0.5rem)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-page-header"), "--omni-page-header-line"));
+        Assert.Equal("calc(var(--omni-control-height) + 0.25rem)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-code-block__header"), "min-block-size"));
+    }
+
+    [Fact]
+    public void OneLineFields_TakeTheControlHeight_BelowTheSizeRules()
+    {
+        // recette R-025: Chromium's inner date box, then a theme font's metrics, pushed a 28 px field to 29.5 px.
+        var body = ShippedLookTests.Body("input.omni-input");
+
+        Assert.Equal("var(--omni-control-height)", ShippedLookTests.Value(body, "block-size"));
+        Assert.Equal("0", ShippedLookTests.Value(body, "padding-block"));
     }
 
     [Theory]
@@ -440,6 +459,35 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
         Assert.Equal("0", ShippedLookTests.Value(ShippedLookTests.Body(".omni-upload__field-value"), "border-end-end-radius"));
         Assert.Equal("0", ShippedLookTests.Value(ShippedLookTests.Body(".omni-upload__field-button"), "border-start-start-radius"));
         Assert.DoesNotMatch(@"(?:^|;)\s*gap\s*:", ShippedLookTests.Body(".omni-upload__field"));
+    }
+
+    [Fact]
+    public void UploadField_ReadsAsOneControl_WithABlueBrowseButton()
+    {
+        // recette R-013 and R-015: the field ran into a grey button and looked out of line.
+        var upload = Render<OmniUpload>(parameters => parameters.Add(component => component.Display, OmniUploadDisplay.Field));
+
+        Assert.Contains("omni-button--primary", upload.Find(".omni-upload__field-button").ClassList);
+        var field = ShippedLookTests.Body(".omni-upload__field-value");
+        Assert.Equal("0", ShippedLookTests.Value(field, "border-inline-end-width"));
+        Assert.Equal("min(12rem, 60%)", ShippedLookTests.Value(field, "min-inline-size"));
+        Assert.StartsWith("calc(", ShippedLookTests.Value(field, "padding-inline-end"), StringComparison.Ordinal);
+        Assert.Equal("0", ShippedLookTests.Value(field, "padding-block"));
+    }
+
+    [Fact]
+    public void Sidebar_OpenWidth_Is12Point5Rem()
+        // recette R-001: the open menu took 18rem, too wide; 30 % less.
+        => Assert.Equal("12.5rem", ShippedLookTests.Value(ShippedLookTests.Body(".omni-sidebar"), "--omni-sidebar-width"));
+
+    [Fact]
+    public void FixedRowGrid_KeepsAnEditedRowAtTheRowHeight()
+    {
+        // recette R-017: editing a row of a fixed-height grid made it 13px taller.
+        Assert.Equal("0", ShippedLookTests.Value(ShippedLookTests.Body(".omni-data-grid--fixed-row-height tbody tr.omni-data-grid__row--editing td"), "padding-block"));
+        var controls = ShippedLookTests.Body(".omni-data-grid--fixed-row-height tbody tr.omni-data-grid__row--editing td :is(.omni-input, .omni-button)");
+        Assert.Equal("calc(var(--omni-row-height) - 0.25rem)", ShippedLookTests.Value(controls, "max-block-size"));
+        Assert.Equal("0", ShippedLookTests.Value(controls, "min-block-size"));
     }
 
     [Fact]

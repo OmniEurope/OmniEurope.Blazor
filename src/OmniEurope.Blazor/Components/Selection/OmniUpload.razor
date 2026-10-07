@@ -16,7 +16,7 @@
              @ondragleave="() => SetDragging(false)"
              @ondrop="() => SetDragging(false)">
             <span id="@FieldValueId" class="@FieldValueClass">@(FieldText ?? Localize("UploadNoFile"))</span>
-            <span class="omni-button omni-button--secondary omni-button--medium omni-upload__field-button" aria-hidden="true">
+            <span class="omni-button omni-button--primary omni-button--medium omni-upload__field-button" aria-hidden="true">
                 <span class="omni-button__content">
                     <OmniIcon Name="OmniIconName.Document" />
                     <span>@Localize("UploadBrowseButton")</span>

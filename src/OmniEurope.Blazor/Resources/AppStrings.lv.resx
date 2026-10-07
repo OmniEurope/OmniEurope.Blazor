@@ -343,6 +343,7 @@
   <data name="MindMapNodeText" xml:space="preserve"><value>Teksts</value></data>
   <data name="MindMapNodeWidth" xml:space="preserve"><value>Platums</value></data>
   <data name="MindMapNodeWithNote" xml:space="preserve"><value>{0}, piezīme: {1}</value></data>
+  <data name="MindMapPropertiesEmpty" xml:space="preserve"><value>Atlasiet mezglu, lai rediģētu tā rekvizītus.</value></data>
   <data name="MindMapPropertiesTitle" xml:space="preserve"><value>Mezgla rekvizīti</value></data>
   <data name="MindMapRename" xml:space="preserve"><value>Pārdēvēt mezglu</value></data>
   <data name="MindMapSizeAutoHint" xml:space="preserve"><value>0 = automātisks izmērs</value></data>

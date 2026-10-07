@@ -34,4 +34,7 @@ public partial class OmniMarkers
         ChartContext?.UnregisterSeries(this);
         GC.SuppressFinalize(this);
     }
+
+    /// <summary>Decorates a series hidden through a legend entry: it draws nothing either.</summary>
+    private bool Hidden => ChartContext?.IsDataHidden(Data) == true;
 }

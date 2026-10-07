@@ -429,7 +429,8 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 /* Two axes: reveal (push takes width, overlay floats) and collapse (nothing, or an icon rail). The
    aside is the slot in the flow, the panel what is painted. */
 .omni-sidebar {
-    --omni-sidebar-width: 18rem;
+    /* 12.5rem: the open menu takes 30 % less than the former 18rem (recette R-001, 2026-10-07). */
+    --omni-sidebar-width: 12.5rem;
     /* The rail is the icon column of the open menu, not a wider band: an entry's start inset on
        both sides of its icon, so an icon stays where it was when the menu folds into the rail. The
        inset follows the density (the item padding plus the extra-small space, 11px when comfortable),

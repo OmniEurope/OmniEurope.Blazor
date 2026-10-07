@@ -58,6 +58,15 @@ polyline.omni-chart__line { fill: none; }
 .omni-chart__legend--above { margin: 0 0 var(--omni-space-xs); }
 .omni-chart__legend-item { align-items: center; display: inline-flex; gap: var(--omni-space-xs); }
 .omni-chart__swatch { background: currentColor; block-size: 0.75em; border-radius: var(--omni-radius-sm); flex: none; inline-size: 0.75em; }
+/* A legend entry that hides its series (OmniLegend.AllowToggle, recette R-011): a bare button
+   below or above the chart, a pointer target on the right, dimmed and struck through while hidden. */
+.omni-chart__legend-toggle { align-items: center; background: none; border: 0; border-radius: var(--omni-radius-sm); color: inherit; cursor: pointer; display: inline-flex; font: inherit; gap: var(--omni-space-xs); padding: 0; }
+.omni-chart__legend-toggle:hover { text-decoration: underline; }
+.omni-chart__legend-toggle:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-chart__legend-item--hidden { opacity: 0.45; text-decoration: line-through; }
+.omni-chart__legend-entry--toggle { cursor: pointer; }
+.omni-chart__legend-entry--hidden { opacity: 0.45; }
+.omni-chart__legend-entry--hidden text { text-decoration: line-through; }
 /* A wide chart shrinks more than a square one on a phone, so its axis text is drawn half as large
    again there; the category axis thins its labels for this size (OmniChartContext.WideAxisFontSize). */
 @media (max-width: 39.99rem) {

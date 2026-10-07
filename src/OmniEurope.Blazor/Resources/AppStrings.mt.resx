@@ -343,6 +343,7 @@
   <data name="MindMapNodeText" xml:space="preserve"><value>Test</value></data>
   <data name="MindMapNodeWidth" xml:space="preserve"><value>Wisa'</value></data>
   <data name="MindMapNodeWithNote" xml:space="preserve"><value>{0}, nota: {1}</value></data>
+  <data name="MindMapPropertiesEmpty" xml:space="preserve"><value>Agħżel nodu biex tbiddel il-proprjetajiet tiegħu.</value></data>
   <data name="MindMapPropertiesTitle" xml:space="preserve"><value>Proprjetajiet tan-nodu</value></data>
   <data name="MindMapRename" xml:space="preserve"><value>Ibdel l-isem tan-nodu</value></data>
   <data name="MindMapSizeAutoHint" xml:space="preserve"><value>0 = daqs awtomatiku</value></data>

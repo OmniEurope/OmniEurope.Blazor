@@ -768,6 +768,14 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public IReadOnlyDictionary<OmniTableExportFormat, OmniButtonVariant>? ExportVariants { get; set; }
 
+    /// <summary>
+    /// Writes the format's name beside each export button's icon ("Markdown", "CSV"), false by default:
+    /// the buttons are then icons alone. The name and tooltip stay "Export as Markdown", which contains
+    /// the visible text; the cancel button shows its "Cancel" the same way.
+    /// </summary>
+    [Parameter]
+    public bool ShowExportButtonText { get; set; }
+
     /// <summary>Most rows an export reads, 5000 by default; beyond it the bar says the export is truncated.</summary>
     [Parameter]
     public int ExportRowLimit { get; set; } = 5000;

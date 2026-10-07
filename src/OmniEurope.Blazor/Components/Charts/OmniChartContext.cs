@@ -88,8 +88,46 @@ internal sealed class OmniChartContext
     /// <summary>Width of the view box.</summary>
     internal double ViewWidth => 100 + (2 * Spread);
 
-    /// <summary>Left edge of the plot; the value labels and a vertical axis title live to its left.</summary>
-    internal double PlotLeft => ViewLeft + 14;
+    /// <summary>
+    /// Left edge of the plot; the value labels and a vertical axis title live to its left. The margin is
+    /// <see cref="MinimumLeftMargin"/>, widened on a vertical chart with a value axis to its longest
+    /// graduation, so a long amount ("100 000,00 €") is never drawn outside the chart (recette R-010).
+    /// </summary>
+    internal double PlotLeft => ViewLeft + Math.Max(MinimumLeftMargin, ValueLabelWidth);
+
+    /// <summary>The margin left of the plot whatever its labels: room for short graduations and an axis title.</summary>
+    private const double MinimumLeftMargin = 14;
+
+    private double? _valueLabelWidth;
+
+    /// <summary>
+    /// Width the value graduations need left of a vertical plot: the longest one at
+    /// <see cref="CharacterWidth"/> per character, plus the 1.5 gap before the axis and one unit of
+    /// edge. Zero on a horizontal chart, whose values run along the bottom, and without a value axis.
+    /// </summary>
+    private double ValueLabelWidth
+    {
+        get
+        {
+            if (Horizontal || (_valueAxes.Count == 0 && _automaticValueAxes.Count == 0))
+            {
+                return 0;
+            }
+
+            EnsureDomains();
+            return _valueLabelWidth ??= MeasureValueLabels();
+        }
+    }
+
+    private double MeasureValueLabels()
+    {
+        var (minimum, maximum) = _valueDomain;
+        var intervals = _automaticValueAxes.Count > 0 ? _automaticValueAxes.Values.Max() : 5;
+        var longest = Enumerable.Range(0, intervals + 1)
+            .Select(index => FormatValue(minimum + ((maximum - minimum) * index / intervals)).Length)
+            .Max();
+        return (longest * CharacterWidth) + 2.5;
+    }
 
     internal const double PlotTop = 4;
 
@@ -127,6 +165,7 @@ internal sealed class OmniChartContext
     private readonly Dictionary<object, IReadOnlyList<string>> _categoryAxes = [];
     private readonly Dictionary<object, LegendRegistration> _legends = [];
     private readonly List<PieRegistration> _pies = [];
+    private readonly HashSet<int> _hiddenColors = [];
     private bool _domainsDirty = true;
     private (double Minimum, double Maximum) _xDomain = (0, 1);
     private (double Minimum, double Maximum) _valueDomain = (0, 1);
@@ -182,6 +221,7 @@ internal sealed class OmniChartContext
     /// </summary>
     internal void SetValueFormat(object owner, Func<double, string>? format)
     {
+        _valueLabelWidth = null;
         if (format is null)
         {
             _valueFormats.Remove(owner);
@@ -206,6 +246,39 @@ internal sealed class OmniChartContext
             ? OmniChartGeometry.Pair(category, OmniChartGeometry.Display(point.Y))
             : OmniChartGeometry.Display(point.Y));
 
+    /// <summary>Whether the series of colour <paramref name="colorIndex"/> is hidden through a legend entry.</summary>
+    internal bool IsHidden(int colorIndex) => _hiddenColors.Contains(colorIndex);
+
+    /// <summary>
+    /// Whether a decoration drawn on <paramref name="data"/> (markers, data labels) belongs to a hidden
+    /// series: one with the same points, so that hiding a series also hides what decorates it.
+    /// </summary>
+    internal bool IsDataHidden(IReadOnlyList<OmniChartPoint> data) =>
+        _hiddenColors.Count > 0
+        && _series.Any(item => item.Kind != OmniChartSeriesKind.Auxiliary && IsHidden(item.ColorIndex) && item.Data.SequenceEqual(data));
+
+    /// <summary>
+    /// Hides the series of colour <paramref name="colorIndex"/>, or shows it again: the value domain,
+    /// the stacks and the column slots are computed again without it, and the chart redraws.
+    /// </summary>
+    internal void ToggleSeries(int colorIndex)
+    {
+        if (!_hiddenColors.Remove(colorIndex))
+        {
+            _hiddenColors.Add(colorIndex);
+        }
+
+        _domainsDirty = true;
+        Changed?.Invoke();
+    }
+
+    /// <summary>A series the plot draws: not hidden, or a decoration of a series that is not hidden.</summary>
+    private bool IsDrawn(SeriesRegistration series) =>
+        _hiddenColors.Count == 0
+        || (series.Kind == OmniChartSeriesKind.Auxiliary ? !IsDataHidden(series.Data) : !IsHidden(series.ColorIndex));
+
+    private IEnumerable<SeriesRegistration> DrawnSeries => _series.Where(IsDrawn);
+
     /// <summary>The series a data table lists: every drawn series (markers and data labels excepted), in the order they registered.</summary>
     internal IReadOnlyList<ChartSeriesView> TableSeries =>
         [.. _series.Where(item => item.Kind != OmniChartSeriesKind.Auxiliary).Select(item => new ChartSeriesView(item.Title, item.ColorIndex, item.Data))];
@@ -224,17 +297,19 @@ internal sealed class OmniChartContext
         if (legend.Items is { Count: > 0 } items)
         {
             var drawn = TableSeries;
-            return [.. items.Select((text, index) => new LegendEntry(text, ChartColor.Slot(index < drawn.Count ? drawn[index].ColorIndex : index)))];
+            return [.. items.Select((text, index) => index < drawn.Count
+                ? new LegendEntry(text, ChartColor.Slot(drawn[index].ColorIndex), drawn[index].ColorIndex)
+                : new LegendEntry(text, ChartColor.Slot(index), null))];
         }
 
         if (_pies.Count > 0)
         {
-            return [.. _pies[0].Slices.Select((slice, index) => new LegendEntry(slice.Label, ChartColor.Slot(index)))];
+            return [.. _pies[0].Slices.Select((slice, index) => new LegendEntry(slice.Label, ChartColor.Slot(index), null))];
         }
 
         return [.. TableSeries
             .Where(series => !string.IsNullOrWhiteSpace(series.Title))
-            .Select(series => new LegendEntry(series.Title!, ChartColor.Slot(series.ColorIndex)))];
+            .Select(series => new LegendEntry(series.Title!, ChartColor.Slot(series.ColorIndex), series.ColorIndex))];
     }
 
     /// <summary>
@@ -565,7 +640,7 @@ internal sealed class OmniChartContext
         var slot = 0;
         var slots = 0;
         var sharedSlot = -1;
-        foreach (var item in _series)
+        foreach (var item in DrawnSeries)
         {
             var isShared = item.Kind == shared;
             if (item.Kind != separate && !isShared)
@@ -631,7 +706,7 @@ internal sealed class OmniChartContext
             return;
         }
 
-        var xValues = _series.SelectMany(item => item.Data).Select(point => point.X).ToArray();
+        var xValues = DrawnSeries.SelectMany(item => item.Data).Select(point => point.X).ToArray();
         _xDomain = Expand(xValues.Length == 0 ? (0d, 1d) : (xValues.Min(), xValues.Max()));
 
         if (_valueAxes.Count > 0)
@@ -641,13 +716,13 @@ internal sealed class OmniChartContext
         else
         {
             var values = new List<double> { 0 };
-            foreach (var series in _series.Where(item => item.Kind is not OmniChartSeriesKind.StackedArea and not OmniChartSeriesKind.StackedColumn and not OmniChartSeriesKind.StackedBar))
+            foreach (var series in DrawnSeries.Where(item => item.Kind is not OmniChartSeriesKind.StackedArea and not OmniChartSeriesKind.StackedColumn and not OmniChartSeriesKind.StackedBar))
             {
                 values.AddRange(series.Data.Select(point => point.Y));
             }
             foreach (var kind in new[] { OmniChartSeriesKind.StackedArea, OmniChartSeriesKind.StackedColumn, OmniChartSeriesKind.StackedBar })
             {
-                var stacked = _series.Where(item => item.Kind == kind).ToArray();
+                var stacked = DrawnSeries.Where(item => item.Kind == kind).ToArray();
                 var maximumCount = stacked.Length == 0 ? 0 : stacked.Max(item => item.Data.Count);
                 for (var index = 0; index < maximumCount; index++)
                 {
@@ -663,13 +738,14 @@ internal sealed class OmniChartContext
         }
 
         DomainCalculationCount++;
+        _valueLabelWidth = null;
         _domainsDirty = false;
     }
 
     private double StackBaseline(SeriesRegistration current, int index, double value)
     {
         var baseline = 0d;
-        foreach (var series in _series)
+        foreach (var series in DrawnSeries)
         {
             if (ReferenceEquals(series.Owner, current.Owner))
             {
@@ -746,16 +822,28 @@ internal sealed class OmniChartContext
     internal sealed record LegendRegistration(
         string Label,
         IReadOnlyList<string> Items,
-        OmniLegendPosition Position)
+        OmniLegendPosition Position,
+        bool AllowToggle = true)
     {
         internal bool SameAs(LegendRegistration other) =>
             Label == other.Label
             && Position == other.Position
+            && AllowToggle == other.AllowToggle
             && Items.SequenceEqual(other.Items);
     }
 
-    /// <summary>One entry of a legend: its text and the palette slot of its swatch.</summary>
-    internal readonly record struct LegendEntry(string Text, int ColorSlot);
+    /// <summary>
+    /// One entry of a legend: its text, the palette slot of its swatch and, for an entry that names a
+    /// series, the colour index of that series, which a click on the entry hides or shows (null for a
+    /// pie slice or an entry past the last series).
+    /// </summary>
+    internal readonly record struct LegendEntry(string Text, int ColorSlot, int? SeriesColor);
+
+    /// <summary>Whether a click on <paramref name="entry"/> of <paramref name="legend"/> hides or shows its series.</summary>
+    internal static bool CanToggle(LegendRegistration legend, LegendEntry entry) => legend.AllowToggle && entry.SeriesColor is not null;
+
+    /// <summary>Whether the series an entry names is hidden.</summary>
+    internal bool IsEntryHidden(LegendEntry entry) => entry.SeriesColor is { } color && IsHidden(color);
 
     /// <summary>A drawn series as a legend and a data table see it.</summary>
     internal sealed record ChartSeriesView(string? Title, int ColorIndex, IReadOnlyList<OmniChartPoint> Data);

@@ -1,13 +1,15 @@
 @* The grid in its everyday form, with one column of each filter shape and each text alignment. The
    columns say nothing about their filter and follow the grid, which filters by default; Amount takes
    itself out with Filterable="false". Its footer bar, inside the table's frame, carries the export
-   buttons at its end (FooterBarExport): each writes every row the filters select and not the page on
+   buttons at its end (FooterBarExport), each with its format written beside the icon
+   (ShowExportButtonText): each writes every row the filters select and not the page on
    screen. Every format is on by default; Markdown, CSV and Excel come from the package, while PDF only gets
    a button in a host that registers an IOmniTableExportRenderer, which this static site does not. *@
 <OmniDataGrid TItem="GridRow"
               Items="Rows"
               ShowFooterBar="true"
               FooterBarExport="OmniDataGridBarExport.End"
+              ShowExportButtonText="true"
               ExportFileName="@Text["DemoGridExportFileName"]"
               Caption="@Text["DemoGridOpenCases"]"
               AllowSorting="true"

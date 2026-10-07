@@ -192,7 +192,9 @@ Mécanique :
   lignes suivantes se décalent en conséquence. Recherche de position et mise à jour restent
   logarithmiques, y compris sur des millions de lignes.
 - `FixedRowHeight` fait d'`EstimatedRowHeight` la hauteur exacte de chaque ligne : aucune mesure, et les
-  lignes sont dessinées à cette hauteur (débordement coupé), pour les jeux homogènes.
+  lignes sont dessinées à cette hauteur (débordement coupé), pour les jeux homogènes. Une ligne en
+  édition (`omni-data-grid__row--editing`) garde cette hauteur : ses cellules perdent leur marge
+  verticale et ses contrôles tiennent dans la ligne.
 - `VirtualizationOverscanCount` (3 par défaut) rend autant de lignes au-delà de chaque bord du viewport.
 - Deux lignes d'espacement encadrent la fenêtre rendue. Leur hauteur est posée en propriété
   personnalisée par le script, ce qui donne une barre de défilement couvrant tout le total sans
@@ -627,6 +629,10 @@ seule, plus petite qu'un bouton `Small` et qui suit la densité, nommée et titr
 (`FileMd`, `FileCsv`, `FileXls`, `FilePdf`) ; le groupe se nomme « Export du tableau ». Les boutons sont
 en variante `Secondary` (gris neutre), une exportation étant une autre action de sa zone ; `ExportVariants`
 en donne une autre par format (le Markdown en `Primary`, par exemple).
+`ShowExportButtonText` (`bool`, `false`) écrit le nom du format à côté de l'icône (« Markdown », « CSV »,
+« Excel », « PDF »), pour une barre large où l'icône seule se lit mal ; le nom accessible et le titre
+restent « Exporter en Markdown », qui contient le texte visible (WCAG 2.5.3), et le bouton d'annulation
+affiche de même « Annuler ».
 
 ```razor
 <OmniDataGrid TItem="Commande" Load="ChargerAsync" KeyOf="@(c => c.Id)"

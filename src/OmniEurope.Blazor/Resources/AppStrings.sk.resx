@@ -343,6 +343,7 @@
   <data name="MindMapNodeText" xml:space="preserve"><value>Text</value></data>
   <data name="MindMapNodeWidth" xml:space="preserve"><value>Šírka</value></data>
   <data name="MindMapNodeWithNote" xml:space="preserve"><value>{0}, poznámka: {1}</value></data>
+  <data name="MindMapPropertiesEmpty" xml:space="preserve"><value>Vyberte uzol a upravte jeho vlastnosti.</value></data>
   <data name="MindMapPropertiesTitle" xml:space="preserve"><value>Vlastnosti uzla</value></data>
   <data name="MindMapRename" xml:space="preserve"><value>Premenovať uzol</value></data>
   <data name="MindMapSizeAutoHint" xml:space="preserve"><value>0 = automatická veľkosť</value></data>

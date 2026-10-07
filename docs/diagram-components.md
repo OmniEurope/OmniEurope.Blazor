@@ -58,8 +58,9 @@ compte comme une modification.
 `OmniMindMapToolbar` propose exactement les actions de la page d'origine : nœud, supprimer, dupliquer,
 lien, centrer, réorganiser, ajuster ; en lecture seule, centrer et ajuster seulement.
 `OmniMindMapNodeProperties` édite le texte, la couleur (liste et pastilles), la taille de police (8 à
-48), le gras, l'italique, la largeur (0 à 500) et la hauteur (0 à 300) du nœud sélectionné ; il ne
-montre rien sans sélection et reste visible mais désactivé en lecture seule. Tous deux doivent être
+48), le gras, l'italique, la largeur (0 à 500) et la hauteur (0 à 300) du nœud sélectionné ; sans
+sélection il garde sa place, avec son titre et « Sélectionnez un nœud pour modifier ses propriétés », pour que
+l'appui sur un nœud ne rétrécisse pas le dessin sous le pointeur. Il reste visible mais désactivé en lecture seule. Tous deux doivent être
 placés dans leur emplacement de la carte et lèvent sinon.
 
 ## Pointeur, clavier et annonces
@@ -143,7 +144,7 @@ de la page, plus ancien, garde sa voie jusqu'en bas. Les voies prennent tour à 
 graphique (`--omni-chart-color-0` à `-7`) ; un commit de fusion est un point évidé.
 
 - Chaque ligne porte son propre petit dessin SVG, masqué aux technologies d'assistance ; toutes les
-  lignes ont la même hauteur, `--omni-git-graph-row-height` (par défaut la hauteur de contrôle moins 0,25 rem, 2rem en densité confortable), pour que les traits d'une
+  lignes ont la même hauteur, `--omni-git-graph-row-height` (par défaut la hauteur de contrôle moins 0,25 rem, 1,5 rem en densité confortable), pour que les traits d'une
   ligne rejoignent ceux de la suivante, et un texte plus long est coupé d'une ellipse.
 - La liste est une `ol` nommée par `Label` (« Historique des commits » par défaut) ; un commit de
   fusion est annoncé par une phrase masquée à l'œil (« Commit de fusion. »), seule information du dessin

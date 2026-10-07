@@ -96,10 +96,11 @@ public sealed class MindMapToolbarAndPropertiesTests : OmniBunitContext
     }
 
     [Fact]
-    public async Task Properties_AppearOnlyForASelectedNode()
+    public async Task Properties_EditOnlyASelectedNode_AndTheEmptyPanelKeepsItsPlace()
     {
         var map = RenderMap(MindMapComponentTests.Sample());
-        Assert.Empty(map.FindAll(".omni-mindmap-properties"));
+        Assert.Contains("omni-mindmap-properties--empty", map.Find(".omni-mindmap-properties").ClassList);
+        Assert.Empty(map.FindAll(".omni-mindmap-properties input"));
 
         await map.InvokeAsync(() => new MindMapInteropBridge(map.Instance).NodePressed("root"));
 
@@ -119,7 +120,8 @@ public sealed class MindMapToolbarAndPropertiesTests : OmniBunitContext
         Assert.DoesNotMatch(MindMapComponentTests.InlineStyle, map.Markup);
 
         await map.InvokeAsync(() => new MindMapInteropBridge(map.Instance).BackgroundPressed());
-        Assert.Empty(map.FindAll(".omni-mindmap-properties"));
+        Assert.Contains("omni-mindmap-properties--empty", map.Find(".omni-mindmap-properties").ClassList);
+        Assert.Empty(map.FindAll(".omni-mindmap-properties input"));
     }
 
     [Fact]

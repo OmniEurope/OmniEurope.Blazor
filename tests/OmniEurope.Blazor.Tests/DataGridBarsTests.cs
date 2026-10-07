@@ -72,6 +72,27 @@ public sealed class DataGridBarsTests : OmniBunitContext
     }
 
     [Fact]
+    public void TheGridItself_PutsTheButtons_AtTheStartOfAShownBar_ByDefault()
+    {
+        // Rendered without the test host, which always passes a value of its own: only the grid's default
+        // decides here.
+        var grid = Render<OmniDataGrid<Row>>(builder => builder
+            .Add(component => component.Items, Rows)
+            .Add(component => component.ShowHeaderBar, true)
+            .Add(component => component.ShowFooterBar, true));
+
+        Assert.Equal(OmniDataGridBarExport.Start, grid.Instance.HeaderBarExport);
+        Assert.Equal(OmniDataGridBarExport.Start, grid.Instance.FooterBarExport);
+        foreach (var bar in grid.FindAll(".omni-data-grid__bar"))
+        {
+            Assert.NotEmpty(Labels(bar));
+            Assert.True(bar.Children[0].ClassList.Contains("omni-data-grid__export"));
+        }
+
+        Assert.Equal(2, grid.FindAll(".omni-data-grid__bar").Count);
+    }
+
+    [Fact]
     public void TheFormerExportBar_StillShows_WhenTheShownBarCarriesNoButton()
     {
         var host = Grid(builder => builder
@@ -101,6 +122,37 @@ public sealed class DataGridBarsTests : OmniBunitContext
         }
 
         Assert.DoesNotContain("Tout exporter", host.Markup, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void TheGridItself_ShowsIconsAlone_ByDefault()
+    {
+        // Rendered without the test host, so only the grid's default decides.
+        var grid = Render<OmniDataGrid<Row>>(builder => builder
+            .Add(component => component.Items, Rows)
+            .Add(component => component.ShowFooterBar, true));
+
+        Assert.False(grid.Instance.ShowExportButtonText);
+        Assert.All(grid.FindAll(".omni-data-grid__export-button"), button => Assert.Equal(string.Empty, button.TextContent.Trim()));
+    }
+
+    [Fact]
+    public void ShowExportButtonText_WritesTheFormatBesideTheIcon_AndKeepsTheNameAndTitle()
+    {
+        var host = Grid(builder => builder
+            .Add(component => component.ShowFooterBar, true)
+            .Add(component => component.ShowExportButtonText, true));
+
+        var buttons = host.Find(".omni-data-grid__bar--footer").QuerySelectorAll(".omni-data-grid__export-button");
+        Assert.Equal(["Markdown", "CSV", "Excel"], buttons.Select(button => button.TextContent.Trim()));
+        Assert.Equal(["Exporter en Markdown", "Exporter en CSV", "Exporter en Excel"], buttons.Select(button => button.GetAttribute("aria-label")));
+        foreach (var button in buttons)
+        {
+            Assert.Equal(button.GetAttribute("aria-label"), button.GetAttribute("title"));
+            // WCAG 2.5.3: the accessible name contains the visible text.
+            Assert.Contains(button.TextContent.Trim(), button.GetAttribute("aria-label"), StringComparison.Ordinal);
+            Assert.NotNull(button.QuerySelector(".omni-icon"));
+        }
     }
 
     [Fact]

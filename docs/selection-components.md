@@ -155,7 +155,7 @@ Le survol penche le cadre et le fond vers l'accent, en clair comme en sombre. `D
   glissement ; `OnValueCommit` est levé une seule fois au relâchement, avec la valeur finale (recherche
   d'une position dans un média), et sans lui aucun gestionnaire `change` n'est posé.
 - `OmniColorPicker` accepte exclusivement le format hexadécimal `#RRGGBB` sans générer de style inline.
-- `OmniUpload` valide nombre, taille et types MIME avant d'appeler le délégué applicatif ; `Id` est posé sur le champ fichier.
+- `OmniUpload` valide nombre, taille et types MIME avant d'appeler le délégué applicatif ; `Id` est posé sur le champ fichier. En `Display="Field"`, le champ et le bouton « Parcourir » (bleu, action principale du champ) forment un seul contrôle : bordure partagée, champ jamais plus étroit que `min(12rem, 60%)`.
 
 ## Téléversement
 

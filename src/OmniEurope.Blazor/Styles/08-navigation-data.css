@@ -445,6 +445,10 @@
 .omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer),
 .omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer) td { block-size: var(--omni-row-height); box-sizing: border-box; }
 .omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer) td { max-block-size: var(--omni-row-height); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* A row being edited keeps that height: its cells drop their block padding and the controls in them
+   (one-line editors, buttons) fit the row less its rules, whatever their size (recette R-017). */
+.omni-data-grid--fixed-row-height tbody tr.omni-data-grid__row--editing td { padding-block: 0; }
+.omni-data-grid--fixed-row-height tbody tr.omni-data-grid__row--editing td :is(.omni-input, .omni-button) { max-block-size: calc(var(--omni-row-height) - 0.25rem); min-block-size: 0; }
 .omni-data-grid__spacer td { block-size: var(--omni-grid-spacer, 0px); border: 0; padding: 0; }
 .omni-data-grid__row--placeholder td { block-size: var(--omni-grid-row-estimate, 2.5rem); }
 .omni-data-grid__group-panel { align-items: center; color: var(--omni-color-text-muted); display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); }

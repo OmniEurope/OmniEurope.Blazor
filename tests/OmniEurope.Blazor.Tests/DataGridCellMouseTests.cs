@@ -136,4 +136,18 @@ public sealed class DataGridCellMouseTests : OmniBunitContext
         Assert.Throws<MissingEventHandlerException>(() => cell.Click());
         Assert.Equal(0, clicks);
     }
+
+    [Fact]
+    public async Task AnEditedRow_CarriesTheEditingClass_UntilTheEditEnds()
+    {
+        // recette R-017: the stylesheet keeps such a row at the height of a fixed-row grid.
+        var grid = RenderGrid(_ => { }, editable: true);
+        Assert.Empty(grid.FindAll("tr.omni-data-grid__row--editing"));
+
+        await grid.InvokeAsync(() => grid.Instance.EditRowAsync(Rows[0]));
+
+        Assert.Equal("0", grid.Find("tr.omni-data-grid__row--editing").GetAttribute("data-omni-row-index"));
+        await grid.InvokeAsync(() => grid.Instance.CancelEditAsync(Rows[0]));
+        grid.WaitForAssertion(() => Assert.Empty(grid.FindAll("tr.omni-data-grid__row--editing")));
+    }
 }

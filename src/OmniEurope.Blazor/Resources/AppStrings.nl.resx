@@ -343,6 +343,7 @@
   <data name="MindMapNodeText" xml:space="preserve"><value>Tekst</value></data>
   <data name="MindMapNodeWidth" xml:space="preserve"><value>Breedte</value></data>
   <data name="MindMapNodeWithNote" xml:space="preserve"><value>{0}, notitie: {1}</value></data>
+  <data name="MindMapPropertiesEmpty" xml:space="preserve"><value>Selecteer een knooppunt om de eigenschappen ervan te bewerken.</value></data>
   <data name="MindMapPropertiesTitle" xml:space="preserve"><value>Eigenschappen van knooppunt</value></data>
   <data name="MindMapRename" xml:space="preserve"><value>Knooppunt hernoemen</value></data>
   <data name="MindMapSizeAutoHint" xml:space="preserve"><value>0 = automatische grootte</value></data>

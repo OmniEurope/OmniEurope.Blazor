@@ -343,6 +343,7 @@
   <data name="MindMapNodeText" xml:space="preserve"><value>Tekst</value></data>
   <data name="MindMapNodeWidth" xml:space="preserve"><value>Bredde</value></data>
   <data name="MindMapNodeWithNote" xml:space="preserve"><value>{0}, note: {1}</value></data>
+  <data name="MindMapPropertiesEmpty" xml:space="preserve"><value>Vælg en node for at redigere dens egenskaber.</value></data>
   <data name="MindMapPropertiesTitle" xml:space="preserve"><value>Egenskaber for node</value></data>
   <data name="MindMapRename" xml:space="preserve"><value>Omdøb node</value></data>
   <data name="MindMapSizeAutoHint" xml:space="preserve"><value>0 = automatisk størrelse</value></data>

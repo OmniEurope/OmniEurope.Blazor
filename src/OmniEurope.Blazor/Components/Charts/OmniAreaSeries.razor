@@ -1,4 +1,7 @@
 @namespace OmniEurope.Blazor.Components
-<polygon class="@CssClass" points="@AreaPoints"><title>@Title</title></polygon>
+@if (!Hidden)
+{
+    <polygon class="@CssClass" points="@AreaPoints"><title>@Title</title></polygon>
+}
 
 @implements IDisposable

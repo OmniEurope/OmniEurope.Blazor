@@ -343,6 +343,7 @@
   <data name="MindMapNodeText" xml:space="preserve"><value>Текст</value></data>
   <data name="MindMapNodeWidth" xml:space="preserve"><value>Ширина</value></data>
   <data name="MindMapNodeWithNote" xml:space="preserve"><value>{0}, бележка: {1}</value></data>
+  <data name="MindMapPropertiesEmpty" xml:space="preserve"><value>Изберете възел, за да редактирате свойствата му.</value></data>
   <data name="MindMapPropertiesTitle" xml:space="preserve"><value>Свойства на възела</value></data>
   <data name="MindMapRename" xml:space="preserve"><value>Преименуване на възела</value></data>
   <data name="MindMapSizeAutoHint" xml:space="preserve"><value>0 = автоматичен размер</value></data>

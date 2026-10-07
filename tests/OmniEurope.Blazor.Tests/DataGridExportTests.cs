@@ -409,6 +409,34 @@ public sealed class DataGridExportTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task WithButtonText_TheCancelButton_ShowsItsName()
+    {
+        var pending = new TaskCompletionSource<OmniDataGridResult<Row>>();
+        var first = true;
+        var host = Render<DataGridExportTestHost>(parameters => parameters
+            .Add(component => component.Load, _ =>
+            {
+                if (first)
+                {
+                    first = false;
+                    return Task.FromResult(new OmniDataGridResult<Row>(Rows.Take(2).ToArray(), Rows.Length));
+                }
+
+                return pending.Task;
+            })
+            .Add(component => component.ShowExportButtonText, true)
+            .Add(component => component.Formats, [OmniTableExportFormat.Csv]));
+        host.WaitForAssertion(() => Assert.Equal(2, host.FindAll("tbody tr").Count));
+
+        var running = Button(host, "CSV").ClickAsync(new());
+
+        host.WaitForAssertion(() => Assert.Equal("Annuler", host.Find(".omni-data-grid__export-cancel").TextContent.Trim()));
+        Assert.Equal("Annuler", host.Find(".omni-data-grid__export-cancel").GetAttribute("aria-label"));
+        await host.Find(".omni-data-grid__export-cancel").ClickAsync(new());
+        await running;
+    }
+
+    [Fact]
     public void Csv_InACultureWithADecimalPoint_IsSeparatedByCommas()
     {
         var document = new OmniTableExportDocument

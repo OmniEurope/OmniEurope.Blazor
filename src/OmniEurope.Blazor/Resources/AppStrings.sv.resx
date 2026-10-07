@@ -343,6 +343,7 @@
   <data name="MindMapNodeText" xml:space="preserve"><value>Text</value></data>
   <data name="MindMapNodeWidth" xml:space="preserve"><value>Bredd</value></data>
   <data name="MindMapNodeWithNote" xml:space="preserve"><value>{0}, anteckning: {1}</value></data>
+  <data name="MindMapPropertiesEmpty" xml:space="preserve"><value>Välj en nod för att redigera dess egenskaper.</value></data>
   <data name="MindMapPropertiesTitle" xml:space="preserve"><value>Nodens egenskaper</value></data>
   <data name="MindMapRename" xml:space="preserve"><value>Byt namn på noden</value></data>
   <data name="MindMapSizeAutoHint" xml:space="preserve"><value>0 = automatisk storlek</value></data>

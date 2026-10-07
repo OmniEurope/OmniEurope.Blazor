@@ -4,6 +4,26 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+## [1.7.0] - 2026-10-07
+
+### Added
+
+- `OmniDataGrid.ShowExportButtonText` (`bool`, `false` par défaut) : chaque bouton d'export montre le nom de son format à côté de l'icône (« Markdown », « CSV », « Excel », « PDF »), et le bouton d'annulation son « Annuler » ; nom accessible et titre inchangés (« Exporter en Markdown »), le texte visible y étant contenu (WCAG 2.5.3). Sans l'option, les boutons restent des icônes seules. Vitrine : grille de la page Grille. Demande d'une application cliente du 2026-10-06 (icône seule illisible dans une grande barre de pied).
+- `OmniLegend.AllowToggle` (`bool`, `true` par défaut) : un clic sur une entrée qui nomme une série masque cette série, ou la réaffiche. Le graphique se redessine sans elle : domaine de l'axe des valeurs, piles et emplacements des colonnes recalculés ; ses marqueurs et étiquettes de données (mêmes points) disparaissent avec elle, et le texte de survol partagé ne liste plus ses valeurs. L'entrée reste, atténuée et barrée. Sous ou au-dessus du graphique, chaque entrée est un bouton (`omni-chart__legend-toggle`, `aria-pressed`, clavier) ; à droite, dans le dessin que les technologies d'assistance lisent comme une seule image, l'entrée répond au pointeur seul, le tableau de données restant l'alternative. Les parts d'un camembert et les entrées au-delà de la dernière série ne basculent jamais ; `false` garde une légende simple. Demande de la recette (R-011).
+
+### Changed
+
+- `OmniChart` : la marge à gauche du tracé d'un graphique vertical s'élargit à la graduation la plus longue de l'axe des valeurs (14 unités au moins, 1,7 par caractère), si bien qu'un montant long (« 100 000,00 € ») n'est plus dessiné hors du graphique. Un graphique horizontal ou sans axe des valeurs garde 14. Recette d'une application cliente (R-010), où le libellé débordait de 8 px.
+- `OmniSidebar` ouvert : 12,5 rem au lieu de 18 rem par défaut (`--omni-sidebar-width`), 30 % de moins ; le rail d'icônes ne change pas. Un hôte qui veut une autre largeur pose toujours sa propriété. Recette d'une application cliente (R-001).
+- `OmniUpload` en `Display="Field"` : le champ et le bouton se lisent comme un seul contrôle, le champ sans sa bordure de fin, plus de place avant le bouton et jamais moins de `min(12rem, 60%)` de large, et « Parcourir » en bleu (`omni-button--primary`), l'action principale du champ. Recette d'une application cliente (R-013, R-015).
+- `OmniDataGrid` avec `FixedRowHeight` : une ligne en édition garde la hauteur des autres ; ses cellules perdent leur marge verticale et les contrôles qu'elles contiennent (champs d'une ligne, boutons) tiennent dans la ligne moins ses filets. La ligne en édition porte `omni-data-grid__row--editing`. Recette d'une application cliente (R-017), où la ligne passait de 40 à 53 px.
+- Hauteur des contrôles par densité (`--omni-control-height`, échelle 1) : 28 px en `Comfortable`, la densité par défaut (36 px avant), 24 px en `Compact` (26 px avant) et 34 px en `Spacious` (44 px avant) ; la marge verticale des champs (`--omni-input-pad-y`) suit, 0,25 rem en `Comfortable` et 0,375 rem en `Spacious`, pour qu'un champ d'une ligne tienne dans la hauteur. Un champ d'une ligne (`input.omni-input`) prend la hauteur de contrôle, comme une liste : sa boîte suivait la police et non la hauteur de ligne, et un champ de date (boîte interne de 19,5 px dans Chromium) ou un thème à police plus haute (Source Serif 4) le portait à 29,5 px. Le champ d'`OmniUpload` en `Display="Field"` perd sa marge verticale (texte centré par flex) et tient dans la hauteur de son bouton (29 px au lieu de 28). Les contrôles qui ont une zone transparente de 44 px (pager, arbre, fermeture d'alerte, avatar) la gardent ; un bouton à icône seule n'en a pas et mesure la hauteur de contrôle. Icônes de tuile et cases du calendrier inchangées. Un hôte qui imposait 28 px par sa propre feuille peut retirer sa surcharge. Recette d'une application cliente (R-025).
+
+### Fixed
+
+- `OmniPageHeader` et `OmniCodeBlock` : la ligne de titre et l'en-tête suivent la hauteur des contrôles de chaque densité (36 px et 32 px inchangés en `Comfortable`) ; leur plancher fixe (2,25 rem, 2 rem) l'emportait sur les nouvelles hauteurs et les gardait identiques en compacte et en aérée.
+- `OmniMindMapNodeProperties` sans sélection : le panneau garde sa place, avec son titre et « Sélectionnez un nœud pour modifier ses propriétés » (classe `omni-mindmap-properties--empty`), au lieu de n'apparaître qu'à l'appui sur un nœud. Quand la carte avait la place de le poser à côté du dessin, son apparition rétrécissait le dessin sous le pointeur : le glisser du nœud appuyé ne partait pas et le nœud passait sous le panneau. Texte dans les 24 langues.
+
 ## [1.6.0] - 2026-10-06
 
 ### Added

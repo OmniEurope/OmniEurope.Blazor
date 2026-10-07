@@ -11,7 +11,7 @@ Ces composants mènent d'une page ou d'une vue à une autre et disent où l'on e
 | `OmniPanelMenuItem` | Une entrée du menu : un lien, un groupe qui se déplie, ou une action ; icône et badge de fin de ligne facultatifs. |
 | `OmniProfileMenu` | Menu de compte : un bouton, avatar (initiales ou glyphe) ou résumé, qui ouvre la liste des actions du compte (`OmniMenuItem`), avec l'identité en tête. |
 | `OmniAppMenu` | Menu standard du bout de la barre d'application, le même dans toutes les applications (voir plus bas). |
-| `OmniSidebar` | Landmark `aside` de la barre latérale, ouverte, réduite en rail ou superposée sur petit écran ; un menu poussé que l'hôte peut fermer se superpose sur téléphone. |
+| `OmniSidebar` | Landmark `aside` de la barre latérale, ouverte (12,5 rem par défaut, `--omni-sidebar-width`), réduite en rail ou superposée sur petit écran ; un menu poussé que l'hôte peut fermer se superpose sur téléphone. |
 | `OmniSidebarToggle` | Poignée qui ouvre et ferme la barre latérale (`aria-controls`, `aria-expanded`) ; son glyphe ouvert suit le mode du menu (`Reveal`). |
 | `OmniTabs` | Onglets : liste d'onglets et panneau de l'onglet choisi, liés par `Value`. |
 | `OmniTabsItem` | Un onglet et son panneau : clé (`Key`, repli sur `Title`), titre (texte ou contenu riche), icône facultative, contenu. |

@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # PLAN-009 : Thèmes excellents et reliquats
 
-> Statut : **ouvert**. Établi le 2026-09-30 ; lots 1 à 13 faits (le 11 dans le kit, commité dans le kit en `57ac017` le 2026-09-30). Restent deux décisions du propriétaire : l'historique public, Trou noir (reportée).
+> Statut : **ouvert**. Établi le 2026-09-30 ; lots 1 à 13 faits (le 11 dans le kit, commité dans le kit en `57ac017` le 2026-09-30). Reste une décision du propriétaire : Trou noir (reportée).
 
 ## Objectif
 
@@ -165,7 +165,7 @@ Controle : un test par point, R-032 et R-034 vérifiés en navigateur à 375 px 
 
 Rien ici n'est exécuté sans réponse.
 
-- Nom du projet privé dans l'historique public : le 2026-10-01 le propriétaire a écrit « Réécrit », puis « fais ce que tu recommandes » sur une recommandation conditionnelle ; rien n'est réécrit et la décision reste à prendre. Périmètre réel, plus large que les « cinq messages » annoncés : le nom est dans 9 commits (`git log -S`) et dans le contenu des étiquettes 1.0.1, 1.1.0 et 1.2.0 (4 à 7 fichiers, dont un commentaire de documentation XML livré dans ces paquets) ; il n'est plus dans 1.3.0 ni après. Réécrire les seuls messages ne le retirerait pas des paquets publiés. Choix : réécriture complète (contenu et messages, étiquettes déplacées, délistage de 1.0.1 à 1.2.0, autre session OE arrêtée), ou acceptation en l'état.
+- Historique public : tranché le 2026-10-07 (réécriture complète), traité par PLAN-016.
 - Trou noir : redessiné depuis (toujours sombre, shader WebGL). Le propriétaire le juge moyen et y reviendra plus tard (2026-10-01). Le 2026-10-02 : « beaucoup mieux » mais trop grand et trop lumineux ; redessiné (plus petit, plus sombre, gaz couleur d'accent, filaments, halo, étoiles), non commité, en attente de son avis.
 
 ## Ordre et dépendances

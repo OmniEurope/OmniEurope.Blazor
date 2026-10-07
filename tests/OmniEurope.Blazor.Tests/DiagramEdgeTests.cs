@@ -114,6 +114,32 @@ public sealed class DiagramEdgeTests : OmniBunitContext
     }
 
     [Fact]
+    public void Panel_StaysInPlaceWithoutSelection_SoPressingANodeDoesNotNarrowTheCanvas()
+    {
+        var map = Render<OmniMindMap>(parameters => parameters
+            .Add(component => component.Document, MindMapComponentTests.Sample())
+            .Add(component => component.PanelContent, builder =>
+            {
+                builder.OpenComponent<OmniMindMapNodeProperties>(0);
+                builder.AddComponentParameter(1, nameof(OmniMindMapNodeProperties.Id), "proprietes");
+                builder.CloseComponent();
+            }));
+
+        var empty = map.Find("section.omni-mindmap-properties");
+        Assert.Contains("omni-mindmap-properties--empty", empty.ClassList);
+        Assert.Equal("proprietes", empty.Id);
+        Assert.Equal("Propriétés du nœud", map.Find($"#{empty.GetAttribute("aria-labelledby")}").TextContent);
+        Assert.Equal("Sélectionnez un nœud pour modifier ses propriétés.", empty.QuerySelector(".omni-mindmap-properties__hint")!.TextContent);
+        Assert.Empty(map.FindAll(".omni-mindmap-properties input"));
+
+        Press(map, "Home");
+
+        var filled = map.Find("section.omni-mindmap-properties");
+        Assert.DoesNotContain("omni-mindmap-properties--empty", filled.ClassList);
+        Assert.NotEmpty(map.FindAll(".omni-mindmap-properties input"));
+    }
+
+    [Fact]
     public async Task Panel_WithoutSelection_ShowsTheRootGroup_EditsNothing_AndRefusesAnUnknownGroup()
     {
         var changes = new List<OmniMindMapDocument>();
