@@ -59,6 +59,15 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     }
 
     [Fact]
+    public void PageAndCodeBlockHeaders_FollowTheControlHeight_WithoutAFixedFloor()
+    {
+        // A rem floor (2.25rem, 2rem) outgrew the lower control heights and kept both headers at the
+        // same height in compact and spacious density, which the showcase density probe refuses.
+        Assert.Equal("calc(var(--omni-control-height) + 0.5rem)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-page-header"), "--omni-page-header-line"));
+        Assert.Equal("calc(var(--omni-control-height) + 0.25rem)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-code-block__header"), "min-block-size"));
+    }
+
+    [Fact]
     public void OneLineFields_TakeTheControlHeight_BelowTheSizeRules()
     {
         // recette R-025: Chromium's inner date box, then a theme font's metrics, pushed a 28 px field to 29.5 px.
