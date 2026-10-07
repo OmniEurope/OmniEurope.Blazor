@@ -31,7 +31,7 @@ if (([DateTime]::UtcNow.Date - $reviewedAt.Date).TotalDays -gt 30) {
     throw "Dependency catalog evidence is older than 30 days: $($policy.reviewedAt)."
 }
 # STD-SDKPIN: a newer NuGet release is reported, never turned into a build failure. The pins, the
-# policy entries and reviewedAt above stay blocking; Dependabot opens the upgrade proposal.
+# policy entries and reviewedAt above stay blocking; the upgrade itself is made by hand.
 if (-not $SkipCatalogCheck) {
     foreach ($package in @($policy.packages.PSObject.Properties | Where-Object { $_.Value.status -eq 'latest-stable' })) {
         $id = $package.Name.ToLowerInvariant()

@@ -51,8 +51,8 @@ hôtes WebAssembly n'aient plus de paquet implicite lié au runtime du SDK.
    plancher vers Roslyn, pour les trois paquets `Microsoft.CodeAnalysis`) et
    `ImplicitSdkPacks_ArePinnedToTheCentralAspNetCoreVersion`, qui empêche le pin des paquets implicites
    de diverger des paquets ASP.NET Core centraux.
-5. `.github/dependabot.yml` exclut des mises à jour les trois paquets `Microsoft.CodeAnalysis`, et
-   seulement eux. L'exclusion `STD-SDKPIN` de la configuration locale du contrôle des règles est retirée.
+5. `.github/dependabot.yml` excluait des mises à jour les trois paquets `Microsoft.CodeAnalysis`, et
+   seulement eux ; le fichier est retiré le 2026-10-07, plus aucune mise à jour n'est proposée automatiquement. L'exclusion `STD-SDKPIN` de la configuration locale du contrôle des règles est retirée.
 
 ## Preuves
 
