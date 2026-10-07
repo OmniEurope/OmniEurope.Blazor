@@ -343,6 +343,7 @@
   <data name="MindMapNodeText" xml:space="preserve"><value>Szöveg</value></data>
   <data name="MindMapNodeWidth" xml:space="preserve"><value>Szélesség</value></data>
   <data name="MindMapNodeWithNote" xml:space="preserve"><value>{0}, megjegyzés: {1}</value></data>
+  <data name="MindMapPropertiesEmpty" xml:space="preserve"><value>Válasszon ki egy csomópontot a tulajdonságai szerkesztéséhez.</value></data>
   <data name="MindMapPropertiesTitle" xml:space="preserve"><value>Csomópont tulajdonságai</value></data>
   <data name="MindMapRename" xml:space="preserve"><value>Csomópont átnevezése</value></data>
   <data name="MindMapSizeAutoHint" xml:space="preserve"><value>0 = automatikus méret</value></data>

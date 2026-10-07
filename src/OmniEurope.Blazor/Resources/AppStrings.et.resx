@@ -343,6 +343,7 @@
   <data name="MindMapNodeText" xml:space="preserve"><value>Tekst</value></data>
   <data name="MindMapNodeWidth" xml:space="preserve"><value>Laius</value></data>
   <data name="MindMapNodeWithNote" xml:space="preserve"><value>{0}, märkus: {1}</value></data>
+  <data name="MindMapPropertiesEmpty" xml:space="preserve"><value>Valige sõlm, et muuta selle atribuute.</value></data>
   <data name="MindMapPropertiesTitle" xml:space="preserve"><value>Sõlme atribuudid</value></data>
   <data name="MindMapRename" xml:space="preserve"><value>Nimeta sõlm ümber</value></data>
   <data name="MindMapSizeAutoHint" xml:space="preserve"><value>0 = automaatne suurus</value></data>

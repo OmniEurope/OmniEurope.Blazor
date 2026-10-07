@@ -343,6 +343,7 @@
   <data name="MindMapNodeText" xml:space="preserve"><value>Text</value></data>
   <data name="MindMapNodeWidth" xml:space="preserve"><value>Lățime</value></data>
   <data name="MindMapNodeWithNote" xml:space="preserve"><value>{0}, notă: {1}</value></data>
+  <data name="MindMapPropertiesEmpty" xml:space="preserve"><value>Selectați un nod pentru a-i edita proprietățile.</value></data>
   <data name="MindMapPropertiesTitle" xml:space="preserve"><value>Proprietățile nodului</value></data>
   <data name="MindMapRename" xml:space="preserve"><value>Redenumește nodul</value></data>
   <data name="MindMapSizeAutoHint" xml:space="preserve"><value>0 = dimensiune automată</value></data>

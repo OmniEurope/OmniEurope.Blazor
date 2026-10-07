@@ -343,6 +343,7 @@
   <data name="MindMapNodeText" xml:space="preserve"><value>Tekstas</value></data>
   <data name="MindMapNodeWidth" xml:space="preserve"><value>Plotis</value></data>
   <data name="MindMapNodeWithNote" xml:space="preserve"><value>{0}, pastaba: {1}</value></data>
+  <data name="MindMapPropertiesEmpty" xml:space="preserve"><value>Pasirinkite mazgą, kad redaguotumėte jo ypatybes.</value></data>
   <data name="MindMapPropertiesTitle" xml:space="preserve"><value>Mazgo ypatybės</value></data>
   <data name="MindMapRename" xml:space="preserve"><value>Pervardyti mazgą</value></data>
   <data name="MindMapSizeAutoHint" xml:space="preserve"><value>0 = automatinis dydis</value></data>

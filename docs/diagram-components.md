@@ -58,8 +58,9 @@ compte comme une modification.
 `OmniMindMapToolbar` propose exactement les actions de la page d'origine : nœud, supprimer, dupliquer,
 lien, centrer, réorganiser, ajuster ; en lecture seule, centrer et ajuster seulement.
 `OmniMindMapNodeProperties` édite le texte, la couleur (liste et pastilles), la taille de police (8 à
-48), le gras, l'italique, la largeur (0 à 500) et la hauteur (0 à 300) du nœud sélectionné ; il ne
-montre rien sans sélection et reste visible mais désactivé en lecture seule. Tous deux doivent être
+48), le gras, l'italique, la largeur (0 à 500) et la hauteur (0 à 300) du nœud sélectionné ; sans
+sélection il garde sa place, avec son titre et « Sélectionnez un nœud pour modifier ses propriétés », pour que
+l'appui sur un nœud ne rétrécisse pas le dessin sous le pointeur. Il reste visible mais désactivé en lecture seule. Tous deux doivent être
 placés dans leur emplacement de la carte et lèvent sinon.
 
 ## Pointeur, clavier et annonces

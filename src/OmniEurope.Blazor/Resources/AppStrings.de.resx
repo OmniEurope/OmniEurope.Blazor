@@ -343,6 +343,7 @@
   <data name="MindMapNodeText" xml:space="preserve"><value>Text</value></data>
   <data name="MindMapNodeWidth" xml:space="preserve"><value>Breite</value></data>
   <data name="MindMapNodeWithNote" xml:space="preserve"><value>{0}, Notiz: {1}</value></data>
+  <data name="MindMapPropertiesEmpty" xml:space="preserve"><value>Wählen Sie einen Knoten aus, um seine Eigenschaften zu bearbeiten.</value></data>
   <data name="MindMapPropertiesTitle" xml:space="preserve"><value>Knoteneigenschaften</value></data>
   <data name="MindMapRename" xml:space="preserve"><value>Knoten umbenennen</value></data>
   <data name="MindMapSizeAutoHint" xml:space="preserve"><value>0 = automatische Größe</value></data>

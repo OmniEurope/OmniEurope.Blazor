@@ -343,6 +343,7 @@
   <data name="MindMapNodeText" xml:space="preserve"><value>Tekst</value></data>
   <data name="MindMapNodeWidth" xml:space="preserve"><value>Širina</value></data>
   <data name="MindMapNodeWithNote" xml:space="preserve"><value>{0}, bilješka: {1}</value></data>
+  <data name="MindMapPropertiesEmpty" xml:space="preserve"><value>Odaberite čvor da biste uredili njegova svojstva.</value></data>
   <data name="MindMapPropertiesTitle" xml:space="preserve"><value>Svojstva čvora</value></data>
   <data name="MindMapRename" xml:space="preserve"><value>Preimenuj čvor</value></data>
   <data name="MindMapSizeAutoHint" xml:space="preserve"><value>0 = automatska veličina</value></data>

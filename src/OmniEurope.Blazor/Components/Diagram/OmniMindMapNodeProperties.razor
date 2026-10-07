@@ -58,3 +58,15 @@
         <p id="@HintId" class="omni-mindmap-properties__hint">@Localize("MindMapSizeAutoHint")</p>
     </section>
 }
+else
+{
+    @* Shown without a selection too: a panel that appeared on the press of a node narrowed the canvas
+       under the pointer, which then lost the drag and hid the node it had just pressed. *@
+    <section @attributes="AdditionalAttributes"
+             id="@BaseId"
+             class="@Css("omni-mindmap-properties", "omni-mindmap-properties--empty")"
+             aria-labelledby="@TitleId">
+        <div id="@TitleId" class="omni-mindmap-properties__title">@Localize("MindMapPropertiesTitle")</div>
+        <p class="omni-mindmap-properties__hint">@Localize("MindMapPropertiesEmpty")</p>
+    </section>
+}
