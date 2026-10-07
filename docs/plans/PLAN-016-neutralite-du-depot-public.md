@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # PLAN-016 : Neutralité du dépôt public
 
-> Statut : **en cours**. Établi le 2026-10-07 sur décision du propriétaire (« réécrire tout, supprimer toutes mentions »). Remplace la décision en attente « historique public » de PLAN-009.
+> Statut : **en cours**, lots 1 à 3 faits le 2026-10-07 (historique réécrit en local : 336 commits, 0 occurrence dans les objets, chemins et messages ; arbre final identique), lot 4 en attente de l'accord du propriétaire. Établi le 2026-10-07 sur décision du propriétaire (« réécrire tout, supprimer toutes mentions »). Remplace la décision en attente « historique public » de PLAN-009.
 
 ## Objectif
 
