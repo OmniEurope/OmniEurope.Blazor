@@ -60,7 +60,8 @@ internal sealed class OmniChartSharedTooltip : ComponentBase
     /// </summary>
     private List<(double X, double Y, double Width, double Height, string Text)> Bands()
     {
-        var series = Context.TableSeries;
+        // A series hidden through the legend is not drawn, so its values leave the hover text too.
+        var series = Context.TableSeries.Where(item => !Context.IsHidden(item.ColorIndex)).ToList();
         var count = Math.Max(Context.CategoryLabelCount, series.Select(item => item.Data.Count).DefaultIfEmpty(0).Max());
         var bands = new List<(double, double, double, double, string)>(count);
         if (series.Count == 0)

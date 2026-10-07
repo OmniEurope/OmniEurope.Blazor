@@ -1,4 +1,7 @@
 @namespace OmniEurope.Blazor.Components
-<polyline class="@CssClass" points="@PointText" fill="none"><title>@Title</title></polyline>
+@if (!Hidden)
+{
+    <polyline class="@CssClass" points="@PointText" fill="none"><title>@Title</title></polyline>
+}
 
 @implements IDisposable

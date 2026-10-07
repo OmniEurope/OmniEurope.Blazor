@@ -42,4 +42,7 @@ public partial class OmniLineSeries
         ChartContext?.UnregisterSeries(this);
         GC.SuppressFinalize(this);
     }
+
+    /// <summary>Hidden through a legend entry: the series draws nothing.</summary>
+    private bool Hidden => ChartContext?.IsHidden(ColorIndex) == true;
 }

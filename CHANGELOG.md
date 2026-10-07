@@ -7,6 +7,14 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 ### Added
 
 - `OmniDataGrid.ShowExportButtonText` (`bool`, `false` par défaut) : chaque bouton d'export montre le nom de son format à côté de l'icône (« Markdown », « CSV », « Excel », « PDF »), et le bouton d'annulation son « Annuler » ; nom accessible et titre inchangés (« Exporter en Markdown »), le texte visible y étant contenu (WCAG 2.5.3). Sans l'option, les boutons restent des icônes seules. Vitrine : grille de la page Grille. Demande d'une application cliente du 2026-10-06 (icône seule illisible dans une grande barre de pied).
+- `OmniLegend.AllowToggle` (`bool`, `true` par défaut) : un clic sur une entrée qui nomme une série masque cette série, ou la réaffiche. Le graphique se redessine sans elle : domaine de l'axe des valeurs, piles et emplacements des colonnes recalculés ; ses marqueurs et étiquettes de données (mêmes points) disparaissent avec elle, et le texte de survol partagé ne liste plus ses valeurs. L'entrée reste, atténuée et barrée. Sous ou au-dessus du graphique, chaque entrée est un bouton (`omni-chart__legend-toggle`, `aria-pressed`, clavier) ; à droite, dans le dessin que les technologies d'assistance lisent comme une seule image, l'entrée répond au pointeur seul, le tableau de données restant l'alternative. Les parts d'un camembert et les entrées au-delà de la dernière série ne basculent jamais ; `false` garde une légende simple. Demande de la recette (R-011).
+
+### Changed
+
+- `OmniChart` : la marge à gauche du tracé d'un graphique vertical s'élargit à la graduation la plus longue de l'axe des valeurs (14 unités au moins, 1,7 par caractère), si bien qu'un montant long (« 100 000,00 € ») n'est plus dessiné hors du graphique. Un graphique horizontal ou sans axe des valeurs garde 14. Recette d'une application cliente (R-010), où le libellé débordait de 8 px.
+- `OmniSidebar` ouvert : 12,5 rem au lieu de 18 rem par défaut (`--omni-sidebar-width`), 30 % de moins ; le rail d'icônes ne change pas. Un hôte qui veut une autre largeur pose toujours sa propriété. Recette d'une application cliente (R-001).
+- `OmniUpload` en `Display="Field"` : le champ et le bouton se lisent comme un seul contrôle, le champ sans sa bordure de fin, plus de place avant le bouton et jamais moins de `min(12rem, 60%)` de large, et « Parcourir » en bleu (`omni-button--primary`), l'action principale du champ. Recette d'une application cliente (R-013, R-015).
+- `OmniDataGrid` avec `FixedRowHeight` : une ligne en édition garde la hauteur des autres ; ses cellules perdent leur marge verticale et les contrôles qu'elles contiennent (champs d'une ligne, boutons) tiennent dans la ligne moins ses filets. La ligne en édition porte `omni-data-grid__row--editing`. Recette d'une application cliente (R-017), où la ligne passait de 40 à 53 px.
 
 ## [1.6.0] - 2026-10-06
 

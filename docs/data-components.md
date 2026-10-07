@@ -192,7 +192,9 @@ Mécanique :
   lignes suivantes se décalent en conséquence. Recherche de position et mise à jour restent
   logarithmiques, y compris sur des millions de lignes.
 - `FixedRowHeight` fait d'`EstimatedRowHeight` la hauteur exacte de chaque ligne : aucune mesure, et les
-  lignes sont dessinées à cette hauteur (débordement coupé), pour les jeux homogènes.
+  lignes sont dessinées à cette hauteur (débordement coupé), pour les jeux homogènes. Une ligne en
+  édition (`omni-data-grid__row--editing`) garde cette hauteur : ses cellules perdent leur marge
+  verticale et ses contrôles tiennent dans la ligne.
 - `VirtualizationOverscanCount` (3 par défaut) rend autant de lignes au-delà de chaque bord du viewport.
 - Deux lignes d'espacement encadrent la fenêtre rendue. Leur hauteur est posée en propriété
   personnalisée par le script, ce qui donne une barre de défilement couvrant tout le total sans

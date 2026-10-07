@@ -37,6 +37,47 @@ public sealed class ChartLayoutTests : OmniBunitContext
     }
 
     [Fact]
+    public void LongValueLabels_WidenTheLeftMargin_SoTheyStayInsideTheChart()
+    {
+        // recette R-010: "100 000,00 €" started 8px left of the card at a 4:1 ratio.
+        var chart = Render<OmniChart>(parameters => parameters
+            .Add(component => component.Title, "Soldes")
+            .Add(component => component.AspectRatio, 4)
+            .AddChildContent(builder =>
+            {
+                builder.OpenComponent<OmniValueAxis>(0);
+                builder.AddAttribute(1, nameof(OmniValueAxis.Automatic), true);
+                builder.AddAttribute(2, nameof(OmniValueAxis.FormatValue), (Func<double, string>)(value => value.ToString("#,##0.00 €", CultureInfo.GetCultureInfo("fr-FR"))));
+                builder.CloseComponent();
+                builder.OpenComponent<OmniLineSeries>(3);
+                builder.AddAttribute(4, nameof(OmniLineSeries.Data), (IReadOnlyList<OmniChartPoint>)[new(0, 50_000), new(1, 95_000)]);
+                builder.CloseComponent();
+            }));
+
+        var viewLeft = double.Parse(chart.Find("svg.omni-chart__svg").GetAttribute("viewBox")!.Split(' ')[0], CultureInfo.InvariantCulture);
+        var plotLeft = double.Parse(chart.Find(".omni-chart__axis--value line").GetAttribute("x1")!, CultureInfo.InvariantCulture);
+        var longest = chart.FindAll(".omni-chart__axis--value text").Max(text => text.TextContent.Length);
+        // The label ends 1.5 left of the plot and needs 1.7 per character: it starts inside the view box.
+        Assert.True(plotLeft - 1.5 - (longest * 1.7) >= viewLeft, $"label from {plotLeft - 1.5 - (longest * 1.7)} past the edge {viewLeft}");
+        Assert.True(plotLeft - viewLeft > SquarePlotLeft);
+    }
+
+    [Fact]
+    public void ShortValueLabels_KeepTheUsualLeftMargin()
+    {
+        var chart = Render<OmniChart>(parameters => parameters
+            .Add(component => component.Title, "Petits")
+            .AddChildContent(builder =>
+            {
+                builder.OpenComponent<OmniValueAxis>(0);
+                builder.AddAttribute(1, nameof(OmniValueAxis.Maximum), 10d);
+                builder.CloseComponent();
+            }));
+
+        Assert.Equal(SquarePlotLeft, double.Parse(chart.Find(".omni-chart__axis--value line").GetAttribute("x1")!, CultureInfo.InvariantCulture), 3);
+    }
+
+    [Fact]
     public void AspectRatio_BelowOne_KeepsTheSquare()
     {
         var chart = Render<OmniChart>(parameters => parameters

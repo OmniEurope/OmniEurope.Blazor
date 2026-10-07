@@ -9,7 +9,16 @@
         <ul class="omni-chart__legend omni-chart__legend--above" aria-label="@legend.Label">
             @foreach (var entry in entries)
             {
-                <li class="omni-chart__legend-item"><span class="omni-chart__swatch omni-chart-color-@entry.ColorSlot" aria-hidden="true"></span>@entry.Text</li>
+                <li class="@LegendItemClass(entry)">
+                    @if (OmniChartContext.CanToggle(legend, entry))
+                    {
+                        <button type="button" class="omni-chart__legend-toggle" aria-pressed="@(_context.IsEntryHidden(entry) ? "false" : "true")" @onclick="() => ToggleSeries(entry)"><span class="omni-chart__swatch omni-chart-color-@entry.ColorSlot" aria-hidden="true"></span>@entry.Text</button>
+                    }
+                    else
+                    {
+                        <span class="omni-chart__swatch omni-chart-color-@entry.ColorSlot" aria-hidden="true"></span>@entry.Text
+                    }
+                </li>
             }
         </ul>
     }
@@ -35,7 +44,16 @@
         <ul class="omni-chart__legend omni-chart__legend--below" aria-label="@legend.Label">
             @foreach (var entry in entries)
             {
-                <li class="omni-chart__legend-item"><span class="omni-chart__swatch omni-chart-color-@entry.ColorSlot" aria-hidden="true"></span>@entry.Text</li>
+                <li class="@LegendItemClass(entry)">
+                    @if (OmniChartContext.CanToggle(legend, entry))
+                    {
+                        <button type="button" class="omni-chart__legend-toggle" aria-pressed="@(_context.IsEntryHidden(entry) ? "false" : "true")" @onclick="() => ToggleSeries(entry)"><span class="omni-chart__swatch omni-chart-color-@entry.ColorSlot" aria-hidden="true"></span>@entry.Text</button>
+                    }
+                    else
+                    {
+                        <span class="omni-chart__swatch omni-chart-color-@entry.ColorSlot" aria-hidden="true"></span>@entry.Text
+                    }
+                </li>
             }
         </ul>
     }

@@ -1,4 +1,6 @@
 @namespace OmniEurope.Blazor.Components
+@if (!Hidden)
+{
 <g class="omni-chart__markers @ColorClass">
     @for (var index = 0; index < Data.Count; index++)
     {
@@ -7,5 +9,6 @@
         <circle cx="@OmniChartGeometry.Number(projected.X)" cy="@OmniChartGeometry.Number(projected.Y)" r="@OmniChartGeometry.Number(Radius)"><title>@(ChartContext?.PointTitle(index, point) ?? point.Label ?? OmniChartGeometry.Display(point.Y))</title></circle>
     }
 </g>
+}
 
 @implements IDisposable

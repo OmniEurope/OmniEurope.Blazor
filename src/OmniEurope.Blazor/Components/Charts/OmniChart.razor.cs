@@ -64,6 +64,18 @@ public partial class OmniChart
         }
         : null;
 
+    /// <summary>An entry of an HTML legend, dimmed while the series it names is hidden.</summary>
+    private string LegendItemClass(OmniChartContext.LegendEntry entry) =>
+        _context.IsEntryHidden(entry) ? "omni-chart__legend-item omni-chart__legend-item--hidden" : "omni-chart__legend-item";
+
+    private void ToggleSeries(OmniChartContext.LegendEntry entry)
+    {
+        if (entry.SeriesColor is { } color)
+        {
+            _context.ToggleSeries(color);
+        }
+    }
+
     private string SvgClass => _context.IsWide ? "omni-chart__svg omni-chart__svg--wide" : "omni-chart__svg";
 
     private string ViewBox => FormattableString.Invariant($"{_context.ViewLeft:0.###} 0 {_context.ViewWidth:0.###} 100");

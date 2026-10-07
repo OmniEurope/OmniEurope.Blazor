@@ -39,7 +39,13 @@ leurs coordonnées dans un même contexte : elles s'alignent par construction.
   écran étroit, et le tracé reprend toute la largeur. `Top` dessine la même liste au-dessus du SVG
   (`ul.omni-chart__legend--above`), le tracé gardant lui aussi toute la largeur. Les entrées se construisent depuis les séries du graphique,
   chacune avec la teinte de la série qu'elle nomme ; `Items` les remplace. `Label` (`string?`) nomme la
-  légende.
+  légende. `AllowToggle` (`true` par défaut) fait d'une entrée qui nomme une série un
+  interrupteur : un clic masque la série (et ses marqueurs et étiquettes), l'axe se recalcule sans elle,
+  l'entrée reste atténuée et barrée ; un second clic la réaffiche. Sous ou au-dessus du graphique
+  l'entrée est un bouton (`aria-pressed`, clavier) ; à droite, dans le dessin lu comme une image, elle
+  répond au pointeur seul. Les parts d'un camembert ne basculent pas.
+- La marge à gauche d'un tracé vertical tient la graduation la plus longue de l'axe des valeurs
+  (14 unités au moins, 1,7 par caractère) : un montant long n'est jamais dessiné hors du graphique.
 - `OmniCategoryAxis` n'écrit que les libellés qui tiennent sans se chevaucher : quand tous ne
   tiennent pas, un sur N, le premier et le dernier toujours gardés. La largeur d'un libellé est
   estimée à 1,7 unité par caractère (0,57 em), ce qui laisse un peu de marge. Le texte de survol de

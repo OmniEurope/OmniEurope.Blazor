@@ -443,6 +443,34 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     }
 
     [Fact]
+    public void UploadField_ReadsAsOneControl_WithABlueBrowseButton()
+    {
+        // recette R-013 and R-015: the field ran into a grey button and looked out of line.
+        var upload = Render<OmniUpload>(parameters => parameters.Add(component => component.Display, OmniUploadDisplay.Field));
+
+        Assert.Contains("omni-button--primary", upload.Find(".omni-upload__field-button").ClassList);
+        var field = ShippedLookTests.Body(".omni-upload__field-value");
+        Assert.Equal("0", ShippedLookTests.Value(field, "border-inline-end-width"));
+        Assert.Equal("min(12rem, 60%)", ShippedLookTests.Value(field, "min-inline-size"));
+        Assert.StartsWith("calc(", ShippedLookTests.Value(field, "padding-inline-end"), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Sidebar_OpenWidth_Is12Point5Rem()
+        // recette R-001: the open menu took 18rem, too wide; 30 % less.
+        => Assert.Equal("12.5rem", ShippedLookTests.Value(ShippedLookTests.Body(".omni-sidebar"), "--omni-sidebar-width"));
+
+    [Fact]
+    public void FixedRowGrid_KeepsAnEditedRowAtTheRowHeight()
+    {
+        // recette R-017: editing a row of a fixed-height grid made it 13px taller.
+        Assert.Equal("0", ShippedLookTests.Value(ShippedLookTests.Body(".omni-data-grid--fixed-row-height tbody tr.omni-data-grid__row--editing td"), "padding-block"));
+        var controls = ShippedLookTests.Body(".omni-data-grid--fixed-row-height tbody tr.omni-data-grid__row--editing td :is(.omni-input, .omni-button)");
+        Assert.Equal("calc(var(--omni-row-height) - 0.25rem)", ShippedLookTests.Value(controls, "max-block-size"));
+        Assert.Equal("0", ShippedLookTests.Value(controls, "min-block-size"));
+    }
+
+    [Fact]
     public void UploadField_KeepsTheZone_ForASelectionOfSeveralFiles()
     {
         var upload = Render<OmniUpload>(parameters => parameters

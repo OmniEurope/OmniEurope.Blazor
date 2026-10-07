@@ -69,6 +69,7 @@ internal sealed class GridCssClasses<TItem>(OmniDataGrid<TItem> grid)
         "omni-data-grid__row",
         grid.Selection.IsSelected(grid.ItemKey(row.Item)) ? "omni-data-grid__row--selected" : null,
         grid.Highlight.IsNewRow(row.Item) ? "omni-data-grid__row--new" : null,
+        grid.Editing.IsRowEditing(row.Item) ? "omni-data-grid__row--editing" : null,
         grid.AllowAlternatingRows && row.Index % 2 == 1 ? "omni-data-grid__row--alternate" : null,
         grid.Selection.RowsAreInteractive && row.Selectable ? "omni-data-grid__row--interactive" : null,
         row.Class
