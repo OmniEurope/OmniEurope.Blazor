@@ -68,13 +68,8 @@ public partial class OmniChart
     private string LegendItemClass(OmniChartContext.LegendEntry entry) =>
         _context.IsEntryHidden(entry) ? "omni-chart__legend-item omni-chart__legend-item--hidden" : "omni-chart__legend-item";
 
-    private void ToggleSeries(OmniChartContext.LegendEntry entry)
-    {
-        if (entry.SeriesColor is { } color)
-        {
-            _context.ToggleSeries(color);
-        }
-    }
+    // Bound to the button of an entry that can toggle, which names a series by its colour.
+    private void ToggleSeries(OmniChartContext.LegendEntry entry) => _context.ToggleSeries(entry.SeriesColor!.Value);
 
     private string SvgClass => _context.IsWide ? "omni-chart__svg omni-chart__svg--wide" : "omni-chart__svg";
 

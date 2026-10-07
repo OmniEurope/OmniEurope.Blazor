@@ -67,18 +67,13 @@ public partial class OmniLegend
     private bool CanToggle(OmniChartContext.LegendEntry entry) =>
         ChartContext is not null && OmniChartContext.CanToggle(Registration, entry);
 
+    // Both serve only an entry that can toggle (CanToggle): inside a chart, naming a series.
     private string EntryClass(OmniChartContext.LegendEntry entry) => CssClassBuilder.Combine([
         "omni-chart__legend-entry",
-        CanToggle(entry) ? "omni-chart__legend-entry--toggle" : null,
-        ChartContext?.IsEntryHidden(entry) == true ? "omni-chart__legend-entry--hidden" : null]);
+        "omni-chart__legend-entry--toggle",
+        ChartContext!.IsEntryHidden(entry) ? "omni-chart__legend-entry--hidden" : null]);
 
-    private void Toggle(OmniChartContext.LegendEntry entry)
-    {
-        if (CanToggle(entry))
-        {
-            ChartContext!.ToggleSeries(entry.SeriesColor!.Value);
-        }
-    }
+    private void Toggle(OmniChartContext.LegendEntry entry) => ChartContext!.ToggleSeries(entry.SeriesColor!.Value);
 
     /// <summary>Removes the legend from its chart.</summary>
     public void Dispose()
