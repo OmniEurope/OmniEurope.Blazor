@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # PLAN-016 : Neutralité du dépôt public
 
-> Statut : **en cours**, lots 1 à 3 faits le 2026-10-07 (historique réécrit en local : 336 commits, 0 occurrence dans les objets, chemins et messages ; arbre final identique), lot 4 en attente de l'accord du propriétaire. Établi le 2026-10-07 sur décision du propriétaire (« réécrire tout, supprimer toutes mentions »). Remplace la décision en attente « historique public » de PLAN-009.
+> Statut : **livré** le 2026-10-07 : lots 1 à 4 faits. Le dépôt GitHub a été supprimé puis recréé par le propriétaire, l'historique réécrit y est publié (clone miroir : 0 occurrence dans 6020 fichiers texte, 338 messages et tous les chemins) ; Dependabot est retiré (configuration, alertes et correctifs automatiques). Restent au propriétaire : dépréciation des paquets publiés, secret `NUGET_USER` de l'environnement `release`, politique de publication de confiance sur nuget.org. Établi le 2026-10-07 sur décision du propriétaire (« réécrire tout, supprimer toutes mentions »). Remplace la décision en attente « historique public » de PLAN-009.
 
 ## Objectif
 
