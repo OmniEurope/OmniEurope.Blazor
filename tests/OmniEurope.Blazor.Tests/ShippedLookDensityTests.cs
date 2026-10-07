@@ -59,10 +59,10 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     }
 
     [Fact]
-    public void DateAndTimeFields_TakeTheControlHeight_BelowTheSizeRules()
+    public void OneLineFields_TakeTheControlHeight_BelowTheSizeRules()
     {
-        // recette R-025: Chromium's inner date box pushed a 28 px filter field to 29.5 px.
-        var body = ShippedLookTests.Body("input.omni-input:where([type=\"date\"], [type=\"time\"], [type=\"datetime-local\"], [type=\"month\"], [type=\"week\"])");
+        // recette R-025: Chromium's inner date box, then a theme font's metrics, pushed a 28 px field to 29.5 px.
+        var body = ShippedLookTests.Body("input.omni-input");
 
         Assert.Equal("var(--omni-control-height)", ShippedLookTests.Value(body, "block-size"));
         Assert.Equal("0", ShippedLookTests.Value(body, "padding-block"));

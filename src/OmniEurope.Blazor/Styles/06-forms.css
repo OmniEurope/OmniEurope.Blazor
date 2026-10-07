@@ -37,14 +37,12 @@
        no shadow and the palette border otherwise. */
     box-shadow: var(--omni-input-shadow, 0 0 #0000);
 }
-/* A one-line field sits exactly at the control height, like the buttons beside it: the default
-   'normal' line height added a pixel over it. A select ignores line-height, so it takes the height. */
-input.omni-input { line-height: 1.25; }
+/* A one-line field sits exactly at the control height, like the buttons beside it, and takes it outright, as
+   a select does: its box otherwise follows the font, not the line height (a date field draws an inner box
+   of 19.5 px in Chromium, a theme font such as Source Serif 4 has taller metrics), which pushed a 28 px
+   field to 29.5 px. The element selector keeps the rule under the sizes below. */
+input.omni-input { block-size: var(--omni-control-height); line-height: 1.25; padding-block: 0; }
 select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-height); padding-block: 0; }
-/* A date or time field draws an inner box of its own (19.5 px in Chromium), taller than the line height,
-   which pushed a 28 px field to 29.5 px: it takes the control height, as a select does. :where keeps the
-   rule under the sizes below. */
-input.omni-input:where([type="date"], [type="time"], [type="datetime-local"], [type="month"], [type="week"]) { block-size: var(--omni-control-height); padding-block: 0; }
 /* A one-line field of another size (OmniInputBase.Size) takes the height of the button of that size,
    so a small drop-down sits on the line of small buttons; the toggle of a date field follows. */
 .omni-input.omni-input--small,
