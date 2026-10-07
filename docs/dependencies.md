@@ -1,6 +1,6 @@
 # Dépendances et chaîne d'outillage
 
-Les versions directes sont centralisées dans `Directory.Packages.props`; les résolutions transitives sont figées dans les fichiers `packages.lock.json`. Le fichier `eng/dependency-policy.json` conserve la date et la source de la revue manuelle des versions sensibles. Dependabot propose chaque semaine les mises à jour du SDK .NET et NuGet sous forme de demandes contrôlées.
+Les versions directes sont centralisées dans `Directory.Packages.props`; les résolutions transitives sont figées dans les fichiers `packages.lock.json`. Le fichier `eng/dependency-policy.json` conserve la date et la source de la revue manuelle des versions sensibles. Les mises à jour du SDK .NET et des paquets NuGet se font à la main : aucune proposition automatique.
 
 ## Décisions vérifiées le 25 septembre 2026
 
