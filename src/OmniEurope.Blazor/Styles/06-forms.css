@@ -41,6 +41,10 @@
    'normal' line height added a pixel over it. A select ignores line-height, so it takes the height. */
 input.omni-input { line-height: 1.25; }
 select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-height); padding-block: 0; }
+/* A date or time field draws an inner box of its own (19.5 px in Chromium), taller than the line height,
+   which pushed a 28 px field to 29.5 px: it takes the control height, as a select does. :where keeps the
+   rule under the sizes below. */
+input.omni-input:where([type="date"], [type="time"], [type="datetime-local"], [type="month"], [type="week"]) { block-size: var(--omni-control-height); padding-block: 0; }
 /* A one-line field of another size (OmniInputBase.Size) takes the height of the button of that size,
    so a small drop-down sits on the line of small buttons; the toggle of a date field follows. */
 .omni-input.omni-input--small,
@@ -405,7 +409,9 @@ select.omni-input.omni-input--large:not([multiple]):not([size]) { block-size: ca
    native control covers both, so the pointer, the focus and the drop all reach it; the field shows
    the focus ring and the button the hover of the pair. */
 .omni-upload__field { align-items: stretch; display: flex; min-inline-size: 0; position: relative; }
-.omni-upload__field-value { align-items: center; border-end-end-radius: 0; border-inline-end-width: 0; border-start-end-radius: 0; display: flex; flex: 1 1 auto; min-inline-size: min(12rem, 60%); overflow: hidden; padding-inline-end: calc(0.875rem * var(--omni-control-scale, 1)); text-overflow: ellipsis; white-space: nowrap; }
+/* The text is centred by flex in the control height: the vertical padding of a field, added to the line
+   height of a span, made it 1 px taller than the button beside it. */
+.omni-upload__field-value { align-items: center; border-end-end-radius: 0; border-inline-end-width: 0; border-start-end-radius: 0; display: flex; flex: 1 1 auto; min-inline-size: min(12rem, 60%); overflow: hidden; padding-block: 0; padding-inline-end: calc(0.875rem * var(--omni-control-scale, 1)); text-overflow: ellipsis; white-space: nowrap; }
 .omni-upload__field-value--empty { color: var(--omni-color-text-muted); }
 .omni-upload__field-button { border-end-start-radius: 0; border-start-start-radius: 0; flex: none; }
 .omni-upload__field:hover > .omni-upload__field-value { border-color: color-mix(in srgb, var(--omni-color-text) 45%, var(--omni-color-border)); }

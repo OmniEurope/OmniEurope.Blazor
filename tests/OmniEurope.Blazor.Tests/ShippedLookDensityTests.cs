@@ -43,8 +43,8 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     }
 
     [Theory]
-    // The control tokens keep the mockup values at the drawn control size (scale 1).
-    [InlineData("--omni-control-height", "calc(2.25rem * var(--omni-control-scale, 1))", "calc(1.625rem * var(--omni-control-scale, 1))", "calc(2.75rem * var(--omni-control-scale, 1))")]
+    // The control heights: 28 px by default, one step down (24 px) and one up (34 px), at scale 1.
+    [InlineData("--omni-control-height", "calc(1.75rem * var(--omni-control-scale, 1))", "calc(1.5rem * var(--omni-control-scale, 1))", "calc(2.125rem * var(--omni-control-scale, 1))")]
     [InlineData("--omni-control-font", "calc(0.875rem * var(--omni-control-scale, 1))", "calc(0.75rem * var(--omni-control-scale, 1))", "calc(0.9375rem * var(--omni-control-scale, 1))")]
     // The mockup's pixels written in rem (16 px each), so the host's text size scales them with the text.
     [InlineData("--omni-cell-pad-y", "0.5rem", "0.125rem", "0.75rem")]
@@ -56,6 +56,16 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
         Assert.Equal(comfortable, ShippedLookTests.Value(ShippedLookTests.Body(ComfortableDensity), token));
         Assert.Equal(compact, ShippedLookTests.Value(ShippedLookTests.Body(CompactDensity), token));
         Assert.Equal(spacious, ShippedLookTests.Value(ShippedLookTests.Body(SpaciousDensity), token));
+    }
+
+    [Fact]
+    public void DateAndTimeFields_TakeTheControlHeight_BelowTheSizeRules()
+    {
+        // recette R-025: Chromium's inner date box pushed a 28 px filter field to 29.5 px.
+        var body = ShippedLookTests.Body("input.omni-input:where([type=\"date\"], [type=\"time\"], [type=\"datetime-local\"], [type=\"month\"], [type=\"week\"])");
+
+        Assert.Equal("var(--omni-control-height)", ShippedLookTests.Value(body, "block-size"));
+        Assert.Equal("0", ShippedLookTests.Value(body, "padding-block"));
     }
 
     [Theory]
@@ -453,6 +463,7 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
         Assert.Equal("0", ShippedLookTests.Value(field, "border-inline-end-width"));
         Assert.Equal("min(12rem, 60%)", ShippedLookTests.Value(field, "min-inline-size"));
         Assert.StartsWith("calc(", ShippedLookTests.Value(field, "padding-inline-end"), StringComparison.Ordinal);
+        Assert.Equal("0", ShippedLookTests.Value(field, "padding-block"));
     }
 
     [Fact]

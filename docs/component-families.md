@@ -46,7 +46,7 @@ Celles-ci ne sont déclarées nulle part et se lisent avec une valeur de repli :
 | `--omni-busy-veil-color` | `.omni-busy`, `.btn-busy` | `#000000` | Couleur du voile d'un bouton occupé. |
 | `--omni-wizard-actions-background` | `OmniWizard` (bandeau des boutons) | la surface de carte tant que le bandeau est collé, transparent sinon | Fond du bandeau des boutons tant qu'il est collé au bas de la fenêtre ; se pose sur l'assistant ou un ancêtre. |
 | `--omni-tabs-edge` | `OmniTabs` (bords de défilement des onglets) | `var(--omni-card-background, var(--omni-color-surface))` | Fond sur lequel s'effacent les chevrons de défilement ; à poser quand les onglets sont sur un autre fond que la carte. |
-| `--omni-git-graph-row-height` | `OmniGitGraph` | hauteur de contrôle moins `0.25rem` (`2rem` en densité confortable) | Hauteur de chaque ligne, dessin compris ; suit la densité. |
+| `--omni-git-graph-row-height` | `OmniGitGraph` | hauteur de contrôle moins `0.25rem` (`1.5rem` en densité confortable) | Hauteur de chaque ligne, dessin compris ; suit la densité. |
 
 `--omni-shadow-stack`, l'ombre qu'une notification empilée jette sur celle qu'elle recouvre, est une variable de thème de `:root` : un thème sombre peut la foncer.
 
