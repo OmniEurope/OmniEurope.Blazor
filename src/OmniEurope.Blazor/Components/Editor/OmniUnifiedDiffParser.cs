@@ -170,7 +170,7 @@ public static partial class OmniUnifiedDiffParser
             path = path[..tab];
         }
 
-        path = path.Trim().Trim('"');
+        path = GitQuotedPath.Unquote(path.Trim());
         if (path == DevNull)
         {
             return null;
@@ -203,7 +203,15 @@ public static partial class OmniUnifiedDiffParser
         {
             // "a/old b/new": the last " b/" separates the sides, which holds for paths with spaces. The
             // ---, +++ and rename lines that follow, when present, are more precise and replace them.
+            // A side Git quoted (a name past ASCII, core.quotePath) is read as a C string.
             var builder = new FileBuilder();
+            if (GitQuotedPath.TrySplit(paths, out var oldPath, out var newPath))
+            {
+                builder._oldPath = StripSide(oldPath);
+                builder._newPath = StripSide(newPath);
+                return builder;
+            }
+
             var separator = paths.LastIndexOf(" b/", StringComparison.Ordinal);
             if (separator > 0)
             {
@@ -239,12 +247,12 @@ public static partial class OmniUnifiedDiffParser
             else if (line.StartsWith("rename from ", StringComparison.Ordinal))
             {
                 _renamed = true;
-                _oldPath = line["rename from ".Length..].Trim('"');
+                _oldPath = GitQuotedPath.Unquote(line["rename from ".Length..]);
             }
             else if (line.StartsWith("rename to ", StringComparison.Ordinal))
             {
                 _renamed = true;
-                _newPath = line["rename to ".Length..].Trim('"');
+                _newPath = GitQuotedPath.Unquote(line["rename to ".Length..]);
             }
             else if (line.StartsWith("Binary files ", StringComparison.Ordinal) || line.StartsWith("GIT binary patch", StringComparison.Ordinal))
             {

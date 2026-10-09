@@ -415,6 +415,7 @@
   <data name="WindowRestore" xml:space="preserve"><value>Előző méret</value></data>
   <data name="WindowClose" xml:space="preserve"><value>Bezárás</value></data>
   <data name="SidebarToggleLabel" xml:space="preserve"><value>Navigáció megjelenítése vagy elrejtése</value></data>
+  <data name="SkipLinkText" xml:space="preserve"><value>Ugrás a fő tartalomra</value></data>
   <data name="SliderInvalid" xml:space="preserve"><value>A csúszka értéke érvénytelen.</value></data>
   <data name="SplitButtonMenuLabel" xml:space="preserve"><value>További műveletek</value></data>
   <data name="StepsLabel" xml:space="preserve"><value>Lépések</value></data>

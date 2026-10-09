@@ -415,6 +415,7 @@
   <data name="WindowRestore" xml:space="preserve"><value>Restore</value></data>
   <data name="WindowClose" xml:space="preserve"><value>Close</value></data>
   <data name="SidebarToggleLabel" xml:space="preserve"><value>Show or hide navigation</value></data>
+  <data name="SkipLinkText" xml:space="preserve"><value>Skip to main content</value></data>
   <data name="SliderInvalid" xml:space="preserve"><value>The slider value is invalid.</value></data>
   <data name="SplitButtonMenuLabel" xml:space="preserve"><value>More actions</value></data>
   <data name="StepsLabel" xml:space="preserve"><value>Steps</value></data>

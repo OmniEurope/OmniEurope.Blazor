@@ -1,3 +1,4 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using OmniEurope.Blazor.Catalog.Resources;
@@ -27,11 +28,39 @@ public partial class Home : IDisposable
     private DateTimeOffset SchedulerDate { get; } = new(2026, 8, 10, 0, 0, 0, TimeSpan.Zero);
     private IReadOnlyList<OmniSchedulerAppointment> Appointments { get; set; } = Array.Empty<OmniSchedulerAppointment>();
     private RenderFragment<string> NameTemplate => value => builder => builder.AddContent(0, value);
+    // The alternative of the chart for assistive technologies: the same points as the drawing, a row each.
     private RenderFragment ChartTable => builder =>
     {
         builder.OpenElement(0, "table");
         builder.OpenElement(1, "caption");
         builder.AddContent(2, Text["ChartDataCaption"]);
+        builder.CloseElement();
+        builder.OpenElement(3, "thead");
+        builder.OpenElement(4, "tr");
+        foreach (var header in new[] { Text["ChartPoint"].Value, Text["Measure"].Value })
+        {
+            builder.OpenElement(5, "th");
+            builder.AddAttribute(6, "scope", "col");
+            builder.AddContent(7, header);
+            builder.CloseElement();
+        }
+
+        builder.CloseElement();
+        builder.CloseElement();
+        builder.OpenElement(8, "tbody");
+        foreach (var point in ChartPoints)
+        {
+            builder.OpenElement(9, "tr");
+            builder.OpenElement(10, "th");
+            builder.AddAttribute(11, "scope", "row");
+            builder.AddContent(12, point.Label);
+            builder.CloseElement();
+            builder.OpenElement(13, "td");
+            builder.AddContent(14, point.Y.ToString(CultureInfo.CurrentCulture));
+            builder.CloseElement();
+            builder.CloseElement();
+        }
+
         builder.CloseElement();
         builder.CloseElement();
     };

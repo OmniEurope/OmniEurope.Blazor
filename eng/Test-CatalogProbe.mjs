@@ -101,6 +101,16 @@ await waitFor(
 
 await evaluate(`Array.from(document.querySelectorAll('.catalog-section')).forEach(section => section.scrollIntoView({ block: 'center' }))`);
 
+// The alternative of the chart holds the points of the drawing, a row each, not only its caption.
+await waitFor(
+  `(() => {
+    const rows = Array.from(document.querySelectorAll('#catalog-chart table tbody tr'));
+    return rows.length === 3 && rows.map(row => row.textContent.replace(/\\s+/g, '')).join('|') === 'A30|B70|C45'
+      && document.querySelectorAll('#catalog-chart table thead th[scope="col"]').length === 2;
+  })()`,
+  'La table alternative du graphique ne reprend pas ses trois points.'
+);
+
 const dialogDeadline = Date.now() + 10_000;
 while (Date.now() < dialogDeadline && !(await evaluate(`Boolean(document.querySelector('[role="dialog"]'))`))) {
   await evaluate(`document.querySelector('#catalog-open-dialog').click()`);
@@ -122,6 +132,22 @@ await waitFor(
   `Boolean(document.querySelector('.omni-notification[role="status"], .omni-notification[role="alert"]'))`,
   'La notification accessible ne s\'est pas affichée.'
 );
+// On a 390 px screen the region lies along the bottom edge, as wide as the window less its margins,
+// whatever its position, so it no longer covers the page header (PLAN-018, lot 3).
+await send('Emulation.setDeviceMetricsOverride', { width: 390, height: 800, deviceScaleFactor: 1, mobile: false });
+await waitFor(
+  `(() => {
+    const region = document.querySelector('.omni-notification-region');
+    const box = region?.getBoundingClientRect();
+    const view = document.documentElement;
+    return Boolean(box) && Math.abs(view.clientHeight - box.bottom - 8) <= 2 && Math.abs(box.left - 8) <= 2 && Math.abs(view.clientWidth - box.right - 8) <= 2;
+  })()`,
+  'La zone des notifications ne se pose pas en bas, sur toute la largeur, à 390 px.'
+).catch(async error => {
+  const geometry = await evaluate(`JSON.stringify({ view: [document.documentElement.clientWidth, document.documentElement.clientHeight], region: document.querySelector('.omni-notification-region')?.getBoundingClientRect(), classes: document.querySelector('.omni-notification-region')?.className })`);
+  throw new Error(`${error.message} ${geometry}`);
+});
+await send('Emulation.clearDeviceMetricsOverride');
 await evaluate(`document.querySelector('.omni-notification__dismiss').click()`);
 await new Promise(resolve => setTimeout(resolve, 500));
 

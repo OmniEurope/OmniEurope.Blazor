@@ -55,7 +55,9 @@ atténuée avec un curseur interdit dans les listes de choix, la sélection mult
 hachurée dans `OmniSelectBar`. Une barre entièrement désactivée porte `.omni-select-bar--disabled` et
 `aria-disabled`, et garde son option choisie d'un accent pâli. Trop large pour sa place, la barre
 défile sous un chevron de chaque côté qui cache encore des options, comme les onglets, sans barre de
-défilement ; les chevrons sont hors de l'ordre de tabulation, chaque option restant atteignable.
+défilement ; les chevrons sont hors de l'ordre de tabulation. Groupe radio, la barre est un seul arrêt de
+tabulation (l'option choisie, sinon la première qu'on peut choisir) : les flèches passent à l'option voisine
+et la choisissent, Début et Fin à la première et à la dernière, les options désactivées étant sautées.
 
 ```razor
 <OmniMultiSelect TValue="Guid" Options="tags" @bind-Value="selectedTagIds"

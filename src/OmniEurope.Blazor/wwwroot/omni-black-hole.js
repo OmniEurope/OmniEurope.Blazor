@@ -9,12 +9,15 @@
 // are seen through the rays that escape. Rays that fall in draw the page colour: the horizon.
 //
 // Sober by design: the light rolls off softly and stays under INTENSITY. A frame costs about three
-// milliseconds once the shader is compiled (1440 x 900 window); it is drawn 30 times a second, paused while the page is
+// milliseconds once the shader is compiled (1440 x 900 device pixels); it is drawn 30 times a second, paused while the page is
 // hidden, and drawn once when the scope holds its field still (BackdropMotion off) or the system asks
 // for less motion. Without WebGL the canvas stays empty and the CSS field of the theme shows instead.
 
 const INTENSITY = 0.5;
-const SCALE = 0.75;
+// Drawn at the screen's own resolution, device pixels and not CSS pixels: a smaller canvas is stretched
+// over the window and shows its pixels. At most two device pixels per CSS pixel bound the cost.
+const MAX_PIXEL_RATIO = 2;
+const pixelRatio = () => Math.min(Math.max(window.devicePixelRatio || 1, 1), MAX_PIXEL_RATIO);
 const FRAME_MS = 1000 / 30;
 const states = new WeakMap();
 // The canvases being drawn, so a canvas the page dropped can be found again and stopped (sweep).
@@ -203,8 +206,9 @@ export function start(canvas, scope, moving) {
     const animated = () => state.moving && !state.reduced.matches;
 
     const draw = now => {
-        const width = Math.max(1, Math.round(window.innerWidth * SCALE));
-        const height = Math.max(1, Math.round(window.innerHeight * SCALE));
+        const ratio = pixelRatio();
+        const width = Math.max(1, Math.round(window.innerWidth * ratio));
+        const height = Math.max(1, Math.round(window.innerHeight * ratio));
         if (canvas.width !== width || canvas.height !== height) {
             canvas.width = width;
             canvas.height = height;

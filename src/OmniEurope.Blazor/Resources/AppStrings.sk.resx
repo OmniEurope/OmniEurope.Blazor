@@ -415,6 +415,7 @@
   <data name="WindowRestore" xml:space="preserve"><value>Obnoviť</value></data>
   <data name="WindowClose" xml:space="preserve"><value>Zavrieť</value></data>
   <data name="SidebarToggleLabel" xml:space="preserve"><value>Zobraziť alebo skryť navigáciu</value></data>
+  <data name="SkipLinkText" xml:space="preserve"><value>Prejsť na hlavný obsah</value></data>
   <data name="SliderInvalid" xml:space="preserve"><value>Hodnota posúvača nie je platná.</value></data>
   <data name="SplitButtonMenuLabel" xml:space="preserve"><value>Ďalšie akcie</value></data>
   <data name="StepsLabel" xml:space="preserve"><value>Kroky</value></data>

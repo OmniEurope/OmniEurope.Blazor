@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Localization;
+using Microsoft.JSInterop;
 using OmniEurope.Blazor.Internal;
 using OmniEurope.Blazor.Resources;
 
@@ -15,7 +16,10 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public partial class OmniLegend
 {
+    private bool _keysEnabled;
+
     [Inject] private IStringLocalizer<AppStrings> StringLocalizer { get; set; } = default!;
+    [Inject] private IJSRuntime JavaScript { get; set; } = default!;
     [CascadingParameter] private OmniChartContext? ChartContext { get; set; }
 
     /// <summary>Accessible name of the legend; null (the default) takes the localized "Legend".</summary>
@@ -38,10 +42,10 @@ public partial class OmniLegend
     /// <summary>
     /// Whether a click on an entry that names a series hides that series, or shows it again: the chart
     /// redraws without it (axis, stacks and columns), the entry stays, dimmed and struck through. True by
-    /// default (recette R-011); false keeps the legend a plain key. Below or above the chart each entry
-    /// is a button (keyboard, <c>aria-pressed</c>); on the right, inside the drawing, which assistive
-    /// technologies read as one image, an entry answers the pointer only, the data table staying the
-    /// alternative. Pie slices and entries past the last series never toggle.
+    /// default (recette R-011); false keeps the legend a plain key. Each entry is a button of the pointer
+    /// and of the keyboard (Tab, Enter or Space, <c>aria-pressed</c>): an HTML button below or above the
+    /// chart, a focusable entry of the drawing on the right, where assistive technologies read the chart
+    /// as one image and its data table. Pie slices and entries past the last series never toggle.
     /// </summary>
     [Parameter] public bool AllowToggle { get; set; } = true;
 
@@ -58,6 +62,20 @@ public partial class OmniLegend
     protected override void OnParametersSet() => ChartContext?.RegisterLegend(this, Registration);
 
     private bool Outside => ChartContext?.IsLegendOutside(this) == true;
+
+    // The first focus on an entry drawn in the SVG turns on the page keys that make Enter and Space press
+    // it, so a chart nobody reaches with the keyboard loads no script; below or above the chart, the
+    // entries are native buttons and need nothing.
+    private Task EnableKeysAsync()
+    {
+        if (_keysEnabled)
+        {
+            return Task.CompletedTask;
+        }
+
+        _keysEnabled = true;
+        return OmniPageKeys.EnableAsync(JavaScript);
+    }
 
     // The legend column right of the plot; it moves with the plot when the chart is wide.
     private double LegendLeft => ChartContext?.LegendLeft ?? 79;

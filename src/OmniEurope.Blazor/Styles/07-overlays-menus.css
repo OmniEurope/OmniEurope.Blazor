@@ -119,6 +119,12 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-notification { --omni-notification-ink: var(--omni-color-accent); --omni-notification-tint: color-mix(in srgb, var(--omni-notification-ink) 16%, var(--omni-color-surface)); align-items: start; backdrop-filter: var(--omni-overlay-filter, none); background: var(--omni-overlay-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-overlay-shadow, var(--omni-shadow-md)); box-sizing: border-box; display: grid; gap: 0.625rem; grid-template-columns: auto 1fr auto; inline-size: 16.25rem; max-inline-size: 90vw; overflow: hidden; padding: var(--omni-alert-pad-y) 0.5rem var(--omni-alert-pad-y) var(--omni-alert-pad-x); position: relative; }
 .omni-notification-region--grouped .omni-notification { inline-size: auto; }
 .omni-notification--long { inline-size: 22.5rem; }
+/* Narrow screen: whatever its position, the stack lies along the bottom edge, as wide as the window less
+   a margin, so it never covers the page header. */
+@media (max-width: 39.99rem) {
+    .omni-notification-region.omni-notification-region { inset-block: auto var(--omni-space-sm); inset-inline: var(--omni-space-sm); justify-items: stretch; justify-self: auto; margin-inline: 0; max-width: none; width: auto; }
+    .omni-notification-region.omni-notification-region .omni-notification { inline-size: auto; }
+}
 .omni-notification--info { --omni-notification-ink: var(--omni-color-info); }
 .omni-notification--success { --omni-notification-ink: var(--omni-color-success); }
 .omni-notification--warning { --omni-notification-ink: var(--omni-color-warning); }

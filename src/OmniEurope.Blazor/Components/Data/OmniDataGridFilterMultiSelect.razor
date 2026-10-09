@@ -14,7 +14,10 @@
                    value="@_search"
                    @oninput="OnSearchInput" />
         }
-        <ul class="omni-multi-select__list" role="listbox" aria-multiselectable="true" aria-labelledby="@Id">
+        @* Named by the search box or the folded summary; open without either, the list takes the id
+           itself and its own name. *@
+        <ul id="@(NamesItself ? Id : null)" class="omni-multi-select__list" role="listbox" aria-multiselectable="true"
+            aria-labelledby="@(NamesItself ? null : Id)" aria-label="@(NamesItself ? EffectiveLabel : null)">
             @foreach (var candidate in Matches)
             {
                 var option = candidate;

@@ -3,6 +3,8 @@
 @* SnapshotKey : la portée garde l'instantané de ce qu'elle peint, qu'omni-boot.js rejoue au prochain démarrage. *@
 <OmniThemeScope Appearance="Appearance" Density="OmniDensity.Compact" SnapshotKey="omnieurope.showcase.shell-theme">
     <OmniLayout>
+        @* Le lien d'évitement, premier arrêt de Tab de la coquille : il donne le focus au contenu par script. *@
+        <OmniSkipLink TargetId="shell-demo-main" />
         <OmniHeader>
             <OmniSidebarToggle Open="SidebarOpen" OpenChanged="@(value => SidebarOpen = value)"
                                Controls="shell-demo-sidebar" Reveal="OmniSidebarReveal.Push" Label="@Text["DemoShellToggleMenu"]" />
@@ -29,7 +31,7 @@
                     </OmniPanelMenuItem>
                 </OmniPanelMenu>
             </OmniSidebar>
-            <OmniMain ContentWidth="OmniLayoutWidth.Content" AriaLabelledBy="shell-demo-title">
+            <OmniMain Id="shell-demo-main" ContentWidth="OmniLayoutWidth.Content" AriaLabelledBy="shell-demo-title">
                 <OmniHeading Id="shell-demo-title" Level="OmniHeadingLevel.H5">@Text["DemoShellMainContent"]</OmniHeading>
                 <p>@(Appearance is OmniAppearance.Dark ? Text["DemoShellAppearanceDark"] : Text["DemoShellAppearanceLight"])</p>
             </OmniMain>

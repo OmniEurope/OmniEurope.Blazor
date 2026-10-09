@@ -6,7 +6,7 @@
    theme, the settings, then the version and signing out. The mode and the theme are always there; every
    other row shows only when the host gives what it needs, so the menu never offers a row that does
    nothing. Every row has one height and the same grid (icon, label, value at the end). *@
-<OmniPopover AdditionalAttributes="AdditionalAttributes" Class="@Css("omni-app-menu")"
+<OmniPopover AdditionalAttributes="AdditionalAttributes" Id="@Id" Class="@Css("omni-app-menu")"
              Open="@IsOpen" OpenChanged="SetOpenAsync"
              Label="@EffectiveLabel" PopupLabel="@EffectiveLabel" TriggerTitle="@EffectiveLabel"
              TriggerVariant="@(UserName is null ? OmniButtonVariant.Ghost : OmniButtonVariant.Primary)"
@@ -54,14 +54,14 @@
                 <span class="omni-app-menu__label" id="@RowId("mode")">@Localize("SettingsMode")</span>
                 @* Three joined square buttons, an icon each, the pressed one is the mode in force. A theme
                    drawn in dark mode only shows the dark one, fixed, and says why. *@
-                <div class="omni-app-menu__modes" role="radiogroup" aria-labelledby="@RowId("mode")"
+                <div class="omni-app-menu__modes" role="radiogroup" data-omni-roving aria-labelledby="@RowId("mode")"
                      aria-disabled="@(DarkOnly ? "true" : null)" title="@(DarkOnly ? Localize("SettingsDarkOnly") : null)">
                     @foreach (var mode in Modes)
                     {
                         var selected = mode.Value == ShownAppearance;
                         <OmniButton Variant="@(selected ? OmniButtonVariant.Primary : OmniButtonVariant.Secondary)"
                                     Class="omni-app-menu__mode" Disabled="DarkOnly" Label="@mode.Text" title="@mode.Text"
-                                    role="radio" aria-checked="@(selected ? "true" : "false")"
+                                    role="radio" aria-checked="@(selected ? "true" : "false")" tabindex="@(selected ? "0" : "-1")"
                                     OnClick="@(() => SetAppearanceAsync(mode.Value))"><OmniIcon Name="@ModeIcon(mode.Value)" /></OmniButton>
                     }
                 </div>

@@ -1,3 +1,18 @@
+// OmniSkipLink: moves the focus to its target, the element of that id or else the first main landmark,
+// which takes tabindex -1 when it could not take the focus. Returns false when there is no target.
+export function focusSkipTarget(id) {
+    const target = (id && document.getElementById(id)) || document.querySelector('main');
+    if (!target) {
+        return false;
+    }
+
+    if (target.tabIndex < 0 && !target.hasAttribute('tabindex')) {
+        target.setAttribute('tabindex', '-1');
+    }
+    target.focus();
+    return document.activeElement === target;
+}
+
 export function focusFirstInvalid(root) {
     const invalid = root?.querySelector?.('[aria-invalid="true"], .invalid');
     if (invalid instanceof HTMLElement) {

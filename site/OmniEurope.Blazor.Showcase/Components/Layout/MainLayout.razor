@@ -2,6 +2,8 @@
 
 <OmniThemeScope Id="showcase-theme" Appearance="CurrentAppearance" Density="Theme.Density" BackdropMotion="Theme.BackdropMotion">
     <OmniLayout>
+        @* Le premier arrêt de Tab : il mène au contenu par-dessus l'en-tête et la navigation. *@
+        <OmniSkipLink />
         <OmniHeader Sticky="true">
             <a class="showcase-brand" href="">OmniEurope.Blazor</a>
             <OmniBadge Tone="OmniTone.Accent">@Text["HeaderBadge"]</OmniBadge>

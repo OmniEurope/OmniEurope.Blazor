@@ -45,7 +45,7 @@
                 }
             </select>
         }
-        <label class="omni-visually-hidden" for="@context.Id">@Localize("GridFilterColumn", context.Column.Title)</label>
+        <label class="omni-visually-hidden" for="@(Internal.GridFilterEditor<TItem>.HasLabelableControl(context.Column) ? context.Id : null)">@Localize("GridFilterColumn", context.Column.Title)</label>
         @* One condition in a popover: the value and its clear action share the second line, the clear
            action a square icon button of the standard control size. *@
         @if (context.InPanel && FilterEditor.IsOneConditionPanel(context.Column))
@@ -182,7 +182,9 @@
                 @if (SelectionMode != OmniDataGridSelectionMode.None) { <col class="omni-data-grid__col--control omni-data-grid__col--select" /> }
                 @foreach (var column in ColumnSet.VisibleColumns)
                 {
-                    <col class="omni-data-grid__col" data-omni-col="@column.Key" />
+                    @* The width is in the markup as well, read by the stylesheet: the first paint has the final
+                       widths instead of equal columns until the script applies them (no inline style, CSP). *@
+                    <col class="omni-data-grid__col" data-omni-col="@column.Key" data-omni-width="@ColumnLayout.WidthOf(column)" />
                 }
                 @if (ColumnSet.HasEditing) { <col class="omni-data-grid__col--control omni-data-grid__col--edit" /> }
             </colgroup>

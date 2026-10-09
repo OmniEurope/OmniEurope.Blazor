@@ -21,15 +21,15 @@
          @ondrop="DropAsync" @ondrop:preventDefault="true">
         @if (HasChildren)
         {
-            <button type="button" class="omni-tree__toggle" aria-label="@(_expanded ? Localize("TreeCollapse") : Localize("TreeExpand"))" @onclick="ToggleExpandedAsync">@(_expanded ? "▾" : "▸")</button>
+            <button type="button" class="omni-tree__toggle" @onkeydown="MarkKeyOnButton" aria-label="@(_expanded ? Localize("TreeCollapse") : Localize("TreeExpand"))" @onclick="ToggleExpandedAsync">@(_expanded ? "▾" : "▸")</button>
         }
         @if (TextContent is not null)
         {
-            <button type="button" class="omni-tree__select" aria-label="@Text" disabled="@Disabled" @onclick="SelectAsync">@TextContent</button>
+            <button type="button" class="omni-tree__select" @onkeydown="MarkKeyOnButton" aria-label="@Text" disabled="@Disabled" @onclick="SelectAsync">@TextContent</button>
         }
         else
         {
-            <button type="button" class="omni-tree__select" disabled="@Disabled" @onclick="SelectAsync">@Text</button>
+            <button type="button" class="omni-tree__select" @onkeydown="MarkKeyOnButton" disabled="@Disabled" @onclick="SelectAsync">@Text</button>
         }
     </div>
     @if (_expanded && HasChildren)

@@ -92,6 +92,41 @@ public sealed class ChartComponentEdgeTests : OmniBunitContext
     }
 
     [Fact]
+    public void ColorByPoint_PaintsEachBar_AndInsideLabelsStartAtTheBarStart()
+    {
+        var data = new[] { new OmniChartPoint(0, 80, "Opus · 80%"), new OmniChartPoint(1, 20, "Sonnet · 20%") };
+        var chart = Render<OmniChart>(parameters => parameters
+            .Add(component => component.Title, "Modèles")
+            .AddChildContent(builder =>
+            {
+                Child<OmniColumnSeries>(builder, 0, ("Data", data), ("Horizontal", true), ("ColorByPoint", true), ("ColorIndex", 2));
+                Child<OmniSeriesDataLabels>(builder, 10, ("Data", data), ("Inside", true));
+            }));
+
+        chart.WaitForAssertion(() =>
+        {
+            var bars = chart.FindAll(".omni-chart__bars rect");
+            Assert.Equal(["omni-chart-color-2", "omni-chart-color-3"], bars.Select(bar => bar.GetAttribute("class")));
+            Assert.NotNull(chart.Find(".omni-chart__labels.omni-chart__labels--inside"));
+            var labels = chart.FindAll(".omni-chart__labels text");
+            Assert.Equal(["Opus · 80%", "Sonnet · 20%"], labels.Select(label => label.TextContent));
+            // Both labels begin at the start of the bars, whatever their length.
+            var barStart = double.Parse(bars[0].GetAttribute("x")!, System.Globalization.CultureInfo.InvariantCulture);
+            Assert.All(labels, label => Assert.Equal(barStart + 1.5, double.Parse(label.GetAttribute("x")!, System.Globalization.CultureInfo.InvariantCulture), 3));
+        });
+    }
+
+    [Fact]
+    public void ColumnSeries_WithoutColorByPoint_LeavesItsBarsWithoutClass()
+    {
+        var chart = Render<OmniChart>(parameters => parameters
+            .Add(component => component.Title, "Ventes")
+            .AddChildContent(builder => Child<OmniColumnSeries>(builder, 0, ("Data", Points(3, 5)))));
+
+        chart.WaitForAssertion(() => Assert.All(chart.FindAll(".omni-chart__columns rect"), bar => Assert.False(bar.HasAttribute("class"))));
+    }
+
+    [Fact]
     public void GaugeScaleWithoutRoom_DrawsItsValueAtTheMinimum()
     {
         var gauge = Render<OmniArcGauge>(parameters => parameters

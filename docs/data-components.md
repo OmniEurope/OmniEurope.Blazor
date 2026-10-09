@@ -591,7 +591,7 @@ fonctions conditionnelles et opérateurs de comparaison.
 erreurs teintés. Il suit la dernière ligne tant que des lignes arrivent et lâche prise dès que le lecteur
 remonte, avec un bouton pour revenir à la plus récente. Un filtre de niveau masque les lignes sous une
 sévérité (`ShowLevelFilter`, `MinimumLevel`), et une recherche (`ShowSearch`, `SearchText`) marque chaque
-occurrence d'un texte et passe de l'une à l'autre sans masquer de ligne ; `Wrap` fait passer les lignes
+occurrence d'un texte et passe d'une ligne qui le contient à la suivante (le compteur compte ces lignes) sans masquer de ligne ; `Wrap` fait passer les lignes
 longues à la ligne. Le composant
 n'ouvre aucune connexion : l'hôte lui passe les lignes, en ajout seul (une ligne remplacée avant la
 dernière position déjà vue n'est pas détectée ; une liste plus courte ou dont cette ligne a changé repart

@@ -14,7 +14,7 @@ More than a hundred components, one static stylesheet, no inline style, no `unsa
 ## Why OmniEurope.Blazor
 
 - **Strict CSP by design.** Components never emit `style` attributes, `<style>` tags, or inline event handlers. `default-src 'self'; script-src 'self'; style-src 'self'` is a tested target, not an aspiration.
-- **Accessibility built in.** Keyboard navigation, focus containment and restoration, ARIA states, 44 px interactive targets, and reduced-motion support are part of every component, not an option you enable.
+- **Accessibility built in.** Keyboard navigation, focus containment and restoration, ARIA states, targets of at least 24 px (44 px for the small dedicated controls such as pager, tree and close buttons), and reduced-motion support are part of every component, not an option you enable.
 - **Fully tokenised theme.** Colours, type, spacing, radii, shadows, and the chart palette are CSS variables. Light and dark modes ship out of the box, with fifteen themes (shape) and fifteen palettes (colour) that combine freely and a three-step density; your own palette is a stylesheet away.
 - **Localised from the start.** The texts ship in the 24 official languages of the European Union (French as the neutral culture, then English, Bulgarian, Croatian, Czech, Danish, Dutch, Estonian, Finnish, German, Greek, Hungarian, Irish, Italian, Latvian, Lithuanian, Maltese, Polish, Portuguese, Romanian, Slovak, Slovenian, Spanish and Swedish); override any text through standard .NET resources, or pass your own text to any component.
 - **Every Blazor host.** Server, WebAssembly, Interactive Auto, and MAUI Blazor Hybrid, verified on each in continuous integration.

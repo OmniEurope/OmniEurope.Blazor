@@ -76,7 +76,14 @@ internal sealed class GridFilterEditor<TItem>(OmniDataGrid<TItem> grid)
 
     internal string SecondFilterValue(OmniDataGridColumnDefinition<TItem> column) => DraftOf(column).SecondValue;
 
-    internal string FilterId(OmniDataGridColumnDefinition<TItem> column) => $"{grid.Id ?? "omni-grid"}-filter-{column.Key}";
+    internal string FilterId(OmniDataGridColumnDefinition<TItem> column) => $"{grid.BaseId}-filter-{column.Key}";
+
+    /// <summary>
+    /// Whether the value editor of the column is a form control a label can point to: a MultiSelect
+    /// without its search box is a summary or a list, named by its content or its own label instead.
+    /// </summary>
+    internal static bool HasLabelableControl(OmniDataGridColumnDefinition<TItem> column) =>
+        column.FilterType != OmniDataGridColumnFilterType.MultiSelect || column.FilterSearchable;
 
     internal string HeaderFilterId(OmniDataGridColumnDefinition<TItem> column) => $"{FilterId(column)}-menu";
 

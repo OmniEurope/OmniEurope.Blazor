@@ -89,6 +89,8 @@ public abstract class OmniValidatorBase<TValue> : ComponentBase, IDisposable
         }
 
         Detach();
+        // The message shown was the old field's: the new one has not been checked yet.
+        CurrentError = null;
         _field = field;
         _subscribedEditContext = CurrentEditContext;
         _messages = new ValidationMessageStore(_subscribedEditContext);

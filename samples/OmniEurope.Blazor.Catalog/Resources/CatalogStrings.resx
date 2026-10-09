@@ -61,7 +61,8 @@
   <data name="ChartTitle" xml:space="preserve"><value>Indicateurs</value></data>
   <data name="ChartDescription" xml:space="preserve"><value>Trois points de démonstration</value></data>
   <data name="Measure" xml:space="preserve"><value>Mesure</value></data>
-  <data name="ChartDataCaption" xml:space="preserve"><value>Données : A 30, B 70, C 45</value></data>
+  <data name="ChartDataCaption" xml:space="preserve"><value>Données du graphique</value></data>
+  <data name="ChartPoint" xml:space="preserve"><value>Point</value></data>
   <data name="TimeTitle" xml:space="preserve"><value>Temps et contenu HTML</value></data>
   <data name="SchedulerAppointment" xml:space="preserve"><value>Revue du catalogue</value></data>
   <data name="EditorInitialHtml" xml:space="preserve"><value>&lt;p&gt;Contenu &lt;strong&gt;sanitizé&lt;/strong&gt;.&lt;/p&gt;</value></data>

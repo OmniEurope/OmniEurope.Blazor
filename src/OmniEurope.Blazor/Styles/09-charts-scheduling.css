@@ -19,6 +19,8 @@
 .omni-chart__legend text,
 .omni-chart__labels { fill: var(--omni-color-text); font-size: 3px; }
 .omni-chart__axis text { fill: var(--omni-color-text-muted); }
+/* Labels written in their bars: outlined with the surface so they read on every colour of the palette. */
+.omni-chart__labels--inside text { paint-order: stroke; stroke: var(--omni-color-surface); stroke-linejoin: round; stroke-width: 0.6px; }
 .omni-chart__grid-lines line { stroke: var(--omni-color-border); stroke-dasharray: 4 4; stroke-width: 1px; }
 .omni-chart__markers { stroke: currentColor; stroke-width: 2px; }
 .omni-chart__line,
@@ -67,6 +69,12 @@ polyline.omni-chart__line { fill: none; }
 .omni-chart__legend-entry--toggle { cursor: pointer; }
 .omni-chart__legend-entry--hidden { opacity: 0.45; }
 .omni-chart__legend-entry--hidden text { text-decoration: line-through; }
+/* Focused from the keyboard, an entry drawn in the SVG rings its swatch and underlines its name: a CSS
+   outline or shadow would scale with the drawing. */
+.omni-chart__legend-entry--toggle:focus { outline: none; }
+.omni-chart__legend-entry--toggle:focus-visible rect { stroke: var(--omni-color-accent); stroke-width: 0.6; }
+.omni-chart__legend-entry--toggle:focus-visible text { text-decoration: underline; }
+.omni-chart__legend-entry--hidden:focus-visible text { text-decoration: underline line-through; }
 /* A wide chart shrinks more than a square one on a phone, so its axis text is drawn half as large
    again there; the category axis thins its labels for this size (OmniChartContext.WideAxisFontSize). */
 @media (max-width: 39.99rem) {

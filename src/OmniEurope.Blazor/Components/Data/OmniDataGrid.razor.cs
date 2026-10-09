@@ -14,6 +14,7 @@ namespace OmniEurope.Blazor.Components;
 public partial class OmniDataGrid<TItem>
 {
     private readonly SemaphoreSlim _lifecycleGate = new(1, 1);
+    private readonly string _generatedId = $"omni-grid-{Guid.NewGuid():N}";
     private OmniDataGridContext<TItem> _context = default!;
     private ElementReference _viewport;
     private bool _disposeRequested;
@@ -802,6 +803,9 @@ public partial class OmniDataGrid<TItem>
 
     internal bool DisposeRequested => _disposeRequested;
 
+    /// <summary>The prefix of the ids inside the grid: <see cref="OmniComponentBase.Id"/>, else one of its own, so two grids never share one.</summary>
+    internal string BaseId => Id ?? _generatedId;
+
     internal ElementReference Viewport => _viewport;
 
     /// <summary>The identity of a row: <see cref="KeyOf"/>, or the item itself.</summary>
@@ -922,11 +926,17 @@ public partial class OmniDataGrid<TItem>
     /// </summary>
     /// <param name="values">Filter value per column key; the column's default operator applies (equality for a key without a column yet).</param>
     /// <param name="replace">True to clear every filter not in <paramref name="values"/> first.</param>
-    /// <returns>A task that completes when the grid has reloaded and saved its state.</returns>
+    /// <returns>A task that completes when the grid has reloaded and saved its state; at once, doing nothing, on a grid being disposed.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="values"/> is null.</exception>
     public async Task SetFiltersAsync(IReadOnlyDictionary<string, string?> values, bool replace = false)
     {
         ArgumentNullException.ThrowIfNull(values);
+        // A grid being removed (its tab left the page) has no rows to load nor script to reach.
+        if (_disposeRequested)
+        {
+            return;
+        }
+
         Query.SetFilters(values, replace);
         await View.QueryChangedAsync();
         StateHasChanged();
@@ -1002,13 +1012,13 @@ public partial class OmniDataGrid<TItem>
 
     /// <summary>
     /// Scrolls the virtualized viewport so that <paramref name="index"/> sits at its top edge. Does
-    /// nothing when the grid is not virtualized or its script is not loaded yet.
+    /// nothing when the grid is not virtualized, its script is not loaded yet, or it is being disposed.
     /// </summary>
     /// <param name="index">Zero-based index of the row in the virtualized rows.</param>
     /// <returns>A task that completes when the scroll was requested.</returns>
     public async Task ScrollToIndexAsync(int index)
     {
-        if (!View.Virtualized || Script.Module is null)
+        if (_disposeRequested || !View.Virtualized || Script.Module is null)
         {
             return;
         }
@@ -1049,16 +1059,16 @@ public partial class OmniDataGrid<TItem>
     /// the others down. A sort or filter change still restarts from the top through
     /// <see cref="ReloadAsync"/>. With <see cref="NewRowHighlight"/>, rows that were not held
     /// before read as new for that long. For a grid fed through <c>Items</c>, call it before handing
-    /// the new rows: they are compared to the ones held at the call.
+    /// the new rows: they are compared to the ones held at the call. Does nothing on a grid being disposed.
     /// </summary>
-    public Task RefreshAsync() => View.RefreshAsync();
+    public Task RefreshAsync() => _disposeRequested ? Task.CompletedTask : View.RefreshAsync();
 
     /// <summary>
     /// Fetches the rows of a <see cref="Load"/> grid again from the start of the current query, with the
     /// loading state (the bar by default); a virtualized grid starts again from its first block. Does
-    /// nothing for a grid fed through <see cref="Items"/>.
+    /// nothing for a grid fed through <see cref="Items"/>, nor for a grid being disposed.
     /// </summary>
-    public Task ReloadAsync() => View.ReloadAsync();
+    public Task ReloadAsync() => _disposeRequested ? Task.CompletedTask : View.ReloadAsync();
 
     /// <summary>
     /// Text of the column for every loaded row, so omni-grid.js can size the column on rows the

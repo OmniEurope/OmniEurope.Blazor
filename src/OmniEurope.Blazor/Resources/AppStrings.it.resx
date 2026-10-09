@@ -415,6 +415,7 @@
   <data name="WindowRestore" xml:space="preserve"><value>Ripristina</value></data>
   <data name="WindowClose" xml:space="preserve"><value>Chiudi</value></data>
   <data name="SidebarToggleLabel" xml:space="preserve"><value>Mostra o nascondi navigazione</value></data>
+  <data name="SkipLinkText" xml:space="preserve"><value>Vai al contenuto principale</value></data>
   <data name="SliderInvalid" xml:space="preserve"><value>Il valore del dispositivo di scorrimento non è valido.</value></data>
   <data name="SplitButtonMenuLabel" xml:space="preserve"><value>Altre azioni</value></data>
   <data name="StepsLabel" xml:space="preserve"><value>Passaggi</value></data>

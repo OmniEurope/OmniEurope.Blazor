@@ -182,8 +182,8 @@ export function install() {
 // attribute, instead of the browser's own box, which cannot be styled. One floating element serves the
 // whole page: it shows after a short delay at the pointer, never wider than 12rem, with a pointer
 // (chevron) toward the cursor. The title moves to data-omni-title only while the element is hovered or
-// focused, so the native tooltip never shows, and comes back as soon as it is left: the accessible name
-// and every title selector stay intact.
+// focused, so the native tooltip never shows, and comes back as soon as it is left: every title
+// selector stays intact, and an element the title alone named keeps that name as aria-label meanwhile.
 //
 // The same box serves the package's own tips, whether or not the host replaced its title tooltips: the
 // whole text of a data grid cell cut by its ellipsis, only while it is cut (the cell is narrower than
@@ -205,6 +205,23 @@ const CUT_CELL = '.omni-data-grid__cell--text';
 
 const isCut = element => element.scrollWidth > element.clientWidth + 1;
 
+// A chart point names itself with an SVG <title> child, which the browser shows as its own box. It is
+// replaced like a title attribute: the node is set aside while the point is hovered or focused, and the
+// same node goes back afterwards, so the renderer that owns it still finds it. The titles of the SVG
+// ancestors (the chart's own name) are set aside with it, or the browser would show the nearest of them.
+const svgTitleOf = element => element instanceof SVGElement
+    ? [...element.children].find(child => child.localName === 'title') ?? null
+    : null;
+
+const svgTitled = target => {
+    for (let element = target; element instanceof SVGElement; element = element.parentElement) {
+        if (svgTitleOf(element) || element.omniTitleNode) {
+            return element;
+        }
+    }
+    return null;
+};
+
 // What a pointer or the focus reaches: an element with a title once a host replaced title tooltips,
 // else an element with a package tip, else a grid cell whose text is cut.
 const tipTarget = target => {
@@ -212,7 +229,7 @@ const tipTarget = target => {
         return null;
     }
 
-    const titled = titleInstalls > 0 ? target.closest('[title], [data-omni-title]') : null;
+    const titled = titleInstalls > 0 ? svgTitled(target) ?? target.closest('[title], [data-omni-title]') : null;
     if (titled) {
         return titled;
     }
@@ -233,9 +250,39 @@ const tipTarget = target => {
 const titleOf = element => element.getAttribute('title') || element.getAttribute('data-omni-title')
     || element.getAttribute('data-omni-tip') || (element.matches(CUT_CELL) ? element.textContent.trim() : '');
 
+// Whether the title is the only name of the element: no aria-label, no aria-labelledby, no label of a
+// form field and no text of its own (an icon-only button named by its title alone).
+const namedByTitleOnly = element => !element.hasAttribute('aria-label') && !element.hasAttribute('aria-labelledby')
+    && !(element.labels?.length > 0) && element.textContent.trim() === '';
+
+// While the title is away, a title that was the element's only name lends it to aria-label
+// (data-omni-title-named says so), so a focused icon-only button keeps its accessible name.
 const adoptTitle = element => {
+    const node = svgTitleOf(element);
+    if (node) {
+        const text = node.textContent.trim();
+        if (!element.hasAttribute('aria-label') && !element.hasAttribute('aria-labelledby')) {
+            element.setAttribute('aria-label', text);
+            element.setAttribute('data-omni-title-named', '');
+        }
+        element.setAttribute('data-omni-title', text);
+        const aside = [];
+        for (let owner = element; owner instanceof SVGElement; owner = owner.parentElement) {
+            const title = svgTitleOf(owner);
+            if (title) {
+                aside.push({ owner, title });
+                title.remove();
+            }
+        }
+        element.omniTitleNode = aside;
+        return;
+    }
     const title = element.getAttribute('title');
     if (title) {
+        if (namedByTitleOnly(element)) {
+            element.setAttribute('aria-label', title);
+            element.setAttribute('data-omni-title-named', '');
+        }
         element.setAttribute('data-omni-title', title);
         element.removeAttribute('title');
     }
@@ -243,8 +290,17 @@ const adoptTitle = element => {
 
 const restoreTitle = element => {
     const title = element?.getAttribute('data-omni-title');
-    if (title && !element.hasAttribute('title')) {
+    if (element?.omniTitleNode) {
+        for (const { owner, title } of element.omniTitleNode) {
+            owner.prepend(title);
+        }
+        delete element.omniTitleNode;
+    } else if (title && !element.hasAttribute('title')) {
         element.setAttribute('title', title);
+    }
+    if (element?.hasAttribute('data-omni-title-named')) {
+        element.removeAttribute('aria-label');
+        element.removeAttribute('data-omni-title-named');
     }
     element?.removeAttribute('data-omni-title');
 };

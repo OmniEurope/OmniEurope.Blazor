@@ -67,10 +67,10 @@
         {
             <button type="button" class="omni-button omni-scheduler__cancel" @onclick="CancelMove">@Text("SchedulerMoveCancel")</button>
         }
-        <div class="omni-select-bar" role="radiogroup" aria-label="@Text("SchedulerViewLabel")">
+        <div class="omni-select-bar" role="radiogroup" aria-label="@Text("SchedulerViewLabel")" data-omni-roving @onfocusin="EnablePageKeysAsync">
             @foreach (var view in Enum.GetValues<OmniCalendarView>())
             {
-                <button type="button" class="@ViewClass(view)" role="radio" aria-checked="@(_view == view ? "true" : "false")" @onclick="() => ChangeViewAsync(view)">@ViewLabel(view)</button>
+                <button type="button" class="@ViewClass(view)" role="radio" aria-checked="@(_view == view ? "true" : "false")" tabindex="@(_view == view ? "0" : "-1")" @onclick="() => ChangeViewAsync(view)">@ViewLabel(view)</button>
             }
         </div>
     </header>

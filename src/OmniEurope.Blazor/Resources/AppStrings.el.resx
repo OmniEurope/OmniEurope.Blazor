@@ -415,6 +415,7 @@
   <data name="WindowRestore" xml:space="preserve"><value>Επαναφορά</value></data>
   <data name="WindowClose" xml:space="preserve"><value>Κλείσιμο</value></data>
   <data name="SidebarToggleLabel" xml:space="preserve"><value>Εμφάνιση ή απόκρυψη πλοήγησης</value></data>
+  <data name="SkipLinkText" xml:space="preserve"><value>Μετάβαση στο κύριο περιεχόμενο</value></data>
   <data name="SliderInvalid" xml:space="preserve"><value>Η τιμή του ρυθμιστικού δεν είναι έγκυρη.</value></data>
   <data name="SplitButtonMenuLabel" xml:space="preserve"><value>Περισσότερες ενέργειες</value></data>
   <data name="StepsLabel" xml:space="preserve"><value>Βήματα</value></data>

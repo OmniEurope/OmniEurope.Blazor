@@ -572,3 +572,8 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 .omni-appearance-settings--compact .omni-appearance-settings__row--scale .omni-appearance-settings__actions { display: grid; grid-template-columns: minmax(0, 1fr) auto; }
 .omni-appearance-settings__summary { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); font-variant-numeric: tabular-nums; min-inline-size: 0; }
 
+/* OmniSkipLink: out of sight until it takes the focus, then a tab as tall as a control of the density, at the top start of the
+   page, above everything the page lays over it. */
+.omni-skip-link { align-items: center; background: var(--omni-color-accent-fill); block-size: var(--omni-control-height); border-radius: var(--omni-radius); box-sizing: border-box; color: var(--omni-color-on-accent); display: inline-flex; font-weight: 600; inset-block-start: var(--omni-space-sm); inset-inline-start: var(--omni-space-sm); padding: 0 var(--omni-space-md); position: fixed; text-decoration: none; transform: translateY(calc(-100% - var(--omni-space-md))); z-index: var(--omni-z-blocking); }
+.omni-skip-link:focus { box-shadow: var(--omni-focus-ring); outline: none; transform: none; }
+@media (prefers-reduced-motion: no-preference) { .omni-skip-link { transition: transform var(--omni-duration-fast) ease-out; } }

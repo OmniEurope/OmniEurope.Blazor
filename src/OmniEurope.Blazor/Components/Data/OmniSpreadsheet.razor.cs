@@ -34,6 +34,9 @@ public partial class OmniSpreadsheet
     private const string ModulePath = OmniModules.Spreadsheet;
     private const int PageStep = 10;
 
+    // Two sheets without an Id never share the ids of their formula bar and cells.
+    private readonly string _generatedId = $"omni-spreadsheet-{Guid.NewGuid():N}";
+
     private ElementReference _root;
     private ElementReference _grid;
     private ElementReference _editor;
@@ -113,7 +116,7 @@ public partial class OmniSpreadsheet
 
     private string ActiveAddress => HasCells ? OmniSpreadsheetData.Address(_row, _column) : string.Empty;
 
-    private string FormulaBarId => $"{Id ?? "omni-spreadsheet"}-formula";
+    private string FormulaBarId => $"{Id ?? _generatedId}-formula";
 
     private string FormulaBarText => _editing == EditSource.None ? Sheet.GetInput(_row, _column) : _draft;
 
@@ -122,7 +125,7 @@ public partial class OmniSpreadsheet
         ReadOnly ? "omni-spreadsheet--readonly" : null,
         ShowGridLines ? null : "omni-spreadsheet--no-lines");
 
-    private string CellId(int row, int column) => $"{Id ?? "omni-spreadsheet"}-r{row.ToString(CultureInfo.InvariantCulture)}-c{column.ToString(CultureInfo.InvariantCulture)}";
+    private string CellId(int row, int column) => $"{Id ?? _generatedId}-r{row.ToString(CultureInfo.InvariantCulture)}-c{column.ToString(CultureInfo.InvariantCulture)}";
 
     private bool IsActive(int row, int column) => row == _row && column == _column;
 

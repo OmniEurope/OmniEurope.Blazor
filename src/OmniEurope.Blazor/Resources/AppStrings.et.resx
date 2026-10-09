@@ -415,6 +415,7 @@
   <data name="WindowRestore" xml:space="preserve"><value>Taasta</value></data>
   <data name="WindowClose" xml:space="preserve"><value>Sulge</value></data>
   <data name="SidebarToggleLabel" xml:space="preserve"><value>Kuva või peida navigeerimine</value></data>
+  <data name="SkipLinkText" xml:space="preserve"><value>Mine põhisisu juurde</value></data>
   <data name="SliderInvalid" xml:space="preserve"><value>Liuguri väärtus on vigane.</value></data>
   <data name="SplitButtonMenuLabel" xml:space="preserve"><value>Veel toiminguid</value></data>
   <data name="StepsLabel" xml:space="preserve"><value>Sammud</value></data>

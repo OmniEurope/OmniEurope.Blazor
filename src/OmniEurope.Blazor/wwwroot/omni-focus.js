@@ -6,6 +6,7 @@
 import { returnTargets, rememberTarget, viewportMargin, pressedOutside } from './focus/shared.js';
 
 export { openMenu, closeMenu, moveMenuFocus } from './focus/menus.js';
+export { enablePageKeys } from './focus/keys.js';
 export {
     configureTabs,
     disposeTabs,
@@ -31,7 +32,10 @@ function focusableElements(container) {
         'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'))
         // An element under a hidden or inert ancestor, or not laid out at all (display: none), cannot
         // take the focus: keeping it would make the trap retry it on every Tab.
-        .filter(element => !element.closest('[hidden], [inert]')
+        // Out of the tab order too: tabindex -1 on a button (the options of a radio group, which
+        // keeps one tab stop) takes it out of the cycle as it does the browser's.
+        .filter(element => element.getAttribute('tabindex') !== '-1'
+            && !element.closest('[hidden], [inert]')
             && element.getAttribute('aria-hidden') !== 'true'
             && !element.hasAttribute('data-focus-sentinel')
             && element.getClientRects().length > 0);

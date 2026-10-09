@@ -42,8 +42,8 @@ public sealed class SpreadsheetEdgeTests : OmniBunitContext
 
         Assert.Empty(changes);
         Assert.Empty(sheet.FindAll("tbody td"));
-        // Without an id the parts still get one of their own.
-        Assert.Equal("omni-spreadsheet-formula", sheet.Find(".omni-spreadsheet__formula-input").Id);
+        // Without an id the parts still get one of their own, unique to this sheet.
+        Assert.Matches("^omni-spreadsheet-[0-9a-f]{32}-formula$", sheet.Find(".omni-spreadsheet__formula-input").Id);
     }
 
     [Fact]

@@ -93,7 +93,16 @@ public sealed class ChartLegendToggleTests : OmniBunitContext
     {
         var chart = Chart(OmniLegendPosition.Right);
         chart.WaitForAssertion(() => Assert.Equal(2, chart.FindAll("g.omni-chart__legend-entry--toggle").Count));
-        Assert.Empty(chart.FindAll("g.omni-chart__legend-entry--toggle[tabindex]"));
+        // A button of the keyboard too (audit of 2026-10-07, RCL-003): one tab stop each, pressed while
+        // its series shows, and marked for the page keys that turn Enter and Space into a click.
+        Assert.All(chart.FindAll("g.omni-chart__legend-entry--toggle"), entry =>
+        {
+            Assert.Equal("button", entry.GetAttribute("role"));
+            Assert.Equal("0", entry.GetAttribute("tabindex"));
+            Assert.Equal("true", entry.GetAttribute("aria-pressed"));
+            Assert.True(entry.HasAttribute("data-omni-key-button"));
+        });
+        Assert.Equal("Livret", chart.FindAll("g.omni-chart__legend-entry--toggle")[0].GetAttribute("aria-label"));
 
         chart.FindAll("g.omni-chart__legend-entry--toggle")[0].Click();
 
@@ -101,6 +110,7 @@ public sealed class ChartLegendToggleTests : OmniBunitContext
         {
             Assert.Single(chart.FindAll("polyline"));
             Assert.Contains("omni-chart__legend-entry--hidden", chart.FindAll("g.omni-chart__legend-entry")[0].ClassList);
+            Assert.Equal("false", chart.FindAll("g.omni-chart__legend-entry")[0].GetAttribute("aria-pressed"));
         });
     }
 

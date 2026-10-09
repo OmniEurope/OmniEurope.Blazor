@@ -5,6 +5,7 @@ namespace OmniEurope.Blazor.Components;
 public partial class OmniTreeItem<TValue>
 {
     private bool _expanded;
+    private bool _keyOnButton;
     private bool _loaded;
     private bool _loading;
     private bool _loadError;
@@ -276,8 +277,14 @@ public partial class OmniTreeItem<TValue>
 
     private Task SelectAsync() => Disabled || Context is null ? Task.CompletedTask : Context.ToggleSelectionAsync(Value);
 
+    // Enter or Space on one of the row's buttons is that button's: the browser turns it into a click
+    // of the button, so the item must not act on it a second time when the key reaches it.
+    private void MarkKeyOnButton() => _keyOnButton = true;
+
     private Task HandleKeyDownAsync(KeyboardEventArgs args)
     {
+        var onButton = _keyOnButton;
+        _keyOnButton = false;
         if (args.Key == "ArrowRight" && HasChildren)
         {
             if (!_expanded) return ToggleExpandedAsync();
@@ -286,7 +293,7 @@ public partial class OmniTreeItem<TValue>
         {
             if (_expanded) return ToggleExpandedAsync();
         }
-        else if (args.Key is "Enter" or " ")
+        else if (args.Key is "Enter" or " " && !onButton)
         {
             return SelectAsync();
         }

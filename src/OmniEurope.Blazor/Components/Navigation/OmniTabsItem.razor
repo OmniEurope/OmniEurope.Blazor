@@ -25,7 +25,8 @@ else
          @ondragenter="DragEnterCallback"
          @ondragleave="DragLeaveCallback"
          @ondrop="HandleDropAsync">
-        <button id="@TabId" type="button" class="@TabCss" role="tab" data-key="@RegisteredKey" aria-selected="@(Selected ? "true" : "false")" aria-controls="@PanelId" tabindex="@(Selected ? 0 : -1)" disabled="@Disabled" @onclick="SelectAsync">
+        @* With TitleContent drawn in its place, Title stays the name of the tab (a badge "3" alone is no name). *@
+        <button id="@TabId" type="button" class="@TabCss" role="tab" data-key="@RegisteredKey" aria-selected="@(Selected ? "true" : "false")" aria-controls="@PanelId" aria-label="@(TitleContent is null ? null : Title)" tabindex="@(Selected ? 0 : -1)" disabled="@Disabled" @onclick="SelectAsync">
             @if (Icon is not null)
             {
                 <span class="omni-tabs__icon" aria-hidden="true">@Icon</span>

@@ -415,6 +415,7 @@
   <data name="WindowRestore" xml:space="preserve"><value>Herstellen</value></data>
   <data name="WindowClose" xml:space="preserve"><value>Sluiten</value></data>
   <data name="SidebarToggleLabel" xml:space="preserve"><value>Navigatie tonen of verbergen</value></data>
+  <data name="SkipLinkText" xml:space="preserve"><value>Naar de hoofdinhoud</value></data>
   <data name="SliderInvalid" xml:space="preserve"><value>De waarde van de schuifregelaar is ongeldig.</value></data>
   <data name="SplitButtonMenuLabel" xml:space="preserve"><value>Meer acties</value></data>
   <data name="StepsLabel" xml:space="preserve"><value>Stappen</value></data>

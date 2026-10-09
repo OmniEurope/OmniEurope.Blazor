@@ -9,6 +9,8 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 public partial class OmniPager
 {
+    private readonly string _generatedId = $"omni-pager-{Guid.NewGuid():N}";
+
     /// <summary>The current page, from 1.</summary>
     [Parameter]
     public int Page { get; set; } = 1;
@@ -61,7 +63,8 @@ public partial class OmniPager
         "omni-pager",
         $"omni-pager--align-{HorizontalAlign.ToString().ToLowerInvariant()}");
 
-    private string PageSizeId => $"{Id ?? "omni-pager"}-page-size";
+    // Two pagers without an Id (a grid's top and bottom bars) never share the id of their size list.
+    private string PageSizeId => $"{Id ?? _generatedId}-page-size";
 
     private bool HasPageSizeOptions => PageSizeOptions.Count > 0;
 

@@ -13,10 +13,10 @@ leurs coordonnées dans un même contexte : elles s'alignent par construction.
 | `OmniAxisTitle` | Titre d'un axe, horizontal en bas ou vertical à gauche, tourné. |
 | `OmniGridLines` | Lignes de grille du tracé. |
 | `OmniLineSeries`, `OmniAreaSeries` | Série en courbe, ou en aire, empilable (`Stacked`) ; `Dashed` trace la courbe, ou le contour de l'aire, en tirets. |
-| `OmniColumnSeries` | Colonnes verticales groupées par catégorie, empilables (`Stacked`) ; `Horizontal="true"` en fait des barres horizontales sur axes tournés. |
+| `OmniColumnSeries` | Colonnes verticales groupées par catégorie, empilables (`Stacked`) ; `Horizontal="true"` en fait des barres horizontales sur axes tournés ; `ColorByPoint="true"` donne à chaque rectangle sa couleur de la palette. |
 | `OmniPieSeries` | Secteurs d'un disque, ou d'un anneau (`Donut`). |
 | `OmniMarkers` | Points marqués sur les valeurs d'une série. |
-| `OmniSeriesDataLabels` | Valeurs écrites sur les points d'une série, avec leur format (`FormatValue`). |
+| `OmniSeriesDataLabels` | Valeurs écrites sur les points d'une série, avec leur format (`FormatValue`) ; `Inside="true"` les écrit dans la barre. |
 | `OmniLegend` | Légende hors du tracé, à droite, dessous ou dessus. |
 | `OmniArcGauge`, `OmniArcGaugeScale`, `OmniArcGaugeScaleValue` | Jauge en demi-cercle, son échelle et la valeur qu'elle montre (`FormatValue`) ; le nom accessible de la jauge porte sa valeur. |
 
@@ -42,8 +42,9 @@ leurs coordonnées dans un même contexte : elles s'alignent par construction.
   légende. `AllowToggle` (`true` par défaut) fait d'une entrée qui nomme une série un
   interrupteur : un clic masque la série (et ses marqueurs et étiquettes), l'axe se recalcule sans elle,
   l'entrée reste atténuée et barrée ; un second clic la réaffiche. Sous ou au-dessus du graphique
-  l'entrée est un bouton (`aria-pressed`, clavier) ; à droite, dans le dessin lu comme une image, elle
-  répond au pointeur seul. Les parts d'un camembert ne basculent pas.
+  l'entrée est un bouton (`aria-pressed`, clavier) ; à droite, dans le dessin, elle s'atteint aussi par Tab
+  et s'active par Entrée ou Espace (`role="button"`, `aria-pressed`), le dessin restant une seule image pour
+  les technologies d'assistance, qui lisent le tableau de données. Les parts d'un camembert ne basculent pas.
 - La marge à gauche d'un tracé vertical tient la graduation la plus longue de l'axe des valeurs
   (14 unités au moins, 1,7 par caractère) : un montant long n'est jamais dessiné hors du graphique.
 - `OmniCategoryAxis` n'écrit que les libellés qui tiennent sans se chevaucher : quand tous ne

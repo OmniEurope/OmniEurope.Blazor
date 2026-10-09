@@ -58,7 +58,10 @@ public static class OmniReturnUrl
             return path;
         }
 
-        var separator = path.Contains('?', StringComparison.Ordinal) ? '&' : '?';
-        return $"{path}{separator}{Uri.EscapeDataString(parameterName)}={Uri.EscapeDataString(returnUrl)}";
+        // The query goes before a fragment: after it, the browser would never send it.
+        var hash = path.IndexOf('#', StringComparison.Ordinal);
+        var (target, fragment) = hash < 0 ? (path, string.Empty) : (path[..hash], path[hash..]);
+        var separator = target.Contains('?', StringComparison.Ordinal) ? '&' : '?';
+        return $"{target}{separator}{Uri.EscapeDataString(parameterName)}={Uri.EscapeDataString(returnUrl)}{fragment}";
     }
 }

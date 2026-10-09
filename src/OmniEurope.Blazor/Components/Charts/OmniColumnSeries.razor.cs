@@ -39,6 +39,16 @@ public partial class OmniColumnSeries
     /// </summary>
     [Parameter] public bool Horizontal { get; set; }
 
+    /// <summary>
+    /// Gives each rectangle its own colour of the palette, starting at <see cref="ColorIndex"/> and
+    /// following the points, for a single series whose categories are compared with each other (a share
+    /// per model). The legend and the data table keep the series colour. Off by default: the whole
+    /// series has one colour.
+    /// </summary>
+    [Parameter] public bool ColorByPoint { get; set; }
+
+    private string? PointClass(int index) => ColorByPoint ? ChartColor.Class(ColorIndex + index) : null;
+
     private OmniChartSeriesKind Kind => (Horizontal, Stacked) switch
     {
         (true, true) => OmniChartSeriesKind.StackedBar,

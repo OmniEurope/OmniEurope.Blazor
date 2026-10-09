@@ -40,6 +40,7 @@ public partial class OmniScheduler
     private ElementReference _root;
     private IJSObjectReference? _module;
     private bool _importing;
+    private bool _pageKeys;
     private bool _disposed;
     private Carried? _moving;
     private Carried? _dragged;
@@ -189,6 +190,25 @@ public partial class OmniScheduler
         {
             await ReloadAsync();
         }
+        else if (Load is null && _requestedKey is not null)
+        {
+            ForgetLoader();
+        }
+    }
+
+    // The loader taken away, the scheduler shows Items: a load still running is cancelled and its
+    // status, error and appointments go with it, so a late answer or a late failure shows nothing.
+    private void ForgetLoader()
+    {
+        // Given together with the key of the load it serves (ReloadAsync).
+        _loadGeneration++;
+        _loadCancellation!.Cancel();
+        _loadCancellation.Dispose();
+        _loadCancellation = null;
+        _requestedKey = null;
+        _loading = false;
+        _error = null;
+        _loadedItems = [];
     }
 
     /// <summary>
@@ -227,6 +247,19 @@ public partial class OmniScheduler
         {
             _importing = false;
         }
+    }
+
+    // The view switcher is a radio group: its arrows are the page keys of the focus module, turned on
+    // at its first focus, so a scheduler nobody reaches with the keyboard loads no script.
+    private Task EnablePageKeysAsync()
+    {
+        if (_pageKeys)
+        {
+            return Task.CompletedTask;
+        }
+
+        _pageKeys = true;
+        return OmniPageKeys.EnableAsync(JavaScript);
     }
 
     private OmniSchedulerAppointment ToLocal(OmniSchedulerAppointment item) => item with

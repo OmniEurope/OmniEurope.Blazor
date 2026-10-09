@@ -202,7 +202,7 @@ public sealed class DataFamilyEdgeTests : OmniBunitContext
 
         Assert.Empty(pages);
         Assert.Empty(sizes);
-        Assert.Equal("omni-pager-page-size", pager.Find("select").Id);
+        Assert.Matches("^omni-pager-[0-9a-f]{32}-page-size$", pager.Find("select").Id);
         pager.Render(parameters => parameters.Add(component => component.Id, "lignes"));
         Assert.Equal("lignes-page-size", pager.Find("select").Id);
     }

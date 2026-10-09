@@ -32,9 +32,15 @@ public partial class OmniSelectBar<TValue>
 
     private bool IsSelected(TValue value) => EqualityComparer<TValue>.Default.Equals(CurrentValue, value);
 
+    private bool CanPick(OmniOption<TValue> option) => !Disabled && !option.Disabled;
+
+    /// <summary>The one option Tab reaches: the chosen one when it can be picked, else the first that can.</summary>
+    private OmniOption<TValue>? TabStop =>
+        Options.FirstOrDefault(option => CanPick(option) && IsSelected(option.Value)) ?? Options.FirstOrDefault(CanPick);
+
     private void SelectOption(OmniOption<TValue> option)
     {
-        if (!Disabled && !option.Disabled)
+        if (CanPick(option))
         {
             CurrentValue = option.Value;
         }
@@ -54,7 +60,8 @@ public partial class OmniSelectBar<TValue>
 
     /// <summary>
     /// The chevrons follow the scroll position, which only the browser knows: the shared overflow
-    /// script owns them, as it does a tab strip's. A lost circuit is ignored.
+    /// script owns them, as it does a tab strip's; the arrows of the radio group are the page keys the
+    /// same module turns on when it loads. A lost circuit is ignored.
     /// </summary>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

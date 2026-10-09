@@ -23,6 +23,8 @@ structurelles ; un plan décrit un travail, pas l'état du produit.
 | [PLAN-015](PLAN-015-barres-de-grille.md) | Barres d'en-tête et de pied d'`OmniDataGrid` dans le cadre du tableau, export en icônes, formats un par un (demande d'une application cliente) | Sans ADR supplémentaire |
 | [PLAN-014](PLAN-014-crap-et-zero-point-aveugle.md) | Cinq correctifs de l'audit du 2026-10-04, porte CRAP à 30 avec exceptions justifiées, zéro point aveugle (C# et JavaScript) | Sans ADR supplémentaire |
 | [PLAN-016](PLAN-016-neutralite-du-depot-public.md) | Dépôt public sans nom d'application cliente, d'outil interne ni donnée personnelle : livré le 2026-10-07 (dépôt recréé, historique réécrit) ; restent la dépréciation NuGet et la configuration de publication | Sans ADR supplémentaire |
+| [PLAN-017](PLAN-017-corrections-audit-2026-10-07.md) | Corrections de l'audit du 2026-10-07 : livré le 2026-10-08 dans la 1.7.0, à archiver après relecture du propriétaire | Sans ADR supplémentaire |
+| [PLAN-018](PLAN-018-demandes-application-cliente-2026-10-08.md) | Cinq demandes d'une application cliente du 2026-10-08 : infobulles de titre, grille détruite, notifications sur écran étroit, lien d'évitement livrés dans la 1.7.0 ; chargeur de modules dans la version suivante | Sans ADR supplémentaire |
 
 ## Archives
 

@@ -415,6 +415,7 @@
   <data name="WindowRestore" xml:space="preserve"><value>Atkurti</value></data>
   <data name="WindowClose" xml:space="preserve"><value>Uždaryti</value></data>
   <data name="SidebarToggleLabel" xml:space="preserve"><value>Rodyti arba slėpti naršymą</value></data>
+  <data name="SkipLinkText" xml:space="preserve"><value>Pereiti prie pagrindinio turinio</value></data>
   <data name="SliderInvalid" xml:space="preserve"><value>Slankiklio reikšmė neteisinga.</value></data>
   <data name="SplitButtonMenuLabel" xml:space="preserve"><value>Daugiau veiksmų</value></data>
   <data name="StepsLabel" xml:space="preserve"><value>Žingsniai</value></data>

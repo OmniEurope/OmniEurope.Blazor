@@ -415,6 +415,7 @@
   <data name="WindowRestore" xml:space="preserve"><value>Irrestawra</value></data>
   <data name="WindowClose" xml:space="preserve"><value>Agħlaq</value></data>
   <data name="SidebarToggleLabel" xml:space="preserve"><value>Uri jew aħbi n-navigazzjoni</value></data>
+  <data name="SkipLinkText" xml:space="preserve"><value>Mur għall-kontenut ewlieni</value></data>
   <data name="SliderInvalid" xml:space="preserve"><value>Il-valur tas-slajder mhux validu.</value></data>
   <data name="SplitButtonMenuLabel" xml:space="preserve"><value>Aktar azzjonijiet</value></data>
   <data name="StepsLabel" xml:space="preserve"><value>Passi</value></data>

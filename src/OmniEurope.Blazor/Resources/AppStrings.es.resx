@@ -415,6 +415,7 @@
   <data name="WindowRestore" xml:space="preserve"><value>Restaurar</value></data>
   <data name="WindowClose" xml:space="preserve"><value>Cerrar</value></data>
   <data name="SidebarToggleLabel" xml:space="preserve"><value>Mostrar u ocultar la navegación</value></data>
+  <data name="SkipLinkText" xml:space="preserve"><value>Ir al contenido principal</value></data>
   <data name="SliderInvalid" xml:space="preserve"><value>El valor del control deslizante no es válido.</value></data>
   <data name="SplitButtonMenuLabel" xml:space="preserve"><value>Más acciones</value></data>
   <data name="StepsLabel" xml:space="preserve"><value>Pasos</value></data>

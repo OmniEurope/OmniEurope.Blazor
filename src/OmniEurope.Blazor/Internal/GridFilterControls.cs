@@ -62,6 +62,7 @@ internal sealed class GridFilterControls<TItem>(OmniDataGrid<TItem> grid)
                 builder.AddComponentParameter(4, nameof(OmniDataGridFilterMultiSelect.Placeholder), grid.Text("GridFilterPlaceholder"));
                 builder.AddComponentParameter(5, nameof(OmniDataGridFilterMultiSelect.Filterable), column.FilterSearchable);
                 builder.AddComponentParameter(8, nameof(OmniDataGridFilterMultiSelect.FormatValue), column.FormatFilterValue);
+                builder.AddComponentParameter(9, nameof(OmniDataGridFilterMultiSelect.Label), grid.Text("GridFilterColumn", column.Title));
                 builder.AddComponentParameter(
                     6,
                     nameof(OmniDataGridFilterMultiSelect.ValueChanged),

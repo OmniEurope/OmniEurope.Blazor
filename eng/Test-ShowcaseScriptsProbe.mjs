@@ -12,11 +12,19 @@
 import { openShowcaseSession, probeOptions } from './ShowcaseCdp.mjs';
 import { boardSteps } from './scripts-probe/boards.mjs';
 import { editorSteps } from './scripts-probe/editor.mjs';
+import { keySteps } from './scripts-probe/keys.mjs';
 import { leakSteps } from './scripts-probe/leaks.mjs';
 import { overlaySteps } from './scripts-probe/overlays.mjs';
+import { requestSteps } from './scripts-probe/requests.mjs';
 
-const parts = { overlays: overlaySteps, editor: editorSteps, boards: boardSteps, leaks: leakSteps };
+const parts = { overlays: overlaySteps, editor: editorSteps, boards: boardSteps, keys: keySteps, requests: requestSteps, leaks: leakSteps };
 const only = process.env.OMNI_SCRIPTS_ONLY?.split(',').map(name => name.trim()).filter(Boolean);
+// A name that is no part, or a choice that keeps none, would validate a run that drove nothing.
+const unknown = only?.filter(name => !Object.hasOwn(parts, name)) ?? [];
+if (unknown.length > 0 || (only && only.length === 0)) {
+  console.error(`OMNI_SCRIPTS_ONLY refusé : ${unknown.length > 0 ? `partie inconnue ${unknown.join(', ')}` : 'aucune partie choisie'} ; parties : ${Object.keys(parts).join(', ')}.`);
+  process.exit(1);
+}
 const chosen = only ? Object.entries(parts).filter(([name]) => only.includes(name)) : Object.entries(parts);
 
 const { endpoint, siteUrl } = probeOptions('Test-ShowcaseScriptsProbe.mjs');

@@ -61,7 +61,8 @@
   <data name="ChartTitle" xml:space="preserve"><value>Indicators</value></data>
   <data name="ChartDescription" xml:space="preserve"><value>Three demonstration points</value></data>
   <data name="Measure" xml:space="preserve"><value>Measure</value></data>
-  <data name="ChartDataCaption" xml:space="preserve"><value>Data: A 30, B 70, C 45</value></data>
+  <data name="ChartDataCaption" xml:space="preserve"><value>Chart data</value></data>
+  <data name="ChartPoint" xml:space="preserve"><value>Point</value></data>
   <data name="TimeTitle" xml:space="preserve"><value>Time and HTML content</value></data>
   <data name="SchedulerAppointment" xml:space="preserve"><value>Catalog review</value></data>
   <data name="EditorInitialHtml" xml:space="preserve"><value>&lt;p&gt;&lt;strong&gt;Sanitized&lt;/strong&gt; content.&lt;/p&gt;</value></data>

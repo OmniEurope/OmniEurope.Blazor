@@ -332,6 +332,11 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         catch (JSDisconnectedException)
         {
         }
+        finally
+        {
+            // Released: a late call finds no module rather than a disposed one.
+            _gridModule = null;
+        }
 
         _selfReference?.Dispose();
     }

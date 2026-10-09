@@ -415,6 +415,7 @@
   <data name="WindowRestore" xml:space="preserve"><value>Gendan</value></data>
   <data name="WindowClose" xml:space="preserve"><value>Luk</value></data>
   <data name="SidebarToggleLabel" xml:space="preserve"><value>Vis eller skjul navigationen</value></data>
+  <data name="SkipLinkText" xml:space="preserve"><value>Gå til hovedindhold</value></data>
   <data name="SliderInvalid" xml:space="preserve"><value>Skyderens værdi er ugyldig.</value></data>
   <data name="SplitButtonMenuLabel" xml:space="preserve"><value>Flere handlinger</value></data>
   <data name="StepsLabel" xml:space="preserve"><value>Trin</value></data>

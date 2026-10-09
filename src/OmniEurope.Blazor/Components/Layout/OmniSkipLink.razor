@@ -1,0 +1,12 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+@* The first stop of the page, out of sight until it takes the focus. Its address is the current page
+   with the target as fragment, so it still works before the page is interactive; once it is, the click
+   moves the focus by script: under <base href="/"> a bare "#main" would lead to the root page. *@
+<a @attributes="AdditionalAttributes"
+   id="@Id"
+   class="@Css("omni-skip-link")"
+   href="@Href"
+   @onclick="FocusTargetAsync"
+   @onclick:preventDefault="true">@EffectiveText</a>

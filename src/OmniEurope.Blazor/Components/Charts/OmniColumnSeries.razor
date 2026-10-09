@@ -6,7 +6,7 @@
     {
         var point = Data[index];
         var rectangle = Rectangle(index);
-        <rect x="@OmniChartGeometry.Number(rectangle.X)" y="@OmniChartGeometry.Number(rectangle.Y)" width="@OmniChartGeometry.Number(rectangle.Width)" height="@OmniChartGeometry.Number(rectangle.Height)"><title>@(ChartContext?.PointTitle(index, point) ?? point.Label ?? OmniChartGeometry.Display(point.Y))</title></rect>
+        <rect class="@PointClass(index)" x="@OmniChartGeometry.Number(rectangle.X)" y="@OmniChartGeometry.Number(rectangle.Y)" width="@OmniChartGeometry.Number(rectangle.Width)" height="@OmniChartGeometry.Number(rectangle.Height)"><title>@(ChartContext?.PointTitle(index, point) ?? point.Label ?? OmniChartGeometry.Display(point.Y))</title></rect>
     }
 </g>
 }

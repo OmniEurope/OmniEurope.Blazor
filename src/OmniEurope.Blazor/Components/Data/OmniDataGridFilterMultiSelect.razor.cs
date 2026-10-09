@@ -7,7 +7,8 @@ namespace OmniEurope.Blazor.Components;
 /// it reads and writes is the encoded list of <see cref="OmniDataGridFilterValues"/>, so a
 /// multi-valued filter travels as the same single string as any other.
 /// <see cref="OmniComponentBase.Id"/> goes on the search box when there is one, on the folded summary
-/// otherwise; <see cref="OmniComponentBase.Class"/> and the additional attributes on the outer element.
+/// in the compact presentation, on the list itself otherwise; <see cref="OmniComponentBase.Class"/> and
+/// the additional attributes on the outer element.
 /// </summary>
 public partial class OmniDataGridFilterMultiSelect
 {
@@ -49,6 +50,17 @@ public partial class OmniDataGridFilterMultiSelect
     /// </summary>
     [Parameter]
     public OmniMultiSelectPresentation Presentation { get; set; } = OmniMultiSelectPresentation.Compact;
+
+    /// <summary>
+    /// Accessible name of the list when nothing else names it: shown open without a search box, it has
+    /// neither the box nor the summary to be named by. Null falls back on <see cref="Placeholder"/>.
+    /// </summary>
+    [Parameter]
+    public string? Label { get; set; }
+
+    private bool NamesItself => !Filterable && Presentation == OmniMultiSelectPresentation.List;
+
+    private string? EffectiveLabel => string.IsNullOrWhiteSpace(Label) ? Placeholder : Label;
 
     /// <summary>The ticked values joined, or the placeholder while none is.</summary>
     private string SummaryText

@@ -415,6 +415,7 @@
   <data name="WindowRestore" xml:space="preserve"><value>Palauta</value></data>
   <data name="WindowClose" xml:space="preserve"><value>Sulje</value></data>
   <data name="SidebarToggleLabel" xml:space="preserve"><value>Näytä tai piilota navigointi</value></data>
+  <data name="SkipLinkText" xml:space="preserve"><value>Siirry pääsisältöön</value></data>
   <data name="SliderInvalid" xml:space="preserve"><value>Liukusäätimen arvo ei kelpaa.</value></data>
   <data name="SplitButtonMenuLabel" xml:space="preserve"><value>Lisää toimintoja</value></data>
   <data name="StepsLabel" xml:space="preserve"><value>Vaiheet</value></data>

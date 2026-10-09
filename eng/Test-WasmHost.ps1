@@ -2,10 +2,16 @@
 param(
     [int]$Port = 5190,
     [string]$WebRoot = (Join-Path $PSScriptRoot '..\artifacts\wasm-smoke\wwwroot'),
+    # The sample's two languages; each brings the texts the page shows in it.
+    [ValidateSet('fr', 'en')]
     [string]$BrowserLanguage = 'fr'
 )
 
 $ErrorActionPreference = 'Stop'
+$expectedTexts = @{
+    fr = @{ Counter = 'Compteur : 1'; Title = 'Test WebAssembly OmniEurope.Blazor' }
+    en = @{ Counter = 'Counter: 1'; Title = 'OmniEurope.Blazor WebAssembly test' }
+}[$BrowserLanguage]
 $psText = Import-PowerShellDataFile (Join-Path $PSScriptRoot 'PowerShellMessages.psd1')
 $resolvedRoot = (Resolve-Path -LiteralPath $WebRoot).Path
 $baseUri = "http://127.0.0.1:$Port"
@@ -106,12 +112,12 @@ try {
         --endpoint "http://127.0.0.1:$browserPort" `
         --selector '#wasm-action' `
         --output '#wasm-action' `
-        --expected 'Compteur : 1' `
+        --expected $expectedTexts.Counter `
         --assert-selector '[role="progressbar"]' `
         --assert-attribute 'aria-valuenow' `
         --assert-expected '1' `
-        --assert-language 'fr' `
-        --assert-title 'Test WebAssembly OmniEurope.Blazor' `
+        --assert-language $BrowserLanguage `
+        --assert-title $expectedTexts.Title `
         --assert-present '#wasm-grid .omni-data-grid__table tbody tr||#wasm-list .omni-data-list__item||[role="dialog"]||.omni-notification__message'
     if ($LASTEXITCODE -ne 0) { throw ($psText.CdpFailed -f 'WebAssembly', $LASTEXITCODE) }
 

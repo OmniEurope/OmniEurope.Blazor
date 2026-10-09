@@ -304,8 +304,10 @@
 .omni-data-grid__advanced-summary { color: var(--omni-color-text-muted); }
 .omni-data-grid__multi[open] > summary > svg { transform: rotate(180deg); }
 .omni-data-grid .omni-combo__list { inline-size: max(10rem, var(--omni-anchor-w, 100%)); inset: auto; left: var(--omni-anchor-x, auto); position: fixed; top: var(--omni-anchor-y, auto); }
-/* Control columns keep a set width instead of sharing the free space with the data. */
-.omni-data-grid__col { inline-size: var(--omni-col-width, auto); }
+/* Control columns keep a set width instead of sharing the free space with the data. The script's width
+   wins (resize, fit to the header); until it runs, the width written in the markup, so the first paint
+   already has the declared widths instead of equal columns. */
+.omni-data-grid__col { inline-size: var(--omni-col-width, attr(data-omni-width type(<length-percentage>), auto)); }
 .omni-data-grid__col--control { inline-size: var(--omni-data-grid-control-width); }
 .omni-data-grid__col--edit { inline-size: var(--omni-data-grid-edit-width); }
 .omni-data-grid__table .omni-data-grid__control { padding: 0; text-align: center; }

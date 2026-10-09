@@ -6,7 +6,7 @@ namespace OmniEurope.Blazor.Components;
 /// A log: numbered lines with their time and severity, warnings and errors tinted, that follows the
 /// newest line while lines arrive and lets go as soon as the reader scrolls up, with a button to
 /// jump back to the latest. An optional level filter hides the lines under a severity, and a search
-/// marks every occurrence of a text and steps from one to the next.
+/// marks every occurrence of a text and steps from one line that holds it to the next.
 /// </summary>
 /// <remarks>
 /// <para>
@@ -129,8 +129,8 @@ public partial class OmniLogViewer : IAsyncDisposable
     public EventCallback<OmniLogLevel?> MinimumLevelChanged { get; set; }
 
     /// <summary>
-    /// Shows the search box above the log. The search marks the occurrences and steps through them without
-    /// hiding a line, so it is not an option filter (<c>Filterable</c> elsewhere); the name follows the
+    /// Shows the search box above the log. The search marks every occurrence and steps through the lines
+    /// that hold one (the counter counts those lines) without hiding a line, so it is not an option filter (<c>Filterable</c> elsewhere); the name follows the
     /// other toolbar switches of this component (<see cref="ShowLevelFilter"/>).
     /// </summary>
     [Parameter]

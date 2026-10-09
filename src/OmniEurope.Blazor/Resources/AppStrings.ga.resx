@@ -415,6 +415,7 @@
   <data name="WindowRestore" xml:space="preserve"><value>Athchóirigh</value></data>
   <data name="WindowClose" xml:space="preserve"><value>Dún</value></data>
   <data name="SidebarToggleLabel" xml:space="preserve"><value>Taispeáin nó folaigh an nascleanúint</value></data>
+  <data name="SkipLinkText" xml:space="preserve"><value>Léim chuig an bpríomhábhar</value></data>
   <data name="SliderInvalid" xml:space="preserve"><value>Tá luach an sleamhnáin neamhbhailí.</value></data>
   <data name="SplitButtonMenuLabel" xml:space="preserve"><value>Tuilleadh gníomhartha</value></data>
   <data name="StepsLabel" xml:space="preserve"><value>Céimeanna</value></data>

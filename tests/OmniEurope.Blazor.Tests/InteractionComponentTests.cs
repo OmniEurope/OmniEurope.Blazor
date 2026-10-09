@@ -272,16 +272,28 @@ public sealed class InteractionComponentTests : OmniBunitContext
     }
 
     [Fact]
-    public void DelayedValidator_CancelsStaleFieldValidation()
+    public async Task DelayedValidator_CancelsStaleFieldValidation()
     {
         var form = Render<FormTestHost>();
+        // Each validation that runs notifies the edit context, in the order the changes were made: the
+        // next notification after the two changes is the stale one (empty name) if it was not cancelled.
+        var notifications = 0;
+        var validated = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        form.Instance.EditContext.OnValidationStateChanged += (_, _) =>
+        {
+            notifications++;
+            validated.TrySetResult();
+        };
+        form.Find("#name").Input("Bob");
+        await validated.Task.WaitAsync(TimeSpan.FromSeconds(5), Xunit.TestContext.Current.CancellationToken);
+        validated = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
         form.Find("#name").Input(string.Empty);
         form.Find("#name").Input("Alice");
+        await validated.Task.WaitAsync(TimeSpan.FromSeconds(5), Xunit.TestContext.Current.CancellationToken);
 
-        form.WaitForAssertion(() => Assert.DoesNotContain(
-            "Ce champ est obligatoire.",
-            form.Instance.EditContext.GetValidationMessages()), TimeSpan.FromSeconds(1));
+        Assert.DoesNotContain("Ce champ est obligatoire.", form.Instance.EditContext.GetValidationMessages());
+        Assert.Equal(2, notifications);
     }
 
     [Fact]

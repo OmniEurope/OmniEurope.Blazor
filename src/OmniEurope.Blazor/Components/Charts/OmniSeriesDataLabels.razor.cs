@@ -18,6 +18,19 @@ public partial class OmniSeriesDataLabels
     /// </summary>
     [Parameter] public Func<double, string>? FormatValue { get; set; }
 
+    /// <summary>
+    /// Writes each label inside its bar, from the start of a horizontal bar or under the top of a column,
+    /// outlined with the surface colour so it reads on any bar colour. A label longer than its bar runs on
+    /// past its end. Off by default: above the point, or past the end of a horizontal bar.
+    /// </summary>
+    [Parameter] public bool Inside { get; set; }
+
+    // Where the value axis starts (zero): a label inside a horizontal bar begins there.
+    private (double X, double Y) Origin(int index) =>
+        ChartContext is null ? (0, 0) : ChartContext.ProjectCoordinates(Data[index] with { Y = 0 });
+
+    private string LabelsClass => Inside ? "omni-chart__labels omni-chart__labels--inside" : "omni-chart__labels";
+
     /// <summary>Registers the points with the chart so the plot covers them; data labels stay out of the legend and the data table.</summary>
     protected override void OnParametersSet() => ChartContext?.RegisterSeries(this, OmniChartSeriesKind.Auxiliary, Data);
 

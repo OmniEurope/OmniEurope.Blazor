@@ -415,6 +415,7 @@
   <data name="WindowRestore" xml:space="preserve"><value>Възстановяване</value></data>
   <data name="WindowClose" xml:space="preserve"><value>Затваряне</value></data>
   <data name="SidebarToggleLabel" xml:space="preserve"><value>Показване или скриване на навигацията</value></data>
+  <data name="SkipLinkText" xml:space="preserve"><value>Към основното съдържание</value></data>
   <data name="SliderInvalid" xml:space="preserve"><value>Стойността на плъзгача е невалидна.</value></data>
   <data name="SplitButtonMenuLabel" xml:space="preserve"><value>Още действия</value></data>
   <data name="StepsLabel" xml:space="preserve"><value>Стъпки</value></data>
