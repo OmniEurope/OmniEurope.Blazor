@@ -676,6 +676,8 @@
   <data name="DemoChartsExtendedSliceMail" xml:space="preserve"><value>Post</value></data>
   <data name="DemoChartsExtendedSliceOnline" xml:space="preserve"><value>Online</value></data>
   <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Sonstige</value></data>
+  <data name="DemoChartsExtendedRangeTitle" xml:space="preserve"><value>Drei Jahre Eingänge, ein gewählter Bereich</value></data>
+  <data name="DemoChartsExtendedRangeShown" xml:space="preserve"><value>Angezeigte Monate: von {0} bis {1}</value></data>
   <data name="DemoPlanningGanttLabel" xml:space="preserve"><value>Projektplanung</value></data>
   <data name="DemoPlanningScaleShown" xml:space="preserve"><value>Angezeigte Skala: {0}</value></data>
   <data name="DemoPlanningScaleDay" xml:space="preserve"><value>Tag</value></data>
@@ -1545,6 +1547,8 @@
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} unter {1} eingeordnet</value></data>
   <data name="DemoGridScopeHint" xml:space="preserve"><value>Drehen Sie das Mausrad irgendwo in diesem Rahmen: Die Zeilen des Rasters scrollen.</value></data>
   <data name="DemoGridFillCaption" xml:space="preserve"><value>Zweitausend Akten nach Land</value></data>
+  <data name="DemoGridEditCaption" xml:space="preserve"><value>Bearbeitbare Akten: Zeile doppelklicken oder den Stift verwenden</value></data>
+  <data name="DemoGridEditHint" xml:space="preserve"><value>Das Feld der doppelt angeklickten Zelle, sonst das erste, erhält den Fokus mit markiertem Text.</value></data>
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Gerichtete Verbindungen</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Geprüfter Text, zunächst gesperrt</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Schreibgeschützt</value></data>

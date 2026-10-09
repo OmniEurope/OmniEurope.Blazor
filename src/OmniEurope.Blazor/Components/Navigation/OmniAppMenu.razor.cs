@@ -92,9 +92,19 @@ public partial class OmniAppMenu
 
     private string EffectiveLabel => LocalizeOr(Label, "AppMenuLabel");
 
-    private bool DarkOnly => Preset?.DarkOnly == true;
+    /// <summary>The mode a theme drawn in one mode only fixes, or null.</summary>
+    private OmniAppearance? FixedMode => Preset?.FixedAppearance;
 
-    private OmniAppearance ShownAppearance => DarkOnly ? OmniAppearance.Dark : Appearance;
+    private bool ModeFixed => FixedMode is not null;
+
+    private string? ModeFixedTitle => FixedMode switch
+    {
+        OmniAppearance.Dark => Localize("SettingsDarkOnly"),
+        OmniAppearance.Light => Localize("SettingsLightOnly"),
+        _ => null
+    };
+
+    private OmniAppearance ShownAppearance => FixedMode ?? Appearance;
 
     private bool ShowsLanguages => Languages is { Count: > 1 };
 

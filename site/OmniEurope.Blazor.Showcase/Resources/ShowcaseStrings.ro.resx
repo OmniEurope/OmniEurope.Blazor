@@ -676,6 +676,8 @@
   <data name="DemoChartsExtendedSliceMail" xml:space="preserve"><value>Poștă</value></data>
   <data name="DemoChartsExtendedSliceOnline" xml:space="preserve"><value>Online</value></data>
   <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Altele</value></data>
+  <data name="DemoChartsExtendedRangeTitle" xml:space="preserve"><value>Trei ani de depuneri, un interval ales</value></data>
+  <data name="DemoChartsExtendedRangeShown" xml:space="preserve"><value>Luni afișate: de la {0} la {1}</value></data>
   <data name="DemoPlanningGanttLabel" xml:space="preserve"><value>Planificarea proiectului</value></data>
   <data name="DemoPlanningScaleShown" xml:space="preserve"><value>Scară afișată: {0}</value></data>
   <data name="DemoPlanningScaleDay" xml:space="preserve"><value>zi</value></data>
@@ -1545,6 +1547,8 @@
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} așezat sub {1}</value></data>
   <data name="DemoGridScopeHint" xml:space="preserve"><value>Rotiți rotița oriunde în acest cadru: rândurile grilei derulează.</value></data>
   <data name="DemoGridFillCaption" xml:space="preserve"><value>Două mii de dosare pe țară</value></data>
+  <data name="DemoGridEditCaption" xml:space="preserve"><value>Dosare editabile: faceți dublu clic pe un rând sau folosiți creionul</value></data>
+  <data name="DemoGridEditHint" xml:space="preserve"><value>Câmpul celulei cu dublu clic, altfel primul, primește focalizarea cu textul selectat.</value></data>
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Legături orientate</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Text verificat, blocat la început</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Doar citire</value></data>

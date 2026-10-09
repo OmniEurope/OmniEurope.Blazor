@@ -8,7 +8,7 @@ leurs coordonnées dans un même contexte : elles s'alignent par construction.
 
 | Composant | Rôle |
 | --- | --- |
-| `OmniChart` | Conteneur SVG : titre, description (`Description`, `string?`, posée en `desc` et `aria-describedby` seulement quand elle est donnée), rapport largeur sur hauteur ; toutes les parties y lisent leurs coordonnées. `DataTableContent` fournit l'alternative en tableau ; sans lui, un tableau des données masqué visuellement est généré depuis les séries. `SharedTooltip` donne un texte de survol par catégorie (voir Disposition). |
+| `OmniChart` | Conteneur SVG : titre, description (`Description`, `string?`, posée en `desc` et `aria-describedby` seulement quand elle est donnée), rapport largeur sur hauteur ; toutes les parties y lisent leurs coordonnées. `DataTableContent` fournit l'alternative en tableau ; sans lui, un tableau des données masqué visuellement est généré depuis les séries. `SharedTooltip` donne un texte de survol par catégorie (voir Disposition). `FooterContent` reçoit les parties HTML posées sous le dessin, avant une légende du dessous (`OmniRangeNavigator`). |
 | `OmniCategoryAxis`, `OmniValueAxis` | Axe des catégories et axe des valeurs (bornes fixes ou automatiques), graduations et libellés. |
 | `OmniAxisTitle` | Titre d'un axe, horizontal en bas ou vertical à gauche, tourné. |
 | `OmniGridLines` | Lignes de grille du tracé. |
@@ -16,9 +16,10 @@ leurs coordonnées dans un même contexte : elles s'alignent par construction.
 | `OmniColumnSeries` | Colonnes verticales groupées par catégorie, empilables (`Stacked`) ; `Horizontal="true"` en fait des barres horizontales sur axes tournés ; `ColorByPoint="true"` donne à chaque rectangle sa couleur de la palette. |
 | `OmniPieSeries` | Secteurs d'un disque, ou d'un anneau (`Donut`). |
 | `OmniMarkers` | Points marqués sur les valeurs d'une série. |
-| `OmniSeriesDataLabels` | Valeurs écrites sur les points d'une série, avec leur format (`FormatValue`) ; `Inside="true"` les écrit dans la barre. |
+| `OmniSeriesDataLabels` | Valeurs écrites sur les points d'une série, avec leur format (`FormatValue`) ; `Inside="true"` les écrit dans la barre. Une étiquette qui sortirait de la zone de tracé, d'après sa largeur estimée, s'ancre au bord qu'elle franchirait (début à gauche, fin à droite), au lieu de déborder de la moitié de sa largeur au premier et au dernier point. |
 | `OmniLegend` | Légende hors du tracé, à droite, dessous ou dessus. |
 | `OmniArcGauge`, `OmniArcGaugeScale`, `OmniArcGaugeScaleValue` | Jauge en demi-cercle, son échelle et la valeur qu'elle montre (`FormatValue`) ; le nom accessible de la jauge porte sa valeur. |
+| `OmniRangeNavigator` | Navigateur de plage sous le graphique, écrit dans `FooterContent` d'`OmniChart` : aperçu de toutes les catégories en petites colonnes et deux poignées, début et fin, qui choisissent les catégories dessinées (voir Navigateur de plage). |
 
 ## Disposition
 
@@ -89,6 +90,55 @@ leurs coordonnées dans un même contexte : elles s'alignent par construction.
   fois une puissance de dix) pour `TickCount` graduations, de zéro (ou de la plus basse valeur) à la plus
   haute valeur, piles comprises. Sans lui, un axe garde `Minimum` et `Maximum` (0 et 100 par défaut) et un
   graphique sans axe se cale sur les données sans graduations écrites.
+
+## Navigateur de plage
+
+`OmniRangeNavigator` (recette R-034) s'écrit dans `FooterContent` de son `OmniChart`, jamais parmi les
+parties du dessin (il y lève `InvalidOperationException`). Il dessine sous le graphique un aperçu de
+toutes les catégories, une petite colonne par catégorie (total des séries non masquées par la légende),
+et deux poignées : le graphique au-dessus ne montre que les catégories choisies et se redessine pendant
+le glissement. Les catégories se comptent par rang, comme l'axe et le tableau de données : l'indice `i`
+est le libellé `i` de l'axe et le point `i` de chaque série.
+
+| Paramètre | Type | Rôle |
+| --- | --- | --- |
+| `RangeStart` / `RangeStartChanged` | `int?` / `EventCallback<int?>` | Indice de la première catégorie montrée, liable (`@bind-RangeStart`) ; `null` : la première. |
+| `RangeEnd` / `RangeEndChanged` | `int?` / `EventCallback<int?>` | Indice de la dernière catégorie montrée, incluse, liable ; `null` : la dernière, suivie quand des catégories s'ajoutent. |
+| `Label`, `StartLabel`, `EndLabel` | `string?` | Noms accessibles du groupe et des deux poignées ; `null` : textes localisés (« Plage affichée », « Début de la plage », « Fin de la plage », 24 langues). |
+
+- La plage initiale est celle donnée : une année sur trois ans de mois s'écrit `RangeStart="24"`. Une
+  valeur hors des catégories est ramenée dedans ; un hôte qui ne lie pas la plage garde les poignées là
+  où le lecteur les a laissées.
+- Chaque poignée est un `input type="range"` natif (`role="slider"`, `aria-valuemin`,
+  `aria-valuemax`, `aria-valuenow`, `aria-valuetext` = nom de la catégorie) : pointeur, doigt et clavier
+  du navigateur (flèches d'une catégorie, Page précédente et Page suivante d'un pas plus grand, Début et
+  Fin aux bornes). Les poignées ne se croisent pas : le début s'arrête à la fin et inversement, une
+  catégorie au moins reste montrée. Les deux entrées se superposent sur l'aperçu, leur piste
+  transparente laisse passer le pointeur et seule la poignée le prend ; une poignée est une barre de
+  0,375 rem dans une bordure transparente qui en fait une cible de 2,75 rem (44 px). Deux poignées sur
+  la même catégorie dans la moitié droite : celle du début passe au-dessus.
+- Sans script ni style inline : l'aperçu est de la géométrie SVG, les poignées sont stylées par la
+  feuille (`omni-range-navigator__*`).
+- Pendant qu'une plage est montrée, les séries, l'axe des catégories, les bandes du texte de survol
+  partagé et le tableau de données généré gardent les catégories de la plage ; les domaines X et
+  `OmniValueAxis.Automatic` se calculent sur elles seules. L'aspect du dessin (série temporelle) se
+  décide toujours sur toutes les données, pour qu'il ne change pas pendant un glissement. Les
+  étiquettes de valeur (`OmniSeriesDataLabels`) parcourent tous leurs points : celles hors plage sont
+  envoyées loin au-dessus du dessin, hors du découpage (`clipPath`) que le graphique pose sur ses parties
+  tant qu'une plage est active. Une plage qui couvre toutes les catégories n'en est pas une : le
+  graphique se dessine comme sans navigateur, sans découpage.
+
+`ChartRangeNavigatorTests` fixe la plage initiale (poignées, axe, tableau, aperçu), la liaison levée par
+une poignée déplacée et le graphique redessiné, les points dessinés limités à la plage (colonnes,
+courbe, marqueurs, bandes de survol, axe des valeurs recalé, étiquettes hors plage hors découpage), les
+poignées qui ne se croisent pas, les bornes, le refus dans le dessin et le retour à toutes les catégories
+quand le navigateur disparaît. bUnit lève l'événement `input` que le navigateur produit pour une touche
+ou un glissement. Contrôlé dans Chromium sur la vitrine publiée en Release et servie sous CSP stricte
+(`/composants/graphiques-avances`, console sans erreur) : flèche, Page suivante (3 mois sur 36), Début
+et Fin sur les vraies touches, poignées arrêtées l'une sur l'autre, glissement à la souris (la poignée
+s'arrête sur le mois visé, le graphique se redessine pendant le geste), thème sombre et largeur de
+téléphone sans défilement horizontal. Le glissement au doigt n'a pas été joué (le navigateur de contrôle
+n'envoie que des événements de souris).
 
 ## Jauge
 

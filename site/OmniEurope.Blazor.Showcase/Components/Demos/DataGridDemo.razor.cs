@@ -31,6 +31,26 @@ public partial class DataGridDemo
 
     private IReadOnlyList<StatementLine> Statement { get; set; } = [];
 
+    private OmniDataGrid<EditableFile>? EditGrid { get; set; }
+
+    // Kept by the page while it is shown: an edit changes the file itself, as a host's model would.
+    private List<EditableFile> EditableFiles { get; } =
+    [
+        new() { Reference = "D-1001", Applicant = "Marie Lambert", Country = "Belgique" },
+        new() { Reference = "D-1002", Applicant = "Jonas Weber", Country = "Allemagne" },
+        new() { Reference = "D-1003", Applicant = "Inês Costa", Country = "Portugal" },
+    ];
+
+    /// <summary>A file of the editable grid: its applicant and country change in place.</summary>
+    private sealed class EditableFile
+    {
+        public required string Reference { get; init; }
+
+        public string Applicant { get; set; } = string.Empty;
+
+        public string Country { get; set; } = string.Empty;
+    }
+
     private OmniDataGrid<StatementLine>? StatementGrid { get; set; }
 
     private Task ExpandStatementAsync() => StatementGrid?.ExpandAllTreeRowsAsync() ?? Task.CompletedTask;

@@ -18,11 +18,15 @@
   <data name="AppMenuSignOut" xml:space="preserve"><value>Afmelden</value></data>
   <data name="SettingsMode" xml:space="preserve"><value>Modus</value></data>
   <data name="SettingsDarkOnly" xml:space="preserve"><value>Dit thema is altijd donker</value></data>
+  <data name="SettingsLightOnly" xml:space="preserve"><value>Dit thema is altijd licht</value></data>
   <data name="SettingsTheme" xml:space="preserve"><value>Thema</value></data>
   <data name="SettingsPalette" xml:space="preserve"><value>Palet</value></data>
   <data name="SettingsFont" xml:space="preserve"><value>Lettertype</value></data>
   <data name="SettingsTextSize" xml:space="preserve"><value>Tekstgrootte</value></data>
   <data name="SettingsDensity" xml:space="preserve"><value>Dichtheid</value></data>
+  <data name="SettingsContentWidth" xml:space="preserve"><value>Inhoudsbreedte</value></data>
+  <data name="ContentWidthCentered" xml:space="preserve"><value>Gecentreerd</value></data>
+  <data name="ContentWidthFull" xml:space="preserve"><value>Volledige breedte</value></data>
   <data name="SettingsBackdropMotion" xml:space="preserve"><value>Geanimeerde achtergrond</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Grootte van besturingselementen</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Standaard</value></data>
@@ -293,6 +297,9 @@
   <data name="HtmlEditorRedo" xml:space="preserve"><value>Opnieuw</value></data>
   <data name="HtmlEditorPreview" xml:space="preserve"><value>Voorbeeld van de inhoud</value></data>
   <data name="LegendLabel" xml:space="preserve"><value>Legenda</value></data>
+  <data name="RangeNavigatorLabel" xml:space="preserve"><value>Weergegeven bereik</value></data>
+  <data name="RangeNavigatorStart" xml:space="preserve"><value>Begin van het bereik</value></data>
+  <data name="RangeNavigatorEnd" xml:space="preserve"><value>Einde van het bereik</value></data>
   <data name="ListBoxInvalid" xml:space="preserve"><value>De lijstselectie is ongeldig.</value></data>
   <data name="MindMapAddLink" xml:space="preserve"><value>Koppeling</value></data>
   <data name="MindMapAddNode" xml:space="preserve"><value>Knooppunt</value></data>

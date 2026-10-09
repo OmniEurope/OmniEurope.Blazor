@@ -39,7 +39,7 @@
     <div class="showcase-workshop-bar__field">
         <span class="omni-label" id="workshop-mode-label">@Text["WorkshopMode"]</span>
         <OmniSelectBar TValue="ThemeMode" Id="workshop-mode" Label="@Text["WorkshopMode"]" Options="ModeOptions"
-                       Disabled="Theme.Theme.DarkOnly" @bind-Value:get="Theme.EffectiveMode" @bind-Value:set="SetModeAsync" />
+                       Disabled="@(Theme.Theme.DarkOnly || Theme.Theme.LightOnly)" @bind-Value:get="Theme.EffectiveMode" @bind-Value:set="SetModeAsync" />
     </div>
     <OmniFormField For="workshop-density">
         <LabelContent>@Text["WorkshopDensity"]</LabelContent>

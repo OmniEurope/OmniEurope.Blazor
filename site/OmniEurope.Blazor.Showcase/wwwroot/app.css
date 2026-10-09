@@ -257,6 +257,7 @@
 
 .demo-themes { display: grid; gap: var(--omni-space-md); grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); }
 .demo-themes__live { display: grid; gap: var(--omni-space-md); grid-column: 1 / -1; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); }
+.demo-themes__live--centred { box-sizing: border-box; inline-size: 100%; margin-inline: auto; max-inline-size: 48rem; }
 /* Le bouton qui ouvre la fenêtre garde sa taille : étiré, il remplissait toute sa cellule. */
 .demo-themes__live > .omni-button { align-self: start; justify-self: start; }
 

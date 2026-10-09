@@ -34,8 +34,21 @@
            narrowing the plot, a series turning it into bands) moves the parts that rendered before it. *@
         @* The shared tooltip comes last: its bands lie over the series, and it renders after the
            parts have registered their points and the value axis its format. *@
-        <CascadingValue Value="_context" IsFixed="false">@ChildContent@SharedTooltipLayer</CascadingValue>
+        @* While an OmniRangeNavigator shows a range, the parts are clipped a little outside the view box:
+           a decoration that walks every point of its own (data labels) has those outside the range sent
+           far above it. The group is always there, so the parts keep their place when the range starts. *@
+        @if (ClipId is not null)
+        {
+            <clipPath id="@ClipId"><rect x="@ClipLeft" y="-10" width="@ClipWidth" height="120" /></clipPath>
+        }
+        <g class="omni-chart__parts" clip-path="@ClipReference"><CascadingValue Value="_context" IsFixed="false">@ChildContent@SharedTooltipLayer</CascadingValue></g>
     </svg>
+    @* HTML parts under the drawing, such as an OmniRangeNavigator: they share the layout of the chart
+       under a name of their own, so a part written in the drawing by mistake can tell. *@
+    @if (FooterContent is not null)
+    {
+        <CascadingValue Name="@OmniChartContext.FooterName" Value="_context" IsFixed="false">@FooterContent</CascadingValue>
+    }
     @* A legend below the chart is HTML: it wraps on a narrow screen and keeps the page's text size,
        where text inside the drawing shrinks with it. *@
     @foreach (var legend in _context.LegendsBelow)
@@ -89,6 +102,11 @@
                         <tbody>
                             @for (var row = 0; row < rows; row++)
                             {
+                                @* The table follows the range an OmniRangeNavigator shows, like the drawing. *@
+                                if (!_context.InRange(row))
+                                {
+                                    continue;
+                                }
                                 <tr>
                                     <th scope="row">@RowName(series, row)</th>
                                     @foreach (var item in series)

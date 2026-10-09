@@ -66,8 +66,8 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
     /// <summary>The mode the visitor is previewing.</summary>
     public ThemeMode Mode { get; private set; } = ThemeMode.Light;
 
-    /// <summary>The mode drawn: <see cref="Mode"/>, except under a theme drawn in dark mode only, always dark.</summary>
-    public ThemeMode EffectiveMode => Theme.DarkOnly ? ThemeMode.Dark : Mode;
+    /// <summary>The mode drawn: <see cref="Mode"/>, except under a theme drawn in one mode only, always that one.</summary>
+    public ThemeMode EffectiveMode => Theme.DarkOnly ? ThemeMode.Dark : Theme.LightOnly ? ThemeMode.Light : Mode;
 
     /// <summary>The density of the whole page, which a section with a density of its own overrides.</summary>
     public OmniDensity Density { get; private set; } = OmniDensity.Comfortable;

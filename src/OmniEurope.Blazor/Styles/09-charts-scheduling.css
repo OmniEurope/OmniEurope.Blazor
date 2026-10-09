@@ -85,6 +85,28 @@ polyline.omni-chart__line { fill: none; }
 .omni-arc-gauge text { fill: var(--omni-color-text); stroke: none; }
 .omni-arc-gauge .omni-arc-gauge__limit { fill: var(--omni-color-text-muted); font-size: 5px; }
 .omni-arc-gauge__value-text { font-size: 10px; font-variant-numeric: tabular-nums; font-weight: 650; }
+/* The range navigator under a chart (OmniRangeNavigator): two native range inputs laid over an
+   overview of every category. Their tracks are transparent and let the pointer through; only the
+   handles catch it. A handle is a bar 0.375rem wide, inside a transparent border that makes
+   it a 2.75rem (44px) target; the overview is inset by half a handle on each side, so the centre of a
+   handle stands over the column of its category. */
+.omni-range-navigator { --omni-range-navigator-handle: 2.75rem; display: grid; gap: var(--omni-space-xs); margin-block-start: var(--omni-space-sm); }
+.omni-range-navigator__track { block-size: var(--omni-range-navigator-handle); position: relative; }
+.omni-range-navigator__overview { background: var(--omni-color-surface-muted); block-size: 100%; display: block; inline-size: calc(100% - var(--omni-range-navigator-handle)); margin-inline: calc(var(--omni-range-navigator-handle) / 2); overflow: visible; }
+.omni-range-navigator__window { fill: var(--omni-color-accent); fill-opacity: 0.14; }
+.omni-range-navigator__column { fill: var(--omni-color-text-muted); fill-opacity: 0.45; }
+.omni-range-navigator__column--selected { fill: var(--omni-color-accent); fill-opacity: 0.85; }
+.omni-range-navigator__handle { -webkit-appearance: none; appearance: none; background: transparent; block-size: 100%; inline-size: 100%; inset: 0; margin: 0; pointer-events: none; position: absolute; }
+.omni-range-navigator__handle--end { z-index: 1; }
+.omni-range-navigator--start-on-top .omni-range-navigator__handle--start { z-index: 2; }
+.omni-range-navigator__handle:focus { outline: none; }
+.omni-range-navigator__handle::-webkit-slider-runnable-track { background: transparent; block-size: 100%; }
+.omni-range-navigator__handle::-moz-range-track { background: transparent; block-size: 100%; }
+.omni-range-navigator__handle::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; background: var(--omni-color-text); background-clip: padding-box; block-size: var(--omni-range-navigator-handle); border: 0 solid transparent; border-inline-width: calc((var(--omni-range-navigator-handle) - 0.375rem) / 2); box-sizing: border-box; cursor: ew-resize; inline-size: var(--omni-range-navigator-handle); pointer-events: auto; }
+.omni-range-navigator__handle::-moz-range-thumb { background: var(--omni-color-text); background-clip: padding-box; block-size: var(--omni-range-navigator-handle); border: 0 solid transparent; border-inline-width: calc((var(--omni-range-navigator-handle) - 0.375rem) / 2); border-radius: 0; box-sizing: border-box; cursor: ew-resize; inline-size: var(--omni-range-navigator-handle); pointer-events: auto; }
+.omni-range-navigator__handle:focus-visible::-webkit-slider-thumb { box-shadow: var(--omni-focus-ring); }
+.omni-range-navigator__handle:focus-visible::-moz-range-thumb { box-shadow: var(--omni-focus-ring); }
+.omni-range-navigator__values { color: var(--omni-color-text-muted); display: flex; font-size: var(--omni-font-size-sm); justify-content: space-between; }
 
 .omni-timeline__list { display: grid; gap: var(--omni-space-md); list-style: none; margin: 0; padding: 0; }
 .omni-timeline__item { display: grid; gap: var(--omni-space-md); grid-template-columns: 1rem 1fr; position: relative; }

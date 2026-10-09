@@ -117,6 +117,25 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
     }
 
     /// <summary>
+    /// Once a row entered edit mode, its editor takes the focus with its text selected: the one of the
+    /// cell just pressed in that row, otherwise the first one (recette R1-5). The request holds until a
+    /// render has put the marked row in the page.
+    /// </summary>
+    internal async Task FocusEditorAsync()
+    {
+        if (!grid.Editing.FocusRequested || grid.DisposeRequested)
+        {
+            return;
+        }
+
+        var module = await ModuleAsync();
+        if (await module.InvokeAsync<bool>("focusEditor", grid.Viewport))
+        {
+            grid.Editing.FocusGiven();
+        }
+    }
+
+    /// <summary>
     /// A text cell cut by its ellipsis shows its whole value in the package tooltip while the pointer
     /// or the focus is on it (recette R-032). The page shares one set of listeners for every grid.
     /// </summary>

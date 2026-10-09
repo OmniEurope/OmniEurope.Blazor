@@ -4,21 +4,22 @@
    contrôles, elles, s'appliquent à toute la page (racine du document, les tailles étant en rem) et
    sont retirées en quittant la démonstration. Une palette seule garde la forme livrée. Le personnalisateur applique
    la même combinaison à tout le site. Sous un thème dont le fond bouge (Givre, Trou noir), la fenêtre
-   offre de le figer : BackdropMotion, que l'hôte remet à son scope. *@
+   offre de le figer : BackdropMotion, que l'hôte remet à son scope. FullWidth choisit entre la colonne
+   centrée de l'hôte et toute la largeur : ici l'aperçu, dans une application OmniMain.ContentWidth. *@
 @implements IAsyncDisposable
 
 <div class="demo-themes">
-    <OmniThemeScope Appearance="_appearance" Preset="_preset" Palette="_palette" Font="_font" Density="_density" BackdropMotion="_backdropMotion" Class="demo-themes__live">
+    <OmniThemeScope Appearance="_appearance" Preset="_preset" Palette="_palette" Font="_font" Density="_density" BackdropMotion="_backdropMotion" Class="@(_fullWidth ? "demo-themes__live" : "demo-themes__live demo-themes__live--centred")">
         <OmniAppearanceSettings @bind-Appearance="_appearance" @bind-Preset="_preset" @bind-Palette="_palette" @bind-Font="_font"
                                 @bind-BackdropMotion="_backdropMotion"
-                                @bind-TextSizeLevel="_textSizeLevel" @bind-ControlSizeLevel="_controlSizeLevel" @bind-Density="_density" />
+                                @bind-TextSizeLevel="_textSizeLevel" @bind-ControlSizeLevel="_controlSizeLevel" @bind-Density="_density" @bind-FullWidth="_fullWidth" />
         @* La même fenêtre ouverte depuis une entrée de menu (« Thème ») : thème et palette côte à côte,
            les échelles, la densité et la police. Un nouveau thème y remet la palette et la police à
            celles du thème, comme dans les réglages ; « Aléatoire » tire un thème et une palette. *@
         <OmniButton Id="demo-appearance-window" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => _windowOpen = true)"><OmniIcon Name="OmniIconName.Palette" /><span>@Text["DemoThemesAppearanceWindow"]</span></OmniButton>
         <OmniAppearanceWindow @bind-Open="_windowOpen" @bind-Preset="_preset" @bind-Palette="_palette" @bind-Font="_font"
                               @bind-BackdropMotion="_backdropMotion"
-                              @bind-TextSizeLevel="_textSizeLevel" @bind-ControlSizeLevel="_controlSizeLevel" @bind-Density="_density" />
+                              @bind-TextSizeLevel="_textSizeLevel" @bind-ControlSizeLevel="_controlSizeLevel" @bind-Density="_density" @bind-FullWidth="_fullWidth" />
         <OmniCard>
             <Header><OmniHeading Level="OmniHeadingLevel.H4">@Text["ThemesLivePreview", Caption(LiveSample)]</OmniHeading></Header>
             <ChildContent>

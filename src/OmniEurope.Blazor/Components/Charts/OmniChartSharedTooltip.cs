@@ -73,15 +73,18 @@ internal sealed class OmniChartSharedTooltip : ComponentBase
         var (start, end) = horizontal
             ? (OmniChartContext.PlotTop, OmniChartContext.PlotBottom)
             : (Context.PlotLeft, Context.PlotRight);
-        for (var index = 0; index < count; index++)
+        // While an OmniRangeNavigator shows a range, only its categories have a band, its first and
+        // last reaching the edges of the plot.
+        var (first, last) = Context.Range is { } range ? (range.First, Math.Min(range.Last, count - 1)) : (0, count - 1);
+        for (var index = first; index <= last; index++)
         {
             if (Text(series, index) is not { } text)
             {
                 continue;
             }
 
-            var from = index == 0 ? start : Middle(index - 1, index, count);
-            var to = index == count - 1 ? end : Middle(index, index + 1, count);
+            var from = index == first ? start : Middle(index - 1, index, count);
+            var to = index == last ? end : Middle(index, index + 1, count);
             bands.Add(horizontal
                 ? (Context.PlotLeft, from, Context.PlotRight - Context.PlotLeft, to - from, text)
                 : (from, OmniChartContext.PlotTop, to - from, OmniChartContext.PlotBottom - OmniChartContext.PlotTop, text));

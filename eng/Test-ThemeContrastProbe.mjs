@@ -669,12 +669,13 @@ const shots = [];
 // 3:1 in the four themes that draw a solid ring (Relief, Givre, Aplat, Épure) with every palette, waiver or not (owner decision of 2026-09-28: only the ring
 // stays mandatory). Geometry, overflow, CSP, console and coverage are never waived.
 const waivers = {};
-// Themes drawn in dark mode only (OmniThemePreset.DarkOnly): the customizer fixes their mode picker on
-// dark, so their light half is never drawn and is not measured; asking for it must still draw dark.
-const darkOnly = {};
+// Themes drawn in one mode only (OmniThemePreset.DarkOnly, LightOnly): the customizer fixes their mode
+// picker on that mode, so their other half is never drawn and is not measured; a dark-only theme asked
+// for light must still draw dark.
+const fixedMode = {};
 // A dark-only theme found drawn light is reported once and not measured further.
 const unmeasurable = new Set();
-const modesOf = theme => unmeasurable.has(theme) ? [] : darkOnly[theme] ? chosenModes.filter(mode => mode === 'dark') : chosenModes;
+const modesOf = theme => unmeasurable.has(theme) ? [] : fixedMode[theme] ? chosenModes.filter(mode => mode === fixedMode[theme]) : chosenModes;
 const acceptedContrastWaiver = [];
 const WAIVABLE_CHECKS = new Set(['texte', 'bordure', 'marque non textuelle', 'voile d\'occupation']);
 
@@ -948,8 +949,15 @@ for (const theme of chosenThemes) {
   await lib('settle()');
   defaultPalette[theme] = (await readState()).palette;
   waivers[theme] = await evaluate(`document.querySelector('[data-contrast-waiver]')?.dataset.contrastWaiver ?? null`);
-  darkOnly[theme] = await evaluate("document.getElementById('workshop-mode').getAttribute('aria-disabled') === 'true'");
-  if (darkOnly[theme] && lightAsked) {
+  // A fixed picker checks the one mode the theme draws (its options: light, dark, system), whatever
+  // the scope actually drew, which the check below compares.
+  fixedMode[theme] = await evaluate(`(() => {
+    const picker = document.getElementById('workshop-mode');
+    if (picker.getAttribute('aria-disabled') !== 'true') return null;
+    const index = [...picker.querySelectorAll('.omni-select-bar__item')].findIndex(item => item.classList.contains('omni-select-bar__item--selected'));
+    return ['light', 'dark', 'system'][index] ?? null;
+  })()`);
+  if (fixedMode[theme] && lightAsked && fixedMode[theme] !== 'light') {
     measures++;
     const drawn = await evaluate("document.getElementById('showcase-theme').getAttribute('data-omni-theme')");
     if (drawn !== 'dark') {

@@ -676,6 +676,8 @@
   <data name="DemoChartsExtendedSliceMail" xml:space="preserve"><value>Post</value></data>
   <data name="DemoChartsExtendedSliceOnline" xml:space="preserve"><value>Online</value></data>
   <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Overig</value></data>
+  <data name="DemoChartsExtendedRangeTitle" xml:space="preserve"><value>Drie jaar indieningen, een gekozen bereik</value></data>
+  <data name="DemoChartsExtendedRangeShown" xml:space="preserve"><value>Getoonde maanden: van {0} tot {1}</value></data>
   <data name="DemoPlanningGanttLabel" xml:space="preserve"><value>Projectplanning</value></data>
   <data name="DemoPlanningScaleShown" xml:space="preserve"><value>Getoonde schaal: {0}</value></data>
   <data name="DemoPlanningScaleDay" xml:space="preserve"><value>dag</value></data>
@@ -1545,6 +1547,8 @@
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} ondergebracht onder {1}</value></data>
   <data name="DemoGridScopeHint" xml:space="preserve"><value>Draai het wieltje ergens in dit kader: de rijen van het raster scrollen.</value></data>
   <data name="DemoGridFillCaption" xml:space="preserve"><value>Tweeduizend dossiers per land</value></data>
+  <data name="DemoGridEditCaption" xml:space="preserve"><value>Bewerkbare dossiers: dubbelklik op een rij of gebruik het potlood</value></data>
+  <data name="DemoGridEditHint" xml:space="preserve"><value>Het veld van de dubbelgeklikte cel, anders het eerste, krijgt de focus met de tekst geselecteerd.</value></data>
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Gerichte verbindingen</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Nagekeken tekst, eerst vergrendeld</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Alleen-lezen</value></data>

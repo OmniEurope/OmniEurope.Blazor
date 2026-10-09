@@ -5,8 +5,17 @@
 // the way the glowing haze around the disc. So the far side of the disc shows as an arc above the horizon
 // and a ring below it, as in Interstellar, and the thin photon ring circles the shadow. The gas is white
 // hot at the inner edge, the accent colour further out, an ember at the rim, wound into filaments with
-// darker lanes of dust; it turns, faster inside, its approaching side whiter and brighter. Faint stars
+// darker lanes of dust; it turns, faster inside, its approaching side whiter and brighter. A rotation
+// faster inside winds the filaments tighter with every turn: left to run, after a few minutes they were
+// finer than a pixel and the disc turned to grain. So the gas is drawn twice, each copy with a time that
+// runs over one period only (LAYER_PERIOD) and starts again unwound, half a period apart, and each copy
+// fades out before its time starts again: the winding never grows past one period, with no jump. Faint stars
 // are seen through the rays that escape. Rays that fall in draw the page colour: the horizon.
+//
+// Trou blanc (kind 'white-hole') draws the same hole turned over, on a light page: the colours handed to
+// the shader are inverted (its text and accent), and the light it gathers is taken away from the page
+// instead of added to a black one, so the disc shows in ink, graphite at the inner edge, then the
+// inverted accent. Over the page the result is the black hole's picture inverted.
 //
 // Sober by design: the light rolls off softly and stays under INTENSITY. A frame costs about three
 // milliseconds once the shader is compiled (1440 x 900 device pixels); it is drawn 30 times a second, paused while the page is
@@ -19,6 +28,9 @@ const INTENSITY = 0.5;
 const MAX_PIXEL_RATIO = 2;
 const pixelRatio = () => Math.min(Math.max(window.devicePixelRatio || 1, 1), MAX_PIXEL_RATIO);
 const FRAME_MS = 1000 / 30;
+// Seconds a copy of the gas turns before it starts again unwound. Short enough that the inner filaments
+// stay wider than a pixel on a small window, long enough that the fades go unnoticed.
+const LAYER_PERIOD = 60;
 const states = new WeakMap();
 // The canvases being drawn, so a canvas the page dropped can be found again and stopped (sweep).
 const running = new Set();
@@ -29,12 +41,14 @@ const FRAGMENT = `
 precision highp float;
 uniform vec2 u_center;
 uniform float u_unit;
-uniform float u_time;
+uniform vec2 u_times;
+uniform float u_blend;
 uniform float u_tilt;
 uniform vec3 u_light;
 uniform vec3 u_accent;
 uniform vec3 u_surface;
 uniform float u_intensity;
+uniform float u_invert;
 
 float hash(vec2 p) { p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
 float noise(vec2 p) {
@@ -44,6 +58,18 @@ float noise(vec2 p) {
 }
 float fbm(vec2 p) {
     return 0.5 * noise(p) + 0.25 * noise(p * 2.03 + 7.3) + 0.15 * noise(p * 4.1 + 1.7) + 0.1 * noise(p * 8.3 + 4.1);
+}
+
+// The streaks of the gas at radius rr, turned by its own time: filaments, fine grain, lanes of dust.
+vec3 streaks(float rr, float base, float time) {
+    // The gas turns, faster inside, so its streaks wind into thin concentric filaments.
+    float angle = base + time * 1.1 / pow(rr, 1.5);
+    vec2 q = vec2(cos(angle), sin(angle));
+    float filaments = fbm(vec2(rr * 5.5, 0.0) + q * 1.1);
+    float fine = noise(vec2(rr * 21.0, 3.0) + q * 2.5);
+    // Dark lanes of dust, further out, where the gas is cooler.
+    float dust = fbm(q * 2.4 + vec2(rr * 1.4, 9.0));
+    return vec3(filaments, fine, dust);
 }
 
 // The colour of the gas at radius rr: white hot at the inner edge, the accent further out, a dim ember
@@ -99,13 +125,14 @@ void main() {
             float rr = length(hit.xz);
             crossings += 1.0;
             if (rr > 2.9 && rr < 15.0) {
-                // The gas turns, faster inside, so its streaks wind into thin concentric filaments.
-                float angle = atan(hit.z, hit.x) + u_time * 1.1 / pow(rr, 1.5);
-                vec2 q = vec2(cos(angle), sin(angle));
-                float filaments = fbm(vec2(rr * 5.5, 0.0) + q * 1.1);
-                float fine = 0.6 + 0.4 * noise(vec2(rr * 21.0, 3.0) + q * 2.5);
-                // Dark lanes of dust, further out, where the gas is cooler.
-                float dust = smoothstep(0.45, 0.75, fbm(q * 2.4 + vec2(rr * 1.4, 9.0))) * smoothstep(4.0, 7.5, rr);
+                // The two copies of the gas, mixed so the contrast of the streaks stays the same through
+                // the fade: two independent patterns averaged would look flatter halfway.
+                float base = atan(hit.z, hit.x);
+                vec3 streak = mix(streaks(rr, base, u_times.x), streaks(rr, base, u_times.y), u_blend);
+                streak = 0.5 + (streak - 0.5) / sqrt(u_blend * u_blend + (1.0 - u_blend) * (1.0 - u_blend));
+                float filaments = streak.x;
+                float fine = 0.6 + 0.4 * streak.y;
+                float dust = smoothstep(0.45, 0.75, streak.z) * smoothstep(4.0, 7.5, rr);
                 float profile = smoothstep(2.9, 3.5, rr) * pow(3.5 / rr, 1.5) * smoothstep(15.0, 6.0, rr);
                 vec3 tangent = normalize(vec3(-hit.z, 0.0, hit.x));
                 float doppler = clamp(1.0 + 0.55 * dot(tangent, -normalize(vel)) * sqrt(3.0 / rr), 0.45, 1.7);
@@ -137,9 +164,24 @@ void main() {
     // Soft highlights: the brightest gas rolls off to white rather than clipping.
     vec3 light = (1.0 - exp(-emit * 1.4)) * u_intensity;
     float glowAlpha = clamp(max(light.r, max(light.g, light.b)), 0.0, 1.0);
-    gl_FragColor = vec4(light + captured * u_surface, max(glowAlpha, captured));
+    // Turned over (Trou blanc), the light is ink: over the page P it leaves P - light. The horizon needs
+    // nothing, being the page colour already.
+    gl_FragColor = u_invert > 0.5
+        ? vec4(max(glowAlpha * u_surface - light, 0.0), glowAlpha)
+        : vec4(light + captured * u_surface, max(glowAlpha, captured));
 }
 `;
+
+/**
+ * The times of the two copies of the gas after <seconds> of motion, each within one period and half a
+ * period apart, and the weight of the second: the first copy shows fully at mid period and is gone when
+ * its time starts again, the second the other way round, so neither restart is seen.
+ */
+export function timeLayers(seconds) {
+    const first = seconds % LAYER_PERIOD;
+    const second = (seconds + LAYER_PERIOD / 2) % LAYER_PERIOD;
+    return { first, second, blend: 0.5 + 0.5 * Math.cos(2 * Math.PI * first / LAYER_PERIOD) };
+}
 
 function compile(gl, type, source) {
     const shader = gl.createShader(type);
@@ -164,9 +206,10 @@ function readColour(scope, token, fallback) {
 
 /**
  * Starts drawing the hole on the canvas; returns false when WebGL is unavailable, in which case the
- * scope keeps the theme's CSS field. moving false draws one still frame.
+ * scope keeps the theme's CSS field. moving false draws one still frame. kind 'white-hole' draws the
+ * hole turned over, in ink on a light page (Trou blanc); any other kind the black hole.
  */
-export function start(canvas, scope, moving) {
+export function start(canvas, scope, moving, kind) {
     // A restart keeps the context: once lost, the canvas hands the same lost context back.
     halt(canvas, false);
     if (!canvas || !scope) {
@@ -202,6 +245,7 @@ export function start(canvas, scope, moving) {
 
     const uniform = name => gl.getUniformLocation(program, name);
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const inverted = kind === 'white-hole';
     const state = { gl, program, buffer, frame: 0, last: 0, origin: performance.now(), moving, reduced, colours: null, resize: null, visibility: null };
     const animated = () => state.moving && !state.reduced.matches;
 
@@ -215,17 +259,23 @@ export function start(canvas, scope, moving) {
         }
 
         // Colours are read once per size or theme change, not at every frame.
-        state.colours ??= [readColour(scope, '--omni-color-text', '#fff'), readColour(scope, '--omni-color-accent', '#d9660b'), readColour(scope, '--omni-scope-page', 'var(--omni-color-surface, #000)')];
+        // Turned over, the shader gets the inverse of the text and the accent: the ink it subtracts then
+        // shows them as they are.
+        const turn = colour => inverted ? colour.map(channel => 1 - channel) : colour;
+        state.colours ??= [turn(readColour(scope, '--omni-color-text', '#fff')), turn(readColour(scope, '--omni-color-accent', '#d9660b')), readColour(scope, '--omni-scope-page', 'var(--omni-color-surface, #000)')];
         gl.viewport(0, 0, width, height);
         // The horizon sits high on the right, where the CSS field of the theme puts it.
         gl.uniform2f(uniform('u_center'), width * 0.78, height * 0.74);
         gl.uniform1f(uniform('u_unit'), Math.max(width, height) * 0.024);
-        gl.uniform1f(uniform('u_time'), (now - state.origin) / 1000);
+        const layers = timeLayers((now - state.origin) / 1000);
+        gl.uniform2f(uniform('u_times'), layers.first, layers.second);
+        gl.uniform1f(uniform('u_blend'), layers.blend);
         gl.uniform1f(uniform('u_tilt'), -11 * Math.PI / 180);
         gl.uniform3fv(uniform('u_light'), state.colours[0]);
         gl.uniform3fv(uniform('u_accent'), state.colours[1]);
         gl.uniform3fv(uniform('u_surface'), state.colours[2]);
         gl.uniform1f(uniform('u_intensity'), INTENSITY);
+        gl.uniform1f(uniform('u_invert'), inverted ? 1 : 0);
         gl.clearColor(0, 0, 0, 0);
         gl.clear(gl.COLOR_BUFFER_BIT);
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);

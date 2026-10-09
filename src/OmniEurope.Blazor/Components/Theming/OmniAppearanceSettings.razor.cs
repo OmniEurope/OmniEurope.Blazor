@@ -12,10 +12,19 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public partial class OmniAppearanceSettings
 {
-    /// <summary>True under a theme drawn in dark mode only: the mode is shown as dark and cannot change.</summary>
-    private bool DarkOnly => Preset?.DarkOnly == true;
+    /// <summary>The mode a theme drawn in one mode only fixes (dark or light), or null: then it cannot change.</summary>
+    private OmniAppearance? FixedMode => Preset?.FixedAppearance;
 
-    private OmniAppearance ShownAppearance => DarkOnly ? OmniAppearance.Dark : Appearance;
+    private bool ModeFixed => FixedMode is not null;
+
+    private string? ModeFixedTitle => FixedMode switch
+    {
+        OmniAppearance.Dark => Localize("SettingsDarkOnly"),
+        OmniAppearance.Light => Localize("SettingsLightOnly"),
+        _ => null
+    };
+
+    private OmniAppearance ShownAppearance => FixedMode ?? Appearance;
 
     private readonly string _idPrefix = $"omni-appearance-settings-{Guid.NewGuid():N}";
     private bool _windowOpen;
@@ -84,6 +93,15 @@ public partial class OmniAppearanceSettings
     [Parameter] public EventCallback<int> ControlSizeLevelChanged { get; set; }
 
     /// <summary>
+    /// Whether the page content takes the whole width rather than the host's centred column; the host
+    /// applies it, for example through <see cref="OmniMain.ContentWidth"/>. False (centred) by default.
+    /// </summary>
+    [Parameter] public bool FullWidth { get; set; }
+
+    /// <summary>Raised with the width picked; bound, the window shows the content width row.</summary>
+    [Parameter] public EventCallback<bool> FullWidthChanged { get; set; }
+
+    /// <summary>
     /// Whether the appearance window is open. The component opens it from its look row and closes it
     /// with the window; a host may open or close it too, and bind it both ways.
     /// </summary>
@@ -121,6 +139,11 @@ public partial class OmniAppearanceSettings
     /// <summary>The window gets the control size change only when the host binds it, as it shows the row only then.</summary>
     private EventCallback<int> WindowControlSizeChanged => ShowsControlSize
         ? EventCallback.Factory.Create<int>(this, ChangeControlSizeAsync)
+        : default;
+
+    /// <summary>The window gets the width change only when the host binds it, as it shows the row only then.</summary>
+    private EventCallback<bool> WindowFullWidthChanged => FullWidthChanged.HasDelegate
+        ? EventCallback.Factory.Create<bool>(this, ChangeFullWidthAsync)
         : default;
 
     /// <summary>The window gets the mode change only when the host binds it, as it shows the mode only then.</summary>
@@ -185,4 +208,6 @@ public partial class OmniAppearanceSettings
     private Task ChangeDensityAsync(OmniDensity density) => DensityChanged.InvokeAsync(density);
 
     private Task ChangeControlSizeAsync(int level) => ControlSizeLevelChanged.InvokeAsync(level);
+
+    private Task ChangeFullWidthAsync(bool fullWidth) => FullWidthChanged.InvokeAsync(fullWidth);
 }

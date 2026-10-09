@@ -7,22 +7,27 @@
         var point = Data[index];
         var projected = Projected(index);
         var text = Text(point);
-        @* Above the point, or past the end of a horizontal bar; with Inside, in the bar. *@
+        @* Above the point, or past the end of a horizontal bar; with Inside, in the bar. A label that would
+           leave the plot is anchored to the plot edge it would cross (recette R1-8). *@
         if (Inside && ChartContext?.Horizontal == true)
         {
-            <g><text x="@OmniChartGeometry.Number(Origin(index).X + 1.5)" y="@OmniChartGeometry.Number(projected.Y)" dominant-baseline="central">@text</text></g>
+            var place = Placed(Origin(index).X + 1.5, text, LabelAnchor.Start);
+            <g><text x="@OmniChartGeometry.Number(place.X)" y="@OmniChartGeometry.Number(projected.Y)" text-anchor="@place.Anchor" dominant-baseline="central">@text</text></g>
         }
         else if (Inside)
         {
-            <g><text x="@OmniChartGeometry.Number(projected.X)" y="@OmniChartGeometry.Number(projected.Y + 1.5)" text-anchor="middle" dominant-baseline="hanging">@text</text></g>
+            var place = Placed(projected.X, text, LabelAnchor.Middle);
+            <g><text x="@OmniChartGeometry.Number(place.X)" y="@OmniChartGeometry.Number(projected.Y + 1.5)" text-anchor="@place.Anchor" dominant-baseline="hanging">@text</text></g>
         }
         else if (ChartContext?.Horizontal == true)
         {
-            <g><text x="@OmniChartGeometry.Number(projected.X + 1.5)" y="@OmniChartGeometry.Number(projected.Y)" dominant-baseline="central">@text</text></g>
+            var place = Placed(projected.X + 1.5, text, LabelAnchor.Start);
+            <g><text x="@OmniChartGeometry.Number(place.X)" y="@OmniChartGeometry.Number(projected.Y)" text-anchor="@place.Anchor" dominant-baseline="central">@text</text></g>
         }
         else
         {
-            <g><text x="@OmniChartGeometry.Number(projected.X)" y="@OmniChartGeometry.Number(projected.Y - 3)" text-anchor="middle">@text</text></g>
+            var place = Placed(projected.X, text, LabelAnchor.Middle);
+            <g><text x="@OmniChartGeometry.Number(place.X)" y="@OmniChartGeometry.Number(projected.Y - 3)" text-anchor="@place.Anchor">@text</text></g>
         }
     }
 </g>

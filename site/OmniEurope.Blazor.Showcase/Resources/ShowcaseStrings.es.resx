@@ -676,6 +676,8 @@
   <data name="DemoChartsExtendedSliceMail" xml:space="preserve"><value>Correo postal</value></data>
   <data name="DemoChartsExtendedSliceOnline" xml:space="preserve"><value>En línea</value></data>
   <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Otro</value></data>
+  <data name="DemoChartsExtendedRangeTitle" xml:space="preserve"><value>Tres años de presentaciones, un intervalo elegido</value></data>
+  <data name="DemoChartsExtendedRangeShown" xml:space="preserve"><value>Meses mostrados: de {0} a {1}</value></data>
   <data name="DemoPlanningGanttLabel" xml:space="preserve"><value>Planificación del proyecto</value></data>
   <data name="DemoPlanningScaleShown" xml:space="preserve"><value>Escala mostrada: {0}</value></data>
   <data name="DemoPlanningScaleDay" xml:space="preserve"><value>día</value></data>
@@ -1545,6 +1547,8 @@
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} colocada bajo {1}</value></data>
   <data name="DemoGridScopeHint" xml:space="preserve"><value>Gire la rueda en cualquier parte de este marco: las filas de la cuadrícula se desplazan.</value></data>
   <data name="DemoGridFillCaption" xml:space="preserve"><value>Dos mil expedientes por país</value></data>
+  <data name="DemoGridEditCaption" xml:space="preserve"><value>Expedientes editables: doble clic en una fila o use el lápiz</value></data>
+  <data name="DemoGridEditHint" xml:space="preserve"><value>El campo de la celda pulsada dos veces, si no el primero, recibe el foco con su texto seleccionado.</value></data>
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Enlaces dirigidos</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Texto revisado, bloqueado al principio</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Solo lectura</value></data>

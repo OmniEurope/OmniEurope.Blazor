@@ -194,7 +194,10 @@ Mécanique :
 - `FixedRowHeight` fait d'`EstimatedRowHeight` la hauteur exacte de chaque ligne : aucune mesure, et les
   lignes sont dessinées à cette hauteur (débordement coupé), pour les jeux homogènes. Une ligne en
   édition (`omni-data-grid__row--editing`) garde cette hauteur : ses cellules perdent leur marge
-  verticale et ses contrôles tiennent dans la ligne.
+  verticale et ses contrôles tiennent dans la ligne. Les autres cellules ont leur propre interligne
+  (1,25 rem) et une marge verticale ramenée à ce qui reste de la ligne une fois l'interligne et le filet
+  retirés : la ligne garde sa hauteur sous toute police (`line-height: normal` suivait les métriques de
+  la police, 41,2 px au lieu de 40 sous Papier).
 - `VirtualizationOverscanCount` (3 par défaut) rend autant de lignes au-delà de chaque bord du viewport.
 - Deux lignes d'espacement encadrent la fenêtre rendue. Leur hauteur est posée en propriété
   personnalisée par le script, ce qui donne une barre de défilement couvrant tout le total sans
@@ -397,7 +400,11 @@ vue : la page affichée d'une grille paginée. L'export n'écrit ni pieds de gro
   titrés « Modifier », « Enregistrer » et « Annuler », dans une vraie cellule de tableau.
 - `EditMode` (`OmniDataGridRowMode` : `Single` par défaut, `Multiple`). La grille tient son propre état
   d'édition via `EditRowAsync`, `UpdateRowAsync` et `CancelEditAsync`, et le signale par `OnRowEdit`,
-  `OnRowUpdate` et `OnRowEditCancel`.
+  `OnRowUpdate` et `OnRowEditCancel`. Une ligne qui passe en édition donne le focus à un champ, son
+  texte entièrement sélectionné pour taper directement : celui de la cellule qu'on vient d'appuyer dans
+  cette ligne quand elle en a un (double clic, clic que l'hôte change en `EditRowAsync`), sinon le
+  premier champ modifiable de la ligne (`omni-grid.js`, `focusEditor`). Une touche tapée dans un
+  éditeur reste à l'éditeur : Entrée ou Espace n'y lèvent pas `OnRowClick`.
 - `DetailTemplate` avec `ExpandMode` (`OmniDataGridRowMode`, `Multiple` par défaut), `ShowExpandColumn`
   et `ShowExpandAll` ; le nom accessible du chevron vient des ressources. Le bouton d'en-tête de
   `ShowExpandAll` ouvre ou ferme les lignes de la page affichée, sans toucher aux autres pages, et n'est

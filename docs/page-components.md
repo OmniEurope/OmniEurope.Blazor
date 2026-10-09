@@ -32,6 +32,9 @@ commencent leur contenu à la même hauteur :
 - ligne 2, toujours réservée : le fil d'Ariane sous le titre, dont le dernier maillon est le titre de la
   page, ou le sous-titre quand la page n'a pas d'ancêtre à montrer (ou avec `ShowTrail="false"`).
 
+Le bloc a une marge basse propre, sauf dans un `OmniStack`, dont l'écart espace déjà les blocs : la
+marge s'y ajoutait et éloignait l'en-tête du bloc suivant plus que les blocs entre eux.
+
 Le sous-titre, quand la ligne 2 porte le fil, et les filtres viennent sous le bloc. Le script
 `omni-page-header.js` (défilement du titre, repli quand la ligne 1 déborde, par l'attribut `data-compact`) est libéré par `DisposeAsync`.
 Le repli et le défilement du titre supposent un conteneur qui borne la largeur de l'en-tête : dans une

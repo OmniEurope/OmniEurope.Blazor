@@ -432,6 +432,7 @@
                                 aria-level="@(row.Tree is null ? null : row.Tree.Level + 1)"
                                 aria-expanded="@(row.Tree is { HasChildren: true, Toggleable: true } ? (row.Tree.Expanded ? "true" : "false") : null)"
                                 data-omni-tree-level="@row.Tree?.Level"
+                                data-omni-edit-focus="@(editing && Editing.TakesFocus(row.Item) ? "true" : null)"
                                 tabindex="@(Selection.RowsAreInteractive && row.Selectable ? "0" : null)"
                                 @onclick="Selection.RowClickCallback(row)"
                                 @ondblclick="Selection.RowDoubleClickCallback(row)"

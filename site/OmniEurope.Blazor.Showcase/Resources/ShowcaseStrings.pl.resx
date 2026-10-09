@@ -676,6 +676,8 @@
   <data name="DemoChartsExtendedSliceMail" xml:space="preserve"><value>Poczta</value></data>
   <data name="DemoChartsExtendedSliceOnline" xml:space="preserve"><value>Online</value></data>
   <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Inne</value></data>
+  <data name="DemoChartsExtendedRangeTitle" xml:space="preserve"><value>Trzy lata wniosków, wybrany zakres</value></data>
+  <data name="DemoChartsExtendedRangeShown" xml:space="preserve"><value>Wyświetlane miesiące: od {0} do {1}</value></data>
   <data name="DemoPlanningGanttLabel" xml:space="preserve"><value>Harmonogram projektu</value></data>
   <data name="DemoPlanningScaleShown" xml:space="preserve"><value>Wyświetlana skala: {0}</value></data>
   <data name="DemoPlanningScaleDay" xml:space="preserve"><value>dzień</value></data>
@@ -1545,6 +1547,8 @@
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} umieszczono pod {1}</value></data>
   <data name="DemoGridScopeHint" xml:space="preserve"><value>Obróć kółko myszy w dowolnym miejscu tej ramki: wiersze siatki się przewijają.</value></data>
   <data name="DemoGridFillCaption" xml:space="preserve"><value>Dwa tysiące spraw według kraju</value></data>
+  <data name="DemoGridEditCaption" xml:space="preserve"><value>Edytowalne sprawy: kliknij dwukrotnie wiersz lub użyj ołówka</value></data>
+  <data name="DemoGridEditHint" xml:space="preserve"><value>Pole dwukrotnie klikniętej komórki, w przeciwnym razie pierwsze, otrzymuje fokus z zaznaczonym tekstem.</value></data>
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Połączenia skierowane</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Sprawdzany tekst, początkowo zablokowany</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Tylko do odczytu</value></data>

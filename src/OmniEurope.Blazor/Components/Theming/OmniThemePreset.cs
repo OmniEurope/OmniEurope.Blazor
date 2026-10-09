@@ -47,6 +47,16 @@ public sealed record OmniThemePreset(
     public bool DarkOnly { get; init; }
 
     /// <summary>
+    /// True for a theme drawn in light mode only (Trou blanc): <see cref="OmniThemeScope"/> paints its light
+    /// half whatever <see cref="OmniThemeScope.Appearance"/> asks, and the appearance settings show the
+    /// mode as fixed. False for every theme that has both halves.
+    /// </summary>
+    public bool LightOnly { get; init; }
+
+    /// <summary>The one mode a theme is always drawn in (<see cref="DarkOnly"/>, <see cref="LightOnly"/>), or null.</summary>
+    internal OmniAppearance? FixedAppearance => DarkOnly ? OmniAppearance.Dark : LightOnly ? OmniAppearance.Light : null;
+
+    /// <summary>
     /// The overrides for one mode. <see cref="OmniAppearance.System"/> has no half of its own and
     /// yields the light one: a caller that follows the system resolves the mode first.
     /// </summary>

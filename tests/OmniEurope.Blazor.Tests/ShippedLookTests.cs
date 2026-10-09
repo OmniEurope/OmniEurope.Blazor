@@ -624,7 +624,7 @@ public sealed partial class ShippedLookTests : OmniBunitContext
     private static bool Declares(string body, string name) =>
         Regex.IsMatch(body, @"(?:^|;|\{)\s*" + Regex.Escape(name) + @"\s*:");
 
-    private static string BodyWith(string selector, string declaration)
+    internal static string BodyWith(string selector, string declaration)
     {
         var match = Rules().FirstOrDefault(rule => rule.Selector == selector && rule.Body.Contains(declaration, StringComparison.Ordinal));
         Assert.True(match.Body is not null, $"No rule for {selector} declaring {declaration}.");

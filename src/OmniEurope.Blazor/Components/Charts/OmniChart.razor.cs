@@ -34,6 +34,13 @@ public partial class OmniChart
     [Parameter] public RenderFragment? DataTableContent { get; set; }
 
     /// <summary>
+    /// HTML parts drawn under the drawing, before a legend below it, that share the chart's layout: an
+    /// <see cref="OmniRangeNavigator"/>, which then limits the chart to the categories it selects. Null (the
+    /// default) draws nothing there.
+    /// </summary>
+    [Parameter] public RenderFragment? FooterContent { get; set; }
+
+    /// <summary>
     /// Width over height of the drawing. A wider value lets a line, area or column chart fill a wide,
     /// low card: the plot stretches, text keeps its size and a pie stays centred. Values under 1 are
     /// treated as 1. Left unset, the chart chooses: 2 for a time series (more than 12 categories on
@@ -78,6 +85,15 @@ public partial class OmniChart
     private string TitleId => $"{Id ?? _generatedId}-title";
 
     private string DescriptionId => $"{Id ?? _generatedId}-description";
+
+    /// <summary>The id of the clip of the parts, only while a range is shown.</summary>
+    private string? ClipId => _context.Range is null ? null : $"{Id ?? _generatedId}-clip";
+
+    private string? ClipReference => ClipId is null ? null : $"url(#{ClipId})";
+
+    private string ClipLeft => OmniChartGeometry.Number(_context.ViewLeft - 10);
+
+    private string ClipWidth => OmniChartGeometry.Number(_context.ViewWidth + 20);
 
     /// <summary>Notes whether <see cref="AspectRatio"/> is among the parameters given, then sets them.</summary>
     /// <param name="parameters">The parameters supplied by the parent.</param>

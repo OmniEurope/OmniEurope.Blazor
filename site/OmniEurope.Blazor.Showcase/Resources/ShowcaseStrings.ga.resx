@@ -676,6 +676,8 @@
   <data name="DemoChartsExtendedSliceMail" xml:space="preserve"><value>Post</value></data>
   <data name="DemoChartsExtendedSliceOnline" xml:space="preserve"><value>Ar líne</value></data>
   <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Eile</value></data>
+  <data name="DemoChartsExtendedRangeTitle" xml:space="preserve"><value>Trí bliana d'iarratais, raon roghnaithe</value></data>
+  <data name="DemoChartsExtendedRangeShown" xml:space="preserve"><value>Míonna taispeánta: ó {0} go {1}</value></data>
   <data name="DemoPlanningGanttLabel" xml:space="preserve"><value>Plean an tionscadail</value></data>
   <data name="DemoPlanningScaleShown" xml:space="preserve"><value>Scála taispeánta: {0}</value></data>
   <data name="DemoPlanningScaleDay" xml:space="preserve"><value>lá</value></data>
@@ -1545,6 +1547,8 @@
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} curtha faoi {1}</value></data>
   <data name="DemoGridScopeHint" xml:space="preserve"><value>Cas an roth áit ar bith sa fhráma seo: scrollaíonn sraitheanna na greille.</value></data>
   <data name="DemoGridFillCaption" xml:space="preserve"><value>Dhá mhíle comhad de réir tíre</value></data>
+  <data name="DemoGridEditCaption" xml:space="preserve"><value>Comhaid in-eagarthóireachta: cliceáil faoi dhó ar shraith nó úsáid an peann luaidhe</value></data>
+  <data name="DemoGridEditHint" xml:space="preserve"><value>Faigheann réimse na cille, nó an chéad cheann, an fócas agus a théacs roghnaithe.</value></data>
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Naisc threoraithe</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Téacs profáilte, faoi ghlas ar dtús</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Inléite amháin</value></data>

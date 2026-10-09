@@ -23,6 +23,23 @@
         <OmniLegend Position="OmniLegendPosition.Bottom" />
     </OmniChart>
 
+    @* Three years of months, the last twelve shown first: the navigator under the drawing shows every
+       month in small columns, and its two handles (pointer, touch or keyboard) choose the months the
+       chart above draws, live. The range is bound both ways: the sentence under the chart follows it. *@
+    <OmniChart Title="@Text["DemoChartsExtendedRangeTitle"]">
+        <ChildContent>
+            <OmniGridLines />
+            <OmniCategoryAxis Labels="LongMonths" />
+            <OmniValueAxis Automatic="true" />
+            <OmniColumnSeries Title="@Text["DemoChartsExtendedDeposits"]" ColorIndex="0" Data="LongDeposits" />
+            <OmniLineSeries Title="@Text["DemoChartsExtendedDecisions"]" ColorIndex="1" Data="LongDecisions" />
+        </ChildContent>
+        <FooterContent>
+            <OmniRangeNavigator @bind-RangeStart="RangeStart" @bind-RangeEnd="RangeEnd" />
+        </FooterContent>
+    </OmniChart>
+    <p id="demo-chart-range-shown">@RangeShown</p>
+
     @* The legend above the drawing, and the backlog area outlined in dashes. *@
     <OmniChart Title="@Text["DemoChartsExtendedStackedTitle"]">
         <OmniCategoryAxis Labels="Months" />

@@ -18,11 +18,15 @@
   <data name="AppMenuSignOut" xml:space="preserve"><value>Αποσύνδεση</value></data>
   <data name="SettingsMode" xml:space="preserve"><value>Λειτουργία</value></data>
   <data name="SettingsDarkOnly" xml:space="preserve"><value>Αυτό το θέμα είναι πάντα σκοτεινό</value></data>
+  <data name="SettingsLightOnly" xml:space="preserve"><value>Αυτό το θέμα είναι πάντα φωτεινό</value></data>
   <data name="SettingsTheme" xml:space="preserve"><value>Θέμα</value></data>
   <data name="SettingsPalette" xml:space="preserve"><value>Παλέτα</value></data>
   <data name="SettingsFont" xml:space="preserve"><value>Γραμματοσειρά</value></data>
   <data name="SettingsTextSize" xml:space="preserve"><value>Μέγεθος κειμένου</value></data>
   <data name="SettingsDensity" xml:space="preserve"><value>Πυκνότητα</value></data>
+  <data name="SettingsContentWidth" xml:space="preserve"><value>Πλάτος περιεχομένου</value></data>
+  <data name="ContentWidthCentered" xml:space="preserve"><value>Στο κέντρο</value></data>
+  <data name="ContentWidthFull" xml:space="preserve"><value>Πλήρες πλάτος</value></data>
   <data name="SettingsBackdropMotion" xml:space="preserve"><value>Κινούμενο φόντο</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Μέγεθος στοιχείων ελέγχου</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Προεπιλογή</value></data>
@@ -293,6 +297,9 @@
   <data name="HtmlEditorRedo" xml:space="preserve"><value>Επανάληψη</value></data>
   <data name="HtmlEditorPreview" xml:space="preserve"><value>Προεπισκόπηση περιεχομένου</value></data>
   <data name="LegendLabel" xml:space="preserve"><value>Υπόμνημα</value></data>
+  <data name="RangeNavigatorLabel" xml:space="preserve"><value>Εμφανιζόμενο εύρος</value></data>
+  <data name="RangeNavigatorStart" xml:space="preserve"><value>Αρχή του εύρους</value></data>
+  <data name="RangeNavigatorEnd" xml:space="preserve"><value>Τέλος του εύρους</value></data>
   <data name="ListBoxInvalid" xml:space="preserve"><value>Η επιλογή λίστας δεν είναι έγκυρη.</value></data>
   <data name="MindMapAddLink" xml:space="preserve"><value>Σύνδεση</value></data>
   <data name="MindMapAddNode" xml:space="preserve"><value>Κόμβος</value></data>

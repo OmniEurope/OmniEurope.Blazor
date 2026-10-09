@@ -2,7 +2,7 @@ namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The small draggable window of the look, modeless so the page stays in view: theme, palette and mode,
-/// font and density, then the text size and the size of the controls. Controlled like
+/// font and density, then the text size, the size of the controls and the width of the content. Controlled like
 /// <see cref="OmniAppearanceSettings"/> (the host keeps and applies every value), and each row only
 /// shows once its change is bound. A host opens it from a menu entry ("Theme") through
 /// <see cref="Open"/>; <see cref="OmniAppearanceSettings"/> opens the same window from its look row.
@@ -103,6 +103,18 @@ public partial class OmniAppearanceWindow
     [Parameter]
     public EventCallback<OmniDensity> DensityChanged { get; set; }
 
+    /// <summary>
+    /// Whether the page content takes the whole width of the window rather than the centred column the
+    /// host draws it in. The host applies it, for example by passing <see cref="OmniLayoutWidth.Full"/>
+    /// instead of its own width to <see cref="OmniMain.ContentWidth"/>. False (centred) by default.
+    /// </summary>
+    [Parameter]
+    public bool FullWidth { get; set; }
+
+    /// <summary>Raised with the width picked; bound, it shows the content width row.</summary>
+    [Parameter]
+    public EventCallback<bool> FullWidthChanged { get; set; }
+
     /// <summary>Size of the controls, 1 to 10 with 5 as drawn (<c>data-oe-control-size</c>).</summary>
     [Parameter]
     public int ControlSizeLevel { get; set; } = 5;
@@ -120,7 +132,7 @@ public partial class OmniAppearanceWindow
     /// The look as the host passed it: what <see cref="ResetAllAsync"/> compares with the defaults and
     /// what the window keeps when it opens.
     /// </summary>
-    private Look Current => new(Appearance, Preset, Palette, Font, BackdropMotion, TextSizeLevel, Density, ControlSizeLevel);
+    private Look Current => new(Appearance, Preset, Palette, Font, BackdropMotion, TextSizeLevel, Density, ControlSizeLevel, FullWidth);
 
     private bool IsDefaultLook => Current == Look.Default;
 
@@ -184,6 +196,7 @@ public partial class OmniAppearanceWindow
         await RaiseAsync(TextSizeLevelChanged, current.TextSizeLevel != look.TextSizeLevel, look.TextSizeLevel);
         await RaiseAsync(DensityChanged, current.Density != look.Density, look.Density);
         await RaiseAsync(ControlSizeLevelChanged, current.ControlSizeLevel != look.ControlSizeLevel, look.ControlSizeLevel);
+        await RaiseAsync(FullWidthChanged, current.FullWidth != look.FullWidth, look.FullWidth);
     }
 
     /// <summary>Raises a bound setting's change when it is bound and the value differs.</summary>
@@ -193,11 +206,21 @@ public partial class OmniAppearanceWindow
     private bool ShowsBackdropMotion => BackdropMotionChanged.HasDelegate && AppearanceChoices.MovesBackdrop(Preset);
 
     private bool ShowsRows => AppearanceChanged.HasDelegate || PresetChanged.HasDelegate || PaletteChanged.HasDelegate || FontChanged.HasDelegate || ShowsBackdropMotion
-        || TextSizeLevelChanged.HasDelegate || DensityChanged.HasDelegate || ControlSizeLevelChanged.HasDelegate;
+        || TextSizeLevelChanged.HasDelegate || DensityChanged.HasDelegate || ControlSizeLevelChanged.HasDelegate || FullWidthChanged.HasDelegate;
 
-    private bool DarkOnly => Preset?.DarkOnly == true;
+    /// <summary>The mode a theme drawn in one mode only fixes, or null.</summary>
+    private OmniAppearance? FixedMode => Preset?.FixedAppearance;
 
-    private OmniAppearance ShownAppearance => DarkOnly ? OmniAppearance.Dark : Appearance;
+    private bool ModeFixed => FixedMode is not null;
+
+    private string? ModeFixedTitle => FixedMode switch
+    {
+        OmniAppearance.Dark => Localize("SettingsDarkOnly"),
+        OmniAppearance.Light => Localize("SettingsLightOnly"),
+        _ => null
+    };
+
+    private OmniAppearance ShownAppearance => FixedMode ?? Appearance;
 
     private IReadOnlyList<OmniOption<OmniAppearance>> Modes =>
     [
@@ -230,6 +253,10 @@ public partial class OmniAppearanceWindow
 
     private IReadOnlyList<OmniOption<OmniDensity>> DensityOptions =>
         [.. Enum.GetValues<OmniDensity>().Select(density => new OmniOption<OmniDensity>(density, Localize(DensityKey(density))))];
+
+    /// <summary>Centred first, the default, then the whole width.</summary>
+    private IReadOnlyList<OmniOption<bool>> WidthOptions =>
+        [new(false, Localize("ContentWidthCentered")), new(true, Localize("ContentWidthFull"))];
 
     private double TextSizeValue => TextSizeLevel;
 
@@ -310,6 +337,8 @@ public partial class OmniAppearanceWindow
     private Task SetBackdropMotionAsync(bool moves) => BackdropMotionChanged.InvokeAsync(moves);
 
     private Task SetDensityAsync(OmniDensity density) => DensityChanged.InvokeAsync(density);
+
+    private Task SetFullWidthAsync(bool fullWidth) => FullWidthChanged.InvokeAsync(fullWidth);
 
     private static Task ChangeLevelAsync(ScaleSetting setting, int level) => setting.Changed.InvokeAsync(Math.Clamp(level, 1, 10));
 
@@ -436,10 +465,11 @@ public partial class OmniAppearanceWindow
         bool BackdropMotion,
         int TextSizeLevel,
         OmniDensity Density,
-        int ControlSizeLevel)
+        int ControlSizeLevel,
+        bool FullWidth)
     {
         /// <summary>The look of a host that never chose anything: the parameters' own defaults.</summary>
-        public static Look Default { get; } = new(OmniAppearance.System, null, null, null, true, 5, OmniDensity.Comfortable, 5);
+        public static Look Default { get; } = new(OmniAppearance.System, null, null, null, true, 5, OmniDensity.Comfortable, 5, false);
     }
 
     /// <summary>What differs between the scale rows: ids, icon, texts, level, change and the slider's binding.</summary>

@@ -39,12 +39,30 @@ public partial class ChartsExtendedDemo
         new(1, 31), new(2, 54), new(3, 12), new(4, 40)
     ];
 
+    // Three years of monthly figures for the range navigator, with a seasonal swing and a slow rise.
+    private static readonly IReadOnlyList<OmniChartPoint> LongDeposits =
+        [.. Enumerable.Range(0, 36).Select(month => new OmniChartPoint(month, 40 + month + (month * 7 % 12 * 3)))];
+
+    private static readonly IReadOnlyList<OmniChartPoint> LongDecisions =
+        [.. Enumerable.Range(0, 36).Select(month => new OmniChartPoint(month, 30 + month + (month * 5 % 12 * 2)))];
+
     [Inject]
     private IStringLocalizer<ShowcaseStrings> Text { get; set; } = default!;
 
     // January to June, abbreviated by the culture the page runs in.
     private string[] Months { get; } =
         [.. Enumerable.Range(1, 6).Select(month => new DateOnly(2026, month, 1).ToString("MMM", CultureInfo.CurrentCulture))];
+
+    // January 2024 to December 2026, written by the culture the page runs in.
+    private string[] LongMonths { get; } =
+        [.. Enumerable.Range(0, 36).Select(month => new DateOnly(2024, 1, 1).AddMonths(month).ToString("MMM yyyy", CultureInfo.CurrentCulture))];
+
+    // The last twelve months at first; the end follows the last month until a handle moves it.
+    private int? RangeStart { get; set; } = 24;
+
+    private int? RangeEnd { get; set; }
+
+    private string RangeShown => Text["DemoChartsExtendedRangeShown", LongMonths[RangeStart ?? 0], LongMonths[RangeEnd ?? (LongMonths.Length - 1)]];
 
     private string[] Countries { get; set; } = [];
 

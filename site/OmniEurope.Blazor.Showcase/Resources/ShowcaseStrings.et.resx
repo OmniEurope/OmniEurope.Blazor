@@ -676,6 +676,8 @@
   <data name="DemoChartsExtendedSliceMail" xml:space="preserve"><value>Post</value></data>
   <data name="DemoChartsExtendedSliceOnline" xml:space="preserve"><value>Veebis</value></data>
   <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Muu</value></data>
+  <data name="DemoChartsExtendedRangeTitle" xml:space="preserve"><value>Kolm aastat esitusi, valitud vahemik</value></data>
+  <data name="DemoChartsExtendedRangeShown" xml:space="preserve"><value>Kuvatud kuud: {0} kuni {1}</value></data>
   <data name="DemoPlanningGanttLabel" xml:space="preserve"><value>Projekti ajakava</value></data>
   <data name="DemoPlanningScaleShown" xml:space="preserve"><value>Kuvatud skaala: {0}</value></data>
   <data name="DemoPlanningScaleDay" xml:space="preserve"><value>päev</value></data>
@@ -1545,6 +1547,8 @@
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} paigutatud alla {1}</value></data>
   <data name="DemoGridScopeHint" xml:space="preserve"><value>Keerake ratast kõikjal selles raamis: ruudustiku read kerivad.</value></data>
   <data name="DemoGridFillCaption" xml:space="preserve"><value>Kaks tuhat toimikut riikide kaupa</value></data>
+  <data name="DemoGridEditCaption" xml:space="preserve"><value>Muudetavad toimikud: topeltklõpsake rida või kasutage pliiatsit</value></data>
+  <data name="DemoGridEditHint" xml:space="preserve"><value>Topeltklõpsatud lahtri väli, muidu esimene, saab fookuse ja selle tekst valitakse.</value></data>
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Suunatud lingid</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Korrektuuritud tekst, alguses lukus</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Kirjutuskaitstud</value></data>

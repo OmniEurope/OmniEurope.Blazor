@@ -1,0 +1,43 @@
+@* A chart of six months with a range navigator bound both ways, the way a host writes it. *@
+<OmniChart Title="Dépôts" SharedTooltip="true">
+    <ChildContent>
+        <OmniCategoryAxis Labels="@Labels" />
+        <OmniValueAxis Automatic="true" />
+        <OmniColumnSeries Title="Dépôts" Data="@Deposits" />
+        <OmniLineSeries Title="Décisions" ColorIndex="1" Data="@Decisions" />
+        <OmniMarkers ColorIndex="1" Data="@Decisions" />
+        <OmniSeriesDataLabels Data="@Deposits" />
+    </ChildContent>
+    <FooterContent>
+        <OmniRangeNavigator RangeStart="@Start" RangeStartChanged="@StartChanged" RangeEnd="@End" RangeEndChanged="@EndChanged" />
+    </FooterContent>
+</OmniChart>
+
+@code {
+    [Parameter] public int? Start { get; set; }
+
+    [Parameter] public int? End { get; set; }
+
+    public List<int?> StartsRaised { get; } = [];
+
+    public List<int?> EndsRaised { get; } = [];
+
+    public static IReadOnlyList<string> Labels { get; } = ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin"];
+
+    // The values grow with the month, so the value axis of a range shows which months it fits.
+    public static IReadOnlyList<OmniChartPoint> Deposits { get; } = [new(0, 10), new(1, 20), new(2, 30), new(3, 40), new(4, 50), new(5, 600)];
+
+    public static IReadOnlyList<OmniChartPoint> Decisions { get; } = [new(0, 5), new(1, 15), new(2, 25), new(3, 35), new(4, 45), new(5, 55)];
+
+    private void StartChanged(int? value)
+    {
+        StartsRaised.Add(value);
+        Start = value;
+    }
+
+    private void EndChanged(int? value)
+    {
+        EndsRaised.Add(value);
+        End = value;
+    }
+}

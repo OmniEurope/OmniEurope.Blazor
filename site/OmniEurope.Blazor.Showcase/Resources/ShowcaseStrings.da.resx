@@ -676,6 +676,8 @@
   <data name="DemoChartsExtendedSliceMail" xml:space="preserve"><value>Post</value></data>
   <data name="DemoChartsExtendedSliceOnline" xml:space="preserve"><value>Online</value></data>
   <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Andet</value></data>
+  <data name="DemoChartsExtendedRangeTitle" xml:space="preserve"><value>Tre års indsendelser, et valgt interval</value></data>
+  <data name="DemoChartsExtendedRangeShown" xml:space="preserve"><value>Viste måneder: fra {0} til {1}</value></data>
   <data name="DemoPlanningGanttLabel" xml:space="preserve"><value>Projektplan</value></data>
   <data name="DemoPlanningScaleShown" xml:space="preserve"><value>Vist skala: {0}</value></data>
   <data name="DemoPlanningScaleDay" xml:space="preserve"><value>dag</value></data>
@@ -1545,6 +1547,8 @@
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} placeret under {1}</value></data>
   <data name="DemoGridScopeHint" xml:space="preserve"><value>Drej hjulet hvor som helst i denne ramme: gitterets rækker ruller.</value></data>
   <data name="DemoGridFillCaption" xml:space="preserve"><value>To tusind sager pr. land</value></data>
+  <data name="DemoGridEditCaption" xml:space="preserve"><value>Redigerbare sager: dobbeltklik på en række eller brug blyanten</value></data>
+  <data name="DemoGridEditHint" xml:space="preserve"><value>Feltet i den dobbeltklikkede celle, ellers det første, får fokus med teksten markeret.</value></data>
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Rettede forbindelser</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Korrekturlæst tekst, låst til at begynde med</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Skrivebeskyttet</value></data>

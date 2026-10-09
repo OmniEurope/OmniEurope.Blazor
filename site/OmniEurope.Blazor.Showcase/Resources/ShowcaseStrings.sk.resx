@@ -676,6 +676,8 @@
   <data name="DemoChartsExtendedSliceMail" xml:space="preserve"><value>Pošta</value></data>
   <data name="DemoChartsExtendedSliceOnline" xml:space="preserve"><value>Online</value></data>
   <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Iné</value></data>
+  <data name="DemoChartsExtendedRangeTitle" xml:space="preserve"><value>Tri roky podaní, zvolený rozsah</value></data>
+  <data name="DemoChartsExtendedRangeShown" xml:space="preserve"><value>Zobrazené mesiace: od {0} do {1}</value></data>
   <data name="DemoPlanningGanttLabel" xml:space="preserve"><value>Harmonogram projektu</value></data>
   <data name="DemoPlanningScaleShown" xml:space="preserve"><value>Zobrazená mierka: {0}</value></data>
   <data name="DemoPlanningScaleDay" xml:space="preserve"><value>deň</value></data>
@@ -1545,6 +1547,8 @@
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} zaradený pod {1}</value></data>
   <data name="DemoGridScopeHint" xml:space="preserve"><value>Otočte kolieskom kdekoľvek v tomto rámčeku: riadky mriežky sa posunú.</value></data>
   <data name="DemoGridFillCaption" xml:space="preserve"><value>Dvetisíc spisov podľa krajiny</value></data>
+  <data name="DemoGridEditCaption" xml:space="preserve"><value>Upraviteľné spisy: dvakrát kliknite na riadok alebo použite ceruzku</value></data>
+  <data name="DemoGridEditHint" xml:space="preserve"><value>Pole dvakrát kliknutej bunky, inak prvé, získa fokus s označeným textom.</value></data>
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Orientované prepojenia</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Kontrolovaný text, spočiatku uzamknutý</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Iba na čítanie</value></data>

@@ -676,6 +676,8 @@
   <data name="DemoChartsExtendedSliceMail" xml:space="preserve"><value>Posti</value></data>
   <data name="DemoChartsExtendedSliceOnline" xml:space="preserve"><value>Verkossa</value></data>
   <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Muu</value></data>
+  <data name="DemoChartsExtendedRangeTitle" xml:space="preserve"><value>Kolmen vuoden jätöt, valittu väli</value></data>
+  <data name="DemoChartsExtendedRangeShown" xml:space="preserve"><value>Näytetyt kuukaudet: {0}–{1}</value></data>
   <data name="DemoPlanningGanttLabel" xml:space="preserve"><value>Projektin aikataulu</value></data>
   <data name="DemoPlanningScaleShown" xml:space="preserve"><value>Näytetty asteikko: {0}</value></data>
   <data name="DemoPlanningScaleDay" xml:space="preserve"><value>päivä</value></data>
@@ -1545,6 +1547,8 @@
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} siirretty kohteen {1} alle</value></data>
   <data name="DemoGridScopeHint" xml:space="preserve"><value>Pyöritä rullaa missä tahansa tässä kehyksessä: ruudukon rivit vierivät.</value></data>
   <data name="DemoGridFillCaption" xml:space="preserve"><value>Kaksituhatta asiaa maittain</value></data>
+  <data name="DemoGridEditCaption" xml:space="preserve"><value>Muokattavat asiakirjat: kaksoisnapsauta riviä tai käytä kynää</value></data>
+  <data name="DemoGridEditHint" xml:space="preserve"><value>Kaksoisnapsautetun solun kenttä, muuten ensimmäinen, saa kohdistuksen tekstin ollessa valittuna.</value></data>
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Suunnatut linkit</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Oikoluettu teksti, aluksi lukittu</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Vain luku</value></data>

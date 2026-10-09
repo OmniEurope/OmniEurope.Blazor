@@ -965,6 +965,7 @@ public partial class OmniDataGrid<TItem>
             if (!_disposeRequested)
             {
                 await Script.AfterRenderAsync();
+                await Script.FocusEditorAsync();
             }
         }
         finally

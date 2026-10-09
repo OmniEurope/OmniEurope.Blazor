@@ -115,6 +115,70 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
     }
 
     [Fact]
+    public void Content_width_is_centred_or_full_in_the_window()
+    {
+        // Review R1-1: one choice between the host's centred column and the whole width.
+        bool? fullWidth = null;
+        var window = Render<OmniAppearanceWindow>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.FullWidthChanged, value => fullWidth = value));
+
+        var choices = window.FindAll("[role=radiogroup][aria-label='Largeur du contenu'] [role=radio]");
+        Assert.Equal(["Centré", "Pleine largeur"], choices.Select(choice => choice.TextContent.Trim()));
+        Assert.Equal("true", choices[0].GetAttribute("aria-checked"));
+
+        choices[1].Click();
+        Assert.True(fullWidth);
+    }
+
+    [Fact]
+    public void Content_width_row_shows_only_once_bound()
+    {
+        var window = Render<OmniAppearanceWindow>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.DensityChanged, _ => { }));
+
+        Assert.Empty(window.FindAll("[aria-label='Largeur du contenu']"));
+    }
+
+    [Fact]
+    public void Settings_pass_the_content_width_to_their_window()
+    {
+        bool? fullWidth = null;
+        var settings = Render<OmniAppearanceSettings>(parameters => parameters
+            .Add(component => component.FullWidth, true)
+            .Add(component => component.FullWidthChanged, value => fullWidth = value));
+
+        settings.Find(".omni-appearance-settings__row--scale button").Click();
+        var choices = settings.FindAll("[role=radiogroup][aria-label='Largeur du contenu'] [role=radio]");
+        Assert.Equal("true", choices[1].GetAttribute("aria-checked"));
+
+        choices[0].Click();
+        Assert.False(fullWidth);
+    }
+
+    [Fact]
+    public void Reset_all_and_restore_carry_the_content_width()
+    {
+        var fullWidth = true;
+        var closes = 0;
+        IRenderedComponent<OmniAppearanceWindow>? window = null;
+        window = Render<OmniAppearanceWindow>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.FullWidth, fullWidth)
+            .Add(component => component.FullWidthChanged, value => fullWidth = value)
+            .Add(component => component.OpenChanged, _ => closes++));
+
+        window.Find(".omni-appearance-window__reset").Click();
+        Assert.False(fullWidth);
+        window.Render(parameters => parameters.Add(component => component.FullWidth, fullWidth));
+
+        window.Find(".omni-appearance-window__cancel").Click();
+        Assert.True(fullWidth);
+        Assert.Equal(1, closes);
+    }
+
+    [Fact]
     public void Text_size_window_row_has_a_slider()
     {
         int? textSize = null;

@@ -86,8 +86,10 @@ public sealed class ChartSeriesOptionsTests : OmniBunitContext
         {
             var group = chart.Find(".omni-chart__hover");
             Assert.Equal("true", group.GetAttribute("aria-hidden"));
-            // Last in the drawing, so the bands lie over the series and catch the pointer.
-            Assert.Contains("omni-chart__hover", chart.Find("svg").Children.Last().ClassList);
+            // Last in the drawing (the group of its parts, the last element of the SVG), so the bands lie
+            // over the series and catch the pointer.
+            Assert.Contains("omni-chart__parts", chart.Find("svg").Children.Last().ClassList);
+            Assert.Contains("omni-chart__hover", chart.Find(".omni-chart__parts").Children.Last().ClassList);
             var bands = chart.FindAll(".omni-chart__hover-band");
             Assert.Equal(3, bands.Count);
             var culture = CultureInfo.CurrentCulture;

@@ -447,6 +447,11 @@
 .omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer),
 .omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer) td { block-size: var(--omni-row-height); box-sizing: border-box; }
 .omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer) td { max-block-size: var(--omni-row-height); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* A table cell grows past its block-size to hold its content, so the content must fit the row whatever
+   the theme: a line box of its own (line-height: normal follows the font metrics, Source Serif 4 under
+   Papier made a 40px row 41.2px), and a block padding that gives way to the row less that line and the
+   rule (2px under Papier). A cell drawn without a rule is then one rule short, and block-size fills it. */
+.omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer) td { line-height: 1.25rem; padding-block: max(0px, min(var(--omni-cell-pad-y), (var(--omni-row-height) - 1.25rem - var(--omni-border-width)) / 2)); }
 /* A row being edited keeps that height: its cells drop their block padding and the controls in them
    (one-line editors, buttons) fit the row less its rules, whatever their size (recette R-017). */
 .omni-data-grid--fixed-row-height tbody tr.omni-data-grid__row--editing td { padding-block: 0; }

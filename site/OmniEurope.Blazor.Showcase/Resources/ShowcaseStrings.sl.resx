@@ -676,6 +676,8 @@
   <data name="DemoChartsExtendedSliceMail" xml:space="preserve"><value>Pošta</value></data>
   <data name="DemoChartsExtendedSliceOnline" xml:space="preserve"><value>Prek spleta</value></data>
   <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Drugo</value></data>
+  <data name="DemoChartsExtendedRangeTitle" xml:space="preserve"><value>Tri leta vlog, izbrani razpon</value></data>
+  <data name="DemoChartsExtendedRangeShown" xml:space="preserve"><value>Prikazani meseci: od {0} do {1}</value></data>
   <data name="DemoPlanningGanttLabel" xml:space="preserve"><value>Časovni načrt projekta</value></data>
   <data name="DemoPlanningScaleShown" xml:space="preserve"><value>Prikazano merilo: {0}</value></data>
   <data name="DemoPlanningScaleDay" xml:space="preserve"><value>dan</value></data>
@@ -1545,6 +1547,8 @@
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} uvrščen pod {1}</value></data>
   <data name="DemoGridScopeHint" xml:space="preserve"><value>Zavrtite kolešček kjer koli v tem okvirju: vrstice mreže se pomaknejo.</value></data>
   <data name="DemoGridFillCaption" xml:space="preserve"><value>Dva tisoč spisov po državah</value></data>
+  <data name="DemoGridEditCaption" xml:space="preserve"><value>Urejljive zadeve: dvokliknite vrstico ali uporabite svinčnik</value></data>
+  <data name="DemoGridEditHint" xml:space="preserve"><value>Polje dvokliknjene celice, sicer prvo, dobi fokus z izbranim besedilom.</value></data>
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Usmerjene povezave</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Preverjeno besedilo, sprva zaklenjeno</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Samo za branje</value></data>

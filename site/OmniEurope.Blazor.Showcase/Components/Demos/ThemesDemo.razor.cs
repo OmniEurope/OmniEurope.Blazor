@@ -13,6 +13,7 @@ public partial class ThemesDemo
     private int _controlSizeLevel = 5;
     private OmniDensity _density = OmniDensity.Comfortable;
     private bool _backdropMotion = true;
+    private bool _fullWidth;
     private bool _windowOpen;
     private Sample LiveSample => new(_preset, _palette, _appearance);
     private int _appliedTextSizeLevel;

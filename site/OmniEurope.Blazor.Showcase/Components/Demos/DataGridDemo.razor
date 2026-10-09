@@ -153,6 +153,26 @@
     </Columns>
 </OmniDataGrid>
 
+@* Une grille modifiable (EditTemplate) : le crayon ou un double clic (OnRowDoubleClick vers EditRowAsync)
+   met la ligne en édition, et le champ de la cellule double-cliquée, sinon le premier, prend le focus,
+   son texte sélectionné pour taper directement. Entrée tapée dans un champ ne clique pas la ligne. *@
+<p class="demo-hint">@Text["DemoGridEditHint"]</p>
+<OmniDataGrid TItem="EditableFile" Id="demo-grid-edit" @ref="EditGrid"
+              Items="EditableFiles"
+              Caption="@Text["DemoGridEditCaption"]"
+              KeyOf="@(file => file.Reference)"
+              OnRowDoubleClick="@(args => EditGrid!.EditRowAsync(args.Item))">
+    <Columns>
+        <OmniDataGridColumn TItem="EditableFile" Property="Reference" Title="@Text["DemoGridColumnReference"]" Filterable="false" />
+        <OmniDataGridColumn TItem="EditableFile" Property="Applicant" Title="@Text["DemoGridColumnApplicant"]" Filterable="false">
+            <EditTemplate Context="file"><OmniTextBox @bind-Value="file.Applicant" aria-label="@Text["DemoGridColumnApplicant"]" /></EditTemplate>
+        </OmniDataGridColumn>
+        <OmniDataGridColumn TItem="EditableFile" Property="Country" Title="@Text["DemoGridColumnCountry"]" Filterable="false">
+            <EditTemplate Context="file"><OmniTextBox @bind-Value="file.Country" aria-label="@Text["DemoGridColumnCountry"]" /></EditTemplate>
+        </OmniDataGridColumn>
+    </Columns>
+</OmniDataGrid>
+
 @* Une grille qui occupe ce qui reste de son cadre (FillAvailableHeight, plancher MinHeight) : virtualisée,
    groupée par pays, chaque ligne à la même hauteur (FixedRowHeight), voilée par LoadingContent jusqu'à
    son premier rendu prêt. La molette tournée n'importe où dans le cadre fait défiler ses lignes

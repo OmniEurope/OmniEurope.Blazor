@@ -52,8 +52,9 @@ public sealed class ThemeFieldMotionTests : OmniBunitContext
     [Fact]
     public void Trou_noir_draws_its_field_on_a_canvas_and_no_other_theme_has_one()
     {
-        // Owner decision of 2026-10-01: the black hole is drawn by a shader, no other theme needs one.
-        Assert.Equal(["Trou noir"], OmniThemePresets.All.Where(theme => theme.Shape.ContainsKey("--omni-scope-canvas")).Select(theme => theme.Name));
+        // Owner decision of 2026-10-01: the black hole is drawn by a shader, no other theme needs one;
+        // Trou blanc (review R1-3) draws the same hole turned over.
+        Assert.Equal(["Trou noir", "Trou blanc"], OmniThemePresets.All.Where(theme => theme.Shape.ContainsKey("--omni-scope-canvas")).Select(theme => theme.Name));
 
         var trouNoir = Render<OmniThemeScope>(parameters => parameters
             .Add(component => component.Preset, OmniThemePresets.All.Single(theme => theme.Name == "Trou noir"))
@@ -63,6 +64,7 @@ public sealed class ThemeFieldMotionTests : OmniBunitContext
         Assert.Equal("true", canvas.GetAttribute("aria-hidden"));
         var start = Assert.Single(JSInterop.Invocations, invocation => invocation.Identifier == "start");
         Assert.Equal(false, start.Arguments[2]);
+        Assert.Equal("black-hole", start.Arguments[3]);
 
         // Leaving the theme drops the canvas and stops it, still field included: no loop would notice.
         Assert.DoesNotContain(JSInterop.Invocations, invocation => invocation.Identifier == "sweep");
@@ -81,9 +83,11 @@ public sealed class ThemeFieldMotionTests : OmniBunitContext
     {
         // Owner decision of 2026-10-02: a deep black page whatever the palette, the surface three
         // quarters of the way to black; every other scope keeps the palette surface.
-        Assert.Equal(["Trou noir"], OmniThemePresets.All.Where(theme => theme.Shape.ContainsKey("--omni-scope-page")).Select(theme => theme.Name));
+        // Trou blanc's page (review R1-3) is the surface a quarter of the way to white.
+        Assert.Equal(["Trou noir", "Trou blanc"], OmniThemePresets.All.Where(theme => theme.Shape.ContainsKey("--omni-scope-page")).Select(theme => theme.Name));
         var trouNoir = OmniThemePresets.All.Single(theme => theme.Name == "Trou noir");
         Assert.Equal("color-mix(in srgb, var(--omni-color-surface) 25%, rgb(0 0 0 / 100%))", trouNoir.Shape["--omni-scope-page"]);
+        Assert.Equal("color-mix(in srgb, var(--omni-color-surface) 75%, rgb(255 255 255 / 100%))", OmniThemePresets.All.Single(theme => theme.Name == "Trou blanc").Shape["--omni-scope-page"]);
 
         Assert.Equal("var(--omni-scope-page, var(--omni-color-surface))", ShippedLookTests.Value(ShippedLookTests.Body(".omni-theme-scope"), "background"));
         // initial: the var() fallback, so a scope without the token keeps its surface.
@@ -113,6 +117,55 @@ public sealed class ThemeFieldMotionTests : OmniBunitContext
         Assert.Equal("Ce thème est toujours sombre", mode.GetAttribute("title"));
         Assert.Equal("true", settings.Find(".omni-select-bar__item--selected").GetAttribute("aria-checked"));
         Assert.Contains("Sombre", settings.Find(".omni-select-bar__item--selected").TextContent);
+    }
+
+    [Fact]
+    public void A_light_only_theme_draws_its_light_half_whatever_the_mode_and_fixes_the_mode_setting()
+    {
+        // Review R1-3: Trou blanc is the only theme without a dark half.
+        var trouBlanc = OmniThemePresets.All.Single(theme => theme.Name == "Trou blanc");
+        Assert.Equal(["Trou blanc"], OmniThemePresets.All.Where(theme => theme.LightOnly).Select(theme => theme.Name));
+        Assert.False(trouBlanc.DarkOnly);
+
+        var scope = Render<OmniThemeScope>(parameters => parameters
+            .Add(component => component.Appearance, OmniAppearance.Dark)
+            .Add(component => component.Preset, trouBlanc)
+            .Add(component => component.BackdropMotion, false)
+            .AddChildContent("<p>page</p>"));
+        Assert.Equal("light", scope.Find(".omni-theme-scope").GetAttribute("data-omni-theme"));
+        var start = Assert.Single(JSInterop.Invocations, invocation => invocation.Identifier == "start");
+        Assert.Equal("white-hole", start.Arguments[3]);
+
+        var settings = Render<OmniAppearanceSettings>(parameters => parameters
+            .Add(component => component.Appearance, OmniAppearance.Dark)
+            .Add(component => component.Preset, trouBlanc)
+            .Add(component => component.AppearanceChanged, _ => { }));
+        var mode = settings.Find(".omni-select-bar");
+        Assert.Equal("true", mode.GetAttribute("aria-disabled"));
+        Assert.Equal("Ce thème est toujours clair", mode.GetAttribute("title"));
+        Assert.Contains("Clair", settings.Find(".omni-select-bar__item--selected").TextContent);
+
+        var window = Render<OmniAppearanceWindow>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.Preset, trouBlanc)
+            .Add(component => component.Appearance, OmniAppearance.Dark)
+            .Add(component => component.AppearanceChanged, _ => { }));
+        var buttons = window.FindAll(".omni-appearance-window__modes > button[role=radio]");
+        Assert.All(buttons, button => Assert.True(button.HasAttribute("disabled")));
+        Assert.Equal("true", buttons[0].GetAttribute("aria-checked"));
+        Assert.Equal("Ce thème est toujours clair", window.Find(".omni-appearance-window__modes").GetAttribute("title"));
+    }
+
+    [Fact]
+    public void Switching_between_the_two_holes_restarts_the_canvas_with_the_other_kind()
+    {
+        var scope = Render<OmniThemeScope>(parameters => parameters
+            .Add(component => component.Preset, OmniThemePresets.All.Single(theme => theme.Name == "Trou noir"))
+            .AddChildContent("<p>page</p>"));
+        scope.Render(parameters => parameters.Add(component => component.Preset, OmniThemePresets.All.Single(theme => theme.Name == "Trou blanc")));
+
+        var kinds = JSInterop.Invocations.Where(invocation => invocation.Identifier == "start").Select(invocation => invocation.Arguments[3]);
+        Assert.Equal(["black-hole", "white-hole"], kinds);
     }
 
     [Fact]
@@ -181,8 +234,9 @@ public sealed class ThemeFieldMotionTests : OmniBunitContext
             }
         }
 
-        // Owner decision of 2026-09-30: Givre and Trou noir move their field, no other theme does.
-        Assert.Equal(["Givre", "Trou noir"], moving);
+        // Owner decision of 2026-09-30: Givre and Trou noir move their field, and Trou blanc with its hole
+        // (review R1-3); no other theme does.
+        Assert.Equal(["Givre", "Trou noir", "Trou blanc"], moving);
     }
 
     [Fact]
@@ -236,6 +290,7 @@ public sealed class ThemeFieldMotionTests : OmniBunitContext
     [Theory]
     [InlineData("Givre", true)]
     [InlineData("Trou noir", true)]
+    [InlineData("Trou blanc", true)]
     [InlineData("Essentiel", false)]
     [InlineData("Néon", false)]
     public void The_window_offers_the_setting_only_under_a_theme_that_moves_its_field(string themeName, bool offered)

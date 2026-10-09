@@ -676,6 +676,8 @@
   <data name="DemoChartsExtendedSliceMail" xml:space="preserve"><value>Paštas</value></data>
   <data name="DemoChartsExtendedSliceOnline" xml:space="preserve"><value>Internetu</value></data>
   <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Kita</value></data>
+  <data name="DemoChartsExtendedRangeTitle" xml:space="preserve"><value>Treji metai pateikimų, pasirinktas intervalas</value></data>
+  <data name="DemoChartsExtendedRangeShown" xml:space="preserve"><value>Rodomi mėnesiai: nuo {0} iki {1}</value></data>
   <data name="DemoPlanningGanttLabel" xml:space="preserve"><value>Projekto tvarkaraštis</value></data>
   <data name="DemoPlanningScaleShown" xml:space="preserve"><value>Rodoma skalė: {0}</value></data>
   <data name="DemoPlanningScaleDay" xml:space="preserve"><value>diena</value></data>
@@ -1545,6 +1547,8 @@
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} priskirta prie {1}</value></data>
   <data name="DemoGridScopeHint" xml:space="preserve"><value>Sukite ratuką bet kurioje šio rėmelio vietoje: tinklelio eilutės slenka.</value></data>
   <data name="DemoGridFillCaption" xml:space="preserve"><value>Du tūkstančiai bylų pagal šalį</value></data>
+  <data name="DemoGridEditCaption" xml:space="preserve"><value>Redaguojamos bylos: dukart spustelėkite eilutę arba naudokite pieštuką</value></data>
+  <data name="DemoGridEditHint" xml:space="preserve"><value>Dukart spustelėto langelio laukas, kitaip pirmasis, gauna fokusą su pažymėtu tekstu.</value></data>
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Kryptiniai ryšiai</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Patikrintas tekstas, iš pradžių užrakintas</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Tik skaityti</value></data>

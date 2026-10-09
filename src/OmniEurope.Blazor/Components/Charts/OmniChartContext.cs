@@ -21,6 +21,9 @@ internal sealed class OmniChartContext
     /// <summary>Font size of every chart text, in view-box units (the stylesheet's 3px).</summary>
     internal const double FontSize = 3;
 
+    /// <summary>The name under which a chart hands its layout to the HTML parts of its <c>FooterContent</c>.</summary>
+    internal const string FooterName = "OmniChartFooter";
+
     /// <summary>
     /// Axis text of a wide chart on a narrow screen (the stylesheet's 4.5px under 40rem): the wide
     /// drawing shrinks more than a square one, so its axis text is drawn larger there, and labels are
@@ -166,6 +169,7 @@ internal sealed class OmniChartContext
     private readonly Dictionary<object, LegendRegistration> _legends = [];
     private readonly List<PieRegistration> _pies = [];
     private readonly HashSet<int> _hiddenColors = [];
+    private readonly OmniChartRange _range = new();
     private bool _domainsDirty = true;
     private (double Minimum, double Maximum) _xDomain = (0, 1);
     private (double Minimum, double Maximum) _valueDomain = (0, 1);
@@ -272,6 +276,39 @@ internal sealed class OmniChartContext
         Changed?.Invoke();
     }
 
+    /// <summary>The categories shown, first and last index included; null while every category is shown.</summary>
+    internal (int First, int Last)? Range => _range.Window;
+
+    /// <summary>
+    /// Shows only categories <paramref name="first"/> to <paramref name="last"/> (indexes, both
+    /// included): the series, the category axis, the hover bands and the data table keep the points of
+    /// those indexes, and the value and X domains are computed from them alone. One range per chart;
+    /// the owner that set it is the one that can clear it.
+    /// </summary>
+    internal void SetRange(object owner, int first, int last) => RangeChanged(_range.Set(owner, first, last));
+
+    /// <summary>Shows every category again, when <paramref name="owner"/> is the one that set the range.</summary>
+    internal void ClearRange(object owner) => RangeChanged(_range.Clear(owner));
+
+    private void RangeChanged(bool changed)
+    {
+        if (changed)
+        {
+            _domainsDirty = true;
+            Changed?.Invoke();
+        }
+    }
+
+    /// <summary>Whether category <paramref name="index"/> is shown: always without a range.</summary>
+    internal bool InRange(int index) => _range.Contains(index);
+
+    /// <summary>
+    /// Where a point outside the range shown is sent by <see cref="ProjectCoordinates"/>: far above the
+    /// view box, out of the clip the chart sets while a range is active. Only a decoration that walks
+    /// its own points without asking <see cref="InRange"/> (data labels) ever lands there.
+    /// </summary>
+    internal const double OutOfRangeY = -1000;
+
     /// <summary>A series the plot draws: not hidden, or a decoration of a series that is not hidden.</summary>
     private bool IsDrawn(SeriesRegistration series) =>
         _hiddenColors.Count == 0
@@ -315,40 +352,23 @@ internal sealed class OmniChartContext
     /// <summary>
     /// The categories whose label is drawn: all of them when they fit, otherwise one every so many so
     /// that no two labels overlap, the first and the last always kept. Label widths are estimated
-    /// from their length, so the step errs towards more room.
+    /// from their length, so the step errs towards more room. While a range is shown, only the
+    /// categories of the range are candidates, its first and last kept.
     /// </summary>
     internal IReadOnlyList<int> VisibleCategoryIndexes(IReadOnlyList<string> labels)
     {
-        var count = labels.Count;
+        var (first, last) = _range.Bounds(labels.Count);
+        var count = last - first + 1;
         if (count <= 2)
         {
-            return [.. Enumerable.Range(0, count)];
+            return [.. Enumerable.Range(first, Math.Max(0, count))];
         }
 
-        var pitch = Math.Abs(CategoryPosition(1, count) - CategoryPosition(0, count));
+        var pitch = Math.Abs(CategoryPosition(first + 1, labels.Count) - CategoryPosition(first, labels.Count));
         var needed = Horizontal
             ? AxisFontSize * 1.3
-            : labels.Max(label => (label?.Length ?? 0) * CharacterWidth * AxisFontSize / FontSize) + 1.5;
-        var step = pitch <= 0 ? count : Math.Max(1, (int)Math.Ceiling(needed / pitch));
-        if (step == 1)
-        {
-            return [.. Enumerable.Range(0, count)];
-        }
-
-        var visible = new List<int>();
-        for (var index = 0; index < count - 1; index += step)
-        {
-            visible.Add(index);
-        }
-
-        // The last label replaces the one before it when the two would be closer than a step.
-        if (visible.Count > 1 && count - 1 - visible[^1] < step)
-        {
-            visible.RemoveAt(visible.Count - 1);
-        }
-
-        visible.Add(count - 1);
-        return visible;
+            : labels.Skip(first).Take(count).Max(label => (label?.Length ?? 0) * CharacterWidth * AxisFontSize / FontSize) + 1.5;
+        return OmniChartRange.Thin(first, last, pitch <= 0 ? count : Math.Max(1, (int)Math.Ceiling(needed / pitch)));
     }
 
     /// <summary>Horizontal bars turn the chart: values run along the bottom, categories down the left.</summary>
@@ -364,6 +384,11 @@ internal sealed class OmniChartContext
     {
         get
         {
+            if (_range.Window is { } range)
+            {
+                return Math.Max(1, range.Last - range.First + 1);
+            }
+
             var labels = _categoryAxes.Values.Select(item => item.Count).DefaultIfEmpty(0).Max();
             var points = _series
                 .Where(item => IsBanded(item.Kind))
@@ -520,7 +545,7 @@ internal sealed class OmniChartContext
         }
     }
 
-    internal string Points(object owner) => string.Join(' ', GetSeries(owner).Data.Select(Project));
+    internal string Points(object owner) => string.Join(' ', _range.Points(GetSeries(owner).Data).Select(Project));
 
     internal string AreaPoints(object owner, bool stacked)
     {
@@ -534,6 +559,11 @@ internal sealed class OmniChartContext
         var baseline = new List<string>(series.Data.Count);
         for (var index = 0; index < series.Data.Count; index++)
         {
+            if (!InRange(index))
+            {
+                continue;
+            }
+
             var point = series.Data[index];
             var start = stacked ? StackBaseline(series, index, point.Y) : 0;
             top.Add(Project(point.X, start + point.Y));
@@ -577,9 +607,14 @@ internal sealed class OmniChartContext
 
     internal string Project(OmniChartPoint point) => Project(point.X, point.Y);
 
-    /// <summary>Where a data point lands: its X along the categories, its value across them.</summary>
+    /// <summary>
+    /// Where a data point lands: its X along the categories, its value across them. While a range is
+    /// shown, a point whose X lies outside the X of the categories shown lands at <see cref="OutOfRangeY"/>.
+    /// </summary>
     internal (double X, double Y) ProjectCoordinates(OmniChartPoint point) =>
-        Horizontal
+        _range.Window is not null && (point.X < XDomain.Minimum || point.X > XDomain.Maximum)
+            ? (PlotLeft, OutOfRangeY)
+            : Horizontal
             ? (ValueToX(point.Y), XToPosition(point.X, PlotTop, PlotBottom))
             : (XToPosition(point.X, PlotLeft, PlotRight), ValueToY(point.Y));
 
@@ -591,10 +626,13 @@ internal sealed class OmniChartContext
 
     /// <summary>
     /// Where the label of category <paramref name="index"/> of <paramref name="count"/> sits along the
-    /// category axis: in the middle of its band when the chart has bands, edge to edge otherwise.
+    /// category axis: in the middle of its band when the chart has bands, edge to edge otherwise. While a
+    /// range is shown, the categories of the range share the axis and <paramref name="count"/> is theirs.
     /// </summary>
     internal double CategoryPosition(int index, int count)
     {
+        (index, count) = _range.Local(index, count);
+
         var (start, end) = Horizontal ? (PlotTop, PlotBottom) : (PlotLeft, PlotRight);
         if (Banded)
         {
@@ -674,6 +712,7 @@ internal sealed class OmniChartContext
 
     private (double Start, double Size) SlotSpan(double from, double to, int index, int slot, int slots)
     {
+        index -= _range.First;
         var band = (to - from) / CategoryCount;
         var group = band * BandFill;
         var size = group / slots;
@@ -706,7 +745,7 @@ internal sealed class OmniChartContext
             return;
         }
 
-        var xValues = DrawnSeries.SelectMany(item => item.Data).Select(point => point.X).ToArray();
+        var xValues = DrawnSeries.SelectMany(item => _range.Points(item.Data)).Select(point => point.X).ToArray();
         _xDomain = Expand(xValues.Length == 0 ? (0d, 1d) : (xValues.Min(), xValues.Max()));
 
         if (_valueAxes.Count > 0)
@@ -718,7 +757,7 @@ internal sealed class OmniChartContext
             var values = new List<double> { 0 };
             foreach (var series in DrawnSeries.Where(item => item.Kind is not OmniChartSeriesKind.StackedArea and not OmniChartSeriesKind.StackedColumn and not OmniChartSeriesKind.StackedBar))
             {
-                values.AddRange(series.Data.Select(point => point.Y));
+                values.AddRange(_range.Points(series.Data).Select(point => point.Y));
             }
             foreach (var kind in new[] { OmniChartSeriesKind.StackedArea, OmniChartSeriesKind.StackedColumn, OmniChartSeriesKind.StackedBar })
             {
@@ -726,6 +765,11 @@ internal sealed class OmniChartContext
                 var maximumCount = stacked.Length == 0 ? 0 : stacked.Max(item => item.Data.Count);
                 for (var index = 0; index < maximumCount; index++)
                 {
+                    if (!InRange(index))
+                    {
+                        continue;
+                    }
+
                     var positive = stacked.Where(item => index < item.Data.Count).Select(item => item.Data[index].Y).Where(value => value > 0).Sum();
                     var negative = stacked.Where(item => index < item.Data.Count).Select(item => item.Data[index].Y).Where(value => value < 0).Sum();
                     values.Add(positive);

@@ -676,6 +676,8 @@
   <data name="DemoChartsExtendedSliceMail" xml:space="preserve"><value>Ταχυδρομείο</value></data>
   <data name="DemoChartsExtendedSliceOnline" xml:space="preserve"><value>Διαδικτυακά</value></data>
   <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Άλλο</value></data>
+  <data name="DemoChartsExtendedRangeTitle" xml:space="preserve"><value>Τρία χρόνια υποβολών, επιλεγμένο εύρος</value></data>
+  <data name="DemoChartsExtendedRangeShown" xml:space="preserve"><value>Εμφανιζόμενοι μήνες: από {0} έως {1}</value></data>
   <data name="DemoPlanningGanttLabel" xml:space="preserve"><value>Χρονοδιάγραμμα του έργου</value></data>
   <data name="DemoPlanningScaleShown" xml:space="preserve"><value>Εμφανιζόμενη κλίμακα: {0}</value></data>
   <data name="DemoPlanningScaleDay" xml:space="preserve"><value>ημέρα</value></data>
@@ -1545,6 +1547,8 @@
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} τοποθετήθηκε κάτω από {1}</value></data>
   <data name="DemoGridScopeHint" xml:space="preserve"><value>Γυρίστε τη ροδέλα οπουδήποτε σε αυτό το πλαίσιο: οι γραμμές του πλέγματος κυλούν.</value></data>
   <data name="DemoGridFillCaption" xml:space="preserve"><value>Δύο χιλιάδες φάκελοι ανά χώρα</value></data>
+  <data name="DemoGridEditCaption" xml:space="preserve"><value>Επεξεργάσιμοι φάκελοι: διπλό κλικ σε γραμμή ή χρήση του μολυβιού</value></data>
+  <data name="DemoGridEditHint" xml:space="preserve"><value>Το πεδίο του κελιού με διπλό κλικ, αλλιώς το πρώτο, παίρνει την εστίαση με επιλεγμένο κείμενο.</value></data>
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Κατευθυνόμενοι σύνδεσμοι</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Ελεγμένο κείμενο, αρχικά κλειδωμένο</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Μόνο για ανάγνωση</value></data>

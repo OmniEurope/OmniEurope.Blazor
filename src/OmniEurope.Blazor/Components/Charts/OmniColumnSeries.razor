@@ -4,6 +4,11 @@
 <g class="@CssClass">
     @for (var index = 0; index < Data.Count; index++)
     {
+        @* Outside the range an OmniRangeNavigator shows, the point is not drawn. *@
+        if (ChartContext?.InRange(index) == false)
+        {
+            continue;
+        }
         var point = Data[index];
         var rectangle = Rectangle(index);
         <rect class="@PointClass(index)" x="@OmniChartGeometry.Number(rectangle.X)" y="@OmniChartGeometry.Number(rectangle.Y)" width="@OmniChartGeometry.Number(rectangle.Width)" height="@OmniChartGeometry.Number(rectangle.Height)"><title>@(ChartContext?.PointTitle(index, point) ?? point.Label ?? OmniChartGeometry.Display(point.Y))</title></rect>

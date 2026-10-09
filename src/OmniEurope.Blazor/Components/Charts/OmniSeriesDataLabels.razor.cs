@@ -36,6 +36,37 @@ public partial class OmniSeriesDataLabels
 
     private string Text(OmniChartPoint point) => point.Label ?? FormatValue?.Invoke(point.Y) ?? OmniChartGeometry.Display(point.Y);
 
+    /// <summary>
+    /// Where a label is drawn and how it is anchored: as asked, unless its estimated width
+    /// (<see cref="OmniChartContext.CharacterWidth"/> per character, an estimate that errs towards more
+    /// room) would cross an edge of the plot; then it is anchored to that edge, start on the left and end
+    /// on the right, so the first and last labels stay inside instead of overflowing by half their width.
+    /// </summary>
+    internal (double X, string? Anchor) Placed(double x, string text, LabelAnchor anchor)
+    {
+        var asked = anchor == LabelAnchor.Middle ? "middle" : null;
+        if (ChartContext is null)
+        {
+            return (x, asked);
+        }
+
+        var width = text.Length * OmniChartContext.CharacterWidth;
+        var (left, right) = anchor == LabelAnchor.Middle ? (x - (width / 2), x + (width / 2)) : (x, x + width);
+        if (left < ChartContext.PlotLeft)
+        {
+            return (ChartContext.PlotLeft, null);
+        }
+
+        return right > ChartContext.PlotRight ? (ChartContext.PlotRight, "end") : (x, asked);
+    }
+
+    /// <summary>How a label is anchored when it fits: centred on its point, or starting at it.</summary>
+    internal enum LabelAnchor
+    {
+        Middle,
+        Start
+    }
+
     private (double X, double Y) Projected(int index) =>
         ChartContext is null ? OmniChartGeometry.ProjectedPoint(Data, index) : ChartContext.ProjectCoordinates(Data[index]);
 

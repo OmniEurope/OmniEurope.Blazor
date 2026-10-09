@@ -677,6 +677,8 @@
   <data name="DemoChartsExtendedSliceMail" xml:space="preserve"><value>Post</value></data>
   <data name="DemoChartsExtendedSliceOnline" xml:space="preserve"><value>Online</value></data>
   <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Other</value></data>
+  <data name="DemoChartsExtendedRangeTitle" xml:space="preserve"><value>Three years of filings, a chosen range</value></data>
+  <data name="DemoChartsExtendedRangeShown" xml:space="preserve"><value>Months shown: from {0} to {1}</value></data>
   <data name="DemoPlanningGanttLabel" xml:space="preserve"><value>Project schedule</value></data>
   <data name="DemoPlanningScaleShown" xml:space="preserve"><value>Scale shown: {0}</value></data>
   <data name="DemoPlanningScaleDay" xml:space="preserve"><value>day</value></data>
@@ -1548,6 +1550,8 @@
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} filed under {1}</value></data>
   <data name="DemoGridScopeHint" xml:space="preserve"><value>Turn the wheel anywhere in this frame: the grid rows scroll.</value></data>
   <data name="DemoGridFillCaption" xml:space="preserve"><value>Two thousand files by country</value></data>
+  <data name="DemoGridEditCaption" xml:space="preserve"><value>Editable files: double-click a row or use the pencil</value></data>
+  <data name="DemoGridEditHint" xml:space="preserve"><value>The field of the double-clicked cell, otherwise the first one, takes the focus with its text selected.</value></data>
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Directed links</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Proofread text, locked at first</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Read-only</value></data>

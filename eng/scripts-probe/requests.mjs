@@ -3,7 +3,7 @@
 // skip link moves the focus to the main content by script, without leaving the page.
 
 export async function requestSteps(session, results) {
-  const { evaluate, waitFor, key, check, hover, mouse } = session;
+  const { evaluate, waitFor, key, check, hover, mouse, pointOf, clickOn } = session;
   const step = label => {
     if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
     results.push(label);
@@ -52,4 +52,20 @@ export async function requestSteps(session, results) {
   await waitFor('le contenu principal focalisé', "document.activeElement?.tagName === 'MAIN'");
   check(await evaluate(`location.href === ${JSON.stringify(address)}`), 'Le lien d\'évitement a changé l\'adresse de la page.');
   step('lien d\'évitement : premier arrêt, Entrée donne le focus au contenu, adresse inchangée');
+
+  // 3. The editor a row takes the focus in (recette R1-5, the grid script's focusEditor): a double click
+  // on the Country cell of the second file puts the row in edit mode and focuses that cell's field, its
+  // text selected whole; the pencil of the third file focuses its first field, Applicant.
+  const edit = '#demo-grid-edit';
+  const editorState = row => `(() => { const field = document.activeElement; const cell = field?.closest('td[data-omni-col]'); return JSON.stringify({ row: field?.closest('tr')?.dataset.omniRowIndex, column: cell?.dataset.omniCol, whole: field?.selectionStart === 0 && field?.selectionEnd === field?.value.length && field.value.length > 0 }); })() === ${JSON.stringify(JSON.stringify({ row: String(row.index), column: row.column, whole: true }))}`;
+  const country = await pointOf(`${edit} tbody tr[data-omni-row-index="1"] td[data-omni-col="Country"]`);
+  await mouse('mouseMoved', country, { button: 'none' });
+  await mouse('mousePressed', country, { clickCount: 1 });
+  await mouse('mouseReleased', country, { clickCount: 1 });
+  await mouse('mousePressed', country, { clickCount: 2 });
+  await mouse('mouseReleased', country, { clickCount: 2 });
+  await waitFor('le pays de la ligne double-cliquée focalisé, son texte sélectionné', editorState({ index: 1, column: 'Country' }));
+  await clickOn(`${edit} tbody tr[data-omni-row-index="2"] .omni-data-grid__actions button`);
+  await waitFor('le premier champ de la ligne ouverte au crayon focalisé, son texte sélectionné', editorState({ index: 2, column: 'Applicant' }));
+  step('édition de ligne : le champ de la cellule double-cliquée, sinon le premier, prend le focus, texte sélectionné');
 }

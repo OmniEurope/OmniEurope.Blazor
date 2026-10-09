@@ -42,12 +42,12 @@
                         @if (AppearanceChanged.HasDelegate)
                         {
                             <div class="omni-appearance-window__modes" role="radiogroup" data-omni-roving aria-label="@Localize("SettingsMode")"
-                                 aria-disabled="@(DarkOnly ? "true" : null)" title="@(DarkOnly ? Localize("SettingsDarkOnly") : null)">
+                                 aria-disabled="@(ModeFixed ? "true" : null)" title="@ModeFixedTitle">
                                 @foreach (var mode in Modes)
                                 {
                                     var selected = mode.Value == ShownAppearance;
                                     <OmniButton Variant="@(selected ? OmniButtonVariant.Primary : OmniButtonVariant.Secondary)"
-                                                Class="omni-appearance-window__mode" Disabled="DarkOnly" Label="@mode.Text" title="@mode.Text"
+                                                Class="omni-appearance-window__mode" Disabled="ModeFixed" Label="@mode.Text" title="@mode.Text"
                                                 role="radio" aria-checked="@(selected ? "true" : "false")" tabindex="@(selected ? "0" : "-1")"
                                                 OnClick="@(() => SetAppearanceAsync(mode.Value))"><OmniIcon Name="@ModeIcon(mode.Value)" /></OmniButton>
                                 }
@@ -94,6 +94,18 @@
                 @if (ControlSizeLevelChanged.HasDelegate)
                 {
                     @ScaleRow(ControlSizeScale)
+                }
+                @if (FullWidthChanged.HasDelegate)
+                {
+                    @* Centred column or the whole width (review R1-1): the host keeps its own column and
+                       passes the whole width to its main area when asked. *@
+                    <div class="omni-appearance-settings__row">
+                        <span class="omni-appearance-settings__label"><OmniIcon Name="OmniIconName.Layout" /> @Localize("SettingsContentWidth")</span>
+                        <div class="omni-appearance-settings__actions">
+                            <OmniSelectBar TValue="bool" Options="@WidthOptions" Label="@Localize("SettingsContentWidth")"
+                                           @bind-Value:get="FullWidth" @bind-Value:set="SetFullWidthAsync" />
+                        </div>
+                    </div>
                 }
             </div>
         }
