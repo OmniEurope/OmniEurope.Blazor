@@ -47,6 +47,9 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-dialog .omni-dialog__close::before { content: ""; inset: min(0px, calc((var(--omni-control-height) - 2.75rem) / 2)); position: absolute; }
 .omni-dialog .omni-dialog__close:hover { background: color-mix(in srgb, var(--omni-color-text) 10%, transparent); color: var(--omni-color-text); }
 .omni-dialog .omni-dialog__close:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+/* The panel focused by itself (InitialFocus Panel, a dialog that cannot be dismissed) is not a control:
+   no ring, so nothing looks selected until the reader clicks or presses Tab. */
+.omni-dialog[tabindex="-1"]:focus { outline: none; }
 /* An intention leads the title with a round mark carrying its icon, on the tint of the intention:
    the bands stay on the surface of the dialog, which reads neutral whatever its gravity (recette
    R2-029, the tinted bands read as an odd brown under a warning). Only the palette's own tokens, so

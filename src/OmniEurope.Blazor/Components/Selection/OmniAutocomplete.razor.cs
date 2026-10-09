@@ -21,6 +21,7 @@ public partial class OmniAutocomplete<TValue>
     private bool _hasShownValue;
     private int _activeIndex = -1;
     private bool _closed;
+    private ElementReference _input;
 
     /// <summary>
     /// Finds the suggestions for what was typed. It receives the text and a token cancelled when a newer
@@ -92,6 +93,16 @@ public partial class OmniAutocomplete<TValue>
     [Parameter]
     public RenderFragment<OmniOption<TValue>>? OptionIconTemplate { get; set; }
 
+    /// <summary>
+    /// Draws at the end of the field the chevron of a drop-down list, for a field that offers a closed
+    /// list (as <see cref="OmniDropDown{TValue}"/> does with <c>Filterable</c>): a press on it opens the
+    /// whole list, unfiltered (<see cref="Search"/> called with an empty text), and a second press closes
+    /// it. It is not a tab stop; the keyboard keeps the arrows. It follows <see cref="Disabled"/> and a
+    /// <c>readonly</c> attribute. False by default: a field that searches an open set has nothing to list.
+    /// </summary>
+    [Parameter]
+    public bool ShowToggle { get; set; }
+
     private string BaseId => Id ?? FieldIdentifier.FieldName;
     private string ResultsId => $"{BaseId}-results";
     private string ErrorId => $"{BaseId}-error";
@@ -101,7 +112,15 @@ public partial class OmniAutocomplete<TValue>
     private string? ActiveOptionId => IsOpen && _activeIndex >= 0 ? OptionId(_activeIndex) : null;
 
     // Class goes on the outermost element; the validation classes of the form stay on the input they describe.
-    private string RootClass => CssClassBuilder.Combine(["omni-autocomplete", Class]);
+    private string RootClass => CssClassBuilder.Combine(["omni-autocomplete", ShowToggle ? "omni-autocomplete--toggle" : null, Class]);
+    private string ToggleClass => CssClassBuilder.Combine([
+        "omni-autocomplete__toggle",
+        IsOpen ? "omni-autocomplete__toggle--open" : null,
+        Disabled || IsReadOnly ? "omni-autocomplete__toggle--disabled" : null]);
+
+    // A readonly attribute passed through, as the native select reads it.
+    private bool IsReadOnly => AdditionalAttributes?.TryGetValue("readonly", out var value) == true
+        && value is not false && !string.Equals(value?.ToString(), "false", StringComparison.OrdinalIgnoreCase);
     private string InputClass => CssClassBuilder.Combine(["omni-input", "omni-autocomplete__input", SizeClass, CssClass]);
 
     private string EffectiveSearchErrorMessage => string.IsNullOrWhiteSpace(SearchErrorMessage)
@@ -184,19 +203,20 @@ public partial class OmniAutocomplete<TValue>
         return (++_searchGeneration, _searchCancellation.Token);
     }
 
-    private async Task RunSearchAsync(TimeSpan delay, int generation, CancellationToken token)
+    private async Task RunSearchAsync(TimeSpan delay, int generation, CancellationToken token, string? query = null)
     {
+        var text = query ?? _searchText;
         try
         {
             await Task.Delay(delay < TimeSpan.Zero ? TimeSpan.Zero : delay, token);
-            var results = await Search!(_searchText, token);
+            var results = await Search!(text, token);
             if (generation != _searchGeneration)
             {
                 return;
             }
 
             _results = results;
-            _resultsQuery = _searchText;
+            _resultsQuery = text;
             _activeIndex = -1;
             _announcement = _results.Count == 1
                 ? Localize("AutocompleteOneResult")
@@ -275,6 +295,31 @@ public partial class OmniAutocomplete<TValue>
 
         _closed = false;
         _activeIndex = _results.Count == 0 ? -1 : forward ? 0 : _results.Count - 1;
+    }
+
+    /// <summary>
+    /// The chevron: opens the whole list, unfiltered, or closes it when it is open, then leaves the
+    /// focus in the field so the keyboard goes on from there.
+    /// </summary>
+    private async Task ToggleListAsync()
+    {
+        if (Disabled || IsReadOnly || Search is null)
+        {
+            return;
+        }
+
+        if (IsOpen)
+        {
+            Close();
+            return;
+        }
+
+        _error = null;
+        var (generation, token) = RestartSearch();
+        await RunSearchAsync(TimeSpan.Zero, generation, token, string.Empty);
+        _closed = false;
+        _activeIndex = -1;
+        await _input.FocusAsync(preventScroll: true);
     }
 
     private void Close()

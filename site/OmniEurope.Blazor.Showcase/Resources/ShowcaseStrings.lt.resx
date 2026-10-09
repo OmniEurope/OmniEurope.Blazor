@@ -849,6 +849,7 @@
   <data name="DemoPagesTokensToday" xml:space="preserve"><value>Žetonai šiandien</value></data>
   <data name="DemoPagesTokensReset" xml:space="preserve"><value>Atnaujinama {0:t}</value></data>
   <data name="DemoPagesWeekly" xml:space="preserve"><value>Kas savaitę</value></data>
+  <data name="DemoPagesGain" xml:space="preserve"><value>Investicijų kapitalo prieaugis</value></data>
   <data name="DemoPagesCrumbComponents" xml:space="preserve"><value>Komponentai</value></data>
   <data name="DemoPagesCrumbServers" xml:space="preserve"><value>Serveriai</value></data>
   <data name="DemoPagesCrumbServer" xml:space="preserve"><value>Serveris</value></data>

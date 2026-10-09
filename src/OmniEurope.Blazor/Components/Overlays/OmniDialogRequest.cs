@@ -39,6 +39,12 @@ public sealed record OmniDialogRequest(string Title, RenderFragment Content, str
     /// <summary>Draws the close button of a dismissible dialog, passed to <see cref="OmniDialog.ShowClose"/>. True by default.</summary>
     public bool ShowClose { get; init; } = true;
 
+    /// <summary>
+    /// Where the focus goes when the dialog opens, passed to <see cref="OmniDialog.InitialFocus"/>.
+    /// <see cref="OmniDialogInitialFocus.CloseButton"/> by default.
+    /// </summary>
+    public OmniDialogInitialFocus InitialFocus { get; init; }
+
     /// <summary>Lets the reader move the dialog by its header, passed to <see cref="OmniDialog.Draggable"/>.</summary>
     public bool Draggable { get; init; }
 

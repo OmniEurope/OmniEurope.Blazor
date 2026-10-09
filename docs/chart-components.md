@@ -8,15 +8,15 @@ leurs coordonnées dans un même contexte : elles s'alignent par construction.
 
 | Composant | Rôle |
 | --- | --- |
-| `OmniChart` | Conteneur SVG : titre, description (`Description`, `string?`, posée en `desc` et `aria-describedby` seulement quand elle est donnée), rapport largeur sur hauteur ; toutes les parties y lisent leurs coordonnées. `DataTableContent` fournit l'alternative en tableau ; sans lui, un tableau des données masqué visuellement est généré depuis les séries. `SharedTooltip` donne un texte de survol par catégorie (voir Disposition). `FooterContent` reçoit les parties HTML posées sous le dessin, avant une légende du dessous (`OmniRangeNavigator`). |
+| `OmniChart` | Conteneur SVG : titre, description (`Description`, `string?`, posée en `desc` et `aria-describedby` seulement quand elle est donnée), rapport largeur sur hauteur ; toutes les parties y lisent leurs coordonnées. `DataTableContent` fournit l'alternative en tableau ; sans lui, un tableau des données masqué visuellement est généré depuis les séries. `SharedTooltip` donne un texte de survol par catégorie (voir Disposition). `FooterContent` reçoit les parties HTML posées sous le dessin, avant une légende du dessous (`OmniRangeNavigator`). `MinWidth` (`OmniChartMinWidth`) : `Auto`, le défaut, garde une largeur minimale tirée du rapport largeur sur hauteur (environ 12,5 rem par unité : 12,5 rem pour un graphique carré, 50 rem au-delà de 3,5), sous laquelle le graphique défile en largeur dans sa carte avec ses légendes et son pied ; un hôte pose sa propre longueur par `--omni-chart-min-width` ; `None` le laisse rétrécir comme avant. |
 | `OmniCategoryAxis`, `OmniValueAxis` | Axe des catégories et axe des valeurs (bornes fixes ou automatiques), graduations et libellés. |
 | `OmniAxisTitle` | Titre d'un axe, horizontal en bas ou vertical à gauche, tourné. |
 | `OmniGridLines` | Lignes de grille du tracé. |
 | `OmniLineSeries`, `OmniAreaSeries` | Série en courbe, ou en aire, empilable (`Stacked`) ; `Dashed` trace la courbe, ou le contour de l'aire, en tirets. |
 | `OmniColumnSeries` | Colonnes verticales groupées par catégorie, empilables (`Stacked`) ; `Horizontal="true"` en fait des barres horizontales sur axes tournés ; `ColorByPoint="true"` donne à chaque rectangle sa couleur de la palette. |
-| `OmniPieSeries` | Secteurs d'un disque, ou d'un anneau (`Donut`). |
+| `OmniPieSeries` | Secteurs d'un disque, ou d'un anneau (`Donut`). `OutsideLabels` (`OmniPieLabels` : `Name`, `NameAndValue` avec `FormatValue`, `NameAndPercent`) écrit chaque part hors du disque, reliée au milieu de son secteur par un trait de rappel ; les étiquettes de chaque côté s'empilent sans se chevaucher et le disque rétrécit pour leur laisser la place (une étiquette encore trop longue est coupée, son texte entier au survol). |
 | `OmniMarkers` | Points marqués sur les valeurs d'une série. |
-| `OmniSeriesDataLabels` | Valeurs écrites sur les points d'une série, avec leur format (`FormatValue`) ; `Inside="true"` les écrit dans la barre. Une étiquette qui sortirait de la zone de tracé, d'après sa largeur estimée, s'ancre au bord qu'elle franchirait (début à gauche, fin à droite), au lieu de déborder de la moitié de sa largeur au premier et au dernier point. |
+| `OmniSeriesDataLabels` | Valeurs écrites sur les points d'une série, avec leur format (`FormatValue`) ; `Inside="true"` les écrit dans la barre. Une étiquette qui sortirait de la zone de tracé, d'après sa largeur estimée, s'ancre au bord qu'elle franchirait (début à gauche, fin à droite), au lieu de déborder de la moitié de sa largeur au premier et au dernier point. Une étiquette qui chevaucherait la précédente gardée est masquée, la dernière toujours gardée (la règle de l'axe des catégories) ; la valeur masquée reste lisible au survol de son point. |
 | `OmniLegend` | Légende hors du tracé, à droite, dessous ou dessus. |
 | `OmniArcGauge`, `OmniArcGaugeScale`, `OmniArcGaugeScaleValue` | Jauge en demi-cercle, son échelle et la valeur qu'elle montre (`FormatValue`) ; le nom accessible de la jauge porte sa valeur. |
 | `OmniRangeNavigator` | Navigateur de plage sous le graphique, écrit dans `FooterContent` d'`OmniChart` : aperçu de toutes les catégories en petites colonnes et deux poignées, début et fin, qui choisissent les catégories dessinées (voir Navigateur de plage). |
@@ -114,9 +114,13 @@ est le libellé `i` de l'axe et le point `i` de chaque série.
   du navigateur (flèches d'une catégorie, Page précédente et Page suivante d'un pas plus grand, Début et
   Fin aux bornes). Les poignées ne se croisent pas : le début s'arrête à la fin et inversement, une
   catégorie au moins reste montrée. Les deux entrées se superposent sur l'aperçu, leur piste
-  transparente laisse passer le pointeur et seule la poignée le prend ; une poignée est une barre de
-  0,375 rem dans une bordure transparente qui en fait une cible de 2,75 rem (44 px). Deux poignées sur
-  la même catégorie dans la moitié droite : celle du début passe au-dessus.
+  transparente laisse passer le pointeur et seule la poignée le prend ; une poignée est un trait fin
+  qui marque le bord de la plage et une prise à l'accent striée de trois traits, dans une cible de
+  2,75 rem (44 px) de large et de la hauteur du navigateur, qui suit la densité (hauteur de contrôle
+  plus 1 rem : 44 px en Confortable). Deux poignées sur la même catégorie dans la moitié droite : celle
+  du début passe au-dessus.
+- Sous l'aperçu, des graduations régulières nomment les catégories, éclaircies comme l'axe des
+  catégories (la première et la dernière toujours) ; sous elles, le début et la fin de la plage.
 - Sans script ni style inline : l'aperçu est de la géométrie SVG, les poignées sont stylées par la
   feuille (`omni-range-navigator__*`).
 - Pendant qu'une plage est montrée, les séries, l'axe des catégories, les bandes du texte de survol

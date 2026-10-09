@@ -34,6 +34,66 @@ public partial class OmniSeriesDataLabels
     /// <summary>Registers the points with the chart so the plot covers them; data labels stay out of the legend and the data table.</summary>
     protected override void OnParametersSet() => ChartContext?.RegisterSeries(this, OmniChartSeriesKind.Auxiliary, Data);
 
+    /// <summary>
+    /// Every label with its place, anchor and baseline, and whether it is drawn: a label that would
+    /// overlap the previous one kept is masked, the rule of the category axis, the last one always kept
+    /// (see <see cref="DataLabelThinning"/>). A point out of the range shown takes no part.
+    /// </summary>
+    internal IReadOnlyList<DataLabel> Layout()
+    {
+        var labels = new DataLabel[Data.Count];
+        var boxes = new DataLabelThinning.Box?[Data.Count];
+        var horizontal = ChartContext?.Horizontal == true;
+        for (var index = 0; index < Data.Count; index++)
+        {
+            var projected = Projected(index);
+            var text = Text(Data[index]);
+            (double X, string? Anchor) place;
+            double y;
+            string? baseline;
+            if (Inside && horizontal)
+            {
+                place = Placed(Origin(index).X + 1.5, text, LabelAnchor.Start);
+                (y, baseline) = (projected.Y, "central");
+            }
+            else if (Inside)
+            {
+                place = Placed(projected.X, text, LabelAnchor.Middle);
+                (y, baseline) = (projected.Y + 1.5, "hanging");
+            }
+            else if (horizontal)
+            {
+                place = Placed(projected.X + 1.5, text, LabelAnchor.Start);
+                (y, baseline) = (projected.Y, "central");
+            }
+            else
+            {
+                place = Placed(projected.X, text, LabelAnchor.Middle);
+                (y, baseline) = (projected.Y - 3, null);
+            }
+
+            labels[index] = new DataLabel(place.X, y, place.Anchor, baseline, text, true, projected);
+            if (projected.Y > OmniChartContext.OutOfRangeY / 2)
+            {
+                boxes[index] = DataLabelThinning.BoxOf(place.X, y, place.Anchor, baseline, text.Length * OmniChartContext.CharacterWidth, OmniChartContext.FontSize);
+            }
+        }
+
+        var visible = DataLabelThinning.Keep(boxes);
+        for (var index = 0; index < labels.Length; index++)
+        {
+            if (!visible[index])
+            {
+                labels[index] = labels[index] with { Visible = false };
+            }
+        }
+
+        return labels;
+    }
+
+    /// <summary>One label: where it is written, how, and whether it is drawn or masked.</summary>
+    internal sealed record DataLabel(double X, double Y, string? Anchor, string? Baseline, string Text, bool Visible, (double X, double Y) Point);
+
     private string Text(OmniChartPoint point) => point.Label ?? FormatValue?.Invoke(point.Y) ?? OmniChartGeometry.Display(point.Y);
 
     /// <summary>

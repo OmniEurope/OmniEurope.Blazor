@@ -45,6 +45,9 @@ internal static class OmniModules
     /// <summary>The page header: the sideways scroll of a title longer than its line.</summary>
     internal const string PageHeader = Root + "omni-page-header.js";
 
+    /// <summary>The stat tile: its label kept on one line, smaller or cut when it does not fit.</summary>
+    internal const string StatTile = Root + "omni-stat-tile.js";
+
     /// <summary>The scheduler surface.</summary>
     internal const string Scheduler = Root + "omni-scheduler.js";
 

@@ -96,7 +96,10 @@
         <OmniButton Id="demo-dialog-intent-danger" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenIntent(OmniTone.Danger))">@Text["DemoOverlayIntentDanger"]</OmniButton>
     </OmniStack>
 
-    <OmniDialog Title="@Text["DemoOverlayIntentTitle"]" Open="IntentOpen" OpenChanged="@(value => IntentOpen = value)" Intent="IntentDialog">
+    @* InitialFocus Panel : le panneau prend le focus à l'ouverture, sans anneau ; rien ne paraît
+       sélectionné avant un clic ou Tab, qui mène au premier élément focalisable. *@
+    <OmniDialog Title="@Text["DemoOverlayIntentTitle"]" Open="IntentOpen" OpenChanged="@(value => IntentOpen = value)" Intent="IntentDialog"
+                InitialFocus="OmniDialogInitialFocus.Panel">
         <ChildContent><p>@Text["DemoOverlayIntentBody", IntentDialog]</p></ChildContent>
         <Footer>
             <OmniButton OnClick="@(_ => IntentOpen = false)"><OmniIcon Name="OmniIconName.Check" /><span>@Text["DemoOverlayConfirm"]</span></OmniButton>

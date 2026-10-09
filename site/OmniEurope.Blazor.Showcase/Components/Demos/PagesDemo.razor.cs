@@ -15,6 +15,8 @@ public partial class PagesDemo : IDisposable
     private static TimeOnly ResetTime => new(18, 0);
 
     /// <summary>The weekly share of the quota used, written as a percentage by the current culture.</summary>
+    private static string Gain => 1284.ToString("C0", CultureInfo.CurrentCulture);
+
     private static string WeeklyShare => 0.83.ToString("P0", CultureInfo.CurrentCulture);
 
     private OmniDetailState State { get; set; }

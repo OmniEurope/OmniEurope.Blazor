@@ -1,5 +1,16 @@
 .omni-chart,
 .omni-arc-gauge { margin: 0; }
+/* A minimum width (OmniChart.MinWidth, recette R1-16): in a narrower card the chart keeps it and scrolls
+   sideways, its legends and its footer (a range navigator) with it. The figure takes the width of its
+   card whatever its content (contain), so the card never grows; the hidden data tables are left out,
+   and the figure holds anything positioned in it, so nothing escapes its scroll. */
+.omni-chart[class*="omni-chart--min-"] { contain: inline-size; overflow-x: auto; overscroll-behavior-x: contain; position: relative; }
+.omni-chart[class*="omni-chart--min-"] > :not(.omni-chart__data, .omni-chart__tables) { min-inline-size: var(--omni-chart-min-width, var(--omni-chart-auto-min-width)); }
+.omni-chart--min-small { --omni-chart-auto-min-width: 12.5rem; }
+.omni-chart--min-medium { --omni-chart-auto-min-width: 20rem; }
+.omni-chart--min-large { --omni-chart-auto-min-width: 25rem; }
+.omni-chart--min-xlarge { --omni-chart-auto-min-width: 37.5rem; }
+.omni-chart--min-widest { --omni-chart-auto-min-width: 50rem; }
 .omni-chart__svg,
 .omni-arc-gauge__svg { display: block; height: auto; overflow: visible; width: 100%; }
 /* Strokes are measured in screen pixels rather than in view box units, so a line keeps its weight
@@ -20,6 +31,11 @@
 .omni-chart__labels { fill: var(--omni-color-text); font-size: 3px; }
 .omni-chart__axis text { fill: var(--omni-color-text-muted); }
 /* Labels written in their bars: outlined with the surface so they read on every colour of the palette. */
+/* Outside labels of a pie: the text of the labels, a thin leader line in the border colour. */
+.omni-chart__pie-labels text { fill: var(--omni-color-text); font-size: 3px; }
+.omni-chart__pie-labels polyline { stroke: var(--omni-color-text-muted); stroke-width: 0.3px; }
+/* The point of a masked data label: an invisible hover target that carries its value (recette R1-12). */
+.omni-chart__labels .omni-chart__label-hit { fill: transparent; pointer-events: all; stroke: none; }
 .omni-chart__labels--inside text { paint-order: stroke; stroke: var(--omni-color-surface); stroke-linejoin: round; stroke-width: 0.6px; }
 .omni-chart__grid-lines line { stroke: var(--omni-color-border); stroke-dasharray: 4 4; stroke-width: 1px; }
 .omni-chart__markers { stroke: currentColor; stroke-width: 2px; }
@@ -90,8 +106,10 @@ polyline.omni-chart__line { fill: none; }
    handles catch it. A handle is a bar 0.375rem wide, inside a transparent border that makes
    it a 2.75rem (44px) target; the overview is inset by half a handle on each side, so the centre of a
    handle stands over the column of its category. */
-.omni-range-navigator { --omni-range-navigator-handle: 2.75rem; display: grid; gap: var(--omni-space-xs); margin-block-start: var(--omni-space-sm); }
-.omni-range-navigator__track { block-size: var(--omni-range-navigator-handle); position: relative; }
+/* The handles keep a 44 px target across; their height follows the density, 44 px in Comfortable (the
+   default), 40 px in Compact, 50 px in Spacious, as every control's height does (R-025). */
+.omni-range-navigator { --omni-range-navigator-handle: 2.75rem; --omni-range-navigator-height: calc(var(--omni-control-height) + 1rem); display: grid; gap: var(--omni-space-xs); margin-block-start: var(--omni-space-sm); }
+.omni-range-navigator__track { block-size: var(--omni-range-navigator-height); position: relative; }
 .omni-range-navigator__overview { background: var(--omni-color-surface-muted); block-size: 100%; display: block; inline-size: calc(100% - var(--omni-range-navigator-handle)); margin-inline: calc(var(--omni-range-navigator-handle) / 2); overflow: visible; }
 .omni-range-navigator__window { fill: var(--omni-color-accent); fill-opacity: 0.14; }
 .omni-range-navigator__column { fill: var(--omni-color-text-muted); fill-opacity: 0.45; }
@@ -102,10 +120,15 @@ polyline.omni-chart__line { fill: none; }
 .omni-range-navigator__handle:focus { outline: none; }
 .omni-range-navigator__handle::-webkit-slider-runnable-track { background: transparent; block-size: 100%; }
 .omni-range-navigator__handle::-moz-range-track { background: transparent; block-size: 100%; }
-.omni-range-navigator__handle::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; background: var(--omni-color-text); background-clip: padding-box; block-size: var(--omni-range-navigator-handle); border: 0 solid transparent; border-inline-width: calc((var(--omni-range-navigator-handle) - 0.375rem) / 2); box-sizing: border-box; cursor: ew-resize; inline-size: var(--omni-range-navigator-handle); pointer-events: auto; }
-.omni-range-navigator__handle::-moz-range-thumb { background: var(--omni-color-text); background-clip: padding-box; block-size: var(--omni-range-navigator-handle); border: 0 solid transparent; border-inline-width: calc((var(--omni-range-navigator-handle) - 0.375rem) / 2); border-radius: 0; box-sizing: border-box; cursor: ew-resize; inline-size: var(--omni-range-navigator-handle); pointer-events: auto; }
+/* Each handle, inside its 44 px target: a thin line marks the edge of the range, and a grip in the
+   accent colour, scored with three lines, says it can be dragged (recette R1-13). */
+.omni-range-navigator__handle::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; background: linear-gradient(to right, var(--omni-color-surface) 0 1px, transparent 1px 3px, var(--omni-color-surface) 3px 4px, transparent 4px 6px, var(--omni-color-surface) 6px 7px) center / 7px 0.75rem no-repeat, linear-gradient(var(--omni-color-accent), var(--omni-color-accent)) center / 0.75rem 1.5rem no-repeat, linear-gradient(var(--omni-color-text), var(--omni-color-text)) center / 2px 100% no-repeat; block-size: var(--omni-range-navigator-height); border: 0; border-radius: 0; box-sizing: border-box; cursor: ew-resize; inline-size: var(--omni-range-navigator-handle); pointer-events: auto; }
+.omni-range-navigator__handle::-moz-range-thumb { background: linear-gradient(to right, var(--omni-color-surface) 0 1px, transparent 1px 3px, var(--omni-color-surface) 3px 4px, transparent 4px 6px, var(--omni-color-surface) 6px 7px) center / 7px 0.75rem no-repeat, linear-gradient(var(--omni-color-accent), var(--omni-color-accent)) center / 0.75rem 1.5rem no-repeat, linear-gradient(var(--omni-color-text), var(--omni-color-text)) center / 2px 100% no-repeat; block-size: var(--omni-range-navigator-height); border: 0; border-radius: 0; box-sizing: border-box; cursor: ew-resize; inline-size: var(--omni-range-navigator-handle); pointer-events: auto; }
 .omni-range-navigator__handle:focus-visible::-webkit-slider-thumb { box-shadow: var(--omni-focus-ring); }
 .omni-range-navigator__handle:focus-visible::-moz-range-thumb { box-shadow: var(--omni-focus-ring); }
+.omni-range-navigator__ticks { display: block; inline-size: calc(100% - var(--omni-range-navigator-handle)); margin-inline: calc(var(--omni-range-navigator-handle) / 2); overflow: visible; }
+.omni-range-navigator__ticks line { stroke: var(--omni-color-border); stroke-width: 0.3px; }
+.omni-range-navigator__ticks text { fill: var(--omni-color-text-muted); font-size: 3px; }
 .omni-range-navigator__values { color: var(--omni-color-text-muted); display: flex; font-size: var(--omni-font-size-sm); justify-content: space-between; }
 
 .omni-timeline__list { display: grid; gap: var(--omni-space-md); list-style: none; margin: 0; padding: 0; }

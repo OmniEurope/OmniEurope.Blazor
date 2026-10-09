@@ -70,15 +70,26 @@
         <Icon><OmniIcon Name="OmniIconName.Search" Size="OmniControlSize.Large" /></Icon>
     </OmniEmptyState>
 
-    @* Tuiles de statistique : la seconde, cliquable, est un vrai bouton nommé par son libellé et sa valeur. *@
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small">
-        <OmniStatTile Value="@Text["DemoPagesTokensValue", 12.4]" Label="@Text["DemoPagesTokensToday"]" Detail="@Text["DemoPagesTokensReset", ResetTime]">
-            <Icon><OmniIcon Name="OmniIconName.Database" /></Icon>
-        </OmniStatTile>
-        <OmniStatTile Value="@WeeklyShare" Label="@Text["DemoPagesWeekly"]" OnClick="@(() => { })">
-            <Icon><OmniIcon Name="OmniIconName.CalendarCheck" /></Icon>
-        </OmniStatTile>
-    </OmniStack>
+    @* Tuiles de statistique : la seconde, cliquable, est un vrai bouton nommé par son libellé et sa valeur.
+       Le libellé reste sur une ligne : plus petit quand il ne tient pas dans sa colonne, puis coupé de
+       points de suspension, son texte entier dans l'infobulle (troisième tuile, réduite sur une colonne étroite). *@
+    <OmniRow Gap="OmniSpacing.Small">
+        <OmniColumn Span="12" MediumSpan="4">
+            <OmniStatTile Value="@Text["DemoPagesTokensValue", 12.4]" Label="@Text["DemoPagesTokensToday"]" Detail="@Text["DemoPagesTokensReset", ResetTime]">
+                <Icon><OmniIcon Name="OmniIconName.Database" /></Icon>
+            </OmniStatTile>
+        </OmniColumn>
+        <OmniColumn Span="12" MediumSpan="4">
+            <OmniStatTile Value="@WeeklyShare" Label="@Text["DemoPagesWeekly"]" OnClick="@(() => { })">
+                <Icon><OmniIcon Name="OmniIconName.CalendarCheck" /></Icon>
+            </OmniStatTile>
+        </OmniColumn>
+        <OmniColumn Span="6" MediumSpan="3">
+            <OmniStatTile Id="demo-stat-tile-gain" Value="@Gain" Label="@Text["DemoPagesGain"]">
+                <Icon><OmniIcon Name="OmniIconName.ChartLineUp" /></Icon>
+            </OmniStatTile>
+        </OmniColumn>
+    </OmniRow>
 
     @* Tuiles de navigation : chacune est un vrai lien, son icône sur un carré à la teinte de son ton ;
        au survol, seule l'ombre change. Elles prennent la hauteur de leur colonne. *@

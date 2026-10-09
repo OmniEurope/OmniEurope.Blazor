@@ -1,7 +1,7 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-<figure @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-chart")">
+<figure @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-chart", MinWidthClass)">
     @* A legend above the chart is the same HTML list as one below, placed before the drawing. *@
     @foreach (var legend in _context.LegendsAbove)
     {

@@ -849,6 +849,7 @@
   <data name="DemoPagesTokensToday" xml:space="preserve"><value>Tokens hoje</value></data>
   <data name="DemoPagesTokensReset" xml:space="preserve"><value>Reposição às {0:t}</value></data>
   <data name="DemoPagesWeekly" xml:space="preserve"><value>Semanal</value></data>
+  <data name="DemoPagesGain" xml:space="preserve"><value>Mais-valia dos investimentos</value></data>
   <data name="DemoPagesCrumbComponents" xml:space="preserve"><value>Componentes</value></data>
   <data name="DemoPagesCrumbServers" xml:space="preserve"><value>Servidores</value></data>
   <data name="DemoPagesCrumbServer" xml:space="preserve"><value>Servidor</value></data>

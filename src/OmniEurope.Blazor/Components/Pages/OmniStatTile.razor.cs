@@ -6,6 +6,10 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 public partial class OmniStatTile
 {
+    private ElementReference _tile;
+    private IJSObjectReference? _module;
+    private bool _disposed;
+
     /// <summary>A decorative icon on a tinted square before the text. None when not given.</summary>
     [Parameter]
     public RenderFragment? Icon { get; set; }
@@ -28,6 +32,57 @@ public partial class OmniStatTile
     /// </summary>
     [Parameter]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    /// <summary>
+    /// On the first render, attaches the script that keeps the label on one line: smaller when it does
+    /// not fit, then cut with an ellipsis and its whole text in the hover tooltip. A lost circuit is ignored.
+    /// </summary>
+    /// <param name="firstRender">True on the first render of the component.</param>
+    /// <returns>A task that completes once the script is attached.</returns>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            return;
+        }
+
+        try
+        {
+            var module = await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.StatTile);
+            if (_disposed)
+            {
+                await module.DisposeAsync();
+                return;
+            }
+
+            _module = module;
+            await _module.InvokeVoidAsync("attach", _tile);
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit is gone, and the tile with it.
+        }
+    }
+
+    /// <summary>Detaches the script: its observers are released.</summary>
+    /// <returns>A task that completes once the script is detached; a lost circuit is ignored.</returns>
+    public async ValueTask DisposeAsync()
+    {
+        _disposed = true;
+        if (_module is not null)
+        {
+            try
+            {
+                await _module.InvokeVoidAsync("detach", _tile);
+                await _module.DisposeAsync();
+            }
+            catch (JSDisconnectedException)
+            {
+            }
+        }
+
+        GC.SuppressFinalize(this);
+    }
 
     private string AccessibleName => string.IsNullOrWhiteSpace(Value) ? Label : Localize("LabelValuePair", Label, Value);
 }

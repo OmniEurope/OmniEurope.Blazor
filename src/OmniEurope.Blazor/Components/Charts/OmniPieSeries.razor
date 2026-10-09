@@ -7,5 +7,19 @@
         <path class="@ChartColor.Class(index)" d="@SlicePath(index)"><title>@OmniChartGeometry.Pair(slice.Label, OmniChartGeometry.Display(slice.Value))</title></path>
     }
 </g>
+@if (_labels.Count > 0)
+{
+    @* Outside labels (recette R1-14): each on its side of the disc, joined to the middle of its slice
+       by a leader line, stacked so that none overlaps the next. *@
+    <g class="omni-chart__pie-labels">
+        @foreach (var label in _labels)
+        {
+            <g>
+                <polyline points="@label.Points" fill="none" />
+                <text x="@OmniChartGeometry.Number(label.X)" y="@OmniChartGeometry.Number(label.Y)" text-anchor="@label.Anchor" dominant-baseline="central">@label.Text@if (label.Text != label.FullText) { <title>@label.FullText</title> }</text>
+            </g>
+        }
+    </g>
+}
 
 @implements IDisposable

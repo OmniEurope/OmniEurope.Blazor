@@ -283,6 +283,16 @@ select.omni-input.omni-input--large:not([multiple]):not([size]) { block-size: ca
 .omni-multi-select,
 .omni-list-box { min-height: calc(var(--omni-control-height) * 3 + 0.25rem); }
 .omni-autocomplete { position: relative; }
+/* The chevron of a field that offers a closed list (ShowToggle): the glyph, size and place of the one a
+   select draws (::picker-icon above), at the field's own side padding; the press area spans the height. */
+.omni-autocomplete--toggle { --omni-autocomplete-toggle-pad: calc(0.5625rem * var(--omni-control-scale, 1)); }
+.omni-autocomplete--toggle > .omni-input { padding-inline-end: calc(var(--omni-autocomplete-toggle-pad) * 2 + 0.6875em); }
+.omni-autocomplete__toggle { align-items: center; block-size: var(--omni-control-height); cursor: pointer; display: flex; font-size: var(--omni-control-font); inset-block-start: 0; inset-inline-end: 0; justify-content: center; padding-inline: var(--omni-autocomplete-toggle-pad); position: absolute; }
+.omni-autocomplete:has(> .omni-input--small) > .omni-autocomplete__toggle { block-size: calc(var(--omni-control-height) - 0.5rem); font-size: var(--omni-font-size-sm); }
+.omni-autocomplete:has(> .omni-input--large) > .omni-autocomplete__toggle { block-size: calc(var(--omni-control-height) + 0.5rem); font-size: var(--omni-font-size-lg); }
+.omni-autocomplete__toggle::before { background: var(--omni-color-text-muted); block-size: 0.375em; clip-path: polygon(0 0, 13% 0, 50% 74%, 87% 0, 100% 0, 50% 100%); content: ""; flex: none; inline-size: 0.6875em; }
+.omni-autocomplete__toggle--open::before { scale: 1 -1; }
+.omni-autocomplete__toggle--disabled { cursor: not-allowed; opacity: 0.5; }
 .omni-autocomplete__results {
     backdrop-filter: var(--omni-overlay-filter, none);
     background: var(--omni-overlay-background, var(--omni-color-surface));

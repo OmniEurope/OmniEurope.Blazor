@@ -1,5 +1,7 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
+@implements IAsyncDisposable
+@inject IJSRuntime JavaScript
 
 @* One figure on a card: the icon on its tinted square, the value large, what it measures under it,
    and an optional detail line (a reset time, a trend). With OnClick the whole tile is one real
@@ -7,7 +9,7 @@
    a plain block that nothing can activate. *@
 @if (OnClick.HasDelegate)
 {
-    <button @attributes="AdditionalAttributes" id="@Id" type="button" class="@Css("omni-stat-tile", "omni-stat-tile--action")"
+    <button @attributes="AdditionalAttributes" @ref="_tile" id="@Id" type="button" class="@Css("omni-stat-tile", "omni-stat-tile--action")"
             aria-label="@AccessibleName" @onclick="OnClick">
         @if (Icon is not null)
         {
@@ -25,7 +27,7 @@
 }
 else
 {
-    <div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-stat-tile")">
+    <div @attributes="AdditionalAttributes" @ref="_tile" id="@Id" class="@Css("omni-stat-tile")">
         @if (Icon is not null)
         {
             <span class="omni-stat-tile__icon" aria-hidden="true">@Icon</span>

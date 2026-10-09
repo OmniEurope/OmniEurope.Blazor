@@ -65,10 +65,31 @@ public partial class OmniDialog
 
     /// <summary>
     /// Draws the close button of a dismissible dialog. True by default; false leaves Escape and the
-    /// veil to close it. A modal dialog puts the focus on this button when it opens.
+    /// veil to close it. A modal dialog puts the focus on this button when it opens, unless
+    /// <see cref="InitialFocus"/> says otherwise.
     /// </summary>
     [Parameter]
     public bool ShowClose { get; set; } = true;
+
+    /// <summary>
+    /// Where the focus goes when the dialog opens. <see cref="OmniDialogInitialFocus.CloseButton"/> by
+    /// default, as before; <see cref="OmniDialogInitialFocus.Panel"/> focuses the panel itself so that
+    /// nothing looks selected until the reader clicks or presses Tab;
+    /// <see cref="OmniDialogInitialFocus.FirstFocusable"/> focuses the first field or button of the content.
+    /// </summary>
+    [Parameter]
+    public OmniDialogInitialFocus InitialFocus { get; set; }
+
+    // The script's name of the initial focus; null for the close button keeps the calls it always made.
+    private string? InitialFocusTarget => InitialFocus switch
+    {
+        OmniDialogInitialFocus.Panel => "panel",
+        OmniDialogInitialFocus.FirstFocusable => "content",
+        _ => null
+    };
+
+    // The panel takes the focus itself when it is not dismissible (nothing else may be focusable) or when asked to.
+    private string? PanelTabIndex => !Dismissible || InitialFocus == OmniDialogInitialFocus.Panel ? "-1" : null;
 
     /// <summary>Lets the reader move the dialog by its header.</summary>
     [Parameter]
@@ -241,11 +262,19 @@ public partial class OmniDialog
 
             // A backdrop that closes nothing must not take focus out of the trap either. Only such a
             // dialog passes the flag: a dialog whose backdrop closes it makes the call it always made.
+            // The initial focus is passed only when it is not the close button, so a default dialog
+            // makes the calls it always made.
+            var holdBackdrop = !(CloseOnBackdrop && Dismissible);
             if (!Modal)
             {
-                await focus.InvokeVoidAsync("activateWindow", _dialog, _focusKey);
+                if (InitialFocusTarget is { } target) await focus.InvokeVoidAsync("activateWindow", _dialog, _focusKey, target);
+                else await focus.InvokeVoidAsync("activateWindow", _dialog, _focusKey);
             }
-            else if (CloseOnBackdrop && Dismissible)
+            else if (InitialFocusTarget is { } target)
+            {
+                await focus.InvokeVoidAsync("activateDialog", _dialog, _focusKey, holdBackdrop, target);
+            }
+            else if (!holdBackdrop)
             {
                 await focus.InvokeVoidAsync("activateDialog", _dialog, _focusKey);
             }

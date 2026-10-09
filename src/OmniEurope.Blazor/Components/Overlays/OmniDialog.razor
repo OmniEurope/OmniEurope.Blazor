@@ -14,7 +14,7 @@
                  aria-modal="@(Modal ? "true" : "false")"
                  aria-labelledby="@TitleId"
                  aria-describedby="@(Dismissible ? null : ContentId)"
-                 tabindex="@(Dismissible ? null : "-1")"
+                 tabindex="@PanelTabIndex"
                  @onclick:stopPropagation="true"
                  @onkeydown="HandleKeyDownAsync">
             @if (Modal) { <button type="button" class="omni-visually-hidden" data-focus-sentinel aria-label="@Localize("DialogEnd")" @onfocus="FocusLastAsync"></button> }
@@ -26,7 +26,7 @@
                 <h2 id="@TitleId" class="omni-dialog__title">@(TitleContent ?? (RenderFragment)(builder => builder.AddContent(0, Title)))</h2>
                 @if (Dismissible && ShowClose)
                 {
-                    <button type="button" class="omni-dialog__close" aria-label="@EffectiveCloseLabel" title="@EffectiveCloseLabel" autofocus="@Modal" @onclick="CloseAsync"><OmniIcon Name="OmniIconName.Close" Size="OmniControlSize.Small" /></button>
+                    <button type="button" class="omni-dialog__close" aria-label="@EffectiveCloseLabel" title="@EffectiveCloseLabel" autofocus="@(Modal && InitialFocus == OmniDialogInitialFocus.CloseButton)" @onclick="CloseAsync"><OmniIcon Name="OmniIconName.Close" Size="OmniControlSize.Small" /></button>
                 }
             </header>
             <div class="omni-dialog__content" id="@(Dismissible ? null : ContentId)" tabindex="-1">@ChildContent</div>

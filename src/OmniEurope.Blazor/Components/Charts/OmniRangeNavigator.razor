@@ -28,6 +28,15 @@
                    aria-valuemin="0" aria-valuemax="@Last" aria-valuenow="@End" aria-valuetext="@Name(End)"
                    @bind:get="End" @bind:set="SetEndAsync" @bind:event="oninput" />
         </div>
+        @* Graduations of the categories under the overview, thinned as the category axis is (the first
+           and the last always), in the units of the chart's drawing, as wide as it, so their text is the size
+           of the chart's axis text and scales with the width as it does. *@
+        <svg class="omni-range-navigator__ticks" viewBox="@TicksViewBox" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+            @foreach (var tick in Ticks())
+            {
+                <g><line x1="@N(tick.X)" y1="0" x2="@N(tick.X)" y2="0.9" /><text x="@N(tick.TextX)" y="4" text-anchor="@tick.Anchor">@tick.Text</text></g>
+            }
+        </svg>
         @* What the handles name, for the eye; a screen reader hears it as the value of each slider. *@
         <div class="omni-range-navigator__values" aria-hidden="true"><span>@Name(Start)</span><span>@Name(End)</span></div>
     </div>

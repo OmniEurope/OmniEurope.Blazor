@@ -24,8 +24,11 @@
     </OmniChart>
 
     @* Three years of months, the last twelve shown first: the navigator under the drawing shows every
-       month in small columns, and its two handles (pointer, touch or keyboard) choose the months the
-       chart above draws, live. The range is bound both ways: the sentence under the chart follows it. *@
+       month in small columns, graduated under them, and its two handles with their grip (pointer, touch
+       or keyboard) choose the months the chart above draws, live. The range is bound both ways: the
+       sentence under the chart follows it. The value of each column is written above it; widen the
+       range and the labels that would overlap are masked, the last one kept, each masked value still
+       read on hover. Under its minimum width (a phone), the chart scrolls sideways in its card. *@
     <OmniChart Title="@Text["DemoChartsExtendedRangeTitle"]">
         <ChildContent>
             <OmniGridLines />
@@ -33,6 +36,7 @@
             <OmniValueAxis Automatic="true" />
             <OmniColumnSeries Title="@Text["DemoChartsExtendedDeposits"]" ColorIndex="0" Data="LongDeposits" />
             <OmniLineSeries Title="@Text["DemoChartsExtendedDecisions"]" ColorIndex="1" Data="LongDecisions" />
+            <OmniSeriesDataLabels Data="LongDeposits" />
         </ChildContent>
         <FooterContent>
             <OmniRangeNavigator @bind-RangeStart="RangeStart" @bind-RangeEnd="RangeEnd" />
@@ -65,12 +69,16 @@
         <OmniLegend Position="OmniLegendPosition.Bottom" />
     </OmniChart>
 
-    <OmniChart Title="@Text["DemoChartsExtendedPieTitle"]">
-        <OmniPieSeries Title="@Text["DemoChartsExtendedOrigin"]" Data="Slices" />
+    @* Outside labels: the name and share of each slice beside the disc, joined to it by a leader line,
+       stacked on each side so that none overlaps the next. *@
+    <OmniChart Title="@Text["DemoChartsExtendedPieTitle"]" AspectRatio="1.6">
+        <OmniPieSeries Title="@Text["DemoChartsExtendedOrigin"]" Data="Slices" OutsideLabels="OmniPieLabels.NameAndPercent" />
     </OmniChart>
 
-    <OmniChart Title="@Text["DemoChartsExtendedDonutTitle"]">
-        <OmniPieSeries Donut="true" Title="@Text["DemoChartsExtendedOrigin"]" Data="Slices" />
+    @* The ring writes the name and value of each slice outside; MinWidth None lets this small chart
+       follow its card down to any width, where the others keep a minimum and scroll sideways. *@
+    <OmniChart Title="@Text["DemoChartsExtendedDonutTitle"]" MinWidth="OmniChartMinWidth.None" AspectRatio="1.6">
+        <OmniPieSeries Donut="true" Title="@Text["DemoChartsExtendedOrigin"]" Data="Slices" OutsideLabels="OmniPieLabels.NameAndValue" />
     </OmniChart>
 
     <OmniArcGauge Label="@Text["DemoChartsExtendedGauge"]">

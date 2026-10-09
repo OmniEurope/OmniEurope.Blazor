@@ -58,6 +58,37 @@ public partial class OmniChart
     /// </summary>
     [Parameter] public bool SharedTooltip { get; set; }
 
+    /// <summary>
+    /// The narrowest the chart is drawn: in a narrower card (a phone) it keeps this width and scrolls
+    /// sideways in its card, its legends and its <see cref="FooterContent"/> (a range navigator) with it,
+    /// instead of shrinking until its text cannot be read. <see cref="OmniChartMinWidth.Auto"/>, the
+    /// default, chooses it from the width over height of the drawing, and a host sets a length of its
+    /// own through the <c>--omni-chart-min-width</c> property of its stylesheet;
+    /// <see cref="OmniChartMinWidth.None"/> lets it shrink to any size, as before.
+    /// </summary>
+    [Parameter] public OmniChartMinWidth MinWidth { get; set; }
+
+    // The class of the minimum width; Auto takes about 12.5rem per unit of the drawing's width over height.
+    private string? MinWidthClass
+    {
+        get
+        {
+            if (MinWidth == OmniChartMinWidth.None)
+            {
+                return null;
+            }
+
+            return (_context.ViewWidth / 100) switch
+            {
+                <= 1.2 => "omni-chart--min-small",
+                <= 1.8 => "omni-chart--min-medium",
+                <= 2.5 => "omni-chart--min-large",
+                <= 3.5 => "omni-chart--min-xlarge",
+                _ => "omni-chart--min-widest"
+            };
+        }
+    }
+
     private bool HasDescription => !string.IsNullOrWhiteSpace(Description);
 
     /// <summary>The bands of the shared tooltip, after the parts of the chart; nothing when it is off.</summary>

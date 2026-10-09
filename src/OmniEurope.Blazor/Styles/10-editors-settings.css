@@ -170,7 +170,10 @@
 .omni-stat-tile__icon { align-items: center; background: var(--omni-color-accent-subtle); block-size: var(--omni-icon-box); border-radius: var(--omni-radius); color: var(--omni-color-accent-strong); display: inline-flex; flex: none; inline-size: var(--omni-icon-box); justify-content: center; }
 .omni-stat-tile__text { display: flex; flex-direction: column; min-inline-size: 0; }
 .omni-stat-tile__value { font-size: 1.375rem; font-weight: 600; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.omni-stat-tile__label,
+/* The label stays on one line (recette R1-15): the tile script marks it data-fit="shrink" when it does
+   not fit, then data-fit="clip", cut with an ellipsis, its whole text in the tooltip. */
+.omni-stat-tile__label { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.omni-stat-tile__label[data-fit] { font-size: 0.6875rem; }
 .omni-stat-tile__detail { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); overflow-wrap: anywhere; }
 .omni-stat-tile--action { cursor: pointer; transition: background-color var(--omni-duration-fast) ease; }
 .omni-stat-tile--action:hover { background: color-mix(in srgb, var(--omni-color-text) 6%, var(--omni-card-background, var(--omni-color-surface))); }

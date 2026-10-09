@@ -849,6 +849,7 @@
   <data name="DemoPagesTokensToday" xml:space="preserve"><value>Tokens σήμερα</value></data>
   <data name="DemoPagesTokensReset" xml:space="preserve"><value>Επαναφορά στις {0:t}</value></data>
   <data name="DemoPagesWeekly" xml:space="preserve"><value>Εβδομαδιαία</value></data>
+  <data name="DemoPagesGain" xml:space="preserve"><value>Υπεραξία των επενδύσεων</value></data>
   <data name="DemoPagesCrumbComponents" xml:space="preserve"><value>Στοιχεία</value></data>
   <data name="DemoPagesCrumbServers" xml:space="preserve"><value>Διακομιστές</value></data>
   <data name="DemoPagesCrumbServer" xml:space="preserve"><value>Διακομιστής</value></data>

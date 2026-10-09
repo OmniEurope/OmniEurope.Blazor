@@ -849,6 +849,7 @@
   <data name="DemoPagesTokensToday" xml:space="preserve"><value>Žetoni danes</value></data>
   <data name="DemoPagesTokensReset" xml:space="preserve"><value>Ponastavitev ob {0:t}</value></data>
   <data name="DemoPagesWeekly" xml:space="preserve"><value>Tedensko</value></data>
+  <data name="DemoPagesGain" xml:space="preserve"><value>Kapitalski dobiček naložb</value></data>
   <data name="DemoPagesCrumbComponents" xml:space="preserve"><value>Komponente</value></data>
   <data name="DemoPagesCrumbServers" xml:space="preserve"><value>Strežniki</value></data>
   <data name="DemoPagesCrumbServer" xml:space="preserve"><value>Strežnik</value></data>

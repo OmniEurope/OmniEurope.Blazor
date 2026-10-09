@@ -5,7 +5,7 @@
         <OmniFormField For="demo-country">
             <LabelContent>@Text["DemoSelectionCountry"]</LabelContent>
             <ChildContent>
-                <OmniDropDown TValue="string" Id="demo-country" Options="Countries" @bind-Value="Country" Placeholder="@Text["DemoSelectionCountryPlaceholder"]" />
+                <OmniDropDown TValue="string" Id="demo-country" Filterable="true" Options="Countries" @bind-Value="Country" Placeholder="@Text["DemoSelectionCountryPlaceholder"]" />
             </ChildContent>
         </OmniFormField>
 

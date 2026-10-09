@@ -12,6 +12,8 @@ public partial class OmniPieSeries
 {
     private IReadOnlyList<OmniChartSlice> _slices = Array.Empty<OmniChartSlice>();
     private double[] _angles = [0];
+    private double _radius = PieLabelLayout.FullRadius;
+    private IReadOnlyList<PieLabelLayout.Label> _labels = [];
 
     [CascadingParameter] private OmniChartContext? ChartContext { get; set; }
 
@@ -25,6 +27,17 @@ public partial class OmniPieSeries
     /// Draws the slices as a ring (a donut) around an empty centre instead of a full disc. Off by default.
     /// </summary>
     [Parameter] public bool Donut { get; set; }
+
+    /// <summary>
+    /// Writes beside each slice, outside the disc, its name, with its value or its share of the whole if
+    /// asked, joined to the middle of the slice by a leader line. The labels of each side are stacked so
+    /// that none overlaps the next, and the disc shrinks to leave them room (down to a floor, below which
+    /// a label too long is shortened, its hover text whole). <see cref="OmniPieLabels.None"/> by default.
+    /// </summary>
+    [Parameter] public OmniPieLabels OutsideLabels { get; set; }
+
+    /// <summary>Writes a value for <see cref="OmniPieLabels.NameAndValue"/>; by default the number in the current culture.</summary>
+    [Parameter] public Func<double, string>? FormatValue { get; set; }
 
     private string CssClass => Donut ? "omni-chart__donut" : "omni-chart__pie";
 
@@ -40,9 +53,31 @@ public partial class OmniPieSeries
         }
 
         ChartContext?.RegisterPie(this, Title, _slices);
+        LayOutLabels(total);
     }
 
-    private string SlicePath(int index) => OmniChartGeometry.Arc(_angles[index], _angles[index + 1], 42, Donut);
+    private void LayOutLabels(double total)
+    {
+        if (OutsideLabels == OmniPieLabels.None || _slices.Count == 0)
+        {
+            _radius = PieLabelLayout.FullRadius;
+            _labels = [];
+            return;
+        }
+
+        var texts = _slices.Select(slice => OutsideLabels switch
+        {
+            OmniPieLabels.NameAndValue => $"{slice.Label} {FormatValue?.Invoke(slice.Value) ?? OmniChartGeometry.Display(slice.Value)}",
+            OmniPieLabels.NameAndPercent => $"{slice.Label} {(slice.Value / total).ToString("P0", CultureInfo.CurrentCulture)}",
+            _ => slice.Label
+        }).ToArray();
+        var halfWidth = 50 + (ChartContext?.Spread ?? 0);
+        _radius = PieLabelLayout.Radius(texts, halfWidth);
+        var middles = Enumerable.Range(0, _slices.Count).Select(index => (_angles[index] + _angles[index + 1]) / 2).ToArray();
+        _labels = PieLabelLayout.Place(texts, middles, _radius, halfWidth);
+    }
+
+    private string SlicePath(int index) => OmniChartGeometry.Arc(_angles[index], _angles[index + 1], _radius, Donut);
 
     /// <summary>Removes the series from its chart.</summary>
     public void Dispose()

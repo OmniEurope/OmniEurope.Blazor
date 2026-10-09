@@ -30,7 +30,7 @@ pourtant cet attribut, et c'est voulu :
 
 | Composant | Élément | Pourquoi |
 |---|---|---|
-| `OmniDialog` | `button.omni-dialog__close`, seulement sur un dialogue modal qui a une croix (`autofocus="@Modal"`) | Le dialogue est modal (`role="dialog"`, `aria-modal="true"`) et ouvert par l'utilisateur. Déplacer le focus dans le dialogue à l'ouverture est exigé par `STD-DIALOG` ; le bouton de fermeture est la cible la moins destructrice. Le balisage est figé par `OptInEvolutionTests`. |
+| `OmniDialog` | `button.omni-dialog__close`, seulement sur un dialogue modal qui a une croix et garde `InitialFocus` à `CloseButton`, le défaut (`autofocus`) | Le dialogue est modal (`role="dialog"`, `aria-modal="true"`) et ouvert par l'utilisateur. Déplacer le focus dans le dialogue à l'ouverture est exigé par `STD-DIALOG` ; le bouton de fermeture est la cible la moins destructrice. Le balisage est figé par `OptInEvolutionTests`. |
 
 Les menus n'utilisent pas `autofocus` (le bouton scindé le portait avant PLAN-007, exception retirée
 de la configuration locale du contrôle des règles). Un seul moteur, dans `omni-focus.js`, sert les menus de débordement
@@ -46,6 +46,8 @@ Le focus d'ouverture d'`OmniDialog` dépend de sa forme (`omni-focus.js`, `activ
 - modal et fermable (par défaut) : le focus va au bouton de fermeture, premier élément focalisable, et reste piégé dans le dialogue ;
 - `Dismissible="false"` : aucun bouton de fermeture n'est rendu ; le dialogue devient `role="alertdialog"`, décrit par son contenu (`aria-describedby`), et le focus va au premier élément focalisable du contenu ou du pied, ou, faute d'élément, au dialogue lui-même (`tabindex="-1"`). Le piège de focus tient aussi contre un appui sur le voile ;
 - `Modal="false"` : fenêtre non modale (`aria-modal="false"`, sans voile ni sentinelles) ; le focus va au premier élément focalisable, bouton de fermeture compris, mais il n'est pas piégé : Tab peut sortir vers la page, qui reste utilisable.
+
+`InitialFocus` (`OmniDialogInitialFocus`, aussi dans `OmniDialogRequest`) change la cible d'ouverture de chacune de ces formes : `CloseButton`, le défaut, garde ce qui précède ; `Panel` donne le focus au panneau lui-même (`tabindex="-1"`, sans anneau), si bien que rien ne paraît sélectionné avant un clic ou Tab ; `FirstFocusable` le donne au premier élément focalisable du contenu (à défaut, au premier du dialogue). Depuis le panneau, Tab va au premier élément focalisable et Maj+Tab au dernier ; le piège et le retour du focus ne changent pas.
 
 À la fermeture, le focus revient à l'élément qui l'avait avant l'ouverture (`restoreFocus`).
 

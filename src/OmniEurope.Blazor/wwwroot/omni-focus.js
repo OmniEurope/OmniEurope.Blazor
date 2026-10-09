@@ -41,10 +41,20 @@ function focusableElements(container) {
             && element.getClientRects().length > 0);
 }
 
-export function activateDialog(dialog, key, holdBackdrop) {
-    rememberTarget(key);
+// Where a dialog puts the focus as it opens: the panel itself ('panel'), the first element of its
+// content that takes the focus ('content'), or by default the first in the dialog (the close button).
+function focusInitial(dialog, initialFocus) {
     const items = focusableElements(dialog);
-    (items[0] ?? dialog)?.focus({ preventScroll: true });
+    const target = initialFocus === 'panel'
+        ? dialog
+        : (initialFocus === 'content' ? focusableElements(dialog?.querySelector('.omni-dialog__content'))[0] : null)
+            ?? items[0] ?? dialog;
+    target?.focus({ preventScroll: true });
+}
+
+export function activateDialog(dialog, key, holdBackdrop, initialFocus) {
+    rememberTarget(key);
+    focusInitial(dialog, initialFocus);
 
     const handler = event => {
         if (event.key !== 'Tab') {
@@ -59,11 +69,14 @@ export function activateDialog(dialog, key, holdBackdrop) {
             return;
         }
 
+        // From the panel itself (or anything out of the cycle), Tab goes to the first element and
+        // Shift+Tab to the last, as the browser does from the start of a page.
         const current = currentItems.indexOf(document.activeElement);
-        const start = current < 0 ? 0 : current;
-        const next = event.shiftKey
-            ? (start - 1 + currentItems.length) % currentItems.length
-            : (start + 1) % currentItems.length;
+        const next = current < 0
+            ? (event.shiftKey ? currentItems.length - 1 : 0)
+            : event.shiftKey
+                ? (current - 1 + currentItems.length) % currentItems.length
+                : (current + 1) % currentItems.length;
         currentItems[next].focus();
     };
 
@@ -82,9 +95,9 @@ export function activateDialog(dialog, key, holdBackdrop) {
 }
 
 // Explicitly opened modeless windows restore focus, but let Tab leave and the page remain usable.
-export function activateWindow(dialog, key) {
+export function activateWindow(dialog, key, initialFocus) {
     rememberTarget(key);
-    (focusableElements(dialog)[0] ?? dialog)?.focus({ preventScroll: true });
+    focusInitial(dialog, initialFocus);
 }
 
 export function focusBoundary(dialog, last) {

@@ -162,6 +162,40 @@ public partial class OmniRangeNavigator : IDisposable
         return (Math.Min(zero, top), Math.Abs(zero - top));
     }
 
+    /// <summary>
+    /// The graduations under the overview: one every so many categories, so that no two names overlap
+    /// (their width estimated as the category axis estimates it), the first and the last always. A name
+    /// that would leave the overview is anchored to the edge it would cross.
+    /// </summary>
+    internal IReadOnlyList<(double X, double TextX, string? Anchor, string Text)> Ticks()
+    {
+        if (Count == 0)
+        {
+            return [];
+        }
+
+        var names = Enumerable.Range(0, Count).Select(Name).ToArray();
+        var width = TicksWidth;
+        var pitch = Last == 0 ? width : width / Last;
+        var needed = (names.Max(name => name.Length) * OmniChartContext.CharacterWidth) + 1.5;
+        var ticks = new List<(double, double, string?, string)>();
+        foreach (var index in OmniChartRange.Thin(0, Last, Math.Max(1, (int)Math.Ceiling(needed / pitch))))
+        {
+            var x = Last == 0 ? width / 2 : index * pitch;
+            var half = names[index].Length * OmniChartContext.CharacterWidth / 2;
+            var (textX, anchor) = x - half < 0 ? (0d, (string?)null) : x + half > width ? (width, "end") : (x, "middle");
+            ticks.Add((x, textX, anchor, names[index]));
+        }
+
+        return ticks;
+    }
+
+    // The graduations are drawn in the units of the chart's drawing, as wide as it (100 for a square
+    // chart, more for a wide one), so their text matches the axis text of the chart.
+    private double TicksWidth => ChartContext?.ViewWidth ?? 100;
+
+    private string TicksViewBox => FormattableString.Invariant($"0 0 {TicksWidth:0.###} 5");
+
     private string ColumnClass(int index) => index >= Start && index <= End
         ? "omni-range-navigator__column omni-range-navigator__column--selected"
         : "omni-range-navigator__column";

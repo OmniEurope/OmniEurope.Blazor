@@ -37,8 +37,9 @@
         <p aria-live="polite">@Text["NoticeLast", Last]</p>
     }
 
+    @* InitialFocus FirstFocusable : à l'ouverture, le focus va à la case du contenu, pas au bouton Fermer. *@
     <OmniDialog Title="@Text["NoticeUnlistTitle"]" Open="UnlistOpen" OpenChanged="@(value => UnlistOpen = value)"
-                CloseLabel="@Text["NoticeClose"]">
+                CloseLabel="@Text["NoticeClose"]" InitialFocus="OmniDialogInitialFocus.FirstFocusable">
         <ChildContent>
             <p>@Text["NoticeUnlistBody"]</p>
             <span class="demo-check">

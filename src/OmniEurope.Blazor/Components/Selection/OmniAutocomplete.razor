@@ -9,6 +9,7 @@
    role that screen readers announce twice. *@
 <div class="@RootClass">
     <input @attributes="AdditionalAttributes"
+           @ref="_input"
            id="@Id"
            class="@InputClass"
            type="search"
@@ -27,6 +28,16 @@
            @oninput="HandleInputAsync"
            @onkeydown="HandleKeyDownAsync"
            @onblur="Close" />
+    @if (ShowToggle)
+    {
+        @* A pointer affordance only, out of the tab order: the keyboard opens the list with the arrows.
+           Pressing it keeps the focus in the field, so the list does not close on a blur. *@
+        <span class="@ToggleClass"
+              aria-hidden="true"
+              data-omni-autocomplete-toggle
+              @onmousedown:preventDefault="true"
+              @onclick="ToggleListAsync"></span>
+    }
     @if (_error is not null)
     {
         <div id="@ErrorId" class="omni-autocomplete__error" role="alert">
