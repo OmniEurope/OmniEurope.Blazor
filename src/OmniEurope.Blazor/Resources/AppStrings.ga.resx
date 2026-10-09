@@ -18,7 +18,6 @@
   <data name="AppMenuSignOut" xml:space="preserve"><value>Sínigh amach</value></data>
   <data name="SettingsMode" xml:space="preserve"><value>Mód</value></data>
   <data name="SettingsDarkOnly" xml:space="preserve"><value>Bíonn an téama seo dorcha i gcónaí</value></data>
-  <data name="SettingsLightOnly" xml:space="preserve"><value>Bíonn an téama seo geal i gcónaí</value></data>
   <data name="SettingsTheme" xml:space="preserve"><value>Téama</value></data>
   <data name="SettingsPalette" xml:space="preserve"><value>Pailéad</value></data>
   <data name="SettingsFont" xml:space="preserve"><value>Cló</value></data>

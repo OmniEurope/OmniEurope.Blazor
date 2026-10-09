@@ -9,7 +9,7 @@
             <OmniBadge Tone="OmniTone.Accent">@Text["HeaderBadge"]</OmniBadge>
             <span class="showcase-header__spacer"></span>
             <LanguageSelector />
-            <OmniButton Variant="OmniButtonVariant.Ghost" Disabled="@(Theme.Theme.DarkOnly || Theme.Theme.LightOnly)" OnClick="@(_ => ToggleModeAsync())">
+            <OmniButton Variant="OmniButtonVariant.Ghost" Disabled="Theme.Theme.DarkOnly" OnClick="@(_ => ToggleModeAsync())">
                 @(Theme.EffectiveMode is ThemeMode.Dark ? Text["ModeLight"] : Text["ModeDark"])
             </OmniButton>
         </OmniHeader>

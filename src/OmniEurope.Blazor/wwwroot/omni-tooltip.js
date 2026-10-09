@@ -345,6 +345,13 @@ const onTitleOver = event => {
         return;
     }
 
+    // A tooltip the focus opened stays while its element keeps the focus: the pointer reaching a place
+    // without a title (often the page moving under a still pointer) gave the focused element its title
+    // back and closed the tooltip of a keyboard user who never touched the mouse.
+    if (!element && titleTarget && titleTarget === document.activeElement) {
+        return;
+    }
+
     hideTitle();
     if (!element || element.closest('.omni-tooltip')) {
         return;
@@ -386,6 +393,19 @@ const onTitleFocus = event => {
     showTitle(text, box.left + box.width / 2, box.top, element);
 };
 
+// A scroll closes a tooltip the pointer opened, which no longer sits under the pointer. One the focus
+// opened follows its element instead: Tab scrolls the page to show the element it reaches, and that
+// scroll closed the tooltip it had just opened and gave the element its title back.
+const onTitleScroll = () => {
+    if (titleTarget && titleTarget === document.activeElement && titleTarget.isConnected) {
+        const box = titleTarget.getBoundingClientRect();
+        showTitle(titleOf(titleTarget), box.left + box.width / 2, box.top, titleTarget);
+        return;
+    }
+
+    hideTitle();
+};
+
 const onTitleKey = event => {
     if (event.key === 'Escape') {
         hideTitle();
@@ -399,7 +419,7 @@ const listen = add => {
     document[method]('pointerdown', hideTitle, { capture: true, passive: true });
     document[method]('focusin', onTitleFocus, { capture: true, passive: true });
     document[method]('focusout', hideTitle, { capture: true, passive: true });
-    document[method]('scroll', hideTitle, { capture: true, passive: true });
+    document[method]('scroll', onTitleScroll, { capture: true, passive: true });
     document[method]('keydown', onTitleKey, { capture: true });
 };
 

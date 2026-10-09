@@ -12,17 +12,12 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public partial class OmniAppearanceSettings
 {
-    /// <summary>The mode a theme drawn in one mode only fixes (dark or light), or null: then it cannot change.</summary>
+    /// <summary>The mode a theme drawn in dark mode only fixes, or null: then it cannot change.</summary>
     private OmniAppearance? FixedMode => Preset?.FixedAppearance;
 
     private bool ModeFixed => FixedMode is not null;
 
-    private string? ModeFixedTitle => FixedMode switch
-    {
-        OmniAppearance.Dark => Localize("SettingsDarkOnly"),
-        OmniAppearance.Light => Localize("SettingsLightOnly"),
-        _ => null
-    };
+    private string? ModeFixedTitle => ModeFixed ? Localize("SettingsDarkOnly") : null;
 
     private OmniAppearance ShownAppearance => FixedMode ?? Appearance;
 

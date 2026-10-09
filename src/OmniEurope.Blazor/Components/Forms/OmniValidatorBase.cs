@@ -149,7 +149,16 @@ public abstract class OmniValidatorBase<TValue> : ComponentBase, IDisposable
             {
                 await Task.Delay(ValidationDelay, delay.Token);
             }
-            await InvokeAsync(Validate);
+
+            // A later change may have superseded this one between the end of the delay and the turn of
+            // the dispatcher: only the latest validation runs, so a stale message never shows.
+            await InvokeAsync(() =>
+            {
+                if (!delay.IsCancellationRequested)
+                {
+                    Validate();
+                }
+            });
         }
         catch (OperationCanceledException) when (delay.IsCancellationRequested)
         {

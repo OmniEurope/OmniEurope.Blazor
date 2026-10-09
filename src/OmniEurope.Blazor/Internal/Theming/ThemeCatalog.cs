@@ -5,13 +5,13 @@ namespace OmniEurope.Blazor.Internal;
 /// borders, shadows, fonts and the way buttons are drawn and pressed. The first ten take the values of
 /// the reference mockup (<c>docs/plans/archive/PLAN-004-maquette-themes.html</c>, constant <c>THEMES</c>); Relief,
 /// Givre, Aplat and Épure recreate four interface styles (neumorphism, glassmorphism, flat design and
-/// minimalism) from our own tokens, Trou noir is a black page lit by its accent alone and Trou blanc its light counterpart, the same disc drawn in ink. Relief, Givre and Aplat declare a <see cref="ThemeDefinition.ContrastWaiver"/>:
+/// minimalism) from our own tokens, Trou noir is a black page lit by its accent alone in dark mode, the same disc drawn in ink on a light page in light mode. Relief, Givre and Aplat declare a <see cref="ThemeDefinition.ContrastWaiver"/>:
 /// their style wins over the contrast thresholds (owner decision of 2026-09-28), Épure keeps them.
 /// </summary>
 /// <remarks>
 /// A shape writes no colour of its own: a coloured shadow or border is drawn from a colour token, so it
 /// follows any palette. Only neutral black and white (<c>rgb(0 0 0 / x%)</c>, <c>rgb(255 255 255 / x%)</c>)
-/// are literal: the shadows, Trou noir's page, the palette surface mixed with black, and Trou blanc's, mixed with white. Fonts come from <see cref="FontCatalog"/>: system stacks and four web fonts the package serves itself.
+/// are literal: the shadows and Trou noir's page, the palette surface mixed with black in dark mode and with white in light mode. Fonts come from <see cref="FontCatalog"/>: system stacks and four web fonts the package serves itself.
 /// </remarks>
 internal static class ThemeCatalog
 {
@@ -392,78 +392,37 @@ internal static class ThemeCatalog
                 ("--omni-font-family", Humanist)),
             Shape()),
 
-        // A black hole, always dark (owner decision of 2026-10-01: no light half): the page is the
-        // palette's surface taken three quarters of the way to black (--omni-scope-page), the cards are a faint veil of the text colour
-        // closed by a hairline, so the field shows through them. High on the right, the horizon is a disc
-        // ringed by a thin photon ring, its white accretion disc tilted down to the left and bent by the
-        // hole, the far side arching over the horizon (a WebGL shader, omni-black-hole.js). Every white stays sober,
-        // a tenth of the text colour at most, so the theme holds the contrast thresholds with every palette; the
-        // dense surfaces (grids, dialogs) are opaque.
-        new("Trou noir", "Toujours sombre : noir absolu, cartes à peine voilées, disque d’accrétion incliné, blanc au bord intérieur puis couleur d’accent, qui tourne lentement derrière la page.", "Horizon",
+        // A black hole, the same in both modes but turned over (owner decision of 2026-10-09: its light half is
+        // the white hole tried in review R1-3, no theme of its own). High on the right, the horizon is a disc
+        // ringed by a thin photon ring, its accretion disc tilted down to the left and bent by the hole, the
+        // far side arching over the horizon (a WebGL shader, omni-black-hole.js). Dark, the page is the
+        // palette's surface taken three quarters of the way to black and the disc is drawn in light, white
+        // hot at the inner edge then the accent; light, the page is the surface a quarter of the way to
+        // white and the shader draws the same disc in ink, its colours inverted (black-hole and white-hole,
+        // the canvas kinds the shader reads from the scope). The cards are a faint veil closed by a hairline,
+        // so the field shows through them; the dense surfaces (grids, dialogs) are opaque. The theme holds
+        // the contrast thresholds with every palette in both modes.
+        new("Trou noir", "Disque d’accrétion incliné qui tourne lentement derrière la page : noir absolu et disque de lumière en sombre, page claire et le même disque à l’encre, couleurs inversées, en clair ; cartes à peine voilées.", "Horizon",
             Shape(
-                // Press: the light falls in, the button shrinks and darkens from its edge.
-                ("--omni-button-press-transform", "scale(0.96)"), ("--omni-button-press-shadow", "inset 0 0 0.75rem rgb(0 0 0 / 55%)"),
-                ("--omni-radius", "0.5rem"), ("--omni-radius-sm", "0.375rem"), ("--omni-radius-lg", "0.875rem"),
-                ("--omni-button-radius", "0.5rem"), ("--omni-card-radius", "0.875rem"), ("--omni-alert-radius", "0.625rem"),
-                // White on the black page, as the text colour is (a theme writes no colour of its own), and
-                // sober: the stops stay as far from the page as text, the rule and the neutral badge still
-                // read on them with every palette.
-                ("--omni-backdrop-disk", "color-mix(in srgb, var(--omni-color-text) 9%, var(--omni-color-surface))"),
-                ("--omni-backdrop-halo", "color-mix(in srgb, var(--omni-color-text) 2%, var(--omni-color-surface))"),
-                // A firmer rule than the palette's: it keeps its floor on the stops of the field too.
-                ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 36%, var(--omni-color-surface))"),
-                ("--omni-backdrop", TrouNoirField),
-                // The lensed black hole is drawn by a shader on the scope's canvas (omni-black-hole.js), which
-                // a background cannot do; the field above is what shows without WebGL.
-                ("--omni-scope-canvas", "black-hole"),
-                // A deep black page whatever the palette: its dark surface three quarters of the way to
-                // black (owner decision of 2026-10-02), a neutral black as the shadows are. Text and fills
-                // are measured against the surface, so a darker page only widens their contrast.
-                ("--omni-scope-page", "color-mix(in srgb, var(--omni-color-surface) 25%, rgb(0 0 0 / 100%))"),
-                ("--omni-scope-isolation", "isolate"),
-                ("--omni-scope-motion", "omni-scope-turn 120s linear infinite"),
-                ("--omni-card-background", "color-mix(in srgb, var(--omni-color-text) 4%, transparent)"),
-                ("--omni-card-border-color", "color-mix(in srgb, var(--omni-color-text) 13%, transparent)"),
-                ("--omni-card-shadow", "0 1px 2px rgb(0 0 0 / 5%)"),
-                ("--omni-button-shadow", "0 1px 2px rgb(0 0 0 / 22%)"),
-                // A grid is read line by line and its frozen columns cover the rows that slide under
-                // them; a dialog sits over the page: both are opaque, one step off the page. The grid stays
-                // at 3 %: its header darkens the frame by 6 % more, and muted titles must still read there.
-                ("--omni-grid-background", "color-mix(in srgb, var(--omni-color-text) 3%, var(--omni-color-surface))"),
-                ("--omni-dialog-background", "color-mix(in srgb, var(--omni-color-text) 5%, var(--omni-color-surface))"),
-                ("--omni-focus-ring", FocusRing), ("--omni-focus-ring-danger", FocusRingDanger), ("--omni-focus-ring-inset", FocusRingInset),
-                ("--omni-button-font-weight", "600"), ("--omni-heading-font-weight", "600"),
-                ("--omni-heading-letter-spacing", "0.01em"),
-                ("--omni-font-family", Geometric)),
-            Shape(
-                // On black a dark shadow shows nothing: the card takes a top highlight and the buttons
-                // glow with the accent, as does the floating layer.
-                ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 5%)"),
-                ("--omni-button-shadow", "inset 0 1px 0 rgb(255 255 255 / 12%), 0 0 1.125rem color-mix(in srgb, var(--omni-color-accent) 26%, transparent)"),
-                ("--omni-overlay-shadow", "0 0 0 1px color-mix(in srgb, var(--omni-color-text) 14%, transparent), 0 1.5rem 4rem rgb(0 0 0 / 85%), 0 0 3.5rem color-mix(in srgb, var(--omni-color-accent) 10%, transparent)")),
-            DarkOnly: true),
-
-        // A trial (review R1-3): the black hole turned over. Always light: an ivory page, the shader's disc
-        // drawn in ink instead of light (the colours inverted, so the white-hot inner edge becomes graphite
-        // and the amber an inverted blue), the horizon a disc of the page colour. Same shape as Trou noir
-        // (radii, press, motion, font); the cards a frosted veil of the surface over the field, grids and
-        // dialogs opaque, the focus ring the solid accent ring of the other field themes.
-        new("Trou blanc", "Toujours clair : page ivoire, disque d’accrétion en encre, gris graphite au bord intérieur puis bleu d’accent, qui tourne lentement derrière la page.", "Zénith",
-            Shape(
-                // Press: the button gives way from its edge, a soft grey falling inside.
+                // Press: the button gives way from its edge, a soft shade falling inside (deeper in dark mode).
                 ("--omni-button-press-transform", "scale(0.96)"), ("--omni-button-press-shadow", "inset 0 0 0.75rem rgb(0 0 0 / 18%)"),
                 ("--omni-radius", "0.5rem"), ("--omni-radius-sm", "0.375rem"), ("--omni-radius-lg", "0.875rem"),
                 ("--omni-button-radius", "0.5rem"), ("--omni-card-radius", "0.875rem"), ("--omni-alert-radius", "0.625rem"),
-                // The field without WebGL, as Trou noir's: the stops are drawn from the text over the
-                // surface, so here they are a faint grey ring around a horizon of the page colour.
+                // The field without WebGL: the stops are drawn from the text over the surface (a theme writes no
+                // colour of its own), a sober ring around a horizon of the page colour; the rule, the neutral
+                // badge and the text still read on them with every palette.
                 ("--omni-backdrop-disk", "color-mix(in srgb, var(--omni-color-text) 9%, var(--omni-color-surface))"),
                 ("--omni-backdrop-halo", "color-mix(in srgb, var(--omni-color-text) 2%, var(--omni-color-surface))"),
-                // Firmer than Trou noir's rule: on a light page the stops of the field sit closer to the rule.
+                // A firmer rule than the palette's, for its floor on the stops of the field: on a light page they
+                // sit closer to it than on a black one.
                 ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 40%, var(--omni-color-surface))"),
                 ("--omni-backdrop", TrouNoirField),
+                // The lensed hole is drawn by a shader on the scope's canvas, which a background cannot do; the
+                // field above is what shows without WebGL. Light, the disc is ink on the page.
                 ("--omni-scope-canvas", "white-hole"),
-                // The page a quarter of the way from the ivory surface to white: the shader's ink reads
-                // on it, and text and fills, measured against the surface, only gain contrast.
+                // The page a quarter of the way from the surface to white, a neutral white as the shadows are
+                // neutral black: the shader's ink reads on it, and text and fills, measured against the
+                // surface, only gain contrast.
                 ("--omni-scope-page", "color-mix(in srgb, var(--omni-color-surface) 75%, rgb(255 255 255 / 100%))"),
                 ("--omni-scope-isolation", "isolate"),
                 ("--omni-scope-motion", "omni-scope-turn 120s linear infinite"),
@@ -472,19 +431,37 @@ internal static class ThemeCatalog
                 ("--omni-card-shadow", "0 1px 3px rgb(0 0 0 / 6%)"),
                 ("--omni-button-shadow", "0 1px 2px rgb(0 0 0 / 14%), 0 0 1rem color-mix(in srgb, var(--omni-color-accent) 14%, transparent)"),
                 ("--omni-overlay-shadow", "0 0 0 1px color-mix(in srgb, var(--omni-color-text) 12%, transparent), 0 1.25rem 3rem rgb(0 0 0 / 14%)"),
+                // A grid is read line by line and its frozen columns cover the rows that slide under them; a
+                // dialog sits over the page: both are opaque, one step off the page.
                 ("--omni-grid-background", "color-mix(in srgb, var(--omni-color-text) 2%, var(--omni-color-surface))"),
                 ("--omni-dialog-background", "var(--omni-color-surface)"),
                 ("--omni-focus-ring", FocusRing), ("--omni-focus-ring-danger", FocusRingDanger), ("--omni-focus-ring-inset", FocusRingInset),
-                // Ink weighs more on a light page than light on a black one: lighter headings.
-                ("--omni-button-font-weight", "600"), ("--omni-heading-font-weight", "500"),
+                ("--omni-button-font-weight", "600"), ("--omni-heading-font-weight", "600"),
                 ("--omni-heading-letter-spacing", "0.01em"),
                 ("--omni-font-family", Geometric)),
-            Shape(),
-            LightOnly: true),
+            Shape(
+                // Dark: the light falls in, the button shrinks and darkens from its edge.
+                ("--omni-button-press-shadow", "inset 0 0 0.75rem rgb(0 0 0 / 55%)"),
+                ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 36%, var(--omni-color-surface))"),
+                ("--omni-scope-canvas", "black-hole"),
+                // A deep black page whatever the palette: its dark surface three quarters of the way to black
+                // (owner decision of 2026-10-02), a neutral black as the shadows are.
+                ("--omni-scope-page", "color-mix(in srgb, var(--omni-color-surface) 25%, rgb(0 0 0 / 100%))"),
+                ("--omni-card-background", "color-mix(in srgb, var(--omni-color-text) 4%, transparent)"),
+                ("--omni-card-border-color", "color-mix(in srgb, var(--omni-color-text) 13%, transparent)"),
+                // On black a dark shadow shows nothing: the card takes a top highlight and the buttons glow with
+                // the accent, as does the floating layer.
+                ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 5%)"),
+                ("--omni-button-shadow", "inset 0 1px 0 rgb(255 255 255 / 12%), 0 0 1.125rem color-mix(in srgb, var(--omni-color-accent) 26%, transparent)"),
+                ("--omni-overlay-shadow", "0 0 0 1px color-mix(in srgb, var(--omni-color-text) 14%, transparent), 0 1.5rem 4rem rgb(0 0 0 / 85%), 0 0 3.5rem color-mix(in srgb, var(--omni-color-accent) 10%, transparent)"),
+                // The grid stays at 3 %: its header darkens the frame by 6 % more, and muted titles must still
+                // read there.
+                ("--omni-grid-background", "color-mix(in srgb, var(--omni-color-text) 3%, var(--omni-color-surface))"),
+                ("--omni-dialog-background", "color-mix(in srgb, var(--omni-color-text) 5%, var(--omni-color-surface))"))),
     ];
 
     /// <summary>
-    /// The focus ring of the themes (Relief, Givre, Aplat, Trou noir, Trou blanc) whose surfaces stand out by relief, translucency,
+    /// The focus ring of the themes (Relief, Givre, Aplat, Trou noir) whose surfaces stand out by relief, translucency,
     /// fill or a faint veil alone: a solid accent ring of 2 px separated from the control by a ring of the surface, so it
     /// shows on a pressed hollow, a glass pane or a filled block alike.
     /// </summary>

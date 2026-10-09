@@ -131,7 +131,7 @@ public sealed class AppMenuTests : OmniBunitContext
         OmniAppearance? mode = null;
         var menu = Render<OmniAppMenu>(parameters => parameters
             .Add(component => component.Appearance, OmniAppearance.Light)
-            .Add(component => component.Preset, OmniThemePresets.All.Single(theme => theme.DarkOnly))
+            .Add(component => component.Preset, (OmniThemePresets.All[0] with { DarkOnly = true }))
             .Add(component => component.AppearanceChanged, value => mode = value)
             .Add(component => component.OnTheme, () => { }));
         menu.Find(".omni-app-menu__trigger").Click();

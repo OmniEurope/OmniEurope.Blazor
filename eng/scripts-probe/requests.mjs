@@ -13,6 +13,23 @@ export async function requestSteps(session, results) {
   // 1. Title tooltips (OmniTitleTooltips of the Retours page): an icon-only button the title alone names
   // lends it to aria-label while the title is away, a button named by its text gets nothing.
   await session.visit('/composants/retours', '.omni-badge');
+  // The pointer of the previous steps rests over the page: content moving under it raises a pointerover,
+  // and a titled element reached that way rightly takes the title tooltip from the focused button. It is
+  // parked on the header first, where nothing carries a title.
+  const parked = await pointOf('.omni-header');
+  await mouse('mouseMoved', { x: parked.x, y: parked.y }, { button: 'none' });
+  check(await evaluate(`!document.elementFromPoint(${parked.x}, ${parked.y})?.closest('[title], [data-omni-title]')`), 'Le pointeur garé est sur un élément titré.');
+  // OmniTitleTooltips installs its listeners after its first render, a script round trip that the badge
+  // above does not wait for: a focus made before then keeps its title and the steps below would race
+  // it. Waited for by its effect on a titled element of its own, focused again until the title moves.
+  await evaluate(`(() => {
+    const ready = document.createElement('button');
+    ready.id = 'probe-title-ready';
+    ready.title = 'Prêt';
+    document.querySelector('main').append(ready);
+  })()`);
+  await waitFor('les infobulles de titre installées', "(() => { const ready = document.getElementById('probe-title-ready'); ready.blur(); ready.focus(); return !ready.hasAttribute('title'); })()");
+  await evaluate("(() => { const ready = document.getElementById('probe-title-ready'); ready.blur(); ready.remove(); })()");
   await evaluate(`(() => {
     const before = document.createElement('button');
     before.id = 'probe-title-before';
@@ -28,6 +45,8 @@ export async function requestSteps(session, results) {
     document.querySelector('main').append(before, icon, text);
     before.focus();
   })()`);
+  // The page may still render (a demo settling) and take the focus back: Tab leaves from « Avant » only.
+  await waitFor('le bouton « Avant » focalisé', "document.activeElement?.id === 'probe-title-before' || (document.getElementById('probe-title-before').focus(), false)");
   await tab();
   await waitFor('le bouton à icône focalisé, nommé par son titre', "document.activeElement?.id === 'probe-title-icon' && document.activeElement.getAttribute('aria-label') === 'Imprimer' && !document.activeElement.hasAttribute('title')");
   await tab();

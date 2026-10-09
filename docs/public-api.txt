@@ -3427,7 +3427,6 @@ property public OmniEurope.Blazor.Components.OmniThemePreset.DarkOnly : System.B
 property public OmniEurope.Blazor.Components.OmniThemePreset.DarkShape : System.Collections.Generic.IReadOnlyDictionary<System.String,System.String> {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniThemePreset.Description : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniThemePreset.Light : System.Collections.Generic.IReadOnlyDictionary<System.String,System.String> {get(public);init(public)}
-property public OmniEurope.Blazor.Components.OmniThemePreset.LightOnly : System.Boolean {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniThemePreset.Name : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniThemePreset.Shape : System.Collections.Generic.IReadOnlyDictionary<System.String,System.String> {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniThemeScope.Appearance : OmniEurope.Blazor.Components.OmniAppearance {get(public);set(public)} [Parameter]

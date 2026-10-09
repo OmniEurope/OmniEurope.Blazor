@@ -21,7 +21,6 @@ namespace OmniEurope.Blazor.Internal;
 /// the focus ring, which stays mandatory everywhere.
 /// </param>
 /// <param name="DarkOnly">True for a theme drawn in dark mode only, whatever mode the host asks.</param>
-/// <param name="LightOnly">True for a theme drawn in light mode only, whatever mode the host asks.</param>
 internal sealed record ThemeDefinition(
     string Name,
     string Description,
@@ -29,5 +28,4 @@ internal sealed record ThemeDefinition(
     IReadOnlyDictionary<string, string> Shape,
     IReadOnlyDictionary<string, string> DarkShape,
     string? ContrastWaiver = null,
-    bool DarkOnly = false,
-    bool LightOnly = false);
+    bool DarkOnly = false);

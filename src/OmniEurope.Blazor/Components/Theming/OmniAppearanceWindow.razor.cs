@@ -213,12 +213,7 @@ public partial class OmniAppearanceWindow
 
     private bool ModeFixed => FixedMode is not null;
 
-    private string? ModeFixedTitle => FixedMode switch
-    {
-        OmniAppearance.Dark => Localize("SettingsDarkOnly"),
-        OmniAppearance.Light => Localize("SettingsLightOnly"),
-        _ => null
-    };
+    private string? ModeFixedTitle => ModeFixed ? Localize("SettingsDarkOnly") : null;
 
     private OmniAppearance ShownAppearance => FixedMode ?? Appearance;
 

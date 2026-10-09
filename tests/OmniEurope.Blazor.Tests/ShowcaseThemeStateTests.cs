@@ -59,7 +59,7 @@ public sealed class ShowcaseThemeStateTests
         await state.InitializeAsync(TestContext.Current.CancellationToken);
         Assert.Equal(ThemeMode.Light, state.Mode);
 
-        await state.SelectThemeAsync(OmniThemePresets.All.Single(theme => theme.DarkOnly), TestContext.Current.CancellationToken);
+        await state.SelectThemeAsync((OmniThemePresets.All[0] with { DarkOnly = true }), TestContext.Current.CancellationToken);
 
         // Drawn dark although light is asked; the visitor's choice is kept for the next theme.
         Assert.Equal(ThemeMode.Dark, state.EffectiveMode);

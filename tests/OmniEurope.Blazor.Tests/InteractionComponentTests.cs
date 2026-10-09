@@ -288,9 +288,19 @@ public sealed class InteractionComponentTests : OmniBunitContext
         await validated.Task.WaitAsync(TimeSpan.FromSeconds(5), Xunit.TestContext.Current.CancellationToken);
         validated = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
-        form.Find("#name").Input(string.Empty);
-        form.Find("#name").Input("Alice");
+        // Both changes in one turn of the dispatcher, the delay of the first (20 ms) let to run out in between:
+        // its validation is then queued behind this turn whatever the speed of the machine, and, superseded
+        // by the second change, it must not run.
+        await form.InvokeAsync(() =>
+        {
+            form.Find("#name").Input(string.Empty);
+            Thread.Sleep(60);
+            form.Find("#name").Input("Alice");
+        });
         await validated.Task.WaitAsync(TimeSpan.FromSeconds(5), Xunit.TestContext.Current.CancellationToken);
+        // Ten times the delay for a stale validation to show up as a third notification: a slow machine
+        // can only hide it, never invent one.
+        await Task.Delay(200, Xunit.TestContext.Current.CancellationToken);
 
         Assert.DoesNotContain("Ce champ est obligatoire.", form.Instance.EditContext.GetValidationMessages());
         Assert.Equal(2, notifications);

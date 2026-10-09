@@ -669,7 +669,7 @@ const shots = [];
 // 3:1 in the four themes that draw a solid ring (Relief, Givre, Aplat, Épure) with every palette, waiver or not (owner decision of 2026-09-28: only the ring
 // stays mandatory). Geometry, overflow, CSP, console and coverage are never waived.
 const waivers = {};
-// Themes drawn in one mode only (OmniThemePreset.DarkOnly, LightOnly): the customizer fixes their mode
+// Themes drawn in one mode only (OmniThemePreset.DarkOnly): the customizer fixes their mode
 // picker on that mode, so their other half is never drawn and is not measured; a dark-only theme asked
 // for light must still draw dark.
 const fixedMode = {};

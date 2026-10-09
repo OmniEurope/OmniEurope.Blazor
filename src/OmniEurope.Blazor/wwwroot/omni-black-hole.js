@@ -12,8 +12,8 @@
 // fades out before its time starts again: the winding never grows past one period, with no jump. Faint stars
 // are seen through the rays that escape. Rays that fall in draw the page colour: the horizon.
 //
-// Trou blanc (kind 'white-hole') draws the same hole turned over, on a light page: the colours handed to
-// the shader are inverted (its text and accent), and the light it gathers is taken away from the page
+// In light mode the theme asks for the same hole turned over (--omni-scope-canvas: white-hole), on a light
+// page: the colours handed to the shader are inverted (its text and accent), and the light it gathers is taken away from the page
 // instead of added to a black one, so the disc shows in ink, graphite at the inner edge, then the
 // inverted accent. Over the page the result is the black hole's picture inverted.
 //
@@ -206,10 +206,11 @@ function readColour(scope, token, fallback) {
 
 /**
  * Starts drawing the hole on the canvas; returns false when WebGL is unavailable, in which case the
- * scope keeps the theme's CSS field. moving false draws one still frame. kind 'white-hole' draws the
- * hole turned over, in ink on a light page (Trou blanc); any other kind the black hole.
+ * scope keeps the theme's CSS field. moving false draws one still frame. The kind is read from the scope's
+ * --omni-scope-canvas with its colours, once per size, theme or mode change: white-hole draws the hole
+ * turned over, in ink on a light page; any other kind the black hole.
  */
-export function start(canvas, scope, moving, kind) {
+export function start(canvas, scope, moving) {
     // A restart keeps the context: once lost, the canvas hands the same lost context back.
     halt(canvas, false);
     if (!canvas || !scope) {
@@ -245,8 +246,9 @@ export function start(canvas, scope, moving, kind) {
 
     const uniform = name => gl.getUniformLocation(program, name);
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const inverted = kind === 'white-hole';
-    const state = { gl, program, buffer, frame: 0, last: 0, origin: performance.now(), moving, reduced, colours: null, resize: null, visibility: null };
+    // The system mode, followed by a scope in System mode: its change swaps the tokens with no .NET round trip.
+    const scheme = window.matchMedia('(prefers-color-scheme: dark)');
+    const state = { gl, program, buffer, frame: 0, last: 0, origin: performance.now(), moving, reduced, scheme, colours: null, inverted: false, resize: null, visibility: null };
     const animated = () => state.moving && !state.reduced.matches;
 
     const draw = now => {
@@ -261,7 +263,10 @@ export function start(canvas, scope, moving, kind) {
         // Colours are read once per size or theme change, not at every frame.
         // Turned over, the shader gets the inverse of the text and the accent: the ink it subtracts then
         // shows them as they are.
-        const turn = colour => inverted ? colour.map(channel => 1 - channel) : colour;
+        if (!state.colours) {
+            state.inverted = getComputedStyle(scope).getPropertyValue('--omni-scope-canvas').trim() === 'white-hole';
+        }
+        const turn = colour => state.inverted ? colour.map(channel => 1 - channel) : colour;
         state.colours ??= [turn(readColour(scope, '--omni-color-text', '#fff')), turn(readColour(scope, '--omni-color-accent', '#d9660b')), readColour(scope, '--omni-scope-page', 'var(--omni-color-surface, #000)')];
         gl.viewport(0, 0, width, height);
         // The horizon sits high on the right, where the CSS field of the theme puts it.
@@ -275,7 +280,7 @@ export function start(canvas, scope, moving, kind) {
         gl.uniform3fv(uniform('u_accent'), state.colours[1]);
         gl.uniform3fv(uniform('u_surface'), state.colours[2]);
         gl.uniform1f(uniform('u_intensity'), INTENSITY);
-        gl.uniform1f(uniform('u_invert'), inverted ? 1 : 0);
+        gl.uniform1f(uniform('u_invert'), state.inverted ? 1 : 0);
         gl.clearColor(0, 0, 0, 0);
         gl.clear(gl.COLOR_BUFFER_BIT);
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
@@ -310,6 +315,7 @@ export function start(canvas, scope, moving, kind) {
     };
     window.addEventListener('resize', state.resize);
     document.addEventListener('visibilitychange', state.visibility);
+    state.scheme.addEventListener('change', state.resize);
     states.set(canvas, state);
     running.add(canvas);
 
@@ -344,6 +350,7 @@ function halt(canvas, release) {
     }
     window.removeEventListener('resize', state.resize);
     document.removeEventListener('visibilitychange', state.visibility);
+    state.scheme.removeEventListener('change', state.resize);
     if (release) {
         state.gl.getExtension('WEBGL_lose_context')?.loseContext();
     }

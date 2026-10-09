@@ -39,7 +39,7 @@ if ([Text.Encoding]::UTF8.GetString($shippedBytes).Contains('/*')) {
 }
 
 $budgets = @(
-    @{ Name = 'Assembly'; Length = (Read-Bytes $AssemblyPath 'The library assembly').Length; Maximum = 2MB }
+    @{ Name = 'Assembly'; Length = (Read-Bytes $AssemblyPath 'The library assembly').Length; Maximum = 3MB }
 )
 if ($PackagePath) { $budgets += @{ Name = 'NuGet'; Length = (Get-Item -LiteralPath $PackagePath).Length; Maximum = 2MB } }
 

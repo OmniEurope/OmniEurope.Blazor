@@ -70,7 +70,7 @@ public sealed class ThemeScopeBootSnapshotTests : OmniBunitContext
     public void A_dark_only_theme_resolves_to_dark_whatever_the_mode_asked()
     {
         var module = JSInterop.SetupModule(ThemeModule);
-        var darkOnly = OmniThemePresets.All.First(preset => preset.DarkOnly);
+        var darkOnly = (OmniThemePresets.All[0] with { DarkOnly = true });
 
         var scope = Render<OmniThemeScope>(parameters => parameters
             .Add(component => component.Appearance, OmniAppearance.System)

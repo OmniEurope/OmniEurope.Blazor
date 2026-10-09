@@ -358,7 +358,7 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         OmniAppearance? raised = null;
         var window = Render<OmniAppearanceWindow>(parameters => parameters
             .Add(component => component.Open, true)
-            .Add(component => component.Preset, OmniThemePresets.All.First(theme => theme.DarkOnly))
+            .Add(component => component.Preset, (OmniThemePresets.All[0] with { DarkOnly = true }))
             .Add(component => component.Appearance, OmniAppearance.Light)
             .Add(component => component.AppearanceChanged, value => raised = value));
 

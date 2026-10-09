@@ -24,7 +24,6 @@ public partial class OmniThemeScope
     private bool _canvasRunning;
     private bool _canvasDrawn;
     private bool _canvasMotion;
-    private string? _canvasKind;
 
     /// <summary>The content the scope themes. Required.</summary>
     [Parameter, EditorRequired]
@@ -207,7 +206,8 @@ public partial class OmniThemeScope
 
     /// <summary>
     /// The field a theme draws on a canvas rather than in CSS (`--omni-scope-canvas`, Trou noir's black
-    /// hole through `omni-black-hole.js`), or null for every other theme.
+    /// hole through `omni-black-hole.js`), or null for every other theme. The script reads the kind of the
+    /// mode drawn (black-hole, white-hole) from the scope's tokens, so a change of mode only repaints.
     /// </summary>
     private string? CanvasField => Preset?.Shape.GetValueOrDefault("--omni-scope-canvas") is { } kind && kind != "none" ? kind : null;
 
@@ -235,12 +235,11 @@ public partial class OmniThemeScope
         }
 
         _canvasModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.BlackHole);
-        if (!_canvasRunning || _canvasMotion != BackdropMotion || _canvasKind != CanvasField)
+        if (!_canvasRunning || _canvasMotion != BackdropMotion)
         {
-            var drawn = await _canvasModule.InvokeAsync<bool>("start", _canvas, _element, BackdropMotion, CanvasField);
+            var drawn = await _canvasModule.InvokeAsync<bool>("start", _canvas, _element, BackdropMotion);
             _canvasRunning = true;
             _canvasMotion = BackdropMotion;
-            _canvasKind = CanvasField;
             if (drawn != _canvasDrawn)
             {
                 _canvasDrawn = drawn;
@@ -255,8 +254,7 @@ public partial class OmniThemeScope
 
     /// <summary>
     /// The mode the scope is drawn in: <see cref="Appearance"/>, except under a theme that is only ever
-    /// dark or only ever light (<see cref="OmniThemePreset.DarkOnly"/>, <see cref="OmniThemePreset.LightOnly"/>),
-    /// which draws that half whatever the mode asked.
+    /// dark (<see cref="OmniThemePreset.DarkOnly"/>), which draws its dark half whatever the mode asked.
     /// </summary>
     internal OmniAppearance EffectiveAppearance => Preset?.FixedAppearance ?? Appearance;
 
