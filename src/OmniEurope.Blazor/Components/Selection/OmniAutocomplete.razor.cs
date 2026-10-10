@@ -118,9 +118,10 @@ public partial class OmniAutocomplete<TValue>
         IsOpen ? "omni-autocomplete__toggle--open" : null,
         Disabled || IsReadOnly ? "omni-autocomplete__toggle--disabled" : null]);
 
-    // A readonly attribute passed through, as the native select reads it.
+    // A readonly attribute passed through, as the native select reads it: a null or false value is not
+    // written at all, so it does not make the field read-only.
     private bool IsReadOnly => AdditionalAttributes?.TryGetValue("readonly", out var value) == true
-        && value is not false && !string.Equals(value?.ToString(), "false", StringComparison.OrdinalIgnoreCase);
+        && value is not (null or false) && !string.Equals(value.ToString(), "false", StringComparison.OrdinalIgnoreCase);
     private string InputClass => CssClassBuilder.Combine(["omni-input", "omni-autocomplete__input", SizeClass, CssClass]);
 
     private string EffectiveSearchErrorMessage => string.IsNullOrWhiteSpace(SearchErrorMessage)

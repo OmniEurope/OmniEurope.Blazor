@@ -18,7 +18,8 @@ internal sealed class OmniChartRange
     /// <summary>Shows categories <paramref name="first"/> to <paramref name="last"/>; false when nothing changed.</summary>
     internal bool Set(object owner, int first, int last)
     {
-        if (ReferenceEquals(_owner, owner) && Window == (first, last))
+        // The comparer is the lifted ==: a null window equals no window given.
+        if (ReferenceEquals(_owner, owner) && EqualityComparer<(int First, int Last)?>.Default.Equals(Window, (first, last)))
         {
             return false;
         }

@@ -1,6 +1,8 @@
 using System.Globalization;
 using Bunit;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.JSInterop;
 using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
@@ -214,6 +216,164 @@ public sealed class ChartLabelsAndSizingTests : OmniBunitContext
         tile.WaitForAssertion(() => Assert.Single(module.Invocations["attach"]));
         Assert.Equal("Plus-value des placements", tile.Find(".omni-stat-tile__label").TextContent);
     }
+
+    [Fact]
+    public async Task StatTile_AttachesOnce_AndDetachesItsScriptWhenDisposed()
+    {
+        var runtime = new ManualJSRuntime();
+        Services.AddSingleton<IJSRuntime>(runtime);
+        var tile = Render<OmniStatTile>(parameters => parameters.Add(component => component.Label, "Jetons"));
+        tile.WaitForAssertion(() => Assert.Equal(["attach"], runtime.Module.Calls));
+
+        tile.Render(parameters => parameters.Add(component => component.Value, "12,4 k"));
+        await tile.Instance.DisposeAsync();
+
+        Assert.Equal(["attach", "detach"], runtime.Module.Calls);
+        Assert.True(runtime.Module.Disposal.Task.IsCompleted);
+    }
+
+    [Fact]
+    public async Task StatTile_DisposedBeforeItsScriptLoads_ReleasesTheModuleWithoutAttaching()
+    {
+        var runtime = new ManualJSRuntime { HoldImports = true };
+        Services.AddSingleton<IJSRuntime>(runtime);
+        var tile = Render<OmniStatTile>(parameters => parameters.Add(component => component.Label, "Jetons"));
+
+        await tile.Instance.DisposeAsync();
+        runtime.PendingImport.SetResult(runtime.Module);
+
+        await runtime.Module.Disposal.Task.WaitAsync(TimeSpan.FromSeconds(5), Xunit.TestContext.Current.CancellationToken);
+        Assert.Empty(runtime.Module.Calls);
+    }
+
+    [Fact]
+    public async Task StatTile_ImportedOnALostCircuit_IsQuiet()
+    {
+        var lost = new ManualJSRuntime { ImportFailure = new JSDisconnectedException("perdu") };
+        Services.AddSingleton<IJSRuntime>(lost);
+        var tile = Render<OmniStatTile>(parameters => parameters.Add(component => component.Label, "Jetons"));
+        await tile.Instance.DisposeAsync();
+
+        Assert.Empty(lost.Module.Calls);
+        Assert.Equal("Jetons", tile.Find(".omni-stat-tile__label").TextContent);
+    }
+
+    [Fact]
+    public async Task StatTile_DetachedOnALostCircuit_IsQuiet()
+    {
+        var detached = new ManualJSRuntime();
+        detached.Module.CallFailures["detach"] = new JSDisconnectedException("perdu");
+        Services.AddSingleton<IJSRuntime>(detached);
+        var second = Render<OmniStatTile>(parameters => parameters.Add(component => component.Label, "Jetons"));
+        second.WaitForAssertion(() => Assert.Equal(["attach"], detached.Module.Calls));
+
+        await second.Instance.DisposeAsync();
+
+        Assert.Equal(["attach", "detach"], detached.Module.Calls);
+    }
+
+    [Fact]
+    public void Thinning_WithoutAnyBox_DrawsEveryLabel() =>
+        Assert.Equal([true, true], DataLabelThinning.Keep([null, null]));
+
+    [Fact]
+    public void Thinning_KeepsTheLastBox_BeforePointsOutOfTheRange_EvenWhenEveryOtherGivesWay()
+    {
+        // The last box is the second one (the third point is out of the range): the first gives way to it.
+        var visible = DataLabelThinning.Keep([At(0), At(5), null]);
+
+        Assert.Equal([false, true, true], visible);
+    }
+
+    [Theory]
+    [InlineData("middle", "hanging", 7, 20)]
+    [InlineData("end", "central", 4, 18.5)]
+    [InlineData(null, null, 10, 17)]
+    public void Thinning_BoxOf_FollowsTheAnchorAndTheBaseline(string? anchor, string? baseline, double left, double top)
+    {
+        var box = DataLabelThinning.BoxOf(10, 20, anchor, baseline, 6, 3);
+
+        Assert.Equal(new DataLabelThinning.Box(left, left + 6, top, top + 3), box);
+    }
+
+    [Fact]
+    public void DataLabels_Inside_OnAVerticalChart_HangUnderTheTopOfEachColumn()
+    {
+        IReadOnlyList<OmniChartPoint> data = [new(0, 10), new(1, 20), new(2, 30)];
+        var chart = RenderChart(builder =>
+        {
+            builder.OpenComponent<OmniColumnSeries>(0);
+            builder.AddComponentParameter(1, nameof(OmniColumnSeries.Data), data);
+            builder.CloseComponent();
+            builder.OpenComponent<OmniSeriesDataLabels>(2);
+            builder.AddComponentParameter(3, nameof(OmniSeriesDataLabels.Data), data);
+            builder.AddComponentParameter(4, nameof(OmniSeriesDataLabels.Inside), true);
+            builder.CloseComponent();
+        });
+
+        chart.WaitForAssertion(() =>
+        {
+            var columns = chart.FindAll(".omni-chart__columns rect");
+            var labels = chart.FindAll(".omni-chart__labels--inside text");
+            Assert.Equal(3, labels.Count);
+            for (var index = 0; index < labels.Count; index++)
+            {
+                Assert.Equal("hanging", labels[index].GetAttribute("dominant-baseline"));
+                Assert.Equal("middle", labels[index].GetAttribute("text-anchor"));
+                var top = double.Parse(columns[index].GetAttribute("y")!, CultureInfo.InvariantCulture);
+                Assert.Equal(top + 1.5, double.Parse(labels[index].GetAttribute("y")!, CultureInfo.InvariantCulture), 3);
+            }
+        });
+    }
+
+    [Fact]
+    public void Chart_WithAnId_NamesTheClipOfItsRangeAfterIt()
+    {
+        var chart = Render<OmniChart>(parameters => parameters
+            .Add(component => component.Id, "soldes")
+            .Add(component => component.Title, "Soldes")
+            .Add(component => component.ChildContent, builder =>
+            {
+                builder.OpenComponent<OmniColumnSeries>(0);
+                builder.AddComponentParameter(1, nameof(OmniColumnSeries.Data), Points(6, 10));
+                builder.CloseComponent();
+            })
+            .Add(component => component.FooterContent, builder =>
+            {
+                builder.OpenComponent<OmniRangeNavigator>(0);
+                builder.AddComponentParameter(1, nameof(OmniRangeNavigator.RangeStart), (int?)2);
+                builder.CloseComponent();
+            }));
+
+        chart.WaitForAssertion(() =>
+        {
+            Assert.Equal("soldes-clip", chart.Find("clipPath").GetAttribute("id"));
+            Assert.Equal("url(#soldes-clip)", chart.Find(".omni-chart__parts").GetAttribute("clip-path"));
+        });
+    }
+
+    [Fact]
+    public void Pie_OutsideAChart_LaysOutItsLabels_AndShortensOneTooLong_KeepingItWholeOnHover()
+    {
+        const string Long = "Une étiquette bien trop longue pour tenir à côté du disque";
+        IReadOnlyList<OmniChartSlice> slices = [new(Long, 1), new("B", 1)];
+
+        var pie = Render<OmniPieSeries>(parameters => parameters
+            .Add(component => component.Data, slices)
+            .Add(component => component.OutsideLabels, OmniPieLabels.Name));
+
+        var texts = pie.FindAll(".omni-chart__pie-labels text");
+        Assert.Equal(2, texts.Count);
+        Assert.EndsWith("…", texts[0].FirstChild!.TextContent, StringComparison.Ordinal);
+        Assert.StartsWith("Une étiquett", texts[0].FirstChild!.TextContent, StringComparison.Ordinal);
+        Assert.Equal(Long, texts[0].QuerySelector("title")!.TextContent);
+        Assert.Equal("B", texts[1].TextContent);
+        Assert.Null(texts[1].QuerySelector("title"));
+    }
+
+    [Fact]
+    public void PieLabelRadius_WithoutLabels_LeavesRoomForTheLeaderLinesOnly() =>
+        Assert.Equal(PieLabelLayout.Radius([string.Empty], 50), PieLabelLayout.Radius([], 50));
 
     private IRenderedComponent<OmniChart> RenderChart(RenderFragment parts, RenderFragment? footer = null, double aspectRatio = 4) =>
         Render<OmniChart>(parameters =>

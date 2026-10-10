@@ -25,10 +25,6 @@ public partial class OmniSeriesDataLabels
     /// </summary>
     [Parameter] public bool Inside { get; set; }
 
-    // Where the value axis starts (zero): a label inside a horizontal bar begins there.
-    private (double X, double Y) Origin(int index) =>
-        ChartContext is null ? (0, 0) : ChartContext.ProjectCoordinates(Data[index] with { Y = 0 });
-
     private string LabelsClass => Inside ? "omni-chart__labels omni-chart__labels--inside" : "omni-chart__labels";
 
     /// <summary>Registers the points with the chart so the plot covers them; data labels stay out of the legend and the data table.</summary>
@@ -43,7 +39,9 @@ public partial class OmniSeriesDataLabels
     {
         var labels = new DataLabel[Data.Count];
         var boxes = new DataLabelThinning.Box?[Data.Count];
-        var horizontal = ChartContext?.Horizontal == true;
+        // Only a chart lays out horizontal bars, so a horizontal layout always has its chart at hand.
+        var horizontalChart = ChartContext is { Horizontal: true } chart ? chart : null;
+        var horizontal = horizontalChart is not null;
         for (var index = 0; index < Data.Count; index++)
         {
             var projected = Projected(index);
@@ -51,9 +49,10 @@ public partial class OmniSeriesDataLabels
             (double X, string? Anchor) place;
             double y;
             string? baseline;
-            if (Inside && horizontal)
+            if (Inside && horizontalChart is not null)
             {
-                place = Placed(Origin(index).X + 1.5, text, LabelAnchor.Start);
+                // Where the value axis starts (zero): a label inside a horizontal bar begins there.
+                place = Placed(horizontalChart.ProjectCoordinates(Data[index] with { Y = 0 }).X + 1.5, text, LabelAnchor.Start);
                 (y, baseline) = (projected.Y, "central");
             }
             else if (Inside)

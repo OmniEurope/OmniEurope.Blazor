@@ -146,6 +146,28 @@ public sealed class DialogInitialFocusAndListToggleTests : OmniBunitContext
         Assert.Empty(dropDown.FindAll("[role=option]"));
     }
 
+    [Theory]
+    [InlineData(null, false)]
+    [InlineData(false, false)]
+    [InlineData("false", false)]
+    [InlineData("False", false)]
+    [InlineData(true, true)]
+    [InlineData("readonly", true)]
+    public void Autocomplete_Chevron_ReadsTheReadonlyAttributeAsTheNativeInputDoes(object? readOnly, bool disabled)
+    {
+        var value = string.Empty;
+        var autocomplete = Render<OmniAutocomplete<string>>(parameters => parameters
+            .Add(component => component.ShowToggle, true)
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.Search, (_, _) => Task.FromResult(Cities))
+            .AddUnmatched("readonly", readOnly));
+
+        Assert.Equal(disabled, autocomplete.Find(".omni-autocomplete__toggle").ClassList.Contains("omni-autocomplete__toggle--disabled"));
+        // A null or false value writes no readonly attribute: the input stays editable, and so does the chevron.
+        if (readOnly is null or false) Assert.False(autocomplete.Find("input").HasAttribute("readonly"));
+    }
+
     private IRenderedComponent<OmniDialog> RenderDialog(OmniDialogInitialFocus? initialFocus) =>
         Render<OmniDialog>(parameters =>
         {

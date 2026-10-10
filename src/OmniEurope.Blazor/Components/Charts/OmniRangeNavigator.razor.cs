@@ -146,9 +146,10 @@ public partial class OmniRangeNavigator : IDisposable
     }
 
     /// <summary>The name of a category: its axis label, else the X of the first series that has it.</summary>
+    /// <remarks>Only asked for a category of the chart (<see cref="Count"/> above zero), so the chart is there.</remarks>
     private string Name(int index) =>
-        ChartContext?.CategoryLabel(index)
-        ?? ChartContext?.TableSeries.Where(item => index < item.Data.Count).Select(item => OmniChartGeometry.Display(item.Data[index].X)).FirstOrDefault()
+        ChartContext!.CategoryLabel(index)
+        ?? ChartContext.TableSeries.Where(item => index < item.Data.Count).Select(item => OmniChartGeometry.Display(item.Data[index].X)).FirstOrDefault()
         ?? OmniChartGeometry.Display(index + 1);
 
     /// <summary>The column of a category in the overview: from zero to its total, 96 high for the largest.</summary>
@@ -191,8 +192,9 @@ public partial class OmniRangeNavigator : IDisposable
     }
 
     // The graduations are drawn in the units of the chart's drawing, as wide as it (100 for a square
-    // chart, more for a wide one), so their text matches the axis text of the chart.
-    private double TicksWidth => ChartContext?.ViewWidth ?? 100;
+    // chart, more for a wide one), so their text matches the axis text of the chart. Only read while the
+    // navigator has categories (Count above zero), so the chart is there.
+    private double TicksWidth => ChartContext!.ViewWidth;
 
     private string TicksViewBox => FormattableString.Invariant($"0 0 {TicksWidth:0.###} 5");
 

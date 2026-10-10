@@ -307,6 +307,32 @@ public sealed class InteractionComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task DelayedValidator_ChangedAgainDuringItsDelay_ValidatesOnlyTheLatestValue()
+    {
+        var form = Render<FormTestHost>();
+        var notifications = 0;
+        var validated = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        form.Instance.EditContext.OnValidationStateChanged += (_, _) =>
+        {
+            notifications++;
+            validated.TrySetResult();
+        };
+
+        // The second change comes while the first one still waits out its delay (20 ms): that wait is
+        // cancelled, and only the validation of the second value runs.
+        await form.InvokeAsync(() =>
+        {
+            form.Find("#name").Input(string.Empty);
+            form.Find("#name").Input("Alice");
+        });
+        await validated.Task.WaitAsync(TimeSpan.FromSeconds(5), Xunit.TestContext.Current.CancellationToken);
+        await Task.Delay(200, Xunit.TestContext.Current.CancellationToken);
+
+        Assert.DoesNotContain("Ce champ est obligatoire.", form.Instance.EditContext.GetValidationMessages());
+        Assert.Equal(1, notifications);
+    }
+
+    [Fact]
     public void Numeric_ParsesTheActiveCulture()
     {
         var previousCulture = CultureInfo.CurrentCulture;

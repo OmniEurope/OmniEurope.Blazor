@@ -244,6 +244,137 @@ public sealed class ChartRangeNavigatorTests : OmniBunitContext
         });
     }
 
+    [Fact]
+    public void TheRangeOfAChart_ReportsAChange_OnlyWhenItsOwnerOrOneOfItsBoundsChanged()
+    {
+        var range = new OmniChartRange();
+        object first = new(), second = new();
+
+        Assert.True(range.Set(first, 1, 3));
+        Assert.False(range.Set(first, 1, 3));
+        Assert.True(range.Set(first, 1, 4));
+        Assert.True(range.Set(first, 2, 4));
+        Assert.True(range.Set(second, 2, 4));
+        Assert.False(range.Clear(first));
+        Assert.True(range.Clear(second));
+        Assert.Null(range.Window);
+    }
+
+    [Fact]
+    public void ANavigatorOutsideAChart_DrawsNothing()
+    {
+        var navigator = Render<OmniRangeNavigator>(parameters => parameters.Add(component => component.RangeStart, 1));
+
+        Assert.Empty(navigator.Markup.Trim());
+        Assert.Empty(navigator.Instance.Ticks());
+        navigator.Instance.Dispose();
+    }
+
+    [Fact]
+    public void AChartWithoutCategories_DrawsNoNavigator_AndShowsNoRange()
+    {
+        var chart = ChartWith(_ => { }, start: 1);
+
+        Assert.Empty(chart.FindAll(".omni-range-navigator"));
+        Assert.Empty(chart.FindAll("clipPath"));
+    }
+
+    [Fact]
+    public void ASingleCategory_IsGraduatedInTheMiddle_AndShowsNoRange()
+    {
+        var chart = ChartWith(builder => Series<OmniColumnSeries>(builder, [new(0, 10)]));
+
+        chart.WaitForAssertion(() => Assert.Single(chart.FindAll(".omni-range-navigator")));
+        var width = Number(chart.Find(".omni-range-navigator__ticks").GetAttribute("viewBox")!.Split(' ')[2]);
+        var tick = Assert.Single(chart.FindAll(".omni-range-navigator__ticks line"));
+        Assert.Equal(width / 2, Number(tick, "x1"), 3);
+        Assert.Empty(chart.FindAll("clipPath"));
+    }
+
+    [Fact]
+    public void CategoriesThatAllTotalZero_DrawFlatColumnsOnTheBaseline()
+    {
+        var chart = ChartWith(builder => Series<OmniColumnSeries>(builder, [new(0, 0), new(1, 0), new(2, 0)]), start: 1);
+
+        chart.WaitForAssertion(() => Assert.Equal(3, chart.FindAll(".omni-range-navigator__column").Count));
+        Assert.All(chart.FindAll(".omni-range-navigator__column"), column =>
+        {
+            Assert.Equal(0, Number(column, "height"));
+            Assert.Equal(100, Number(column, "y"));
+        });
+    }
+
+    [Fact]
+    public void ACategoryWithoutAxisLabel_IsNamedByItsPoint_OrElseByItsRank()
+    {
+        string[] labels = ["Jan", null!, "Mar"];
+        void Axis(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder builder)
+        {
+            builder.OpenComponent<OmniCategoryAxis>(10);
+            builder.AddComponentParameter(11, nameof(OmniCategoryAxis.Labels), labels);
+            builder.CloseComponent();
+        }
+
+        var withPoints = ChartWith(builder =>
+        {
+            Axis(builder);
+            Series<OmniColumnSeries>(builder, [new(7, 1), new(8, 2), new(9, 3)]);
+        }, start: 1, end: 1);
+        var withoutPoints = ChartWith(Axis, start: 1, end: 1);
+
+        withPoints.WaitForAssertion(() => Assert.Equal("8", withPoints.Find("input.omni-range-navigator__handle--start").GetAttribute("aria-valuetext")));
+        withoutPoints.WaitForAssertion(() => Assert.Equal("2", withoutPoints.Find("input.omni-range-navigator__handle--start").GetAttribute("aria-valuetext")));
+        Assert.Equal("Jan", withoutPoints.Find(".omni-range-navigator__ticks text").TextContent);
+    }
+
+    [Fact]
+    public void AStackedArea_DrawsOnlyThePointsOfTheRange()
+    {
+        var chart = ChartWith(builder => Series<OmniAreaSeries>(builder, ChartRangeNavigatorTestHost.Deposits, stacked: true), start: 1, end: 3);
+
+        chart.WaitForAssertion(() =>
+        {
+            // Three points on top and the three of their baseline, back to the start.
+            var points = chart.Find(".omni-chart__parts polygon").GetAttribute("points")!.Split(' ');
+            Assert.Equal(6, points.Length);
+        });
+        Assert.True(TopTick(chart) < 600);
+    }
+
+    private IRenderedComponent<OmniChart> ChartWith(Microsoft.AspNetCore.Components.RenderFragment parts, int? start = null, int? end = null) =>
+        Render<OmniChart>(parameters => parameters
+            .Add(component => component.Title, "Dépôts")
+            .Add(component => component.ChildContent, builder =>
+            {
+                parts(builder);
+                builder.OpenComponent<OmniValueAxis>(20);
+                builder.AddComponentParameter(21, nameof(OmniValueAxis.Automatic), true);
+                builder.CloseComponent();
+            })
+            .Add(component => component.FooterContent, builder =>
+            {
+                builder.OpenComponent<OmniRangeNavigator>(0);
+                builder.AddComponentParameter(1, nameof(OmniRangeNavigator.RangeStart), start);
+                builder.AddComponentParameter(2, nameof(OmniRangeNavigator.RangeEnd), end);
+                builder.CloseComponent();
+            }));
+
+    private static void Series<TSeries>(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder builder, IReadOnlyList<OmniChartPoint> data, bool stacked = false)
+        where TSeries : Microsoft.AspNetCore.Components.IComponent
+    {
+        builder.OpenComponent<TSeries>(0);
+        builder.AddComponentParameter(1, "Data", data);
+        if (stacked) builder.AddComponentParameter(2, "Stacked", true);
+        builder.CloseComponent();
+    }
+
+    private static double TopTick(IRenderedComponent<OmniChart> chart) =>
+        chart.FindAll(".omni-chart__axis--value text")
+            .Select(text => double.Parse(text.TextContent.Replace(" ", string.Empty, StringComparison.Ordinal).Replace(" ", string.Empty, StringComparison.Ordinal), NumberStyles.Number, CultureInfo.CurrentCulture))
+            .Max();
+
+    private static double Number(string value) => double.Parse(value, CultureInfo.InvariantCulture);
+
     private static double Number(IElement element, string attribute) =>
         double.Parse(element.GetAttribute(attribute)!, CultureInfo.InvariantCulture);
 }
