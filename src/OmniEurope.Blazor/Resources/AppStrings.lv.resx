@@ -694,4 +694,12 @@
   <data name="UnsavedChangesStay" xml:space="preserve"><value>Palikt lapā</value></data>
   <data name="MoreActions" xml:space="preserve"><value>Citas darbības</value></data>
   <data name="AppearanceWindowTitle" xml:space="preserve"><value>Izskats</value></data>
+  <data name="GridColumnChooser" xml:space="preserve"><value>Izvēlēties kolonnas</value></data>
+  <data name="GridColumnMoveLeft" xml:space="preserve"><value>Pārvietot {0} pa kreisi</value></data>
+  <data name="GridColumnMoveRight" xml:space="preserve"><value>Pārvietot {0} pa labi</value></data>
+  <data name="GridColumnShown" xml:space="preserve"><value>Kolonna {0} parādīta</value></data>
+  <data name="GridColumnHidden" xml:space="preserve"><value>Kolonna {0} paslēpta</value></data>
+  <data name="GridColumnMoved" xml:space="preserve"><value>Kolonna {0} pārvietota uz {1}. pozīciju no {2}</value></data>
+  <data name="GridResetLayout" xml:space="preserve"><value>Atiestatīt izkārtojumu</value></data>
+  <data name="GridLayoutReset" xml:space="preserve"><value>Kolonnu izkārtojums atiestatīts</value></data>
 </root>

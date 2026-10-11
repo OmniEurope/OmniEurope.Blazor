@@ -97,9 +97,15 @@ export function unfollowSystem(element) {
 }
 
 // The snapshot omni-boot.js replays before Blazor starts (data-theme-snapshot-key): the attributes and
-// both halves of the tokens exactly as the scope paints them, so the boot copy computes nothing.
-export function snapshot(element, key, version, appearance, density, backdropMotion, light, dark) {
+// both halves of the tokens exactly as the scope paints them, so the boot copy computes nothing. A scope
+// that follows the user's appearance state also gives the text and control size levels it lays on the root.
+export function snapshot(element, key, version, appearance, density, backdropMotion, light, dark, textSize, controlSize) {
     const entry = { version, appearance, density, backdropMotion, light: light ?? null, dark: dark ?? null };
+    if (textSize !== undefined) {
+        entry.textSize = textSize;
+        entry.controlSize = controlSize;
+    }
+
     try {
         window.localStorage.setItem(key, JSON.stringify(entry));
     } catch {

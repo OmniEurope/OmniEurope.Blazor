@@ -425,6 +425,30 @@
 /* Icon-only export buttons, smaller than a small button and still following the density. */
 .omni-data-grid__export-button.omni-button { --omni-button-size: calc(var(--omni-control-height) - 0.75rem); --omni-icon-size: 0.875rem; }
 .omni-data-grid__export-message--error { color: var(--omni-color-danger); }
+/* The column chooser at the end of the header bar: its trigger is an export-sized icon button, its panel
+   a list of one row per column, the box and the name first, the two arrows at the end. While it is open the
+   frame stops clipping, or the panel would be cut at the foot of a short grid; its first and last parts
+   then round their own corners. */
+.omni-data-grid__chooser { flex: none; margin-inline-start: auto; }
+.omni-data-grid__chooser-toggle.omni-button { --omni-button-size: calc(var(--omni-control-height) - 0.75rem); --omni-icon-size: 0.875rem; }
+.omni-data-grid__chooser .omni-popover__panel { display: grid; font-weight: normal; gap: var(--omni-space-sm); min-inline-size: min(16rem, calc(100vw - 2 * var(--omni-space-md))); padding: var(--omni-space-sm); }
+.omni-data-grid__chooser-list { display: grid; gap: 0.125rem; list-style: none; margin: 0; padding: 0; }
+.omni-data-grid__chooser-item { align-items: center; display: flex; gap: var(--omni-space-sm); justify-content: space-between; min-block-size: var(--omni-control-height); }
+.omni-data-grid__chooser-item > :first-child { flex: 1 1 auto; min-inline-size: 0; overflow-wrap: anywhere; }
+.omni-data-grid__chooser-moves { display: inline-flex; flex: none; gap: 0.125rem; }
+.omni-data-grid__chooser-move.omni-button { --omni-icon-size: 0.875rem; }
+.omni-data-grid__chooser-reset { justify-self: start; }
+.omni-data-grid__frame:has(> .omni-data-grid__bar--header .omni-popover__panel) { overflow: visible; }
+.omni-data-grid__frame:has(> .omni-data-grid__bar--header .omni-popover__panel) > :first-child { border-start-end-radius: inherit; border-start-start-radius: inherit; }
+.omni-data-grid__frame:has(> .omni-data-grid__bar--header .omni-popover__panel) > :last-child { border-end-end-radius: inherit; border-end-start-radius: inherit; }
+/* The header drag of AllowColumnReorder: the dragged header fades, an insertion line on the start or end
+   edge of the header under the pointer marks where it lands (the same accent line as the resize handle's,
+   shown only during the gesture), and nothing is selected on the way. */
+.omni-data-grid__viewport--reordering { cursor: grabbing; user-select: none; }
+.omni-data-grid__table th.omni-data-grid__dragged { opacity: 0.55; }
+.omni-data-grid__table th:is(.omni-data-grid__drop--before, .omni-data-grid__drop--after)::before { background: var(--omni-color-accent); content: ""; inline-size: 3px; inset-block: 0; pointer-events: none; position: absolute; z-index: 1; }
+.omni-data-grid__table th.omni-data-grid__drop--before::before { inset-inline-start: 0; }
+.omni-data-grid__table th.omni-data-grid__drop--after::before { inset-inline-end: 0; }
 .omni-data-grid--lines-none .omni-data-grid__table :is(th, td) { border: 0; }
 .omni-data-grid--lines-vertical tbody td { border-block-end: 0; }
 .omni-data-grid:is(.omni-data-grid--lines-vertical, .omni-data-grid--lines-both) :is(th, td) { border-inline-end: var(--omni-border-width) solid var(--omni-color-border); }

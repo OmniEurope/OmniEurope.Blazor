@@ -4,7 +4,7 @@
 
 ## Structure
 
-- `src/OmniEurope.Blazor/Components` : point d'import commun et familles `Actions`, `Charts`, `Data`, `Diagram`, `Editor`, `Feedback`, `Forms`, `Foundation`, `Layout`, `Navigation`, `Overlays`, `Pages`, `Scheduling`, `Selection` et `Theming` ; l'espace de noms public reste `OmniEurope.Blazor.Components` indépendamment du dossier ;
+- `src/OmniEurope.Blazor/Components` : point d'import commun et familles `Actions`, `Charts`, `Data`, `Diagram`, `Editor`, `Feedback`, `Forms`, `Foundation`, `Layout`, `Navigation`, `Overlays`, `Pages`, `Preferences` (services des préférences de l'utilisateur, [preferences.md](preferences.md)), `Scheduling`, `Selection` et `Theming` ; l'espace de noms public reste `OmniEurope.Blazor.Components` indépendamment du dossier ;
 - `src/OmniEurope.Blazor/Internal` : utilitaires non exposés (moteurs, catalogues de thèmes et de palettes, gardes CSP) ;
 - `src/OmniEurope.Blazor/Localization` et `src/OmniEurope.Blazor/Resources` : localiseur de remplacement des textes et ressources `AppStrings` des 24 langues ([localization.md](localization.md)) ;
 - `src/OmniEurope.Blazor/Styles` : parties ordonnées de la feuille de style, assemblées par le build en une seule `omnieurope.blazor.css`, servie minifiée en Release (donc dans le paquet) et lisible en Debug (`eng/OmniEurope.Stylesheet.targets`) ;
@@ -24,5 +24,5 @@ Les composants complexes conservent une façade déclarative publique et délèg
 
 Les hôtes de démonstration et les tests dépendent de la RCL; la RCL ne dépend d'aucun hôte. Les composants publics peuvent dépendre des moteurs `Internal`, mais ces moteurs ne doivent pas dépendre d'un composant public concret. La composition entre enfants et conteneurs passe par des contextes internes, tandis que les consommateurs ne voient que les paramètres et services publics documentés.
 
-La taxonomie canonique est celle des 15 dossiers de `Components`. Toute vue agrégée dans la roadmap, le catalogue ou les registres de couverture doit conserver ces noms, quitte à présenter ensuite des regroupements secondaires explicitement étiquetés.
+La taxonomie canonique est celle des 16 dossiers de `Components`. Toute vue agrégée dans la roadmap, le catalogue ou les registres de couverture doit conserver ces noms, quitte à présenter ensuite des regroupements secondaires explicitement étiquetés.
 

@@ -18,24 +18,6 @@ public sealed class GridBehaviourEdgeTests : OmniBunitContext
 
     private static readonly IReadOnlyList<Row> Rows = [new("a", 1), new("b", 2), new("c", 3)];
 
-    private sealed class Store(Func<string?> load, Exception? saveFailure = null) : IOmniDataGridStateStore
-    {
-        public List<string> Saved { get; } = [];
-
-        public Task<string?> LoadAsync(string key, CancellationToken cancellationToken = default) => Task.FromResult(load());
-
-        public Task SaveAsync(string key, string state, CancellationToken cancellationToken = default)
-        {
-            if (saveFailure is not null)
-            {
-                return Task.FromException(saveFailure);
-            }
-
-            Saved.Add(state);
-            return Task.CompletedTask;
-        }
-    }
-
     private static RenderFragment Columns(params (string Property, string? Width)[] columns) => builder =>
     {
         for (var index = 0; index < columns.Length; index++)
@@ -62,9 +44,8 @@ public sealed class GridBehaviourEdgeTests : OmniBunitContext
     [InlineData("null")]
     public void SavedStateThatCannotBeRead_IsIgnored(string json)
     {
-        var grid = RenderGrid(parameters => parameters
-            .Add(component => component.StateKey, "factures")
-            .Add(component => component.StateStore, new Store(() => json)));
+        new GridPreferenceHarness(Services).Seed("factures", json);
+        var grid = RenderGrid(parameters => parameters.Add(component => component.StateKey, "factures"));
 
         Assert.Equal(3, grid.FindAll("tbody tr").Count);
     }
@@ -74,10 +55,10 @@ public sealed class GridBehaviourEdgeTests : OmniBunitContext
     {
         var module = JSInterop.SetupModule(OmniModules.Grid);
         module.Mode = JSRuntimeMode.Loose;
-        var store = new Store(() => """{"ColumnWidths":{"Name":"150px"}}""", new JSDisconnectedException("perdu"));
-        var grid = RenderGrid(parameters => parameters
-            .Add(component => component.StateKey, "factures")
-            .Add(component => component.StateStore, store));
+        var preferences = new GridPreferenceHarness(Services);
+        preferences.Seed("factures", """{"ColumnWidths":{"Name":"150px"}}""");
+        preferences.Browser.Failures["set"] = new JSDisconnectedException("perdu");
+        var grid = RenderGrid(parameters => parameters.Add(component => component.StateKey, "factures"));
 
         grid.Find("th[data-omni-col='Amount']").Click();
 
@@ -87,9 +68,8 @@ public sealed class GridBehaviourEdgeTests : OmniBunitContext
     [Fact]
     public void SavedState_LostCircuitWhileLoading_LeavesTheGridAsDeclared()
     {
-        var grid = RenderGrid(parameters => parameters
-            .Add(component => component.StateKey, "factures")
-            .Add(component => component.StateStore, new Store(() => throw new JSDisconnectedException("perdu"))));
+        new GridPreferenceHarness(Services).Browser.Failures["get"] = new JSDisconnectedException("perdu");
+        var grid = RenderGrid(parameters => parameters.Add(component => component.StateKey, "factures"));
 
         Assert.Equal(3, grid.FindAll("tbody tr").Count);
     }

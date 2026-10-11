@@ -23,6 +23,7 @@ public partial class OmniDataGrid<TItem>
     public OmniDataGrid()
     {
         ColumnSet = new(this);
+        Arrangement = new(this);
         Query = new(this);
         FilterEditor = new(this);
         FilterControls = new(this);
@@ -44,9 +45,11 @@ public partial class OmniDataGrid<TItem>
         Export = new(this);
         Aggregates = new(this);
         Tree = new(this);
+        Chooser = new(this);
     }
 
     internal GridColumnSet<TItem> ColumnSet { get; }
+    internal GridColumnArrangement<TItem> Arrangement { get; }
     internal GridQueryState<TItem> Query { get; }
     internal GridFilterEditor<TItem> FilterEditor { get; }
     internal GridFilterControls<TItem> FilterControls { get; }
@@ -68,14 +71,15 @@ public partial class OmniDataGrid<TItem>
     internal GridExport<TItem> Export { get; }
     internal GridAggregates<TItem> Aggregates { get; }
     internal GridTree<TItem> Tree { get; }
+    internal GridColumnChooser<TItem> Chooser { get; }
 
     [Inject]
     internal IJSRuntime JavaScript { get; set; } = default!;
 
-    // AddOmniEuropeBlazor always registers one (TryAdd keeps a host's own), and an [Inject] property
-    // the container cannot fill fails the component's activation: it is never null here.
+    // AddOmniEuropeBlazor always registers it, and an [Inject] property the container cannot fill fails
+    // the component's activation: it is never null here.
     [Inject]
-    internal IOmniDataGridStateStore InjectedStateStore { get; set; } = default!;
+    internal OmniPreferences Preferences { get; set; } = default!;
 
     [Inject]
     internal IServiceProvider Services { get; set; } = default!;
@@ -467,6 +471,41 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public EventCallback<OmniDataGridColumnWidthChange> OnColumnResize { get; set; }
 
+    /// <summary>
+    /// Lets the reader change the order of the columns: by dragging a header onto another one (a line marks
+    /// where it lands), and from the keyboard through the column chooser of the header bar, whose arrows
+    /// move a column to the left or to the right. Frozen columns move among the frozen ones only, the
+    /// others among the others. The order is kept with the state (<see cref="StateKey"/>) and reported
+    /// through <see cref="OnColumnReorder"/>. Off by default.
+    /// </summary>
+    [Parameter]
+    public bool AllowColumnReorder { get; set; }
+
+    /// <summary>
+    /// Puts a column chooser in the header bar (shown for it even when <see cref="ShowHeaderBar"/> is off):
+    /// a box per column shows or hides it, at least one column always staying visible, and a column whose
+    /// <c>Hideable</c> is false stays as declared. The visibility is kept with the state
+    /// (<see cref="StateKey"/>); while this is off, a saved visibility hides nothing and the declared one
+    /// applies. Off by default.
+    /// </summary>
+    [Parameter]
+    public bool AllowColumnHide { get; set; }
+
+    /// <summary>
+    /// Adds a "Reset layout" action to the column chooser (see <see cref="AllowColumnHide"/> and
+    /// <see cref="AllowColumnReorder"/>): it does what <see cref="ResetLayoutAsync"/> does. Off by default,
+    /// the method staying available to a host that offers the action elsewhere.
+    /// </summary>
+    [Parameter]
+    public bool ShowResetLayout { get; set; }
+
+    /// <summary>
+    /// Raised with the moved column and the resulting order once the reader moved a column, by a drag or
+    /// from the column chooser; not raised by a reset nor by a state applied from elsewhere.
+    /// </summary>
+    [Parameter]
+    public EventCallback<OmniDataGridColumnOrderChange> OnColumnReorder { get; set; }
+
     /// <summary>Tints every other row.</summary>
     [Parameter]
     public bool AllowAlternatingRows { get; set; }
@@ -637,23 +676,23 @@ public partial class OmniDataGrid<TItem>
     // ---- state persistence --------------------------------------------------------------------
 
     /// <summary>
-    /// Opaque key this grid's filters, sorts and column widths are saved under. Persistence is
-    /// inert until this is set: that is the option's activation switch. The default browser store
-    /// cannot be read while the grid is prerendered; the state is then restored by the interactive
-    /// render. A saved entry missing a part, or holding an incomplete filter or sort, restores what
-    /// is valid and drops the rest.
+    /// Opaque key under which this grid keeps its filters, sorts, column widths, column order and column
+    /// visibility, as the user preference <c>omni.grid.</c> followed by this key (<see cref="OmniPreferences"/>):
+    /// in the host's <see cref="IOmniPreferenceStore"/> when it registers one, in the browser otherwise.
+    /// Persistence is inert until this is set: that is the option's activation switch. A state changed
+    /// elsewhere (another device through the store, another tab) is applied to the grid on screen, and
+    /// its rows are loaded again only when its filters or sorts changed.
     /// </summary>
+    /// <remarks>
+    /// While the grid is prerendered the state is read from the host's store when there is one;
+    /// without a store the browser cannot be read yet and the state is restored by the interactive
+    /// render. A saved state missing a part, or holding an incomplete filter or sort, restores what is
+    /// valid and drops the rest; a state without column order or visibility (written before they were
+    /// kept) keeps the declared ones. A state left under the bare key by the browser store of the
+    /// versions before 1.8 is taken over once, then removed from the browser.
+    /// </remarks>
     [Parameter]
     public string? StateKey { get; set; }
-
-    /// <summary>
-    /// Overrides the store this grid would otherwise resolve from DI (see
-    /// <c>AddOmniEuropeBlazor</c>, which registers the built-in localStorage one) or, absent any
-    /// registration, construct itself.
-    /// </summary>
-    [Parameter]
-    public IOmniDataGridStateStore? StateStore { get; set; }
-
 
     /// <summary>
     /// Where the footer row goes (the columns' <c>FooterContent</c>): in a real table footer after the
@@ -839,10 +878,10 @@ public partial class OmniDataGrid<TItem>
     }
 
     /// <summary>
-    /// Reads the saved state. A store that answers at once is read before the first render; a slower one
-    /// lets the grid render first, so the child <see cref="OmniDataGridColumn{TItem}"/> content registers
-    /// its defaults and the restored filters, sorts and column widths then replace them. The first
-    /// request waits for both.
+    /// Reads the saved state. A preference that answers at once is read before the first render; a slower
+    /// one lets the grid render first, so the child <see cref="OmniDataGridColumn{TItem}"/> content registers
+    /// its defaults and the restored filters, sorts, widths, order and visibility then replace them. The
+    /// first request waits for both.
     /// </summary>
     protected override async Task OnInitializedAsync()
     {
@@ -966,6 +1005,7 @@ public partial class OmniDataGrid<TItem>
             {
                 await Script.AfterRenderAsync();
                 await Script.FocusEditorAsync();
+                await Chooser.AfterRenderAsync();
             }
         }
         finally
@@ -1105,10 +1145,31 @@ public partial class OmniDataGrid<TItem>
     [JSInvokable]
     public Task OnColumnResizedAsync(string key, double width) => ColumnLayout.ResizedAsync(key, width);
 
+    /// <summary>
+    /// End of a header drag (omni-grid.js): the dragged column takes its place before or after the header it
+    /// was dropped on. Ignored when reordering is off, when either column is unknown or when the move would
+    /// cross the boundary of the frozen columns.
+    /// </summary>
+    /// <param name="key">Key of the dragged column.</param>
+    /// <param name="targetKey">Key of the column it was dropped on.</param>
+    /// <param name="after">True to place it after that column, false before it.</param>
+    /// <returns>A task that completes when the order is applied, announced and saved.</returns>
+    [JSInvokable]
+    public Task OnColumnDroppedAsync(string key, string targetKey, bool after) => Chooser.DropAsync(key, targetKey, after);
+
+    /// <summary>
+    /// Brings the columns back to their declared layout: order, visibility and widths. The filters and the
+    /// sorts stay; with a <see cref="StateKey"/> the state is saved without the layout, so the reader's other
+    /// devices follow. Does nothing on a grid being disposed.
+    /// </summary>
+    /// <returns>A task that completes when the layout is applied and the state saved.</returns>
+    public Task ResetLayoutAsync() => _disposeRequested ? Task.CompletedTask : Persistence.ResetLayoutAsync();
+
     /// <summary>Cancels the loads still running and detaches the grid script.</summary>
     public async ValueTask DisposeAsync()
     {
         _disposeRequested = true;
+        Persistence.Dispose();
         // Cancelled before waiting for the gate: a render holding it may be awaiting a load that only
         // this cancellation ends, and a loader that ignores its token is no longer awaited once cancelled.
         View.CancelLoads();

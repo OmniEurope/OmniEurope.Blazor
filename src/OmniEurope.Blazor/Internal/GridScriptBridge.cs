@@ -20,6 +20,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
     private DotNetObjectReference<OmniDataGrid<TItem>>? _selfReference;
     private bool _virtualAttached;
     private bool _resizeAttached;
+    private bool _reorderAttached;
     private bool _filterMenuAttached;
     private bool _fillAttached;
     private bool _frozenScrollAttached;
@@ -69,6 +70,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
             await layout.ApplyLayoutAsync();
             await layout.ApplyMaxHeightAsync();
             await EnsureResizeInteropAsync();
+            await EnsureReorderInteropAsync();
             await EnsureFilterMenuInteropAsync();
             await EnsureFillInteropAsync();
             await EnsureWheelScopeInteropAsync();
@@ -81,6 +83,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
 
         var module = await ModuleAsync();
         await EnsureResizeInteropAsync();
+        await EnsureReorderInteropAsync();
         await EnsureFilterMenuInteropAsync();
         await EnsureFillInteropAsync();
         await EnsureWheelScopeInteropAsync();
@@ -211,6 +214,29 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         var module = await ModuleAsync();
         await module.InvokeVoidAsync("attachResize", grid.Viewport, SelfReference, GridColumnLayout<TItem>.MinimumColumnWidth);
         _resizeAttached = true;
+    }
+
+    /// <summary>
+    /// Wires the header drag that reorders the columns once the grid allows it; the script only takes the
+    /// headers marked for it, so turning the option off again needs no detach.
+    /// </summary>
+    private async Task EnsureReorderInteropAsync()
+    {
+        if (_reorderAttached || !grid.AllowColumnReorder)
+        {
+            return;
+        }
+
+        var module = await ModuleAsync();
+        await module.InvokeVoidAsync("attachReorder", grid.Viewport, SelfReference);
+        _reorderAttached = true;
+    }
+
+    /// <summary>Gives the focus back to an arrow of a column moved from the chooser (see <see cref="GridColumnChooser{TItem}"/>).</summary>
+    internal async Task FocusMoveControlAsync(Microsoft.AspNetCore.Components.ElementReference list, string key, int step)
+    {
+        var module = await ModuleAsync();
+        await module.InvokeVoidAsync("focusMoveControl", list, key, step);
     }
 
     /// <summary>
@@ -371,6 +397,11 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
             functions.Add("detachResize");
         }
 
+        if (_reorderAttached)
+        {
+            functions.Add("detachReorder");
+        }
+
         if (_filterMenuAttached)
         {
             functions.Add("detachFilterMenus");
@@ -402,7 +433,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         }
 
         (_resizeAttached, _filterMenuAttached, _wheelScopeAttached, _fillAttached) = (false, false, null, false);
-        (_frozenScrollAttached, _columnHoverAttached, _cutTooltipsInstalled) = (false, false, false);
+        (_frozenScrollAttached, _columnHoverAttached, _cutTooltipsInstalled, _reorderAttached) = (false, false, false, false);
         return functions;
     }
 }

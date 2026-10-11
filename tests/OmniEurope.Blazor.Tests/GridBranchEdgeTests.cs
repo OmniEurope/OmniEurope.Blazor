@@ -354,47 +354,33 @@ public sealed class GridBranchEdgeTests : OmniBunitContext
         grid.WaitForAssertion(() => Assert.Equal("6", grid.Find("tr.omni-data-grid__footer-row td[data-omni-col='Amount']").TextContent.Trim()));
     }
 
-    private sealed class RegisteredStore : IOmniDataGridStateStore
-    {
-        public List<string> Keys { get; } = [];
-
-        public Task<string?> LoadAsync(string key, CancellationToken cancellationToken = default)
-        {
-            Keys.Add(key);
-            return Task.FromResult<string?>(null);
-        }
-
-        public Task SaveAsync(string key, string state, CancellationToken cancellationToken = default)
-        {
-            Keys.Add(key);
-            return Task.CompletedTask;
-        }
-    }
-
     [Fact]
-    public void StateStoreRegisteredByTheHost_IsUsedWithoutBeingPassed()
+    public void PreferenceStoreRegisteredByTheHost_ReceivesTheGridState()
     {
-        var store = new RegisteredStore();
-        Services.AddSingleton<IOmniDataGridStateStore>(store);
+        var preferences = new GridPreferenceHarness(Services, withStore: true);
 
         var grid = RenderGrid(parameters => parameters.Add(component => component.StateKey, "commandes"));
         grid.FindAll(".omni-data-grid__sort")[0].Click();
 
-        Assert.Equal(["commandes", "commandes"], store.Keys);
+        var saved = Assert.Single(preferences.Store!.Saved);
+        Assert.Equal("omni.grid.commandes", saved.Key);
+        Assert.Contains("\"descending\":false", saved.Value, StringComparison.Ordinal);
     }
 
     [Fact]
-    public void StateWithTheDefaultStore_GoesToTheBrowserStorageEachTime()
+    public void StateWithoutAStore_GoesToTheBrowserCacheEachTime()
     {
-        JSInterop.Mode = JSRuntimeMode.Loose;
+        var preferences = new GridPreferenceHarness(Services);
 
         var grid = RenderGrid(parameters => parameters.Add(component => component.StateKey, "commandes"));
         grid.FindAll(".omni-data-grid__sort")[0].Click();
         grid.FindAll(".omni-data-grid__sort")[0].Click();
 
         Assert.Equal("descending", grid.FindAll("thead th")[0].GetAttribute("aria-sort"));
+        // The legacy entry is looked for once, at the first read; each change is one write of the cache.
         Assert.Single(JSInterop.Invocations["localStorage.getItem"]);
-        Assert.Equal(2, JSInterop.Invocations["localStorage.setItem"].Count);
+        Assert.Equal(2, preferences.Browser.Writes);
+        Assert.True(preferences.Saved("commandes")!.Value.GetProperty("sorts")[0].GetProperty("descending").GetBoolean());
     }
 
     [Fact]

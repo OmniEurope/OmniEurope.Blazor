@@ -694,4 +694,12 @@
   <data name="UnsavedChangesStay" xml:space="preserve"><value>Ostani na stranici</value></data>
   <data name="MoreActions" xml:space="preserve"><value>Više radnji</value></data>
   <data name="AppearanceWindowTitle" xml:space="preserve"><value>Izgled</value></data>
+  <data name="GridColumnChooser" xml:space="preserve"><value>Odaberi stupce</value></data>
+  <data name="GridColumnMoveLeft" xml:space="preserve"><value>Pomakni {0} ulijevo</value></data>
+  <data name="GridColumnMoveRight" xml:space="preserve"><value>Pomakni {0} udesno</value></data>
+  <data name="GridColumnShown" xml:space="preserve"><value>Stupac {0} prikazan</value></data>
+  <data name="GridColumnHidden" xml:space="preserve"><value>Stupac {0} skriven</value></data>
+  <data name="GridColumnMoved" xml:space="preserve"><value>Stupac {0} premješten na mjesto {1} od {2}</value></data>
+  <data name="GridResetLayout" xml:space="preserve"><value>Vrati izgled</value></data>
+  <data name="GridLayoutReset" xml:space="preserve"><value>Izgled stupaca vraćen</value></data>
 </root>

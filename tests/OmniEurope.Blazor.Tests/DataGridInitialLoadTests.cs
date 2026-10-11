@@ -47,14 +47,16 @@ public sealed class DataGridInitialLoadTests : OmniBunitContext
     [InlineData(OmniDataGridScrollMode.Virtual)]
     public void FirstRequest_WaitsForTheSavedStateStillBeingRead_AndCarriesIt(OmniDataGridScrollMode mode)
     {
-        // The store answers after the grid first rendered: the columns registered their defaults, but
+        // The browser answers after the grid first rendered: the columns registered their defaults, but
         // the saved filter (Closed) wins once read, and only then is the request sent.
         const string saved = "{\"Filters\":{\"Status\":{\"Operator\":1,\"Value\":\"Closed\",\"LogicalOperator\":0,\"SecondOperator\":1,\"SecondValue\":\"\"}},\"Sorts\":[],\"ColumnWidths\":{}}";
+        var preferences = new GridPreferenceHarness(Services);
+        preferences.Seed("tickets", saved);
+        preferences.Browser.GetDelay = TimeSpan.FromMilliseconds(20);
         var requests = new List<OmniDataGridLoadRequest>();
         var grid = Render<DataGridInitialLoadTestHost>(parameters => parameters
             .Add(component => component.ScrollMode, mode)
             .Add(component => component.StateKey, "tickets")
-            .Add(component => component.StateStore, new SlowStore(saved))
             .Add(component => component.Load, request => Answer(requests, request, slow: false)));
 
         grid.WaitForAssertion(() => Assert.Single(grid.FindAll("tbody tr[data-omni-row-index]")));
@@ -92,13 +94,13 @@ public sealed class DataGridInitialLoadTests : OmniBunitContext
     [Fact]
     public void SavedSortReadAtOnce_WinsOverTheColumnDefault()
     {
-        // The store answers before the columns register: the Name column finds its key already sorted
+        // The browser answers before the columns register: the Name column finds its key already sorted
         // (ascending, saved) and does not add its own descending default.
         const string saved = "{\"Filters\":{},\"Sorts\":[{\"Key\":\"Name\",\"Descending\":false}],\"ColumnWidths\":{}}";
+        new GridPreferenceHarness(Services).Seed("tickets", saved);
         var requests = new List<OmniDataGridLoadRequest>();
         var grid = Render<DataGridInitialLoadTestHost>(parameters => parameters
             .Add(component => component.StateKey, "tickets")
-            .Add(component => component.StateStore, new ReadyStore(saved))
             .Add(component => component.Load, request => Answer(requests, request, slow: false)));
 
         grid.WaitForAssertion(() => Assert.Equal(2, grid.FindAll("tbody tr[data-omni-row-index]").Count));
@@ -184,23 +186,5 @@ public sealed class DataGridInitialLoadTests : OmniBunitContext
             .Where(row => request.Filters.All(filter => filter.Key != "Status" || row.Status == filter.Value))
             .ToArray();
         return new OmniDataGridResult<Row>(matching, matching.Length);
-    }
-
-    private sealed class SlowStore(string state) : IOmniDataGridStateStore
-    {
-        public async Task<string?> LoadAsync(string key, CancellationToken cancellationToken = default)
-        {
-            await Task.Delay(20, cancellationToken);
-            return state;
-        }
-
-        public Task SaveAsync(string key, string state, CancellationToken cancellationToken = default) => Task.CompletedTask;
-    }
-
-    private sealed class ReadyStore(string state) : IOmniDataGridStateStore
-    {
-        public Task<string?> LoadAsync(string key, CancellationToken cancellationToken = default) => Task.FromResult<string?>(state);
-
-        public Task SaveAsync(string key, string state, CancellationToken cancellationToken = default) => Task.CompletedTask;
     }
 }

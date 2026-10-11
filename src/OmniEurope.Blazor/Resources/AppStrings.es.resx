@@ -694,4 +694,12 @@
   <data name="UnsavedChangesStay" xml:space="preserve"><value>Quedarse en la página</value></data>
   <data name="MoreActions" xml:space="preserve"><value>Más acciones</value></data>
   <data name="AppearanceWindowTitle" xml:space="preserve"><value>Apariencia</value></data>
+  <data name="GridColumnChooser" xml:space="preserve"><value>Elegir columnas</value></data>
+  <data name="GridColumnMoveLeft" xml:space="preserve"><value>Mover {0} a la izquierda</value></data>
+  <data name="GridColumnMoveRight" xml:space="preserve"><value>Mover {0} a la derecha</value></data>
+  <data name="GridColumnShown" xml:space="preserve"><value>Columna {0} mostrada</value></data>
+  <data name="GridColumnHidden" xml:space="preserve"><value>Columna {0} oculta</value></data>
+  <data name="GridColumnMoved" xml:space="preserve"><value>Columna {0} movida a la posición {1} de {2}</value></data>
+  <data name="GridResetLayout" xml:space="preserve"><value>Restablecer el diseño</value></data>
+  <data name="GridLayoutReset" xml:space="preserve"><value>Diseño de columnas restablecido</value></data>
 </root>

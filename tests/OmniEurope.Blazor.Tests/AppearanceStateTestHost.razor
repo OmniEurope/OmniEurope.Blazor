@@ -1,0 +1,18 @@
+@* An application that wires nothing of the appearance: an uncontrolled scope, its window, its
+   settings, its menu and its main area, all following OmniAppearanceState. *@
+<OmniThemeScope Id="host-scope" SnapshotKey="@SnapshotKey">
+    <OmniAppMenu OnTheme="@(() => WindowOpen = true)" />
+    <OmniAppearanceWindow Id="host-window" Open="@WindowOpen" OpenChanged="@(open => WindowOpen = open)" />
+    <OmniAppearanceSettings Compact="true" />
+    <OmniMain Id="host-main" ContentWidth="OmniLayoutWidth.Content">
+        <OmniMain Id="host-nested-main" ContentWidth="OmniLayoutWidth.Content">Contenu</OmniMain>
+    </OmniMain>
+</OmniThemeScope>
+
+@code {
+    [Parameter]
+    public bool WindowOpen { get; set; }
+
+    [Parameter]
+    public string? SnapshotKey { get; set; }
+}

@@ -33,6 +33,12 @@ public abstract class OmniComponentBase : ComponentBase
     private protected TimeProvider Clock => PresetServices.GetService(typeof(TimeProvider)) as TimeProvider ?? TimeProvider.System;
 
     /// <summary>
+    /// The user's appearance the appearance components follow when the host leaves them uncontrolled;
+    /// null when the host registered none (it did not call <c>AddOmniEuropeBlazor</c>).
+    /// </summary>
+    private protected OmniAppearanceState? SharedAppearance => PresetServices.GetService(typeof(OmniAppearanceState)) as OmniAppearanceState;
+
+    /// <summary>
     /// The preset (named parameter set registered by the host) this component takes: its type's default
     /// when unset, none with <c>"none"</c>. Parameters written explicitly win over the preset.
     /// </summary>

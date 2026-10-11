@@ -11,37 +11,37 @@ namespace OmniEurope.Blazor.Tests;
 public sealed class DataGridPersistedStateTests : OmniBunitContext
 {
     [Fact]
-    public void DefaultStore_UnreachableWhilePrerendering_LeavesTheGridRendering()
+    public void BrowserUnreachableWhilePrerendering_LeavesTheGridRendering()
     {
-        // What the default localStorage store meets during a static prerender.
-        JSInterop.Setup<string?>("localStorage.getItem", "orders")
-            .SetException(new InvalidOperationException("JavaScript interop calls cannot be issued at this time. This is because the component is being statically rendered."));
+        // What the preferences and the legacy import meet during a static prerender without a store.
+        const string prerendering = "JavaScript interop calls cannot be issued at this time. This is because the component is being statically rendered.";
+        var preferences = new GridPreferenceHarness(Services);
+        preferences.Browser.ImportFailure = new InvalidOperationException(prerendering);
+        JSInterop.Setup<string?>("localStorage.getItem", "orders").SetException(new InvalidOperationException(prerendering));
 
         var grid = Render<OmniDataGrid<int>>(parameters => parameters
             .Add(component => component.Items, [1, 2])
             .Add(component => component.StateKey, "orders"));
 
         Assert.Equal(2, grid.FindAll("tbody tr").Count);
+        Assert.Single(JSInterop.Invocations["localStorage.getItem"]);
     }
 
     [Theory]
     [InlineData("{}")]
     [InlineData("{\"Filters\":null,\"Sorts\":null,\"ColumnWidths\":null}")]
     [InlineData("{\"Filters\":{\"Value\":null,\"Other\":{}},\"Sorts\":[null,{}],\"ColumnWidths\":{}}")]
+    [InlineData("{\"version\":2,\"columnOrder\":[]}")]
+    [InlineData("{\"version\":2,\"columnOrder\":[null,\"\",\"missing\"],\"columnVisibility\":{\"missing\":false}}")]
     public void IncompleteSavedState_IsIgnoredWhereInvalid_AndTheGridRenders(string saved)
     {
+        var preferences = new GridPreferenceHarness(Services);
+        preferences.Seed("orders", saved);
+
         var grid = Render<OmniDataGrid<int>>(parameters => parameters
             .Add(component => component.Items, [1, 2])
-            .Add(component => component.StateKey, "orders")
-            .Add(component => component.StateStore, new FixedStore(saved)));
+            .Add(component => component.StateKey, "orders"));
 
         Assert.Equal(2, grid.FindAll("tbody tr").Count);
-    }
-
-    private sealed class FixedStore(string state) : IOmniDataGridStateStore
-    {
-        public Task<string?> LoadAsync(string key, CancellationToken cancellationToken = default) => Task.FromResult<string?>(state);
-
-        public Task SaveAsync(string key, string state, CancellationToken cancellationToken = default) => Task.CompletedTask;
     }
 }

@@ -694,4 +694,12 @@
   <data name="UnsavedChangesStay" xml:space="preserve"><value>Παραμονή στη σελίδα</value></data>
   <data name="MoreActions" xml:space="preserve"><value>Περισσότερες ενέργειες</value></data>
   <data name="AppearanceWindowTitle" xml:space="preserve"><value>Εμφάνιση</value></data>
+  <data name="GridColumnChooser" xml:space="preserve"><value>Επιλογή στηλών</value></data>
+  <data name="GridColumnMoveLeft" xml:space="preserve"><value>Μετακίνηση {0} αριστερά</value></data>
+  <data name="GridColumnMoveRight" xml:space="preserve"><value>Μετακίνηση {0} δεξιά</value></data>
+  <data name="GridColumnShown" xml:space="preserve"><value>Η στήλη {0} εμφανίζεται</value></data>
+  <data name="GridColumnHidden" xml:space="preserve"><value>Η στήλη {0} αποκρύφθηκε</value></data>
+  <data name="GridColumnMoved" xml:space="preserve"><value>Η στήλη {0} μετακινήθηκε στη θέση {1} από {2}</value></data>
+  <data name="GridResetLayout" xml:space="preserve"><value>Επαναφορά διάταξης</value></data>
+  <data name="GridLayoutReset" xml:space="preserve"><value>Η διάταξη των στηλών επαναφέρθηκε</value></data>
 </root>

@@ -33,7 +33,10 @@ public sealed class ThemingAndEditorBranchTests : OmniBunitContext
 
         Assert.EndsWith("Contrôles 7", settings.Find(".omni-appearance-settings__summary").TextContent.Trim(), StringComparison.Ordinal);
 
-        var unbound = Render<OmniAppearanceSettings>(parameters => parameters.Add(component => component.Compact, true));
+        // A host that controls the settings (another callback bound) without the control size never shows it.
+        var unbound = Render<OmniAppearanceSettings>(parameters => parameters
+            .Add(component => component.Compact, true)
+            .Add(component => component.DensityChanged, _ => { }));
         Assert.DoesNotContain("Contrôles", unbound.Find(".omni-appearance-settings__summary").TextContent, StringComparison.Ordinal);
     }
 

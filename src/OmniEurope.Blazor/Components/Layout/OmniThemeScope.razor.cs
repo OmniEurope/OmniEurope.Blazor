@@ -6,6 +6,14 @@ namespace OmniEurope.Blazor.Components;
 /// The mode actually drawn, light or dark, is carried by <c>data-omni-theme-resolved</c>, also when
 /// <see cref="Appearance"/> follows the system.
 /// </summary>
+/// <remarks>
+/// A scope whose markup writes none of <see cref="Appearance"/>, <see cref="Density"/>, <see cref="Preset"/>,
+/// <see cref="Palette"/>, <see cref="Font"/> and <see cref="BackdropMotion"/> follows the user's
+/// <see cref="OmniAppearanceState"/>: it takes those six from it, repaints when it changes, lays its text
+/// size and size of the controls on the document root (<c>data-oe-text-size</c>, <c>data-oe-control-size</c>)
+/// and keeps both levels in its snapshot. It draws nothing until the preference is read. A scope that
+/// writes any of the six is controlled by its host, as before, and leaves the state alone.
+/// </remarks>
 public partial class OmniThemeScope
 {
     /// <summary>The version of the snapshot format <c>omni-boot.js</c> replays.</summary>
@@ -24,6 +32,10 @@ public partial class OmniThemeScope
     private bool _canvasRunning;
     private bool _canvasDrawn;
     private bool _canvasMotion;
+    private AppearanceFollower? _shared;
+    private bool _decided;
+    private bool _waiting;
+    private bool _rootAttached;
 
     /// <summary>The content the scope themes. Required.</summary>
     [Parameter, EditorRequired]
@@ -99,10 +111,100 @@ public partial class OmniThemeScope
     /// </summary>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (_waiting)
+        {
+            return;
+        }
+
         var tokensChanged = await ApplyTokensAsync();
         await SyncResolvedModeAsync();
         await WriteSnapshotAsync();
         await SyncCanvasAsync(tokensChanged);
+        await SyncDocumentRootAsync();
+    }
+
+    /// <summary>
+    /// Decides, from the parameters of the first render, whether the scope follows the user's
+    /// <see cref="OmniAppearanceState"/> (none of its six appearance parameters written), then applies them.
+    /// </summary>
+    /// <param name="parameters">The parameters given by the renderer.</param>
+    public override Task SetParametersAsync(ParameterView parameters)
+    {
+        if (!_decided)
+        {
+            _decided = true;
+            var hostControls = AppearanceFollower.Sets(parameters, nameof(Appearance), nameof(Density), nameof(Preset),
+                nameof(Palette), nameof(Font), nameof(BackdropMotion));
+            _shared = AppearanceFollower.Start(SharedAppearance, hostControls, () => InvokeAsync(() =>
+            {
+                FollowState();
+                StateHasChanged();
+            }));
+        }
+
+        return base.SetParametersAsync(parameters);
+    }
+
+    /// <summary>Following the state, waits for the preference before the first frame with content.</summary>
+    protected override async Task OnInitializedAsync()
+    {
+        if (_shared is null)
+        {
+            return;
+        }
+
+        var loading = _shared.State.LoadAsync();
+        if (!loading.IsCompleted)
+        {
+            _waiting = true;
+            try
+            {
+                await loading;
+            }
+            finally
+            {
+                _waiting = false;
+            }
+        }
+    }
+
+    /// <summary>Following the state, takes the appearance from it.</summary>
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        FollowState();
+    }
+
+    private void FollowState()
+    {
+        if (_shared?.State is not { } state)
+        {
+            return;
+        }
+
+        Appearance = state.Appearance;
+        Density = state.Density;
+        Preset = state.Preset;
+        Palette = state.Palette;
+        Font = state.Font;
+        BackdropMotion = state.BackdropMotion;
+    }
+
+    /// <summary>Following the state, lays its text size and size of the controls on the document root.</summary>
+    private async Task SyncDocumentRootAsync()
+    {
+        if (_shared?.State is not { } state)
+        {
+            return;
+        }
+
+        if (!_rootAttached)
+        {
+            state.DocumentRoot.Attach();
+            _rootAttached = true;
+        }
+
+        await state.DocumentRoot.SyncAsync(state.TextSizeLevel, state.ControlSizeLevel);
     }
 
     /// <summary>The value of <c>data-omni-theme</c>: the mode asked, or dark under a dark-only theme.</summary>
@@ -152,15 +254,28 @@ public partial class OmniThemeScope
             return;
         }
 
-        var state = new SnapshotState(key, EffectiveAppearance, Density, BackdropMotion, Preset, Palette, Font);
+        var shared = _shared?.State;
+        var state = new SnapshotState(key, EffectiveAppearance, Density, BackdropMotion, Preset, Palette, Font,
+            shared?.TextSizeLevel, shared?.ControlSizeLevel);
         if (state == _writtenSnapshot)
         {
             return;
         }
 
         var (light, dark) = Resolve();
-        await (await LoadThemeModuleAsync()).InvokeVoidAsync(
-            "snapshot", _element, key, SnapshotVersion, AppearanceValue, Density.ToString().ToLowerInvariant(), BackdropMotion, light, dark);
+        var module = await LoadThemeModuleAsync();
+        var density = Density.ToString().ToLowerInvariant();
+        if (shared is null)
+        {
+            await module.InvokeVoidAsync("snapshot", _element, key, SnapshotVersion, AppearanceValue, density, BackdropMotion, light, dark);
+        }
+        else
+        {
+            // Following the state, the scope also owns the root levels: the boot copy lays them before the first paint.
+            await module.InvokeVoidAsync("snapshot", _element, key, SnapshotVersion, AppearanceValue, density, BackdropMotion, light, dark,
+                shared.TextSizeLevel, shared.ControlSizeLevel);
+        }
+
         _writtenSnapshot = state;
     }
 
@@ -172,7 +287,9 @@ public partial class OmniThemeScope
         bool BackdropMotion,
         OmniThemePreset? Preset,
         OmniThemePalette? Palette,
-        OmniThemeFont? Font);
+        OmniThemeFont? Font,
+        int? TextSizeLevel,
+        int? ControlSizeLevel);
 
     /// <summary>Writes or clears the tokens when the look changed; true when it did.</summary>
     private async Task<bool> ApplyTokensAsync()
@@ -294,6 +411,12 @@ public partial class OmniThemeScope
     /// <summary>Clears the tokens written on the scope, stops following the system and releases the theme and canvas scripts, if they were loaded.</summary>
     public async ValueTask DisposeAsync()
     {
+        _shared?.Dispose();
+        if (_rootAttached)
+        {
+            await _shared!.State.DocumentRoot.DetachAsync();
+        }
+
         if (_canvasModule is not null)
         {
             try

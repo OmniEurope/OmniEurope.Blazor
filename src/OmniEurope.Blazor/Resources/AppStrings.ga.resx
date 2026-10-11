@@ -694,4 +694,12 @@
   <data name="UnsavedChangesStay" xml:space="preserve"><value>Fan ar an leathanach</value></data>
   <data name="MoreActions" xml:space="preserve"><value>Tuilleadh gníomhartha</value></data>
   <data name="AppearanceWindowTitle" xml:space="preserve"><value>Cuma</value></data>
+  <data name="GridColumnChooser" xml:space="preserve"><value>Roghnaigh colúin</value></data>
+  <data name="GridColumnMoveLeft" xml:space="preserve"><value>Bog {0} ar chlé</value></data>
+  <data name="GridColumnMoveRight" xml:space="preserve"><value>Bog {0} ar dheis</value></data>
+  <data name="GridColumnShown" xml:space="preserve"><value>Colún {0} ar taispeáint</value></data>
+  <data name="GridColumnHidden" xml:space="preserve"><value>Colún {0} i bhfolach</value></data>
+  <data name="GridColumnMoved" xml:space="preserve"><value>Colún {0} bogtha go suíomh {1} as {2}</value></data>
+  <data name="GridResetLayout" xml:space="preserve"><value>Athshocraigh an leagan amach</value></data>
+  <data name="GridLayoutReset" xml:space="preserve"><value>Leagan amach na gcolún athshocraithe</value></data>
 </root>

@@ -301,13 +301,13 @@ await pause(300);
 const spaced = await windowLabels();
 check(spaced.tight.length === 0, `Libellés à l'étroit dans leur bouton sous Octet : ${JSON.stringify(spaced.tight)}.`);
 const textSize = await evaluate('document.documentElement.dataset.oeTextSize ?? ""');
-await evaluate(`[...document.querySelectorAll(${JSON.stringify(`${appearanceWindow} .omni-button`)})].filter(button => !button.textContent.trim())[1].click()`);
+await evaluate(`document.querySelector(${JSON.stringify(`${appearanceWindow} button[aria-label="Augmenter la taille du texte"]`)}).click()`);
 await waitFor('le changement de taille du texte', `(document.documentElement.dataset.oeTextSize ?? "") !== ${JSON.stringify(textSize)}`);
 await pause(300);
 const scaled = await windowLabels();
 check(scaled.width === spaced.width && scaled.height === spaced.height, `La fenêtre gelée a suivi la taille du texte : ${spaced.width} x ${spaced.height} puis ${scaled.width} x ${scaled.height}.`);
 results.push(`libellés à leur place après un changement de thème (${spaced.spacing}), fenêtre inchangée quand la taille du texte change`);
-await evaluate(`[...document.querySelectorAll(${JSON.stringify(`${appearanceWindow} .omni-button`)})].filter(button => !button.textContent.trim())[0].click()`);
+await evaluate(`document.querySelector(${JSON.stringify(`${appearanceWindow} button[aria-label="Réduire la taille du texte"]`)}).click()`);
 await pickTheme('Essentiel');
 await pause(300);
 

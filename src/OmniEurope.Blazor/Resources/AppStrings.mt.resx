@@ -694,4 +694,12 @@
   <data name="UnsavedChangesStay" xml:space="preserve"><value>Ibqa' fil-paġna</value></data>
   <data name="MoreActions" xml:space="preserve"><value>Aktar azzjonijiet</value></data>
   <data name="AppearanceWindowTitle" xml:space="preserve"><value>Dehra</value></data>
+  <data name="GridColumnChooser" xml:space="preserve"><value>Agħżel il-kolonni</value></data>
+  <data name="GridColumnMoveLeft" xml:space="preserve"><value>Mexxi {0} lejn ix-xellug</value></data>
+  <data name="GridColumnMoveRight" xml:space="preserve"><value>Mexxi {0} lejn il-lemin</value></data>
+  <data name="GridColumnShown" xml:space="preserve"><value>Il-kolonna {0} murija</value></data>
+  <data name="GridColumnHidden" xml:space="preserve"><value>Il-kolonna {0} moħbija</value></data>
+  <data name="GridColumnMoved" xml:space="preserve"><value>Il-kolonna {0} imċaqalqa għall-pożizzjoni {1} minn {2}</value></data>
+  <data name="GridResetLayout" xml:space="preserve"><value>Irrisettja t-tqassim</value></data>
+  <data name="GridLayoutReset" xml:space="preserve"><value>It-tqassim tal-kolonni ġie rrisettjat</value></data>
 </root>

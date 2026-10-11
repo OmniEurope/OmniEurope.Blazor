@@ -61,12 +61,12 @@ public partial class OmniChart
     /// <summary>
     /// The narrowest the chart is drawn: in a narrower card (a phone) it keeps this width and scrolls
     /// sideways in its card, its legends and its <see cref="FooterContent"/> (a range navigator) with it,
-    /// instead of shrinking until its text cannot be read. <see cref="OmniChartMinWidth.Auto"/>, the
-    /// default, chooses it from the width over height of the drawing, and a host sets a length of its
-    /// own through the <c>--omni-chart-min-width</c> property of its stylesheet;
-    /// <see cref="OmniChartMinWidth.None"/> lets it shrink to any size, as before.
+    /// instead of shrinking until its text cannot be read. <see cref="OmniChartMinWidth.Auto"/> chooses
+    /// it from the width over height of the drawing, and a host sets a length of its own through the
+    /// <c>--omni-chart-min-width</c> property of its stylesheet; <see cref="OmniChartMinWidth.None"/>,
+    /// the default, lets it shrink to any size.
     /// </summary>
-    [Parameter] public OmniChartMinWidth MinWidth { get; set; }
+    [Parameter] public OmniChartMinWidth MinWidth { get; set; } = OmniChartMinWidth.None;
 
     // The class of the minimum width; Auto takes about 12.5rem per unit of the drawing's width over height.
     private string? MinWidthClass

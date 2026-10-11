@@ -12,10 +12,28 @@ namespace OmniEurope.Blazor.Components;
 /// then <see cref="PaletteChanged"/> and <see cref="FontChanged"/> with null for a palette or a font
 /// chosen for the previous theme (when they are bound), exactly as <see cref="OmniAppearanceSettings"/>
 /// does. The host only stores what it receives.
+/// <para>
+/// A window whose markup writes none of the eighteen appearance parameters (the nine values, from
+/// <see cref="Appearance"/> to <see cref="FullWidth"/>, and their change callbacks) follows the user's
+/// <see cref="OmniAppearanceState"/> instead: it shows every row, reads the values from the state and
+/// writes the changes to it, so the host only opens it (<see cref="Open"/>). Writing any of them keeps
+/// the window controlled by the host, as before. The choice is made at the first render.
+/// </para>
 /// </remarks>
-public partial class OmniAppearanceWindow
+public partial class OmniAppearanceWindow : IDisposable
 {
     private readonly string _idPrefix = $"omni-appearance-{Guid.NewGuid():N}";
+    private AppearanceFollower? _shared;
+    private bool _decided;
+
+    /// <summary>The appearance parameters, values and change callbacks: a host that writes any of them controls the component.</summary>
+    private static readonly string[] AppearanceParameters =
+    [
+        nameof(Appearance), nameof(AppearanceChanged), nameof(Preset), nameof(PresetChanged), nameof(Palette), nameof(PaletteChanged),
+        nameof(Font), nameof(FontChanged), nameof(BackdropMotion), nameof(BackdropMotionChanged), nameof(TextSizeLevel),
+        nameof(TextSizeLevelChanged), nameof(Density), nameof(DensityChanged), nameof(ControlSizeLevel), nameof(ControlSizeLevelChanged),
+        nameof(FullWidth), nameof(FullWidthChanged)
+    ];
 
     /// <summary>Whether the window is shown.</summary>
     [Parameter]
@@ -138,10 +156,38 @@ public partial class OmniAppearanceWindow
 
     private string EffectiveTitle => LocalizeOr(Title, "AppearanceWindowTitle");
 
+    /// <summary>
+    /// Decides, from the parameters of the first render, whether the window follows the user's
+    /// <see cref="OmniAppearanceState"/> (none of its appearance values or change callbacks written).
+    /// </summary>
+    /// <param name="parameters">The parameters given by the renderer.</param>
+    public override Task SetParametersAsync(ParameterView parameters)
+    {
+        if (!_decided)
+        {
+            _decided = true;
+            var hostControls = AppearanceFollower.Sets(parameters, AppearanceParameters);
+            _shared = AppearanceFollower.Start(SharedAppearance, hostControls, () => InvokeAsync(() =>
+            {
+                FollowState();
+                StateHasChanged();
+            }));
+        }
+
+        return base.SetParametersAsync(parameters);
+    }
+
+    /// <summary>Following the state, reads the preference before showing it.</summary>
+    protected override Task OnInitializedAsync() => _shared?.State.LoadAsync() ?? Task.CompletedTask;
+
+    /// <summary>Stops following the state.</summary>
+    public void Dispose() => _shared?.Dispose();
+
     /// <summary>Keeps the look in force each time the window opens, for Cancel to put it back.</summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+        FollowState();
         if (Open && !_wasOpen)
         {
             _openedOn = Current;
@@ -156,6 +202,34 @@ public partial class OmniAppearanceWindow
     /// OmniDialog reports only its closing.
     /// </summary>
     private Task OnDialogOpenChangedAsync(bool _) => CloseAsync();
+
+    /// <summary>Following the state, takes every value from it and sends every change to it.</summary>
+    private void FollowState()
+    {
+        if (_shared?.State is not { } state)
+        {
+            return;
+        }
+
+        Appearance = state.Appearance;
+        AppearanceChanged = EventCallback.Factory.Create<OmniAppearance>(this, state.SetAppearanceAsync);
+        Preset = state.Preset;
+        PresetChanged = EventCallback.Factory.Create<OmniThemePreset?>(this, state.SetPresetAsync);
+        Palette = state.Palette;
+        PaletteChanged = EventCallback.Factory.Create<OmniThemePalette?>(this, state.SetPaletteAsync);
+        Font = state.Font;
+        FontChanged = EventCallback.Factory.Create<OmniThemeFont?>(this, state.SetFontAsync);
+        BackdropMotion = state.BackdropMotion;
+        BackdropMotionChanged = EventCallback.Factory.Create<bool>(this, state.SetBackdropMotionAsync);
+        TextSizeLevel = state.TextSizeLevel;
+        TextSizeLevelChanged = EventCallback.Factory.Create<int>(this, state.SetTextSizeLevelAsync);
+        Density = state.Density;
+        DensityChanged = EventCallback.Factory.Create<OmniDensity>(this, state.SetDensityAsync);
+        ControlSizeLevel = state.ControlSizeLevel;
+        ControlSizeLevelChanged = EventCallback.Factory.Create<int>(this, state.SetControlSizeLevelAsync);
+        FullWidth = state.FullWidth;
+        FullWidthChanged = EventCallback.Factory.Create<bool>(this, state.SetFullWidthAsync);
+    }
 
     /// <summary>Puts back the look the window opened on, then closes it.</summary>
     private async Task CancelAsync()

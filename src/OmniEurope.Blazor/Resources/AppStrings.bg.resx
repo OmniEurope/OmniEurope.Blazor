@@ -694,4 +694,12 @@
   <data name="UnsavedChangesStay" xml:space="preserve"><value>Оставане на страницата</value></data>
   <data name="MoreActions" xml:space="preserve"><value>Още действия</value></data>
   <data name="AppearanceWindowTitle" xml:space="preserve"><value>Облик</value></data>
+  <data name="GridColumnChooser" xml:space="preserve"><value>Избор на колони</value></data>
+  <data name="GridColumnMoveLeft" xml:space="preserve"><value>Премести {0} наляво</value></data>
+  <data name="GridColumnMoveRight" xml:space="preserve"><value>Премести {0} надясно</value></data>
+  <data name="GridColumnShown" xml:space="preserve"><value>Колоната {0} е показана</value></data>
+  <data name="GridColumnHidden" xml:space="preserve"><value>Колоната {0} е скрита</value></data>
+  <data name="GridColumnMoved" xml:space="preserve"><value>Колоната {0} е преместена на позиция {1} от {2}</value></data>
+  <data name="GridResetLayout" xml:space="preserve"><value>Нулиране на подредбата</value></data>
+  <data name="GridLayoutReset" xml:space="preserve"><value>Подредбата на колоните е нулирана</value></data>
 </root>

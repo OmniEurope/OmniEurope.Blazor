@@ -53,6 +53,7 @@ internal sealed class GridColumnSet<TItem>(OmniDataGrid<TItem> grid)
         HasValueSource = true
     };
 
+    /// <summary>The columns shown, in the reader's order (see <see cref="GridColumnArrangement{TItem}"/>): every part of the grid draws these.</summary>
     internal IReadOnlyList<OmniDataGridColumnDefinition<TItem>> VisibleColumns => _visibleColumns;
 
     /// <summary>Whether the grid appends its own edit column.</summary>
@@ -88,7 +89,7 @@ internal sealed class GridColumnSet<TItem>(OmniDataGrid<TItem> grid)
     /// <summary>Recomputes the visible columns, the edit column and the span of a row.</summary>
     internal void Refresh()
     {
-        _visibleColumns = EffectiveColumns.Where(column => column.Visible).ToArray();
+        _visibleColumns = grid.Arrangement.Visible(grid.Arrangement.Arrange(EffectiveColumns));
         _hasEditing = grid.ShowEditColumn && _visibleColumns.Any(column => column.EditTemplate is not null);
         _columnSpan = _visibleColumns.Count
             + (grid.SelectionMode == OmniDataGridSelectionMode.None ? 0 : 1)

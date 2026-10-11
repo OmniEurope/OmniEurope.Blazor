@@ -12,6 +12,9 @@ internal static class OmniModules
     /// <summary>The general helpers: first invalid field, text selection, document metadata, history, clipboard, boot splash, scroll watching.</summary>
     internal const string Interop = Root + "omniInterop.js";
 
+    /// <summary>The text size and the size of the controls, laid on the document root.</summary>
+    internal const string Appearance = Root + "omni-appearance.js";
+
     /// <summary>The code editor and the diff viewer.</summary>
     internal const string CodeEditor = Root + "omni-code-editor.js";
 
@@ -44,6 +47,9 @@ internal static class OmniModules
 
     /// <summary>The page header: the sideways scroll of a title longer than its line.</summary>
     internal const string PageHeader = Root + "omni-page-header.js";
+
+    /// <summary>The browser cache of the user preferences, with the tab-visibility and other-tab notifications.</summary>
+    internal const string Preferences = Root + "omni-preferences.js";
 
     /// <summary>The stat tile: its label kept on one line, smaller or cut when it does not fit.</summary>
     internal const string StatTile = Root + "omni-stat-tile.js";

@@ -53,6 +53,8 @@ internal sealed class OmniDataGridColumnDefinition<TItem>
     public IReadOnlyList<OmniDataGridFilterOperator>? FilterOperators { get; set; }
     public OmniDataGridFilterOperator FilterOperator { get; init; }
     public bool Visible { get; init; } = true;
+    /// <summary>Whether the column chooser may hide the column.</summary>
+    public bool Hideable { get; init; } = true;
     /// <summary>Null follows the grid's own AllowColumnResize; false pins this column.</summary>
     public bool? Resizable { get; init; }
     /// <summary>Null follows the grid's own AllowColumnAutoFit; a value overrides it for this column.</summary>

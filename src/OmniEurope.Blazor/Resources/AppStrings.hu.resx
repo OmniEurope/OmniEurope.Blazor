@@ -694,4 +694,12 @@
   <data name="UnsavedChangesStay" xml:space="preserve"><value>Maradás az oldalon</value></data>
   <data name="MoreActions" xml:space="preserve"><value>További műveletek</value></data>
   <data name="AppearanceWindowTitle" xml:space="preserve"><value>Megjelenés</value></data>
+  <data name="GridColumnChooser" xml:space="preserve"><value>Oszlopok kiválasztása</value></data>
+  <data name="GridColumnMoveLeft" xml:space="preserve"><value>{0} mozgatása balra</value></data>
+  <data name="GridColumnMoveRight" xml:space="preserve"><value>{0} mozgatása jobbra</value></data>
+  <data name="GridColumnShown" xml:space="preserve"><value>{0} oszlop megjelenítve</value></data>
+  <data name="GridColumnHidden" xml:space="preserve"><value>{0} oszlop elrejtve</value></data>
+  <data name="GridColumnMoved" xml:space="preserve"><value>{0} oszlop áthelyezve: {1}. hely / {2}</value></data>
+  <data name="GridResetLayout" xml:space="preserve"><value>Elrendezés visszaállítása</value></data>
+  <data name="GridLayoutReset" xml:space="preserve"><value>Oszlopelrendezés visszaállítva</value></data>
 </root>

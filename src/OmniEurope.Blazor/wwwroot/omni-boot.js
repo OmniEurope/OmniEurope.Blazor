@@ -12,7 +12,8 @@
 // document element. Every key is optional and a value that is not well formed is ignored.
 //
 // - data-theme-snapshot-key: the snapshot an OmniThemeScope with the same SnapshotKey wrote of what it
-//   painted (version, appearance, density, backdrop motion, light and dark tokens). The root takes the
+//   painted (version, appearance, density, backdrop motion, light and dark tokens, and the text and
+//   control size levels of a scope that follows the appearance state). The root takes the
 //   scope's attributes (data-omni-theme, data-omni-theme-resolved, data-omni-density,
 //   data-omni-backdrop-motion) and the tokens of the half the mode resolves to, plus
 //   data-omni-theme-boot, on which the package stylesheet paints the page in that look. The same tokens
@@ -21,7 +22,9 @@
 //   Hand-over: when the scope paints for the first time it calls OmniBoot.handOverTheme(); the copy
 //   leaves the scope at once, and the root once no element matches data-theme-hold (the package boot
 //   splash, `.omni-boot-splash`, by default; an empty value releases at once). The root attributes
-//   get back the value they had before, unless something else changed them meanwhile.
+//   get back the value they had before, unless something else changed them meanwhile. The levels are
+//   kept as data-oe-text-size and data-oe-control-size for good (the scope writes the same ones), the
+//   default level 5 leaving the attribute out.
 // - data-appearance-key: an appearance ("light", "dark" or "system") kept as data-omni-theme on the
 //   root for good, which the library's stylesheet reads, so a dark page never flashes light.
 // - data-theme-key: a theme name kept as data-omni-theme-preset, for the host's own rules.
@@ -146,6 +149,7 @@
             key: key,
             appearance: entry.appearance,
             density: densities[entry.density] === true ? entry.density : null,
+            levels: [['data-oe-text-size', entry.textSize], ['data-oe-control-size', entry.controlSize]],
             backdropMotion: entry.backdropMotion !== false,
             halves: { light: tokensOf(entry.light), dark: tokensOf(entry.dark) },
             attributes: [],
@@ -294,6 +298,12 @@
         if (!theme.backdropMotion) {
             setOnRoot('data-omni-backdrop-motion', 'off');
         }
+
+        theme.levels.forEach(function (level) {
+            if (levelPattern.test(String(level[1])) && String(level[1]) !== '5') {
+                root.setAttribute(level[0], String(level[1]));
+            }
+        });
 
         setOnRoot('data-omni-theme-boot', '');
         paintAll();

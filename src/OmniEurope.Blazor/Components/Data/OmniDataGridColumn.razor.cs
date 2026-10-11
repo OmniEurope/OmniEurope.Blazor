@@ -208,6 +208,15 @@ public partial class OmniDataGridColumn<TItem>
     public bool Visible { get; set; } = true;
 
     /// <summary>
+    /// Whether the reader can hide this column from the grid's column chooser (<c>AllowColumnHide</c>). True
+    /// by default; false keeps it as declared, for an action column or the column that names the row: its box
+    /// in the chooser is disabled, and it is not listed at all while the chooser only hides columns (without
+    /// <c>AllowColumnReorder</c>).
+    /// </summary>
+    [Parameter]
+    public bool Hideable { get; set; } = true;
+
+    /// <summary>
     /// Whether this column carries a resize handle. Left unset it follows the grid's
     /// <c>AllowColumnResize</c>, so turning resizing on once at grid level is enough; set it to
     /// false to keep one column fixed while the others can be resized.
@@ -322,6 +331,7 @@ public partial class OmniDataGridColumn<TItem>
             FilterOperators = FilterOperators,
             FilterOperator = FilterOperator,
             Visible = Visible,
+            Hideable = Hideable,
             Resizable = Resizable,
             AutoFit = AutoFit,
             Frozen = Frozen,
@@ -457,7 +467,7 @@ public partial class OmniDataGridColumn<TItem>
         && left.FilterIncludesTime == right.FilterIncludesTime
         && SameContent(left.FilterOperators, right.FilterOperators)
         && left.FilterOperator == right.FilterOperator
-        && left.Visible == right.Visible
+        && (left.Visible, left.Hideable).Equals((right.Visible, right.Hideable))
         && left.Resizable == right.Resizable
         && left.AutoFit == right.AutoFit
         && left.Frozen == right.Frozen

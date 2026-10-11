@@ -694,4 +694,12 @@
   <data name="UnsavedChangesStay" xml:space="preserve"><value>Pysy sivulla</value></data>
   <data name="MoreActions" xml:space="preserve"><value>Lisää toimintoja</value></data>
   <data name="AppearanceWindowTitle" xml:space="preserve"><value>Ulkoasu</value></data>
+  <data name="GridColumnChooser" xml:space="preserve"><value>Valitse sarakkeet</value></data>
+  <data name="GridColumnMoveLeft" xml:space="preserve"><value>Siirrä {0} vasemmalle</value></data>
+  <data name="GridColumnMoveRight" xml:space="preserve"><value>Siirrä {0} oikealle</value></data>
+  <data name="GridColumnShown" xml:space="preserve"><value>Sarake {0} näytetään</value></data>
+  <data name="GridColumnHidden" xml:space="preserve"><value>Sarake {0} piilotettu</value></data>
+  <data name="GridColumnMoved" xml:space="preserve"><value>Sarake {0} siirretty kohtaan {1}/{2}</value></data>
+  <data name="GridResetLayout" xml:space="preserve"><value>Palauta asettelu</value></data>
+  <data name="GridLayoutReset" xml:space="preserve"><value>Sarakkeiden asettelu palautettu</value></data>
 </root>

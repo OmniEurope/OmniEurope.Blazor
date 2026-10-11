@@ -11,7 +11,7 @@
         @if (SelectionMode != OmniDataGridSelectionMode.None) { <td class="@Classes.ControlClass("select")" data-omni-control="select"></td> }
         @foreach (var column in ColumnSet.VisibleColumns)
         {
-            <td class="@Classes.ColumnClass(column, false)" data-omni-col="@column.Key">
+            <td @key="column.Key" class="@Classes.ColumnClass(column, false)" data-omni-col="@column.Key">
                 @if (column.FooterContent is not null)
                 {
                     @column.FooterContent
@@ -128,7 +128,7 @@
     </div>;
 
     @* A bar of the table's frame, above or under the rows: the export buttons at its start or its end,
-       the host's content in the rest of it. *@
+       the host's content in the rest of it, and the column chooser at the end of the header bar. *@
     RenderFragment<(string Part, OmniDataGridBarExport Side, RenderFragment? Content)> bar = context => @<div class="omni-data-grid__bar omni-data-grid__bar--@context.Part">
         @if (context.Side == OmniDataGridBarExport.Start)
         {
@@ -138,6 +138,10 @@
         @if (context.Side == OmniDataGridBarExport.End)
         {
             @exportGroup
+        }
+        @if (context.Part == "header" && Chooser.Shown)
+        {
+            @Chooser.View
         }
     </div>;
 
@@ -184,7 +188,7 @@
                 {
                     @* The width is in the markup as well, read by the stylesheet: the first paint has the final
                        widths instead of equal columns until the script applies them (no inline style, CSP). *@
-                    <col class="omni-data-grid__col" data-omni-col="@column.Key" data-omni-width="@ColumnLayout.WidthOf(column)" />
+                    <col @key="column.Key" class="omni-data-grid__col" data-omni-col="@column.Key" data-omni-width="@ColumnLayout.WidthOf(column)" />
                 }
                 @if (ColumnSet.HasEditing) { <col class="omni-data-grid__col--control omni-data-grid__col--edit" /> }
             </colgroup>
@@ -230,8 +234,13 @@
                            controls that mean something else (filter menu, grouping, resize handle) stop the
                            event from reaching it. The inner button stays for the keyboard and for screen
                            readers, which need a real control to announce. *@
-                        <th class="@Classes.ColumnClass(column, true)"
+                        @* Keyed by column, like every per-column cell: a column moved by the reader takes its
+                           elements (and the components of its templates) with it. data-omni-reorder offers the
+                           header to the drag of omni-grid.js, within its frozen group. *@
+                        <th @key="column.Key"
+                            class="@Classes.ColumnClass(column, true)"
                             data-omni-col="@column.Key"
+                            data-omni-reorder="@(AllowColumnReorder ? (column.Frozen ? "frozen" : "free") : null)"
                             scope="col"
                             aria-sort="@Query.AriaSort(column)"
                             @onclick="args => Query.SortAsync(column.Key, args.ShiftKey)">
@@ -319,7 +328,7 @@
                         @if (SelectionMode != OmniDataGridSelectionMode.None) { <td class="@Classes.ControlClass("select")" data-omni-control="select"></td> }
                         @foreach (var column in ColumnSet.VisibleColumns)
                         {
-                            <td class="@Classes.FilterCellClass(column)" data-omni-col="@column.Key">
+                            <td @key="column.Key" class="@Classes.FilterCellClass(column)" data-omni-col="@column.Key">
                                 @if (FilterEditor.IsFilterable(column))
                                 {
                                     @if (FilterEditor.EditsInPopover)
@@ -462,14 +471,17 @@
                                 @foreach (var column in ColumnSet.VisibleColumns)
                                 {
                                     @* A cell being edited keeps its events; any other cell lets them reach its row,
-                                       after its own cell events when the host listens to them. *@
+                                       after its own cell events when the host listens to them. The two
+                                       cells take different keys: with one key, Blazor kept the element
+                                       across the two branches and left it without its attributes in the
+                                       browser (no class, no data-omni-col, empty editor values). *@
                                     @if (editing)
                                     {
-                                        <td class="@Classes.BodyCellClass(column, true)" data-omni-col="@column.Key" data-omni-label="@column.Title" @onclick:stopPropagation="true" @ondblclick:stopPropagation="true" @onkeydown:stopPropagation="true">@if (Classes.IsTreeColumn(row, column)) { @treeLead(row) }@FilterControls.Cell(column, row.Item, true)</td>
+                                        <td @key="(column.Key, true)" class="@Classes.BodyCellClass(column, true)" data-omni-col="@column.Key" data-omni-label="@column.Title" @onclick:stopPropagation="true" @ondblclick:stopPropagation="true" @onkeydown:stopPropagation="true">@if (Classes.IsTreeColumn(row, column)) { @treeLead(row) }@FilterControls.Cell(column, row.Item, true)</td>
                                     }
                                     else
                                     {
-                                        <td class="@Classes.BodyCellClass(column, false)" data-omni-col="@column.Key" data-omni-label="@column.Title" @onclick="Selection.CellClickCallback(row, column)" @ondblclick="Selection.CellDoubleClickCallback(row, column)">@if (Classes.IsTreeColumn(row, column)) { @treeLead(row) }@FilterControls.Cell(column, row.Item, false)</td>
+                                        <td @key="column.Key" class="@Classes.BodyCellClass(column, false)" data-omni-col="@column.Key" data-omni-label="@column.Title" @onclick="Selection.CellClickCallback(row, column)" @ondblclick="Selection.CellDoubleClickCallback(row, column)">@if (Classes.IsTreeColumn(row, column)) { @treeLead(row) }@FilterControls.Cell(column, row.Item, false)</td>
                                     }
                                 }
                                 @if (ColumnSet.HasEditing)
@@ -502,7 +514,7 @@
                                 @if (SelectionMode != OmniDataGridSelectionMode.None) { <td class="@Classes.ControlClass("select")" data-omni-control="select"></td> }
                                 @foreach (var column in ColumnSet.VisibleColumns)
                                 {
-                                    <td class="@Classes.ColumnClass(column, false)" data-omni-col="@column.Key">
+                                    <td @key="column.Key" class="@Classes.ColumnClass(column, false)" data-omni-col="@column.Key">
                                         @if (column.GroupFooterTemplate is not null)
                                         {
                                             @column.GroupFooterTemplate(footer)
@@ -616,6 +628,12 @@
         else
         {
             @table
+        }
+        @* What the column chooser or a header drag just did (a column shown, hidden or moved, the layout
+           reset), said politely to screen readers; present from the start so the first change is heard. *@
+        @if (Chooser.Shown)
+        {
+            <div class="omni-visually-hidden" role="status" aria-live="polite" aria-atomic="true">@Chooser.Announcement</div>
         }
         @if (ShowPagingSummary)
         {

@@ -207,17 +207,6 @@ public sealed class DataFamilyEdgeTests : OmniBunitContext
         Assert.Equal("lignes-page-size", pager.Find("select").Id);
     }
 
-    [Fact]
-    public async Task LocalStorageStore_WritesTheStateUnderItsKey()
-    {
-        JSInterop.SetupVoid("localStorage.setItem", "grille", "{}").SetVoidResult();
-        var store = new OmniLocalStorageDataGridStateStore(JSInterop.JSRuntime);
-
-        await store.SaveAsync("grille", "{}", Xunit.TestContext.Current.CancellationToken);
-
-        Assert.Single(JSInterop.Invocations["localStorage.setItem"]);
-    }
-
     // ---- export -----------------------------------------------------------------------------------
 
     [Fact]

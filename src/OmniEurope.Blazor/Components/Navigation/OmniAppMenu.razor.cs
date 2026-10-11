@@ -8,10 +8,19 @@ namespace OmniEurope.Blazor.Components;
 /// mode and the language it raises, and opens the appearance window (<see cref="OmniAppearanceWindow"/>)
 /// on <see cref="OnTheme"/>.
 /// </summary>
-public partial class OmniAppMenu
+/// <remarks>
+/// A menu whose markup writes none of <see cref="Appearance"/>, <see cref="AppearanceChanged"/> and
+/// <see cref="Preset"/> follows the user's <see cref="OmniAppearanceState"/>: the mode and the theme in
+/// force come from it and the mode picked is written to it. Writing any of them keeps the menu
+/// controlled by the host, as before. The choice is made at the first render; <see cref="OnTheme"/>
+/// still opens the host's appearance window, which can follow the state too.
+/// </remarks>
+public partial class OmniAppMenu : IDisposable
 {
     private readonly string _idPrefix = $"omni-app-menu-{Guid.NewGuid():N}";
     private bool _open;
+    private AppearanceFollower? _shared;
+    private bool _decided;
 
     /// <summary>Accessible name of the trigger and of the panel; the localized "Application menu" when null or blank.</summary>
     [Parameter]
@@ -52,8 +61,11 @@ public partial class OmniAppMenu
     [Parameter]
     public OmniAppearance Appearance { get; set; }
 
-    /// <summary>Raised with the mode picked; the host stores and applies it.</summary>
-    [Parameter, EditorRequired]
+    /// <summary>
+    /// Raised with the mode picked; the host stores and applies it. Left out with the mode and the theme, the menu follows the
+    /// user's <see cref="OmniAppearanceState"/> (see the remarks).
+    /// </summary>
+    [Parameter]
     public EventCallback<OmniAppearance> AppearanceChanged { get; set; }
 
     /// <summary>The theme in force: a theme drawn in dark mode only (<see cref="OmniThemePreset.DarkOnly"/>) fixes the mode.</summary>
@@ -124,6 +136,52 @@ public partial class OmniAppMenu
     };
 
     private string RowId(string row) => $"{_idPrefix}-{row}";
+
+    /// <summary>
+    /// Decides, from the parameters of the first render, whether the menu follows the user's
+    /// <see cref="OmniAppearanceState"/> (none of <see cref="Appearance"/>, <see cref="AppearanceChanged"/> and <see cref="Preset"/> written).
+    /// </summary>
+    /// <param name="parameters">The parameters given by the renderer.</param>
+    public override Task SetParametersAsync(ParameterView parameters)
+    {
+        if (!_decided)
+        {
+            _decided = true;
+            _shared = AppearanceFollower.Start(SharedAppearance, AppearanceFollower.Sets(parameters, nameof(Appearance), nameof(AppearanceChanged), nameof(Preset)),
+                () => InvokeAsync(() =>
+                {
+                    FollowState();
+                    StateHasChanged();
+                }));
+        }
+
+        return base.SetParametersAsync(parameters);
+    }
+
+    /// <summary>Following the state, reads the preference before showing it.</summary>
+    protected override Task OnInitializedAsync() => _shared?.State.LoadAsync() ?? Task.CompletedTask;
+
+    /// <summary>Following the state, takes the mode and the theme from it.</summary>
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        FollowState();
+    }
+
+    /// <summary>Stops following the state.</summary>
+    public void Dispose() => _shared?.Dispose();
+
+    private void FollowState()
+    {
+        if (_shared?.State is not { } state)
+        {
+            return;
+        }
+
+        Appearance = state.Appearance;
+        Preset = state.Preset;
+        AppearanceChanged = EventCallback.Factory.Create<OmniAppearance>(this, state.SetAppearanceAsync);
+    }
 
     private async Task SetOpenAsync(bool open)
     {

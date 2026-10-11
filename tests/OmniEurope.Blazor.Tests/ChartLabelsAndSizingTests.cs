@@ -205,6 +205,17 @@ public sealed class ChartLabelsAndSizingTests : OmniBunitContext
     }
 
     [Fact]
+    public void Chart_MinWidth_IsNoneByDefault()
+    {
+        var chart = Render<OmniChart>(parameters => parameters
+            .Add(component => component.Title, "Soldes")
+            .Add(component => component.AspectRatio, 4));
+
+        Assert.Equal(OmniChartMinWidth.None, chart.Instance.MinWidth);
+        Assert.DoesNotContain(chart.Find("figure.omni-chart").ClassList, name => name.StartsWith("omni-chart--min-", StringComparison.Ordinal));
+    }
+
+    [Fact]
     public void StatTile_AttachesTheScriptThatKeepsItsLabelOnOneLine()
     {
         var module = JSInterop.SetupModule(Internal.OmniModules.StatTile);

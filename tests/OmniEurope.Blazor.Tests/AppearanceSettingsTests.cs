@@ -257,7 +257,8 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
     public void Font_is_offered_in_the_window_only_once_the_host_binds_it()
     {
         OmniThemeFont? picked = null;
-        var unbound = Render<OmniAppearanceSettings>();
+        // A host that controls the settings (another callback bound) without the font never offers it.
+        var unbound = Render<OmniAppearanceSettings>(parameters => parameters.Add(component => component.DensityChanged, _ => { }));
         unbound.Find(".omni-appearance-settings__row--scale button").Click();
         Assert.Empty(unbound.FindAll(".omni-appearance-window select[aria-label='Police']"));
 

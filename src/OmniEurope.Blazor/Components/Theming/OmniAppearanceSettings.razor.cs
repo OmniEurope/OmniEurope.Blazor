@@ -9,9 +9,28 @@ namespace OmniEurope.Blazor.Components;
 /// A new theme comes with its own palette and font: picking one raises <see cref="PresetChanged"/>, then
 /// <see cref="PaletteChanged"/> and <see cref="FontChanged"/> with null for a palette or a font chosen
 /// for the previous theme, as <see cref="OmniAppearanceWindow"/> does.
+/// <para>
+/// Settings whose markup writes none of the eighteen appearance parameters (the nine values, from
+/// <see cref="Appearance"/> to <see cref="FullWidth"/>, and their change callbacks) follow the user's
+/// <see cref="OmniAppearanceState"/> instead, with every setting of the window: values read from the
+/// state, changes written to it. Writing any of them keeps the component controlled by the host, as
+/// before. The choice is made at the first render.
+/// </para>
 /// </remarks>
-public partial class OmniAppearanceSettings
+public partial class OmniAppearanceSettings : IDisposable
 {
+    private AppearanceFollower? _shared;
+    private bool _decided;
+
+    /// <summary>The appearance parameters, values and change callbacks: a host that writes any of them controls the component.</summary>
+    private static readonly string[] AppearanceParameters =
+    [
+        nameof(Appearance), nameof(AppearanceChanged), nameof(Preset), nameof(PresetChanged), nameof(Palette), nameof(PaletteChanged),
+        nameof(Font), nameof(FontChanged), nameof(BackdropMotion), nameof(BackdropMotionChanged), nameof(TextSizeLevel),
+        nameof(TextSizeLevelChanged), nameof(Density), nameof(DensityChanged), nameof(ControlSizeLevel), nameof(ControlSizeLevelChanged),
+        nameof(FullWidth), nameof(FullWidthChanged)
+    ];
+
     /// <summary>The mode a theme drawn in dark mode only fixes, or null: then it cannot change.</summary>
     private OmniAppearance? FixedMode => Preset?.FixedAppearance;
 
@@ -165,10 +184,66 @@ public partial class OmniAppearanceSettings
 
     private string RowId(string row) => $"{_idPrefix}-{row}";
 
+    /// <summary>
+    /// Decides, from the parameters of the first render, whether the settings follow the user's
+    /// <see cref="OmniAppearanceState"/> (none of its appearance values or change callbacks written).
+    /// </summary>
+    /// <param name="parameters">The parameters given by the renderer.</param>
+    public override Task SetParametersAsync(ParameterView parameters)
+    {
+        if (!_decided)
+        {
+            _decided = true;
+            var hostControls = AppearanceFollower.Sets(parameters, AppearanceParameters);
+            _shared = AppearanceFollower.Start(SharedAppearance, hostControls, () => InvokeAsync(() =>
+            {
+                FollowState();
+                StateHasChanged();
+            }));
+        }
+
+        return base.SetParametersAsync(parameters);
+    }
+
+    /// <summary>Following the state, reads the preference before showing it.</summary>
+    protected override Task OnInitializedAsync() => _shared?.State.LoadAsync() ?? Task.CompletedTask;
+
+    /// <summary>Stops following the state.</summary>
+    public void Dispose() => _shared?.Dispose();
+
+    /// <summary>Following the state, takes every value from it and sends every change to it.</summary>
+    private void FollowState()
+    {
+        if (_shared?.State is not { } state)
+        {
+            return;
+        }
+
+        Appearance = state.Appearance;
+        AppearanceChanged = EventCallback.Factory.Create<OmniAppearance>(this, state.SetAppearanceAsync);
+        Preset = state.Preset;
+        PresetChanged = EventCallback.Factory.Create<OmniThemePreset?>(this, state.SetPresetAsync);
+        Palette = state.Palette;
+        PaletteChanged = EventCallback.Factory.Create<OmniThemePalette?>(this, state.SetPaletteAsync);
+        Font = state.Font;
+        FontChanged = EventCallback.Factory.Create<OmniThemeFont?>(this, state.SetFontAsync);
+        BackdropMotion = state.BackdropMotion;
+        BackdropMotionChanged = EventCallback.Factory.Create<bool>(this, state.SetBackdropMotionAsync);
+        TextSizeLevel = state.TextSizeLevel;
+        TextSizeLevelChanged = EventCallback.Factory.Create<int>(this, state.SetTextSizeLevelAsync);
+        Density = state.Density;
+        DensityChanged = EventCallback.Factory.Create<OmniDensity>(this, state.SetDensityAsync);
+        ControlSizeLevel = state.ControlSizeLevel;
+        ControlSizeLevelChanged = EventCallback.Factory.Create<int>(this, state.SetControlSizeLevelAsync);
+        FullWidth = state.FullWidth;
+        FullWidthChanged = EventCallback.Factory.Create<bool>(this, state.SetFullWidthAsync);
+    }
+
     /// <summary>Adopts the open state the host sets, whenever it changes it.</summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+        FollowState();
         if (_windowOpenParameter != WindowOpen)
         {
             _windowOpenParameter = WindowOpen;

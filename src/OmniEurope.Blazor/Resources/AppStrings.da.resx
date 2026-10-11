@@ -694,4 +694,12 @@
   <data name="UnsavedChangesStay" xml:space="preserve"><value>Bliv på siden</value></data>
   <data name="MoreActions" xml:space="preserve"><value>Flere handlinger</value></data>
   <data name="AppearanceWindowTitle" xml:space="preserve"><value>Udseende</value></data>
+  <data name="GridColumnChooser" xml:space="preserve"><value>Vælg kolonner</value></data>
+  <data name="GridColumnMoveLeft" xml:space="preserve"><value>Flyt {0} til venstre</value></data>
+  <data name="GridColumnMoveRight" xml:space="preserve"><value>Flyt {0} til højre</value></data>
+  <data name="GridColumnShown" xml:space="preserve"><value>Kolonnen {0} vises</value></data>
+  <data name="GridColumnHidden" xml:space="preserve"><value>Kolonnen {0} skjult</value></data>
+  <data name="GridColumnMoved" xml:space="preserve"><value>Kolonnen {0} flyttet til position {1} af {2}</value></data>
+  <data name="GridResetLayout" xml:space="preserve"><value>Nulstil layout</value></data>
+  <data name="GridLayoutReset" xml:space="preserve"><value>Kolonnelayout nulstillet</value></data>
 </root>

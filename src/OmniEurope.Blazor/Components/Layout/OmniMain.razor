@@ -2,7 +2,8 @@
 @inherits OmniComponentBase
 @implements IAsyncDisposable
 
-@* Scrollable wraps the landmark in a frame as wide as the main area: the landmark scrolls across the
+@* Each main area tells the ones nested in it that it holds them: only the outermost follows the
+   user's content width. Scrollable wraps the landmark in a frame as wide as the main area: the landmark scrolls across the
    whole of it, so its scrollbar sits at the window's edge and never beside a centred column, and its
    inline padding, measured against the frame, is what centres that column. *@
 @if (Scrollable)
@@ -14,7 +15,7 @@
               class="@Css("omni-main", "omni-main--scrollable", WidthClass, AutoHideScrollbar ? "omni-main--scrollbar-autohide" : null)"
               tabindex="@(FocusTarget ? "-1" : null)"
               aria-labelledby="@AriaLabelledBy">
-            @ChildContent
+            <CascadingValue Value="this" IsFixed="true">@ChildContent</CascadingValue>
         </main>
     </div>
 }
@@ -25,6 +26,6 @@ else
           class="@Css("omni-main", WidthClass)"
           tabindex="@(FocusTarget ? "-1" : null)"
           aria-labelledby="@AriaLabelledBy">
-        @ChildContent
+        <CascadingValue Value="this" IsFixed="true">@ChildContent</CascadingValue>
     </main>
 }

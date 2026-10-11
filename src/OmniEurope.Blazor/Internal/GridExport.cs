@@ -90,8 +90,11 @@ internal sealed class GridExport<TItem>(OmniDataGrid<TItem> grid) : IAsyncDispos
     /// <summary>Where the footer bar carries the export buttons: nowhere when no format can be written.</summary>
     internal OmniDataGridBarExport FooterSide => Formats.Count > 0 ? FooterAsked : OmniDataGridBarExport.None;
 
-    /// <summary>The header bar is shown when asked, or when the former export bar is above the rows.</summary>
-    internal bool ShowHeaderBar => grid.ShowHeaderBar || (Former && HeaderSide != OmniDataGridBarExport.None);
+    /// <summary>
+    /// The header bar is shown when asked, when the former export bar is above the rows, or to carry the
+    /// column chooser.
+    /// </summary>
+    internal bool ShowHeaderBar => grid.ShowHeaderBar || (Former && HeaderSide != OmniDataGridBarExport.None) || grid.Chooser.Shown;
 
     /// <summary>The footer bar is shown when asked, or when the former export bar is under the rows.</summary>
     internal bool ShowFooterBar => grid.ShowFooterBar || (Former && FooterSide != OmniDataGridBarExport.None);

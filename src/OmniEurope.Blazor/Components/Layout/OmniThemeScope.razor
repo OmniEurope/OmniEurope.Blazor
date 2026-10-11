@@ -3,19 +3,24 @@
 @implements IAsyncDisposable
 @inject IJSRuntime JavaScript
 
-<div @attributes="AdditionalAttributes"
-     @ref="_element"
-     id="@Id"
-     class="@Css("omni-theme-scope", _canvasDrawn ? "omni-theme-scope--canvas" : null)"
-     data-omni-theme="@AppearanceValue"
-     data-omni-theme-resolved="@ResolvedValue"
-     data-omni-density="@Density.ToString().ToLowerInvariant()"
-     data-omni-backdrop-motion="@(BackdropMotion ? null : "off")"
-     data-omni-theme-snapshot="@SnapshotStorageKey">
-    @if (CanvasField is not null)
-    {
-        @* A field a CSS background cannot draw (Trou noir's lensed black hole), behind the content. *@
-        <canvas @ref="_canvas" class="omni-theme-scope__canvas" aria-hidden="true"></canvas>
-    }
-    @ChildContent
-</div>
+@* Following the user's appearance, the scope draws nothing until the preference is read, so its
+   first frame is already the user's look rather than the defaults. *@
+@if (!_waiting)
+{
+    <div @attributes="AdditionalAttributes"
+         @ref="_element"
+         id="@Id"
+         class="@Css("omni-theme-scope", _canvasDrawn ? "omni-theme-scope--canvas" : null)"
+         data-omni-theme="@AppearanceValue"
+         data-omni-theme-resolved="@ResolvedValue"
+         data-omni-density="@Density.ToString().ToLowerInvariant()"
+         data-omni-backdrop-motion="@(BackdropMotion ? null : "off")"
+         data-omni-theme-snapshot="@SnapshotStorageKey">
+        @if (CanvasField is not null)
+        {
+            @* A field a CSS background cannot draw (Trou noir's lensed black hole), behind the content. *@
+            <canvas @ref="_canvas" class="omni-theme-scope__canvas" aria-hidden="true"></canvas>
+        }
+        @ChildContent
+    </div>
+}

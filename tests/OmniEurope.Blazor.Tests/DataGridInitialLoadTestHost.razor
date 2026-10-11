@@ -3,7 +3,6 @@
               KeyOf="@(row => row.Id)"
               ScrollMode="@ScrollMode"
               StateKey="@StateKey"
-              StateStore="@StateStore"
               EstimatedRowHeight="40"
               ShowHeaderFilterMenu="true">
     <Columns>
@@ -28,8 +27,6 @@
     [Parameter] public bool ShowStatus { get; set; } = true;
 
     [Parameter] public string? StateKey { get; set; }
-
-    [Parameter] public IOmniDataGridStateStore? StateStore { get; set; }
 
     [Parameter] public Func<OmniDataGridLoadRequest, Task<OmniDataGridResult<Row>>>? Load { get; set; }
 

@@ -172,7 +172,7 @@ Le thème ne repeint que sa portée. Les valeurs sont des surcharges des variabl
 [data-omni-theme-resolved="dark"] .app-logo { filter: invert(1); }
 ```
 
-Une portée claire ou sombre sans thème, palette, police ni clé d'instantané ne charge toujours aucun script ; une portée qui suit le système charge `omni-theme.js` pour ce seul attribut.
+Une portée claire ou sombre sans thème, palette, police ni clé d'instantané, et qui ne suit pas `OmniAppearanceState` (au moins un paramètre d'apparence écrit), ne charge toujours aucun script ; une portée qui suit le système charge `omni-theme.js` pour ce seul attribut. Une portée qui suit l'état, le cas d'une portée posée sans paramètre d'apparence, charge en plus `omni-appearance.js` à son premier rendu pour la taille du texte et des contrôles (voir « Apparence portée par le paquet »).
 
 ### Peindre l'apparence avant Blazor
 
@@ -193,7 +193,7 @@ Le thème d'un site est porté entièrement par le paquet, première image compr
 </OmniThemeScope>
 ```
 
-Contrat de l'instantané (version 1), un objet JSON : `version` (1), `appearance` (`light`, `dark` ou `system`, la valeur de `data-omni-theme`), `density` (`compact`, `comfortable` ou `spacious`), `backdropMotion` (booléen), `light` et `dark` (les jetons des deux moitiés tels que la portée les pose, ou `null` sans thème, palette ni police). Les deux moitiés sont gardées : en `System`, le script de démarrage choisit celle du réglage du système au moment du chargement. Un instantané d'une autre version, illisible ou mal formé est ignoré ; seules les propriétés `--*` à valeur texte sont posées.
+Contrat de l'instantané (version 1), un objet JSON : `version` (1), `appearance` (`light`, `dark` ou `system`, la valeur de `data-omni-theme`), `density` (`compact`, `comfortable` ou `spacious`), `backdropMotion` (booléen), `light` et `dark` (les jetons des deux moitiés tels que la portée les pose, ou `null` sans thème, palette ni police), et, pour une portée qui suit `OmniAppearanceState` seulement, `textSize` et `controlSize` (niveaux 1 à 10, rejoués en `data-oe-text-size` et `data-oe-control-size` sur la racine). Les deux moitiés sont gardées : en `System`, le script de démarrage choisit celle du réglage du système au moment du chargement. Un instantané d'une autre version, illisible ou mal formé est ignoré ; seules les propriétés `--*` à valeur texte sont posées.
 
 Au démarrage, la racine reçoit les attributs de la portée (`data-omni-theme`, `data-omni-theme-resolved`, `data-omni-density`, `data-omni-backdrop-motion`), les jetons de la moitié résolue et `data-omni-theme-boot`, sur lequel la feuille peint la page comme la portée se peint (fond de page ou surface, fond de thème, texte et police). Dès que Blazor rend la portée (repérée par `data-omni-theme-snapshot`, la même clé), les mêmes jetons y sont posés, si elle dessine la même moitié : sa première image est déjà l'apparence enregistrée. En `System`, la copie suit un changement du réglage du système jusqu'à la passation. Le fond animé de Trou noir (WebGL) ne se dessine qu'une fois la portée active ; son fond CSS de repli s'affiche d'ici là.
 
@@ -234,7 +234,7 @@ Givre et Trou noir font bouger leur fond, et eux seuls (décision du propriétai
 - la portée porte `animation: var(--omni-scope-motion, none)` ; un thème qui bouge pose `--omni-scope-motion: omni-scope-turn <N>s linear infinite` (120 s pour Givre comme pour Trou noir, jamais moins d'une minute) et lit `var(--omni-scope-turn)` dans son `--omni-backdrop` : l'orbite des taches de Givre ;
 - le fond reste immobile, angle à zéro, quand `OmniThemeScope.BackdropMotion` vaut `false` (la portée pose `data-omni-backdrop-motion="off"`) et toujours sous `prefers-reduced-motion: reduce`. Un navigateur sans `@property` garde lui aussi le fond immobile.
 
-`BackdropMotion` vaut `true` par défaut. `OmniAppearanceWindow` et `OmniAppearanceSettings` exposent `BackdropMotion` et `BackdropMotionChanged` : la ligne « Fond animé » (un interrupteur, texte dans les 24 langues) n'apparaît que sous un thème qui bouge son fond et seulement si l'hôte lie le changement ; l'hôte stocke la valeur et la remet à sa portée.
+`BackdropMotion` vaut `true` par défaut. `OmniAppearanceWindow` et `OmniAppearanceSettings` exposent `BackdropMotion` et `BackdropMotionChanged` : la ligne « Fond animé » (un interrupteur, texte dans les 24 langues) n'apparaît que sous un thème qui bouge son fond et, quand l'hôte lie des paramètres d'apparence, seulement s'il lie le changement ; l'hôte stocke alors la valeur et la remet à sa portée. Sans liaison, la valeur va dans `OmniAppearanceState`.
 
 ```razor
 <OmniThemeScope Preset="@_preset" BackdropMotion="@_backdropMotion">
@@ -280,7 +280,7 @@ boutons icônes collés, comme dans `OmniAppMenu`, au bout de la ligne de titre 
 à lui si la palette n'est pas liée), figé en sombre sous un thème `DarkOnly`. Une seule colonne dès que deux de 19rem ne tiennent
 plus. Dans le pied de la fenêtre, le bouton « Aléatoire » tire un thème autre que le courant et, si la
 palette est liée, une palette autre que celle en vigueur, et de même une police si elle est liée (`PresetChanged`, `PaletteChanged`, puis
-`FontChanged` avec `null` pour une police choisie pour l'ancien thème). Chaque ligne n'apparaît que si l'hôte lie son changement
+`FontChanged` avec `null` pour une police choisie pour l'ancien thème). Quand l'hôte lie des paramètres d'apparence, chaque ligne n'apparaît que s'il lie son changement
 (`AppearanceChanged`, `PresetChanged`, `PaletteChanged`, `FontChanged`, `TextSizeLevelChanged`, `DensityChanged`,
 `ControlSizeLevelChanged`, `FullWidthChanged`) ; la ligne « Fond animé » (`BackdropMotionChanged`) demande en plus un thème
 qui bouge son fond (voir « Fond animé »). Chaque ligne est un groupe nommé par son libellé ; les boutons moins et plus
@@ -290,7 +290,7 @@ La ligne « Largeur du contenu » (`FullWidth`, `FullWidthChanged`, recette R1-1
 garde sa propre colonne centrée et passe `OmniLayoutWidth.Full` à `OmniMain.ContentWidth` quand
 `FullWidth` vaut `true`, par exemple
 `ContentWidth="@(fullWidth ? OmniLayoutWidth.Full : OmniLayoutWidth.Content)"`. Une application qui ne lie
-pas `FullWidthChanged` ne voit pas la ligne et garde sa disposition. « Tout par défaut » remet
+pas `FullWidthChanged` mais en lie d'autres ne voit pas la ligne et garde sa disposition ; sans aucune liaison, la fenêtre suit `OmniAppearanceState` et la largeur s'applique d'elle-même à l'`OmniMain` le plus externe (voir « Apparence portée par le paquet »). « Tout par défaut » remet
 « Centré », « Restaurer » la largeur d'ouverture. `OmniAppearanceSettings` transmet les deux paramètres à
 sa fenêtre.
 Dans les deux composants, choisir un thème lève `PresetChanged` puis `PaletteChanged` et `FontChanged`
@@ -310,7 +310,7 @@ La densité est un `OmniDensity` (`Density`/`DensityChanged`), choisi dans un gr
 (Compacte, Confortable, Aérée), que l'hôte passe tel quel à `OmniThemeScope.Density`. La taille du texte
 et la taille des contrôles proposent les niveaux 1 à 10 : un curseur suit les boutons moins et plus de
 chaque réglage. Le contrôle reçoit les valeurs et émet leurs changements ; l'application conserve
-la responsabilité du stockage et les applique à sa portée. Les boutons Défaut restaurent la valeur
+la responsabilité du stockage et les applique à sa portée quand elle lie ces paramètres ; sinon `OmniAppearanceState` les garde et les applique. Les boutons Défaut restaurent la valeur
 initiale de leur ligne, « Tout par défaut » toutes à la fois. Le pied de la fenêtre range à gauche « Aléatoire » et « Tout par défaut »,
 à droite « Valider » (bleu) puis « Restaurer » (rouge). Les changements s'appliquent en direct pendant
 l'essai ; « Valider », la croix et Échap ferment en gardant l'apparence essayée, seul « Restaurer »
@@ -322,7 +322,7 @@ celle du thème est marquée « (défaut) » et `OmniThemePresets.DefaultFontFor
 La palette du thème est nommée dans le sélecteur, par exemple « Océan (défaut) » pour Ardoise ;
 `OmniThemePresets.DefaultPaletteFor(preset)` fournit cette valeur. `Compact` réduit le panneau pour
 un menu d'en-tête. La taille du texte se pilote par les jetons de police
-du site ; le composant ne modifie pas la racine du document à l'insu de son hôte. Pour reproduire
+du site ; le composant ne modifie pas la racine du document à l'insu de son hôte (seul un `OmniThemeScope` qui suit `OmniAppearanceState` la pose, voir ci-dessous). Pour reproduire
 l'échelle d'une application cliente sans CSS propre à l'application, l'hôte pose `data-oe-text-size` (1 à 10) sur
 `<html>` : la feuille OE applique alors 75 % à 131,25 % à la taille racine, 5 valant 100 %.
 Le module `./_content/OmniEurope.Blazor/omni-appearance.js` expose `setTextSizeLevel(level)` et
@@ -330,10 +330,52 @@ Le module `./_content/OmniEurope.Blazor/omni-appearance.js` expose `setTextSizeL
 principe : `data-oe-control-size` (1 à 10) sur `<html>` règle `--omni-control-scale` de 0,75 à 1,3125,
 que lisent `--omni-control-height`, `--omni-control-font` et `--omni-button-pad-x` dans les trois
 densités, sans toucher au texte de la page ; `setControlSizeLevel(level)` et
-`clearControlSizeLevel()` le posent ou le retirent. La fenêtre n'affiche ce réglage
-que si l'hôte fournit `ControlSizeLevelChanged`, puisque c'est lui qui l'applique. La démonstration du paquet applique
+`clearControlSizeLevel()` le posent ou le retirent. Quand l'hôte lie des paramètres d'apparence, la fenêtre n'affiche ce réglage
+que s'il fournit `ControlSizeLevelChanged`, puisque c'est lui qui l'applique ; une fenêtre qui suit `OmniAppearanceState` l'affiche toujours. La démonstration du paquet applique
 le niveau choisi et le retire en quittant la page ; un aperçu vivant montre aussi le thème,
 la palette et la densité sélectionnés, à côté des exemples de combinaisons fixes.
+
+### Apparence portée par le paquet (`OmniAppearanceState`)
+
+`OmniAppearanceState`, service scoped enregistré par `AddOmniEuropeBlazor`, tient l'apparence de
+l'utilisateur (mode, thème, palette, police, densité, fond animé, taille du texte, taille des contrôles,
+largeur du contenu) et la garde comme une préférence d'`OmniPreferences`, sous la clé
+`OmniAppearanceState.PreferenceKey` (`omni.appearance`) : du JSON versionné, les énumérations et les
+entrées du catalogue par leur nom (`{"version":1,"appearance":"Dark","preset":"Givre","palette":null,…,"textSize":5,"controlSize":5,"fullWidth":false}`).
+Un nom que le catalogue n'a pas, une valeur d'énumération inconnue ou un niveau hors de 1 à 10 garde le
+défaut de ce seul réglage ; une valeur illisible les garde tous. Les défauts sont ceux des paramètres
+des composants (système, Essentiel, `Comfortable`, fond animé, niveaux 5, colonne centrée), si bien
+qu'une application qui passe au service ne voit rien changer tant que l'utilisateur ne choisit rien.
+
+Membres : neuf propriétés en lecture (`Appearance`, `Preset`, `Palette`, `Font`, `Density`,
+`BackdropMotion`, `TextSizeLevel`, `ControlSizeLevel`, `FullWidth`), `LoadAsync(CancellationToken)` qui
+lit la préférence, une méthode d'écriture par réglage (`SetAppearanceAsync` … `SetFullWidthAsync`) et
+l'événement `Changed` (`Action`), qui peut être levé hors du fil du rendu (valeur reçue de la base ou
+d'un autre onglet) : un composant passe par `InvokeAsync`.
+
+Les composants le suivent sans câblage quand l'hôte ne les contrôle pas ; le choix se fait au premier
+rendu, d'après ce que le balisage écrit :
+
+- `OmniThemeScope` qui n'écrit aucun de `Appearance`, `Density`, `Preset`, `Palette`, `Font`,
+  `BackdropMotion` : il les prend dans l'état, pose la taille du texte et des contrôles sur la racine du
+  document (`data-oe-text-size`, `data-oe-control-size` ; le niveau 5 retire l'attribut, le dernier
+  scope qui part retire les deux) et les ajoute à son instantané (`SnapshotKey`), qu'`omni-boot.js` pose
+  avant le premier affichage. Il ne dessine rien tant que la préférence n'est pas lue.
+- `OmniAppearanceWindow` et `OmniAppearanceSettings` qui n'écrivent aucun des dix-huit paramètres
+  d'apparence (les neuf valeurs et leurs `…Changed`) : toutes les lignes s'affichent (« Fond animé » sous un thème qui bouge son fond seulement), les valeurs
+  viennent de l'état et les changements y sont écrits ; l'hôte n'ouvre que la fenêtre (`Open`).
+- `OmniAppMenu` qui n'écrit ni `Appearance`, ni `AppearanceChanged`, ni `Preset` : le mode et le thème
+  viennent de l'état, le mode choisi y est écrit ; `OnTheme` ouvre toujours la fenêtre de l'hôte.
+- L'`OmniMain` le plus externe (pas imbriqué dans un autre) : « Pleine largeur » le dessine en
+  `OmniLayoutWidth.Full` ; « Centré » garde son `ContentWidth`, la colonne de l'hôte. Un élément
+  principal laissé à `Full` n'est donc pas changé par ce réglage.
+
+Un hôte qui écrit ces paramètres garde ses composants exactement comme avant, et ils ne lisent ni
+n'écrivent l'état. Une préférence reçue de la base (`IOmniPreferenceStore`, autre poste) ou d'un autre
+onglet repeint la page sans action. Pendant le prérendu, `OmniPreferences` lit la base directement : un
+hôte qui a une base rend les attributs du scope à l'apparence de l'utilisateur dès le premier octet ; les
+jetons du thème et les tailles de la racine suivent avec le script, l'instantané couvrant le premier
+affichage. La vitrine (Thèmes) en fait la démonstration : son aperçu ne lie rien.
 
 ### Jetons d'échelle de la feuille
 

@@ -1,5 +1,9 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Options;
+using Microsoft.JSInterop;
 using OmniEurope.Blazor.Components;
 using OmniEurope.Blazor.Localization;
 using OmniEurope.Blazor.Resources;
@@ -11,8 +15,9 @@ public static class OmniEuropeBlazorServiceCollectionExtensions
 {
     /// <summary>
     /// Registers what the components need: localization, and, scoped to each circuit, the overlay service,
-    /// the tooltip interop, the loading state, the breadcrumb service, the Markdown table exporter and a
-    /// browser-storage fallback for the data grid state store. Each service is added only when the host
+    /// the tooltip interop, the loading state, the breadcrumb service, the Markdown table exporter, the user preferences
+    /// (<see cref="OmniPreferences"/>, which also keep the data grid layouts) and the user's appearance
+    /// (<see cref="OmniAppearanceState"/>). Each service is added only when the host
     /// has not registered its own, so calling it after the host's registrations keeps them.
     /// </summary>
     /// <param name="services">The host's service collection; must not be null.</param>
@@ -21,10 +26,6 @@ public static class OmniEuropeBlazorServiceCollectionExtensions
     {
         ArgumentNullException.ThrowIfNull(services);
         services.AddLocalization();
-        // TryAdd: a host that already registered its own IOmniDataGridStateStore (a database-backed
-        // one, say) keeps it; this is only the fallback for grids that opt into StateKey without
-        // supplying one.
-        services.TryAddScoped<IOmniDataGridStateStore, OmniLocalStorageDataGridStateStore>();
         // Registered so the overlay service can be injected anywhere, dialog content included.
         // OmniComponentsHost cascades its own instance to ChildContent only, and the dialog host it
         // renders sits outside that cascade: content opened through OpenDialog cannot receive the
@@ -51,7 +52,54 @@ public static class OmniEuropeBlazorServiceCollectionExtensions
             provider.GetServices<IOmniTableExportRenderer>()));
         // The download of a table the host built itself, in any of those formats.
         services.TryAddScoped<OmniTableExportDownloader>();
+        // The user preferences: the browser cache alone, or in step with the host's
+        // IOmniPreferenceStore once AddOmniEuropePreferences registers one.
+        AddPreferences(services);
+        // The user's appearance, kept as one of those preferences: the theme scope, the appearance
+        // window and settings, the app menu and the main area follow it when the host leaves them unbound.
+        services.TryAddScoped(provider => new OmniAppearanceState(
+            provider.GetRequiredService<OmniPreferences>(),
+            provider.GetRequiredService<IJSRuntime>(),
+            provider.GetService<ILogger<OmniAppearanceState>>() ?? NullLogger<OmniAppearanceState>.Instance));
         return services;
+    }
+
+    /// <summary>
+    /// Keeps the user preferences of <see cref="OmniPreferences"/> in the host's database:
+    /// <typeparamref name="TStore"/>, resolved in each user's scope, stores them for the signed-in user,
+    /// and the browser cache follows it. Without this call the preferences stay in the browser. Replaces
+    /// a store registered before. Registers <see cref="OmniPreferences"/> as well, so it may be called before
+    /// or after <see cref="AddOmniEuropeBlazor"/>.
+    /// </summary>
+    /// <typeparam name="TStore">The host's implementation of <see cref="IOmniPreferenceStore"/>.</typeparam>
+    /// <param name="services">The host's service collection; must not be null.</param>
+    /// <param name="configure">Adjusts the synchronization (<see cref="OmniPreferencesOptions.SyncInterval"/>); null keeps the defaults.</param>
+    /// <returns><paramref name="services"/>, for chaining.</returns>
+    public static IServiceCollection AddOmniEuropePreferences<TStore>(this IServiceCollection services, Action<OmniPreferencesOptions>? configure = null)
+        where TStore : class, IOmniPreferenceStore
+    {
+        ArgumentNullException.ThrowIfNull(services);
+        services.Replace(ServiceDescriptor.Scoped<IOmniPreferenceStore, TStore>());
+        AddPreferences(services);
+        if (configure is not null)
+        {
+            services.Configure(configure);
+        }
+
+        return services;
+    }
+
+    private static void AddPreferences(IServiceCollection services)
+    {
+        services.AddOptions<OmniPreferencesOptions>();
+        // Scoped: the cache and the synchronization belong to one circuit's browser and one user. The
+        // dates come from the host's TimeProvider when it registers one, the system clock otherwise.
+        services.TryAddScoped(provider => new OmniPreferences(
+            provider.GetRequiredService<IJSRuntime>(),
+            provider.GetService<IOmniPreferenceStore>(),
+            provider.GetRequiredService<IOptions<OmniPreferencesOptions>>().Value,
+            provider.GetService<ILogger<OmniPreferences>>() ?? NullLogger<OmniPreferences>.Instance,
+            provider.GetService<TimeProvider>() ?? TimeProvider.System));
     }
 
     /// <summary>

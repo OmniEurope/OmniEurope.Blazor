@@ -74,8 +74,9 @@ Une colonne se déclare par lambda ou par nom de propriété.
   porte sur la seule colonne sans largeur ; à plusieurs, ces colonnes se partagent la place à
   parts égales au-dessus de ce minimum global.
 - Une colonne alignée à la fin (`TextAlign`) aligne aussi son titre, à la fin de l'en-tête.
-- `TextAlign`, `Class`, `HeaderClass`, `Visible`, `Resizable`, `Sortable`, `Filterable` et
-  `Groupable` complètent la déclaration. `HeaderContent` remplace le titre, `FooterContent` la cellule
+- `TextAlign`, `Class`, `HeaderClass`, `Visible`, `Hideable`, `Resizable`, `Sortable`, `Filterable` et
+  `Groupable` complètent la déclaration (`Hideable` : voir « Réordonner, masquer et réinitialiser les
+  colonnes »). `HeaderContent` remplace le titre, `FooterContent` la cellule
   de pied (fragments sans contexte).
 - Une cellule de texte (colonne sans `Template`) tient sur une ligne et se termine par des points de
   suspension au lieu de déborder sur la colonne voisine. Une cellule à gabarit n'est pas rognée, pour
@@ -477,6 +478,119 @@ sans aller-retour .NET ni attribut `style` ; la feuille peint la teinte en image
 couleur d'une cellule figée et l'état de la ligne. Une cellule redessinée par Blazor pendant le survol
 reprend sa teinte au mouvement suivant du pointeur.
 
+## Enregistrement de l'état (`StateKey`)
+
+`StateKey` active l'enregistrement de l'état de la grille : filtres, tris, largeurs choisies, ordre et
+visibilité des colonnes. Sans `StateKey`, rien n'est lu ni écrit. L'état est une préférence de
+l'utilisateur tenue par `OmniPreferences`, sous la clé `omni.grid.` suivie de `StateKey`
+(`omni.grid.commandes` pour `StateKey="commandes"`) : dans la base de l'application quand elle
+enregistre un `IOmniPreferenceStore` (`AddOmniEuropePreferences`), dans le cache `localStorage` du
+navigateur sinon. Chaque tri, filtre, redimensionnement ou changement de disposition réécrit la
+préférence.
+
+- Format : JSON (conventions web de `System.Text.Json`, noms en camelCase) avec un numéro `version`.
+  La version 2 ajoute `columnOrder` (clés des colonnes dans l'ordre choisi, `null` pour l'ordre
+  déclaré) et `columnVisibility` (clé vers visible ou non, seulement pour les colonnes que
+  l'utilisateur a changées). Un état de la version 1 (filtres, tris, largeurs seulement) se relit sans
+  perte : l'ordre et la visibilité restent ceux déclarés. Une partie absente ou une entrée incomplète
+  est ignorée, le reste est restauré ; une valeur illisible garde l'état déclaré.
+- Identité des colonnes : la `Key` de la colonne (à défaut `Property`, puis `Title`), la même que pour
+  les tris, filtres et largeurs.
+- Ordre : une colonne absente de l'ordre enregistré (ajoutée depuis) se place juste après la colonne
+  déclarée avant elle ; une clé enregistrée dont la colonne n'existe plus est ignorée. Les colonnes
+  figées (`Frozen`) gardent leurs places figées : l'ordre permute les colonnes figées entre elles et
+  les autres entre elles, jamais d'un groupe à l'autre, car une colonne figée est collée au bord par la
+  largeur des colonnes figées qui la précèdent.
+- Visibilité : `Visible` sur la colonne est la visibilité déclarée ; une visibilité enregistrée
+  l'emporte, mais seulement là où le lecteur pourrait la défaire : sur une grille à `AllowColumnHide`
+  et pour une colonne `Hideable`. Sans `AllowColumnHide`, ou pour une colonne `Hideable="false"`, l'état
+  enregistré (base, autre onglet, ancienne disposition) ne masque rien : la visibilité déclarée
+  s'applique, et l'état gardé revaut si l'hôte permet de nouveau de masquer. Un état qui masquerait
+  toutes les colonnes garde, dans l'ordre affiché, la première colonne déclarée visible, comme le sélecteur en garde toujours
+  une. Une colonne masquée disparaît de l'en-tête, des cellules, du pied, des filtres et de
+  l'export, et garde son tri et son filtre.
+- Réinitialisation de la disposition (`ResetLayoutAsync`, ou l'action du sélecteur de colonnes) : l'ordre,
+  la visibilité et les largeurs reviennent à la déclaration, et l'état est réécrit sans eux
+  (`columnOrder` et `columnVisibility` à `null`, `columnWidths` vide) ; les filtres et les tris
+  restent, et les lignes ne sont pas rechargées. La préférence n'est pas supprimée : la supprimer
+  emporterait aussi les filtres et les tris (décision du propriétaire, PLAN-019, lot 4). Les autres postes
+  de l'utilisateur reçoivent cette disposition comme tout état modifié.
+- Changement reçu : un état modifié ailleurs (un autre poste par la base, un autre onglet du même
+  navigateur) est réappliqué à la grille affichée, sans recharger la page. Les lignes ne sont
+  rechargées (retour à la première page) que si les filtres ou les tris ont changé. Une préférence
+  supprimée ailleurs ramène la grille à sa déclaration.
+- Prérendu : avec une base, l'état est lu dès le prérendu ; sans base, le navigateur n'est pas encore
+  joignable et l'état est restauré au rendu interactif. La première requête d'une grille `Load` attend
+  cette lecture.
+- Migration depuis les versions antérieures à 1.8 : `IOmniDataGridStateStore`,
+  `OmniLocalStorageDataGridStateStore` et le paramètre `StateStore` sont retirés. Une grille qui ne
+  trouve pas sa préférence mais trouve dans `localStorage`, sous la `StateKey` seule, l'entrée qu'y
+  écrivait l'ancien magasin par défaut (un objet portant `Filters`, `Sorts` et `ColumnWidths`) la reprend
+  une fois comme préférence, puis supprime l'entrée. Une autre valeur rangée sous cette clé appartient à
+  l'application et n'est pas touchée. Cette reprise n'a lieu que sans base (portée `local`) : la clé nue
+  est commune à tous les utilisateurs du navigateur, et avec un `IOmniPreferenceStore` elle pourrait
+  porter la grille d'un autre utilisateur ; l'entrée est alors laissée en place (voir
+  [preferences.md](preferences.md), « Migration vers la 1.8.0 »). Un stockage refusé par le navigateur
+  ne reprend rien, et la grille s'affiche. Un état tenu par un `IOmniDataGridStateStore` propre à
+  l'application n'est pas repris : il se migre côté application vers son `IOmniPreferenceStore`, sous
+  la clé `omni.grid.<StateKey>`.
+
+## Réordonner, masquer et réinitialiser les colonnes
+
+Trois options de la grille, toutes désactivées par défaut, rendent la disposition des colonnes au
+lecteur ; avec `StateKey`, elle est gardée (voir plus haut) et suit l'utilisateur d'un poste à l'autre.
+
+- `AllowColumnReorder` (`bool`, `false`) : un en-tête se glisse sur un autre à la souris. Au-delà de
+  six pixels l'appui devient un glisser : l'en-tête glissé pâlit, un trait de la couleur d'accent sur le
+  bord de début ou de fin de l'en-tête survolé marque où la colonne se posera (la moitié survolée
+  décide), et le lâcher la place sans trier la colonne ; en deçà, l'appui reste un clic qui trie. Échap
+  annule le glisser. La poignée de redimensionnement et le menu de filtre gardent leurs propres gestes.
+  Une colonne figée ne se pose que parmi les figées, une autre parmi les autres : aucun trait n'apparaît
+  sur un en-tête de l'autre groupe. Le geste vit dans `grid/reorder.js` (`attachReorder`,
+  `detachReorder` d'`omni-grid.js`), par des classes seulement, sans attribut `style` ; .NET n'est appelé
+  qu'au lâcher (`OnColumnDroppedAsync`). Chaque déplacement, au glisser comme au clavier, lève
+  `OnColumnReorder` (`OmniDataGridColumnOrderChange` : `Key` de la colonne déplacée, `Order`, les clés
+  de toutes les colonnes dans le nouvel ordre, masquées comprises) ; ni une réinitialisation ni un état
+  reçu d'ailleurs ne le lèvent.
+- `AllowColumnHide` (`bool`, `false`) : une case par colonne affiche ou masque la colonne. La dernière
+  colonne visible garde sa case désactivée : une grille sans colonne n'aurait plus rien à montrer.
+  `OmniDataGridColumn.Hideable` (`bool`, `true`) à `false` garde une colonne telle que déclarée
+  (colonne d'actions, colonne qui nomme la ligne) : elle n'est pas listée quand le sélecteur ne fait que
+  masquer, et sa case est désactivée quand il réordonne aussi.
+- Le sélecteur de colonnes : dès que l'une des deux options est active, la barre d'en-tête (voir « Barres
+  d'en-tête et de pied de la grille, export ») s'affiche, même sans `ShowHeaderBar`, et porte à sa fin un
+  bouton à icône seule (`Columns`) nommé et titré « Choisir les colonnes ». Il ouvre un `OmniPopover` :
+  une ligne par colonne dans l'ordre affiché, colonnes masquées comprises, avec la case (`OmniCheckBox`
+  nommée par le titre de la colonne, ou par sa clé sans titre) puis, avec `AllowColumnReorder`, deux
+  flèches « Déplacer … à gauche » et « Déplacer … à droite » : c'est le chemin du clavier et des
+  technologies d'assistance pour réordonner. Une flèche qui sortirait de la liste ou franchirait la
+  limite des colonnes figées est désactivée. Après un déplacement, le focus revient sur la même flèche
+  de la colonne déplacée, ou sur l'autre quand celle-ci ne peut plus servir. Sans `AllowColumnHide`, la
+  ligne montre le nom sans case. Le panneau tient dans un écran de 375 px ; pendant qu'il est ouvert, le
+  cadre de la grille cesse de rogner son contenu, pour ne pas couper le panneau au pied d'une grille
+  courte.
+- Réinitialisation : `ResetLayoutAsync()` ramène l'ordre, la visibilité et les largeurs à la
+  déclaration, garde les filtres et les tris, et enregistre l'état (voir « Enregistrement de l'état »).
+  `ShowResetLayout` (`bool`, `false` : décision du propriétaire, l'action existe mais reste masquée par
+  défaut) ajoute au pied du sélecteur l'action « Réinitialiser la disposition », qui fait la même chose ;
+  un hôte qui ne l'affiche pas peut offrir la méthode ailleurs.
+- Annonces : la grille tient une zone `role="status"` polie, présente dès que le sélecteur existe, qui
+  dit chaque changement : « Colonne Montant déplacée en position 2 sur 5 » (place parmi les colonnes
+  affichées ; pour une colonne masquée déplacée dans le sélecteur, sa place dans la liste), « Colonne
+  Pays masquée », « Colonne Pays affichée », « Disposition des colonnes réinitialisée » (après l'action du
+  sélecteur seulement : un appel de `ResetLayoutAsync()` par l'hôte n'annonce rien). Les textes sont
+  dans les 24 langues (`GridColumnChooser`, `GridColumnMoveLeft`, `GridColumnMoveRight`,
+  `GridColumnShown`, `GridColumnHidden`, `GridColumnMoved`, `GridResetLayout`, `GridLayoutReset`).
+- L'en-tête et toutes les cellules d'une colonne sont rendus avec la clé de la colonne (`@key`) : une
+  colonne déplacée emporte ses éléments et les composants de ses gabarits (un filtre en cours de saisie
+  reste à sa colonne).
+
+La démonstration « Grille, vue complète » de la vitrine montre les trois options, `Hideable="false"` sur
+la référence et `ShowResetLayout`, avec une `StateKey` : la disposition survit au rechargement. La
+sonde des scripts (`eng/scripts-probe/columns.mjs`, `OMNI_SCRIPTS_ONLY=columns`) le vérifie dans
+Chromium : glisser, Échap, limite figée, clavier et focus, masquage, rechargement, réinitialisation,
+375 px, sans violation CSP ni erreur de console.
+
 ## Ce qui n'est délibérément pas fourni
 
 - `Style` : un attribut `style` violerait le contrat CSP. Le remplacement est `Class`, `Height`,
@@ -485,7 +599,10 @@ reprend sa teinte au mouvement suivant du pointeur.
   bouton d'en-tête et par `Groups`.
 - Un rendu de filtre au choix de l'hôte hors des deux emplacements fournis : la rangée de filtres, ou
   le menu d'en-tête (`ShowHeaderFilterMenu`) ; `FilterTemplate` remplace le contrôle, pas son cadre.
-- Le sélecteur de colonnes visibles : `Visible` reste piloté par l'hôte.
+- Le glisser d'un en-tête au toucher : sur un écran tactile, un appui sur l'en-tête fait défiler le
+  tableau ; le sélecteur de colonnes reste le chemin pour réordonner.
+- Un événement pour le masquage d'une colonne : seul le déplacement est rapporté (`OnColumnReorder`) ;
+  la visibilité choisie se lit dans l'état enregistré.
 
 ## Arbre : `OmniTree` et `OmniTreeItem`
 

@@ -1,6 +1,9 @@
 @* The grid at full stretch: selection, grouping, editing, frozen columns and the two filter
    controls the column header can host. The row of selectors above it drives the display settings
-   live, so every value the parameters accept can be seen rather than merely described. *@
+   live, so every value the parameters accept can be seen rather than merely described. Its columns
+   can be dragged by their header, hidden or moved from the chooser of the header bar (the reference
+   stays: Hideable="false") and reset there; StateKey keeps that layout, the sorts and the filters
+   across a reload. *@
 <OmniStack Gap="OmniSpacing.Medium">
     <OmniRow Gap="OmniSpacing.Medium" Wrap="true" Align="OmniAlignment.End">
         <OmniFormField For="grid-lines">
@@ -67,6 +70,10 @@
               Filterable="true"
               AllowGrouping="true"
               AllowColumnResize="true"
+              AllowColumnReorder="true"
+              AllowColumnHide="true"
+              ShowResetLayout="true"
+              StateKey="showcase-grid-advanced"
               AllowRowSelectOnRowClick="true"
               ScrollMode="OmniDataGridScrollMode.Paged"
               AllGroupsExpanded="true"
@@ -86,7 +93,7 @@
               HighlightColumnOnHover="true"
               GridLines="Lines">
     <Columns>
-        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="@Text["DemoGridColumnReference"]" Frozen="true" HighlightOnHover="false" FilterOperators="ReferenceOperators" />
+        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="@Text["DemoGridColumnReference"]" Frozen="true" Hideable="false" HighlightOnHover="false" FilterOperators="ReferenceOperators" />
         <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="@Text["DemoGridColumnApplicant"]"
                             FilterType="OmniDataGridColumnFilterType.Combo" FilterSearchable="true">
             <GroupFooterTemplate>@Text["DemoGridAdvancedGroupFooter", context.Key ?? string.Empty, context.Items.Count]</GroupFooterTemplate>

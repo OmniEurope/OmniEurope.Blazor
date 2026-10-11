@@ -8,12 +8,12 @@ namespace OmniEurope.Blazor.Components;
 public enum OmniChartMinWidth
 {
     /// <summary>
-    /// The default: a minimum width chosen from the width over height of the drawing, about 12.5rem per
+    /// A minimum width chosen from the width over height of the drawing, about 12.5rem per
     /// unit of it (12.5rem for a square chart, 20rem up to 1.8, 25rem up to 2.5, 37.5rem up to 3.5,
     /// 50rem beyond). A host sets its own length through the <c>--omni-chart-min-width</c> property.
     /// </summary>
     Auto,
 
-    /// <summary>No minimum: the chart follows the width of its card down to any size, as before.</summary>
+    /// <summary>The default: no minimum, the chart follows the width of its card down to any size.</summary>
     None
 }

@@ -694,4 +694,12 @@
   <data name="UnsavedChangesStay" xml:space="preserve"><value>Ostani na strani</value></data>
   <data name="MoreActions" xml:space="preserve"><value>Več dejanj</value></data>
   <data name="AppearanceWindowTitle" xml:space="preserve"><value>Videz</value></data>
+  <data name="GridColumnChooser" xml:space="preserve"><value>Izberi stolpce</value></data>
+  <data name="GridColumnMoveLeft" xml:space="preserve"><value>Premakni {0} levo</value></data>
+  <data name="GridColumnMoveRight" xml:space="preserve"><value>Premakni {0} desno</value></data>
+  <data name="GridColumnShown" xml:space="preserve"><value>Stolpec {0} prikazan</value></data>
+  <data name="GridColumnHidden" xml:space="preserve"><value>Stolpec {0} skrit</value></data>
+  <data name="GridColumnMoved" xml:space="preserve"><value>Stolpec {0} premaknjen na mesto {1} od {2}</value></data>
+  <data name="GridResetLayout" xml:space="preserve"><value>Ponastavi postavitev</value></data>
+  <data name="GridLayoutReset" xml:space="preserve"><value>Postavitev stolpcev ponastavljena</value></data>
 </root>

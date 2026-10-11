@@ -25,6 +25,7 @@ structurelles ; un plan décrit un travail, pas l'état du produit.
 | [PLAN-016](PLAN-016-neutralite-du-depot-public.md) | Dépôt public sans nom d'application cliente, d'outil interne ni donnée personnelle : livré le 2026-10-07 (dépôt recréé, historique réécrit) ; restent la dépréciation NuGet et la configuration de publication | Sans ADR supplémentaire |
 | [PLAN-017](PLAN-017-corrections-audit-2026-10-07.md) | Corrections de l'audit du 2026-10-07 : livré le 2026-10-08 dans la 1.7.0, à archiver après relecture du propriétaire | Sans ADR supplémentaire |
 | [PLAN-018](PLAN-018-demandes-application-cliente-2026-10-08.md) | Cinq demandes d'une application cliente du 2026-10-08 : infobulles de titre, grille détruite, notifications sur écran étroit, lien d'évitement livrés dans la 1.7.0 ; chargeur de modules dans la version suivante | Sans ADR supplémentaire |
+| [PLAN-019](PLAN-019-preferences-en-base.md) | Préférences en base de l'application avec cache `localStorage` et synchronisation, colonnes de grille réordonnables, masquables et réinitialisables : lots 1 à 5 livrés le 2026-10-11 pour la `1.8.0` ; restent la relecture native des 8 nouveaux textes de la grille, la mise en place dans les applications clientes (propriétaire) et la décision sur un alias `[Obsolete]` pour les types de stockage de grille retirés | Sans ADR supplémentaire |
 
 ## Archives
 

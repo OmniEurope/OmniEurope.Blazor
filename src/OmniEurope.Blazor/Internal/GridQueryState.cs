@@ -114,6 +114,24 @@ internal sealed class GridQueryState<TItem>(OmniDataGrid<TItem> grid)
         _sorts.AddRange(sorts);
     }
 
+    /// <summary>
+    /// Back to what the columns declare: every filter, draft and sort dropped, then each declared
+    /// column's <c>SortOrder</c> and <c>DefaultFilterValue</c> applied again.
+    /// </summary>
+    internal void ResetToDeclared()
+    {
+        _filters.Clear();
+        _draftFilters.Clear();
+        _sorts.Clear();
+        _initialSortKeys.Clear();
+        _defaultFilterKeys.Clear();
+        foreach (var column in grid.ColumnSet.Declared)
+        {
+            ApplyInitialSort(column);
+            ApplyDefaultFilter(column);
+        }
+    }
+
     /// <summary>Drops the filter, draft and sort of a column that left the grid.</summary>
     internal void Forget(string key)
     {

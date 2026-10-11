@@ -7,6 +7,13 @@ namespace OmniEurope.Blazor.Components;
 /// <see cref="OmniBody"/>: the page content, optionally narrowed to a centred column and optionally the
 /// scroll container of the page.
 /// </summary>
+/// <remarks>
+/// The outermost main area (one not nested in another <see cref="OmniMain"/>) follows the user's content
+/// width, <see cref="OmniAppearanceState.FullWidth"/>: when the user asks for the whole width, it is
+/// drawn as <see cref="OmniLayoutWidth.Full"/> whatever <see cref="ContentWidth"/> says; otherwise
+/// <see cref="ContentWidth"/> is the centred column the user gets. A main area left at its default
+/// (<see cref="OmniLayoutWidth.Full"/>) is therefore unchanged by the setting.
+/// </remarks>
 public partial class OmniMain
 {
     private const string InteropModulePath = Internal.OmniModules.Interop;
@@ -15,6 +22,7 @@ public partial class OmniMain
     private IJSObjectReference? _module;
     private bool _watching;
     private bool _disposed;
+    private AppearanceFollower? _shared;
 
     [Inject]
     private IJSRuntime JavaScript { get; set; } = default!;
@@ -22,6 +30,10 @@ public partial class OmniMain
     /// <summary>The page content. Required.</summary>
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>The main area this one is nested in, if any: only the outermost follows the user's content width.</summary>
+    [CascadingParameter]
+    private OmniMain? Outer { get; set; }
 
     /// <summary>
     /// Whether the landmark can receive focus from script (<c>tabindex="-1"</c>), so a skip link or a
@@ -61,6 +73,13 @@ public partial class OmniMain
     /// </summary>
     [Parameter]
     public bool AutoHideScrollbar { get; set; }
+
+    /// <summary>The outermost main area follows the user's content width, once the preference is read.</summary>
+    protected override Task OnInitializedAsync()
+    {
+        _shared = AppearanceFollower.Start(SharedAppearance, Outer is not null, () => InvokeAsync(StateHasChanged));
+        return _shared?.State.LoadAsync() ?? Task.CompletedTask;
+    }
 
     /// <summary>
     /// Whenever <see cref="Scrollable"/> and <see cref="AutoHideScrollbar"/> become both on, loads the
@@ -104,6 +123,7 @@ public partial class OmniMain
     public async ValueTask DisposeAsync()
     {
         _disposed = true;
+        _shared?.Dispose();
         if (_module is null)
         {
             return;
@@ -119,7 +139,10 @@ public partial class OmniMain
         }
     }
 
-    private string? WidthClass => ContentWidth == OmniLayoutWidth.Full
+    /// <summary>The width drawn: the whole width when the user asks for it, <see cref="ContentWidth"/> otherwise.</summary>
+    private OmniLayoutWidth EffectiveWidth => _shared?.State.FullWidth == true ? OmniLayoutWidth.Full : ContentWidth;
+
+    private string? WidthClass => EffectiveWidth == OmniLayoutWidth.Full
         ? null
-        : $"omni-main--{ContentWidth.ToString().ToLowerInvariant()}";
+        : $"omni-main--{EffectiveWidth.ToString().ToLowerInvariant()}";
 }

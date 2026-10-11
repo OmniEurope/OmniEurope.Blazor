@@ -694,4 +694,12 @@
   <data name="UnsavedChangesStay" xml:space="preserve"><value>Zostať na stránke</value></data>
   <data name="MoreActions" xml:space="preserve"><value>Ďalšie akcie</value></data>
   <data name="AppearanceWindowTitle" xml:space="preserve"><value>Vzhľad</value></data>
+  <data name="GridColumnChooser" xml:space="preserve"><value>Vybrať stĺpce</value></data>
+  <data name="GridColumnMoveLeft" xml:space="preserve"><value>Presunúť {0} doľava</value></data>
+  <data name="GridColumnMoveRight" xml:space="preserve"><value>Presunúť {0} doprava</value></data>
+  <data name="GridColumnShown" xml:space="preserve"><value>Stĺpec {0} zobrazený</value></data>
+  <data name="GridColumnHidden" xml:space="preserve"><value>Stĺpec {0} skrytý</value></data>
+  <data name="GridColumnMoved" xml:space="preserve"><value>Stĺpec {0} presunutý na pozíciu {1} z {2}</value></data>
+  <data name="GridResetLayout" xml:space="preserve"><value>Obnoviť rozloženie</value></data>
+  <data name="GridLayoutReset" xml:space="preserve"><value>Rozloženie stĺpcov obnovené</value></data>
 </root>

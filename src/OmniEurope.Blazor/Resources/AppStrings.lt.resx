@@ -694,4 +694,12 @@
   <data name="UnsavedChangesStay" xml:space="preserve"><value>Likti puslapyje</value></data>
   <data name="MoreActions" xml:space="preserve"><value>Daugiau veiksmų</value></data>
   <data name="AppearanceWindowTitle" xml:space="preserve"><value>Išvaizda</value></data>
+  <data name="GridColumnChooser" xml:space="preserve"><value>Pasirinkti stulpelius</value></data>
+  <data name="GridColumnMoveLeft" xml:space="preserve"><value>Perkelti {0} į kairę</value></data>
+  <data name="GridColumnMoveRight" xml:space="preserve"><value>Perkelti {0} į dešinę</value></data>
+  <data name="GridColumnShown" xml:space="preserve"><value>Stulpelis {0} rodomas</value></data>
+  <data name="GridColumnHidden" xml:space="preserve"><value>Stulpelis {0} paslėptas</value></data>
+  <data name="GridColumnMoved" xml:space="preserve"><value>Stulpelis {0} perkeltas į {1} vietą iš {2}</value></data>
+  <data name="GridResetLayout" xml:space="preserve"><value>Atkurti išdėstymą</value></data>
+  <data name="GridLayoutReset" xml:space="preserve"><value>Stulpelių išdėstymas atkurtas</value></data>
 </root>

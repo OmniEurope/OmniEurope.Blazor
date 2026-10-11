@@ -694,4 +694,12 @@
   <data name="UnsavedChangesStay" xml:space="preserve"><value>Jää lehele</value></data>
   <data name="MoreActions" xml:space="preserve"><value>Veel toiminguid</value></data>
   <data name="AppearanceWindowTitle" xml:space="preserve"><value>Välimus</value></data>
+  <data name="GridColumnChooser" xml:space="preserve"><value>Vali veerud</value></data>
+  <data name="GridColumnMoveLeft" xml:space="preserve"><value>Liiguta {0} vasakule</value></data>
+  <data name="GridColumnMoveRight" xml:space="preserve"><value>Liiguta {0} paremale</value></data>
+  <data name="GridColumnShown" xml:space="preserve"><value>Veerg {0} kuvatud</value></data>
+  <data name="GridColumnHidden" xml:space="preserve"><value>Veerg {0} peidetud</value></data>
+  <data name="GridColumnMoved" xml:space="preserve"><value>Veerg {0} teisaldatud kohale {1}/{2}</value></data>
+  <data name="GridResetLayout" xml:space="preserve"><value>Lähtesta paigutus</value></data>
+  <data name="GridLayoutReset" xml:space="preserve"><value>Veergude paigutus lähtestatud</value></data>
 </root>

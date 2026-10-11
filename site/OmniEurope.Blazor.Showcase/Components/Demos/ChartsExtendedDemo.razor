@@ -28,8 +28,8 @@
        or keyboard) choose the months the chart above draws, live. The range is bound both ways: the
        sentence under the chart follows it. The value of each column is written above it; widen the
        range and the labels that would overlap are masked, the last one kept, each masked value still
-       read on hover. Under its minimum width (a phone), the chart scrolls sideways in its card. *@
-    <OmniChart Title="@Text["DemoChartsExtendedRangeTitle"]">
+       read on hover. MinWidth Auto: under its minimum width (a phone), the chart scrolls sideways in its card. *@
+    <OmniChart Title="@Text["DemoChartsExtendedRangeTitle"]" MinWidth="OmniChartMinWidth.Auto">
         <ChildContent>
             <OmniGridLines />
             <OmniCategoryAxis Labels="LongMonths" />
@@ -75,8 +75,8 @@
         <OmniPieSeries Title="@Text["DemoChartsExtendedOrigin"]" Data="Slices" OutsideLabels="OmniPieLabels.NameAndPercent" />
     </OmniChart>
 
-    @* The ring writes the name and value of each slice outside; MinWidth None lets this small chart
-       follow its card down to any width, where the others keep a minimum and scroll sideways. *@
+    @* The ring writes the name and value of each slice outside; MinWidth None (the default, written
+       here for the demonstration) lets it follow its card down to any width. *@
     <OmniChart Title="@Text["DemoChartsExtendedDonutTitle"]" MinWidth="OmniChartMinWidth.None" AspectRatio="1.6">
         <OmniPieSeries Donut="true" Title="@Text["DemoChartsExtendedOrigin"]" Data="Slices" OutsideLabels="OmniPieLabels.NameAndValue" />
     </OmniChart>

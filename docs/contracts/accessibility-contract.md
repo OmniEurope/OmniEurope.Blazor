@@ -18,7 +18,7 @@
 | Menus et superpositions | `Échap` ferme; flèches ouvrent ou parcourent lorsque le motif le prévoit. |
 | Tabs | Gauche/Droite, Début/Fin, roving `tabindex`. |
 | Arbre | Droite développe, Gauche réduit, Entrée/Espace sélectionne sans remonter à l'ancêtre. |
-| Grille | En-têtes de tri et filtres atteignables; associations `th`/`td` et annonce `aria-sort`. |
+| Grille | En-têtes de tri et filtres atteignables; associations `th`/`td` et annonce `aria-sort`; colonnes réordonnées au clavier par les flèches nommées du sélecteur de colonnes (le focus reste sur la colonne déplacée), chaque déplacement, masquage ou réinitialisation annoncé par une zone `role="status"` polie. |
 
 Les couleurs d'état ne sont jamais l'unique information : texte, icône, rôle ou attribut ARIA complète toujours le signal visuel.
 
