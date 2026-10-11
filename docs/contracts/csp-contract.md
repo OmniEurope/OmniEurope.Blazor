@@ -22,7 +22,7 @@ Les variations visuelles dynamiques passent par un ensemble fini de classes CSS,
 - `omni-focus.js` : position de tout menu du moteur commun, sous son déclencheur ou au pointeur (`--omni-menu-x`, `--omni-menu-y`), décalage d'un popover recadré dans la fenêtre (`--omni-popover-shift-x`) et position du panneau d'un sélecteur de date ou d'heure sous son champ (`--omni-picker-x`, `--omni-picker-y`, posées sur le panneau, qui quitte la page avec elles) ;
 - `omni-black-hole.js` : couleur d'un jeton du thème lue par une sonde masquée (`style.color`), retirée aussitôt lue ; le fond de Trou noir est dessiné par WebGL sur le `canvas` d'`OmniThemeScope`, sans style.
 
-`omni-page-header.js` (défilement du titre, repli des badges et actions de l'en-tête de page quand la ligne 1 déborde, à toute largeur) mesure et bascule des attributs seulement ; il n'écrit aucun style.
+`omni-page-header.js` (défilement du titre, repli des badges et actions de l'en-tête de page quand la ligne 1 déborde, à toute largeur) et `omni-stat-tile.js` (libellé d'`OmniStatTile` réduit puis coupé par `data-fit`, texte entier en `title`) mesurent et basculent des attributs seulement ; ils n'écrivent aucun style.
 
 `omni-mindmap.js` ne passe même pas par le CSSOM : pendant un geste, il n'écrit que des attributs SVG (`transform`, `d`, géométrie du lasso) et des classes. Les écritures du CSSOM ne sont pas soumises à `style-src` et aucun attribut `style` ni aucune balise `<style>` n'est produit ; le scan CSP couvre ces fichiers. La feuille `_content/OmniEurope.Blazor/omnieurope.blazor.css` est une ressource statique que l'application peut autoriser via `'self'`.
 

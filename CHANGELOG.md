@@ -4,12 +4,17 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Fixed
+
+- `OmniStatTile` : quand `OnClick` apparaît ou disparaît, la tuile passe d'un bloc à un bouton (ou l'inverse) ; le script du libellé quitte l'ancien élément et suit le nouveau, qui garde son libellé sur une ligne (réduit, puis coupé avec son titre). Il ne suivait que le premier élément dessiné.
+- Sondes des hôtes (`eng/Test-CatalogHost.ps1`, `Test-WasmHost.ps1`, `Test-AutoHost.ps1`, `Test-ShowcaseHost.ps1`) : un lanceur Chromium qui passe la session à un processus enfant et sort aussitôt (Edge 155) ne fait plus échouer l'attente du port de débogage, lu avant de juger la sortie du lanceur (`eng/Get-BrowserDebugPort.ps1`) ; à l'arrêt, `eng/Stop-ProbeBrowser.ps1` arrête aussi chaque processus dont la ligne de commande nomme le profil temporaire de la sonde, au lieu de laisser le navigateur ouvert.
+
 ## [1.7.0] - 2026-10-09
 
 ### Added
 
 - `OmniDialog.InitialFocus` et `OmniDialogRequest.InitialFocus` (énumération `OmniDialogInitialFocus`) : où va le focus à l'ouverture. `CloseButton`, le défaut, garde le comportement d'avant (le bouton Fermer) ; `Panel` donne le focus au panneau lui-même (`tabindex="-1"`, sans anneau), rien ne paraît sélectionné avant un clic ou Tab, et le premier Tab mène au premier élément focalisable ; `FirstFocusable` le donne au premier champ ou bouton du contenu. Le piège à focus d'un dialogue modal et le retour du focus à la fermeture ne changent pas ; depuis le panneau, Tab va au premier élément et Maj+Tab au dernier. Recette OE R1-10.
-- `OmniAutocomplete.ShowToggle` (`bool`, `false` par défaut) : le chevron d'une liste déroulante au bout du champ, même dessin, même taille et même place que celui d'une liste native ; un appui ouvre la liste complète, sans filtre, et laisse le focus dans le champ, un second la referme. Ce n'est pas un arrêt de tabulation (le clavier garde les flèches) ; il suit `Disabled` et l'attribut `readonly`. `OmniDropDown` avec `Filterable` l'affiche toujours. Recette OE R1-11.
+- `OmniAutocomplete.ShowToggle` (`bool`, `false` par défaut) : le chevron d'une liste déroulante au bout du champ, même dessin, même taille et même place que celui d'une liste native ; un appui ouvre la liste complète, sans filtre, et laisse le focus dans le champ, un second la referme. Ce n'est pas un arrêt de tabulation (le clavier garde les flèches) ; il suit `Disabled` et l'attribut `readonly` (un `readonly` passé à `null` ou `false` est lu comme absent, comme le champ natif qui ne l'écrit pas). `OmniDropDown` avec `Filterable` l'affiche toujours. Recette OE R1-11.
 - `OmniPieSeries.OutsideLabels` (énumération `OmniPieLabels` : `None` par défaut, `Name`, `NameAndValue`, `NameAndPercent`) et `OmniPieSeries.FormatValue` : le nom de chaque part, avec sa valeur ou son pourcentage, écrit hors du disque et relié au milieu de son secteur par un trait de rappel ; les étiquettes de chaque côté s'empilent sans se chevaucher, le disque rétrécit pour leur laisser la place (16 unités au moins) et une étiquette encore trop longue est coupée, son texte entier au survol. Recette OE R1-14.
 - `OmniChart.MinWidth` (énumération `OmniChartMinWidth`, `Auto` par défaut, `None`) : sous une largeur minimale tirée du rapport largeur sur hauteur du dessin (environ 12,5 rem par unité : 12,5 rem pour un graphique carré, 20, 25, 37,5 puis 50 rem au-delà de 3,5), le graphique garde cette largeur et défile en largeur dans sa carte, ses légendes et son pied (navigateur de plage) avec lui, au lieu de rétrécir jusqu'à l'illisible sur un téléphone ; la carte ne s'élargit pas. Un hôte pose sa propre longueur par `--omni-chart-min-width`. Recette OE R1-16.
 

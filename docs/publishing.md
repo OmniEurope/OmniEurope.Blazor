@@ -20,6 +20,8 @@ Conséquence : un paquet ne peut être publié que s'il provient d'un run CI ré
 
 ## Étapes
 
+0. **Rejouer la CI en local, en Release, sur le commit à publier.** Un `main` rouge en CI est public et oblige à refaire la release. Rejouer dans l'ordre de `.github/workflows/ci.yml` : tests avec couverture (`dotnet test` de la CI, `--coverlet`), `eng/Test-Coverage.ps1`, `eng/Test-Crap.ps1`, puis `eng/Test-PublicApi.ps1` après avoir reconstruit `eng/OmniEurope.PublicApiGuard` en Release (sinon la garde lit une copie périmée de la bibliothèque et passe à tort), `eng/Test-Budgets.ps1`, `dotnet pack` et les contrôles du paquet (`Test-Package.ps1`, `Test-PackageFixtures.ps1`, `Test-Budgets.ps1 -PackagePath`).
+
 1. **Publier `main`.** Le push de `main` n'a lieu qu'à la demande explicite du propriétaire, dans le message courant.
 
    ```bash

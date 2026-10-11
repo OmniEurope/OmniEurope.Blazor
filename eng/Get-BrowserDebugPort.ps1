@@ -15,8 +15,10 @@ $ErrorActionPreference = 'Stop'
 $psText = Import-PowerShellDataFile (Join-Path $PSScriptRoot 'PowerShellMessages.psd1')
 $portFile = Join-Path $BrowserProfile 'DevToolsActivePort'
 $deadline = [DateTime]::UtcNow.AddSeconds($TimeoutSeconds)
+# The port file is read before the launcher's exit is judged: a launcher may hand the session to a child and
+# exit at once (Edge 155 does) while the child goes on to write the port. Only a launcher gone with no
+# port written by the deadline fails as exited.
 while ([DateTime]::UtcNow -lt $deadline) {
-    if ($Browser.HasExited) { throw ($psText.BrowserExitedBeforePort -f $Browser.ExitCode) }
     if (Test-Path -LiteralPath $portFile) {
         $firstLine = Get-Content -LiteralPath $portFile -TotalCount 1 -ErrorAction SilentlyContinue
         $port = 0
@@ -25,4 +27,5 @@ while ([DateTime]::UtcNow -lt $deadline) {
     Start-Sleep -Milliseconds 100
 }
 
+if ($Browser.HasExited) { throw ($psText.BrowserExitedBeforePort -f $Browser.ExitCode) }
 throw ($psText.BrowserPortTimeout -f $portFile, $TimeoutSeconds)

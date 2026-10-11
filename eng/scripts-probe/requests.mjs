@@ -118,8 +118,10 @@ export async function requestSteps(session, results) {
   await session.visit('/composants/superpositions', '#demo-dialog-intent-accent');
   await clickOn('#demo-dialog-intent-accent');
   await waitFor("le dialogue d'intention ouvert, le panneau focalisé", "document.activeElement?.matches('.omni-overlay section.omni-dialog') === true");
-  const ring = await evaluate("(() => { const panel = document.activeElement; const style = getComputedStyle(panel); return JSON.stringify({ outline: style.outlineStyle, shadowRing: !!panel.querySelector(':focus-visible') }); })()");
-  check(ring === JSON.stringify({ outline: 'none', shadowRing: false }), `Le panneau focalisé montre un anneau : ${ring}`);
+  // The panel focused looks exactly as it does unfocused (outline and shadow, the library's rings being
+  // drawn as box shadows), and no control inside it holds the focus.
+  const ring = await evaluate("(() => { const panel = document.activeElement; const look = () => { const style = getComputedStyle(panel); return style.outlineStyle + '|' + style.outlineWidth + '|' + style.boxShadow; }; const focused = look(); const nested = !!panel.querySelector(':focus'); panel.blur(); const rest = look(); panel.focus({ preventScroll: true }); return JSON.stringify({ same: focused === rest, nested, back: panel.matches(':focus') }); })()");
+  check(ring === JSON.stringify({ same: true, nested: false, back: true }), `Le panneau focalisé montre un anneau ou un contrôle a le focus : ${ring}`);
   await tab();
   await waitFor('le premier Tab sur le bouton Fermer', "document.activeElement?.classList.contains('omni-dialog__close') === true");
   await key('Escape', 'Escape', 27);

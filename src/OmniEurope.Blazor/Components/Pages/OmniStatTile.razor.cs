@@ -8,6 +8,7 @@ public partial class OmniStatTile
 {
     private ElementReference _tile;
     private IJSObjectReference? _module;
+    private ElementReference? _attached;
     private bool _disposed;
 
     /// <summary>A decorative icon on a tinted square before the text. None when not given.</summary>
@@ -34,29 +35,43 @@ public partial class OmniStatTile
     public EventCallback<MouseEventArgs> OnClick { get; set; }
 
     /// <summary>
-    /// On the first render, attaches the script that keeps the label on one line: smaller when it does
-    /// not fit, then cut with an ellipsis and its whole text in the hover tooltip. A lost circuit is ignored.
+    /// Attaches the script that keeps the label on one line: smaller when it does not fit, then cut with
+    /// an ellipsis and its whole text in the hover tooltip. The tile is a button with <see cref="OnClick"/>
+    /// and a plain block without it, two different elements: when <see cref="OnClick"/> comes or goes, the
+    /// script leaves the former element and follows the new one. A lost circuit is ignored.
     /// </summary>
     /// <param name="firstRender">True on the first render of the component.</param>
-    /// <returns>A task that completes once the script is attached.</returns>
+    /// <returns>A task that completes once the script follows the element drawn.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!firstRender)
-        {
-            return;
-        }
-
         try
         {
-            var module = await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.StatTile);
-            if (_disposed)
+            if (firstRender)
             {
-                await module.DisposeAsync();
+                var module = await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.StatTile);
+                if (_disposed)
+                {
+                    await module.DisposeAsync();
+                    return;
+                }
+
+                _module = module;
+            }
+
+            // On Blazor Server a later render can run while the first one still awaits the module: it
+            // leaves the attachment to the first render, which attaches the element drawn by then.
+            if (_module is null || _attached?.Id == _tile.Id)
+            {
                 return;
             }
 
-            _module = module;
+            if (_attached is { } former)
+            {
+                await _module.InvokeVoidAsync("detach", former);
+            }
+
             await _module.InvokeVoidAsync("attach", _tile);
+            _attached = _tile;
         }
         catch (JSDisconnectedException)
         {
@@ -73,7 +88,11 @@ public partial class OmniStatTile
         {
             try
             {
-                await _module.InvokeVoidAsync("detach", _tile);
+                if (_attached is { } attached)
+                {
+                    await _module.InvokeVoidAsync("detach", attached);
+                }
+
                 await _module.DisposeAsync();
             }
             catch (JSDisconnectedException)

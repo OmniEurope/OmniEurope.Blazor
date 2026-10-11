@@ -138,10 +138,7 @@ finally {
         Stop-Process -Id $process.Id
         if (-not $process.WaitForExit(5000)) { throw ($psText.CatalogStopFailed -f $process.Id) }
     }
-    if ($browser -and -not $browser.HasExited) {
-        Stop-Process -Id $browser.Id
-        $browser.WaitForExit(5000) | Out-Null
-    }
+    & (Join-Path $PSScriptRoot 'Stop-ProbeBrowser.ps1') -Browser $browser -BrowserProfile $browserProfile
     if ($browserProfile) {
         $resolvedProfile = [IO.Path]::GetFullPath($browserProfile)
         $resolvedTemp = [IO.Path]::GetFullPath([IO.Path]::GetTempPath())

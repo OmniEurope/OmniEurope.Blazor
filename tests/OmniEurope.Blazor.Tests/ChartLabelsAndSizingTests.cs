@@ -233,6 +233,28 @@ public sealed class ChartLabelsAndSizingTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task StatTile_WhenOnClickComesAndGoes_FollowsTheElementDrawn()
+    {
+        var module = JSInterop.SetupModule(Internal.OmniModules.StatTile);
+        var tile = Render<OmniStatTile>(parameters => parameters.Add(component => component.Label, "Jetons"));
+        tile.WaitForAssertion(() => Assert.Single(module.Invocations["attach"]));
+        var block = module.Invocations["attach"][0].Arguments[0];
+
+        // A button now: the block is left and the button followed; a render that keeps it attaches nothing.
+        tile.Render(parameters => parameters.Add(component => component.OnClick, () => { }));
+        tile.WaitForAssertion(() => Assert.Equal(2, module.Invocations["attach"].Count));
+        tile.Render(parameters => parameters.Add(component => component.Value, "12,4 k"));
+        Assert.Equal(2, module.Invocations["attach"].Count);
+        Assert.Equal(block, Assert.Single(module.Invocations["detach"]).Arguments[0]);
+        var button = module.Invocations["attach"][1].Arguments[0];
+        Assert.NotEqual(block, button);
+        Assert.NotNull(tile.Find("button.omni-stat-tile"));
+
+        await tile.Instance.DisposeAsync();
+        Assert.Equal(button, module.Invocations["detach"][1].Arguments[0]);
+    }
+
+    [Fact]
     public async Task StatTile_DisposedBeforeItsScriptLoads_ReleasesTheModuleWithoutAttaching()
     {
         var runtime = new ManualJSRuntime { HoldImports = true };
