@@ -1,0 +1,16 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+@* The section of the settings that cannot be undone, at the end of a settings page: the card of an
+   ordinary section, its rim and heading drawn in the palette's danger colour, named by its heading
+   so it is a region a screen reader lists. Its actions are OmniSettingsDangerAction tiles. *@
+<OmniCard @attributes="AdditionalAttributes" Id="@Id" Class="@Css("omni-settings-section", "omni-settings-danger-zone")" aria-labelledby="@TitleId">
+    <div class="omni-settings-section__heading">
+        <h2 id="@TitleId" class="omni-settings-section__title">@LocalizeOr(Title, "SettingsDangerZoneTitle")</h2>
+        @if (!string.IsNullOrWhiteSpace(Description))
+        {
+            <p class="omni-settings-hint">@Description</p>
+        }
+    </div>
+    @ChildContent
+</OmniCard>

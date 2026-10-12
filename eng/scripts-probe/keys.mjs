@@ -1,10 +1,11 @@
 // The keyboard paths of PLAN-017 (audit of 2026-10-07), each driven with real keys on its showcase page:
 // a tree item selected once by Enter or Space on its button, the select bar and the scheduler's views
 // as radio groups (one tab stop, arrows, Home, End), and a chart legend drawn in the SVG reached by Tab
-// and pressed by Enter or Space without scrolling the page.
+// and pressed by Enter or Space without scrolling the page; a grid row in edit mode saved by Enter and
+// cancelled by Escape, at its read height (PLAN-001 lot 5).
 
 export async function keySteps(session, results) {
-  const { evaluate, waitFor, key, check, clickOn } = session;
+  const { evaluate, waitFor, key, type, check, clickOn } = session;
   const step = label => {
     if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
     results.push(label);
@@ -82,4 +83,26 @@ export async function keySteps(session, results) {
   await clickOn('g.omni-chart__legend-entry--toggle');
   await waitFor('la série rendue au clic', `${entry}.getAttribute('aria-pressed') === 'true'`);
   step('légende à droite : Tab, Entrée, Espace sans défilement, clic');
+
+  // 5. Grid row in edit mode (G-D29-03, G-D26-04): the row keeps its read height; the value typed in its
+  // field is saved by Enter, the focus coming back to the row; Escape cancels the next edit.
+  await session.visit('/composants/grille', '#demo-grid-edit');
+  const editRow = "document.querySelector('#demo-grid-edit tbody tr[data-omni-row-index=\"0\"]')";
+  const editing = `${editRow}.classList.contains('omni-data-grid__row--editing')`;
+  const fieldFocused = `${editRow}.contains(document.activeElement) && document.activeElement.matches('input')`;
+  await evaluate(`${editRow}.scrollIntoView({ block: 'center' })`);
+  const readHeight = await evaluate(`${editRow}.getBoundingClientRect().height`);
+  await evaluate(`${editRow}.querySelector('td.omni-data-grid__actions button').click()`);
+  await waitFor('la ligne en édition, son champ focalisé', `${editing} && ${fieldFocused}`);
+  const editHeight = await evaluate(`${editRow}.getBoundingClientRect().height`);
+  check(Math.abs(editHeight - readHeight) < 0.5, `La ligne en édition fait ${editHeight} px au lieu de ${readHeight} px en lecture.`);
+  await type('Sonde');
+  await enter();
+  await waitFor('la ligne enregistrée par Entrée avec la valeur tapée', `!(${editing}) && ${editRow}.querySelector('td[data-omni-col="Applicant"]').textContent.trim() === 'Sonde'`);
+  check(await evaluate(`${editRow}.contains(document.activeElement) || document.activeElement === ${editRow}`), 'Le focus n\'est pas revenu à la ligne enregistrée.');
+  await evaluate(`${editRow}.querySelector('td.omni-data-grid__actions button').click()`);
+  await waitFor('la ligne de nouveau en édition', `${editing} && ${fieldFocused}`);
+  await key('Escape', 'Escape', 27);
+  await waitFor('la ligne annulée par Échap', `!(${editing})`);
+  step('grille : hauteur de lecture gardée en édition, Entrée enregistre, Échap annule');
 }

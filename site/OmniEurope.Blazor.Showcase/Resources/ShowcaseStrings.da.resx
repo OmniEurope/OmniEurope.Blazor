@@ -1553,4 +1553,19 @@
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Rettede forbindelser</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Korrekturlæst tekst, låst til at begynde med</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Skrivebeskyttet</value></data>
+  <data name="SettingsProject" xml:space="preserve"><value>Projekt</value></data>
+  <data name="SettingsProjectLead" xml:space="preserve"><value>Handlingerne i denne zone kan ikke fortrydes.</value></data>
+  <data name="SettingsDeleteProject" xml:space="preserve"><value>Slet projektet</value></data>
+  <data name="SettingsDeleteProjectHint" xml:space="preserve"><value>Projektet, dets rapporter og dets historik slettes.</value></data>
+  <data name="SettingsDeleteProjectConfirm" xml:space="preserve"><value>Projektet „PRJ-042“ og dets 42 rapporter slettes permanent.</value></data>
+  <data name="SettingsProjectDeleted" xml:space="preserve"><value>Projektet „PRJ-042“ er slettet (demonstration: intet blev slettet).</value></data>
+  <data name="SettingsResetHistory" xml:space="preserve"><value>Nulstil historikken</value></data>
+  <data name="SettingsResetHistoryHint" xml:space="preserve"><value>Rydder kørselsloggen; denne demonstration mislykkes med vilje.</value></data>
+  <data name="SettingsResetHistoryConfirmTitle" xml:space="preserve"><value>Nulstil historikken for „PRJ-042“?</value></data>
+  <data name="SettingsResetHistoryConfirm" xml:space="preserve"><value>Alle tidligere kørsler af „PRJ-042“ slettes.</value></data>
+  <data name="SettingsResetAction" xml:space="preserve"><value>Nulstil</value></data>
+  <data name="SettingsResetFailed" xml:space="preserve"><value>Serveren afviste nulstillingen (simuleret fejl).</value></data>
+  <data name="SettingsTransferProject" xml:space="preserve"><value>Overdrag projektet</value></data>
+  <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Forbeholdt projektets ejer.</value></data>
+  <data name="SettingsTransferAction" xml:space="preserve"><value>Overdrag</value></data>
 </root>

@@ -68,6 +68,23 @@ public sealed class DialogSizeTests : OmniBunitContext
     }
 
     [Fact]
+    public void TwoEqualRequests_OpenTwoDialogs_WithoutADuplicateKey()
+    {
+        // Requests are records: the same dialog opened twice (a button pressed twice) gives two equal
+        // values, which must still be two dialogs, not a duplicate render key that breaks the host.
+        using var service = new OmniOverlayService();
+        var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
+        var content = Content("Deux fois");
+
+        service.OpenDialog(new OmniDialogRequest("Même dialogue", content));
+        service.OpenDialog(new OmniDialogRequest("Même dialogue", content));
+
+        host.WaitForAssertion(() => Assert.Equal(2, host.FindAll("section.omni-dialog").Count));
+        service.CloseDialog();
+        host.WaitForAssertion(() => Assert.Single(host.FindAll("section.omni-dialog")));
+    }
+
+    [Fact]
     public void RequestWithoutSize_RendersTheHostDialogAtTheBaseWidth()
     {
         using var service = new OmniOverlayService();

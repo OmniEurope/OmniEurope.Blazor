@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.JSInterop;
 using OmniEurope.Blazor.Components;
 
@@ -32,7 +33,8 @@ internal sealed class GridStatePersistence<TItem>(OmniDataGrid<TItem> grid) : ID
     private readonly Lock _applyGate = new();
     // The last state from elsewhere being applied; it never fails (its failures are logged).
     private Task _applying = Task.CompletedTask;
-    private ILogger? _logger;
+    private ILogger _logger = NullLogger.Instance;
+    private bool _storageRefusalReported;
 
     internal sealed record PersistedState(
         int Version,
@@ -62,6 +64,12 @@ internal sealed class GridStatePersistence<TItem>(OmniDataGrid<TItem> grid) : ID
         catch (Exception exception) when (exception is JSDisconnectedException or ObjectDisposedException)
         {
             // The circuit ended during the read: nobody is left to see the grid.
+            return;
+        }
+        catch (JSException exception)
+        {
+            // The browser refused its storage: the grid starts from its declaration.
+            ReportStorageRefused(key, exception);
             return;
         }
 
@@ -96,6 +104,29 @@ internal sealed class GridStatePersistence<TItem>(OmniDataGrid<TItem> grid) : ID
         {
             // Best-effort: a navigation racing the save must not surface as an error.
         }
+        catch (JSException exception)
+        {
+            // The browser refused its storage: the change stays on screen for this visit, and what was
+            // saved before is left as it was.
+            ReportStorageRefused(key, exception);
+        }
+    }
+
+    /// <summary>
+    /// The browser refused its storage (private mode, blocked site data, full quota): persistence is
+    /// unavailable and the grid works in memory. Logged once per grid, with its state key, never its state.
+    /// A failure of the host's store does not come here: <see cref="OmniPreferences"/> applies its own policy.
+    /// </summary>
+    private void ReportStorageRefused(string key, JSException exception)
+    {
+        if (_storageRefusalReported)
+        {
+            return;
+        }
+
+        _storageRefusalReported = true;
+        _logger.LogWarning(exception,
+            "The browser storage refused the state of the grid {Key}; the grid keeps its filters, sorts and layout for this visit only.", key);
     }
 
     /// <summary>
@@ -133,7 +164,8 @@ internal sealed class GridStatePersistence<TItem>(OmniDataGrid<TItem> grid) : ID
     // Called once, from the grid's OnInitializedAsync.
     private void Follow(string key)
     {
-        _logger = grid.Services.GetService<ILogger<OmniDataGrid<TItem>>>();
+        // Every Blazor host registers logging; a container built by hand may not, and the grid then logs nothing.
+        _logger = grid.Services.GetService<ILogger<OmniDataGrid<TItem>>>() ?? (ILogger)NullLogger.Instance;
         grid.Preferences.Changed += OnPreferenceChangedAsync;
         _subscribedKey = PreferenceKey(key);
     }
@@ -187,7 +219,7 @@ internal sealed class GridStatePersistence<TItem>(OmniDataGrid<TItem> grid) : ID
         }
         catch (Exception exception)
         {
-            _logger?.LogError(exception,
+            _logger.LogError(exception,
                 "The grid state {Key} changed elsewhere could not be applied.", _subscribedKey);
         }
     }

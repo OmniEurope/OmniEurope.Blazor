@@ -702,4 +702,7 @@
   <data name="GridColumnMoved" xml:space="preserve"><value>{0} oszlop áthelyezve: {1}. hely / {2}</value></data>
   <data name="GridResetLayout" xml:space="preserve"><value>Elrendezés visszaállítása</value></data>
   <data name="GridLayoutReset" xml:space="preserve"><value>Oszlopelrendezés visszaállítva</value></data>
+  <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Veszélyzóna</value></data>
+  <data name="SettingsDangerActionText" xml:space="preserve"><value>Törlés</value></data>
+  <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Ez a művelet nem vonható vissza. Folytatja?</value></data>
 </root>

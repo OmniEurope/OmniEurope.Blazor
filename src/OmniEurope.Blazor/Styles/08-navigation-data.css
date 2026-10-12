@@ -237,7 +237,7 @@
 /* The header row has a tint of its own, so it reads apart from the rows under it (luminosity only,
    which holds for colour-blind readers too). */
 .omni-data-grid { --omni-header-fill: color-mix(in srgb, var(--omni-color-text) 6%, var(--omni-grid-frame)); --omni-header-fill-hover: color-mix(in srgb, var(--omni-color-text) 10%, var(--omni-grid-frame)); }
-.omni-data-grid thead > tr > * { background: var(--omni-header-fill); border: 0; border-block-end: var(--omni-border-width) solid var(--omni-color-border); color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); letter-spacing: 0.02em; position: relative; vertical-align: middle; }
+.omni-data-grid thead > tr > * { background: var(--omni-header-fill); border: 0; border-block-end: var(--omni-border-width) solid var(--omni-color-border); color: var(--omni-color-text-muted); font-size: var(--omni-grid-header-font-size, 1em); letter-spacing: 0.02em; position: relative; vertical-align: middle; }
 /* The loading bar row: no height, no fill and no rule of its own; its bar is laid over the foot of the
    headers (the loading bar track sits above its own top edge), in front of the first row. */
 .omni-data-grid thead > .omni-data-grid__progress > td { background: none; block-size: 0; border: 0; line-height: 0; padding: 0; position: relative; }
@@ -313,7 +313,22 @@
 .omni-data-grid__table .omni-data-grid__control { padding: 0; text-align: center; }
 /* Row states are one token painted on the cells, so an opaque frozen cell shows them too. */
 .omni-data-grid tbody > tr { --omni-row-fill: transparent; }
-.omni-data-grid--striped .omni-data-grid__row--alternate { --omni-row-fill: color-mix(in srgb, var(--omni-color-text) 4%, transparent); }
+/* The share of the text colour an alternate row lays over the frame: 4 % (the fallback below, and on
+   light and system scopes, so a light scope nested in a dark one takes it back), 5 % on dark scopes,
+   where 4 % left two adjacent rows at 1.055:1 on a black frame (the weakest light set holds 1.064:1). */
+[data-omni-theme="light"],
+[data-omni-theme="system"] {
+    --omni-grid-stripe-share: 4%;
+}
+[data-omni-theme="dark"] {
+    --omni-grid-stripe-share: 5%;
+}
+@media (prefers-color-scheme: dark) {
+    [data-omni-theme="system"] {
+        --omni-grid-stripe-share: 5%;
+    }
+}
+.omni-data-grid--striped .omni-data-grid__row--alternate { --omni-row-fill: color-mix(in srgb, var(--omni-color-text) var(--omni-grid-stripe-share, 4%), transparent); }
 .omni-data-grid--row-hover tbody > tr:hover { --omni-row-fill: color-mix(in srgb, var(--omni-color-text) 7%, transparent); }
 /* Selected: the accent tint and text in 600, a second cue that does not depend on colour, with
    aria-selected on the row. No side bar. */
@@ -414,8 +429,11 @@
 .omni-data-grid__summary { color: var(--omni-color-text-muted); margin: 0; }
 /* The export bar: a label, one small button per format, then what the last export has to say. */
 /* Bars of the table's frame: the frame carries the border and background the table had alone, the
-   rows inside it lose theirs, and each bar is set apart from the rows by a rule. */
-.omni-data-grid__frame { background: var(--omni-grid-frame); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-card-shadow, 0 0 #0000); display: grid; min-inline-size: 0; overflow: hidden; }
+   rows inside it lose theirs, and each bar is set apart from the rows by a rule. It clips its corners
+   without becoming a scroll container (overflow: clip, not hidden): a scroll container may be squeezed
+   to nothing by a flex or grid parent, and a grid host given a flex basis of 0 drew a 2px frame over a
+   viewport of 384px, every row cut away. Its content (bars and viewport) is its minimum height. */
+.omni-data-grid__frame { background: var(--omni-grid-frame); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-card-shadow, 0 0 #0000); display: grid; min-inline-size: 0; overflow: clip; }
 .omni-data-grid__frame > .omni-data-grid__viewport { border: 0; border-radius: 0; box-shadow: none; }
 .omni-data-grid__bar { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); min-block-size: calc(var(--omni-control-height) - 0.25rem); padding: var(--omni-space-xs) var(--omni-space-sm); }
 .omni-data-grid__bar--header { border-block-end: var(--omni-border-width) solid var(--omni-color-border); }
@@ -463,8 +481,13 @@
 /* FillAvailableHeight: the grid takes the free height of its sized parent, never under the minimum. */
 /* The script measures what is left below the grid in the area that scrolls it (attachFill): 100% only
    holds when every ancestor has a height, which a nested grid rarely has. */
-.omni-data-grid--fill { block-size: var(--omni-grid-fill-height, 100%); display: flex; flex-direction: column; min-block-size: 0; }
-.omni-data-grid--fill .omni-data-grid__viewport--fill { flex: auto; min-block-size: var(--omni-grid-viewport-min, 22.5rem); }
+/* MinHeight is a floor of the whole grid too: when nothing is left below the grid (the content above it
+   fills the visible part of the area that scrolls it), the measure is 0 and the grid keeps its bars,
+   its pager and a viewport of MinHeight (min-content, the viewport counting for its minimum alone with
+   a flex basis of 0), and that area scrolls to it. A floor of 0 drew a 0px grid whose rows were cut. */
+.omni-data-grid--fill { block-size: var(--omni-grid-fill-height, 100%); display: flex; flex-direction: column; min-block-size: min-content; }
+.omni-data-grid--fill > .omni-data-grid__frame { display: flex; flex: auto; flex-direction: column; }
+.omni-data-grid--fill .omni-data-grid__viewport--fill { flex: 1 1 0; min-block-size: var(--omni-grid-viewport-min, 22.5rem); }
 /* The spacers stand in for the rows outside the rendered window: never clamp them to one row.
    The declared height is the whole row: a cell counts its padding and its rule inside it (border-box),
    otherwise each row came out taller than declared by that much and the scroll total drifted from the rows. */
@@ -480,6 +503,12 @@
    (one-line editors, buttons) fit the row less its rules, whatever their size (recette R-017). */
 .omni-data-grid--fixed-row-height tbody tr.omni-data-grid__row--editing td { padding-block: 0; }
 .omni-data-grid--fixed-row-height tbody tr.omni-data-grid__row--editing td :is(.omni-input, .omni-button) { max-block-size: calc(var(--omni-row-height) - 0.25rem); min-block-size: 0; }
+/* Any other grid: a read cell is its block padding twice and one line, an editor one control, taller
+   than the line in every density. The cells holding an editor give up half of the difference on each
+   side, so the row keeps its read height (G-D26-04: 40 then 45 px). A control laid on the top of its line
+   makes that line exactly the taller of the two; on the baseline the strut overhang was added to it. */
+.omni-data-grid:not(.omni-data-grid--fixed-row-height) tbody tr.omni-data-grid__row--editing > td[data-omni-col]:not(.omni-data-grid__cell--text) { padding-block: max(0px, var(--omni-cell-pad-y) - max(0px, (var(--omni-control-height) - 1lh) / 2)); }
+.omni-data-grid:not(.omni-data-grid--fixed-row-height) tbody tr.omni-data-grid__row--editing > td[data-omni-col]:not(.omni-data-grid__cell--text) :is(input, select, button, .omni-input, .omni-button) { vertical-align: top; }
 .omni-data-grid__spacer td { block-size: var(--omni-grid-spacer, 0px); border: 0; padding: 0; }
 .omni-data-grid__row--placeholder td { block-size: var(--omni-grid-row-estimate, 2.5rem); }
 .omni-data-grid__group-panel { align-items: center; color: var(--omni-color-text-muted); display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); }

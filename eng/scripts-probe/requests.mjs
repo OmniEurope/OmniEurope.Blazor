@@ -3,7 +3,7 @@
 // skip link moves the focus to the main content by script, without leaving the page.
 
 export async function requestSteps(session, results) {
-  const { evaluate, waitFor, key, check, hover, mouse, pointOf, clickOn } = session;
+  const { evaluate, waitFor, key, check, hover, mouse, pointOf, clickOn, send } = session;
   const step = label => {
     if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
     results.push(label);
@@ -180,4 +180,75 @@ export async function requestSteps(session, results) {
   const tileState = "(() => { const label = document.querySelector('#demo-stat-tile-gain .omni-stat-tile__label'); const line = parseFloat(getComputedStyle(label).lineHeight) || parseFloat(getComputedStyle(label).fontSize) * 1.6; const fits = label.scrollWidth <= label.clientWidth + 1; const fit = label.getAttribute('data-fit'); return label.getBoundingClientRect().height <= line + 1 && (fits || fit === 'clip') && (fit === 'clip') === (label.getAttribute('title') === label.textContent.trim()); })()";
   await waitFor('le libellé long de la tuile sur une ligne, entier ou coupé avec son titre', tileState);
   step('tuile de statistique : libellé sur une ligne, réduit ou coupé avec son texte entier en titre');
+
+  // 8. FillAvailableHeight in a preview box that scrolls itself (request of 2026-10-12): with settings
+  // taller than the visible part of the box above it, nothing is left to the grid, which drew 0px, its
+  // frame 2px, every row cut. In both scroll modes and at 390 and 1280 px, the grid keeps its floor
+  // (a viewport of MinHeight, 12rem, under its whole header bar), and once the box is scrolled to it its
+  // cells and its bar buttons really show (intersected with every clipping ancestor and the window),
+  // also under a host rule of a flex basis of 0 (display flex, flex 1 1 0, min-block-size 0). With room
+  // left, the grid still ends at the bottom of the box and the box does not scroll.
+  await session.visit('/composants/grille', '#demo-grid-fill-box-grid');
+  const fillBox = "document.getElementById('demo-grid-fill-box')";
+  const fillBoxState = `(() => {
+    const box = ${fillBox};
+    const grid = document.getElementById('demo-grid-fill-box-grid');
+    const frame = grid.querySelector(':scope > .omni-data-grid__frame');
+    const viewport = grid.querySelector('.omni-data-grid__viewport');
+    const bar = grid.querySelector('.omni-data-grid__bar--header');
+    const shown = element => {
+      const own = element.getBoundingClientRect();
+      let rect = { top: own.top, bottom: own.bottom, left: own.left, right: own.right };
+      for (let node = element.parentElement; node; node = node.parentElement) {
+        const style = getComputedStyle(node);
+        if (style.overflowX === 'visible' && style.overflowY === 'visible') continue;
+        const outer = node.getBoundingClientRect();
+        const top = outer.top + parseFloat(style.borderTopWidth), left = outer.left + parseFloat(style.borderLeftWidth);
+        rect = { top: Math.max(rect.top, top), bottom: Math.min(rect.bottom, top + node.clientHeight), left: Math.max(rect.left, left), right: Math.min(rect.right, left + node.clientWidth) };
+      }
+      rect = { top: Math.max(rect.top, 0), bottom: Math.min(rect.bottom, innerHeight), left: Math.max(rect.left, 0), right: Math.min(rect.right, innerWidth) };
+      return { area: Math.max(0, rect.bottom - rect.top) * Math.max(0, rect.right - rect.left), whole: own.width * own.height };
+    };
+    const cells = [...grid.querySelectorAll('tbody tr:not(.omni-data-grid__spacer) td')].filter(cell => shown(cell).area > 0).length;
+    const buttons = [...bar.querySelectorAll('button')];
+    const style = getComputedStyle(box);
+    const inner = box.getBoundingClientRect().bottom - parseFloat(style.borderBottomWidth) - parseFloat(style.paddingBottom);
+    return {
+      floor: parseFloat(getComputedStyle(viewport).minBlockSize),
+      viewport: viewport.getBoundingClientRect().height,
+      frame: frame.getBoundingClientRect().height,
+      bar: bar.getBoundingClientRect().height,
+      gridBottom: grid.getBoundingClientRect().bottom,
+      inner,
+      scrolls: box.scrollHeight > box.clientHeight + 1,
+      cells,
+      buttons: buttons.length,
+      buttonsCut: buttons.filter(button => { const { area, whole } = shown(button); return Math.abs(area - whole) > 1; }).length
+    };
+  })()`;
+  const hostRule = on => evaluate(`(() => { const grid = document.getElementById('demo-grid-fill-box-grid'); for (const [name, value] of [['display', 'flex'], ['flex', '1 1 0'], ['flex-direction', 'column'], ['min-block-size', '0']]) { if (${on}) grid.style.setProperty(name, value); else grid.style.removeProperty(name); } })()`);
+  for (const [option, mode] of [['0', 'virtuel'], ['1', 'paginé']]) {
+    await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
+    await evaluate(`(() => { const box = ${fillBox}; box.firstElementChild.style.removeProperty('min-block-size'); box.scrollTop = 0; box.scrollIntoView({ block: 'start' }); const select = document.getElementById('grid-fill-box-pager'); select.value = '${option}'; select.dispatchEvent(new Event('change', { bubbles: true })); })()`);
+    await waitFor(`la grille de l'aperçu en mode ${mode}`, `document.getElementById('demo-grid-fill-box-grid').classList.contains('omni-data-grid--virtual') === ${option === '0'} && document.querySelectorAll('#demo-grid-fill-box-grid tbody td').length > 3`);
+    await waitFor(`la grille ${mode} au bas de l'aperçu, l'aperçu sans défilement`, `(() => { const state = ${fillBoxState}; return Math.abs(state.gridBottom - state.inner) <= 2 && !state.scrolls && state.viewport >= state.floor - 1; })()`);
+    await evaluate(`${fillBox}.firstElementChild.style.setProperty('min-block-size', '40rem')`);
+    let state;
+    for (const width of [390, 1280]) {
+      for (const rule of [false, true]) {
+        await send('Emulation.setDeviceMetricsOverride', { width, height: width === 390 ? 844 : 900, deviceScaleFactor: 1, mobile: false });
+        await hostRule(rule);
+        await evaluate(`(() => { const box = ${fillBox}; box.scrollIntoView({ block: 'start' }); box.scrollTop = 0; })()`);
+        const label = `${mode}, ${width} px${rule ? ', règle hôte flex 1 1 0' : ''}`;
+        await waitFor(`la grille sous les réglages à son plancher (${label})`, `(() => { const state = ${fillBoxState}; return state.scrolls && Math.abs(state.viewport - state.floor) <= 1 && state.frame >= state.viewport + state.bar; })()`);
+        await evaluate(`(() => { const box = ${fillBox}; box.scrollTop = box.scrollHeight; })()`);
+        await waitFor(`les cellules visibles une fois l'aperçu défilé (${label})`, `(() => { const state = ${fillBoxState}; return state.cells >= 6 && state.buttons > 0 && state.buttonsCut === 0; })()`);
+        state = await evaluate(fillBoxState);
+      }
+    }
+    await hostRule(false);
+    step(`grille remplissant un aperçu qui défile, en mode ${mode} : plancher de ${state.floor} px tenu sous des réglages trop hauts, ${state.cells} cellules et ${state.buttons} boutons de barre visibles à 390 et 1280 px, avec ou sans règle hôte flex 1 1 0`);
+  }
+  await evaluate(`(() => { const box = ${fillBox}; box.firstElementChild.style.removeProperty('min-block-size'); box.scrollTop = 0; })()`);
+  await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
 }

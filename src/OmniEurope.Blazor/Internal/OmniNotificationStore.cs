@@ -1,7 +1,13 @@
+using System.Diagnostics;
 using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Internal;
 
+/// <summary>
+/// The notifications shown and their countdowns. A countdown ends on the thread pool while the renderer
+/// reads the list, so one lock guards the list, the countdowns and the disposed flag; readers get a
+/// snapshot, never the list itself, and <c>changed</c> is raised outside the lock.
+/// </summary>
 internal sealed class OmniNotificationStore : IDisposable
 {
     /// <summary>Beyond this many characters a message is long: wider card, folded text, longer life.</summary>
@@ -10,12 +16,15 @@ internal sealed class OmniNotificationStore : IDisposable
     private static readonly TimeSpan ShortestLongLife = TimeSpan.FromSeconds(4);
     private static readonly TimeSpan LongestLife = TimeSpan.FromSeconds(30);
 
+    private readonly Lock _gate = new();
     private readonly List<OmniNotificationMessage> _messages = [];
     private readonly Dictionary<Guid, Expiration> _expirations = [];
     private readonly TimeProvider _timeProvider;
     private readonly Action _changed;
     private readonly int _capacity;
     private readonly TimeSpan _defaultDuration;
+    private IReadOnlyList<OmniNotificationMessage>? _snapshot;
+    private long _generation;
     private bool _disposed;
 
     internal OmniNotificationStore(TimeProvider timeProvider, Action changed, int capacity, TimeSpan defaultDuration)
@@ -28,16 +37,23 @@ internal sealed class OmniNotificationStore : IDisposable
         _defaultDuration = defaultDuration;
     }
 
-    internal IReadOnlyList<OmniNotificationMessage> Messages => _messages;
+    /// <summary>
+    /// The notifications at the time of the call, oldest first. A later change does not reach a list
+    /// already handed out; the same list is handed out again until something changes.
+    /// </summary>
+    internal IReadOnlyList<OmniNotificationMessage> Messages
+    {
+        get
+        {
+            lock (_gate)
+            {
+                return _snapshot ??= _messages.ToArray().AsReadOnly();
+            }
+        }
+    }
 
     internal Guid Add(string message, OmniSeverity severity, string? title, TimeSpan? duration, string? detailsHref = null, string? actionText = null, Func<Task>? action = null)
     {
-        ObjectDisposedException.ThrowIf(_disposed, this);
-        if (_messages.Count == _capacity)
-        {
-            Remove(_messages[0].Id, notify: false);
-        }
-
         var effectiveDuration = LifeFor(message, duration ?? _defaultDuration);
         var notification = new OmniNotificationMessage(Guid.NewGuid(), message, severity, title)
         {
@@ -46,14 +62,27 @@ internal sealed class OmniNotificationStore : IDisposable
             ActionText = actionText,
             Action = action
         };
-        _messages.Add(notification);
-        _changed();
-
-        if (effectiveDuration > TimeSpan.Zero)
+        CancellationTokenSource? evicted = null;
+        Expiration? countdown = null;
+        lock (_gate)
         {
-            Schedule(notification.Id, effectiveDuration);
+            ObjectDisposedException.ThrowIf(_disposed, this);
+            if (_messages.Count == _capacity)
+            {
+                evicted = Detach(_messages[0].Id);
+            }
+
+            _messages.Add(notification);
+            _snapshot = null;
+            if (effectiveDuration > TimeSpan.Zero)
+            {
+                countdown = Arm(notification.Id, effectiveDuration);
+            }
         }
 
+        Stop(evicted);
+        _changed();
+        Start(notification.Id, countdown);
         return notification.Id;
     }
 
@@ -79,37 +108,57 @@ internal sealed class OmniNotificationStore : IDisposable
     /// <summary>
     /// Holds a notification while it is being read, pointer over it or focus inside it: it would
     /// otherwise close under the reader's eyes. The time it had left is kept for <see cref="Resume"/>.
+    /// A countdown already due whose end has not run yet is held too: it is no longer the one on record.
     /// </summary>
     internal void Pause(Guid id)
     {
-        if (!_expirations.TryGetValue(id, out var expiration) || expiration.Remaining is not null)
+        CancellationTokenSource stopped;
+        lock (_gate)
         {
-            return;
+            if (!_expirations.TryGetValue(id, out var expiration) || expiration.Remaining is not null)
+            {
+                return;
+            }
+
+            var remaining = expiration.Deadline - _timeProvider.GetUtcNow();
+            stopped = expiration.Cancellation;
+            _expirations[id] = expiration with
+            {
+                Remaining = remaining > TimeSpan.Zero ? remaining : TimeSpan.Zero,
+                Generation = ++_generation
+            };
         }
 
-        var remaining = expiration.Deadline - _timeProvider.GetUtcNow();
-        expiration.Cancellation.Cancel();
-        expiration.Cancellation.Dispose();
-        _expirations[id] = expiration with { Remaining = remaining > TimeSpan.Zero ? remaining : TimeSpan.Zero };
+        Stop(stopped);
     }
 
     internal void Resume(Guid id)
     {
-        if (_expirations.TryGetValue(id, out var expiration) && expiration.Remaining is { } remaining)
+        Expiration countdown;
+        lock (_gate)
         {
-            Schedule(id, remaining);
+            if (_disposed || !_expirations.TryGetValue(id, out var expiration) || expiration.Remaining is not { } remaining)
+            {
+                return;
+            }
+
+            countdown = Arm(id, remaining);
         }
+
+        Start(id, countdown);
     }
 
     internal bool Remove(Guid id, bool notify = true)
     {
-        if (_expirations.Remove(id, out var expiration) && expiration.Remaining is null)
+        CancellationTokenSource? stopped;
+        bool removed;
+        lock (_gate)
         {
-            expiration.Cancellation.Cancel();
-            expiration.Cancellation.Dispose();
+            removed = _messages.Exists(notification => notification.Id == id);
+            stopped = Detach(id);
         }
 
-        var removed = _messages.RemoveAll(notification => notification.Id == id) > 0;
+        Stop(stopped);
         if (removed && notify)
         {
             _changed();
@@ -118,42 +167,118 @@ internal sealed class OmniNotificationStore : IDisposable
         return removed;
     }
 
-    private void Schedule(Guid id, TimeSpan duration)
+    /// <summary>
+    /// Takes a notification and its countdown out; called under the lock. Returns the cancellation of a
+    /// running countdown for the caller to stop once the lock is released.
+    /// </summary>
+    private CancellationTokenSource? Detach(Guid id)
     {
-        var cancellation = new CancellationTokenSource();
-        _expirations[id] = new Expiration(cancellation, _timeProvider.GetUtcNow() + duration, null);
-        _ = ExpireAsync(id, duration, cancellation.Token);
+        if (_messages.RemoveAll(notification => notification.Id == id) > 0)
+        {
+            _snapshot = null;
+        }
+
+        return _expirations.Remove(id, out var expiration) && expiration.Remaining is null
+            ? expiration.Cancellation
+            : null;
     }
 
-    private async Task ExpireAsync(Guid id, TimeSpan duration, CancellationToken cancellationToken)
+    /// <summary>Records a new countdown, under the lock; <see cref="Start"/> runs it once the lock is released.</summary>
+    private Expiration Arm(Guid id, TimeSpan duration)
     {
+        var expiration = new Expiration(new CancellationTokenSource(), _timeProvider.GetUtcNow() + duration, duration, null, ++_generation);
+        _expirations[id] = expiration;
+        return expiration;
+    }
+
+    private void Start(Guid id, Expiration? countdown)
+    {
+        if (countdown is not null)
+        {
+            Observe(ExpireAsync(id, countdown));
+        }
+    }
+
+    private async Task ExpireAsync(Guid id, Expiration countdown)
+    {
+        var cancellationToken = countdown.Cancellation.Token;
         try
         {
-            await Task.Delay(duration, _timeProvider, cancellationToken);
-            Remove(id);
+            await Task.Delay(countdown.Life, _timeProvider, cancellationToken);
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
+            // Paused, dismissed or disposed: whoever stopped this countdown has decided what follows.
+            return;
+        }
+
+        bool removed;
+        lock (_gate)
+        {
+            // Only the countdown on record may close the notification: one paused, resumed or replaced
+            // since this delay began is stale, even when its delay ended before it was cancelled.
+            if (_disposed || !_expirations.TryGetValue(id, out var current) || current.Generation != countdown.Generation)
+            {
+                return;
+            }
+
+            _expirations.Remove(id);
+            removed = _messages.RemoveAll(notification => notification.Id == id) > 0;
+            _snapshot = null;
+        }
+
+        countdown.Cancellation.Dispose();
+        if (removed)
+        {
+            _changed();
         }
     }
 
-    public void Dispose()
+    /// <summary>
+    /// A countdown runs unawaited. A fault in it, a <c>changed</c> handler that throws, is read and traced
+    /// rather than left unobserved with the task.
+    /// </summary>
+    private static void Observe(Task expiry) => _ = expiry.ContinueWith(
+        static task => Trace.TraceError("A notification expiry failed: {0}", task.Exception),
+        CancellationToken.None,
+        TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
+        TaskScheduler.Default);
+
+    private static void Stop(CancellationTokenSource? cancellation)
     {
-        if (_disposed)
+        if (cancellation is null)
         {
             return;
         }
 
-        _disposed = true;
-        foreach (var expiration in _expirations.Values.Where(expiration => expiration.Remaining is null))
-        {
-            expiration.Cancellation.Cancel();
-            expiration.Cancellation.Dispose();
-        }
-
-        _expirations.Clear();
+        cancellation.Cancel();
+        cancellation.Dispose();
     }
 
-    /// <summary>A running countdown, or a paused one when <paramref name="Remaining"/> is set.</summary>
-    private sealed record Expiration(CancellationTokenSource Cancellation, DateTimeOffset Deadline, TimeSpan? Remaining);
+    public void Dispose()
+    {
+        List<CancellationTokenSource> running;
+        lock (_gate)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            _disposed = true;
+            running = [.. _expirations.Values.Where(expiration => expiration.Remaining is null).Select(expiration => expiration.Cancellation)];
+            _expirations.Clear();
+        }
+
+        foreach (var cancellation in running)
+        {
+            Stop(cancellation);
+        }
+    }
+
+    /// <summary>
+    /// A countdown of <paramref name="Life"/> running, or paused when <paramref name="Remaining"/> is set.
+    /// <paramref name="Generation"/> tells the countdown on record from a stale one.
+    /// </summary>
+    private sealed record Expiration(CancellationTokenSource Cancellation, DateTimeOffset Deadline, TimeSpan Life, TimeSpan? Remaining, long Generation);
 }

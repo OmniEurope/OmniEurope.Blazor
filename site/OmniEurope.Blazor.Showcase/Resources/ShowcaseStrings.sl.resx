@@ -1553,4 +1553,19 @@
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Usmerjene povezave</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Preverjeno besedilo, sprva zaklenjeno</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Samo za branje</value></data>
+  <data name="SettingsProject" xml:space="preserve"><value>Projekt</value></data>
+  <data name="SettingsProjectLead" xml:space="preserve"><value>Dejanj v tem območju ni mogoče razveljaviti.</value></data>
+  <data name="SettingsDeleteProject" xml:space="preserve"><value>Izbriši projekt</value></data>
+  <data name="SettingsDeleteProjectHint" xml:space="preserve"><value>Projekt, njegova poročila in zgodovina se izbrišejo.</value></data>
+  <data name="SettingsDeleteProjectConfirm" xml:space="preserve"><value>Projekt »PRJ-042« in njegovih 42 poročil bodo trajno izbrisani.</value></data>
+  <data name="SettingsProjectDeleted" xml:space="preserve"><value>Projekt »PRJ-042« izbrisan (predstavitev: nič ni bilo izbrisano).</value></data>
+  <data name="SettingsResetHistory" xml:space="preserve"><value>Ponastavi zgodovino</value></data>
+  <data name="SettingsResetHistoryHint" xml:space="preserve"><value>Izprazni dnevnik izvajanj; ta predstavitev namenoma spodleti.</value></data>
+  <data name="SettingsResetHistoryConfirmTitle" xml:space="preserve"><value>Želite ponastaviti zgodovino projekta »PRJ-042«?</value></data>
+  <data name="SettingsResetHistoryConfirm" xml:space="preserve"><value>Vsa pretekla izvajanja projekta »PRJ-042« bodo izbrisana.</value></data>
+  <data name="SettingsResetAction" xml:space="preserve"><value>Ponastavi</value></data>
+  <data name="SettingsResetFailed" xml:space="preserve"><value>Strežnik je zavrnil ponastavitev (simulirana napaka).</value></data>
+  <data name="SettingsTransferProject" xml:space="preserve"><value>Prenesi projekt</value></data>
+  <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Samo za lastnika projekta.</value></data>
+  <data name="SettingsTransferAction" xml:space="preserve"><value>Prenesi</value></data>
 </root>

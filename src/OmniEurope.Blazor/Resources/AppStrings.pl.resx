@@ -702,4 +702,7 @@
   <data name="GridColumnMoved" xml:space="preserve"><value>Kolumna {0} przeniesiona na pozycję {1} z {2}</value></data>
   <data name="GridResetLayout" xml:space="preserve"><value>Przywróć układ</value></data>
   <data name="GridLayoutReset" xml:space="preserve"><value>Układ kolumn przywrócony</value></data>
+  <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Strefa zagrożenia</value></data>
+  <data name="SettingsDangerActionText" xml:space="preserve"><value>Usuń</value></data>
+  <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Tej operacji nie można cofnąć. Czy chcesz kontynuować?</value></data>
 </root>

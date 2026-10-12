@@ -1553,4 +1553,19 @@
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Irányított kapcsolatok</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Ellenőrzött szöveg, kezdetben zárolva</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Csak olvasható</value></data>
+  <data name="SettingsProject" xml:space="preserve"><value>Projekt</value></data>
+  <data name="SettingsProjectLead" xml:space="preserve"><value>Az ebben a zónában lévő műveletek nem vonhatók vissza.</value></data>
+  <data name="SettingsDeleteProject" xml:space="preserve"><value>A projekt törlése</value></data>
+  <data name="SettingsDeleteProjectHint" xml:space="preserve"><value>A projekt, a jelentései és az előzményei törlődnek.</value></data>
+  <data name="SettingsDeleteProjectConfirm" xml:space="preserve"><value>Az „PRJ-042” projekt és 42 jelentése véglegesen törlődik.</value></data>
+  <data name="SettingsProjectDeleted" xml:space="preserve"><value>Az „PRJ-042” projekt törölve (bemutató: semmi sem törlődött).</value></data>
+  <data name="SettingsResetHistory" xml:space="preserve"><value>Előzmények visszaállítása</value></data>
+  <data name="SettingsResetHistoryHint" xml:space="preserve"><value>Kiüríti a futtatási naplót; ez a bemutató szándékosan sikertelen.</value></data>
+  <data name="SettingsResetHistoryConfirmTitle" xml:space="preserve"><value>Visszaállítja az „PRJ-042” előzményeit?</value></data>
+  <data name="SettingsResetHistoryConfirm" xml:space="preserve"><value>Az „PRJ-042” összes korábbi futtatása törlődik.</value></data>
+  <data name="SettingsResetAction" xml:space="preserve"><value>Visszaállítás</value></data>
+  <data name="SettingsResetFailed" xml:space="preserve"><value>A kiszolgáló elutasította a visszaállítást (szimulált hiba).</value></data>
+  <data name="SettingsTransferProject" xml:space="preserve"><value>A projekt átadása</value></data>
+  <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Csak a projekt tulajdonosa számára.</value></data>
+  <data name="SettingsTransferAction" xml:space="preserve"><value>Átadás</value></data>
 </root>

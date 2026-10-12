@@ -21,7 +21,7 @@ internal static class OmniOverlayHosts
         {
             var dialog = dialogs[index];
             builder.OpenComponent<OmniDialog>(sequence++);
-            builder.SetKey(dialog);
+            builder.SetKey(service.DialogKey(index));
             builder.AddAttribute(sequence++, nameof(OmniDialog.Open), true);
             builder.AddAttribute(sequence++, nameof(OmniDialog.Title), dialog.Title);
             builder.AddAttribute(
@@ -62,6 +62,7 @@ internal static class OmniOverlayHosts
         Func<string, string> localize,
         OmniNotificationOptions options) => builder =>
     {
+        // One snapshot per render: a countdown ending meanwhile changes the next render, not this one.
         var notifications = service.Notifications;
         var position = options.Position.ToString().ToLowerInvariant();
         // Errors never fold into the pile: what went wrong stays readable in full.

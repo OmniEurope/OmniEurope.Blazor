@@ -702,4 +702,7 @@
   <data name="GridColumnMoved" xml:space="preserve"><value>Sarake {0} siirretty kohtaan {1}/{2}</value></data>
   <data name="GridResetLayout" xml:space="preserve"><value>Palauta asettelu</value></data>
   <data name="GridLayoutReset" xml:space="preserve"><value>Sarakkeiden asettelu palautettu</value></data>
+  <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Vaaravyöhyke</value></data>
+  <data name="SettingsDangerActionText" xml:space="preserve"><value>Poista</value></data>
+  <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Tätä toimintoa ei voi kumota. Haluatko jatkaa?</value></data>
 </root>

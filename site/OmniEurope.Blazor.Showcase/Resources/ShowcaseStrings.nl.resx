@@ -1553,4 +1553,19 @@
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Gerichte verbindingen</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Nagekeken tekst, eerst vergrendeld</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Alleen-lezen</value></data>
+  <data name="SettingsProject" xml:space="preserve"><value>Project</value></data>
+  <data name="SettingsProjectLead" xml:space="preserve"><value>De acties in deze zone kunnen niet ongedaan worden gemaakt.</value></data>
+  <data name="SettingsDeleteProject" xml:space="preserve"><value>Het project verwijderen</value></data>
+  <data name="SettingsDeleteProjectHint" xml:space="preserve"><value>Het project, de rapporten en de geschiedenis worden gewist.</value></data>
+  <data name="SettingsDeleteProjectConfirm" xml:space="preserve"><value>Het project ‘PRJ-042’ en de 42 rapporten worden definitief verwijderd.</value></data>
+  <data name="SettingsProjectDeleted" xml:space="preserve"><value>Project ‘PRJ-042’ verwijderd (demonstratie: er is niets gewist).</value></data>
+  <data name="SettingsResetHistory" xml:space="preserve"><value>Geschiedenis opnieuw instellen</value></data>
+  <data name="SettingsResetHistoryHint" xml:space="preserve"><value>Leegt het uitvoeringslogboek; deze demonstratie mislukt opzettelijk.</value></data>
+  <data name="SettingsResetHistoryConfirmTitle" xml:space="preserve"><value>Geschiedenis van ‘PRJ-042’ opnieuw instellen?</value></data>
+  <data name="SettingsResetHistoryConfirm" xml:space="preserve"><value>Alle eerdere uitvoeringen van ‘PRJ-042’ worden gewist.</value></data>
+  <data name="SettingsResetAction" xml:space="preserve"><value>Opnieuw instellen</value></data>
+  <data name="SettingsResetFailed" xml:space="preserve"><value>De server weigerde het opnieuw instellen (gesimuleerde fout).</value></data>
+  <data name="SettingsTransferProject" xml:space="preserve"><value>Het project overdragen</value></data>
+  <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Voorbehouden aan de eigenaar van het project.</value></data>
+  <data name="SettingsTransferAction" xml:space="preserve"><value>Overdragen</value></data>
 </root>

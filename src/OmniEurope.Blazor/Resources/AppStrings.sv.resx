@@ -702,4 +702,7 @@
   <data name="GridColumnMoved" xml:space="preserve"><value>Kolumnen {0} flyttad till position {1} av {2}</value></data>
   <data name="GridResetLayout" xml:space="preserve"><value>Återställ layout</value></data>
   <data name="GridLayoutReset" xml:space="preserve"><value>Kolumnlayouten återställd</value></data>
+  <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Farozon</value></data>
+  <data name="SettingsDangerActionText" xml:space="preserve"><value>Ta bort</value></data>
+  <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Den här åtgärden kan inte ångras. Vill du fortsätta?</value></data>
 </root>

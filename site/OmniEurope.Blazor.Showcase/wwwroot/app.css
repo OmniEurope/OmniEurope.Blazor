@@ -156,6 +156,8 @@
    seul, la liste virtuelle que son cadre fait défiler. */
 .demo-grid-scope { block-size: 30rem; border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: flex; flex-direction: column; gap: var(--omni-space-sm); overflow-y: auto; padding: var(--omni-space-md); }
 .demo-grid-scope > .demo-hint { margin: 0; }
+/* L'aperçu de 36rem qui défile lui-même : des réglages au-dessus, la grille qui prend le reste. */
+.demo-grid-fill-box { block-size: 36rem; border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: flex; flex-direction: column; gap: var(--omni-space-md); margin-block-start: var(--omni-space-lg); overflow-y: auto; padding: var(--omni-space-md); }
 .demo-tabs-scope { block-size: 13rem; border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: flex; flex-direction: column; padding: var(--omni-space-sm); }
 .demo-list-scroll { border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); max-block-size: 16rem; overflow-y: auto; padding: var(--omni-space-sm); }
 

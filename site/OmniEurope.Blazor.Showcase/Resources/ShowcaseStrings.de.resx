@@ -1553,4 +1553,19 @@
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Gerichtete Verbindungen</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Geprüfter Text, zunächst gesperrt</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Schreibgeschützt</value></data>
+  <data name="SettingsProject" xml:space="preserve"><value>Projekt</value></data>
+  <data name="SettingsProjectLead" xml:space="preserve"><value>Die Aktionen in diesem Bereich können nicht rückgängig gemacht werden.</value></data>
+  <data name="SettingsDeleteProject" xml:space="preserve"><value>Projekt löschen</value></data>
+  <data name="SettingsDeleteProjectHint" xml:space="preserve"><value>Das Projekt, seine Berichte und sein Verlauf werden gelöscht.</value></data>
+  <data name="SettingsDeleteProjectConfirm" xml:space="preserve"><value>Das Projekt „PRJ-042“ und seine 42 Berichte werden endgültig gelöscht.</value></data>
+  <data name="SettingsProjectDeleted" xml:space="preserve"><value>Projekt „PRJ-042“ gelöscht (Demonstration: nichts wurde gelöscht).</value></data>
+  <data name="SettingsResetHistory" xml:space="preserve"><value>Verlauf zurücksetzen</value></data>
+  <data name="SettingsResetHistoryHint" xml:space="preserve"><value>Leert das Ausführungsprotokoll; diese Demonstration schlägt absichtlich fehl.</value></data>
+  <data name="SettingsResetHistoryConfirmTitle" xml:space="preserve"><value>Verlauf von „PRJ-042“ zurücksetzen?</value></data>
+  <data name="SettingsResetHistoryConfirm" xml:space="preserve"><value>Alle bisherigen Ausführungen von „PRJ-042“ werden gelöscht.</value></data>
+  <data name="SettingsResetAction" xml:space="preserve"><value>Zurücksetzen</value></data>
+  <data name="SettingsResetFailed" xml:space="preserve"><value>Der Server hat das Zurücksetzen abgelehnt (simulierter Fehler).</value></data>
+  <data name="SettingsTransferProject" xml:space="preserve"><value>Projekt übertragen</value></data>
+  <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Dem Projektinhaber vorbehalten.</value></data>
+  <data name="SettingsTransferAction" xml:space="preserve"><value>Übertragen</value></data>
 </root>

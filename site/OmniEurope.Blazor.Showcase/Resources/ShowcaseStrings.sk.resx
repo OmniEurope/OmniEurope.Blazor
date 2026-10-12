@@ -1553,4 +1553,19 @@
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Orientované prepojenia</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Kontrolovaný text, spočiatku uzamknutý</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Iba na čítanie</value></data>
+  <data name="SettingsProject" xml:space="preserve"><value>Projekt</value></data>
+  <data name="SettingsProjectLead" xml:space="preserve"><value>Akcie v tejto zóne nemožno vrátiť späť.</value></data>
+  <data name="SettingsDeleteProject" xml:space="preserve"><value>Odstrániť projekt</value></data>
+  <data name="SettingsDeleteProjectHint" xml:space="preserve"><value>Projekt, jeho zostavy a história sa vymažú.</value></data>
+  <data name="SettingsDeleteProjectConfirm" xml:space="preserve"><value>Projekt „PRJ-042“ a jeho 42 zostáv budú natrvalo odstránené.</value></data>
+  <data name="SettingsProjectDeleted" xml:space="preserve"><value>Projekt „PRJ-042“ odstránený (ukážka: nič sa nevymazalo).</value></data>
+  <data name="SettingsResetHistory" xml:space="preserve"><value>Obnoviť históriu</value></data>
+  <data name="SettingsResetHistoryHint" xml:space="preserve"><value>Vyprázdni denník spustení; táto ukážka zámerne zlyhá.</value></data>
+  <data name="SettingsResetHistoryConfirmTitle" xml:space="preserve"><value>Obnoviť históriu projektu „PRJ-042“?</value></data>
+  <data name="SettingsResetHistoryConfirm" xml:space="preserve"><value>Všetky minulé spustenia projektu „PRJ-042“ sa vymažú.</value></data>
+  <data name="SettingsResetAction" xml:space="preserve"><value>Obnoviť</value></data>
+  <data name="SettingsResetFailed" xml:space="preserve"><value>Server obnovenie odmietol (simulované zlyhanie).</value></data>
+  <data name="SettingsTransferProject" xml:space="preserve"><value>Previesť projekt</value></data>
+  <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Vyhradené pre vlastníka projektu.</value></data>
+  <data name="SettingsTransferAction" xml:space="preserve"><value>Previesť</value></data>
 </root>

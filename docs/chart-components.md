@@ -8,7 +8,7 @@ leurs coordonnées dans un même contexte : elles s'alignent par construction.
 
 | Composant | Rôle |
 | --- | --- |
-| `OmniChart` | Conteneur SVG : titre, description (`Description`, `string?`, posée en `desc` et `aria-describedby` seulement quand elle est donnée), rapport largeur sur hauteur ; toutes les parties y lisent leurs coordonnées. `DataTableContent` fournit l'alternative en tableau ; sans lui, un tableau des données masqué visuellement est généré depuis les séries. `SharedTooltip` donne un texte de survol par catégorie (voir Disposition). `FooterContent` reçoit les parties HTML posées sous le dessin, avant une légende du dessous (`OmniRangeNavigator`). `MinWidth` (`OmniChartMinWidth`) : `None`, le défaut, laisse le graphique rétrécir avec sa carte ; `Auto`, à activer graphique par graphique, garde une largeur minimale tirée du rapport largeur sur hauteur (environ 12,5 rem par unité : 12,5 rem pour un graphique carré, 50 rem au-delà de 3,5), sous laquelle le graphique défile en largeur dans sa carte avec ses légendes et son pied ; un hôte pose sa propre longueur par `--omni-chart-min-width`. |
+| `OmniChart` | Conteneur SVG : titre, description (`Description`, `string?`, posée en `desc` et `aria-describedby` seulement quand elle est donnée), rapport largeur sur hauteur ; toutes les parties y lisent leurs coordonnées. `DataTableContent` fournit l'alternative en tableau ; sans lui, un tableau des données masqué visuellement est généré depuis les séries. `SharedTooltip` donne un texte de survol par catégorie (voir Disposition). `FooterContent` reçoit les parties HTML posées sous le dessin, avant une légende du dessous (`OmniRangeNavigator`). `MinWidth` (`OmniChartMinWidth`) : `None`, le défaut, laisse le graphique rétrécir avec sa carte ; `Auto`, à activer graphique par graphique, garde une largeur minimale tirée du rapport largeur sur hauteur (environ 12,5 rem par unité : 12,5 rem pour un graphique carré, 50 rem au-delà de 3,5), sous laquelle le graphique défile en largeur dans sa carte avec ses légendes et son pied ; un hôte pose sa propre longueur par `--omni-chart-min-width`. `MaxHeight` (`string?`) plafonne la hauteur du dessin, `min(32rem, 70vh)` par défaut (voir Disposition). |
 | `OmniCategoryAxis`, `OmniValueAxis` | Axe des catégories et axe des valeurs (bornes fixes ou automatiques), graduations et libellés. |
 | `OmniAxisTitle` | Titre d'un axe, horizontal en bas ou vertical à gauche, tourné. |
 | `OmniGridLines` | Lignes de grille du tracé. |
@@ -31,6 +31,12 @@ leurs coordonnées dans un même contexte : elles s'alignent par construction.
   1 compris, est respectée. Un dessin plus large que haut porte `omni-chart__svg--wide` : sous
   40 rem de fenêtre, le texte de ses axes passe de 3 à 4,5 unités, et l'axe des catégories est
   éclairci pour cette taille.
+- Le dessin est plafonné en hauteur : `min(32rem, 70vh)` par défaut, propriété `--omni-chart-max-height`
+  de la feuille de l'hôte pour tous ses graphiques, `MaxHeight` (`string?` : longueur CSS en px, rem,
+  em ou vh, ou `none`) pour un seul, écrit par le script d'interop (sans interactivité, le plafond de
+  la feuille reste). Plafonné, le dessin garde ses proportions, ajusté entier au milieu de la largeur
+  de sa carte, son texte réduit avec lui ; les légendes HTML et le pied gardent toute la largeur. Avec
+  `MinWidth`, la largeur minimale reste celle de la boîte du dessin.
 - `OmniLegend.Position` vaut `Auto` par défaut : la légende occupe la colonne à droite du tracé (24
   de large, le tracé s'arrête à 76 dans un carré) tant que son entrée la plus longue y tient ou tient
   dans un cinquième du dessin ; au-delà, elle passe sous le graphique. `Right` la garde à droite et

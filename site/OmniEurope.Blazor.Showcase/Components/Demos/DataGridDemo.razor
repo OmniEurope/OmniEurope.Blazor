@@ -14,7 +14,6 @@
               Caption="@Text["DemoGridOpenCases"]"
               AllowSorting="true"
               ScrollMode="OmniDataGridScrollMode.Paged"
-              AllowAlternatingRows="true"
               PageSize="5"
               HeaderWrap="OmniDataGridHeaderWrap.Truncate">
     <Columns>
@@ -36,7 +35,7 @@
 @* Le dessin de la maquette : un cadre habillé comme une carte, un en-tête fin et collant, la durée
    (un nombre) alignée à la fin en chiffres de même chasse sans rien demander, le statut en pastille
    compacte (classe omni-status), la ligne choisie teintée et en gras, la colonne triée teintée plus
-   légèrement (HighlightActiveColumn), des séparateurs de lignes faute d'alternance, et toutes les lignes sans pagination (ScrollMode All)
+   légèrement (HighlightActiveColumn), des séparateurs de lignes sans alternance (AllowAlternatingRows="false" : les lignes alternent par défaut), et toutes les lignes sans pagination (ScrollMode All)
    sous un plafond de hauteur. Filterable="false" sur la grille : aucune colonne ne montre de filtre,
    comme les grilles qui suivent. *@
 <OmniDataGrid TItem="RunRow" Id="demo-grid-runs"
@@ -45,6 +44,7 @@
               Caption="@Text["DemoGridRecentRuns"]"
               AllowSorting="true"
               Filterable="false"
+              AllowAlternatingRows="false"
               HighlightActiveColumn="true"
               MaxHeight="17rem"
               SelectionMode="OmniDataGridSelectionMode.Single"
@@ -155,12 +155,14 @@
 
 @* Une grille modifiable (EditTemplate) : le crayon ou un double clic (OnRowDoubleClick vers EditRowAsync)
    met la ligne en édition, et le champ de la cellule double-cliquée, sinon le premier, prend le focus,
-   son texte sélectionné pour taper directement. Entrée tapée dans un champ ne clique pas la ligne. *@
+   son texte sélectionné pour taper directement. Entrée enregistre la ligne et Échap l'annule ; Entrée ne
+   clique pas la ligne. Ses lignes gardent en édition la hauteur de lecture. *@
 <p class="demo-hint">@Text["DemoGridEditHint"]</p>
 <OmniDataGrid TItem="EditableFile" Id="demo-grid-edit" @ref="EditGrid"
               Items="EditableFiles"
               Caption="@Text["DemoGridEditCaption"]"
               KeyOf="@(file => file.Reference)"
+              OnRowEdit="KeepOriginal" OnRowEditCancel="RestoreOriginal"
               OnRowDoubleClick="@(args => EditGrid!.EditRowAsync(args.Item))">
     <Columns>
         <OmniDataGridColumn TItem="EditableFile" Property="Reference" Title="@Text["DemoGridColumnReference"]" Filterable="false" />
@@ -201,6 +203,46 @@
             <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="@Text["DemoGridColumnReference"]" Filterable="false" AutoFit="false" />
             <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="@Text["DemoGridColumnApplicant"]" FilterType="OmniDataGridColumnFilterType.Combo" />
             <OmniDataGridColumn TItem="GridRow" Property="Country" Title="@Text["DemoGridColumnCountry"]" FilterType="OmniDataGridColumnFilterType.Select" Groupable="true" />
+            <OmniDataGridColumn TItem="GridRow" Property="Amount" Title="@Text["DemoGridColumnAmount"]" FormatString="{0:C0}" Filterable="false"
+                                TextAlign="OmniDataGridTextAlign.End" />
+        </Columns>
+    </OmniDataGrid>
+</div>
+
+@* Un aperçu de hauteur fixe qui défile lui-même, des réglages au-dessus, une grille en dessous qui
+   prend le reste (FillAvailableHeight, plancher MinHeight) avec sa barre d'export. Quand les réglages
+   dépassent la partie visible de l'aperçu, il ne reste rien à la grille : elle garde alors son plancher
+   et l'aperçu défile jusqu'à elle. « Pagination : Aucune » la fait défiler virtuellement, les autres
+   valeurs la paginent. *@
+<div id="demo-grid-fill-box" class="demo-grid-fill-box">
+    <OmniRow Gap="OmniSpacing.Medium" Wrap="true" Align="OmniAlignment.End">
+        <OmniFormField For="grid-fill-box-pager">
+            <LabelContent>@Text["DemoGridAdvancedPager"]</LabelContent>
+            <ChildContent>
+                <OmniDropDown TValue="string" Id="grid-fill-box-pager" Options="FillBoxPagerOptions" @bind-Value="FillBoxPager" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniFormField For="grid-fill-box-lines">
+            <LabelContent>@Text["DemoGridAdvancedLines"]</LabelContent>
+            <ChildContent>
+                <OmniDropDown TValue="OmniDataGridLines" Id="grid-fill-box-lines" Options="FillBoxLineOptions" @bind-Value="FillBoxLines" />
+            </ChildContent>
+        </OmniFormField>
+    </OmniRow>
+    <OmniDataGrid TItem="GridRow" Id="demo-grid-fill-box-grid"
+                  Items="FillRows"
+                  Caption="@Text["DemoGridFillCaption"]"
+                  ScrollMode="@(FillBoxPaged ? OmniDataGridScrollMode.Paged : OmniDataGridScrollMode.Virtual)"
+                  PagerPosition="FillBoxPagerPosition"
+                  PageSize="20"
+                  GridLines="FillBoxLines"
+                  FillAvailableHeight="true"
+                  MinHeight="12rem"
+                  ShowHeaderBar="true"
+                  ExportFileName="@Text["DemoGridExportFileName"]">
+        <Columns>
+            <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="@Text["DemoGridColumnReference"]" Filterable="false" />
+            <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="@Text["DemoGridColumnApplicant"]" Filterable="false" />
             <OmniDataGridColumn TItem="GridRow" Property="Amount" Title="@Text["DemoGridColumnAmount"]" FormatString="{0:C0}" Filterable="false"
                                 TextAlign="OmniDataGridTextAlign.End" />
         </Columns>

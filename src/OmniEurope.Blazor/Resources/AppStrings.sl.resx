@@ -702,4 +702,7 @@
   <data name="GridColumnMoved" xml:space="preserve"><value>Stolpec {0} premaknjen na mesto {1} od {2}</value></data>
   <data name="GridResetLayout" xml:space="preserve"><value>Ponastavi postavitev</value></data>
   <data name="GridLayoutReset" xml:space="preserve"><value>Postavitev stolpcev ponastavljena</value></data>
+  <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Nevarno območje</value></data>
+  <data name="SettingsDangerActionText" xml:space="preserve"><value>Izbriši</value></data>
+  <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Tega dejanja ni mogoče razveljaviti. Želite nadaljevati?</value></data>
 </root>

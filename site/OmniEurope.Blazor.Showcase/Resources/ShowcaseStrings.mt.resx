@@ -1553,4 +1553,19 @@
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Links diretti</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Test rivedut, imsakkar fil-bidu</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Qari biss</value></data>
+  <data name="SettingsProject" xml:space="preserve"><value>Proġett</value></data>
+  <data name="SettingsProjectLead" xml:space="preserve"><value>L-azzjonijiet f'din iż-żona ma jistgħux jitreġġgħu lura.</value></data>
+  <data name="SettingsDeleteProject" xml:space="preserve"><value>Ħassar il-proġett</value></data>
+  <data name="SettingsDeleteProjectHint" xml:space="preserve"><value>Il-proġett, ir-rapporti u l-istorja tiegħu jitħassru.</value></data>
+  <data name="SettingsDeleteProjectConfirm" xml:space="preserve"><value>Il-proġett “PRJ-042” u t-42 rapport tiegħu se jitħassru għal kollox.</value></data>
+  <data name="SettingsProjectDeleted" xml:space="preserve"><value>Il-proġett “PRJ-042” tħassar (dimostrazzjoni: xejn ma tħassar).</value></data>
+  <data name="SettingsResetHistory" xml:space="preserve"><value>Erġa' ssettja l-istorja</value></data>
+  <data name="SettingsResetHistoryHint" xml:space="preserve"><value>Ibattal ir-reġistru tat-tħaddim; din id-dimostrazzjoni tfalli apposta.</value></data>
+  <data name="SettingsResetHistoryConfirmTitle" xml:space="preserve"><value>Terġa' ssettja l-istorja ta' “PRJ-042”?</value></data>
+  <data name="SettingsResetHistoryConfirm" xml:space="preserve"><value>It-tħaddim kollu ta' qabel ta' “PRJ-042” se jitħassar.</value></data>
+  <data name="SettingsResetAction" xml:space="preserve"><value>Erġa' ssettja</value></data>
+  <data name="SettingsResetFailed" xml:space="preserve"><value>Is-server irrifjuta l-issettjar mill-ġdid (falliment simulat).</value></data>
+  <data name="SettingsTransferProject" xml:space="preserve"><value>Ittrasferixxi l-proġett</value></data>
+  <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Riżervat għas-sid tal-proġett.</value></data>
+  <data name="SettingsTransferAction" xml:space="preserve"><value>Ittrasferixxi</value></data>
 </root>

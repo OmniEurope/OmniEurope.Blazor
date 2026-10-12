@@ -54,7 +54,9 @@
         <OmniLegend Position="OmniLegendPosition.Top" />
     </OmniChart>
 
-    <OmniChart Title="@Text["DemoChartsExtendedHorizontalTitle"]">
+    @* Square and in a wide card, the chart is held under a ceiling: min(32rem, 70vh) by default, here
+       MaxHeight lowers it to 20rem; the drawing keeps its proportions in the middle of the card. *@
+    <OmniChart Id="demo-chart-max-height" Title="@Text["DemoChartsExtendedHorizontalTitle"]" MaxHeight="20rem">
         <OmniCategoryAxis Labels="Countries" />
         <OmniValueAxis />
         <OmniColumnSeries Horizontal="true" Title="@Text["DemoChartsExtendedByCountry"]" ColorIndex="4" Data="ByCountry" />

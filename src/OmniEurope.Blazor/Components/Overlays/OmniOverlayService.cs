@@ -44,7 +44,13 @@ public sealed class OmniOverlayService : IDisposable
     public OmniDialogRequest? Dialog => _dialogs.Current;
     internal IReadOnlyList<OmniDialogRequest> Dialogs => _dialogs.Items;
 
-    /// <summary>The notifications shown, oldest first.</summary>
+    /// <summary>The render key of the open dialog at <paramref name="index"/> in <see cref="Dialogs"/>.</summary>
+    internal object DialogKey(int index) => _dialogs.KeyAt(index);
+
+    /// <summary>
+    /// The notifications shown, oldest first: a snapshot that a later notification, dismissal or expiry
+    /// does not change, so it can be enumerated while countdowns end.
+    /// </summary>
     public IReadOnlyList<OmniNotificationMessage> Notifications => _notifications.Messages;
     internal event Action? Changed;
 

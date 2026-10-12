@@ -702,4 +702,7 @@
   <data name="GridColumnMoved" xml:space="preserve"><value>Spalte {0} an Position {1} von {2} verschoben</value></data>
   <data name="GridResetLayout" xml:space="preserve"><value>Layout zurücksetzen</value></data>
   <data name="GridLayoutReset" xml:space="preserve"><value>Spaltenlayout zurückgesetzt</value></data>
+  <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Gefahrenbereich</value></data>
+  <data name="SettingsDangerActionText" xml:space="preserve"><value>Löschen</value></data>
+  <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Diese Aktion kann nicht rückgängig gemacht werden. Möchten Sie fortfahren?</value></data>
 </root>

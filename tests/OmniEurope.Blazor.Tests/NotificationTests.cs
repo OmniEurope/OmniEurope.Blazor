@@ -275,4 +275,113 @@ public sealed class NotificationTests : OmniBunitContext
         article.FocusOut();
         Assert.Equal([true, false], changes);
     }
+
+    [Fact]
+    public void Service_EnumerationStartedBeforeAnExpiry_SurvivesIt()
+    {
+        var clock = new ManualTimeProvider();
+        var held = new HeldContext();
+        using var overlays = new OmniOverlayService(clock);
+        held.Run(() => overlays.Notify("short", duration: TimeSpan.FromMilliseconds(30)));
+        using var reading = overlays.Notifications.GetEnumerator();
+        Assert.True(reading.MoveNext());
+
+        clock.Advance(TimeSpan.FromSeconds(1));
+        Assert.Equal(1, held.Drain());
+
+        // The render that started reading keeps the list it began with; the next one sees the expiry.
+        Assert.False(reading.MoveNext());
+        Assert.Empty(overlays.Notifications);
+    }
+
+    [Fact]
+    public void Store_TimerDueWhileThePointerArrives_DoesNotCloseTheHeldNotification()
+    {
+        var clock = new ManualTimeProvider();
+        var held = new HeldContext();
+        using var store = new OmniNotificationStore(clock, () => { }, 5, TimeSpan.FromSeconds(5));
+        var id = held.Run(() => store.Add("Short", OmniSeverity.Info, null, null));
+
+        // The countdown ends, and its continuation waits its turn while the pointer lands on the card.
+        clock.Advance(TimeSpan.FromSeconds(5));
+        store.Pause(id);
+        Assert.Equal(1, held.Drain());
+        Assert.Single(store.Messages);
+
+        store.Resume(id);
+        Assert.Empty(store.Messages);
+        // Gone already: dismissing it again changes nothing.
+        Assert.False(store.Remove(id));
+    }
+
+    [Fact]
+    public void Store_DisposedWhileAnExpiryIsPending_NeitherRemovesNorSignals()
+    {
+        var clock = new ManualTimeProvider();
+        var held = new HeldContext();
+        var changes = 0;
+        var store = new OmniNotificationStore(clock, () => changes++, 5, TimeSpan.FromSeconds(5));
+        held.Run(() => store.Add("Short", OmniSeverity.Info, null, null));
+        held.Run(() => store.Add("Later", OmniSeverity.Info, null, TimeSpan.FromSeconds(60)));
+        Assert.Equal(2, changes);
+
+        clock.Advance(TimeSpan.FromSeconds(5));
+        store.Dispose();
+        held.Drain();
+        clock.Advance(TimeSpan.FromSeconds(60));
+        held.Drain();
+
+        Assert.Equal(2, changes);
+        Assert.Equal(0, clock.Pending);
+        Assert.Throws<ObjectDisposedException>(() => store.Add("After", OmniSeverity.Info, null, null));
+    }
+
+    /// <summary>Holds what is posted to it until the test drains it, as a renderer queue would.</summary>
+    private sealed class HeldContext : SynchronizationContext
+    {
+        private readonly Queue<(SendOrPostCallback Callback, object? State)> _posted = new();
+
+        public override void Post(SendOrPostCallback d, object? state)
+        {
+            lock (_posted)
+            {
+                _posted.Enqueue((d, state));
+            }
+        }
+
+        public T Run<T>(Func<T> action)
+        {
+            var previous = Current;
+            SetSynchronizationContext(this);
+            try
+            {
+                return action();
+            }
+            finally
+            {
+                SetSynchronizationContext(previous);
+            }
+        }
+
+        public int Drain()
+        {
+            var ran = 0;
+            while (true)
+            {
+                (SendOrPostCallback Callback, object? State) next;
+                lock (_posted)
+                {
+                    if (_posted.Count == 0)
+                    {
+                        return ran;
+                    }
+
+                    next = _posted.Dequeue();
+                }
+
+                next.Callback(next.State);
+                ran++;
+            }
+        }
+    }
 }

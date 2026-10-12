@@ -1553,4 +1553,19 @@
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Orientované vazby</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Kontrolovaný text, zpočátku uzamčený</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Jen pro čtení</value></data>
+  <data name="SettingsProject" xml:space="preserve"><value>Projekt</value></data>
+  <data name="SettingsProjectLead" xml:space="preserve"><value>Akce v této zóně nelze vrátit zpět.</value></data>
+  <data name="SettingsDeleteProject" xml:space="preserve"><value>Odstranit projekt</value></data>
+  <data name="SettingsDeleteProjectHint" xml:space="preserve"><value>Projekt, jeho sestavy a historie budou vymazány.</value></data>
+  <data name="SettingsDeleteProjectConfirm" xml:space="preserve"><value>Projekt „PRJ-042“ a jeho 42 sestav budou trvale odstraněny.</value></data>
+  <data name="SettingsProjectDeleted" xml:space="preserve"><value>Projekt „PRJ-042“ odstraněn (ukázka: nic nebylo vymazáno).</value></data>
+  <data name="SettingsResetHistory" xml:space="preserve"><value>Obnovit historii</value></data>
+  <data name="SettingsResetHistoryHint" xml:space="preserve"><value>Vymaže protokol spuštění; tato ukázka úmyslně selže.</value></data>
+  <data name="SettingsResetHistoryConfirmTitle" xml:space="preserve"><value>Obnovit historii projektu „PRJ-042“?</value></data>
+  <data name="SettingsResetHistoryConfirm" xml:space="preserve"><value>Všechna minulá spuštění projektu „PRJ-042“ budou vymazána.</value></data>
+  <data name="SettingsResetAction" xml:space="preserve"><value>Obnovit</value></data>
+  <data name="SettingsResetFailed" xml:space="preserve"><value>Server obnovení odmítl (simulované selhání).</value></data>
+  <data name="SettingsTransferProject" xml:space="preserve"><value>Převést projekt</value></data>
+  <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Vyhrazeno vlastníkovi projektu.</value></data>
+  <data name="SettingsTransferAction" xml:space="preserve"><value>Převést</value></data>
 </root>

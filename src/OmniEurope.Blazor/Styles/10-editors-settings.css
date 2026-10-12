@@ -152,6 +152,10 @@
 .omni-settings-section--paired > .omni-card__body > :is(.omni-settings-section__heading, .omni-settings-tile--full) { grid-column: 1 / -1; }
 .omni-settings-section__title { font-size: var(--omni-font-size-lg); font-weight: 650; margin: 0; }
 .omni-settings-hint { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-label); margin: 0; }
+/* Danger zone (OmniSettingsDangerZone): the card of a section with its rim and heading in the palette's
+   danger colour, the one already held to text contrast on the surfaces of every theme in both modes. */
+.omni-card.omni-settings-danger-zone { border-color: var(--omni-color-danger); }
+.omni-settings-danger-zone .omni-settings-section__title { color: var(--omni-color-danger); }
 /* The tile stands out from its card on a fill of its own: identical to the card in light mode, it
    vanished. Six hundredths of the text in the card's fill, which darkens in light mode and lightens in
    dark mode; otherwise drawn like the card (its rule, the radius). */
@@ -161,8 +165,10 @@
 
 /* Stat tile: a key figure on the card surface. The icon square takes the accent tint of the settings
    tiles; the value is the largest text of the tile and never wraps; label and detail stay muted.
-   Clickable, it is a real button that keeps the card look, with the settings-tile hover. */
-.omni-stat-tile { align-items: center; background: var(--omni-card-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); color: var(--omni-color-text); display: flex; font: inherit; gap: var(--omni-space-sm); min-inline-size: 0; padding: var(--omni-tile-pad-y) 0.875rem; text-align: start; }
+   Clickable, it is a real button that keeps the card look, with the settings-tile hover. Like the
+   navigation tile it fills the height of its column, so the tiles of one row are as tall as the
+   tallest (one with a detail line); alone in a block, or stacked on a phone, it keeps its own height. */
+.omni-stat-tile { align-items: center; background: var(--omni-card-background, var(--omni-color-surface)); block-size: 100%; border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); color: var(--omni-color-text); display: flex; font: inherit; gap: var(--omni-space-sm); min-inline-size: 0; padding: var(--omni-tile-pad-y) 0.875rem; text-align: start; }
 /* Border and padding count inside the size of a card or tile: one stretched to its column (height:
    100%, or a grid row) fills it exactly and keeps the gap to the next block, instead of overflowing
    by its border and padding. */

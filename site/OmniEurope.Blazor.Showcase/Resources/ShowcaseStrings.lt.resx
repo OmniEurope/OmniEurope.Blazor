@@ -1553,4 +1553,19 @@
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Kryptiniai ryšiai</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Patikrintas tekstas, iš pradžių užrakintas</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Tik skaityti</value></data>
+  <data name="SettingsProject" xml:space="preserve"><value>Projektas</value></data>
+  <data name="SettingsProjectLead" xml:space="preserve"><value>Šios zonos veiksmų negalima atšaukti.</value></data>
+  <data name="SettingsDeleteProject" xml:space="preserve"><value>Šalinti projektą</value></data>
+  <data name="SettingsDeleteProjectHint" xml:space="preserve"><value>Projektas, jo ataskaitos ir istorija ištrinami.</value></data>
+  <data name="SettingsDeleteProjectConfirm" xml:space="preserve"><value>Projektas „PRJ-042“ ir jo 42 ataskaitos bus visam laikui pašalinti.</value></data>
+  <data name="SettingsProjectDeleted" xml:space="preserve"><value>Projektas „PRJ-042“ pašalintas (demonstracija: niekas nebuvo ištrinta).</value></data>
+  <data name="SettingsResetHistory" xml:space="preserve"><value>Atkurti istoriją</value></data>
+  <data name="SettingsResetHistoryHint" xml:space="preserve"><value>Išvalo vykdymų žurnalą; ši demonstracija tyčia nepavyksta.</value></data>
+  <data name="SettingsResetHistoryConfirmTitle" xml:space="preserve"><value>Atkurti projekto „PRJ-042“ istoriją?</value></data>
+  <data name="SettingsResetHistoryConfirm" xml:space="preserve"><value>Visi ankstesni projekto „PRJ-042“ vykdymai bus ištrinti.</value></data>
+  <data name="SettingsResetAction" xml:space="preserve"><value>Atkurti</value></data>
+  <data name="SettingsResetFailed" xml:space="preserve"><value>Serveris atmetė atkūrimą (imituota klaida).</value></data>
+  <data name="SettingsTransferProject" xml:space="preserve"><value>Perduoti projektą</value></data>
+  <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Tik projekto savininkui.</value></data>
+  <data name="SettingsTransferAction" xml:space="preserve"><value>Perduoti</value></data>
 </root>

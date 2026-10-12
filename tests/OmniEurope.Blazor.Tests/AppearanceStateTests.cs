@@ -393,7 +393,7 @@ public sealed class AppearanceStateTests : OmniBunitContext
     [Fact]
     public async Task The_document_root_is_left_alone_until_a_scope_attaches_and_kept_while_another_still_follows()
     {
-        var root = new AppearanceDocumentRoot(JSInterop.JSRuntime);
+        var root = new AppearanceDocumentRoot(JSInterop.JSRuntime, Microsoft.Extensions.Logging.Abstractions.NullLogger.Instance);
         await root.SyncAsync(7, 7);
         await root.DetachAsync();
         Assert.Empty(AppearanceModule.Invocations);

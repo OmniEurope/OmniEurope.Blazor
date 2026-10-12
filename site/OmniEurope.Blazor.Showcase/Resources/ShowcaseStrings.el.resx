@@ -1553,4 +1553,19 @@
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Κατευθυνόμενοι σύνδεσμοι</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Ελεγμένο κείμενο, αρχικά κλειδωμένο</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Μόνο για ανάγνωση</value></data>
+  <data name="SettingsProject" xml:space="preserve"><value>Έργο</value></data>
+  <data name="SettingsProjectLead" xml:space="preserve"><value>Οι ενέργειες αυτής της ζώνης δεν μπορούν να αναιρεθούν.</value></data>
+  <data name="SettingsDeleteProject" xml:space="preserve"><value>Διαγραφή του έργου</value></data>
+  <data name="SettingsDeleteProjectHint" xml:space="preserve"><value>Το έργο, οι αναφορές και το ιστορικό του διαγράφονται.</value></data>
+  <data name="SettingsDeleteProjectConfirm" xml:space="preserve"><value>Το έργο «PRJ-042» και οι 42 αναφορές του θα διαγραφούν οριστικά.</value></data>
+  <data name="SettingsProjectDeleted" xml:space="preserve"><value>Το έργο «PRJ-042» διαγράφηκε (επίδειξη: δεν διαγράφηκε τίποτα).</value></data>
+  <data name="SettingsResetHistory" xml:space="preserve"><value>Επαναφορά του ιστορικού</value></data>
+  <data name="SettingsResetHistoryHint" xml:space="preserve"><value>Αδειάζει το αρχείο εκτελέσεων· αυτή η επίδειξη αποτυγχάνει σκόπιμα.</value></data>
+  <data name="SettingsResetHistoryConfirmTitle" xml:space="preserve"><value>Επαναφορά του ιστορικού του «PRJ-042»;</value></data>
+  <data name="SettingsResetHistoryConfirm" xml:space="preserve"><value>Όλες οι προηγούμενες εκτελέσεις του «PRJ-042» θα διαγραφούν.</value></data>
+  <data name="SettingsResetAction" xml:space="preserve"><value>Επαναφορά</value></data>
+  <data name="SettingsResetFailed" xml:space="preserve"><value>Ο διακομιστής αρνήθηκε την επαναφορά (προσομοιωμένη αποτυχία).</value></data>
+  <data name="SettingsTransferProject" xml:space="preserve"><value>Μεταβίβαση του έργου</value></data>
+  <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Μόνο για τον κάτοχο του έργου.</value></data>
+  <data name="SettingsTransferAction" xml:space="preserve"><value>Μεταβίβαση</value></data>
 </root>

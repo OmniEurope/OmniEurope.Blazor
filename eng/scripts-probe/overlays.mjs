@@ -218,8 +218,17 @@ export async function overlaySteps(session, results) {
   await waitFor('la fenêtre d\'apparence', "document.querySelector('.omni-appearance-window input[type=\"range\"][aria-label]') !== null");
   await evaluate(`(() => { const range = [...document.querySelectorAll('.omni-appearance-window input[type="range"]')][1]; range.value = '7'; range.dispatchEvent(new Event('input', { bubbles: true })); range.dispatchEvent(new Event('change', { bubbles: true })); })()`);
   await waitFor('la taille des contrôles posée', "document.documentElement.dataset.oeControlSize === '7'");
+  // The probe browser draws WebGL in software, which omni-black-hole.js refuses
+  // (failIfMajorPerformanceCaveat) for the CSS field: the request loses that flag here so the drawing
+  // path runs, and its slow frames bring the guard that holds the field still.
+  await evaluate(`(() => { const original = HTMLCanvasElement.prototype.getContext; window.__omniGetContext = original; HTMLCanvasElement.prototype.getContext = function (type, options) { return original.call(this, type, type === 'webgl' && options ? { ...options, failIfMajorPerformanceCaveat: false } : options); }; })()`);
   await evaluate(`(() => { const select = document.querySelector('.omni-appearance-window select'); select.value = [...select.options].at(-1).value; select.dispatchEvent(new Event('change', { bubbles: true })); })()`);
   await waitFor('le fond de Trou noir', "document.querySelector('.omni-theme-scope__canvas') !== null", 10_000);
+  await evaluate('HTMLCanvasElement.prototype.getContext = window.__omniGetContext');
+  // The field follows the system's wish for less motion as it changes.
+  await send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] });
+  await pause(200);
+  await send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: '' }] });
   // The drawing follows the window size, the page visibility and the palette, and stops with the theme.
   await send('Emulation.setDeviceMetricsOverride', { width: 1200, height: 860, deviceScaleFactor: 1, mobile: false });
   await pause(200);

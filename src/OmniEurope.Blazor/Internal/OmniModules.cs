@@ -9,7 +9,7 @@ internal static class OmniModules
 {
     private const string Root = "./_content/OmniEurope.Blazor/";
 
-    /// <summary>The general helpers: first invalid field, text selection, document metadata, history, clipboard, boot splash, scroll watching.</summary>
+    /// <summary>The general helpers: first invalid field, text selection, document metadata, history, clipboard, boot splash, scroll watching, chart height ceiling.</summary>
     internal const string Interop = Root + "omniInterop.js";
 
     /// <summary>The text size and the size of the controls, laid on the document root.</summary>

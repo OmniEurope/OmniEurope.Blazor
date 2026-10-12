@@ -135,6 +135,9 @@ paragraphe ; `Level` en fait un titre quand l'état vide ouvre une section.
 teinté, décoratif). Avec `OnClick`, la tuile entière devient un bouton, nommé « libellé : valeur » ; sans lui, un simple bloc que rien n'active. La valeur ne passe pas
 à la ligne. Le libellé reste sur une ligne : un script le réduit à 0,6875 rem quand il ne tient pas,
 puis le coupe de points de suspension, son texte entier en titre (infobulle), y compris quand `OnClick` apparaît ou disparaît et que la tuile change d'élément ; le détail peut se couper.
+Comme `OmniNavTile`, elle prend la hauteur de sa colonne (`block-size: 100%`) : les tuiles d'une rangée
+`OmniRow` ont la hauteur de la plus haute, celle qui porte un `Detail` comprise ; seule dans un bloc ou
+empilée sur un téléphone, elle garde sa propre hauteur.
 
 ## Tuile de navigation : `OmniNavTile`
 

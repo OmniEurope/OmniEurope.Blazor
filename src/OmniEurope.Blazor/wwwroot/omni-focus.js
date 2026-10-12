@@ -182,8 +182,12 @@ export function attachPopover(root, panel, dotnet, key) {
 
     rememberTarget(key);
     keepInViewport(panel);
-    const items = focusableElements(panel);
-    (items[0] ?? panel)?.focus({ preventScroll: true });
+    // A control of the panel that already holds the focus (autofocus, a focus moved by the host) keeps it.
+    if (!panel?.contains(document.activeElement)) {
+        const items = focusableElements(panel);
+        (items[0] ?? panel)?.focus({ preventScroll: true });
+    }
+
     const onResize = () => keepInViewport(panel);
 
     const onPointerDown = event => {

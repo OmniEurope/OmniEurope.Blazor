@@ -1553,4 +1553,19 @@
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Legături orientate</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Text verificat, blocat la început</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Doar citire</value></data>
+  <data name="SettingsProject" xml:space="preserve"><value>Proiect</value></data>
+  <data name="SettingsProjectLead" xml:space="preserve"><value>Acțiunile din această zonă nu pot fi anulate.</value></data>
+  <data name="SettingsDeleteProject" xml:space="preserve"><value>Ștergeți proiectul</value></data>
+  <data name="SettingsDeleteProjectHint" xml:space="preserve"><value>Proiectul, rapoartele și istoricul său sunt șterse.</value></data>
+  <data name="SettingsDeleteProjectConfirm" xml:space="preserve"><value>Proiectul „PRJ-042” și cele 42 de rapoarte ale sale vor fi șterse definitiv.</value></data>
+  <data name="SettingsProjectDeleted" xml:space="preserve"><value>Proiectul „PRJ-042” a fost șters (demonstrație: nu s-a șters nimic).</value></data>
+  <data name="SettingsResetHistory" xml:space="preserve"><value>Resetați istoricul</value></data>
+  <data name="SettingsResetHistoryHint" xml:space="preserve"><value>Golește jurnalul execuțiilor; această demonstrație eșuează intenționat.</value></data>
+  <data name="SettingsResetHistoryConfirmTitle" xml:space="preserve"><value>Resetați istoricul proiectului „PRJ-042”?</value></data>
+  <data name="SettingsResetHistoryConfirm" xml:space="preserve"><value>Toate execuțiile anterioare ale „PRJ-042” vor fi șterse.</value></data>
+  <data name="SettingsResetAction" xml:space="preserve"><value>Resetați</value></data>
+  <data name="SettingsResetFailed" xml:space="preserve"><value>Serverul a refuzat resetarea (eșec simulat).</value></data>
+  <data name="SettingsTransferProject" xml:space="preserve"><value>Transferați proiectul</value></data>
+  <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Rezervat proprietarului proiectului.</value></data>
+  <data name="SettingsTransferAction" xml:space="preserve"><value>Transferați</value></data>
 </root>

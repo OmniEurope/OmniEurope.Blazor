@@ -204,6 +204,24 @@ public sealed class MiscInternalsTests
     }
 
     [Fact]
+    public void PaletteAndFontOfAnOption_AreNullForTheThemesOwn_OrAnUnknownName()
+    {
+        // The theme's own palette and font were otherwise reached only when a random look drew them.
+        var theme = OmniThemePresets.All[1];
+        var ownPalette = OmniThemePresets.DefaultPaletteFor(theme);
+        var otherPalette = OmniThemePalettes.All.First(palette => palette.Name != ownPalette.Name);
+        Assert.Null(AppearanceChoices.Palette(theme, ownPalette.Name));
+        Assert.Same(otherPalette, AppearanceChoices.Palette(theme, otherPalette.Name));
+        Assert.Null(AppearanceChoices.Palette(theme, "inconnue"));
+
+        var ownFont = OmniThemePresets.DefaultFontFor(theme);
+        var otherFont = OmniThemeFonts.All.First(font => font.Name != ownFont.Name);
+        Assert.Null(AppearanceChoices.Font(theme, ownFont.Name));
+        Assert.Same(otherFont, AppearanceChoices.Font(theme, otherFont.Name));
+        Assert.Null(AppearanceChoices.Font(theme, "inconnue"));
+    }
+
+    [Fact]
     public void RandomChoice_SkipsTheCurrentEntry_AndReachesTheOthersOnBothSidesOfIt()
     {
         // The draw among the others is shifted past the current one: entries before it and after it are

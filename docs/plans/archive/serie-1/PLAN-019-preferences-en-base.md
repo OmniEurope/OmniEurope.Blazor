@@ -9,7 +9,7 @@
 > validée) ; chemin base de données éprouvé au navigateur par la base de démonstration de la vitrine
 > (`?store=demo`, 3 passes sur 3) ; exemple EF Core du guide compilé hors dépôt. Stabilité de la partie
 > `columns` : un échec sur 9 passes, jamais capturé, avant la correction de la sonde (attente du focus
-> dans le panneau) ; ensuite 20 passes sur 20. Guide [preferences.md](../preferences.md) et migration
+> dans le panneau) ; ensuite 20 passes sur 20. Guide [preferences.md](../../../preferences.md) et migration
 > dans `CHANGELOG.md`. Restent : la relecture par des locuteurs natifs des 8 nouveaux textes de la
 > grille, la mise en place dans les applications clientes (propriétaire), et la décision sur un alias
 > `[Obsolete]` pour les types de stockage de grille retirés.

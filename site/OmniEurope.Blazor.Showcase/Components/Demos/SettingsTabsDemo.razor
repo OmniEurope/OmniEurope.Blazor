@@ -80,5 +80,30 @@
                 </OmniSettingsSection>
             </ChildContent>
         </OmniTabsItem>
+        <OmniTabsItem Key="project" Title="@Text["SettingsProject"]">
+            <Icon><OmniIcon Name="OmniIconName.ShieldWarning" /></Icon>
+            <ChildContent>
+                @* Zone de danger : les actions irréversibles, chacune derrière la confirmation du paquet
+                   (OmniOverlayService.ConfirmAsync), d'où l'hôte de composants local. La suppression
+                   occupe le bouton une seconde et demie, la réinitialisation échoue exprès et son erreur
+                   passe par OnConfirmError, le transfert est désactivé. Rien n'est réellement effacé. *@
+                <OmniComponentsHost OverlayService="Overlays">
+                    <OmniSettingsDangerZone Description="@Text["SettingsProjectLead"]">
+                        <OmniSettingsDangerAction Id="settings-delete-project" Title="@Text["SettingsDeleteProject"]"
+                                                  Description="@Text["SettingsDeleteProjectHint"]"
+                                                  ConfirmMessage="@Text["SettingsDeleteProjectConfirm"]"
+                                                  OnConfirm="DeleteProjectAsync" />
+                        <OmniSettingsDangerAction Title="@Text["SettingsResetHistory"]" Description="@Text["SettingsResetHistoryHint"]"
+                                                  ActionText="@Text["SettingsResetAction"]" ActionIcon="OmniIconName.Reset"
+                                                  ConfirmTitle="@Text["SettingsResetHistoryConfirmTitle"]"
+                                                  ConfirmMessage="@Text["SettingsResetHistoryConfirm"]"
+                                                  ConfirmText="@Text["SettingsResetHistory"]"
+                                                  OnConfirm="ResetHistoryAsync" OnConfirmError="ReportResetFailure" />
+                        <OmniSettingsDangerAction Title="@Text["SettingsTransferProject"]" Description="@Text["SettingsTransferProjectHint"]"
+                                                  ActionText="@Text["SettingsTransferAction"]" ActionIcon="OmniIconName.Swap" Disabled="true" />
+                    </OmniSettingsDangerZone>
+                </OmniComponentsHost>
+            </ChildContent>
+        </OmniTabsItem>
     </OmniTabs>
 </EditForm>

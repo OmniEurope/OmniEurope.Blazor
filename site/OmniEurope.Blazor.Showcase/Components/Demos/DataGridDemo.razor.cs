@@ -27,6 +27,24 @@ public partial class DataGridDemo
 
     private IReadOnlyList<OmniDataGridGroup> FillGrouping { get; set; } = [new(nameof(GridRow.Country))];
 
+    // The preview box: « none » scrolls the grid virtually, a position pages it with the pager there.
+    private IReadOnlyList<OmniOption<string>> FillBoxPagerOptions { get; set; } = [];
+
+    private IReadOnlyList<OmniOption<OmniDataGridLines>> FillBoxLineOptions { get; set; } = [];
+
+    private string FillBoxPager { get; set; } = "none";
+
+    private OmniDataGridLines FillBoxLines { get; set; } = OmniDataGridLines.Horizontal;
+
+    private bool FillBoxPaged => FillBoxPager != "none";
+
+    private OmniDataGridPosition FillBoxPagerPosition => FillBoxPager switch
+    {
+        "top" => OmniDataGridPosition.Top,
+        "both" => OmniDataGridPosition.TopAndBottom,
+        _ => OmniDataGridPosition.Bottom
+    };
+
     private IReadOnlyList<RunRow> SelectedRuns { get; set; } = [];
 
     private IReadOnlyList<StatementLine> Statement { get; set; } = [];
@@ -40,6 +58,20 @@ public partial class DataGridDemo
         new() { Reference = "D-1002", Applicant = "Jonas Weber", Country = "Allemagne" },
         new() { Reference = "D-1003", Applicant = "Inês Costa", Country = "Portugal" },
     ];
+
+    // The values a row had when it entered edit mode: the editors write into the file itself, so a
+    // cancelled edit is undone by the page from this copy (the grid only reports the cancellation).
+    private readonly Dictionary<string, (string Applicant, string Country)> _originals = [];
+
+    private void KeepOriginal(EditableFile file) => _originals[file.Reference] = (file.Applicant, file.Country);
+
+    private void RestoreOriginal(EditableFile file)
+    {
+        if (_originals.Remove(file.Reference, out var original))
+        {
+            (file.Applicant, file.Country) = original;
+        }
+    }
 
     /// <summary>A file of the editable grid: its applicant and country change in place.</summary>
     private sealed class EditableFile
@@ -144,6 +176,20 @@ public partial class DataGridDemo
                 Amount = index == 1_999 ? 123_456_789_012_345_678m : 1_000m + (index * 37m)
             })];
         SelectedRuns = [.. Runs.Where(run => run.Run == "#2395")];
+        FillBoxPagerOptions =
+        [
+            new("none", Text["DemoGridAdvancedLinesNone"]),
+            new("bottom", Text["DemoGridAdvancedPagerBottom"]),
+            new("top", Text["DemoGridAdvancedPagerTop"]),
+            new("both", Text["DemoGridAdvancedPagerBoth"])
+        ];
+        FillBoxLineOptions =
+        [
+            new(OmniDataGridLines.None, Text["DemoGridAdvancedLinesNone"]),
+            new(OmniDataGridLines.Horizontal, Text["DemoGridAdvancedLinesHorizontal"]),
+            new(OmniDataGridLines.Vertical, Text["DemoGridAdvancedLinesVertical"]),
+            new(OmniDataGridLines.Both, Text["DemoGridAdvancedLinesBoth"])
+        ];
     }
 
     /// <summary>A run whose status reads in the current culture; the tone picks the dot's colour.</summary>

@@ -1553,4 +1553,19 @@
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Virzītas saites</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Pārbaudīts teksts, sākumā bloķēts</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Tikai lasāms</value></data>
+  <data name="SettingsProject" xml:space="preserve"><value>Projekts</value></data>
+  <data name="SettingsProjectLead" xml:space="preserve"><value>Šīs zonas darbības nevar atsaukt.</value></data>
+  <data name="SettingsDeleteProject" xml:space="preserve"><value>Dzēst projektu</value></data>
+  <data name="SettingsDeleteProjectHint" xml:space="preserve"><value>Projekts, tā pārskati un vēsture tiek izdzēsti.</value></data>
+  <data name="SettingsDeleteProjectConfirm" xml:space="preserve"><value>Projekts “PRJ-042” un tā 42 pārskati tiks neatgriezeniski dzēsti.</value></data>
+  <data name="SettingsProjectDeleted" xml:space="preserve"><value>Projekts “PRJ-042” dzēsts (demonstrācija: nekas netika izdzēsts).</value></data>
+  <data name="SettingsResetHistory" xml:space="preserve"><value>Atiestatīt vēsturi</value></data>
+  <data name="SettingsResetHistoryHint" xml:space="preserve"><value>Iztukšo izpilžu žurnālu; šī demonstrācija apzināti neizdodas.</value></data>
+  <data name="SettingsResetHistoryConfirmTitle" xml:space="preserve"><value>Vai atiestatīt projekta “PRJ-042” vēsturi?</value></data>
+  <data name="SettingsResetHistoryConfirm" xml:space="preserve"><value>Visas projekta “PRJ-042” iepriekšējās izpildes tiks izdzēstas.</value></data>
+  <data name="SettingsResetAction" xml:space="preserve"><value>Atiestatīt</value></data>
+  <data name="SettingsResetFailed" xml:space="preserve"><value>Serveris noraidīja atiestatīšanu (simulēta kļūme).</value></data>
+  <data name="SettingsTransferProject" xml:space="preserve"><value>Nodot projektu</value></data>
+  <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Tikai projekta īpašniekam.</value></data>
+  <data name="SettingsTransferAction" xml:space="preserve"><value>Nodot</value></data>
 </root>

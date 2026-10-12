@@ -39,9 +39,15 @@
 // Usage: node Test-ThemeContrastProbe.mjs --endpoint http://127.0.0.1:<cdp port> --url http://127.0.0.1:<site port>/
 //        [--themes "Essentiel,Néon"] [--palettes "Mono"] [--modes dark] [--no-screenshots]
 // The filters exist to replay a failure quickly; a filtered run says so and never counts as the gate.
+// [--shard i/n --shard-file <path>] is the parallel host's own (eng/ProbeShards.mjs): with n > 1, the
+// shipped look alone in shard n, and the themes round robin over shards 1 to n - 1, each with its
+// combinations and its 375 px pass; the raw results go to the shard file, merged into the registry by
+// eng/Merge-ProbeShards.mjs.
+// A shard is not a filter: it never reports a partial run.
 // The browser (started with --remote-debugging-port) and the static server are the caller's.
 
 import { createJsCoverage } from './JsCoverage.mjs';
+import { parseShard, reportContrast, shardSlice, writeShardResult } from './ProbeShards.mjs';
 
 import { mkdir, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
@@ -66,6 +72,11 @@ const paletteFilter = list('--palettes');
 const modeFilter = list('--modes');
 const partial = Boolean(themeFilter || paletteFilter || modeFilter);
 const screenshots = !options.get('--no-screenshots');
+const shard = parseShard(options.get('--shard'), options.get('--shard-file'));
+// The shipped look is measured once in a sharded pass, alone in the last shard: it costs about one
+// theme, and a shard of its own keeps it from lengthening the shard of a slow theme.
+const shippedLookHere = !shard || shard.index === shard.count;
+const themeShard = shard && shard.count > 1 ? (shard.index < shard.count ? { index: shard.index, count: shard.count - 1 } : null) : shard;
 
 const artifacts = resolve(dirname(fileURLToPath(import.meta.url)), '..', 'artifacts');
 const shotDirectory = join(artifacts, 'theme-probe');
@@ -900,12 +911,13 @@ if (themes.length === 0 || palettes.length === 0) {
   failures.push({ check: 'catalogue', detail: `${themes.length} thèmes et ${palettes.length} palettes proposés` });
 }
 const modes = ['light', 'dark'];
-const chosenThemes = themes.filter(theme => !themeFilter || themeFilter.includes(theme));
+const filteredThemes = themes.filter(theme => !themeFilter || themeFilter.includes(theme));
+const chosenThemes = shard && !themeShard ? [] : shardSlice(filteredThemes, themeShard);
 const chosenPalettes = palettes.filter(palette => !paletteFilter || paletteFilter.includes(palette));
 const chosenModes = modes.filter(mode => !modeFilter || modeFilter.includes(mode));
 
 // 1. The shipped look (lot 7): the stylesheet alone must paint exactly what Essentiel + Essentiel paints.
-for (const mode of chosenModes) {
+for (const mode of shippedLookHere ? chosenModes : []) {
   const combo = { theme: 'Essentiel', palette: 'Essentiel', mode };
   await apply('Essentiel', 'Essentiel', mode);
   margin = mode === 'light' ? await lib('marginPairs()') : null;
@@ -922,7 +934,7 @@ for (const mode of chosenModes) {
   await lib('restoreTheme()');
   await settleOrFail(combo, 'la remise des jetons');
 }
-if (chosenModes.length > 0) {
+if (shippedLookHere && chosenModes.length > 0) {
   // The shipped look as a visitor lands on it: the home page, stylesheet alone.
   for (const mode of chosenModes) {
     await apply('Essentiel', 'Essentiel', mode);
@@ -1020,8 +1032,7 @@ for (const error of consoleErrors) failures.push({ check: 'console', detail: err
 const expected = chosenThemes.reduce((sum, theme) => sum + modesOf(theme).length, 0) * chosenPalettes.length;
 if (!partial && combinations !== expected) failures.push({ check: 'couverture', detail: `${combinations} combinaisons mesurées au lieu de ${expected}` });
 
-await mkdir(artifacts, { recursive: true });
-await writeFile(registryPath, JSON.stringify({
+const registry = {
   generatedAt: new Date().toISOString(),
   partial,
   combinations,
@@ -1034,26 +1045,17 @@ await writeFile(registryPath, JSON.stringify({
   busyVeil: busyReadings.map(({ theme, palette, mode, label, veil, peak, foreground, background, ratio, restRatio, veilShift }) => ({ theme, palette, mode, label, veil, peak, foreground, background, ratio: Math.round(ratio * 100) / 100, restRatio: Math.round(restRatio * 100) / 100, veilShift: Math.round(veilShift * 100) / 100 })),
   cards: observations.map(({ theme, palette, mode, target, background, foreground, fillRatio, borderRatio, shadow }) => ({ theme, palette, mode, target, page: background, card: foreground, fillRatio: Math.round(fillRatio * 100) / 100, borderRatio: Math.round(borderRatio * 100) / 100, shadow })),
   screenshots: shots
-}, null, 2));
+};
+
+if (shard) {
+  // The registry is the merge's: a shard writes its raw results, with what the merge needs to prove the
+  // shards cover the catalogue exactly once.
+  await writeShardResult(shard, { ...registry, allThemes: filteredThemes, themes: chosenThemes, shippedLook: shippedLookHere });
+} else {
+  await mkdir(artifacts, { recursive: true });
+  await writeFile(registryPath, JSON.stringify(registry, null, 2));
+}
 
 if (partial) console.log(`Passage PARTIEL (filtres ${[themeFilter, paletteFilter, modeFilter].filter(Boolean).map(value => value.join('/')).join(', ')}) : il ne vaut pas preuve pour la porte.`);
-if (failures.length > 0) {
-  const grouped = new Map();
-  for (const failure of failures) {
-    const key = [failure.page, failure.target, failure.state, failure.check].filter(Boolean).join(' | ');
-    const group = grouped.get(key) ?? { count: 0, sample: failure };
-    group.count++;
-    grouped.set(key, group);
-  }
-  const lines = [...grouped].slice(0, 60).map(([key, group]) => {
-    const sample = group.sample;
-    const where = [sample.theme, sample.palette, sample.mode].filter(Boolean).join(' + ');
-    const value = sample.ratio !== undefined ? `${sample.foreground} sur ${sample.background} = ${sample.ratio} < ${sample.required}` : sample.detail;
-    return `  ${key} x${group.count} (ex. ${where} : ${value})`;
-  });
-  console.error(`Contrastes : ${failures.length} échec(s) sur ${measures} mesures, ${combinations} combinaison(s). Registre : ${registryPath}\n${lines.join('\n')}${grouped.size > 60 ? `\n  ... ${grouped.size - 60} groupe(s) de plus dans le registre` : ''}`);
-  process.exitCode = 1;
-} else {
-  const waived = Object.entries(Object.groupBy(acceptedContrastWaiver, entry => entry.theme)).map(([theme, entries]) => `${theme} ${entries.length}`).join(', ');
-  console.log(`Sonde de contraste validée : ${measures} mesures sur ${combinations} combinaison(s) thème x palette x mode${partial ? ' (passage partiel)' : ''}, repos, survol forcé et focus, voile d'occupation (${acceptedBusyVeil.length} mesure(s) sous le ratio acceptée(s) par décision du 2026-09-18, voir acceptedBusyVeil), contraste non garanti (${acceptedContrastWaiver.length} mesure(s) sous le ratio acceptée(s) par décision du 2026-09-28${waived ? ` : ${waived}` : ''}, voir acceptedContrastWaiver), géométrie, 375 px ; registre vide (${registryPath}), ${shots.length} capture(s) dans ${shotDirectory}, aucune violation CSP, console sans erreur.`);
-}
+const scope = shard ? `Fragment ${shard.label} de la sonde de contraste (thèmes ${chosenThemes.join(', ') || 'aucun'}${shippedLookHere ? ', apparence livrée' : ''})` : null;
+process.exitCode = reportContrast(registry, { registryPath: shard ? shard.file : registryPath, shotDirectory, scope });

@@ -1,0 +1,24 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+@* One action that cannot be undone, in the tile of a settings section: its name and what it destroys
+   on the left, a danger button on the right that asks first through the package's confirmation
+   dialog. The button keeps its visible text as its name and is described by the tile's name and
+   description, so a screen reader hears which action it starts. Busy, not disabled, while the host
+   carries the action out (STD-BUSY). *@
+<div class="@Css("omni-settings-tile", "omni-settings-danger-action")">
+    <div class="omni-settings-tile__row">
+        <div class="omni-settings-tile__text">
+            <span id="@TitleId" class="omni-settings-tile__title">@Title</span>
+            @if (HasDescription)
+            {
+                <span id="@DescriptionId" class="omni-settings-hint">@Description</span>
+            }
+        </div>
+        <OmniButton @attributes="AdditionalAttributes" Id="@Id" Variant="OmniButtonVariant.Danger" Disabled="Disabled" Busy="_busy"
+                    aria-describedby="@DescribedBy" OnClick="ConfirmAsync">
+            <OmniIcon Name="ActionIcon" />
+            <span>@ActionLabel</span>
+        </OmniButton>
+    </div>
+</div>

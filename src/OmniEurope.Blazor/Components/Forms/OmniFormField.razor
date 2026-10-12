@@ -3,7 +3,7 @@
 
 @* One label for the two layouts: alone, exactly as before, or beside the help mark. *@
 @{
-    RenderFragment label = @<OmniLabel Id="@LabelId" For="@For" Required="@Required">
+    RenderFragment label = @<OmniLabel Id="@LabelId" For="@For" Required="@ShowsRequired">
         @if (LabelContent is not null) { @LabelContent } else { @Label }
     </OmniLabel>;
 }
@@ -33,8 +33,10 @@
     <div class="omni-form-field__control">
         @* A control that a label for cannot name (an editable div, a radio group) reads the label id
            from here and points aria-labelledby at it. *@
-        <CascadingValue Value="@FieldLabel">
-            @ChildContent
+        <CascadingValue Value="@_requirement" IsFixed="true">
+            <CascadingValue Value="@FieldLabel">
+                @ChildContent
+            </CascadingValue>
         </CascadingValue>
         @EndContent
     </div>

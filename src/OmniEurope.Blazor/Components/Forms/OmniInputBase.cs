@@ -73,6 +73,10 @@ public abstract class OmniInputBase<TValue> : InputBase<TValue>
     /// </summary>
     private protected string? FormFieldLabelId => OmniFormFieldLabel.For(EnclosingFormFieldLabel, Id);
 
+    /// <summary>The enclosing <see cref="OmniFormField"/>, told whether the bound property is required.</summary>
+    [CascadingParameter]
+    private FormFieldRequirement? EnclosingRequirement { get; set; }
+
     /// <summary><c>"true"</c> while the edit context holds a message for the bound field, else null.</summary>
     protected string? AriaInvalid => EditContext is not null && EditContext.GetValidationMessages(FieldIdentifier).Any()
         ? "true"
@@ -95,6 +99,21 @@ public abstract class OmniInputBase<TValue> : InputBase<TValue>
     {
         base.OnParametersSet();
         CspAttributeGuard.EnsureSafe(AdditionalAttributes, GetType());
+        // The field shows the required mark of a property marked [Required] (recette R3-6). InputBase
+        // demands a value expression, so the bound field is always known here.
+        EnclosingRequirement?.Report(this, Id, FieldIdentifier);
+    }
+
+    /// <summary>Withdraws this control's answer from the enclosing <see cref="OmniFormField"/>.</summary>
+    /// <param name="disposing">Whether the call comes from <c>Dispose</c>.</param>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            EnclosingRequirement?.Withdraw(this);
+        }
+
+        base.Dispose(disposing);
     }
 
     /// <summary>

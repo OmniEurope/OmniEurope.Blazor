@@ -10,7 +10,7 @@ namespace OmniEurope.Blazor.Internal;
 /// default level leaves the attribute out, as a page that never set it; the last scope to leave
 /// removes both.
 /// </summary>
-internal sealed class AppearanceDocumentRoot(IJSRuntime javaScript, ILogger? logger = null)
+internal sealed class AppearanceDocumentRoot(IJSRuntime javaScript, ILogger logger)
 {
     private IJSObjectReference? _module;
     private int _scopes;
@@ -72,7 +72,7 @@ internal sealed class AppearanceDocumentRoot(IJSRuntime javaScript, ILogger? log
         catch (JSException exception)
         {
             // The script refused: the levels may stay on the root, the scope still finishes leaving.
-            logger?.LogWarning(exception, "The text and control size levels could not be removed from the document root.");
+            logger.LogWarning(exception, "The text and control size levels could not be removed from the document root.");
         }
     }
 

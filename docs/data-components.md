@@ -159,6 +159,22 @@ lue par la classe `omni-data-grid__viewport--capped`. Il est ignoré quand `Heig
 `FillAvailableHeight` dimensionne déjà le tableau. Sans `MaxHeight`, rien ne change : ni classe, ni
 appel de script supplémentaire.
 
+`FillAvailableHeight` donne à la grille la hauteur qui reste sous elle dans la zone qui la fait
+défiler (mesurée par `attachFill` dans `omni-grid.js`), jamais moins que son plancher : `MinHeight`
+(`22.5rem` par défaut) pour le viewport, plus la barre d'en-tête, la barre de pied, le résumé et le
+paginateur. Quand le contenu placé au-dessus remplit déjà la partie visible de cette zone (des
+réglages dans un aperçu sur téléphone), la mesure vaut 0 et la grille garde ce plancher : la zone
+défile jusqu'à elle. Le cadre qui réunit les barres et le tableau coupe ses coins sans devenir une
+zone de défilement (`overflow: clip`) : un parent flex ou grille ne peut plus l'écraser sous son
+contenu, barres et viewport compris.
+
+Contrat d'hôte : une règle d'application qui pose sur la grille `flex: 1 1 0` et
+`min-block-size: 0` remplace la hauteur et le plancher que le paquet lui donne. Dans un parent sans
+hauteur, la grille mesure alors 0 px quel que soit `Height` ; le cadre garde sa hauteur mais déborde
+de la grille et recouvre ce qui la suit. Pour remplir l'espace, `FillAvailableHeight` ; pour une
+hauteur fixe, `Height` ; une base flex de 0 ne se donne à la grille que dans un parent dont la
+hauteur est définie.
+
 Le script observe le viewport avec un `ResizeObserver` : une hauteur en pourcentage ou dépendante de
 la mise en page suit les changements de taille du conteneur sans recharger la grille.
 
@@ -406,6 +422,25 @@ vue : la page affichée d'une grille paginée. L'export n'écrit ni pieds de gro
   cette ligne quand elle en a un (double clic, clic que l'hôte change en `EditRowAsync`), sinon le
   premier champ modifiable de la ligne (`omni-grid.js`, `focusEditor`). Une touche tapée dans un
   éditeur reste à l'éditeur : Entrée ou Espace n'y lèvent pas `OnRowClick`.
+- Dans une ligne en édition, Entrée enregistre la ligne et Échap l'annule : le script appuie sur les
+  boutons « Enregistrer » et « Annuler » de la ligne, donc le même chemin qu'un clic (`OnRowUpdate`,
+  `OnRowEditCancel`), après avoir fait valider au champ la valeur tapée (un clic la valide en lui
+  prenant le focus, une touche non). Entrée reste à un champ multiligne (`textarea`, `contenteditable`,
+  `aria-multiline="true"`) et à un bouton de la cellule (le bouton du calendrier, par exemple) ; les
+  deux touches restent à un éditeur dont la liste, le calendrier ou le volet est ouvert dans la cellule
+  (`aria-expanded="true"`, `details[open]`), qui les traite lui-même. Les touches avec Maj, Ctrl, Alt
+  ou Méta ne sont pas prises. La ligne quittée, le focus revient à la ligne quand elle le prend, sinon à
+  son bouton « Modifier ». Sans colonne d'édition (`ShowEditColumn="false"`), la ligne n'a pas ces
+  boutons et les touches restent à l'hôte. Le script écoute le document en phase de capture
+  (`grid/edit-focus.js`), pour lire l'éditeur dans l'état où la touche l'a trouvé.
+- Une ligne en édition garde sa hauteur de lecture dans toutes les densités : une cellule de lecture fait
+  deux marges verticales et une ligne de texte, un éditeur la hauteur d'un contrôle
+  (`--omni-control-height`, plus haute que la ligne de texte dans les trois densités). Les cellules qui
+  portent un éditeur cèdent de chaque marge la moitié de la différence, et leurs contrôles (`input`,
+  `select`, `button`, `.omni-input`, `.omni-button`, y compris dans un éditeur enveloppé comme la liste
+  déroulante ou le calendrier) se posent en haut de leur ligne, qui fait alors exactement la hauteur du
+  contrôle. Un éditeur plus haut qu'une ligne de lecture (une zone de texte) agrandit la ligne. La
+  hauteur fixe (`FixedRowHeight`) garde sa propre règle, plus bas.
 - `DetailTemplate` avec `ExpandMode` (`OmniDataGridRowMode`, `Multiple` par défaut), `ShowExpandColumn`
   et `ShowExpandAll` ; le nom accessible du chevron vient des ressources. Le bouton d'en-tête de
   `ShowExpandAll` ouvre ou ferme les lignes de la page affichée, sans toucher aux autres pages, et n'est
@@ -466,6 +501,19 @@ l'hôte : la barre et le résumé n'annoncent plus « page 5 sur 1 ».
 `Responsive`. En mode responsive, chaque cellule
 porte son intitulé en attribut `data-omni-label` et la feuille de styles empile la ligne en carte
 sous 40 rem.
+
+Les lignes alternent par défaut (`AllowAlternatingRows`, `true` depuis la 1.8.0) : une ligne sur deux
+prend une part de la couleur du texte posée sur le cadre, lue dans le jeton de portée
+`--omni-grid-stripe-share` (4 % par défaut et sur les portées claires, 5 % sur les portées sombres, où
+4 % laissait deux lignes voisines à 1,055:1 sur un cadre noir ; `DataGridEditRowAndDefaultsTests`
+mesure chaque thème et chaque palette en sombre). `AllowAlternatingRows="false"` garde des lignes d'un
+seul fond, séparées par leur filet.
+
+Les titres de l'en-tête prennent la taille du texte des cellules : `--omni-grid-header-font-size`, que
+la feuille lit avec `1em` pour repli (la taille de la grille, `--omni-font-size-base` par défaut).
+L'en-tête garde le remplissage des cellules et grandit avec ses titres comme une ligne avec son texte.
+Pour les titres de 12 px d'avant la 1.8.0, poser sur la grille ou la portée
+`--omni-grid-header-font-size: var(--omni-font-size-sm)`.
 
 `HighlightRowOnHover` teinte la ligne sous le pointeur ; `HighlightColumnOnHover` (désactivé par défaut)
 teinte la colonne entière de la cellule du corps sous le pointeur, en-tête, rangée de filtres et pied
@@ -716,7 +764,9 @@ erreurs teintés. Il suit la dernière ligne tant que des lignes arrivent et lâ
 remonte, avec un bouton pour revenir à la plus récente. Un filtre de niveau masque les lignes sous une
 sévérité (`ShowLevelFilter`, `MinimumLevel`), et une recherche (`ShowSearch`, `SearchText`) marque chaque
 occurrence d'un texte et passe d'une ligne qui le contient à la suivante (le compteur compte ces lignes) sans masquer de ligne ; `Wrap` fait passer les lignes
-longues à la ligne. Le composant
+longues à la ligne. Sans `Wrap`, le journal défile en largeur et le numéro et l'heure de chaque ligne,
+regroupés dans une gouttière (`omni-log-viewer__gutter`), restent collés à son début, opaques, sur la
+teinte de leur ligne. Le composant
 n'ouvre aucune connexion : l'hôte lui passe les lignes, en ajout seul (une ligne remplacée avant la
 dernière position déjà vue n'est pas détectée ; une liste plus courte ou dont cette ligne a changé repart
 de zéro).

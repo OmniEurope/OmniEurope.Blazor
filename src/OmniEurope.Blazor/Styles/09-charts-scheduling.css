@@ -13,6 +13,12 @@
 .omni-chart--min-widest { --omni-chart-auto-min-width: 50rem; }
 .omni-chart__svg,
 .omni-arc-gauge__svg { display: block; height: auto; overflow: visible; width: 100%; }
+/* A height ceiling (OmniChart.MaxHeight, PLAN-001 lot 5): a square chart across a wide card was taller
+   than the window. 32rem keeps a square chart and its legend on a laptop screen with room for the card
+   title; 70vh keeps it under the fold of a short window (a phone held sideways). Capped, the box keeps
+   the whole width and the drawing, fitted whole (preserveAspectRatio meet), sits in its middle, text
+   scaled with it, never stretched. A host moves the ceiling with --omni-chart-max-height, none lifts it. */
+.omni-chart__svg { max-height: var(--omni-chart-max-height, min(32rem, 70vh)); }
 /* Strokes are measured in screen pixels rather than in view box units, so a line keeps its weight
    whether the chart is drawn small in a card or large across a page. */
 .omni-chart__line { fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2.5px; }

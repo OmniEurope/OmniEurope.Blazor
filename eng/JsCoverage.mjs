@@ -2,7 +2,8 @@
 // Inactive unless OMNI_JS_COVERAGE_DIR names a folder (eng/Test-ShowcaseHost.ps1 -JsCoverage sets it):
 // the probe then runs exactly as before. Coverage is taken before each Page.navigate, since a new document
 // drops the scripts of the previous one, and once more when the probe finishes; every take is written to
-// <dir>/<probe>-<time>.json for eng/Test-JsCoverage.mjs to merge.
+// <dir>/<probe>-<process id>-<time>.json for eng/Test-JsCoverage.mjs to merge: the process id keeps apart
+// the takes of the shards and workers eng/Test-ShowcaseHost.ps1 runs at the same time.
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -49,7 +50,7 @@ export function createJsCoverage(sendCdp, probeName) {
 
       await take();
       fs.mkdirSync(directory, { recursive: true });
-      const file = path.join(directory, `${probeName}-${Date.now()}.json`);
+      const file = path.join(directory, `${probeName}-${process.pid}-${Date.now()}.json`);
       fs.writeFileSync(file, JSON.stringify({ probe: probeName, scripts: takes }));
     }
   };

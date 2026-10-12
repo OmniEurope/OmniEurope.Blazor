@@ -1553,4 +1553,19 @@
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Ligações orientadas</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Texto revisto, bloqueado no início</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Só de leitura</value></data>
+  <data name="SettingsProject" xml:space="preserve"><value>Projeto</value></data>
+  <data name="SettingsProjectLead" xml:space="preserve"><value>As ações desta zona não podem ser anuladas.</value></data>
+  <data name="SettingsDeleteProject" xml:space="preserve"><value>Eliminar o projeto</value></data>
+  <data name="SettingsDeleteProjectHint" xml:space="preserve"><value>O projeto, os seus relatórios e o seu histórico são apagados.</value></data>
+  <data name="SettingsDeleteProjectConfirm" xml:space="preserve"><value>O projeto «PRJ-042» e os seus 42 relatórios serão eliminados definitivamente.</value></data>
+  <data name="SettingsProjectDeleted" xml:space="preserve"><value>Projeto «PRJ-042» eliminado (demonstração: nada foi apagado).</value></data>
+  <data name="SettingsResetHistory" xml:space="preserve"><value>Repor o histórico</value></data>
+  <data name="SettingsResetHistoryHint" xml:space="preserve"><value>Esvazia o registo de execuções; esta demonstração falha de propósito.</value></data>
+  <data name="SettingsResetHistoryConfirmTitle" xml:space="preserve"><value>Repor o histórico de «PRJ-042»?</value></data>
+  <data name="SettingsResetHistoryConfirm" xml:space="preserve"><value>Todas as execuções anteriores de «PRJ-042» serão apagadas.</value></data>
+  <data name="SettingsResetAction" xml:space="preserve"><value>Repor</value></data>
+  <data name="SettingsResetFailed" xml:space="preserve"><value>O servidor recusou a reposição (falha simulada).</value></data>
+  <data name="SettingsTransferProject" xml:space="preserve"><value>Transferir o projeto</value></data>
+  <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Reservado ao proprietário do projeto.</value></data>
+  <data name="SettingsTransferAction" xml:space="preserve"><value>Transferir</value></data>
 </root>

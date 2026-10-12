@@ -1,6 +1,8 @@
 using System.Text.Json;
 using Bunit;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.JSInterop;
 using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
@@ -257,6 +259,53 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
         await grid.InvokeAsync(() => grid.Instance.Persistence.WhenAppliedAsync());
     }
 
+    [Theory]
+    // A failure while the state from elsewhere is applied is logged, and the next state still applies.
+    [InlineData(false)]
+    // The grid went away (or the circuit ended) meanwhile: nobody is left to tell, nothing is logged.
+    [InlineData(true)]
+    public async Task StateFromTheStore_ThatFailsWhileApplied_IsLoggedUnlessTheGridIsGone(bool gone)
+    {
+        var preferences = new GridPreferenceHarness(Services, withStore: true);
+        var logger = new GridLogger();
+        Services.AddSingleton<Microsoft.Extensions.Logging.ILogger<OmniDataGrid<Row>>>(logger);
+        var requests = 0;
+        var grid = Render<OmniDataGrid<Row>>(parameters => parameters
+            .Add(component => component.KeyOf, row => row.Name)
+            .Add(component => component.StateKey, "orders")
+            .Add(component => component.Columns, Columns(Declared))
+            .Add(component => component.Load, _ => Interlocked.Increment(ref requests) > 1
+                ? Task.FromException<OmniDataGridResult<Row>>(new TimeoutException("service down"))
+                : Task.FromResult(new OmniDataGridResult<Row>(Rows, Rows.Count)))
+            .Add(component => component.OnLoadError, (Exception _) => throw (gone ? new ObjectDisposedException("grid") : new InvalidOperationException("handler failed"))));
+        grid.WaitForAssertion(() => Assert.Equal(3, grid.FindAll("tbody tr[data-omni-row-index]").Count));
+
+        // A filter written on another device: the reload fails, and so does the host's error handler.
+        preferences.Store!.Put("omni.grid.orders", OldFormat, DateTimeOffset.UtcNow.AddMinutes(1));
+        await preferences.Preferences!.SyncAsync(Xunit.TestContext.Current.CancellationToken);
+        await grid.InvokeAsync(() => grid.Instance.Persistence.WhenAppliedAsync());
+
+        Assert.Equal(2, requests);
+        if (gone)
+        {
+            Assert.Empty(logger.Entries);
+        }
+        else
+        {
+            var entry = Assert.Single(logger.Entries);
+            Assert.Equal(Microsoft.Extensions.Logging.LogLevel.Error, entry.Level);
+            Assert.Contains("omni.grid.orders", entry.Message, StringComparison.Ordinal);
+        }
+
+        // The grid still follows the preference: a layout written next, on the same query, is applied.
+        preferences.Store.Put("omni.grid.orders", OldFormat[..^1] + ""","version":2,"columnOrder":["City","Name","Amount"]}""",
+            DateTimeOffset.UtcNow.AddMinutes(2));
+        await preferences.Preferences.SyncAsync(Xunit.TestContext.Current.CancellationToken);
+        await grid.InvokeAsync(() => grid.Instance.Persistence.WhenAppliedAsync());
+        // The failed load shows its error instead of the table: the layout is read from the grid itself.
+        Assert.Equal(["City", "Name", "Amount"], grid.Instance.ColumnSet.VisibleColumns.Select(column => column.Key));
+    }
+
     [Fact]
     public async Task StateFromAnotherTab_IsAppliedLive()
     {
@@ -368,6 +417,107 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
         await grid.InvokeAsync(() => grid.Instance.Persistence.ResetLayoutAsync());
 
         Assert.Equal(["Name", "Amount", "City"], HeaderKeys(grid));
+    }
+
+    [Fact]
+    public void BrowserStorageRefused_ForReadAndWrite_TheGridRenders()
+    {
+        // ROB-003, as the audit wrote it: the default preferences over a browser whose storage refuses
+        // its reads (private mode, blocked site data) and its writes (quota).
+        JSInterop.Setup<string?>("localStorage.getItem", _ => true).SetException(new JSException("SecurityError: storage denied"));
+        JSInterop.SetupVoid("localStorage.setItem", _ => true).SetException(new JSException("QuotaExceededError: storage full"));
+
+        var grid = Render<OmniDataGrid<string>>(parameters => parameters
+            .Add(component => component.Items, ["b", "a"])
+            .Add(component => component.StateKey, "audit-grid"));
+
+        Assert.Equal(2, grid.FindAll("tbody tr").Count);
+        Assert.Single(JSInterop.Invocations["localStorage.getItem"]);
+    }
+
+    [Fact]
+    public void PreferenceScriptThatCannotLoad_LeavesTheGridRenderingItsDeclaration()
+    {
+        var preferences = new GridPreferenceHarness(Services);
+        preferences.Browser.Failures["import"] = new JSException("SecurityError: The operation is insecure.");
+
+        var grid = RenderGrid();
+
+        Assert.Equal(["Name", "Amount", "City"], HeaderKeys(grid));
+        Assert.Equal(3, grid.FindAll("tbody tr[data-omni-row-index]").Count);
+    }
+
+    [Fact]
+    public void PreferenceScriptRefused_ForReadAndWrite_TheGridRenders_KeepsItsStateInMemory_AndLogsOnceWithoutTheState()
+    {
+        var preferences = new GridPreferenceHarness(Services);
+        var logger = new GridLogger();
+        Services.AddSingleton<Microsoft.Extensions.Logging.ILogger<OmniDataGrid<Row>>>(logger);
+        preferences.Seed("orders", """{"version":2,"columnOrder":["City","Name","Amount"]}""");
+        var seeded = preferences.Browser.Storage[preferences.StorageKey("orders")];
+        preferences.Browser.Failures["get"] = new JSException("SecurityError: storage denied");
+        preferences.Browser.Failures["set"] = new JSException("QuotaExceededError: storage full");
+
+        var grid = RenderGrid();
+        Assert.Equal(["Name", "Amount", "City"], HeaderKeys(grid));
+
+        grid.Find("th[data-omni-col='Amount']").Click();
+        grid.Find("th[data-omni-col='Amount']").Click();
+
+        // The reader's sort is applied and kept for this visit; the state saved before is left as it was.
+        Assert.Equal("descending", grid.Find("th[data-omni-col='Amount']").GetAttribute("aria-sort"));
+        Assert.Equal(["c", "b", "a"], grid.FindAll("tbody tr[data-omni-row-index] td[data-omni-col='Name']").Select(cell => cell.TextContent.Trim()));
+        Assert.Equal(seeded, preferences.Browser.Storage[preferences.StorageKey("orders")]);
+        var entry = Assert.Single(logger.Entries);
+        Assert.Equal(Microsoft.Extensions.Logging.LogLevel.Warning, entry.Level);
+        Assert.Contains("orders", entry.Message, StringComparison.Ordinal);
+        Assert.DoesNotContain("Amount", entry.Message, StringComparison.Ordinal);
+        Assert.DoesNotContain("City", entry.Message, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void PreferenceStoreFailure_KeepsItsOwnPolicy_TheGridRendersFromTheBrowserCache()
+    {
+        // A host store that fails is the preferences' business (logged there, value kept in the browser),
+        // never a browser-storage refusal of the grid.
+        var preferences = new GridPreferenceHarness(Services, withStore: true);
+        var logger = new GridLogger();
+        Services.AddSingleton<Microsoft.Extensions.Logging.ILogger<OmniDataGrid<Row>>>(logger);
+        preferences.Store!.FailReads = true;
+        preferences.Store.FailWrites = true;
+
+        var grid = RenderGrid();
+        grid.Find("th[data-omni-col='Amount']").Click();
+
+        Assert.Equal("ascending", grid.Find("th[data-omni-col='Amount']").GetAttribute("aria-sort"));
+        Assert.Equal("Amount", preferences.Saved("orders")!.Value.GetProperty("sorts")[0].GetProperty("key").GetString());
+        Assert.Empty(logger.Entries);
+    }
+
+    [Fact]
+    public void PreferenceScriptRefused_InAContainerWithoutLogging_TheGridRendersAndSorts()
+    {
+        // A container built by hand may hold no logger: the refusal is then reported to nobody.
+        var preferences = new GridPreferenceHarness(Services);
+        Services.AddSingleton<Microsoft.Extensions.Logging.ILogger<OmniDataGrid<Row>>>(_ => null!);
+        preferences.Browser.Failures["get"] = new JSException("SecurityError: storage denied");
+
+        var grid = RenderGrid();
+        grid.Find("th[data-omni-col='Amount']").Click();
+
+        Assert.Equal("ascending", grid.Find("th[data-omni-col='Amount']").GetAttribute("aria-sort"));
+    }
+
+    private sealed class GridLogger : Microsoft.Extensions.Logging.ILogger<OmniDataGrid<Row>>
+    {
+        public System.Collections.Concurrent.ConcurrentQueue<(Microsoft.Extensions.Logging.LogLevel Level, string Message)> Entries { get; } = new();
+
+        public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
+
+        public bool IsEnabled(Microsoft.Extensions.Logging.LogLevel logLevel) => true;
+
+        public void Log<TState>(Microsoft.Extensions.Logging.LogLevel logLevel, Microsoft.Extensions.Logging.EventId eventId, TState state,
+            Exception? exception, Func<TState, Exception?, string> formatter) => Entries.Enqueue((logLevel, formatter(state, exception)));
     }
 
     [Fact]

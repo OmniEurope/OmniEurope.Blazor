@@ -34,7 +34,8 @@ Le deuxième lot complète les landmarks de page et installe un socle de formula
 
 ```razor
 <OmniTemplateForm Model="model" OnValidSubmit="SaveAsync">
-    <OmniFormField For="name" Label="Nom" Required="true">
+    @* PersonModel.Name porte [Required] : le libellé prend la marque d'obligation sans Required. *@
+    <OmniFormField For="name" Label="Nom">
         <OmniTextBox Id="name" @bind-Value="model.Name" />
         <OmniRequiredValidator TValue="string" For="@(() => model.Name)" />
     </OmniFormField>

@@ -26,7 +26,13 @@ public sealed class OmniUploadRequest
     /// <summary>The files of the selection, all of which passed the count, size and type checks of the field.</summary>
     public IReadOnlyList<IBrowserFile> Files { get; }
 
-    /// <summary>Cancelled when the user presses Cancel, makes a new selection, or the field is disposed.</summary>
+    /// <summary>
+    /// Cancelled when the user presses Cancel, makes a new selection, or the field is disposed. Cancellation
+    /// is cooperative: the field still waits for the callback to return, and only a callback that passes this token on
+    /// (to <see cref="OpenReadStream"/>, its HTTP call, its storage) stops the remote effects. Once it is
+    /// cancelled the field neither announces the upload as completed nor attaches the files, even when the
+    /// callback returns normally, so a callback that could not stop must undo what it stored.
+    /// </summary>
     public CancellationToken CancellationToken { get; }
 
     /// <summary>The message given to <see cref="Reject"/>; null while the files are not refused.</summary>

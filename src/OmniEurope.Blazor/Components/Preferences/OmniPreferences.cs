@@ -50,6 +50,9 @@ public sealed class OmniPreferences : IAsyncDisposable
     private readonly SemaphoreSlim _cacheGate = new(1, 1);
     private readonly Lock _gate = new();
     private readonly HashSet<string> _refreshed = new(StringComparer.Ordinal);
+    // The first read of a key not cached yet, while the store answers: a read of the same key made
+    // meanwhile waits for it instead of taking the empty cache for an absent preference.
+    private readonly Dictionary<string, Task<string?>> _firstReads = new(StringComparer.Ordinal);
     private readonly List<Task> _background = [];
     private Task<PreferenceCache?>? _opening;
     private IJSObjectReference? _module;
@@ -203,28 +206,85 @@ public sealed class OmniPreferences : IAsyncDisposable
         }
 
         var cached = await cache.ReadAsync(key, cancellationToken);
-        if (_store is null || !MarkRefreshed(key))
+        if (_store is null)
         {
             return cached?.Value;
         }
 
-        if (cached is not null)
+        Task<string?>? firstRead = null;
+        TaskCompletionSource<string?>? started = null;
+        var refresh = false;
+        lock (_gate)
+        {
+            if (_refreshed.Add(key))
+            {
+                if (cached is not null)
+                {
+                    refresh = true;
+                }
+                else
+                {
+                    // Registered before it runs: a read that comes while the store answers finds it.
+                    started = new(TaskCreationOptions.RunContinuationsAsynchronously);
+                    firstRead = started.Task;
+                    _firstReads[key] = firstRead;
+                }
+            }
+            else if (_firstReads.TryGetValue(key, out var pending))
+            {
+                firstRead = pending;
+            }
+        }
+
+        if (refresh)
         {
             Track(RefreshAsync(cache, key));
-            return cached.Value;
+            return cached!.Value;
         }
 
-        // Nothing cached (a new device, a cleared browser): the store is read now so the first display
-        // is already right.
-        var stored = await TryGetStoredAsync(key, cancellationToken);
-        if (stored is null)
+        if (started is not null)
         {
-            return null;
+            Track(ReadFirstAsync(cache, key, started));
         }
 
-        // A write made while the store answered stays, and is what the caller reads.
-        var (before, applied) = await ApplyIfStoreWinsAsync(cache, key, stored, cancellationToken);
-        return applied ? stored.Value : before?.Value;
+        // A key read before, whose first read is over: the cache holds what the store said.
+        return firstRead is null ? cached?.Value : await firstRead.WaitAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// The first read of a key nothing caches (a new device, a cleared browser): the store is read now so
+    /// that the first display is already right, under the service's lifetime rather than one caller's
+    /// token, since every concurrent read of the key waits for it.
+    /// </summary>
+    private async Task ReadFirstAsync(PreferenceCache cache, string key, TaskCompletionSource<string?> result)
+    {
+        try
+        {
+            var stored = await TryGetStoredAsync(key, _stopping);
+            if (stored is null)
+            {
+                // The store has none: what the cache holds now (a write made meanwhile, or nothing).
+                result.TrySetResult((await cache.ReadAsync(key, _stopping))?.Value);
+                return;
+            }
+
+            // A write made while the store answered stays, and is what the caller reads (the store value
+            // is only refused over an entry cached meanwhile, so there is one when it is not applied).
+            var (before, applied) = await ApplyIfStoreWinsAsync(cache, key, stored, _stopping);
+            result.TrySetResult(applied ? stored.Value : before!.Value);
+        }
+        catch (Exception exception)
+        {
+            // Every waiting read sees the failure; none is lost unobserved here.
+            result.TrySetException(exception);
+        }
+        finally
+        {
+            lock (_gate)
+            {
+                _firstReads.Remove(key);
+            }
+        }
     }
 
     private async Task WriteAsync(string key, string? value, CancellationToken cancellationToken)
@@ -641,14 +701,12 @@ public sealed class OmniPreferences : IAsyncDisposable
         return cache;
     }
 
-    /// <summary>Releases what a failed opening set up, so the next opening starts clean.</summary>
-    private async Task ReleaseOpeningAsync(IJSObjectReference module)
+    /// <summary>
+    /// Releases the module of a failed opening, so the next opening starts clean. The watch is the only
+    /// call that can fail, before the timer exists; <see cref="WatchAsync"/> releases its own bridge.
+    /// </summary>
+    private static async Task ReleaseOpeningAsync(IJSObjectReference module)
     {
-        _timer?.Dispose();
-        _timer = null;
-        _bridge?.Dispose();
-        _bridge = null;
-        _watcher = 0;
         try
         {
             await module.DisposeAsync();
@@ -662,10 +720,20 @@ public sealed class OmniPreferences : IAsyncDisposable
     private async Task WatchAsync(IJSObjectReference module, PreferenceCache cache)
     {
         var hasStore = _store is not null;
-        _bridge = DotNetObjectReference.Create(new PreferenceInteropBridge(
+        var bridge = DotNetObjectReference.Create(new PreferenceInteropBridge(
             onVisible: () => hasStore ? SyncInBackgroundAsync(cache) : Task.CompletedTask,
             onStored: storageKey => OnStoredAsync(cache, storageKey)));
-        _watcher = await module.InvokeAsync<int>("watch", _stopping, _bridge, cache.Prefix);
+        try
+        {
+            _watcher = await module.InvokeAsync<int>("watch", _stopping, bridge, cache.Prefix);
+        }
+        catch
+        {
+            bridge.Dispose();
+            throw;
+        }
+
+        _bridge = bridge;
         if (hasStore && _syncInterval != Timeout.InfiniteTimeSpan)
         {
             _timer = _time.CreateTimer(_ => Track(SyncInBackgroundAsync(cache)), null, _syncInterval, _syncInterval);
@@ -684,14 +752,6 @@ public sealed class OmniPreferences : IAsyncDisposable
             var entry = await cache.ReadAsync(key, token);
             await RaiseAsync(new(key, entry?.Value, OmniPreferenceChangeOrigin.OtherTab));
         });
-    }
-
-    private bool MarkRefreshed(string key)
-    {
-        lock (_gate)
-        {
-            return _refreshed.Add(key);
-        }
     }
 
     private void Track(Task work)

@@ -1553,4 +1553,19 @@
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Naisc threoraithe</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Téacs profáilte, faoi ghlas ar dtús</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Inléite amháin</value></data>
+  <data name="SettingsProject" xml:space="preserve"><value>Tionscadal</value></data>
+  <data name="SettingsProjectLead" xml:space="preserve"><value>Ní féidir na gníomhartha sa chrios seo a chealú.</value></data>
+  <data name="SettingsDeleteProject" xml:space="preserve"><value>Scrios an tionscadal</value></data>
+  <data name="SettingsDeleteProjectHint" xml:space="preserve"><value>Scriostar an tionscadal, a thuarascálacha agus a stair.</value></data>
+  <data name="SettingsDeleteProjectConfirm" xml:space="preserve"><value>Scriosfar an tionscadal “PRJ-042” agus a 42 tuarascáil go buan.</value></data>
+  <data name="SettingsProjectDeleted" xml:space="preserve"><value>Scriosadh an tionscadal “PRJ-042” (taispeántas: níor scriosadh aon rud).</value></data>
+  <data name="SettingsResetHistory" xml:space="preserve"><value>Athshocraigh an stair</value></data>
+  <data name="SettingsResetHistoryHint" xml:space="preserve"><value>Glanann sé loga na rití; teipeann ar an taispeántas seo d'aon ghnó.</value></data>
+  <data name="SettingsResetHistoryConfirmTitle" xml:space="preserve"><value>An stair de “PRJ-042” a athshocrú?</value></data>
+  <data name="SettingsResetHistoryConfirm" xml:space="preserve"><value>Scriosfar gach rith roimhe seo de “PRJ-042”.</value></data>
+  <data name="SettingsResetAction" xml:space="preserve"><value>Athshocraigh</value></data>
+  <data name="SettingsResetFailed" xml:space="preserve"><value>Dhiúltaigh an freastalaí don athshocrú (teip ionsamhlaithe).</value></data>
+  <data name="SettingsTransferProject" xml:space="preserve"><value>Aistrigh an tionscadal</value></data>
+  <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Úinéir an tionscadail amháin.</value></data>
+  <data name="SettingsTransferAction" xml:space="preserve"><value>Aistrigh</value></data>
 </root>

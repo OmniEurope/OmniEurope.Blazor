@@ -262,11 +262,19 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public EventCallback<TItem> OnRowEdit { get; set; }
 
-    /// <summary>Raised when a row in edit mode is saved, from its save button or <see cref="UpdateRowAsync"/>. The host persists the change.</summary>
+    /// <summary>
+    /// Raised when a row in edit mode is saved, from its save button, Enter typed in one of its editors (the
+    /// script presses the save button, after the field commits its value) or <see cref="UpdateRowAsync"/>.
+    /// The host persists the change. Enter stays with a multi-line field, a button in the cell and an editor
+    /// whose list, calendar or disclosure is open; the keys need the edit column (<see cref="ShowEditColumn"/>).
+    /// </summary>
     [Parameter]
     public EventCallback<TItem> OnRowUpdate { get; set; }
 
-    /// <summary>Raised when a row leaves edit mode without saving, from its cancel button or <see cref="CancelEditAsync"/>.</summary>
+    /// <summary>
+    /// Raised when a row leaves edit mode without saving, from its cancel button, Escape typed in one of its
+    /// editors (unless that editor has a list, calendar or disclosure open) or <see cref="CancelEditAsync"/>.
+    /// </summary>
     [Parameter]
     public EventCallback<TItem> OnRowEditCancel { get; set; }
 
@@ -506,9 +514,12 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public EventCallback<OmniDataGridColumnOrderChange> OnColumnReorder { get; set; }
 
-    /// <summary>Tints every other row.</summary>
+    /// <summary>
+    /// Tints every other row with a share of the text colour (<c>--omni-grid-stripe-share</c>, 4 % on a
+    /// light scope, 5 % on a dark one). On by default since 1.8.0; set to false for rows of one fill.
+    /// </summary>
     [Parameter]
-    public bool AllowAlternatingRows { get; set; }
+    public bool AllowAlternatingRows { get; set; } = true;
 
     /// <summary>Tints a whole column, header included, while it carries a sort or a filter.</summary>
     [Parameter]
@@ -607,9 +618,10 @@ public partial class OmniDataGrid<TItem>
 
     /// <summary>
     /// Opt-in: the grid stretches to whatever height its parent leaves free instead of using its
-    /// own fixed viewport height, never dropping below <see cref="MinHeight"/>. The parent must be
-    /// a sized flex or grid container for there to be a remainder to take. Off by default, so an
-    /// existing grid keeps its current height.
+    /// own fixed viewport height, never dropping below <see cref="MinHeight"/>. There is a remainder to
+    /// take only in a parent of defined height (a sized flex or grid container); where nothing is left
+    /// (a grid placed below the visible part of a scrolling box), the grid keeps <see cref="MinHeight"/>
+    /// as its floor, its frame and bars whole. Off by default, so an existing grid keeps its current height.
     /// </summary>
     [Parameter]
     public bool FillAvailableHeight { get; set; }

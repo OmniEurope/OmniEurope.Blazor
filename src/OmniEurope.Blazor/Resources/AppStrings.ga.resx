@@ -702,4 +702,7 @@
   <data name="GridColumnMoved" xml:space="preserve"><value>Colún {0} bogtha go suíomh {1} as {2}</value></data>
   <data name="GridResetLayout" xml:space="preserve"><value>Athshocraigh an leagan amach</value></data>
   <data name="GridLayoutReset" xml:space="preserve"><value>Leagan amach na gcolún athshocraithe</value></data>
+  <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Crios contúirte</value></data>
+  <data name="SettingsDangerActionText" xml:space="preserve"><value>Scrios</value></data>
+  <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Ní féidir an gníomh seo a chealú. An bhfuil fonn ort leanúint ar aghaidh?</value></data>
 </root>

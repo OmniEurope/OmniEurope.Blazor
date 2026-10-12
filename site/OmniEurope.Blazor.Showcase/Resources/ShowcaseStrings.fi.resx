@@ -1553,4 +1553,19 @@
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Suunnatut linkit</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Oikoluettu teksti, aluksi lukittu</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Vain luku</value></data>
+  <data name="SettingsProject" xml:space="preserve"><value>Projekti</value></data>
+  <data name="SettingsProjectLead" xml:space="preserve"><value>Tämän alueen toimintoja ei voi kumota.</value></data>
+  <data name="SettingsDeleteProject" xml:space="preserve"><value>Poista projekti</value></data>
+  <data name="SettingsDeleteProjectHint" xml:space="preserve"><value>Projekti, sen raportit ja historia poistetaan.</value></data>
+  <data name="SettingsDeleteProjectConfirm" xml:space="preserve"><value>Projekti ”PRJ-042” ja sen 42 raporttia poistetaan pysyvästi.</value></data>
+  <data name="SettingsProjectDeleted" xml:space="preserve"><value>Projekti ”PRJ-042” poistettu (esittely: mitään ei poistettu).</value></data>
+  <data name="SettingsResetHistory" xml:space="preserve"><value>Nollaa historia</value></data>
+  <data name="SettingsResetHistoryHint" xml:space="preserve"><value>Tyhjentää ajolokin; tämä esittely epäonnistuu tarkoituksella.</value></data>
+  <data name="SettingsResetHistoryConfirmTitle" xml:space="preserve"><value>Nollataanko projektin ”PRJ-042” historia?</value></data>
+  <data name="SettingsResetHistoryConfirm" xml:space="preserve"><value>Kaikki projektin ”PRJ-042” aiemmat ajot poistetaan.</value></data>
+  <data name="SettingsResetAction" xml:space="preserve"><value>Nollaa</value></data>
+  <data name="SettingsResetFailed" xml:space="preserve"><value>Palvelin hylkäsi nollauksen (simuloitu virhe).</value></data>
+  <data name="SettingsTransferProject" xml:space="preserve"><value>Siirrä projekti</value></data>
+  <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Vain projektin omistajalle.</value></data>
+  <data name="SettingsTransferAction" xml:space="preserve"><value>Siirrä</value></data>
 </root>

@@ -15,9 +15,12 @@
 // anything fails instead of passing.
 //
 // Usage: node Test-ShowcaseLanguagesProbe.mjs --endpoint http://127.0.0.1:<cdp port> --url http://127.0.0.1:<site port>/
+// [--shard i/n --shard-file <path>] is the parallel host's own (eng/ProbeShards.mjs): every n-th
+// language x width pair from the i-th, each walked whole (self-check, every page); the raw results go to the shard file, merged by eng/Merge-ProbeShards.mjs.
 // The browser (started with --remote-debugging-port) and the static server are the caller's.
 
 import { createJsCoverage } from './JsCoverage.mjs';
+import { parseShard, reportLanguages, shardSlice, writeShardResult } from './ProbeShards.mjs';
 
 const options = new Map();
 for (let index = 2; index < process.argv.length; index += 2) {
@@ -31,9 +34,18 @@ if (!endpoint || !siteUrl) {
 }
 
 // The languages whose words run longest against French, in the order they are walked.
-const LANGUAGES = (options.get('--languages') ?? 'de,fi,el,hu').split(',');
+const ALL_LANGUAGES = (options.get('--languages') ?? 'de,fi,el,hu').split(',');
+const shard = parseShard(options.get('--shard'), options.get('--shard-file'));
 // The widths walked: a desktop window and a phone, where a long word has the least room.
 const WIDTHS = (options.get('--widths') ?? '1280,390').split(',').map(Number);
+// The walk: each language with its widths, all of them unless a shard takes only some pairs.
+const ALL_PAIRS = ALL_LANGUAGES.flatMap(language => WIDTHS.map(width => `${language}@${width}`));
+const PAIRS = shardSlice(ALL_PAIRS, shard);
+const PLAN = ALL_LANGUAGES
+  .map(language => ({ language, widths: WIDTHS.filter(width => PAIRS.includes(`${language}@${width}`)) }))
+  .filter(step => step.widths.length > 0);
+const LANGUAGES = PLAN.map(step => step.language);
+const SHARD_WIDTHS = WIDTHS.filter(width => PLAN.some(step => step.widths.includes(width)));
 const CULTURE_KEY = 'omnieurope.showcase.culture';
 
 // Selectors exempted from the check, each with the reason its text may leave its box. Text inside
@@ -200,9 +212,9 @@ try {
   await send('Page.navigate', { url: siteUrl });
   await waitFor('le runtime Blazor', ready, 20_000);
 
-  for (const language of LANGUAGES) {
+  for (const { language, widths } of PLAN) {
     await evaluate(`localStorage.setItem(${JSON.stringify(CULTURE_KEY)}, ${JSON.stringify(language)})`);
-    await send('Emulation.setDeviceMetricsOverride', { width: WIDTHS[0], height: 900, deviceScaleFactor: 1, mobile: false });
+    await send('Emulation.setDeviceMetricsOverride', { width: widths[0], height: 900, deviceScaleFactor: 1, mobile: false });
     await send('Page.navigate', { url: siteUrl });
     await waitFor(`la vitrine en ${language}`, `${ready} && document.documentElement.lang === ${JSON.stringify(language)}`, 20_000);
     await pause(1000);
@@ -236,7 +248,7 @@ try {
       paths = ['/', '/personnalisation', '/documentation', ...demoPaths];
     }
 
-    for (const width of WIDTHS) {
+    for (const width of widths) {
       await send('Emulation.setDeviceMetricsOverride', { width, height: 900, deviceScaleFactor: 1, mobile: false });
       for (const path of paths) {
         await evaluate(`Blazor.navigateTo(${JSON.stringify(path)})`);
@@ -280,36 +292,6 @@ try {
   socket.close();
 }
 
-if (measuredPages === 0) {
-  console.error('Langues : aucune page mesurée ; la sonde ne prouve rien.');
-  process.exitCode = 1;
-}
-if (failures.length > 0) {
-  const grouped = new Map();
-  for (const failure of failures) {
-    const key = `${failure.element} ${failure.clipped ? 'rogné' : 'déborde'}`;
-    const group = grouped.get(key) ?? { count: 0, languages: new Set(), widths: new Set(), paths: new Set(), beyond: 0, sample: failure.text };
-    group.count++;
-    group.languages.add(failure.language);
-    group.widths.add(failure.width);
-    group.paths.add(failure.path);
-    group.beyond = Math.max(group.beyond, failure.beyond);
-    grouped.set(key, group);
-  }
-  const lines = [...grouped]
-    .sort((left, right) => right[1].count - left[1].count)
-    .map(([key, group]) => `  ${key} x${group.count}, jusqu'à ${group.beyond} px, ${[...group.languages].join('/')} à ${[...group.widths].join('/')} px sur ${[...group.paths].slice(0, 4).join(', ')}${group.paths.size > 4 ? ` (+${group.paths.size - 4})` : ''} : « ${group.sample} »`);
-  console.error(`Langues : ${failures.length} texte(s) sortent de leur boîte (${grouped.size} forme(s), ${measuredPages} pages mesurées en ${LANGUAGES.join(', ')} à ${WIDTHS.join(' et ')} px) :\n${lines.join('\n')}`);
-  process.exitCode = 1;
-}
-if (csp.length > 0) {
-  console.error(`Violations CSP : ${csp.join(' | ')}`);
-  process.exitCode = 1;
-}
-if (consoleErrors.length > 0) {
-  console.error(`Console navigateur en erreur : ${consoleErrors.join(' | ')}`);
-  process.exitCode = 1;
-}
-if (!process.exitCode) {
-  console.log(`Sonde des langues validée : ${measuredPages} pages mesurées en ${LANGUAGES.join(', ')} à ${WIDTHS.join(' et ')} px, aucun texte ne sort de sa boîte, aucune page ne défile en largeur ; aucune violation CSP, console sans erreur.`);
-}
+const result = { measuredPages, languages: LANGUAGES, widths: SHARD_WIDTHS, paths, failures, csp, consoleErrors };
+if (shard) await writeShardResult(shard, { ...result, allLanguages: ALL_LANGUAGES, allWidths: WIDTHS, allPairs: ALL_PAIRS, pairs: PAIRS });
+process.exitCode = reportLanguages(result, { scope: shard ? `Fragment ${shard.label} de la sonde des langues` : null });

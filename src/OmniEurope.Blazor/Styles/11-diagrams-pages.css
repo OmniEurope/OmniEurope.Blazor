@@ -236,7 +236,7 @@ body:has(.omni-connection-overlay) { overflow: hidden; }
 .omni-log-viewer__viewport, .omni-code-block__pre, .omni-code-block__language, .omni-code-viewer__code, .omni-code-viewer__language, .omni-unified-diff__path, .omni-unified-diff__stats, .omni-unified-diff__table { font-family: var(--omni-font-family-monospace); font-size: var(--omni-font-size-sm); }
 
 /* Log viewer: spacers and viewport height through custom properties set by omni-log-viewer.js. */
-.omni-log-viewer { --omni-log-line: calc(var(--omni-control-height) / 2 + 0.125rem); display: grid; gap: var(--omni-space-sm); min-inline-size: 0; }
+.omni-log-viewer { --omni-log-line: calc(var(--omni-control-height) / 2 + 0.125rem); --omni-log-viewer-surface: var(--omni-grid-background, var(--omni-card-background, var(--omni-color-surface))); display: grid; gap: var(--omni-space-sm); min-inline-size: 0; }
 .omni-log-viewer__toolbar { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); }
 .omni-log-viewer__match { background: color-mix(in srgb, var(--omni-color-accent) 24%, transparent); border-radius: var(--omni-radius-sm); color: inherit; font-weight: 700; }
 .omni-log-viewer__level { flex: 0 0 auto; inline-size: auto; min-inline-size: 12rem; }
@@ -244,22 +244,27 @@ body:has(.omni-connection-overlay) { overflow: hidden; }
 .omni-log-viewer__matches { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); white-space: nowrap; }
 .omni-log-viewer__follow { margin-inline-start: auto; }
 .omni-log-viewer__frame { min-inline-size: 0; position: relative; }
-.omni-log-viewer__viewport { background: var(--omni-grid-background, var(--omni-card-background, var(--omni-color-surface))); block-size: var(--omni-grid-viewport, 24rem); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-sizing: border-box; line-height: var(--omni-log-line); overflow: auto; overscroll-behavior: contain; }
+.omni-log-viewer__viewport { background: var(--omni-log-viewer-surface); block-size: var(--omni-grid-viewport, 24rem); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-sizing: border-box; line-height: var(--omni-log-line); overflow: auto; overscroll-behavior: contain; }
 .omni-log-viewer__viewport:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
 .omni-log-viewer__spacer { block-size: var(--omni-grid-spacer, 0px); }
 .omni-log-viewer__line { display: flex; gap: var(--omni-space-sm); inline-size: max-content; min-block-size: var(--omni-log-line); min-inline-size: 100%; padding-inline: var(--omni-space-sm); white-space: pre; }
 .omni-log-viewer--wrap .omni-log-viewer__line { inline-size: auto; overflow-wrap: anywhere; white-space: pre-wrap; }
+/* The gutter (number and time) sticks to the start of the viewport when the log scrolls sideways
+   (PLAN-001 lot 5). Opaque, so no scrolled text shows through: the tint of its row laid over the surface
+   of the log, in both modes. It covers the padding of the line before it and the gap after it. */
+.omni-log-viewer__gutter { background: linear-gradient(var(--omni-log-row-tint, transparent), var(--omni-log-row-tint, transparent)), var(--omni-log-viewer-surface); display: inline-flex; flex: none; gap: var(--omni-space-sm); inset-inline-start: 0; margin-inline: calc(-1 * var(--omni-space-sm)) calc(-1 * var(--omni-space-sm)); padding-inline: var(--omni-space-sm); position: sticky; z-index: 1; }
+.omni-log-viewer--wrap .omni-log-viewer__gutter { position: static; }
 .omni-log-viewer__number { color: var(--omni-color-text-muted); flex: none; min-inline-size: 4ch; text-align: end; user-select: none; }
 .omni-log-viewer__time { color: var(--omni-color-text-muted); flex: none; }
 .omni-log-viewer__level-name { flex: none; font-weight: 650; min-inline-size: 8ch; }
 .omni-log-viewer__text { flex: 1 1 auto; min-inline-size: 0; }
 .omni-log-viewer__line--quiet .omni-log-viewer__text { color: var(--omni-color-text-muted); }
-.omni-log-viewer__line--warning { background: var(--omni-color-warning-subtle); color: var(--omni-color-warning); }
-.omni-log-viewer__line--error { background: var(--omni-color-danger-subtle); color: var(--omni-color-danger); }
+.omni-log-viewer__line--warning { --omni-log-row-tint: var(--omni-color-warning-subtle); background: var(--omni-log-row-tint); color: var(--omni-color-warning); }
+.omni-log-viewer__line--error { --omni-log-row-tint: var(--omni-color-danger-subtle); background: var(--omni-log-row-tint); color: var(--omni-color-danger); }
 .omni-log-viewer__line--warning .omni-log-viewer__number, .omni-log-viewer__line--error .omni-log-viewer__number, .omni-log-viewer__line--warning .omni-log-viewer__time, .omni-log-viewer__line--error .omni-log-viewer__time { color: inherit; }
 /* The current line (a search match reached, a line asked for) is marked like a selected grid row: the
    accent tint and text in 600, never an edge bar. */
-.omni-log-viewer__line--current { background: color-mix(in srgb, var(--omni-color-accent) 14%, transparent); font-weight: 600; }
+.omni-log-viewer__line--current { --omni-log-row-tint: color-mix(in srgb, var(--omni-color-accent) 14%, transparent); background: var(--omni-log-row-tint); font-weight: 600; }
 .omni-log-viewer__empty { color: var(--omni-color-text-muted); font-family: var(--omni-font-family); margin: 0; padding: var(--omni-space-md); }
 .omni-log-viewer__jump { box-shadow: var(--omni-shadow-md); inset-block-end: var(--omni-space-md); inset-inline-end: var(--omni-space-lg); position: absolute; }
 

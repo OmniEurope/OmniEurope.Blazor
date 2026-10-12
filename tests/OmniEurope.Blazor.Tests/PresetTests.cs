@@ -11,7 +11,8 @@ public sealed class PresetTests : OmniBunitContext
     private static readonly Dictionary<string, object?> CompactGrid = new()
     {
         [nameof(OmniDataGrid<Row>.AllowSorting)] = true,
-        [nameof(OmniDataGrid<Row>.AllowAlternatingRows)] = true,
+        // Against the default (rows alternate since 1.8.0), so the preset is seen to apply.
+        [nameof(OmniDataGrid<Row>.AllowAlternatingRows)] = false,
         [nameof(OmniDataGrid<Row>.Density)] = OmniDensity.Compact,
     };
 
@@ -30,7 +31,7 @@ public sealed class PresetTests : OmniBunitContext
         var grid = RenderGrid().Instance;
 
         Assert.True(grid.AllowSorting);
-        Assert.True(grid.AllowAlternatingRows);
+        Assert.False(grid.AllowAlternatingRows);
         Assert.Equal(OmniDensity.Compact, grid.Density);
     }
 
@@ -41,7 +42,7 @@ public sealed class PresetTests : OmniBunitContext
 
         var rendered = RenderGrid(parameters => parameters.Add(grid => grid.AllowSorting, false));
         Assert.False(rendered.Instance.AllowSorting);
-        Assert.True(rendered.Instance.AllowAlternatingRows);
+        Assert.False(rendered.Instance.AllowAlternatingRows);
 
         rendered.Render(parameters => parameters.Add(grid => grid.AllowSorting, false));
         Assert.False(rendered.Instance.AllowSorting);
@@ -61,9 +62,9 @@ public sealed class PresetTests : OmniBunitContext
         var none = RenderGrid(parameters => parameters.Add(grid => grid.PresetName, OmniPresetRegistry.None)).Instance;
 
         Assert.Equal(OmniDensity.Comfortable, named.Density);
-        Assert.False(named.AllowAlternatingRows);
+        Assert.True(named.AllowAlternatingRows);
         Assert.NotEqual(OmniDensity.Compact, none.Density);
-        Assert.False(none.AllowAlternatingRows);
+        Assert.True(none.AllowAlternatingRows);
     }
 
     [Fact]

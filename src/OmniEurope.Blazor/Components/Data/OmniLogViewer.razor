@@ -59,13 +59,20 @@
                     var index = _visible[position];
                     var line = Lines[index];
                     <div @key="index" class="@LineClass(line, position)" data-omni-row-index="@position">
-                        @if (ShowLineNumbers)
+                        @* The number and the time share a gutter that stays at the start of the log when it scrolls
+                           sideways, on the tint of its row. *@
+                        @if (ShowLineNumbers || (ShowTimestamps && line.Timestamp is not null))
                         {
-                            <span class="omni-log-viewer__number" aria-hidden="true">@(index + 1)</span>
-                        }
-                        @if (ShowTimestamps && line.Timestamp is { } timestamp)
-                        {
-                            <time class="omni-log-viewer__time" datetime="@MachineTime(timestamp)">@DisplayTime(timestamp)</time>
+                            <span class="omni-log-viewer__gutter">
+                                @if (ShowLineNumbers)
+                                {
+                                    <span class="omni-log-viewer__number" aria-hidden="true">@(index + 1)</span>
+                                }
+                                @if (ShowTimestamps && line.Timestamp is { } timestamp)
+                                {
+                                    <time class="omni-log-viewer__time" datetime="@MachineTime(timestamp)">@DisplayTime(timestamp)</time>
+                                }
+                            </span>
                         }
                         @if (ShowLevels)
                         {

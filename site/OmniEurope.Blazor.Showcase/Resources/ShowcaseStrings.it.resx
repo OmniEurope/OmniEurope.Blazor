@@ -1553,4 +1553,19 @@
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Collegamenti orientati</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Testo corretto, bloccato all&apos;inizio</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Sola lettura</value></data>
+  <data name="SettingsProject" xml:space="preserve"><value>Progetto</value></data>
+  <data name="SettingsProjectLead" xml:space="preserve"><value>Le azioni di questa zona non possono essere annullate.</value></data>
+  <data name="SettingsDeleteProject" xml:space="preserve"><value>Elimina il progetto</value></data>
+  <data name="SettingsDeleteProjectHint" xml:space="preserve"><value>Il progetto, i suoi report e la sua cronologia vengono cancellati.</value></data>
+  <data name="SettingsDeleteProjectConfirm" xml:space="preserve"><value>Il progetto «PRJ-042» e i suoi 42 report saranno eliminati definitivamente.</value></data>
+  <data name="SettingsProjectDeleted" xml:space="preserve"><value>Progetto «PRJ-042» eliminato (dimostrazione: non è stato cancellato nulla).</value></data>
+  <data name="SettingsResetHistory" xml:space="preserve"><value>Reimposta la cronologia</value></data>
+  <data name="SettingsResetHistoryHint" xml:space="preserve"><value>Svuota il registro delle esecuzioni; questa dimostrazione fallisce di proposito.</value></data>
+  <data name="SettingsResetHistoryConfirmTitle" xml:space="preserve"><value>Reimpostare la cronologia di «PRJ-042»?</value></data>
+  <data name="SettingsResetHistoryConfirm" xml:space="preserve"><value>Tutte le esecuzioni passate di «PRJ-042» saranno cancellate.</value></data>
+  <data name="SettingsResetAction" xml:space="preserve"><value>Reimposta</value></data>
+  <data name="SettingsResetFailed" xml:space="preserve"><value>Il server ha rifiutato la reimpostazione (errore simulato).</value></data>
+  <data name="SettingsTransferProject" xml:space="preserve"><value>Trasferisci il progetto</value></data>
+  <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Riservato al proprietario del progetto.</value></data>
+  <data name="SettingsTransferAction" xml:space="preserve"><value>Trasferisci</value></data>
 </root>

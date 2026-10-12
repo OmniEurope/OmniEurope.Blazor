@@ -17,6 +17,7 @@ public partial class OmniUpload
     private string? _message;
     private bool _hasError;
     private bool _showAll;
+    private bool _disposed;
 
     /// <summary>Whether several files can be chosen at once and added to the list; off by default, a new file then replaces the list.</summary>
     [Parameter]
@@ -190,6 +191,11 @@ public partial class OmniUpload
         }
 
         await FilesSelected.InvokeAsync(_files);
+        if (_disposed)
+        {
+            return;
+        }
+
         if (Upload is null)
         {
             _message = _files.Count == 1
@@ -208,7 +214,7 @@ public partial class OmniUpload
     /// <summary>Adds the accepted selection to the bound list; unbound, the selection is the list.</summary>
     private async Task AttachAsync()
     {
-        if (!IsBound || _files.Count == 0)
+        if (_disposed || !IsBound || _files.Count == 0)
         {
             return;
         }
@@ -239,13 +245,17 @@ public partial class OmniUpload
 
     private async Task<bool> StartUploadAsync()
     {
-        if (Upload is null || _files.Count == 0)
+        if (_disposed || Upload is null || _files.Count == 0)
         {
             return false;
         }
 
+        // Each attempt keeps its own source: a cancelled attempt that returns late is judged by its own
+        // token, never by the one of the attempt that replaced it.
         _uploadCancellation?.Dispose();
-        _uploadCancellation = new CancellationTokenSource();
+        var cancellation = new CancellationTokenSource();
+        var token = cancellation.Token;
+        _uploadCancellation = cancellation;
         _uploading = true;
         _canRetry = false;
         _hasError = false;
@@ -253,8 +263,15 @@ public partial class OmniUpload
 
         try
         {
-            var request = new OmniUploadRequest(_files, _uploadCancellation.Token, MaximumFileSize, ReportProgress);
+            var request = new OmniUploadRequest(_files, token, MaximumFileSize, percentage => ReportProgress(cancellation, percentage));
             await Upload(request);
+            // Cancellation is cooperative: a callback that ignores its token and returns normally has
+            // still been cancelled, and is neither announced as completed nor attached.
+            if (token.IsCancellationRequested)
+            {
+                return Cancelled(cancellation);
+            }
+
             if (request.Rejection is { } rejection)
             {
                 SetError(rejection);
@@ -265,32 +282,63 @@ public partial class OmniUpload
             _message = Localize("UploadCompleted");
             return true;
         }
-        catch (OperationCanceledException) when (_uploadCancellation.IsCancellationRequested)
+        catch (OperationCanceledException) when (token.IsCancellationRequested)
         {
-            _message = Localize("UploadCancelled");
-            _canRetry = true;
+            return Cancelled(cancellation);
         }
         catch (Exception exception)
         {
             Microsoft.Extensions.Logging.LoggerExtensions.LogError(Logger, exception, "The upload callback failed.");
-            SetError(EffectiveUploadErrorMessage);
-            _canRetry = true;
+            if (IsCurrent(cancellation))
+            {
+                SetError(EffectiveUploadErrorMessage);
+                _canRetry = true;
+            }
         }
         finally
         {
-            _uploading = false;
+            if (IsCurrent(cancellation))
+            {
+                _uploading = false;
+            }
         }
 
         return false;
     }
 
-    private void ReportProgress(double percentage)
+    /// <summary>Whether this attempt still owns the field: neither replaced by another nor outlived by the field.</summary>
+    private bool IsCurrent(CancellationTokenSource cancellation) => !_disposed && ReferenceEquals(_uploadCancellation, cancellation);
+
+    /// <summary>A cancelled attempt offers a retry, unless a newer attempt or the disposal took the field over.</summary>
+    private bool Cancelled(CancellationTokenSource cancellation)
     {
+        if (IsCurrent(cancellation))
+        {
+            _message = Localize("UploadCancelled");
+            _canRetry = true;
+        }
+
+        return false;
+    }
+
+    private void ReportProgress(CancellationTokenSource cancellation, double percentage)
+    {
+        if (!IsCurrent(cancellation) || cancellation.IsCancellationRequested)
+        {
+            return;
+        }
+
         _progress = percentage;
         _ = InvokeAsync(StateHasChanged);
     }
 
-    private void Cancel() => _uploadCancellation?.Cancel();
+    private void Cancel()
+    {
+        if (!_disposed)
+        {
+            _uploadCancellation?.Cancel();
+        }
+    }
 
     private async Task RetryAsync()
     {
@@ -325,10 +373,20 @@ public partial class OmniUpload
             ? OmniIconName.Image
             : OmniIconName.Document;
 
-    /// <summary>Cancels an upload still running and releases its cancellation source.</summary>
+    /// <summary>
+    /// Cancels an upload still running and releases its cancellation source. A callback that returns
+    /// afterwards no longer moves the progress, changes the message or attaches its files.
+    /// </summary>
     /// <returns>A completed task.</returns>
     public ValueTask DisposeAsync()
     {
+        if (_disposed)
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        // Marked first: the cancellation below may run a callback's continuation inline.
+        _disposed = true;
         _uploadCancellation?.Cancel();
         _uploadCancellation?.Dispose();
         return ValueTask.CompletedTask;

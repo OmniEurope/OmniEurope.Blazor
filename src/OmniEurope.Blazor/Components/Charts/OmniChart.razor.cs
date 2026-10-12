@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
@@ -17,6 +19,13 @@ public partial class OmniChart
     private readonly OmniChartContext _context = new();
     private readonly string _generatedId = $"omni-chart-{Guid.NewGuid():N}";
     private bool _aspectRatioSet;
+    private ElementReference _figure;
+    private IJSObjectReference? _module;
+    private string? _appliedMaxHeight;
+    private bool _disposed;
+
+    [Inject]
+    private IJSRuntime JavaScript { get; set; } = default!;
 
     /// <summary>The accessible name of the chart, and the caption of the data table it writes.</summary>
     [Parameter, EditorRequired] public string Title { get; set; } = string.Empty;
@@ -67,6 +76,18 @@ public partial class OmniChart
     /// the default, lets it shrink to any size.
     /// </summary>
     [Parameter] public OmniChartMinWidth MinWidth { get; set; } = OmniChartMinWidth.None;
+
+    /// <summary>
+    /// The tallest the drawing is shown, as a CSS length (<c>20rem</c>, <c>480px</c>, <c>60vh</c>), or
+    /// <c>none</c> for no ceiling. Null, the default, keeps the ceiling of the stylesheet:
+    /// <c>min(32rem, 70vh)</c>, which a host changes for every chart through the
+    /// <c>--omni-chart-max-height</c> property of its stylesheet. Capped, the drawing keeps its
+    /// proportions: it is fitted whole in the middle of the width of its card, its text scaled with it;
+    /// the legends and the <see cref="FooterContent"/> keep the whole width. The value is written by the
+    /// interop script as a CSS custom property (never as a style attribute), so a chart rendered without
+    /// interactivity keeps the stylesheet ceiling.
+    /// </summary>
+    [Parameter] public string? MaxHeight { get; set; }
 
     // The class of the minimum width; Auto takes about 12.5rem per unit of the drawing's width over height.
     private string? MinWidthClass
@@ -139,9 +160,15 @@ public partial class OmniChart
     /// Hands the aspect ratio to the layout: the value given, when it was set or differs from 1, else
     /// none, so the layout chooses from the series.
     /// </summary>
+    /// <exception cref="ArgumentException"><see cref="MaxHeight"/> is neither a CSS length nor <c>none</c>.</exception>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+        if (MaxHeight is not null && !MaxHeightValue().IsMatch(MaxHeight))
+        {
+            throw new ArgumentException($"'{MaxHeight}' is not a CSS length {nameof(OmniChart)} accepts for {nameof(MaxHeight)} (a number followed by px, rem, em or vh, or none).", nameof(MaxHeight));
+        }
+
         // A preset may set the ratio without the markup naming it: a value other than the default counts as set.
         _context.SetAspectRatio(_aspectRatioSet || AspectRatio != 1 ? AspectRatio : null);
     }
@@ -160,10 +187,63 @@ public partial class OmniChart
         _context.CategoryLabel(row)
         ?? series.Where(item => row < item.Data.Count).Select(item => OmniChartGeometry.Display(item.Data[row].X)).First();
 
+    /// <summary>
+    /// Hands a <see cref="MaxHeight"/> that changed to the interop script, loaded only once a value has
+    /// to be written; a chart that never sets it loads no script. A lost circuit is ignored.
+    /// </summary>
+    /// <param name="firstRender">Whether this is the first render.</param>
+    /// <returns>The task of the write.</returns>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_disposed || string.Equals(MaxHeight, _appliedMaxHeight, StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        var maxHeight = MaxHeight;
+        try
+        {
+            _module ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", OmniModules.Interop);
+            if (!_disposed)
+            {
+                await _module.InvokeVoidAsync("applyChartMaxHeight", _figure, maxHeight);
+                _appliedMaxHeight = maxHeight;
+            }
+        }
+        catch (JSDisconnectedException)
+        {
+            // The page is gone; nothing left to size.
+        }
+    }
+
     /// <summary>Stops listening to the layout of the parts.</summary>
     public void Dispose()
     {
         _context.Changed -= HandleProjectionChanged;
         GC.SuppressFinalize(this);
     }
+
+    /// <summary>Stops listening to the layout of the parts and releases the interop script, if it was loaded.</summary>
+    /// <returns>The task of the release.</returns>
+    public async ValueTask DisposeAsync()
+    {
+        _disposed = true;
+        Dispose();
+        if (_module is null)
+        {
+            return;
+        }
+
+        try
+        {
+            await _module.DisposeAsync();
+        }
+        catch (JSDisconnectedException)
+        {
+            // The page is gone with the script.
+        }
+    }
+
+    [GeneratedRegex("^(\\d+(\\.\\d+)?(px|rem|em|vh)|none)$", RegexOptions.CultureInvariant)]
+    private static partial Regex MaxHeightValue();
 }

@@ -1553,4 +1553,19 @@
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Riktade länkar</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Korrekturläst text, låst från början</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Skrivskyddad</value></data>
+  <data name="SettingsProject" xml:space="preserve"><value>Projekt</value></data>
+  <data name="SettingsProjectLead" xml:space="preserve"><value>Åtgärderna i den här zonen kan inte ångras.</value></data>
+  <data name="SettingsDeleteProject" xml:space="preserve"><value>Ta bort projektet</value></data>
+  <data name="SettingsDeleteProjectHint" xml:space="preserve"><value>Projektet, dess rapporter och dess historik raderas.</value></data>
+  <data name="SettingsDeleteProjectConfirm" xml:space="preserve"><value>Projektet ”PRJ-042” och dess 42 rapporter tas bort permanent.</value></data>
+  <data name="SettingsProjectDeleted" xml:space="preserve"><value>Projektet ”PRJ-042” borttaget (demonstration: inget raderades).</value></data>
+  <data name="SettingsResetHistory" xml:space="preserve"><value>Återställ historiken</value></data>
+  <data name="SettingsResetHistoryHint" xml:space="preserve"><value>Tömmer körningsloggen; den här demonstrationen misslyckas med avsikt.</value></data>
+  <data name="SettingsResetHistoryConfirmTitle" xml:space="preserve"><value>Återställa historiken för ”PRJ-042”?</value></data>
+  <data name="SettingsResetHistoryConfirm" xml:space="preserve"><value>Alla tidigare körningar av ”PRJ-042” raderas.</value></data>
+  <data name="SettingsResetAction" xml:space="preserve"><value>Återställ</value></data>
+  <data name="SettingsResetFailed" xml:space="preserve"><value>Servern avvisade återställningen (simulerat fel).</value></data>
+  <data name="SettingsTransferProject" xml:space="preserve"><value>Överlåt projektet</value></data>
+  <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Förbehållet projektets ägare.</value></data>
+  <data name="SettingsTransferAction" xml:space="preserve"><value>Överlåt</value></data>
 </root>

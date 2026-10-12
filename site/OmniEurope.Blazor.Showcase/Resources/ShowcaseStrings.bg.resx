@@ -1553,4 +1553,19 @@
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Насочени връзки</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Проверен текст, заключен в началото</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Само за четене</value></data>
+  <data name="SettingsProject" xml:space="preserve"><value>Проект</value></data>
+  <data name="SettingsProjectLead" xml:space="preserve"><value>Действията в тази зона не могат да бъдат отменени.</value></data>
+  <data name="SettingsDeleteProject" xml:space="preserve"><value>Изтриване на проекта</value></data>
+  <data name="SettingsDeleteProjectHint" xml:space="preserve"><value>Проектът, отчетите и историята му се изтриват.</value></data>
+  <data name="SettingsDeleteProjectConfirm" xml:space="preserve"><value>Проектът „PRJ-042“ и неговите 42 отчета ще бъдат изтрити окончателно.</value></data>
+  <data name="SettingsProjectDeleted" xml:space="preserve"><value>Проектът „PRJ-042“ е изтрит (демонстрация: нищо не е изтрито).</value></data>
+  <data name="SettingsResetHistory" xml:space="preserve"><value>Нулиране на историята</value></data>
+  <data name="SettingsResetHistoryHint" xml:space="preserve"><value>Изчиства журнала на изпълненията; тази демонстрация се проваля нарочно.</value></data>
+  <data name="SettingsResetHistoryConfirmTitle" xml:space="preserve"><value>Нулиране на историята на „PRJ-042“?</value></data>
+  <data name="SettingsResetHistoryConfirm" xml:space="preserve"><value>Всички минали изпълнения на „PRJ-042“ ще бъдат изтрити.</value></data>
+  <data name="SettingsResetAction" xml:space="preserve"><value>Нулиране</value></data>
+  <data name="SettingsResetFailed" xml:space="preserve"><value>Сървърът отказа нулирането (симулирана грешка).</value></data>
+  <data name="SettingsTransferProject" xml:space="preserve"><value>Прехвърляне на проекта</value></data>
+  <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Само за собственика на проекта.</value></data>
+  <data name="SettingsTransferAction" xml:space="preserve"><value>Прехвърляне</value></data>
 </root>

@@ -65,10 +65,13 @@ internal sealed class PreferenceBrowser : IJSRuntime, IJSObjectReference
 
     public int Disposals { get; private set; }
 
+    /// <summary>When set, releasing the module fails with it, as it does on a lost circuit.</summary>
+    public Exception? DisposeFailure { get; set; }
+
     public ValueTask DisposeAsync()
     {
         Disposals++;
-        return ValueTask.CompletedTask;
+        return DisposeFailure is null ? ValueTask.CompletedTask : ValueTask.FromException(DisposeFailure);
     }
 
     private async ValueTask<TValue> DelayedGetAsync<TValue>(string key, TimeSpan delay, CancellationToken cancellationToken)

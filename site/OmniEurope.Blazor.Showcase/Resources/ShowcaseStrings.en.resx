@@ -1556,4 +1556,19 @@
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Directed links</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Proofread text, locked at first</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Read-only</value></data>
+  <data name="SettingsProject" xml:space="preserve"><value>Project</value></data>
+  <data name="SettingsProjectLead" xml:space="preserve"><value>The actions in this zone cannot be undone.</value></data>
+  <data name="SettingsDeleteProject" xml:space="preserve"><value>Delete the project</value></data>
+  <data name="SettingsDeleteProjectHint" xml:space="preserve"><value>The project, its reports and its history are erased.</value></data>
+  <data name="SettingsDeleteProjectConfirm" xml:space="preserve"><value>The project “PRJ-042” and its 42 reports will be permanently deleted.</value></data>
+  <data name="SettingsProjectDeleted" xml:space="preserve"><value>Project “PRJ-042” deleted (demonstration: nothing was erased).</value></data>
+  <data name="SettingsResetHistory" xml:space="preserve"><value>Reset the history</value></data>
+  <data name="SettingsResetHistoryHint" xml:space="preserve"><value>Clears the run log; this demonstration fails on purpose.</value></data>
+  <data name="SettingsResetHistoryConfirmTitle" xml:space="preserve"><value>Reset the history of “PRJ-042”?</value></data>
+  <data name="SettingsResetHistoryConfirm" xml:space="preserve"><value>Every past run of “PRJ-042” will be erased.</value></data>
+  <data name="SettingsResetAction" xml:space="preserve"><value>Reset</value></data>
+  <data name="SettingsResetFailed" xml:space="preserve"><value>The server refused the reset (simulated failure).</value></data>
+  <data name="SettingsTransferProject" xml:space="preserve"><value>Transfer the project</value></data>
+  <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Reserved for the project owner.</value></data>
+  <data name="SettingsTransferAction" xml:space="preserve"><value>Transfer</value></data>
 </root>

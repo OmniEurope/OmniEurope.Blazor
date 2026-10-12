@@ -170,4 +170,94 @@ public sealed class UploadEdgeTests : OmniBunitContext
 
         Assert.DoesNotContain("omni-upload--dragging", upload.Find(".omni-upload").ClassList);
     }
+
+    [Fact]
+    public async Task Cancel_IgnoredByACallbackThatReturnsNormally_IsNeitherCompletedNorAttached_ThenARetrySucceeds()
+    {
+        IReadOnlyList<OmniUploadFile> files = [];
+        var pending = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var tokens = new List<CancellationToken>();
+        var upload = Render<OmniUpload>(parameters => parameters
+            .Add(component => component.Files, files)
+            .Add(component => component.FilesChanged, next => files = next)
+            .Add(component => component.Upload, request =>
+            {
+                tokens.Add(request.CancellationToken);
+                // The first attempt ignores its token, as a remote call that cannot be stopped would.
+                return tokens.Count == 1 ? pending.Task : Task.CompletedTask;
+            }));
+
+        var input = upload.FindComponent<InputFile>();
+        var selecting = Task.Run(() => input.UploadFiles(Text("a.txt")), Xunit.TestContext.Current.CancellationToken);
+        upload.WaitForAssertion(() => Assert.Single(upload.FindAll(".omni-upload__cancel")));
+        upload.Find(".omni-upload__cancel").Click();
+        Assert.True(tokens[0].IsCancellationRequested);
+        pending.SetResult();
+        await selecting.WaitAsync(TimeSpan.FromSeconds(10), Xunit.TestContext.Current.CancellationToken);
+
+        upload.WaitForAssertion(() => Assert.Single(upload.FindAll(".omni-upload__retry")));
+        Assert.Equal("Téléversement annulé.", upload.Find(".omni-upload__message").TextContent);
+        Assert.Empty(files);
+
+        upload.Find(".omni-upload__retry").Click();
+
+        // The retry reads the file again before it attaches it: awaited, not assumed synchronous.
+        upload.WaitForAssertion(() =>
+        {
+            Assert.Equal(2, tokens.Count);
+            Assert.Equal("a.txt", Assert.Single(files).Name);
+        });
+    }
+
+    [Fact]
+    public async Task Disposed_BeforeTheCallbackReturns_NeitherCompletesNorAttaches()
+    {
+        IReadOnlyList<OmniUploadFile> files = [];
+        var changes = 0;
+        var pending = new TaskCompletionSource();
+        OmniUploadRequest? seen = null;
+        var upload = Render<OmniUpload>(parameters => parameters
+            .Add(component => component.Files, files)
+            .Add(component => component.FilesChanged, next => { changes++; files = next; })
+            .Add(component => component.Upload, request =>
+            {
+                seen = request;
+                return pending.Task;
+            }));
+
+        var input = upload.FindComponent<InputFile>();
+        var selecting = Task.Run(() => input.UploadFiles(Text("a.txt")), Xunit.TestContext.Current.CancellationToken);
+        upload.WaitForAssertion(() => Assert.Single(upload.FindAll(".omni-upload__cancel")));
+        await upload.InvokeAsync(() => upload.Instance.DisposeAsync().AsTask());
+        Assert.True(seen!.CancellationToken.IsCancellationRequested);
+
+        seen.ReportProgress(80);
+        pending.SetResult();
+        await selecting.WaitAsync(TimeSpan.FromSeconds(10), Xunit.TestContext.Current.CancellationToken);
+
+        Assert.Equal(0, changes);
+        Assert.Empty(files);
+        Assert.DoesNotContain("Téléversement terminé", upload.Markup, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task Disposed_WhileTheSelectionIsHandedOver_AttachesNothing()
+    {
+        IReadOnlyList<OmniUploadFile> files = [];
+        var changes = 0;
+        OmniUpload? field = null;
+        var upload = Render<OmniUpload>(parameters => parameters
+            .Add(component => component.Files, files)
+            .Add(component => component.FilesChanged, next => { changes++; files = next; })
+            .Add(component => component.FilesSelected, _ => field!.DisposeAsync().AsTask())
+            .Add(component => component.Upload, _ => Task.CompletedTask));
+        field = upload.Instance;
+
+        // The first selection is handed over while the field goes away; a second one arrives after it.
+        await upload.InvokeAsync(() => upload.FindComponent<InputFile>().UploadFiles(Text("a.txt")));
+        await upload.InvokeAsync(() => upload.FindComponent<InputFile>().UploadFiles(Text("b.txt")));
+
+        Assert.Equal(0, changes);
+        Assert.Empty(files);
+    }
 }

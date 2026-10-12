@@ -143,3 +143,18 @@ export function unwatchScrolling(element) {
         scrollWatchers.delete(element);
     }
 }
+
+// OmniChart.MaxHeight: the ceiling of the drawing, written as the custom property the stylesheet reads
+// (.omni-chart__svg), through the CSSOM rather than a style attribute, which a strict CSP refuses. No
+// value gives the stylesheet ceiling back.
+export function applyChartMaxHeight(figure, maxHeight) {
+    if (!(figure instanceof HTMLElement)) {
+        return;
+    }
+
+    if (typeof maxHeight === 'string' && maxHeight.trim().length > 0) {
+        figure.style.setProperty('--omni-chart-max-height', maxHeight.trim());
+    } else {
+        figure.style.removeProperty('--omni-chart-max-height');
+    }
+}

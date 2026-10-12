@@ -34,7 +34,7 @@ Ce lot fournit 15 composants. Ils produisent du HTML sémantique, refusent les a
 
 ## Barre d'application
 
-Les pièces de la barre supérieure de la maquette de PLAN-004 (`docs/plans/archive/PLAN-004-maquette-themes.html`) sont dans le paquet, sans feuille de l'hôte :
+Les pièces de la barre supérieure de la maquette de PLAN-004 (`docs/plans/archive/serie-1/PLAN-004-maquette-themes.html`) sont dans le paquet, sans feuille de l'hôte :
 
 - logo et nom : `OmniHeader.BrandLogo` et `OmniHeader.Brand` ;
 - recherche : `OmniTextBox` avec `Icon` (voir `docs/form-components.md`) ;
@@ -228,7 +228,7 @@ Sans `backdrop-filter`, un calque flottant translucide retombe sur la surface op
 
 #### Fond animé
 
-Givre et Trou noir font bouger leur fond, et eux seuls (décision du propriétaire du 2026-09-30, figée dans `ThemeFieldMotionTests`). Le mouvement de Givre est en CSS pur, sans script ; celui de Trou noir est dessiné par `omni-black-hole.js` (WebGL, 30 images par seconde, en pause quand la page est cachée, une seule image si `BackdropMotion` est coupé ou si le mouvement est réduit). Pour le fond CSS :
+Givre et Trou noir font bouger leur fond, et eux seuls (décision du propriétaire du 2026-09-30, figée dans `ThemeFieldMotionTests`). Le mouvement de Givre est en CSS pur, sans script ; celui de Trou noir est dessiné par `omni-black-hole.js` (WebGL, 30 images par seconde, en pause quand la page est cachée, une seule image si `BackdropMotion` est coupé ou si le mouvement est réduit, réglage suivi quand il change ; un WebGL que le navigateur signale lent, rendu en logiciel, garde le fond CSS, et trois images de suite espacées de plus de 100 ms font passer à l'image fixe). Pour le fond CSS :
 
 - la feuille enregistre un angle, `@property --omni-scope-turn` (`<angle>`, non hérité, `0deg`), qu'une animation `omni-scope-turn` mène à 360 degrés ; `--omni-backdrop` est enregistré non hérité lui aussi, pour que ni l'angle ni le fond ne soient recalculés sur chaque élément de la portée à chaque image ;
 - la portée porte `animation: var(--omni-scope-motion, none)` ; un thème qui bouge pose `--omni-scope-motion: omni-scope-turn <N>s linear infinite` (120 s pour Givre comme pour Trou noir, jamais moins d'une minute) et lit `var(--omni-scope-turn)` dans son `--omni-backdrop` : l'orbite des taches de Givre ;

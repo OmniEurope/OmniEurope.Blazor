@@ -1553,4 +1553,19 @@
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Usmjerene veze</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Provjereni tekst, isprva zaključan</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Samo za čitanje</value></data>
+  <data name="SettingsProject" xml:space="preserve"><value>Projekt</value></data>
+  <data name="SettingsProjectLead" xml:space="preserve"><value>Radnje u ovoj zoni ne mogu se poništiti.</value></data>
+  <data name="SettingsDeleteProject" xml:space="preserve"><value>Izbriši projekt</value></data>
+  <data name="SettingsDeleteProjectHint" xml:space="preserve"><value>Projekt, njegova izvješća i povijest brišu se.</value></data>
+  <data name="SettingsDeleteProjectConfirm" xml:space="preserve"><value>Projekt „PRJ-042” i njegovih 42 izvješća bit će trajno izbrisani.</value></data>
+  <data name="SettingsProjectDeleted" xml:space="preserve"><value>Projekt „PRJ-042” izbrisan (demonstracija: ništa nije izbrisano).</value></data>
+  <data name="SettingsResetHistory" xml:space="preserve"><value>Poništi povijest</value></data>
+  <data name="SettingsResetHistoryHint" xml:space="preserve"><value>Prazni zapisnik izvođenja; ova demonstracija namjerno ne uspijeva.</value></data>
+  <data name="SettingsResetHistoryConfirmTitle" xml:space="preserve"><value>Poništiti povijest projekta „PRJ-042”?</value></data>
+  <data name="SettingsResetHistoryConfirm" xml:space="preserve"><value>Sva prošla izvođenja projekta „PRJ-042” bit će izbrisana.</value></data>
+  <data name="SettingsResetAction" xml:space="preserve"><value>Poništi</value></data>
+  <data name="SettingsResetFailed" xml:space="preserve"><value>Poslužitelj je odbio poništavanje (simulirani neuspjeh).</value></data>
+  <data name="SettingsTransferProject" xml:space="preserve"><value>Prenesi projekt</value></data>
+  <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Samo za vlasnika projekta.</value></data>
+  <data name="SettingsTransferAction" xml:space="preserve"><value>Prenesi</value></data>
 </root>

@@ -59,9 +59,23 @@ public partial class OmniFormField
     [Parameter]
     public string? Error { get; set; }
 
-    /// <summary>Adds the required mark to the label (the control carries its own requirement).</summary>
+    /// <summary>
+    /// Whether the label shows the required mark (the control carries its own requirement). Null, the
+    /// default, follows the bound property: the mark shows when the control the label names (<see cref="For"/>,
+    /// or the field's only control without <see cref="For"/>) is bound by <c>@bind-Value</c> to a property
+    /// marked <see cref="System.ComponentModel.DataAnnotations.RequiredAttribute"/>. True forces the mark,
+    /// false hides it; a control bound to no expression shows none.
+    /// </summary>
     [Parameter]
-    public bool Required { get; set; }
+    public bool? Required { get; set; }
+
+    private readonly Internal.FormFieldRequirement _requirement;
+
+    /// <summary>Creates the field and the channel its control reports its bound property on.</summary>
+    public OmniFormField() => _requirement = new(() => For, StateHasChanged);
+
+    /// <summary>The mark shown: <see cref="Required"/> when written, else what the bound property says.</summary>
+    private bool ShowsRequired => Required ?? _requirement.IsRequired;
 
     /// <summary>Draws the field dimmed (the control is disabled by its own parameter).</summary>
     [Parameter]

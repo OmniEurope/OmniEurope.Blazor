@@ -1553,4 +1553,19 @@
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Połączenia skierowane</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Sprawdzany tekst, początkowo zablokowany</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Tylko do odczytu</value></data>
+  <data name="SettingsProject" xml:space="preserve"><value>Projekt</value></data>
+  <data name="SettingsProjectLead" xml:space="preserve"><value>Działań w tej strefie nie można cofnąć.</value></data>
+  <data name="SettingsDeleteProject" xml:space="preserve"><value>Usuń projekt</value></data>
+  <data name="SettingsDeleteProjectHint" xml:space="preserve"><value>Projekt, jego raporty i historia zostaną wymazane.</value></data>
+  <data name="SettingsDeleteProjectConfirm" xml:space="preserve"><value>Projekt „PRJ-042” i jego 42 raporty zostaną trwale usunięte.</value></data>
+  <data name="SettingsProjectDeleted" xml:space="preserve"><value>Projekt „PRJ-042” usunięty (demonstracja: nic nie zostało wymazane).</value></data>
+  <data name="SettingsResetHistory" xml:space="preserve"><value>Zresetuj historię</value></data>
+  <data name="SettingsResetHistoryHint" xml:space="preserve"><value>Czyści dziennik uruchomień; ta demonstracja celowo kończy się błędem.</value></data>
+  <data name="SettingsResetHistoryConfirmTitle" xml:space="preserve"><value>Zresetować historię projektu „PRJ-042”?</value></data>
+  <data name="SettingsResetHistoryConfirm" xml:space="preserve"><value>Wszystkie wcześniejsze uruchomienia projektu „PRJ-042” zostaną wymazane.</value></data>
+  <data name="SettingsResetAction" xml:space="preserve"><value>Zresetuj</value></data>
+  <data name="SettingsResetFailed" xml:space="preserve"><value>Serwer odrzucił resetowanie (symulowany błąd).</value></data>
+  <data name="SettingsTransferProject" xml:space="preserve"><value>Przekaż projekt</value></data>
+  <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Tylko dla właściciela projektu.</value></data>
+  <data name="SettingsTransferAction" xml:space="preserve"><value>Przekaż</value></data>
 </root>

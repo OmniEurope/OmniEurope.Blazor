@@ -1,6 +1,6 @@
 # Actions (famille Actions)
 
-Les actions déclenchent quelque chose : un bouton natif (`button type="button"` par défaut), aux trois mêmes tailles dans toute la famille ; `OmniButton` et `OmniSplitButton` partagent les variantes d'emphase (`Variant`), que `OmniToggleButton` n'a pas. Un bouton à icône seule est carré et doit recevoir un nom accessible (`Label`) ; il mesure la hauteur de contrôle de la densité, sans zone transparente de 44 px (décision R-025, voir [ui-conventions.md](ui-conventions.md)).
+Les actions déclenchent quelque chose : un bouton natif (`button type="button"` par défaut), aux trois mêmes tailles dans toute la famille ; `OmniButton` et `OmniSplitButton` partagent les variantes d'emphase (`Variant`), que `OmniToggleButton` n'a pas. Un `OmniButton` dont le contenu est un `OmniIcon` seul est carré, quel que soit ce qui le nomme (classe `omni-button--icon` posée par le composant d'après son contenu), et doit recevoir un nom accessible : `Label`, ou à défaut son attribut `title`, repris en `aria-label` ; il mesure la hauteur de contrôle de la densité, sans zone transparente de 44 px (décision R-025, voir [ui-conventions.md](ui-conventions.md)).
 
 | Composant | Rôle |
 | --- | --- |

@@ -20,7 +20,11 @@
 // Sober by design: the light rolls off softly and stays under INTENSITY. A frame costs about three
 // milliseconds once the shader is compiled (1440 x 900 device pixels); it is drawn 30 times a second, paused while the page is
 // hidden, and drawn once when the scope holds its field still (BackdropMotion off) or the system asks
-// for less motion. Without WebGL the canvas stays empty and the CSS field of the theme shows instead.
+// for less motion, which the field follows as it changes. Without WebGL, or with a WebGL the browser
+// flags as slow (a software renderer), the canvas stays empty and the CSS field of the theme shows
+// instead. A renderer that slips past that flag and spends more than SLOW_FRAME_MS between frames, three
+// frames in a row, gets the still frame: drawn in software a frame took from 125 ms to 5 s, holding the
+// page's input that long.
 
 const INTENSITY = 0.5;
 // Drawn at the screen's own resolution, device pixels and not CSS pixels: a smaller canvas is stretched
@@ -28,6 +32,12 @@ const INTENSITY = 0.5;
 const MAX_PIXEL_RATIO = 2;
 const pixelRatio = () => Math.min(Math.max(window.devicePixelRatio || 1, 1), MAX_PIXEL_RATIO);
 const FRAME_MS = 1000 / 30;
+// Animation frames come every 16.7 ms at 60 Hz, two of them a hair under FRAME_MS apart: without this
+// slack every third frame was drawn, 20 a second instead of 30.
+const FRAME_SLACK_MS = 2;
+// Three frames in a row further apart than this (under 10 a second) and the field stops moving.
+const SLOW_FRAME_MS = 100;
+const SLOW_FRAMES = 3;
 // Seconds a copy of the gas turns before it starts again unwound. Short enough that the inner filaments
 // stay wider than a pixel on a small window, long enough that the fades go unnoticed.
 const LAYER_PERIOD = 60;
@@ -217,7 +227,8 @@ export function start(canvas, scope, moving) {
         return false;
     }
 
-    const gl = canvas.getContext('webgl', { premultipliedAlpha: true, antialias: false, alpha: true });
+    // A software WebGL makes no context here: the theme's CSS field shows instead.
+    const gl = canvas.getContext('webgl', { premultipliedAlpha: true, antialias: false, alpha: true, failIfMajorPerformanceCaveat: true });
     const vertex = gl && compile(gl, gl.VERTEX_SHADER, VERTEX);
     const fragment = gl && compile(gl, gl.FRAGMENT_SHADER, FRAGMENT);
     if (!vertex || !fragment || gl.isContextLost()) {
@@ -248,7 +259,8 @@ export function start(canvas, scope, moving) {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
     // The system mode, followed by a scope in System mode: its change swaps the tokens with no .NET round trip.
     const scheme = window.matchMedia('(prefers-color-scheme: dark)');
-    const state = { gl, program, buffer, frame: 0, last: 0, origin: performance.now(), moving, reduced, scheme, colours: null, inverted: false, resize: null, visibility: null };
+    // last: the time of the previous frame drawn, 0 after a return to the page (no previous frame to time).
+    const state = { gl, program, buffer, frame: 0, last: 0, slow: 0, origin: performance.now(), moving, reduced, scheme, colours: null, inverted: false, resize: null, visibility: null, motion: null };
     const animated = () => state.moving && !state.reduced.matches;
 
     const draw = now => {
@@ -293,9 +305,15 @@ export function start(canvas, scope, moving) {
             stop(canvas);
             return;
         }
-        if (now - state.last >= FRAME_MS) {
+        if (now - state.last >= FRAME_MS - FRAME_SLACK_MS) {
+            // Frames this far apart hold the page's clicks and keys as long: a few in a row and the
+            // field stays still, on the frame just drawn, as with BackdropMotion off.
+            state.slow = state.last && now - state.last > SLOW_FRAME_MS ? state.slow + 1 : 0;
             state.last = now;
             draw(now);
+            if (state.slow >= SLOW_FRAMES) {
+                state.moving = false;
+            }
         }
         if (animated() && !document.hidden) {
             state.frame = requestAnimationFrame(loop);
@@ -309,17 +327,36 @@ export function start(canvas, scope, moving) {
         }
     };
     state.visibility = () => {
-        if (!document.hidden && animated() && !state.frame) {
+        if (document.hidden) {
+            return;
+        }
+        // The time spent away from the page is no slow frame.
+        state.last = 0;
+        state.slow = 0;
+        if (animated() && !state.frame) {
             state.frame = requestAnimationFrame(loop);
+        }
+    };
+    // The system asks for less motion, or no longer does: the field stops on its current frame, or
+    // moves again.
+    state.motion = () => {
+        if (!state.reduced.matches) {
+            state.visibility();
+        }
+        else if (state.frame) {
+            cancelAnimationFrame(state.frame);
+            state.frame = 0;
         }
     };
     window.addEventListener('resize', state.resize);
     document.addEventListener('visibilitychange', state.visibility);
     state.scheme.addEventListener('change', state.resize);
+    state.reduced.addEventListener('change', state.motion);
     states.set(canvas, state);
     running.add(canvas);
 
-    draw(performance.now());
+    state.last = performance.now();
+    draw(state.last);
     if (animated()) {
         state.frame = requestAnimationFrame(loop);
     }
@@ -351,6 +388,7 @@ function halt(canvas, release) {
     window.removeEventListener('resize', state.resize);
     document.removeEventListener('visibilitychange', state.visibility);
     state.scheme.removeEventListener('change', state.resize);
+    state.reduced.removeEventListener('change', state.motion);
     if (release) {
         state.gl.getExtension('WEBGL_lose_context')?.loseContext();
     }

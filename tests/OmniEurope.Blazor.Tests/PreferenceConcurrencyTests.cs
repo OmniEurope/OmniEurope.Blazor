@@ -133,6 +133,162 @@ public sealed class PreferenceConcurrencyTests : IAsyncDisposable
     }
 
     [Fact]
+    public async Task AWriteMadeWhileTheStoreAnswersAFirstRead_IsWhatTheReadReturns()
+    {
+        // Nothing cached (a new device): the first read asks the store, which holds an older value.
+        var memory = new MemoryPreferenceStore();
+        memory.Put("theme", "\"givre\"", Start.AddHours(-1));
+        var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var hold = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var store = new ExclusivePreferenceStore(memory)
+        {
+            BeforeGet = async _ =>
+            {
+                entered.TrySetResult();
+                await hold.Task;
+            },
+        };
+        var preferences = Create(store);
+
+        var read = preferences.GetAsync<string>("theme", Token);
+        await entered.Task.WaitAsync(Patience, Token);
+        var write = preferences.SetAsync("theme", "relief", Token);
+        await WaitUntilAsync(() => Cached("theme")?.Value == "\"relief\"");
+        hold.SetResult();
+
+        Assert.Equal("relief", await read.WaitAsync(Patience, Token));
+        await write.WaitAsync(Patience, Token);
+        Assert.Equal("\"relief\"", Cached("theme")!.Value);
+        Assert.Equal("\"relief\"", memory["theme"]!.Value);
+        Assert.Equal(0, store.Overlaps);
+    }
+
+    [Fact]
+    public async Task TwoReadsOfAKeyNothingCaches_BothWaitForTheStore_NeitherSeesItAbsent()
+    {
+        // A new browser: nothing cached, the store holds the user's choice and answers slowly. A second
+        // read made while it answers must not take the empty cache for "no preference" (an application
+        // deciding on that answer would overwrite the stored choice with an older local one).
+        var memory = new MemoryPreferenceStore();
+        memory.Put("theme", "\"dark\"", Start.AddHours(-1));
+        var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var hold = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var store = new ExclusivePreferenceStore(memory)
+        {
+            BeforeGet = async _ =>
+            {
+                entered.TrySetResult();
+                await hold.Task;
+            },
+        };
+        var preferences = Create(store);
+
+        var first = preferences.GetAsync<string>("theme", Token);
+        await entered.Task.WaitAsync(Patience, Token);
+        var second = preferences.GetAsync<string>("theme", Token);
+        Assert.False(second.IsCompleted);
+        hold.SetResult();
+
+        Assert.Equal("dark", await first.WaitAsync(Patience, Token));
+        Assert.Equal("dark", await second.WaitAsync(Patience, Token));
+        Assert.Equal(1, memory.Reads);
+        Assert.Equal("\"dark\"", memory["theme"]!.Value);
+    }
+
+    [Fact]
+    public async Task AKeyTheStoreDoesNotHold_IsAbsent_AndAskedOnce()
+    {
+        var memory = new MemoryPreferenceStore();
+        var preferences = Create(new ExclusivePreferenceStore(memory));
+
+        Assert.Null(await preferences.GetAsync<string>("theme", Token));
+        Assert.Null(await preferences.GetAsync<string>("theme", Token));
+        Assert.Equal(1, memory.Reads);
+    }
+
+    [Fact]
+    public async Task AWriteMadeWhileTheStoreFindsNothing_IsWhatTheReadReturns()
+    {
+        var memory = new MemoryPreferenceStore();
+        var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var hold = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var store = new ExclusivePreferenceStore(memory)
+        {
+            BeforeGet = async _ =>
+            {
+                entered.TrySetResult();
+                await hold.Task;
+            },
+        };
+        var preferences = Create(store);
+
+        var read = preferences.GetAsync<string>("theme", Token);
+        await entered.Task.WaitAsync(Patience, Token);
+        var write = preferences.SetAsync("theme", "relief", Token);
+        await WaitUntilAsync(() => Cached("theme")?.Value == "\"relief\"");
+        hold.SetResult();
+
+        Assert.Equal("relief", await read.WaitAsync(Patience, Token));
+        await write.WaitAsync(Patience, Token);
+    }
+
+    [Fact]
+    public async Task ACacheFailureAfterTheStoreAnswered_ReachesEveryWaitingRead()
+    {
+        var memory = new MemoryPreferenceStore();
+        memory.Put("theme", "\"dark\"", Start.AddHours(-1));
+        var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var hold = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var store = new ExclusivePreferenceStore(memory)
+        {
+            BeforeGet = async _ =>
+            {
+                entered.TrySetResult();
+                await hold.Task;
+            },
+        };
+        var preferences = Create(store);
+
+        var first = preferences.GetAsync<string>("theme", Token);
+        await entered.Task.WaitAsync(Patience, Token);
+        var second = preferences.GetAsync<string>("theme", Token);
+        // The browser refuses its storage once the store has answered: the value cannot be kept.
+        _browser.Failures["get"] = new Microsoft.JSInterop.JSException("SecurityError: storage denied");
+        hold.SetResult();
+
+        await Assert.ThrowsAsync<Microsoft.JSInterop.JSException>(() => first.WaitAsync(Patience, Token));
+        await Assert.ThrowsAsync<Microsoft.JSInterop.JSException>(() => second.WaitAsync(Patience, Token));
+    }
+
+    [Fact]
+    public async Task ASecondReadCancelledWhileTheFirstWaits_LeavesTheFirstRead()
+    {
+        var memory = new MemoryPreferenceStore();
+        memory.Put("theme", "\"dark\"", Start.AddHours(-1));
+        var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var hold = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var store = new ExclusivePreferenceStore(memory)
+        {
+            BeforeGet = async _ =>
+            {
+                entered.TrySetResult();
+                await hold.Task;
+            },
+        };
+        var preferences = Create(store);
+        using var cancelled = CancellationTokenSource.CreateLinkedTokenSource(Token);
+
+        var first = preferences.GetAsync<string>("theme", Token);
+        await entered.Task.WaitAsync(Patience, Token);
+        var second = preferences.GetAsync<string>("theme", cancelled.Token);
+        await cancelled.CancelAsync();
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => second.WaitAsync(Patience, Token));
+        hold.SetResult();
+
+        Assert.Equal("dark", await first.WaitAsync(Patience, Token));
+    }
+
+    [Fact]
     public async Task ASlowChangedHandler_DoesNotMakeTheNextSynchronizationSkip()
     {
         var memory = new MemoryPreferenceStore();
@@ -189,5 +345,23 @@ public sealed class PreferenceConcurrencyTests : IAsyncDisposable
         Assert.Equal("relief", await preferences.GetAsync<string>("theme", Token));
         Assert.Equal("\"relief\"", memory["theme"]!.Value);
         Assert.Single(_time.Timers);
+    }
+
+    [Fact]
+    public async Task AnOpeningThatFailsOnALostCircuit_ReportsTheFailure_NotTheLostCircuit_AndOpensAgainLater()
+    {
+        var preferences = Create(new MemoryPreferenceStore());
+        _browser.Failures["watch"] = new JSException("watch failed");
+        _browser.DisposeFailure = new JSDisconnectedException("circuit perdu");
+
+        var failure = await Assert.ThrowsAsync<JSException>(() => preferences.GetAsync<string>("theme", Token));
+
+        Assert.Equal("watch failed", failure.Message);
+        Assert.Equal(1, _browser.Disposals);
+        _browser.Failures.Remove("watch");
+        _browser.DisposeFailure = null;
+        await preferences.SetAsync("theme", "relief", Token);
+        Assert.Equal(2, _browser.Imports);
+        Assert.Equal("relief", await preferences.GetAsync<string>("theme", Token));
     }
 }

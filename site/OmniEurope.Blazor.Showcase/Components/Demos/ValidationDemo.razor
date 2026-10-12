@@ -37,21 +37,21 @@
 <OmniTemplateForm TModel="AnnotatedValidationDemoModel" Model="Annotated">
     <OmniDataAnnotationsValidator Localizer="Text" />
     <OmniStack Gap="OmniSpacing.Medium">
-        <OmniFormField For="annotated-name" Required="true">
+        <OmniFormField For="annotated-name">
             <LabelContent>@Text["DemoValidationProjectName"]</LabelContent>
             <ChildContent>
                 <OmniTextBox Id="annotated-name" @bind-Value="Annotated.Name" />
                 <ValidationMessage For="@(() => Annotated.Name)" />
             </ChildContent>
         </OmniFormField>
-        <OmniFormField For="annotated-mail" Required="true">
+        <OmniFormField For="annotated-mail">
             <LabelContent>@Text["DemoValidationOwnerMail"]</LabelContent>
             <ChildContent>
                 <OmniTextBox Id="annotated-mail" @bind-Value="Annotated.Mail" />
                 <ValidationMessage For="@(() => Annotated.Mail)" />
             </ChildContent>
         </OmniFormField>
-        <OmniFormField For="annotated-mail-confirm" Required="true">
+        <OmniFormField For="annotated-mail-confirm">
             <LabelContent>@Text["DemoValidationMailConfirmation"]</LabelContent>
             <ChildContent>
                 <OmniTextBox Id="annotated-mail-confirm" @bind-Value="Annotated.MailConfirmation" />

@@ -40,7 +40,8 @@ public partial class OmniButton
 
     /// <summary>
     /// The accessible name of the button, needed when its content is an icon alone. Null, the default,
-    /// leaves the button named by its content. An <c>aria-label</c> attribute is overridden by it.
+    /// leaves the button named by its content, or by its <c>aria-label</c> attribute; an icon-only button
+    /// with neither is named by its <c>title</c> attribute. An <c>aria-label</c> attribute is overridden by it.
     /// </summary>
     [Parameter]
     public string? Label { get; set; }
@@ -57,6 +58,21 @@ public partial class OmniButton
     /// <summary>Raised when the button is clicked, unless it is <see cref="Disabled"/> or <see cref="Busy"/>.</summary>
     [Parameter]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    // Whether the content is one OmniIcon alone: the button is then drawn square (omni-button--icon),
+    // whatever names it, and its title names it when nothing else does.
+    private bool _iconOnly;
+
+    private string? AccessibleName =>
+        OmniAriaLabel.Of(Label, AdditionalAttributes)
+        ?? (_iconOnly && AdditionalAttributes is not null && AdditionalAttributes.TryGetValue("title", out var title) && title?.ToString() is { } text && !string.IsNullOrWhiteSpace(text) ? text : null);
+
+    /// <summary>Reads whether the content is an icon alone, which draws the button square.</summary>
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _iconOnly = LoneIconContent.Is(ChildContent);
+    }
 
     private Task HandleClickAsync(MouseEventArgs args) =>
         Disabled || Busy ? Task.CompletedTask : OnClick.InvokeAsync(args);

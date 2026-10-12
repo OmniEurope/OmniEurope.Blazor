@@ -33,15 +33,23 @@ public partial class PagesDemo : IDisposable
     private async Task LoadAsync()
     {
         State = OmniDetailState.Loading;
+        var loading = new OmniBreadcrumbEntry(Text["DemoPagesCrumbServer"], Loading: true);
         Breadcrumb.Set(
             new OmniBreadcrumbEntry(Text["DemoPagesCrumbComponents"], "composants"),
             new OmniBreadcrumbEntry(Text["DemoPagesCrumbServers"], "composants/pages"),
-            new OmniBreadcrumbEntry(Text["DemoPagesCrumbServer"], Loading: true));
+            loading);
         try
         {
             await Task.Delay(TimeSpan.FromSeconds(1.5), _lifetime.Token);
         }
         catch (TaskCanceledException)
+        {
+            return;
+        }
+
+        // The trail is reset on every route change, possibly before this page is disposed: the loaded
+        // name replaces the crumb this page put, never a crumb of the trail of the page shown since.
+        if (Breadcrumb.Items.Count <= 2 || !ReferenceEquals(Breadcrumb.Items[2], loading))
         {
             return;
         }
