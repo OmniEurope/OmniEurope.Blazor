@@ -705,4 +705,13 @@
   <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Farezone</value></data>
   <data name="SettingsDangerActionText" xml:space="preserve"><value>Slet</value></data>
   <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Denne handling kan ikke fortrydes. Vil du fortsætte?</value></data>
+  <data name="MailTemplateEditorLabel" xml:space="preserve"><value>E-mailskabelon</value></data>
+  <data name="MailTemplateEditorSubject" xml:space="preserve"><value>Emne</value></data>
+  <data name="MailTemplateEditorVariables" xml:space="preserve"><value>Indsæt en variabel</value></data>
+  <data name="MailTemplateEditorTemplate" xml:space="preserve"><value>Skabelon</value></data>
+  <data name="MailTemplateEditorBody" xml:space="preserve"><value>Meddelelsestekst</value></data>
+  <data name="MailTemplateEditorPreview" xml:space="preserve"><value>Eksempel</value></data>
+  <data name="MailTemplateEditorPreviewSubject" xml:space="preserve"><value>Emne: {0}</value></data>
+  <data name="MailTemplateEditorVariableHint" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="MailTemplateEditorSendTest" xml:space="preserve"><value>Send en test</value></data>
 </root>

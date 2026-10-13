@@ -705,4 +705,13 @@
   <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Gevarenzone</value></data>
   <data name="SettingsDangerActionText" xml:space="preserve"><value>Verwijderen</value></data>
   <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Deze actie kan niet ongedaan worden gemaakt. Wilt u doorgaan?</value></data>
+  <data name="MailTemplateEditorLabel" xml:space="preserve"><value>E-mailsjabloon</value></data>
+  <data name="MailTemplateEditorSubject" xml:space="preserve"><value>Onderwerp</value></data>
+  <data name="MailTemplateEditorVariables" xml:space="preserve"><value>Variabele invoegen</value></data>
+  <data name="MailTemplateEditorTemplate" xml:space="preserve"><value>Sjabloon</value></data>
+  <data name="MailTemplateEditorBody" xml:space="preserve"><value>Berichttekst</value></data>
+  <data name="MailTemplateEditorPreview" xml:space="preserve"><value>Voorbeeld</value></data>
+  <data name="MailTemplateEditorPreviewSubject" xml:space="preserve"><value>Onderwerp: {0}</value></data>
+  <data name="MailTemplateEditorVariableHint" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="MailTemplateEditorSendTest" xml:space="preserve"><value>Test verzenden</value></data>
 </root>

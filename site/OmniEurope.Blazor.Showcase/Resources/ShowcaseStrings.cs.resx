@@ -1568,4 +1568,15 @@
   <data name="SettingsTransferProject" xml:space="preserve"><value>Převést projekt</value></data>
   <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Vyhrazeno vlastníkovi projektu.</value></data>
   <data name="SettingsTransferAction" xml:space="preserve"><value>Převést</value></data>
+  <data name="DemoInputsModel" xml:space="preserve"><value>Model</value></data>
+  <data name="DemoInputsModelHelp" xml:space="preserve"><value>Vyberte ze seznamu nebo napište název, který v něm chybí.</value></data>
+  <data name="DemoInputsModelValue" xml:space="preserve"><value>Hodnota: {0}</value></data>
+  <data name="DemoEditorMailLabel" xml:space="preserve"><value>Šablona upomínkového e-mailu</value></data>
+  <data name="DemoEditorMailClient" xml:space="preserve"><value>Jméno klienta</value></data>
+  <data name="DemoEditorMailFile" xml:space="preserve"><value>Číslo spisu</value></data>
+  <data name="DemoEditorMailDue" xml:space="preserve"><value>Datum splatnosti</value></data>
+  <data name="DemoEditorMailLink" xml:space="preserve"><value>Odkaz na spis</value></data>
+  <data name="DemoEditorMailSubject" xml:space="preserve"><value>Upomínka ke spisu {{file}}</value></data>
+  <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Upomínka&lt;/h2&gt;&lt;p&gt;Dobrý den, {{client}},&lt;/p&gt;&lt;p&gt;spis {{file}} čeká na vaši odpověď do {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Otevřít spis&lt;/a&gt;&lt;/p&gt;</value></data>
+  <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Zkouška předána aplikaci, předmět „{0}“.</value></data>
 </root>

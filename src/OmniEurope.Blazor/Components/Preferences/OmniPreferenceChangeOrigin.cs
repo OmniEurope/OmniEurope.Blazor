@@ -10,5 +10,8 @@ public enum OmniPreferenceChangeOrigin
     Store,
 
     /// <summary>Another tab of the same browser, which wrote the shared browser cache.</summary>
-    OtherTab
+    OtherTab,
+
+    /// <summary>The value of the user who just signed in, read again by <see cref="OmniPreferences.ResetUserAsync"/>; null when that user has none.</summary>
+    UserChanged
 }

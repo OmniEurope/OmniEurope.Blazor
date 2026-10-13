@@ -19,6 +19,8 @@ public partial class InputsDemo
         "Luxembourg", "Liège", "Louvain", "Amsterdam", "Anvers", "Arlon"
     ];
 
+    private static readonly string[] Models = ["model-small", "model-medium", "model-large", "model-vision"];
+
     [Inject]
     private IStringLocalizer<ShowcaseStrings> Text { get; set; } = default!;
 
@@ -37,6 +39,19 @@ public partial class InputsDemo
     /// Stands in for a remote lookup: the component only asks for matches, it does not care where
     /// they come from.
     /// </summary>
+    /// <summary>The known models; a name typed outside this list is still a value (AllowFreeText).</summary>
+    private static Task<IReadOnlyList<OmniOption<string>>> SearchModelsAsync(string term, CancellationToken cancellationToken)
+    {
+        IReadOnlyList<OmniOption<string>> matches =
+        [
+            .. Models
+                .Where(model => model.Contains(term, StringComparison.OrdinalIgnoreCase))
+                .Select(model => new OmniOption<string>(model, model))
+        ];
+
+        return Task.FromResult(matches);
+    }
+
     private static Task<IReadOnlyList<OmniOption<string>>> SearchCitiesAsync(string term, CancellationToken cancellationToken)
     {
         IReadOnlyList<OmniOption<string>> matches =

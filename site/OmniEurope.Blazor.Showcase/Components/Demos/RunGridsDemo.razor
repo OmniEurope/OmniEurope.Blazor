@@ -2,9 +2,13 @@
    pipeline : la colonne triée est teintée (HighlightActiveColumn), plus légèrement que la ligne
    choisie, pour qu'elles se distinguent là où elles se croisent ; la ligne survolée se teinte aussi.
    La seconde alterne ses lignes, comme toute grille par défaut, et garde son en-tête collé en haut quand elle défile (MaxHeight). La
-   durée, un nombre, s'aligne à la fin ; le statut est une pastille compacte (classe omni-status). *@
+   durée, un nombre, s'aligne à la fin ; le statut est une pastille compacte (classe omni-status).
+   Sa barre d'en-tête porte des boutons d'export de la taille des autres boutons de la page
+   (BarButtonSize="OmniControlSize.Medium"), au lieu des boutons compacts par défaut. *@
 <OmniStack Gap="OmniSpacing.Large">
     <OmniDataGrid TItem="PipelineRun" Id="runs-sorted"
+                  HeaderWrap="OmniDataGridHeaderWrap.Truncate"
+                  ScrollMode="OmniDataGridScrollMode.Paged"
                   Items="Recent"
                   Caption="@Text["RunsSortedCaption"]"
                   Filterable="false"
@@ -26,11 +30,15 @@
     </OmniDataGrid>
 
     <OmniDataGrid TItem="PipelineRun" Id="runs-striped"
+                  HeaderWrap="OmniDataGridHeaderWrap.Truncate"
+                  ScrollMode="OmniDataGridScrollMode.Paged"
                   Items="History"
                   Caption="@Text["RunsStripedCaption"]"
                   Filterable="false"
                   HighlightRowOnHover="true"
                   MaxHeight="15rem"
+                  ShowHeaderBar="true"
+                  BarButtonSize="OmniControlSize.Medium"
                   SelectionMode="OmniDataGridSelectionMode.Single"
                   KeyOf="run => run.Run"
                   @bind-Value="StripedSelection">

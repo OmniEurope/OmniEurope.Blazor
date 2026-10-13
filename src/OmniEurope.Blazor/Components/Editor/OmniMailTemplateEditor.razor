@@ -1,0 +1,66 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+
+@* A mail template: its subject, the variables the host offers, and two tabs, the body in an
+   OmniHtmlEditor and the mail as OmniMailRenderer renders it. A variable button writes its token where
+   the caret last was, in the subject or in the body; pressing it keeps the focus where it is, so the caret
+   does not move. The preview is drawn by its script in a shadow root (see omni-mail-preview.js). *@
+<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-mail-template-editor", Disabled ? "omni-mail-template-editor--disabled" : null)">
+    @if (ShowSubject)
+    {
+        <div class="omni-mail-template-editor__subject" @onfocusin="() => _subjectTarget = true">
+            <OmniFormField For="@SubjectId" Label="@Localize("MailTemplateEditorSubject")">
+                <OmniTextBox Id="@SubjectId" Value="@Subject" ValueExpression="() => Subject" ValueChanged="HandleSubjectChangedAsync"
+                             Disabled="Disabled" ReadOnly="ReadOnly" />
+            </OmniFormField>
+        </div>
+    }
+    @if (Variables is { Count: > 0 })
+    {
+        <div class="omni-mail-template-editor__variables" role="group" aria-label="@Localize("MailTemplateEditorVariables")"
+             @onmousedown:preventDefault="true">
+            <span class="omni-mail-template-editor__variables-label" aria-hidden="true">@Localize("MailTemplateEditorVariables")</span>
+            @foreach (var variable in Variables)
+            {
+                <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" Class="omni-mail-template-editor__variable"
+                            title="@VariableTitle(variable)" data-omni-variable="@variable.Name"
+                            Disabled="@(Disabled || ReadOnly)" OnClick="() => InsertAsync(variable)">
+                    <OmniIcon Name="OmniIconName.Tag" />
+                    <span>@variable.Label</span>
+                </OmniButton>
+            }
+        </div>
+    }
+    <OmniTabs Label="@EffectiveLabel" @bind-Value="_tab" RenderAllPanels="true">
+        <OmniTabsItem Key="@TemplateTab" Title="@Localize("MailTemplateEditorTemplate")">
+            <div class="omni-mail-template-editor__body" @onfocusin="() => _subjectTarget = false">
+                <OmniHtmlEditor @ref="_editor" Value="@Value" ValueExpression="() => Value" ValueChanged="HandleValueChangedAsync"
+                                Mode="_mode" ModeChanged="HandleModeChanged"
+                                Label="@Localize("MailTemplateEditorBody")" Commands="Commands" Rows="Rows"
+                                Disabled="Disabled" ReadOnly="ReadOnly" />
+            </div>
+        </OmniTabsItem>
+        <OmniTabsItem Key="@PreviewTab" Title="@Localize("MailTemplateEditorPreview")">
+            <div class="omni-mail-template-editor__preview">
+                @if (ShowSubject && _tab == PreviewTab)
+                {
+                    <p class="omni-mail-template-editor__preview-subject">@Localize("MailTemplateEditorPreviewSubject", Rendered.Subject)</p>
+                }
+                <div @ref="_preview" class="omni-mail-template-editor__preview-mail" role="region"
+                     aria-label="@Localize("MailTemplateEditorPreview")" data-omni-mail-preview></div>
+            </div>
+        </OmniTabsItem>
+    </OmniTabs>
+    @if (OnSendTest.HasDelegate)
+    {
+        @* The host sends the mail rendered with the sample values; busy, not disabled, while it does (STD-BUSY). *@
+        <div class="omni-mail-template-editor__actions">
+            <OmniButton Variant="OmniButtonVariant.Secondary" Class="omni-mail-template-editor__send-test" Busy="_sending"
+                        Disabled="Disabled" OnClick="SendTestAsync">
+                <OmniIcon Name="OmniIconName.PaperPlaneRight" />
+                <span>@Localize("MailTemplateEditorSendTest")</span>
+            </OmniButton>
+        </div>
+    }
+</div>

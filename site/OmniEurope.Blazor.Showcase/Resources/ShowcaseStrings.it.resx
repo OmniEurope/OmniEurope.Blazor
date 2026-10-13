@@ -1568,4 +1568,15 @@
   <data name="SettingsTransferProject" xml:space="preserve"><value>Trasferisci il progetto</value></data>
   <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Riservato al proprietario del progetto.</value></data>
   <data name="SettingsTransferAction" xml:space="preserve"><value>Trasferisci</value></data>
+  <data name="DemoInputsModel" xml:space="preserve"><value>Modello</value></data>
+  <data name="DemoInputsModelHelp" xml:space="preserve"><value>Scegli dall'elenco o digita un nome che manca.</value></data>
+  <data name="DemoInputsModelValue" xml:space="preserve"><value>Valore: {0}</value></data>
+  <data name="DemoEditorMailLabel" xml:space="preserve"><value>Modello di e-mail di sollecito</value></data>
+  <data name="DemoEditorMailClient" xml:space="preserve"><value>Nome del cliente</value></data>
+  <data name="DemoEditorMailFile" xml:space="preserve"><value>Numero di pratica</value></data>
+  <data name="DemoEditorMailDue" xml:space="preserve"><value>Data di scadenza</value></data>
+  <data name="DemoEditorMailLink" xml:space="preserve"><value>Link alla pratica</value></data>
+  <data name="DemoEditorMailSubject" xml:space="preserve"><value>Sollecito per la pratica {{file}}</value></data>
+  <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Sollecito&lt;/h2&gt;&lt;p&gt;Gentile {{client}},&lt;/p&gt;&lt;p&gt;La pratica {{file}} attende la sua risposta entro il {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Apri la pratica&lt;/a&gt;&lt;/p&gt;</value></data>
+  <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Prova consegnata all'applicazione, oggetto «{0}».</value></data>
 </root>

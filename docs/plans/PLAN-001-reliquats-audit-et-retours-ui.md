@@ -3,7 +3,7 @@
 
 > Statut : **ouvert**. Établi le 2026-10-12 : les plans actifs de la première série (PLAN-009, PLAN-013
 > à PLAN-019) ont été vérifiés contre le code puis archivés dans [archive/serie-1/](archive/serie-1/) ;
-> leurs reliquats réels sont repris ici. Lot 1 fait sauf la CI (branche non publiée), lot 2 en cours, lot 5 fait, lots 3, 4 et 6 à venir.
+> leurs reliquats réels sont repris ici. Lot 1 fait, CI de `develop` verte sur `80c0691` (constatée le 2026-10-13), lot 2 en cours, lot 5 fait, lot 8 fait (2026-10-13, non publié), lots 3, 4 et 6 à venir.
 
 ## Objectif
 
@@ -199,6 +199,47 @@ Controle : pour chaque case, test rouge puis vert, ou classement motivé en B ou
   sous le WebGL logiciel de son navigateur, et bascule `prefers-reduced-motion`.
 Controle : test bUnit rouge puis vert (avec et sans `[Required]`, forcé, masqué, sans expression),
 vérification dans la vitrine, suite complète verte.
+
+### Lot 8 - Demandes d'une application cliente du 2026-10-13 (publication envisagée en 1.8.1)
+Décision du propriétaire du 2026-10-13 : les trois demandes sont retenues.
+- [x] R3-7, `OmniAutocomplete.AllowFreeText` (`bool`, `false`) : le texte tapé devient la valeur à la
+  sortie du champ et à Entrée sans suggestion en surbrillance ; une suggestion au texte identique (casse
+  ignorée) donne sa valeur ; un champ vidé donne la valeur par défaut ; `ParseFreeText`
+  (`Func<string, TValue>?`) convertit le texte, obligatoire sauf pour `string`.
+- [x] R3-54, `OmniDataGrid.BarButtonSize` (`OmniControlSize?`, `null`) : `null` garde les boutons compacts
+  des barres, une taille donne aux boutons d'export et au sélecteur de colonnes celle d'un `OmniButton`.
+- [x] R1-75 et R1-74, rendu de mails côté serveur (`OmniMailRenderer`, `OmniMailTheme`) : variables
+  `{{nom}}` encodées, liens limités à http, https et mailto, mise en page en tableaux, styles en ligne,
+  couleurs résolues depuis un thème ou une palette du paquet, texte brut de repli.
+- [x] R1-75, `OmniMailTemplateEditor` : objet, corps `OmniHtmlEditor`, commande « Insérer une variable »,
+  aperçu rendu par `OmniMailRenderer` dans une racine fantôme stylée par le CSSOM (CSP stricte), textes
+  dans les 24 langues.
+Controle : tests bUnit rouges puis verts par case ; saisie libre, taille des boutons et aperçu du mail
+vérifiés dans la vitrine publiée ; suite complète, API publique, couverture, CRAP et CSP vertes.
+Fait le 2026-10-13 (non commité, non publié) : tests écrits avant le code (rouges à la compilation, les
+paramètres n'existant pas), 57 tests ajoutés ; suite complète 6116 sur 6116, couverture 99,93 % des lignes et
+99,51 % des branches sans écart nouveau, CRAP, API publique (4197 signatures, ajouts seuls) et scan CSP verts.
+Vitrine republiée, sonde Scripts verte avec son étape 10 (`eng/scripts-probe/requests.mjs`) : texte libre pris
+pour valeur à la sortie du champ (vraies touches), boutons d'export à 28 px comme un bouton `Medium` (16 px
+compacts par défaut), jeton inséré au curseur de l'objet, aperçu dessiné (titre de 22 px, lien souligné, valeurs
+d'exemple), aucune violation CSP. La première passe de la sonde a refusé l'aperçu (attributs `style` lus par
+`DOMParser` sous `style-src 'self'`) : corrigé par l'attribut `data-omni-mail-look` réservé à l'aperçu. Sonde
+Modules verte. Couverture JavaScript du nouveau module : à mesurer par la passe complète `-JsCoverage` avant
+publication.
+- [x] Suites (2026-10-13, demande du propriétaire) : jetons `{{nom}}` du corps surlignés par la CSS Custom Highlight
+  API (`::highlight(omni-mail-token)`), suivis à la frappe et au retour de la face visuelle ; `OnSendTest` (« Envoyer
+  un essai », le mail rendu avec les valeurs d'exemple remis à l'application) et `OnSendTestError`. Suite 6121 sur
+  6121, couverture, CRAP, API publique (4199 signatures) verts ; sonde Scripts : 3 jetons marqués sur 3, essai
+  remis, aucune violation CSP.
+- [x] R1-66 (2026-10-13, préférences en base) : `OmniPreferences.ResetUserAsync()` (changement d'utilisateur sans
+  recharger, origine `UserChanged`, suivie par `OmniAppearanceState` et les grilles) ; `OmniPreferences.NoUserScope`
+  (portée vide : valeurs par défaut sans avertissement, écritures en mémoire du circuit) ; accès au magasin et JSON
+  extraits (`PreferenceStoreAccess`, `PreferenceJson`, `SignedOutPreferences`) pour rester sous 600 lignes. La
+  portée vide, refusée jusque-là, change de sens : le cas `""` du test de refus devient `"   "`. Point 3 sans
+  changement d'OE : `OmniAppearanceState` couvre déjà l'état d'apparence de l'application, le cache de démarrage
+  est l'instantané d'`OmniThemeScope.SnapshotKey` lu par `omni-boot.js`, la langue reste à l'hôte
+  (`data-language-key` au démarrage). Suite 6130 sur 6130, couverture, CRAP, API publique (4202 signatures) verts ;
+  sonde Scripts verte. Non éprouvé dans un vrai navigateur : `ResetUserAsync` (aucune démo de changement de compte).
 
 ## Actions du propriétaire (hors code)
 

@@ -705,4 +705,13 @@
   <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Strefa zagrożenia</value></data>
   <data name="SettingsDangerActionText" xml:space="preserve"><value>Usuń</value></data>
   <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Tej operacji nie można cofnąć. Czy chcesz kontynuować?</value></data>
+  <data name="MailTemplateEditorLabel" xml:space="preserve"><value>Szablon wiadomości e-mail</value></data>
+  <data name="MailTemplateEditorSubject" xml:space="preserve"><value>Temat</value></data>
+  <data name="MailTemplateEditorVariables" xml:space="preserve"><value>Wstaw zmienną</value></data>
+  <data name="MailTemplateEditorTemplate" xml:space="preserve"><value>Szablon</value></data>
+  <data name="MailTemplateEditorBody" xml:space="preserve"><value>Treść wiadomości</value></data>
+  <data name="MailTemplateEditorPreview" xml:space="preserve"><value>Podgląd</value></data>
+  <data name="MailTemplateEditorPreviewSubject" xml:space="preserve"><value>Temat: {0}</value></data>
+  <data name="MailTemplateEditorVariableHint" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="MailTemplateEditorSendTest" xml:space="preserve"><value>Wyślij wiadomość testową</value></data>
 </root>

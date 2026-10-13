@@ -134,6 +134,16 @@
     </OmniStack>
 </EditForm>
 
+@* Un modèle de mail : objet, corps et variables ; un bouton de variable écrit son jeton au curseur de
+   l'objet ou du corps, l'onglet Aperçu montre le mail rendu par OmniMailRenderer avec les valeurs
+   d'exemple, aux couleurs du thème, tel qu'un client de messagerie le recevra. *@
+<OmniMailTemplateEditor Id="editor-mail" @bind-Value="MailBody" @bind-Subject="MailSubject"
+                        Variables="MailVariables" Theme="MailTheme" Label="@Text["DemoEditorMailLabel"]" Rows="8"
+                        OnSendTest="SendMailTest" />
+@* « Envoyer un essai » remet le mail rendu avec les valeurs d'exemple à l'application, qui l'enverrait ; la
+   vitrine n'envoie rien et dit seulement ce qu'elle a reçu. *@
+<p id="editor-mail-test" aria-live="polite">@MailTestNotice</p>
+
 <OmniStack Gap="OmniSpacing.Medium">
     <OmniCodeBlock Code="dotnet test OmniEurope.Blazor.slnx" Title="@Text["DemoEditorTestCommand"]" Language="shell" />
     <OmniCodeViewer Code="@ViewerCode" Title="@Text["DemoEditorConfigurationSample"]" Language="json"

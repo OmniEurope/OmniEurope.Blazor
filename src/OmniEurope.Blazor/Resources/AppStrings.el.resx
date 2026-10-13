@@ -705,4 +705,13 @@
   <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Επικίνδυνη ζώνη</value></data>
   <data name="SettingsDangerActionText" xml:space="preserve"><value>Διαγραφή</value></data>
   <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Αυτή η ενέργεια δεν μπορεί να αναιρεθεί. Θέλετε να συνεχίσετε;</value></data>
+  <data name="MailTemplateEditorLabel" xml:space="preserve"><value>Πρότυπο email</value></data>
+  <data name="MailTemplateEditorSubject" xml:space="preserve"><value>Θέμα</value></data>
+  <data name="MailTemplateEditorVariables" xml:space="preserve"><value>Εισαγωγή μεταβλητής</value></data>
+  <data name="MailTemplateEditorTemplate" xml:space="preserve"><value>Πρότυπο</value></data>
+  <data name="MailTemplateEditorBody" xml:space="preserve"><value>Κείμενο μηνύματος</value></data>
+  <data name="MailTemplateEditorPreview" xml:space="preserve"><value>Προεπισκόπηση</value></data>
+  <data name="MailTemplateEditorPreviewSubject" xml:space="preserve"><value>Θέμα: {0}</value></data>
+  <data name="MailTemplateEditorVariableHint" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="MailTemplateEditorSendTest" xml:space="preserve"><value>Αποστολή δοκιμαστικού</value></data>
 </root>

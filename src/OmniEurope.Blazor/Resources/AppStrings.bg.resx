@@ -705,4 +705,13 @@
   <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Опасна зона</value></data>
   <data name="SettingsDangerActionText" xml:space="preserve"><value>Изтриване</value></data>
   <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Това действие е необратимо. Искате ли да продължите?</value></data>
+  <data name="MailTemplateEditorLabel" xml:space="preserve"><value>Шаблон на имейл</value></data>
+  <data name="MailTemplateEditorSubject" xml:space="preserve"><value>Тема</value></data>
+  <data name="MailTemplateEditorVariables" xml:space="preserve"><value>Вмъкване на променлива</value></data>
+  <data name="MailTemplateEditorTemplate" xml:space="preserve"><value>Шаблон</value></data>
+  <data name="MailTemplateEditorBody" xml:space="preserve"><value>Текст на съобщението</value></data>
+  <data name="MailTemplateEditorPreview" xml:space="preserve"><value>Преглед</value></data>
+  <data name="MailTemplateEditorPreviewSubject" xml:space="preserve"><value>Тема: {0}</value></data>
+  <data name="MailTemplateEditorVariableHint" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="MailTemplateEditorSendTest" xml:space="preserve"><value>Изпращане на пробно съобщение</value></data>
 </root>

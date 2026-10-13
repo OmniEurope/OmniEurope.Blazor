@@ -24,8 +24,8 @@ internal sealed class GridColumnChooserView<TItem>(OmniDataGrid<TItem> grid)
         var label = grid.Text("GridColumnChooser");
         builder.OpenComponent<OmniPopover>(0);
         builder.AddComponentParameter(1, nameof(OmniPopover.Class), "omni-data-grid__chooser");
-        builder.AddComponentParameter(2, nameof(OmniPopover.Size), OmniControlSize.Small);
-        builder.AddComponentParameter(3, nameof(OmniPopover.TriggerClass), "omni-data-grid__chooser-toggle");
+        builder.AddComponentParameter(2, nameof(OmniPopover.Size), grid.Classes.BarButtonSize);
+        builder.AddComponentParameter(3, nameof(OmniPopover.TriggerClass), grid.Classes.ChooserToggleClass);
         builder.AddComponentParameter(4, nameof(OmniPopover.Label), label);
         builder.AddComponentParameter(5, nameof(OmniPopover.Placement), OmniPopoverPlacement.BottomEnd);
         builder.AddComponentParameter(6, nameof(OmniPopover.TriggerContent), Icon(OmniIconName.Columns));

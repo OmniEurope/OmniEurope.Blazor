@@ -36,6 +36,8 @@
 /* What a proofreader of the host flags, underlined by named highlights: the document itself never changes. */
 ::highlight(omni-proofreading-spelling) { text-decoration: underline wavy var(--omni-color-danger); text-decoration-skip-ink: none; text-underline-offset: 0.2em; }
 ::highlight(omni-proofreading-grammar) { text-decoration: underline wavy var(--omni-color-info); text-decoration-skip-ink: none; text-underline-offset: 0.2em; }
+/* The {{name}} tokens of a mail template (OmniMailTemplateEditor), marked by omni-mail-preview.js. */
+::highlight(omni-mail-token) { background-color: var(--omni-color-accent-subtle); color: var(--omni-color-accent-strong); }
 .omni-html-editor__menu-message { color: var(--omni-color-text-muted); font-size: var(--omni-control-font); margin: 0; max-inline-size: 22rem; padding: var(--omni-space-xs) var(--omni-space-sm); }
 /* The panels of the built-in special characters and table import sit where the link field does. */
 .omni-html-editor__panel { background: var(--omni-color-surface-muted); border-block-end: var(--omni-border-width) solid var(--omni-color-border); display: grid; gap: var(--omni-space-sm); padding: var(--omni-space-sm); }
@@ -46,6 +48,16 @@
 .omni-html-editor__character { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius-sm); color: var(--omni-color-text); cursor: pointer; font: inherit; font-size: 1.125rem; min-height: 2.5rem; }
 .omni-html-editor__character:hover { background: var(--omni-color-surface-hover); }
 .omni-html-editor__character:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+/* The mail template editor: the subject, a row of variable buttons, then the tabs of the body and of the
+   preview. The preview's mail sits in a shadow root with its own look; the frame around it only bounds it
+   and lets a mail taller than the page scroll. */
+.omni-mail-template-editor { display: grid; gap: var(--omni-space-sm); min-inline-size: 0; }
+.omni-mail-template-editor__variables { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); }
+.omni-mail-template-editor__variables-label { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); margin-inline-end: var(--omni-space-xs); }
+.omni-mail-template-editor__actions { display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: flex-end; }
+.omni-mail-template-editor__preview { display: grid; gap: var(--omni-space-sm); min-inline-size: 0; }
+.omni-mail-template-editor__preview-subject { font-weight: 600; margin: 0; overflow-wrap: anywhere; }
+.omni-mail-template-editor__preview-mail { border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); max-block-size: 40rem; min-block-size: 12rem; overflow: auto; }
 /* OmniCharacterPalette: the host's characters in a wrapping row; each button follows the density and keeps a
    44 px target, across by its width and up and down through a transparent layer (::before), as the pager does. */
 .omni-character-palette { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); padding: var(--omni-space-xs) var(--omni-space-sm); }

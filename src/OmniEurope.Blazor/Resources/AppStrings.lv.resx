@@ -705,4 +705,13 @@
   <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Bīstamā zona</value></data>
   <data name="SettingsDangerActionText" xml:space="preserve"><value>Dzēst</value></data>
   <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Šo darbību nevar atsaukt. Vai vēlaties turpināt?</value></data>
+  <data name="MailTemplateEditorLabel" xml:space="preserve"><value>E-pasta veidne</value></data>
+  <data name="MailTemplateEditorSubject" xml:space="preserve"><value>Temats</value></data>
+  <data name="MailTemplateEditorVariables" xml:space="preserve"><value>Ievietot mainīgo</value></data>
+  <data name="MailTemplateEditorTemplate" xml:space="preserve"><value>Veidne</value></data>
+  <data name="MailTemplateEditorBody" xml:space="preserve"><value>Ziņojuma teksts</value></data>
+  <data name="MailTemplateEditorPreview" xml:space="preserve"><value>Priekšskatījums</value></data>
+  <data name="MailTemplateEditorPreviewSubject" xml:space="preserve"><value>Temats: {0}</value></data>
+  <data name="MailTemplateEditorVariableHint" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="MailTemplateEditorSendTest" xml:space="preserve"><value>Nosūtīt testa ziņojumu</value></data>
 </root>

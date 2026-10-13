@@ -77,7 +77,7 @@ et la choisissent, Début et Fin à la première et à la dernière, les options
 </OmniMultiSelect>
 ```
 
-`OmniAutocomplete<TValue>` reçoit une fonction asynchrone annulable, applique un délai (`Debounce`, un `TimeSpan`, 250 ms par défaut) et annonce le nombre de résultats dans une région live. Une option n'est engagée dans le modèle qu'après sélection explicite. Le clavier est celui d'une liste déroulante combinée : flèches, Début et Fin parcourent les suggestions (`aria-activedescendant`, options en `li role="option"`), Entrée choisit, Échap ferme. Un échec de recherche lève `OnSearchError` avec l'exception et affiche `SearchErrorMessage` (texte localisé par défaut).
+`OmniAutocomplete<TValue>` reçoit une fonction asynchrone annulable, applique un délai (`Debounce`, un `TimeSpan`, 250 ms par défaut) et annonce le nombre de résultats dans une région live. Une option n'est engagée dans le modèle qu'après sélection explicite (sauf avec `AllowFreeText`, voir plus bas). Le clavier est celui d'une liste déroulante combinée : flèches, Début et Fin parcourent les suggestions (`aria-activedescendant`, options en `li role="option"`), Entrée choisit, Échap ferme. Un échec de recherche lève `OnSearchError` avec l'exception et affiche `SearchErrorMessage` (texte localisé par défaut).
 
 ```razor
 <OmniAutocomplete TValue="Guid"
@@ -92,6 +92,21 @@ courante : « liege » marque « Liège ». Le texte lu par un lecteur d'écran 
 
 `OptionIconTemplate` dessine, avant le texte de chaque suggestion, une icône ou un drapeau qui dit ce qu'est
 l'entrée ; il est décoratif (`aria-hidden`), le texte et son surlignage nommant toujours l'option.
+
+`AllowFreeText` (`bool`, `false`) prend le texte tapé pour valeur, pour un champ dont les suggestions aident
+sans fermer le choix (une liste connue plus tout nom qu'elle ignore). Le texte est pris à la sortie du
+champ, et à Entrée quand aucune suggestion n'est en surbrillance ; une suggestion en surbrillance reste
+choisie par Entrée, et une suggestion dont le texte est celui tapé, casse ignorée, donne sa propre valeur.
+Un champ vidé (ou laissé en espaces) donne la valeur par défaut ; un texte inchangé ne relève rien.
+`ParseFreeText` (`Func<string, TValue>?`) convertit le texte, obligatoire sauf pour `string` (sinon
+`InvalidOperationException` au rendu) ; une `FormatException`, `OverflowException` ou `ArgumentException`
+qu'il lève laisse la valeur inchangée et marque le champ invalide dans son formulaire, avec le message
+localisé de valeur invalide.
+
+```razor
+<OmniAutocomplete TValue="string" @bind-Value="modele" Search="ChercherModelesAsync"
+                  MinimumLength="0" ShowToggle="true" AllowFreeText="true" />
+```
 
 ## Menus : profil et contextuel
 

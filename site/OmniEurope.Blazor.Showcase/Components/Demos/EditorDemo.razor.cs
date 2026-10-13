@@ -99,6 +99,21 @@ public partial class EditorDemo
 
     private string Body { get; set; } = string.Empty;
 
+    /// <summary>The body and subject of the mail template; the variables it offers, with the sample values of the preview.</summary>
+    private string? MailBody { get; set; }
+
+    private string? MailSubject { get; set; }
+
+    private IReadOnlyList<OmniMailVariable> MailVariables { get; set; } = [];
+
+    private string? MailTestNotice { get; set; }
+
+    /// <summary>Stands in for the application's mail sender: says which mail it received.</summary>
+    private void SendMailTest(OmniMailRenderResult mail) => MailTestNotice = Text["DemoEditorMailTestSent", mail.Subject];
+
+    /// <summary>The preview wears the light half of the default theme and palette, as the mail would be sent.</summary>
+    private static readonly OmniMailTheme MailTheme = OmniMailTheme.From(OmniThemePresets.All[0]);
+
     private List<string> Uploaded { get; } = [];
 
     /// <summary>
@@ -170,6 +185,16 @@ public partial class EditorDemo
             + $"<p>{Encoded("DemoEditorProofreadingSample")}</p>";
 
         Accented = $"<p>{Encoded("DemoEditorPaletteSample")}</p>";
+
+        MailBody = Text["DemoEditorMailBody"];
+        MailSubject = Text["DemoEditorMailSubject"];
+        MailVariables =
+        [
+            new("client", Text["DemoEditorMailClient"]) { SampleValue = "Anne Martin" },
+            new("file", Text["DemoEditorMailFile"]) { SampleValue = "D-2026-0142" },
+            new("due", Text["DemoEditorMailDue"]) { SampleValue = new DateOnly(2026, 11, 30).ToString("d", CultureInfo.CurrentCulture) },
+            new("link", Text["DemoEditorMailLink"]) { SampleValue = "https://exemple.eu/dossiers/D-2026-0142" },
+        ];
 
         Report =
             $"<h1>{Encoded("DemoEditorReportLabel")}</h1>" +

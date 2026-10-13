@@ -313,8 +313,9 @@ public sealed class PreferencesTests : OmniBunitContext
         Assert.Equal(["omni:pref:u-7f3a:"], _browser.WatchedPrefixes);
     }
 
+    // The empty scope is OmniPreferences.NoUserScope, no signed-in user (PreferenceUserTests); spaces alone stay refused.
     [Theory]
-    [InlineData("")]
+    [InlineData("   ")]
     [InlineData("a:b")]
     public async Task AScopeThatIsBlankOrHoldsAColon_IsRefused(string scope)
     {

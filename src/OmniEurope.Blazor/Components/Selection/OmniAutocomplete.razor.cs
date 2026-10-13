@@ -21,6 +21,8 @@ public partial class OmniAutocomplete<TValue>
     private bool _hasShownValue;
     private int _activeIndex = -1;
     private bool _closed;
+    // The text that stands for the current value: a free text equal to it is not taken again.
+    private string _committedText = string.Empty;
     private ElementReference _input;
 
     /// <summary>
@@ -103,6 +105,26 @@ public partial class OmniAutocomplete<TValue>
     [Parameter]
     public bool ShowToggle { get; set; }
 
+    /// <summary>
+    /// Takes the text typed as the value, for a field whose suggestions are a help rather than the only
+    /// choices (a known list plus any name the list lacks). The text is taken when the field is left, and
+    /// on Enter while no suggestion is highlighted; a highlighted suggestion is still picked by Enter, and a
+    /// suggestion whose text is the one typed, ignoring case, gives its own value. A field emptied (or left
+    /// with spaces only) gives the default value. False by default: only a suggestion sets the value.
+    /// </summary>
+    [Parameter]
+    public bool AllowFreeText { get; set; }
+
+    /// <summary>
+    /// Turns the text typed into the value when <see cref="AllowFreeText"/> takes it; required unless
+    /// <typeparamref name="TValue"/> is <see cref="string"/>, where the text itself is the value. A
+    /// <see cref="FormatException"/>, <see cref="OverflowException"/> or <see cref="ArgumentException"/> it
+    /// throws leaves the value unchanged and marks the field invalid in its form, with the localized
+    /// "invalid value" message.
+    /// </summary>
+    [Parameter]
+    public Func<string, TValue>? ParseFreeText { get; set; }
+
     private string BaseId => Id ?? FieldIdentifier.FieldName;
     private string ResultsId => $"{BaseId}-results";
     private string ErrorId => $"{BaseId}-error";
@@ -146,6 +168,11 @@ public partial class OmniAutocomplete<TValue>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+        if (AllowFreeText && ParseFreeText is null && typeof(TValue) != typeof(string))
+        {
+            throw new InvalidOperationException(
+                $"{nameof(OmniAutocomplete<TValue>)} with {nameof(AllowFreeText)} needs {nameof(ParseFreeText)} to turn the text into a {typeof(TValue).Name}.");
+        }
 
         // Only a value the parent replaced rewrites the text: what the user types leaves the value as
         // it is, and a choice made here is already shown with its option's text.
@@ -166,6 +193,7 @@ public partial class OmniAutocomplete<TValue>
             _searchText = string.Empty;
         }
 
+        _committedText = _searchText;
         if (replaced)
         {
             // The suggestions and any search still on its way were for the former text.
@@ -269,6 +297,10 @@ public partial class OmniAutocomplete<TValue>
             case "Enter" when IsOpen && _activeIndex >= 0:
                 Select(_results[_activeIndex]);
                 break;
+            case "Enter" when AllowFreeText:
+                Close();
+                CommitFreeText();
+                break;
             case "Escape" when IsOpen:
                 Close();
                 break;
@@ -329,6 +361,40 @@ public partial class OmniAutocomplete<TValue>
         _activeIndex = -1;
     }
 
+    private void HandleBlur()
+    {
+        Close();
+        if (AllowFreeText)
+        {
+            CommitFreeText();
+        }
+    }
+
+    /// <summary>
+    /// Takes the text in the field as the value (<see cref="AllowFreeText"/>): the listed suggestion of the
+    /// same text when there is one, else the text through <see cref="ParseFreeText"/>, the form's parsing
+    /// path, so a text it refuses is reported as an invalid value. The text that already stands for the
+    /// value is not taken again.
+    /// </summary>
+    private void CommitFreeText()
+    {
+        if (Disabled || IsReadOnly || string.Equals(_searchText, _committedText, StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        var text = _searchText.Trim();
+        var match = _results.FirstOrDefault(option => !option.Disabled && string.Equals(option.Text, text, StringComparison.CurrentCultureIgnoreCase));
+        if (match is not null)
+        {
+            Select(match);
+            return;
+        }
+
+        _committedText = _searchText;
+        CurrentValueAsString = text;
+    }
+
     private void Select(OmniOption<TValue> option)
     {
         if (option.Disabled || Disabled)
@@ -340,21 +406,46 @@ public partial class OmniAutocomplete<TValue>
         _hasShownValue = true;
         CurrentValue = option.Value;
         _searchText = option.Text;
+        _committedText = option.Text;
         _results = Array.Empty<OmniOption<TValue>>();
         _activeIndex = -1;
         _announcement = Localize("AutocompleteSelected", option.Text);
     }
 
-    /// <summary>Never parses: the value is set by choosing a suggestion, never from the typed text.</summary>
-    /// <param name="value">The text, ignored.</param>
-    /// <param name="result">Always the default value.</param>
-    /// <param name="validationErrorMessage">The localized "invalid value" message.</param>
-    /// <returns>Always false.</returns>
+    /// <summary>
+    /// Parses the text typed only with <see cref="AllowFreeText"/>: an empty text gives the default value, a
+    /// <see cref="string"/> value is the text itself, any other goes through <see cref="ParseFreeText"/>.
+    /// Without it, the value is set by choosing a suggestion, never from the typed text.
+    /// </summary>
+    /// <param name="value">The text typed.</param>
+    /// <param name="result">The value the text stands for, the default value when it is refused.</param>
+    /// <param name="validationErrorMessage">The localized "invalid value" message when the text is refused.</param>
+    /// <returns>Whether the text gave a value.</returns>
     protected override bool TryParseValueFromString(string? value, out TValue result, out string validationErrorMessage)
     {
         result = default!;
         validationErrorMessage = Localize("AutocompleteInvalid");
-        return false;
+        if (!AllowFreeText)
+        {
+            return false;
+        }
+
+        try
+        {
+            result = string.IsNullOrWhiteSpace(value) ? default!
+                : ParseFreeText is not null ? ParseFreeText(value)
+                : (TValue)(object)value;
+        }
+        catch (Exception exception) when (exception is FormatException or OverflowException or ArgumentException)
+        {
+            return false;
+        }
+
+        // The text stays as typed: the parent's echo of the new value must not rewrite it.
+        _shownValue = result;
+        _hasShownValue = true;
+        validationErrorMessage = string.Empty;
+        return true;
     }
 
     /// <summary>Cancels a pending search and releases the form subscription.</summary>

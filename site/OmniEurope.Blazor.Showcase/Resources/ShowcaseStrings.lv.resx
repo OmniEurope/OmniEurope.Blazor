@@ -1568,4 +1568,15 @@
   <data name="SettingsTransferProject" xml:space="preserve"><value>Nodot projektu</value></data>
   <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Tikai projekta īpašniekam.</value></data>
   <data name="SettingsTransferAction" xml:space="preserve"><value>Nodot</value></data>
+  <data name="DemoInputsModel" xml:space="preserve"><value>Modelis</value></data>
+  <data name="DemoInputsModelHelp" xml:space="preserve"><value>Izvēlieties no saraksta vai ierakstiet nosaukumu, kura tajā nav.</value></data>
+  <data name="DemoInputsModelValue" xml:space="preserve"><value>Vērtība: {0}</value></data>
+  <data name="DemoEditorMailLabel" xml:space="preserve"><value>Atgādinājuma e-pasta veidne</value></data>
+  <data name="DemoEditorMailClient" xml:space="preserve"><value>Klienta vārds</value></data>
+  <data name="DemoEditorMailFile" xml:space="preserve"><value>Lietas numurs</value></data>
+  <data name="DemoEditorMailDue" xml:space="preserve"><value>Termiņš</value></data>
+  <data name="DemoEditorMailLink" xml:space="preserve"><value>Saite uz lietu</value></data>
+  <data name="DemoEditorMailSubject" xml:space="preserve"><value>Atgādinājums par lietu {{file}}</value></data>
+  <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Atgādinājums&lt;/h2&gt;&lt;p&gt;Labdien, {{client}}!&lt;/p&gt;&lt;p&gt;Lieta {{file}} gaida jūsu atbildi līdz {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Atvērt lietu&lt;/a&gt;&lt;/p&gt;</value></data>
+  <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Tests nodots lietotnei, temats “{0}”.</value></data>
 </root>

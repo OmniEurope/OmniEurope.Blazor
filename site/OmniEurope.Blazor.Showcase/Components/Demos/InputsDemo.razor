@@ -82,5 +82,17 @@
                                   HighlightMatches="true" />
             </ChildContent>
         </OmniFormField>
+
+        @* Saisie libre (AllowFreeText) : une suggestion se choisit comme ci-dessus, et un nom absent de la
+           liste devient la valeur quand on quitte le champ ou qu'on appuie sur Entrée sans suggestion en
+           surbrillance. *@
+        <OmniFormField For="inputs-model" Description="@Text["DemoInputsModelHelp"]">
+            <LabelContent>@Text["DemoInputsModel"]</LabelContent>
+            <ChildContent>
+                <OmniAutocomplete TValue="string" Id="inputs-model" @bind-Value="Model.Model"
+                                  Search="SearchModelsAsync" MinimumLength="0" ShowToggle="true" AllowFreeText="true" />
+            </ChildContent>
+        </OmniFormField>
+        <p id="inputs-model-value" aria-live="polite">@Text["DemoInputsModelValue", Model.Model ?? "-"]</p>
     </OmniStack>
 </EditForm>

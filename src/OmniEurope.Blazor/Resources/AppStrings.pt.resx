@@ -705,4 +705,13 @@
   <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Zona de perigo</value></data>
   <data name="SettingsDangerActionText" xml:space="preserve"><value>Eliminar</value></data>
   <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Esta ação não pode ser anulada. Pretende continuar?</value></data>
+  <data name="MailTemplateEditorLabel" xml:space="preserve"><value>Modelo de e-mail</value></data>
+  <data name="MailTemplateEditorSubject" xml:space="preserve"><value>Assunto</value></data>
+  <data name="MailTemplateEditorVariables" xml:space="preserve"><value>Inserir uma variável</value></data>
+  <data name="MailTemplateEditorTemplate" xml:space="preserve"><value>Modelo</value></data>
+  <data name="MailTemplateEditorBody" xml:space="preserve"><value>Corpo da mensagem</value></data>
+  <data name="MailTemplateEditorPreview" xml:space="preserve"><value>Pré-visualização</value></data>
+  <data name="MailTemplateEditorPreviewSubject" xml:space="preserve"><value>Assunto: {0}</value></data>
+  <data name="MailTemplateEditorVariableHint" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="MailTemplateEditorSendTest" xml:space="preserve"><value>Enviar um teste</value></data>
 </root>

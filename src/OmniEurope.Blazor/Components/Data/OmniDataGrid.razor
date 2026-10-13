@@ -95,7 +95,7 @@
     RenderFragment exportGroup = @<div class="omni-data-grid__export" role="group" aria-label="@Localize("GridExportBar")">
         @foreach (var format in Export.Formats)
         {
-            <OmniButton Variant="@Export.VariantOf(format)" Size="OmniControlSize.Small" Class="omni-data-grid__export-button"
+            <OmniButton Variant="@Export.VariantOf(format)" Size="@Classes.BarButtonSize" Class="@Classes.ExportButtonClass"
                         Label="@Export.ButtonLabel(format)" title="@Export.ButtonLabel(format)"
                         Busy="@(Export.Running == format)" Disabled="@(Export.NothingToExport || (Export.Running is not null && Export.Running != format))"
                         OnClick="@(() => Export.RunAsync(format))">
@@ -108,7 +108,7 @@
         }
         @if (Export.Running is not null)
         {
-            <OmniButton Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small" Class="omni-data-grid__export-button omni-data-grid__export-cancel"
+            <OmniButton Variant="OmniButtonVariant.Ghost" Size="@Classes.BarButtonSize" Class="@($"{Classes.ExportButtonClass} omni-data-grid__export-cancel")"
                         Label="@Localize("Cancel")" title="@Localize("Cancel")" OnClick="Export.Cancel">
                 <OmniIcon Name="OmniIconName.Close" />
                 @if (ShowExportButtonText)

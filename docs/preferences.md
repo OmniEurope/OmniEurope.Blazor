@@ -143,6 +143,27 @@ empreinte SHA-256 de l'identifiant de l'utilisateur. Elle ne doit être ni blanc
 deux-points (sinon `InvalidOperationException`), et le même utilisateur doit toujours recevoir la même
 valeur.
 
+Tant qu'aucun utilisateur n'est connecté, le magasin rend `OmniPreferences.NoUserScope` (la chaîne vide) : les
+préférences se lisent à leurs valeurs par défaut, sans avertissement, et le magasin n'est appelé pour rien
+d'autre ; une valeur écrite entre-temps reste dans la mémoire du circuit, ni dans le navigateur ni en base. La
+portée est redemandée à la lecture ou à l'écriture suivante.
+
+### Changement d'utilisateur sans recharger la page
+
+Après une connexion, une déconnexion ou un changement de compte, l'hôte appelle
+`OmniPreferences.ResetUserAsync()`. La portée est redemandée au magasin, le cache du navigateur de l'ancien
+utilisateur est laissé tel quel (il est cloisonné par utilisateur), les valeurs écrites sans utilisateur sont
+abandonnées, puis chaque préférence lue ou écrite dans le circuit est relue pour le nouvel utilisateur et
+levée par `Changed` avec l'origine `OmniPreferenceChangeOrigin.UserChanged` (valeur nulle quand il n'en a
+pas). `OmniAppearanceState`, les grilles à `StateKey` et tout écouteur de l'hôte qui traite les origines autres
+que `Local` affichent alors les préférences du nouvel utilisateur, ou leurs valeurs par défaut. Une
+synchronisation ou une écriture en cours se termine d'abord, pour l'ancien utilisateur.
+
+```csharp
+// Dans le gestionnaire de l'état d'authentification de l'hôte.
+authentication.AuthenticationStateChanged += async _ => await preferences.ResetUserAsync();
+```
+
 ### Table conseillée
 
 | Colonne | Type | Rôle |

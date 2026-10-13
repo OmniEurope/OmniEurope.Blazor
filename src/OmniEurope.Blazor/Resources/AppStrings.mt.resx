@@ -705,4 +705,13 @@
   <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Żona ta' periklu</value></data>
   <data name="SettingsDangerActionText" xml:space="preserve"><value>Ħassar</value></data>
   <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Din l-azzjoni ma tistax titreġġa' lura. Trid tkompli?</value></data>
+  <data name="MailTemplateEditorLabel" xml:space="preserve"><value>Mudell tal-email</value></data>
+  <data name="MailTemplateEditorSubject" xml:space="preserve"><value>Suġġett</value></data>
+  <data name="MailTemplateEditorVariables" xml:space="preserve"><value>Daħħal varjabbli</value></data>
+  <data name="MailTemplateEditorTemplate" xml:space="preserve"><value>Mudell</value></data>
+  <data name="MailTemplateEditorBody" xml:space="preserve"><value>Korp tal-messaġġ</value></data>
+  <data name="MailTemplateEditorPreview" xml:space="preserve"><value>Dehra minn qabel</value></data>
+  <data name="MailTemplateEditorPreviewSubject" xml:space="preserve"><value>Suġġett: {0}</value></data>
+  <data name="MailTemplateEditorVariableHint" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="MailTemplateEditorSendTest" xml:space="preserve"><value>Ibgħat prova</value></data>
 </root>

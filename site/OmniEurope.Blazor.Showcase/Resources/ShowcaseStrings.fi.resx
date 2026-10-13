@@ -1568,4 +1568,15 @@
   <data name="SettingsTransferProject" xml:space="preserve"><value>Siirrä projekti</value></data>
   <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Vain projektin omistajalle.</value></data>
   <data name="SettingsTransferAction" xml:space="preserve"><value>Siirrä</value></data>
+  <data name="DemoInputsModel" xml:space="preserve"><value>Malli</value></data>
+  <data name="DemoInputsModelHelp" xml:space="preserve"><value>Valitse luettelosta tai kirjoita nimi, jota siinä ei ole.</value></data>
+  <data name="DemoInputsModelValue" xml:space="preserve"><value>Arvo: {0}</value></data>
+  <data name="DemoEditorMailLabel" xml:space="preserve"><value>Muistutusviestin malli</value></data>
+  <data name="DemoEditorMailClient" xml:space="preserve"><value>Asiakkaan nimi</value></data>
+  <data name="DemoEditorMailFile" xml:space="preserve"><value>Asianumero</value></data>
+  <data name="DemoEditorMailDue" xml:space="preserve"><value>Eräpäivä</value></data>
+  <data name="DemoEditorMailLink" xml:space="preserve"><value>Asian linkki</value></data>
+  <data name="DemoEditorMailSubject" xml:space="preserve"><value>Muistutus asiasta {{file}}</value></data>
+  <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Muistutus&lt;/h2&gt;&lt;p&gt;Hei {{client}},&lt;/p&gt;&lt;p&gt;Asia {{file}} odottaa vastaustasi ennen {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Avaa asia&lt;/a&gt;&lt;/p&gt;</value></data>
+  <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Testi annettu sovellukselle, aihe ”{0}”.</value></data>
 </root>

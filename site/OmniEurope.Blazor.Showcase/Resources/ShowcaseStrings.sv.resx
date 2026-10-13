@@ -1568,4 +1568,15 @@
   <data name="SettingsTransferProject" xml:space="preserve"><value>Överlåt projektet</value></data>
   <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Förbehållet projektets ägare.</value></data>
   <data name="SettingsTransferAction" xml:space="preserve"><value>Överlåt</value></data>
+  <data name="DemoInputsModel" xml:space="preserve"><value>Modell</value></data>
+  <data name="DemoInputsModelHelp" xml:space="preserve"><value>Välj i listan eller skriv ett namn som saknas.</value></data>
+  <data name="DemoInputsModelValue" xml:space="preserve"><value>Värde: {0}</value></data>
+  <data name="DemoEditorMailLabel" xml:space="preserve"><value>Mall för påminnelsemejl</value></data>
+  <data name="DemoEditorMailClient" xml:space="preserve"><value>Kundens namn</value></data>
+  <data name="DemoEditorMailFile" xml:space="preserve"><value>Ärendenummer</value></data>
+  <data name="DemoEditorMailDue" xml:space="preserve"><value>Förfallodatum</value></data>
+  <data name="DemoEditorMailLink" xml:space="preserve"><value>Länk till ärendet</value></data>
+  <data name="DemoEditorMailSubject" xml:space="preserve"><value>Påminnelse om ärende {{file}}</value></data>
+  <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Påminnelse&lt;/h2&gt;&lt;p&gt;Hej {{client}},&lt;/p&gt;&lt;p&gt;Ärende {{file}} väntar på ditt svar före {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Öppna ärendet&lt;/a&gt;&lt;/p&gt;</value></data>
+  <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Testet lämnat till programmet, ämne ”{0}”.</value></data>
 </root>

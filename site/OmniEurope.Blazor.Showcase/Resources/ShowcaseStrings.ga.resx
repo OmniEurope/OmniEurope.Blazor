@@ -1568,4 +1568,15 @@
   <data name="SettingsTransferProject" xml:space="preserve"><value>Aistrigh an tionscadal</value></data>
   <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Úinéir an tionscadail amháin.</value></data>
   <data name="SettingsTransferAction" xml:space="preserve"><value>Aistrigh</value></data>
+  <data name="DemoInputsModel" xml:space="preserve"><value>Samhail</value></data>
+  <data name="DemoInputsModelHelp" xml:space="preserve"><value>Roghnaigh ón liosta nó clóscríobh ainm nach bhfuil air.</value></data>
+  <data name="DemoInputsModelValue" xml:space="preserve"><value>Luach: {0}</value></data>
+  <data name="DemoEditorMailLabel" xml:space="preserve"><value>Teimpléad ríomhphoist meabhrúcháin</value></data>
+  <data name="DemoEditorMailClient" xml:space="preserve"><value>Ainm an chliaint</value></data>
+  <data name="DemoEditorMailFile" xml:space="preserve"><value>Uimhir an chomhaid</value></data>
+  <data name="DemoEditorMailDue" xml:space="preserve"><value>Dáta dlite</value></data>
+  <data name="DemoEditorMailLink" xml:space="preserve"><value>Nasc chuig an gcomhad</value></data>
+  <data name="DemoEditorMailSubject" xml:space="preserve"><value>Meabhrúchán don chomhad {{file}}</value></data>
+  <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Meabhrúchán&lt;/h2&gt;&lt;p&gt;A {{client}}, a chara,&lt;/p&gt;&lt;p&gt;Tá an comhad {{file}} ag fanacht ar do fhreagra roimh {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Oscail an comhad&lt;/a&gt;&lt;/p&gt;</value></data>
+  <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Tástáil tugtha don fheidhmchlár, ábhar “{0}”.</value></data>
 </root>

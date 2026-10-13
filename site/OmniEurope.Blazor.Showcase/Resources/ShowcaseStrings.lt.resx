@@ -1568,4 +1568,15 @@
   <data name="SettingsTransferProject" xml:space="preserve"><value>Perduoti projektą</value></data>
   <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Tik projekto savininkui.</value></data>
   <data name="SettingsTransferAction" xml:space="preserve"><value>Perduoti</value></data>
+  <data name="DemoInputsModel" xml:space="preserve"><value>Modelis</value></data>
+  <data name="DemoInputsModelHelp" xml:space="preserve"><value>Pasirinkite iš sąrašo arba įveskite jame nesantį pavadinimą.</value></data>
+  <data name="DemoInputsModelValue" xml:space="preserve"><value>Reikšmė: {0}</value></data>
+  <data name="DemoEditorMailLabel" xml:space="preserve"><value>Priminimo laiško šablonas</value></data>
+  <data name="DemoEditorMailClient" xml:space="preserve"><value>Kliento vardas</value></data>
+  <data name="DemoEditorMailFile" xml:space="preserve"><value>Bylos numeris</value></data>
+  <data name="DemoEditorMailDue" xml:space="preserve"><value>Terminas</value></data>
+  <data name="DemoEditorMailLink" xml:space="preserve"><value>Bylos nuoroda</value></data>
+  <data name="DemoEditorMailSubject" xml:space="preserve"><value>Priminimas dėl bylos {{file}}</value></data>
+  <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Priminimas&lt;/h2&gt;&lt;p&gt;Sveiki, {{client}},&lt;/p&gt;&lt;p&gt;byla {{file}} laukia jūsų atsakymo iki {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Atverti bylą&lt;/a&gt;&lt;/p&gt;</value></data>
+  <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Bandymas perduotas programai, tema „{0}“.</value></data>
 </root>

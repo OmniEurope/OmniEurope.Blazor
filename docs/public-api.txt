@@ -72,6 +72,7 @@ component OmniEurope.Blazor.Components.OmniLoadingBar
 component OmniEurope.Blazor.Components.OmniLogViewer
 component OmniEurope.Blazor.Components.OmniLoginShell
 component OmniEurope.Blazor.Components.OmniLogoLoader
+component OmniEurope.Blazor.Components.OmniMailTemplateEditor
 component OmniEurope.Blazor.Components.OmniMain
 component OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>
 component OmniEurope.Blazor.Components.OmniMarkers
@@ -265,6 +266,11 @@ ctor public OmniEurope.Blazor.Components.OmniLogLine(System.String Text, OmniEur
 ctor public OmniEurope.Blazor.Components.OmniLogViewer()
 ctor public OmniEurope.Blazor.Components.OmniLoginShell()
 ctor public OmniEurope.Blazor.Components.OmniLogoLoader()
+ctor public OmniEurope.Blazor.Components.OmniMailRenderOptions()
+ctor public OmniEurope.Blazor.Components.OmniMailRenderResult(System.String Html, System.String Text, System.String Subject, System.Collections.Generic.IReadOnlyList<System.String> MissingVariables)
+ctor public OmniEurope.Blazor.Components.OmniMailTemplateEditor()
+ctor public OmniEurope.Blazor.Components.OmniMailTheme()
+ctor public OmniEurope.Blazor.Components.OmniMailVariable(System.String Name, System.String Label)
 ctor public OmniEurope.Blazor.Components.OmniMain()
 ctor public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>()
 ctor public OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>(System.String Title, System.Func<TItem,System.String?> Value)
@@ -877,6 +883,8 @@ field public static OmniEurope.Blazor.Components.OmniPopoverPlacement.BottomStar
 field public static OmniEurope.Blazor.Components.OmniPreferenceChangeOrigin.Local : OmniEurope.Blazor.Components.OmniPreferenceChangeOrigin const = 0
 field public static OmniEurope.Blazor.Components.OmniPreferenceChangeOrigin.OtherTab : OmniEurope.Blazor.Components.OmniPreferenceChangeOrigin const = 2
 field public static OmniEurope.Blazor.Components.OmniPreferenceChangeOrigin.Store : OmniEurope.Blazor.Components.OmniPreferenceChangeOrigin const = 1
+field public static OmniEurope.Blazor.Components.OmniPreferenceChangeOrigin.UserChanged : OmniEurope.Blazor.Components.OmniPreferenceChangeOrigin const = 3
+field public static OmniEurope.Blazor.Components.OmniPreferences.NoUserScope : System.String const = ""
 field public static OmniEurope.Blazor.Components.OmniPresetRegistry.None : System.String const = "none"
 field public static OmniEurope.Blazor.Components.OmniProgressShape.Circular : OmniEurope.Blazor.Components.OmniProgressShape const = 1
 field public static OmniEurope.Blazor.Components.OmniProgressShape.Linear : OmniEurope.Blazor.Components.OmniProgressShape const = 0
@@ -1134,6 +1142,9 @@ method protected override OmniEurope.Blazor.Components.OmniLogViewer.OnAfterRend
 method protected override OmniEurope.Blazor.Components.OmniLogViewer.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniLoginShell.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniLogoLoader.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniMailTemplateEditor.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniMailTemplateEditor.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
+method protected override OmniEurope.Blazor.Components.OmniMailTemplateEditor.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMain.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMain.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniMain.OnInitializedAsync() : System.Threading.Tasks.Task
@@ -1501,6 +1512,17 @@ method public OmniEurope.Blazor.Components.OmniLogLine.Equals(OmniEurope.Blazor.
 method public OmniEurope.Blazor.Components.OmniLogViewer.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniLogViewer.JumpToLatestAsync() : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniLogViewer.OnViewportChangedAsync(System.Double scrollTop, System.Double viewportHeight, System.Boolean atBottom, System.Boolean following) : System.Threading.Tasks.Task
+method public OmniEurope.Blazor.Components.OmniMailRenderOptions.<Clone>$() : OmniEurope.Blazor.Components.OmniMailRenderOptions
+method public OmniEurope.Blazor.Components.OmniMailRenderOptions.Equals(OmniEurope.Blazor.Components.OmniMailRenderOptions? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniMailRenderResult.<Clone>$() : OmniEurope.Blazor.Components.OmniMailRenderResult
+method public OmniEurope.Blazor.Components.OmniMailRenderResult.Deconstruct(out System.String Html, out System.String Text, out System.String Subject, out System.Collections.Generic.IReadOnlyList<System.String> MissingVariables) : System.Void
+method public OmniEurope.Blazor.Components.OmniMailRenderResult.Equals(OmniEurope.Blazor.Components.OmniMailRenderResult? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniMailTemplateEditor.DisposeAsync() : System.Threading.Tasks.ValueTask
+method public OmniEurope.Blazor.Components.OmniMailTheme.<Clone>$() : OmniEurope.Blazor.Components.OmniMailTheme
+method public OmniEurope.Blazor.Components.OmniMailTheme.Equals(OmniEurope.Blazor.Components.OmniMailTheme? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniMailVariable.<Clone>$() : OmniEurope.Blazor.Components.OmniMailVariable
+method public OmniEurope.Blazor.Components.OmniMailVariable.Deconstruct(out System.String Name, out System.String Label) : System.Void
+method public OmniEurope.Blazor.Components.OmniMailVariable.Equals(OmniEurope.Blazor.Components.OmniMailVariable? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniMain.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>.<Clone>$() : OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>
@@ -1575,6 +1597,7 @@ method public OmniEurope.Blazor.Components.OmniPreferenceChangedEventArgs.Equals
 method public OmniEurope.Blazor.Components.OmniPreferences.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniPreferences.GetAsync<T>(System.String key, System.Threading.CancellationToken cancellationToken = null) : System.Threading.Tasks.Task<T?>
 method public OmniEurope.Blazor.Components.OmniPreferences.RemoveAsync(System.String key, System.Threading.CancellationToken cancellationToken = null) : System.Threading.Tasks.Task
+method public OmniEurope.Blazor.Components.OmniPreferences.ResetUserAsync(System.Threading.CancellationToken cancellationToken = null) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniPreferences.SetAsync<T>(System.String key, T value, System.Threading.CancellationToken cancellationToken = null) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniPreferences.SyncAsync(System.Threading.CancellationToken cancellationToken = null) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniPresetRegistry.Add(System.Type componentType, System.String name, System.Collections.Generic.IReadOnlyDictionary<System.String,System.Object?> values, System.Boolean isDefault = false) : System.Void
@@ -1826,6 +1849,18 @@ method public override OmniEurope.Blazor.Components.OmniKanbanMove<TItem>.ToStri
 method public override OmniEurope.Blazor.Components.OmniLogLine.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniLogLine.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniLogLine.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniMailRenderOptions.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniMailRenderOptions.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniMailRenderOptions.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniMailRenderResult.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniMailRenderResult.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniMailRenderResult.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniMailTheme.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniMailTheme.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniMailTheme.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniMailVariable.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniMailVariable.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniMailVariable.ToString() : System.String
 method public override OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>.ToString() : System.String
@@ -2033,6 +2068,19 @@ method public static OmniEurope.Blazor.Components.OmniKanbanMove<TItem>.op_Equal
 method public static OmniEurope.Blazor.Components.OmniKanbanMove<TItem>.op_Inequality(OmniEurope.Blazor.Components.OmniKanbanMove<TItem>? left, OmniEurope.Blazor.Components.OmniKanbanMove<TItem>? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniLogLine.op_Equality(OmniEurope.Blazor.Components.OmniLogLine? left, OmniEurope.Blazor.Components.OmniLogLine? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniLogLine.op_Inequality(OmniEurope.Blazor.Components.OmniLogLine? left, OmniEurope.Blazor.Components.OmniLogLine? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMailRenderOptions.op_Equality(OmniEurope.Blazor.Components.OmniMailRenderOptions? left, OmniEurope.Blazor.Components.OmniMailRenderOptions? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMailRenderOptions.op_Inequality(OmniEurope.Blazor.Components.OmniMailRenderOptions? left, OmniEurope.Blazor.Components.OmniMailRenderOptions? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMailRenderResult.op_Equality(OmniEurope.Blazor.Components.OmniMailRenderResult? left, OmniEurope.Blazor.Components.OmniMailRenderResult? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMailRenderResult.op_Inequality(OmniEurope.Blazor.Components.OmniMailRenderResult? left, OmniEurope.Blazor.Components.OmniMailRenderResult? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMailRenderer.FindVariables(System.String? template) : System.Collections.Generic.IReadOnlyList<System.String>
+method public static OmniEurope.Blazor.Components.OmniMailRenderer.Render(System.String? template, System.Collections.Generic.IReadOnlyDictionary<System.String,System.String?>? values = null, OmniEurope.Blazor.Components.OmniMailRenderOptions? options = null) : OmniEurope.Blazor.Components.OmniMailRenderResult
+method public static OmniEurope.Blazor.Components.OmniMailTheme.From(OmniEurope.Blazor.Components.OmniThemePalette palette, OmniEurope.Blazor.Components.OmniAppearance mode = OmniEurope.Blazor.Components.OmniAppearance.Light) : OmniEurope.Blazor.Components.OmniMailTheme
+method public static OmniEurope.Blazor.Components.OmniMailTheme.From(OmniEurope.Blazor.Components.OmniThemePreset theme, OmniEurope.Blazor.Components.OmniAppearance mode = OmniEurope.Blazor.Components.OmniAppearance.Light) : OmniEurope.Blazor.Components.OmniMailTheme
+method public static OmniEurope.Blazor.Components.OmniMailTheme.FromTokens(System.Collections.Generic.IReadOnlyDictionary<System.String,System.String> tokens, System.Boolean dark = false) : OmniEurope.Blazor.Components.OmniMailTheme
+method public static OmniEurope.Blazor.Components.OmniMailTheme.op_Equality(OmniEurope.Blazor.Components.OmniMailTheme? left, OmniEurope.Blazor.Components.OmniMailTheme? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMailTheme.op_Inequality(OmniEurope.Blazor.Components.OmniMailTheme? left, OmniEurope.Blazor.Components.OmniMailTheme? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMailVariable.op_Equality(OmniEurope.Blazor.Components.OmniMailVariable? left, OmniEurope.Blazor.Components.OmniMailVariable? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMailVariable.op_Inequality(OmniEurope.Blazor.Components.OmniMailVariable? left, OmniEurope.Blazor.Components.OmniMailVariable? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>.op_Equality(OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>? left, OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>.op_Inequality(OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>? left, OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniMarkdownTableDocument.op_Equality(OmniEurope.Blazor.Components.OmniMarkdownTableDocument? left, OmniEurope.Blazor.Components.OmniMarkdownTableDocument? right) : System.Boolean
@@ -2230,6 +2278,7 @@ property public OmniEurope.Blazor.Components.OmniAreaSeries.Dashed : System.Bool
 property public OmniEurope.Blazor.Components.OmniAreaSeries.Data : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniChartPoint> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAreaSeries.Stacked : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAreaSeries.Title : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.AllowFreeText : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.Debounce : System.TimeSpan {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.Disabled : System.Boolean {get(public);set(public)} [Parameter]
@@ -2240,6 +2289,7 @@ property public OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.Label : Sy
 property public OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.MinimumLength : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.OnSearchError : Microsoft.AspNetCore.Components.EventCallback<System.Exception> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.OptionIconTemplate : Microsoft.AspNetCore.Components.RenderFragment<OmniEurope.Blazor.Components.OmniOption<TValue>>? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.ParseFreeText : System.Func<System.String,TValue>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.Placeholder : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.Search : System.Func<System.String,System.Threading.CancellationToken,System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniOption<TValue>>>>? {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.SearchErrorMessage : System.String? {get(public);set(public)} [Parameter]
@@ -2416,6 +2466,7 @@ property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.AllowGrouping :
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.AllowRowSelectOnRowClick : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.AllowSorting : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.AlwaysShowPager : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.BarButtonSize : OmniEurope.Blazor.Components.OmniControlSize? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.Busy : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.CanToggleTreeRow : System.Func<TItem,System.Boolean>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.Caption : System.String? {get(public);set(public)} [Parameter]
@@ -3004,6 +3055,47 @@ property public OmniEurope.Blazor.Components.OmniLogoLoader.AnimatedMark : Syste
 property public OmniEurope.Blazor.Components.OmniLogoLoader.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniLogoLoader.Label : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniLogoLoader.Size : OmniEurope.Blazor.Components.OmniControlSize {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMailRenderOptions.Language : System.String? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailRenderOptions.Preheader : System.String? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailRenderOptions.Subject : System.String? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailRenderOptions.Theme : OmniEurope.Blazor.Components.OmniMailTheme? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailRenderOptions.Width : System.Int32 {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailRenderResult.Html : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailRenderResult.MissingVariables : System.Collections.Generic.IReadOnlyList<System.String> {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailRenderResult.Subject : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailRenderResult.Text : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailTemplateEditor.Commands : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniHtmlEditorCommand>? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMailTemplateEditor.Disabled : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMailTemplateEditor.Label : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMailTemplateEditor.OnSendTest : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniMailRenderResult> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMailTemplateEditor.OnSendTestError : Microsoft.AspNetCore.Components.EventCallback<System.Exception> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMailTemplateEditor.ReadOnly : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMailTemplateEditor.Rows : System.Int32 {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMailTemplateEditor.ShowSubject : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMailTemplateEditor.Subject : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMailTemplateEditor.SubjectChanged : Microsoft.AspNetCore.Components.EventCallback<System.String?> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMailTemplateEditor.Theme : OmniEurope.Blazor.Components.OmniMailTheme? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMailTemplateEditor.Value : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMailTemplateEditor.ValueChanged : Microsoft.AspNetCore.Components.EventCallback<System.String?> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMailTemplateEditor.Variables : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniMailVariable>? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMailTheme.Accent : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailTheme.Border : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailTheme.CodeBackground : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailTheme.Dark : System.Boolean {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailTheme.FontFamily : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailTheme.Highlight : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailTheme.Link : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailTheme.MutedText : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailTheme.OnAccent : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailTheme.PageBackground : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailTheme.Radius : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailTheme.Surface : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailTheme.Text : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailVariable.Description : System.String? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailVariable.Label : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailVariable.Name : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailVariable.SampleValue : System.String? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailVariable.Token : System.String {get(public)}
 property public OmniEurope.Blazor.Components.OmniMain.AriaLabelledBy : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMain.AutoHideScrollbar : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMain.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
@@ -3746,6 +3838,7 @@ property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Toggl
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Underline : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Undo : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Unlink : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
+property public static OmniEurope.Blazor.Components.OmniMailTheme.Default : OmniEurope.Blazor.Components.OmniMailTheme {get(public)}
 property public static OmniEurope.Blazor.Components.OmniMindMapDocument.Empty : OmniEurope.Blazor.Components.OmniMindMapDocument {get(public)}
 property public static OmniEurope.Blazor.Components.OmniMindMapGroups.Palette : System.Collections.Generic.IReadOnlyList<System.String> {get(public)}
 property public static OmniEurope.Blazor.Components.OmniSpreadsheetValue.Empty : OmniEurope.Blazor.Components.OmniSpreadsheetValue {get(public)}
@@ -3942,6 +4035,12 @@ type public OmniEurope.Blazor.Components.OmniLogLine [class, sealed] : System.IE
 type public OmniEurope.Blazor.Components.OmniLogViewer [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniLoginShell [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniLogoLoader [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
+type public OmniEurope.Blazor.Components.OmniMailRenderOptions [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniMailRenderOptions>
+type public OmniEurope.Blazor.Components.OmniMailRenderResult [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniMailRenderResult>
+type public OmniEurope.Blazor.Components.OmniMailRenderer [static-class, static]
+type public OmniEurope.Blazor.Components.OmniMailTemplateEditor [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
+type public OmniEurope.Blazor.Components.OmniMailTheme [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniMailTheme>
+type public OmniEurope.Blazor.Components.OmniMailVariable [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniMailVariable>
 type public OmniEurope.Blazor.Components.OmniMain [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem> [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem> [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>>

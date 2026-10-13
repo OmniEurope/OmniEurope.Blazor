@@ -807,6 +807,11 @@ en donne une autre par format (le Markdown en `Primary`, par exemple).
 « Excel », « PDF »), pour une barre large où l'icône seule se lit mal ; le nom accessible et le titre
 restent « Exporter en Markdown », qui contient le texte visible (WCAG 2.5.3), et le bouton d'annulation
 affiche de même « Annuler ».
+`BarButtonSize` (`OmniControlSize?`, `null`) règle la taille des boutons des barres : boutons d'export,
+leur annulation et déclencheur du sélecteur de colonnes. Nul, ils restent compacts, plus petits qu'un bouton
+`Small` (classe `omni-data-grid__bar-button--compact`), pour une barre basse ; une taille en fait des
+`OmniButton` de cette taille, comme les autres boutons de la page (`OmniControlSize.Medium` pour la taille
+par défaut des boutons).
 
 ```razor
 <OmniDataGrid TItem="Commande" Load="ChargerAsync" KeyOf="@(c => c.Id)"

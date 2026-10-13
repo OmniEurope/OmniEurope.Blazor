@@ -3,7 +3,7 @@
 // skip link moves the focus to the main content by script, without leaving the page.
 
 export async function requestSteps(session, results) {
-  const { evaluate, waitFor, key, check, hover, mouse, pointOf, clickOn, send } = session;
+  const { evaluate, waitFor, key, check, hover, mouse, pointOf, clickOn, send, type } = session;
   const step = label => {
     if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
     results.push(label);
@@ -251,4 +251,70 @@ export async function requestSteps(session, results) {
   }
   await evaluate(`(() => { const box = ${fillBox}; box.firstElementChild.style.removeProperty('min-block-size'); box.scrollTop = 0; })()`);
   await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
+
+  // 10. Requests of a client application of 2026-10-13 (PLAN-001, lot 8). R3-7: a model typed outside the
+  // suggestions is the value once the field is left. R3-54: the export buttons of a grid given
+  // BarButtonSize are as tall as the page's buttons of that size. R1-75: a variable button writes its token
+  // at the caret of the subject, and the preview draws the rendered mail under the strict CSP, its look
+  // given through the CSSOM (any refused style would be a console error, failing the step).
+  await session.visit('/composants/saisie-avancee', '#inputs-model');
+  await evaluate("(() => { const field = document.getElementById('inputs-model'); field.scrollIntoView({ block: 'center' }); field.focus(); })()");
+  await waitFor('le champ du modèle focalisé', "document.activeElement?.id === 'inputs-model'");
+  await type('modele-maison-7b');
+  await tab();
+  await waitFor('le texte libre pris pour valeur à la sortie du champ', "document.getElementById('inputs-model-value').textContent.includes('modele-maison-7b')");
+  step('saisie libre : un modèle absent des suggestions devient la valeur quand on quitte le champ');
+
+  await session.visit('/composants/grilles-maquette', '#runs-striped .omni-data-grid__export-button');
+  const barState = await evaluate(`(() => {
+    const heights = [...document.querySelectorAll('#runs-striped .omni-data-grid__export-button')].map(button => Math.round(button.getBoundingClientRect().height));
+    const ruler = document.createElement('button');
+    ruler.className = 'omni-button omni-button--secondary omni-button--medium';
+    ruler.textContent = 'x';
+    document.querySelector('main').append(ruler);
+    const expected = Math.round(ruler.getBoundingClientRect().height);
+    ruler.remove();
+    return JSON.stringify({ heights, expected });
+  })()`);
+  const bar = JSON.parse(barState);
+  check(bar.heights.length > 0 && bar.heights.every(height => height === bar.expected), `Les boutons d'export ne suivent pas BarButtonSize : ${barState}`);
+  step(`boutons de barre de grille : ${bar.heights.length} boutons d'export à ${bar.expected} px, la hauteur d'un bouton Medium`);
+
+  await session.visit('/composants/editeur', '#editor-mail');
+  await evaluate("(() => { const field = document.querySelector('#editor-mail .omni-mail-template-editor__subject input'); field.scrollIntoView({ block: 'center' }); field.focus(); field.setSelectionRange(field.value.length, field.value.length); })()");
+  await waitFor("l'objet focalisé", "document.activeElement?.closest('.omni-mail-template-editor__subject') !== null");
+  await clickOn('#editor-mail [data-omni-variable="client"]');
+  await waitFor("le jeton écrit au curseur de l'objet", "document.querySelector('#editor-mail .omni-mail-template-editor__subject input').value.endsWith('{{client}}')");
+  await evaluate("document.querySelectorAll('#editor-mail [role=tab]')[1].setAttribute('data-probe-tab', 'preview')");
+  await clickOn('#editor-mail [data-probe-tab=preview]');
+  const previewState = `(() => {
+    const host = document.querySelector('#editor-mail [data-omni-mail-preview]');
+    const shadow = host?.shadowRoot;
+    const heading = shadow?.querySelector('h2');
+    const link = shadow?.querySelector('a');
+    return JSON.stringify({
+      drawn: !!heading,
+      headingSize: heading ? getComputedStyle(heading).fontSize : null,
+      linkUnderlined: link ? getComputedStyle(link).textDecorationLine.includes('underline') : false,
+      sample: shadow?.textContent.includes('D-2026-0142') ?? false,
+      subject: document.querySelector('#editor-mail .omni-mail-template-editor__preview-subject')?.textContent ?? ''
+    });
+  })()`;
+  await waitFor("l'aperçu du mail dessiné", `JSON.parse(${previewState}).drawn`);
+  const preview = JSON.parse(await evaluate(previewState));
+  check(preview.headingSize === '22px' && preview.linkUnderlined && preview.sample, `L'aperçu du mail n'a pas ses styles ou ses valeurs d'exemple : ${JSON.stringify(preview)}`);
+  check(preview.subject.includes('Anne Martin'), `L'objet rendu ne porte pas la variable insérée : ${JSON.stringify(preview)}`);
+  // A link of the preview leads nowhere: clicking it leaves the page being edited where it is.
+  const before = await evaluate('location.href');
+  const followed = await evaluate("(() => { const link = document.querySelector('#editor-mail [data-omni-mail-preview]').shadowRoot.querySelector('a'); const click = new MouseEvent('click', { bubbles: true, cancelable: true, composed: true }); link.dispatchEvent(click); return click.defaultPrevented; })()");
+  check(followed === true && await evaluate('location.href') === before, `Un lien de l'aperçu a été suivi : ${followed}`);
+  step("modèle de mail : variable insérée au curseur de l'objet, aperçu dessiné avec les styles du mail et les valeurs d'exemple");
+
+  // The tokens of the body are marked by the CSS Custom Highlight API, and « Send a test » hands the mail to the host.
+  const marked = await evaluate("CSS.highlights.get('omni-mail-token')?.size ?? 0");
+  const bodyTokens = await evaluate("(document.querySelector('#editor-mail .omni-html-editor__surface').textContent.match(/\{\{[^}]+\}\}/g) ?? []).length");
+  check(bodyTokens > 0 && marked === bodyTokens, `Jetons du corps non marqués : ${marked} marqués pour ${bodyTokens}`);
+  await clickOn('#editor-mail .omni-mail-template-editor__send-test');
+  await waitFor("l'essai remis à l'application", "document.getElementById('editor-mail-test').textContent.includes('Anne Martin')");
+  step(`modèle de mail : ${marked} jetons du corps marqués, essai remis à l'application`);
 }

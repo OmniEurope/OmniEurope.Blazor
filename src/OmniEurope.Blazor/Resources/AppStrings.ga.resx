@@ -705,4 +705,13 @@
   <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Crios contúirte</value></data>
   <data name="SettingsDangerActionText" xml:space="preserve"><value>Scrios</value></data>
   <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Ní féidir an gníomh seo a chealú. An bhfuil fonn ort leanúint ar aghaidh?</value></data>
+  <data name="MailTemplateEditorLabel" xml:space="preserve"><value>Teimpléad ríomhphoist</value></data>
+  <data name="MailTemplateEditorSubject" xml:space="preserve"><value>Ábhar</value></data>
+  <data name="MailTemplateEditorVariables" xml:space="preserve"><value>Cuir athróg isteach</value></data>
+  <data name="MailTemplateEditorTemplate" xml:space="preserve"><value>Teimpléad</value></data>
+  <data name="MailTemplateEditorBody" xml:space="preserve"><value>Corp na teachtaireachta</value></data>
+  <data name="MailTemplateEditorPreview" xml:space="preserve"><value>Réamhamharc</value></data>
+  <data name="MailTemplateEditorPreviewSubject" xml:space="preserve"><value>Ábhar: {0}</value></data>
+  <data name="MailTemplateEditorVariableHint" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="MailTemplateEditorSendTest" xml:space="preserve"><value>Seol tástáil</value></data>
 </root>

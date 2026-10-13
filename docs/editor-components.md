@@ -1,6 +1,6 @@
 # Éditeurs : WYSIWYG, traitement de texte et code
 
-La famille Editor couvre sept composants :
+La famille Editor couvre huit composants :
 
 | Composant | Rôle |
 | --- | --- |
@@ -11,8 +11,9 @@ La famille Editor couvre sept composants :
 | `OmniCodeBlock` | Commande, extrait ou jeton à copier ; un secret reste masqué jusqu'à ce qu'on le révèle. |
 | `OmniUnifiedDiff` | Diff unifié (`git diff`) dessiné sans Monaco, un bloc repliable par fichier. |
 | `OmniCharacterPalette` | Rangée de caractères fournis par l'hôte (lettres de la langue saisie) ; un clic rend le caractère sans retirer le focus d'un éditeur. |
+| `OmniMailTemplateEditor` | Modèle de mail : objet, corps `OmniHtmlEditor`, variables insérées au curseur, aperçu du mail rendu ; `OmniMailRenderer` rend le modèle côté serveur pour les clients de messagerie. |
 
-`OmniHtmlEditor` produit du HTML assaini ; `OmniCodeEditor` édite du texte brut ; `OmniCharacterPalette` fournit des caractères à insérer ; les quatre autres affichent sans éditer.
+`OmniHtmlEditor` produit du HTML assaini ; `OmniMailTemplateEditor` en fait un modèle de mail ; `OmniCodeEditor` édite du texte brut ; `OmniCharacterPalette` fournit des caractères à insérer ; les quatre autres affichent sans éditer.
 
 ## OmniHtmlEditor
 
@@ -363,6 +364,82 @@ lui-même.
 
 ```razor
 <OmniCharacterPalette Label="Lettres allemandes" Characters="@(["ä", "ö", "ü", "ß"])" OnSelect="Append" />
+```
+
+## OmniMailTemplateEditor et OmniMailRenderer : modèles de mails
+
+Un modèle de mail est du HTML de l'éditeur où des variables s'écrivent `{{nom}}` (une lettre, puis lettres,
+chiffres, `_`, `.` ou `-`). `OmniMailTemplateEditor` l'écrit ; `OmniMailRenderer`, une classe statique sans
+navigateur ni feuille de style, le rend côté serveur avec les vraies valeurs, au moment d'envoyer le mail.
+Le paquet n'envoie rien : `OmniMailRenderResult` va à l'expéditeur de l'application.
+
+### L'éditeur
+
+| Paramètre | Rôle |
+| --- | --- |
+| `Value`, `ValueChanged` | Le corps du modèle (`@bind-Value`), HTML assaini avec ses `{{variables}}`. |
+| `Subject`, `SubjectChanged` | L'objet du modèle (`@bind-Subject`), texte brut avec ses `{{variables}}`. |
+| `ShowSubject` | Vrai par défaut ; faux retire le champ de l'objet et l'objet rendu au-dessus de l'aperçu. |
+| `Variables` | `IReadOnlyList<OmniMailVariable>` : `Name`, `Label`, `SampleValue` (valeur de l'aperçu, le libellé entre crochets sinon), `Description` (ajoutée à l'infobulle du bouton). Un nom invalide lève `ArgumentException`. |
+| `Theme` | `OmniMailTheme` de l'aperçu, celui avec lequel le mail partira ; `OmniMailTheme.Default` sinon. |
+| `Label` | Nom des onglets ; « Modèle de mail » localisé sinon. |
+| `Commands`, `Rows` | Barre et hauteur du corps, comme `OmniHtmlEditor`. |
+| `Disabled`, `ReadOnly` | Verrouillent l'objet, le corps et les boutons de variables ; l'aperçu reste lisible. |
+| `OnSendTest` | Affiche « Envoyer un essai » : le mail rendu tel qu'il partira (attributs `style`, valeurs d'exemple, `OmniMailRenderResult`) est remis à l'hôte, qui l'envoie à qui le vérifie dans une vraie messagerie ; le paquet n'envoie rien. Le bouton reste occupé jusqu'à la fin de la tâche ; sans gestionnaire, pas de bouton. |
+| `OnSendTestError` | Reçoit l'exception d'`OnSendTest` ; sans gestionnaire, elle remonte au moteur de rendu. |
+
+- Variables : un bouton par variable (« Insérer une variable », icône `Tag`, infobulle `{{nom}}`) écrit le jeton
+  au curseur du dernier champ qui a eu le focus, l'objet ou le corps (le curseur que l'éditeur mémorise, sa fin
+  s'il n'en a jamais eu). Un clic laisse le focus où il est, si bien que le curseur ne bouge pas ; au clavier,
+  le bouton atteint par Tab écrit au curseur mémorisé. Dans la face source du corps, le jeton se tape.
+- Jetons : chaque `{{nom}}` du texte du corps est surligné (fond de la couleur d'accent atténuée) par la CSS Custom
+  Highlight API, comme les passages de la relecture : le document n'est pas modifié et la valeur reste le modèle ;
+  le surlignage suit la frappe et revient avec la face visuelle. Un navigateur sans cette API ne surligne rien.
+  L'adresse d'un lien n'est pas du texte et n'est donc pas surlignée.
+- Onglets : « Modèle » (le corps) et « Aperçu », les deux panneaux restant rendus, si bien que l'éditeur garde
+  son curseur et qu'une variable s'insère aussi depuis l'aperçu.
+- Aperçu : le mail rendu par `OmniMailRenderer` avec les valeurs d'exemple, refait seulement quand le modèle,
+  l'objet, les variables ou le thème changent, et seulement pendant que l'onglet est affiché. Il est dessiné
+  par `omni-mail-preview.js` dans une racine fantôme (la feuille de la page ne l'atteint pas), ses déclarations
+  écrites par le serveur dans `data-omni-mail-look` et rendues par le CSSOM (voir le contrat CSP) ; un lien de
+  l'aperçu ne mène nulle part.
+
+### Le rendu
+
+`OmniMailRenderer.Render(modèle, valeurs, options)` rend un `OmniMailRenderResult` : `Html` (document complet),
+`Text` (texte brut de repli, chaque lien suivi de son adresse), `Subject` (sur une ligne) et `MissingVariables`
+(les noms sans valeur, absents ou nuls, chacun une fois, dans l'ordre d'apparition, remplacés par rien).
+`FindVariables(modèle)` liste les variables d'un modèle.
+
+- Sûreté : le modèle est assaini comme la valeur de l'éditeur ; une valeur est écrite comme texte, jamais lue
+  comme balisage ; l'adresse d'un lien faite d'une variable n'est gardée que si elle est une adresse absolue
+  `http`, `https` ou `mailto`, le lien perdant son adresse sinon.
+- Mise en page : tableaux de présentation, chaque style écrit sur son élément (Gmail et Outlook ignorent les
+  feuilles de style et les classes), classes d'alignement et de taille de l'éditeur changées en déclarations,
+  carte de `Width` pixels (600 par défaut, de 320 à 1200), tenue pour Outlook par un tableau de largeur fixe
+  dans ses commentaires conditionnels. Pas de mode sombre automatique, de police web ni de requête média : peu
+  de clients les suivent, et le mail se lit pareil sans eux.
+- Options (`OmniMailRenderOptions`) : `Theme`, `Subject` et `Preheader` (texte brut avec variables ; la ligne
+  d'aperçu des listes de mails, masquée dans le mail), `Language` (`lang`, culture d'interface sinon), `Width`.
+- Thème (`OmniMailTheme`) : couleurs, police et rayon littéraux, puisqu'un client de messagerie ne résout
+  aucune variable CSS. `OmniMailTheme.From(OmniThemePreset, OmniAppearance)` et `From(OmniThemePalette,
+  OmniAppearance)` les lisent dans un thème ou une palette du paquet, `FromTokens` dans tout jeu de jetons
+  `--omni-*` ; un jeton absent ou non littéral (`var()`, `color-mix()`) garde la valeur par défaut. La police
+  est suivie d'Arial, Helvetica, sans-serif. Un thème posé à la main dont une valeur n'est pas littérale fait
+  lever `ArgumentException` au rendu.
+
+```csharp
+// Un mail aux couleurs de l'apparence de son destinataire (son OmniAppearanceState, ou ses préférences lues en base).
+var preset = apparence.Preset ?? OmniThemePresets.All[0];
+var theme = OmniMailTheme.From(apparence.Palette is { } palette ? preset.With(palette) : preset);
+var mail = OmniMailRenderer.Render(modele.Corps,
+    new Dictionary<string, string?> { ["client"] = client.Nom, ["file"] = dossier.Numero },
+    new OmniMailRenderOptions { Subject = modele.Objet, Theme = theme });
+await expediteur.EnvoyerAsync(destinataire, mail.Subject, mail.Html, mail.Text);
+```
+
+```razor
+<OmniMailTemplateEditor @bind-Value="corps" @bind-Subject="objet" Variables="variables" Theme="theme" />
 ```
 
 ## OmniCodeEditor

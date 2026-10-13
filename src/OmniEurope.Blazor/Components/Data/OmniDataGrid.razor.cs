@@ -828,6 +828,15 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public bool ShowExportButtonText { get; set; }
 
+    /// <summary>
+    /// The size of the buttons of the header and footer bars: the export buttons, their cancel button and
+    /// the column chooser. Null, the default, keeps them compact, a little smaller than a small button, so
+    /// the bars stay low; a size makes them <see cref="OmniButton"/>s of that size, like the other buttons
+    /// of the page (<see cref="OmniControlSize.Medium"/> for the default button size).
+    /// </summary>
+    [Parameter]
+    public OmniControlSize? BarButtonSize { get; set; }
+
     /// <summary>Most rows an export reads, 5000 by default; beyond it the bar says the export is truncated.</summary>
     [Parameter]
     public int ExportRowLimit { get; set; } = 5000;

@@ -1568,4 +1568,15 @@
   <data name="SettingsTransferProject" xml:space="preserve"><value>Transferir el proyecto</value></data>
   <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Reservado al propietario del proyecto.</value></data>
   <data name="SettingsTransferAction" xml:space="preserve"><value>Transferir</value></data>
+  <data name="DemoInputsModel" xml:space="preserve"><value>Modelo</value></data>
+  <data name="DemoInputsModelHelp" xml:space="preserve"><value>Elija de la lista o escriba un nombre que no figure.</value></data>
+  <data name="DemoInputsModelValue" xml:space="preserve"><value>Valor: {0}</value></data>
+  <data name="DemoEditorMailLabel" xml:space="preserve"><value>Plantilla de correo de recordatorio</value></data>
+  <data name="DemoEditorMailClient" xml:space="preserve"><value>Nombre del cliente</value></data>
+  <data name="DemoEditorMailFile" xml:space="preserve"><value>Número de expediente</value></data>
+  <data name="DemoEditorMailDue" xml:space="preserve"><value>Fecha de vencimiento</value></data>
+  <data name="DemoEditorMailLink" xml:space="preserve"><value>Enlace al expediente</value></data>
+  <data name="DemoEditorMailSubject" xml:space="preserve"><value>Recordatorio del expediente {{file}}</value></data>
+  <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Recordatorio&lt;/h2&gt;&lt;p&gt;Hola, {{client}}:&lt;/p&gt;&lt;p&gt;El expediente {{file}} espera su respuesta antes del {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Abrir el expediente&lt;/a&gt;&lt;/p&gt;</value></data>
+  <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Prueba entregada a la aplicación, asunto «{0}».</value></data>
 </root>

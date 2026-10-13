@@ -26,6 +26,21 @@ internal sealed class GridCssClasses<TItem>(OmniDataGrid<TItem> grid)
         grid.GridLines == OmniDataGridLines.Horizontal ? null : $"omni-data-grid--lines-{grid.GridLines.ToString().ToLowerInvariant()}",
         grid.Class]);
 
+    /// <summary>
+    /// The size of the bars' buttons (export, cancel, column chooser): the one the host set through
+    /// <c>BarButtonSize</c>, else small, then made more compact still by the stylesheet.
+    /// </summary>
+    internal OmniControlSize BarButtonSize => grid.BarButtonSize ?? OmniControlSize.Small;
+
+    // The compact modifier carries the stylesheet's reduction: a size the host chose is a button's own size.
+    internal string ExportButtonClass => grid.BarButtonSize is null
+        ? "omni-data-grid__export-button omni-data-grid__bar-button--compact"
+        : "omni-data-grid__export-button";
+
+    internal string ChooserToggleClass => grid.BarButtonSize is null
+        ? "omni-data-grid__chooser-toggle omni-data-grid__bar-button--compact"
+        : "omni-data-grid__chooser-toggle";
+
     internal string ViewportClass() => CssClassBuilder.Combine([
         "omni-data-grid__viewport",
         grid.View.Virtualized ? "omni-data-grid__viewport--virtual" : null,

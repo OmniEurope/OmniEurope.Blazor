@@ -705,4 +705,13 @@
   <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Ohutsoon</value></data>
   <data name="SettingsDangerActionText" xml:space="preserve"><value>Kustuta</value></data>
   <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Seda toimingut ei saa tagasi võtta. Kas soovite jätkata?</value></data>
+  <data name="MailTemplateEditorLabel" xml:space="preserve"><value>E-kirja mall</value></data>
+  <data name="MailTemplateEditorSubject" xml:space="preserve"><value>Teema</value></data>
+  <data name="MailTemplateEditorVariables" xml:space="preserve"><value>Lisa muutuja</value></data>
+  <data name="MailTemplateEditorTemplate" xml:space="preserve"><value>Mall</value></data>
+  <data name="MailTemplateEditorBody" xml:space="preserve"><value>Kirja sisu</value></data>
+  <data name="MailTemplateEditorPreview" xml:space="preserve"><value>Eelvaade</value></data>
+  <data name="MailTemplateEditorPreviewSubject" xml:space="preserve"><value>Teema: {0}</value></data>
+  <data name="MailTemplateEditorVariableHint" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="MailTemplateEditorSendTest" xml:space="preserve"><value>Saada proov</value></data>
 </root>

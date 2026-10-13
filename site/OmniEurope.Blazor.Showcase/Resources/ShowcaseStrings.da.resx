@@ -1568,4 +1568,15 @@
   <data name="SettingsTransferProject" xml:space="preserve"><value>Overdrag projektet</value></data>
   <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Forbeholdt projektets ejer.</value></data>
   <data name="SettingsTransferAction" xml:space="preserve"><value>Overdrag</value></data>
+  <data name="DemoInputsModel" xml:space="preserve"><value>Model</value></data>
+  <data name="DemoInputsModelHelp" xml:space="preserve"><value>Vælg fra listen, eller skriv et navn, der mangler.</value></data>
+  <data name="DemoInputsModelValue" xml:space="preserve"><value>Værdi: {0}</value></data>
+  <data name="DemoEditorMailLabel" xml:space="preserve"><value>Skabelon til påmindelsesmail</value></data>
+  <data name="DemoEditorMailClient" xml:space="preserve"><value>Kundens navn</value></data>
+  <data name="DemoEditorMailFile" xml:space="preserve"><value>Sagsnummer</value></data>
+  <data name="DemoEditorMailDue" xml:space="preserve"><value>Forfaldsdato</value></data>
+  <data name="DemoEditorMailLink" xml:space="preserve"><value>Link til sagen</value></data>
+  <data name="DemoEditorMailSubject" xml:space="preserve"><value>Påmindelse om sag {{file}}</value></data>
+  <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Påmindelse&lt;/h2&gt;&lt;p&gt;Kære {{client}},&lt;/p&gt;&lt;p&gt;Sag {{file}} venter på dit svar inden {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Åbn sagen&lt;/a&gt;&lt;/p&gt;</value></data>
+  <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Testen er givet til programmet, emne “{0}”.</value></data>
 </root>

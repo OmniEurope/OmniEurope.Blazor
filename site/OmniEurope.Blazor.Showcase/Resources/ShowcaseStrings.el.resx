@@ -1568,4 +1568,15 @@
   <data name="SettingsTransferProject" xml:space="preserve"><value>Μεταβίβαση του έργου</value></data>
   <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Μόνο για τον κάτοχο του έργου.</value></data>
   <data name="SettingsTransferAction" xml:space="preserve"><value>Μεταβίβαση</value></data>
+  <data name="DemoInputsModel" xml:space="preserve"><value>Μοντέλο</value></data>
+  <data name="DemoInputsModelHelp" xml:space="preserve"><value>Επιλέξτε από τη λίστα ή πληκτρολογήστε ένα όνομα που λείπει.</value></data>
+  <data name="DemoInputsModelValue" xml:space="preserve"><value>Τιμή: {0}</value></data>
+  <data name="DemoEditorMailLabel" xml:space="preserve"><value>Πρότυπο email υπενθύμισης</value></data>
+  <data name="DemoEditorMailClient" xml:space="preserve"><value>Όνομα πελάτη</value></data>
+  <data name="DemoEditorMailFile" xml:space="preserve"><value>Αριθμός φακέλου</value></data>
+  <data name="DemoEditorMailDue" xml:space="preserve"><value>Ημερομηνία λήξης</value></data>
+  <data name="DemoEditorMailLink" xml:space="preserve"><value>Σύνδεσμος φακέλου</value></data>
+  <data name="DemoEditorMailSubject" xml:space="preserve"><value>Υπενθύμιση για τον φάκελο {{file}}</value></data>
+  <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Υπενθύμιση&lt;/h2&gt;&lt;p&gt;Γεια σας {{client}},&lt;/p&gt;&lt;p&gt;Ο φάκελος {{file}} περιμένει την απάντησή σας έως τις {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Άνοιγμα φακέλου&lt;/a&gt;&lt;/p&gt;</value></data>
+  <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Η δοκιμή παραδόθηκε στην εφαρμογή, θέμα «{0}».</value></data>
 </root>

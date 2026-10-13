@@ -1568,4 +1568,15 @@
   <data name="SettingsTransferProject" xml:space="preserve"><value>Anna projekt üle</value></data>
   <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Ainult projekti omanikule.</value></data>
   <data name="SettingsTransferAction" xml:space="preserve"><value>Anna üle</value></data>
+  <data name="DemoInputsModel" xml:space="preserve"><value>Mudel</value></data>
+  <data name="DemoInputsModelHelp" xml:space="preserve"><value>Valige loendist või tippige nimi, mida seal pole.</value></data>
+  <data name="DemoInputsModelValue" xml:space="preserve"><value>Väärtus: {0}</value></data>
+  <data name="DemoEditorMailLabel" xml:space="preserve"><value>Meeldetuletuskirja mall</value></data>
+  <data name="DemoEditorMailClient" xml:space="preserve"><value>Kliendi nimi</value></data>
+  <data name="DemoEditorMailFile" xml:space="preserve"><value>Toimiku number</value></data>
+  <data name="DemoEditorMailDue" xml:space="preserve"><value>Tähtaeg</value></data>
+  <data name="DemoEditorMailLink" xml:space="preserve"><value>Toimiku link</value></data>
+  <data name="DemoEditorMailSubject" xml:space="preserve"><value>Meeldetuletus toimiku {{file}} kohta</value></data>
+  <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Meeldetuletus&lt;/h2&gt;&lt;p&gt;Tere, {{client}}!&lt;/p&gt;&lt;p&gt;Toimik {{file}} ootab teie vastust enne {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Ava toimik&lt;/a&gt;&lt;/p&gt;</value></data>
+  <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Proov anti rakendusele, teema „{0}“.</value></data>
 </root>

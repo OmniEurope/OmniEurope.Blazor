@@ -52,6 +52,10 @@ public interface IOmniPreferenceStore
     /// the same value.
     /// </summary>
     /// <param name="cancellationToken">Cancels the lookup.</param>
-    /// <returns>The opaque, non-personal scope of the signed-in user.</returns>
+    /// <returns>
+    /// The opaque, non-personal scope of the signed-in user, or <see cref="OmniPreferences.NoUserScope"/> (an empty
+    /// string) while no user is signed in: the preferences then read as their defaults, without a warning, and
+    /// the store is not called otherwise until a user signs in (see <see cref="OmniPreferences.ResetUserAsync"/>).
+    /// </returns>
     ValueTask<string> GetScopeAsync(CancellationToken cancellationToken = default);
 }

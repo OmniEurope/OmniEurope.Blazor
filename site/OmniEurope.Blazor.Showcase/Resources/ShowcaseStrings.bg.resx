@@ -1568,4 +1568,15 @@
   <data name="SettingsTransferProject" xml:space="preserve"><value>Прехвърляне на проекта</value></data>
   <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Само за собственика на проекта.</value></data>
   <data name="SettingsTransferAction" xml:space="preserve"><value>Прехвърляне</value></data>
+  <data name="DemoInputsModel" xml:space="preserve"><value>Модел</value></data>
+  <data name="DemoInputsModelHelp" xml:space="preserve"><value>Изберете от списъка или въведете име, което липсва.</value></data>
+  <data name="DemoInputsModelValue" xml:space="preserve"><value>Стойност: {0}</value></data>
+  <data name="DemoEditorMailLabel" xml:space="preserve"><value>Шаблон за напомнящ имейл</value></data>
+  <data name="DemoEditorMailClient" xml:space="preserve"><value>Име на клиента</value></data>
+  <data name="DemoEditorMailFile" xml:space="preserve"><value>Номер на преписката</value></data>
+  <data name="DemoEditorMailDue" xml:space="preserve"><value>Краен срок</value></data>
+  <data name="DemoEditorMailLink" xml:space="preserve"><value>Връзка към преписката</value></data>
+  <data name="DemoEditorMailSubject" xml:space="preserve"><value>Напомняне за преписка {{file}}</value></data>
+  <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Напомняне&lt;/h2&gt;&lt;p&gt;Здравейте, {{client}},&lt;/p&gt;&lt;p&gt;Преписка {{file}} очаква отговора ви преди {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Отваряне на преписката&lt;/a&gt;&lt;/p&gt;</value></data>
+  <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Пробата е предадена на приложението, тема „{0}“.</value></data>
 </root>

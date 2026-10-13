@@ -1568,4 +1568,15 @@
   <data name="SettingsTransferProject" xml:space="preserve"><value>Transferir o projeto</value></data>
   <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Reservado ao proprietário do projeto.</value></data>
   <data name="SettingsTransferAction" xml:space="preserve"><value>Transferir</value></data>
+  <data name="DemoInputsModel" xml:space="preserve"><value>Modelo</value></data>
+  <data name="DemoInputsModelHelp" xml:space="preserve"><value>Escolha da lista ou escreva um nome que não esteja nela.</value></data>
+  <data name="DemoInputsModelValue" xml:space="preserve"><value>Valor: {0}</value></data>
+  <data name="DemoEditorMailLabel" xml:space="preserve"><value>Modelo de e-mail de lembrete</value></data>
+  <data name="DemoEditorMailClient" xml:space="preserve"><value>Nome do cliente</value></data>
+  <data name="DemoEditorMailFile" xml:space="preserve"><value>Número do processo</value></data>
+  <data name="DemoEditorMailDue" xml:space="preserve"><value>Data-limite</value></data>
+  <data name="DemoEditorMailLink" xml:space="preserve"><value>Ligação para o processo</value></data>
+  <data name="DemoEditorMailSubject" xml:space="preserve"><value>Lembrete do processo {{file}}</value></data>
+  <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Lembrete&lt;/h2&gt;&lt;p&gt;Olá {{client}},&lt;/p&gt;&lt;p&gt;O processo {{file}} aguarda a sua resposta até {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Abrir o processo&lt;/a&gt;&lt;/p&gt;</value></data>
+  <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Teste entregue à aplicação, assunto «{0}».</value></data>
 </root>

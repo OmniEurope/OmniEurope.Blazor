@@ -27,7 +27,7 @@
            aria-describedby="@CombinedAriaDescribedBy"
            @oninput="HandleInputAsync"
            @onkeydown="HandleKeyDownAsync"
-           @onblur="Close" />
+           @onblur="HandleBlur" />
     @if (ShowToggle)
     {
         @* A pointer affordance only, out of the tab order: the keyboard opens the list with the arrows.

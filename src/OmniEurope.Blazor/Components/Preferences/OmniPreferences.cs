@@ -1,4 +1,3 @@
-using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 using OmniEurope.Blazor.Internal;
@@ -33,7 +32,14 @@ public sealed class OmniPreferences : IAsyncDisposable
 {
     internal const string LocalScope = "local";
 
-    private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
+    /// <summary>
+    /// The scope an <see cref="IOmniPreferenceStore"/> answers while no user is signed in (an empty string): the
+    /// preferences then read as <c>default</c>, so every component keeps its own defaults, and a value written
+    /// meanwhile is kept in the circuit's memory only, never in the browser cache nor in the store. Nothing is
+    /// logged. The scope is asked again at the next read or write; <see cref="ResetUserAsync"/> applies at once
+    /// the preferences of the user who signs in.
+    /// </summary>
+    public const string NoUserScope = "";
 
     private readonly IJSRuntime _javaScript;
     private readonly IOmniPreferenceStore? _store;
@@ -43,9 +49,8 @@ public sealed class OmniPreferences : IAsyncDisposable
     private readonly CancellationTokenSource _disposal = new();
     private readonly CancellationToken _stopping;
     private readonly SemaphoreSlim _syncGate = new(1, 1);
-    // One store call at a time: the store is scoped (often a DbContext), and a synchronization runs off
-    // the renderer's thread while the UI writes.
-    private readonly SemaphoreSlim _storeGate = new(1, 1);
+    // The store's calls, one at a time (null without a store).
+    private readonly PreferenceStoreAccess? _storeAccess;
     // Each read-decide-write of a cached entry runs alone, so a write made meanwhile is never lost.
     private readonly SemaphoreSlim _cacheGate = new(1, 1);
     private readonly Lock _gate = new();
@@ -54,6 +59,9 @@ public sealed class OmniPreferences : IAsyncDisposable
     // meanwhile waits for it instead of taking the empty cache for an absent preference.
     private readonly Dictionary<string, Task<string?>> _firstReads = new(StringComparer.Ordinal);
     private readonly List<Task> _background = [];
+    // Every key read or written in this circuit: announced again when the signed-in user changes.
+    private readonly HashSet<string> _known = new(StringComparer.Ordinal);
+    private readonly SignedOutPreferences _signedOut = new();
     private Task<PreferenceCache?>? _opening;
     private IJSObjectReference? _module;
     private DotNetObjectReference<PreferenceInteropBridge>? _bridge;
@@ -72,6 +80,7 @@ public sealed class OmniPreferences : IAsyncDisposable
 
         _javaScript = javaScript;
         _store = store;
+        _storeAccess = store is null ? null : new PreferenceStoreAccess(store, logger);
         _logger = logger;
         _time = time;
         _syncInterval = interval;
@@ -96,7 +105,7 @@ public sealed class OmniPreferences : IAsyncDisposable
     /// <param name="cancellationToken">Cancels the read.</param>
     /// <returns>The value, or <c>default</c> when the preference is not set, was removed, or no longer reads as <typeparamref name="T"/>.</returns>
     public async Task<T?> GetAsync<T>(string key, CancellationToken cancellationToken = default) =>
-        Deserialize<T>(await ReadAsync(key, cancellationToken));
+        PreferenceJson.Deserialize<T>(await ReadAsync(key, cancellationToken));
 
     /// <summary>
     /// Writes a preference: in the browser first, then in the store, dated by the host's
@@ -109,7 +118,7 @@ public sealed class OmniPreferences : IAsyncDisposable
     /// <param name="cancellationToken">Cancels the write.</param>
     /// <returns>A task that completes once the value is cached and the store has answered.</returns>
     public Task SetAsync<T>(string key, T value, CancellationToken cancellationToken = default) =>
-        WriteAsync(key, JsonSerializer.Serialize(value, JsonOptions), cancellationToken);
+        WriteAsync(key, PreferenceJson.Serialize(value), cancellationToken);
 
     /// <summary>
     /// Removes a preference, which then reads as <c>default</c>. The removal is kept as a dated tombstone
@@ -151,6 +160,57 @@ public sealed class OmniPreferences : IAsyncDisposable
         }
     }
 
+    /// <summary>
+    /// Takes the signed-in user anew, without reloading the page: call it after a sign-in, a sign-out or a
+    /// change of account. The browser cache of the former user is left (it is partitioned by user), the
+    /// store is asked for the new user's scope, the values written while no user was signed in are dropped,
+    /// then every preference read or written in this circuit is read again for the new user and raised
+    /// through <see cref="Changed"/> with <see cref="OmniPreferenceChangeOrigin.UserChanged"/>, so
+    /// <see cref="OmniAppearanceState"/>, the grids with a <c>StateKey</c> and any host listener show the new
+    /// user's preferences (or their defaults when the user has none). A synchronization or a write under way
+    /// completes first, for the former user.
+    /// </summary>
+    /// <param name="cancellationToken">Cancels the change.</param>
+    /// <returns>A task that completes once every preference read again has been raised.</returns>
+    public async Task ResetUserAsync(CancellationToken cancellationToken = default)
+    {
+        ObjectDisposedException.ThrowIf(_disposed, this);
+        string[] keys;
+        await _syncGate.WaitAsync(cancellationToken);
+        try
+        {
+            await _cacheGate.WaitAsync(cancellationToken);
+            try
+            {
+                lock (_gate)
+                {
+                    _opening = null;
+                    _refreshed.Clear();
+                    // A first read still under way answers its own callers, for the former user; a read made
+                    // from now on asks the new user's cache.
+                    _firstReads.Clear();
+                    keys = [.. _known];
+                }
+
+                _signedOut.Clear();
+                await ReleaseSessionAsync();
+            }
+            finally
+            {
+                _cacheGate.Release();
+            }
+        }
+        finally
+        {
+            _syncGate.Release();
+        }
+
+        foreach (var key in keys)
+        {
+            await RaiseAsync(new(key, await ReadAsync(key, cancellationToken), OmniPreferenceChangeOrigin.UserChanged));
+        }
+    }
+
     /// <summary>Stops the automatic synchronization and releases the browser script.</summary>
     /// <returns>A task that completes once the script is released.</returns>
     public async ValueTask DisposeAsync()
@@ -162,17 +222,29 @@ public sealed class OmniPreferences : IAsyncDisposable
 
         _disposed = true;
         await _disposal.CancelAsync();
+        await ReleaseSessionAsync();
+        _disposal.Dispose();
+    }
+
+    /// <summary>Stops the synchronization of the opened cache and releases its script and its listeners.</summary>
+    private async Task ReleaseSessionAsync()
+    {
         _timer?.Dispose();
-        if (_module is not null)
+        _timer = null;
+        var module = _module;
+        var watcher = _watcher;
+        _module = null;
+        _watcher = 0;
+        if (module is not null)
         {
             try
             {
-                if (_watcher != 0)
+                if (watcher != 0)
                 {
-                    await _module.InvokeVoidAsync("unwatch", _watcher);
+                    await module.InvokeVoidAsync("unwatch", watcher);
                 }
 
-                await _module.DisposeAsync();
+                await module.DisposeAsync();
             }
             catch (JSDisconnectedException)
             {
@@ -181,7 +253,7 @@ public sealed class OmniPreferences : IAsyncDisposable
         }
 
         _bridge?.Dispose();
-        _disposal.Dispose();
+        _bridge = null;
     }
 
     /// <summary>Whether the host registered a store: the preferences are then partitioned by its user scope.</summary>
@@ -199,10 +271,16 @@ public sealed class OmniPreferences : IAsyncDisposable
     private async Task<string?> ReadAsync(string key, CancellationToken cancellationToken)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(key);
+        Know(key);
         var cache = await OpenAsync(cancellationToken);
+        if (cache is null && _signedOut.Active)
+        {
+            return _signedOut.Read(key);
+        }
+
         if (cache is null)
         {
-            return _store is null ? null : (await TryGetStoredAsync(key, cancellationToken))?.Value;
+            return _store is null ? null : (await _storeAccess!.TryGetAsync(key, cancellationToken))?.Value;
         }
 
         var cached = await cache.ReadAsync(key, cancellationToken);
@@ -260,7 +338,7 @@ public sealed class OmniPreferences : IAsyncDisposable
     {
         try
         {
-            var stored = await TryGetStoredAsync(key, _stopping);
+            var stored = await _storeAccess!.TryGetAsync(key, _stopping);
             if (stored is null)
             {
                 // The store has none: what the cache holds now (a write made meanwhile, or nothing).
@@ -282,7 +360,11 @@ public sealed class OmniPreferences : IAsyncDisposable
         {
             lock (_gate)
             {
-                _firstReads.Remove(key);
+                // Only its own entry: a reset of the user may have registered a newer read of the key meanwhile.
+                if (_firstReads.TryGetValue(key, out var registered) && registered == result.Task)
+                {
+                    _firstReads.Remove(key);
+                }
             }
         }
     }
@@ -290,7 +372,19 @@ public sealed class OmniPreferences : IAsyncDisposable
     private async Task WriteAsync(string key, string? value, CancellationToken cancellationToken)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(key);
+        Know(key);
         var cache = await OpenAsync(cancellationToken);
+        if (cache is null && _signedOut.Active)
+        {
+            // No user signed in: the value lives in this circuit only, neither cached nor stored.
+            if (_signedOut.Write(key, value))
+            {
+                await RaiseAsync(new(key, value, OmniPreferenceChangeOrigin.Local));
+            }
+
+            return;
+        }
+
         var preference = new OmniPreference(key, value, _time.GetUtcNow());
         var changed = true;
         if (cache is not null)
@@ -332,7 +426,7 @@ public sealed class OmniPreferences : IAsyncDisposable
     private async Task SyncCoreAsync(PreferenceCache cache, List<OmniPreferenceChangedEventArgs> changes, CancellationToken cancellationToken)
     {
         var since = await cache.ReadLastSyncAsync(cancellationToken);
-        var (stored, watermark) = Latest(await CallStoreAsync(store => store.GetChangedSinceAsync(since, cancellationToken), cancellationToken));
+        var (stored, watermark) = Latest(await _storeAccess!.CallAsync(store => store.GetChangedSinceAsync(since, cancellationToken), cancellationToken));
         var entries = await cache.EntriesAsync(cancellationToken);
         await PushDirtyAsync(cache, entries, stored, cancellationToken);
         foreach (var (key, preference) in stored)
@@ -386,7 +480,7 @@ public sealed class OmniPreferences : IAsyncDisposable
         {
             // The store's value of a key it did not report as changed may still be later than the
             // unconfirmed one (written on another device before the last synchronization).
-            var latest = stored.GetValueOrDefault(key) ?? await TryGetStoredAsync(key, cancellationToken);
+            var latest = stored.GetValueOrDefault(key) ?? await _storeAccess!.TryGetAsync(key, cancellationToken);
             if (latest is not null && latest.UpdatedAt >= entry.UpdatedAt)
             {
                 stored[key] = latest;
@@ -404,7 +498,7 @@ public sealed class OmniPreferences : IAsyncDisposable
         await Task.Yield();
         await RunInBackgroundAsync(async token =>
         {
-            if (await TryGetStoredAsync(key, token) is { } stored && await ApplyStoredAsync(cache, key, stored, token) is { } change)
+            if (await _storeAccess!.TryGetAsync(key, token) is { } stored && await ApplyStoredAsync(cache, key, stored, token) is { } change)
             {
                 await RaiseAsync(change);
             }
@@ -490,21 +584,13 @@ public sealed class OmniPreferences : IAsyncDisposable
 
     private async Task PushAsync(PreferenceCache? cache, OmniPreference preference, CancellationToken cancellationToken)
     {
-        await _storeGate.WaitAsync(cancellationToken);
-        try
+        // Checked under the store gate: an entry another write replaced is not saved over (its own push saves
+        // it). An entry gone from the cache (cleared, or a browser that keeps nothing) is still saved.
+        if (!await _storeAccess!.TrySaveAsync(preference, async () =>
+                cache is null || await cache.ReadAsync(preference.Key, cancellationToken) is not { } cached || IsCached(cached, preference),
+                cancellationToken))
         {
-            // Read under the store gate: a write that replaced this entry is saved after it, by its own push,
-            // so an older value is never saved over a newer one. An entry gone from the cache (cleared, or a
-            // browser that keeps nothing) is still saved.
-            if ((cache is not null && await cache.ReadAsync(preference.Key, cancellationToken) is { } cached && !IsCached(cached, preference))
-                || !await TrySaveAsync(preference, cancellationToken))
-            {
-                return;
-            }
-        }
-        finally
-        {
-            _storeGate.Release();
+            return;
         }
 
         if (cache is null)
@@ -528,49 +614,8 @@ public sealed class OmniPreferences : IAsyncDisposable
     }
 
     /// <summary>Saves to the store, the caller holding the store gate; a failure is logged and gives false.</summary>
-    private async Task<bool> TrySaveAsync(OmniPreference preference, CancellationToken cancellationToken)
-    {
-        try
-        {
-            await _store!.SaveAsync(preference, cancellationToken);
-            return true;
-        }
-        catch (Exception exception) when (exception is not OperationCanceledException || !cancellationToken.IsCancellationRequested)
-        {
-            _logger.LogWarning(exception, "The preference {Key} could not be written to the store; it stays in the browser and the next synchronization writes it again.", preference.Key);
-            return false;
-        }
-    }
-
     private static bool IsCached(PreferenceCacheEntry? entry, OmniPreference preference) =>
         entry is not null && entry.UpdatedAt == preference.UpdatedAt && entry.Value == preference.Value;
-
-    private async Task<OmniPreference?> TryGetStoredAsync(string key, CancellationToken cancellationToken)
-    {
-        try
-        {
-            return await CallStoreAsync(store => store.GetAsync(key, cancellationToken), cancellationToken);
-        }
-        catch (Exception exception) when (exception is not OperationCanceledException || !cancellationToken.IsCancellationRequested)
-        {
-            _logger.LogWarning(exception, "The preference {Key} could not be read from the store; the browser cache answers instead.", key);
-            return null;
-        }
-    }
-
-    /// <summary>One call to the store, never at the same time as another (see <see cref="IOmniPreferenceStore"/>).</summary>
-    private async Task<T> CallStoreAsync<T>(Func<IOmniPreferenceStore, Task<T>> call, CancellationToken cancellationToken)
-    {
-        await _storeGate.WaitAsync(cancellationToken);
-        try
-        {
-            return await call(_store!);
-        }
-        finally
-        {
-            _storeGate.Release();
-        }
-    }
 
     private async Task RaiseAllAsync(List<OmniPreferenceChangedEventArgs> changes)
     {
@@ -657,7 +702,7 @@ public sealed class OmniPreferences : IAsyncDisposable
         {
             try
             {
-                scope = await CallStoreAsync(store => store.GetScopeAsync(_stopping).AsTask(), _stopping);
+                scope = await _storeAccess!.CallAsync(store => store.GetScopeAsync(_stopping).AsTask(), _stopping);
             }
             catch (Exception exception) when (exception is not OperationCanceledException || !_stopping.IsCancellationRequested)
             {
@@ -665,9 +710,16 @@ public sealed class OmniPreferences : IAsyncDisposable
                 return null;
             }
 
+            // No user signed in yet: the defaults, quietly, until the store names one.
+            _signedOut.Active = scope == NoUserScope;
+            if (_signedOut.Active)
+            {
+                return null;
+            }
+
             if (string.IsNullOrWhiteSpace(scope) || scope.Contains(':', StringComparison.Ordinal))
             {
-                throw new InvalidOperationException("IOmniPreferenceStore.GetScopeAsync must return a non-blank scope without a colon.");
+                throw new InvalidOperationException("IOmniPreferenceStore.GetScopeAsync must return a non-blank scope without a colon, or NoUserScope while no user is signed in.");
             }
         }
 
@@ -754,29 +806,20 @@ public sealed class OmniPreferences : IAsyncDisposable
         });
     }
 
+    private void Know(string key)
+    {
+        lock (_gate)
+        {
+            _known.Add(key);
+        }
+    }
+
     private void Track(Task work)
     {
         lock (_gate)
         {
             _background.RemoveAll(task => task.IsCompleted);
             _background.Add(work);
-        }
-    }
-
-    private static T? Deserialize<T>(string? json)
-    {
-        if (json is null)
-        {
-            return default;
-        }
-
-        try
-        {
-            return JsonSerializer.Deserialize<T>(json, JsonOptions);
-        }
-        catch (JsonException)
-        {
-            return default;
         }
     }
 }

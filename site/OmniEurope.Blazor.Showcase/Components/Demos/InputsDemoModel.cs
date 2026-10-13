@@ -31,4 +31,7 @@ public sealed class InputsDemoModel
 
     /// <summary>The autocompleted city.</summary>
     public string City { get; set; } = string.Empty;
+
+    /// <summary>The model, picked from the list or typed freely (AllowFreeText).</summary>
+    public string? Model { get; set; }
 }

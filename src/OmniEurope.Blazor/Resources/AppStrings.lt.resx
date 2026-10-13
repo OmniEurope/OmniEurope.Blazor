@@ -705,4 +705,13 @@
   <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Pavojinga zona</value></data>
   <data name="SettingsDangerActionText" xml:space="preserve"><value>Šalinti</value></data>
   <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Šio veiksmo negalima atšaukti. Ar norite tęsti?</value></data>
+  <data name="MailTemplateEditorLabel" xml:space="preserve"><value>El. laiško šablonas</value></data>
+  <data name="MailTemplateEditorSubject" xml:space="preserve"><value>Tema</value></data>
+  <data name="MailTemplateEditorVariables" xml:space="preserve"><value>Įterpti kintamąjį</value></data>
+  <data name="MailTemplateEditorTemplate" xml:space="preserve"><value>Šablonas</value></data>
+  <data name="MailTemplateEditorBody" xml:space="preserve"><value>Laiško tekstas</value></data>
+  <data name="MailTemplateEditorPreview" xml:space="preserve"><value>Peržiūra</value></data>
+  <data name="MailTemplateEditorPreviewSubject" xml:space="preserve"><value>Tema: {0}</value></data>
+  <data name="MailTemplateEditorVariableHint" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="MailTemplateEditorSendTest" xml:space="preserve"><value>Siųsti bandomąjį laišką</value></data>
 </root>

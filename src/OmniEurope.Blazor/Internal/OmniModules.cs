@@ -42,6 +42,9 @@ internal static class OmniModules
     /// <summary>The log viewer: following the tail, pinning and revealing lines.</summary>
     internal const string LogViewer = Root + "omni-log-viewer.js";
 
+    /// <summary>The mail template editor: the rendered mail in a shadow root, its styles given through the CSSOM; the caret insertion of a variable in the subject; the marking of the tokens in the body.</summary>
+    internal const string MailPreview = Root + "omni-mail-preview.js";
+
     /// <summary>The mind map canvas: gestures, label measurement and focus.</summary>
     internal const string MindMap = Root + "omni-mindmap.js";
 

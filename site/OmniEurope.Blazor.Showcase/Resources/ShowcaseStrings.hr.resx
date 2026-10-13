@@ -1568,4 +1568,15 @@
   <data name="SettingsTransferProject" xml:space="preserve"><value>Prenesi projekt</value></data>
   <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Samo za vlasnika projekta.</value></data>
   <data name="SettingsTransferAction" xml:space="preserve"><value>Prenesi</value></data>
+  <data name="DemoInputsModel" xml:space="preserve"><value>Model</value></data>
+  <data name="DemoInputsModelHelp" xml:space="preserve"><value>Odaberite s popisa ili upišite naziv kojeg nema.</value></data>
+  <data name="DemoInputsModelValue" xml:space="preserve"><value>Vrijednost: {0}</value></data>
+  <data name="DemoEditorMailLabel" xml:space="preserve"><value>Predložak e-pošte s podsjetnikom</value></data>
+  <data name="DemoEditorMailClient" xml:space="preserve"><value>Ime klijenta</value></data>
+  <data name="DemoEditorMailFile" xml:space="preserve"><value>Broj predmeta</value></data>
+  <data name="DemoEditorMailDue" xml:space="preserve"><value>Rok</value></data>
+  <data name="DemoEditorMailLink" xml:space="preserve"><value>Poveznica na predmet</value></data>
+  <data name="DemoEditorMailSubject" xml:space="preserve"><value>Podsjetnik za predmet {{file}}</value></data>
+  <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Podsjetnik&lt;/h2&gt;&lt;p&gt;Poštovani {{client}},&lt;/p&gt;&lt;p&gt;predmet {{file}} čeka vaš odgovor do {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Otvori predmet&lt;/a&gt;&lt;/p&gt;</value></data>
+  <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Proba predana aplikaciji, predmet „{0}”.</value></data>
 </root>

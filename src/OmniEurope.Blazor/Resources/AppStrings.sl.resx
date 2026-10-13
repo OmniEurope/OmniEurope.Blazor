@@ -705,4 +705,13 @@
   <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Nevarno območje</value></data>
   <data name="SettingsDangerActionText" xml:space="preserve"><value>Izbriši</value></data>
   <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Tega dejanja ni mogoče razveljaviti. Želite nadaljevati?</value></data>
+  <data name="MailTemplateEditorLabel" xml:space="preserve"><value>Predloga e-pošte</value></data>
+  <data name="MailTemplateEditorSubject" xml:space="preserve"><value>Zadeva</value></data>
+  <data name="MailTemplateEditorVariables" xml:space="preserve"><value>Vstavi spremenljivko</value></data>
+  <data name="MailTemplateEditorTemplate" xml:space="preserve"><value>Predloga</value></data>
+  <data name="MailTemplateEditorBody" xml:space="preserve"><value>Besedilo sporočila</value></data>
+  <data name="MailTemplateEditorPreview" xml:space="preserve"><value>Predogled</value></data>
+  <data name="MailTemplateEditorPreviewSubject" xml:space="preserve"><value>Zadeva: {0}</value></data>
+  <data name="MailTemplateEditorVariableHint" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="MailTemplateEditorSendTest" xml:space="preserve"><value>Pošlji preizkusno sporočilo</value></data>
 </root>

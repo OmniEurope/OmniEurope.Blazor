@@ -705,4 +705,13 @@
   <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Nebezpečná zóna</value></data>
   <data name="SettingsDangerActionText" xml:space="preserve"><value>Odstranit</value></data>
   <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Tuto akci nelze vrátit zpět. Chcete pokračovat?</value></data>
+  <data name="MailTemplateEditorLabel" xml:space="preserve"><value>Šablona e-mailu</value></data>
+  <data name="MailTemplateEditorSubject" xml:space="preserve"><value>Předmět</value></data>
+  <data name="MailTemplateEditorVariables" xml:space="preserve"><value>Vložit proměnnou</value></data>
+  <data name="MailTemplateEditorTemplate" xml:space="preserve"><value>Šablona</value></data>
+  <data name="MailTemplateEditorBody" xml:space="preserve"><value>Text zprávy</value></data>
+  <data name="MailTemplateEditorPreview" xml:space="preserve"><value>Náhled</value></data>
+  <data name="MailTemplateEditorPreviewSubject" xml:space="preserve"><value>Předmět: {0}</value></data>
+  <data name="MailTemplateEditorVariableHint" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="MailTemplateEditorSendTest" xml:space="preserve"><value>Odeslat zkušební e-mail</value></data>
 </root>

@@ -4,6 +4,22 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+## [1.8.1] - 2026-10-13
+
+Version de correctif qui porte des ajouts d'API, par décision du propriétaire du 2026-10-13 (voir [docs/versioning.md](docs/versioning.md)) ; aucune rupture hors du changement de sens de la portée vide décrit sous « Changed ».
+
+### Added
+
+- `OmniAutocomplete.AllowFreeText` (`bool`, `false`) et `ParseFreeText` (`Func<string, TValue>?`) : demande d'une application cliente (recette R3-7). Le texte tapé devient la valeur à la sortie du champ, et à Entrée quand aucune suggestion n'est en surbrillance ; une suggestion au texte identique, casse ignorée, donne sa valeur ; un champ vidé donne la valeur par défaut. `ParseFreeText` est obligatoire sauf pour `string` ; un texte qu'il refuse marque le champ invalide. Sans le paramètre, rien ne change. Voir [docs/selection-components.md](docs/selection-components.md).
+- `OmniDataGrid.BarButtonSize` (`OmniControlSize?`, `null`) : demande d'une application cliente (recette R3-54). Une taille fait des boutons d'export et du sélecteur de colonnes des barres des `OmniButton` de cette taille, comme les autres boutons de la page ; nul garde les boutons compacts, désormais portés par la classe `omni-data-grid__bar-button--compact`. Voir [docs/data-components.md](docs/data-components.md).
+- Modèles de mails : demande d'une application cliente (recettes R1-75 et R1-74). `OmniMailTemplateEditor` (objet, corps `OmniHtmlEditor`, un bouton par `OmniMailVariable` qui écrit `{{nom}}` au curseur de l'objet ou du corps, onglet d'aperçu du mail rendu, dessiné dans une racine fantôme sous la CSP stricte) ; `OmniMailRenderer` (`Render`, `FindVariables`), le rendu côté serveur pour les clients de messagerie (tableaux de présentation, styles en ligne, carte de largeur fixe pour Outlook, valeurs écrites en texte, liens limités à http, https et mailto, texte brut de repli, variables manquantes listées) avec `OmniMailRenderOptions`, `OmniMailRenderResult` et `OmniMailTheme` (couleurs, police et rayon résolus depuis un thème ou une palette du paquet, `From`, `FromTokens`). Huit textes dans les 24 langues, sans relecture native. Voir [docs/editor-components.md](docs/editor-components.md).
+- Préférences et changement d'utilisateur : demande d'une application cliente (recette R1-66). `OmniPreferences.ResetUserAsync()` prend le nouvel utilisateur connecté sans recharger la page : la portée est redemandée au magasin, chaque préférence lue ou écrite dans le circuit est relue pour lui et levée par `Changed` avec la nouvelle origine `OmniPreferenceChangeOrigin.UserChanged`, que suivent `OmniAppearanceState` et les grilles à `StateKey`. Un `IOmniPreferenceStore` sans utilisateur connecté rend `OmniPreferences.NoUserScope` (la chaîne vide) : les préférences se lisent à leurs valeurs par défaut, sans avertissement, et une écriture reste dans la mémoire du circuit. Voir [docs/preferences.md](docs/preferences.md).
+- `OmniMailTemplateEditor` : les jetons `{{nom}}` du corps sont surlignés (CSS Custom Highlight API, `::highlight(omni-mail-token)`), et `OnSendTest` (`EventCallback<OmniMailRenderResult>`) affiche « Envoyer un essai », qui remet à l'application le mail rendu avec les valeurs d'exemple ; `OnSendTestError` reçoit son échec. Un texte de plus dans les 24 langues.
+
+### Changed
+
+- `IOmniPreferenceStore.GetScopeAsync` : une portée vide n'est plus refusée (`InvalidOperationException`), elle signifie qu'aucun utilisateur n'est connecté (`OmniPreferences.NoUserScope`). Une portée faite d'espaces ou contenant un deux-points reste refusée. Migration : aucune pour un magasin qui rend toujours une portée non vide.
+
 ## [1.8.0] - 2026-10-12
 
 ### Breaking changes

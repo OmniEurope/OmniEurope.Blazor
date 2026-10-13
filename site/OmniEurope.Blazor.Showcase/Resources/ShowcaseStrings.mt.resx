@@ -1568,4 +1568,15 @@
   <data name="SettingsTransferProject" xml:space="preserve"><value>Ittrasferixxi l-proġett</value></data>
   <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Riżervat għas-sid tal-proġett.</value></data>
   <data name="SettingsTransferAction" xml:space="preserve"><value>Ittrasferixxi</value></data>
+  <data name="DemoInputsModel" xml:space="preserve"><value>Mudell</value></data>
+  <data name="DemoInputsModelHelp" xml:space="preserve"><value>Agħżel mil-lista jew ikteb isem li mhux fiha.</value></data>
+  <data name="DemoInputsModelValue" xml:space="preserve"><value>Valur: {0}</value></data>
+  <data name="DemoEditorMailLabel" xml:space="preserve"><value>Mudell ta' email ta' tfakkira</value></data>
+  <data name="DemoEditorMailClient" xml:space="preserve"><value>Isem il-klijent</value></data>
+  <data name="DemoEditorMailFile" xml:space="preserve"><value>Numru tal-fajl</value></data>
+  <data name="DemoEditorMailDue" xml:space="preserve"><value>Data tal-iskadenza</value></data>
+  <data name="DemoEditorMailLink" xml:space="preserve"><value>Link għall-fajl</value></data>
+  <data name="DemoEditorMailSubject" xml:space="preserve"><value>Tfakkira għall-fajl {{file}}</value></data>
+  <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Tfakkira&lt;/h2&gt;&lt;p&gt;Għażiż/a {{client}},&lt;/p&gt;&lt;p&gt;Il-fajl {{file}} qed jistenna t-tweġiba tiegħek qabel {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Iftaħ il-fajl&lt;/a&gt;&lt;/p&gt;</value></data>
+  <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Il-prova ngħatat lill-applikazzjoni, suġġett “{0}”.</value></data>
 </root>

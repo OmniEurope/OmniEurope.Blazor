@@ -1568,4 +1568,15 @@
   <data name="SettingsTransferProject" xml:space="preserve"><value>A projekt átadása</value></data>
   <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Csak a projekt tulajdonosa számára.</value></data>
   <data name="SettingsTransferAction" xml:space="preserve"><value>Átadás</value></data>
+  <data name="DemoInputsModel" xml:space="preserve"><value>Modell</value></data>
+  <data name="DemoInputsModelHelp" xml:space="preserve"><value>Válasszon a listából, vagy írjon be egy hiányzó nevet.</value></data>
+  <data name="DemoInputsModelValue" xml:space="preserve"><value>Érték: {0}</value></data>
+  <data name="DemoEditorMailLabel" xml:space="preserve"><value>Emlékeztető e-mail sablonja</value></data>
+  <data name="DemoEditorMailClient" xml:space="preserve"><value>Ügyfél neve</value></data>
+  <data name="DemoEditorMailFile" xml:space="preserve"><value>Ügyiratszám</value></data>
+  <data name="DemoEditorMailDue" xml:space="preserve"><value>Határidő</value></data>
+  <data name="DemoEditorMailLink" xml:space="preserve"><value>Az ügyirat hivatkozása</value></data>
+  <data name="DemoEditorMailSubject" xml:space="preserve"><value>Emlékeztető a(z) {{file}} ügyiratról</value></data>
+  <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Emlékeztető&lt;/h2&gt;&lt;p&gt;Kedves {{client}}!&lt;/p&gt;&lt;p&gt;A(z) {{file}} ügyirat {{due}} előtt várja a válaszát.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Ügyirat megnyitása&lt;/a&gt;&lt;/p&gt;</value></data>
+  <data name="DemoEditorMailTestSent" xml:space="preserve"><value>A próba átadva az alkalmazásnak, tárgy: „{0}”.</value></data>
 </root>

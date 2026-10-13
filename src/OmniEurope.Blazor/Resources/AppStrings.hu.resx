@@ -705,4 +705,13 @@
   <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Veszélyzóna</value></data>
   <data name="SettingsDangerActionText" xml:space="preserve"><value>Törlés</value></data>
   <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Ez a művelet nem vonható vissza. Folytatja?</value></data>
+  <data name="MailTemplateEditorLabel" xml:space="preserve"><value>E-mail-sablon</value></data>
+  <data name="MailTemplateEditorSubject" xml:space="preserve"><value>Tárgy</value></data>
+  <data name="MailTemplateEditorVariables" xml:space="preserve"><value>Változó beszúrása</value></data>
+  <data name="MailTemplateEditorTemplate" xml:space="preserve"><value>Sablon</value></data>
+  <data name="MailTemplateEditorBody" xml:space="preserve"><value>Üzenet szövege</value></data>
+  <data name="MailTemplateEditorPreview" xml:space="preserve"><value>Előnézet</value></data>
+  <data name="MailTemplateEditorPreviewSubject" xml:space="preserve"><value>Tárgy: {0}</value></data>
+  <data name="MailTemplateEditorVariableHint" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="MailTemplateEditorSendTest" xml:space="preserve"><value>Próbaüzenet küldése</value></data>
 </root>

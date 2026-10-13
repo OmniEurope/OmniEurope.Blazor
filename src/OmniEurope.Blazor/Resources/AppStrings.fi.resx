@@ -705,4 +705,13 @@
   <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Vaaravyöhyke</value></data>
   <data name="SettingsDangerActionText" xml:space="preserve"><value>Poista</value></data>
   <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Tätä toimintoa ei voi kumota. Haluatko jatkaa?</value></data>
+  <data name="MailTemplateEditorLabel" xml:space="preserve"><value>Sähköpostimalli</value></data>
+  <data name="MailTemplateEditorSubject" xml:space="preserve"><value>Aihe</value></data>
+  <data name="MailTemplateEditorVariables" xml:space="preserve"><value>Lisää muuttuja</value></data>
+  <data name="MailTemplateEditorTemplate" xml:space="preserve"><value>Malli</value></data>
+  <data name="MailTemplateEditorBody" xml:space="preserve"><value>Viestin sisältö</value></data>
+  <data name="MailTemplateEditorPreview" xml:space="preserve"><value>Esikatselu</value></data>
+  <data name="MailTemplateEditorPreviewSubject" xml:space="preserve"><value>Aihe: {0}</value></data>
+  <data name="MailTemplateEditorVariableHint" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="MailTemplateEditorSendTest" xml:space="preserve"><value>Lähetä testiviesti</value></data>
 </root>
