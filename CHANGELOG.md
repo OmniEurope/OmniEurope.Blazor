@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+## [1.8.2] - 2026-10-16
+
+Version de correctif qui porte des ajouts d'API, numéro choisi par le propriétaire le 2026-10-16 (voir [docs/versioning.md](docs/versioning.md)) ; un seul comportement par défaut change, décrit sous « Changed ».
+
 ### Added
 
 - Blocs des modèles de mails : demande d'une application cliente (recette R1-75). `OmniMailRenderer` rend trois blocs en HTML statique de tableaux de présentation, styles sur chaque élément, sans script (Outlook, Gmail, clients web) : le bouton d'action (`{{#button nom}}` dans un paragraphe, dont le texte est le libellé ; fond `OmniMailTheme.Accent`, libellé `OnAccent`, adresse limitée à http, https et mailto), le bandeau (`{{#banner info|success|warning|danger}}`, pleine largeur, fond et filet du ton) et la variable de bloc (`OmniMailRenderOptions.Blocks`, fragments HTML de l'hôte par nom, insérés à la place du paragraphe où leur jeton est seul, texte brut au milieu d'une ligne). Les fragments passent par une liste blanche propre aux mails (texte, listes, tableaux, liens http/https/mailto, quelques propriétés `style`) qui retire scripts, feuilles de style, `link`, documents embarqués, formulaires, images, `on*`, classes et toute déclaration à `url(`, `expression(` ou `@import` ; une variable de texte reste échappée, un nom donné des deux côtés lève `ArgumentException`, aucune valeur ne peut créer de bloc. `OmniMailTheme` gagne `Info`, `Success`, `Warning`, `Danger` et leurs `…Subtle`, lus dans les jetons `--omni-color-*` ; `FindVariables` et `MissingVariables` comptent les blocs et les adresses de boutons. Voir [docs/editor-components.md](docs/editor-components.md), « Les blocs ».
@@ -12,6 +16,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 ### Changed
 
 - `OmniMailTemplateEditor` affiche par défaut le groupe « Insérer un bloc » sous les variables. Migration : `ShowBlocks="false"` rend l'ancien éditeur.
+
+### Security
+
+- Paquets ASP.NET Core et `Microsoft.Extensions.Localization` passés de `10.0.12` à `10.0.13` (avec les packs implicites du SDK, `OmniImplicitSdkPackVersion`) : `Microsoft.AspNetCore.Components.WebAssembly.Server` `10.0.12`, utilisé par l'hôte d'essai Interactive Auto, est visé par CVE-2026-102870 (GHSA-g27p-qf6j-c96c) et CVE-2026-96230 (GHSA-qjpx-jqm5-h2c4), corrigées en `10.0.13`. Le paquet dépend désormais de `Microsoft.AspNetCore.Components.Web` `10.0.13` au minimum.
 
 ## [1.8.1] - 2026-10-13
 

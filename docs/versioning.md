@@ -1,14 +1,15 @@
 # Versionnement, dépréciation et ruptures
 
-Le paquet suit SemVer.
+Le propriétaire choisit le numéro de chaque version publiée (décision du 2026-10-16). SemVer sert de repère pour proposer un numéro, pas de règle bloquante : le propriétaire est le seul consommateur du paquet et ses applications suivent la bibliothèque.
 
-- Avant `1.0`, une rupture est annoncée dans `CHANGELOG.md` et limitée à une version mineure.
-- À partir de `1.0`, une suppression ou une modification incompatible exige une version majeure.
-- Une API dépréciée reçoit `[Obsolete]`, une alternative documentée et reste disponible pendant au moins une version mineure complète.
-- Les correctifs ne modifient pas la sémantique d'une liaison, d'un événement ou d'une valeur nullable.
+- Un agent propose le numéro que SemVer donnerait (correctif, mineure, majeure) et signale l'écart quand le propriétaire en choisit un autre ; il ne publie jamais sans ce choix.
+- Le numéro choisi n'a pas besoin d'une section d'exception dans ce document. Seule obligation : chaque rupture ou valeur par défaut changée est listée dans `CHANGELOG.md` (« Breaking changes » ou « Changed »), avec sa migration, quel que soit le numéro.
+- Une API retirée ou renommée peut l'être sans alias `[Obsolete]` quand le propriétaire le décide ; sinon elle reçoit `[Obsolete]` et une alternative documentée.
 - La baseline complète de l'API publique (`docs/public-api.txt`, vidage canonique de chaque type et membre public ou protégé de l'assembly compilé) et le contenu du paquet sont comparés en CI. Les limites de l'extraction API sont documentées dans [public-api-conventions.md](public-api-conventions.md).
 
 Aucune promesse de compatibilité binaire avec une autre bibliothèque de composants n'est faite.
+
+Les sections qui suivent retracent les écarts à SemVer décidés avant cette règle ; elles restent comme historique, sans en appeler de nouvelles.
 
 ## Exception motivée : `1.0.1`
 
