@@ -714,4 +714,11 @@
   <data name="MailTemplateEditorPreviewSubject" xml:space="preserve"><value>Predmet: {0}</value></data>
   <data name="MailTemplateEditorVariableHint" xml:space="preserve"><value>{0}: {1}</value></data>
   <data name="MailTemplateEditorSendTest" xml:space="preserve"><value>Pošalji probnu poruku</value></data>
+  <data name="MailTemplateEditorBlocks" xml:space="preserve"><value>Umetni blok</value></data>
+  <data name="MailTemplateEditorBanner" xml:space="preserve"><value>Traka</value></data>
+  <data name="MailTemplateEditorBannerInfo" xml:space="preserve"><value>Informacija</value></data>
+  <data name="MailTemplateEditorBannerSuccess" xml:space="preserve"><value>Uspjeh</value></data>
+  <data name="MailTemplateEditorBannerWarning" xml:space="preserve"><value>Upozorenje</value></data>
+  <data name="MailTemplateEditorBannerDanger" xml:space="preserve"><value>Opasnost</value></data>
+  <data name="MailTemplateEditorButton" xml:space="preserve"><value>Gumb: {0}</value></data>
 </root>

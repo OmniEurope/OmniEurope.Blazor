@@ -61,6 +61,14 @@ public partial class OmniMailTemplateEditor
     [Parameter]
     public IReadOnlyList<OmniMailVariable>? Variables { get; set; }
 
+    /// <summary>
+    /// Shows the « Insert a block » group: a banner in each tone (<c>{{#banner tone}}</c>) and, for each variable of kind
+    /// <see cref="OmniMailVariableKind.Link"/>, an action button pointing to it (<c>{{#button name}}</c>), each written in a
+    /// paragraph of its own, whose text becomes the banner's or the button's; true by default.
+    /// </summary>
+    [Parameter]
+    public bool ShowBlocks { get; set; } = true;
+
     /// <summary>The colours of the preview, <see cref="OmniMailTheme.Default"/> when null; give the one the mail will be sent with.</summary>
     [Parameter]
     public OmniMailTheme? Theme { get; set; }
@@ -101,6 +109,21 @@ public partial class OmniMailTemplateEditor
     [Parameter]
     public EventCallback<Exception> OnSendTestError { get; set; }
 
+    /// <summary>The tones of a banner, the first one written by the main part of its button.</summary>
+    private static readonly string[] BannerTones = ["info", "success", "warning", "danger"];
+
+    private IEnumerable<OmniMailVariable> LinkVariables => (Variables ?? []).Where(variable => variable.Kind == OmniMailVariableKind.Link);
+
+    private string BannerLabel(string tone) => Localize(tone switch
+    {
+        "success" => "MailTemplateEditorBannerSuccess",
+        "warning" => "MailTemplateEditorBannerWarning",
+        "danger" => "MailTemplateEditorBannerDanger",
+        _ => "MailTemplateEditorBannerInfo",
+    });
+
+    private static string ButtonMarker(OmniMailVariable link) => "{{#button " + link.Name + "}}";
+
     private string SubjectId => $"{Id ?? _generatedId}-subject";
 
     private string EffectiveLabel => LocalizeOr(Label, "MailTemplateEditorLabel");
@@ -123,11 +146,26 @@ public partial class OmniMailTemplateEditor
     }
 
     /// <summary>The mail with each variable's sample value (its label in brackets without one), its looks in <paramref name="lookAttribute"/>.</summary>
-    private OmniMailRenderResult RenderSample(string lookAttribute) => Internal.MailDocument.Render(
-        Value,
-        (Variables ?? []).ToDictionary(variable => variable.Name, variable => (string?)(variable.SampleValue ?? $"[{variable.Label}]"), StringComparer.Ordinal),
-        new OmniMailRenderOptions { Theme = Theme, Subject = ShowSubject ? Subject : null, Language = CultureInfo.CurrentUICulture.Name },
-        lookAttribute);
+    private OmniMailRenderResult RenderSample(string lookAttribute)
+    {
+        var variables = Variables ?? [];
+        string Sample(OmniMailVariable variable) => variable.SampleValue ?? $"[{variable.Label}]";
+        return Internal.MailDocument.Render(
+            Value,
+            variables.Where(variable => variable.Kind != OmniMailVariableKind.Block)
+                .ToDictionary(variable => variable.Name, variable => (string?)Sample(variable), StringComparer.Ordinal),
+            new OmniMailRenderOptions
+            {
+                Theme = Theme,
+                Subject = ShowSubject ? Subject : null,
+                Language = CultureInfo.CurrentUICulture.Name,
+                Blocks = variables.Where(variable => variable.Kind == OmniMailVariableKind.Block).ToDictionary(
+                    variable => variable.Name,
+                    variable => (string?)(variable.SampleValue ?? "<p>" + System.Net.WebUtility.HtmlEncode(Sample(variable)) + "</p>"),
+                    StringComparer.Ordinal),
+            },
+            lookAttribute);
+    }
 
     /// <summary>Refuses a variable whose name a template could not write.</summary>
     protected override void OnParametersSet()
@@ -245,6 +283,12 @@ public partial class OmniMailTemplateEditor
     private async Task InsertAsync(OmniMailVariable variable)
     {
         // The buttons are disabled with the editor (Disabled, ReadOnly): no press reaches here then.
+        if (variable.Kind == OmniMailVariableKind.Block)
+        {
+            await InsertParagraphAsync(variable.Token);
+            return;
+        }
+
         if (_subjectTarget && ShowSubject)
         {
             await (await ModuleAsync()).InvokeAsync<bool>("insertAtCaret", SubjectId, variable.Token);
@@ -254,6 +298,21 @@ public partial class OmniMailTemplateEditor
         if (_editor is not null)
         {
             await _editor.InsertTextAsync(variable.Token);
+        }
+    }
+
+    /// <summary>Writes a banner's marker in a paragraph of its own, where the caret of the body last was.</summary>
+    private Task InsertBannerAsync(string tone) => InsertParagraphAsync("{{#banner " + tone + "}} ");
+
+    /// <summary>Writes an action button's marker, pointing to the link variable, in a paragraph of its own.</summary>
+    private Task InsertButtonAsync(OmniMailVariable link) => InsertParagraphAsync(ButtonMarker(link) + " ");
+
+    /// <summary>A block always goes in the body (never in the subject), in a paragraph of its own: its text is escaped, a marker being plain text.</summary>
+    private async Task InsertParagraphAsync(string text)
+    {
+        if (_editor is not null)
+        {
+            await _editor.InsertHtmlAsync("<p>" + System.Net.WebUtility.HtmlEncode(text) + "</p>");
         }
     }
 

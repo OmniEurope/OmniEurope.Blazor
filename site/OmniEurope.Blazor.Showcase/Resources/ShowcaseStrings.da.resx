@@ -1576,6 +1576,7 @@
   <data name="DemoEditorMailFile" xml:space="preserve"><value>Sagsnummer</value></data>
   <data name="DemoEditorMailDue" xml:space="preserve"><value>Forfaldsdato</value></data>
   <data name="DemoEditorMailLink" xml:space="preserve"><value>Link til sagen</value></data>
+  <data name="DemoEditorMailPieces" xml:space="preserve"><value>Forventede dokumenter</value></data>
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Påmindelse om sag {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Påmindelse&lt;/h2&gt;&lt;p&gt;Kære {{client}},&lt;/p&gt;&lt;p&gt;Sag {{file}} venter på dit svar inden {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Åbn sagen&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Testen er givet til programmet, emne “{0}”.</value></data>

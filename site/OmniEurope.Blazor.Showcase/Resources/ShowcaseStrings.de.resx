@@ -1576,6 +1576,7 @@
   <data name="DemoEditorMailFile" xml:space="preserve"><value>Aktennummer</value></data>
   <data name="DemoEditorMailDue" xml:space="preserve"><value>Fälligkeitsdatum</value></data>
   <data name="DemoEditorMailLink" xml:space="preserve"><value>Link zur Akte</value></data>
+  <data name="DemoEditorMailPieces" xml:space="preserve"><value>Erwartete Unterlagen</value></data>
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Erinnerung zur Akte {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Erinnerung&lt;/h2&gt;&lt;p&gt;Guten Tag {{client}},&lt;/p&gt;&lt;p&gt;Die Akte {{file}} wartet bis zum {{due}} auf Ihre Antwort.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Akte öffnen&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Test an die Anwendung übergeben, Betreff „{0}“.</value></data>

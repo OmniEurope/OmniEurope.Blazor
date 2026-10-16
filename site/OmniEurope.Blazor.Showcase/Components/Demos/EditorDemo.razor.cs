@@ -193,7 +193,13 @@ public partial class EditorDemo
             new("client", Text["DemoEditorMailClient"]) { SampleValue = "Anne Martin" },
             new("file", Text["DemoEditorMailFile"]) { SampleValue = "D-2026-0142" },
             new("due", Text["DemoEditorMailDue"]) { SampleValue = new DateOnly(2026, 11, 30).ToString("d", CultureInfo.CurrentCulture) },
-            new("link", Text["DemoEditorMailLink"]) { SampleValue = "https://exemple.eu/dossiers/D-2026-0142" },
+            new("link", Text["DemoEditorMailLink"]) { SampleValue = "https://exemple.eu/dossiers/D-2026-0142", Kind = OmniMailVariableKind.Link },
+            // A block variable: the application gives a fragment it rendered itself, here the list of the expected documents.
+            new("pieces", Text["DemoEditorMailPieces"])
+            {
+                Kind = OmniMailVariableKind.Block,
+                SampleValue = "<ul><li>D-2026-0142-A</li><li>D-2026-0142-B</li></ul>",
+            },
         ];
 
         Report =

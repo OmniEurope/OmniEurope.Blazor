@@ -34,11 +34,21 @@ internal static class MailDocument
             throw new ArgumentOutOfRangeException(nameof(options), options.Width, "The mail width must be between 320 and 1200 pixels.");
         }
 
+        var blockValues = options.Blocks ?? new Dictionary<string, string?>();
+        var shared = blockValues.Keys.FirstOrDefault(values.ContainsKey);
+        if (shared is not null)
+        {
+            throw new ArgumentException($"The mail variable '{shared}' is given both as a text value and as a block.", nameof(options));
+        }
+
         var text = new MailTemplateText(values);
+        var blocks = new MailBlocks(blockValues, text);
         var subject = options.Subject is null ? string.Empty : MailTemplateText.OneLine(text.Replace(options.Subject));
         var preheader = options.Preheader is null ? null : MailTemplateText.OneLine(text.Replace(options.Preheader));
         var body = Parser.ParseDocument("<!DOCTYPE html><html><body>" + OmniHtmlSanitizer.Sanitize(template) + "</body></html>").Body!;
+        blocks.Mark(body);
         Substitute(body, text);
+        blocks.Build(body, theme, lookAttribute);
         var plainText = OmniHtmlText.ToPlainText(PlainTextSource(body));
         Inline(body, theme, lookAttribute);
         var language = options.Language ?? CultureInfo.CurrentUICulture.Name;
@@ -46,7 +56,14 @@ internal static class MailDocument
             MailLayout.Build(body.InnerHtml, subject, preheader, string.IsNullOrEmpty(language) ? "en" : language, options.Width, theme, lookAttribute),
             plainText,
             subject,
-            text.Missing);
+            InOrder(text.Missing, $"{options.Subject}\n{options.Preheader}\n{template}"));
+    }
+
+    /// <summary>The missing names in the order they first appear in the subject, the preheader, then the body.</summary>
+    private static string[] InOrder(IReadOnlyList<string> missing, string written)
+    {
+        var order = MailBlocks.Names(written).ToList();
+        return [.. missing.OrderBy(name => order.IndexOf(name) is var index and >= 0 ? index : int.MaxValue)];
     }
 
     /// <summary>A theme set by hand is held to literal values, like one read from tokens.</summary>
@@ -62,6 +79,14 @@ internal static class MailDocument
         _ = MailCss.Color(theme.Border, nameof(theme.Border));
         _ = MailCss.Color(theme.Highlight, nameof(theme.Highlight));
         _ = MailCss.Color(theme.CodeBackground, nameof(theme.CodeBackground));
+        _ = MailCss.Color(theme.Info, nameof(theme.Info));
+        _ = MailCss.Color(theme.InfoSubtle, nameof(theme.InfoSubtle));
+        _ = MailCss.Color(theme.Success, nameof(theme.Success));
+        _ = MailCss.Color(theme.SuccessSubtle, nameof(theme.SuccessSubtle));
+        _ = MailCss.Color(theme.Warning, nameof(theme.Warning));
+        _ = MailCss.Color(theme.WarningSubtle, nameof(theme.WarningSubtle));
+        _ = MailCss.Color(theme.Danger, nameof(theme.Danger));
+        _ = MailCss.Color(theme.DangerSubtle, nameof(theme.DangerSubtle));
         if (!MailCss.IsFontFamily(theme.FontFamily))
         {
             throw new ArgumentException($"The mail theme's {nameof(theme.FontFamily)} must be a list of font names, not '{theme.FontFamily}'.", nameof(theme));
@@ -122,7 +147,7 @@ internal static class MailDocument
         }
     }
 
-    private static bool IsSafeAddress(string address) =>
+    internal static bool IsSafeAddress(string address) =>
         Uri.TryCreate(address, UriKind.Absolute, out var uri) && SafeSchemes.Contains(uri.Scheme, StringComparer.OrdinalIgnoreCase);
 
     /// <summary>The body with each link's address written after its text, for the plain-text alternative.</summary>
@@ -147,6 +172,12 @@ internal static class MailDocument
     {
         foreach (var element in body.Descendants<IElement>().ToArray())
         {
+            if (element.HasAttribute(MailBlocks.Own))
+            {
+                element.RemoveAttribute(MailBlocks.Own);
+                continue;
+            }
+
             var declarations = new List<string>();
             if (ElementLooks.TryGetValue(element.LocalName, out var look))
             {
@@ -156,6 +187,15 @@ internal static class MailDocument
             // The sanitiser lets only the editor's alignment and size classes through, each one listed here.
             declarations.AddRange(element.ClassList.Where(ClassLooks.ContainsKey).Select(name => ClassLooks[name]));
             element.RemoveAttribute("class");
+
+            // Only a host's block fragment carries a style (the template's sanitiser drops every one): its declarations
+            // come after the theme's, so they win, and move to the preview's attribute there.
+            if (element.GetAttribute("style") is { } own && !string.IsNullOrWhiteSpace(own))
+            {
+                declarations.Add(own.Trim().TrimEnd(';'));
+            }
+
+            element.RemoveAttribute("style");
             if (declarations.Count > 0)
             {
                 element.SetAttribute(lookAttribute, string.Join(';', declarations));

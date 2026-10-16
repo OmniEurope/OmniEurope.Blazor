@@ -1576,6 +1576,7 @@
   <data name="DemoEditorMailFile" xml:space="preserve"><value>Uimhir an chomhaid</value></data>
   <data name="DemoEditorMailDue" xml:space="preserve"><value>Dáta dlite</value></data>
   <data name="DemoEditorMailLink" xml:space="preserve"><value>Nasc chuig an gcomhad</value></data>
+  <data name="DemoEditorMailPieces" xml:space="preserve"><value>Doiciméid a bhfuiltear ag súil leo</value></data>
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Meabhrúchán don chomhad {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Meabhrúchán&lt;/h2&gt;&lt;p&gt;A {{client}}, a chara,&lt;/p&gt;&lt;p&gt;Tá an comhad {{file}} ag fanacht ar do fhreagra roimh {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Oscail an comhad&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Tástáil tugtha don fheidhmchlár, ábhar “{0}”.</value></data>

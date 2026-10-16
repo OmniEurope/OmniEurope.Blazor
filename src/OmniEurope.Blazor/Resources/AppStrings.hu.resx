@@ -714,4 +714,11 @@
   <data name="MailTemplateEditorPreviewSubject" xml:space="preserve"><value>Tárgy: {0}</value></data>
   <data name="MailTemplateEditorVariableHint" xml:space="preserve"><value>{0}: {1}</value></data>
   <data name="MailTemplateEditorSendTest" xml:space="preserve"><value>Próbaüzenet küldése</value></data>
+  <data name="MailTemplateEditorBlocks" xml:space="preserve"><value>Blokk beszúrása</value></data>
+  <data name="MailTemplateEditorBanner" xml:space="preserve"><value>Sáv</value></data>
+  <data name="MailTemplateEditorBannerInfo" xml:space="preserve"><value>Információ</value></data>
+  <data name="MailTemplateEditorBannerSuccess" xml:space="preserve"><value>Siker</value></data>
+  <data name="MailTemplateEditorBannerWarning" xml:space="preserve"><value>Figyelmeztetés</value></data>
+  <data name="MailTemplateEditorBannerDanger" xml:space="preserve"><value>Veszély</value></data>
+  <data name="MailTemplateEditorButton" xml:space="preserve"><value>Gomb: {0}</value></data>
 </root>

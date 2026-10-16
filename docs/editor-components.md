@@ -384,7 +384,7 @@ Le paquet n'envoie rien : `OmniMailRenderResult` va à l'expéditeur de l'applic
 | `Theme` | `OmniMailTheme` de l'aperçu, celui avec lequel le mail partira ; `OmniMailTheme.Default` sinon. |
 | `Label` | Nom des onglets ; « Modèle de mail » localisé sinon. |
 | `Commands`, `Rows` | Barre et hauteur du corps, comme `OmniHtmlEditor`. |
-| `Disabled`, `ReadOnly` | Verrouillent l'objet, le corps et les boutons de variables ; l'aperçu reste lisible. |
+| `Disabled`, `ReadOnly` | Verrouillent l'objet, le corps et les boutons de variables et de blocs ; l'aperçu reste lisible. |
 | `OnSendTest` | Affiche « Envoyer un essai » : le mail rendu tel qu'il partira (attributs `style`, valeurs d'exemple, `OmniMailRenderResult`) est remis à l'hôte, qui l'envoie à qui le vérifie dans une vraie messagerie ; le paquet n'envoie rien. Le bouton reste occupé jusqu'à la fin de la tâche ; sans gestionnaire, pas de bouton. |
 | `OnSendTestError` | Reçoit l'exception d'`OnSendTest` ; sans gestionnaire, elle remonte au moteur de rendu. |
 
@@ -394,7 +394,7 @@ Le paquet n'envoie rien : `OmniMailRenderResult` va à l'expéditeur de l'applic
   le bouton atteint par Tab écrit au curseur mémorisé. Dans la face source du corps, le jeton se tape.
 - Jetons : chaque `{{nom}}` du texte du corps est surligné (fond de la couleur d'accent atténuée) par la CSS Custom
   Highlight API, comme les passages de la relecture : le document n'est pas modifié et la valeur reste le modèle ;
-  le surlignage suit la frappe et revient avec la face visuelle. Un navigateur sans cette API ne surligne rien.
+  les marqueurs de blocs le sont aussi ;   le surlignage suit la frappe et revient avec la face visuelle. Un navigateur sans cette API ne surligne rien.
   L'adresse d'un lien n'est pas du texte et n'est donc pas surlignée.
 - Onglets : « Modèle » (le corps) et « Aperçu », les deux panneaux restant rendus, si bien que l'éditeur garde
   son curseur et qu'une variable s'insère aussi depuis l'aperçu.
@@ -427,19 +427,68 @@ Le paquet n'envoie rien : `OmniMailRenderResult` va à l'expéditeur de l'applic
   `--omni-*` ; un jeton absent ou non littéral (`var()`, `color-mix()`) garde la valeur par défaut. La police
   est suivie d'Arial, Helvetica, sans-serif. Un thème posé à la main dont une valeur n'est pas littérale fait
   lever `ArgumentException` au rendu.
+  Les bandeaux prennent `Info`, `Success`, `Warning`, `Danger` (le filet) et leurs `…Subtle` (le fond), lus dans
+  `--omni-color-info`, `--omni-color-success`, `--omni-color-warning`, `--omni-color-danger` et leurs jetons `-subtle`.
+
+### Les blocs
+
+Trois blocs complètent les variables de texte, tous en HTML statique de tableaux de présentation, chaque style
+écrit sur son élément, sans script : Outlook (moteur Word), Gmail et les clients web les dessinent pareil.
+
+| Bloc | Écriture dans le modèle | Rendu |
+| --- | --- | --- |
+| Bouton d'action | Un paragraphe qui contient `{{#button nom}}` ; son texte (variables écrites) est le libellé. | Tableau d'une cellule de fond `Accent`, lien `display:inline-block` rembourré de couleur `OnAccent`, rayon du thème ; alignement de l'éditeur (centré, à droite) repris par `align`. L'adresse est la valeur de `nom`, gardée seulement en `http`, `https` ou `mailto` absolue (le bouton perd son lien sinon, comme un lien). Libellé vide : aucun bouton. Texte brut : « libellé (adresse) ». |
+| Bandeau | Un paragraphe qui contient `{{#banner ton}}`, `ton` valant `info` (défaut), `success`, `warning` ou `danger`. | Tableau pleine largeur de la carte, fond `…Subtle` du ton, filet de 4 px du ton au début, texte `Text` ; le contenu du paragraphe (mise en forme et liens) est gardé. Paragraphe vide : aucun bandeau. |
+| Variable de bloc | `{{nom}}` seul dans son paragraphe (ou élément de liste, cellule, citation), `nom` étant une clé de `OmniMailRenderOptions.Blocks`. | Le fragment HTML de l'hôte, assaini, à la place du paragraphe (ou dans l'élément de liste, la cellule, la citation). Écrit au milieu d'une ligne, le jeton prend le texte brut du fragment. |
+
+- Déclaration : l'hôte passe ses fragments dans `OmniMailRenderOptions.Blocks` (`IReadOnlyDictionary<string, string?>`) ;
+  un nom présent là est une variable de bloc, un nom des valeurs une variable de texte, toujours échappée ; un
+  nom présent des deux côtés fait lever `ArgumentException`. Un fragment nul ne rend rien et figure dans
+  `MissingVariables`, comme l'adresse absente d'un bouton.
+- Assainissement du fragment, par une liste blanche propre aux mails : éléments de texte, de liste et de
+  tableau (`p`, `div`, `span`, `strong`, `em`, `ul`, `ol`, `li`, `table`, `thead`, `tbody`, `tr`, `th`, `td`,
+  `caption`, `h1` à `h6`, `pre`, `code`, `hr`, `mark`, `small`…), liens `http`, `https`, `mailto` (avec
+  `rel="noopener noreferrer"`), attributs `href`, `colspan`, `rowspan`, `title` et `style`, ce dernier réduit
+  aux propriétés `color`, `background-color`, `font-weight`, `font-style`, `font-size`, `text-align`,
+  `text-decoration`, `vertical-align`, `white-space`, `width`, `padding*`, `border*`. Sont retirés : scripts,
+  `style`, `link`, `iframe`, `object`, formulaires, images, SVG, MathML, gestionnaires `on*`, classes,
+  identifiants, attributs `data-*`, et tout `style` qui contient `url(`, `expression(`, `@import`, une barre
+  oblique inverse ou `javascript:`. Les couleurs opaques sont réécrites en hexadécimal (Outlook ignore `rgba()`).
+  Les déclarations de l'hôte suivent celles du thème sur chaque élément, si bien qu'elles l'emportent.
+- Aucune injection par les valeurs : les marqueurs et les jetons de blocs sont lus dans le modèle avant que les
+  valeurs soient écrites, et le texte d'un fragment n'est jamais relu pour des jetons ; une valeur qui contient
+  `{{#banner danger}}` s'écrit comme texte.
+- `FindVariables` liste aussi les variables de blocs et les adresses de boutons (pas les tons des bandeaux).
+  `MissingVariables` suit l'ordre d'apparition dans l'objet, le préheader puis le corps.
 
 ```csharp
 // Un mail aux couleurs de l'apparence de son destinataire (son OmniAppearanceState, ou ses préférences lues en base).
 var preset = apparence.Preset ?? OmniThemePresets.All[0];
 var theme = OmniMailTheme.From(apparence.Palette is { } palette ? preset.With(palette) : preset);
 var mail = OmniMailRenderer.Render(modele.Corps,
-    new Dictionary<string, string?> { ["client"] = client.Nom, ["file"] = dossier.Numero },
-    new OmniMailRenderOptions { Subject = modele.Objet, Theme = theme });
+    new Dictionary<string, string?> { ["client"] = client.Nom, ["file"] = dossier.Numero, ["run.url"] = lienDuRun },
+    new OmniMailRenderOptions
+    {
+        Subject = modele.Objet,
+        Theme = theme,
+        // Le tableau des étapes en échec, rendu par l'application ; écrit {{steps}} seul dans son paragraphe.
+        Blocks = new Dictionary<string, string?> { ["steps"] = etapesEnEchecHtml },
+    });
 await expediteur.EnvoyerAsync(destinataire, mail.Subject, mail.Html, mail.Text);
 ```
 
 ```razor
 <OmniMailTemplateEditor @bind-Value="corps" @bind-Subject="objet" Variables="variables" Theme="theme" />
+
+@code {
+    // "run.url" est proposé pour les boutons d'action, "steps" s'insère comme bloc.
+    private readonly OmniMailVariable[] variables =
+    [
+        new("client", "Client"),
+        new("run.url", "Lien du run") { Kind = OmniMailVariableKind.Link },
+        new("steps", "Étapes en échec") { Kind = OmniMailVariableKind.Block, SampleValue = "<table><tr><td>build</td></tr></table>" },
+    ];
+}
 ```
 
 ## OmniCodeEditor

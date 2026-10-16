@@ -26,8 +26,36 @@
                 <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" Class="omni-mail-template-editor__variable"
                             title="@VariableTitle(variable)" data-omni-variable="@variable.Name"
                             Disabled="@(Disabled || ReadOnly)" OnClick="() => InsertAsync(variable)">
-                    <OmniIcon Name="OmniIconName.Tag" />
+                    <OmniIcon Name="@(variable.Kind == OmniMailVariableKind.Block ? OmniIconName.Table : variable.Kind == OmniMailVariableKind.Link ? OmniIconName.Link : OmniIconName.Tag)" />
                     <span>@variable.Label</span>
+                </OmniButton>
+            }
+        </div>
+    }
+    @if (ShowBlocks)
+    {
+        @* The banner and, with a link variable, the action button: each writes its marker in a paragraph of its own. *@
+        <div class="omni-mail-template-editor__blocks" role="group" aria-label="@Localize("MailTemplateEditorBlocks")"
+             @onmousedown:preventDefault="true">
+            <span class="omni-mail-template-editor__blocks-label" aria-hidden="true">@Localize("MailTemplateEditorBlocks")</span>
+            <OmniSplitButton Size="OmniControlSize.Small" Class="omni-mail-template-editor__banner" Text="@Localize("MailTemplateEditorBanner")"
+                             MenuLabel="@Localize("MailTemplateEditorBanner")" Disabled="@(Disabled || ReadOnly)"
+                             OnClick="() => InsertBannerAsync(BannerTones[0])">
+                <Icon><OmniIcon Name="OmniIconName.Megaphone" /></Icon>
+                <ChildContent>
+                    @foreach (var tone in BannerTones)
+                    {
+                        <OmniMenuItem data-omni-banner="@tone" OnClick="() => InsertBannerAsync(tone)">@BannerLabel(tone)</OmniMenuItem>
+                    }
+                </ChildContent>
+            </OmniSplitButton>
+            @foreach (var link in LinkVariables)
+            {
+                <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" Class="omni-mail-template-editor__button"
+                            title="@ButtonMarker(link)" data-omni-button="@link.Name"
+                            Disabled="@(Disabled || ReadOnly)" OnClick="() => InsertButtonAsync(link)">
+                    <OmniIcon Name="OmniIconName.HandTap" />
+                    <span>@Localize("MailTemplateEditorButton", link.Label)</span>
                 </OmniButton>
             }
         </div>

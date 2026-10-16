@@ -4,6 +4,15 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Added
+
+- Blocs des modèles de mails : demande d'une application cliente (recette R1-75). `OmniMailRenderer` rend trois blocs en HTML statique de tableaux de présentation, styles sur chaque élément, sans script (Outlook, Gmail, clients web) : le bouton d'action (`{{#button nom}}` dans un paragraphe, dont le texte est le libellé ; fond `OmniMailTheme.Accent`, libellé `OnAccent`, adresse limitée à http, https et mailto), le bandeau (`{{#banner info|success|warning|danger}}`, pleine largeur, fond et filet du ton) et la variable de bloc (`OmniMailRenderOptions.Blocks`, fragments HTML de l'hôte par nom, insérés à la place du paragraphe où leur jeton est seul, texte brut au milieu d'une ligne). Les fragments passent par une liste blanche propre aux mails (texte, listes, tableaux, liens http/https/mailto, quelques propriétés `style`) qui retire scripts, feuilles de style, `link`, documents embarqués, formulaires, images, `on*`, classes et toute déclaration à `url(`, `expression(` ou `@import` ; une variable de texte reste échappée, un nom donné des deux côtés lève `ArgumentException`, aucune valeur ne peut créer de bloc. `OmniMailTheme` gagne `Info`, `Success`, `Warning`, `Danger` et leurs `…Subtle`, lus dans les jetons `--omni-color-*` ; `FindVariables` et `MissingVariables` comptent les blocs et les adresses de boutons. Voir [docs/editor-components.md](docs/editor-components.md), « Les blocs ».
+- `OmniMailVariable.Kind` (`OmniMailVariableKind` : `Text`, `Link`, `Block`) et `OmniMailTemplateEditor.ShowBlocks` (`bool`, `true`) : le groupe « Insérer un bloc » de l'éditeur offre un bouton scindé « Bandeau » (quatre tons) et un bouton d'action par variable `Link` ; une variable `Block` s'insère dans un paragraphe à elle ; l'aperçu dessine les trois blocs avec les valeurs d'exemple (fragment d'exemple d'une variable `Block` assaini comme celui de l'hôte). Les marqueurs de blocs sont surlignés comme les jetons. Sept textes dans les 24 langues, sans relecture native.
+
+### Changed
+
+- `OmniMailTemplateEditor` affiche par défaut le groupe « Insérer un bloc » sous les variables. Migration : `ShowBlocks="false"` rend l'ancien éditeur.
+
 ## [1.8.1] - 2026-10-13
 
 Version de correctif qui porte des ajouts d'API, par décision du propriétaire du 2026-10-13 (voir [docs/versioning.md](docs/versioning.md)) ; aucune rupture hors du changement de sens de la portée vide décrit sous « Changed ».

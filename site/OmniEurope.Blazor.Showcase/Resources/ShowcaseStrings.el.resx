@@ -1576,6 +1576,7 @@
   <data name="DemoEditorMailFile" xml:space="preserve"><value>Αριθμός φακέλου</value></data>
   <data name="DemoEditorMailDue" xml:space="preserve"><value>Ημερομηνία λήξης</value></data>
   <data name="DemoEditorMailLink" xml:space="preserve"><value>Σύνδεσμος φακέλου</value></data>
+  <data name="DemoEditorMailPieces" xml:space="preserve"><value>Αναμενόμενα έγγραφα</value></data>
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Υπενθύμιση για τον φάκελο {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Υπενθύμιση&lt;/h2&gt;&lt;p&gt;Γεια σας {{client}},&lt;/p&gt;&lt;p&gt;Ο φάκελος {{file}} περιμένει την απάντησή σας έως τις {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Άνοιγμα φακέλου&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Η δοκιμή παραδόθηκε στην εφαρμογή, θέμα «{0}».</value></data>

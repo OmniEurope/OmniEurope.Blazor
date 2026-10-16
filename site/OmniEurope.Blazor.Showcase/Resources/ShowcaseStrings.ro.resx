@@ -1576,6 +1576,7 @@
   <data name="DemoEditorMailFile" xml:space="preserve"><value>Numărul dosarului</value></data>
   <data name="DemoEditorMailDue" xml:space="preserve"><value>Termen</value></data>
   <data name="DemoEditorMailLink" xml:space="preserve"><value>Link către dosar</value></data>
+  <data name="DemoEditorMailPieces" xml:space="preserve"><value>Documente așteptate</value></data>
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Reamintire pentru dosarul {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Reamintire&lt;/h2&gt;&lt;p&gt;Bună ziua, {{client}},&lt;/p&gt;&lt;p&gt;Dosarul {{file}} așteaptă răspunsul dvs. până la {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Deschideți dosarul&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Testul a fost predat aplicației, subiect „{0}”.</value></data>

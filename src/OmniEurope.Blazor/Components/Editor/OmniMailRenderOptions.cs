@@ -21,6 +21,17 @@ public sealed record OmniMailRenderOptions
     /// <summary>The document's language (<c>lang</c>); the current UI culture's name when null.</summary>
     public string? Language { get; init; }
 
+    /// <summary>
+    /// The block variables and their values: pre-rendered HTML fragments by name (a table of failed steps, a list), each
+    /// written <c>{{name}}</c> in the template like a text variable. A name listed here is a block variable; a name of the
+    /// <c>values</c> given to <see cref="OmniMailRenderer.Render"/> is a text variable; a name in both throws
+    /// <see cref="ArgumentException"/>. A token that stands alone in its paragraph (or list item, cell, quotation) is
+    /// replaced, with that paragraph, by the fragment sanitised through the mail's allow-list (see
+    /// <see cref="OmniMailRenderer"/>); a token written inside a line of text is replaced by the fragment's plain text. A
+    /// null value renders nothing and is listed in <see cref="OmniMailRenderResult.MissingVariables"/>. Null: no block variable.
+    /// </summary>
+    public IReadOnlyDictionary<string, string?>? Blocks { get; init; }
+
     /// <summary>The widest the mail's card grows, in pixels, 600 by default (the width mail clients are designed for); 320 to 1200.</summary>
     public int Width { get; init; } = 600;
 }

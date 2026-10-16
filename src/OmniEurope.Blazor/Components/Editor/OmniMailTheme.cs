@@ -37,10 +37,10 @@ public sealed record OmniMailTheme
     /// <summary>Quotations and table captions.</summary>
     public string MutedText { get; init; } = "#5c5c5c";
 
-    /// <summary>The rule beside a quotation.</summary>
+    /// <summary>The rule beside a quotation, and the fill of an action button.</summary>
     public string Accent { get; init; } = "#4340d2";
 
-    /// <summary>Text drawn on <see cref="Accent"/>.</summary>
+    /// <summary>Text drawn on <see cref="Accent"/>: the label of an action button.</summary>
     public string OnAccent { get; init; } = "#ffffff";
 
     /// <summary>Links.</summary>
@@ -54,6 +54,30 @@ public sealed record OmniMailTheme
 
     /// <summary>Behind code, code blocks and table headers.</summary>
     public string CodeBackground { get; init; } = FallbackPage;
+
+    /// <summary>The rule at the start of an information banner (<c>--omni-color-info</c>).</summary>
+    public string Info { get; init; } = "#1565c0";
+
+    /// <summary>Behind an information banner (<c>--omni-color-info-subtle</c>).</summary>
+    public string InfoSubtle { get; init; } = "#e3eefa";
+
+    /// <summary>The rule at the start of a success banner (<c>--omni-color-success</c>).</summary>
+    public string Success { get; init; } = "#2e7d32";
+
+    /// <summary>Behind a success banner (<c>--omni-color-success-subtle</c>).</summary>
+    public string SuccessSubtle { get; init; } = "#e6f2e7";
+
+    /// <summary>The rule at the start of a warning banner (<c>--omni-color-warning</c>).</summary>
+    public string Warning { get; init; } = "#b26a00";
+
+    /// <summary>Behind a warning banner (<c>--omni-color-warning-subtle</c>).</summary>
+    public string WarningSubtle { get; init; } = "#fbf0dd";
+
+    /// <summary>The rule at the start of a danger banner (<c>--omni-color-danger</c>).</summary>
+    public string Danger { get; init; } = "#c62828";
+
+    /// <summary>Behind a danger banner (<c>--omni-color-danger-subtle</c>).</summary>
+    public string DangerSubtle { get; init; } = "#fae6e6";
 
     /// <summary>The text font, followed by fonts every mail client has (Arial, Helvetica, sans-serif) when it does not end with a generic family.</summary>
     public string FontFamily { get; init; } = MailCss.SafeFontStack;
@@ -83,6 +107,8 @@ public sealed record OmniMailTheme
     /// <c>--omni-color-surface</c>, <c>--omni-color-text</c>, <c>--omni-color-text-muted</c>,
     /// <c>--omni-color-accent</c>, <c>--omni-color-on-accent</c>, <c>--omni-color-accent-strong</c> for links,
     /// <c>--omni-color-border</c>, <c>--omni-color-accent-subtle</c> for marked text,
+    /// <c>--omni-color-info</c>, <c>--omni-color-success</c>, <c>--omni-color-warning</c>,
+    /// <c>--omni-color-danger</c> and their <c>-subtle</c> tokens for the banners,
     /// <c>--omni-font-family</c> and <c>--omni-card-radius</c> (else <c>--omni-radius</c>). A missing token,
     /// or one that is not a literal value (a <c>var()</c>, a <c>color-mix()</c>), keeps the default.
     /// </summary>
@@ -108,6 +134,14 @@ public sealed record OmniMailTheme
             Border = ColorOr("--omni-color-border", Fallback.Border),
             Highlight = ColorOr("--omni-color-accent-subtle", Fallback.Highlight),
             CodeBackground = surfaceMuted,
+            Info = ColorOr("--omni-color-info", Fallback.Info),
+            InfoSubtle = ColorOr("--omni-color-info-subtle", Fallback.InfoSubtle),
+            Success = ColorOr("--omni-color-success", Fallback.Success),
+            SuccessSubtle = ColorOr("--omni-color-success-subtle", Fallback.SuccessSubtle),
+            Warning = ColorOr("--omni-color-warning", Fallback.Warning),
+            WarningSubtle = ColorOr("--omni-color-warning-subtle", Fallback.WarningSubtle),
+            Danger = ColorOr("--omni-color-danger", Fallback.Danger),
+            DangerSubtle = ColorOr("--omni-color-danger-subtle", Fallback.DangerSubtle),
             FontFamily = tokens.TryGetValue("--omni-font-family", out var font) && MailCss.IsFontFamily(font)
                 ? MailCss.WithSafeFallback(font)
                 : Fallback.FontFamily,

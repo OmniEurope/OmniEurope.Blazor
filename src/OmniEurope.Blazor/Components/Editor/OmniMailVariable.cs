@@ -11,8 +11,15 @@ namespace OmniEurope.Blazor.Components;
 /// <param name="Label">What the variable is, as offered to the person who writes the template.</param>
 public sealed record OmniMailVariable(string Name, string Label)
 {
-    /// <summary>The value shown for the variable in the preview of <see cref="OmniMailTemplateEditor"/>; its label in brackets when null.</summary>
+    /// <summary>
+    /// The value shown for the variable in the preview of <see cref="OmniMailTemplateEditor"/>; its label in brackets
+    /// when null. For a <see cref="OmniMailVariableKind.Block"/> variable, an HTML fragment, sanitised as the host's
+    /// fragments are.
+    /// </summary>
     public string? SampleValue { get; init; }
+
+    /// <summary>What the variable holds: a text (the default), an address an action button may point to, or an HTML block.</summary>
+    public OmniMailVariableKind Kind { get; init; }
 
     /// <summary>A line telling where the value comes from, shown under the label in the variable picker.</summary>
     public string? Description { get; init; }

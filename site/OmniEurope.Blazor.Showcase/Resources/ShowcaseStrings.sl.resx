@@ -1576,6 +1576,7 @@
   <data name="DemoEditorMailFile" xml:space="preserve"><value>Številka zadeve</value></data>
   <data name="DemoEditorMailDue" xml:space="preserve"><value>Rok</value></data>
   <data name="DemoEditorMailLink" xml:space="preserve"><value>Povezava do zadeve</value></data>
+  <data name="DemoEditorMailPieces" xml:space="preserve"><value>Pričakovani dokumenti</value></data>
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Opomnik za zadevo {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Opomnik&lt;/h2&gt;&lt;p&gt;Spoštovani {{client}},&lt;/p&gt;&lt;p&gt;zadeva {{file}} čaka na vaš odgovor do {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Odpri zadevo&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Preizkus predan aplikaciji, zadeva »{0}«.</value></data>

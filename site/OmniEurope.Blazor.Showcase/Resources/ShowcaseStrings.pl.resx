@@ -1576,6 +1576,7 @@
   <data name="DemoEditorMailFile" xml:space="preserve"><value>Numer sprawy</value></data>
   <data name="DemoEditorMailDue" xml:space="preserve"><value>Termin</value></data>
   <data name="DemoEditorMailLink" xml:space="preserve"><value>Link do sprawy</value></data>
+  <data name="DemoEditorMailPieces" xml:space="preserve"><value>Oczekiwane dokumenty</value></data>
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Przypomnienie dotyczące sprawy {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Przypomnienie&lt;/h2&gt;&lt;p&gt;Dzień dobry {{client}},&lt;/p&gt;&lt;p&gt;sprawa {{file}} czeka na Twoją odpowiedź do {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Otwórz sprawę&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Próba przekazana aplikacji, temat „{0}”.</value></data>

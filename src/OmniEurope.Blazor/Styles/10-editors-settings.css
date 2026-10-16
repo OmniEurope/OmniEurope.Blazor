@@ -52,8 +52,8 @@
    preview. The preview's mail sits in a shadow root with its own look; the frame around it only bounds it
    and lets a mail taller than the page scroll. */
 .omni-mail-template-editor { display: grid; gap: var(--omni-space-sm); min-inline-size: 0; }
-.omni-mail-template-editor__variables { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); }
-.omni-mail-template-editor__variables-label { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); margin-inline-end: var(--omni-space-xs); }
+.omni-mail-template-editor__variables, .omni-mail-template-editor__blocks { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); }
+.omni-mail-template-editor__variables-label, .omni-mail-template-editor__blocks-label { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); margin-inline-end: var(--omni-space-xs); }
 .omni-mail-template-editor__actions { display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: flex-end; }
 .omni-mail-template-editor__preview { display: grid; gap: var(--omni-space-sm); min-inline-size: 0; }
 .omni-mail-template-editor__preview-subject { font-weight: 600; margin: 0; overflow-wrap: anywhere; }

@@ -714,4 +714,11 @@
   <data name="MailTemplateEditorPreviewSubject" xml:space="preserve"><value>Oggetto: {0}</value></data>
   <data name="MailTemplateEditorVariableHint" xml:space="preserve"><value>{0}: {1}</value></data>
   <data name="MailTemplateEditorSendTest" xml:space="preserve"><value>Invia una prova</value></data>
+  <data name="MailTemplateEditorBlocks" xml:space="preserve"><value>Inserisci un blocco</value></data>
+  <data name="MailTemplateEditorBanner" xml:space="preserve"><value>Banda</value></data>
+  <data name="MailTemplateEditorBannerInfo" xml:space="preserve"><value>Informazione</value></data>
+  <data name="MailTemplateEditorBannerSuccess" xml:space="preserve"><value>Successo</value></data>
+  <data name="MailTemplateEditorBannerWarning" xml:space="preserve"><value>Avviso</value></data>
+  <data name="MailTemplateEditorBannerDanger" xml:space="preserve"><value>Pericolo</value></data>
+  <data name="MailTemplateEditorButton" xml:space="preserve"><value>Pulsante: {0}</value></data>
 </root>

@@ -1579,6 +1579,7 @@
   <data name="DemoEditorMailFile" xml:space="preserve"><value>File number</value></data>
   <data name="DemoEditorMailDue" xml:space="preserve"><value>Due date</value></data>
   <data name="DemoEditorMailLink" xml:space="preserve"><value>File link</value></data>
+  <data name="DemoEditorMailPieces" xml:space="preserve"><value>Expected documents</value></data>
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Reminder for file {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Reminder&lt;/h2&gt;&lt;p&gt;Hello {{client}},&lt;/p&gt;&lt;p&gt;File {{file}} awaits your answer before {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Open the file&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Test handed to the application, subject “{0}”.</value></data>

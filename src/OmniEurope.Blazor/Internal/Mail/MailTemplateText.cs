@@ -14,10 +14,8 @@ internal sealed partial class MailTemplateText(IReadOnlyDictionary<string, strin
     /// <summary>The names written in a template but given no value, each once.</summary>
     internal IReadOnlyList<string> Missing => _missing;
 
-    /// <summary>Every name written in the text, each once, in order.</summary>
-    internal static IReadOnlyList<string> Names(string? text) => text is null
-        ? []
-        : [.. Token().Matches(text).Select(match => match.Groups["name"].Value).Distinct(StringComparer.Ordinal)];
+    /// <summary>The tokens of the text, in order.</summary>
+    internal static MatchCollection Matches(string text) => Token().Matches(text);
 
     /// <summary>Whether the text holds at least one token.</summary>
     internal static bool HasToken(string text) => Token().IsMatch(text);
@@ -30,12 +28,17 @@ internal sealed partial class MailTemplateText(IReadOnlyDictionary<string, strin
             return value;
         }
 
+        NoteMissing(name);
+        return string.Empty;
+    }
+
+    /// <summary>Records a name given no value, once.</summary>
+    internal void NoteMissing(string name)
+    {
         if (!_missing.Contains(name, StringComparer.Ordinal))
         {
             _missing.Add(name);
         }
-
-        return string.Empty;
     }
 
     /// <summary>Plain text with each token replaced by its value, as is (the caller encodes for its context).</summary>

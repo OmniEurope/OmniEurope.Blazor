@@ -86,11 +86,11 @@ export function insertAtCaret(id, text) {
     return true;
 }
 
-// The {{name}} tokens of a template, marked in the body's surface by the CSS Custom Highlight API
+// The {{name}} tokens of a template, and its block markers ({{#button name}}, {{#banner tone}}), marked in the body's surface by the CSS Custom Highlight API
 // (::highlight(omni-mail-token) in the stylesheet), as the proofreading marks its passages: the document is
 // never touched and the value stays the template. Every attached surface shares the one named highlight;
 // each is read again after any change of its text, once per frame. A browser without the API marks nothing.
-const tokenPattern = /\{\{\s*[A-Za-z][A-Za-z0-9_.-]*\s*\}\}/g;
+const tokenPattern = /\{\{\s*(?:#(?:button|banner)(?:\s+[A-Za-z][A-Za-z0-9_.-]*)?|[A-Za-z][A-Za-z0-9_.-]*)\s*\}\}/gi;
 const tokenSurfaces = new Map();
 
 function highlightsSupported() {

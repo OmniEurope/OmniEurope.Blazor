@@ -1576,6 +1576,7 @@
   <data name="DemoEditorMailFile" xml:space="preserve"><value>Bylos numeris</value></data>
   <data name="DemoEditorMailDue" xml:space="preserve"><value>Terminas</value></data>
   <data name="DemoEditorMailLink" xml:space="preserve"><value>Bylos nuoroda</value></data>
+  <data name="DemoEditorMailPieces" xml:space="preserve"><value>Laukiami dokumentai</value></data>
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Priminimas dėl bylos {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Priminimas&lt;/h2&gt;&lt;p&gt;Sveiki, {{client}},&lt;/p&gt;&lt;p&gt;byla {{file}} laukia jūsų atsakymo iki {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Atverti bylą&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Bandymas perduotas programai, tema „{0}“.</value></data>

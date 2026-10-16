@@ -15,6 +15,20 @@ namespace OmniEurope.Blazor.Components;
 /// address otherwise.
 /// </para>
 /// <para>
+/// Three blocks build on that. A paragraph holding <c>{{#button name}}</c> becomes an action button: the
+/// paragraph's text (its variables written) is the label, the value of <c>name</c> the address, kept under the
+/// same rule as a link's, the fill <see cref="OmniMailTheme.Accent"/> and the label <see cref="OmniMailTheme.OnAccent"/>.
+/// A paragraph holding <c>{{#banner tone}}</c> (<c>info</c>, the default, <c>success</c>, <c>warning</c> or
+/// <c>danger</c>) becomes a banner across the card, its content kept, on the tone's pale colour with the tone's rule at
+/// its start. Both are presentation tables with their look on each element, the label a link padded inside its cell, so
+/// Outlook draws them as the web clients do; the marker writes nothing itself. A block variable, a name given in
+/// <see cref="OmniMailRenderOptions.Blocks"/>, inserts the host's HTML fragment, sanitised through an allow-list of its
+/// own: text, list and table elements, links to http, https and mailto, and inline declarations of colour, weight,
+/// size, alignment, padding, border and width, which win over the mail's; scripts, style sheets, <c>link</c>
+/// elements, embedded documents, forms, images, event handlers, classes and any declaration with <c>url(</c>,
+/// <c>expression(</c>, <c>@import</c> or a backslash are removed. The tokens of a fragment are never replaced.
+/// </para>
+/// <para>
 /// The layout is the one mail clients agree on: presentation tables, every style written on its element
 /// (Gmail and Outlook drop style sheets and classes), the editor's alignment and size classes turned into
 /// declarations, a card of <see cref="OmniMailRenderOptions.Width"/> pixels for Outlook's Word engine,
@@ -37,5 +51,5 @@ public static class OmniMailRenderer
         MailDocument.Render(template, values ?? new Dictionary<string, string?>(), options ?? new OmniMailRenderOptions());
 
     /// <summary>The names of the variables a template uses (<c>{{name}}</c>), each once, in the order they first appear.</summary>
-    public static IReadOnlyList<string> FindVariables(string? template) => MailTemplateText.Names(template);
+    public static IReadOnlyList<string> FindVariables(string? template) => MailBlocks.Names(template);
 }

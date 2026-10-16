@@ -714,4 +714,11 @@
   <data name="MailTemplateEditorPreviewSubject" xml:space="preserve"><value>Ábhar: {0}</value></data>
   <data name="MailTemplateEditorVariableHint" xml:space="preserve"><value>{0}: {1}</value></data>
   <data name="MailTemplateEditorSendTest" xml:space="preserve"><value>Seol tástáil</value></data>
+  <data name="MailTemplateEditorBlocks" xml:space="preserve"><value>Cuir bloc isteach</value></data>
+  <data name="MailTemplateEditorBanner" xml:space="preserve"><value>Meirge</value></data>
+  <data name="MailTemplateEditorBannerInfo" xml:space="preserve"><value>Eolas</value></data>
+  <data name="MailTemplateEditorBannerSuccess" xml:space="preserve"><value>Rath</value></data>
+  <data name="MailTemplateEditorBannerWarning" xml:space="preserve"><value>Rabhadh</value></data>
+  <data name="MailTemplateEditorBannerDanger" xml:space="preserve"><value>Contúirt</value></data>
+  <data name="MailTemplateEditorButton" xml:space="preserve"><value>Cnaipe: {0}</value></data>
 </root>

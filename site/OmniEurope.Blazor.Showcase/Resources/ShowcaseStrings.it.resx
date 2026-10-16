@@ -1576,6 +1576,7 @@
   <data name="DemoEditorMailFile" xml:space="preserve"><value>Numero di pratica</value></data>
   <data name="DemoEditorMailDue" xml:space="preserve"><value>Data di scadenza</value></data>
   <data name="DemoEditorMailLink" xml:space="preserve"><value>Link alla pratica</value></data>
+  <data name="DemoEditorMailPieces" xml:space="preserve"><value>Documenti attesi</value></data>
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Sollecito per la pratica {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Sollecito&lt;/h2&gt;&lt;p&gt;Gentile {{client}},&lt;/p&gt;&lt;p&gt;La pratica {{file}} attende la sua risposta entro il {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Apri la pratica&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Prova consegnata all'applicazione, oggetto «{0}».</value></data>

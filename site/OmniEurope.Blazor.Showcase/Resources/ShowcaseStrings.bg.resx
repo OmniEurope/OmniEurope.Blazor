@@ -1576,6 +1576,7 @@
   <data name="DemoEditorMailFile" xml:space="preserve"><value>Номер на преписката</value></data>
   <data name="DemoEditorMailDue" xml:space="preserve"><value>Краен срок</value></data>
   <data name="DemoEditorMailLink" xml:space="preserve"><value>Връзка към преписката</value></data>
+  <data name="DemoEditorMailPieces" xml:space="preserve"><value>Очаквани документи</value></data>
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Напомняне за преписка {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Напомняне&lt;/h2&gt;&lt;p&gt;Здравейте, {{client}},&lt;/p&gt;&lt;p&gt;Преписка {{file}} очаква отговора ви преди {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Отваряне на преписката&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Пробата е предадена на приложението, тема „{0}“.</value></data>

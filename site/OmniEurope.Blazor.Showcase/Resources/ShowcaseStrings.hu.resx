@@ -1576,6 +1576,7 @@
   <data name="DemoEditorMailFile" xml:space="preserve"><value>Ügyiratszám</value></data>
   <data name="DemoEditorMailDue" xml:space="preserve"><value>Határidő</value></data>
   <data name="DemoEditorMailLink" xml:space="preserve"><value>Az ügyirat hivatkozása</value></data>
+  <data name="DemoEditorMailPieces" xml:space="preserve"><value>Várt dokumentumok</value></data>
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Emlékeztető a(z) {{file}} ügyiratról</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Emlékeztető&lt;/h2&gt;&lt;p&gt;Kedves {{client}}!&lt;/p&gt;&lt;p&gt;A(z) {{file}} ügyirat {{due}} előtt várja a válaszát.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Ügyirat megnyitása&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>A próba átadva az alkalmazásnak, tárgy: „{0}”.</value></data>

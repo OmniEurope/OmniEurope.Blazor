@@ -1579,6 +1579,7 @@
   <data name="DemoEditorMailFile" xml:space="preserve"><value>Numéro de dossier</value></data>
   <data name="DemoEditorMailDue" xml:space="preserve"><value>Date d'échéance</value></data>
   <data name="DemoEditorMailLink" xml:space="preserve"><value>Lien du dossier</value></data>
+  <data name="DemoEditorMailPieces" xml:space="preserve"><value>Pièces attendues</value></data>
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Relance du dossier {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Relance&lt;/h2&gt;&lt;p&gt;Bonjour {{client}},&lt;/p&gt;&lt;p&gt;Le dossier {{file}} attend votre réponse avant le {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Ouvrir le dossier&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Essai remis à l'application, objet « {0} ».</value></data>

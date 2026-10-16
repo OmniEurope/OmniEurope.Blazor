@@ -136,7 +136,8 @@
 
 @* Un modèle de mail : objet, corps et variables ; un bouton de variable écrit son jeton au curseur de
    l'objet ou du corps, l'onglet Aperçu montre le mail rendu par OmniMailRenderer avec les valeurs
-   d'exemple, aux couleurs du thème, tel qu'un client de messagerie le recevra. *@
+   d'exemple, aux couleurs du thème, tel qu'un client de messagerie le recevra. « Insérer un bloc » ajoute un
+   bandeau ou un bouton d'action vers le lien du dossier ; « Pièces attendues » est une variable de bloc. *@
 <OmniMailTemplateEditor Id="editor-mail" @bind-Value="MailBody" @bind-Subject="MailSubject"
                         Variables="MailVariables" Theme="MailTheme" Label="@Text["DemoEditorMailLabel"]" Rows="8"
                         OnSendTest="SendMailTest" />

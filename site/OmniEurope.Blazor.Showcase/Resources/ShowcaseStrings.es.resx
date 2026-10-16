@@ -1576,6 +1576,7 @@
   <data name="DemoEditorMailFile" xml:space="preserve"><value>Número de expediente</value></data>
   <data name="DemoEditorMailDue" xml:space="preserve"><value>Fecha de vencimiento</value></data>
   <data name="DemoEditorMailLink" xml:space="preserve"><value>Enlace al expediente</value></data>
+  <data name="DemoEditorMailPieces" xml:space="preserve"><value>Documentos esperados</value></data>
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Recordatorio del expediente {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Recordatorio&lt;/h2&gt;&lt;p&gt;Hola, {{client}}:&lt;/p&gt;&lt;p&gt;El expediente {{file}} espera su respuesta antes del {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Abrir el expediente&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Prueba entregada a la aplicación, asunto «{0}».</value></data>

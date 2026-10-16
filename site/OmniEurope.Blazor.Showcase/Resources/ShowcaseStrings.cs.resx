@@ -1576,6 +1576,7 @@
   <data name="DemoEditorMailFile" xml:space="preserve"><value>Číslo spisu</value></data>
   <data name="DemoEditorMailDue" xml:space="preserve"><value>Datum splatnosti</value></data>
   <data name="DemoEditorMailLink" xml:space="preserve"><value>Odkaz na spis</value></data>
+  <data name="DemoEditorMailPieces" xml:space="preserve"><value>Očekávané dokumenty</value></data>
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Upomínka ke spisu {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Upomínka&lt;/h2&gt;&lt;p&gt;Dobrý den, {{client}},&lt;/p&gt;&lt;p&gt;spis {{file}} čeká na vaši odpověď do {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Otevřít spis&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Zkouška předána aplikaci, předmět „{0}“.</value></data>

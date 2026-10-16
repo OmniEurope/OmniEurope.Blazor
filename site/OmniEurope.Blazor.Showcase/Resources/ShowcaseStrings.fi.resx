@@ -1576,6 +1576,7 @@
   <data name="DemoEditorMailFile" xml:space="preserve"><value>Asianumero</value></data>
   <data name="DemoEditorMailDue" xml:space="preserve"><value>Eräpäivä</value></data>
   <data name="DemoEditorMailLink" xml:space="preserve"><value>Asian linkki</value></data>
+  <data name="DemoEditorMailPieces" xml:space="preserve"><value>Odotetut asiakirjat</value></data>
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Muistutus asiasta {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Muistutus&lt;/h2&gt;&lt;p&gt;Hei {{client}},&lt;/p&gt;&lt;p&gt;Asia {{file}} odottaa vastaustasi ennen {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Avaa asia&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Testi annettu sovellukselle, aihe ”{0}”.</value></data>
