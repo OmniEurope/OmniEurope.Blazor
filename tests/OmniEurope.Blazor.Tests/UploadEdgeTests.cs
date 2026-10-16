@@ -191,7 +191,8 @@ public sealed class UploadEdgeTests : OmniBunitContext
         var selecting = Task.Run(() => input.UploadFiles(Text("a.txt")), Xunit.TestContext.Current.CancellationToken);
         upload.WaitForAssertion(() => Assert.Single(upload.FindAll(".omni-upload__cancel")));
         upload.Find(".omni-upload__cancel").Click();
-        Assert.True(tokens[0].IsCancellationRequested);
+        // The selection runs on another thread, so the click reaches the renderer's dispatcher asynchronously.
+        upload.WaitForAssertion(() => Assert.True(tokens[0].IsCancellationRequested));
         pending.SetResult();
         await selecting.WaitAsync(TimeSpan.FromSeconds(10), Xunit.TestContext.Current.CancellationToken);
 
