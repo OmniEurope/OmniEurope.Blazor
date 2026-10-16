@@ -13,7 +13,7 @@ foreach ($path in @($registryPath, $sbomPath, $noticePath)) {
 
 $expected = [Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
 $locks = @(Get-ChildItem -LiteralPath $repoRoot -Recurse -File -Filter 'packages.lock.json' |
-    Where-Object FullName -NotMatch '[\\/](bin|obj|artifacts|\.git)[\\/]')
+    Where-Object FullName -NotMatch '[\\/](bin|obj|artifacts|\.[^\\/]+)[\\/]')
 foreach ($lock in $locks) {
     $document = Get-Content -LiteralPath $lock.FullName -Raw | ConvertFrom-Json
     foreach ($framework in $document.dependencies.PSObject.Properties) {

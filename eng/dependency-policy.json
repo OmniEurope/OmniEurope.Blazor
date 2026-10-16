@@ -18,12 +18,12 @@
       "source": "https://www.nuget.org/packages/HtmlSanitizer/"
     },
     "Microsoft.Extensions.Localization": {
-      "version": "10.0.12",
+      "version": "10.0.13",
       "status": "latest-stable",
       "source": "https://www.nuget.org/packages/Microsoft.Extensions.Localization/"
     },
     "Microsoft.AspNetCore.Components.Web": {
-      "version": "10.0.12",
+      "version": "10.0.13",
       "status": "latest-stable",
       "source": "https://www.nuget.org/packages/Microsoft.AspNetCore.Components.Web/"
     },
@@ -34,7 +34,7 @@
       "source": "https://www.nuget.org/packages/Microsoft.CodeAnalysis.CSharp/"
     },
     "Microsoft.AspNetCore.Components.WebView": {
-      "version": "10.0.12",
+      "version": "10.0.13",
       "status": "latest-stable",
       "source": "https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebView/"
     },
@@ -52,17 +52,17 @@
       "status": "servicing-baseline"
     },
     "Microsoft.AspNetCore.Components.WebAssembly": {
-      "version": "10.0.12",
+      "version": "10.0.13",
       "status": "latest-stable",
       "source": "https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebAssembly/"
     },
     "Microsoft.AspNetCore.Components.WebAssembly.DevServer": {
-      "version": "10.0.12",
+      "version": "10.0.13",
       "status": "latest-stable",
       "source": "https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebAssembly.DevServer/"
     },
     "Microsoft.AspNetCore.Components.WebAssembly.Server": {
-      "version": "10.0.12",
+      "version": "10.0.13",
       "status": "latest-stable",
       "source": "https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebAssembly.Server/"
     },

@@ -4,7 +4,7 @@ Les versions directes sont centralisées dans `Directory.Packages.props`; les r�
 
 ## Décisions vérifiées le 25 septembre 2026
 
-- les packages ASP.NET Core et `Microsoft.Extensions.Localization` sont en `10.0.12` et `bunit` en `2.11.3`, dernières versions stables publiées par NuGet.org.
+- les packages ASP.NET Core et `Microsoft.Extensions.Localization` sont en `10.0.13` et `bunit` en `2.11.3`, dernières versions stables publiées par NuGet.org.
 - la bibliothèque a trois dépendances d'exécution, déclarées dans `src/OmniEurope.Blazor/OmniEurope.Blazor.csproj` : `Microsoft.AspNetCore.Components.Web`, `Microsoft.Extensions.Localization` et `HtmlSanitizer` (`9.2.1039`, dernière version stable au relevé de `eng/dependency-policy.json`), qui assainit le HTML d'`OmniHtmlEditor` par liste blanche et apporte AngleSharp en transitif.
 - la chaîne de tests tourne sur Microsoft.Testing.Platform, déclaré par le bloc `test` de `global.json`. `xunit.v3` `4.0.1` embarque son propre exécuteur, donc ni `Microsoft.NET.Test.Sdk` ni `xunit.runner.visualstudio` ne sont nécessaires. `coverlet.MTP` `10.1.0` produit le Cobertura (`--coverlet --coverlet-output-format cobertura`, restreint à `[OmniEurope.Blazor]*`) et `Microsoft.Testing.Extensions.TrxReport` `2.4.1` le TRX (`--report-trx`).
 - les packages MAUI sont alignés sur `10.0.101`;

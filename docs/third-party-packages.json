@@ -157,7 +157,7 @@
     },
     {
       "id": "Microsoft.AspNetCore.App.Internal.Assets",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -175,7 +175,7 @@
     },
     {
       "id": "Microsoft.AspNetCore.Authorization",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -195,7 +195,7 @@
     },
     {
       "id": "Microsoft.AspNetCore.Components",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -215,7 +215,7 @@
     },
     {
       "id": "Microsoft.AspNetCore.Components.Analyzers",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -249,7 +249,7 @@
     },
     {
       "id": "Microsoft.AspNetCore.Components.Forms",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -269,7 +269,7 @@
     },
     {
       "id": "Microsoft.AspNetCore.Components.Web",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -289,7 +289,7 @@
     },
     {
       "id": "Microsoft.AspNetCore.Components.WebAssembly",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -321,7 +321,7 @@
     },
     {
       "id": "Microsoft.AspNetCore.Components.WebAssembly.DevServer",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -336,7 +336,7 @@
     },
     {
       "id": "Microsoft.AspNetCore.Components.WebAssembly.Server",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -350,7 +350,7 @@
     },
     {
       "id": "Microsoft.AspNetCore.Components.WebView",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -378,7 +378,7 @@
     },
     {
       "id": "Microsoft.AspNetCore.Metadata",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -493,7 +493,7 @@
     },
     {
       "id": "Microsoft.Extensions.Configuration",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -513,7 +513,7 @@
     },
     {
       "id": "Microsoft.Extensions.Configuration.Abstractions",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -533,7 +533,7 @@
     },
     {
       "id": "Microsoft.Extensions.Configuration.Binder",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -553,7 +553,7 @@
     },
     {
       "id": "Microsoft.Extensions.Configuration.FileExtensions",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -571,7 +571,7 @@
     },
     {
       "id": "Microsoft.Extensions.Configuration.Json",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -589,7 +589,7 @@
     },
     {
       "id": "Microsoft.Extensions.DependencyInjection",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -609,7 +609,7 @@
     },
     {
       "id": "Microsoft.Extensions.DependencyInjection.Abstractions",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -629,7 +629,7 @@
     },
     {
       "id": "Microsoft.Extensions.Diagnostics",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -649,7 +649,7 @@
     },
     {
       "id": "Microsoft.Extensions.Diagnostics.Abstractions",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -669,7 +669,7 @@
     },
     {
       "id": "Microsoft.Extensions.FileProviders.Abstractions",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -687,7 +687,7 @@
     },
     {
       "id": "Microsoft.Extensions.FileProviders.Composite",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -701,7 +701,7 @@
     },
     {
       "id": "Microsoft.Extensions.FileProviders.Embedded",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -715,7 +715,7 @@
     },
     {
       "id": "Microsoft.Extensions.FileProviders.Physical",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -733,7 +733,7 @@
     },
     {
       "id": "Microsoft.Extensions.FileSystemGlobbing",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -765,7 +765,7 @@
     },
     {
       "id": "Microsoft.Extensions.Localization",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -785,7 +785,7 @@
     },
     {
       "id": "Microsoft.Extensions.Localization.Abstractions",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -805,7 +805,7 @@
     },
     {
       "id": "Microsoft.Extensions.Logging",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -823,7 +823,7 @@
     },
     {
       "id": "Microsoft.Extensions.Logging.Abstractions",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -843,7 +843,7 @@
     },
     {
       "id": "Microsoft.Extensions.Options",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -863,7 +863,7 @@
     },
     {
       "id": "Microsoft.Extensions.Options.ConfigurationExtensions",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -883,7 +883,7 @@
     },
     {
       "id": "Microsoft.Extensions.Primitives",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -903,7 +903,7 @@
     },
     {
       "id": "Microsoft.Extensions.Validation",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -951,7 +951,7 @@
     },
     {
       "id": "Microsoft.JSInterop",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -971,7 +971,7 @@
     },
     {
       "id": "Microsoft.JSInterop.WebAssembly",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1115,7 +1115,7 @@
     },
     {
       "id": "Microsoft.NET.ILLink.Tasks",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1131,7 +1131,7 @@
     },
     {
       "id": "Microsoft.NET.Sdk.WebAssembly.Pack",
-      "version": "10.0.12",
+      "version": "10.0.13",
       "license": {
         "kind": "expression",
         "value": "MIT",

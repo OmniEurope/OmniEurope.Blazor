@@ -37,7 +37,7 @@ hôtes WebAssembly n'aient plus de paquet implicite lié au runtime du SDK.
 ## Décision
 
 1. La cause est levée plutôt que contournée : `Directory.Build.targets` met à jour les trois items
-   `Known*Pack` par leur nom et fixe leur version à `OmniImplicitSdkPackVersion` (`10.0.12`), alignée
+   `Known*Pack` par leur nom et fixe leur version à `OmniImplicitSdkPackVersion` (`10.0.13`), alignée
    sur les paquets `Microsoft.AspNetCore.*` de `Directory.Packages.props`. Les versions ne dépendent
    plus du SDK qui restaure.
 2. `global.json` revient à la forme de la règle : `version: 10.0.100`, `rollForward: latestFeature`,

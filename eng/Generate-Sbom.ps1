@@ -28,7 +28,7 @@ function Get-RelativePath([string]$Path) {
 function Get-LockedPackages {
     $records = @{}
     $locks = @(Get-ChildItem -LiteralPath $repoRoot -Recurse -File -Filter 'packages.lock.json' |
-        Where-Object FullName -NotMatch '[\\/](bin|obj|artifacts|\.git)[\\/]')
+        Where-Object FullName -NotMatch '[\\/](bin|obj|artifacts|\.[^\\/]+)[\\/]')
     foreach ($lock in $locks) {
         $relativeLock = Get-RelativePath $lock.FullName
         $document = Get-Content -LiteralPath $lock.FullName -Raw | ConvertFrom-Json
