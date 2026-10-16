@@ -13,7 +13,7 @@ public sealed class MailTemplateEditorBlocksTests : OmniBunitContext
     private static readonly IReadOnlyList<OmniMailVariable> Variables =
     [
         new("run.name", "Nom du run") { SampleValue = "nightly" },
-        new("run.url", "Lien du run") { Kind = OmniMailVariableKind.Link, SampleValue = "https://aetheus.example/runs/42" },
+        new("run.url", "Lien du run") { Kind = OmniMailVariableKind.Link, SampleValue = "https://app.example/runs/42" },
         new("steps", "Étapes en échec") { Kind = OmniMailVariableKind.Block, SampleValue = "<table><tr><td>build</td></tr></table>" },
         new("summary", "Résumé") { Kind = OmniMailVariableKind.Block },
     ];
@@ -47,6 +47,19 @@ public sealed class MailTemplateEditorBlocksTests : OmniBunitContext
         var button = Assert.Single(editor.FindAll(".omni-mail-template-editor__button"));
         Assert.Equal("Bouton : Lien du run", button.TextContent.Trim());
         Assert.Equal("{{#button run.url}}", button.GetAttribute("title"));
+    }
+
+    [Fact]
+    public void ADisabledEditor_DisablesTheActionButtons()
+    {
+        SetupSurface();
+        var editor = Render<OmniMailTemplateEditor>(parameters => parameters
+            .Add(component => component.Id, "mail")
+            .Add(component => component.Value, "<p>Bonjour</p>")
+            .Add(component => component.Disabled, true)
+            .Add(component => component.Variables, Variables));
+
+        Assert.True(editor.Find(".omni-mail-template-editor__button").HasAttribute("disabled"));
     }
 
     [Fact]
@@ -125,7 +138,7 @@ public sealed class MailTemplateEditorBlocksTests : OmniBunitContext
 
         var html = (string)Assert.Single(preview.Invocations["render"]).Arguments[1]!;
         var document = new AngleSharp.Html.Parser.HtmlParser().ParseDocument(html);
-        Assert.Equal("https://aetheus.example/runs/42", document.QuerySelector("a")!.GetAttribute("href"));
+        Assert.Equal("https://app.example/runs/42", document.QuerySelector("a")!.GetAttribute("href"));
         Assert.Contains(document.QuerySelectorAll("td"), cell => cell.TextContent.Trim() == "Le run nightly a échoué.");
         Assert.Contains(document.QuerySelectorAll("td"), cell => cell.TextContent == "build");
         Assert.Contains(document.QuerySelectorAll("p"), paragraph => paragraph.TextContent == "[Résumé]");

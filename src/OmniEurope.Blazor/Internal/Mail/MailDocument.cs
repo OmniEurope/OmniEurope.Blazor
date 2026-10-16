@@ -189,8 +189,9 @@ internal static class MailDocument
             element.RemoveAttribute("class");
 
             // Only a host's block fragment carries a style (the template's sanitiser drops every one): its declarations
-            // come after the theme's, so they win, and move to the preview's attribute there.
-            if (element.GetAttribute("style") is { } own && !string.IsNullOrWhiteSpace(own))
+            // come after the theme's, so they win, and move to the preview's attribute there. The block sanitiser has
+            // already removed a blank style.
+            if (element.GetAttribute("style") is { } own)
             {
                 declarations.Add(own.Trim().TrimEnd(';'));
             }

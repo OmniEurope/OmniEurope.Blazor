@@ -271,9 +271,10 @@ internal sealed partial class MailBlocks(IReadOnlyDictionary<string, string?> bl
         }
     }
 
+    /// <summary>The nearest paragraph, heading, list item, cell or quotation holding the node, which always lies inside the body.</summary>
     private static IElement? ContainerOf(INode node, IElement body)
     {
-        for (var parent = node.ParentElement; parent is not null && parent != body; parent = parent.ParentElement)
+        for (var parent = node.ParentElement!; parent != body; parent = parent.ParentElement!)
         {
             if (Replaced.Contains(parent.LocalName) || Filled.Contains(parent.LocalName))
             {

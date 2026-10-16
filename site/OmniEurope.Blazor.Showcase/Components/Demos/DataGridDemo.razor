@@ -39,6 +39,7 @@
    sous un plafond de hauteur. Filterable="false" sur la grille : aucune colonne ne montre de filtre,
    comme les grilles qui suivent. *@
 <OmniDataGrid TItem="RunRow" Id="demo-grid-runs"
+              HeaderWrap="OmniDataGridHeaderWrap.Truncate"
               Items="Runs"
               ScrollMode="OmniDataGridScrollMode.All"
               Caption="@Text["DemoGridRecentRuns"]"
@@ -64,6 +65,7 @@
    des points de suspension au lieu de déborder sur la colonne voisine ; la cellule à gabarit (le
    badge du pays) n'est pas rognée. *@
 <OmniDataGrid TItem="GridRow" Id="demo-grid-narrow"
+              HeaderWrap="OmniDataGridHeaderWrap.Truncate"
               Items="NarrowRows"
               Caption="@Text["DemoGridNarrowCaption"]"
               Filterable="false"
@@ -83,6 +85,7 @@
    le demandeur très long du dossier D-07777, loin hors de la fenêtre ; Référence s'en retire
    (AutoFit="false"). *@
 <OmniDataGrid TItem="GridRow" Id="demo-grid-capped-short"
+              HeaderWrap="OmniDataGridHeaderWrap.Truncate"
               Items="FewRows"
               Caption="@Text["DemoGridShortCaption"]"
               Filterable="false"
@@ -95,6 +98,7 @@
 </OmniDataGrid>
 
 <OmniDataGrid TItem="GridRow" Id="demo-grid-capped-long"
+              HeaderWrap="OmniDataGridHeaderWrap.Truncate"
               Items="ManyRows"
               Caption="@Text["DemoGridLongCaption"]"
               Filterable="false"
@@ -116,6 +120,8 @@
    (OmniTableExportDownloader). La barre de pied exporte en Markdown seul, à son début (ExportCsv,
    ExportExcel et ExportPdf à false). *@
 <OmniDataGrid @ref="StatementGrid" TItem="StatementLine" Id="demo-grid-tree"
+              ScrollMode="OmniDataGridScrollMode.Paged"
+              HeaderWrap="OmniDataGridHeaderWrap.Truncate"
               Items="Statement"
               Caption="@Text["DemoGridTreeCaption"]"
               KeyOf="line => line.Id"
@@ -159,6 +165,8 @@
    clique pas la ligne. Ses lignes gardent en édition la hauteur de lecture. *@
 <p class="demo-hint">@Text["DemoGridEditHint"]</p>
 <OmniDataGrid TItem="EditableFile" Id="demo-grid-edit" @ref="EditGrid"
+              ScrollMode="OmniDataGridScrollMode.Paged"
+              HeaderWrap="OmniDataGridHeaderWrap.Truncate"
               Items="EditableFiles"
               Caption="@Text["DemoGridEditCaption"]"
               KeyOf="@(file => file.Reference)"
@@ -184,6 +192,7 @@
 <div id="demo-grid-scope" class="demo-grid-scope">
     <p class="demo-hint">@Text["DemoGridScopeHint"]</p>
     <OmniDataGrid TItem="GridRow" Id="demo-grid-fill"
+                  HeaderWrap="OmniDataGridHeaderWrap.Truncate"
                   Items="FillRows"
                   Caption="@Text["DemoGridFillCaption"]"
                   ScrollMode="OmniDataGridScrollMode.Virtual"
@@ -230,6 +239,7 @@
         </OmniFormField>
     </OmniRow>
     <OmniDataGrid TItem="GridRow" Id="demo-grid-fill-box-grid"
+                  HeaderWrap="OmniDataGridHeaderWrap.Truncate"
                   Items="FillRows"
                   Caption="@Text["DemoGridFillCaption"]"
                   ScrollMode="@(FillBoxPaged ? OmniDataGridScrollMode.Paged : OmniDataGridScrollMode.Virtual)"

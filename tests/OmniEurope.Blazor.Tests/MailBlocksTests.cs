@@ -26,12 +26,12 @@ public sealed class MailBlocksTests
         var theme = OmniMailTheme.Default with { Accent = "#112233", OnAccent = "#fafafa", Radius = "6px" };
         var result = Render(
             "<p>Avant</p><p class=\"omni-align-center\">{{#button run.url}}Ouvrir {{run.name}}</p><p>Après</p>",
-            new() { ["run.url"] = "https://aetheus.example/runs/42?tab=steps&x=1", ["run.name"] = "<nightly>" },
+            new() { ["run.url"] = "https://app.example/runs/42?tab=steps&x=1", ["run.name"] = "<nightly>" },
             theme: theme);
 
         var content = Content(result);
         var link = Assert.Single(content.QuerySelectorAll("a"));
-        Assert.Equal("https://aetheus.example/runs/42?tab=steps&x=1", link.GetAttribute("href"));
+        Assert.Equal("https://app.example/runs/42?tab=steps&x=1", link.GetAttribute("href"));
         Assert.Equal("Ouvrir <nightly>", link.TextContent);
         Assert.Contains("&lt;nightly&gt;", result.Html, StringComparison.Ordinal);
         Assert.Contains("color:#fafafa", link.GetAttribute("style"), StringComparison.Ordinal);
@@ -51,7 +51,7 @@ public sealed class MailBlocksTests
         Assert.DoesNotContain("{{", result.Html, StringComparison.Ordinal);
         Assert.Equal(["Avant", "Après"], content.QuerySelectorAll("p").Select(paragraph => paragraph.TextContent));
         Assert.DoesNotContain("data-omni-mail-own", result.Html, StringComparison.Ordinal);
-        Assert.Contains("Ouvrir <nightly> (https://aetheus.example/runs/42?tab=steps&x=1)", result.Text, StringComparison.Ordinal);
+        Assert.Contains("Ouvrir <nightly> (https://app.example/runs/42?tab=steps&x=1)", result.Text, StringComparison.Ordinal);
         Assert.Empty(result.MissingVariables);
     }
 
@@ -221,10 +221,10 @@ public sealed class MailBlocksTests
     [Fact]
     public void ABlockFragment_KeepsItsSafeLinks_WithNoopener()
     {
-        var result = Render("<p>{{steps}}</p>", blocks: new() { ["steps"] = "<p><a href=\"https://aetheus.example/run/1\">run</a> <a href=\"mailto:ops@example.eu\">ops</a></p>" });
+        var result = Render("<p>{{steps}}</p>", blocks: new() { ["steps"] = "<p><a href=\"https://app.example/run/1\">run</a> <a href=\"mailto:ops@example.eu\">ops</a></p>" });
 
         var links = Content(result).QuerySelectorAll("a");
-        Assert.Equal(["https://aetheus.example/run/1", "mailto:ops@example.eu"], links.Select(link => link.GetAttribute("href")));
+        Assert.Equal(["https://app.example/run/1", "mailto:ops@example.eu"], links.Select(link => link.GetAttribute("href")));
         Assert.All(links, link => Assert.Equal("noopener noreferrer", link.GetAttribute("rel")));
     }
 
@@ -264,6 +264,86 @@ public sealed class MailBlocksTests
         Assert.Equal("Tout est vert.", cell.TextContent.Trim());
         Assert.Equal("vert", cell.QuerySelector("em")!.TextContent);
         Assert.Equal("Suite", content.QuerySelector("p")!.TextContent);
+    }
+
+    [Fact]
+    public void AButtonWithoutAnAddress_IsALabelWithoutALink()
+    {
+        var content = Content(Render("<p>{{#button}}Plus tard</p>"));
+
+        Assert.Empty(content.QuerySelectorAll("a"));
+        var label = content.QuerySelector("table td span")!;
+        Assert.Equal("Plus tard", label.TextContent);
+        Assert.Contains("display:inline-block", label.GetAttribute("style"), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void AnEmptyBanner_DrawsNothing_AndRemovesItsParagraph()
+    {
+        var content = Content(Render("<p>Avant</p><p>{{#banner danger}}  </p><p>Après</p>"));
+
+        Assert.Empty(content.QuerySelectorAll("table"));
+        Assert.Equal(["Avant", "Après"], content.QuerySelectorAll("p").Select(paragraph => paragraph.TextContent));
+    }
+
+    [Fact]
+    public void ABannerAlignedToTheEnd_KeepsItsAlignment()
+    {
+        var cell = Content(Render("<p class=\"omni-align-end\">{{#banner warning}} Fin</p>")).QuerySelector("table td")!;
+
+        Assert.Contains("text-align:right", cell.GetAttribute("style"), StringComparison.Ordinal);
+        Assert.Equal("Fin", cell.TextContent.Trim());
+    }
+
+    [Fact]
+    public void TwoMarkersInOneParagraph_DrawOneBlock_TheFirstOneWins()
+    {
+        var content = Content(Render("<p>{{#banner success}} Bon <em>{{#banner danger}}</em> état</p>"));
+
+        var cell = Assert.Single(content.QuerySelectorAll("table td"));
+        Assert.Equal("Bon  état", cell.TextContent.Trim());
+        Assert.Contains($"border-left:4px solid {OmniMailTheme.Default.Success}", cell.GetAttribute("style"), StringComparison.Ordinal);
+        Assert.DoesNotContain("{{", content.InnerHtml, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void AMarkerInsideInlineFormattingAtTheBodyLevel_WrapsTheWholeLine()
+    {
+        var content = Content(Render("<p>Avant</p><strong>Note</strong> <em>{{#banner info}} lisez</em> bien"));
+
+        var cell = Assert.Single(content.QuerySelectorAll("table td"));
+        Assert.Equal("Note  lisez bien", cell.TextContent.Trim());
+        Assert.Equal("Note", cell.QuerySelector("strong")!.TextContent);
+        Assert.Equal("Avant", content.QuerySelector("p")!.TextContent);
+    }
+
+    [Fact]
+    public void ABlockVariableWrittenDirectlyInTheBody_IsWrittenAsPlainText()
+    {
+        var content = Content(Render("Étapes : {{steps}}", blocks: new() { ["steps"] = "<p><strong>build</strong></p>" }));
+
+        Assert.Empty(content.QuerySelectorAll("strong"));
+        Assert.Contains("Étapes : build", content.TextContent, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void ABlockVariableAloneInAListItem_FillsTheItem()
+    {
+        var content = Content(Render("<ul><li><em>{{steps}}</em></li></ul>", blocks: new() { ["steps"] = "<strong>build</strong>" }));
+
+        var item = Assert.Single(content.QuerySelectorAll("li"));
+        Assert.Equal("build", item.QuerySelector("strong")!.TextContent);
+        Assert.Empty(item.QuerySelectorAll("em"));
+    }
+
+    [Fact]
+    public void ABlankStyleOnAFragment_AddsNoDeclaration()
+    {
+        var content = Content(Render("<p>{{steps}}</p>", blocks: new() { ["steps"] = "<p style=\" \">texte</p>" }));
+
+        var paragraph = Assert.Single(content.QuerySelectorAll("p"));
+        Assert.Equal("texte", paragraph.TextContent);
+        Assert.DoesNotContain(";;", paragraph.GetAttribute("style") ?? string.Empty, StringComparison.Ordinal);
     }
 
     [Fact]
