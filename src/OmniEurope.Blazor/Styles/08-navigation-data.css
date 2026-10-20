@@ -118,7 +118,10 @@
 /* The app menu (OmniAppMenu): a popover whose panel is the frame and whose rows reach its edges. Every
    row has one height, the mode's control plus a padding, and one grid: icon, label, value at the end; a
    rule separates the rows. The trigger shows the user's name when there is one. */
-.omni-app-menu .omni-popover__panel { inline-size: 20rem; padding: 0; }
+/* The panel takes the width of its widest row (max-content: the rows already carry their own side padding
+   as the margin), never under 10rem so the mode buttons keep their room, and never past the popover
+   panel's own cap (24rem or the viewport). It used to be a fixed 20rem, far wider than the rows need. */
+.omni-app-menu .omni-popover__panel { inline-size: max-content; min-inline-size: 10rem; padding: 0; }
 .omni-app-menu__trigger-name { max-inline-size: 12rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 /* On a phone the bar has no room for the name: the trigger keeps its icon, its label and the chevron,
    and the name stays in the menu it opens. */

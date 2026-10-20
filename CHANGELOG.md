@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Changed
+
+- `OmniAppMenu` : le panneau ouvert prend la largeur de sa ligne la plus large (`inline-size: max-content`, au moins 10rem, au plus le plafond du popover : 24rem ou la fenêtre) au lieu des 20rem fixes, trop larges pour les lignes du menu ; les lignes gardent leur marge latérale, le clavier et le focus ne changent pas. Demande d'une application cliente (recette R-3). Migration : aucune ; un site qui voulait les 20rem les pose avec `.omni-app-menu .omni-popover__panel { inline-size: 20rem; }`.
+
 ## [1.8.2] - 2026-10-16
 
 Version de correctif qui porte des ajouts d'API, numéro choisi par le propriétaire le 2026-10-16 (voir [docs/versioning.md](docs/versioning.md)) ; un seul comportement par défaut change, décrit sous « Changed ».
