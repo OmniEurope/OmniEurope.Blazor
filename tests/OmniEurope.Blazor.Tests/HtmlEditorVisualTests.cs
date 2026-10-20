@@ -243,8 +243,10 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
         Assert.Single(module.Invocations["mount"]);
     }
 
-    [Fact]
-    public void LinkField_RefusesAScriptAddress_AndLinksTheSelectionToASafeOne()
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void LinkField_RefusesAScriptAddress_AndLinksTheSelectionToASafeOne(bool useKeyboard)
     {
         var module = JSInterop.SetupModule(ModulePath);
         module.Setup<string?>("exec", invocation => Equals(invocation.Arguments[1], "link"))
@@ -258,13 +260,16 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
         editor.Find("button[data-command=link]").Click();
         var field = editor.Find(".omni-html-editor__link-input");
         field.Input("javascript:alert(1)");
-        field.KeyDown("Enter");
+        field.KeyUp("Enter");
 
         Assert.NotNull(editor.Find(".omni-html-editor__link-error"));
         Assert.Empty(module.Invocations["exec"]);
 
         editor.Find(".omni-html-editor__link-input").Input("https://example.test/");
-        editor.Find(".omni-html-editor__link button").Click();
+        if (useKeyboard)
+            editor.Find(".omni-html-editor__link-input").KeyUp("Enter");
+        else
+            editor.Find(".omni-html-editor__link button").Click();
 
         var link = Assert.Single(module.Invocations["exec"]);
         Assert.Equal("https://example.test/", link.Arguments[2]);

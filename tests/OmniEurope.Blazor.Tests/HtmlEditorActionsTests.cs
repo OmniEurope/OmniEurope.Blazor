@@ -212,14 +212,14 @@ public sealed class HtmlEditorActionsTests : OmniBunitContext
         await editor.InvokeAsync(editor.Instance.OpenLinkAsync);
         editor.Render();
 
-        editor.Find(".omni-html-editor__link-input").KeyDown(new KeyboardEventArgs { Key = "a" });
+        editor.Find(".omni-html-editor__link-input").KeyUp(new KeyboardEventArgs { Key = "a" });
         Assert.Single(editor.FindAll(".omni-html-editor__link"));
-        editor.Find(".omni-html-editor__link-input").KeyDown(new KeyboardEventArgs { Key = "Escape" });
+        editor.Find(".omni-html-editor__link-input").KeyUp(new KeyboardEventArgs { Key = "Escape" });
         Assert.Empty(editor.FindAll(".omni-html-editor__link"));
 
         await editor.InvokeAsync(editor.Instance.OpenLinkAsync);
         editor.Render();
-        editor.Find(".omni-html-editor__link-input").KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        editor.Find(".omni-html-editor__link-input").KeyUp(new KeyboardEventArgs { Key = "Enter" });
         Assert.Empty(editor.FindAll(".omni-html-editor__link"));
         Assert.Empty(_visual.Invocations["exec"]);
     }

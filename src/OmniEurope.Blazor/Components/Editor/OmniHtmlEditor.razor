@@ -169,6 +169,7 @@
             {
                 <div class="omni-html-editor__link" role="group" aria-label="@Localize("HtmlEditorLink")">
                     <label class="omni-html-editor__link-label" for="@LinkInputId">@Localize("HtmlEditorLinkUrl")</label>
+                    @* Apply after the key default action, before restoring the selected text focus. *@
                     <input @ref="_linkInput"
                            id="@LinkInputId"
                            class="omni-html-editor__link-input"
@@ -180,7 +181,7 @@
                            aria-invalid="@(_panels.LinkErrorKey is null ? null : "true")"
                            aria-describedby="@(_panels.LinkErrorKey is null ? null : LinkInputId + "-error")"
                            @oninput="args => _panels.LinkUrl = args.Value?.ToString() ?? string.Empty"
-                           @onkeydown="HandleLinkKeyAsync" />
+                           @onkeyup="HandleLinkKeyAsync" />
                     <OmniButton Variant="OmniButtonVariant.Primary" Size="OmniControlSize.Small" OnClick="ApplyLinkAsync">
                         <OmniIcon Name="OmniIconName.Check" />
                         <span>@Localize("HtmlEditorLinkApply")</span>
