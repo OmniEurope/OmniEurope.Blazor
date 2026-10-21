@@ -1462,6 +1462,7 @@
   <data name="DemoFlowsAddressBody" xml:space="preserve"><value>Kutsutava isiku aadress.</value></data>
   <data name="DemoFlowsStepRole" xml:space="preserve"><value>Roll</value></data>
   <data name="DemoFlowsRoleBody" xml:space="preserve"><value>Roll, mille ta saab.</value></data>
+  <data name="DemoFlowsLongStepNote" xml:space="preserve"><value>Samm, mis on viisardi sisust kõrgem: sisu kerib ja nupud jäävad oma kohale.</value></data>
   <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Haldusala</value></data>
   <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Käitus</value></data>
   <data name="DemoFlowsUser" xml:space="preserve"><value>Kasutajanimi</value></data>

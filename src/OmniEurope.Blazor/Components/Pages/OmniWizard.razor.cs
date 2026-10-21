@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
@@ -18,6 +20,9 @@ public partial class OmniWizard
     private int? _lastValue;
     private bool _validating;
     private bool _focusBody;
+    private IJSObjectReference? _module;
+    private string? _appliedBodyHeight;
+    private bool _disposed;
 
     // Counts the moves and cancellations: a validation answered after one of them is stale.
     private int _navigation;
@@ -52,6 +57,25 @@ public partial class OmniWizard
     /// <summary>Raised by Cancel. Without a handler the wizard shows no Cancel button.</summary>
     [Parameter]
     public EventCallback OnCancel { get; set; }
+
+    /// <summary>
+    /// The height of the body of the steps, as a CSS length (<c>20rem</c>, <c>400px</c>, <c>50vh</c>), or
+    /// <c>auto</c> to let the body follow its content. Null, the default, keeps the height of the
+    /// stylesheet, <c>min(24rem, 60vh)</c>, which a host changes for every wizard through the
+    /// <c>--omni-wizard-body-height</c> property. The body keeps this height whatever the step and
+    /// scrolls when a step is taller, so Previous, Next, Finish and Cancel stay at the same place. With
+    /// <c>auto</c> the foot follows the content again, and sticks to the bottom of the container when the
+    /// wizard sits in a column that is taller. The value is written by the interop script as a CSS custom
+    /// property (never as a style attribute), so a wizard rendered without interactivity keeps the
+    /// stylesheet height.
+    /// </summary>
+    [Parameter]
+    public string? BodyHeight { get; set; }
+
+    [Inject]
+    private IJSRuntime JavaScript { get; set; } = default!;
+
+    private bool IsFlexibleBody => string.Equals(BodyHeight, "auto", StringComparison.Ordinal);
 
     private int Count => _context.Steps.Count;
 
@@ -90,9 +114,15 @@ public partial class OmniWizard
     /// Moves to the step of a new <see cref="Value"/> (a negative value means the first step); a parent
     /// that redraws with the same value leaves the wizard where the user brought it.
     /// </summary>
+    /// <exception cref="ArgumentException"><see cref="BodyHeight"/> is neither a CSS length nor <c>auto</c>.</exception>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+
+        if (BodyHeight is not null && !BodyHeightValue().IsMatch(BodyHeight))
+        {
+            throw new ArgumentException($"'{BodyHeight}' is not a CSS length {nameof(OmniWizard)} accepts for {nameof(BodyHeight)} (a number followed by px, rem, em or vh, or auto).", nameof(BodyHeight));
+        }
 
         // Only a new value from the host moves the wizard: an unbound wizard keeps its own position
         // when its parent redraws with the same Value as before.
@@ -114,6 +144,8 @@ public partial class OmniWizard
     /// <returns>A task that completes once the position and the focus are settled.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        await ApplyBodyHeightAsync();
+
         if (_current >= Count && Count > 0)
         {
             // A step left the list from under the current position: stay on the last one there is.
@@ -127,6 +159,54 @@ public partial class OmniWizard
             await _body.FocusAsync(preventScroll: true);
         }
     }
+
+    /// <summary>Releases the interop script, if it was loaded.</summary>
+    /// <returns>The task of the release.</returns>
+    public async ValueTask DisposeAsync()
+    {
+        _disposed = true;
+        if (_module is null)
+        {
+            return;
+        }
+
+        try
+        {
+            await _module.DisposeAsync();
+        }
+        catch (JSDisconnectedException)
+        {
+            // The page is gone with the script.
+        }
+    }
+
+    // Hands a BodyHeight that changed to the interop script, loaded only once a length has to be
+    // written; a wizard that keeps the stylesheet height loads no script. A lost circuit is ignored.
+    private async Task ApplyBodyHeightAsync()
+    {
+        var height = IsFlexibleBody ? null : BodyHeight;
+        if (_disposed || string.Equals(height, _appliedBodyHeight, StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        try
+        {
+            _module ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", OmniModules.Interop);
+            if (!_disposed)
+            {
+                await _module.InvokeVoidAsync("applyWizardBodyHeight", _body, height);
+                _appliedBodyHeight = height;
+            }
+        }
+        catch (JSDisconnectedException)
+        {
+            // The page is gone; nothing left to size.
+        }
+    }
+
+    [GeneratedRegex("^(\\d+(\\.\\d+)?(px|rem|em|vh)|auto)$", RegexOptions.CultureInvariant)]
+    private static partial Regex BodyHeightValue();
 
     private Task PreviousAsync() => _current > 0 ? MoveAsync(_current - 1, focus: true) : Task.CompletedTask;
 

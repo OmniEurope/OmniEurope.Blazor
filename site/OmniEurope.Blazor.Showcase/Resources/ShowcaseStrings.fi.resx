@@ -1462,6 +1462,7 @@
   <data name="DemoFlowsAddressBody" xml:space="preserve"><value>Kutsuttavan henkilön osoite.</value></data>
   <data name="DemoFlowsStepRole" xml:space="preserve"><value>Rooli</value></data>
   <data name="DemoFlowsRoleBody" xml:space="preserve"><value>Rooli, jonka hän saa.</value></data>
+  <data name="DemoFlowsLongStepNote" xml:space="preserve"><value>Vaihe, joka on ohjatun toiminnon sisältöä korkeampi: se vierii, ja painikkeet pysyvät paikoillaan.</value></data>
   <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Hallinta-alue</value></data>
   <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Ylläpito</value></data>
   <data name="DemoFlowsUser" xml:space="preserve"><value>Käyttäjätunnus</value></data>

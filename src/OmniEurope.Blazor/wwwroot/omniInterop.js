@@ -144,6 +144,21 @@ export function unwatchScrolling(element) {
     }
 }
 
+// OmniWizard.BodyHeight: the height of the body of the steps, written as the custom property the
+// stylesheet reads (.omni-wizard__body), through the CSSOM rather than a style attribute, which a
+// strict CSP refuses. No value gives the stylesheet height back.
+export function applyWizardBodyHeight(body, height) {
+    if (!(body instanceof HTMLElement)) {
+        return;
+    }
+
+    if (typeof height === 'string' && height.trim().length > 0) {
+        body.style.setProperty('--omni-wizard-body-height', height.trim());
+    } else {
+        body.style.removeProperty('--omni-wizard-body-height');
+    }
+}
+
 // OmniChart.MaxHeight: the ceiling of the drawing, written as the custom property the stylesheet reads
 // (.omni-chart__svg), through the CSSOM rather than a style attribute, which a strict CSP refuses. No
 // value gives the stylesheet ceiling back.

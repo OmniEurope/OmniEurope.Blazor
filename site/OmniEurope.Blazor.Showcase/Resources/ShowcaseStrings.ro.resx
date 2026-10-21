@@ -1462,6 +1462,7 @@
   <data name="DemoFlowsAddressBody" xml:space="preserve"><value>Adresa persoanei invitate.</value></data>
   <data name="DemoFlowsStepRole" xml:space="preserve"><value>Rol</value></data>
   <data name="DemoFlowsRoleBody" xml:space="preserve"><value>Rolul pe care îl va primi.</value></data>
+  <data name="DemoFlowsLongStepNote" xml:space="preserve"><value>Un pas mai înalt decât corpul expertului: se derulează, iar butoanele rămân la locul lor.</value></data>
   <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Spațiu de administrare</value></data>
   <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Operațiuni</value></data>
   <data name="DemoFlowsUser" xml:space="preserve"><value>Nume de utilizator</value></data>

@@ -1462,6 +1462,7 @@
   <data name="DemoFlowsAddressBody" xml:space="preserve"><value>Pakviesto asmens adresas.</value></data>
   <data name="DemoFlowsStepRole" xml:space="preserve"><value>Vaidmuo</value></data>
   <data name="DemoFlowsRoleBody" xml:space="preserve"><value>Vaidmuo, kurį jis gaus.</value></data>
+  <data name="DemoFlowsLongStepNote" xml:space="preserve"><value>Žingsnis, aukštesnis už vedlio turinį: jis slenka, o mygtukai lieka savo vietoje.</value></data>
   <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Administravimo sritis</value></data>
   <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Eksploatavimas</value></data>
   <data name="DemoFlowsUser" xml:space="preserve"><value>Naudotojo vardas</value></data>

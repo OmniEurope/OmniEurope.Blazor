@@ -19,6 +19,11 @@
                     <OmniCheckBox Id="flows-demo-backup" @bind-Value="Model.Backup" />
                     <OmniLabel For="flows-demo-backup">@Text["DemoFlowsDailyBackup"]</OmniLabel>
                 </OmniStack>
+                @* Une étape plus haute que le corps : il défile et le pied reste à la même place que sur les étapes courtes. *@
+                @for (var line = 0; line < 8; line++)
+                {
+                    <p>@Text["DemoFlowsLongStepNote"]</p>
+                }
                 @if (OptionsRefused)
                 {
                     <OmniAlert Severity="OmniSeverity.Warning" Live="true">@Text["DemoFlowsBackupRequired"]</OmniAlert>

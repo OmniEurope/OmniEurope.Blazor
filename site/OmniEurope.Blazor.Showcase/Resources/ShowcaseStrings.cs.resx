@@ -1462,6 +1462,7 @@
   <data name="DemoFlowsAddressBody" xml:space="preserve"><value>Adresa pozvané osoby.</value></data>
   <data name="DemoFlowsStepRole" xml:space="preserve"><value>Role</value></data>
   <data name="DemoFlowsRoleBody" xml:space="preserve"><value>Role, kterou obdrží.</value></data>
+  <data name="DemoFlowsLongStepNote" xml:space="preserve"><value>Krok vyšší než tělo průvodce: tělo se posouvá a tlačítka zůstávají na svém místě.</value></data>
   <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Administrační prostředí</value></data>
   <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Provoz</value></data>
   <data name="DemoFlowsUser" xml:space="preserve"><value>Uživatelské jméno</value></data>

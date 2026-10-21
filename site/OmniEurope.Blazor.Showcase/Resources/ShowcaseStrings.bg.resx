@@ -1462,6 +1462,7 @@
   <data name="DemoFlowsAddressBody" xml:space="preserve"><value>Адресът на поканеното лице.</value></data>
   <data name="DemoFlowsStepRole" xml:space="preserve"><value>Роля</value></data>
   <data name="DemoFlowsRoleBody" xml:space="preserve"><value>Ролята, която то ще получи.</value></data>
+  <data name="DemoFlowsLongStepNote" xml:space="preserve"><value>Стъпка, по-висока от тялото на съветника: то се превърта, а бутоните остават на мястото си.</value></data>
   <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Администраторска зона</value></data>
   <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Експлоатация</value></data>
   <data name="DemoFlowsUser" xml:space="preserve"><value>Потребителско име</value></data>

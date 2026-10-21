@@ -185,7 +185,11 @@ body:has(.omni-connection-overlay) { overflow: hidden; }
 
 .omni-wizard { display: flex; flex: 1 0 auto; flex-direction: column; gap: var(--omni-space-md); min-inline-size: 0; }
 .omni-wizard .omni-steps__button:disabled { color: var(--omni-color-text-muted); cursor: default; }
-.omni-wizard__body { flex: 1 0 auto; min-inline-size: 0; }
+/* The body has a controlled height (OmniWizard.BodyHeight, else --omni-wizard-body-height, else the
+   default below) and scrolls when a step is taller, so the foot keeps its place from one step to the
+   next. BodyHeight="auto" (omni-wizard--flexible) gives the body back to its content. */
+.omni-wizard__body { block-size: var(--omni-wizard-body-height, min(24rem, 60vh)); flex: 0 0 auto; min-inline-size: 0; overflow: auto; }
+.omni-wizard--flexible > .omni-wizard__body { block-size: auto; flex: 1 0 auto; overflow: visible; }
 .omni-wizard__body:focus-visible { outline: none; }
 /* The navigation stays at the foot of the window whatever the height of the step. In a container that
    lays it out in a column (a dialog body, a page in a column) the wizard takes the height left and the

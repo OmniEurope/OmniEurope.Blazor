@@ -1462,6 +1462,7 @@
   <data name="DemoFlowsAddressBody" xml:space="preserve"><value>Adres zapraszanej osoby.</value></data>
   <data name="DemoFlowsStepRole" xml:space="preserve"><value>Rola</value></data>
   <data name="DemoFlowsRoleBody" xml:space="preserve"><value>Rola, którą otrzyma.</value></data>
+  <data name="DemoFlowsLongStepNote" xml:space="preserve"><value>Krok wyższy niż treść kreatora: przewija się, a przyciski zostają na swoim miejscu.</value></data>
   <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Panel administracyjny</value></data>
   <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Operacje</value></data>
   <data name="DemoFlowsUser" xml:space="preserve"><value>Nazwa użytkownika</value></data>

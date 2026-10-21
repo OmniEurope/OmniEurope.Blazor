@@ -1462,6 +1462,7 @@
   <data name="DemoFlowsAddressBody" xml:space="preserve"><value>Het adres van de uitgenodigde persoon.</value></data>
   <data name="DemoFlowsStepRole" xml:space="preserve"><value>Rol</value></data>
   <data name="DemoFlowsRoleBody" xml:space="preserve"><value>De rol die de persoon krijgt.</value></data>
+  <data name="DemoFlowsLongStepNote" xml:space="preserve"><value>Een stap die hoger is dan de inhoud van de wizard: die scrolt, en de knoppen blijven op hun plaats.</value></data>
   <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Beheeromgeving</value></data>
   <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Beheer</value></data>
   <data name="DemoFlowsUser" xml:space="preserve"><value>Gebruikersnaam</value></data>
