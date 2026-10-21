@@ -65,11 +65,6 @@
       "method": "OmniEurope.Blazor.Internal.MindMapKeyboard::CommandOf",
       "complexity": 40,
       "reason": "Table de correspondance : une touche de la carte mentale vers sa commande (flèches, Début, Entrée, Échap, zoom, menu)."
-    },
-    {
-      "method": "OmniEurope.Blazor.Components.OmniDataGridColumn`1::Matches",
-      "complexity": 84,
-      "reason": "Égalité champ par champ de deux définitions de colonne : une conjonction par paramètre, sans autre logique."
     }
   ]
 }

@@ -449,27 +449,41 @@ public partial class OmniDataGridColumn<TItem>
     /// <summary>Removes the column from its grid.</summary>
     public void Dispose() => _registeredContext?.Unregister(_registeredKey!);
 
+    // One comparison per concern, so that each stays a short conjunction (CRAP gate).
     private static bool Matches(OmniDataGridColumnDefinition<TItem>? left, OmniDataGridColumnDefinition<TItem> right) =>
         left is not null
-        && left.Key == right.Key
+        && SameValue(left, right)
+        && SameTemplates(left, right)
+        && SameFilter(left, right)
+        && SameLayout(left, right);
+
+    private static bool SameValue(OmniDataGridColumnDefinition<TItem> left, OmniDataGridColumnDefinition<TItem> right) =>
+        left.Key == right.Key
         && left.Title == right.Title
         && Equivalent(left.Value, right.Value)
         && string.Equals(left.Property, right.Property, StringComparison.Ordinal)
         && string.Equals(left.SortProperty, right.SortProperty, StringComparison.Ordinal)
-        && Equivalent(left.Template, right.Template)
-        && Equivalent(left.EditTemplate, right.EditTemplate)
-        && Equivalent(left.FooterContent, right.FooterContent)
-        && Equivalent(left.GroupFooterTemplate, right.GroupFooterTemplate)
-        && left.Aggregate == right.Aggregate
-        && string.Equals(left.AggregateFormat, right.AggregateFormat, StringComparison.Ordinal)
-        && string.Equals(left.GroupAggregateFormat, right.GroupAggregateFormat, StringComparison.Ordinal)
-        && Equivalent(left.HeaderContent, right.HeaderContent)
-        && Equivalent(left.FilterPredicate, right.FilterPredicate)
-        && SameContent(left.FilterValues, right.FilterValues)
-        && Equivalent(left.FilterTemplate, right.FilterTemplate)
         && string.Equals(left.FormatString, right.FormatString, StringComparison.Ordinal)
         && left.Sortable == right.Sortable
         && left.SortOrder == right.SortOrder
+        && Equivalent(left.ExportValue, right.ExportValue)
+        && left.Exportable == right.Exportable
+        && left.HasValueSource == right.HasValueSource;
+
+    private static bool SameTemplates(OmniDataGridColumnDefinition<TItem> left, OmniDataGridColumnDefinition<TItem> right) =>
+        Equivalent(left.Template, right.Template)
+        && Equivalent(left.EditTemplate, right.EditTemplate)
+        && Equivalent(left.FooterContent, right.FooterContent)
+        && Equivalent(left.GroupFooterTemplate, right.GroupFooterTemplate)
+        && Equivalent(left.HeaderContent, right.HeaderContent)
+        && left.Aggregate == right.Aggregate
+        && string.Equals(left.AggregateFormat, right.AggregateFormat, StringComparison.Ordinal)
+        && string.Equals(left.GroupAggregateFormat, right.GroupAggregateFormat, StringComparison.Ordinal);
+
+    private static bool SameFilter(OmniDataGridColumnDefinition<TItem> left, OmniDataGridColumnDefinition<TItem> right) =>
+        Equivalent(left.FilterPredicate, right.FilterPredicate)
+        && SameContent(left.FilterValues, right.FilterValues)
+        && Equivalent(left.FilterTemplate, right.FilterTemplate)
         && left.Filterable == right.Filterable
         && left.HasFilterSource == right.HasFilterSource
         && left.FilterType == right.FilterType
@@ -478,8 +492,10 @@ public partial class OmniDataGridColumn<TItem>
         && string.Equals(left.DefaultFilterValue, right.DefaultFilterValue, StringComparison.Ordinal)
         && left.FilterIncludesTime == right.FilterIncludesTime
         && SameContent(left.FilterOperators, right.FilterOperators)
-        && left.FilterOperator == right.FilterOperator
-        && (left.Visible, left.Hideable).Equals((right.Visible, right.Hideable))
+        && left.FilterOperator == right.FilterOperator;
+
+    private static bool SameLayout(OmniDataGridColumnDefinition<TItem> left, OmniDataGridColumnDefinition<TItem> right) =>
+        (left.Visible, left.Hideable).Equals((right.Visible, right.Hideable))
         && left.Resizable == right.Resizable
         && left.AutoFit == right.AutoFit
         && left.Frozen == right.Frozen
@@ -490,8 +506,5 @@ public partial class OmniDataGridColumn<TItem>
         && string.Equals(left.Class, right.Class, StringComparison.Ordinal)
         && string.Equals(left.HeaderClass, right.HeaderClass, StringComparison.Ordinal)
         && left.Groupable == right.Groupable
-        && left.HighlightOnHover == right.HighlightOnHover
-        && Equivalent(left.ExportValue, right.ExportValue)
-        && left.Exportable == right.Exportable
-        && left.HasValueSource == right.HasValueSource;
+        && left.HighlightOnHover == right.HighlightOnHover;
 }
