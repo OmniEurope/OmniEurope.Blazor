@@ -749,6 +749,9 @@
   <data name="DemoLayoutBottomText" xml:space="preserve"><value>Badget placerer sig ved rækkens bund.</value></data>
   <data name="DemoLayoutStretched" xml:space="preserve"><value>Strakt</value></data>
   <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Begge kort får samme højde.</value></data>
+  <data name="DemoLayoutClickCardTitle" xml:space="preserve"><value>Klikbart kort</value></data>
+  <data name="DemoLayoutClickCardText" xml:space="preserve"><value>Klik på det, eller tryk på Enter.</value></data>
+  <data name="DemoLayoutClickCardCount" xml:space="preserve"><value>Klik: {0}</value></data>
   <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Godkend sagen</value></data>
   <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Filtrer dokumenterne</value></data>
   <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Luk anmodningen</value></data>

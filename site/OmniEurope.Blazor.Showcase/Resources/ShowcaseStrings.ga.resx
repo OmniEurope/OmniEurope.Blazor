@@ -749,6 +749,9 @@
   <data name="DemoLayoutBottomText" xml:space="preserve"><value>Suíonn an suaitheantas ag bun an ró.</value></data>
   <data name="DemoLayoutStretched" xml:space="preserve"><value>Sínte</value></data>
   <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Tá an airde chéanna ag an dá chárta.</value></data>
+  <data name="DemoLayoutClickCardTitle" xml:space="preserve"><value>Cárta intchliceáilte</value></data>
+  <data name="DemoLayoutClickCardText" xml:space="preserve"><value>Cliceáil air nó brúigh Enter.</value></data>
+  <data name="DemoLayoutClickCardCount" xml:space="preserve"><value>Cliceanna: {0}</value></data>
   <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Faomh an comhad</value></data>
   <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Scag na doiciméid</value></data>
   <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Dún an t-iarratas</value></data>

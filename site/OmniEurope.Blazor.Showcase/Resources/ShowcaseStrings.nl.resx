@@ -749,6 +749,9 @@
   <data name="DemoLayoutBottomText" xml:space="preserve"><value>De badge zet zich vast aan de onderkant van de rij.</value></data>
   <data name="DemoLayoutStretched" xml:space="preserve"><value>Uitgerekt</value></data>
   <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Beide kaarten krijgen dezelfde hoogte.</value></data>
+  <data name="DemoLayoutClickCardTitle" xml:space="preserve"><value>Klikbare kaart</value></data>
+  <data name="DemoLayoutClickCardText" xml:space="preserve"><value>Klik erop of druk op Enter.</value></data>
+  <data name="DemoLayoutClickCardCount" xml:space="preserve"><value>Klikken: {0}</value></data>
   <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Dossier goedkeuren</value></data>
   <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Documenten filteren</value></data>
   <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Aanvraag afsluiten</value></data>

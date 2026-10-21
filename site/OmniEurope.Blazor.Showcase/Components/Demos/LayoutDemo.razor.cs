@@ -25,6 +25,8 @@ public partial class LayoutDemo
 
     private bool TileChoice { get; set; } = true;
 
+    private int CardClicks { get; set; }
+
     private string? ServerName { get; set; } = "srv-paris-02";
 
     private string? ServerId { get; set; } = "a9f3cb0";

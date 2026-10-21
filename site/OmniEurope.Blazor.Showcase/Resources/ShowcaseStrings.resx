@@ -751,6 +751,9 @@
   <data name="DemoLayoutBottomText" xml:space="preserve"><value>Le badge se cale sur le bas de la rangée.</value></data>
   <data name="DemoLayoutStretched" xml:space="preserve"><value>Étirée</value></data>
   <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Les deux cartes prennent la même hauteur.</value></data>
+  <data name="DemoLayoutClickCardTitle" xml:space="preserve"><value>Carte cliquable</value></data>
+  <data name="DemoLayoutClickCardText" xml:space="preserve"><value>Cliquez dessus ou appuyez sur Entrée.</value></data>
+  <data name="DemoLayoutClickCardCount" xml:space="preserve"><value>Clics : {0}</value></data>
   <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Valider le dossier</value></data>
   <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Filtrer les pièces</value></data>
   <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Clore la demande</value></data>

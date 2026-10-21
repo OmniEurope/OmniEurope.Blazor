@@ -749,6 +749,9 @@
   <data name="DemoLayoutBottomText" xml:space="preserve"><value>Emblēma novietojas rindas apakšā.</value></data>
   <data name="DemoLayoutStretched" xml:space="preserve"><value>Izstiepts</value></data>
   <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Abas kartītes iegūst vienādu augstumu.</value></data>
+  <data name="DemoLayoutClickCardTitle" xml:space="preserve"><value>Noklikšķināma kartīte</value></data>
+  <data name="DemoLayoutClickCardText" xml:space="preserve"><value>Noklikšķiniet uz tās vai nospiediet Enter.</value></data>
+  <data name="DemoLayoutClickCardCount" xml:space="preserve"><value>Klikšķi: {0}</value></data>
   <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Apstiprināt lietu</value></data>
   <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Filtrēt dokumentus</value></data>
   <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Slēgt pieprasījumu</value></data>

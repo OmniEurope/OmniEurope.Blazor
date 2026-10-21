@@ -125,6 +125,15 @@
         <OmniStatTile Value="@Text["DemoPagesTokensValue", 3.6]" Label="@Text["DemoPagesGain"]">
             <Icon><OmniIcon Name="OmniIconName.ChartLineUp" /></Icon>
         </OmniStatTile>
+        @* Tuiles cliquables : elles gardent leur place dans la grille (même taille, DoubleWidth respecté). Une carte avec OnClick
+           est un seul bouton, donc son contenu est du contenu phrasé (des span) ; une tuile chiffre avec Href est un seul lien. *@
+        <OmniCard Id="demo-click-card" OnClick="@(() => CardClicks++)" DoubleWidth="true">
+            <Header>@Text["DemoLayoutClickCardTitle"]</Header>
+            <ChildContent>@Text["DemoLayoutClickCardText"] <strong id="demo-click-card-count">@Text["DemoLayoutClickCardCount", CardClicks]</strong></ChildContent>
+        </OmniCard>
+        <OmniStatTile Id="demo-link-tile" Href="composants/grille" Value="@Text["DemoPagesTokensValue", 5.1]" Label="@Text["DemoGridTitle"]">
+            <Icon><OmniIcon Name="OmniIconName.Table" /></Icon>
+        </OmniStatTile>
     </OmniTileGrid>
 
     @* Réglages : une carte par thème, chaque réglage dans son encadré, le contrôle sur sa ligne. *@

@@ -749,6 +749,9 @@
   <data name="DemoLayoutBottomText" xml:space="preserve"><value>Plakietka dosuwa się do dołu rzędu.</value></data>
   <data name="DemoLayoutStretched" xml:space="preserve"><value>Rozciągnięte</value></data>
   <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Obie karty mają tę samą wysokość.</value></data>
+  <data name="DemoLayoutClickCardTitle" xml:space="preserve"><value>Karta z kliknięciem</value></data>
+  <data name="DemoLayoutClickCardText" xml:space="preserve"><value>Kliknij ją lub naciśnij Enter.</value></data>
+  <data name="DemoLayoutClickCardCount" xml:space="preserve"><value>Kliknięcia: {0}</value></data>
   <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Zatwierdź sprawę</value></data>
   <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Filtruj dokumenty</value></data>
   <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Zamknij wniosek</value></data>

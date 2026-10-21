@@ -749,6 +749,9 @@
   <data name="DemoLayoutBottomText" xml:space="preserve"><value>Значката се подравнява към долната част на реда.</value></data>
   <data name="DemoLayoutStretched" xml:space="preserve"><value>Разтеглена</value></data>
   <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Двете карти са с еднаква височина.</value></data>
+  <data name="DemoLayoutClickCardTitle" xml:space="preserve"><value>Кликаема карта</value></data>
+  <data name="DemoLayoutClickCardText" xml:space="preserve"><value>Щракнете върху нея или натиснете Enter.</value></data>
+  <data name="DemoLayoutClickCardCount" xml:space="preserve"><value>Щраквания: {0}</value></data>
   <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Одобряване на делото</value></data>
   <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Филтриране на документите</value></data>
   <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Приключване на заявката</value></data>

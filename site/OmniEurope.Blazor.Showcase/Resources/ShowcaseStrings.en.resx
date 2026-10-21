@@ -751,6 +751,9 @@
   <data name="DemoLayoutBottomText" xml:space="preserve"><value>The badge settles on the bottom of the row.</value></data>
   <data name="DemoLayoutStretched" xml:space="preserve"><value>Stretched</value></data>
   <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Both cards take the same height.</value></data>
+  <data name="DemoLayoutClickCardTitle" xml:space="preserve"><value>Clickable card</value></data>
+  <data name="DemoLayoutClickCardText" xml:space="preserve"><value>Click it or press Enter.</value></data>
+  <data name="DemoLayoutClickCardCount" xml:space="preserve"><value>Clicks: {0}</value></data>
   <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Approve the case</value></data>
   <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Filter the documents</value></data>
   <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Close the request</value></data>

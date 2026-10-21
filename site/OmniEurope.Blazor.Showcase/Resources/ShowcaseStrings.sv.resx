@@ -749,6 +749,9 @@
   <data name="DemoLayoutBottomText" xml:space="preserve"><value>Märket lägger sig mot radens nederkant.</value></data>
   <data name="DemoLayoutStretched" xml:space="preserve"><value>Utsträckt</value></data>
   <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Båda korten får samma höjd.</value></data>
+  <data name="DemoLayoutClickCardTitle" xml:space="preserve"><value>Klickbart kort</value></data>
+  <data name="DemoLayoutClickCardText" xml:space="preserve"><value>Klicka på det eller tryck på Enter.</value></data>
+  <data name="DemoLayoutClickCardCount" xml:space="preserve"><value>Klick: {0}</value></data>
   <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Godkänn ärendet</value></data>
   <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Filtrera handlingarna</value></data>
   <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Avsluta begäran</value></data>

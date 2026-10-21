@@ -62,6 +62,8 @@
 .omni-tile-grid > :is(.omni-card, .omni-selectable-card, .omni-stat-tile, .omni-nav-tile) { block-size: 100%; box-sizing: border-box; min-block-size: 0; min-inline-size: 0; }
 .omni-tile-grid > .omni-card { display: flex; flex-direction: column; }
 .omni-tile-grid > .omni-card > .omni-card__body { flex: 1 1 auto; min-block-size: 0; overflow: auto; }
+/* A clickable card clips its body instead: a scrolling region inside a link or a button is a nested focus stop. */
+.omni-tile-grid > .omni-card.omni-card--action > .omni-card__body { overflow: hidden; }
 @media (min-width: 40rem) {
     .omni-tile-grid { grid-template-columns: repeat(var(--omni-tile-columns-sm), minmax(0, 1fr)); }
     .omni-tile-grid > .omni-tile--double { grid-column: span 2; }

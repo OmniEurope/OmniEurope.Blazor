@@ -749,6 +749,9 @@
   <data name="DemoLayoutBottomText" xml:space="preserve"><value>A jelvény a sor aljához igazodik.</value></data>
   <data name="DemoLayoutStretched" xml:space="preserve"><value>Kinyújtott</value></data>
   <data name="DemoLayoutStretchedText" xml:space="preserve"><value>A két kártya azonos magasságú.</value></data>
+  <data name="DemoLayoutClickCardTitle" xml:space="preserve"><value>Kattintható kártya</value></data>
+  <data name="DemoLayoutClickCardText" xml:space="preserve"><value>Kattintson rá, vagy nyomja meg az Entert.</value></data>
+  <data name="DemoLayoutClickCardCount" xml:space="preserve"><value>Kattintások: {0}</value></data>
   <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Az ügy jóváhagyása</value></data>
   <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Dokumentumok szűrése</value></data>
   <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>A kérelem lezárása</value></data>
