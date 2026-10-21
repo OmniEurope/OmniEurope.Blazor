@@ -359,4 +359,81 @@ public sealed class MailBlocksTests
         Assert.Contains("color:#ff0000", result.Html.Replace(" ", string.Empty, StringComparison.Ordinal), StringComparison.Ordinal);
         Assert.Contains("data-omni-mail-look=\"display:inline-block", result.Html, StringComparison.Ordinal);
     }
+
+    [Theory]
+    [InlineData("info", "InfoSubtle")]
+    [InlineData("success", "SuccessSubtle")]
+    [InlineData("warning", "WarningSubtle")]
+    [InlineData("danger", "DangerSubtle")]
+    public void ABannerWithoutItsRule_IsAPlainBandOfTheTonesColour_WithNoEdge(string tone, string subtleProperty)
+    {
+        var theme = OmniMailTheme.Default with { BannerRule = false, InfoSubtle = "#dde7ff" };
+        var subtle = (string)typeof(OmniMailTheme).GetProperty(subtleProperty)!.GetValue(theme)!;
+        var cell = Content(Render($"<p>{{{{#banner {tone}}}}} Maintenance ce soir.</p>", theme: theme)).QuerySelector("table td")!;
+
+        var style = cell.GetAttribute("style")!;
+        Assert.Equal(subtle, cell.GetAttribute("bgcolor"));
+        Assert.Contains($"background-color:{subtle}", style, StringComparison.Ordinal);
+        Assert.DoesNotContain("border-left", style, StringComparison.Ordinal);
+        Assert.DoesNotContain("border:", style, StringComparison.Ordinal);
+        Assert.Equal("Maintenance ce soir.", cell.TextContent.Trim());
+    }
+
+    [Fact]
+    public void WithoutBlockBorder_NoBlockIsFramed()
+    {
+        Assert.True(OmniMailTheme.Default.BannerRule);
+        Assert.Null(OmniMailTheme.Default.BlockBorder);
+        var content = Content(Render("<p>{{#banner info}} Note</p><p>{{steps}}</p>", blocks: new() { ["steps"] = "<p>trois</p>" }));
+
+        Assert.Single(content.QuerySelectorAll("table"));
+        Assert.Equal("trois", content.QuerySelector("p")!.TextContent);
+        Assert.DoesNotContain("border:1px", content.InnerHtml, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void BlockBorder_FramesABlockVariableAloneInItsParagraph_NotOneInALine_NorAButton()
+    {
+        var theme = OmniMailTheme.Default with { BlockBorder = "#8a8a8a" };
+        var result = Render(
+            "<p>Avant</p><p>{{steps}}</p><p>Voir {{steps}} ici</p><p>{{#button url}}Ouvrir</p>",
+            new() { ["url"] = "https://app.example" },
+            new() { ["steps"] = "<p><strong>build</strong> a échoué</p>" },
+            theme);
+
+        var content = Content(result);
+        var frame = content.QuerySelectorAll("table").Single(table => table.QuerySelector("strong") is not null);
+        Assert.Equal("presentation", frame.GetAttribute("role"));
+        Assert.Equal("100%", frame.GetAttribute("width"));
+        var cell = frame.QuerySelector("td")!;
+        Assert.Contains("border:1px solid #8a8a8a", cell.GetAttribute("style"), StringComparison.Ordinal);
+        Assert.Contains("padding:12px 16px", cell.GetAttribute("style"), StringComparison.Ordinal);
+        Assert.Equal("build", cell.QuerySelector("p > strong")!.TextContent);
+        Assert.Equal(["Avant", "Voir build a échoué ici"], content.Children.Where(child => child.LocalName == "p").Select(paragraph => paragraph.TextContent));
+        var button = content.QuerySelector("a")!.Closest("td")!;
+        Assert.DoesNotContain("#8a8a8a", button.GetAttribute("style"), StringComparison.Ordinal);
+        Assert.Equal(1, result.Html.Split("1px solid #8a8a8a").Length - 1);
+    }
+
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void BlockBorder_FramesABanner_ItsRuleKeptOnTheStartSideWhenDrawn(bool rule)
+    {
+        var theme = OmniMailTheme.Default with { BlockBorder = "#8a8a8a", BannerRule = rule };
+        var style = Content(Render("<p>{{#banner danger}} Échec</p>", theme: theme)).QuerySelector("table td")!.GetAttribute("style")!;
+
+        var frame = style.IndexOf("border:1px solid #8a8a8a", StringComparison.Ordinal);
+        Assert.True(frame >= 0, style);
+        var start = style.IndexOf($"border-left:4px solid {theme.Danger}", StringComparison.Ordinal);
+        Assert.Equal(rule, start > frame);
+        Assert.Equal(rule, style.Contains("border-left", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public void ABlockBorderThatIsNotLiteral_IsRefused()
+    {
+        var exception = Assert.Throws<ArgumentException>(() => Render("<p>x</p>", theme: OmniMailTheme.Default with { BlockBorder = "red;background:url(x)" }));
+        Assert.Contains("BlockBorder", exception.Message, StringComparison.Ordinal);
+    }
 }

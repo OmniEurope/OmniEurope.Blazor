@@ -88,6 +88,21 @@ public sealed record OmniMailTheme
     /// <summary>Whether the colours are a dark half: the mail then declares a dark colour scheme to the clients that read it.</summary>
     public bool Dark { get; init; }
 
+    /// <summary>
+    /// Whether a banner (<c>{{#banner tone}}</c>) draws the tone's rule at its start; true by default. False draws the banner
+    /// as a plain band of the tone's pale colour (<see cref="InfoSubtle"/>, <see cref="SuccessSubtle"/>,
+    /// <see cref="WarningSubtle"/>, <see cref="DangerSubtle"/>), with no coloured edge on any side.
+    /// </summary>
+    public bool BannerRule { get; init; } = true;
+
+    /// <summary>
+    /// The colour of a frame drawn around each block that holds a zone of the mail: a banner and the fragment of a block
+    /// variable alone in its paragraph (not an action button, nor a fragment written inside a line), a 1px line with
+    /// rounded corners and some inner space. Null, the default, draws no frame. With <see cref="BannerRule"/>, the
+    /// banner's rule replaces the frame on its start side.
+    /// </summary>
+    public string? BlockBorder { get; init; }
+
     /// <summary>A theme of the package, in one mode (<see cref="OmniAppearance.System"/> reads as light).</summary>
     public static OmniMailTheme From(OmniThemePreset theme, OmniAppearance mode = OmniAppearance.Light)
     {

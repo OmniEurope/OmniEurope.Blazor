@@ -4,6 +4,12 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Added
+
+- `OmniHeading.Help` (`string?`, `null`) : demande d'une application cliente. Un « ? » d'aide après le titre, même rendu et même comportement qu'`OmniFormField.Help` : infobulle au survol et au focus clavier (la marque est dans l'ordre de tabulation), texte décrivant la marque sans entrer dans le nom du titre, id `{Id}-help-content` avec un `Id`. Le titre et la marque sont alors dans un `div.omni-heading-row`, qui porte la marge basse ; sans `Help`, le balisage est inchangé. Voir [docs/foundation-components.md](docs/foundation-components.md).
+- `OmniMailTheme.BlockBorder` (`string?`, `null`) : demande d'une application cliente. Une couleur encadre d'un trait de 1 px chaque bloc de mail qui délimite une zone, le bandeau et le fragment d'une variable de bloc seule dans son paragraphe (posé dans un tableau de présentation) ; le bouton d'action et le fragment écrit dans une ligne ne le sont pas. Nul, aucun cadre. Une couleur non littérale lève `ArgumentException`. Voir [docs/editor-components.md](docs/editor-components.md), « Les blocs ».
+- `OmniMailTheme.BannerRule` (`bool`, `true`) : demande d'une application cliente. `false` dessine les bandeaux (`{{#banner ton}}`) sans filet ni bordure colorée sur le côté, en simple bande de la couleur pâle du ton (`InfoSubtle`, `SuccessSubtle`, `WarningSubtle`, `DangerSubtle`, réglables), par exemple en tête du mail. Sans le réglage, rien ne change. L'aperçu d'`OmniMailTemplateEditor` suit les deux réglages par son `Theme`.
+
 ## [1.8.2] - 2026-10-16
 
 Version de correctif qui porte des ajouts d'API, numéro choisi par le propriétaire le 2026-10-16 (voir [docs/versioning.md](docs/versioning.md)) ; un seul comportement par défaut change, décrit sous « Changed ».

@@ -20,7 +20,8 @@ namespace OmniEurope.Blazor.Components;
 /// same rule as a link's, the fill <see cref="OmniMailTheme.Accent"/> and the label <see cref="OmniMailTheme.OnAccent"/>.
 /// A paragraph holding <c>{{#banner tone}}</c> (<c>info</c>, the default, <c>success</c>, <c>warning</c> or
 /// <c>danger</c>) becomes a banner across the card, its content kept, on the tone's pale colour with the tone's rule at
-/// its start. Both are presentation tables with their look on each element, the label a link padded inside its cell, so
+/// its start (none when <see cref="OmniMailTheme.BannerRule"/> is false). <see cref="OmniMailTheme.BlockBorder"/>, when given,
+/// frames each banner and each block variable alone in its paragraph. Both are presentation tables with their look on each element, the label a link padded inside its cell, so
 /// Outlook draws them as the web clients do; the marker writes nothing itself. A block variable, a name given in
 /// <see cref="OmniMailRenderOptions.Blocks"/>, inserts the host's HTML fragment, sanitised through an allow-list of its
 /// own: text, list and table elements, links to http, https and mailto, and inline declarations of colour, weight,

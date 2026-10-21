@@ -79,7 +79,7 @@ internal sealed partial class MailBlocks(IReadOnlyDictionary<string, string?> bl
     {
         foreach (var (placeholder, container) in _placeholders)
         {
-            Fill(placeholder, container, body);
+            Fill(placeholder, container, body, theme, lookAttribute);
         }
 
         foreach (var (container, kind, argument) in _markers)
@@ -126,8 +126,11 @@ internal sealed partial class MailBlocks(IReadOnlyDictionary<string, string?> bl
         }
     }
 
-    /// <summary>A placeholder alone in its paragraph takes the paragraph's place with the fragment; one inside a line, the fragment's plain text.</summary>
-    private void Fill(IElement placeholder, IElement? container, IElement body)
+    /// <summary>
+    /// A placeholder alone in its paragraph takes the paragraph's place with the fragment, framed in a presentation table
+    /// when the theme gives <see cref="OmniMailTheme.BlockBorder"/>; one inside a line, the fragment's plain text.
+    /// </summary>
+    private void Fill(IElement placeholder, IElement? container, IElement body, OmniMailTheme theme, string lookAttribute)
     {
         var name = placeholder.GetAttribute("data-name")!;
         var value = blocks[name];
@@ -146,8 +149,28 @@ internal sealed partial class MailBlocks(IReadOnlyDictionary<string, string?> bl
 
         var holder = body.Owner!.CreateElement("div");
         holder.InnerHtml = html;
-        Put(container, [.. holder.ChildNodes]);
+        if (theme.BlockBorder is null || holder.ChildNodes.Length == 0)
+        {
+            Put(container, [.. holder.ChildNodes]);
+            return;
+        }
+
+        var owner = body.Owner!;
+        var table = Element(owner, "table", lookAttribute, "width:100%;margin:0 0 16px 0;border-collapse:separate",
+            ("role", "presentation"), ("width", "100%"), ("cellpadding", "0"), ("cellspacing", "0"), ("border", "0"));
+        var cell = Element(owner, "td", lookAttribute, $"padding:12px 16px;{Frame(theme)}border-radius:4px");
+        while (holder.FirstChild is { } child)
+        {
+            cell.AppendChild(child);
+        }
+
+        Nest(owner, table, lookAttribute, cell);
+        Put(container, [table]);
     }
+
+    /// <summary>The frame of a zone, <see cref="OmniMailTheme.BlockBorder"/>, as declarations; none without it.</summary>
+    private static string Frame(OmniMailTheme theme) =>
+        theme.BlockBorder is { } color ? $"border:1px solid {color};" : string.Empty;
 
     /// <summary>
     /// The button of a marked paragraph: its text, on one line, as the label; the address the marker names, kept only
@@ -183,7 +206,10 @@ internal sealed partial class MailBlocks(IReadOnlyDictionary<string, string?> bl
         return table;
     }
 
-    /// <summary>The banner of a marked paragraph: its content, formatting and links kept, on the tone's pale fill with the tone's rule at its start.</summary>
+    /// <summary>
+    /// The banner of a marked paragraph: its content, formatting and links kept, on the tone's pale fill, with the tone's
+    /// rule at its start unless <see cref="OmniMailTheme.BannerRule"/> is false, framed by <see cref="OmniMailTheme.BlockBorder"/> when given.
+    /// </summary>
     private static IElement? Banner(IElement container, string? tone, OmniMailTheme theme, string lookAttribute)
     {
         if (container.TextContent.Trim().Length == 0)
@@ -203,7 +229,8 @@ internal sealed partial class MailBlocks(IReadOnlyDictionary<string, string?> bl
             ("role", "presentation"), ("width", "100%"), ("cellpadding", "0"), ("cellspacing", "0"), ("border", "0"));
         var alignment = Alignment(container) is { } align ? $";text-align:{align}" : string.Empty;
         var cell = Element(owner, "td", lookAttribute,
-            $"padding:12px 16px;background-color:{subtle};border-left:4px solid {strong};border-radius:4px;color:{theme.Text}{alignment}",
+            $"padding:12px 16px;background-color:{subtle};{Frame(theme)}{(theme.BannerRule ? $"border-left:4px solid {strong};" : string.Empty)}"
+            + $"border-radius:4px;color:{theme.Text}{alignment}",
             ("bgcolor", subtle));
         while (container.FirstChild is { } child)
         {

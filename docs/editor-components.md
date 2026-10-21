@@ -427,7 +427,7 @@ Le paquet n'envoie rien : `OmniMailRenderResult` va à l'expéditeur de l'applic
   `--omni-*` ; un jeton absent ou non littéral (`var()`, `color-mix()`) garde la valeur par défaut. La police
   est suivie d'Arial, Helvetica, sans-serif. Un thème posé à la main dont une valeur n'est pas littérale fait
   lever `ArgumentException` au rendu.
-  Les bandeaux prennent `Info`, `Success`, `Warning`, `Danger` (le filet) et leurs `…Subtle` (le fond), lus dans
+  Les bandeaux prennent `Info`, `Success`, `Warning`, `Danger` (le filet, voir `BannerRule`) et leurs `…Subtle` (le fond), lus dans
   `--omni-color-info`, `--omni-color-success`, `--omni-color-warning`, `--omni-color-danger` et leurs jetons `-subtle`.
 
 ### Les blocs
@@ -438,7 +438,7 @@ Trois blocs complètent les variables de texte, tous en HTML statique de tableau
 | Bloc | Écriture dans le modèle | Rendu |
 | --- | --- | --- |
 | Bouton d'action | Un paragraphe qui contient `{{#button nom}}` ; son texte (variables écrites) est le libellé. | Tableau d'une cellule de fond `Accent`, lien `display:inline-block` rembourré de couleur `OnAccent`, rayon du thème ; alignement de l'éditeur (centré, à droite) repris par `align`. L'adresse est la valeur de `nom`, gardée seulement en `http`, `https` ou `mailto` absolue (le bouton perd son lien sinon, comme un lien). Libellé vide : aucun bouton. Texte brut : « libellé (adresse) ». |
-| Bandeau | Un paragraphe qui contient `{{#banner ton}}`, `ton` valant `info` (défaut), `success`, `warning` ou `danger`. | Tableau pleine largeur de la carte, fond `…Subtle` du ton, filet de 4 px du ton au début, texte `Text` ; le contenu du paragraphe (mise en forme et liens) est gardé. Paragraphe vide : aucun bandeau. |
+| Bandeau | Un paragraphe qui contient `{{#banner ton}}`, `ton` valant `info` (défaut), `success`, `warning` ou `danger`. | Tableau pleine largeur de la carte, fond `…Subtle` du ton, filet de 4 px du ton au début (aucun avec `OmniMailTheme.BannerRule = false`), texte `Text` ; le contenu du paragraphe (mise en forme et liens) est gardé. Paragraphe vide : aucun bandeau. |
 | Variable de bloc | `{{nom}}` seul dans son paragraphe (ou élément de liste, cellule, citation), `nom` étant une clé de `OmniMailRenderOptions.Blocks`. | Le fragment HTML de l'hôte, assaini, à la place du paragraphe (ou dans l'élément de liste, la cellule, la citation). Écrit au milieu d'une ligne, le jeton prend le texte brut du fragment. |
 
 - Déclaration : l'hôte passe ses fragments dans `OmniMailRenderOptions.Blocks` (`IReadOnlyDictionary<string, string?>`) ;
@@ -460,6 +460,17 @@ Trois blocs complètent les variables de texte, tous en HTML statique de tableau
   `{{#banner danger}}` s'écrit comme texte.
 - `FindVariables` liste aussi les variables de blocs et les adresses de boutons (pas les tons des bandeaux).
   `MissingVariables` suit l'ordre d'apparition dans l'objet, le préheader puis le corps.
+- Bandeau sans filet : `OmniMailTheme.BannerRule` (`bool`, `true`) à `false` dessine chaque bandeau en simple bande de
+  la couleur pâle de son ton, sans bordure colorée sur aucun côté ; placé dans le premier paragraphe, il fait l'en-tête
+  du mail. Les fonds se règlent par ton avec `InfoSubtle`, `SuccessSubtle`, `WarningSubtle` et `DangerSubtle`
+  (`OmniMailTheme.Default with { BannerRule = false, WarningSubtle = "#fff3e0" }`).
+- Cadre des blocs : `OmniMailTheme.BlockBorder` (`string?`, nul par défaut, donc aucun cadre) est la couleur d'un
+  trait de 1 px aux coins arrondis, avec une marge intérieure, autour de chaque bloc qui délimite une zone : le
+  bandeau et le fragment d'une variable de bloc seule dans son paragraphe, alors posé dans un tableau de
+  présentation pleine largeur. Le bouton d'action et le fragment écrit au milieu d'une ligne ne sont pas encadrés.
+  Avec le filet, celui-ci remplace le cadre au début du bandeau. Une couleur non littérale fait lever
+  `ArgumentException`. Les deux réglages passent par le thème, donc l'aperçu d'`OmniMailTemplateEditor` (`Theme`)
+  les montre aussi.
 
 ```csharp
 // Un mail aux couleurs de l'apparence de son destinataire (son OmniAppearanceState, ou ses préférences lues en base).

@@ -2890,6 +2890,7 @@ property public OmniEurope.Blazor.Components.OmniHeader.SidebarToggle : Microsof
 property public OmniEurope.Blazor.Components.OmniHeader.Sticky : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHeader.Tone : OmniEurope.Blazor.Components.OmniHeaderTone {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHeading.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
+property public OmniEurope.Blazor.Components.OmniHeading.Help : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHeading.Level : OmniEurope.Blazor.Components.OmniHeadingLevel {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHeading.Tone : OmniEurope.Blazor.Components.OmniTextTone {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHtmlCaretSplit.After : System.String {get(public);init(public)}
@@ -3084,6 +3085,8 @@ property public OmniEurope.Blazor.Components.OmniMailTemplateEditor.Value : Syst
 property public OmniEurope.Blazor.Components.OmniMailTemplateEditor.ValueChanged : Microsoft.AspNetCore.Components.EventCallback<System.String?> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMailTemplateEditor.Variables : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniMailVariable>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMailTheme.Accent : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailTheme.BannerRule : System.Boolean {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMailTheme.BlockBorder : System.String? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniMailTheme.Border : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniMailTheme.CodeBackground : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniMailTheme.Danger : System.String {get(public);init(public)}

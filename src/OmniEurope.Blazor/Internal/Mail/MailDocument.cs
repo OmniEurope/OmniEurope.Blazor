@@ -87,6 +87,11 @@ internal static class MailDocument
         _ = MailCss.Color(theme.WarningSubtle, nameof(theme.WarningSubtle));
         _ = MailCss.Color(theme.Danger, nameof(theme.Danger));
         _ = MailCss.Color(theme.DangerSubtle, nameof(theme.DangerSubtle));
+        if (theme.BlockBorder is not null)
+        {
+            _ = MailCss.Color(theme.BlockBorder, nameof(theme.BlockBorder));
+        }
+
         if (!MailCss.IsFontFamily(theme.FontFamily))
         {
             throw new ArgumentException($"The mail theme's {nameof(theme.FontFamily)} must be a list of font names, not '{theme.FontFamily}'.", nameof(theme));

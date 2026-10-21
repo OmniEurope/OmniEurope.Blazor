@@ -15,6 +15,21 @@ public partial class OmniHeading
     [Parameter]
     public OmniTextTone Tone { get; set; }
 
+    /// <summary>
+    /// A help text for the heading, behind a "?" after it, drawn and behaving as <see cref="OmniFormField.Help"/>:
+    /// it shows on hover and on keyboard focus (the mark is in the Tab order), and is the mark's accessible
+    /// description, never a part of the heading's name. The heading and the mark are then wrapped in a
+    /// <c>div.omni-heading-row</c>, which carries the heading's bottom margin. Given an
+    /// <see cref="OmniComponentBase.Id"/>, the text has the id <c>{Id}-help-content</c>. Null or blank, the
+    /// default, renders no mark and leaves the markup unchanged.
+    /// </summary>
+    [Parameter]
+    public string? Help { get; set; }
+
+    private string? HelpId => string.IsNullOrWhiteSpace(Id) ? null : $"{Id}-help";
+
+    private string RowClass => $"omni-heading-row omni-heading-row--{Level.ToString().ToLowerInvariant()}";
+
     private string HeadingClass => Css(
         "omni-heading",
         $"omni-heading--{Level.ToString().ToLowerInvariant()}",
