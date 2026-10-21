@@ -585,6 +585,10 @@
   <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Дълъг текст в тясна колона</value></data>
   <data name="DemoGridShortCaption" xml:space="preserve"><value>Три дела, височина по съдържанието</value></data>
   <data name="DemoGridLongCaption" xml:space="preserve"><value>Десет хиляди дела, таван от 18rem</value></data>
+  <data name="DemoGridFitCaption" xml:space="preserve"><value>Колони по ширината на съдържанието им, описанието е съкратено</value></data>
+  <data name="DemoGridFitColumnPackage" xml:space="preserve"><value>Пакет</value></data>
+  <data name="DemoGridFitColumnDescription" xml:space="preserve"><value>Описание</value></data>
+  <data name="DemoGridFitDescription" xml:space="preserve"><value>Уеб анализ: преглеждания на страници, събития и отчети, събирани без бисквитки, за всеки сайт на организацията.</value></data>
   <data name="DemoGridColumnReference" xml:space="preserve"><value>Референция</value></data>
   <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Заявител</value></data>
   <data name="DemoGridColumnCountry" xml:space="preserve"><value>Държава</value></data>

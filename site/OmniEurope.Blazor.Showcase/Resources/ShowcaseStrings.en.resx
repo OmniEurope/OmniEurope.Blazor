@@ -586,6 +586,10 @@
   <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Long text in a narrow column</value></data>
   <data name="DemoGridShortCaption" xml:space="preserve"><value>Three cases, content height</value></data>
   <data name="DemoGridLongCaption" xml:space="preserve"><value>Ten thousand cases, 18rem cap</value></data>
+  <data name="DemoGridFitCaption" xml:space="preserve"><value>Columns sized to their content, description truncated</value></data>
+  <data name="DemoGridFitColumnPackage" xml:space="preserve"><value>Package</value></data>
+  <data name="DemoGridFitColumnDescription" xml:space="preserve"><value>Description</value></data>
+  <data name="DemoGridFitDescription" xml:space="preserve"><value>Web analytics: page views, events and reports collected without cookies, for every site of the organisation.</value></data>
   <data name="DemoGridColumnReference" xml:space="preserve"><value>Reference</value></data>
   <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Applicant</value></data>
   <data name="DemoGridColumnCountry" xml:space="preserve"><value>Country</value></data>

@@ -7,7 +7,7 @@
 import { notifyDotNet } from './grid/notify.js';
 import { release } from './grid/release.js';
 
-export { applyColumns, applyFrozen, attachFrozenScroll, detachFrozenScroll } from './grid/columns.js';
+export { applyColumns, applyFrozen, attachContentFit, attachFrozenScroll, detachContentFit, detachFrozenScroll } from './grid/columns.js';
 export { attachResize, detachResize, autoFitColumn } from './grid/resize.js';
 export { attachReorder, detachReorder, focusMoveControl } from './grid/reorder.js';
 export { attachFilterMenus, closeFilterMenus, detachFilterMenus } from './grid/filter-menus.js';

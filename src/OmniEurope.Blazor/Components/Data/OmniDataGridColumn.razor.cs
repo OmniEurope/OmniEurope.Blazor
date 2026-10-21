@@ -246,6 +246,17 @@ public partial class OmniDataGridColumn<TItem>
     public string? MinWidth { get; set; }
 
     /// <summary>
+    /// Whether the cells of this column end in an ellipsis at the width the layout gives it, instead of
+    /// the column widening to its longest content. False by default: a column without a
+    /// <see cref="Width"/> sizes itself to its longest cell and its header, so no value is cut. A
+    /// <see cref="Width"/> (declared, or chosen by the reader's resize) always wins, and a cell it cuts
+    /// shows its whole value in the tooltip. Set it for a column whose long text is meant to be cut (a
+    /// description) while it keeps its share of the free width.
+    /// </summary>
+    [Parameter]
+    public bool Truncate { get; set; }
+
+    /// <summary>
     /// Alignment of the header and the cells. Left at the start, a number column aligns at the end in
     /// figures of one width, unless it has a <see cref="Template"/>.
     /// </summary>
@@ -337,6 +348,7 @@ public partial class OmniDataGridColumn<TItem>
             Frozen = Frozen,
             Width = Width,
             MinWidth = MinWidth,
+            Truncate = Truncate,
             TextAlign = TextAlign,
             Numeric = GridPropertyAccessor.IsNumeric<TItem>(Property),
             Class = Class,
@@ -473,6 +485,7 @@ public partial class OmniDataGridColumn<TItem>
         && left.Frozen == right.Frozen
         && string.Equals(left.Width, right.Width, StringComparison.Ordinal)
         && string.Equals(left.MinWidth, right.MinWidth, StringComparison.Ordinal)
+        && left.Truncate == right.Truncate
         && left.TextAlign == right.TextAlign
         && string.Equals(left.Class, right.Class, StringComparison.Ordinal)
         && string.Equals(left.HeaderClass, right.HeaderClass, StringComparison.Ordinal)

@@ -585,6 +585,10 @@
   <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Langer Text in einer schmalen Spalte</value></data>
   <data name="DemoGridShortCaption" xml:space="preserve"><value>Drei Vorgänge, Inhaltshöhe</value></data>
   <data name="DemoGridLongCaption" xml:space="preserve"><value>Zehntausend Vorgänge, Obergrenze 18rem</value></data>
+  <data name="DemoGridFitCaption" xml:space="preserve"><value>Spalten in der Breite ihres Inhalts, Beschreibung gekürzt</value></data>
+  <data name="DemoGridFitColumnPackage" xml:space="preserve"><value>Paket</value></data>
+  <data name="DemoGridFitColumnDescription" xml:space="preserve"><value>Beschreibung</value></data>
+  <data name="DemoGridFitDescription" xml:space="preserve"><value>Webanalyse: Seitenaufrufe, Ereignisse und Berichte, ohne Cookies erfasst, für jede Website der Organisation.</value></data>
   <data name="DemoGridColumnReference" xml:space="preserve"><value>Referenz</value></data>
   <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Antragsteller</value></data>
   <data name="DemoGridColumnCountry" xml:space="preserve"><value>Land</value></data>

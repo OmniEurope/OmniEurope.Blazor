@@ -585,6 +585,10 @@
   <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Lange tekst in een smalle kolom</value></data>
   <data name="DemoGridShortCaption" xml:space="preserve"><value>Drie dossiers, inhoudshoogte</value></data>
   <data name="DemoGridLongCaption" xml:space="preserve"><value>Tienduizend dossiers, maximaal 18rem</value></data>
+  <data name="DemoGridFitCaption" xml:space="preserve"><value>Kolommen op de breedte van hun inhoud, beschrijving afgekapt</value></data>
+  <data name="DemoGridFitColumnPackage" xml:space="preserve"><value>Pakket</value></data>
+  <data name="DemoGridFitColumnDescription" xml:space="preserve"><value>Beschrijving</value></data>
+  <data name="DemoGridFitDescription" xml:space="preserve"><value>Webanalyse: paginaweergaven, gebeurtenissen en rapporten verzameld zonder cookies, voor elke site van de organisatie.</value></data>
   <data name="DemoGridColumnReference" xml:space="preserve"><value>Referentie</value></data>
   <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Aanvrager</value></data>
   <data name="DemoGridColumnCountry" xml:space="preserve"><value>Land</value></data>

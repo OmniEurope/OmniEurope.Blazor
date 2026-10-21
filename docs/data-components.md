@@ -82,6 +82,29 @@ Une colonne se déclare par lambda ou par nom de propriété.
   suspension au lieu de déborder sur la colonne voisine. Une cellule à gabarit n'est pas rognée, pour
   ses badges, boutons, menus et champs d'édition ; `Class="omni-data-grid__cell--text"` l'inscrit
   à la même règle. En affichage en cartes (`Responsive`), le texte revient à la ligne.
+- **Une colonne sans largeur se dimensionne sur son contenu.** Sans `Width`, sans largeur choisie par le
+  lecteur et sans `Truncate`, la colonne prend la largeur de sa valeur la plus longue, titre compris :
+  aucune cellule de texte n'est coupée par défaut. `omni-grid.js` mesure les cellules de texte des
+  lignes rendues (la page courante, la fenêtre d'une grille virtualisée ; une cellule à `Template` n'est
+  pas mesurée) et élargit la colonne de ce qui manque, à la première mise en page puis à chaque rendu qui
+  apporte d'autres lignes ou d'autre texte (une page, un tri, un filtre, le défilement). La mesure lit
+  tout avant d'écrire : un rendu coûte une mise en page, pas une par cellule. La largeur **ne fait que
+  croître** tant que la grille vit, pour qu'un défilement qui fait entrer et sortir des lignes ne fasse
+  pas sauter la colonne : elle ne rétrécit pas quand une page plus courte suit, et elle n'est oubliée que
+  lorsque la colonne reçoit une largeur (déclarée ou choisie), passe en `Truncate`, quitte la grille ou que
+  la grille est retirée de la page. Quand la somme des largeurs dépasse le cadre, le viewport défile
+  de côté, et les colonnes qui n'ont aucune largeur (une colonne `Truncate`, une colonne à gabarit, une
+  colonne courte) gardent le plancher `--omni-data-grid-column-min-width` (8 rem) au lieu d'être écrasées
+  (`--omni-grid-fit-min`, posée par le script, que la feuille de style compare au minimum du tableau).
+  Les colonnes figées voient leur décalage recalculé après chaque élargissement.
+- `Truncate` (`bool`, faux par défaut) sort la colonne de cette mesure : elle garde la largeur que la
+  mise en page lui donne, ses valeurs trop longues se terminent par des points de suspension et
+  la valeur entière est lue dans l'infobulle de la cellule coupée. C'est le choix d'une colonne dont le texte
+  long est fait pour être coupé (une description). Une largeur l'emporte toujours sur le contenu :
+  `Width` déclarée, largeur choisie au glisser (`AllowColumnResize`), ajustement au double clic
+  (`AllowColumnAutoFit`) ou largeur restaurée par `StateKey` ; la cellule coupée par cette largeur garde
+  son ellipsis et son infobulle. `HeaderWrap="Truncate"` ne concerne que les titres : les cellules des
+  colonnes sans largeur s'ajustent à leur contenu quand même.
 - Des colonnes déclarées dans un `@foreach` peuvent capturer la variable de boucle dans leur
   `Template` ou leur `Value` : un délégué issu de la même lambda ne réinscrit pas la colonne. Les
   cellules montrent l'état capturé du rendu du parent dès ce rendu (la grille se redessine une fois de

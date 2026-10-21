@@ -21,6 +21,10 @@ public partial class DataGridDemo
 
     private IReadOnlyList<GridRow> ManyRows { get; set; } = [];
 
+    // Packages with long names, and a description far longer than its column: the first column sizes
+    // itself to the names, the second (Truncate) is cut.
+    private IReadOnlyList<PackageRow> Packages { get; set; } = [];
+
     // Two thousand files grouped by country; one amount, far from the first window, is much wider than
     // the others, so the fit to content of Amount has to rank every text, rendered or not.
     private IReadOnlyList<GridRow> FillRows { get; set; } = [];
@@ -159,6 +163,12 @@ public partial class DataGridDemo
             Run("#2395", "orders-deploy-prod", 309, "DemoGridStatusPending", "warning"),
             Run("#2394", "orders-candidate", 125, "RunsStatusSuccess", "success"),
             Run("#2393", "catalog-build", 47, "RunsStatusWarning", "warning")
+        ];
+        Packages =
+        [
+            new("@example-org/web-analytics", Text["DemoGridFitDescription"]),
+            new("@example-org/design-tokens", Text["DemoGridFitDescription"]),
+            new("@example-org/ui", Text["DemoGridFitDescription"])
         ];
         FewRows = [.. Rows.Take(3)];
         NarrowRows = [Rows[0] with { Applicant = LongApplicant }, .. Rows.Skip(1).Take(2)];

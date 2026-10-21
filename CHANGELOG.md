@@ -4,6 +4,14 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Added
+
+- `OmniDataGridColumn.Truncate` (`bool`, `false`) : demande d'une application cliente (recette R1-17, formulée trois fois). La colonne garde son ellipsis à la largeur que la mise en page lui donne, au lieu de s'élargir à son contenu ; la valeur coupée reste lisible en entier dans l'infobulle. Choix pour une colonne dont le texte long est fait pour être coupé (une description). Démonstration dans la vitrine, page « Grille de données ».
+
+### Changed
+
+- `OmniDataGrid` : une colonne sans largeur se dimensionne désormais sur son contenu le plus long, titre compris, au lieu de couper ses valeurs par une ellipsis (une valeur de 196 px dans une cellule de 160 px n'est plus coupée). Les cellules de texte sont mesurées dans les lignes rendues (la fenêtre d'une grille virtualisée, la page courante), puis à chaque rendu qui apporte d'autres lignes ; la largeur ne fait que croître tant que la grille vit, pour que le défilement ne fasse pas sauter la colonne. Quand les colonnes ne tiennent plus, le tableau défile de côté et les colonnes sans largeur gardent leur plancher (8 rem) au lieu d'être écrasées. Une largeur déclarée (`Width`) ou choisie par le lecteur (glisser, ajustement au double clic, état persisté par `StateKey`) l'emporte toujours, et sa cellule garde son ellipsis et son infobulle ; une cellule à `Template` n'est pas mesurée. Migration : `Truncate="true"` sur une colonne rend l'ancien comportement (la colonne garde sa part, ses valeurs sont coupées) ; `Width` fixe la largeur comme avant.
+
 ## [1.8.2] - 2026-10-16
 
 Version de correctif qui porte des ajouts d'API, numéro choisi par le propriétaire le 2026-10-16 (voir [docs/versioning.md](docs/versioning.md)) ; un seul comportement par défaut change, décrit sous « Changed ».

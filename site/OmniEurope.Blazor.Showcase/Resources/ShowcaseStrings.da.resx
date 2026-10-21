@@ -585,6 +585,10 @@
   <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Lang tekst i en smal kolonne</value></data>
   <data name="DemoGridShortCaption" xml:space="preserve"><value>Tre sager, indholdshøjde</value></data>
   <data name="DemoGridLongCaption" xml:space="preserve"><value>Ti tusind sager, loft på 18rem</value></data>
+  <data name="DemoGridFitCaption" xml:space="preserve"><value>Kolonner i indholdets bredde, beskrivelsen er afkortet</value></data>
+  <data name="DemoGridFitColumnPackage" xml:space="preserve"><value>Pakke</value></data>
+  <data name="DemoGridFitColumnDescription" xml:space="preserve"><value>Beskrivelse</value></data>
+  <data name="DemoGridFitDescription" xml:space="preserve"><value>Webanalyse: sidevisninger, hændelser og rapporter indsamlet uden cookies for hvert af organisationens websteder.</value></data>
   <data name="DemoGridColumnReference" xml:space="preserve"><value>Reference</value></data>
   <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Ansøger</value></data>
   <data name="DemoGridColumnCountry" xml:space="preserve"><value>Land</value></data>

@@ -2627,6 +2627,7 @@ property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Sortable 
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Template : Microsoft.AspNetCore.Components.RenderFragment<TItem>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.TextAlign : OmniEurope.Blazor.Components.OmniDataGridTextAlign {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Title : System.String {get(public);set(public)} [Parameter, EditorRequired]
+property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Truncate : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Value : System.Func<TItem,System.Object?>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Visible : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Width : System.String? {get(public);set(public)} [Parameter]

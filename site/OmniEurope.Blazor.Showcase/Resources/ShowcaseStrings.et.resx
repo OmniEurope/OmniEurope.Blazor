@@ -585,6 +585,10 @@
   <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Pikk tekst kitsas veerus</value></data>
   <data name="DemoGridShortCaption" xml:space="preserve"><value>Kolm toimikut, sisu kõrgus</value></data>
   <data name="DemoGridLongCaption" xml:space="preserve"><value>Kümme tuhat toimikut, ülempiir 18rem</value></data>
+  <data name="DemoGridFitCaption" xml:space="preserve"><value>Veerud sisu laiuses, kirjeldus on kärbitud</value></data>
+  <data name="DemoGridFitColumnPackage" xml:space="preserve"><value>Pakett</value></data>
+  <data name="DemoGridFitColumnDescription" xml:space="preserve"><value>Kirjeldus</value></data>
+  <data name="DemoGridFitDescription" xml:space="preserve"><value>Veebianalüütika: lehevaatamised, sündmused ja aruanded, mida kogutakse ilma küpsisteta, organisatsiooni igale saidile.</value></data>
   <data name="DemoGridColumnReference" xml:space="preserve"><value>Viide</value></data>
   <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Taotleja</value></data>
   <data name="DemoGridColumnCountry" xml:space="preserve"><value>Riik</value></data>

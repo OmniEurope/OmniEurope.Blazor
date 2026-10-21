@@ -585,6 +585,10 @@
   <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Garš teksts šaurā kolonnā</value></data>
   <data name="DemoGridShortCaption" xml:space="preserve"><value>Trīs lietas, satura augstums</value></data>
   <data name="DemoGridLongCaption" xml:space="preserve"><value>Desmit tūkstoši lietu, ierobežojums 18rem</value></data>
+  <data name="DemoGridFitCaption" xml:space="preserve"><value>Kolonnas satura platumā, apraksts saīsināts</value></data>
+  <data name="DemoGridFitColumnPackage" xml:space="preserve"><value>Pakotne</value></data>
+  <data name="DemoGridFitColumnDescription" xml:space="preserve"><value>Apraksts</value></data>
+  <data name="DemoGridFitDescription" xml:space="preserve"><value>Tīmekļa analītika: lapu skatījumi, notikumi un pārskati, kas vākti bez sīkdatnēm, katrai organizācijas vietnei.</value></data>
   <data name="DemoGridColumnReference" xml:space="preserve"><value>Atsauce</value></data>
   <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Pieteicējs</value></data>
   <data name="DemoGridColumnCountry" xml:space="preserve"><value>Valsts</value></data>

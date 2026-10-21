@@ -585,6 +585,10 @@
   <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Test twil f'kolonna dejqa</value></data>
   <data name="DemoGridShortCaption" xml:space="preserve"><value>Tliet fajls, għoli tal-kontenut</value></data>
   <data name="DemoGridLongCaption" xml:space="preserve"><value>Għaxart elef fajl, limitu ta' 18rem</value></data>
+  <data name="DemoGridFitCaption" xml:space="preserve"><value>Kolonni fil-wisa' tal-kontenut tagħhom, id-deskrizzjoni maqtugħa</value></data>
+  <data name="DemoGridFitColumnPackage" xml:space="preserve"><value>Pakkett</value></data>
+  <data name="DemoGridFitColumnDescription" xml:space="preserve"><value>Deskrizzjoni</value></data>
+  <data name="DemoGridFitDescription" xml:space="preserve"><value>Analitika tal-web: veduti tal-paġni, avvenimenti u rapporti miġbura mingħajr cookies, għal kull sit tal-organizzazzjoni.</value></data>
   <data name="DemoGridColumnReference" xml:space="preserve"><value>Referenza</value></data>
   <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Applikant</value></data>
   <data name="DemoGridColumnCountry" xml:space="preserve"><value>Pajjiż</value></data>

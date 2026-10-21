@@ -585,6 +585,10 @@
   <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Text lung într-o coloană îngustă</value></data>
   <data name="DemoGridShortCaption" xml:space="preserve"><value>Trei dosare, înălțimea conținutului</value></data>
   <data name="DemoGridLongCaption" xml:space="preserve"><value>Zece mii de dosare, plafon de 18rem</value></data>
+  <data name="DemoGridFitCaption" xml:space="preserve"><value>Coloane la lățimea conținutului lor, descrierea este trunchiată</value></data>
+  <data name="DemoGridFitColumnPackage" xml:space="preserve"><value>Pachet</value></data>
+  <data name="DemoGridFitColumnDescription" xml:space="preserve"><value>Descriere</value></data>
+  <data name="DemoGridFitDescription" xml:space="preserve"><value>Analiză web: afișări de pagini, evenimente și rapoarte colectate fără cookie-uri, pentru fiecare site al organizației.</value></data>
   <data name="DemoGridColumnReference" xml:space="preserve"><value>Referință</value></data>
   <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Solicitant</value></data>
   <data name="DemoGridColumnCountry" xml:space="preserve"><value>Țară</value></data>

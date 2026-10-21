@@ -187,8 +187,10 @@
                 @foreach (var column in ColumnSet.VisibleColumns)
                 {
                     @* The width is in the markup as well, read by the stylesheet: the first paint has the final
-                       widths instead of equal columns until the script applies them (no inline style, CSP). *@
-                    <col @key="column.Key" class="omni-data-grid__col" data-omni-col="@column.Key" data-omni-width="@ColumnLayout.WidthOf(column)" />
+                       widths instead of equal columns until the script applies them (no inline style, CSP).
+                       A column with neither a width nor Truncate is sized to its content by omni-grid.js,
+                       which reads those two attributes to know it. *@
+                    <col @key="column.Key" class="omni-data-grid__col" data-omni-col="@column.Key" data-omni-width="@ColumnLayout.WidthOf(column)" data-omni-truncate="@(column.Truncate ? "true" : null)" />
                 }
                 @if (ColumnSet.HasEditing) { <col class="omni-data-grid__col--control omni-data-grid__col--edit" /> }
             </colgroup>

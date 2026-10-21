@@ -309,12 +309,16 @@ function measureTexts(viewport, selector, texts) {
  * The column's declared minimum in pixels, whatever its unit: the raw length is resolved by laying
  * out a probe of that width inside the grid, so rem, em or ch follow the grid's own font.
  */
-function columnMinimum(viewport, col) {
+export function columnMinimum(viewport, col) {
     const declared = col?.style.getPropertyValue('--omni-col-min').trim();
-    if (!declared) {
-        return 0;
-    }
+    return declared ? lengthInPixels(viewport, declared) : 0;
+}
 
+/**
+ * A CSS length in pixels, whatever its unit or custom property: laid out as the width of a probe inside
+ * the grid, so it follows the grid's own font and the tokens it inherits.
+ */
+export function lengthInPixels(viewport, declared) {
     const probe = document.createElement('div');
     probe.setAttribute('aria-hidden', 'true');
     probe.style.position = 'absolute';
