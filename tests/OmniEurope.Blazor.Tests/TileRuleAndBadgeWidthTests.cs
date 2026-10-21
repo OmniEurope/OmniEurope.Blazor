@@ -181,6 +181,26 @@ public sealed class TileRuleAndBadgeWidthTests : OmniBunitContext
         Assert.Throws<ArgumentOutOfRangeException>(() => RenderGroup(columns: 7));
     }
 
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    public void ACardGroupInColumns_RefusesAColumnCountBelowOne(int columns)
+    {
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => RenderGroup(columns));
+
+        Assert.Equal("Columns", exception.ParamName);
+    }
+
+    [Theory]
+    [InlineData(1)]
+    [InlineData(6)]
+    public void ACardGroupInColumns_AcceptsTheBoundsOfOneAndSix(int columns)
+    {
+        var group = RenderGroup(columns);
+
+        Assert.Contains($"omni-tile-grid--columns-{columns}", group.Find(".omni-selectable-card-group").ClassList);
+    }
+
     [Fact]
     public void TheTileRule_GivesEqualColumns_OneRowHeight_AndADoubleTileTwoColumns()
     {

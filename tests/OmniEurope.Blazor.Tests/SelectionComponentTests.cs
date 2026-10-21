@@ -203,6 +203,29 @@ public sealed class SelectionComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public void Slider_SelectableMinimum_LeavesATextThatIsNotANumberToTheInputAndCommitsNothingForIt()
+    {
+        var holder = new SliderHolder { Value = 5 };
+        var steps = new List<double>();
+        var commits = new List<double>();
+        var slider = Render<OmniSlider>(parameters => parameters
+            .Add(component => component.Minimum, 0)
+            .Add(component => component.SelectableMinimum, 1)
+            .Add(component => component.Maximum, 10)
+            .Add(component => component.Value, holder.Value)
+            .Add(component => component.ValueExpression, () => holder.Value)
+            .Add(component => component.ValueChanged, value => steps.Add(value))
+            .Add(component => component.OnValueCommit, value => commits.Add(value)));
+
+        slider.Find("input").Input("abc");
+        slider.Find("input").Change("abc");
+        slider.Find("input").Change("7");
+
+        Assert.Empty(steps);
+        Assert.Equal([7d], commits);
+    }
+
+    [Fact]
     public void Slider_WithoutSelectableMinimum_LetsTheWholeScaleBePicked()
     {
         var holder = new SliderHolder { Value = 5 };

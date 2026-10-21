@@ -1,5 +1,7 @@
 using System.Globalization;
 using Bunit;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.JSInterop;
 using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
@@ -267,5 +269,25 @@ public sealed class WizardTests : OmniBunitContext
         Assert.Equal(2, host.FindAll(".omni-wizard__body").Count);
         Assert.All(host.FindAll(".omni-wizard__body"), body => Assert.Equal("-1", body.GetAttribute("tabindex")));
         Assert.Equal(2, host.FindAll(".omni-wizard__foot").Count);
+    }
+
+    [Fact]
+    public async Task Wizard_OnALostCircuit_SizesNothingAndStillReleasesItsScript()
+    {
+        var runtime = new ManualJSRuntime { Module = new RecordingModule { DisposeFailure = new JSDisconnectedException("perdu") } };
+        runtime.Module.CallFailures["applyWizardBodyHeight"] = new JSDisconnectedException("perdu");
+        Services.AddSingleton<IJSRuntime>(runtime);
+
+        var wizard = Render<OmniWizard>(parameters => parameters
+            .Add(component => component.BodyHeight, "20rem")
+            .AddChildContent<OmniWizardStep>(step => step.Add(component => component.Title, "Nom")));
+        wizard.WaitForAssertion(() => Assert.Contains("applyWizardBodyHeight", runtime.Module.Calls));
+
+        await wizard.Instance.DisposeAsync();
+
+        // The failed write is the only call asked of the script, and the module is released all the same.
+        Assert.All(runtime.Module.Calls, call => Assert.Equal("applyWizardBodyHeight", call));
+        Assert.True(runtime.Module.Disposal.Task.IsCompleted);
+        Assert.Single(wizard.FindAll(".omni-wizard__body"));
     }
 }

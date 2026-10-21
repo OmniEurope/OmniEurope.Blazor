@@ -316,6 +316,21 @@ public sealed class AccordionTests : OmniBunitContext
     }
 
     [Fact]
+    public void ARowWithoutTitleNorHeaderContent_DrawsAnEmptyToggleThatStillWorks()
+    {
+        var item = Render<OmniAccordionItem>(parameters => parameters.AddChildContent("Corps sans libellé"));
+
+        var toggle = item.Find("button.omni-accordion__toggle");
+        Assert.Equal(string.Empty, toggle.TextContent);
+        Assert.Equal("false", toggle.GetAttribute("aria-expanded"));
+
+        toggle.Click();
+
+        Assert.Equal("true", item.Find("button.omni-accordion__toggle").GetAttribute("aria-expanded"));
+        Assert.Contains("Corps sans libellé", item.Find(".omni-accordion__content").TextContent, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void IdClassAndAttributes_GoWhereTheConventionPutsThem()
     {
         var item = Render<OmniAccordionItem>(parameters => parameters

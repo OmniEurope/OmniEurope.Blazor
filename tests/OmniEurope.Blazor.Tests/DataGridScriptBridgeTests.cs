@@ -114,4 +114,39 @@ public sealed class DataGridScriptBridgeTests : OmniBunitContext
         Assert.Contains("detach", runtime.Module.Calls);
         Assert.True(runtime.Module.Disposal.Task.IsCompleted);
     }
+
+    [Fact]
+    public async Task AGridWhoseContentFitScriptFailed_StillUndoesWhatWasAttached_AndReleasesTheModule()
+    {
+        var runtime = new ManualJSRuntime();
+        runtime.Module.CallFailures["attachContentFit"] = new JSException("refus");
+        Services.AddSingleton<IJSRuntime>(runtime);
+        OmniDataGrid<Row>? grid = null;
+
+        var failure = Assert.ThrowsAny<Exception>(() => Render<GridCapture>(parameters => parameters
+            .Add(component => component.Captured, instance => grid = instance)));
+
+        Assert.Contains("refus", failure.ToString(), StringComparison.Ordinal);
+        Assert.NotNull(grid);
+        await grid.DisposeAsync();
+
+        // Only what was attached is undone: the content fit never was.
+        Assert.Contains("uninstallPackageTooltips", runtime.Module.Calls);
+        Assert.DoesNotContain("detachContentFit", runtime.Module.Calls);
+        Assert.True(runtime.Module.Disposal.Task.IsCompleted);
+    }
+
+    private sealed class GridCapture : ComponentBase
+    {
+        [Parameter] public Action<OmniDataGrid<Row>>? Captured { get; set; }
+
+        protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder builder)
+        {
+            builder.OpenComponent<OmniDataGrid<Row>>(0);
+            builder.AddComponentParameter(1, nameof(OmniDataGrid<Row>.Items), Rows);
+            builder.AddComponentParameter(2, nameof(OmniDataGrid<Row>.Columns), Columns());
+            builder.AddComponentReferenceCapture(3, component => Captured?.Invoke((OmniDataGrid<Row>)component));
+            builder.CloseComponent();
+        }
+    }
 }
