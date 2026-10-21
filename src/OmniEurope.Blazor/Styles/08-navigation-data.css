@@ -33,22 +33,27 @@
 .omni-tabs__title .omni-badge { font-size: var(--omni-font-size-xs); min-height: 1rem; min-width: 1rem; padding: 0 0.3125rem; }
 .omni-tabs__item { display: contents; }
 
-/* Opaque, and above the fade: a transparent button let a sliver of the tab it covers show
-   through, which read as debris rather than as an edge. The chevrons and the fades take the fill of
-   what holds the tabs: the card fill by default, since tabs mostly sit in a card; a host placing them
-   on another fill names it once in --omni-tabs-edge, on the tabs or any ancestor. */
+/* Over the end of the strip, above the fade, and out of the flow: the viewport keeps its width whether
+   a chevron shows or not, so the tabs never move when one comes or goes (recette R1-22). Nearly opaque
+   (a tenth of the tab under it shows through, the glyph stays readable): fully opaque, the fade and
+   the chevron were one dead block; fully clear, the tab text ran through the glyph. The chevrons and the
+   fades take the fill of what holds the tabs: the card fill by default, since tabs mostly sit in a
+   card; a host placing them on another fill names it once in --omni-tabs-edge, on the tabs or any
+   ancestor. */
 .omni-tabs__scroll {
     align-items: center;
-    background: var(--omni-tabs-edge, var(--omni-card-background, var(--omni-color-surface)));
+    background: color-mix(in srgb, var(--omni-tabs-edge, var(--omni-card-background, var(--omni-color-surface))) 90%, transparent);
     border: 0;
     color: var(--omni-color-text);
     cursor: pointer;
     display: inline-flex;
-    flex: 0 0 auto;
+    inset-block: 0;
     padding: var(--omni-space-xs);
-    position: relative;
-    z-index: 1;
+    position: absolute;
+    z-index: 2;
 }
+.omni-tabs__scroll--start { inset-inline-start: 0; }
+.omni-tabs__scroll--end { inset-inline-end: 0; }
 .omni-tabs__scroll[hidden] { display: none; }
 .omni-tabs__chevron { height: 1.25em; width: 1.25em; }
 
@@ -129,13 +134,27 @@
 .omni-app-menu__card > .omni-button.omni-app-menu__item:hover { background: var(--omni-color-surface-highlight); }
 .omni-app-menu__label { flex: 1 1 auto; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .omni-app-menu__extra { border-block-end: var(--omni-border-width) solid var(--omni-color-border); display: flex; flex-direction: column; gap: var(--omni-space-xs); padding: var(--omni-space-sm) var(--omni-space-md); }
-.omni-app-menu__language { flex: 0 1 9rem; min-inline-size: 0; }
+/* The Mode row is one button, like the Theme row: its content fills it, the value (the mode in force) is at the end. */
+.omni-app-menu__card > .omni-button.omni-app-menu__item > .omni-button__content { inline-size: 100%; justify-content: flex-start; }
+.omni-app-menu__card > .omni-button.omni-app-menu__item .omni-app-menu__label { text-align: start; }
+.omni-app-menu__value { color: var(--omni-color-text-muted); flex: none; }
+/* The Language row: the native list is stretched over the whole row, transparent, so a click anywhere
+   on the row opens it; the icon, the label and the flag lie over it and let the click through. The list
+   shows its value after a label zone of fixed width, the chevron at the end. */
+.omni-app-menu__language-row { --omni-app-menu-label-zone: 6rem; --omni-app-menu-flag-zone: 0rem; position: relative; }
+.omni-app-menu__language-row:has(.omni-app-menu__flag) { --omni-app-menu-flag-zone: calc(1.5rem + var(--omni-space-sm)); }
+.omni-app-menu__language-row > :is(.omni-icon, .omni-app-menu__label, .omni-app-menu__flag) { pointer-events: none; position: relative; z-index: 1; }
+.omni-app-menu__language-row > .omni-app-menu__label { flex: none; inline-size: var(--omni-app-menu-label-zone); }
+.omni-app-menu__language-row > .omni-app-menu__flag { flex: none; inline-size: 1.5rem; object-fit: contain; }
+.omni-app-menu .omni-app-menu__language-row > select.omni-app-menu__language.omni-input { background: transparent; border: 0; border-radius: 0; box-shadow: none; inset: 0; inline-size: 100%; min-block-size: 0; block-size: 100%; padding-block: 0; padding-inline: calc(var(--omni-space-md) + 1.5rem + var(--omni-space-sm) + var(--omni-app-menu-label-zone) + var(--omni-space-sm) + var(--omni-app-menu-flag-zone)) var(--omni-space-md); position: absolute; }
+.omni-app-menu .omni-app-menu__language-row > select.omni-app-menu__language.omni-input:hover:not(:disabled) { background: var(--omni-color-surface-highlight); border-color: transparent; }
+.omni-app-menu .omni-app-menu__language-row > select.omni-app-menu__language.omni-input:focus-visible { box-shadow: var(--omni-focus-ring-inset); outline: none; }
 .omni-app-menu__flag { block-size: 1rem; border-radius: 2px; inline-size: auto; }
-/* Light, dark, system: three joined square buttons, only the outer corners rounded. */
-.omni-app-menu__modes, .omni-appearance-window__modes { display: inline-flex; flex: none; }
-.omni-app-menu__modes > .omni-button.omni-app-menu__mode, .omni-appearance-window__modes > .omni-button.omni-appearance-window__mode { border-radius: 0; inline-size: var(--omni-control-height); min-inline-size: var(--omni-control-height); padding: 0; }
-.omni-app-menu__modes > .omni-button.omni-app-menu__mode:first-child, .omni-appearance-window__modes > .omni-button.omni-appearance-window__mode:first-child { border-end-start-radius: var(--omni-radius-sm); border-start-start-radius: var(--omni-radius-sm); }
-.omni-app-menu__modes > .omni-button.omni-app-menu__mode:last-child, .omni-appearance-window__modes > .omni-button.omni-appearance-window__mode:last-child { border-end-end-radius: var(--omni-radius-sm); border-start-end-radius: var(--omni-radius-sm); }
+/* Light, dark, system, in the appearance window: three joined square buttons, only the outer corners rounded. */
+.omni-appearance-window__modes { display: inline-flex; flex: none; }
+.omni-appearance-window__modes > .omni-button.omni-appearance-window__mode { border-radius: 0; inline-size: var(--omni-control-height); min-inline-size: var(--omni-control-height); padding: 0; }
+.omni-appearance-window__modes > .omni-button.omni-appearance-window__mode:first-child { border-end-start-radius: var(--omni-radius-sm); border-start-start-radius: var(--omni-radius-sm); }
+.omni-appearance-window__modes > .omni-button.omni-appearance-window__mode:last-child { border-end-end-radius: var(--omni-radius-sm); border-start-end-radius: var(--omni-radius-sm); }
 .omni-app-menu__footer { border-block-end: 0; justify-content: space-between; }
 .omni-app-menu__version { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); }
 .omni-profile-menu { display: inline-block; position: relative; }

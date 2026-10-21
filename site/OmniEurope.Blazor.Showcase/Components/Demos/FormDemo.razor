@@ -51,7 +51,7 @@
         <OmniFormField For="demo-budget">
             <LabelContent>@Text["DemoFormBudget"]</LabelContent>
             <ChildContent>
-                <OmniSlider Id="demo-budget" @bind-Value="Model.Budget" Minimum="0" Maximum="100" Step="5" ShowValue="true" />
+                <OmniSlider Id="demo-budget" @bind-Value="Model.Budget" Minimum="0" SelectableMinimum="5" Maximum="100" Step="5" ShowValue="true" />
             </ChildContent>
         </OmniFormField>
 

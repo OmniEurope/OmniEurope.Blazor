@@ -276,7 +276,7 @@ de menu (« Thème ») par `Open`/`OpenChanged`. Plus large que haute (46rem, ja
 range ses réglages deux par deux, dans l'ordre de lecture : thème et palette, police et densité,
 taille du texte et taille des contrôles, puis largeur du contenu ; l'interrupteur « Fond animé » se place au bout de la ligne de
 titre du thème. Quand l'hôte lie `AppearanceChanged` (avec `Appearance`), le mode s'affiche en trois
-boutons icônes collés, comme dans `OmniAppMenu`, au bout de la ligne de titre de la palette (sur une ligne
+boutons icônes collés au bout de la ligne de titre de la palette (sur une ligne
 à lui si la palette n'est pas liée), figé en sombre sous un thème `DarkOnly`. Une seule colonne dès que deux de 19rem ne tiennent
 plus. Dans le pied de la fenêtre, le bouton « Aléatoire » tire un thème autre que le courant et, si la
 palette est liée, une palette autre que celle en vigueur, et de même une police si elle est liée (`PresetChanged`, `PaletteChanged`, puis
@@ -309,7 +309,9 @@ doivent le traiter comme un alias lors de la restauration de leurs préférences
 La densité est un `OmniDensity` (`Density`/`DensityChanged`), choisi dans un groupe radio segmenté
 (Compacte, Confortable, Aérée), que l'hôte passe tel quel à `OmniThemeScope.Density`. La taille du texte
 et la taille des contrôles proposent les niveaux 1 à 10 : un curseur suit les boutons moins et plus de
-chaque réglage. Le contrôle reçoit les valeurs et émet leurs changements ; l'application conserve
+chaque réglage. La piste du curseur va de 0 à 10 (`OmniSlider.Minimum` 0) et le plus petit niveau qu’on puisse choisir est 1
+(`SelectableMinimum` 1) : le niveau par défaut, 5, est au milieu de la piste, et le curseur ne descend pas à 0. Les valeurs
+enregistrées restent les niveaux 1 à 10, avec le même sens. Le contrôle reçoit les valeurs et émet leurs changements ; l'application conserve
 la responsabilité du stockage et les applique à sa portée quand elle lie ces paramètres ; sinon `OmniAppearanceState` les garde et les applique. Les boutons Défaut restaurent la valeur
 initiale de leur ligne, « Tout par défaut » toutes à la fois. Le pied de la fenêtre range à gauche « Aléatoire » et « Tout par défaut »,
 à droite « Valider » (bleu) puis « Restaurer » (rouge). Les changements s'appliquent en direct pendant

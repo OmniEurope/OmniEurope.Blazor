@@ -7,6 +7,15 @@ public partial class OmniSlider
     [Parameter]
     public double Minimum { get; set; }
 
+    /// <summary>
+    /// The lowest value the reader can pick, when it lies above <see cref="Minimum"/>; null (the default) lets the
+    /// whole scale be picked. The track still starts at <see cref="Minimum"/>, so the thumb sits at the true
+    /// proportion of the scale (5 of a 0 to 10 scale is in the middle), but a drag or a key press below this value
+    /// is brought back to it. Must be finite and within <see cref="Minimum"/> and <see cref="Maximum"/>.
+    /// </summary>
+    [Parameter]
+    public double? SelectableMinimum { get; set; }
+
     /// <summary>The highest value; 100 by default. Must be finite and not below <see cref="Minimum"/>.</summary>
     [Parameter]
     public double Maximum { get; set; } = 100;
@@ -47,10 +56,25 @@ public partial class OmniSlider
     [Parameter]
     public EventCallback<double> OnValueCommit { get; set; }
 
+    private double LowestSelectable => SelectableMinimum ?? Minimum;
     private string OrientationText => Vertical ? "vertical" : "horizontal";
     private string ValueText => FormatValue?.Invoke(CurrentValue) ?? CurrentValue.ToString(CultureInfo.CurrentCulture);
     private static string Format(double value) => value.ToString(System.Globalization.CultureInfo.InvariantCulture);
-    private void HandleInput(ChangeEventArgs args) => CurrentValueAsString = args.Value?.ToString();
+    private void HandleInput(string? text) => CurrentValueAsString = Clamped(text);
+
+    /// <summary>Writes the value as the input does, in the invariant culture, whatever the culture of the page.</summary>
+    /// <param name="value">The value to write.</param>
+    /// <returns>The number as the range input reads it.</returns>
+    protected override string? FormatValueAsString(double value) => Format(value);
+
+    // A value under the selectable minimum is written as the minimum. The render that follows the event
+    // puts the thumb back there, whatever the browser drew.
+    private string? Clamped(string? text) =>
+        SelectableMinimum is { } lowest
+        && double.TryParse(text, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var number)
+        && number < lowest
+            ? Format(lowest)
+            : text;
 
     // No change handler at all without OnValueCommit: a slider that does not ask for it renders as before.
     private EventCallback<ChangeEventArgs> ChangeCallback => OnValueCommit.HasDelegate
@@ -58,14 +82,15 @@ public partial class OmniSlider
         : default;
 
     private Task HandleChangeAsync(ChangeEventArgs args) =>
-        double.TryParse(args.Value?.ToString(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var value)
+        double.TryParse(Clamped(args.Value?.ToString()), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var value)
             ? OnValueCommit.InvokeAsync(value)
             : Task.CompletedTask;
 
     /// <summary>Checks the bounds, the step and the value.</summary>
     /// <exception cref="ArgumentOutOfRangeException">
     /// A bound is not finite or <see cref="Maximum"/> is below <see cref="Minimum"/>; <see cref="Step"/> is not
-    /// finite and positive; or the value is not finite or lies outside the bounds.
+    /// finite and positive; <see cref="SelectableMinimum"/> is not finite or lies outside the bounds; or the value is
+    /// not finite or lies outside the selectable bounds.
     /// </exception>
     protected override void OnParametersSet()
     {
@@ -78,21 +103,25 @@ public partial class OmniSlider
         {
             throw new ArgumentOutOfRangeException(nameof(Step), "Step must be finite and greater than zero.");
         }
-        if (!double.IsFinite(Value) || Value < Minimum || Value > Maximum)
+        if (SelectableMinimum is { } lowest && (!double.IsFinite(lowest) || lowest < Minimum || lowest > Maximum))
+        {
+            throw new ArgumentOutOfRangeException(nameof(SelectableMinimum), "SelectableMinimum must be finite and within Minimum and Maximum.");
+        }
+        if (!double.IsFinite(Value) || Value < LowestSelectable || Value > Maximum)
         {
             throw new ArgumentOutOfRangeException(nameof(Value), "Value must be finite and within the slider bounds.");
         }
     }
 
-    /// <summary>Accepts a number written in the invariant culture that lies within the bounds.</summary>
+    /// <summary>Accepts a number written in the invariant culture that lies within the selectable bounds.</summary>
     /// <param name="value">The text to parse.</param>
     /// <param name="result">The number read, or 0 when the text is not a number.</param>
     /// <param name="validationErrorMessage">Null on success; on failure, the localized "invalid value" message.</param>
-    /// <returns>True when the text is a number within <see cref="Minimum"/> and <see cref="Maximum"/>.</returns>
+    /// <returns>True when the text is a number from <see cref="SelectableMinimum"/> (else <see cref="Minimum"/>) to <see cref="Maximum"/>.</returns>
     protected override bool TryParseValueFromString(string? value, out double result, out string validationErrorMessage)
     {
         if (double.TryParse(value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out result)
-            && result >= Minimum && result <= Maximum)
+            && result >= LowestSelectable && result <= Maximum)
         {
             validationErrorMessage = null!;
             return true;

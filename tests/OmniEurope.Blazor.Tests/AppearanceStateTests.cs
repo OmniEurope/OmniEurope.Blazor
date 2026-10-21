@@ -220,7 +220,10 @@ public sealed class AppearanceStateTests : OmniBunitContext
         // A later render of the menu keeps it following the state.
         host.FindComponent<OmniAppMenu>().Render(parameters => parameters.Add(component => component.Version, "1.8.0"));
         host.Find(".omni-app-menu__trigger").Click();
-        host.Find(".omni-app-menu__mode[title='Sombre']").Click();
+        // The Mode row steps system, light, dark: two clicks reach dark.
+        host.Find("button.omni-app-menu__mode").Click();
+        host.WaitForAssertion(() => Assert.Equal("Clair", host.Find("button.omni-app-menu__mode .omni-app-menu__value").TextContent));
+        host.Find("button.omni-app-menu__mode").Click();
 
         host.WaitForAssertion(() => Assert.Equal("dark", host.Find("#host-scope").GetAttribute("data-omni-theme")));
         Assert.Equal(OmniAppearance.Dark, State.Appearance);

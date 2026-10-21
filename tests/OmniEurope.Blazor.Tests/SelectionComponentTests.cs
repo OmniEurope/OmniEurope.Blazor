@@ -156,6 +156,87 @@ public sealed class SelectionComponentTests : OmniBunitContext
         Assert.Throws<Bunit.MissingEventHandlerException>(() => slider.Find("input").Change("4"));
     }
 
+    [Fact]
+    public void Slider_SelectableMinimum_KeepsTheTrackFromMinimumAndBringsALowerValueBack()
+    {
+        var holder = new SliderHolder { Value = 5 };
+        var steps = new List<double>();
+        double? committed = null;
+        var slider = Render<OmniSlider>(parameters => parameters
+            .Add(component => component.Minimum, 0)
+            .Add(component => component.SelectableMinimum, 1)
+            .Add(component => component.Maximum, 10)
+            .Add(component => component.Value, holder.Value)
+            .Add(component => component.ValueExpression, () => holder.Value)
+            .Add(component => component.ValueChanged, value => steps.Add(value))
+            .Add(component => component.OnValueCommit, value => committed = value));
+
+        // The browser scale starts at 0 (5 is in the middle), the announced minimum is the one that can be picked.
+        var input = slider.Find("input");
+        Assert.Equal(("0", "10", "1"), (input.GetAttribute("min"), input.GetAttribute("max"), input.GetAttribute("aria-valuemin")));
+
+        input.Input("0");
+        input.Change("0");
+        input.Input("3");
+
+        Assert.Equal([1, 3], steps);
+        Assert.Equal(1, committed);
+    }
+
+    [Fact]
+    public void Slider_SelectableMinimum_DragBelowItWhileAtItRaisesNoChange()
+    {
+        var holder = new SliderHolder { Value = 1 };
+        var changes = 0;
+        var slider = Render<OmniSlider>(parameters => parameters
+            .Add(component => component.Minimum, 0)
+            .Add(component => component.SelectableMinimum, 1)
+            .Add(component => component.Maximum, 10)
+            .Add(component => component.Value, holder.Value)
+            .Add(component => component.ValueExpression, () => holder.Value)
+            .Add(component => component.ValueChanged, _ => changes++));
+
+        slider.Find("input").Input("0");
+
+        Assert.Equal("1", slider.Find("input").GetAttribute("value"));
+        Assert.Equal(0, changes);
+    }
+
+    [Fact]
+    public void Slider_WithoutSelectableMinimum_LetsTheWholeScaleBePicked()
+    {
+        var holder = new SliderHolder { Value = 5 };
+        var steps = new List<double>();
+        var slider = Render<OmniSlider>(parameters => parameters
+            .Add(component => component.Minimum, 0)
+            .Add(component => component.Maximum, 10)
+            .Add(component => component.Value, holder.Value)
+            .Add(component => component.ValueExpression, () => holder.Value)
+            .Add(component => component.ValueChanged, value => steps.Add(value)));
+
+        Assert.Equal("0", slider.Find("input").GetAttribute("aria-valuemin"));
+        slider.Find("input").Input("0");
+
+        Assert.Equal([0], steps);
+    }
+
+    [Theory]
+    [InlineData(2, 10, 1, 5)]
+    [InlineData(0, 10, double.NaN, 5)]
+    [InlineData(0, 10, 11, 5)]
+    [InlineData(0, 10, 2, 1)]
+    public void Slider_RejectsASelectableMinimumOutsideTheScaleAndAValueBelowIt(double minimum, double maximum, double selectable, double value)
+    {
+        var holder = new SliderHolder { Value = value };
+
+        Assert.ThrowsAny<ArgumentOutOfRangeException>(() => Render<OmniSlider>(parameters => parameters
+            .Add(component => component.Minimum, minimum)
+            .Add(component => component.Maximum, maximum)
+            .Add(component => component.SelectableMinimum, selectable)
+            .Add(component => component.Value, holder.Value)
+            .Add(component => component.ValueExpression, () => holder.Value)));
+    }
+
     [Theory]
     [InlineData(10, 0, 1, 5)]
     [InlineData(0, 10, 0, 5)]

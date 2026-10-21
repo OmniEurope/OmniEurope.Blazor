@@ -1239,6 +1239,7 @@ method protected override OmniEurope.Blazor.Components.OmniSidebarToggle.BuildRe
 method protected override OmniEurope.Blazor.Components.OmniSkeleton.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniSkipLink.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniSlider.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniSlider.FormatValueAsString(System.Double value) : System.String?
 method protected override OmniEurope.Blazor.Components.OmniSlider.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniSlider.TryParseValueFromString(System.String? value, out System.Double result, out System.String validationErrorMessage) : System.Boolean
 method protected override OmniEurope.Blazor.Components.OmniSplitButton.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
@@ -3509,6 +3510,7 @@ property public OmniEurope.Blazor.Components.OmniSlider.FormatValue : System.Fun
 property public OmniEurope.Blazor.Components.OmniSlider.Maximum : System.Double {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSlider.Minimum : System.Double {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSlider.OnValueCommit : Microsoft.AspNetCore.Components.EventCallback<System.Double> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniSlider.SelectableMinimum : System.Double? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSlider.ShowValue : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSlider.Step : System.Double {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSlider.Vertical : System.Boolean {get(public);set(public)} [Parameter]

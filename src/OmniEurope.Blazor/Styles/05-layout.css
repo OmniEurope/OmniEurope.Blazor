@@ -487,11 +487,16 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
     overflow: hidden;
 }
 /* The menu scrolls in its viewport without a scrollbar: the chevrons above and below are the
-   affordance (omni-focus.js, configureSidebarOverflow), as on a tab strip. */
+   affordance (omni-focus.js, configureSidebarOverflow), as on a tab strip. The chevrons lie over the
+   edges of the scroller, out of the flow: the viewport keeps its size whether they show or not, so the
+   menu never moves when one comes or goes (recette R1-22). Slightly transparent, still readable. */
+.omni-sidebar__scroller { display: flex; flex: 1 1 auto; flex-direction: column; min-block-size: 0; position: relative; }
 .omni-sidebar__viewport { flex: 1 1 auto; min-block-size: 0; overflow-x: hidden; overflow-y: auto; scrollbar-width: none; }
 .omni-sidebar__viewport::-webkit-scrollbar { display: none; }
-.omni-sidebar__scroll { align-items: center; background: var(--omni-shell-background, var(--omni-color-surface)); border: 0; color: var(--omni-color-text); cursor: pointer; display: flex; flex: 0 0 auto; justify-content: center; padding: var(--omni-space-xs); }
-.omni-sidebar__scroll:hover { background: var(--omni-color-surface-hover); }
+.omni-sidebar__scroll { align-items: center; background: color-mix(in srgb, var(--omni-shell-background, var(--omni-color-surface)) 88%, transparent); border: 0; color: var(--omni-color-text); cursor: pointer; display: flex; inset-inline: 0; justify-content: center; padding: var(--omni-space-xs); position: absolute; z-index: 1; }
+.omni-sidebar__scroll--start { inset-block-start: 0; }
+.omni-sidebar__scroll--end { inset-block-end: 0; }
+.omni-sidebar__scroll:hover { background: color-mix(in srgb, var(--omni-color-surface-hover) 92%, transparent); }
 .omni-sidebar__scroll[hidden] { display: none; }
 .omni-sidebar__chevron { block-size: 1.25em; inline-size: 1.25em; }
 .omni-sidebar--end { order: 2; }

@@ -17,7 +17,6 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public partial class OmniAppMenu : IDisposable
 {
-    private readonly string _idPrefix = $"omni-app-menu-{Guid.NewGuid():N}";
     private bool _open;
     private AppearanceFollower? _shared;
     private bool _decided;
@@ -121,12 +120,12 @@ public partial class OmniAppMenu : IDisposable
     private IReadOnlyList<OmniOption<string>> LanguageOptions =>
         [.. Languages!.Select(language => new OmniOption<string>(language.Code, language.Name))];
 
-    private IReadOnlyList<OmniOption<OmniAppearance>> Modes =>
-    [
-        new(OmniAppearance.Light, Localize("AppearanceLight")),
-        new(OmniAppearance.Dark, Localize("AppearanceDark")),
-        new(OmniAppearance.System, Localize("AppearanceSystem"))
-    ];
+    private string ModeName(OmniAppearance mode) => mode switch
+    {
+        OmniAppearance.Light => Localize("AppearanceLight"),
+        OmniAppearance.Dark => Localize("AppearanceDark"),
+        _ => Localize("AppearanceSystem")
+    };
 
     private static OmniIconName ModeIcon(OmniAppearance mode) => mode switch
     {
@@ -134,8 +133,6 @@ public partial class OmniAppMenu : IDisposable
         OmniAppearance.Dark => OmniIconName.ThemeDark,
         _ => OmniIconName.ThemeSystem
     };
-
-    private string RowId(string row) => $"{_idPrefix}-{row}";
 
     /// <summary>
     /// Decides, from the parameters of the first render, whether the menu follows the user's
@@ -189,8 +186,16 @@ public partial class OmniAppMenu : IDisposable
         await OpenChanged.InvokeAsync(open);
     }
 
-    // A dark-only theme disables the mode buttons, and a disabled OmniButton raises no click.
-    private Task SetAppearanceAsync(OmniAppearance mode) => AppearanceChanged.InvokeAsync(mode);
+    // The Mode row steps through light, dark, system, then light again. A dark-only theme disables the
+    // row, and a disabled OmniButton raises no click.
+    private Task CycleAppearanceAsync() => AppearanceChanged.InvokeAsync(NextMode(ShownAppearance));
+
+    private static OmniAppearance NextMode(OmniAppearance mode) => mode switch
+    {
+        OmniAppearance.Light => OmniAppearance.Dark,
+        OmniAppearance.Dark => OmniAppearance.System,
+        _ => OmniAppearance.Light
+    };
 
     // The list offers only the codes of Languages, and no empty choice.
     private Task SetLanguageAsync(string? code) => LanguageChanged.InvokeAsync(code!);

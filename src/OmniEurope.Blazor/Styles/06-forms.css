@@ -361,12 +361,12 @@ select.omni-input.omni-input--large:not([multiple]):not([size]) { block-size: ca
 .omni-choice-list__item:is(.omni-choice-list__item--disabled, :has(> input:disabled)) { color: var(--omni-color-text-muted); cursor: not-allowed; opacity: 0.55; }
 /* Trop large pour sa place, la barre défile sous un chevron de chaque côté qui cache encore des
    options, comme les onglets, sans barre de défilement ; le rembourrage garde l'anneau de focus. */
-.omni-select-bar { align-items: center; display: inline-flex; max-inline-size: 100%; min-inline-size: 0; vertical-align: middle; }
+.omni-select-bar { align-items: center; display: inline-flex; max-inline-size: 100%; min-inline-size: 0; position: relative; vertical-align: middle; }
 .omni-select-bar__viewport { display: flex; margin: -0.1875rem; min-inline-size: 0; overflow-x: auto; overscroll-behavior-x: contain; padding: 0.1875rem; scroll-behavior: smooth; scrollbar-width: none; }
 .omni-select-bar__viewport::-webkit-scrollbar { display: none; }
 @media (prefers-reduced-motion: reduce) { .omni-select-bar__viewport { scroll-behavior: auto; } }
-/* Les chevrons sont ceux d'une pile qui défile (.omni-stack-scroll__button). */
-.omni-select-bar__scroll { position: relative; z-index: 2; }
+/* Les chevrons sont ceux d'une pile qui défile (.omni-stack-scroll__button), posés sur les bouts de la barre. */
+.omni-select-bar__scroll { z-index: 2; }
 .omni-select-bar__item {
     align-items: center;
     background: var(--omni-color-surface);

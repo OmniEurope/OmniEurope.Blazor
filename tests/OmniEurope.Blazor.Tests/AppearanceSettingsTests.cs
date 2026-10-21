@@ -188,11 +188,33 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
 
         settings.Find(".omni-appearance-settings__row--scale button").Click();
         var slider = settings.Find(".omni-appearance-settings--window input[type=range]");
-        Assert.Equal(("1", "10"), (slider.GetAttribute("min"), slider.GetAttribute("max")));
+        // The track runs 0 to 10 so that level 5 is in the middle; the lowest level that can be picked is 1.
+        Assert.Equal(("0", "10", "1"), (slider.GetAttribute("min"), slider.GetAttribute("max"), slider.GetAttribute("aria-valuemin")));
+        Assert.Equal("5", slider.GetAttribute("value"));
         Assert.Equal("Taille du texte", slider.GetAttribute("aria-label"));
 
         slider.Input("8");
         Assert.Equal(8, textSize);
+    }
+
+    [Fact]
+    public void The_size_sliders_cannot_be_dragged_to_zero_and_keep_the_stored_levels_one_to_ten()
+    {
+        var levels = new List<int>();
+        var settings = Render<OmniAppearanceSettings>(parameters => parameters
+            .Add(component => component.TextSizeLevel, 1)
+            .Add(component => component.TextSizeLevelChanged, value => levels.Add(value))
+            .Add(component => component.DensityChanged, _ => { }));
+        settings.Find(".omni-appearance-settings__row--scale button").Click();
+
+        var slider = settings.Find(".omni-appearance-settings--window input[type=range]");
+        Assert.Equal("1", slider.GetAttribute("value"));
+        slider.Input("0");
+        slider.Input("10");
+
+        Assert.All(levels, level => Assert.InRange(level, 1, 10));
+        Assert.Equal(10, levels[^1]);
+        Assert.Equal("1", settings.Find(".omni-appearance-settings--window input[type=range]").GetAttribute("aria-valuemin"));
     }
 
     [Fact]
@@ -341,7 +363,7 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         Assert.Equal("true", buttons[0].GetAttribute("aria-checked"));
 
         // Joined: no radius between the buttons; pushed to the end of the title line.
-        Assert.Equal("0", ShippedLookTests.Value(ShippedLookTests.Body(".omni-app-menu__modes > .omni-button.omni-app-menu__mode, .omni-appearance-window__modes > .omni-button.omni-appearance-window__mode"), "border-radius"));
+        Assert.Equal("0", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-window__modes > .omni-button.omni-appearance-window__mode"), "border-radius"));
         Assert.Equal("auto", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-settings__label + .omni-appearance-window__modes"), "margin-inline-start"));
 
         window.FindAll(".omni-appearance-window__modes > button[role=radio]")[1].Click();
