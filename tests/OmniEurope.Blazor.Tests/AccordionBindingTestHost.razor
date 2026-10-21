@@ -1,0 +1,19 @@
+@* A host that binds the open state of two rows both ways, in an accordion it can switch to multiple. *@
+<OmniAccordion Multiple="Multiple">
+    <OmniAccordionItem Title="Premier" @bind-Expanded="First">Corps premier</OmniAccordionItem>
+    <OmniAccordionItem Title="Second" @bind-Expanded="Second">Corps second</OmniAccordionItem>
+</OmniAccordion>
+
+@code {
+    public bool First { get; set; }
+
+    public bool Second { get; set; }
+
+    public bool Multiple { get; set; }
+
+    public void SetFirst(bool expanded)
+    {
+        First = expanded;
+        StateHasChanged();
+    }
+}

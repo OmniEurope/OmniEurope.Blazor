@@ -1588,4 +1588,26 @@
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Meabhrúchán don chomhad {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Meabhrúchán&lt;/h2&gt;&lt;p&gt;A {{client}}, a chara,&lt;/p&gt;&lt;p&gt;Tá an comhad {{file}} ag fanacht ar do fhreagra roimh {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Oscail an comhad&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Tástáil tugtha don fheidhmchlár, ábhar “{0}”.</value></data>
+  <data name="DemoAccordionTitle" xml:space="preserve"><value>Cordian</value></data>
+  <data name="DemoAccordionSummary" xml:space="preserve"><value>Sraitheanna a mbíonn a n-ábhar ag oscailt faoin gceanntásc, ceann ar cheann nó roinnt le chéile.</value></data>
+  <data name="DemoAccordionCapability1" xml:space="preserve"><value>Cnaipe aistrithe amháin an tsraith, leis an méarchlár nó leis an luchóg, agus na saigheada, Home agus End idir na ceanntásca.</value></data>
+  <data name="DemoAccordionCapability2" xml:space="preserve"><value>Ceanntásc saor: lipéad, cabhair "?", luach agus suaitheantas, gan rialú neadaithe sa chnaipe.</value></data>
+  <data name="DemoAccordionCapability3" xml:space="preserve"><value>Sraith amháin ag an am nó roinnt le chéile, staid cheangailte sraith ar shraith, ábhar á rindreáil agus é á oscailt.</value></data>
+  <data name="DemoAccordionReliability" xml:space="preserve"><value>Iontaofacht</value></data>
+  <data name="DemoAccordionReliabilityHelp" xml:space="preserve"><value>Lochtanna a bhféadfadh an táirge a bhriseadh i dtáirgeadh.</value></data>
+  <data name="DemoAccordionSecurity" xml:space="preserve"><value>Slándáil</value></data>
+  <data name="DemoAccordionSecurityHelp" xml:space="preserve"><value>Leochaileachtaí aitheanta sa chód agus ina spleáchais.</value></data>
+  <data name="DemoAccordionMaintainability" xml:space="preserve"><value>Inchothabháilteacht</value></data>
+  <data name="DemoAccordionCoverage" xml:space="preserve"><value>Clúdach tástála</value></data>
+  <data name="DemoAccordionIssues" xml:space="preserve"><value>Lochtanna: {0}</value></data>
+  <data name="DemoAccordionMeasured" xml:space="preserve"><value>Tomhaiste</value></data>
+  <data name="DemoAccordionThreshold" xml:space="preserve"><value>Tairseach</value></data>
+  <data name="DemoAccordionRunTitle" xml:space="preserve"><value>Rith an phíblíne</value></data>
+  <data name="DemoAccordionRunSubtitle" xml:space="preserve"><value>Críochnaithe 3 nóiméad ó shin</value></data>
+  <data name="DemoAccordionDetails" xml:space="preserve"><value>Sonraí</value></data>
+  <data name="DemoAccordionRunBody" xml:space="preserve"><value>Taispeántar céimeanna an rite agus a fhad anseo.</value></data>
+  <data name="DemoAccordionLogTitle" xml:space="preserve"><value>Logchomhad</value></data>
+  <data name="DemoAccordionLogBody" xml:space="preserve"><value>Níl aon teachtaireacht don rith seo.</value></data>
+  <data name="DemoAccordionState" xml:space="preserve"><value>Sraitheanna oscailte: {0}</value></data>
+  <data name="DemoAccordionClicks" xml:space="preserve"><value>Cliceanna ar Sonraí: {0}</value></data>
 </root>

@@ -1588,4 +1588,26 @@
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Podsjetnik za predmet {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Podsjetnik&lt;/h2&gt;&lt;p&gt;Poštovani {{client}},&lt;/p&gt;&lt;p&gt;predmet {{file}} čeka vaš odgovor do {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Otvori predmet&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Proba predana aplikaciji, predmet „{0}”.</value></data>
+  <data name="DemoAccordionTitle" xml:space="preserve"><value>Harmonika</value></data>
+  <data name="DemoAccordionSummary" xml:space="preserve"><value>Retci čiji se sadržaj otvara ispod zaglavlja, jedan po jedan ili više njih odjednom.</value></data>
+  <data name="DemoAccordionCapability1" xml:space="preserve"><value>Jedna tipka za prebacivanje po retku, tipkovnicom ili mišem, sa strelicama te tipkama Home i End između zaglavlja.</value></data>
+  <data name="DemoAccordionCapability2" xml:space="preserve"><value>Slobodno zaglavlje: oznaka, pomoć „?”, vrijednost i značka, bez upravljačkih elemenata unutar gumba.</value></data>
+  <data name="DemoAccordionCapability3" xml:space="preserve"><value>Jedan redak odjednom ili više njih odjednom, stanje vezano redak po redak, sadržaj se iscrtava pri otvaranju.</value></data>
+  <data name="DemoAccordionReliability" xml:space="preserve"><value>Pouzdanost</value></data>
+  <data name="DemoAccordionReliabilityHelp" xml:space="preserve"><value>Pogreške koje mogu pokvariti proizvod u produkciji.</value></data>
+  <data name="DemoAccordionSecurity" xml:space="preserve"><value>Sigurnost</value></data>
+  <data name="DemoAccordionSecurityHelp" xml:space="preserve"><value>Poznate ranjivosti u kodu i njegovim ovisnostima.</value></data>
+  <data name="DemoAccordionMaintainability" xml:space="preserve"><value>Održivost</value></data>
+  <data name="DemoAccordionCoverage" xml:space="preserve"><value>Pokrivenost testovima</value></data>
+  <data name="DemoAccordionIssues" xml:space="preserve"><value>Pogreške: {0}</value></data>
+  <data name="DemoAccordionMeasured" xml:space="preserve"><value>Izmjereno</value></data>
+  <data name="DemoAccordionThreshold" xml:space="preserve"><value>Prag</value></data>
+  <data name="DemoAccordionRunTitle" xml:space="preserve"><value>Izvršavanje cjevovoda</value></data>
+  <data name="DemoAccordionRunSubtitle" xml:space="preserve"><value>Završeno prije 3 minute</value></data>
+  <data name="DemoAccordionDetails" xml:space="preserve"><value>Pojedinosti</value></data>
+  <data name="DemoAccordionRunBody" xml:space="preserve"><value>Koraci izvršavanja i njihovo trajanje prikazuju se ovdje.</value></data>
+  <data name="DemoAccordionLogTitle" xml:space="preserve"><value>Dnevnik</value></data>
+  <data name="DemoAccordionLogBody" xml:space="preserve"><value>Nema poruka za ovo izvršavanje.</value></data>
+  <data name="DemoAccordionState" xml:space="preserve"><value>Otvoreni retci: {0}</value></data>
+  <data name="DemoAccordionClicks" xml:space="preserve"><value>Klikovi na Pojedinosti: {0}</value></data>
 </root>

@@ -1,0 +1,66 @@
+<OmniStack Gap="OmniSpacing.Large">
+    @* Une liste de contrôles, une note par ligne : une ligne à la fois (le défaut), la première ouverte
+       au départ (Expanded). L'aide « ? » est posée à côté du bouton de bascule, jamais dedans : la cliquer
+       ou l'atteindre au clavier n'ouvre pas la ligne. La valeur et le badge (SummaryContent) font partie
+       de la ligne cliquable. *@
+    <OmniAccordion Id="demo-accordion-gates">
+        <OmniAccordionItem Id="demo-accordion-reliability" Title="@Text["DemoAccordionReliability"]" Help="@Text["DemoAccordionReliabilityHelp"]" Expanded="true">
+            <SummaryContent><span>@Text["DemoAccordionIssues", 0]</span> <OmniBadge Tone="OmniTone.Success">A</OmniBadge></SummaryContent>
+            <ChildContent>
+                <OmniDescriptionList>
+                    <OmniDescriptionItem Label="@Text["DemoAccordionMeasured"]">0</OmniDescriptionItem>
+                    <OmniDescriptionItem Label="@Text["DemoAccordionThreshold"]">≤ 0</OmniDescriptionItem>
+                </OmniDescriptionList>
+            </ChildContent>
+        </OmniAccordionItem>
+        <OmniAccordionItem Id="demo-accordion-security" Title="@Text["DemoAccordionSecurity"]" Help="@Text["DemoAccordionSecurityHelp"]">
+            <SummaryContent><span>@Text["DemoAccordionIssues", 2]</span> <OmniBadge Tone="OmniTone.Warning">C</OmniBadge></SummaryContent>
+            <ChildContent>
+                <OmniDescriptionList>
+                    <OmniDescriptionItem Label="@Text["DemoAccordionMeasured"]">2</OmniDescriptionItem>
+                    <OmniDescriptionItem Label="@Text["DemoAccordionThreshold"]">≤ 0</OmniDescriptionItem>
+                </OmniDescriptionList>
+            </ChildContent>
+        </OmniAccordionItem>
+        <OmniAccordionItem Id="demo-accordion-maintainability" Title="@Text["DemoAccordionMaintainability"]">
+            <SummaryContent><span>4,2 %</span> <OmniBadge Tone="OmniTone.Info">B</OmniBadge></SummaryContent>
+            <ChildContent>
+                <OmniDescriptionList>
+                    <OmniDescriptionItem Label="@Text["DemoAccordionMeasured"]">4,2 %</OmniDescriptionItem>
+                    <OmniDescriptionItem Label="@Text["DemoAccordionThreshold"]">≤ 5 %</OmniDescriptionItem>
+                </OmniDescriptionList>
+            </ChildContent>
+        </OmniAccordionItem>
+        <OmniAccordionItem Id="demo-accordion-coverage" Title="@Text["DemoAccordionCoverage"]">
+            <SummaryContent><span>78 %</span> <OmniBadge Tone="OmniTone.Warning">C</OmniBadge></SummaryContent>
+            <ChildContent>
+                <OmniDescriptionList>
+                    <OmniDescriptionItem Label="@Text["DemoAccordionMeasured"]">78 %</OmniDescriptionItem>
+                    <OmniDescriptionItem Label="@Text["DemoAccordionThreshold"]">≥ 80 %</OmniDescriptionItem>
+                </OmniDescriptionList>
+            </ChildContent>
+        </OmniAccordionItem>
+    </OmniAccordion>
+
+    @* Plusieurs lignes ouvertes (Multiple), corps conservé une fois ouvert (KeepContent), niveau de titre
+       choisi (HeadingLevel). Un en-tête libre (HeaderContent) tient dans le bouton ; un contrôle à soi
+       (ActionsContent) se place à côté et ne bascule pas la ligne. L'état de chaque ligne se lie
+       (@bind-Expanded). *@
+    <OmniAccordion Id="demo-accordion-multiple" Multiple="true" KeepContent="true" HeadingLevel="OmniHeadingLevel.H4" Density="OmniDensity.Compact">
+        <OmniAccordionItem Id="demo-accordion-run" @bind-Expanded="RunOpen">
+            <HeaderContent>
+                <span>@Text["DemoAccordionRunTitle"]</span><br />
+                <small>@Text["DemoAccordionRunSubtitle"]</small>
+            </HeaderContent>
+            <ActionsContent>
+                <OmniButton Id="demo-accordion-details" Variant="OmniButtonVariant.Ghost" OnClick="CountDetails">@Text["DemoAccordionDetails"]</OmniButton>
+            </ActionsContent>
+            <ChildContent>@Text["DemoAccordionRunBody"]</ChildContent>
+        </OmniAccordionItem>
+        <OmniAccordionItem Id="demo-accordion-log" Title="@Text["DemoAccordionLogTitle"]" @bind-Expanded="LogOpen">
+            <ChildContent>@Text["DemoAccordionLogBody"]</ChildContent>
+        </OmniAccordionItem>
+    </OmniAccordion>
+    <p id="demo-accordion-state">@Text["DemoAccordionState", OpenRows]</p>
+    <p id="demo-accordion-clicks">@Text["DemoAccordionClicks", DetailsClicks]</p>
+</OmniStack>

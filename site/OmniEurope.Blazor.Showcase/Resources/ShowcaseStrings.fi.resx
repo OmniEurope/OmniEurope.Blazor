@@ -1588,4 +1588,26 @@
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Muistutus asiasta {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Muistutus&lt;/h2&gt;&lt;p&gt;Hei {{client}},&lt;/p&gt;&lt;p&gt;Asia {{file}} odottaa vastaustasi ennen {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Avaa asia&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Testi annettu sovellukselle, aihe ”{0}”.</value></data>
+  <data name="DemoAccordionTitle" xml:space="preserve"><value>Haitari</value></data>
+  <data name="DemoAccordionSummary" xml:space="preserve"><value>Rivit, joiden sisältö avautuu otsikon alle, yksi kerrallaan tai useampi yhtä aikaa.</value></data>
+  <data name="DemoAccordionCapability1" xml:space="preserve"><value>Yksi vaihtopainike riviä kohden, näppäimistöllä tai hiirellä, sekä nuolet, Home ja End otsikoiden välillä.</value></data>
+  <data name="DemoAccordionCapability2" xml:space="preserve"><value>Vapaa otsikko: nimike, ohje ”?”, arvo ja merkki, ilman painikkeen sisään upotettua ohjainta.</value></data>
+  <data name="DemoAccordionCapability3" xml:space="preserve"><value>Yksi rivi kerrallaan tai useampi yhtä aikaa, tila sidottu rivi riviltä, sisältö piirretään avattaessa.</value></data>
+  <data name="DemoAccordionReliability" xml:space="preserve"><value>Luotettavuus</value></data>
+  <data name="DemoAccordionReliabilityHelp" xml:space="preserve"><value>Virheet, jotka voivat rikkoa tuotteen tuotannossa.</value></data>
+  <data name="DemoAccordionSecurity" xml:space="preserve"><value>Tietoturva</value></data>
+  <data name="DemoAccordionSecurityHelp" xml:space="preserve"><value>Tunnetut haavoittuvuudet koodissa ja sen riippuvuuksissa.</value></data>
+  <data name="DemoAccordionMaintainability" xml:space="preserve"><value>Ylläpidettävyys</value></data>
+  <data name="DemoAccordionCoverage" xml:space="preserve"><value>Testikattavuus</value></data>
+  <data name="DemoAccordionIssues" xml:space="preserve"><value>Virheitä: {0}</value></data>
+  <data name="DemoAccordionMeasured" xml:space="preserve"><value>Mitattu</value></data>
+  <data name="DemoAccordionThreshold" xml:space="preserve"><value>Raja-arvo</value></data>
+  <data name="DemoAccordionRunTitle" xml:space="preserve"><value>Putken ajo</value></data>
+  <data name="DemoAccordionRunSubtitle" xml:space="preserve"><value>Valmistui 3 minuuttia sitten</value></data>
+  <data name="DemoAccordionDetails" xml:space="preserve"><value>Tiedot</value></data>
+  <data name="DemoAccordionRunBody" xml:space="preserve"><value>Ajon vaiheet ja niiden kesto näkyvät tässä.</value></data>
+  <data name="DemoAccordionLogTitle" xml:space="preserve"><value>Loki</value></data>
+  <data name="DemoAccordionLogBody" xml:space="preserve"><value>Tälle ajolle ei ole viestejä.</value></data>
+  <data name="DemoAccordionState" xml:space="preserve"><value>Avoimet rivit: {0}</value></data>
+  <data name="DemoAccordionClicks" xml:space="preserve"><value>Napsautukset Tiedot-painikkeeseen: {0}</value></data>
 </root>

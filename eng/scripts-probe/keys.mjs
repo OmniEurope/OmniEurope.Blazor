@@ -2,7 +2,8 @@
 // a tree item selected once by Enter or Space on its button, the select bar and the scheduler's views
 // as radio groups (one tab stop, arrows, Home, End), and a chart legend drawn in the SVG reached by Tab
 // and pressed by Enter or Space without scrolling the page; a grid row in edit mode saved by Enter and
-// cancelled by Escape, at its read height (PLAN-001 lot 5).
+// cancelled by Escape, at its read height (PLAN-001 lot 5); an accordion whose headers answer the arrows,
+// Home and End, whose help mark and own controls never toggle a row, and whose whole header is clickable.
 
 export async function keySteps(session, results) {
   const { evaluate, waitFor, key, type, check, clickOn } = session;
@@ -105,4 +106,43 @@ export async function keySteps(session, results) {
   await key('Escape', 'Escape', 27);
   await waitFor('la ligne annulée par Échap', `!(${editing})`);
   step('grille : hauteur de lecture gardée en édition, Entrée enregistre, Échap annule');
+
+  // 6. Accordion: Down, Up, Home and End move between the headers (wrapping, the page not scrolling,
+  // nothing opened by the move), Enter and Space toggle, a click on the value toggles its row and closes
+  // its neighbour, a click or a key on the help mark and a click on an own control toggle nothing.
+  await session.visit('/composants/accordeon', '#demo-accordion-gates');
+  const gates = '#demo-accordion-gates';
+  const toggles = `[...document.querySelectorAll('${gates} .omni-accordion__toggle')]`;
+  const states = () => evaluate(`${toggles}.map(button => button.getAttribute('aria-expanded')).join()`);
+  const activeIs = id => `document.activeElement.id === '${id}'`;
+  await evaluate(`document.querySelector('${gates}').scrollIntoView({ block: 'center' })`);
+  await evaluate("document.querySelector('#demo-accordion-reliability').focus()");
+  await key('ArrowDown', 'ArrowDown', 40);
+  await waitFor('Bas atteint l\'en-tête suivant', activeIs('demo-accordion-security'));
+  check(await states() === 'true,false,false,false', 'Bas a ouvert ou fermé une ligne.');
+  await key('End', 'End', 35);
+  await waitFor('Fin atteint le dernier en-tête', activeIs('demo-accordion-coverage'));
+  const accordionScroll = await evaluate('window.scrollY');
+  await key('ArrowDown', 'ArrowDown', 40);
+  await waitFor('Bas sur le dernier revient au premier', activeIs('demo-accordion-reliability'));
+  await key('ArrowUp', 'ArrowUp', 38);
+  await waitFor('Haut sur le premier va au dernier', activeIs('demo-accordion-coverage'));
+  await key('Home', 'Home', 36);
+  await waitFor('Début atteint le premier en-tête', activeIs('demo-accordion-reliability'));
+  check(await evaluate(`window.scrollY === ${accordionScroll}`), 'Une flèche, Début ou Fin a fait défiler la page.');
+  await space();
+  await waitFor('Espace ferme la ligne ouverte', `${toggles}[0].getAttribute('aria-expanded') === 'false'`);
+  await enter();
+  await waitFor('Entrée ouvre la ligne', `${toggles}[0].getAttribute('aria-expanded') === 'true'`);
+  await clickOn(`${gates} .omni-accordion__item:nth-child(3) .omni-accordion__summary`);
+  await waitFor('un clic sur la valeur ouvre la ligne et ferme sa voisine', `${toggles}.map(button => button.getAttribute('aria-expanded')).join() === 'false,false,true,false'`);
+  await clickOn(`${gates} .omni-accordion__help .omni-tooltip__trigger`);
+  await waitFor('le focus sur la marque d\'aide', "document.activeElement.classList.contains('omni-tooltip__trigger')");
+  await enter();
+  await space();
+  check(await states() === 'false,false,true,false', 'La marque d\'aide a basculé une ligne.');
+  await clickOn('#demo-accordion-details');
+  await waitFor('le contrôle propre compte son clic', "document.querySelector('#demo-accordion-clicks').textContent.includes('1')");
+  check(await evaluate("document.querySelector('#demo-accordion-run').getAttribute('aria-expanded') === 'false'"), 'Un contrôle propre a basculé sa ligne.');
+  step('accordéon : flèches, Début, Fin, Entrée, Espace, clic sur la valeur, aide et contrôle propre sans bascule');
 }

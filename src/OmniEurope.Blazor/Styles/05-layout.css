@@ -156,6 +156,53 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 .omni-fieldset__content { display: grid; gap: var(--omni-space-md); }
 .omni-fieldset:disabled { opacity: 0.65; }
 
+/* Accordion: the rows of one bordered list, told apart by neutral separators. The toggle is a button in
+   the heading; its ::after covers the whole header (the header is the positioned box, the button is
+   not), so the label, the value and the badge all toggle. What sits beside the toggle (help mark, own
+   controls) is positioned later in the tree, so it paints above that layer and takes its own clicks;
+   the box around it lets clicks through, only a control inside takes them. The header wraps rather
+   than overflows, and the chevron is kept out of the flow at the end of the header. No overflow clip:
+   a tooltip opened from the header must be able to leave the list. */
+.omni-accordion {
+    background: var(--omni-card-background, var(--omni-color-surface));
+    border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border));
+    border-radius: var(--omni-card-radius, var(--omni-radius));
+    box-sizing: border-box;
+    inline-size: 100%;
+    min-inline-size: 0;
+}
+.omni-accordion__item + .omni-accordion__item { border-block-start: var(--omni-border-width) solid var(--omni-color-border); }
+.omni-accordion__header {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--omni-space-xs) var(--omni-space-sm);
+    min-block-size: 2.75rem;
+    padding-block: var(--omni-item-pad-y);
+    padding-inline: var(--omni-space-md) calc(var(--omni-space-md) + var(--omni-space-sm) + 1.25rem);
+    position: relative;
+    transition: background-color var(--omni-duration-fast) ease;
+}
+.omni-accordion__header:hover { background: var(--omni-color-surface-hover); }
+.omni-accordion__item:first-child > .omni-accordion__header { border-start-end-radius: var(--omni-card-radius, var(--omni-radius)); border-start-start-radius: var(--omni-card-radius, var(--omni-radius)); }
+.omni-accordion__item:last-child:not(.omni-accordion__item--open) > .omni-accordion__header { border-end-end-radius: var(--omni-card-radius, var(--omni-radius)); border-end-start-radius: var(--omni-card-radius, var(--omni-radius)); }
+.omni-accordion__heading { flex: 0 1 auto; margin: 0; max-inline-size: 100%; min-inline-size: 0; }
+.omni-accordion__toggle { background: none; border: 0; color: inherit; cursor: pointer; display: block; font: inherit; font-weight: 600; inline-size: 100%; margin: 0; overflow-wrap: anywhere; padding: 0; text-align: start; }
+.omni-accordion__toggle::after { content: ""; inset: 0; position: absolute; }
+.omni-accordion__toggle:focus-visible { outline: none; }
+.omni-accordion__toggle:focus-visible::after { box-shadow: var(--omni-focus-ring-inset); }
+.omni-accordion__tools, .omni-accordion__summary { align-items: center; display: inline-flex; flex: none; gap: var(--omni-space-xs); pointer-events: none; position: relative; }
+.omni-accordion__summary { font-variant-numeric: tabular-nums; margin-inline-start: auto; }
+.omni-accordion__tools :is(a, button, input, select, textarea, summary, label, [tabindex], [role="button"], .omni-tooltip) { pointer-events: auto; }
+.omni-accordion__help-mark { color: var(--omni-color-text-muted); cursor: help; display: inline-flex; }
+.omni-accordion__help .omni-tooltip__trigger { border-radius: 50%; display: inline-flex; }
+.omni-accordion__chevron { block-size: 1.25rem; color: var(--omni-color-text-muted); display: inline-flex; inset-block: 0; inset-inline-end: var(--omni-space-md); margin-block: auto; pointer-events: none; position: absolute; transform: rotate(-90deg); transition: transform var(--omni-duration-medium) ease; }
+.omni-accordion__chevron:dir(rtl) { transform: rotate(90deg); }
+.omni-accordion__item--open .omni-accordion__chevron { transform: none; }
+.omni-accordion__content { min-inline-size: 0; overflow-wrap: anywhere; padding: var(--omni-space-xs) var(--omni-space-md) var(--omni-space-md); }
+@media (prefers-reduced-motion: reduce) { .omni-accordion__header, .omni-accordion__chevron { transition: none; } }
+
 /* Bandeau de chargement : aucune hauteur, la piste se pose dans le bas de ce qui précède (pas de vide
    sous l'en-tête), devant un menu flottant et son voile. */
 .omni-loading-bar {

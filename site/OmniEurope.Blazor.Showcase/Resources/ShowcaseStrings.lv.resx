@@ -1588,4 +1588,26 @@
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Atgādinājums par lietu {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Atgādinājums&lt;/h2&gt;&lt;p&gt;Labdien, {{client}}!&lt;/p&gt;&lt;p&gt;Lieta {{file}} gaida jūsu atbildi līdz {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Atvērt lietu&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Tests nodots lietotnei, temats “{0}”.</value></data>
+  <data name="DemoAccordionTitle" xml:space="preserve"><value>Akordeons</value></data>
+  <data name="DemoAccordionSummary" xml:space="preserve"><value>Rindas, kuru saturs atveras zem galvenes, pa vienai vai vairākas reizē.</value></data>
+  <data name="DemoAccordionCapability1" xml:space="preserve"><value>Viena pārslēgšanas poga katrai rindai, ar tastatūru vai peli, ar bultiņām, taustiņiem Home un End starp galvenēm.</value></data>
+  <data name="DemoAccordionCapability2" xml:space="preserve"><value>Brīva galvene: etiķete, palīdzība „?”, vērtība un nozīmīte, bez pogā iegultām vadīklām.</value></data>
+  <data name="DemoAccordionCapability3" xml:space="preserve"><value>Pa vienai rindai vai vairākas reizē, stāvoklis saistīts pa rindām, saturs tiek attēlots atverot.</value></data>
+  <data name="DemoAccordionReliability" xml:space="preserve"><value>Uzticamība</value></data>
+  <data name="DemoAccordionReliabilityHelp" xml:space="preserve"><value>Kļūdas, kas var sabojāt produktu ražošanā.</value></data>
+  <data name="DemoAccordionSecurity" xml:space="preserve"><value>Drošība</value></data>
+  <data name="DemoAccordionSecurityHelp" xml:space="preserve"><value>Zināmas ievainojamības kodā un tā atkarībās.</value></data>
+  <data name="DemoAccordionMaintainability" xml:space="preserve"><value>Uzturamība</value></data>
+  <data name="DemoAccordionCoverage" xml:space="preserve"><value>Testu pārklājums</value></data>
+  <data name="DemoAccordionIssues" xml:space="preserve"><value>Kļūdas: {0}</value></data>
+  <data name="DemoAccordionMeasured" xml:space="preserve"><value>Izmērīts</value></data>
+  <data name="DemoAccordionThreshold" xml:space="preserve"><value>Slieksnis</value></data>
+  <data name="DemoAccordionRunTitle" xml:space="preserve"><value>Konveijera izpilde</value></data>
+  <data name="DemoAccordionRunSubtitle" xml:space="preserve"><value>Pabeigts pirms 3 minūtēm</value></data>
+  <data name="DemoAccordionDetails" xml:space="preserve"><value>Detaļas</value></data>
+  <data name="DemoAccordionRunBody" xml:space="preserve"><value>Izpildes soļi un to ilgums tiek rādīti šeit.</value></data>
+  <data name="DemoAccordionLogTitle" xml:space="preserve"><value>Žurnāls</value></data>
+  <data name="DemoAccordionLogBody" xml:space="preserve"><value>Šai izpildei nav ziņojumu.</value></data>
+  <data name="DemoAccordionState" xml:space="preserve"><value>Atvērtās rindas: {0}</value></data>
+  <data name="DemoAccordionClicks" xml:space="preserve"><value>Klikšķi uz Detaļas: {0}</value></data>
 </root>

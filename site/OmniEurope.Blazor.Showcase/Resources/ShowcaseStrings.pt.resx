@@ -1588,4 +1588,26 @@
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Lembrete do processo {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Lembrete&lt;/h2&gt;&lt;p&gt;Olá {{client}},&lt;/p&gt;&lt;p&gt;O processo {{file}} aguarda a sua resposta até {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Abrir o processo&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Teste entregue à aplicação, assunto «{0}».</value></data>
+  <data name="DemoAccordionTitle" xml:space="preserve"><value>Acordeão</value></data>
+  <data name="DemoAccordionSummary" xml:space="preserve"><value>Linhas cujo conteúdo se desdobra sob o cabeçalho, uma de cada vez ou várias em conjunto.</value></data>
+  <data name="DemoAccordionCapability1" xml:space="preserve"><value>Um botão de alternância por linha, no teclado ou com o rato, com setas, Início e Fim entre os cabeçalhos.</value></data>
+  <data name="DemoAccordionCapability2" xml:space="preserve"><value>Cabeçalho livre: rótulo, ajuda «?», valor e distintivo, sem controlos aninhados no botão.</value></data>
+  <data name="DemoAccordionCapability3" xml:space="preserve"><value>Uma linha de cada vez ou várias em conjunto, estado ligado linha a linha, conteúdo gerado ao abrir.</value></data>
+  <data name="DemoAccordionReliability" xml:space="preserve"><value>Fiabilidade</value></data>
+  <data name="DemoAccordionReliabilityHelp" xml:space="preserve"><value>Defeitos que podem comprometer o produto em produção.</value></data>
+  <data name="DemoAccordionSecurity" xml:space="preserve"><value>Segurança</value></data>
+  <data name="DemoAccordionSecurityHelp" xml:space="preserve"><value>Vulnerabilidades conhecidas no código e nas suas dependências.</value></data>
+  <data name="DemoAccordionMaintainability" xml:space="preserve"><value>Manutenibilidade</value></data>
+  <data name="DemoAccordionCoverage" xml:space="preserve"><value>Cobertura de testes</value></data>
+  <data name="DemoAccordionIssues" xml:space="preserve"><value>Defeitos: {0}</value></data>
+  <data name="DemoAccordionMeasured" xml:space="preserve"><value>Medido</value></data>
+  <data name="DemoAccordionThreshold" xml:space="preserve"><value>Limiar</value></data>
+  <data name="DemoAccordionRunTitle" xml:space="preserve"><value>Execução do pipeline</value></data>
+  <data name="DemoAccordionRunSubtitle" xml:space="preserve"><value>Concluída há 3 minutos</value></data>
+  <data name="DemoAccordionDetails" xml:space="preserve"><value>Detalhes</value></data>
+  <data name="DemoAccordionRunBody" xml:space="preserve"><value>Os passos da execução e a sua duração aparecem aqui.</value></data>
+  <data name="DemoAccordionLogTitle" xml:space="preserve"><value>Registo</value></data>
+  <data name="DemoAccordionLogBody" xml:space="preserve"><value>Nenhuma mensagem para esta execução.</value></data>
+  <data name="DemoAccordionState" xml:space="preserve"><value>Linhas abertas: {0}</value></data>
+  <data name="DemoAccordionClicks" xml:space="preserve"><value>Cliques em Detalhes: {0}</value></data>
 </root>
