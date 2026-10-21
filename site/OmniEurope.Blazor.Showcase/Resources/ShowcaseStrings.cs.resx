@@ -749,6 +749,9 @@
   <data name="DemoLayoutBottomText" xml:space="preserve"><value>Štítek se usadí u spodku řady.</value></data>
   <data name="DemoLayoutStretched" xml:space="preserve"><value>Roztažené</value></data>
   <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Obě karty mají stejnou výšku.</value></data>
+  <data name="DemoLayoutClickCardTitle" xml:space="preserve"><value>Klikací karta</value></data>
+  <data name="DemoLayoutClickCardText" xml:space="preserve"><value>Klikněte na ni nebo stiskněte Enter.</value></data>
+  <data name="DemoLayoutClickCardCount" xml:space="preserve"><value>Kliknutí: {0}</value></data>
   <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Schválit spis</value></data>
   <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Filtrovat dokumenty</value></data>
   <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Uzavřít žádost</value></data>

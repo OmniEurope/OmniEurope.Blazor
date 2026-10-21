@@ -1036,6 +1036,7 @@ method protected override OmniEurope.Blazor.Components.OmniBreadcrumbItem.BuildR
 method protected override OmniEurope.Blazor.Components.OmniButton.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniButton.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniCard.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniCard.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniCategoryAxis.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniCategoryAxis.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniCharacterPalette.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
@@ -1264,6 +1265,7 @@ method protected override OmniEurope.Blazor.Components.OmniStack.BuildRenderTree
 method protected override OmniEurope.Blazor.Components.OmniStack.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniStatTile.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniStatTile.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
+method protected override OmniEurope.Blazor.Components.OmniStatTile.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniStatusBadge<TValue>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniStatusBadge<TValue>.OnAfterRender(System.Boolean firstRender) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniStatusBadge<TValue>.OnParametersSet() : System.Void
@@ -2369,6 +2371,8 @@ property public OmniEurope.Blazor.Components.OmniCard.Density : OmniEurope.Blazo
 property public OmniEurope.Blazor.Components.OmniCard.DoubleWidth : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniCard.Footer : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniCard.Header : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniCard.Href : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniCard.OnClick : Microsoft.AspNetCore.Components.EventCallback<Microsoft.AspNetCore.Components.Web.MouseEventArgs> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniCategoryAxis.Labels : System.Collections.Generic.IReadOnlyList<System.String> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniCharacterPalette.Characters : System.Collections.Generic.IReadOnlyList<System.String> {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniCharacterPalette.IsUppercase : System.Boolean {get(public)}
@@ -3578,6 +3582,7 @@ property public OmniEurope.Blazor.Components.OmniStack.Overflow : OmniEurope.Bla
 property public OmniEurope.Blazor.Components.OmniStack.Wrap : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniStatTile.Detail : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniStatTile.DoubleWidth : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniStatTile.Href : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniStatTile.Icon : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniStatTile.Label : System.String {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniStatTile.OnClick : Microsoft.AspNetCore.Components.EventCallback<Microsoft.AspNetCore.Components.Web.MouseEventArgs> {get(public);set(public)} [Parameter]

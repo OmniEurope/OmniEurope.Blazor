@@ -5,8 +5,9 @@
 
 @* One figure on a card: the icon on its tinted square, the value large, what it measures under it,
    and an optional detail line (a reset time, a trend). With OnClick the whole tile is one real
-   button, named by its label, so it answers Enter and Space and shows the focus ring; without it,
-   a plain block that nothing can activate. *@
+   button, with Href one real link, both named by the label and the value, so they answer Enter (and
+   Space for the button) and show the focus ring; without either, a plain block that nothing can
+   activate. Every part is a span, valid inside a button as well as inside a link. *@
 @if (OnClick.HasDelegate)
 {
     <button @attributes="AdditionalAttributes" @ref="_tile" id="@Id" type="button" class="@Css("omni-stat-tile", "omni-stat-tile--action", DoubleWidth ? "omni-tile--double" : null)"
@@ -24,6 +25,24 @@
             }
         </span>
     </button>
+}
+else if (_safeHref is not null)
+{
+    <a @attributes="AdditionalAttributes" @ref="_tile" id="@Id" href="@_safeHref" class="@Css("omni-stat-tile", "omni-stat-tile--action", DoubleWidth ? "omni-tile--double" : null)"
+       aria-label="@AccessibleName">
+        @if (Icon is not null)
+        {
+            <span class="omni-stat-tile__icon" aria-hidden="true">@Icon</span>
+        }
+        <span class="omni-stat-tile__text">
+            <span class="omni-stat-tile__value">@Value</span>
+            <span class="omni-stat-tile__label">@Label</span>
+            @if (!string.IsNullOrWhiteSpace(Detail))
+            {
+                <span class="omni-stat-tile__detail">@Detail</span>
+            }
+        </span>
+    </a>
 }
 else
 {

@@ -749,6 +749,9 @@
   <data name="DemoLayoutBottomText" xml:space="preserve"><value>Insigna se așază la baza rândului.</value></data>
   <data name="DemoLayoutStretched" xml:space="preserve"><value>Întinsă</value></data>
   <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Cele două carduri au aceeași înălțime.</value></data>
+  <data name="DemoLayoutClickCardTitle" xml:space="preserve"><value>Card pe care se poate face clic</value></data>
+  <data name="DemoLayoutClickCardText" xml:space="preserve"><value>Faceți clic pe el sau apăsați Enter.</value></data>
+  <data name="DemoLayoutClickCardCount" xml:space="preserve"><value>Clicuri: {0}</value></data>
   <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Aprobă dosarul</value></data>
   <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Filtrează documentele</value></data>
   <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Închide cererea</value></data>

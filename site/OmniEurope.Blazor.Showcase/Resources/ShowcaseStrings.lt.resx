@@ -749,6 +749,9 @@
   <data name="DemoLayoutBottomText" xml:space="preserve"><value>Ženklelis prisitaiko prie eilės apačios.</value></data>
   <data name="DemoLayoutStretched" xml:space="preserve"><value>Ištempta</value></data>
   <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Abi kortelės įgauna vienodą aukštį.</value></data>
+  <data name="DemoLayoutClickCardTitle" xml:space="preserve"><value>Spustelima kortelė</value></data>
+  <data name="DemoLayoutClickCardText" xml:space="preserve"><value>Spustelėkite ją arba paspauskite Enter.</value></data>
+  <data name="DemoLayoutClickCardCount" xml:space="preserve"><value>Paspaudimų: {0}</value></data>
   <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Patvirtinti bylą</value></data>
   <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Filtruoti dokumentus</value></data>
   <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Užbaigti prašymą</value></data>

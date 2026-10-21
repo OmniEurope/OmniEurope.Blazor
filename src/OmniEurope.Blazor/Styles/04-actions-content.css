@@ -157,6 +157,19 @@
 }
 .omni-card::before { inset: calc(-1 * var(--omni-card-border-width, var(--omni-border-width))); }
 
+/* A clickable card (OmniCard with Href or OnClick): the root is one link or one button, the three parts
+   inside it are divisions (link) or spans (button), drawn as blocks here. A column keeps the card
+   filling its cell whatever the element: the button reset (font, colour, text-align start, width 100%)
+   and the link reset (no underline) leave the look of a plain card. Hover and focus ring are shared with
+   the stat tile (see 10-editors-settings.css). The body is clipped, not scrolled: a scrolling region
+   inside a link or a button would be a nested focus stop. */
+.omni-card--action { cursor: pointer; display: flex; flex-direction: column; font: inherit; inline-size: 100%; margin: 0; padding: 0; text-align: start; text-decoration: none; transition: background-color var(--omni-duration-fast) ease; }
+.omni-card--action > .omni-card__header,
+.omni-card--action > .omni-card__body { display: block; }
+.omni-card--action > .omni-card__header,
+.omni-card--action > .omni-card__footer { flex: none; }
+.omni-card--action > .omni-card__body { flex: 1 1 auto; min-block-size: 0; overflow: hidden; }
+
 .omni-card__header,
 .omni-card__footer { padding: var(--omni-card-pad); }
 .omni-card__header { border-bottom: var(--omni-border-width) solid var(--omni-color-border); }

@@ -749,6 +749,9 @@
   <data name="DemoLayoutBottomText" xml:space="preserve"><value>Το σήμα στοιχίζεται στο κάτω μέρος της σειράς.</value></data>
   <data name="DemoLayoutStretched" xml:space="preserve"><value>Τεντωμένη</value></data>
   <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Οι δύο κάρτες παίρνουν το ίδιο ύψος.</value></data>
+  <data name="DemoLayoutClickCardTitle" xml:space="preserve"><value>Κάρτα με κλικ</value></data>
+  <data name="DemoLayoutClickCardText" xml:space="preserve"><value>Κάντε κλικ ή πατήστε Enter.</value></data>
+  <data name="DemoLayoutClickCardCount" xml:space="preserve"><value>Κλικ: {0}</value></data>
   <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Έγκριση του φακέλου</value></data>
   <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Φιλτράρισμα δικαιολογητικών</value></data>
   <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Κλείσιμο του αιτήματος</value></data>

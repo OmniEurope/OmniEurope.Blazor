@@ -13,7 +13,7 @@ Ces composants posent la structure d'une application et d'une page : la coquille
 | `OmniBootSplash` | Retire en fondu l'écran de démarrage que l'hôte écrit dans sa page, une fois l'application rendue ; il ne rend lui-même aucun élément. |
 | `OmniStack` | Pile flex verticale ou horizontale, avec espacement, alignement, retour à la ligne ou défilement et repli d'une rangée trop étroite. |
 | `OmniRow`, `OmniColumn` | Rangée et colonnes sur douze unités, avec variantes responsive. |
-| `OmniCard` | Carte : surface qui regroupe un contenu, avec en-tête et pied facultatifs ; peut porter sa propre densité ; `DoubleWidth` l'étale sur deux colonnes d'une `OmniTileGrid`. |
+| `OmniCard` | Carte : surface qui regroupe un contenu, avec en-tête et pied facultatifs ; peut porter sa propre densité ; `DoubleWidth` l'étale sur deux colonnes d'une `OmniTileGrid` ; `Href` ou `OnClick` en font un seul lien ou un seul bouton (voir « Carte cliquable »). |
 | `OmniTileGrid` | Grille de tuiles : `OmniCard`, `OmniSelectableCard`, `OmniStatTile` et `OmniNavTile` posées dedans ont la même largeur et exactement la même hauteur, une tuile `DoubleWidth` en occupe deux, rien ne déborde. Voir « Règle des tuiles ». |
 | `OmniFieldset` | Groupe de champs natif avec `legend` obligatoire, désactivable, repliable. |
 | `OmniAccordion`, `OmniAccordionItem` | Liste de lignes dont le corps se déplie sous l'en-tête, une à la fois (défaut) ou plusieurs ensemble (`Multiple`). L'en-tête est libre (libellé, aide « ? », valeur, badge) et le composant dessine le chevron. Voir « Accordéon » plus bas. |
@@ -34,6 +34,7 @@ Toutes les tuiles du paquet (`OmniCard`, `OmniSelectableCard`, `OmniStatTile`, `
 - **Hauteur** : chaque rangée prend la hauteur de la plus haute tuile de la grille (`grid-auto-rows: 1fr`), et chaque tuile la remplit : des tuiles de contenus différents (avec ou sans `Detail`, description longue ou absente) ont exactement la même hauteur, sur toutes les rangées.
 - **Tuile double** : `DoubleWidth="true"` (sur chacune des quatre tuiles) étale la tuile sur deux colonnes de la rangée. Elle ne le fait que là où la grille a deux colonnes ou plus : sur une colonne, elle est aussi large que les autres, et la grille n'ouvre jamais de colonne implicite qui déborderait.
 - **Aucun débordement** : une tuile peut rétrécir sous son contenu (`min-inline-size: 0`) ; ses mots coupent ou passent à la ligne dans la tuile (`overflow-wrap: anywhere` ; la valeur et le libellé d'une `OmniStatTile` restent sur une ligne, coupés de points de suspension), et le corps d'une `OmniCard` défile (en-tête et pied restent) au lieu de déborder.
+- **Tuile cliquable** : `OmniStatTile` (`Href`, `OnClick`) et `OmniCard` (`Href`, `OnClick`) peuvent être un seul lien ou un seul bouton sans changer de place : les classes de grille et de `DoubleWidth` restent sur l'élément racine (le lien ou le bouton), qui est l'enfant direct de la grille. Voir « Carte cliquable ».
 - **Hors grille**, les tuiles gardent leur comportement : `OmniNavTile` et `OmniStatTile` prennent la hauteur de leur `OmniColumn`, une carte et une carte à choisir celle de leur contenu. `OmniSelectableCardGroup.Columns` applique la même règle aux cartes d'un groupe.
 
 ```razor
@@ -46,6 +47,32 @@ Toutes les tuiles du paquet (`OmniCard`, `OmniSelectableCard`, `OmniStatTile`, `
 ```
 
 Le nombre de colonnes et l'espacement sont des classes (`omni-tile-grid--columns-N`, `omni-tile-grid--gap-*`) : la grille n'écrit aucun attribut `style` (CSP stricte). Preuve : tests bUnit (`TileRuleAndBadgeWidthTests`), mesures en navigateur dans la vitrine (page « Mise en page »).
+
+## Carte cliquable
+
+Demande d'une application cliente (recette R1-20) : une tuile de grille qui mène quelque part ou déclenche une action, sans envelopper l'`OmniCard` d'un `div` ou d'un `a` natif (ce qui sortait la tuile de la règle de taille).
+
+- **`Href`** (`string?`) : la carte entière est un seul vrai lien (`a`). L'adresse passe par la politique d'URI du paquet, comme `OmniNavTile.Href` : un schéma dangereux tel que `javascript:` lève `InvalidOperationException`. Un lien accepte du contenu de flux : l'en-tête, le corps et le pied sont des `div`, et un titre (`h3`) placé dans l'en-tête reste exposé aux technologies d'assistance.
+- **`OnClick`** (`EventCallback<MouseEventArgs>`, le même type que `OmniStatTile.OnClick`) : la carte entière est un seul vrai bouton (`button type="button"`), qui répond à `Entrée` et `Espace`. Un bouton n'accepte que du contenu phrasé : l'en-tête, le corps et le pied sont des `span` dessinés en blocs, et `Header`, `ChildContent` et `Footer` ne doivent contenir que du texte, des `span`, un `OmniIcon`, pas de titre, de paragraphe ni de `div`. Un bouton expose son contenu comme son nom accessible (ses descendants ne sont pas des éléments séparés) ; un `aria-label` passé en attribut supplémentaire le raccourcit.
+- **Les deux ensemble** lèvent `ArgumentException` (`Href` ou `OnClick`, pas les deux). Sans l'un ni l'autre, le rendu est exactement celui d'avant (`section`).
+- **Aucun élément interactif à l'intérieur** : un bouton, un lien ou un champ dans une carte cliquable est une imbrication invalide, que le composant ne détecte pas. Une carte dont le pied porte des actions reste une carte simple.
+- **Apparence** : la racine est focalisable au clavier avec l'anneau de focus du paquet (`--omni-focus-ring`, comme `OmniStatTile`) ; au survol, le fond prend la teinte de la tuile de statistique cliquable. Le bouton reprend la police, la couleur et l'alignement de la carte, prend toute la largeur de sa cellule et toute sa hauteur dans une grille. Le corps d'une carte cliquable est coupé au lieu de défiler (une zone défilante dans un lien ou un bouton est un arrêt de focus imbriqué) : la carte résume, le détail est derrière le clic. Aucun attribut `style`, aucun script.
+
+```razor
+<OmniTileGrid Columns="4">
+    <OmniCard OnClick="Ouvrir" DoubleWidth="true">
+        <Header>Dossiers</Header>
+        <ChildContent>12 dossiers à traiter</ChildContent>
+    </OmniCard>
+    <OmniCard Href="admin/utilisateurs">
+        <Header><span>Utilisateurs</span></Header>
+        <ChildContent><div>Comptes et rôles</div></ChildContent>
+    </OmniCard>
+    <OmniStatTile Href="admin/jetons" Value="12,4 k" Label="Jetons" />
+</OmniTileGrid>
+```
+
+Preuve : tests bUnit (`ClickableTilesTests`) pour la racine, les attributs, le clic, les classes de grille, l'adresse refusée et les deux paramètres ensemble ; les tailles mesurées et l'anneau de focus se vérifient en navigateur dans la vitrine (page « Mise en page »).
 
 ## Accordéon
 

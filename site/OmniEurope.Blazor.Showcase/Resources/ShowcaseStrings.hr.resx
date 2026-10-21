@@ -749,6 +749,9 @@
   <data name="DemoLayoutBottomText" xml:space="preserve"><value>Značka se smješta uz dno reda.</value></data>
   <data name="DemoLayoutStretched" xml:space="preserve"><value>Razvučeno</value></data>
   <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Obje kartice imaju istu visinu.</value></data>
+  <data name="DemoLayoutClickCardTitle" xml:space="preserve"><value>Kartica na klik</value></data>
+  <data name="DemoLayoutClickCardText" xml:space="preserve"><value>Kliknite je ili pritisnite Enter.</value></data>
+  <data name="DemoLayoutClickCardCount" xml:space="preserve"><value>Klikova: {0}</value></data>
   <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Odobri predmet</value></data>
   <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Filtriraj dokumente</value></data>
   <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Zatvori zahtjev</value></data>

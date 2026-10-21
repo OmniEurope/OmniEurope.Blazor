@@ -749,6 +749,9 @@
   <data name="DemoLayoutBottomText" xml:space="preserve"><value>Il-badge joqgħod fil-qiegħ tar-ringiela.</value></data>
   <data name="DemoLayoutStretched" xml:space="preserve"><value>Imġebbda</value></data>
   <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Iż-żewġ kards għandhom l-istess għoli.</value></data>
+  <data name="DemoLayoutClickCardTitle" xml:space="preserve"><value>Karta li tista' tikklikkja</value></data>
+  <data name="DemoLayoutClickCardText" xml:space="preserve"><value>Ikklikkja fuqha jew agħfas Enter.</value></data>
+  <data name="DemoLayoutClickCardCount" xml:space="preserve"><value>Klikks: {0}</value></data>
   <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Approva l-fajl</value></data>
   <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Iffiltra d-dokumenti</value></data>
   <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Agħlaq it-talba</value></data>

@@ -749,6 +749,9 @@
   <data name="DemoLayoutBottomText" xml:space="preserve"><value>O distintivo encosta-se à parte inferior da fila.</value></data>
   <data name="DemoLayoutStretched" xml:space="preserve"><value>Esticada</value></data>
   <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Os dois cartões ficam com a mesma altura.</value></data>
+  <data name="DemoLayoutClickCardTitle" xml:space="preserve"><value>Cartão clicável</value></data>
+  <data name="DemoLayoutClickCardText" xml:space="preserve"><value>Clique ou prima Enter.</value></data>
+  <data name="DemoLayoutClickCardCount" xml:space="preserve"><value>Cliques: {0}</value></data>
   <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Validar o processo</value></data>
   <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Filtrar os documentos</value></data>
   <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Encerrar o pedido</value></data>

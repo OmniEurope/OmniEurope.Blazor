@@ -1,14 +1,50 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-<section @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-card", DoubleWidth ? "omni-tile--double" : null)" data-omni-density="@OmniDensityAttribute.Of(Density)">
-    @if (Header is not null)
-    {
-        <header class="omni-card__header">@Header</header>
-    }
-    <div class="omni-card__body">@ChildContent</div>
-    @if (Footer is not null)
-    {
-        <footer class="omni-card__footer">@Footer</footer>
-    }
-</section>
+@* Three roots, one look. Plain, the card is a section. With Href it is one real link (a link may hold
+   flow content, so the header, body and footer stay divisions). With OnClick it is one real button,
+   which may hold phrasing content only: the same three parts are then spans, drawn as blocks by the
+   stylesheet. *@
+@if (OnClick.HasDelegate)
+{
+    <button @attributes="AdditionalAttributes" id="@Id" type="button" class="@Css("omni-card", "omni-card--action", DoubleWidth ? "omni-tile--double" : null)" data-omni-density="@OmniDensityAttribute.Of(Density)"
+            @onclick="OnClick">
+        @if (Header is not null)
+        {
+            <span class="omni-card__header">@Header</span>
+        }
+        <span class="omni-card__body">@ChildContent</span>
+        @if (Footer is not null)
+        {
+            <span class="omni-card__footer">@Footer</span>
+        }
+    </button>
+}
+else if (_safeHref is not null)
+{
+    <a @attributes="AdditionalAttributes" id="@Id" href="@_safeHref" class="@Css("omni-card", "omni-card--action", DoubleWidth ? "omni-tile--double" : null)" data-omni-density="@OmniDensityAttribute.Of(Density)">
+        @if (Header is not null)
+        {
+            <div class="omni-card__header">@Header</div>
+        }
+        <div class="omni-card__body">@ChildContent</div>
+        @if (Footer is not null)
+        {
+            <div class="omni-card__footer">@Footer</div>
+        }
+    </a>
+}
+else
+{
+    <section @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-card", DoubleWidth ? "omni-tile--double" : null)" data-omni-density="@OmniDensityAttribute.Of(Density)">
+        @if (Header is not null)
+        {
+            <header class="omni-card__header">@Header</header>
+        }
+        <div class="omni-card__body">@ChildContent</div>
+        @if (Footer is not null)
+        {
+            <footer class="omni-card__footer">@Footer</footer>
+        }
+    </section>
+}

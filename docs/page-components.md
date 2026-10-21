@@ -132,9 +132,9 @@ paragraphe ; `Level` en fait un titre quand l'état vide ouvre une section.
 ## Tuile de statistique : `OmniStatTile`
 
 `Value` (déjà formatée), `Label` (obligatoire), `Detail` (ligne atténuée facultative) et `Icon` (carré
-teinté, décoratif). Avec `OnClick`, la tuile entière devient un bouton, nommé « libellé : valeur » ; sans lui, un simple bloc que rien n'active. La valeur ne passe pas
+teinté, décoratif). Avec `OnClick`, la tuile entière devient un bouton, nommé « libellé : valeur » ; avec `Href` (`string?`, demande d'une application cliente, recette R1-20), elle devient un seul lien (`a`) de même nom et de même aspect (survol, anneau de focus), l'adresse passant par la politique d'URI du paquet comme `OmniNavTile.Href` (un schéma dangereux tel que `javascript:` lève) ; `Href` et `OnClick` ensemble lèvent `ArgumentException` ; sans l'un ni l'autre, un simple bloc que rien n'active, au rendu inchangé. Ses éléments sont des `span`, valides dans un bouton comme dans un lien ; ne placez aucun élément interactif dans `Icon` (imbrication invalide, non détectée). La racine, bouton ou lien, garde les classes de la tuile : dans une `OmniTileGrid`, elle a la même taille que ses voisines et `DoubleWidth` l'étale. La valeur ne passe pas
 à la ligne. Le libellé reste sur une ligne : un script le réduit à 0,6875 rem quand il ne tient pas,
-puis le coupe de points de suspension, son texte entier en titre (infobulle), y compris quand `OnClick` apparaît ou disparaît et que la tuile change d'élément ; le détail peut se couper.
+puis le coupe de points de suspension, son texte entier en titre (infobulle), y compris quand `OnClick` ou `Href` apparaît ou disparaît et que la tuile change d'élément ; le détail peut se couper.
 Comme `OmniNavTile`, elle prend la hauteur de sa colonne (`block-size: 100%`) : les tuiles d'une rangée
 `OmniRow` ont la hauteur de la plus haute, celle qui porte un `Detail` comprise ; seule dans un bloc ou
 empilée sur un téléphone, elle garde sa propre hauteur. `DoubleWidth` l'étale sur deux colonnes d'une

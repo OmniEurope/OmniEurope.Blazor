@@ -193,9 +193,12 @@
 .omni-stat-tile__label { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .omni-stat-tile__label[data-fit] { font-size: 0.6875rem; }
 .omni-stat-tile__detail { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); overflow-wrap: anywhere; }
-.omni-stat-tile--action { cursor: pointer; transition: background-color var(--omni-duration-fast) ease; }
-.omni-stat-tile--action:hover { background: color-mix(in srgb, var(--omni-color-text) 6%, var(--omni-card-background, var(--omni-color-surface))); }
-.omni-stat-tile--action:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-stat-tile--action { cursor: pointer; text-decoration: none; transition: background-color var(--omni-duration-fast) ease; }
+/* The hover and the focus ring of a clickable stat tile (button or link) are those of a clickable card. */
+.omni-stat-tile--action:hover,
+.omni-card--action:hover { background: color-mix(in srgb, var(--omni-color-text) 6%, var(--omni-card-background, var(--omni-color-surface))); }
+.omni-stat-tile--action:focus-visible,
+.omni-card--action:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
 /* A navigation tile (OmniNavTile): a card that is one link, the icon on a square tinted with its tone,
    the title, an optional muted description. It fills the height of its column; hovered, only its
    shadow changes (no movement); the focus ring marks it for the keyboard. */
