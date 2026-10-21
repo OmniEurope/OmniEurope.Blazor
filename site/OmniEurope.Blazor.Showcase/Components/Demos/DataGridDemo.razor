@@ -111,6 +111,26 @@
     </Columns>
 </OmniDataGrid>
 
+@* Sans largeur déclarée, une colonne prend celle de sa valeur la plus longue, titre compris : le nom du
+   paquet s'affiche en entier. Truncate="true" rend la colonne de description à la largeur que la
+   mise en page lui laisse : sa valeur finit par des points de suspension et reste lisible en entier dans
+   l'infobulle. Une largeur déclarée (Width) ou choisie au glisser (AllowColumnResize) l'emporte toujours.
+   Le cadre étroit (22rem) donne à chaque colonne moins que le nom le plus long. *@
+<div class="demo-grid-fit-box">
+    <OmniDataGrid TItem="PackageRow" Id="demo-grid-fit"
+                  HeaderWrap="OmniDataGridHeaderWrap.Truncate"
+                  Items="Packages"
+                  Caption="@Text["DemoGridFitCaption"]"
+                  Filterable="false"
+                  AllowColumnResize="true"
+                  ScrollMode="OmniDataGridScrollMode.All">
+        <Columns>
+            <OmniDataGridColumn TItem="PackageRow" Property="Name" Title="@Text["DemoGridFitColumnPackage"]" />
+            <OmniDataGridColumn TItem="PackageRow" Property="Description" Title="@Text["DemoGridFitColumnDescription"]" Truncate="true" />
+        </Columns>
+    </OmniDataGrid>
+</div>
+
 @* Un compte de résultat en arbre (ChildrenOf) : les catégories, toujours ouvertes (CanToggleTreeRow),
    portent leurs sous-totaux, qui s'ouvrent d'un clic sur la ligne (ToggleTreeOnRowClick) ou par leur
    chevron, Droite et Gauche au clavier ; les deux boutons ouvrent et ferment tout. Le tri range les

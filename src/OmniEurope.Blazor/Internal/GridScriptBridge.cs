@@ -25,6 +25,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
     private bool _fillAttached;
     private bool _frozenScrollAttached;
     private bool _cutTooltipsInstalled;
+    private bool _contentFitAttached;
     private bool _columnHoverAttached;
     private string? _wheelScopeAttached;
     private bool _renderReady;
@@ -76,6 +77,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
             await EnsureWheelScopeInteropAsync();
             await EnsureFrozenScrollInteropAsync();
             await EnsureCutTooltipsAsync();
+            await EnsureContentFitAsync();
             await EnsureColumnHoverAsync();
             await CompletePreparationAsync();
             return;
@@ -89,6 +91,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         await EnsureWheelScopeInteropAsync();
         await EnsureFrozenScrollInteropAsync();
         await EnsureCutTooltipsAsync();
+        await EnsureContentFitAsync();
         await EnsureColumnHoverAsync();
         if (!_virtualAttached)
         {
@@ -152,6 +155,23 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         var module = await ModuleAsync();
         await module.InvokeVoidAsync("installPackageTooltips");
         _cutTooltipsInstalled = true;
+    }
+
+    /// <summary>
+    /// Has the script size the columns to their content, once: it follows the rows and the column
+    /// attributes of the markup by itself from then on, so no render needs to ask again. A column with a
+    /// width or <c>Truncate</c> is left to its width.
+    /// </summary>
+    private async Task EnsureContentFitAsync()
+    {
+        if (_contentFitAttached)
+        {
+            return;
+        }
+
+        var module = await ModuleAsync();
+        await module.InvokeVoidAsync("attachContentFit", grid.Viewport);
+        _contentFitAttached = true;
     }
 
     /// <summary>
@@ -427,6 +447,11 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
             functions.Add("detachColumnHover");
         }
 
+        if (_contentFitAttached)
+        {
+            functions.Add("detachContentFit");
+        }
+
         if (_cutTooltipsInstalled)
         {
             functions.Add(UninstallTooltips);
@@ -434,6 +459,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
 
         (_resizeAttached, _filterMenuAttached, _wheelScopeAttached, _fillAttached) = (false, false, null, false);
         (_frozenScrollAttached, _columnHoverAttached, _cutTooltipsInstalled, _reorderAttached) = (false, false, false, false);
+        _contentFitAttached = false;
         return functions;
     }
 }

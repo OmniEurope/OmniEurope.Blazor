@@ -588,6 +588,10 @@
   <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Hosszú szöveg keskeny oszlopban</value></data>
   <data name="DemoGridShortCaption" xml:space="preserve"><value>Három ügy, tartalomhoz igazodó magasság</value></data>
   <data name="DemoGridLongCaption" xml:space="preserve"><value>Tízezer ügy, 18rem-es felső korlát</value></data>
+  <data name="DemoGridFitCaption" xml:space="preserve"><value>Tartalmuk szélességű oszlopok, a leírás csonkolt</value></data>
+  <data name="DemoGridFitColumnPackage" xml:space="preserve"><value>Csomag</value></data>
+  <data name="DemoGridFitColumnDescription" xml:space="preserve"><value>Leírás</value></data>
+  <data name="DemoGridFitDescription" xml:space="preserve"><value>Webanalitika: oldalmegtekintések, események és jelentések sütik nélkül gyűjtve, a szervezet minden webhelyéhez.</value></data>
   <data name="DemoGridColumnReference" xml:space="preserve"><value>Hivatkozási szám</value></data>
   <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Kérelmező</value></data>
   <data name="DemoGridColumnCountry" xml:space="preserve"><value>Ország</value></data>

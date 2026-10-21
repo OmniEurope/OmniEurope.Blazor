@@ -588,6 +588,10 @@
   <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Długi tekst w wąskiej kolumnie</value></data>
   <data name="DemoGridShortCaption" xml:space="preserve"><value>Trzy sprawy, wysokość według treści</value></data>
   <data name="DemoGridLongCaption" xml:space="preserve"><value>Dziesięć tysięcy spraw, limit 18rem</value></data>
+  <data name="DemoGridFitCaption" xml:space="preserve"><value>Kolumny o szerokości zawartości, opis jest obcięty</value></data>
+  <data name="DemoGridFitColumnPackage" xml:space="preserve"><value>Pakiet</value></data>
+  <data name="DemoGridFitColumnDescription" xml:space="preserve"><value>Opis</value></data>
+  <data name="DemoGridFitDescription" xml:space="preserve"><value>Analityka internetowa: odsłony stron, zdarzenia i raporty zbierane bez plików cookie, dla każdej witryny organizacji.</value></data>
   <data name="DemoGridColumnReference" xml:space="preserve"><value>Sygnatura</value></data>
   <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Wnioskodawca</value></data>
   <data name="DemoGridColumnCountry" xml:space="preserve"><value>Kraj</value></data>

@@ -588,6 +588,10 @@
   <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Dugi tekst u uskom stupcu</value></data>
   <data name="DemoGridShortCaption" xml:space="preserve"><value>Tri predmeta, visina prema sadržaju</value></data>
   <data name="DemoGridLongCaption" xml:space="preserve"><value>Deset tisuća predmeta, najviše 18rem</value></data>
+  <data name="DemoGridFitCaption" xml:space="preserve"><value>Stupci širine svog sadržaja, opis je skraćen</value></data>
+  <data name="DemoGridFitColumnPackage" xml:space="preserve"><value>Paket</value></data>
+  <data name="DemoGridFitColumnDescription" xml:space="preserve"><value>Opis</value></data>
+  <data name="DemoGridFitDescription" xml:space="preserve"><value>Web analitika: pregledi stranica, događaji i izvješća prikupljeni bez kolačića, za svako web-mjesto organizacije.</value></data>
   <data name="DemoGridColumnReference" xml:space="preserve"><value>Referenca</value></data>
   <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Podnositelj</value></data>
   <data name="DemoGridColumnCountry" xml:space="preserve"><value>Zemlja</value></data>

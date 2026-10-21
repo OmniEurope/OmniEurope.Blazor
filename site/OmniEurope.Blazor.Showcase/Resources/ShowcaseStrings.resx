@@ -589,6 +589,10 @@
   <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Texte long dans une colonne étroite</value></data>
   <data name="DemoGridShortCaption" xml:space="preserve"><value>Trois dossiers, hauteur de contenu</value></data>
   <data name="DemoGridLongCaption" xml:space="preserve"><value>Dix mille dossiers, plafond de 18rem</value></data>
+  <data name="DemoGridFitCaption" xml:space="preserve"><value>Colonnes à la largeur de leur contenu, description tronquée</value></data>
+  <data name="DemoGridFitColumnPackage" xml:space="preserve"><value>Paquet</value></data>
+  <data name="DemoGridFitColumnDescription" xml:space="preserve"><value>Description</value></data>
+  <data name="DemoGridFitDescription" xml:space="preserve"><value>Mesure d'audience : pages vues, événements et rapports collectés sans cookies, pour chaque site de l'organisation.</value></data>
   <data name="DemoGridColumnReference" xml:space="preserve"><value>Référence</value></data>
   <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Demandeur</value></data>
   <data name="DemoGridColumnCountry" xml:space="preserve"><value>Pays</value></data>

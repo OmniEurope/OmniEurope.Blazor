@@ -588,6 +588,10 @@
   <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Téacs fada i gcolún caol</value></data>
   <data name="DemoGridShortCaption" xml:space="preserve"><value>Trí chomhad, airde an ábhair</value></data>
   <data name="DemoGridLongCaption" xml:space="preserve"><value>Deich míle comhad, uasteorainn 18rem</value></data>
+  <data name="DemoGridFitCaption" xml:space="preserve"><value>Colúin chomh leathan lena n-ábhar, tá an tuairisc gearrtha</value></data>
+  <data name="DemoGridFitColumnPackage" xml:space="preserve"><value>Pacáiste</value></data>
+  <data name="DemoGridFitColumnDescription" xml:space="preserve"><value>Tuairisc</value></data>
+  <data name="DemoGridFitDescription" xml:space="preserve"><value>Anailís gréasáin: radhairc leathanaigh, imeachtaí agus tuarascálacha a bhailítear gan fianáin, do gach suíomh den eagraíocht.</value></data>
   <data name="DemoGridColumnReference" xml:space="preserve"><value>Tagairt</value></data>
   <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Iarratasóir</value></data>
   <data name="DemoGridColumnCountry" xml:space="preserve"><value>Tír</value></data>

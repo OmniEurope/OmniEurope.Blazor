@@ -588,6 +588,10 @@
   <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Pitkä teksti kapeassa sarakkeessa</value></data>
   <data name="DemoGridShortCaption" xml:space="preserve"><value>Kolme asiaa, sisällön korkeus</value></data>
   <data name="DemoGridLongCaption" xml:space="preserve"><value>Kymmenentuhatta asiaa, enintään 18rem</value></data>
+  <data name="DemoGridFitCaption" xml:space="preserve"><value>Sarakkeet sisällön levyisinä, kuvaus katkaistaan</value></data>
+  <data name="DemoGridFitColumnPackage" xml:space="preserve"><value>Paketti</value></data>
+  <data name="DemoGridFitColumnDescription" xml:space="preserve"><value>Kuvaus</value></data>
+  <data name="DemoGridFitDescription" xml:space="preserve"><value>Verkkoanalytiikka: sivunäytöt, tapahtumat ja raportit kerättynä ilman evästeitä organisaation jokaiselle sivustolle.</value></data>
   <data name="DemoGridColumnReference" xml:space="preserve"><value>Viite</value></data>
   <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Hakija</value></data>
   <data name="DemoGridColumnCountry" xml:space="preserve"><value>Maa</value></data>

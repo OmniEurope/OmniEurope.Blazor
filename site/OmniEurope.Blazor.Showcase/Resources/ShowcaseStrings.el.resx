@@ -588,6 +588,10 @@
   <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Μακρύ κείμενο σε στενή στήλη</value></data>
   <data name="DemoGridShortCaption" xml:space="preserve"><value>Τρεις φάκελοι, ύψος περιεχομένου</value></data>
   <data name="DemoGridLongCaption" xml:space="preserve"><value>Δέκα χιλιάδες φάκελοι, όριο 18rem</value></data>
+  <data name="DemoGridFitCaption" xml:space="preserve"><value>Στήλες στο πλάτος του περιεχομένου τους, η περιγραφή περικόπτεται</value></data>
+  <data name="DemoGridFitColumnPackage" xml:space="preserve"><value>Πακέτο</value></data>
+  <data name="DemoGridFitColumnDescription" xml:space="preserve"><value>Περιγραφή</value></data>
+  <data name="DemoGridFitDescription" xml:space="preserve"><value>Ανάλυση ιστού: προβολές σελίδων, συμβάντα και αναφορές που συλλέγονται χωρίς cookies, για κάθε ιστότοπο του οργανισμού.</value></data>
   <data name="DemoGridColumnReference" xml:space="preserve"><value>Αναφορά</value></data>
   <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Αιτών</value></data>
   <data name="DemoGridColumnCountry" xml:space="preserve"><value>Χώρα</value></data>

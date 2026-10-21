@@ -208,9 +208,108 @@ const refitAfter = await headerWidth('Applicant');
 check(Math.abs(refitAfter - refitBefore) < 1, `Un nouvel ajustement a changé la largeur : ${refitBefore} puis ${refitAfter} px.`);
 results.push(`nouvel ajustement stable à ${Math.round(refitAfter)} px`);
 
+// The default, with no gesture and no width from the host: #demo-grid-fit sits in a 22rem frame that
+// gives each of its two columns less than the longest package name. Name sizes itself to its
+// longest value, header included, and shows it whole; Description (Truncate) keeps its share, ends in
+// an ellipsis and shows its whole value in the tooltip; a width declared by the host or chosen by
+// dragging still wins over the content.
+const fit = '#demo-grid-fit';
+await evaluate(`document.querySelector('${fit}').scrollIntoView({ block: 'center' })`);
+await waitFor('la grille à la largeur du contenu', `document.querySelectorAll('${fit} tbody td[data-omni-col="Name"]').length === 3`);
+await pause(600);
+const fitCells = key => evaluate(`[...document.querySelectorAll('${fit} tbody td[data-omni-col="${key}"]')].map(cell => ({ text: cell.textContent.trim(), scroll: cell.scrollWidth, client: cell.clientWidth, width: cell.getBoundingClientRect().width }))`);
+const fitWidth = key => evaluate(`document.querySelector('${fit} th[data-omni-col="${key}"]').getBoundingClientRect().width`);
+const neededFor = async text => evaluate(`(() => {
+  const cell = document.querySelector('${fit} tbody td[data-omni-col="Name"]');
+  const style = getComputedStyle(cell);
+  const context = document.createElement('canvas').getContext('2d');
+  context.font = [style.fontStyle, style.fontWeight, style.fontSize, style.fontFamily].join(" ");
+  return context.measureText(${JSON.stringify(text)}).width + parseFloat(style.paddingInlineStart) + parseFloat(style.paddingInlineEnd);
+})()`);
+const names = await fitCells('Name');
+const longestName = names.map(cell => cell.text).sort((left, right) => right.length - left.length)[0];
+const neededName = await neededFor(longestName);
+const frameShare = await evaluate(`document.querySelector('${fit} table').getBoundingClientRect().width / 2`);
+check(frameShare + 10 < neededName, `Le cadre donne ${frameShare} px à chaque colonne pour un besoin de ${neededName} px : le test ne prouverait rien.`);
+check(names.every(cell => cell.scroll <= cell.client + 1 && cell.width >= neededName - 1), `Une valeur de Paquet est coupée : ${JSON.stringify(names)} pour un besoin de ${neededName} px.`);
+const descriptions = await fitCells('Description');
+check(descriptions.every(cell => cell.scroll > cell.client + 20), `La colonne Truncate n'est pas coupée : ${JSON.stringify(descriptions)}.`);
+results.push(`largeur au contenu : « ${longestName} » entier (${Math.round(names[0].width)} px pour un besoin de ${Math.round(neededName)} px, ${Math.round(frameShare)} px dans la part), Truncate coupée (${Math.round(descriptions[0].client)} px pour ${descriptions[0].scroll} px)`);
+
+// The cut cell shows its whole value in the package tooltip.
+const descriptionPoint = await evaluate(`(() => { const box = document.querySelector('${fit} tbody td[data-omni-col="Description"]').getBoundingClientRect(); return { x: box.left + box.width / 2, y: box.top + box.height / 2 }; })()`);
+await mouse('mouseMoved', { x: descriptionPoint.x - 40, y: descriptionPoint.y }, { button: 'none' });
+await mouse('mouseMoved', descriptionPoint, { button: 'none' });
+await waitFor('l\'infobulle de la cellule coupée', `document.querySelector('.omni-title-tooltip')?.textContent.trim() === ${JSON.stringify(descriptions[0].text)}`);
+results.push('infobulle de la cellule coupée');
+
+// The frame shrinks below what the columns need: the table keeps their widths and scrolls sideways
+// instead of squeezing the Truncate column to nothing.
+const squeeze = await evaluate(`(async () => {
+  const box = document.querySelector('${fit}').closest('.demo-grid-fit-box');
+  const viewport = document.querySelector('${fit} .omni-data-grid__viewport');
+  box.style.maxInlineSize = '8rem';
+  await new Promise(resolve => setTimeout(resolve, 500));
+  const state = {
+    name: document.querySelector('${fit} th[data-omni-col="Name"]').getBoundingClientRect().width,
+    description: document.querySelector('${fit} th[data-omni-col="Description"]').getBoundingClientRect().width,
+    client: viewport.clientWidth,
+    scroll: viewport.scrollWidth
+  };
+  box.style.maxInlineSize = '';
+  await new Promise(resolve => setTimeout(resolve, 500));
+  return state;
+})()`);
+check(squeeze.name >= neededName - 1 && squeeze.description >= 120 && squeeze.scroll > squeeze.client, `Cadre trop étroit : ${JSON.stringify(squeeze)}.`);
+results.push(`cadre trop étroit : défilement latéral (${Math.round(squeeze.scroll)} px pour ${Math.round(squeeze.client)} px), Truncate gardée à ${Math.round(squeeze.description)} px`);
+
+// A grid that is hidden measures nothing: a change of its content while it is out of the layout (a
+// hidden tab) must not shrink its columns to their padding, and they are intact once it is shown.
+const nameFitted = await fitWidth('Name');
+const hidden = await evaluate(`(async () => {
+  const box = document.querySelector('${fit}').closest('.demo-grid-fit-box');
+  const cell = document.querySelector('${fit} tbody td[data-omni-col="Name"]');
+  box.style.display = 'none';
+  const marker = document.createTextNode('');
+  cell.append(marker);
+  await new Promise(resolve => setTimeout(resolve, 400));
+  // Read while the grid is still hidden: the shown grid would grow back by itself when it is laid out again.
+  const whileHidden = document.querySelector('${fit} col[data-omni-col="Name"]').style.getPropertyValue('--omni-col-width');
+  marker.remove();
+  box.style.display = '';
+  await new Promise(resolve => setTimeout(resolve, 600));
+  return { whileHidden, shown: document.querySelector('${fit} th[data-omni-col="Name"]').getBoundingClientRect().width };
+})()`);
+const hiddenWidth = hidden.shown;
+check(parseFloat(hidden.whileHidden) === nameFitted && Math.abs(hiddenWidth - nameFitted) < 1, `Une grille masquée a perdu sa largeur : ${nameFitted} px, puis ${hidden.whileHidden} masquée et ${hiddenWidth} px affichée.`);
+results.push(`grille masquée pendant un changement de contenu : largeur gardée (${Math.round(hiddenWidth)} px)`);
+
+// A width chosen by dragging wins over the content, and the fit does not give it back.
+const nameHandle = await evaluate(`(() => { const box = document.querySelector('${fit} th[data-omni-col="Name"] .omni-data-grid__resize-handle').getBoundingClientRect(); return { x: box.left + box.width / 2, y: box.top + box.height / 2 }; })()`);
+await mouse('mouseMoved', nameHandle, { button: 'none' });
+await mouse('mousePressed', nameHandle);
+for (let step = 1; step <= 6; step++) {
+  await mouse('mouseMoved', { x: nameHandle.x - (step * 10), y: nameHandle.y }, { buttons: 1 });
+  await pause(16);
+}
+await mouse('mouseReleased', { x: nameHandle.x - 60, y: nameHandle.y });
+await pause(700);
+const nameDragged = await fitWidth('Name');
+const draggedCells = await fitCells('Name');
+check(nameDragged < nameFitted - 40, `Le glisser n'a pas réduit Paquet : ${nameFitted} puis ${nameDragged} px.`);
+check(draggedCells.filter(cell => cell.text === longestName).every(cell => cell.scroll > cell.client + 20), `Le contenu a repris la largeur choisie : ${JSON.stringify(draggedCells)}.`);
+results.push(`largeur choisie au glisser gardée (${Math.round(nameFitted)} -> ${Math.round(nameDragged)} px, valeurs coupées)`);
+
+// A width declared by the host wins as well: Demandeur of the narrow grid is 11rem and stays cut.
+await evaluate(`document.querySelector('#demo-grid-narrow').scrollIntoView({ block: 'center' })`);
+await pause(600);
+const declared = await evaluate(`(() => { const cell = document.querySelector('#demo-grid-narrow tbody td[data-omni-col="Applicant"]'); return { scroll: cell.scrollWidth, client: cell.clientWidth, width: cell.getBoundingClientRect().width, rem: parseFloat(getComputedStyle(document.documentElement).fontSize) }; })()`);
+check(Math.abs(declared.width - 11 * declared.rem) < 2 && declared.scroll > declared.client, `La largeur déclarée n'est pas tenue : ${JSON.stringify(declared)}.`);
+results.push(`largeur déclarée tenue (${Math.round(declared.width)} px, valeur coupée)`);
+
 await pause(300);
 const csp = await evaluate('window.__omniCsp');
-const probes = await evaluate(`document.querySelectorAll('${grid} table:not(.omni-data-grid__table), ${grid} div[aria-hidden="true"]').length`);
+const probes = await evaluate(`document.querySelectorAll('${grid} table:not(.omni-data-grid__table), ${grid} div[aria-hidden="true"], ${fit} table:not(.omni-data-grid__table), ${fit} div[aria-hidden="true"]').length`);
 await coverage.finish();
 socket.close();
 

@@ -1,8 +1,9 @@
-// Part of omni-grid.js, which re-exports applyColumns, applyFrozen, attachFrozenScroll and
-// detachFrozenScroll: column widths, headers never narrower than their title, frozen columns and
-// their detach control.
+// Part of omni-grid.js, which re-exports applyColumns, attachContentFit, detachContentFit, applyFrozen,
+// attachFrozenScroll and detachFrozenScroll: column widths, columns sized to their content, headers
+// never narrower than their title, frozen columns and their detach control.
 import { notifyDotNet } from './notify.js';
 import { release } from './release.js';
+import { lengthInPixels } from './resize.js';
 
 /**
  * Applies the CSS length of every column and the sticky offset of the frozen ones. Widths land on
@@ -38,44 +39,252 @@ export function applyColumns(viewport, columns, tableMinimum) {
         viewport.style.removeProperty('--omni-grid-table-min');
     }
 
-    fitHeaders(viewport);
+    fitColumns(viewport, true);
     watchHeaders(viewport);
     applyFrozen(viewport);
 }
 
-/**
- * A column is never narrower than its header: a title that is one word ("Exécuteur") cannot wrap, so a
- * declared width smaller than the title and its sort and filter icons cut it. The title's own
- * overflow says by how much; the column grows by that, and a wider width is left alone.
- */
-function fitHeaders(viewport) {
-    // Truncate is a choice: those titles are meant to end in an ellipsis, not to widen the column.
-    if (viewport.closest('.omni-data-grid--header-truncate')) {
-        return;
+// What a grid has fitted so far, by viewport: the width each content-sized column reached, in pixels.
+// Widths only grow while the grid lives, so rows scrolling in and out never make a column jump back
+// and forth; a width declared by the host or chosen by the reader replaces it.
+const fitStates = new WeakMap();
+
+function fitStateOf(viewport) {
+    let state = fitStates.get(viewport);
+    if (!state) {
+        state = { widths: new Map() };
+        fitStates.set(viewport, state);
     }
+    return state;
+}
+
+/**
+ * A column sizes itself to its content when the host gave it no width, the reader did not resize it
+ * and it did not ask for Truncate: the markup says so with the two attributes of its <col>.
+ */
+function fitsContent(col) {
+    return col.hasAttribute('data-omni-col')
+        && !col.hasAttribute('data-omni-width')
+        && !col.hasAttribute('data-omni-truncate');
+}
+
+/**
+ * Sizes the columns so nothing is cut: a header is never narrower than its title and its icons, and a
+ * column that fits its content is never narrower than its longest rendered cell. A cell that ends in
+ * an ellipsis reports how much it needs through its own overflow; the column grows by that, and a
+ * wider column is left alone. A declared or chosen width still wins over the content (those cells
+ * truncate, and show their whole value in the tooltip); a title is only fitted when the headers are
+ * not meant to truncate. Returns whether a width changed. Everything is read before anything is
+ * written, so a pass over a screenful of rows costs one layout.
+ */
+function fitColumns(viewport, refresh = false) {
     const header = viewport.querySelector('thead > tr.omni-data-grid__header-row');
-    const cols = viewport.querySelectorAll('colgroup > col');
-    if (!header || cols.length !== header.children.length) {
-        return;
+    const cols = [...viewport.querySelectorAll('colgroup > col')];
+    // A grid that is not laid out (a hidden tab, display: none) measures every cell as empty and zero
+    // wide: fitting then would shrink the columns to their padding. The title observer runs the fit
+    // again when the grid is shown.
+    if (!header || cols.length !== header.children.length || viewport.getClientRects().length === 0) {
+        return false;
     }
 
-    // The title shrinks inside the header's flex row, so its own overflow is the one that shows; the
-    // row's other items take part of any width added, hence a few passes until nothing is cut.
-    for (let pass = 0; pass < 4; pass++) {
+    const state = fitStateOf(viewport);
+    const eligible = cols.map(fitsContent);
+    const indexes = new Map();
+    cols.forEach((col, index) => {
+        const key = col.getAttribute('data-omni-col');
+        if (key !== null) {
+            indexes.set(key, index);
+        }
+    });
+
+    // Fitted widths survive a new column layout; one that is no longer content-sized is forgotten, one
+    // on a column element created since (a column shown again) is applied to it.
+    for (const key of [...state.widths.keys()]) {
+        if (!eligible[indexes.get(key) ?? -1]) {
+            state.widths.delete(key);
+        }
+    }
+    cols.forEach((col, index) => {
+        const width = eligible[index] ? state.widths.get(col.getAttribute('data-omni-col')) : undefined;
+        if (width !== undefined && !col.style.getPropertyValue('--omni-col-width')) {
+            col.style.setProperty('--omni-col-width', `${width}px`);
+        }
+    });
+
+    // Titles are meant to end in an ellipsis under HeaderWrap.Truncate: they do not widen the column.
+    const fitTitles = !viewport.closest('.omni-data-grid--header-truncate');
+    const fitCells = eligible.some(Boolean);
+    let changed = false;
+    // The title shrinks inside the header's flex row and the row's other items take part of any width
+    // added, and a widened column narrows the others: a few passes until nothing is cut.
+    for (let pass = 0; pass < 8; pass++) {
+        const wanted = new Array(cols.length).fill(0);
+        if (fitTitles) {
+            [...header.children].forEach((cell, index) => {
+                const overflow = Math.max(0, ...[...cell.querySelectorAll('.omni-data-grid__header, .omni-data-grid__title')]
+                    .map(element => element.scrollWidth - element.clientWidth));
+                if (overflow > 0) {
+                    wanted[index] = Math.ceil(cell.getBoundingClientRect().width + overflow);
+                }
+            });
+        }
+
+        if (fitCells) {
+            const measure = cellMeasure();
+            for (const cell of viewport.querySelectorAll('tbody td.omni-data-grid__cell--text[data-omni-col]')) {
+                const index = indexes.get(cell.getAttribute('data-omni-col'));
+                if (index !== undefined && eligible[index]) {
+                    const width = measure(cell);
+                    if (width > 0) {
+                        // One pixel more than the content, so a cell never loses its last fraction.
+                        wanted[index] = Math.max(wanted[index], width + 1);
+                    }
+                }
+            }
+        }
+
         let grown = false;
-        [...header.children].forEach((cell, index) => {
-            const overflow = Math.max(0, ...[...cell.querySelectorAll('.omni-data-grid__header, .omni-data-grid__title')]
-                .map(element => element.scrollWidth - element.clientWidth));
-            if (overflow > 0) {
-                const width = Math.ceil(cell.getBoundingClientRect().width + overflow);
+        wanted.forEach((width, index) => {
+            if (width > 0) {
                 cols[index].style.setProperty('--omni-col-width', `${width}px`);
+                if (eligible[index]) {
+                    state.widths.set(cols[index].getAttribute('data-omni-col'), width);
+                }
                 grown = true;
             }
         });
         if (!grown) {
             break;
         }
+
+        changed = true;
     }
+
+    // Read once the widths are settled; a new column layout (the declared widths) asks for it again.
+    if (changed || refresh) {
+        reserveFittedWidths(viewport, header, cols, state);
+    }
+    return changed;
+}
+
+/**
+ * The width a cell needs to show its whole content, or 0 when it already does. scrollWidth is a
+ * rounded integer, so a cell cut by a fraction of a pixel (an ellipsis all the same) reads as whole:
+ * the content is also measured as a range, which keeps its fractions, against the room the cell
+ * leaves it. That room is the cell's width less its padding and borders, read once per column.
+ */
+function cellMeasure() {
+    const range = document.createRange();
+    const chromes = new Map();
+    return cell => {
+        const width = cell.getBoundingClientRect().width;
+        if (width === 0 || !cell.hasChildNodes()) {
+            return 0;
+        }
+
+        let chrome = chromes.get(cell.getAttribute('data-omni-col'));
+        if (chrome === undefined) {
+            const computed = getComputedStyle(cell);
+            chrome = ['paddingInlineStart', 'paddingInlineEnd', 'borderInlineStartWidth', 'borderInlineEndWidth']
+                .reduce((sum, property) => sum + (parseFloat(computed[property]) || 0), 0);
+            chromes.set(cell.getAttribute('data-omni-col'), chrome);
+        }
+
+        range.selectNodeContents(cell);
+        const content = range.getBoundingClientRect().width + chrome;
+        const overflow = Math.max(cell.scrollWidth - cell.clientWidth, content - width);
+        return overflow > 0.01 ? Math.ceil(width + overflow) : 0;
+    };
+}
+
+const absoluteLength =/^[+-]?(\d+\.?\d*|\.\d+)(px|rem|em|ch|pt|vw)$/i;
+
+/**
+ * Keeps the table from getting narrower than its fitted columns need. .NET supplies the narrowest
+ * width of a table whose columns carry a declared width, and none to a grid that declared nothing;
+ * once a column fitted its content that is not enough either: the columns that kept no width (a
+ * Truncate column, a templated one, one whose content is short) would be squeezed to nothing as the
+ * fitted ones outgrew the viewport, instead of the viewport scrolling sideways. The sum is the
+ * fitted widths, the control columns, and for every other column what it declared or the floor of an
+ * auto column; the stylesheet takes the larger of it and .NET's. Nothing is set while no column is
+ * fitted, so a grid that fits nothing keeps exactly its former minimum.
+ */
+function reserveFittedWidths(viewport, header, cols, state) {
+    if (state.widths.size === 0) {
+        viewport.style.removeProperty('--omni-grid-fit-min');
+        return;
+    }
+
+    const floor = lengthInPixels(viewport, 'var(--omni-data-grid-column-min-width)');
+    let total = 0;
+    cols.forEach((col, index) => {
+        const key = col.getAttribute('data-omni-col');
+        if (key === null) {
+            total += header.children[index].getBoundingClientRect().width;
+            return;
+        }
+
+        const declared = (col.getAttribute('data-omni-width') ?? col.style.getPropertyValue('--omni-col-min')).trim();
+        total += state.widths.get(key) ?? (absoluteLength.test(declared) ? lengthInPixels(viewport, declared) : floor);
+    });
+    viewport.style.setProperty('--omni-grid-fit-min', `${Math.ceil(total)}px`);
+}
+
+// A width that changed moves the columns after it, and with them the frozen offsets.
+function fitAndAnchor(viewport) {
+    if (fitColumns(viewport) && viewport.querySelector('thead > tr.omni-data-grid__header-row > .omni-data-grid__column--frozen')) {
+        applyFrozen(viewport);
+    }
+}
+
+const contentFits = new Map();
+
+/**
+ * Keeps the columns sized to their content while the grid lives: a render that brings other rows (a
+ * page, a sort, a filter, the window of a virtualized grid) or text, or that changes what sizes a
+ * column, is followed by one pass in the next frame, however many mutations it made. The first pass
+ * runs now. Nothing is attached to the rows themselves, so rows added by later renders need no
+ * re-attachment.
+ */
+export function attachContentFit(viewport) {
+    if (!(viewport instanceof HTMLElement)) {
+        return;
+    }
+
+    detachContentFit(viewport);
+    let frame = 0;
+    const observer = new MutationObserver(() => {
+        if (frame === 0) {
+            frame = window.requestAnimationFrame(() => {
+                frame = 0;
+                if (viewport.isConnected) {
+                    fitAndAnchor(viewport);
+                }
+            });
+        }
+    });
+    observer.observe(viewport, {
+        childList: true,
+        characterData: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['data-omni-width', 'data-omni-truncate']
+    });
+    contentFits.set(viewport, {
+        dispose: () => {
+            observer.disconnect();
+            if (frame !== 0) {
+                window.cancelAnimationFrame(frame);
+            }
+        }
+    });
+
+    watchHeaders(viewport);
+    fitAndAnchor(viewport);
+}
+
+export function detachContentFit(viewport) {
+    release(contentFits, viewport);
 }
 
 const headerWatchers = new WeakMap();
@@ -100,7 +309,7 @@ function watchHeaders(viewport) {
             if (frame === 0) {
                 frame = window.requestAnimationFrame(() => {
                     frame = 0;
-                    fitHeaders(viewport);
+                    fitAndAnchor(viewport);
                 });
             }
         });

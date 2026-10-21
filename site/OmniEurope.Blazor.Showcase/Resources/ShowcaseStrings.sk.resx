@@ -588,6 +588,10 @@
   <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Dlhý text v úzkom stĺpci</value></data>
   <data name="DemoGridShortCaption" xml:space="preserve"><value>Tri spisy, výška podľa obsahu</value></data>
   <data name="DemoGridLongCaption" xml:space="preserve"><value>Desaťtisíc spisov, strop 18rem</value></data>
+  <data name="DemoGridFitCaption" xml:space="preserve"><value>Stĺpce podľa šírky obsahu, popis je skrátený</value></data>
+  <data name="DemoGridFitColumnPackage" xml:space="preserve"><value>Balík</value></data>
+  <data name="DemoGridFitColumnDescription" xml:space="preserve"><value>Popis</value></data>
+  <data name="DemoGridFitDescription" xml:space="preserve"><value>Webová analytika: zobrazenia stránok, udalosti a prehľady zhromaždené bez cookies pre každý web organizácie.</value></data>
   <data name="DemoGridColumnReference" xml:space="preserve"><value>Značka</value></data>
   <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Žiadateľ</value></data>
   <data name="DemoGridColumnCountry" xml:space="preserve"><value>Krajina</value></data>

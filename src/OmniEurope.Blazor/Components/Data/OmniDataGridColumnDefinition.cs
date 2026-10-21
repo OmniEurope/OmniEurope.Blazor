@@ -62,6 +62,8 @@ internal sealed class OmniDataGridColumnDefinition<TItem>
     public bool Frozen { get; init; }
     public string? Width { get; init; }
     public string? MinWidth { get; init; }
+    /// <summary>The cells end in an ellipsis instead of the column widening to its longest content.</summary>
+    public bool Truncate { get; init; }
     public OmniDataGridTextAlign TextAlign { get; init; }
     /// <summary>The property read is a number: the column aligns at the end unless its alignment was set.</summary>
     public bool Numeric { get; init; }
