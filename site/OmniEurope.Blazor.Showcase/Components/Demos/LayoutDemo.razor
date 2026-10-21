@@ -102,6 +102,31 @@
         <OmniButton><OmniIcon Name="OmniIconName.Close" /><span>@Text["DemoLayoutCloseRequest"]</span></OmniButton>
     </OmniStack>
 
+    @* Grille de tuiles (OmniTileGrid) : toutes les tuiles du paquet y ont la même largeur et la même hauteur,
+       celle de la plus haute, quel que soit leur contenu ; DoubleWidth en étale une sur deux colonnes. Les
+       mots qui ne tiennent pas passent à la ligne ou sont coupés dans la tuile, rien ne déborde. *@
+    <OmniTileGrid Id="demo-tile-grid" Columns="4">
+        <OmniStatTile Value="@Text["DemoPagesTokensValue", 12.4]" Label="@Text["DemoPagesTokensToday"]" Detail="@Text["DemoPagesTokensReset", new TimeOnly(18, 0)]">
+            <Icon><OmniIcon Name="OmniIconName.Database" /></Icon>
+        </OmniStatTile>
+        <OmniStatTile Value="@Text["DemoPagesTokensValue", 8.2]" Label="@Text["DemoPagesWeekly"]">
+            <Icon><OmniIcon Name="OmniIconName.CalendarCheck" /></Icon>
+        </OmniStatTile>
+        <OmniNavTile Href="composants/grille" Title="@Text["DemoGridTitle"]" Description="@Text["DemoGridSummary"]">
+            <Icon><OmniIcon Name="OmniIconName.Table" /></Icon>
+        </OmniNavTile>
+        <OmniCard><ChildContent>@Text["DemoLayoutStretchedText"]</ChildContent></OmniCard>
+        <OmniSelectableCard Title="Linux" Description="Debian, Ubuntu, Fedora" Multiple="true" @bind-Value="TileChoice">
+            <Icon><OmniIcon Name="OmniIconName.TerminalWindow" /></Icon>
+        </OmniSelectableCard>
+        <OmniNavTile Href="composants/editeur" Title="@Text["DemoEditorTitle"]" Tone="OmniTone.Info" DoubleWidth="true">
+            <Icon><OmniIcon Name="OmniIconName.FileDoc" /></Icon>
+        </OmniNavTile>
+        <OmniStatTile Value="@Text["DemoPagesTokensValue", 3.6]" Label="@Text["DemoPagesGain"]">
+            <Icon><OmniIcon Name="OmniIconName.ChartLineUp" /></Icon>
+        </OmniStatTile>
+    </OmniTileGrid>
+
     @* Réglages : une carte par thème, chaque réglage dans son encadré, le contrôle sur sa ligne. *@
     <OmniSettingsSection Title="@Text["DemoLayoutNotifications"]" Description="@Text["DemoLayoutNotificationsText"]">
         <OmniSettingsTile Title="@Text["DemoLayoutEmailAlerts"]" Description="@Text["DemoLayoutEmailAlertsText"]">

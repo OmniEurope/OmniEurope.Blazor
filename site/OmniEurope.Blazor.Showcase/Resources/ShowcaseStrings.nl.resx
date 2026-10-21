@@ -70,6 +70,7 @@
   <data name="DemoBadgesSummary" xml:space="preserve"><value>Het korte label dat een element typeert zonder het te overladen.</value></data>
   <data name="DemoBadgesCapability1" xml:space="preserve"><value>Vijf varianten, afgestemd op de ernstniveaus van het thema.</value></data>
   <data name="DemoBadgesCapability2" xml:space="preserve"><value>Getinte achtergronden afgeleid van de variabelen, dus opnieuw gekleurd met het thema.</value></data>
+  <data name="DemoBadgesCapability3" xml:space="preserve"><value>Een gemeenschappelijke minimumbreedte (klein, middel, groot) lijnt statuswoorden van verschillende lengte uit in een kolom of lijst.</value></data>
   <data name="DemoAlertsTitle" xml:space="preserve"><value>Waarschuwingen</value></data>
   <data name="DemoAlertsSummary" xml:space="preserve"><value>Het contextuele bericht, van een eenvoudige melding tot een blokkerende fout.</value></data>
   <data name="DemoAlertsCapability1" xml:space="preserve"><value>Vier ernstniveaus: informatie, succes, waarschuwing en gevaar.</value></data>
@@ -138,6 +139,7 @@
   <data name="DemoLayoutCapability2" xml:space="preserve"><value>Een kaart in drie zones: koptekst, inhoud en voettekst.</value></data>
   <data name="DemoLayoutCapability3" xml:space="preserve"><value>Een veldgroep die in één keer kan worden uitgeschakeld.</value></data>
   <data name="DemoLayoutCapability4" xml:space="preserve"><value>De volledige afstandsschaal, en de verdelingen en uitlijningen die een rij accepteert.</value></data>
+  <data name="DemoLayoutCapability5" xml:space="preserve"><value>Een tegelraster: gelijke breedtes, één hoogte per rij en een dubbele tegel die twee kolommen beslaat.</value></data>
   <data name="DemoShellTitle" xml:space="preserve"><value>Applicatieshell</value></data>
   <data name="DemoShellSummary" xml:space="preserve"><value>Het geraamte van een applicatie, het geraamte waarop deze site is gebouwd.</value></data>
   <data name="DemoShellCapability1" xml:space="preserve"><value>Koptekst, inklapbare zijbalk en hoofdgebied.</value></data>
@@ -161,6 +163,7 @@
   <data name="DemoChoiceCapability1" xml:space="preserve"><value>Lijsten gestuurd door opties of item voor item opgebouwd.</value></data>
   <data name="DemoChoiceCapability2" xml:space="preserve"><value>Selectiebalk en schakelknop, met bezig- en uitgeschakelde status.</value></data>
   <data name="DemoChoiceCapability3" xml:space="preserve"><value>Selectievakje en schakelaar met drie standen, onbepaald inbegrepen.</value></data>
+  <data name="DemoChoiceCapability4" xml:space="preserve"><value>Een zichtbaar selectievakje op kaarten met meervoudige keuze en kaarten in kolommen van gelijke grootte.</value></data>
   <data name="DemoValidationTitle" xml:space="preserve"><value>Validatie</value></data>
   <data name="DemoValidationSummary" xml:space="preserve"><value>De regels worden gedeclareerd naast het veld dat ze bewaken.</value></data>
   <data name="DemoValidationCapability1" xml:space="preserve"><value>Verplicht, lengte, e-mailnotatie en vergelijking.</value></data>

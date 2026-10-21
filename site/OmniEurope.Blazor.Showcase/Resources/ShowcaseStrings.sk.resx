@@ -70,6 +70,7 @@
   <data name="DemoBadgesSummary" xml:space="preserve"><value>Krátky štítok, ktorý prvok opíše bez toho, aby ho preťažil.</value></data>
   <data name="DemoBadgesCapability1" xml:space="preserve"><value>Päť variantov zosúladených so závažnosťami motívu.</value></data>
   <data name="DemoBadgesCapability2" xml:space="preserve"><value>Tónované pozadia odvodené z premenných, takže sa prefarbia spolu s motívom.</value></data>
+  <data name="DemoBadgesCapability3" xml:space="preserve"><value>Spoločná minimálna šírka (malá, stredná, veľká) zarovná stavové slová rôznej dĺžky v stĺpci alebo zozname.</value></data>
   <data name="DemoAlertsTitle" xml:space="preserve"><value>Upozornenia</value></data>
   <data name="DemoAlertsSummary" xml:space="preserve"><value>Kontextová správa, od jednoduchého oznámenia po blokujúce zlyhanie.</value></data>
   <data name="DemoAlertsCapability1" xml:space="preserve"><value>Štyri závažnosti: informácia, úspech, varovanie a nebezpečenstvo.</value></data>
@@ -138,6 +139,7 @@
   <data name="DemoLayoutCapability2" xml:space="preserve"><value>Karta v troch zónach: hlavička, telo a päta.</value></data>
   <data name="DemoLayoutCapability3" xml:space="preserve"><value>Skupina polí, ktorú možno zakázať jedným krokom.</value></data>
   <data name="DemoLayoutCapability4" xml:space="preserve"><value>Celá škála rozostupov a rozloženia a zarovnania, ktoré rad prijíma.</value></data>
+  <data name="DemoLayoutCapability5" xml:space="preserve"><value>Mriežka dlaždíc: rovnaké šírky, jedna výška na riadok a dvojitá dlaždica, ktorá zaberá dva stĺpce.</value></data>
   <data name="DemoShellTitle" xml:space="preserve"><value>Kostra aplikácie</value></data>
   <data name="DemoShellSummary" xml:space="preserve"><value>Kostra aplikácie, tá, z ktorej je postavený tento web.</value></data>
   <data name="DemoShellCapability1" xml:space="preserve"><value>Hlavička, zbaliteľný bočný panel a hlavná oblasť.</value></data>
@@ -161,6 +163,7 @@
   <data name="DemoChoiceCapability1" xml:space="preserve"><value>Zoznamy riadené možnosťami alebo skladané prvok po prvku.</value></data>
   <data name="DemoChoiceCapability2" xml:space="preserve"><value>Výberová lišta a prepínacie tlačidlo so stavmi zaneprázdnenia a zákazu.</value></data>
   <data name="DemoChoiceCapability3" xml:space="preserve"><value>Začiarkavacie políčko a prepínač s tromi polohami vrátane neurčitej.</value></data>
+  <data name="DemoChoiceCapability4" xml:space="preserve"><value>Viditeľné začiarkavacie políčko na kartách s viacnásobným výberom a karty rozložené do stĺpcov rovnakej veľkosti.</value></data>
   <data name="DemoValidationTitle" xml:space="preserve"><value>Overovanie</value></data>
   <data name="DemoValidationSummary" xml:space="preserve"><value>Pravidlá deklarované vedľa poľa, ktoré strážia.</value></data>
   <data name="DemoValidationCapability1" xml:space="preserve"><value>Povinnosť, dĺžka, formát e-mailu a porovnanie.</value></data>

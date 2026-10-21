@@ -9,7 +9,7 @@
       id="@Id"
       class="@Css("omni-status-badge", IsStale ? "omni-status-badge--stale" : null)"
       title="@DescriptionText">
-    <OmniBadge Tone="@Status.Tone" Fill="@(IsStale ? OmniFill.Outline : Status.Fill)">
+    <OmniBadge Tone="@Status.Tone" Fill="@(IsStale ? OmniFill.Outline : Status.Fill)" Width="Width">
         @if (ShowIcon && Status.Icon is { } icon)
         {
             <OmniIcon Name="icon" Class="omni-status-badge__icon" />

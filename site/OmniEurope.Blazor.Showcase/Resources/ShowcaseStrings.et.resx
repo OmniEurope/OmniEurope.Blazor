@@ -70,6 +70,7 @@
   <data name="DemoBadgesSummary" xml:space="preserve"><value>Lühike silt, mis iseloomustab üksust seda üle koormamata.</value></data>
   <data name="DemoBadgesCapability1" xml:space="preserve"><value>Viis varianti, mis vastavad teema tõsidusastmetele.</value></data>
   <data name="DemoBadgesCapability2" xml:space="preserve"><value>Muutujatest tuletatud toonitud taustad, mis värvuvad seega koos teemaga ümber.</value></data>
+  <data name="DemoBadgesCapability3" xml:space="preserve"><value>Ühine minimaalne laius (väike, keskmine, suur) joondab erineva pikkusega olekusõnad veerus või loendis.</value></data>
   <data name="DemoAlertsTitle" xml:space="preserve"><value>Märguanded</value></data>
   <data name="DemoAlertsSummary" xml:space="preserve"><value>Kontekstipõhine sõnum lihtsast teatest blokeeriva tõrkeni.</value></data>
   <data name="DemoAlertsCapability1" xml:space="preserve"><value>Neli tõsidusastet: teave, õnnestumine, hoiatus ja oht.</value></data>
@@ -138,6 +139,7 @@
   <data name="DemoLayoutCapability2" xml:space="preserve"><value>Kolmeosaline kaart: päis, sisu ja jalus.</value></data>
   <data name="DemoLayoutCapability3" xml:space="preserve"><value>Väljarühm, mille saab ühe liigutusega keelata.</value></data>
   <data name="DemoLayoutCapability4" xml:space="preserve"><value>Kogu vahede skaala ning rea lubatud jaotused ja joondused.</value></data>
+  <data name="DemoLayoutCapability5" xml:space="preserve"><value>Plaatidest ruudustik: võrdsed laiused, üks kõrgus rea kohta ja topeltplaat, mis hõlmab kaks veergu.</value></data>
   <data name="DemoShellTitle" xml:space="preserve"><value>Rakenduse raamistik</value></data>
   <data name="DemoShellSummary" xml:space="preserve"><value>Rakenduse karkass, seesama, millest see sait on ehitatud.</value></data>
   <data name="DemoShellCapability1" xml:space="preserve"><value>Päis, ahendatav külgriba ja põhiala.</value></data>
@@ -161,6 +163,7 @@
   <data name="DemoChoiceCapability1" xml:space="preserve"><value>Valikutest koostatud või üksus haaval paigutatud loendid.</value></data>
   <data name="DemoChoiceCapability2" xml:space="preserve"><value>Valikuriba ja lülitusnupp hõivatud ja keelatud olekuga.</value></data>
   <data name="DemoChoiceCapability3" xml:space="preserve"><value>Kolme asendiga märkeruut ja lüliti, sh määramata olek.</value></data>
+  <data name="DemoChoiceCapability4" xml:space="preserve"><value>Nähtav märkeruut mitmikvaliku kaartidel ja kaardid, mis on paigutatud võrdse suurusega veergudesse.</value></data>
   <data name="DemoValidationTitle" xml:space="preserve"><value>Valideerimine</value></data>
   <data name="DemoValidationSummary" xml:space="preserve"><value>Reeglid, mis on deklareeritud kaitstava välja kõrval.</value></data>
   <data name="DemoValidationCapability1" xml:space="preserve"><value>Kohustuslikkus, pikkus, e-posti vorming ja võrdlus.</value></data>

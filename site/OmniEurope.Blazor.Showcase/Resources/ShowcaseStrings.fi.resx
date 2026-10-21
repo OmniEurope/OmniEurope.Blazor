@@ -70,6 +70,7 @@
   <data name="DemoBadgesSummary" xml:space="preserve"><value>Lyhyt tunniste, joka luonnehtii kohdetta kuormittamatta sitä.</value></data>
   <data name="DemoBadgesCapability1" xml:space="preserve"><value>Viisi muunnelmaa teeman vakavuustasojen mukaan.</value></data>
   <data name="DemoBadgesCapability2" xml:space="preserve"><value>Muuttujista johdetut sävytetyt taustat, jotka siis värittyvät teeman mukana.</value></data>
+  <data name="DemoBadgesCapability3" xml:space="preserve"><value>Yhteinen vähimmäisleveys (pieni, keskikokoinen, suuri) tasaa eripituiset tilasanat sarakkeessa tai luettelossa.</value></data>
   <data name="DemoAlertsTitle" xml:space="preserve"><value>Hälytykset</value></data>
   <data name="DemoAlertsSummary" xml:space="preserve"><value>Tilannekohtainen viesti tavallisesta ilmoituksesta estävään virheeseen.</value></data>
   <data name="DemoAlertsCapability1" xml:space="preserve"><value>Neljä vakavuustasoa: tieto, onnistuminen, varoitus ja vaara.</value></data>
@@ -138,6 +139,7 @@
   <data name="DemoLayoutCapability2" xml:space="preserve"><value>Kolmiosainen kortti: ylätunniste, runko ja alatunniste.</value></data>
   <data name="DemoLayoutCapability3" xml:space="preserve"><value>Kenttäryhmä, jonka voi poistaa käytöstä yhdellä kertaa.</value></data>
   <data name="DemoLayoutCapability4" xml:space="preserve"><value>Koko välien asteikko sekä rivin hyväksymät jaot ja tasaukset.</value></data>
+  <data name="DemoLayoutCapability5" xml:space="preserve"><value>Laatoitusruudukko: yhtä leveät laatat, yksi korkeus riviä kohti ja kaksoislaatta, joka vie kaksi saraketta.</value></data>
   <data name="DemoShellTitle" xml:space="preserve"><value>Sovelluksen kehys</value></data>
   <data name="DemoShellSummary" xml:space="preserve"><value>Sovelluksen runko, sama josta tämä sivusto on rakennettu.</value></data>
   <data name="DemoShellCapability1" xml:space="preserve"><value>Ylätunniste, kutistettava sivupalkki ja pääalue.</value></data>
@@ -161,6 +163,7 @@
   <data name="DemoChoiceCapability1" xml:space="preserve"><value>Vaihtoehdoista muodostetut tai kohde kerrallaan kootut luettelot.</value></data>
   <data name="DemoChoiceCapability2" xml:space="preserve"><value>Valintapalkki ja vaihtopainike, joilla on varattu tila ja käytöstä poistettu tila.</value></data>
   <data name="DemoChoiceCapability3" xml:space="preserve"><value>Kolmiasentoinen valintaruutu ja valitsin, määrittämätön tila mukaan lukien.</value></data>
+  <data name="DemoChoiceCapability4" xml:space="preserve"><value>Näkyvä valintaruutu monivalintakorteissa ja yhtä suuriin sarakkeisiin asetetut kortit.</value></data>
   <data name="DemoValidationTitle" xml:space="preserve"><value>Validointi</value></data>
   <data name="DemoValidationSummary" xml:space="preserve"><value>Säännöt määritellään suojaamansa kentän viereen.</value></data>
   <data name="DemoValidationCapability1" xml:space="preserve"><value>Pakollisuus, pituus, sähköpostin muoto ja vertailu.</value></data>

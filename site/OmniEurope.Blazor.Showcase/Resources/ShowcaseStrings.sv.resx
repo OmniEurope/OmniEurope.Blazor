@@ -70,6 +70,7 @@
   <data name="DemoBadgesSummary" xml:space="preserve"><value>Den korta etiketten som beskriver ett objekt utan att tynga det.</value></data>
   <data name="DemoBadgesCapability1" xml:space="preserve"><value>Fem varianter som följer temats allvarlighetsnivåer.</value></data>
   <data name="DemoBadgesCapability2" xml:space="preserve"><value>Tonade bakgrunder härledda från variablerna, så de färgas om med temat.</value></data>
+  <data name="DemoBadgesCapability3" xml:space="preserve"><value>En gemensam minimibredd (liten, medel, stor) justerar statusord av olika längd i en kolumn eller lista.</value></data>
   <data name="DemoAlertsTitle" xml:space="preserve"><value>Varningar</value></data>
   <data name="DemoAlertsSummary" xml:space="preserve"><value>Det kontextuella meddelandet, från en enkel notis till ett blockerande fel.</value></data>
   <data name="DemoAlertsCapability1" xml:space="preserve"><value>Fyra allvarlighetsnivåer: information, lyckat, varning och fara.</value></data>
@@ -138,6 +139,7 @@
   <data name="DemoLayoutCapability2" xml:space="preserve"><value>Ett kort i tre zoner: sidhuvud, innehåll och sidfot.</value></data>
   <data name="DemoLayoutCapability3" xml:space="preserve"><value>En fältgrupp som kan inaktiveras med ett enda grepp.</value></data>
   <data name="DemoLayoutCapability4" xml:space="preserve"><value>Hela avståndsskalan och de fördelningar och justeringar som en rad accepterar.</value></data>
+  <data name="DemoLayoutCapability5" xml:space="preserve"><value>Ett brickraster: lika breda brickor, en höjd per rad och en dubbelbricka som upptar två kolumner.</value></data>
   <data name="DemoShellTitle" xml:space="preserve"><value>Programskal</value></data>
   <data name="DemoShellSummary" xml:space="preserve"><value>Ett programs stomme, samma som den här webbplatsen är byggd av.</value></data>
   <data name="DemoShellCapability1" xml:space="preserve"><value>Sidhuvud, fällbart sidofält och huvudområde.</value></data>
@@ -161,6 +163,7 @@
   <data name="DemoChoiceCapability1" xml:space="preserve"><value>Listor som styrs av alternativ eller byggs upp objekt för objekt.</value></data>
   <data name="DemoChoiceCapability2" xml:space="preserve"><value>Ett valfält och en växlingsknapp, med upptaget och inaktiverat tillstånd.</value></data>
   <data name="DemoChoiceCapability3" xml:space="preserve"><value>En kryssruta och en växel med tre lägen, obestämt inräknat.</value></data>
+  <data name="DemoChoiceCapability4" xml:space="preserve"><value>En synlig kryssruta på kort med flerval och kort lagda i kolumner av samma storlek.</value></data>
   <data name="DemoValidationTitle" xml:space="preserve"><value>Validering</value></data>
   <data name="DemoValidationSummary" xml:space="preserve"><value>Regler som deklareras bredvid fältet de skyddar.</value></data>
   <data name="DemoValidationCapability1" xml:space="preserve"><value>Obligatoriskt, längd, e-postformat och jämförelse.</value></data>

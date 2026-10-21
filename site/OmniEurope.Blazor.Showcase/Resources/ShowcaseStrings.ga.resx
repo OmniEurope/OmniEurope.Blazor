@@ -70,6 +70,7 @@
   <data name="DemoBadgesSummary" xml:space="preserve"><value>An lipéad gearr a cháilíonn mír gan í a phlódú.</value></data>
   <data name="DemoBadgesCapability1" xml:space="preserve"><value>Cúig leagan ailínithe le déine an téama.</value></data>
   <data name="DemoBadgesCapability2" xml:space="preserve"><value>Cúlraí daite díorthaithe ó na hathróga, mar sin athphéinteáiltear iad leis an téama.</value></data>
+  <data name="DemoBadgesCapability3" xml:space="preserve"><value>Cuireann leithead íosta comhchoitianta (beag, meánach, mór) focail stádais de fhad éagsúla ar aon líne i gcolún nó i liosta.</value></data>
   <data name="DemoAlertsTitle" xml:space="preserve"><value>Foláirimh</value></data>
   <data name="DemoAlertsSummary" xml:space="preserve"><value>An teachtaireacht chomhthéacsúil, ó fhógra simplí go teip bhacainneach.</value></data>
   <data name="DemoAlertsCapability1" xml:space="preserve"><value>Ceithre leibhéal déine: faisnéis, rath, rabhadh agus contúirt.</value></data>
@@ -138,6 +139,7 @@
   <data name="DemoLayoutCapability2" xml:space="preserve"><value>Cárta i dtrí chrios: ceanntásc, corp agus buntásc.</value></data>
   <data name="DemoLayoutCapability3" xml:space="preserve"><value>Grúpa réimsí is féidir a dhíchumasú in aon ghluaiseacht amháin.</value></data>
   <data name="DemoLayoutCapability4" xml:space="preserve"><value>Scála iomlán na spásála, agus na hailínithe a nglacann ró leo.</value></data>
+  <data name="DemoLayoutCapability5" xml:space="preserve"><value>Greille leacán: leithid chomhionanna, airde amháin in aghaidh na sraithe agus leac dhúbailte a chlúdaíonn dhá cholún.</value></data>
   <data name="DemoShellTitle" xml:space="preserve"><value>Blaosc feidhmchláir</value></data>
   <data name="DemoShellSummary" xml:space="preserve"><value>Creat feidhmchláir, an ceann as a bhfuil an suíomh seo déanta.</value></data>
   <data name="DemoShellCapability1" xml:space="preserve"><value>Ceanntásc, barra taoibh inlaghdaithe agus príomhréigiún.</value></data>
@@ -161,6 +163,7 @@
   <data name="DemoChoiceCapability1" xml:space="preserve"><value>Liostaí a stiúrann roghanna, nó a leagtar amach mír ar mhír.</value></data>
   <data name="DemoChoiceCapability2" xml:space="preserve"><value>Barra roghnúcháin agus cnaipe scoránaithe, le staideanna gnóthach agus díchumasaithe.</value></data>
   <data name="DemoChoiceCapability3" xml:space="preserve"><value>Ticbhosca agus lasc le trí shuíomh, an staid éiginnte san áireamh.</value></data>
+  <data name="DemoChoiceCapability4" xml:space="preserve"><value>Ticbhosca infheicthe ar chártaí ilroghnaithe agus cártaí leagtha amach i gcolúin den mhéid céanna.</value></data>
   <data name="DemoValidationTitle" xml:space="preserve"><value>Bailíochtú</value></data>
   <data name="DemoValidationSummary" xml:space="preserve"><value>Rialacha a dhearbhaítear in aice leis an réimse a chosnaíonn siad.</value></data>
   <data name="DemoValidationCapability1" xml:space="preserve"><value>Riachtanach, fad, formáid ríomhphoist agus comparáid.</value></data>

@@ -1,0 +1,11 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+@* A grid of tiles: every tile the same width, every row the same height (that of the tallest tile), a
+   double-width tile on two columns. The tiles are the direct children: OmniCard, OmniSelectableCard,
+   OmniStatTile, OmniNavTile. *@
+<div @attributes="AdditionalAttributes"
+     id="@Id"
+     class="@Css(TileGridClasses)">
+    @ChildContent
+</div>

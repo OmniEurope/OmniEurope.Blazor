@@ -33,3 +33,23 @@
     <OmniBadge Tone="OmniTone.Info"><Icon><OmniIcon Name="OmniIconName.Info" Label="@Text["DemoBadgesInfo"]" /></Icon></OmniBadge>
     <OmniBadge Tone="OmniTone.Warning"><Icon><OmniIcon Name="OmniIconName.Warning" Size="OmniControlSize.Medium" /></Icon><ChildContent>@Text["DemoBadgesFixedSize"]</ChildContent></OmniBadge>
 </OmniStack>
+@* Largeur commune : des mots de longueurs différentes s'alignent sur la même largeur dans une colonne ou
+   une liste quand ils portent le même pas (Width). C'est un plancher : un texte plus long élargit son
+   badge, rien n'est coupé. Sans Width, la largeur du contenu. *@
+<OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Large" Align="OmniAlignment.Start">
+    <OmniStack Id="demo-badge-width-small" Gap="OmniSpacing.Small" Align="OmniAlignment.Start">
+        <OmniBadge Tone="OmniTone.Success" Fill="OmniFill.Tonal" Width="OmniBadgeWidth.Small">SPF</OmniBadge>
+        <OmniBadge Tone="OmniTone.Success" Fill="OmniFill.Tonal" Width="OmniBadgeWidth.Small">DKIM</OmniBadge>
+        <OmniBadge Tone="OmniTone.Warning" Fill="OmniFill.Tonal" Width="OmniBadgeWidth.Small">DMARC</OmniBadge>
+    </OmniStack>
+    <OmniStack Id="demo-badge-width-medium" Gap="OmniSpacing.Small" Align="OmniAlignment.Start">
+        <OmniBadge Tone="OmniTone.Danger" Width="OmniBadgeWidth.Medium">@Text["DemoBadgesFailed"]</OmniBadge>
+        <OmniBadge Tone="OmniTone.Warning" Width="OmniBadgeWidth.Medium">@Text["DemoBadgesPending"]</OmniBadge>
+        <OmniBadge Tone="OmniTone.Accent" Width="OmniBadgeWidth.Medium">@Text["DemoBadgesNew"]</OmniBadge>
+    </OmniStack>
+    <OmniStack Id="demo-badge-width-large" Gap="OmniSpacing.Small" Align="OmniAlignment.Start">
+        <OmniBadge Tone="OmniTone.Info" Fill="OmniFill.Outline" Width="OmniBadgeWidth.Large">@Text["DemoBadgesInReview"]</OmniBadge>
+        <OmniBadge Tone="OmniTone.Success" Fill="OmniFill.Outline" Width="OmniBadgeWidth.Large">@Text["DemoBadgesPublished"]</OmniBadge>
+        <OmniBadge Tone="OmniTone.Danger" Fill="OmniFill.Outline" Width="OmniBadgeWidth.Large">@Text["DemoBadgesRejected"]</OmniBadge>
+    </OmniStack>
+</OmniStack>

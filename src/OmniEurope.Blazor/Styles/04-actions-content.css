@@ -359,6 +359,13 @@
 .omni-badge { flex-shrink: 0; }
 /* An icon-only badge is a square as tall as the text badges beside it, its glyph in the middle. */
 .omni-badge--icon { aspect-ratio: 1; padding-inline: 0; }
+/* A common floor (OmniBadge.Width, recette R1-23): the badges of one column or list that carry the same
+   step line up on the same width, whatever their words; a longer text widens its own badge. The floors
+   are tokens in em of the badge's text, so they follow the density and the font, and a host retunes
+   them on the grid or list that holds the badges. */
+.omni-badge--width-small { min-inline-size: var(--omni-badge-width-small, 5.5em); }
+.omni-badge--width-medium { min-inline-size: var(--omni-badge-width-medium, 7.5em); }
+.omni-badge--width-large { min-inline-size: var(--omni-badge-width-large, 10em); }
 .omni-badge--neutral { --omni-badge-ink: var(--omni-color-text-muted); }
 .omni-badge--accent { --omni-badge-ink: var(--omni-color-accent-strong); }
 .omni-badge--info { --omni-badge-ink: var(--omni-color-info); }

@@ -70,6 +70,7 @@
   <data name="DemoBadgesSummary" xml:space="preserve"><value>A rövid címke, amely minősít egy elemet anélkül, hogy túlterhelné.</value></data>
   <data name="DemoBadgesCapability1" xml:space="preserve"><value>Öt változat a téma súlyossági szintjeihez igazítva.</value></data>
   <data name="DemoBadgesCapability2" xml:space="preserve"><value>A változókból származtatott színezett hátterek, így a témával együtt változnak.</value></data>
+  <data name="DemoBadgesCapability3" xml:space="preserve"><value>A közös minimális szélesség (kicsi, közepes, nagy) egy oszlopban vagy listában egy vonalba hozza a különböző hosszúságú állapotszavakat.</value></data>
   <data name="DemoAlertsTitle" xml:space="preserve"><value>Figyelmeztetések</value></data>
   <data name="DemoAlertsSummary" xml:space="preserve"><value>A környezetfüggő üzenet, az egyszerű tájékoztatástól a blokkoló hibáig.</value></data>
   <data name="DemoAlertsCapability1" xml:space="preserve"><value>Négy súlyossági szint: információ, siker, figyelmeztetés és veszély.</value></data>
@@ -138,6 +139,7 @@
   <data name="DemoLayoutCapability2" xml:space="preserve"><value>Háromrészes kártya: fejléc, törzs és lábléc.</value></data>
   <data name="DemoLayoutCapability3" xml:space="preserve"><value>Egyetlen mozdulattal letiltható mezőcsoport.</value></data>
   <data name="DemoLayoutCapability4" xml:space="preserve"><value>A teljes térközskála, valamint a sorok által elfogadott elosztások és igazítások.</value></data>
+  <data name="DemoLayoutCapability5" xml:space="preserve"><value>Csempe rács: azonos szélességek, soronként egy magasság és egy dupla csempe, amely két oszlopot foglal el.</value></data>
   <data name="DemoShellTitle" xml:space="preserve"><value>Alkalmazáskeret</value></data>
   <data name="DemoShellSummary" xml:space="preserve"><value>Egy alkalmazás váza, amelyből ez a webhely is felépül.</value></data>
   <data name="DemoShellCapability1" xml:space="preserve"><value>Fejléc, összecsukható oldalsáv és fő terület.</value></data>
@@ -161,6 +163,7 @@
   <data name="DemoChoiceCapability1" xml:space="preserve"><value>Beállításokkal vezérelt vagy elemenként összeállított listák.</value></data>
   <data name="DemoChoiceCapability2" xml:space="preserve"><value>Kijelölősáv és váltógomb, foglalt és letiltott állapottal.</value></data>
   <data name="DemoChoiceCapability3" xml:space="preserve"><value>Háromállású jelölőnégyzet és kapcsoló, a meghatározatlan állapottal együtt.</value></data>
+  <data name="DemoChoiceCapability4" xml:space="preserve"><value>Látható jelölőnégyzet a többszörös választású kártyákon, és azonos méretű oszlopokba rendezett kártyák.</value></data>
   <data name="DemoValidationTitle" xml:space="preserve"><value>Érvényesítés</value></data>
   <data name="DemoValidationSummary" xml:space="preserve"><value>A szabályok az általuk védett mező mellett vannak megadva.</value></data>
   <data name="DemoValidationCapability1" xml:space="preserve"><value>Kötelező kitöltés, hossz, e-mail-formátum és összehasonlítás.</value></data>

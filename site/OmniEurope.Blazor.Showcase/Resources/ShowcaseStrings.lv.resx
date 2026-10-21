@@ -70,6 +70,7 @@
   <data name="DemoBadgesSummary" xml:space="preserve"><value>Īsa etiķete, kas raksturo vienumu, to nepārslogojot.</value></data>
   <data name="DemoBadgesCapability1" xml:space="preserve"><value>Pieci varianti, saskaņoti ar motīva nopietnības līmeņiem.</value></data>
   <data name="DemoBadgesCapability2" xml:space="preserve"><value>Tonēti foni, kas atvasināti no mainīgajiem, tāpēc tiek pārkrāsoti kopā ar motīvu.</value></data>
+  <data name="DemoBadgesCapability3" xml:space="preserve"><value>Kopīgs minimālais platums (mazs, vidējs, liels) izlīdzina dažāda garuma statusa vārdus kolonnā vai sarakstā.</value></data>
   <data name="DemoAlertsTitle" xml:space="preserve"><value>Brīdinājumi</value></data>
   <data name="DemoAlertsSummary" xml:space="preserve"><value>Konteksta ziņojums no vienkārša paziņojuma līdz bloķējošai kļūmei.</value></data>
   <data name="DemoAlertsCapability1" xml:space="preserve"><value>Četri nopietnības līmeņi: informācija, panākums, brīdinājums un bīstamība.</value></data>
@@ -138,6 +139,7 @@
   <data name="DemoLayoutCapability2" xml:space="preserve"><value>Kartīte ar trim zonām: galvene, pamatteksts un kājene.</value></data>
   <data name="DemoLayoutCapability3" xml:space="preserve"><value>Lauku grupa, ko var atspējot ar vienu darbību.</value></data>
   <data name="DemoLayoutCapability4" xml:space="preserve"><value>Pilna atstarpju skala un līdzinājumi, ko pieņem rinda.</value></data>
+  <data name="DemoLayoutCapability5" xml:space="preserve"><value>Flīžu režģis: vienādi platumi, viens augstums katrā rindā un dubultā flīze, kas aizņem divas kolonnas.</value></data>
   <data name="DemoShellTitle" xml:space="preserve"><value>Lietotnes karkass</value></data>
   <data name="DemoShellSummary" xml:space="preserve"><value>Lietotnes ietvars, no kura veidota arī šī vietne.</value></data>
   <data name="DemoShellCapability1" xml:space="preserve"><value>Galvene, sakļaujama sānjosla un galvenais apgabals.</value></data>
@@ -161,6 +163,7 @@
   <data name="DemoChoiceCapability1" xml:space="preserve"><value>Saraksti, ko vada opcijas vai kas izkārtoti pa vienam vienumam.</value></data>
   <data name="DemoChoiceCapability2" xml:space="preserve"><value>Atlases josla un pārslēgšanas poga ar aizņemtu un atspējotu stāvokli.</value></data>
   <data name="DemoChoiceCapability3" xml:space="preserve"><value>Izvēles rūtiņa un slēdzis ar trim pozīcijām, ieskaitot nenoteikto.</value></data>
+  <data name="DemoChoiceCapability4" xml:space="preserve"><value>Redzama izvēles rūtiņa daudzizvēļu kartītēs un kartītes, kas izkārtotas vienāda izmēra kolonnās.</value></data>
   <data name="DemoValidationTitle" xml:space="preserve"><value>Validācija</value></data>
   <data name="DemoValidationSummary" xml:space="preserve"><value>Kārtulas, kas deklarētas blakus laukam, ko tās sargā.</value></data>
   <data name="DemoValidationCapability1" xml:space="preserve"><value>Obligātums, garums, e-pasta formāts un salīdzināšana.</value></data>

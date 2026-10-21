@@ -70,6 +70,7 @@
   <data name="DemoBadgesSummary" xml:space="preserve"><value>La etiqueta corta que califica un elemento sin sobrecargarlo.</value></data>
   <data name="DemoBadgesCapability1" xml:space="preserve"><value>Cinco variantes alineadas con las severidades del tema.</value></data>
   <data name="DemoBadgesCapability2" xml:space="preserve"><value>Fondos tintados derivados de las variables, que se repintan con el tema.</value></data>
+  <data name="DemoBadgesCapability3" xml:space="preserve"><value>Un ancho mínimo común (pequeño, medio, grande) alinea palabras de estado de distinta longitud en una columna o lista.</value></data>
   <data name="DemoAlertsTitle" xml:space="preserve"><value>Alertas</value></data>
   <data name="DemoAlertsSummary" xml:space="preserve"><value>El mensaje contextual, del simple aviso al fallo bloqueante.</value></data>
   <data name="DemoAlertsCapability1" xml:space="preserve"><value>Cuatro severidades: información, éxito, advertencia y peligro.</value></data>
@@ -138,6 +139,7 @@
   <data name="DemoLayoutCapability2" xml:space="preserve"><value>Tarjeta de tres zonas: encabezado, cuerpo y pie.</value></data>
   <data name="DemoLayoutCapability3" xml:space="preserve"><value>Grupo de campos que se puede deshabilitar de una sola vez.</value></data>
   <data name="DemoLayoutCapability4" xml:space="preserve"><value>La escala de espaciado completa, y las distribuciones y alineaciones que admite una fila.</value></data>
+  <data name="DemoLayoutCapability5" xml:space="preserve"><value>Una cuadrícula de mosaicos: anchos iguales, una sola altura por fila y un mosaico doble que ocupa dos columnas.</value></data>
   <data name="DemoShellTitle" xml:space="preserve"><value>Estructura de aplicación</value></data>
   <data name="DemoShellSummary" xml:space="preserve"><value>El armazón de una aplicación, el mismo con el que está hecho este sitio.</value></data>
   <data name="DemoShellCapability1" xml:space="preserve"><value>Encabezado, barra lateral plegable y zona principal.</value></data>
@@ -161,6 +163,7 @@
   <data name="DemoChoiceCapability1" xml:space="preserve"><value>Listas basadas en opciones o definidas elemento a elemento.</value></data>
   <data name="DemoChoiceCapability2" xml:space="preserve"><value>Barra de selección y botón conmutador, con estados ocupado y deshabilitado.</value></data>
   <data name="DemoChoiceCapability3" xml:space="preserve"><value>Casilla e interruptor de tres posiciones, incluida la indeterminada.</value></data>
+  <data name="DemoChoiceCapability4" xml:space="preserve"><value>Una casilla visible en las tarjetas de selección múltiple y tarjetas dispuestas en columnas del mismo tamaño.</value></data>
   <data name="DemoValidationTitle" xml:space="preserve"><value>Validación</value></data>
   <data name="DemoValidationSummary" xml:space="preserve"><value>Las reglas declaradas junto al campo que protegen.</value></data>
   <data name="DemoValidationCapability1" xml:space="preserve"><value>Obligatoriedad, longitud, formato de correo electrónico y comparación.</value></data>

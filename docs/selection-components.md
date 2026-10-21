@@ -151,12 +151,17 @@ d'interactif : la carte est un bouton). `Multiple="false"` (par défaut) en fait
 (`role="radio"`) ; seule, elle se lie par `Value`/`ValueChanged` (`bool`), et `ValueChanged` reçoit toujours
 `true`, même sur la carte déjà choisie, pour que l'hôte puisse enchaîner (passer à l'étape suivante).
 `Multiple="true"` en fait une option (`role="checkbox"`) qui bascule. Le choix se lit à l'encadré et à la
-teinte d'accent seuls, sans coche : le cadre garde 2 px dans tous les états, le texte ne bouge jamais.
-Le survol penche le cadre et le fond vers l'accent, en clair comme en sombre. `Disabled` garde l'état
+teinte d'accent : le cadre garde 2 px dans tous les états, le texte ne bouge jamais. Une carte à cocher
+dessine en plus une vraie case visible avant son contenu, cochée quand la carte est choisie (demande d'une
+application cliente, R2-4) ; la case est décorative (`aria-hidden`, ni `input` ni `tabindex`, jamais un second
+contrôle) : l'unique contrôle reste la carte, avec son `role="checkbox"` et son `aria-checked`, annoncés une
+seule fois, et un clic sur la case est un clic sur la carte. Elle garde sa taille cochée ou non, donc le texte ne
+bouge pas. `ShowCheckBox="false"` (sur la carte ou sur le groupe) ne garde que le cadre et la teinte ; une carte
+radio ne dessine jamais de case. Le survol penche le cadre et le fond vers l'accent, en clair comme en sombre. `Disabled` garde l'état
 (une option imposée par une autre), laisse la carte focalisable et l'annonce indisponible
 (`aria-disabled`).
 
-`OmniSelectableCardGroup<TValue, TSelection>` lie la sélection de plusieurs cartes par `@bind-Value` : les cartes viennent d'`Options` (le texte devient le titre), ou sont écrites dans le groupe avec leur `Choice`, ou les deux (options d'abord). Choix unique par défaut (`role="radiogroup"`, `TSelection` étant une valeur) : une seule carte est dans l'ordre de tabulation (la choisie, sinon la première disponible) et les flèches, Début et Fin déplacent le choix et le focus, comme un groupe radio natif. `Multiple="true"` en fait un groupe de cases (`role="group"`, `TSelection` une collection). `Label` nomme le groupe (à défaut, le libellé d'un `OmniFormField` englobant par `aria-labelledby`) ; `Disabled` désactive toutes les cartes. Dans un groupe, `Value`, `ValueChanged` et `Multiple` de chaque carte sont ceux du groupe.
+`OmniSelectableCardGroup<TValue, TSelection>` lie la sélection de plusieurs cartes par `@bind-Value` : les cartes viennent d'`Options` (le texte devient le titre), ou sont écrites dans le groupe avec leur `Choice`, ou les deux (options d'abord). Choix unique par défaut (`role="radiogroup"`, `TSelection` étant une valeur) : une seule carte est dans l'ordre de tabulation (la choisie, sinon la première disponible) et les flèches, Début et Fin déplacent le choix et le focus, comme un groupe radio natif. `Multiple="true"` en fait un groupe de cases (`role="group"`, `TSelection` une collection). `Label` nomme le groupe (à défaut, le libellé d'un `OmniFormField` englobant par `aria-labelledby`) ; `Disabled` désactive toutes les cartes. Dans un groupe, `Value`, `ValueChanged`, `Multiple` et `ShowCheckBox` de chaque carte sont ceux du groupe. `Columns` (de 1 à 6, nul par défaut : les cartes s'empilent) range les cartes comme une `OmniTileGrid` : colonnes de même largeur, une seule hauteur, `DoubleWidth` d'une carte sur deux colonnes (règle des tuiles de [layout-components.md](layout-components.md)).
 
 ## Entrées spécialisées
 

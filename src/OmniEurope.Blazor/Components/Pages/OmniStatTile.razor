@@ -9,7 +9,7 @@
    a plain block that nothing can activate. *@
 @if (OnClick.HasDelegate)
 {
-    <button @attributes="AdditionalAttributes" @ref="_tile" id="@Id" type="button" class="@Css("omni-stat-tile", "omni-stat-tile--action")"
+    <button @attributes="AdditionalAttributes" @ref="_tile" id="@Id" type="button" class="@Css("omni-stat-tile", "omni-stat-tile--action", DoubleWidth ? "omni-tile--double" : null)"
             aria-label="@AccessibleName" @onclick="OnClick">
         @if (Icon is not null)
         {
@@ -27,7 +27,7 @@
 }
 else
 {
-    <div @attributes="AdditionalAttributes" @ref="_tile" id="@Id" class="@Css("omni-stat-tile")">
+    <div @attributes="AdditionalAttributes" @ref="_tile" id="@Id" class="@Css("omni-stat-tile", DoubleWidth ? "omni-tile--double" : null)">
         @if (Icon is not null)
         {
             <span class="omni-stat-tile__icon" aria-hidden="true">@Icon</span>
