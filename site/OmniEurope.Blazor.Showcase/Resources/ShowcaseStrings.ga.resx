@@ -794,6 +794,13 @@
   <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Compordach</value></data>
   <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Fairsing</value></data>
   <data name="DemoLayoutAlertCount" xml:space="preserve"><value>Foláirimh: {0}</value></data>
+  <data name="DemoLayoutDividerProject" xml:space="preserve"><value>Tionscadal</value></data>
+  <data name="DemoLayoutDividerArchitecture" xml:space="preserve"><value>Ailtireacht</value></data>
+  <data name="DemoLayoutDividerPipelines" xml:space="preserve"><value>Píblínte</value></data>
+  <data name="DemoLayoutDividerTodo" xml:space="preserve"><value>Le déanamh sula gcruthaítear</value></data>
+  <data name="DemoLayoutDividerDraft" xml:space="preserve"><value>Dréacht</value></data>
+  <data name="DemoLayoutDividerReview" xml:space="preserve"><value>Á athbhreithniú</value></data>
+  <data name="DemoLayoutDividerPublished" xml:space="preserve"><value>Foilsithe</value></data>
   <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Ceannteideal béime</value></data>
   <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Ceannteideal ciúin</value></data>
   <data name="DemoTypographyParagraph" xml:space="preserve"><value>Gnáthalt, i mbunmhéid an téama.</value></data>

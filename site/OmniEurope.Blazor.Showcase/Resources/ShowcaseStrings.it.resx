@@ -794,6 +794,13 @@
   <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Confortevole</value></data>
   <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Spaziosa</value></data>
   <data name="DemoLayoutAlertCount" xml:space="preserve"><value>{0} avvisi</value></data>
+  <data name="DemoLayoutDividerProject" xml:space="preserve"><value>Progetto</value></data>
+  <data name="DemoLayoutDividerArchitecture" xml:space="preserve"><value>Architettura</value></data>
+  <data name="DemoLayoutDividerPipelines" xml:space="preserve"><value>Pipeline</value></data>
+  <data name="DemoLayoutDividerTodo" xml:space="preserve"><value>Da fare prima della creazione</value></data>
+  <data name="DemoLayoutDividerDraft" xml:space="preserve"><value>Bozza</value></data>
+  <data name="DemoLayoutDividerReview" xml:space="preserve"><value>In revisione</value></data>
+  <data name="DemoLayoutDividerPublished" xml:space="preserve"><value>Pubblicato</value></data>
   <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Titolo evidenziato</value></data>
   <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Titolo discreto</value></data>
   <data name="DemoTypographyParagraph" xml:space="preserve"><value>Un paragrafo normale, nella dimensione di base del tema.</value></data>

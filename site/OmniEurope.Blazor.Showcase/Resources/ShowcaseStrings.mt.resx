@@ -794,6 +794,13 @@
   <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Komda</value></data>
   <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Spazjuża</value></data>
   <data name="DemoLayoutAlertCount" xml:space="preserve"><value>Allerti: {0}</value></data>
+  <data name="DemoLayoutDividerProject" xml:space="preserve"><value>Proġett</value></data>
+  <data name="DemoLayoutDividerArchitecture" xml:space="preserve"><value>Arkitettura</value></data>
+  <data name="DemoLayoutDividerPipelines" xml:space="preserve"><value>Pipelines</value></data>
+  <data name="DemoLayoutDividerTodo" xml:space="preserve"><value>Biex isir qabel il-ħolqien</value></data>
+  <data name="DemoLayoutDividerDraft" xml:space="preserve"><value>Abbozz</value></data>
+  <data name="DemoLayoutDividerReview" xml:space="preserve"><value>Taħt reviżjoni</value></data>
+  <data name="DemoLayoutDividerPublished" xml:space="preserve"><value>Ippubblikat</value></data>
   <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Intestatura enfasizzata</value></data>
   <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Intestatura diskreta</value></data>
   <data name="DemoTypographyParagraph" xml:space="preserve"><value>Paragrafu ordinarju, fid-daqs bażiku tat-tema.</value></data>

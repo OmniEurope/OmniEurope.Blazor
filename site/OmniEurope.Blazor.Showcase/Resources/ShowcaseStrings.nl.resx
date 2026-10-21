@@ -794,6 +794,13 @@
   <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Comfortabel</value></data>
   <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Ruim</value></data>
   <data name="DemoLayoutAlertCount" xml:space="preserve"><value>{0} waarschuwingen</value></data>
+  <data name="DemoLayoutDividerProject" xml:space="preserve"><value>Project</value></data>
+  <data name="DemoLayoutDividerArchitecture" xml:space="preserve"><value>Architectuur</value></data>
+  <data name="DemoLayoutDividerPipelines" xml:space="preserve"><value>Pipelines</value></data>
+  <data name="DemoLayoutDividerTodo" xml:space="preserve"><value>Te doen voor het aanmaken</value></data>
+  <data name="DemoLayoutDividerDraft" xml:space="preserve"><value>Concept</value></data>
+  <data name="DemoLayoutDividerReview" xml:space="preserve"><value>In review</value></data>
+  <data name="DemoLayoutDividerPublished" xml:space="preserve"><value>Gepubliceerd</value></data>
   <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Geaccentueerde kop</value></data>
   <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Gedempte kop</value></data>
   <data name="DemoTypographyParagraph" xml:space="preserve"><value>Een gewone alinea, in de basisgrootte van het thema.</value></data>

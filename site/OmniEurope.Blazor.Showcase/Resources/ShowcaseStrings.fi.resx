@@ -794,6 +794,13 @@
   <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Mukava</value></data>
   <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Väljä</value></data>
   <data name="DemoLayoutAlertCount" xml:space="preserve"><value>Hälytyksiä: {0}</value></data>
+  <data name="DemoLayoutDividerProject" xml:space="preserve"><value>Projekti</value></data>
+  <data name="DemoLayoutDividerArchitecture" xml:space="preserve"><value>Arkkitehtuuri</value></data>
+  <data name="DemoLayoutDividerPipelines" xml:space="preserve"><value>Putkistot</value></data>
+  <data name="DemoLayoutDividerTodo" xml:space="preserve"><value>Tehtävä ennen luontia</value></data>
+  <data name="DemoLayoutDividerDraft" xml:space="preserve"><value>Luonnos</value></data>
+  <data name="DemoLayoutDividerReview" xml:space="preserve"><value>Tarkistettavana</value></data>
+  <data name="DemoLayoutDividerPublished" xml:space="preserve"><value>Julkaistu</value></data>
   <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Korostettu otsikko</value></data>
   <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Hillitty otsikko</value></data>
   <data name="DemoTypographyParagraph" xml:space="preserve"><value>Tavallinen kappale teeman perustekstikoossa.</value></data>

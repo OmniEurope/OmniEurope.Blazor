@@ -794,6 +794,13 @@
   <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Kényelmes</value></data>
   <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Tágas</value></data>
   <data name="DemoLayoutAlertCount" xml:space="preserve"><value>{0} riasztás</value></data>
+  <data name="DemoLayoutDividerProject" xml:space="preserve"><value>Projekt</value></data>
+  <data name="DemoLayoutDividerArchitecture" xml:space="preserve"><value>Architektúra</value></data>
+  <data name="DemoLayoutDividerPipelines" xml:space="preserve"><value>Pipeline-ok</value></data>
+  <data name="DemoLayoutDividerTodo" xml:space="preserve"><value>Teendők a létrehozás előtt</value></data>
+  <data name="DemoLayoutDividerDraft" xml:space="preserve"><value>Piszkozat</value></data>
+  <data name="DemoLayoutDividerReview" xml:space="preserve"><value>Ellenőrzés alatt</value></data>
+  <data name="DemoLayoutDividerPublished" xml:space="preserve"><value>Közzétéve</value></data>
   <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Kiemelt címsor</value></data>
   <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Visszafogott címsor</value></data>
   <data name="DemoTypographyParagraph" xml:space="preserve"><value>Egy hétköznapi bekezdés, a téma alapméretében.</value></data>

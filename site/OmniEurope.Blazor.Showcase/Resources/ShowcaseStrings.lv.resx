@@ -794,6 +794,13 @@
   <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Ērts</value></data>
   <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Plašs</value></data>
   <data name="DemoLayoutAlertCount" xml:space="preserve"><value>Brīdinājumi: {0}</value></data>
+  <data name="DemoLayoutDividerProject" xml:space="preserve"><value>Projekts</value></data>
+  <data name="DemoLayoutDividerArchitecture" xml:space="preserve"><value>Arhitektūra</value></data>
+  <data name="DemoLayoutDividerPipelines" xml:space="preserve"><value>Konveijeri</value></data>
+  <data name="DemoLayoutDividerTodo" xml:space="preserve"><value>Jāizdara pirms izveides</value></data>
+  <data name="DemoLayoutDividerDraft" xml:space="preserve"><value>Melnraksts</value></data>
+  <data name="DemoLayoutDividerReview" xml:space="preserve"><value>Pārskatīšanā</value></data>
+  <data name="DemoLayoutDividerPublished" xml:space="preserve"><value>Publicēts</value></data>
   <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Akcentēts virsraksts</value></data>
   <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Blāvs virsraksts</value></data>
   <data name="DemoTypographyParagraph" xml:space="preserve"><value>Parasta rindkopa motīva pamata lielumā.</value></data>

@@ -794,6 +794,13 @@
   <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Удобна</value></data>
   <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Просторна</value></data>
   <data name="DemoLayoutAlertCount" xml:space="preserve"><value>{0} сигнала</value></data>
+  <data name="DemoLayoutDividerProject" xml:space="preserve"><value>Проект</value></data>
+  <data name="DemoLayoutDividerArchitecture" xml:space="preserve"><value>Архитектура</value></data>
+  <data name="DemoLayoutDividerPipelines" xml:space="preserve"><value>Конвейери</value></data>
+  <data name="DemoLayoutDividerTodo" xml:space="preserve"><value>За вършене преди създаването</value></data>
+  <data name="DemoLayoutDividerDraft" xml:space="preserve"><value>Чернова</value></data>
+  <data name="DemoLayoutDividerReview" xml:space="preserve"><value>В преглед</value></data>
+  <data name="DemoLayoutDividerPublished" xml:space="preserve"><value>Публикувано</value></data>
   <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Акцентирано заглавие</value></data>
   <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Приглушено заглавие</value></data>
   <data name="DemoTypographyParagraph" xml:space="preserve"><value>Обикновен абзац в основния размер на темата.</value></data>

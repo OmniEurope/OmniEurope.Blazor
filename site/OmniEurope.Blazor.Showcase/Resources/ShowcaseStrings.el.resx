@@ -794,6 +794,13 @@
   <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Άνετη</value></data>
   <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Ευρύχωρη</value></data>
   <data name="DemoLayoutAlertCount" xml:space="preserve"><value>{0} ειδοποιήσεις</value></data>
+  <data name="DemoLayoutDividerProject" xml:space="preserve"><value>Έργο</value></data>
+  <data name="DemoLayoutDividerArchitecture" xml:space="preserve"><value>Αρχιτεκτονική</value></data>
+  <data name="DemoLayoutDividerPipelines" xml:space="preserve"><value>Pipelines</value></data>
+  <data name="DemoLayoutDividerTodo" xml:space="preserve"><value>Προς εκτέλεση πριν τη δημιουργία</value></data>
+  <data name="DemoLayoutDividerDraft" xml:space="preserve"><value>Πρόχειρο</value></data>
+  <data name="DemoLayoutDividerReview" xml:space="preserve"><value>Σε έλεγχο</value></data>
+  <data name="DemoLayoutDividerPublished" xml:space="preserve"><value>Δημοσιευμένο</value></data>
   <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Τονισμένη επικεφαλίδα</value></data>
   <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Διακριτική επικεφαλίδα</value></data>
   <data name="DemoTypographyParagraph" xml:space="preserve"><value>Μια συνηθισμένη παράγραφος, στο βασικό μέγεθος του θέματος.</value></data>
