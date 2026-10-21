@@ -346,7 +346,8 @@ select.omni-input.omni-input--large:not([multiple]):not([size]) { block-size: ca
 .omni-selectable-card__box::before { block-size: 0.5rem; border: solid var(--omni-color-on-accent-fill); border-width: 0 2px 2px 0; box-sizing: border-box; content: ""; inline-size: 0.3125rem; opacity: 0; transform: translateY(-1px) rotate(45deg); }
 .omni-selectable-card--selected .omni-selectable-card__box { background: var(--omni-color-accent-fill); border-color: var(--omni-color-accent-fill); }
 .omni-selectable-card--selected .omni-selectable-card__box::before { opacity: 1; }
-.omni-selectable-card__title { font-weight: 600; }.omni-selectable-card__description { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); }
+.omni-selectable-card__title { font-weight: 600; }
+.omni-selectable-card__description { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); }
 @media (prefers-reduced-motion: reduce) { .omni-selectable-card { transition: none; } }
 
 .omni-choice-list { border: 0; box-sizing: border-box; display: grid; gap: calc(var(--omni-field-gap) + 2px); inline-size: 100%; margin: 0; min-inline-size: 0; padding: 0; }
