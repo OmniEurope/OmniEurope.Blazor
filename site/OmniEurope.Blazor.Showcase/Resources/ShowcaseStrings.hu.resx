@@ -1580,4 +1580,26 @@
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Emlékeztető a(z) {{file}} ügyiratról</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Emlékeztető&lt;/h2&gt;&lt;p&gt;Kedves {{client}}!&lt;/p&gt;&lt;p&gt;A(z) {{file}} ügyirat {{due}} előtt várja a válaszát.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Ügyirat megnyitása&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>A próba átadva az alkalmazásnak, tárgy: „{0}”.</value></data>
+  <data name="DemoAccordionTitle" xml:space="preserve"><value>Harmonika</value></data>
+  <data name="DemoAccordionSummary" xml:space="preserve"><value>Sorok, amelyek tartalma a fejléc alatt nyílik ki, egyesével vagy többen egyszerre.</value></data>
+  <data name="DemoAccordionCapability1" xml:space="preserve"><value>Soronként egy kapcsológomb, billentyűzettel és egérrel, nyilakkal, Home és End billentyűvel a fejlécek között.</value></data>
+  <data name="DemoAccordionCapability2" xml:space="preserve"><value>Szabad fejléc: címke, „?” súgó, érték és jelvény, a gombba ágyazott vezérlő nélkül.</value></data>
+  <data name="DemoAccordionCapability3" xml:space="preserve"><value>Egyszerre egy sor vagy több, soronként kötött állapot, a tartalom megnyitáskor jelenik meg.</value></data>
+  <data name="DemoAccordionReliability" xml:space="preserve"><value>Megbízhatóság</value></data>
+  <data name="DemoAccordionReliabilityHelp" xml:space="preserve"><value>Hibák, amelyek éles üzemben tönkretehetik a terméket.</value></data>
+  <data name="DemoAccordionSecurity" xml:space="preserve"><value>Biztonság</value></data>
+  <data name="DemoAccordionSecurityHelp" xml:space="preserve"><value>Ismert sebezhetőségek a kódban és a függőségeiben.</value></data>
+  <data name="DemoAccordionMaintainability" xml:space="preserve"><value>Karbantarthatóság</value></data>
+  <data name="DemoAccordionCoverage" xml:space="preserve"><value>Tesztlefedettség</value></data>
+  <data name="DemoAccordionIssues" xml:space="preserve"><value>Hibák: {0}</value></data>
+  <data name="DemoAccordionMeasured" xml:space="preserve"><value>Mért</value></data>
+  <data name="DemoAccordionThreshold" xml:space="preserve"><value>Küszöbérték</value></data>
+  <data name="DemoAccordionRunTitle" xml:space="preserve"><value>Pipeline-futás</value></data>
+  <data name="DemoAccordionRunSubtitle" xml:space="preserve"><value>3 perce fejeződött be</value></data>
+  <data name="DemoAccordionDetails" xml:space="preserve"><value>Részletek</value></data>
+  <data name="DemoAccordionRunBody" xml:space="preserve"><value>A futás lépései és időtartamuk itt jelennek meg.</value></data>
+  <data name="DemoAccordionLogTitle" xml:space="preserve"><value>Napló</value></data>
+  <data name="DemoAccordionLogBody" xml:space="preserve"><value>Ehhez a futáshoz nincs üzenet.</value></data>
+  <data name="DemoAccordionState" xml:space="preserve"><value>Megnyitott sorok: {0}</value></data>
+  <data name="DemoAccordionClicks" xml:space="preserve"><value>Kattintások a Részletekre: {0}</value></data>
 </root>

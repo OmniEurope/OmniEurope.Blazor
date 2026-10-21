@@ -1580,4 +1580,26 @@
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Herinnering voor dossier {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Herinnering&lt;/h2&gt;&lt;p&gt;Beste {{client}},&lt;/p&gt;&lt;p&gt;Dossier {{file}} wacht op uw antwoord vóór {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Dossier openen&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Test aan de toepassing gegeven, onderwerp ‘{0}’.</value></data>
+  <data name="DemoAccordionTitle" xml:space="preserve"><value>Accordeon</value></data>
+  <data name="DemoAccordionSummary" xml:space="preserve"><value>Rijen waarvan de inhoud onder de koptekst openklapt, één tegelijk of meerdere samen.</value></data>
+  <data name="DemoAccordionCapability1" xml:space="preserve"><value>Eén schakelknop per rij, met toetsenbord of muis, en pijltjes, Home en End tussen de koppen.</value></data>
+  <data name="DemoAccordionCapability2" xml:space="preserve"><value>Vrije koptekst: label, hulp „?”, waarde en badge, zonder bedieningselement binnen de knop.</value></data>
+  <data name="DemoAccordionCapability3" xml:space="preserve"><value>Eén rij tegelijk of meerdere samen, status per rij gebonden, inhoud wordt bij het openen gerenderd.</value></data>
+  <data name="DemoAccordionReliability" xml:space="preserve"><value>Betrouwbaarheid</value></data>
+  <data name="DemoAccordionReliabilityHelp" xml:space="preserve"><value>Fouten die het product in productie kunnen breken.</value></data>
+  <data name="DemoAccordionSecurity" xml:space="preserve"><value>Beveiliging</value></data>
+  <data name="DemoAccordionSecurityHelp" xml:space="preserve"><value>Bekende kwetsbaarheden in de code en de afhankelijkheden.</value></data>
+  <data name="DemoAccordionMaintainability" xml:space="preserve"><value>Onderhoudbaarheid</value></data>
+  <data name="DemoAccordionCoverage" xml:space="preserve"><value>Testdekking</value></data>
+  <data name="DemoAccordionIssues" xml:space="preserve"><value>Fouten: {0}</value></data>
+  <data name="DemoAccordionMeasured" xml:space="preserve"><value>Gemeten</value></data>
+  <data name="DemoAccordionThreshold" xml:space="preserve"><value>Drempel</value></data>
+  <data name="DemoAccordionRunTitle" xml:space="preserve"><value>Pipeline-uitvoering</value></data>
+  <data name="DemoAccordionRunSubtitle" xml:space="preserve"><value>3 minuten geleden afgerond</value></data>
+  <data name="DemoAccordionDetails" xml:space="preserve"><value>Details</value></data>
+  <data name="DemoAccordionRunBody" xml:space="preserve"><value>De stappen van de uitvoering en hun duur verschijnen hier.</value></data>
+  <data name="DemoAccordionLogTitle" xml:space="preserve"><value>Logboek</value></data>
+  <data name="DemoAccordionLogBody" xml:space="preserve"><value>Geen bericht voor deze uitvoering.</value></data>
+  <data name="DemoAccordionState" xml:space="preserve"><value>Open rijen: {0}</value></data>
+  <data name="DemoAccordionClicks" xml:space="preserve"><value>Klikken op Details: {0}</value></data>
 </root>

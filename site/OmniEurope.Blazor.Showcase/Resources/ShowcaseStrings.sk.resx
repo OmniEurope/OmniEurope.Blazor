@@ -1580,4 +1580,26 @@
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Pripomienka k spisu {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Pripomienka&lt;/h2&gt;&lt;p&gt;Dobrý deň, {{client}},&lt;/p&gt;&lt;p&gt;spis {{file}} čaká na vašu odpoveď do {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Otvoriť spis&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Skúška odovzdaná aplikácii, predmet „{0}“.</value></data>
+  <data name="DemoAccordionTitle" xml:space="preserve"><value>Akordeón</value></data>
+  <data name="DemoAccordionSummary" xml:space="preserve"><value>Riadky, ktorých obsah sa rozbalí pod hlavičkou, po jednom alebo po niekoľkých naraz.</value></data>
+  <data name="DemoAccordionCapability1" xml:space="preserve"><value>Jedno prepínacie tlačidlo na riadok, klávesnicou aj myšou, so šípkami, klávesmi Home a End medzi hlavičkami.</value></data>
+  <data name="DemoAccordionCapability2" xml:space="preserve"><value>Voľná hlavička: popis, pomocník „?“, hodnota a štítok, bez ovládacieho prvku vnoreného do tlačidla.</value></data>
+  <data name="DemoAccordionCapability3" xml:space="preserve"><value>Po jednom riadku alebo po niekoľkých naraz, stav viazaný po riadkoch, obsah sa vykreslí pri otvorení.</value></data>
+  <data name="DemoAccordionReliability" xml:space="preserve"><value>Spoľahlivosť</value></data>
+  <data name="DemoAccordionReliabilityHelp" xml:space="preserve"><value>Chyby, ktoré môžu v produkcii narušiť fungovanie produktu.</value></data>
+  <data name="DemoAccordionSecurity" xml:space="preserve"><value>Zabezpečenie</value></data>
+  <data name="DemoAccordionSecurityHelp" xml:space="preserve"><value>Známe zraniteľnosti v kóde a jeho závislostiach.</value></data>
+  <data name="DemoAccordionMaintainability" xml:space="preserve"><value>Udržiavateľnosť</value></data>
+  <data name="DemoAccordionCoverage" xml:space="preserve"><value>Pokrytie testami</value></data>
+  <data name="DemoAccordionIssues" xml:space="preserve"><value>Chyby: {0}</value></data>
+  <data name="DemoAccordionMeasured" xml:space="preserve"><value>Namerané</value></data>
+  <data name="DemoAccordionThreshold" xml:space="preserve"><value>Prah</value></data>
+  <data name="DemoAccordionRunTitle" xml:space="preserve"><value>Beh pipeline</value></data>
+  <data name="DemoAccordionRunSubtitle" xml:space="preserve"><value>Dokončené pred 3 minútami</value></data>
+  <data name="DemoAccordionDetails" xml:space="preserve"><value>Podrobnosti</value></data>
+  <data name="DemoAccordionRunBody" xml:space="preserve"><value>Kroky behu a ich trvanie sa zobrazia tu.</value></data>
+  <data name="DemoAccordionLogTitle" xml:space="preserve"><value>Protokol</value></data>
+  <data name="DemoAccordionLogBody" xml:space="preserve"><value>Pre tento beh nie sú žiadne správy.</value></data>
+  <data name="DemoAccordionState" xml:space="preserve"><value>Otvorené riadky: {0}</value></data>
+  <data name="DemoAccordionClicks" xml:space="preserve"><value>Kliknutia na Podrobnosti: {0}</value></data>
 </root>

@@ -1580,4 +1580,26 @@
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Upomínka ke spisu {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Upomínka&lt;/h2&gt;&lt;p&gt;Dobrý den, {{client}},&lt;/p&gt;&lt;p&gt;spis {{file}} čeká na vaši odpověď do {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Otevřít spis&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Zkouška předána aplikaci, předmět „{0}“.</value></data>
+  <data name="DemoAccordionTitle" xml:space="preserve"><value>Akordeon</value></data>
+  <data name="DemoAccordionSummary" xml:space="preserve"><value>Řádky, jejichž obsah se rozbalí pod záhlavím, po jednom nebo po více najednou.</value></data>
+  <data name="DemoAccordionCapability1" xml:space="preserve"><value>Jedno přepínací tlačítko na řádek, klávesnicí i myší, se šipkami, klávesami Home a End mezi záhlavími.</value></data>
+  <data name="DemoAccordionCapability2" xml:space="preserve"><value>Volné záhlaví: popisek, nápověda „?“, hodnota a štítek, bez ovládacího prvku vnořeného do tlačítka.</value></data>
+  <data name="DemoAccordionCapability3" xml:space="preserve"><value>Po jednom řádku nebo po více najednou, stav svázaný po řádcích, obsah se vykreslí při otevření.</value></data>
+  <data name="DemoAccordionReliability" xml:space="preserve"><value>Spolehlivost</value></data>
+  <data name="DemoAccordionReliabilityHelp" xml:space="preserve"><value>Chyby, které mohou v produkci narušit fungování produktu.</value></data>
+  <data name="DemoAccordionSecurity" xml:space="preserve"><value>Zabezpečení</value></data>
+  <data name="DemoAccordionSecurityHelp" xml:space="preserve"><value>Známé zranitelnosti v kódu a jeho závislostech.</value></data>
+  <data name="DemoAccordionMaintainability" xml:space="preserve"><value>Udržovatelnost</value></data>
+  <data name="DemoAccordionCoverage" xml:space="preserve"><value>Pokrytí testy</value></data>
+  <data name="DemoAccordionIssues" xml:space="preserve"><value>Chyby: {0}</value></data>
+  <data name="DemoAccordionMeasured" xml:space="preserve"><value>Naměřeno</value></data>
+  <data name="DemoAccordionThreshold" xml:space="preserve"><value>Práh</value></data>
+  <data name="DemoAccordionRunTitle" xml:space="preserve"><value>Běh pipeline</value></data>
+  <data name="DemoAccordionRunSubtitle" xml:space="preserve"><value>Dokončeno před 3 minutami</value></data>
+  <data name="DemoAccordionDetails" xml:space="preserve"><value>Podrobnosti</value></data>
+  <data name="DemoAccordionRunBody" xml:space="preserve"><value>Kroky běhu a jejich doba trvání se zobrazí zde.</value></data>
+  <data name="DemoAccordionLogTitle" xml:space="preserve"><value>Protokol</value></data>
+  <data name="DemoAccordionLogBody" xml:space="preserve"><value>Pro tento běh nejsou žádné zprávy.</value></data>
+  <data name="DemoAccordionState" xml:space="preserve"><value>Otevřené řádky: {0}</value></data>
+  <data name="DemoAccordionClicks" xml:space="preserve"><value>Kliknutí na Podrobnosti: {0}</value></data>
 </root>

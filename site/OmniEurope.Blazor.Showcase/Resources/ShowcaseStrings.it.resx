@@ -1580,4 +1580,26 @@
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Sollecito per la pratica {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Sollecito&lt;/h2&gt;&lt;p&gt;Gentile {{client}},&lt;/p&gt;&lt;p&gt;La pratica {{file}} attende la sua risposta entro il {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Apri la pratica&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Prova consegnata all'applicazione, oggetto «{0}».</value></data>
+  <data name="DemoAccordionTitle" xml:space="preserve"><value>Fisarmonica</value></data>
+  <data name="DemoAccordionSummary" xml:space="preserve"><value>Righe il cui contenuto si apre sotto l'intestazione, una alla volta o più insieme.</value></data>
+  <data name="DemoAccordionCapability1" xml:space="preserve"><value>Un pulsante di attivazione per riga, da tastiera o con il mouse, con frecce, Home e Fine tra le intestazioni.</value></data>
+  <data name="DemoAccordionCapability2" xml:space="preserve"><value>Intestazione libera: etichetta, aiuto «?», valore e badge, senza controlli annidati nel pulsante.</value></data>
+  <data name="DemoAccordionCapability3" xml:space="preserve"><value>Una riga alla volta o più insieme, stato collegato riga per riga, contenuto reso all'apertura.</value></data>
+  <data name="DemoAccordionReliability" xml:space="preserve"><value>Affidabilità</value></data>
+  <data name="DemoAccordionReliabilityHelp" xml:space="preserve"><value>Difetti che possono compromettere il prodotto in produzione.</value></data>
+  <data name="DemoAccordionSecurity" xml:space="preserve"><value>Sicurezza</value></data>
+  <data name="DemoAccordionSecurityHelp" xml:space="preserve"><value>Vulnerabilità note nel codice e nelle sue dipendenze.</value></data>
+  <data name="DemoAccordionMaintainability" xml:space="preserve"><value>Manutenibilità</value></data>
+  <data name="DemoAccordionCoverage" xml:space="preserve"><value>Copertura dei test</value></data>
+  <data name="DemoAccordionIssues" xml:space="preserve"><value>Difetti: {0}</value></data>
+  <data name="DemoAccordionMeasured" xml:space="preserve"><value>Misurato</value></data>
+  <data name="DemoAccordionThreshold" xml:space="preserve"><value>Soglia</value></data>
+  <data name="DemoAccordionRunTitle" xml:space="preserve"><value>Esecuzione della pipeline</value></data>
+  <data name="DemoAccordionRunSubtitle" xml:space="preserve"><value>Terminata 3 minuti fa</value></data>
+  <data name="DemoAccordionDetails" xml:space="preserve"><value>Dettagli</value></data>
+  <data name="DemoAccordionRunBody" xml:space="preserve"><value>I passaggi dell'esecuzione e la loro durata compaiono qui.</value></data>
+  <data name="DemoAccordionLogTitle" xml:space="preserve"><value>Registro</value></data>
+  <data name="DemoAccordionLogBody" xml:space="preserve"><value>Nessun messaggio per questa esecuzione.</value></data>
+  <data name="DemoAccordionState" xml:space="preserve"><value>Righe aperte: {0}</value></data>
+  <data name="DemoAccordionClicks" xml:space="preserve"><value>Clic su Dettagli: {0}</value></data>
 </root>

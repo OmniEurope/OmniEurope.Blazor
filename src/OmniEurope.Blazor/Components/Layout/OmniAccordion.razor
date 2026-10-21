@@ -1,0 +1,15 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@inject IJSRuntime JavaScript
+
+@* A plain container: the APG accordion pattern gives the group no role of its own. Each row is an
+   OmniAccordionItem. Focus entering the group turns on the page keys of the focus module (Up, Down,
+   Home and End between the headers), so an accordion nobody reaches with the keyboard loads no script. *@
+<div @attributes="AdditionalAttributes"
+     id="@Id"
+     class="@Css("omni-accordion")"
+     data-omni-accordion
+     data-omni-density="@OmniDensityAttribute.Of(Density)"
+     @onfocusin="EnablePageKeysAsync">
+    <CascadingValue Value="_context">@ChildContent</CascadingValue>
+</div>

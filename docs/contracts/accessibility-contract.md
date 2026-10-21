@@ -17,6 +17,7 @@
 | Boutons et choix | `Entrée` et `Espace` via les éléments natifs. |
 | Menus et superpositions | `Échap` ferme; flèches ouvrent ou parcourent lorsque le motif le prévoit. |
 | Tabs | Gauche/Droite, Début/Fin, roving `tabindex`. |
+| Accordéon | `Entrée` et `Espace` via le bouton natif de chaque en-tête; Haut/Bas/Début/Fin déplacent le focus entre les en-têtes sans ouvrir de ligne (`omni-focus.js`, touches de page). |
 | Arbre | Droite développe, Gauche réduit, Entrée/Espace sélectionne sans remonter à l'ancêtre. |
 | Grille | En-têtes de tri et filtres atteignables; associations `th`/`td` et annonce `aria-sort`; colonnes réordonnées au clavier par les flèches nommées du sélecteur de colonnes (le focus reste sur la colonne déplacée), chaque déplacement, masquage ou réinitialisation annoncé par une zone `role="status"` polie. |
 

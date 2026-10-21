@@ -1580,4 +1580,26 @@
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Tfakkira għall-fajl {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Tfakkira&lt;/h2&gt;&lt;p&gt;Għażiż/a {{client}},&lt;/p&gt;&lt;p&gt;Il-fajl {{file}} qed jistenna t-tweġiba tiegħek qabel {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Iftaħ il-fajl&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Il-prova ngħatat lill-applikazzjoni, suġġett “{0}”.</value></data>
+  <data name="DemoAccordionTitle" xml:space="preserve"><value>Akkordjun</value></data>
+  <data name="DemoAccordionSummary" xml:space="preserve"><value>Ringieli li l-kontenut tagħhom jinfetaħ taħt l-intestatura, wieħed kull darba jew diversi flimkien.</value></data>
+  <data name="DemoAccordionCapability1" xml:space="preserve"><value>Buttuna waħda ta' tqabbil għal kull ringiela, bil-keyboard jew bil-maws, bi vleġeġ, Home u End bejn l-intestaturi.</value></data>
+  <data name="DemoAccordionCapability2" xml:space="preserve"><value>Intestatura ħielsa: tikketta, għajnuna "?", valur u badge, mingħajr kontrolli mdaħħlin fil-buttuna.</value></data>
+  <data name="DemoAccordionCapability3" xml:space="preserve"><value>Ringiela waħda kull darba jew diversi flimkien, stat marbut ringiela b'ringiela, kontenut irrenderjat meta tinfetaħ.</value></data>
+  <data name="DemoAccordionReliability" xml:space="preserve"><value>Affidabbiltà</value></data>
+  <data name="DemoAccordionReliabilityHelp" xml:space="preserve"><value>Żbalji li jistgħu jfixklu l-prodott fil-produzzjoni.</value></data>
+  <data name="DemoAccordionSecurity" xml:space="preserve"><value>Sigurtà</value></data>
+  <data name="DemoAccordionSecurityHelp" xml:space="preserve"><value>Vulnerabbiltajiet magħrufa fil-kodiċi u fid-dipendenzi tiegħu.</value></data>
+  <data name="DemoAccordionMaintainability" xml:space="preserve"><value>Manutenibbiltà</value></data>
+  <data name="DemoAccordionCoverage" xml:space="preserve"><value>Kopertura tat-testijiet</value></data>
+  <data name="DemoAccordionIssues" xml:space="preserve"><value>Żbalji: {0}</value></data>
+  <data name="DemoAccordionMeasured" xml:space="preserve"><value>Imkejjel</value></data>
+  <data name="DemoAccordionThreshold" xml:space="preserve"><value>Limitu</value></data>
+  <data name="DemoAccordionRunTitle" xml:space="preserve"><value>Eżekuzzjoni tal-pipeline</value></data>
+  <data name="DemoAccordionRunSubtitle" xml:space="preserve"><value>Spiċċat 3 minuti ilu</value></data>
+  <data name="DemoAccordionDetails" xml:space="preserve"><value>Dettalji</value></data>
+  <data name="DemoAccordionRunBody" xml:space="preserve"><value>Il-passi tal-eżekuzzjoni u t-tul tagħhom jidhru hawn.</value></data>
+  <data name="DemoAccordionLogTitle" xml:space="preserve"><value>Reġistru</value></data>
+  <data name="DemoAccordionLogBody" xml:space="preserve"><value>L-ebda messaġġ għal din l-eżekuzzjoni.</value></data>
+  <data name="DemoAccordionState" xml:space="preserve"><value>Ringieli miftuħa: {0}</value></data>
+  <data name="DemoAccordionClicks" xml:space="preserve"><value>Klikkjiet fuq Dettalji: {0}</value></data>
 </root>

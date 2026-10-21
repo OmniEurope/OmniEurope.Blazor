@@ -1,0 +1,48 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IDisposable
+
+@* The header follows the APG accordion pattern: a heading that holds one button, the toggle. Nothing
+   interactive may sit inside a button, so the help mark and the other controls of the row are drawn
+   beside it, not in it; the toggle still covers the whole row (a stretched ::after, see the stylesheet),
+   and the controls beside it sit above that layer, so a click on one never toggles the row. The value
+   and the badge (SummaryContent) are not controls: a click on them toggles, and they are the
+   description of the toggle for a screen reader. The chevron is drawn here and turns when the row opens. *@
+<div @attributes="AdditionalAttributes" class="@Css("omni-accordion__item", IsOpen ? "omni-accordion__item--open" : null)">
+    <div class="omni-accordion__header">
+        <div class="omni-accordion__heading" role="heading" aria-level="@HeadingAriaLevel">
+            <button id="@ToggleId"
+                    type="button"
+                    class="omni-accordion__toggle"
+                    data-omni-accordion-toggle
+                    aria-expanded="@(IsOpen ? "true" : "false")"
+                    aria-controls="@BodyId"
+                    aria-describedby="@(SummaryContent is null ? null : SummaryId)"
+                    @onclick="ToggleAsync">@(HeaderContent ?? DefaultTitle)</button>
+        </div>
+        @if (!string.IsNullOrWhiteSpace(Help) || ActionsContent is not null)
+        {
+            <span class="omni-accordion__tools">
+                @if (!string.IsNullOrWhiteSpace(Help))
+                {
+                    <OmniTooltip Class="omni-accordion__help" Text="@Help" Focusable="true">
+                        <span class="omni-accordion__help-mark" role="img" aria-label="@Localize("FormFieldHelp")"><OmniIcon Name="OmniIconName.Question" /></span>
+                    </OmniTooltip>
+                }
+                @ActionsContent
+            </span>
+        }
+        @if (SummaryContent is not null)
+        {
+            <span id="@SummaryId" class="omni-accordion__summary">@SummaryContent</span>
+        }
+        <span class="omni-accordion__chevron" aria-hidden="true"><OmniIcon Name="OmniIconName.ChevronDown" Size="OmniControlSize.Small" /></span>
+    </div>
+    @* The region exists while the row is closed (hidden), so aria-controls always names an element. *@
+    <div id="@BodyId" class="omni-accordion__body" role="region" aria-labelledby="@ToggleId" hidden="@(!IsOpen)">
+        @if (RendersBody)
+        {
+            <div class="omni-accordion__content">@ChildContent</div>
+        }
+    </div>
+</div>

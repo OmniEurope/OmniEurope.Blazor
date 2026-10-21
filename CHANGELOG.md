@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Added
+
+- `OmniAccordion` et `OmniAccordionItem` (famille Layout) : demande d'une application cliente. Une liste de lignes dont le corps se déplie sous l'en-tête, au clic, à `Entrée` ou à `Espace`. Chaque en-tête est un titre (`HeadingLevel`, `H3` par défaut) qui contient un seul vrai bouton portant `aria-expanded` et `aria-controls`, le corps étant une région nommée par ce bouton ; l'en-tête est libre (`Title` ou `HeaderContent` dans le bouton, `Help` pour l'aide « ? » en infobulle, `ActionsContent` pour des contrôles propres, `SummaryContent` pour une valeur ou un badge) sans contrôle imbriqué dans le bouton, et le composant dessine le chevron, qui tourne à l'ouverture. `Multiple` (`false`) ouvre une ligne à la fois ou plusieurs ensemble ; `KeepContent` (`false`) ne rend un corps que pendant que sa ligne est ouverte, ou le garde caché une fois ouvert ; `Density` (`OmniDensity?`) ; `OmniAccordionItem.Expanded` et `ExpandedChanged` pour l'état initial et `@bind-Expanded`, la ligne fermée par une voisine le rapportant aussi. Haut, Bas, Début et Fin déplacent le focus entre les en-têtes, par les touches de page de `omni-focus.js`, chargées au premier focus dans la liste. Aucun style en ligne ni filet coloré sur le côté ; l'en-tête passe à la ligne à 375 px. Aucun texte nouveau dans le paquet (l'aide réutilise « Aide » de `OmniFormField`) ; vingt-deux textes de la vitrine dans les 24 langues, sans relecture native. Voir [docs/layout-components.md](docs/layout-components.md), « Accordéon ».
+
 ## [1.8.2] - 2026-10-16
 
 Version de correctif qui porte des ajouts d'API, numéro choisi par le propriétaire le 2026-10-16 (voir [docs/versioning.md](docs/versioning.md)) ; un seul comportement par défaut change, décrit sous « Changed ».

@@ -8,6 +8,9 @@
 //   move to the previous or next option that is not disabled, Home and End to the first or the last, and
 //   pick it, as a native radio group does. The component keeps the single tab stop (tabindex 0 on the
 //   chosen option).
+// - An accordion marked data-omni-accordion (OmniAccordion): on one of its toggles (data-omni-accordion-toggle),
+//   Up and Down move the focus to the previous or next toggle of that accordion, wrapping, Home and End to
+//   the first or the last, as the WAI-ARIA accordion pattern has it. Nothing is opened by the move.
 // - An element marked data-omni-key-button that is not a native button (an entry of a chart legend drawn
 //   in the SVG): Enter and Space activate it as a click would, Space without scrolling the page.
 
@@ -30,7 +33,7 @@ function onKeyDown(event) {
         return;
     }
 
-    if (!moveInRadioGroup(event)) {
+    if (!moveInRadioGroup(event) && !moveInAccordion(event)) {
         pressKeyButton(event);
     }
 }
@@ -62,6 +65,33 @@ function moveInRadioGroup(event) {
         radios[next].click();
     }
 
+    return true;
+}
+
+function moveInAccordion(event) {
+    if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown' && event.key !== 'Home' && event.key !== 'End') {
+        return false;
+    }
+
+    const current = event.target.closest('[data-omni-accordion-toggle]');
+    const group = current?.closest('[data-omni-accordion]');
+    if (!group) {
+        return false;
+    }
+
+    // A nested accordion keeps to its own toggles.
+    const toggles = Array.from(group.querySelectorAll('[data-omni-accordion-toggle]'))
+        .filter(toggle => toggle.closest('[data-omni-accordion]') === group);
+    const index = toggles.indexOf(current);
+    if (index < 0) {
+        return false;
+    }
+
+    event.preventDefault();
+    const next = event.key === 'Home' ? 0
+        : event.key === 'End' ? toggles.length - 1
+        : (index + (event.key === 'ArrowDown' ? 1 : -1) + toggles.length) % toggles.length;
+    toggles[next].focus();
     return true;
 }
 

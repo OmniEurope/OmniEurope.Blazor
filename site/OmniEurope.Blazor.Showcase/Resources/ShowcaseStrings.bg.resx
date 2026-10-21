@@ -1580,4 +1580,26 @@
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Напомняне за преписка {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Напомняне&lt;/h2&gt;&lt;p&gt;Здравейте, {{client}},&lt;/p&gt;&lt;p&gt;Преписка {{file}} очаква отговора ви преди {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Отваряне на преписката&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Пробата е предадена на приложението, тема „{0}“.</value></data>
+  <data name="DemoAccordionTitle" xml:space="preserve"><value>Акордеон</value></data>
+  <data name="DemoAccordionSummary" xml:space="preserve"><value>Редове, чието съдържание се разгръща под заглавката, по един или няколко наведнъж.</value></data>
+  <data name="DemoAccordionCapability1" xml:space="preserve"><value>По един превключващ бутон на ред, с клавиатура или мишка, със стрелки, Home и End между заглавките.</value></data>
+  <data name="DemoAccordionCapability2" xml:space="preserve"><value>Свободна заглавка: етикет, помощ „?“, стойност и значка, без контроли, вложени в бутона.</value></data>
+  <data name="DemoAccordionCapability3" xml:space="preserve"><value>По един ред или няколко наведнъж, състояние, свързано ред по ред, съдържание, изобразявано при отваряне.</value></data>
+  <data name="DemoAccordionReliability" xml:space="preserve"><value>Надеждност</value></data>
+  <data name="DemoAccordionReliabilityHelp" xml:space="preserve"><value>Грешки, които могат да нарушат работата на продукта в производство.</value></data>
+  <data name="DemoAccordionSecurity" xml:space="preserve"><value>Сигурност</value></data>
+  <data name="DemoAccordionSecurityHelp" xml:space="preserve"><value>Известни уязвимости в кода и неговите зависимости.</value></data>
+  <data name="DemoAccordionMaintainability" xml:space="preserve"><value>Поддържаемост</value></data>
+  <data name="DemoAccordionCoverage" xml:space="preserve"><value>Покритие с тестове</value></data>
+  <data name="DemoAccordionIssues" xml:space="preserve"><value>Грешки: {0}</value></data>
+  <data name="DemoAccordionMeasured" xml:space="preserve"><value>Измерено</value></data>
+  <data name="DemoAccordionThreshold" xml:space="preserve"><value>Праг</value></data>
+  <data name="DemoAccordionRunTitle" xml:space="preserve"><value>Изпълнение на конвейера</value></data>
+  <data name="DemoAccordionRunSubtitle" xml:space="preserve"><value>Приключило преди 3 минути</value></data>
+  <data name="DemoAccordionDetails" xml:space="preserve"><value>Подробности</value></data>
+  <data name="DemoAccordionRunBody" xml:space="preserve"><value>Стъпките на изпълнението и тяхната продължителност се показват тук.</value></data>
+  <data name="DemoAccordionLogTitle" xml:space="preserve"><value>Дневник</value></data>
+  <data name="DemoAccordionLogBody" xml:space="preserve"><value>Няма съобщения за това изпълнение.</value></data>
+  <data name="DemoAccordionState" xml:space="preserve"><value>Отворени редове: {0}</value></data>
+  <data name="DemoAccordionClicks" xml:space="preserve"><value>Щраквания върху Подробности: {0}</value></data>
 </root>

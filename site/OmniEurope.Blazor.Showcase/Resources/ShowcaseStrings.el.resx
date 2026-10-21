@@ -1580,4 +1580,26 @@
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Υπενθύμιση για τον φάκελο {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Υπενθύμιση&lt;/h2&gt;&lt;p&gt;Γεια σας {{client}},&lt;/p&gt;&lt;p&gt;Ο φάκελος {{file}} περιμένει την απάντησή σας έως τις {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Άνοιγμα φακέλου&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Η δοκιμή παραδόθηκε στην εφαρμογή, θέμα «{0}».</value></data>
+  <data name="DemoAccordionTitle" xml:space="preserve"><value>Ακορντεόν</value></data>
+  <data name="DemoAccordionSummary" xml:space="preserve"><value>Γραμμές των οποίων το περιεχόμενο ανοίγει κάτω από την κεφαλίδα, μία τη φορά ή περισσότερες μαζί.</value></data>
+  <data name="DemoAccordionCapability1" xml:space="preserve"><value>Ένα κουμπί εναλλαγής ανά γραμμή, με πληκτρολόγιο ή ποντίκι, και βέλη, Home και End ανάμεσα στις κεφαλίδες.</value></data>
+  <data name="DemoAccordionCapability2" xml:space="preserve"><value>Ελεύθερη κεφαλίδα: ετικέτα, βοήθεια «?», τιμή και σήμα, χωρίς στοιχεία ελέγχου μέσα στο κουμπί.</value></data>
+  <data name="DemoAccordionCapability3" xml:space="preserve"><value>Μία γραμμή τη φορά ή περισσότερες μαζί, κατάσταση συνδεδεμένη ανά γραμμή, περιεχόμενο που αποδίδεται κατά το άνοιγμα.</value></data>
+  <data name="DemoAccordionReliability" xml:space="preserve"><value>Αξιοπιστία</value></data>
+  <data name="DemoAccordionReliabilityHelp" xml:space="preserve"><value>Σφάλματα που μπορούν να χαλάσουν το προϊόν στην παραγωγή.</value></data>
+  <data name="DemoAccordionSecurity" xml:space="preserve"><value>Ασφάλεια</value></data>
+  <data name="DemoAccordionSecurityHelp" xml:space="preserve"><value>Γνωστές ευπάθειες στον κώδικα και στις εξαρτήσεις του.</value></data>
+  <data name="DemoAccordionMaintainability" xml:space="preserve"><value>Συντηρησιμότητα</value></data>
+  <data name="DemoAccordionCoverage" xml:space="preserve"><value>Κάλυψη δοκιμών</value></data>
+  <data name="DemoAccordionIssues" xml:space="preserve"><value>Σφάλματα: {0}</value></data>
+  <data name="DemoAccordionMeasured" xml:space="preserve"><value>Μετρημένο</value></data>
+  <data name="DemoAccordionThreshold" xml:space="preserve"><value>Κατώφλι</value></data>
+  <data name="DemoAccordionRunTitle" xml:space="preserve"><value>Εκτέλεση του pipeline</value></data>
+  <data name="DemoAccordionRunSubtitle" xml:space="preserve"><value>Ολοκληρώθηκε πριν από 3 λεπτά</value></data>
+  <data name="DemoAccordionDetails" xml:space="preserve"><value>Λεπτομέρειες</value></data>
+  <data name="DemoAccordionRunBody" xml:space="preserve"><value>Τα βήματα της εκτέλεσης και η διάρκειά τους εμφανίζονται εδώ.</value></data>
+  <data name="DemoAccordionLogTitle" xml:space="preserve"><value>Αρχείο καταγραφής</value></data>
+  <data name="DemoAccordionLogBody" xml:space="preserve"><value>Κανένα μήνυμα για αυτή την εκτέλεση.</value></data>
+  <data name="DemoAccordionState" xml:space="preserve"><value>Ανοιχτές γραμμές: {0}</value></data>
+  <data name="DemoAccordionClicks" xml:space="preserve"><value>Κλικ στις Λεπτομέρειες: {0}</value></data>
 </root>

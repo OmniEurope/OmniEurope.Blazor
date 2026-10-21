@@ -1580,4 +1580,26 @@
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Reamintire pentru dosarul {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Reamintire&lt;/h2&gt;&lt;p&gt;Bună ziua, {{client}},&lt;/p&gt;&lt;p&gt;Dosarul {{file}} așteaptă răspunsul dvs. până la {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Deschideți dosarul&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Testul a fost predat aplicației, subiect „{0}”.</value></data>
+  <data name="DemoAccordionTitle" xml:space="preserve"><value>Acordeon</value></data>
+  <data name="DemoAccordionSummary" xml:space="preserve"><value>Rânduri al căror conținut se desfășoară sub antet, câte unul sau mai multe deodată.</value></data>
+  <data name="DemoAccordionCapability1" xml:space="preserve"><value>Un buton de comutare pe rând, de la tastatură sau cu mausul, cu săgeți, Home și End între anteturi.</value></data>
+  <data name="DemoAccordionCapability2" xml:space="preserve"><value>Antet liber: etichetă, ajutor „?”, valoare și insignă, fără controale încorporate în buton.</value></data>
+  <data name="DemoAccordionCapability3" xml:space="preserve"><value>Câte un rând sau mai multe deodată, stare legată rând cu rând, conținut randat la deschidere.</value></data>
+  <data name="DemoAccordionReliability" xml:space="preserve"><value>Fiabilitate</value></data>
+  <data name="DemoAccordionReliabilityHelp" xml:space="preserve"><value>Defecte care pot strica produsul în producție.</value></data>
+  <data name="DemoAccordionSecurity" xml:space="preserve"><value>Securitate</value></data>
+  <data name="DemoAccordionSecurityHelp" xml:space="preserve"><value>Vulnerabilități cunoscute în cod și în dependențele sale.</value></data>
+  <data name="DemoAccordionMaintainability" xml:space="preserve"><value>Mentenabilitate</value></data>
+  <data name="DemoAccordionCoverage" xml:space="preserve"><value>Acoperirea testelor</value></data>
+  <data name="DemoAccordionIssues" xml:space="preserve"><value>Defecte: {0}</value></data>
+  <data name="DemoAccordionMeasured" xml:space="preserve"><value>Măsurat</value></data>
+  <data name="DemoAccordionThreshold" xml:space="preserve"><value>Prag</value></data>
+  <data name="DemoAccordionRunTitle" xml:space="preserve"><value>Execuția pipeline-ului</value></data>
+  <data name="DemoAccordionRunSubtitle" xml:space="preserve"><value>Terminată acum 3 minute</value></data>
+  <data name="DemoAccordionDetails" xml:space="preserve"><value>Detalii</value></data>
+  <data name="DemoAccordionRunBody" xml:space="preserve"><value>Pașii execuției și durata lor apar aici.</value></data>
+  <data name="DemoAccordionLogTitle" xml:space="preserve"><value>Jurnal</value></data>
+  <data name="DemoAccordionLogBody" xml:space="preserve"><value>Niciun mesaj pentru această execuție.</value></data>
+  <data name="DemoAccordionState" xml:space="preserve"><value>Rânduri deschise: {0}</value></data>
+  <data name="DemoAccordionClicks" xml:space="preserve"><value>Clicuri pe Detalii: {0}</value></data>
 </root>

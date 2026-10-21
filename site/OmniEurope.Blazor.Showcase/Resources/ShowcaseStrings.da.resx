@@ -1580,4 +1580,26 @@
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Påmindelse om sag {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Påmindelse&lt;/h2&gt;&lt;p&gt;Kære {{client}},&lt;/p&gt;&lt;p&gt;Sag {{file}} venter på dit svar inden {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Åbn sagen&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Testen er givet til programmet, emne “{0}”.</value></data>
+  <data name="DemoAccordionTitle" xml:space="preserve"><value>Harmonika</value></data>
+  <data name="DemoAccordionSummary" xml:space="preserve"><value>Rækker, hvis indhold folder sig ud under overskriften, én ad gangen eller flere sammen.</value></data>
+  <data name="DemoAccordionCapability1" xml:space="preserve"><value>Én skifteknap pr. række, med tastatur eller mus, og piletaster, Home og End mellem overskrifterne.</value></data>
+  <data name="DemoAccordionCapability2" xml:space="preserve"><value>Fri overskrift: etiket, hjælp „?“, værdi og badge, uden kontrolelementer inde i knappen.</value></data>
+  <data name="DemoAccordionCapability3" xml:space="preserve"><value>Én række ad gangen eller flere sammen, tilstand bundet række for række, indhold gengives ved åbning.</value></data>
+  <data name="DemoAccordionReliability" xml:space="preserve"><value>Pålidelighed</value></data>
+  <data name="DemoAccordionReliabilityHelp" xml:space="preserve"><value>Fejl, der kan ødelægge produktet i drift.</value></data>
+  <data name="DemoAccordionSecurity" xml:space="preserve"><value>Sikkerhed</value></data>
+  <data name="DemoAccordionSecurityHelp" xml:space="preserve"><value>Kendte sårbarheder i koden og dens afhængigheder.</value></data>
+  <data name="DemoAccordionMaintainability" xml:space="preserve"><value>Vedligeholdelighed</value></data>
+  <data name="DemoAccordionCoverage" xml:space="preserve"><value>Testdækning</value></data>
+  <data name="DemoAccordionIssues" xml:space="preserve"><value>Fejl: {0}</value></data>
+  <data name="DemoAccordionMeasured" xml:space="preserve"><value>Målt</value></data>
+  <data name="DemoAccordionThreshold" xml:space="preserve"><value>Tærskel</value></data>
+  <data name="DemoAccordionRunTitle" xml:space="preserve"><value>Pipeline-kørsel</value></data>
+  <data name="DemoAccordionRunSubtitle" xml:space="preserve"><value>Afsluttet for 3 minutter siden</value></data>
+  <data name="DemoAccordionDetails" xml:space="preserve"><value>Detaljer</value></data>
+  <data name="DemoAccordionRunBody" xml:space="preserve"><value>Kørslens trin og deres varighed vises her.</value></data>
+  <data name="DemoAccordionLogTitle" xml:space="preserve"><value>Log</value></data>
+  <data name="DemoAccordionLogBody" xml:space="preserve"><value>Ingen meddelelser for denne kørsel.</value></data>
+  <data name="DemoAccordionState" xml:space="preserve"><value>Åbne rækker: {0}</value></data>
+  <data name="DemoAccordionClicks" xml:space="preserve"><value>Klik på Detaljer: {0}</value></data>
 </root>

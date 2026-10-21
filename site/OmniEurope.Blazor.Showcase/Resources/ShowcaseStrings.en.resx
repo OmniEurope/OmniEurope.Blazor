@@ -1583,4 +1583,26 @@
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Reminder for file {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Reminder&lt;/h2&gt;&lt;p&gt;Hello {{client}},&lt;/p&gt;&lt;p&gt;File {{file}} awaits your answer before {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Open the file&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Test handed to the application, subject “{0}”.</value></data>
+  <data name="DemoAccordionTitle" xml:space="preserve"><value>Accordion</value></data>
+  <data name="DemoAccordionSummary" xml:space="preserve"><value>Rows whose body unfolds under the header, one at a time or several together.</value></data>
+  <data name="DemoAccordionCapability1" xml:space="preserve"><value>One toggle button per row, with the mouse or the keyboard, and arrows, Home and End between the headers.</value></data>
+  <data name="DemoAccordionCapability2" xml:space="preserve"><value>Free header: label, "?" help, value and badge, with no control nested in the button.</value></data>
+  <data name="DemoAccordionCapability3" xml:space="preserve"><value>One row at a time or several together, state bound row by row, body rendered on opening.</value></data>
+  <data name="DemoAccordionReliability" xml:space="preserve"><value>Reliability</value></data>
+  <data name="DemoAccordionReliabilityHelp" xml:space="preserve"><value>Issues that can break the product in production.</value></data>
+  <data name="DemoAccordionSecurity" xml:space="preserve"><value>Security</value></data>
+  <data name="DemoAccordionSecurityHelp" xml:space="preserve"><value>Known vulnerabilities in the code and its dependencies.</value></data>
+  <data name="DemoAccordionMaintainability" xml:space="preserve"><value>Maintainability</value></data>
+  <data name="DemoAccordionCoverage" xml:space="preserve"><value>Test coverage</value></data>
+  <data name="DemoAccordionIssues" xml:space="preserve"><value>Issues: {0}</value></data>
+  <data name="DemoAccordionMeasured" xml:space="preserve"><value>Measured</value></data>
+  <data name="DemoAccordionThreshold" xml:space="preserve"><value>Threshold</value></data>
+  <data name="DemoAccordionRunTitle" xml:space="preserve"><value>Pipeline run</value></data>
+  <data name="DemoAccordionRunSubtitle" xml:space="preserve"><value>Finished 3 minutes ago</value></data>
+  <data name="DemoAccordionDetails" xml:space="preserve"><value>Details</value></data>
+  <data name="DemoAccordionRunBody" xml:space="preserve"><value>The steps of the run and their duration appear here.</value></data>
+  <data name="DemoAccordionLogTitle" xml:space="preserve"><value>Log</value></data>
+  <data name="DemoAccordionLogBody" xml:space="preserve"><value>No message for this run.</value></data>
+  <data name="DemoAccordionState" xml:space="preserve"><value>Open rows: {0}</value></data>
+  <data name="DemoAccordionClicks" xml:space="preserve"><value>Clicks on Details: {0}</value></data>
 </root>

@@ -1580,4 +1580,26 @@
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Meeldetuletus toimiku {{file}} kohta</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Meeldetuletus&lt;/h2&gt;&lt;p&gt;Tere, {{client}}!&lt;/p&gt;&lt;p&gt;Toimik {{file}} ootab teie vastust enne {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Ava toimik&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Proov anti rakendusele, teema „{0}“.</value></data>
+  <data name="DemoAccordionTitle" xml:space="preserve"><value>Akordion</value></data>
+  <data name="DemoAccordionSummary" xml:space="preserve"><value>Read, mille sisu avaneb päise all, üks korraga või mitu koos.</value></data>
+  <data name="DemoAccordionCapability1" xml:space="preserve"><value>Üks lülitusnupp rea kohta, klaviatuuri või hiirega, ning nooled, Home ja End päiste vahel.</value></data>
+  <data name="DemoAccordionCapability2" xml:space="preserve"><value>Vaba päis: silt, abi „?“, väärtus ja märk, ilma nupu sisse põimitud juhtelemendita.</value></data>
+  <data name="DemoAccordionCapability3" xml:space="preserve"><value>Üks rida korraga või mitu koos, olek seotud rea kaupa, sisu kuvatakse avamisel.</value></data>
+  <data name="DemoAccordionReliability" xml:space="preserve"><value>Töökindlus</value></data>
+  <data name="DemoAccordionReliabilityHelp" xml:space="preserve"><value>Vead, mis võivad toote tootmises rikkuda.</value></data>
+  <data name="DemoAccordionSecurity" xml:space="preserve"><value>Turvalisus</value></data>
+  <data name="DemoAccordionSecurityHelp" xml:space="preserve"><value>Teadaolevad haavatavused koodis ja selle sõltuvustes.</value></data>
+  <data name="DemoAccordionMaintainability" xml:space="preserve"><value>Hooldatavus</value></data>
+  <data name="DemoAccordionCoverage" xml:space="preserve"><value>Testikate</value></data>
+  <data name="DemoAccordionIssues" xml:space="preserve"><value>Vigu: {0}</value></data>
+  <data name="DemoAccordionMeasured" xml:space="preserve"><value>Mõõdetud</value></data>
+  <data name="DemoAccordionThreshold" xml:space="preserve"><value>Lävi</value></data>
+  <data name="DemoAccordionRunTitle" xml:space="preserve"><value>Torujuhtme käivitus</value></data>
+  <data name="DemoAccordionRunSubtitle" xml:space="preserve"><value>Lõppes 3 minutit tagasi</value></data>
+  <data name="DemoAccordionDetails" xml:space="preserve"><value>Üksikasjad</value></data>
+  <data name="DemoAccordionRunBody" xml:space="preserve"><value>Käivituse sammud ja nende kestus kuvatakse siin.</value></data>
+  <data name="DemoAccordionLogTitle" xml:space="preserve"><value>Logi</value></data>
+  <data name="DemoAccordionLogBody" xml:space="preserve"><value>Selle käivituse kohta pole teateid.</value></data>
+  <data name="DemoAccordionState" xml:space="preserve"><value>Avatud read: {0}</value></data>
+  <data name="DemoAccordionClicks" xml:space="preserve"><value>Klõpse nupul Üksikasjad: {0}</value></data>
 </root>

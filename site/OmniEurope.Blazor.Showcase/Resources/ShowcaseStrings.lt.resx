@@ -1580,4 +1580,26 @@
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Priminimas dėl bylos {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Priminimas&lt;/h2&gt;&lt;p&gt;Sveiki, {{client}},&lt;/p&gt;&lt;p&gt;byla {{file}} laukia jūsų atsakymo iki {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Atverti bylą&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Bandymas perduotas programai, tema „{0}“.</value></data>
+  <data name="DemoAccordionTitle" xml:space="preserve"><value>Akordeonas</value></data>
+  <data name="DemoAccordionSummary" xml:space="preserve"><value>Eilutės, kurių turinys išsiskleidžia po antraštės, po vieną arba kelios kartu.</value></data>
+  <data name="DemoAccordionCapability1" xml:space="preserve"><value>Vienas perjungimo mygtukas eilutei, klaviatūra ar pele, su rodyklėmis, klavišais Home ir End tarp antraščių.</value></data>
+  <data name="DemoAccordionCapability2" xml:space="preserve"><value>Laisva antraštė: etiketė, pagalba „?“, reikšmė ir ženklelis, be mygtuke įdėtų valdiklių.</value></data>
+  <data name="DemoAccordionCapability3" xml:space="preserve"><value>Po vieną eilutę arba kelios kartu, būsena susieta eilutė po eilutės, turinys atvaizduojamas atidarant.</value></data>
+  <data name="DemoAccordionReliability" xml:space="preserve"><value>Patikimumas</value></data>
+  <data name="DemoAccordionReliabilityHelp" xml:space="preserve"><value>Klaidos, galinčios sugadinti produktą eksploatacijoje.</value></data>
+  <data name="DemoAccordionSecurity" xml:space="preserve"><value>Sauga</value></data>
+  <data name="DemoAccordionSecurityHelp" xml:space="preserve"><value>Žinomi pažeidžiamumai kode ir jo priklausomybėse.</value></data>
+  <data name="DemoAccordionMaintainability" xml:space="preserve"><value>Prižiūrimumas</value></data>
+  <data name="DemoAccordionCoverage" xml:space="preserve"><value>Testų aprėptis</value></data>
+  <data name="DemoAccordionIssues" xml:space="preserve"><value>Klaidų: {0}</value></data>
+  <data name="DemoAccordionMeasured" xml:space="preserve"><value>Išmatuota</value></data>
+  <data name="DemoAccordionThreshold" xml:space="preserve"><value>Riba</value></data>
+  <data name="DemoAccordionRunTitle" xml:space="preserve"><value>Konvejerio vykdymas</value></data>
+  <data name="DemoAccordionRunSubtitle" xml:space="preserve"><value>Baigta prieš 3 minutes</value></data>
+  <data name="DemoAccordionDetails" xml:space="preserve"><value>Išsami informacija</value></data>
+  <data name="DemoAccordionRunBody" xml:space="preserve"><value>Vykdymo žingsniai ir jų trukmė rodomi čia.</value></data>
+  <data name="DemoAccordionLogTitle" xml:space="preserve"><value>Žurnalas</value></data>
+  <data name="DemoAccordionLogBody" xml:space="preserve"><value>Šiam vykdymui pranešimų nėra.</value></data>
+  <data name="DemoAccordionState" xml:space="preserve"><value>Atidarytos eilutės: {0}</value></data>
+  <data name="DemoAccordionClicks" xml:space="preserve"><value>Spustelėjimai ties „Išsami informacija“: {0}</value></data>
 </root>
