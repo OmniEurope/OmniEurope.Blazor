@@ -198,4 +198,74 @@ public sealed class WizardTests : OmniBunitContext
         Assert.Equal(0, finished);
         Assert.Single(wizard.FindAll(".omni-wizard__next"));
     }
+
+    [Fact]
+    public void Wizard_WithoutBodyHeight_KeepsTheStylesheetHeightAndLoadsNoScript()
+    {
+        var wizard = Render<OmniWizard>(parameters => parameters
+            .AddChildContent<OmniWizardStep>(step => step.Add(component => component.Title, "Nom")));
+
+        Assert.DoesNotContain("omni-wizard--flexible", wizard.Find(".omni-wizard").ClassName, StringComparison.Ordinal);
+        Assert.DoesNotContain("style=", wizard.Markup, StringComparison.OrdinalIgnoreCase);
+        Assert.Empty(JSInterop.Invocations);
+    }
+
+    [Theory]
+    [InlineData("20rem")]
+    [InlineData("400px")]
+    [InlineData("50vh")]
+    public void Wizard_BodyHeight_IsPushedAsACustomPropertyByTheInteropScript(string height)
+    {
+        var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
+
+        var wizard = Render<OmniWizard>(parameters => parameters
+            .Add(component => component.BodyHeight, height)
+            .AddChildContent<OmniWizardStep>(step => step.Add(component => component.Title, "Nom")));
+
+        wizard.WaitForAssertion(() => Assert.Single(module.Invocations["applyWizardBodyHeight"]));
+        Assert.Equal(height, module.Invocations["applyWizardBodyHeight"][0].Arguments[1]);
+        Assert.DoesNotContain("style=", wizard.Markup, StringComparison.OrdinalIgnoreCase);
+
+        // A redraw that leaves the height as it is does not write it again.
+        wizard.Render(parameters => parameters.Add(component => component.Label, "Étapes"));
+        Assert.Single(module.Invocations["applyWizardBodyHeight"]);
+
+        wizard.Render(parameters => parameters.Add(component => component.BodyHeight, (string?)null));
+        wizard.WaitForAssertion(() => Assert.Equal(2, module.Invocations["applyWizardBodyHeight"].Count));
+        Assert.Null(module.Invocations["applyWizardBodyHeight"][1].Arguments[1]);
+    }
+
+    [Fact]
+    public void Wizard_BodyHeightAuto_LetsTheBodyFollowItsContentWithoutTheScript()
+    {
+        var wizard = Render<OmniWizard>(parameters => parameters
+            .Add(component => component.BodyHeight, "auto")
+            .AddChildContent<OmniWizardStep>(step => step.Add(component => component.Title, "Nom")));
+
+        Assert.Contains("omni-wizard--flexible", wizard.Find(".omni-wizard").ClassName, StringComparison.Ordinal);
+        Assert.Empty(JSInterop.Invocations);
+    }
+
+    [Theory]
+    [InlineData("tall")]
+    [InlineData("calc(100vh - 2rem)")]
+    [InlineData("")]
+    public void Wizard_BodyHeight_ThatIsNotALengthIsRefused(string height)
+    {
+        var failure = Assert.ThrowsAny<Exception>(() => Render<OmniWizard>(parameters => parameters
+            .Add(component => component.BodyHeight, height)
+            .AddChildContent<OmniWizardStep>(step => step.Add(component => component.Title, "Nom"))));
+
+        Assert.Contains(nameof(OmniWizard.BodyHeight), failure.ToString(), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Wizard_InADialog_KeepsItsFootAndTheFocusableBody()
+    {
+        var host = Render<WizardTestHost>(parameters => parameters.Add(component => component.InDialog, true));
+
+        Assert.Equal(2, host.FindAll(".omni-wizard__body").Count);
+        Assert.All(host.FindAll(".omni-wizard__body"), body => Assert.Equal("-1", body.GetAttribute("tabindex")));
+        Assert.Equal(2, host.FindAll(".omni-wizard__foot").Count);
+    }
 }

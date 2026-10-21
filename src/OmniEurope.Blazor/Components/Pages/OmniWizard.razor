@@ -1,10 +1,11 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
+@implements IAsyncDisposable
 
 @* A guided sequence: the progress, the list of steps (a step already reached can be clicked back
    to), the current step in one body the step buttons control, and the navigation at the foot. The
    wizard draws no overlay of its own, so it sits as well in a page as in an OmniDialog. *@
-<div @attributes="AdditionalAttributes" id="@EffectiveId" class="@Css("omni-wizard")">
+<div @attributes="AdditionalAttributes" id="@EffectiveId" class="@Css("omni-wizard", IsFlexibleBody ? "omni-wizard--flexible" : null)">
     <OmniProgressBar Class="omni-wizard__progress" Value="Progress" Label="@Localize("WizardProgress")" ValueText="@PositionText" />
     <CascadingValue Value="SharedPanel">
         <OmniSteps Class="omni-wizard__steps" Label="@EffectiveLabel" Value="_current" ValueChanged="GoToAsync" CanNavigate="CanNavigateAsync">

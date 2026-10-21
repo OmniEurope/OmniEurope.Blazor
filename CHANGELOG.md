@@ -4,6 +4,14 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Added
+
+- `OmniWizard.BodyHeight` (`string?`, nul) : hauteur du corps des étapes, longueur CSS (`24rem`, `400px`, `50vh`) ou `auto` ; une valeur invalide lève `ArgumentException`. Écrite par le script d'interop comme propriété personnalisée `--omni-wizard-body-height` (jamais en attribut `style`, CSP stricte), comme `OmniChart.MaxHeight`. Demande d'une application cliente (R2-16). Voir [docs/page-components.md](docs/page-components.md). Une étape longue ajoutée à la démo des parcours ; un texte dans les 24 langues, sans relecture native.
+
+### Changed
+
+- `OmniWizard` : le corps a désormais une hauteur fixe (`min(24rem, 60vh)` par défaut) et défile, de sorte que Précédent, Suivant, Terminer et Annuler gardent la même place d'une étape à l'autre au lieu de suivre la hauteur du contenu. Migration : `BodyHeight="auto"` rend l'ancien comportement (corps qui suit son contenu), ou `BodyHeight` donne une autre hauteur.
+
 ## [1.8.2] - 2026-10-16
 
 Version de correctif qui porte des ajouts d'API, numéro choisi par le propriétaire le 2026-10-16 (voir [docs/versioning.md](docs/versioning.md)) ; un seul comportement par défaut change, décrit sous « Changed ».

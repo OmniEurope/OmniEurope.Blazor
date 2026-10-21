@@ -1719,6 +1719,7 @@ method public OmniEurope.Blazor.Components.OmniUploadRequest.Reject(System.Strin
 method public OmniEurope.Blazor.Components.OmniUploadRequest.ReportProgress(System.Double percentage) : System.Void
 method public OmniEurope.Blazor.Components.OmniValidatorBase<TValue>.Dispose() : System.Void
 method public OmniEurope.Blazor.Components.OmniValueAxis.Dispose() : System.Void
+method public OmniEurope.Blazor.Components.OmniWizard.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniWizardStep.Dispose() : System.Void
 method public OmniEurope.Blazor.Localization.OmniTextOverrideLocalizer.GetAllStrings(System.Boolean includeParentCultures) : System.Collections.Generic.IEnumerable<Microsoft.Extensions.Localization.LocalizedString>
 method public abstract OmniEurope.Blazor.Components.IOmniBreadcrumbResolver.Resolve(System.String relativePath) : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniBreadcrumbEntry>
@@ -3774,6 +3775,7 @@ property public OmniEurope.Blazor.Components.OmniWindowControls.OnMaximizeRestor
 property public OmniEurope.Blazor.Components.OmniWindowControls.OnMinimize : Microsoft.AspNetCore.Components.EventCallback {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniWindowControls.OnMinimizeToTray : Microsoft.AspNetCore.Components.EventCallback {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniWindowControls.RestoreLabel : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniWizard.BodyHeight : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniWizard.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniWizard.FinishText : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniWizard.Label : System.String? {get(public);set(public)} [Parameter]
@@ -4209,7 +4211,7 @@ type public OmniEurope.Blazor.Components.OmniUploadRequest [class, sealed]
 type public OmniEurope.Blazor.Components.OmniValidatorBase<TValue> [class, abstract] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniValueAxis [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniWindowControls [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
-type public OmniEurope.Blazor.Components.OmniWizard [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
+type public OmniEurope.Blazor.Components.OmniWizard [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniWizardStep [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components._Imports [class]
 type public OmniEurope.Blazor.Localization.OmniTextOverrideLocalizer [class, sealed] : Microsoft.Extensions.Localization.IStringLocalizer, Microsoft.Extensions.Localization.IStringLocalizer<OmniEurope.Blazor.Resources.AppStrings>

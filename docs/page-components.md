@@ -177,10 +177,14 @@ Avancer, par Suivant, Terminer ou une étape déjà atteinte de la liste, demand
 focus passe au corps ; une région de statut annonce « Étape 2 sur 3 : Options ». L'assistant ne dessine aucun
 voile : dans un `OmniDialog`, Échap et la croix restent ceux du dialogue.
 
-Les boutons restent au bas de la fenêtre quelle que soit la hauteur de l'étape : dans un conteneur qui le
-range en colonne (un corps de dialogue, une page en colonne), l'assistant prend la hauteur restante et le
-corps pousse le pied en bas ; une étape plus haute que la fenêtre défile sous le pied
-(`omni-wizard__foot`), collé au bord bas. Le bandeau des boutons ne prend un fond
+Les boutons restent à la même place quelle que soit l'étape : le corps a une hauteur contrôlée,
+`BodyHeight` (longueur CSS comme `24rem`, `400px` ou `50vh`), à défaut la propriété
+`--omni-wizard-body-height` de la feuille de l'hôte, à défaut `min(24rem, 60vh)`. Une étape plus haute
+défile dans le corps, au-dessus du pied (`omni-wizard__foot`) ; une étape plus courte laisse du vide. La
+valeur est posée par le script d'interop comme propriété personnalisée (jamais en attribut `style`) ; sans
+interactivité, la hauteur de la feuille s'applique. Le même corps sert dans un `OmniDialog`, où la hauteur
+par défaut tient dans la fenêtre (`60vh`). `BodyHeight="auto"` rend l'ancien comportement : le corps suit
+son contenu et, dans un conteneur en colonne, le pied se colle au bord bas. Le bandeau des boutons ne prend un fond
 (`--omni-wizard-actions-background`, la surface de carte par défaut) que tant qu'il est collé, par une
 requête de conteneur `scroll-state` : une étape courte ne peint aucune barre sur la page. Sans cette
 requête, le bandeau reste transparent. La piste de progression a l'épaisseur commune des barres (2 px).

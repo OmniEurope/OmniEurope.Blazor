@@ -1465,6 +1465,7 @@
   <data name="DemoFlowsAddressBody" xml:space="preserve"><value>The address of the person invited.</value></data>
   <data name="DemoFlowsStepRole" xml:space="preserve"><value>Role</value></data>
   <data name="DemoFlowsRoleBody" xml:space="preserve"><value>The role they will receive.</value></data>
+  <data name="DemoFlowsLongStepNote" xml:space="preserve"><value>A step taller than the wizard body: it scrolls, and the buttons stay where they are.</value></data>
   <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Administration area</value></data>
   <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Operations</value></data>
   <data name="DemoFlowsUser" xml:space="preserve"><value>Username</value></data>

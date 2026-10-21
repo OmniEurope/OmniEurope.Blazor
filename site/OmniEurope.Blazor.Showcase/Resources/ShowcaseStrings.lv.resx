@@ -1462,6 +1462,7 @@
   <data name="DemoFlowsAddressBody" xml:space="preserve"><value>Uzaicinātās personas adrese.</value></data>
   <data name="DemoFlowsStepRole" xml:space="preserve"><value>Loma</value></data>
   <data name="DemoFlowsRoleBody" xml:space="preserve"><value>Loma, ko persona saņems.</value></data>
+  <data name="DemoFlowsLongStepNote" xml:space="preserve"><value>Solis, kas ir augstāks par vedņa saturu: tas ritinās, un pogas paliek savā vietā.</value></data>
   <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Administrēšanas apgabals</value></data>
   <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Ekspluatācija</value></data>
   <data name="DemoFlowsUser" xml:space="preserve"><value>Lietotājvārds</value></data>

@@ -1462,6 +1462,7 @@
   <data name="DemoFlowsAddressBody" xml:space="preserve"><value>Η διεύθυνση του προσκεκλημένου ατόμου.</value></data>
   <data name="DemoFlowsStepRole" xml:space="preserve"><value>Ρόλος</value></data>
   <data name="DemoFlowsRoleBody" xml:space="preserve"><value>Ο ρόλος που θα λάβει.</value></data>
+  <data name="DemoFlowsLongStepNote" xml:space="preserve"><value>Ένα βήμα ψηλότερο από το σώμα του οδηγού: κυλά, και τα κουμπιά μένουν στη θέση τους.</value></data>
   <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Χώρος διαχείρισης</value></data>
   <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Λειτουργίες</value></data>
   <data name="DemoFlowsUser" xml:space="preserve"><value>Όνομα χρήστη</value></data>

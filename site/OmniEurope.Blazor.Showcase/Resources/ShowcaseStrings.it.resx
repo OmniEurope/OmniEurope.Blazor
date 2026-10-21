@@ -1462,6 +1462,7 @@
   <data name="DemoFlowsAddressBody" xml:space="preserve"><value>L'indirizzo della persona invitata.</value></data>
   <data name="DemoFlowsStepRole" xml:space="preserve"><value>Ruolo</value></data>
   <data name="DemoFlowsRoleBody" xml:space="preserve"><value>Il ruolo che riceverà.</value></data>
+  <data name="DemoFlowsLongStepNote" xml:space="preserve"><value>Un passaggio più alto del corpo della procedura guidata: scorre, e i pulsanti restano al loro posto.</value></data>
   <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Area di amministrazione</value></data>
   <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Operazioni</value></data>
   <data name="DemoFlowsUser" xml:space="preserve"><value>Nome utente</value></data>

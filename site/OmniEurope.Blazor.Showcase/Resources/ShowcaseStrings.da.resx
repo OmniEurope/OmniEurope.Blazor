@@ -1462,6 +1462,7 @@
   <data name="DemoFlowsAddressBody" xml:space="preserve"><value>Den inviterede persons adresse.</value></data>
   <data name="DemoFlowsStepRole" xml:space="preserve"><value>Rolle</value></data>
   <data name="DemoFlowsRoleBody" xml:space="preserve"><value>Den rolle, personen får.</value></data>
+  <data name="DemoFlowsLongStepNote" xml:space="preserve"><value>Et trin, der er højere end guidens indhold: det ruller, og knapperne bliver på deres plads.</value></data>
   <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Administrationsområde</value></data>
   <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Drift</value></data>
   <data name="DemoFlowsUser" xml:space="preserve"><value>Brugernavn</value></data>

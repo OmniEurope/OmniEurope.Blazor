@@ -555,13 +555,24 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
     }
 
     [Fact]
-    public void Stylesheet_WizardFoot_SticksToTheBottomAndThePageGrowsTheBody()
+    public void Stylesheet_WizardFoot_SticksToTheBottomAndTheBodyHasAControlledScrollingHeight()
     {
         var foot = ShippedLookTests.Body(".omni-wizard__foot");
         Assert.Equal("sticky", ShippedLookTests.Value(foot, "position"));
         Assert.Equal("0", ShippedLookTests.Value(foot, "inset-block-end"));
         Assert.Equal("auto", ShippedLookTests.Value(foot, "margin-block-start"));
-        Assert.Equal("1 0 auto", ShippedLookTests.Value(ShippedLookTests.Body(".omni-wizard__body"), "flex"));
+
+        // The body keeps one height whatever the step and scrolls: the foot does not move between steps.
+        var body = ShippedLookTests.Body(".omni-wizard__body");
+        Assert.Equal("var(--omni-wizard-body-height, min(24rem, 60vh))", ShippedLookTests.Value(body, "block-size"));
+        Assert.Equal("0 0 auto", ShippedLookTests.Value(body, "flex"));
+        Assert.Equal("auto", ShippedLookTests.Value(body, "overflow"));
+
+        // BodyHeight="auto" gives the body back to its content, as before.
+        var flexible = ShippedLookTests.Body(".omni-wizard--flexible > .omni-wizard__body");
+        Assert.Equal("auto", ShippedLookTests.Value(flexible, "block-size"));
+        Assert.Equal("1 0 auto", ShippedLookTests.Value(flexible, "flex"));
+        Assert.Equal("visible", ShippedLookTests.Value(flexible, "overflow"));
     }
 
     [Fact]

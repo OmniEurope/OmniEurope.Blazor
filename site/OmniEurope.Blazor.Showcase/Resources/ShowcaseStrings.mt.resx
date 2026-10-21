@@ -1462,6 +1462,7 @@
   <data name="DemoFlowsAddressBody" xml:space="preserve"><value>L-indirizz tal-persuna mistiedna.</value></data>
   <data name="DemoFlowsStepRole" xml:space="preserve"><value>Rwol</value></data>
   <data name="DemoFlowsRoleBody" xml:space="preserve"><value>Ir-rwol li se tirċievi.</value></data>
+  <data name="DemoFlowsLongStepNote" xml:space="preserve"><value>Pass itwal iktar mill-ġisem tal-wizard: jiskrollja, u l-buttuni jibqgħu fl-istess post.</value></data>
   <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Żona tal-amministrazzjoni</value></data>
   <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Operazzjonijiet</value></data>
   <data name="DemoFlowsUser" xml:space="preserve"><value>Isem tal-utent</value></data>

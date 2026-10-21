@@ -1462,6 +1462,7 @@
   <data name="DemoFlowsAddressBody" xml:space="preserve"><value>La dirección de la persona invitada.</value></data>
   <data name="DemoFlowsStepRole" xml:space="preserve"><value>Rol</value></data>
   <data name="DemoFlowsRoleBody" xml:space="preserve"><value>El rol que recibirá.</value></data>
+  <data name="DemoFlowsLongStepNote" xml:space="preserve"><value>Un paso más alto que el cuerpo del asistente: se desplaza y los botones se quedan en su sitio.</value></data>
   <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Área de administración</value></data>
   <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Operaciones</value></data>
   <data name="DemoFlowsUser" xml:space="preserve"><value>Nombre de usuario</value></data>

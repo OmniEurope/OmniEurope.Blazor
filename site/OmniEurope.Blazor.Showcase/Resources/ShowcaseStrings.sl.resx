@@ -1462,6 +1462,7 @@
   <data name="DemoFlowsAddressBody" xml:space="preserve"><value>Naslov povabljene osebe.</value></data>
   <data name="DemoFlowsStepRole" xml:space="preserve"><value>Vloga</value></data>
   <data name="DemoFlowsRoleBody" xml:space="preserve"><value>Vloga, ki jo bo prejela.</value></data>
+  <data name="DemoFlowsLongStepNote" xml:space="preserve"><value>Korak, višji od telesa čarovnika: se pomika, gumbi pa ostanejo na istem mestu.</value></data>
   <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Skrbniško območje</value></data>
   <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Operativa</value></data>
   <data name="DemoFlowsUser" xml:space="preserve"><value>Uporabniško ime</value></data>
