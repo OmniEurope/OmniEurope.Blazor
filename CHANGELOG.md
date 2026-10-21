@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+## [1.8.3] - 2026-10-21
+
+Version de correctif qui porte des ajouts d'API et plusieurs comportements par défaut changés (décrits sous « Changed ») ; SemVer donnerait `1.9.0`, numéro `1.8.3` choisi par le propriétaire le 2026-10-21 (voir [docs/versioning.md](docs/versioning.md)).
+
 ### Added
 
 - `OmniDivider` (famille Layout ; `Orientation`, `OmniStackOrientation`, `Horizontal` par défaut) : demande d'une application cliente (recette R2-24). Un filet fin de 1 px entre deux blocs distincts, typiquement dans un `OmniStack` (le récapitulatif d'un assistant : projet, architecture, pipelines, reste à faire avant la création). Un seul `div` avec `role="separator"` et `aria-orientation` ; `Orientation` est la direction du filet lui-même (`Horizontal` sur la largeur entre des blocs empilés, `Vertical` sur la hauteur entre des blocs côte à côte), une valeur hors de l'énumération est dessinée à l'horizontale. Aucune marge propre : l'écart de la pile l'espace ; il s'étire sur l'axe transversal et ne rétrécit pas. Couleur de bordure du thème (`--omni-color-border`), aucun style en ligne ni filet coloré sur le côté. Aucun texte nouveau dans le paquet ; sept textes de la vitrine dans les 24 langues, sans relecture native. Voir [docs/layout-components.md](docs/layout-components.md), « Séparateur ».
