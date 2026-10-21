@@ -23,6 +23,8 @@ public partial class LayoutDemo
 
     private bool OptionsExpanded { get; set; }
 
+    private bool TileChoice { get; set; } = true;
+
     private string? ServerName { get; set; } = "srv-paris-02";
 
     private string? ServerId { get; set; } = "a9f3cb0";

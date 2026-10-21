@@ -38,7 +38,12 @@
                 <Icon><OmniIcon Name="OmniIconName.WindowsLogo" /></Icon>
             </OmniSelectableCard>
         </OmniSelectableCardGroup>
+        @* Une carte à cocher dessine une vraie case, cochée quand la carte est choisie : décorative, la carte
+           reste l'unique contrôle (role="checkbox", aria-checked). ShowCheckBox="false" la retire ; Columns
+           range les cartes en colonnes de même largeur et de même hauteur, comme une OmniTileGrid. *@
         <OmniSelectableCardGroup Options="Features" Multiple="true" Label="@Text["DemoChoiceFeaturesLabel"]" @bind-Value="AgentFeatures" />
+        <OmniSelectableCardGroup Id="demo-card-columns" Options="Features" Multiple="true" Columns="3" Label="@Text["DemoChoiceFeaturesLabel"]" @bind-Value="AgentFeatures" />
+        <OmniSelectableCardGroup Options="Features" Multiple="true" ShowCheckBox="false" Label="@Text["DemoChoiceFeaturesLabel"]" @bind-Value="AgentFeatures" />
         <OmniSelectableCard Title="@Text["DemoChoiceRunnerTitle"]" Description="@Text["DemoChoiceRunnerDescription"]" Multiple="true" @bind-Value="Runner">
             <Icon><OmniIcon Name="OmniIconName.RocketLaunch" /></Icon>
         </OmniSelectableCard>

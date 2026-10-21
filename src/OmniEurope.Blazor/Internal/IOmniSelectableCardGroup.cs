@@ -15,6 +15,9 @@ internal interface IOmniSelectableCardGroup
     /// <summary>Whether the whole group is disabled.</summary>
     bool Disabled { get; }
 
+    /// <summary>Whether the cards of a group of check boxes draw their visible box.</summary>
+    bool ShowCheckBox { get; }
+
     /// <summary>Adds a card, in rendering order; refuses a choice that is not of the group's value type.</summary>
     void Register(OmniSelectableCard card);
 

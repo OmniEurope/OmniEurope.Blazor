@@ -48,6 +48,24 @@ public partial class OmniSelectableCardGroup<TValue, TSelection> : IOmniSelectab
     [Parameter]
     public string? Label { get; set; }
 
+    /// <summary>
+    /// Whether the cards of a group of check boxes (<see cref="Multiple"/>) draw a visible box, checked when
+    /// the card is chosen (recette R2-4), decorative beside the card's own <c>role="checkbox"</c>. True by
+    /// default; false keeps the frame and tint alone. A radio group never draws a box.
+    /// </summary>
+    [Parameter]
+    public bool ShowCheckBox { get; set; } = true;
+
+    /// <summary>
+    /// A number of columns, from 1 to 6, lays the cards out as an <see cref="OmniTileGrid"/> does: equal
+    /// widths, one height, <see cref="OmniSelectableCard.DoubleWidth"/> on two columns. Null, the default,
+    /// stacks the cards one under the other, as before.
+    /// </summary>
+    [Parameter]
+    public int? Columns { get; set; }
+
+    bool IOmniSelectableCardGroup.ShowCheckBox => ShowCheckBox;
+
     bool IOmniSelectableCardGroup.Multiple => Multiple;
 
     bool IOmniSelectableCardGroup.Disabled => Disabled;
@@ -55,6 +73,11 @@ public partial class OmniSelectableCardGroup<TValue, TSelection> : IOmniSelectab
     /// <summary>Checks the bound type against <see cref="Multiple"/>, and redraws the cards for the value.</summary>
     protected override void OnParametersSet()
     {
+        if (Columns is < 1 or > OmniTileGrid.MaxColumns)
+        {
+            throw new ArgumentOutOfRangeException(nameof(Columns), Columns, "A card group has between 1 and 6 columns.");
+        }
+
         EnsureSelectionType();
         base.OnParametersSet();
         RefreshCards();

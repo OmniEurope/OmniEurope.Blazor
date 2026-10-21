@@ -7,7 +7,7 @@
    Options, then the cards written inside it, each standing for its Choice. *@
 <div @attributes="AdditionalAttributes"
      id="@Id"
-     class="@InputCss("omni-selectable-card-group")"
+     class="@InputCss("omni-selectable-card-group", Columns is null ? null : "omni-tile-grid", Columns is null ? null : $"omni-tile-grid--columns-{Columns}", Columns is null ? null : "omni-tile-grid--gap-sm")"
      role="@(Multiple ? "group" : "radiogroup")"
      aria-label="@Internal.OmniAriaLabel.Of(Label, AdditionalAttributes)"
      aria-labelledby="@(string.IsNullOrWhiteSpace(Label) ? FormFieldLabelId : null)"

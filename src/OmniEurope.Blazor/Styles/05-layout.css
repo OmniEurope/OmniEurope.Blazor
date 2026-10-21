@@ -40,6 +40,37 @@
 .omni-column--span-11 { flex: 0 0 calc(100% * 11 / 12 - var(--omni-row-gap, 0px) * 1 / 12); max-width: calc(100% * 11 / 12 - var(--omni-row-gap, 0px) * 1 / 12); }
 .omni-column--span-12 { flex: 0 0 calc(100% * 12 / 12 - var(--omni-row-gap, 0px) * 0 / 12); max-width: calc(100% * 12 / 12 - var(--omni-row-gap, 0px) * 0 / 12); }
 
+/* The tile rule (OmniTileGrid, recette R1-20). A grid of tiles gives every tile the same width (equal
+   columns) and every row the same height, that of the tallest tile (grid-auto-rows: 1fr); a tile marked
+   omni-tile--double (DoubleWidth) spans two columns. Nothing spills: a tile can shrink under its content
+   (min-inline-size: 0), its words wrap inside, and the body of a card scrolls. Columns follow the
+   breakpoints of OmniColumn: one column, at most two from 40rem, all of them from 64rem. A double tile
+   spans two columns only where the grid has them, so it never opens an implicit column. */
+.omni-tile-grid { --omni-tile-columns: 4; --omni-tile-columns-sm: 2; display: grid; gap: var(--omni-space-md); grid-auto-rows: 1fr; grid-template-columns: minmax(0, 1fr); min-inline-size: 0; }
+.omni-tile-grid--gap-none { gap: 0; }
+.omni-tile-grid--gap-xs { gap: var(--omni-space-xs); }
+.omni-tile-grid--gap-sm { gap: var(--omni-space-sm); }
+.omni-tile-grid--gap-md { gap: var(--omni-space-md); }
+.omni-tile-grid--gap-lg { gap: var(--omni-space-lg); }
+.omni-tile-grid--gap-xl { gap: var(--omni-space-xl); }
+.omni-tile-grid--columns-1 { --omni-tile-columns: 1; --omni-tile-columns-sm: 1; }
+.omni-tile-grid--columns-2 { --omni-tile-columns: 2; --omni-tile-columns-sm: 2; }
+.omni-tile-grid--columns-3 { --omni-tile-columns: 3; --omni-tile-columns-sm: 2; }
+.omni-tile-grid--columns-4 { --omni-tile-columns: 4; --omni-tile-columns-sm: 2; }
+.omni-tile-grid--columns-5 { --omni-tile-columns: 5; --omni-tile-columns-sm: 2; }
+.omni-tile-grid--columns-6 { --omni-tile-columns: 6; --omni-tile-columns-sm: 2; }
+.omni-tile-grid > :is(.omni-card, .omni-selectable-card, .omni-stat-tile, .omni-nav-tile) { block-size: 100%; box-sizing: border-box; min-block-size: 0; min-inline-size: 0; }
+.omni-tile-grid > .omni-card { display: flex; flex-direction: column; }
+.omni-tile-grid > .omni-card > .omni-card__body { flex: 1 1 auto; min-block-size: 0; overflow: auto; }
+@media (min-width: 40rem) {
+    .omni-tile-grid { grid-template-columns: repeat(var(--omni-tile-columns-sm), minmax(0, 1fr)); }
+    .omni-tile-grid > .omni-tile--double { grid-column: span 2; }
+}
+@media (min-width: 64rem) {
+    .omni-tile-grid { grid-template-columns: repeat(var(--omni-tile-columns), minmax(0, 1fr)); }
+}
+.omni-tile-grid--columns-1 > .omni-tile--double { grid-column: auto; }
+
 .omni-layout { --omni-sidebar-inset: calc(var(--omni-item-pad-y) + var(--omni-space-xs)); --omni-sidebar-rail: calc(2 * var(--omni-sidebar-inset) + 1.25rem); box-sizing: border-box; margin-inline: auto; width: 100%; }
 .omni-main { --omni-main-max-width: 100%; display: block; min-width: 0; }
 .omni-main:focus { outline: none; }

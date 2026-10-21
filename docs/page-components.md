@@ -137,7 +137,8 @@ teinté, décoratif). Avec `OnClick`, la tuile entière devient un bouton, nomm�
 puis le coupe de points de suspension, son texte entier en titre (infobulle), y compris quand `OnClick` apparaît ou disparaît et que la tuile change d'élément ; le détail peut se couper.
 Comme `OmniNavTile`, elle prend la hauteur de sa colonne (`block-size: 100%`) : les tuiles d'une rangée
 `OmniRow` ont la hauteur de la plus haute, celle qui porte un `Detail` comprise ; seule dans un bloc ou
-empilée sur un téléphone, elle garde sa propre hauteur.
+empilée sur un téléphone, elle garde sa propre hauteur. `DoubleWidth` l'étale sur deux colonnes d'une
+`OmniTileGrid` (voir [layout-components.md](layout-components.md), « Règle des tuiles »).
 
 ## Tuile de navigation : `OmniNavTile`
 
@@ -146,7 +147,9 @@ L'accueil d'une administration ou d'un regroupement de rubriques : `Icon` sur un
 tuile entière étant un vrai lien vers `Href` (clic du milieu, adresse visible au survol ; adresse vérifiée
 par la politique d'URI du paquet comme celle d'`OmniLink`, un schéma dangereux tel que `javascript:` lève). Au survol,
 seule l'ombre change, la tuile ne bouge pas. Elle prend la hauteur de sa colonne : posées dans un
-`OmniRow` d'`OmniColumn`, les tuiles d'une ligne s'alignent quelles que soient leurs descriptions.
+`OmniRow` d'`OmniColumn`, les tuiles d'une ligne s'alignent quelles que soient leurs descriptions ; dans
+une `OmniTileGrid`, toutes les tuiles ont la même largeur et la même hauteur, et `DoubleWidth` en étale une
+sur deux colonnes (« Règle des tuiles » dans [layout-components.md](layout-components.md)).
 
 ```razor
 <OmniRow Gap="OmniSpacing.Medium">

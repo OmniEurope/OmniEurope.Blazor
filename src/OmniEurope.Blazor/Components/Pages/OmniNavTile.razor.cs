@@ -30,4 +30,11 @@ public partial class OmniNavTile
     /// <summary>The tone of the square and its icon; <see cref="OmniTone.Accent"/> by default.</summary>
     [Parameter]
     public OmniTone Tone { get; set; } = OmniTone.Accent;
+
+    /// <summary>
+    /// In an <see cref="OmniTileGrid"/>, the tile spans two columns instead of one. Ignored elsewhere.
+    /// False by default.
+    /// </summary>
+    [Parameter]
+    public bool DoubleWidth { get; set; }
 }

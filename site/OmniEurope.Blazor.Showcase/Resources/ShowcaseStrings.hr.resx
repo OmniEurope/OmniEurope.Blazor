@@ -70,6 +70,7 @@
   <data name="DemoBadgesSummary" xml:space="preserve"><value>Kratka oznaka koja opisuje stavku bez pretrpavanja.</value></data>
   <data name="DemoBadgesCapability1" xml:space="preserve"><value>Pet varijanti usklađenih s razinama ozbiljnosti teme.</value></data>
   <data name="DemoBadgesCapability2" xml:space="preserve"><value>Obojene pozadine izvedene iz varijabli, pa se mijenjaju s temom.</value></data>
+  <data name="DemoBadgesCapability3" xml:space="preserve"><value>Zajednička minimalna širina (mala, srednja, velika) poravnava riječi statusa različite duljine u stupcu ili popisu.</value></data>
   <data name="DemoAlertsTitle" xml:space="preserve"><value>Upozorenja</value></data>
   <data name="DemoAlertsSummary" xml:space="preserve"><value>Kontekstna poruka, od obične obavijesti do blokirajućeg neuspjeha.</value></data>
   <data name="DemoAlertsCapability1" xml:space="preserve"><value>Četiri razine ozbiljnosti: informacija, uspjeh, upozorenje i opasnost.</value></data>
@@ -138,6 +139,7 @@
   <data name="DemoLayoutCapability2" xml:space="preserve"><value>Kartica s tri zone: zaglavlje, tijelo i podnožje.</value></data>
   <data name="DemoLayoutCapability3" xml:space="preserve"><value>Grupa polja koja se onemogućuje jednim potezom.</value></data>
   <data name="DemoLayoutCapability4" xml:space="preserve"><value>Cijela skala razmaka te raspodjele i poravnanja koja red prihvaća.</value></data>
+  <data name="DemoLayoutCapability5" xml:space="preserve"><value>Mreža pločica: jednake širine, jedna visina po retku i dvostruka pločica koja zauzima dva stupca.</value></data>
   <data name="DemoShellTitle" xml:space="preserve"><value>Okvir aplikacije</value></data>
   <data name="DemoShellSummary" xml:space="preserve"><value>Kostur aplikacije, onaj od kojeg je izrađeno ovo web-mjesto.</value></data>
   <data name="DemoShellCapability1" xml:space="preserve"><value>Zaglavlje, sklopiva bočna traka i glavno područje.</value></data>
@@ -161,6 +163,7 @@
   <data name="DemoChoiceCapability1" xml:space="preserve"><value>Popisi vođeni opcijama ili postavljeni stavku po stavku.</value></data>
   <data name="DemoChoiceCapability2" xml:space="preserve"><value>Traka odabira i preklopni gumb, sa zauzetim i onemogućenim stanjem.</value></data>
   <data name="DemoChoiceCapability3" xml:space="preserve"><value>Potvrdni okvir i prekidač s tri položaja, uključujući neodređeni.</value></data>
+  <data name="DemoChoiceCapability4" xml:space="preserve"><value>Vidljiv potvrdni okvir na karticama s višestrukim odabirom i kartice raspoređene u stupce iste veličine.</value></data>
   <data name="DemoValidationTitle" xml:space="preserve"><value>Provjera valjanosti</value></data>
   <data name="DemoValidationSummary" xml:space="preserve"><value>Pravila deklarirana uz polje koje štite.</value></data>
   <data name="DemoValidationCapability1" xml:space="preserve"><value>Obaveznost, duljina, format e-pošte i usporedba.</value></data>

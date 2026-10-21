@@ -339,9 +339,14 @@ select.omni-input.omni-input--large:not([multiple]):not([size]) { block-size: ca
 .omni-selectable-card__icon { --omni-icon-size: 1.75rem; align-items: center; color: var(--omni-color-text-muted); display: inline-flex; flex: none; justify-content: center; }
 .omni-selectable-card__icon > svg { block-size: 1.75rem; inline-size: 1.75rem; }
 .omni-selectable-card--selected .omni-selectable-card__icon { color: var(--omni-color-accent-strong); }
-.omni-selectable-card__text { display: flex; flex: 1 1 auto; flex-direction: column; gap: var(--omni-space-xs); min-inline-size: 0; }
-.omni-selectable-card__title { font-weight: 600; }
-.omni-selectable-card__description { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); }
+.omni-selectable-card__text { display: flex; flex: 1 1 auto; flex-direction: column; gap: var(--omni-space-xs); min-inline-size: 0; overflow-wrap: anywhere; }
+/* The visible check box of a check box card (recette R2-4): drawn like .omni-checkbox, but a decorative span,
+   so the card stays the one control. It keeps its size whether checked or not, so the text never moves. */
+.omni-selectable-card__box { align-items: center; background: var(--omni-color-surface); block-size: var(--omni-check-size); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius-sm); box-sizing: border-box; display: inline-grid; flex: none; inline-size: var(--omni-check-size); place-content: center; }
+.omni-selectable-card__box::before { block-size: 0.5rem; border: solid var(--omni-color-on-accent-fill); border-width: 0 2px 2px 0; box-sizing: border-box; content: ""; inline-size: 0.3125rem; opacity: 0; transform: translateY(-1px) rotate(45deg); }
+.omni-selectable-card--selected .omni-selectable-card__box { background: var(--omni-color-accent-fill); border-color: var(--omni-color-accent-fill); }
+.omni-selectable-card--selected .omni-selectable-card__box::before { opacity: 1; }
+.omni-selectable-card__title { font-weight: 600; }.omni-selectable-card__description { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); }
 @media (prefers-reduced-motion: reduce) { .omni-selectable-card { transition: none; } }
 
 .omni-choice-list { border: 0; box-sizing: border-box; display: grid; gap: calc(var(--omni-field-gap) + 2px); inline-size: 100%; margin: 0; min-inline-size: 0; padding: 0; }

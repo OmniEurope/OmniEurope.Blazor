@@ -1,7 +1,7 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-<section @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-card")" data-omni-density="@OmniDensityAttribute.Of(Density)">
+<section @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-card", DoubleWidth ? "omni-tile--double" : null)" data-omni-density="@OmniDensityAttribute.Of(Density)">
     @if (Header is not null)
     {
         <header class="omni-card__header">@Header</header>

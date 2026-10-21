@@ -31,6 +31,18 @@ public partial class OmniBadge
     [Parameter]
     public OmniFill Fill { get; set; } = OmniFill.Solid;
 
+    /// <summary>
+    /// A common minimum width, so that badges of different text lengths in one column or list line up
+    /// (recette R1-23): <see cref="OmniBadgeWidth.Small"/>, <see cref="OmniBadgeWidth.Medium"/> or
+    /// <see cref="OmniBadgeWidth.Large"/>, the same step on every badge of the column. A longer text widens
+    /// its badge, nothing is cut. <see cref="OmniBadgeWidth.Auto"/>, the default, keeps the width of the
+    /// content; an icon-only badge stays a square whatever the step.
+    /// </summary>
+    [Parameter]
+    public OmniBadgeWidth Width { get; set; } = OmniBadgeWidth.Auto;
+
     /// <summary>An icon and nothing else: the badge is then a square as tall as a text badge.</summary>
     private bool IconOnly => Icon is not null && ChildContent is null;
+
+    private string? WidthClass => Width == OmniBadgeWidth.Auto || IconOnly ? null : $"omni-badge--width-{Width.ToString().ToLowerInvariant()}";
 }

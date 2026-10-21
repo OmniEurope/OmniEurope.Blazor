@@ -70,6 +70,7 @@
   <data name="DemoBadgesSummary" xml:space="preserve"><value>L'etichetta breve che qualifica un elemento senza appesantirlo.</value></data>
   <data name="DemoBadgesCapability1" xml:space="preserve"><value>Cinque varianti allineate alle severità del tema.</value></data>
   <data name="DemoBadgesCapability2" xml:space="preserve"><value>Sfondi tinti derivati dalle variabili, quindi ridipinti con il tema.</value></data>
+  <data name="DemoBadgesCapability3" xml:space="preserve"><value>Una larghezza minima comune (piccola, media, grande) allinea parole di stato di lunghezza diversa in una colonna o in un elenco.</value></data>
   <data name="DemoAlertsTitle" xml:space="preserve"><value>Avvisi</value></data>
   <data name="DemoAlertsSummary" xml:space="preserve"><value>Il messaggio contestuale, dal semplice avviso all'errore bloccante.</value></data>
   <data name="DemoAlertsCapability1" xml:space="preserve"><value>Quattro severità: informazione, successo, attenzione e pericolo.</value></data>
@@ -138,6 +139,7 @@
   <data name="DemoLayoutCapability2" xml:space="preserve"><value>Card in tre zone: intestazione, corpo e piè di pagina.</value></data>
   <data name="DemoLayoutCapability3" xml:space="preserve"><value>Gruppo di campi disattivabile con un solo gesto.</value></data>
   <data name="DemoLayoutCapability4" xml:space="preserve"><value>La scala di spaziatura completa e le distribuzioni e gli allineamenti che una riga accetta.</value></data>
+  <data name="DemoLayoutCapability5" xml:space="preserve"><value>Una griglia di riquadri: larghezze uguali, un'unica altezza per riga e un riquadro doppio che occupa due colonne.</value></data>
   <data name="DemoShellTitle" xml:space="preserve"><value>Shell dell'applicazione</value></data>
   <data name="DemoShellSummary" xml:space="preserve"><value>L'ossatura di un'applicazione, quella di cui è fatto questo sito.</value></data>
   <data name="DemoShellCapability1" xml:space="preserve"><value>Intestazione, barra laterale comprimibile e area principale.</value></data>
@@ -161,6 +163,7 @@
   <data name="DemoChoiceCapability1" xml:space="preserve"><value>Elenchi gestiti tramite opzioni o composti elemento per elemento.</value></data>
   <data name="DemoChoiceCapability2" xml:space="preserve"><value>Barra di selezione e pulsante di attivazione, con stati occupato e disattivato.</value></data>
   <data name="DemoChoiceCapability3" xml:space="preserve"><value>Casella e interruttore a tre posizioni, incluso lo stato indeterminato.</value></data>
+  <data name="DemoChoiceCapability4" xml:space="preserve"><value>Una casella visibile sulle schede a selezione multipla e schede disposte in colonne della stessa dimensione.</value></data>
   <data name="DemoValidationTitle" xml:space="preserve"><value>Convalida</value></data>
   <data name="DemoValidationSummary" xml:space="preserve"><value>Le regole dichiarate accanto al campo che proteggono.</value></data>
   <data name="DemoValidationCapability1" xml:space="preserve"><value>Obbligatorietà, lunghezza, formato e-mail e confronto.</value></data>

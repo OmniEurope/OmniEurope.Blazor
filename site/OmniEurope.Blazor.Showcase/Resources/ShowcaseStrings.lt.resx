@@ -70,6 +70,7 @@
   <data name="DemoBadgesSummary" xml:space="preserve"><value>Trumpa etiketė, apibūdinanti elementą jo neperkraunant.</value></data>
   <data name="DemoBadgesCapability1" xml:space="preserve"><value>Penki variantai, suderinti su temos svarbos lygiais.</value></data>
   <data name="DemoBadgesCapability2" xml:space="preserve"><value>Atspalvinti fonai, gauti iš kintamųjų, todėl perdažomi kartu su tema.</value></data>
+  <data name="DemoBadgesCapability3" xml:space="preserve"><value>Bendras minimalus plotis (mažas, vidutinis, didelis) sulygiuoja skirtingo ilgio būsenos žodžius stulpelyje ar sąraše.</value></data>
   <data name="DemoAlertsTitle" xml:space="preserve"><value>Įspėjimai</value></data>
   <data name="DemoAlertsSummary" xml:space="preserve"><value>Kontekstinis pranešimas – nuo paprasto pastebėjimo iki blokuojančios klaidos.</value></data>
   <data name="DemoAlertsCapability1" xml:space="preserve"><value>Keturi svarbos lygiai: informacija, sėkmė, įspėjimas ir pavojus.</value></data>
@@ -138,6 +139,7 @@
   <data name="DemoLayoutCapability2" xml:space="preserve"><value>Trijų zonų kortelė: antraštė, turinys ir poraštė.</value></data>
   <data name="DemoLayoutCapability3" xml:space="preserve"><value>Laukų grupė, kurią galima išjungti vienu veiksmu.</value></data>
   <data name="DemoLayoutCapability4" xml:space="preserve"><value>Visa tarpų skalė ir lygiuotės, kurias priima eilė.</value></data>
+  <data name="DemoLayoutCapability5" xml:space="preserve"><value>Plytelių tinklelis: vienodi plotai, vienas aukštis eilutėje ir dviguba plytelė, užimanti du stulpelius.</value></data>
   <data name="DemoShellTitle" xml:space="preserve"><value>Programos karkasas</value></data>
   <data name="DemoShellSummary" xml:space="preserve"><value>Programos rėmas, iš kurio sukurta ir ši svetainė.</value></data>
   <data name="DemoShellCapability1" xml:space="preserve"><value>Antraštė, suskleidžiama šoninė juosta ir pagrindinė sritis.</value></data>
@@ -161,6 +163,7 @@
   <data name="DemoChoiceCapability1" xml:space="preserve"><value>Sąrašai, valdomi parinktimis arba išdėstomi po vieną elementą.</value></data>
   <data name="DemoChoiceCapability2" xml:space="preserve"><value>Pasirinkimo juosta ir perjungimo mygtukas su užimtumo ir išjungta būsenomis.</value></data>
   <data name="DemoChoiceCapability3" xml:space="preserve"><value>Trijų padėčių žymimasis langelis ir jungiklis, įskaitant neapibrėžtą.</value></data>
+  <data name="DemoChoiceCapability4" xml:space="preserve"><value>Matomas žymimasis langelis daugkartinio pasirinkimo kortelėse ir vienodo dydžio stulpeliais išdėstytos kortelės.</value></data>
   <data name="DemoValidationTitle" xml:space="preserve"><value>Tikrinimas</value></data>
   <data name="DemoValidationSummary" xml:space="preserve"><value>Taisyklės, deklaruotos šalia saugomo lauko.</value></data>
   <data name="DemoValidationCapability1" xml:space="preserve"><value>Privalomumas, ilgis, el. pašto formatas ir palyginimas.</value></data>

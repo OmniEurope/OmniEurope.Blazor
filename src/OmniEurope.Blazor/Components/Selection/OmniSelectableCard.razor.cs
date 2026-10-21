@@ -67,9 +67,28 @@ public partial class OmniSelectableCard
     [Parameter]
     public object? Choice { get; set; }
 
+    /// <summary>
+    /// Whether a check box card (<see cref="Multiple"/>) draws a visible box, checked when the card is chosen,
+    /// before its content (recette R2-4). The box is decorative: the card stays the one control, with its
+    /// own <c>role="checkbox"</c> and <c>aria-checked</c>, so nothing is announced twice. True by default;
+    /// false keeps the frame and tint alone. A radio card never draws a box. Inside a group, the group's
+    /// <see cref="OmniSelectableCardGroup{TValue, TSelection}.ShowCheckBox"/> decides.
+    /// </summary>
+    [Parameter]
+    public bool ShowCheckBox { get; set; } = true;
+
+    /// <summary>
+    /// In an <see cref="OmniTileGrid"/> (or a group laid out in <c>Columns</c>), the card spans two columns
+    /// instead of one. Ignored elsewhere. False by default.
+    /// </summary>
+    [Parameter]
+    public bool DoubleWidth { get; set; }
+
     private bool IsSelected => Group?.IsSelected(this) ?? Value;
 
     private bool IsMultiple => Group?.Multiple ?? Multiple;
+
+    private bool BoxShown => IsMultiple && (Group?.ShowCheckBox ?? ShowCheckBox);
 
     internal bool IsDisabled => Disabled || Group?.Disabled == true;
 

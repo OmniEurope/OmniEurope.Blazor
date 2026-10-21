@@ -70,6 +70,7 @@
   <data name="DemoBadgesSummary" xml:space="preserve"><value>Die kurze Kennzeichnung, die ein Element beschreibt, ohne es zu überladen.</value></data>
   <data name="DemoBadgesCapability1" xml:space="preserve"><value>Fünf Varianten, abgestimmt auf die Schweregrade des Designs.</value></data>
   <data name="DemoBadgesCapability2" xml:space="preserve"><value>Getönte Hintergründe aus den Variablen, die sich also mit dem Design neu einfärben.</value></data>
+  <data name="DemoBadgesCapability3" xml:space="preserve"><value>Eine gemeinsame Mindestbreite (klein, mittel, groß) richtet Statuswörter unterschiedlicher Länge in einer Spalte oder Liste aus.</value></data>
   <data name="DemoAlertsTitle" xml:space="preserve"><value>Hinweise</value></data>
   <data name="DemoAlertsSummary" xml:space="preserve"><value>Die kontextbezogene Meldung, vom einfachen Hinweis bis zum blockierenden Fehler.</value></data>
   <data name="DemoAlertsCapability1" xml:space="preserve"><value>Vier Schweregrade: Information, Erfolg, Warnung und Gefahr.</value></data>
@@ -138,6 +139,7 @@
   <data name="DemoLayoutCapability2" xml:space="preserve"><value>Eine Karte in drei Zonen: Kopf, Inhalt und Fuß.</value></data>
   <data name="DemoLayoutCapability3" xml:space="preserve"><value>Eine Feldgruppe, die sich mit einem Handgriff deaktivieren lässt.</value></data>
   <data name="DemoLayoutCapability4" xml:space="preserve"><value>Die vollständige Abstandsskala und die Verteilungen und Ausrichtungen, die eine Reihe akzeptiert.</value></data>
+  <data name="DemoLayoutCapability5" xml:space="preserve"><value>Ein Kachelraster: gleiche Breiten, eine Höhe pro Zeile und eine Doppelkachel über zwei Spalten.</value></data>
   <data name="DemoShellTitle" xml:space="preserve"><value>Anwendungsrahmen</value></data>
   <data name="DemoShellSummary" xml:space="preserve"><value>Das Gerüst einer Anwendung, aus dem auch diese Website besteht.</value></data>
   <data name="DemoShellCapability1" xml:space="preserve"><value>Kopfzeile, einklappbare Seitenleiste und Hauptbereich.</value></data>
@@ -161,6 +163,7 @@
   <data name="DemoChoiceCapability1" xml:space="preserve"><value>Listen, gesteuert über Optionen oder Element für Element angelegt.</value></data>
   <data name="DemoChoiceCapability2" xml:space="preserve"><value>Auswahlleiste und Umschaltfläche, mit Beschäftigt- und deaktiviertem Zustand.</value></data>
   <data name="DemoChoiceCapability3" xml:space="preserve"><value>Kontrollkästchen und Schalter mit drei Stellungen, einschließlich unbestimmt.</value></data>
+  <data name="DemoChoiceCapability4" xml:space="preserve"><value>Ein sichtbares Kontrollkästchen auf Karten mit Mehrfachauswahl und Karten in Spalten gleicher Größe.</value></data>
   <data name="DemoValidationTitle" xml:space="preserve"><value>Validierung</value></data>
   <data name="DemoValidationSummary" xml:space="preserve"><value>Die Regeln werden neben dem Feld deklariert, das sie schützen.</value></data>
   <data name="DemoValidationCapability1" xml:space="preserve"><value>Pflichtfeld, Länge, E-Mail-Format und Vergleich.</value></data>

@@ -30,6 +30,14 @@ public partial class OmniStatusBadge<TValue> : IDisposable
     [Parameter]
     public bool ShowIcon { get; set; } = true;
 
+    /// <summary>
+    /// A common minimum width for the badge, as <see cref="OmniBadge.Width"/>: the same step on every
+    /// status badge of a column makes "Failed", "Cancelled" and "Success" the same width. <see cref="OmniBadgeWidth.Auto"/>
+    /// by default.
+    /// </summary>
+    [Parameter]
+    public OmniBadgeWidth Width { get; set; } = OmniBadgeWidth.Auto;
+
     /// <summary>When the value was last known to be true. Without it, the badge is never stale.</summary>
     [Parameter]
     public DateTimeOffset? Timestamp { get; set; }

@@ -59,9 +59,13 @@
     </OmniStack>
 </OmniStack>
 
+@* Largeur : sans pas (Auto), chaque badge a la largeur de son mot ; avec le même pas (Medium) sur chaque
+   badge d'une colonne, des mots de longueurs différentes s'alignent sur la même largeur. *@
 <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true">
-    <OmniStatusBadge TValue="string" Value="@("ready")" Map="DemoStatuses" />
-    <OmniStatusBadge TValue="string" Value="@("failed")" Map="DemoStatuses" />
+    <OmniStatusBadge TValue="string" Value="@("ready")" Map="DemoStatuses" Width="OmniBadgeWidth.Auto" />
+    <OmniStatusBadge TValue="string" Value="@("failed")" Map="DemoStatuses" Width="OmniBadgeWidth.Auto" />
+    <OmniStatusBadge TValue="string" Value="@("ready")" Map="DemoStatuses" Width="OmniBadgeWidth.Medium" />
+    <OmniStatusBadge TValue="string" Value="@("failed")" Map="DemoStatuses" Width="OmniBadgeWidth.Medium" />
 </OmniStack>
 
 <OmniStatusStrip Items="RecentRuns" Map="RunTones" Label="@Text["DemoFeedbackRecentRuns"]" />

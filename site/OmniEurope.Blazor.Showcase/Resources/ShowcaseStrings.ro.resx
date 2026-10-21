@@ -70,6 +70,7 @@
   <data name="DemoBadgesSummary" xml:space="preserve"><value>Eticheta scurtă care califică un element fără să-l încarce.</value></data>
   <data name="DemoBadgesCapability1" xml:space="preserve"><value>Cinci variante aliniate la nivelurile de severitate ale temei.</value></data>
   <data name="DemoBadgesCapability2" xml:space="preserve"><value>Fundaluri nuanțate derivate din variabile, deci revopsite odată cu tema.</value></data>
+  <data name="DemoBadgesCapability3" xml:space="preserve"><value>O lățime minimă comună (mică, medie, mare) aliniază cuvintele de stare de lungimi diferite într-o coloană sau listă.</value></data>
   <data name="DemoAlertsTitle" xml:space="preserve"><value>Alerte</value></data>
   <data name="DemoAlertsSummary" xml:space="preserve"><value>Mesajul contextual, de la simpla informare la eșecul blocant.</value></data>
   <data name="DemoAlertsCapability1" xml:space="preserve"><value>Patru niveluri de severitate: informare, succes, avertisment și pericol.</value></data>
@@ -138,6 +139,7 @@
   <data name="DemoLayoutCapability2" xml:space="preserve"><value>Card cu trei zone: antet, corp și subsol.</value></data>
   <data name="DemoLayoutCapability3" xml:space="preserve"><value>Grup de câmpuri care poate fi dezactivat dintr-o singură mișcare.</value></data>
   <data name="DemoLayoutCapability4" xml:space="preserve"><value>Scara completă de spațiere și distribuțiile și alinierile pe care le acceptă un rând.</value></data>
+  <data name="DemoLayoutCapability5" xml:space="preserve"><value>O grilă de plăci: lățimi egale, o singură înălțime pe rând și o placă dublă care ocupă două coloane.</value></data>
   <data name="DemoShellTitle" xml:space="preserve"><value>Structura aplicației</value></data>
   <data name="DemoShellSummary" xml:space="preserve"><value>Scheletul unei aplicații, cel din care este făcut acest site.</value></data>
   <data name="DemoShellCapability1" xml:space="preserve"><value>Antet, bară laterală pliabilă și zonă principală.</value></data>
@@ -161,6 +163,7 @@
   <data name="DemoChoiceCapability1" xml:space="preserve"><value>Liste controlate prin opțiuni sau construite element cu element.</value></data>
   <data name="DemoChoiceCapability2" xml:space="preserve"><value>Bară de selecție și buton comutator, cu stări ocupat și dezactivat.</value></data>
   <data name="DemoChoiceCapability3" xml:space="preserve"><value>Casetă și comutator cu trei poziții, inclusiv cea nedeterminată.</value></data>
+  <data name="DemoChoiceCapability4" xml:space="preserve"><value>O casetă vizibilă pe cardurile cu selecție multiplă și carduri așezate în coloane de aceeași mărime.</value></data>
   <data name="DemoValidationTitle" xml:space="preserve"><value>Validare</value></data>
   <data name="DemoValidationSummary" xml:space="preserve"><value>Regulile declarate lângă câmpul pe care îl protejează.</value></data>
   <data name="DemoValidationCapability1" xml:space="preserve"><value>Obligativitate, lungime, format de e-mail și comparație.</value></data>

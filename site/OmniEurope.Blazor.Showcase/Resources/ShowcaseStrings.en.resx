@@ -70,6 +70,7 @@
   <data name="DemoBadgesSummary" xml:space="preserve"><value>The short label that qualifies an item without crowding it.</value></data>
   <data name="DemoBadgesCapability1" xml:space="preserve"><value>Five variants aligned with the theme severities.</value></data>
   <data name="DemoBadgesCapability2" xml:space="preserve"><value>Tinted backgrounds derived from the variables, so they repaint with the theme.</value></data>
+  <data name="DemoBadgesCapability3" xml:space="preserve"><value>A common minimum width (Small, Medium, Large) lines up status words of different lengths in a column or list.</value></data>
   <data name="DemoAlertsTitle" xml:space="preserve"><value>Alerts</value></data>
   <data name="DemoAlertsSummary" xml:space="preserve"><value>The contextual message, from a plain notice to a blocking failure.</value></data>
   <data name="DemoAlertsCapability1" xml:space="preserve"><value>Four severities: info, success, warning and danger.</value></data>
@@ -138,6 +139,7 @@
   <data name="DemoLayoutCapability2" xml:space="preserve"><value>A card in three zones: header, body and footer.</value></data>
   <data name="DemoLayoutCapability3" xml:space="preserve"><value>A field group that can be disabled in one move.</value></data>
   <data name="DemoLayoutCapability4" xml:space="preserve"><value>The full spacing scale, and the alignments a row accepts.</value></data>
+  <data name="DemoLayoutCapability5" xml:space="preserve"><value>A tile grid: equal widths, one height per row, and a double-width tile that spans two columns.</value></data>
   <data name="DemoShellTitle" xml:space="preserve"><value>Application shell</value></data>
   <data name="DemoShellSummary" xml:space="preserve"><value>The frame of an application, the one this site is built from.</value></data>
   <data name="DemoShellCapability1" xml:space="preserve"><value>Header, collapsible sidebar and main region.</value></data>
@@ -161,6 +163,7 @@
   <data name="DemoChoiceCapability1" xml:space="preserve"><value>Lists driven by options, or laid out item by item.</value></data>
   <data name="DemoChoiceCapability2" xml:space="preserve"><value>A select bar and a toggle button, with busy and disabled states.</value></data>
   <data name="DemoChoiceCapability3" xml:space="preserve"><value>A checkbox and a switch with three positions, indeterminate included.</value></data>
+  <data name="DemoChoiceCapability4" xml:space="preserve"><value>A visible check box on check box cards, and cards laid out in columns of equal size.</value></data>
   <data name="DemoValidationTitle" xml:space="preserve"><value>Validation</value></data>
   <data name="DemoValidationSummary" xml:space="preserve"><value>Rules declared next to the field they guard.</value></data>
   <data name="DemoValidationCapability1" xml:space="preserve"><value>Required, length, email format and comparison.</value></data>

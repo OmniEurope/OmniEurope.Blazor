@@ -70,6 +70,7 @@
   <data name="DemoBadgesSummary" xml:space="preserve"><value>Η σύντομη ετικέτα που χαρακτηρίζει ένα στοιχείο χωρίς να το επιβαρύνει.</value></data>
   <data name="DemoBadgesCapability1" xml:space="preserve"><value>Πέντε παραλλαγές ευθυγραμμισμένες με τα επίπεδα σοβαρότητας του θέματος.</value></data>
   <data name="DemoBadgesCapability2" xml:space="preserve"><value>Χρωματισμένα φόντα που προκύπτουν από τις μεταβλητές, οπότε αλλάζουν μαζί με το θέμα.</value></data>
+  <data name="DemoBadgesCapability3" xml:space="preserve"><value>Ένα κοινό ελάχιστο πλάτος (μικρό, μεσαίο, μεγάλο) ευθυγραμμίζει λέξεις κατάστασης διαφορετικού μήκους σε στήλη ή λίστα.</value></data>
   <data name="DemoAlertsTitle" xml:space="preserve"><value>Ειδοποιήσεις</value></data>
   <data name="DemoAlertsSummary" xml:space="preserve"><value>Το μήνυμα περιεχομένου, από την απλή ενημέρωση έως την αποτυχία που μπλοκάρει.</value></data>
   <data name="DemoAlertsCapability1" xml:space="preserve"><value>Τέσσερα επίπεδα σοβαρότητας: πληροφορία, επιτυχία, προειδοποίηση και κίνδυνος.</value></data>
@@ -138,6 +139,7 @@
   <data name="DemoLayoutCapability2" xml:space="preserve"><value>Κάρτα με τρεις ζώνες: κεφαλίδα, σώμα και υποσέλιδο.</value></data>
   <data name="DemoLayoutCapability3" xml:space="preserve"><value>Ομάδα πεδίων που απενεργοποιείται με μία κίνηση.</value></data>
   <data name="DemoLayoutCapability4" xml:space="preserve"><value>Η πλήρης κλίμακα αποστάσεων, και οι κατανομές και στοιχίσεις που δέχεται μια σειρά.</value></data>
+  <data name="DemoLayoutCapability5" xml:space="preserve"><value>Πλέγμα πλακιδίων: ίσα πλάτη, ένα ύψος ανά γραμμή και ένα διπλό πλακίδιο που καταλαμβάνει δύο στήλες.</value></data>
   <data name="DemoShellTitle" xml:space="preserve"><value>Κέλυφος εφαρμογής</value></data>
   <data name="DemoShellSummary" xml:space="preserve"><value>Ο σκελετός μιας εφαρμογής, αυτός από τον οποίο είναι φτιαγμένος αυτός ο ιστότοπος.</value></data>
   <data name="DemoShellCapability1" xml:space="preserve"><value>Κεφαλίδα, πτυσσόμενη πλευρική γραμμή και κύρια περιοχή.</value></data>
@@ -161,6 +163,7 @@
   <data name="DemoChoiceCapability1" xml:space="preserve"><value>Λίστες που καθοδηγούνται από επιλογές ή δηλώνονται στοιχείο προς στοιχείο.</value></data>
   <data name="DemoChoiceCapability2" xml:space="preserve"><value>Γραμμή επιλογής και κουμπί εναλλαγής, με καταστάσεις απασχόλησης και απενεργοποίησης.</value></data>
   <data name="DemoChoiceCapability3" xml:space="preserve"><value>Πλαίσιο ελέγχου και διακόπτης τριών θέσεων, μαζί με την απροσδιόριστη.</value></data>
+  <data name="DemoChoiceCapability4" xml:space="preserve"><value>Ένα ορατό πλαίσιο επιλογής στις κάρτες πολλαπλής επιλογής και κάρτες σε στήλες ίσου μεγέθους.</value></data>
   <data name="DemoValidationTitle" xml:space="preserve"><value>Επικύρωση</value></data>
   <data name="DemoValidationSummary" xml:space="preserve"><value>Οι κανόνες δηλώνονται δίπλα στο πεδίο που προστατεύουν.</value></data>
   <data name="DemoValidationCapability1" xml:space="preserve"><value>Υποχρεωτικό, μήκος, μορφή e-mail και σύγκριση.</value></data>

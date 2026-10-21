@@ -18,6 +18,13 @@ public partial class OmniCard
     public RenderFragment? Footer { get; set; }
 
     /// <summary>
+    /// In an <see cref="OmniTileGrid"/>, the card spans two columns instead of one. Ignored elsewhere.
+    /// False by default.
+    /// </summary>
+    [Parameter]
+    public bool DoubleWidth { get; set; }
+
+    /// <summary>
     /// The density of this component and of what it holds (control heights, paddings, gaps), over
     /// the one it inherits from its theme scope or section. Null, the default, inherits it.
     /// </summary>

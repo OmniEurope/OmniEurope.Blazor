@@ -70,6 +70,7 @@
   <data name="DemoBadgesSummary" xml:space="preserve"><value>It-tikketta qasira li tikkwalifika element mingħajr ma tgħabbih.</value></data>
   <data name="DemoBadgesCapability1" xml:space="preserve"><value>Ħames varjanti allinjati mal-livelli ta' severità tat-tema.</value></data>
   <data name="DemoBadgesCapability2" xml:space="preserve"><value>Sfondi kkuluriti derivati mill-varjabbli, għalhekk jinżebgħu mill-ġdid mat-tema.</value></data>
+  <data name="DemoBadgesCapability3" xml:space="preserve"><value>Wisa' minima komuni (żgħira, medja, kbira) tallinja kliem ta' stat ta' tulijiet differenti f'kolonna jew lista.</value></data>
   <data name="DemoAlertsTitle" xml:space="preserve"><value>Allerti</value></data>
   <data name="DemoAlertsSummary" xml:space="preserve"><value>Il-messaġġ kuntestwali, minn avviż sempliċi sa falliment li jimblokka.</value></data>
   <data name="DemoAlertsCapability1" xml:space="preserve"><value>Erba' livelli ta' severità: informazzjoni, suċċess, twissija u periklu.</value></data>
@@ -138,6 +139,7 @@
   <data name="DemoLayoutCapability2" xml:space="preserve"><value>Kard fi tliet żoni: intestatura, korp u footer.</value></data>
   <data name="DemoLayoutCapability3" xml:space="preserve"><value>Grupp ta' oqsma li jista' jiġi diżattivat f'mossa waħda.</value></data>
   <data name="DemoLayoutCapability4" xml:space="preserve"><value>L-iskala sħiħa tal-ispazjar, u l-allinjamenti li taċċetta ringiela.</value></data>
+  <data name="DemoLayoutCapability5" xml:space="preserve"><value>Griglja ta' madum: wisa' indaqs, għoli wieħed għal kull ringiela u madum doppju li jieħu żewġ kolonni.</value></data>
   <data name="DemoShellTitle" xml:space="preserve"><value>Qafas tal-applikazzjoni</value></data>
   <data name="DemoShellSummary" xml:space="preserve"><value>L-iskeletru ta' applikazzjoni, dak li minnu hu mibni dan is-sit.</value></data>
   <data name="DemoShellCapability1" xml:space="preserve"><value>Intestatura, sidebar li tingħalaq u reġjun prinċipali.</value></data>
@@ -161,6 +163,7 @@
   <data name="DemoChoiceCapability1" xml:space="preserve"><value>Listi mmexxija minn għażliet, jew imqiegħda element b'element.</value></data>
   <data name="DemoChoiceCapability2" xml:space="preserve"><value>Bar tal-għażla u buttuna toggle, bl-istati okkupat u diżattivat.</value></data>
   <data name="DemoChoiceCapability3" xml:space="preserve"><value>Kaxxa tal-immarkar u swiċċ bi tliet pożizzjonijiet, inkluż dak indeterminat.</value></data>
+  <data name="DemoChoiceCapability4" xml:space="preserve"><value>Kaxxa tal-għażla viżibbli fuq il-karti b'għażla multipla u karti ppoġġuti f'kolonni tal-istess daqs.</value></data>
   <data name="DemoValidationTitle" xml:space="preserve"><value>Validazzjoni</value></data>
   <data name="DemoValidationSummary" xml:space="preserve"><value>Regoli ddikjarati ħdejn il-qasam li jħarsu.</value></data>
   <data name="DemoValidationCapability1" xml:space="preserve"><value>Obbligatorju, tul, format tal-email u tqabbil.</value></data>

@@ -70,6 +70,7 @@
   <data name="DemoBadgesSummary" xml:space="preserve"><value>Den korte etiket, der beskriver et element uden at overlæsse det.</value></data>
   <data name="DemoBadgesCapability1" xml:space="preserve"><value>Fem varianter afstemt efter temaets alvorsgrader.</value></data>
   <data name="DemoBadgesCapability2" xml:space="preserve"><value>Tonede baggrunde afledt af variablerne, så de genfarves med temaet.</value></data>
+  <data name="DemoBadgesCapability3" xml:space="preserve"><value>En fælles minimumsbredde (lille, mellem, stor) får statusord af forskellig længde til at flugte i en kolonne eller liste.</value></data>
   <data name="DemoAlertsTitle" xml:space="preserve"><value>Beskeder</value></data>
   <data name="DemoAlertsSummary" xml:space="preserve"><value>Den kontekstuelle besked, fra en simpel meddelelse til en blokerende fejl.</value></data>
   <data name="DemoAlertsCapability1" xml:space="preserve"><value>Fire alvorsgrader: information, succes, advarsel og fare.</value></data>
@@ -138,6 +139,7 @@
   <data name="DemoLayoutCapability2" xml:space="preserve"><value>Et kort i tre zoner: hoved, brødtekst og fod.</value></data>
   <data name="DemoLayoutCapability3" xml:space="preserve"><value>En feltgruppe, der kan deaktiveres i én bevægelse.</value></data>
   <data name="DemoLayoutCapability4" xml:space="preserve"><value>Den komplette afstandsskala og de fordelinger og justeringer, en række accepterer.</value></data>
+  <data name="DemoLayoutCapability5" xml:space="preserve"><value>Et fliseraster: lige brede fliser, én højde pr. række og en dobbelt flise, der fylder to kolonner.</value></data>
   <data name="DemoShellTitle" xml:space="preserve"><value>Programskal</value></data>
   <data name="DemoShellSummary" xml:space="preserve"><value>Skelettet i et program, det samme som dette websted er bygget af.</value></data>
   <data name="DemoShellCapability1" xml:space="preserve"><value>Sidehoved, sammenklappelig sidebjælke og hovedområde.</value></data>
@@ -161,6 +163,7 @@
   <data name="DemoChoiceCapability1" xml:space="preserve"><value>Lister styret af indstillinger eller opbygget element for element.</value></data>
   <data name="DemoChoiceCapability2" xml:space="preserve"><value>Valgbjælke og til/fra-knap med optaget og deaktiveret tilstand.</value></data>
   <data name="DemoChoiceCapability3" xml:space="preserve"><value>Afkrydsningsfelt og kontakt med tre positioner, inklusive ubestemt.</value></data>
+  <data name="DemoChoiceCapability4" xml:space="preserve"><value>Et synligt afkrydsningsfelt på kort med flere valg og kort lagt i kolonner af samme størrelse.</value></data>
   <data name="DemoValidationTitle" xml:space="preserve"><value>Validering</value></data>
   <data name="DemoValidationSummary" xml:space="preserve"><value>Reglerne erklæres ved siden af det felt, de beskytter.</value></data>
   <data name="DemoValidationCapability1" xml:space="preserve"><value>Påkrævet, længde, mailformat og sammenligning.</value></data>

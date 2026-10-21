@@ -70,6 +70,7 @@
   <data name="DemoBadgesSummary" xml:space="preserve"><value>Краткият етикет, който характеризира елемент, без да го претоварва.</value></data>
   <data name="DemoBadgesCapability1" xml:space="preserve"><value>Пет варианта, съобразени с нивата на сериозност на темата.</value></data>
   <data name="DemoBadgesCapability2" xml:space="preserve"><value>Оцветени фонове, получени от променливите, затова се пребоядисват заедно с темата.</value></data>
+  <data name="DemoBadgesCapability3" xml:space="preserve"><value>Обща минимална ширина (малка, средна, голяма) изравнява думите за състояние с различна дължина в колона или списък.</value></data>
   <data name="DemoAlertsTitle" xml:space="preserve"><value>Сигнали</value></data>
   <data name="DemoAlertsSummary" xml:space="preserve"><value>Контекстното съобщение, от обикновено известие до блокираща грешка.</value></data>
   <data name="DemoAlertsCapability1" xml:space="preserve"><value>Четири нива на сериозност: информация, успех, предупреждение и опасност.</value></data>
@@ -138,6 +139,7 @@
   <data name="DemoLayoutCapability2" xml:space="preserve"><value>Карта в три зони: заглавка, тяло и долна част.</value></data>
   <data name="DemoLayoutCapability3" xml:space="preserve"><value>Група полета, която може да се забрани с едно движение.</value></data>
   <data name="DemoLayoutCapability4" xml:space="preserve"><value>Цялата скала на разстоянията и разпределенията и подравняванията, които приема един ред.</value></data>
+  <data name="DemoLayoutCapability5" xml:space="preserve"><value>Решетка от плочки: еднакви ширини, една височина на ред и двойна плочка, която заема две колони.</value></data>
   <data name="DemoShellTitle" xml:space="preserve"><value>Рамка на приложението</value></data>
   <data name="DemoShellSummary" xml:space="preserve"><value>Скелетът на едно приложение, същият, от който е изграден този сайт.</value></data>
   <data name="DemoShellCapability1" xml:space="preserve"><value>Заглавна лента, сгъваема странична лента и основна област.</value></data>
@@ -161,6 +163,7 @@
   <data name="DemoChoiceCapability1" xml:space="preserve"><value>Списъци, управлявани чрез опции или изградени елемент по елемент.</value></data>
   <data name="DemoChoiceCapability2" xml:space="preserve"><value>Лента за избор и бутон превключвател със състояния „зает“ и „забранен“.</value></data>
   <data name="DemoChoiceCapability3" xml:space="preserve"><value>Квадратче и превключвател с три позиции, включително неопределената.</value></data>
+  <data name="DemoChoiceCapability4" xml:space="preserve"><value>Видима отметка върху картите с отметка и карти, подредени в колони с еднакъв размер.</value></data>
   <data name="DemoValidationTitle" xml:space="preserve"><value>Валидиране</value></data>
   <data name="DemoValidationSummary" xml:space="preserve"><value>Правилата, декларирани до полето, което пазят.</value></data>
   <data name="DemoValidationCapability1" xml:space="preserve"><value>Задължителност, дължина, формат на имейл и сравнение.</value></data>

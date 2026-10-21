@@ -70,6 +70,7 @@
   <data name="DemoBadgesSummary" xml:space="preserve"><value>Kratka oznaka, ki opredeli element, ne da bi ga preobremenila.</value></data>
   <data name="DemoBadgesCapability1" xml:space="preserve"><value>Pet različic, usklajenih z ravnmi resnosti teme.</value></data>
   <data name="DemoBadgesCapability2" xml:space="preserve"><value>Obarvana ozadja, izpeljana iz spremenljivk, zato se spreminjajo s temo.</value></data>
+  <data name="DemoBadgesCapability3" xml:space="preserve"><value>Skupna najmanjša širina (majhna, srednja, velika) poravna stanje z besedami različnih dolžin v stolpcu ali seznamu.</value></data>
   <data name="DemoAlertsTitle" xml:space="preserve"><value>Opozorila</value></data>
   <data name="DemoAlertsSummary" xml:space="preserve"><value>Kontekstno sporočilo, od preprostega obvestila do blokirajoče napake.</value></data>
   <data name="DemoAlertsCapability1" xml:space="preserve"><value>Štiri ravni resnosti: informacija, uspeh, opozorilo in nevarnost.</value></data>
@@ -138,6 +139,7 @@
   <data name="DemoLayoutCapability2" xml:space="preserve"><value>Kartica s tremi območji: glava, telo in noga.</value></data>
   <data name="DemoLayoutCapability3" xml:space="preserve"><value>Skupina polj, ki jo je mogoče onemogočiti z eno potezo.</value></data>
   <data name="DemoLayoutCapability4" xml:space="preserve"><value>Celotna lestvica razmikov ter razporeditve in poravnave, ki jih vrstica sprejme.</value></data>
+  <data name="DemoLayoutCapability5" xml:space="preserve"><value>Mreža ploščic: enake širine, ena višina na vrstico in dvojna ploščica, ki zavzame dva stolpca.</value></data>
   <data name="DemoShellTitle" xml:space="preserve"><value>Ogrodje aplikacije</value></data>
   <data name="DemoShellSummary" xml:space="preserve"><value>Ogrodje aplikacije, tisto, iz katerega je narejeno to spletno mesto.</value></data>
   <data name="DemoShellCapability1" xml:space="preserve"><value>Glava, zložljiva stranska vrstica in glavno območje.</value></data>
@@ -161,6 +163,7 @@
   <data name="DemoChoiceCapability1" xml:space="preserve"><value>Seznami, ki jih vodijo možnosti ali so postavljeni element za elementom.</value></data>
   <data name="DemoChoiceCapability2" xml:space="preserve"><value>Vrstica za izbiro in preklopni gumb, z zasedenim in onemogočenim stanjem.</value></data>
   <data name="DemoChoiceCapability3" xml:space="preserve"><value>Potrditveno polje in stikalo s tremi položaji, vključno z nedoločenim.</value></data>
+  <data name="DemoChoiceCapability4" xml:space="preserve"><value>Vidno potrditveno polje na karticah z večkratno izbiro in kartice, razporejene v stolpce enake velikosti.</value></data>
   <data name="DemoValidationTitle" xml:space="preserve"><value>Preverjanje veljavnosti</value></data>
   <data name="DemoValidationSummary" xml:space="preserve"><value>Pravila, deklarirana ob polju, ki ga varujejo.</value></data>
   <data name="DemoValidationCapability1" xml:space="preserve"><value>Obveznost, dolžina, oblika e-pošte in primerjava.</value></data>

@@ -35,6 +35,13 @@ public partial class OmniStatTile
     public EventCallback<MouseEventArgs> OnClick { get; set; }
 
     /// <summary>
+    /// In an <see cref="OmniTileGrid"/>, the tile spans two columns instead of one. Ignored elsewhere.
+    /// False by default.
+    /// </summary>
+    [Parameter]
+    public bool DoubleWidth { get; set; }
+
+    /// <summary>
     /// Attaches the script that keeps the label on one line: smaller when it does not fit, then cut with
     /// an ellipsis and its whole text in the hover tooltip. The tile is a button with <see cref="OnClick"/>
     /// and a plain block without it, two different elements: when <see cref="OnClick"/> comes or goes, the
