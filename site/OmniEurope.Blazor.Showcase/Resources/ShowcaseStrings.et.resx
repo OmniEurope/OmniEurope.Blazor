@@ -794,6 +794,13 @@
   <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Mugav</value></data>
   <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Avar</value></data>
   <data name="DemoLayoutAlertCount" xml:space="preserve"><value>Märguandeid: {0}</value></data>
+  <data name="DemoLayoutDividerProject" xml:space="preserve"><value>Projekt</value></data>
+  <data name="DemoLayoutDividerArchitecture" xml:space="preserve"><value>Arhitektuur</value></data>
+  <data name="DemoLayoutDividerPipelines" xml:space="preserve"><value>Torustikud</value></data>
+  <data name="DemoLayoutDividerTodo" xml:space="preserve"><value>Tehtav enne loomist</value></data>
+  <data name="DemoLayoutDividerDraft" xml:space="preserve"><value>Mustand</value></data>
+  <data name="DemoLayoutDividerReview" xml:space="preserve"><value>Ülevaatamisel</value></data>
+  <data name="DemoLayoutDividerPublished" xml:space="preserve"><value>Avaldatud</value></data>
   <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Rõhutatud pealkiri</value></data>
   <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Vaoshoitud pealkiri</value></data>
   <data name="DemoTypographyParagraph" xml:space="preserve"><value>Tavaline lõik teema põhisuuruses.</value></data>

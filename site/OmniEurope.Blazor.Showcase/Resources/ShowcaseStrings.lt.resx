@@ -794,6 +794,13 @@
   <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Patogus</value></data>
   <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Erdvus</value></data>
   <data name="DemoLayoutAlertCount" xml:space="preserve"><value>Įspėjimai: {0}</value></data>
+  <data name="DemoLayoutDividerProject" xml:space="preserve"><value>Projektas</value></data>
+  <data name="DemoLayoutDividerArchitecture" xml:space="preserve"><value>Architektūra</value></data>
+  <data name="DemoLayoutDividerPipelines" xml:space="preserve"><value>Konvejeriai</value></data>
+  <data name="DemoLayoutDividerTodo" xml:space="preserve"><value>Atlikti prieš kuriant</value></data>
+  <data name="DemoLayoutDividerDraft" xml:space="preserve"><value>Juodraštis</value></data>
+  <data name="DemoLayoutDividerReview" xml:space="preserve"><value>Peržiūrimas</value></data>
+  <data name="DemoLayoutDividerPublished" xml:space="preserve"><value>Paskelbta</value></data>
   <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Akcentuota antraštė</value></data>
   <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Prislopinta antraštė</value></data>
   <data name="DemoTypographyParagraph" xml:space="preserve"><value>Įprasta pastraipa, pagrindinio temos dydžio.</value></data>

@@ -794,6 +794,13 @@
   <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Udobna</value></data>
   <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Prozračna</value></data>
   <data name="DemoLayoutAlertCount" xml:space="preserve"><value>Upozorenja: {0}</value></data>
+  <data name="DemoLayoutDividerProject" xml:space="preserve"><value>Projekt</value></data>
+  <data name="DemoLayoutDividerArchitecture" xml:space="preserve"><value>Arhitektura</value></data>
+  <data name="DemoLayoutDividerPipelines" xml:space="preserve"><value>Pipelinei</value></data>
+  <data name="DemoLayoutDividerTodo" xml:space="preserve"><value>Za učiniti prije izrade</value></data>
+  <data name="DemoLayoutDividerDraft" xml:space="preserve"><value>Skica</value></data>
+  <data name="DemoLayoutDividerReview" xml:space="preserve"><value>Na pregledu</value></data>
+  <data name="DemoLayoutDividerPublished" xml:space="preserve"><value>Objavljeno</value></data>
   <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Naglašeni naslov</value></data>
   <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Prigušeni naslov</value></data>
   <data name="DemoTypographyParagraph" xml:space="preserve"><value>Običan odlomak, u osnovnoj veličini teme.</value></data>

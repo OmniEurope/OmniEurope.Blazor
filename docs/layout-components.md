@@ -17,6 +17,7 @@ Ces composants posent la structure d'une application et d'une page : la coquille
 | `OmniTileGrid` | Grille de tuiles : `OmniCard`, `OmniSelectableCard`, `OmniStatTile` et `OmniNavTile` posées dedans ont la même largeur et exactement la même hauteur, une tuile `DoubleWidth` en occupe deux, rien ne déborde. Voir « Règle des tuiles ». |
 | `OmniFieldset` | Groupe de champs natif avec `legend` obligatoire, désactivable, repliable. |
 | `OmniAccordion`, `OmniAccordionItem` | Liste de lignes dont le corps se déplie sous l'en-tête, une à la fois (défaut) ou plusieurs ensemble (`Multiple`). L'en-tête est libre (libellé, aide « ? », valeur, badge) et le composant dessine le chevron. Voir « Accordéon » plus bas. |
+| `OmniDivider` | Filet fin de 1 px entre deux blocs, horizontal ou vertical (`Orientation`), sans marge : l'écart de la pile qui le porte l'espace. Voir « Séparateur » plus bas. |
 | `OmniSettingsSection` | Carte d'une rubrique de réglages : son titre, une ligne sur ce qu'elle change, puis ses réglages. La rubrique prend toute la largeur de son conteneur, sans plafond ; `Paired` range ses tuiles deux par ligne (chacune la moitié, empilées sous environ 24 rem par tuile), une tuile `FullWidth` prenant toute la ligne. |
 | `OmniSettingsTile` | Un réglage dans une tuile de sa rubrique : icône, nom et effet à gauche, contrôle à droite ; un interrupteur ou une case à côté du nom fait de toute la tuile son libellé cliquable. |
 | `OmniSettingsDangerZone` | Rubrique des actions irréversibles, en fin de page de réglages : la carte d'une `OmniSettingsSection` dont le filet et le titre prennent la couleur de danger de la palette (dans chaque thème, en clair comme en sombre), région nommée par son titre de niveau 2. `Title` vaut par défaut « Zone de danger », `Description` est facultative. |
@@ -92,6 +93,32 @@ Choix de conception :
 - **Aspect** : aucun filet coloré sur le côté, des séparateurs neutres entre les lignes, la couleur de fond et la bordure de carte du thème, les marges de la densité. L'en-tête passe à la ligne quand il est trop étroit (375 px compris), sans défilement horizontal, et ne coupe pas ses infobulles (aucun `overflow` ne rogne la liste).
 - **Seul** : un `OmniAccordionItem` hors d'un `OmniAccordion` est une simple zone dépliable qui s'ouvre et se ferme seule.
 - **Limites** : en mode une ligne à la fois, des lignes ouvertes ensemble par `Expanded` au départ sont affichées telles quelles ; le rôle `region` multiplie les repères pour un lecteur d'écran, au-delà de six lignes ouvertes ensemble l'APG conseille de s'en passer.
+
+## Séparateur
+
+`OmniDivider` dessine un filet fin entre deux blocs distincts, typiquement entre les enfants d'un `OmniStack` : le récapitulatif d'un assistant sépare ainsi le projet, l'architecture, les pipelines et ce qui reste à faire avant la création.
+
+```razor
+<OmniStack Gap="OmniSpacing.Medium">
+    <p>Projet</p>
+    <OmniDivider />
+    <p>Architecture</p>
+</OmniStack>
+
+<OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
+    <span>Brouillon</span>
+    <OmniDivider Orientation="OmniStackOrientation.Vertical" />
+    <span>Publié</span>
+</OmniStack>
+```
+
+| Paramètre | Type | Défaut | Rôle |
+| --- | --- | --- | --- |
+| `Orientation` | `OmniStackOrientation` | `Horizontal` | Direction du filet lui-même, pas de la pile qui le porte : `Horizontal` court sur la largeur et sépare des blocs empilés, `Vertical` court sur la hauteur et sépare des blocs côte à côte. |
+
+- **Balisage** : un seul `div` avec `role="separator"` et `aria-orientation` (`horizontal` ou `vertical`), sans contenu ni style en ligne. Un `div` plutôt qu'un `hr` : l'`hr` apporte ses marges et sa bordure, qu'un filet vertical devrait défaire, et un seul élément garde le balisage, l'état ARIA et le style identiques dans les deux sens. `Id`, `Class`, `PresetName` et les attributs supplémentaires de `OmniComponentBase` passent sur cet élément. Une valeur hors de l'énumération est dessinée à l'horizontale.
+- **Espacement** : le séparateur n'a aucune marge ; c'est l'écart (`Gap`) de la pile qui le porte qui l'espace du bloc précédent et du suivant. Il s'étire sur l'axe transversal de la pile (`align-self: stretch`) et ne rétrécit pas sur l'axe principal.
+- **Aspect** : un filet de 1 px de la couleur de bordure du thème (`--omni-color-border`), sans filet coloré sur le côté ; un filet vertical a une hauteur minimale de `1em` quand la rangée n'en impose aucune.
 
 ## Zone de danger
 

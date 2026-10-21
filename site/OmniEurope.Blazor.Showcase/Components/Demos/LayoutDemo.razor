@@ -54,6 +54,29 @@
         <ChildContent>@Text["DemoLayoutDisabledGroupText"]</ChildContent>
     </OmniFieldset>
 
+    @* Séparateurs : un filet fin entre des blocs, espacé par l'écart de la pile qui le porte (OmniDivider
+       n'a aucune marge). Horizontal dans une pile verticale, vertical dans une rangée. *@
+    <OmniCard>
+        <ChildContent>
+            <OmniStack Gap="OmniSpacing.Medium">
+                <p>@Text["DemoLayoutDividerProject"]</p>
+                <OmniDivider />
+                <p>@Text["DemoLayoutDividerArchitecture"]</p>
+                <OmniDivider />
+                <p>@Text["DemoLayoutDividerPipelines"]</p>
+                <OmniDivider />
+                <p>@Text["DemoLayoutDividerTodo"]</p>
+            </OmniStack>
+        </ChildContent>
+    </OmniCard>
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Stretch">
+        <OmniBadge Tone="OmniTone.Neutral">@Text["DemoLayoutDividerDraft"]</OmniBadge>
+        <OmniDivider Orientation="OmniStackOrientation.Vertical" />
+        <OmniBadge Tone="OmniTone.Info">@Text["DemoLayoutDividerReview"]</OmniBadge>
+        <OmniDivider Orientation="OmniStackOrientation.Vertical" />
+        <OmniBadge Tone="OmniTone.Success">@Text["DemoLayoutDividerPublished"]</OmniBadge>
+    </OmniStack>
+
     @* L'échelle d'espacement, du plus serré au plus large. *@
     <OmniStack Gap="OmniSpacing.Small">
         <OmniRow Gap="OmniSpacing.None"><OmniBadge>@Text["DemoLayoutGapNone1"]</OmniBadge><OmniBadge>@Text["DemoLayoutGapNone2"]</OmniBadge></OmniRow>

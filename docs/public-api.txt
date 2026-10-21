@@ -46,6 +46,7 @@ component OmniEurope.Blazor.Components.OmniDescriptionList
 component OmniEurope.Blazor.Components.OmniDetailShell
 component OmniEurope.Blazor.Components.OmniDialog
 component OmniEurope.Blazor.Components.OmniDiffViewer
+component OmniEurope.Blazor.Components.OmniDivider
 component OmniEurope.Blazor.Components.OmniDropDown<TValue>
 component OmniEurope.Blazor.Components.OmniDynamicForm
 component OmniEurope.Blazor.Components.OmniEmailValidator
@@ -222,6 +223,7 @@ ctor public OmniEurope.Blazor.Components.OmniDiffFile(System.String? OldPath, Sy
 ctor public OmniEurope.Blazor.Components.OmniDiffHunk(System.String Header, System.Int32 OldStart, System.Int32 OldCount, System.Int32 NewStart, System.Int32 NewCount, System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniDiffLine> Lines)
 ctor public OmniEurope.Blazor.Components.OmniDiffLine(OmniEurope.Blazor.Components.OmniDiffLineKind Kind, System.String Text, System.Int32? OldNumber, System.Int32? NewNumber)
 ctor public OmniEurope.Blazor.Components.OmniDiffViewer()
+ctor public OmniEurope.Blazor.Components.OmniDivider()
 ctor public OmniEurope.Blazor.Components.OmniDropDown<TValue>()
 ctor public OmniEurope.Blazor.Components.OmniDynamicField(System.String Name, System.String Label, OmniEurope.Blazor.Components.OmniDynamicFieldKind Kind = OmniEurope.Blazor.Components.OmniDynamicFieldKind.Text)
 ctor public OmniEurope.Blazor.Components.OmniDynamicForm()
@@ -1106,6 +1108,7 @@ method protected override OmniEurope.Blazor.Components.OmniDialog.OnParametersSe
 method protected override OmniEurope.Blazor.Components.OmniDiffViewer.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDiffViewer.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniDiffViewer.OnParametersSet() : System.Void
+method protected override OmniEurope.Blazor.Components.OmniDivider.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDropDown<TValue>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDropDown<TValue>.TryParseValueFromString(System.String? value, out TValue result, out System.String validationErrorMessage) : System.Boolean
 method protected override OmniEurope.Blazor.Components.OmniDynamicForm.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
@@ -2834,6 +2837,7 @@ property public OmniEurope.Blazor.Components.OmniDiffViewer.MonacoPath : System.
 property public OmniEurope.Blazor.Components.OmniDiffViewer.Original : System.String {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDiffViewer.OriginalLabel : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDiffViewer.ReadOnly : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDivider.Orientation : OmniEurope.Blazor.Components.OmniStackOrientation {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDropDown<TValue>.AllowEmpty : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDropDown<TValue>.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDropDown<TValue>.Disabled : System.Boolean {get(public);set(public)} [Parameter]
@@ -4031,6 +4035,7 @@ type public OmniEurope.Blazor.Components.OmniDiffHunk [class, sealed] : System.I
 type public OmniEurope.Blazor.Components.OmniDiffLine [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniDiffLine>
 type public OmniEurope.Blazor.Components.OmniDiffLineKind [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniDiffViewer [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
+type public OmniEurope.Blazor.Components.OmniDivider [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniDropDown<TValue> [class] : OmniEurope.Blazor.Components.OmniInputBase<TValue>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniDynamicField [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniDynamicField>
 type public OmniEurope.Blazor.Components.OmniDynamicFieldKind [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32

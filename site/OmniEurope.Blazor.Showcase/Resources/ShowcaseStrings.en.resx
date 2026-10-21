@@ -796,6 +796,13 @@
   <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Comfortable</value></data>
   <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Spacious</value></data>
   <data name="DemoLayoutAlertCount" xml:space="preserve"><value>{0} alerts</value></data>
+  <data name="DemoLayoutDividerProject" xml:space="preserve"><value>Project</value></data>
+  <data name="DemoLayoutDividerArchitecture" xml:space="preserve"><value>Architecture</value></data>
+  <data name="DemoLayoutDividerPipelines" xml:space="preserve"><value>Pipelines</value></data>
+  <data name="DemoLayoutDividerTodo" xml:space="preserve"><value>To do before creating</value></data>
+  <data name="DemoLayoutDividerDraft" xml:space="preserve"><value>Draft</value></data>
+  <data name="DemoLayoutDividerReview" xml:space="preserve"><value>In review</value></data>
+  <data name="DemoLayoutDividerPublished" xml:space="preserve"><value>Published</value></data>
   <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Accented heading</value></data>
   <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Muted heading</value></data>
   <data name="DemoTypographyParagraph" xml:space="preserve"><value>An ordinary paragraph, in the theme's base size.</value></data>

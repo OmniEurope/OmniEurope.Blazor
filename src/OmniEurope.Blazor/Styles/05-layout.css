@@ -156,6 +156,12 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 .omni-fieldset__content { display: grid; gap: var(--omni-space-md); }
 .omni-fieldset:disabled { opacity: 0.65; }
 
+/* Divider: a one pixel rule in the border colour, no margin of its own (the gap of the stack spaces it).
+   It stretches across the stack and never shrinks to nothing in a flex container. */
+.omni-divider { align-self: stretch; background: var(--omni-color-border); box-sizing: border-box; flex: none; }
+.omni-divider--horizontal { block-size: 1px; inline-size: auto; }
+.omni-divider--vertical { block-size: auto; inline-size: 1px; min-block-size: 1em; }
+
 /* Accordion: the rows of one bordered list, told apart by neutral separators. The toggle is a button in
    the heading; its ::after covers the whole header (the header is the positioned box, the button is
    not), so the label, the value and the badge all toggle. What sits beside the toggle (help mark, own

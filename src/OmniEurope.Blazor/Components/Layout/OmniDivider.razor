@@ -1,0 +1,8 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<div @attributes="AdditionalAttributes"
+     id="@Id"
+     class="@Css("omni-divider", Vertical ? "omni-divider--vertical" : "omni-divider--horizontal")"
+     role="separator"
+     aria-orientation="@(Vertical ? "vertical" : "horizontal")"></div>

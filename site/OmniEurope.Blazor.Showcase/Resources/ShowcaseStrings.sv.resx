@@ -794,6 +794,13 @@
   <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Bekväm</value></data>
   <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Luftig</value></data>
   <data name="DemoLayoutAlertCount" xml:space="preserve"><value>{0} varningar</value></data>
+  <data name="DemoLayoutDividerProject" xml:space="preserve"><value>Projekt</value></data>
+  <data name="DemoLayoutDividerArchitecture" xml:space="preserve"><value>Arkitektur</value></data>
+  <data name="DemoLayoutDividerPipelines" xml:space="preserve"><value>Pipelines</value></data>
+  <data name="DemoLayoutDividerTodo" xml:space="preserve"><value>Att göra innan skapandet</value></data>
+  <data name="DemoLayoutDividerDraft" xml:space="preserve"><value>Utkast</value></data>
+  <data name="DemoLayoutDividerReview" xml:space="preserve"><value>Under granskning</value></data>
+  <data name="DemoLayoutDividerPublished" xml:space="preserve"><value>Publicerad</value></data>
   <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Accentuerad rubrik</value></data>
   <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Dämpad rubrik</value></data>
   <data name="DemoTypographyParagraph" xml:space="preserve"><value>Ett vanligt stycke i temats grundstorlek.</value></data>

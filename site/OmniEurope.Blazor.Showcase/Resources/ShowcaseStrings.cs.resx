@@ -794,6 +794,13 @@
   <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Pohodlná</value></data>
   <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Vzdušná</value></data>
   <data name="DemoLayoutAlertCount" xml:space="preserve"><value>Upozornění: {0}</value></data>
+  <data name="DemoLayoutDividerProject" xml:space="preserve"><value>Projekt</value></data>
+  <data name="DemoLayoutDividerArchitecture" xml:space="preserve"><value>Architektura</value></data>
+  <data name="DemoLayoutDividerPipelines" xml:space="preserve"><value>Pipeline</value></data>
+  <data name="DemoLayoutDividerTodo" xml:space="preserve"><value>Před vytvořením je třeba</value></data>
+  <data name="DemoLayoutDividerDraft" xml:space="preserve"><value>Koncept</value></data>
+  <data name="DemoLayoutDividerReview" xml:space="preserve"><value>Ke kontrole</value></data>
+  <data name="DemoLayoutDividerPublished" xml:space="preserve"><value>Publikováno</value></data>
   <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Zvýrazněný nadpis</value></data>
   <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Tlumený nadpis</value></data>
   <data name="DemoTypographyParagraph" xml:space="preserve"><value>Běžný odstavec v základní velikosti motivu.</value></data>
