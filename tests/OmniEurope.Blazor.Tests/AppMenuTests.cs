@@ -27,6 +27,27 @@ public sealed class AppMenuTests : OmniBunitContext
     }
 
     [Fact]
+    public void The_panel_takes_the_width_of_its_widest_row_instead_of_a_fixed_width()
+    {
+        // The width is the stylesheet's, so only a browser measures it; this pins the rule that sets it
+        // (recette R-3): content-sized, with a floor, and no fixed width back on the panel.
+        var body = ShippedLookTests.Body(".omni-app-menu .omni-popover__panel");
+        Assert.Equal("max-content", ShippedLookTests.Value(body, "inline-size"));
+        Assert.Equal("10rem", ShippedLookTests.Value(body, "min-inline-size"));
+        Assert.DoesNotContain("20rem", body, StringComparison.Ordinal);
+
+        // The panel keeps the popover's own cap (24rem or the viewport), which a wide host row cannot lift.
+        var popover = ShippedLookTests.Body(".omni-popover__panel");
+        Assert.Contains("max-inline-size: min(24rem, calc(100vw - 2 * var(--omni-space-md)))", popover, StringComparison.Ordinal);
+
+        // The markup the rule sizes: the panel is still the popover's, holding one card of rows.
+        var menu = Render<OmniAppMenu>(parameters => parameters
+            .Add(component => component.AppearanceChanged, _ => { }));
+        menu.Find(".omni-app-menu__trigger").Click();
+        Assert.Single(menu.FindAll(".omni-app-menu .omni-popover__panel > .omni-app-menu__card"));
+    }
+
+    [Fact]
     public void On_a_phone_the_trigger_drops_the_name_which_stays_in_the_menu()
     {
         // The width query is the stylesheet's (the browser applies it; recette R-034): the name
