@@ -69,6 +69,15 @@ export function disposeSidebarOverflow(panel) {
     disposeTabsOverflow(panel);
 }
 
+// The chevrons lie over the edges of the scrolling box and take no room (the stylesheet), so a chevron
+// that comes or goes never resizes the box nor moves what it shows. What is left to settle is when each
+// one shows. An edge is told with a margin of a few pixels, lit later than it goes out: a chevron lights
+// when more than OVERFLOW_LIGHT px remain hidden on its side, and goes out once no more than
+// OVERFLOW_STOP px do. A position at the stop, or a size rounded by a zoom or a screen scale, cannot
+// make it flicker between the two.
+const OVERFLOW_STOP = 2;
+const OVERFLOW_LIGHT = 4;
+
 function configureOverflow(strip, viewportSelector, startSelector, endSelector, upright = false) {
     if (!strip || tabOverflow.has(strip)) {
         return;
@@ -82,11 +91,27 @@ function configureOverflow(strip, viewportSelector, startSelector, endSelector, 
     const start = strip.querySelector(startSelector);
     const end = strip.querySelector(endSelector);
 
-    // The browser leaves a focused item partly clipped when it is already partly in view, and a
-    // chevron that appears afterwards narrows the strip over it. The item reached by the keyboard is
-    // brought wholly inside the content box, at once rather than smoothly, so the measure after it is
-    // the final one. Only keyboard focus: a button clicked earlier must not pull the strip back while
-    // the reader scrolls by hand, so a plain scroll never calls this.
+    // A chevron covers the edge of the box, so an item brought into view has to clear it, not just
+    // the padding. The size of a chevron is read even when it is out (it is unhidden for the
+    // measure, which paints nothing and moves nothing since it takes no room).
+    const sizeOf = chevron => {
+        if (!chevron) {
+            return null;
+        }
+
+        const wasHidden = chevron.hidden;
+        chevron.hidden = false;
+        const box = chevron.getBoundingClientRect();
+        chevron.hidden = wasHidden;
+        return box;
+    };
+
+    // The browser leaves a focused item partly clipped when it is already partly in view, or under a
+    // chevron. The item reached by the keyboard is brought wholly inside the content box and clear of
+    // the chevrons, at once rather than smoothly, so the measure after it is the final one. Only keyboard
+    // focus: a button clicked earlier must not pull the strip back while the reader scrolls by hand, so
+    // a plain scroll never calls this. At either end of the box the browser stops the move, where the
+    // chevron of that side is out anyway.
     const reveal = () => {
         const focused = document.activeElement;
         if (!focused || focused === viewport || !viewport.contains(focused) || !focused.matches(':focus-visible')) {
@@ -96,28 +121,41 @@ function configureOverflow(strip, viewportSelector, startSelector, endSelector, 
         const box = viewport.getBoundingClientRect();
         const padding = getComputedStyle(viewport);
         const item = focused.getBoundingClientRect();
-        const [low, high, itemLow, itemHigh] = upright
+        let [low, high, itemLow, itemHigh] = upright
             ? [box.top + parseFloat(padding.paddingTop), box.bottom - parseFloat(padding.paddingBottom), item.top, item.bottom]
             : [box.left + parseFloat(padding.paddingLeft), box.right - parseFloat(padding.paddingRight), item.left, item.right];
+        for (const chevron of [sizeOf(start), sizeOf(end)]) {
+            if (!chevron) {
+                continue;
+            }
+
+            const [chevronLow, chevronHigh] = upright ? [chevron.top, chevron.bottom] : [chevron.left, chevron.right];
+            if ((chevronLow + chevronHigh) / 2 < (low + high) / 2) {
+                low = Math.max(low, chevronHigh);
+            } else {
+                high = Math.min(high, chevronLow);
+            }
+        }
+
         const delta = itemLow < low ? itemLow - low : itemHigh > high ? itemHigh - high : 0;
         if (Math.abs(delta) > 0.5) {
             viewport.scrollBy({ [upright ? 'top' : 'left']: delta, behavior: 'instant' });
         }
     };
 
+    let startLit = false;
+    let endLit = false;
     const update = () => {
         // Right-to-left scrolling reports scrollLeft as negative or decreasing, so the distance to
         // each edge is measured in absolute terms rather than from the raw value.
         const offset = Math.abs(upright ? viewport.scrollTop : viewport.scrollLeft);
-        const hidden = upright ? viewport.scrollHeight - viewport.clientHeight : viewport.scrollWidth - viewport.clientWidth;
-        // A sub-pixel remainder is not an overflow: rounding alone would keep a chevron lit on a
-        // strip that has nothing left to show.
-        const atStart = offset <= 1;
-        const atEnd = offset >= hidden - 1;
-        strip.toggleAttribute('data-omni-overflow-start', !atStart);
-        strip.toggleAttribute('data-omni-overflow-end', hidden > 1 && !atEnd);
-        if (start) start.hidden = atStart;
-        if (end) end.hidden = hidden <= 1 || atEnd;
+        const ahead = (upright ? viewport.scrollHeight - viewport.clientHeight : viewport.scrollWidth - viewport.clientWidth) - offset;
+        startLit = offset > (startLit ? OVERFLOW_STOP : OVERFLOW_LIGHT);
+        endLit = ahead > (endLit ? OVERFLOW_STOP : OVERFLOW_LIGHT);
+        strip.toggleAttribute('data-omni-overflow-start', startLit);
+        strip.toggleAttribute('data-omni-overflow-end', endLit);
+        if (start) start.hidden = !startLit;
+        if (end) end.hidden = !endLit;
     };
 
     const scrollBy = direction => {
@@ -135,8 +173,7 @@ function configureOverflow(strip, viewportSelector, startSelector, endSelector, 
     viewport.addEventListener('focusin', reveal);
 
     // The strip also overflows when the window narrows or when a tab is added, neither of which
-    // fires a scroll event. A chevron appearing narrows the strip too, which is when a focused item
-    // it now covers is brought back.
+    // fires a scroll event.
     const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(() => {
         update();
         reveal();

@@ -479,15 +479,18 @@ public partial class OmniAppearanceWindow : IDisposable
         builder.CloseComponent();
         builder.CloseElement();
 
+        // The track runs 0 to 10 so that the default level 5 sits in the middle; the thumb cannot go below 1,
+        // the lowest level the preference keeps.
         builder.OpenComponent<OmniSlider>(35);
-        builder.AddComponentParameter(36, nameof(OmniSlider.Minimum), 1d);
-        builder.AddComponentParameter(37, nameof(OmniSlider.Maximum), 10d);
-        builder.AddComponentParameter(38, nameof(OmniSlider.Step), 1d);
-        builder.AddComponentParameter(39, nameof(OmniSlider.ShowValue), false);
-        builder.AddComponentParameter(40, nameof(OmniSlider.Value), (double)setting.Level);
-        builder.AddComponentParameter(41, nameof(OmniSlider.ValueChanged), EventCallback.Factory.Create<double>(this, value => ChangeLevelAsync(setting, (int)value)));
-        builder.AddComponentParameter(42, nameof(OmniSlider.ValueExpression), setting.ValueExpression);
-        builder.AddComponentParameter(43, "aria-label", name);
+        builder.AddComponentParameter(36, nameof(OmniSlider.Minimum), 0d);
+        builder.AddComponentParameter(37, nameof(OmniSlider.SelectableMinimum), (double)AppearanceLook.MinimumLevel);
+        builder.AddComponentParameter(38, nameof(OmniSlider.Maximum), (double)AppearanceLook.MaximumLevel);
+        builder.AddComponentParameter(39, nameof(OmniSlider.Step), 1d);
+        builder.AddComponentParameter(40, nameof(OmniSlider.ShowValue), false);
+        builder.AddComponentParameter(41, nameof(OmniSlider.Value), (double)setting.Level);
+        builder.AddComponentParameter(42, nameof(OmniSlider.ValueChanged), EventCallback.Factory.Create<double>(this, value => ChangeLevelAsync(setting, (int)value)));
+        builder.AddComponentParameter(43, nameof(OmniSlider.ValueExpression), setting.ValueExpression);
+        builder.AddComponentParameter(44, "aria-label", name);
         builder.CloseComponent();
 
         builder.CloseElement();

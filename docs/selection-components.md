@@ -168,7 +168,11 @@ Le survol penche le cadre et le fond vers l'accent, en clair comme en sombre. `D
 - Fermeture : un appui hors du sélecteur ferme le panneau et laisse le focus où il a été posé ; Échap le ferme, rend le focus au bouton et ne remonte pas (un dialogue qui contient le sélecteur reste ouvert). Un seul panneau de sélecteur est ouvert à la fois dans la page. Ce câblage est dans `omni-focus.js` (`attachPicker`, `detachPicker`, `focusPickerItem`) ; il n'écrit aucun style, seul `scrollTop` des colonnes est posé pour centrer la valeur choisie.
 - Densité : les cases du calendrier mesurent `--omni-cal-cell`, la marge du panneau `--omni-pop-pad`, le champ et son bouton suivent `--omni-control-height`, les éléments des colonnes `--omni-item-pad-y`. Les cases et les éléments des colonnes restent sous 44 px en densité compacte et confortable, comme la maquette les dessine ; le bouton du champ atteint 44 px de cible par une zone invisible.
 - Écart assumé avec la maquette : dans la date seule, choisir un jour ferme le panneau (la maquette le laissait ouvert, faute de bouton Valider dans ce pied).
-- `OmniSlider` expose orientation, minimum, maximum, pas, valeur ARIA et `aria-invalid`. `ValueChanged` suit chaque pas du
+- `OmniSlider` expose orientation, minimum, maximum, pas, valeur ARIA et `aria-invalid`. `SelectableMinimum` (nul par défaut) place le plus petit
+  choix au-dessus de `Minimum` : la piste part de `Minimum`, donc le curseur est à sa vraie proportion (5 sur une échelle de 0 à 10 est au milieu),
+  mais un glissement ou une touche sous cette valeur est ramené à elle (`ValueChanged` et `OnValueCommit` ne la dépassent jamais vers le bas) et
+  `aria-valuemin` annonce la valeur qui peut être choisie. Une valeur sous `SelectableMinimum`, ou un `SelectableMinimum` hors de `Minimum` et
+  `Maximum`, lève `ArgumentOutOfRangeException`. La fenêtre d’apparence s’en sert pour ses curseurs de taille (échelle 0 à 10, niveaux 1 à 10). `ValueChanged` suit chaque pas du
   glissement ; `OnValueCommit` est levé une seule fois au relâchement, avec la valeur finale (recherche
   d'une position dans un média), et sans lui aucun gestionnaire `change` n'est posé.
 - `OmniColorPicker` accepte exclusivement le format hexadécimal `#RRGGBB` sans générer de style inline.

@@ -21,7 +21,8 @@ public sealed class AppMenuTests : OmniBunitContext
         Assert.Empty(menu.FindAll(".omni-app-menu__language"));
         Assert.Empty(menu.FindAll(".omni-app-menu__settings"));
         Assert.Empty(menu.FindAll(".omni-app-menu__footer"));
-        Assert.Equal(3, menu.FindAll(".omni-app-menu__mode").Count);
+        Assert.Single(menu.FindAll("button.omni-app-menu__mode"));
+        Assert.Empty(menu.FindAll("[role=radio], [role=radiogroup]"));
         Assert.Equal("Thème", menu.Find(".omni-app-menu__theme").TextContent.Trim());
     }
 
@@ -110,10 +111,9 @@ public sealed class AppMenuTests : OmniBunitContext
             .Add(component => component.OpenChanged, open => events.Add(open ? "open" : "closed")));
 
         menu.Find(".omni-app-menu__trigger").Click();
-        var modes = menu.FindAll(".omni-app-menu__mode");
-        Assert.Equal("true", modes[0].GetAttribute("aria-checked"));
-        Assert.Contains("omni-button--primary", modes[0].ClassList);
-        modes[1].Click();
+        var row = menu.Find("button.omni-app-menu__mode");
+        Assert.Equal("Clair", row.QuerySelector(".omni-app-menu__value")!.TextContent);
+        row.Click();
         Assert.Equal(OmniAppearance.Dark, mode);
 
         menu.Find(".omni-app-menu__theme").Click();
@@ -136,12 +136,72 @@ public sealed class AppMenuTests : OmniBunitContext
             .Add(component => component.OnTheme, () => { }));
         menu.Find(".omni-app-menu__trigger").Click();
 
-        var group = menu.Find(".omni-app-menu__modes");
-        Assert.Equal("true", group.GetAttribute("aria-disabled"));
-        Assert.Equal("Ce thème est toujours sombre", group.GetAttribute("title"));
-        var modes = menu.FindAll(".omni-app-menu__mode");
-        Assert.All(modes, button => Assert.True(button.HasAttribute("disabled")));
-        Assert.Equal("true", modes[1].GetAttribute("aria-checked"));
+        var row = menu.Find("button.omni-app-menu__mode");
+        Assert.True(row.HasAttribute("disabled"));
+        Assert.Equal("Ce thème est toujours sombre", row.GetAttribute("title"));
+        Assert.Equal("Sombre", row.QuerySelector(".omni-app-menu__value")!.TextContent);
         Assert.Null(mode);
+    }
+
+    [Theory]
+    [InlineData(OmniAppearance.Light, OmniAppearance.Dark, "Clair")]
+    [InlineData(OmniAppearance.Dark, OmniAppearance.System, "Sombre")]
+    [InlineData(OmniAppearance.System, OmniAppearance.Light, "Système")]
+    public void A_click_on_the_mode_row_moves_to_the_next_mode_and_the_cycle_comes_back_to_light(OmniAppearance current, OmniAppearance next, string shown)
+    {
+        OmniAppearance? mode = null;
+        var menu = Render<OmniAppMenu>(parameters => parameters
+            .Add(component => component.Appearance, current)
+            .Add(component => component.AppearanceChanged, value => mode = value)
+            .Add(component => component.OnTheme, () => { }));
+        menu.Find(".omni-app-menu__trigger").Click();
+
+        var row = menu.Find("button.omni-app-menu__mode");
+        Assert.Equal(shown, row.QuerySelector(".omni-app-menu__value")!.TextContent);
+        row.Click();
+
+        Assert.Equal(next, mode);
+    }
+
+    [Fact]
+    public void The_mode_row_is_one_button_named_by_its_text_with_nothing_interactive_inside()
+    {
+        var menu = Render<OmniAppMenu>(parameters => parameters
+            .Add(component => component.Appearance, OmniAppearance.Dark)
+            .Add(component => component.AppearanceChanged, _ => { })
+            .Add(component => component.OnTheme, () => { }));
+        menu.Find(".omni-app-menu__trigger").Click();
+
+        var row = menu.Find("button.omni-app-menu__mode");
+        Assert.Equal("button", row.GetAttribute("type"));
+        Assert.False(row.HasAttribute("aria-label"));
+        Assert.Equal("Mode Sombre", string.Join(" ", row.QuerySelectorAll(".omni-app-menu__label, .omni-app-menu__value").Select(part => part.TextContent)));
+        Assert.Empty(row.QuerySelectorAll("button, a, select, input, [role], [tabindex]"));
+    }
+
+    [Fact]
+    public void The_language_row_is_one_native_list_stretched_over_the_whole_row()
+    {
+        var menu = Render<OmniAppMenu>(parameters => parameters
+            .Add(component => component.Languages, [new OmniAppMenuLanguage("fr", "Français", "flags/fr.svg"), new OmniAppMenuLanguage("en", "English")])
+            .Add(component => component.Language, "fr")
+            .Add(component => component.ShowFlags, true)
+            .Add(component => component.AppearanceChanged, _ => { })
+            .Add(component => component.OnTheme, () => { }));
+        menu.Find(".omni-app-menu__trigger").Click();
+
+        // One actionable element in the row, named "Langue"; the icon, the label and the flag are not.
+        var row = menu.Find(".omni-app-menu__language-row");
+        var actionable = row.QuerySelectorAll("button, a, select, input, [role], [tabindex]");
+        Assert.Single(actionable);
+        Assert.Equal("select", actionable[0].LocalName);
+        Assert.Equal("Langue", actionable[0].GetAttribute("aria-label"));
+
+        // The stylesheet stretches the list over the row, and lets the click through the rest.
+        var list = ShippedLookTests.Body(".omni-app-menu .omni-app-menu__language-row > select.omni-app-menu__language.omni-input");
+        Assert.Equal("absolute", ShippedLookTests.Value(list, "position"));
+        Assert.Equal("100%", ShippedLookTests.Value(list, "inline-size"));
+        Assert.Equal("100%", ShippedLookTests.Value(list, "block-size"));
+        Assert.Equal("none", ShippedLookTests.Value(ShippedLookTests.Body(".omni-app-menu__language-row > :is(.omni-icon, .omni-app-menu__label, .omni-app-menu__flag)"), "pointer-events"));
     }
 }

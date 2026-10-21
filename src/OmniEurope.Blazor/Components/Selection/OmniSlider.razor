@@ -1,6 +1,9 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniInputBase<double>
 
+@* Bound as a value that follows every input: Blazor knows the input handler updates the value attribute, so
+   after an input it takes the value the browser shows as the rendered one, and when HandleInput clamps it to
+   SelectableMinimum (even to the value it already holds) the render that follows draws the thumb back on it. *@
 <div class="@InputCss("omni-slider", Vertical ? "omni-slider--vertical" : null)">
     <input @attributes="AdditionalAttributes"
            id="@Id"
@@ -9,16 +12,17 @@
            min="@Format(Minimum)"
            max="@Format(Maximum)"
            step="@Format(Step)"
-           value="@Format(CurrentValue)"
            disabled="@Disabled"
            aria-orientation="@OrientationText"
-           aria-valuemin="@Format(Minimum)"
+           aria-valuemin="@Format(LowestSelectable)"
            aria-valuemax="@Format(Maximum)"
            aria-valuenow="@Format(CurrentValue)"
            aria-valuetext="@ValueText"
            aria-invalid="@AriaInvalid"
            aria-describedby="@AriaDescribedBy"
-           @oninput="HandleInput"
+           @bind:get="CurrentValueAsString"
+           @bind:set="HandleInput"
+           @bind:event="oninput"
            @onchange="ChangeCallback" />
     @if (ShowValue)
     {

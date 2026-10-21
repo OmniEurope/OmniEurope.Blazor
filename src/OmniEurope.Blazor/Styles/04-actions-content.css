@@ -211,13 +211,17 @@
 /* Rangée étroite : défiler ou replier en icônes (sous 480px). Qui défile ne montre pas de barre :
    comme l'en-tête des onglets, un chevron de chaque côté qui cache encore des éléments, ôté en
    butée ; la rangée ne prend donc aucune hauteur de plus que ses boutons. */
-.omni-stack-scroll { align-items: center; display: flex; min-inline-size: 0; }
+.omni-stack-scroll { align-items: center; display: flex; min-inline-size: 0; position: relative; }
 /* Le rembourrage, repris par une marge négative, laisse sa place à l'anneau de focus que le
    défilement rognerait. */
 .omni-stack--overflow-scroll { flex: 1 1 auto; flex-wrap: nowrap; margin: -0.1875rem; min-inline-size: 0; overflow-x: auto; overscroll-behavior-x: contain; padding: 0.1875rem; scrollbar-width: none; }
 .omni-stack--overflow-scroll::-webkit-scrollbar { display: none; }
 .omni-stack--overflow-scroll > * { flex: 0 0 auto; }
-.omni-stack-scroll__button { align-items: center; align-self: stretch; background: transparent; border: 0; color: var(--omni-color-text); cursor: pointer; display: inline-flex; flex: 0 0 auto; padding: 0 var(--omni-space-xs); }
+/* Les chevrons recouvrent les bouts de la rangée et ne prennent aucune place : la rangée garde sa largeur
+   qu'un chevron paraisse ou non (recette R1-22). Presque opaques, pour que le glyphe reste lisible. */
+.omni-stack-scroll__button { align-items: center; background: color-mix(in srgb, var(--omni-card-background, var(--omni-color-surface)) 90%, transparent); border: 0; color: var(--omni-color-text); cursor: pointer; display: inline-flex; inset-block: 0; padding: 0 var(--omni-space-xs); position: absolute; z-index: 2; }
+.omni-stack-scroll__button--start { inset-inline-start: 0; }
+.omni-stack-scroll__button--end { inset-inline-end: 0; }
 .omni-stack-scroll__button[hidden] { display: none; }
 .omni-stack-scroll__chevron { block-size: 1.25em; inline-size: 1.25em; }
 .omni-stack--overflow-collapse { flex-wrap: nowrap; min-inline-size: 0; }

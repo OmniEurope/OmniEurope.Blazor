@@ -336,7 +336,8 @@ public sealed class NavigationComponentTests : OmniBunitContext
             .AddChildContent("<nav class=\"menu\">Navigation</nav>"));
 
         var panel = sidebar.Find(".omni-sidebar__panel");
-        var children = panel.Children.Select(child => child.ClassName).ToArray();
+        var scroller = Assert.Single(panel.Children, child => child.ClassList.Contains("omni-sidebar__scroller"));
+        var children = scroller.Children.Select(child => child.ClassName).ToArray();
         Assert.Equal(
             ["omni-sidebar__scroll omni-sidebar__scroll--start", "omni-sidebar__viewport", "omni-sidebar__scroll omni-sidebar__scroll--end"],
             children);
@@ -356,5 +357,28 @@ public sealed class NavigationComponentTests : OmniBunitContext
         Assert.Equal("auto", ShippedLookTests.Value(viewport, "overflow-y"));
         Assert.Equal("none", ShippedLookTests.Value(viewport, "scrollbar-width"));
         Assert.Equal("none", ShippedLookTests.Value(ShippedLookTests.Body(".omni-sidebar__scroll[hidden]"), "display"));
+    }
+
+    // Recette R1-22: a chevron that comes or goes must not resize the box it scrolls, so it never takes room.
+    [Theory]
+    [InlineData(".omni-tabs__scroll")]
+    [InlineData(".omni-stack-scroll__button")]
+    [InlineData(".omni-sidebar__scroll")]
+    public void Scroll_chevrons_lie_over_the_edge_of_their_box_and_take_no_room(string selector)
+    {
+        var chevron = ShippedLookTests.Body(selector);
+        Assert.Equal("absolute", ShippedLookTests.Value(chevron, "position"));
+        // Slightly see-through (the fill is mixed with transparent), the glyph keeps the text colour.
+        Assert.Contains("color-mix(in srgb,", ShippedLookTests.Value(chevron, "background"), StringComparison.Ordinal);
+        Assert.Contains("transparent", ShippedLookTests.Value(chevron, "background"), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Sidebar_scroller_is_the_box_the_chevrons_lie_over_and_the_viewport_keeps_the_whole_of_it()
+    {
+        Assert.Equal("relative", ShippedLookTests.Value(ShippedLookTests.Body(".omni-sidebar__scroller"), "position"));
+        Assert.Equal("1 1 auto", ShippedLookTests.Value(ShippedLookTests.Body(".omni-sidebar__scroller"), "flex"));
+        Assert.Equal("1 1 auto", ShippedLookTests.Value(ShippedLookTests.Body(".omni-sidebar__viewport"), "flex"));
+        Assert.Equal("0", ShippedLookTests.Value(ShippedLookTests.Body(".omni-sidebar__scroller"), "min-block-size"));
     }
 }

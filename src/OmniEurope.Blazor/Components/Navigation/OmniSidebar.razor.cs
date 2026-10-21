@@ -114,8 +114,8 @@ public partial class OmniSidebar
     /// </summary>
     private Func<Task>? _expand;
 
-    /// <summary>The panel, whose menu scrolls under the chevrons once it is taller than the window.</summary>
-    private ElementReference _panel;
+    /// <summary>The scroller holding the menu and its two chevrons: the menu scrolls under them once it is taller than the window.</summary>
+    private ElementReference _scroller;
 
     private bool _overflowConfigured;
 
@@ -151,7 +151,7 @@ public partial class OmniSidebar
             if (!_overflowConfigured)
             {
                 _overflowConfigured = true;
-                await _focusModule.InvokeVoidAsync("configureSidebarOverflow", _panel);
+                await _focusModule.InvokeVoidAsync("configureSidebarOverflow", _scroller);
             }
 
             _selfReference ??= DotNetObjectReference.Create(this);
@@ -244,7 +244,7 @@ public partial class OmniSidebar
 
                 if (_overflowConfigured)
                 {
-                    await _focusModule.InvokeVoidAsync("disposeSidebarOverflow", _panel);
+                    await _focusModule.InvokeVoidAsync("disposeSidebarOverflow", _scroller);
                 }
 
                 await _focusModule.DisposeAsync();
