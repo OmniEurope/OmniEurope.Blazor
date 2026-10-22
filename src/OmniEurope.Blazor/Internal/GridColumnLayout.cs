@@ -11,6 +11,15 @@ internal sealed class GridColumnLayout<TItem>(OmniDataGrid<TItem> grid)
 {
     internal const double MinimumColumnWidth = 48d;
 
+    /// <summary>Widest a reader can make a column, in CSS pixels; the script reports raw numbers, so a width is bounded here.</summary>
+    internal const double MaximumColumnWidth = 4000d;
+
+    /// <summary>Most distinct texts a fit to content receives (the longest ones when there are more).</summary>
+    internal const int MaximumFitTexts = 5000;
+
+    /// <summary>Longest text, in characters, a fit to content receives: a column cannot be wider than <see cref="MaximumColumnWidth"/> anyway.</summary>
+    internal const int MaximumFitTextLength = 512;
+
     /// <summary>Browser default root font size, used to turn rem/em widths into pixels.</summary>
     private const double RootFontSize = 16d;
 
@@ -129,7 +138,7 @@ internal sealed class GridColumnLayout<TItem>(OmniDataGrid<TItem> grid)
         _ => Task.CompletedTask
     };
 
-    /// <summary>The distinct texts of a column over every loaded row, for the script's fit to content.</summary>
+    /// <summary>The distinct texts of a column over every loaded row, for the script's fit to content: at most <see cref="MaximumFitTexts"/> of them (the longest), each cut to <see cref="MaximumFitTextLength"/> characters.</summary>
     internal string[]? AutoFitTexts(string key)
     {
         var column = grid.ColumnSet.FindVisible(key);
@@ -138,11 +147,15 @@ internal sealed class GridColumnLayout<TItem>(OmniDataGrid<TItem> grid)
             return null;
         }
 
-        return grid.View.LoadedItems()
+        var texts = grid.View.LoadedItems()
             .Select(item => CellText(column, item))
             .Where(text => !string.IsNullOrEmpty(text))
+            .Select(text => text.Length > MaximumFitTextLength ? text[..MaximumFitTextLength] : text)
             .Distinct(StringComparer.Ordinal)
-            .ToArray()!;
+            .ToArray();
+        return texts.Length <= MaximumFitTexts
+            ? texts
+            : [.. texts.OrderByDescending(text => text.Length).Take(MaximumFitTexts)];
     }
 
     /// <summary>Applies the width a fit to content chose, when the column fits to content.</summary>
@@ -172,7 +185,13 @@ internal sealed class GridColumnLayout<TItem>(OmniDataGrid<TItem> grid)
 
     private async Task ApplyColumnWidthAsync(string key, double width)
     {
-        var clamped = Math.Max(MinimumColumnWidth, width);
+        if (!double.IsFinite(width))
+        {
+            // The script reports raw numbers: a width that is not one is no gesture of a reader.
+            return;
+        }
+
+        var clamped = Math.Clamp(width, MinimumColumnWidth, MaximumColumnWidth);
         var value = $"{clamped.ToString(CultureInfo.InvariantCulture)}px";
         _columnWidths[key] = value;
         grid.LayoutInterop.InvalidateColumnLayout();
@@ -213,11 +232,6 @@ internal sealed class GridColumnLayout<TItem>(OmniDataGrid<TItem> grid)
     }
 
     /// <summary>What a column without a template shows for an item; the fit to content measures the same text.</summary>
-    internal static string? CellText(OmniDataGridColumnDefinition<TItem> column, TItem item)
-    {
-        var value = column.Value(item);
-        return !string.IsNullOrWhiteSpace(column.FormatString)
-            ? string.Format(CultureInfo.CurrentCulture, column.FormatString, value)
-            : value?.ToString();
-    }
+    internal static string CellText(OmniDataGridColumnDefinition<TItem> column, TItem item) =>
+        GridCellFormat.Text(column.Value(item), column.FormatString);
 }

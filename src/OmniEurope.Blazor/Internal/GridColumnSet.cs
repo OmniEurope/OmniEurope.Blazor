@@ -119,7 +119,7 @@ internal sealed class GridColumnSet<TItem>(OmniDataGrid<TItem> grid)
         {
             // A column rendered after the first request (under a condition, or added later) brings a
             // default the rows on screen were not loaded with: they are loaded again with it.
-            _ = grid.DispatchAsync(async () =>
+            _ = grid.DispatchDetachedAsync(async () =>
             {
                 await grid.ReloadAsync();
                 grid.Render();
@@ -155,7 +155,7 @@ internal sealed class GridColumnSet<TItem>(OmniDataGrid<TItem> grid)
         grid.ColumnLayout.Forget(key);
         grid.View.InvalidateLocalProjection();
         grid.RebuildRenderSnapshot();
-        _ = grid.DispatchAsync(async () =>
+        _ = grid.DispatchDetachedAsync(async () =>
         {
             if (grid.Load is not null)
             {

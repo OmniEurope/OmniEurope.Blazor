@@ -222,9 +222,7 @@ internal sealed class GridExport<TItem>(OmniDataGrid<TItem> grid) : IAsyncDispos
     private static OmniTableExportCell CellOf(OmniDataGridColumnDefinition<TItem> column, TItem item)
     {
         var value = (column.ExportValue ?? column.Value)(item);
-        var text = (!string.IsNullOrWhiteSpace(column.FormatString)
-            ? string.Format(CultureInfo.CurrentCulture, column.FormatString, value)
-            : Convert.ToString(value, CultureInfo.CurrentCulture)) ?? string.Empty;
+        var text = GridCellFormat.Text(value, column.FormatString);
         return Typed(text, value);
     }
 

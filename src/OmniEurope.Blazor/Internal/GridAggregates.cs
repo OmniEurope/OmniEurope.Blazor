@@ -25,10 +25,7 @@ internal sealed class GridAggregates<TItem>(OmniDataGrid<TItem> grid)
             return string.Empty;
         }
 
-        var pattern = format ?? column.FormatString;
-        return string.IsNullOrWhiteSpace(pattern)
-            ? Convert.ToString(value, CultureInfo.CurrentCulture) ?? string.Empty
-            : string.Format(CultureInfo.CurrentCulture, pattern, value);
+        return GridCellFormat.Text(value, format ?? column.FormatString);
     }
 
     /// <summary>

@@ -90,7 +90,7 @@ public partial class OmniTreeItem<TValue>
             load = _expanded;
             if (openedByTree)
             {
-                _ = InvokeAsync(() => ExpandedChanged.InvokeAsync(true));
+                _ = ReportExpandedAsync(true);
             }
         }
         if (!Equals(_observedLoader, LoadChildren))
@@ -127,6 +127,22 @@ public partial class OmniTreeItem<TValue>
         }
 
         StateHasChanged();
+    }
+
+    /// <summary>
+    /// Tells the host an item opened by its tree, without the lifecycle waiting for it. A handler that throws
+    /// reaches the renderer as it would from a lifecycle method.
+    /// </summary>
+    private async Task ReportExpandedAsync(bool expanded)
+    {
+        try
+        {
+            await InvokeAsync(() => ExpandedChanged.InvokeAsync(expanded));
+        }
+        catch (Exception exception)
+        {
+            await DispatchExceptionAsync(exception);
+        }
     }
 
     private async Task ToggleExpandedAsync()

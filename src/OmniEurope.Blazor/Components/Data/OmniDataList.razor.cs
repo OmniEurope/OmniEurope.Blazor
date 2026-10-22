@@ -30,7 +30,7 @@ public partial class OmniDataList<TItem>
     private IJSObjectReference? _module;
     private Task<IJSObjectReference>? _importing;
     private bool _disposed;
-    private DotNetObjectReference<OmniDataList<TItem>>? _selfReference;
+    private DotNetObjectReference<ListInteropBridge>? _selfReference;
     private bool _attached;
     private double _scrollTop;
     private double _viewportHeight;
@@ -229,7 +229,7 @@ public partial class OmniDataList<TItem>
 
         if (!_attached)
         {
-            _selfReference ??= DotNetObjectReference.Create(this);
+            _selfReference ??= DotNetObjectReference.Create(new ListInteropBridge(OnViewportChangedAsync));
             await module.InvokeVoidAsync("attachList", _root, _selfReference);
             _attached = true;
         }
@@ -312,8 +312,7 @@ public partial class OmniDataList<TItem>
     /// <param name="scrollTop">Offset of the visible area inside the list, in CSS pixels.</param>
     /// <param name="viewportHeight">Height of the visible area, in CSS pixels.</param>
     /// <returns>A completed task.</returns>
-    [JSInvokable]
-    public Task OnViewportChangedAsync(double scrollTop, double viewportHeight)
+    internal Task OnViewportChangedAsync(double scrollTop, double viewportHeight)
     {
         if (_disposed)
         {
