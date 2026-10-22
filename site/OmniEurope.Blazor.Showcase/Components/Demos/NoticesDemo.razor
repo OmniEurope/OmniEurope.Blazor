@@ -16,20 +16,20 @@
         @if (!ShowDone && !ShowRefused)
         {
             <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => ShowDone = ShowRefused = true)">
-                <OmniIcon Name="OmniIconName.Refresh" />
-                <span>@Text["NoticeShowAgain"]</span>
+                <Icon><OmniIcon Name="OmniIconName.Refresh" /></Icon>
+                <ChildContent><span>@Text["NoticeShowAgain"]</span></ChildContent>
             </OmniButton>
         }
     </div>
 
     <OmniRow Gap="OmniSpacing.Small" Wrap="true">
         <OmniButton Variant="OmniButtonVariant.Danger" OnClick="@(_ => UnlistOpen = true)">
-            <OmniIcon Name="OmniIconName.Archive" />
-            <span>@Text["NoticeUnlistOpen"]</span>
+            <Icon><OmniIcon Name="OmniIconName.Archive" /></Icon>
+            <ChildContent><span>@Text["NoticeUnlistOpen"]</span></ChildContent>
         </OmniButton>
         <OmniButton OnClick="@(_ => RerunOpen = true)">
-            <OmniIcon Name="OmniIconName.Refresh" />
-            <span>@Text["NoticeRerunOpen"]</span>
+            <Icon><OmniIcon Name="OmniIconName.Refresh" /></Icon>
+            <ChildContent><span>@Text["NoticeRerunOpen"]</span></ChildContent>
         </OmniButton>
     </OmniRow>
     @if (Last is not null)
@@ -49,10 +49,10 @@
         </ChildContent>
         <FooterContent>
             <OmniButton Variant="OmniButtonVariant.Danger" OnClick="@(_ => Close(Text["NoticeUnlistDone"]))">
-                <OmniIcon Name="OmniIconName.Archive" /><span>@Text["NoticeUnlist"]</span>
+                <Icon><OmniIcon Name="OmniIconName.Archive" /></Icon><ChildContent><span>@Text["NoticeUnlist"]</span></ChildContent>
             </OmniButton>
             <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => Close(null))">
-                <OmniIcon Name="OmniIconName.Close" /><span>@Text["NoticeCancel"]</span>
+                <Icon><OmniIcon Name="OmniIconName.Close" /></Icon><ChildContent><span>@Text["NoticeCancel"]</span></ChildContent>
             </OmniButton>
         </FooterContent>
     </OmniDialog>
@@ -68,10 +68,10 @@
         </ChildContent>
         <FooterContent>
             <OmniButton Variant="OmniButtonVariant.Info" OnClick="@(_ => Close(Text["NoticeRerunDone"]))">
-                <OmniIcon Name="OmniIconName.Refresh" /><span>@Text["NoticeRerun"]</span>
+                <Icon><OmniIcon Name="OmniIconName.Refresh" /></Icon><ChildContent><span>@Text["NoticeRerun"]</span></ChildContent>
             </OmniButton>
             <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => Close(null))">
-                <OmniIcon Name="OmniIconName.Close" /><span>@Text["NoticeCancel"]</span>
+                <Icon><OmniIcon Name="OmniIconName.Close" /></Icon><ChildContent><span>@Text["NoticeCancel"]</span></ChildContent>
             </OmniButton>
         </FooterContent>
     </OmniDialog>

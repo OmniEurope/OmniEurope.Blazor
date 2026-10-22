@@ -2,5 +2,5 @@
 
 <OmniMain>
     <OmniHeading Level="@OmniHeadingLevel.H1">@Text["Title"]</OmniHeading>
-    <OmniButton Id="auto-action" OnClick="IncrementAsync"><OmniIcon Name="OmniIconName.Check" Size="OmniControlSize.Small" /> <span>@Text["Counter", Count]</span></OmniButton>
+    <OmniButton Id="auto-action" OnClick="IncrementAsync"><Icon><OmniIcon Name="OmniIconName.Check" Size="OmniControlSize.Small" /></Icon> <ChildContent><span>@Text["Counter", Count]</span></ChildContent></OmniButton>
 </OmniMain>

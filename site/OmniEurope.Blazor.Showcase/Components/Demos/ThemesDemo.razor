@@ -16,15 +16,15 @@
         @* La même fenêtre ouverte depuis une entrée de menu (« Thème ») : thème et palette côte à côte,
            les échelles, la densité et la police. Un nouveau thème y remet la palette et la police à
            celles du thème, comme dans les réglages ; « Aléatoire » tire un thème et une palette. *@
-        <OmniButton Id="demo-appearance-window" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => _windowOpen = true)"><OmniIcon Name="OmniIconName.Palette" /><span>@Text["DemoThemesAppearanceWindow"]</span></OmniButton>
+        <OmniButton Id="demo-appearance-window" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => _windowOpen = true)"><Icon><OmniIcon Name="OmniIconName.Palette" /></Icon><ChildContent><span>@Text["DemoThemesAppearanceWindow"]</span></ChildContent></OmniButton>
         <OmniAppearanceWindow @bind-Open="_windowOpen" />
         <OmniCard>
             <HeaderContent><OmniHeading Level="OmniHeadingLevel.H4">@Text["ThemesLivePreview", Caption(LiveSample)]</OmniHeading></HeaderContent>
             <ChildContent>
                 <OmniStack Gap="OmniSpacing.Small">
                     <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
-                        <OmniButton><OmniIcon Name="OmniIconName.Save" /><span>@Text["ThemesSave"]</span></OmniButton>
-                        <OmniButton Variant="OmniButtonVariant.Secondary"><OmniIcon Name="OmniIconName.Close" /><span>@Text["ThemesCancel"]</span></OmniButton>
+                        <OmniButton><Icon><OmniIcon Name="OmniIconName.Save" /></Icon><ChildContent><span>@Text["ThemesSave"]</span></ChildContent></OmniButton>
+                        <OmniButton Variant="OmniButtonVariant.Secondary"><Icon><OmniIcon Name="OmniIconName.Close" /></Icon><ChildContent><span>@Text["ThemesCancel"]</span></ChildContent></OmniButton>
                         <OmniBadge Tone="OmniTone.Success" Fill="OmniFill.Solid">@Text["ThemesBadge"]</OmniBadge>
                     </OmniRow>
                     <OmniAlert Severity="OmniSeverity.Info" Fill="OmniFill.Solid">@Text["ThemesAlert"]</OmniAlert>
@@ -43,8 +43,8 @@
                     <OmniStack Gap="OmniSpacing.Small">
                         <p>@(sample.Theme?.Description ?? sample.Palette?.Description)</p>
                         <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
-                            <OmniButton><OmniIcon Name="OmniIconName.Save" /><span>@Text["ThemesSave"]</span></OmniButton>
-                            <OmniButton Variant="OmniButtonVariant.Secondary"><OmniIcon Name="OmniIconName.Close" /><span>@Text["ThemesCancel"]</span></OmniButton>
+                            <OmniButton><Icon><OmniIcon Name="OmniIconName.Save" /></Icon><ChildContent><span>@Text["ThemesSave"]</span></ChildContent></OmniButton>
+                            <OmniButton Variant="OmniButtonVariant.Secondary"><Icon><OmniIcon Name="OmniIconName.Close" /></Icon><ChildContent><span>@Text["ThemesCancel"]</span></ChildContent></OmniButton>
                             <OmniBadge Tone="OmniTone.Success" Fill="OmniFill.Solid">@Text["ThemesBadge"]</OmniBadge>
                         </OmniRow>
                         <OmniAlert Severity="OmniSeverity.Info" Fill="OmniFill.Solid">@Text["ThemesAlert"]</OmniAlert>

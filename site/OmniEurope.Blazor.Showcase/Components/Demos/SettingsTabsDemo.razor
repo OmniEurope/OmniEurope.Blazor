@@ -18,8 +18,8 @@
                             <span class="demo-tile-control">
                                 <OmniTextBox Id="settings-folder" aria-label="@Text["SettingsFolder"]" @bind-Value="Model.Folder" />
                                 <OmniButton Variant="OmniButtonVariant.Secondary">
-                                    <OmniIcon Name="OmniIconName.Folder" />
-                                    <span>@Text["SettingsBrowse"]</span>
+                                    <Icon><OmniIcon Name="OmniIconName.Folder" /></Icon>
+                                    <ChildContent><span>@Text["SettingsBrowse"]</span></ChildContent>
                                 </OmniButton>
                             </span>
                         </ChildContent>

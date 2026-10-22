@@ -42,7 +42,7 @@
 
     @* Dans un dialogue, Échap et la croix sont ceux du dialogue ; l'assistant n'y ajoute rien. *@
     <OmniButton Id="flows-demo-open" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => DialogOpen = true)">
-        <OmniIcon Name="OmniIconName.Add" /><span>@Text["DemoFlowsWizardInDialog"]</span>
+        <Icon><OmniIcon Name="OmniIconName.Add" /></Icon><ChildContent><span>@Text["DemoFlowsWizardInDialog"]</span></ChildContent>
     </OmniButton>
     <OmniDialog Title="@Text["DemoFlowsInviteTitle"]" Open="DialogOpen" OpenChanged="@(value => DialogOpen = value)">
         <OmniWizard Label="@Text["DemoFlowsInviteSteps"]" FinishText="@Text["DemoFlowsInvite"]" OnFinish="@(() => DialogOpen = false)">
@@ -70,7 +70,7 @@
                         </OmniFormField>
                         @* OmniFormActions : le bouton reste dans le formulaire et se range à droite. *@
                         <OmniFormActions>
-                            <OmniButton ButtonType="OmniButtonType.Submit"><OmniIcon Name="OmniIconName.SignIn" /><span>@Text["DemoFlowsSignIn"]</span></OmniButton>
+                            <OmniButton ButtonType="OmniButtonType.Submit"><Icon><OmniIcon Name="OmniIconName.SignIn" /></Icon><ChildContent><span>@Text["DemoFlowsSignIn"]</span></ChildContent></OmniButton>
                         </OmniFormActions>
                     </OmniStack>
                 </EditForm>
@@ -89,10 +89,10 @@
     @* L'hôte pilote l'état, le compte à rebours et les rappels ; le composant ne tient aucune connexion. *@
     <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small">
         <OmniButton Id="flows-demo-drop" Variant="OmniButtonVariant.Warning" OnClick="DropAsync">
-            <OmniIcon Name="OmniIconName.Offline" /><span>@Text["DemoFlowsSimulateDrop"]</span>
+            <Icon><OmniIcon Name="OmniIconName.Offline" /></Icon><ChildContent><span>@Text["DemoFlowsSimulateDrop"]</span></ChildContent>
         </OmniButton>
         <OmniButton Id="flows-demo-reject" Variant="OmniButtonVariant.Danger" OnClick="Reject">
-            <OmniIcon Name="OmniIconName.Prohibit" /><span>@Text["DemoFlowsSimulateReject"]</span>
+            <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon><ChildContent><span>@Text["DemoFlowsSimulateReject"]</span></ChildContent>
         </OmniButton>
     </OmniStack>
     <OmniConnectionOverlay Id="flows-demo-connection" State="Connection" TimeUntilRetry="TimeSpan.FromSeconds(Countdown)" Busy="Reconnecting"

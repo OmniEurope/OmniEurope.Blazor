@@ -56,7 +56,7 @@
 
         @* Dans un dialogue, le calendrier s'ouvre par-dessus : fixé à la fenêtre, il ne crée pas de barre
            de défilement dans le dialogue, et il reste sous son champ quand on déplace le dialogue. *@
-        <OmniButton Id="inputs-dialog-open" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => DialogOpen = true)"><OmniIcon Name="OmniIconName.CalendarBlank" /><span>@Text["DemoInputsDialog"]</span></OmniButton>
+        <OmniButton Id="inputs-dialog-open" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => DialogOpen = true)"><Icon><OmniIcon Name="OmniIconName.CalendarBlank" /></Icon><ChildContent><span>@Text["DemoInputsDialog"]</span></ChildContent></OmniButton>
         <OmniDialog Id="inputs-dialog" Title="@Text["DemoInputsDate"]" @bind-Open="DialogOpen" Size="OmniDialogSize.Small" Draggable="true">
             <OmniFormField For="inputs-dialog-date">
                 <LabelContent>@Text["DemoInputsDate"]</LabelContent>

@@ -44,8 +44,8 @@
                 <HeaderContent>@Text["Overlays"]</HeaderContent>
                 <ChildContent>
                     <div class="catalog-row">
-                        <OmniButton Id="catalog-open-dialog" OnClick="@(_ => OpenDialog())"><OmniIcon Name="OmniIconName.Info" Size="OmniControlSize.Small" /> <span>@Text["OpenDialog"]</span></OmniButton>
-                        <OmniButton Id="catalog-notify" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => Notify())"><OmniIcon Name="OmniIconName.Warning" Size="OmniControlSize.Small" /> <span>@Text["Notify"]</span></OmniButton>
+                        <OmniButton Id="catalog-open-dialog" OnClick="@(_ => OpenDialog())"><Icon><OmniIcon Name="OmniIconName.Info" Size="OmniControlSize.Small" /></Icon> <ChildContent><span>@Text["OpenDialog"]</span></ChildContent></OmniButton>
+                        <OmniButton Id="catalog-notify" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => Notify())"><Icon><OmniIcon Name="OmniIconName.Warning" Size="OmniControlSize.Small" /></Icon> <ChildContent><span>@Text["Notify"]</span></ChildContent></OmniButton>
                         <OmniTooltip Text="@Text["Tooltip"]" Focusable="true">@Text["TooltipTrigger"]</OmniTooltip>
                     </div>
                 </ChildContent>

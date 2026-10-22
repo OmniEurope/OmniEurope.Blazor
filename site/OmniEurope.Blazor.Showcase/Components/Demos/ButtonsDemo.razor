@@ -18,8 +18,8 @@
     @* Busy garde le contenu et la taille exacts du repos : un voile respire par-dessus. *@
     <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true" Align="OmniAlignment.Center">
         <OmniButton Id="demo-save" Busy="Saving" OnClick="SaveAsync">
-            <OmniIcon Name="OmniIconName.Check" />
-            <span>@Text["DemoButtonsSave"]</span>
+            <Icon><OmniIcon Name="OmniIconName.Check" /></Icon>
+            <ChildContent><span>@Text["DemoButtonsSave"]</span></ChildContent>
         </OmniButton>
         <OmniSplitButton Id="demo-split" Text="@Text["DemoButtonsPublish"]" Busy="Saving" OnClick="SaveAsync" />
         <OmniToggleButton Id="demo-toggle" @bind-Value="Pinned" Busy="Saving">@Text["DemoButtonsPin"]</OmniToggleButton>
@@ -31,9 +31,9 @@
         <OmniButton Size="OmniControlSize.Small">@Text["DemoButtonsSmall"]</OmniButton>
         <OmniButton Size="OmniControlSize.Medium">@Text["DemoButtonsMedium"]</OmniButton>
         <OmniButton Size="OmniControlSize.Large">@Text["DemoButtonsLarge"]</OmniButton>
-        <OmniButton Size="OmniControlSize.Small" Variant="OmniButtonVariant.Secondary" Label="@Text["DemoButtonsSearch"]"><OmniIcon Name="OmniIconName.Search" /></OmniButton>
-        <OmniButton Size="OmniControlSize.Medium" Variant="OmniButtonVariant.Secondary" Label="@Text["DemoButtonsSearch"]"><OmniIcon Name="OmniIconName.Search" /></OmniButton>
-        <OmniButton Size="OmniControlSize.Large" Variant="OmniButtonVariant.Secondary" Label="@Text["DemoButtonsSearch"]"><OmniIcon Name="OmniIconName.Search" /></OmniButton>
+        <OmniButton Size="OmniControlSize.Small" Variant="OmniButtonVariant.Secondary" Label="@Text["DemoButtonsSearch"]"><Icon><OmniIcon Name="OmniIconName.Search" /></Icon></OmniButton>
+        <OmniButton Size="OmniControlSize.Medium" Variant="OmniButtonVariant.Secondary" Label="@Text["DemoButtonsSearch"]"><Icon><OmniIcon Name="OmniIconName.Search" /></Icon></OmniButton>
+        <OmniButton Size="OmniControlSize.Large" Variant="OmniButtonVariant.Secondary" Label="@Text["DemoButtonsSearch"]"><Icon><OmniIcon Name="OmniIconName.Search" /></Icon></OmniButton>
     </OmniStack>
 
     <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true" Align="OmniAlignment.Center">
