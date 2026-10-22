@@ -1,5 +1,3 @@
-using System.Text.RegularExpressions;
-
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
@@ -196,7 +194,7 @@ public partial class OmniLogViewer : IAsyncDisposable
         base.OnParametersSet();
         ArgumentNullException.ThrowIfNull(Lines);
         ArgumentNullException.ThrowIfNull(TimeZone);
-        if (Height is not null && !CssLength().IsMatch(Height))
+        if (Height is not null && !Internal.CssLength.IsHeight(Height))
         {
             throw new ArgumentException($"'{Height}' is not a CSS length {nameof(OmniLogViewer)} accepts for {nameof(Height)} (a number followed by px, rem, em, vh or %).", nameof(Height));
         }
@@ -583,7 +581,4 @@ public partial class OmniLogViewer : IAsyncDisposable
         _selfReference?.Dispose();
         GC.SuppressFinalize(this);
     }
-
-    [GeneratedRegex("^\\d+(\\.\\d+)?(px|rem|em|vh|%)$", RegexOptions.CultureInvariant)]
-    private static partial Regex CssLength();
 }

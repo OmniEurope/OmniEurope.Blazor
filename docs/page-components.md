@@ -183,7 +183,7 @@ voile : dans un `OmniDialog`, Échap et la croix restent ceux du dialogue.
 `OnFinish` est levé par le bouton `FinishText` une fois que la dernière étape laisse l'utilisateur continuer.
 
 Les boutons restent à la même place quelle que soit l'étape : le corps a une hauteur contrôlée,
-`BodyHeight` (longueur CSS comme `24rem`, `400px` ou `50vh`), à défaut la propriété
+`BodyHeight` (longueur CSS comme `24rem`, `400px`, `50vh` ou `100%`), à défaut la propriété
 `--omni-wizard-body-height` de la feuille de l'hôte, à défaut `min(24rem, 60vh)`. Une étape plus haute
 défile dans le corps, au-dessus du pied (`omni-wizard__foot`) ; une étape plus courte laisse du vide. La
 valeur est posée par le script d'interop comme propriété personnalisée (jamais en attribut `style`) ; sans

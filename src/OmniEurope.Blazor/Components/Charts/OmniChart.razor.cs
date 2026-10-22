@@ -1,5 +1,3 @@
-using System.Text.RegularExpressions;
-
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
@@ -164,9 +162,9 @@ public partial class OmniChart
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        if (MaxHeight is not null && !MaxHeightValue().IsMatch(MaxHeight))
+        if (MaxHeight is not null and not "none" && !Internal.CssLength.IsHeight(MaxHeight))
         {
-            throw new ArgumentException($"'{MaxHeight}' is not a CSS length {nameof(OmniChart)} accepts for {nameof(MaxHeight)} (a number followed by px, rem, em or vh, or none).", nameof(MaxHeight));
+            throw new ArgumentException($"'{MaxHeight}' is not a CSS length {nameof(OmniChart)} accepts for {nameof(MaxHeight)} (a number followed by px, rem, em, vh or %, or none).", nameof(MaxHeight));
         }
 
         // A preset may set the ratio without the markup naming it: a value other than the default counts as set.
@@ -244,7 +242,4 @@ public partial class OmniChart
             // The page is gone with the script.
         }
     }
-
-    [GeneratedRegex("^(\\d+(\\.\\d+)?(px|rem|em|vh)|none)$", RegexOptions.CultureInvariant)]
-    private static partial Regex MaxHeightValue();
 }
