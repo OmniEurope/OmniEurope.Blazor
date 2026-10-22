@@ -94,8 +94,11 @@ public partial class OmniDataGrid<TItem>
     /// <summary>
     /// Remote data: called with the page, the sorts, the filters and a cancellation token each time the
     /// grid needs rows (first render, page change, sort, filter, or a block while virtualizing). A newer
-    /// request cancels the previous one. A failure is shown in the grid (<see cref="ErrorContent"/>) with
-    /// a retry action and reported through <see cref="OnLoadError"/>.
+    /// request cancels the previous one; a virtual grid also cancels the blocks that left the viewport
+    /// (their token is signalled and their answer dropped) and asks the blocks of its window one after
+    /// the other, so a host should honour the token to spare its backend during a fast scroll. A failure
+    /// is shown in the grid (<see cref="ErrorContent"/>) with a retry action and reported through
+    /// <see cref="OnLoadError"/>.
     /// </summary>
     [Parameter]
     public Func<OmniDataGridLoadRequest, Task<OmniDataGridResult<TItem>>>? Load { get; set; }
