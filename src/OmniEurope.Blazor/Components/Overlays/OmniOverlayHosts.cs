@@ -10,7 +10,9 @@ internal static class OmniOverlayHosts
 
     internal static RenderFragment Dialog(OmniOverlayService service, Func<bool, Task> openChanged) => builder =>
     {
-        var dialogs = service.Dialogs;
+        // One snapshot per render: a dialog opened or closed from another thread meanwhile changes the next one.
+        var snapshot = service.DialogSnapshot;
+        var dialogs = snapshot.Requests;
         if (dialogs.Count == 0)
         {
             return;
@@ -21,7 +23,7 @@ internal static class OmniOverlayHosts
         {
             var dialog = dialogs[index];
             builder.OpenComponent<OmniDialog>(sequence++);
-            builder.SetKey(service.DialogKey(index));
+            builder.SetKey(snapshot.Keys[index]);
             builder.AddAttribute(sequence++, nameof(OmniDialog.Open), true);
             builder.AddAttribute(sequence++, nameof(OmniDialog.Title), dialog.Title);
             builder.AddAttribute(

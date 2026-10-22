@@ -2,6 +2,8 @@
 // overflow chevrons of the tab strips, scrolling OmniStack rows and OmniSelectBar, the upright ones
 // of OmniSidebar, and the wheel scope of OmniTabs.
 
+import { notify } from './shared.js';
+
 const tabHandlers = new WeakMap();
 const tabOverflow = new WeakMap();
 
@@ -29,10 +31,13 @@ export function configureTabs(tablist, dotnet) {
         let next = index;
         if (event.key === 'Home') next = 0;
         if (event.key === 'End') next = tabs.length - 1;
-        if (event.key === 'ArrowLeft') next = (index - 1 + tabs.length) % tabs.length;
-        if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
+        // The arrows follow what the reader sees: in a right-to-left strip the first tab is on the right,
+        // so the right arrow goes to the previous one.
+        const mirrored = getComputedStyle(tablist).direction === 'rtl' ? -1 : 1;
+        if (event.key === 'ArrowLeft') next = (index - mirrored + tabs.length) % tabs.length;
+        if (event.key === 'ArrowRight') next = (index + mirrored + tabs.length) % tabs.length;
         tabs[next].focus({ preventScroll: true });
-        void dotnet.invokeMethodAsync('OmniTabs.SelectFromKeyboard', tabs[next].dataset.key);
+        notify(dotnet, 'OmniTabs.SelectFromKeyboard', tabs[next].dataset.key);
     };
     tablist.addEventListener('keydown', handler);
     tabHandlers.set(tablist, handler);

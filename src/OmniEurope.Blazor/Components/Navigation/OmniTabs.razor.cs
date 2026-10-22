@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
@@ -143,14 +145,19 @@ public partial class OmniTabs
             return Task.CompletedTask;
         }
 
+        // The arrows follow what the reader sees: in a right-to-left language the first tab is on the right.
+        // This is the keyboard handling before the script takes over; the script reads the real direction
+        // of the strip.
+        var direction = CultureInfo.CurrentUICulture.TextInfo.IsRightToLeft ? -1 : 1;
+
         // With a navigable tab, EffectiveValue falls back to the first registered key: never null here.
         var current = Math.Max(0, keys.IndexOf(EffectiveValue!));
         var next = args.Key switch
         {
             "Home" => 0,
             "End" => keys.Count - 1,
-            "ArrowLeft" => (current - 1 + keys.Count) % keys.Count,
-            _ => (current + 1) % keys.Count
+            "ArrowLeft" => (current - direction + keys.Count) % keys.Count,
+            _ => (current + direction + keys.Count) % keys.Count
         };
         return SelectAsync(keys[next]);
     }

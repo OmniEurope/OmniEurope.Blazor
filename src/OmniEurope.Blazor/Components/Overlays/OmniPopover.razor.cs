@@ -19,6 +19,7 @@ public partial class OmniPopover
     private bool _internalOpen;
     private bool _panelActive;
     private bool _restoreFocusOnClose;
+    private bool _disposed;
 
     /// <summary>Content of the trigger button: text, an icon, a counter.</summary>
     [Parameter, EditorRequired]
@@ -133,10 +134,36 @@ public partial class OmniPopover
     {
         if (IsOpen && !_panelActive)
         {
-            _module ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", FocusModulePath);
-            _selfReference ??= DotNetObjectReference.Create(this);
-            _panelActive = true;
-            await _module.InvokeVoidAsync("attachPopover", _root, _panel, _selfReference, PanelId);
+            try
+            {
+                if (_module is null)
+                {
+                    var module = await JavaScript.InvokeAsync<IJSObjectReference>("import", FocusModulePath);
+                    if (_disposed || _module is not null)
+                    {
+                        // Removed while the script loaded (nothing may listen on the document for a
+                        // component that is gone), or loaded by a render that came first.
+                        await module.DisposeAsync();
+                    }
+                    else
+                    {
+                        _module = module;
+                    }
+                }
+
+                if (_disposed || _module is null || _panelActive)
+                {
+                    return;
+                }
+
+                _selfReference ??= DotNetObjectReference.Create(this);
+                _panelActive = true;
+                await _module.InvokeVoidAsync("attachPopover", _root, _panel, _selfReference, PanelId);
+            }
+            catch (JSDisconnectedException)
+            {
+                // The circuit is gone, and the popover with it.
+            }
         }
         else if (!IsOpen && _panelActive)
         {
@@ -162,6 +189,7 @@ public partial class OmniPopover
     /// <summary>Detaches the script from an open panel and releases the module.</summary>
     public async ValueTask DisposeAsync()
     {
+        _disposed = true;
         if (_module is not null)
         {
             try

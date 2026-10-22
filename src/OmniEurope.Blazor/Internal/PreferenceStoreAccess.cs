@@ -26,6 +26,27 @@ internal sealed class PreferenceStoreAccess(IOmniPreferenceStore store, ILogger 
         }
     }
 
+    /// <summary>
+    /// One call to the store when no other call is running, else none at all (null): a caller that must not
+    /// wait for a busy store (a write that the cache takes at once) asks this way.
+    /// </summary>
+    internal async Task<T?> CallIfIdleAsync<T>(Func<IOmniPreferenceStore, Task<T>> call, CancellationToken cancellationToken)
+    {
+        if (!await _gate.WaitAsync(0, cancellationToken))
+        {
+            return default;
+        }
+
+        try
+        {
+            return await call(store);
+        }
+        finally
+        {
+            _gate.Release();
+        }
+    }
+
     /// <summary>The stored preference, or null when the store has none or fails (logged: the browser cache answers instead).</summary>
     internal async Task<OmniPreference?> TryGetAsync(string key, CancellationToken cancellationToken)
     {

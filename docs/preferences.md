@@ -96,9 +96,12 @@ la page, sans erreur.
   `omni-boot.js` avant le rendu, taille du texte et des contrôles comprises) n'est pas partitionné. Il
   garde le dernier aspect dessiné dans ce navigateur, quel que soit l'utilisateur : le suivant voit cet
   aspect au premier affichage, puis le sien dès que la page est rendue. Un hôte qui veut l'éviter suffixe
-  `SnapshotKey` par utilisateur. La portée est demandée une fois par instance du
-  service (un circuit en Blazor Server, un chargement de l'application en WebAssembly) : un changement
-  d'utilisateur sans rechargement garde l'ancienne portée jusqu'au rechargement.
+  `SnapshotKey` par utilisateur. La portée est redemandée à la base à chaque lecture, écriture et
+  synchronisation : si elle a changé (déconnexion puis connexion d'un autre compte, même sans appel à
+  `ResetUserAsync`), le service change de partition au premier usage suivant, comme le fait
+  `ResetUserAsync`. Les valeurs non confirmées de l'ancien utilisateur restent dans sa partition, elles ne
+  sont jamais poussées dans la base du nouveau. Une base occupée par un autre appel n'est pas attendue par une lecture ou une écriture
+  (le cache répond sans délai) ; la synchronisation et l'écriture vers la base revérifient alors la portée.
 
 Une valeur illisible (JSON abîmé, forme changée) se relit comme `default` ; une entrée de cache illisible
 est traitée comme absente, la valeur de la base ou le défaut de l'appelant prenant le relais.
@@ -137,6 +140,9 @@ l'appel suivant). Seul `SyncAsync` appelé par l'application rend l'exception d'
 
 ### `GetScopeAsync`
 
+`GetScopeAsync` est appelée à chaque lecture, écriture et synchronisation : elle doit être peu coûteuse
+(lire l'état d'authentification, sans accès disque ni réseau).
+
 La portée est écrite en clair dans les clés du `localStorage`. Elle ne doit donc pas être une donnée
 personnelle (adresse électronique, nom, identifiant brut) mais une valeur opaque, par exemple une
 empreinte SHA-256 de l'identifiant de l'utilisateur. Elle ne doit être ni blanche ni contenir de
@@ -151,7 +157,8 @@ portée est redemandée à la lecture ou à l'écriture suivante.
 ### Changement d'utilisateur sans recharger la page
 
 Après une connexion, une déconnexion ou un changement de compte, l'hôte appelle
-`OmniPreferences.ResetUserAsync()`. La portée est redemandée au magasin, le cache du navigateur de l'ancien
+`OmniPreferences.ResetUserAsync()` pour que le nouvel utilisateur voie ses préférences tout de suite (sans
+cet appel, le service s'en aperçoit au premier usage suivant, voir la partition par utilisateur plus haut). La portée est redemandée au magasin, le cache du navigateur de l'ancien
 utilisateur est laissé tel quel (il est cloisonné par utilisateur), les valeurs écrites sans utilisateur sont
 abandonnées, puis chaque préférence lue ou écrite dans le circuit est relue pour le nouvel utilisateur et
 levée par `Changed` avec l'origine `OmniPreferenceChangeOrigin.UserChanged` (valeur nulle quand il n'en a

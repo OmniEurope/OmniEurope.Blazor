@@ -15,6 +15,7 @@ public partial class OmniSidebar
     private bool _escapeAttached;
     private bool _narrowWatched;
     private bool _narrow;
+    private bool _disposed;
     private readonly string _escapeKey = Guid.NewGuid().ToString("N");
 
     /// <summary>The content of the sidebar, typically an <see cref="OmniPanelMenu"/>. Required.</summary>
@@ -147,11 +148,20 @@ public partial class OmniSidebar
 
         try
         {
-            _focusModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Focus);
+            await LoadFocusModuleAsync();
+            if (_disposed || _focusModule is null)
+            {
+                return;
+            }
+
             if (!_overflowConfigured)
             {
                 _overflowConfigured = true;
                 await _focusModule.InvokeVoidAsync("configureSidebarOverflow", _scroller);
+                if (_disposed)
+                {
+                    return;
+                }
             }
 
             _selfReference ??= DotNetObjectReference.Create(this);
@@ -162,24 +172,52 @@ public partial class OmniSidebar
                 _narrow &= watchesNarrow;
             }
 
-            if (Floating == _escapeAttached)
+            if (_disposed || Floating == _escapeAttached)
             {
                 return;
             }
 
-            if (Floating)
-            {
-                await _focusModule.InvokeVoidAsync("attachEscape", _escapeKey, _selfReference);
-            }
-            else
-            {
-                await _focusModule.InvokeVoidAsync("detachEscape", _escapeKey);
-            }
-
-            _escapeAttached = Floating;
+            await SyncEscapeAsync(_focusModule);
         }
         catch (JSDisconnectedException)
         {
+        }
+    }
+
+    /// <summary>The focus script, loaded once; released on arrival when the sidebar went meanwhile or a render came first.</summary>
+    private async Task LoadFocusModuleAsync()
+    {
+        if (_focusModule is not null)
+        {
+            return;
+        }
+
+        var module = await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Focus);
+        if (_disposed || _focusModule is not null)
+        {
+            // Removed while the script loaded (nothing may listen on the document for a sidebar that is
+            // gone), or loaded by a render that came first.
+            await module.DisposeAsync();
+            return;
+        }
+
+        _focusModule = module;
+    }
+
+    /// <summary>Attaches the Escape listener of a sidebar that floats open, detaches it from one that does not.</summary>
+    private async Task SyncEscapeAsync(IJSObjectReference module)
+    {
+        // The state is recorded before the call: a disposal that comes while it runs then detaches the
+        // listener it attaches.
+        var floating = Floating;
+        _escapeAttached = floating;
+        if (floating)
+        {
+            await module.InvokeVoidAsync("attachEscape", _escapeKey, _selfReference);
+        }
+        else
+        {
+            await module.InvokeVoidAsync("detachEscape", _escapeKey);
         }
     }
 
@@ -227,6 +265,7 @@ public partial class OmniSidebar
     /// <returns>A task that completes once the script resources are released.</returns>
     public async ValueTask DisposeAsync()
     {
+        _disposed = true;
         Dispose();
         try
         {

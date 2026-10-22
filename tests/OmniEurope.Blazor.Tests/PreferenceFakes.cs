@@ -19,6 +19,9 @@ internal sealed class PreferenceBrowser : IJSRuntime, IJSObjectReference
     /// <summary>Calls that fail, by function name, as a call on a lost circuit does.</summary>
     public Dictionary<string, Exception> Failures { get; } = new(StringComparer.Ordinal);
 
+    /// <summary>Calls that fail once, by function name, then answer again.</summary>
+    public ConcurrentDictionary<string, Exception> FailuresOnce { get; } = new(StringComparer.Ordinal);
+
     public int Imports { get; private set; }
 
     public int Writes { get; private set; }
@@ -38,7 +41,7 @@ internal sealed class PreferenceBrowser : IJSRuntime, IJSObjectReference
     public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args)
     {
         args ??= [];
-        if (Failures.TryGetValue(identifier, out var failure))
+        if (Failures.TryGetValue(identifier, out var failure) || FailuresOnce.TryRemove(identifier, out failure))
         {
             return ValueTask.FromException<TValue>(failure);
         }

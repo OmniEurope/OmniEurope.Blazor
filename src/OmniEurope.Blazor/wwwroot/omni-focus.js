@@ -3,7 +3,7 @@
 // <details> disclosures and fieldsets, the Escape listener of a floating sidebar and the phone width
 // watch of a pushing one. The menus and the tab strips live in ./focus/ and are re-exported here, so
 // every export keeps this address.
-import { returnTargets, rememberTarget, viewportMargin, pressedOutside } from './focus/shared.js';
+import { returnTargets, rememberTarget, notify, viewportMargin, pressedOutside } from './focus/shared.js';
 
 export { openMenu, closeMenu, moveMenuFocus } from './focus/menus.js';
 export { enablePageKeys } from './focus/keys.js';
@@ -192,14 +192,14 @@ export function attachPopover(root, panel, dotnet, key) {
 
     const onPointerDown = event => {
         if (event.target instanceof Node && !root.contains(event.target)) {
-            void dotnet.invokeMethodAsync('OnDismissRequestedAsync', false);
+            notify(dotnet, 'OnDismissRequestedAsync', false);
         }
     };
     const onKeyDown = event => {
         if (event.key === 'Escape') {
             event.preventDefault();
             event.stopPropagation();
-            void dotnet.invokeMethodAsync('OnDismissRequestedAsync', true);
+            notify(dotnet, 'OnDismissRequestedAsync', true);
         }
     };
 
@@ -281,7 +281,7 @@ export function attachPicker(root, panel, toggle, dotnet, key) {
 
     for (const [otherKey, other] of pickerHandlers) {
         if (otherKey !== key) {
-            void other.dotnet.invokeMethodAsync('OnDismissRequestedAsync', false);
+            notify(other.dotnet, 'OnDismissRequestedAsync', false);
         }
     }
 
@@ -291,14 +291,14 @@ export function attachPicker(root, panel, toggle, dotnet, key) {
 
     const onPointerDown = event => {
         if (event.target instanceof Node && !root.contains(event.target)) {
-            void dotnet.invokeMethodAsync('OnDismissRequestedAsync', false);
+            notify(dotnet, 'OnDismissRequestedAsync', false);
         }
     };
     const onKeyDown = event => {
         if (event.key === 'Escape') {
             event.preventDefault();
             event.stopPropagation();
-            void dotnet.invokeMethodAsync('OnDismissRequestedAsync', true);
+            notify(dotnet, 'OnDismissRequestedAsync', true);
             return;
         }
         if (pickerKeys.has(event.key) && event.target instanceof Element && event.target.closest('[role="grid"], [role="listbox"]')) {
@@ -424,7 +424,7 @@ export function observeFieldsetToggle(details, dotnet) {
         return;
     }
 
-    const onToggle = () => void dotnet.invokeMethodAsync('OmniFieldset.Toggled', details.open);
+    const onToggle = () => notify(dotnet, 'OmniFieldset.Toggled', details.open);
     details.addEventListener('toggle', onToggle);
     fieldsetToggles.set(details, onToggle);
 }
@@ -445,7 +445,7 @@ export function attachEscape(owner, dotnet) {
     detachEscape(owner);
     const listener = event => {
         if (event.key === 'Escape' && !event.defaultPrevented) {
-            dotnet.invokeMethodAsync('CloseFromEscapeAsync');
+            notify(dotnet, 'CloseFromEscapeAsync');
         }
     };
     document.addEventListener('keydown', listener);
@@ -467,7 +467,7 @@ const narrowWatchers = new Map();
 export function watchNarrow(owner, dotnet) {
     unwatchNarrow(owner);
     const query = window.matchMedia('(max-width: 39.99rem)');
-    const listener = () => dotnet.invokeMethodAsync('SetNarrowAsync', query.matches);
+    const listener = () => notify(dotnet, 'SetNarrowAsync', query.matches);
     query.addEventListener('change', listener);
     narrowWatchers.set(owner, { query, listener });
     listener();

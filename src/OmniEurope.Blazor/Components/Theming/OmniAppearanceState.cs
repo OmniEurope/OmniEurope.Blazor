@@ -43,6 +43,8 @@ public sealed class OmniAppearanceState : IDisposable
     private AppearanceLook _look = AppearanceLook.Default;
     private Task? _loading;
     private int _localChanges;
+    private int _batches;
+    private bool _writePending;
 
     internal OmniAppearanceState(OmniPreferences preferences, IJSRuntime javaScript, ILogger<OmniAppearanceState> logger)
     {
@@ -240,13 +242,68 @@ public sealed class OmniAppearanceState : IDisposable
         }
 
         Changed?.Invoke();
+        lock (_gate)
+        {
+            if (_batches > 0)
+            {
+                _writePending = true;
+                return;
+            }
+        }
+
+        await WriteAsync(after);
+    }
+
+    /// <summary>
+    /// Runs a change of several settings (a window's Restore or Reset all, a random look) so that the
+    /// preference is written once at its end, with the look it leaves, instead of once per setting: the
+    /// store, the other tabs and the other devices never see an intermediate look.
+    /// </summary>
+    internal async Task BatchAsync(Func<Task> change)
+    {
+        lock (_gate)
+        {
+            _batches++;
+        }
+
         try
         {
-            await _preferences.SetAsync(PreferenceKey, after.ToPreference());
+            await change();
+        }
+        finally
+        {
+            AppearanceLook? after = null;
+            lock (_gate)
+            {
+                if (--_batches == 0 && _writePending)
+                {
+                    _writePending = false;
+                    after = _look;
+                }
+            }
+
+            if (after is { } look)
+            {
+                await WriteAsync(look);
+            }
+        }
+    }
+
+    private async Task WriteAsync(AppearanceLook look)
+    {
+        try
+        {
+            await _preferences.SetAsync(PreferenceKey, look.ToPreference());
         }
         catch (JSDisconnectedException)
         {
             // The circuit is gone: nobody is left to see the look, and the store was not reached.
+        }
+        catch (Exception exception) when (exception is JSException or ObjectDisposedException or InvalidOperationException)
+        {
+            // The look stays applied for this session, as LoadAsync keeps the defaults when it cannot read:
+            // a click must not fail because the browser or the store refused the write.
+            _logger.LogWarning(exception, "The appearance preference could not be saved; the look stays applied for this session.");
         }
     }
 

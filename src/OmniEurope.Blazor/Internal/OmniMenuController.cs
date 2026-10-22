@@ -19,7 +19,9 @@ internal sealed class OmniMenuController : IAsyncDisposable
 {
     private readonly IJSRuntime _javaScript;
     private readonly Func<bool, Task> _dismissAsync;
+    private Task<IJSObjectReference>? _import;
     private IJSObjectReference? _module;
+    private volatile bool _released;
     private DotNetObjectReference<DismissInterop>? _reference;
     private bool _internalOpen;
     private bool _shown;
@@ -108,16 +110,18 @@ internal sealed class OmniMenuController : IAsyncDisposable
 
         if (open && !_closeRequested && (!_shown || _placementPending))
         {
-            _module ??= await _javaScript.InvokeAsync<IJSObjectReference>("import", OmniModules.Focus);
+            var module = await LoadModuleAsync();
             if (_disposed)
             {
+                // Removed while the script loaded: it is released here, and nothing is opened.
+                await ReleaseModuleAsync();
                 return;
             }
 
             _shown = true;
             _placementPending = false;
             _reference ??= DotNetObjectReference.Create(new DismissInterop(_dismissAsync));
-            await _module.InvokeVoidAsync(
+            await module.InvokeVoidAsync(
                 "openMenu",
                 menuId,
                 Key,
@@ -132,6 +136,49 @@ internal sealed class OmniMenuController : IAsyncDisposable
         else if (!open && _shown)
         {
             await HideAsync(restoreFocus: false);
+        }
+    }
+
+    /// <summary>The script module, imported once however many renders ask for it while it loads.</summary>
+    private async Task<IJSObjectReference> LoadModuleAsync()
+    {
+        var import = _import ??= _javaScript.InvokeAsync<IJSObjectReference>("import", OmniModules.Focus).AsTask();
+        try
+        {
+            var loaded = await import;
+
+            // Released by a call that arrived first: the module is not kept again, so it is never released twice.
+            return _released ? loaded : _module ??= loaded;
+        }
+        catch
+        {
+            // Only a success is kept: the next render tries again.
+            if (ReferenceEquals(_import, import))
+            {
+                _import = null;
+            }
+
+            throw;
+        }
+    }
+
+    /// <summary>Releases the script module once, whoever asks first; a lost circuit is ignored.</summary>
+    private async Task ReleaseModuleAsync()
+    {
+        var module = Interlocked.Exchange(ref _module, null);
+        if (module is null)
+        {
+            return;
+        }
+
+        _released = true;
+
+        try
+        {
+            await module.DisposeAsync();
+        }
+        catch (JSDisconnectedException)
+        {
         }
     }
 
@@ -216,20 +263,20 @@ internal sealed class OmniMenuController : IAsyncDisposable
     public async ValueTask DisposeAsync()
     {
         _disposed = true;
-        if (_module is not null)
+        if (_module is { } module)
         {
             try
             {
                 if (_shown)
                 {
-                    await _module.InvokeVoidAsync("closeMenu", Key, false);
+                    await module.InvokeVoidAsync("closeMenu", Key, false);
                 }
-
-                await _module.DisposeAsync();
             }
             catch (JSDisconnectedException)
             {
             }
+
+            await ReleaseModuleAsync();
         }
 
         _shown = false;

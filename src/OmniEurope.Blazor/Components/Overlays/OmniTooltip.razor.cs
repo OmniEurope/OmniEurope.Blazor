@@ -143,7 +143,15 @@ public partial class OmniTooltip
         // however many of them a grid renders.
         if (Services.GetService(typeof(OmniTooltipInterop)) is OmniTooltipInterop interop)
         {
-            await interop.EnsureInstalledAsync();
+            try
+            {
+                await interop.EnsureInstalledAsync();
+            }
+            catch (Exception exception) when (exception is JSException or JSDisconnectedException)
+            {
+                // The anchored tooltip of the stylesheet still works without the script, and the next
+                // tooltip installs it again: one failed import must not take the circuit down.
+            }
         }
     }
 }

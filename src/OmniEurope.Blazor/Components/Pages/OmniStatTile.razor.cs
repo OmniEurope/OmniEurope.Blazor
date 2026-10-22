@@ -56,7 +56,7 @@ public partial class OmniStatTile
 
     /// <summary>Checks that <see cref="Href"/> and <see cref="OnClick"/> are not both given and that the address is safe.</summary>
     /// <exception cref="ArgumentException"><see cref="Href"/> and <see cref="OnClick"/> are both given.</exception>
-    /// <exception cref="InvalidOperationException"><see cref="Href"/> uses a scheme that is not allowed.</exception>
+    /// <exception cref="InvalidOperationException"><see cref="Href"/> uses a scheme that is not allowed, or is a relative address that names another host (`//host`).</exception>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
