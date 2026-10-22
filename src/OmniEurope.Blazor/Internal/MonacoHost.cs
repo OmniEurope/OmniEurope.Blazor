@@ -30,7 +30,7 @@ internal sealed class MonacoHost(IJSRuntime javaScript, Func<string> modulePath,
     /// <exception cref="ArgumentException">One of the two values is not accepted.</exception>
     internal static void RequireParameters(string component, string? height, string monacoPath)
     {
-        if (height is not null && !IsCssLength(height))
+        if (height is not null && !CssLength.IsHeight(height))
         {
             throw new ArgumentException($"'{height}' is not a CSS length {component} accepts for Height (a number followed by px, rem, em, vh or %).", "Height");
         }
@@ -127,36 +127,5 @@ internal sealed class MonacoHost(IJSRuntime javaScript, Func<string> modulePath,
         {
             // The circuit is already gone, and the editor with it.
         }
-    }
-
-    /// <summary>A number (digits, optionally a dot and digits) followed by px, rem, em, vh or %.</summary>
-    private static bool IsCssLength(string value)
-    {
-        var index = 0;
-        while (index < value.Length && char.IsAsciiDigit(value[index]))
-        {
-            index++;
-        }
-
-        if (index == 0)
-        {
-            return false;
-        }
-
-        if (index < value.Length && value[index] == '.')
-        {
-            var fraction = ++index;
-            while (index < value.Length && char.IsAsciiDigit(value[index]))
-            {
-                index++;
-            }
-
-            if (index == fraction)
-            {
-                return false;
-            }
-        }
-
-        return value.AsSpan(index) is "px" or "rem" or "em" or "vh" or "%";
     }
 }

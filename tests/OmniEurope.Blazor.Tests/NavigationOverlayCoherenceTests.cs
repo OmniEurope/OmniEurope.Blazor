@@ -76,12 +76,10 @@ public sealed class NavigationOverlayCoherenceTests : OmniBunitContext
     // ---- OmniTabs ------------------------------------------------------------------------------
 
     [Fact]
-    public void Tabs_ArrowOrderComesFromTheTabs_AndSkipsADisabledOne()
+    public void Tabs_ArrowOrderComesFromTheTabs_AndADisabledOneIsMarkedForTheScript()
     {
-        string? value = "a";
         var tabs = Render<OmniTabs>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, next => value = next)
+            .Add(component => component.Value, "a")
             .AddChildContent(builder =>
             {
                 AddTab(builder, 0, "a", "Premier", disabled: false);
@@ -89,16 +87,10 @@ public sealed class NavigationOverlayCoherenceTests : OmniBunitContext
                 AddTab(builder, 20, "c", "Troisième", disabled: false);
             }));
 
-        tabs.Find(".omni-tabs__viewport").KeyDown("ArrowRight");
-        Assert.Equal("c", value);
-
-        tabs.Render(parameters => parameters.Add(component => component.Value, value));
-        tabs.Find(".omni-tabs__viewport").KeyDown("ArrowRight");
-        Assert.Equal("a", value);
-
-        tabs.Render(parameters => parameters.Add(component => component.Value, value));
-        tabs.Find(".omni-tabs__viewport").KeyDown("End");
-        Assert.Equal("c", value);
+        // The script walks the tab buttons in document order and skips those that are disabled.
+        var buttons = tabs.FindAll(".omni-tabs__viewport [role=tab]");
+        Assert.Equal(["a", "b", "c"], buttons.Select(button => button.GetAttribute("data-key")));
+        Assert.Equal([false, true, false], buttons.Select(button => button.HasAttribute("disabled")));
     }
 
     [Fact]

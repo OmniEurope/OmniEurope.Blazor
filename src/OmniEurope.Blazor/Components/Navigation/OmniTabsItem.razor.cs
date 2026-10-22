@@ -55,7 +55,7 @@ public partial class OmniTabsItem
     public RenderFragment? ChildContent { get; set; }
 
     private string EffectiveKey => string.IsNullOrWhiteSpace(Key) ? Title : Key;
-    private string RegisteredKey => Context?.RegisterKey(EffectiveKey, Disabled) ?? EffectiveKey;
+    private string RegisteredKey => Context?.RegisterKey(EffectiveKey) ?? EffectiveKey;
     private bool Selected => Context?.Value == RegisteredKey;
 
     /// <summary>

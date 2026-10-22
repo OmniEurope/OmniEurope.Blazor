@@ -65,7 +65,7 @@ public sealed class NavigationComponentTests : OmniBunitContext
     {
         var host = Render<NavigationTestHost>();
 
-        host.Find(".omni-tabs__viewport").KeyDown("ArrowRight");
+        host.FindAll(".omni-tabs__tab")[1].Click();
         Assert.Equal("second", host.Instance.Tab);
         Assert.Contains("Contenu 2", host.Find(".omni-tabs__panel:not([hidden])").TextContent, StringComparison.Ordinal);
 

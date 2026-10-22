@@ -1,16 +1,15 @@
-using System.Globalization;
-
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Tabs: a strip of <see cref="OmniTabsItem"/> tabs over the panel of the selected one. The strip
 /// scrolls sideways when it does not fit; the Left and Right arrows, Home and End move between the
-/// tabs that are not disabled, in the order the items are written.
+/// tabs that are not disabled, in the order the items are written. The keyboard is handled in the
+/// browser (omni-focus.js) once the strip has rendered: the arrows follow the reading direction of the
+/// strip, focus stays on the tab, and the tab reached is selected.
 /// </summary>
 public partial class OmniTabs
 {
     private readonly List<string> _registeredKeys = [];
-    private readonly HashSet<string> _disabledKeys = new(StringComparer.Ordinal);
     private readonly string _generatedId = $"omni-tabs-{Guid.NewGuid():N}";
     private ElementReference _root;
     private ElementReference _strip;
@@ -67,27 +66,15 @@ public partial class OmniTabs
 
     private string? EffectiveValue => Value ?? _selectedValue ?? (_registeredKeys.Count > 0 ? _registeredKeys[0] : null);
 
-    /// <summary>The keys the arrows move through: the registered items, in their order, less the disabled ones.</summary>
-    private List<string> NavigableKeys => _registeredKeys.Where(key => !_disabledKeys.Contains(key)).ToList();
-
     private OmniTabsContext TabContext => new() { Value = EffectiveValue, SelectAsync = SelectAsync, RegisterKey = RegisterKey, Phase = OmniTabsPhase.Tab, IdPrefix = _generatedId };
 
     private OmniTabsContext PanelContext => new() { Value = EffectiveValue, SelectAsync = SelectAsync, RegisterKey = RegisterKey, Phase = OmniTabsPhase.Panel, RenderAllPanels = RenderAllPanels, IdPrefix = _generatedId };
 
-    private string RegisterKey(string key, bool disabled)
+    private string RegisterKey(string key)
     {
         if (!_registeredKeys.Contains(key, StringComparer.Ordinal))
         {
             _registeredKeys.Add(key);
-        }
-
-        if (disabled)
-        {
-            _disabledKeys.Add(key);
-        }
-        else
-        {
-            _disabledKeys.Remove(key);
         }
 
         return key;
@@ -135,31 +122,6 @@ public partial class OmniTabs
         catch (JSDisconnectedException)
         {
         }
-    }
-
-    private Task HandleKeyDownAsync(KeyboardEventArgs args)
-    {
-        var keys = NavigableKeys;
-        if (keys.Count == 0 || args.Key is not ("ArrowLeft" or "ArrowRight" or "Home" or "End"))
-        {
-            return Task.CompletedTask;
-        }
-
-        // The arrows follow what the reader sees: in a right-to-left language the first tab is on the right.
-        // This is the keyboard handling before the script takes over; the script reads the real direction
-        // of the strip.
-        var direction = CultureInfo.CurrentUICulture.TextInfo.IsRightToLeft ? -1 : 1;
-
-        // With a navigable tab, EffectiveValue falls back to the first registered key: never null here.
-        var current = Math.Max(0, keys.IndexOf(EffectiveValue!));
-        var next = args.Key switch
-        {
-            "Home" => 0,
-            "End" => keys.Count - 1,
-            "ArrowLeft" => (current - direction + keys.Count) % keys.Count,
-            _ => (current + direction + keys.Count) % keys.Count
-        };
-        return SelectAsync(keys[next]);
     }
 
     /// <summary>

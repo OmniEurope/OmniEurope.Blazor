@@ -1,5 +1,3 @@
-using System.Text.RegularExpressions;
-
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
@@ -119,9 +117,9 @@ public partial class OmniWizard
     {
         base.OnParametersSet();
 
-        if (BodyHeight is not null && !BodyHeightValue().IsMatch(BodyHeight))
+        if (BodyHeight is not null and not "auto" && !Internal.CssLength.IsHeight(BodyHeight))
         {
-            throw new ArgumentException($"'{BodyHeight}' is not a CSS length {nameof(OmniWizard)} accepts for {nameof(BodyHeight)} (a number followed by px, rem, em or vh, or auto).", nameof(BodyHeight));
+            throw new ArgumentException($"'{BodyHeight}' is not a CSS length {nameof(OmniWizard)} accepts for {nameof(BodyHeight)} (a number followed by px, rem, em, vh or %, or auto).", nameof(BodyHeight));
         }
 
         // Only a new value from the host moves the wizard: an unbound wizard keeps its own position
@@ -204,9 +202,6 @@ public partial class OmniWizard
             // The page is gone; nothing left to size.
         }
     }
-
-    [GeneratedRegex("^(\\d+(\\.\\d+)?(px|rem|em|vh)|auto)$", RegexOptions.CultureInvariant)]
-    private static partial Regex BodyHeightValue();
 
     private Task PreviousAsync() => _current > 0 ? MoveAsync(_current - 1, focus: true) : Task.CompletedTask;
 

@@ -35,7 +35,7 @@ Les parties d'un graphique se déclarent par leurs paramètres de contenu et de 
   éclairci pour cette taille.
 - Le dessin est plafonné en hauteur : `min(32rem, 70vh)` par défaut, propriété `--omni-chart-max-height`
   de la feuille de l'hôte pour tous ses graphiques, `MaxHeight` (`string?` : longueur CSS en px, rem,
-  em ou vh, ou `none`) pour un seul, écrit par le script d'interop (sans interactivité, le plafond de
+  em, vh ou %, ou `none`) pour un seul, écrit par le script d'interop (sans interactivité, le plafond de
   la feuille reste). Plafonné, le dessin garde ses proportions, ajusté entier au milieu de la largeur
   de sa carte, son texte réduit avec lui ; les légendes HTML et le pied gardent toute la largeur. Avec
   `MinWidth`, la largeur minimale reste celle de la boîte du dessin.

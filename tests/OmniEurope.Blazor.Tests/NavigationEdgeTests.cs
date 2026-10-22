@@ -366,38 +366,21 @@ public sealed class NavigationEdgeTests : OmniBunitContext
         Assert.Equal(3, tabs.FindAll("[role=tab]").Count);
     }
 
+    // The keyboard of a tab strip lives in the script alone (focus/tabs.js, which reads the direction of the
+    // strip and tells .NET which tab it reached): the strip has no keydown handler of its own, so a keystroke
+    // can never move the selection twice. The script's own route is the next test.
     [Theory]
-    [InlineData("Home", "a")]
-    [InlineData("ArrowLeft", "a")]
-    public void TabKeys_GoHomeAndBack(string key, string expected)
+    [InlineData("Home")]
+    [InlineData("End")]
+    [InlineData("ArrowLeft")]
+    [InlineData("ArrowRight")]
+    public void TabStrip_HasNoKeydownHandlerOfItsOwn_TheScriptOwnsTheKeys(string key)
     {
         var changes = new List<string?>();
         var tabs = RenderTabs(changes);
 
-        tabs.Find("[role=tablist]").KeyDown(key);
-
-        Assert.Equal([expected], changes);
-    }
-
-    [Fact]
-    public void TabKeys_OtherKeysAndATablistWithoutTabs_MoveNothing()
-    {
-        var changes = new List<string?>();
-        RenderTabs(changes).Find("[role=tablist]").KeyDown("Enter");
-        Render<OmniTabs>(parameters => parameters.Add(component => component.ValueChanged, next => changes.Add(next))).Find("[role=tablist]").KeyDown("ArrowRight");
-
+        Assert.Throws<MissingEventHandlerException>(() => tabs.Find("[role=tablist]").KeyDown(key));
         Assert.Empty(changes);
-    }
-
-    [Fact]
-    public void TabsWithoutValue_ArrowRightStartsFromTheFirst()
-    {
-        var changes = new List<string?>();
-        var tabs = RenderTabs(changes, value: null);
-
-        tabs.Find("[role=tablist]").KeyDown("ArrowRight");
-
-        Assert.Equal(["b"], changes);
     }
 
     [Fact]

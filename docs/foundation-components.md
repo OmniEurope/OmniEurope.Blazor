@@ -466,7 +466,8 @@ classique à inclure dans le `head` avant Blazor (aucun script en ligne, donc co
 sous les clés que l'hôte nomme (`data-appearance-key`, `data-theme-key`, `data-text-size-key`, `data-control-size-key`,
 `data-language-key`), rejoue l'instantané d'`OmniThemeScope.SnapshotKey` (`data-theme-snapshot-key`, voir
 « Peindre l'apparence avant Blazor ») et
-publie `window.OmniBoot` (`culture`, `hideSplash(id)`, `handOverTheme()`, `releaseTheme()`).
+publie `window.OmniBoot` (`culture`, `handOverTheme()`, `releaseTheme()`). Il ne retire pas l'écran de
+démarrage : seul `OmniBootSplash` le fait, avec ou sans `omni-boot.js`.
 
 Preuves : `StatusStripAndBootSplashTests` (rôles et noms, tons, formes, liens, boutons, textes, appel du
 retrait et son résultat).
