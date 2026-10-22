@@ -228,6 +228,8 @@
    and shadow, unless a theme gives grids a fill of their own (--omni-grid-background, Aplat). Its
    scrollbar is thin and tinted from the text, so it follows the scope's mode instead of the host page's. */
 .omni-data-grid { --omni-data-grid-column-min-width: 8rem; --omni-data-grid-control-width: 2.75rem; --omni-data-grid-edit-width: 5.25rem; --omni-grid-frame: var(--omni-grid-background, var(--omni-card-background, var(--omni-color-surface))); --omni-column-active-fill: color-mix(in srgb, var(--omni-color-accent) 6%, transparent); display: grid; font-size: var(--omni-font-size-base); gap: var(--omni-space-md); min-inline-size: 0; }
+/* Block padding of the small controls of a header and of a group row (icon buttons, filter menu toggle): half the cell padding, so they follow the density like the cells around them. 0.25rem in comfortable (the former fixed padding), never under 0.125rem so a compact button keeps room for its focus ring. */
+.omni-data-grid { --omni-data-grid-icon-pad-y: max(0.125rem, calc(var(--omni-cell-pad-y) / 2)); }
 /* position: relative keeps an absolutely placed descendant (a visually hidden label in a cell) inside the scrolled rows: without it the box escaped the viewport clip and made the page scroll. */
 .omni-data-grid__viewport { background: var(--omni-grid-frame); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-card-shadow, 0 0 #0000); overflow: auto; position: relative; scrollbar-color: color-mix(in srgb, var(--omni-color-text) 28%, transparent) transparent; scrollbar-width: thin; }
 /* Fixed layout: virtualization swapping rows never moves the columns. The minimum, pushed by
@@ -279,7 +281,7 @@
 .omni-data-grid__header-action:not(.omni-data-grid__header-action--active) { background: var(--omni-header-fill-hover); inset-block-start: 50%; inset-inline-end: calc(var(--omni-space-sm) + 1.25em); position: absolute; transform: translateY(-50%); }
 .omni-data-grid th:is(:hover, :focus-within) .omni-data-grid__header-action,
 .omni-data-grid__header-action--active { color: var(--omni-color-accent); opacity: 1; }
-.omni-data-grid__icon-button { align-items: center; background: none; border: 0; border-radius: var(--omni-radius); color: inherit; cursor: pointer; display: inline-flex; flex: none; font: inherit; gap: var(--omni-space-xs); padding: var(--omni-space-xs); }
+.omni-data-grid__icon-button { align-items: center; background: none; border: 0; border-radius: var(--omni-radius); color: inherit; cursor: pointer; display: inline-flex; flex: none; font: inherit; gap: var(--omni-space-xs); padding: var(--omni-data-grid-icon-pad-y) var(--omni-space-xs); }
 .omni-data-grid__icon-button:hover { background: color-mix(in srgb, var(--omni-color-text) 10%, transparent); }
 .omni-data-grid :is(.omni-data-grid__sort, .omni-data-grid__icon-button, .omni-data-grid__expand, .omni-data-grid__popover > summary, .omni-data-grid__resize-handle, .omni-data-grid__row--interactive):focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
 .omni-data-grid__resize-handle { block-size: 100%; cursor: col-resize; inline-size: 0.5rem; inset-block-start: 0; inset-inline-end: 0; position: absolute; touch-action: none; user-select: none; }
@@ -313,7 +315,7 @@
 .omni-data-grid__popover > summary::-webkit-details-marker { display: none; }
 .omni-data-grid__popover-panel { backdrop-filter: var(--omni-overlay-filter, none); background: var(--omni-overlay-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-overlay-shadow, var(--omni-shadow-md)); box-sizing: border-box; display: grid; font-weight: normal; gap: var(--omni-space-sm); left: var(--omni-popover-x, auto); max-block-size: min(24rem, 100vh - 1rem); max-inline-size: min(22rem, 100vw - 1rem); min-inline-size: max(12rem, var(--omni-popover-min, 0px)); overflow: auto; padding: var(--omni-space-sm); position: fixed; top: var(--omni-popover-y, auto); z-index: var(--omni-z-popover-top); }
 .omni-data-grid__filter-menu { display: inline-block; }
-.omni-data-grid__filter-menu-toggle { border-radius: var(--omni-radius); display: inline-flex; padding: var(--omni-space-xs); }
+.omni-data-grid__filter-menu-toggle { border-radius: var(--omni-radius); display: inline-flex; padding: var(--omni-data-grid-icon-pad-y) var(--omni-space-xs); }
 .omni-data-grid__filter-menu-toggle:hover { background: color-mix(in srgb, var(--omni-color-text) 8%, transparent); }
 .omni-data-grid__filter-menu-toggle--active,
 .omni-data-grid__filter-menu[open] > summary { color: var(--omni-color-accent); }

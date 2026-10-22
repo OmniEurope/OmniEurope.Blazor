@@ -42,6 +42,10 @@ const EXEMPT = [
   // The logo of OmniLogoLoader is the site's mark at the size its Size parameter chooses (1.5, 3 or
   // 5 rem): the consumer's explicit choice, as an icon's size is, not a control the density scales.
   ['.omni-logo-loader__mark', 'logo d\'OmniLogoLoader à la taille choisie par Size, comme une icône'],
+  // The sort arrow of a grid header is 0.9em of the title and the accordion chevron a 1.25rem box
+  // around one OmniIcon: glyphs, kept fixed like every other icon. The header button and the row it
+  // sits in do follow the density, and are measured.
+  ['.omni-data-grid__sort-icon, .omni-accordion__chevron', 'glyphe de tri ou de chevron : marque de texte gardée fixe comme les icônes ; le contrôle et la ligne qui l\'entourent suivent la densité'],
   // Status dots: a mark the size of a letter, not a control; the plan exempts them. The status strip
   // is a row of them (or, in its segment form, a status bar).
   ['.omni-status, .omni-status-strip', 'pastille de statut : repère de la taille d\'une lettre, pas un contrôle'],
@@ -68,6 +72,7 @@ const EXEMPT = [
   // outside its window, their height the sum the list computed, not a size of their own.
   ['.omni-tabs--scrollable-panels', 'onglets à panneaux défilants : 100 % du cadre que l\'hôte dimensionne'],
   ['.omni-data-list__spacer', 'espace d\'une liste virtuelle : la hauteur calculée des éléments hors fenêtre'],
+  ['.omni-data-grid__spacer', 'espace d\'une grille virtuelle : la hauteur calculée des lignes hors fenêtre, portée par une cellule vide'],
   // The Gantt chart is drawn in pixels computed in C# (GanttLayout.RowHeight 36, HeaderHeight 44,
   // BarHeight 20), because a dependency arrow's path cannot mix units, and the name column mirrors
   // that row height so each name faces its bar. The density is an inherited CSS value the render does
@@ -75,6 +80,23 @@ const EXEMPT = [
   ['.omni-gantt__body', 'géométrie du Gantt calculée en pixels en C# (GanttLayout), la colonne des noms la reflète'],
   // A section with a Density of its own keeps it by contract (T21): the page density does not reach it.
   ['[data-omni-density]:not(#showcase-theme)', 'densité propre au composant (T21), qui l\'emporte sur celle de la page']
+];
+
+// Selectors exempted for the element itself only: what it holds is still measured, because a control
+// or a text inside a frame of fixed size must follow the density all the same.
+const EXEMPT_SELF = [
+  // A grid height the consumer gives (MaxHeight, applied as a custom property on the viewport) is the
+  // consumer's explicit length, as the Height of the log viewer above is. The rows inside are measured.
+  ['.omni-data-grid__viewport[style*="--omni-grid-viewport-max:"]', 'hauteur maximale explicite du consommateur (paramètre MaxHeight), que la densité ne remplace pas'],
+  // FixedRowHeight draws every row at EstimatedRowHeight pixels (the module applies it as --omni-row-height
+  // on the viewport): the consumer opted into a row height of its own, which no density overrides. A
+  // group row (the row and its full-width header cell) and a data row (the row and its cells) are
+  // exactly that height; the buttons and texts they hold are measured.
+  ['[style*="--omni-row-height:"] tbody tr:not(.omni-data-grid__spacer), [style*="--omni-row-height:"] tbody tr:not(.omni-data-grid__spacer) > :is(th, td)', 'hauteur de ligne explicite du consommateur (FixedRowHeight avec EstimatedRowHeight), que la densité ne remplace pas'],
+  // The body of OmniWizard is a frame of fixed height so the page does not jump from one step to the
+  // next (BodyHeight, min(24rem, 60vh) by default): the height of a frame, not of a control. The
+  // controls the steps hold are measured.
+  ['.omni-wizard__body', 'cadre de hauteur fixe voulue (BodyHeight, min(24rem, 60vh) par défaut) pour que la page ne saute pas d\'une étape à l\'autre']
 ];
 
 const deadline = Date.now() + 20_000;
@@ -149,7 +171,7 @@ const waitFor = async (description, expression, timeout = 15_000) => {
 
 // Runs in the page: tags every candidate of the scope and returns its height in the density asked.
 const measureSource = `
-window.__omniDensityMeasure = (density, exempt) => {
+window.__omniDensityMeasure = (density, exempt, exemptSelf) => {
   const scope = document.getElementById('showcase-theme');
   scope.setAttribute('data-omni-density', density);
   void scope.offsetHeight;
@@ -197,6 +219,7 @@ window.__omniDensityMeasure = (density, exempt) => {
   };
   walk(sheet.cssRules);
   const exemptSelector = exempt.join(', ');
+  const exemptSelfSelector = exemptSelf.join(', ');
   const found = new Map();
   for (const selectorText of rules) {
     for (const selector of selectorText.split(/,(?![^(]*\\))/)) {
@@ -205,7 +228,7 @@ window.__omniDensityMeasure = (density, exempt) => {
       let elements;
       try { elements = scope.querySelectorAll(trimmed); } catch { continue; }
       for (const element of elements) {
-        if (element.closest(exemptSelector)) continue;
+        if (element.closest(exemptSelector) || element.matches(exemptSelfSelector)) continue;
         if (!found.has(element)) found.set(element, trimmed);
       }
     }
@@ -244,6 +267,7 @@ const demoPaths = await evaluate(`[...new Set([...document.querySelectorAll('a[h
 const paths = ['/', '/personnalisation', '/documentation', ...demoPaths];
 
 const exemptSelectors = EXEMPT.map(([selector]) => selector);
+const exemptSelfSelectors = EXEMPT_SELF.map(([selector]) => selector);
 const failures = [];
 const missing = [];
 let measured = 0;
@@ -251,9 +275,9 @@ for (const path of paths) {
   await evaluate(`Blazor.navigateTo(${JSON.stringify(path)})`);
   await waitFor(`la page ${path}`, `location.pathname === ${JSON.stringify(path)} && document.querySelector('main') !== null`);
   await pause(900);
-  const compact = await evaluate(`window.__omniDensityMeasure('compact', ${JSON.stringify(exemptSelectors)})`);
+  const compact = await evaluate(`window.__omniDensityMeasure('compact', ${JSON.stringify(exemptSelectors)}, ${JSON.stringify(exemptSelfSelectors)})`);
   await pause(150);
-  const spacious = await evaluate(`window.__omniDensityMeasure('spacious', ${JSON.stringify(exemptSelectors)})`);
+  const spacious = await evaluate(`window.__omniDensityMeasure('spacious', ${JSON.stringify(exemptSelectors)}, ${JSON.stringify(exemptSelfSelectors)})`);
   await evaluate("document.getElementById('showcase-theme').setAttribute('data-omni-density', 'comfortable')");
   for (const [key, small] of Object.entries(compact)) {
     const large = spacious[key];
