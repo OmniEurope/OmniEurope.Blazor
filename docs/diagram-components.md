@@ -19,7 +19,7 @@ propriétés inconnues sont conservées à chaque niveau (`AdditionalProperties`
 quelles. Les caractères accentués et les apostrophes sont écrits comme l'éditeur d'origine les écrivait,
 sans échappement : un document relu puis réécrit redonne le texte stocké octet pour octet, ce que prouve
 un test sur les trois graphes réels de son jeu d'essai. Ce texte est une donnée à stocker ; il
-n'est jamais inséré dans du balisage.
+n'est jamais inséré dans du balisage. `FromJson` ne lève que `JsonException` : texte invalide, nombre hors de la plage d'un `double`, ou plus de 50 000 noeuds, liens ou notes.
 
 Un nœud porte `Id`, `Label`, `Group`, `X` et `Y` (centre), `FontSize`, `Bold`, `Italic`, `Width` et
 `Height` (0 ajuste la boîte au texte). Un nœud dont l'identifiant n'est pas fait de 1 à 64 lettres,
