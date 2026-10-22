@@ -154,7 +154,7 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     public void GridRowIconButtons_AreSquaresOfTheBadgeHeight()
     {
         var rule = ShippedLookTests.Body(
-            ".omni-data-grid__row > td :is(.omni-button:has(> .omni-button__content > .omni-icon:only-child), .omni-data-grid__icon-button)");
+            ".omni-data-grid__row > td :is(.omni-button--icon, .omni-data-grid__icon-button)");
 
         foreach (var property in new[] { "--omni-button-size", "block-size", "inline-size", "min-inline-size" })
         {

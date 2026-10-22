@@ -141,12 +141,13 @@ public sealed class DefaultLookRequestsTests : OmniBunitContext
     {
         var button = Render<OmniButton>(parameters => parameters
             .AddUnmatched("title", "Supprimer")
-            .Add(component => component.ChildContent, LoneIcon));
+            .Add(component => component.Icon, LoneIcon));
 
         var element = button.Find("button");
         Assert.Contains("omni-button--icon", element.ClassList);
         Assert.Equal("Supprimer", element.GetAttribute("aria-label"));
         Assert.Equal("Supprimer", element.GetAttribute("title"));
+        Assert.Single(button.FindAll(".omni-button__content > .omni-icon"));
 
         var square = ShippedLookTests.Body(".omni-button--icon");
         Assert.Equal("var(--omni-button-size, var(--omni-control-height))", ShippedLookTests.Value(square, "min-inline-size"));
@@ -159,8 +160,8 @@ public sealed class DefaultLookRequestsTests : OmniBunitContext
         var labelled = Render<OmniButton>(parameters => parameters
             .AddUnmatched("title", "Info-bulle")
             .Add(component => component.Label, "Supprimer la ligne")
-            .Add(component => component.ChildContent, LoneIcon));
-        var bare = Render<OmniButton>(parameters => parameters.Add(component => component.ChildContent, LoneIcon));
+            .Add(component => component.Icon, LoneIcon));
+        var bare = Render<OmniButton>(parameters => parameters.Add(component => component.Icon, LoneIcon));
 
         Assert.Equal("Supprimer la ligne", labelled.Find("button").GetAttribute("aria-label"));
         Assert.Contains("omni-button--icon", bare.Find("button").ClassList);
@@ -168,38 +169,38 @@ public sealed class DefaultLookRequestsTests : OmniBunitContext
     }
 
     [Fact]
-    public void A_button_with_text_is_never_squared_nor_renamed_by_its_title()
+    public void A_button_with_an_icon_and_text_draws_the_icon_before_the_text_and_is_neither_squared_nor_renamed_by_its_title()
     {
         var withIcon = Render<OmniButton>(parameters => parameters
             .AddUnmatched("title", "Supprimer la sélection")
-            .Add(component => component.ChildContent, (RenderFragment)(builder =>
-            {
-                builder.AddContent(0, LoneIcon);
-                builder.AddContent(1, "Supprimer");
-            })));
+            .Add(component => component.Icon, LoneIcon)
+            .AddChildContent("Supprimer"));
+
+        var element = withIcon.Find("button");
+        Assert.DoesNotContain("omni-button--icon", element.ClassList);
+        Assert.False(element.HasAttribute("aria-label"));
+
+        var content = withIcon.Find(".omni-button__content");
+        Assert.True(content.FirstElementChild!.ClassList.Contains("omni-icon"));
+        Assert.Equal("Supprimer", content.TextContent.Trim());
+        Assert.True(content.InnerHtml.IndexOf("omni-icon", StringComparison.Ordinal) < content.InnerHtml.IndexOf("Supprimer", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public void A_button_with_text_only_has_no_icon_markup_and_is_neither_squared_nor_renamed_by_its_title()
+    {
         var textOnly = Render<OmniButton>(parameters => parameters
             .AddUnmatched("title", "Enregistrer le brouillon")
             .AddChildContent("Enregistrer"));
         var markup = Render<OmniButton>(parameters => parameters.AddChildContent("<b>Gras</b>"));
 
-        foreach (var element in new[] { withIcon.Find("button"), textOnly.Find("button"), markup.Find("button") })
+        foreach (var component in new[] { textOnly, markup })
         {
+            var element = component.Find("button");
             Assert.DoesNotContain("omni-button--icon", element.ClassList);
             Assert.False(element.HasAttribute("aria-label"));
+            Assert.Empty(component.FindAll(".omni-icon"));
         }
-    }
-
-    [Fact]
-    public void A_lone_icon_wrapped_in_whitespace_is_still_icon_only()
-    {
-        var button = Render<OmniButton>(parameters => parameters.Add(component => component.ChildContent, (RenderFragment)(builder =>
-        {
-            builder.AddMarkupContent(0, "\n    ");
-            builder.AddContent(1, LoneIcon);
-            builder.AddContent(2, "  ");
-        })));
-
-        Assert.Contains("omni-button--icon", button.Find("button").ClassList);
     }
 
     [Fact]
@@ -207,13 +208,13 @@ public sealed class DefaultLookRequestsTests : OmniBunitContext
     {
         var untitled = Render<OmniButton>(parameters => parameters
             .AddUnmatched("data-probe", "kept")
-            .Add(component => component.ChildContent, LoneIcon));
+            .Add(component => component.Icon, LoneIcon));
         var blank = Render<OmniButton>(parameters => parameters
             .AddUnmatched("title", "   ")
-            .Add(component => component.ChildContent, LoneIcon));
+            .Add(component => component.Icon, LoneIcon));
         var nullTitle = Render<OmniButton>(parameters => parameters
             .AddUnmatched("title", null!)
-            .Add(component => component.ChildContent, LoneIcon));
+            .Add(component => component.Icon, LoneIcon));
         var empty = Render<OmniButton>();
 
         foreach (var button in new[] { untitled, blank, nullTitle })

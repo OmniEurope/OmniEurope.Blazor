@@ -1033,7 +1033,6 @@ method protected override OmniEurope.Blazor.Components.OmniBootSplash.OnAfterRen
 method protected override OmniEurope.Blazor.Components.OmniBreadcrumb.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniBreadcrumbItem.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniButton.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
-method protected override OmniEurope.Blazor.Components.OmniButton.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniCard.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniCard.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniCategoryAxis.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
@@ -2333,8 +2332,9 @@ property public OmniEurope.Blazor.Components.OmniBreadcrumbService.Items : Syste
 property public OmniEurope.Blazor.Components.OmniBreadcrumbService.ParentHref : System.String? {get(public)}
 property public OmniEurope.Blazor.Components.OmniButton.Busy : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniButton.ButtonType : OmniEurope.Blazor.Components.OmniButtonType {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniButton.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
+property public OmniEurope.Blazor.Components.OmniButton.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniButton.Disabled : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniButton.Icon : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniButton.Indicator : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniButton.Label : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniButton.OnClick : Microsoft.AspNetCore.Components.EventCallback<Microsoft.AspNetCore.Components.Web.MouseEventArgs> {get(public);set(public)} [Parameter]
