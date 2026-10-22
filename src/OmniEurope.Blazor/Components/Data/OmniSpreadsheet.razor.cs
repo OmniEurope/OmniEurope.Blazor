@@ -470,11 +470,15 @@ public partial class OmniSpreadsheet
         await PublishAsync(Sheet.WithInput(row, column, input));
     }
 
-    /// <summary>Adds an empty row at the bottom of the sheet.</summary>
-    public Task AddRowAsync() => ReadOnly ? Task.CompletedTask : PublishAsync(Sheet.AddRow());
+    /// <summary>Adds an empty row at the bottom of the sheet. Does nothing once the sheet holds <see cref="OmniSpreadsheetData.MaxRows"/> rows or <see cref="OmniSpreadsheetData.MaxCells"/> cells.</summary>
+    public Task AddRowAsync() => ReadOnly || !CanAddRow ? Task.CompletedTask : PublishAsync(Sheet.AddRow());
 
-    /// <summary>Adds an empty column on the right of the sheet.</summary>
-    public Task AddColumnAsync() => ReadOnly ? Task.CompletedTask : PublishAsync(Sheet.AddColumn());
+    /// <summary>Adds an empty column on the right of the sheet. Does nothing once the sheet holds <see cref="OmniSpreadsheetData.MaxColumns"/> columns or <see cref="OmniSpreadsheetData.MaxCells"/> cells.</summary>
+    public Task AddColumnAsync() => ReadOnly || !CanAddColumn ? Task.CompletedTask : PublishAsync(Sheet.AddColumn());
+
+    private bool CanAddRow => Sheet.RowCount < OmniSpreadsheetData.MaxRows && (Sheet.RowCount + 1L) * Sheet.ColumnCount <= OmniSpreadsheetData.MaxCells;
+
+    private bool CanAddColumn => Sheet.ColumnCount < OmniSpreadsheetData.MaxColumns && Sheet.RowCount * (Sheet.ColumnCount + 1L) <= OmniSpreadsheetData.MaxCells;
 
     private async Task PublishAsync(OmniSpreadsheetData next)
     {
