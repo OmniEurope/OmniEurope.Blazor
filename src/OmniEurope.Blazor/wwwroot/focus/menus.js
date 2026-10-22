@@ -1,5 +1,5 @@
 // Part of omni-focus.js, which re-exports openMenu, closeMenu and moveMenuFocus.
-import { returnTargets, rememberTarget, viewportMargin, pressedOutside } from './shared.js';
+import { returnTargets, rememberTarget, notify, viewportMargin, pressedOutside } from './shared.js';
 
 // ---- menus ------------------------------------------------------------------------------------
 // One engine for every menu of the package: the overflow ("⋮"), context, split button and profile
@@ -156,7 +156,7 @@ export function openMenu(menuId, key, anchor, placement, x, y, focusLast, closeO
         y,
         focusLast,
         closeOnOutsideClick,
-        dismiss: restore => void dotnet.invokeMethodAsync('OmniMenu.Dismiss', restore)
+        dismiss: restore => notify(dotnet, 'OmniMenu.Dismiss', restore)
     });
 }
 
