@@ -10,7 +10,9 @@ namespace OmniEurope.Blazor.Internal;
 /// Writes an <see cref="OmniTableExportDocument"/> as an Office Open XML workbook (<c>.xlsx</c>) with nothing
 /// but the base library: a zip of the few SpreadsheetML parts a spreadsheet needs, so it runs in WebAssembly
 /// too. One sheet named after the title, a bold frozen heading row with a filter, then one row per exported
-/// row: numbers as numbers, dates as dates, booleans as booleans, everything else as inline text. No cell
+/// row: numbers as numbers, dates as dates (the wall-clock time of their offset; a date before March 1900,
+/// which a spreadsheet cannot count, as text), booleans as booleans, everything else as inline text, cut to
+/// the 32 767 characters of a cell. No cell
 /// ever holds a formula; a text that a spreadsheet would read as one on editing is marked as text.
 /// </summary>
 internal static class XlsxWriter
@@ -22,6 +24,13 @@ internal static class XlsxWriter
     private const string DocumentRelationships = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
     private static readonly char[] FormulaTriggers = ['=', '+', '-', '@', '\t', '\r'];
     private static readonly DateTime Epoch = new(1899, 12, 30, 0, 0, 0, DateTimeKind.Unspecified);
+
+    // A spreadsheet counts days from 1900 and wrongly holds a 29 February 1900: before 1 March 1900 a serial
+    // reads a day off, and before 1 January it is negative. Such a date is written as its text.
+    private static readonly DateTime FirstSerialDate = new(1900, 3, 1, 0, 0, 0, DateTimeKind.Unspecified);
+
+    /// <summary>Most characters a cell holds; a spreadsheet reports a longer one as a damaged file.</summary>
+    private const int MaximumCellLength = 32_767;
 
     // Cell styles, by index in styles.xml: 0 plain, 1 bold heading, 2 date, 3 date and time, 4 text kept as text.
     private const int Heading = 1;
@@ -110,6 +119,7 @@ internal static class XlsxWriter
         for (var index = 0; index < cells.Count; index++)
         {
             var cell = cells[index];
+            var text = TextOf(cell, heading);
             xml.WriteStartElement("c", MainNamespace);
             xml.WriteAttributeString("r", $"{ColumnName(index)}{number}");
             if (heading)
@@ -121,7 +131,7 @@ internal static class XlsxWriter
             {
                 xml.WriteElementString("v", MainNamespace, value.ToString(CultureInfo.InvariantCulture));
             }
-            else if (!heading && cell.Date is { } date)
+            else if (!heading && cell.Date is { } date && date.DateTime >= FirstSerialDate)
             {
                 var clock = date.DateTime;
                 xml.WriteAttributeString("s", (clock.TimeOfDay == TimeSpan.Zero ? DateStyle : DateTimeStyle).ToString(CultureInfo.InvariantCulture));
@@ -132,10 +142,10 @@ internal static class XlsxWriter
                 xml.WriteAttributeString("t", "b");
                 xml.WriteElementString("v", MainNamespace, flag ? "1" : "0");
             }
-            else if (cell.Text.Length > 0)
+            else if (text.Length > 0)
             {
                 xml.WriteAttributeString("t", "inlineStr");
-                if (!heading && cell.Text.IndexOfAny(FormulaTriggers, 0, 1) == 0)
+                if (!heading && text.IndexOfAny(FormulaTriggers, 0, 1) == 0)
                 {
                     xml.WriteAttributeString("s", QuotedText.ToString(CultureInfo.InvariantCulture));
                 }
@@ -143,7 +153,7 @@ internal static class XlsxWriter
                 xml.WriteStartElement("is", MainNamespace);
                 xml.WriteStartElement("t", MainNamespace);
                 xml.WriteAttributeString("xml", "space", null, "preserve");
-                xml.WriteString(XmlText(cell.Text));
+                xml.WriteString(heading ? XmlText(text) : CellText(text));
                 xml.WriteEndElement();
                 xml.WriteEndElement();
             }
@@ -242,18 +252,88 @@ internal static class XlsxWriter
         return name;
     }
 
-    /// <summary>A sheet name a spreadsheet accepts: no <c>[]:*?/\</c>, no edge apostrophe, 31 characters at most.</summary>
+    /// <summary>
+    /// A sheet name a spreadsheet accepts: no <c>[]:*?/\</c>, no edge apostrophe, 31 characters at most, and
+    /// not <c>History</c>, which a spreadsheet keeps for itself.
+    /// </summary>
     internal static string SheetName(string title)
     {
-        var name = new string(title.Where(character => "[]:*?/\\".IndexOf(character) < 0 && Allowed(character)).ToArray()).Trim().Trim('\'');
-        name = name.Length > 31 ? name[..31].TrimEnd('\'') : name;
-        return string.IsNullOrWhiteSpace(name) ? "Export" : name;
+        var name = Clean(new string(title.Where(character => "[]:*?/\\".IndexOf(character) < 0).ToArray())).Trim().Trim('\'');
+        name = name.Length > 31 ? Clean(name[..31]).TrimEnd('\'') : name;
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return "Export";
+        }
+
+        return name.Equals("History", StringComparison.OrdinalIgnoreCase) ? name + "_" : name;
     }
 
-    // XML 1.0 forbids most control characters: dropped rather than written as a broken part. Surrogate
-    // pairs (emoji, rare scripts) are kept whole.
-    private static string XmlText(string text) =>
-        text.All(Allowed) ? text : new string(text.Where(Allowed).ToArray());
+    // What a cell shows as text: its own text, or for a date the spreadsheet cannot hold as a serial, the
+    // date itself when the cell carries no text.
+    private static string TextOf(OmniTableExportCell cell, bool heading) =>
+        !heading && cell.Text.Length == 0 && cell.Number is null && cell.Date is { } date && date.DateTime < FirstSerialDate
+            ? date.DateTime.ToString(date.TimeOfDay == TimeSpan.Zero ? "yyyy-MM-dd" : "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture)
+            : cell.Text;
+
+    // A cell holds 32 767 characters at most, and a cut never splits a surrogate pair.
+    private static string CellText(string text)
+    {
+        var clean = Clean(text);
+        if (clean.Length <= MaximumCellLength)
+        {
+            return clean;
+        }
+
+        var length = char.IsHighSurrogate(clean[MaximumCellLength - 1]) ? MaximumCellLength - 1 : MaximumCellLength;
+        return clean[..length];
+    }
+
+    private static string XmlText(string text) => Clean(text);
+
+    // XML 1.0 forbids most control characters, and a surrogate half that has no partner is not text at all
+    // (the writer refuses it, which would fail the whole export): both are dropped rather than written as a
+    // broken part. Surrogate pairs (emoji, rare scripts) are kept whole.
+    private static string Clean(string text)
+    {
+        if (IsClean(text))
+        {
+            return text;
+        }
+
+        var builder = new StringBuilder(text.Length);
+        for (var index = 0; index < text.Length; index++)
+        {
+            var character = text[index];
+            if (char.IsHighSurrogate(character) && index + 1 < text.Length && char.IsLowSurrogate(text[index + 1]))
+            {
+                builder.Append(character).Append(text[++index]);
+            }
+            else if (!char.IsSurrogate(character) && Allowed(character))
+            {
+                builder.Append(character);
+            }
+        }
+
+        return builder.ToString();
+    }
+
+    private static bool IsClean(string text)
+    {
+        for (var index = 0; index < text.Length; index++)
+        {
+            var character = text[index];
+            if (char.IsHighSurrogate(character) && index + 1 < text.Length && char.IsLowSurrogate(text[index + 1]))
+            {
+                index++;
+            }
+            else if (char.IsSurrogate(character) || !Allowed(character))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     private static bool Allowed(char character) =>
         character is '\t' or '\n' or '\r' || (character >= ' ' && character != '￾' && character != '￿');
