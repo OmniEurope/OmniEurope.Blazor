@@ -21,10 +21,10 @@ Branche de travail : `release/1.9.0`, depuis `develop`. Trois lots au plus en pa
 
 | Vague | Lot | Contenu | État |
 |---|---|---|---|
-| 1 | W1-A | Conventions sur Data, Scheduling, Charts, Diagram | à faire |
-| 1 | W1-B | Conventions sur Editor, Selection, Forms, Feedback, Foundation, Actions | à faire |
-| 1 | W1-C | Conventions sur Layout, Navigation, Overlays, Pages, Theming, Preferences | à faire |
-| 2 | W2-A/B/C | Défauts et durcissements de sécurité de l'audit, mêmes familles, un test qui échoue avant et passe après par défaut | à faire |
+| 1 | W1-A | Conventions sur Data, Scheduling, Charts, Diagram | fusionné |
+| 1 | W1-B | Conventions sur Editor, Selection, Forms, Feedback, Foundation, Actions | en cours |
+| 1 | W1-C | Conventions sur Layout, Navigation, Overlays, Pages, Theming, Preferences | fusionné |
+| 2 | W2-A/B/C | Défauts et durcissements de sécurité de l'audit, mêmes familles, un test qui échoue avant et passe après par défaut | A et C en cours, B après W1-B |
 | 3 | W3-A | Un seul moteur JS de placement et de clic extérieur | à faire |
 | 3 | W3-B | Chargeur Monaco unique, portail de menu partagé, corps d'`OmniStatTile`, mise en forme d'export, CSS mort | à faire |
 | 3 | W3-C | 90 paramètres documentés, `component-families.md`, porte `eng/Test-ComponentIndex.ps1` en CI | à faire |
