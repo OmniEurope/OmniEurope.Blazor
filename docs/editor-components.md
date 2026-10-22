@@ -536,6 +536,7 @@ composant garde sa zone de texte et le dit dans un message d'état ; la valeur r
   estompé ; la valeur ne change plus, que Monaco soit chargé ou non.
 - `Height` : longueur CSS (`20rem`, `320px`, `50vh`, `%`), posée par le CSSOM ; toute autre valeur lève.
 - `ShowStatusBar` : ligne, colonne et langage sous l'éditeur.
+- `InteropModulePath` : module JavaScript de même origine qui porte l'interop de l'éditeur. Par défaut c'est celui du paquet, qui utilise Monaco dans le document de l'hôte ; un hôte peut y mettre son propre module, servi de la même origine.
 - Valeur liée dans les deux sens : la frappe remonte au quart de seconde (et à la perte du focus), une
   valeur changée par l'application entre dans l'historique d'annulation de Monaco au lieu de l'effacer,
   sans écho.
@@ -574,6 +575,8 @@ Retour à la ligne. `Language` est, comme partout dans la famille, l'identifiant
 quand il est nul) ; `OmniCodeBlock.Code` est un `string?` (nul vaut vide) et `OmniCodeBlock.Inline` affiche le code
 dans une ligne de texte.
 
+`EmptyText` (`string?`) dit ce que montre un code vide ; nul, le texte localisé du paquet (« rien à montrer »). `WrapChanged` (`EventCallback<bool>`) est levé quand le bouton de retour à la ligne est pressé, et `Wrap` se lie par `@bind-Wrap`. `CopiedFeedbackDuration` (`TimeSpan`, 2 secondes par défaut) fixe combien de temps le bouton de copie montre son résultat.
+
 ```razor
 <OmniCodeViewer Code="@Extrait" Title="src/Service.cs" FirstLineNumber="631" HighlightedLines="@([635])" />
 ```
@@ -611,6 +614,8 @@ la copie prend toujours la valeur entière. `Title` nomme le bloc (classe `omni-
 `OnCopy` rapporte chaque copie. La copie passe par `omniInterop.js` : l'API asynchrone du
 presse-papiers, ou une zone de texte cachée et la commande de copie quand elle est refusée.
 
+`Secret` (faux par défaut) masque la valeur à l'écran jusqu'au bouton qui la révèle, la copie prenant toujours la valeur entière ; `VisibleCharacters` (4 par défaut) dit combien de caractères restent visibles à chaque bout tant qu'elle est masquée ; `CopiedFeedbackDuration` (`TimeSpan`, 2 secondes par défaut) fixe combien de temps le bouton montre la coche après une copie.
+
 ## OmniUnifiedDiff : diff unifié sans Monaco
 
 `OmniUnifiedDiff` dessine un diff unifié (texte brut d'un `git diff`, ou fichiers déjà analysés par
@@ -620,6 +625,8 @@ numéros d'avant et d'après côte à côte et les lignes ajoutées et retirées
 malformé (nombres hors d'un `int`) est ignoré. Il marche donc sous la politique CSP stricte.
 `ExpandedByDefault` (vrai par défaut) ouvre chaque section de fichier ; `FileActionsTemplate` ajoute des
 actions à l'en-tête de chaque fichier.
+
+`Diff` (`string?`) reçoit le texte du diff ; il est ignoré quand `Files` (`IReadOnlyList<OmniDiffFile>?`) est donné, ce qui sert à passer des fichiers déjà lus par `OmniUnifiedDiffParser.Parse` ou construits par l'hôte. `Collapsible` (vrai par défaut) permet de replier chaque fichier par son en-tête. `EmptyText` (`string?`) dit ce que montre un diff vide ; nul, le texte localisé du paquet (« aucun changement »).
 
 ## Limites connues
 

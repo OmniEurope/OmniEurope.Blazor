@@ -8,6 +8,8 @@ Les actions déclenchent quelque chose : un bouton natif (`button type="button"`
 | `OmniToggleButton` | Bouton à deux états (`aria-pressed`) : une option qu'on active ou désactive sans quitter la page, comme le gras d'une barre d'outils. |
 | `OmniSplitButton` | Bouton scindé : la partie principale lance l'action principale, le chevron ouvre un menu des autres actions. Au clavier, les flèches ouvrent le menu sur sa première ou sa dernière entrée et le parcourent, Échap le ferme et rend le focus au chevron ; choisir une entrée ferme le menu avant de lancer son action. Entrée sur la partie principale lance l'action sans ouvrir le menu ; `OnClick` reçoit un `MouseEventArgs`, `Open`/`OpenChanged` pilotent le menu. |
 
+Paramètres à préciser : `OmniButton.ButtonType` (`OmniButtonType` : `Button` par défaut, `Submit`, `Reset`) fixe le `type` du bouton natif, de sorte qu'un bouton placé dans un formulaire ne le soumet que si on le demande par `Submit` ; le contenu d'un `OmniToggleButton` (`ChildContent`) est son texte, une icône, ou les deux.
+
 Les entrées d'un menu de bouton scindé sont les `OmniMenuItem` des autres menus du paquet (voir [overlay-components.md](overlay-components.md)).
 
 Le mode clair, sombre ou système se choisit dans `OmniAppMenu` ([navigation-components.md](navigation-components.md)), dans les réglages d'apparence ([foundation-components.md](foundation-components.md), « Réglages d'apparence réutilisables »), ou avec un `OmniButton` nommé qui change `OmniThemeScope.Appearance` ; un thème `DarkOnly` reste sombre quel que soit ce choix.

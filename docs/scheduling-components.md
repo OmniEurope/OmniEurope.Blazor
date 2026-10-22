@@ -78,6 +78,8 @@ style.
 
 Chaque entrée est un `OmniTimelineItem` : un titre (`Title`, `string?`, niveau de titre réglable par `Level`), une date, ou un texte de date à sa place, et un contenu libre.
 
+`ChildContent` d'`OmniTimeline` reçoit les `OmniTimelineItem` ; celui d'`OmniTimelineItem` est le corps de l'entrée. `DateText` (`string?`) est la date telle que l'hôte la dit (« hier »), montrée à la place de la `Date` mise en forme.
+
 Les côtés suivent le sens de lecture : `Start` est à gauche en français, à droite dans une langue lue
 de droite à gauche. L'alternance est tirée du rang de l'entrée dans la liste par la feuille de style,
 si bien qu'une entrée insérée au milieu décale les suivantes sans rendu supplémentaire. La frise
@@ -132,6 +134,8 @@ son nom à gauche, une piste grise sur toute la durée de l'exécution, une barr
 sur la durée où l'étape a tourné, la durée à droite, et sous les barres la liste des étapes jamais
 démarrées (« Jamais démarrées : Confirm, Record release »), nommées plutôt que dessinées puisqu'elles
 n'ont occupé aucun temps. L'en-tête porte `0s` et la durée totale (`20m15`).
+
+`Steps` (`IReadOnlyList<OmniStepTimelineStep>`) liste les étapes, dans l'ordre où les lignes les montrent.
 
 Une étape est un `OmniStepTimelineStep(Name, StartedAt, CompletedAt, Status, Secondary)` :
 `StartedAt` nul la range parmi les jamais démarrées, `CompletedAt` nul avec le statut `Running` la fait

@@ -143,6 +143,8 @@ ouvre une (ou rejoint la sienne), et les voies des autres enfants se referment s
 de la page, plus ancien, garde sa voie jusqu'en bas. Les voies prennent tour à tour les huit couleurs de
 graphique (`--omni-chart-color-0` à `-7`) ; un commit de fusion est un point évidé.
 
+`Items` (obligatoire) donne les commits, du plus récent au plus ancien, chacun avant ses parents.
+
 - Chaque ligne porte son propre petit dessin SVG, masqué aux technologies d'assistance ; toutes les
   lignes ont la même hauteur, `--omni-git-graph-row-height` (par défaut la hauteur de contrôle moins 0,25 rem, 1,5 rem en densité confortable), pour que les traits d'une
   ligne rejoignent ceux de la suivante, et un texte plus long est coupé d'une ellipse.

@@ -32,6 +32,8 @@ Ce lot fournit 15 composants. Ils produisent du HTML sémantique, refusent les a
 | `OmniFieldset` | Groupe de champs natif avec `legend` obligatoire et état désactivé ; `Collapsible` le replie avec l'élément natif `details`, déplié tant que `Expanded` vaut vrai (par défaut). `ExpandedChanged` (facultatif) rapporte l'état quand le lecteur ouvre ou ferme le groupe, ce qui permet `@bind-Expanded` : l'événement natif `toggle` est écouté par `omni-focus.js`, sans gestionnaire en ligne, et seulement si le paramètre a un délégué ; sans lui, le groupe est rendu et se comporte comme avant, sans script. |
 | `OmniProgressBar` | Progression linéaire ou circulaire, déterminée ou indéterminée, avec valeurs ARIA. L'indéterminée linéaire glisse d'un mouvement continu, sans arrêt ni retour ; sans mouvement demandé, la piste se remplit à demi-teinte. |
 
+Paramètres de `OmniText` : `ChildContent` (obligatoire) est le texte ; `Element` (`OmniTextElement` : `Span` par défaut, `Paragraph`, `Strong`, `Emphasis`, `Small`) choisit l'élément dessiné ; `Truncate` (faux par défaut) garde le texte sur une ligne, coupée d'une ellipse quand elle ne tient pas.
+
 ## Barre d'application
 
 Les pièces de la barre supérieure de la maquette de PLAN-004 (`docs/plans/archive/serie-1/PLAN-004-maquette-themes.html`) sont dans le paquet, sans feuille de l'hôte :
