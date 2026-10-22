@@ -26,8 +26,8 @@
                 <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" Class="omni-mail-template-editor__variable"
                             title="@VariableTitle(variable)" data-omni-variable="@variable.Name"
                             Disabled="@(Disabled || ReadOnly)" OnClick="() => InsertAsync(variable)">
-                    <OmniIcon Name="@(variable.Kind == OmniMailVariableKind.Block ? OmniIconName.Table : variable.Kind == OmniMailVariableKind.Link ? OmniIconName.Link : OmniIconName.Tag)" />
-                    <span>@variable.Label</span>
+                    <Icon><OmniIcon Name="@(variable.Kind == OmniMailVariableKind.Block ? OmniIconName.Table : variable.Kind == OmniMailVariableKind.Link ? OmniIconName.Link : OmniIconName.Tag)" /></Icon>
+                    <ChildContent><span>@variable.Label</span></ChildContent>
                 </OmniButton>
             }
         </div>
@@ -54,8 +54,8 @@
                 <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" Class="omni-mail-template-editor__button"
                             title="@ButtonMarker(link)" data-omni-button="@link.Name"
                             Disabled="@(Disabled || ReadOnly)" OnClick="() => InsertButtonAsync(link)">
-                    <OmniIcon Name="OmniIconName.HandTap" />
-                    <span>@Localize("MailTemplateEditorButton", link.Label)</span>
+                    <Icon><OmniIcon Name="OmniIconName.HandTap" /></Icon>
+                    <ChildContent><span>@Localize("MailTemplateEditorButton", link.Label)</span></ChildContent>
                 </OmniButton>
             }
         </div>
@@ -86,8 +86,8 @@
         <div class="omni-mail-template-editor__actions">
             <OmniButton Variant="OmniButtonVariant.Secondary" Class="omni-mail-template-editor__send-test" Busy="_sending"
                         Disabled="Disabled" OnClick="SendTestAsync">
-                <OmniIcon Name="OmniIconName.PaperPlaneRight" />
-                <span>@Localize("MailTemplateEditorSendTest")</span>
+                <Icon><OmniIcon Name="OmniIconName.PaperPlaneRight" /></Icon>
+                <ChildContent><span>@Localize("MailTemplateEditorSendTest")</span></ChildContent>
             </OmniButton>
         </div>
     }

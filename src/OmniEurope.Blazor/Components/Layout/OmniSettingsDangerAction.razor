@@ -17,15 +17,17 @@
         </div>
         <OmniButton @attributes="AdditionalAttributes" Id="@Id" Variant="OmniButtonVariant.Danger" Disabled="Disabled" Busy="_busy"
                     aria-describedby="@DescribedBy" OnClick="ConfirmAsync">
-            @if (Icon is not null)
-            {
-                @Icon
-            }
-            else
-            {
-                <OmniIcon Name="OmniIconName.Delete" />
-            }
-            <span>@ActionLabel</span>
+            <Icon>
+                @if (Icon is not null)
+                {
+                    @Icon
+                }
+                else
+                {
+                    <OmniIcon Name="OmniIconName.Delete" />
+                }
+            </Icon>
+            <ChildContent><span>@ActionLabel</span></ChildContent>
         </OmniButton>
     </div>
 </div>

@@ -26,7 +26,7 @@
                         }
                         <div class="omni-appearance-settings__actions" role="group" aria-labelledby="@RowId("theme")">
                             <OmniDropDown TValue="string" Options="@ThemeOptions" @bind-Value:get="ThemeName" @bind-Value:set="SetThemeAsync" Label="@Localize("SettingsTheme")" />
-                            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(Preset is null)" OnClick="ResetThemeAsync"><OmniIcon Name="OmniIconName.Reset" /><span>@Localize("SettingsDefault")</span></OmniButton>
+                            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(Preset is null)" OnClick="ResetThemeAsync"><Icon><OmniIcon Name="OmniIconName.Reset" /></Icon><ChildContent><span>@Localize("SettingsDefault")</span></ChildContent></OmniButton>
                         </div>
                     </div>
                 }
@@ -49,7 +49,7 @@
                                     <OmniButton Variant="@(selected ? OmniButtonVariant.Primary : OmniButtonVariant.Secondary)"
                                                 Class="omni-appearance-window__mode" Disabled="ModeFixed" Label="@mode.Text" title="@mode.Text"
                                                 role="radio" aria-checked="@(selected ? "true" : "false")" tabindex="@(selected ? "0" : "-1")"
-                                                OnClick="@(() => SetAppearanceAsync(mode.Value))"><OmniIcon Name="@ModeIcon(mode.Value)" /></OmniButton>
+                                                OnClick="@(() => SetAppearanceAsync(mode.Value))"><Icon><OmniIcon Name="@ModeIcon(mode.Value)" /></Icon></OmniButton>
                                 }
                             </div>
                         }
@@ -57,7 +57,7 @@
                         {
                             <div class="omni-appearance-settings__actions" role="group" aria-labelledby="@RowId("palette")">
                                 <OmniDropDown TValue="string" Options="@PaletteOptions" @bind-Value:get="PaletteName" @bind-Value:set="SetPaletteAsync" Label="@Localize("SettingsPalette")" />
-                                <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(Palette is null)" OnClick="ResetPaletteAsync"><OmniIcon Name="OmniIconName.Reset" /><span>@Localize("SettingsDefault")</span></OmniButton>
+                                <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(Palette is null)" OnClick="ResetPaletteAsync"><Icon><OmniIcon Name="OmniIconName.Reset" /></Icon><ChildContent><span>@Localize("SettingsDefault")</span></ChildContent></OmniButton>
                             </div>
                         }
                     </div>
@@ -68,7 +68,7 @@
                         <span class="omni-appearance-settings__label" id="@RowId("font")"><OmniIcon Name="OmniIconName.TextItalic" /> @Localize("SettingsFont")</span>
                         <div class="omni-appearance-settings__actions" role="group" aria-labelledby="@RowId("font")">
                             <OmniDropDown TValue="string" Options="@FontOptions" @bind-Value:get="FontName" @bind-Value:set="SetFontAsync" Label="@Localize("SettingsFont")" />
-                            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(Font is null)" OnClick="ResetFontAsync"><OmniIcon Name="OmniIconName.Reset" /><span>@Localize("SettingsDefault")</span></OmniButton>
+                            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(Font is null)" OnClick="ResetFontAsync"><Icon><OmniIcon Name="OmniIconName.Reset" /></Icon><ChildContent><span>@Localize("SettingsDefault")</span></ChildContent></OmniButton>
                         </div>
                     </div>
                 }
@@ -117,13 +117,13 @@
                 <div class="omni-appearance-window__tools">
                     @if (PresetChanged.HasDelegate)
                     {
-                        <OmniButton Variant="OmniButtonVariant.Secondary" Class="omni-appearance-settings__random" title="@Localize("SettingsRandomTitle")" OnClick="RandomLookAsync"><OmniIcon Name="OmniIconName.Dice" /><span>@Localize("SettingsRandom")</span></OmniButton>
+                        <OmniButton Variant="OmniButtonVariant.Secondary" Class="omni-appearance-settings__random" title="@Localize("SettingsRandomTitle")" OnClick="RandomLookAsync"><Icon><OmniIcon Name="OmniIconName.Dice" /></Icon><ChildContent><span>@Localize("SettingsRandom")</span></ChildContent></OmniButton>
                     }
-                    <OmniButton Variant="OmniButtonVariant.Secondary" Class="omni-appearance-window__reset" Disabled="@IsDefaultLook" OnClick="ResetAllAsync"><OmniIcon Name="OmniIconName.Reset" /><span>@Localize("SettingsResetAll")</span></OmniButton>
+                    <OmniButton Variant="OmniButtonVariant.Secondary" Class="omni-appearance-window__reset" Disabled="@IsDefaultLook" OnClick="ResetAllAsync"><Icon><OmniIcon Name="OmniIconName.Reset" /></Icon><ChildContent><span>@Localize("SettingsResetAll")</span></ChildContent></OmniButton>
                 </div>
                 <div class="omni-appearance-window__decision">
-                    <OmniButton Variant="OmniButtonVariant.Primary" Class="omni-appearance-window__apply" OnClick="ApplyAsync"><OmniIcon Name="OmniIconName.Check" /><span>@Localize("SettingsApply")</span></OmniButton>
-                    <OmniButton Variant="OmniButtonVariant.Danger" Class="omni-appearance-window__cancel" OnClick="CancelAsync"><OmniIcon Name="OmniIconName.Restore" /><span>@Localize("SettingsRestore")</span></OmniButton>
+                    <OmniButton Variant="OmniButtonVariant.Primary" Class="omni-appearance-window__apply" OnClick="ApplyAsync"><Icon><OmniIcon Name="OmniIconName.Check" /></Icon><ChildContent><span>@Localize("SettingsApply")</span></ChildContent></OmniButton>
+                    <OmniButton Variant="OmniButtonVariant.Danger" Class="omni-appearance-window__cancel" OnClick="CancelAsync"><Icon><OmniIcon Name="OmniIconName.Restore" /></Icon><ChildContent><span>@Localize("SettingsRestore")</span></ChildContent></OmniButton>
                 </div>
             </div>
         }

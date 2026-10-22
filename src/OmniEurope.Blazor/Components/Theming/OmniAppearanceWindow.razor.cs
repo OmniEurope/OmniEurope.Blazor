@@ -457,7 +457,7 @@ public partial class OmniAppearanceWindow : IDisposable
         builder.AddComponentParameter(15, nameof(OmniButton.Disabled), setting.Level <= 1);
         builder.AddComponentParameter(16, nameof(OmniButton.Label), Localize(setting.DecreaseKey));
         builder.AddComponentParameter(17, nameof(OmniButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, () => ChangeLevelAsync(setting, setting.Level - 1)));
-        builder.AddComponentParameter(18, nameof(OmniButton.ChildContent), Icon(OmniIconName.Remove));
+        builder.AddComponentParameter(18, nameof(OmniButton.Icon), Icon(OmniIconName.Remove));
         builder.CloseComponent();
 
         builder.OpenComponent<OmniBadge>(19);
@@ -472,20 +472,18 @@ public partial class OmniAppearanceWindow : IDisposable
         builder.AddComponentParameter(26, nameof(OmniButton.Disabled), setting.Level >= 10);
         builder.AddComponentParameter(27, nameof(OmniButton.Label), Localize(setting.IncreaseKey));
         builder.AddComponentParameter(28, nameof(OmniButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, () => ChangeLevelAsync(setting, setting.Level + 1)));
-        builder.AddComponentParameter(29, nameof(OmniButton.ChildContent), Icon(OmniIconName.Add));
+        builder.AddComponentParameter(29, nameof(OmniButton.Icon), Icon(OmniIconName.Add));
         builder.CloseComponent();
 
         builder.OpenComponent<OmniButton>(30);
         builder.AddComponentParameter(31, nameof(OmniButton.Variant), OmniButtonVariant.Secondary);
         builder.AddComponentParameter(32, nameof(OmniButton.Disabled), setting.Level == 5);
         builder.AddComponentParameter(33, nameof(OmniButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, () => ChangeLevelAsync(setting, 5)));
-        builder.AddComponentParameter(34, nameof(OmniButton.ChildContent), (RenderFragment)(content =>
+        builder.AddComponentParameter(34, nameof(OmniButton.Icon), Icon(OmniIconName.Reset));
+        builder.AddComponentParameter(35, nameof(OmniButton.ChildContent), (RenderFragment)(content =>
         {
-            content.OpenComponent<OmniIcon>(0);
-            content.AddComponentParameter(1, nameof(OmniIcon.Name), OmniIconName.Reset);
-            content.CloseComponent();
-            content.OpenElement(2, "span");
-            content.AddContent(3, Localize("SettingsDefault"));
+            content.OpenElement(0, "span");
+            content.AddContent(1, Localize("SettingsDefault"));
             content.CloseElement();
         }));
         builder.CloseComponent();
@@ -493,16 +491,16 @@ public partial class OmniAppearanceWindow : IDisposable
 
         // The track runs 0 to 10 so that the default level 5 sits in the middle; the thumb cannot go below 1,
         // the lowest level the preference keeps.
-        builder.OpenComponent<OmniSlider>(35);
-        builder.AddComponentParameter(36, nameof(OmniSlider.Minimum), 0d);
-        builder.AddComponentParameter(37, nameof(OmniSlider.SelectableMinimum), (double)AppearanceLook.MinimumLevel);
-        builder.AddComponentParameter(38, nameof(OmniSlider.Maximum), (double)AppearanceLook.MaximumLevel);
-        builder.AddComponentParameter(39, nameof(OmniSlider.Step), 1d);
-        builder.AddComponentParameter(40, nameof(OmniSlider.ShowValue), false);
-        builder.AddComponentParameter(41, nameof(OmniSlider.Value), (double)setting.Level);
-        builder.AddComponentParameter(42, nameof(OmniSlider.ValueChanged), EventCallback.Factory.Create<double>(this, value => ChangeLevelAsync(setting, (int)value)));
-        builder.AddComponentParameter(43, nameof(OmniSlider.ValueExpression), setting.ValueExpression);
-        builder.AddComponentParameter(44, "aria-label", name);
+        builder.OpenComponent<OmniSlider>(36);
+        builder.AddComponentParameter(37, nameof(OmniSlider.Minimum), 0d);
+        builder.AddComponentParameter(38, nameof(OmniSlider.SelectableMinimum), (double)AppearanceLook.MinimumLevel);
+        builder.AddComponentParameter(39, nameof(OmniSlider.Maximum), (double)AppearanceLook.MaximumLevel);
+        builder.AddComponentParameter(40, nameof(OmniSlider.Step), 1d);
+        builder.AddComponentParameter(41, nameof(OmniSlider.ShowValue), false);
+        builder.AddComponentParameter(42, nameof(OmniSlider.Value), (double)setting.Level);
+        builder.AddComponentParameter(43, nameof(OmniSlider.ValueChanged), EventCallback.Factory.Create<double>(this, value => ChangeLevelAsync(setting, (int)value)));
+        builder.AddComponentParameter(44, nameof(OmniSlider.ValueExpression), setting.ValueExpression);
+        builder.AddComponentParameter(45, "aria-label", name);
         builder.CloseComponent();
 
         builder.CloseElement();

@@ -156,14 +156,17 @@ public partial class OmniCodeViewer : IAsyncDisposable
         builder.AddComponentParameter(3, nameof(OmniButton.Size), OmniControlSize.Small);
         builder.AddComponentParameter(4, "aria-pressed", _wrap ? "true" : "false");
         builder.AddComponentParameter(5, nameof(OmniButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, ToggleWrap));
-        builder.AddComponentParameter(6, nameof(OmniButton.ChildContent), (RenderFragment)(content =>
+        builder.AddComponentParameter(6, nameof(OmniButton.Icon), (RenderFragment)(icon =>
         {
-            content.OpenComponent<OmniIcon>(0);
-            content.AddComponentParameter(1, nameof(OmniIcon.Name), OmniIconName.TextAlignLeft);
-            content.AddComponentParameter(2, nameof(OmniIcon.Size), OmniControlSize.Small);
-            content.CloseComponent();
-            content.OpenElement(3, "span");
-            content.AddContent(4, Localize("CodeViewerWrap"));
+            icon.OpenComponent<OmniIcon>(0);
+            icon.AddComponentParameter(1, nameof(OmniIcon.Name), OmniIconName.TextAlignLeft);
+            icon.AddComponentParameter(2, nameof(OmniIcon.Size), OmniControlSize.Small);
+            icon.CloseComponent();
+        }));
+        builder.AddComponentParameter(7, nameof(OmniButton.ChildContent), (RenderFragment)(content =>
+        {
+            content.OpenElement(0, "span");
+            content.AddContent(1, Localize("CodeViewerWrap"));
             content.CloseElement();
         }));
         builder.CloseComponent();

@@ -42,8 +42,8 @@
                         Variant="@(State == OmniConnectionState.Reconnecting ? OmniButtonVariant.Secondary : OmniButtonVariant.Primary)"
                         Busy="Busy"
                         OnClick="ActAsync">
-                <OmniIcon Name="OmniIconName.Refresh" />
-                <span>@ActionText</span>
+                <Icon><OmniIcon Name="OmniIconName.Refresh" /></Icon>
+                <ChildContent><span>@ActionText</span></ChildContent>
             </OmniButton>
         </section>
     </div>

@@ -30,15 +30,15 @@
             @if (_current > 0)
             {
                 <OmniButton Class="omni-wizard__previous" Variant="OmniButtonVariant.Secondary" OnClick="PreviousAsync">
-                    <OmniIcon Name="OmniIconName.ArrowLeft" />
-                    <span>@Localize("WizardPrevious")</span>
+                    <Icon><OmniIcon Name="OmniIconName.ArrowLeft" /></Icon>
+                    <ChildContent><span>@Localize("WizardPrevious")</span></ChildContent>
                 </OmniButton>
             }
             @if (IsLast)
             {
                 <OmniButton Class="omni-wizard__finish" Disabled="@(!CurrentCanContinue)" Busy="_validating" OnClick="FinishAsync">
-                    <OmniIcon Name="OmniIconName.Check" />
-                    <span>@EffectiveFinishText</span>
+                    <Icon><OmniIcon Name="OmniIconName.Check" /></Icon>
+                    <ChildContent><span>@EffectiveFinishText</span></ChildContent>
                 </OmniButton>
             }
             else
@@ -51,8 +51,8 @@
             @if (OnCancel.HasDelegate)
             {
                 <OmniButton Class="omni-wizard__cancel" Variant="OmniButtonVariant.Secondary" OnClick="CancelAsync">
-                    <OmniIcon Name="OmniIconName.Close" />
-                    <span>@Localize("Cancel")</span>
+                    <Icon><OmniIcon Name="OmniIconName.Close" /></Icon>
+                    <ChildContent><span>@Localize("Cancel")</span></ChildContent>
                 </OmniButton>
             }
         </div>

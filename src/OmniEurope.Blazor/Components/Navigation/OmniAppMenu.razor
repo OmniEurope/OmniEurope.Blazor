@@ -57,17 +57,17 @@
                the mode on dark: the button is disabled and says why. *@
             <OmniButton Variant="OmniButtonVariant.Ghost" Class="omni-app-menu__item omni-app-menu__mode" Disabled="ModeFixed"
                         title="@ModeFixedTitle" OnClick="CycleAppearanceAsync">
-                <OmniIcon Name="@ModeIcon(ShownAppearance)" />
-                <span class="omni-app-menu__label">@Localize("SettingsMode")</span>
-                <span class="omni-app-menu__value">@ModeName(ShownAppearance)</span>
+                <Icon><OmniIcon Name="@ModeIcon(ShownAppearance)" /></Icon>
+                <ChildContent><span class="omni-app-menu__label">@Localize("SettingsMode")</span>
+                <span class="omni-app-menu__value">@ModeName(ShownAppearance)</span></ChildContent>
             </OmniButton>
             <OmniButton Variant="OmniButtonVariant.Ghost" Class="omni-app-menu__item omni-app-menu__theme" OnClick="OpenThemeAsync">
-                <OmniIcon Name="OmniIconName.Palette" /><span>@Localize("SettingsTheme")</span>
+                <Icon><OmniIcon Name="OmniIconName.Palette" /></Icon><ChildContent><span>@Localize("SettingsTheme")</span></ChildContent>
             </OmniButton>
             @if (OnSettingsOpen.HasDelegate)
             {
                 <OmniButton Variant="OmniButtonVariant.Ghost" Class="omni-app-menu__item omni-app-menu__settings" OnClick="OpenSettingsAsync">
-                    <OmniIcon Name="OmniIconName.Settings" /><span>@Localize("AppMenuSettings")</span>
+                    <Icon><OmniIcon Name="OmniIconName.Settings" /></Icon><ChildContent><span>@Localize("AppMenuSettings")</span></ChildContent>
                 </OmniButton>
             }
             @if (!string.IsNullOrWhiteSpace(Version) || OnSignOut.HasDelegate)
@@ -77,7 +77,7 @@
                     @if (OnSignOut.HasDelegate)
                     {
                         <OmniButton Variant="OmniButtonVariant.Secondary" Class="omni-app-menu__sign-out" OnClick="SignOutAsync">
-                            <OmniIcon Name="OmniIconName.SignOut" /><span>@Localize("AppMenuSignOut")</span>
+                            <Icon><OmniIcon Name="OmniIconName.SignOut" /></Icon><ChildContent><span>@Localize("AppMenuSignOut")</span></ChildContent>
                         </OmniButton>
                     }
                 </div>
