@@ -1,5 +1,3 @@
-using System.Text.RegularExpressions;
-
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
@@ -21,15 +19,12 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public partial class OmniCodeEditor
 {
-    private const int LoadTimeoutMilliseconds = 30000;
-
     private ElementReference _root;
     private ElementReference _host;
-    private IJSObjectReference? _module;
+    private Internal.MonacoHost? _monaco;
     private DotNetObjectReference<CodeEditorInteropBridge>? _bridge;
     private CodePhase _phase = CodePhase.Loading;
     private OmniCodeEditorEngine? _startedEngine;
-    private bool _mounted;
     private string? _editorValue;
     private string? _appliedOptions;
     private string? _appliedHeight;
@@ -39,6 +34,8 @@ public partial class OmniCodeEditor
 
     [Inject]
     private IJSRuntime JSRuntime { get; set; } = default!;
+
+    private Internal.MonacoHost Monaco => _monaco ??= new(JSRuntime, () => InteropModulePath, () => _disposed);
 
     /// <summary>
     /// The language identifier (<c>yaml</c>, <c>json</c>, <c>csharp</c>, <c>javascript</c>, <c>html</c>, <c>sql</c>...),
@@ -70,7 +67,7 @@ public partial class OmniCodeEditor
     /// origin of the page: a scheme (<c>https:</c>, <c>data:</c>, <c>blob:</c>), a leading <c>//</c>, a backslash,
     /// a control character or a blank value is refused. A <c>..</c> segment is accepted, as it cannot leave the origin.
     /// </summary>
-    [Parameter] public string MonacoPath { get; set; } = "lib/monaco-editor/min/vs";
+    [Parameter] public string MonacoPath { get; set; } = Internal.MonacoHost.DefaultPath;
 
     /// <summary>Same-origin JavaScript module implementing editor interop. The default uses Monaco in this document.</summary>
     [Parameter] public string InteropModulePath { get; set; } = Internal.OmniModules.CodeEditor;
@@ -129,12 +126,7 @@ public partial class OmniCodeEditor
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        if (Height is not null && !CssLength().IsMatch(Height))
-        {
-            throw new ArgumentException($"'{Height}' is not a CSS length {nameof(OmniCodeEditor)} accepts for {nameof(Height)} (a number followed by px, rem, em, vh or %).", nameof(Height));
-        }
-
-        OmniSameOriginPath.Require(MonacoPath, nameof(MonacoPath));
+        Internal.MonacoHost.RequireParameters(nameof(OmniCodeEditor), Height, MonacoPath);
 
         // The text checks first: whether //host or \\host reads as an absolute URI depends on the system.
         if (string.IsNullOrWhiteSpace(InteropModulePath) || InteropModulePath.StartsWith("//", StringComparison.Ordinal)
@@ -182,12 +174,10 @@ public partial class OmniCodeEditor
         if (!string.Equals(Height, _appliedHeight, StringComparison.Ordinal))
         {
             _appliedHeight = Height;
-            if (!await EnsureModuleAsync())
+            if (!await Monaco.SetHeightAsync(_root, Height))
             {
                 return;
             }
-
-            await _module!.InvokeVoidAsync("setHeight", _root, Height);
         }
 
         if (_startedEngine != Engine)
@@ -201,31 +191,31 @@ public partial class OmniCodeEditor
             }
         }
 
-        if (_phase != CodePhase.Ready || _module is null)
+        if (_phase != CodePhase.Ready || Monaco.Module is null)
         {
             return;
         }
 
-        if (!_mounted)
+        if (!Monaco.Mounted)
         {
-            await MountAsync(_module);
+            await MountAsync(Monaco.Module);
             return;
         }
 
-        await PushChangesAsync(_module);
+        await PushChangesAsync(Monaco.Module);
     }
 
     /// <summary>Mounts Monaco with the value and the options; falls back to the text area when it cannot.</summary>
     private async Task MountAsync(IJSObjectReference module)
     {
         // Claimed before the await, so a render arriving meanwhile does not mount a second editor.
-        _mounted = true;
+        Monaco.Mounted = true;
         _bridge ??= DotNetObjectReference.Create(new CodeEditorInteropBridge(this));
         _editorValue = CurrentValue ?? string.Empty;
         _appliedOptions = OptionsSignature();
         if (!await module.InvokeAsync<bool>("mount", _host, _bridge, Options(_editorValue)))
         {
-            _mounted = false;
+            Monaco.Mounted = false;
             _phase = CodePhase.Failed;
             StateHasChanged();
         }
@@ -252,61 +242,17 @@ public partial class OmniCodeEditor
     private async Task LoadAsync()
     {
         _phase = CodePhase.Loading;
-        if (!await EnsureModuleAsync())
+        var loaded = await Monaco.LoadAsync(MonacoPath);
+        if (loaded is null || _disposed || Engine != OmniCodeEditorEngine.Monaco)
         {
             return;
         }
 
-        var loaded = await _module!.InvokeAsync<bool>("load", MonacoPath, CultureInfo.CurrentUICulture.Name, LoadTimeoutMilliseconds);
-        if (_disposed || Engine != OmniCodeEditorEngine.Monaco)
-        {
-            return;
-        }
-
-        _phase = loaded ? CodePhase.Ready : CodePhase.Failed;
+        _phase = loaded.Value ? CodePhase.Ready : CodePhase.Failed;
         StateHasChanged();
     }
 
-    /// <summary>
-    /// Imports the script once. An editor disposed while the import was pending releases the module at
-    /// once rather than keeping one nothing will dispose; false then tells the caller to stop.
-    /// </summary>
-    private async Task<bool> EnsureModuleAsync()
-    {
-        if (_module is not null)
-        {
-            return !_disposed;
-        }
-
-        var module = await OmniScriptModule.ImportAsync(JSRuntime, InteropModulePath, () => _disposed);
-        if (module is null)
-        {
-            return false;
-        }
-
-        if (_module is null)
-        {
-            _module = module;
-        }
-        else
-        {
-            // Another render imported it meanwhile: keep that one.
-            await module.DisposeAsync();
-        }
-
-        return true;
-    }
-
-    private async Task UnmountAsync()
-    {
-        if (_mounted && _module is not null)
-        {
-            _mounted = false;
-            await _module.InvokeVoidAsync("dispose", _host);
-        }
-
-        _mounted = false;
-    }
+    private Task UnmountAsync() => Monaco.UnmountAsync("dispose", _host);
 
     internal Task DispatchAsync(Func<Task> work) => InvokeAsync(async () =>
     {
@@ -360,7 +306,7 @@ public partial class OmniCodeEditor
         value,
         monacoPath = MonacoPath,
         culture = CultureInfo.CurrentUICulture.Name,
-        loadTimeoutMilliseconds = LoadTimeoutMilliseconds,
+        loadTimeoutMilliseconds = Internal.MonacoHost.LoadTimeoutMilliseconds,
         language = EffectiveLanguage,
         readOnly = IsLocked,
         lineNumbers = ShowLineNumbers,
@@ -403,29 +349,11 @@ public partial class OmniCodeEditor
         // Blazor calls only DisposeAsync on a component that has both: the form subscription of
         // InputBase is released through its own Dispose.
         ((IDisposable)this).Dispose();
-        if (_module is not null)
-        {
-            try
-            {
-                if (_mounted)
-                {
-                    await _module.InvokeVoidAsync("dispose", _host);
-                }
-
-                await _module.DisposeAsync();
-            }
-            catch (JSDisconnectedException)
-            {
-                // The circuit is already gone, and the editor with it.
-            }
-        }
+        await Monaco.ReleaseAsync("dispose", _host);
 
         _bridge?.Dispose();
         GC.SuppressFinalize(this);
     }
-
-    [GeneratedRegex("^\\d+(\\.\\d+)?(px|rem|em|vh|%)$", RegexOptions.CultureInvariant)]
-    private static partial Regex CssLength();
 
     private enum CodePhase
     {

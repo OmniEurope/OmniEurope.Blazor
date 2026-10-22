@@ -1,5 +1,3 @@
-using System.Text.RegularExpressions;
-
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
@@ -22,15 +20,13 @@ namespace OmniEurope.Blazor.Components;
 public partial class OmniDiffViewer
 {
     private const string ModulePath = Internal.OmniModules.CodeEditor;
-    private const int LoadTimeoutMilliseconds = 30000;
 
     private ElementReference _root;
     private ElementReference _host;
-    private IJSObjectReference? _module;
+    private Internal.MonacoHost? _monaco;
     private DotNetObjectReference<DiffViewerInteropBridge>? _bridge;
     private DiffPhase _phase = DiffPhase.Loading;
     private OmniCodeEditorEngine? _startedEngine;
-    private bool _mounted;
     private string? _shownOriginal;
     private string? _shownModified;
     private string? _appliedOptions;
@@ -83,7 +79,7 @@ public partial class OmniDiffViewer
     /// origin of the page: a scheme (<c>https:</c>, <c>data:</c>, <c>blob:</c>), a leading <c>//</c>, a backslash,
     /// a control character or a blank value is refused. A <c>..</c> segment is accepted, as it cannot leave the origin.
     /// </summary>
-    [Parameter] public string MonacoPath { get; set; } = "lib/monaco-editor/min/vs";
+    [Parameter] public string MonacoPath { get; set; } = Internal.MonacoHost.DefaultPath;
 
     /// <summary>The height, as a CSS length (<c>20rem</c>, <c>320px</c>, <c>50vh</c>). Null keeps 20rem.</summary>
     [Parameter] public string? Height { get; set; }
@@ -103,6 +99,8 @@ public partial class OmniDiffViewer
 
     private string EffectiveModifiedLabel => string.IsNullOrWhiteSpace(ModifiedLabel) ? Localize("DiffViewerModified") : ModifiedLabel;
 
+    private Internal.MonacoHost Monaco => _monaco ??= new(JavaScript, () => ModulePath, () => _disposed);
+
     private string PhaseName => _phase.ToString().ToLowerInvariant();
 
     /// <summary>
@@ -116,12 +114,7 @@ public partial class OmniDiffViewer
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        if (Height is not null && !CssLength().IsMatch(Height))
-        {
-            throw new ArgumentException($"'{Height}' is not a CSS length {nameof(OmniDiffViewer)} accepts for {nameof(Height)} (a number followed by px, rem, em, vh or %).", nameof(Height));
-        }
-
-        OmniSameOriginPath.Require(MonacoPath, nameof(MonacoPath));
+        Internal.MonacoHost.RequireParameters(nameof(OmniDiffViewer), Height, MonacoPath);
 
         if (Engine == OmniCodeEditorEngine.PlainText)
         {
@@ -175,18 +168,18 @@ public partial class OmniDiffViewer
             }
         }
 
-        if (_disposed || _phase != DiffPhase.Ready || _module is null)
+        if (_disposed || _phase != DiffPhase.Ready || Monaco.Module is null)
         {
             return;
         }
 
-        if (!_mounted)
+        if (!Monaco.Mounted)
         {
-            await MountAsync(_module);
+            await MountAsync(Monaco.Module);
             return;
         }
 
-        await PushChangesAsync(_module);
+        await PushChangesAsync(Monaco.Module);
     }
 
     /// <summary>Applies a new height; false when the viewer went while its script loaded.</summary>
@@ -198,26 +191,20 @@ public partial class OmniDiffViewer
         }
 
         _appliedHeight = Height;
-        if (!await EnsureModuleAsync())
-        {
-            return false;
-        }
-
-        await _module!.InvokeVoidAsync("setHeight", _root, Height);
-        return true;
+        return await Monaco.SetHeightAsync(_root, Height);
     }
 
     /// <summary>Mounts the diff editor with both texts; falls back to the plain view when it cannot.</summary>
     private async Task MountAsync(IJSObjectReference module)
     {
         // Claimed before the await, so a render arriving meanwhile does not mount a second editor.
-        _mounted = true;
+        Monaco.Mounted = true;
         _bridge ??= DotNetObjectReference.Create(new DiffViewerInteropBridge(HandleModifiedChangedAsync));
         (_shownOriginal, _shownModified) = (Original ?? string.Empty, Modified ?? string.Empty);
         _appliedOptions = OptionsSignature();
         if (!await module.InvokeAsync<bool>("mountDiff", _host, _bridge, Options(_shownOriginal, _shownModified)))
         {
-            _mounted = false;
+            Monaco.Mounted = false;
             _phase = DiffPhase.Failed;
             StateHasChanged();
         }
@@ -244,53 +231,17 @@ public partial class OmniDiffViewer
     private async Task LoadAsync()
     {
         _phase = DiffPhase.Loading;
-        if (!await EnsureModuleAsync())
+        var loaded = await Monaco.LoadAsync(MonacoPath);
+        if (loaded is null || _disposed || Engine != OmniCodeEditorEngine.Monaco)
         {
             return;
         }
 
-        var loaded = await _module!.InvokeAsync<bool>("load", MonacoPath, CultureInfo.CurrentUICulture.Name, LoadTimeoutMilliseconds);
-        if (_disposed || Engine != OmniCodeEditorEngine.Monaco)
-        {
-            return;
-        }
-
-        _phase = loaded ? DiffPhase.Ready : DiffPhase.Failed;
+        _phase = loaded.Value ? DiffPhase.Ready : DiffPhase.Failed;
         StateHasChanged();
     }
 
-    /// <summary>
-    /// Imports the script once. A viewer disposed while the import was pending releases the module at
-    /// once rather than keeping one nothing will dispose; false then tells the caller to stop.
-    /// </summary>
-    private async Task<bool> EnsureModuleAsync()
-    {
-        if (_module is not null)
-        {
-            return !_disposed;
-        }
-
-        var module = await JavaScript.InvokeAsync<IJSObjectReference>("import", ModulePath);
-        if (_disposed)
-        {
-            await module.DisposeAsync();
-            return false;
-        }
-
-        _module = module;
-        return true;
-    }
-
-    private async Task UnmountAsync()
-    {
-        if (_mounted && _module is not null)
-        {
-            _mounted = false;
-            await _module.InvokeVoidAsync("disposeDiff", _host);
-        }
-
-        _mounted = false;
-    }
+    private Task UnmountAsync() => Monaco.UnmountAsync("disposeDiff", _host);
 
     private Task HandleModifiedChangedAsync(string value) => InvokeAsync(async () =>
     {
@@ -326,29 +277,11 @@ public partial class OmniDiffViewer
     public async ValueTask DisposeAsync()
     {
         _disposed = true;
-        if (_module is not null)
-        {
-            try
-            {
-                if (_mounted)
-                {
-                    await _module.InvokeVoidAsync("disposeDiff", _host);
-                }
-
-                await _module.DisposeAsync();
-            }
-            catch (JSDisconnectedException)
-            {
-                // The circuit is already gone, and the editor with it.
-            }
-        }
+        await Monaco.ReleaseAsync("disposeDiff", _host);
 
         _bridge?.Dispose();
         GC.SuppressFinalize(this);
     }
-
-    [GeneratedRegex("^\\d+(\\.\\d+)?(px|rem|em|vh|%)$", RegexOptions.CultureInvariant)]
-    private static partial Regex CssLength();
 
     private enum DiffPhase
     {
