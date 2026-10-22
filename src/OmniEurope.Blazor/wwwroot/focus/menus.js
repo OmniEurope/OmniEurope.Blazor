@@ -1,5 +1,7 @@
 // Part of omni-focus.js, which re-exports openMenu, closeMenu and moveMenuFocus.
-import { returnTargets, rememberTarget, notify, viewportMargin, pressedOutside } from './shared.js';
+import { returnTargets, rememberTarget, notify } from './shared.js';
+import { placeFloating } from '../shared/placement.js';
+import { onPressOutside } from '../shared/outside-press.js';
 
 // ---- menus ------------------------------------------------------------------------------------
 // One engine for every menu of the package: the overflow ("⋮"), context, split button and profile
@@ -53,34 +55,23 @@ function revealItem(surface, item) {
 }
 
 function placeMenu(surface, anchor, placement, x, y) {
-    const margin = viewportMargin;
-    const gap = 4;
-    const width = document.documentElement.clientWidth;
-    const height = document.documentElement.clientHeight;
     surface.setAttribute('data-omni-placed', '');
-    const box = surface.getBoundingClientRect();
-    let left;
-    let top;
-    if (placement === 'pointer' && typeof x === 'number' && typeof y === 'number') {
-        left = x + box.width > width - margin ? x - box.width : x;
-        top = y + box.height > height - margin ? y - box.height : y;
-    } else {
-        const rect = anchor instanceof HTMLElement ? anchor.getBoundingClientRect() : null;
-        if (!rect) {
-            return;
-        }
-
-        const rtl = getComputedStyle(anchor).direction === 'rtl';
-        left = (placement === 'end') !== rtl ? rect.right - box.width : rect.left;
-        top = rect.bottom + gap;
-        if (top + box.height > height - margin) {
-            const above = rect.top - gap - box.height;
-            top = above >= margin ? above : height - margin - box.height;
-        }
+    const size = surface.getBoundingClientRect();
+    const atPointer = placement === 'pointer' && typeof x === 'number' && typeof y === 'number';
+    if (!atPointer && !(anchor instanceof HTMLElement)) {
+        return;
     }
 
-    left = Math.max(margin, Math.min(left, width - margin - box.width));
-    top = Math.max(margin, Math.min(top, height - margin - box.height));
+    // At the pointer the menu is anchored to a point and turns to the other side of it past an edge;
+    // under an anchor it aligns with the anchor's edge and is only kept inside the window.
+    const { left, top } = placeFloating({
+        anchor: atPointer ? { left: x, right: x, top: y, bottom: y } : anchor.getBoundingClientRect(),
+        size,
+        align: placement === 'end' ? 'end' : 'start',
+        rtl: !atPointer && getComputedStyle(anchor).direction === 'rtl',
+        gap: atPointer ? 0 : 4,
+        flipInline: atPointer
+    });
     surface.style.setProperty('--omni-menu-x', `${Math.round(left)}px`);
     surface.style.setProperty('--omni-menu-y', `${Math.round(top)}px`);
 }
@@ -90,19 +81,18 @@ function showMenu(key, options) {
     if (!state) {
         rememberTarget(key);
         state = { menu: null, attempts: 0, options };
-        state.onPointerDown = event => {
+        // A press on the trigger is left to its own click, which toggles: dismissing on that press
+        // as well made the click open the menu again. A second right-click on the region of a
+        // context menu moves the menu instead of closing it.
+        const inside = event => {
             const { anchor, placement } = state.options;
-            // A press on the trigger is left to its own click, which toggles: dismissing on that press
-            // as well made the click open the menu again. A second right-click on the region of a
-            // context menu moves the menu instead of closing it.
-            if (anchor?.contains(event.target) && (placement !== 'pointer' || event.button === 2)) {
-                return;
-            }
-
-            if (state.options.closeOnOutsideClick !== false && pressedOutside(event, menuSurface(state.menu))) {
+            return [menuSurface(state.menu), placement !== 'pointer' || event.button === 2 ? anchor : null];
+        };
+        state.stopOutside = onPressOutside(inside, () => {
+            if (state.options.closeOnOutsideClick !== false) {
                 state.options.dismiss(false);
             }
-        };
+        });
         state.onPlace = () => {
             const { anchor, placement, x, y } = state.options;
             if (state.menu?.isConnected && !(placement === 'pointer' && typeof x === 'number')) {
@@ -117,7 +107,6 @@ function showMenu(key, options) {
                 menuTrigger(state.options.anchor)?.focus({ preventScroll: true });
             }
         };
-        document.addEventListener('pointerdown', state.onPointerDown, true);
         window.addEventListener('resize', state.onPlace);
         window.addEventListener('scroll', state.onPlace, true);
         menus.set(key, state);
@@ -167,7 +156,7 @@ export function openMenu(menuId, key, anchor, placement, x, y, focusLast, closeO
 export function closeMenu(key, restore) {
     const state = menus.get(key);
     if (state) {
-        document.removeEventListener('pointerdown', state.onPointerDown, true);
+        state.stopOutside();
         window.removeEventListener('resize', state.onPlace);
         window.removeEventListener('scroll', state.onPlace, true);
         state.menu?.removeEventListener('keydown', state.onKeyDown);

@@ -2,8 +2,22 @@
 // repeat hundreds of times, so attaching per instance would cost hundreds of interop calls and
 // hundreds of listeners for a behaviour that only ever concerns the one under the pointer.
 
+import { placeFloating, fitAxis, viewportSize } from './shared/placement.js';
+
 const GAP = 12;
 const EDGE = 8;
+
+// Where a tooltip of this size goes for a pointer at (x, y): centred on it and above it, below it when
+// there is no room overhead (down to the given ceiling), and always inside the window.
+const aroundPoint = (size, x, y, ceiling) => placeFloating({
+    anchor: { left: x, right: x, top: y, bottom: y },
+    size,
+    side: 'top',
+    align: 'center',
+    gap: GAP,
+    margin: EDGE,
+    ceiling
+});
 
 let installed = false;
 let tracked = null;
@@ -40,7 +54,7 @@ const keepInside = content => {
     }
 
     const ceiling = ceilingFor(tooltip);
-    const shift = box.top < ceiling ? ceiling - box.top : box.bottom > window.innerHeight - EDGE ? window.innerHeight - EDGE - box.bottom : 0;
+    const shift = fitAxis(box.top, box.height, viewportSize().height, EDGE, ceiling) - box.top;
     if (shift !== 0) {
         tooltip.style.setProperty('--omni-tooltip-y', `${y + shift}px`);
     }
@@ -92,14 +106,15 @@ const place = (tooltip, x, y) => {
 
     const box = content.getBoundingClientRect();
     const half = box.width / 2;
-    const left = Math.min(Math.max(x, half + EDGE), window.innerWidth - half - EDGE);
     // Above the pointer by default; flipped below it when there is no room left overhead.
     // Under a sticky header, overhead ends at its bottom edge.
-    const below = y - GAP - box.height < ceilingFor(tooltip);
-    const top = below ? y + GAP + box.height : y - GAP;
+    const placed = aroundPoint(box, x, y, ceilingFor(tooltip));
+    const below = placed.side === 'bottom';
+    const left = placed.left + half;
 
     tooltip.style.setProperty('--omni-tooltip-x', `${left}px`);
-    tooltip.style.setProperty('--omni-tooltip-y', `${top}px`);
+    // The variable is the bottom edge of the box, whichever side of the pointer it is on.
+    tooltip.style.setProperty('--omni-tooltip-y', `${placed.top + box.height}px`);
     // The arrow keeps pointing at the pointer when the box is held inside the viewport, and turns
     // upward when the box is flipped below it.
     tooltip.style.setProperty('--omni-tooltip-arrow', `${x - left + half}px`);
@@ -328,9 +343,10 @@ const showTitle = (text, x, y, source) => {
     titleBox.classList.remove('omni-title-tooltip--below');
     const box = titleBox.getBoundingClientRect();
     const half = box.width / 2;
-    const left = Math.min(Math.max(x, half + EDGE), window.innerWidth - half - EDGE);
-    const below = y - GAP - box.height < EDGE;
-    const top = below ? y + GAP : y - GAP - box.height;
+    const placed = aroundPoint(box, x, y, EDGE);
+    const below = placed.side === 'bottom';
+    const left = placed.left + half;
+    const top = placed.top;
     titleBox.classList.toggle('omni-title-tooltip--below', below);
     titleBox.style.setProperty('--omni-title-tooltip-x', `${left}px`);
     titleBox.style.setProperty('--omni-title-tooltip-y', `${top}px`);

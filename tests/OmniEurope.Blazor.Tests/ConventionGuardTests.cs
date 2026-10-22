@@ -385,7 +385,7 @@ public sealed partial class ConventionGuardTests
     {
         var source = Read("src", "OmniEurope.Blazor", "Components", "Overlays", "OmniDialog.razor")
             + Read("src", "OmniEurope.Blazor", "Components", "Overlays", "OmniDialog.razor.cs");
-        var focusModule = Read("src", "OmniEurope.Blazor", "wwwroot", "omni-focus.js");
+        var focusModule = Read("src", "OmniEurope.Blazor", "wwwroot", "focus", "dialog.js");
 
         // A dismissible dialog (the default) is a dialog; one only its content closes is an alertdialog.
         Assert.Contains("role=\"@(Dismissible ? \"dialog\" : \"alertdialog\")\"", source, StringComparison.Ordinal);
