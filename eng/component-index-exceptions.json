@@ -3,7 +3,7 @@
     {
       "token": "OmniBoot",
       "files": ["foundation-components.md"],
-      "reason": "window.OmniBoot is the JavaScript global the host script publishes (culture, hideSplash, handOverTheme, releaseTheme), not a .NET type, so the public surface does not list it."
+      "reason": "window.OmniBoot is the JavaScript global the host script publishes (culture, handOverTheme, releaseTheme), not a .NET type, so the public surface does not list it."
     },
     {
       "token": "IOmniDataGridStateStore",

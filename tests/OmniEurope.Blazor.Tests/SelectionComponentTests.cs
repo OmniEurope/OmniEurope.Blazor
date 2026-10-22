@@ -524,8 +524,35 @@ public sealed class SelectionComponentTests : OmniBunitContext
         Assert.Equal(10_000, selector.Instance.Model.Value);
     }
 
+    [Fact]
+    public void Slider_CurrentValueAsString_IsWrittenInTheInvariantCultureWhateverThePageCulture()
+    {
+        // The value the input reads and the one InputBase hands to a derived form both parse back in the
+        // invariant culture: a French page must not write 2,5.
+        var previous = System.Globalization.CultureInfo.CurrentCulture;
+        System.Globalization.CultureInfo.CurrentCulture = System.Globalization.CultureInfo.GetCultureInfo("fr-FR");
+        try
+        {
+            var holder = new SliderHolder { Value = 2.5 };
+            var slider = Render<TextReadingSlider>(parameters => parameters
+                .Add(component => component.Value, holder.Value)
+                .Add(component => component.ValueExpression, () => holder.Value));
+
+            Assert.Equal("2.5", slider.Instance.WrittenValue);
+        }
+        finally
+        {
+            System.Globalization.CultureInfo.CurrentCulture = previous;
+        }
+    }
+
     private sealed class SliderHolder
     {
         public double Value { get; set; }
+    }
+
+    private sealed class TextReadingSlider : OmniSlider
+    {
+        public string? WrittenValue => CurrentValueAsString;
     }
 }
