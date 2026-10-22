@@ -14,6 +14,9 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public partial class OmniStatusBadge<TValue> : IDisposable
 {
+    // A system timer cannot wait longer than about 49.7 days: a longer wait is cut and re-armed when the cut elapses.
+    private static readonly TimeSpan MaxTimerDelay = TimeSpan.FromDays(40);
+
     private ITimer? _timer;
     private DateTimeOffset _timerDue;
     private TimeProvider? _timerProvider;
@@ -46,6 +49,13 @@ public partial class OmniStatusBadge<TValue> : IDisposable
     [Parameter]
     public TimeSpan? StaleAfter { get; set; }
 
+    /// <summary>
+    /// The time zone <see cref="Timestamp"/> is shown in, in the "last updated" explanation. The local zone
+    /// of the host's <see cref="TimeProvider"/> when null.
+    /// </summary>
+    [Parameter]
+    public TimeZoneInfo? TimeZone { get; set; }
+
     /// <summary>The word shown beside a stale badge; the localized "stale" when empty.</summary>
     [Parameter]
     public string? StaleText { get; set; }
@@ -61,13 +71,15 @@ public partial class OmniStatusBadge<TValue> : IDisposable
     private DateTimeOffset Reference => Clock.GetUtcNow();
 
     private string? TimestampText => Timestamp is { } timestamp
-        ? Localize("StatusBadgeStaleSince", TimeZoneInfo.ConvertTime(timestamp, TimeZoneInfo.Local).ToString("g", CultureInfo.CurrentCulture))
+        ? Localize("StatusBadgeStaleSince", TimeZoneInfo.ConvertTime(timestamp, TimeZone ?? Clock.LocalTimeZone).ToString("g", CultureInfo.CurrentCulture))
         : null;
 
     /// <summary>Whether the value is older than <see cref="StaleAfter"/>.</summary>
     public bool IsStale => StaleDue is { } due && Reference >= due;
 
-    private DateTimeOffset? StaleDue => Timestamp is { } timestamp && StaleAfter is { } threshold && threshold >= TimeSpan.Zero
+    // A threshold too long for the date to be represented (TimeSpan.MaxValue) is a value that never grows stale.
+    private DateTimeOffset? StaleDue => Timestamp is { } timestamp && StaleAfter is { } threshold
+        && threshold >= TimeSpan.Zero && threshold <= DateTimeOffset.MaxValue - timestamp
         ? timestamp + threshold
         : null;
 
@@ -100,7 +112,16 @@ public partial class OmniStatusBadge<TValue> : IDisposable
         var clock = Clock;
         _timerProvider = clock;
         var delay = due - clock.GetUtcNow();
-        _timer = clock.CreateTimer(_ => _ = InvokeAsync(StateHasChanged), null, delay < TimeSpan.Zero ? TimeSpan.Zero : delay, Timeout.InfiniteTimeSpan);
+        var wait = delay < TimeSpan.Zero ? TimeSpan.Zero : delay > MaxTimerDelay ? MaxTimerDelay : delay;
+        _timer = clock.CreateTimer(_ => _ = InvokeAsync(Elapsed), null, wait, Timeout.InfiniteTimeSpan);
+    }
+
+    // The timer is one-shot: it is dropped, so that the render it causes arms the next one when the
+    // badge is still fresh (a wait that was cut short) and none when it just turned stale.
+    private void Elapsed()
+    {
+        StopTimer();
+        StateHasChanged();
     }
 
     private void StopTimer()

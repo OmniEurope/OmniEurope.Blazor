@@ -63,6 +63,32 @@ internal sealed class PickerCalendar : ComponentBase
 
     private DayOfWeek FirstDayOfWeek => Culture.DateTimeFormat.FirstDayOfWeek;
 
+    /// <summary>Moves a day by a number of days, stopping at the first or the last day that exists.</summary>
+    internal static DateOnly AddDays(DateOnly date, int days) =>
+        FromDayNumber((long)date.DayNumber + days) ?? (days < 0 ? DateOnly.MinValue : DateOnly.MaxValue);
+
+    /// <summary>Moves a day by a number of months, stopping at the first or the last day that exists.</summary>
+    internal static DateOnly AddMonths(DateOnly date, int months)
+    {
+        var index = ((long)date.Year * 12) + date.Month - 1 + months;
+        var year = index / 12;
+        if (year < 1)
+        {
+            return DateOnly.MinValue;
+        }
+
+        if (year > 9999)
+        {
+            return DateOnly.MaxValue;
+        }
+
+        var month = (int)(index % 12) + 1;
+        return new DateOnly((int)year, month, Math.Min(date.Day, DateTime.DaysInMonth((int)year, month)));
+    }
+
+    private static DateOnly? FromDayNumber(long number) =>
+        number < DateOnly.MinValue.DayNumber || number > DateOnly.MaxValue.DayNumber ? null : DateOnly.FromDayNumber((int)number);
+
     internal static DateOnly Clamp(DateOnly date, DateOnly? minimum, DateOnly? maximum)
     {
         if (minimum is { } floor && date < floor)
@@ -92,10 +118,13 @@ internal sealed class PickerCalendar : ComponentBase
         builder.CloseElement();
         builder.OpenElement(9, "span");
         builder.AddAttribute(10, "class", "omni-calendar__nav");
-        var previousMonthEnd = FirstOfMonth.AddDays(-1);
-        var nextMonthStart = FirstOfMonth.AddMonths(1);
-        AddStepButton(builder, 11, -1, Strings["CalendarPreviousMonth"].Value, PreviousGlyph, Minimum is { } floor && previousMonthEnd < floor);
-        AddStepButton(builder, 12, 1, Strings["CalendarNextMonth"].Value, NextGlyph, Maximum is { } ceiling && nextMonthStart > ceiling);
+        // The first month has no month before it and the last none after it, whatever the bounds are.
+        var firstMonth = FirstOfMonth == new DateOnly(1, 1, 1);
+        var lastMonth = FirstOfMonth.Year == 9999 && FirstOfMonth.Month == 12;
+        var previousMonthEnd = AddDays(FirstOfMonth, -1);
+        var nextMonthStart = AddMonths(FirstOfMonth, 1);
+        AddStepButton(builder, 11, -1, Strings["CalendarPreviousMonth"].Value, PreviousGlyph, firstMonth || (Minimum is { } floor && previousMonthEnd < floor));
+        AddStepButton(builder, 12, 1, Strings["CalendarNextMonth"].Value, NextGlyph, lastMonth || (Maximum is { } ceiling && nextMonthStart > ceiling));
         builder.CloseElement();
         builder.CloseElement();
 
@@ -123,7 +152,7 @@ internal sealed class PickerCalendar : ComponentBase
         builder.CloseElement();
 
         var leading = (7 + (int)FirstOfMonth.DayOfWeek - (int)FirstDayOfWeek) % 7;
-        var start = FirstOfMonth.AddDays(-leading);
+        var first = (long)FirstOfMonth.DayNumber - leading;
         for (var week = 0; week < 6; week++)
         {
             builder.OpenElement(40, "div");
@@ -132,7 +161,15 @@ internal sealed class PickerCalendar : ComponentBase
             builder.AddAttribute(42, "role", "row");
             for (var column = 0; column < 7; column++)
             {
-                AddDay(builder, start.AddDays((week * 7) + column));
+                var number = first + (week * 7) + column;
+                if (FromDayNumber(number) is { } day)
+                {
+                    AddDay(builder, day);
+                }
+                else
+                {
+                    AddMissingDay(builder, column);
+                }
             }
 
             builder.CloseElement();
@@ -180,6 +217,17 @@ internal sealed class PickerCalendar : ComponentBase
         builder.CloseRegion();
     }
 
+    // A cell before the first day or after the last one that exists: kept so that the week keeps its seven columns.
+    private static void AddMissingDay(RenderTreeBuilder builder, int column)
+    {
+        builder.OpenElement(70, "span");
+        builder.SetKey($"missing-{column}");
+        builder.AddAttribute(71, "class", "omni-calendar__day omni-calendar__day--outside");
+        builder.AddAttribute(72, "role", "gridcell");
+        builder.AddAttribute(73, "aria-hidden", "true");
+        builder.CloseElement();
+    }
+
     private void AddDay(RenderTreeBuilder builder, DateOnly day)
     {
         var outsideMonth = day.Month != FirstOfMonth.Month;
@@ -213,14 +261,14 @@ internal sealed class PickerCalendar : ComponentBase
         var from = FocusedDate;
         DateOnly? target = args.Key switch
         {
-            "ArrowLeft" => from.AddDays(-1),
-            "ArrowRight" => from.AddDays(1),
-            "ArrowUp" => from.AddDays(-7),
-            "ArrowDown" => from.AddDays(7),
-            "PageUp" => from.AddMonths(args.ShiftKey ? -12 : -1),
-            "PageDown" => from.AddMonths(args.ShiftKey ? 12 : 1),
-            "Home" => from.AddDays(-((7 + (int)from.DayOfWeek - (int)FirstDayOfWeek) % 7)),
-            "End" => from.AddDays(6 - ((7 + (int)from.DayOfWeek - (int)FirstDayOfWeek) % 7)),
+            "ArrowLeft" => AddDays(from, -1),
+            "ArrowRight" => AddDays(from, 1),
+            "ArrowUp" => AddDays(from, -7),
+            "ArrowDown" => AddDays(from, 7),
+            "PageUp" => AddMonths(from, args.ShiftKey ? -12 : -1),
+            "PageDown" => AddMonths(from, args.ShiftKey ? 12 : 1),
+            "Home" => AddDays(from, -((7 + (int)from.DayOfWeek - (int)FirstDayOfWeek) % 7)),
+            "End" => AddDays(from, 6 - ((7 + (int)from.DayOfWeek - (int)FirstDayOfWeek) % 7)),
             _ => null
         };
 

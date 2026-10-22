@@ -35,6 +35,13 @@ public partial class OmniDatePicker
     [Parameter]
     public DateOnly? Maximum { get; set; }
 
+    /// <summary>
+    /// The time zone "today" and "now" are read in. The local zone of the host's <see cref="TimeProvider"/>
+    /// when null (the default), which is the zone of the server.
+    /// </summary>
+    [Parameter]
+    public TimeZoneInfo? TimeZone { get; set; }
+
     /// <summary>Whether the field and its calendar toggle are disabled. Off by default.</summary>
     [Parameter]
     public bool Disabled { get; set; }
@@ -64,7 +71,7 @@ public partial class OmniDatePicker
 
     private string ToggleLabel => Localize("DatePickerToggle");
 
-    private DateOnly Today => DateOnly.FromDateTime(Clock.GetLocalNow().DateTime);
+    private DateOnly Today => DateOnly.FromDateTime(PickerFormat.LocalNow(Clock, TimeZone));
 
     private bool TodayIsOutside => PickerCalendar.IsOutside(Today, Minimum, Maximum);
 
@@ -204,8 +211,8 @@ public partial class OmniDatePicker
 
     private void StepMonth(int step)
     {
-        _visibleMonth = new DateOnly(_visibleMonth.Year, _visibleMonth.Month, 1).AddMonths(step);
-        _focusedDate = PickerCalendar.Clamp(_focusedDate.AddMonths(step), Minimum, Maximum);
+        _visibleMonth = PickerCalendar.AddMonths(new DateOnly(_visibleMonth.Year, _visibleMonth.Month, 1), step);
+        _focusedDate = PickerCalendar.Clamp(PickerCalendar.AddMonths(_focusedDate, step), Minimum, Maximum);
     }
 
     private Task DismissAsync(bool fromKeyboard) => InvokeAsync(() =>

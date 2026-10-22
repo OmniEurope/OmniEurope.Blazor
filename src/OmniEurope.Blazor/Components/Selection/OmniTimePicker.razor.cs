@@ -39,6 +39,13 @@ public partial class OmniTimePicker
     [Parameter]
     public TimeSpan Step { get; set; } = TimeSpan.FromMinutes(5);
 
+    /// <summary>
+    /// The time zone "today" and "now" are read in. The local zone of the host's <see cref="TimeProvider"/>
+    /// when null (the default), which is the zone of the server.
+    /// </summary>
+    [Parameter]
+    public TimeZoneInfo? TimeZone { get; set; }
+
     /// <summary>Whether the field and its panel toggle are disabled. Off by default.</summary>
     [Parameter]
     public bool Disabled { get; set; }
@@ -71,7 +78,7 @@ public partial class OmniTimePicker
     private string EffectivePlaceholder => Placeholder
         ?? PickerFormat.Placeholder(PickerFormat.TimePattern(seconds: false), PickerLetters.From(key => Localize(key)));
 
-    private TimeOnly Now => RoundDown(TimeOnly.FromDateTime(Clock.GetLocalNow().DateTime), StepMinutes(Step));
+    private TimeOnly Now => RoundDown(TimeOnly.FromDateTime(PickerFormat.LocalNow(Clock, TimeZone)), StepMinutes(Step));
 
     private bool NowIsOutside => IsOutside(Now);
 
