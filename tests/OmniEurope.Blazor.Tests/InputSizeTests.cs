@@ -46,7 +46,9 @@ public sealed class InputSizeTests : OmniBunitContext
 
         Assert.DoesNotContain(select.ClassList, name => name.StartsWith("omni-input--", StringComparison.Ordinal));
         var css = StylesheetSource.Read();
-        Assert.Contains("select.omni-input.omni-input--small:not([multiple]):not([size]) { block-size: calc(var(--omni-control-height) - 0.5rem);", css, StringComparison.Ordinal);
+        Assert.Contains("select.omni-input.omni-input--small:not([multiple]):not([size]) { block-size: max(1.5rem, calc(var(--omni-control-height) - 0.5rem));", css, StringComparison.Ordinal);
         Assert.Contains("--omni-button-size: calc(var(--omni-control-height) - 0.5rem);", css, StringComparison.Ordinal);
+        // Both floored at 24 px (WCAG 2.5.8): the button by its min-height, the field by its block size.
+        Assert.Contains("min-height: max(1.5rem, var(--omni-button-size, var(--omni-control-height)));", css, StringComparison.Ordinal);
     }
 }

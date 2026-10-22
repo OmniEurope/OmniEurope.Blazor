@@ -46,11 +46,11 @@ select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-h
 /* A one-line field of another size (OmniInputBase.Size) takes the height of the button of that size,
    so a small drop-down sits on the line of small buttons; the toggle of a date field follows. */
 .omni-input.omni-input--small,
-select.omni-input.omni-input--small:not([multiple]):not([size]) { block-size: calc(var(--omni-control-height) - 0.5rem); font-size: var(--omni-font-size-sm); min-height: 0; padding-block: 0; }
+select.omni-input.omni-input--small:not([multiple]):not([size]) { block-size: max(1.5rem, calc(var(--omni-control-height) - 0.5rem)); font-size: var(--omni-font-size-sm); min-height: 0; padding-block: 0; }
 .omni-input.omni-input--large,
 select.omni-input.omni-input--large:not([multiple]):not([size]) { block-size: calc(var(--omni-control-height) + 0.5rem); font-size: var(--omni-font-size-lg); min-height: 0; padding-block: 0; }
 .omni-date__field:has(.omni-input--small) .omni-date__toggle { block-size: calc(var(--omni-control-height) - 0.875rem); }
-.omni-password:has(.omni-input--small) { --omni-password-toggle-size: calc(var(--omni-control-height) - 0.5rem); }
+.omni-password:has(.omni-input--small) { --omni-password-toggle-size: max(1.5rem, calc(var(--omni-control-height) - 0.5rem)); }
 .omni-password:has(.omni-input--large) { --omni-password-toggle-size: calc(var(--omni-control-height) + 0.5rem); }
 /* The open list of a select, dressed as a menu of the package wherever the browser lets a select be
    styled (appearance: base-select, Chromium 135 and later); elsewhere the system goes on drawing it.
@@ -302,7 +302,7 @@ select.omni-input.omni-input--large:not([multiple]):not([size]) { block-size: ca
 .omni-autocomplete--toggle { --omni-autocomplete-toggle-pad: calc(0.5625rem * var(--omni-control-scale, 1)); }
 .omni-autocomplete--toggle > .omni-input { padding-inline-end: calc(var(--omni-autocomplete-toggle-pad) * 2 + 0.6875em); }
 .omni-autocomplete__toggle { align-items: center; block-size: var(--omni-control-height); cursor: pointer; display: flex; font-size: var(--omni-control-font); inset-block-start: 0; inset-inline-end: 0; justify-content: center; padding-inline: var(--omni-autocomplete-toggle-pad); position: absolute; }
-.omni-autocomplete:has(> .omni-input--small) > .omni-autocomplete__toggle { block-size: calc(var(--omni-control-height) - 0.5rem); font-size: var(--omni-font-size-sm); }
+.omni-autocomplete:has(> .omni-input--small) > .omni-autocomplete__toggle { block-size: max(1.5rem, calc(var(--omni-control-height) - 0.5rem)); font-size: var(--omni-font-size-sm); }
 .omni-autocomplete:has(> .omni-input--large) > .omni-autocomplete__toggle { block-size: calc(var(--omni-control-height) + 0.5rem); font-size: var(--omni-font-size-lg); }
 .omni-autocomplete__toggle::before { background: var(--omni-color-text-muted); block-size: 0.375em; clip-path: polygon(0 0, 13% 0, 50% 74%, 87% 0, 100% 0, 50% 100%); content: ""; flex: none; inline-size: 0.6875em; }
 .omni-autocomplete__toggle--open::before { scale: 1 -1; }

@@ -28,6 +28,9 @@ Branche de travail : `release/1.9.0`, depuis `develop`. Trois lots au plus en pa
 | 3 | W3-A | Un seul moteur JS de placement et de clic extérieur | fusionné |
 | 3 | W3-B | Chargeur Monaco unique, portail de menu partagé, corps d'`OmniStatTile`, mise en forme d'export, CSS mort, dates saturantes du Gantt (portail de menu et gardes de circuit perdu en W3-E, densité des contrôles de la grille en W3-D) | fusionné |
 | 3 | W3-C | 90 paramètres documentés, `component-families.md`, porte `eng/Test-ComponentIndex.ps1` en CI | fusionné |
+| 3 | X1 | `OmniDataGrid` : `EstimatedRowHeight` nullable (hauteur de ligne de la densité), échec d'auto-fit écrit en console, plancher de 1,5 rem des contrôles d'en-tête | fusionné |
+| 3 | X2 | Un seul retrait de l'écran de démarrage (`hideSplash` retiré), clavier des onglets dans le script seul, un seul validateur de longueur CSS | fusionné |
+| 3 | Y1 | `OmniButton.Icon` (icône seule = `Icon` sans `ChildContent`), `OmniPopover.TriggerIcon`, plancher de 24 px de tout bouton (actions de ligne de grille à la hauteur des pastilles) | fusionné |
 | 4 | Livraison | `CHANGELOG.md` (Breaking changes et migrations), `versioning.md` (rupture assumée 1.9.0), version du paquet, `public-api.txt`, couverture, CRAP, sondes de la vitrine (passe complète `-JsCoverage`), vérification en navigateur | en cours |
 
 ## Critère de fin de chaque lot
