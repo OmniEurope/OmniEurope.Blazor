@@ -33,9 +33,10 @@
 // - data-language-key: the language, as the lang attribute, falling back to the browser's language.
 //
 // It also publishes window.OmniBoot: `culture`, the validated saved language (or null) for the host's
-// own `Blazor.start({ applicationCulture })`; `hideSplash(id)`, which fades out and removes the boot
-// splash, as the OmniBootSplash component does once the application has rendered; `handOverTheme()`,
-// called by the package; and `releaseTheme()`, which removes the boot copy of the theme at once.
+// own `Blazor.start({ applicationCulture })`; `handOverTheme()`, called by the package; and
+// `releaseTheme()`, which removes the boot copy of the theme at once. The boot splash is not removed
+// here: the OmniBootSplash component does it once the application has rendered (omniInterop.js), the
+// same way whether or not this script is loaded.
 (function () {
     'use strict';
 
@@ -349,27 +350,8 @@
         }
     }
 
-    function hideSplash(id) {
-        var splash = document.getElementById(id || 'omni-boot-splash');
-        if (!splash || splash.classList.contains('omni-boot-splash--leaving')) {
-            return false;
-        }
-
-        var remove = function () { splash.remove(); };
-        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            remove();
-            return true;
-        }
-
-        splash.classList.add('omni-boot-splash--leaving');
-        splash.addEventListener('transitionend', remove, { once: true });
-        window.setTimeout(remove, 600);
-        return true;
-    }
-
     window.OmniBoot = {
         culture: culture,
-        hideSplash: hideSplash,
         handOverTheme: handOverTheme,
         releaseTheme: releaseTheme
     };
