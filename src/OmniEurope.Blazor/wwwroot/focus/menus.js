@@ -1,5 +1,6 @@
 // Part of omni-focus.js, which re-exports openMenu, closeMenu and moveMenuFocus.
-import { returnTargets, rememberTarget, notify } from './shared.js';
+import { returnTargets, rememberTarget } from './shared.js';
+import { notify } from '../shared/notify.js';
 import { placeFloating } from '../shared/placement.js';
 import { onPressOutside } from '../shared/outside-press.js';
 
