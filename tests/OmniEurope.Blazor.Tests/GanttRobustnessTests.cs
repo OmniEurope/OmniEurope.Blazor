@@ -148,4 +148,37 @@ public sealed class GanttRobustnessTests : OmniBunitContext
         Assert.Contains("2000-01-01", error.Message, StringComparison.Ordinal);
         Assert.Contains("2200-01-05", error.Message, StringComparison.Ordinal);
     }
+
+    // ---- a clock at the edge of the calendar --------------------------------------------------------------
+
+    [Theory]
+    [InlineData(OmniCalendarView.Day, true)]
+    [InlineData(OmniCalendarView.Week, true)]
+    [InlineData(OmniCalendarView.Month, true)]
+    [InlineData(OmniCalendarView.Day, false)]
+    [InlineData(OmniCalendarView.Week, false)]
+    [InlineData(OmniCalendarView.Month, false)]
+    public void AChartWithoutTasksWhoseTodayIsTheFirstOrTheLastDay_StopsItsMarginsAtTheCalendarInsteadOfOverflowing(OmniCalendarView scale, bool last)
+    {
+        var today = last ? DateOnly.MaxValue : DateOnly.MinValue;
+
+        var layout = GanttLayout.Build([], scale, true, today, French, WeekLabel);
+
+        Assert.True(layout.RangeStart >= DateOnly.MinValue);
+        Assert.True(layout.RangeEnd <= DateOnly.MaxValue);
+        Assert.True(layout.RangeStart <= layout.RangeEnd);
+        Assert.NotEmpty(layout.BottomTier);
+    }
+
+    [Fact]
+    public void TheComponent_RendersWhenItsClockIsOnTheLastDayOfTheCalendar()
+    {
+        UseNow(new DateTimeOffset(9999, 12, 30, 12, 0, 0, TimeSpan.Zero));
+
+        var cut = Render<OmniGantt>(parameters => parameters
+            .Add(component => component.View, OmniCalendarView.Week)
+            .Add(component => component.TimeZone, TimeZoneInfo.Utc));
+
+        Assert.True(cut.Instance.Layout.Width > 0);
+    }
 }

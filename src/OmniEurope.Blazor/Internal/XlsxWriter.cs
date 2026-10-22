@@ -22,7 +22,6 @@ internal static class XlsxWriter
     private const string RelationshipNamespace = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
     private const string PackageRelationships = "http://schemas.openxmlformats.org/package/2006/relationships";
     private const string DocumentRelationships = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
-    private static readonly char[] FormulaTriggers = ['=', '+', '-', '@', '\t', '\r'];
     private static readonly DateTime Epoch = new(1899, 12, 30, 0, 0, 0, DateTimeKind.Unspecified);
 
     // A spreadsheet counts days from 1900 and wrongly holds a 29 February 1900: before 1 March 1900 a serial
@@ -145,7 +144,7 @@ internal static class XlsxWriter
             else if (text.Length > 0)
             {
                 xml.WriteAttributeString("t", "inlineStr");
-                if (!heading && text.IndexOfAny(FormulaTriggers, 0, 1) == 0)
+                if (!heading && ExportFormula.StartsLikeFormula(text))
                 {
                     xml.WriteAttributeString("s", QuotedText.ToString(CultureInfo.InvariantCulture));
                 }

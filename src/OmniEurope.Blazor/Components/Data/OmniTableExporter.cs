@@ -21,8 +21,6 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 public sealed class OmniTableExporter
 {
-    private static readonly char[] FormulaTriggers = ['=', '+', '-', '@', '\t', '\r'];
-
     private readonly IStringLocalizer<AppStrings> _text;
     private readonly TimeProvider _time;
     private readonly IReadOnlyList<IOmniTableExportRenderer> _renderers;
@@ -295,7 +293,7 @@ public sealed class OmniTableExporter
     }
 
     private static string Guarded(string text) =>
-        text.Length > 0 && text.IndexOfAny(FormulaTriggers, 0, 1) == 0 ? "'" + text : text;
+        ExportFormula.StartsLikeFormula(text) ? "'" + text : text;
 
     private static void AppendLine(StringBuilder csv, IEnumerable<string> values, char separator)
     {

@@ -146,21 +146,22 @@ internal sealed class GanttLayout
 
     /// <summary>
     /// The days drawn: the tasks' span with a margin, and whole weeks or whole months at those zooms
-    /// so the header never starts on a cut column.
+    /// so the header never starts on a cut column. The margins stop at the first and the last day of the
+    /// calendar instead of overflowing it, as the pickers do.
     /// </summary>
     internal static (DateOnly Start, DateOnly End) Range(DateOnly first, DateOnly last, OmniCalendarView scale)
     {
         switch (scale)
         {
             case OmniCalendarView.Day:
-                return (first.AddDays(-2), last.AddDays(3));
+                return (PickerCalendar.AddDays(first, -2), PickerCalendar.AddDays(last, 3));
             case OmniCalendarView.Week:
-                var monday = first.AddDays(-(((int)first.DayOfWeek + 6) % 7));
-                var nextMonday = last.AddDays(7 - (((int)last.DayOfWeek + 6) % 7));
-                return (monday.AddDays(-7), nextMonday.AddDays(7));
+                var monday = PickerCalendar.AddDays(first, -(((int)first.DayOfWeek + 6) % 7));
+                var nextMonday = PickerCalendar.AddDays(last, 7 - (((int)last.DayOfWeek + 6) % 7));
+                return (PickerCalendar.AddDays(monday, -7), PickerCalendar.AddDays(nextMonday, 7));
             default:
                 var month = new DateOnly(first.Year, first.Month, 1);
-                var after = new DateOnly(last.Year, last.Month, 1).AddMonths(1);
+                var after = PickerCalendar.AddMonths(new DateOnly(last.Year, last.Month, 1), 1);
                 return (month, after);
         }
     }
@@ -215,23 +216,23 @@ internal sealed class GanttLayout
     {
         if (Scale == OmniCalendarView.Month)
         {
-            AddSpans(TopTier, day => new DateOnly(day.Year, 1, 1), day => day.AddYears(1), day => day.Year.ToString(culture));
-            AddSpans(BottomTier, day => new DateOnly(day.Year, day.Month, 1), day => day.AddMonths(1), day => day.ToString("MMM", culture));
+            AddSpans(TopTier, day => new DateOnly(day.Year, 1, 1), day => PickerCalendar.AddMonths(day, 12), day => day.Year.ToString(culture));
+            AddSpans(BottomTier, day => new DateOnly(day.Year, day.Month, 1), day => PickerCalendar.AddMonths(day, 1), day => day.ToString("MMM", culture));
             return;
         }
 
-        AddSpans(TopTier, day => new DateOnly(day.Year, day.Month, 1), day => day.AddMonths(1), day => day.ToString("MMMM yyyy", culture));
+        AddSpans(TopTier, day => new DateOnly(day.Year, day.Month, 1), day => PickerCalendar.AddMonths(day, 1), day => day.ToString("MMMM yyyy", culture));
         if (Scale == OmniCalendarView.Week)
         {
             AddSpans(
                 BottomTier,
-                day => day.AddDays(-(((int)day.DayOfWeek + 6) % 7)),
-                day => day.AddDays(7),
+                day => PickerCalendar.AddDays(day, -(((int)day.DayOfWeek + 6) % 7)),
+                day => PickerCalendar.AddDays(day, 7),
                 day => weekLabel(ISOWeek.GetWeekOfYear(day.ToDateTime(TimeOnly.MinValue))));
             return;
         }
 
-        for (var day = RangeStart; day < RangeEnd; day = day.AddDays(1))
+        for (var day = RangeStart; day < RangeEnd; day = PickerCalendar.AddDays(day, 1))
         {
             BottomTier.Add(new GanttHeaderCell(X(day), PixelsPerDay, day.Day.ToString(culture)));
             if (day.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
