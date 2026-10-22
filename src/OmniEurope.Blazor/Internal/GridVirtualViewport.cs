@@ -15,14 +15,20 @@ internal sealed class GridVirtualViewport<TItem>(OmniDataGrid<TItem> grid)
     private double _viewportHeight;
     private double? _cssRowEstimate;
 
-    /// <summary>The fixed height of every row, or null when rows are measured.</summary>
-    internal double? FixedHeight => grid.FixedRowHeight && grid.EstimatedRowHeight > 0d ? grid.EstimatedRowHeight : null;
+    /// <summary>
+    /// Whether every row has one exact height, which rows are then never measured for: the height the
+    /// consumer gave, or, when none, the row height of the density, which the stylesheet draws.
+    /// </summary>
+    internal bool RowsAreFixed => grid.FixedRowHeight && grid.EstimatedRowHeight is null or > 0d;
+
+    /// <summary>The height the consumer imposed on every row, or null: measured rows, or the density's row height.</summary>
+    internal double? FixedHeight => RowsAreFixed ? grid.EstimatedRowHeight : null;
 
     internal GridVirtualRange Range => _range;
 
     internal void Sync()
     {
-        var estimate = FixedHeight ?? _cssRowEstimate ?? (grid.EstimatedRowHeight > 0d ? grid.EstimatedRowHeight : 40d);
+        var estimate = FixedHeight ?? _cssRowEstimate ?? (grid.EstimatedRowHeight is > 0d ? grid.EstimatedRowHeight.Value : 40d);
         if (grid.View.StructuredVirtual)
         {
             var count = grid.Rows.Slots.Count;
@@ -89,7 +95,7 @@ internal sealed class GridVirtualViewport<TItem>(OmniDataGrid<TItem> grid)
             moved = true;
         }
 
-        if ((FixedHeight is not null && !grid.View.StructuredVirtual) || snapshot.Rows is null)
+        if ((RowsAreFixed && !grid.View.StructuredVirtual) || snapshot.Rows is null)
         {
             return moved;
         }

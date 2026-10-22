@@ -667,15 +667,17 @@ public partial class OmniDataGrid<TItem>
 
     /// <summary>
     /// Starting height assumed for a row that has not been measured yet, in pixels; with
-    /// <see cref="FixedRowHeight"/>, the exact height of every row.
+    /// <see cref="FixedRowHeight"/>, the exact height of every row. Null by default: the row height
+    /// of the grid's density (the <c>--omni-grid-row-estimate</c> token), so the rows follow the density.
     /// </summary>
     [Parameter]
-    public double EstimatedRowHeight { get; set; } = 40d;
+    public double? EstimatedRowHeight { get; set; }
 
     /// <summary>
-    /// Gives every row exactly <see cref="EstimatedRowHeight"/>: rows are never measured, the scroll
-    /// math uses that height alone, and the rows are drawn at it (uniform rows, overflow clipped with
-    /// an ellipsis). For homogeneous data sets. Off by default: rows are measured.
+    /// Gives every row one exact height, <see cref="EstimatedRowHeight"/> or, when that is not set,
+    /// the row height of the density: rows are never measured, the scroll math uses that height
+    /// alone, and the rows are drawn at it (uniform rows, overflow clipped with an ellipsis). For
+    /// homogeneous data sets. Off by default: rows are measured.
     /// </summary>
     [Parameter]
     public bool FixedRowHeight { get; set; }

@@ -281,7 +281,8 @@
 .omni-data-grid__header-action:not(.omni-data-grid__header-action--active) { background: var(--omni-header-fill-hover); inset-block-start: 50%; inset-inline-end: calc(var(--omni-space-sm) + 1.25em); position: absolute; transform: translateY(-50%); }
 .omni-data-grid th:is(:hover, :focus-within) .omni-data-grid__header-action,
 .omni-data-grid__header-action--active { color: var(--omni-color-accent); opacity: 1; }
-.omni-data-grid__icon-button { align-items: center; background: none; border: 0; border-radius: var(--omni-radius); color: inherit; cursor: pointer; display: inline-flex; flex: none; font: inherit; gap: var(--omni-space-xs); padding: var(--omni-data-grid-icon-pad-y) var(--omni-space-xs); }
+/* WCAG 2.2 AA 2.5.8: a pointer target is 24 x 24 CSS px at least. The small controls of a header (icon buttons, filter menu toggle) were as small as the icon and the density made them (20 px in compact); the 1.5rem floor of both sides scales with the text size like the rest and leaves comfortable and spacious as they were (24 and 28 px). */
+.omni-data-grid__icon-button { align-items: center; background: none; border: 0; border-radius: var(--omni-radius); color: inherit; cursor: pointer; display: inline-flex; flex: none; font: inherit; gap: var(--omni-space-xs); justify-content: center; min-block-size: 1.5rem; min-inline-size: 1.5rem; padding: var(--omni-data-grid-icon-pad-y) var(--omni-space-xs); }
 .omni-data-grid__icon-button:hover { background: color-mix(in srgb, var(--omni-color-text) 10%, transparent); }
 .omni-data-grid :is(.omni-data-grid__sort, .omni-data-grid__icon-button, .omni-data-grid__expand, .omni-data-grid__popover > summary, .omni-data-grid__resize-handle, .omni-data-grid__row--interactive):focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
 .omni-data-grid__resize-handle { block-size: 100%; cursor: col-resize; inline-size: 0.5rem; inset-block-start: 0; inset-inline-end: 0; position: absolute; touch-action: none; user-select: none; }
@@ -315,7 +316,7 @@
 .omni-data-grid__popover > summary::-webkit-details-marker { display: none; }
 .omni-data-grid__popover-panel { backdrop-filter: var(--omni-overlay-filter, none); background: var(--omni-overlay-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-overlay-shadow, var(--omni-shadow-md)); box-sizing: border-box; display: grid; font-weight: normal; gap: var(--omni-space-sm); left: var(--omni-popover-x, auto); max-block-size: min(24rem, 100vh - 1rem); max-inline-size: min(22rem, 100vw - 1rem); min-inline-size: max(12rem, var(--omni-popover-min, 0px)); overflow: auto; padding: var(--omni-space-sm); position: fixed; top: var(--omni-popover-y, auto); z-index: var(--omni-z-popover-top); }
 .omni-data-grid__filter-menu { display: inline-block; }
-.omni-data-grid__filter-menu-toggle { border-radius: var(--omni-radius); display: inline-flex; padding: var(--omni-data-grid-icon-pad-y) var(--omni-space-xs); }
+.omni-data-grid__filter-menu-toggle { align-items: center; border-radius: var(--omni-radius); box-sizing: border-box; display: inline-flex; justify-content: center; min-block-size: 1.5rem; min-inline-size: 1.5rem; padding: var(--omni-data-grid-icon-pad-y) var(--omni-space-xs); }
 .omni-data-grid__filter-menu-toggle:hover { background: color-mix(in srgb, var(--omni-color-text) 8%, transparent); }
 .omni-data-grid__filter-menu-toggle--active,
 .omni-data-grid__filter-menu[open] > summary { color: var(--omni-color-accent); }
@@ -426,6 +427,9 @@
    actions) is a square as tall and as wide as the status badges of the same row, one density token
    for both (--omni-badge-height), so a row of statuses and actions reads as one line of equal marks. */
 .omni-data-grid__row > td :is(.omni-button:has(> .omni-button__content > .omni-icon:only-child), .omni-data-grid__icon-button) { --omni-button-size: var(--omni-badge-height); block-size: var(--omni-badge-height); inline-size: var(--omni-badge-height); justify-content: center; min-inline-size: var(--omni-badge-height); padding: 0; vertical-align: middle; }
+/* A row action does not take the 1.5rem floor of the header controls: it stays the square of the status badges
+   (--omni-badge-height, 1.375rem at least), whatever the density. */
+.omni-data-grid__row > td .omni-data-grid__icon-button { min-block-size: 0; }
 .omni-data-grid__row > td .omni-button:has(> .omni-button__content > .omni-icon:only-child) .omni-icon { height: 0.875rem; width: 0.875rem; }
 /* The other actions of a row keep that height too: a button with text and a split button (main part
    and arrow) take the badge height, the small text and a short padding, so a labelled action stands
@@ -516,6 +520,10 @@
 /* The spacers stand in for the rows outside the rendered window: never clamp them to one row.
    The declared height is the whole row: a cell counts its padding and its rule inside it (border-box),
    otherwise each row came out taller than declared by that much and the scroll total drifted from the rows. */
+/* Without an EstimatedRowHeight the row is the density's row height, the very token the virtualization reads
+   as its item size (sync in omni-grid.js); a height the consumer gave is written on the viewport
+   (applyRowHeight) and wins there, since the viewport is nearer to the rows than the grid. */
+.omni-data-grid--fixed-row-height { --omni-row-height: var(--omni-grid-row-estimate); }
 .omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer),
 .omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer) td { block-size: var(--omni-row-height); box-sizing: border-box; }
 .omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer) td { max-block-size: var(--omni-row-height); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

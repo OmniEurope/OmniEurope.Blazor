@@ -19,7 +19,7 @@ internal sealed class GridCssClasses<TItem>(OmniDataGrid<TItem> grid)
         grid.AllowAlternatingRows ? "omni-data-grid--striped" : null,
         grid.View.Virtualized ? "omni-data-grid--virtual" : null,
         grid.Responsive ? "omni-data-grid--responsive" : null,
-        grid.Virtual.FixedHeight is not null ? "omni-data-grid--fixed-row-height" : null,
+        grid.Virtual.RowsAreFixed ? "omni-data-grid--fixed-row-height" : null,
         grid.HeaderWrap == OmniDataGridHeaderWrap.Truncate ? "omni-data-grid--header-truncate" : null,
         grid.ColumnSet.HasFrozenColumns ? "omni-data-grid--has-frozen" : null,
         grid.FrozenState.FrozenDetached ? "omni-data-grid--frozen-detached" : null,

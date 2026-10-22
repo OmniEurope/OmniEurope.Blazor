@@ -1,7 +1,7 @@
 // The focus module's defects of the 2026-10-22 audit (lot 4), each driven in the browser: the focus given
 // back to the button that opened a dialog from a dialog (L4-05), the arrows of a tab strip that follow a
 // right-to-left reading (L4-11), and the calls to .NET that a lost circuit rejects without leaving an
-// unhandled promise rejection (L4-06).
+// unhandled promise rejection (L4-06), and the failure of a column auto-fit that is reported, not swallowed.
 
 export async function focusSteps(session, results) {
   const { evaluate, waitFor, key, pause, check, clickOn } = session;
@@ -95,4 +95,35 @@ export async function focusSteps(session, results) {
   })()`);
   check(rejections.length === 0, `Rejets de promesse non gérés après un circuit perdu : ${JSON.stringify(rejections)}.`);
   step('appels vers .NET d\'un circuit perdu : aucun rejet de promesse non géré');
+
+  // 4. The auto-fit of a column asks .NET for its texts: while the attachment is live, a rejection is reported
+  // by one console line and nothing more (no unhandled rejection); a grid detached while .NET answers is silent.
+  const autoFit = await evaluate(`(async () => {
+    const seen = [];
+    const lines = [];
+    const onRejection = event => { seen.push(String(event.reason?.message ?? event.reason)); event.preventDefault(); };
+    window.addEventListener('unhandledrejection', onRejection);
+    const original = console.error;
+    console.error = (...parts) => lines.push(parts.map(String).join(' '));
+    const grid = await import('/_content/OmniEurope.Blazor/omni-grid.js');
+    const viewport = document.createElement('div');
+    document.body.append(viewport);
+    grid.attachResize(viewport, { invokeMethodAsync: () => Promise.reject(new Error('echec net')) }, 48);
+    await grid.autoFitColumn(viewport, 'a');
+    const whileLive = lines.length;
+    grid.detachResize(viewport);
+    grid.attachResize(viewport, { invokeMethodAsync: () => new Promise((_, reject) => setTimeout(() => reject(new Error('apres detachement')), 50)) }, 48);
+    const pending = grid.autoFitColumn(viewport, 'b');
+    grid.detachResize(viewport);
+    await pending;
+    await new Promise(resolve => setTimeout(resolve, 100));
+    console.error = original;
+    viewport.remove();
+    window.removeEventListener('unhandledrejection', onRejection);
+    return { seen, whileLive, total: lines.length, line: lines[0] ?? '' };
+  })()`);
+  check(autoFit.seen.length === 0, `Rejets de promesse non gérés après un ajustement de colonne en échec : ${JSON.stringify(autoFit.seen)}.`);
+  check(autoFit.whileLive === 1 && autoFit.line.includes('auto-fit') && autoFit.line.includes('echec net'), `Un échec .NET de l'ajustement d'une colonne doit laisser une ligne de console : ${JSON.stringify(autoFit)}.`);
+  check(autoFit.total === 1, `Une grille détachée pendant l'ajustement doit se taire : ${JSON.stringify(autoFit)}.`);
+  step('ajustement de colonne : un échec .NET est signalé en console sans rejet, une grille détachée se tait');
 }
