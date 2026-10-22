@@ -4,7 +4,7 @@ namespace OmniEurope.Blazor.Components;
 /// How the multiple-choice filter of a grid column (<see cref="OmniDataGridFilterMultiSelect"/>)
 /// occupies its place.
 /// </summary>
-public enum OmniMultiSelectPresentation
+public enum OmniMultiSelectDisplay
 {
     /// <summary>An always-open list of check boxes.</summary>
     List,

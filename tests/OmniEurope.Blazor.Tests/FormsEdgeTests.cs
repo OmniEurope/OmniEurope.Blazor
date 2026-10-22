@@ -100,7 +100,7 @@ public sealed class FormsEdgeTests : OmniBunitContext
         var box = Render<OmniTextBox>(parameters => parameters
             .Add(component => component.Value, "valeur")
             .Add(component => component.Debounce, TimeSpan.FromDays(1))
-            .Add(component => component.Copyable, true)
+            .Add(component => component.ShowCopy, true)
             .Add(component => component.ValueExpression, () => _text));
 
         _ = box.Find("input").InputAsync(new ChangeEventArgs { Value = "nouv" });
@@ -119,7 +119,7 @@ public sealed class FormsEdgeTests : OmniBunitContext
         var box = Render<OmniTextBox>(parameters => parameters
             .Add(component => component.Value, "valeur")
             .Add(component => component.Debounce, TimeSpan.FromDays(1))
-            .Add(component => component.Copyable, true)
+            .Add(component => component.ShowCopy, true)
             .Add(component => component.ValueExpression, () => _text));
 
         _ = box.Find("input").InputAsync(new ChangeEventArgs { Value = "tapé" });
@@ -205,7 +205,7 @@ public sealed class FormsEdgeTests : OmniBunitContext
         var length = Render<OmniLengthValidator>(parameters => parameters
             .AddCascadingValue(form)
             .Add(component => component.For, () => model.Name)
-            .Add(component => component.Max, 5)
+            .Add(component => component.Maximum, 5)
             .Add(component => component.ShowMessage, false));
         var email = Render<OmniEmailValidator>(parameters => parameters
             .AddCascadingValue(form)

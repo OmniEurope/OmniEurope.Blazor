@@ -19,5 +19,11 @@ public enum OmniTextTone
     Success,
 
     /// <summary>An error or a failure.</summary>
-    Danger
+    Danger,
+
+    /// <summary>A piece of information, in the information colour of the palette.</summary>
+    Info,
+
+    /// <summary>A caution, in the warning colour of the palette.</summary>
+    Warning
 }

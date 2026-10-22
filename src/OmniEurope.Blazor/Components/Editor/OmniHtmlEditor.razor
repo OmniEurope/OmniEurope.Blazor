@@ -243,7 +243,7 @@
                 <div class="omni-html-editor__panel" role="group" aria-label="@Localize("HtmlEditorImportTable")">
                     <div class="omni-html-editor__panel-bar">
                         <OmniUpload Display="OmniUploadDisplay.Field" Accept="@TableAccept" MaximumFileSize="@HtmlEditorTableFile.MaxBytes"
-                                    FilesSelected="ReadTableFileAsync" Disabled="@_panels.TableBusy" Class="omni-html-editor__table-file" />
+                                    OnFilesSelect="ReadTableFileAsync" Disabled="@_panels.TableBusy" Class="omni-html-editor__table-file" />
                         <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="_panels.Close">
                             <OmniIcon Name="OmniIconName.Close" />
                             <span>@Localize("HtmlEditorClosePanel")</span>

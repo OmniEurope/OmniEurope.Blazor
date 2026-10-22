@@ -31,6 +31,13 @@ public partial class OmniRadioButtonList<TValue>
     [Parameter]
     public bool Disabled { get; set; }
 
+    /// <summary>
+    /// Whether the choice can be read and the buttons focused but not changed: a click or a key leaves the
+    /// value as it is, and the group is not dimmed. Off by default.
+    /// </summary>
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
     /// <summary>Ids of elements that describe the group, written in its <c>aria-describedby</c> before the error line.</summary>
     [Parameter]
     public string? AriaDescribedBy { get; set; }
@@ -57,7 +64,7 @@ public partial class OmniRadioButtonList<TValue>
 
     private void SelectOption(OmniOption<TValue> option)
     {
-        if (!Disabled && !option.Disabled)
+        if (!Disabled && !ReadOnly && !option.Disabled)
         {
             CurrentValue = option.Value;
         }

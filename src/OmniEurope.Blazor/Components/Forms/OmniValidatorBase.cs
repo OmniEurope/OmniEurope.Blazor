@@ -55,7 +55,7 @@ public abstract class OmniValidatorBase<TValue> : ComponentBase, IDisposable
     /// method. An exception thrown while validating on submit is not caught and reaches the form instead.
     /// </summary>
     [Parameter]
-    public EventCallback<Exception> ValidationFailed { get; set; }
+    public EventCallback<Exception> OnValidationFail { get; set; }
 
     /// <summary>The field identified by <see cref="For"/>.</summary>
     protected FieldIdentifier Field => _field;
@@ -163,9 +163,9 @@ public abstract class OmniValidatorBase<TValue> : ComponentBase, IDisposable
         catch (OperationCanceledException) when (delay.IsCancellationRequested)
         {
         }
-        catch (Exception exception) when (ValidationFailed.HasDelegate)
+        catch (Exception exception) when (OnValidationFail.HasDelegate)
         {
-            await ValidationFailed.InvokeAsync(exception);
+            await OnValidationFail.InvokeAsync(exception);
         }
         catch (Exception exception)
         {

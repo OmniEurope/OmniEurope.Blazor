@@ -69,7 +69,7 @@ public sealed class InstanceIdTests : OmniBunitContext
             .Add(component => component.Id, "genre")
             .Add(component => component.Suggestions, ["a"])
             .Add(component => component.Label, "Filtrer Genre")
-            .Add(component => component.Display, OmniMultiSelectPresentation.List));
+            .Add(component => component.Display, OmniMultiSelectDisplay.List));
 
         var list = select.Find("[role=listbox]");
         Assert.Equal("genre", list.Id);

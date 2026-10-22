@@ -76,7 +76,7 @@ public sealed class DataGridOwnStateTests : OmniBunitContext
         var list = Render<OmniDataGridFilterMultiSelect>(parameters => parameters
             .Add(component => component.Id, "list")
             .Add(component => component.Filterable, true)
-            .Add(component => component.Display, OmniMultiSelectPresentation.List)
+            .Add(component => component.Display, OmniMultiSelectDisplay.List)
             .AddUnmatched("data-probe", "list"));
         Assert.Equal("list", list.Find(".omni-multi-select").GetAttribute("data-probe"));
         Assert.Equal("list", list.Find("input.omni-multi-select__search").Id);
@@ -101,7 +101,7 @@ public sealed class DataGridOwnStateTests : OmniBunitContext
 
         var list = Render<OmniDataGridFilterMultiSelect>(parameters => parameters
             .Add(component => component.Filterable, true)
-            .Add(component => component.Display, OmniMultiSelectPresentation.List)
+            .Add(component => component.Display, OmniMultiSelectDisplay.List)
             .Add(component => component.Suggestions, ["Liège"]));
         list.Find("input.omni-multi-select__search").Input("liege");
 

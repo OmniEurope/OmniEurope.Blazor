@@ -33,6 +33,14 @@ public partial class OmniListBox<TValue, TSelection>
     [Parameter]
     public bool Disabled { get; set; }
 
+    /// <summary>
+    /// Whether the selection can be read and the list focused but not changed: the rows are drawn as a
+    /// read-only listbox (the selected ones marked) that no click or key changes, and it is not dimmed.
+    /// Off by default.
+    /// </summary>
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
     /// <summary>Identifiers of the elements that describe the list, written as <c>aria-describedby</c>; none when null.</summary>
     [Parameter]
     public string? AriaDescribedBy { get; set; }

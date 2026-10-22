@@ -8,6 +8,7 @@
         type="button"
         role="switch"
         disabled="@Disabled"
+        aria-readonly="@(ReadOnly ? "true" : null)"
         aria-checked="@(State == true ? "true" : "false")"
         aria-description="@(IsNullable && State is null ? EffectiveIndeterminateDescription : null)"
         aria-invalid="@AriaInvalid"

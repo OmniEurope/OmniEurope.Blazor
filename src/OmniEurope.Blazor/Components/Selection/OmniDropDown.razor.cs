@@ -44,6 +44,14 @@ public partial class OmniDropDown<TValue>
     [Parameter]
     public bool Disabled { get; set; }
 
+    /// <summary>
+    /// Whether the value can be read and the control focused but not changed: the chosen text is shown in a
+    /// read-only field (no list opens), or, with <see cref="Filterable"/>, in a read-only combobox. Not dimmed.
+    /// Off by default.
+    /// </summary>
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
     /// <summary>Ids of elements that describe the control, written in its <c>aria-describedby</c>.</summary>
     [Parameter]
     public string? AriaDescribedBy { get; set; }
@@ -79,6 +87,23 @@ public partial class OmniDropDown<TValue>
                 if (EqualityComparer<TValue>.Default.Equals(CurrentValue, Options[index].Value))
                 {
                     return index.ToString(CultureInfo.InvariantCulture);
+                }
+            }
+
+            return string.Empty;
+        }
+    }
+
+    /// <summary>The text of the chosen option, empty when none matches.</summary>
+    private string SelectedText
+    {
+        get
+        {
+            foreach (var option in Options)
+            {
+                if (EqualityComparer<TValue>.Default.Equals(CurrentValue, option.Value))
+                {
+                    return option.Text;
                 }
             }
 

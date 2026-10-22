@@ -5,7 +5,44 @@
 
 @* Id goes on the native file control, the focusable element, so an OmniFormField For= names it. *@
 <div @attributes="AdditionalAttributes" class="@RootClass">
-    @if (IsField)
+    @if (ReadOnly)
+    {
+        @* Read-only: the files held are listed and the group takes the focus; nothing offers to choose, drop
+           or remove a file, so the native file control is not drawn. *@
+        <div id="@Id" class="omni-upload__readonly" role="group" tabindex="0" aria-label="@Localize("UploadAttachedFiles")">
+            @if ((ReadOnlyShowsFiles ? Files.Count : _files.Count) == 0)
+            {
+                <span class="omni-input omni-upload__field-value omni-upload__field-value--empty">@Localize("UploadNoFile")</span>
+            }
+            else if (ReadOnlyShowsFiles)
+            {
+                <ul class="omni-upload__list">
+                    @foreach (var file in Files)
+                    {
+                        <li class="omni-upload__file">
+                            <span class="omni-upload__file-icon" aria-hidden="true"><OmniIcon Name="@IconFor(file.Name, file.ContentType)" /></span>
+                            <span class="omni-upload__file-name">@file.Name</span>
+                            <span class="omni-upload__file-meta"><span class="omni-upload__file-size">@FormatSize(file.Size)</span></span>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <ul class="omni-upload__list">
+                    @foreach (var file in _files)
+                    {
+                        <li class="omni-upload__file">
+                            <span class="omni-upload__file-icon" aria-hidden="true"><OmniIcon Name="@IconFor(file.Name, file.ContentType)" /></span>
+                            <span class="omni-upload__file-name">@file.Name</span>
+                            <span class="omni-upload__file-meta"><span class="omni-upload__file-size">@FormatSize(file.Size)</span></span>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    }
+    else if (IsField)
     {
         @* A read-only field welded to a Browse button. The native file control covers both, invisible,
            as it covers the zone: a click on the field or on the button opens the picker, Enter or

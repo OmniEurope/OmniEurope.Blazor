@@ -175,7 +175,7 @@ public partial class OmniAppearanceSettings : IDisposable
         ? EventCallback.Factory.Create<bool>(this, ChangeBackdropMotionAsync)
         : default;
 
-    private static OmniIconName? ModeIcon(OmniAppearance mode) => mode switch
+    private static OmniIconName ModeIcon(OmniAppearance mode) => mode switch
     {
         OmniAppearance.Light => OmniIconName.ThemeLight,
         OmniAppearance.Dark => OmniIconName.ThemeDark,

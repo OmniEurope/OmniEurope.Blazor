@@ -72,7 +72,7 @@ internal sealed class GridFilterControls<TItem>(OmniDataGrid<TItem> grid)
                 builder.AddComponentParameter(
                     7,
                     nameof(OmniDataGridFilterMultiSelect.Display),
-                    inPanel ? OmniMultiSelectPresentation.List : OmniMultiSelectPresentation.Compact);
+                    inPanel ? OmniMultiSelectDisplay.List : OmniMultiSelectDisplay.Compact);
                 builder.CloseComponent();
                 break;
 

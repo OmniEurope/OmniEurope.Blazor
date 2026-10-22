@@ -14,12 +14,16 @@ valeur (« Note : 3 sur 5 »), hors de l'ordre de tabulation, et dessine ses ét
 (`string?`) nomme le groupe, « Note » localisé par défaut, ou le libellé d'un `OmniFormField` englobant
 (`aria-labelledby`). L'édition participe à `EditContext`.
 
+`ReadOnly` (faux par défaut) existe sur chaque composant de saisie de la famille : `OmniDropDown`, `OmniAutocomplete`, `OmniMultiSelect`, `OmniListBox`, `OmniCheckBoxList`, `OmniRadioButtonList`, `OmniSelectBar`, `OmniSelectableCard` et `OmniSelectableCardGroup`, `OmniSlider`, `OmniColorPicker` et `OmniUpload`. Le contrôle garde son aspect, sa sélection et le focus, et aucun clic, aucune touche ni aucun fichier déposé ne change la valeur ni ne lève `ValueChanged`. Un `select` natif ne sait pas être en lecture seule : `OmniDropDown` montre alors le texte choisi dans un champ en lecture seule, `OmniListBox` dessine ses lignes comme les options d'une liste (`role="listbox"`, `aria-readonly`) et `OmniUpload` liste ses fichiers sans sélecteur ni bouton de retrait.
+
+`OmniUpload` lève `OnFilesSelect` quand le navigateur remet des fichiers et `OnFileRemove` quand l'un est retiré ; `Files` / `FilesChanged` est la liste des fichiers tenus.
+
 `OmniOption<TValue>` porte la valeur, le texte, l'état désactivé et le groupe éventuel. Ce modèle alimente :
 
 - `OmniDropDown<TValue>` (seule source des choix, par `Options` ; `Filterable` ajoute une recherche, avec le chevron des listes au bout du champ (`OmniAutocomplete.ShowToggle`) qui ouvre la liste complète et la referme, `Label` le nomme, rendu en `aria-label` seulement s'il est posé ; sans `Filterable` c'est un `<select>` natif dont la liste ouverte est habillée comme un menu du paquet là où le navigateur le permet, `appearance: base-select`, Chromium 135 et suivants, et dessinée par le système ailleurs) et `OmniMultiSelect<TValue>` ;
 - `OmniListBox<TValue, TSelection>`, et `OmniCheckBoxList<TValue>`, dont `Error` marque la liste `aria-invalid` et la fait décrire par l'erreur ;
 - `OmniRadioButtonList<TValue>`, qui dessine lui-même chaque bouton radio ; `Error` (facultatif) dessine sous les choix, dans le `fieldset`, la ligne d'erreur d'`OmniFormField` (glyphe décoratif, dans une région live polie, identifiant `{Id}-error`, ou `{Name}-error` sans identifiant), marque le groupe `aria-invalid="true"` (aussi quand l'`EditContext` porte une erreur), le fait décrire par cette ligne après `AriaDescribedBy` et borde chaque bouton radio de la couleur de danger ; les options désactivées sont marquées comme telles ;
-- `OmniSelectBar<TValue>`, qui dessine lui-même chaque option.
+- `OmniSelectBar<TValue>`, qui dessine lui-même chaque option ; `IconTemplate` (`RenderFragment<TValue>`) dessine une icône avant le texte de chacune, d'après sa valeur.
 
 `OmniListBox` est une liste native toujours ouverte (`select` à `size`) dont la hauteur est donnée
 par `VisibleRows`. Elle choisit une option ; avec `Multiple="true"`, elle devient un `select multiple`
@@ -173,7 +177,7 @@ radio ne dessine jamais de case. Le survol penche le cadre et le fond vers l'acc
 - Fermeture : un appui hors du sélecteur ferme le panneau et laisse le focus où il a été posé ; Échap le ferme, rend le focus au bouton et ne remonte pas (un dialogue qui contient le sélecteur reste ouvert). Un seul panneau de sélecteur est ouvert à la fois dans la page. Ce câblage est dans `omni-focus.js` (`attachPicker`, `detachPicker`, `focusPickerItem`) ; il n'écrit aucun style, seul `scrollTop` des colonnes est posé pour centrer la valeur choisie.
 - Densité : les cases du calendrier mesurent `--omni-cal-cell`, la marge du panneau `--omni-pop-pad`, le champ et son bouton suivent `--omni-control-height`, les éléments des colonnes `--omni-item-pad-y`. Les cases et les éléments des colonnes restent sous 44 px en densité compacte et confortable, comme la maquette les dessine ; le bouton du champ atteint 44 px de cible par une zone invisible.
 - Écart assumé avec la maquette : dans la date seule, choisir un jour ferme le panneau (la maquette le laissait ouvert, faute de bouton Valider dans ce pied).
-- `OmniSlider` expose orientation, minimum, maximum, pas, valeur ARIA et `aria-invalid`. `SelectableMinimum` (nul par défaut) place le plus petit
+- `OmniSlider` expose `Orientation` (`OmniOrientation` : `Horizontal` par défaut, `Vertical`), `Minimum`, `Maximum`, `Step`, valeur ARIA et `aria-invalid`. `SelectableMinimum` (nul par défaut) place le plus petit
   choix au-dessus de `Minimum` : la piste part de `Minimum`, donc le curseur est à sa vraie proportion (5 sur une échelle de 0 à 10 est au milieu),
   mais un glissement ou une touche sous cette valeur est ramené à elle (`ValueChanged` et `OnValueCommit` ne la dépassent jamais vers le bas) et
   `aria-valuemin` annonce la valeur qui peut être choisie. Une valeur sous `SelectableMinimum`, ou un `SelectableMinimum` hors de `Minimum` et
@@ -191,10 +195,10 @@ Les propriétés `MaximumFiles`, `MaximumFileSize` et `AllowedContentTypes` filt
 
 Le champ est une zone de dépôt : le contrôle natif la couvre, invisible, si bien qu'un clic ouvre le sélecteur et qu'un fichier déposé n'importe où sur la zone y arrive sans script. La zone annonce ses limites (types, taille par fichier, nombre) et les relie au champ par `aria-describedby`.
 
-Lié par `@bind-Files`, le champ tient une liste d'`OmniUploadFile` (nom, taille, type) : les fichiers que l'application a déjà, puis ceux que l'utilisateur ajoute. Chaque ligne a son icône, sa taille et un bouton de retrait qui lève `FileRemoved` avec l'entrée, puis `FilesChanged` avec la liste sans elle. Une sélection acceptée s'ajoute à la liste avec `Multiple`, la remplace sinon, et seulement après la réussite d'`Upload` quand ce délégué est fourni ; `MaximumFiles` compte alors la liste entière. Non lié, le champ montre la dernière sélection, sans retrait.
+Lié par `@bind-Files`, le champ tient une liste d'`OmniUploadFile` (nom, taille, type) : les fichiers que l'application a déjà, puis ceux que l'utilisateur ajoute. Chaque ligne a son icône, sa taille et un bouton de retrait qui lève `OnFileRemove` avec l'entrée, puis `FilesChanged` avec la liste sans elle. Une sélection acceptée s'ajoute à la liste avec `Multiple`, la remplace sinon, et seulement après la réussite d'`Upload` quand ce délégué est fourni ; `MaximumFiles` compte alors la liste entière. Non lié, le champ montre la dernière sélection, sans retrait.
 
 ```razor
-<OmniUpload Multiple="true" MaximumFiles="5" @bind-Files="attachments" FileRemoved="DeleteAsync" />
+<OmniUpload Multiple="true" MaximumFiles="5" @bind-Files="attachments" OnFileRemove="DeleteAsync" />
 
 @code {
     private IReadOnlyList<OmniUploadFile> attachments = [new("rapport.pdf", 1_258_291, "application/pdf")];

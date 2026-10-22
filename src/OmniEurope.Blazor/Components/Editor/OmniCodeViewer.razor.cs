@@ -17,7 +17,7 @@ namespace OmniEurope.Blazor.Components;
 /// <para>
 /// Links reuse <see cref="OmniCodeEditorLink"/>: each pattern is applied to each line, here by the .NET
 /// regular expression engine (with a one-second timeout), and its first group, or the whole match,
-/// becomes a button that raises <see cref="LinkActivated"/>. Every line is rendered: meant for a file or
+/// becomes a button that raises <see cref="OnLinkActivate"/>. Every line is rendered: meant for a file or
 /// a definition, not for a log of thousands of lines, which <see cref="OmniLogViewer"/> virtualises.
 /// </para>
 /// </remarks>
@@ -57,7 +57,7 @@ public partial class OmniCodeViewer : IAsyncDisposable
     /// <summary>
     /// Number of the first line shown, 1 by default: an excerpt of a file (the lines around a finding)
     /// keeps the numbers the lines have in the file. <see cref="HighlightedLines"/> and the line numbers
-    /// reported by <see cref="LinkActivated"/> count the same way. Below 1, the count starts at 1.
+    /// reported by <see cref="OnLinkActivate"/> count the same way. Below 1, the count starts at 1.
     /// </summary>
     [Parameter]
     public int FirstLineNumber { get; set; } = 1;
@@ -82,21 +82,21 @@ public partial class OmniCodeViewer : IAsyncDisposable
     [Parameter]
     public IReadOnlyList<int>? HighlightedLines { get; set; }
 
-    /// <summary>Patterns whose matches become links, reported through <see cref="LinkActivated"/>.</summary>
+    /// <summary>Patterns whose matches become links, reported through <see cref="OnLinkActivate"/>.</summary>
     [Parameter]
     public IReadOnlyList<OmniCodeEditorLink> Links { get; set; } = Array.Empty<OmniCodeEditorLink>();
 
     /// <summary>Raised when a link is followed.</summary>
     [Parameter]
-    public EventCallback<OmniCodeEditorLinkEventArgs> LinkActivated { get; set; }
+    public EventCallback<OmniCodeEditorLinkEventArgs> OnLinkActivate { get; set; }
 
     /// <summary>Actions of the host at the end of the header: open, close, download.</summary>
     [Parameter]
-    public RenderFragment? Actions { get; set; }
+    public RenderFragment? ActionsContent { get; set; }
 
     /// <summary>A panel beside the code: what the file defines, the errors it holds. Stacked under the code on a narrow screen.</summary>
     [Parameter]
-    public RenderFragment? SidePanel { get; set; }
+    public RenderFragment? SidePanelContent { get; set; }
 
     /// <summary>Accessible name of the side panel.</summary>
     [Parameter]
@@ -144,7 +144,7 @@ public partial class OmniCodeViewer : IAsyncDisposable
             builder.AddComponentParameter(10, nameof(CodeHeader.LeadingActions), WrapToggle);
         }
 
-        builder.AddComponentParameter(11, nameof(CodeHeader.TrailingActions), Actions);
+        builder.AddComponentParameter(11, nameof(CodeHeader.TrailingActions), ActionsContent);
         builder.CloseComponent();
     };
 
@@ -274,7 +274,7 @@ public partial class OmniCodeViewer : IAsyncDisposable
     }
 
     private Task ActivateLinkAsync(CodeLink link) =>
-        LinkActivated.InvokeAsync(new OmniCodeEditorLinkEventArgs(link.Name, link.Target, link.LineNumber));
+        OnLinkActivate.InvokeAsync(new OmniCodeEditorLinkEventArgs(link.Name, link.Target, link.LineNumber));
 
     private async Task ToggleWrap()
     {

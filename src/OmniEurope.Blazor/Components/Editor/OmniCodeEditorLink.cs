@@ -2,7 +2,7 @@ namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Turns matches of a pattern into Ctrl+click links of <see cref="OmniCodeEditor"/>, reported through
-/// <see cref="OmniCodeEditor.LinkActivated"/> rather than opened.
+/// <see cref="OmniCodeEditor.OnLinkActivate"/> rather than opened.
 /// </summary>
 /// <param name="Name">What the link points to, passed back with the activation.</param>
 /// <param name="Pattern">

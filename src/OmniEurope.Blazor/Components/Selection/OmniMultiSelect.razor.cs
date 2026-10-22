@@ -61,6 +61,14 @@ public partial class OmniMultiSelect<TValue>
     [Parameter]
     public bool Disabled { get; set; }
 
+    /// <summary>
+    /// Whether the selection can be read and the field focused but not changed: the panel opens to show the
+    /// boxes, none of which a click or a key can change, and there is no Clear button. Not dimmed.
+    /// Off by default.
+    /// </summary>
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
     /// <summary>Identifiers of the elements that describe the field, written as <c>aria-describedby</c>; none when null.</summary>
     [Parameter]
     public string? AriaDescribedBy { get; set; }
@@ -160,7 +168,7 @@ public partial class OmniMultiSelect<TValue>
 
     private void Toggle(OmniOption<TValue> option, bool selected)
     {
-        if (selected == IsSelected(option.Value))
+        if (ReadOnly || selected == IsSelected(option.Value))
         {
             return;
         }

@@ -16,7 +16,7 @@ internal static class OmniSpacingTokens
         OmniSpacing.XSmall => "xs",
         OmniSpacing.Small => "sm",
         OmniSpacing.Large => "lg",
-        OmniSpacing.XLarge => "xl",
+        OmniSpacing.ExtraLarge => "xl",
         _ => "md"
     };
 }

@@ -79,7 +79,7 @@ public sealed class CodeViewerTests : OmniBunitContext
         var viewer = RenderViewer("// see Program.cs then see Startup.cs", parameters => parameters
             .Add(viewer => viewer.FirstLineNumber, 40)
             .Add(viewer => viewer.Links, [FileLink])
-            .Add(viewer => viewer.LinkActivated, args => followed = args));
+            .Add(viewer => viewer.OnLinkActivate, args => followed = args));
 
         var links = viewer.FindAll(".omni-code-viewer__link");
         Assert.Equal(["Program.cs", "Startup.cs"], links.Select(link => link.TextContent));
@@ -173,7 +173,7 @@ public sealed class CodeViewerTests : OmniBunitContext
     public void SidePanel_IsANamedAsideBesideTheCode()
     {
         var viewer = RenderViewer("a", parameters => parameters
-            .Add(viewer => viewer.SidePanel, builder => builder.AddContent(0, "Définitions"))
+            .Add(viewer => viewer.SidePanelContent, builder => builder.AddContent(0, "Définitions"))
             .Add(viewer => viewer.SidePanelLabel, "Plan"));
 
         var panel = viewer.Find("aside.omni-code-viewer__panel");

@@ -165,7 +165,7 @@ public sealed class DataFamilyEdgeTests : OmniBunitContext
     {
         var select = Render<OmniDataGridFilterMultiSelect>(parameters => parameters
             .Add(component => component.Suggestions, ["a"])
-            .Add(component => component.Display, OmniMultiSelectPresentation.List));
+            .Add(component => component.Display, OmniMultiSelectDisplay.List));
 
         Assert.Empty(select.FindAll("details"));
         Assert.Single(select.FindAll(".omni-multi-select li"));

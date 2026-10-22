@@ -43,13 +43,13 @@ public partial class OmniDataGridFilterMultiSelect
     public int MaxSuggestions { get; set; } = 200;
 
     /// <summary>
-    /// <see cref="OmniMultiSelectPresentation.Compact"/>, the default, folds the list behind a
+    /// <see cref="OmniMultiSelectDisplay.Compact"/>, the default, folds the list behind a
     /// one-line summary so a header filter row keeps the height of one control;
-    /// <see cref="OmniMultiSelectPresentation.List"/> shows it open, for a place that is already
+    /// <see cref="OmniMultiSelectDisplay.List"/> shows it open, for a place that is already
     /// on demand such as a filter popover.
     /// </summary>
     [Parameter]
-    public OmniMultiSelectPresentation Display { get; set; } = OmniMultiSelectPresentation.Compact;
+    public OmniMultiSelectDisplay Display { get; set; } = OmniMultiSelectDisplay.Compact;
 
     /// <summary>
     /// Accessible name of the list when nothing else names it: shown open without a search box, it has
@@ -58,7 +58,7 @@ public partial class OmniDataGridFilterMultiSelect
     [Parameter]
     public string? Label { get; set; }
 
-    private bool NamesItself => !Filterable && Display == OmniMultiSelectPresentation.List;
+    private bool NamesItself => !Filterable && Display == OmniMultiSelectDisplay.List;
 
     private string? EffectiveLabel => string.IsNullOrWhiteSpace(Label) ? Placeholder : Label;
 

@@ -33,7 +33,7 @@
                    aria-label="@(FilterPlaceholder ?? Localize("MultiSelectFilter"))"
                    @oninput="args => SetFilterAsync(args.Value as string)" />
         }
-        @if (SelectedCount > 0)
+        @if (SelectedCount > 0 && !ReadOnly)
         {
             <button type="button" class="omni-multi-select-compact__clear" disabled="@Disabled" @onclick="Clear">
                 @Localize("MultiSelectClear")
@@ -56,6 +56,8 @@
                             <input type="checkbox"
                                    checked="@selected"
                                    disabled="@(Disabled || option.Disabled)"
+                                   aria-readonly="@(ReadOnly ? "true" : null)"
+                                   @onclick:preventDefault="ReadOnly"
                                    @onchange="args => Toggle(option, args.Value is true)" />
                             @if (OptionTemplate is null)
                             {

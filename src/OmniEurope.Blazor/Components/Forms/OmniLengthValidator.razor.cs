@@ -14,39 +14,39 @@ public partial class OmniLengthValidator
 {
     /// <summary>The fewest characters the text may hold; null sets no minimum.</summary>
     [Parameter]
-    public int? Min { get; set; }
+    public int? Minimum { get; set; }
 
     /// <summary>The most characters the text may hold; null sets no maximum.</summary>
     [Parameter]
-    public int? Max { get; set; }
+    public int? Maximum { get; set; }
 
     /// <summary>
     /// The message of a text too short or too long. Null or blank, the default, writes a localized
-    /// sentence with the bounds: at least <see cref="Min"/>, at most <see cref="Max"/>, between both,
+    /// sentence with the bounds: at least <see cref="Minimum"/>, at most <see cref="Maximum"/>, between both,
     /// or exactly one length when they are equal.
     /// </summary>
     [Parameter]
     public string? Message { get; set; }
 
     /// <summary>
-    /// Throws <see cref="ArgumentException"/> when neither <see cref="Min"/> nor <see cref="Max"/> is set,
-    /// when one is negative, or when <see cref="Min"/> exceeds <see cref="Max"/>; then follows the field.
+    /// Throws <see cref="ArgumentException"/> when neither <see cref="Minimum"/> nor <see cref="Maximum"/> is set,
+    /// when one is negative, or when <see cref="Minimum"/> exceeds <see cref="Maximum"/>; then follows the field.
     /// </summary>
     protected override void OnParametersSet()
     {
-        if (Min is null && Max is null)
+        if (Minimum is null && Maximum is null)
         {
-            throw new ArgumentException($"{nameof(OmniLengthValidator)} needs {nameof(Min)}, {nameof(Max)} or both.", nameof(Min));
+            throw new ArgumentException($"{nameof(OmniLengthValidator)} needs {nameof(Minimum)}, {nameof(Maximum)} or both.", nameof(Minimum));
         }
 
-        if (Min < 0 || Max < 0)
+        if (Minimum < 0 || Maximum < 0)
         {
-            throw new ArgumentException($"{nameof(OmniLengthValidator)} bounds cannot be negative.", Min < 0 ? nameof(Min) : nameof(Max));
+            throw new ArgumentException($"{nameof(OmniLengthValidator)} bounds cannot be negative.", Minimum < 0 ? nameof(Minimum) : nameof(Maximum));
         }
 
-        if (Min > Max)
+        if (Minimum > Maximum)
         {
-            throw new ArgumentException($"{nameof(OmniLengthValidator)}.{nameof(Min)} ({Min}) exceeds {nameof(Max)} ({Max}).", nameof(Min));
+            throw new ArgumentException($"{nameof(OmniLengthValidator)}.{nameof(Minimum)} ({Minimum}) exceeds {nameof(Maximum)} ({Maximum}).", nameof(Minimum));
         }
 
         base.OnParametersSet();
@@ -55,7 +55,7 @@ public partial class OmniLengthValidator
     /// <inheritdoc />
     protected override string? GetValidationError(string? value)
     {
-        if (string.IsNullOrEmpty(value) || (value.Length >= (Min ?? 0) && value.Length <= (Max ?? int.MaxValue)))
+        if (string.IsNullOrEmpty(value) || (value.Length >= (Minimum ?? 0) && value.Length <= (Maximum ?? int.MaxValue)))
         {
             return null;
         }
@@ -65,12 +65,12 @@ public partial class OmniLengthValidator
             return Message;
         }
 
-        return (Min, Max) switch
+        return (Minimum, Maximum) switch
         {
             ({ } min, { } max) when min == max => Localize("LengthValidatorExact", min),
             ({ } min, { } max) => Localize("LengthValidatorRange", min, max),
             ({ } min, null) => Localize("LengthValidatorMinimum", min),
-            _ => Localize("LengthValidatorMaximum", Max!.Value)
+            _ => Localize("LengthValidatorMaximum", Maximum!.Value)
         };
     }
 }

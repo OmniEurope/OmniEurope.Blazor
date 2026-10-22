@@ -5,7 +5,7 @@
 @* Read-only code with its line numbers, without Monaco: plain markup, valid under the strict policy.
    Line numbers are drawn beside the text, never inside it, so selecting and copying the code by hand
    does not pick them up. *@
-<section @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-code-viewer", SidePanel is not null ? "omni-code-viewer--with-panel" : null, _wrap ? "omni-code-viewer--wrap" : null)"
+<section @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-code-viewer", SidePanelContent is not null ? "omni-code-viewer--with-panel" : null, _wrap ? "omni-code-viewer--wrap" : null)"
          aria-labelledby="@TitleId">
     @Header
     <div class="omni-code-viewer__body">
@@ -42,9 +42,9 @@
                 }
             }
         </div>
-        @if (SidePanel is not null)
+        @if (SidePanelContent is not null)
         {
-            <aside class="omni-code-viewer__panel" aria-label="@SidePanelLabel">@SidePanel</aside>
+            <aside class="omni-code-viewer__panel" aria-label="@SidePanelLabel">@SidePanelContent</aside>
         }
     </div>
     <span class="omni-visually-hidden" role="status" aria-live="polite">@CopyAnnouncement</span>

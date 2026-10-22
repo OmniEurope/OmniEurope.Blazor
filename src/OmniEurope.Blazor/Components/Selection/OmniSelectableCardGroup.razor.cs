@@ -41,6 +41,13 @@ public partial class OmniSelectableCardGroup<TValue, TSelection> : IOmniSelectab
     public bool Disabled { get; set; }
 
     /// <summary>
+    /// Whether the selection can be read and the cards focused but not changed: a click or a key leaves the
+    /// value as it is, and the cards are not dimmed. Off by default.
+    /// </summary>
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
+    /// <summary>
     /// Accessible name of the group (<c>aria-label</c>), which a radio group needs. Null names it by the
     /// label of an enclosing <see cref="OmniFormField"/> whose <c>For</c> is
     /// <see cref="OmniInputBase{TValue}.Id"/> (<c>aria-labelledby</c>), else leaves it unnamed.
@@ -69,6 +76,8 @@ public partial class OmniSelectableCardGroup<TValue, TSelection> : IOmniSelectab
     bool IOmniSelectableCardGroup.Multiple => Multiple;
 
     bool IOmniSelectableCardGroup.Disabled => Disabled;
+
+    bool IOmniSelectableCardGroup.ReadOnly => ReadOnly;
 
     /// <summary>Checks the bound type against <see cref="Multiple"/>, and redraws the cards for the value.</summary>
     protected override void OnParametersSet()
@@ -136,6 +145,7 @@ public partial class OmniSelectableCardGroup<TValue, TSelection> : IOmniSelectab
 
     private void Pick(OmniSelectableCard card)
     {
+        // A read-only group never gets here either: its cards refuse the click and the arrows (IsReadOnly).
         // A disabled card never gets here: it refuses its own click, and the arrows skip it. Its choice may
         // have turned to another type since it registered.
         if (!TryChoice(card, out var choice))
