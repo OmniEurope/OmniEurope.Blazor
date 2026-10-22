@@ -21,6 +21,7 @@ internal sealed class OmniMenuController : IAsyncDisposable
     private readonly Func<bool, Task> _dismissAsync;
     private Task<IJSObjectReference>? _import;
     private IJSObjectReference? _module;
+    private volatile bool _released;
     private DotNetObjectReference<DismissInterop>? _reference;
     private bool _internalOpen;
     private bool _shown;
@@ -144,7 +145,10 @@ internal sealed class OmniMenuController : IAsyncDisposable
         var import = _import ??= _javaScript.InvokeAsync<IJSObjectReference>("import", OmniModules.Focus).AsTask();
         try
         {
-            return _module ??= await import;
+            var loaded = await import;
+
+            // Released by a call that arrived first: the module is not kept again, so it is never released twice.
+            return _released ? loaded : _module ??= loaded;
         }
         catch
         {
@@ -166,6 +170,8 @@ internal sealed class OmniMenuController : IAsyncDisposable
         {
             return;
         }
+
+        _released = true;
 
         try
         {

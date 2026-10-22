@@ -19,6 +19,9 @@ internal sealed class ManualJSRuntime : IJSRuntime
 
     public TaskCompletionSource<IJSObjectReference> PendingImport { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
+    /// <summary>Imports held until released, by the end of the module path; the other imports answer at once.</summary>
+    public Dictionary<string, TaskCompletionSource> ImportGates { get; } = new(StringComparer.Ordinal);
+
     public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args)
     {
         if (identifier != "import")
@@ -29,6 +32,11 @@ internal sealed class ManualJSRuntime : IJSRuntime
         if (ImportFailure is not null)
         {
             return ValueTask.FromException<TValue>(ImportFailure);
+        }
+
+        if (args is [string path, ..] && ImportGates.FirstOrDefault(gate => path.EndsWith(gate.Key, StringComparison.Ordinal)).Value is { } gated)
+        {
+            return new ValueTask<TValue>(gated.Task.ContinueWith(_ => (TValue)(object)Module, TaskScheduler.Default));
         }
 
         return HoldImports
@@ -54,6 +62,9 @@ internal sealed class RecordingModule : IJSObjectReference
     /// <summary>Answers of calls, by function name; any other call answers its default value.</summary>
     public Dictionary<string, object?> Answers { get; } = new(StringComparer.Ordinal);
 
+    /// <summary>Calls held until released, by function name, as a call still running in the browser.</summary>
+    public Dictionary<string, TaskCompletionSource> Gates { get; } = new(StringComparer.Ordinal);
+
     public ValueTask DisposeAsync()
     {
         Disposal.TrySetResult();
@@ -68,7 +79,10 @@ internal sealed class RecordingModule : IJSObjectReference
             return ValueTask.FromException<TValue>(failure);
         }
 
-        return ValueTask.FromResult(Answers.TryGetValue(identifier, out var answer) ? (TValue)answer! : default(TValue)!);
+        var result = Answers.TryGetValue(identifier, out var answer) ? (TValue)answer! : default(TValue)!;
+        return Gates.TryGetValue(identifier, out var gate)
+            ? new ValueTask<TValue>(gate.Task.ContinueWith(_ => result, TaskScheduler.Default))
+            : ValueTask.FromResult(result);
     }
 
     public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) => InvokeAsync<TValue>(identifier, args);

@@ -148,21 +148,7 @@ public partial class OmniSidebar
 
         try
         {
-            if (_focusModule is null)
-            {
-                var module = await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Focus);
-                if (_disposed || _focusModule is not null)
-                {
-                    // Removed while the script loaded (nothing may listen on the document for a
-                    // sidebar that is gone), or loaded by a render that came first.
-                    await module.DisposeAsync();
-                }
-                else
-                {
-                    _focusModule = module;
-                }
-            }
-
+            await LoadFocusModuleAsync();
             if (_disposed || _focusModule is null)
             {
                 return;
@@ -191,21 +177,47 @@ public partial class OmniSidebar
                 return;
             }
 
-            // The state is recorded before the call: a disposal that comes while it runs then detaches the
-            // listener it attaches.
-            var floating = Floating;
-            _escapeAttached = floating;
-            if (floating)
-            {
-                await _focusModule.InvokeVoidAsync("attachEscape", _escapeKey, _selfReference);
-            }
-            else
-            {
-                await _focusModule.InvokeVoidAsync("detachEscape", _escapeKey);
-            }
+            await SyncEscapeAsync(_focusModule);
         }
         catch (JSDisconnectedException)
         {
+        }
+    }
+
+    /// <summary>The focus script, loaded once; released on arrival when the sidebar went meanwhile or a render came first.</summary>
+    private async Task LoadFocusModuleAsync()
+    {
+        if (_focusModule is not null)
+        {
+            return;
+        }
+
+        var module = await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Focus);
+        if (_disposed || _focusModule is not null)
+        {
+            // Removed while the script loaded (nothing may listen on the document for a sidebar that is
+            // gone), or loaded by a render that came first.
+            await module.DisposeAsync();
+            return;
+        }
+
+        _focusModule = module;
+    }
+
+    /// <summary>Attaches the Escape listener of a sidebar that floats open, detaches it from one that does not.</summary>
+    private async Task SyncEscapeAsync(IJSObjectReference module)
+    {
+        // The state is recorded before the call: a disposal that comes while it runs then detaches the
+        // listener it attaches.
+        var floating = Floating;
+        _escapeAttached = floating;
+        if (floating)
+        {
+            await module.InvokeVoidAsync("attachEscape", _escapeKey, _selfReference);
+        }
+        else
+        {
+            await module.InvokeVoidAsync("detachEscape", _escapeKey);
         }
     }
 
