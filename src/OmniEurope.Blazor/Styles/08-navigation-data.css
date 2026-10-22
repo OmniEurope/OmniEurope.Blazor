@@ -468,16 +468,16 @@
 .omni-data-grid__bar--footer { border-block-start: var(--omni-border-width) solid var(--omni-color-border); }
 .omni-data-grid__bar-content { flex: 1 1 auto; min-inline-size: 0; }
 .omni-data-grid__export { align-items: center; color: var(--omni-color-text-muted); display: flex; flex: none; flex-wrap: wrap; font-size: var(--omni-font-size-sm); gap: var(--omni-space-xs); }
-/* Icon-only export buttons, smaller than a small button and still following the density, unless the grid
+/* Icon-only export buttons: a small button (24 px at least, the floor of every button) with a smaller icon, unless the grid
    sets BarButtonSize: the compact modifier is then absent and the button keeps its own size. */
-.omni-data-grid__export-button.omni-data-grid__bar-button--compact.omni-button { --omni-button-size: calc(var(--omni-control-height) - 0.75rem); --omni-icon-size: 0.875rem; }
+.omni-data-grid__export-button.omni-data-grid__bar-button--compact.omni-button { --omni-icon-size: 0.875rem; }
 .omni-data-grid__export-message--error { color: var(--omni-color-danger); }
 /* The column chooser at the end of the header bar: its trigger is an export-sized icon button, its panel
    a list of one row per column, the box and the name first, the two arrows at the end. While it is open the
    frame stops clipping, or the panel would be cut at the foot of a short grid; its first and last parts
    then round their own corners. */
 .omni-data-grid__chooser { flex: none; margin-inline-start: auto; }
-.omni-data-grid__chooser-toggle.omni-data-grid__bar-button--compact.omni-button { --omni-button-size: calc(var(--omni-control-height) - 0.75rem); --omni-icon-size: 0.875rem; }
+.omni-data-grid__chooser-toggle.omni-data-grid__bar-button--compact.omni-button { --omni-icon-size: 0.875rem; }
 .omni-data-grid__chooser .omni-popover__panel { display: grid; font-weight: normal; gap: var(--omni-space-sm); min-inline-size: min(16rem, calc(100vw - 2 * var(--omni-space-md))); padding: var(--omni-space-sm); }
 .omni-data-grid__chooser-list { display: grid; gap: 0.125rem; list-style: none; margin: 0; padding: 0; }
 .omni-data-grid__chooser-item { align-items: center; display: flex; gap: var(--omni-space-sm); justify-content: space-between; min-block-size: var(--omni-control-height); }

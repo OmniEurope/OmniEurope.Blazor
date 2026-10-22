@@ -254,6 +254,29 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
         Assert.Equal(1, runtime.Module.Disposals);
     }
 
+    [Fact]
+    public async Task MenuController_TwoLoadsEndingTogetherOnTwoThreads_ReleaseTheModuleOnceEveryTime()
+    {
+        // The two loads above resume on the thread pool, at the same moment: once in a coverage run the
+        // later one kept the module again after the first released it, and released it a second time.
+        // Many rounds make that interleaving likely; the release must stay single in every one.
+        for (var round = 0; round < 500; round++)
+        {
+            var runtime = new CountingImportRuntime();
+            var controller = new OmniMenuController(runtime, _ => Task.CompletedTask);
+            controller.RequestPlacement(focusLast: false);
+            var first = controller.SyncAsync(true, "menu", default, OmniMenuPlacement.Start);
+            controller.RequestPlacement(focusLast: false);
+            var second = controller.SyncAsync(true, "menu", default, OmniMenuPlacement.Start);
+
+            await controller.DisposeAsync();
+            runtime.Arrive();
+            await Task.WhenAll(first, second);
+
+            Assert.Equal(1, runtime.Module.Disposals);
+        }
+    }
+
     /// <summary>A runtime whose first import fails, as a lost network does, and whose later imports answer a recording module.</summary>
     private sealed class FlakyImportRuntime : IJSRuntime
     {

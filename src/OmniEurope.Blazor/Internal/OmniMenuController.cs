@@ -22,7 +22,9 @@ internal sealed class OmniMenuController : IAsyncDisposable
     private readonly OmniMenuPortalBinding? _portal;
     private Task<IJSObjectReference>? _import;
     private IJSObjectReference? _module;
-    private volatile bool _released;
+    // 1 once the module is released: set first and atomically, so two loads that end together on two
+    // threads release it once, even when the later one keeps it again after the first released it.
+    private int _released;
     private DotNetObjectReference<DismissInterop>? _reference;
     private bool _internalOpen;
     private bool _shown;
@@ -198,7 +200,7 @@ internal sealed class OmniMenuController : IAsyncDisposable
             var loaded = await import;
 
             // Released by a call that arrived first: the module is not kept again, so it is never released twice.
-            return _released ? loaded : _module ??= loaded;
+            return Volatile.Read(ref _released) == 1 ? loaded : _module ??= loaded;
         }
         catch
         {
@@ -215,13 +217,17 @@ internal sealed class OmniMenuController : IAsyncDisposable
     /// <summary>Releases the script module once, whoever asks first; a lost circuit is ignored.</summary>
     private async Task ReleaseModuleAsync()
     {
+        if (Interlocked.Exchange(ref _released, 1) == 1)
+        {
+            return;
+        }
+
+        // One import serves every load, so the module taken here is the only one there is.
         var module = Interlocked.Exchange(ref _module, null);
         if (module is null)
         {
             return;
         }
-
-        _released = true;
 
         try
         {
