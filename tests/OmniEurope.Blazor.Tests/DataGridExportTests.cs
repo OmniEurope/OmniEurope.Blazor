@@ -86,9 +86,9 @@ public sealed class DataGridExportTests : OmniBunitContext
     }
 
     [Theory]
-    [InlineData(OmniDataGridPosition.Bottom, false)]
-    [InlineData(OmniDataGridPosition.Top, true)]
-    public void TheBar_GoesUnderOrAboveTheTable(OmniDataGridPosition position, bool above)
+    [InlineData(OmniDataGridPlacement.Bottom, false)]
+    [InlineData(OmniDataGridPlacement.Top, true)]
+    public void TheBar_GoesUnderOrAboveTheTable(OmniDataGridPlacement position, bool above)
     {
         var host = Render<DataGridExportTestHost>(parameters => parameters
             .Add(component => component.Items, Rows)

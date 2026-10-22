@@ -16,7 +16,7 @@ public sealed class ChartSeriesOptionsTests : OmniBunitContext
     public void Dashed_AddsTheDashedModifierToALineAndToAnAreaOutline_OnlyWhenAsked()
     {
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Objectif")
+            .Add(component => component.Label, "Objectif")
             .AddChildContent(builder =>
             {
                 Line(builder, 0, "Plein", Points(1, 2, 3), dashed: false);
@@ -130,7 +130,7 @@ public sealed class ChartSeriesOptionsTests : OmniBunitContext
     public void SharedTooltip_LinesAlone_SplitThePlotHalfwayBetweenTheirPoints()
     {
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Courbe")
+            .Add(component => component.Label, "Courbe")
             .Add(component => component.SharedTooltip, true)
             .AddChildContent(builder => Line(builder, 0, "Taux", Points(1, 2, 3), dashed: false)));
 
@@ -166,7 +166,7 @@ public sealed class ChartSeriesOptionsTests : OmniBunitContext
     public void SharedTooltip_HorizontalBars_StackTheBandsDownThePlot()
     {
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Pays")
+            .Add(component => component.Label, "Pays")
             .Add(component => component.SharedTooltip, true)
             .AddChildContent(builder =>
             {
@@ -196,7 +196,7 @@ public sealed class ChartSeriesOptionsTests : OmniBunitContext
     public void SharedTooltip_PieAlone_DrawsNoBand()
     {
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Origine")
+            .Add(component => component.Label, "Origine")
             .Add(component => component.SharedTooltip, true)
             .AddChildContent<OmniPieSeries>(pie => pie.Add(component => component.Data, [new OmniChartSlice("A", 1), new OmniChartSlice("B", 2)])));
 
@@ -211,14 +211,14 @@ public sealed class ChartSeriesOptionsTests : OmniBunitContext
     public void Legend_Top_IsAnHtmlListBeforeTheDrawing_AndThePlotTakesTheFullWidth()
     {
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Légende")
+            .Add(component => component.Label, "Légende")
             .AddChildContent(builder =>
             {
                 builder.OpenComponent<OmniGridLines>(0);
                 builder.CloseComponent();
                 Line(builder, 1, "Taux", Points(1, 2), dashed: false);
                 builder.OpenComponent<OmniLegend>(20);
-                builder.AddAttribute(21, nameof(OmniLegend.Position), OmniLegendPosition.Top);
+                builder.AddAttribute(21, nameof(OmniLegend.Placement), OmniLegendPlacement.Top);
                 builder.CloseComponent();
             }));
 
@@ -252,7 +252,7 @@ public sealed class ChartSeriesOptionsTests : OmniBunitContext
     /// </summary>
     private IRenderedComponent<OmniChart> RenderMonthly(bool shared, Func<double, string>? format) =>
         Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Ventes")
+            .Add(component => component.Label, "Ventes")
             .Add(component => component.SharedTooltip, shared)
             .AddChildContent(builder =>
             {

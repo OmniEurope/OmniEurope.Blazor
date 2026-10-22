@@ -1,7 +1,7 @@
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>Where an <see cref="OmniLegend"/> sits relative to the plot of its chart.</summary>
-public enum OmniLegendPosition
+public enum OmniLegendPlacement
 {
     /// <summary>
     /// Right of the plot while the longest entry fits a column of at most a fifth of the drawing,

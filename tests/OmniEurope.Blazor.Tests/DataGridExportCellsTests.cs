@@ -8,9 +8,6 @@ using OmniEurope.Blazor.Components;
 using OmniEurope.Blazor.Internal;
 using Row = OmniEurope.Blazor.Tests.DataGridExportTestHost.Row;
 
-// The former export bar (ExportFormats) stays supported and under test.
-#pragma warning disable CS0618
-
 namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
@@ -79,7 +76,10 @@ public sealed class DataGridExportCellsTests : OmniBunitContext
         var grid = Render<OmniDataGrid<Typed>>(parameters => parameters
             .Add(component => component.Items, Rows)
             .Add(component => component.Columns, columns)
-            .Add(component => component.ExportFormats, [OmniTableExportFormat.Csv])
+            .Add(component => component.ShowFooterBar, true)
+            .Add(component => component.ExportMarkdown, false)
+            .Add(component => component.ExportExcel, false)
+            .Add(component => component.ExportPdf, false)
             .Add(component => component.OnExport, document => exported = document));
 
         await grid.Find(".omni-data-grid__export-button").ClickAsync(new());
@@ -160,10 +160,10 @@ public sealed class DataGridExportCellsTests : OmniBunitContext
     }
 
     [Theory]
-    [InlineData(OmniDataGridPosition.Top, 1, 0)]
-    [InlineData(OmniDataGridPosition.Bottom, 0, 1)]
-    [InlineData(OmniDataGridPosition.TopAndBottom, 1, 1)]
-    public void Bars_FollowThePosition(OmniDataGridPosition position, int above, int below)
+    [InlineData(OmniDataGridPlacement.Top, 1, 0)]
+    [InlineData(OmniDataGridPlacement.Bottom, 0, 1)]
+    [InlineData(OmniDataGridPlacement.TopAndBottom, 1, 1)]
+    public void Bars_FollowThePosition(OmniDataGridPlacement position, int above, int below)
     {
         var host = Render<DataGridExportTestHost>(parameters => parameters
             .Add(component => component.Items, [new Row(1, "Alpha", 1m, new DateOnly(2026, 1, 1), true)])
@@ -247,7 +247,10 @@ public sealed class DataGridExportCellsTests : OmniBunitContext
         var grid = Render<OmniDataGrid<Typed>>(parameters => parameters
             .Add(component => component.Items, Rows)
             .Add(component => component.Columns, columns)
-            .Add(component => component.ExportFormats, [OmniTableExportFormat.Csv])
+            .Add(component => component.ShowFooterBar, true)
+            .Add(component => component.ExportMarkdown, false)
+            .Add(component => component.ExportExcel, false)
+            .Add(component => component.ExportPdf, false)
             .Add(component => component.OnExport, document => exported = document));
 
         await grid.Find(".omni-data-grid__export-button").ClickAsync(new());

@@ -49,7 +49,7 @@ public partial class OmniDataGridFilterMultiSelect
     /// on demand such as a filter popover.
     /// </summary>
     [Parameter]
-    public OmniMultiSelectPresentation Presentation { get; set; } = OmniMultiSelectPresentation.Compact;
+    public OmniMultiSelectPresentation Display { get; set; } = OmniMultiSelectPresentation.Compact;
 
     /// <summary>
     /// Accessible name of the list when nothing else names it: shown open without a search box, it has
@@ -58,7 +58,7 @@ public partial class OmniDataGridFilterMultiSelect
     [Parameter]
     public string? Label { get; set; }
 
-    private bool NamesItself => !Filterable && Presentation == OmniMultiSelectPresentation.List;
+    private bool NamesItself => !Filterable && Display == OmniMultiSelectPresentation.List;
 
     private string? EffectiveLabel => string.IsNullOrWhiteSpace(Label) ? Placeholder : Label;
 
@@ -68,7 +68,7 @@ public partial class OmniDataGridFilterMultiSelect
         get
         {
             var selected = OmniDataGridFilterValues.Split(Value);
-            return selected.Count == 0 ? Placeholder ?? string.Empty : string.Join(", ", selected.Select(Display));
+            return selected.Count == 0 ? Placeholder ?? string.Empty : string.Join(", ", selected.Select(CandidateText));
         }
     }
 
@@ -80,11 +80,11 @@ public partial class OmniDataGridFilterMultiSelect
 
     private IReadOnlyList<string> Matches => (string.IsNullOrEmpty(_search)
             ? Suggestions
-            : Suggestions.Where(candidate => OmniTextMatch.Contains(Display(candidate), _search)))
+            : Suggestions.Where(candidate => OmniTextMatch.Contains(CandidateText(candidate), _search)))
         .Take(Math.Max(1, MaxSuggestions))
         .ToArray();
 
-    private string Display(string candidate) => FormatValue?.Invoke(candidate) ?? candidate;
+    private string CandidateText(string candidate) => FormatValue?.Invoke(candidate) ?? candidate;
 
     private void OnSearchInput(ChangeEventArgs args) => _search = args.Value?.ToString() ?? string.Empty;
 

@@ -87,7 +87,7 @@ empile ses entrées après la ligne, quelle que soit la largeur de la fenêtre.
 ## Gantt : `OmniGantt`
 
 ```razor
-<OmniGantt Tasks="Taches" @bind-Scale="Echelle" OnTaskClick="Choisir" SelectedTaskId="@Choisie" />
+<OmniGantt Tasks="Taches" @bind-View="Vue" @bind-Value="Choisie" OnTaskClick="Ouvrir" />
 ```
 
 Une tâche est un `OmniGanttTask` : `Id`, `Title`, `Start` et `End` (`DateOnly`, le dernier jour
@@ -97,12 +97,13 @@ inclus), `Progress` (0 à 1), `Group`, `DependsOn` (identifiants des tâches à 
 | Paramètre | Rôle |
 | --- | --- |
 | `Tasks` | Les tâches, dans l'ordre des lignes. |
-| `Scale` / `ScaleChanged` | Zoom (`OmniCalendarView`) : `Day` (une colonne par jour, fins de semaine grisées), `Week` (défaut, semaines ISO, du lundi) ou `Month`. |
-| `ShowScalePicker` | Le choix jour, semaine, mois au-dessus du graphique ; sans liaison, le graphique garde le zoom choisi. |
+| `View` / `ViewChanged` | Zoom (`OmniCalendarView`, comme `OmniScheduler.View`) : `Day` (une colonne par jour, fins de semaine grisées), `Week` (défaut, semaines ISO, du lundi) ou `Month`. |
+| `ShowViewPicker` | Le choix jour, semaine, mois au-dessus du graphique ; sans liaison, le graphique garde le zoom choisi. |
 | `ShowGroups` | Range les tâches sous leur groupe, chacun avec une barre qui couvre ses tâches ; les tâches sans groupe viennent d'abord. |
 | `ShowDependencies` | Une flèche de la fin de chaque tâche attendue au début de la tâche qui l'attend ; quand la seconde commence trop tôt, la flèche revient par l'intervalle entre les deux lignes. Un identifiant inconnu est ignoré. |
 | `ShowToday` | Un trait pointillé au milieu de la colonne du jour, lu sur le `TimeProvider` de l'hôte (l'horloge système sinon). |
-| `OnTaskClick`, `SelectedTaskId` | La tâche activée par clic, Entrée ou Espace ; celle désignée est contournée et `aria-pressed`. |
+| `Value` / `ValueChanged` | L'identifiant (`string?`) de la tâche choisie : sa barre est contournée et `aria-pressed`. Un clic, Entrée ou Espace sur une autre tâche la choisit et lève `ValueChanged` ; sans liaison, le graphique garde la tâche cliquée. |
+| `OnTaskClick` | La tâche activée par clic, Entrée ou Espace, qu'elle soit déjà choisie ou non. |
 | `Label`, `Culture` | Nom accessible (`string?`, « Diagramme de Gantt » par défaut) et culture (`CultureInfo?`) des mois, numéros et en-têtes de semaine et dates. |
 
 L'axe couvre les tâches avec une marge : deux jours avant et deux après au zoom jour, une semaine

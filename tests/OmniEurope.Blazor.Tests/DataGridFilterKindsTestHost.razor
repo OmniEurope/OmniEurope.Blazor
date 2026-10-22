@@ -1,7 +1,4 @@
-@* The former export bar (ExportFormats, ExportPosition) stays supported and under test. *@
-@{
-#pragma warning disable CS0618
-}
+@* Formats is a convenience of this host: it shows the footer bar with exactly those export buttons. *@
 <OmniDataGrid @ref="Grid"
               TItem="Ticket"
               Id="tickets"
@@ -10,7 +7,11 @@
               KeyOf="@(ticket => ticket.Id)"
               ScrollMode="OmniDataGridScrollMode.All"
               FilterMode="@FilterMode"
-              ExportFormats="@ExportFormats"
+              ShowFooterBar="@(Formats.Count > 0)"
+              ExportMarkdown="@Formats.Contains(OmniTableExportFormat.Markdown)"
+              ExportCsv="@Formats.Contains(OmniTableExportFormat.Csv)"
+              ExportExcel="@Formats.Contains(OmniTableExportFormat.Excel)"
+              ExportPdf="@Formats.Contains(OmniTableExportFormat.Pdf)"
               ShowHeaderFilterMenu="true">
     <Columns>
         <OmniDataGridColumn TItem="Ticket" Property="Id" Title="N°" Filterable="true" />
@@ -46,7 +47,7 @@
 
     [Parameter] public OmniDataGridFilterMode FilterMode { get; set; } = OmniDataGridFilterMode.Simple;
 
-    [Parameter] public IReadOnlyList<OmniTableExportFormat> ExportFormats { get; set; } = [];
+    [Parameter] public IReadOnlyList<OmniTableExportFormat> Formats { get; set; } = [];
 
     [Parameter] public Func<OmniDataGridLoadRequest, Task<OmniDataGridResult<Ticket>>>? Load { get; set; }
 

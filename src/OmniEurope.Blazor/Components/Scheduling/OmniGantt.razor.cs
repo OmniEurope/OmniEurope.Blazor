@@ -17,20 +17,22 @@ namespace OmniEurope.Blazor.Components;
 public partial class OmniGantt
 {
     private readonly string _generatedId = $"omni-gantt-{Guid.NewGuid():N}";
-    private OmniCalendarView _scale = OmniCalendarView.Week;
-    private OmniCalendarView? _lastScaleParameter;
+    private OmniCalendarView _view = OmniCalendarView.Week;
+    private OmniCalendarView? _lastViewParameter;
+    private string? _value;
+    private string? _lastValueParameter;
 
     /// <summary>The tasks, in the order the rows list them (within their group when grouped).</summary>
     [Parameter] public IReadOnlyList<OmniGanttTask> Tasks { get; set; } = Array.Empty<OmniGanttTask>();
 
     /// <summary>The zoom: one column per day, per week or per month.</summary>
-    [Parameter] public OmniCalendarView Scale { get; set; } = OmniCalendarView.Week;
+    [Parameter] public OmniCalendarView View { get; set; } = OmniCalendarView.Week;
 
     /// <summary>Raised with the zoom the reader picks in the zoom picker.</summary>
-    [Parameter] public EventCallback<OmniCalendarView> ScaleChanged { get; set; }
+    [Parameter] public EventCallback<OmniCalendarView> ViewChanged { get; set; }
 
     /// <summary>Shows the day, week and month picker above the chart; a host with its own toolbar hides it.</summary>
-    [Parameter] public bool ShowScalePicker { get; set; } = true;
+    [Parameter] public bool ShowViewPicker { get; set; } = true;
 
     /// <summary>Lists the tasks under their <see cref="OmniGanttTask.Group"/>, each group with a summary bar.</summary>
     [Parameter] public bool ShowGroups { get; set; } = true;
@@ -44,8 +46,15 @@ public partial class OmniGantt
     /// <summary>Raised when a bar is clicked, or activated with Enter or Space.</summary>
     [Parameter] public EventCallback<OmniGanttTask> OnTaskClick { get; set; }
 
-    /// <summary>The task shown as chosen, by identifier: its bar is outlined, and pressed for a screen reader.</summary>
-    [Parameter] public string? SelectedTaskId { get; set; }
+    /// <summary>
+    /// The identifier of the chosen task: its bar is outlined, and pressed for a screen reader. Null (the
+    /// default) chooses none. Binds with <c>@bind-Value</c>; works without a binding too, the chart then
+    /// keeps the task the reader clicked.
+    /// </summary>
+    [Parameter] public string? Value { get; set; }
+
+    /// <summary>Raised with the identifier of the task the reader clicks (or activates with Enter or Space) when it was not the chosen one.</summary>
+    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
 
     /// <summary>Accessible name of the chart; null (the default) takes the localized "Gantt chart".</summary>
     [Parameter] public string? Label { get; set; }
@@ -69,13 +78,13 @@ public partial class OmniGantt
     private string ArrowReference => $"url(#{ArrowId})";
 
     /// <summary>The zoom drawn: the parameter, until the reader picks another one.</summary>
-    internal OmniCalendarView CurrentScale => _scale;
+    internal OmniCalendarView CurrentView => _view;
 
-    private string ScaleCss => $"omni-gantt--{_scale.ToString().ToLowerInvariant()}";
+    private string ViewCss => $"omni-gantt--{_view.ToString().ToLowerInvariant()}";
 
     private string EffectiveLabel => string.IsNullOrWhiteSpace(Label) ? Text("GanttLabel") : Label;
 
-    private string ScaleLabel => Text("GanttScale");
+    private string ViewLabel => Text("GanttScale");
 
     private string EmptyText => Text("GanttEmpty");
 
@@ -83,7 +92,7 @@ public partial class OmniGantt
 
     private string TodayText => Text("Today");
 
-    private IReadOnlyList<OmniOption<OmniCalendarView>> ScaleOptions =>
+    private IReadOnlyList<OmniOption<OmniCalendarView>> ViewOptions =>
     [
         new(OmniCalendarView.Day, Text("GanttScaleDay")),
         new(OmniCalendarView.Week, Text("GanttScaleWeek")),
@@ -94,42 +103,58 @@ public partial class OmniGantt
     private string Text(string key, params object[] arguments) => CultureText.In(Culture, () => Localize(key, arguments));
 
     /// <summary>
-    /// Adopts a new <see cref="Scale"/> from the host (a zoom chosen by the user stays while the host
+    /// Adopts a new <see cref="View"/> from the host (a zoom chosen by the user stays while the host
     /// passes the same value), then lays the tasks out again, today taken from the component clock.
     /// </summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        if (_lastScaleParameter is not { } last || last != Scale)
+        if (_lastViewParameter is not { } last || last != View)
         {
-            _lastScaleParameter = Scale;
-            _scale = Scale;
+            _lastViewParameter = View;
+            _view = View;
+        }
+
+        if (!string.Equals(_lastValueParameter, Value, StringComparison.Ordinal))
+        {
+            _lastValueParameter = Value;
+            _value = Value;
         }
 
         Layout = BuildLayout();
     }
 
     private GanttLayout BuildLayout() =>
-        GanttLayout.Build(Tasks, _scale, ShowGroups, DateOnly.FromDateTime(Clock.GetLocalNow().Date), Formats, WeekLabel);
+        GanttLayout.Build(Tasks, _view, ShowGroups, DateOnly.FromDateTime(Clock.GetLocalNow().Date), Formats, WeekLabel);
 
     /// <summary>The short name of an ISO week in the week zoom header: "S12" in French, "W12" in English.</summary>
     private string WeekLabel(int week) => Text("GanttWeekNumber", week.ToString(Formats));
 
-    // The scale bar is an OmniSelectBar, which reports a choice only when it differs from its value.
-    private async Task SetScaleAsync(OmniCalendarView scale)
+    // The view bar is an OmniSelectBar, which reports a choice only when it differs from its value.
+    private async Task SetViewAsync(OmniCalendarView view)
     {
         // Works without a binding too: the chart then keeps the zoom the reader picked.
-        _scale = scale;
+        _view = view;
         Layout = BuildLayout();
-        await ScaleChanged.InvokeAsync(scale);
+        await ViewChanged.InvokeAsync(view);
     }
 
-    private Task ClickTaskAsync(OmniGanttTask task) => OnTaskClick.InvokeAsync(task);
+    private async Task ClickTaskAsync(OmniGanttTask task)
+    {
+        if (!string.Equals(_value, task.Id, StringComparison.Ordinal))
+        {
+            _value = task.Id;
+            await ValueChanged.InvokeAsync(task.Id);
+        }
 
-    private bool IsSelected(OmniGanttTask task) => string.Equals(SelectedTaskId, task.Id, StringComparison.Ordinal);
+        await OnTaskClick.InvokeAsync(task);
+    }
 
-    // Pressed only means something when the host listens for clicks; otherwise the bar is a plain button.
-    private string? Pressed(OmniGanttTask task) => OnTaskClick.HasDelegate ? (IsSelected(task) ? "true" : "false") : null;
+    private bool IsSelected(OmniGanttTask task) => string.Equals(_value, task.Id, StringComparison.Ordinal);
+
+    // Pressed only means something when the host listens for clicks or for the choice; otherwise the bar is a plain button.
+    private string? Pressed(OmniGanttTask task) =>
+        OnTaskClick.HasDelegate || ValueChanged.HasDelegate ? (IsSelected(task) ? "true" : "false") : null;
 
     private string TaskCss(OmniGanttTask task) => CssClassBuilder.Combine(
     [

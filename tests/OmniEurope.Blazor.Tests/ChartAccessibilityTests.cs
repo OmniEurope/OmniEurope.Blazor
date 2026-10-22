@@ -49,7 +49,7 @@ public sealed class ChartAccessibilityTests : OmniBunitContext
     public void Chart_WithoutATableOfTheHost_WritesAHiddenTableOfItsSeries()
     {
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Dossiers")
+            .Add(component => component.Label, "Dossiers")
             .AddChildContent(builder =>
             {
                 builder.OpenComponent<OmniCategoryAxis>(0);
@@ -87,7 +87,7 @@ public sealed class ChartAccessibilityTests : OmniBunitContext
     public void Chart_WithATableOfTheHost_ShowsThatOneAndWritesNone()
     {
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Dossiers")
+            .Add(component => component.Label, "Dossiers")
             .Add(component => component.DataTableContent, (RenderFragment)(builder => builder.AddMarkupContent(0, "<table class=\"host\"></table>")))
             .AddChildContent<OmniColumnSeries>(series => series.Add(component => component.Data, [new OmniChartPoint(1, 12)])));
 
@@ -98,10 +98,10 @@ public sealed class ChartAccessibilityTests : OmniBunitContext
     [Fact]
     public void Chart_IsDescribedOnlyWhenItHasADescription()
     {
-        var bare = Render<OmniChart>(parameters => parameters.Add(component => component.Title, "Sans description"));
+        var bare = Render<OmniChart>(parameters => parameters.Add(component => component.Label, "Sans description"));
         var described = Render<OmniChart>(parameters => parameters
             .Add(component => component.Id, "decrit")
-            .Add(component => component.Title, "Avec description")
+            .Add(component => component.Label, "Avec description")
             .Add(component => component.Description, "Ventes du semestre"));
 
         var svg = bare.Find("svg");
@@ -116,7 +116,7 @@ public sealed class ChartAccessibilityTests : OmniBunitContext
     public void PieChart_TableListsTheSlices_AndTheHoverTextUsesTheSharedSeparator()
     {
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Origine")
+            .Add(component => component.Label, "Origine")
             .AddChildContent<OmniPieSeries>(pie => pie
                 .Add(component => component.Title, "Canal")
                 .Add(component => component.Data, [new OmniChartSlice("Guichet", 46), new OmniChartSlice("Vide", 0), new OmniChartSlice("En ligne", 19)])));
@@ -159,7 +159,7 @@ public sealed class ChartAccessibilityTests : OmniBunitContext
     public void HorizontalStackedColumns_SitEndToEnd_OnOneBandPlace()
     {
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Empilé")
+            .Add(component => component.Label, "Empilé")
             .AddChildContent(builder =>
             {
                 builder.OpenComponent<OmniValueAxis>(0);
@@ -195,7 +195,7 @@ public sealed class ChartAccessibilityTests : OmniBunitContext
     public void Legend_ReadsTheTitledSeries_WithTheirColours()
     {
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Légende")
+            .Add(component => component.Label, "Légende")
             .AddChildContent(builder =>
             {
                 builder.OpenComponent<OmniLineSeries>(0);
@@ -212,7 +212,7 @@ public sealed class ChartAccessibilityTests : OmniBunitContext
                 builder.AddAttribute(9, nameof(OmniAreaSeries.Data), (IReadOnlyList<OmniChartPoint>)[new(0, 1), new(1, 3)]);
                 builder.CloseComponent();
                 builder.OpenComponent<OmniLegend>(10);
-                builder.AddAttribute(11, nameof(OmniLegend.Position), OmniLegendPosition.Bottom);
+                builder.AddAttribute(11, nameof(OmniLegend.Placement), OmniLegendPlacement.Bottom);
                 builder.CloseComponent();
             }));
 

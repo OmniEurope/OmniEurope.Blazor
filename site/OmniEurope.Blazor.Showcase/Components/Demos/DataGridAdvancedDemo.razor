@@ -21,7 +21,7 @@
         <OmniFormField For="grid-pager">
             <LabelContent>@Text["DemoGridAdvancedPager"]</LabelContent>
             <ChildContent>
-                <OmniDropDown TValue="OmniDataGridPosition" Id="grid-pager" Options="PagerOptions" @bind-Value="Pager" />
+                <OmniDropDown TValue="OmniDataGridPlacement" Id="grid-pager" Options="PagerOptions" @bind-Value="Pager" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="grid-selection">
@@ -51,7 +51,7 @@
         <OmniFormField For="grid-footer">
             <LabelContent>@Text["DemoGridAdvancedFooter"]</LabelContent>
             <ChildContent>
-                <OmniDropDown TValue="OmniDataGridPosition" Id="grid-footer" Options="FooterOptions" @bind-Value="Footer" />
+                <OmniDropDown TValue="OmniDataGridPlacement" Id="grid-footer" Options="FooterOptions" @bind-Value="Footer" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="grid-aggregate">
@@ -82,9 +82,9 @@
               SelectionMode="Mode"
               EditMode="Edit"
               ExpandMode="Expand"
-              FooterPosition="Footer"
+              FooterPlacement="Footer"
               FilterMode="Filters"
-              PagerPosition="Pager"
+              PagerPlacement="Pager"
               Density="Density"
               @bind-Groups="Grouping"
               Value="Selection"
@@ -117,7 +117,7 @@
                                                Placeholder="@context.Placeholder"
                                                Filterable="true"
                                                MaxSuggestions="8"
-                                               Presentation="@(context.InPopover ? OmniMultiSelectPresentation.List : OmniMultiSelectPresentation.Compact)" />
+                                               Display="@(context.InPopover ? OmniMultiSelectPresentation.List : OmniMultiSelectPresentation.Compact)" />
             </FilterTemplate>
         </OmniDataGridColumn>
         <OmniDataGridColumn TItem="GridRow" Property="Filed" Title="@Text["GridFiledColumn"]" FormatString="{0:g}"
@@ -129,7 +129,7 @@
             </FilterTemplate>
         </OmniDataGridColumn>
         <OmniDataGridColumn TItem="GridRow" Property="Amount" Title="@Text["DemoGridColumnAmount"]" FormatString="{0:C0}" FilterType="OmniDataGridColumnFilterType.Number"
-                            TextAlign="OmniDataGridTextAlign.End" Aggregate="Aggregate" AggregateFormat="@AggregateFormat" GroupAggregateFormat="@GroupAggregateFormat" />
+                            TextAlign="OmniAlignment.End" Aggregate="Aggregate" AggregateFormat="@AggregateFormat" GroupAggregateFormat="@GroupAggregateFormat" />
     </Columns>
 </OmniDataGrid>
 

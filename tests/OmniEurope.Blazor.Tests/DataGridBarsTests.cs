@@ -92,17 +92,6 @@ public sealed class DataGridBarsTests : OmniBunitContext
         Assert.Equal(2, grid.FindAll(".omni-data-grid__bar").Count);
     }
 
-    [Fact]
-    public void TheFormerExportBar_StillShows_WhenTheShownBarCarriesNoButton()
-    {
-        var host = Grid(builder => builder
-            .Add(component => component.ShowHeaderBar, true)
-            .Add(component => component.HeaderBarExport, OmniDataGridBarExport.None)
-            .Add(component => component.Formats, [OmniTableExportFormat.Csv]));
-
-        Assert.Empty(host.Find(".omni-data-grid__bar--header").QuerySelectorAll(".omni-data-grid__export"));
-        Assert.Equal(["Exporter en CSV"], Labels(host.Find(".omni-data-grid__bar--footer")));
-    }
 
     [Fact]
     public void EveryFormat_IsOnByDefault_EachAnIconButton()
@@ -238,34 +227,24 @@ public sealed class DataGridBarsTests : OmniBunitContext
     }
 
     [Theory]
-    [InlineData(OmniDataGridPosition.Bottom, false, true)]
-    [InlineData(OmniDataGridPosition.Top, true, false)]
-    [InlineData(OmniDataGridPosition.TopAndBottom, true, true)]
-    public void TheFormerExportBar_IsShownInTheFrame_WhereItsPositionSaid(OmniDataGridPosition position, bool header, bool footer)
+    [InlineData(false, true)]
+    [InlineData(true, false)]
+    [InlineData(true, true)]
+    public void TheExportBars_AreShownInTheFrame_WhereTheyAreAsked(bool header, bool footer)
     {
         var host = Grid(builder => builder
-            .Add(component => component.Position, position)
-            .Add(component => component.Formats, [OmniTableExportFormat.Csv, OmniTableExportFormat.Markdown]));
+            .Add(component => component.ShowHeaderBar, header)
+            .Add(component => component.ShowFooterBar, footer)
+            .Add(component => component.ExportExcel, false)
+            .Add(component => component.ExportPdf, false));
 
         Assert.Equal(header, host.FindAll(".omni-data-grid__frame > .omni-data-grid__bar--header").Count == 1);
         Assert.Equal(footer, host.FindAll(".omni-data-grid__frame > .omni-data-grid__bar--footer").Count == 1);
-        // The former list keeps its order and replaces the four switches; the buttons sit at the start.
+        // The four switches keep a fixed order; the buttons sit at the start.
         foreach (var bar in host.FindAll(".omni-data-grid__bar"))
         {
-            Assert.Equal(["Exporter en CSV", "Exporter en Markdown"], Labels(bar));
+            Assert.Equal(["Exporter en Markdown", "Exporter en CSV"], Labels(bar));
             Assert.True(bar.Children[0].ClassList.Contains("omni-data-grid__export"));
         }
-    }
-
-    [Fact]
-    public void TheFormerList_RestrictsTheFormats_OfTheNewBars()
-    {
-        var host = Grid(builder => builder
-            .Add(component => component.ShowFooterBar, true)
-            .Add(component => component.FooterBarExport, OmniDataGridBarExport.End)
-            .Add(component => component.Formats, [OmniTableExportFormat.Excel]));
-
-        Assert.Equal(["Exporter en Excel"], Labels(host.Find(".omni-data-grid__bar--footer")));
-        Assert.Empty(host.FindAll(".omni-data-grid__bar--header"));
     }
 }

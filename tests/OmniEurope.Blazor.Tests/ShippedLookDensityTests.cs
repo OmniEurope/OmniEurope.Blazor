@@ -321,7 +321,7 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
         var header = grid.FindAll("thead th").Single(cell => cell.TextContent.Contains("Durée", StringComparison.Ordinal));
 
         Assert.Contains("omni-data-grid__cell--numeric", header.ClassList);
-        Assert.All(new[] { "name", "duration", "cost", "lambda", "templated" }, key => Assert.Equal(2, Classes(key).Length));
+        Assert.All(new[] { "name", "duration", "cost", "stretched-number", "stretched-text", "lambda", "templated" }, key => Assert.Equal(2, Classes(key).Length));
         Assert.All(Classes("duration"), value => Assert.Contains("omni-data-grid__cell--numeric", value, StringComparison.Ordinal));
         Assert.All(Classes("name"), value => Assert.DoesNotContain("omni-data-grid__cell--numeric", value, StringComparison.Ordinal));
         Assert.All(Classes("cost"), value =>
@@ -330,6 +330,13 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
             Assert.DoesNotContain("omni-data-grid__cell--numeric", value, StringComparison.Ordinal);
         });
         Assert.All(Classes("lambda"), value => Assert.DoesNotContain("omni-data-grid__cell--numeric", value, StringComparison.Ordinal));
+        // Stretch has no meaning for a column of text: it reads as the start, so a number still ends the line.
+        Assert.All(Classes("stretched-number"), value => Assert.Contains("omni-data-grid__cell--numeric", value, StringComparison.Ordinal));
+        Assert.All(Classes("stretched-text"), value =>
+        {
+            Assert.Contains("omni-data-grid__column--align-start", value, StringComparison.Ordinal);
+            Assert.DoesNotContain("align-stretch", value, StringComparison.Ordinal);
+        });
         // A template lays the cell out itself (here a link from the start): header and cells keep the
         // start instead of splitting the header to the end over start-aligned content.
         var templatedHeader = grid.FindAll("thead th").Single(cell => cell.TextContent.Contains("Numéro", StringComparison.Ordinal));

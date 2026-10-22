@@ -21,7 +21,7 @@
             <EditTemplate Context="row"><input class="rows-edit" value="@row.Name" /></EditTemplate>
         </OmniDataGridColumn>
         <OmniDataGridColumn TItem="Row" Key="city" Title="Ville" Value="row => row.City" Filterable="true" FilterType="OmniDataGridColumnFilterType.MultiSelect" />
-        <OmniDataGridColumn TItem="Row" Key="score" Title="Score" Value="row => row.Score" MinWidth="6rem" TextAlign="OmniDataGridTextAlign.End" />
+        <OmniDataGridColumn TItem="Row" Key="score" Title="Score" Value="row => row.Score" MinWidth="6rem" TextAlign="OmniAlignment.End" />
     </Columns>
 </OmniDataGrid>
 

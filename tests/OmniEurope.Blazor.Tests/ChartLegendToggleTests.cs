@@ -15,9 +15,9 @@ public sealed class ChartLegendToggleTests : OmniBunitContext
     private static readonly IReadOnlyList<OmniChartPoint> Small = [new(0, 10), new(1, 20)];
     private static readonly IReadOnlyList<OmniChartPoint> Large = [new(0, 400), new(1, 500)];
 
-    private IRenderedComponent<OmniChart> Chart(OmniLegendPosition position, bool allowToggle = true) =>
+    private IRenderedComponent<OmniChart> Chart(OmniLegendPlacement position, bool allowToggle = true) =>
         Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Soldes")
+            .Add(component => component.Label, "Soldes")
             .Add(component => component.SharedTooltip, true)
             .AddChildContent(builder =>
             {
@@ -42,7 +42,7 @@ public sealed class ChartLegendToggleTests : OmniBunitContext
                 builder.AddAttribute(14, nameof(OmniSeriesDataLabels.Data), Large);
                 builder.CloseComponent();
                 builder.OpenComponent<OmniLegend>(15);
-                builder.AddAttribute(16, nameof(OmniLegend.Position), position);
+                builder.AddAttribute(16, nameof(OmniLegend.Placement), position);
                 builder.AddAttribute(17, nameof(OmniLegend.AllowToggle), allowToggle);
                 builder.CloseComponent();
             }));
@@ -55,7 +55,7 @@ public sealed class ChartLegendToggleTests : OmniBunitContext
     [Fact]
     public void ABottomEntry_IsAPressedButton_ThatHidesItsSeriesAndItsDecorations_ThenShowsThemAgain()
     {
-        var chart = Chart(OmniLegendPosition.Bottom);
+        var chart = Chart(OmniLegendPlacement.Bottom);
         chart.WaitForAssertion(() => Assert.Equal(2, chart.FindAll("button.omni-chart__legend-toggle").Count));
         var total = chart.FindAll("button.omni-chart__legend-toggle")[1];
         Assert.Equal("true", total.GetAttribute("aria-pressed"));
@@ -91,7 +91,7 @@ public sealed class ChartLegendToggleTests : OmniBunitContext
     [Fact]
     public void ARightEntry_AnswersThePointer_InsideTheDrawing()
     {
-        var chart = Chart(OmniLegendPosition.Right);
+        var chart = Chart(OmniLegendPlacement.Right);
         chart.WaitForAssertion(() => Assert.Equal(2, chart.FindAll("g.omni-chart__legend-entry--toggle").Count));
         // A button of the keyboard too (audit of 2026-10-07, RCL-003): one tab stop each, pressed while
         // its series shows, and marked for the page keys that turn Enter and Space into a click.
@@ -117,7 +117,7 @@ public sealed class ChartLegendToggleTests : OmniBunitContext
     [Fact]
     public void WithoutToggle_TheLegendStaysAPlainKey()
     {
-        var chart = Chart(OmniLegendPosition.Bottom, allowToggle: false);
+        var chart = Chart(OmniLegendPlacement.Bottom, allowToggle: false);
 
         chart.WaitForAssertion(() => Assert.Equal(2, chart.FindAll("ul.omni-chart__legend--below li").Count));
         Assert.Empty(chart.FindAll("button.omni-chart__legend-toggle"));
@@ -126,7 +126,7 @@ public sealed class ChartLegendToggleTests : OmniBunitContext
     [Fact]
     public void ATopEntry_HidesItsSeries_AndSaysItIsNoLongerPressed()
     {
-        var chart = Chart(OmniLegendPosition.Top);
+        var chart = Chart(OmniLegendPlacement.Top);
         chart.WaitForAssertion(() => Assert.Equal(2, chart.FindAll("ul.omni-chart__legend--above button.omni-chart__legend-toggle").Count));
 
         chart.FindAll("button.omni-chart__legend-toggle")[0].Click();
@@ -142,7 +142,7 @@ public sealed class ChartLegendToggleTests : OmniBunitContext
     [Fact]
     public void ATopLegendWithoutToggle_IsAPlainKeyAboveTheDrawing()
     {
-        var chart = Chart(OmniLegendPosition.Top, allowToggle: false);
+        var chart = Chart(OmniLegendPlacement.Top, allowToggle: false);
 
         chart.WaitForAssertion(() => Assert.Equal(2, chart.FindAll("ul.omni-chart__legend--above li").Count));
         Assert.Empty(chart.FindAll("button.omni-chart__legend-toggle"));
@@ -153,7 +153,7 @@ public sealed class ChartLegendToggleTests : OmniBunitContext
     public void AnAreaAndAColumnSeries_LeaveTheDrawing_WhenTheirEntryHidesThem()
     {
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Stock")
+            .Add(component => component.Label, "Stock")
             .AddChildContent(builder =>
             {
                 builder.OpenComponent<OmniValueAxis>(0);
@@ -170,7 +170,7 @@ public sealed class ChartLegendToggleTests : OmniBunitContext
                 builder.AddAttribute(9, nameof(OmniColumnSeries.Data), Large);
                 builder.CloseComponent();
                 builder.OpenComponent<OmniLegend>(10);
-                builder.AddAttribute(11, nameof(OmniLegend.Position), OmniLegendPosition.Bottom);
+                builder.AddAttribute(11, nameof(OmniLegend.Placement), OmniLegendPlacement.Bottom);
                 builder.CloseComponent();
             }));
         chart.WaitForAssertion(() => Assert.Equal(2, chart.FindAll("button.omni-chart__legend-toggle").Count));
@@ -189,19 +189,19 @@ public sealed class ChartLegendToggleTests : OmniBunitContext
     }
 
     [Theory]
-    [InlineData(OmniLegendPosition.Bottom, "below")]
-    [InlineData(OmniLegendPosition.Top, "above")]
-    public void PieSlices_NeverToggle(OmniLegendPosition position, string side)
+    [InlineData(OmniLegendPlacement.Bottom, "below")]
+    [InlineData(OmniLegendPlacement.Top, "above")]
+    public void PieSlices_NeverToggle(OmniLegendPlacement position, string side)
     {
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Parts")
+            .Add(component => component.Label, "Parts")
             .AddChildContent(builder =>
             {
                 builder.OpenComponent<OmniPieSeries>(0);
                 builder.AddAttribute(1, nameof(OmniPieSeries.Data), (IReadOnlyList<OmniChartSlice>)[new("A", 1), new("B", 2)]);
                 builder.CloseComponent();
                 builder.OpenComponent<OmniLegend>(2);
-                builder.AddAttribute(3, nameof(OmniLegend.Position), position);
+                builder.AddAttribute(3, nameof(OmniLegend.Placement), position);
                 builder.CloseComponent();
             }));
 

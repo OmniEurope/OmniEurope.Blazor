@@ -55,7 +55,7 @@ Une colonne se déclare par lambda ou par nom de propriété.
     <Columns>
         <OmniDataGridColumn TItem="Order" Property="Customer.Name" Title="Client" Frozen="true" Width="220px" />
         <OmniDataGridColumn TItem="Order" Property="Total" Title="Total" FormatString="{0:n2}" Filterable="false"
-                            TextAlign="OmniDataGridTextAlign.End" SortOrder="OmniDataGridSortOrder.Descending" />
+                            TextAlign="OmniAlignment.End" SortOrder="OmniDataGridSortOrder.Descending" />
     </Columns>
 </OmniDataGrid>
 ```
@@ -73,7 +73,7 @@ Une colonne se déclare par lambda ou par nom de propriété.
   pourcentage compte comme une colonne sans largeur. `MinWidth` est tenue exactement quand elle
   porte sur la seule colonne sans largeur ; à plusieurs, ces colonnes se partagent la place à
   parts égales au-dessus de ce minimum global.
-- Une colonne alignée à la fin (`TextAlign`) aligne aussi son titre, à la fin de l'en-tête.
+- Une colonne alignée à la fin (`TextAlign`, un `OmniAlignment` : `Start` par défaut, `Center`, `End`) aligne aussi son titre, à la fin de l'en-tête. `Stretch` n'a pas de sens pour du texte : il se lit comme `Start`.
 - `TextAlign`, `Class`, `HeaderClass`, `Visible`, `Hideable`, `Resizable`, `Sortable`, `Filterable` et
   `Groupable` complètent la déclaration (`Hideable` : voir « Réordonner, masquer et réinitialiser les
   colonnes »). `HeaderContent` remplace le titre, `FooterContent` la cellule
@@ -334,7 +334,7 @@ parce que `Filterable` et `FormatValue` désignent déjà le filtre de la colonn
 
 Dans la rangée de filtres, la liste `MultiSelect` est repliée sur une ligne qui résume les valeurs
 cochées et s'ouvre à la demande ; dans un menu d'en-tête elle s'affiche ouverte.
-`OmniDataGridFilterMultiSelect.Presentation` (`Compact` par défaut, ou `List`) choisit entre les
+`OmniDataGridFilterMultiSelect.Display` (`Compact` par défaut, ou `List`) choisit entre les
 deux quand il est posé à la main dans un `FilterTemplate`, et `OmniDataGridFilterContext.InPopover`
 dit au modèle où il est rendu.
 
@@ -510,8 +510,8 @@ sont reconnues par `KeyOf`.
 
 `OmniPager` sert la grille et reste utilisable seul : boutons précédente, numéros de page et suivante, première et dernière avec `ShowFirstLast`, sélecteur de taille de page. Ses textes (titres et noms accessibles des boutons, libellé de taille de page, résumé) viennent des ressources du paquet, remplaçables par `AddOmniEuropeTextOverrides` ([localization.md](localization.md)) ; il n'a aucun paramètre de texte par bouton, et chaque bouton numéroté est nommé par son chiffre.
 
-- Seul, il prend ses propres paramètres : `Page`/`PageChanged` et `PageCount`, `PageSize`/`PageSizeChanged` et `PageSizeOptions`, `NumericPageCount` (nombre de numéros affichés), `ShowFirstLast`, `HorizontalAlign`, `Label` (nom de la navigation) et `Disabled`.
-- Dans la grille, on ne le pose pas : la grille le rend et le règle par ses paramètres à elle, `PageSize`/`PageSizeChanged`, `PageSizeOptions`, `NumericPageCount`, `PagerHorizontalAlign` (transmis comme `HorizontalAlign`), `PagerPosition` (`OmniDataGridPosition` : `Bottom`, `Top` ou `TopAndBottom`, comme `FooterPosition` pour la ligne de total) et `ShowPagingSummary` (résumé localisé « premier à dernier sur total ») ; première et dernière y sont toujours montrées.
+- Seul, il prend ses propres paramètres : `Page`/`PageChanged` et `PageCount`, `PageSize`/`PageSizeChanged` et `PageSizeOptions`, `NumericPageCount` (nombre de numéros affichés), `ShowFirstLast`, `Justify`, `Label` (nom de la navigation) et `Disabled`.
+- Dans la grille, on ne le pose pas : la grille le rend et le règle par ses paramètres à elle, `PageSize`/`PageSizeChanged`, `PageSizeOptions`, `NumericPageCount`, `PagerJustify` (transmis comme `Justify`), `PagerPlacement` (`OmniDataGridPlacement` : `Bottom`, `Top` ou `TopAndBottom`, comme `FooterPlacement` pour la ligne de total) et `ShowPagingSummary` (résumé localisé « premier à dernier sur total ») ; première et dernière y sont toujours montrées.
 
 Dans la grille, la barre n'apparaît qu'en `ScrollMode` `Paged` et s'il existe plus d'une page. `AlwaysShowPager` la maintient visible même sur une page
 unique, pour une mise en page qui ne doit pas se réorganiser au fil des filtres. Une liste locale
@@ -520,7 +520,7 @@ l'hôte : la barre et le résumé n'annoncent plus « page 5 sur 1 ».
 
 ## Présentation
 
-`GridLines` (`Horizontal` par défaut, `None`, `Vertical`, `Both`), `Density`, `AllowAlternatingRows` et
+`GridLines` (`Horizontal` par défaut, `None`, `Vertical`, `Both`), `Density` (`OmniDensity?` : nulle par défaut, la grille suit alors la densité de l'`OmniThemeScope` qui l'entoure, `Comfortable` hors portée ; une valeur la fixe pour la grille seule), `AllowAlternatingRows` et
 `Responsive`. En mode responsive, chaque cellule
 porte son intitulé en attribut `data-omni-label` et la feuille de styles empile la ligne en carte
 sous 40 rem.
@@ -798,13 +798,22 @@ de zéro).
 
 Une grille exporte par ses propres barres (section suivante). `OmniMarkdownExportButton<TItem>`
 sert aux exports hors grille : une liste de cartes, un tableau de bord, un rapport. C'est un bouton qui
-télécharge des lignes en fichier Markdown (`OmniMarkdownTableExporter`, service enregistré par
-`AddOmniEuropeBlazor`), pour une lecture par une IA : toutes les lignes annoncées, lues par le fournisseur
+télécharge des lignes en fichier Markdown, pour une lecture par une IA : toutes les lignes annoncées, lues par le fournisseur
 de pages de l'export, et non la seule page affichée. Il est occupé pendant la lecture, et une page en échec ne produit aucun fichier.
-`OnExport` reçoit le document produit une fois le fichier remis (une exception de son gestionnaire remonte, ce n'est pas un échec de l'export), `OnExportError` l'exception d'un échec ; `Text` (`string?`) remplace
+
+Un seul modèle d'export sert à la grille et à ce bouton, et le Markdown n'y est qu'un format parmi les autres
+(`OmniTableExportFormat`). `Export` décrit la source par un `OmniTableExport<TItem>` : `Title`, `Columns`
+(des `OmniTableExportColumn<TItem>` : titre et texte de la cellule), `LoadPage` (une `OmniTableExportPageRequest`
+numérotée à partir de 1 qui donne `Skip`), `Fields` (des `OmniTableExportField`, comme `ExportFields` de la grille),
+`RowLimit`, `PageSize`, `RowKey` (une ligne lue deux fois n'est écrite qu'une fois) et `EmptyText`. Le service
+`OmniTableExporter` (enregistré par `AddOmniEuropeBlazor`) en tire un `OmniTableExportDocument` par `ReadAsync`,
+que `RenderAsync` écrit dans n'importe quel format : un hôte qui veut aussi du CSV ou de l'Excel de cette source
+ne lit pas ses pages deux fois. `ToMarkdown(document)` donne le texte Markdown, `EscapeCell` et `EscapeInline`
+l'échappement d'une cellule et d'une ligne d'en-tête.
+`OnExport` reçoit l'`OmniTableExportDocument` produit une fois le fichier remis (une exception de son gestionnaire remonte, ce n'est pas un échec de l'export), `OnExportError` l'exception d'un échec ; `Text` (`string?`) remplace
 le libellé localisé du bouton. Quand la source n'annonce pas de total et que la lecture s'arrête sur une
 page pleine à la limite de lignes, le document écrit « N sur au moins M » et une note le dit :
-`OmniMarkdownTableDocument.TotalIsLowerBound` est alors vrai et `IsComplete` faux. Le fichier se nomme
+`OmniTableExportDocument.TotalIsLowerBound` est alors vrai et `IsComplete` faux. Le fichier se nomme
 `{FileName}-{yyyy-MM-dd-HHmm}.md`, heure UTC (`FileName` vaut `export` par défaut).
 
 ## Barres d'en-tête et de pied de la grille, export
@@ -852,10 +861,9 @@ par défaut des boutons).
 </OmniDataGrid>
 ```
 
-- **Ancienne barre.** `ExportFormats` et `ExportPosition` restent pris en charge et sont obsolètes
-  (avertissement CS0618 à la compilation, qui nomme les paramètres ci-dessus) : tant qu'aucune barre
-  affichée ne porte les boutons, la barre que nommait `ExportPosition` s'affiche d'office avec eux à son début, dans
-  le cadre du tableau ; une liste `ExportFormats` non vide remplace les quatre interrupteurs de formats.
+- **Anciens paramètres retirés en 1.9.0.** ExportFormats et ExportPosition n'existent plus : les barres (ShowHeaderBar,
+  ShowFooterBar) et les quatre interrupteurs de formats ci-dessus les remplacent.
+
 - **Lignes.** Toutes celles que les filtres en cours retiennent, dans le tri en cours, et non la page ou
   la fenêtre affichée : l'ensemble filtré et trié d'une grille à `Items` ; pour une grille à `Load`, des
   appels successifs de 200 lignes avec les tris et filtres en cours, jusqu'au total annoncé ou à

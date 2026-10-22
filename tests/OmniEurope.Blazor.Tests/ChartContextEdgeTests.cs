@@ -59,8 +59,8 @@ public sealed class ChartContextEdgeTests
         context.RegisterValueAxis(axis, 0, 10);
         context.RegisterAutomaticValueAxis(axis, 5);
         context.RegisterCategoryAxis(categories, ["janv.", "févr."]);
-        context.RegisterLegend(legend, new LegendRegistration("Légende", [], OmniLegendPosition.Right));
-        context.RegisterLegend(legend, new LegendRegistration("Autre", [], OmniLegendPosition.Right));
+        context.RegisterLegend(legend, new LegendRegistration("Légende", [], OmniLegendPlacement.Right));
+        context.RegisterLegend(legend, new LegendRegistration("Autre", [], OmniLegendPlacement.Right));
         var registered = changes;
 
         foreach (var withdraw in new Action<object>[] { context.UnregisterSeries, context.UnregisterPie, context.UnregisterValueAxis, context.UnregisterCategoryAxis, context.UnregisterLegend })
@@ -87,7 +87,7 @@ public sealed class ChartContextEdgeTests
         var context = new OmniChartContext();
         context.RegisterPie(new object(), "Parts", [new OmniChartSlice("Nord", 2), new OmniChartSlice("Sud", 3)]);
 
-        var entries = context.LegendEntries(new LegendRegistration("Légende", [], OmniLegendPosition.Right));
+        var entries = context.LegendEntries(new LegendRegistration("Légende", [], OmniLegendPlacement.Right));
 
         Assert.Equal(["Nord", "Sud"], entries.Select(entry => entry.Text));
         Assert.False(context.IsLegendOutside(new object()));
@@ -176,10 +176,10 @@ public sealed class ChartContextEdgeTests
     [Fact]
     public void Legends_ThatDifferOnlyByTheirName_AreNotTheSame()
     {
-        var first = new LegendRegistration("Ventes", ["A"], OmniLegendPosition.Bottom);
+        var first = new LegendRegistration("Ventes", ["A"], OmniLegendPlacement.Bottom);
 
         Assert.False(first.SameAs(first with { Label = "Achats" }));
-        Assert.False(first.SameAs(first with { Position = OmniLegendPosition.Top }));
-        Assert.True(first.SameAs(new LegendRegistration("Ventes", ["A"], OmniLegendPosition.Bottom)));
+        Assert.False(first.SameAs(first with { Placement = OmniLegendPlacement.Top }));
+        Assert.True(first.SameAs(new LegendRegistration("Ventes", ["A"], OmniLegendPlacement.Bottom)));
     }
 }

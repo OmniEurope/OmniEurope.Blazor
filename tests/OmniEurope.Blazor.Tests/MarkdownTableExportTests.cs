@@ -24,10 +24,10 @@ public sealed class MarkdownTableExportTests : OmniBunitContext
 
     public MarkdownTableExportTests() => Services.AddSingleton<TimeProvider>(new FixedClock());
 
-    private OmniMarkdownTableExporter Exporter => Services.GetRequiredService<OmniMarkdownTableExporter>();
+    private OmniTableExporter Exporter => Services.GetRequiredService<OmniTableExporter>();
 
     /// <summary>A source of <paramref name="count"/> rows served by pages, recording every page asked for.</summary>
-    private static OmniMarkdownTableExport<Row> Export(int count, List<OmniMarkdownTablePageRequest> requests,
+    private static OmniTableExport<Row> Export(int count, List<OmniTableExportPageRequest> requests,
         int rowLimit = 5000, int pageSize = 200, int? announced = null) => new()
     {
         Title = "Erreurs de Boutique",
@@ -52,9 +52,9 @@ public sealed class MarkdownTableExportTests : OmniBunitContext
     [Fact]
     public async Task Export_ReadsEveryAnnouncedPage_AndWritesTheHeader()
     {
-        var requests = new List<OmniMarkdownTablePageRequest>();
+        var requests = new List<OmniTableExportPageRequest>();
 
-        var document = await Exporter.ExportAsync(Export(450, requests), Xunit.TestContext.Current.CancellationToken);
+        var document = await Exporter.ReadAsync(Export(450, requests), Xunit.TestContext.Current.CancellationToken);
 
         Assert.Equal([1, 2, 3], requests.Select(request => request.Page));
         Assert.All(requests, request => Assert.Equal(200, request.PageSize));
@@ -63,7 +63,7 @@ public sealed class MarkdownTableExportTests : OmniBunitContext
         Assert.True(document.IsComplete);
         Assert.False(document.Truncated);
         Assert.Equal(Now, document.GeneratedAt);
-        var markdown = document.Markdown;
+        var markdown = Exporter.ToMarkdown(document);
         Assert.StartsWith("# Erreurs de Boutique\n", markdown.ReplaceLineEndings("\n"), StringComparison.Ordinal);
         Assert.Contains("- Période : dernières 24 heures", markdown, StringComparison.Ordinal);
         Assert.Contains("- Filtres : aucun", markdown, StringComparison.Ordinal);
@@ -81,10 +81,10 @@ public sealed class MarkdownTableExportTests : OmniBunitContext
     [Fact]
     public async Task Export_WithTheLargestRowLimit_StillReadsEveryPage()
     {
-        var requests = new List<OmniMarkdownTablePageRequest>();
+        var requests = new List<OmniTableExportPageRequest>();
 
         // int.MaxValue stands for "no limit": the count of pages must not overflow into zero pages.
-        var document = await Exporter.ExportAsync(Export(450, requests, rowLimit: int.MaxValue), Xunit.TestContext.Current.CancellationToken);
+        var document = await Exporter.ReadAsync(Export(450, requests, rowLimit: int.MaxValue), Xunit.TestContext.Current.CancellationToken);
 
         Assert.Equal([1, 2, 3], requests.Select(request => request.Page));
         Assert.Equal(450, document.RowCount);
@@ -94,42 +94,42 @@ public sealed class MarkdownTableExportTests : OmniBunitContext
     [Fact]
     public async Task Export_BeyondTheLimit_StopsAtIt_AndSaysItIsTruncated()
     {
-        var requests = new List<OmniMarkdownTablePageRequest>();
+        var requests = new List<OmniTableExportPageRequest>();
 
-        var document = await Exporter.ExportAsync(Export(12, requests, rowLimit: 5, pageSize: 2), Xunit.TestContext.Current.CancellationToken);
+        var document = await Exporter.ReadAsync(Export(12, requests, rowLimit: 5, pageSize: 2), Xunit.TestContext.Current.CancellationToken);
 
         Assert.Equal([1, 2, 3], requests.Select(request => request.Page));
         Assert.Equal(5, document.RowCount);
         Assert.Equal(12, document.TotalCount);
         Assert.True(document.Truncated);
         Assert.False(document.IsComplete);
-        Assert.Contains("- Lignes exportées : 5 sur 12 annoncées", document.Markdown, StringComparison.Ordinal);
-        Assert.Contains("> Export tronqué : 5 lignes exportées sur 12, la limite de 5 lignes est atteinte.", document.Markdown, StringComparison.Ordinal);
-        Assert.Equal(5, TableRows(document.Markdown));
+        Assert.Contains("- Lignes exportées : 5 sur 12 annoncées", Exporter.ToMarkdown(document), StringComparison.Ordinal);
+        Assert.Contains("> Export tronqué : 5 lignes exportées sur 12, la limite de 5 lignes est atteinte.", Exporter.ToMarkdown(document), StringComparison.Ordinal);
+        Assert.Equal(5, TableRows(Exporter.ToMarkdown(document)));
     }
 
     [Fact]
     public async Task Export_ASourceThatAnnouncesFewerRowsThanItReturns_IsCountedWhileRead()
     {
-        var requests = new List<OmniMarkdownTablePageRequest>();
+        var requests = new List<OmniTableExportPageRequest>();
 
-        var document = await Exporter.ExportAsync(Export(25, requests, pageSize: 10, announced: 0), Xunit.TestContext.Current.CancellationToken);
+        var document = await Exporter.ReadAsync(Export(25, requests, pageSize: 10, announced: 0), Xunit.TestContext.Current.CancellationToken);
 
         Assert.Equal([1, 2, 3], requests.Select(request => request.Page));
         Assert.Equal(25, document.RowCount);
         Assert.Equal(25, document.TotalCount);
         Assert.True(document.IsComplete);
-        Assert.Contains("- Lignes exportées : 25 sur 25 annoncées", document.Markdown, StringComparison.Ordinal);
-        Assert.Equal(25, TableRows(document.Markdown));
+        Assert.Contains("- Lignes exportées : 25 sur 25 annoncées", Exporter.ToMarkdown(document), StringComparison.Ordinal);
+        Assert.Equal(25, TableRows(Exporter.ToMarkdown(document)));
     }
 
     [Fact]
     public async Task Export_ASourceWithoutTotalThatFillsTheLimit_SaysAtLeast_NotExactlyTheLimit()
     {
-        var requests = new List<OmniMarkdownTablePageRequest>();
+        var requests = new List<OmniTableExportPageRequest>();
 
         // 30 rows, no usable total, a limit of 10 reached on a full page: rows 11 to 30 were never read.
-        var document = await Exporter.ExportAsync(Export(30, requests, rowLimit: 10, pageSize: 5, announced: 0), Xunit.TestContext.Current.CancellationToken);
+        var document = await Exporter.ReadAsync(Export(30, requests, rowLimit: 10, pageSize: 5, announced: 0), Xunit.TestContext.Current.CancellationToken);
 
         Assert.Equal([1, 2], requests.Select(request => request.Page));
         Assert.Equal(10, document.RowCount);
@@ -137,55 +137,55 @@ public sealed class MarkdownTableExportTests : OmniBunitContext
         Assert.True(document.TotalIsLowerBound);
         Assert.False(document.Truncated);
         Assert.False(document.IsComplete);
-        Assert.DoesNotContain("10 sur 10 annoncées", document.Markdown, StringComparison.Ordinal);
-        Assert.Contains("- Lignes exportées : 10 sur au moins 10", document.Markdown, StringComparison.Ordinal);
+        Assert.DoesNotContain("10 sur 10 annoncées", Exporter.ToMarkdown(document), StringComparison.Ordinal);
+        Assert.Contains("- Lignes exportées : 10 sur au moins 10", Exporter.ToMarkdown(document), StringComparison.Ordinal);
         Assert.Contains("> Export limité : la limite de 10 lignes est atteinte et la source n'annonce pas de total, d'autres lignes peuvent exister.",
-            document.Markdown, StringComparison.Ordinal);
-        Assert.Equal(10, TableRows(document.Markdown));
+            Exporter.ToMarkdown(document), StringComparison.Ordinal);
+        Assert.Equal(10, TableRows(Exporter.ToMarkdown(document)));
     }
 
     [Fact]
     public async Task Export_ASourceWithoutTotalReadPastTheLimit_KeepsTheRowsItSawAsTheLowerBound()
     {
-        var requests = new List<OmniMarkdownTablePageRequest>();
+        var requests = new List<OmniTableExportPageRequest>();
 
         // A limit of 5 read by pages of 2: the third page brings a sixth row, which proves the source
         // holds more rows than the limit.
-        var document = await Exporter.ExportAsync(Export(30, requests, rowLimit: 5, pageSize: 2, announced: 0), Xunit.TestContext.Current.CancellationToken);
+        var document = await Exporter.ReadAsync(Export(30, requests, rowLimit: 5, pageSize: 2, announced: 0), Xunit.TestContext.Current.CancellationToken);
 
         Assert.Equal(5, document.RowCount);
         Assert.Equal(6, document.TotalCount);
         Assert.True(document.TotalIsLowerBound);
         Assert.True(document.Truncated);
         Assert.False(document.IsComplete);
-        Assert.Contains("- Lignes exportées : 5 sur au moins 6", document.Markdown, StringComparison.Ordinal);
-        Assert.Equal(5, TableRows(document.Markdown));
+        Assert.Contains("- Lignes exportées : 5 sur au moins 6", Exporter.ToMarkdown(document), StringComparison.Ordinal);
+        Assert.Equal(5, TableRows(Exporter.ToMarkdown(document)));
     }
 
     [Fact]
     public async Task Export_ASourceWithoutTotalEndingOnAShortPage_KeepsAnExactTotal()
     {
-        var requests = new List<OmniMarkdownTablePageRequest>();
+        var requests = new List<OmniTableExportPageRequest>();
 
-        var document = await Exporter.ExportAsync(Export(8, requests, rowLimit: 10, pageSize: 5, announced: 0), Xunit.TestContext.Current.CancellationToken);
+        var document = await Exporter.ReadAsync(Export(8, requests, rowLimit: 10, pageSize: 5, announced: 0), Xunit.TestContext.Current.CancellationToken);
 
         Assert.Equal(8, document.TotalCount);
         Assert.False(document.TotalIsLowerBound);
         Assert.True(document.IsComplete);
-        Assert.Contains("- Lignes exportées : 8 sur 8 annoncées", document.Markdown, StringComparison.Ordinal);
-        Assert.DoesNotContain("> ", document.Markdown, StringComparison.Ordinal);
+        Assert.Contains("- Lignes exportées : 8 sur 8 annoncées", Exporter.ToMarkdown(document), StringComparison.Ordinal);
+        Assert.DoesNotContain("> ", Exporter.ToMarkdown(document), StringComparison.Ordinal);
     }
 
     [Fact]
     public async Task Export_FewerRowsThanAnnouncedUnderTheLimit_SaysTheDataChanged()
     {
-        var requests = new List<OmniMarkdownTablePageRequest>();
+        var requests = new List<OmniTableExportPageRequest>();
 
-        var document = await Exporter.ExportAsync(Export(3, requests, announced: 4), Xunit.TestContext.Current.CancellationToken);
+        var document = await Exporter.ReadAsync(Export(3, requests, announced: 4), Xunit.TestContext.Current.CancellationToken);
 
         Assert.Equal(3, document.RowCount);
         Assert.False(document.Truncated);
-        Assert.Contains("> Export incomplet : 3 lignes exportées sur 4 annoncées", document.Markdown, StringComparison.Ordinal);
+        Assert.Contains("> Export incomplet : 3 lignes exportées sur 4 annoncées", Exporter.ToMarkdown(document), StringComparison.Ordinal);
     }
 
     [Fact]
@@ -205,10 +205,10 @@ public sealed class MarkdownTableExportTests : OmniBunitContext
                 }, 4))
         };
 
-        var document = await Exporter.ExportAsync(export, Xunit.TestContext.Current.CancellationToken);
+        var document = await Exporter.ReadAsync(export, Xunit.TestContext.Current.CancellationToken);
 
-        Assert.Equal(3, TableRows(document.Markdown));
-        Assert.Contains("> Export incomplet : 3 lignes exportées sur 4 annoncées", document.Markdown, StringComparison.Ordinal);
+        Assert.Equal(3, TableRows(Exporter.ToMarkdown(document)));
+        Assert.Contains("> Export incomplet : 3 lignes exportées sur 4 annoncées", Exporter.ToMarkdown(document), StringComparison.Ordinal);
     }
 
     [Fact]
@@ -222,15 +222,20 @@ public sealed class MarkdownTableExportTests : OmniBunitContext
                 : throw new HttpRequestException("page 2")
         };
 
-        await Assert.ThrowsAsync<HttpRequestException>(() => Exporter.ExportAsync(export, Xunit.TestContext.Current.CancellationToken));
+        await Assert.ThrowsAsync<HttpRequestException>(() => Exporter.ReadAsync(export, Xunit.TestContext.Current.CancellationToken));
     }
 
     [Fact]
-    public void Build_EscapesPipesAndLineBreaks_AndKeepsTheHeaderOnOneLine()
+    public async Task ToMarkdown_EscapesPipesAndLineBreaks_AndKeepsTheHeaderOnOneLine()
     {
-        var export = Export(0, []) with { Title = "Titre\nsur deux lignes", Fields = [new("Recherche", "a|b\r\nc")] };
+        var export = Export(0, []) with
+        {
+            Title = "Titre\nsur deux lignes",
+            Fields = [new("Recherche", "a|b\r\nc")],
+            LoadPage = _ => Task.FromResult(new OmniDataGridResult<Row>([new Row(7, "x|y", "un\ndeux\rtrois\r\nquatre")], 1))
+        };
 
-        var markdown = Exporter.Build(export, [new Row(7, "x|y", "un\ndeux\rtrois\r\nquatre")], 1, Now);
+        var markdown = Exporter.ToMarkdown(await Exporter.ReadAsync(export, Xunit.TestContext.Current.CancellationToken));
 
         Assert.Contains("# Titre sur deux lignes", markdown, StringComparison.Ordinal);
         Assert.Contains("- Recherche : a|b c", markdown, StringComparison.Ordinal);
@@ -238,14 +243,16 @@ public sealed class MarkdownTableExportTests : OmniBunitContext
     }
 
     [Fact]
-    public void Build_WithoutRows_WritesTheHeaderAndTheEmptyText()
+    public async Task ToMarkdown_WithoutRows_WritesTheHeaderAndTheEmptyText()
     {
-        var markdown = Exporter.Build(Export(0, []), [], 0, Now);
+        var cancellation = Xunit.TestContext.Current.CancellationToken;
+        var markdown = Exporter.ToMarkdown(await Exporter.ReadAsync(Export(0, []), cancellation));
 
         Assert.Contains("- Lignes exportées : 0 sur 0 annoncées", markdown, StringComparison.Ordinal);
         Assert.Contains("Aucune ligne.", markdown, StringComparison.Ordinal);
         Assert.DoesNotContain("| --- |", markdown, StringComparison.Ordinal);
-        Assert.Contains("Rien à signaler.", Exporter.Build(Export(0, []) with { EmptyText = "Rien à signaler." }, [], 0, Now),
+        Assert.Contains("Rien à signaler.",
+            Exporter.ToMarkdown(await Exporter.ReadAsync(Export(0, []) with { EmptyText = "Rien à signaler." }, cancellation)),
             StringComparison.Ordinal);
     }
 
@@ -254,7 +261,49 @@ public sealed class MarkdownTableExportTests : OmniBunitContext
     {
         var export = Export(1, []) with { Columns = [] };
 
-        await Assert.ThrowsAsync<ArgumentException>(() => Exporter.ExportAsync(export, Xunit.TestContext.Current.CancellationToken));
+        await Assert.ThrowsAsync<ArgumentException>(() => Exporter.ReadAsync(export, Xunit.TestContext.Current.CancellationToken));
+    }
+    [Fact]
+    public async Task ReadAsync_RejectsARowLimitOrAPageSizeBelowOne_AndMissingParts()
+    {
+        var cancellation = Xunit.TestContext.Current.CancellationToken;
+
+        await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => Exporter.ReadAsync(Export(1, []) with { RowLimit = 0 }, cancellation));
+        await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => Exporter.ReadAsync(Export(1, []) with { PageSize = 0 }, cancellation));
+        await Assert.ThrowsAsync<ArgumentNullException>(() => Exporter.ReadAsync<Row>(null!, cancellation));
+        await Assert.ThrowsAsync<ArgumentNullException>(() => Exporter.ReadAsync(Export(1, []) with { Columns = null! }, cancellation));
+        await Assert.ThrowsAsync<ArgumentNullException>(() => Exporter.ReadAsync(Export(1, []) with { LoadPage = null! }, cancellation));
+    }
+
+    [Fact]
+    public void ToMarkdown_RejectsADocumentWithoutColumns()
+    {
+        var document = new OmniTableExportDocument { Title = "t", Columns = [], Rows = [] };
+
+        Assert.Throws<ArgumentException>(() => Exporter.ToMarkdown(document));
+        Assert.Throws<ArgumentNullException>(() => Exporter.ToMarkdown(null!));
+    }
+
+    [Fact]
+    public async Task ReadAsync_ProducesTheDocumentEveryFormatWrites_Markdown_AsOneOfThem()
+    {
+        var cancellation = Xunit.TestContext.Current.CancellationToken;
+        var requests = new List<OmniTableExportPageRequest>();
+
+        var document = await Exporter.ReadAsync(Export(3, requests), cancellation);
+
+        Assert.Equal(["Id", "Nom", "Note"], document.Columns.Select(column => column.Title));
+        Assert.All(document.Columns, column => Assert.Equal(OmniTableExportValueKind.Text, column.Kind));
+        Assert.Equal(Now, document.GeneratedAt);
+        Assert.Equal(CultureInfo.CurrentCulture.Name, document.Culture);
+        Assert.Equal(5000, document.RowLimit);
+        Assert.Equal(["Période", "Filtres"], document.Fields.Select(field => field.Label));
+        var markdown = await Exporter.RenderAsync(document, OmniTableExportFormat.Markdown, cancellation);
+        Assert.Equal("md", markdown.Extension);
+        Assert.Equal(Exporter.ToMarkdown(document), System.Text.Encoding.UTF8.GetString(markdown.Content.Span));
+        var csv = await Exporter.RenderAsync(document, OmniTableExportFormat.Csv, cancellation);
+        Assert.Equal("csv", csv.Extension);
+        Assert.Contains("ligne 3", System.Text.Encoding.UTF8.GetString(csv.Content.Span), StringComparison.Ordinal);
     }
 
     [Fact]
@@ -262,8 +311,8 @@ public sealed class MarkdownTableExportTests : OmniBunitContext
     {
         var module = JSInterop.SetupModule(DownloadModulePath);
         module.SetupVoid("download", _ => true).SetVoidResult();
-        var requests = new List<OmniMarkdownTablePageRequest>();
-        OmniMarkdownTableDocument? exported = null;
+        var requests = new List<OmniTableExportPageRequest>();
+        OmniTableExportDocument? exported = null;
         var button = Render<OmniMarkdownExportButton<Row>>(parameters => parameters
             .Add(component => component.Export, () => Export(250, requests))
             .Add(component => component.FileName, "erreurs-app3")
@@ -275,7 +324,7 @@ public sealed class MarkdownTableExportTests : OmniBunitContext
         var download = Assert.Single(module.Invocations["download"]);
         Assert.Equal("erreurs-app3-2026-09-26-1405.md", download.Arguments[0]);
         Assert.Equal("text/markdown;charset=utf-8", download.Arguments[1]);
-        Assert.Equal(250, TableRows((string)download.Arguments[2]!));
+        Assert.Equal(250, TableRows(System.Text.Encoding.UTF8.GetString((byte[])download.Arguments[2]!)));
         Assert.Equal(2, requests.Count);
         Assert.NotNull(exported);
         Assert.Null(button.Find("button").GetAttribute("aria-busy"));

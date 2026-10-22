@@ -42,11 +42,11 @@ public partial class DataGridDemo
 
     private bool FillBoxPaged => FillBoxPager != "none";
 
-    private OmniDataGridPosition FillBoxPagerPosition => FillBoxPager switch
+    private OmniDataGridPlacement FillBoxPagerPlacement => FillBoxPager switch
     {
-        "top" => OmniDataGridPosition.Top,
-        "both" => OmniDataGridPosition.TopAndBottom,
-        _ => OmniDataGridPosition.Bottom
+        "top" => OmniDataGridPlacement.Top,
+        "both" => OmniDataGridPlacement.TopAndBottom,
+        _ => OmniDataGridPlacement.Bottom
     };
 
     private IReadOnlyList<RunRow> SelectedRuns { get; set; } = [];

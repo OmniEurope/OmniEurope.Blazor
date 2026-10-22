@@ -3,7 +3,8 @@ namespace OmniEurope.Blazor.Components;
 /// <summary>
 /// The direction of the element itself, the ARIA meaning of <c>aria-orientation</c>: an
 /// <see cref="OmniStack"/> is <see cref="Horizontal"/> when it lays its children out in a row, an
-/// <see cref="OmniDivider"/> is <see cref="Horizontal"/> when its rule runs across the width.
+/// <see cref="OmniDivider"/> is <see cref="Horizontal"/> when its rule runs across the width, an
+/// <see cref="OmniAxisTitle"/> is <see cref="Vertical"/> when its text runs up the side of the plot.
 /// </summary>
 public enum OmniOrientation
 {

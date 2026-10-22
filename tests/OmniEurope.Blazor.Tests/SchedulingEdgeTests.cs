@@ -206,11 +206,11 @@ public sealed class SchedulingEdgeTests : OmniBunitContext
         var scales = new List<OmniCalendarView>();
         var gantt = Render<OmniGantt>(parameters => parameters
             .Add(component => component.Id, "planning")
-            .Add(component => component.Scale, OmniCalendarView.Day)
-            .Add(component => component.ScaleChanged, scale => scales.Add(scale))
+            .Add(component => component.View, OmniCalendarView.Day)
+            .Add(component => component.ViewChanged, scale => scales.Add(scale))
             .Add(component => component.Tasks, [task]));
 
-        gantt.Render(parameters => parameters.Add(component => component.Scale, OmniCalendarView.Day));
+        gantt.Render(parameters => parameters.Add(component => component.View, OmniCalendarView.Day));
         gantt.FindAll(".omni-select-bar__item")[2].Click();
 
         Assert.Equal([OmniCalendarView.Month], scales);

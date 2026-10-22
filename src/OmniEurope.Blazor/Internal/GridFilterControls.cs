@@ -71,7 +71,7 @@ internal sealed class GridFilterControls<TItem>(OmniDataGrid<TItem> grid)
                 // into one line, or it stretches the header to the height of the whole list.
                 builder.AddComponentParameter(
                     7,
-                    nameof(OmniDataGridFilterMultiSelect.Presentation),
+                    nameof(OmniDataGridFilterMultiSelect.Display),
                     inPanel ? OmniMultiSelectPresentation.List : OmniMultiSelectPresentation.Compact);
                 builder.CloseComponent();
                 break;

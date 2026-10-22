@@ -220,6 +220,37 @@ public sealed class DataGridSurfaceTests : OmniBunitContext
     }
 
     [Fact]
+    public void Grid_WithoutADensity_WritesNone_AndSoFollowsTheDensityOfItsThemeScope()
+    {
+        var scope = Render<OmniThemeScope>(parameters => parameters
+            .Add(component => component.Density, OmniDensity.Compact)
+            .AddChildContent<DataGridSurfaceTestHost>());
+
+        var root = scope.Find(".omni-data-grid");
+
+        Assert.False(root.HasAttribute("data-omni-density"));
+        // The nearest data-omni-density up the tree governs the grid's row height and padding (the stylesheet
+        // reads it as an inherited custom property): here the scope's, not a comfortable one of the grid.
+        var governing = root.Closest("[data-omni-density]");
+        Assert.NotNull(governing);
+        Assert.Equal("compact", governing.GetAttribute("data-omni-density"));
+        Assert.Contains("omni-theme-scope", governing.ClassList);
+    }
+
+    [Fact]
+    public void Grid_WithADensityOfItsOwn_KeepsItInsideAThemeScope()
+    {
+        var scope = Render<OmniThemeScope>(parameters => parameters
+            .Add(component => component.Density, OmniDensity.Compact)
+            .AddChildContent<DataGridSurfaceTestHost>(grid => grid.Add(component => component.Density, OmniDensity.Spacious)));
+
+        var root = scope.Find(".omni-data-grid");
+
+        Assert.Equal("spacious", root.GetAttribute("data-omni-density"));
+        // The grid is its own nearest density, ahead of the compact scope around it.
+        Assert.Contains("omni-data-grid", root.Closest("[data-omni-density]")!.ClassList);
+    }
+    [Fact]
     public void Grid_TracksItsOwnEditStateInSingleEditMode()
     {
         var grid = Render<DataGridSurfaceTestHost>(parameters => parameters

@@ -2,10 +2,10 @@ namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Where a band of an <see cref="OmniDataGrid{TItem}"/> is rendered: the pager
-/// (<see cref="OmniDataGrid{TItem}.PagerPosition"/>) or the footer row
-/// (<see cref="OmniDataGrid{TItem}.FooterPosition"/>).
+/// (<see cref="OmniDataGrid{TItem}.PagerPlacement"/>) or the footer row
+/// (<see cref="OmniDataGrid{TItem}.FooterPlacement"/>).
 /// </summary>
-public enum OmniDataGridPosition
+public enum OmniDataGridPlacement
 {
     /// <summary>After the rows: the pager under the table, the footer row in a real table footer.</summary>
     Bottom,

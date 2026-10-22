@@ -165,7 +165,7 @@ public sealed class DataFamilyEdgeTests : OmniBunitContext
     {
         var select = Render<OmniDataGridFilterMultiSelect>(parameters => parameters
             .Add(component => component.Suggestions, ["a"])
-            .Add(component => component.Presentation, OmniMultiSelectPresentation.List));
+            .Add(component => component.Display, OmniMultiSelectPresentation.List));
 
         Assert.Empty(select.FindAll("details"));
         Assert.Single(select.FindAll(".omni-multi-select li"));
@@ -227,7 +227,7 @@ public sealed class DataFamilyEdgeTests : OmniBunitContext
         Services.AddSingleton<IJSRuntime>(runtime);
         var pending = new TaskCompletionSource<OmniDataGridResult<Row>>();
         var reads = 0;
-        var button = Render<OmniMarkdownExportButton<Row>>(parameters => parameters.Add(component => component.Export, () => new OmniMarkdownTableExport<Row>
+        var button = Render<OmniMarkdownExportButton<Row>>(parameters => parameters.Add(component => component.Export, () => new OmniTableExport<Row>
         {
             Title = "t",
             Columns = [new("Nom", row => row.Name)],
@@ -249,8 +249,11 @@ public sealed class DataFamilyEdgeTests : OmniBunitContext
     }
 
     [Fact]
-    public void MarkdownEscape_OfNull_IsEmpty() =>
-        Assert.Equal(string.Empty, OmniMarkdownTableExporter.EscapeInline(null));
+    public void MarkdownEscape_OfNull_IsEmpty()
+    {
+        Assert.Equal(string.Empty, OmniTableExporter.EscapeInline(null));
+        Assert.Equal(string.Empty, OmniTableExporter.EscapeCell(null));
+    }
 
     [Fact]
     public async Task Downloader_ReleasedOnALostCircuit_IsQuiet_AndAnUnknownCultureWritesInvariant()
