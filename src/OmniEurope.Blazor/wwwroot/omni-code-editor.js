@@ -337,9 +337,19 @@ export function disposeDiff(host) {
     diffs.delete(host);
 }
 
+// Tells .NET about an event of the editor. The call is rejected when the circuit is gone or the
+// component already released, which leaves nobody to tell: nothing to report, nothing unhandled.
+function notify(state, method, ...args) {
+    try {
+        state.dotnet.invokeMethodAsync(method, ...args).catch(() => { });
+    } catch {
+        // The reference itself is already disposed.
+    }
+}
+
 function sendDiff(state) {
     state.timer = 0;
-    state.dotnet.invokeMethodAsync('OnModifiedChanged', state.editor.getModifiedEditor().getValue());
+    notify(state, 'OnModifiedChanged', state.editor.getModifiedEditor().getValue());
 }
 
 function schedule(state) {
@@ -349,7 +359,7 @@ function schedule(state) {
 
 function send(state) {
     state.timer = 0;
-    state.dotnet.invokeMethodAsync('OnCodeChanged', state.editor.getValue());
+    notify(state, 'OnCodeChanged', state.editor.getValue());
 }
 
 function flush(state) {
@@ -364,7 +374,7 @@ function scheduleCursor(state) {
     state.cursorTimer = window.setTimeout(() => {
         const position = state.editor.getPosition();
         if (position) {
-            state.dotnet.invokeMethodAsync('OnCursorChanged', position.lineNumber, position.column);
+            notify(state, 'OnCursorChanged', position.lineNumber, position.column);
         }
     }, changeDelay);
 }
@@ -512,7 +522,7 @@ function openLink(resource) {
         return false;
     }
 
-    entry.state.dotnet.invokeMethodAsync('OnLinkActivated', entry.name, entry.target, entry.line);
+    notify(entry.state, 'OnLinkActivated', entry.name, entry.target, entry.line);
     return true;
 }
 
