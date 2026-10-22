@@ -28,6 +28,8 @@ public partial class OmniDataList<TItem>
     private Func<CancellationToken, Task<IReadOnlyList<TItem>>>? _observedLoader;
     private ElementReference _root;
     private IJSObjectReference? _module;
+    private Task<IJSObjectReference>? _importing;
+    private bool _disposed;
     private DotNetObjectReference<OmniDataList<TItem>>? _selfReference;
     private bool _attached;
     private double _scrollTop;
@@ -186,11 +188,32 @@ public partial class OmniDataList<TItem>
     /// <summary>
     /// While virtualizing a non-empty list, attaches the scroll script, reads the viewport, recomputes
     /// the rendered window and its spacers, and renders again when the window moved. Otherwise detaches
-    /// the script.
+    /// the script. Does nothing once disposed; a lost circuit is ignored.
     /// </summary>
     /// <param name="firstRender">Unused: the script is attached on the first render that virtualizes.</param>
     /// <returns>A task that completes when the viewport has been synchronized.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        try
+        {
+            await SynchronizeViewportAsync();
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit is gone, and the list with it.
+        }
+        catch (ObjectDisposedException) when (_disposed)
+        {
+            // Disposed while a script call was in flight: the module was released under it.
+        }
+    }
+
+    private async Task SynchronizeViewportAsync()
     {
         if (!Virtualize || _items.Count == 0)
         {
@@ -198,23 +221,59 @@ public partial class OmniDataList<TItem>
             return;
         }
 
-        _module ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", GridModulePath);
+        var module = await AcquireModuleAsync();
+        if (module is null)
+        {
+            return;
+        }
+
         if (!_attached)
         {
             _selfReference ??= DotNetObjectReference.Create(this);
-            await _module.InvokeVoidAsync("attachList", _root, _selfReference);
+            await module.InvokeVoidAsync("attachList", _root, _selfReference);
             _attached = true;
         }
 
-        var snapshot = await _module.InvokeAsync<GridViewportSnapshot?>("syncList", _root);
+        var snapshot = await module.InvokeAsync<GridViewportSnapshot?>("syncList", _root);
+        if (_disposed)
+        {
+            return;
+        }
+
         var moved = ApplySnapshot(snapshot);
         var previous = _range;
         SyncWindow();
-        await _module.InvokeVoidAsync("applyListLayout", _root, _range.TopSpacer, _range.BottomSpacer);
+        await module.InvokeVoidAsync("applyListLayout", _root, _range.TopSpacer, _range.BottomSpacer);
         if (moved || previous != _range)
         {
             StateHasChanged();
         }
+    }
+
+    // One import for every render that overlaps it. A component disposed while the import was on its way
+    // releases the module on arrival: DisposeAsync had none to release, and nothing may attach to it.
+    private async Task<IJSObjectReference?> AcquireModuleAsync()
+    {
+        _importing ??= JavaScript.InvokeAsync<IJSObjectReference>("import", GridModulePath).AsTask();
+        IJSObjectReference module;
+        try
+        {
+            module = await _importing;
+        }
+        catch
+        {
+            _importing = null;
+            throw;
+        }
+
+        if (_disposed)
+        {
+            await module.DisposeAsync();
+            return null;
+        }
+
+        _module = module;
+        return module;
     }
 
     private bool ApplySnapshot(GridViewportSnapshot? snapshot)
@@ -256,6 +315,11 @@ public partial class OmniDataList<TItem>
     [JSInvokable]
     public Task OnViewportChangedAsync(double scrollTop, double viewportHeight)
     {
+        if (_disposed)
+        {
+            return Task.CompletedTask;
+        }
+
         _scrollTop = scrollTop;
         _viewportHeight = viewportHeight;
         var previous = _range;
@@ -288,6 +352,7 @@ public partial class OmniDataList<TItem>
     /// <summary>Cancels a load still running and releases the list script.</summary>
     public async ValueTask DisposeAsync()
     {
+        _disposed = true;
         _loadCancellation?.Cancel();
         _loadGeneration++;
         _loadCancellation?.Dispose();

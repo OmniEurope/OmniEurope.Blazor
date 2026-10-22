@@ -418,7 +418,7 @@ public partial class OmniLogViewer : IAsyncDisposable
         {
             await SynchronizeViewportAsync();
         }
-        catch (JSDisconnectedException)
+        catch (Exception exception) when (exception is JSDisconnectedException || (_disposed && exception is ObjectDisposedException))
         {
         }
     }
@@ -448,11 +448,20 @@ public partial class OmniLogViewer : IAsyncDisposable
         }
 
         var snapshot = await _module.InvokeAsync<GridViewportSnapshot?>("sync", _viewport, true);
+        if (_disposed)
+        {
+            return;
+        }
+
         var moved = ApplySnapshot(snapshot);
         var previous = _range;
         ComputeRange();
         _appliedHeight = Height;
         await _module.InvokeVoidAsync("applyLayout", _viewport, _range.TopSpacer, _range.BottomSpacer, _appliedHeight, null);
+        if (_disposed)
+        {
+            return;
+        }
 
         if (_pendingReveal is { } offset)
         {

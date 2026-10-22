@@ -195,7 +195,7 @@ public partial class OmniSpreadsheet
         {
             await ApplyRenderRequestsAsync();
         }
-        catch (JSDisconnectedException)
+        catch (Exception exception) when (exception is JSDisconnectedException || (_disposed && exception is ObjectDisposedException))
         {
         }
     }
@@ -220,11 +220,19 @@ public partial class OmniSpreadsheet
         {
             _focusEditor = false;
             await _module!.InvokeVoidAsync("focusEditor", _editor);
+            if (_disposed)
+            {
+                return;
+            }
         }
         else if (_focusGrid)
         {
             _focusGrid = false;
             await _grid.FocusAsync(preventScroll: true);
+            if (_disposed)
+            {
+                return;
+            }
         }
 
         if (_reveal && HasCells)
