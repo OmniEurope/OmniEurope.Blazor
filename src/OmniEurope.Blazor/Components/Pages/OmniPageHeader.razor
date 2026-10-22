@@ -18,7 +18,7 @@
                             Class="omni-page-header__back"
                             Label="@EffectiveBackLabel"
                             title="@EffectiveBackLabel"
-                            OnClick="GoBackAsync"><OmniIcon Name="OmniIconName.ArrowLeft" /></OmniButton>
+                            OnClick="GoBackAsync"><Icon><OmniIcon Name="OmniIconName.ArrowLeft" /></Icon></OmniButton>
             }
             @if (Icon is not null)
             {
@@ -34,12 +34,12 @@
                 <OmniButton Variant="OmniButtonVariant.Ghost"
                             Class="omni-page-header__scroll omni-page-header__scroll--start"
                             Label="@Localize("PageHeaderScrollTitleStart")"
-                            title="@Localize("PageHeaderScrollTitleStart")"><OmniIcon Name="OmniIconName.ChevronLeft" /></OmniButton>
+                            title="@Localize("PageHeaderScrollTitleStart")"><Icon><OmniIcon Name="OmniIconName.ChevronLeft" /></Icon></OmniButton>
                 <OmniHeading Level="Level" Class="omni-page-header__title">@EffectiveTitle</OmniHeading>
                 <OmniButton Variant="OmniButtonVariant.Ghost"
                             Class="omni-page-header__scroll omni-page-header__scroll--end"
                             Label="@Localize("PageHeaderScrollTitleEnd")"
-                            title="@Localize("PageHeaderScrollTitleEnd")"><OmniIcon Name="OmniIconName.ChevronRight" /></OmniButton>
+                            title="@Localize("PageHeaderScrollTitleEnd")"><Icon><OmniIcon Name="OmniIconName.ChevronRight" /></Icon></OmniButton>
             }
             @if (HasDetails)
             {
@@ -49,7 +49,7 @@
                             title="@Localize("PageHeaderShowMore")"
                             aria-expanded="@(_expanded ? "true" : "false")"
                             aria-controls="@DetailsId"
-                            OnClick="ToggleDetails"><OmniIcon Name="@(_expanded ? OmniIconName.ChevronUp : OmniIconName.ChevronDown)" /></OmniButton>
+                            OnClick="ToggleDetails"><Icon><OmniIcon Name="@(_expanded ? OmniIconName.ChevronUp : OmniIconName.ChevronDown)" /></Icon></OmniButton>
                 <div id="@DetailsId" class="@DetailsClass">
                     @if (Badges is not null)
                     {

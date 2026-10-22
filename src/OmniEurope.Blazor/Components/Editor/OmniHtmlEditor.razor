@@ -183,12 +183,12 @@
                            @oninput="args => _panels.LinkUrl = args.Value?.ToString() ?? string.Empty"
                            @onkeyup="HandleLinkKeyAsync" />
                     <OmniButton Variant="OmniButtonVariant.Primary" Size="OmniControlSize.Small" OnClick="ApplyLinkAsync">
-                        <OmniIcon Name="OmniIconName.Check" />
-                        <span>@Localize("HtmlEditorLinkApply")</span>
+                        <Icon><OmniIcon Name="OmniIconName.Check" /></Icon>
+                        <ChildContent><span>@Localize("HtmlEditorLinkApply")</span></ChildContent>
                     </OmniButton>
                     <OmniButton Variant="OmniButtonVariant.Danger" Size="OmniControlSize.Small" OnClick="CloseLinkAsync">
-                        <OmniIcon Name="OmniIconName.Close" />
-                        <span>@Localize("HtmlEditorLinkCancel")</span>
+                        <Icon><OmniIcon Name="OmniIconName.Close" /></Icon>
+                        <ChildContent><span>@Localize("HtmlEditorLinkCancel")</span></ChildContent>
                     </OmniButton>
                     @if (_panels.LinkErrorKey is { } linkErrorKey)
                     {
@@ -214,8 +214,8 @@
                                aria-label="@Localize("HtmlEditorCharSearch")" placeholder="@Localize("HtmlEditorCharSearch")"
                                value="@_panels.CharacterSearch" @oninput="args => _panels.CharacterSearch = args.Value?.ToString() ?? string.Empty" />
                         <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="_panels.Close">
-                            <OmniIcon Name="OmniIconName.Close" />
-                            <span>@Localize("HtmlEditorClosePanel")</span>
+                            <Icon><OmniIcon Name="OmniIconName.Close" /></Icon>
+                            <ChildContent><span>@Localize("HtmlEditorClosePanel")</span></ChildContent>
                         </OmniButton>
                     </div>
                     @{ var characters = VisibleCharacters.ToList(); }
@@ -245,8 +245,8 @@
                         <OmniUpload Display="OmniUploadDisplay.Field" Accept="@TableAccept" MaximumFileSize="@HtmlEditorTableFile.MaxBytes"
                                     OnFilesSelect="ReadTableFileAsync" Disabled="@_panels.TableBusy" Class="omni-html-editor__table-file" />
                         <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="_panels.Close">
-                            <OmniIcon Name="OmniIconName.Close" />
-                            <span>@Localize("HtmlEditorClosePanel")</span>
+                            <Icon><OmniIcon Name="OmniIconName.Close" /></Icon>
+                            <ChildContent><span>@Localize("HtmlEditorClosePanel")</span></ChildContent>
                         </OmniButton>
                     </div>
                     <p class="omni-html-editor__panel-note">@Localize("HtmlEditorImportTableHint", TableAccept)</p>
@@ -270,8 +270,8 @@
                                 <span>@Localize("HtmlEditorImportTableHeader")</span>
                             </label>
                             <OmniButton Variant="OmniButtonVariant.Success" Size="OmniControlSize.Small" OnClick="InsertTableAsync">
-                                <OmniIcon Name="OmniIconName.Table" />
-                                <span>@Localize("HtmlEditorImportTableInsert")</span>
+                                <Icon><OmniIcon Name="OmniIconName.Table" /></Icon>
+                                <ChildContent><span>@Localize("HtmlEditorImportTableInsert")</span></ChildContent>
                             </OmniButton>
                         </div>
                     }
@@ -340,12 +340,12 @@
                 <span data-statistic="characters">@Localize("DocumentEditorCharacters", CharacterCount)</span>
                 <span class="omni-document-editor__actions">
                     <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" data-export="html" OnClick="DownloadHtmlAsync">
-                        <OmniIcon Name="OmniIconName.FileHtml" />
-                        <span>@Localize("DocumentEditorExportHtml")</span>
+                        <Icon><OmniIcon Name="OmniIconName.FileHtml" /></Icon>
+                        <ChildContent><span>@Localize("DocumentEditorExportHtml")</span></ChildContent>
                     </OmniButton>
                     <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" data-export="text" OnClick="DownloadTextAsync">
-                        <OmniIcon Name="OmniIconName.Download" />
-                        <span>@Localize("DocumentEditorExportText")</span>
+                        <Icon><OmniIcon Name="OmniIconName.Download" /></Icon>
+                        <ChildContent><span>@Localize("DocumentEditorExportText")</span></ChildContent>
                     </OmniButton>
                 </span>
             </div>

@@ -57,11 +57,11 @@ internal sealed class GridColumnChooserView<TItem>(OmniDataGrid<TItem> grid)
             builder.AddComponentParameter(10, nameof(OmniButton.Size), OmniControlSize.Small);
             builder.AddComponentParameter(11, nameof(OmniButton.Class), "omni-data-grid__chooser-reset");
             builder.AddComponentParameter(12, nameof(OmniButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(grid, Chooser.ResetAsync));
-            builder.AddComponentParameter(13, nameof(OmniButton.ChildContent), (RenderFragment)(content =>
+            builder.AddComponentParameter(13, nameof(OmniButton.Icon), Icon(OmniIconName.Reset));
+            builder.AddComponentParameter(14, nameof(OmniButton.ChildContent), (RenderFragment)(content =>
             {
-                content.AddContent(0, Icon(OmniIconName.Reset));
-                content.OpenElement(1, "span");
-                content.AddContent(2, grid.Text("GridResetLayout"));
+                content.OpenElement(0, "span");
+                content.AddContent(1, grid.Text("GridResetLayout"));
                 content.CloseElement();
             }));
             builder.CloseComponent();
@@ -111,7 +111,7 @@ internal sealed class GridColumnChooserView<TItem>(OmniDataGrid<TItem> grid)
         builder.AddComponentParameter(4, nameof(OmniButton.Label), text);
         builder.AddComponentParameter(5, nameof(OmniButton.Disabled), !Chooser.CanMove(column, step));
         builder.AddComponentParameter(6, nameof(OmniButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(grid, () => Chooser.MoveAsync(column, step)));
-        builder.AddComponentParameter(7, nameof(OmniButton.ChildContent), Icon(step < 0 ? OmniIconName.ArrowLeft : OmniIconName.ArrowRight));
+        builder.AddComponentParameter(7, nameof(OmniButton.Icon), Icon(step < 0 ? OmniIconName.ArrowLeft : OmniIconName.ArrowRight));
         builder.AddComponentParameter(8, "title", text);
         builder.AddComponentParameter(9, "data-omni-move", step.ToString(System.Globalization.CultureInfo.InvariantCulture));
         builder.AddComponentParameter(10, "data-omni-col", column.Key);

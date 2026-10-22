@@ -30,18 +30,18 @@
                     <span class="omni-log-viewer__matches" role="status" aria-live="polite">@MatchSummary</span>
                     <OmniButton Class="omni-log-viewer__previous" Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small"
                                 Disabled="@(_matches.Count == 0)" Label="@Localize("LogViewerPreviousMatch")" OnClick="PreviousMatchAsync">
-                        <OmniIcon Name="OmniIconName.ChevronUp" Size="OmniControlSize.Small" />
+                        <Icon><OmniIcon Name="OmniIconName.ChevronUp" Size="OmniControlSize.Small" /></Icon>
                     </OmniButton>
                     <OmniButton Class="omni-log-viewer__next" Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small"
                                 Disabled="@(_matches.Count == 0)" Label="@Localize("LogViewerNextMatch")" OnClick="NextMatchAsync">
-                        <OmniIcon Name="OmniIconName.ChevronDown" Size="OmniControlSize.Small" />
+                        <Icon><OmniIcon Name="OmniIconName.ChevronDown" Size="OmniControlSize.Small" /></Icon>
                     </OmniButton>
                 }
             }
             <OmniButton Class="omni-log-viewer__follow" Variant="@(_following ? OmniButtonVariant.Secondary : OmniButtonVariant.Ghost)" Size="OmniControlSize.Small"
                         aria-pressed="@(_following ? "true" : "false")" OnClick="ToggleFollowAsync">
-                <OmniIcon Name="OmniIconName.ArrowLineDown" Size="OmniControlSize.Small" />
-                <span>@Localize("LogViewerFollow")</span>
+                <Icon><OmniIcon Name="OmniIconName.ArrowLineDown" Size="OmniControlSize.Small" /></Icon>
+                <ChildContent><span>@Localize("LogViewerFollow")</span></ChildContent>
             </OmniButton>
         </div>
     }
@@ -110,8 +110,8 @@
         @if (ShowJump)
         {
             <OmniButton Class="omni-log-viewer__jump" Variant="OmniButtonVariant.Primary" Size="OmniControlSize.Small" OnClick="JumpToLatestAsync">
-                <OmniIcon Name="OmniIconName.ArrowLineDown" Size="OmniControlSize.Small" />
-                <span>@JumpText</span>
+                <Icon><OmniIcon Name="OmniIconName.ArrowLineDown" Size="OmniControlSize.Small" /></Icon>
+                <ChildContent><span>@JumpText</span></ChildContent>
             </OmniButton>
         }
     </div>

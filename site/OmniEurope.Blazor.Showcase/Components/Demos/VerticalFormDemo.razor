@@ -183,12 +183,12 @@
 
         <div class="demo-form-actions">
             <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => Reset())">
-                <OmniIcon Name="OmniIconName.Close" />
-                <span>@Text["VFormCancel"]</span>
+                <Icon><OmniIcon Name="OmniIconName.Close" /></Icon>
+                <ChildContent><span>@Text["VFormCancel"]</span></ChildContent>
             </OmniButton>
             <OmniButton Variant="OmniButtonVariant.Primary" OnClick="@(_ => Save())">
-                <OmniIcon Name="OmniIconName.Save" />
-                <span>@Text["VFormSave"]</span>
+                <Icon><OmniIcon Name="OmniIconName.Save" /></Icon>
+                <ChildContent><span>@Text["VFormSave"]</span></ChildContent>
             </OmniButton>
         </div>
         <p class="demo-form-status" aria-live="polite">@Status</p>

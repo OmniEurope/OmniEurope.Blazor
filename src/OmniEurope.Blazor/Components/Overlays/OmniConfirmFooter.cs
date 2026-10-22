@@ -29,21 +29,23 @@ internal sealed class OmniConfirmFooter : OmniComponentBase
         builder.AddComponentParameter(sequence + 1, nameof(OmniButton.Variant), variant);
         builder.AddComponentParameter(sequence + 2, nameof(OmniButton.Class), cssClass);
         builder.AddComponentParameter(sequence + 3, nameof(OmniButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, () => Service.CloseDialog(confirmed)));
-        builder.AddComponentParameter(sequence + 4, nameof(OmniButton.ChildContent), (RenderFragment)(content =>
+        builder.AddComponentParameter(sequence + 4, nameof(OmniButton.Icon), (RenderFragment)(iconBuilder =>
         {
             if (iconContent is not null)
             {
-                content.AddContent(4, iconContent);
+                iconBuilder.AddContent(0, iconContent);
             }
             else
             {
-                content.OpenComponent<OmniIcon>(0);
-                content.AddComponentParameter(1, nameof(OmniIcon.Name), icon);
-                content.CloseComponent();
+                iconBuilder.OpenComponent<OmniIcon>(1);
+                iconBuilder.AddComponentParameter(2, nameof(OmniIcon.Name), icon);
+                iconBuilder.CloseComponent();
             }
-
-            content.OpenElement(2, "span");
-            content.AddContent(3, text);
+        }));
+        builder.AddComponentParameter(sequence + 5, nameof(OmniButton.ChildContent), (RenderFragment)(content =>
+        {
+            content.OpenElement(0, "span");
+            content.AddContent(1, text);
             content.CloseElement();
         }));
         builder.CloseComponent();

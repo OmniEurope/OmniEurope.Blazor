@@ -106,12 +106,12 @@ public partial class OmniCodeBlock : IAsyncDisposable
         builder.AddComponentParameter(5, "aria-pressed", _revealed ? "true" : "false");
         builder.AddComponentParameter(6, "title", RevealLabel);
         builder.AddComponentParameter(7, nameof(OmniButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, ToggleReveal));
-        builder.AddComponentParameter(8, nameof(OmniButton.ChildContent), (RenderFragment)(content =>
+        builder.AddComponentParameter(8, nameof(OmniButton.Icon), (RenderFragment)(icon =>
         {
-            content.OpenComponent<OmniIcon>(0);
-            content.AddComponentParameter(1, nameof(OmniIcon.Name), _revealed ? OmniIconName.EyeSlash : OmniIconName.Eye);
-            content.AddComponentParameter(2, nameof(OmniIcon.Size), OmniControlSize.Small);
-            content.CloseComponent();
+            icon.OpenComponent<OmniIcon>(0);
+            icon.AddComponentParameter(1, nameof(OmniIcon.Name), _revealed ? OmniIconName.EyeSlash : OmniIconName.Eye);
+            icon.AddComponentParameter(2, nameof(OmniIcon.Size), OmniControlSize.Small);
+            icon.CloseComponent();
         }));
         builder.CloseComponent();
     };

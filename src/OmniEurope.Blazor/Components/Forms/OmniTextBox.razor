@@ -49,8 +49,8 @@ else
                         Variant="OmniButtonVariant.Secondary"
                         Disabled="@(Disabled || string.IsNullOrEmpty(CurrentValueAsString))"
                         OnClick="CopyAsync">
-                <OmniIcon Name="@(CopyResult == true ? OmniIconName.Check : OmniIconName.Copy)" />
-                <span>@CopyLabel</span>
+                <Icon><OmniIcon Name="@(CopyResult == true ? OmniIconName.Check : OmniIconName.Copy)" /></Icon>
+                <ChildContent><span>@CopyLabel</span></ChildContent>
             </OmniButton>
             <span class="omni-visually-hidden" role="status" aria-live="polite">@CopyAnnouncement</span>
         }

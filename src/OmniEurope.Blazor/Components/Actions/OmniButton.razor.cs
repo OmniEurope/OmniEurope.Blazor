@@ -7,9 +7,21 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 public partial class OmniButton
 {
-    /// <summary>The content of the button: its text, an icon, or both. Required.</summary>
-    [Parameter, EditorRequired]
+    /// <summary>
+    /// The content of the button: its text. Without it, a button that has an <see cref="Icon"/> is an
+    /// icon-only button.
+    /// </summary>
+    [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Icon drawn before the content, in general an <see cref="OmniIcon"/>, like the <c>Icon</c> of the other
+    /// components. A button with an icon and no <see cref="ChildContent"/> is an icon-only button: drawn
+    /// square, and named by <see cref="Label"/>, its <c>aria-label</c> attribute or, failing both, its
+    /// <c>title</c> attribute. None by default.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? Icon { get; set; }
 
     /// <summary>What the button means, which sets its colours. <see cref="OmniButtonVariant.Primary"/> by default.</summary>
     [Parameter]
@@ -59,20 +71,13 @@ public partial class OmniButton
     [Parameter]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
 
-    // Whether the content is one OmniIcon alone: the button is then drawn square (omni-button--icon),
-    // whatever names it, and its title names it when nothing else does.
-    private bool _iconOnly;
+    // An icon and no content: the button is drawn square (omni-button--icon), whatever names it, and its
+    // title names it when nothing else does.
+    private bool IconOnly => Icon is not null && ChildContent is null;
 
     private string? AccessibleName =>
         OmniAriaLabel.Of(Label, AdditionalAttributes)
-        ?? (_iconOnly && AdditionalAttributes is not null && AdditionalAttributes.TryGetValue("title", out var title) && title?.ToString() is { } text && !string.IsNullOrWhiteSpace(text) ? text : null);
-
-    /// <summary>Reads whether the content is an icon alone, which draws the button square.</summary>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        _iconOnly = LoneIconContent.Is(ChildContent);
-    }
+        ?? (IconOnly && AdditionalAttributes is not null && AdditionalAttributes.TryGetValue("title", out var title) && title?.ToString() is { } text && !string.IsNullOrWhiteSpace(text) ? text : null);
 
     private Task HandleClickAsync(MouseEventArgs args) =>
         Disabled || Busy ? Task.CompletedTask : OnClick.InvokeAsync(args);

@@ -5,7 +5,7 @@
         <OmniHeading Level="@OmniHeadingLevel.H1">@Text["Title"]</OmniHeading>
         <OmniStack Class="wasm-probe" Gap="@OmniSpacing.Medium">
             <OmniAlert Severity="OmniSeverity.Success">@Text["Loaded"]</OmniAlert>
-            <OmniButton Id="wasm-action" OnClick="IncrementAsync"><OmniIcon Name="OmniIconName.Check" Size="OmniControlSize.Small" /> <span>@Text["Counter", _count]</span></OmniButton>
+            <OmniButton Id="wasm-action" OnClick="IncrementAsync"><Icon><OmniIcon Name="OmniIconName.Check" Size="OmniControlSize.Small" /></Icon> <ChildContent><span>@Text["Counter", _count]</span></ChildContent></OmniButton>
             <OmniProgressBar Value="@_count" Maximum="10" Label="@Text["ProgressLabel"]" />
             <OmniDataGrid TItem="SmokeRow" Id="wasm-grid" Items="@Rows" ScrollMode="OmniDataGridScrollMode.Virtual" Height="12rem" Caption="@Text["GridCaption"]">
                 <Columns>

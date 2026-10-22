@@ -54,7 +54,7 @@ Les pièces de la barre supérieure de la maquette de PLAN-004 (`docs/plans/arch
         <Icon><OmniIcon Name="OmniIconName.Search" /></Icon>
     </OmniTextBox>
     <OmniButton Variant="OmniButtonVariant.Ghost" Indicator="true" Label="Notifications, 3 non lues">
-        <OmniIcon Name="OmniIconName.Bell" />
+        <Icon><OmniIcon Name="OmniIconName.Bell" /></Icon>
     </OmniButton>
     <OmniProfileMenu Label="Compte de Camille Martin" Initials="CM">
         <HeaderContent><strong>Camille Martin</strong><span>Administrateur</span></HeaderContent>

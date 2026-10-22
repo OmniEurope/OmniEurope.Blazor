@@ -161,13 +161,13 @@
     <HeaderBarContent>
         <OmniRow Gap="OmniSpacing.Small">
             <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="ExpandStatementAsync">
-                <OmniIcon Name="OmniIconName.CornersOut" /><span>@Text["DemoGridTreeExpandAll"]</span>
+                <Icon><OmniIcon Name="OmniIconName.CornersOut" /></Icon><ChildContent><span>@Text["DemoGridTreeExpandAll"]</span></ChildContent>
             </OmniButton>
             <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="CollapseStatementAsync">
-                <OmniIcon Name="OmniIconName.CornersIn" /><span>@Text["DemoGridTreeCollapseAll"]</span>
+                <Icon><OmniIcon Name="OmniIconName.CornersIn" /></Icon><ChildContent><span>@Text["DemoGridTreeCollapseAll"]</span></ChildContent>
             </OmniButton>
             <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="ExportStatementAsync">
-                <OmniIcon Name="OmniIconName.FileXls" /><span>@Text["DemoGridTreeExport"]</span>
+                <Icon><OmniIcon Name="OmniIconName.FileXls" /></Icon><ChildContent><span>@Text["DemoGridTreeExport"]</span></ChildContent>
             </OmniButton>
         </OmniRow>
     </HeaderBarContent>

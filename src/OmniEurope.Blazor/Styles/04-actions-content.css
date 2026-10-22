@@ -65,11 +65,8 @@
 .omni-button { font-size: var(--omni-button-font-size, var(--omni-control-font)); min-height: var(--omni-button-size, var(--omni-control-height)); padding-block: 0; padding-inline: var(--omni-button-padding-inline, var(--omni-button-pad-x)) calc(var(--omni-button-padding-inline, var(--omni-button-pad-x)) - var(--omni-button-letter-spacing, 0em)); }
 .omni-button--small .omni-button__content { gap: var(--omni-space-xs); }
 .omni-button--small { --omni-icon-size: 1rem; }
-/* Icône seule : carré. :where laisse un hôte qui retaille ses boutons l'emporter. */
-.omni-button[aria-label]:where(:has(> .omni-button__content > .omni-icon:only-child)) { min-inline-size: var(--omni-button-size, var(--omni-control-height)); padding-inline: 0; }
-/* The content decides (PLAN-001 lot 5): :only-child ignores the text beside an icon, so the rule above
-   needs a name; the component marks a content that is one OmniIcon alone, named by Label, aria-label,
-   title or nothing. One class, after .omni-button, so a host class still resizes it. */
+/* Icon-only: an icon and no content (the Icon parameter alone) draws the button square. One class, after
+   .omni-button, so a host class that resizes its buttons still wins. */
 .omni-button--icon { min-inline-size: var(--omni-button-size, var(--omni-control-height)); padding-inline: 0; }
 .omni-button--primary { --omni-button-fill: var(--omni-color-accent-fill); --omni-button-fill-hover: var(--omni-color-accent-fill-hover); --omni-button-fill-active: var(--omni-color-accent-fill-active); --omni-button-ink: var(--omni-color-on-accent-fill); }
 /* Secondary is a plain grey drawn from the palette's text and surface, with the page text and no

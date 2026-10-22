@@ -71,6 +71,19 @@ internal sealed class GridExport<TItem>(OmniDataGrid<TItem> grid) : IAsyncDispos
 
     internal string FormatName(OmniTableExportFormat format) => grid.Text($"GridExportFormat{format}");
 
+    /// <summary>
+    /// The visible text of an export button (a format's name, "Cancel"): a span when <c>ShowExportButtonText</c>
+    /// asks, else null, and the button is then its icon alone.
+    /// </summary>
+    internal RenderFragment? VisibleText(string text) => grid.ShowExportButtonText
+        ? builder =>
+        {
+            builder.OpenElement(0, "span");
+            builder.AddContent(1, text);
+            builder.CloseElement();
+        }
+        : null;
+
     /// <summary>The name and tooltip of a format's button: "Export as Markdown".</summary>
     internal string ButtonLabel(OmniTableExportFormat format) => grid.Text("GridExportAs", FormatName(format));
 

@@ -98,23 +98,17 @@
             <OmniButton Variant="@Export.VariantOf(format)" Size="@Classes.BarButtonSize" Class="@Classes.ExportButtonClass"
                         Label="@Export.ButtonLabel(format)" title="@Export.ButtonLabel(format)"
                         Busy="@(Export.Running == format)" Disabled="@(Export.NothingToExport || (Export.Running is not null && Export.Running != format))"
+                        ChildContent="@Export.VisibleText(Export.FormatName(format))"
                         OnClick="@(() => Export.RunAsync(format))">
-                <OmniIcon Name="@(GridExport<TItem>.IconOf(format))" />
-                @if (ShowExportButtonText)
-                {
-                    <span>@Export.FormatName(format)</span>
-                }
+                <Icon><OmniIcon Name="@(GridExport<TItem>.IconOf(format))" /></Icon>
             </OmniButton>
         }
         @if (Export.Running is not null)
         {
             <OmniButton Variant="OmniButtonVariant.Ghost" Size="@Classes.BarButtonSize" Class="@($"{Classes.ExportButtonClass} omni-data-grid__export-cancel")"
-                        Label="@Localize("Cancel")" title="@Localize("Cancel")" OnClick="Export.Cancel">
-                <OmniIcon Name="OmniIconName.Close" />
-                @if (ShowExportButtonText)
-                {
-                    <span>@Localize("Cancel")</span>
-                }
+                        Label="@Localize("Cancel")" title="@Localize("Cancel")" OnClick="Export.Cancel"
+                        ChildContent="@Export.VisibleText(Localize("Cancel"))">
+                <Icon><OmniIcon Name="OmniIconName.Close" /></Icon>
             </OmniButton>
         }
         @if (Export.Failed)

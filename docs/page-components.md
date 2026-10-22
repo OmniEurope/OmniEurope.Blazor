@@ -13,7 +13,7 @@ par paramètres, délégués et fragments ; le temps, par le `TimeProvider` enre
 ```razor
 <OmniPageHeader ShowBack="true" Subtitle="@Projet.Description">
     <Badges><OmniBadge Tone="OmniTone.Warning">Archivé</OmniBadge></Badges>
-    <ActionsContent><OmniButton OnClick="Modifier"><OmniIcon Name="OmniIconName.Edit" /><span>Modifier</span></OmniButton></ActionsContent>
+    <ActionsContent><OmniButton OnClick="Modifier"><Icon><OmniIcon Name="OmniIconName.Edit" /></Icon><ChildContent><span>Modifier</span></ChildContent></OmniButton></ActionsContent>
     <MenuContent>
         <OmniMenuItem OnClick="Archiver">Archiver</OmniMenuItem>
         <OmniMenuItem Tone="OmniTone.Danger" OnClick="Supprimer">Supprimer</OmniMenuItem>

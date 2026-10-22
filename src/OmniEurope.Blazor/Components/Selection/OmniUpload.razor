@@ -148,8 +148,8 @@
                                 aria-expanded="@(_showAll ? "true" : "false")"
                                 aria-controls="@ListId"
                                 OnClick="ToggleShowAll">
-                        <span class="omni-upload__chevron" aria-hidden="true"><OmniIcon Name="OmniIconName.ChevronDown" /></span>
-                        <span>@(_showAll ? Localize("UploadShowLess") : Localize("UploadShowAll", ListedCount))</span>
+                        <Icon><span class="omni-upload__chevron" aria-hidden="true"><OmniIcon Name="OmniIconName.ChevronDown" /></span></Icon>
+                        <ChildContent><span>@(_showAll ? Localize("UploadShowLess") : Localize("UploadShowAll", ListedCount))</span></ChildContent>
                     </OmniButton>
                 }
                 <OmniButton Variant="OmniButtonVariant.Ghost"
@@ -157,8 +157,8 @@
                             Class="omni-upload__clear"
                             Disabled="@(ListedCount == 0 || Disabled || _uploading)"
                             OnClick="RemoveAllAsync">
-                    <OmniIcon Name="OmniIconName.Delete" />
-                    <span>@Localize("UploadRemoveAll")</span>
+                    <Icon><OmniIcon Name="OmniIconName.Delete" /></Icon>
+                    <ChildContent><span>@Localize("UploadRemoveAll")</span></ChildContent>
                 </OmniButton>
             </div>
         }
@@ -171,15 +171,15 @@
     @if (_uploading)
     {
         <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" Class="omni-upload__cancel" OnClick="Cancel">
-            <OmniIcon Name="OmniIconName.Close" />
-            <span>@Localize("Cancel")</span>
+            <Icon><OmniIcon Name="OmniIconName.Close" /></Icon>
+            <ChildContent><span>@Localize("Cancel")</span></ChildContent>
         </OmniButton>
     }
     else if (_canRetry)
     {
         <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" Class="omni-upload__retry" OnClick="RetryAsync">
-            <OmniIcon Name="OmniIconName.Refresh" />
-            <span>@Localize("Retry")</span>
+            <Icon><OmniIcon Name="OmniIconName.Refresh" /></Icon>
+            <ChildContent><span>@Localize("Retry")</span></ChildContent>
         </OmniButton>
     }
 

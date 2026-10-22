@@ -115,14 +115,14 @@
 
     @* Rangées trop étroites : défiler garde chaque bouton à sa taille, replier ne garde que les icônes. *@
     <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Overflow="OmniStackOverflow.Scroll">
-        <OmniButton><OmniIcon Name="OmniIconName.Check" /><span>@Text["DemoLayoutApproveFile"]</span></OmniButton>
-        <OmniButton><OmniIcon Name="OmniIconName.Filter" /><span>@Text["DemoLayoutFilterDocuments"]</span></OmniButton>
-        <OmniButton><OmniIcon Name="OmniIconName.Close" /><span>@Text["DemoLayoutCloseRequest"]</span></OmniButton>
+        <OmniButton><Icon><OmniIcon Name="OmniIconName.Check" /></Icon><ChildContent><span>@Text["DemoLayoutApproveFile"]</span></ChildContent></OmniButton>
+        <OmniButton><Icon><OmniIcon Name="OmniIconName.Filter" /></Icon><ChildContent><span>@Text["DemoLayoutFilterDocuments"]</span></ChildContent></OmniButton>
+        <OmniButton><Icon><OmniIcon Name="OmniIconName.Close" /></Icon><ChildContent><span>@Text["DemoLayoutCloseRequest"]</span></ChildContent></OmniButton>
     </OmniStack>
     <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Overflow="OmniStackOverflow.Collapse">
-        <OmniButton><OmniIcon Name="OmniIconName.Check" /><span>@Text["DemoLayoutApproveFile"]</span></OmniButton>
-        <OmniButton><OmniIcon Name="OmniIconName.Filter" /><span>@Text["DemoLayoutFilterDocuments"]</span></OmniButton>
-        <OmniButton><OmniIcon Name="OmniIconName.Close" /><span>@Text["DemoLayoutCloseRequest"]</span></OmniButton>
+        <OmniButton><Icon><OmniIcon Name="OmniIconName.Check" /></Icon><ChildContent><span>@Text["DemoLayoutApproveFile"]</span></ChildContent></OmniButton>
+        <OmniButton><Icon><OmniIcon Name="OmniIconName.Filter" /></Icon><ChildContent><span>@Text["DemoLayoutFilterDocuments"]</span></ChildContent></OmniButton>
+        <OmniButton><Icon><OmniIcon Name="OmniIconName.Close" /></Icon><ChildContent><span>@Text["DemoLayoutCloseRequest"]</span></ChildContent></OmniButton>
     </OmniStack>
 
     @* Grille de tuiles (OmniTileGrid) : toutes les tuiles du paquet y ont la même largeur et la même hauteur,
@@ -193,8 +193,8 @@
                             </OmniFormField>
                             <OmniCheckBox Id="@($"density-{level.Key}-lock")" @bind-Value="LockedRestore" aria-label="@Text["DemoLayoutLockedRestore"]" />
                             <OmniRow Gap="OmniSpacing.Small" Wrap="true">
-                                <OmniButton><OmniIcon Name="OmniIconName.Save" /><span>@Text["DemoLayoutSave"]</span></OmniButton>
-                                <OmniButton Variant="OmniButtonVariant.Secondary"><OmniIcon Name="OmniIconName.Close" /><span>@Text["DemoLayoutCancel"]</span></OmniButton>
+                                <OmniButton><Icon><OmniIcon Name="OmniIconName.Save" /></Icon><ChildContent><span>@Text["DemoLayoutSave"]</span></ChildContent></OmniButton>
+                                <OmniButton Variant="OmniButtonVariant.Secondary"><Icon><OmniIcon Name="OmniIconName.Close" /></Icon><ChildContent><span>@Text["DemoLayoutCancel"]</span></ChildContent></OmniButton>
                                 <OmniBadge Tone="OmniTone.Info">@Text["DemoLayoutAlertCount", 3]</OmniBadge>
                             </OmniRow>
                             <OmniAlert Severity="OmniSeverity.Success" Title="@Text["DemoLayoutDeployed"]">@Text["DemoLayoutDeployedText"]</OmniAlert>

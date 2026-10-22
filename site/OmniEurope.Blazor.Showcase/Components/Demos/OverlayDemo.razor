@@ -102,8 +102,8 @@
                 InitialFocus="OmniDialogInitialFocus.Panel">
         <ChildContent><p>@Text["DemoOverlayIntentBody", IntentDialog]</p></ChildContent>
         <FooterContent>
-            <OmniButton OnClick="@(_ => IntentOpen = false)"><OmniIcon Name="OmniIconName.Check" /><span>@Text["DemoOverlayConfirm"]</span></OmniButton>
-            <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => IntentOpen = false)"><OmniIcon Name="OmniIconName.Close" /><span>@Text["DemoOverlayCancel"]</span></OmniButton>
+            <OmniButton OnClick="@(_ => IntentOpen = false)"><Icon><OmniIcon Name="OmniIconName.Check" /></Icon><ChildContent><span>@Text["DemoOverlayConfirm"]</span></ChildContent></OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => IntentOpen = false)"><Icon><OmniIcon Name="OmniIconName.Close" /></Icon><ChildContent><span>@Text["DemoOverlayCancel"]</span></ChildContent></OmniButton>
         </FooterContent>
     </OmniDialog>
 
@@ -141,8 +141,8 @@
         @* Convention du paquet : l'action d'abord, Annuler (Secondary) après elle, au bout du pied,
            chacun avec son icône. OmniOverlayService.ConfirmAsync la suit d'office. *@
         <FooterContent>
-            <OmniButton Variant="OmniButtonVariant.Danger" OnClick="@(_ => Confirm())"><OmniIcon Name="OmniIconName.Delete" /><span>@Text["DemoOverlayDelete"]</span></OmniButton>
-            <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => DialogOpen = false)"><OmniIcon Name="OmniIconName.Close" /><span>@Text["DemoOverlayCancel"]</span></OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Danger" OnClick="@(_ => Confirm())"><Icon><OmniIcon Name="OmniIconName.Delete" /></Icon><ChildContent><span>@Text["DemoOverlayDelete"]</span></ChildContent></OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => DialogOpen = false)"><Icon><OmniIcon Name="OmniIconName.Close" /></Icon><ChildContent><span>@Text["DemoOverlayCancel"]</span></ChildContent></OmniButton>
         </FooterContent>
     </OmniDialog>
 </OmniStack>

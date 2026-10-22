@@ -21,7 +21,7 @@
                 OnClick="ToggleAsync"
                 aria-haspopup="menu"
                 aria-expanded="@(IsOpen ? "true" : "false")"
-                aria-controls="@(IsOpen ? MenuId : null)"><OmniIcon Name="OmniIconName.DotsThreeVertical" /></OmniButton>
+                aria-controls="@(IsOpen ? MenuId : null)"><Icon><OmniIcon Name="OmniIconName.DotsThreeVertical" /></Icon></OmniButton>
     @if (IsOpen && Coordinator is null)
     {
         @Popup

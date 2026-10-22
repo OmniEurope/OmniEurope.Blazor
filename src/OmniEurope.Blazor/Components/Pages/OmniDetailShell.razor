@@ -20,8 +20,8 @@
                 <Icon><OmniIcon Name="OmniIconName.Warning" Size="OmniControlSize.Large" /></Icon>
                 <ActionsContent>
                     <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="GoBackAsync">
-                        <OmniIcon Name="OmniIconName.ArrowLeft" />
-                        <span>@EffectiveBackText</span>
+                        <Icon><OmniIcon Name="OmniIconName.ArrowLeft" /></Icon>
+                        <ChildContent><span>@EffectiveBackText</span></ChildContent>
                     </OmniButton>
                 </ActionsContent>
             </OmniEmptyState>

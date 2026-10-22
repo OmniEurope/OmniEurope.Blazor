@@ -31,8 +31,8 @@
         <ChildContent>
             <OmniButton Id="workshop-reset-palette" Variant="OmniButtonVariant.Secondary"
                         Disabled="@Theme.HasThemePalette" OnClick="@(_ => Theme.ResetPaletteAsync())">
-                <OmniIcon Name="OmniIconName.Reset" />
-                <span>@Text["WorkshopDefault"]</span>
+                <Icon><OmniIcon Name="OmniIconName.Reset" /></Icon>
+                <ChildContent><span>@Text["WorkshopDefault"]</span></ChildContent>
             </OmniButton>
         </ChildContent>
     </OmniFormField>
@@ -129,8 +129,8 @@
     <OmniHeading Id="customize-tokens-title" Level="OmniHeadingLevel.H2">@Text["CustomizeTokensTitle"]</OmniHeading>
     <p>@Text["CustomizeTokensLead"]</p>
     <OmniButton Variant="OmniButtonVariant.Ghost" Disabled="@(Theme.Edits.Count == 0)" OnClick="@(_ => Theme.ResetAsync())">
-        <OmniIcon Name="OmniIconName.Reset" />
-        <span>@Text["CustomizeReset"]</span>
+        <Icon><OmniIcon Name="OmniIconName.Reset" /></Icon>
+        <ChildContent><span>@Text["CustomizeReset"]</span></ChildContent>
     </OmniButton>
 
     @foreach (var group in Theme.Tokens.GroupBy(token => token.Group))
@@ -166,12 +166,12 @@
     <p>@Text["CustomizeExportLead"]</p>
     <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small">
         <OmniButton Id="workshop-copy" Variant="OmniButtonVariant.Primary" OnClick="@(_ => CopyAsync())">
-            <OmniIcon Name="OmniIconName.Copy" />
-            <span>@Text["CustomizeCopy"]</span>
+            <Icon><OmniIcon Name="OmniIconName.Copy" /></Icon>
+            <ChildContent><span>@Text["CustomizeCopy"]</span></ChildContent>
         </OmniButton>
         <OmniButton Id="workshop-download" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => DownloadAsync())">
-            <OmniIcon Name="OmniIconName.Download" />
-            <span>@Text["CustomizeDownload"]</span>
+            <Icon><OmniIcon Name="OmniIconName.Download" /></Icon>
+            <ChildContent><span>@Text["CustomizeDownload"]</span></ChildContent>
         </OmniButton>
     </OmniStack>
     @if (Notice is not null)

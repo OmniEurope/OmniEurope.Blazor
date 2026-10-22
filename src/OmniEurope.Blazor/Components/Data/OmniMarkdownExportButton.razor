@@ -6,6 +6,6 @@
 @* Busy, not disabled, while the rows are read: the button keeps its size (STD-BUSY). *@
 <OmniButton @attributes="AdditionalAttributes" Id="@Id" Class="@Class" Variant="Variant" Size="Size" Disabled="Disabled" Busy="_busy"
             OnClick="ExportAsync">
-    <OmniIcon Name="OmniIconName.Download" />
-    <span>@EffectiveText</span>
+    <Icon><OmniIcon Name="OmniIconName.Download" /></Icon>
+    <ChildContent><span>@EffectiveText</span></ChildContent>
 </OmniButton>

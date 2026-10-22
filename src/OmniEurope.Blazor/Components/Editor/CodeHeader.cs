@@ -89,23 +89,27 @@ internal sealed class CodeHeader : ComponentBase
             }
 
             builder.AddComponentParameter(18, nameof(OmniButton.OnClick), OnCopy);
-            builder.AddComponentParameter(19, nameof(OmniButton.ChildContent), (RenderFragment)(content =>
+            builder.AddComponentParameter(19, nameof(OmniButton.Icon), (RenderFragment)(icon =>
             {
-                content.OpenComponent<OmniIcon>(0);
-                content.AddComponentParameter(1, nameof(OmniIcon.Name), CopyResult == true ? OmniIconName.Check : OmniIconName.Copy);
-                content.AddComponentParameter(2, nameof(OmniIcon.Size), OmniControlSize.Small);
-                content.CloseComponent();
-                if (CopyText)
-                {
-                    content.OpenElement(3, "span");
-                    content.AddContent(4, CopyLabel);
-                    content.CloseElement();
-                }
+                icon.OpenComponent<OmniIcon>(0);
+                icon.AddComponentParameter(1, nameof(OmniIcon.Name), CopyResult == true ? OmniIconName.Check : OmniIconName.Copy);
+                icon.AddComponentParameter(2, nameof(OmniIcon.Size), OmniControlSize.Small);
+                icon.CloseComponent();
             }));
+            if (CopyText)
+            {
+                builder.AddComponentParameter(20, nameof(OmniButton.ChildContent), (RenderFragment)(content =>
+                {
+                    content.OpenElement(0, "span");
+                    content.AddContent(1, CopyLabel);
+                    content.CloseElement();
+                }));
+            }
+
             builder.CloseComponent();
         }
 
-        builder.AddContent(20, TrailingActions);
+        builder.AddContent(21, TrailingActions);
         builder.CloseElement();
         builder.CloseElement();
     }
