@@ -46,12 +46,17 @@ public partial class OmniNotification
     /// <summary>
     /// Tints the card in the colour of its severity and drains the tint over the time it has left.
     /// Needs <see cref="Duration"/>: a notification that stays until dismissed has nothing to count
-    /// down. On by default; off, the card stays the surface colour and still closes on time.
+    /// down. On by default; off, the card stays the surface colour, and the host still removes it on time.
     /// </summary>
     [Parameter]
     public bool ShowCountdown { get; set; } = true;
 
-    /// <summary>How long the notification stays, when it goes on its own.</summary>
+    /// <summary>
+    /// The time the card has before its host removes it. The card does not close itself: the
+    /// notification host of <see cref="OmniOverlayService"/> removes it once the time is
+    /// up, and the card only uses the value for its countdown. A card placed by hand stays until the
+    /// page removes it, whatever this says. Null: the card stays until dismissed, with no countdown.
+    /// </summary>
     [Parameter]
     public TimeSpan? Duration { get; set; }
 

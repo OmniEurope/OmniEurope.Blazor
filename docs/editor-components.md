@@ -578,7 +578,7 @@ Retour à la ligne. `Language` est, comme partout dans la famille, l'identifiant
 quand il est nul) ; `OmniCodeBlock.Code` est un `string?` (nul vaut vide) et `OmniCodeBlock.Inline` affiche le code
 dans une ligne de texte.
 
-`EmptyText` (`string?`) dit ce que montre un code vide ; nul, le texte localisé du paquet (« rien à montrer »). `WrapChanged` (`EventCallback<bool>`) est levé quand le bouton de retour à la ligne est pressé, et `Wrap` se lie par `@bind-Wrap`. `CopiedFeedbackDuration` (`TimeSpan`, 2 secondes par défaut) fixe combien de temps le bouton de copie montre son résultat.
+`EmptyText` (`string?`) dit ce que montre un code vide ; nul, le texte localisé du paquet (« Rien à afficher. »). `WrapChanged` (`EventCallback<bool>`) est levé quand le bouton de retour à la ligne est pressé, et `Wrap` se lie par `@bind-Wrap`. `CopiedFeedbackDuration` (`TimeSpan`, 2 secondes par défaut) fixe combien de temps le bouton de copie montre son résultat.
 
 ```razor
 <OmniCodeViewer Code="@Extrait" Title="src/Service.cs" FirstLineNumber="631" HighlightedLines="@([635])" />
@@ -629,7 +629,7 @@ malformé (nombres hors d'un `int`) est ignoré. Il marche donc sous la politiqu
 `ExpandedByDefault` (vrai par défaut) ouvre chaque section de fichier ; `FileActionsTemplate` ajoute des
 actions à l'en-tête de chaque fichier.
 
-`Diff` (`string?`) reçoit le texte du diff ; il est ignoré quand `Files` (`IReadOnlyList<OmniDiffFile>?`) est donné, ce qui sert à passer des fichiers déjà lus par `OmniUnifiedDiffParser.Parse` ou construits par l'hôte. `Collapsible` (vrai par défaut) permet de replier chaque fichier par son en-tête. `EmptyText` (`string?`) dit ce que montre un diff vide ; nul, le texte localisé du paquet (« aucun changement »).
+`Diff` (`string?`) reçoit le texte du diff ; il est ignoré quand `Files` (`IReadOnlyList<OmniDiffFile>?`) est donné, ce qui sert à passer des fichiers déjà lus par `OmniUnifiedDiffParser.Parse` ou construits par l'hôte. `Collapsible` (vrai par défaut) permet de replier chaque fichier par son en-tête. `EmptyText` (`string?`) dit ce que montre un diff vide ; nul, le texte localisé du paquet (« Aucune modification. »).
 
 ## Limites connues
 
