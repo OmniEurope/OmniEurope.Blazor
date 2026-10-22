@@ -21,8 +21,7 @@
         <div class="omni-tabs__viewport"
              role="tablist"
              aria-label="@EffectiveLabel"
-             @ref="_root"
-             @onkeydown="HandleKeyDownAsync">
+             @ref="_root">
             <CascadingValue Value="TabContext">@ChildContent</CascadingValue>
         </div>
         <button type="button"

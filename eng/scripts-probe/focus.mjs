@@ -36,20 +36,43 @@ export async function focusSteps(session, results) {
   const focusedKey = () => evaluate('document.activeElement?.dataset?.key ?? ""');
   await evaluate(`${tabs}[1].focus()`);
   await key('ArrowRight', 'ArrowRight', 39);
+  // The script alone handles the keyboard of the strip: the tab reached takes the focus and is selected.
+  const selectedKey = `${tabs}.find(tab => tab.getAttribute('aria-selected') === 'true')?.dataset.key`;
+  const last = keys.length - 1;
   await waitFor('l\'onglet suivant en lecture de gauche à droite', `document.activeElement?.dataset?.key === ${JSON.stringify(keys[2])}`);
+  await waitFor('l\'onglet suivant sélectionné', `${selectedKey} === ${JSON.stringify(keys[2])}`);
   await evaluate("document.documentElement.dir = 'rtl'");
   try {
     await evaluate(`${tabs}[1].focus()`);
     await key('ArrowRight', 'ArrowRight', 39);
     await waitFor('l\'onglet précédent en lecture de droite à gauche', `document.activeElement?.dataset?.key === ${JSON.stringify(keys[0])}`);
+    await waitFor('l\'onglet précédent sélectionné', `${selectedKey} === ${JSON.stringify(keys[0])}`);
     await evaluate(`${tabs}[1].focus()`);
     await key('ArrowLeft', 'ArrowLeft', 37);
     await waitFor('l\'onglet suivant avec la flèche gauche, de droite à gauche', `document.activeElement?.dataset?.key === ${JSON.stringify(keys[2])}`);
     check(await focusedKey() === keys[2], 'La flèche gauche en lecture de droite à gauche n\'a pas atteint l\'onglet suivant.');
+    await waitFor('l\'onglet suivant sélectionné, de droite à gauche', `${selectedKey} === ${JSON.stringify(keys[2])}`);
   } finally {
     await evaluate("document.documentElement.dir = 'ltr'");
   }
   step('onglets : les flèches suivent le sens de lecture, de gauche à droite et de droite à gauche');
+
+  // Home and End, the wrap at either end, a disabled tab skipped, and no page scroll from an arrow.
+  await key('End', 'End', 35);
+  await waitFor('le dernier onglet, focalisé et sélectionné', `document.activeElement?.dataset?.key === ${JSON.stringify(keys[last])} && ${selectedKey} === ${JSON.stringify(keys[last])}`);
+  await key('ArrowRight', 'ArrowRight', 39);
+  await waitFor('le premier onglet après le dernier, focalisé et sélectionné', `document.activeElement?.dataset?.key === ${JSON.stringify(keys[0])} && ${selectedKey} === ${JSON.stringify(keys[0])}`);
+  await key('Home', 'Home', 36);
+  await waitFor('le premier onglet par Début, focalisé et sélectionné', `document.activeElement?.dataset?.key === ${JSON.stringify(keys[0])} && ${selectedKey} === ${JSON.stringify(keys[0])}`);
+  await evaluate(`${tabs}[1].setAttribute('disabled', '')`);
+  try {
+    await key('ArrowRight', 'ArrowRight', 39);
+    await waitFor('l\'onglet désactivé sauté', `document.activeElement?.dataset?.key === ${JSON.stringify(keys[2])} && ${selectedKey} === ${JSON.stringify(keys[2])}`);
+    check(await evaluate(`(() => { const event = new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true, cancelable: true }); document.activeElement.dispatchEvent(event); return event.defaultPrevented; })()`), 'Une flèche sur un onglet laisse le navigateur faire défiler la page.');
+  } finally {
+    await evaluate(`${tabs}[1].removeAttribute('disabled')`);
+  }
+  step('onglets : Début, Fin, retour au bout, onglet désactivé sauté, flèche sans défilement de la page');
 
   // 3. A call to .NET that a lost circuit rejects leaves no unhandled promise rejection: the keyboard of a tab
   // strip, the narrow-window watcher and the Escape listener of a sidebar, the viewport report of a log viewer, each given a reference that rejects.
