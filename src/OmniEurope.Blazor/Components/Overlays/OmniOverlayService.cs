@@ -230,7 +230,7 @@ public sealed class OmniOverlayService : IDisposable
     /// </param>
     /// <returns>The id of the notification, for <see cref="Dismiss(Guid)"/>.</returns>
     /// <exception cref="ArgumentException"><paramref name="message"/> is null, empty or white space.</exception>
-    /// <exception cref="InvalidOperationException"><paramref name="detailsHref"/> uses a URI scheme that is not allowed.</exception>
+    /// <exception cref="InvalidOperationException"><paramref name="detailsHref"/> is not an allowed address (a scheme outside http, https, mailto and tel, or a relative address that names another host).</exception>
     public Guid Notify(
         string message,
         OmniSeverity severity,

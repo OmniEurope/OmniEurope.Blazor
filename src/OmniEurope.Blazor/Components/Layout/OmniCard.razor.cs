@@ -70,7 +70,7 @@ public partial class OmniCard
 
     /// <summary>Checks that <see cref="Href"/> and <see cref="OnClick"/> are not both given and that the address is safe.</summary>
     /// <exception cref="ArgumentException"><see cref="Href"/> and <see cref="OnClick"/> are both given.</exception>
-    /// <exception cref="InvalidOperationException"><see cref="Href"/> uses a scheme that is not allowed.</exception>
+    /// <exception cref="InvalidOperationException"><see cref="Href"/> is not an allowed address (a scheme outside http, https, mailto and tel, or a relative address that names another host).</exception>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
