@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using AngleSharp.Dom;
 using AngleSharp.Html.Parser;
+using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Internal;
 
@@ -21,9 +22,11 @@ internal static partial class OmniHtmlText
 
     /// <summary>
     /// What the value looks like as plain text: blocks separated by a blank line, list items one per
-    /// line with a dash or their number, table cells separated by tabs.
+    /// line with a dash or their number, table cells separated by tabs. The value is read through the
+    /// allow-list widened by <paramref name="policy"/>, unless <paramref name="isSanitized"/> says the caller
+    /// already sanitised it with that same policy, in which case it is read as it stands.
     /// </summary>
-    internal static string ToPlainText(string? html)
+    internal static string ToPlainText(string? html, OmniHtmlSanitizerPolicy? policy = null, bool isSanitized = false)
     {
         if (string.IsNullOrWhiteSpace(html))
         {
@@ -31,15 +34,15 @@ internal static partial class OmniHtmlText
         }
 
         var builder = new StringBuilder();
-        AppendChildren(Body(html), builder, preformatted: false);
+        AppendChildren(Body(html, policy, isSanitized), builder, preformatted: false);
         return ExtraBlankLines().Replace(builder.ToString().Replace("\r", string.Empty, StringComparison.Ordinal), "\n\n")
             .Trim('\n', ' ', '\t');
     }
 
     /// <summary>Words (runs of characters holding a letter or a digit) and characters, spaces included, line breaks excluded.</summary>
-    internal static (int Words, int Characters) Count(string? html)
+    internal static (int Words, int Characters) Count(string? html, OmniHtmlSanitizerPolicy? policy = null, bool isSanitized = false)
     {
-        var text = ToPlainText(html);
+        var text = ToPlainText(html, policy, isSanitized);
         var words = WordSeparators().Split(text).Count(token => token.Any(char.IsLetterOrDigit));
         var characters = text.Count(character => character is not '\n' and not '\r');
         return (words, characters);
@@ -51,9 +54,9 @@ internal static partial class OmniHtmlText
     /// file reads the same in any browser or word processor. The file is handed to the user, never
     /// rendered in the page, so the strict CSP of the page does not apply to it.
     /// </summary>
-    internal static string ToStandaloneDocument(string? html, string title, string language)
+    internal static string ToStandaloneDocument(string? html, string title, string language, OmniHtmlSanitizerPolicy? policy = null, bool isSanitized = false)
     {
-        var body = Body(html);
+        var body = Body(html, policy, isSanitized);
         foreach (var element in body.QuerySelectorAll("[class]").ToArray())
         {
             var declarations = element.ClassList.Select(Declaration).Where(value => value is not null).ToArray();
@@ -80,14 +83,14 @@ internal static partial class OmniHtmlText
     }
 
     /// <summary>The text of the first level-one heading, if the document has one.</summary>
-    internal static string? FirstHeading(string? html)
+    internal static string? FirstHeading(string? html, OmniHtmlSanitizerPolicy? policy = null, bool isSanitized = false)
     {
-        var heading = string.IsNullOrWhiteSpace(html) ? null : Body(html).QuerySelector("h1")?.TextContent.Trim();
+        var heading = string.IsNullOrWhiteSpace(html) ? null : Body(html, policy, isSanitized).QuerySelector("h1")?.TextContent.Trim();
         return string.IsNullOrEmpty(heading) ? null : heading;
     }
 
-    private static IElement Body(string? html) =>
-        Parser.ParseDocument("<!DOCTYPE html><html><body>" + OmniHtmlSanitizer.Sanitize(html) + "</body></html>").Body!;
+    private static IElement Body(string? html, OmniHtmlSanitizerPolicy? policy, bool isSanitized) =>
+        Parser.ParseDocument("<!DOCTYPE html><html><body>" + (isSanitized ? html : OmniHtmlSanitizer.Sanitize(html, policy)) + "</body></html>").Body!;
 
     private static string? Declaration(string className) => className switch
     {

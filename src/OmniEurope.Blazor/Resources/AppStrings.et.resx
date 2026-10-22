@@ -184,6 +184,7 @@
   <data name="HtmlEditorCharCategoryLegal" xml:space="preserve"><value>Õigus</value></data>
   <data name="HtmlEditorImportTable" xml:space="preserve"><value>Impordi tabel</value></data>
   <data name="HtmlEditorImportTableHint" xml:space="preserve"><value>Fail: {0}, kuni 100 rida ja 50 veergu.</value></data>
+  <data name="HtmlEditorImportTableTruncated" xml:space="preserve"><value>Fail ületab piirid: säilitatakse ainult selle algus.</value></data>
   <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>Esimene rida päiseks</value></data>
   <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Lisa</value></data>
   <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Tabeli eelvaade</value></data>

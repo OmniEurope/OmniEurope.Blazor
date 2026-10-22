@@ -184,6 +184,7 @@
   <data name="HtmlEditorCharCategoryLegal" xml:space="preserve"><value>Νομικά</value></data>
   <data name="HtmlEditorImportTable" xml:space="preserve"><value>Εισαγωγή πίνακα</value></data>
   <data name="HtmlEditorImportTableHint" xml:space="preserve"><value>Αρχείο {0}, έως 100 γραμμές και 50 στήλες.</value></data>
+  <data name="HtmlEditorImportTableTruncated" xml:space="preserve"><value>Το αρχείο υπερβαίνει τα όρια: διατηρείται μόνο η αρχή του.</value></data>
   <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>Πρώτη γραμμή ως κεφαλίδα</value></data>
   <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Εισαγωγή</value></data>
   <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Προεπισκόπηση πίνακα</value></data>

@@ -53,6 +53,7 @@ public sealed class OmniHtmlEditorCommandContext
     /// <summary>Runs a built-in action, as its toolbar command would.</summary>
     /// <param name="action">The action; <see cref="OmniHtmlEditorAction.Custom"/> and <see cref="OmniHtmlEditorAction.Separator"/> do nothing.</param>
     /// <param name="argument">The block tag for <see cref="OmniHtmlEditorAction.BlockFormat"/> (<c>p</c>, <c>h1</c> to <c>h4</c>), the size for <see cref="OmniHtmlEditorAction.FontSize"/> (<c>small</c>, <c>normal</c>, <c>large</c>, <c>xlarge</c>) or the address for <see cref="OmniHtmlEditorAction.Link"/>.</param>
+    /// <exception cref="InvalidOperationException">The address of a <see cref="OmniHtmlEditorAction.Link"/> uses a scheme other than http, https, mailto or tel (a <c>javascript:</c> address, for one).</exception>
     public Task ExecuteAsync(OmniHtmlEditorAction action, string? argument = null) =>
         _editor.RunBuiltInAsync(action, argument);
 

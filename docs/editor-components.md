@@ -509,7 +509,10 @@ await expediteur.EnvoyerAsync(destinataire, mail.Subject, mail.Html, mail.Text);
 `OmniCodeEditor` enveloppe Monaco (`monaco-editor`, construit AMD `min/vs`) sans l'embarquer : le
 paquet ne contient que `omni-code-editor.js`. L'hôte sert le dossier `min/vs` depuis sa propre
 origine, à l'adresse `MonacoPath` (défaut `lib/monaco-editor/min/vs`, relative à l'adresse de base de
-la page) ; une adresse sur une autre origine est refusée. Deux raisons à ce partage :
+la page) ; une adresse sur une autre origine est refusée : un schéma (`https:`, `data:`, `blob:`, `javascript:`),
+un début en `//` ou une barre oblique inverse, un espace ou un caractère de contrôle lèvent une `ArgumentException`
+au rendu, et le script de chargement fait la même vérification. Un chemin relatif (`assets/monaco/vs`, `./vs`) ou
+absolu sur l'hôte (`/_content/x/vs`) reste accepté. Deux raisons à ce partage :
 
 - Monaco pèse environ 14 Mo, plusieurs fois le budget de 2 Mo du paquet NuGet ;
 - il ne fonctionne pas sous la CSP stricte du paquet : il écrit des éléments `style` à l'exécution.

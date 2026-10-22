@@ -184,6 +184,7 @@
   <data name="HtmlEditorCharCategoryLegal" xml:space="preserve"><value>Juridisch</value></data>
   <data name="HtmlEditorImportTable" xml:space="preserve"><value>Tabel importeren</value></data>
   <data name="HtmlEditorImportTableHint" xml:space="preserve"><value>{0}-bestand, maximaal 100 rijen en 50 kolommen.</value></data>
+  <data name="HtmlEditorImportTableTruncated" xml:space="preserve"><value>Het bestand overschrijdt de limieten: alleen het begin wordt overgenomen.</value></data>
   <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>Eerste rij als koptekst</value></data>
   <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Invoegen</value></data>
   <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Voorbeeld van de tabel</value></data>

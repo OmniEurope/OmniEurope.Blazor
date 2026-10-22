@@ -12,6 +12,10 @@ namespace OmniEurope.Blazor.Internal;
 /// </summary>
 internal static partial class PickerFormat
 {
+    /// <summary>The current moment of <paramref name="clock"/> in <paramref name="zone"/>, in the clock's local zone when null.</summary>
+    internal static DateTime LocalNow(TimeProvider clock, TimeZoneInfo? zone) =>
+        TimeZoneInfo.ConvertTime(clock.GetUtcNow(), zone ?? clock.LocalTimeZone).DateTime;
+
     internal static string DatePattern(CultureInfo culture)
     {
         var pattern = culture.DateTimeFormat.ShortDatePattern;

@@ -203,8 +203,9 @@ public partial class OmniChart
         var maxHeight = MaxHeight;
         try
         {
-            _module ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", OmniModules.Interop);
-            if (!_disposed)
+            // A chart disposed while the import was pending releases the module on arrival.
+            _module ??= await OmniScriptModule.ImportAsync(JavaScript, OmniModules.Interop, () => _disposed);
+            if (_module is not null && !_disposed)
             {
                 await _module.InvokeVoidAsync("applyChartMaxHeight", _figure, maxHeight);
                 _appliedMaxHeight = maxHeight;

@@ -184,6 +184,7 @@
   <data name="HtmlEditorCharCategoryLegal" xml:space="preserve"><value>Právní</value></data>
   <data name="HtmlEditorImportTable" xml:space="preserve"><value>Importovat tabulku</value></data>
   <data name="HtmlEditorImportTableHint" xml:space="preserve"><value>Soubor {0}, nejvýše 100 řádků a 50 sloupců.</value></data>
+  <data name="HtmlEditorImportTableTruncated" xml:space="preserve"><value>Soubor překračuje limity: zachován je jen jeho začátek.</value></data>
   <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>První řádek jako záhlaví</value></data>
   <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Vložit</value></data>
   <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Náhled tabulky</value></data>

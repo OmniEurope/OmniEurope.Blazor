@@ -45,7 +45,8 @@ internal static class OmniHtmlSanitizer
     private static readonly HashSet<string> ForbiddenTagNames = new(StringComparer.OrdinalIgnoreCase)
     {
         "script", "style", "iframe", "frame", "frameset", "object", "embed", "applet", "base", "link", "meta",
-        "noscript", "template", "svg", "math", "form", "input", "button", "textarea", "select", "option"
+        "noscript", "template", "svg", "math", "form", "input", "button", "textarea", "select", "option",
+        "xmp", "noembed", "noframes", "plaintext", "portal", "fencedframe", "isindex", "bgsound", "image", "keygen"
     };
 
     /// <summary>Attributes no policy can allow, besides every <c>on*</c> event handler and every namespaced name.</summary>
@@ -55,7 +56,8 @@ internal static class OmniHtmlSanitizer
     };
 
     /// <summary>Attributes whose value is an address, so it is held to the allowed schemes.</summary>
-    private static readonly string[] UriAttributeNames = ["href", "src", "cite", "poster", "longdesc"];
+    private static readonly string[] UriAttributeNames =
+        ["href", "src", "cite", "poster", "longdesc", "background", "data", "manifest", "codebase", "icon", "lowsrc", "dynsrc"];
 
     /// <summary>
     /// An image carried in the document itself, which <see cref="OmniHtmlSanitizerPolicy.AllowImageDataUris"/> lets

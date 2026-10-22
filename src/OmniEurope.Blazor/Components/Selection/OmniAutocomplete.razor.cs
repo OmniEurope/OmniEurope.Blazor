@@ -133,7 +133,8 @@ public partial class OmniAutocomplete<TValue>
     [Parameter]
     public Func<string, TValue>? ParseFreeText { get; set; }
 
-    private string BaseId => Id ?? FieldIdentifier.FieldName;
+    private readonly string _generatedId = $"omni-autocomplete-{Guid.NewGuid():N}";
+    private string BaseId => Id ?? _generatedId;
     private string ResultsId => $"{BaseId}-results";
     private string ErrorId => $"{BaseId}-error";
     private string OptionId(int index) => $"{ResultsId}-{index.ToString(CultureInfo.InvariantCulture)}";
@@ -250,7 +251,8 @@ public partial class OmniAutocomplete<TValue>
         try
         {
             await Task.Delay(delay < TimeSpan.Zero ? TimeSpan.Zero : delay, token);
-            var results = await Search!(text, token);
+            // A search that answers with nothing at all lists nothing, as one that answers with an empty list.
+            var results = await Search!(text, token) ?? Array.Empty<OmniOption<TValue>>();
             if (generation != _searchGeneration)
             {
                 return;

@@ -184,6 +184,7 @@
   <data name="HtmlEditorCharCategoryLegal" xml:space="preserve"><value>Dlíthiúil</value></data>
   <data name="HtmlEditorImportTable" xml:space="preserve"><value>Iompórtáil tábla</value></data>
   <data name="HtmlEditorImportTableHint" xml:space="preserve"><value>Comhad {0}, 100 ró agus 50 colún ar a mhéad.</value></data>
+  <data name="HtmlEditorImportTableTruncated" xml:space="preserve"><value>Sáraíonn an comhad na teorainneacha: ní choinnítear ach a thosach.</value></data>
   <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>An chéad ró mar cheanntásc</value></data>
   <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Ionsáigh</value></data>
   <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Réamhamharc ar an tábla</value></data>

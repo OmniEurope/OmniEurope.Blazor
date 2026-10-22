@@ -201,10 +201,32 @@ public partial class OmniCodeViewer : IAsyncDisposable
         if (!ReferenceEquals(_compiledLinks, Links))
         {
             _compiledLinks = Links;
-            _patterns = [.. Links.Select(link => (link, new Regex(link.Pattern, RegexOptions.CultureInvariant, PatternTimeout)))];
+            _patterns = [.. Links
+                .Select(link => (Link: link, Pattern: Compile(link.Pattern)))
+                .Where(entry => entry.Pattern is not null)
+                .Select(entry => (entry.Link, entry.Pattern!))];
         }
 
         _highlighted = HighlightedLines is null ? [] : [.. HighlightedLines];
+    }
+
+    /// <summary>The pattern read by the .NET engine, or null when it is not a valid expression: such a link is ignored, as Monaco ignores it.</summary>
+    private static Regex? Compile(string? pattern)
+    {
+        if (string.IsNullOrEmpty(pattern))
+        {
+            return null;
+        }
+
+        try
+        {
+            return new Regex(pattern, RegexOptions.CultureInvariant, PatternTimeout);
+        }
+        catch (ArgumentException)
+        {
+            // RegexParseException derives from it: a pattern the engine cannot read leaves its link out, not the render failing.
+            return null;
+        }
     }
 
     private string LineClass(int number) => _highlighted.Contains(number)

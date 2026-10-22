@@ -51,7 +51,8 @@ public partial class OmniUpload
 
     /// <summary>
     /// The content types accepted (<c>text/csv</c>), compared without regard to case; a selection
-    /// holding another type is refused whole. Empty (the default) accepts any type.
+    /// holding another type is refused whole. A family is accepted with a wildcard subtype
+    /// (<c>image/*</c>), as in the <c>accept</c> attribute of a file input. Empty (the default) accepts any type.
     /// </summary>
     [Parameter]
     public IReadOnlyList<string> AllowedContentTypes { get; set; } = Array.Empty<string>();
@@ -155,10 +156,22 @@ public partial class OmniUpload
         return subtype == "*" ? contentType : subtype.ToUpperInvariant();
     }
 
+    // A type matches an entry equal to it, or an entry of its family written with a wildcard subtype (image/*).
+    private bool IsAllowedType(string? contentType) => AllowedContentTypes.Any(allowed =>
+        string.Equals(allowed, contentType, StringComparison.OrdinalIgnoreCase)
+        || (allowed.EndsWith("/*", StringComparison.Ordinal) && contentType is not null
+            && contentType.AsSpan().StartsWith(allowed.AsSpan(0, allowed.Length - 1), StringComparison.OrdinalIgnoreCase)));
+
     private void SetDragging(bool dragging) => _dragging = dragging && !Disabled && !_uploading;
 
     private async Task HandleFilesAsync(InputFileChangeEventArgs args)
     {
+        // A picker closed without a choice reports no file: there is nothing to read, check or send.
+        if (args.FileCount == 0)
+        {
+            return;
+        }
+
         Cancel();
         _dragging = false;
         _canRetry = false;
@@ -192,8 +205,7 @@ public partial class OmniUpload
             return;
         }
 
-        var rejected = _files.FirstOrDefault(file => AllowedContentTypes.Count > 0
-            && !AllowedContentTypes.Contains(file.ContentType, StringComparer.OrdinalIgnoreCase));
+        var rejected = _files.FirstOrDefault(file => AllowedContentTypes.Count > 0 && !IsAllowedType(file.ContentType));
         if (rejected is not null)
         {
             _files = Array.Empty<IBrowserFile>();

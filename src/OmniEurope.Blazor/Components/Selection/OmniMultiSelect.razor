@@ -11,18 +11,20 @@
          id="@Id"
          class="@InputCss("omni-multi-select-compact")">
     <summary class="omni-input omni-multi-select-compact__summary"
+             aria-label="@SummaryAriaLabel"
+             aria-labelledby="@SummaryLabelledBy"
              aria-invalid="@AriaInvalid"
              aria-describedby="@AriaDescribedBy"
              aria-disabled="@(Disabled ? "true" : null)"
              tabindex="@(Disabled ? "-1" : null)"
              @onclick:preventDefault="Disabled">
-        <span class="omni-multi-select-compact__text">@SummaryText</span>
+        <span id="@SummaryTextId" class="omni-multi-select-compact__text">@SummaryText</span>
         <svg class="omni-multi-select-compact__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true">
             <path d="M6 9l6 6 6-6" />
         </svg>
     </summary>
-    <div class="omni-multi-select-compact__panel" role="group" aria-label="@SummaryText">
+    <div class="omni-multi-select-compact__panel" role="group" aria-label="@PanelAriaLabel" aria-labelledby="@PanelLabelledBy">
         @if (Filterable)
         {
             <input type="search"

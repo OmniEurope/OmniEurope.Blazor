@@ -18,9 +18,10 @@
 // editing in tables.js, the text an extension proposes after the caret in suggestions.js and the
 // passages a proofreader flags in proofreading.js.
 import {
-    editors, allowedClasses, normalise, elementOf, caretFromPoint, caretOffset, placeCaret, joinInstead, insertHtmlAt
+    editors, allowedClasses, normalise, elementOf, caretOffset, placeCaret, joinInstead, insertHtmlAt
 } from './html-editor/model.js';
 import { describe, apply, readClipboard } from './html-editor/commands.js';
+import { startDrag, endDrag, placeDrop } from './html-editor/dragging.js';
 import { moveBetweenCells } from './html-editor/tables.js';
 import { requestSuggestion, clearSuggestion, acceptSuggestion } from './html-editor/suggestions.js';
 import { requestProofreading, proofreadAgain, clearProofreading, issueAt, replaceIssue, ignoreIssue } from './html-editor/proofreading.js';
@@ -39,7 +40,7 @@ export function mount(surface, dotnet, html, options) {
     const state = {
         surface, dotnet, timer: 0, range: null, key: '', sent: null, listeners: [], classes: allowedClasses, policy: false,
         selection: false, selectionTimer: 0, selectionKey: '', shortcuts: new Map(), inline: [], menu: false, activated: null,
-        suggest: false, suggestion: null, suggestTimer: 0, suggestTicket: 0,
+        drag: null, suggest: false, suggestion: null, suggestTimer: 0, suggestTicket: 0,
         proofread: false, proofreadTimer: 0, proofreadTicket: 0, proofreadCache: new Map(), proofreadIgnored: new Set(), proofreadIssues: [], menuIssue: null
     };
     editors.set(surface, state);
@@ -55,6 +56,8 @@ export function mount(surface, dotnet, html, options) {
     });
     listen(state, surface, 'mousedown', () => clearSuggestion(state));
     listen(state, surface, 'paste', event => paste(state, event));
+    listen(state, surface, 'dragstart', () => startDrag(state));
+    listen(state, surface, 'dragend', () => endDrag(state));
     listen(state, surface, 'drop', event => drop(state, event));
     listen(state, surface, 'keydown', event => keydown(state, event));
     listen(state, surface, 'beforeinput', event => beforeInput(state, event));
@@ -544,15 +547,17 @@ async function drop(state, event) {
         return;
     }
 
-    const point = caretFromPoint(event.clientX, event.clientY);
-    if (point && state.surface.contains(point.startContainer)) {
-        state.range = point;
+    // A drop inside the dragged selection changes nothing; a move removes its source once the sanitised
+    // content is ready (a refused content leaves the source where it was).
+    const source = placeDrop(state, event);
+    if (source === false) {
+        return;
     }
 
-    await insertTransfer(state, html, text);
+    await insertTransfer(state, html, text, source);
 }
 
-async function insertTransfer(state, html, text) {
+async function insertTransfer(state, html, text, source = null) {
     remember(state);
     const clean = await state.dotnet.invokeMethodAsync('SanitizePaste', html ?? '', text ?? '');
     if (!clean || !editors.has(state.surface)) {
@@ -560,6 +565,7 @@ async function insertTransfer(state, html, text) {
     }
 
     prepareDocument();
+    source?.deleteContents();
     const range = restore(state);
     insertHtmlAt(state.surface, range, clean);
 

@@ -45,6 +45,13 @@ public partial class OmniDateTimePicker
     [Parameter]
     public bool ShowSeconds { get; set; }
 
+    /// <summary>
+    /// The time zone "today" and "now" are read in. The local zone of the host's <see cref="TimeProvider"/>
+    /// when null (the default), which is the zone of the server.
+    /// </summary>
+    [Parameter]
+    public TimeZoneInfo? TimeZone { get; set; }
+
     /// <summary>Whether the field and its panel toggle are disabled. Off by default.</summary>
     [Parameter]
     public bool Disabled { get; set; }
@@ -84,7 +91,7 @@ public partial class OmniDateTimePicker
     private string EffectivePlaceholder => Placeholder
         ?? PickerFormat.Placeholder(PickerFormat.DateTimePattern(Culture, ShowSeconds), PickerLetters.From(key => Localize(key)));
 
-    private DateTime LocalNow => Clock.GetLocalNow().DateTime;
+    private DateTime LocalNow => PickerFormat.LocalNow(Clock, TimeZone);
 
     private DateOnly Today => DateOnly.FromDateTime(LocalNow);
 
@@ -288,8 +295,8 @@ public partial class OmniDateTimePicker
 
     private void StepMonth(int step)
     {
-        _visibleMonth = new DateOnly(_visibleMonth.Year, _visibleMonth.Month, 1).AddMonths(step);
-        _focusedDate = PickerCalendar.Clamp(_focusedDate.AddMonths(step), MinimumDate, MaximumDate);
+        _visibleMonth = PickerCalendar.AddMonths(new DateOnly(_visibleMonth.Year, _visibleMonth.Month, 1), step);
+        _focusedDate = PickerCalendar.Clamp(PickerCalendar.AddMonths(_focusedDate, step), MinimumDate, MaximumDate);
     }
 
     private Task DismissAsync(bool fromKeyboard) => InvokeAsync(() =>

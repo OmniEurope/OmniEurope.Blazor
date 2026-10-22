@@ -1,5 +1,3 @@
-using System.Text;
-
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
@@ -32,6 +30,9 @@ internal sealed class HtmlEditorPanels
     /// <summary>The rows of the table file read, or null.</summary>
     internal IReadOnlyList<IReadOnlyList<string>>? TableRows { get; private set; }
 
+    /// <summary>Whether the file went beyond the limits (rows, columns, bytes read) and only its start was kept.</summary>
+    internal bool TableTruncated { get; private set; }
+
     /// <summary>Whether the first row of the table is inserted as its header.</summary>
     internal bool TableHeader { get; set; }
 
@@ -48,6 +49,7 @@ internal sealed class HtmlEditorPanels
         Current = panel;
         CharacterSearch = string.Empty;
         TableRows = null;
+        TableTruncated = false;
         TableErrorKey = null;
     }
 
@@ -133,29 +135,35 @@ internal sealed class HtmlEditorPanels
         }
 
         TableRows = null;
+        TableTruncated = false;
         TableErrorKey = null;
         TableBusy = true;
         try
         {
             var extension = Path.GetExtension(file.Name).ToLowerInvariant();
-            await using var upload = file.OpenReadStream(HtmlEditorTableFile.MaxBytes);
-            using var content = new MemoryStream();
-            await upload.CopyToAsync(content);
-            content.Position = 0;
-            IReadOnlyList<IReadOnlyList<string>> rows;
-            if (extension is ".csv" or ".tsv")
-            {
-                using var reader = new StreamReader(content, Encoding.UTF8, detectEncodingFromByteOrderMarks: true);
-                rows = HtmlEditorTableFile.ReadDelimited(await reader.ReadToEndAsync(), extension == ".tsv" ? '\t' : ',');
-            }
-            else if (readers.FirstOrDefault(candidate => candidate.Extensions.Contains(extension, StringComparer.OrdinalIgnoreCase)) is { } tableReader)
-            {
-                rows = HtmlEditorTableFile.Shape(await tableReader.Read(file.Name, content));
-            }
-            else
+            var tableReader = readers.FirstOrDefault(candidate => candidate.Extensions.Contains(extension, StringComparer.OrdinalIgnoreCase));
+            if (extension is not (".csv" or ".tsv") && tableReader is null)
             {
                 TableErrorKey = "HtmlEditorImportTableUnsupported";
                 return;
+            }
+
+            await using var upload = file.OpenReadStream(HtmlEditorTableFile.MaxBytes);
+            IReadOnlyList<IReadOnlyList<string>> rows;
+            bool truncated;
+            if (extension is ".csv" or ".tsv")
+            {
+                // Only the start of the file is read: a table of 100 rows needs no more than that.
+                var (text, cut) = await HtmlEditorTableFile.ReadTextAsync(upload);
+                rows = HtmlEditorTableFile.ReadDelimited(text, extension == ".tsv" ? '\t' : ',', out truncated);
+                truncated |= cut;
+            }
+            else
+            {
+                using var content = new MemoryStream();
+                await upload.CopyToAsync(content);
+                content.Position = 0;
+                rows = HtmlEditorTableFile.Shape(await tableReader!.Read(file.Name, content), out truncated);
             }
 
             if (rows.Count == 0)
@@ -165,6 +173,7 @@ internal sealed class HtmlEditorPanels
             }
 
             TableRows = rows;
+            TableTruncated = truncated;
             // A first row with no number in it reads as a header, as a spreadsheet's usually does.
             TableHeader = rows.Count > 1 && rows[0].All(cell => !double.TryParse(cell, NumberStyles.Any, CultureInfo.InvariantCulture, out _));
         }

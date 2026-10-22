@@ -8,10 +8,14 @@ namespace OmniEurope.Blazor.Components;
 /// The policy only ever widens the built-in allow-list, and never past what the strict CSP and the
 /// editor's safety require: a script, a style sheet, an embedded document, a form control or an SVG
 /// or MathML island is never allowed, nor is an event handler attribute (<c>on*</c>), <c>style</c>,
-/// <c>srcdoc</c>, <c>action</c>, <c>formaction</c> or <c>http-equiv</c>. Naming one of them makes the
-/// editor throw <see cref="ArgumentException"/> rather than silently ignore it. Addresses in <c>href</c>,
-/// <c>src</c>, <c>cite</c>, <c>poster</c> and <c>longdesc</c> keep the built-in schemes (<c>http</c>,
-/// <c>https</c>, <c>mailto</c>, <c>tel</c>, or relative), so a <c>javascript:</c> address is always removed.
+/// <c>srcdoc</c>, <c>action</c>, <c>formaction</c> or <c>http-equiv</c>; nor is an element that reads its
+/// content as raw text or loads a document (<c>xmp</c>, <c>noembed</c>, <c>noframes</c>, <c>plaintext</c>,
+/// <c>portal</c>, <c>fencedframe</c>, <c>isindex</c>, <c>bgsound</c>, <c>image</c>, <c>keygen</c>). Naming one of
+/// them makes the editor throw <see cref="ArgumentException"/> rather than silently ignore it. Addresses in
+/// <c>href</c>, <c>src</c>, <c>cite</c>, <c>poster</c>, <c>longdesc</c>, <c>background</c>, <c>data</c>,
+/// <c>manifest</c>, <c>codebase</c>, <c>icon</c>, <c>lowsrc</c> and <c>dynsrc</c>, and every address of a
+/// <c>srcset</c> or <c>ping</c> list, keep the built-in schemes (<c>http</c>, <c>https</c>, <c>mailto</c>,
+/// <c>tel</c>, or relative), so a <c>javascript:</c> address is always removed.
 /// </remarks>
 public sealed record OmniHtmlSanitizerPolicy
 {
