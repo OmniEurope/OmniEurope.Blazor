@@ -17,9 +17,9 @@
     {
         <OmniIcon Name="OmniIconName.Menu" />
     }
-    else if (OpenIcon is { } openIcon)
+    else if (OpenIcon is not null)
     {
-        <OmniIcon Name="@openIcon" />
+        @OpenIcon
     }
     else if (Reveal == OmniSidebarReveal.Overlay)
     {

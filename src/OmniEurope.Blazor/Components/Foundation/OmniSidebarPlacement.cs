@@ -4,7 +4,7 @@ namespace OmniEurope.Blazor.Components;
 /// The side of the page an <see cref="OmniSidebar"/> sits on, named by inline edge so it holds in a
 /// right-to-left reading direction.
 /// </summary>
-public enum OmniSidebarPosition
+public enum OmniSidebarPlacement
 {
     /// <summary>The side text begins on (left in a left-to-right page). The default.</summary>
     Start,

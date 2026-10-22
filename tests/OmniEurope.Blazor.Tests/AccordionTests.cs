@@ -46,7 +46,7 @@ public sealed class AccordionTests : OmniBunitContext
     public void TheToggle_IsWrappedInAHeadingOfTheChosenLevel()
     {
         var byDefault = RenderAccordion();
-        var h2 = RenderAccordion(parameters => parameters.Add(component => component.HeadingLevel, OmniHeadingLevel.H2));
+        var h2 = RenderAccordion(parameters => parameters.Add(component => component.Level, OmniHeadingLevel.H2));
 
         var heading = byDefault.Find(".omni-accordion__heading");
         Assert.Equal("heading", heading.GetAttribute("role"));

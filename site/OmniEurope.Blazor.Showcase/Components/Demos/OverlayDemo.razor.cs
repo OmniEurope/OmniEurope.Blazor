@@ -74,7 +74,7 @@ public partial class OverlayDemo : IDisposable
             new OmniDialogRequest(Text["DemoOverlayBlockingTitle"], Paragraph(Text["DemoOverlayBlockingBody"]))
             {
                 Dismissible = false,
-                Footer = builder =>
+                FooterContent = builder =>
                 {
                     builder.OpenComponent<OmniButton>(0);
                     builder.AddComponentParameter(1, nameof(OmniButton.Id), "demo-dialog-blocking-done");

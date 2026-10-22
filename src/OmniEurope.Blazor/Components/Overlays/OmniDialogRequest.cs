@@ -15,8 +15,8 @@ namespace OmniEurope.Blazor.Components;
 /// </param>
 public sealed record OmniDialogRequest(string Title, RenderFragment Content, string? CloseLabel = null)
 {
-    /// <summary>The footer, in general the action buttons, passed to <see cref="OmniDialog.Footer"/>.</summary>
-    public RenderFragment? Footer { get; init; }
+    /// <summary>The footer, in general the action buttons, passed to <see cref="OmniDialog.FooterContent"/>.</summary>
+    public RenderFragment? FooterContent { get; init; }
 
     /// <summary>What the title heading shows in place of <c>Title</c>, passed to <see cref="OmniDialog.TitleContent"/>. Null shows <c>Title</c>.</summary>
     public RenderFragment? TitleContent { get; init; }

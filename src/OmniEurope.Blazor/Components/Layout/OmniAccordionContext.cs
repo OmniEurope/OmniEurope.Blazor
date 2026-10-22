@@ -10,7 +10,7 @@ internal sealed class OmniAccordionContext
 
     public bool Multiple { get; set; }
     public bool KeepContent { get; set; }
-    public OmniHeadingLevel HeadingLevel { get; set; } = OmniHeadingLevel.H3;
+    public OmniHeadingLevel Level { get; set; } = OmniHeadingLevel.H3;
 
     public void Register(OmniAccordionItem item) => _items.Add(item);
 

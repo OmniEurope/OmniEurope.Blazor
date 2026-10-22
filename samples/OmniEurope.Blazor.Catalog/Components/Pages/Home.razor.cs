@@ -77,7 +77,7 @@ public partial class Home : IDisposable
     private void OpenNestedDialog() => Overlays.OpenDialog(CreateDialogRequest(Text["NestedTitle"], builder => builder.AddContent(0, Text["NestedBody"])));
     private OmniDialogRequest CreateDialogRequest(string title, RenderFragment content) => new(title, content)
     {
-        Footer = DialogFooter
+        FooterContent = DialogFooter
     };
     private RenderFragment DialogFooter => builder =>
     {

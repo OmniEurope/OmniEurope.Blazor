@@ -4,7 +4,7 @@ namespace OmniEurope.Blazor.Components;
 /// Where notifications pile up on the screen. Named by block then inline edge, so the meaning holds
 /// in a right-to-left reading direction as well: Start is the side text begins on.
 /// </summary>
-public enum OmniNotificationPosition
+public enum OmniNotificationPlacement
 {
     /// <summary>The top corner on the side text begins on.</summary>
     TopStart,

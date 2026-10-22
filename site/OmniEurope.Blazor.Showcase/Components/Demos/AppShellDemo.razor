@@ -39,20 +39,20 @@
                     <OmniAppMenu UserName="admin" Role="@Text["ShellAccount"]" Class="demo-appbar__account"
                                  Languages="@Languages" Language="@LanguageCode" LanguageChanged="@(code => LanguageCode = code)"
                                  Appearance="MenuAppearance" AppearanceChanged="@(value => MenuAppearance = value)"
-                                 OnTheme="@(() => Last = Text["ShellAppearance"])" OnSettings="@(() => Last = Text["ShellSettings"])"
+                                 OnThemeOpen="@(() => Last = Text["ShellAppearance"])" OnSettingsOpen="@(() => Last = Text["ShellSettings"])"
                                  Version="@Text["ShellBrand"]" OnSignOut="@(() => Last = Text["ShellSignOut"])" />
                 </span>
                 @* The caption buttons of a borderless desktop window; in the showcase they only report the click. *@
                 <OmniWindowControls OnMinimize="@(() => Last = Text["DemoAppShellMinimize"])"
                                     OnMaximizeRestore="@(() => { Maximized = !Maximized; Last = Text["DemoAppShellMaximize"]; })"
-                                    IsMaximized="Maximized" OnClose="@(() => Last = Text["DemoAppShellClose"])" />
+                                    Maximized="Maximized" OnClose="@(() => Last = Text["DemoAppShellClose"])" />
             </ChildContent>
         </OmniHeader>
         <OmniBody>
             <OmniSidebar Id="appshell-menu" Open="MenuOpen" OpenChanged="@(value => MenuOpen = value)"
                          Collapse="OmniSidebarCollapse.Icons" Transition="OmniSidebarTransition.Smooth"
                          Label="@Text["ShellMenu"]">
-                <OmniPanelMenu Label="@Text["ShellMenu"]" DisplayStyle="OmniPanelMenuDisplayStyle.IconAndText" CanNavigate="SelectAsync">
+                <OmniPanelMenu Label="@Text["ShellMenu"]" Display="OmniPanelMenuDisplay.IconAndText" CanNavigate="SelectAsync">
                     @foreach (var section in Sections)
                     {
                         <OmniPanelMenuItem Text="@Text[section.TextKey]" Href="@($"composants/coquille-application#{section.Key}")"

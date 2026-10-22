@@ -9,42 +9,42 @@
 {
     <button @attributes="AdditionalAttributes" id="@Id" type="button" class="@Css("omni-card", "omni-card--action", DoubleWidth ? "omni-tile--double" : null)" data-omni-density="@OmniDensityAttribute.Of(Density)"
             @onclick="OnClick">
-        @if (Header is not null)
+        @if (HeaderContent is not null)
         {
-            <span class="omni-card__header">@Header</span>
+            <span class="omni-card__header">@HeaderContent</span>
         }
         <span class="omni-card__body">@ChildContent</span>
-        @if (Footer is not null)
+        @if (FooterContent is not null)
         {
-            <span class="omni-card__footer">@Footer</span>
+            <span class="omni-card__footer">@FooterContent</span>
         }
     </button>
 }
 else if (_safeHref is not null)
 {
     <a @attributes="AdditionalAttributes" id="@Id" href="@_safeHref" class="@Css("omni-card", "omni-card--action", DoubleWidth ? "omni-tile--double" : null)" data-omni-density="@OmniDensityAttribute.Of(Density)">
-        @if (Header is not null)
+        @if (HeaderContent is not null)
         {
-            <div class="omni-card__header">@Header</div>
+            <div class="omni-card__header">@HeaderContent</div>
         }
         <div class="omni-card__body">@ChildContent</div>
-        @if (Footer is not null)
+        @if (FooterContent is not null)
         {
-            <div class="omni-card__footer">@Footer</div>
+            <div class="omni-card__footer">@FooterContent</div>
         }
     </a>
 }
 else
 {
     <section @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-card", DoubleWidth ? "omni-tile--double" : null)" data-omni-density="@OmniDensityAttribute.Of(Density)">
-        @if (Header is not null)
+        @if (HeaderContent is not null)
         {
-            <header class="omni-card__header">@Header</header>
+            <header class="omni-card__header">@HeaderContent</header>
         }
         <div class="omni-card__body">@ChildContent</div>
-        @if (Footer is not null)
+        @if (FooterContent is not null)
         {
-            <footer class="omni-card__footer">@Footer</footer>
+            <footer class="omni-card__footer">@FooterContent</footer>
         }
     </section>
 }

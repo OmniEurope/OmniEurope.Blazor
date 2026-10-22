@@ -48,7 +48,7 @@ public sealed class LayoutAndPagesBranchTests : OmniBunitContext
     {
         var tile = Render<OmniStatTile>(parameters => parameters
             .Add(component => component.Value, "12")
-            .Add(component => component.Label, "Factures"));
+            .Add(component => component.Title, "Factures"));
 
         Assert.Empty(tile.FindAll(".omni-stat-tile__icon"));
         Assert.Empty(tile.FindAll(".omni-stat-tile__detail"));
@@ -133,7 +133,7 @@ public sealed class LayoutAndPagesBranchTests : OmniBunitContext
         var runtime = new ManualJSRuntime { HoldImports = true };
         Services.AddSingleton<IJSRuntime>(runtime);
         var reported = new List<bool>();
-        var splash = Render<OmniBootSplash>(parameters => parameters.Add(component => component.OnHidden, hidden => reported.Add(hidden)));
+        var splash = Render<OmniBootSplash>(parameters => parameters.Add(component => component.OnHide, hidden => reported.Add(hidden)));
 
         await splash.Instance.DisposeAsync();
         runtime.PendingImport.SetResult(runtime.Module);

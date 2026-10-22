@@ -31,11 +31,11 @@ public partial class OmniBootSplash
 
     /// <summary>Raised after the first render with whether a splash was found and removed.</summary>
     [Parameter]
-    public EventCallback<bool> OnHidden { get; set; }
+    public EventCallback<bool> OnHide { get; set; }
 
     /// <summary>
     /// After the first render only: fades out and removes the splash element <see cref="SplashId"/>, then
-    /// raises <see cref="OnHidden"/> unless the component was disposed meanwhile. A lost circuit is ignored.
+    /// raises <see cref="OnHide"/> unless the component was disposed meanwhile. A lost circuit is ignored.
     /// </summary>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -57,7 +57,7 @@ public partial class OmniBootSplash
             }
 
             _module = module;
-            await OnHidden.InvokeAsync(hidden);
+            await OnHide.InvokeAsync(hidden);
         }
         catch (JSDisconnectedException)
         {

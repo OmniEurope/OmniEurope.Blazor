@@ -125,7 +125,7 @@ public partial class OmniPageHeader
     /// width when line 1 has no room for them.
     /// </summary>
     [Parameter]
-    public RenderFragment? Actions { get; set; }
+    public RenderFragment? ActionsContent { get; set; }
 
     /// <summary>
     /// The items of the "⋮" menu at the end of line 1: the menu items an <see cref="OmniOverflowMenu"/>
@@ -153,7 +153,7 @@ public partial class OmniPageHeader
 
     private string EffectiveBackLabel => string.IsNullOrWhiteSpace(BackLabel) ? Localize("GoBack") : BackLabel;
 
-    private bool HasDetails => Badges is not null || Actions is not null;
+    private bool HasDetails => Badges is not null || ActionsContent is not null;
 
     private string DetailsId => $"{Id ?? _generatedId}-details";
 

@@ -19,11 +19,11 @@ internal sealed class OmniConfirmFooter : OmniComponentBase
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        Button(builder, 0, Request.ConfirmVariant, Request.ConfirmIcon, ConfirmText, "omni-confirm__action", confirmed: true);
+        Button(builder, 0, Request.ConfirmVariant, Request.ConfirmIcon, ConfirmText, "omni-confirm__action", confirmed: true, Request.ConfirmIconContent);
         Button(builder, 10, Request.CancelVariant, OmniIconName.Close, CancelText, "omni-confirm__cancel", confirmed: false);
     }
 
-    private void Button(RenderTreeBuilder builder, int sequence, OmniButtonVariant variant, OmniIconName icon, string text, string cssClass, bool confirmed)
+    private void Button(RenderTreeBuilder builder, int sequence, OmniButtonVariant variant, OmniIconName icon, string text, string cssClass, bool confirmed, RenderFragment? iconContent = null)
     {
         builder.OpenComponent<OmniButton>(sequence);
         builder.AddComponentParameter(sequence + 1, nameof(OmniButton.Variant), variant);
@@ -31,9 +31,17 @@ internal sealed class OmniConfirmFooter : OmniComponentBase
         builder.AddComponentParameter(sequence + 3, nameof(OmniButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, () => Service.CloseDialog(confirmed)));
         builder.AddComponentParameter(sequence + 4, nameof(OmniButton.ChildContent), (RenderFragment)(content =>
         {
-            content.OpenComponent<OmniIcon>(0);
-            content.AddComponentParameter(1, nameof(OmniIcon.Name), icon);
-            content.CloseComponent();
+            if (iconContent is not null)
+            {
+                content.AddContent(4, iconContent);
+            }
+            else
+            {
+                content.OpenComponent<OmniIcon>(0);
+                content.AddComponentParameter(1, nameof(OmniIcon.Name), icon);
+                content.CloseComponent();
+            }
+
             content.OpenElement(2, "span");
             content.AddContent(3, text);
             content.CloseElement();

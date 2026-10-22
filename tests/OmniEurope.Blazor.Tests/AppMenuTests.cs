@@ -10,7 +10,7 @@ public sealed class AppMenuTests : OmniBunitContext
     {
         var menu = Render<OmniAppMenu>(parameters => parameters
             .Add(component => component.AppearanceChanged, _ => { })
-            .Add(component => component.OnTheme, () => { }));
+            .Add(component => component.OnThemeOpen, () => { }));
 
         var trigger = menu.Find(".omni-app-menu__trigger");
         Assert.Equal("Menu de l’application", trigger.GetAttribute("aria-label"));
@@ -72,8 +72,8 @@ public sealed class AppMenuTests : OmniBunitContext
             .Add(component => component.Language, "fr")
             .Add(component => component.ShowFlags, true)
             .Add(component => component.AppearanceChanged, _ => { })
-            .Add(component => component.OnTheme, () => { })
-            .Add(component => component.OnSettings, () => { })
+            .Add(component => component.OnThemeOpen, () => { })
+            .Add(component => component.OnSettingsOpen, () => { })
             .Add(component => component.Version, "Boutique v0.4.0")
             .Add(component => component.OnSignOut, () => { })
             .AddChildContent("<div class=\"host-row\">Organisation</div>"));
@@ -101,7 +101,7 @@ public sealed class AppMenuTests : OmniBunitContext
             .Add(component => component.Languages, [new OmniAppMenuLanguage("fr", "Français", "flags/fr.svg")])
             .Add(component => component.Language, "fr")
             .Add(component => component.AppearanceChanged, _ => { })
-            .Add(component => component.OnTheme, () => { }));
+            .Add(component => component.OnThemeOpen, () => { }));
         single.Find(".omni-app-menu__trigger").Click();
         Assert.Empty(single.FindAll(".omni-app-menu__language"));
 
@@ -111,7 +111,7 @@ public sealed class AppMenuTests : OmniBunitContext
             .Add(component => component.Language, "fr")
             .Add(component => component.LanguageChanged, code => picked = code)
             .Add(component => component.AppearanceChanged, _ => { })
-            .Add(component => component.OnTheme, () => { }));
+            .Add(component => component.OnThemeOpen, () => { }));
         two.Find(".omni-app-menu__trigger").Click();
         Assert.Empty(two.FindAll(".omni-app-menu__flag"));
         // The drop-down posts the index of its option, as every OmniDropDown does.
@@ -127,7 +127,7 @@ public sealed class AppMenuTests : OmniBunitContext
         var menu = Render<OmniAppMenu>(parameters => parameters
             .Add(component => component.Appearance, OmniAppearance.Light)
             .Add(component => component.AppearanceChanged, value => mode = value)
-            .Add(component => component.OnTheme, () => events.Add("theme"))
+            .Add(component => component.OnThemeOpen, () => events.Add("theme"))
             .Add(component => component.OnSignOut, () => events.Add("sign-out"))
             .Add(component => component.OpenChanged, open => events.Add(open ? "open" : "closed")));
 
@@ -154,7 +154,7 @@ public sealed class AppMenuTests : OmniBunitContext
             .Add(component => component.Appearance, OmniAppearance.Light)
             .Add(component => component.Preset, (OmniThemePresets.All[0] with { DarkOnly = true }))
             .Add(component => component.AppearanceChanged, value => mode = value)
-            .Add(component => component.OnTheme, () => { }));
+            .Add(component => component.OnThemeOpen, () => { }));
         menu.Find(".omni-app-menu__trigger").Click();
 
         var row = menu.Find("button.omni-app-menu__mode");
@@ -174,7 +174,7 @@ public sealed class AppMenuTests : OmniBunitContext
         var menu = Render<OmniAppMenu>(parameters => parameters
             .Add(component => component.Appearance, current)
             .Add(component => component.AppearanceChanged, value => mode = value)
-            .Add(component => component.OnTheme, () => { }));
+            .Add(component => component.OnThemeOpen, () => { }));
         menu.Find(".omni-app-menu__trigger").Click();
 
         var row = menu.Find("button.omni-app-menu__mode");
@@ -190,7 +190,7 @@ public sealed class AppMenuTests : OmniBunitContext
         var menu = Render<OmniAppMenu>(parameters => parameters
             .Add(component => component.Appearance, OmniAppearance.Dark)
             .Add(component => component.AppearanceChanged, _ => { })
-            .Add(component => component.OnTheme, () => { }));
+            .Add(component => component.OnThemeOpen, () => { }));
         menu.Find(".omni-app-menu__trigger").Click();
 
         var row = menu.Find("button.omni-app-menu__mode");
@@ -208,7 +208,7 @@ public sealed class AppMenuTests : OmniBunitContext
             .Add(component => component.Language, "fr")
             .Add(component => component.ShowFlags, true)
             .Add(component => component.AppearanceChanged, _ => { })
-            .Add(component => component.OnTheme, () => { }));
+            .Add(component => component.OnThemeOpen, () => { }));
         menu.Find(".omni-app-menu__trigger").Click();
 
         // One actionable element in the row, named "Langue"; the icon, the label and the flag are not.

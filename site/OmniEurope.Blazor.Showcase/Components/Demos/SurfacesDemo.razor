@@ -3,36 +3,36 @@
 <OmniStack Gap="OmniSpacing.Large">
     <div class="demo-cards">
         <OmniCard>
-            <Header>
+            <HeaderContent>
                 <span class="demo-card-head">
                     <span class="omni-disc"><OmniIcon Name="OmniIconName.HardDrive" /></span>
                     <OmniHeading Level="OmniHeadingLevel.H4">@Text["SurfServers"]</OmniHeading>
                 </span>
-            </Header>
+            </HeaderContent>
             <ChildContent>
                 <span class="demo-figure">1</span>
                 <p>@Text["SurfServersText"]</p>
             </ChildContent>
         </OmniCard>
         <OmniCard>
-            <Header>
+            <HeaderContent>
                 <span class="demo-card-head">
                     <span class="omni-disc"><OmniIcon Name="OmniIconName.GitFork" /></span>
                     <OmniHeading Level="OmniHeadingLevel.H4">@Text["SurfPipelines"]</OmniHeading>
                 </span>
-            </Header>
+            </HeaderContent>
             <ChildContent>
                 <span class="demo-figure">@Text["SurfPipelinesFigure"]</span>
                 <p>@Text["SurfPipelinesText"]</p>
             </ChildContent>
         </OmniCard>
         <OmniCard>
-            <Header>
+            <HeaderContent>
                 <span class="demo-card-head">
                     <span class="omni-disc"><OmniIcon Name="OmniIconName.ShieldCheck" /></span>
                     <OmniHeading Level="OmniHeadingLevel.H4">@Text["SurfCoverage"]</OmniHeading>
                 </span>
-            </Header>
+            </HeaderContent>
             <ChildContent>
                 <span class="demo-figure">@Text["SurfCoverageFigure"]</span>
                 <OmniProgressBar Value="87" Label="@Text["SurfCoverage"]" />
@@ -43,12 +43,12 @@
     @* Le menu de compte s'ouvre sur le calque des surfaces flottantes : fond acrylique, filet et ombre
        profonde du thème. *@
     <OmniProfileMenu Label="@Text["SurfAccount"]">
-        <Summary>
+        <SummaryContent>
             <span class="demo-menu-item">
                 <span class="omni-disc"><OmniIcon Name="OmniIconName.User" /></span>
                 <span>@Text["SurfPerson"]<small>@Text["SurfPersonRole"]</small></span>
             </span>
-        </Summary>
+        </SummaryContent>
         <ChildContent>
             <OmniMenuItem OnClick="@(() => Last = Text["SurfSettings"])">
                 <span class="demo-menu-item">

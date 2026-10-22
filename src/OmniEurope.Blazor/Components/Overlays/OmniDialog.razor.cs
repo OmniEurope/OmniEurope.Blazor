@@ -1,10 +1,13 @@
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
-/// A dialog: a titled panel over a veil that makes the page inert and traps the focus (modal, the
-/// default), or a modeless window with <see cref="Modal"/> off. It closes by its close button,
-/// Escape and a press on the veil while <see cref="Dismissible"/>, and gives the focus back to what
-/// had it when it opened.
+/// A dialog: a titled panel over a veil that stops the pointer from reaching the page and keeps the Tab
+/// key inside the panel (modal, the default; <c>aria-modal="true"</c>), or a modeless window with
+/// <see cref="Modal"/> off. The rest of the page is not made inert (no <c>inert</c> attribute is set on it): the
+/// trap holds as long as the focus is inside the dialog, and only a dialog covered by a later dialog of
+/// <see cref="OmniOverlayService"/> is made inert and hidden from assistive technology. It closes by its
+/// close button, Escape and a press on the veil while <see cref="Dismissible"/>, and gives the focus back
+/// to what had it when it opened.
 /// </summary>
 public partial class OmniDialog
 {
@@ -17,7 +20,7 @@ public partial class OmniDialog
     private bool _attached;
     private string? _appliedWidth;
 
-    /// <summary>False opens a modeless window: no veil, inert page, or focus trap.</summary>
+    /// <summary>False opens a modeless window: no veil and no focus trap, and the page stays usable.</summary>
     [Parameter] public bool Modal { get; set; } = true;
 
     /// <summary>Capture the current text scale and density until this window closes.</summary>
@@ -144,7 +147,7 @@ public partial class OmniDialog
 
     /// <summary>The footer, in general the action buttons, at its end. Null, the default, draws no footer.</summary>
     [Parameter]
-    public RenderFragment? Footer { get; set; }
+    public RenderFragment? FooterContent { get; set; }
 
     private string EffectiveId => Id ?? _generatedId;
     private string TitleId => $"{EffectiveId}-title";

@@ -104,7 +104,7 @@ public sealed class OverlayComponentTests : OmniBunitContext
         var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
         service.OpenDialog(new OmniDialogRequest("Confirmation", Content("Continuer ?"))
         {
-            Footer = builder =>
+            FooterContent = builder =>
             {
                 builder.OpenElement(0, "button");
                 builder.AddAttribute(1, "type", "button");

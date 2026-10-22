@@ -162,7 +162,7 @@ public sealed class OmniOverlayService : IDisposable
         })
         {
             Intent = request.EffectiveIntent,
-            Footer = footer =>
+            FooterContent = footer =>
             {
                 footer.OpenComponent<OmniConfirmFooter>(0);
                 footer.AddComponentParameter(1, nameof(OmniConfirmFooter.Request), request);

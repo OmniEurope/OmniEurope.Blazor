@@ -5,15 +5,15 @@ Ces composants posent la structure d'une application et d'une page : la coquille
 | Composant | Rôle |
 | --- | --- |
 | `OmniLayout` | Coquille de page pleine largeur qui accueille l'en-tête, la barre latérale et le corps. |
-| `OmniHeader` | Landmark `header` de l'application, collant ou non : marque (logo, nom, lien d'accueil), actions et boutons de fenêtre. |
+| `OmniHeader` | Landmark `header` de l'application, collant ou non : marque (logo, nom, lien d'accueil), actions et boutons de fenêtre ; `Surface` (`OmniHeaderSurface` : `Surface`, par défaut, ou `Accent`, la bande de l'application) en règle la peinture. |
 | `OmniBody` | Zone flexible entre les landmarks, qui range la barre latérale et le contenu principal. |
 | `OmniMain` | Landmark `main`, cible du lien d'évitement ; peut centrer le contenu à une largeur plafonnée et devenir le conteneur qui défile. |
 | `OmniSkipLink` | Lien d'évitement (WCAG 2.4.1), à placer en premier dans la mise en page : caché jusqu'au focus, il donne le focus à `TargetId` (sinon au premier `main`) par script, sans suivre son adresse, qu'une balise `<base href="/">` ferait mener à la page racine. `Text` remplace « Aller au contenu principal ». |
 | `OmniWindowControls` | Boutons de légende d'une fenêtre de bureau sans bordure (réduire dans la zone de notification, réduire, agrandir ou restaurer, fermer), dessinés en fin d'en-tête ; un bouton n'apparaît que si son action est fournie. |
 | `OmniBootSplash` | Retire en fondu l'écran de démarrage que l'hôte écrit dans sa page, une fois l'application rendue ; il ne rend lui-même aucun élément. |
-| `OmniStack` | Pile flex verticale ou horizontale, avec espacement, alignement, retour à la ligne ou défilement et repli d'une rangée trop étroite. |
+| `OmniStack` | Pile flex verticale ou horizontale (`Orientation`, un `OmniOrientation`), avec espacement, alignement, retour à la ligne ou défilement et repli d'une rangée trop étroite. |
 | `OmniRow`, `OmniColumn` | Rangée et colonnes sur douze unités, avec variantes responsive. |
-| `OmniCard` | Carte : surface qui regroupe un contenu, avec en-tête et pied facultatifs ; peut porter sa propre densité ; `DoubleWidth` l'étale sur deux colonnes d'une `OmniTileGrid` ; `Href` ou `OnClick` en font un seul lien ou un seul bouton (voir « Carte cliquable »). |
+| `OmniCard` | Carte : surface qui regroupe un contenu, avec en-tête et pied facultatifs (`HeaderContent`, `FooterContent`) ; peut porter sa propre densité ; `DoubleWidth` l'étale sur deux colonnes d'une `OmniTileGrid` ; `Href` ou `OnClick` en font un seul lien ou un seul bouton (voir « Carte cliquable »). |
 | `OmniTileGrid` | Grille de tuiles : `OmniCard`, `OmniSelectableCard`, `OmniStatTile` et `OmniNavTile` posées dedans ont la même largeur et exactement la même hauteur, une tuile `DoubleWidth` en occupe deux, rien ne déborde. Voir « Règle des tuiles ». |
 | `OmniFieldset` | Groupe de champs natif avec `legend` obligatoire, désactivable, repliable. |
 | `OmniAccordion`, `OmniAccordionItem` | Liste de lignes dont le corps se déplie sous l'en-tête, une à la fois (défaut) ou plusieurs ensemble (`Multiple`). L'en-tête est libre (libellé, aide « ? », valeur, badge) et le composant dessine le chevron. Voir « Accordéon » plus bas. |
@@ -39,8 +39,8 @@ Toutes les tuiles du paquet (`OmniCard`, `OmniSelectableCard`, `OmniStatTile`, `
 
 ```razor
 <OmniTileGrid Columns="4">
-    <OmniStatTile Value="12,4 k" Label="Jetons" Detail="Réinitialisation à 18:00"><Icon><OmniIcon Name="OmniIconName.Database" /></Icon></OmniStatTile>
-    <OmniStatTile Value="8,2 k" Label="Semaine" />
+    <OmniStatTile Value="12,4 k" Title="Jetons" Detail="Réinitialisation à 18:00"><Icon><OmniIcon Name="OmniIconName.Database" /></Icon></OmniStatTile>
+    <OmniStatTile Value="8,2 k" Title="Semaine" />
     <OmniNavTile Href="admin/utilisateurs" Title="Utilisateurs" Description="Comptes et rôles" DoubleWidth="true" />
     <OmniCard DoubleWidth="true"><ChildContent>Le contenu de la carte.</ChildContent></OmniCard>
 </OmniTileGrid>
@@ -53,7 +53,7 @@ Le nombre de colonnes et l'espacement sont des classes (`omni-tile-grid--columns
 Demande d'une application cliente (recette R1-20) : une tuile de grille qui mène quelque part ou déclenche une action, sans envelopper l'`OmniCard` d'un `div` ou d'un `a` natif (ce qui sortait la tuile de la règle de taille).
 
 - **`Href`** (`string?`) : la carte entière est un seul vrai lien (`a`). L'adresse passe par la politique d'URI du paquet, comme `OmniNavTile.Href` : un schéma dangereux tel que `javascript:` lève `InvalidOperationException`. Un lien accepte du contenu de flux : l'en-tête, le corps et le pied sont des `div`, et un titre (`h3`) placé dans l'en-tête reste exposé aux technologies d'assistance.
-- **`OnClick`** (`EventCallback<MouseEventArgs>`, le même type que `OmniStatTile.OnClick`) : la carte entière est un seul vrai bouton (`button type="button"`), qui répond à `Entrée` et `Espace`. Un bouton n'accepte que du contenu phrasé : l'en-tête, le corps et le pied sont des `span` dessinés en blocs, et `Header`, `ChildContent` et `Footer` ne doivent contenir que du texte, des `span`, un `OmniIcon`, pas de titre, de paragraphe ni de `div`. Un bouton expose son contenu comme son nom accessible (ses descendants ne sont pas des éléments séparés) ; un `aria-label` passé en attribut supplémentaire le raccourcit.
+- **`OnClick`** (`EventCallback<MouseEventArgs>`, le même type que `OmniStatTile.OnClick`) : la carte entière est un seul vrai bouton (`button type="button"`), qui répond à `Entrée` et `Espace`. Un bouton n'accepte que du contenu phrasé : l'en-tête, le corps et le pied sont des `span` dessinés en blocs, et `HeaderContent`, `ChildContent` et `FooterContent` ne doivent contenir que du texte, des `span`, un `OmniIcon`, pas de titre, de paragraphe ni de `div`. Un bouton expose son contenu comme son nom accessible (ses descendants ne sont pas des éléments séparés) ; un `aria-label` passé en attribut supplémentaire le raccourcit.
 - **Les deux ensemble** lèvent `ArgumentException` (`Href` ou `OnClick`, pas les deux). Sans l'un ni l'autre, le rendu est exactement celui d'avant (`section`).
 - **Aucun élément interactif à l'intérieur** : un bouton, un lien ou un champ dans une carte cliquable est une imbrication invalide, que le composant ne détecte pas. Une carte dont le pied porte des actions reste une carte simple.
 - **Apparence** : la racine est focalisable au clavier avec l'anneau de focus du paquet (`--omni-focus-ring`, comme `OmniStatTile`) ; au survol, le fond prend la teinte de la tuile de statistique cliquable. Le bouton reprend la police, la couleur et l'alignement de la carte, prend toute la largeur de sa cellule et toute sa hauteur dans une grille. Le corps d'une carte cliquable est coupé au lieu de défiler (une zone défilante dans un lien ou un bouton est un arrêt de focus imbriqué) : la carte résume, le détail est derrière le clic. Aucun attribut `style`, aucun script.
@@ -61,14 +61,14 @@ Demande d'une application cliente (recette R1-20) : une tuile de grille qui mèn
 ```razor
 <OmniTileGrid Columns="4">
     <OmniCard OnClick="Ouvrir" DoubleWidth="true">
-        <Header>Dossiers</Header>
+        <HeaderContent>Dossiers</HeaderContent>
         <ChildContent>12 dossiers à traiter</ChildContent>
     </OmniCard>
     <OmniCard Href="admin/utilisateurs">
-        <Header><span>Utilisateurs</span></Header>
+        <HeaderContent><span>Utilisateurs</span></HeaderContent>
         <ChildContent><div>Comptes et rôles</div></ChildContent>
     </OmniCard>
-    <OmniStatTile Href="admin/jetons" Value="12,4 k" Label="Jetons" />
+    <OmniStatTile Href="admin/jetons" Value="12,4 k" Title="Jetons" />
 </OmniTileGrid>
 ```
 
@@ -79,7 +79,7 @@ Preuve : tests bUnit (`ClickableTilesTests`) pour la racine, les attributs, le c
 `OmniAccordion` range des `OmniAccordionItem` dans une liste bordée, aux lignes séparées par un filet neutre. Une ligne se compose d'un en-tête et d'un corps qui s'ouvre dessous :
 
 ```razor
-<OmniAccordion HeadingLevel="OmniHeadingLevel.H3">
+<OmniAccordion Level="OmniHeadingLevel.H3">
     <OmniAccordionItem Title="Fiabilité" Help="Anomalies qui peuvent casser le produit." Expanded="true">
         <SummaryContent>0 anomalie <OmniBadge Tone="OmniTone.Success">A</OmniBadge></SummaryContent>
         <ChildContent>Mesuré : 0, seuil : 0.</ChildContent>
@@ -95,7 +95,7 @@ Preuve : tests bUnit (`ClickableTilesTests`) pour la racine, les attributs, le c
 | `ChildContent` | `RenderFragment?` | | Les lignes, des `OmniAccordionItem`. |
 | `Multiple` | `bool` | `false` | Vrai : plusieurs lignes ouvertes ensemble. Faux : ouvrir une ligne ferme celle qui était ouverte, qui rapporte sa fermeture par son `ExpandedChanged`. |
 | `KeepContent` | `bool` | `false` | Faux : le corps n'est rendu que pendant que sa ligne est ouverte et disparaît à la fermeture (une longue liste ne coûte que ses en-têtes). Vrai : un corps ouvert une fois reste rendu, caché, ce qui garde défilement, filtres d'une grille et saisie. Une ligne jamais ouverte ne rend jamais son corps. |
-| `HeadingLevel` | `OmniHeadingLevel` | `H3` | Niveau du titre (`role="heading"`, `aria-level`) qui enveloppe chaque bouton de bascule, à choisir selon le plan de la page. |
+| `Level` | `OmniHeadingLevel` | `H3` | Niveau du titre (`role="heading"`, `aria-level`) qui enveloppe chaque bouton de bascule, à choisir selon le plan de la page. |
 | `Density` | `OmniDensity?` | `null` | Densité propre au composant ; nul hérite de la portée de thème. |
 
 **Paramètres de `OmniAccordionItem`** (avec `Id`, posé sur le bouton de bascule, `Class`, posée sur la ligne, `PresetName` et les attributs supplémentaires, posés sur la ligne) :
@@ -132,16 +132,16 @@ Choix de conception :
     <p>Architecture</p>
 </OmniStack>
 
-<OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
+<OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Medium">
     <span>Brouillon</span>
-    <OmniDivider Orientation="OmniStackOrientation.Vertical" />
+    <OmniDivider Orientation="OmniOrientation.Vertical" />
     <span>Publié</span>
 </OmniStack>
 ```
 
 | Paramètre | Type | Défaut | Rôle |
 | --- | --- | --- | --- |
-| `Orientation` | `OmniStackOrientation` | `Horizontal` | Direction du filet lui-même, pas de la pile qui le porte : `Horizontal` court sur la largeur et sépare des blocs empilés, `Vertical` court sur la hauteur et sépare des blocs côte à côte. |
+| `Orientation` | `OmniOrientation` | `Horizontal` | Direction du filet lui-même, pas de la pile qui le porte : `Horizontal` court sur la largeur et sépare des blocs empilés, `Vertical` court sur la hauteur et sépare des blocs côte à côte. |
 
 - **Balisage** : un seul `div` avec `role="separator"` et `aria-orientation` (`horizontal` ou `vertical`), sans contenu ni style en ligne. Un `div` plutôt qu'un `hr` : l'`hr` apporte ses marges et sa bordure, qu'un filet vertical devrait défaire, et un seul élément garde le balisage, l'état ARIA et le style identiques dans les deux sens. `Id`, `Class`, `PresetName` et les attributs supplémentaires de `OmniComponentBase` passent sur cet élément. Une valeur hors de l'énumération est dessinée à l'horizontale.
 - **Espacement** : le séparateur n'a aucune marge ; c'est l'écart (`Gap`) de la pile qui le porte qui l'espace du bloc précédent et du suivant. Il s'étire sur l'axe transversal de la pile (`align-self: stretch`) et ne rétrécit pas sur l'axe principal.
@@ -160,7 +160,7 @@ Une page de réglages range ses actions irréversibles (supprimer un projet, ré
 </OmniSettingsDangerZone>
 ```
 
-- Le bouton (`ActionText`, « Supprimer » par défaut ; `ActionIcon`, `OmniIconName.Delete` par défaut) ouvre `OmniOverlayService.ConfirmAsync` : titre `ConfirmTitle` (par défaut le `Title` de l'action), question `ConfirmMessage` (par défaut « Cette action est irréversible. Voulez-vous continuer ? » ; mieux vaut y nommer ce qui disparaît), action `ConfirmText` (par défaut le texte du bouton) en `Danger`, avec la même icône, puis Annuler. Sans `OmniComponentsHost` autour, la question est celle du navigateur (`confirm`), comme pour `OmniUnsavedChangesGuard`.
+- Le bouton (`ActionText`, « Supprimer » par défaut ; `Icon`, un fragment, en général une `OmniIcon` ; `OmniIconName.Delete` par défaut) ouvre `OmniOverlayService.ConfirmAsync` : titre `ConfirmTitle` (par défaut le `Title` de l'action), question `ConfirmMessage` (par défaut « Cette action est irréversible. Voulez-vous continuer ? » ; mieux vaut y nommer ce qui disparaît), action `ConfirmText` (par défaut le texte du bouton) en `Danger`, avec la même icône, puis Annuler. Sans `OmniComponentsHost` autour, la question est celle du navigateur (`confirm`), comme pour `OmniUnsavedChangesGuard`.
 - Seule la confirmation appelle `OnConfirm` ; Annuler, Échap, le bouton de fermeture et le fond ne font rien, et le dialogue rend le focus au bouton. Le bouton reste occupé (`omni-busy`, `aria-busy`, jamais `disabled`, STD-BUSY) jusqu'à la fin de la tâche ; un clic pendant ce temps est ignoré.
 - Un échec d'`OnConfirm` va à `OnConfirmError`, qui reçoit l'exception (à l'hôte de le dire, par exemple par `OmniOverlayService.Notify`) ; sans gestionnaire, l'exception remonte au moteur de rendu, comme pour `OmniMarkdownExportButton.OnExportError`. Une annulation (`OperationCanceledException`) n'y passe jamais.
 - `Disabled` désactive le bouton (action interdite à cet utilisateur).

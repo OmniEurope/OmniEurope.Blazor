@@ -8,7 +8,7 @@
    nameless. Given BrandHref, the brand is a link, which is how an application's name leads back home. *@
 <header @attributes="AdditionalAttributes"
         id="@Id"
-        class="@Css("omni-header", Sticky ? "omni-header--sticky" : null, Tone == OmniHeaderTone.Accent ? "omni-header--accent" : null, HasBrand ? "omni-header--branded" : null)">
+        class="@Css("omni-header", Sticky ? "omni-header--sticky" : null, Surface == OmniHeaderSurface.Accent ? "omni-header--accent" : null, HasBrand ? "omni-header--branded" : null)">
     @SidebarToggle
     @if (HasBrand && SafeBrandHref is not null)
     {

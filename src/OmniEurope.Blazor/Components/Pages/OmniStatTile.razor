@@ -18,7 +18,7 @@
         }
         <span class="omni-stat-tile__text">
             <span class="omni-stat-tile__value">@Value</span>
-            <span class="omni-stat-tile__label">@Label</span>
+            <span class="omni-stat-tile__label">@Title</span>
             @if (!string.IsNullOrWhiteSpace(Detail))
             {
                 <span class="omni-stat-tile__detail">@Detail</span>
@@ -36,7 +36,7 @@ else if (_safeHref is not null)
         }
         <span class="omni-stat-tile__text">
             <span class="omni-stat-tile__value">@Value</span>
-            <span class="omni-stat-tile__label">@Label</span>
+            <span class="omni-stat-tile__label">@Title</span>
             @if (!string.IsNullOrWhiteSpace(Detail))
             {
                 <span class="omni-stat-tile__detail">@Detail</span>
@@ -53,7 +53,7 @@ else
         }
         <span class="omni-stat-tile__text">
             <span class="omni-stat-tile__value">@Value</span>
-            <span class="omni-stat-tile__label">@Label</span>
+            <span class="omni-stat-tile__label">@Title</span>
             @if (!string.IsNullOrWhiteSpace(Detail))
             {
                 <span class="omni-stat-tile__detail">@Detail</span>

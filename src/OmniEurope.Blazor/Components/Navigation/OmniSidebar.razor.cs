@@ -37,9 +37,9 @@ public partial class OmniSidebar
     [Parameter]
     public EventCallback<bool> OpenChanged { get; set; }
 
-    /// <summary>The side of the page the sidebar sits on. <see cref="OmniSidebarPosition.Start"/> by default.</summary>
+    /// <summary>The side of the page the sidebar sits on. <see cref="OmniSidebarPlacement.Start"/> by default.</summary>
     [Parameter]
-    public OmniSidebarPosition Position { get; set; }
+    public OmniSidebarPlacement Placement { get; set; }
 
     /// <summary>
     /// Whether opening pushes the content aside or floats over it. A pushing sidebar floats on a phone
@@ -78,7 +78,7 @@ public partial class OmniSidebar
     /// the header as before.
     /// </summary>
     [Parameter]
-    public RenderFragment? Header { get; set; }
+    public RenderFragment? HeaderContent { get; set; }
 
     /// <summary>Accessible name of the sidebar landmark. Null, the default, is the localized "Navigation".</summary>
     [Parameter]

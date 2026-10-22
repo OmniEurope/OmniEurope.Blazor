@@ -20,7 +20,7 @@ public partial class OmniDetailShell
 
     /// <summary>The page header, painted while loading and once found; the not-found state replaces it.</summary>
     [Parameter]
-    public RenderFragment? Header { get; set; }
+    public RenderFragment? HeaderContent { get; set; }
 
     /// <summary>
     /// The content of the page. Always rendered, and hidden until <see cref="State"/> is Found, so a

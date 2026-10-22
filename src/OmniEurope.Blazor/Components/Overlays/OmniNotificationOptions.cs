@@ -5,7 +5,7 @@ namespace OmniEurope.Blazor.Components;
 /// whose entries each chose their own corner, their own countdown and their own close button would
 /// not read as one stack.
 /// </summary>
-/// <param name="Position">Which corner or edge the stack grows from.</param>
+/// <param name="Placement">Which corner or edge the stack grows from.</param>
 /// <param name="ShowCountdown">Whether each notification drains a bar for the time it has left. On by default; the option turns it off.</param>
 /// <param name="Dismissible">Whether each notification carries a close button.</param>
 /// <param name="Group">
@@ -13,7 +13,7 @@ namespace OmniEurope.Blazor.Components;
 /// list. A burst of them otherwise covers the page it is talking about.
 /// </param>
 public sealed record OmniNotificationOptions(
-    OmniNotificationPosition Position = OmniNotificationPosition.TopEnd,
+    OmniNotificationPlacement Placement = OmniNotificationPlacement.TopEnd,
     bool ShowCountdown = true,
     bool Dismissible = true,
     bool Group = false);

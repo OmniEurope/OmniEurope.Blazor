@@ -204,7 +204,7 @@ public sealed class SettingsDangerZoneTests : OmniBunitContext
         var action = Render<OmniSettingsDangerAction>(parameters => parameters
             .Add(component => component.Title, "Réinitialiser le compte")
             .Add(component => component.ActionText, "Réinitialiser")
-            .Add(component => component.ActionIcon, OmniIconName.Refresh)
+            .Add(component => component.Icon, IconFragment(OmniIconName.Refresh))
             .Add(component => component.ConfirmMessage, "Réinitialiser ?")
             .Add(component => component.OnConfirm, EventCallback.Factory.Create(this, () => calls++)));
 
@@ -217,6 +217,32 @@ public sealed class SettingsDangerZoneTests : OmniBunitContext
         action.WaitForAssertion(() => Assert.Equal(1, calls));
     }
 
+    [Fact]
+    public void DangerAction_DrawsItsIconFragmentOnTheButtonAndOnTheDialogAction_DeleteWhenNoneIsGiven()
+    {
+        string PathOf(OmniIconName name) => Render<OmniIcon>(parameters => parameters.Add(icon => icon.Name, name)).Find("path").GetAttribute("d")!;
+
+        var custom = RenderAction(action => action.Add(nameof(OmniSettingsDangerAction.Icon), IconFragment(OmniIconName.Refresh)));
+        Assert.Equal(PathOf(OmniIconName.Refresh), custom.Find(".omni-settings-danger-action button svg path").GetAttribute("d"));
+        custom.Find(".omni-settings-danger-action button").Click();
+        custom.WaitForAssertion(() => Assert.NotNull(custom.Find(".omni-confirm__action")));
+        Assert.Equal(PathOf(OmniIconName.Refresh), custom.Find(".omni-confirm__action svg path").GetAttribute("d"));
+        custom.Find(".omni-confirm__cancel").Click();
+        custom.WaitForAssertion(() => Assert.Null(_overlays.Dialog));
+
+        var plain = RenderAction(_ => { });
+        Assert.Equal(PathOf(OmniIconName.Delete), plain.Find(".omni-settings-danger-action button svg path").GetAttribute("d"));
+        plain.Find(".omni-settings-danger-action button").Click();
+        plain.WaitForAssertion(() => Assert.NotNull(plain.Find(".omni-confirm__action")));
+        Assert.Equal(PathOf(OmniIconName.Delete), plain.Find(".omni-confirm__action svg path").GetAttribute("d"));
+    }
+
+    private static RenderFragment IconFragment(OmniIconName name) => builder =>
+    {
+        builder.OpenComponent<OmniIcon>(0);
+        builder.AddComponentParameter(1, nameof(OmniIcon.Name), name);
+        builder.CloseComponent();
+    };
     private IRenderedComponent<OmniComponentsHost> RenderAction(Action<ActionParameters> configure)
     {
         var parameters = new ActionParameters().Add(nameof(OmniSettingsDangerAction.Title), "Supprimer le projet");

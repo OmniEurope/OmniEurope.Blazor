@@ -369,7 +369,7 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
     {
         var shell = Render<OmniLoginShell>(parameters => parameters
             .Add(component => component.SignUpHref, "/inscription")
-            .Add(component => component.Footer, builder => builder.AddMarkupContent(0, "<a class=\"forgot\" href=\"/oubli\">Mot de passe oublié</a>")));
+            .Add(component => component.FooterContent, builder => builder.AddMarkupContent(0, "<a class=\"forgot\" href=\"/oubli\">Mot de passe oublié</a>")));
 
         var line = shell.Find(".omni-card__footer > .omni-login-shell__sign-up");
         Assert.Equal("Pas de compte ?", line.QuerySelector("span")!.TextContent);
@@ -414,7 +414,7 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
     public void DescriptionItem_Icon_LeadsTheLabelAndIsDecorative()
     {
         var item = Render<OmniDescriptionItem>(parameters => parameters
-            .Add(component => component.Label, "Version")
+            .Add(component => component.Term, "Version")
             .Add(component => component.Icon, builder =>
             {
                 builder.OpenComponent<OmniIcon>(0);
@@ -426,7 +426,7 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
         var icon = item.Find("dt.omni-description-list__label > .omni-description-list__icon");
         Assert.Equal("true", icon.GetAttribute("aria-hidden"));
         Assert.Equal("Version", item.Find("dt").TextContent.Trim());
-        Assert.Empty(Render<OmniDescriptionItem>(parameters => parameters.Add(component => component.Label, "Nom")).FindAll(".omni-description-list__icon"));
+        Assert.Empty(Render<OmniDescriptionItem>(parameters => parameters.Add(component => component.Term, "Nom")).FindAll(".omni-description-list__icon"));
     }
 
     [Fact]

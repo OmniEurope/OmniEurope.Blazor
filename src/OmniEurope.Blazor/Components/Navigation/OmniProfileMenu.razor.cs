@@ -1,8 +1,8 @@
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
-/// The account menu of an application header: an avatar (or a <see cref="Summary"/>) that opens a
-/// menu of <see cref="OmniMenuItem"/>, under an optional identity <see cref="Header"/>. The trigger
+/// The account menu of an application header: an avatar (or a <see cref="SummaryContent"/>) that opens a
+/// menu of <see cref="OmniMenuItem"/>, under an optional identity <see cref="HeaderContent"/>. The trigger
 /// opens and closes the menu on its own click, ArrowDown or ArrowUp open it on its first or last item;
 /// in the menu the arrows, Home and End move, Escape closes and gives the focus back to the trigger,
 /// Tab closes, a press outside closes unless <see cref="CloseOnOutsideClick"/> is off.
@@ -34,10 +34,10 @@ public partial class OmniProfileMenu
     /// holds no interactive content; it is named by <see cref="Label"/>.
     /// </summary>
     [Parameter]
-    public RenderFragment? Summary { get; set; }
+    public RenderFragment? SummaryContent { get; set; }
 
     /// <summary>
-    /// A few letters (typically one to three) drawn in the avatar disc, of the trigger and of the <see cref="Header"/>,
+    /// A few letters (typically one to three) drawn in the avatar disc, of the trigger and of the <see cref="HeaderContent"/>,
     /// in place of the user glyph. Decorative: the trigger is named by <see cref="Label"/>.
     /// </summary>
     [Parameter]
@@ -49,7 +49,7 @@ public partial class OmniProfileMenu
     /// profile). Rendered outside the <c>role="menu"</c> list. Null, the default, renders no header.
     /// </summary>
     [Parameter]
-    public RenderFragment? Header { get; set; }
+    public RenderFragment? HeaderContent { get; set; }
 
     /// <summary>The items, <see cref="OmniMenuItem"/> in the order they are listed; an item's icon is drawn in a disc.</summary>
     [Parameter]
@@ -114,14 +114,14 @@ public partial class OmniProfileMenu
 
     /// <summary>
     /// One fragment for the life of the component: the portal renders it far from here. With a
-    /// <see cref="Header"/> the surface holds the identity, then the list; without one the list is
+    /// <see cref="HeaderContent"/> the surface holds the identity, then the list; without one the list is
     /// the surface.
     /// </summary>
     private RenderFragment Popup => _popupFragment ??= builder =>
     {
         var label = string.IsNullOrWhiteSpace(MenuLabel) ? EffectiveLabel : MenuLabel;
         var density = OmniDensityAttribute.Of(Density);
-        if (Header is null)
+        if (HeaderContent is null)
         {
             builder.OpenRegion(0);
             OmniMenuController.BuildMenuList(builder, this, MenuId, "omni-menu omni-profile-menu__popup", label, density, this, ChildContent, HandleMenuKeyDownAsync);
@@ -142,7 +142,7 @@ public partial class OmniProfileMenu
         builder.CloseElement();
         builder.OpenElement(11, "div");
         builder.AddAttribute(12, "class", "omni-profile-menu__identity");
-        builder.AddContent(13, Header);
+        builder.AddContent(13, HeaderContent);
         builder.CloseElement();
         builder.CloseElement();
         builder.OpenRegion(14);

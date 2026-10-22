@@ -15,7 +15,7 @@
                 </OmniFormField>
             </OmniWizardStep>
             <OmniWizardStep Title="@Text["DemoFlowsStepOptions"]" Validate="ValidateOptionsAsync">
-                <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small" Align="OmniAlignment.Center">
+                <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Align="OmniAlignment.Center">
                     <OmniCheckBox Id="flows-demo-backup" @bind-Value="Model.Backup" />
                     <OmniLabel For="flows-demo-backup">@Text["DemoFlowsDailyBackup"]</OmniLabel>
                 </OmniStack>
@@ -31,8 +31,8 @@
             </OmniWizardStep>
             <OmniWizardStep Title="@Text["DemoFlowsStepSummary"]">
                 <OmniDescriptionList>
-                    <OmniDescriptionItem Label="@Text["DemoFlowsSummaryName"]">@Model.Name</OmniDescriptionItem>
-                    <OmniDescriptionItem Label="@Text["DemoFlowsSummaryBackup"]">@(Model.Backup ? Text["DemoFlowsBackupDaily"] : Text["DemoFlowsBackupNone"])</OmniDescriptionItem>
+                    <OmniDescriptionItem Term="@Text["DemoFlowsSummaryName"]">@Model.Name</OmniDescriptionItem>
+                    <OmniDescriptionItem Term="@Text["DemoFlowsSummaryBackup"]">@(Model.Backup ? Text["DemoFlowsBackupDaily"] : Text["DemoFlowsBackupNone"])</OmniDescriptionItem>
                 </OmniDescriptionList>
             </OmniWizardStep>
         </OmniWizard>
@@ -74,19 +74,19 @@
                     </OmniStack>
                 </EditForm>
             </ChildContent>
-            <Footer>
+            <FooterContent>
                 @if (SignInNote is not null)
                 {
                     <p role="status">@SignInNote</p>
                 }
                 <p>@Text["DemoFlowsReturnAfterSignIn", OmniReturnUrl.Resolve("/projets/12?onglet=journal")]</p>
                 <p>@Text["DemoFlowsExternalRefused", OmniReturnUrl.Resolve("//exemple.invalid/piege")]</p>
-            </Footer>
+            </FooterContent>
         </OmniLoginShell>
     </div>
 
     @* L'hôte pilote l'état, le compte à rebours et les rappels ; le composant ne tient aucune connexion. *@
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small">
         <OmniButton Id="flows-demo-drop" Variant="OmniButtonVariant.Warning" OnClick="DropAsync">
             <OmniIcon Name="OmniIconName.Offline" /><span>@Text["DemoFlowsSimulateDrop"]</span>
         </OmniButton>

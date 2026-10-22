@@ -18,7 +18,7 @@
         <OmniHeading Level="OmniHeadingLevel.H2" Id="foundations-title">@Text["FoundationsTitle"]</OmniHeading>
         <div class="catalog-grid">
             <OmniCard Class="catalog-card">
-                <Header>@Text["ButtonsStates"]</Header>
+                <HeaderContent>@Text["ButtonsStates"]</HeaderContent>
                 <ChildContent>
                     <div class="catalog-row">
                         <OmniButton>@Text["Primary"]</OmniButton>
@@ -30,7 +30,7 @@
                 </ChildContent>
             </OmniCard>
             <OmniCard Class="catalog-card">
-                <Header>@Text["Messages"]</Header>
+                <HeaderContent>@Text["Messages"]</HeaderContent>
                 <ChildContent>
                     <div class="catalog-list">
                         <OmniAlert Severity="OmniSeverity.Info" Title="@Text["Information"]">@Text["InfoMessage"]</OmniAlert>
@@ -41,7 +41,7 @@
                 </ChildContent>
             </OmniCard>
             <OmniCard Class="catalog-card">
-                <Header>@Text["Overlays"]</Header>
+                <HeaderContent>@Text["Overlays"]</HeaderContent>
                 <ChildContent>
                     <div class="catalog-row">
                         <OmniButton Id="catalog-open-dialog" OnClick="@(_ => OpenDialog())"><OmniIcon Name="OmniIconName.Info" Size="OmniControlSize.Small" /> <span>@Text["OpenDialog"]</span></OmniButton>

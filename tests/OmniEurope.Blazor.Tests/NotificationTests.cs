@@ -264,7 +264,7 @@ public sealed class NotificationTests : OmniBunitContext
         var changes = new List<bool>();
         var notification = Render<OmniNotification>(parameters => parameters
             .Add(component => component.Message, "Saved")
-            .Add(component => component.OnHeldChange, (bool held) => changes.Add(held)));
+            .Add(component => component.OnHoldChange, (bool held) => changes.Add(held)));
         var article = notification.Find("article");
 
         article.MouseEnter();

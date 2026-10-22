@@ -82,7 +82,7 @@ public partial class OmniAccordionItem
     private string ToggleId => Id ?? _generatedId;
     private string BodyId => $"{ToggleId}-body";
     private string SummaryId => $"{ToggleId}-summary";
-    private int HeadingAriaLevel => (int)(Context?.HeadingLevel ?? OmniHeadingLevel.H3);
+    private int HeadingAriaLevel => (int)(Context?.Level ?? OmniHeadingLevel.H3);
     private bool RendersBody => _open || (Context?.KeepContent == true && _visited);
     private RenderFragment? DefaultTitle => string.IsNullOrEmpty(Title) ? null : builder => builder.AddContent(0, Title);
 
