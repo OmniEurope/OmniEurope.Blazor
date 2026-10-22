@@ -25,10 +25,10 @@ Branche de travail : `release/1.9.0`, depuis `develop`. Trois lots au plus en pa
 | 1 | W1-B | Conventions sur Editor, Selection, Forms, Feedback, Foundation, Actions | fusionné |
 | 1 | W1-C | Conventions sur Layout, Navigation, Overlays, Pages, Theming, Preferences | fusionné |
 | 2 | W2-A/B/C | Défauts et durcissements de sécurité de l'audit, mêmes familles, un test qui échoue avant et passe après par défaut | fusionnés |
-| 3 | W3-A | Un seul moteur JS de placement et de clic extérieur | en cours |
-| 3 | W3-B | Chargeur Monaco unique, portail de menu partagé, corps d'`OmniStatTile`, mise en forme d'export, CSS mort, dates saturantes du Gantt (portail de menu après W3-A) | en cours |
-| 3 | W3-C | 90 paramètres documentés, `component-families.md`, porte `eng/Test-ComponentIndex.ps1` en CI | en cours |
-| 4 | Livraison | `CHANGELOG.md` (Breaking changes et migrations), `versioning.md` (rupture assumée 1.9.0), version du paquet, `public-api.txt`, couverture, CRAP, sondes de la vitrine (passe complète `-JsCoverage`), vérification en navigateur | à faire |
+| 3 | W3-A | Un seul moteur JS de placement et de clic extérieur | fusionné |
+| 3 | W3-B | Chargeur Monaco unique, portail de menu partagé, corps d'`OmniStatTile`, mise en forme d'export, CSS mort, dates saturantes du Gantt (portail de menu et gardes de circuit perdu en W3-E, densité des contrôles de la grille en W3-D) | fusionné |
+| 3 | W3-C | 90 paramètres documentés, `component-families.md`, porte `eng/Test-ComponentIndex.ps1` en CI | fusionné |
+| 4 | Livraison | `CHANGELOG.md` (Breaking changes et migrations), `versioning.md` (rupture assumée 1.9.0), version du paquet, `public-api.txt`, couverture, CRAP, sondes de la vitrine (passe complète `-JsCoverage`), vérification en navigateur | en cours |
 
 ## Critère de fin de chaque lot
 
