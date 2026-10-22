@@ -36,7 +36,7 @@ internal static class OmniUriPolicy
 
         if (uri.IsAbsoluteUri ? !AllowedSchemes.Contains(uri.Scheme) : ReadsAsAnotherHost(candidate))
         {
-            throw CreateException(parameterName);
+            throw uri.IsAbsoluteUri ? CreateException(parameterName) : CreateHostException(parameterName);
         }
 
         return candidate;
@@ -83,5 +83,8 @@ internal static class OmniUriPolicy
     }
 
     private static InvalidOperationException CreateException(string parameterName) =>
-        new($"'{parameterName}' is not an allowed address. Use a path of the application or an http, https, mailto, or tel URI.");
+        new($"'{parameterName}' uses a URI scheme that is not allowed. Use a relative URI or an http, https, mailto, or tel URI.");
+
+    private static InvalidOperationException CreateHostException(string parameterName) =>
+        new($"'{parameterName}' is a relative address that a browser reads as another host (`//host` or `/\\host`). Use a path of the application, or an absolute http or https URI.");
 }
