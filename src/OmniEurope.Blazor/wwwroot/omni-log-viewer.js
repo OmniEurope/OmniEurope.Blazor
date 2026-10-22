@@ -4,6 +4,7 @@
 // before .NET hears of it, so a pin already on its way cannot drag the reader back down. Scrolling
 // back to the very end follows again.
 import { sync, applyLayout, scrollToOffset } from './omni-grid.js';
+import { notifyDotNet } from './grid/notify.js';
 
 export { sync, applyLayout, scrollToOffset };
 
@@ -32,7 +33,8 @@ export function attach(viewport, reference, following) {
 
     const notify = () => {
         state.frame = 0;
-        reference.invokeMethodAsync('OnViewportChangedAsync', viewport.scrollTop, viewport.clientHeight, atBottom(viewport), state.following);
+        // A report that lands after the viewer detached (its reference is gone) is dropped, not thrown.
+        notifyDotNet(() => viewers.get(viewport) === state, reference, 'OnViewportChangedAsync', viewport.scrollTop, viewport.clientHeight, atBottom(viewport), state.following);
     };
     const schedule = () => {
         if (state.frame === 0) {

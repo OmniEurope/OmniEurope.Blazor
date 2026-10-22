@@ -78,11 +78,59 @@ internal sealed class GanttLayout
     /// <summary>Distance of a day's left edge from the chart's left edge.</summary>
     internal double X(DateOnly day) => (day.DayNumber - RangeStart.DayNumber) * PixelsPerDay;
 
+    /// <summary>Most days between the first and the last day of the tasks: a century. Beyond, a chart is not a chart.</summary>
+    internal const int MaximumSpanDays = 36_500;
+
+    // The margin the zooms add around the tasks (two days, two weeks, a month and its year header) stays well
+    // inside this many days of the calendar's limits.
+    private const int EdgeMargin = 400;
+
+    /// <summary>
+    /// Refuses what no chart can draw, with a message that names the problem: two tasks sharing an identifier
+    /// (the identifier is how <c>Value</c> and <c>DependsOn</c> name a task), dates at the very edge of the
+    /// calendar (the margins would overflow it) and a span so wide that its header alone would be millions
+    /// of cells (a placeholder date such as 0001-01-01 next to real ones).
+    /// </summary>
+    private static void Validate(IReadOnlyList<OmniGanttTask> tasks, DateOnly first, DateOnly last)
+    {
+        var identifiers = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var task in tasks)
+        {
+            if (!identifiers.Add(task.Id))
+            {
+                throw new ArgumentException(
+                    $"Two tasks share the id '{task.Id}': the id names a task for Value and DependsOn, so each id must be unique.",
+                    nameof(tasks));
+            }
+        }
+
+        if (tasks.Count == 0)
+        {
+            return;
+        }
+
+        if (first.DayNumber < DateOnly.MinValue.DayNumber + EdgeMargin || last.DayNumber > DateOnly.MaxValue.DayNumber - EdgeMargin)
+        {
+            throw new ArgumentException(
+                $"A task date ({first:yyyy-MM-dd} to {last:yyyy-MM-dd}) lies within {EdgeMargin} days of the limits of the calendar: it is a placeholder, not a date to draw.",
+                nameof(tasks));
+        }
+
+        var span = last.DayNumber - first.DayNumber;
+        if (span > MaximumSpanDays)
+        {
+            throw new ArgumentException(
+                $"The tasks span {span} days ({first:yyyy-MM-dd} to {last:yyyy-MM-dd}); a chart draws at most {MaximumSpanDays} days. A placeholder date (0001-01-01 for \"unknown\") is the usual cause.",
+                nameof(tasks));
+        }
+    }
+
     internal static GanttLayout Build(IReadOnlyList<OmniGanttTask> tasks, OmniCalendarView scale, bool grouped, DateOnly today, CultureInfo culture, Func<int, string> weekLabel)
     {
         var (first, last) = tasks.Count == 0
             ? (today, today)
             : (tasks.Min(task => Earliest(task)), tasks.Max(task => Latest(task)));
+        Validate(tasks, first, last);
         var (start, end) = Range(first, last, scale);
         var layout = new GanttLayout(scale, start, end);
         layout.PlaceRows(tasks, grouped);

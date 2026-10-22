@@ -10,8 +10,8 @@ namespace OmniEurope.Blazor.Components;
 /// only; each bar carries a named button, reached with Tab.
 /// </summary>
 /// <remarks>
-/// Today is the local date of the component clock (the host's registered <see cref="TimeProvider"/>,
-/// the system clock otherwise). <see cref="Culture"/>, when set, drives dates and texts alike: month
+/// Today is the date of the component clock (the host's registered <see cref="TimeProvider"/>,
+/// the system clock otherwise) in <see cref="TimeZone"/>. <see cref="Culture"/>, when set, drives dates and texts alike: month
 /// names, week numbers, the zoom picker and the names read to a screen reader are all in that culture.
 /// </remarks>
 public partial class OmniGantt
@@ -40,7 +40,7 @@ public partial class OmniGantt
     /// <summary>Draws an arrow from each task in <see cref="OmniGanttTask.DependsOn"/> to the task that waits for it.</summary>
     [Parameter] public bool ShowDependencies { get; set; } = true;
 
-    /// <summary>Draws a line down the column of today, the local date of the component clock.</summary>
+    /// <summary>Draws a line down the column of today, the date of the component clock in <see cref="TimeZone"/>.</summary>
     [Parameter] public bool ShowToday { get; set; } = true;
 
     /// <summary>Raised when a bar is clicked, or activated with Enter or Space.</summary>
@@ -64,6 +64,13 @@ public partial class OmniGantt
     /// default) follows the page: dates in the current culture, texts in the current UI culture.
     /// </summary>
     [Parameter] public CultureInfo? Culture { get; set; }
+
+    /// <summary>
+    /// The time zone that decides which day is today (the line on today): the component clock is an instant,
+    /// and the day it falls on depends on where the reader is. The local zone of the process by default, which
+    /// on a server is the server's, not the reader's: a server-rendered chart sets it, as <see cref="OmniScheduler"/> does.
+    /// </summary>
+    [Parameter] public TimeZoneInfo TimeZone { get; set; } = TimeZoneInfo.Local;
 
     /// <summary>The culture dates are written in: <see cref="Culture"/>, else the current culture.</summary>
     private CultureInfo Formats => Culture ?? CultureInfo.CurrentCulture;
@@ -109,6 +116,7 @@ public partial class OmniGantt
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+        ArgumentNullException.ThrowIfNull(TimeZone);
         if (_lastViewParameter is not { } last || last != View)
         {
             _lastViewParameter = View;
@@ -125,7 +133,7 @@ public partial class OmniGantt
     }
 
     private GanttLayout BuildLayout() =>
-        GanttLayout.Build(Tasks, _view, ShowGroups, DateOnly.FromDateTime(Clock.GetLocalNow().Date), Formats, WeekLabel);
+        GanttLayout.Build(Tasks, _view, ShowGroups, DateOnly.FromDateTime(TimeZoneInfo.ConvertTime(Clock.GetUtcNow(), TimeZone).Date), Formats, WeekLabel);
 
     /// <summary>The short name of an ISO week in the week zoom header: "S12" in French, "W12" in English.</summary>
     private string WeekLabel(int week) => Text("GanttWeekNumber", week.ToString(Formats));

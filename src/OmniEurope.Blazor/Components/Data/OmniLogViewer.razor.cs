@@ -32,7 +32,7 @@ public partial class OmniLogViewer : IAsyncDisposable
     private readonly List<int> _matches = [];
     private ElementReference _viewport;
     private IJSObjectReference? _module;
-    private DotNetObjectReference<OmniLogViewer>? _selfReference;
+    private DotNetObjectReference<LogViewerInteropBridge>? _selfReference;
     private bool _attached;
     private bool _disposed;
     private GridVirtualRange _range;
@@ -418,7 +418,7 @@ public partial class OmniLogViewer : IAsyncDisposable
         {
             await SynchronizeViewportAsync();
         }
-        catch (JSDisconnectedException)
+        catch (Exception exception) when (exception is JSDisconnectedException || (_disposed && exception is ObjectDisposedException))
         {
         }
     }
@@ -435,7 +435,7 @@ public partial class OmniLogViewer : IAsyncDisposable
 
         if (!_attached)
         {
-            _selfReference ??= DotNetObjectReference.Create(this);
+            _selfReference ??= DotNetObjectReference.Create(new LogViewerInteropBridge(OnViewportChangedAsync));
             await _module.InvokeVoidAsync("attach", _viewport, _selfReference, _following);
             _attached = true;
             _sentFollowing = _following;
@@ -448,11 +448,20 @@ public partial class OmniLogViewer : IAsyncDisposable
         }
 
         var snapshot = await _module.InvokeAsync<GridViewportSnapshot?>("sync", _viewport, true);
+        if (_disposed)
+        {
+            return;
+        }
+
         var moved = ApplySnapshot(snapshot);
         var previous = _range;
         ComputeRange();
         _appliedHeight = Height;
         await _module.InvokeVoidAsync("applyLayout", _viewport, _range.TopSpacer, _range.BottomSpacer, _appliedHeight, null);
+        if (_disposed)
+        {
+            return;
+        }
 
         if (_pendingReveal is { } offset)
         {
@@ -508,8 +517,7 @@ public partial class OmniLogViewer : IAsyncDisposable
     /// <param name="atBottom">True when the viewport shows the last line.</param>
     /// <param name="following">True when the viewport still follows the tail.</param>
     /// <returns>A task that completes when a change of follow state has been reported.</returns>
-    [JSInvokable]
-    public async Task OnViewportChangedAsync(double scrollTop, double viewportHeight, bool atBottom, bool following)
+    internal async Task OnViewportChangedAsync(double scrollTop, double viewportHeight, bool atBottom, bool following)
     {
         if (_disposed)
         {

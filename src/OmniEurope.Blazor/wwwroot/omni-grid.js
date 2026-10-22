@@ -423,7 +423,14 @@ export function attachWheelScope(viewport, selector) {
     }
 
     detachWheelScope(viewport);
-    const scope = typeof selector === 'string' && selector ? viewport.closest(selector) : null;
+    let scope = null;
+    try {
+        scope = typeof selector === 'string' && selector ? viewport.closest(selector) : null;
+    } catch {
+        // A selector the browser refuses (a SyntaxError) selects no ancestor: the wheel keeps its default.
+        scope = null;
+    }
+
     if (!scope) {
         return;
     }

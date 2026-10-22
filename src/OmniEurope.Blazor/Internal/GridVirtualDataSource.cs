@@ -16,10 +16,13 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
     // Blocks asked of the loader and not answered yet, of the current generation. A window asked again
     // while its block is on its way (the render the loading bar causes, the window sync after it) waits
     // for that answer instead of sending the same request a second time.
-    private readonly Dictionary<int, Task<OmniDataGridResult<TItem>>> _inFlight = [];
+    private readonly Dictionary<int, InFlightBlock> _inFlight = [];
     private CancellationTokenSource? _cancellation;
     private int _generation;
     private int _refreshGeneration;
+    private int _activeCalls;
+    private int _wantedFirst;
+    private int _wantedLast = -1;
 
     internal int TotalCount { get; private set; }
 
@@ -42,6 +45,9 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
         _items.Clear();
         _loadedBlocks.Clear();
         _inFlight.Clear();
+        _activeCalls = 0;
+        _wantedFirst = 0;
+        _wantedLast = -1;
         TotalCount = 0;
         Loading = false;
         Error = null;
@@ -51,6 +57,9 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
     /// <summary>
     /// Loads every block covering <paramref name="start"/>..<paramref name="start"/> + <paramref name="count"/>
     /// that is not cached yet. Returns <c>true</c> when the cache changed and the grid must re-render.
+    /// A block still loading for an earlier window that this window no longer covers is cancelled (its
+    /// token is signalled and its answer dropped), and blocks are fetched one after the other, so a fast
+    /// scroll keeps at most the blocks of the latest window in flight.
     /// </summary>
     internal async Task<bool> EnsureRangeAsync(
         int start,
@@ -61,6 +70,9 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
         var size = Math.Max(1, blockSize);
         var firstBlock = Math.Max(0, start) / size;
         var lastBlock = Math.Max(0, start + Math.Max(1, count) - 1) / size;
+        _wantedFirst = firstBlock;
+        _wantedLast = lastBlock;
+        CancelOutside(firstBlock, lastBlock);
         var missing = Enumerable.Range(firstBlock, lastBlock - firstBlock + 1)
             .Where(block => !_loadedBlocks.Contains(block))
             .ToArray();
@@ -72,6 +84,7 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
         _cancellation ??= new CancellationTokenSource();
         var token = _cancellation.Token;
         var generation = _generation;
+        _activeCalls++;
         Loading = true;
         Error = null;
         var changed = false;
@@ -79,28 +92,41 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
         {
             foreach (var block in missing)
             {
-                if (!_inFlight.TryGetValue(block, out var request))
+                // A newer window moved on while the previous block was loading: stop asking for blocks
+                // nobody looks at any more.
+                if (block < _wantedFirst || block > _wantedLast)
                 {
-                    request = loader(block * size, size, token);
-                    _inFlight[block] = request;
+                    return changed;
+                }
+
+                if (!_inFlight.TryGetValue(block, out var entry))
+                {
+                    entry = InFlightBlock.Start(loader, block * size, size, token);
+                    _inFlight[block] = entry;
                 }
 
                 OmniDataGridResult<TItem> result;
                 try
                 {
-                    result = await request.WaitAsync(token);
+                    result = await entry.Request.WaitAsync(entry.Token);
+                }
+                catch (OperationCanceledException) when (entry.Token.IsCancellationRequested && !token.IsCancellationRequested)
+                {
+                    // The block left the window and was cancelled: not an error, nothing to keep.
+                    return changed;
                 }
                 finally
                 {
                     // Only this generation owns the entry: a reset cleared it, and a newer query may
                     // already have put its own request for the same block there.
-                    if (generation == _generation && _inFlight.TryGetValue(block, out var current) && ReferenceEquals(current, request))
+                    if (generation == _generation && _inFlight.TryGetValue(block, out var current) && ReferenceEquals(current, entry))
                     {
                         _inFlight.Remove(block);
+                        entry.Release();
                     }
                 }
 
-                if (generation != _generation || token.IsCancellationRequested)
+                if (generation != _generation || token.IsCancellationRequested || entry.Token.IsCancellationRequested)
                 {
                     return changed;
                 }
@@ -133,11 +159,70 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
         {
             if (generation == _generation)
             {
-                Loading = false;
+                _activeCalls--;
+                Loading = _activeCalls > 0;
             }
         }
 
         return changed;
+    }
+
+    private void CancelOutside(int firstBlock, int lastBlock)
+    {
+        foreach (var (block, entry) in _inFlight.ToArray())
+        {
+            if (block >= firstBlock && block <= lastBlock)
+            {
+                continue;
+            }
+
+            _inFlight.Remove(block);
+            entry.Cancel();
+        }
+    }
+
+    // A block asked of the loader, with its own cancellation (linked to the generation's) so it can be
+    // dropped alone when it leaves the window.
+    private sealed class InFlightBlock
+    {
+        private readonly CancellationTokenSource _source;
+
+        private InFlightBlock(CancellationTokenSource source, Task<OmniDataGridResult<TItem>> request)
+        {
+            _source = source;
+            Token = source.Token;
+            Request = request;
+        }
+
+        internal Task<OmniDataGridResult<TItem>> Request { get; }
+
+        internal CancellationToken Token { get; }
+
+        internal static InFlightBlock Start(
+            Func<int, int, CancellationToken, Task<OmniDataGridResult<TItem>>> loader,
+            int skip,
+            int take,
+            CancellationToken generation)
+        {
+            var source = CancellationTokenSource.CreateLinkedTokenSource(generation);
+            try
+            {
+                return new InFlightBlock(source, loader(skip, take, source.Token));
+            }
+            catch
+            {
+                source.Dispose();
+                throw;
+            }
+        }
+
+        internal void Cancel()
+        {
+            _source.Cancel();
+            _source.Dispose();
+        }
+
+        internal void Release() => _source.Dispose();
     }
 
     /// <summary>The rows held right now, whatever their block.</summary>

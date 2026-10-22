@@ -749,6 +749,12 @@ des formules calculées sur la feuille.
   `Evaluate` (la valeur calculée, en `OmniSpreadsheetValue`), `ColumnName`, `Address`, puis `ToJson`
   et `FromJson` (`{"columnCount":3,"rows":[[...]]}`, écrits et lus sans réflexion, donc sûrs au
   découpage). Chaque modification produit une nouvelle feuille, remontée par `ValueChanged`.
+- **Taille.** Une feuille compte au plus `MaxRows` (10 000) lignes, `MaxColumns` (500, soit jusqu'à la colonne
+  `SF`) colonnes et `MaxCells` (250 000) cellules : chaque modification recopie les cellules et le composant
+  les dessine toutes, sans virtualisation. `Create`, `FromRows`, `WithInput` (une adresse lointaine comme
+  `A9999999` n'alloue plus les lignes intermédiaires), `AddRow` et `AddColumn` lèvent une
+  `ArgumentOutOfRangeException` au-delà ; `FromJson` lève la `JsonException` documentée. Les boutons d'ajout
+  du composant se désactivent à la limite.
 - **Saisies.** Un nombre se lit dans la culture courante ou avec un point ; un `%` final divise par
   cent ; une apostrophe initiale force le texte ; `=` ouvre une formule.
 - **Formules.** Références `B3` (ou `$B$3`, sans effet d'ancrage faute de recopie), plages `A1:A5`

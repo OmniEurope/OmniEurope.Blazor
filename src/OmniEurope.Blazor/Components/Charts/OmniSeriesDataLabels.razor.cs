@@ -28,7 +28,16 @@ public partial class OmniSeriesDataLabels
     private string LabelsClass => Inside ? "omni-chart__labels omni-chart__labels--inside" : "omni-chart__labels";
 
     /// <summary>Registers the points with the chart so the plot covers them; data labels stay out of the legend and the data table.</summary>
-    protected override void OnParametersSet() => ChartContext?.RegisterSeries(this, OmniChartSeriesKind.Auxiliary, Data);
+    protected override void OnParametersSet()
+    {
+        _domain = null;
+        ChartContext?.RegisterSeries(this, OmniChartSeriesKind.Auxiliary, Data);
+    }
+
+    // Without a chart around the markers, the range of the points is read once per render, not once per dot.
+    private OmniChartGeometry.ChartDomain? _domain;
+
+    private OmniChartGeometry.ChartDomain Domain => _domain ??= OmniChartGeometry.Domains(Data);
 
     /// <summary>
     /// Every label with its place, anchor and baseline, and whether it is drawn: a label that would
@@ -127,7 +136,7 @@ public partial class OmniSeriesDataLabels
     }
 
     private (double X, double Y) Projected(int index) =>
-        ChartContext is null ? OmniChartGeometry.ProjectedPoint(Data, index) : ChartContext.ProjectCoordinates(Data[index]);
+        ChartContext is null ? OmniChartGeometry.ProjectedPoint(Data, index, Domain) : ChartContext.ProjectCoordinates(Data[index]);
 
     /// <summary>Removes the labels from their chart.</summary>
     public void Dispose()

@@ -13,6 +13,8 @@ public partial class OmniTree<TValue>
     private IReadOnlyList<TValue>? _lastReceivedValues;
     private ElementReference _root;
     private IJSObjectReference? _module;
+    private Task? _attachment;
+    private bool _disposed;
 
     /// <summary>
     /// The values of the selected items (<c>@bind-Value</c>), empty when none is. The tree keeps its own
@@ -99,14 +101,47 @@ public partial class OmniTree<TValue>
 
     /// <summary>
     /// Gives each drag the data some browsers need before they start one: the script only fills the drag in,
-    /// .NET keeps the state.
+    /// .NET keeps the state. The script is imported once however many renders overlap the import, and a tree
+    /// disposed meanwhile attaches nothing.
     /// </summary>
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override Task OnAfterRenderAsync(bool firstRender) =>
+        AllowDragDrop && !_disposed ? _attachment ??= AttachDragAsync() : Task.CompletedTask;
+
+    private async Task AttachDragAsync()
     {
-        if (AllowDragDrop && _module is null)
+        try
         {
-            _module = await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Tree);
-            await _module.InvokeVoidAsync("attachTreeDrag", _root);
+            IJSObjectReference module;
+            try
+            {
+                module = await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Tree);
+            }
+            catch (JSDisconnectedException)
+            {
+                throw;
+            }
+            catch
+            {
+                _attachment = null;
+                throw;
+            }
+
+            if (_disposed)
+            {
+                await module.DisposeAsync();
+                return;
+            }
+
+            _module = module;
+            await module.InvokeVoidAsync("attachTreeDrag", _root);
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit is gone, and the script with it.
+        }
+        catch (ObjectDisposedException) when (_disposed)
+        {
+            // Disposed while the attachment was in flight.
         }
     }
 
@@ -114,6 +149,7 @@ public partial class OmniTree<TValue>
     /// <returns>A task that completes when the script is released.</returns>
     public async ValueTask DisposeAsync()
     {
+        _disposed = true;
         if (_module is null)
         {
             return;
