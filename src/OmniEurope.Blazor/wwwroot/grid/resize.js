@@ -145,8 +145,14 @@ export async function autoFitColumn(viewport, key) {
         let texts = null;
         try {
             texts = await attachment.reference.invokeMethodAsync('GetColumnAutoFitTexts', key);
-        } catch {
-            // The grid was detached, or the circuit is gone: nobody is left to measure for.
+        } catch (error) {
+            // A grid detached while .NET answered has nobody left to measure for. A failure while the
+            // attachment is live is a real .NET error: it is reported, not thrown (the double click
+            // that asked is not awaited, so a rejection would be unhandled), and the fit stops there.
+            if (attachment.isLive()) {
+                console.error('OmniDataGrid column auto-fit failed:', error);
+            }
+
             return;
         }
         if (!attachment.isLive() || !viewport.isConnected) {
