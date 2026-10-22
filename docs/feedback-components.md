@@ -15,4 +15,8 @@ Ces composants disent où en est quelque chose : un message, un état, une progr
 | `OmniSkeleton` | Silhouette de chargement, décorative ou région `status` nommée, d'une à dix lignes. |
 | `OmniLogoLoader` | Indicateur de chargement au logo du site (`ChildContent` : une image, un SVG ou une `OmniIcon`), en trois tailles (`Size`) : le logo flotte de haut en bas sans jamais tourner, reste immobile si l'utilisateur demande moins de mouvement, et l'état est dit en mots (`Label`, région `status`). Un logo qui s'anime lui-même (SVG animé, animation de chargement du produit) se déclare par `AnimatedMark="true"` : il joue sa propre animation au lieu de flotter, et sous mouvement réduit le chargeur fige aussi ses animations CSS (pas les animations SMIL écrites dans le SVG). |
 
+`OmniStatusBadge<TValue>` prend `Value` (la valeur d'état), `Map` (la table d'états `OmniStatusMap<TValue>`), `ShowIcon` (vrai par défaut : l'icône de l'état précède le libellé) et `Width`. Pour dire qu'une valeur a vieilli : `Timestamp` (`DateTimeOffset?`) donne le moment où la valeur était sûre ; `StaleAfter` (`TimeSpan?`) la durée au-delà de laquelle elle est périmée ; `StaleText` (`string?`) le mot affiché à côté d'un badge périmé, « périmé » localisé quand il est vide. Sans `Timestamp` ou sans `StaleAfter`, le badge n'est jamais périmé.
+
+Remplissage par défaut de chaque composant (`OmniFill` n'en a pas) : `OmniAlert` `Outline`, `OmniBadge` `Solid`, `OmniStatusBadge` et `OmniStatus` `Tonal`.
+
 Détails : `OmniBadge`, `OmniIcon`, `OmniImage`, `OmniProgressBar` et `OmniSkeleton` dans [foundation-components.md](foundation-components.md) ; `OmniStatusStrip` dans sa section « Bande d'états et écran de démarrage ».

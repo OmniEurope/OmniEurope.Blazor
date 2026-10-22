@@ -27,6 +27,13 @@ public partial class OmniCheckBoxList<TValue>
     [Parameter]
     public bool Disabled { get; set; }
 
+    /// <summary>
+    /// Whether the choice can be read and the boxes focused but not changed: a click or a key leaves the
+    /// value as it is, and the group is not dimmed. Off by default.
+    /// </summary>
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
     /// <summary>Ids of elements that describe the group, written in its <c>aria-describedby</c> before the error line.</summary>
     [Parameter]
     public string? AriaDescribedBy { get; set; }
@@ -52,7 +59,7 @@ public partial class OmniCheckBoxList<TValue>
 
     private void Toggle(OmniOption<TValue> option, ChangeEventArgs args)
     {
-        if (Disabled || option.Disabled || args.Value is not bool selected)
+        if (Disabled || ReadOnly || option.Disabled || args.Value is not bool selected)
         {
             return;
         }

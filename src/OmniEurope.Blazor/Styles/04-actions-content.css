@@ -325,6 +325,8 @@
 .omni-text--accent { color: var(--omni-color-accent-strong); }
 .omni-text--success { color: var(--omni-color-success); }
 .omni-text--danger { color: var(--omni-color-danger); }
+.omni-text--info { color: var(--omni-color-info); }
+.omni-text--warning { color: var(--omni-color-warning); }
 .omni-text--truncate {
     display: block;
     overflow: hidden;

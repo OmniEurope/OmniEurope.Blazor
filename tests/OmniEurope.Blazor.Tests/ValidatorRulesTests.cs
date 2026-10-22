@@ -87,8 +87,8 @@ public sealed class ValidatorRulesTests : OmniBunitContext
     public void Length_AcceptsATextWithinItsBoundsOrNothing(int? min, int? max, string? value)
     {
         var host = Render<ValidatorRulesTestHost>(parameters => parameters
-            .Add(component => component.Min, min)
-            .Add(component => component.Max, max));
+            .Add(component => component.Minimum, min)
+            .Add(component => component.Maximum, max));
         host.Instance.Model.Code = value;
 
         Assert.Empty(MessagesFor(host, "Code"));
@@ -104,8 +104,8 @@ public sealed class ValidatorRulesTests : OmniBunitContext
     public void Length_WritesItsBoundsInTheMessage(int? min, int? max, string value, string? expected)
     {
         var host = Render<ValidatorRulesTestHost>(parameters => parameters
-            .Add(component => component.Min, min)
-            .Add(component => component.Max, max));
+            .Add(component => component.Minimum, min)
+            .Add(component => component.Maximum, max));
         host.Instance.Model.Code = value;
 
         // A space counts: one space meets a minimum of one.
@@ -129,8 +129,8 @@ public sealed class ValidatorRulesTests : OmniBunitContext
     public void Length_RefusesBoundsThatCannotBeMet(int? min, int? max)
     {
         Assert.Throws<ArgumentException>(() => Render<ValidatorRulesTestHost>(parameters => parameters
-            .Add(component => component.Min, min)
-            .Add(component => component.Max, max)));
+            .Add(component => component.Minimum, min)
+            .Add(component => component.Maximum, max)));
     }
 
     [Theory]
@@ -143,7 +143,7 @@ public sealed class ValidatorRulesTests : OmniBunitContext
         try
         {
             CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo(culture);
-            var host = Render<ValidatorRulesTestHost>(parameters => parameters.Add(component => component.Min, 2));
+            var host = Render<ValidatorRulesTestHost>(parameters => parameters.Add(component => component.Minimum, 2));
             host.Instance.Model.Mail = "jean";
             host.Instance.Model.Code = "a";
 

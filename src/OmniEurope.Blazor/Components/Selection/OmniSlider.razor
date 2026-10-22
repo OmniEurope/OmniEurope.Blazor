@@ -4,7 +4,7 @@
 @* Bound as a value that follows every input: Blazor knows the input handler updates the value attribute, so
    after an input it takes the value the browser shows as the rendered one, and when HandleInput clamps it to
    SelectableMinimum (even to the value it already holds) the render that follows draws the thumb back on it. *@
-<div class="@InputCss("omni-slider", Vertical ? "omni-slider--vertical" : null)">
+<div class="@InputCss("omni-slider", Orientation == OmniOrientation.Vertical ? "omni-slider--vertical" : null)">
     <input @attributes="AdditionalAttributes"
            id="@Id"
            class="omni-slider__input"
@@ -13,6 +13,8 @@
            max="@Format(Maximum)"
            step="@Format(Step)"
            disabled="@Disabled"
+           aria-readonly="@(ReadOnly ? "true" : null)"
+           @onmousedown:preventDefault="ReadOnly"
            aria-orientation="@OrientationText"
            aria-valuemin="@Format(LowestSelectable)"
            aria-valuemax="@Format(Maximum)"

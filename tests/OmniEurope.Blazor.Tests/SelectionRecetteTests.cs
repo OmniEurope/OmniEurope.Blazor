@@ -214,7 +214,7 @@ public sealed class SelectionRecetteTests : OmniBunitContext
             .Add(component => component.Multiple, true)
             .Add(component => component.Files, files)
             .Add(component => component.FilesChanged, next => files = next)
-            .Add(component => component.FileRemoved, file => removed = file));
+            .Add(component => component.OnFileRemove, file => removed = file));
 
         var rows = upload.FindAll(".omni-upload__file");
         Assert.Equal(2, rows.Count);

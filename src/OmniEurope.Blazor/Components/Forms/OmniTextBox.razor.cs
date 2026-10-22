@@ -64,13 +64,13 @@ public partial class OmniTextBox
     /// field is empty or disabled. Off by default.
     /// </summary>
     [Parameter]
-    public bool Copyable { get; set; }
+    public bool ShowCopy { get; set; }
 
-    /// <summary>How long the Copy button of <see cref="Copyable"/> shows the outcome of a copy.</summary>
+    /// <summary>How long the Copy button of <see cref="ShowCopy"/> shows the outcome of a copy.</summary>
     [Parameter]
     public TimeSpan CopiedFeedbackDuration { get; set; } = TimeSpan.FromSeconds(2);
 
-    /// <summary>Raised after a copy by the <see cref="Copyable"/> button, with whether the clipboard accepted it.</summary>
+    /// <summary>Raised after a copy by the <see cref="ShowCopy"/> button, with whether the clipboard accepted it.</summary>
     [Parameter]
     public EventCallback<bool> OnCopy { get; set; }
 
@@ -147,7 +147,7 @@ public partial class OmniTextBox
         await OnCopy.InvokeAsync(copied);
     }
 
-    /// <summary>Releases the clipboard module of <see cref="Copyable"/> and disposes the input.</summary>
+    /// <summary>Releases the clipboard module of <see cref="ShowCopy"/> and disposes the input.</summary>
     public async ValueTask DisposeAsync()
     {
         // Blazor calls only DisposeAsync on a component that has both: the debounce flush and the form

@@ -26,9 +26,16 @@ public partial class OmniSelectBar<TValue>
     [Parameter]
     public bool Disabled { get; set; }
 
-    /// <summary>An icon before an option's text (a sun, a moon, a screen); null for none.</summary>
+    /// <summary>
+    /// Whether the choice can be read and the bar focused but not changed: a click or a key leaves the
+    /// value as it is, and the bar is not dimmed. Off by default.
+    /// </summary>
     [Parameter]
-    public Func<TValue, OmniIconName?>? IconFor { get; set; }
+    public bool ReadOnly { get; set; }
+
+    /// <summary>The icon before an option's text (a sun, a moon, a screen), usually an <see cref="OmniIcon"/> for the option's value; none when null.</summary>
+    [Parameter]
+    public RenderFragment<TValue>? IconTemplate { get; set; }
 
     private bool IsSelected(TValue value) => EqualityComparer<TValue>.Default.Equals(CurrentValue, value);
 
@@ -40,7 +47,7 @@ public partial class OmniSelectBar<TValue>
 
     private void SelectOption(OmniOption<TValue> option)
     {
-        if (CanPick(option))
+        if (CanPick(option) && !ReadOnly)
         {
             CurrentValue = option.Value;
         }

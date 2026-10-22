@@ -120,7 +120,7 @@ public sealed class SelectionComponentTests : OmniBunitContext
         Assert.Equal("vertical", Render<OmniSlider>(parameters => parameters
             .Add(component => component.Value, holder.Value)
             .Add(component => component.ValueExpression, () => holder.Value)
-            .Add(component => component.Vertical, true)).Find("input").GetAttribute("aria-orientation"));
+            .Add(component => component.Orientation, OmniOrientation.Vertical)).Find("input").GetAttribute("aria-orientation"));
     }
 
     [Fact]

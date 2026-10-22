@@ -24,13 +24,20 @@ public partial class OmniSlider
     [Parameter]
     public double Step { get; set; } = 1;
 
-    /// <summary>Draws the slider upright and announces it as vertical. Off by default.</summary>
+    /// <summary>The direction of the slider, drawn and announced as such (<c>aria-orientation</c>): <see cref="OmniOrientation.Horizontal"/> by default.</summary>
     [Parameter]
-    public bool Vertical { get; set; }
+    public OmniOrientation Orientation { get; set; }
 
     /// <summary>Whether the slider is disabled. Off by default.</summary>
     [Parameter]
     public bool Disabled { get; set; }
+
+    /// <summary>
+    /// Whether the value can be read and the slider focused but not changed: a drag or a key press leaves
+    /// the value as it is (<c>aria-readonly</c>) and the thumb is drawn back on it. Not dimmed. Off by default.
+    /// </summary>
+    [Parameter]
+    public bool ReadOnly { get; set; }
 
     /// <summary>Whether the value is written beside the slider, as an <c>output</c>; true by default.</summary>
     [Parameter]
@@ -57,10 +64,16 @@ public partial class OmniSlider
     public EventCallback<double> OnValueCommit { get; set; }
 
     private double LowestSelectable => SelectableMinimum ?? Minimum;
-    private string OrientationText => Vertical ? "vertical" : "horizontal";
+    private string OrientationText => Orientation == OmniOrientation.Vertical ? "vertical" : "horizontal";
     private string ValueText => FormatValue?.Invoke(CurrentValue) ?? CurrentValue.ToString(CultureInfo.CurrentCulture);
     private static string Format(double value) => value.ToString(System.Globalization.CultureInfo.InvariantCulture);
-    private void HandleInput(string? text) => CurrentValueAsString = Clamped(text);
+    private void HandleInput(string? text)
+    {
+        if (!ReadOnly)
+        {
+            CurrentValueAsString = Clamped(text);
+        }
+    }
 
     /// <summary>Writes the value as the input does, in the invariant culture, whatever the culture of the page.</summary>
     /// <param name="value">The value to write.</param>
@@ -81,7 +94,7 @@ public partial class OmniSlider
         ? EventCallback.Factory.Create<ChangeEventArgs>(this, HandleChangeAsync)
         : default;
 
-    private Task HandleChangeAsync(ChangeEventArgs args) =>
+    private Task HandleChangeAsync(ChangeEventArgs args) => ReadOnly ? Task.CompletedTask :
         double.TryParse(Clamped(args.Value?.ToString()), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var value)
             ? OnValueCommit.InvokeAsync(value)
             : Task.CompletedTask;

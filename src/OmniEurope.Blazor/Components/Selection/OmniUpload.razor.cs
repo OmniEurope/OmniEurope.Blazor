@@ -28,6 +28,14 @@ public partial class OmniUpload
     public bool Disabled { get; set; }
 
     /// <summary>
+    /// Whether the files held can be read and the field focused but not changed: it lists them and draws no
+    /// file control, drop zone or remove button, so no file can be chosen, dropped or removed. Not dimmed.
+    /// Off by default.
+    /// </summary>
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
+    /// <summary>
     /// The most files a selection may hold, 10 by default; bound and <see cref="Multiple"/>, the files
     /// already listed count too. A selection over it is refused whole with a localized error.
     /// </summary>
@@ -67,7 +75,7 @@ public partial class OmniUpload
 
     /// <summary>Raised with the files of a selection that passed the checks, before <see cref="Upload"/> runs.</summary>
     [Parameter]
-    public EventCallback<IReadOnlyList<IBrowserFile>> FilesSelected { get; set; }
+    public EventCallback<IReadOnlyList<IBrowserFile>> OnFilesSelect { get; set; }
 
     /// <summary>The message shown when <see cref="Upload"/> throws; null uses the localized default.</summary>
     [Parameter]
@@ -97,9 +105,12 @@ public partial class OmniUpload
     /// two files of the same name and size apart.
     /// </summary>
     [Parameter]
-    public EventCallback<OmniUploadFile> FileRemoved { get; set; }
+    public EventCallback<OmniUploadFile> OnFileRemove { get; set; }
 
     private bool IsBound => FilesChanged.HasDelegate;
+
+    // Read-only, a list handed in through Files is shown even with no FilesChanged to write it back to.
+    private bool ReadOnlyShowsFiles => IsBound || Files.Count > 0;
 
     private string EffectiveUploadErrorMessage => string.IsNullOrWhiteSpace(UploadErrorMessage)
         ? Localize("UploadFailed")
@@ -190,7 +201,7 @@ public partial class OmniUpload
             return;
         }
 
-        await FilesSelected.InvokeAsync(_files);
+        await OnFilesSelect.InvokeAsync(_files);
         if (_disposed)
         {
             return;
@@ -229,7 +240,7 @@ public partial class OmniUpload
     {
         // The index comes from the rendered list, never negative; a host that replaced or unbound the list
         // since that render can still send a click already on its way.
-        if (!IsBound || Disabled || _uploading || index >= Files.Count)
+        if (!IsBound || Disabled || ReadOnly || _uploading || index >= Files.Count)
         {
             return;
         }
@@ -239,7 +250,7 @@ public partial class OmniUpload
         _hasError = false;
         _progress = 0;
         _message = Localize("UploadRemoved", removed.Name);
-        await FileRemoved.InvokeAsync(removed);
+        await OnFileRemove.InvokeAsync(removed);
         await FilesChanged.InvokeAsync(next);
     }
 
@@ -450,7 +461,7 @@ public partial class OmniUpload
     private void ToggleShowAll() => _showAll = !_showAll;
 
     /// <summary>
-    /// Empties the list. Bound, each entry is reported through <see cref="FileRemoved"/> before the
+    /// Empties the list. Bound, each entry is reported through <see cref="OnFileRemove"/> before the
     /// empty list is sent, as a removal one by one would; unbound, the listed selection is cleared. Its
     /// button is disabled while locked, uploading or empty, and a disabled OmniButton raises no click.
     /// </summary>
@@ -469,7 +480,7 @@ public partial class OmniUpload
         var removed = Files;
         foreach (var file in removed)
         {
-            await FileRemoved.InvokeAsync(file);
+            await OnFileRemove.InvokeAsync(file);
         }
 
         await FilesChanged.InvokeAsync(Array.Empty<OmniUploadFile>());

@@ -40,8 +40,14 @@ public partial class OmniCodeEditor
     [Inject]
     private IJSRuntime JSRuntime { get; set; } = default!;
 
-    /// <summary>The Monaco language identifier: <c>yaml</c>, <c>json</c>, <c>csharp</c>, <c>javascript</c>, <c>html</c>, <c>sql</c>...</summary>
-    [Parameter] public string Language { get; set; } = "plaintext";
+    /// <summary>
+    /// The language identifier (<c>yaml</c>, <c>json</c>, <c>csharp</c>, <c>javascript</c>, <c>html</c>, <c>sql</c>...),
+    /// with the same meaning as on <see cref="OmniDiffViewer"/>, <see cref="OmniCodeViewer"/> and <see cref="OmniCodeBlock"/>.
+    /// Null or blank means <c>plaintext</c>.
+    /// </summary>
+    [Parameter] public string? Language { get; set; }
+
+    private string EffectiveLanguage => string.IsNullOrWhiteSpace(Language) ? "plaintext" : Language;
 
     /// <summary>
     /// Whether the code can be read, selected and copied but not changed: Monaco is read-only and the
@@ -86,7 +92,7 @@ public partial class OmniCodeEditor
     [Parameter] public IReadOnlyList<OmniCodeEditorLink> Links { get; set; } = Array.Empty<OmniCodeEditorLink>();
 
     /// <summary>Raised when a link produced by <see cref="Links"/> is followed.</summary>
-    [Parameter] public EventCallback<OmniCodeEditorLinkEventArgs> LinkActivated { get; set; }
+    [Parameter] public EventCallback<OmniCodeEditorLinkEventArgs> OnLinkActivate { get; set; }
 
     /// <summary>
     /// The accessible name. On the fallback text area it is written as <c>aria-label</c> only when set, so
@@ -285,7 +291,7 @@ public partial class OmniCodeEditor
         _column = column;
     }
 
-    internal Task HandleLinkActivatedAsync(OmniCodeEditorLinkEventArgs args) => LinkActivated.InvokeAsync(args);
+    internal Task HandleLinkActivationAsync(OmniCodeEditorLinkEventArgs args) => OnLinkActivate.InvokeAsync(args);
 
     private Task HandleFallbackInputAsync(ChangeEventArgs args)
     {
@@ -303,7 +309,7 @@ public partial class OmniCodeEditor
         monacoPath = MonacoPath,
         culture = CultureInfo.CurrentUICulture.Name,
         loadTimeoutMilliseconds = LoadTimeoutMilliseconds,
-        language = string.IsNullOrWhiteSpace(Language) ? "plaintext" : Language,
+        language = EffectiveLanguage,
         readOnly = IsLocked,
         lineNumbers = ShowLineNumbers,
         wordWrap = Wrap,
@@ -319,7 +325,7 @@ public partial class OmniCodeEditor
 
     private string OptionsSignature() => string.Join(
         '',
-        new[] { Language, IsLocked.ToString(), ShowLineNumbers.ToString(), Wrap.ToString(), TabSize.ToString(CultureInfo.InvariantCulture), EffectiveLabel }
+        new[] { EffectiveLanguage, IsLocked.ToString(), ShowLineNumbers.ToString(), Wrap.ToString(), TabSize.ToString(CultureInfo.InvariantCulture), EffectiveLabel }
             .Concat(Links.Select(link => $"{link.Name}{link.Pattern}{link.Tooltip}")));
 
     /// <summary>Takes any text as the value, null as an empty string; parsing never fails.</summary>

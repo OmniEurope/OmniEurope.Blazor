@@ -17,7 +17,7 @@ public sealed class CodeCopyTests : OmniBunitContext
     [Theory]
     [InlineData(true, "Copié dans le presse-papiers")]
     [InlineData(false, "La copie a échoué")]
-    public void CopyableTextBox_CopiesItsValue_KeepsItsWord_AndSaysHowItWent(bool accepted, string outcome)
+    public void ShowCopyTextBox_CopiesItsValue_KeepsItsWord_AndSaysHowItWent(bool accepted, string outcome)
     {
         var module = JSInterop.SetupModule(InteropModulePath);
         module.Setup<bool>("copyText", _ => true).SetResult(accepted);
@@ -27,7 +27,7 @@ public sealed class CodeCopyTests : OmniBunitContext
             .Add(component => component.Value, "https://git.example/repo.git")
             .Add(component => component.ValueExpression, () => _cloneUrl)
             .Add(component => component.ReadOnly, true)
-            .Add(component => component.Copyable, true)
+            .Add(component => component.ShowCopy, true)
             .Add(component => component.OnCopy, copied => reported = copied));
 
         // The id stays on the input, the button is welded inside the same wrapper.
@@ -44,9 +44,9 @@ public sealed class CodeCopyTests : OmniBunitContext
     }
 
     [Fact]
-    public void CopyableTextBox_IsDisabledWhileEmpty_AndPlainTextBoxIsUnchanged()
+    public void ShowCopyTextBox_IsDisabledWhileEmpty_AndPlainTextBoxIsUnchanged()
     {
-        var empty = Render<OmniTextBox>(parameters => parameters.Add(component => component.Copyable, true).Add(component => component.ValueExpression, () => _cloneUrl));
+        var empty = Render<OmniTextBox>(parameters => parameters.Add(component => component.ShowCopy, true).Add(component => component.ValueExpression, () => _cloneUrl));
         Assert.True(empty.Find(".omni-text-box-field__copy").HasAttribute("disabled"));
 
         var plain = Render<OmniTextBox>(parameters => parameters.Add(component => component.Value, "x").Add(component => component.ValueExpression, () => _cloneUrl));
@@ -76,6 +76,22 @@ public sealed class CodeCopyTests : OmniBunitContext
         Assert.Equal(accepted, reported);
         Assert.Equal(outcome, block.Find(".omni-code-block__copy").GetAttribute("aria-label"));
         Assert.Equal(outcome, block.Find("[role=status]").TextContent);
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void CodeBlock_WithNoCode_ShowsNothing_AndCopiesAnEmptyText(bool secret)
+    {
+        var module = JSInterop.SetupModule(InteropModulePath);
+        module.Setup<bool>("copyText", _ => true).SetResult(true);
+        var block = Render<OmniCodeBlock>(parameters => parameters.Add(component => component.Secret, secret));
+
+        Assert.Equal(string.Empty, block.Find("pre code").TextContent);
+
+        block.Find(".omni-code-block__copy").Click();
+
+        Assert.Equal(string.Empty, Assert.Single(module.Invocations["copyText"]).Arguments[0]);
     }
 
     [Theory]

@@ -21,6 +21,7 @@ public sealed class DiffViewerComponentTests : OmniBunitContext
         var viewer = Render<OmniDiffViewer>(parameters => parameters
             .Add(component => component.Original, "a: 1")
             .Add(component => component.Modified, "a: 2")
+            .Add(component => component.ReadOnly, true)
             .Add(component => component.Engine, OmniCodeEditorEngine.PlainText));
 
         var root = viewer.Find(".omni-diff-viewer");
@@ -64,14 +65,14 @@ public sealed class DiffViewerComponentTests : OmniBunitContext
     }
 
     [Fact]
-    public void Labels_Inline_AndId_AreApplied()
+    public void Labels_Unified_AndId_AreApplied()
     {
         var viewer = Render<OmniDiffViewer>(parameters => parameters
             .Add(component => component.Id, "diff")
             .Add(component => component.Label, "Configuration")
             .Add(component => component.OriginalLabel, "Hier")
             .Add(component => component.ModifiedLabel, "Aujourd'hui")
-            .Add(component => component.Inline, true)
+            .Add(component => component.Unified, true)
             .Add(component => component.Engine, OmniCodeEditorEngine.PlainText));
 
         var root = viewer.Find("#diff");
@@ -111,7 +112,8 @@ public sealed class DiffViewerComponentTests : OmniBunitContext
             .Add(component => component.Original, "{}")
             .Add(component => component.Modified, "{ \"a\": 1 }")
             .Add(component => component.Language, "json")
-            .Add(component => component.Inline, true)
+            .Add(component => component.Unified, true)
+            .Add(component => component.ReadOnly, true)
             .Add(component => component.MonacoPath, "assets/monaco/vs"));
 
         var load = Assert.Single(module.Invocations["load"]);
@@ -156,6 +158,7 @@ public sealed class DiffViewerComponentTests : OmniBunitContext
         module.Setup<bool>("load", _ => true).SetResult(false);
         var viewer = Render<OmniDiffViewer>(parameters => parameters
             .Add(component => component.Original, "a")
+            .Add(component => component.ReadOnly, true)
             .Add(component => component.Modified, "b"));
 
         viewer.WaitForAssertion(() => Assert.NotNull(viewer.Find(".omni-diff-viewer__notice")));
@@ -214,7 +217,7 @@ public sealed class DiffViewerComponentTests : OmniBunitContext
         Assert.Equal(("a", "c"), (diff.Arguments[1], diff.Arguments[2]));
         Assert.Empty(module.Invocations["configureDiff"]);
 
-        viewer.Render(parameters => parameters.Add(component => component.Inline, true).Add(component => component.Language, "yaml"));
+        viewer.Render(parameters => parameters.Add(component => component.Unified, true).Add(component => component.Language, "yaml"));
         var configure = JsonSerializer.SerializeToElement(Assert.Single(module.Invocations["configureDiff"]).Arguments[1]);
         Assert.True(configure.GetProperty("inline").GetBoolean());
         Assert.Equal("yaml", configure.GetProperty("language").GetString());

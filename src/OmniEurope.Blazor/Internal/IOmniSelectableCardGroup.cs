@@ -15,6 +15,9 @@ internal interface IOmniSelectableCardGroup
     /// <summary>Whether the whole group is disabled.</summary>
     bool Disabled { get; }
 
+    /// <summary>Whether the cards can be read and focused but not picked.</summary>
+    bool ReadOnly { get; }
+
     /// <summary>Whether the cards of a group of check boxes draw their visible box.</summary>
     bool ShowCheckBox { get; }
 

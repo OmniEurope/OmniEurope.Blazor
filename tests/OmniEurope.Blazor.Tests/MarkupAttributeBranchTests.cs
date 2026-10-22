@@ -160,14 +160,14 @@ public sealed class MarkupAttributeBranchTests : OmniBunitContext
     private readonly string _text = string.Empty;
 
     [Fact]
-    public void Password_NotRevealable_HasNoEye_AndADisabledCopyableBox_DisablesItsCopy()
+    public void Password_NotRevealable_HasNoEye_AndADisabledShowCopyBox_DisablesItsCopy()
     {
         var password = Render<OmniPassword>(parameters => parameters
             .Add(component => component.Revealable, false)
             .Add(component => component.ValueExpression, () => _text));
         var box = Render<OmniTextBox>(parameters => parameters
             .Add(component => component.Value, "secret")
-            .Add(component => component.Copyable, true)
+            .Add(component => component.ShowCopy, true)
             .Add(component => component.Disabled, true)
             .Add(component => component.ValueExpression, () => _text));
 

@@ -529,8 +529,8 @@ composant garde sa zone de texte et le dit dans un message d'état ; la valeur r
 
 ### Paramètres
 
-- `Language` : identifiant Monaco (`yaml`, `json`, `csharp`, `javascript`, `html`, `css`, `sql`,
-  `markdown`, `plaintext`...), changeable à chaud.
+- `Language` (`string?`) : identifiant Monaco (`yaml`, `json`, `csharp`, `javascript`, `html`, `css`, `sql`,
+  `markdown`, `plaintext`...), changeable à chaud ; nul, l'éditeur est en `plaintext`.
 - `ReadOnly`, `ShowLineNumbers`, `Wrap` (retour à la ligne), `TabSize`, `Label` (`string?`), `AriaDescribedBy`.
 - `Disabled` : Monaco passe en lecture seule, la zone de texte de repli est désactivée et l'éditeur est
   estompé ; la valeur ne change plus, que Monaco soit chargé ou non.
@@ -550,13 +550,13 @@ composant garde sa zone de texte et le dit dans un message d'état ; la valeur r
 
 `Links` reçoit des `OmniCodeEditorLink(Name, Pattern)` : chaque motif est une expression régulière
 JavaScript appliquée ligne à ligne, dont le premier groupe (ou toute la correspondance) devient un lien
-Ctrl+clic. Le lien n'ouvre rien : `LinkActivated` reçoit le nom du motif, le texte lié et la ligne.
+Ctrl+clic. Le lien n'ouvre rien : `OnLinkActivate` reçoit le nom du motif, le texte lié et la ligne.
 C'est le fournisseur de liens YAML d'une application cliente (`pipeline: nom`) rendu générique :
 
 ```razor
 <OmniCodeEditor @bind-Value="Yaml" Language="yaml"
                 Links="@([new OmniCodeEditorLink("pipeline", "^\\s*(?:-\\s*)?pipeline:\\s*[\"']?([\\w-]+)")])"
-                LinkActivated="OpenPipeline" />
+                OnLinkActivate="OpenPipeline" />
 ```
 
 ## OmniCodeViewer : extrait numéroté
@@ -564,9 +564,15 @@ C'est le fournisseur de liens YAML d'une application cliente (`pipeline: nom`) r
 `OmniCodeViewer` affiche du code en lecture seule, numéros de ligne à côté du texte (jamais dedans,
 une copie à la main ne les prend pas). `FirstLineNumber` (1 par défaut, ramené à 1 en dessous) numérote
 un extrait comme dans son fichier : les lignes 631 à 640 autour d'un constat gardent leurs numéros.
-`HighlightedLines` (`IReadOnlyList<int>?`) et les numéros rapportés par `LinkActivated` comptent de la même façon.
+`HighlightedLines` (`IReadOnlyList<int>?`) et les numéros rapportés par `OnLinkActivate` comptent de la même façon.
 `OnCopy` (`EventCallback<bool>`) est levé après une copie, avec l'acceptation du presse-papiers ;
 `OmniCodeViewer` et `OmniCodeBlock` partagent le même en-tête (titre et bouton de copie).
+
+`ActionsContent` ajoute des boutons à l'en-tête, `SidePanelContent` pose un panneau à côté du code (nommé
+par `SidePanelLabel`). `ShowCopy` (vrai par défaut) et `ShowWrapToggle` montrent ou cachent les boutons Copier et
+Retour à la ligne. `Language` est, comme partout dans la famille, l'identifiant d'un langage (`string?`, `plaintext`
+quand il est nul) ; `OmniCodeBlock.Code` est un `string?` (nul vaut vide) et `OmniCodeBlock.Inline` affiche le code
+dans une ligne de texte.
 
 ```razor
 <OmniCodeViewer Code="@Extrait" Title="src/Service.cs" FirstLineNumber="631" HighlightedLines="@([635])" />
@@ -575,17 +581,17 @@ un extrait comme dans son fichier : les lignes 631 à 640 autour d'un constat ga
 ## OmniDiffViewer
 
 `OmniDiffViewer` compare deux versions d'un texte avec l'éditeur de différences de Monaco, côte à côte
-ou en une colonne (`Inline`), les changements marqués ligne par ligne et dans la ligne. Il partage le
+ou en une colonne (`Unified`), les changements marqués ligne par ligne et dans la ligne. Il partage le
 Monaco d'`OmniCodeEditor` et ses conditions : l'hôte sert `min/vs` à `MonacoPath` et autorise
 `style-src 'unsafe-inline'`. Sous la politique stricte, `Engine="OmniCodeEditorEngine.PlainText"` montre
 les deux textes dans deux volets nommés, sans les différences marquées ; c'est aussi ce qui s'affiche
 pendant le chargement de Monaco et, avec un message d'état, s'il ne se charge pas.
 
 - `Original`, `Modified` et `ModifiedChanged` : le texte modifié n'est éditable que si `ReadOnly` est
-  faux (vrai par défaut) ; l'original ne l'est jamais. `Disabled` verrouille aussi le texte modifié,
+  faux (son défaut, comme tout composant de saisie) ; l'original ne l'est jamais. `Disabled` verrouille aussi le texte modifié,
   `ReadOnly` faux compris (Monaco en lecture seule, volet de repli désactivé), et estompe la comparaison. Une modification remonte comme dans
   `OmniCodeEditor`, sans écho.
-- `Language`, `Inline`, `Height` (longueur CSS posée par le CSSOM, toute autre valeur lève), `Label`
+- `Language` (`string?`, `plaintext` quand il est nul), `Unified`, `Height` (longueur CSS posée par le CSSOM, toute autre valeur lève), `Label`
   (« Comparaison »), `OriginalLabel` (« Avant ») et `ModifiedLabel` (« Après ») ; textes et options
   changent à chaud.
 - Le composant est un `group` nommé ; chaque volet de repli est une `section` nommée dont le texte prend

@@ -25,6 +25,13 @@ public partial class OmniCheckBox<TValue>
     public bool Disabled { get; set; }
 
     /// <summary>
+    /// Whether the value can be read and the box focused but not changed: a click or the keyboard leaves the
+    /// value as it is (<c>aria-readonly</c>), and the box is not dimmed. Off by default.
+    /// </summary>
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
+    /// <summary>
     /// Whether a click on an unchecked box bound to a <c>bool?</c> brings it back to null, so the cycle
     /// is null, true, false, null. On by default; off, the box never returns to null once set (true,
     /// false, true). Ignored for a <c>bool</c>, which has no third state.
@@ -65,7 +72,7 @@ public partial class OmniCheckBox<TValue>
 
     private void HandleChange(ChangeEventArgs args)
     {
-        if (args.Value is bool value)
+        if (!ReadOnly && args.Value is bool value)
         {
             CurrentValue = OmniBooleanValue<TValue>.Write(value);
         }
@@ -73,7 +80,7 @@ public partial class OmniCheckBox<TValue>
 
     private void Cycle()
     {
-        if (!Disabled)
+        if (!Disabled && !ReadOnly)
         {
             CurrentValue = OmniBooleanValue<TValue>.Write(OmniBooleanValue<TValue>.Next(State, AllowIndeterminate));
         }

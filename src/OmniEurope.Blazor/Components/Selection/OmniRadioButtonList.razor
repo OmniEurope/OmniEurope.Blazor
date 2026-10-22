@@ -6,6 +6,7 @@
    the group is then marked invalid and described by that line. A validation message of the form marks
    it invalid too. *@
 <fieldset @attributes="AdditionalAttributes" id="@Id" class="@InputCss("omni-choice-list", IsInvalid ? "omni-choice-list--invalid" : null)" disabled="@Disabled"
+          role="@(ReadOnly ? "radiogroup" : null)" aria-readonly="@(ReadOnly ? "true" : null)"
           aria-invalid="@(IsInvalid ? "true" : null)" aria-describedby="@DescribedBy"
           aria-labelledby="@(string.IsNullOrWhiteSpace(Label) ? FormFieldLabelId : null)">
     @if (!string.IsNullOrWhiteSpace(Label))
@@ -22,6 +23,7 @@
                    name="@GroupName"
                    checked="@IsSelected(option.Value)"
                    disabled="@option.Disabled"
+                   @onclick:preventDefault="ReadOnly"
                    value="@option.Value?.ToString()"
                    @onchange="() => SelectOption(option)" />
             <span>@option.Text</span>

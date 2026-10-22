@@ -75,7 +75,7 @@ public sealed class DiffViewerLifecycleTests : OmniBunitContext
         Assert.Equal("b", Assert.Single(module.Invocations["setDiff"]).Arguments[2]);
         viewer.Render(parameters => parameters.Add(component => component.Original, "c"));
         Assert.Equal(2, module.Invocations["setDiff"].Count);
-        viewer.Render(parameters => parameters.Add(component => component.Inline, true));
+        viewer.Render(parameters => parameters.Add(component => component.Unified, true));
         Assert.Single(module.Invocations["configureDiff"]);
     }
 

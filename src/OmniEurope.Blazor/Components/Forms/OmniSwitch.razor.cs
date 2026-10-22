@@ -25,6 +25,13 @@ public partial class OmniSwitch<TValue>
     public bool Disabled { get; set; }
 
     /// <summary>
+    /// Whether the value can be read and the switch focused but not changed: a click or the keyboard leaves
+    /// the value as it is (<c>aria-readonly</c>), and the switch is not dimmed. Off by default.
+    /// </summary>
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
+    /// <summary>
     /// Whether a click on an off switch bound to a <c>bool?</c> brings it back to null, so the cycle is
     /// null, true, false, null. On by default; off, the switch never returns to null once set. Ignored
     /// for a <c>bool</c>, which has no third state.
@@ -60,7 +67,7 @@ public partial class OmniSwitch<TValue>
 
     private void Toggle()
     {
-        if (!Disabled)
+        if (!Disabled && !ReadOnly)
         {
             CurrentValue = OmniBooleanValue<TValue>.Write(OmniBooleanValue<TValue>.Next(State, AllowIndeterminate));
         }

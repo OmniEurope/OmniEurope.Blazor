@@ -1,11 +1,11 @@
 <EditForm EditContext="@EditContext">
     <OmniEmailValidator For="@(() => Model.Mail)" Message="@MailMessage" />
-    <OmniLengthValidator For="@(() => Model.Code)" Min="@Min" Max="@Max" Message="@CodeMessage" />
+    <OmniLengthValidator For="@(() => Model.Code)" Minimum="@Minimum" Maximum="@Maximum" Message="@CodeMessage" />
 </EditForm>
 
 @code {
-    [Parameter] public int? Min { get; set; }
-    [Parameter] public int? Max { get; set; } = 4;
+    [Parameter] public int? Minimum { get; set; }
+    [Parameter] public int? Maximum { get; set; } = 4;
     [Parameter] public string? MailMessage { get; set; }
     [Parameter] public string? CodeMessage { get; set; }
 

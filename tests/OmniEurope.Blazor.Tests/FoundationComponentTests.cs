@@ -130,7 +130,7 @@ public sealed class FoundationComponentTests : OmniBunitContext
     [InlineData(OmniSpacing.Small, "sm", "--omni-space-sm")]
     [InlineData(OmniSpacing.Medium, "md", "--omni-space-md")]
     [InlineData(OmniSpacing.Large, "lg", "--omni-space-lg")]
-    [InlineData(OmniSpacing.XLarge, "xl", "--omni-space-xl")]
+    [InlineData(OmniSpacing.ExtraLarge, "xl", "--omni-space-xl")]
     public void StackAndRow_GapClass_IsNamedAfterItsSpacingToken(OmniSpacing gap, string suffix, string? token)
     {
         var stylesheet = StylesheetSource.Read();

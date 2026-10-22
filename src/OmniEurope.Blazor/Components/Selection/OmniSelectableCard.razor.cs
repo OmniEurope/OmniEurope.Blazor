@@ -61,6 +61,14 @@ public partial class OmniSelectableCard
     public bool Disabled { get; set; }
 
     /// <summary>
+    /// The card keeps its state and ignores clicks and keys, as a read-only field does: it stays focusable,
+    /// is not dimmed, and a check box card announces <c>aria-readonly</c>. Inside a group, the group's
+    /// <see cref="OmniSelectableCardGroup{TValue, TSelection}.ReadOnly"/> applies too.
+    /// </summary>
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
+    /// <summary>
     /// The value the card stands for inside an <see cref="OmniSelectableCardGroup{TValue, TSelection}"/>,
     /// of the group's value type. Ignored on a card on its own.
     /// </summary>
@@ -92,6 +100,8 @@ public partial class OmniSelectableCard
 
     internal bool IsDisabled => Disabled || Group?.Disabled == true;
 
+    internal bool IsReadOnly => ReadOnly || Group?.ReadOnly == true;
+
     // Only a radio group keeps a single card in the tab order; elsewhere every card is a plain button.
     private string? TabIndex => Group is { Multiple: false } group ? (group.IsTabStop(this) ? "0" : "-1") : null;
 
@@ -112,7 +122,7 @@ public partial class OmniSelectableCard
 
     private Task ToggleAsync()
     {
-        if (IsDisabled)
+        if (IsDisabled || IsReadOnly)
         {
             return Task.CompletedTask;
         }
@@ -121,7 +131,7 @@ public partial class OmniSelectableCard
     }
 
     private Task HandleKeyDownAsync(KeyboardEventArgs args) =>
-        Group is { Multiple: false } group ? group.MoveAsync(this, args.Key) : Task.CompletedTask;
+        Group is { Multiple: false } group && !IsReadOnly ? group.MoveAsync(this, args.Key) : Task.CompletedTask;
 
     /// <summary>Leaves the group.</summary>
     public void Dispose()

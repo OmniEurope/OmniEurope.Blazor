@@ -46,14 +46,20 @@ public partial class OmniDiffViewer
     /// <summary>Raised with the new modified text when the reader edits it (<see cref="ReadOnly"/> off).</summary>
     [Parameter] public EventCallback<string> ModifiedChanged { get; set; }
 
-    /// <summary>The Monaco language identifier of both texts: <c>yaml</c>, <c>json</c>, <c>csharp</c>...</summary>
-    [Parameter] public string Language { get; set; } = "plaintext";
+    /// <summary>
+    /// The language identifier of both texts (<c>yaml</c>, <c>json</c>, <c>csharp</c>...), with the same meaning as on
+    /// <see cref="OmniCodeEditor"/>. Null or blank means <c>plaintext</c>.
+    /// </summary>
+    [Parameter] public string? Language { get; set; }
+
+    private string EffectiveLanguage => string.IsNullOrWhiteSpace(Language) ? "plaintext" : Language;
 
     /// <summary>
-    /// Whether the modified text can be read, selected and copied but not changed; on by default. The
-    /// original text is never editable. The comparison is not dimmed.
+    /// Whether the modified text can be read, selected and copied but not changed; off by default like on
+    /// every other editor, so a review screen sets it. The original text is never editable. The comparison
+    /// is not dimmed.
     /// </summary>
-    [Parameter] public bool ReadOnly { get; set; } = true;
+    [Parameter] public bool ReadOnly { get; set; }
 
     /// <summary>
     /// Whether the comparison is disabled: the modified text cannot be changed even with
@@ -65,8 +71,8 @@ public partial class OmniDiffViewer
     /// <summary>Whether the modified text is closed to editing, read-only or disabled.</summary>
     private bool IsLocked => ReadOnly || Disabled;
 
-    /// <summary>One column with the removed and added lines interleaved, instead of the two texts side by side.</summary>
-    [Parameter] public bool Inline { get; set; }
+    /// <summary>Whether the comparison is unified: one column with the removed and added lines interleaved, instead of the two texts side by side.</summary>
+    [Parameter] public bool Unified { get; set; }
 
     /// <summary>What draws the comparison; Monaco by default.</summary>
     [Parameter] public OmniCodeEditorEngine Engine { get; set; }
@@ -302,16 +308,16 @@ public partial class OmniDiffViewer
     {
         original,
         modified,
-        language = string.IsNullOrWhiteSpace(Language) ? "plaintext" : Language,
+        language = EffectiveLanguage,
         readOnly = IsLocked,
-        inline = Inline,
+        inline = Unified,
         originalLabel = EffectiveOriginalLabel,
         modifiedLabel = EffectiveModifiedLabel
     };
 
     private string OptionsSignature() => string.Join(
         '\u001F',
-        Language, IsLocked.ToString(), Inline.ToString(), EffectiveOriginalLabel, EffectiveModifiedLabel);
+        EffectiveLanguage, IsLocked.ToString(), Unified.ToString(), EffectiveOriginalLabel, EffectiveModifiedLabel);
 
     /// <summary>Disposes the Monaco diff editor and its module, and the script's reference to the component; a lost circuit is ignored.</summary>
     /// <returns>A task that completes once the editor is released.</returns>

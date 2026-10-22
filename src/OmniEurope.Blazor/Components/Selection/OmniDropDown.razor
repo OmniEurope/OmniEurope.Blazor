@@ -18,8 +18,25 @@
                       Placeholder="@EffectivePlaceholder"
                       Label="@Label"
                       Disabled="@Disabled"
+                      ReadOnly="@ReadOnly"
                       ShowToggle="true"
                       AriaDescribedBy="@AriaDescribedBy" />
+}
+else if (ReadOnly)
+{
+    @* A native select cannot be read-only, and an open list would let the reader pick: the chosen text is
+       shown in a read-only field of the same look instead, which keeps the focus and the Id. *@
+    <input @attributes="AdditionalAttributes"
+           id="@Id"
+           class="@InputCss("omni-input", "omni-drop-down", "omni-drop-down--readonly")"
+           type="text"
+           value="@SelectedText"
+           readonly
+           disabled="@Disabled"
+           aria-readonly="true"
+           aria-label="@Internal.OmniAriaLabel.Of(Label, AdditionalAttributes)"
+           aria-invalid="@AriaInvalid"
+           aria-describedby="@AriaDescribedBy" />
 }
 else
 {

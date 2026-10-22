@@ -511,7 +511,7 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
             .Add(component => component.ReducedList, true)
             .Add(component => component.Files, files)
             .Add(component => component.FilesChanged, next => files = next)
-            .Add(component => component.FileRemoved, file => removed.Add(file.Name)));
+            .Add(component => component.OnFileRemove, file => removed.Add(file.Name)));
 
         Assert.Equal(["f3.pdf", "f4.pdf", "f5.pdf"], upload.FindAll(".omni-upload__file-name").Select(name => name.TextContent));
         Assert.Equal("5 fichiers", upload.Find(".omni-upload__count").TextContent);
