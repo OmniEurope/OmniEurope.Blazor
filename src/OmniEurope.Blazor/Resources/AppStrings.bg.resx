@@ -184,6 +184,7 @@
   <data name="HtmlEditorCharCategoryLegal" xml:space="preserve"><value>Правни</value></data>
   <data name="HtmlEditorImportTable" xml:space="preserve"><value>Импортиране на таблица</value></data>
   <data name="HtmlEditorImportTableHint" xml:space="preserve"><value>Файл {0}, най-много 100 реда и 50 колони.</value></data>
+  <data name="HtmlEditorImportTableTruncated" xml:space="preserve"><value>Файлът надхвърля ограниченията: запазено е само началото му.</value></data>
   <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>Първият ред като заглавен</value></data>
   <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Вмъкване</value></data>
   <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Преглед на таблицата</value></data>

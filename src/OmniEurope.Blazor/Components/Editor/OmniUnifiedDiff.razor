@@ -43,57 +43,60 @@
                 }
             </header>
             <div id="@BodyId(index)" class="omni-unified-diff__body" hidden="@collapsed">
-                @if (file.IsBinary)
+                @if (!collapsed)
                 {
-                    <p class="omni-unified-diff__note">@Localize("UnifiedDiffBinary")</p>
-                }
-                else if (file.Hunks.Count == 0)
-                {
-                    <p class="omni-unified-diff__note">@Localize("UnifiedDiffNoLines")</p>
-                }
-                else
-                {
-                    <div class="omni-unified-diff__scroll" tabindex="0" role="region" aria-labelledby="@HeaderId(index)">
-                        <table class="omni-unified-diff__table">
-                            <thead class="omni-visually-hidden">
-                                <tr>
-                                    <th scope="col">@Localize("UnifiedDiffOldLine")</th>
-                                    <th scope="col">@Localize("UnifiedDiffNewLine")</th>
-                                    <th scope="col">@Localize("UnifiedDiffContent")</th>
-                                </tr>
-                            </thead>
-                            @foreach (var hunk in file.Hunks)
-                            {
-                                <tbody>
-                                    <tr class="omni-unified-diff__hunk">
-                                        <td colspan="3">@hunk.Header</td>
+                    if (file.IsBinary)
+                    {
+                        <p class="omni-unified-diff__note">@Localize("UnifiedDiffBinary")</p>
+                    }
+                    else if (file.Hunks.Count == 0)
+                    {
+                        <p class="omni-unified-diff__note">@Localize("UnifiedDiffNoLines")</p>
+                    }
+                    else
+                    {
+                        <div class="omni-unified-diff__scroll" tabindex="0" role="region" aria-labelledby="@HeaderId(index)">
+                            <table class="omni-unified-diff__table">
+                                <thead class="omni-visually-hidden">
+                                    <tr>
+                                        <th scope="col">@Localize("UnifiedDiffOldLine")</th>
+                                        <th scope="col">@Localize("UnifiedDiffNewLine")</th>
+                                        <th scope="col">@Localize("UnifiedDiffContent")</th>
                                     </tr>
-                                    @foreach (var line in hunk.Lines)
-                                    {
-                                        <tr class="@LineClass(line.Kind)">
-                                            <td class="omni-unified-diff__number">@line.OldNumber</td>
-                                            <td class="omni-unified-diff__number">@line.NewNumber</td>
-                                            <td class="omni-unified-diff__code">
-                                                @if (line.Kind == OmniDiffLineKind.Added)
-                                                {
-                                                    <span class="omni-unified-diff__marker" aria-hidden="true">+</span><span class="omni-visually-hidden">@Localize("UnifiedDiffAdded")</span>
-                                                }
-                                                else if (line.Kind == OmniDiffLineKind.Removed)
-                                                {
-                                                    <span class="omni-unified-diff__marker" aria-hidden="true">-</span><span class="omni-visually-hidden">@Localize("UnifiedDiffRemoved")</span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="omni-unified-diff__marker" aria-hidden="true"></span>
-                                                }
-                                                <span class="omni-unified-diff__text">@line.Text</span>
-                                            </td>
+                                </thead>
+                                @foreach (var hunk in file.Hunks)
+                                {
+                                    <tbody>
+                                        <tr class="omni-unified-diff__hunk">
+                                            <td colspan="3">@hunk.Header</td>
                                         </tr>
-                                    }
-                                </tbody>
-                            }
-                        </table>
-                    </div>
+                                        @foreach (var line in hunk.Lines)
+                                        {
+                                            <tr class="@LineClass(line.Kind)">
+                                                <td class="omni-unified-diff__number">@line.OldNumber</td>
+                                                <td class="omni-unified-diff__number">@line.NewNumber</td>
+                                                <td class="omni-unified-diff__code">
+                                                    @if (line.Kind == OmniDiffLineKind.Added)
+                                                    {
+                                                        <span class="omni-unified-diff__marker" aria-hidden="true">+</span><span class="omni-visually-hidden">@Localize("UnifiedDiffAdded")</span>
+                                                    }
+                                                    else if (line.Kind == OmniDiffLineKind.Removed)
+                                                    {
+                                                        <span class="omni-unified-diff__marker" aria-hidden="true">-</span><span class="omni-visually-hidden">@Localize("UnifiedDiffRemoved")</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="omni-unified-diff__marker" aria-hidden="true"></span>
+                                                    }
+                                                    <span class="omni-unified-diff__text">@line.Text</span>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                }
+                            </table>
+                        </div>
+                    }
                 }
             </div>
         </section>

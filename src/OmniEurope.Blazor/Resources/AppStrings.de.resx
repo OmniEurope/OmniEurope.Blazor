@@ -184,6 +184,7 @@
   <data name="HtmlEditorCharCategoryLegal" xml:space="preserve"><value>Rechtlich</value></data>
   <data name="HtmlEditorImportTable" xml:space="preserve"><value>Tabelle importieren</value></data>
   <data name="HtmlEditorImportTableHint" xml:space="preserve"><value>{0}-Datei, höchstens 100 Zeilen und 50 Spalten.</value></data>
+  <data name="HtmlEditorImportTableTruncated" xml:space="preserve"><value>Die Datei überschreitet die Grenzen: nur ihr Anfang wird übernommen.</value></data>
   <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>Erste Zeile als Kopfzeile</value></data>
   <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Einfügen</value></data>
   <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Tabellenvorschau</value></data>

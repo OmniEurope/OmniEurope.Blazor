@@ -64,7 +64,12 @@ public partial class OmniCodeEditor
     /// <summary>The height, as a CSS length (<c>20rem</c>, <c>320px</c>, <c>50vh</c>). Null keeps 20rem.</summary>
     [Parameter] public string? Height { get; set; }
 
-    /// <summary>Where the host serves the <c>min/vs</c> folder of monaco-editor, relative to the base address of the page.</summary>
+    /// <summary>
+    /// Where the host serves the <c>min/vs</c> folder of monaco-editor, relative to the base address of the page
+    /// (<c>assets/monaco/vs</c>) or from the root of the origin (<c>/_content/x/vs</c>). It must stay on the
+    /// origin of the page: a scheme (<c>https:</c>, <c>data:</c>, <c>blob:</c>), a leading <c>//</c>, a backslash,
+    /// a control character or a blank value is refused. A <c>..</c> segment is accepted, as it cannot leave the origin.
+    /// </summary>
     [Parameter] public string MonacoPath { get; set; } = "lib/monaco-editor/min/vs";
 
     /// <summary>Same-origin JavaScript module implementing editor interop. The default uses Monaco in this document.</summary>
@@ -129,10 +134,7 @@ public partial class OmniCodeEditor
             throw new ArgumentException($"'{Height}' is not a CSS length {nameof(OmniCodeEditor)} accepts for {nameof(Height)} (a number followed by px, rem, em, vh or %).", nameof(Height));
         }
 
-        if (MonacoPath.Contains("://", StringComparison.Ordinal) || MonacoPath.StartsWith("//", StringComparison.Ordinal))
-        {
-            throw new ArgumentException($"{nameof(MonacoPath)} must be a path on the origin of the page: the package never loads a script from another origin.", nameof(MonacoPath));
-        }
+        OmniSameOriginPath.Require(MonacoPath, nameof(MonacoPath));
 
         // The text checks first: whether //host or \\host reads as an absolute URI depends on the system.
         if (string.IsNullOrWhiteSpace(InteropModulePath) || InteropModulePath.StartsWith("//", StringComparison.Ordinal)
@@ -165,11 +167,27 @@ public partial class OmniCodeEditor
             return;
         }
 
+        try
+        {
+            await SyncAsync();
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit is gone, and the editor with it.
+        }
+    }
+
+    private async Task SyncAsync()
+    {
         if (!string.Equals(Height, _appliedHeight, StringComparison.Ordinal))
         {
             _appliedHeight = Height;
-            _module ??= await JSRuntime.InvokeAsync<IJSObjectReference>("import", InteropModulePath);
-            await _module.InvokeVoidAsync("setHeight", _root, Height);
+            if (!await EnsureModuleAsync())
+            {
+                return;
+            }
+
+            await _module!.InvokeVoidAsync("setHeight", _root, Height);
         }
 
         if (_startedEngine != Engine)
@@ -234,8 +252,12 @@ public partial class OmniCodeEditor
     private async Task LoadAsync()
     {
         _phase = CodePhase.Loading;
-        _module ??= await JSRuntime.InvokeAsync<IJSObjectReference>("import", InteropModulePath);
-        var loaded = await _module.InvokeAsync<bool>("load", MonacoPath, CultureInfo.CurrentUICulture.Name, LoadTimeoutMilliseconds);
+        if (!await EnsureModuleAsync())
+        {
+            return;
+        }
+
+        var loaded = await _module!.InvokeAsync<bool>("load", MonacoPath, CultureInfo.CurrentUICulture.Name, LoadTimeoutMilliseconds);
         if (_disposed || Engine != OmniCodeEditorEngine.Monaco)
         {
             return;
@@ -243,6 +265,36 @@ public partial class OmniCodeEditor
 
         _phase = loaded ? CodePhase.Ready : CodePhase.Failed;
         StateHasChanged();
+    }
+
+    /// <summary>
+    /// Imports the script once. An editor disposed while the import was pending releases the module at
+    /// once rather than keeping one nothing will dispose; false then tells the caller to stop.
+    /// </summary>
+    private async Task<bool> EnsureModuleAsync()
+    {
+        if (_module is not null)
+        {
+            return !_disposed;
+        }
+
+        var module = await OmniScriptModule.ImportAsync(JSRuntime, InteropModulePath, () => _disposed);
+        if (module is null)
+        {
+            return false;
+        }
+
+        if (_module is null)
+        {
+            _module = module;
+        }
+        else
+        {
+            // Another render imported it meanwhile: keep that one.
+            await module.DisposeAsync();
+        }
+
+        return true;
     }
 
     private async Task UnmountAsync()

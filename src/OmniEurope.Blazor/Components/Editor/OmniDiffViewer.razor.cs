@@ -77,7 +77,12 @@ public partial class OmniDiffViewer
     /// <summary>What draws the comparison; Monaco by default.</summary>
     [Parameter] public OmniCodeEditorEngine Engine { get; set; }
 
-    /// <summary>Where the host serves the <c>min/vs</c> folder of monaco-editor, relative to the base address of the page.</summary>
+    /// <summary>
+    /// Where the host serves the <c>min/vs</c> folder of monaco-editor, relative to the base address of the page
+    /// (<c>assets/monaco/vs</c>) or from the root of the origin (<c>/_content/x/vs</c>). It must stay on the
+    /// origin of the page: a scheme (<c>https:</c>, <c>data:</c>, <c>blob:</c>), a leading <c>//</c>, a backslash,
+    /// a control character or a blank value is refused. A <c>..</c> segment is accepted, as it cannot leave the origin.
+    /// </summary>
     [Parameter] public string MonacoPath { get; set; } = "lib/monaco-editor/min/vs";
 
     /// <summary>The height, as a CSS length (<c>20rem</c>, <c>320px</c>, <c>50vh</c>). Null keeps 20rem.</summary>
@@ -116,10 +121,7 @@ public partial class OmniDiffViewer
             throw new ArgumentException($"'{Height}' is not a CSS length {nameof(OmniDiffViewer)} accepts for {nameof(Height)} (a number followed by px, rem, em, vh or %).", nameof(Height));
         }
 
-        if (MonacoPath.Contains("://", StringComparison.Ordinal) || MonacoPath.StartsWith("//", StringComparison.Ordinal))
-        {
-            throw new ArgumentException($"{nameof(MonacoPath)} must be a path on the origin of the page: the package never loads a script from another origin.", nameof(MonacoPath));
-        }
+        OmniSameOriginPath.Require(MonacoPath, nameof(MonacoPath));
 
         if (Engine == OmniCodeEditorEngine.PlainText)
         {

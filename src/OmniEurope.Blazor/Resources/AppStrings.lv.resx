@@ -184,6 +184,7 @@
   <data name="HtmlEditorCharCategoryLegal" xml:space="preserve"><value>Juridiskās</value></data>
   <data name="HtmlEditorImportTable" xml:space="preserve"><value>Importēt tabulu</value></data>
   <data name="HtmlEditorImportTableHint" xml:space="preserve"><value>{0} fails, ne vairāk kā 100 rindas un 50 kolonnas.</value></data>
+  <data name="HtmlEditorImportTableTruncated" xml:space="preserve"><value>Fails pārsniedz ierobežojumus: saglabāts tikai tā sākums.</value></data>
   <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>Pirmā rinda kā galvene</value></data>
   <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Ievietot</value></data>
   <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Tabulas priekšskatījums</value></data>

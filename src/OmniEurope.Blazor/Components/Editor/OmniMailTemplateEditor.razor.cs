@@ -24,6 +24,7 @@ public partial class OmniMailTemplateEditor
     private OmniHtmlEditor? _editor;
     private ElementReference _preview;
     private IJSObjectReference? _module;
+    private bool _disposed;
     private string? _drawn;
     private OmniMailRenderResult? _rendered;
     private (string? Value, string? Subject, IReadOnlyList<OmniMailVariable>? Variables, OmniMailTheme? Theme) _renderedFrom;
@@ -209,9 +210,9 @@ public partial class OmniMailTemplateEditor
 
         // Marked before the call, as the preview: a render that runs meanwhile does not attach it twice.
         _tokenSurface = surface;
-        if (surface is { } attached)
+        if (surface is { } attached && await ModuleAsync() is { } module)
         {
-            await (await ModuleAsync()).InvokeAsync<int>("attachTokens", attached);
+            await module.InvokeAsync<int>("attachTokens", attached);
         }
     }
 
@@ -231,11 +232,41 @@ public partial class OmniMailTemplateEditor
 
         // Marked before the call: a render that runs while this one awaits the script does not draw it twice.
         _drawn = html;
-        await (await ModuleAsync()).InvokeVoidAsync("render", _preview, html);
+        if (await ModuleAsync() is { } module)
+        {
+            await module.InvokeVoidAsync("render", _preview, html);
+        }
     }
 
-    private async Task<IJSObjectReference> ModuleAsync() =>
-        _module ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.MailPreview);
+    /// <summary>
+    /// The preview script, imported once; null once the editor is disposed. An editor disposed while the import was
+    /// pending releases the module on arrival rather than keeping one nothing will dispose.
+    /// </summary>
+    private async Task<IJSObjectReference?> ModuleAsync()
+    {
+        if (_module is not null)
+        {
+            return _disposed ? null : _module;
+        }
+
+        var module = await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.MailPreview, () => _disposed);
+        if (module is null)
+        {
+            return null;
+        }
+
+        if (_module is null)
+        {
+            _module = module;
+        }
+        else
+        {
+            // Another render imported it meanwhile: keep that one.
+            await module.DisposeAsync();
+        }
+
+        return _module;
+    }
 
     // The editor's face, followed so that the surface of its visual face is marked again when it comes back.
     private void HandleModeChanged(OmniHtmlEditorMode mode) => _mode = mode;
@@ -291,7 +322,11 @@ public partial class OmniMailTemplateEditor
 
         if (_subjectTarget && ShowSubject)
         {
-            await (await ModuleAsync()).InvokeAsync<bool>("insertAtCaret", SubjectId, variable.Token);
+            if (await ModuleAsync() is { } module)
+            {
+                await module.InvokeAsync<bool>("insertAtCaret", SubjectId, variable.Token);
+            }
+
             return;
         }
 
@@ -319,6 +354,7 @@ public partial class OmniMailTemplateEditor
     /// <summary>Stops marking the body's tokens and releases the script module.</summary>
     public async ValueTask DisposeAsync()
     {
+        _disposed = true;
         if (_module is not null)
         {
             try

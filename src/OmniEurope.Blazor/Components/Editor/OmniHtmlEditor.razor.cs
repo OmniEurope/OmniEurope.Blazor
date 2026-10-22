@@ -1,4 +1,6 @@
 using System.Net;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace OmniEurope.Blazor.Components;
 
@@ -18,8 +20,8 @@ public partial class OmniHtmlEditor
 {
     private const string DownloadModulePath = OmniModules.DocumentEditor;
 
-    private readonly Stack<string> _undo = new();
-    private readonly Stack<string> _redo = new();
+    private readonly HtmlEditorHistory _undo = new();
+    private readonly HtmlEditorHistory _redo = new();
     private readonly string _generatedId = $"omni-html-editor-{Guid.NewGuid():N}";
     private readonly HtmlEditorPanels _panels = new();
     private ElementReference _source;
@@ -43,10 +45,19 @@ public partial class OmniHtmlEditor
     private ElementReference _toolbar;
     private string? _countedValue;
     private bool _counted;
+    private string? _cleanValue;
     private (int Words, int Characters) _statistics;
 
     [Inject]
     private IJSRuntime JSRuntime { get; set; } = default!;
+
+    [Inject]
+    private IServiceProvider Services { get; set; } = default!;
+
+    private ILogger? _logger;
+
+    /// <summary>The logger of the editor; a host that registered no logging gets a logger that writes nothing.</summary>
+    internal ILogger Logger => _logger ??= Services.GetService<ILogger<OmniHtmlEditor>>() ?? (ILogger)NullLogger.Instance;
 
     /// <summary>
     /// The accessible name of the editor. In the source face it is the <c>aria-label</c> of the text area,
@@ -124,7 +135,7 @@ public partial class OmniHtmlEditor
             {
                 _countedValue = value;
                 _counted = true;
-                _statistics = OmniHtmlText.Count(value);
+                _statistics = OmniHtmlText.Count(value, EffectivePolicy, IsKnownClean(value));
             }
 
             return _statistics;
@@ -150,6 +161,9 @@ public partial class OmniHtmlEditor
 
     /// <summary>Whether the value is closed to editing, read-only or disabled.</summary>
     internal bool IsLocked => ReadOnly || Disabled;
+
+    /// <summary>Whether the editor was disposed, for the script imports that end after it left.</summary>
+    internal bool IsDisposed => _disposed;
 
     /// <summary>Whether the source face shows a sanitised preview under the textarea. The visual face is its own preview.</summary>
     [Parameter] public bool ShowPreview { get; set; } = true;
@@ -290,6 +304,7 @@ public partial class OmniHtmlEditor
         if (!_extensionSet.Matches(Extensions))
         {
             _extensionSet = HtmlEditorExtensionSet.For(Extensions);
+            _cleanValue = null;
         }
 
         OmniHtmlSanitizer.Validate(EffectivePolicy);
@@ -344,9 +359,25 @@ public partial class OmniHtmlEditor
             return;
         }
 
+        try
+        {
+            await SyncScriptsAsync();
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit is gone, and the surface with it.
+        }
+    }
+
+    private async Task SyncScriptsAsync()
+    {
         if (_mode == OmniHtmlEditorMode.Visual)
         {
             await Visual.SyncAsync();
+            if (_disposed)
+            {
+                return;
+            }
         }
 
         await ToolbarFit.SyncAsync(_toolbar, ToolbarRows);
@@ -436,6 +467,13 @@ public partial class OmniHtmlEditor
             return;
         }
 
+        // The link field already checked its address; one handed over by a command (ExecuteAsync) is checked
+        // here, so a script address never reaches the surface, where the sanitised value would not redraw it.
+        if (action == OmniHtmlEditorAction.Link && !string.IsNullOrWhiteSpace(argument))
+        {
+            argument = OmniUriPolicy.EnsureSafe(argument, nameof(OmniHtmlEditorAction.Link));
+        }
+
         if (EditorAction(action, argument) is { } handled)
         {
             await handled;
@@ -514,6 +552,7 @@ public partial class OmniHtmlEditor
     /// <summary>Takes a sanitised value as the new one, recorded as one undo step when it differs.</summary>
     internal Task CommitAsync(string value)
     {
+        _cleanValue = value;
         if (!string.Equals(CurrentValue, value, StringComparison.Ordinal))
         {
             _undo.Push(CurrentValue ?? string.Empty);
@@ -599,12 +638,21 @@ public partial class OmniHtmlEditor
     public async Task<string> ExportHtmlAsync()
     {
         var html = await CaptureAsync();
-        var title = DocumentTitle ?? OmniHtmlText.FirstHeading(html) ?? Localize("DocumentEditorDefaultTitle");
-        return OmniHtmlText.ToStandaloneDocument(html, title, CultureInfo.CurrentUICulture.Name);
+        // Sanitised once with the editor's policy (the extensions' markup included), unless it already is.
+        var clean = IsKnownClean(html) ? html : Clean(html);
+        var title = DocumentTitle ?? OmniHtmlText.FirstHeading(clean, EffectivePolicy, isSanitized: true) ?? Localize("DocumentEditorDefaultTitle");
+        return OmniHtmlText.ToStandaloneDocument(clean, title, CultureInfo.CurrentUICulture.Name, EffectivePolicy, isSanitized: true);
     }
 
     /// <summary>The value as plain text, what was typed a moment ago included.</summary>
-    public async Task<string> ExportTextAsync() => OmniHtmlText.ToPlainText(await CaptureAsync());
+    public async Task<string> ExportTextAsync()
+    {
+        var html = await CaptureAsync();
+        return OmniHtmlText.ToPlainText(html, EffectivePolicy, IsKnownClean(html));
+    }
+
+    /// <summary>Whether the value is the one last committed, which was sanitised with the policy in force.</summary>
+    private bool IsKnownClean(string? html) => html is not null && string.Equals(html, _cleanValue, StringComparison.Ordinal);
 
     private async Task DownloadHtmlAsync() =>
         await DownloadAsync(".html", "text/html;charset=utf-8", await ExportHtmlAsync());
@@ -614,7 +662,12 @@ public partial class OmniHtmlEditor
 
     private async Task DownloadAsync(string extension, string mimeType, string content)
     {
-        _downloadModule ??= await JSRuntime.InvokeAsync<IJSObjectReference>("import", DownloadModulePath);
+        _downloadModule ??= await OmniScriptModule.ImportAsync(JSRuntime, DownloadModulePath, () => _disposed);
+        if (_downloadModule is null)
+        {
+            return;
+        }
+
         var name = string.IsNullOrWhiteSpace(FileName) ? "document" : FileName.Trim();
         await _downloadModule.InvokeVoidAsync("download", name + extension, mimeType, content);
     }

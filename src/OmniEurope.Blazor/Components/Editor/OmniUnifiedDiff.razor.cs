@@ -8,7 +8,8 @@ namespace OmniEurope.Blazor.Components;
 /// <remarks>
 /// Give it the text of a diff in <see cref="Diff"/>, read by <see cref="OmniUnifiedDiffParser"/>, or
 /// files already read in <see cref="Files"/>. Every line of an unfolded file is rendered: for a large
-/// change, <see cref="ExpandedByDefault"/> off keeps the files folded until the reader opens one.
+/// change, <see cref="ExpandedByDefault"/> off keeps the files folded, and a folded file draws none of its lines
+/// until the reader opens it.
 /// </remarks>
 public partial class OmniUnifiedDiff
 {

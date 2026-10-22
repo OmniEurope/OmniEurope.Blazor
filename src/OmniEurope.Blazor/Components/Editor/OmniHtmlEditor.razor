@@ -257,6 +257,10 @@
                     @if (_panels.TableRows is { } rows)
                     {
                         <p class="omni-html-editor__panel-note" role="status">@Localize("HtmlEditorImportTableRows", _panels.TableHeader ? rows.Count - 1 : rows.Count, rows[0].Count)</p>
+                        @if (_panels.TableTruncated)
+                        {
+                            <p class="omni-html-editor__panel-note" role="status">@Localize("HtmlEditorImportTableTruncated")</p>
+                        }
                         <div class="omni-html-editor__table-preview omni-rich-text" role="region" aria-label="@Localize("HtmlEditorImportTablePreview")">
                             @((MarkupString)HtmlEditorTableFile.ToHtml(rows.Take(6).ToList(), _panels.TableHeader))
                         </div>

@@ -57,8 +57,14 @@ internal sealed class HtmlEditorProofreading(OmniHtmlEditor owner) : IDisposable
                 {
                     issues = await proofreaders[index].CheckAsync(blocks, _life.Token);
                 }
+                catch (OperationCanceledException) when (_life.IsCancellationRequested)
+                {
+                    continue;
+                }
                 catch (Exception exception) when (exception is not OutOfMemoryException)
                 {
+                    // Dropped so the others still answer, but not silently: a broken proofreader must be diagnosable.
+                    owner.Logger.LogWarning(exception, "The proofreader {Proofreader} of the HTML editor failed to check the text; its answer is dropped.", proofreaders[index].GetType().Name);
                     continue;
                 }
 
@@ -128,9 +134,14 @@ internal sealed class HtmlEditorProofreading(OmniHtmlEditor owner) : IDisposable
                 Suggestions = [.. suggestions.Where(suggestion => !string.IsNullOrEmpty(suggestion)).Distinct(StringComparer.Ordinal).Take(MaxSuggestions)];
             }
         }
+        catch (OperationCanceledException)
+        {
+            // The menu closed first: the corrections are no longer wanted.
+        }
         catch (Exception exception) when (exception is not OutOfMemoryException)
         {
             // A proofreader that fails to suggest leaves the menu with its other entries.
+            owner.Logger.LogWarning(exception, "The proofreader {Proofreader} of the HTML editor failed to suggest corrections; the menu keeps its other entries.", proofreader.GetType().Name);
         }
         finally
         {
@@ -177,6 +188,7 @@ internal sealed class HtmlEditorProofreading(OmniHtmlEditor owner) : IDisposable
         catch (Exception exception) when (exception is not OutOfMemoryException)
         {
             // Nothing was recorded: the passage stays underlined.
+            owner.Logger.LogWarning(exception, "The proofreader {Proofreader} of the HTML editor failed to record the passage; it stays underlined.", proofreader.GetType().Name);
         }
     }
 

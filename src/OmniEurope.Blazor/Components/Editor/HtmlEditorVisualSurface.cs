@@ -92,7 +92,17 @@ internal sealed class HtmlEditorVisualSurface(OmniHtmlEditor owner, IJSRuntime j
             // mount the surface a second time.
             Mounted = true;
             _rows = owner.Rows;
-            _module ??= await javaScript.InvokeAsync<IJSObjectReference>("import", VisualModulePath);
+            if (_module is null)
+            {
+                // An editor disposed while the import was pending releases the module on arrival and mounts nothing.
+                _module = await OmniScriptModule.ImportAsync(javaScript, VisualModulePath, () => owner.IsDisposed);
+                if (_module is null)
+                {
+                    Mounted = false;
+                    return;
+                }
+            }
+
             _bridge ??= DotNetObjectReference.Create(new HtmlEditorInteropBridge(owner));
             _value = owner.EditorValue;
             _tracking = owner.TracksSelection;

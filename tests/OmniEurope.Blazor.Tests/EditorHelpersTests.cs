@@ -47,10 +47,10 @@ public sealed class EditorHelpersTests : OmniBunitContext
     [Fact]
     public void TableFile_ReadsBothLineEnds_AndShapesNothingIntoNothing()
     {
-        var rows = HtmlEditorTableFile.ReadDelimited("a,b\r\nc,d\re,f\r", ',');
+        var rows = HtmlEditorTableFile.ReadDelimited("a,b\r\nc,d\re,f\r", ',', out _);
 
         Assert.Equal([["a", "b"], ["c", "d"], ["e", "f"]], rows.Select(row => row.ToArray()));
-        Assert.Empty(HtmlEditorTableFile.Shape([[" "], []]));
+        Assert.Empty(HtmlEditorTableFile.Shape([[" "], []], out _));
         Assert.Equal("<table><tbody></tbody></table>", HtmlEditorTableFile.ToHtml([], header: true));
     }
 

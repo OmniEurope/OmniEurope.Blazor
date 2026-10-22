@@ -184,6 +184,7 @@
   <data name="HtmlEditorCharCategoryLegal" xml:space="preserve"><value>Juridik</value></data>
   <data name="HtmlEditorImportTable" xml:space="preserve"><value>Importera en tabell</value></data>
   <data name="HtmlEditorImportTableHint" xml:space="preserve"><value>{0}-fil, högst 100 rader och 50 kolumner.</value></data>
+  <data name="HtmlEditorImportTableTruncated" xml:space="preserve"><value>Filen överskrider gränserna: bara början tas med.</value></data>
   <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>Första raden som rubrik</value></data>
   <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Infoga</value></data>
   <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Förhandsgranskning av tabellen</value></data>

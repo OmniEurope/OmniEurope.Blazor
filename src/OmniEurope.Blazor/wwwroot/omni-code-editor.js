@@ -38,7 +38,14 @@ export function load(basePath, culture, timeout) {
         return loading;
     }
 
-    const base = new URL(String(basePath).replace(/\/+$/, ''), document.baseURI).href;
+    const resolved = new URL(String(basePath).replace(/\/+$/, ''), document.baseURI);
+    const page = new URL(document.baseURI);
+    // Behind the check of the component: a location that leaves the origin of the page is never loaded.
+    if (resolved.protocol !== page.protocol || resolved.host !== page.host) {
+        return Promise.resolve(false);
+    }
+
+    const base = resolved.href;
     const locale = monacoLocale(culture);
     loading = new Promise(resolve => {
         const timer = window.setTimeout(() => resolve(false), timeout > 0 ? timeout : 30000);

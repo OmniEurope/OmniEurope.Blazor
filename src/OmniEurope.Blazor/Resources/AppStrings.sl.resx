@@ -184,6 +184,7 @@
   <data name="HtmlEditorCharCategoryLegal" xml:space="preserve"><value>Pravni</value></data>
   <data name="HtmlEditorImportTable" xml:space="preserve"><value>Uvozi tabelo</value></data>
   <data name="HtmlEditorImportTableHint" xml:space="preserve"><value>Datoteka {0}, največ 100 vrstic in 50 stolpcev.</value></data>
+  <data name="HtmlEditorImportTableTruncated" xml:space="preserve"><value>Datoteka presega omejitve: ohranjen je le njen začetek.</value></data>
   <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>Prva vrstica kot glava</value></data>
   <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Vstavi</value></data>
   <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Predogled tabele</value></data>
