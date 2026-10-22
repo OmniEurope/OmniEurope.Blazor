@@ -2,7 +2,7 @@
 // overflow chevrons of the tab strips, scrolling OmniStack rows and OmniSelectBar, the upright ones
 // of OmniSidebar, and the wheel scope of OmniTabs.
 
-import { notify } from './shared.js';
+import { notify } from '../shared/notify.js';
 
 const tabHandlers = new WeakMap();
 const tabOverflow = new WeakMap();

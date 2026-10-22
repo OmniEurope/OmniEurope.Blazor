@@ -1,6 +1,6 @@
 // Part of omni-focus.js, which re-exports configureDisclosure, disposeDisclosure,
 // observeFieldsetToggle and disposeFieldsetToggle: the native <details> disclosures and fieldsets.
-import { notify } from './shared.js';
+import { notify } from '../shared/notify.js';
 import { onPressOutside } from '../shared/outside-press.js';
 
 const disclosures = new WeakMap();

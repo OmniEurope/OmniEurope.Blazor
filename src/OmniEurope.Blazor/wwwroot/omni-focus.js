@@ -4,7 +4,7 @@
 // and the focus return of dialogs and windows (dialog.js), the non-modal popover (popover.js), the
 // date and time pickers (picker.js), the native <details> disclosures and fieldsets (disclosure.js),
 // the menus (menus.js), the page keys (keys.js) and the tab strips (tabs.js).
-import { notify } from './focus/shared.js';
+import { notify } from './shared/notify.js';
 
 export { activateDialog, activateWindow, focusBoundary, restoreFocus } from './focus/dialog.js';
 export { attachPopover, detachPopover } from './focus/popover.js';

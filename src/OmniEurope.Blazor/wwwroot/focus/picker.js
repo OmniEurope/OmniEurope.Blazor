@@ -1,6 +1,7 @@
 // Part of omni-focus.js, which re-exports attachPicker, detachPicker and focusPickerItem: the date
 // and time pickers.
-import { returnTargets, notify } from './shared.js';
+import { returnTargets } from './shared.js';
+import { notify } from '../shared/notify.js';
 import { placeFloating } from '../shared/placement.js';
 import { onPressOutside } from '../shared/outside-press.js';
 

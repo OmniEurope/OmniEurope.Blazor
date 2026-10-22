@@ -1,5 +1,6 @@
 // Part of omni-focus.js, which re-exports attachPopover and detachPopover: the non-modal popover.
-import { returnTargets, rememberTarget, notify } from './shared.js';
+import { returnTargets, rememberTarget } from './shared.js';
+import { notify } from '../shared/notify.js';
 import { focusableElements } from './dialog.js';
 import { placeFloating } from '../shared/placement.js';
 import { onPressOutside } from '../shared/outside-press.js';

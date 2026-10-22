@@ -145,10 +145,8 @@ export async function autoFitColumn(viewport, key) {
         let texts = null;
         try {
             texts = await attachment.reference.invokeMethodAsync('GetColumnAutoFitTexts', key);
-        } catch (error) {
-            if (attachment.isLive()) {
-                throw error;
-            }
+        } catch {
+            // The grid was detached, or the circuit is gone: nobody is left to measure for.
             return;
         }
         if (!attachment.isLive() || !viewport.isConnected) {

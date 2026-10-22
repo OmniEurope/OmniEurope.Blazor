@@ -24,6 +24,7 @@ import { describe, apply, readClipboard } from './html-editor/commands.js';
 import { startDrag, endDrag, placeDrop } from './html-editor/dragging.js';
 import { moveBetweenCells } from './html-editor/tables.js';
 import { requestSuggestion, clearSuggestion, acceptSuggestion } from './html-editor/suggestions.js';
+import { notify } from './shared/notify.js';
 import { requestProofreading, proofreadAgain, clearProofreading, issueAt, replaceIssue, ignoreIssue } from './html-editor/proofreading.js';
 // The toolbar held to a number of rows, and the package tooltips of its controls.
 export { fitToolbar, unfit as unfitToolbar } from './html-editor/toolbar.js';
@@ -161,7 +162,13 @@ export async function exec(surface, action, argument) {
             return null;
         }
 
-        clean = await state.dotnet.invokeMethodAsync('SanitizePaste', clipboard.html, clipboard.text);
+        try {
+            clean = await state.dotnet.invokeMethodAsync('SanitizePaste', clipboard.html, clipboard.text);
+        } catch {
+            // The circuit is gone or the editor already released: nobody is left to paste into.
+            return null;
+        }
+
         if (!clean || !editors.has(surface)) {
             return null;
         }
@@ -364,7 +371,7 @@ function activate(state, event) {
             event.preventDefault();
             flush(state);
             state.activated = node;
-            state.dotnet.invokeMethodAsync('OnElementActivated', index, JSON.stringify(describeNode(node)), node.textContent ?? '');
+            notify(state.dotnet, 'OnElementActivated', index, JSON.stringify(describeNode(node)), node.textContent ?? '');
             return;
         }
     }
@@ -404,7 +411,7 @@ function contextMenu(state, event) {
 
     // The selection goes with the request, so the entries are enabled for where the menu opens
     // rather than for where the caret was a moment ago.
-    state.dotnet.invokeMethodAsync('OnContextMenu', x, y, describeSelection(state.surface), issue ? JSON.stringify(issue) : null);
+    notify(state.dotnet, 'OnContextMenu', x, y, describeSelection(state.surface), issue ? JSON.stringify(issue) : null);
 }
 
 // The innermost element from the target up that matches the selector of an inline element.
@@ -513,7 +520,7 @@ function send(state) {
     }
 
     state.sent = html;
-    state.dotnet.invokeMethodAsync('OnVisualInput', html);
+    notify(state.dotnet, 'OnVisualInput', html);
 }
 
 function flush(state) {
@@ -559,7 +566,14 @@ async function drop(state, event) {
 
 async function insertTransfer(state, html, text, source = null) {
     remember(state);
-    const clean = await state.dotnet.invokeMethodAsync('SanitizePaste', html ?? '', text ?? '');
+    let clean = null;
+    try {
+        clean = await state.dotnet.invokeMethodAsync('SanitizePaste', html ?? '', text ?? '');
+    } catch {
+        // The circuit is gone or the editor already released: nobody is left to paste into.
+        return;
+    }
+
     if (!clean || !editors.has(state.surface)) {
         return;
     }
@@ -595,14 +609,14 @@ function keydown(state, event) {
     if (command && !event.altKey && (key === 'z' || key === 'y')) {
         event.preventDefault();
         flush(state);
-        state.dotnet.invokeMethodAsync('OnHistoryShortcut', key === 'y' || event.shiftKey);
+        notify(state.dotnet, 'OnHistoryShortcut', key === 'y' || event.shiftKey);
         return;
     }
 
     if (command && !event.altKey && !event.shiftKey && key === 'k') {
         event.preventDefault();
         remember(state);
-        state.dotnet.invokeMethodAsync('OnLinkShortcut');
+        notify(state.dotnet, 'OnLinkShortcut');
         return;
     }
 
@@ -611,7 +625,7 @@ function keydown(state, event) {
         event.preventDefault();
         flush(state);
         remember(state);
-        state.dotnet.invokeMethodAsync('OnShortcut', shortcut);
+        notify(state.dotnet, 'OnShortcut', shortcut);
         return;
     }
 
@@ -626,7 +640,7 @@ function beforeInput(state, event) {
     if (event.inputType === 'historyUndo' || event.inputType === 'historyRedo') {
         event.preventDefault();
         flush(state);
-        state.dotnet.invokeMethodAsync('OnHistoryShortcut', event.inputType === 'historyRedo');
+        notify(state.dotnet, 'OnHistoryShortcut', event.inputType === 'historyRedo');
         return;
     }
 
@@ -685,7 +699,7 @@ function report(state, force) {
     }
 
     state.key = key;
-    state.dotnet.invokeMethodAsync('OnVisualState', key);
+    notify(state.dotnet, 'OnVisualState', key);
 }
 
 // Where the selection is, for the host: sent only when the host listens, once the caret has been
@@ -711,7 +725,7 @@ function sendSelection(state) {
     }
 
     state.selectionKey = payload;
-    state.dotnet.invokeMethodAsync('OnSelectionChanged', payload);
+    notify(state.dotnet, 'OnSelectionChanged', payload);
 }
 
 // {"collapsed":bool,"ancestors":[{"tag","classes","data"}]}: the elements holding the start of the
