@@ -32,4 +32,4 @@ Branche de travail : `release/1.9.0`, depuis `develop`. Trois lots au plus en pa
 
 ## Critère de fin de chaque lot
 
-Compilation sans avertissement, `ylaunch.ps1 -tl` vert, garde de l'API publique à jour, porte de couverture et CRAP verts sur les fichiers touchés, vitrine et guides alignés sur les nouveaux noms, aucun test désactivé ni assertion retirée.
+Compilation sans avertissement, sondes de la vitrine vertes, garde de l'API publique à jour, porte de couverture et CRAP verts sur les fichiers touchés, vitrine et guides alignés sur les nouveaux noms, aucun test désactivé ni assertion retirée.
