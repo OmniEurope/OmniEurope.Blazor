@@ -8,56 +8,40 @@
    button, with Href one real link, both named by the label and the value, so they answer Enter (and
    Space for the button) and show the focus ring; without either, a plain block that nothing can
    activate. Every part is a span, valid inside a button as well as inside a link. *@
+@{
+    // The content is the same whatever the element: a button, a link or a plain block.
+    RenderFragment body = @<text>
+    @if (Icon is not null)
+    {
+        <span class="omni-stat-tile__icon" aria-hidden="true">@Icon</span>
+    }
+    <span class="omni-stat-tile__text">
+        <span class="omni-stat-tile__value">@Value</span>
+        <span class="omni-stat-tile__label">@Title</span>
+        @if (!string.IsNullOrWhiteSpace(Detail))
+        {
+            <span class="omni-stat-tile__detail">@Detail</span>
+        }
+    </span>
+</text>;
+}
 @if (OnClick.HasDelegate)
 {
     <button @attributes="AdditionalAttributes" @ref="_tile" id="@Id" type="button" class="@Css("omni-stat-tile", "omni-stat-tile--action", DoubleWidth ? "omni-tile--double" : null)"
             aria-label="@AccessibleName" @onclick="OnClick">
-        @if (Icon is not null)
-        {
-            <span class="omni-stat-tile__icon" aria-hidden="true">@Icon</span>
-        }
-        <span class="omni-stat-tile__text">
-            <span class="omni-stat-tile__value">@Value</span>
-            <span class="omni-stat-tile__label">@Title</span>
-            @if (!string.IsNullOrWhiteSpace(Detail))
-            {
-                <span class="omni-stat-tile__detail">@Detail</span>
-            }
-        </span>
+        @body
     </button>
 }
 else if (_safeHref is not null)
 {
     <a @attributes="AdditionalAttributes" @ref="_tile" id="@Id" href="@_safeHref" class="@Css("omni-stat-tile", "omni-stat-tile--action", DoubleWidth ? "omni-tile--double" : null)"
        aria-label="@AccessibleName">
-        @if (Icon is not null)
-        {
-            <span class="omni-stat-tile__icon" aria-hidden="true">@Icon</span>
-        }
-        <span class="omni-stat-tile__text">
-            <span class="omni-stat-tile__value">@Value</span>
-            <span class="omni-stat-tile__label">@Title</span>
-            @if (!string.IsNullOrWhiteSpace(Detail))
-            {
-                <span class="omni-stat-tile__detail">@Detail</span>
-            }
-        </span>
+        @body
     </a>
 }
 else
 {
     <div @attributes="AdditionalAttributes" @ref="_tile" id="@Id" class="@Css("omni-stat-tile", DoubleWidth ? "omni-tile--double" : null)">
-        @if (Icon is not null)
-        {
-            <span class="omni-stat-tile__icon" aria-hidden="true">@Icon</span>
-        }
-        <span class="omni-stat-tile__text">
-            <span class="omni-stat-tile__value">@Value</span>
-            <span class="omni-stat-tile__label">@Title</span>
-            @if (!string.IsNullOrWhiteSpace(Detail))
-            {
-                <span class="omni-stat-tile__detail">@Detail</span>
-            }
-        </span>
+        @body
     </div>
 }
