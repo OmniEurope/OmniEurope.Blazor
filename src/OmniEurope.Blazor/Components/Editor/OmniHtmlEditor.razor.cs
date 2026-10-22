@@ -43,10 +43,8 @@ public partial class OmniHtmlEditor
     private IJSObjectReference? _downloadModule;
     private HtmlEditorToolbarFit? _toolbarFit;
     private ElementReference _toolbar;
-    private string? _countedValue;
-    private bool _counted;
+    private readonly HtmlEditorCounts _counts = new();
     private string? _cleanValue;
-    private (int Words, int Characters) _statistics;
 
     [Inject]
     private IJSRuntime JSRuntime { get; set; } = default!;
@@ -126,21 +124,7 @@ public partial class OmniHtmlEditor
         Framed ? null : Class]);
 
     /// <summary>The counts of the value, computed again only when it changes.</summary>
-    private (int Words, int Characters) Statistics
-    {
-        get
-        {
-            var value = CurrentValue;
-            if (!string.Equals(value, _countedValue, StringComparison.Ordinal) || !_counted)
-            {
-                _countedValue = value;
-                _counted = true;
-                _statistics = OmniHtmlText.Count(value, EffectivePolicy, IsKnownClean(value));
-            }
-
-            return _statistics;
-        }
-    }
+    private (int Words, int Characters) Statistics => _counts.Of(CurrentValue, EffectivePolicy, IsKnownClean(CurrentValue));
 
     /// <summary>The height of the source textarea in rows, and the minimum height of the visual surface.</summary>
     [Parameter] public int Rows { get; set; } = 12;

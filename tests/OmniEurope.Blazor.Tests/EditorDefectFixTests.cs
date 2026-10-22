@@ -1,5 +1,6 @@
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using OmniEurope.Blazor.Components;
 using OmniEurope.Blazor.Internal;
@@ -268,5 +269,165 @@ public sealed class EditorDefectFixTests : OmniBunitContext
         var module = await HeldImportAsync(runtime, () => chart.Instance.DisposeAsync().AsTask());
 
         Assert.Empty(module.Calls);
+    }
+
+    // ── Two imports of the same script in flight: the first to arrive is kept, the second is released ──
+
+    /// <summary>A runtime whose imports each answer a module of their own, once the test lets them.</summary>
+    private sealed class QueuedJSRuntime : IJSRuntime
+    {
+        public List<(RecordingModule Module, TaskCompletionSource Gate, string Path)> Imports { get; } = [];
+
+        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args)
+        {
+            if (identifier != "import")
+            {
+                return ValueTask.FromResult(default(TValue)!);
+            }
+
+            var import = (new RecordingModule(), new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously), args?[0]?.ToString() ?? string.Empty);
+            Imports.Add(import);
+            return new ValueTask<TValue>(import.Item2.Task.ContinueWith(_ => (TValue)(object)import.Item1, TaskScheduler.Default));
+        }
+
+        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) => InvokeAsync<TValue>(identifier, args);
+    }
+
+    // How many of the modules were released, once all but one have been (or after about ten seconds).
+    private static async Task<int> ReleasedAsync(IEnumerable<RecordingModule> modules)
+    {
+        var all = modules.ToList();
+        for (var wait = 0; wait < 500 && all.Count(module => module.Disposal.Task.IsCompleted) < all.Count - 1; wait++)
+        {
+            await Task.Delay(20, Xunit.TestContext.Current.CancellationToken);
+        }
+
+        return all.Count(module => module.Disposal.Task.IsCompleted);
+    }
+
+    [Fact]
+    public async Task CodeEditor_TwoImportsInFlight_KeepsTheFirstAndReleasesTheSecond()
+    {
+        var runtime = new QueuedJSRuntime();
+        Services.AddSingleton<IJSRuntime>(runtime);
+        var value = "x";
+        var editor = Render<OmniCodeEditor>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.Height, "20rem"));
+        editor.Render(parameters => parameters.Add(component => component.Height, "30rem"));
+        Assert.Equal(2, runtime.Imports.Count(import => import.Path == OmniModules.CodeEditor));
+
+        runtime.Imports[0].Gate.SetResult();
+        runtime.Imports[1].Gate.SetResult();
+        var codeEditor = runtime.Imports.Where(import => import.Path == OmniModules.CodeEditor).ToList();
+        // Whichever arrives first is kept; the other is released.
+        Assert.Equal(codeEditor.Count - 1, await ReleasedAsync(codeEditor.Select(import => import.Module)));
+    }
+
+    [Fact]
+    public async Task MailTemplateEditor_TwoImportsInFlight_KeepsTheFirstAndReleasesTheSecond()
+    {
+        var runtime = new QueuedJSRuntime();
+        Services.AddSingleton<IJSRuntime>(runtime);
+        var editor = Render<OmniMailTemplateEditor>(parameters => parameters.Add(component => component.Value, "<p>Bonjour</p>"));
+        editor.FindAll("[role=tab]")[1].Click();
+        editor.Render(parameters => parameters.Add(component => component.Value, "<p>Bonsoir</p>"));
+        var previews = runtime.Imports.Where(import => import.Path == OmniModules.MailPreview).ToList();
+        Assert.True(previews.Count >= 2);
+
+        foreach (var import in runtime.Imports)
+        {
+            import.Gate.SetResult();
+        }
+
+        // Whichever arrives first is kept; every other one is released.
+        Assert.Equal(previews.Count - 1, await ReleasedAsync(previews.Select(import => import.Module)));
+    }
+
+    [Fact]
+    public async Task CodeEditor_GoneWhileItsScriptLoads_OnALostCircuit_StillStopsQuietly()
+    {
+        var runtime = new ManualJSRuntime
+        {
+            HoldImports = true,
+            Module = new RecordingModule { DisposeFailure = new JSDisconnectedException("perdu") }
+        };
+        Services.AddSingleton<IJSRuntime>(runtime);
+        var value = "x";
+        var editor = Render<OmniCodeEditor>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.Height, "20rem"));
+
+        var module = await HeldImportAsync(runtime, () => editor.Instance.DisposeAsync().AsTask());
+
+        Assert.Empty(module.Calls);
+    }
+
+    [Fact]
+    public void HtmlEditor_WithNoValue_CountsNothing()
+    {
+        JSInterop.SetupModule(OmniModules.HtmlEditor).Mode = JSRuntimeMode.Loose;
+        string? value = null;
+        var editor = Render<OmniHtmlEditor>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value!));
+
+        Assert.Equal(0, editor.Instance.WordCount);
+        Assert.Equal(0, editor.Instance.CharacterCount);
+    }
+
+    [Fact]
+    public async Task MailTemplateEditor_RenderedAfterItLeft_DrawsNothingMore()
+    {
+        var preview = JSInterop.SetupModule(OmniModules.MailPreview);
+        preview.Mode = JSRuntimeMode.Loose;
+        JSInterop.SetupModule(OmniModules.HtmlEditor).Mode = JSRuntimeMode.Loose;
+        var editor = Render<OmniMailTemplateEditor>(parameters => parameters.Add(component => component.Value, "<p>Bonjour</p>"));
+        editor.FindAll("[role=tab]")[1].Click();
+        editor.WaitForAssertion(() => Assert.NotEmpty(preview.Invocations["render"]));
+        var drawn = preview.Invocations["render"].Count;
+
+        await editor.Instance.DisposeAsync();
+        editor.Render(parameters => parameters.Add(component => component.Value, "<p>Bonsoir</p>"));
+
+        Assert.Equal(drawn, preview.Invocations["render"].Count);
+    }
+
+    [Fact]
+    public async Task HtmlEditor_GoneWhileADownloadScriptLoads_ReleasesItAndDownloadsNothing()
+    {
+        var runtime = new ManualJSRuntime { HoldImports = true };
+        Services.AddSingleton<IJSRuntime>(runtime);
+        var value = "<p>x</p>";
+        var editor = Render<OmniHtmlEditor>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.ShowStatusBar, true)
+            .Add(component => component.Sheet, true));
+
+        var click = editor.Find("[data-export=text]").ClickAsync(new MouseEventArgs());
+        var module = await HeldImportAsync(runtime, () => editor.Instance.DisposeAsync().AsTask());
+        await click.WaitAsync(TimeSpan.FromSeconds(10), Xunit.TestContext.Current.CancellationToken);
+
+        Assert.DoesNotContain("download", module.Calls);
+    }
+
+    [Fact]
+    public async Task Exports_OfAValueAlreadyCommitted_AreNotSanitisedAgain_AndNoValueExportsEmpty()
+    {
+        var editor = RenderEditor("<p>0</p>");
+        await editor.InvokeAsync(() => editor.Instance.CommitAsync("<p>un <b>deux</b></p>"));
+
+        var html = await editor.Instance.ExportHtmlAsync();
+        var text = await editor.Instance.ExportTextAsync();
+
+        Assert.Contains("<p>un <b>deux</b></p>", html, StringComparison.Ordinal);
+        Assert.Equal("un deux", text.Trim());
+
+        var empty = RenderEditor(string.Empty);
+        Assert.Equal(string.Empty, (await empty.Instance.ExportTextAsync()).Trim());
+        Assert.Contains("<body", await empty.Instance.ExportHtmlAsync(), StringComparison.Ordinal);
     }
 }

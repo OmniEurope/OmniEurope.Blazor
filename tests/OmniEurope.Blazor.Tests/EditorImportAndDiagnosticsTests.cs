@@ -3,6 +3,7 @@ using Bunit;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 using OmniEurope.Blazor.Components;
@@ -286,6 +287,66 @@ public sealed class EditorImportAndDiagnosticsTests : OmniBunitContext
             await Task.Delay(Timeout.Infinite, cancellationToken);
             return [];
         }
+    }
+
+    [Fact]
+    public async Task MenuWithoutAPassage_AsksNothingAndRecordsNothing()
+    {
+        var editor = RenderProofreadingEditor();
+        var proofreading = editor.Instance.Proofreading;
+
+        await proofreading.LoadSuggestionsAsync();
+        await proofreading.RecordAsync(dictionary: true);
+
+        Assert.Null(proofreading.Issue);
+        Assert.Empty(proofreading.Suggestions);
+        Assert.DoesNotContain(_logs, log => log.Level >= LogLevel.Warning);
+    }
+
+    private sealed class SlowSuggestionProofreader : OmniHtmlEditorProofreader
+    {
+        public override Task<IReadOnlyList<OmniHtmlEditorProofreadingIssue>> CheckAsync(
+            IReadOnlyList<OmniHtmlEditorProofreadingText> texts, CancellationToken cancellationToken) =>
+            Task.FromResult<IReadOnlyList<OmniHtmlEditorProofreadingIssue>>([]);
+
+        public override async Task<IReadOnlyList<string>> SuggestAsync(
+            OmniHtmlEditorProofreadingText text, OmniHtmlEditorProofreadingIssue issue, CancellationToken cancellationToken)
+        {
+            await Task.Delay(Timeout.Infinite, cancellationToken);
+            return [];
+        }
+    }
+
+    [Fact]
+    public async Task MenuClosedWhileCorrectionsLoad_DropsThem_WithoutLoggingAFailure()
+    {
+        JSInterop.SetupModule(ModulePath).Mode = JSRuntimeMode.Loose;
+        var value = "<p>Some speling here.</p>";
+        var editor = Render<OmniHtmlEditor>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.Extensions, [new ProofreadingExtension(new SlowSuggestionProofreader())]));
+        var proofreading = editor.Instance.Proofreading;
+        Assert.True(proofreading.Begin(Flagged));
+
+        var loading = proofreading.LoadSuggestionsAsync();
+        Assert.True(proofreading.Loading);
+        proofreading.Cancel();
+        await loading.WaitAsync(TimeSpan.FromSeconds(10), Xunit.TestContext.Current.CancellationToken);
+
+        Assert.Empty(proofreading.Suggestions);
+        Assert.DoesNotContain(_logs, log => log.Level >= LogLevel.Warning);
+    }
+
+    [Fact]
+    public async Task WithoutALoggerInTheContainer_AFailingProofreaderStillDoesNotBreakTheEditor()
+    {
+        Services.RemoveAll(typeof(ILogger<>));
+        var editor = RenderProofreadingEditor();
+
+        var answer = await editor.InvokeAsync(() => new HtmlEditorInteropBridge(editor.Instance).OnProofreadRequested(["Some speling here."], [null]));
+
+        Assert.Null(answer);
     }
 
     private sealed class ListLoggerProvider(List<(LogLevel, string, Exception?)> logs) : ILoggerProvider
