@@ -1,10 +1,8 @@
 // State and helpers shared by the focus modules (omni-focus.js and its menus): the element each
-// open surface gives the focus back to, keyed like the surface, the margin kept from the window
-// edges, and what counts as a press outside.
+// open surface gives the focus back to, keyed like the surface, and the call to .NET that
+// tolerates a lost circuit. The placement and the press outside are in ../shared/.
 
 export const returnTargets = new Map();
-
-export const viewportMargin = 8;
 
 // The last element that really held the focus. A surface that opens over another one (a dialog opened
 // from a dialog) can find the focus already pulled to the body, because the lower surface was made
@@ -41,15 +39,4 @@ export function notify(dotnet, method, ...args) {
     } catch {
         // The reference itself is already disposed.
     }
-}
-
-// A press inside an element marked data-omni-keep-open never counts as outside: it lets a panel of
-// settings drive an open menu without closing it.
-export function pressedOutside(event, ...inside) {
-    const target = event.target;
-    if (!(target instanceof Node) || inside.some(element => element?.contains(target))) {
-        return false;
-    }
-
-    return !(target instanceof Element && target.closest('[data-omni-keep-open]'));
 }

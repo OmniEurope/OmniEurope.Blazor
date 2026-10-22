@@ -1,6 +1,9 @@
 // Part of omni-grid.js, which re-exports attachFilterMenus, closeFilterMenus and detachFilterMenus.
 
 import { release } from './release.js';
+import { placeFloating } from '../shared/placement.js';
+import { onPressOutside } from '../shared/outside-press.js';
+
 const menuAttachments = new Map();
 
 const popoverSelector = 'details[data-omni-popover]';
@@ -19,14 +22,11 @@ function placePopover(popover) {
 
     const anchor = trigger.getBoundingClientRect();
     popover.style.setProperty('--omni-popover-min', `${Math.round(anchor.width)}px`);
-    const width = panel.offsetWidth;
-    const height = panel.offsetHeight;
-    const margin = 8;
-    const left = Math.max(margin, Math.min(anchor.left, window.innerWidth - width - margin));
-    const below = anchor.bottom + 4;
-    const top = below + height > window.innerHeight - margin && anchor.top - height - 4 > margin
-        ? anchor.top - height - 4
-        : below;
+    const { left, top } = placeFloating({
+        anchor,
+        size: { width: panel.offsetWidth, height: panel.offsetHeight },
+        rtl: getComputedStyle(trigger).direction === 'rtl'
+    });
     popover.style.setProperty('--omni-popover-x', `${Math.round(left)}px`);
     popover.style.setProperty('--omni-popover-y', `${Math.round(top)}px`);
 }
@@ -67,10 +67,11 @@ export function attachFilterMenus(viewport, hideOnSelect) {
         }
     };
 
-    const onDocumentPointerDown = event => {
+    // Nothing is inside for the listener: which popovers stay open depends on the one pressed.
+    const stopOutside = onPressOutside(null, event => {
         const target = event.target instanceof Element ? event.target : null;
         close(target?.closest(popoverSelector) ? target : null);
-    };
+    });
 
     const onKeyDown = event => {
         if (event.key === 'Escape' && viewport.querySelector(`${popoverSelector}[open]`)) {
@@ -133,7 +134,6 @@ export function attachFilterMenus(viewport, hideOnSelect) {
         }
     };
 
-    document.addEventListener('pointerdown', onDocumentPointerDown, true);
     document.addEventListener('keydown', onKeyDown, true);
     viewport.addEventListener('toggle', onToggle, true);
     viewport.addEventListener('focusin', onFocusIn);
@@ -148,7 +148,7 @@ export function attachFilterMenus(viewport, hideOnSelect) {
 
     menuAttachments.set(viewport, {
         dispose: () => {
-            document.removeEventListener('pointerdown', onDocumentPointerDown, true);
+            stopOutside();
             document.removeEventListener('keydown', onKeyDown, true);
             viewport.removeEventListener('toggle', onToggle, true);
             viewport.removeEventListener('focusin', onFocusIn);

@@ -4,6 +4,8 @@
 // It never writes a style: geometry goes through SVG attributes, visual state through the classes
 // .NET renders, so the canvas runs under `style-src 'self'`.
 
+import { onPressOutside } from './shared/outside-press.js';
+
 const MIN_ZOOM = 0.1;
 const MAX_ZOOM = 5;
 const WHEEL_IN = 1.08;
@@ -571,14 +573,6 @@ const onKeyDown = (state, event) => {
     }
 };
 
-// A press anywhere outside the canvas closes an open context menu, as a click beside a native menu
-// does. Presses inside the canvas close it through the gesture they start.
-const onDocumentPointerDown = (state, event) => {
-    if (menuOf(state.canvas) && !state.canvas.contains(event.target)) {
-        notify(state, 'MenuDismissed');
-    }
-};
-
 const sizeOf = canvas => {
     const box = canvas.getBoundingClientRect();
     return { width: box.width, height: box.height };
@@ -621,7 +615,13 @@ export function attach(canvas, bridge) {
     listen(canvas, 'dblclick', onDoubleClick);
     listen(canvas, 'contextmenu', onContextMenu);
     listen(canvas, 'keydown', onKeyDown);
-    listen(document, 'pointerdown', onDocumentPointerDown, true);
+    // A press anywhere outside the canvas closes an open context menu, as a click beside a native menu
+    // does. Presses inside the canvas close it through the gesture they start.
+    state.listeners.push(onPressOutside(canvas, () => {
+        if (menuOf(canvas)) {
+            notify(state, 'MenuDismissed');
+        }
+    }));
 
     if (typeof ResizeObserver === 'function') {
         state.observer = new ResizeObserver(() => {
