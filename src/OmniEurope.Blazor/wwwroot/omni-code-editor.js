@@ -6,6 +6,11 @@
 // monaco-editor package itself and passes its address; this module loads it once, with Monaco's own
 // AMD loader, from that address and from nowhere else. When it cannot be loaded, the component keeps
 // its plain textarea, which works everywhere.
+//
+// Events of the editor reach .NET through the package's notify: a call that a lost circuit or a
+// released component rejects is dropped, nothing is left unhandled.
+import { notify } from './focus/shared.js';
+
 const editors = new WeakMap();
 const statesByModel = new WeakMap();
 const linkTargets = new Map();
@@ -337,19 +342,9 @@ export function disposeDiff(host) {
     diffs.delete(host);
 }
 
-// Tells .NET about an event of the editor. The call is rejected when the circuit is gone or the
-// component already released, which leaves nobody to tell: nothing to report, nothing unhandled.
-function notify(state, method, ...args) {
-    try {
-        state.dotnet.invokeMethodAsync(method, ...args).catch(() => { });
-    } catch {
-        // The reference itself is already disposed.
-    }
-}
-
 function sendDiff(state) {
     state.timer = 0;
-    notify(state, 'OnModifiedChanged', state.editor.getModifiedEditor().getValue());
+    notify(state.dotnet, 'OnModifiedChanged', state.editor.getModifiedEditor().getValue());
 }
 
 function schedule(state) {
@@ -359,7 +354,7 @@ function schedule(state) {
 
 function send(state) {
     state.timer = 0;
-    notify(state, 'OnCodeChanged', state.editor.getValue());
+    notify(state.dotnet, 'OnCodeChanged', state.editor.getValue());
 }
 
 function flush(state) {
@@ -374,7 +369,7 @@ function scheduleCursor(state) {
     state.cursorTimer = window.setTimeout(() => {
         const position = state.editor.getPosition();
         if (position) {
-            notify(state, 'OnCursorChanged', position.lineNumber, position.column);
+            notify(state.dotnet, 'OnCursorChanged', position.lineNumber, position.column);
         }
     }, changeDelay);
 }
@@ -522,7 +517,7 @@ function openLink(resource) {
         return false;
     }
 
-    notify(entry.state, 'OnLinkActivated', entry.name, entry.target, entry.line);
+    notify(entry.state.dotnet, 'OnLinkActivated', entry.name, entry.target, entry.line);
     return true;
 }
 
