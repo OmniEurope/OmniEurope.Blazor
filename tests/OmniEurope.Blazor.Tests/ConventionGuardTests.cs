@@ -56,9 +56,9 @@ public sealed partial class ConventionGuardTests
         var host = Read("src", "OmniEurope.Blazor", "Components", "Overlays", "OmniOverlayHosts.cs");
         var catalog = Read("samples", "OmniEurope.Blazor.Catalog", "Components", "Pages", "Home.razor.cs");
 
-        Assert.Contains("public RenderFragment? Footer { get; init; }", request, StringComparison.Ordinal);
-        Assert.Contains("nameof(OmniDialog.Footer), dialog.Footer", host, StringComparison.Ordinal);
-        Assert.Contains("Footer = DialogFooter", catalog, StringComparison.Ordinal);
+        Assert.Contains("public RenderFragment? FooterContent { get; init; }", request, StringComparison.Ordinal);
+        Assert.Contains("nameof(OmniDialog.FooterContent), dialog.FooterContent", host, StringComparison.Ordinal);
+        Assert.Contains("FooterContent = DialogFooter", catalog, StringComparison.Ordinal);
         Assert.Contains("Text[\"Close\"]", catalog, StringComparison.Ordinal);
         Assert.Contains("private void CloseDialog() => Overlays.CloseDialog();", catalog, StringComparison.Ordinal);
     }
@@ -182,13 +182,13 @@ public sealed partial class ConventionGuardTests
             ("Foundation", "OmniHeadingLevel"), ("Foundation", "OmniIconName"), ("Foundation", "OmniTone"), ("Foundation", "OmniFill"),
             ("Foundation", "OmniImageLoading"), ("Foundation", "OmniImageFit"), ("Foundation", "OmniSkeletonShape"),
             ("Foundation", "OmniLayoutWidth"), ("Foundation", "OmniProgressShape"),
-            ("Foundation", "OmniSidebarPosition"), ("Foundation", "OmniAppearance"), ("Foundation", "OmniDensity"),
+            ("Foundation", "OmniSidebarPlacement"), ("Foundation", "OmniAppearance"), ("Foundation", "OmniDensity"),
             ("Navigation", "OmniTabsContext"), ("Navigation", "OmniStepsContext"),
             ("Feedback", "OmniSeverity"), ("Overlays", "OmniDialogRequest"),
             ("Overlays", "OmniNotificationMessage"), ("Overlays", "OmniOverlayService"),
             ("Scheduling", "OmniCalendarView"), ("Scheduling", "OmniSchedulerAppointment"),
             ("Selection", "OmniOption"), ("Selection", "OmniUploadRequest"),
-            ("Layout", "OmniStackOrientation"), ("Layout", "OmniSpacing"),
+            ("Layout", "OmniOrientation"), ("Layout", "OmniSpacing"),
             ("Layout", "OmniAlignment"), ("Layout", "OmniJustification")
         };
 

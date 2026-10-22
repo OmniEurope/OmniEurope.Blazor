@@ -267,7 +267,7 @@ public sealed class LocalizationTests : OmniBunitContext
 
             var panel = Render<OmniPanelMenu>();
             var profile = Render<OmniProfileMenu>(parameters => parameters
-                .Add(component => component.Summary, builder => builder.AddContent(0, "User")));
+                .Add(component => component.SummaryContent, builder => builder.AddContent(0, "User")));
             var password = Render<OmniPassword>(parameters => parameters
                 .Add(component => component.Value, passwordValue)
                 .Add(component => component.ValueExpression, () => passwordValue));

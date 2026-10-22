@@ -22,7 +22,7 @@ public sealed class LayoutThemingEdgeTests : OmniBunitContext
         runtime.Module.Answers["hideBootSplash"] = true;
         Services.AddSingleton<IJSRuntime>(runtime);
         var hidden = new List<bool>();
-        var splash = Render<OmniBootSplash>(parameters => parameters.Add(component => component.OnHidden, value => hidden.Add(value)));
+        var splash = Render<OmniBootSplash>(parameters => parameters.Add(component => component.OnHide, value => hidden.Add(value)));
 
         await splash.Instance.DisposeAsync();
         runtime.PendingImport.SetResult(runtime.Module);
@@ -39,7 +39,7 @@ public sealed class LayoutThemingEdgeTests : OmniBunitContext
         runtime.Module.Answers["hideBootSplash"] = true;
         Services.AddSingleton<IJSRuntime>(runtime);
         var hidden = new List<bool>();
-        var splash = Render<OmniBootSplash>(parameters => parameters.Add(component => component.OnHidden, value => hidden.Add(value)));
+        var splash = Render<OmniBootSplash>(parameters => parameters.Add(component => component.OnHide, value => hidden.Add(value)));
         Assert.Equal([true], hidden);
         await splash.Instance.DisposeAsync();
 

@@ -2,14 +2,14 @@
     <OmniRow Gap="OmniSpacing.Medium">
         <OmniColumn Span="12" MediumSpan="6" LargeSpan="4">
             <OmniCard>
-                <Header><OmniHeading Level="OmniHeadingLevel.H4">@Text["DemoLayoutFluidColumn"]</OmniHeading></Header>
+                <HeaderContent><OmniHeading Level="OmniHeadingLevel.H4">@Text["DemoLayoutFluidColumn"]</OmniHeading></HeaderContent>
                 <ChildContent>@Text["DemoLayoutFluidColumnText"]</ChildContent>
-                <Footer><OmniBadge Tone="OmniTone.Neutral">12 / 6 / 4</OmniBadge></Footer>
+                <FooterContent><OmniBadge Tone="OmniTone.Neutral">12 / 6 / 4</OmniBadge></FooterContent>
             </OmniCard>
         </OmniColumn>
         <OmniColumn Span="12" MediumSpan="6" LargeSpan="4">
             <OmniCard>
-                <Header><OmniHeading Level="OmniHeadingLevel.H4">@Text["DemoLayoutCardWithHeader"]</OmniHeading></Header>
+                <HeaderContent><OmniHeading Level="OmniHeadingLevel.H4">@Text["DemoLayoutCardWithHeader"]</OmniHeading></HeaderContent>
                 <ChildContent>@Text["DemoLayoutCardWithHeaderText"]</ChildContent>
             </OmniCard>
         </OmniColumn>
@@ -20,7 +20,7 @@
         </OmniColumn>
     </OmniRow>
 
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Wrap="true" Gap="OmniSpacing.Small" Justify="OmniJustification.Between" Align="OmniAlignment.Center">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Wrap="true" Gap="OmniSpacing.Small" Justify="OmniJustification.Between" Align="OmniAlignment.Center">
         <OmniBadge Tone="OmniTone.Accent">@Text["DemoLayoutStart"]</OmniBadge>
         <OmniBadge Tone="OmniTone.Neutral">@Text["DemoLayoutMiddle"]</OmniBadge>
         <OmniBadge Tone="OmniTone.Success">@Text["DemoLayoutEnd"]</OmniBadge>
@@ -29,7 +29,7 @@
     <OmniFieldset>
         <Legend>@Text["DemoLayoutFieldGroup"]</Legend>
         <ChildContent>
-            <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small">
+            <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small">
                 <OmniBadge Tone="OmniTone.Neutral">@Text["DemoLayoutOne"]</OmniBadge>
                 <OmniBadge Tone="OmniTone.Neutral">@Text["DemoLayoutTwo"]</OmniBadge>
             </OmniStack>
@@ -69,11 +69,11 @@
             </OmniStack>
         </ChildContent>
     </OmniCard>
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Stretch">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Stretch">
         <OmniBadge Tone="OmniTone.Neutral">@Text["DemoLayoutDividerDraft"]</OmniBadge>
-        <OmniDivider Orientation="OmniStackOrientation.Vertical" />
+        <OmniDivider Orientation="OmniOrientation.Vertical" />
         <OmniBadge Tone="OmniTone.Info">@Text["DemoLayoutDividerReview"]</OmniBadge>
-        <OmniDivider Orientation="OmniStackOrientation.Vertical" />
+        <OmniDivider Orientation="OmniOrientation.Vertical" />
         <OmniBadge Tone="OmniTone.Success">@Text["DemoLayoutDividerPublished"]</OmniBadge>
     </OmniStack>
 
@@ -100,26 +100,26 @@
         </OmniRow>
     </OmniStack>
 
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Start">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Start">
         <OmniBadge>@Text["DemoLayoutTop"]</OmniBadge>
         <OmniCard><ChildContent>@Text["DemoLayoutTopText"]</ChildContent></OmniCard>
     </OmniStack>
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.End">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.End">
         <OmniBadge>@Text["DemoLayoutBottom"]</OmniBadge>
         <OmniCard><ChildContent>@Text["DemoLayoutBottomText"]</ChildContent></OmniCard>
     </OmniStack>
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Stretch">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Stretch">
         <OmniCard><ChildContent>@Text["DemoLayoutStretched"]</ChildContent></OmniCard>
         <OmniCard><ChildContent>@Text["DemoLayoutStretchedText"]</ChildContent></OmniCard>
     </OmniStack>
 
     @* Rangées trop étroites : défiler garde chaque bouton à sa taille, replier ne garde que les icônes. *@
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small" Overflow="OmniStackOverflow.Scroll">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Overflow="OmniStackOverflow.Scroll">
         <OmniButton><OmniIcon Name="OmniIconName.Check" /><span>@Text["DemoLayoutApproveFile"]</span></OmniButton>
         <OmniButton><OmniIcon Name="OmniIconName.Filter" /><span>@Text["DemoLayoutFilterDocuments"]</span></OmniButton>
         <OmniButton><OmniIcon Name="OmniIconName.Close" /><span>@Text["DemoLayoutCloseRequest"]</span></OmniButton>
     </OmniStack>
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small" Overflow="OmniStackOverflow.Collapse">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Overflow="OmniStackOverflow.Collapse">
         <OmniButton><OmniIcon Name="OmniIconName.Check" /><span>@Text["DemoLayoutApproveFile"]</span></OmniButton>
         <OmniButton><OmniIcon Name="OmniIconName.Filter" /><span>@Text["DemoLayoutFilterDocuments"]</span></OmniButton>
         <OmniButton><OmniIcon Name="OmniIconName.Close" /><span>@Text["DemoLayoutCloseRequest"]</span></OmniButton>
@@ -129,10 +129,10 @@
        celle de la plus haute, quel que soit leur contenu ; DoubleWidth en étale une sur deux colonnes. Les
        mots qui ne tiennent pas passent à la ligne ou sont coupés dans la tuile, rien ne déborde. *@
     <OmniTileGrid Id="demo-tile-grid" Columns="4">
-        <OmniStatTile Value="@Text["DemoPagesTokensValue", 12.4]" Label="@Text["DemoPagesTokensToday"]" Detail="@Text["DemoPagesTokensReset", new TimeOnly(18, 0)]">
+        <OmniStatTile Value="@Text["DemoPagesTokensValue", 12.4]" Title="@Text["DemoPagesTokensToday"]" Detail="@Text["DemoPagesTokensReset", new TimeOnly(18, 0)]">
             <Icon><OmniIcon Name="OmniIconName.Database" /></Icon>
         </OmniStatTile>
-        <OmniStatTile Value="@Text["DemoPagesTokensValue", 8.2]" Label="@Text["DemoPagesWeekly"]">
+        <OmniStatTile Value="@Text["DemoPagesTokensValue", 8.2]" Title="@Text["DemoPagesWeekly"]">
             <Icon><OmniIcon Name="OmniIconName.CalendarCheck" /></Icon>
         </OmniStatTile>
         <OmniNavTile Href="composants/grille" Title="@Text["DemoGridTitle"]" Description="@Text["DemoGridSummary"]">
@@ -145,16 +145,16 @@
         <OmniNavTile Href="composants/editeur" Title="@Text["DemoEditorTitle"]" Tone="OmniTone.Info" DoubleWidth="true">
             <Icon><OmniIcon Name="OmniIconName.FileDoc" /></Icon>
         </OmniNavTile>
-        <OmniStatTile Value="@Text["DemoPagesTokensValue", 3.6]" Label="@Text["DemoPagesGain"]">
+        <OmniStatTile Value="@Text["DemoPagesTokensValue", 3.6]" Title="@Text["DemoPagesGain"]">
             <Icon><OmniIcon Name="OmniIconName.ChartLineUp" /></Icon>
         </OmniStatTile>
         @* Tuiles cliquables : elles gardent leur place dans la grille (même taille, DoubleWidth respecté). Une carte avec OnClick
            est un seul bouton, donc son contenu est du contenu phrasé (des span) ; une tuile chiffre avec Href est un seul lien. *@
         <OmniCard Id="demo-click-card" OnClick="@(() => CardClicks++)" DoubleWidth="true">
-            <Header>@Text["DemoLayoutClickCardTitle"]</Header>
+            <HeaderContent>@Text["DemoLayoutClickCardTitle"]</HeaderContent>
             <ChildContent>@Text["DemoLayoutClickCardText"] <strong id="demo-click-card-count">@Text["DemoLayoutClickCardCount", CardClicks]</strong></ChildContent>
         </OmniCard>
-        <OmniStatTile Id="demo-link-tile" Href="composants/grille" Value="@Text["DemoPagesTokensValue", 5.1]" Label="@Text["DemoGridTitle"]">
+        <OmniStatTile Id="demo-link-tile" Href="composants/grille" Value="@Text["DemoPagesTokensValue", 5.1]" Title="@Text["DemoGridTitle"]">
             <Icon><OmniIcon Name="OmniIconName.Table" /></Icon>
         </OmniStatTile>
     </OmniTileGrid>
@@ -179,7 +179,7 @@
         {
             <OmniColumn Span="12" LargeSpan="4">
                 <OmniCard Id="@($"demo-density-{level.Key}")" Density="level.Density">
-                    <Header><OmniHeading Level="OmniHeadingLevel.H4">@Text[level.TitleKey]</OmniHeading></Header>
+                    <HeaderContent><OmniHeading Level="OmniHeadingLevel.H4">@Text[level.TitleKey]</OmniHeading></HeaderContent>
                     <ChildContent>
                         <OmniStack Gap="OmniSpacing.Small">
                             <OmniFormField For="@($"density-{level.Key}-name")" Label="@Text["DemoLayoutServerName"]" Required="true" Description="@Text["DemoLayoutServerNameText"]">

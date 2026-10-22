@@ -6,7 +6,7 @@
     <OmniBadge Tone="OmniTone.Accent">@Text["HomeKicker"]</OmniBadge>
     <OmniHeading Id="home-title" Level="OmniHeadingLevel.H1">@Text["HomeTitle"]</OmniHeading>
     <p class="showcase-hero__lead">@Text["HomeLead"]</p>
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Medium">
         <OmniLink Href="composants">@Text["HomeSeeComponents"]</OmniLink>
         <OmniLink Href="personnalisation">@Text["HomeSeeCustomize"]</OmniLink>
     </OmniStack>
@@ -18,9 +18,9 @@
         @foreach (var pillar in Pillars)
         {
             <OmniCard>
-                <Header>
+                <HeaderContent>
                     <OmniHeading Level="OmniHeadingLevel.H3">@Text[pillar.TitleKey]</OmniHeading>
-                </Header>
+                </HeaderContent>
                 <ChildContent>
                     <p>@Text[pillar.BodyKey]</p>
                 </ChildContent>

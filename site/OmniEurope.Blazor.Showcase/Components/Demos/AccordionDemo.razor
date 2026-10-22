@@ -8,8 +8,8 @@
             <SummaryContent><span>@Text["DemoAccordionIssues", 0]</span> <OmniBadge Tone="OmniTone.Success">A</OmniBadge></SummaryContent>
             <ChildContent>
                 <OmniDescriptionList>
-                    <OmniDescriptionItem Label="@Text["DemoAccordionMeasured"]">0</OmniDescriptionItem>
-                    <OmniDescriptionItem Label="@Text["DemoAccordionThreshold"]">≤ 0</OmniDescriptionItem>
+                    <OmniDescriptionItem Term="@Text["DemoAccordionMeasured"]">0</OmniDescriptionItem>
+                    <OmniDescriptionItem Term="@Text["DemoAccordionThreshold"]">≤ 0</OmniDescriptionItem>
                 </OmniDescriptionList>
             </ChildContent>
         </OmniAccordionItem>
@@ -17,8 +17,8 @@
             <SummaryContent><span>@Text["DemoAccordionIssues", 2]</span> <OmniBadge Tone="OmniTone.Warning">C</OmniBadge></SummaryContent>
             <ChildContent>
                 <OmniDescriptionList>
-                    <OmniDescriptionItem Label="@Text["DemoAccordionMeasured"]">2</OmniDescriptionItem>
-                    <OmniDescriptionItem Label="@Text["DemoAccordionThreshold"]">≤ 0</OmniDescriptionItem>
+                    <OmniDescriptionItem Term="@Text["DemoAccordionMeasured"]">2</OmniDescriptionItem>
+                    <OmniDescriptionItem Term="@Text["DemoAccordionThreshold"]">≤ 0</OmniDescriptionItem>
                 </OmniDescriptionList>
             </ChildContent>
         </OmniAccordionItem>
@@ -26,8 +26,8 @@
             <SummaryContent><span>4,2 %</span> <OmniBadge Tone="OmniTone.Info">B</OmniBadge></SummaryContent>
             <ChildContent>
                 <OmniDescriptionList>
-                    <OmniDescriptionItem Label="@Text["DemoAccordionMeasured"]">4,2 %</OmniDescriptionItem>
-                    <OmniDescriptionItem Label="@Text["DemoAccordionThreshold"]">≤ 5 %</OmniDescriptionItem>
+                    <OmniDescriptionItem Term="@Text["DemoAccordionMeasured"]">4,2 %</OmniDescriptionItem>
+                    <OmniDescriptionItem Term="@Text["DemoAccordionThreshold"]">≤ 5 %</OmniDescriptionItem>
                 </OmniDescriptionList>
             </ChildContent>
         </OmniAccordionItem>
@@ -35,18 +35,18 @@
             <SummaryContent><span>78 %</span> <OmniBadge Tone="OmniTone.Warning">C</OmniBadge></SummaryContent>
             <ChildContent>
                 <OmniDescriptionList>
-                    <OmniDescriptionItem Label="@Text["DemoAccordionMeasured"]">78 %</OmniDescriptionItem>
-                    <OmniDescriptionItem Label="@Text["DemoAccordionThreshold"]">≥ 80 %</OmniDescriptionItem>
+                    <OmniDescriptionItem Term="@Text["DemoAccordionMeasured"]">78 %</OmniDescriptionItem>
+                    <OmniDescriptionItem Term="@Text["DemoAccordionThreshold"]">≥ 80 %</OmniDescriptionItem>
                 </OmniDescriptionList>
             </ChildContent>
         </OmniAccordionItem>
     </OmniAccordion>
 
     @* Plusieurs lignes ouvertes (Multiple), corps conservé une fois ouvert (KeepContent), niveau de titre
-       choisi (HeadingLevel). Un en-tête libre (HeaderContent) tient dans le bouton ; un contrôle à soi
+       choisi (Level). Un en-tête libre (HeaderContent) tient dans le bouton ; un contrôle à soi
        (ActionsContent) se place à côté et ne bascule pas la ligne. L'état de chaque ligne se lie
        (@bind-Expanded). *@
-    <OmniAccordion Id="demo-accordion-multiple" Multiple="true" KeepContent="true" HeadingLevel="OmniHeadingLevel.H4" Density="OmniDensity.Compact">
+    <OmniAccordion Id="demo-accordion-multiple" Multiple="true" KeepContent="true" Level="OmniHeadingLevel.H4" Density="OmniDensity.Compact">
         <OmniAccordionItem Id="demo-accordion-run" @bind-Expanded="RunOpen">
             <HeaderContent>
                 <span>@Text["DemoAccordionRunTitle"]</span><br />

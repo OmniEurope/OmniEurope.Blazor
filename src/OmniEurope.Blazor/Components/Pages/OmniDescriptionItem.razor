@@ -2,12 +2,12 @@
 @inherits OmniComponentBase
 
 <div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-description-list__item")">
-    <dt class="omni-description-list__label">@if (Icon is not null) { <span class="omni-description-list__icon" aria-hidden="true">@Icon</span> }@Label</dt>
+    <dt class="omni-description-list__label">@if (Icon is not null) { <span class="omni-description-list__icon" aria-hidden="true">@Icon</span> }@Term</dt>
     <dd class="omni-description-list__value">
         <div class="omni-description-list__content">@ChildContent</div>
-        @if (Actions is not null)
+        @if (ActionsContent is not null)
         {
-            <div class="omni-description-list__actions">@Actions</div>
+            <div class="omni-description-list__actions">@ActionsContent</div>
         }
     </dd>
 </div>

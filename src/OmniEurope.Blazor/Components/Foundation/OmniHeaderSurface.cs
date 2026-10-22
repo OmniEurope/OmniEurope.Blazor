@@ -1,9 +1,10 @@
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
-/// What the application header is painted with.
+/// What the application header is painted with (<see cref="OmniHeader.Surface"/>). It is a surface,
+/// not an <see cref="OmniTone"/>.
 /// </summary>
-public enum OmniHeaderTone
+public enum OmniHeaderSurface
 {
     /// <summary>The surface colour, the header reading as part of the page.</summary>
     Surface,

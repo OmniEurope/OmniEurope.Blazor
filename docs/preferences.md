@@ -430,8 +430,8 @@ rend son contenu dès le premier rendu et ne lit ni n'écrit l'état.
 ### Largeur du contenu
 
 Le réglage « Largeur du contenu » de la fenêtre d'apparence agit sur l'`OmniMain` le plus externe (celui
-qui n'est pas imbriqué dans un autre) : « Pleine largeur » le dessine en `OmniLayoutWidth.Full`,
-« Centré » garde son `ContentWidth`, la colonne de l'hôte. Le défaut de `ContentWidth` étant `Full`, une
+qui n'est pas imbriqué dans un autre) : « Pleine largeur » le dessine en `OmniLayoutWidth.FullWidth`,
+« Centré » garde son `ContentWidth`, la colonne de l'hôte. Le défaut de `ContentWidth` étant `FullWidth`, une
 application qui veut que « Centré » centre réellement pose `ContentWidth="OmniLayoutWidth.Wide"` (90 rem)
 ou `ContentWidth="OmniLayoutWidth.Content"` (72 rem) sur son élément principal. Une application qui
 appliquait elle-même `FullWidthChanged` à son `OmniMain` peut retirer ce câblage.

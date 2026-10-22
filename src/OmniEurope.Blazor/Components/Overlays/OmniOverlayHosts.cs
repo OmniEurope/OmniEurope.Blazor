@@ -41,7 +41,7 @@ internal static class OmniOverlayHosts
             builder.AddAttribute(sequence++, nameof(OmniDialog.Intent), dialog.Intent);
             builder.AddAttribute(sequence++, nameof(OmniDialog.OpenChanged), EventCallback.Factory.Create<bool>(service, openChanged));
             builder.AddAttribute(sequence++, nameof(OmniDialog.ChildContent), dialog.Content);
-            builder.AddAttribute(sequence++, nameof(OmniDialog.Footer), dialog.Footer);
+            builder.AddAttribute(sequence++, nameof(OmniDialog.FooterContent), dialog.FooterContent);
             builder.AddAttribute(sequence++, nameof(OmniDialog.TitleContent), dialog.TitleContent);
             builder.AddAttribute(
                 sequence++,
@@ -64,7 +64,7 @@ internal static class OmniOverlayHosts
     {
         // One snapshot per render: a countdown ending meanwhile changes the next render, not this one.
         var notifications = service.Notifications;
-        var position = options.Position.ToString().ToLowerInvariant();
+        var position = options.Placement.ToString().ToLowerInvariant();
         // Errors never fold into the pile: what went wrong stays readable in full.
         var errors = options.Group
             ? notifications.Where(notification => notification.Severity == OmniSeverity.Danger).ToList()
@@ -139,7 +139,7 @@ internal static class OmniOverlayHosts
         builder.AddAttribute(5, nameof(OmniNotification.ShowCountdown), options.ShowCountdown);
         builder.AddAttribute(6, nameof(OmniNotification.Duration), notification.Duration);
         builder.AddAttribute(7, nameof(OmniNotification.DetailsHref), notification.DetailsHref);
-        builder.AddAttribute(8, nameof(OmniNotification.OnHeldChange), EventCallback.Factory.Create<bool>(service, held =>
+        builder.AddAttribute(8, nameof(OmniNotification.OnHoldChange), EventCallback.Factory.Create<bool>(service, held =>
         {
             if (held)
             {

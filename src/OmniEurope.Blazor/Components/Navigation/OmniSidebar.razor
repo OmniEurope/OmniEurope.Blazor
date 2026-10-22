@@ -10,7 +10,7 @@
    pair renders exactly as the single element used to. *@
 <aside @attributes="AdditionalAttributes"
        id="@Id"
-       class="@Css("omni-sidebar", $"omni-sidebar--{Position.ToString().ToLowerInvariant()}", $"omni-sidebar--{EffectiveReveal.ToString().ToLowerInvariant()}", $"omni-sidebar--collapse-{Collapse.ToString().ToLowerInvariant()}", Open ? "omni-sidebar--open" : "omni-sidebar--closed", Header is not null ? "omni-sidebar--has-header" : null, Smooth ? "omni-sidebar--smooth" : null)"
+       class="@Css("omni-sidebar", $"omni-sidebar--{Placement.ToString().ToLowerInvariant()}", $"omni-sidebar--{EffectiveReveal.ToString().ToLowerInvariant()}", $"omni-sidebar--collapse-{Collapse.ToString().ToLowerInvariant()}", Open ? "omni-sidebar--open" : "omni-sidebar--closed", HeaderContent is not null ? "omni-sidebar--has-header" : null, Smooth ? "omni-sidebar--smooth" : null)"
        aria-label="@EffectiveLabel"
        aria-hidden="@(Concealed ? "true" : null)"
        inert="@Concealed"
@@ -28,9 +28,9 @@
     <div class="omni-sidebar__panel">
         @* Shown only while the panel floats open, when it rises over the application header and
            must carry what it covers. The rest of the time the header above it is the real one. *@
-        @if (Header is not null)
+        @if (HeaderContent is not null)
         {
-            <div class="omni-sidebar__header">@Header</div>
+            <div class="omni-sidebar__header">@HeaderContent</div>
         }
         @* A menu taller than the window scrolls without a scrollbar: a chevron above and below shows
            that items are hidden that way and scrolls to them, as the tab strips do sideways. The

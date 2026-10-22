@@ -123,7 +123,7 @@ public partial class OmniAppearanceWindow : IDisposable
 
     /// <summary>
     /// Whether the page content takes the whole width of the window rather than the centred column the
-    /// host draws it in. The host applies it, for example by passing <see cref="OmniLayoutWidth.Full"/>
+    /// host draws it in. The host applies it, for example by passing <see cref="OmniLayoutWidth.FullWidth"/>
     /// instead of its own width to <see cref="OmniMain.ContentWidth"/>. False (centred) by default.
     /// </summary>
     [Parameter]

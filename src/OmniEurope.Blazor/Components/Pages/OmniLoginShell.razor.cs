@@ -31,7 +31,7 @@ public partial class OmniLoginShell
 
     /// <summary>The footer of the card: a forgotten password link, a version line.</summary>
     [Parameter]
-    public RenderFragment? Footer { get; set; }
+    public RenderFragment? FooterContent { get; set; }
 
     /// <summary>
     /// Address of the sign-up page. Set, the footer starts with a discreet text line, "No account? Sign
@@ -69,7 +69,7 @@ public partial class OmniLoginShell
 
     // The sign-up line leads the footer, as a text link on the rank of "forgotten password": the web
     // convention, never a second button beside the submit one.
-    private RenderFragment? EffectiveFooter => HasSignUp ? BuildFooter : Footer;
+    private RenderFragment? EffectiveFooter => HasSignUp ? BuildFooter : FooterContent;
 
     private void BuildFooter(RenderTreeBuilder builder)
     {
@@ -93,6 +93,6 @@ public partial class OmniLoginShell
         }
 
         builder.CloseElement();
-        builder.AddContent(10, Footer);
+        builder.AddContent(10, FooterContent);
     }
 }

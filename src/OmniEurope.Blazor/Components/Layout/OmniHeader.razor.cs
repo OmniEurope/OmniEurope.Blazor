@@ -16,7 +16,7 @@ public partial class OmniHeader
 
     /// <summary>The header's colour: the surface by default, or the theme's accent band.</summary>
     [Parameter]
-    public OmniHeaderTone Tone { get; set; } = OmniHeaderTone.Surface;
+    public OmniHeaderSurface Surface { get; set; } = OmniHeaderSurface.Surface;
 
     /// <summary>
     /// The application's name, in bold at the start of the header, after a sidebar toggle if the

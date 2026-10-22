@@ -18,18 +18,18 @@
                             Description="@NotFoundDescription"
                             Level="OmniHeadingLevel.H2">
                 <Icon><OmniIcon Name="OmniIconName.Warning" Size="OmniControlSize.Large" /></Icon>
-                <Actions>
+                <ActionsContent>
                     <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="GoBackAsync">
                         <OmniIcon Name="OmniIconName.ArrowLeft" />
                         <span>@EffectiveBackText</span>
                     </OmniButton>
-                </Actions>
+                </ActionsContent>
             </OmniEmptyState>
         }
     }
     else
     {
-        @Header
+        @HeaderContent
         if (State == OmniDetailState.Loading)
         {
             if (LoadingContent is not null)

@@ -14,8 +14,8 @@
             </OmniButton>
         </OmniHeader>
         <OmniBody>
-            <OmniSidebar Id="shell-demo-sidebar" Open="SidebarOpen" OpenChanged="@(value => SidebarOpen = value)" Label="@Text["DemoShellMenu"]" Position="OmniSidebarPosition.Start">
-                <OmniPanelMenu Label="@Text["DemoShellSections"]" DisplayStyle="OmniPanelMenuDisplayStyle.IconAndText">
+            <OmniSidebar Id="shell-demo-sidebar" Open="SidebarOpen" OpenChanged="@(value => SidebarOpen = value)" Label="@Text["DemoShellMenu"]" Placement="OmniSidebarPlacement.Start">
+                <OmniPanelMenu Label="@Text["DemoShellSections"]" Display="OmniPanelMenuDisplay.IconAndText">
                     <OmniPanelMenuItem Text="@Text["DemoShellDashboard"]" Href="composants/coquille" Match="OmniNavMatch.Exact">
                         <Icon><OmniIcon Name="OmniIconName.Home" /></Icon>
                     </OmniPanelMenuItem>
@@ -43,7 +43,7 @@
    apparence qui suit le réglage du système au lieu d'être imposée, et l'en-tête en bandeau d'accent. *@
 <OmniThemeScope Appearance="OmniAppearance.System" Density="OmniDensity.Spacious">
     <OmniLayout>
-        <OmniHeader Tone="OmniHeaderTone.Accent">
+        <OmniHeader Surface="OmniHeaderSurface.Accent">
             <OmniHeading Level="OmniHeadingLevel.H4">@Text["DemoShellConsole"]</OmniHeading>
             <OmniButton Size="OmniControlSize.Small" Variant="OmniButtonVariant.Secondary"
                         aria-controls="shell-demo-right-sidebar" aria-expanded="@RightSidebarOpen.ToString().ToLowerInvariant()"
@@ -51,9 +51,9 @@
         </OmniHeader>
         <OmniBody>
             <OmniSidebar Id="shell-demo-right-sidebar" Open="RightSidebarOpen" Label="@Text["DemoShellSecondaryMenu"]"
-                         Position="OmniSidebarPosition.End" Collapse="OmniSidebarCollapse.Hidden"
+                         Placement="OmniSidebarPlacement.End" Collapse="OmniSidebarCollapse.Hidden"
                          Transition="OmniSidebarTransition.Instant">
-                <OmniPanelMenu Label="@Text["DemoShellTools"]" DisplayStyle="OmniPanelMenuDisplayStyle.Icon">
+                <OmniPanelMenu Label="@Text["DemoShellTools"]" Display="OmniPanelMenuDisplay.Icon">
                     <OmniPanelMenuItem Text="@Text["DemoShellLogs"]" Href="composants/coquille" Match="OmniNavMatch.Prefix">
                         <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
                     </OmniPanelMenuItem>
@@ -83,7 +83,7 @@
             <OmniSidebar Id="shell-demo-rail" Open="RailOpen" OpenChanged="@(value => RailOpen = value)"
                          Reveal="OmniSidebarReveal.Overlay" Collapse="OmniSidebarCollapse.Icons" Backdrop="true"
                          Label="@Text["DemoShellFloatingMenuLabel"]">
-                <OmniPanelMenu Label="@Text["DemoShellSections"]" DisplayStyle="OmniPanelMenuDisplayStyle.IconAndText" Density="OmniDensity.Spacious">
+                <OmniPanelMenu Label="@Text["DemoShellSections"]" Display="OmniPanelMenuDisplay.IconAndText" Density="OmniDensity.Spacious">
                     <OmniPanelMenuItem Text="@Text["DemoShellLogs"]" Href="composants/coquille" Match="OmniNavMatch.Exact">
                         <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
                     </OmniPanelMenuItem>
@@ -110,7 +110,7 @@
             </OmniHeader>
             <OmniBody>
                 <OmniSidebar Open="true" Label="@Text["DemoShellScrollMenu"]">
-                    <OmniPanelMenu Label="@Text["DemoShellSections"]" DisplayStyle="OmniPanelMenuDisplayStyle.Icon">
+                    <OmniPanelMenu Label="@Text["DemoShellSections"]" Display="OmniPanelMenuDisplay.Icon">
                         <OmniPanelMenuItem Text="@Text["DemoShellLogs"]" Href="composants/coquille" Match="OmniNavMatch.Exact">
                             <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
                         </OmniPanelMenuItem>
@@ -144,5 +144,5 @@
 </div>
 
 @* A host-owned startup splash sits outside Blazor's root. This demo exercises the safe absence path. *@
-<OmniBootSplash SplashId="showcase-shell-splash" OnHidden="@(found => SplashFound = found)" />
+<OmniBootSplash SplashId="showcase-shell-splash" OnHide="@(found => SplashFound = found)" />
 <p>@(SplashFound is null ? Text["DemoShellSplashChecking"] : SplashFound.Value ? Text["DemoShellSplashRemoved"] : Text["DemoShellSplashAbsent"])</p>

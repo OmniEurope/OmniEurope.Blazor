@@ -9,6 +9,13 @@ namespace OmniEurope.Blazor.Tests;
 
 public sealed class InteractionComponentTests : OmniBunitContext
 {
+    private static RenderFragment IconFragment(OmniIconName name) => builder =>
+    {
+        builder.OpenComponent<OmniIcon>(0);
+        builder.AddComponentParameter(1, nameof(OmniIcon.Name), name);
+        builder.CloseComponent();
+    };
+
     [Fact]
     public void SecondBatch_RendersFoundationControlsWithoutInlineStyles()
     {
@@ -65,12 +72,12 @@ public sealed class InteractionComponentTests : OmniBunitContext
         var keepsMenu = Render<OmniSidebarToggle>(parameters => parameters
             .Add(component => component.Controls, "sidebar")
             .Add(component => component.Open, true)
-            .Add(component => component.OpenIcon, OmniIconName.Menu));
+            .Add(component => component.OpenIcon, IconFragment(OmniIconName.Menu)));
 
         var forcedCross = Render<OmniSidebarToggle>(parameters => parameters
             .Add(component => component.Controls, "sidebar")
             .Add(component => component.Open, true)
-            .Add(component => component.OpenIcon, OmniIconName.Close));
+            .Add(component => component.OpenIcon, IconFragment(OmniIconName.Close)));
 
         Assert.Equal(PathOf(OmniIconName.Menu), closed.Find("path").GetAttribute("d"));
         // Unset, the open toggle carries both glyphs; the stylesheet shows the cross only under 39.99rem.
@@ -90,7 +97,7 @@ public sealed class InteractionComponentTests : OmniBunitContext
                 .Add(component => component.Controls, "sidebar")
                 .Add(component => component.Open, open)
                 .Add(component => component.Reveal, reveal)
-                .Add(component => component.OpenIcon, openIcon));
+                .Add(component => component.OpenIcon, openIcon is { } name ? IconFragment(name) : null));
 
         var pushed = Toggle(open: true, OmniSidebarReveal.Push);
         var overlaid = Toggle(open: true, OmniSidebarReveal.Overlay);

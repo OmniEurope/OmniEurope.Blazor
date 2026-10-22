@@ -27,5 +27,5 @@ public partial class OmniEmptyState
 
     /// <summary>The way out: a button to create the first item, to clear the filters, to go back.</summary>
     [Parameter]
-    public RenderFragment? Actions { get; set; }
+    public RenderFragment? ActionsContent { get; set; }
 }

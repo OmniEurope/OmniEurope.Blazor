@@ -228,7 +228,7 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
             "OmniCard" => Render<OmniCard>(p => p.Add(c => c.Density, density).Add(c => c.ChildContent, content)).Find(".omni-card"),
             "OmniAlert" => Render<OmniAlert>(p => p.Add(c => c.Density, density).Add(c => c.ChildContent, content)).Find(".omni-alert"),
             "OmniPanelMenu" => Render<OmniPanelMenu>(p => p.Add(c => c.Density, density)).Find(".omni-panel-menu"),
-            "OmniProfileMenu" => Render<OmniProfileMenu>(p => p.Add(c => c.Density, density).Add(c => c.Summary, content)).Find(".omni-profile-menu"),
+            "OmniProfileMenu" => Render<OmniProfileMenu>(p => p.Add(c => c.Density, density).Add(c => c.SummaryContent, content)).Find(".omni-profile-menu"),
             "OmniContextMenu" => Render<OmniContextMenu>(p => p.Add(c => c.Density, density).Add(c => c.TriggerContent, content)).Find(".omni-context-menu"),
             "OmniTabs" => Render<OmniTabs>(p => p.Add(c => c.Density, density)).Find(".omni-tabs"),
             "OmniSettingsTile" => Render<OmniSettingsTile>(p => p.Add(c => c.Density, density).Add(c => c.Title, "Réglage")).Find(".omni-settings-tile"),
@@ -711,7 +711,7 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
 
         // The account menu is closed at rest: its trigger says so and no menu is drawn.
         var menu = Render<OmniProfileMenu>(parameters => parameters
-            .Add(component => component.Summary, (RenderFragment)(builder => builder.AddContent(0, "AB"))));
+            .Add(component => component.SummaryContent, (RenderFragment)(builder => builder.AddContent(0, "AB"))));
         Assert.Equal("false", menu.Find(".omni-profile-menu__trigger").GetAttribute("aria-expanded"));
         Assert.Empty(menu.FindAll("[role=menu]"));
     }

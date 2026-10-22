@@ -26,13 +26,13 @@ public partial class OmniSidebarToggle
     private string EffectiveLabel => LocalizeOr(Label, "SidebarToggleLabel");
 
     /// <summary>
-    /// The glyph shown while the sidebar is open, when no content replaces the default one. Left unset,
+    /// The icon shown while the sidebar is open (in general an <see cref="OmniIcon"/>, decorative), when no content replaces the default one. Left unset,
     /// the toggle keeps the menu glyph while there is room for the sidebar beside the content, and turns
     /// into a close cross only under the phone threshold (39.99rem), where the open menu covers the page
-    /// and has to say how to dismiss it. Set it to force one glyph at every width.
+    /// and has to say how to dismiss it. Set it to force one icon at every width.
     /// </summary>
     [Parameter]
-    public OmniIconName? OpenIcon { get; set; }
+    public RenderFragment? OpenIcon { get; set; }
 
     /// <summary>
     /// How the controlled sidebar opens, when the host knows it. <see cref="OmniSidebarReveal.Overlay"/>

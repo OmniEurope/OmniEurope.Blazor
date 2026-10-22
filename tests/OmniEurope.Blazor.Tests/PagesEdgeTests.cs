@@ -100,7 +100,7 @@ public sealed class PagesEdgeTests : OmniBunitContext
         var header = Render<OmniPageHeader>(parameters => parameters
             .Add(component => component.Title, "Factures")
             .Add(component => component.Id, "entete")
-            .Add(component => component.Actions, actions)
+            .Add(component => component.ActionsContent, actions)
             .Add(component => component.ShowBack, true));
 
         Assert.Equal("Factures", header.Find("h1").TextContent.Trim());

@@ -4,7 +4,7 @@ namespace OmniEurope.Blazor.Components;
 public enum OmniLayoutWidth
 {
     /// <summary>The whole width of the main area. The default.</summary>
-    Full,
+    FullWidth,
 
     /// <summary>Capped at 90rem (the <c>--omni-layout-wide-width</c> token) and centred.</summary>
     Wide,

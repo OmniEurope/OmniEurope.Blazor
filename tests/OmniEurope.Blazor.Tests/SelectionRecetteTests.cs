@@ -22,7 +22,7 @@ public sealed class SelectionRecetteTests : OmniBunitContext
         var module = JSInterop.SetupModule(FocusModule);
         module.Mode = JSRuntimeMode.Loose;
         var menu = Render<OmniProfileMenu>(parameters => parameters
-            .Add(component => component.Summary, (RenderFragment)(builder => builder.AddContent(0, "Camille")))
+            .Add(component => component.SummaryContent, (RenderFragment)(builder => builder.AddContent(0, "Camille")))
             .AddChildContent<OmniMenuItem>(item => item.AddChildContent("Profil")));
 
         menu.Find(".omni-profile-menu__trigger").Click();

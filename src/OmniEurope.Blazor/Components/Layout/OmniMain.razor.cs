@@ -10,9 +10,9 @@ namespace OmniEurope.Blazor.Components;
 /// <remarks>
 /// The outermost main area (one not nested in another <see cref="OmniMain"/>) follows the user's content
 /// width, <see cref="OmniAppearanceState.FullWidth"/>: when the user asks for the whole width, it is
-/// drawn as <see cref="OmniLayoutWidth.Full"/> whatever <see cref="ContentWidth"/> says; otherwise
+/// drawn as <see cref="OmniLayoutWidth.FullWidth"/> whatever <see cref="ContentWidth"/> says; otherwise
 /// <see cref="ContentWidth"/> is the centred column the user gets. A main area left at its default
-/// (<see cref="OmniLayoutWidth.Full"/>) is therefore unchanged by the setting.
+/// (<see cref="OmniLayoutWidth.FullWidth"/>) is therefore unchanged by the setting.
 /// </remarks>
 public partial class OmniMain
 {
@@ -53,7 +53,7 @@ public partial class OmniMain
     /// <c>--omni-layout-wide-width</c> and <c>--omni-layout-content-width</c>, so a host can set its own.
     /// </summary>
     [Parameter]
-    public OmniLayoutWidth ContentWidth { get; set; } = OmniLayoutWidth.Full;
+    public OmniLayoutWidth ContentWidth { get; set; } = OmniLayoutWidth.FullWidth;
 
     /// <summary>
     /// Makes the main area the scroll container of the page, filling the height its
@@ -140,9 +140,9 @@ public partial class OmniMain
     }
 
     /// <summary>The width drawn: the whole width when the user asks for it, <see cref="ContentWidth"/> otherwise.</summary>
-    private OmniLayoutWidth EffectiveWidth => _shared?.State.FullWidth == true ? OmniLayoutWidth.Full : ContentWidth;
+    private OmniLayoutWidth EffectiveWidth => _shared?.State.FullWidth == true ? OmniLayoutWidth.FullWidth : ContentWidth;
 
-    private string? WidthClass => EffectiveWidth == OmniLayoutWidth.Full
+    private string? WidthClass => EffectiveWidth == OmniLayoutWidth.FullWidth
         ? null
         : $"omni-main--{EffectiveWidth.ToString().ToLowerInvariant()}";
 }

@@ -36,7 +36,7 @@ public partial class OmniAccordion
     /// to fit the outline of the page: <see cref="OmniHeadingLevel.H3"/> by default.
     /// </summary>
     [Parameter]
-    public OmniHeadingLevel HeadingLevel { get; set; } = OmniHeadingLevel.H3;
+    public OmniHeadingLevel Level { get; set; } = OmniHeadingLevel.H3;
 
     /// <summary>
     /// The density of this component and of what it holds (control heights, paddings, gaps), over
@@ -51,7 +51,7 @@ public partial class OmniAccordion
         base.OnParametersSet();
         _context.Multiple = Multiple;
         _context.KeepContent = KeepContent;
-        _context.HeadingLevel = HeadingLevel;
+        _context.Level = Level;
     }
 
     private Task EnablePageKeysAsync()

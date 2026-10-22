@@ -94,13 +94,17 @@
                                                   ConfirmMessage="@Text["SettingsDeleteProjectConfirm"]"
                                                   OnConfirm="DeleteProjectAsync" />
                         <OmniSettingsDangerAction Title="@Text["SettingsResetHistory"]" Description="@Text["SettingsResetHistoryHint"]"
-                                                  ActionText="@Text["SettingsResetAction"]" ActionIcon="OmniIconName.Reset"
+                                                  ActionText="@Text["SettingsResetAction"]"
                                                   ConfirmTitle="@Text["SettingsResetHistoryConfirmTitle"]"
                                                   ConfirmMessage="@Text["SettingsResetHistoryConfirm"]"
                                                   ConfirmText="@Text["SettingsResetHistory"]"
-                                                  OnConfirm="ResetHistoryAsync" OnConfirmError="ReportResetFailure" />
+                                                  OnConfirm="ResetHistoryAsync" OnConfirmError="ReportResetFailure">
+                            <Icon><OmniIcon Name="OmniIconName.Reset" /></Icon>
+                        </OmniSettingsDangerAction>
                         <OmniSettingsDangerAction Title="@Text["SettingsTransferProject"]" Description="@Text["SettingsTransferProjectHint"]"
-                                                  ActionText="@Text["SettingsTransferAction"]" ActionIcon="OmniIconName.Swap" Disabled="true" />
+                                                  ActionText="@Text["SettingsTransferAction"]" Disabled="true">
+                            <Icon><OmniIcon Name="OmniIconName.Swap" /></Icon>
+                        </OmniSettingsDangerAction>
                     </OmniSettingsDangerZone>
                 </OmniComponentsHost>
             </ChildContent>

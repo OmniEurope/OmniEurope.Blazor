@@ -149,7 +149,7 @@ public sealed class StatusStripAndBootSplashTests : OmniBunitContext
         bool? hidden = null;
 
         var splash = Render<OmniBootSplash>(parameters => parameters
-            .Add(component => component.OnHidden, EventCallback.Factory.Create<bool>(this, found => hidden = found)));
+            .Add(component => component.OnHide, EventCallback.Factory.Create<bool>(this, found => hidden = found)));
 
         Assert.True(string.IsNullOrWhiteSpace(splash.Markup));
         splash.WaitForAssertion(() => Assert.True(hidden));
@@ -165,7 +165,7 @@ public sealed class StatusStripAndBootSplashTests : OmniBunitContext
 
         var splash = Render<OmniBootSplash>(parameters => parameters
             .Add(component => component.SplashId, "app-splash")
-            .Add(component => component.OnHidden, EventCallback.Factory.Create<bool>(this, found => hidden = found)));
+            .Add(component => component.OnHide, EventCallback.Factory.Create<bool>(this, found => hidden = found)));
 
         splash.WaitForAssertion(() => Assert.False(hidden));
         Assert.Equal("app-splash", Assert.Single(module.Invocations["hideBootSplash"]).Arguments[0]);

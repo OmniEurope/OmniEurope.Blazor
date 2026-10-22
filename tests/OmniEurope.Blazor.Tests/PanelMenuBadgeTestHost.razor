@@ -2,7 +2,7 @@
 @using OmniEurope.Blazor.Components
 
 @* A badge on each kind of entry: a group with an address, a link, an action and a plain label. *@
-<OmniPanelMenu DisplayStyle="@DisplayStyle">
+<OmniPanelMenu Display="@Display">
     <OmniPanelMenuItem Text="Suivi" Href="/tracking" Id="badge-group">
         <Badge><span class="test-badge">3</span></Badge>
         <ChildContent>
@@ -19,5 +19,5 @@
 
 @code {
     [Parameter]
-    public OmniPanelMenuDisplayStyle DisplayStyle { get; set; } = OmniPanelMenuDisplayStyle.IconAndText;
+    public OmniPanelMenuDisplay Display { get; set; } = OmniPanelMenuDisplay.IconAndText;
 }

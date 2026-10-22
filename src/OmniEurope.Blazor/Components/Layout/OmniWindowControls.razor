@@ -5,9 +5,9 @@
    height of the header, side by side without a gap, the close button in the very corner. Extra header
    actions (a theme toggle) sit before them, square too, with a small gap. *@
 <div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-window-controls")" role="group" aria-label="@EffectiveLabel">
-    @if (Actions is not null)
+    @if (ActionsContent is not null)
     {
-        <div class="omni-window-controls__actions">@Actions</div>
+        <div class="omni-window-controls__actions">@ActionsContent</div>
     }
     <div class="omni-window-controls__buttons">
         @if (OnMinimizeToTray.HasDelegate)
@@ -30,7 +30,7 @@
         {
             <OmniTooltip Text="@EffectiveMaximizeLabel">
                 <button type="button" class="omni-window-controls__button" aria-label="@EffectiveMaximizeLabel" @onclick="OnMaximizeRestore">
-                    <OmniIcon Name="@(IsMaximized ? OmniIconName.FrameCorners : OmniIconName.CornersOut)" />
+                    <OmniIcon Name="@(Maximized ? OmniIconName.FrameCorners : OmniIconName.CornersOut)" />
                 </button>
             </OmniTooltip>
         }

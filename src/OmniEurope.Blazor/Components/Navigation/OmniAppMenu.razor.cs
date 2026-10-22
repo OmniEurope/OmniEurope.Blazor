@@ -6,13 +6,13 @@ namespace OmniEurope.Blazor.Components;
 /// the version and signing out. The mode and the theme are always offered; every other row shows only when
 /// the host gives what it needs. The menu keeps no setting of its own: the host stores and applies the
 /// mode and the language it raises, and opens the appearance window (<see cref="OmniAppearanceWindow"/>)
-/// on <see cref="OnTheme"/>.
+/// on <see cref="OnThemeOpen"/>.
 /// </summary>
 /// <remarks>
 /// A menu whose markup writes none of <see cref="Appearance"/>, <see cref="AppearanceChanged"/> and
 /// <see cref="Preset"/> follows the user's <see cref="OmniAppearanceState"/>: the mode and the theme in
 /// force come from it and the mode picked is written to it. Writing any of them keeps the menu
-/// controlled by the host, as before. The choice is made at the first render; <see cref="OnTheme"/>
+/// controlled by the host, as before. The choice is made at the first render; <see cref="OnThemeOpen"/>
 /// still opens the host's appearance window, which can follow the state too.
 /// </remarks>
 public partial class OmniAppMenu : IDisposable
@@ -73,11 +73,11 @@ public partial class OmniAppMenu : IDisposable
 
     /// <summary>Raised by the Theme row, after the menu closes: the host opens its appearance window.</summary>
     [Parameter, EditorRequired]
-    public EventCallback OnTheme { get; set; }
+    public EventCallback OnThemeOpen { get; set; }
 
     /// <summary>Raised by the Settings row, after the menu closes; bound, it shows that row.</summary>
     [Parameter]
-    public EventCallback OnSettings { get; set; }
+    public EventCallback OnSettingsOpen { get; set; }
 
     /// <summary>The version line at the bottom of the menu, as the host words it; left out when null or blank.</summary>
     [Parameter]
@@ -203,13 +203,13 @@ public partial class OmniAppMenu : IDisposable
     private async Task OpenThemeAsync()
     {
         await SetOpenAsync(false);
-        await OnTheme.InvokeAsync();
+        await OnThemeOpen.InvokeAsync();
     }
 
     private async Task OpenSettingsAsync()
     {
         await SetOpenAsync(false);
-        await OnSettings.InvokeAsync();
+        await OnSettingsOpen.InvokeAsync();
     }
 
     private async Task SignOutAsync()

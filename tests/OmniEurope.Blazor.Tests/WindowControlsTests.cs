@@ -33,8 +33,8 @@ public sealed class WindowControlsTests : OmniBunitContext
     {
         var controls = Render<OmniWindowControls>(parameters => parameters
             .Add(component => component.OnMaximizeRestore, () => { })
-            .Add(component => component.IsMaximized, true)
-            .Add(component => component.Actions, (RenderFragment)(builder => builder.AddMarkupContent(0, "<button class=\"theme\">t</button>"))));
+            .Add(component => component.Maximized, true)
+            .Add(component => component.ActionsContent, (RenderFragment)(builder => builder.AddMarkupContent(0, "<button class=\"theme\">t</button>"))));
 
         Assert.Equal("Restaurer", controls.Find(".omni-window-controls__buttons button").GetAttribute("aria-label"));
         Assert.NotNull(controls.Find(".omni-window-controls__actions .theme"));

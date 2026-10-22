@@ -64,7 +64,7 @@
             <OmniButton Variant="OmniButtonVariant.Ghost" Class="omni-app-menu__item omni-app-menu__theme" OnClick="OpenThemeAsync">
                 <OmniIcon Name="OmniIconName.Palette" /><span>@Localize("SettingsTheme")</span>
             </OmniButton>
-            @if (OnSettings.HasDelegate)
+            @if (OnSettingsOpen.HasDelegate)
             {
                 <OmniButton Variant="OmniButtonVariant.Ghost" Class="omni-app-menu__item omni-app-menu__settings" OnClick="OpenSettingsAsync">
                     <OmniIcon Name="OmniIconName.Settings" /><span>@Localize("AppMenuSettings")</span>
