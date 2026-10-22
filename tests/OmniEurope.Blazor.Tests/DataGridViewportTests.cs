@@ -13,7 +13,7 @@ public sealed class DataGridViewportTests : OmniBunitContext
 {
     private static readonly int[] Many = [.. Enumerable.Range(0, 10_000)];
 
-    private (IRenderedComponent<OmniDataGrid<int>> Grid, BunitJSModuleInterop Module) RenderGrid(GridViewportSnapshot snapshot, bool fixedHeight = false)
+    private (IRenderedComponent<OmniDataGrid<int>> Grid, BunitJSModuleInterop Module) RenderGrid(GridViewportSnapshot snapshot, bool fixedHeight = false, double? estimate = 40d)
     {
         var module = JSInterop.SetupModule(OmniModules.Grid);
         module.Mode = JSRuntimeMode.Loose;
@@ -22,7 +22,7 @@ public sealed class DataGridViewportTests : OmniBunitContext
             .Add(component => component.Items, Many)
             .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
             .Add(component => component.FixedRowHeight, fixedHeight)
-            .Add(component => component.EstimatedRowHeight, 40d));
+            .Add(component => component.EstimatedRowHeight, estimate));
         return (grid, module);
     }
 
@@ -53,6 +53,38 @@ public sealed class DataGridViewportTests : OmniBunitContext
 
         var (fixedGrid, _) = RenderGrid(measured, fixedHeight: true);
         fixedGrid.WaitForAssertion(() => Assert.Contains(">100</td>", fixedGrid.Markup, StringComparison.Ordinal));
+    }
+
+    [Theory]
+    [InlineData(24d)]
+    [InlineData(36d)]
+    [InlineData(44d)]
+    public void FixedRowHeight_WithoutAnEstimate_TakesTheRowHeightOfTheDensity(double densityRow)
+    {
+        // 24, 36 and 44 px are the row heights of the compact, comfortable and spacious density tokens.
+        var (grid, module) = RenderGrid(
+            new GridViewportSnapshot { ScrollTop = densityRow * 1_000, ViewportHeight = 400, RowEstimate = densityRow },
+            fixedHeight: true,
+            estimate: null);
+
+        // Row 1000 stands at 1000 rows of the density's height, not of a built-in 40 px.
+        grid.WaitForAssertion(() => Assert.Contains(">1000</td>", grid.Markup, StringComparison.Ordinal));
+        Assert.Contains("omni-data-grid--fixed-row-height", grid.Find(".omni-data-grid").ClassName, StringComparison.Ordinal);
+        // Rows are not measured, and no pixel height is written: the stylesheet draws the density's height.
+        Assert.Equal(false, module.Invocations["sync"][0].Arguments[1]);
+        Assert.All(module.Invocations["applyRowHeight"], call => Assert.Null(call.Arguments[1]));
+    }
+
+    [Fact]
+    public void FixedRowHeight_WithAnEstimate_KeepsItWhateverTheDensity()
+    {
+        var (grid, module) = RenderGrid(
+            new GridViewportSnapshot { ScrollTop = 36_000, ViewportHeight = 400, RowEstimate = 24 },
+            fixedHeight: true,
+            estimate: 36d);
+
+        grid.WaitForAssertion(() => Assert.Contains(">1000</td>", grid.Markup, StringComparison.Ordinal));
+        Assert.Equal(36d, module.Invocations["applyRowHeight"][0].Arguments[1]);
     }
 
     [Fact]

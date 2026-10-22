@@ -232,7 +232,12 @@ Mécanique :
   lignes suivantes se décalent en conséquence. Recherche de position et mise à jour restent
   logarithmiques, y compris sur des millions de lignes.
 - `FixedRowHeight` fait d'`EstimatedRowHeight` la hauteur exacte de chaque ligne : aucune mesure, et les
-  lignes sont dessinées à cette hauteur (débordement coupé), pour les jeux homogènes. Une ligne en
+  lignes sont dessinées à cette hauteur (débordement coupé), pour les jeux homogènes. Sans
+  `EstimatedRowHeight` (`null` par défaut), c'est la hauteur de ligne de la densité de la grille
+  (jeton `--omni-grid-row-estimate` : 24, 36 ou 44 px en compacte, confortable ou aérée) : la feuille de
+  style dessine les lignes à ce jeton et la virtualisation compte le même, lu par le script, si bien
+  que les deux s'accordent dans toutes les densités. Une valeur donnée est imposée telle quelle, quelle
+  que soit la densité. Une ligne en
   édition (`omni-data-grid__row--editing`) garde cette hauteur : ses cellules perdent leur marge
   verticale et ses contrôles tiennent dans la ligne. Les autres cellules ont leur propre interligne
   (1,25 rem) et une marge verticale ramenée à ce qui reste de la ligne une fois l'interligne et le filet

@@ -516,6 +516,10 @@
 /* The spacers stand in for the rows outside the rendered window: never clamp them to one row.
    The declared height is the whole row: a cell counts its padding and its rule inside it (border-box),
    otherwise each row came out taller than declared by that much and the scroll total drifted from the rows. */
+/* Without an EstimatedRowHeight the row is the density's row height, the very token the virtualization reads
+   as its item size (sync in omni-grid.js); a height the consumer gave is written on the viewport
+   (applyRowHeight) and wins there, since the viewport is nearer to the rows than the grid. */
+.omni-data-grid--fixed-row-height { --omni-row-height: var(--omni-grid-row-estimate); }
 .omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer),
 .omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer) td { block-size: var(--omni-row-height); box-sizing: border-box; }
 .omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer) td { max-block-size: var(--omni-row-height); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

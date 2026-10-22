@@ -2503,7 +2503,7 @@ property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.EditMode : Omni
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.EmptyContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.EmptyText : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ErrorContent : Microsoft.AspNetCore.Components.RenderFragment<System.Exception>? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.EstimatedRowHeight : System.Double {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.EstimatedRowHeight : System.Double? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExpandMode : OmniEurope.Blazor.Components.OmniDataGridRowMode {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExpandedKeys : System.Collections.Generic.IReadOnlyList<System.Object> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExpandedKeysChanged : Microsoft.AspNetCore.Components.EventCallback<System.Collections.Generic.IReadOnlyList<System.Object>> {get(public);set(public)} [Parameter]

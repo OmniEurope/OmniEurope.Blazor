@@ -103,7 +103,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         // when the item rows themselves have a fixed height. The spacers of the rows just rendered
         // are set before anything is read, so the scroll is never measured on a shortened content.
         var viewport = grid.Virtual;
-        var snapshot = await module.InvokeAsync<GridViewportSnapshot?>("sync", grid.Viewport, viewport.FixedHeight is null || grid.View.StructuredVirtual, viewport.Range.TopSpacer, viewport.Range.BottomSpacer);
+        var snapshot = await module.InvokeAsync<GridViewportSnapshot?>("sync", grid.Viewport, !viewport.RowsAreFixed || grid.View.StructuredVirtual, viewport.Range.TopSpacer, viewport.Range.BottomSpacer);
         var moved = viewport.ApplySnapshot(snapshot);
         var previous = viewport.Range;
         viewport.Sync();
