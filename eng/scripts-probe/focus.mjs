@@ -52,7 +52,7 @@ export async function focusSteps(session, results) {
   step('onglets : les flèches suivent le sens de lecture, de gauche à droite et de droite à gauche');
 
   // 3. A call to .NET that a lost circuit rejects leaves no unhandled promise rejection: the keyboard of a tab
-  // strip, the narrow-window watcher and the Escape listener of a sidebar, each given a reference that rejects.
+  // strip, the narrow-window watcher and the Escape listener of a sidebar, the viewport report of a log viewer, each given a reference that rejects.
   const rejections = await evaluate(`(async () => {
     const seen = [];
     const onRejection = event => { seen.push(String(event.reason?.message ?? event.reason)); event.preventDefault(); };
@@ -70,8 +70,23 @@ export async function focusSteps(session, results) {
     focus.watchNarrow(owner, lost);
     focus.attachEscape(owner, lost);
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    // The log viewer reports its viewport on the next frame after a scroll: the report is rejected too.
+    const logViewer = await import('/_content/OmniEurope.Blazor/omni-log-viewer.js');
+    const viewport = document.createElement('div');
+    // Sized through the CSSOM: an inline style attribute is refused by the strict CSP.
+    viewport.style.height = '40px';
+    viewport.style.overflow = 'auto';
+    const content = document.createElement('div');
+    content.style.height = '400px';
+    viewport.append(content);
+    document.body.append(viewport);
+    logViewer.attach(viewport, lost, true);
+    viewport.scrollTop = 100;
+    viewport.dispatchEvent(new Event('scroll'));
     await new Promise(resolve => setTimeout(resolve, 400));
     focus.unwatchNarrow(owner);
+    logViewer.detach(viewport);
+    viewport.remove();
     focus.detachEscape(owner);
     focus.disposeTabs(strip);
     strip.remove();
