@@ -71,9 +71,9 @@ internal sealed class GridColumnSet<TItem>(OmniDataGrid<TItem> grid)
     /// <summary>Whether a grouped grid closes each group with a footer row: a visible column fills it.</summary>
     internal bool HasGroupFooter => VisibleColumns.Any(column => column.GroupFooterTemplate is not null || column.Aggregate != OmniDataGridAggregate.None);
 
-    internal bool HasTopFooter => HasFooter && grid.FooterPosition is OmniDataGridPosition.Top or OmniDataGridPosition.TopAndBottom;
+    internal bool HasTopFooter => HasFooter && grid.FooterPlacement is OmniDataGridPlacement.Top or OmniDataGridPlacement.TopAndBottom;
 
-    internal bool HasBottomFooter => HasFooter && grid.FooterPosition is OmniDataGridPosition.Bottom or OmniDataGridPosition.TopAndBottom;
+    internal bool HasBottomFooter => HasFooter && grid.FooterPlacement is OmniDataGridPlacement.Bottom or OmniDataGridPlacement.TopAndBottom;
 
     /// <summary>The column of a key among the effective columns, or null.</summary>
     internal OmniDataGridColumnDefinition<TItem>? Find(string key) =>
@@ -119,7 +119,7 @@ internal sealed class GridColumnSet<TItem>(OmniDataGrid<TItem> grid)
         {
             // A column rendered after the first request (under a condition, or added later) brings a
             // default the rows on screen were not loaded with: they are loaded again with it.
-            _ = grid.DispatchAsync(async () =>
+            _ = grid.DispatchDetachedAsync(async () =>
             {
                 await grid.ReloadAsync();
                 grid.Render();
@@ -155,7 +155,7 @@ internal sealed class GridColumnSet<TItem>(OmniDataGrid<TItem> grid)
         grid.ColumnLayout.Forget(key);
         grid.View.InvalidateLocalProjection();
         grid.RebuildRenderSnapshot();
-        _ = grid.DispatchAsync(async () =>
+        _ = grid.DispatchDetachedAsync(async () =>
         {
             if (grid.Load is not null)
             {

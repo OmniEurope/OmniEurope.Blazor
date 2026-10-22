@@ -33,7 +33,7 @@ public sealed class NavigationEdgeTests : OmniBunitContext
             .Add(component => component.Languages, [new OmniAppMenuLanguage("fr", "Français"), new OmniAppMenuLanguage("en", "English")])
             .Add(component => component.Language, "fr")
             .Add(component => component.LanguageChanged, code => languages.Add(code))
-            .Add(component => component.OnSettings, () => settings++));
+            .Add(component => component.OnSettingsOpen, () => settings++));
 
         menu.Find(".omni-app-menu select").Change("1");
         menu.Find(".omni-app-menu__settings").Click();

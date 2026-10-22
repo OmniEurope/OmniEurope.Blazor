@@ -33,40 +33,13 @@ internal sealed class GridExport<TItem>(OmniDataGrid<TItem> grid) : IAsyncDispos
 
     private OmniTableExporter? Exporter => grid.Services.GetService(typeof(OmniTableExporter)) as OmniTableExporter;
 
-    // The former ExportFormats and ExportPosition are still honoured, which is the one place they are read.
-#pragma warning disable CS0618
-    private IReadOnlyList<OmniTableExportFormat> FormerFormats => grid.ExportFormats;
+    private OmniDataGridBarExport HeaderAsked => grid.ShowHeaderBar ? grid.HeaderBarExport : OmniDataGridBarExport.None;
 
-    private OmniDataGridPosition FormerPosition => grid.ExportPosition;
-#pragma warning restore CS0618
+    private OmniDataGridBarExport FooterAsked => grid.ShowFooterBar ? grid.FooterBarExport : OmniDataGridBarExport.None;
 
-    private OmniDataGridBarExport HeaderBarAsks => grid.ShowHeaderBar ? grid.HeaderBarExport : OmniDataGridBarExport.None;
-
-    private OmniDataGridBarExport FooterBarAsks => grid.ShowFooterBar ? grid.FooterBarExport : OmniDataGridBarExport.None;
-
-    /// <summary>
-    /// The former export bar: formats listed while no shown bar carries the buttons. Its bar is shown
-    /// with them at its start, wherever <c>ExportPosition</c> put it.
-    /// </summary>
-    private bool Former => FormerFormats.Count > 0
-        && HeaderBarAsks == OmniDataGridBarExport.None && FooterBarAsks == OmniDataGridBarExport.None;
-
-    private OmniDataGridBarExport HeaderAsked => Former
-        ? (FormerPosition != OmniDataGridPosition.Bottom ? OmniDataGridBarExport.Start : OmniDataGridBarExport.None)
-        : HeaderBarAsks;
-
-    private OmniDataGridBarExport FooterAsked => Former
-        ? (FormerPosition != OmniDataGridPosition.Top ? OmniDataGridBarExport.Start : OmniDataGridBarExport.None)
-        : FooterBarAsks;
-
-    /// <summary>The formats switched on, in the order of their buttons, or the former list when one is given.</summary>
+    /// <summary>The formats switched on, in the order of their buttons.</summary>
     private IEnumerable<OmniTableExportFormat> Asked()
     {
-        if (FormerFormats.Count > 0)
-        {
-            return FormerFormats.Distinct();
-        }
-
         var asked = new List<OmniTableExportFormat>(4);
         if (grid.ExportMarkdown) asked.Add(OmniTableExportFormat.Markdown);
         if (grid.ExportCsv) asked.Add(OmniTableExportFormat.Csv);
@@ -90,14 +63,11 @@ internal sealed class GridExport<TItem>(OmniDataGrid<TItem> grid) : IAsyncDispos
     /// <summary>Where the footer bar carries the export buttons: nowhere when no format can be written.</summary>
     internal OmniDataGridBarExport FooterSide => Formats.Count > 0 ? FooterAsked : OmniDataGridBarExport.None;
 
-    /// <summary>
-    /// The header bar is shown when asked, when the former export bar is above the rows, or to carry the
-    /// column chooser.
-    /// </summary>
-    internal bool ShowHeaderBar => grid.ShowHeaderBar || (Former && HeaderSide != OmniDataGridBarExport.None) || grid.Chooser.Shown;
+    /// <summary>The header bar is shown when asked, or to carry the column chooser.</summary>
+    internal bool ShowHeaderBar => grid.ShowHeaderBar || grid.Chooser.Shown;
 
-    /// <summary>The footer bar is shown when asked, or when the former export bar is under the rows.</summary>
-    internal bool ShowFooterBar => grid.ShowFooterBar || (Former && FooterSide != OmniDataGridBarExport.None);
+    /// <summary>The footer bar is shown when asked.</summary>
+    internal bool ShowFooterBar => grid.ShowFooterBar;
 
     internal string FormatName(OmniTableExportFormat format) => grid.Text($"GridExportFormat{format}");
 
@@ -252,9 +222,7 @@ internal sealed class GridExport<TItem>(OmniDataGrid<TItem> grid) : IAsyncDispos
     private static OmniTableExportCell CellOf(OmniDataGridColumnDefinition<TItem> column, TItem item)
     {
         var value = (column.ExportValue ?? column.Value)(item);
-        var text = (!string.IsNullOrWhiteSpace(column.FormatString)
-            ? string.Format(CultureInfo.CurrentCulture, column.FormatString, value)
-            : Convert.ToString(value, CultureInfo.CurrentCulture)) ?? string.Empty;
+        var text = GridCellFormat.Text(value, column.FormatString);
         return Typed(text, value);
     }
 

@@ -3,18 +3,42 @@
 @typeparam TSelection
 @inherits OmniInputBase<TSelection>
 
-<select @attributes="AdditionalAttributes"
-        id="@Id"
-        class="@InputCss("omni-input", "omni-list-box")"
-        multiple="@Multiple"
-        size="@VisibleRows"
-        disabled="@Disabled"
-        aria-invalid="@AriaInvalid"
-        aria-describedby="@AriaDescribedBy"
-        @onchange="HandleChange">
-    @for (var index = 0; index < Options.Count; index++)
-    {
-        var option = Options[index];
-        <option value="@index" disabled="@option.Disabled" selected="@IsSelected(option.Value)">@option.Text</option>
-    }
-</select>
+@if (ReadOnly)
+{
+    @* A native select cannot be read-only: the rows are drawn as the options of a listbox that keeps the
+       focus and the selection in view, and takes no click or key as a choice. *@
+    <div @attributes="AdditionalAttributes"
+         id="@Id"
+         class="@InputCss("omni-input", "omni-list-box", "omni-list-box--readonly")"
+         role="listbox"
+         tabindex="@(Disabled ? null : "0")"
+         aria-readonly="true"
+         aria-multiselectable="@(Multiple ? "true" : null)"
+         aria-disabled="@(Disabled ? "true" : null)"
+         aria-invalid="@AriaInvalid"
+         aria-describedby="@AriaDescribedBy">
+        @for (var index = 0; index < Options.Count; index++)
+        {
+            var option = Options[index];
+            <div class="omni-list-box__option" role="option" aria-selected="@(IsSelected(option.Value) ? "true" : "false")" aria-disabled="@(option.Disabled ? "true" : null)">@option.Text</div>
+        }
+    </div>
+}
+else
+{
+    <select @attributes="AdditionalAttributes"
+            id="@Id"
+            class="@InputCss("omni-input", "omni-list-box")"
+            multiple="@Multiple"
+            size="@VisibleRows"
+            disabled="@Disabled"
+            aria-invalid="@AriaInvalid"
+            aria-describedby="@AriaDescribedBy"
+            @onchange="HandleChange">
+        @for (var index = 0; index < Options.Count; index++)
+        {
+            var option = Options[index];
+            <option value="@index" disabled="@option.Disabled" selected="@IsSelected(option.Value)">@option.Text</option>
+        }
+    </select>
+}

@@ -6,7 +6,7 @@
 <div @ref="_root"
      @attributes="AdditionalAttributes"
      id="@Id"
-     class="@Css("omni-diff-viewer", $"omni-diff-viewer--{PhaseName}", Inline ? "omni-diff-viewer--inline" : null, Disabled ? "omni-diff-viewer--disabled" : null)"
+     class="@Css("omni-diff-viewer", $"omni-diff-viewer--{PhaseName}", Unified ? "omni-diff-viewer--inline" : null, Disabled ? "omni-diff-viewer--disabled" : null)"
      role="group"
      aria-label="@EffectiveLabel"
      data-engine="@Engine.ToString().ToLowerInvariant()">

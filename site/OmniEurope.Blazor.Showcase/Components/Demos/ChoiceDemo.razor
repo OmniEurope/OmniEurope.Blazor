@@ -9,19 +9,19 @@
 
         <OmniSelectBar TValue="string" Label="@Text["DemoChoicePeriodLabel"]" Options="Periods" @bind-Value="Period" />
 
-        <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
+        <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Medium">
             <OmniToggleButton @bind-Value="Pinned">@Text["DemoChoicePin"]</OmniToggleButton>
             <OmniToggleButton Value="false" Disabled="true">@Text["DemoChoiceUnavailable"]</OmniToggleButton>
             <OmniToggleButton Value="true" Busy="true">@Text["DemoChoiceSaving"]</OmniToggleButton>
         </OmniStack>
 
-        <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true">
+        <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true">
             <OmniCheckBox Id="choice-labelled-check" @bind-Value="Pinned">@Text["DemoChoiceLabelledCheck"]</OmniCheckBox>
             <OmniCheckBox Id="choice-nullable-check" @bind-Value="Partial">@Text["DemoChoiceTriStateCheck"]</OmniCheckBox>
             <OmniSwitch Id="choice-nullable-switch" @bind-Value="Partial">@Text["DemoChoiceTriStateSwitch"]</OmniSwitch>
             <span>@Text["DemoChoiceTriStateValue", Partial is null ? Text["DemoChoiceIndeterminate"] : Partial.Value ? Text["DemoChoiceOn"] : Text["DemoChoiceOff"]]</span>
         </OmniStack>
-        <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true">
+        <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true">
             <OmniCheckBox Id="choice-text-first-check" TextFirst="true" @bind-Value="Pinned">@Text["DemoChoiceTextFirstCheck"]</OmniCheckBox>
             <OmniSwitch Id="choice-text-first-switch" TextFirst="true" @bind-Value="Pinned">@Text["DemoChoiceTextFirstSwitch"]</OmniSwitch>
         </OmniStack>

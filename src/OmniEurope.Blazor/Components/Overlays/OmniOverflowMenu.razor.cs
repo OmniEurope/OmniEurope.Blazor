@@ -49,9 +49,11 @@ public partial class OmniOverflowMenu
     [Parameter]
     public EventCallback<bool> OpenChanged { get; set; }
 
-    private OmniMenuController Menu => _menu ??= new OmniMenuController(JavaScript, restore => InvokeAsync(() => CloseAsync(restore)));
+    private OmniMenuController Menu => _menu ??= new OmniMenuController(
+        JavaScript,
+        new OmniMenuPortalBinding(this, OmniPortalKind.OverflowMenu, () => Coordinator, () => Popup, () => Open, () => OpenChanged, StateHasChanged, InvokeAsync));
 
-    private bool IsOpen => Menu.IsOpen(Open);
+    private bool IsOpen => Menu.IsOpen();
 
     private string EffectiveLabel => LocalizeOr(Label, "MoreActions");
 
@@ -73,25 +75,7 @@ public partial class OmniOverflowMenu
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        SyncPortal();
-    }
-
-    private void SyncPortal()
-    {
-        if (IsOpen)
-        {
-            Coordinator?.Register(this, OmniPortalKind.OverflowMenu, Popup, () => CloseAsync(restoreFocus: false));
-        }
-        else
-        {
-            Coordinator?.Unregister(this);
-        }
-    }
-
-    private void Refresh()
-    {
-        SyncPortal();
-        StateHasChanged();
+        Menu.SyncPortal();
     }
 
     private Task ToggleAsync() => IsOpen ? CloseAsync(restoreFocus: true) : OpenAsync(focusLast: false);
@@ -103,8 +87,7 @@ public partial class OmniOverflowMenu
             return Task.CompletedTask;
         }
 
-        Menu.RequestPlacement(focusLast);
-        return Menu.SetOpenAsync(true, Open, OpenChanged, Refresh);
+        return Menu.OpenAsync(focusLast);
     }
 
     /// <summary>
@@ -113,7 +96,7 @@ public partial class OmniOverflowMenu
     /// </summary>
     Task IOmniMenu.CloseAsync(bool restoreFocus) => CloseAsync(restoreFocus);
 
-    private Task CloseAsync(bool restoreFocus) => Menu.SetOpenAsync(false, Open, OpenChanged, Refresh, restoreFocus);
+    private Task CloseAsync(bool restoreFocus) => Menu.CloseAsync(restoreFocus);
 
     private Task HandleTriggerKeyDownAsync(KeyboardEventArgs args) => !IsOpen && args.Key is "ArrowDown" or "ArrowUp"
         ? OpenAsync(focusLast: args.Key == "ArrowUp")
@@ -128,11 +111,7 @@ public partial class OmniOverflowMenu
     /// <summary>Takes the menu out of the portal and detaches the script.</summary>
     public async ValueTask DisposeAsync()
     {
-        Coordinator?.Unregister(this);
-        if (_menu is not null)
-        {
-            await _menu.DisposeAsync();
-        }
+        await Menu.DisposeAsync();
 
         GC.SuppressFinalize(this);
     }

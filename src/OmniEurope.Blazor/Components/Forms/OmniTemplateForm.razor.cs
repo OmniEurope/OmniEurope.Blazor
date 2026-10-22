@@ -13,6 +13,7 @@ where TModel : class
     private EditContext? _resolvedEditContext;
     private EditContext? _trackedEditContext;
     private readonly Internal.FormSnapshot _snapshot = new();
+    private bool _snapshotTaken;
     private bool _submitting;
     private TModel? _lastModel;
     private ElementReference _formRoot;
@@ -80,6 +81,23 @@ where TModel : class
         }
 
         Track(_resolvedEditContext);
+        SyncSnapshot();
+    }
+
+    // The values of the model are read (by reflection) only for a form that guards its changes: a form that
+    // does not never pays for it. The record starts when the guard is turned on, and ends when it is turned off.
+    private void SyncSnapshot()
+    {
+        if (GuardUnsavedChanges && !_snapshotTaken && _trackedEditContext is not null)
+        {
+            _snapshot.Take(_trackedEditContext.Model);
+            _snapshotTaken = true;
+        }
+        else if (!GuardUnsavedChanges && _snapshotTaken)
+        {
+            _snapshot.Take(null);
+            _snapshotTaken = false;
+        }
     }
 
     // A new edit context is a new form: it starts clean, and only its own changes count, measured against
@@ -97,7 +115,8 @@ where TModel : class
         }
 
         _trackedEditContext = context;
-        _snapshot.Take(context?.Model);
+        _snapshot.Take(null);
+        _snapshotTaken = false;
         if (context is not null)
         {
             context.OnFieldChanged += HandleFieldChanged;
@@ -106,7 +125,7 @@ where TModel : class
 
     private void HandleFieldChanged(object? sender, FieldChangedEventArgs args)
     {
-        if (_snapshot.Update(args.FieldIdentifier))
+        if (_snapshotTaken && _snapshot.Update(args.FieldIdentifier))
         {
             StateHasChanged();
         }
@@ -122,7 +141,10 @@ where TModel : class
         try
         {
             await OnValidSubmit.InvokeAsync(context);
-            _snapshot.Take(context.Model);
+            if (_snapshotTaken)
+            {
+                _snapshot.Take(context.Model);
+            }
         }
         finally
         {

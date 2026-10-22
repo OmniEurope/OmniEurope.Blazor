@@ -21,19 +21,19 @@ public partial class OmniCodeBlock : IAsyncDisposable
     [Inject]
     private IJSRuntime JavaScript { get; set; } = default!;
 
-    /// <summary>The code, shown as written.</summary>
+    /// <summary>The code, shown as written; null is shown as empty.</summary>
     [Parameter, EditorRequired]
-    public string Code { get; set; } = string.Empty;
+    public string? Code { get; set; }
 
     /// <summary>A caption above the code: what the command does, where it runs. Nothing is drawn when null.</summary>
     [Parameter]
     public string? Title { get; set; }
 
-    /// <summary>The language, shown as a small label: <c>bash</c>, <c>yaml</c>, <c>powershell</c>.</summary>
+    /// <summary>The language identifier (<c>bash</c>, <c>yaml</c>, <c>powershell</c>), as on <see cref="OmniCodeEditor"/>; shown as a small label in the header.</summary>
     [Parameter]
     public string? Language { get; set; }
 
-    /// <summary>A single line, set tighter, for a one-line command.</summary>
+    /// <summary>Whether the code is a single line set inside running text, tighter, for a one-line command.</summary>
     [Parameter]
     public bool Inline { get; set; }
 
@@ -66,7 +66,7 @@ public partial class OmniCodeBlock : IAsyncDisposable
 
     private OmniClipboardCopy Clipboard => _clipboard ??= new OmniClipboardCopy(JavaScript, () => InvokeAsync(StateHasChanged));
 
-    private string DisplayedCode => Secret && !_revealed ? Mask(Code, VisibleCharacters) : Code;
+    private string DisplayedCode => Secret && !_revealed ? Mask(Code ?? string.Empty, VisibleCharacters) : Code ?? string.Empty;
 
     private string? CodeClass => Secret && !_revealed ? "omni-code-block__masked" : null;
 
@@ -149,7 +149,7 @@ public partial class OmniCodeBlock : IAsyncDisposable
     /// <summary>Copies <see cref="Code"/> to the clipboard; true when the clipboard accepted it.</summary>
     public async Task<bool> CopyAsync()
     {
-        var copied = await Clipboard.CopyAsync(Code, CopiedFeedbackDuration, Clock);
+        var copied = await Clipboard.CopyAsync(Code ?? string.Empty, CopiedFeedbackDuration, Clock);
         StateHasChanged();
         await OnCopy.InvokeAsync(copied);
         return copied;

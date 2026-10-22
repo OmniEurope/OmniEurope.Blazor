@@ -76,6 +76,12 @@ public sealed record OmniTableExportDocument
     /// </summary>
     public string Culture { get; init; } = string.Empty;
 
+    /// <summary>
+    /// The sentence a Markdown document writes instead of the table when it holds no row; a generic
+    /// localized one when null. The other formats ignore it.
+    /// </summary>
+    public string? EmptyText { get; init; }
+
     /// <summary>Rows in the table.</summary>
     [JsonIgnore]
     public int RowCount => Rows.Count;

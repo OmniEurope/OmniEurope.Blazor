@@ -34,11 +34,12 @@ public partial class OmniSettingsDangerAction
     public string? ActionText { get; set; }
 
     /// <summary>
-    /// The icon of the button and of the dialog's action, <see cref="OmniIconName.Delete"/> by default; an
-    /// action that deletes nothing (a reset, a transfer) takes its own.
+    /// The icon of the button and of the dialog's action, in general an <see cref="OmniIcon"/> (decorative).
+    /// Null, the default, is <see cref="OmniIconName.Delete"/>; an action that deletes nothing (a reset, a
+    /// transfer) takes its own.
     /// </summary>
     [Parameter]
-    public OmniIconName ActionIcon { get; set; } = OmniIconName.Delete;
+    public RenderFragment? Icon { get; set; }
 
     /// <summary>The dialog's title. Null, the default, is <see cref="Title"/>.</summary>
     [Parameter]
@@ -138,7 +139,8 @@ public partial class OmniSettingsDangerAction
         {
             ConfirmText = string.IsNullOrWhiteSpace(ConfirmText) ? ActionLabel : ConfirmText,
             ConfirmVariant = OmniButtonVariant.Danger,
-            ConfirmIcon = ActionIcon
+            ConfirmIcon = OmniIconName.Delete,
+            ConfirmIconContent = Icon
         });
     }
 }

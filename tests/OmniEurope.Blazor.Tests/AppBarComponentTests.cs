@@ -244,7 +244,7 @@ public sealed class AppBarComponentTests : OmniBunitContext
     public void ProfileMenu_WithASummary_KeepsItAndDrawsNoAvatar()
     {
         var menu = Render<OmniProfileMenu>(parameters => parameters
-            .Add(component => component.Summary, (RenderFragment)(builder => builder.AddContent(0, "Camille")))
+            .Add(component => component.SummaryContent, (RenderFragment)(builder => builder.AddContent(0, "Camille")))
             .Add(component => component.Initials, "CA"));
 
         Assert.DoesNotContain("omni-profile-menu--avatar", menu.Find(".omni-profile-menu").ClassName, StringComparison.Ordinal);
@@ -257,7 +257,7 @@ public sealed class AppBarComponentTests : OmniBunitContext
     {
         var menu = Render<OmniProfileMenu>(parameters => parameters
             .Add(component => component.Initials, "ST")
-            .Add(component => component.Header, (RenderFragment)(builder =>
+            .Add(component => component.HeaderContent, (RenderFragment)(builder =>
             {
                 builder.OpenElement(0, "strong");
                 builder.AddContent(1, "Camille Martin");
@@ -289,7 +289,7 @@ public sealed class AppBarComponentTests : OmniBunitContext
     public void ProfileMenuHeader_IsAbsentByDefault_AndTheListIsTheFloatingSurface()
     {
         var menu = Render<OmniProfileMenu>(parameters => parameters
-            .Add(component => component.Summary, (RenderFragment)(builder => builder.AddContent(0, "AB")))
+            .Add(component => component.SummaryContent, (RenderFragment)(builder => builder.AddContent(0, "AB")))
             .AddChildContent<OmniMenuItem>(item => item.AddChildContent("Profil")));
 
         Assert.Empty(menu.FindAll("[role=menu]"));

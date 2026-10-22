@@ -166,6 +166,55 @@ public sealed class OverlaysEdgeTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task TooltipScript_AFailedInstall_IsNotKept_TheNextTooltipTriesAgain()
+    {
+        var runtime = new ManualJSRuntime();
+        runtime.Module.CallFailures["install"] = new JSException("réseau perdu");
+        var installed = new OmniTooltipInterop(runtime);
+
+        await Assert.ThrowsAsync<JSException>(installed.EnsureInstalledAsync);
+        runtime.Module.CallFailures.Remove("install");
+        await installed.EnsureInstalledAsync();
+        await installed.EnsureInstalledAsync();
+
+        // The failed script is released, the retry imports it again, and a success is kept.
+        Assert.Equal(["install", "install"], runtime.Module.Calls);
+    }
+
+    [Fact]
+    public async Task TooltipScript_RemovedWhileItsImportRuns_IsReleasedOnArrival()
+    {
+        var runtime = new ManualJSRuntime { HoldImports = true };
+        var installed = new OmniTooltipInterop(runtime);
+
+        var installing = installed.EnsureInstalledAsync();
+        await installed.DisposeAsync();
+        runtime.PendingImport.SetResult(runtime.Module);
+        await installing;
+
+        Assert.Empty(runtime.Module.Calls);
+        Assert.True(runtime.Module.Disposal.Task.IsCompleted);
+    }
+
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void Tooltip_WhoseScriptCannotLoad_StillRenders_AndTheNextOneTriesAgain(bool lostCircuit)
+    {
+        Exception failure = lostCircuit ? new JSDisconnectedException("perdu") : new JSException("import refusé");
+        var module = JSInterop.SetupModule(OmniModules.Tooltip);
+        var install = module.SetupVoid("install");
+        install.SetException(failure);
+
+        var first = Render<OmniTooltip>(parameters => parameters.Add(component => component.Text, "Aide").AddChildContent("?"));
+        var second = Render<OmniTooltip>(parameters => parameters.Add(component => component.Text, "Autre aide").AddChildContent("!"));
+
+        Assert.Equal("Aide", first.Find("[role=tooltip]").TextContent);
+        Assert.Equal("Autre aide", second.Find("[role=tooltip]").TextContent);
+        Assert.Equal(2, module.Invocations["install"].Count);
+    }
+
+    [Fact]
     public void Tooltip_PreviewOfAnEarlySpace_IsCutAtTheLimit()
     {
         var tooltip = Render<OmniTooltip>(parameters => parameters

@@ -308,7 +308,7 @@ public sealed class NavigationComponentTests : OmniBunitContext
         var sidebar = Render<OmniSidebar>(parameters => parameters
             .Add(component => component.Open, true)
             .Add(component => component.Reveal, OmniSidebarReveal.Overlay)
-            .Add(component => component.Header, (RenderFragment)(builder => builder.AddContent(0, "Brand")))
+            .Add(component => component.HeaderContent, (RenderFragment)(builder => builder.AddContent(0, "Brand")))
             .AddChildContent("Navigation"));
 
         Assert.Contains("omni-sidebar--has-header", sidebar.Find("aside").ClassName, StringComparison.Ordinal);

@@ -16,6 +16,8 @@ internal sealed class GridDataView<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisp
     private IReadOnlyList<TItem>? _observedItems;
     private Func<OmniDataGridLoadRequest, Task<OmniDataGridResult<TItem>>>? _observedLoader;
     private bool _virtualBootstrapped;
+    // Block numbers index the cache: a block size that changes makes every held block mean other rows.
+    private int _observedBlockSize;
     // The columns register while the grid renders, and a saved state is restored before the first
     // parameters pass: the first request waits for both, so it carries the defaults and the saved state.
     private bool _columnsRendered;
@@ -138,7 +140,10 @@ internal sealed class GridDataView<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisp
         _observedLoader = grid.Load;
         if (Virtualized)
         {
-            if (loaderChanged)
+            var blockSize = BlockSize;
+            var blockSizeChanged = _observedBlockSize != 0 && _observedBlockSize != blockSize;
+            _observedBlockSize = blockSize;
+            if (loaderChanged || blockSizeChanged)
             {
                 _virtualSource.Reset();
                 _virtualBootstrapped = false;

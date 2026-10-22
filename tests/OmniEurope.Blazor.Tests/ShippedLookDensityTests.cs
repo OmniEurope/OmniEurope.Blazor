@@ -228,7 +228,7 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
             "OmniCard" => Render<OmniCard>(p => p.Add(c => c.Density, density).Add(c => c.ChildContent, content)).Find(".omni-card"),
             "OmniAlert" => Render<OmniAlert>(p => p.Add(c => c.Density, density).Add(c => c.ChildContent, content)).Find(".omni-alert"),
             "OmniPanelMenu" => Render<OmniPanelMenu>(p => p.Add(c => c.Density, density)).Find(".omni-panel-menu"),
-            "OmniProfileMenu" => Render<OmniProfileMenu>(p => p.Add(c => c.Density, density).Add(c => c.Summary, content)).Find(".omni-profile-menu"),
+            "OmniProfileMenu" => Render<OmniProfileMenu>(p => p.Add(c => c.Density, density).Add(c => c.SummaryContent, content)).Find(".omni-profile-menu"),
             "OmniContextMenu" => Render<OmniContextMenu>(p => p.Add(c => c.Density, density).Add(c => c.TriggerContent, content)).Find(".omni-context-menu"),
             "OmniTabs" => Render<OmniTabs>(p => p.Add(c => c.Density, density)).Find(".omni-tabs"),
             "OmniSettingsTile" => Render<OmniSettingsTile>(p => p.Add(c => c.Density, density).Add(c => c.Title, "Réglage")).Find(".omni-settings-tile"),
@@ -321,7 +321,7 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
         var header = grid.FindAll("thead th").Single(cell => cell.TextContent.Contains("Durée", StringComparison.Ordinal));
 
         Assert.Contains("omni-data-grid__cell--numeric", header.ClassList);
-        Assert.All(new[] { "name", "duration", "cost", "lambda", "templated" }, key => Assert.Equal(2, Classes(key).Length));
+        Assert.All(new[] { "name", "duration", "cost", "stretched-number", "stretched-text", "lambda", "templated" }, key => Assert.Equal(2, Classes(key).Length));
         Assert.All(Classes("duration"), value => Assert.Contains("omni-data-grid__cell--numeric", value, StringComparison.Ordinal));
         Assert.All(Classes("name"), value => Assert.DoesNotContain("omni-data-grid__cell--numeric", value, StringComparison.Ordinal));
         Assert.All(Classes("cost"), value =>
@@ -330,6 +330,13 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
             Assert.DoesNotContain("omni-data-grid__cell--numeric", value, StringComparison.Ordinal);
         });
         Assert.All(Classes("lambda"), value => Assert.DoesNotContain("omni-data-grid__cell--numeric", value, StringComparison.Ordinal));
+        // Stretch has no meaning for a column of text: it reads as the start, so a number still ends the line.
+        Assert.All(Classes("stretched-number"), value => Assert.Contains("omni-data-grid__cell--numeric", value, StringComparison.Ordinal));
+        Assert.All(Classes("stretched-text"), value =>
+        {
+            Assert.Contains("omni-data-grid__column--align-start", value, StringComparison.Ordinal);
+            Assert.DoesNotContain("align-stretch", value, StringComparison.Ordinal);
+        });
         // A template lays the cell out itself (here a link from the start): header and cells keep the
         // start instead of splitting the header to the end over start-aligned content.
         var templatedHeader = grid.FindAll("thead th").Single(cell => cell.TextContent.Contains("Numéro", StringComparison.Ordinal));
@@ -511,7 +518,7 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
             .Add(component => component.ReducedList, true)
             .Add(component => component.Files, files)
             .Add(component => component.FilesChanged, next => files = next)
-            .Add(component => component.FileRemoved, file => removed.Add(file.Name)));
+            .Add(component => component.OnFileRemove, file => removed.Add(file.Name)));
 
         Assert.Equal(["f3.pdf", "f4.pdf", "f5.pdf"], upload.FindAll(".omni-upload__file-name").Select(name => name.TextContent));
         Assert.Equal("5 fichiers", upload.Find(".omni-upload__count").TextContent);
@@ -711,7 +718,7 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
 
         // The account menu is closed at rest: its trigger says so and no menu is drawn.
         var menu = Render<OmniProfileMenu>(parameters => parameters
-            .Add(component => component.Summary, (RenderFragment)(builder => builder.AddContent(0, "AB"))));
+            .Add(component => component.SummaryContent, (RenderFragment)(builder => builder.AddContent(0, "AB"))));
         Assert.Equal("false", menu.Find(".omni-profile-menu__trigger").GetAttribute("aria-expanded"));
         Assert.Empty(menu.FindAll("[role=menu]"));
     }

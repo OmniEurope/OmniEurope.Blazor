@@ -1,3 +1,5 @@
+using OmniEurope.Blazor.Internal;
+
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
@@ -32,6 +34,14 @@ public partial class OmniListBox<TValue, TSelection>
     /// <summary>Whether the list is disabled. Off by default.</summary>
     [Parameter]
     public bool Disabled { get; set; }
+
+    /// <summary>
+    /// Whether the selection can be read and the list focused but not changed: the rows are drawn as a
+    /// read-only listbox (the selected ones marked) that no click or key changes, and it is not dimmed.
+    /// Off by default.
+    /// </summary>
+    [Parameter]
+    public bool ReadOnly { get; set; }
 
     /// <summary>Identifiers of the elements that describe the list, written as <c>aria-describedby</c>; none when null.</summary>
     [Parameter]
@@ -83,16 +93,16 @@ public partial class OmniListBox<TValue, TSelection>
             };
 
             TValue[] selected = [.. keys
-                .Select(key => int.TryParse(key, out var index) ? index : -1)
-                .Where(index => index >= 0 && index < Options.Count && !Options[index].Disabled)
-                .Select(index => Options[index].Value)];
+                .Select(key => OmniOptionIndex.TryGet(Options, key, out var option) ? option : null)
+                .OfType<OmniOption<TValue>>()
+                .Select(option => option.Value)];
             CurrentValue = (TSelection)(object)selected;
             return;
         }
 
-        if (int.TryParse(args.Value?.ToString(), out var position) && position >= 0 && position < Options.Count && !Options[position].Disabled)
+        if (OmniOptionIndex.TryGet(Options, args.Value?.ToString(), out var chosen))
         {
-            CurrentValue = (TSelection)(object)Options[position].Value!;
+            CurrentValue = (TSelection)(object)chosen.Value!;
         }
     }
 
@@ -107,9 +117,9 @@ public partial class OmniListBox<TValue, TSelection>
     /// <returns>True when the list is single and the text is the index of an enabled option.</returns>
     protected override bool TryParseValueFromString(string? value, out TSelection result, out string validationErrorMessage)
     {
-        if (!Multiple && int.TryParse(value, out var index) && index >= 0 && index < Options.Count && !Options[index].Disabled)
+        if (!Multiple && OmniOptionIndex.TryGet(Options, value, out var option))
         {
-            result = (TSelection)(object)Options[index].Value!;
+            result = (TSelection)(object)option.Value!;
             validationErrorMessage = null!;
             return true;
         }

@@ -10,6 +10,9 @@ namespace OmniEurope.Blazor.Internal;
 /// </summary>
 internal static class MindMapJson
 {
+    /// <summary>The most nodes, links or notes a stored graph may hold; a map past it could not be laid out or drawn.</summary>
+    public const int MaximumItems = 50_000;
+
     // The original editor wrote its graph with JSON.stringify, which leaves accented letters and
     // apostrophes as they are. Writing them the same way keeps a document that went through this
     // model byte for byte what that editor stored, so a host comparing stored text to detect its own
@@ -149,10 +152,20 @@ internal static class MindMapJson
             };
     }
 
-    private static IEnumerable<JsonElement> Items(JsonElement root, string name) =>
-        root.TryGetProperty(name, out var array) && array.ValueKind == JsonValueKind.Array
-            ? array.EnumerateArray().Where(item => item.ValueKind == JsonValueKind.Object).ToArray()
-            : [];
+    private static IEnumerable<JsonElement> Items(JsonElement root, string name)
+    {
+        if (!root.TryGetProperty(name, out var array) || array.ValueKind != JsonValueKind.Array)
+        {
+            return [];
+        }
+
+        if (array.GetArrayLength() > MaximumItems)
+        {
+            throw new JsonException($"A mind map document may hold at most {MaximumItems} {name}.");
+        }
+
+        return array.EnumerateArray().Where(item => item.ValueKind == JsonValueKind.Object).ToArray();
+    }
 
     // Only ever read on objects: the root is checked by Read, the items are filtered by Items.
     private static string? String(JsonElement element, string name, string? fallback) =>
@@ -161,10 +174,15 @@ internal static class MindMapJson
             ? value.GetString()
             : fallback;
 
-    private static double Number(JsonElement element, string name) =>
-        element.TryGetProperty(name, out var value) && value.ValueKind == JsonValueKind.Number
-            ? value.GetDouble()
-            : 0;
+    private static double Number(JsonElement element, string name)
+    {
+        if (!element.TryGetProperty(name, out var value) || value.ValueKind != JsonValueKind.Number)
+        {
+            return 0;
+        }
+
+        return Finite(value, name);
+    }
 
     private static int Integer(JsonElement element, string name, int fallback)
     {
@@ -173,7 +191,24 @@ internal static class MindMapJson
             return fallback;
         }
 
-        return value.TryGetInt32(out var whole) ? whole : (int)Math.Round(value.GetDouble());
+        if (value.TryGetInt32(out var whole))
+        {
+            return whole;
+        }
+
+        // A number a double can hold but an int cannot (1e30) is not a size: the default stands.
+        var number = Math.Round(Finite(value, name));
+        return number is >= int.MinValue and <= int.MaxValue ? (int)number : fallback;
+    }
+
+    // A number past the range of a double reads as an infinity, which no map position or size can be: the
+    // documented failure is a JsonException, not an infinite coordinate that breaks the layout.
+    private static double Finite(JsonElement value, string name)
+    {
+        var number = value.GetDouble();
+        return double.IsFinite(number)
+            ? number
+            : throw new JsonException($"The value of '{name}' is not a number a map can hold.");
     }
 
     private static bool Boolean(JsonElement element, string name) =>

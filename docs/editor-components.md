@@ -509,7 +509,10 @@ await expediteur.EnvoyerAsync(destinataire, mail.Subject, mail.Html, mail.Text);
 `OmniCodeEditor` enveloppe Monaco (`monaco-editor`, construit AMD `min/vs`) sans l'embarquer : le
 paquet ne contient que `omni-code-editor.js`. L'hôte sert le dossier `min/vs` depuis sa propre
 origine, à l'adresse `MonacoPath` (défaut `lib/monaco-editor/min/vs`, relative à l'adresse de base de
-la page) ; une adresse sur une autre origine est refusée. Deux raisons à ce partage :
+la page) ; une adresse sur une autre origine est refusée : un schéma (`https:`, `data:`, `blob:`, `javascript:`),
+un début en `//` ou une barre oblique inverse, un espace ou un caractère de contrôle lèvent une `ArgumentException`
+au rendu, et le script de chargement fait la même vérification. Un chemin relatif (`assets/monaco/vs`, `./vs`) ou
+absolu sur l'hôte (`/_content/x/vs`) reste accepté. Deux raisons à ce partage :
 
 - Monaco pèse environ 14 Mo, plusieurs fois le budget de 2 Mo du paquet NuGet ;
 - il ne fonctionne pas sous la CSP stricte du paquet : il écrit des éléments `style` à l'exécution.
@@ -529,13 +532,14 @@ composant garde sa zone de texte et le dit dans un message d'état ; la valeur r
 
 ### Paramètres
 
-- `Language` : identifiant Monaco (`yaml`, `json`, `csharp`, `javascript`, `html`, `css`, `sql`,
-  `markdown`, `plaintext`...), changeable à chaud.
+- `Language` (`string?`) : identifiant Monaco (`yaml`, `json`, `csharp`, `javascript`, `html`, `css`, `sql`,
+  `markdown`, `plaintext`...), changeable à chaud ; nul, l'éditeur est en `plaintext`.
 - `ReadOnly`, `ShowLineNumbers`, `Wrap` (retour à la ligne), `TabSize`, `Label` (`string?`), `AriaDescribedBy`.
 - `Disabled` : Monaco passe en lecture seule, la zone de texte de repli est désactivée et l'éditeur est
   estompé ; la valeur ne change plus, que Monaco soit chargé ou non.
 - `Height` : longueur CSS (`20rem`, `320px`, `50vh`, `%`), posée par le CSSOM ; toute autre valeur lève.
 - `ShowStatusBar` : ligne, colonne et langage sous l'éditeur.
+- `InteropModulePath` : module JavaScript de même origine qui porte l'interop de l'éditeur. Par défaut c'est celui du paquet, qui utilise Monaco dans le document de l'hôte ; un hôte peut y mettre son propre module, servi de la même origine.
 - Valeur liée dans les deux sens : la frappe remonte au quart de seconde (et à la perte du focus), une
   valeur changée par l'application entre dans l'historique d'annulation de Monaco au lieu de l'effacer,
   sans écho.
@@ -550,13 +554,13 @@ composant garde sa zone de texte et le dit dans un message d'état ; la valeur r
 
 `Links` reçoit des `OmniCodeEditorLink(Name, Pattern)` : chaque motif est une expression régulière
 JavaScript appliquée ligne à ligne, dont le premier groupe (ou toute la correspondance) devient un lien
-Ctrl+clic. Le lien n'ouvre rien : `LinkActivated` reçoit le nom du motif, le texte lié et la ligne.
+Ctrl+clic. Le lien n'ouvre rien : `OnLinkActivate` reçoit le nom du motif, le texte lié et la ligne.
 C'est le fournisseur de liens YAML d'une application cliente (`pipeline: nom`) rendu générique :
 
 ```razor
 <OmniCodeEditor @bind-Value="Yaml" Language="yaml"
                 Links="@([new OmniCodeEditorLink("pipeline", "^\\s*(?:-\\s*)?pipeline:\\s*[\"']?([\\w-]+)")])"
-                LinkActivated="OpenPipeline" />
+                OnLinkActivate="OpenPipeline" />
 ```
 
 ## OmniCodeViewer : extrait numéroté
@@ -564,9 +568,17 @@ C'est le fournisseur de liens YAML d'une application cliente (`pipeline: nom`) r
 `OmniCodeViewer` affiche du code en lecture seule, numéros de ligne à côté du texte (jamais dedans,
 une copie à la main ne les prend pas). `FirstLineNumber` (1 par défaut, ramené à 1 en dessous) numérote
 un extrait comme dans son fichier : les lignes 631 à 640 autour d'un constat gardent leurs numéros.
-`HighlightedLines` (`IReadOnlyList<int>?`) et les numéros rapportés par `LinkActivated` comptent de la même façon.
+`HighlightedLines` (`IReadOnlyList<int>?`) et les numéros rapportés par `OnLinkActivate` comptent de la même façon.
 `OnCopy` (`EventCallback<bool>`) est levé après une copie, avec l'acceptation du presse-papiers ;
 `OmniCodeViewer` et `OmniCodeBlock` partagent le même en-tête (titre et bouton de copie).
+
+`ActionsContent` ajoute des boutons à l'en-tête, `SidePanelContent` pose un panneau à côté du code (nommé
+par `SidePanelLabel`). `ShowCopy` (vrai par défaut) et `ShowWrapToggle` montrent ou cachent les boutons Copier et
+Retour à la ligne. `Language` est, comme partout dans la famille, l'identifiant d'un langage (`string?`, `plaintext`
+quand il est nul) ; `OmniCodeBlock.Code` est un `string?` (nul vaut vide) et `OmniCodeBlock.Inline` affiche le code
+dans une ligne de texte.
+
+`EmptyText` (`string?`) dit ce que montre un code vide ; nul, le texte localisé du paquet (« rien à montrer »). `WrapChanged` (`EventCallback<bool>`) est levé quand le bouton de retour à la ligne est pressé, et `Wrap` se lie par `@bind-Wrap`. `CopiedFeedbackDuration` (`TimeSpan`, 2 secondes par défaut) fixe combien de temps le bouton de copie montre son résultat.
 
 ```razor
 <OmniCodeViewer Code="@Extrait" Title="src/Service.cs" FirstLineNumber="631" HighlightedLines="@([635])" />
@@ -575,17 +587,17 @@ un extrait comme dans son fichier : les lignes 631 à 640 autour d'un constat ga
 ## OmniDiffViewer
 
 `OmniDiffViewer` compare deux versions d'un texte avec l'éditeur de différences de Monaco, côte à côte
-ou en une colonne (`Inline`), les changements marqués ligne par ligne et dans la ligne. Il partage le
+ou en une colonne (`Unified`), les changements marqués ligne par ligne et dans la ligne. Il partage le
 Monaco d'`OmniCodeEditor` et ses conditions : l'hôte sert `min/vs` à `MonacoPath` et autorise
 `style-src 'unsafe-inline'`. Sous la politique stricte, `Engine="OmniCodeEditorEngine.PlainText"` montre
 les deux textes dans deux volets nommés, sans les différences marquées ; c'est aussi ce qui s'affiche
 pendant le chargement de Monaco et, avec un message d'état, s'il ne se charge pas.
 
 - `Original`, `Modified` et `ModifiedChanged` : le texte modifié n'est éditable que si `ReadOnly` est
-  faux (vrai par défaut) ; l'original ne l'est jamais. `Disabled` verrouille aussi le texte modifié,
+  faux (il est vrai par défaut : une comparaison est d'abord une vue, un écran d'édition le passe à faux) ; l'original ne l'est jamais. `Disabled` verrouille aussi le texte modifié,
   `ReadOnly` faux compris (Monaco en lecture seule, volet de repli désactivé), et estompe la comparaison. Une modification remonte comme dans
   `OmniCodeEditor`, sans écho.
-- `Language`, `Inline`, `Height` (longueur CSS posée par le CSSOM, toute autre valeur lève), `Label`
+- `Language` (`string?`, `plaintext` quand il est nul), `Unified`, `Height` (longueur CSS posée par le CSSOM, toute autre valeur lève), `Label`
   (« Comparaison »), `OriginalLabel` (« Avant ») et `ModifiedLabel` (« Après ») ; textes et options
   changent à chaud.
 - Le composant est un `group` nommé ; chaque volet de repli est une `section` nommée dont le texte prend
@@ -605,6 +617,8 @@ la copie prend toujours la valeur entière. `Title` nomme le bloc (classe `omni-
 `OnCopy` rapporte chaque copie. La copie passe par `omniInterop.js` : l'API asynchrone du
 presse-papiers, ou une zone de texte cachée et la commande de copie quand elle est refusée.
 
+`Secret` (faux par défaut) masque la valeur à l'écran jusqu'au bouton qui la révèle, la copie prenant toujours la valeur entière ; `VisibleCharacters` (4 par défaut) dit combien de caractères restent visibles à chaque bout tant qu'elle est masquée ; `CopiedFeedbackDuration` (`TimeSpan`, 2 secondes par défaut) fixe combien de temps le bouton montre la coche après une copie.
+
 ## OmniUnifiedDiff : diff unifié sans Monaco
 
 `OmniUnifiedDiff` dessine un diff unifié (texte brut d'un `git diff`, ou fichiers déjà analysés par
@@ -614,6 +628,8 @@ numéros d'avant et d'après côte à côte et les lignes ajoutées et retirées
 malformé (nombres hors d'un `int`) est ignoré. Il marche donc sous la politique CSP stricte.
 `ExpandedByDefault` (vrai par défaut) ouvre chaque section de fichier ; `FileActionsTemplate` ajoute des
 actions à l'en-tête de chaque fichier.
+
+`Diff` (`string?`) reçoit le texte du diff ; il est ignoré quand `Files` (`IReadOnlyList<OmniDiffFile>?`) est donné, ce qui sert à passer des fichiers déjà lus par `OmniUnifiedDiffParser.Parse` ou construits par l'hôte. `Collapsible` (vrai par défaut) permet de replier chaque fichier par son en-tête. `EmptyText` (`string?`) dit ce que montre un diff vide ; nul, le texte localisé du paquet (« aucun changement »).
 
 ## Limites connues
 

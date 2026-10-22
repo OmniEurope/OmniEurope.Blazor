@@ -12,8 +12,8 @@ internal static class OmniChartGeometry
     /// <summary>Between a category and its value in a hover text, whatever the chart: "mars · 12".</summary>
     public const string Separator = " · ";
 
-    /// <summary>A number for an SVG attribute: invariant culture, at most three decimals.</summary>
-    public static string Number(double value) => value.ToString("0.###", CultureInfo.InvariantCulture);
+    /// <summary>A number for an SVG attribute: invariant culture, at most three decimals; "0" for a value that is not finite, which no attribute accepts.</summary>
+    public static string Number(double value) => double.IsFinite(value) ? value.ToString("0.###", CultureInfo.InvariantCulture) : "0";
 
     /// <summary>A number for display: current culture, at most three decimals.</summary>
     public static string Display(double value) => value.ToString("0.###", CultureInfo.CurrentCulture);
@@ -21,46 +21,84 @@ internal static class OmniChartGeometry
     /// <summary>A category and its value, joined by <see cref="Separator"/>.</summary>
     public static string Pair(string category, string value) => category + Separator + value;
 
-    public static string Points(IReadOnlyList<OmniChartPoint> points) =>
-        string.Join(' ', points.Select((_, index) =>
-        {
-            var point = ProjectedPoint(points, index);
-            return $"{Number(point.X)},{Number(point.Y)}";
-        }));
+    /// <summary>
+    /// The points of a polyline. A point whose X or Y is not a finite number is left out: it has no place
+    /// on the drawing, and a "NaN" in an SVG attribute would invalidate the whole shape.
+    /// </summary>
+    public static string Points(IReadOnlyList<OmniChartPoint> points) => Points(points, Domains(points));
 
-    public static string AreaPoints(IReadOnlyList<OmniChartPoint> points)
+    internal static string Points(IReadOnlyList<OmniChartPoint> points, ChartDomain domain)
     {
-        if (points.Count == 0)
+        var text = new System.Text.StringBuilder();
+        for (var index = 0; index < points.Count; index++)
+        {
+            var point = points[index];
+            if (!IsFinite(point))
+            {
+                continue;
+            }
+
+            if (text.Length > 0)
+            {
+                text.Append(' ');
+            }
+
+            text.Append(Number(ProjectX(point.X, domain.X))).Append(',').Append(Number(ProjectY(point.Y, domain.Y)));
+        }
+
+        return text.ToString();
+    }
+
+    public static string AreaPoints(IReadOnlyList<OmniChartPoint> points) => AreaPoints(points, Domains(points));
+
+    internal static string AreaPoints(IReadOnlyList<OmniChartPoint> points, ChartDomain domain)
+    {
+        var top = Points(points, domain);
+        if (top.Length == 0)
         {
             return string.Empty;
         }
 
-        var top = Points(points);
-        var domain = Domains(points);
+        var first = 0;
+        while (!IsFinite(points[first]))
+        {
+            first++;
+        }
+
+        var last = points.Count - 1;
+        while (!IsFinite(points[last]))
+        {
+            last--;
+        }
+
         var baseline = ProjectY(0, domain.Y);
-        var end = ProjectX(points[^1].X, domain.X);
-        var start = ProjectX(points[0].X, domain.X);
+        var end = ProjectX(points[last].X, domain.X);
+        var start = ProjectX(points[first].X, domain.X);
         return $"{top} {Number(end)},{Number(baseline)} {Number(start)},{Number(baseline)}";
     }
 
-    public static (double X, double Y) ProjectedPoint(IReadOnlyList<OmniChartPoint> points, int index)
-    {
-        var domain = Domains(points);
-        return (ProjectX(points[index].X, domain.X), ProjectY(points[index].Y, domain.Y));
-    }
+    public static (double X, double Y) ProjectedPoint(IReadOnlyList<OmniChartPoint> points, int index) =>
+        ProjectedPoint(points, index, Domains(points));
 
-    public static (double X, double Y, double Width, double Height) ColumnRect(IReadOnlyList<OmniChartPoint> points, int index)
+    internal static (double X, double Y) ProjectedPoint(IReadOnlyList<OmniChartPoint> points, int index, ChartDomain domain) =>
+        (ProjectX(points[index].X, domain.X), ProjectY(points[index].Y, domain.Y));
+
+    public static (double X, double Y, double Width, double Height) ColumnRect(IReadOnlyList<OmniChartPoint> points, int index) =>
+        ColumnRect(points, index, Domains(points));
+
+    internal static (double X, double Y, double Width, double Height) ColumnRect(IReadOnlyList<OmniChartPoint> points, int index, ChartDomain domain)
     {
-        var domain = Domains(points);
         var slot = 80d / Math.Max(1, points.Count);
         var baseline = ProjectY(0, domain.Y);
         var value = ProjectY(points[index].Y, domain.Y);
         return (10 + index * slot, Math.Min(baseline, value), slot * 0.75, Math.Abs(baseline - value));
     }
 
-    public static (double X, double Y, double Width, double Height) BarRect(IReadOnlyList<OmniChartPoint> points, int index)
+    public static (double X, double Y, double Width, double Height) BarRect(IReadOnlyList<OmniChartPoint> points, int index) =>
+        BarRect(points, index, Domains(points));
+
+    internal static (double X, double Y, double Width, double Height) BarRect(IReadOnlyList<OmniChartPoint> points, int index, ChartDomain domain)
     {
-        var domain = Domains(points);
         var slot = 80d / Math.Max(1, points.Count);
         var baseline = ProjectX(0, domain.Y);
         var value = ProjectX(points[index].Y, domain.Y);
@@ -123,22 +161,45 @@ internal static class OmniChartGeometry
         return $"{Number(50 + radius * Math.Cos(radians))} {Number(50 + radius * Math.Sin(radians))}";
     }
 
-    private static ((double Minimum, double Maximum) X, (double Minimum, double Maximum) Y) Domains(IReadOnlyList<OmniChartPoint> points)
+    /// <summary>The ranges of X and Y a series is drawn over, from the finite points only, in one pass.</summary>
+    internal readonly record struct ChartDomain((double Minimum, double Maximum) X, (double Minimum, double Maximum) Y);
+
+    internal static ChartDomain Domains(IReadOnlyList<OmniChartPoint> points)
     {
-        if (points.Count == 0)
+        double minimumX = double.PositiveInfinity, maximumX = double.NegativeInfinity;
+        double minimumY = 0, maximumY = 0;
+        var any = false;
+        for (var index = 0; index < points.Count; index++)
         {
-            return ((0, 1), (0, 1));
+            var point = points[index];
+            if (!IsFinite(point))
+            {
+                continue;
+            }
+
+            any = true;
+            minimumX = Math.Min(minimumX, point.X);
+            maximumX = Math.Max(maximumX, point.X);
+            minimumY = Math.Min(minimumY, point.Y);
+            maximumY = Math.Max(maximumY, point.Y);
         }
 
-        return (Expand((points.Min(point => point.X), points.Max(point => point.X))),
-            Expand((Math.Min(0, points.Min(point => point.Y)), Math.Max(0, points.Max(point => point.Y)))));
+        return any
+            ? new ChartDomain(Expand((minimumX, maximumX)), Expand((minimumY, maximumY)))
+            : new ChartDomain((0, 1), (0, 1));
     }
 
+    private static bool IsFinite(OmniChartPoint point) => double.IsFinite(point.X) && double.IsFinite(point.Y);
+
+    // A value that is not a number sits at the start of the range (X) or on the baseline (Y): never a NaN.
     private static double ProjectX(double value, (double Minimum, double Maximum) domain) =>
-        5 + Math.Clamp((value - domain.Minimum) / (domain.Maximum - domain.Minimum), 0, 1) * 90;
+        5 + Math.Clamp(Fraction(value, domain), 0, 1) * 90;
 
     private static double ProjectY(double value, (double Minimum, double Maximum) domain) =>
-        95 - Math.Clamp((value - domain.Minimum) / (domain.Maximum - domain.Minimum), 0, 1) * 90;
+        95 - Math.Clamp(Fraction(double.IsNaN(value) ? 0 : value, domain), 0, 1) * 90;
+
+    private static double Fraction(double value, (double Minimum, double Maximum) domain) =>
+        double.IsNaN(value) ? 0 : (value - domain.Minimum) / (domain.Maximum - domain.Minimum);
 
     private static (double Minimum, double Maximum) Expand((double Minimum, double Maximum) domain) =>
         domain.Minimum.Equals(domain.Maximum) ? (domain.Minimum - 0.5, domain.Maximum + 0.5) : domain;

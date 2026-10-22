@@ -10,6 +10,13 @@ public partial class OmniColorPicker
     [Parameter]
     public bool Disabled { get; set; }
 
+    /// <summary>
+    /// Whether the colour can be read and the field focused but not changed: the picker does not open and
+    /// a change leaves the value as it is (it keeps the focus). Not dimmed. Off by default.
+    /// </summary>
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
     /// <summary>Whether the value is written beside the colour input, as an <c>output</c>; true by default.</summary>
     [Parameter]
     public bool ShowValue { get; set; } = true;
@@ -18,7 +25,13 @@ public partial class OmniColorPicker
     [Parameter]
     public string? AriaDescribedBy { get; set; }
 
-    private void HandleInput(ChangeEventArgs args) => CurrentValueAsString = args.Value?.ToString();
+    private void HandleInput(ChangeEventArgs args)
+    {
+        if (!ReadOnly)
+        {
+            CurrentValueAsString = args.Value?.ToString();
+        }
+    }
 
     /// <summary>Accepts a <c>#</c> followed by six hexadecimal digits, stored in capitals.</summary>
     /// <param name="value">The text to parse.</param>

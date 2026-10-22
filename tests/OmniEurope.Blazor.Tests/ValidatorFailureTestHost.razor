@@ -1,5 +1,5 @@
 <EditForm EditContext="@EditContext">
-    <OmniRequiredValidator TValue="string" For="@(() => Model.Value)" ValidationDelay="TimeSpan.FromMilliseconds(1)" ValidationFailed="OnValidationFailed" />
+    <OmniRequiredValidator TValue="string" For="@(() => Model.Value)" ValidationDelay="TimeSpan.FromMilliseconds(1)" OnValidationFail="RecordFailure" />
 </EditForm>
 
 @code {
@@ -13,7 +13,7 @@
     }
 
     public void Trigger() => EditContext.NotifyFieldChanged(new FieldIdentifier(Model, nameof(Model.Value)));
-    private void OnValidationFailed(Exception exception) => ObservedException = exception;
+    private void RecordFailure(Exception exception) => ObservedException = exception;
 
     public sealed class ThrowingValidatorModel
     {

@@ -48,6 +48,17 @@
     var themePattern = /^[A-Za-z0-9_-]{1,64}$/;
     var levelPattern = /^(10|[1-9])$/;
     var snapshotVersion = 1;
+    // What a stored snapshot may hold. The built-in looks stay well under every limit (a backdrop gradient is the
+    // longest value, about 800 characters; a test checks the whole catalog against these numbers); a value past
+    // them is corrupt or from another version, and is ignored.
+    var maxSnapshotLength = 262144;
+    var maxTokens = 256;
+    var maxTokenValueLength = 4096;
+    var maxLanguageLength = 35;
+    var tokenNamePattern = /^--[A-Za-z0-9_-]{1,64}$/;
+    // A token value is a CSS value: never a declaration end, a block, a comment, a markup character, an
+    // escape, a control character, nor a function that fetches something.
+    var refusedValuePattern = /url\(|image\(|image-set\(|src\(|expression\(|@import|\/\*|[;{}<>\\\u0000-\u001f\u007f]/i;
     var darkQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
 
     function read(key) {
@@ -86,7 +97,7 @@
     });
 
     var saved = read(data.languageKey);
-    var culture = saved && languagePattern.test(saved) ? saved : null;
+    var culture = saved && saved.length <= maxLanguageLength && languagePattern.test(saved) ? saved : null;
     if (data.languageKey) {
         var browser = navigator.language && languagePattern.test(navigator.language) ? navigator.language : null;
         var language = culture || browser;
@@ -97,20 +108,33 @@
 
     // ---- The boot copy of the theme ----
 
-    // Only custom properties with a text value pass: the snapshot is data, never markup.
+    // Only custom properties with a short, plain CSS value pass: the snapshot is data, never markup. A half
+    // with one token that does not pass is dropped whole, so a look is never painted partly from a corrupt
+    // entry; the page then keeps the stylesheet's own.
     function tokensOf(half) {
-        if (!half || typeof half !== 'object') {
+        if (!half || typeof half !== 'object' || Array.isArray(half)) {
             return null;
         }
 
         var tokens = {};
         var count = 0;
-        Object.keys(half).forEach(function (name) {
-            if (name.indexOf('--') === 0 && typeof half[name] === 'string') {
-                tokens[name] = half[name];
-                count++;
+        var names = Object.keys(half);
+        if (names.length > maxTokens) {
+            return null;
+        }
+
+        for (var i = 0; i < names.length; i++) {
+            var name = names[i];
+            var value = half[name];
+            if (!tokenNamePattern.test(name) || typeof value !== 'string'
+                || value.length > maxTokenValueLength || refusedValuePattern.test(value)) {
+                return null;
             }
-        });
+
+            tokens[name] = value;
+            count++;
+        }
+
         return count > 0 ? tokens : null;
     }
 
@@ -130,7 +154,7 @@
 
     function readSnapshot(key) {
         var raw = read(key);
-        if (!raw) {
+        if (!raw || raw.length > maxSnapshotLength) {
             return null;
         }
 

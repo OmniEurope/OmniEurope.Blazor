@@ -125,7 +125,7 @@ public sealed class ClientReviewGridChartTests : OmniBunitContext
     {
         var points = new[] { new OmniChartPoint(0, 10, "123 456,78 €"), new OmniChartPoint(1, 20, "2"), new OmniChartPoint(2, 30, "345 678,90 €") };
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Soldes")
+            .Add(component => component.Label, "Soldes")
             .AddChildContent(builder =>
             {
                 Child<OmniLineSeries>(builder, 0, ("Data", points), ("Title", "Solde"));
@@ -151,7 +151,7 @@ public sealed class ClientReviewGridChartTests : OmniBunitContext
     {
         var points = new[] { new OmniChartPoint(0, 10), new OmniChartPoint(1, 20), new OmniChartPoint(2, 30) };
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Courts")
+            .Add(component => component.Label, "Courts")
             .AddChildContent(builder =>
             {
                 Child<OmniColumnSeries>(builder, 0, ("Data", points), ("Title", "Ventes"));

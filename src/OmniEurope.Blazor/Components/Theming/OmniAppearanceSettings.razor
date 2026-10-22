@@ -9,9 +9,11 @@
         <span class="omni-appearance-settings__label"><OmniIcon Name="OmniIconName.Palette" /> @Localize("SettingsMode")</span>
         <div class="omni-appearance-settings__actions">
             @* A theme drawn in dark mode only shows the mode it draws, fixed, and says why. *@
-            <OmniSelectBar TValue="OmniAppearance" Options="@ModeOptions" IconFor="@ModeIcon" Label="@Localize("SettingsMode")"
+            <OmniSelectBar TValue="OmniAppearance" Options="@ModeOptions" Label="@Localize("SettingsMode")"
                            Disabled="@ModeFixed" title="@ModeFixedTitle"
-                           @bind-Value:get="ShownAppearance" @bind-Value:set="SetAppearanceAsync" />
+                           @bind-Value:get="ShownAppearance" @bind-Value:set="SetAppearanceAsync">
+                <IconTemplate Context="mode"><OmniIcon Name="@ModeIcon(mode)" /></IconTemplate>
+            </OmniSelectBar>
         </div>
     </div>
     @* Compact, the look reads as one short label and a summary beside the edit action, instead of a

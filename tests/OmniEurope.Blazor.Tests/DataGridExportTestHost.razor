@@ -1,7 +1,5 @@
-@* The former export bar (ExportFormats, ExportPosition) stays supported and under test. *@
-@{
-#pragma warning disable CS0618
-}
+@* Formats and Position are conveniences of this host: given formats switch on exactly those export buttons, in the
+   footer bar (Bottom), the header bar (Top) or both (TopAndBottom), unless ShowHeaderBar or ShowFooterBar ask for more. *@
 <OmniDataGrid TItem="Row"
               Items="@Items"
               Load="@Load"
@@ -9,18 +7,16 @@
               KeyOf="@(row => row.Id)"
               PageSize="2"
               Caption="@Caption"
-              ExportFormats="@Formats"
-              ExportPosition="@Position"
-              ShowHeaderBar="@ShowHeaderBar"
-              ShowFooterBar="@ShowFooterBar"
+              ShowHeaderBar="@(ShowHeaderBar || (Formats.Count > 0 && Position != OmniDataGridPlacement.Bottom))"
+              ShowFooterBar="@(ShowFooterBar || (Formats.Count > 0 && Position != OmniDataGridPlacement.Top))"
               HeaderBarExport="@HeaderBarExport"
               FooterBarExport="@FooterBarExport"
               HeaderBarContent="@HeaderBarContent"
               FooterBarContent="@FooterBarContent"
-              ExportMarkdown="@ExportMarkdown"
-              ExportCsv="@ExportCsv"
-              ExportExcel="@ExportExcel"
-              ExportPdf="@ExportPdf"
+              ExportMarkdown="@(Formats.Count == 0 ? ExportMarkdown : Formats.Contains(OmniTableExportFormat.Markdown))"
+              ExportCsv="@(Formats.Count == 0 ? ExportCsv : Formats.Contains(OmniTableExportFormat.Csv))"
+              ExportExcel="@(Formats.Count == 0 ? ExportExcel : Formats.Contains(OmniTableExportFormat.Excel))"
+              ExportPdf="@(Formats.Count == 0 ? ExportPdf : Formats.Contains(OmniTableExportFormat.Pdf))"
               ExportTitle="@Title"
               ExportFields="@Fields"
               ExportFileName="@FileName"
@@ -63,7 +59,7 @@
 
     [Parameter] public IReadOnlyList<OmniTableExportFormat> Formats { get; set; } = [];
 
-    [Parameter] public OmniDataGridPosition Position { get; set; }
+    [Parameter] public OmniDataGridPlacement Position { get; set; }
 
     [Parameter] public bool ShowHeaderBar { get; set; }
 

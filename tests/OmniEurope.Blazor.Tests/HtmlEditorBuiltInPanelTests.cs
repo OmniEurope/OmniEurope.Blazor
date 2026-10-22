@@ -106,7 +106,7 @@ public sealed class HtmlEditorBuiltInPanelTests : OmniBunitContext
     [InlineData("a\tb\n\n1\t2\n", '\t', "a|b/1|2")]
     public void ReadDelimited_HandlesQuotesLineBreaksBlankRowsAndPadding(string text, char delimiter, string expected)
     {
-        var rows = HtmlEditorTableFile.ReadDelimited(text, delimiter);
+        var rows = HtmlEditorTableFile.ReadDelimited(text, delimiter, out _);
 
         Assert.Equal(expected, string.Join('/', rows.Select(row => string.Join('|', row))));
     }
@@ -115,7 +115,7 @@ public sealed class HtmlEditorBuiltInPanelTests : OmniBunitContext
     public void ReadDelimited_KeepsAtMostAHeaderAndAHundredRows_OfFiftyColumns()
     {
         var line = string.Join(',', Enumerable.Range(1, 60));
-        var rows = HtmlEditorTableFile.ReadDelimited(string.Join('\n', Enumerable.Repeat(line, 150)), ',');
+        var rows = HtmlEditorTableFile.ReadDelimited(string.Join('\n', Enumerable.Repeat(line, 150)), ',', out _);
 
         Assert.Equal(HtmlEditorTableFile.MaxRows + 1, rows.Count);
         Assert.All(rows, row => Assert.Equal(HtmlEditorTableFile.MaxColumns, row.Count));

@@ -203,4 +203,55 @@ public sealed class ThemeScopeBootSnapshotTests : OmniBunitContext
 
         Assert.Contains(":root[data-omni-theme-boot]", StylesheetSource.Read(), StringComparison.Ordinal);
     }
+
+    /// <summary>
+    /// The limits <c>omni-boot.js</c> puts on a stored snapshot (token count, name, value length and content)
+    /// must let through every look the scope can paint: a limit tighter than the catalog would silently drop a
+    /// real look on the next visit.
+    /// </summary>
+    [Fact]
+    public void The_boot_script_limits_admit_every_look_of_the_catalog()
+    {
+        var boot = File.ReadAllText(Path.Combine(ShippedLookTests.RepositoryRoot(), "src", "OmniEurope.Blazor", "wwwroot", "omni-boot.js"));
+        var maxTokens = Limit(boot, "maxTokens");
+        var maxValue = Limit(boot, "maxTokenValueLength");
+        var module = JSInterop.SetupModule(ThemeModule);
+        var combinations = OmniThemePresets.All.Select(preset => (preset, OmniThemePalettes.All[0], OmniThemeFonts.All[0]))
+            .Concat(OmniThemePalettes.All.Select(palette => (OmniThemePresets.All[0], palette, OmniThemeFonts.All[0])))
+            .Concat(OmniThemeFonts.All.Select(font => (OmniThemePresets.All[0], OmniThemePalettes.All[0], font)))
+            .ToList();
+        var refused = new[] { "url(", "image(", "image-set(", "src(", "expression(", "@import", "/*" };
+
+        foreach (var (preset, palette, font) in combinations)
+        {
+            Render<OmniThemeScope>(parameters => parameters
+                .Add(component => component.Appearance, OmniAppearance.Light)
+                .Add(component => component.Preset, preset)
+                .Add(component => component.Palette, palette)
+                .Add(component => component.Font, font)
+                .Add(component => component.SnapshotKey, "site:theme")
+                .AddChildContent("Contenu"));
+            var arguments = module.Invocations["snapshot"].Last().Arguments;
+            foreach (var half in new[] { arguments[6], arguments[7] })
+            {
+                var tokens = Assert.IsAssignableFrom<IReadOnlyDictionary<string, string>>(half);
+                var look = $"{preset.Name} / {palette.Name} / {font.Name}";
+                Assert.True(tokens.Count <= maxTokens, $"{look}: {tokens.Count} tokens");
+                foreach (var (name, value) in tokens)
+                {
+                    Assert.Matches("^--[A-Za-z0-9_-]{1,64}$", name);
+                    Assert.True(value.Length <= maxValue, $"{look}: {name} is {value.Length} characters long");
+                    Assert.DoesNotContain(value, character => character is ';' or '{' or '}' or '<' or '>' or '\\' || char.IsControl(character));
+                    Assert.DoesNotContain(refused, token => value.Contains(token, StringComparison.OrdinalIgnoreCase));
+                }
+            }
+        }
+    }
+
+    private static int Limit(string script, string name)
+    {
+        var match = Regex.Match(script, @"var " + name + @" = (\d+);", RegexOptions.None, TimeSpan.FromSeconds(1));
+        Assert.True(match.Success, name + " is not declared in omni-boot.js");
+        return int.Parse(match.Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture);
+    }
 }

@@ -2,10 +2,11 @@
 
 <OmniStack Gap="OmniSpacing.Large">
     @* Suivant reste grisé tant que le nom manque (CanContinue) ; l'étape des options répond au clic
-       par une validation qui peut refuser (Validate). Une étape déjà atteinte se rouvre d'un clic. *@
+       par une validation qui peut refuser (Validate). Une étape déjà atteinte se rouvre d'un clic.
+       BodyHeight fixe la hauteur du corps : l'étape longue défile, les boutons restent en place. *@
     <EditForm Model="Model">
         <OmniWizard Id="flows-demo-wizard" @bind-Value="Step" FinishText="@Text["DemoFlowsCreateServer"]"
-                    OnFinish="Finish" OnCancel="Reset">
+                    BodyHeight="20rem" OnFinish="Finish" OnCancel="Reset">
             <OmniWizardStep Title="@Text["DemoFlowsStepIdentity"]" CanContinue="@(!string.IsNullOrWhiteSpace(Model.Name))">
                 <OmniFormField For="flows-demo-name" Required="true" Description="@Text["DemoFlowsNameHelp"]">
                     <LabelContent>@Text["DemoFlowsServerName"]</LabelContent>
@@ -15,7 +16,7 @@
                 </OmniFormField>
             </OmniWizardStep>
             <OmniWizardStep Title="@Text["DemoFlowsStepOptions"]" Validate="ValidateOptionsAsync">
-                <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small" Align="OmniAlignment.Center">
+                <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Align="OmniAlignment.Center">
                     <OmniCheckBox Id="flows-demo-backup" @bind-Value="Model.Backup" />
                     <OmniLabel For="flows-demo-backup">@Text["DemoFlowsDailyBackup"]</OmniLabel>
                 </OmniStack>
@@ -31,8 +32,8 @@
             </OmniWizardStep>
             <OmniWizardStep Title="@Text["DemoFlowsStepSummary"]">
                 <OmniDescriptionList>
-                    <OmniDescriptionItem Label="@Text["DemoFlowsSummaryName"]">@Model.Name</OmniDescriptionItem>
-                    <OmniDescriptionItem Label="@Text["DemoFlowsSummaryBackup"]">@(Model.Backup ? Text["DemoFlowsBackupDaily"] : Text["DemoFlowsBackupNone"])</OmniDescriptionItem>
+                    <OmniDescriptionItem Term="@Text["DemoFlowsSummaryName"]">@Model.Name</OmniDescriptionItem>
+                    <OmniDescriptionItem Term="@Text["DemoFlowsSummaryBackup"]">@(Model.Backup ? Text["DemoFlowsBackupDaily"] : Text["DemoFlowsBackupNone"])</OmniDescriptionItem>
                 </OmniDescriptionList>
             </OmniWizardStep>
         </OmniWizard>
@@ -74,19 +75,19 @@
                     </OmniStack>
                 </EditForm>
             </ChildContent>
-            <Footer>
+            <FooterContent>
                 @if (SignInNote is not null)
                 {
                     <p role="status">@SignInNote</p>
                 }
                 <p>@Text["DemoFlowsReturnAfterSignIn", OmniReturnUrl.Resolve("/projets/12?onglet=journal")]</p>
                 <p>@Text["DemoFlowsExternalRefused", OmniReturnUrl.Resolve("//exemple.invalid/piege")]</p>
-            </Footer>
+            </FooterContent>
         </OmniLoginShell>
     </div>
 
     @* L'hôte pilote l'état, le compte à rebours et les rappels ; le composant ne tient aucune connexion. *@
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small">
         <OmniButton Id="flows-demo-drop" Variant="OmniButtonVariant.Warning" OnClick="DropAsync">
             <OmniIcon Name="OmniIconName.Offline" /><span>@Text["DemoFlowsSimulateDrop"]</span>
         </OmniButton>

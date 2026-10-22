@@ -350,12 +350,15 @@ public partial class OmniScheduler
 
     private async Task NavigateAsync(int direction)
     {
-        var next = _view switch
+        // By calendar day, week or month of the time zone, on the wall clock: adding 24 hours to an instant
+        // skips a day, or stays on the same one, around a clock change.
+        var wall = LocalDate.DateTime;
+        var next = CreateBoundary(_view switch
         {
-            OmniCalendarView.Day => _date.AddDays(direction),
-            OmniCalendarView.Week => _date.AddDays(direction * 7),
-            _ => _date.AddMonths(direction)
-        };
+            OmniCalendarView.Day => wall.AddDays(direction),
+            OmniCalendarView.Week => wall.AddDays(direction * 7),
+            _ => wall.AddMonths(direction)
+        });
         _date = next;
         await DateChanged.InvokeAsync(next);
         await ReloadAsync();

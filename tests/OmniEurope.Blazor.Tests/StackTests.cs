@@ -9,7 +9,7 @@ public sealed class StackTests : OmniBunitContext
     public void Scroll_WrapsTheRowBetweenTwoHiddenChevronsThatTheOverflowScriptOwns()
     {
         var stack = Render<OmniStack>(parameters => parameters
-            .Add(component => component.Orientation, OmniStackOrientation.Horizontal)
+            .Add(component => component.Orientation, OmniOrientation.Horizontal)
             .Add(component => component.Overflow, OmniStackOverflow.Scroll)
             .Add(component => component.Class, "host")
             .AddUnmatched("role", "group")
@@ -41,7 +41,7 @@ public sealed class StackTests : OmniBunitContext
     public async Task Scroll_ReleasesTheOverflowScriptWhenDisposed()
     {
         Render<OmniStack>(parameters => parameters
-            .Add(component => component.Orientation, OmniStackOrientation.Horizontal)
+            .Add(component => component.Orientation, OmniOrientation.Horizontal)
             .Add(component => component.Overflow, OmniStackOverflow.Scroll)
             .AddChildContent("<button>Un</button>"));
 
@@ -57,7 +57,7 @@ public sealed class StackTests : OmniBunitContext
     public void OtherModes_KeepASingleElementAndNoScript(OmniStackOverflow overflow)
     {
         var stack = Render<OmniStack>(parameters => parameters
-            .Add(component => component.Orientation, OmniStackOrientation.Horizontal)
+            .Add(component => component.Orientation, OmniOrientation.Horizontal)
             .Add(component => component.Overflow, overflow)
             .AddChildContent("Contenu"));
 
@@ -70,14 +70,14 @@ public sealed class StackTests : OmniBunitContext
     public void Wrap_LetsTheItemsFlowOntoFurtherLines_UnlessAnOverflowModeKeepsThemOnOne()
     {
         var plain = Render<OmniStack>(parameters => parameters
-            .Add(component => component.Orientation, OmniStackOrientation.Horizontal)
+            .Add(component => component.Orientation, OmniOrientation.Horizontal)
             .AddChildContent("Contenu"));
         var wrapping = Render<OmniStack>(parameters => parameters
-            .Add(component => component.Orientation, OmniStackOrientation.Horizontal)
+            .Add(component => component.Orientation, OmniOrientation.Horizontal)
             .Add(component => component.Wrap, true)
             .AddChildContent("Contenu"));
         var collapsing = Render<OmniStack>(parameters => parameters
-            .Add(component => component.Orientation, OmniStackOrientation.Horizontal)
+            .Add(component => component.Orientation, OmniOrientation.Horizontal)
             .Add(component => component.Wrap, true)
             .Add(component => component.Overflow, OmniStackOverflow.Collapse)
             .AddChildContent("Contenu"));

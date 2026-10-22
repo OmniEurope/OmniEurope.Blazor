@@ -19,7 +19,10 @@ internal sealed class OmniMenuController : IAsyncDisposable
 {
     private readonly IJSRuntime _javaScript;
     private readonly Func<bool, Task> _dismissAsync;
+    private readonly OmniMenuPortalBinding? _portal;
+    private Task<IJSObjectReference>? _import;
     private IJSObjectReference? _module;
+    private volatile bool _released;
     private DotNetObjectReference<DismissInterop>? _reference;
     private bool _internalOpen;
     private bool _shown;
@@ -36,6 +39,15 @@ internal sealed class OmniMenuController : IAsyncDisposable
     {
         _javaScript = javaScript;
         _dismissAsync = dismissAsync;
+    }
+
+    /// <param name="javaScript">The runtime the script is imported through.</param>
+    /// <param name="portal">The owner that keeps the menu in the overlay portal; a press outside closes the menu on its renderer.</param>
+    internal OmniMenuController(IJSRuntime javaScript, OmniMenuPortalBinding portal)
+    {
+        _javaScript = javaScript;
+        _portal = portal;
+        _dismissAsync = restoreFocus => portal.Dispatch(() => CloseAsync(restoreFocus));
     }
 
     /// <summary>The key the script files this menu under.</summary>
@@ -56,6 +68,46 @@ internal sealed class OmniMenuController : IAsyncDisposable
         _focusLast = focusLast;
         _x = x;
         _y = y;
+    }
+
+    /// <summary>Whether the menu is open, as its owner sets it or as its own state says.</summary>
+    internal bool IsOpen() => IsOpen(_portal!.Open);
+
+    /// <summary>
+    /// Shows the menu in the overlay portal while it is open and takes it out once closed; the
+    /// portal entry closes the menu without giving the focus back when it is dismissed from outside.
+    /// </summary>
+    internal void SyncPortal()
+    {
+        var portal = _portal!;
+        if (IsOpen())
+        {
+            portal.Coordinator?.Register(portal.Owner, portal.Kind, portal.Popup, () => CloseAsync(restoreFocus: false));
+        }
+        else
+        {
+            portal.Coordinator?.Unregister(portal.Owner);
+        }
+    }
+
+    /// <summary>Asks for the placement (see <see cref="RequestPlacement"/>), then opens the menu.</summary>
+    internal Task OpenAsync(bool focusLast, double? x = null, double? y = null)
+    {
+        RequestPlacement(focusLast, x, y);
+        return SetOpenAsync(true, _portal!.Open, _portal.OpenChanged, Refresh);
+    }
+
+    /// <summary>
+    /// Closes the menu. <paramref name="restoreFocus"/> gives the focus back to the trigger at once, so
+    /// a dialog the chosen action opens next finds it there and gives it back when it closes.
+    /// </summary>
+    internal Task CloseAsync(bool restoreFocus) =>
+        SetOpenAsync(false, _portal!.Open, _portal.OpenChanged, Refresh, restoreFocus);
+
+    private void Refresh()
+    {
+        SyncPortal();
+        _portal!.Render();
     }
 
     /// <summary>
@@ -108,16 +160,18 @@ internal sealed class OmniMenuController : IAsyncDisposable
 
         if (open && !_closeRequested && (!_shown || _placementPending))
         {
-            _module ??= await _javaScript.InvokeAsync<IJSObjectReference>("import", OmniModules.Focus);
+            var module = await LoadModuleAsync();
             if (_disposed)
             {
+                // Removed while the script loaded: it is released here, and nothing is opened.
+                await ReleaseModuleAsync();
                 return;
             }
 
             _shown = true;
             _placementPending = false;
             _reference ??= DotNetObjectReference.Create(new DismissInterop(_dismissAsync));
-            await _module.InvokeVoidAsync(
+            await module.InvokeVoidAsync(
                 "openMenu",
                 menuId,
                 Key,
@@ -132,6 +186,49 @@ internal sealed class OmniMenuController : IAsyncDisposable
         else if (!open && _shown)
         {
             await HideAsync(restoreFocus: false);
+        }
+    }
+
+    /// <summary>The script module, imported once however many renders ask for it while it loads.</summary>
+    private async Task<IJSObjectReference> LoadModuleAsync()
+    {
+        var import = _import ??= _javaScript.InvokeAsync<IJSObjectReference>("import", OmniModules.Focus).AsTask();
+        try
+        {
+            var loaded = await import;
+
+            // Released by a call that arrived first: the module is not kept again, so it is never released twice.
+            return _released ? loaded : _module ??= loaded;
+        }
+        catch
+        {
+            // Only a success is kept: the next render tries again.
+            if (ReferenceEquals(_import, import))
+            {
+                _import = null;
+            }
+
+            throw;
+        }
+    }
+
+    /// <summary>Releases the script module once, whoever asks first; a lost circuit is ignored.</summary>
+    private async Task ReleaseModuleAsync()
+    {
+        var module = Interlocked.Exchange(ref _module, null);
+        if (module is null)
+        {
+            return;
+        }
+
+        _released = true;
+
+        try
+        {
+            await module.DisposeAsync();
+        }
+        catch (JSDisconnectedException)
+        {
         }
     }
 
@@ -215,21 +312,22 @@ internal sealed class OmniMenuController : IAsyncDisposable
     /// <summary>Detaches the script from a menu still open and releases the module.</summary>
     public async ValueTask DisposeAsync()
     {
+        _portal?.Coordinator?.Unregister(_portal.Owner);
         _disposed = true;
-        if (_module is not null)
+        if (_module is { } module)
         {
             try
             {
                 if (_shown)
                 {
-                    await _module.InvokeVoidAsync("closeMenu", Key, false);
+                    await module.InvokeVoidAsync("closeMenu", Key, false);
                 }
-
-                await _module.DisposeAsync();
             }
             catch (JSDisconnectedException)
             {
             }
+
+            await ReleaseModuleAsync();
         }
 
         _shown = false;

@@ -1,3 +1,5 @@
+using OmniEurope.Blazor.Internal;
+
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
@@ -44,6 +46,14 @@ public partial class OmniDropDown<TValue>
     [Parameter]
     public bool Disabled { get; set; }
 
+    /// <summary>
+    /// Whether the value can be read and the control focused but not changed: the chosen text is shown in a
+    /// read-only field (no list opens), or, with <see cref="Filterable"/>, in a read-only combobox. Not dimmed.
+    /// Off by default.
+    /// </summary>
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
     /// <summary>Ids of elements that describe the control, written in its <c>aria-describedby</c>.</summary>
     [Parameter]
     public string? AriaDescribedBy { get; set; }
@@ -86,6 +96,23 @@ public partial class OmniDropDown<TValue>
         }
     }
 
+    /// <summary>The text of the chosen option, empty when none matches.</summary>
+    private string SelectedText
+    {
+        get
+        {
+            foreach (var option in Options)
+            {
+                if (EqualityComparer<TValue>.Default.Equals(CurrentValue, option.Value))
+                {
+                    return option.Text;
+                }
+            }
+
+            return string.Empty;
+        }
+    }
+
     private void HandleChange(ChangeEventArgs args)
     {
         var raw = args.Value?.ToString();
@@ -93,26 +120,33 @@ public partial class OmniDropDown<TValue>
         {
             CurrentValue = default!;
         }
-        else if (int.TryParse(raw, out var index) && index >= 0 && index < Options.Count && !Options[index].Disabled)
+        else if (OmniOptionIndex.TryGet(Options, raw, out var option))
         {
-            CurrentValue = Options[index].Value;
+            CurrentValue = option.Value;
         }
     }
 
     private Task<IReadOnlyList<OmniOption<TValue>>> SearchOptionsAsync(string text, CancellationToken _)
     {
-        IReadOnlyList<OmniOption<TValue>> result = Options
-            .Where(option => option.Text.Contains(text, StringComparison.CurrentCultureIgnoreCase))
-            .ToArray();
+        // Accents and case are ignored, as in the highlight of the matches: "liege" finds the accented name.
+        var matches = Options.Where(option => OmniTextMatch.Contains(option.Text, text));
+
+        // The empty choice is offered at the top of the unfiltered list, where the native select has it.
+        if (AllowEmpty && string.IsNullOrWhiteSpace(text))
+        {
+            matches = matches.Prepend(new OmniOption<TValue>(default!, EffectivePlaceholder));
+        }
+
+        IReadOnlyList<OmniOption<TValue>> result = [.. matches];
         return Task.FromResult(result);
     }
 
     private void HandleAutocompleteChange(TValue value) => CurrentValue = value;
 
-    // The autocomplete formats only a value it holds, never null.
+    // The autocomplete formats only a value it holds, never null. The empty choice shows no text.
     private string FormatValue(TValue value) => Options
         .FirstOrDefault(option => EqualityComparer<TValue>.Default.Equals(option.Value, value))?.Text
-        ?? value!.ToString()
+        ?? (AllowEmpty && EqualityComparer<TValue>.Default.Equals(value, default) ? string.Empty : value!.ToString())
         ?? string.Empty;
 
     /// <summary>
@@ -125,9 +159,9 @@ public partial class OmniDropDown<TValue>
     /// <returns>True when the text is the index of an enabled option.</returns>
     protected override bool TryParseValueFromString(string? value, out TValue result, out string validationErrorMessage)
     {
-        if (int.TryParse(value, out var index) && index >= 0 && index < Options.Count && !Options[index].Disabled)
+        if (OmniOptionIndex.TryGet(Options, value, out var option))
         {
-            result = Options[index].Value;
+            result = option.Value;
             validationErrorMessage = null!;
             return true;
         }

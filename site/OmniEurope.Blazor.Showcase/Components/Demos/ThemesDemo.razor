@@ -19,7 +19,7 @@
         <OmniButton Id="demo-appearance-window" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => _windowOpen = true)"><OmniIcon Name="OmniIconName.Palette" /><span>@Text["DemoThemesAppearanceWindow"]</span></OmniButton>
         <OmniAppearanceWindow @bind-Open="_windowOpen" />
         <OmniCard>
-            <Header><OmniHeading Level="OmniHeadingLevel.H4">@Text["ThemesLivePreview", Caption(LiveSample)]</OmniHeading></Header>
+            <HeaderContent><OmniHeading Level="OmniHeadingLevel.H4">@Text["ThemesLivePreview", Caption(LiveSample)]</OmniHeading></HeaderContent>
             <ChildContent>
                 <OmniStack Gap="OmniSpacing.Small">
                     <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
@@ -36,9 +36,9 @@
     {
         <OmniThemeScope Appearance="sample.Appearance" Preset="sample.Theme" Palette="sample.Palette">
             <OmniCard>
-                <Header>
+                <HeaderContent>
                     <OmniHeading Level="OmniHeadingLevel.H4">@Caption(sample)</OmniHeading>
-                </Header>
+                </HeaderContent>
                 <ChildContent>
                     <OmniStack Gap="OmniSpacing.Small">
                         <p>@(sample.Theme?.Description ?? sample.Palette?.Description)</p>

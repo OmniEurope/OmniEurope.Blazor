@@ -1,10 +1,13 @@
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
-/// A dialog: a titled panel over a veil that makes the page inert and traps the focus (modal, the
-/// default), or a modeless window with <see cref="Modal"/> off. It closes by its close button,
-/// Escape and a press on the veil while <see cref="Dismissible"/>, and gives the focus back to what
-/// had it when it opened.
+/// A dialog: a titled panel over a veil that stops the pointer from reaching the page and keeps the Tab
+/// key inside the panel (modal, the default; <c>aria-modal="true"</c>), or a modeless window with
+/// <see cref="Modal"/> off. The rest of the page is not made inert (no <c>inert</c> attribute is set on it): the
+/// trap holds as long as the focus is inside the dialog, and only a dialog covered by a later dialog of
+/// <see cref="OmniOverlayService"/> is made inert and hidden from assistive technology. It closes by its
+/// close button, Escape and a press on the veil while <see cref="Dismissible"/>, and gives the focus back
+/// to what had it when it opened.
 /// </summary>
 public partial class OmniDialog
 {
@@ -15,9 +18,10 @@ public partial class OmniDialog
     private IJSObjectReference? _dialogModule;
     private bool _focusActivated;
     private bool _attached;
+    private bool _disposed;
     private string? _appliedWidth;
 
-    /// <summary>False opens a modeless window: no veil, inert page, or focus trap.</summary>
+    /// <summary>False opens a modeless window: no veil and no focus trap, and the page stays usable.</summary>
     [Parameter] public bool Modal { get; set; } = true;
 
     /// <summary>Capture the current text scale and density until this window closes.</summary>
@@ -144,7 +148,7 @@ public partial class OmniDialog
 
     /// <summary>The footer, in general the action buttons, at its end. Null, the default, draws no footer.</summary>
     [Parameter]
-    public RenderFragment? Footer { get; set; }
+    public RenderFragment? FooterContent { get; set; }
 
     private string EffectiveId => Id ?? _generatedId;
     private string TitleId => $"{EffectiveId}-title";
@@ -196,7 +200,20 @@ public partial class OmniDialog
     {
         if (firstRender)
         {
-            _focusModule = await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Focus);
+            var module = await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Focus);
+            if (_disposed)
+            {
+                // Removed while the script loaded: nothing may be activated for a dialog that is gone.
+                await module.DisposeAsync();
+                return;
+            }
+
+            _focusModule = module;
+        }
+
+        if (_disposed)
+        {
+            return;
         }
 
         // The free width first: the frozen scale and the focus then see the dialog at its own size.
@@ -205,7 +222,7 @@ public partial class OmniDialog
 
         // On Blazor Server a later render can run while the first one still awaits the focus module:
         // it has no module yet and leaves the focus to the first render, which syncs it once loaded.
-        if (_focusModule is { } focus)
+        if (_focusModule is { } focus && !_disposed)
         {
             await SyncFocusAsync(focus);
         }
@@ -226,10 +243,32 @@ public partial class OmniDialog
             return;
         }
 
-        var module = _dialogModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Dialog);
+        if (await DialogModuleAsync() is not { } module)
+        {
+            return;
+        }
+
         if (Width is null) await module.InvokeVoidAsync("clearWidth", _dialog);
         else await module.InvokeVoidAsync("setWidth", _dialog, Width);
         _appliedWidth = Width;
+    }
+
+    /// <summary>The dialog script, loaded once; null, with the module released, when the dialog went meanwhile.</summary>
+    private async Task<IJSObjectReference?> DialogModuleAsync()
+    {
+        if (_dialogModule is not null)
+        {
+            return _dialogModule;
+        }
+
+        var module = await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Dialog);
+        if (_disposed || _dialogModule is not null)
+        {
+            await module.DisposeAsync();
+            return _disposed ? null : _dialogModule;
+        }
+
+        return _dialogModule = module;
     }
 
     /// <summary>Attaches dragging and the frozen scale when the dialog opens with them, detaches them when it closes.</summary>
@@ -237,7 +276,11 @@ public partial class OmniDialog
     {
         if (Open && !_attached && (Draggable || FreezeScale))
         {
-            var module = _dialogModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Dialog);
+            if (await DialogModuleAsync() is not { } module)
+            {
+                return;
+            }
+
             await module.InvokeVoidAsync("attach", _dialog);
             if (FreezeScale) await module.InvokeVoidAsync("freezeScale", _dialog);
             _attached = true;
@@ -314,6 +357,7 @@ public partial class OmniDialog
     /// <summary>Gives the focus back and detaches the scripts of a dialog still open.</summary>
     public async ValueTask DisposeAsync()
     {
+        _disposed = true;
         if (_focusModule is not null)
         {
             try

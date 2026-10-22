@@ -16,14 +16,14 @@ Ce lot fournit 15 composants. Ils produisent du HTML sémantique, refusent les a
 
 | Composant | Rôle |
 | --- | --- |
-| `OmniText` | Texte rendu en `span`, `p`, `strong`, `em` ou `small`, avec tons et troncature statiques. |
+| `OmniText` | Texte rendu en `span`, `p`, `strong`, `em` ou `small`, avec tons (`OmniTextTone` : `Neutral`, `Muted`, `Accent`, `Success`, `Danger`, `Info`, `Warning`) et troncature statiques. |
 | `OmniHeading` | Titres `h1` à `h6` déterminés par `OmniHeadingLevel`, sur l'échelle `--omni-font-size-h1` à `h6` (2, 1,5, 1,25, 1,125, 1 et 0,875 rem), nettement décroissante. Le titre d'`OmniPageHeader` suit son niveau, h1 par défaut. `Help` (`string?`) ajoute après le titre le « ? » d'aide d'`OmniFormField.Help`, même rendu et même comportement : infobulle au survol et au focus clavier, texte hors du nom du titre, id `{Id}-help-content` avec un `Id` ; le titre et la marque sont alors dans un `div.omni-heading-row` qui porte la marge basse. Sans `Help`, le balisage est inchangé. |
 | `OmniIcon` | Tracés Phosphor `regular` intégrés pour les usages du paquet, décoratifs par défaut ou nommés avec `Label` ; `Glyph` accepte n'importe quel autre tracé sans alourdir le paquet. Sans `Size`, l'icône prend la taille que lui donne son conteneur (badge, bouton partagé, petit bouton), la taille moyenne ailleurs ; `Size` impose une taille fixe. Les icônes de fichier (`FilePdf`, `FileDoc` pour Word, `FileXls`, `FileCsv`, `FileMd`) prennent la couleur de leur format avec `FormatColor` (tons de la palette : PDF danger, Word info, tableurs succès, Markdown atténué) ; seul le tracé change, le bouton garde sa variante. |
 | `OmniBadge` | Étiquette courte, texte en contenu enfant, teintée par `Tone` (`OmniTone` : `Neutral` par défaut, `Accent`, `Info`, `Success`, `Warning`, `Danger`). Par défaut (`Fill="OmniFill.Solid"`), elle prend le fond et l'encre du bouton de même intention ; `Fill="OmniFill.Tonal"` en fait une pastille tonale (fond, trait et texte tirés de l'encre du ton mêlée à la surface et au texte du thème) lisible en clair comme en sombre ; `Fill="OmniFill.Outline"` n'en garde que le trait. `Width` (`OmniBadgeWidth` : `Auto` par défaut, `Small`, `Medium`, `Large`) pose une largeur minimale commune pour que des mots de statut de longueurs différentes (« Échoué », « Annulé », « Succès ») s'alignent sur la même largeur dans une colonne de grille ou une liste : le même pas sur chaque badge de la colonne, un texte plus long élargit son badge sans rien couper, un badge à icône seule reste un carré. Les planchers sont des jetons en `em` du texte du badge (`--omni-badge-width-small`, `-medium`, `-large`, 5,5, 7,5 et 10 em), que l'hôte règle dans sa feuille ; aucun attribut `style`. |
 | `OmniLink` | Lien natif, nommé au besoin par `Label` ; un nouvel onglet ajoute automatiquement `noopener noreferrer` (fusionné avec un `rel` de l'hôte), une icône de lien externe et une mention pour les technologies d'assistance. `OnClick` exécute une action au clic en plus de la navigation, sans l'empêcher ; sans lui, aucun gestionnaire n'est attaché. |
 | `OmniImage` | Image responsive avec texte alternatif, chargement différé et dimensions natives optionnelles. |
 | `OmniSkeleton` | État de chargement décoratif ou région `status` nommée, avec une à dix lignes. |
-| `OmniStack` | Pile flex verticale ou horizontale (`Orientation`) avec espacement, alignement et justification typés. `Wrap` (désactivé par défaut) fait passer les éléments à la ligne ; `Overflow` (`Scroll`, `Collapse`) garde au contraire une seule ligne et l'emporte sur `Wrap`. |
+| `OmniStack` | Pile flex verticale ou horizontale (`Orientation`, un `OmniOrientation`) avec espacement, alignement et justification typés. `Wrap` (désactivé par défaut) fait passer les éléments à la ligne ; `Overflow` (`Scroll`, `Collapse`) garde au contraire une seule ligne et l'emporte sur `Wrap`. |
 | `OmniRow` | Rangée flex des `OmniColumn`, avec espacement, alignement, justification et retour à la ligne typés. Hors colonnes, une `OmniStack` horizontale (`Wrap="true"` pour passer à la ligne) suffit. |
 | `OmniColumn` | Colonne sur douze unités avec variantes responsive `SmallSpan`, `MediumSpan` et `LargeSpan`. |
 | `OmniLayout` | Conteneur de page pleine largeur (en-tête, corps, barre latérale) ; la largeur du contenu se règle sur `OmniMain.ContentWidth`. |
@@ -31,6 +31,8 @@ Ce lot fournit 15 composants. Ils produisent du HTML sémantique, refusent les a
 | `OmniHeader` | Landmark `header`, avec position collante optionnelle définie dans la feuille statique. `Brand` (nom de l'application, en gras) et `BrandLogo` (logo en image, décoratif) ouvrent la barre ; `BrandHref` en fait un lien vers l'accueil ; `SidebarToggle` reçoit la bascule de barre latérale, que l'en-tête pose lui-même au bord, avant la marque, sur l'axe des icônes du rail. C'est la seule façon fiable de la placer : enveloppée dans un élément de l'application, sa marge intérieure la décalerait de l'axe ; ne pas envelopper la bascule ni la marque. Une bascule posée parmi les enfants reste dessinée au bord, comme avant. |
 | `OmniFieldset` | Groupe de champs natif avec `legend` obligatoire et état désactivé ; `Collapsible` le replie avec l'élément natif `details`, déplié tant que `Expanded` vaut vrai (par défaut). `ExpandedChanged` (facultatif) rapporte l'état quand le lecteur ouvre ou ferme le groupe, ce qui permet `@bind-Expanded` : l'événement natif `toggle` est écouté par `omni-focus.js`, sans gestionnaire en ligne, et seulement si le paramètre a un délégué ; sans lui, le groupe est rendu et se comporte comme avant, sans script. |
 | `OmniProgressBar` | Progression linéaire ou circulaire, déterminée ou indéterminée, avec valeurs ARIA. L'indéterminée linéaire glisse d'un mouvement continu, sans arrêt ni retour ; sans mouvement demandé, la piste se remplit à demi-teinte. |
+
+Paramètres de `OmniText` : `ChildContent` (obligatoire) est le texte ; `Element` (`OmniTextElement` : `Span` par défaut, `Paragraph`, `Strong`, `Emphasis`, `Small`) choisit l'élément dessiné ; `Truncate` (faux par défaut) garde le texte sur une ligne, coupée d'une ellipse quand elle ne tient pas.
 
 ## Barre d'application
 
@@ -40,7 +42,7 @@ Les pièces de la barre supérieure de la maquette de PLAN-004 (`docs/plans/arch
 - recherche : `OmniTextBox` avec `Icon` (voir `docs/form-components.md`) ;
 - pastille de la cloche : `OmniButton.Indicator` pose un point du remplissage de danger au coin haut de fin du bouton, cerné de la surface (de l'accent sur le bandeau). Il est décoratif (`aria-hidden`) : ce qu'il signale va dans le nom accessible, par exemple `Label="Notifications, 3 non lues"` ;
 - menu de l'application : `OmniAppMenu`, le même dans toutes les applications (utilisateur et rôle, lignes de l'application, langue, mode, thème, paramètres, version et déconnexion ; voir `docs/navigation-components.md`) ;
-- avatar et menu de compte : `OmniProfileMenu` sans `Summary`, avec `Initials` et `Header`, et ses `OmniMenuItem` avec `Icon` (voir `docs/selection-components.md`).
+- avatar et menu de compte : `OmniProfileMenu` sans `SummaryContent`, avec `Initials` et `HeaderContent`, et ses `OmniMenuItem` avec `Icon` (voir `docs/selection-components.md`).
 
 ```razor
 <OmniHeader Brand="Boutique" BrandLogo="img/logo.svg">
@@ -55,7 +57,7 @@ Les pièces de la barre supérieure de la maquette de PLAN-004 (`docs/plans/arch
         <OmniIcon Name="OmniIconName.Bell" />
     </OmniButton>
     <OmniProfileMenu Label="Compte de Camille Martin" Initials="CM">
-        <Header><strong>Camille Martin</strong><span>Administrateur</span></Header>
+        <HeaderContent><strong>Camille Martin</strong><span>Administrateur</span></HeaderContent>
         <ChildContent>
             <OmniMenuItem Href="/parametres">
                 <Icon><OmniIcon Name="OmniIconName.Settings" /></Icon>
@@ -262,7 +264,7 @@ Chaque sévérité (succès, information, avertissement, danger) et l'accent ont
 
 ### Densité
 
-`OmniDensity` a trois valeurs : `Compact`, `Comfortable` (par défaut) et `Spacious`. `OmniThemeScope.Density` règle toute la portée ; `OmniCard`, `OmniAlert`, `OmniTabs`, `OmniPanelMenu`, `OmniProfileMenu`, `OmniContextMenu` et `OmniSettingsTile` ont leur propre `Density`, nulle par défaut pour hériter, qui l'emporte pour le composant et tout ce qu'il contient. `OmniDataGrid.Density` garde sa valeur propre, non nulle. La densité est un attribut `data-omni-density` qui pose des jetons hérités (hauteur de contrôle de 1,5, 1,75 ou 2,125 rem, soit 24, 28 et 34 px, marges, cases du calendrier, taille des cases à cocher, des interrupteurs et des icônes d'alerte), lus par chaque composant qui a une taille propre.
+`OmniDensity` a trois valeurs : `Compact`, `Comfortable` (par défaut) et `Spacious`. `OmniThemeScope.Density` règle toute la portée ; `OmniCard`, `OmniAlert`, `OmniTabs`, `OmniPanelMenu`, `OmniProfileMenu`, `OmniContextMenu` et `OmniSettingsTile` ont leur propre `Density`, nulle par défaut pour hériter, qui l'emporte pour le composant et tout ce qu'il contient. `OmniDataGrid.Density` fait de même (nulle par défaut, elle suit la portée de thème). La densité est un attribut `data-omni-density` qui pose des jetons hérités (hauteur de contrôle de 1,5, 1,75 ou 2,125 rem, soit 24, 28 et 34 px, marges, cases du calendrier, taille des cases à cocher, des interrupteurs et des icônes d'alerte), lus par chaque composant qui a une taille propre.
 
 ### Réglages d'apparence réutilisables
 
@@ -287,9 +289,9 @@ qui bouge son fond (voir « Fond animé »). Chaque ligne est un groupe nommé p
 d'une échelle portent des noms distincts.
 La ligne « Largeur du contenu » (`FullWidth`, `FullWidthChanged`, recette R1-1) choisit entre « Centré »
 (`false`, par défaut) et « Pleine largeur » (`true`). Le composant ne fait que lever le choix : l'hôte
-garde sa propre colonne centrée et passe `OmniLayoutWidth.Full` à `OmniMain.ContentWidth` quand
+garde sa propre colonne centrée et passe `OmniLayoutWidth.FullWidth` à `OmniMain.ContentWidth` quand
 `FullWidth` vaut `true`, par exemple
-`ContentWidth="@(fullWidth ? OmniLayoutWidth.Full : OmniLayoutWidth.Content)"`. Une application qui ne lie
+`ContentWidth="@(fullWidth ? OmniLayoutWidth.FullWidth : OmniLayoutWidth.Content)"`. Une application qui ne lie
 pas `FullWidthChanged` mais en lie d'autres ne voit pas la ligne et garde sa disposition ; sans aucune liaison, la fenêtre suit `OmniAppearanceState` et la largeur s'applique d'elle-même à l'`OmniMain` le plus externe (voir « Apparence portée par le paquet »). « Tout par défaut » remet
 « Centré », « Restaurer » la largeur d'ouverture. `OmniAppearanceSettings` transmet les deux paramètres à
 sa fenêtre.
@@ -367,10 +369,10 @@ rendu, d'après ce que le balisage écrit :
   d'apparence (les neuf valeurs et leurs `…Changed`) : toutes les lignes s'affichent (« Fond animé » sous un thème qui bouge son fond seulement), les valeurs
   viennent de l'état et les changements y sont écrits ; l'hôte n'ouvre que la fenêtre (`Open`).
 - `OmniAppMenu` qui n'écrit ni `Appearance`, ni `AppearanceChanged`, ni `Preset` : le mode et le thème
-  viennent de l'état, le mode choisi y est écrit ; `OnTheme` ouvre toujours la fenêtre de l'hôte.
+  viennent de l'état, le mode choisi y est écrit ; `OnThemeOpen` ouvre toujours la fenêtre de l'hôte.
 - L'`OmniMain` le plus externe (pas imbriqué dans un autre) : « Pleine largeur » le dessine en
-  `OmniLayoutWidth.Full` ; « Centré » garde son `ContentWidth`, la colonne de l'hôte. Un élément
-  principal laissé à `Full` n'est donc pas changé par ce réglage.
+  `OmniLayoutWidth.FullWidth` ; « Centré » garde son `ContentWidth`, la colonne de l'hôte. Un élément
+  principal laissé à `FullWidth` n'est donc pas changé par ce réglage.
 
 Un hôte qui écrit ces paramètres garde ses composants exactement comme avant, et ils ne lisent ni
 n'écrivent l'état. Une préférence reçue de la base (`IOmniPreferenceStore`, autre poste) ou d'un autre
@@ -401,7 +403,7 @@ La coquille occupe toute la largeur ; `OmniMain.ContentWidth` centre le contenu 
 
 `OmniMain.AutoHideScrollbar` (désactivé par défaut, avec `Scrollable`) garde la place de la barre de défilement mais la laisse transparente : elle n'apparaît que pendant le défilement et s'efface peu après, comme une barre en surimpression.
 
-`OmniWindowControls`, dernier enfant d'un `OmniHeader`, dessine les boutons de légende d'une fenêtre de bureau sans bordure (MAUI, WebView2) : réduire dans la zone de notification (`OnMinimizeToTray`), réduire (`OnMinimize`), agrandir ou restaurer (`OnMaximizeRestore`, `IsMaximized`) et fermer (`OnClose`). Seuls les boutons dont le rappel est posé sont rendus. Ils sont carrés, prennent toute la hauteur de l'en-tête en traversant sa marge intérieure, se touchent, et fermer occupe le coin supérieur droit, rouge au survol. `Actions` accueille d'autres boutons d'en-tête (une bascule de thème), carrés à la même hauteur, avant les boutons de légende et séparés d'eux par un petit espace. Le groupe est nommé par `Label` ; libellés des boutons localisés par défaut, remplaçables par `MinimizeToTrayLabel`, `MinimizeLabel`, `MaximizeLabel`, `RestoreLabel` et `CloseLabel` (tous `string?`).
+`OmniWindowControls`, dernier enfant d'un `OmniHeader`, dessine les boutons de légende d'une fenêtre de bureau sans bordure (MAUI, WebView2) : réduire dans la zone de notification (`OnMinimizeToTray`), réduire (`OnMinimize`), agrandir ou restaurer (`OnMaximizeRestore`, `Maximized`) et fermer (`OnClose`). Seuls les boutons dont le rappel est posé sont rendus. Ils sont carrés, prennent toute la hauteur de l'en-tête en traversant sa marge intérieure, se touchent, et fermer occupe le coin supérieur droit, rouge au survol. `Actions` accueille d'autres boutons d'en-tête (une bascule de thème), carrés à la même hauteur, avant les boutons de légende et séparés d'eux par un petit espace. Le groupe est nommé par `Label` ; libellés des boutons localisés par défaut, remplaçables par `MinimizeToTrayLabel`, `MinimizeLabel`, `MaximizeLabel`, `RestoreLabel` et `CloseLabel` (tous `string?`).
 
 La coquille doit avoir une hauteur bornée : une `OmniLayout` dont le corps porte un élément principal défilant devient une colonne, et l'hôte lui donne sa hauteur, par exemple celle de la fenêtre. Les deux plafonds se lisent dans `--omni-layout-wide-width` et `--omni-layout-content-width`, qu'un hôte peut poser sur un ancêtre.
 
@@ -455,7 +457,7 @@ première image :
 
 La feuille du paquet le dessine par-dessus la page, aux couleurs de l'apparence que `omni-boot.js` a
 posée. Placé une fois dans la mise en page, `<OmniBootSplash />` l'efface en fondu puis le supprime après
-le premier rendu, `OnHidden` recevant vrai s'il y en avait un (`SplashId`, `omni-boot-splash` par
+le premier rendu, `OnHide` recevant vrai s'il y en avait un (`SplashId`, `omni-boot-splash` par
 défaut). Le composant ne rend aucun élément : il ne prend ni `Id`, ni `Class`, ni préréglage, et un
 attribut qu'on lui passe est refusé au rendu plutôt qu'ignoré. Le retrait ne dépend pas de la fin de la transition : un minuteur de 600 ms le garantit dans un
 onglet en arrière-plan, et le mouvement réduit supprime l'écran sans fondu. `omni-boot.js`, script

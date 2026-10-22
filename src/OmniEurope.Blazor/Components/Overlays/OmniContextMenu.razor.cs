@@ -51,9 +51,11 @@ public partial class OmniContextMenu
     [Parameter]
     public OmniDensity? Density { get; set; }
 
-    private OmniMenuController Menu => _menu ??= new OmniMenuController(JavaScript, restore => InvokeAsync(() => CloseAsync(restore)));
+    private OmniMenuController Menu => _menu ??= new OmniMenuController(
+        JavaScript,
+        new OmniMenuPortalBinding(this, OmniPortalKind.ContextMenu, () => Coordinator, () => Popup, () => Open, () => OpenChanged, StateHasChanged, InvokeAsync));
 
-    private bool IsOpen => Menu.IsOpen(Open);
+    private bool IsOpen => Menu.IsOpen();
 
     /// <summary>
     /// The menu is found by this id rather than by an element reference: rendered by the portal, it
@@ -80,25 +82,7 @@ public partial class OmniContextMenu
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        SyncPortal();
-    }
-
-    private void SyncPortal()
-    {
-        if (IsOpen)
-        {
-            Coordinator?.Register(this, OmniPortalKind.ContextMenu, Popup, () => CloseAsync(restoreFocus: false));
-        }
-        else
-        {
-            Coordinator?.Unregister(this);
-        }
-    }
-
-    private void Refresh()
-    {
-        SyncPortal();
-        StateHasChanged();
+        Menu.SyncPortal();
     }
 
     /// <summary>Opens at the pointer; a right-click while open moves the menu there.</summary>
@@ -111,13 +95,12 @@ public partial class OmniContextMenu
             return Task.CompletedTask;
         }
 
-        Menu.RequestPlacement(focusLast: false, x, y);
-        return Menu.SetOpenAsync(true, Open, OpenChanged, Refresh);
+        return Menu.OpenAsync(focusLast: false, x, y);
     }
 
     Task IOmniMenu.CloseAsync(bool restoreFocus) => CloseAsync(restoreFocus);
 
-    private Task CloseAsync(bool restoreFocus) => Menu.SetOpenAsync(false, Open, OpenChanged, Refresh, restoreFocus);
+    private Task CloseAsync(bool restoreFocus) => Menu.CloseAsync(restoreFocus);
 
     /// <summary>From the keyboard, the menu opens under its trigger.</summary>
     private Task HandleTriggerKeyDownAsync(KeyboardEventArgs args) => args.Key is "ContextMenu" || (args.ShiftKey && args.Key == "F10")
@@ -133,11 +116,7 @@ public partial class OmniContextMenu
     /// <summary>Takes the menu out of the portal and detaches the script.</summary>
     public async ValueTask DisposeAsync()
     {
-        Coordinator?.Unregister(this);
-        if (_menu is not null)
-        {
-            await _menu.DisposeAsync();
-        }
+        await Menu.DisposeAsync();
 
         GC.SuppressFinalize(this);
     }

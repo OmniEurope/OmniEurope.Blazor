@@ -22,5 +22,5 @@ public enum OmniSpacing
     Large,
 
     /// <summary>The largest step (<c>--omni-space-xl</c>).</summary>
-    XLarge
+    ExtraLarge
 }

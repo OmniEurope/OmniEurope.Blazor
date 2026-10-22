@@ -184,6 +184,7 @@
   <data name="HtmlEditorCharCategoryLegal" xml:space="preserve"><value>Jurídico</value></data>
   <data name="HtmlEditorImportTable" xml:space="preserve"><value>Importar una tabla</value></data>
   <data name="HtmlEditorImportTableHint" xml:space="preserve"><value>Archivo {0}, 100 filas y 50 columnas como máximo.</value></data>
+  <data name="HtmlEditorImportTableTruncated" xml:space="preserve"><value>El archivo supera los límites: solo se conserva su comienzo.</value></data>
   <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>Primera fila como encabezado</value></data>
   <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Insertar</value></data>
   <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Vista previa de la tabla</value></data>

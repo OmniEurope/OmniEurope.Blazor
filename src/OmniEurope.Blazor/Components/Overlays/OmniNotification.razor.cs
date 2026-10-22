@@ -77,7 +77,7 @@ public partial class OmniNotification
     /// stylesheet holds the tint.
     /// </summary>
     [Parameter]
-    public EventCallback<bool> OnHeldChange { get; set; }
+    public EventCallback<bool> OnHoldChange { get; set; }
 
     // The classes keep the names they had before the severities were merged with those of the alert.
     private string SeverityClass => Severity switch
@@ -144,6 +144,6 @@ public partial class OmniNotification
         }
 
         _held = held;
-        return OnHeldChange.InvokeAsync(held);
+        return OnHoldChange.InvokeAsync(held);
     }
 }

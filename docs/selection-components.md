@@ -14,12 +14,17 @@ valeur (« Note : 3 sur 5 »), hors de l'ordre de tabulation, et dessine ses ét
 (`string?`) nomme le groupe, « Note » localisé par défaut, ou le libellé d'un `OmniFormField` englobant
 (`aria-labelledby`). L'édition participe à `EditContext`.
 
+`ReadOnly` (faux par défaut) existe sur chaque composant de saisie de la famille : `OmniDropDown`, `OmniAutocomplete`, `OmniMultiSelect`, `OmniListBox`, `OmniCheckBoxList`, `OmniRadioButtonList`, `OmniSelectBar`, `OmniSelectableCard` et `OmniSelectableCardGroup`, `OmniSlider`, `OmniColorPicker` et `OmniUpload`. Le contrôle garde son aspect, sa sélection et le focus, et aucun clic, aucune touche ni aucun fichier déposé ne change la valeur ni ne lève `ValueChanged`. Un `select` natif ne sait pas être en lecture seule : `OmniDropDown` montre alors le texte choisi dans un champ en lecture seule, `OmniListBox` dessine ses lignes comme les options d'une liste (`role="listbox"`, `aria-readonly`) et `OmniUpload` liste ses fichiers sans sélecteur ni bouton de retrait.
+
+`OmniUpload` lève `OnFilesSelect` quand le navigateur remet des fichiers et `OnFileRemove` quand l'un est retiré ; `Files` / `FilesChanged` est la liste des fichiers tenus.
+
 `OmniOption<TValue>` porte la valeur, le texte, l'état désactivé et le groupe éventuel. Ce modèle alimente :
 
-- `OmniDropDown<TValue>` (seule source des choix, par `Options` ; `Filterable` ajoute une recherche, avec le chevron des listes au bout du champ (`OmniAutocomplete.ShowToggle`) qui ouvre la liste complète et la referme, `Label` le nomme, rendu en `aria-label` seulement s'il est posé ; sans `Filterable` c'est un `<select>` natif dont la liste ouverte est habillée comme un menu du paquet là où le navigateur le permet, `appearance: base-select`, Chromium 135 et suivants, et dessinée par le système ailleurs) et `OmniMultiSelect<TValue>` ;
+- `OmniDropDown<TValue>` (seule source des choix, par `Options` ; `Filterable` ajoute une recherche, avec le chevron des listes au bout du champ (`OmniAutocomplete.ShowToggle`) qui ouvre la liste complète et la referme, `Label` le nomme, rendu en `aria-label` seulement s'il est posé ; avec `Filterable`, `Size` s'applique au champ, la recherche ignore casse et accents et `AllowEmpty` place le choix vide en tête de la liste complète ; sans `Filterable` c'est un `<select>` natif dont la liste ouverte est habillée comme un menu du paquet là où le navigateur le permet, `appearance: base-select`, Chromium 135 et suivants, et dessinée par le système ailleurs) et `OmniMultiSelect<TValue>` ;
+- `OmniDropDown.AllowEmpty` (faux par défaut) ajoute une première option vide qui remet la valeur à `default` (`null` pour un `TValue` nullable) ;
 - `OmniListBox<TValue, TSelection>`, et `OmniCheckBoxList<TValue>`, dont `Error` marque la liste `aria-invalid` et la fait décrire par l'erreur ;
 - `OmniRadioButtonList<TValue>`, qui dessine lui-même chaque bouton radio ; `Error` (facultatif) dessine sous les choix, dans le `fieldset`, la ligne d'erreur d'`OmniFormField` (glyphe décoratif, dans une région live polie, identifiant `{Id}-error`, ou `{Name}-error` sans identifiant), marque le groupe `aria-invalid="true"` (aussi quand l'`EditContext` porte une erreur), le fait décrire par cette ligne après `AriaDescribedBy` et borde chaque bouton radio de la couleur de danger ; les options désactivées sont marquées comme telles ;
-- `OmniSelectBar<TValue>`, qui dessine lui-même chaque option.
+- `OmniSelectBar<TValue>`, qui dessine lui-même chaque option ; `IconTemplate` (`RenderFragment<TValue>`) dessine une icône avant le texte de chacune, d'après sa valeur.
 
 `OmniListBox` est une liste native toujours ouverte (`select` à `size`) dont la hauteur est donnée
 par `VisibleRows`. Elle choisit une option ; avec `Multiple="true"`, elle devient un `select multiple`
@@ -31,12 +36,15 @@ Les options désactivées ne sont jamais retenues.
 `OmniMultiSelect<TValue>` tient sur une seule ligne, ouvre sa liste de cases à cocher à la demande et
 résume la sélection : `Placeholder` quand rien n'est choisi, le texte de l'option quand il n'y en a
 qu'une, le décompte au-delà. Les libellés de repli et le bouton de désélection proviennent des
-ressources `MultiSelectEmpty`, `MultiSelectSelected` et `MultiSelectClear`.
+ressources `MultiSelectEmpty`, `MultiSelectSelected` et `MultiSelectClear`. `Label` nomme le contrôle (le résumé seul,
+un décompte ou le texte choisi, ne dit pas de quel champ il s'agit) ; sans lui, le libellé d'un `OmniFormField` dont
+`For` est l'`Id` le nomme, et le panneau garde le résumé pour nom en dernier recours. La recherche ignore la casse et
+les accents, comme la mise en évidence des correspondances d'`OmniAutocomplete`.
 
 Il accepte en plus une recherche et deux templates. `Filterable` ajoute un champ qui réduit la liste
 aux options dont le texte contient la saisie ; `FilterText` se lie dans les deux sens pour que la
 page sache ce qui a été tapé, et la remise à `null` vide le champ ; `FilterPlaceholder` remplace le
-libellé et le texte indicatif du champ de recherche. `OptionTemplate` dessine
+libellé et le texte indicatif du champ de recherche. `FilterTextChanged` est levé avec le nouveau texte à chaque saisie. `OptionTemplate` dessine
 une option à côté de sa case à cocher, `FooterContent` occupe le bas du panneau, hors de la zone
 défilante : ensemble, ils donnent le sélecteur d'étiquettes qui propose de créer celle que la recherche
 n'a pas trouvée. Le filtre porte toujours sur le texte de l'option, quoi que dessine le template, et
@@ -79,6 +87,8 @@ et la choisissent, Début et Fin à la première et à la dernière, les options
 
 `OmniAutocomplete<TValue>` reçoit une fonction asynchrone annulable, applique un délai (`Debounce`, un `TimeSpan`, 250 ms par défaut) et annonce le nombre de résultats dans une région live. Une option n'est engagée dans le modèle qu'après sélection explicite (sauf avec `AllowFreeText`, voir plus bas). Le clavier est celui d'une liste déroulante combinée : flèches, Début et Fin parcourent les suggestions (`aria-activedescendant`, options en `li role="option"`), Entrée choisit, Échap ferme. Un échec de recherche lève `OnSearchError` avec l'exception et affiche `SearchErrorMessage` (texte localisé par défaut).
 
+`MinimumLength` (`int`, 1 par défaut) est le nombre de caractères à taper avant qu'une recherche parte ; 0 cherche aussi dans un champ vide.
+
 ```razor
 <OmniAutocomplete TValue="Guid"
                   Search="SearchPeopleAsync"
@@ -116,7 +126,7 @@ Tous les menus du paquet prennent les mêmes entrées, `OmniMenuItem` (`Icon`, `
 choisie et, avec `CloseOnOutsideClick` (vrai par défaut), sur un appui ailleurs dans la page, avec la
 même exception `data-omni-keep-open` que la sélection multiple. `Disabled` désactive le bouton.
 
-Sans `Summary`, le déclencheur est l'avatar : un disque du gris de la palette qui porte `Initials` (quelques lettres, dans le texte de la page) ou, sans elles, le glyphe d'utilisateur. Il est décoratif, le déclencheur est nommé par `Label`, qui doit donc nommer le compte ; sa cible atteint 44 px par une zone transparente autour du disque, et le focus y dessine l'anneau sur le cercle. `Header` (facultatif) place l'identité en haut du menu ouvert, à côté d'un grand avatar : son premier élément se lit comme le nom, les suivants en détails atténués (rôle, organisation, lien vers le profil). L'en-tête est rendu hors de la liste `role="menu"`, qui ne contient que des entrées ; le panneau `omni-profile-menu__popup--header` porte alors la surface flottante. Chaque entrée est un `OmniMenuItem` ; une ligne secondaire va dans son contenu enfant.
+Sans `SummaryContent`, le déclencheur est l'avatar : un disque du gris de la palette qui porte `Initials` (quelques lettres, dans le texte de la page) ou, sans elles, le glyphe d'utilisateur. Il est décoratif, le déclencheur est nommé par `Label`, qui doit donc nommer le compte ; sa cible atteint 44 px par une zone transparente autour du disque, et le focus y dessine l'anneau sur le cercle. `HeaderContent` (facultatif) place l'identité en haut du menu ouvert, à côté d'un grand avatar : son premier élément se lit comme le nom, les suivants en détails atténués (rôle, organisation, lien vers le profil). L'en-tête est rendu hors de la liste `role="menu"`, qui ne contient que des entrées ; le panneau `omni-profile-menu__popup--header` porte alors la surface flottante. Chaque entrée est un `OmniMenuItem` ; une ligne secondaire va dans son contenu enfant.
 
 `OmniContextMenu` s'ouvre au pointeur sur un clic droit (lié ou non : `Open` est un `bool?`, `null` laissant le menu tenir son état ; `Disabled` le désactive), sous son déclencheur à la touche Menu ou à
 Maj+F10, et un second clic droit le déplace. `omni-focus.js` pose sa position par le CSSOM
@@ -168,12 +178,13 @@ radio ne dessine jamais de case. Le survol penche le cadre et le fond vers l'acc
 - `OmniDatePicker` (`DateOnly?`), `OmniTimePicker` (`TimeOnly?`) et `OmniDateTimePicker` (`DateTime?`, heure locale) sont un champ texte et un bouton qui ouvre un panneau maison sur le calque des surfaces flottantes (jetons `--omni-overlay-*`), sous le champ. Le panneau est fixé à la fenêtre et placé par `omni-focus.js` (au-dessus du champ faute de place en dessous, toujours entier dans la fenêtre, replacé à chaque défilement) : dans un dialogue, une carte ou une grille, il s'ouvre par-dessus et n'y crée pas de barre de défilement. Le contrôle natif de date dessinait sa fenêtre lui-même, sans style possible ; il n'est plus utilisé.
 - Saisie : la date suit l'ordre et les séparateurs de la date courte de la culture, sur deux chiffres (`21/09/2026` en français, `09/21/2026` en anglais américain) ; l'heure est toujours sur 24 heures (`HH:mm` ; `HH:mm:ss` avec `ShowSeconds`, que seul `OmniDateTimePicker` propose). La lecture accepte aussi la forme ISO (`yyyy-MM-dd`, `yyyy-MM-ddTHH:mm`) et ce que l'analyseur de la culture comprend. Le texte indicatif vient du motif (`jj/mm/aaaa`, `hh:mm`), remplaçable par `Placeholder`.
 - Calendrier : semaine commençant au premier jour de la culture (lundi en français), mois nommés dans sa langue, six semaines toujours, aujourd'hui entouré (`aria-current="date"`), jour choisi plein à l'accent (`aria-selected`), mois précédent et suivant. `role="grid"` nommé par le titre du mois, rangées `role="row"`, en-têtes `columnheader` au nom complet du jour. Un seul jour est dans l'ordre de tabulation ; les flèches déplacent d'un jour ou d'une semaine, Page précédente et suivante d'un mois (d'un an avec Maj), Début et Fin vont au début et à la fin de la semaine, Entrée et Espace choisissent. Pied : Aujourd'hui et Effacer ; choisir un jour, Aujourd'hui ou Effacer ferme le panneau et rend le focus au bouton.
-- Heure : deux colonnes qui défilent (`listbox`), heures de 00 à 23 et minutes par `Step` (un `TimeSpan` de minutes entières, 5 minutes par défaut, de 1 à 30), et une troisième colonne de secondes pour un `OmniDateTimePicker` à `ShowSeconds` ; un choix s'applique aussitôt, les flèches, Début et Fin parcourent une colonne, Tab passe à la suivante. Pied : Maintenant (l'heure du `TimeProvider` enregistré par l'hôte, l'horloge système sinon, arrondie au pas inférieur) et Valider, qui ferme et rend le focus au bouton. La date et heure met le calendrier et les colonnes côte à côte : un jour garde l'heure (minuit s'il n'y en a pas), une heure garde le jour (aujourd'hui s'il n'y en a pas).
+- Heure : deux colonnes qui défilent (`listbox`), heures de 00 à 23 et minutes par `Step` (un `TimeSpan` de minutes entières, 5 minutes par défaut, de 1 à 30), et une troisième colonne de secondes pour un `OmniDateTimePicker` à `ShowSeconds` ; un choix s'applique aussitôt, les flèches, Début et Fin parcourent une colonne, Tab passe à la suivante. Pied : Maintenant (l'heure du `TimeProvider` enregistré par l'hôte, l'horloge système sinon, arrondie au pas inférieur ; `TimeZone`, vide par défaut, lit « aujourd'hui » et « maintenant » dans un autre fuseau que celui de l'horloge) et Valider, qui ferme et rend le focus au bouton. La date et heure met le calendrier et les colonnes côte à côte : un jour garde l'heure (minuit s'il n'y en a pas), une heure garde le jour (aujourd'hui s'il n'y en a pas).
+- Premier et dernier jour : le calendrier s'ouvre sur le 1er janvier de l'an 1 comme sur le 31 décembre 9999 ; les boutons de mois et les touches s'arrêtent au premier et au dernier jour qui existent, et les cases au-delà restent vides (`aria-hidden`).
 - Bornes : `Minimum` et `Maximum` désactivent les jours, heures et minutes hors bornes et arrêtent le clavier à la borne ; une saisie hors bornes est refusée et marque le champ invalide, sans être ramenée à la borne. Dans la date et heure, un choix du panneau qui sortirait des bornes (un jour dont l'heure gardée dépasse) est ramené à la borne la plus proche.
 - Fermeture : un appui hors du sélecteur ferme le panneau et laisse le focus où il a été posé ; Échap le ferme, rend le focus au bouton et ne remonte pas (un dialogue qui contient le sélecteur reste ouvert). Un seul panneau de sélecteur est ouvert à la fois dans la page. Ce câblage est dans `omni-focus.js` (`attachPicker`, `detachPicker`, `focusPickerItem`) ; il n'écrit aucun style, seul `scrollTop` des colonnes est posé pour centrer la valeur choisie.
 - Densité : les cases du calendrier mesurent `--omni-cal-cell`, la marge du panneau `--omni-pop-pad`, le champ et son bouton suivent `--omni-control-height`, les éléments des colonnes `--omni-item-pad-y`. Les cases et les éléments des colonnes restent sous 44 px en densité compacte et confortable, comme la maquette les dessine ; le bouton du champ atteint 44 px de cible par une zone invisible.
 - Écart assumé avec la maquette : dans la date seule, choisir un jour ferme le panneau (la maquette le laissait ouvert, faute de bouton Valider dans ce pied).
-- `OmniSlider` expose orientation, minimum, maximum, pas, valeur ARIA et `aria-invalid`. `SelectableMinimum` (nul par défaut) place le plus petit
+- `OmniSlider` expose `Orientation` (`OmniOrientation` : `Horizontal` par défaut, `Vertical`), `Minimum`, `Maximum`, `Step`, valeur ARIA et `aria-invalid`. `SelectableMinimum` (nul par défaut) place le plus petit
   choix au-dessus de `Minimum` : la piste part de `Minimum`, donc le curseur est à sa vraie proportion (5 sur une échelle de 0 à 10 est au milieu),
   mais un glissement ou une touche sous cette valeur est ramené à elle (`ValueChanged` et `OnValueCommit` ne la dépassent jamais vers le bas) et
   `aria-valuemin` annonce la valeur qui peut être choisie. Une valeur sous `SelectableMinimum`, ou un `SelectableMinimum` hors de `Minimum` et
@@ -187,14 +198,16 @@ radio ne dessine jamais de case. Le survol penche le cadre et le fond vers l'acc
 
 Les propriétés `MaximumFiles`, `MaximumFileSize` et `AllowedContentTypes` filtrent l'interface à partir de métadonnées fournies par le client. Elles ne constituent jamais une validation de sécurité du contenu reçu.
 
-`Accept` fixe l'attribut `accept` du champ fichier (`.csv,text/csv`) : il ne filtre que la fenêtre de sélection du système, les fichiers restant contrôlés par `AllowedContentTypes`. Sans lui, l'attribut est tiré de `AllowedContentTypes`, comme avant.
+`Accept` fixe l'attribut `accept` du champ fichier (`.csv,text/csv`) : il ne filtre que la fenêtre de sélection du système, les fichiers restant contrôlés par `AllowedContentTypes`. Sans lui, l'attribut est tiré de `AllowedContentTypes`, comme avant. Une famille s'écrit avec un sous-type joker (`image/*`), comme dans l'attribut `accept`. Une fenêtre fermée sans choix ne déclenche rien.
 
 Le champ est une zone de dépôt : le contrôle natif la couvre, invisible, si bien qu'un clic ouvre le sélecteur et qu'un fichier déposé n'importe où sur la zone y arrive sans script. La zone annonce ses limites (types, taille par fichier, nombre) et les relie au champ par `aria-describedby`.
 
-Lié par `@bind-Files`, le champ tient une liste d'`OmniUploadFile` (nom, taille, type) : les fichiers que l'application a déjà, puis ceux que l'utilisateur ajoute. Chaque ligne a son icône, sa taille et un bouton de retrait qui lève `FileRemoved` avec l'entrée, puis `FilesChanged` avec la liste sans elle. Une sélection acceptée s'ajoute à la liste avec `Multiple`, la remplace sinon, et seulement après la réussite d'`Upload` quand ce délégué est fourni ; `MaximumFiles` compte alors la liste entière. Non lié, le champ montre la dernière sélection, sans retrait.
+Lié par `@bind-Files`, le champ tient une liste d'`OmniUploadFile` (nom, taille, type) : les fichiers que l'application a déjà, puis ceux que l'utilisateur ajoute. Chaque ligne a son icône, sa taille et un bouton de retrait qui lève `OnFileRemove` avec l'entrée, puis `FilesChanged` avec la liste sans elle. Une sélection acceptée s'ajoute à la liste avec `Multiple`, la remplace sinon, et seulement après la réussite d'`Upload` quand ce délégué est fourni ; `MaximumFiles` compte alors la liste entière. Non lié, le champ montre la dernière sélection, sans retrait.
+
+`ReducedList` (faux par défaut) garde une longue liste courte : seuls les trois fichiers les plus récents sont montrés, et sous la liste figurent toujours le décompte, quand il y a plus de fichiers un bouton pour tout afficher ou réduire, et un bouton pour tout retirer. `UploadErrorMessage` (`string?`) est le message montré quand `Upload` lève ; nul, le texte localisé par défaut.
 
 ```razor
-<OmniUpload Multiple="true" MaximumFiles="5" @bind-Files="attachments" FileRemoved="DeleteAsync" />
+<OmniUpload Multiple="true" MaximumFiles="5" @bind-Files="attachments" OnFileRemove="DeleteAsync" />
 
 @code {
     private IReadOnlyList<OmniUploadFile> attachments = [new("rapport.pdf", 1_258_291, "application/pdf")];

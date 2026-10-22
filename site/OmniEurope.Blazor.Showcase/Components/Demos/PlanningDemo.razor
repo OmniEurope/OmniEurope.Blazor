@@ -1,16 +1,15 @@
 <OmniStack Gap="OmniSpacing.Large">
-    @* Le Gantt tient son échelle lui-même ; la vitrine la lie pour montrer les trois zooms. Le
+    @* Le Gantt tient sa vue lui-même ; la vitrine la lie pour montrer les trois zooms. Le
        planning est placé autour de la date du jour, que le Gantt lit sur l'horloge du composant. *@
     <OmniGantt Tasks="Tasks"
-               @bind-Scale="Scale"
-               SelectedTaskId="@SelectedTaskId"
-               OnTaskClick="@(task => SelectedTaskId = task.Id)"
+               @bind-View="View"
+               @bind-Value="SelectedTaskId"
                Label="@Text["DemoPlanningGanttLabel"]" />
     <OmniText Tone="OmniTextTone.Muted">@Text["DemoPlanningScaleShown", ScaleName]</OmniText>
 
     <OmniHeading Level="OmniHeadingLevel.H4">@Text["DemoPlanningMonthHeading"]</OmniHeading>
-    <OmniGantt Tasks="Tasks" Scale="OmniCalendarView.Month" ShowGroups="false" ShowScalePicker="false" Label="@Text["DemoPlanningMonthLabel"]" />
-    <OmniGantt Tasks="Tasks" Scale="OmniCalendarView.Day" ShowDependencies="false" ShowToday="false" ShowScalePicker="false" Label="@Text["DemoPlanningDayLabel"]" />
+    <OmniGantt Tasks="Tasks" View="OmniCalendarView.Month" ShowGroups="false" ShowViewPicker="false" Label="@Text["DemoPlanningMonthLabel"]" />
+    <OmniGantt Tasks="Tasks" View="OmniCalendarView.Day" ShowDependencies="false" ShowToday="false" ShowViewPicker="false" Label="@Text["DemoPlanningDayLabel"]" />
 
     <OmniHeading Level="OmniHeadingLevel.H4">@Text["DemoPlanningRunHeading"]</OmniHeading>
     @* L'étape en cours s'arrête à l'heure de l'horloge du composant, lue à chaque rendu du parent. *@

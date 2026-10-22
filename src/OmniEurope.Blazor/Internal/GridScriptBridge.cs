@@ -17,7 +17,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
 
     private readonly CancellationTokenSource _preparationLifetime = new();
     private IJSObjectReference? _gridModule;
-    private DotNetObjectReference<OmniDataGrid<TItem>>? _selfReference;
+    private DotNetObjectReference<GridInteropBridge<TItem>>? _selfReference;
     private bool _virtualAttached;
     private bool _resizeAttached;
     private bool _reorderAttached;
@@ -37,7 +37,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
     internal async Task<IJSObjectReference> ModuleAsync() =>
         _gridModule ??= await grid.JavaScript.InvokeAsync<IJSObjectReference>("import", GridModulePath);
 
-    private DotNetObjectReference<OmniDataGrid<TItem>> SelfReference => _selfReference ??= DotNetObjectReference.Create(grid);
+    private DotNetObjectReference<GridInteropBridge<TItem>> SelfReference => _selfReference ??= DotNetObjectReference.Create(new GridInteropBridge<TItem>(grid));
 
     internal bool Preparing => grid.LoadingContent is not null && !_renderReady;
 
@@ -332,7 +332,15 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         }
         else
         {
-            await module.InvokeVoidAsync("attachWheelScope", grid.Viewport, scope);
+            try
+            {
+                await module.InvokeVoidAsync("attachWheelScope", grid.Viewport, scope);
+            }
+            catch (JSException)
+            {
+                // A selector the browser refuses selects no ancestor: the scope stays unattached, and is
+                // not asked again on every render.
+            }
         }
 
         _wheelScopeAttached = scope;
@@ -376,23 +384,15 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
 
     internal void ReleasePreparation() => _preparationLifetime.Dispose();
 
-    /// <summary>Detaches everything attached to the viewport, then releases the module and the grid's reference.</summary>
+    /// <summary>
+    /// Detaches everything attached to the viewport, then releases the module and the grid's reference. A
+    /// script that fails to detach is skipped: it must not keep the others attached nor the module loaded.
+    /// </summary>
     public async ValueTask DisposeAsync()
     {
         try
         {
-            await DetachViewportAsync();
-            // Every listener is attached once the module is loaded: without a module, nothing is attached.
-            if (_gridModule is not null)
-            {
-                foreach (var function in TakeAttached())
-                {
-                    object?[] arguments = function == UninstallTooltips ? [] : [grid.Viewport];
-                    await _gridModule.InvokeVoidAsync(function, arguments);
-                }
-
-                await _gridModule.DisposeAsync();
-            }
+            await DetachAllAsync(_gridModule);
         }
         catch (JSDisconnectedException)
         {
@@ -404,6 +404,37 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         }
 
         _selfReference?.Dispose();
+    }
+
+    private async Task DetachAllAsync(IJSObjectReference? module)
+    {
+        try
+        {
+            await DetachViewportAsync();
+        }
+        catch (JSException)
+        {
+        }
+
+        // Every listener is attached once the module is loaded: without a module, nothing is attached.
+        if (module is null)
+        {
+            return;
+        }
+
+        foreach (var function in TakeAttached())
+        {
+            try
+            {
+                object?[] arguments = function == UninstallTooltips ? [] : [grid.Viewport];
+                await module.InvokeVoidAsync(function, arguments);
+            }
+            catch (JSException)
+            {
+            }
+        }
+
+        await module.DisposeAsync();
     }
 
     private const string UninstallTooltips = "uninstallPackageTooltips";

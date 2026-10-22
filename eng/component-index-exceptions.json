@@ -1,0 +1,24 @@
+{
+  "staleNames": [
+    {
+      "token": "OmniBoot",
+      "files": ["foundation-components.md"],
+      "reason": "window.OmniBoot is the JavaScript global the host script publishes (culture, hideSplash, handOverTheme, releaseTheme), not a .NET type, so the public surface does not list it."
+    },
+    {
+      "token": "IOmniDataGridStateStore",
+      "files": ["data-components.md", "preferences.md"],
+      "reason": "1.8 migration notes: the interface was removed on purpose, and the notes name it so a reader upgrading from an earlier version finds what replaced it."
+    },
+    {
+      "token": "OmniLocalStorageDataGridStateStore",
+      "files": ["data-components.md", "preferences.md"],
+      "reason": "1.8 migration notes: the default store was removed on purpose, and the notes name it so a reader upgrading from an earlier version finds what replaced it."
+    },
+    {
+      "token": "OmniDataGrid.StateStore",
+      "files": ["preferences.md"],
+      "reason": "1.8 migration notes: the StateStore parameter was removed on purpose, and the notes tell the reader to delete it from their markup."
+    }
+  ]
+}

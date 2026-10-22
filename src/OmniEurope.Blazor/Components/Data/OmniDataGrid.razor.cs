@@ -94,8 +94,11 @@ public partial class OmniDataGrid<TItem>
     /// <summary>
     /// Remote data: called with the page, the sorts, the filters and a cancellation token each time the
     /// grid needs rows (first render, page change, sort, filter, or a block while virtualizing). A newer
-    /// request cancels the previous one. A failure is shown in the grid (<see cref="ErrorContent"/>) with
-    /// a retry action and reported through <see cref="OnLoadError"/>.
+    /// request cancels the previous one; a virtual grid also cancels the blocks that left the viewport
+    /// (their token is signalled and their answer dropped) and asks the blocks of its window one after
+    /// the other, so a host should honour the token to spare its backend during a fast scroll. A failure
+    /// is shown in the grid (<see cref="ErrorContent"/>) with a retry action and reported through
+    /// <see cref="OnLoadError"/>.
     /// </summary>
     [Parameter]
     public Func<OmniDataGridLoadRequest, Task<OmniDataGridResult<TItem>>>? Load { get; set; }
@@ -147,11 +150,11 @@ public partial class OmniDataGrid<TItem>
 
     /// <summary>Where the pager goes: under the table (the default), above it, or both.</summary>
     [Parameter]
-    public OmniDataGridPosition PagerPosition { get; set; } = OmniDataGridPosition.Bottom;
+    public OmniDataGridPlacement PagerPlacement { get; set; } = OmniDataGridPlacement.Bottom;
 
     /// <summary>How the pager's controls are aligned along its row; the start by default.</summary>
     [Parameter]
-    public OmniJustification PagerHorizontalAlign { get; set; } = OmniJustification.Start;
+    public OmniJustification PagerJustify { get; set; } = OmniJustification.Start;
 
     /// <summary>Shows the localized "first to last of total" line under the table, announced politely.</summary>
     [Parameter]
@@ -541,9 +544,12 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public OmniDataGridLines GridLines { get; set; } = OmniDataGridLines.Horizontal;
 
-    /// <summary>Row height and cell padding; comfortable by default.</summary>
+    /// <summary>
+    /// Row height and cell padding of this grid and of what it holds, over the density it inherits from
+    /// its theme scope or section. Null, the default, inherits it (comfortable outside any scope).
+    /// </summary>
     [Parameter]
-    public OmniDensity Density { get; set; } = OmniDensity.Comfortable;
+    public OmniDensity? Density { get; set; }
 
     /// <summary>Stacks each row into a labelled card once the viewport is too narrow for a table.</summary>
     [Parameter]
@@ -711,7 +717,7 @@ public partial class OmniDataGrid<TItem>
     /// rows (the default), directly under the header, or both.
     /// </summary>
     [Parameter]
-    public OmniDataGridPosition FooterPosition { get; set; }
+    public OmniDataGridPlacement FooterPlacement { get; set; }
 
     // ---- bars and export ------------------------------------------------------------------------
 
@@ -775,20 +781,6 @@ public partial class OmniDataGrid<TItem>
     /// </summary>
     [Parameter]
     public bool ExportPdf { get; set; } = true;
-
-    /// <summary>
-    /// The formats of the former export bar, in their order. Non-empty, they replace the four format
-    /// switches; while no shown bar carries the buttons, the bar named by <see cref="ExportPosition"/> is
-    /// shown with them at its start.
-    /// </summary>
-    [Parameter]
-    [Obsolete("Use ShowHeaderBar or ShowFooterBar with HeaderBarExport or FooterBarExport, and ExportMarkdown, ExportCsv, ExportExcel and ExportPdf to choose the formats one by one.")]
-    public IReadOnlyList<OmniTableExportFormat> ExportFormats { get; set; } = Array.Empty<OmniTableExportFormat>();
-
-    /// <summary>The bar of the former <see cref="ExportFormats"/>: under the table (the default), above it, or both.</summary>
-    [Parameter]
-    [Obsolete("Use ShowHeaderBar or ShowFooterBar with HeaderBarExport or FooterBarExport.")]
-    public OmniDataGridPosition ExportPosition { get; set; }
 
     /// <summary>The title of the exported document; null uses <see cref="Caption"/>, then a localized "Table export".</summary>
     [Parameter]
@@ -876,6 +868,23 @@ public partial class OmniDataGrid<TItem>
     internal Task RenderLaterAsync() => InvokeAsync(StateHasChanged);
 
     internal Task DispatchAsync(Func<Task> work) => InvokeAsync(work);
+
+    /// <summary>
+    /// Runs <paramref name="work"/> on the renderer for a caller that does not wait for it (a column that
+    /// registers while the grid renders). A failure, an <see cref="OnLoadError"/> handler that throws say, reaches
+    /// the renderer as one from a lifecycle method would, instead of vanishing with a discarded task.
+    /// </summary>
+    internal async Task DispatchDetachedAsync(Func<Task> work)
+    {
+        try
+        {
+            await InvokeAsync(work);
+        }
+        catch (Exception exception) when (!_disposeRequested)
+        {
+            await InvokeAsync(() => DispatchExceptionAsync(exception));
+        }
+    }
 
     internal string Text(string name, params object[] arguments) => Localize(name, arguments);
 
@@ -1041,8 +1050,7 @@ public partial class OmniDataGrid<TItem>
     /// </summary>
     /// <param name="scrolled">True when the viewport has left its horizontal start.</param>
     /// <returns>A completed task.</returns>
-    [JSInvokable]
-    public Task OnHorizontalScrollChangedAsync(bool scrolled) => FrozenState.HorizontalScrollChangedAsync(scrolled);
+    internal Task OnHorizontalScrollChangedAsync(bool scrolled) => FrozenState.HorizontalScrollChangedAsync(scrolled);
 
     /// <summary>
     /// Invoked by the grid script when the rendered rows changed size without any scroll (an image or a
@@ -1050,8 +1058,7 @@ public partial class OmniDataGrid<TItem>
     /// the new heights move the spacers and the end of the list. A render that changes nothing leaves the
     /// table the same size, so the script does not ask again.
     /// </summary>
-    [JSInvokable]
-    public Task OnContentResizedAsync()
+    internal Task OnContentResizedAsync()
     {
         if (View.Virtualized)
         {
@@ -1068,8 +1075,7 @@ public partial class OmniDataGrid<TItem>
     /// <param name="scrollTop">Vertical scroll offset of the viewport, in CSS pixels.</param>
     /// <param name="viewportHeight">Height of the viewport, in CSS pixels.</param>
     /// <returns>A task that completes when the rows of the new window are loaded.</returns>
-    [JSInvokable]
-    public Task OnViewportChangedAsync(double scrollTop, double viewportHeight) =>
+    internal Task OnViewportChangedAsync(double scrollTop, double viewportHeight) =>
         Virtual.ViewportChangedAsync(scrollTop, viewportHeight);
 
     /// <summary>
@@ -1143,8 +1149,7 @@ public partial class OmniDataGrid<TItem>
     /// The distinct non-empty cell texts, or <c>null</c> when the column is not visible, does not fit
     /// to content, or has a template.
     /// </returns>
-    [JSInvokable]
-    public string[]? GetColumnAutoFitTexts(string key) => ColumnLayout.AutoFitTexts(key);
+    internal string[]? GetColumnAutoFitTexts(string key) => ColumnLayout.AutoFitTexts(key);
 
     /// <summary>
     /// Width chosen by a fit to content, in CSS pixels measured by omni-grid.js. Reported once per
@@ -1153,8 +1158,7 @@ public partial class OmniDataGrid<TItem>
     /// <param name="key">Key of the fitted column; ignored when that column is not visible or does not fit to content.</param>
     /// <param name="width">Measured width in CSS pixels, raised to 48 when smaller.</param>
     /// <returns>A task that completes when the width is applied, announced and saved.</returns>
-    [JSInvokable]
-    public Task OnColumnAutoFitAsync(string key, double width) => ColumnLayout.AutoFitAsync(key, width);
+    internal Task OnColumnAutoFitAsync(string key, double width) => ColumnLayout.AutoFitAsync(key, width);
 
     /// <summary>
     /// Final width of a pointer drag on a column's resize handle, in CSS pixels measured by
@@ -1163,8 +1167,7 @@ public partial class OmniDataGrid<TItem>
     /// <param name="key">Key of the resized column; ignored when resizing is off or that column is not visible.</param>
     /// <param name="width">Final width in CSS pixels, raised to 48 when smaller.</param>
     /// <returns>A task that completes when the width is applied, announced and saved.</returns>
-    [JSInvokable]
-    public Task OnColumnResizedAsync(string key, double width) => ColumnLayout.ResizedAsync(key, width);
+    internal Task OnColumnResizedAsync(string key, double width) => ColumnLayout.ResizedAsync(key, width);
 
     /// <summary>
     /// End of a header drag (omni-grid.js): the dragged column takes its place before or after the header it
@@ -1175,8 +1178,7 @@ public partial class OmniDataGrid<TItem>
     /// <param name="targetKey">Key of the column it was dropped on.</param>
     /// <param name="after">True to place it after that column, false before it.</param>
     /// <returns>A task that completes when the order is applied, announced and saved.</returns>
-    [JSInvokable]
-    public Task OnColumnDroppedAsync(string key, string targetKey, bool after) => Chooser.DropAsync(key, targetKey, after);
+    internal Task OnColumnDroppedAsync(string key, string targetKey, bool after) => Chooser.DropAsync(key, targetKey, after);
 
     /// <summary>
     /// Brings the columns back to their declared layout: order, visibility and widths. The filters and the

@@ -4,13 +4,13 @@
 @implements IAsyncDisposable
 @inject IJSRuntime JavaScript
 
-@* Without a Summary the trigger is the avatar: a disc with the Initials, or the user glyph, named by
+@* Without a SummaryContent the trigger is the avatar: a disc with the Initials, or the user glyph, named by
    Label. The menu is drawn in the overlay portal (or here without a host), end-aligned under the
-   trigger; a Header puts the identity above the items, outside role="menu", which may only hold
+   trigger; a HeaderContent puts the identity above the items, outside role="menu", which may only hold
    menu items. *@
 <div @attributes="AdditionalAttributes"
      @ref="_root"
-     class="@Css("omni-profile-menu", Summary is null ? "omni-profile-menu--avatar" : null)"
+     class="@Css("omni-profile-menu", SummaryContent is null ? "omni-profile-menu--avatar" : null)"
      data-omni-density="@OmniDensityAttribute.Of(Density)">
     <button type="button"
             id="@Id"
@@ -22,9 +22,9 @@
             disabled="@Disabled"
             @onclick="ToggleAsync"
             @onkeydown="HandleTriggerKeyDownAsync">
-        @if (Summary is not null)
+        @if (SummaryContent is not null)
         {
-            @Summary
+            @SummaryContent
         }
         else
         {

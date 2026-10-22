@@ -78,11 +78,59 @@ internal sealed class GanttLayout
     /// <summary>Distance of a day's left edge from the chart's left edge.</summary>
     internal double X(DateOnly day) => (day.DayNumber - RangeStart.DayNumber) * PixelsPerDay;
 
+    /// <summary>Most days between the first and the last day of the tasks: a century. Beyond, a chart is not a chart.</summary>
+    internal const int MaximumSpanDays = 36_500;
+
+    // The margin the zooms add around the tasks (two days, two weeks, a month and its year header) stays well
+    // inside this many days of the calendar's limits.
+    private const int EdgeMargin = 400;
+
+    /// <summary>
+    /// Refuses what no chart can draw, with a message that names the problem: two tasks sharing an identifier
+    /// (the identifier is how <c>Value</c> and <c>DependsOn</c> name a task), dates at the very edge of the
+    /// calendar (the margins would overflow it) and a span so wide that its header alone would be millions
+    /// of cells (a placeholder date such as 0001-01-01 next to real ones).
+    /// </summary>
+    private static void Validate(IReadOnlyList<OmniGanttTask> tasks, DateOnly first, DateOnly last)
+    {
+        var identifiers = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var task in tasks)
+        {
+            if (!identifiers.Add(task.Id))
+            {
+                throw new ArgumentException(
+                    $"Two tasks share the id '{task.Id}': the id names a task for Value and DependsOn, so each id must be unique.",
+                    nameof(tasks));
+            }
+        }
+
+        if (tasks.Count == 0)
+        {
+            return;
+        }
+
+        if (first.DayNumber < DateOnly.MinValue.DayNumber + EdgeMargin || last.DayNumber > DateOnly.MaxValue.DayNumber - EdgeMargin)
+        {
+            throw new ArgumentException(
+                $"A task date ({first:yyyy-MM-dd} to {last:yyyy-MM-dd}) lies within {EdgeMargin} days of the limits of the calendar: it is a placeholder, not a date to draw.",
+                nameof(tasks));
+        }
+
+        var span = last.DayNumber - first.DayNumber;
+        if (span > MaximumSpanDays)
+        {
+            throw new ArgumentException(
+                $"The tasks span {span} days ({first:yyyy-MM-dd} to {last:yyyy-MM-dd}); a chart draws at most {MaximumSpanDays} days. A placeholder date (0001-01-01 for \"unknown\") is the usual cause.",
+                nameof(tasks));
+        }
+    }
+
     internal static GanttLayout Build(IReadOnlyList<OmniGanttTask> tasks, OmniCalendarView scale, bool grouped, DateOnly today, CultureInfo culture, Func<int, string> weekLabel)
     {
         var (first, last) = tasks.Count == 0
             ? (today, today)
             : (tasks.Min(task => Earliest(task)), tasks.Max(task => Latest(task)));
+        Validate(tasks, first, last);
         var (start, end) = Range(first, last, scale);
         var layout = new GanttLayout(scale, start, end);
         layout.PlaceRows(tasks, grouped);
@@ -98,21 +146,22 @@ internal sealed class GanttLayout
 
     /// <summary>
     /// The days drawn: the tasks' span with a margin, and whole weeks or whole months at those zooms
-    /// so the header never starts on a cut column.
+    /// so the header never starts on a cut column. The margins stop at the first and the last day of the
+    /// calendar instead of overflowing it, as the pickers do.
     /// </summary>
     internal static (DateOnly Start, DateOnly End) Range(DateOnly first, DateOnly last, OmniCalendarView scale)
     {
         switch (scale)
         {
             case OmniCalendarView.Day:
-                return (first.AddDays(-2), last.AddDays(3));
+                return (PickerCalendar.AddDays(first, -2), PickerCalendar.AddDays(last, 3));
             case OmniCalendarView.Week:
-                var monday = first.AddDays(-(((int)first.DayOfWeek + 6) % 7));
-                var nextMonday = last.AddDays(7 - (((int)last.DayOfWeek + 6) % 7));
-                return (monday.AddDays(-7), nextMonday.AddDays(7));
+                var monday = PickerCalendar.AddDays(first, -(((int)first.DayOfWeek + 6) % 7));
+                var nextMonday = PickerCalendar.AddDays(last, 7 - (((int)last.DayOfWeek + 6) % 7));
+                return (PickerCalendar.AddDays(monday, -7), PickerCalendar.AddDays(nextMonday, 7));
             default:
                 var month = new DateOnly(first.Year, first.Month, 1);
-                var after = new DateOnly(last.Year, last.Month, 1).AddMonths(1);
+                var after = PickerCalendar.AddMonths(new DateOnly(last.Year, last.Month, 1), 1);
                 return (month, after);
         }
     }
@@ -167,23 +216,23 @@ internal sealed class GanttLayout
     {
         if (Scale == OmniCalendarView.Month)
         {
-            AddSpans(TopTier, day => new DateOnly(day.Year, 1, 1), day => day.AddYears(1), day => day.Year.ToString(culture));
-            AddSpans(BottomTier, day => new DateOnly(day.Year, day.Month, 1), day => day.AddMonths(1), day => day.ToString("MMM", culture));
+            AddSpans(TopTier, day => new DateOnly(day.Year, 1, 1), day => PickerCalendar.AddMonths(day, 12), day => day.Year.ToString(culture));
+            AddSpans(BottomTier, day => new DateOnly(day.Year, day.Month, 1), day => PickerCalendar.AddMonths(day, 1), day => day.ToString("MMM", culture));
             return;
         }
 
-        AddSpans(TopTier, day => new DateOnly(day.Year, day.Month, 1), day => day.AddMonths(1), day => day.ToString("MMMM yyyy", culture));
+        AddSpans(TopTier, day => new DateOnly(day.Year, day.Month, 1), day => PickerCalendar.AddMonths(day, 1), day => day.ToString("MMMM yyyy", culture));
         if (Scale == OmniCalendarView.Week)
         {
             AddSpans(
                 BottomTier,
-                day => day.AddDays(-(((int)day.DayOfWeek + 6) % 7)),
-                day => day.AddDays(7),
+                day => PickerCalendar.AddDays(day, -(((int)day.DayOfWeek + 6) % 7)),
+                day => PickerCalendar.AddDays(day, 7),
                 day => weekLabel(ISOWeek.GetWeekOfYear(day.ToDateTime(TimeOnly.MinValue))));
             return;
         }
 
-        for (var day = RangeStart; day < RangeEnd; day = day.AddDays(1))
+        for (var day = RangeStart; day < RangeEnd; day = PickerCalendar.AddDays(day, 1))
         {
             BottomTier.Add(new GanttHeaderCell(X(day), PixelsPerDay, day.Day.ToString(culture)));
             if (day.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)

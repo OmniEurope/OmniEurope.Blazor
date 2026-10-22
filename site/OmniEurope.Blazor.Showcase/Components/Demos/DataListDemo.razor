@@ -2,9 +2,9 @@
     <OmniDataList TItem="GridRow" Items="Page" Virtualize="false">
         <ItemTemplate>
             <OmniCard>
-                <Header><OmniHeading Level="OmniHeadingLevel.H5">@context.Reference</OmniHeading></Header>
+                <HeaderContent><OmniHeading Level="OmniHeadingLevel.H5">@context.Reference</OmniHeading></HeaderContent>
                 <ChildContent>@context.Applicant, @context.Country</ChildContent>
-                <Footer><OmniBadge Tone="OmniTone.Neutral">@context.Amount.ToString("C0")</OmniBadge></Footer>
+                <FooterContent><OmniBadge Tone="OmniTone.Neutral">@context.Amount.ToString("C0")</OmniBadge></FooterContent>
             </OmniCard>
         </ItemTemplate>
         <EmptyContent>@Text["DemoDataListEmpty"]</EmptyContent>
@@ -20,7 +20,7 @@
                PageCount="PageCount"
                NumericPageCount="5"
                ShowFirstLast="true"
-               HorizontalAlign="OmniJustification.Center" />
+               Justify="OmniJustification.Center" />
 
     @* Export Markdown pour une IA, hors grille : toutes les lignes annoncées, lues page par page par le
        fournisseur, pas seulement la page de cartes affichée ; en-tête avec le titre, le tri, la limite,

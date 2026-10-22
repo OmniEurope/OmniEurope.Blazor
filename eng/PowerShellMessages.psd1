@@ -64,4 +64,13 @@
     CatalogNegotiationFrenchInvalid = 'La négociation française du catalogue est invalide.'
     HybridShellMissingCsp = 'La coque Hybrid ne déclare aucune CSP.'
     WasmFingerprintedAssetMissing = 'Aucun asset WebAssembly fingerprinté à vérifier.'
+
+    ComponentIndexPassed = 'Index des composants validé : {0} composants, {1} paramètres cités dans {2} guides, aucun nom périmé.'
+    ComponentIndexFailed = 'Index des composants incomplet ou périmé : {0} écart(s).'
+    ComponentIndexGuideMissing = 'docs/component-families.md renvoie à un guide absent : {0}.'
+    ComponentIndexComponentUncited = 'Composant public cité dans aucun guide de famille : {0}.'
+    ComponentIndexParameterUncited = 'Paramètre public cité dans aucun guide qui cite son composant : {0}.'
+    ComponentIndexStaleName = 'Nom absent de docs/public-api.txt dans {0} : {1}.'
+    ComponentIndexExceptionInvalid = 'eng/component-index-exceptions.json : l''exception {0} n''a pas de token ou de raison.'
+    ComponentIndexExceptionUnused = 'eng/component-index-exceptions.json : l''exception {0} ne correspond plus à aucun nom périmé.'
 }

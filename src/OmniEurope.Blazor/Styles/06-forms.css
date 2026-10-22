@@ -92,7 +92,7 @@ select.omni-input.omni-input--large:not([multiple]):not([size]) { block-size: ca
    click-through, and the text starts after it (the magnifier of a search field). */
 .omni-text-box-field { display: block; min-inline-size: 0; position: relative; }
 .omni-text-box-field__icon { color: var(--omni-color-text-muted); display: flex; inset-block-start: 50%; inset-inline-start: calc(0.5625rem * var(--omni-control-scale, 1)); pointer-events: none; position: absolute; transform: translateY(-50%); }
-/* Copyable: the Copy button welded to the end of the field, the two read as one control, as the
+/* ShowCopy: the Copy button welded to the end of the field, the two read as one control, as the
    Browse button of a single-file upload. */
 .omni-text-box-field--copy { display: flex; }
 .omni-text-box-field--copy > .omni-text-box { border-end-end-radius: 0; border-start-end-radius: 0; flex: 1 1 auto; min-inline-size: 0; }
@@ -282,6 +282,20 @@ select.omni-input.omni-input--large:not([multiple]):not([size]) { block-size: ca
 
 .omni-multi-select,
 .omni-list-box { min-height: calc(var(--omni-control-height) * 3 + 0.25rem); }
+/* Read-only: the rows of a list that cannot change (a native select cannot be read-only), the chosen ones
+   marked; only its dashed rule says it cannot be edited, as on a read-only field. */
+.omni-list-box--readonly { border-style: dashed; max-block-size: 12rem; min-block-size: 0; overflow-y: auto; padding-block: 0.25rem; }
+.omni-list-box__option { padding: 0.125rem var(--omni-space-sm); }
+.omni-list-box__option[aria-selected="true"] { background: color-mix(in srgb, var(--omni-color-accent) 16%, transparent); font-weight: 600; }
+.omni-list-box__option[aria-disabled="true"] { color: var(--omni-color-text-muted); }
+/* Read-only controls keep their look and the focus, but not the pointer of something to press. */
+.omni-checkbox-nullable[aria-readonly="true"] { cursor: default; }
+.omni-slider__input[aria-readonly="true"],
+.omni-switch[aria-readonly="true"],
+.omni-select-bar[aria-readonly="true"] .omni-select-bar__item,
+.omni-selectable-card-group[aria-readonly="true"] .omni-selectable-card,
+.omni-selectable-card[aria-readonly="true"],
+.omni-color-picker--readonly .omni-color-picker__input { cursor: default; }
 .omni-autocomplete { position: relative; }
 /* The chevron of a field that offers a closed list (ShowToggle): the glyph, size and place of the one a
    select draws (::picker-icon above), at the field's own side padding; the press area spans the height. */
@@ -433,6 +447,7 @@ select.omni-input.omni-input--large:not([multiple]):not([size]) { block-size: ca
 .omni-upload__field:has(> .omni-upload__input:focus-visible) > .omni-upload__field-value { border-color: var(--omni-color-accent-fill); box-shadow: var(--omni-focus-ring); }
 .omni-upload--dragging .omni-upload__field-value { background: var(--omni-color-accent-subtle); border-color: var(--omni-color-accent-fill); }
 .omni-upload__list { display: grid; gap: 6px; list-style: none; margin: 0; padding: 0; }
+.omni-upload__readonly:focus-visible { border-radius: var(--omni-radius); box-shadow: var(--omni-focus-ring); outline: none; }
 .omni-upload__file { align-items: center; background: var(--omni-card-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-radius); display: grid; gap: 0.25rem 0.625rem; grid-template-columns: auto minmax(0, 1fr) auto; min-inline-size: 0; padding: var(--omni-item-pad-y) 0.625rem; }
 .omni-upload__file-icon { align-items: center; background: var(--omni-color-neutral-fill); block-size: var(--omni-icon-box); border-radius: var(--omni-radius); color: var(--omni-color-text-muted); display: grid; grid-row: span 2; inline-size: var(--omni-icon-box); overflow: hidden; place-content: center; }
 .omni-upload__file-name { font-weight: 500; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

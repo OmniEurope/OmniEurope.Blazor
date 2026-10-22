@@ -22,7 +22,7 @@ public sealed class SelectionRecetteTests : OmniBunitContext
         var module = JSInterop.SetupModule(FocusModule);
         module.Mode = JSRuntimeMode.Loose;
         var menu = Render<OmniProfileMenu>(parameters => parameters
-            .Add(component => component.Summary, (RenderFragment)(builder => builder.AddContent(0, "Camille")))
+            .Add(component => component.SummaryContent, (RenderFragment)(builder => builder.AddContent(0, "Camille")))
             .AddChildContent<OmniMenuItem>(item => item.AddChildContent("Profil")));
 
         menu.Find(".omni-profile-menu__trigger").Click();
@@ -214,7 +214,7 @@ public sealed class SelectionRecetteTests : OmniBunitContext
             .Add(component => component.Multiple, true)
             .Add(component => component.Files, files)
             .Add(component => component.FilesChanged, next => files = next)
-            .Add(component => component.FileRemoved, file => removed = file));
+            .Add(component => component.OnFileRemove, file => removed = file));
 
         var rows = upload.FindAll(".omni-upload__file");
         Assert.Equal(2, rows.Count);

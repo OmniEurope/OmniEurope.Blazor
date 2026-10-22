@@ -191,7 +191,7 @@ public sealed class SchedulingCoherenceTests : OmniBunitContext
 
         var gantt = Render<OmniGantt>(parameters => parameters
             .Add(component => component.Tasks, tasks)
-            .Add(component => component.Scale, OmniCalendarView.Day));
+            .Add(component => component.View, OmniCalendarView.Day));
 
         var layout = gantt.Instance.Layout;
         Assert.Equal(layout.X(new DateOnly(2026, 3, 4)) + (layout.PixelsPerDay / 2), layout.TodayX);

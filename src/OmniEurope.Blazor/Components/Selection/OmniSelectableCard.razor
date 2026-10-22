@@ -18,6 +18,7 @@
         role="@(IsMultiple ? "checkbox" : "radio")"
         aria-checked="@(IsSelected ? "true" : "false")"
         aria-disabled="@(IsDisabled ? "true" : null)"
+        aria-readonly="@(IsReadOnly && IsMultiple ? "true" : null)"
         tabindex="@TabIndex"
         @onclick="ToggleAsync"
         @onkeydown="HandleKeyDownAsync">

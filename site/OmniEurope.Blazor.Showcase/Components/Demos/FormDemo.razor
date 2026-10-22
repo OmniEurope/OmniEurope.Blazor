@@ -35,7 +35,7 @@
         <OmniFormField For="demo-website">
             <LabelContent>@Text["DemoFormWebsite"]</LabelContent>
             <ChildContent>
-                <OmniTextBox Id="demo-website" Type="OmniTextBoxType.Url" Autocomplete="url" Copyable="true"
+                <OmniTextBox Id="demo-website" Type="OmniTextBoxType.Url" Autocomplete="url" ShowCopy="true"
                              @bind-Value="Model.Website" Placeholder="https://exemple.eu" />
             </ChildContent>
         </OmniFormField>
@@ -52,10 +52,12 @@
             <LabelContent>@Text["DemoFormBudget"]</LabelContent>
             <ChildContent>
                 <OmniSlider Id="demo-budget" @bind-Value="Model.Budget" Minimum="0" SelectableMinimum="5" Maximum="100" Step="5" ShowValue="true" />
+                <OmniSlider Id="demo-budget-vertical" Orientation="OmniOrientation.Vertical" @bind-Value="Model.Budget" Minimum="0" SelectableMinimum="5" Maximum="100" Step="5" ShowValue="true"
+                            aria-label="@Text["DemoFormBudget"]" />
             </ChildContent>
         </OmniFormField>
 
-        <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small" Align="OmniAlignment.Center">
+        <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Align="OmniAlignment.Center">
             <OmniCheckBox Id="demo-terms" @bind-Value="Model.Accepted" />
             <OmniLabel For="demo-terms">@Text["DemoFormTerms"]</OmniLabel>
         </OmniStack>

@@ -16,9 +16,9 @@ public partial class OmniStack
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary>The direction of the stack; <see cref="OmniStackOrientation.Vertical"/> by default.</summary>
+    /// <summary>The direction of the stack; <see cref="OmniOrientation.Vertical"/> by default.</summary>
     [Parameter]
-    public OmniStackOrientation Orientation { get; set; } = OmniStackOrientation.Vertical;
+    public OmniOrientation Orientation { get; set; } = OmniOrientation.Vertical;
 
     /// <summary>The space between the items; <see cref="OmniSpacing.Medium"/> by default.</summary>
     [Parameter]

@@ -74,7 +74,7 @@ public sealed class UploadEdgeTests : OmniBunitContext
             .Add(component => component.Multiple, true)
             .Add(component => component.Files, files)
             .Add(component => component.FilesChanged, next => files = next)
-            .Add(component => component.FileRemoved, file => removed.Add(file))
+            .Add(component => component.OnFileRemove, file => removed.Add(file))
             .Add(component => component.Upload, _ => pending.Task));
 
         var input = upload.FindComponent<InputFile>();
@@ -250,7 +250,7 @@ public sealed class UploadEdgeTests : OmniBunitContext
         var upload = Render<OmniUpload>(parameters => parameters
             .Add(component => component.Files, files)
             .Add(component => component.FilesChanged, next => { changes++; files = next; })
-            .Add(component => component.FilesSelected, _ => field!.DisposeAsync().AsTask())
+            .Add(component => component.OnFilesSelect, _ => field!.DisposeAsync().AsTask())
             .Add(component => component.Upload, _ => Task.CompletedTask));
         field = upload.Instance;
 

@@ -32,7 +32,12 @@ export function attach(viewport, reference, following) {
 
     const notify = () => {
         state.frame = 0;
-        reference.invokeMethodAsync('OnViewportChangedAsync', viewport.scrollTop, viewport.clientHeight, atBottom(viewport), state.following);
+        // A report that lands after the viewer detached (its reference is gone) or on a lost circuit is dropped, not thrown.
+        try {
+            reference.invokeMethodAsync('OnViewportChangedAsync', viewport.scrollTop, viewport.clientHeight, atBottom(viewport), state.following).catch(() => { });
+        } catch {
+            // The reference itself is already disposed.
+        }
     };
     const schedule = () => {
         if (state.frame === 0) {

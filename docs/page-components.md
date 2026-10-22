@@ -13,7 +13,7 @@ par paramètres, délégués et fragments ; le temps, par le `TimeProvider` enre
 ```razor
 <OmniPageHeader ShowBack="true" Subtitle="@Projet.Description">
     <Badges><OmniBadge Tone="OmniTone.Warning">Archivé</OmniBadge></Badges>
-    <Actions><OmniButton OnClick="Modifier"><OmniIcon Name="OmniIconName.Edit" /><span>Modifier</span></OmniButton></Actions>
+    <ActionsContent><OmniButton OnClick="Modifier"><OmniIcon Name="OmniIconName.Edit" /><span>Modifier</span></OmniButton></ActionsContent>
     <MenuContent>
         <OmniMenuItem OnClick="Archiver">Archiver</OmniMenuItem>
         <OmniMenuItem Tone="OmniTone.Danger" OnClick="Supprimer">Supprimer</OmniMenuItem>
@@ -50,7 +50,7 @@ la ligne 1 ne déborde jamais et rien ne se replie. Donner à la piste `minmax(0
 | `ShowTrail`, `TrailLabel` | Le fil d'Ariane sur la ligne 2 (vrai par défaut) et son nom accessible. `false`, la ligne 2 montre le sous-titre. La ligne garde sa hauteur dans tous les cas. |
 | `ShowBack`, `BackHref`, `BackLabel` | Le bouton retour : vers `BackHref`, sinon vers l'ancêtre le plus proche qui porte un lien, sinon un pas en arrière dans l'historique du navigateur. |
 | `BackVariant` | L'aspect du bouton retour : `Primary` par défaut, la même flèche d'accent sur chaque page ; `Ghost` pour un retour discret. |
-| `Badges`, `Actions` | Après le titre, sur la ligne 1. Sur téléphone, et à toute largeur quand la ligne 1 manque de place, ils se replient derrière le bouton « Voir plus » (`aria-expanded`). |
+| `Badges`, `ActionsContent` | Après le titre, sur la ligne 1. Sur téléphone, et à toute largeur quand la ligne 1 manque de place, ils se replient derrière le bouton « Voir plus » (`aria-expanded`). |
 | `MenuContent` | Les `OmniMenuItem` du menu « ⋮ » en fin de ligne 1, un `OmniOverflowMenu` ; aucun menu sans lui. Il reste visible sur téléphone. |
 | `Icon` | Icône avant le titre (`aria-hidden`, couleur primaire). Le titre est alors rogné à ses capitales, si bien que le centre de l'icône tombe sur le centre du texte quelle que soit la police. |
 | `Framed` | `false` par défaut : les deux lignes posées directement sur la page, sans bordure, fond ni marge intérieure, le titre commençant à l'aplomb du contenu. `true` les met dans un bloc bordé sur la surface. Le bloc garde sa hauteur fixe dans les deux cas. |
@@ -74,12 +74,12 @@ Breadcrumb.Replace(1, Breadcrumb.Items[1] with { Text = projet.Nom, Loading = fa
 
 ```razor
 <OmniDetailShell State="Etat" BackHref="/serveurs" NotFoundTitle="Serveur introuvable">
-    <Header><OmniPageHeader ShowBack="true" /></Header>
+    <HeaderContent><OmniPageHeader ShowBack="true" /></HeaderContent>
     <ChildContent>@Body</ChildContent>
 </OmniDetailShell>
 ```
 
-`State` vaut `Loading` (défaut), `Found` ou `NotFound`. En chargement, `Header` est peint et un
+`State` vaut `Loading` (défaut), `Found` ou `NotFound`. En chargement, `HeaderContent` est peint et un
 squelette (ou `LoadingContent`) le suit, le conteneur porte `aria-busy`. Le contenu est toujours rendu,
 masqué par `hidden` tant que l'entité n'est pas là : un enfant qui déclenche le chargement depuis son
 propre cycle de vie doit exister pour le déclencher. `NotFound` remplace l'en-tête par un état vide
@@ -90,7 +90,7 @@ l'historique) ; `NotFoundContent` remplace cet état entier.
 
 `OmniLoginShell` place `Logo` au-dessus d'une carte centrée (25rem au plus) qui porte le titre
 (`Title`, « Connexion » par défaut, niveau `Level`), `Description`, le formulaire (`ChildContent`) et
-`Footer`. La carte est nommée par son titre. Aucune authentification n'est embarquée. Le bouton
+`FooterContent`. La carte est nommée par son titre. Aucune authentification n'est embarquée. Le bouton
 Connexion reste dans le formulaire de l'hôte, dans un `OmniFormActions` en fin de formulaire, aligné à
 droite ; le pied de la carte ne le reçoit pas, puisqu'il serait hors du `<form>`.
 
@@ -126,14 +126,14 @@ lecteur d'écran lirait sinon à chaque seconde. L'hôte tient le compte : le co
 
 ## État vide : `OmniEmptyState`
 
-`Icon` (un plateau vide par défaut, décoratif), `Title`, `Description` et `Actions`. Le titre est un
+`Icon` (un plateau vide par défaut, décoratif), `Title`, `Description` et `ActionsContent`. Le titre est un
 paragraphe ; `Level` en fait un titre quand l'état vide ouvre une section.
 
 ## Tuile de statistique : `OmniStatTile`
 
-`Value` (déjà formatée), `Label` (obligatoire), `Detail` (ligne atténuée facultative) et `Icon` (carré
-teinté, décoratif). Avec `OnClick`, la tuile entière devient un bouton, nommé « libellé : valeur » ; avec `Href` (`string?`, demande d'une application cliente, recette R1-20), elle devient un seul lien (`a`) de même nom et de même aspect (survol, anneau de focus), l'adresse passant par la politique d'URI du paquet comme `OmniNavTile.Href` (un schéma dangereux tel que `javascript:` lève) ; `Href` et `OnClick` ensemble lèvent `ArgumentException` ; sans l'un ni l'autre, un simple bloc que rien n'active, au rendu inchangé. Ses éléments sont des `span`, valides dans un bouton comme dans un lien ; ne placez aucun élément interactif dans `Icon` (imbrication invalide, non détectée). La racine, bouton ou lien, garde les classes de la tuile : dans une `OmniTileGrid`, elle a la même taille que ses voisines et `DoubleWidth` l'étale. La valeur ne passe pas
-à la ligne. Le libellé reste sur une ligne : un script le réduit à 0,6875 rem quand il ne tient pas,
+`Value` (déjà formatée), `Title` (obligatoire, la légende visible, comme `OmniNavTile.Title`), `Detail` (ligne atténuée facultative) et `Icon` (carré
+teinté, décoratif). Avec `OnClick`, la tuile entière devient un bouton, nommé « titre : valeur » ; avec `Href` (`string?`, demande d'une application cliente, recette R1-20), elle devient un seul lien (`a`) de même nom et de même aspect (survol, anneau de focus), l'adresse passant par la politique d'URI du paquet comme `OmniNavTile.Href` (un schéma dangereux tel que `javascript:` lève) ; `Href` et `OnClick` ensemble lèvent `ArgumentException` ; sans l'un ni l'autre, un simple bloc que rien n'active, au rendu inchangé. Ses éléments sont des `span`, valides dans un bouton comme dans un lien ; ne placez aucun élément interactif dans `Icon` (imbrication invalide, non détectée). La racine, bouton ou lien, garde les classes de la tuile : dans une `OmniTileGrid`, elle a la même taille que ses voisines et `DoubleWidth` l'étale. La valeur ne passe pas
+à la ligne. Le titre reste sur une ligne : un script le réduit à 0,6875 rem quand il ne tient pas,
 puis le coupe de points de suspension, son texte entier en titre (infobulle), y compris quand `OnClick` ou `Href` apparaît ou disparaît et que la tuile change d'élément ; le détail peut se couper.
 Comme `OmniNavTile`, elle prend la hauteur de sa colonne (`block-size: 100%`) : les tuiles d'une rangée
 `OmniRow` ont la hauteur de la plus haute, celle qui porte un `Detail` comprise ; seule dans un bloc ou
@@ -180,6 +180,8 @@ Avancer, par Suivant, Terminer ou une étape déjà atteinte de la liste, demand
 focus passe au corps ; une région de statut annonce « Étape 2 sur 3 : Options ». L'assistant ne dessine aucun
 voile : dans un `OmniDialog`, Échap et la croix restent ceux du dialogue.
 
+`OnFinish` est levé par le bouton `FinishText` une fois que la dernière étape laisse l'utilisateur continuer.
+
 Les boutons restent à la même place quelle que soit l'étape : le corps a une hauteur contrôlée,
 `BodyHeight` (longueur CSS comme `24rem`, `400px` ou `50vh`), à défaut la propriété
 `--omni-wizard-body-height` de la feuille de l'hôte, à défaut `min(24rem, 60vh)`. Une étape plus haute
@@ -205,7 +207,7 @@ l'icône est décorative et le numéro reste lu par les technologies d'assistanc
 
 ## Liste de définitions : `OmniDescriptionList` et `OmniDescriptionItem`
 
-Un `dl` dont chaque `OmniDescriptionItem` (`Label`, la valeur en `ChildContent`, `Actions` après elle)
+Un `dl` dont chaque `OmniDescriptionItem` (`Term`, la valeur en `ChildContent`, `ActionsContent` après elle)
 est un groupe `dt`/`dd`. `Icon` (en général un `OmniIcon`, décoratif) précède le libellé, à la couleur
 d'accent et à la taille fixée par le paquet, sur la même ligne que le texte. `Columns` range les éléments sur 1 à 4 colonnes (borné) ; sous 40rem, une
 seule colonne.

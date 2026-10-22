@@ -74,8 +74,8 @@ public sealed class DataGridRenderEdgeTests : OmniBunitContext
                 (nameof(OmniDataGridColumn<Row>.HeaderContent), header),
                 (nameof(OmniDataGridColumn<Row>.FooterContent), footer))))
             .Add(component => component.PageSize, 2)
-            .Add(component => component.PagerPosition, OmniDataGridPosition.Top)
-            .Add(component => component.FooterPosition, OmniDataGridPosition.Top));
+            .Add(component => component.PagerPlacement, OmniDataGridPlacement.Top)
+            .Add(component => component.FooterPlacement, OmniDataGridPlacement.Top));
 
         var markup = grid.Markup;
         Assert.True(markup.IndexOf("omni-pager", StringComparison.Ordinal) < markup.IndexOf("<table", StringComparison.Ordinal));

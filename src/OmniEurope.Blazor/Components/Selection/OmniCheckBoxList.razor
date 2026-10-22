@@ -18,6 +18,8 @@
                    class="omni-checkbox"
                    checked="@IsSelected(option.Value)"
                    disabled="@option.Disabled"
+                   aria-readonly="@(ReadOnly ? "true" : null)"
+                   @onclick:preventDefault="ReadOnly"
                    @onchange="args => Toggle(option, args)" />
             <span>@option.Text</span>
         </label>

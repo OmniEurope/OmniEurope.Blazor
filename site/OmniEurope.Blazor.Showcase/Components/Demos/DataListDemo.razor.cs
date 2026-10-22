@@ -73,7 +73,7 @@ public partial class DataListDemo
         WorkflowPositions[move.Item.Reference] = move.ToColumn;
 
     /// <summary>The export of the card list: every file, read page by page as a remote source would serve it.</summary>
-    private OmniMarkdownTableExport<GridRow> CreateExport() => new()
+    private OmniTableExport<GridRow> CreateExport() => new()
     {
         Title = Text["DemoGridOpenCases"],
         Columns =

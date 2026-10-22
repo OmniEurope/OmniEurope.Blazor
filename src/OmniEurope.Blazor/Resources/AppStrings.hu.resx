@@ -184,6 +184,7 @@
   <data name="HtmlEditorCharCategoryLegal" xml:space="preserve"><value>Jogi</value></data>
   <data name="HtmlEditorImportTable" xml:space="preserve"><value>Táblázat importálása</value></data>
   <data name="HtmlEditorImportTableHint" xml:space="preserve"><value>{0} fájl, legfeljebb 100 sor és 50 oszlop.</value></data>
+  <data name="HtmlEditorImportTableTruncated" xml:space="preserve"><value>A fájl túllépi a korlátokat: csak az eleje marad meg.</value></data>
   <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>Első sor fejlécként</value></data>
   <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Beszúrás</value></data>
   <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Táblázat előnézete</value></data>

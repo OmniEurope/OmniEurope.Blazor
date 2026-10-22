@@ -6,6 +6,11 @@
 // monaco-editor package itself and passes its address; this module loads it once, with Monaco's own
 // AMD loader, from that address and from nowhere else. When it cannot be loaded, the component keeps
 // its plain textarea, which works everywhere.
+//
+// Events of the editor reach .NET through the package's notify: a call that a lost circuit or a
+// released component rejects is dropped, nothing is left unhandled.
+import { notify } from './shared/notify.js';
+
 const editors = new WeakMap();
 const statesByModel = new WeakMap();
 const linkTargets = new Map();
@@ -38,7 +43,14 @@ export function load(basePath, culture, timeout) {
         return loading;
     }
 
-    const base = new URL(String(basePath).replace(/\/+$/, ''), document.baseURI).href;
+    const resolved = new URL(String(basePath).replace(/\/+$/, ''), document.baseURI);
+    const page = new URL(document.baseURI);
+    // Behind the check of the component: a location that leaves the origin of the page is never loaded.
+    if (resolved.protocol !== page.protocol || resolved.host !== page.host) {
+        return Promise.resolve(false);
+    }
+
+    const base = resolved.href;
     const locale = monacoLocale(culture);
     loading = new Promise(resolve => {
         const timer = window.setTimeout(() => resolve(false), timeout > 0 ? timeout : 30000);
@@ -332,7 +344,7 @@ export function disposeDiff(host) {
 
 function sendDiff(state) {
     state.timer = 0;
-    state.dotnet.invokeMethodAsync('OnModifiedChanged', state.editor.getModifiedEditor().getValue());
+    notify(state.dotnet, 'OnModifiedChanged', state.editor.getModifiedEditor().getValue());
 }
 
 function schedule(state) {
@@ -342,7 +354,7 @@ function schedule(state) {
 
 function send(state) {
     state.timer = 0;
-    state.dotnet.invokeMethodAsync('OnCodeChanged', state.editor.getValue());
+    notify(state.dotnet, 'OnCodeChanged', state.editor.getValue());
 }
 
 function flush(state) {
@@ -357,7 +369,7 @@ function scheduleCursor(state) {
     state.cursorTimer = window.setTimeout(() => {
         const position = state.editor.getPosition();
         if (position) {
-            state.dotnet.invokeMethodAsync('OnCursorChanged', position.lineNumber, position.column);
+            notify(state.dotnet, 'OnCursorChanged', position.lineNumber, position.column);
         }
     }, changeDelay);
 }
@@ -505,7 +517,7 @@ function openLink(resource) {
         return false;
     }
 
-    entry.state.dotnet.invokeMethodAsync('OnLinkActivated', entry.name, entry.target, entry.line);
+    notify(entry.state.dotnet, 'OnLinkActivated', entry.name, entry.target, entry.line);
     return true;
 }
 

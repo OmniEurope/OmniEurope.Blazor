@@ -31,6 +31,12 @@ public sealed record OmniConfirmRequest(string Title, string Message)
     public OmniIconName ConfirmIcon { get; init; } = OmniIconName.Check;
 
     /// <summary>
+    /// The action's icon as markup (in general an <see cref="OmniIcon"/>, decorative), for a host that draws
+    /// its own glyph. Takes the place of <see cref="ConfirmIcon"/> when set; null, the default, keeps it.
+    /// </summary>
+    public RenderFragment? ConfirmIconContent { get; init; }
+
+    /// <summary>
     /// The dialog's intention (<see cref="OmniDialog.Intent"/>). Null, the default, derives it from
     /// <see cref="ConfirmVariant"/>: <see cref="OmniTone.Warning"/> for a
     /// <see cref="OmniButtonVariant.Danger"/> action, <see cref="OmniTone.Accent"/> otherwise.

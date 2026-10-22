@@ -62,10 +62,23 @@ public partial class OverlayDemo : IDisposable
     }
 
     private void OpenStickyDialog() => Overlays.OpenDialog(
-        new OmniDialogRequest(Text["DemoOverlayStickyTitle"], Paragraph(Text["DemoOverlayStickyBody"]))
+        new OmniDialogRequest(Text["DemoOverlayStickyTitle"], StickyContent())
         {
             CloseOnBackdrop = false
         });
+
+    // The text and a button that opens the blocking dialog over this one: a dialog opened from a dialog gives
+    // the focus back to the button that opened it, inside the lower dialog, when it closes.
+    private RenderFragment StickyContent() => builder =>
+    {
+        builder.AddContent(0, Paragraph(Text["DemoOverlayStickyBody"]));
+        builder.OpenComponent<OmniButton>(1);
+        builder.AddComponentParameter(2, nameof(OmniButton.Id), "demo-dialog-nested");
+        builder.AddComponentParameter(3, nameof(OmniButton.Variant), OmniButtonVariant.Secondary);
+        builder.AddComponentParameter(4, nameof(OmniButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, OpenBlockingDialog));
+        builder.AddComponentParameter(5, nameof(OmniButton.ChildContent), (RenderFragment)(content => content.AddContent(0, Text["DemoOverlayBlockingButton"])));
+        builder.CloseComponent();
+    };
 
     private void OpenBlockingDialog()
     {
@@ -74,7 +87,7 @@ public partial class OverlayDemo : IDisposable
             new OmniDialogRequest(Text["DemoOverlayBlockingTitle"], Paragraph(Text["DemoOverlayBlockingBody"]))
             {
                 Dismissible = false,
-                Footer = builder =>
+                FooterContent = builder =>
                 {
                     builder.OpenComponent<OmniButton>(0);
                     builder.AddComponentParameter(1, nameof(OmniButton.Id), "demo-dialog-blocking-done");

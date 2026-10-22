@@ -8,14 +8,14 @@
         <div class="omni-spreadsheet__toolbar" role="toolbar" aria-label="@EffectiveLabel">
             @if (AllowAddRows)
             {
-                <button type="button" class="omni-button omni-button--small omni-button--secondary omni-spreadsheet__add-row" aria-label="@Localize("SpreadsheetAddRowLabel")" title="@Localize("SpreadsheetAddRowLabel")" @onclick="AddRowAsync">
+                <button type="button" class="omni-button omni-button--small omni-button--secondary omni-spreadsheet__add-row" aria-label="@Localize("SpreadsheetAddRowLabel")" title="@Localize("SpreadsheetAddRowLabel")" disabled="@(!CanAddRow)" @onclick="AddRowAsync">
                     <OmniIcon Name="OmniIconName.Add" Size="OmniControlSize.Small" />
                     <span>@Localize("SpreadsheetAddRow")</span>
                 </button>
             }
             @if (AllowAddColumns)
             {
-                <button type="button" class="omni-button omni-button--small omni-button--secondary omni-spreadsheet__add-column" aria-label="@Localize("SpreadsheetAddColumnLabel")" title="@Localize("SpreadsheetAddColumnLabel")" @onclick="AddColumnAsync">
+                <button type="button" class="omni-button omni-button--small omni-button--secondary omni-spreadsheet__add-column" aria-label="@Localize("SpreadsheetAddColumnLabel")" title="@Localize("SpreadsheetAddColumnLabel")" disabled="@(!CanAddColumn)" @onclick="AddColumnAsync">
                     <OmniIcon Name="OmniIconName.Add" Size="OmniControlSize.Small" />
                     <span>@Localize("SpreadsheetAddColumn")</span>
                 </button>

@@ -123,7 +123,7 @@ public partial class OmniAppearanceWindow : IDisposable
 
     /// <summary>
     /// Whether the page content takes the whole width of the window rather than the centred column the
-    /// host draws it in. The host applies it, for example by passing <see cref="OmniLayoutWidth.Full"/>
+    /// host draws it in. The host applies it, for example by passing <see cref="OmniLayoutWidth.FullWidth"/>
     /// instead of its own width to <see cref="OmniMain.ContentWidth"/>. False (centred) by default.
     /// </summary>
     [Parameter]
@@ -258,7 +258,15 @@ public partial class OmniAppearanceWindow : IDisposable
     /// Raises the change of every bound setting that differs from <paramref name="look"/>. The palette and
     /// the font follow a new theme even when they look unchanged, since the host drops them with it.
     /// </summary>
-    private async Task ApplyLookAsync(Look look)
+    private Task ApplyLookAsync(Look look) => InBatchAsync(() => ApplyLookCoreAsync(look));
+
+    /// <summary>
+    /// Following the state, runs a change of several settings as one: the preference is written once, with
+    /// the look it leaves. A host that binds the settings itself receives each change as it comes.
+    /// </summary>
+    private Task InBatchAsync(Func<Task> change) => _shared?.State is { } state ? state.BatchAsync(change) : change();
+
+    private async Task ApplyLookCoreAsync(Look look)
     {
         var current = Current;
         var themeChanged = PresetChanged.HasDelegate && !Equals(current.Preset, look.Preset);
@@ -354,7 +362,9 @@ public partial class OmniAppearanceWindow : IDisposable
     private Task ResetThemeAsync() => ChangeThemeAsync(null);
 
     /// <summary>The new theme, then null for the palette and the font chosen for the previous one.</summary>
-    private async Task ChangeThemeAsync(OmniThemePreset? preset)
+    private Task ChangeThemeAsync(OmniThemePreset? preset) => InBatchAsync(() => ChangeThemeCoreAsync(preset));
+
+    private async Task ChangeThemeCoreAsync(OmniThemePreset? preset)
     {
         await PresetChanged.InvokeAsync(preset);
         if (Palette is not null && PaletteChanged.HasDelegate)
@@ -373,7 +383,9 @@ public partial class OmniAppearanceWindow : IDisposable
     /// force when the palette is bound: any palette paints any theme. A font other than the one in force
     /// is drawn the same way when the font is bound.
     /// </summary>
-    private async Task RandomLookAsync()
+    private Task RandomLookAsync() => InBatchAsync(RandomLookCoreAsync);
+
+    private async Task RandomLookCoreAsync()
     {
         var theme = AppearanceChoices.RandomOther(OmniThemePresets.All, AppearanceChoices.EffectivePreset(Preset));
         var preset = AppearanceChoices.Theme(AppearanceChoices.ThemeName(theme));

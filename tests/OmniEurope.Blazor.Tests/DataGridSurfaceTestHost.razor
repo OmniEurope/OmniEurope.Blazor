@@ -46,7 +46,7 @@
     [Parameter] public OmniDataGridSelectionMode SelectionMode { get; set; }
     [Parameter] public OmniDataGridRowMode EditMode { get; set; } = OmniDataGridRowMode.Single;
     [Parameter] public OmniDataGridLines GridLines { get; set; } = OmniDataGridLines.Horizontal;
-    [Parameter] public OmniDensity Density { get; set; } = OmniDensity.Comfortable;
+    [Parameter] public OmniDensity? Density { get; set; }
     [Parameter] public bool Responsive { get; set; }
     [Parameter] public int? Count { get; set; }
     [Parameter] public bool ShowPagingSummary { get; set; }

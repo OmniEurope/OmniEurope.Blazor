@@ -187,6 +187,147 @@ public sealed class PreferenceUserTests : OmniBunitContext
         Assert.Equal(["\"givre\""], _store.Of("anne").Saved.Select(saved => saved.Value));
     }
 
+    [Fact]
+    public async Task AUserWhoSignsInWithoutResetUser_NeverReceivesTheFormerUsersUnconfirmedValues()
+    {
+        _store.User = "anne";
+        _store.Of("anne").FailWrites = true;
+        var preferences = Create();
+        await preferences.SetAsync("theme", "aplat", Token);
+        Assert.Contains(_browser.Storage, pair => pair.Key == "omni:pref:anne:theme");
+
+        // The host signs anne out and bruno in, and never calls ResetUserAsync.
+        _store.User = "bruno";
+        await preferences.SyncAsync(Token);
+        await preferences.WhenIdleAsync();
+
+        Assert.Empty(_store.Of("bruno").Saved);
+        Assert.Null(_store.Of("bruno")["theme"]);
+        Assert.Contains(_changes, change => change.Origin == OmniPreferenceChangeOrigin.UserChanged);
+    }
+
+    [Fact]
+    public async Task AValueWrittenAfterAChangeOfUserWithoutResetUser_GoesToTheNewUsersPartition()
+    {
+        _store.User = "anne";
+        var preferences = Create();
+        await preferences.SetAsync("theme", "aplat", Token);
+        var anneKeys = _browser.Storage.Keys.Where(key => key.StartsWith("omni:pref:anne:", StringComparison.Ordinal)).Order().ToArray();
+        var anneValues = anneKeys.ToDictionary(key => key, key => _browser.Storage[key]);
+
+        _store.User = "bruno";
+        await preferences.SetAsync("density", "dense", Token);
+
+        Assert.Equal(anneValues, _browser.Storage.Where(pair => pair.Key.StartsWith("omni:pref:anne:", StringComparison.Ordinal)).ToDictionary(pair => pair.Key, pair => pair.Value));
+        Assert.Contains(_browser.Storage.Keys, key => key == "omni:pref:bruno:density");
+        Assert.Equal("dense", Assert.Single(_store.Of("bruno").Saved).Value is { } value ? System.Text.Json.JsonSerializer.Deserialize<string>(value) : null);
+    }
+
+    [Fact]
+    public async Task AValueReadAfterAChangeOfUserWithoutResetUser_IsTheNewUsersNotTheFormerCachedOne()
+    {
+        _store.User = "anne";
+        _store.Of("anne").Put("theme", "\"givre\"", Start);
+        var preferences = Create();
+        Assert.Equal("givre", await preferences.GetAsync<string>("theme", Token));
+
+        _store.User = "bruno";
+
+        Assert.Null(await preferences.GetAsync<string>("theme", Token));
+    }
+
+    [Fact]
+    public async Task ResetUser_WhileTheCacheIsStillOpening_ReleasesTheOpeningOfTheFormerUser()
+    {
+        var held = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        _store.User = "anne";
+        _store.HoldScope = held;
+        var preferences = Create();
+
+        var read = preferences.GetAsync<string>("theme", Token);
+        _store.User = "bruno";
+        var reset = preferences.ResetUserAsync(Token);
+        held.SetResult();
+        await Task.WhenAll(read, reset);
+        await preferences.DisposeAsync();
+
+        // Every script the openings started is stopped: none outlives the service, none is overwritten unreleased.
+        Assert.Equal(_browser.WatchedPrefixes.Count, _browser.Unwatched.Count);
+        Assert.Equal(_browser.Imports, _browser.Disposals);
+    }
+
+    [Fact]
+    public async Task AUserWhoSignsInWhileASynchronizationRuns_IsTakenAtOnce_ByAnExplicitSynchronization()
+    {
+        _store.User = "anne";
+        _store.Of("anne").Put("theme", "\"givre\"", Start);
+        _store.Of("bruno").Put("theme", "\"neon\"", Start);
+        var preferences = Create();
+        Assert.Equal("givre", await preferences.GetAsync<string>("theme", Token));
+        _store.WhenChangedRead = () => _store.User = "bruno";
+
+        await preferences.SyncAsync(Token);
+
+        Assert.Contains(_changes, change => change.Origin == OmniPreferenceChangeOrigin.UserChanged && change.Value == "\"neon\"");
+        Assert.Equal("neon", await preferences.GetAsync<string>("theme", Token));
+        Assert.Empty(_store.Of("bruno").Saved);
+    }
+
+    [Fact]
+    public async Task AUserWhoSignsInWhileTheBackgroundSynchronizationRuns_IsTakenAtOnce()
+    {
+        _store.User = "anne";
+        _store.Of("anne").Put("theme", "\"givre\"", Start);
+        _store.Of("bruno").Put("theme", "\"neon\"", Start);
+        var preferences = Create();
+        Assert.Equal("givre", await preferences.GetAsync<string>("theme", Token));
+        await preferences.WhenIdleAsync();
+        _store.WhenChangedRead = () => _store.User = "bruno";
+
+        await _browser.Bridge!.OnVisible();
+        await preferences.WhenIdleAsync();
+
+        Assert.Contains(_changes, change => change.Origin == OmniPreferenceChangeOrigin.UserChanged && change.Value == "\"neon\"");
+        Assert.Empty(_store.Of("bruno").Saved);
+    }
+
+    [Fact]
+    public async Task AStoreThatCannotNameItsUserNow_IsUsedAlone_AndTheFailureIsLogged()
+    {
+        _store.User = "anne";
+        _store.Of("anne").Put("theme", "\"givre\"", Start);
+        var preferences = Create();
+        Assert.Equal("givre", await preferences.GetAsync<string>("theme", Token));
+        _store.FailScope = true;
+
+        Assert.Equal("givre", await preferences.GetAsync<string>("theme", Token));
+
+        Assert.Contains(_logger.Entries, entry => entry.Level == Microsoft.Extensions.Logging.LogLevel.Warning
+            && entry.Message.Contains("could not give the scope", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public async Task ResetUser_WhileTheFormerOpeningFails_CompletesAndLeavesNothingStarted()
+    {
+        var held = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        _store.User = "anne";
+        _store.HoldScope = held;
+        var preferences = Create();
+        _browser.FailuresOnce["watch"] = new InvalidOperationException("The script could not watch the cache.");
+
+        var read = preferences.GetAsync<string>("theme", Token);
+        _store.User = "bruno";
+        var reset = preferences.ResetUserAsync(Token);
+        held.SetResult();
+
+        await Assert.ThrowsAsync<InvalidOperationException>(() => read);
+        await reset;
+        await preferences.DisposeAsync();
+
+        Assert.Equal(_browser.WatchedPrefixes.Count, _browser.Unwatched.Count);
+        Assert.Equal(_browser.Imports, _browser.Disposals);
+    }
+
     /// <summary>A store per user, as a host's table filtered by the signed-in user; no user answers <see cref="OmniPreferences.NoUserScope"/>.</summary>
     private sealed class UserStore : IOmniPreferenceStore
     {
@@ -198,6 +339,17 @@ public sealed class PreferenceUserTests : OmniBunitContext
 
         /// <summary>When set, a read waits for it before answering, holding the store's one call at a time.</summary>
         public TaskCompletionSource? HoldReads { get; set; }
+
+        /// <summary>Run once the store has answered a read of what changed, as a user who signs in meanwhile.</summary>
+        public Action? WhenChangedRead { get; set; }
+
+        /// <summary>When set, the store cannot name its user.</summary>
+        public bool FailScope { get; set; }
+
+        /// <summary>When set, the first scope request waits for it, as a store that is slow to name its user.</summary>
+        public TaskCompletionSource? HoldScope { get => _holdScope; set => _holdScope = value; }
+
+        private TaskCompletionSource? _holdScope;
 
         public MemoryPreferenceStore Of(string user)
         {
@@ -227,12 +379,29 @@ public sealed class PreferenceUserTests : OmniBunitContext
             return await store.GetAsync(key, cancellationToken);
         }
 
-        public Task<IReadOnlyList<OmniPreference>> GetChangedSinceAsync(DateTimeOffset? since, CancellationToken cancellationToken = default) =>
-            Current().GetChangedSinceAsync(since, cancellationToken);
+        public async Task<IReadOnlyList<OmniPreference>> GetChangedSinceAsync(DateTimeOffset? since, CancellationToken cancellationToken = default)
+        {
+            var changed = await Current().GetChangedSinceAsync(since, cancellationToken);
+            WhenChangedRead?.Invoke();
+            return changed;
+        }
 
         public Task SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default) => Current().SaveAsync(preference, cancellationToken);
 
-        public ValueTask<string> GetScopeAsync(CancellationToken cancellationToken = default) =>
-            ValueTask.FromResult(User ?? OmniPreferences.NoUserScope);
+        public async ValueTask<string> GetScopeAsync(CancellationToken cancellationToken = default)
+        {
+            if (FailScope)
+            {
+                throw new InvalidOperationException("The store cannot name its user.");
+            }
+
+            var scope = User ?? OmniPreferences.NoUserScope;
+            if (Interlocked.Exchange(ref _holdScope, null) is { } hold)
+            {
+                await hold.Task.WaitAsync(cancellationToken);
+            }
+
+            return scope;
+        }
     }
 }

@@ -184,6 +184,7 @@
   <data name="HtmlEditorCharCategoryLegal" xml:space="preserve"><value>Juridic</value></data>
   <data name="HtmlEditorImportTable" xml:space="preserve"><value>Importă un tabel</value></data>
   <data name="HtmlEditorImportTableHint" xml:space="preserve"><value>Fișier {0}, cel mult 100 de rânduri și 50 de coloane.</value></data>
+  <data name="HtmlEditorImportTableTruncated" xml:space="preserve"><value>Fișierul depășește limitele: se păstrează doar începutul său.</value></data>
   <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>Primul rând ca antet</value></data>
   <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Inserează</value></data>
   <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Previzualizare tabel</value></data>

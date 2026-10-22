@@ -34,7 +34,7 @@ là restent en place et lisibles dessous ; une grille sans ligne encore garde so
 (ou `LoadingContent`). `ShowLoadingBar` (vrai par défaut) à `false` remplace au contraire les lignes, à
 chaque chargement, par la ligne de chargement (`LoadingContent` ou le texte localisé). `LoadingBarMode`
 choisit entre le balayage (`Sweep`, par défaut) et le remplissage continu (`Continuous`)
-d'`OmniLoadingBar`. Un rafraîchissement en direct garde ses lignes et ne montre pas de barre.
+d'`OmniLoadingBar`. Un rafraîchissement en direct garde ses lignes et ne montre pas de barre. `NewRowHighlight` (`TimeSpan?`, nul par défaut : rien n'est marqué) fait lire en gras, pendant cette durée, une ligne qu'amène `RefreshAsync()` ; les lignes se reconnaissent par `KeyOf`, sans lequel rien n'est marqué non plus.
 
 Échec : quand `Load` lève, la grille affiche un message localisé suivi d'un bouton de reprise ;
 `ErrorContent` (`RenderFragment<Exception>`) remplace le message, le bouton restant, et `OnLoadError`
@@ -55,7 +55,7 @@ Une colonne se déclare par lambda ou par nom de propriété.
     <Columns>
         <OmniDataGridColumn TItem="Order" Property="Customer.Name" Title="Client" Frozen="true" Width="220px" />
         <OmniDataGridColumn TItem="Order" Property="Total" Title="Total" FormatString="{0:n2}" Filterable="false"
-                            TextAlign="OmniDataGridTextAlign.End" SortOrder="OmniDataGridSortOrder.Descending" />
+                            TextAlign="OmniAlignment.End" SortOrder="OmniDataGridSortOrder.Descending" />
     </Columns>
 </OmniDataGrid>
 ```
@@ -73,7 +73,7 @@ Une colonne se déclare par lambda ou par nom de propriété.
   pourcentage compte comme une colonne sans largeur. `MinWidth` est tenue exactement quand elle
   porte sur la seule colonne sans largeur ; à plusieurs, ces colonnes se partagent la place à
   parts égales au-dessus de ce minimum global.
-- Une colonne alignée à la fin (`TextAlign`) aligne aussi son titre, à la fin de l'en-tête.
+- Une colonne alignée à la fin (`TextAlign`, un `OmniAlignment` : `Start` par défaut, `Center`, `End`) aligne aussi son titre, à la fin de l'en-tête. `Stretch` n'a pas de sens pour du texte : il se lit comme `Start`.
 - `TextAlign`, `Class`, `HeaderClass`, `Visible`, `Hideable`, `Resizable`, `Sortable`, `Filterable` et
   `Groupable` complètent la déclaration (`Hideable` : voir « Réordonner, masquer et réinitialiser les
   colonnes »). `HeaderContent` remplace le titre, `FooterContent` la cellule
@@ -298,6 +298,8 @@ qui défile, ou la page, ne rend que les éléments proches de la zone visible, 
   (opérateur en `SimpleWithMenu`, les deux conditions en `Advanced`) dans un menu ouvert par l'entonnoir
   du titre : l'en-tête reste sur une ligne. `ShowHeaderFilterMenu="false"` rend à la place la rangée de
   filtres en ligne sous l'en-tête.
+- `HideFilterMenuOnSelect` (faux par défaut) ferme le menu de filtre d'un en-tête dès qu'une valeur y est choisie ; un clic à côté ou Échap le ferme toujours, quel que soit ce réglage.
+- `HighlightActiveColumn` (faux par défaut) teinte toute une colonne, en-tête compris, tant qu'elle porte un tri ou un filtre.
 - Les panneaux (menu d'en-tête, filtre avancé, liste cochable repliée) et la liste de suggestions
   du filtre `Combo` sont placés en position fixe par `omni-grid.js` sous leur déclencheur : le
   viewport qui défile ne les rogne plus. Un seul est ouvert à la fois ; un clic ailleurs ou Échap le
@@ -325,6 +327,8 @@ qui défile, ou la page, ne rend que les éléments proches de la zone visible, 
 
 Les contrôles de `Combo`, `MultiSelect` et `DateRange` sont aussi publics, `OmniDataGridFilterCombo` (`OnPick` au choix d'une suggestion), `OmniDataGridFilterMultiSelect` (`Filterable`, `FormatValue`) et `OmniDataGridFilterDateRange`, pour être posés à la main dans un `FilterTemplate` ; ils rendent leurs attributs supplémentaires et leur `Id`.
 
+Posés à la main, leurs paramètres sont les suivants. `OmniDataGridFilterCombo.Suggestions` (`IReadOnlyList<string>`) liste les candidats sous la saisie, réduits à ceux qui contiennent le texte tapé (casse et accents ignorés) ; `MaxSuggestions` (50 par défaut) borne le nombre de suggestions rendues et `Placeholder` est le texte indicatif de la saisie. `OmniDataGridFilterMultiSelect.Suggestions` liste les valeurs de la liste cochable ; `MaxSuggestions` (200 par défaut) borne le nombre d'options rendues à la fois et `Placeholder` est le texte de la boîte de recherche, repris dans le résumé replié tant que rien n'est coché. `OmniDataGridFilterDateRange.IncludesTime` (faux par défaut) fait choisir les heures en plus du jour.
+
 `FilterSearchable` ajoute une boîte de recherche au-dessus d'une liste `MultiSelect` (le `Filterable` de
 cette liste), pour une colonne dont le catalogue est trop long à parcourir à l'oeil. Les autres formes
 l'ignorent. `FormatFilterValue` donne le texte affiché pour chaque valeur candidate (le nom traduit d'un
@@ -334,7 +338,7 @@ parce que `Filterable` et `FormatValue` désignent déjà le filtre de la colonn
 
 Dans la rangée de filtres, la liste `MultiSelect` est repliée sur une ligne qui résume les valeurs
 cochées et s'ouvre à la demande ; dans un menu d'en-tête elle s'affiche ouverte.
-`OmniDataGridFilterMultiSelect.Presentation` (`Compact` par défaut, ou `List`) choisit entre les
+`OmniDataGridFilterMultiSelect.Display` (`Compact` par défaut, ou `List`) choisit entre les
 deux quand il est posé à la main dans un `FilterTemplate`, et `OmniDataGridFilterContext.InPopover`
 dit au modèle où il est rendu.
 
@@ -371,6 +375,7 @@ comme n'importe quel autre filtre.
 - `Groups` liste les regroupements actifs par clé de colonne, `GroupsChanged` les publie, et le
   panneau `ShowGroupPanel` les affiche avec un retrait par regroupement. `AllGroupsExpanded` fixe
   l'état initial ; chaque en-tête de groupe se replie individuellement.
+- `GroupLabel` (`Func<object?, int, string>?`) écrit le texte d'un en-tête de groupe à partir de la valeur du groupe et de son nombre de lignes ; nul, l'en-tête montre `Titre : valeur (nombre)`.
 
 ### Agrégats et pieds de groupe
 
@@ -468,6 +473,7 @@ vue : la page affichée d'une grille paginée. L'export n'écrit ni pieds de gro
   et `ShowExpandAll` ; le nom accessible du chevron vient des ressources. Le bouton d'en-tête de
   `ShowExpandAll` ouvre ou ferme les lignes de la page affichée, sans toucher aux autres pages, et n'est
   proposé qu'en `OmniDataGridRowMode.Multiple`.
+- `ExpandedKeys` / `ExpandedKeysChanged` (`IReadOnlyList<object>`) lient les clés (`KeyOf`) des lignes dont le détail est ouvert : l'hôte garde la liste (`@bind-ExpandedKeys`) et la grille la lui rend à chaque ouverture ou fermeture, avec une seule clé en `ExpandMode` `Single`.
 
 ## Lignes en arbre
 
@@ -510,8 +516,8 @@ sont reconnues par `KeyOf`.
 
 `OmniPager` sert la grille et reste utilisable seul : boutons précédente, numéros de page et suivante, première et dernière avec `ShowFirstLast`, sélecteur de taille de page. Ses textes (titres et noms accessibles des boutons, libellé de taille de page, résumé) viennent des ressources du paquet, remplaçables par `AddOmniEuropeTextOverrides` ([localization.md](localization.md)) ; il n'a aucun paramètre de texte par bouton, et chaque bouton numéroté est nommé par son chiffre.
 
-- Seul, il prend ses propres paramètres : `Page`/`PageChanged` et `PageCount`, `PageSize`/`PageSizeChanged` et `PageSizeOptions`, `NumericPageCount` (nombre de numéros affichés), `ShowFirstLast`, `HorizontalAlign`, `Label` (nom de la navigation) et `Disabled`.
-- Dans la grille, on ne le pose pas : la grille le rend et le règle par ses paramètres à elle, `PageSize`/`PageSizeChanged`, `PageSizeOptions`, `NumericPageCount`, `PagerHorizontalAlign` (transmis comme `HorizontalAlign`), `PagerPosition` (`OmniDataGridPosition` : `Bottom`, `Top` ou `TopAndBottom`, comme `FooterPosition` pour la ligne de total) et `ShowPagingSummary` (résumé localisé « premier à dernier sur total ») ; première et dernière y sont toujours montrées.
+- Seul, il prend ses propres paramètres : `Page`/`PageChanged` et `PageCount`, `PageSize`/`PageSizeChanged` et `PageSizeOptions`, `NumericPageCount` (nombre de numéros affichés), `ShowFirstLast`, `Justify`, `Label` (nom de la navigation) et `Disabled`.
+- Dans la grille, on ne le pose pas : la grille le rend et le règle par ses paramètres à elle, `PageSize`/`PageSizeChanged`, `PageSizeOptions`, `NumericPageCount`, `PagerJustify` (transmis comme `Justify`), `PagerPlacement` (`OmniDataGridPlacement` : `Bottom`, `Top` ou `TopAndBottom`, comme `FooterPlacement` pour la ligne de total) et `ShowPagingSummary` (résumé localisé « premier à dernier sur total ») ; première et dernière y sont toujours montrées.
 
 Dans la grille, la barre n'apparaît qu'en `ScrollMode` `Paged` et s'il existe plus d'une page. `AlwaysShowPager` la maintient visible même sur une page
 unique, pour une mise en page qui ne doit pas se réorganiser au fil des filtres. Une liste locale
@@ -520,7 +526,7 @@ l'hôte : la barre et le résumé n'annoncent plus « page 5 sur 1 ».
 
 ## Présentation
 
-`GridLines` (`Horizontal` par défaut, `None`, `Vertical`, `Both`), `Density`, `AllowAlternatingRows` et
+`GridLines` (`Horizontal` par défaut, `None`, `Vertical`, `Both`), `Density` (`OmniDensity?` : nulle par défaut, la grille suit alors la densité de l'`OmniThemeScope` qui l'entoure, `Comfortable` hors portée ; une valeur la fixe pour la grille seule), `AllowAlternatingRows` et
 `Responsive`. En mode responsive, chaque cellule
 porte son intitulé en attribut `data-omni-label` et la feuille de styles empile la ligne en carte
 sous 40 rem.
@@ -684,6 +690,8 @@ première ouverture (état de chargement annoncé, échec signalé et rapporté 
 quand elle est ouverte d'emblée. Au clavier, Droite développe, Gauche
 réduit, Entrée et Espace sélectionnent sans remonter à l'ancêtre ([accessibility-contract.md](contracts/accessibility-contract.md)).
 
+`OmniTreeItem.LoadChildren` (`Func<CancellationToken, Task>?`) charge les enfants à la première ouverture de l'entrée, que l'hôte rend ensuite dans `ChildContent` ; une ouverture plus récente annule un chargement encore en cours.
+
 ### Ligne enrichie
 
 `OmniTreeItem.TextContent` remplace le texte de la ligne par un fragment (icône, libellé mis en forme,
@@ -749,6 +757,12 @@ des formules calculées sur la feuille.
   `Evaluate` (la valeur calculée, en `OmniSpreadsheetValue`), `ColumnName`, `Address`, puis `ToJson`
   et `FromJson` (`{"columnCount":3,"rows":[[...]]}`, écrits et lus sans réflexion, donc sûrs au
   découpage). Chaque modification produit une nouvelle feuille, remontée par `ValueChanged`.
+- **Taille.** Une feuille compte au plus `MaxRows` (10 000) lignes, `MaxColumns` (500, soit jusqu'à la colonne
+  `SF`) colonnes et `MaxCells` (250 000) cellules : chaque modification recopie les cellules et le composant
+  les dessine toutes, sans virtualisation. `Create`, `FromRows`, `WithInput` (une adresse lointaine comme
+  `A9999999` n'alloue plus les lignes intermédiaires), `AddRow` et `AddColumn` lèvent une
+  `ArgumentOutOfRangeException` au-delà ; `FromJson` lève la `JsonException` documentée. Les boutons d'ajout
+  du composant se désactivent à la limite.
 - **Saisies.** Un nombre se lit dans la culture courante ou avec un point ; un `%` final divise par
   cent ; une apostrophe initiale force le texte ; `=` ouvre une formule.
 - **Formules.** Références `B3` (ou `$B$3`, sans effet d'ancrage faute de recopie), plages `A1:A5`
@@ -794,18 +808,31 @@ n'ouvre aucune connexion : l'hôte lui passe les lignes, en ajout seul (une lign
 dernière position déjà vue n'est pas détectée ; une liste plus courte ou dont cette ligne a changé repart
 de zéro).
 
+Paramètres du journal. `Lines` (`IReadOnlyList<OmniLogLine>`, obligatoire) donne les lignes, de la plus ancienne à la plus récente. `Follow` (vrai par défaut) dit si la vue suit la dernière ligne : le lecteur qui remonte la coupe, un retour au bas ou le bouton la rétablit, et `FollowChanged` rapporte les deux. `MinimumLevelChanged` est levé quand le filtre de niveau change et `SearchTextChanged` quand le texte cherché change, si bien que `MinimumLevel` et `SearchText` se lient par `@bind`. `ShowLineNumbers` (vrai par défaut) montre le numéro de chaque ligne, compté dans tout le journal même quand un filtre masque des lignes ; `ShowTimestamps` (vrai par défaut) montre avant le texte l'heure de la ligne (`OmniLogLine.Timestamp`), au format `TimestampFormat` (`HH:mm:ss` par défaut) et dans le fuseau `TimeZone` (le fuseau local par défaut) ; `ShowLevels` (faux par défaut) écrit le nom du niveau de chaque ligne, les avertissements et les erreurs restant teintés et nommés aux lecteurs d'écran.
+
 ## Export Markdown : `OmniMarkdownExportButton`
 
 Une grille exporte par ses propres barres (section suivante). `OmniMarkdownExportButton<TItem>`
 sert aux exports hors grille : une liste de cartes, un tableau de bord, un rapport. C'est un bouton qui
-télécharge des lignes en fichier Markdown (`OmniMarkdownTableExporter`, service enregistré par
-`AddOmniEuropeBlazor`), pour une lecture par une IA : toutes les lignes annoncées, lues par le fournisseur
+télécharge des lignes en fichier Markdown, pour une lecture par une IA : toutes les lignes annoncées, lues par le fournisseur
 de pages de l'export, et non la seule page affichée. Il est occupé pendant la lecture, et une page en échec ne produit aucun fichier.
-`OnExport` reçoit le document produit une fois le fichier remis (une exception de son gestionnaire remonte, ce n'est pas un échec de l'export), `OnExportError` l'exception d'un échec ; `Text` (`string?`) remplace
+
+Un seul modèle d'export sert à la grille et à ce bouton, et le Markdown n'y est qu'un format parmi les autres
+(`OmniTableExportFormat`). `Export` décrit la source par un `OmniTableExport<TItem>` : `Title`, `Columns`
+(des `OmniTableExportColumn<TItem>` : titre et texte de la cellule), `LoadPage` (une `OmniTableExportPageRequest`
+numérotée à partir de 1 qui donne `Skip`), `Fields` (des `OmniTableExportField`, comme `ExportFields` de la grille),
+`RowLimit`, `PageSize`, `RowKey` (une ligne lue deux fois n'est écrite qu'une fois) et `EmptyText`. Le service
+`OmniTableExporter` (enregistré par `AddOmniEuropeBlazor`) en tire un `OmniTableExportDocument` par `ReadAsync`,
+que `RenderAsync` écrit dans n'importe quel format : un hôte qui veut aussi du CSV ou de l'Excel de cette source
+ne lit pas ses pages deux fois. `ToMarkdown(document)` donne le texte Markdown, `EscapeCell` et `EscapeInline`
+l'échappement d'une cellule et d'une ligne d'en-tête.
+`OnExport` reçoit l'`OmniTableExportDocument` produit une fois le fichier remis (une exception de son gestionnaire remonte, ce n'est pas un échec de l'export), `OnExportError` l'exception d'un échec ; `Text` (`string?`) remplace
 le libellé localisé du bouton. Quand la source n'annonce pas de total et que la lecture s'arrête sur une
 page pleine à la limite de lignes, le document écrit « N sur au moins M » et une note le dit :
-`OmniMarkdownTableDocument.TotalIsLowerBound` est alors vrai et `IsComplete` faux. Le fichier se nomme
+`OmniTableExportDocument.TotalIsLowerBound` est alors vrai et `IsComplete` faux. Le fichier se nomme
 `{FileName}-{yyyy-MM-dd-HHmm}.md`, heure UTC (`FileName` vaut `export` par défaut).
+
+`OmniMarkdownExportButton.Variant` (`OmniButtonVariant`, `Secondary` par défaut) règle l'emphase du bouton, comme celle d'`OmniButton`.
 
 ## Barres d'en-tête et de pied de la grille, export
 
@@ -852,10 +879,9 @@ par défaut des boutons).
 </OmniDataGrid>
 ```
 
-- **Ancienne barre.** `ExportFormats` et `ExportPosition` restent pris en charge et sont obsolètes
-  (avertissement CS0618 à la compilation, qui nomme les paramètres ci-dessus) : tant qu'aucune barre
-  affichée ne porte les boutons, la barre que nommait `ExportPosition` s'affiche d'office avec eux à son début, dans
-  le cadre du tableau ; une liste `ExportFormats` non vide remplace les quatre interrupteurs de formats.
+- **Anciens paramètres retirés en 1.9.0.** ExportFormats et ExportPosition n'existent plus : les barres (ShowHeaderBar,
+  ShowFooterBar) et les quatre interrupteurs de formats ci-dessus les remplacent.
+
 - **Lignes.** Toutes celles que les filtres en cours retiennent, dans le tri en cours, et non la page ou
   la fenêtre affichée : l'ensemble filtré et trié d'une grille à `Items` ; pour une grille à `Load`, des
   appels successifs de 200 lignes avec les tris et filtres en cours, jusqu'au total annoncé ou à

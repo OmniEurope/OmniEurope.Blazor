@@ -54,12 +54,15 @@ internal sealed class GridCssClasses<TItem>(OmniDataGrid<TItem> grid)
     // with its own Template is not the bare figure any more (a link, a label, buttons laid out from
     // the start), so it keeps the start: aligning only its header at the end split the two apart.
     private static bool IsNumericCell(OmniDataGridColumnDefinition<TItem> column) =>
-        column.Numeric && column.Template is null && column.TextAlign == OmniDataGridTextAlign.Start;
+        column.Numeric && column.Template is null && IsStart(column.TextAlign);
+
+    // Text has no cross axis to fill: Stretch reads as Start.
+    private static bool IsStart(OmniAlignment alignment) => alignment is OmniAlignment.Start or OmniAlignment.Stretch;
 
     internal string ColumnClass(OmniDataGridColumnDefinition<TItem> column, bool header) => CssClassBuilder.Combine([
         IsNumericCell(column)
             ? "omni-data-grid__column--align-end omni-data-grid__cell--numeric"
-            : $"omni-data-grid__column--align-{column.TextAlign.ToString().ToLowerInvariant()}",
+            : $"omni-data-grid__column--align-{(IsStart(column.TextAlign) ? "start" : column.TextAlign.ToString().ToLowerInvariant())}",
         column.Frozen ? "omni-data-grid__column--frozen" : null,
         grid.HighlightActiveColumn && grid.Query.IsColumnActive(column) ? "omni-data-grid__column--active" : null,
         header && grid.Query.IsSortable(column) ? "omni-data-grid__column--sortable" : null,

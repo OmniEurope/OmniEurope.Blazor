@@ -199,6 +199,30 @@ export async function editorSteps(session, results) {
   await waitFor('le bloc déposé', `${surface('editor-body')}.textContent.includes('Bloc déposé')`);
   step('collage et dépôt nettoyés puis insérés en blocs');
 
+  // A selection dragged to another paragraph is moved there, not copied; dropped on itself it stays.
+  const occurrences = text => evaluate(`${surface('editor-body')}.textContent.split(${JSON.stringify(text)}).length - 1`);
+  const dragSelection = (x, y) => evaluate(`(() => {
+    const body = ${surface('editor-body')};
+    body.dispatchEvent(new DragEvent('dragstart', { bubbles: true }));
+    const data = new DataTransfer();
+    data.setData('text/html', 'déposé');
+    body.dispatchEvent(new DragEvent('drop', { dataTransfer: data, clientX: ${x}, clientY: ${y}, bubbles: true, cancelable: true }));
+    body.dispatchEvent(new DragEvent('dragend', { bubbles: true }));
+  })()`);
+  const movedCount = await occurrences('déposé');
+  await select('editor-body', 'déposé');
+  const target = await centerOf('#editor-body p:last-of-type');
+  await dragSelection(target.x, target.y);
+  await waitFor('le texte déplacé au dernier paragraphe', `${surface('editor-body')}.querySelector('p:last-of-type').textContent.includes('déposé')`);
+  check((await occurrences('déposé')) === movedCount, 'Le glisser a copié le texte au lieu de le déplacer.');
+  await select('editor-body', 'déposé');
+  const here = await evaluate(`(() => { const box = getSelection().getRangeAt(0).getBoundingClientRect(); return { x: box.left + box.width / 2, y: box.top + box.height / 2 }; })()`);
+  const stayed = await html('editor-body');
+  await dragSelection(here.x, here.y);
+  await pause(300);
+  check((await html('editor-body')) === stayed, 'Un texte glissé sur lui-même a changé le document.');
+  step('texte glissé déplacé sans copie, resté en place sur lui-même');
+
   // A host command that sets the whole document, then Undo with the surface focused.
   const signed = await evaluate(`${surface('editor-body')}.querySelectorAll('p').length`);
   await caretIn('editor-body', 'p', true);

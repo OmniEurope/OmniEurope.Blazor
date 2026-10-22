@@ -86,9 +86,11 @@ public partial class OmniSplitButton
     [Parameter]
     public EventCallback<bool> OpenChanged { get; set; }
 
-    private OmniMenuController Menu => _menu ??= new OmniMenuController(JavaScript, restore => InvokeAsync(() => CloseAsync(restore)));
+    private OmniMenuController Menu => _menu ??= new OmniMenuController(
+        JavaScript,
+        new OmniMenuPortalBinding(this, OmniPortalKind.SplitButtonMenu, () => Coordinator, () => Popup, () => Open, () => OpenChanged, StateHasChanged, InvokeAsync));
 
-    private bool IsOpen => Menu.IsOpen(Open);
+    private bool IsOpen => Menu.IsOpen();
 
     private string EffectiveMenuLabel => LocalizeOr(MenuLabel, "SplitButtonMenuLabel");
 
@@ -114,25 +116,7 @@ public partial class OmniSplitButton
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        SyncPortal();
-    }
-
-    private void SyncPortal()
-    {
-        if (IsOpen)
-        {
-            Coordinator?.Register(this, OmniPortalKind.SplitButtonMenu, Popup, () => CloseAsync(restoreFocus: false));
-        }
-        else
-        {
-            Coordinator?.Unregister(this);
-        }
-    }
-
-    private void Refresh()
-    {
-        SyncPortal();
-        StateHasChanged();
+        Menu.SyncPortal();
     }
 
     private Task InvokeMainAsync(MouseEventArgs args) => Disabled || Busy ? Task.CompletedTask : OnClick.InvokeAsync(args);
@@ -147,13 +131,12 @@ public partial class OmniSplitButton
             return Task.CompletedTask;
         }
 
-        Menu.RequestPlacement(focusLast);
-        return Menu.SetOpenAsync(true, Open, OpenChanged, Refresh);
+        return Menu.OpenAsync(focusLast);
     }
 
     Task IOmniMenu.CloseAsync(bool restoreFocus) => CloseAsync(restoreFocus);
 
-    private Task CloseAsync(bool restoreFocus) => Menu.SetOpenAsync(false, Open, OpenChanged, Refresh, restoreFocus);
+    private Task CloseAsync(bool restoreFocus) => Menu.CloseAsync(restoreFocus);
 
     private Task HandleToggleKeyDownAsync(KeyboardEventArgs args) => !IsOpen && args.Key is "ArrowDown" or "ArrowUp"
         ? OpenAsync(focusLast: args.Key == "ArrowUp")
@@ -168,11 +151,7 @@ public partial class OmniSplitButton
     /// <summary>Takes the menu out of the portal and detaches the script.</summary>
     public async ValueTask DisposeAsync()
     {
-        Coordinator?.Unregister(this);
-        if (_menu is not null)
-        {
-            await _menu.DisposeAsync();
-        }
+        await Menu.DisposeAsync();
 
         GC.SuppressFinalize(this);
     }

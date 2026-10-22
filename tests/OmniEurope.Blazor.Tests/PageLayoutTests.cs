@@ -75,7 +75,7 @@ public sealed class PageLayoutTests : OmniBunitContext
     {
         var tile = Render<OmniStatTile>(parameters => parameters
             .Add(component => component.Value, "12,4 k")
-            .Add(component => component.Label, "Tokens aujourd'hui")
+            .Add(component => component.Title, "Tokens aujourd'hui")
             .Add(component => component.Detail, "Réinitialisation à 18:00")
             .Add(component => component.Icon, (RenderFragment)(icon =>
             {
@@ -100,7 +100,7 @@ public sealed class PageLayoutTests : OmniBunitContext
         var clicks = 0;
         var tile = Render<OmniStatTile>(parameters => parameters
             .Add(component => component.Value, "83 %")
-            .Add(component => component.Label, "Hebdomadaire")
+            .Add(component => component.Title, "Hebdomadaire")
             .Add(component => component.OnClick, () => clicks++));
 
         var button = tile.Find("button.omni-stat-tile.omni-stat-tile--action");
@@ -114,7 +114,7 @@ public sealed class PageLayoutTests : OmniBunitContext
 
         // Without a value, the label alone names the button.
         var named = Render<OmniStatTile>(parameters => parameters
-            .Add(component => component.Label, "Tokens")
+            .Add(component => component.Title, "Tokens")
             .Add(component => component.OnClick, () => { }));
         Assert.Equal("Tokens", named.Find("button").GetAttribute("aria-label"));
     }
@@ -125,7 +125,7 @@ public sealed class PageLayoutTests : OmniBunitContext
         var empty = Render<OmniEmptyState>(parameters => parameters
             .Add(component => component.Title, "Aucun projet")
             .Add(component => component.Description, "Créez le premier.")
-            .Add(component => component.Actions, builder => builder.AddMarkupContent(0, "<button type=\"button\">Créer</button>")));
+            .Add(component => component.ActionsContent, builder => builder.AddMarkupContent(0, "<button type=\"button\">Créer</button>")));
 
         Assert.Equal("true", empty.Find(".omni-empty-state__icon").GetAttribute("aria-hidden"));
         Assert.Single(empty.FindAll(".omni-empty-state__icon svg.omni-icon"));
@@ -165,7 +165,7 @@ public sealed class PageLayoutTests : OmniBunitContext
                 .Add(component => component.Description, "Espace d'administration")
                 .Add(component => component.Logo, builder => builder.AddMarkupContent(0, "<img src=\"logo.svg\" alt=\"Logo\" />"))
                 .Add(component => component.ChildContent, builder => builder.AddMarkupContent(0, "<form class=\"host-form\"></form>"))
-                .Add(component => component.Footer, builder => builder.AddContent(0, "Version 2.4")));
+                .Add(component => component.FooterContent, builder => builder.AddContent(0, "Version 2.4")));
 
             var title = shell.Find("h1.omni-login-shell__title");
             Assert.Equal(defaultTitle, title.TextContent);
@@ -229,8 +229,8 @@ public sealed class PageLayoutTests : OmniBunitContext
         var list = Render<OmniDescriptionList>(parameters => parameters
             .Add(component => component.Columns, 2)
             .AddChildContent<OmniDescriptionItem>(item => item
-                .Add(component => component.Label, "Adresse IP")
-                .Add(component => component.Actions, builder => builder.AddMarkupContent(0, "<button type=\"button\">Copier</button>"))
+                .Add(component => component.Term, "Adresse IP")
+                .Add(component => component.ActionsContent, builder => builder.AddMarkupContent(0, "<button type=\"button\">Copier</button>"))
                 .AddChildContent("10.0.4.21")));
 
         var root = list.Find("dl");
@@ -249,7 +249,7 @@ public sealed class PageLayoutTests : OmniBunitContext
     {
         var list = Render<OmniDescriptionList>(parameters => parameters
             .Add(component => component.Columns, asked)
-            .AddChildContent<OmniDescriptionItem>(item => item.Add(component => component.Label, "Nom")));
+            .AddChildContent<OmniDescriptionItem>(item => item.Add(component => component.Term, "Nom")));
 
         Assert.Contains($"omni-description-list--columns-{rendered}", list.Find("dl").ClassName, StringComparison.Ordinal);
         Assert.Empty(list.FindAll(".omni-description-list__actions"));
@@ -262,7 +262,7 @@ public sealed class PageLayoutTests : OmniBunitContext
         {
             parameters
                 .Add(component => component.State, state)
-                .Add(component => component.Header, builder => builder.AddMarkupContent(0, "<div class=\"host-header\">En-tête</div>"))
+                .Add(component => component.HeaderContent, builder => builder.AddMarkupContent(0, "<div class=\"host-header\">En-tête</div>"))
                 .Add(component => component.ChildContent, builder => builder.AddContent(0, "Contenu"));
             configure?.Invoke(parameters);
         });

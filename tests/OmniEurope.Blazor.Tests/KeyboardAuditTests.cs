@@ -128,7 +128,7 @@ public sealed class KeyboardAuditTests : OmniBunitContext
         var module = JSInterop.SetupModule(FocusModule);
         module.SetupVoid("enablePageKeys").SetVoidResult();
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Soldes")
+            .Add(component => component.Label, "Soldes")
             .AddChildContent(builder =>
             {
                 builder.OpenComponent<OmniLineSeries>(0);
@@ -136,7 +136,7 @@ public sealed class KeyboardAuditTests : OmniBunitContext
                 builder.AddAttribute(2, nameof(OmniLineSeries.Data), (IReadOnlyList<OmniChartPoint>)[new(0, 1), new(1, 2)]);
                 builder.CloseComponent();
                 builder.OpenComponent<OmniLegend>(3);
-                builder.AddAttribute(4, nameof(OmniLegend.Position), OmniLegendPosition.Right);
+                builder.AddAttribute(4, nameof(OmniLegend.Placement), OmniLegendPlacement.Right);
                 builder.CloseComponent();
             }));
         chart.WaitForAssertion(() => Assert.Single(chart.FindAll("g.omni-chart__legend-entry--toggle")));

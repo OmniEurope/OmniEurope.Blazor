@@ -1,11 +1,11 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-<section @attributes="AdditionalAttributes" id="@BaseId" class="@Css("omni-gantt", ScaleCss)" aria-label="@EffectiveLabel">
-    @if (ShowScalePicker)
+<section @attributes="AdditionalAttributes" id="@BaseId" class="@Css("omni-gantt", ViewCss)" aria-label="@EffectiveLabel">
+    @if (ShowViewPicker)
     {
         <div class="omni-gantt__toolbar">
-            <OmniSelectBar TValue="OmniCalendarView" Options="@ScaleOptions" Value="@_scale" ValueChanged="@SetScaleAsync" ValueExpression="@(() => _scale)" Label="@ScaleLabel" />
+            <OmniSelectBar TValue="OmniCalendarView" Options="@ViewOptions" Value="@_view" ValueChanged="@SetViewAsync" ValueExpression="@(() => _view)" Label="@ViewLabel" />
         </div>
     }
     @if (Tasks.Count == 0)

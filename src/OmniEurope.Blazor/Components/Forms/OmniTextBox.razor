@@ -2,12 +2,12 @@
 @inherits OmniInputBase<string>
 @implements IAsyncDisposable
 
-@* With an Icon or Copyable the input sits in a wrapper: the icon is laid over its start padding,
+@* With an Icon or ShowCopy the input sits in a wrapper: the icon is laid over its start padding,
    decorative and click-through, like the magnifier of a search field, and the copy button is welded
    to its end. Without either the input is rendered alone, as it always was. Class goes on the
    outermost element (the input alone, or the wrapper); Id and the additional attributes always on
    the input. *@
-@if (Icon is null && !Copyable)
+@if (Icon is null && !ShowCopy)
 {
     <input @attributes="AdditionalAttributes"
            id="@Id"
@@ -25,7 +25,7 @@
 }
 else
 {
-    <span class="@WrapperCss("omni-text-box-field", Copyable ? "omni-text-box-field--copy" : null)">
+    <span class="@WrapperCss("omni-text-box-field", ShowCopy ? "omni-text-box-field--copy" : null)">
         @if (Icon is not null)
         {
             <span class="omni-text-box-field__icon" aria-hidden="true">@Icon</span>
@@ -43,7 +43,7 @@ else
                aria-describedby="@AriaDescribedBy"
                @oninput="HandleInput"
                @onblur="BlurCallback" />
-        @if (Copyable)
+        @if (ShowCopy)
         {
             <OmniButton Class="omni-text-box-field__copy"
                         Variant="OmniButtonVariant.Secondary"

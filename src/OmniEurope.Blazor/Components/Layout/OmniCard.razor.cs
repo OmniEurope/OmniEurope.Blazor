@@ -12,8 +12,8 @@ namespace OmniEurope.Blazor.Components;
 /// what it may hold. With <see cref="Href"/> the root is an <c>a</c>, which accepts flow content: the
 /// header, body and footer are divisions and headings placed in them stay exposed to assistive technology.
 /// With <see cref="OnClick"/> the root is a <c>button</c>, which accepts phrasing content only: the three
-/// parts are spans drawn as blocks, so <see cref="Header"/>, <see cref="ChildContent"/> and
-/// <see cref="Footer"/> must hold phrasing content (text, <c>span</c>, <see cref="OmniIcon"/>), not
+/// parts are spans drawn as blocks, so <see cref="HeaderContent"/>, <see cref="ChildContent"/> and
+/// <see cref="FooterContent"/> must hold phrasing content (text, <c>span</c>, <see cref="OmniIcon"/>), not
 /// headings, paragraphs or divisions, and a button exposes its content as its accessible name rather than
 /// as separate elements. Give an <c>aria-label</c> as an additional attribute to shorten that name. Never
 /// put an interactive element (button, link, field) inside a clickable card: nesting it is invalid and the
@@ -27,7 +27,7 @@ public partial class OmniCard
 
     /// <summary>The top band of the card (<c>header</c>); null, the default, renders none.</summary>
     [Parameter]
-    public RenderFragment? Header { get; set; }
+    public RenderFragment? HeaderContent { get; set; }
 
     /// <summary>The body of the card. Required.</summary>
     [Parameter, EditorRequired]
@@ -35,7 +35,7 @@ public partial class OmniCard
 
     /// <summary>The bottom band of the card (<c>footer</c>), for its actions; null, the default, renders none.</summary>
     [Parameter]
-    public RenderFragment? Footer { get; set; }
+    public RenderFragment? FooterContent { get; set; }
 
     /// <summary>
     /// Makes the whole card one link to this path or address (relative, http, https, mailto or tel; any other
@@ -70,7 +70,7 @@ public partial class OmniCard
 
     /// <summary>Checks that <see cref="Href"/> and <see cref="OnClick"/> are not both given and that the address is safe.</summary>
     /// <exception cref="ArgumentException"><see cref="Href"/> and <see cref="OnClick"/> are both given.</exception>
-    /// <exception cref="InvalidOperationException"><see cref="Href"/> uses a scheme that is not allowed.</exception>
+    /// <exception cref="InvalidOperationException"><see cref="Href"/> uses a scheme that is not allowed, or is a relative address that names another host (`//host`).</exception>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();

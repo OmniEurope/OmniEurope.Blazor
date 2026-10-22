@@ -59,13 +59,21 @@ function moveInRadioGroup(event) {
     event.preventDefault();
     const next = event.key === 'Home' ? 0
         : event.key === 'End' ? radios.length - 1
-        : (index + steps.get(event.key) + radios.length) % radios.length;
+        : (index + stepOf(event.key, group) + radios.length) % radios.length;
     radios[next].focus();
     if (next !== index) {
         radios[next].click();
     }
 
     return true;
+}
+
+// The step of an arrow key in a group: left and right follow what the reader sees, so they swap in a
+// right-to-left group; up and down never do.
+function stepOf(key, group) {
+    const step = steps.get(key);
+    const sideways = key === 'ArrowLeft' || key === 'ArrowRight';
+    return sideways && getComputedStyle(group).direction === 'rtl' ? -step : step;
 }
 
 function moveInAccordion(event) {

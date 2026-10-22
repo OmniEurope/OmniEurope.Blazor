@@ -30,9 +30,9 @@
                 }
             </header>
             <div class="omni-dialog__content" id="@(Dismissible ? null : ContentId)" tabindex="-1">@ChildContent</div>
-            @if (Footer is not null)
+            @if (FooterContent is not null)
             {
-                <footer class="omni-dialog__footer">@Footer</footer>
+                <footer class="omni-dialog__footer">@FooterContent</footer>
             }
             @if (Modal) { <button type="button" class="omni-visually-hidden" data-focus-sentinel aria-label="@Localize("DialogStart")" @onfocus="FocusFirstAsync"></button> }
         </section>

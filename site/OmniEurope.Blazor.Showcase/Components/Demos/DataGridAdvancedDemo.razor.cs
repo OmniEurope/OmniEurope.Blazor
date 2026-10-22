@@ -20,7 +20,7 @@ public partial class DataGridAdvancedDemo
 
     private IReadOnlyList<OmniOption<OmniDensity>> DensityOptions { get; set; } = [];
 
-    private IReadOnlyList<OmniOption<OmniDataGridPosition>> PagerOptions { get; set; } = [];
+    private IReadOnlyList<OmniOption<OmniDataGridPlacement>> PagerOptions { get; set; } = [];
 
     private IReadOnlyList<OmniOption<OmniDataGridSelectionMode>> SelectionOptions { get; set; } = [];
 
@@ -30,7 +30,7 @@ public partial class DataGridAdvancedDemo
 
     private IReadOnlyList<OmniOption<OmniDataGridRowMode>> ExpandOptions { get; set; } = [];
 
-    private IReadOnlyList<OmniOption<OmniDataGridPosition>> FooterOptions { get; set; } = [];
+    private IReadOnlyList<OmniOption<OmniDataGridPlacement>> FooterOptions { get; set; } = [];
 
     private IReadOnlyList<OmniOption<OmniDataGridAggregate>> AggregateOptions { get; set; } = [];
 
@@ -57,7 +57,7 @@ public partial class DataGridAdvancedDemo
 
     private OmniDensity Density { get; set; } = OmniDensity.Comfortable;
 
-    private OmniDataGridPosition Pager { get; set; } = OmniDataGridPosition.Bottom;
+    private OmniDataGridPlacement Pager { get; set; } = OmniDataGridPlacement.Bottom;
 
     private OmniDataGridSelectionMode Mode { get; set; } = OmniDataGridSelectionMode.Multiple;
 
@@ -67,7 +67,7 @@ public partial class DataGridAdvancedDemo
 
     private OmniDataGridRowMode Expand { get; set; } = OmniDataGridRowMode.Multiple;
 
-    private OmniDataGridPosition Footer { get; set; } = OmniDataGridPosition.Bottom;
+    private OmniDataGridPlacement Footer { get; set; } = OmniDataGridPlacement.Bottom;
 
     private string? CellRead { get; set; }
 
@@ -96,9 +96,9 @@ public partial class DataGridAdvancedDemo
         ];
         PagerOptions =
         [
-            new(OmniDataGridPosition.Bottom, Text["DemoGridAdvancedPagerBottom"]),
-            new(OmniDataGridPosition.Top, Text["DemoGridAdvancedPagerTop"]),
-            new(OmniDataGridPosition.TopAndBottom, Text["DemoGridAdvancedPagerBoth"])
+            new(OmniDataGridPlacement.Bottom, Text["DemoGridAdvancedPagerBottom"]),
+            new(OmniDataGridPlacement.Top, Text["DemoGridAdvancedPagerTop"]),
+            new(OmniDataGridPlacement.TopAndBottom, Text["DemoGridAdvancedPagerBoth"])
         ];
         SelectionOptions =
         [
@@ -124,9 +124,9 @@ public partial class DataGridAdvancedDemo
         ];
         FooterOptions =
         [
-            new(OmniDataGridPosition.Bottom, Text["DemoGridAdvancedFooterBottom"]),
-            new(OmniDataGridPosition.Top, Text["DemoGridAdvancedFooterTop"]),
-            new(OmniDataGridPosition.TopAndBottom, Text["DemoGridAdvancedFooterBoth"])
+            new(OmniDataGridPlacement.Bottom, Text["DemoGridAdvancedFooterBottom"]),
+            new(OmniDataGridPlacement.Top, Text["DemoGridAdvancedFooterTop"]),
+            new(OmniDataGridPlacement.TopAndBottom, Text["DemoGridAdvancedFooterBoth"])
         ];
         AggregateOptions =
         [

@@ -1,7 +1,9 @@
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
-/// A file format a table is exported to (<see cref="OmniDataGrid{TItem}.ExportFormats"/>). The package
+/// A file format a table is exported to (see <see cref="OmniTableExporter"/>; a grid chooses its formats with
+/// <see cref="OmniDataGrid{TItem}.ExportMarkdown"/>, <see cref="OmniDataGrid{TItem}.ExportCsv"/>,
+/// <see cref="OmniDataGrid{TItem}.ExportExcel"/> and <see cref="OmniDataGrid{TItem}.ExportPdf"/>). The package
 /// writes <see cref="Markdown"/>, <see cref="Csv"/> and <see cref="Excel"/> itself; <see cref="Pdf"/> is written by the host,
 /// through an <see cref="IOmniTableExportRenderer"/>.
 /// </summary>

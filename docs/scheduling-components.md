@@ -21,7 +21,7 @@ pour qu'un hôte en distingue certains, par exemple les heures facturables).
 | Paramètre | Rôle |
 | --- | --- |
 | `Items` ou `Load` | Les rendez-vous, donnés en liste ou chargés pour la période visible (annulable, chargement et échec affichés, bouton Réessayer). `LoadingContent` et `ErrorContent` (`RenderFragment<Exception>`) remplacent l'indicateur et le message d'échec ; `OnLoadError` reçoit l'exception. |
-| `Date` / `DateChanged`, `View` / `ViewChanged` | Le jour affiché et la vue (`OmniCalendarView` : `Day`, `Week`, `Month`, défaut `Month`) ; les boutons de l'en-tête les changent. L'agenda tient son propre état, recopié depuis ces paramètres quand l'hôte les change : sans liaison, la navigation fonctionne quand même. |
+| `Date` / `DateChanged`, `View` / `ViewChanged` | Le jour affiché et la vue (`OmniCalendarView` : `Day`, `Week`, `Month`, défaut `Month`) ; les boutons de l'en-tête les changent. L'agenda tient son propre état, recopié depuis ces paramètres quand l'hôte les change : sans liaison, la navigation fonctionne quand même. Les boutons précédent et suivant avancent d'un jour, de sept jours ou d'un mois du calendrier dans `TimeZone` (l'heure murale est conservée), jamais de 24 heures : un jour de changement d'heure en compte 23 ou 25. |
 | `TimeZone`, `Culture` | Le fuseau où les rendez-vous sont dessinés, et la culture (`CultureInfo?`) des dates, du premier jour de la semaine et des textes ; nulle, la culture courante. |
 | `DayStart`, `DayEnd`, `SlotDuration` | Avec les deux bornes, les vues jour et semaine deviennent une grille horaire de créneaux de `SlotDuration` (`TimeSpan`, une heure par défaut). |
 | `OnAppointmentClick` | Fait de chaque rendez-vous un bouton ; reçoit le rendez-vous tel que l'hôte l'a donné. |
@@ -78,6 +78,8 @@ style.
 
 Chaque entrée est un `OmniTimelineItem` : un titre (`Title`, `string?`, niveau de titre réglable par `Level`), une date, ou un texte de date à sa place, et un contenu libre.
 
+`ChildContent` d'`OmniTimeline` reçoit les `OmniTimelineItem` ; celui d'`OmniTimelineItem` est le corps de l'entrée. `DateText` (`string?`) est la date telle que l'hôte la dit (« hier »), montrée à la place de la `Date` mise en forme.
+
 Les côtés suivent le sens de lecture : `Start` est à gauche en français, à droite dans une langue lue
 de droite à gauche. L'alternance est tirée du rang de l'entrée dans la liste par la feuille de style,
 si bien qu'une entrée insérée au milieu décale les suivantes sans rendu supplémentaire. La frise
@@ -87,7 +89,7 @@ empile ses entrées après la ligne, quelle que soit la largeur de la fenêtre.
 ## Gantt : `OmniGantt`
 
 ```razor
-<OmniGantt Tasks="Taches" @bind-Scale="Echelle" OnTaskClick="Choisir" SelectedTaskId="@Choisie" />
+<OmniGantt Tasks="Taches" @bind-View="Vue" @bind-Value="Choisie" OnTaskClick="Ouvrir" />
 ```
 
 Une tâche est un `OmniGanttTask` : `Id`, `Title`, `Start` et `End` (`DateOnly`, le dernier jour
@@ -97,13 +99,21 @@ inclus), `Progress` (0 à 1), `Group`, `DependsOn` (identifiants des tâches à 
 | Paramètre | Rôle |
 | --- | --- |
 | `Tasks` | Les tâches, dans l'ordre des lignes. |
-| `Scale` / `ScaleChanged` | Zoom (`OmniCalendarView`) : `Day` (une colonne par jour, fins de semaine grisées), `Week` (défaut, semaines ISO, du lundi) ou `Month`. |
-| `ShowScalePicker` | Le choix jour, semaine, mois au-dessus du graphique ; sans liaison, le graphique garde le zoom choisi. |
+| `View` / `ViewChanged` | Zoom (`OmniCalendarView`, comme `OmniScheduler.View`) : `Day` (une colonne par jour, fins de semaine grisées), `Week` (défaut, semaines ISO, du lundi) ou `Month`. |
+| `ShowViewPicker` | Le choix jour, semaine, mois au-dessus du graphique ; sans liaison, le graphique garde le zoom choisi. |
 | `ShowGroups` | Range les tâches sous leur groupe, chacun avec une barre qui couvre ses tâches ; les tâches sans groupe viennent d'abord. |
 | `ShowDependencies` | Une flèche de la fin de chaque tâche attendue au début de la tâche qui l'attend ; quand la seconde commence trop tôt, la flèche revient par l'intervalle entre les deux lignes. Un identifiant inconnu est ignoré. |
-| `ShowToday` | Un trait pointillé au milieu de la colonne du jour, lu sur le `TimeProvider` de l'hôte (l'horloge système sinon). |
-| `OnTaskClick`, `SelectedTaskId` | La tâche activée par clic, Entrée ou Espace ; celle désignée est contournée et `aria-pressed`. |
+| `ShowToday` | Un trait pointillé au milieu de la colonne du jour, lu sur le `TimeProvider` de l'hôte (l'horloge système sinon) et converti dans `TimeZone`. |
+| `TimeZone` | Le fuseau qui décide quel jour est aujourd'hui (`TimeZoneInfo`, le fuseau local du processus par défaut, donc celui du serveur en rendu serveur : à renseigner avec celui du lecteur, comme `OmniScheduler.TimeZone`). Jamais nul. |
+| `Value` / `ValueChanged` | L'identifiant (`string?`) de la tâche choisie : sa barre est contournée et `aria-pressed`. Un clic, Entrée ou Espace sur une autre tâche la choisit et lève `ValueChanged` ; sans liaison, le graphique garde la tâche cliquée. |
+| `OnTaskClick` | La tâche activée par clic, Entrée ou Espace, qu'elle soit déjà choisie ou non. |
 | `Label`, `Culture` | Nom accessible (`string?`, « Diagramme de Gantt » par défaut) et culture (`CultureInfo?`) des mois, numéros et en-têtes de semaine et dates. |
+
+Le graphique refuse, par une `ArgumentException` dont le message nomme le défaut, ce qu'il ne saurait
+dessiner : deux tâches de même `Id` (l'identifiant désigne une tâche pour `Value` et `DependsOn`), des
+dates à moins de 400 jours des bornes du calendrier, et un intervalle de plus de 36 500 jours entre la
+première et la dernière date (une date de remplacement `0001-01-01` à côté de dates réelles en est la
+cause habituelle : son en-tête compterait des millions de cellules).
 
 L'axe couvre les tâches avec une marge : deux jours avant et deux après au zoom jour, une semaine
 entière de part et d'autre au zoom semaine, les mois entiers au zoom mois. Un jour mesure 32, 14 ou
@@ -124,6 +134,8 @@ son nom à gauche, une piste grise sur toute la durée de l'exécution, une barr
 sur la durée où l'étape a tourné, la durée à droite, et sous les barres la liste des étapes jamais
 démarrées (« Jamais démarrées : Confirm, Record release »), nommées plutôt que dessinées puisqu'elles
 n'ont occupé aucun temps. L'en-tête porte `0s` et la durée totale (`20m15`).
+
+`Steps` (`IReadOnlyList<OmniStepTimelineStep>`) liste les étapes, dans l'ordre où les lignes les montrent.
 
 Une étape est un `OmniStepTimelineStep(Name, StartedAt, CompletedAt, Status, Secondary)` :
 `StartedAt` nul la range parmi les jamais démarrées, `CompletedAt` nul avec le statut `Running` la fait

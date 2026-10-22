@@ -59,6 +59,14 @@ public partial class OmniAutocomplete<TValue>
     [Parameter]
     public bool Disabled { get; set; }
 
+    /// <summary>
+    /// Whether the value can be read and the field focused but not changed: the text is <c>readonly</c>, the
+    /// keyboard opens no list and picks no suggestion, and the field is not dimmed. A <c>readonly</c> attribute
+    /// passed through has the same effect. Off by default.
+    /// </summary>
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
     /// <summary>Ids of elements that describe the field, written in its <c>aria-describedby</c> before the error line.</summary>
     [Parameter]
     public string? AriaDescribedBy { get; set; }
@@ -125,7 +133,8 @@ public partial class OmniAutocomplete<TValue>
     [Parameter]
     public Func<string, TValue>? ParseFreeText { get; set; }
 
-    private string BaseId => Id ?? FieldIdentifier.FieldName;
+    private readonly string _generatedId = $"omni-autocomplete-{Guid.NewGuid():N}";
+    private string BaseId => Id ?? _generatedId;
     private string ResultsId => $"{BaseId}-results";
     private string ErrorId => $"{BaseId}-error";
     private string OptionId(int index) => $"{ResultsId}-{index.ToString(CultureInfo.InvariantCulture)}";
@@ -140,10 +149,9 @@ public partial class OmniAutocomplete<TValue>
         IsOpen ? "omni-autocomplete__toggle--open" : null,
         Disabled || IsReadOnly ? "omni-autocomplete__toggle--disabled" : null]);
 
-    // A readonly attribute passed through, as the native select reads it: a null or false value is not
-    // written at all, so it does not make the field read-only.
-    private bool IsReadOnly => AdditionalAttributes?.TryGetValue("readonly", out var value) == true
-        && value is not (null or false) && !string.Equals(value.ToString(), "false", StringComparison.OrdinalIgnoreCase);
+    // The ReadOnly parameter; a readonly attribute written on the tag reaches it too (parameter names are
+    // matched without case), so a false value leaves the field editable.
+    private bool IsReadOnly => ReadOnly;
     private string InputClass => CssClassBuilder.Combine(["omni-input", "omni-autocomplete__input", SizeClass, CssClass]);
 
     private string EffectiveSearchErrorMessage => string.IsNullOrWhiteSpace(SearchErrorMessage)
@@ -208,6 +216,11 @@ public partial class OmniAutocomplete<TValue>
 
     private async Task HandleInputAsync(ChangeEventArgs args)
     {
+        if (IsReadOnly)
+        {
+            return;
+        }
+
         _searchText = args.Value?.ToString() ?? string.Empty;
         _closed = false;
         _activeIndex = -1;
@@ -238,7 +251,8 @@ public partial class OmniAutocomplete<TValue>
         try
         {
             await Task.Delay(delay < TimeSpan.Zero ? TimeSpan.Zero : delay, token);
-            var results = await Search!(text, token);
+            // A search that answers with nothing at all lists nothing, as one that answers with an empty list.
+            var results = await Search!(text, token) ?? Array.Empty<OmniOption<TValue>>();
             if (generation != _searchGeneration)
             {
                 return;
@@ -275,7 +289,7 @@ public partial class OmniAutocomplete<TValue>
     /// </summary>
     private async Task HandleKeyDownAsync(KeyboardEventArgs args)
     {
-        if (Disabled)
+        if (Disabled || IsReadOnly)
         {
             return;
         }
@@ -397,7 +411,7 @@ public partial class OmniAutocomplete<TValue>
 
     private void Select(OmniOption<TValue> option)
     {
-        if (option.Disabled || Disabled)
+        if (option.Disabled || Disabled || IsReadOnly)
         {
             return;
         }

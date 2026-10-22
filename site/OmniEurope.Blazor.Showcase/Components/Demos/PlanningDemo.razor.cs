@@ -29,11 +29,11 @@ public partial class PlanningDemo
 
     private IReadOnlyList<OmniGanttTask> Tasks { get; set; } = [];
 
-    private OmniCalendarView Scale { get; set; } = OmniCalendarView.Week;
+    private OmniCalendarView View { get; set; } = OmniCalendarView.Week;
 
     private string? SelectedTaskId { get; set; }
 
-    private string ScaleName => Scale switch
+    private string ScaleName => View switch
     {
         OmniCalendarView.Day => Text["DemoPlanningScaleDay"],
         OmniCalendarView.Month => Text["DemoPlanningScaleMonth"],

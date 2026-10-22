@@ -47,14 +47,14 @@
                 <OmniLabel For="notice-unlist-alpha">@Text["NoticeUnlistAlpha"]</OmniLabel>
             </span>
         </ChildContent>
-        <Footer>
+        <FooterContent>
             <OmniButton Variant="OmniButtonVariant.Danger" OnClick="@(_ => Close(Text["NoticeUnlistDone"]))">
                 <OmniIcon Name="OmniIconName.Archive" /><span>@Text["NoticeUnlist"]</span>
             </OmniButton>
             <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => Close(null))">
                 <OmniIcon Name="OmniIconName.Close" /><span>@Text["NoticeCancel"]</span>
             </OmniButton>
-        </Footer>
+        </FooterContent>
     </OmniDialog>
 
     <OmniDialog Title="@Text["NoticeRerunTitle"]" Open="RerunOpen" OpenChanged="@(value => RerunOpen = value)"
@@ -66,13 +66,13 @@
                 <OmniLabel For="notice-rerun-notify">@Text["NoticeRerunNotify"]</OmniLabel>
             </span>
         </ChildContent>
-        <Footer>
+        <FooterContent>
             <OmniButton Variant="OmniButtonVariant.Info" OnClick="@(_ => Close(Text["NoticeRerunDone"]))">
                 <OmniIcon Name="OmniIconName.Refresh" /><span>@Text["NoticeRerun"]</span>
             </OmniButton>
             <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => Close(null))">
                 <OmniIcon Name="OmniIconName.Close" /><span>@Text["NoticeCancel"]</span>
             </OmniButton>
-        </Footer>
+        </FooterContent>
     </OmniDialog>
 </OmniStack>

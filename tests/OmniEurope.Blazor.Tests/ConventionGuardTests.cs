@@ -56,9 +56,9 @@ public sealed partial class ConventionGuardTests
         var host = Read("src", "OmniEurope.Blazor", "Components", "Overlays", "OmniOverlayHosts.cs");
         var catalog = Read("samples", "OmniEurope.Blazor.Catalog", "Components", "Pages", "Home.razor.cs");
 
-        Assert.Contains("public RenderFragment? Footer { get; init; }", request, StringComparison.Ordinal);
-        Assert.Contains("nameof(OmniDialog.Footer), dialog.Footer", host, StringComparison.Ordinal);
-        Assert.Contains("Footer = DialogFooter", catalog, StringComparison.Ordinal);
+        Assert.Contains("public RenderFragment? FooterContent { get; init; }", request, StringComparison.Ordinal);
+        Assert.Contains("nameof(OmniDialog.FooterContent), dialog.FooterContent", host, StringComparison.Ordinal);
+        Assert.Contains("FooterContent = DialogFooter", catalog, StringComparison.Ordinal);
         Assert.Contains("Text[\"Close\"]", catalog, StringComparison.Ordinal);
         Assert.Contains("private void CloseDialog() => Overlays.CloseDialog();", catalog, StringComparison.Ordinal);
     }
@@ -173,22 +173,22 @@ public sealed partial class ConventionGuardTests
         {
             ("Charts", "OmniChartPoint"), ("Charts", "OmniChartSlice"), ("Charts", "OmniChartGeometry"),
             ("Data", "OmniDataGridSelectionMode"), ("Data", "OmniDataGridFilterOperator"), ("Data", "OmniDataGridSort"),
-            ("Data", "OmniDataGridFilter"), ("Data", "OmniDataGridColumnWidthChange"), ("Data", "OmniDataGridTextAlign"),
+            ("Data", "OmniDataGridFilter"), ("Data", "OmniDataGridColumnWidthChange"),
             ("Data", "OmniDataGridLines"), ("Data", "OmniDataGridFilterMode"), ("Data", "OmniDataGridRowMode"),
-            ("Data", "OmniDataGridPosition"), ("Data", "OmniDataGridSortOrder"),
+            ("Data", "OmniDataGridPlacement"), ("Data", "OmniDataGridSortOrder"),
             ("Data", "OmniDataGridLogicalOperator"), ("Data", "OmniDataGridGroup"), ("Data", "OmniDataGridRowRenderArgs"),
             ("Data", "OmniDataGridLoadRequest"), ("Data", "OmniDataGridResult"), ("Data", "OmniDataGridColumnDefinition"),
             ("Data", "OmniDataGridContext"), ("Foundation", "OmniTextElement"), ("Foundation", "OmniTextTone"),
             ("Foundation", "OmniHeadingLevel"), ("Foundation", "OmniIconName"), ("Foundation", "OmniTone"), ("Foundation", "OmniFill"),
             ("Foundation", "OmniImageLoading"), ("Foundation", "OmniImageFit"), ("Foundation", "OmniSkeletonShape"),
             ("Foundation", "OmniLayoutWidth"), ("Foundation", "OmniProgressShape"),
-            ("Foundation", "OmniSidebarPosition"), ("Foundation", "OmniAppearance"), ("Foundation", "OmniDensity"),
+            ("Foundation", "OmniSidebarPlacement"), ("Foundation", "OmniAppearance"), ("Foundation", "OmniDensity"),
             ("Navigation", "OmniTabsContext"), ("Navigation", "OmniStepsContext"),
             ("Feedback", "OmniSeverity"), ("Overlays", "OmniDialogRequest"),
             ("Overlays", "OmniNotificationMessage"), ("Overlays", "OmniOverlayService"),
             ("Scheduling", "OmniCalendarView"), ("Scheduling", "OmniSchedulerAppointment"),
             ("Selection", "OmniOption"), ("Selection", "OmniUploadRequest"),
-            ("Layout", "OmniStackOrientation"), ("Layout", "OmniSpacing"),
+            ("Layout", "OmniOrientation"), ("Layout", "OmniSpacing"),
             ("Layout", "OmniAlignment"), ("Layout", "OmniJustification")
         };
 
@@ -385,7 +385,7 @@ public sealed partial class ConventionGuardTests
     {
         var source = Read("src", "OmniEurope.Blazor", "Components", "Overlays", "OmniDialog.razor")
             + Read("src", "OmniEurope.Blazor", "Components", "Overlays", "OmniDialog.razor.cs");
-        var focusModule = Read("src", "OmniEurope.Blazor", "wwwroot", "omni-focus.js");
+        var focusModule = Read("src", "OmniEurope.Blazor", "wwwroot", "focus", "dialog.js");
 
         // A dismissible dialog (the default) is a dialog; one only its content closes is an alertdialog.
         Assert.Contains("role=\"@(Dismissible ? \"dialog\" : \"alertdialog\")\"", source, StringComparison.Ordinal);

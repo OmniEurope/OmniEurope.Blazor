@@ -161,7 +161,7 @@ public sealed class OptInEvolutionTests : OmniBunitContext
         var pending = service.OpenDialogAsync(new OmniDialogRequest("Mise à jour", Content("Installation en cours."))
         {
             Dismissible = false,
-            Footer = builder =>
+            FooterContent = builder =>
             {
                 builder.OpenElement(0, "button");
                 builder.AddAttribute(1, "type", "button");

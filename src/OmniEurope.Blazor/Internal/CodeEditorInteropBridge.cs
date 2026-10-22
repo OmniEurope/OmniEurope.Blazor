@@ -16,5 +16,5 @@ internal sealed class CodeEditorInteropBridge(OmniCodeEditor owner)
 
     [JSInvokable]
     public Task OnLinkActivated(string name, string target, int line) =>
-        owner.DispatchAsync(() => owner.HandleLinkActivatedAsync(new OmniCodeEditorLinkEventArgs(name, target, line)));
+        owner.DispatchAsync(() => owner.HandleLinkActivationAsync(new OmniCodeEditorLinkEventArgs(name, target, line)));
 }

@@ -53,7 +53,7 @@ public partial class OmniPager
 
     /// <summary>How the controls are aligned along the pager's row; the start by default.</summary>
     [Parameter]
-    public OmniJustification HorizontalAlign { get; set; } = OmniJustification.Start;
+    public OmniJustification Justify { get; set; } = OmniJustification.Start;
 
     private string EffectiveLabel => string.IsNullOrWhiteSpace(Label)
         ? Localize("PagerLabel")
@@ -61,7 +61,7 @@ public partial class OmniPager
 
     private string PagerClass() => Css(
         "omni-pager",
-        $"omni-pager--align-{HorizontalAlign.ToString().ToLowerInvariant()}");
+        $"omni-pager--align-{Justify.ToString().ToLowerInvariant()}");
 
     // Two pagers without an Id (a grid's top and bottom bars) never share the id of their size list.
     private string PageSizeId => $"{Id ?? _generatedId}-page-size";

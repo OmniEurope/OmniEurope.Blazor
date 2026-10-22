@@ -28,6 +28,9 @@ export async function requestSteps(session, results) {
     ready.title = 'Prêt';
     document.querySelector('main').append(ready);
   })()`);
+  // The title tooltip follows a keyboard focus only (:focus-visible); after the pointer moves above, a
+  // focus made by script is not one, so a key is pressed first, as a keyboard user would.
+  await key('Shift', 'ShiftLeft', 16);
   await waitFor('les infobulles de titre installées', "(() => { const ready = document.getElementById('probe-title-ready'); ready.blur(); ready.focus(); return !ready.hasAttribute('title'); })()");
   await evaluate("(() => { const ready = document.getElementById('probe-title-ready'); ready.blur(); ready.remove(); })()");
   await evaluate(`(() => {

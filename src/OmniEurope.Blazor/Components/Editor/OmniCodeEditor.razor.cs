@@ -1,5 +1,3 @@
-using System.Text.RegularExpressions;
-
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
@@ -21,15 +19,12 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public partial class OmniCodeEditor
 {
-    private const int LoadTimeoutMilliseconds = 30000;
-
     private ElementReference _root;
     private ElementReference _host;
-    private IJSObjectReference? _module;
+    private Internal.MonacoHost? _monaco;
     private DotNetObjectReference<CodeEditorInteropBridge>? _bridge;
     private CodePhase _phase = CodePhase.Loading;
     private OmniCodeEditorEngine? _startedEngine;
-    private bool _mounted;
     private string? _editorValue;
     private string? _appliedOptions;
     private string? _appliedHeight;
@@ -40,8 +35,16 @@ public partial class OmniCodeEditor
     [Inject]
     private IJSRuntime JSRuntime { get; set; } = default!;
 
-    /// <summary>The Monaco language identifier: <c>yaml</c>, <c>json</c>, <c>csharp</c>, <c>javascript</c>, <c>html</c>, <c>sql</c>...</summary>
-    [Parameter] public string Language { get; set; } = "plaintext";
+    private Internal.MonacoHost Monaco => _monaco ??= new(JSRuntime, () => InteropModulePath, () => _disposed);
+
+    /// <summary>
+    /// The language identifier (<c>yaml</c>, <c>json</c>, <c>csharp</c>, <c>javascript</c>, <c>html</c>, <c>sql</c>...),
+    /// with the same meaning as on <see cref="OmniDiffViewer"/>, <see cref="OmniCodeViewer"/> and <see cref="OmniCodeBlock"/>.
+    /// Null or blank means <c>plaintext</c>.
+    /// </summary>
+    [Parameter] public string? Language { get; set; }
+
+    private string EffectiveLanguage => string.IsNullOrWhiteSpace(Language) ? "plaintext" : Language;
 
     /// <summary>
     /// Whether the code can be read, selected and copied but not changed: Monaco is read-only and the
@@ -58,8 +61,13 @@ public partial class OmniCodeEditor
     /// <summary>The height, as a CSS length (<c>20rem</c>, <c>320px</c>, <c>50vh</c>). Null keeps 20rem.</summary>
     [Parameter] public string? Height { get; set; }
 
-    /// <summary>Where the host serves the <c>min/vs</c> folder of monaco-editor, relative to the base address of the page.</summary>
-    [Parameter] public string MonacoPath { get; set; } = "lib/monaco-editor/min/vs";
+    /// <summary>
+    /// Where the host serves the <c>min/vs</c> folder of monaco-editor, relative to the base address of the page
+    /// (<c>assets/monaco/vs</c>) or from the root of the origin (<c>/_content/x/vs</c>). It must stay on the
+    /// origin of the page: a scheme (<c>https:</c>, <c>data:</c>, <c>blob:</c>), a leading <c>//</c>, a backslash,
+    /// a control character or a blank value is refused. A <c>..</c> segment is accepted, as it cannot leave the origin.
+    /// </summary>
+    [Parameter] public string MonacoPath { get; set; } = Internal.MonacoHost.DefaultPath;
 
     /// <summary>Same-origin JavaScript module implementing editor interop. The default uses Monaco in this document.</summary>
     [Parameter] public string InteropModulePath { get; set; } = Internal.OmniModules.CodeEditor;
@@ -86,7 +94,7 @@ public partial class OmniCodeEditor
     [Parameter] public IReadOnlyList<OmniCodeEditorLink> Links { get; set; } = Array.Empty<OmniCodeEditorLink>();
 
     /// <summary>Raised when a link produced by <see cref="Links"/> is followed.</summary>
-    [Parameter] public EventCallback<OmniCodeEditorLinkEventArgs> LinkActivated { get; set; }
+    [Parameter] public EventCallback<OmniCodeEditorLinkEventArgs> OnLinkActivate { get; set; }
 
     /// <summary>
     /// The accessible name. On the fallback text area it is written as <c>aria-label</c> only when set, so
@@ -118,15 +126,7 @@ public partial class OmniCodeEditor
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        if (Height is not null && !CssLength().IsMatch(Height))
-        {
-            throw new ArgumentException($"'{Height}' is not a CSS length {nameof(OmniCodeEditor)} accepts for {nameof(Height)} (a number followed by px, rem, em, vh or %).", nameof(Height));
-        }
-
-        if (MonacoPath.Contains("://", StringComparison.Ordinal) || MonacoPath.StartsWith("//", StringComparison.Ordinal))
-        {
-            throw new ArgumentException($"{nameof(MonacoPath)} must be a path on the origin of the page: the package never loads a script from another origin.", nameof(MonacoPath));
-        }
+        Internal.MonacoHost.RequireParameters(nameof(OmniCodeEditor), Height, MonacoPath);
 
         // The text checks first: whether //host or \\host reads as an absolute URI depends on the system.
         if (string.IsNullOrWhiteSpace(InteropModulePath) || InteropModulePath.StartsWith("//", StringComparison.Ordinal)
@@ -159,11 +159,25 @@ public partial class OmniCodeEditor
             return;
         }
 
+        try
+        {
+            await SyncAsync();
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit is gone, and the editor with it.
+        }
+    }
+
+    private async Task SyncAsync()
+    {
         if (!string.Equals(Height, _appliedHeight, StringComparison.Ordinal))
         {
             _appliedHeight = Height;
-            _module ??= await JSRuntime.InvokeAsync<IJSObjectReference>("import", InteropModulePath);
-            await _module.InvokeVoidAsync("setHeight", _root, Height);
+            if (!await Monaco.SetHeightAsync(_root, Height))
+            {
+                return;
+            }
         }
 
         if (_startedEngine != Engine)
@@ -177,31 +191,31 @@ public partial class OmniCodeEditor
             }
         }
 
-        if (_phase != CodePhase.Ready || _module is null)
+        if (_phase != CodePhase.Ready || Monaco.Module is null)
         {
             return;
         }
 
-        if (!_mounted)
+        if (!Monaco.Mounted)
         {
-            await MountAsync(_module);
+            await MountAsync(Monaco.Module);
             return;
         }
 
-        await PushChangesAsync(_module);
+        await PushChangesAsync(Monaco.Module);
     }
 
     /// <summary>Mounts Monaco with the value and the options; falls back to the text area when it cannot.</summary>
     private async Task MountAsync(IJSObjectReference module)
     {
         // Claimed before the await, so a render arriving meanwhile does not mount a second editor.
-        _mounted = true;
+        Monaco.Mounted = true;
         _bridge ??= DotNetObjectReference.Create(new CodeEditorInteropBridge(this));
         _editorValue = CurrentValue ?? string.Empty;
         _appliedOptions = OptionsSignature();
         if (!await module.InvokeAsync<bool>("mount", _host, _bridge, Options(_editorValue)))
         {
-            _mounted = false;
+            Monaco.Mounted = false;
             _phase = CodePhase.Failed;
             StateHasChanged();
         }
@@ -228,27 +242,17 @@ public partial class OmniCodeEditor
     private async Task LoadAsync()
     {
         _phase = CodePhase.Loading;
-        _module ??= await JSRuntime.InvokeAsync<IJSObjectReference>("import", InteropModulePath);
-        var loaded = await _module.InvokeAsync<bool>("load", MonacoPath, CultureInfo.CurrentUICulture.Name, LoadTimeoutMilliseconds);
-        if (_disposed || Engine != OmniCodeEditorEngine.Monaco)
+        var loaded = await Monaco.LoadAsync(MonacoPath);
+        if (loaded is null || _disposed || Engine != OmniCodeEditorEngine.Monaco)
         {
             return;
         }
 
-        _phase = loaded ? CodePhase.Ready : CodePhase.Failed;
+        _phase = loaded.Value ? CodePhase.Ready : CodePhase.Failed;
         StateHasChanged();
     }
 
-    private async Task UnmountAsync()
-    {
-        if (_mounted && _module is not null)
-        {
-            _mounted = false;
-            await _module.InvokeVoidAsync("dispose", _host);
-        }
-
-        _mounted = false;
-    }
+    private Task UnmountAsync() => Monaco.UnmountAsync("dispose", _host);
 
     internal Task DispatchAsync(Func<Task> work) => InvokeAsync(async () =>
     {
@@ -285,7 +289,7 @@ public partial class OmniCodeEditor
         _column = column;
     }
 
-    internal Task HandleLinkActivatedAsync(OmniCodeEditorLinkEventArgs args) => LinkActivated.InvokeAsync(args);
+    internal Task HandleLinkActivationAsync(OmniCodeEditorLinkEventArgs args) => OnLinkActivate.InvokeAsync(args);
 
     private Task HandleFallbackInputAsync(ChangeEventArgs args)
     {
@@ -302,8 +306,8 @@ public partial class OmniCodeEditor
         value,
         monacoPath = MonacoPath,
         culture = CultureInfo.CurrentUICulture.Name,
-        loadTimeoutMilliseconds = LoadTimeoutMilliseconds,
-        language = string.IsNullOrWhiteSpace(Language) ? "plaintext" : Language,
+        loadTimeoutMilliseconds = Internal.MonacoHost.LoadTimeoutMilliseconds,
+        language = EffectiveLanguage,
         readOnly = IsLocked,
         lineNumbers = ShowLineNumbers,
         wordWrap = Wrap,
@@ -319,7 +323,7 @@ public partial class OmniCodeEditor
 
     private string OptionsSignature() => string.Join(
         '',
-        new[] { Language, IsLocked.ToString(), ShowLineNumbers.ToString(), Wrap.ToString(), TabSize.ToString(CultureInfo.InvariantCulture), EffectiveLabel }
+        new[] { EffectiveLanguage, IsLocked.ToString(), ShowLineNumbers.ToString(), Wrap.ToString(), TabSize.ToString(CultureInfo.InvariantCulture), EffectiveLabel }
             .Concat(Links.Select(link => $"{link.Name}{link.Pattern}{link.Tooltip}")));
 
     /// <summary>Takes any text as the value, null as an empty string; parsing never fails.</summary>
@@ -345,29 +349,11 @@ public partial class OmniCodeEditor
         // Blazor calls only DisposeAsync on a component that has both: the form subscription of
         // InputBase is released through its own Dispose.
         ((IDisposable)this).Dispose();
-        if (_module is not null)
-        {
-            try
-            {
-                if (_mounted)
-                {
-                    await _module.InvokeVoidAsync("dispose", _host);
-                }
-
-                await _module.DisposeAsync();
-            }
-            catch (JSDisconnectedException)
-            {
-                // The circuit is already gone, and the editor with it.
-            }
-        }
+        await Monaco.ReleaseAsync("dispose", _host);
 
         _bridge?.Dispose();
         GC.SuppressFinalize(this);
     }
-
-    [GeneratedRegex("^\\d+(\\.\\d+)?(px|rem|em|vh|%)$", RegexOptions.CultureInvariant)]
-    private static partial Regex CssLength();
 
     private enum CodePhase
     {

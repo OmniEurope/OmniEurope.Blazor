@@ -32,8 +32,8 @@ public sealed class ClickableTilesTests : OmniBunitContext
     public void ACard_WithoutHrefOrOnClick_KeepsItsSectionMarkup()
     {
         var card = Render<OmniCard>(parameters => parameters
-            .Add(component => component.Header, Heading)
-            .Add(component => component.Footer, "Pied")
+            .Add(component => component.HeaderContent, Heading)
+            .Add(component => component.FooterContent, "Pied")
             .AddChildContent("Corps"));
 
         Assert.Equal(
@@ -55,8 +55,8 @@ public sealed class ClickableTilesTests : OmniBunitContext
     {
         var card = Render<OmniCard>(parameters => parameters
             .Add(component => component.Href, "/details")
-            .Add(component => component.Header, Heading)
-            .Add(component => component.Footer, "Pied")
+            .Add(component => component.HeaderContent, Heading)
+            .Add(component => component.FooterContent, "Pied")
             .AddChildContent("Corps"));
 
         var root = card.Find(".omni-card");
@@ -80,8 +80,8 @@ public sealed class ClickableTilesTests : OmniBunitContext
         var clicks = 0;
         var card = Render<OmniCard>(parameters => parameters
             .Add(component => component.OnClick, () => clicks++)
-            .Add(component => component.Header, "En-tête")
-            .Add(component => component.Footer, "Pied")
+            .Add(component => component.HeaderContent, "En-tête")
+            .Add(component => component.FooterContent, "Pied")
             .AddChildContent("Corps"));
 
         var root = card.Find(".omni-card");
@@ -181,7 +181,7 @@ public sealed class ClickableTilesTests : OmniBunitContext
     {
         var tile = Render<OmniStatTile>(parameters => parameters
             .Add(component => component.Value, "83 %")
-            .Add(component => component.Label, "Hebdomadaire")
+            .Add(component => component.Title, "Hebdomadaire")
             .Add(component => component.Detail, "Réinitialisation"));
 
         Assert.Equal(
@@ -194,7 +194,7 @@ public sealed class ClickableTilesTests : OmniBunitContext
     {
         var tile = Render<OmniStatTile>(parameters => parameters
             .Add(component => component.Value, "83 %")
-            .Add(component => component.Label, "Hebdomadaire")
+            .Add(component => component.Title, "Hebdomadaire")
             .Add(component => component.Detail, "Réinitialisation")
             .Add(component => component.Href, "#quotas"));
 
@@ -208,7 +208,7 @@ public sealed class ClickableTilesTests : OmniBunitContext
         Assert.DoesNotContain("style=", tile.Markup, StringComparison.OrdinalIgnoreCase);
 
         var named = Render<OmniStatTile>(parameters => parameters
-            .Add(component => component.Label, "Jetons")
+            .Add(component => component.Title, "Jetons")
             .Add(component => component.Href, "/jetons"));
         Assert.Equal("Jetons", named.Find("a").GetAttribute("aria-label"));
     }
@@ -217,11 +217,11 @@ public sealed class ClickableTilesTests : OmniBunitContext
     public void AClickableStatTile_KeepsItsGridClassesOnItsRoot_InBothModes()
     {
         var link = Render<OmniStatTile>(parameters => parameters
-            .Add(component => component.Label, "Jetons")
+            .Add(component => component.Title, "Jetons")
             .Add(component => component.Href, "/a")
             .Add(component => component.DoubleWidth, true));
         var button = Render<OmniStatTile>(parameters => parameters
-            .Add(component => component.Label, "Jetons")
+            .Add(component => component.Title, "Jetons")
             .Add(component => component.OnClick, () => { })
             .Add(component => component.DoubleWidth, true));
 
@@ -229,8 +229,8 @@ public sealed class ClickableTilesTests : OmniBunitContext
         Assert.Contains("omni-tile--double", button.Find(".omni-stat-tile").ClassList);
 
         var grid = Render<OmniTileGrid>(parameters => parameters
-            .AddChildContent<OmniStatTile>(tile => tile.Add(component => component.Label, "A").Add(component => component.Href, "/a"))
-            .AddChildContent<OmniStatTile>(tile => tile.Add(component => component.Label, "B").Add(component => component.OnClick, () => { })));
+            .AddChildContent<OmniStatTile>(tile => tile.Add(component => component.Title, "A").Add(component => component.Href, "/a"))
+            .AddChildContent<OmniStatTile>(tile => tile.Add(component => component.Title, "B").Add(component => component.OnClick, () => { })));
         Assert.Equal(["A", "BUTTON"], grid.Find(".omni-tile-grid").Children.Select(child => child.TagName).ToArray());
     }
 
@@ -240,7 +240,7 @@ public sealed class ClickableTilesTests : OmniBunitContext
     public void AStatTile_RefusesAnUnsafeHref(string href)
     {
         Assert.Throws<InvalidOperationException>(() => Render<OmniStatTile>(parameters => parameters
-            .Add(component => component.Label, "Jetons")
+            .Add(component => component.Title, "Jetons")
             .Add(component => component.Href, href)));
     }
 
@@ -248,7 +248,7 @@ public sealed class ClickableTilesTests : OmniBunitContext
     public void AStatTile_WithHrefAndOnClick_Throws()
     {
         var exception = Assert.Throws<ArgumentException>(() => Render<OmniStatTile>(parameters => parameters
-            .Add(component => component.Label, "Jetons")
+            .Add(component => component.Title, "Jetons")
             .Add(component => component.Href, "/a")
             .Add(component => component.OnClick, () => { })));
 

@@ -149,7 +149,7 @@ public sealed class PageHeaderTests : OmniBunitContext
     {
         var header = Render<OmniPageHeader>(parameters => parameters
             .Add(component => component.Title, "Serveur")
-            .Add(component => component.Actions, builder => builder.AddContent(0, "Modifier"))
+            .Add(component => component.ActionsContent, builder => builder.AddContent(0, "Modifier"))
             .Add(component => component.MenuContent, builder => builder.AddContent(0, "Dupliquer")));
 
         var row = header.Find(".omni-page-header__row");
@@ -323,7 +323,7 @@ public sealed class PageHeaderTests : OmniBunitContext
         var header = Render<OmniPageHeader>(parameters => parameters
             .Add(component => component.Title, "Serveur")
             .Add(component => component.Badges, builder => builder.AddContent(0, "En ligne"))
-            .Add(component => component.Actions, builder => builder.AddContent(0, "Modifier"))
+            .Add(component => component.ActionsContent, builder => builder.AddContent(0, "Modifier"))
             .Add(component => component.Filters, builder => builder.AddContent(0, "Filtres")));
 
         var toggle = header.Find(".omni-page-header__toggle");
@@ -395,7 +395,7 @@ public sealed class PageHeaderTests : OmniBunitContext
         module.SetupVoid("detach", _ => true).SetVoidResult();
         var header = Render<OmniPageHeader>(parameters => parameters
             .Add(component => component.Title, "Serveur")
-            .Add(component => component.Actions, builder => builder.AddContent(0, "Modifier")));
+            .Add(component => component.ActionsContent, builder => builder.AddContent(0, "Modifier")));
         var attached = module.VerifyInvoke("attach").Arguments[0];
 
         await DisposeComponentsAsync();
@@ -415,7 +415,7 @@ public sealed class PageHeaderTests : OmniBunitContext
             var header = Render<OmniPageHeader>(parameters => parameters
                 .Add(component => component.Title, "Page")
                 .Add(component => component.ShowBack, true)
-                .Add(component => component.Actions, builder => builder.AddContent(0, "Action")));
+                .Add(component => component.ActionsContent, builder => builder.AddContent(0, "Action")));
 
             Assert.Equal(back, header.Find(".omni-page-header__back").GetAttribute("aria-label"));
             Assert.Equal(toggle, header.Find(".omni-page-header__toggle").GetAttribute("aria-label"));

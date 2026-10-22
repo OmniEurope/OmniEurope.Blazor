@@ -15,7 +15,7 @@ public partial class OmniPanelMenu
     /// announces the destination, and a title attribute is not a substitute for it.
     /// </summary>
     [Parameter]
-    public OmniPanelMenuDisplayStyle DisplayStyle { get; set; } = OmniPanelMenuDisplayStyle.IconAndText;
+    public OmniPanelMenuDisplay Display { get; set; } = OmniPanelMenuDisplay.IconAndText;
 
     /// <summary>
     /// The sidebar this menu is nested in, when it is nested in one. A sidebar that keeps a rail of
@@ -25,11 +25,11 @@ public partial class OmniPanelMenu
     [CascadingParameter]
     private OmniSidebarState? Sidebar { get; set; }
 
-    private OmniPanelMenuDisplayStyle EffectiveDisplayStyle => Sidebar?.IconsOnly == true
-        ? OmniPanelMenuDisplayStyle.Icon
-        : DisplayStyle;
+    private OmniPanelMenuDisplay EffectiveDisplay => Sidebar?.IconsOnly == true
+        ? OmniPanelMenuDisplay.Icon
+        : Display;
 
-    private OmniPanelMenuContext OwnContext => new(EffectiveDisplayStyle) { ExpandSidebar = Sidebar?.Expand, CanNavigate = CanNavigate };
+    private OmniPanelMenuContext OwnContext => new(EffectiveDisplay) { ExpandSidebar = Sidebar?.Expand, CanNavigate = CanNavigate };
 
     private string EffectiveLabel => LocalizeOr(Label, "PanelMenuLabel");
 

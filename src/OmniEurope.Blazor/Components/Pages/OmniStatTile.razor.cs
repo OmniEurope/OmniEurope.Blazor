@@ -23,16 +23,16 @@ public partial class OmniStatTile
     [Parameter]
     public string? Value { get; set; }
 
-    /// <summary>What the figure measures ("Tokens today"), written under the value; with <see cref="OnClick"/>, the start of the accessible name of the button.</summary>
+    /// <summary>What the figure measures ("Tokens today"), the visible caption written under the value; with <see cref="OnClick"/>, the start of the accessible name of the button.</summary>
     [Parameter, EditorRequired]
-    public string Label { get; set; } = string.Empty;
+    public string Title { get; set; } = string.Empty;
 
-    /// <summary>An optional muted line under the label: a reset time, a comparison.</summary>
+    /// <summary>An optional muted line under the title: a reset time, a comparison.</summary>
     [Parameter]
     public string? Detail { get; set; }
 
     /// <summary>
-    /// Makes the tile a button, named by <see cref="Label"/> followed by <see cref="Value"/>, as the
+    /// Makes the tile a button, named by <see cref="Title"/> followed by <see cref="Value"/>, as the
     /// tile reads them. Cannot be combined with <see cref="Href"/>. Never put an interactive element in
     /// <see cref="Icon"/>: nesting it in a button is invalid and is not detected.
     /// </summary>
@@ -56,7 +56,7 @@ public partial class OmniStatTile
 
     /// <summary>Checks that <see cref="Href"/> and <see cref="OnClick"/> are not both given and that the address is safe.</summary>
     /// <exception cref="ArgumentException"><see cref="Href"/> and <see cref="OnClick"/> are both given.</exception>
-    /// <exception cref="InvalidOperationException"><see cref="Href"/> uses a scheme that is not allowed.</exception>
+    /// <exception cref="InvalidOperationException"><see cref="Href"/> uses a scheme that is not allowed, or is a relative address that names another host (`//host`).</exception>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -138,5 +138,5 @@ public partial class OmniStatTile
         GC.SuppressFinalize(this);
     }
 
-    private string AccessibleName => string.IsNullOrWhiteSpace(Value) ? Label : Localize("LabelValuePair", Label, Value);
+    private string AccessibleName => string.IsNullOrWhiteSpace(Value) ? Title : Localize("LabelValuePair", Title, Value);
 }

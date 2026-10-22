@@ -2,9 +2,6 @@ using Bunit;
 using OmniEurope.Blazor.Components;
 using static OmniEurope.Blazor.Tests.DataGridFilterKindsTestHost;
 
-// The former export bar (ExportFormats) stays supported and under test.
-#pragma warning disable CS0618
-
 namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
@@ -151,7 +148,7 @@ public sealed class DataGridFilterKindsTests : OmniBunitContext
         download.SetupVoid("download", _ => true).SetVoidResult();
         var grid = Render<DataGridFilterKindsTestHost>(parameters => parameters
             .Add(component => component.StatusDefault, nameof(TicketStatus.Closed))
-            .Add(component => component.ExportFormats, [OmniTableExportFormat.Markdown]));
+            .Add(component => component.Formats, [OmniTableExportFormat.Markdown]));
         await grid.InvokeAsync(() => grid.Instance.Grid!.SetFiltersAsync(
             new Dictionary<string, string?> { ["Opened"] = "2026-08-24/2026-08-30" }));
 

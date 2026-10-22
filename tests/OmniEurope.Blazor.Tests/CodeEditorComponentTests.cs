@@ -130,7 +130,7 @@ public sealed class CodeEditorComponentTests : OmniBunitContext
         var editor = Render<OmniCodeEditor>(parameters => parameters
             .Add(component => component.Value, value)
             .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.LinkActivated, args => followed = args));
+            .Add(component => component.OnLinkActivate, args => followed = args));
 
         await editor.InvokeAsync(() => new CodeEditorInteropBridge(editor.Instance).OnLinkActivated("pipeline", "build", 1));
 

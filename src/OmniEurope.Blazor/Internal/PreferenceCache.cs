@@ -19,6 +19,9 @@ internal sealed class PreferenceCache(IJSObjectReference module, string scope)
     internal const string KeyPrefix = "omni:pref:";
     internal const string SyncPrefix = "omni:pref-sync:";
 
+    /// <summary>The scope (the user's partition) this cache belongs to.</summary>
+    internal string Scope { get; } = scope;
+
     /// <summary>The prefix of every entry of this scope.</summary>
     internal string Prefix { get; } = KeyPrefix + scope + ":";
 

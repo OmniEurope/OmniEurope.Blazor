@@ -18,6 +18,8 @@
            aria-label="@Internal.OmniAriaLabel.Of(Label, AdditionalAttributes)"
            autocomplete="off"
            disabled="@Disabled"
+           readonly="@IsReadOnly"
+           aria-readonly="@(IsReadOnly ? "true" : null)"
            role="combobox"
            aria-autocomplete="list"
            aria-expanded="@(IsOpen ? "true" : "false")"

@@ -8,7 +8,8 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 /// <remarks>
 /// The editor asks again once typing pauses, only for the blocks that changed. An exception of the proofreader drops
-/// its answer and leaves the document as it is; a proofreader handles its own failures when it wants them seen.
+/// its answer and leaves the document as it is; the editor logs it at the Warning level (category
+/// <c>OmniHtmlEditor</c>) so a broken proofreader can be diagnosed, and a proofreader may also handle its own failures.
 /// </remarks>
 public abstract class OmniHtmlEditorProofreader
 {

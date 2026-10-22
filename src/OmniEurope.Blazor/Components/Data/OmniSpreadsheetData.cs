@@ -19,6 +19,15 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public sealed record OmniSpreadsheetData
 {
+    /// <summary>Most rows a sheet can hold, 10 000.</summary>
+    public const int MaxRows = 10_000;
+
+    /// <summary>Most columns a sheet can hold, 500 (the letters go up to <c>SF</c>).</summary>
+    public const int MaxColumns = 500;
+
+    /// <summary>Most cells (rows times columns) a sheet can hold, 250 000: every edit copies them, and the sheet draws them all.</summary>
+    public const int MaxCells = 250_000;
+
     /// <summary>Number of columns. Rows shorter than this read as empty on their missing cells.</summary>
     public int ColumnCount { get; init; }
 
@@ -32,11 +41,12 @@ public sealed record OmniSpreadsheetData
     /// <param name="rowCount">Number of rows, zero or more.</param>
     /// <param name="columnCount">Number of columns, zero or more.</param>
     /// <returns>A sheet whose cells are all empty.</returns>
-    /// <exception cref="ArgumentOutOfRangeException"><paramref name="rowCount"/> or <paramref name="columnCount"/> is negative.</exception>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="rowCount"/> or <paramref name="columnCount"/> is negative, or the size passes <see cref="MaxRows"/>, <see cref="MaxColumns"/> or <see cref="MaxCells"/>.</exception>
     public static OmniSpreadsheetData Create(int rowCount, int columnCount)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(rowCount);
         ArgumentOutOfRangeException.ThrowIfNegative(columnCount);
+        CheckSize(rowCount, columnCount, nameof(rowCount), nameof(columnCount));
         return new OmniSpreadsheetData
         {
             ColumnCount = columnCount,
@@ -53,11 +63,27 @@ public sealed record OmniSpreadsheetData
     /// <param name="columnCount">Minimum number of columns; the sheet has more when the longest row does.</param>
     /// <returns>A sheet whose rows all have the same number of cells.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="rows"/> is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">The sheet would pass <see cref="MaxRows"/>, <see cref="MaxColumns"/> or <see cref="MaxCells"/>.</exception>
     public static OmniSpreadsheetData FromRows(IEnumerable<IEnumerable<string?>> rows, int rowCount = 0, int columnCount = 0)
     {
         ArgumentNullException.ThrowIfNull(rows);
-        var read = rows.Select(row => (IReadOnlyList<string>)row.Select(cell => cell ?? string.Empty).ToArray()).ToList();
-        var columns = Math.Max(columnCount, read.Count == 0 ? 0 : read.Max(row => row.Count));
+        CheckSize(Math.Max(0, rowCount), Math.Max(0, columnCount), nameof(rowCount), nameof(columnCount));
+        var read = new List<IReadOnlyList<string>>();
+        var widest = 0;
+        foreach (var row in rows)
+        {
+            if (read.Count >= MaxRows)
+            {
+                throw new ArgumentOutOfRangeException(nameof(rows), $"A sheet holds at most {MaxRows} rows.");
+            }
+
+            var cells = row.Select(cell => cell ?? string.Empty).ToArray();
+            widest = Math.Max(widest, cells.Length);
+            read.Add(cells);
+        }
+
+        var columns = Math.Max(columnCount, widest);
+        CheckSize(Math.Max(read.Count, rowCount), columns, nameof(rows), nameof(columnCount));
         while (read.Count < rowCount)
         {
             read.Add([]);
@@ -89,11 +115,12 @@ public sealed record OmniSpreadsheetData
     /// <param name="column">Zero-based column.</param>
     /// <param name="input">The new input; null clears the cell.</param>
     /// <returns>A new sheet; this one is left unchanged.</returns>
-    /// <exception cref="ArgumentOutOfRangeException"><paramref name="row"/> or <paramref name="column"/> is negative.</exception>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="row"/> or <paramref name="column"/> is negative, or the grown sheet would pass <see cref="MaxRows"/>, <see cref="MaxColumns"/> or <see cref="MaxCells"/>.</exception>
     public OmniSpreadsheetData WithInput(int row, int column, string? input)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(row);
         ArgumentOutOfRangeException.ThrowIfNegative(column);
+        CheckSize(Math.Max(RowCount, (long)row + 1), Math.Max(ColumnCount, (long)column + 1), nameof(row), nameof(column));
         var columns = Math.Max(ColumnCount, column + 1);
         var rows = Rows.Select(existing => Pad(existing, columns)).ToList();
         while (rows.Count <= row)
@@ -118,14 +145,24 @@ public sealed record OmniSpreadsheetData
             : throw new ArgumentException($"'{address}' is not a cell address.", nameof(address));
 
     /// <summary>The sheet with an empty row added at the bottom.</summary>
-    public OmniSpreadsheetData AddRow() => this with { Rows = [.. Rows, EmptyRow(ColumnCount)] };
+    /// <exception cref="ArgumentOutOfRangeException">The sheet would pass its limits (<see cref="MaxRows"/>, <see cref="MaxCells"/>).</exception>
+    public OmniSpreadsheetData AddRow()
+    {
+        CheckSize(RowCount + 1L, ColumnCount, nameof(Rows), nameof(ColumnCount));
+        return this with { Rows = [.. Rows, EmptyRow(ColumnCount)] };
+    }
 
     /// <summary>The sheet with an empty column added on the right.</summary>
-    public OmniSpreadsheetData AddColumn() => this with
+    /// <exception cref="ArgumentOutOfRangeException">The sheet would pass its limits (<see cref="MaxColumns"/>, <see cref="MaxCells"/>).</exception>
+    public OmniSpreadsheetData AddColumn()
     {
-        ColumnCount = ColumnCount + 1,
-        Rows = [.. Rows.Select(row => Pad(row, ColumnCount + 1))]
-    };
+        CheckSize(RowCount, ColumnCount + 1L, nameof(Rows), nameof(ColumnCount));
+        return this with
+        {
+            ColumnCount = ColumnCount + 1,
+            Rows = [.. Rows.Select(row => Pad(row, ColumnCount + 1))]
+        };
+    }
 
     /// <summary>
     /// What a cell shows: its number, its text, or its formula computed against the rest of the
@@ -186,7 +223,7 @@ public sealed record OmniSpreadsheetData
     /// <param name="json">The JSON text.</param>
     /// <returns>The sheet.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="json"/> is null.</exception>
-    /// <exception cref="JsonException">The text is not a sheet.</exception>
+    /// <exception cref="JsonException">The text is not a sheet, or it passes <see cref="MaxRows"/>, <see cref="MaxColumns"/> or <see cref="MaxCells"/>.</exception>
     public static OmniSpreadsheetData FromJson(string json)
     {
         ArgumentNullException.ThrowIfNull(json);
@@ -211,7 +248,32 @@ public sealed record OmniSpreadsheetData
             }
         }
 
-        return FromRows(rows, columnCount: columns);
+        try
+        {
+            return FromRows(rows, columnCount: columns);
+        }
+        catch (ArgumentOutOfRangeException exception)
+        {
+            throw new JsonException("The spreadsheet is larger than a sheet can be: " + exception.Message, exception);
+        }
+    }
+
+    private static void CheckSize(long rows, long columns, string rowsName, string columnsName)
+    {
+        if (rows > MaxRows)
+        {
+            throw new ArgumentOutOfRangeException(rowsName, rows, $"A sheet holds at most {MaxRows} rows.");
+        }
+
+        if (columns > MaxColumns)
+        {
+            throw new ArgumentOutOfRangeException(columnsName, columns, $"A sheet holds at most {MaxColumns} columns.");
+        }
+
+        if (rows * columns > MaxCells)
+        {
+            throw new ArgumentOutOfRangeException(rowsName, rows, $"A sheet holds at most {MaxCells} cells ({rows} rows by {columns} columns asked).");
+        }
     }
 
     private static IReadOnlyList<string> EmptyRow(int columns) => [.. Enumerable.Repeat(string.Empty, columns)];

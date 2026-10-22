@@ -3,9 +3,6 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using OmniEurope.Blazor.Components;
 
-// The former export bar (ExportFormats) stays supported and under test.
-#pragma warning disable CS0618
-
 namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
@@ -252,7 +249,11 @@ public sealed class DataGridTreeTests : OmniBunitContext
     {
         var download = JSInterop.SetupModule(Internal.OmniModules.DocumentEditor);
         download.SetupVoid("download", _ => true).SetVoidResult();
-        var grid = RenderGrid(parameters => parameters.Add(g => g.ExportFormats, [OmniTableExportFormat.Csv]));
+        var grid = RenderGrid(parameters => parameters
+            .Add(g => g.ShowFooterBar, true)
+            .Add(g => g.ExportMarkdown, false)
+            .Add(g => g.ExportExcel, false)
+            .Add(g => g.ExportPdf, false));
         Assert.Equal(["Produits", "Charges"], Labels(grid));
 
         grid.Find(".omni-data-grid__export-button").Click();

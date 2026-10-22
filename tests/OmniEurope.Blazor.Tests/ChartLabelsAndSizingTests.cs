@@ -195,7 +195,7 @@ public sealed class ChartLabelsAndSizingTests : OmniBunitContext
     public void Chart_MinWidth_ComesFromItsShape_OrIsTheOneGiven(double aspectRatio, OmniChartMinWidth minWidth, string? expected)
     {
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Soldes")
+            .Add(component => component.Label, "Soldes")
             .Add(component => component.AspectRatio, aspectRatio)
             .Add(component => component.MinWidth, minWidth));
 
@@ -208,7 +208,7 @@ public sealed class ChartLabelsAndSizingTests : OmniBunitContext
     public void Chart_MinWidth_IsNoneByDefault()
     {
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Soldes")
+            .Add(component => component.Label, "Soldes")
             .Add(component => component.AspectRatio, 4));
 
         Assert.Equal(OmniChartMinWidth.None, chart.Instance.MinWidth);
@@ -222,7 +222,7 @@ public sealed class ChartLabelsAndSizingTests : OmniBunitContext
 
         var tile = Render<OmniStatTile>(parameters => parameters
             .Add(component => component.Value, "1 284 €")
-            .Add(component => component.Label, "Plus-value des placements"));
+            .Add(component => component.Title, "Plus-value des placements"));
 
         tile.WaitForAssertion(() => Assert.Single(module.Invocations["attach"]));
         Assert.Equal("Plus-value des placements", tile.Find(".omni-stat-tile__label").TextContent);
@@ -233,7 +233,7 @@ public sealed class ChartLabelsAndSizingTests : OmniBunitContext
     {
         var runtime = new ManualJSRuntime();
         Services.AddSingleton<IJSRuntime>(runtime);
-        var tile = Render<OmniStatTile>(parameters => parameters.Add(component => component.Label, "Jetons"));
+        var tile = Render<OmniStatTile>(parameters => parameters.Add(component => component.Title, "Jetons"));
         tile.WaitForAssertion(() => Assert.Equal(["attach"], runtime.Module.Calls));
 
         tile.Render(parameters => parameters.Add(component => component.Value, "12,4 k"));
@@ -247,7 +247,7 @@ public sealed class ChartLabelsAndSizingTests : OmniBunitContext
     public async Task StatTile_WhenOnClickComesAndGoes_FollowsTheElementDrawn()
     {
         var module = JSInterop.SetupModule(Internal.OmniModules.StatTile);
-        var tile = Render<OmniStatTile>(parameters => parameters.Add(component => component.Label, "Jetons"));
+        var tile = Render<OmniStatTile>(parameters => parameters.Add(component => component.Title, "Jetons"));
         tile.WaitForAssertion(() => Assert.Single(module.Invocations["attach"]));
         var block = module.Invocations["attach"][0].Arguments[0];
 
@@ -270,7 +270,7 @@ public sealed class ChartLabelsAndSizingTests : OmniBunitContext
     {
         var runtime = new ManualJSRuntime { HoldImports = true };
         Services.AddSingleton<IJSRuntime>(runtime);
-        var tile = Render<OmniStatTile>(parameters => parameters.Add(component => component.Label, "Jetons"));
+        var tile = Render<OmniStatTile>(parameters => parameters.Add(component => component.Title, "Jetons"));
 
         await tile.Instance.DisposeAsync();
         runtime.PendingImport.SetResult(runtime.Module);
@@ -284,7 +284,7 @@ public sealed class ChartLabelsAndSizingTests : OmniBunitContext
     {
         var lost = new ManualJSRuntime { ImportFailure = new JSDisconnectedException("perdu") };
         Services.AddSingleton<IJSRuntime>(lost);
-        var tile = Render<OmniStatTile>(parameters => parameters.Add(component => component.Label, "Jetons"));
+        var tile = Render<OmniStatTile>(parameters => parameters.Add(component => component.Title, "Jetons"));
         await tile.Instance.DisposeAsync();
 
         Assert.Empty(lost.Module.Calls);
@@ -297,7 +297,7 @@ public sealed class ChartLabelsAndSizingTests : OmniBunitContext
         var detached = new ManualJSRuntime();
         detached.Module.CallFailures["detach"] = new JSDisconnectedException("perdu");
         Services.AddSingleton<IJSRuntime>(detached);
-        var second = Render<OmniStatTile>(parameters => parameters.Add(component => component.Label, "Jetons"));
+        var second = Render<OmniStatTile>(parameters => parameters.Add(component => component.Title, "Jetons"));
         second.WaitForAssertion(() => Assert.Equal(["attach"], detached.Module.Calls));
 
         await second.Instance.DisposeAsync();
@@ -364,7 +364,7 @@ public sealed class ChartLabelsAndSizingTests : OmniBunitContext
     {
         var chart = Render<OmniChart>(parameters => parameters
             .Add(component => component.Id, "soldes")
-            .Add(component => component.Title, "Soldes")
+            .Add(component => component.Label, "Soldes")
             .Add(component => component.ChildContent, builder =>
             {
                 builder.OpenComponent<OmniColumnSeries>(0);
@@ -412,7 +412,7 @@ public sealed class ChartLabelsAndSizingTests : OmniBunitContext
         Render<OmniChart>(parameters =>
         {
             parameters
-                .Add(component => component.Title, "Soldes")
+                .Add(component => component.Label, "Soldes")
                 .Add(component => component.AspectRatio, aspectRatio)
                 .Add(component => component.ChildContent, parts);
             if (footer is not null) parameters.Add(component => component.FooterContent, footer);

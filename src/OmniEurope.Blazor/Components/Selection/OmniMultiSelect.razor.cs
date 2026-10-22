@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Components;
 
@@ -18,6 +19,14 @@ public partial class OmniMultiSelect<TValue>
     /// <summary>The options, in order; the value lists the selected ones in the order they were checked.</summary>
     [Parameter, EditorRequired]
     public IReadOnlyList<OmniOption<TValue>> Options { get; set; } = Array.Empty<OmniOption<TValue>>();
+
+    /// <summary>
+    /// The accessible name of the control (its field name, which the summary line alone, a count or the
+    /// chosen text, does not give). Null or blank uses the label of an enclosing <see cref="OmniFormField"/>
+    /// whose <c>For</c> is <see cref="OmniInputBase{TValue}.Id"/>; without either, the summary names it, as before.
+    /// </summary>
+    [Parameter]
+    public string? Label { get; set; }
 
     /// <summary>Shown on the summary line while nothing is selected.</summary>
     [Parameter]
@@ -61,6 +70,14 @@ public partial class OmniMultiSelect<TValue>
     [Parameter]
     public bool Disabled { get; set; }
 
+    /// <summary>
+    /// Whether the selection can be read and the field focused but not changed: the panel opens to show the
+    /// boxes, none of which a click or a key can change, and there is no Clear button. Not dimmed.
+    /// Off by default.
+    /// </summary>
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
     /// <summary>Identifiers of the elements that describe the field, written as <c>aria-describedby</c>; none when null.</summary>
     [Parameter]
     public string? AriaDescribedBy { get; set; }
@@ -73,6 +90,21 @@ public partial class OmniMultiSelect<TValue>
     /// </summary>
     [Parameter]
     public bool CloseOnOutsideClick { get; set; } = true;
+
+    private readonly string _generatedId = $"omni-multi-select-{Guid.NewGuid():N}";
+
+    private string SummaryTextId => $"{Id ?? _generatedId}-text";
+
+    private bool HasLabel => !string.IsNullOrWhiteSpace(Label);
+
+    // The summary line is the value (a count, the chosen text); the field name comes before it.
+    private string? SummaryAriaLabel => HasLabel ? $"{Label}: {SummaryText}" : null;
+
+    private string? SummaryLabelledBy => !HasLabel && FormFieldLabelId is { } labelId ? $"{labelId} {SummaryTextId}" : null;
+
+    private string? PanelAriaLabel => HasLabel ? Label : FormFieldLabelId is null ? SummaryText : null;
+
+    private string? PanelLabelledBy => !HasLabel ? FormFieldLabelId : null;
 
     private int SelectedCount => CurrentValue?.Count ?? 0;
 
@@ -92,8 +124,7 @@ public partial class OmniMultiSelect<TValue>
             }
 
             var needle = _filter.Trim();
-            return [.. Options.Where(option =>
-                option.Text.Contains(needle, StringComparison.CurrentCultureIgnoreCase))];
+            return [.. Options.Where(option => OmniTextMatch.Contains(option.Text, needle))];
         }
     }
 
@@ -160,7 +191,7 @@ public partial class OmniMultiSelect<TValue>
 
     private void Toggle(OmniOption<TValue> option, bool selected)
     {
-        if (selected == IsSelected(option.Value))
+        if (ReadOnly || selected == IsSelected(option.Value))
         {
             return;
         }

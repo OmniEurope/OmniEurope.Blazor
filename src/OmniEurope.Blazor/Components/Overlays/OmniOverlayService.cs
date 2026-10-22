@@ -6,11 +6,14 @@ namespace OmniEurope.Blazor.Components;
 /// Opens the package's dialogs and shows its notifications, drawn by an <see cref="OmniComponentsHost"/>.
 /// Registered as a scoped service by the package's service registration; a host given none creates and
 /// owns its own. Dialogs stack: the last one opened is the one shown and the first one closed.
+/// Like the notifications, the dialogs can be opened and closed from any thread (a background service of
+/// the host); the host that draws them reads a snapshot.
 /// </summary>
 public sealed class OmniOverlayService : IDisposable
 {
     private readonly OmniNotificationStore _notifications;
     private readonly OmniDialogStore _dialogs = new();
+    private readonly Lock _pendingGate = new();
     // Keyed by identity, not by value: OmniDialogRequest is a record, so two dialogs asking the same
     // question would otherwise share one entry and one of the two callers would never be answered.
     private readonly Dictionary<OmniDialogRequest, TaskCompletionSource<object?>> _pending =
@@ -44,8 +47,8 @@ public sealed class OmniOverlayService : IDisposable
     public OmniDialogRequest? Dialog => _dialogs.Current;
     internal IReadOnlyList<OmniDialogRequest> Dialogs => _dialogs.Items;
 
-    /// <summary>The render key of the open dialog at <paramref name="index"/> in <see cref="Dialogs"/>.</summary>
-    internal object DialogKey(int index) => _dialogs.KeyAt(index);
+    /// <summary>The open dialogs and their render keys, as one snapshot a concurrent change does not reach.</summary>
+    internal OmniDialogStore.DialogSnapshot DialogSnapshot => _dialogs.Snapshot;
 
     /// <summary>
     /// The notifications shown, oldest first: a snapshot that a later notification, dismissal or expiry
@@ -80,11 +83,9 @@ public sealed class OmniOverlayService : IDisposable
         // A dialog opened through OpenDialogAsync has a caller waiting on it: closing it any other
         // way, including the panel's own close button, has to answer that caller rather than leave
         // it hanging for ever.
-        var pending = _dialogs.Current;
-        if (_dialogs.Pop())
+        if (_dialogs.TryPop(out var closed))
         {
-            // A dialog was open, so the stack had a current one.
-            Complete(pending!, null);
+            Complete(closed!, null);
             RaiseChanged();
         }
     }
@@ -102,12 +103,14 @@ public sealed class OmniOverlayService : IDisposable
 
         // Reopening the same instance while a caller still waits on it would drop that caller's
         // completion and leave it hanging for ever: answer it the way any other dismissal does.
-        if (_pending.Remove(request, out var displaced))
+        TaskCompletionSource<object?>? displaced;
+        lock (_pendingGate)
         {
-            displaced.TrySetResult(null);
+            _pending.Remove(request, out displaced);
+            _pending[request] = completion;
         }
 
-        _pending[request] = completion;
+        displaced?.TrySetResult(null);
         OpenDialog(request);
         return completion.Task;
     }
@@ -162,7 +165,7 @@ public sealed class OmniOverlayService : IDisposable
         })
         {
             Intent = request.EffectiveIntent,
-            Footer = footer =>
+            FooterContent = footer =>
             {
                 footer.OpenComponent<OmniConfirmFooter>(0);
                 footer.AddComponentParameter(1, nameof(OmniConfirmFooter.Request), request);
@@ -177,20 +180,22 @@ public sealed class OmniOverlayService : IDisposable
     /// <summary>Closes the current dialog and hands <paramref name="result"/> to whoever awaits it.</summary>
     public void CloseDialog(object? result)
     {
-        var pending = _dialogs.Current;
-        if (_dialogs.Pop())
+        if (_dialogs.TryPop(out var closed))
         {
-            Complete(pending!, result);
+            Complete(closed!, result);
             RaiseChanged();
         }
     }
 
     private void Complete(OmniDialogRequest request, object? result)
     {
-        if (_pending.Remove(request, out var completion))
+        TaskCompletionSource<object?>? completion;
+        lock (_pendingGate)
         {
-            completion.TrySetResult(result);
+            _pending.Remove(request, out completion);
         }
+
+        completion?.TrySetResult(result);
     }
 
     /// <summary>
@@ -230,7 +235,7 @@ public sealed class OmniOverlayService : IDisposable
     /// </param>
     /// <returns>The id of the notification, for <see cref="Dismiss(Guid)"/>.</returns>
     /// <exception cref="ArgumentException"><paramref name="message"/> is null, empty or white space.</exception>
-    /// <exception cref="InvalidOperationException"><paramref name="detailsHref"/> uses a URI scheme that is not allowed.</exception>
+    /// <exception cref="InvalidOperationException"><paramref name="detailsHref"/> uses a scheme that is not allowed, or is a relative address that names another host (`//host`).</exception>
     public Guid Notify(
         string message,
         OmniSeverity severity,
@@ -281,12 +286,18 @@ public sealed class OmniOverlayService : IDisposable
     public void Dispose()
     {
         // Anything still awaiting a dialog is answered rather than left pending for ever.
-        foreach (var completion in _pending.Values)
+        TaskCompletionSource<object?>[] waiting;
+        lock (_pendingGate)
+        {
+            waiting = [.. _pending.Values];
+            _pending.Clear();
+        }
+
+        foreach (var completion in waiting)
         {
             completion.TrySetResult(null);
         }
 
-        _pending.Clear();
         var closed = _dialogs.Clear();
         _notifications.Dispose();
         if (closed)

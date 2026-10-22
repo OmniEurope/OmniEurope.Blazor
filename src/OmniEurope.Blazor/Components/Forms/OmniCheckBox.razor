@@ -10,6 +10,7 @@
             type="button"
             role="checkbox"
             disabled="@Disabled"
+            aria-readonly="@(ReadOnly ? "true" : null)"
             aria-checked="@AriaChecked"
             aria-invalid="@AriaInvalid"
             aria-describedby="@AriaDescribedBy"
@@ -29,8 +30,10 @@ else if (ChildContent is null)
            type="checkbox"
            checked="@(State == true)"
            disabled="@Disabled"
+           aria-readonly="@(ReadOnly ? "true" : null)"
            aria-invalid="@AriaInvalid"
            aria-describedby="@AriaDescribedBy"
+           @onclick:preventDefault="ReadOnly"
            @onchange="HandleChange" />
 }
 else
@@ -44,8 +47,10 @@ else
                type="checkbox"
                checked="@(State == true)"
                disabled="@Disabled"
+               aria-readonly="@(ReadOnly ? "true" : null)"
                aria-invalid="@AriaInvalid"
                aria-describedby="@AriaDescribedBy"
+               @onclick:preventDefault="ReadOnly"
                @onchange="HandleChange" />
         <span class="omni-checkbox-label__text">@ChildContent</span>
     </label>
