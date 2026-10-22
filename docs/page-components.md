@@ -180,6 +180,8 @@ Avancer, par Suivant, Terminer ou une étape déjà atteinte de la liste, demand
 focus passe au corps ; une région de statut annonce « Étape 2 sur 3 : Options ». L'assistant ne dessine aucun
 voile : dans un `OmniDialog`, Échap et la croix restent ceux du dialogue.
 
+`OnFinish` est levé par le bouton `FinishText` une fois que la dernière étape laisse l'utilisateur continuer.
+
 Les boutons restent à la même place quelle que soit l'étape : le corps a une hauteur contrôlée,
 `BodyHeight` (longueur CSS comme `24rem`, `400px` ou `50vh`), à défaut la propriété
 `--omni-wizard-body-height` de la feuille de l'hôte, à défaut `min(24rem, 60vh)`. Une étape plus haute

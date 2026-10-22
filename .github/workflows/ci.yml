@@ -110,6 +110,9 @@ jobs:
       - name: Public API guard
         shell: pwsh
         run: ./eng/Test-PublicApi.ps1
+      - name: Component index guard
+        shell: pwsh
+        run: ./eng/Test-ComponentIndex.ps1
       - name: Artifact budgets
         shell: pwsh
         run: ./eng/Test-Budgets.ps1

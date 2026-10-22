@@ -21,6 +21,8 @@ valeur (« Note : 3 sur 5 »), hors de l'ordre de tabulation, et dessine ses ét
 `OmniOption<TValue>` porte la valeur, le texte, l'état désactivé et le groupe éventuel. Ce modèle alimente :
 
 - `OmniDropDown<TValue>` (seule source des choix, par `Options` ; `Filterable` ajoute une recherche, avec le chevron des listes au bout du champ (`OmniAutocomplete.ShowToggle`) qui ouvre la liste complète et la referme, `Label` le nomme, rendu en `aria-label` seulement s'il est posé ; avec `Filterable`, `Size` s'applique au champ, la recherche ignore casse et accents et `AllowEmpty` place le choix vide en tête de la liste complète ; sans `Filterable` c'est un `<select>` natif dont la liste ouverte est habillée comme un menu du paquet là où le navigateur le permet, `appearance: base-select`, Chromium 135 et suivants, et dessinée par le système ailleurs) et `OmniMultiSelect<TValue>` ;
+- `OmniDropDown<TValue>` (seule source des choix, par `Options` ; `Filterable` ajoute une recherche, avec le chevron des listes au bout du champ (`OmniAutocomplete.ShowToggle`) qui ouvre la liste complète et la referme, `Label` le nomme, rendu en `aria-label` seulement s'il est posé ; sans `Filterable` c'est un `<select>` natif dont la liste ouverte est habillée comme un menu du paquet là où le navigateur le permet, `appearance: base-select`, Chromium 135 et suivants, et dessinée par le système ailleurs) et `OmniMultiSelect<TValue>` ;
+- `OmniDropDown.AllowEmpty` (faux par défaut) ajoute une première option vide qui remet la valeur à `default` (`null` pour un `TValue` nullable) ;
 - `OmniListBox<TValue, TSelection>`, et `OmniCheckBoxList<TValue>`, dont `Error` marque la liste `aria-invalid` et la fait décrire par l'erreur ;
 - `OmniRadioButtonList<TValue>`, qui dessine lui-même chaque bouton radio ; `Error` (facultatif) dessine sous les choix, dans le `fieldset`, la ligne d'erreur d'`OmniFormField` (glyphe décoratif, dans une région live polie, identifiant `{Id}-error`, ou `{Name}-error` sans identifiant), marque le groupe `aria-invalid="true"` (aussi quand l'`EditContext` porte une erreur), le fait décrire par cette ligne après `AriaDescribedBy` et borde chaque bouton radio de la couleur de danger ; les options désactivées sont marquées comme telles ;
 - `OmniSelectBar<TValue>`, qui dessine lui-même chaque option ; `IconTemplate` (`RenderFragment<TValue>`) dessine une icône avant le texte de chacune, d'après sa valeur.
@@ -43,7 +45,7 @@ les accents, comme la mise en évidence des correspondances d'`OmniAutocomplete`
 Il accepte en plus une recherche et deux templates. `Filterable` ajoute un champ qui réduit la liste
 aux options dont le texte contient la saisie ; `FilterText` se lie dans les deux sens pour que la
 page sache ce qui a été tapé, et la remise à `null` vide le champ ; `FilterPlaceholder` remplace le
-libellé et le texte indicatif du champ de recherche. `OptionTemplate` dessine
+libellé et le texte indicatif du champ de recherche. `FilterTextChanged` est levé avec le nouveau texte à chaque saisie. `OptionTemplate` dessine
 une option à côté de sa case à cocher, `FooterContent` occupe le bas du panneau, hors de la zone
 défilante : ensemble, ils donnent le sélecteur d'étiquettes qui propose de créer celle que la recherche
 n'a pas trouvée. Le filtre porte toujours sur le texte de l'option, quoi que dessine le template, et
@@ -85,6 +87,8 @@ et la choisissent, Début et Fin à la première et à la dernière, les options
 ```
 
 `OmniAutocomplete<TValue>` reçoit une fonction asynchrone annulable, applique un délai (`Debounce`, un `TimeSpan`, 250 ms par défaut) et annonce le nombre de résultats dans une région live. Une option n'est engagée dans le modèle qu'après sélection explicite (sauf avec `AllowFreeText`, voir plus bas). Le clavier est celui d'une liste déroulante combinée : flèches, Début et Fin parcourent les suggestions (`aria-activedescendant`, options en `li role="option"`), Entrée choisit, Échap ferme. Un échec de recherche lève `OnSearchError` avec l'exception et affiche `SearchErrorMessage` (texte localisé par défaut).
+
+`MinimumLength` (`int`, 1 par défaut) est le nombre de caractères à taper avant qu'une recherche parte ; 0 cherche aussi dans un champ vide.
 
 ```razor
 <OmniAutocomplete TValue="Guid"
@@ -200,6 +204,8 @@ Les propriétés `MaximumFiles`, `MaximumFileSize` et `AllowedContentTypes` filt
 Le champ est une zone de dépôt : le contrôle natif la couvre, invisible, si bien qu'un clic ouvre le sélecteur et qu'un fichier déposé n'importe où sur la zone y arrive sans script. La zone annonce ses limites (types, taille par fichier, nombre) et les relie au champ par `aria-describedby`.
 
 Lié par `@bind-Files`, le champ tient une liste d'`OmniUploadFile` (nom, taille, type) : les fichiers que l'application a déjà, puis ceux que l'utilisateur ajoute. Chaque ligne a son icône, sa taille et un bouton de retrait qui lève `OnFileRemove` avec l'entrée, puis `FilesChanged` avec la liste sans elle. Une sélection acceptée s'ajoute à la liste avec `Multiple`, la remplace sinon, et seulement après la réussite d'`Upload` quand ce délégué est fourni ; `MaximumFiles` compte alors la liste entière. Non lié, le champ montre la dernière sélection, sans retrait.
+
+`ReducedList` (faux par défaut) garde une longue liste courte : seuls les trois fichiers les plus récents sont montrés, et sous la liste figurent toujours le décompte, quand il y a plus de fichiers un bouton pour tout afficher ou réduire, et un bouton pour tout retirer. `UploadErrorMessage` (`string?`) est le message montré quand `Upload` lève ; nul, le texte localisé par défaut.
 
 ```razor
 <OmniUpload Multiple="true" MaximumFiles="5" @bind-Files="attachments" OnFileRemove="DeleteAsync" />
