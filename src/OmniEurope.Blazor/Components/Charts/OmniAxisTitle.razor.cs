@@ -12,8 +12,13 @@ public partial class OmniAxisTitle
     /// <summary>The title.</summary>
     [Parameter, EditorRequired] public string Text { get; set; } = string.Empty;
 
-    /// <summary>Writes the title upwards along the left edge, for a vertical value axis. Off by default: below the plot.</summary>
-    [Parameter] public bool Vertical { get; set; }
+    /// <summary>
+    /// <see cref="OmniOrientation.Vertical"/> writes the title upwards along the left edge, for a vertical
+    /// value axis; <see cref="OmniOrientation.Horizontal"/>, the default, centres it below the plot.
+    /// </summary>
+    [Parameter] public OmniOrientation Orientation { get; set; } = OmniOrientation.Horizontal;
+
+    private bool Vertical => Orientation == OmniOrientation.Vertical;
 
     // Below the category labels, or left of the value labels, turned to read upwards.
     // 3 units in from the left edge of the view box, which moves out when the chart is wide.

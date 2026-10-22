@@ -1,5 +1,5 @@
 <OmniStack Gap="OmniSpacing.Large">
-    <OmniChart Title="@Text["DemoChartsExtendedMonthlyTitle"]" Description="@Text["DemoChartsExtendedMonthlyDescription"]">
+    <OmniChart Label="@Text["DemoChartsExtendedMonthlyTitle"]" Description="@Text["DemoChartsExtendedMonthlyDescription"]">
         <OmniGridLines />
         <OmniCategoryAxis Labels="Months" />
         <OmniValueAxis TickCount="5" />
@@ -8,19 +8,19 @@
         <OmniMarkers ColorIndex="0" Data="Deposits" Radius="3" />
         <OmniAreaSeries Title="@Text["DemoChartsExtendedDecisions"]" ColorIndex="1" Data="Decisions" />
         <OmniSeriesDataLabels Data="Deposits" />
-        <OmniLegend Label="@Text["DemoChartsExtendedLegend"]" Position="OmniLegendPosition.Right" />
+        <OmniLegend Label="@Text["DemoChartsExtendedLegend"]" Placement="OmniLegendPlacement.Right" />
     </OmniChart>
 
     @* Thirty days: the chart widens on its own, the day labels thin out without overlapping, and the
        long series names go below the drawing. One hover text per day names both series (SharedTooltip),
        and the visitors line is dashed. *@
-    <OmniChart Title="@Text["DemoChartsExtendedDailyTitle"]" SharedTooltip="true">
+    <OmniChart Label="@Text["DemoChartsExtendedDailyTitle"]" SharedTooltip="true">
         <OmniGridLines />
         <OmniCategoryAxis Labels="Days" />
         <OmniValueAxis Maximum="400" TickCount="4" />
         <OmniColumnSeries Title="@Text["DemoChartsExtendedPageViews"]" ColorIndex="1" Data="PageViews" />
         <OmniLineSeries Title="@Text["DemoChartsExtendedVisitors"]" ColorIndex="0" Data="Visitors" Dashed="true" />
-        <OmniLegend Position="OmniLegendPosition.Bottom" />
+        <OmniLegend Placement="OmniLegendPlacement.Bottom" />
     </OmniChart>
 
     @* Three years of months, the last twelve shown first: the navigator under the drawing shows every
@@ -29,7 +29,7 @@
        sentence under the chart follows it. The value of each column is written above it; widen the
        range and the labels that would overlap are masked, the last one kept, each masked value still
        read on hover. MinWidth Auto: under its minimum width (a phone), the chart scrolls sideways in its card. *@
-    <OmniChart Title="@Text["DemoChartsExtendedRangeTitle"]" MinWidth="OmniChartMinWidth.Auto">
+    <OmniChart Label="@Text["DemoChartsExtendedRangeTitle"]" MinWidth="OmniChartMinWidth.Auto">
         <ChildContent>
             <OmniGridLines />
             <OmniCategoryAxis Labels="LongMonths" />
@@ -45,41 +45,41 @@
     <p id="demo-chart-range-shown">@RangeShown</p>
 
     @* The legend above the drawing, and the backlog area outlined in dashes. *@
-    <OmniChart Title="@Text["DemoChartsExtendedStackedTitle"]">
+    <OmniChart Label="@Text["DemoChartsExtendedStackedTitle"]">
         <OmniCategoryAxis Labels="Months" />
         <OmniValueAxis />
         <OmniColumnSeries Stacked="true" Title="@Text["DemoChartsExtendedIncoming"]" ColorIndex="0" Data="Deposits" />
         <OmniColumnSeries Stacked="true" Title="@Text["DemoChartsExtendedOutgoing"]" ColorIndex="2" Data="Decisions" />
         <OmniAreaSeries Stacked="true" Dashed="true" Title="@Text["DemoChartsExtendedBacklog"]" ColorIndex="3" Data="Backlog" />
-        <OmniLegend Position="OmniLegendPosition.Top" />
+        <OmniLegend Placement="OmniLegendPlacement.Top" />
     </OmniChart>
 
     @* Square and in a wide card, the chart is held under a ceiling: min(32rem, 70vh) by default, here
        MaxHeight lowers it to 20rem; the drawing keeps its proportions in the middle of the card. *@
-    <OmniChart Id="demo-chart-max-height" Title="@Text["DemoChartsExtendedHorizontalTitle"]" MaxHeight="20rem">
+    <OmniChart Id="demo-chart-max-height" Label="@Text["DemoChartsExtendedHorizontalTitle"]" MaxHeight="20rem">
         <OmniCategoryAxis Labels="Countries" />
         <OmniValueAxis />
         <OmniColumnSeries Horizontal="true" Title="@Text["DemoChartsExtendedByCountry"]" ColorIndex="4" Data="ByCountry" />
     </OmniChart>
 
     @* Horizontal and stacked: the bars of a country sit end to end, the legend reads the series. *@
-    <OmniChart Title="@Text["DemoChartsExtendedStackedBarsTitle"]">
+    <OmniChart Label="@Text["DemoChartsExtendedStackedBarsTitle"]">
         <OmniCategoryAxis Labels="Countries" />
         <OmniValueAxis Automatic="true" />
         <OmniColumnSeries Horizontal="true" Stacked="true" Title="@Text["DemoChartsExtendedProcessed"]" ColorIndex="0" Data="ByCountry" />
         <OmniColumnSeries Horizontal="true" Stacked="true" Title="@Text["DemoChartsExtendedPending"]" ColorIndex="2" Data="ByCountryPending" />
-        <OmniLegend Position="OmniLegendPosition.Bottom" />
+        <OmniLegend Placement="OmniLegendPlacement.Bottom" />
     </OmniChart>
 
     @* Outside labels: the name and share of each slice beside the disc, joined to it by a leader line,
        stacked on each side so that none overlaps the next. *@
-    <OmniChart Title="@Text["DemoChartsExtendedPieTitle"]" AspectRatio="1.6">
+    <OmniChart Label="@Text["DemoChartsExtendedPieTitle"]" AspectRatio="1.6">
         <OmniPieSeries Title="@Text["DemoChartsExtendedOrigin"]" Data="Slices" OutsideLabels="OmniPieLabels.NameAndPercent" />
     </OmniChart>
 
     @* The ring writes the name and value of each slice outside; MinWidth None (the default, written
        here for the demonstration) lets it follow its card down to any width. *@
-    <OmniChart Title="@Text["DemoChartsExtendedDonutTitle"]" MinWidth="OmniChartMinWidth.None" AspectRatio="1.6">
+    <OmniChart Label="@Text["DemoChartsExtendedDonutTitle"]" MinWidth="OmniChartMinWidth.None" AspectRatio="1.6">
         <OmniPieSeries Donut="true" Title="@Text["DemoChartsExtendedOrigin"]" Data="Slices" OutsideLabels="OmniPieLabels.NameAndValue" />
     </OmniChart>
 

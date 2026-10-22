@@ -41,7 +41,7 @@ public sealed class DefaultLookRequestsTests : OmniBunitContext
         var svg = ShippedLookTests.Body(".omni-chart__svg");
         Assert.Equal("var(--omni-chart-max-height, min(32rem, 70vh))", ShippedLookTests.Value(svg, "max-height"));
 
-        var chart = Render<OmniChart>(parameters => parameters.Add(component => component.Title, "Soldes"));
+        var chart = Render<OmniChart>(parameters => parameters.Add(component => component.Label, "Soldes"));
         // Capped, the drawing is fitted whole in the middle of its box, never stretched.
         Assert.Equal("xMidYMid meet", chart.Find("svg.omni-chart__svg").GetAttribute("preserveAspectRatio"));
         Assert.Null(chart.Instance.MaxHeight);
@@ -58,7 +58,7 @@ public sealed class DefaultLookRequestsTests : OmniBunitContext
         var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
 
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Soldes")
+            .Add(component => component.Label, "Soldes")
             .Add(component => component.MaxHeight, maxHeight));
 
         chart.WaitForAssertion(() => Assert.Single(module.Invocations["applyChartMaxHeight"]));
@@ -70,7 +70,7 @@ public sealed class DefaultLookRequestsTests : OmniBunitContext
     {
         var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Soldes")
+            .Add(component => component.Label, "Soldes")
             .Add(component => component.MaxHeight, "20rem"));
         chart.WaitForAssertion(() => Assert.Single(module.Invocations["applyChartMaxHeight"]));
 
@@ -89,7 +89,7 @@ public sealed class DefaultLookRequestsTests : OmniBunitContext
     public void A_chart_refuses_a_MaxHeight_that_is_not_a_plain_length(string maxHeight)
     {
         var exception = Assert.Throws<ArgumentException>(() => Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Soldes")
+            .Add(component => component.Label, "Soldes")
             .Add(component => component.MaxHeight, maxHeight)));
 
         Assert.Equal(nameof(OmniChart.MaxHeight), exception.ParamName);
@@ -102,7 +102,7 @@ public sealed class DefaultLookRequestsTests : OmniBunitContext
         runtime.Module.CallFailures["applyChartMaxHeight"] = new JSDisconnectedException("gone");
         Services.AddSingleton<IJSRuntime>(runtime);
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Soldes")
+            .Add(component => component.Label, "Soldes")
             .Add(component => component.MaxHeight, "20rem"));
         chart.WaitForAssertion(() => Assert.Equal(["applyChartMaxHeight"], runtime.Module.Calls));
 
@@ -116,7 +116,7 @@ public sealed class DefaultLookRequestsTests : OmniBunitContext
     {
         var runtime = new ManualJSRuntime();
         Services.AddSingleton<IJSRuntime>(runtime);
-        var chart = Render<OmniChart>(parameters => parameters.Add(component => component.Title, "Soldes"));
+        var chart = Render<OmniChart>(parameters => parameters.Add(component => component.Label, "Soldes"));
 
         await chart.Instance.DisposeAsync();
 

@@ -19,7 +19,7 @@ public sealed class DividerTests : OmniBunitContext
         var element = divider.Find("div");
         Assert.Equal("separator", element.GetAttribute("role"));
         Assert.Equal("horizontal", element.GetAttribute("aria-orientation"));
-        Assert.Equal(OmniStackOrientation.Horizontal, divider.Instance.Orientation);
+        Assert.Equal(OmniOrientation.Horizontal, divider.Instance.Orientation);
         Assert.Contains("omni-divider", element.ClassList);
         Assert.Contains("omni-divider--horizontal", element.ClassList);
         Assert.DoesNotContain("omni-divider--vertical", element.ClassList);
@@ -29,7 +29,7 @@ public sealed class DividerTests : OmniBunitContext
     [Fact]
     public void AVerticalDivider_ReportsAVerticalSeparator()
     {
-        var divider = Render<OmniDivider>(parameters => parameters.Add(component => component.Orientation, OmniStackOrientation.Vertical));
+        var divider = Render<OmniDivider>(parameters => parameters.Add(component => component.Orientation, OmniOrientation.Vertical));
 
         var element = divider.Find("div");
         Assert.Equal("separator", element.GetAttribute("role"));
@@ -41,7 +41,7 @@ public sealed class DividerTests : OmniBunitContext
     [Fact]
     public void ADividerWithAnUndefinedOrientation_IsDrawnHorizontal()
     {
-        var divider = Render<OmniDivider>(parameters => parameters.Add(component => component.Orientation, (OmniStackOrientation)99));
+        var divider = Render<OmniDivider>(parameters => parameters.Add(component => component.Orientation, (OmniOrientation)99));
 
         var element = divider.Find("div");
         Assert.Equal("horizontal", element.GetAttribute("aria-orientation"));

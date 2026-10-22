@@ -38,6 +38,8 @@ Ces règles sont celles de la passe de cohérence 1.2.0 ([PLAN-007](plans/archiv
 
 ## Exceptions documentées
 
+- `OmniDataGrid.Columns` : ce fragment ne remplace pas une zone, il déclare les colonnes (des `OmniDataGridColumn` enfants, que la grille enregistre sans rien rendre à leur place) ; le suffixe `Content` des zones remplaçables ne s'y applique pas.
+- `OmniChart.Label` : nom accessible obligatoire (`string`, `EditorRequired`) et non facultatif (`string?`) ; un graphique n'a pas de texte localisé par défaut qui puisse le nommer. Il est posé en `title` du SVG et en légende du tableau de données, ce n'est pas un titre visible.
 - `ErrorContent` est un `RenderFragment<Exception>` (grille, liste, agenda, autocomplétion) : il porte l'exception à afficher, mais garde le suffixe `Content` des zones de remplacement qu'il partage avec `LoadingContent` et `EmptyContent`.
 - `OmniUpload.FilesSelected`, `OmniUpload.FileRemoved`, `OmniCodeEditor.LinkActivated`, `OmniCodeViewer.LinkActivated` et `OmniValidatorBase<TValue>.ValidationFailed` : nommés avant la règle `On` + sujet + verbe, gardés pour ne pas rompre l'API publique.
 - `OmniLogViewer.ShowSearch` et `OmniLogViewer.SearchPlaceholder` : la recherche du journal marque les occurrences et parcourt les lignes qui en contiennent sans masquer de ligne ; ce n'est pas un filtre d'options (`Filterable`), et le nom suit les autres bascules de sa barre (`ShowLevelFilter`).

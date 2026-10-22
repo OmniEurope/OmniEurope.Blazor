@@ -547,7 +547,7 @@
 
 <CascadingValue Value="_context" IsFixed="true">@Columns</CascadingValue>
 
-<div @attributes="AdditionalAttributes" id="@Id" class="@Classes.GridClass()" data-omni-density="@Density.ToString().ToLowerInvariant()" aria-busy="@(View.Loading ? "true" : "false")">
+<div @attributes="AdditionalAttributes" id="@Id" class="@Classes.GridClass()" data-omni-density="@OmniDensityAttribute.Of(Density)" aria-busy="@(View.Loading ? "true" : "false")">
     @if (View.Failure is not null)
     {
         <div class="omni-data-grid__state" role="alert">
@@ -595,7 +595,7 @@
                        PageSizeOptions="@PageSizeOptions"
                        PageSizeChanged="Paging.ChangePageSizeAsync"
                        ShowFirstLast="true"
-                       HorizontalAlign="@PagerHorizontalAlign"
+                       Justify="@PagerJustify"
                        NumericPageCount="@NumericPageCount" />
         }
         @* Detach control of the frozen columns: outside the scrolled area so it stays put, placed on
@@ -650,7 +650,7 @@
                        PageSizeOptions="@PageSizeOptions"
                        PageSizeChanged="Paging.ChangePageSizeAsync"
                        ShowFirstLast="true"
-                       HorizontalAlign="@PagerHorizontalAlign"
+                       Justify="@PagerJustify"
                        NumericPageCount="@NumericPageCount" />
         }
     }

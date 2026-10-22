@@ -198,7 +198,7 @@ public sealed class ChartRangeNavigatorTests : OmniBunitContext
     public void ANavigatorWrittenInTheDrawing_IsRefused()
     {
         var error = Assert.Throws<InvalidOperationException>(() => Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Dépôts")
+            .Add(component => component.Label, "Dépôts")
             .AddChildContent(builder =>
             {
                 builder.OpenComponent<OmniColumnSeries>(0);
@@ -216,7 +216,7 @@ public sealed class ChartRangeNavigatorTests : OmniBunitContext
     {
         var showNavigator = true;
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Dépôts")
+            .Add(component => component.Label, "Dépôts")
             .AddChildContent(builder =>
             {
                 builder.OpenComponent<OmniColumnSeries>(0);
@@ -343,7 +343,7 @@ public sealed class ChartRangeNavigatorTests : OmniBunitContext
 
     private IRenderedComponent<OmniChart> ChartWith(Microsoft.AspNetCore.Components.RenderFragment parts, int? start = null, int? end = null) =>
         Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Dépôts")
+            .Add(component => component.Label, "Dépôts")
             .Add(component => component.ChildContent, builder =>
             {
                 parts(builder);

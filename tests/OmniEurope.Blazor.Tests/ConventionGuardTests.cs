@@ -173,9 +173,9 @@ public sealed partial class ConventionGuardTests
         {
             ("Charts", "OmniChartPoint"), ("Charts", "OmniChartSlice"), ("Charts", "OmniChartGeometry"),
             ("Data", "OmniDataGridSelectionMode"), ("Data", "OmniDataGridFilterOperator"), ("Data", "OmniDataGridSort"),
-            ("Data", "OmniDataGridFilter"), ("Data", "OmniDataGridColumnWidthChange"), ("Data", "OmniDataGridTextAlign"),
+            ("Data", "OmniDataGridFilter"), ("Data", "OmniDataGridColumnWidthChange"),
             ("Data", "OmniDataGridLines"), ("Data", "OmniDataGridFilterMode"), ("Data", "OmniDataGridRowMode"),
-            ("Data", "OmniDataGridPosition"), ("Data", "OmniDataGridSortOrder"),
+            ("Data", "OmniDataGridPlacement"), ("Data", "OmniDataGridSortOrder"),
             ("Data", "OmniDataGridLogicalOperator"), ("Data", "OmniDataGridGroup"), ("Data", "OmniDataGridRowRenderArgs"),
             ("Data", "OmniDataGridLoadRequest"), ("Data", "OmniDataGridResult"), ("Data", "OmniDataGridColumnDefinition"),
             ("Data", "OmniDataGridContext"), ("Foundation", "OmniTextElement"), ("Foundation", "OmniTextTone"),
@@ -188,7 +188,7 @@ public sealed partial class ConventionGuardTests
             ("Overlays", "OmniNotificationMessage"), ("Overlays", "OmniOverlayService"),
             ("Scheduling", "OmniCalendarView"), ("Scheduling", "OmniSchedulerAppointment"),
             ("Selection", "OmniOption"), ("Selection", "OmniUploadRequest"),
-            ("Layout", "OmniStackOrientation"), ("Layout", "OmniSpacing"),
+            ("Layout", "OmniOrientation"), ("Layout", "OmniSpacing"),
             ("Layout", "OmniAlignment"), ("Layout", "OmniJustification")
         };
 

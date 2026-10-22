@@ -33,11 +33,11 @@ public partial class OmniLegend
     [Parameter] public IReadOnlyList<string> Items { get; set; } = Array.Empty<string>();
 
     /// <summary>
-    /// Right of the plot, below the chart, above it, or <see cref="OmniLegendPosition.Auto"/> (the
+    /// Right of the plot, below the chart, above it, or <see cref="OmniLegendPlacement.Auto"/> (the
     /// default): right while the longest entry fits a narrow column, below otherwise. Outside a chart
     /// the legend is always drawn on the right.
     /// </summary>
-    [Parameter] public OmniLegendPosition Position { get; set; } = OmniLegendPosition.Auto;
+    [Parameter] public OmniLegendPlacement Placement { get; set; } = OmniLegendPlacement.Auto;
 
     /// <summary>
     /// Whether a click on an entry that names a series hides that series, or shows it again: the chart
@@ -51,7 +51,7 @@ public partial class OmniLegend
 
     private string EffectiveLabel => string.IsNullOrWhiteSpace(Label) ? StringLocalizer["LegendLabel"].Value : Label;
 
-    private OmniChartContext.LegendRegistration Registration => new(EffectiveLabel, Items, Position, AllowToggle);
+    private OmniChartContext.LegendRegistration Registration => new(EffectiveLabel, Items, Placement, AllowToggle);
 
     /// <summary>What the legend draws: from the chart, or its own items in palette order outside one.</summary>
     private IReadOnlyList<OmniChartContext.LegendEntry> Entries =>

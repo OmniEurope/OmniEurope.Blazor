@@ -185,11 +185,11 @@ internal sealed class OmniChartContext
 
     /// <summary>The legends drawn above the chart, in HTML, in the order they registered.</summary>
     internal IEnumerable<LegendRegistration> LegendsAbove =>
-        _legends.Values.Where(item => item.Position == OmniLegendPosition.Top);
+        _legends.Values.Where(item => item.Placement == OmniLegendPlacement.Top);
 
     /// <summary>The legends drawn below the chart, in HTML, in the order they registered.</summary>
     internal IEnumerable<LegendRegistration> LegendsBelow =>
-        _legends.Values.Where(item => item.Position != OmniLegendPosition.Top && IsOutside(item));
+        _legends.Values.Where(item => item.Placement != OmniLegendPlacement.Top && IsOutside(item));
 
     /// <summary>
     /// Whether the legend <paramref name="owner"/> registered is drawn outside the drawing, as an HTML
@@ -846,13 +846,13 @@ internal sealed class OmniChartContext
 
     /// <summary>
     /// Outside the drawing, as an HTML list, when asked (below or above), or, for
-    /// <see cref="OmniLegendPosition.Auto"/>, below when the longest entry needs a wider column than
+    /// <see cref="OmniLegendPlacement.Auto"/>, below when the longest entry needs a wider column than
     /// the default one and than a fifth of the view box.
     /// </summary>
-    private bool IsOutside(LegendRegistration legend) => legend.Position switch
+    private bool IsOutside(LegendRegistration legend) => legend.Placement switch
     {
-        OmniLegendPosition.Bottom or OmniLegendPosition.Top => true,
-        OmniLegendPosition.Right => false,
+        OmniLegendPlacement.Bottom or OmniLegendPlacement.Top => true,
+        OmniLegendPlacement.Right => false,
         _ => ColumnNeeded(legend) > Math.Max(DefaultLegendColumn, 0.2 * ViewWidth)
     };
 
@@ -866,12 +866,12 @@ internal sealed class OmniChartContext
     internal sealed record LegendRegistration(
         string Label,
         IReadOnlyList<string> Items,
-        OmniLegendPosition Position,
+        OmniLegendPlacement Placement,
         bool AllowToggle = true)
     {
         internal bool SameAs(LegendRegistration other) =>
             Label == other.Label
-            && Position == other.Position
+            && Placement == other.Placement
             && AllowToggle == other.AllowToggle
             && Items.SequenceEqual(other.Items);
     }

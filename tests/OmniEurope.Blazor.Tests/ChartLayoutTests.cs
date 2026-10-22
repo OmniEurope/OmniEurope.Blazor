@@ -20,7 +20,7 @@ public sealed class ChartLayoutTests : OmniBunitContext
     {
         // recette R-177: a chart in a wide, low card drew a square and left the card empty.
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Tendance")
+            .Add(component => component.Label, "Tendance")
             .Add(component => component.AspectRatio, 3)
             .AddChildContent<OmniLineSeries>(series => series
                 .Add(line => line.Title, "Réussis")
@@ -41,7 +41,7 @@ public sealed class ChartLayoutTests : OmniBunitContext
     {
         // recette R-010: "100 000,00 €" started 8px left of the card at a 4:1 ratio.
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Soldes")
+            .Add(component => component.Label, "Soldes")
             .Add(component => component.AspectRatio, 4)
             .AddChildContent(builder =>
             {
@@ -66,7 +66,7 @@ public sealed class ChartLayoutTests : OmniBunitContext
     public void ShortValueLabels_KeepTheUsualLeftMargin()
     {
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Petits")
+            .Add(component => component.Label, "Petits")
             .AddChildContent(builder =>
             {
                 builder.OpenComponent<OmniValueAxis>(0);
@@ -81,7 +81,7 @@ public sealed class ChartLayoutTests : OmniBunitContext
     public void AspectRatio_BelowOne_KeepsTheSquare()
     {
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Tendance")
+            .Add(component => component.Label, "Tendance")
             .Add(component => component.AspectRatio, 0.5));
 
         Assert.Equal("0 0 100 100", chart.Find("svg.omni-chart__svg").GetAttribute("viewBox"));
@@ -130,7 +130,7 @@ public sealed class ChartLayoutTests : OmniBunitContext
     public void ColumnSeries_StandSideBySideInTheBandOfTheirCategory()
     {
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Colonnes")
+            .Add(component => component.Label, "Colonnes")
             .AddChildContent(builder =>
             {
                 builder.OpenComponent<OmniCategoryAxis>(0);
@@ -169,7 +169,7 @@ public sealed class ChartLayoutTests : OmniBunitContext
     public void AutomaticValueAxis_FollowsTheSeries_WithRoundGraduationsAndNoValueCutOff()
     {
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Tokens")
+            .Add(component => component.Label, "Tokens")
             .AddChildContent(builder =>
             {
                 builder.OpenComponent<OmniCategoryAxis>(0);
@@ -206,7 +206,7 @@ public sealed class ChartLayoutTests : OmniBunitContext
     public void HorizontalColumns_TurnTheChart_CategoriesDownTheLeftAndValuesAlongTheBottom()
     {
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Barres")
+            .Add(component => component.Label, "Barres")
             .AddChildContent(builder =>
             {
                 builder.OpenComponent<OmniCategoryAxis>(0);
@@ -242,7 +242,7 @@ public sealed class ChartLayoutTests : OmniBunitContext
     public void Legend_NarrowsThePlotAndTakesTheColoursOfTheSeriesItNames()
     {
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Légende")
+            .Add(component => component.Label, "Légende")
             .AddChildContent(builder =>
             {
                 builder.OpenComponent<OmniGridLines>(0);
@@ -274,7 +274,7 @@ public sealed class ChartLayoutTests : OmniBunitContext
         var wide = RenderDaily(aspectRatio: null, legend: null);
         var square = RenderDaily(aspectRatio: 1, legend: null);
         var shortSeries = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Trimestre")
+            .Add(component => component.Label, "Trimestre")
             .AddChildContent<OmniLineSeries>(series => series.Add(line => line.Data, Points((0, 1), (1, 2), (2, 3)))));
 
         wide.WaitForAssertion(() => Assert.Equal("-50 0 200 100", wide.Find("svg.omni-chart__svg").GetAttribute("viewBox")));
@@ -327,7 +327,7 @@ public sealed class ChartLayoutTests : OmniBunitContext
     public void CategoryAxis_DrawsEveryLabelThatFits()
     {
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Semestre")
+            .Add(component => component.Label, "Semestre")
             .AddChildContent<OmniCategoryAxis>(axis => axis.Add(component => component.Labels, Labels("Jan", "Fév", "Mar", "Avr", "Mai", "Jui"))));
 
         Assert.Equal(["Jan", "Fév", "Mar", "Avr", "Mai", "Jui"], chart.FindAll(".omni-chart__axis--category text").Select(text => text.TextContent));
@@ -349,7 +349,7 @@ public sealed class ChartLayoutTests : OmniBunitContext
     [Fact]
     public void Legend_Auto_GoesBelowTheChartWhenItsEntriesAreLong_AndThePlotTakesTheFullWidth()
     {
-        var chart = RenderDaily(aspectRatio: 1, legend: OmniLegendPosition.Auto);
+        var chart = RenderDaily(aspectRatio: 1, legend: OmniLegendPlacement.Auto);
 
         chart.WaitForAssertion(() =>
         {
@@ -369,7 +369,7 @@ public sealed class ChartLayoutTests : OmniBunitContext
     [Fact]
     public void Legend_Right_WidensItsColumnToTheLongestEntry_UpToTwoFifthsOfTheDrawing()
     {
-        var chart = RenderDaily(aspectRatio: 1, legend: OmniLegendPosition.Right);
+        var chart = RenderDaily(aspectRatio: 1, legend: OmniLegendPlacement.Right);
 
         chart.WaitForAssertion(() =>
         {
@@ -384,10 +384,10 @@ public sealed class ChartLayoutTests : OmniBunitContext
     public void Legend_Bottom_LeavesNothingInsideTheDrawing()
     {
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Légende")
+            .Add(component => component.Label, "Légende")
             .AddChildContent<OmniLegend>(legend => legend
                 .Add(component => component.Items, Labels("A"))
-                .Add(component => component.Position, OmniLegendPosition.Bottom)));
+                .Add(component => component.Placement, OmniLegendPlacement.Bottom)));
 
         chart.WaitForAssertion(() =>
         {
@@ -424,14 +424,14 @@ public sealed class ChartLayoutTests : OmniBunitContext
     /// A daily audience: thirty dates, a column and a line series, and a legend with long
     /// entries when <paramref name="legend"/> is given.
     /// </summary>
-    private IRenderedComponent<OmniChart> RenderDaily(double? aspectRatio, OmniLegendPosition? legend)
+    private IRenderedComponent<OmniChart> RenderDaily(double? aspectRatio, OmniLegendPlacement? legend)
     {
         var days = Enumerable.Range(1, 30).Select(day => $"{day:00}/09").ToArray();
         var views = Enumerable.Range(0, 30).Select(day => new OmniChartPoint(day, 100 + day)).ToArray();
         var visitors = Enumerable.Range(0, 30).Select(day => new OmniChartPoint(day, 40 + day)).ToArray();
         return Render<OmniChart>(parameters =>
         {
-            parameters.Add(component => component.Title, "Audience");
+            parameters.Add(component => component.Label, "Audience");
             if (aspectRatio is { } ratio)
             {
                 parameters.Add(component => component.AspectRatio, ratio);
@@ -456,7 +456,7 @@ public sealed class ChartLayoutTests : OmniBunitContext
                 if (legend is { } position)
                 {
                     builder.OpenComponent<OmniLegend>(10);
-                    builder.AddAttribute(11, nameof(OmniLegend.Position), position);
+                    builder.AddAttribute(11, nameof(OmniLegend.Placement), position);
                     builder.CloseComponent();
                 }
             });

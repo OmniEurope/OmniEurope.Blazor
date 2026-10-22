@@ -147,11 +147,11 @@ public partial class OmniDataGrid<TItem>
 
     /// <summary>Where the pager goes: under the table (the default), above it, or both.</summary>
     [Parameter]
-    public OmniDataGridPosition PagerPosition { get; set; } = OmniDataGridPosition.Bottom;
+    public OmniDataGridPlacement PagerPlacement { get; set; } = OmniDataGridPlacement.Bottom;
 
     /// <summary>How the pager's controls are aligned along its row; the start by default.</summary>
     [Parameter]
-    public OmniJustification PagerHorizontalAlign { get; set; } = OmniJustification.Start;
+    public OmniJustification PagerJustify { get; set; } = OmniJustification.Start;
 
     /// <summary>Shows the localized "first to last of total" line under the table, announced politely.</summary>
     [Parameter]
@@ -541,9 +541,12 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public OmniDataGridLines GridLines { get; set; } = OmniDataGridLines.Horizontal;
 
-    /// <summary>Row height and cell padding; comfortable by default.</summary>
+    /// <summary>
+    /// Row height and cell padding of this grid and of what it holds, over the density it inherits from
+    /// its theme scope or section. Null, the default, inherits it (comfortable outside any scope).
+    /// </summary>
     [Parameter]
-    public OmniDensity Density { get; set; } = OmniDensity.Comfortable;
+    public OmniDensity? Density { get; set; }
 
     /// <summary>Stacks each row into a labelled card once the viewport is too narrow for a table.</summary>
     [Parameter]
@@ -711,7 +714,7 @@ public partial class OmniDataGrid<TItem>
     /// rows (the default), directly under the header, or both.
     /// </summary>
     [Parameter]
-    public OmniDataGridPosition FooterPosition { get; set; }
+    public OmniDataGridPlacement FooterPlacement { get; set; }
 
     // ---- bars and export ------------------------------------------------------------------------
 
@@ -775,20 +778,6 @@ public partial class OmniDataGrid<TItem>
     /// </summary>
     [Parameter]
     public bool ExportPdf { get; set; } = true;
-
-    /// <summary>
-    /// The formats of the former export bar, in their order. Non-empty, they replace the four format
-    /// switches; while no shown bar carries the buttons, the bar named by <see cref="ExportPosition"/> is
-    /// shown with them at its start.
-    /// </summary>
-    [Parameter]
-    [Obsolete("Use ShowHeaderBar or ShowFooterBar with HeaderBarExport or FooterBarExport, and ExportMarkdown, ExportCsv, ExportExcel and ExportPdf to choose the formats one by one.")]
-    public IReadOnlyList<OmniTableExportFormat> ExportFormats { get; set; } = Array.Empty<OmniTableExportFormat>();
-
-    /// <summary>The bar of the former <see cref="ExportFormats"/>: under the table (the default), above it, or both.</summary>
-    [Parameter]
-    [Obsolete("Use ShowHeaderBar or ShowFooterBar with HeaderBarExport or FooterBarExport.")]
-    public OmniDataGridPosition ExportPosition { get; set; }
 
     /// <summary>The title of the exported document; null uses <see cref="Caption"/>, then a localized "Table export".</summary>
     [Parameter]

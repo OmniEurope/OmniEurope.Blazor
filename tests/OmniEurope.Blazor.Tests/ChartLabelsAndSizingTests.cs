@@ -195,7 +195,7 @@ public sealed class ChartLabelsAndSizingTests : OmniBunitContext
     public void Chart_MinWidth_ComesFromItsShape_OrIsTheOneGiven(double aspectRatio, OmniChartMinWidth minWidth, string? expected)
     {
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Soldes")
+            .Add(component => component.Label, "Soldes")
             .Add(component => component.AspectRatio, aspectRatio)
             .Add(component => component.MinWidth, minWidth));
 
@@ -208,7 +208,7 @@ public sealed class ChartLabelsAndSizingTests : OmniBunitContext
     public void Chart_MinWidth_IsNoneByDefault()
     {
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Soldes")
+            .Add(component => component.Label, "Soldes")
             .Add(component => component.AspectRatio, 4));
 
         Assert.Equal(OmniChartMinWidth.None, chart.Instance.MinWidth);
@@ -364,7 +364,7 @@ public sealed class ChartLabelsAndSizingTests : OmniBunitContext
     {
         var chart = Render<OmniChart>(parameters => parameters
             .Add(component => component.Id, "soldes")
-            .Add(component => component.Title, "Soldes")
+            .Add(component => component.Label, "Soldes")
             .Add(component => component.ChildContent, builder =>
             {
                 builder.OpenComponent<OmniColumnSeries>(0);
@@ -412,7 +412,7 @@ public sealed class ChartLabelsAndSizingTests : OmniBunitContext
         Render<OmniChart>(parameters =>
         {
             parameters
-                .Add(component => component.Title, "Soldes")
+                .Add(component => component.Label, "Soldes")
                 .Add(component => component.AspectRatio, aspectRatio)
                 .Add(component => component.ChildContent, parts);
             if (footer is not null) parameters.Add(component => component.FooterContent, footer);

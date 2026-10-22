@@ -8,7 +8,7 @@ namespace OmniEurope.Blazor.Components;
 /// laid out on one shared plot.
 /// </summary>
 /// <remarks>
-/// For assistive technology the drawing is one image named by <see cref="Title"/> and described by
+/// For assistive technology the drawing is one image named by <see cref="Label"/> and described by
 /// <see cref="Description"/> when it is set. Its data is read from a table after it: the table of the
 /// host in <see cref="DataTableContent"/>, shown to everyone, or else one the chart writes itself,
 /// visually hidden, with a row per category and a column per series (one table per pie). Numbers there
@@ -28,7 +28,7 @@ public partial class OmniChart
     private IJSRuntime JavaScript { get; set; } = default!;
 
     /// <summary>The accessible name of the chart, and the caption of the data table it writes.</summary>
-    [Parameter, EditorRequired] public string Title { get; set; } = string.Empty;
+    [Parameter, EditorRequired] public string Label { get; set; } = string.Empty;
 
     /// <summary>A sentence on what the chart shows, read after its name; none when null (the default).</summary>
     [Parameter] public string? Description { get; set; }

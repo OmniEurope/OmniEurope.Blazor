@@ -15,7 +15,7 @@
                 </OmniFormField>
             </OmniWizardStep>
             <OmniWizardStep Title="@Text["DemoFlowsStepOptions"]" Validate="ValidateOptionsAsync">
-                <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small" Align="OmniAlignment.Center">
+                <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Align="OmniAlignment.Center">
                     <OmniCheckBox Id="flows-demo-backup" @bind-Value="Model.Backup" />
                     <OmniLabel For="flows-demo-backup">@Text["DemoFlowsDailyBackup"]</OmniLabel>
                 </OmniStack>
@@ -86,7 +86,7 @@
     </div>
 
     @* L'hôte pilote l'état, le compte à rebours et les rappels ; le composant ne tient aucune connexion. *@
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small">
         <OmniButton Id="flows-demo-drop" Variant="OmniButtonVariant.Warning" OnClick="DropAsync">
             <OmniIcon Name="OmniIconName.Offline" /><span>@Text["DemoFlowsSimulateDrop"]</span>
         </OmniButton>

@@ -19,15 +19,15 @@
     <Columns>
         <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="@Text["DemoGridColumnReference"]"
                             FilterType="OmniDataGridColumnFilterType.Text"
-                            TextAlign="OmniDataGridTextAlign.Start" />
+                            TextAlign="OmniAlignment.Start" />
         <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="@Text["DemoGridColumnApplicant"]"
                             FilterType="OmniDataGridColumnFilterType.Text"
                             SortOrder="OmniDataGridSortOrder.Ascending" />
         <OmniDataGridColumn TItem="GridRow" Property="Country" Title="@Text["DemoGridColumnCountry"]"
                             FilterType="OmniDataGridColumnFilterType.Select"
-                            TextAlign="OmniDataGridTextAlign.Center" />
+                            TextAlign="OmniAlignment.Center" />
         <OmniDataGridColumn TItem="GridRow" Property="Amount" Filterable="false" Title="@Text["DemoGridColumnAmount"]" FormatString="{0:C0}"
-                            TextAlign="OmniDataGridTextAlign.End"
+                            TextAlign="OmniAlignment.End"
                             SortOrder="OmniDataGridSortOrder.Descending" />
     </Columns>
 </OmniDataGrid>
@@ -233,7 +233,7 @@
             <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="@Text["DemoGridColumnApplicant"]" FilterType="OmniDataGridColumnFilterType.Combo" />
             <OmniDataGridColumn TItem="GridRow" Property="Country" Title="@Text["DemoGridColumnCountry"]" FilterType="OmniDataGridColumnFilterType.Select" Groupable="true" />
             <OmniDataGridColumn TItem="GridRow" Property="Amount" Title="@Text["DemoGridColumnAmount"]" FormatString="{0:C0}" Filterable="false"
-                                TextAlign="OmniDataGridTextAlign.End" />
+                                TextAlign="OmniAlignment.End" />
         </Columns>
     </OmniDataGrid>
 </div>
@@ -263,7 +263,7 @@
                   Items="FillRows"
                   Caption="@Text["DemoGridFillCaption"]"
                   ScrollMode="@(FillBoxPaged ? OmniDataGridScrollMode.Paged : OmniDataGridScrollMode.Virtual)"
-                  PagerPosition="FillBoxPagerPosition"
+                  PagerPlacement="FillBoxPagerPlacement"
                   PageSize="20"
                   GridLines="FillBoxLines"
                   FillAvailableHeight="true"
@@ -274,7 +274,7 @@
             <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="@Text["DemoGridColumnReference"]" Filterable="false" />
             <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="@Text["DemoGridColumnApplicant"]" Filterable="false" />
             <OmniDataGridColumn TItem="GridRow" Property="Amount" Title="@Text["DemoGridColumnAmount"]" FormatString="{0:C0}" Filterable="false"
-                                TextAlign="OmniDataGridTextAlign.End" />
+                                TextAlign="OmniAlignment.End" />
         </Columns>
     </OmniDataGrid>
 </div>

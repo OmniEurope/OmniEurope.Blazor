@@ -1,9 +1,10 @@
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
-/// A button that downloads a grid's rows as a Markdown file (<see cref="OmniMarkdownTableExporter"/>):
-/// every announced row, read through the export's page provider, not the page or window the grid
-/// shows. While it reads it is busy; a page that fails produces no file.
+/// A button that downloads a table's rows as a Markdown file (<see cref="OmniTableExporter"/>, format
+/// <see cref="OmniTableExportFormat.Markdown"/>): every announced row, read through the export's page
+/// provider, not the page or window a grid shows. While it reads it is busy; a page that fails produces
+/// no file.
 /// </summary>
 /// <typeparam name="TItem">The type of the exported rows.</typeparam>
 public partial class OmniMarkdownExportButton<TItem>
@@ -17,14 +18,14 @@ public partial class OmniMarkdownExportButton<TItem>
     private IJSRuntime JSRuntime { get; set; } = default!;
 
     [Inject]
-    private OmniMarkdownTableExporter Exporter { get; set; } = default!;
+    private OmniTableExporter Exporter { get; set; } = default!;
 
     /// <summary>
     /// Describes the export when the button is pressed (title, columns, header lines, page provider),
     /// so the header reflects the filters in force at that moment.
     /// </summary>
     [Parameter, EditorRequired]
-    public Func<OmniMarkdownTableExport<TItem>>? Export { get; set; }
+    public Func<OmniTableExport<TItem>>? Export { get; set; }
 
     /// <summary>
     /// The file name without extension, best the application then the content (<c>shop-logs</c>);
@@ -51,7 +52,7 @@ public partial class OmniMarkdownExportButton<TItem>
 
     /// <summary>Raised with the generated document after the file was handed to the browser.</summary>
     [Parameter]
-    public EventCallback<OmniMarkdownTableDocument> OnExport { get; set; }
+    public EventCallback<OmniTableExportDocument> OnExport { get; set; }
 
     /// <summary>
     /// Raised when the export fails (a page that could not be read); no file is produced. Without a
@@ -63,8 +64,8 @@ public partial class OmniMarkdownExportButton<TItem>
     private string EffectiveText => string.IsNullOrWhiteSpace(Text) ? Localize("MarkdownExportButton") : Text;
 
     /// <summary>The downloaded file's name for a document generated at <paramref name="generatedAt"/>.</summary>
-    internal static string StampedFileName(string fileName, DateTimeOffset generatedAt) =>
-        Internal.ExportFileName.Stamp(fileName, generatedAt, "md");
+    internal static string StampedFileName(string fileName, DateTimeOffset generatedAt, string extension) =>
+        Internal.ExportFileName.Stamp(fileName, generatedAt, extension);
 
     private async Task ExportAsync()
     {
@@ -74,13 +75,14 @@ public partial class OmniMarkdownExportButton<TItem>
         }
 
         _busy = true;
-        OmniMarkdownTableDocument? delivered = null;
+        OmniTableExportDocument? delivered = null;
         try
         {
-            var document = await Exporter.ExportAsync(Export());
+            var document = await Exporter.ReadAsync(Export());
+            var file = await Exporter.RenderAsync(document, OmniTableExportFormat.Markdown);
             _module ??= await JSRuntime.InvokeAsync<IJSObjectReference>("import", DownloadModulePath);
-            await _module.InvokeVoidAsync("download", StampedFileName(FileName, document.GeneratedAt),
-                "text/markdown;charset=utf-8", document.Markdown);
+            await _module.InvokeVoidAsync("download", StampedFileName(FileName, document.GeneratedAt, file.Extension),
+                file.ContentType, file.Content.ToArray());
             delivered = document;
         }
         catch (Exception exception) when (OnExportError.HasDelegate && exception is not OperationCanceledException)

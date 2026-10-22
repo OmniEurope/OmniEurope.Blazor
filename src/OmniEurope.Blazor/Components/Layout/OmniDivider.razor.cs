@@ -12,14 +12,14 @@ public partial class OmniDivider
 {
     /// <summary>
     /// The direction of the rule itself, which is also what <c>aria-orientation</c> reports: a
-    /// <see cref="OmniStackOrientation.Horizontal"/> rule runs across the width and separates blocks laid
-    /// one under the other (the default), a <see cref="OmniStackOrientation.Vertical"/> rule runs down
+    /// <see cref="OmniOrientation.Horizontal"/> rule runs across the width and separates blocks laid
+    /// one under the other (the default), a <see cref="OmniOrientation.Vertical"/> rule runs down
     /// the height and separates blocks laid side by side in a row stack. This is the direction of the
     /// line, not the direction of the stack that holds it. A value outside the enumeration is drawn
     /// as the default, horizontal.
     /// </summary>
     [Parameter]
-    public OmniStackOrientation Orientation { get; set; } = OmniStackOrientation.Horizontal;
+    public OmniOrientation Orientation { get; set; } = OmniOrientation.Horizontal;
 
-    private bool Vertical => Orientation == OmniStackOrientation.Vertical;
+    private bool Vertical => Orientation == OmniOrientation.Vertical;
 }

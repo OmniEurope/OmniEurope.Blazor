@@ -25,7 +25,7 @@
     @* One image for assistive technology, named by the title and described by the description when
        there is one; what the drawing shows is read from the data table after it. *@
     <svg class="@SvgClass" viewBox="@ViewBox" role="img" aria-labelledby="@TitleId" aria-describedby="@(HasDescription ? DescriptionId : null)" preserveAspectRatio="xMidYMid meet">
-        <title id="@TitleId">@Title</title>
+        <title id="@TitleId">@Label</title>
         @if (HasDescription)
         {
             <desc id="@DescriptionId">@Description</desc>
@@ -89,7 +89,7 @@
                 {
                     var rows = series.Max(item => item.Data.Count);
                     <table class="omni-chart__table">
-                        <caption>@Title</caption>
+                        <caption>@Label</caption>
                         <thead>
                             <tr>
                                 <th scope="col">@Localize("ChartCategoryColumn")</th>
@@ -121,7 +121,7 @@
                 @foreach (var pie in pies)
                 {
                     <table class="omni-chart__table">
-                        <caption>@(string.IsNullOrWhiteSpace(pie.Title) ? Title : pie.Title)</caption>
+                        <caption>@(string.IsNullOrWhiteSpace(pie.Title) ? Label : pie.Title)</caption>
                         <thead>
                             <tr>
                                 <th scope="col">@Localize("ChartCategoryColumn")</th>

@@ -59,8 +59,8 @@ public sealed class GridBranchEdgeTests : OmniBunitContext
     {
         var grid = RenderGrid(
             parameters => parameters
-                .Add(component => component.FooterPosition, OmniDataGridPosition.TopAndBottom)
-                .Add(component => component.PagerPosition, OmniDataGridPosition.TopAndBottom)
+                .Add(component => component.FooterPlacement, OmniDataGridPlacement.TopAndBottom)
+                .Add(component => component.PagerPlacement, OmniDataGridPlacement.TopAndBottom)
                 .Add(component => component.PageSize, 2),
             Columns((index, column) =>
             {

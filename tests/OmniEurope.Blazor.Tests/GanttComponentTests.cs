@@ -116,9 +116,9 @@ public sealed class GanttComponentTests : OmniBunitContext
         OmniGanttTask? clicked = null;
         var gantt = Render<OmniGantt>(parameters => parameters
             .Add(component => component.Tasks, Tasks())
-            .Add(component => component.Scale, OmniCalendarView.Day)
+            .Add(component => component.View, OmniCalendarView.Day)
             .Add(component => component.Culture, French)
-            .Add(component => component.SelectedTaskId, "review")
+            .Add(component => component.Value, "review")
             .Add(component => component.OnTaskClick, task => clicked = task));
 
         var buttons = gantt.FindAll("button.omni-gantt__hit");
@@ -138,6 +138,49 @@ public sealed class GanttComponentTests : OmniBunitContext
         Assert.DoesNotContain("style=", gantt.Markup, StringComparison.OrdinalIgnoreCase);
     }
 
+    [Fact]
+    public void ClickingABar_ChoosesItsTask_ReportsTheChoiceOnce_AndFollowsTheHostValue()
+    {
+        UseToday(new DateOnly(2026, 3, 11));
+        var chosen = new List<string?>();
+        var clicks = new List<string>();
+        var gantt = Render<OmniGantt>(parameters => parameters
+            .Add(component => component.Tasks, Tasks())
+            .Add(component => component.ValueChanged, id => chosen.Add(id))
+            .Add(component => component.OnTaskClick, task => clicks.Add(task.Id)));
+        string? Pressed(string id) => gantt.Find($"button[data-task-id='{id}']").GetAttribute("aria-pressed");
+
+        Assert.Equal("false", Pressed("build"));
+
+        gantt.Find("button[data-task-id='build']").Click();
+        gantt.Find("button[data-task-id='build']").Click();
+        gantt.Find("button[data-task-id='review']").Click();
+
+        // Chosen once per change, while every click is still a click; the chart keeps the task chosen without a binding.
+        Assert.Equal(["build", "review"], chosen);
+        Assert.Equal(["build", "build", "review"], clicks);
+        Assert.Equal("false", Pressed("build"));
+        Assert.Equal("true", Pressed("review"));
+        Assert.Single(gantt.FindAll(".omni-gantt__bar--selected"));
+
+        // The host moves the choice, and the chart follows it.
+        gantt.Render(parameters => parameters.Add(component => component.Value, "design"));
+
+        Assert.Equal("true", Pressed("design"));
+        Assert.Equal("false", Pressed("review"));
+    }
+
+    [Fact]
+    public void WithoutAnyHandler_TheBarsAreNotPressedButtons_YetTheValueStillOutlinesTheTask()
+    {
+        UseToday(new DateOnly(2026, 3, 11));
+        var gantt = Render<OmniGantt>(parameters => parameters
+            .Add(component => component.Tasks, Tasks())
+            .Add(component => component.Value, "build"));
+
+        Assert.All(gantt.FindAll("button.omni-gantt__hit"), button => Assert.Null(button.GetAttribute("aria-pressed")));
+        Assert.Single(gantt.FindAll(".omni-gantt__bar--selected"));
+    }
     [Fact]
     public void Render_KeepsNamesAndBarsRowForRow()
     {
@@ -159,13 +202,13 @@ public sealed class GanttComponentTests : OmniBunitContext
         var reported = new List<OmniCalendarView>();
         var gantt = Render<OmniGantt>(parameters => parameters
             .Add(component => component.Tasks, Tasks())
-            .Add(component => component.ScaleChanged, scale => reported.Add(scale)));
+            .Add(component => component.ViewChanged, scale => reported.Add(scale)));
         var weekWidth = gantt.Find("svg.omni-gantt__svg").GetAttribute("width");
 
         gantt.FindAll(".omni-select-bar [role=radio]")[0].Click();
 
         Assert.Equal([OmniCalendarView.Day], reported);
-        Assert.Equal(OmniCalendarView.Day, gantt.Instance.CurrentScale);
+        Assert.Equal(OmniCalendarView.Day, gantt.Instance.CurrentView);
         Assert.Contains("omni-gantt--day", gantt.Find("section").ClassList);
         Assert.NotEqual(weekWidth, gantt.Find("svg.omni-gantt__svg").GetAttribute("width"));
     }
@@ -175,7 +218,7 @@ public sealed class GanttComponentTests : OmniBunitContext
     {
         var first = Render<OmniGantt>(parameters => parameters.Add(component => component.Tasks, Tasks()));
         var second = Render<OmniGantt>(parameters => parameters.Add(component => component.Tasks, Tasks()));
-        var empty = Render<OmniGantt>(parameters => parameters.Add(component => component.ShowScalePicker, false));
+        var empty = Render<OmniGantt>(parameters => parameters.Add(component => component.ShowViewPicker, false));
 
         Assert.NotEqual(first.Find("marker").Id, second.Find("marker").Id);
         Assert.Equal($"url(#{first.Find("marker").Id})", first.Find(".omni-gantt__dependencies path").GetAttribute("marker-end"));

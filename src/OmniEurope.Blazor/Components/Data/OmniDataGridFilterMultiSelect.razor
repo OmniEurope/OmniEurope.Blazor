@@ -29,7 +29,7 @@
                                checked="@checkedNow"
                                @onchange="args => ToggleAsync(option, args.Value is true)" />
                         <span>
-                            @foreach (var segment in OmniTextMatch.Split(Display(option), _search))
+                            @foreach (var segment in OmniTextMatch.Split(CandidateText(option), _search))
                             {
                                 if (segment.Matched)
                                 {
@@ -48,7 +48,7 @@
     </text>;
 }
 
-@if (Presentation == OmniMultiSelectPresentation.Compact)
+@if (Display == OmniMultiSelectPresentation.Compact)
 {
     @* Folded on one line: the summary reads the ticked values and the list opens on demand over the
        rows. Outside click, Escape and placement past the grid's scroll box are the behaviour the

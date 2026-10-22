@@ -1,4 +1,4 @@
-<OmniChart Id="sales" Title="Ventes" Description="Ventes mensuelles" DataTableContent="@AlternativeData">
+<OmniChart Id="sales" Label="Ventes" Description="Ventes mensuelles" DataTableContent="@AlternativeData">
     <OmniGridLines />
     <OmniCategoryAxis Labels="@Labels" />
     <OmniValueAxis Minimum="0" Maximum="100" />
@@ -10,7 +10,7 @@
     <OmniLegend Items="@SeriesNames" />
 </OmniChart>
 
-<OmniChart Title="Répartition" Description="Répartition des ventes">
+<OmniChart Label="Répartition" Description="Répartition des ventes">
     <OmniPieSeries Data="@Slices" Title="Parts" />
     <OmniPieSeries Donut="true" Data="@Slices" Title="Anneau" />
 </OmniChart>

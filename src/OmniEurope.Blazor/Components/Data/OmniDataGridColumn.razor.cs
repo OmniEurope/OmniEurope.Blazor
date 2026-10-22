@@ -50,7 +50,7 @@ public partial class OmniDataGridColumn<TItem>
     [Parameter]
     public RenderFragment<TItem>? EditTemplate { get; set; }
 
-    /// <summary>Content of this column's cell in the footer row (a total, a creation field); see the grid's <c>FooterPosition</c>.</summary>
+    /// <summary>Content of this column's cell in the footer row (a total, a creation field); see the grid's <c>FooterPlacement</c>.</summary>
     [Parameter]
     public RenderFragment? FooterContent { get; set; }
 
@@ -258,10 +258,11 @@ public partial class OmniDataGridColumn<TItem>
 
     /// <summary>
     /// Alignment of the header and the cells. Left at the start, a number column aligns at the end in
-    /// figures of one width, unless it has a <see cref="Template"/>.
+    /// figures of one width, unless it has a <see cref="Template"/>. Text has no cross axis to fill:
+    /// <see cref="OmniAlignment.Stretch"/> reads as <see cref="OmniAlignment.Start"/>.
     /// </summary>
     [Parameter]
-    public OmniDataGridTextAlign TextAlign { get; set; }
+    public OmniAlignment TextAlign { get; set; }
 
     /// <summary>
     /// CSS class added to each body cell and footer cell of the column. A templated column opts into the

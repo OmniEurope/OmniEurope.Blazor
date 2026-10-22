@@ -45,9 +45,9 @@ internal sealed class GridPaging<TItem>(OmniDataGrid<TItem> grid)
 
     private bool ShowPager => grid.View.Paged && (PageCount > 1 || grid.AlwaysShowPager);
 
-    internal bool ShowPagerTop => ShowPager && grid.PagerPosition is OmniDataGridPosition.Top or OmniDataGridPosition.TopAndBottom;
+    internal bool ShowPagerTop => ShowPager && grid.PagerPlacement is OmniDataGridPlacement.Top or OmniDataGridPlacement.TopAndBottom;
 
-    internal bool ShowPagerBottom => ShowPager && grid.PagerPosition is OmniDataGridPosition.Bottom or OmniDataGridPosition.TopAndBottom;
+    internal bool ShowPagerBottom => ShowPager && grid.PagerPlacement is OmniDataGridPlacement.Bottom or OmniDataGridPlacement.TopAndBottom;
 
     internal async Task ResetToFirstPageAsync()
     {

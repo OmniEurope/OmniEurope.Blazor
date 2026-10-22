@@ -20,7 +20,7 @@
         </OmniColumn>
     </OmniRow>
 
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Wrap="true" Gap="OmniSpacing.Small" Justify="OmniJustification.Between" Align="OmniAlignment.Center">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Wrap="true" Gap="OmniSpacing.Small" Justify="OmniJustification.Between" Align="OmniAlignment.Center">
         <OmniBadge Tone="OmniTone.Accent">@Text["DemoLayoutStart"]</OmniBadge>
         <OmniBadge Tone="OmniTone.Neutral">@Text["DemoLayoutMiddle"]</OmniBadge>
         <OmniBadge Tone="OmniTone.Success">@Text["DemoLayoutEnd"]</OmniBadge>
@@ -29,7 +29,7 @@
     <OmniFieldset>
         <Legend>@Text["DemoLayoutFieldGroup"]</Legend>
         <ChildContent>
-            <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small">
+            <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small">
                 <OmniBadge Tone="OmniTone.Neutral">@Text["DemoLayoutOne"]</OmniBadge>
                 <OmniBadge Tone="OmniTone.Neutral">@Text["DemoLayoutTwo"]</OmniBadge>
             </OmniStack>
@@ -69,11 +69,11 @@
             </OmniStack>
         </ChildContent>
     </OmniCard>
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Stretch">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Stretch">
         <OmniBadge Tone="OmniTone.Neutral">@Text["DemoLayoutDividerDraft"]</OmniBadge>
-        <OmniDivider Orientation="OmniStackOrientation.Vertical" />
+        <OmniDivider Orientation="OmniOrientation.Vertical" />
         <OmniBadge Tone="OmniTone.Info">@Text["DemoLayoutDividerReview"]</OmniBadge>
-        <OmniDivider Orientation="OmniStackOrientation.Vertical" />
+        <OmniDivider Orientation="OmniOrientation.Vertical" />
         <OmniBadge Tone="OmniTone.Success">@Text["DemoLayoutDividerPublished"]</OmniBadge>
     </OmniStack>
 
@@ -100,26 +100,26 @@
         </OmniRow>
     </OmniStack>
 
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Start">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Start">
         <OmniBadge>@Text["DemoLayoutTop"]</OmniBadge>
         <OmniCard><ChildContent>@Text["DemoLayoutTopText"]</ChildContent></OmniCard>
     </OmniStack>
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.End">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.End">
         <OmniBadge>@Text["DemoLayoutBottom"]</OmniBadge>
         <OmniCard><ChildContent>@Text["DemoLayoutBottomText"]</ChildContent></OmniCard>
     </OmniStack>
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Stretch">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Stretch">
         <OmniCard><ChildContent>@Text["DemoLayoutStretched"]</ChildContent></OmniCard>
         <OmniCard><ChildContent>@Text["DemoLayoutStretchedText"]</ChildContent></OmniCard>
     </OmniStack>
 
     @* Rangées trop étroites : défiler garde chaque bouton à sa taille, replier ne garde que les icônes. *@
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small" Overflow="OmniStackOverflow.Scroll">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Overflow="OmniStackOverflow.Scroll">
         <OmniButton><OmniIcon Name="OmniIconName.Check" /><span>@Text["DemoLayoutApproveFile"]</span></OmniButton>
         <OmniButton><OmniIcon Name="OmniIconName.Filter" /><span>@Text["DemoLayoutFilterDocuments"]</span></OmniButton>
         <OmniButton><OmniIcon Name="OmniIconName.Close" /><span>@Text["DemoLayoutCloseRequest"]</span></OmniButton>
     </OmniStack>
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small" Overflow="OmniStackOverflow.Collapse">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Overflow="OmniStackOverflow.Collapse">
         <OmniButton><OmniIcon Name="OmniIconName.Check" /><span>@Text["DemoLayoutApproveFile"]</span></OmniButton>
         <OmniButton><OmniIcon Name="OmniIconName.Filter" /><span>@Text["DemoLayoutFilterDocuments"]</span></OmniButton>
         <OmniButton><OmniIcon Name="OmniIconName.Close" /><span>@Text["DemoLayoutCloseRequest"]</span></OmniButton>

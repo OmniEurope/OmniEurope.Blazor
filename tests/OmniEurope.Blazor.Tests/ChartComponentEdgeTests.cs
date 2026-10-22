@@ -30,7 +30,7 @@ public sealed class ChartComponentEdgeTests : OmniBunitContext
     public void AxisTitle_OutsideAChart_SitsOnTheDefaultPlot()
     {
         var below = Render<OmniAxisTitle>(parameters => parameters.Add(component => component.Text, "Mois"));
-        var upwards = Render<OmniAxisTitle>(parameters => parameters.Add(component => component.Text, "Euros").Add(component => component.Vertical, true));
+        var upwards = Render<OmniAxisTitle>(parameters => parameters.Add(component => component.Text, "Euros").Add(component => component.Orientation, OmniOrientation.Vertical));
 
         Assert.Equal("55", below.Find("text").GetAttribute("x"));
         Assert.Equal("3", upwards.Find("text").GetAttribute("x"));
@@ -52,7 +52,7 @@ public sealed class ChartComponentEdgeTests : OmniBunitContext
     {
         var legend = Render<OmniLegend>(parameters => parameters
             .Add(component => component.Items, ["Ventes"])
-            .Add(component => component.Position, OmniLegendPosition.Right));
+            .Add(component => component.Placement, OmniLegendPlacement.Right));
 
         Assert.Contains("Ventes", legend.Markup, StringComparison.Ordinal);
         Assert.Contains("x=\"79", legend.Markup, StringComparison.Ordinal);
@@ -72,7 +72,7 @@ public sealed class ChartComponentEdgeTests : OmniBunitContext
     public void HorizontalBars_DrawVerticalGridLines_AndTheirLabelsPastTheBarEnds()
     {
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Barres")
+            .Add(component => component.Label, "Barres")
             .AddChildContent(builder =>
             {
                 Child<OmniGridLines>(builder, 0, ("Count", 4));
@@ -96,7 +96,7 @@ public sealed class ChartComponentEdgeTests : OmniBunitContext
     {
         var data = new[] { new OmniChartPoint(0, 80, "Opus · 80%"), new OmniChartPoint(1, 20, "Sonnet · 20%") };
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Modèles")
+            .Add(component => component.Label, "Modèles")
             .AddChildContent(builder =>
             {
                 Child<OmniColumnSeries>(builder, 0, ("Data", data), ("Horizontal", true), ("ColorByPoint", true), ("ColorIndex", 2));
@@ -120,7 +120,7 @@ public sealed class ChartComponentEdgeTests : OmniBunitContext
     public void ColumnSeries_WithoutColorByPoint_LeavesItsBarsWithoutClass()
     {
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Ventes")
+            .Add(component => component.Label, "Ventes")
             .AddChildContent(builder => Child<OmniColumnSeries>(builder, 0, ("Data", Points(3, 5)))));
 
         chart.WaitForAssertion(() => Assert.All(chart.FindAll(".omni-chart__columns rect"), bar => Assert.False(bar.HasAttribute("class"))));
@@ -153,7 +153,7 @@ public sealed class ChartComponentEdgeTests : OmniBunitContext
     public void SharedTooltip_OverSeriesOfUnequalLength_NamesOnlyTheSeriesThatHaveThePoint_AndSkipsEmptyCategories()
     {
         var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Title, "Audience")
+            .Add(component => component.Label, "Audience")
             .Add(component => component.SharedTooltip, true)
             .AddChildContent(builder =>
             {

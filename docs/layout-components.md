@@ -132,16 +132,16 @@ Choix de conception :
     <p>Architecture</p>
 </OmniStack>
 
-<OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
+<OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Medium">
     <span>Brouillon</span>
-    <OmniDivider Orientation="OmniStackOrientation.Vertical" />
+    <OmniDivider Orientation="OmniOrientation.Vertical" />
     <span>Publié</span>
 </OmniStack>
 ```
 
 | Paramètre | Type | Défaut | Rôle |
 | --- | --- | --- | --- |
-| `Orientation` | `OmniStackOrientation` | `Horizontal` | Direction du filet lui-même, pas de la pile qui le porte : `Horizontal` court sur la largeur et sépare des blocs empilés, `Vertical` court sur la hauteur et sépare des blocs côte à côte. |
+| `Orientation` | `OmniOrientation` | `Horizontal` | Direction du filet lui-même, pas de la pile qui le porte : `Horizontal` court sur la largeur et sépare des blocs empilés, `Vertical` court sur la hauteur et sépare des blocs côte à côte. |
 
 - **Balisage** : un seul `div` avec `role="separator"` et `aria-orientation` (`horizontal` ou `vertical`), sans contenu ni style en ligne. Un `div` plutôt qu'un `hr` : l'`hr` apporte ses marges et sa bordure, qu'un filet vertical devrait défaire, et un seul élément garde le balisage, l'état ARIA et le style identiques dans les deux sens. `Id`, `Class`, `PresetName` et les attributs supplémentaires de `OmniComponentBase` passent sur cet élément. Une valeur hors de l'énumération est dessinée à l'horizontale.
 - **Espacement** : le séparateur n'a aucune marge ; c'est l'écart (`Gap`) de la pile qui le porte qui l'espace du bloc précédent et du suivant. Il s'étire sur l'axe transversal de la pile (`align-self: stretch`) et ne rétrécit pas sur l'axe principal.
