@@ -426,6 +426,48 @@ public sealed class AppearanceStateTests : OmniBunitContext
         }
     }
 
+    [Fact]
+    public async Task One_window_action_that_changes_several_settings_writes_the_preference_once()
+    {
+        UseStore();
+        var host = Render<AppearanceStateTestHost>(parameters => parameters.Add(component => component.WindowOpen, true));
+        host.Find("#host-window .omni-appearance-window__mode[title='Sombre']").Click();
+        host.Find("#host-window select[aria-label='Thème']").Change(ThemeOption("Givre"));
+        host.WaitForAssertion(() => Assert.Equal(2, _store.Saved.Count));
+
+        host.Find("#host-window .omni-appearance-window__reset").Click();
+
+        // Back to the defaults is two settings changed (mode and theme) and one write, not one per setting.
+        host.WaitForAssertion(() => Assert.Equal(OmniAppearance.System, State.Appearance));
+        await Task.Delay(100, Xunit.TestContext.Current.CancellationToken);
+        Assert.Equal(3, _store.Saved.Count);
+        Assert.Equal("System", JsonDocument.Parse(StoredJson!).RootElement.GetProperty("appearance").GetString());
+    }
+
+    [Fact]
+    public async Task A_preference_that_cannot_be_written_keeps_the_look_for_the_session_instead_of_failing_the_click()
+    {
+        // A scope that is neither empty nor valid makes the preference service refuse every use.
+        _store.Scope = "  ";
+        UseStore();
+
+        await State.SetAppearanceAsync(OmniAppearance.Dark);
+
+        Assert.Equal(OmniAppearance.Dark, State.Appearance);
+        Assert.Null(StoredJson);
+    }
+
+    [Fact]
+    public async Task A_browser_that_refuses_the_cache_keeps_the_look_for_the_session_instead_of_failing_the_click()
+    {
+        UseStore();
+        PreferencesModule.SetupVoid("set", _ => true).SetException(new JSException("quota"));
+
+        await State.SetAppearanceAsync(OmniAppearance.Dark);
+
+        Assert.Equal(OmniAppearance.Dark, State.Appearance);
+    }
+
     /// <summary>A store whose reads of one key wait until the test releases them.</summary>
     private sealed class GatedPreferenceStore(MemoryPreferenceStore inner) : IOmniPreferenceStore
     {
