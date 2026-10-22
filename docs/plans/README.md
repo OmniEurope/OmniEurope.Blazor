@@ -19,6 +19,7 @@ structurelles ; un plan décrit un travail, pas l'état du produit.
 | Plan | Travail restant | ADR |
 |---|---|---|
 | [PLAN-001](PLAN-001-reliquats-audit-et-retours-ui.md) | Plan unique depuis le 2026-10-12 : reliquats vérifiés de la première série, audit ciblé du 2026-10-11, défauts d'interface reproduits à partir des retours récurrents des applications ; annexe [classement des retours](PLAN-001-annexe-ret003.md) | Sans ADR supplémentaire |
+| [PLAN-002](PLAN-002-homogeneite-1-9-0.md) | Homogénéité de l'API publique, défauts et durcissements de l'audit du 2026-10-22, livrés en 1.9.0 (ruptures assumées) | Sans ADR supplémentaire |
 
 ## Archives
 
