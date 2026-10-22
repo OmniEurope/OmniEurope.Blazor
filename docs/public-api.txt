@@ -921,6 +921,9 @@ field public static OmniEurope.Blazor.Components.OmniSpacing.None : OmniEurope.B
 field public static OmniEurope.Blazor.Components.OmniSpacing.Small : OmniEurope.Blazor.Components.OmniSpacing const = 2
 field public static OmniEurope.Blazor.Components.OmniSpacing.XLarge : OmniEurope.Blazor.Components.OmniSpacing const = 5
 field public static OmniEurope.Blazor.Components.OmniSpacing.XSmall : OmniEurope.Blazor.Components.OmniSpacing const = 1
+field public static OmniEurope.Blazor.Components.OmniSpreadsheetData.MaxCells : System.Int32 const = 250000
+field public static OmniEurope.Blazor.Components.OmniSpreadsheetData.MaxColumns : System.Int32 const = 500
+field public static OmniEurope.Blazor.Components.OmniSpreadsheetData.MaxRows : System.Int32 const = 10000
 field public static OmniEurope.Blazor.Components.OmniSpreadsheetValue.CircularError : System.String const = "#CIRC!"
 field public static OmniEurope.Blazor.Components.OmniSpreadsheetValue.DivisionByZeroError : System.String const = "#DIV/0!"
 field public static OmniEurope.Blazor.Components.OmniSpreadsheetValue.NameError : System.String const = "#NAME?"
@@ -1391,13 +1394,6 @@ method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.CollapseAllTreeRo
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.EditRowAsync(TItem item) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExpandAllTreeRowsAsync() : System.Threading.Tasks.Task
-method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.GetColumnAutoFitTexts(System.String key) : System.String[]?
-method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnColumnAutoFitAsync(System.String key, System.Double width) : System.Threading.Tasks.Task
-method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnColumnDroppedAsync(System.String key, System.String targetKey, System.Boolean after) : System.Threading.Tasks.Task
-method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnColumnResizedAsync(System.String key, System.Double width) : System.Threading.Tasks.Task
-method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnContentResizedAsync() : System.Threading.Tasks.Task
-method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnHorizontalScrollChangedAsync(System.Boolean scrolled) : System.Threading.Tasks.Task
-method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnViewportChangedAsync(System.Double scrollTop, System.Double viewportHeight) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.RefreshAsync() : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ReloadAsync() : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ResetLayoutAsync() : System.Threading.Tasks.Task
@@ -1430,7 +1426,6 @@ method public OmniEurope.Blazor.Components.OmniDataGridSort.<Clone>$() : OmniEur
 method public OmniEurope.Blazor.Components.OmniDataGridSort.Deconstruct(out System.String Key, out System.Boolean Descending) : System.Void
 method public OmniEurope.Blazor.Components.OmniDataGridSort.Equals(OmniEurope.Blazor.Components.OmniDataGridSort? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniDataList<TItem>.DisposeAsync() : System.Threading.Tasks.ValueTask
-method public OmniEurope.Blazor.Components.OmniDataList<TItem>.OnViewportChangedAsync(System.Double scrollTop, System.Double viewportHeight) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniDataList<TItem>.ReloadAsync() : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniDialog.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniDialogRequest.<Clone>$() : OmniEurope.Blazor.Components.OmniDialogRequest
@@ -1532,7 +1527,6 @@ method public OmniEurope.Blazor.Components.OmniLogLine.Deconstruct(out System.St
 method public OmniEurope.Blazor.Components.OmniLogLine.Equals(OmniEurope.Blazor.Components.OmniLogLine? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniLogViewer.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniLogViewer.JumpToLatestAsync() : System.Threading.Tasks.Task
-method public OmniEurope.Blazor.Components.OmniLogViewer.OnViewportChangedAsync(System.Double scrollTop, System.Double viewportHeight, System.Boolean atBottom, System.Boolean following) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniMailRenderOptions.<Clone>$() : OmniEurope.Blazor.Components.OmniMailRenderOptions
 method public OmniEurope.Blazor.Components.OmniMailRenderOptions.Equals(OmniEurope.Blazor.Components.OmniMailRenderOptions? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniMailRenderResult.<Clone>$() : OmniEurope.Blazor.Components.OmniMailRenderResult
@@ -2875,6 +2869,7 @@ property public OmniEurope.Blazor.Components.OmniGantt.ShowGroups : System.Boole
 property public OmniEurope.Blazor.Components.OmniGantt.ShowToday : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniGantt.ShowViewPicker : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniGantt.Tasks : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniGanttTask> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniGantt.TimeZone : System.TimeZoneInfo {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniGantt.Value : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniGantt.ValueChanged : Microsoft.AspNetCore.Components.EventCallback<System.String?> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniGantt.View : OmniEurope.Blazor.Components.OmniCalendarView {get(public);set(public)} [Parameter]
