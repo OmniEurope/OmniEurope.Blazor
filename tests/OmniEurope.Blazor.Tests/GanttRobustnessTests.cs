@@ -79,13 +79,30 @@ public sealed class GanttRobustnessTests : OmniBunitContext
     [InlineData(OmniCalendarView.Day)]
     [InlineData(OmniCalendarView.Week)]
     [InlineData(OmniCalendarView.Month)]
-    public void DatesAtTheEdgeOfTheCalendar_AreRefusedWithAClearMessageNotACalendarOverflow(OmniCalendarView scale)
+    public void DatesAtTheEdgeOfTheCalendar_DrawWithTheAxisSaturatedAtTheCalendarLimits(OmniCalendarView scale)
     {
-        var low = Assert.Throws<ArgumentException>(() => Build(scale, Task("low", DateOnly.MinValue, DateOnly.MinValue.AddDays(1))));
-        var high = Assert.Throws<ArgumentException>(() => Build(scale, Task("high", DateOnly.MaxValue.AddDays(-1), DateOnly.MaxValue)));
+        var low = Build(scale, Task("low", DateOnly.MinValue, DateOnly.MinValue.AddDays(1)));
+        var high = Build(scale, Task("high", DateOnly.MaxValue.AddDays(-1), DateOnly.MaxValue));
 
-        Assert.Equal("tasks", low.ParamName);
-        Assert.Equal("tasks", high.ParamName);
+        Assert.Equal(DateOnly.MinValue, low.RangeStart);
+        Assert.Equal(DateOnly.MaxValue, high.RangeEnd);
+        foreach (var layout in new[] { low, high })
+        {
+            var bar = Assert.Single(layout.Rows).Bar!;
+            Assert.True(bar.X >= 0 && bar.Width > 0, $"bar {bar.X} + {bar.Width}");
+            Assert.True(bar.X + bar.Width <= layout.Width, $"bar ends at {bar.X + bar.Width}, chart is {layout.Width} wide");
+            Assert.All(layout.TopTier.Concat(layout.BottomTier), cell => Assert.True(cell.X >= 0 && cell.X + cell.Width <= layout.Width));
+        }
+    }
+
+    [Fact]
+    public void TheComponent_RendersTasksOnTheFirstAndTheLastDaysOfTheCalendar()
+    {
+        var chart = Render<OmniGantt>(parameters => parameters
+            .Add(component => component.View, OmniCalendarView.Week)
+            .Add(component => component.Tasks, [Task("high", DateOnly.MaxValue.AddDays(-3), DateOnly.MaxValue)]));
+
+        Assert.NotEmpty(chart.FindAll("svg"));
     }
 
     [Fact]

@@ -110,10 +110,11 @@ inclus), `Progress` (0 à 1), `Group`, `DependsOn` (identifiants des tâches à 
 | `Label`, `Culture` | Nom accessible (`string?`, « Diagramme de Gantt » par défaut) et culture (`CultureInfo?`) des mois, numéros et en-têtes de semaine et dates. |
 
 Le graphique refuse, par une `ArgumentException` dont le message nomme le défaut, ce qu'il ne saurait
-dessiner : deux tâches de même `Id` (l'identifiant désigne une tâche pour `Value` et `DependsOn`), des
-dates à moins de 400 jours des bornes du calendrier, et un intervalle de plus de 36 500 jours entre la
+dessiner : deux tâches de même `Id` (l’identifiant désigne une tâche pour `Value` et `DependsOn`) et un intervalle de plus de 36 500 jours entre la
 première et la dernière date (une date de remplacement `0001-01-01` à côté de dates réelles en est la
-cause habituelle : son en-tête compterait des millions de cellules).
+cause habituelle : son en-tête compterait des millions de cellules). Des dates proches des bornes du calendrier
+(`0001-01-01`, `9999-12-31`) se dessinent : l’axe et ses marges s’arrêtent au premier et au dernier jour, et une barre
+qui touche le dernier jour finit au bord du graphique.
 
 L'axe couvre les tâches avec une marge : deux jours avant et deux après au zoom jour, une semaine
 entière de part et d'autre au zoom semaine, les mois entiers au zoom mois. Un jour mesure 32, 14 ou

@@ -78,17 +78,16 @@ internal sealed class GanttLayout
     /// <summary>Distance of a day's left edge from the chart's left edge.</summary>
     internal double X(DateOnly day) => (day.DayNumber - RangeStart.DayNumber) * PixelsPerDay;
 
+    // The right edge of a day, saturated at the end of the axis: the axis stops at the last day of the calendar,
+    // so a day after it does not exist and a bar on that very day ends where the chart does.
+    private double XAfter(DateOnly day) => (Math.Min(day.DayNumber + 1, RangeEnd.DayNumber) - RangeStart.DayNumber) * PixelsPerDay;
+
     /// <summary>Most days between the first and the last day of the tasks: a century. Beyond, a chart is not a chart.</summary>
     internal const int MaximumSpanDays = 36_500;
 
-    // The margin the zooms add around the tasks (two days, two weeks, a month and its year header) stays well
-    // inside this many days of the calendar's limits.
-    private const int EdgeMargin = 400;
-
     /// <summary>
     /// Refuses what no chart can draw, with a message that names the problem: two tasks sharing an identifier
-    /// (the identifier is how <c>Value</c> and <c>DependsOn</c> name a task), dates at the very edge of the
-    /// calendar (the margins would overflow it) and a span so wide that its header alone would be millions
+    /// (the identifier is how <c>Value</c> and <c>DependsOn</c> name a task) and a span so wide that its header alone would be millions
     /// of cells (a placeholder date such as 0001-01-01 next to real ones).
     /// </summary>
     private static void Validate(IReadOnlyList<OmniGanttTask> tasks, DateOnly first, DateOnly last)
@@ -107,13 +106,6 @@ internal sealed class GanttLayout
         if (tasks.Count == 0)
         {
             return;
-        }
-
-        if (first.DayNumber < DateOnly.MinValue.DayNumber + EdgeMargin || last.DayNumber > DateOnly.MaxValue.DayNumber - EdgeMargin)
-        {
-            throw new ArgumentException(
-                $"A task date ({first:yyyy-MM-dd} to {last:yyyy-MM-dd}) lies within {EdgeMargin} days of the limits of the calendar: it is a placeholder, not a date to draw.",
-                nameof(tasks));
         }
 
         var span = last.DayNumber - first.DayNumber;
@@ -191,7 +183,7 @@ internal sealed class GanttLayout
         {
             var members = group.ToArray();
             var x = X(members.Min(Earliest));
-            var width = X(members.Max(Latest).AddDays(1)) - x;
+            var width = XAfter(members.Max(Latest)) - x;
             var top = HeaderHeight + (Rows.Count * RowHeight);
             var bar = new GanttBar(x, top + ((RowHeight - SummaryHeight) / 2), width, SummaryHeight, 0, false);
             Rows.Add(new GanttRow(top, group.Key, null, bar, true));
@@ -206,7 +198,7 @@ internal sealed class GanttLayout
     {
         var top = HeaderHeight + (Rows.Count * RowHeight);
         var x = X(Earliest(task));
-        var width = X(Latest(task).AddDays(1)) - x;
+        var width = XAfter(Latest(task)) - x;
         var progress = double.IsFinite(task.Progress) ? Math.Clamp(task.Progress, 0, 1) : 0;
         var fits = (task.Title.Length * CharacterWidth) + (LabelPadding * 2) <= width;
         Rows.Add(new GanttRow(top, task.Title, task, new GanttBar(x, top + ((RowHeight - BarHeight) / 2), width, BarHeight, width * progress, fits), false));
