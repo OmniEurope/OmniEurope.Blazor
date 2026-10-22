@@ -135,4 +135,17 @@ public sealed class GanttRobustnessTests : OmniBunitContext
     {
         public override DateTimeOffset GetUtcNow() => now;
     }
+
+    [Fact]
+    public void ASpanOfSeveralCenturies_IsRefusedWithAMessageThatNamesTheDates()
+    {
+        var error = Assert.Throws<ArgumentException>(() => Build(
+            OmniCalendarView.Month,
+            Task("a", new(2000, 1, 1), new(2000, 1, 5)),
+            Task("b", new(2200, 1, 1), new(2200, 1, 5))));
+
+        Assert.Equal("tasks", error.ParamName);
+        Assert.Contains("2000-01-01", error.Message, StringComparison.Ordinal);
+        Assert.Contains("2200-01-05", error.Message, StringComparison.Ordinal);
+    }
 }

@@ -270,4 +270,71 @@ public sealed class DataGridRobustnessTests : OmniBunitContext
             CultureInfo.CurrentCulture = previous;
         }
     }
+
+    // ---- the bridge the scripts call ---------------------------------------------------------------------
+
+    [Fact]
+    public async Task TheBridge_ForwardsEachCallbackOfTheScriptsToTheGrid()
+    {
+        var resized = new List<OmniDataGridColumnWidthChange>();
+        var grid = Render<OmniDataGrid<Row>>(parameters => parameters
+            .Add(component => component.Items, Rows)
+            .Add(component => component.Columns, Columns())
+            .Add(component => component.AllowColumnResize, true)
+            .Add(component => component.AllowColumnReorder, true)
+            .Add(component => component.AllowColumnAutoFit, true)
+            .Add(component => component.OnColumnResize, change => resized.Add(change)));
+        var bridge = new GridInteropBridge<Row>(grid.Instance);
+
+        await grid.InvokeAsync(async () =>
+        {
+            await bridge.OnHorizontalScrollChangedAsync(true);
+            await bridge.OnContentResizedAsync();
+            await bridge.OnViewportChangedAsync(0d, 300d);
+            await bridge.OnColumnAutoFitAsync("Name", 120d);
+            await bridge.OnColumnResizedAsync("Name", 140d);
+            await bridge.OnColumnDroppedAsync("Name", "Amount", true);
+        });
+
+        Assert.NotNull(bridge.GetColumnAutoFitTexts("Name"));
+        Assert.Contains(resized, change => change.Width == "140px");
+    }
+
+    [Fact]
+    public async Task TheListAndLogViewerBridges_ForwardTheViewportToTheirComponent()
+    {
+        var calls = new List<string>();
+        await new ListInteropBridge((top, height) =>
+        {
+            calls.Add($"list {top} {height}");
+            return Task.CompletedTask;
+        }).OnViewportChangedAsync(1d, 2d);
+        await new LogViewerInteropBridge((top, height, atBottom, following) =>
+        {
+            calls.Add($"log {top} {height} {atBottom} {following}");
+            return Task.CompletedTask;
+        }).OnViewportChangedAsync(3d, 4d, true, false);
+
+        Assert.Equal(["list 1 2", "log 3 4 True False"], calls);
+    }
+
+    [Fact]
+    public async Task ADetachOfTheViewportThatFails_DoesNotKeepTheModuleLoaded()
+    {
+        var runtime = new ManualJSRuntime();
+        Services.AddSingleton<IJSRuntime>(runtime);
+        var grid = Render<OmniDataGrid<int>>(parameters => parameters
+            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
+            .Add(component => component.EstimatedRowHeight, 40d)
+            .Add(component => component.Load, request =>
+                Task.FromResult(new OmniDataGridResult<int>(Enumerable.Range(request.Skip, request.Top).ToArray(), 5_000))));
+        await grid.InvokeAsync(() => { });
+        Assert.Contains("attach", runtime.Module.Calls);
+        runtime.Module.CallFailures["detach"] = new JSException("detach failed");
+
+        await grid.Instance.DisposeAsync();
+
+        Assert.Contains("detach", runtime.Module.Calls);
+        Assert.True(runtime.Module.Disposal.Task.IsCompleted);
+    }
 }

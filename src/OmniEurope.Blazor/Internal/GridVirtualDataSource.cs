@@ -169,9 +169,13 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
 
     private void CancelOutside(int firstBlock, int lastBlock)
     {
-        foreach (var block in _inFlight.Keys.Where(block => block < firstBlock || block > lastBlock).ToArray())
+        foreach (var (block, entry) in _inFlight.ToArray())
         {
-            var entry = _inFlight[block];
+            if (block >= firstBlock && block <= lastBlock)
+            {
+                continue;
+            }
+
             _inFlight.Remove(block);
             entry.Cancel();
         }

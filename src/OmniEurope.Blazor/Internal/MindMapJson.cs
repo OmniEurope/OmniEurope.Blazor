@@ -201,11 +201,15 @@ internal static class MindMapJson
         return number is >= int.MinValue and <= int.MaxValue ? (int)number : fallback;
     }
 
-    // GetDouble throws a FormatException on a number past the range of a double: the documented failure is a JsonException.
-    private static double Finite(JsonElement value, string name) =>
-        value.TryGetDouble(out var number) && double.IsFinite(number)
+    // A number past the range of a double reads as an infinity, which no map position or size can be: the
+    // documented failure is a JsonException, not an infinite coordinate that breaks the layout.
+    private static double Finite(JsonElement value, string name)
+    {
+        var number = value.GetDouble();
+        return double.IsFinite(number)
             ? number
             : throw new JsonException($"The value of '{name}' is not a number a map can hold.");
+    }
 
     private static bool Boolean(JsonElement element, string name) =>
         element.TryGetProperty(name, out var value) && value.ValueKind == JsonValueKind.True;

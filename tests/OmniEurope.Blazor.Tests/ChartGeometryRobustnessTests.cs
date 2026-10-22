@@ -117,4 +117,24 @@ public sealed class ChartGeometryRobustnessTests : OmniBunitContext
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
+
+    [Fact]
+    public void AreaPoints_CloseTheShapeOnTheFirstAndLastFinitePoints()
+    {
+        OmniChartPoint[] points = [new(double.NaN, 1), new(0, 1), new(4, 3), new(5, double.NaN)];
+
+        var area = OmniChartGeometry.AreaPoints(points);
+
+        Assert.Equal(OmniChartGeometry.AreaPoints([new(0, 1), new(4, 3)]), area);
+    }
+
+    [Fact]
+    public void TheDataLabels_WithoutAChart_ProjectEachPointOverTheSameRange()
+    {
+        var labels = Render<OmniSeriesDataLabels>(parameters => parameters
+            .Add(component => component.Data, new OmniChartPoint[] { new(0, 1), new(1, 3), new(2, 2) }));
+
+        Assert.NotEmpty(labels.FindAll("text"));
+        Assert.DoesNotContain("NaN", labels.Markup, StringComparison.Ordinal);
+    }
 }

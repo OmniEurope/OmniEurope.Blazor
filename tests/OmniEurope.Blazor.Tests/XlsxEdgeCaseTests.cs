@@ -127,4 +127,37 @@ public sealed class XlsxEdgeCaseTests
 
         Assert.Equal("1850-06-01", cell.Value);
     }
+
+    [Fact]
+    public void ATextPastTheLimitOfACell_WithNoPairAtTheCut_IsCutExactlyAtTheLimit()
+    {
+        var value = Cell(OmniTableExporter.ToXlsx(Single(new OmniTableExportCell(new string('a', 40_000)))), "A2").Value;
+
+        Assert.Equal(32_767, value.Length);
+    }
+
+    [Fact]
+    public void ADateBeforeTheSpreadsheetCalendar_WithATimeOfDay_IsWrittenWithItsTime()
+    {
+        var cell = Cell(OmniTableExporter.ToXlsx(Single(new OmniTableExportCell(string.Empty) { Date = new DateTimeOffset(1850, 6, 1, 14, 30, 0, TimeSpan.Zero) })), "A2");
+
+        Assert.Equal("1850-06-01 14:30", cell.Value);
+    }
+
+    [Fact]
+    public void ACellWithANumber_KeepsItsNumber_EvenWithAnEarlyDate()
+    {
+        var cell = Cell(OmniTableExporter.ToXlsx(Single(new OmniTableExportCell(string.Empty) { Number = 5m, Date = new DateTimeOffset(1850, 6, 1, 0, 0, 0, TimeSpan.Zero) })), "A2");
+
+        Assert.Equal("5", cell.Element(Main + "v")?.Value ?? cell.Value);
+    }
+
+    [Fact]
+    public void ARecentDateWithoutText_StaysADate()
+    {
+        var cell = Cell(OmniTableExporter.ToXlsx(Single(new OmniTableExportCell(string.Empty) { Date = new DateTimeOffset(2000, 1, 1, 0, 0, 0, TimeSpan.Zero) })), "A2");
+
+        Assert.Null(cell.Attribute("t"));
+        Assert.Equal("36526", cell.Element(Main + "v")!.Value);
+    }
 }
