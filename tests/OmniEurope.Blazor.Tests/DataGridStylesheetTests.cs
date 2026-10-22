@@ -12,4 +12,29 @@ public sealed class DataGridStylesheetTests
 
         Assert.Equal("var(--omni-grid-row-estimate)", ShippedLookTests.Value(grid, "--omni-row-height"));
     }
+
+    [Theory]
+    [InlineData(".omni-data-grid__icon-button")]
+    [InlineData(".omni-data-grid__filter-menu-toggle")]
+    public void HeaderControls_AreAtLeast24PixelsWide_AndTall_WhateverTheDensity(string selector)
+    {
+        // WCAG 2.2 AA 2.5.8: the padding of the density alone made a compact one 20 px high.
+        var body = ShippedLookTests.Body(selector);
+
+        Assert.Equal("1.5rem", ShippedLookTests.Value(body, "min-block-size"));
+        Assert.Equal("1.5rem", ShippedLookTests.Value(body, "min-inline-size"));
+    }
+
+    [Fact]
+    public void FilterMenuToggle_CountsItsPaddingInsideTheMinimum()
+    {
+        // A summary is content-box: without it the 24 px floor came out as 32 px once the padding was added.
+        Assert.Equal("border-box", ShippedLookTests.Value(ShippedLookTests.Body(".omni-data-grid__filter-menu-toggle"), "box-sizing"));
+    }
+
+    [Fact]
+    public void RowActions_KeepTheSquareOfTheStatusBadges()
+    {
+        Assert.Equal("0", ShippedLookTests.Value(ShippedLookTests.Body(".omni-data-grid__row > td .omni-data-grid__icon-button"), "min-block-size"));
+    }
 }
