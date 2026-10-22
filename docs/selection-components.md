@@ -187,8 +187,10 @@ radio ne dessine jamais de case. Le survol penche le cadre et le fond vers l'acc
 - `OmniSlider` expose `Orientation` (`OmniOrientation` : `Horizontal` par défaut, `Vertical`), `Minimum`, `Maximum`, `Step`, valeur ARIA et `aria-invalid`. `SelectableMinimum` (nul par défaut) place le plus petit
   choix au-dessus de `Minimum` : la piste part de `Minimum`, donc le curseur est à sa vraie proportion (5 sur une échelle de 0 à 10 est au milieu),
   mais un glissement ou une touche sous cette valeur est ramené à elle (`ValueChanged` et `OnValueCommit` ne la dépassent jamais vers le bas) et
-  `aria-valuemin` annonce la valeur qui peut être choisie. Une valeur sous `SelectableMinimum`, ou un `SelectableMinimum` hors de `Minimum` et
-  `Maximum`, lève `ArgumentOutOfRangeException`. La fenêtre d’apparence s’en sert pour ses curseurs de taille (échelle 0 à 10, niveaux 1 à 10). `ValueChanged` suit chaque pas du
+  `aria-valuemin` annonce la valeur qui peut être choisie. Une valeur hors des bornes (sous `SelectableMinimum` ou `Minimum`, au-dessus de
+  `Maximum`, ou qui n’est pas un nombre) se dessine et s’annonce à la borne la plus proche, comme `OmniProgressBar`, et le modèle garde sa valeur tant que
+  l’utilisateur ne bouge pas le curseur. Une configuration fausse (`Maximum` sous `Minimum`, `Step` nul ou négatif, `SelectableMinimum` hors de
+  `Minimum` et `Maximum`) lève toujours `ArgumentOutOfRangeException`. La fenêtre d’apparence s’en sert pour ses curseurs de taille (échelle 0 à 10, niveaux 1 à 10). `ValueChanged` suit chaque pas du
   glissement ; `OnValueCommit` est levé une seule fois au relâchement, avec la valeur finale (recherche
   d'une position dans un média), et sans lui aucun gestionnaire `change` n'est posé.
 - `OmniColorPicker` accepte exclusivement le format hexadécimal `#RRGGBB` sans générer de style inline.

@@ -202,8 +202,6 @@ public sealed class SelectionEdgeTests : OmniBunitContext
     [InlineData(double.NaN, 100d, 1d, 0d)]
     [InlineData(0d, double.PositiveInfinity, 1d, 0d)]
     [InlineData(0d, 100d, double.NaN, 0d)]
-    [InlineData(0d, 100d, 1d, double.NaN)]
-    [InlineData(0d, 100d, 1d, -1d)]
     public void Slider_InvalidSettings_AreRefused(double minimum, double maximum, double step, double value) =>
         Assert.Throws<ArgumentOutOfRangeException>(() => Render<OmniSlider>(parameters => parameters
             .Add(component => component.Minimum, minimum)

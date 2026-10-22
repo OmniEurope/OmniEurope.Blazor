@@ -247,8 +247,7 @@ public sealed class SelectionComponentTests : OmniBunitContext
     [InlineData(2, 10, 1, 5)]
     [InlineData(0, 10, double.NaN, 5)]
     [InlineData(0, 10, 11, 5)]
-    [InlineData(0, 10, 2, 1)]
-    public void Slider_RejectsASelectableMinimumOutsideTheScaleAndAValueBelowIt(double minimum, double maximum, double selectable, double value)
+    public void Slider_RejectsASelectableMinimumOutsideTheScale(double minimum, double maximum, double selectable, double value)
     {
         var holder = new SliderHolder { Value = value };
 
@@ -263,8 +262,7 @@ public sealed class SelectionComponentTests : OmniBunitContext
     [Theory]
     [InlineData(10, 0, 1, 5)]
     [InlineData(0, 10, 0, 5)]
-    [InlineData(0, 10, 1, 11)]
-    public void Slider_RejectsInvalidBoundsStepAndInitialValue(double minimum, double maximum, double step, double value)
+    public void Slider_RejectsInvalidBoundsAndStep(double minimum, double maximum, double step, double value)
     {
         var holder = new SliderHolder { Value = value };
 
@@ -274,6 +272,35 @@ public sealed class SelectionComponentTests : OmniBunitContext
             .Add(component => component.Step, step)
             .Add(component => component.Value, holder.Value)
             .Add(component => component.ValueExpression, () => holder.Value)));
+    }
+
+    [Theory]
+    [InlineData(null, 11d, "10")]
+    [InlineData(null, -3d, "0")]
+    [InlineData(2d, 1d, "2")]
+    [InlineData(null, double.NaN, "0")]
+    [InlineData(null, double.PositiveInfinity, "10")]
+    public void Slider_DrawsAValueOutsideItsBoundsAtTheNearestOneAndLeavesTheModelAlone(double? selectable, double value, string drawn)
+    {
+        var holder = new SliderHolder { Value = value };
+        var steps = new List<double>();
+        var slider = Render<OmniSlider>(parameters => parameters
+            .Add(component => component.Minimum, 0)
+            .Add(component => component.Maximum, 10)
+            .Add(component => component.SelectableMinimum, selectable)
+            .Add(component => component.Value, holder.Value)
+            .Add(component => component.ValueExpression, () => holder.Value)
+            .Add(component => component.ValueChanged, step => steps.Add(step)));
+
+        var input = slider.Find("input");
+        Assert.Equal(drawn, input.GetAttribute("value"));
+        Assert.Equal(drawn, input.GetAttribute("aria-valuenow"));
+        Assert.Equal(drawn, slider.Find("output").TextContent);
+        Assert.Empty(steps);
+
+        input.Input("4");
+
+        Assert.Equal([4d], steps);
     }
 
     [Fact]

@@ -65,7 +65,11 @@ public partial class OmniSlider
 
     private double LowestSelectable => SelectableMinimum ?? Minimum;
     private string OrientationText => Orientation == OmniOrientation.Vertical ? "vertical" : "horizontal";
-    private string ValueText => FormatValue?.Invoke(CurrentValue) ?? CurrentValue.ToString(CultureInfo.CurrentCulture);
+    // A value outside the selectable bounds is drawn and announced at the nearest one, as the progress bar does;
+    // the bound model keeps its value until the reader moves the thumb. A value that is not a number sits at the bottom.
+    private double DisplayValue => double.IsNaN(Value) ? LowestSelectable : Math.Clamp(Value, LowestSelectable, Maximum);
+    private string DisplayValueAsString => Format(DisplayValue);
+    private string ValueText => FormatValue?.Invoke(DisplayValue) ?? DisplayValue.ToString(CultureInfo.CurrentCulture);
     private static string Format(double value) => value.ToString(System.Globalization.CultureInfo.InvariantCulture);
     private void HandleInput(string? text)
     {
@@ -99,11 +103,10 @@ public partial class OmniSlider
             ? OnValueCommit.InvokeAsync(value)
             : Task.CompletedTask;
 
-    /// <summary>Checks the bounds, the step and the value.</summary>
+    /// <summary>Checks the bounds and the step. A value outside them is drawn at the nearest bound, not refused.</summary>
     /// <exception cref="ArgumentOutOfRangeException">
     /// A bound is not finite or <see cref="Maximum"/> is below <see cref="Minimum"/>; <see cref="Step"/> is not
-    /// finite and positive; <see cref="SelectableMinimum"/> is not finite or lies outside the bounds; or the value is
-    /// not finite or lies outside the selectable bounds.
+    /// finite and positive; or <see cref="SelectableMinimum"/> is not finite or lies outside the bounds.
     /// </exception>
     protected override void OnParametersSet()
     {
@@ -119,10 +122,6 @@ public partial class OmniSlider
         if (SelectableMinimum is { } lowest && (!double.IsFinite(lowest) || lowest < Minimum || lowest > Maximum))
         {
             throw new ArgumentOutOfRangeException(nameof(SelectableMinimum), "SelectableMinimum must be finite and within Minimum and Maximum.");
-        }
-        if (!double.IsFinite(Value) || Value < LowestSelectable || Value > Maximum)
-        {
-            throw new ArgumentOutOfRangeException(nameof(Value), "Value must be finite and within the slider bounds.");
         }
     }
 

@@ -18,11 +18,11 @@
            aria-orientation="@OrientationText"
            aria-valuemin="@Format(LowestSelectable)"
            aria-valuemax="@Format(Maximum)"
-           aria-valuenow="@Format(CurrentValue)"
+           aria-valuenow="@DisplayValueAsString"
            aria-valuetext="@ValueText"
            aria-invalid="@AriaInvalid"
            aria-describedby="@AriaDescribedBy"
-           @bind:get="CurrentValueAsString"
+           @bind:get="DisplayValueAsString"
            @bind:set="HandleInput"
            @bind:event="oninput"
            @onchange="ChangeCallback" />

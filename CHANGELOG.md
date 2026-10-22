@@ -33,6 +33,7 @@ Version mineure à ruptures assumées : l'API publique est rendue homogène (un 
 
 ### Changed
 
+- `OmniSlider` ne lève plus pour une valeur hors bornes : elle se dessine et s'annonce (`value`, `aria-valuenow`, valeur affichée) à la borne la plus proche, comme `OmniProgressBar`, sans écrire dans le modèle tant que l'utilisateur ne bouge pas le curseur. Une configuration fausse (`Maximum` sous `Minimum`, `Step` nul ou négatif, `SelectableMinimum` hors de l'échelle) lève toujours `ArgumentOutOfRangeException`.
 - `OmniDiffViewer.ReadOnly` reste `true` par défaut, seule exception au défaut `false` de `ReadOnly` (une comparaison est d'abord une vue), documentée dans [docs/public-api-conventions.md](docs/public-api-conventions.md).
 - `OmniFill` documente le défaut propre à chaque composant (`OmniAlert` `Outline`, `OmniBadge` `Solid`, `OmniStatus` `Tonal`).
 - Un seul chargeur Monaco partagé dans le paquet pour `OmniCodeEditor` et `OmniDiffViewer` (refonte interne, aucune API ne change) ; un seul corps rendu pour `OmniStatTile` ; une seule règle de neutralisation des formules de tableur pour les exports CSV et Excel. Les quatre menus (`OmniOverflowMenu`, `OmniContextMenu`, `OmniProfileMenu`, `OmniSplitButton`) partagent un seul contrôleur pour leur portail et leur état ouvert ; `omni-focus.js` est découpé par rôle (dialogue, popover, sélecteur, volets dépliables), ses exports inchangés.
