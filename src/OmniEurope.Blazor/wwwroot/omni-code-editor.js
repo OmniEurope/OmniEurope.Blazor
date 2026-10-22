@@ -9,7 +9,7 @@
 //
 // Events of the editor reach .NET through the package's notify: a call that a lost circuit or a
 // released component rejects is dropped, nothing is left unhandled.
-import { notify } from './focus/shared.js';
+import { notify } from './shared/notify.js';
 
 const editors = new WeakMap();
 const statesByModel = new WeakMap();
