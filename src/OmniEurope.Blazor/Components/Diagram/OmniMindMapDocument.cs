@@ -45,7 +45,7 @@ public sealed record OmniMindMapDocument
     /// label, <see cref="OmniMindMapGroups.Root"/> group, position 0, font size 14); nodes without a
     /// string identifier and links without two string ends are dropped, as that editor dropped them.
     /// </summary>
-    /// <exception cref="JsonException">The text is not a JSON object.</exception>
+    /// <exception cref="JsonException">The text is not a JSON object, a number is beyond what a double holds, or a list has more than 50 000 entries.</exception>
     public static OmniMindMapDocument FromJson(string json)
     {
         ArgumentNullException.ThrowIfNull(json);
