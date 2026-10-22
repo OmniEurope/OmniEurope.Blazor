@@ -10,15 +10,8 @@
              Open="@IsOpen" OpenChanged="SetOpenAsync"
              Label="@EffectiveLabel" PopupLabel="@EffectiveLabel" TriggerTitle="@EffectiveLabel"
              TriggerVariant="@(UserName is null ? OmniButtonVariant.Ghost : OmniButtonVariant.Primary)"
-             TriggerClass="omni-app-menu__trigger" Disabled="Disabled">
-    <TriggerContent>
-        <OmniIcon Name="@(UserName is null ? OmniIconName.Sliders : OmniIconName.User)" />
-        @if (UserName is not null)
-        {
-            <span class="omni-app-menu__trigger-name">@UserName</span>
-            <OmniIcon Name="@(IsOpen ? OmniIconName.ChevronUp : OmniIconName.ChevronDown)" />
-        }
-    </TriggerContent>
+             TriggerClass="omni-app-menu__trigger" Disabled="Disabled" TriggerContent="@TriggerText">
+    <TriggerIcon><OmniIcon Name="@(UserName is null ? OmniIconName.Sliders : OmniIconName.User)" /></TriggerIcon>
     <ChildContent>
         <div class="omni-app-menu__card">
             @if (UserName is not null)

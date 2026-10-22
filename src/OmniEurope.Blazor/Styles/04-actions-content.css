@@ -61,13 +61,13 @@
 .omni-split-button--large { --omni-button-size: calc(var(--omni-control-height) + 0.5rem); --omni-button-padding-inline: var(--omni-space-xl); --omni-button-font-size: var(--omni-font-size-lg); }
 /* Letter spacing adds its width after the last letter too, which pushes the label visibly off
    centre in a widely tracked theme: the end padding gives that width back. No block padding: the
-   height is the density's control height, which a padding around the icon pushed past in compact. */
-.omni-button { font-size: var(--omni-button-font-size, var(--omni-control-font)); min-height: var(--omni-button-size, var(--omni-control-height)); padding-block: 0; padding-inline: var(--omni-button-padding-inline, var(--omni-button-pad-x)) calc(var(--omni-button-padding-inline, var(--omni-button-pad-x)) - var(--omni-button-letter-spacing, 0em)); }
+   height is the density's control height, which a padding around the icon pushed past in compact. WCAG 2.2 AA 2.5.8: a button stands 24 px at least (the 1.5rem floor, which scales with the text), whatever its size and the density; a small button keeps its smaller text and padding. */
+.omni-button { font-size: var(--omni-button-font-size, var(--omni-control-font)); min-height: max(1.5rem, var(--omni-button-size, var(--omni-control-height))); padding-block: 0; padding-inline: var(--omni-button-padding-inline, var(--omni-button-pad-x)) calc(var(--omni-button-padding-inline, var(--omni-button-pad-x)) - var(--omni-button-letter-spacing, 0em)); }
 .omni-button--small .omni-button__content { gap: var(--omni-space-xs); }
 .omni-button--small { --omni-icon-size: 1rem; }
-/* Icon-only: an icon and no content (the Icon parameter alone) draws the button square. One class, after
+/* Icon-only: an icon and no content (the Icon parameter alone) draws the button square, 24 px at least. One class, after
    .omni-button, so a host class that resizes its buttons still wins. */
-.omni-button--icon { min-inline-size: var(--omni-button-size, var(--omni-control-height)); padding-inline: 0; }
+.omni-button--icon { min-inline-size: max(1.5rem, var(--omni-button-size, var(--omni-control-height))); padding-inline: 0; }
 .omni-button--primary { --omni-button-fill: var(--omni-color-accent-fill); --omni-button-fill-hover: var(--omni-color-accent-fill-hover); --omni-button-fill-active: var(--omni-color-accent-fill-active); --omni-button-ink: var(--omni-color-on-accent-fill); }
 /* Secondary is a plain grey drawn from the palette's text and surface, with the page text and no
    border: in dark mode a border read as a frame around it. It keeps the theme's relief

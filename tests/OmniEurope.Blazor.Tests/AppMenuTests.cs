@@ -15,6 +15,9 @@ public sealed class AppMenuTests : OmniBunitContext
         var trigger = menu.Find(".omni-app-menu__trigger");
         Assert.Equal("Menu de l’application", trigger.GetAttribute("aria-label"));
         Assert.Empty(menu.FindAll(".omni-app-menu__trigger-name"));
+        // No name: the trigger is its icon alone, square like every icon-only button.
+        Assert.Contains("omni-button--icon", trigger.ClassList);
+        Assert.Single(menu.FindAll(".omni-app-menu__trigger > .omni-button__content > .omni-icon"));
         trigger.Click();
 
         Assert.Empty(menu.FindAll(".omni-app-menu__identity"));
@@ -58,6 +61,9 @@ public sealed class AppMenuTests : OmniBunitContext
             .Add(component => component.UserName, "admin")
             .Add(component => component.AppearanceChanged, _ => { }));
         Assert.Equal("Menu de l’application", menu.Find(".omni-app-menu__trigger").GetAttribute("aria-label"));
+        // With a name, the trigger holds the user icon, the name and the chevron, and is not square.
+        Assert.DoesNotContain("omni-button--icon", menu.Find(".omni-app-menu__trigger").ClassList);
+        Assert.Equal(2, menu.FindAll(".omni-app-menu__trigger .omni-icon").Count);
         menu.Find(".omni-app-menu__trigger").Click();
         Assert.Equal("admin", menu.Find(".omni-app-menu__identity .omni-app-menu__label").TextContent);
     }

@@ -21,9 +21,19 @@ public partial class OmniPopover
     private bool _restoreFocusOnClose;
     private bool _disposed;
 
-    /// <summary>Content of the trigger button: text, an icon, a counter.</summary>
-    [Parameter, EditorRequired]
+    /// <summary>
+    /// Content of the trigger button: its text, a counter. Without it, a trigger that has a
+    /// <see cref="TriggerIcon"/> is an icon-only button, square and named by <see cref="Label"/>.
+    /// </summary>
+    [Parameter]
     public RenderFragment? TriggerContent { get; set; }
+
+    /// <summary>
+    /// Icon of the trigger button, drawn before <see cref="TriggerContent"/>: the trigger's
+    /// <see cref="OmniButton.Icon"/>, in general an <see cref="OmniIcon"/>. None by default.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? TriggerIcon { get; set; }
 
     /// <summary>
     /// Accessible name of the trigger, required when its content is an icon alone; also the tooltip of

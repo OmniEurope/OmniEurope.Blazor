@@ -585,9 +585,23 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
     [Fact]
     public void Stylesheet_EveryActionOfAGridRow_TakesTheBadgeHeight()
     {
-        var rule = ShippedLookTests.Body(".omni-data-grid__row > td :is(.omni-button, .omni-split-button)");
+        var rule = ShippedLookTests.Body(".omni-data-grid__row > td :is(.omni-button, .omni-split-button, .omni-split-button__main, .omni-split-button__toggle)");
         Assert.Equal("var(--omni-badge-height)", ShippedLookTests.Value(rule, "--omni-button-size"));
         Assert.Equal("var(--omni-font-size-sm)", ShippedLookTests.Value(rule, "--omni-button-font-size"));
+        // The 24 px floor of every button stops at the row: the badge height wins over it there.
+        Assert.Equal("var(--omni-badge-height)", ShippedLookTests.Value(rule, "min-height"));
+    }
+
+    [Fact]
+    public void Stylesheet_EveryButtonOutsideAGridRow_IsAtLeast24PxOnBothSidesWhenIconOnly()
+    {
+        // WCAG 2.2 AA 2.5.8: a small button (control height - 0.5rem, 20 px in comfortable, 16 px in compact)
+        // and a compact grid bar button stood under 24 px; the floor holds whatever the size and density.
+        const string floor = "max(1.5rem, var(--omni-button-size, var(--omni-control-height)))";
+        var sized = ShippedLookTests.Rules().Single(rule => rule.Selector == ".omni-button" && rule.Body.Contains("min-height", StringComparison.Ordinal));
+        Assert.Equal(floor, ShippedLookTests.Value(sized.Body, "min-height"));
+        Assert.Equal(floor, ShippedLookTests.Value(ShippedLookTests.Body(".omni-button--icon"), "min-inline-size"));
+        Assert.Equal(floor, ShippedLookTests.Value(ShippedLookTests.Body(".omni-toggle-button:where(:has(> .omni-icon:only-child))"), "min-inline-size"));
     }
 
     private static RenderFragment Guard(bool hasChanges) => builder =>

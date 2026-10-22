@@ -13,11 +13,13 @@
                 Disabled="Disabled"
                 Label="@Label"
                 Class="@TriggerClass"
+                Icon="@TriggerIcon"
+                ChildContent="@TriggerContent"
                 title="@(TriggerTitle ?? Label)"
                 OnClick="ToggleAsync"
                 aria-haspopup="dialog"
                 aria-expanded="@(IsOpen ? "true" : "false")"
-                aria-controls="@(IsOpen ? PanelId : null)">@TriggerContent</OmniButton>
+                aria-controls="@(IsOpen ? PanelId : null)" />
     @if (IsOpen)
     {
         <div @ref="_panel"

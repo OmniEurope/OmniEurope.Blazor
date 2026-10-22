@@ -426,15 +426,15 @@
 /* Row actions: in a data row, an icon-only button (the host's OmniButton or the grid's own edit
    actions) is a square as tall and as wide as the status badges of the same row, one density token
    for both (--omni-badge-height), so a row of statuses and actions reads as one line of equal marks. */
-.omni-data-grid__row > td :is(.omni-button--icon, .omni-data-grid__icon-button) { --omni-button-size: var(--omni-badge-height); block-size: var(--omni-badge-height); inline-size: var(--omni-badge-height); justify-content: center; min-inline-size: var(--omni-badge-height); padding: 0; vertical-align: middle; }
-/* A row action does not take the 1.5rem floor of the header controls: it stays the square of the status badges
-   (--omni-badge-height, 1.375rem at least), whatever the density. */
+.omni-data-grid__row > td :is(.omni-button--icon, .omni-data-grid__icon-button) { --omni-button-size: var(--omni-badge-height); block-size: var(--omni-badge-height); inline-size: var(--omni-badge-height); justify-content: center; min-height: var(--omni-badge-height); min-inline-size: var(--omni-badge-height); padding: 0; vertical-align: middle; }
+/* A row action takes neither the 1.5rem floor of the header controls nor the 24 px floor of every button: it stays the square of the status badges
+   (--omni-badge-height, 1.375rem at least), whatever the density; WCAG 2.5.8 holds by its spacing exception (the grid's own edit actions stand nearly 4 px apart; a host keeps 2 px at least between its own). */
 .omni-data-grid__row > td .omni-data-grid__icon-button { min-block-size: 0; }
 .omni-data-grid__row > td .omni-button--icon .omni-icon { height: 0.875rem; width: 0.875rem; }
 /* The other actions of a row keep that height too: a button with text and a split button (main part
    and arrow) take the badge height, the small text and a short padding, so a labelled action stands
    no taller than the icon-only ones and the status badges beside it. */
-.omni-data-grid__row > td :is(.omni-button, .omni-split-button) { --omni-button-font-size: var(--omni-font-size-sm); --omni-button-padding-inline: var(--omni-space-sm); --omni-button-size: var(--omni-badge-height); --omni-icon-size: 0.875rem; vertical-align: middle; }
+.omni-data-grid__row > td :is(.omni-button, .omni-split-button, .omni-split-button__main, .omni-split-button__toggle) { --omni-button-font-size: var(--omni-font-size-sm); --omni-button-padding-inline: var(--omni-space-sm); --omni-button-size: var(--omni-badge-height); --omni-icon-size: 0.875rem; min-height: var(--omni-badge-height); vertical-align: middle; }
 .omni-data-grid__group th { background: var(--omni-color-surface-muted); color: var(--omni-color-text); padding-block: 0; }
 .omni-data-grid__group[data-omni-group-level="1"] th { padding-inline-start: var(--omni-space-lg); }
 .omni-data-grid__group[data-omni-group-level="2"] th { padding-inline-start: var(--omni-space-xl); }

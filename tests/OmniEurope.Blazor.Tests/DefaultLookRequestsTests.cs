@@ -150,7 +150,7 @@ public sealed class DefaultLookRequestsTests : OmniBunitContext
         Assert.Single(button.FindAll(".omni-button__content > .omni-icon"));
 
         var square = ShippedLookTests.Body(".omni-button--icon");
-        Assert.Equal("var(--omni-button-size, var(--omni-control-height))", ShippedLookTests.Value(square, "min-inline-size"));
+        Assert.Equal("max(1.5rem, var(--omni-button-size, var(--omni-control-height)))", ShippedLookTests.Value(square, "min-inline-size"));
         Assert.Equal("0", ShippedLookTests.Value(square, "padding-inline"));
     }
 

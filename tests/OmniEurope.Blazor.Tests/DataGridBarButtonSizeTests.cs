@@ -44,6 +44,9 @@ public sealed class DataGridBarButtonSizeTests : OmniBunitContext
         {
             Assert.Contains("omni-data-grid__bar-button--compact", button.ClassList);
             Assert.Contains("omni-button--small", button.ClassList);
+            // Without their text (ShowExportButtonText false), the export buttons and the column chooser
+            // are icon-only squares: their icon is the button's Icon, not its content.
+            Assert.Contains("omni-button--icon", button.ClassList);
         });
     }
 

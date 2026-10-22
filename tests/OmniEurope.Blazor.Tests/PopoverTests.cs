@@ -1,4 +1,5 @@
 using Bunit;
+using Microsoft.AspNetCore.Components;
 using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
@@ -108,6 +109,31 @@ public sealed class PopoverTests : OmniBunitContext
 
         popover.Render(parameters => parameters.Add(component => component.TriggerTitle, "Voir les tâches"));
         Assert.Equal("Voir les tâches", popover.Find("button").GetAttribute("title"));
+    }
+
+    [Fact]
+    public void TriggerIcon_IsTheTriggerButtonsIcon_AndAloneMakesItAnIconOnlySquare()
+    {
+        RenderFragment icon = builder =>
+        {
+            builder.OpenComponent<OmniIcon>(0);
+            builder.AddComponentParameter(1, nameof(OmniIcon.Name), OmniIconName.Columns);
+            builder.CloseComponent();
+        };
+        var alone = Render<OmniPopover>(parameters => parameters
+            .Add(component => component.Label, "Choisir les colonnes")
+            .Add(component => component.TriggerIcon, icon));
+        var withText = Render<OmniPopover>(parameters => parameters
+            .Add(component => component.Label, "Tâches en cours")
+            .Add(component => component.TriggerIcon, icon)
+            .Add(component => component.TriggerContent, builder => builder.AddContent(0, "3")));
+
+        Assert.Contains("omni-button--icon", alone.Find("button").ClassList);
+        Assert.Equal("Choisir les colonnes", alone.Find("button").GetAttribute("aria-label"));
+        Assert.DoesNotContain("omni-button--icon", withText.Find("button").ClassList);
+        var content = withText.Find(".omni-button__content");
+        Assert.True(content.FirstElementChild!.ClassList.Contains("omni-icon"));
+        Assert.Equal("3", content.TextContent.Trim());
     }
 
     private IRenderedComponent<OmniPopover> RenderPopover(Action<bool>? onChanged = null) =>

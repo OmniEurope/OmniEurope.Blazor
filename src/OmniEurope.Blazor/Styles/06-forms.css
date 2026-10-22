@@ -554,12 +554,12 @@ select.omni-input.omni-input--large:not([multiple]):not([size]) { block-size: ca
 /* Bouton bascule et bouton partagé : le gabarit d'OmniButton, tailles et forme du thème comprises. */
 .omni-toggle-button,
 .omni-split-button__main,
-.omni-split-button__toggle { align-items: center; box-shadow: var(--omni-button-shadow); box-sizing: border-box; display: inline-flex; font-size: var(--omni-button-font-size, var(--omni-control-font)); font-weight: var(--omni-button-font-weight); gap: var(--omni-space-sm); justify-content: center; letter-spacing: var(--omni-button-letter-spacing); min-height: var(--omni-button-size, var(--omni-control-height)); text-transform: var(--omni-button-text-transform); }
+.omni-split-button__toggle { align-items: center; box-shadow: var(--omni-button-shadow); box-sizing: border-box; display: inline-flex; font-size: var(--omni-button-font-size, var(--omni-control-font)); font-weight: var(--omni-button-font-weight); gap: var(--omni-space-sm); justify-content: center; letter-spacing: var(--omni-button-letter-spacing); min-height: max(1.5rem, var(--omni-button-size, var(--omni-control-height))); text-transform: var(--omni-button-text-transform); }
 /* The end padding gives the letter spacing back, as on OmniButton. */
 .omni-toggle-button,
 .omni-split-button__main { padding-block: 0; padding-inline: var(--omni-button-padding-inline, var(--omni-button-pad-x)) calc(var(--omni-button-padding-inline, var(--omni-button-pad-x)) - var(--omni-button-letter-spacing, 0em)); }
 .omni-toggle-button { border-radius: var(--omni-button-radius, var(--omni-radius)); }
-.omni-toggle-button:where(:has(> .omni-icon:only-child)) { min-inline-size: var(--omni-button-size, var(--omni-control-height)); padding-inline: 0; }
+.omni-toggle-button:where(:has(> .omni-icon:only-child)) { min-inline-size: max(1.5rem, var(--omni-button-size, var(--omni-control-height))); padding-inline: 0; }
 .omni-toggle-button--pressed { background: var(--omni-color-accent-fill); border-color: var(--omni-color-accent-fill); color: var(--omni-color-on-accent-fill); }
 .omni-split-button { display: inline-flex; position: relative; }
 /* Logical corners, one longhand each: the ends follow the reading direction, and a two-value theme
@@ -567,7 +567,7 @@ select.omni-input.omni-input--large:not([multiple]):not([size]) { block-size: ca
 .omni-split-button__main { border-end-start-radius: var(--omni-button-radius, var(--omni-radius)); border-start-start-radius: var(--omni-button-radius, var(--omni-radius)); }
 /* The icon of the main part follows the split button: small in a small one, medium otherwise. */
 .omni-split-button--small > .omni-split-button__main { --omni-icon-size: 1rem; }
-.omni-split-button__toggle { border-inline-start: 0; border-end-end-radius: var(--omni-button-radius, var(--omni-radius)); border-start-end-radius: var(--omni-button-radius, var(--omni-radius)); min-inline-size: var(--omni-button-size, var(--omni-control-height)); padding: 0; }
+.omni-split-button__toggle { border-inline-start: 0; border-end-end-radius: var(--omni-button-radius, var(--omni-radius)); border-start-end-radius: var(--omni-button-radius, var(--omni-radius)); min-inline-size: max(1.5rem, var(--omni-button-size, var(--omni-control-height))); padding: 0; }
 /* Variants: the four colours of OmniButton, read by both parts together. Secondary is the default
    and renders without a class, so the component root holds its neutral fill. */
 .omni-split-button { --omni-button-fill: var(--omni-color-neutral-fill); --omni-button-fill-hover: var(--omni-color-neutral-fill-hover); --omni-button-fill-active: var(--omni-color-neutral-fill-active); --omni-button-ink: var(--omni-color-text); }

@@ -101,6 +101,19 @@ public partial class OmniAppMenu : IDisposable
 
     private bool IsOpen => Open ?? _open;
 
+    // The trigger's text: the user's name and the open state, or nothing, and the trigger is then its
+    // icon alone, square like every icon-only button.
+    private RenderFragment? TriggerText => UserName is null ? null : builder =>
+    {
+        builder.OpenElement(0, "span");
+        builder.AddAttribute(1, "class", "omni-app-menu__trigger-name");
+        builder.AddContent(2, UserName);
+        builder.CloseElement();
+        builder.OpenComponent<OmniIcon>(3);
+        builder.AddComponentParameter(4, nameof(OmniIcon.Name), IsOpen ? OmniIconName.ChevronUp : OmniIconName.ChevronDown);
+        builder.CloseComponent();
+    };
+
     private string EffectiveLabel => LocalizeOr(Label, "AppMenuLabel");
 
     /// <summary>The mode a theme drawn in one mode only fixes, or null.</summary>
