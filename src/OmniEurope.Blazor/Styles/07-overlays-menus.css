@@ -26,6 +26,9 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-dialog--width:not([data-omni-dialog-width-ready]) { animation: omni-dialog-width-wait 1s step-end; }
 @keyframes omni-dialog-width-wait { from { opacity: 0; } }
 .omni-dialog--resizable { min-height: 12rem; min-width: 18rem; resize: both; }
+/* OmniDialog.FreezeScale: the content is frozen at the width it had, so a scroll bar that comes later
+   must not take its room from it; the gutter is held from the start. */
+.omni-dialog[data-omni-scale-frozen] { scrollbar-gutter: stable; }
 /* Dragged by its relative offsets (omni-dialog.js writes left and top): unlike a transform, they leave
    the position: fixed surfaces the dialog holds anchored to the window. */
 .omni-dialog--draggable { position: relative; }

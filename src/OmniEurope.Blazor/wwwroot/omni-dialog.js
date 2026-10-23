@@ -5,8 +5,10 @@ const scaleLocks = new Map();
 // What the freeze wrote on each element, with the inline value it replaced.
 const frozen = new WeakMap();
 
+// The ceilings too: a dialog capped at calc(100vw - 2rem) would narrow under a larger scale while its
+// content stays frozen at the width it had.
 const frozenProperties = ['font-size', 'line-height', 'letter-spacing', 'width', 'height',
-    'min-width', 'min-height', 'padding-top', 'padding-right', 'padding-bottom', 'padding-left',
+    'min-width', 'min-height', 'max-width', 'max-height', 'padding-top', 'padding-right', 'padding-bottom', 'padding-left',
     'margin-top', 'margin-right', 'margin-bottom', 'margin-left', 'row-gap', 'column-gap',
     'border-top-width', 'border-right-width', 'border-bottom-width', 'border-left-width',
     // The tracks of a grid: a template written in rem (repeat(auto-fit, minmax(19rem, 1fr))) counts its
@@ -18,7 +20,8 @@ const frozenProperties = ['font-size', 'line-height', 'letter-spacing', 'width',
 function freezeElements(elements) {
     const snapshots = elements.map(element => {
         const computed = getComputedStyle(element);
-        return [element, frozenProperties.map(name => [name, computed.getPropertyValue(name)])];
+        const bars = scrollbarRoom(element, computed);
+        return [element, frozenProperties.map(name => [name, withScrollbar(name, computed.getPropertyValue(name), bars)])];
     });
     for (const [element, values] of snapshots) {
         const replaced = frozen.get(element) ?? new Map();
@@ -29,6 +32,26 @@ function freezeElements(elements) {
         }
         frozen.set(element, replaced);
     }
+}
+
+// A scroll bar takes its room out of the content box of a content-box scroller, and the computed width
+// and height no longer count it: written back as they are, the box would lose the bar's room at each
+// freeze, and what was measured inside it would pass its edge by that much.
+function scrollbarRoom(element, computed) {
+    if (computed.boxSizing !== 'content-box' || !(element instanceof HTMLElement)) return { x: 0, y: 0 };
+    const scrolls = value => value === 'auto' || value === 'scroll';
+    const x = scrolls(computed.overflowY)
+        ? element.offsetWidth - element.clientWidth - parseFloat(computed.borderLeftWidth) - parseFloat(computed.borderRightWidth)
+        : 0;
+    const y = scrolls(computed.overflowX)
+        ? element.offsetHeight - element.clientHeight - parseFloat(computed.borderTopWidth) - parseFloat(computed.borderBottomWidth)
+        : 0;
+    return { x: Math.max(0, Math.round(x)), y: Math.max(0, Math.round(y)) };
+}
+
+function withScrollbar(name, value, bars) {
+    const room = name === 'width' ? bars.x : name === 'height' ? bars.y : 0;
+    return room > 0 && value.endsWith('px') ? `${parseFloat(value) + room}px` : value;
 }
 
 function thawElements(elements) {
@@ -45,6 +68,10 @@ function thawElements(elements) {
 
 export function freezeScale(dialog) {
     if (!dialog || scaleLocks.has(dialog)) return;
+    // The room of a scroll bar is held from the start (scrollbar-gutter, in the stylesheet): a bar that
+    // appears after the freeze (a larger text size lowers the rem ceiling of the dialog, a new row makes
+    // it taller) would otherwise narrow a box whose content is frozen at the full width.
+    dialog.setAttribute('data-omni-scale-frozen', '');
     freezeElements([dialog, ...dialog.querySelectorAll('*')]);
     // A row may appear or leave after the freeze (a setting only some themes offer). The boxes around
     // it then give their frozen block size back, so what follows moves instead of being overlapped or
@@ -89,7 +116,16 @@ export function freezeScale(dialog) {
         looks.set(scope, scope.style.cssText);
         look.observe(scope, { attributes: true, attributeFilter: ['style'] });
     }
-    scaleLocks.set(dialog, { disconnect() { observer.disconnect(); look.disconnect(); } });
+    // The ceilings are frozen from the screen they were read on (calc(100vw - 2rem), 100vh - 2rem): a
+    // phone turned or a window resized takes the measures again for the new screen.
+    let viewport = `${innerWidth}x${innerHeight}`;
+    const onResize = () => {
+        if (`${innerWidth}x${innerHeight}` === viewport) return;
+        viewport = `${innerWidth}x${innerHeight}`;
+        retake();
+    };
+    addEventListener('resize', onResize);
+    scaleLocks.set(dialog, { disconnect() { observer.disconnect(); look.disconnect(); removeEventListener('resize', onResize); } });
 }
 
 export function attach(dialog) {
