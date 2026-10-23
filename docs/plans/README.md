@@ -21,7 +21,7 @@ structurelles ; un plan décrit un travail, pas l'état du produit.
 | [PLAN-001](PLAN-001-reliquats-audit-et-retours-ui.md) | Plan unique depuis le 2026-10-12 : reliquats vérifiés de la première série, audit ciblé du 2026-10-11, défauts d'interface reproduits à partir des retours récurrents des applications ; annexe [classement des retours](PLAN-001-annexe-ret003.md) | Sans ADR supplémentaire |
 | [PLAN-002](PLAN-002-homogeneite-1-9-0.md) | Homogénéité de l'API publique, défauts et durcissements de l'audit du 2026-10-22, livrés en 1.9.0 (ruptures assumées) | Sans ADR supplémentaire |
 | [PLAN-003](PLAN-003-demandes-application-cliente-2026-10-23.md) | Dix demandes d'une application cliente du 2026-10-23, livrées en 1.9.0 en sept lots | Sans ADR supplémentaire |
-| [PLAN-004](PLAN-004-demandes-application-cliente-2026-10-23-bis.md) | Seconde demande de la même application cliente du 2026-10-23 (cinq points, 1.9.0) | Sans ADR supplémentaire |
+| [PLAN-004](PLAN-004-demandes-application-cliente-2026-10-23-bis.md) | Seconde demande de la même application cliente du 2026-10-23 (six points, 1.9.0) | Sans ADR supplémentaire |
 
 ## Archives
 
