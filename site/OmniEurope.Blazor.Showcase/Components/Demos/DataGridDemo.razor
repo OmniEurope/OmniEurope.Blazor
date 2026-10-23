@@ -249,6 +249,22 @@
     </Columns>
 </OmniDataGrid>
 
+@* Une grille voilée par LoadingContent dont les premières lignes portent une image (un fichier du site,
+   la politique de sécurité n'en admet pas d'autre) : elle reste voilée tant que ces images ne sont pas
+   arrivées, au plus deux secondes, puis s'affiche. La sonde des scripts retarde cette image pour le vérifier. *@
+<OmniDataGrid TItem="GridRow" Id="demo-grid-pictures"
+              Items="PictureRows"
+              Caption="@Text["DemoGridFillCaption"]">
+    <LoadingContent>@Text["DemoDataListLoading"]</LoadingContent>
+    <Columns>
+        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="@Text["DemoGridColumnReference"]" Filterable="false" />
+        <OmniDataGridColumn TItem="GridRow" Property="Country" Title="@Text["DemoMediaIconImage"]" Filterable="false">
+            <Template Context="row"><OmniImage Source="showcase-sample.svg?grid-preparation" Alt="@Text["DemoMediaIconImage"]" Width="48" Height="32" Fit="OmniImageFit.Cover" Loading="OmniImageLoading.Eager" /></Template>
+        </OmniDataGridColumn>
+        <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="@Text["DemoGridColumnApplicant"]" Filterable="false" />
+    </Columns>
+</OmniDataGrid>
+
 @* Une grille qui occupe ce qui reste de son cadre (FillAvailableHeight, plancher MinHeight) : virtualisée,
    groupée par pays, chaque ligne à la même hauteur (FixedRowHeight), voilée par LoadingContent jusqu'à
    son premier rendu prêt. La molette tournée n'importe où dans le cadre fait défiler ses lignes

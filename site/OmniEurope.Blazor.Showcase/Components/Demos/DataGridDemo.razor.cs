@@ -29,6 +29,9 @@ public partial class DataGridDemo
     // the others, so the fit to content of Amount has to rank every text, rendered or not.
     private IReadOnlyList<GridRow> FillRows { get; set; } = [];
 
+    // Four rows with a picture, the grid veiled until the pictures are there.
+    private IReadOnlyList<GridRow> PictureRows { get; set; } = [];
+
     private IReadOnlyList<OmniDataGridGroup> FillGrouping { get; set; } = [new(nameof(GridRow.Country))];
 
     // The preview box: « none » scrolls the grid virtually, a position pages it with the pager there.
@@ -199,6 +202,7 @@ public partial class DataGridDemo
                 Reference = $"F-{index:0000}",
                 Amount = index == 1_999 ? 123_456_789_012_345_678m : 1_000m + (index * 37m)
             })];
+        PictureRows = [.. FillRows.Take(4)];
         SelectedRuns = [.. Runs.Where(run => run.Run == "#2395")];
         FillBoxPagerOptions =
         [

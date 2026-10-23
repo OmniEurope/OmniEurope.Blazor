@@ -82,7 +82,8 @@ verte après publication de la branche.
   sonde `Modules` reste à rejouer.
 - [ ] Couverture JavaScript : fermer ou admettre avec raison les 4 fonctions de
   `eng/js-coverage-baseline.json` (`omni-boot.js`, 2 dans `omni-grid.js`, `setDocumentMetadata` dans
-  `omniInterop.js`) (origine PLAN-014).
+  `omniInterop.js`) (origine PLAN-014). `omni-grid.js` : étape de sonde écrite (`requests.mjs`, étape 11, image de
+  `#demo-grid-pictures` retenue par CDP), à exécuter puis à retirer de la base.
 Controle : grep des 8 clés dans `docs/localization.md` ; `eng/js-coverage-baseline.json` à
 `"files": []` et `eng/Test-ShowcaseHost.ps1 -JsCoverage` vert.
 
