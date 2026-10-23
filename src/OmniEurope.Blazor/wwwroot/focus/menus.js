@@ -118,6 +118,12 @@ function showMenu(key, options) {
     if (!menu) {
         if (state.attempts++ < 10) {
             setTimeout(() => menus.get(key) === state && showMenu(key, state.options), 16);
+        } else {
+            // The menu never reached the page: a menu is invisible until it is placed, so .NET must not
+            // keep it open (and its trigger announcing it) for a menu nobody can see. The script lets go
+            // of it the way a close does, then reports the dismissal.
+            closeMenu(key, false);
+            state.options.dismiss(false);
         }
 
         return;

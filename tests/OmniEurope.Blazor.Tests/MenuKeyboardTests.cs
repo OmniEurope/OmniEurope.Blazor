@@ -1,7 +1,9 @@
+using System.Reflection;
 using Bunit;
 using Bunit.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
@@ -161,6 +163,34 @@ public sealed class MenuKeyboardTests : OmniBunitContext
         Assert.Equal(kind == "split" ? "Surface" : "Déclencheur", menu.Find(TriggerSelector(kind)).GetAttribute("aria-label"));
         menu.Find(TriggerSelector(kind)).Click();
         Assert.Equal("Surface", menu.Find("#m-menu").GetAttribute("aria-label"));
+    }
+
+    [Theory]
+    [MemberData(nameof(TriggeredMenus))]
+    public void ADismissalReportedByTheScript_ClosesTheMenu_AndTheTriggerStopsAnnouncingIt(string kind)
+    {
+        // The script reports the same dismissal when it gives up looking for a menu that never reached
+        // the page (tests/js/menus.test.mjs): the menu must not stay open, invisible, behind a trigger
+        // that still says aria-expanded.
+        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
+        module.Mode = JSRuntimeMode.Loose;
+        var reported = new List<bool>();
+        var menu = Render(Menu(kind, onOpenChanged: reported.Add));
+        menu.Find(TriggerSelector(kind)).Click();
+        menu.WaitForAssertion(() => Assert.Single(module.Invocations["openMenu"]));
+
+        var reference = module.Invocations["openMenu"][0].Arguments[8]!;
+        var interop = reference.GetType().GetProperty("Value")!.GetValue(reference)!;
+        var dismiss = interop.GetType().GetMethod("DismissAsync", BindingFlags.Public | BindingFlags.Instance)!;
+        Assert.Equal("OmniMenu.Dismiss", dismiss.GetCustomAttribute<JSInvokableAttribute>()!.Identifier);
+        menu.InvokeAsync(() => (Task)dismiss.Invoke(interop, [false])!);
+
+        menu.WaitForAssertion(() =>
+        {
+            Assert.Equal("false", menu.Find(TriggerSelector(kind)).GetAttribute("aria-expanded"));
+            Assert.Empty(menu.FindAll("[role=menu]"));
+            Assert.Equal([true, false], reported);
+        });
     }
 
     private static string TriggerSelector(string kind) => kind switch
