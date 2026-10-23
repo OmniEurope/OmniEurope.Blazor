@@ -1,6 +1,7 @@
 // The requests of a client application of 2026-10-08 (PLAN-018) that only a browser shows: a title the
 // package tooltip takes away still names an icon-only button while it is focused or hovered, and the
 // skip link moves the focus to the main content by script, without leaving the page.
+import { probeOptions } from '../ShowcaseCdp.mjs';
 
 export async function requestSteps(session, results) {
   const { evaluate, waitFor, key, check, hover, mouse, pause, pointOf, click, clickOn, send, type } = session;
@@ -627,9 +628,15 @@ export async function requestSteps(session, results) {
     const release = async () => {
       for (const requestId of held.splice(0)) await session.send('Fetch.continueRequest', { requestId });
     };
+    // A picture the document already drew comes again from its list of available images, without a
+    // request, whatever the cache says: each hold starts on a new document, its CSP record checked first.
+    const { siteUrl } = probeOptions('Test-ShowcaseScriptsProbe.mjs');
     const holdPicture = async () => {
       held.length = 0;
-      await session.visit('/composants/retours', '.omni-badge');
+      const csp = await evaluate('window.__omniCsp');
+      check(csp.length === 0, `Violations CSP avant le rechargement de la grille à images : ${csp.join(' | ')}`);
+      await send('Page.navigate', { url: siteUrl });
+      await waitFor('le runtime Blazor rechargé', "typeof Blazor !== 'undefined' && typeof Blazor.navigateTo === 'function' && document.getElementById('showcase-theme') !== null");
       await session.visit('/composants/grille', '#demo-grid-pictures');
       const until = Date.now() + 15_000;
       while (held.length === 0 && Date.now() < until) await pause(50);

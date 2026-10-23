@@ -54,7 +54,11 @@ const contentTypes = new Map([
   ['.js', 'text/javascript; charset=utf-8'],
   ['.json', 'application/json; charset=utf-8'],
   ['.pdb', 'application/octet-stream'],
-  ['.wasm', 'application/wasm']
+  // An SVG served as octet-stream is not drawn: an image of the showcase stayed broken under the probes.
+  ['.svg', 'image/svg+xml'],
+  ['.txt', 'text/plain; charset=utf-8'],
+  ['.wasm', 'application/wasm'],
+  ['.woff2', 'font/woff2']
 ]);
 
 const server = createServer(async (request, response) => {
