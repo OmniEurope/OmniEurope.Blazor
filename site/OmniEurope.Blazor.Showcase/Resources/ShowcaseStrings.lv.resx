@@ -1625,4 +1625,5 @@
   <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Šauras kolonnas saglabā visu virsrakstu</value></data>
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Rediģējamas lietas: noklikšķiniet uz šūnas, lai rediģētu tās rindu</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Viens klikšķis jebkurā šūnas vietā, arī tukšā, atver rindu šīs šūnas laukā; poga Detaļas saglabā savu klikšķi. Tab sasniedz katru šūnu, un Enter vai atstarpe to rediģē.</value></data>
+  <data name="DemoButtonsCopies" xml:space="preserve"><value>Pieņemtās kopēšanas: {0}.</value></data>
 </root>

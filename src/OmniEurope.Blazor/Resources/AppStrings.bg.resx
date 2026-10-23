@@ -444,9 +444,6 @@
   <data name="UploadInProgress" xml:space="preserve"><value>Качването е в ход.</value></data>
   <data name="UploadCompleted" xml:space="preserve"><value>Качването завърши.</value></data>
   <data name="UploadCancelled" xml:space="preserve"><value>Качването е отменено.</value></data>
-  <data name="UploadSizeMegabytes" xml:space="preserve"><value>{0:0.##} МБ</value></data>
-  <data name="UploadSizeKilobytes" xml:space="preserve"><value>{0:0.##} КБ</value></data>
-  <data name="UploadSizeBytes" xml:space="preserve"><value>{0} Б</value></data>
   <data name="UploadDropOne" xml:space="preserve"><value>Пуснете файл тук или</value></data>
   <data name="UploadDropMany" xml:space="preserve"><value>Пуснете файлове тук или</value></data>
   <data name="UploadBrowse" xml:space="preserve"><value>прегледайте</value></data>
@@ -723,4 +720,14 @@
   <data name="MailTemplateEditorBannerWarning" xml:space="preserve"><value>Предупреждение</value></data>
   <data name="MailTemplateEditorBannerDanger" xml:space="preserve"><value>Опасност</value></data>
   <data name="MailTemplateEditorButton" xml:space="preserve"><value>Бутон: {0}</value></data>
+  <data name="CopyButtonCopied" xml:space="preserve"><value>Копирано</value></data>
+  <data name="FormatByte" xml:space="preserve"><value>B</value></data>
+  <data name="FormatKilobyte" xml:space="preserve"><value>KB</value></data>
+  <data name="FormatMegabyte" xml:space="preserve"><value>MB</value></data>
+  <data name="FormatGigabyte" xml:space="preserve"><value>GB</value></data>
+  <data name="FormatTerabyte" xml:space="preserve"><value>TB</value></data>
+  <data name="FormatSecond" xml:space="preserve"><value>с</value></data>
+  <data name="FormatMinute" xml:space="preserve"><value>мин</value></data>
+  <data name="FormatHour" xml:space="preserve"><value>ч</value></data>
+  <data name="FormatDay" xml:space="preserve"><value>д</value></data>
 </root>

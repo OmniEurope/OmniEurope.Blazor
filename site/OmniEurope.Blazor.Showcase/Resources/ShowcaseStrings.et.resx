@@ -1625,4 +1625,5 @@
   <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Kitsad veerud säilitavad kogu pealkirja</value></data>
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Muudetavad toimikud: klõpsake lahtril, et muuta selle rida</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Üks klõps mis tahes kohas lahtris, ka tühjas, avab rea selle lahtri väljal; nupp Üksikasjad säilitab oma klõpsu. Tab jõuab igasse lahtrisse ning Enter või tühik muudab seda.</value></data>
+  <data name="DemoButtonsCopies" xml:space="preserve"><value>Vastu võetud kopeerimised: {0}.</value></data>
 </root>

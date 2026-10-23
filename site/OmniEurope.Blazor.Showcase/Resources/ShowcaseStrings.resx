@@ -1628,4 +1628,5 @@
   <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Les colonnes étroites gardent leur titre entier</value></data>
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Dossiers modifiables : cliquez une cellule pour modifier sa ligne</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Un simple clic n'importe où dans une cellule, même vide, ouvre la ligne sur le champ de cette cellule ; le bouton Détails garde son propre clic. Tab atteint chaque cellule, et Entrée ou Espace la modifie.</value></data>
+  <data name="DemoButtonsCopies" xml:space="preserve"><value>Copies acceptées : {0}.</value></data>
 </root>

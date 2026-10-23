@@ -1625,4 +1625,5 @@
   <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Le colonne strette mantengono il titolo intero</value></data>
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Pratiche modificabili: fare clic su una cella per modificarne la riga</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Un solo clic in un punto qualsiasi di una cella, anche vuota, apre la riga sul campo di quella cella; il pulsante Dettagli conserva il proprio clic. Tab raggiunge ogni cella e Invio o Spazio la modifica.</value></data>
+  <data name="DemoButtonsCopies" xml:space="preserve"><value>Copie accettate: {0}.</value></data>
 </root>

@@ -15,7 +15,7 @@ public static class OmniEuropeBlazorServiceCollectionExtensions
 {
     /// <summary>
     /// Registers what the components need: localization, and, scoped to each circuit, the overlay service,
-    /// the tooltip interop, the loading state, the breadcrumb service, the Markdown table exporter, the user preferences
+    /// the tooltip interop, the loading state, the size and duration formatter (<see cref="OmniValueFormatter"/>), the breadcrumb service, the Markdown table exporter, the user preferences
     /// (<see cref="OmniPreferences"/>, which also keep the data grid layouts) and the user's appearance
     /// (<see cref="OmniAppearanceState"/>). Each service is added only when the host
     /// has not registered its own, so calling it after the host's registrations keeps them.
@@ -31,6 +31,8 @@ public static class OmniEuropeBlazorServiceCollectionExtensions
         // renders sits outside that cascade: content opened through OpenDialog cannot receive the
         // service as a cascading parameter, so it had no way to close the dialog it lives in.
         services.TryAddScoped<OmniOverlayService>();
+        // File sizes and durations in the unit symbols of the current language; they read the package texts, overrides included.
+        services.TryAddScoped<OmniValueFormatter>();
         // Scoped: the tooltip listeners live on the document, and each circuit owns the document it
         // rendered into.
         services.TryAddScoped<OmniTooltipInterop>();

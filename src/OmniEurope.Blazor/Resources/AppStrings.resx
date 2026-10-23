@@ -444,9 +444,6 @@
   <data name="UploadInProgress" xml:space="preserve"><value>Téléversement en cours.</value></data>
   <data name="UploadCompleted" xml:space="preserve"><value>Téléversement terminé.</value></data>
   <data name="UploadCancelled" xml:space="preserve"><value>Téléversement annulé.</value></data>
-  <data name="UploadSizeMegabytes" xml:space="preserve"><value>{0:0.##} Mo</value></data>
-  <data name="UploadSizeKilobytes" xml:space="preserve"><value>{0:0.##} Ko</value></data>
-  <data name="UploadSizeBytes" xml:space="preserve"><value>{0} o</value></data>
   <data name="UploadDropOne" xml:space="preserve"><value>Déposez un fichier ici ou</value></data>
   <data name="UploadDropMany" xml:space="preserve"><value>Déposez des fichiers ici ou</value></data>
   <data name="UploadBrowse" xml:space="preserve"><value>parcourez</value></data>
@@ -723,4 +720,14 @@
   <data name="MailTemplateEditorBannerWarning" xml:space="preserve"><value>Avertissement</value></data>
   <data name="MailTemplateEditorBannerDanger" xml:space="preserve"><value>Danger</value></data>
   <data name="MailTemplateEditorButton" xml:space="preserve"><value>Bouton : {0}</value></data>
+  <data name="CopyButtonCopied" xml:space="preserve"><value>Copié</value></data>
+  <data name="FormatByte" xml:space="preserve"><value>o</value></data>
+  <data name="FormatKilobyte" xml:space="preserve"><value>Ko</value></data>
+  <data name="FormatMegabyte" xml:space="preserve"><value>Mo</value></data>
+  <data name="FormatGigabyte" xml:space="preserve"><value>Go</value></data>
+  <data name="FormatTerabyte" xml:space="preserve"><value>To</value></data>
+  <data name="FormatSecond" xml:space="preserve"><value>s</value></data>
+  <data name="FormatMinute" xml:space="preserve"><value>min</value></data>
+  <data name="FormatHour" xml:space="preserve"><value>h</value></data>
+  <data name="FormatDay" xml:space="preserve"><value>j</value></data>
 </root>

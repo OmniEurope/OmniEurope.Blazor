@@ -1625,4 +1625,5 @@
   <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Οι στενές στήλες διατηρούν ολόκληρο τον τίτλο τους</value></data>
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Επεξεργάσιμοι φάκελοι: κάντε κλικ σε ένα κελί για να επεξεργαστείτε τη γραμμή του</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Ένα απλό κλικ οπουδήποτε σε ένα κελί, ακόμη και κενό, ανοίγει τη γραμμή στο πεδίο αυτού του κελιού· το κουμπί Λεπτομέρειες διατηρεί το δικό του κλικ. Με το Tab φτάνετε σε κάθε κελί και με Enter ή Space το επεξεργάζεστε.</value></data>
+  <data name="DemoButtonsCopies" xml:space="preserve"><value>Αντιγραφές που έγιναν δεκτές: {0}.</value></data>
 </root>

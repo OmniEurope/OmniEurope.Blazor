@@ -1625,4 +1625,5 @@
   <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Coloanele înguste își păstrează titlul întreg</value></data>
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Dosare editabile: faceți clic pe o celulă pentru a-i edita rândul</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Un singur clic oriunde într-o celulă, chiar goală, deschide rândul pe câmpul acelei celule; butonul Detalii își păstrează propriul clic. Tab ajunge la fiecare celulă, iar Enter sau Spațiu o editează.</value></data>
+  <data name="DemoButtonsCopies" xml:space="preserve"><value>Copieri acceptate: {0}.</value></data>
 </root>

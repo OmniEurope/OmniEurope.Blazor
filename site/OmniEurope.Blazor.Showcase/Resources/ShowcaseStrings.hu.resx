@@ -1625,4 +1625,5 @@
   <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>A keskeny oszlopok megtartják a teljes címüket</value></data>
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Szerkeszthető ügyek: kattintson egy cellára a sor szerkesztéséhez</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Egyetlen kattintás a cella bármely pontján, üres cellán is, megnyitja a sort annak a cellának a mezőjében; a Részletek gomb megtartja a saját kattintását. A Tab minden cellához eljut, az Enter vagy a szóköz szerkeszti azt.</value></data>
+  <data name="DemoButtonsCopies" xml:space="preserve"><value>Elfogadott másolások: {0}.</value></data>
 </root>

@@ -1,0 +1,18 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+
+@* The button is named by its words (the label, then "copied" or "copy failed"), so its name always says
+   what it shows. The result is also announced by the polite live region next to it. *@
+<OmniButton @attributes="AdditionalAttributes"
+            Id="@Id"
+            Class="@Class"
+            Variant="Variant"
+            Size="Size"
+            Disabled="Disabled || !CanCopy"
+            Busy="_working"
+            OnClick="CopyAsync">
+    <Icon>@IconContent</Icon>
+    <ChildContent><span>@ButtonText</span></ChildContent>
+</OmniButton>
+<span class="omni-visually-hidden" role="status" aria-live="polite">@Announcement</span>
