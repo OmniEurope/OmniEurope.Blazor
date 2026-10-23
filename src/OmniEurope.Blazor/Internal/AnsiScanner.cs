@@ -88,14 +88,14 @@ internal static class AnsiScanner
     /// the extended colours (38 and 48, in the <c>5;n</c> and <c>2;r;g;b</c> forms, with semicolons or
     /// colons), which are read whole and reduced to the nearest of the sixteen. Any other code is ignored.
     /// </summary>
-    internal static AnsiStyle Apply(AnsiStyle style, string text, int start, int end)
+    internal static AnsiStyle Apply(AnsiStyle rendition, string text, int start, int end)
     {
         Span<int> values = stackalloc int[MaxSequenceLength];
         Span<bool> linked = stackalloc bool[MaxSequenceLength];
         var count = ReadParameters(text, start, end, values, linked);
         for (var index = 0; index < count; index++)
         {
-            style = ApplyCode(style, values, linked, count, ref index);
+            rendition = ApplyCode(rendition, values, linked, count, ref index);
 
             // The sub-parameters of a code that does not use them (4:3, 21:1...) are skipped with it.
             while (index + 1 < count && linked[index + 1])
@@ -104,11 +104,11 @@ internal static class AnsiScanner
             }
         }
 
-        return style;
+        return rendition;
     }
 
     /// <summary>Applies the code at <paramref name="index"/>; an extended colour moves <paramref name="index"/> to its last value.</summary>
-    private static AnsiStyle ApplyCode(AnsiStyle style, ReadOnlySpan<int> values, ReadOnlySpan<bool> linked, int count, ref int index)
+    private static AnsiStyle ApplyCode(AnsiStyle rendition, ReadOnlySpan<int> values, ReadOnlySpan<bool> linked, int count, ref int index)
     {
         var code = values[index];
         switch (code)
@@ -116,51 +116,51 @@ internal static class AnsiScanner
             case 0:
                 return AnsiStyle.Plain;
             case 4:
-                return style with { Underline = !(index + 1 < count && linked[index + 1] && values[index + 1] == 0) };
+                return rendition with { Underline = !(index + 1 < count && linked[index + 1] && values[index + 1] == 0) };
             case 38 or 48 or 58:
                 index = ReadExtendedColor(values, linked, count, index, out var color);
-                return ApplyExtendedColor(style, code, color);
+                return ApplyExtendedColor(rendition, code, color);
             default:
-                return ApplyAttribute(style, code);
+                return ApplyAttribute(rendition, code);
         }
     }
 
-    private static AnsiStyle ApplyExtendedColor(AnsiStyle style, int code, int color)
+    private static AnsiStyle ApplyExtendedColor(AnsiStyle rendition, int code, int color)
     {
         if (color < 0)
         {
-            return style;
+            return rendition;
         }
 
         return code switch
         {
-            38 => style with { Foreground = color },
-            48 => style with { Background = color },
-            _ => style,
+            38 => rendition with { Foreground = color },
+            48 => rendition with { Background = color },
+            _ => rendition,
         };
     }
 
     /// <summary>The weight and decoration codes, then the colour ranges; any other code leaves the style as it is.</summary>
-    private static AnsiStyle ApplyAttribute(AnsiStyle style, int code) => code switch
+    private static AnsiStyle ApplyAttribute(AnsiStyle rendition, int code) => code switch
     {
-        1 => style with { Bold = true },
-        2 => style with { Dim = true },
-        3 => style with { Italic = true },
-        22 => style with { Bold = false, Dim = false },
-        23 => style with { Italic = false },
-        24 => style with { Underline = false },
-        _ => ApplyColorCode(style, code),
+        1 => rendition with { Bold = true },
+        2 => rendition with { Dim = true },
+        3 => rendition with { Italic = true },
+        22 => rendition with { Bold = false, Dim = false },
+        23 => rendition with { Italic = false },
+        24 => rendition with { Underline = false },
+        _ => ApplyColorCode(rendition, code),
     };
 
-    private static AnsiStyle ApplyColorCode(AnsiStyle style, int code) => code switch
+    private static AnsiStyle ApplyColorCode(AnsiStyle rendition, int code) => code switch
     {
-        >= 30 and <= 37 => style with { Foreground = code - 30 },
-        39 => style with { Foreground = -1 },
-        >= 40 and <= 47 => style with { Background = code - 40 },
-        49 => style with { Background = -1 },
-        >= 90 and <= 97 => style with { Foreground = code - 90 + 8 },
-        >= 100 and <= 107 => style with { Background = code - 100 + 8 },
-        _ => style,
+        >= 30 and <= 37 => rendition with { Foreground = code - 30 },
+        39 => rendition with { Foreground = -1 },
+        >= 40 and <= 47 => rendition with { Background = code - 40 },
+        49 => rendition with { Background = -1 },
+        >= 90 and <= 97 => rendition with { Foreground = code - 90 + 8 },
+        >= 100 and <= 107 => rendition with { Background = code - 100 + 8 },
+        _ => rendition,
     };
 
     /// <summary>The nearest of the sixteen colours to an 8-bit colour of the 256-colour table.</summary>

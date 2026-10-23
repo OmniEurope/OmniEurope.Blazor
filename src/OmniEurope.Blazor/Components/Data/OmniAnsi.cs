@@ -48,8 +48,8 @@ public static class OmniAnsi
 
         var segments = new List<OmniAnsiSegment>();
         var buffer = new StringBuilder(text.Length);
-        var style = AnsiStyle.Plain;
-        var bufferStyle = style;
+        var rendition = AnsiStyle.Plain;
+        var bufferStyle = rendition;
         var position = 0;
         while (position < text.Length)
         {
@@ -59,10 +59,10 @@ public static class OmniAnsi
             {
                 // A run under other attributes than the text gathered so far closes it; the same attributes
                 // after a sequence that changed nothing (or changed back) continue it.
-                if (style != bufferStyle)
+                if (rendition != bufferStyle)
                 {
                     Flush(segments, buffer, bufferStyle);
-                    bufferStyle = style;
+                    bufferStyle = rendition;
                 }
 
                 buffer.Append(text, position, run);
@@ -77,7 +77,7 @@ public static class OmniAnsi
             var length = AnsiScanner.Measure(text, position, out var kind, out var parametersStart, out var parametersEnd);
             if (kind == AnsiSequenceKind.Sgr)
             {
-                style = AnsiScanner.Apply(style, text, parametersStart, parametersEnd);
+                rendition = AnsiScanner.Apply(rendition, text, parametersStart, parametersEnd);
             }
 
             position += length;
@@ -120,7 +120,7 @@ public static class OmniAnsi
         return buffer.ToString();
     }
 
-    private static void Flush(List<OmniAnsiSegment> segments, StringBuilder buffer, AnsiStyle style)
+    private static void Flush(List<OmniAnsiSegment> segments, StringBuilder buffer, AnsiStyle rendition)
     {
         if (buffer.Length == 0)
         {
@@ -129,12 +129,12 @@ public static class OmniAnsi
 
         segments.Add(new OmniAnsiSegment(
             buffer.ToString(),
-            style.Bold,
-            style.Foreground < 0 ? null : style.Foreground,
-            style.Background < 0 ? null : style.Background,
-            style.Dim,
-            style.Italic,
-            style.Underline));
+            rendition.Bold,
+            rendition.Foreground < 0 ? null : rendition.Foreground,
+            rendition.Background < 0 ? null : rendition.Background,
+            rendition.Dim,
+            rendition.Italic,
+            rendition.Underline));
         buffer.Clear();
     }
 }
