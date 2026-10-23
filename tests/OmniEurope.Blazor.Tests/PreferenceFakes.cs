@@ -32,8 +32,8 @@ internal sealed class PreferenceBrowser : IJSRuntime, IJSObjectReference
 
     public PreferenceInteropBridge? Bridge { get; private set; }
 
-    /// <summary>When set, each read of the cache answers after this delay, as a slow browser would.</summary>
-    public TimeSpan? GetDelay { get; set; }
+    /// <summary>When set, each read of the cache answers once this task completes, as a slow browser would.</summary>
+    public Task? GetRelease { get; set; }
 
     public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) =>
         InvokeAsync<TValue>(identifier, CancellationToken.None, args);
@@ -46,9 +46,9 @@ internal sealed class PreferenceBrowser : IJSRuntime, IJSObjectReference
             return ValueTask.FromException<TValue>(failure);
         }
 
-        if (identifier == "get" && GetDelay is { } delay)
+        if (identifier == "get" && GetRelease is { } release)
         {
-            return DelayedGetAsync<TValue>((string)args[0]!, delay, cancellationToken);
+            return DelayedGetAsync<TValue>((string)args[0]!, release, cancellationToken);
         }
 
         object? answer = identifier switch
@@ -77,9 +77,9 @@ internal sealed class PreferenceBrowser : IJSRuntime, IJSObjectReference
         return DisposeFailure is null ? ValueTask.CompletedTask : ValueTask.FromException(DisposeFailure);
     }
 
-    private async ValueTask<TValue> DelayedGetAsync<TValue>(string key, TimeSpan delay, CancellationToken cancellationToken)
+    private async ValueTask<TValue> DelayedGetAsync<TValue>(string key, Task release, CancellationToken cancellationToken)
     {
-        await Task.Delay(delay, cancellationToken);
+        await release.WaitAsync(cancellationToken);
         return (TValue)(object?)(Storage.TryGetValue(key, out var value) ? value : null)!;
     }
 

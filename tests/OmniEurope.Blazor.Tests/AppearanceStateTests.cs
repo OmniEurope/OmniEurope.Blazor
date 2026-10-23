@@ -436,7 +436,10 @@ public sealed class AppearanceStateTests : OmniBunitContext
         host.Find("#host-window .omni-appearance-window__reset").Click();
 
         // Back to the defaults is two settings changed (mode and theme) and one write, not one per setting.
-        host.WaitForAssertion(() => Assert.Equal(OmniAppearance.System, State.Appearance));
+        host.WaitForAssertion(() => Assert.Equal(3, _store.Saved.Count));
+        Assert.Equal(OmniAppearance.System, State.Appearance);
+        // A second write for the other setting would land right after: the pause can only hide it on a
+        // slow machine, never invent it.
         await Task.Delay(100, Xunit.TestContext.Current.CancellationToken);
         Assert.Equal(3, _store.Saved.Count);
         Assert.Equal("System", JsonDocument.Parse(StoredJson!).RootElement.GetProperty("appearance").GetString());

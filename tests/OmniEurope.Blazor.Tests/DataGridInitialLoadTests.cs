@@ -25,10 +25,21 @@ public sealed class DataGridInitialLoadTests : OmniBunitContext
     [InlineData(OmniDataGridScrollMode.Virtual, true)]
     public void FirstRequest_CarriesTheColumnDefaults_AndIsTheOnlyOne(OmniDataGridScrollMode mode, bool slowLoader)
     {
+        // A slow loader answers only when the test releases it, not after a timer: under a loaded
+        // machine a real delay could outlast the wait below.
+        var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var requests = new List<OmniDataGridLoadRequest>();
         var grid = Render<DataGridInitialLoadTestHost>(parameters => parameters
             .Add(component => component.ScrollMode, mode)
-            .Add(component => component.Load, request => Answer(requests, request, slowLoader)));
+            .Add(component => component.Load, request => Answer(requests, request, slowLoader ? release.Task : null)));
+        if (slowLoader)
+        {
+            // The answer is still on its way: a render meanwhile does not ask for the rows again.
+            grid.WaitForAssertion(() => Assert.Single(requests));
+            grid.Render();
+            Assert.Single(requests);
+            release.SetResult();
+        }
 
         grid.WaitForAssertion(() => Assert.Equal(2, grid.FindAll("tbody tr[data-omni-row-index]").Count));
         var request = Assert.Single(requests);
@@ -52,12 +63,16 @@ public sealed class DataGridInitialLoadTests : OmniBunitContext
         const string saved = "{\"Filters\":{\"Status\":{\"Operator\":1,\"Value\":\"Closed\",\"LogicalOperator\":0,\"SecondOperator\":1,\"SecondValue\":\"\"}},\"Sorts\":[],\"ColumnWidths\":{}}";
         var preferences = new GridPreferenceHarness(Services);
         preferences.Seed("tickets", saved);
-        preferences.Browser.GetDelay = TimeSpan.FromMilliseconds(20);
+        var read = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        preferences.Browser.GetRelease = read.Task;
         var requests = new List<OmniDataGridLoadRequest>();
         var grid = Render<DataGridInitialLoadTestHost>(parameters => parameters
             .Add(component => component.ScrollMode, mode)
             .Add(component => component.StateKey, "tickets")
-            .Add(component => component.Load, request => Answer(requests, request, slow: false)));
+            .Add(component => component.Load, request => Answer(requests, request)));
+        grid.WaitForAssertion(() => Assert.NotEmpty(grid.FindAll("thead th[data-omni-col]")));
+        Assert.Empty(requests);
+        read.SetResult();
 
         grid.WaitForAssertion(() => Assert.Single(grid.FindAll("tbody tr[data-omni-row-index]")));
         var request = Assert.Single(requests);
@@ -77,7 +92,7 @@ public sealed class DataGridInitialLoadTests : OmniBunitContext
         var grid = Render<DataGridInitialLoadTestHost>(parameters => parameters
             .Add(component => component.ScrollMode, mode)
             .Add(component => component.ShowStatus, false)
-            .Add(component => component.Load, request => Answer(requests, request, slow: false)));
+            .Add(component => component.Load, request => Answer(requests, request)));
         grid.WaitForAssertion(() => Assert.Equal(3, grid.FindAll("tbody tr[data-omni-row-index]").Count));
         Assert.Empty(Assert.Single(requests).Filters);
 
@@ -101,7 +116,7 @@ public sealed class DataGridInitialLoadTests : OmniBunitContext
         var requests = new List<OmniDataGridLoadRequest>();
         var grid = Render<DataGridInitialLoadTestHost>(parameters => parameters
             .Add(component => component.StateKey, "tickets")
-            .Add(component => component.Load, request => Answer(requests, request, slow: false)));
+            .Add(component => component.Load, request => Answer(requests, request)));
 
         grid.WaitForAssertion(() => Assert.Equal(2, grid.FindAll("tbody tr[data-omni-row-index]").Count));
         var sort = Assert.Single(Assert.Single(requests).Sorts);
@@ -114,7 +129,7 @@ public sealed class DataGridInitialLoadTests : OmniBunitContext
     {
         var requests = new List<OmniDataGridLoadRequest>();
         var grid = Render<DataGridInitialLoadTestHost>(parameters => parameters
-            .Add(component => component.Load, request => Answer(requests, request, slow: false)));
+            .Add(component => component.Load, request => Answer(requests, request)));
         grid.WaitForAssertion(() => Assert.Single(requests));
         string[] Sorts() => [.. requests[^1].Sorts.Select(sort => $"{sort.Key}{(sort.Descending ? "-" : "+")}")];
         var shift = new MouseEventArgs { ShiftKey = true };
@@ -160,7 +175,7 @@ public sealed class DataGridInitialLoadTests : OmniBunitContext
         // A prerender or a static server render never runs OnAfterRender, where the columns are known
         // to have rendered: the grid is busy under its loading bar and asks its loader nothing.
         var requests = new List<OmniDataGridLoadRequest>();
-        Func<OmniDataGridLoadRequest, Task<OmniDataGridResult<Row>>> load = request => Answer(requests, request, slow: false);
+        Func<OmniDataGridLoadRequest, Task<OmniDataGridResult<Row>>> load = request => Answer(requests, request);
         await using var renderer = new HtmlRenderer(Services, Services.GetRequiredService<ILoggerFactory>());
         var html = await renderer.Dispatcher.InvokeAsync(async () =>
         {
@@ -174,12 +189,12 @@ public sealed class DataGridInitialLoadTests : OmniBunitContext
         Assert.DoesNotContain("data-omni-row-index", html, StringComparison.Ordinal);
     }
 
-    private static async Task<OmniDataGridResult<Row>> Answer(List<OmniDataGridLoadRequest> requests, OmniDataGridLoadRequest request, bool slow)
+    private static async Task<OmniDataGridResult<Row>> Answer(List<OmniDataGridLoadRequest> requests, OmniDataGridLoadRequest request, Task? release = null)
     {
         requests.Add(request);
-        if (slow)
+        if (release is not null)
         {
-            await Task.Delay(20, request.CancellationToken);
+            await release.WaitAsync(request.CancellationToken);
         }
 
         var matching = Rows
