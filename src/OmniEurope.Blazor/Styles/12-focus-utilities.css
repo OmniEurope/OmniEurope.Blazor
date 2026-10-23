@@ -49,10 +49,16 @@
    slider of a scale or the motion of a moving theme. A name line is as tall as a control whatever the
    size of the controls, so the selects of two rows of a line (theme and palette, density and font)
    start at the same height; the shorter row keeps its content at the top. */
-.omni-appearance-settings--window .omni-appearance-settings__row { align-content: start; flex-wrap: wrap; }
+.omni-appearance-settings--window .omni-appearance-settings__row { align-content: start; flex-wrap: wrap; min-inline-size: 0; }
 .omni-appearance-settings--window .omni-appearance-settings__label { flex: 1 1 100%; min-block-size: max(var(--omni-icon-box), var(--omni-control-height)); min-inline-size: 6em; }
-.omni-appearance-settings--window .omni-appearance-settings__actions { flex: 1 1 100%; flex-wrap: nowrap; }
-.omni-appearance-settings--window .omni-appearance-settings__actions:has(.omni-drop-down) { inline-size: 100%; }
+/* Nothing in the window may widen it, whatever the theme: a row can shrink to its track instead of
+   holding its content width, and the controls row wraps (the select first, taking the width left, the
+   buttons under it when a theme widens them - the Retro theme: uppercase, weight 800, offset shadows)
+   instead of running past the track. The select gives way to 8rem, the buttons keep their own width. */
+.omni-appearance-settings--window .omni-appearance-settings__actions { flex: 1 1 100%; flex-wrap: wrap; min-inline-size: 0; }
+.omni-appearance-settings--window .omni-appearance-settings__actions:has(.omni-drop-down) { display: flex; inline-size: 100%; }
+.omni-appearance-settings--window .omni-appearance-settings__actions > .omni-drop-down { flex: 1 1 8rem; min-inline-size: 0; }
+.omni-appearance-settings--window .omni-appearance-settings__actions > .omni-button { flex: none; }
 
 .omni-appearance-settings__motion { align-items: center; display: flex; flex: 1 1 100%; gap: var(--omni-space-sm); }
 /* On the theme title line (point 86 of the review), the motion switch sits at the end of the label
@@ -67,6 +73,8 @@
    decision at the end (Apply, then Restore, owner order of 2026-10-02); on a narrow window the decision wraps under, still at the end. */
 .omni-appearance-window__footer { align-items: center; display: flex; flex: 1 1 100%; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: space-between; }
 .omni-appearance-window__tools, .omni-appearance-window__decision { display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); }
+.omni-appearance-window__tools, .omni-appearance-window__decision { max-inline-size: 100%; min-inline-size: 0; }
+.omni-appearance-window__footer .omni-button { flex: none; max-inline-size: 100%; white-space: nowrap; }
 .omni-appearance-window__decision { margin-inline-start: auto; }
 .omni-appearance-settings--window .omni-badge { inline-size: 3.25em; min-height: var(--omni-control-height); }
 
