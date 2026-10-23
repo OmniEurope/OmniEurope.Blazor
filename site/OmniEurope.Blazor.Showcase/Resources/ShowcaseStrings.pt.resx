@@ -1636,4 +1636,14 @@
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Processos editáveis: clique numa célula para editar a respetiva linha</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Um único clique em qualquer ponto de uma célula, mesmo vazia, abre a linha no campo dessa célula; o botão Detalhes mantém o seu próprio clique. O Tab chega a cada célula, e Enter ou Espaço edita-a.</value></data>
   <data name="DemoButtonsCopies" xml:space="preserve"><value>Cópias aceitas: {0}.</value></data>
+  <data name="DemoPagesFactSource" xml:space="preserve"><value>Origem</value></data>
+  <data name="DemoPagesFactRun" xml:space="preserve"><value>Execução</value></data>
+  <data name="DemoPagesFactTimeline" xml:space="preserve"><value>Cronologia</value></data>
+  <data name="DemoPagesFactRepository" xml:space="preserve"><value>Repositório</value></data>
+  <data name="DemoPagesFactBranch" xml:space="preserve"><value>Ramo</value></data>
+  <data name="DemoPagesFactStatus" xml:space="preserve"><value>Estado</value></data>
+  <data name="DemoPagesFactSucceeded" xml:space="preserve"><value>Concluído com êxito</value></data>
+  <data name="DemoPagesFactSteps" xml:space="preserve"><value>Passos</value></data>
+  <data name="DemoPagesFactStarted" xml:space="preserve"><value>Início</value></data>
+  <data name="DemoPagesFactDuration" xml:space="preserve"><value>Duração</value></data>
 </root>

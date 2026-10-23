@@ -221,7 +221,7 @@ public sealed class TileRuleAndBadgeWidthTests : OmniBunitContext
     [Fact]
     public void TheTileRule_NeverLetsAContentSpill()
     {
-        var tiles = ShippedLookTests.Body(".omni-tile-grid > :is(.omni-card, .omni-selectable-card, .omni-stat-tile, .omni-nav-tile)");
+        var tiles = ShippedLookTests.Body(".omni-tile-grid > :is(.omni-card, .omni-selectable-card, .omni-stat-tile, .omni-fact-tile, .omni-nav-tile)");
         Assert.Equal("100%", ShippedLookTests.Value(tiles, "block-size"));
         Assert.Equal("0", ShippedLookTests.Value(tiles, "min-inline-size"));
         Assert.Equal("0", ShippedLookTests.Value(tiles, "min-block-size"));

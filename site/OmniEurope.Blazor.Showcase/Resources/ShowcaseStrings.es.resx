@@ -1636,4 +1636,14 @@
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Expedientes editables: haga clic en una celda para editar su fila</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Un solo clic en cualquier punto de una celda, incluso vacía, abre la fila en el campo de esa celda; el botón Detalles conserva su propio clic. Tab llega a cada celda, y Intro o Espacio la edita.</value></data>
   <data name="DemoButtonsCopies" xml:space="preserve"><value>Copias aceptadas: {0}.</value></data>
+  <data name="DemoPagesFactSource" xml:space="preserve"><value>Origen</value></data>
+  <data name="DemoPagesFactRun" xml:space="preserve"><value>Ejecución</value></data>
+  <data name="DemoPagesFactTimeline" xml:space="preserve"><value>Cronología</value></data>
+  <data name="DemoPagesFactRepository" xml:space="preserve"><value>Repositorio</value></data>
+  <data name="DemoPagesFactBranch" xml:space="preserve"><value>Rama</value></data>
+  <data name="DemoPagesFactStatus" xml:space="preserve"><value>Estado</value></data>
+  <data name="DemoPagesFactSucceeded" xml:space="preserve"><value>Correcto</value></data>
+  <data name="DemoPagesFactSteps" xml:space="preserve"><value>Pasos</value></data>
+  <data name="DemoPagesFactStarted" xml:space="preserve"><value>Inicio</value></data>
+  <data name="DemoPagesFactDuration" xml:space="preserve"><value>Duración</value></data>
 </root>

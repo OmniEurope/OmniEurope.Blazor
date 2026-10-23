@@ -1636,4 +1636,14 @@
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Edytowalne sprawy: kliknij komórkę, aby edytować jej wiersz</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Jedno kliknięcie w dowolnym miejscu komórki, także pustej, otwiera wiersz na polu tej komórki; przycisk Szczegóły zachowuje własne kliknięcie. Tab dociera do każdej komórki, a Enter lub spacja ją edytuje.</value></data>
   <data name="DemoButtonsCopies" xml:space="preserve"><value>Przyjęte kopiowania: {0}.</value></data>
+  <data name="DemoPagesFactSource" xml:space="preserve"><value>Źródło</value></data>
+  <data name="DemoPagesFactRun" xml:space="preserve"><value>Przebieg</value></data>
+  <data name="DemoPagesFactTimeline" xml:space="preserve"><value>Oś czasu</value></data>
+  <data name="DemoPagesFactRepository" xml:space="preserve"><value>Repozytorium</value></data>
+  <data name="DemoPagesFactBranch" xml:space="preserve"><value>Gałąź</value></data>
+  <data name="DemoPagesFactStatus" xml:space="preserve"><value>Stan</value></data>
+  <data name="DemoPagesFactSucceeded" xml:space="preserve"><value>Powodzenie</value></data>
+  <data name="DemoPagesFactSteps" xml:space="preserve"><value>Kroki</value></data>
+  <data name="DemoPagesFactStarted" xml:space="preserve"><value>Początek</value></data>
+  <data name="DemoPagesFactDuration" xml:space="preserve"><value>Czas trwania</value></data>
 </root>

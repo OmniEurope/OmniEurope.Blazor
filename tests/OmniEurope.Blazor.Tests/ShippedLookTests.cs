@@ -358,7 +358,7 @@ public sealed partial class ShippedLookTests : OmniBunitContext
     [Fact]
     public void FrostedSurfaces_ShareOneHook()
     {
-        string[] surfaces = [".omni-card", ".omni-stat-tile", ".omni-settings-tile", ".omni-appearance-settings__row", ".omni-selectable-card", ".omni-upload__file"];
+        string[] surfaces = [".omni-card", ".omni-stat-tile", ".omni-fact-tile", ".omni-settings-tile", ".omni-appearance-settings__row", ".omni-selectable-card", ".omni-upload__file"];
         var positioned = Rules().Single(rule => rule.Selector.StartsWith(".omni-card,", StringComparison.Ordinal) && rule.Body.Contains("position", StringComparison.Ordinal));
         var frost = Rules().Single(rule => rule.Selector.StartsWith(".omni-card::before,", StringComparison.Ordinal));
 

@@ -60,13 +60,7 @@ public partial class OmniStatTile
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        var hasHref = !string.IsNullOrWhiteSpace(Href);
-        if (hasHref && OnClick.HasDelegate)
-        {
-            throw new ArgumentException("OmniStatTile takes either Href (a link) or OnClick (a button), not both.", nameof(Href));
-        }
-
-        _safeHref = hasHref ? OmniUriPolicy.EnsureSafe(Href, nameof(Href)) : null;
+        _safeHref = Internal.OmniTileAction.SafeHref(nameof(OmniStatTile), Href, OnClick.HasDelegate);
     }
 
     /// <summary>

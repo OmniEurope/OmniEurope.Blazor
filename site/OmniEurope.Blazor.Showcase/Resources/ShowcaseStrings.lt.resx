@@ -1636,4 +1636,14 @@
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Redaguojamos bylos: spustelėkite langelį, kad redaguotumėte jo eilutę</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Vienas spustelėjimas bet kurioje langelio vietoje, net tuščiame, atidaro eilutę ties to langelio lauku; mygtukas „Išsami informacija“ išlaiko savo spustelėjimą. Tab pasiekia kiekvieną langelį, o Enter arba tarpas jį redaguoja.</value></data>
   <data name="DemoButtonsCopies" xml:space="preserve"><value>Priimti kopijavimai: {0}.</value></data>
+  <data name="DemoPagesFactSource" xml:space="preserve"><value>Šaltinis</value></data>
+  <data name="DemoPagesFactRun" xml:space="preserve"><value>Vykdymas</value></data>
+  <data name="DemoPagesFactTimeline" xml:space="preserve"><value>Laiko juosta</value></data>
+  <data name="DemoPagesFactRepository" xml:space="preserve"><value>Saugykla</value></data>
+  <data name="DemoPagesFactBranch" xml:space="preserve"><value>Šaka</value></data>
+  <data name="DemoPagesFactStatus" xml:space="preserve"><value>Būsena</value></data>
+  <data name="DemoPagesFactSucceeded" xml:space="preserve"><value>Sėkminga</value></data>
+  <data name="DemoPagesFactSteps" xml:space="preserve"><value>Žingsniai</value></data>
+  <data name="DemoPagesFactStarted" xml:space="preserve"><value>Pradžia</value></data>
+  <data name="DemoPagesFactDuration" xml:space="preserve"><value>Trukmė</value></data>
 </root>

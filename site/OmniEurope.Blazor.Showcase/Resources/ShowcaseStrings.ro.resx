@@ -1636,4 +1636,14 @@
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Dosare editabile: faceți clic pe o celulă pentru a-i edita rândul</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Un singur clic oriunde într-o celulă, chiar goală, deschide rândul pe câmpul acelei celule; butonul Detalii își păstrează propriul clic. Tab ajunge la fiecare celulă, iar Enter sau Spațiu o editează.</value></data>
   <data name="DemoButtonsCopies" xml:space="preserve"><value>Copieri acceptate: {0}.</value></data>
+  <data name="DemoPagesFactSource" xml:space="preserve"><value>Sursă</value></data>
+  <data name="DemoPagesFactRun" xml:space="preserve"><value>Rulare</value></data>
+  <data name="DemoPagesFactTimeline" xml:space="preserve"><value>Cronologie</value></data>
+  <data name="DemoPagesFactRepository" xml:space="preserve"><value>Depozit</value></data>
+  <data name="DemoPagesFactBranch" xml:space="preserve"><value>Ramură</value></data>
+  <data name="DemoPagesFactStatus" xml:space="preserve"><value>Stare</value></data>
+  <data name="DemoPagesFactSucceeded" xml:space="preserve"><value>Reușit</value></data>
+  <data name="DemoPagesFactSteps" xml:space="preserve"><value>Pași</value></data>
+  <data name="DemoPagesFactStarted" xml:space="preserve"><value>Început</value></data>
+  <data name="DemoPagesFactDuration" xml:space="preserve"><value>Durată</value></data>
 </root>

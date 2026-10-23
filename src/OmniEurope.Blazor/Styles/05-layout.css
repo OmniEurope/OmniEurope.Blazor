@@ -59,7 +59,7 @@
 .omni-tile-grid--columns-4 { --omni-tile-columns: 4; --omni-tile-columns-sm: 2; }
 .omni-tile-grid--columns-5 { --omni-tile-columns: 5; --omni-tile-columns-sm: 2; }
 .omni-tile-grid--columns-6 { --omni-tile-columns: 6; --omni-tile-columns-sm: 2; }
-.omni-tile-grid > :is(.omni-card, .omni-selectable-card, .omni-stat-tile, .omni-nav-tile) { block-size: 100%; box-sizing: border-box; min-block-size: 0; min-inline-size: 0; }
+.omni-tile-grid > :is(.omni-card, .omni-selectable-card, .omni-stat-tile, .omni-fact-tile, .omni-nav-tile) { block-size: 100%; box-sizing: border-box; min-block-size: 0; min-inline-size: 0; }
 .omni-tile-grid > .omni-card { display: flex; flex-direction: column; }
 .omni-tile-grid > .omni-card > .omni-card__body { flex: 1 1 auto; min-block-size: 0; overflow: auto; }
 /* A clickable card clips its body instead: a scrolling region inside a link or a button is a nested focus stop. */

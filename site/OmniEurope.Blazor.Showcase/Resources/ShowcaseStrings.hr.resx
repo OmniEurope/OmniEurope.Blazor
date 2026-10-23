@@ -1636,4 +1636,14 @@
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Predmeti koji se mogu uređivati: kliknite ćeliju da uredite njezin redak</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Jedan klik bilo gdje u ćeliji, čak i praznoj, otvara redak na polju te ćelije; gumb Pojedinosti zadržava vlastiti klik. Tab dolazi do svake ćelije, a Enter ili razmaknica je uređuje.</value></data>
   <data name="DemoButtonsCopies" xml:space="preserve"><value>Prihvaćena kopiranja: {0}.</value></data>
+  <data name="DemoPagesFactSource" xml:space="preserve"><value>Izvor</value></data>
+  <data name="DemoPagesFactRun" xml:space="preserve"><value>Izvršavanje</value></data>
+  <data name="DemoPagesFactTimeline" xml:space="preserve"><value>Vremenska crta</value></data>
+  <data name="DemoPagesFactRepository" xml:space="preserve"><value>Repozitorij</value></data>
+  <data name="DemoPagesFactBranch" xml:space="preserve"><value>Grana</value></data>
+  <data name="DemoPagesFactStatus" xml:space="preserve"><value>Status</value></data>
+  <data name="DemoPagesFactSucceeded" xml:space="preserve"><value>Uspjeh</value></data>
+  <data name="DemoPagesFactSteps" xml:space="preserve"><value>Koraci</value></data>
+  <data name="DemoPagesFactStarted" xml:space="preserve"><value>Početak</value></data>
+  <data name="DemoPagesFactDuration" xml:space="preserve"><value>Trajanje</value></data>
 </root>

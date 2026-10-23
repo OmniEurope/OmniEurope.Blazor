@@ -1636,4 +1636,14 @@
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Muudetavad toimikud: klõpsake lahtril, et muuta selle rida</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Üks klõps mis tahes kohas lahtris, ka tühjas, avab rea selle lahtri väljal; nupp Üksikasjad säilitab oma klõpsu. Tab jõuab igasse lahtrisse ning Enter või tühik muudab seda.</value></data>
   <data name="DemoButtonsCopies" xml:space="preserve"><value>Vastu võetud kopeerimised: {0}.</value></data>
+  <data name="DemoPagesFactSource" xml:space="preserve"><value>Allikas</value></data>
+  <data name="DemoPagesFactRun" xml:space="preserve"><value>Käivitus</value></data>
+  <data name="DemoPagesFactTimeline" xml:space="preserve"><value>Ajajoon</value></data>
+  <data name="DemoPagesFactRepository" xml:space="preserve"><value>Hoidla</value></data>
+  <data name="DemoPagesFactBranch" xml:space="preserve"><value>Haru</value></data>
+  <data name="DemoPagesFactStatus" xml:space="preserve"><value>Olek</value></data>
+  <data name="DemoPagesFactSucceeded" xml:space="preserve"><value>Õnnestus</value></data>
+  <data name="DemoPagesFactSteps" xml:space="preserve"><value>Sammud</value></data>
+  <data name="DemoPagesFactStarted" xml:space="preserve"><value>Algus</value></data>
+  <data name="DemoPagesFactDuration" xml:space="preserve"><value>Kestus</value></data>
 </root>

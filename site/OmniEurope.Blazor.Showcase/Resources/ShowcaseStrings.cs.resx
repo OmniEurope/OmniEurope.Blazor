@@ -1636,4 +1636,14 @@
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Upravitelné spisy: kliknutím na buňku upravíte její řádek</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Jediné kliknutí kamkoli do buňky, i prázdné, otevře řádek na poli této buňky; tlačítko Podrobnosti si ponechá vlastní kliknutí. Klávesa Tab dojde na každou buňku a Enter nebo mezerník ji upraví.</value></data>
   <data name="DemoButtonsCopies" xml:space="preserve"><value>Přijatá kopírování: {0}.</value></data>
+  <data name="DemoPagesFactSource" xml:space="preserve"><value>Zdroj</value></data>
+  <data name="DemoPagesFactRun" xml:space="preserve"><value>Běh</value></data>
+  <data name="DemoPagesFactTimeline" xml:space="preserve"><value>Časová osa</value></data>
+  <data name="DemoPagesFactRepository" xml:space="preserve"><value>Repozitář</value></data>
+  <data name="DemoPagesFactBranch" xml:space="preserve"><value>Větev</value></data>
+  <data name="DemoPagesFactStatus" xml:space="preserve"><value>Stav</value></data>
+  <data name="DemoPagesFactSucceeded" xml:space="preserve"><value>Úspěšný</value></data>
+  <data name="DemoPagesFactSteps" xml:space="preserve"><value>Kroky</value></data>
+  <data name="DemoPagesFactStarted" xml:space="preserve"><value>Začátek</value></data>
+  <data name="DemoPagesFactDuration" xml:space="preserve"><value>Doba trvání</value></data>
 </root>

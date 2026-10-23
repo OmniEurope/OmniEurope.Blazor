@@ -1636,4 +1636,14 @@
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Upraviteľné spisy: kliknutím na bunku upravíte jej riadok</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Jediné kliknutie kdekoľvek v bunke, aj prázdnej, otvorí riadok na poli tejto bunky; tlačidlo Podrobnosti si ponechá vlastné kliknutie. Kláves Tab dosiahne každú bunku a Enter alebo medzerník ju upraví.</value></data>
   <data name="DemoButtonsCopies" xml:space="preserve"><value>Prijaté kopírovania: {0}.</value></data>
+  <data name="DemoPagesFactSource" xml:space="preserve"><value>Zdroj</value></data>
+  <data name="DemoPagesFactRun" xml:space="preserve"><value>Beh</value></data>
+  <data name="DemoPagesFactTimeline" xml:space="preserve"><value>Časová os</value></data>
+  <data name="DemoPagesFactRepository" xml:space="preserve"><value>Repozitár</value></data>
+  <data name="DemoPagesFactBranch" xml:space="preserve"><value>Vetva</value></data>
+  <data name="DemoPagesFactStatus" xml:space="preserve"><value>Stav</value></data>
+  <data name="DemoPagesFactSucceeded" xml:space="preserve"><value>Úspešné</value></data>
+  <data name="DemoPagesFactSteps" xml:space="preserve"><value>Kroky</value></data>
+  <data name="DemoPagesFactStarted" xml:space="preserve"><value>Začiatok</value></data>
+  <data name="DemoPagesFactDuration" xml:space="preserve"><value>Trvanie</value></data>
 </root>
