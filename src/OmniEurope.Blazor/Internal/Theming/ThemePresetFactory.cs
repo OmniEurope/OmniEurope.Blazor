@@ -239,7 +239,9 @@ internal static class ThemePresetFactory
     {
         var target = ThemeColor.Luminance(reference) > 0.35 ? "#000000" : "#ffffff";
         var candidate = color;
-        for (var step = 0; step < 400 && ThemeColor.Contrast(candidate, reference) < ratio; step++)
+        // Ends: the reference is a mode ink (near-black or white), the target its opposite pole, 18:1 or more
+        // away from it, so each 1% step gains contrast until the ratio is met far before the pole.
+        while (ThemeColor.Contrast(candidate, reference) < ratio)
         {
             candidate = ThemeColor.Mix(target, candidate, 0.01);
         }
