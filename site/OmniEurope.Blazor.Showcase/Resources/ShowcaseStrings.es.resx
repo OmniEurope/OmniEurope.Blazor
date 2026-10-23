@@ -1279,6 +1279,9 @@
   <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>La cuota está casi alcanzada.</value></data>
   <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Error</value></data>
   <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>No se pudo conectar con el servicio.</value></data>
+  <data name="DemoOverlayNotifyShort" xml:space="preserve"><value>Notificación corta</value></data>
+  <data name="DemoOverlayNotifyLong" xml:space="preserve"><value>Notificación larga</value></data>
+  <data name="DemoOverlayNoticeLong" xml:space="preserve"><value>El informe de importación está listo. Se leyeron catorce archivos: doce se guardaron sin observaciones, uno se omitió porque ya existía y otro se rechazó porque faltaba una columna obligatoria. El detalle línea por línea, con la corrección propuesta para cada rechazo, puede consultarse de nuevo en cualquier momento en el registro de importación, desde la página de procesos.</value></data>
   <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Confirmar la eliminación</value></data>
   <data name="DemoOverlayClose" xml:space="preserve"><value>Cerrar</value></data>
   <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Esta acción quita la carpeta de la lista. Se puede deshacer durante treinta días.</value></data>

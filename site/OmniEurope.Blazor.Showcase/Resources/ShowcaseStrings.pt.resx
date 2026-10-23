@@ -1279,6 +1279,9 @@
   <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>A quota está quase atingida.</value></data>
   <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Falha</value></data>
   <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>A ligação ao serviço falhou.</value></data>
+  <data name="DemoOverlayNotifyShort" xml:space="preserve"><value>Notificação curta</value></data>
+  <data name="DemoOverlayNotifyLong" xml:space="preserve"><value>Notificação longa</value></data>
+  <data name="DemoOverlayNoticeLong" xml:space="preserve"><value>O relatório de importação está pronto. Foram lidos catorze ficheiros: doze foram guardados sem observações, um foi ignorado porque já existia e um foi recusado porque faltava uma coluna obrigatória. O detalhe linha a linha, com a correção proposta para cada recusa, pode ser consultado de novo a qualquer momento no registo de importação, a partir da página de processamentos.</value></data>
   <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Confirmar a eliminação</value></data>
   <data name="DemoOverlayClose" xml:space="preserve"><value>Fechar</value></data>
   <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Esta ação retira a pasta da lista. Pode ser revertida durante trinta dias.</value></data>

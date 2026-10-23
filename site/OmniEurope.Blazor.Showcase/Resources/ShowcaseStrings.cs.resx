@@ -1279,6 +1279,9 @@
   <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>Kvóta je téměř vyčerpána.</value></data>
   <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Selhání</value></data>
   <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>Připojení ke službě se nezdařilo.</value></data>
+  <data name="DemoOverlayNotifyShort" xml:space="preserve"><value>Krátké oznámení</value></data>
+  <data name="DemoOverlayNotifyLong" xml:space="preserve"><value>Dlouhé oznámení</value></data>
+  <data name="DemoOverlayNoticeLong" xml:space="preserve"><value>Zpráva o importu je hotová. Bylo načteno čtrnáct souborů: dvanáct bylo uloženo bez připomínek, jeden byl přeskočen, protože již existoval, a jeden byl odmítnut, protože chyběl povinný sloupec. Podrobnosti řádek po řádku s navrženou opravou pro každé odmítnutí si můžete kdykoli znovu přečíst v deníku importu na stránce zpracování.</value></data>
   <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Potvrdit odstranění</value></data>
   <data name="DemoOverlayClose" xml:space="preserve"><value>Zavřít</value></data>
   <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Tato akce odebere složku ze seznamu. Lze ji vrátit po dobu třiceti dní.</value></data>

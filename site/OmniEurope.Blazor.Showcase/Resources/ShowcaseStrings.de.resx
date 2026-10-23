@@ -1279,6 +1279,9 @@
   <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>Das Kontingent ist fast erreicht.</value></data>
   <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Fehler</value></data>
   <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>Die Verbindung zum Dienst ist fehlgeschlagen.</value></data>
+  <data name="DemoOverlayNotifyShort" xml:space="preserve"><value>Kurze Benachrichtigung</value></data>
+  <data name="DemoOverlayNotifyLong" xml:space="preserve"><value>Lange Benachrichtigung</value></data>
+  <data name="DemoOverlayNoticeLong" xml:space="preserve"><value>Der Importbericht ist fertig. Vierzehn Dateien wurden gelesen: zwölf wurden ohne Beanstandung gespeichert, eine wurde übersprungen, weil sie bereits existierte, und eine wurde abgelehnt, weil eine Pflichtspalte fehlte. Die Einzelheiten Zeile für Zeile, mit dem Korrekturvorschlag zu jeder Ablehnung, können Sie jederzeit im Importprotokoll auf der Seite der Verarbeitungen noch einmal nachlesen.</value></data>
   <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Löschen bestätigen</value></data>
   <data name="DemoOverlayClose" xml:space="preserve"><value>Schließen</value></data>
   <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Diese Aktion entfernt den Ordner aus der Liste. Sie kann dreißig Tage lang rückgängig gemacht werden.</value></data>

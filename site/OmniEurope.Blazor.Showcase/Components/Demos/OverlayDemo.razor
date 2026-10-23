@@ -53,7 +53,9 @@
 
     @* Dialogues ouverts par OmniOverlayService : CloseOnBackdrop="false" ignore le clic sur le
        voile (la croix et Échap ferment toujours) ; Dismissible="false" retire la croix, ignore Échap
-       et le voile, annonce un alertdialog, et seul son contenu le ferme par CloseDialog. *@
+       et le voile, annonce un alertdialog, et seul son contenu le ferme par CloseDialog. Les deux derniers
+       boutons envoient une notification courte et une longue à la pile de l'hôte : une même pile donne la
+       même largeur à toutes ses cartes. *@
     <OmniComponentsHost OverlayService="Overlays">
         <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true">
             <OmniButton Id="demo-dialog-sticky" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenStickyDialog())">
@@ -61,6 +63,12 @@
             </OmniButton>
             <OmniButton Id="demo-dialog-blocking" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenBlockingDialog())">
                 @Text["DemoOverlayBlockingButton"]
+            </OmniButton>
+            <OmniButton Id="demo-notify-short" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => NotifyShort())">
+                @Text["DemoOverlayNotifyShort"]
+            </OmniButton>
+            <OmniButton Id="demo-notify-long" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => NotifyLong())">
+                @Text["DemoOverlayNotifyLong"]
             </OmniButton>
         </OmniStack>
     </OmniComponentsHost>

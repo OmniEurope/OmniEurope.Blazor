@@ -1279,6 +1279,9 @@
   <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>Kvota ir gandrīz sasniegta.</value></data>
   <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Kļūme</value></data>
   <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>Neizdevās izveidot savienojumu ar pakalpojumu.</value></data>
+  <data name="DemoOverlayNotifyShort" xml:space="preserve"><value>Īss paziņojums</value></data>
+  <data name="DemoOverlayNotifyLong" xml:space="preserve"><value>Garš paziņojums</value></data>
+  <data name="DemoOverlayNoticeLong" xml:space="preserve"><value>Importa pārskats ir gatavs. Tika nolasīti četrpadsmit faili: divpadsmit saglabāti bez piezīmēm, viens izlaists, jo tas jau pastāvēja, un viens noraidīts, jo trūka obligātās kolonnas. Informāciju rindu pa rindai ar ieteikto labojumu katram noraidījumam jebkurā laikā var izlasīt vēlreiz importa žurnālā, apstrādes lapā.</value></data>
   <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Apstiprināt dzēšanu</value></data>
   <data name="DemoOverlayClose" xml:space="preserve"><value>Aizvērt</value></data>
   <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Šī darbība noņem mapi no saraksta. To var atsaukt trīsdesmit dienu laikā.</value></data>

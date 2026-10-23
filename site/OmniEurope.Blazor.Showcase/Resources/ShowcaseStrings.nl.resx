@@ -1279,6 +1279,9 @@
   <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>Het quotum is bijna bereikt.</value></data>
   <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Fout</value></data>
   <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>De verbinding met de dienst is mislukt.</value></data>
+  <data name="DemoOverlayNotifyShort" xml:space="preserve"><value>Korte melding</value></data>
+  <data name="DemoOverlayNotifyLong" xml:space="preserve"><value>Lange melding</value></data>
+  <data name="DemoOverlayNoticeLong" xml:space="preserve"><value>Het importrapport is klaar. Er zijn veertien bestanden gelezen: twaalf zijn zonder opmerkingen opgeslagen, één is overgeslagen omdat het al bestond en één is geweigerd omdat een verplichte kolom ontbrak. Het detail regel voor regel, met de voorgestelde correctie voor elke weigering, kunt u op elk moment opnieuw lezen in het importlogboek, vanaf de pagina met verwerkingen.</value></data>
   <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Verwijdering bevestigen</value></data>
   <data name="DemoOverlayClose" xml:space="preserve"><value>Sluiten</value></data>
   <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Deze actie verwijdert de map uit de lijst. Ze kan dertig dagen lang ongedaan worden gemaakt.</value></data>

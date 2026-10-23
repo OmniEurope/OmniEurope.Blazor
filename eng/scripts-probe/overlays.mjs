@@ -80,6 +80,25 @@ export async function overlaySteps(session, results) {
   await waitFor('la boîte à largeur libre fermée', "document.querySelector('section.omni-dialog') === null");
   step('largeur libre de la boîte, retirée pendant l\'ouverture');
 
+  // 2b. One notification stack, one card width: a short and a long message sent to the same stack are
+  // drawn as wide as each other (the stack widens to its longest message), at 1280 and 390 px.
+  await clickOn('#demo-notify-short');
+  await clickOn('#demo-notify-long');
+  await waitFor('les deux notifications de la pile', "document.querySelectorAll('.omni-notification-region .omni-notification').length === 2");
+  const stackWidths = await evaluate(`[...document.querySelectorAll('.omni-notification-region .omni-notification')].map(card => ({ long: card.classList.contains('omni-notification--long'), width: Math.round(card.getBoundingClientRect().width * 100) / 100 }))`);
+  check(stackWidths.some(card => card.long) && stackWidths.some(card => !card.long), `La pile ne montre pas une carte courte et une longue : ${JSON.stringify(stackWidths)}.`);
+  check(Math.abs(stackWidths[0].width - stackWidths[1].width) <= 0.5, `Les cartes d'une même pile n'ont pas la même largeur : ${JSON.stringify(stackWidths)}.`);
+  await send('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: false });
+  await pause(200);
+  const narrowWidths = await evaluate(`[...document.querySelectorAll('.omni-notification-region .omni-notification')].map(card => Math.round(card.getBoundingClientRect().width * 100) / 100)`);
+  check(narrowWidths.length === 2 && Math.abs(narrowWidths[0] - narrowWidths[1]) <= 0.5, `Les cartes d'une même pile n'ont pas la même largeur à 390 px : ${JSON.stringify(narrowWidths)}.`);
+  await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
+  for (let remaining = 2; remaining > 0; remaining--) {
+    await clickOn('.omni-notification-region .omni-notification__dismiss');
+    await waitFor('une notification fermée', `document.querySelectorAll('.omni-notification-region .omni-notification').length === ${remaining - 1}`);
+  }
+  step('notifications courte et longue d\'une même pile : même largeur à 1280 et 390 px');
+
   // 3. Popovers: placed inside the window when opened, released when closed.
   await clickOn('.omni-popover > button[aria-haspopup="dialog"]');
   await waitFor('la bulle ouverte', "document.querySelector('.omni-popover > button[aria-haspopup=\"dialog\"]').getAttribute('aria-expanded') === 'true'");

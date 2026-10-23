@@ -1279,6 +1279,9 @@
   <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>Kvoten är nästan nådd.</value></data>
   <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Fel</value></data>
   <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>Anslutningen till tjänsten misslyckades.</value></data>
+  <data name="DemoOverlayNotifyShort" xml:space="preserve"><value>Kort avisering</value></data>
+  <data name="DemoOverlayNotifyLong" xml:space="preserve"><value>Lång avisering</value></data>
+  <data name="DemoOverlayNoticeLong" xml:space="preserve"><value>Importrapporten är klar. Fjorton filer lästes: tolv sparades utan anmärkningar, en hoppades över eftersom den redan fanns och en avvisades eftersom en obligatorisk kolumn saknades. Detaljerna rad för rad, med föreslagen rättelse för varje avvisning, kan du när som helst läsa igen i importloggen, från sidan med bearbetningar.</value></data>
   <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Bekräfta borttagningen</value></data>
   <data name="DemoOverlayClose" xml:space="preserve"><value>Stäng</value></data>
   <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Den här åtgärden tar bort mappen från listan. Den kan ångras i trettio dagar.</value></data>
