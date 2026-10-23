@@ -212,6 +212,52 @@ export async function overlaySteps(session, results) {
   await waitFor('le retour à la page précédente', "location.pathname === '/composants/badges'");
   step('retour sans destination : un pas en arrière dans l\'historique');
 
+  // The pinned actions of the page header, with the markup of a pipeline run page (icon, back button,
+  // two badges, a split button in the actions, a "⋮" menu of four entries, a pinned "Run again"): on a
+  // phone the pinned button is in sight without any click, on a row of its own under line 1 and flush
+  // with the inline end of the header, and the "⋮" trigger stays on line 1 at the end of the title row,
+  // whether "Show more" is closed or open (recette R-30, R-31, R-40).
+  const pinnedBox = `(() => {
+    const header = document.getElementById('pages-demo-pinned');
+    const rect = element => { const box = element.getBoundingClientRect(); return { top: box.top, bottom: box.bottom, left: box.left, right: box.right, width: box.width, height: box.height }; };
+    const row = header.querySelector('.omni-page-header__row');
+    const back = header.querySelector('.omni-page-header__back');
+    const title = header.querySelector('.omni-page-header__title');
+    const pinned = document.getElementById('pages-demo-pinned-relaunch');
+    const trigger = header.querySelector('.omni-page-header__menu .omni-overflow-menu__trigger');
+    const toggle = header.querySelector('.omni-page-header__toggle');
+    return { viewport: innerWidth, row: rect(row), back: rect(back), title: rect(title), pinned: rect(pinned), pinnedShown: pinned.getClientRects().length > 0, trigger: rect(trigger), toggleShown: toggle.getClientRects().length > 0, expanded: toggle.getAttribute('aria-expanded') };
+  })()`;
+  for (const width of [375, 320]) {
+    await send('Emulation.setDeviceMetricsOverride', { width, height: 812, deviceScaleFactor: 1, mobile: true });
+    await session.visit('/composants/pages', '#pages-demo-pinned-relaunch');
+    await evaluate("document.getElementById('pages-demo-pinned').scrollIntoView({ block: 'center' })");
+    await pause(400);
+    for (const state of ['closed', 'open']) {
+      if (state === 'open') {
+        await clickOn('#pages-demo-pinned .omni-page-header__toggle');
+        await waitFor('« Voir plus » ouvert', "document.querySelector('#pages-demo-pinned .omni-page-header__toggle')?.getAttribute('aria-expanded') === 'true'");
+        await pause(300);
+      }
+
+      const box = await evaluate(pinnedBox);
+      const where = `à ${width} px, « Voir plus » ${state}`;
+      check(box.toggleShown, `Le bouton « Voir plus » est absent ${where} : ${JSON.stringify(box)}.`);
+      check(box.expanded === (state === 'open' ? 'true' : 'false'), `État de « Voir plus » inattendu ${where} : ${box.expanded}.`);
+      check(box.pinnedShown && box.pinned.width > 0 && box.pinned.left >= 0 && box.pinned.right <= box.viewport, `Le bouton épinglé n'est pas visible sans clic ${where} : ${JSON.stringify(box.pinned)}.`);
+      check(Math.abs(box.pinned.right - box.row.right) <= 1, `Le bouton épinglé n'est pas aligné à la fin de l'en-tête ${where} : ${box.pinned.right} contre ${box.row.right}.`);
+      check(box.pinned.top >= box.trigger.bottom - 1, `Le bouton épinglé n'est pas sous la ligne 1 ${where} : ${box.pinned.top} contre ${box.trigger.bottom}.`);
+      check(Math.abs(box.trigger.top - box.back.top) <= 2 && box.trigger.top < box.pinned.top, `Le menu ⋮ n'est pas sur la ligne du titre ${where} : ${box.trigger.top} contre ${box.back.top}.`);
+      check(box.trigger.left >= box.title.right - 1 && Math.abs(box.trigger.right - box.row.right) <= 1, `Le menu ⋮ n'est pas à l'extrémité de la ligne du titre ${where} : ${JSON.stringify({ trigger: box.trigger, title: box.title, row: box.row })}.`);
+    }
+
+    await clickOn('#pages-demo-pinned .omni-page-header__toggle');
+  }
+
+  step('actions épinglées de l\'en-tête visibles sans clic sous la ligne 1 et menu ⋮ au bout de la ligne du titre à 375 et 320 px, « Voir plus » fermé et ouvert');
+  await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
+  await pause(300);
+
   // 9. The appearance window: the control size and the Black hole theme, whose canvas the scope draws.
   await session.visit('/composants/themes', '#demo-appearance-window');
   await clickOn('#demo-appearance-window');
