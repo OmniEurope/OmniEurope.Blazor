@@ -3,6 +3,22 @@
 :root,
 [data-omni-theme="light"],
 [data-omni-theme="system"] {
+    --omni-ansi-0: #353535;
+    --omni-ansi-1: #85211e;
+    --omni-ansi-10: #2b642f;
+    --omni-ansi-11: #795100;
+    --omni-ansi-12: #195a97;
+    --omni-ansi-13: #794482;
+    --omni-ansi-14: #00626d;
+    --omni-ansi-15: #1e1e1e;
+    --omni-ansi-2: #225026;
+    --omni-ansi-3: #614100;
+    --omni-ansi-4: #144879;
+    --omni-ansi-5: #613668;
+    --omni-ansi-6: #004e57;
+    --omni-ansi-7: #585858;
+    --omni-ansi-8: #4a4a4a;
+    --omni-ansi-9: #a62925;
     --omni-badge-solid-fill-accent: #7170d8;
     --omni-badge-solid-fill-danger: #f44336;
     --omni-badge-solid-fill-info: #2196f3;
@@ -114,6 +130,22 @@
     --omni-radius-sm: 0.15625rem;
 }
 [data-omni-theme="dark"] {
+    --omni-ansi-0: #b8b8b8;
+    --omni-ansi-1: #e7a9a9;
+    --omni-ansi-10: #a3d6a4;
+    --omni-ansi-11: #e0c87a;
+    --omni-ansi-12: #9fcef8;
+    --omni-ansi-13: #e2bde9;
+    --omni-ansi-14: #7adce9;
+    --omni-ansi-15: #f3f3f3;
+    --omni-ansi-2: #84c886;
+    --omni-ansi-3: #d5b64e;
+    --omni-ansi-4: #7fbef6;
+    --omni-ansi-5: #d8a7e2;
+    --omni-ansi-6: #4dd0e1;
+    --omni-ansi-7: #d8d8d8;
+    --omni-ansi-8: #c4c4c4;
+    --omni-ansi-9: #edbfbf;
     --omni-badge-solid-fill-accent: #5e5cd8;
     --omni-badge-solid-fill-danger: #dc3732;
     --omni-badge-solid-fill-info: #217bbd;
@@ -208,6 +240,22 @@
 }
 @media (prefers-color-scheme: dark) {
     [data-omni-theme="system"] {
+        --omni-ansi-0: #b8b8b8;
+        --omni-ansi-1: #e7a9a9;
+        --omni-ansi-10: #a3d6a4;
+        --omni-ansi-11: #e0c87a;
+        --omni-ansi-12: #9fcef8;
+        --omni-ansi-13: #e2bde9;
+        --omni-ansi-14: #7adce9;
+        --omni-ansi-15: #f3f3f3;
+        --omni-ansi-2: #84c886;
+        --omni-ansi-3: #d5b64e;
+        --omni-ansi-4: #7fbef6;
+        --omni-ansi-5: #d8a7e2;
+        --omni-ansi-6: #4dd0e1;
+        --omni-ansi-7: #d8d8d8;
+        --omni-ansi-8: #c4c4c4;
+        --omni-ansi-9: #edbfbf;
         --omni-badge-solid-fill-accent: #5e5cd8;
         --omni-badge-solid-fill-danger: #dc3732;
         --omni-badge-solid-fill-info: #217bbd;

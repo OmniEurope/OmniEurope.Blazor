@@ -653,6 +653,16 @@
   <data name="DemoDataListLogMissing" xml:space="preserve"><value>Documento mancante</value></data>
   <data name="DemoDataListLogRejected" xml:space="preserve"><value>Convalida rifiutata</value></data>
   <data name="DemoDataListLogAborted" xml:space="preserve"><value>Elaborazione interrotta</value></data>
+  <data name="DemoAnsiModeLabel" xml:space="preserve"><value>Sequenze di escape</value></data>
+  <data name="DemoAnsiModeRender" xml:space="preserve"><value>Mostra i colori</value></data>
+  <data name="DemoAnsiModeHide" xml:space="preserve"><value>Nascondi i codici</value></data>
+  <data name="DemoAnsiModeRaw" xml:space="preserve"><value>Testo grezzo</value></data>
+  <data name="DemoAnsiLogLabel" xml:space="preserve"><value>Registro con colori ANSI</value></data>
+  <data name="DemoAnsiCellLabel" xml:space="preserve"><value>La stessa riga in una cella</value></data>
+  <data name="DemoAnsiNoLeaks" xml:space="preserve"><value>nessuna perdita trovata</value></data>
+  <data name="DemoAnsiSlow" xml:space="preserve"><value>query lenta, 1,2 s</value></data>
+  <data name="DemoAnsiRefused" xml:space="preserve"><value>connessione rifiutata</value></data>
+  <data name="DemoAnsiRetry" xml:space="preserve"><value>nuovo tentativo tra 5 s</value></data>
   <data name="DemoChartChartTitle" xml:space="preserve"><value>Pratiche depositate per trimestre</value></data>
   <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Trimestre</value></data>
   <data name="DemoChartAxisCases" xml:space="preserve"><value>Pratiche</value></data>

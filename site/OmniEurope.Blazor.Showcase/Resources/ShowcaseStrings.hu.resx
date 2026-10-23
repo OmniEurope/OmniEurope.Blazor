@@ -653,6 +653,16 @@
   <data name="DemoDataListLogMissing" xml:space="preserve"><value>Hiányzó dokumentum</value></data>
   <data name="DemoDataListLogRejected" xml:space="preserve"><value>Jóváhagyás elutasítva</value></data>
   <data name="DemoDataListLogAborted" xml:space="preserve"><value>Feldolgozás megszakítva</value></data>
+  <data name="DemoAnsiModeLabel" xml:space="preserve"><value>Escape-szekvenciák</value></data>
+  <data name="DemoAnsiModeRender" xml:space="preserve"><value>Színek megjelenítése</value></data>
+  <data name="DemoAnsiModeHide" xml:space="preserve"><value>Kódok elrejtése</value></data>
+  <data name="DemoAnsiModeRaw" xml:space="preserve"><value>Nyers szöveg</value></data>
+  <data name="DemoAnsiLogLabel" xml:space="preserve"><value>Napló ANSI-színekkel</value></data>
+  <data name="DemoAnsiCellLabel" xml:space="preserve"><value>Ugyanaz a sor egy cellában</value></data>
+  <data name="DemoAnsiNoLeaks" xml:space="preserve"><value>nem található szivárgás</value></data>
+  <data name="DemoAnsiSlow" xml:space="preserve"><value>lassú lekérdezés, 1,2 s</value></data>
+  <data name="DemoAnsiRefused" xml:space="preserve"><value>a kapcsolat elutasítva</value></data>
+  <data name="DemoAnsiRetry" xml:space="preserve"><value>újrapróbálkozás 5 mp múlva</value></data>
   <data name="DemoChartChartTitle" xml:space="preserve"><value>Beadott ügyek negyedévenként</value></data>
   <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Negyedév</value></data>
   <data name="DemoChartAxisCases" xml:space="preserve"><value>Ügyek</value></data>

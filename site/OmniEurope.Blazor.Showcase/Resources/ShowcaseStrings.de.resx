@@ -653,6 +653,16 @@
   <data name="DemoDataListLogMissing" xml:space="preserve"><value>Fehlendes Dokument</value></data>
   <data name="DemoDataListLogRejected" xml:space="preserve"><value>Validierung abgelehnt</value></data>
   <data name="DemoDataListLogAborted" xml:space="preserve"><value>Bearbeitung abgebrochen</value></data>
+  <data name="DemoAnsiModeLabel" xml:space="preserve"><value>Escape-Sequenzen</value></data>
+  <data name="DemoAnsiModeRender" xml:space="preserve"><value>Farben anzeigen</value></data>
+  <data name="DemoAnsiModeHide" xml:space="preserve"><value>Codes ausblenden</value></data>
+  <data name="DemoAnsiModeRaw" xml:space="preserve"><value>Rohtext</value></data>
+  <data name="DemoAnsiLogLabel" xml:space="preserve"><value>Protokoll mit ANSI-Farben</value></data>
+  <data name="DemoAnsiCellLabel" xml:space="preserve"><value>Dieselbe Zeile in einer Zelle</value></data>
+  <data name="DemoAnsiNoLeaks" xml:space="preserve"><value>keine Lecks gefunden</value></data>
+  <data name="DemoAnsiSlow" xml:space="preserve"><value>langsame Abfrage, 1,2 s</value></data>
+  <data name="DemoAnsiRefused" xml:space="preserve"><value>Verbindung abgelehnt</value></data>
+  <data name="DemoAnsiRetry" xml:space="preserve"><value>neuer Versuch in 5 s</value></data>
   <data name="DemoChartChartTitle" xml:space="preserve"><value>Eingereichte Vorgänge pro Quartal</value></data>
   <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Quartal</value></data>
   <data name="DemoChartAxisCases" xml:space="preserve"><value>Vorgänge</value></data>

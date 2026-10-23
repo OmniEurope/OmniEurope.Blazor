@@ -653,6 +653,16 @@
   <data name="DemoDataListLogMissing" xml:space="preserve"><value>Nedostaje dokument</value></data>
   <data name="DemoDataListLogRejected" xml:space="preserve"><value>Provjera je odbijena</value></data>
   <data name="DemoDataListLogAborted" xml:space="preserve"><value>Obrada je prekinuta</value></data>
+  <data name="DemoAnsiModeLabel" xml:space="preserve"><value>Escape sekvence</value></data>
+  <data name="DemoAnsiModeRender" xml:space="preserve"><value>Prikaži boje</value></data>
+  <data name="DemoAnsiModeHide" xml:space="preserve"><value>Sakrij kodove</value></data>
+  <data name="DemoAnsiModeRaw" xml:space="preserve"><value>Sirovi tekst</value></data>
+  <data name="DemoAnsiLogLabel" xml:space="preserve"><value>Zapisnik s ANSI bojama</value></data>
+  <data name="DemoAnsiCellLabel" xml:space="preserve"><value>Isti redak u ćeliji</value></data>
+  <data name="DemoAnsiNoLeaks" xml:space="preserve"><value>nisu pronađena curenja</value></data>
+  <data name="DemoAnsiSlow" xml:space="preserve"><value>spor upit, 1,2 s</value></data>
+  <data name="DemoAnsiRefused" xml:space="preserve"><value>veza odbijena</value></data>
+  <data name="DemoAnsiRetry" xml:space="preserve"><value>ponovni pokušaj za 5 s</value></data>
   <data name="DemoChartChartTitle" xml:space="preserve"><value>Podneseni predmeti po tromjesečju</value></data>
   <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Tromjesečje</value></data>
   <data name="DemoChartAxisCases" xml:space="preserve"><value>Predmeti</value></data>

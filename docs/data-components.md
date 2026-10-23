@@ -833,8 +833,51 @@ n'ouvre aucune connexion : l'hôte lui passe les lignes, en ajout seul (une lign
 dernière position déjà vue n'est pas détectée ; une liste plus courte ou dont cette ligne a changé repart
 de zéro).
 
-Paramètres du journal. `Lines` (`IReadOnlyList<OmniLogLine>`, obligatoire) donne les lignes, de la plus ancienne à la plus récente. `Follow` (vrai par défaut) dit si la vue suit la dernière ligne : le lecteur qui remonte la coupe, un retour au bas ou le bouton la rétablit, et `FollowChanged` rapporte les deux. `MinimumLevelChanged` est levé quand le filtre de niveau change et `SearchTextChanged` quand le texte cherché change, si bien que `MinimumLevel` et `SearchText` se lient par `@bind`. `ShowLineNumbers` (vrai par défaut) montre le numéro de chaque ligne, compté dans tout le journal même quand un filtre masque des lignes ; `ShowTimestamps` (vrai par défaut) montre avant le texte l'heure de la ligne (`OmniLogLine.Timestamp`), au format `TimestampFormat` (`HH:mm:ss` par défaut) et dans le fuseau `TimeZone` (le fuseau local par défaut) ; `ShowLevels` (faux par défaut) écrit le nom du niveau de chaque ligne, les avertissements et les erreurs restant teintés et nommés aux lecteurs d'écran.
+Paramètres du journal. `Lines` (`IReadOnlyList<OmniLogLine>`, obligatoire) donne les lignes, de la plus ancienne à la plus récente. `Follow` (vrai par défaut) dit si la vue suit la dernière ligne : le lecteur qui remonte la coupe, un retour au bas ou le bouton la rétablit, et `FollowChanged` rapporte les deux. `MinimumLevelChanged` est levé quand le filtre de niveau change et `SearchTextChanged` quand le texte cherché change, si bien que `MinimumLevel` et `SearchText` se lient par `@bind`. `ShowLineNumbers` (vrai par défaut) montre le numéro de chaque ligne, compté dans tout le journal même quand un filtre masque des lignes ; `ShowTimestamps` (vrai par défaut) montre avant le texte l'heure de la ligne (`OmniLogLine.Timestamp`), au format `TimestampFormat` (`HH:mm:ss` par défaut) et dans le fuseau `TimeZone` (le fuseau local par défaut) ; `ShowLevels` (faux par défaut) écrit le nom du niveau de chaque ligne, les avertissements et les erreurs restant teintés et nommés aux lecteurs d'écran. AnsiMode (OmniAnsiMode, Render par défaut) lit les séquences ANSI d'une ligne (section suivante).
 
+### Séquences ANSI : `AnsiMode`, `OmniAnsiText`, `OmniAnsi`
+
+Un journal de programme en ligne de commande porte des séquences d'échappement (`ESC [ 32 m`) : sans traitement, le navigateur
+dessine l'octet d'échappement comme rien et laisse `[32m` à l'écran. `AnsiMode` (`OmniAnsiMode`, `Render` par défaut) dit ce qu'`OmniLogViewer` en fait ; la ligne
+n'est jamais modifiée, seul l'affichage change :
+
+| `AnsiMode` | Affichage |
+| --- | --- |
+| `Render` | Les couleurs, le gras, le texte atténué, l'italique et le souligné sont dessinés ; aucune séquence n'est visible. |
+| `Hide` | Les séquences sont retirées sans rien dessiner : le texte seul. |
+| `Raw` | La ligne telle qu'écrite, séquences comprises (l'octet d'échappement lui-même ne se dessine pas, le reste de la séquence reste visible). |
+
+La recherche (`ShowSearch`), le marquage de ses occurrences et son compteur portent sur le texte affiché : sans les séquences en `Render`
+et en `Hide` (une occurrence peut chevaucher deux plages de couleurs différentes, elle est marquée dans les deux), sur la ligne brute en
+`Raw` ; changer `AnsiMode` relance la recherche. Les numéros de ligne ne changent pas. `OmniLogViewer` n'offre ni export ni copie : l'hôte
+qui exporte le journal écrit `OmniLogLine.Text` tel qu'il l'a stocké, séquences comprises, et la sélection d'un texte à l'écran (`Render`,
+`Hide`) se copie sans séquence.
+
+`OmniAnsiText` (`Text`, `Mode`, `OmniAnsiMode`, `Render` par défaut) fait de même pour une ligne hors d'un journal, une cellule de grille par exemple
+(`<OmniAnsiText Text="@row.Message" />`). Il écrit un `span` (`omni-ansi`) ; la chasse aux espaces et le retour à la ligne sont ceux de son hôte.
+`OmniAnsi` est la même lecture sans composant : `OmniAnsi.Parse(texte)` rend les plages (`OmniAnsiSegment` : `Text`, `Bold`, `Dim`, `Italic`,
+`Underline`, `Foreground`, `Background`, les couleurs étant un indice de 0 à 15 ou `null`), `OmniAnsi.Strip(texte)` le texte seul.
+
+Ce qui est reconnu, par un lecteur écrit à la main (aucune expression régulière, donc aucun retour sur trace ; une séquence de plus de 256 caractères, 4096
+pour une chaîne, n'en est pas une) :
+
+- Les séquences de mise en forme `ESC [ … m` (et l'introducteur d'un seul caractère U+009B) : réinitialisation (0), gras (1), atténué (2), italique (3),
+  souligné (4, `4:0` l'éteint), leurs fins (22, 23, 24), les seize couleurs de texte (30 à 37, 90 à 97) et de fond (40 à 47, 100 à 107) et leurs défauts (39, 49).
+  Les couleurs étendues (`38;5;n`, `38;2;r;g;b`, avec des points-virgules ou des deux-points) sont lues en entier puis ramenées à la plus proche des seize, pour que
+  la teinte reste garantie lisible ; un code incomplet est consommé sans qu'aucun chiffre ne s'affiche. Les autres codes (clignotement, vidéo inverse, barré…) sont lus et ignorés.
+- Toute autre séquence de contrôle (déplacement du curseur, effacement, titre de fenêtre, lien hypertexte, chaîne de contrôle d'appareil) est retirée à l'affichage, ainsi qu'un échappement isolé.
+  Le texte hors séquences est conservé caractère pour caractère.
+- Un code entre crochets **sans** son octet d'échappement (`[90m`) est du texte ordinaire et reste affiché : il ne se distingue pas d'un mot entre crochets du journal, et
+  rien ne doit se perdre d'une ligne. Un hôte dont le transport supprime l'octet d'échappement le rétablit avant de stocker la ligne.
+- Une séquence mal formée perd son introducteur et garde le reste comme texte ; une séquence coupée par la fin de la ligne est retirée en entier.
+
+Couleurs. Les seize couleurs sont les jetons `--omni-ansi-0` à `--omni-ansi-15` (0 à 7 : noir, rouge, vert, jaune, bleu, magenta, cyan, blanc ; 8 à 15 : leurs versions vives),
+générés avec chaque palette dans les deux modes, avec des valeurs propres au clair et au sombre : en clair le « noir » est l'encre forte et le « blanc » un gris
+foncé, en sombre l'inverse, une couleur vive est toujours plus claire que sa normale. Chacune est tenue à 4,5:1 au moins sur la surface du journal (fond de grille, de carte ou de page), sur la
+surface teintée de ce qu'un fond de couleur y ajoute, sur la teinte d'une ligne d'avertissement ou d'erreur et sur celle d'une occurrence de recherche, dans chaque thème et chaque palette
+(`AnsiThemeContrastTests`). Règle pour un fond de couleur : `omni-ansi-bg-N` peint 12 % de la couleur sur la surface ; le texte par défaut et chacune des seize couleurs de texte
+y gardent 4,5:1 (mêmes tests, contre le pire fond possible). Un texte atténué prend la couleur de texte atténuée du thème, jamais une opacité qui ferait baisser le rapport.
+Un hôte qui redéfinit un de ces jetons répond lui-même de son contraste.
 ## Export Markdown : `OmniMarkdownExportButton`
 
 Une grille exporte par ses propres barres (section suivante). `OmniMarkdownExportButton<TItem>`

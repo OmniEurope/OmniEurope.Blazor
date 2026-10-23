@@ -653,6 +653,16 @@
   <data name="DemoDataListLogMissing" xml:space="preserve"><value>Handling saknas</value></data>
   <data name="DemoDataListLogRejected" xml:space="preserve"><value>Valideringen nekades</value></data>
   <data name="DemoDataListLogAborted" xml:space="preserve"><value>Behandlingen avbröts</value></data>
+  <data name="DemoAnsiModeLabel" xml:space="preserve"><value>Escape-sekvenser</value></data>
+  <data name="DemoAnsiModeRender" xml:space="preserve"><value>Visa färger</value></data>
+  <data name="DemoAnsiModeHide" xml:space="preserve"><value>Dölj koder</value></data>
+  <data name="DemoAnsiModeRaw" xml:space="preserve"><value>Råtext</value></data>
+  <data name="DemoAnsiLogLabel" xml:space="preserve"><value>Logg med ANSI-färger</value></data>
+  <data name="DemoAnsiCellLabel" xml:space="preserve"><value>Samma rad i en cell</value></data>
+  <data name="DemoAnsiNoLeaks" xml:space="preserve"><value>inga läckor hittades</value></data>
+  <data name="DemoAnsiSlow" xml:space="preserve"><value>långsam fråga, 1,2 s</value></data>
+  <data name="DemoAnsiRefused" xml:space="preserve"><value>anslutningen nekades</value></data>
+  <data name="DemoAnsiRetry" xml:space="preserve"><value>försöker igen om 5 s</value></data>
   <data name="DemoChartChartTitle" xml:space="preserve"><value>Inlämnade ärenden per kvartal</value></data>
   <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Kvartal</value></data>
   <data name="DemoChartAxisCases" xml:space="preserve"><value>Ärenden</value></data>

@@ -399,7 +399,7 @@ public sealed partial class ThemeContrastMatrixTests
     /// A theme without a waiver fails on any shortfall. A waived theme is still measured: its shortfalls
     /// are written to the test output as accepted, so the gap stays visible, and the test passes.
     /// </summary>
-    private static void AssertOrAccept(string themeName, string paletteName, OmniAppearance mode, IReadOnlyCollection<string> failures)
+    internal static void AssertOrAccept(string themeName, string paletteName, OmniAppearance mode, IReadOnlyCollection<string> failures)
     {
         var report = $"{themeName} + {paletteName} in {mode}:\n{string.Join('\n', failures)}";
         if (OmniThemePresets.All.Single(entry => entry.Name == themeName).ContrastWaiver is null)

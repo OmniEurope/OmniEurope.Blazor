@@ -288,6 +288,45 @@ body:has(.omni-connection-overlay) { overflow: hidden; }
 .omni-log-viewer__line--current { --omni-log-row-tint: color-mix(in srgb, var(--omni-color-accent) 14%, transparent); background: var(--omni-log-row-tint); font-weight: 600; }
 .omni-log-viewer__empty { color: var(--omni-color-text-muted); font-family: var(--omni-font-family); margin: 0; padding: var(--omni-space-md); }
 .omni-log-viewer__jump { box-shadow: var(--omni-shadow-md); inset-block-end: var(--omni-space-md); inset-inline-end: var(--omni-space-lg); position: absolute; }
+/* ANSI text (OmniAnsiText, OmniLogViewer.AnsiMode): attributes of the escape sequences of a line. The sixteen colours are the
+   --omni-ansi-N tokens, each held at 4.5:1 on the log surface. A background is a faint tint of its colour, so the text laid on it
+   (the default one, or a colour of its own) keeps its ratio; a faint run takes the muted text colour, never an opacity that would lower it. */
+.omni-ansi-bold { font-weight: 700; }
+.omni-ansi-dim { color: var(--omni-color-text-muted); }
+.omni-ansi-italic { font-style: italic; }
+.omni-ansi-underline { text-decoration: underline; }
+.omni-ansi-bg-0 { background: color-mix(in srgb, var(--omni-ansi-0) 12%, transparent); }
+.omni-ansi-bg-1 { background: color-mix(in srgb, var(--omni-ansi-1) 12%, transparent); }
+.omni-ansi-bg-2 { background: color-mix(in srgb, var(--omni-ansi-2) 12%, transparent); }
+.omni-ansi-bg-3 { background: color-mix(in srgb, var(--omni-ansi-3) 12%, transparent); }
+.omni-ansi-bg-4 { background: color-mix(in srgb, var(--omni-ansi-4) 12%, transparent); }
+.omni-ansi-bg-5 { background: color-mix(in srgb, var(--omni-ansi-5) 12%, transparent); }
+.omni-ansi-bg-6 { background: color-mix(in srgb, var(--omni-ansi-6) 12%, transparent); }
+.omni-ansi-bg-7 { background: color-mix(in srgb, var(--omni-ansi-7) 12%, transparent); }
+.omni-ansi-bg-8 { background: color-mix(in srgb, var(--omni-ansi-8) 12%, transparent); }
+.omni-ansi-bg-9 { background: color-mix(in srgb, var(--omni-ansi-9) 12%, transparent); }
+.omni-ansi-bg-10 { background: color-mix(in srgb, var(--omni-ansi-10) 12%, transparent); }
+.omni-ansi-bg-11 { background: color-mix(in srgb, var(--omni-ansi-11) 12%, transparent); }
+.omni-ansi-bg-12 { background: color-mix(in srgb, var(--omni-ansi-12) 12%, transparent); }
+.omni-ansi-bg-13 { background: color-mix(in srgb, var(--omni-ansi-13) 12%, transparent); }
+.omni-ansi-bg-14 { background: color-mix(in srgb, var(--omni-ansi-14) 12%, transparent); }
+.omni-ansi-bg-15 { background: color-mix(in srgb, var(--omni-ansi-15) 12%, transparent); }
+.omni-ansi-fg-0 { color: var(--omni-ansi-0); }
+.omni-ansi-fg-1 { color: var(--omni-ansi-1); }
+.omni-ansi-fg-2 { color: var(--omni-ansi-2); }
+.omni-ansi-fg-3 { color: var(--omni-ansi-3); }
+.omni-ansi-fg-4 { color: var(--omni-ansi-4); }
+.omni-ansi-fg-5 { color: var(--omni-ansi-5); }
+.omni-ansi-fg-6 { color: var(--omni-ansi-6); }
+.omni-ansi-fg-7 { color: var(--omni-ansi-7); }
+.omni-ansi-fg-8 { color: var(--omni-ansi-8); }
+.omni-ansi-fg-9 { color: var(--omni-ansi-9); }
+.omni-ansi-fg-10 { color: var(--omni-ansi-10); }
+.omni-ansi-fg-11 { color: var(--omni-ansi-11); }
+.omni-ansi-fg-12 { color: var(--omni-ansi-12); }
+.omni-ansi-fg-13 { color: var(--omni-ansi-13); }
+.omni-ansi-fg-14 { color: var(--omni-ansi-14); }
+.omni-ansi-fg-15 { color: var(--omni-ansi-15); }
 
 /* Code block: header with its actions, then the code. */
 .omni-code-block { background: color-mix(in srgb, var(--omni-color-text) 4%, var(--omni-grid-background, var(--omni-card-background, var(--omni-color-surface)))); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); margin: 0; min-inline-size: 0; }

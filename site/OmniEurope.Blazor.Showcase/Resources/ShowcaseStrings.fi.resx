@@ -653,6 +653,16 @@
   <data name="DemoDataListLogMissing" xml:space="preserve"><value>Asiakirja puuttuu</value></data>
   <data name="DemoDataListLogRejected" xml:space="preserve"><value>Hyväksyntä hylätty</value></data>
   <data name="DemoDataListLogAborted" xml:space="preserve"><value>Käsittely keskeytetty</value></data>
+  <data name="DemoAnsiModeLabel" xml:space="preserve"><value>Escape-sekvenssit</value></data>
+  <data name="DemoAnsiModeRender" xml:space="preserve"><value>Näytä värit</value></data>
+  <data name="DemoAnsiModeHide" xml:space="preserve"><value>Piilota koodit</value></data>
+  <data name="DemoAnsiModeRaw" xml:space="preserve"><value>Raakateksti</value></data>
+  <data name="DemoAnsiLogLabel" xml:space="preserve"><value>Loki ANSI-väreillä</value></data>
+  <data name="DemoAnsiCellLabel" xml:space="preserve"><value>Sama rivi solussa</value></data>
+  <data name="DemoAnsiNoLeaks" xml:space="preserve"><value>vuotoja ei löytynyt</value></data>
+  <data name="DemoAnsiSlow" xml:space="preserve"><value>hidas kysely, 1,2 s</value></data>
+  <data name="DemoAnsiRefused" xml:space="preserve"><value>yhteys evättiin</value></data>
+  <data name="DemoAnsiRetry" xml:space="preserve"><value>yritetään uudelleen 5 s kuluttua</value></data>
   <data name="DemoChartChartTitle" xml:space="preserve"><value>Vireille pannut asiat neljännesvuosittain</value></data>
   <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Neljännes</value></data>
   <data name="DemoChartAxisCases" xml:space="preserve"><value>Asiat</value></data>

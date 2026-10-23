@@ -653,6 +653,16 @@
   <data name="DemoDataListLogMissing" xml:space="preserve"><value>Dokument nieqes</value></data>
   <data name="DemoDataListLogRejected" xml:space="preserve"><value>Validazzjoni rifjutata</value></data>
   <data name="DemoDataListLogAborted" xml:space="preserve"><value>Ipproċessar interrott</value></data>
+  <data name="DemoAnsiModeLabel" xml:space="preserve"><value>Sekwenzi ta' ħarba</value></data>
+  <data name="DemoAnsiModeRender" xml:space="preserve"><value>Uri l-kuluri</value></data>
+  <data name="DemoAnsiModeHide" xml:space="preserve"><value>Aħbi l-kodiċijiet</value></data>
+  <data name="DemoAnsiModeRaw" xml:space="preserve"><value>Test mhux ipproċessat</value></data>
+  <data name="DemoAnsiLogLabel" xml:space="preserve"><value>Reġistru bil-kuluri ANSI</value></data>
+  <data name="DemoAnsiCellLabel" xml:space="preserve"><value>L-istess linja f'ċellola</value></data>
+  <data name="DemoAnsiNoLeaks" xml:space="preserve"><value>ma nstabu l-ebda tnixxijiet</value></data>
+  <data name="DemoAnsiSlow" xml:space="preserve"><value>mistoqsija bil-mod, 1,2 s</value></data>
+  <data name="DemoAnsiRefused" xml:space="preserve"><value>il-konnessjoni ġiet miċħuda</value></data>
+  <data name="DemoAnsiRetry" xml:space="preserve"><value>terġa' tipprova f'5 s</value></data>
   <data name="DemoChartChartTitle" xml:space="preserve"><value>Fajls ippreżentati għal kull kwart</value></data>
   <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Kwart</value></data>
   <data name="DemoChartAxisCases" xml:space="preserve"><value>Fajls</value></data>

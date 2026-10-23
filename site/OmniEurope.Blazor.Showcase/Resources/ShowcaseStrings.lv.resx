@@ -653,6 +653,16 @@
   <data name="DemoDataListLogMissing" xml:space="preserve"><value>Trūkst dokumenta</value></data>
   <data name="DemoDataListLogRejected" xml:space="preserve"><value>Validācija noraidīta</value></data>
   <data name="DemoDataListLogAborted" xml:space="preserve"><value>Apstrāde pārtraukta</value></data>
+  <data name="DemoAnsiModeLabel" xml:space="preserve"><value>Bēgšanas secības</value></data>
+  <data name="DemoAnsiModeRender" xml:space="preserve"><value>Rādīt krāsas</value></data>
+  <data name="DemoAnsiModeHide" xml:space="preserve"><value>Slēpt kodus</value></data>
+  <data name="DemoAnsiModeRaw" xml:space="preserve"><value>Neapstrādāts teksts</value></data>
+  <data name="DemoAnsiLogLabel" xml:space="preserve"><value>Žurnāls ar ANSI krāsām</value></data>
+  <data name="DemoAnsiCellLabel" xml:space="preserve"><value>Tā pati rinda šūnā</value></data>
+  <data name="DemoAnsiNoLeaks" xml:space="preserve"><value>noplūdes nav atrastas</value></data>
+  <data name="DemoAnsiSlow" xml:space="preserve"><value>lēns vaicājums, 1,2 s</value></data>
+  <data name="DemoAnsiRefused" xml:space="preserve"><value>savienojums noraidīts</value></data>
+  <data name="DemoAnsiRetry" xml:space="preserve"><value>atkārtots mēģinājums pēc 5 s</value></data>
   <data name="DemoChartChartTitle" xml:space="preserve"><value>Iesniegtās lietas pa ceturkšņiem</value></data>
   <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Ceturksnis</value></data>
   <data name="DemoChartAxisCases" xml:space="preserve"><value>Lietas</value></data>
