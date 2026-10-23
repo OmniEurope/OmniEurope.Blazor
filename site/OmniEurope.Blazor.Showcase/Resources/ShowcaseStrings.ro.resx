@@ -840,6 +840,8 @@
   <data name="DemoNavigationDecisionText" xml:space="preserve"><value>Decizia va fi comunicată prin poștă.</value></data>
   <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Dosarul conține {0} documente.</value></data>
   <data name="DemoPagesReload" xml:space="preserve"><value>Reîncarcă fișa</value></data>
+  <data name="DemoPagesRerun" xml:space="preserve"><value>Rulează din nou</value></data>
+  <data name="DemoPagesPipelineRun" xml:space="preserve"><value>Execuția pipeline-ului #{0}</value></data>
   <data name="DemoPagesMissing" xml:space="preserve"><value>Fișă negăsită</value></data>
   <data name="DemoPagesNotFound" xml:space="preserve"><value>Fișa solicitată a fost eliminată sau nu a existat niciodată.</value></data>
   <data name="DemoPagesSubtitle" xml:space="preserve"><value>Mașină virtuală din zona Paris.</value></data>

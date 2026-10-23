@@ -840,6 +840,8 @@
   <data name="DemoNavigationDecisionText" xml:space="preserve"><value>Apie sprendimą bus pranešta paštu.</value></data>
   <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Dokumentų byloje: {0}.</value></data>
   <data name="DemoPagesReload" xml:space="preserve"><value>Įkelti įrašą iš naujo</value></data>
+  <data name="DemoPagesRerun" xml:space="preserve"><value>Paleisti iš naujo</value></data>
+  <data name="DemoPagesPipelineRun" xml:space="preserve"><value>Konvejerio vykdymas #{0}</value></data>
   <data name="DemoPagesMissing" xml:space="preserve"><value>Įrašas nerastas</value></data>
   <data name="DemoPagesNotFound" xml:space="preserve"><value>Prašomas įrašas pašalintas arba niekada neegzistavo.</value></data>
   <data name="DemoPagesSubtitle" xml:space="preserve"><value>Virtuali mašina Paris zonoje.</value></data>

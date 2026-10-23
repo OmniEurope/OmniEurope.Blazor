@@ -840,6 +840,8 @@
   <data name="DemoNavigationDecisionText" xml:space="preserve"><value>Решението ще бъде съобщено по пощата.</value></data>
   <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Делото съдържа {0} документа.</value></data>
   <data name="DemoPagesReload" xml:space="preserve"><value>Презареждане на записа</value></data>
+  <data name="DemoPagesRerun" xml:space="preserve"><value>Стартирай отново</value></data>
+  <data name="DemoPagesPipelineRun" xml:space="preserve"><value>Изпълнение на конвейера №{0}</value></data>
   <data name="DemoPagesMissing" xml:space="preserve"><value>Записът не е намерен</value></data>
   <data name="DemoPagesNotFound" xml:space="preserve"><value>Заявеният запис е премахнат или никога не е съществувал.</value></data>
   <data name="DemoPagesSubtitle" xml:space="preserve"><value>Виртуална машина в зона Париж.</value></data>

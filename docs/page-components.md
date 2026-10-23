@@ -28,7 +28,8 @@ commencent leur contenu à la même hauteur :
 - ligne 1 : bouton retour, icône, titre, badges, actions, puis le menu « ⋮ » (`MenuContent`). Un titre
   trop long défile entre deux chevrons posés de chaque côté au lieu de passer à la ligne. Sur téléphone,
   et à toute largeur quand la ligne 1 manque de place, un bouton « Voir plus » (`aria-expanded`)
-  déplie badges et actions, le menu « ⋮ » restant visible ;
+  déplie badges et actions, le menu « ⋮ » restant visible. Les actions épinglées
+  (`PinnedActionsContent`) ne se replient jamais ;
 - ligne 2, toujours réservée : le fil d'Ariane sous le titre, dont le dernier maillon est le titre de la
   page, ou le sous-titre quand la page n'a pas d'ancêtre à montrer (ou avec `ShowTrail="false"`).
 
@@ -51,6 +52,7 @@ la ligne 1 ne déborde jamais et rien ne se replie. Donner à la piste `minmax(0
 | `ShowBack`, `BackHref`, `BackLabel` | Le bouton retour : vers `BackHref`, sinon vers l'ancêtre le plus proche qui porte un lien, sinon un pas en arrière dans l'historique du navigateur. |
 | `BackVariant` | L'aspect du bouton retour : `Primary` par défaut, la même flèche d'accent sur chaque page ; `Ghost` pour un retour discret. |
 | `Badges`, `ActionsContent` | Après le titre, sur la ligne 1. Sur téléphone, et à toute largeur quand la ligne 1 manque de place, ils se replient derrière le bouton « Voir plus » (`aria-expanded`). |
+| `PinnedActionsContent` | Des actions jamais repliées (`null` par défaut, rien de rendu) : ni derrière « Voir plus », ni derrière un chevron, quel que soit le mode compact. À toute largeur, elles terminent la ligne 1 juste avant le menu « ⋮ ». Sous 40rem, elles prennent une ligne sous la ligne 1, alignées à la fin, le bloc grandissant de cette ligne ; le menu « ⋮ » reste sur la ligne 1, à l'extrémité de la ligne du titre, « Voir plus » fermé ou ouvert (badges et actions dépliés viennent après elles). Pour l'action de la page qui doit rester à portée, par exemple « Relancer ». |
 | `MenuContent` | Les `OmniMenuItem` du menu « ⋮ » en fin de ligne 1, un `OmniOverflowMenu` ; aucun menu sans lui. Il reste visible sur téléphone. |
 | `Icon` | Icône avant le titre (`aria-hidden`, couleur primaire). Le titre est alors rogné à ses capitales, si bien que le centre de l'icône tombe sur le centre du texte quelle que soit la police. |
 | `Framed` | `false` par défaut : les deux lignes posées directement sur la page, sans bordure, fond ni marge intérieure, le titre commençant à l'aplomb du contenu. `true` les met dans un bloc bordé sur la surface. Le bloc garde sa hauteur fixe dans les deux cas. |

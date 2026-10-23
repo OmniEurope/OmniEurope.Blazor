@@ -840,6 +840,8 @@
   <data name="DemoNavigationDecisionText" xml:space="preserve"><value>Beslutet meddelas per post.</value></data>
   <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Ärendet innehåller {0} handlingar.</value></data>
   <data name="DemoPagesReload" xml:space="preserve"><value>Läs in posten igen</value></data>
+  <data name="DemoPagesRerun" xml:space="preserve"><value>Kör igen</value></data>
+  <data name="DemoPagesPipelineRun" xml:space="preserve"><value>Pipelinekörning #{0}</value></data>
   <data name="DemoPagesMissing" xml:space="preserve"><value>Posten hittades inte</value></data>
   <data name="DemoPagesNotFound" xml:space="preserve"><value>Den begärda posten har tagits bort eller har aldrig funnits.</value></data>
   <data name="DemoPagesSubtitle" xml:space="preserve"><value>Virtuell maskin i zonen Paris.</value></data>

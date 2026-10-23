@@ -2,7 +2,7 @@ namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The header of a page, as one block of fixed height so every page starts its content at the same
-/// place. Line 1: back button, icon, title, badges, actions and a "⋮" menu. Line 2, always reserved:
+/// place. Line 1: back button, icon, title, badges, actions, pinned actions and a "⋮" menu. Line 2, always reserved:
 /// the breadcrumb, its last item being the title, or the subtitle when the page has no ancestor. Under
 /// the block: the subtitle when line 2 carries the breadcrumb, then a row of filters.
 /// </summary>
@@ -23,7 +23,8 @@ namespace OmniEurope.Blazor.Components;
 /// title. The same module measures line 1 unfolded when the header is resized or its content changes,
 /// and marks the block <c>data-compact</c> when it overflows; the stylesheet then applies the phone
 /// fold. Before the script runs (prerendering), only the phone fold applies. The "⋮" menu stays in
-/// sight either way.
+/// sight either way, and so do the <see cref="PinnedActionsContent"/> actions, which are outside the
+/// fold.
 /// </para>
 /// </remarks>
 public partial class OmniPageHeader
@@ -126,6 +127,15 @@ public partial class OmniPageHeader
     /// </summary>
     [Parameter]
     public RenderFragment? ActionsContent { get; set; }
+
+    /// <summary>
+    /// Actions that are never folded: not behind the "Show more" toggle, whatever the width and the
+    /// compact mode. At the end of line 1, right before the "⋮" menu; on a phone, on a row of their own
+    /// under line 1, aligned to the inline end, the "⋮" menu staying on line 1. Null, the default,
+    /// renders nothing. Meant for the one action of the page that must stay in reach, such as "Run".
+    /// </summary>
+    [Parameter]
+    public RenderFragment? PinnedActionsContent { get; set; }
 
     /// <summary>
     /// The items of the "⋮" menu at the end of line 1: the menu items an <see cref="OmniOverflowMenu"/>

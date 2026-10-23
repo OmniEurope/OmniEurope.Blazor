@@ -840,6 +840,8 @@
   <data name="DemoNavigationDecisionText" xml:space="preserve"><value>Par lēmumu tiks paziņots pa pastu.</value></data>
   <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Dokumentu skaits lietā: {0}.</value></data>
   <data name="DemoPagesReload" xml:space="preserve"><value>Atkārtoti ielādēt ierakstu</value></data>
+  <data name="DemoPagesRerun" xml:space="preserve"><value>Palaist vēlreiz</value></data>
+  <data name="DemoPagesPipelineRun" xml:space="preserve"><value>Konveijera izpilde #{0}</value></data>
   <data name="DemoPagesMissing" xml:space="preserve"><value>Ieraksts nav atrasts</value></data>
   <data name="DemoPagesNotFound" xml:space="preserve"><value>Pieprasītais ieraksts ir noņemts vai nekad nav pastāvējis.</value></data>
   <data name="DemoPagesSubtitle" xml:space="preserve"><value>Virtuālā mašīna Paris zonā.</value></data>

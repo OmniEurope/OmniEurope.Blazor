@@ -840,6 +840,8 @@
   <data name="DemoNavigationDecisionText" xml:space="preserve"><value>Cuirfear an cinneadh in iúl tríd an bpost.</value></data>
   <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Doiciméid sa chomhad: {0}.</value></data>
   <data name="DemoPagesReload" xml:space="preserve"><value>Athlódáil an taifead</value></data>
+  <data name="DemoPagesRerun" xml:space="preserve"><value>Rith arís</value></data>
+  <data name="DemoPagesPipelineRun" xml:space="preserve"><value>Rith na píblíne #{0}</value></data>
   <data name="DemoPagesMissing" xml:space="preserve"><value>Níor aimsíodh an taifead</value></data>
   <data name="DemoPagesNotFound" xml:space="preserve"><value>Baineadh an taifead a iarradh nó ní raibh sé ann riamh.</value></data>
   <data name="DemoPagesSubtitle" xml:space="preserve"><value>Meaisín fíorúil i gcrios Pháras.</value></data>

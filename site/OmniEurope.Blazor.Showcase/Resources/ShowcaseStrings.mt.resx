@@ -840,6 +840,8 @@
   <data name="DemoNavigationDecisionText" xml:space="preserve"><value>Id-deċiżjoni se tiġi nnotifikata bil-posta.</value></data>
   <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Dokumenti fil-fajl: {0}.</value></data>
   <data name="DemoPagesReload" xml:space="preserve"><value>Erġa' għabbi r-rekord</value></data>
+  <data name="DemoPagesRerun" xml:space="preserve"><value>Erġa' ħaddem</value></data>
+  <data name="DemoPagesPipelineRun" xml:space="preserve"><value>Tmexxija tal-pipeline #{0}</value></data>
   <data name="DemoPagesMissing" xml:space="preserve"><value>Ir-rekord ma nstabx</value></data>
   <data name="DemoPagesNotFound" xml:space="preserve"><value>Ir-rekord mitlub tneħħa jew qatt ma eżista.</value></data>
   <data name="DemoPagesSubtitle" xml:space="preserve"><value>Magna virtwali fiż-żona ta' Pariġi.</value></data>

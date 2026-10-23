@@ -840,6 +840,8 @@
   <data name="DemoNavigationDecisionText" xml:space="preserve"><value>La decisión se notificará por correo postal.</value></data>
   <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>El expediente contiene {0} documentos.</value></data>
   <data name="DemoPagesReload" xml:space="preserve"><value>Recargar la ficha</value></data>
+  <data name="DemoPagesRerun" xml:space="preserve"><value>Reejecutar</value></data>
+  <data name="DemoPagesPipelineRun" xml:space="preserve"><value>Ejecución del pipeline #{0}</value></data>
   <data name="DemoPagesMissing" xml:space="preserve"><value>Ficha no encontrada</value></data>
   <data name="DemoPagesNotFound" xml:space="preserve"><value>La ficha solicitada se ha retirado o nunca ha existido.</value></data>
   <data name="DemoPagesSubtitle" xml:space="preserve"><value>Máquina virtual de la zona París.</value></data>

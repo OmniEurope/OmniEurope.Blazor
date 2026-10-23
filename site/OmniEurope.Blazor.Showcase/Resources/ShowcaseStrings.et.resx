@@ -840,6 +840,8 @@
   <data name="DemoNavigationDecisionText" xml:space="preserve"><value>Otsusest teatatakse posti teel.</value></data>
   <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Toimikus on dokumente: {0}.</value></data>
   <data name="DemoPagesReload" xml:space="preserve"><value>Laadi kirje uuesti</value></data>
+  <data name="DemoPagesRerun" xml:space="preserve"><value>Käivita uuesti</value></data>
+  <data name="DemoPagesPipelineRun" xml:space="preserve"><value>Torujuhtme käivitus #{0}</value></data>
   <data name="DemoPagesMissing" xml:space="preserve"><value>Kirjet ei leitud</value></data>
   <data name="DemoPagesNotFound" xml:space="preserve"><value>Küsitud kirje on eemaldatud või pole kunagi olemas olnud.</value></data>
   <data name="DemoPagesSubtitle" xml:space="preserve"><value>Virtuaalmasin Pariisi tsoonis.</value></data>

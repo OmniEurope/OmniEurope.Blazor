@@ -840,6 +840,8 @@
   <data name="DemoNavigationDecisionText" xml:space="preserve"><value>De beslissing wordt per post meegedeeld.</value></data>
   <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Het dossier telt {0} documenten.</value></data>
   <data name="DemoPagesReload" xml:space="preserve"><value>Record opnieuw laden</value></data>
+  <data name="DemoPagesRerun" xml:space="preserve"><value>Opnieuw uitvoeren</value></data>
+  <data name="DemoPagesPipelineRun" xml:space="preserve"><value>Pipeline-uitvoering #{0}</value></data>
   <data name="DemoPagesMissing" xml:space="preserve"><value>Record niet gevonden</value></data>
   <data name="DemoPagesNotFound" xml:space="preserve"><value>Het gevraagde record is verwijderd of heeft nooit bestaan.</value></data>
   <data name="DemoPagesSubtitle" xml:space="preserve"><value>Virtuele machine in de zone Parijs.</value></data>

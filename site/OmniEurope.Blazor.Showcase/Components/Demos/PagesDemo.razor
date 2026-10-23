@@ -60,6 +60,36 @@
         </ChildContent>
     </OmniDetailShell>
 
+    @* PinnedActionsContent : l'action qui doit rester à portée n'est jamais repliée derrière « Voir plus ».
+       Large, elle finit la ligne 1 juste avant le menu « ⋮ » ; sous 40rem, elle prend une ligne sous la
+       ligne 1, alignée à la fin, le menu restant à l'extrémité de la ligne du titre, « Voir plus »
+       fermé comme ouvert. ActionsContent (le bouton scindé) et les badges se replient comme ailleurs. *@
+    <OmniPageHeader Id="pages-demo-pinned" Level="OmniHeadingLevel.H2" Framed="true" ShowBack="true" ShowTrail="false"
+                    Title="@Text["DemoPagesPipelineRun", "2842"]">
+        <Icon><OmniIcon Name="OmniIconName.RocketLaunch" /></Icon>
+        <Badges>
+            <OmniBadge Tone="OmniTone.Success">@Text["DemoPagesOnline"]</OmniBadge>
+            <OmniBadge Tone="OmniTone.Neutral">@Text["DemoPagesProduction"]</OmniBadge>
+        </Badges>
+        <ActionsContent>
+            <OmniSplitButton Id="pages-demo-pinned-split" Size="OmniControlSize.Small" Text="@Text["DemoPagesEdit"]">
+                <Icon><OmniIcon Name="OmniIconName.Edit" /></Icon>
+                <ChildContent>
+                    <OmniMenuItem>@Text["DemoPagesDuplicate"]</OmniMenuItem>
+                </ChildContent>
+            </OmniSplitButton>
+        </ActionsContent>
+        <PinnedActionsContent>
+            <OmniButton Id="pages-demo-pinned-relaunch" Variant="OmniButtonVariant.Primary" Size="OmniControlSize.Small"><Icon><OmniIcon Name="OmniIconName.Refresh" /></Icon><ChildContent><span>@Text["DemoPagesRerun"]</span></ChildContent></OmniButton>
+        </PinnedActionsContent>
+        <MenuContent>
+            <OmniMenuItem><Icon><OmniIcon Name="OmniIconName.Edit" /></Icon><ChildContent>@Text["DemoPagesEdit"]</ChildContent></OmniMenuItem>
+            <OmniMenuItem><Icon><OmniIcon Name="OmniIconName.Copy" /></Icon><ChildContent>@Text["DemoPagesDuplicate"]</ChildContent></OmniMenuItem>
+            <OmniMenuItem><Icon><OmniIcon Name="OmniIconName.Archive" /></Icon><ChildContent>@Text["DemoPagesArchive"]</ChildContent></OmniMenuItem>
+            <OmniMenuItem><Icon><OmniIcon Name="OmniIconName.Delete" /></Icon><ChildContent>@Text["DemoPagesRemove"]</ChildContent></OmniMenuItem>
+        </MenuContent>
+    </OmniPageHeader>
+
     @* Le titre reste un paragraphe par défaut ; Level en fait un titre quand l'état vide ouvre une section. *@
     <OmniEmptyState Title="@Text["DemoPagesNoBackup"]" Description="@Text["DemoPagesNoBackupText"]">
         <ActionsContent>

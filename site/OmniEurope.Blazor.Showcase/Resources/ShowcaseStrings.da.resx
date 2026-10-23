@@ -840,6 +840,8 @@
   <data name="DemoNavigationDecisionText" xml:space="preserve"><value>Afgørelsen meddeles med posten.</value></data>
   <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Sagen indeholder {0} dokumenter.</value></data>
   <data name="DemoPagesReload" xml:space="preserve"><value>Genindlæs posten</value></data>
+  <data name="DemoPagesRerun" xml:space="preserve"><value>Kør igen</value></data>
+  <data name="DemoPagesPipelineRun" xml:space="preserve"><value>Pipelinekørsel #{0}</value></data>
   <data name="DemoPagesMissing" xml:space="preserve"><value>Posten blev ikke fundet</value></data>
   <data name="DemoPagesNotFound" xml:space="preserve"><value>Den ønskede post er fjernet eller har aldrig eksisteret.</value></data>
   <data name="DemoPagesSubtitle" xml:space="preserve"><value>Virtuel maskine i zonen Paris.</value></data>
