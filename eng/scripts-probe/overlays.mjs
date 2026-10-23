@@ -223,7 +223,9 @@ export async function overlaySteps(session, results) {
   // path runs, and its slow frames bring the guard that holds the field still.
   await evaluate(`(() => { const original = HTMLCanvasElement.prototype.getContext; window.__omniGetContext = original; HTMLCanvasElement.prototype.getContext = function (type, options) { return original.call(this, type, type === 'webgl' && options ? { ...options, failIfMajorPerformanceCaveat: false } : options); }; })()`);
   await evaluate(`(() => { const select = document.querySelector('.omni-appearance-window select'); select.value = [...select.options].at(-1).value; select.dispatchEvent(new Event('change', { bubbles: true })); })()`);
-  await waitFor('le fond de Trou noir', "document.querySelector('.omni-theme-scope__canvas') !== null", 10_000);
+  // The canvas is drawn before the scope starts the script on it: the request keeps its relaxed flag
+  // until the first frame sizes the canvas to the window, else start() can still meet the plain one.
+  await waitFor('le fond de Trou noir', "(() => { const canvas = document.querySelector('.omni-theme-scope__canvas'); return canvas !== null && canvas.width === Math.round(innerWidth * Math.min(Math.max(devicePixelRatio || 1, 1), 2)); })()", 10_000);
   await evaluate('HTMLCanvasElement.prototype.getContext = window.__omniGetContext');
   // The field follows the system's wish for less motion as it changes.
   await send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] });
