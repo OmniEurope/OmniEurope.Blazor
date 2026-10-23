@@ -1,5 +1,5 @@
 {
-  "$comment": "Fonctions des scripts du paquet qu'aucune sonde de la vitrine ne peut exécuter, chacune avec sa raison (PLAN-014). Le nombre est celui des fonctions admises dans le fichier ; le reste de ses écarts relève de eng/js-coverage-baseline.json. Lu par eng/Test-JsCoverage.mjs.",
+  "$comment": "Fonctions des scripts du paquet qu'aucune sonde de la vitrine ne peut exécuter, chacune avec sa raison (PLAN-014). Le nombre est celui des fonctions admises dans le fichier ; le reste de ses écarts relève de eng/js-coverage-baseline.json. Une entrée marquée \"unloaded\" admet un module qu'aucune page de la vitrine ne peut charger, sa raison disant où il est prouvé. Lu par eng/Test-JsCoverage.mjs.",
   "exceptions": [
     {
       "file": "grid/notify.js",
@@ -65,6 +65,17 @@
       "file": "omni-code-editor.js",
       "functions": 26,
       "reason": "Le côté Monaco d'OmniCodeEditor et d'OmniDiffViewer : load (ligne 32), mount (ligne 84), mountDiff (ligne 224) et les 23 autres, qui n'agissent que sur Monaco en cours de chargement (monacoLocale) ou sur un éditeur Monaco monté. Le paquet ne livre pas Monaco (en-tête du fichier, lignes 1 à 8) et la vitrine ne le sert pas : ses deux éditeurs de code (EditorDemo.razor, editor-code et le comparateur) sont en Engine=PlainText, qui n'appelle que setHeight (OmniCodeEditor.razor.cs ligne 166, OmniDiffViewer.razor.cs ligne 198). Avec Engine=Monaco sans les fichiers, load demande loader.js sous MonacoPath et reçoit un 404 que la console de la sonde compte comme erreur ; mount et les suivantes exigent window.monaco. Servir Monaco demanderait d'embarquer le paquet monaco-editor dans la vitrine et d'y relâcher la CSP style-src 'self', Monaco écrivant des éléments style à l'exécution (en-tête du fichier)."
+    },
+    {
+      "file": "omni-boot.js",
+      "functions": 1,
+      "unloaded": true,
+      "reason": "(module jamais chargé) : le script de démarrage qu'un hôte place dans l'en-tête de sa page avant Blazor, avec les clés de son stockage. La vitrine démarre sans lui (elle n'enregistre ni instantané de thème ni préférences de démarrage), si bien qu'aucune page de la vitrine ne peut le charger. Sa logique est prouvée par tests/js/boot.test.mjs (node --test, lancé par JavaScriptUnitTests dans la suite) : clés simples, valeurs refusées, stockage bloqué, instantané et jetons refusés, portées adoptées, passation et libération, mode système."
+    },
+    {
+      "file": "omniInterop.js",
+      "functions": 1,
+      "reason": "setDocumentMetadata (ligne 49) : posée par l'hôte qui gère lui-même la langue et le titre du document (échantillons WasmSmoke et HybridSmoke), jamais par un composant du paquet ni par la vitrine. Exécutée dans un vrai navigateur par eng/Test-WasmHost.ps1, qui vérifie le titre posé (--assert-title)."
     }
   ]
 }

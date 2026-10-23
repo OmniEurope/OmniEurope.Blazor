@@ -124,7 +124,13 @@ const baselineDocument = read(baselinePath, null);
 const baseline = new Map((baselineDocument?.files ?? []).map(entry => [entry.file, entry.functions]));
 // A module no probe loads counts as one gap, its functions never compiled: only an entry that says so
 // ("unloaded": true) admits it, so a module that stops loading cannot hide its gaps behind a larger count.
-const unloadedAdmitted = new Set((baselineDocument?.files ?? []).filter(entry => entry.unloaded === true).map(entry => entry.file));
+// The entry is a baseline one (a module still to load) or an exception (a module no showcase page can
+// load, proved elsewhere, its reason saying where).
+const unloadedExcepted = new Set([...exceptions.values()].filter(entry => entry.unloaded === true).map(entry => entry.file));
+const unloadedAdmitted = new Set([
+  ...(baselineDocument?.files ?? []).filter(entry => entry.unloaded === true).map(entry => entry.file),
+  ...unloadedExcepted
+]);
 
 // A file may hold definitive gaps (its exception) and gaps still to close (its baseline entry): the
 // exception admits its count first, the baseline holds what remains.
@@ -136,6 +142,7 @@ for (const [file, list] of gaps) {
   const admitted = exceptions.get(file)?.functions ?? 0;
   const residual = list.length - admitted;
   if (!loaded.has(file)) {
+    if (unloadedExcepted.has(file)) continue;
     residuals.set(file, residual);
     if (!unloadedAdmitted.has(file) && (baselineDocument !== null || !update)) failures.push(`${file} : module jamais chargé par une sonde, que la liste n'admet pas comme tel ("unloaded": true).`);
     continue;
