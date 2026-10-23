@@ -22,11 +22,11 @@ public sealed class FactTileTests : OmniBunitContext
             configure?.Invoke(parameters);
             parameters
                 .AddChildContent<OmniFactTileRow>(row => row
-                    .Add(component => component.Label, "Repository")
+                    .Add(component => component.Term, "Repository")
                     .Add(component => component.Icon, Text("R"))
                     .Add(component => component.ChildContent, Text("omni-europe-blazor")))
                 .AddChildContent<OmniFactTileRow>(row => row
-                    .Add(component => component.Label, "Branch")
+                    .Add(component => component.Term, "Branch")
                     .Add(component => component.ChildContent, Text("release/1.9.0")));
         });
 
@@ -104,11 +104,11 @@ public sealed class FactTileTests : OmniBunitContext
         var tile = Render<OmniFactTile>(parameters => parameters
             .Add(component => component.Title, "Source")
             .AddChildContent<OmniFactTileRow>(row => row
-                .Add(component => component.Label, "Repository")
+                .Add(component => component.Term, "Repository")
                 .Add(component => component.Href, "/depots/blazor")
                 .Add(component => component.ChildContent, Text("omni-europe-blazor")))
             .AddChildContent<OmniFactTileRow>(row => row
-                .Add(component => component.Label, "Commit")
+                .Add(component => component.Term, "Commit")
                 .Add(component => component.ChildContent, Text("9f3c2a1"))));
 
         var rows = tile.FindAll(".omni-fact-tile__row");
@@ -126,7 +126,7 @@ public sealed class FactTileTests : OmniBunitContext
         Assert.Throws<InvalidOperationException>(() => Render<OmniFactTile>(parameters => parameters
             .Add(component => component.Title, "Source")
             .AddChildContent<OmniFactTileRow>(row => row
-                .Add(component => component.Label, "Repository")
+                .Add(component => component.Term, "Repository")
                 .Add(component => component.Href, href)
                 .Add(component => component.ChildContent, Text("x")))));
     }
@@ -138,7 +138,7 @@ public sealed class FactTileTests : OmniBunitContext
         var tile = Render<OmniFactTile>(parameters => parameters
             .Add(component => component.Title, "Source")
             .AddChildContent<OmniFactTileRow>(row => row
-                .Add(component => component.Label, "A label wider than its column")
+                .Add(component => component.Term, "A label wider than its column")
                 .Add(component => component.ChildContent, Text(Long))));
 
         // The cut is drawn by the stylesheet; the text is whole in the cell, which the tooltip script reads.
@@ -152,7 +152,7 @@ public sealed class FactTileTests : OmniBunitContext
         var tile = Render<OmniFactTile>(parameters => parameters
             .Add(component => component.Title, "Run")
             .AddChildContent<OmniFactTileRow>(row => row
-                .Add(component => component.Label, "Status")
+                .Add(component => component.Term, "Status")
                 .AddChildContent<OmniBadge>(badge => badge.Add(component => component.Tone, OmniTone.Success).AddChildContent("Réussi"))));
 
         var badge = tile.Find(".omni-fact-tile__value > .omni-badge");
@@ -224,7 +224,7 @@ public sealed class FactTileTests : OmniBunitContext
                 parameters.Add(component => component.Title, "Source");
                 configure(parameters);
                 parameters.AddChildContent<OmniFactTileRow>(row => row
-                    .Add(component => component.Label, "Repository")
+                    .Add(component => component.Term, "Repository")
                     .Add(component => component.Href, "/depots")
                     .Add(component => component.ChildContent, Text("x")));
             });

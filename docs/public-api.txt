@@ -2892,7 +2892,7 @@ property public OmniEurope.Blazor.Components.OmniFactTile.TitleAlign : OmniEurop
 property public OmniEurope.Blazor.Components.OmniFactTileRow.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniFactTileRow.Href : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniFactTileRow.Icon : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniFactTileRow.Label : System.String {get(public);set(public)} [Parameter, EditorRequired]
+property public OmniEurope.Blazor.Components.OmniFactTileRow.Term : System.String {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniFieldset.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniFieldset.Collapsible : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniFieldset.Disabled : System.Boolean {get(public);set(public)} [Parameter]

@@ -1,7 +1,7 @@
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
-/// One fact of an <see cref="OmniFactTile"/>: an icon, a label and a value, in three columns that every
+/// One fact of an <see cref="OmniFactTile"/>: an icon, a term and a value, in three columns that every
 /// row of the tile (and every tile of an <see cref="OmniTileGrid"/>) shares. The value is the content; given
 /// <see cref="Href"/>, it is a link.
 /// </summary>
@@ -10,13 +10,13 @@ public partial class OmniFactTileRow
     [CascadingParameter]
     private OmniFactTileContext? Tile { get; set; }
 
-    /// <summary>An icon before the label, in general an <see cref="OmniIcon"/>; decorative, the label names the fact. The cell stays when none is given, so the labels keep their column.</summary>
+    /// <summary>An icon before the term, in general an <see cref="OmniIcon"/>; decorative, the term names the fact. The cell stays when none is given, so the terms keep their column.</summary>
     [Parameter]
     public RenderFragment? Icon { get; set; }
 
-    /// <summary>What the fact is ("Branch"). One line: a label wider than its column is cut with an ellipsis and its whole text is in the tooltip.</summary>
+    /// <summary>The term: what the fact is ("Branch"), like <see cref="OmniDescriptionItem.Term"/>. One line: a term wider than its column is cut with an ellipsis and its whole text is in the tooltip.</summary>
     [Parameter, EditorRequired]
-    public string Label { get; set; } = string.Empty;
+    public string Term { get; set; } = string.Empty;
 
     /// <summary>
     /// The value: text, a link, a badge. One line: a value wider than its column is cut with an ellipsis and its whole text

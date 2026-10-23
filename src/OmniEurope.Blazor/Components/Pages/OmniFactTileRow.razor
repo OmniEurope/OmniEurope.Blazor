@@ -7,7 +7,7 @@
    OmniLink; everything else is a span, valid inside the button or the link the whole tile may be. *@
 <span @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-fact-tile__row")">
     <span class="omni-fact-tile__icon" aria-hidden="true">@Icon</span>
-    <span class="omni-fact-tile__label">@Label</span>
+    <span class="omni-fact-tile__label">@Term</span>
     <span class="omni-fact-tile__value">
         @if (string.IsNullOrWhiteSpace(Href))
         {
