@@ -95,66 +95,7 @@ internal static class AnsiScanner
         var count = ReadParameters(text, start, end, values, linked);
         for (var index = 0; index < count; index++)
         {
-            var code = values[index];
-            switch (code)
-            {
-                case 0:
-                    style = AnsiStyle.Plain;
-                    break;
-                case 1:
-                    style = style with { Bold = true };
-                    break;
-                case 2:
-                    style = style with { Dim = true };
-                    break;
-                case 3:
-                    style = style with { Italic = true };
-                    break;
-                case 4:
-                    style = style with { Underline = !(index + 1 < count && linked[index + 1] && values[index + 1] == 0) };
-                    break;
-                case 22:
-                    style = style with { Bold = false, Dim = false };
-                    break;
-                case 23:
-                    style = style with { Italic = false };
-                    break;
-                case 24:
-                    style = style with { Underline = false };
-                    break;
-                case >= 30 and <= 37:
-                    style = style with { Foreground = code - 30 };
-                    break;
-                case 39:
-                    style = style with { Foreground = -1 };
-                    break;
-                case >= 40 and <= 47:
-                    style = style with { Background = code - 40 };
-                    break;
-                case 49:
-                    style = style with { Background = -1 };
-                    break;
-                case >= 90 and <= 97:
-                    style = style with { Foreground = code - 90 + 8 };
-                    break;
-                case >= 100 and <= 107:
-                    style = style with { Background = code - 100 + 8 };
-                    break;
-                case 38 or 48 or 58:
-                    index = ReadExtendedColor(values, linked, count, index, out var color);
-                    if (code == 38 && color >= 0)
-                    {
-                        style = style with { Foreground = color };
-                    }
-                    else if (code == 48 && color >= 0)
-                    {
-                        style = style with { Background = color };
-                    }
-
-                    break;
-                default:
-                    break;
-            }
+            style = ApplyCode(style, values, linked, count, ref index);
 
             // The sub-parameters of a code that does not use them (4:3, 21:1...) are skipped with it.
             while (index + 1 < count && linked[index + 1])
@@ -165,6 +106,62 @@ internal static class AnsiScanner
 
         return style;
     }
+
+    /// <summary>Applies the code at <paramref name="index"/>; an extended colour moves <paramref name="index"/> to its last value.</summary>
+    private static AnsiStyle ApplyCode(AnsiStyle style, ReadOnlySpan<int> values, ReadOnlySpan<bool> linked, int count, ref int index)
+    {
+        var code = values[index];
+        switch (code)
+        {
+            case 0:
+                return AnsiStyle.Plain;
+            case 4:
+                return style with { Underline = !(index + 1 < count && linked[index + 1] && values[index + 1] == 0) };
+            case 38 or 48 or 58:
+                index = ReadExtendedColor(values, linked, count, index, out var color);
+                return ApplyExtendedColor(style, code, color);
+            default:
+                return ApplyAttribute(style, code);
+        }
+    }
+
+    private static AnsiStyle ApplyExtendedColor(AnsiStyle style, int code, int color)
+    {
+        if (color < 0)
+        {
+            return style;
+        }
+
+        return code switch
+        {
+            38 => style with { Foreground = color },
+            48 => style with { Background = color },
+            _ => style,
+        };
+    }
+
+    /// <summary>The weight and decoration codes, then the colour ranges; any other code leaves the style as it is.</summary>
+    private static AnsiStyle ApplyAttribute(AnsiStyle style, int code) => code switch
+    {
+        1 => style with { Bold = true },
+        2 => style with { Dim = true },
+        3 => style with { Italic = true },
+        22 => style with { Bold = false, Dim = false },
+        23 => style with { Italic = false },
+        24 => style with { Underline = false },
+        _ => ApplyColorCode(style, code),
+    };
+
+    private static AnsiStyle ApplyColorCode(AnsiStyle style, int code) => code switch
+    {
+        >= 30 and <= 37 => style with { Foreground = code - 30 },
+        39 => style with { Foreground = -1 },
+        >= 40 and <= 47 => style with { Background = code - 40 },
+        49 => style with { Background = -1 },
+        >= 90 and <= 97 => style with { Foreground = code - 90 + 8 },
+        >= 100 and <= 107 => style with { Background = code - 100 + 8 },
+        _ => style,
+    };
 
     /// <summary>The nearest of the sixteen colours to an 8-bit colour of the 256-colour table.</summary>
     internal static int Nearest256(int number)

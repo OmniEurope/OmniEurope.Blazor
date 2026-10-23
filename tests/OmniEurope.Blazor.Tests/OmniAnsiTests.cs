@@ -265,6 +265,22 @@ public sealed class OmniAnsiTests
     }
 
     [Fact]
+    public void AnEscapeWithIntermediateBytesButNoFinalByte_LosesItsEscapeOnly()
+    {
+        // The text ends after "(", or "(" is followed by a control character: no final byte, the escape alone goes.
+        Assert.Equal("abc(", OmniAnsi.Strip("abc" + Esc + "("));
+        Assert.Equal("(\u0001x", OmniAnsi.Strip(Esc + "(\u0001x"));
+        Assert.Equal("é", OmniAnsi.Strip(Esc + "é"));
+    }
+
+    [Fact]
+    public void AnExtendedColourWithAnUnknownKind_IsSkipped_AndTheNextCodesStillApply()
+    {
+        // 38;9 is neither 38;5 nor 38;2: the kind is consumed, no colour is set, and the bold that follows applies.
+        Assert.Equal([new OmniAnsiSegment("text", Bold: true)], OmniAnsi.Parse(Esc + "[38;9;1mtext"));
+    }
+
+    [Fact]
     public void AnUnterminatedStringSequence_LosesItsIntroducerOnly_TheRestIsKept()
     {
         Assert.Equal("0;window title", OmniAnsi.Strip(Esc + "]0;window title"));

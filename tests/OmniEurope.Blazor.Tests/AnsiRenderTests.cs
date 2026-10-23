@@ -262,4 +262,20 @@ public sealed class AnsiRenderTests : OmniBunitContext
         Assert.Equal("plain", piece.Text);
         Assert.Null(OmniAnsiMarkup.ClassOf(piece.Style!));
     }
+
+    [Fact]
+    public void DisplayText_OfNullInRawMode_IsEmpty_AndOtherwiseTheLineAsWritten()
+    {
+        Assert.Equal(string.Empty, OmniAnsiMarkup.DisplayText(null, OmniAnsiMode.Raw));
+        Assert.Equal(ClientLine, OmniAnsiMarkup.DisplayText(ClientLine, OmniAnsiMode.Raw));
+        Assert.Equal(Plain, OmniAnsiMarkup.DisplayText(ClientLine, OmniAnsiMode.Hide));
+    }
+
+    [Fact]
+    public void ClassOf_IgnoresAColourOutsideTheSixteen_ButKeepsTheOtherAttributes()
+    {
+        Assert.Null(OmniAnsiMarkup.ClassOf(new OmniAnsiSegment("x", Foreground: 16, Background: -1)));
+        Assert.Null(OmniAnsiMarkup.ClassOf(new OmniAnsiSegment("x", Foreground: -1, Background: 16)));
+        Assert.Equal("omni-ansi-bold omni-ansi-fg-15 omni-ansi-bg-0", OmniAnsiMarkup.ClassOf(new OmniAnsiSegment("x", Bold: true, Foreground: 15, Background: 0)));
+    }
 }
