@@ -13,6 +13,9 @@ internal sealed record OmniPanelMenuContext(OmniPanelMenuDisplay Display)
     /// <summary>Opens the sidebar the menu is nested in, when there is one that can be opened.</summary>
     public Func<Task>? ExpandSidebar { get; init; }
 
+    /// <summary>The entries at the first level of the menu, which arbitrate between themselves which one is current.</summary>
+    public OmniPanelMenuSiblings Siblings { get; init; } = new();
+
     /// <summary>The menu's navigation guard, <see cref="OmniPanelMenu.CanNavigate"/>.</summary>
     public Func<string, Task<bool>>? CanNavigate { get; init; }
 }

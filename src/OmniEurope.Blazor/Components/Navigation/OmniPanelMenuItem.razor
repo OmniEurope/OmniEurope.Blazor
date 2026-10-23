@@ -22,7 +22,7 @@
                 <a class="@GroupLinkClass"
                    href="@SafeHref"
                    aria-current="@(IsCurrent ? "page" : null)"
-                   @onclick="HandleNavigateAsync"
+                   @onclick="HandleGroupLinkClickAsync"
                    @onclick:preventDefault="@GuardsNavigation">
                     @if (Icon is not null)
                     {

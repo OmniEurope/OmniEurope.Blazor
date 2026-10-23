@@ -94,9 +94,25 @@ public partial class OmniPanelMenuItem
     /// <summary>
     /// One current entry per menu: a group whose address prefixes the route gives way when one of its
     /// own entries is the current page, or the menu lit the section and the page together (a server
-    /// group and that server's overview). An explicit <see cref="Current"/> still wins.
+    /// group and that server's overview). Likewise a sibling whose address prefixes the route less
+    /// closely gives way to the one that matches it more closely (<c>/settings</c> beside
+    /// <c>/settings/users</c>). An explicit <see cref="Current"/> still wins.
     /// </summary>
-    private bool IsCurrent => Current || (IsActive && !(_ownContext?.HasActiveChild ?? false));
+    private bool IsCurrent => Current || (IsActive && !(_ownContext?.HasActiveChild ?? false) && !IsOutrankedBySibling);
+
+    /// <summary>Entries at the same level as this one, the menu's own or the enclosing group's.</summary>
+    private OmniPanelMenuSiblings? Siblings => ParentGroup?.Siblings ?? Menu?.Siblings;
+
+    private bool IsOutrankedBySibling => RouteRank is { } rank && Siblings?.IsOutranked(this, rank) == true;
+
+    /// <summary>
+    /// How closely the address matches the route: the length of the address, so the deepest wins and an
+    /// exact match, which is the longest address that can match, beats a prefix. Null when the entry
+    /// does not match at all.
+    /// </summary>
+    internal int? RouteRank => IsActive
+        ? Uri.UnescapeDataString(Navigation.ToAbsoluteUri(SafeHref!).AbsolutePath).Trim('/').Length
+        : null;
 
     private bool IsOpen => _open ?? (Expanded || IsWithin);
 
@@ -175,6 +191,7 @@ public partial class OmniPanelMenuItem
     protected override void OnInitialized()
     {
         _wasActive = IsWithin;
+        Siblings?.Add(this);
         ReportToParent();
         Navigation.LocationChanged += HandleLocationChanged;
     }
@@ -254,6 +271,22 @@ public partial class OmniPanelMenuItem
         await Toggle();
     }
 
+    /// <summary>
+    /// The label of a group that names a page: reaching the page also reveals what is below it, which is
+    /// what the reader came for. Unfolding never folds, so clicking the label of an open group keeps it
+    /// open (the chevron is the control that folds), and it does not wait for the navigation guard:
+    /// refusing to leave the current page does not make the section's entries less worth seeing.
+    /// </summary>
+    private async Task HandleGroupLinkClickAsync()
+    {
+        if (!IsOpen)
+        {
+            await SetOpenAsync(true);
+        }
+
+        await HandleNavigateAsync();
+    }
+
     private async Task HandleNavigateAsync()
     {
         var href = SafeHref;
@@ -267,6 +300,7 @@ public partial class OmniPanelMenuItem
     /// <summary>Stops following the route and leaves the parent group.</summary>
     public void Dispose()
     {
+        Siblings?.Remove(this);
         ParentGroup?.Remove(this);
         Navigation.LocationChanged -= HandleLocationChanged;
     }
