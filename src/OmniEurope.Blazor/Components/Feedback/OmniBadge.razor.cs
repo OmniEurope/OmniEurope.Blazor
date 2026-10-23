@@ -42,14 +42,23 @@ public partial class OmniBadge
     public OmniBadgeWidth Width { get; set; } = OmniBadgeWidth.Auto;
 
     /// <summary>
-    /// Draws a 1 px black outline around the white letters of a <see cref="OmniFill.Solid"/> badge, for a
-    /// badge laid over a picture or a busy colour. Off by default; no effect on the tonal and outline fills.
+    /// The lettering of a <see cref="OmniFill.Solid"/> badge: <see cref="OmniBadgeInk.White"/>, the
+    /// default; <see cref="OmniBadgeInk.WhiteOutlined"/>, white with a 1 px black outline, for a badge laid
+    /// over a picture or a busy colour; <see cref="OmniBadgeInk.Black"/>, black letters on a fill of the
+    /// tone lightened for them. No effect on the tonal and outline fills.
     /// </summary>
     [Parameter]
-    public bool InkOutline { get; set; }
+    public OmniBadgeInk Ink { get; set; } = OmniBadgeInk.White;
 
     /// <summary>An icon and nothing else: the badge is then a square as tall as a text badge.</summary>
     private bool IconOnly => Icon is not null && ChildContent is null;
+
+    private string? InkClass => Fill != OmniFill.Solid ? null : Ink switch
+    {
+        OmniBadgeInk.WhiteOutlined => "omni-badge--ink-white-outlined",
+        OmniBadgeInk.Black => "omni-badge--ink-black",
+        _ => null,
+    };
 
     private string? WidthClass => Width == OmniBadgeWidth.Auto || IconOnly ? null : $"omni-badge--width-{Width.ToString().ToLowerInvariant()}";
 }

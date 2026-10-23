@@ -19,6 +19,12 @@
     --omni-ansi-7: #585858;
     --omni-ansi-8: #4a4a4a;
     --omni-ansi-9: #a62925;
+    --omni-badge-solid-black-fill-accent: #6a68d8;
+    --omni-badge-solid-black-fill-danger: #f44336;
+    --omni-badge-solid-black-fill-info: #2196f3;
+    --omni-badge-solid-black-fill-neutral: #757575;
+    --omni-badge-solid-black-fill-success: #48a64c;
+    --omni-badge-solid-black-fill-warning: #d07c00;
     --omni-badge-solid-fill-accent: #5e5cd8;
     --omni-badge-solid-fill-danger: #dc3732;
     --omni-badge-solid-fill-info: #217bbd;
@@ -146,6 +152,12 @@
     --omni-ansi-7: #d8d8d8;
     --omni-ansi-8: #c4c4c4;
     --omni-ansi-9: #edbfbf;
+    --omni-badge-solid-black-fill-accent: #6a68d8;
+    --omni-badge-solid-black-fill-danger: #f44336;
+    --omni-badge-solid-black-fill-info: #2196f3;
+    --omni-badge-solid-black-fill-neutral: #a6a6a6;
+    --omni-badge-solid-black-fill-success: #4caf50;
+    --omni-badge-solid-black-fill-warning: #ff9800;
     --omni-badge-solid-fill-accent: #5e5cd8;
     --omni-badge-solid-fill-danger: #dc3732;
     --omni-badge-solid-fill-info: #217bbd;
@@ -256,6 +268,12 @@
         --omni-ansi-7: #d8d8d8;
         --omni-ansi-8: #c4c4c4;
         --omni-ansi-9: #edbfbf;
+        --omni-badge-solid-black-fill-accent: #6a68d8;
+        --omni-badge-solid-black-fill-danger: #f44336;
+        --omni-badge-solid-black-fill-info: #2196f3;
+        --omni-badge-solid-black-fill-neutral: #a6a6a6;
+        --omni-badge-solid-black-fill-success: #4caf50;
+        --omni-badge-solid-black-fill-warning: #ff9800;
         --omni-badge-solid-fill-accent: #5e5cd8;
         --omni-badge-solid-fill-danger: #dc3732;
         --omni-badge-solid-fill-info: #217bbd;

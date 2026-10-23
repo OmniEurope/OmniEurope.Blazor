@@ -31,8 +31,11 @@ internal static class ThemePresetFactory
     /// <summary>The near-black laid over the bright info and success fills.</summary>
     internal const string OnBright = "#111111";
 
-    /// <summary>The white laid over every solid badge, in both modes.</summary>
+    /// <summary>The white laid over every solid badge, in both modes, by default.</summary>
     internal const string SolidBadgeInk = "#ffffff";
+
+    /// <summary>The black of the solid badges that ask for it (<c>OmniBadgeInk.Black</c>), in both modes.</summary>
+    internal const string SolidBadgeBlackInk = "#000000";
 
     /// <summary>Builds a palette, both modes derived.</summary>
     public static OmniThemePalette CreatePalette(PaletteDefinition palette)
@@ -213,12 +216,13 @@ internal static class ThemePresetFactory
     }
 
     /// <summary>
-    /// The fill and the ink of the solid badge of each tone (<c>--omni-badge-solid-fill-X</c> and
-    /// <c>--omni-badge-solid-ink-X</c>). One white ink for every tone in both modes (owner decision of
-    /// 2026-10-23, after a single ink per mode), so a page never shows black and white lettering side by
-    /// side; each fill is the brand colour of its tone deepened just far enough for that ink to read on it
-    /// at 4.5. They are tokens of the badge alone: the buttons, alerts and notification
-    /// marks keep their own fills and inks.
+    /// The fills and the ink of the solid badge of each tone. White is the ink of every tone in both modes
+    /// by default (owner decision of 2026-10-23, after a single ink per mode): <c>--omni-badge-solid-ink-X</c>
+    /// on <c>--omni-badge-solid-fill-X</c>, the brand colour of the tone deepened just far enough for white
+    /// to read on it at 4.5. A badge that asks for black letters (<c>OmniBadgeInk.Black</c>) reads
+    /// <c>--omni-badge-solid-black-fill-X</c>, the same colour lightened just far enough for black. They
+    /// are tokens of the badge alone: the buttons, alerts and notification marks keep their own fills and
+    /// inks.
     /// </summary>
     private static void AddSolidBadges(Dictionary<string, string> tokens, IReadOnlyDictionary<string, string> toneColors)
     {
@@ -227,6 +231,7 @@ internal static class ThemePresetFactory
         {
             tokens[$"--omni-badge-solid-fill-{tone}"] = Settle(color, ink, OverlaidTextRatio);
             tokens[$"--omni-badge-solid-ink-{tone}"] = ink;
+            tokens[$"--omni-badge-solid-black-fill-{tone}"] = Settle(color, SolidBadgeBlackInk, OverlaidTextRatio);
         }
     }
 

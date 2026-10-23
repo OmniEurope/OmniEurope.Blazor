@@ -85,26 +85,48 @@ public sealed class FeedbackFormsCoherenceTests : OmniBunitContext
         Assert.Contains("omni-badge--neutral", root.ClassList);
         Assert.Contains("omni-badge--solid", root.ClassList);
         Assert.Equal("Nouveau", root.TextContent.Trim());
-        Assert.DoesNotContain("omni-badge--ink-outline", root.ClassList);
+        Assert.DoesNotContain(root.ClassList, name => name.StartsWith("omni-badge--ink-", StringComparison.Ordinal));
     }
 
     [Theory]
-    [InlineData(OmniFill.Solid, true)]
-    [InlineData(OmniFill.Tonal, false)]
-    [InlineData(OmniFill.Outline, false)]
-    public void Badge_InkOutline_OutlinesTheWhiteLettersOfASolidBadgeOnly(OmniFill fill, bool outlined)
+    [InlineData(OmniFill.Solid, OmniBadgeInk.White, null)]
+    [InlineData(OmniFill.Solid, OmniBadgeInk.WhiteOutlined, "omni-badge--ink-white-outlined")]
+    [InlineData(OmniFill.Solid, OmniBadgeInk.Black, "omni-badge--ink-black")]
+    [InlineData(OmniFill.Tonal, OmniBadgeInk.WhiteOutlined, null)]
+    [InlineData(OmniFill.Tonal, OmniBadgeInk.Black, null)]
+    [InlineData(OmniFill.Outline, OmniBadgeInk.WhiteOutlined, null)]
+    [InlineData(OmniFill.Outline, OmniBadgeInk.Black, null)]
+    public void Badge_Ink_ChangesTheLettersOfASolidBadgeOnly(OmniFill fill, OmniBadgeInk ink, string? expected)
     {
         var badge = Render<OmniBadge>(parameters => parameters
             .Add(component => component.Fill, fill)
-            .Add(component => component.InkOutline, true)
+            .Add(component => component.Ink, ink)
             .AddChildContent("Nouveau"));
 
-        Assert.Equal(outlined, badge.Find(".omni-badge").ClassList.Contains("omni-badge--ink-outline"));
+        var inkClasses = badge.Find(".omni-badge").ClassList.Where(name => name.StartsWith("omni-badge--ink-", StringComparison.Ordinal)).ToArray();
+        Assert.Equal(expected is null ? [] : [expected], inkClasses);
+    }
+
+    [Fact]
+    public void Badge_InkRules_OutlineTheWhiteLetters_OrWriteBlackOnTheFillsLightenedForIt()
+    {
         // Eight shadows of 1 px, one per direction, all black: the outline the owner validated.
-        var shadow = ShippedLookTests.Value(ShippedLookTests.Body(".omni-badge--solid.omni-badge--ink-outline"), "text-shadow");
+        var outlined = ShippedLookTests.Body(".omni-badge--solid.omni-badge--ink-white-outlined");
         Assert.Equal(
             "-1px -1px 0 #000, 0 -1px 0 #000, 1px -1px 0 #000, -1px 0 0 #000, 1px 0 0 #000, -1px 1px 0 #000, 0 1px 0 #000, 1px 1px 0 #000",
-            shadow);
+            ShippedLookTests.Value(outlined, "text-shadow"));
+
+        // Black letters without any outline, each tone on its own fill lightened for black.
+        var black = ShippedLookTests.Body(".omni-badge--solid.omni-badge--ink-black");
+        Assert.Equal("#000000", ShippedLookTests.Value(black, "color"));
+        Assert.DoesNotContain("text-shadow", black, StringComparison.Ordinal);
+        Assert.Equal("var(--omni-badge-solid-black-fill-accent)", ShippedLookTests.Value(black, "background"));
+        foreach (var tone in Enum.GetValues<OmniTone>().Where(tone => tone != OmniTone.Accent))
+        {
+            var name = tone.ToString().ToLowerInvariant();
+            var body = ShippedLookTests.Body($".omni-badge--solid.omni-badge--ink-black.omni-badge--{name}");
+            Assert.Equal($"var(--omni-badge-solid-black-fill-{name})", ShippedLookTests.Value(body, "background"));
+        }
     }
 
     // ---- form field -----------------------------------------------------------------------------

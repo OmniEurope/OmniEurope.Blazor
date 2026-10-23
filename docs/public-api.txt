@@ -420,6 +420,9 @@ field public static OmniEurope.Blazor.Components.OmniAppearance.Dark : OmniEurop
 field public static OmniEurope.Blazor.Components.OmniAppearance.Light : OmniEurope.Blazor.Components.OmniAppearance const = 1
 field public static OmniEurope.Blazor.Components.OmniAppearance.System : OmniEurope.Blazor.Components.OmniAppearance const = 0
 field public static OmniEurope.Blazor.Components.OmniAppearanceState.PreferenceKey : System.String const = "omni.appearance"
+field public static OmniEurope.Blazor.Components.OmniBadgeInk.Black : OmniEurope.Blazor.Components.OmniBadgeInk const = 2
+field public static OmniEurope.Blazor.Components.OmniBadgeInk.White : OmniEurope.Blazor.Components.OmniBadgeInk const = 0
+field public static OmniEurope.Blazor.Components.OmniBadgeInk.WhiteOutlined : OmniEurope.Blazor.Components.OmniBadgeInk const = 1
 field public static OmniEurope.Blazor.Components.OmniBadgeWidth.Auto : OmniEurope.Blazor.Components.OmniBadgeWidth const = 0
 field public static OmniEurope.Blazor.Components.OmniBadgeWidth.Large : OmniEurope.Blazor.Components.OmniBadgeWidth const = 3
 field public static OmniEurope.Blazor.Components.OmniBadgeWidth.Medium : OmniEurope.Blazor.Components.OmniBadgeWidth const = 2
@@ -2360,7 +2363,7 @@ property public OmniEurope.Blazor.Components.OmniAxisTitle.Text : System.String 
 property public OmniEurope.Blazor.Components.OmniBadge.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniBadge.Fill : OmniEurope.Blazor.Components.OmniFill {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniBadge.Icon : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniBadge.InkOutline : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniBadge.Ink : OmniEurope.Blazor.Components.OmniBadgeInk {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniBadge.Tone : OmniEurope.Blazor.Components.OmniTone {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniBadge.Width : OmniEurope.Blazor.Components.OmniBadgeWidth {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniBody.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
@@ -4013,6 +4016,7 @@ type public OmniEurope.Blazor.Components.OmniAreaSeries [class] : Microsoft.AspN
 type public OmniEurope.Blazor.Components.OmniAutocomplete<TValue> [class] : OmniEurope.Blazor.Components.OmniInputBase<TValue>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniAxisTitle [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniBadge [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
+type public OmniEurope.Blazor.Components.OmniBadgeInk [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniBadgeWidth [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniBody [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniBootSplash [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable

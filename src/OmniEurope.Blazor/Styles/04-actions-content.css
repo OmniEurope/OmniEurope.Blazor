@@ -406,8 +406,8 @@
 
 .omni-badge--outline { background: transparent; border-color: color-mix(in srgb, var(--omni-badge-ink) 78%, transparent); }
 
-/* Solid: one white ink in both modes, whatever the tone (owner decision of 2026-10-23, after the one ink
-   per mode of recette R-22), never a mix of black and white on one page. The fill of each tone is its own
+/* Solid: one white ink in both modes by default, whatever the tone (owner decision of 2026-10-23, after
+   the one ink per mode of recette R-22); black letters only where a badge asks for them (Ink). The fill of each tone is its own
    badge token (--omni-badge-solid-fill-X, with its ink --omni-badge-solid-ink-X), the brand colour of the
    tone deepened just far enough for that ink to read on it at 4.5:1 in every theme and palette
    (ThemeContrastMatrixTests). They are not the fills of the buttons, which keep their own inks. A
@@ -419,8 +419,16 @@
 .omni-badge--solid.omni-badge--success { background: var(--omni-badge-solid-fill-success); color: var(--omni-badge-solid-ink-success); }
 .omni-badge--solid.omni-badge--warning { background: var(--omni-badge-solid-fill-warning); color: var(--omni-badge-solid-ink-warning); }
 .omni-badge--solid.omni-badge--danger { background: var(--omni-badge-solid-fill-danger); color: var(--omni-badge-solid-ink-danger); }
-/* InkOutline: a 1 px black outline around the white letters, drawn by eight shadows (one per direction). */
-.omni-badge--solid.omni-badge--ink-outline { text-shadow: -1px -1px 0 #000, 0 -1px 0 #000, 1px -1px 0 #000, -1px 0 0 #000, 1px 0 0 #000, -1px 1px 0 #000, 0 1px 0 #000, 1px 1px 0 #000; }
+/* Ink (OmniBadgeInk). WhiteOutlined: a 1 px black outline around the white letters, drawn by eight
+   shadows (one per direction). Black: black letters, without outline, on the fill of the tone lightened
+   for them (--omni-badge-solid-black-fill-X, 4.5:1 in every theme and palette). */
+.omni-badge--solid.omni-badge--ink-white-outlined { text-shadow: -1px -1px 0 #000, 0 -1px 0 #000, 1px -1px 0 #000, -1px 0 0 #000, 1px 0 0 #000, -1px 1px 0 #000, 0 1px 0 #000, 1px 1px 0 #000; }
+.omni-badge--solid.omni-badge--ink-black { background: var(--omni-badge-solid-black-fill-accent); color: #000000; }
+.omni-badge--solid.omni-badge--ink-black.omni-badge--neutral { background: var(--omni-badge-solid-black-fill-neutral); }
+.omni-badge--solid.omni-badge--ink-black.omni-badge--info { background: var(--omni-badge-solid-black-fill-info); }
+.omni-badge--solid.omni-badge--ink-black.omni-badge--success { background: var(--omni-badge-solid-black-fill-success); }
+.omni-badge--solid.omni-badge--ink-black.omni-badge--warning { background: var(--omni-badge-solid-black-fill-warning); }
+.omni-badge--solid.omni-badge--ink-black.omni-badge--danger { background: var(--omni-badge-solid-black-fill-danger); }
 
 /* Souligné au survol seulement. */
 .omni-link { color: var(--omni-color-accent-strong); text-decoration: none; text-underline-offset: 0.15em; }

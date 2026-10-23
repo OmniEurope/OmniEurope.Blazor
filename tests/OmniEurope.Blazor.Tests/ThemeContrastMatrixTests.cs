@@ -262,6 +262,47 @@ public sealed partial class ThemeContrastMatrixTests
         return (ShippedLookTests.Value(body, "background"), ShippedLookTests.Value(body, "color"));
     }
 
+    /// <summary>The ink of a solid badge that asks for black letters (<c>OmniBadgeInk.Black</c>), in both modes.</summary>
+    internal const string SolidBadgeBlackInk = "#000000";
+
+    /// <summary>
+    /// A solid badge that asks for black letters (<c>OmniBadgeInk.Black</c>, owner request of 2026-10-23)
+    /// writes black in both modes, whatever its tone, on the fill of its tone lightened for black
+    /// (<c>--omni-badge-solid-black-fill-X</c>), and reads there at 4.5. Fill and ink are read from the
+    /// <c>.omni-badge--ink-black</c> rules of the stylesheet, then resolved in the token set. No exception.
+    /// </summary>
+    [Theory]
+    [MemberData(nameof(Sets))]
+    public void Solid_badges_in_black_ink_read_at_the_text_ratio(string themeName, string paletteName, OmniAppearance mode)
+    {
+        var theme = OmniThemePresets.All.Single(entry => entry.Name == themeName);
+        var palette = OmniThemePalettes.All.Single(entry => entry.Name == paletteName);
+        var tokens = theme.With(palette).For(mode);
+        var baseBody = ShippedLookTests.Body(".omni-badge--solid.omni-badge--ink-black");
+        var ink = ShowcaseThemeTests.Resolve(tokens, ShippedLookTests.Value(baseBody, "color"));
+
+        var failures = new List<string>();
+        foreach (var tone in Enum.GetValues<OmniTone>())
+        {
+            var own = $".omni-badge--solid.omni-badge--ink-black.omni-badge--{tone.ToString().ToLowerInvariant()}";
+            var body = ShippedLookTests.Css.Contains(own + " {", StringComparison.Ordinal) ? ShippedLookTests.Body(own) : baseBody;
+            var fillReference = ShippedLookTests.Value(body, "background");
+            var fill = ShowcaseThemeTests.Resolve(tokens, fillReference);
+            var contrast = ThemeColor.Contrast(ink, fill);
+            if (ThemeColor.Parse(ink) != ThemeColor.Parse(SolidBadgeBlackInk))
+            {
+                failures.Add($"black {tone} badge: ink {ink} is not {SolidBadgeBlackInk}");
+            }
+
+            if (contrast < Text)
+            {
+                failures.Add(string.Create(CultureInfo.InvariantCulture, $"black {tone} badge: ink {ink} on fill {fillReference} ({fill}): {contrast:F2}, below {Text:F1}"));
+            }
+        }
+
+        Assert.True(failures.Count == 0, string.Join(Environment.NewLine, failures));
+    }
+
     /// <summary>
     /// The header of a grid writes its titles in muted text on a fill one step darker than the frame
     /// (6 % of the text colour over <c>--omni-grid-frame</c>), which a theme may already tint away from
