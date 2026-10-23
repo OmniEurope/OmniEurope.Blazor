@@ -45,15 +45,15 @@
                                   @bind-Value:get="Language" @bind-Value:set="SetLanguageAsync" Label="@Localize("AppMenuLanguage")" />
                 </div>
             }
-            @* One button for the whole row: a click moves to the next mode (light, dark, system, then light
-               again), the value at the end names the mode in force. A theme drawn in dark mode only fixes
-               the mode on dark: the button is disabled and says why. *@
-            <OmniButton Variant="OmniButtonVariant.Ghost" Class="omni-app-menu__item omni-app-menu__mode" Disabled="ModeFixed"
-                        title="@ModeFixedTitle" OnClick="CycleAppearanceAsync">
-                <Icon><OmniIcon Name="@ModeIcon(ShownAppearance)" /></Icon>
-                <ChildContent><span class="omni-app-menu__label">@Localize("SettingsMode")</span>
-                <span class="omni-app-menu__value">@ModeName(ShownAppearance)</span></ChildContent>
-            </OmniButton>
+            @* The mode: its label at the start, then three icon buttons joined at the end (light, dark,
+               system), the one in force highlighted, as in the appearance window: one click picks a mode,
+               the arrows move and pick it. A theme drawn in dark mode only fixes the mode on dark: the
+               three buttons are disabled and the group says why. *@
+            <div class="omni-app-menu__row omni-app-menu__mode">
+                <OmniIcon Name="OmniIconName.ThemeSystem" />
+                <span class="omni-app-menu__label">@Localize("SettingsMode")</span>
+                @ModeGroup
+            </div>
             <OmniButton Variant="OmniButtonVariant.Ghost" Class="omni-app-menu__item omni-app-menu__theme" OnClick="OpenThemeAsync">
                 <Icon><OmniIcon Name="OmniIconName.Palette" /></Icon><ChildContent><span>@Localize("SettingsTheme")</span></ChildContent>
             </OmniButton>

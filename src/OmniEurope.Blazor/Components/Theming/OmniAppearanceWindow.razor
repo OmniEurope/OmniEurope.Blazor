@@ -41,17 +41,7 @@
                         <span class="omni-appearance-settings__label" id="@RowId("palette")"><OmniIcon Name="@(PaletteChanged.HasDelegate ? OmniIconName.Palette : OmniIconName.ThemeSystem)" /> @Localize(PaletteChanged.HasDelegate ? "SettingsPalette" : "SettingsMode")</span>
                         @if (AppearanceChanged.HasDelegate)
                         {
-                            <div class="omni-appearance-window__modes" role="radiogroup" data-omni-roving aria-label="@Localize("SettingsMode")"
-                                 aria-disabled="@(ModeFixed ? "true" : null)" title="@ModeFixedTitle">
-                                @foreach (var mode in Modes)
-                                {
-                                    var selected = mode.Value == ShownAppearance;
-                                    <OmniButton Variant="@(selected ? OmniButtonVariant.Primary : OmniButtonVariant.Secondary)"
-                                                Class="omni-appearance-window__mode" Disabled="ModeFixed" Label="@mode.Text" title="@mode.Text"
-                                                role="radio" aria-checked="@(selected ? "true" : "false")" tabindex="@(selected ? "0" : "-1")"
-                                                OnClick="@(() => SetAppearanceAsync(mode.Value))"><Icon><OmniIcon Name="@ModeIcon(mode.Value)" /></Icon></OmniButton>
-                                }
-                            </div>
+                            @ModeGroup
                         }
                         @if (PaletteChanged.HasDelegate)
                         {

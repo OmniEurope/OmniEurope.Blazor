@@ -24,8 +24,10 @@ public sealed class AppMenuTests : OmniBunitContext
         Assert.Empty(menu.FindAll(".omni-app-menu__language"));
         Assert.Empty(menu.FindAll(".omni-app-menu__settings"));
         Assert.Empty(menu.FindAll(".omni-app-menu__footer"));
-        Assert.Single(menu.FindAll("button.omni-app-menu__mode"));
-        Assert.Empty(menu.FindAll("[role=radio], [role=radiogroup]"));
+        Assert.Single(menu.FindAll("div.omni-app-menu__mode"));
+        // The only radio group is the mode: three buttons, nothing else that picks.
+        Assert.Single(menu.FindAll("[role=radiogroup]"));
+        Assert.Equal(3, menu.FindAll("[role=radio]").Count);
         Assert.Equal("Thème", menu.Find(".omni-app-menu__theme").TextContent.Trim());
     }
 
@@ -138,9 +140,8 @@ public sealed class AppMenuTests : OmniBunitContext
             .Add(component => component.OpenChanged, open => events.Add(open ? "open" : "closed")));
 
         menu.Find(".omni-app-menu__trigger").Click();
-        var row = menu.Find("button.omni-app-menu__mode");
-        Assert.Equal("Clair", row.QuerySelector(".omni-app-menu__value")!.TextContent);
-        row.Click();
+        // One click on "Sombre" raises dark, without passing through system.
+        menu.Find(".omni-app-menu__mode [role=radio][aria-label=Sombre]").Click();
         Assert.Equal(OmniAppearance.Dark, mode);
 
         menu.Find(".omni-app-menu__theme").Click();
@@ -163,35 +164,42 @@ public sealed class AppMenuTests : OmniBunitContext
             .Add(component => component.OnThemeOpen, () => { }));
         menu.Find(".omni-app-menu__trigger").Click();
 
-        var row = menu.Find("button.omni-app-menu__mode");
-        Assert.True(row.HasAttribute("disabled"));
-        Assert.Equal("Ce thème est toujours sombre", row.GetAttribute("title"));
-        Assert.Equal("Sombre", row.QuerySelector(".omni-app-menu__value")!.TextContent);
+        var group = menu.Find(".omni-app-menu__mode [role=radiogroup]");
+        Assert.Equal("Ce thème est toujours sombre", group.GetAttribute("title"));
+        Assert.Equal("true", group.GetAttribute("aria-disabled"));
+        var radios = menu.FindAll(".omni-app-menu__mode [role=radio]");
+        Assert.Equal(3, radios.Count);
+        Assert.All(radios, radio => Assert.True(radio.HasAttribute("disabled")));
+        Assert.Equal(["false", "true", "false"], radios.Select(radio => radio.GetAttribute("aria-checked")));
+        radios[0].Click();
         Assert.Null(mode);
     }
 
     [Theory]
-    [InlineData(OmniAppearance.Light, OmniAppearance.Dark, "Clair")]
-    [InlineData(OmniAppearance.Dark, OmniAppearance.System, "Sombre")]
-    [InlineData(OmniAppearance.System, OmniAppearance.Light, "Système")]
-    public void A_click_on_the_mode_row_moves_to_the_next_mode_and_the_cycle_comes_back_to_light(OmniAppearance current, OmniAppearance next, string shown)
+    [InlineData(OmniAppearance.Light, "Clair", 0)]
+    [InlineData(OmniAppearance.Dark, "Sombre", 1)]
+    [InlineData(OmniAppearance.System, "Système", 2)]
+    public void Each_mode_button_raises_its_own_mode_in_one_click_whatever_the_mode_in_force(OmniAppearance target, string name, int position)
     {
-        OmniAppearance? mode = null;
-        var menu = Render<OmniAppMenu>(parameters => parameters
-            .Add(component => component.Appearance, current)
-            .Add(component => component.AppearanceChanged, value => mode = value)
-            .Add(component => component.OnThemeOpen, () => { }));
-        menu.Find(".omni-app-menu__trigger").Click();
+        foreach (var current in new[] { OmniAppearance.Light, OmniAppearance.Dark, OmniAppearance.System })
+        {
+            OmniAppearance? mode = null;
+            var menu = Render<OmniAppMenu>(parameters => parameters
+                .Add(component => component.Appearance, current)
+                .Add(component => component.AppearanceChanged, value => mode = value)
+                .Add(component => component.OnThemeOpen, () => { }));
+            menu.Find(".omni-app-menu__trigger").Click();
 
-        var row = menu.Find("button.omni-app-menu__mode");
-        Assert.Equal(shown, row.QuerySelector(".omni-app-menu__value")!.TextContent);
-        row.Click();
+            var radio = menu.FindAll(".omni-app-menu__mode [role=radio]")[position];
+            Assert.Equal(name, radio.GetAttribute("aria-label"));
+            radio.Click();
 
-        Assert.Equal(next, mode);
+            Assert.Equal(target, mode);
+        }
     }
 
     [Fact]
-    public void The_mode_row_is_one_button_named_by_its_text_with_nothing_interactive_inside()
+    public void The_mode_row_is_a_label_then_three_joined_icon_buttons_in_one_radio_group()
     {
         var menu = Render<OmniAppMenu>(parameters => parameters
             .Add(component => component.Appearance, OmniAppearance.Dark)
@@ -199,11 +207,27 @@ public sealed class AppMenuTests : OmniBunitContext
             .Add(component => component.OnThemeOpen, () => { }));
         menu.Find(".omni-app-menu__trigger").Click();
 
-        var row = menu.Find("button.omni-app-menu__mode");
-        Assert.Equal("button", row.GetAttribute("type"));
-        Assert.False(row.HasAttribute("aria-label"));
-        Assert.Equal("Mode Sombre", string.Join(" ", row.QuerySelectorAll(".omni-app-menu__label, .omni-app-menu__value").Select(part => part.TextContent)));
-        Assert.Empty(row.QuerySelectorAll("button, a, select, input, [role], [tabindex]"));
+        var row = menu.Find("div.omni-app-menu__mode");
+        Assert.Empty(menu.FindAll("button.omni-app-menu__mode"));
+        Assert.Equal("Mode", row.QuerySelector(".omni-app-menu__label")!.TextContent);
+        // The label comes first and the group closes the row, so the buttons sit at its end.
+        Assert.Same(row.QuerySelector(".omni-app-menu__label")!.NextElementSibling, row.QuerySelector("[role=radiogroup]"));
+        Assert.Same(row.LastElementChild, row.QuerySelector("[role=radiogroup]"));
+
+        var group = row.QuerySelector("[role=radiogroup]")!;
+        Assert.Equal("Mode", group.GetAttribute("aria-label"));
+        // The arrows are the page keys' (keys.js moves and picks inside a data-omni-roving group).
+        Assert.True(group.HasAttribute("data-omni-roving"));
+        Assert.Contains("omni-appearance-window__modes", group.ClassList);
+        var radios = group.QuerySelectorAll("button[role=radio]");
+        Assert.Equal(["Clair", "Sombre", "Système"], radios.Select(radio => radio.GetAttribute("aria-label")));
+        Assert.Equal(["false", "true", "false"], radios.Select(radio => radio.GetAttribute("aria-checked")));
+        Assert.Equal(["-1", "0", "-1"], radios.Select(radio => radio.GetAttribute("tabindex")));
+        Assert.Equal(["omni-button--secondary", "omni-button--primary", "omni-button--secondary"],
+            radios.Select(radio => radio.ClassList.Single(name => name is "omni-button--primary" or "omni-button--secondary")));
+        Assert.All(radios, radio => Assert.False(radio.HasAttribute("disabled")));
+        // Icon only: no text inside the buttons.
+        Assert.All(radios, radio => Assert.Empty(radio.TextContent.Trim()));
     }
 
     [Fact]

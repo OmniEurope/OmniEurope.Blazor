@@ -121,8 +121,6 @@ public partial class OmniAppMenu : IDisposable
 
     private bool ModeFixed => FixedMode is not null;
 
-    private string? ModeFixedTitle => ModeFixed ? Localize("SettingsDarkOnly") : null;
-
     private OmniAppearance ShownAppearance => FixedMode ?? Appearance;
 
     private bool ShowsLanguages => Languages is { Count: > 1 };
@@ -133,19 +131,7 @@ public partial class OmniAppMenu : IDisposable
     private IReadOnlyList<OmniOption<string>> LanguageOptions =>
         [.. Languages!.Select(language => new OmniOption<string>(language.Code, language.Name))];
 
-    private string ModeName(OmniAppearance mode) => mode switch
-    {
-        OmniAppearance.Light => Localize("AppearanceLight"),
-        OmniAppearance.Dark => Localize("AppearanceDark"),
-        _ => Localize("AppearanceSystem")
-    };
-
-    private static OmniIconName ModeIcon(OmniAppearance mode) => mode switch
-    {
-        OmniAppearance.Light => OmniIconName.ThemeLight,
-        OmniAppearance.Dark => OmniIconName.ThemeDark,
-        _ => OmniIconName.ThemeSystem
-    };
+    private RenderFragment ModeGroup => AppearanceModeGroup.Render(this, ShownAppearance, ModeFixed, key => Localize(key), mode => AppearanceChanged.InvokeAsync(mode));
 
     /// <summary>
     /// Decides, from the parameters of the first render, whether the menu follows the user's
@@ -198,17 +184,6 @@ public partial class OmniAppMenu : IDisposable
         _open = open;
         await OpenChanged.InvokeAsync(open);
     }
-
-    // The Mode row steps through light, dark, system, then light again. A dark-only theme disables the
-    // row, and a disabled OmniButton raises no click.
-    private Task CycleAppearanceAsync() => AppearanceChanged.InvokeAsync(NextMode(ShownAppearance));
-
-    private static OmniAppearance NextMode(OmniAppearance mode) => mode switch
-    {
-        OmniAppearance.Light => OmniAppearance.Dark,
-        OmniAppearance.Dark => OmniAppearance.System,
-        _ => OmniAppearance.Light
-    };
 
     // The list offers only the codes of Languages, and no empty choice.
     private Task SetLanguageAsync(string? code) => LanguageChanged.InvokeAsync(code!);
