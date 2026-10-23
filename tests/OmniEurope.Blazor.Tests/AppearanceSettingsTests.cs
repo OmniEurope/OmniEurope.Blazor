@@ -636,4 +636,5 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         var bound = window.FindComponents<OmniSlider>().Select(slider => slider.Instance.ValueExpression!.Compile()()).ToArray();
 
         Assert.Equal([7d, 3d], bound);
-    }}
+    }
+}

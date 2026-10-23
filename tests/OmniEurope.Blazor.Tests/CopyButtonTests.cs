@@ -227,4 +227,5 @@ public sealed class CopyButtonTests : OmniBunitContext
         button.Find("button").Click();
 
         Assert.Equal(2, module.Invocations["copyText"].Count);
-    }}
+    }
+}
