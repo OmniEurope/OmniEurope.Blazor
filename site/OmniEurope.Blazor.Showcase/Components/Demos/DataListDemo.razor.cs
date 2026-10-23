@@ -64,7 +64,9 @@ public partial class DataListDemo
             new(Text["DemoDataListLogConnected"], OmniLogLevel.Debug),
             new(Text["DemoDataListLogStarted"], OmniLogLevel.Information),
             new(Text["DemoDataListLogMissing"], OmniLogLevel.Warning),
-            new(Text["DemoDataListLogRejected"], OmniLogLevel.Error),
+            // A line as long as real ones get, with the exception that caused it: the log scrolls sideways
+            // rather than wrapping it.
+            new($"{Text["DemoDataListLogRejected"]} : System.IO.IOException: The process cannot access the file 'D:\\exports\\2026-10-23\\quarterly-report-final.xlsx' because it is being used by another process.", OmniLogLevel.Error),
             new(Text["DemoDataListLogAborted"], OmniLogLevel.Critical)
         ];
         AnsiModes =

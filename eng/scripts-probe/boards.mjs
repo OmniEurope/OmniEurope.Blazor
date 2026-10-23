@@ -195,8 +195,13 @@ export async function boardSteps(session, results) {
   await waitFor('le suivi interrompu par la molette', "document.querySelector('.omni-log-viewer button[aria-pressed]')?.getAttribute('aria-pressed') === 'false'");
   await clickOn('.omni-log-viewer button[aria-pressed]');
   await waitFor('le suivi repris', "document.querySelector('.omni-log-viewer button[aria-pressed]')?.getAttribute('aria-pressed') === 'true'");
+  // A sideways scroll is a scroll event that leaves the tail followed. The demo's error line, with its
+  // exception, is wider than the log, so the log scrolls for real (short lines no longer do).
+  await waitFor('le journal plus large que sa fenêtre', `(() => { const viewport = document.querySelector(${JSON.stringify(logViewport)}); return viewport.scrollWidth > viewport.clientWidth + 20; })()`);
   await mouse('mouseWheel', await pointOf(logViewport), { button: 'none', deltaX: 120, deltaY: 0 });
   await waitFor('le journal défilé en largeur', `document.querySelector(${JSON.stringify(logViewport)}).scrollLeft > 0`);
+  await pause(200);
+  check(await evaluate("document.querySelector('.omni-log-viewer button[aria-pressed]')?.getAttribute('aria-pressed') === 'true'"), 'Un défilement en largeur a interrompu le suivi du journal.');
   await clickOn('.omni-log-viewer input');
   await session.type('dossier');
   await key('Enter', 'Enter', 13);

@@ -12,6 +12,11 @@
       "reason": "(anonyme) ligne 246 : le témoin de vie () => live passé à notifyDotNet, que notify.js n'évalue que dans son gestionnaire de rejet (voir grid/notify.js)."
     },
     {
+      "file": "grid/edit-cell.js",
+      "functions": 1,
+      "reason": "(anonyme) ligne 73 : le témoin de vie () => attachments.has(viewport) passé à notifyDotNet par le clic qui édite une ligne (EditTrigger Cell), évalué seulement sur un rejet (voir grid/notify.js)."
+    },
+    {
       "file": "grid/reorder.js",
       "functions": 1,
       "reason": "(anonyme) ligne 113 : le témoin de vie () => live passé à notifyDotNet par la fin d'un glisser d'en-tête, évalué seulement sur un rejet (voir grid/notify.js)."
