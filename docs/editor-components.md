@@ -619,6 +619,12 @@ presse-papiers, ou une zone de texte cachée et la commande de copie quand elle 
 
 `Secret` (faux par défaut) masque la valeur à l'écran jusqu'au bouton qui la révèle, la copie prenant toujours la valeur entière ; `VisibleCharacters` (4 par défaut) dit combien de caractères restent visibles à chaque bout tant qu'elle est masquée ; `CopiedFeedbackDuration` (`TimeSpan`, 2 secondes par défaut) fixe combien de temps le bouton montre la coche après une copie.
 
+`AnsiMode` (`OmniAnsiMode`, `Render` par défaut, comme sur `OmniLogViewer`) dit ce que le bloc fait des séquences ANSI d'une sortie de commande
+(`systemctl`, `docker`) : `Render` dessine les couleurs et attributs, `Hide` retire les séquences sans rien dessiner, `Raw` montre le texte tel qu'écrit.
+Un code sans séquence ne change dans aucun mode. Le bouton de copie prend le texte sans séquences en `Render` et en `Hide`, et le texte brut en
+`Raw` ; un `Secret` reste masqué dans tous les modes, sans séquence visible, et sa copie suit la même règle. `Inline` et `Wrap` s'appliquent au
+contenu ANSI comme à tout autre. Voir [data-components.md](data-components.md) pour `OmniAnsiText` et `OmniAnsi`.
+
 ## OmniUnifiedDiff : diff unifié sans Monaco
 
 `OmniUnifiedDiff` dessine un diff unifié (texte brut d'un `git diff`, ou fichiers déjà analysés par

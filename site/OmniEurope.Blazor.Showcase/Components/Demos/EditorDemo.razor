@@ -147,6 +147,10 @@
 
 <OmniStack Gap="OmniSpacing.Medium">
     <OmniCodeBlock Code="dotnet test OmniEurope.Blazor.slnx" Title="@Text["DemoEditorTestCommand"]" Language="shell" />
+    @* Sortie de commande : AnsiMode dessine les couleurs (Render), retire les codes (Hide) ou garde le texte brut (Raw) ;
+       la copie ne prend les codes qu'en Raw. *@
+    <OmniSelectBar TValue="OmniAnsiMode" Id="editor-ansi-mode" Label="@Text["DemoAnsiModeLabel"]" Options="AnsiModes" @bind-Value="AnsiMode" />
+    <OmniCodeBlock Id="editor-ansi-block" Code="@CommandOutput" Language="shell" AnsiMode="AnsiMode" Wrap="true" />
     <OmniCodeViewer Code="@ViewerCode" Title="@Text["DemoEditorConfigurationSample"]" Language="json"
                     HighlightedLines="ViewerHighlights" />
     @* Un extrait garde les numéros de ses lignes dans le fichier : FirstLineNumber. *@
