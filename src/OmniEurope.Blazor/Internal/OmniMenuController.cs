@@ -166,7 +166,7 @@ internal sealed class OmniMenuController : IAsyncDisposable
             if (_disposed)
             {
                 // Removed while the script loaded: it is released here, and nothing is opened.
-                await ReleaseModuleAsync();
+                await ReleaseModuleAsync(module);
                 return;
             }
 
@@ -214,21 +214,18 @@ internal sealed class OmniMenuController : IAsyncDisposable
         }
     }
 
-    /// <summary>Releases the script module once, whoever asks first; a lost circuit is ignored.</summary>
-    private async Task ReleaseModuleAsync()
+    /// <summary>
+    /// Releases the script module once, whoever asks first; a lost circuit is ignored. One import
+    /// serves every load, so the <paramref name="module"/> each caller holds is the only one there is.
+    /// </summary>
+    private async Task ReleaseModuleAsync(IJSObjectReference module)
     {
         if (Interlocked.Exchange(ref _released, 1) == 1)
         {
             return;
         }
 
-        // One import serves every load, so the module taken here is the only one there is.
-        var module = Interlocked.Exchange(ref _module, null);
-        if (module is null)
-        {
-            return;
-        }
-
+        Volatile.Write(ref _module, null);
         try
         {
             await module.DisposeAsync();
@@ -333,7 +330,7 @@ internal sealed class OmniMenuController : IAsyncDisposable
             {
             }
 
-            await ReleaseModuleAsync();
+            await ReleaseModuleAsync(module);
         }
 
         _shown = false;
