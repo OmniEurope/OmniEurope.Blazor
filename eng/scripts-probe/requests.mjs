@@ -518,4 +518,54 @@ export async function requestSteps(session, results) {
   await clickOn('#editor-mail .omni-mail-template-editor__send-test');
   await waitFor("l'essai remis à l'application", "document.getElementById('editor-mail-test').textContent.includes('Anne Martin')");
   step(`modèle de mail : ${marked} jetons du corps marqués, essai remis à l'application`);
+
+  // 11. A grid veiled by LoadingContent waits for the pictures of its first rows (waitForReady of
+  // omni-grid.js, at most 2 s): the demo-grid-pictures image is held at the request stage by CDP. The
+  // grid stays veiled while the picture is held, shows once it arrives (hold of 400 ms), and still
+  // shows, the picture unarrived, once the 2 s timeout has passed. The Fetch interception and the cache
+  // bypass are lifted at the end whatever happens, so later steps are not touched.
+  {
+    const held = [];
+    const stop = session.on('Fetch.requestPaused', params => held.push(params.requestId));
+    const grid = "document.getElementById('demo-grid-pictures')";
+    const veiled = `(() => { const grid = ${grid}; return !!grid && grid.classList.contains('omni-data-grid--preparing') && !!grid.querySelector('.omni-data-grid__preparation'); })()`;
+    const shown = `(() => { const grid = ${grid}; return !!grid && !grid.classList.contains('omni-data-grid--preparing') && !grid.querySelector('.omni-data-grid__preparation') && grid.querySelectorAll('tbody img').length > 0; })()`;
+    const arrived = `[...${grid}.querySelectorAll('tbody img')].every(image => image.complete && image.naturalWidth > 0)`;
+    const release = async () => {
+      for (const requestId of held.splice(0)) await session.send('Fetch.continueRequest', { requestId });
+    };
+    const holdPicture = async () => {
+      held.length = 0;
+      await session.visit('/composants/retours', '.omni-badge');
+      await session.visit('/composants/grille', '#demo-grid-pictures');
+      const until = Date.now() + 15_000;
+      while (held.length === 0 && Date.now() < until) await pause(50);
+      check(held.length > 0, "Aucune requête de l'image de la grille interceptée.");
+    };
+    await session.send('Network.enable');
+    await session.send('Network.setCacheDisabled', { cacheDisabled: true });
+    await session.send('Fetch.enable', { patterns: [{ urlPattern: '*grid-preparation*', requestStage: 'Request' }] });
+    try {
+      // The picture arrives after 400 ms: veiled meanwhile, shown with its picture drawn afterwards.
+      await holdPicture();
+      await pause(400);
+      check(await evaluate(veiled), "La grille à images est affichée alors que l'image est retenue.");
+      await release();
+      await waitFor('la grille à images affichée avec ses images', `${shown} && ${arrived}`);
+      step("grille à images : voilée tant que l'image est retenue (400 ms), affichée à son arrivée");
+
+      // The picture never arrives within the timeout: the grid shows as it is, picture still unarrived.
+      await holdPicture();
+      await waitFor('la grille à images affichée malgré une image qui tarde', shown, 6_000);
+      check(!(await evaluate(arrived)), "L'image retenue est déjà arrivée : le délai n'est pas éprouvé.");
+      await release();
+      await waitFor("l'image tardive arrivée", arrived);
+      step("grille à images : affichée telle quelle après le délai de 2 s, l'image retenue");
+    }
+    finally {
+      stop();
+      await session.send('Fetch.disable');
+      await session.send('Network.setCacheDisabled', { cacheDisabled: false });
+    }
+  }
 }
