@@ -3,7 +3,7 @@
 
 > Statut : **ouvert**. Établi le 2026-10-12 : les plans actifs de la première série (PLAN-009, PLAN-013
 > à PLAN-019) ont été vérifiés contre le code puis archivés dans [archive/serie-1/](archive/serie-1/) ;
-> leurs reliquats réels sont repris ici. Lot 1 fait, CI de `develop` verte sur `80c0691` (constatée le 2026-10-13), lot 2 en cours, lot 5 fait, lot 8 fait (2026-10-13, non publié), lots 3, 4 et 6 à venir.
+> leurs reliquats réels sont repris ici. Lot 1 fait, CI de `develop` verte sur `80c0691` (constatée le 2026-10-13), lot 2 fait (2026-10-23), lot 5 fait, lot 3 fait, lot 6 fait (2026-10-23), lot 8 fait (2026-10-13, non publié), lot 4 en cours.
 
 ## Objectif
 
@@ -80,10 +80,16 @@ verte après publication de la branche.
 - [x] `OmniPopover` : ne pas déplacer le focus s'il est déjà dans le panneau (`omni-focus.js`,
   `attachPopover`), durcissement sans défaut observé ; vérifié dans Chromium sur une page isolée, la
   sonde `Modules` reste à rejouer.
-- [ ] Couverture JavaScript : fermer ou admettre avec raison les 4 fonctions de
+- [x] Couverture JavaScript : fermer ou admettre avec raison les 4 fonctions de
   `eng/js-coverage-baseline.json` (`omni-boot.js`, 2 dans `omni-grid.js`, `setDocumentMetadata` dans
-  `omniInterop.js`) (origine PLAN-014). `omni-grid.js` : étape de sonde écrite (`requests.mjs`, étape 11, image de
-  `#demo-grid-pictures` retenue par CDP), à exécuter puis à retirer de la base.
+  `omniInterop.js`) (origine PLAN-014). `omni-boot.js` et `setDocumentMetadata` admis avec raison dans
+  `eng/js-coverage-exceptions.json` (prouvés par `tests/js/boot.test.mjs` et `eng/Test-WasmHost.ps1`) ;
+  `omni-grid.js` fermé par l'étape 11 de `requests.mjs` (image de `#demo-grid-pictures` retenue par CDP, 400 ms
+  puis au-delà du délai de 2 s, chaque fois sur un document neuf), qui a révélé que le serveur des sondes
+  servait le SVG sans son type (corrigé dans `eng/Serve-StaticWithHeaders.mjs`). Le 2026-10-23 :
+  `eng/js-coverage-baseline.json` à `"files": []`, `eng/Test-ShowcaseHost.ps1 -JsCoverage -Parallel 2` vert
+  (« Couverture JavaScript validée : 10 relevé(s), 51 scripts, 43 fonction(s) non exécutée(s) toutes listées ou
+  admises »).
 Controle : grep des 8 clés dans `docs/localization.md` ; `eng/js-coverage-baseline.json` à
 `"files": []` et `eng/Test-ShowcaseHost.ps1 -JsCoverage` vert.
 
@@ -302,7 +308,7 @@ publication.
 
 ## Ordre et dépendances
 
-Lot 2 à finir (couverture JavaScript). Lot 3 puis lot 4. Lot 6 case par case, indépendant des autres.
+Lot 3 puis lot 4. Lot 6 case par case, indépendant des autres.
 
 ## Critère de clôture
 
