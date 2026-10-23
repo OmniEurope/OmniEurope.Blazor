@@ -82,7 +82,7 @@ internal sealed class GridExport<TItem>(OmniDataGrid<TItem> grid) : IAsyncDispos
             builder.AddContent(1, text);
             builder.CloseElement();
         }
-        : null;
+    : null;
 
     /// <summary>The name and tooltip of a format's button: "Export as Markdown".</summary>
     internal string ButtonLabel(OmniTableExportFormat format) => grid.Text("GridExportAs", FormatName(format));
