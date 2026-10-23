@@ -144,8 +144,14 @@ sinon il est clos en B ou C.
   ressource brute. Reproduit le 2026-10-23 (`ValidatableObjectMessage_WrittenAsAResourceKey_IsTranslatedByTheHostLocalizer`,
   rouge : « Sur deux champs » au lieu de la traduction de l'hôte) ; le message est maintenant cherché dans `Localizer`
   comme un `ErrorMessage` d'attribut, une clé inconnue restant telle quelle.
-- [ ] G-D28-04, menus (4, 2) : menu ouvert resté invisible quand le placement abandonne.
-- [ ] G-D34-02, `OmniTooltip` : `title` d'un descendant qui double l'infobulle.
+- [x] G-D28-04, menus (4, 2) : menu ouvert resté invisible quand le placement abandonne. Reproduit (test rouge
+  `tests/js/menus.test.mjs`, « a menu that never arrives is reported to .NET as dismissed ») : après dix essais, le script
+  lâche le menu (écouteurs retirés) et prévient .NET comme pour un appui extérieur, `IsOpen` repasse à faux ; verrou .NET
+  `MenuKeyboardTests.ADismissalReportedByTheScript_ClosesTheMenu_AndTheTriggerStopsAnnouncingIt` ; classé A.
+- [x] G-D34-02, `OmniTooltip` : `title` d'un descendant qui double l'infobulle. Reproduit (test rouge
+  `tests/js/tooltip.test.mjs`, « a title inside the anchor is set aside while the package tooltip is shown ») : le script
+  met le `title` de côté tant que l'infobulle est suivie (survol, focus) et le rend à la sortie, `aria-label` prêté
+  si le titre nommait seul le contrôle ; classé A.
 - [ ] G-D24-04, `OmniDataGrid` : alternance des lignes peu visible en sombre.
 - [ ] G-D22-04, `OmniDataGrid` : ascenseur horizontal dû au plancher de 8rem par colonne.
 - [ ] Débordement en largeur à 390 px en fi, el et hu (jusqu'à 72 px) sous certains thèmes (Néon, Halo),

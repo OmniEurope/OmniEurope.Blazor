@@ -21,6 +21,29 @@ const aroundPoint = (size, x, y, ceiling) => placeFloating({
 
 let installed = false;
 let tracked = null;
+// The elements of the tracked tooltip whose native title is set aside while it is shown.
+let held = [];
+
+// A title inside the anchor (or on it) would make the browser draw its own box over the package
+// tooltip. It is set aside while the tooltip is tracked and comes back with it, the way
+// OmniTitleTooltips does it: a control the title alone named keeps that name as aria-label meanwhile,
+// so assistive technology loses nothing. Run at every move, a title that arrived by a render is
+// caught too.
+const holdTitles = tooltip => {
+    for (const element of [tooltip, ...tooltip.querySelectorAll('[title]')]) {
+        if (element.hasAttribute('title')) {
+            adoptTitle(element);
+            if (!held.includes(element)) {
+                held.push(element);
+            }
+        }
+    }
+};
+
+const releaseTitles = () => {
+    held.forEach(restoreTitle);
+    held = [];
+};
 
 // The top a tooltip may reach: the window's, or the bottom of a sticky application header, which is
 // drawn above the page and would cover the part of a tooltip placed under it. A tooltip inside that
@@ -68,6 +91,7 @@ const clear = () => {
         return;
     }
 
+    releaseTitles();
     tracked.classList.remove('omni-tooltip--tracked', 'omni-tooltip--below');
     tracked.style.removeProperty('--omni-tooltip-x');
     tracked.style.removeProperty('--omni-tooltip-y');
@@ -102,6 +126,7 @@ const place = (tooltip, x, y) => {
 
     tooltip.classList.add('omni-tooltip--tracked');
     tracked = tooltip;
+    holdTitles(tooltip);
     resizeObserver?.observe(content);
 
     const box = content.getBoundingClientRect();
