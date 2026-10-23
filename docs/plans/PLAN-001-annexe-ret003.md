@@ -15,7 +15,7 @@
 - **C** : indéterminé sans reproduction ; « à reproduire » renvoie au lot 6.
 
 Totaux : 715 citations, 341 hors périmètre, 374 en 82 groupes : **6 A**, **5 décisions**, **37 B**,
-**34 C** (dont 8 au lot 6). Après le lot 6 du 2026-10-23, G-D28-02, G-D28-01 et G-D30-01 sont reproduits et passent de C en A : **9 A**, **31 C** (dont 5 au lot 6).
+**34 C** (dont 8 au lot 6). Après le lot 6 du 2026-10-23, G-D28-02, G-D28-01 et G-D30-01 sont reproduits et passent de C en A : **9 A**, **31 C** (dont 5 au lot 6) ; puis G-D28-04 et G-D34-02 : **11 A**, **29 C** (dont 3 au lot 6).
 
 ## A, reproduits (lot 5)
 
