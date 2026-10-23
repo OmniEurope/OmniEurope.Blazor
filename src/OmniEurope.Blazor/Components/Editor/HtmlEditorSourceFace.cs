@@ -78,7 +78,7 @@ internal sealed class HtmlEditorSourceFace(OmniHtmlEditor owner, IJSRuntime java
     /// </summary>
     internal async Task WrapSelectionAsync(string prefix, string suffix)
     {
-        await using var module = await javaScript.InvokeAsync<IJSObjectReference>("import", InteropModulePath);
+        await using var module = await OmniScriptModule.ImportAsync(javaScript, InteropModulePath);
         var result = await module.InvokeAsync<JsonElement>("wrapTextSelection", owner.SourceElement, prefix, suffix);
         var value = result.GetProperty("value").GetString() ?? string.Empty;
         var start = result.GetProperty("selectionStart").GetInt32();

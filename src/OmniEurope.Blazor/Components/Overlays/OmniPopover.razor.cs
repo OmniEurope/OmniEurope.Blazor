@@ -148,7 +148,7 @@ public partial class OmniPopover
             {
                 if (_module is null)
                 {
-                    var module = await JavaScript.InvokeAsync<IJSObjectReference>("import", FocusModulePath);
+                    var module = await Internal.OmniScriptModule.ImportAsync(JavaScript, FocusModulePath);
                     if (_disposed || _module is not null)
                     {
                         // Removed while the script loaded (nothing may listen on the document for a

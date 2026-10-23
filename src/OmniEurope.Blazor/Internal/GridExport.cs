@@ -125,7 +125,7 @@ internal sealed class GridExport<TItem>(OmniDataGrid<TItem> grid) : IAsyncDispos
         {
             var document = await BuildDocumentAsync(token);
             var file = await exporter.RenderAsync(document, format, token);
-            _module ??= await grid.JavaScript.InvokeAsync<IJSObjectReference>("import", token, OmniModules.DocumentEditor);
+            _module ??= await OmniScriptModule.ImportAsync(grid.JavaScript, OmniModules.DocumentEditor, token);
             await _module.InvokeVoidAsync("download", token, FileName(document.GeneratedAt, file.Extension), file.ContentType, file.Content.ToArray());
             Notice = NoticeOf(document);
             delivered = document;

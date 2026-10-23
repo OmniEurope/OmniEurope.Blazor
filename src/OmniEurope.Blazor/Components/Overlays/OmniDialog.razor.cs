@@ -200,7 +200,7 @@ public partial class OmniDialog
     {
         if (firstRender)
         {
-            var module = await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Focus);
+            var module = await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.Focus);
             if (_disposed)
             {
                 // Removed while the script loaded: nothing may be activated for a dialog that is gone.
@@ -261,7 +261,7 @@ public partial class OmniDialog
             return _dialogModule;
         }
 
-        var module = await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Dialog);
+        var module = await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.Dialog);
         if (_disposed || _dialogModule is not null)
         {
             await module.DisposeAsync();

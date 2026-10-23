@@ -194,7 +194,7 @@ internal sealed class OmniMenuController : IAsyncDisposable
     /// <summary>The script module, imported once however many renders ask for it while it loads.</summary>
     private async Task<IJSObjectReference> LoadModuleAsync()
     {
-        var import = _import ??= _javaScript.InvokeAsync<IJSObjectReference>("import", OmniModules.Focus).AsTask();
+        var import = _import ??= OmniScriptModule.ImportAsync(_javaScript, OmniModules.Focus).AsTask();
         try
         {
             var loaded = await import;

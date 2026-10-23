@@ -161,7 +161,7 @@ where TModel : class
         {
             try
             {
-                _module ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Interop);
+                _module ??= await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.Interop);
                 await _module.InvokeVoidAsync("focusFirstInvalid", _formRoot);
             }
             catch (Exception exception) when (exception is JSException or JSDisconnectedException or TaskCanceledException)

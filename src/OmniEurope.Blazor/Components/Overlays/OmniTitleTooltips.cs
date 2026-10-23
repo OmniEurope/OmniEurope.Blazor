@@ -37,7 +37,7 @@ public sealed class OmniTitleTooltips : ComponentBase, IAsyncDisposable
         _loading = true;
         try
         {
-            _module = await JavaScript.InvokeAsync<IJSObjectReference>("import", ModulePath);
+            _module = await Internal.OmniScriptModule.ImportAsync(JavaScript, ModulePath);
             if (!_disposed)
             {
                 await _module.InvokeVoidAsync("installTitleTooltips");

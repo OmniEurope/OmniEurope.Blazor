@@ -192,7 +192,7 @@ public partial class OmniSidebar
             return;
         }
 
-        var module = await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Focus);
+        var module = await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.Focus);
         if (_disposed || _focusModule is not null)
         {
             // Removed while the script loaded (nothing may listen on the document for a sidebar that is

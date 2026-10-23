@@ -77,7 +77,7 @@ public partial class OmniStack
 
         try
         {
-            _module ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", OmniModules.Focus);
+            _module ??= await OmniScriptModule.ImportAsync(JavaScript, OmniModules.Focus);
             await _module.InvokeVoidAsync(scrolling ? "configureScrollOverflow" : "disposeScrollOverflow", _strip);
             _scrollConfigured = scrolling;
         }

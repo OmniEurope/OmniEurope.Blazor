@@ -36,7 +36,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
 
     /// <summary>The module, imported on first use.</summary>
     internal async Task<IJSObjectReference> ModuleAsync() =>
-        _gridModule ??= await grid.JavaScript.InvokeAsync<IJSObjectReference>("import", GridModulePath);
+        _gridModule ??= await OmniScriptModule.ImportAsync(grid.JavaScript, GridModulePath);
 
     private DotNetObjectReference<GridInteropBridge<TItem>> SelfReference => _selfReference ??= DotNetObjectReference.Create(new GridInteropBridge<TItem>(grid));
 

@@ -158,7 +158,7 @@ public partial class OmniConnectionOverlay
     {
         try
         {
-            _focusModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", FocusModulePath);
+            _focusModule ??= await Internal.OmniScriptModule.ImportAsync(JavaScript, FocusModulePath);
         }
         catch (JSException)
         {

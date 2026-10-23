@@ -642,7 +642,7 @@ public sealed class OmniPreferences : IAsyncDisposable
         IJSObjectReference module;
         try
         {
-            module = await _javaScript.InvokeAsync<IJSObjectReference>("import", _stopping, OmniModules.Preferences);
+            module = await OmniScriptModule.ImportAsync(_javaScript, OmniModules.Preferences, _stopping);
         }
         catch (InvalidOperationException)
         {

@@ -56,7 +56,7 @@ internal sealed class PickerPopup(IJSRuntime javaScript, Func<bool, Task> dismis
         {
             if (_module is null)
             {
-                var module = await javaScript.InvokeAsync<IJSObjectReference>("import", FocusModulePath);
+                var module = await OmniScriptModule.ImportAsync(javaScript, FocusModulePath);
                 if (_released)
                 {
                     // The picker left the page during the import: nothing is attached, the module goes.

@@ -55,7 +55,7 @@ public partial class OmniSkipLink
     {
         try
         {
-            var module = await JavaScript.InvokeAsync<IJSObjectReference>("import", InteropModulePath);
+            var module = await Internal.OmniScriptModule.ImportAsync(JavaScript, InteropModulePath);
             await using (module.ConfigureAwait(true))
             {
                 await module.InvokeAsync<bool>("focusSkipTarget", TargetId);

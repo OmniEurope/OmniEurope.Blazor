@@ -24,7 +24,7 @@ internal sealed class HtmlEditorToolbarFit(OmniHtmlEditor owner, IJSRuntime java
     {
         try
         {
-            _module ??= await javaScript.InvokeAsync<IJSObjectReference>("import", OmniModules.HtmlEditor);
+            _module ??= await OmniScriptModule.ImportAsync(javaScript, OmniModules.HtmlEditor);
             if (!_tooltips)
             {
                 await _module.InvokeVoidAsync("installPackageTooltips");

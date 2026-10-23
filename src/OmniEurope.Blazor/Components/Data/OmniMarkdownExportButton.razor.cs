@@ -80,7 +80,7 @@ public partial class OmniMarkdownExportButton<TItem>
         {
             var document = await Exporter.ReadAsync(Export());
             var file = await Exporter.RenderAsync(document, OmniTableExportFormat.Markdown);
-            _module ??= await JSRuntime.InvokeAsync<IJSObjectReference>("import", DownloadModulePath);
+            _module ??= await Internal.OmniScriptModule.ImportAsync(JSRuntime, DownloadModulePath);
             await _module.InvokeVoidAsync("download", StampedFileName(FileName, document.GeneratedAt, file.Extension),
                 file.ContentType, file.Content.ToArray());
             delivered = document;

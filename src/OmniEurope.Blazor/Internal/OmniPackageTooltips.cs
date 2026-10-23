@@ -23,7 +23,7 @@ internal sealed class OmniPackageTooltips(IJSRuntime javaScript) : IAsyncDisposa
 
         try
         {
-            var module = await javaScript.InvokeAsync<IJSObjectReference>("import", OmniModules.Tooltip);
+            var module = await OmniScriptModule.ImportAsync(javaScript, OmniModules.Tooltip);
             if (_disposed)
             {
                 await module.DisposeAsync();

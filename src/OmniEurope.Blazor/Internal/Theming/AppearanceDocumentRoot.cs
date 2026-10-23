@@ -34,7 +34,7 @@ internal sealed class AppearanceDocumentRoot(IJSRuntime javaScript, ILogger logg
             return;
         }
 
-        _module ??= await javaScript.InvokeAsync<IJSObjectReference>("import", OmniModules.Appearance);
+        _module ??= await OmniScriptModule.ImportAsync(javaScript, OmniModules.Appearance);
         if (!_written || textSizeLevel != _text)
         {
             await WriteAsync("TextSizeLevel", textSizeLevel);

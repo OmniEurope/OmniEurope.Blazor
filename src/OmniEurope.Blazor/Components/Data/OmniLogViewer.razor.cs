@@ -450,7 +450,7 @@ public partial class OmniLogViewer : IAsyncDisposable
 
     private async Task SynchronizeViewportAsync()
     {
-        _module ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", ModulePath);
+        _module ??= await Internal.OmniScriptModule.ImportAsync(JavaScript, ModulePath);
         if (_disposed)
         {
             // Disposed while the script loaded: DisposeAsync had no module to release yet.

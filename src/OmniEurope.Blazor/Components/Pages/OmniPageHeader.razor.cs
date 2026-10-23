@@ -203,7 +203,7 @@ public partial class OmniPageHeader
 
         try
         {
-            var module = await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.PageHeader);
+            var module = await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.PageHeader);
             if (_disposed)
             {
                 await module.DisposeAsync();

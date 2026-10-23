@@ -101,7 +101,7 @@ public partial class OmniTabs
         {
             if (firstRender)
             {
-                _module = await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Focus);
+                _module = await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.Focus);
                 _keyboardInterop = new KeyboardInterop(SelectAsync);
                 _selfReference = DotNetObjectReference.Create(_keyboardInterop);
                 await _module.InvokeVoidAsync("configureTabs", _root, _selfReference);

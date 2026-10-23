@@ -190,7 +190,7 @@ public partial class OmniWizard
 
         try
         {
-            _module ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", OmniModules.Interop);
+            _module ??= await OmniScriptModule.ImportAsync(JavaScript, OmniModules.Interop);
             if (!_disposed)
             {
                 await _module.InvokeVoidAsync("applyWizardBodyHeight", _body, height);

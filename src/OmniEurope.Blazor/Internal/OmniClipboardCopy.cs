@@ -38,7 +38,7 @@ internal sealed class OmniClipboardCopy(IJSRuntime javaScript, Func<Task> redraw
         {
             if (_module is null)
             {
-                var module = await javaScript.InvokeAsync<IJSObjectReference>("import", InteropModulePath);
+                var module = await OmniScriptModule.ImportAsync(javaScript, InteropModulePath);
                 if (_disposed)
                 {
                     // The owner left the page during the import: copy nothing, release the module.

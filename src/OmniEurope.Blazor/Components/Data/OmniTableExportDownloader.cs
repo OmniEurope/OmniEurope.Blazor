@@ -43,7 +43,7 @@ public sealed class OmniTableExportDownloader : IAsyncDisposable
         ArgumentNullException.ThrowIfNull(document);
         ArgumentException.ThrowIfNullOrWhiteSpace(fileName);
         var file = await _exporter.RenderAsync(document, format, cancellationToken);
-        _module ??= await _javaScript.InvokeAsync<IJSObjectReference>("import", cancellationToken, Internal.OmniModules.DocumentEditor);
+        _module ??= await Internal.OmniScriptModule.ImportAsync(_javaScript, Internal.OmniModules.DocumentEditor, cancellationToken);
         await _module.InvokeVoidAsync("download", cancellationToken, $"{fileName.Trim()}.{file.Extension}", file.ContentType, file.Content.ToArray());
         return file;
     }

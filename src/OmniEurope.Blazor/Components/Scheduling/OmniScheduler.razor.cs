@@ -229,7 +229,7 @@ public partial class OmniScheduler
         _importing = true;
         try
         {
-            var module = await JavaScript.InvokeAsync<IJSObjectReference>("import", ModulePath);
+            var module = await OmniScriptModule.ImportAsync(JavaScript, ModulePath);
             if (_disposed)
             {
                 await module.DisposeAsync();
