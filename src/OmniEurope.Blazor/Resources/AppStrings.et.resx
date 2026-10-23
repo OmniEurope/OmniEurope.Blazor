@@ -16,6 +16,7 @@
   <data name="AppMenuRole" xml:space="preserve"><value>Roll</value></data>
   <data name="AppMenuSettings" xml:space="preserve"><value>Seaded</value></data>
   <data name="AppMenuSignOut" xml:space="preserve"><value>Logi välja</value></data>
+  <data name="AppMenuModeNext" xml:space="preserve"><value>Lülita järgmisele režiimile</value></data>
   <data name="SettingsMode" xml:space="preserve"><value>Režiim</value></data>
   <data name="SettingsDarkOnly" xml:space="preserve"><value>See teema on alati tume</value></data>
   <data name="SettingsTheme" xml:space="preserve"><value>Teema</value></data>

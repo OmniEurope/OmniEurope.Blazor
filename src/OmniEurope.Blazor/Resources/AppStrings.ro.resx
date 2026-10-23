@@ -16,6 +16,7 @@
   <data name="AppMenuRole" xml:space="preserve"><value>Rol</value></data>
   <data name="AppMenuSettings" xml:space="preserve"><value>Setări</value></data>
   <data name="AppMenuSignOut" xml:space="preserve"><value>Deconectare</value></data>
+  <data name="AppMenuModeNext" xml:space="preserve"><value>Comută la modul următor</value></data>
   <data name="SettingsMode" xml:space="preserve"><value>Mod</value></data>
   <data name="SettingsDarkOnly" xml:space="preserve"><value>Această temă este mereu întunecată</value></data>
   <data name="SettingsTheme" xml:space="preserve"><value>Temă</value></data>

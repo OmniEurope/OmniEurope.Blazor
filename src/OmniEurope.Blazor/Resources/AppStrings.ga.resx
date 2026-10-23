@@ -16,6 +16,7 @@
   <data name="AppMenuRole" xml:space="preserve"><value>Ról</value></data>
   <data name="AppMenuSettings" xml:space="preserve"><value>Socruithe</value></data>
   <data name="AppMenuSignOut" xml:space="preserve"><value>Sínigh amach</value></data>
+  <data name="AppMenuModeNext" xml:space="preserve"><value>Athraigh go dtí an chéad mhodh eile</value></data>
   <data name="SettingsMode" xml:space="preserve"><value>Mód</value></data>
   <data name="SettingsDarkOnly" xml:space="preserve"><value>Bíonn an téama seo dorcha i gcónaí</value></data>
   <data name="SettingsTheme" xml:space="preserve"><value>Téama</value></data>

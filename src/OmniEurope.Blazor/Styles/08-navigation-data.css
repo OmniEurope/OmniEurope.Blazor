@@ -157,6 +157,10 @@
 .omni-appearance-window__modes > .omni-button.omni-appearance-window__mode { border-radius: 0; inline-size: var(--omni-control-height); min-inline-size: var(--omni-control-height); padding: 0; }
 .omni-appearance-window__modes > .omni-button.omni-appearance-window__mode:first-child { border-end-start-radius: var(--omni-radius-sm); border-start-start-radius: var(--omni-radius-sm); }
 .omni-appearance-window__modes > .omni-button.omni-appearance-window__mode:last-child { border-end-end-radius: var(--omni-radius-sm); border-start-end-radius: var(--omni-radius-sm); }
+/* The Mode row steps to the next mode on a click outside its three buttons, or Enter and Space when it has the focus. */
+.omni-app-menu__mode[tabindex] { cursor: pointer; }
+.omni-app-menu__mode[tabindex]:hover { background: var(--omni-color-surface-highlight); }
+.omni-app-menu__mode:focus-visible { box-shadow: var(--omni-focus-ring-inset); outline: none; }
 .omni-app-menu__footer { border-block-end: 0; justify-content: space-between; }
 .omni-app-menu__version { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); }
 .omni-profile-menu { display: inline-block; position: relative; }

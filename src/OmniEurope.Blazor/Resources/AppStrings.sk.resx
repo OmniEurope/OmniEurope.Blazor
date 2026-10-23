@@ -16,6 +16,7 @@
   <data name="AppMenuRole" xml:space="preserve"><value>Rola</value></data>
   <data name="AppMenuSettings" xml:space="preserve"><value>Nastavenia</value></data>
   <data name="AppMenuSignOut" xml:space="preserve"><value>Odhlásiť sa</value></data>
+  <data name="AppMenuModeNext" xml:space="preserve"><value>Prepnúť na ďalší režim</value></data>
   <data name="SettingsMode" xml:space="preserve"><value>Režim</value></data>
   <data name="SettingsDarkOnly" xml:space="preserve"><value>Táto téma je vždy tmavá</value></data>
   <data name="SettingsTheme" xml:space="preserve"><value>Motív</value></data>
