@@ -1,0 +1,13 @@
+@namespace OmniEurope.Blazor.Tests
+@using OmniEurope.Blazor.Components
+
+@* A group that names a route (a section landing page) and holds an entry below that route. *@
+<OmniPanelMenu CanNavigate="CanNavigate">
+    <OmniPanelMenuItem Text="Serveurs" Href="/servers" Id="group-servers">
+        <OmniPanelMenuItem Text="Vue d'ensemble" Href="/servers/4/overview" Id="leaf-overview" />
+    </OmniPanelMenuItem>
+</OmniPanelMenu>
+
+@code {
+    [Parameter] public Func<string, Task<bool>>? CanNavigate { get; set; }
+}

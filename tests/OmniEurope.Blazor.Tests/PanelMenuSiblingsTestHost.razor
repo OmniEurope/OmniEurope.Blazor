@@ -1,0 +1,13 @@
+@namespace OmniEurope.Blazor.Tests
+@using OmniEurope.Blazor.Components
+
+@* Siblings whose addresses prefix one another, at the first level and inside a group: under the
+   default Prefix match both would light up on the deeper page. *@
+<OmniPanelMenu>
+    <OmniPanelMenuItem Text="Reglages" Href="/settings" Id="leaf-settings" />
+    <OmniPanelMenuItem Text="Utilisateurs" Href="/settings/users" Id="leaf-users" />
+    <OmniPanelMenuItem Text="Rapports" Id="group-reports" Expanded="true">
+        <OmniPanelMenuItem Text="Tous" Href="/reports" Id="leaf-reports" />
+        <OmniPanelMenuItem Text="Annuels" Href="/reports/yearly" Id="leaf-yearly" />
+    </OmniPanelMenuItem>
+</OmniPanelMenu>
