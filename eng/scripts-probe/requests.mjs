@@ -478,10 +478,20 @@ export async function requestSteps(session, results) {
   check(Math.abs(sharedWide.widths.reduce((sum, item) => sum + item, 0) - sharedWide.client) <= 2, `Sans Grow, les colonnes ne se partagent pas la largeur de 1300 px : ${sharedWide.widths.join(' + ')} pour ${sharedWide.client}.`);
   const shares = sharedWide.widths.map((width, index) => width - sharedNarrow.widths[index]);
   check(shares.every(share => share > 20) && Math.max(...shares) - Math.min(...shares) <= 2, `Sans Grow, la place restante n'est pas partagée à parts égales : ${sharedNarrow.widths.join(', ')} px au contenu, ${sharedWide.widths.join(', ')} px à 1300 px.`);
+  // Every column has a template and the rows arrive after the first render, the grid busy meanwhile
+  // (request of 2026-10-23): the columns, sized to their headers while empty, take the width of the cells
+  // that arrive, nothing cut.
+  const templatesEmpty = await sizeBox('demo-grid-sizing-templates', 1000);
+  await clickOn('#demo-grid-sizing-templates-load');
+  await waitFor('les lignes de la grille à modèles', "document.querySelectorAll('#demo-grid-sizing-templates tbody td[data-omni-col=\"Name\"] a').length === 5");
+  const templatesFull = await sizeBox('demo-grid-sizing-templates', 1000);
+  check(templatesFull.problems.length === 0, `Grille à modèles chargée après coup : ${templatesFull.problems.join(' | ')} (largeurs vides ${templatesEmpty.widths.join(', ')}, chargées ${templatesFull.widths.join(', ')}).`);
+  const widestName = await evaluate("Math.max(...[...document.querySelectorAll('#demo-grid-sizing-templates tbody td[data-omni-col=\"Name\"] a')].map(link => link.getBoundingClientRect().width))");
+  check(templatesFull.widths[0] >= widestName, `La colonne du nom (${templatesFull.widths[0]} px) est plus étroite que son lien le plus long (${widestName.toFixed(1)} px).`);
   await evaluate("for (const box of document.querySelectorAll('.demo-grid-sizing-box')) box.style.removeProperty('inline-size')");
   await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
   await pause(300);
-  step(`colonnes au contenu : un en-tête sur une ligne, rien de coupé, la colonne État au plus à sa pastille ou à son en-tête (${narrow.widths[1]} px) dans des boîtes de 600, 900 et 1300 px, les colonnes Grow prennent la place restante, sans défilement latéral tant que le contenu tient (plancher de ${floor.toFixed(0)} px), sans Grow la place partagée à parts égales (+${Math.min(...shares)} px par colonne), colonne Wrap sur ${wrapLines} lignes dans 500 px`);
+  step(`colonnes au contenu : un en-tête sur une ligne, rien de coupé, la colonne État au plus à sa pastille ou à son en-tête (${narrow.widths[1]} px) dans des boîtes de 600, 900 et 1300 px, les colonnes Grow prennent la place restante, sans défilement latéral tant que le contenu tient (plancher de ${floor.toFixed(0)} px), sans Grow la place partagée à parts égales (+${Math.min(...shares)} px par colonne), grille à modèles chargée après coup à la largeur de ses cellules (nom ${templatesFull.widths[0]} px), colonne Wrap sur ${wrapLines} lignes dans 500 px`);
 
   // 8. FillAvailableHeight in a preview box that scrolls itself (request of 2026-10-12): with settings
   // taller than the visible part of the box above it, nothing is left to the grid, which drew 0px, its

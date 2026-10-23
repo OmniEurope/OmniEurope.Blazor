@@ -36,6 +36,21 @@ public partial class DataGridDemo
         new("Blog", true, 54, "Communication", new DateOnly(2021, 11, 8))
     ];
 
+    // The rows of the grid whose every column has a template: empty until the button loads them, so the
+    // columns, first sized to their headers, must be measured again on the cells that arrive.
+    private IReadOnlyList<SiteRow> TemplatedSites { get; set; } = [];
+
+    private bool TemplatedSitesLoading { get; set; }
+
+    // A load as an application does it: the grid busy, the rows arriving a moment later.
+    private async Task LoadTemplatedSitesAsync()
+    {
+        TemplatedSitesLoading = true;
+        await Task.Delay(300);
+        TemplatedSites = Sites;
+        TemplatedSitesLoading = false;
+    }
+
     // Two thousand files grouped by country; one amount, far from the first window, is much wider than
     // the others, so the fit to content of Amount has to rank every text, rendered or not.
     private IReadOnlyList<GridRow> FillRows { get; set; } = [];
