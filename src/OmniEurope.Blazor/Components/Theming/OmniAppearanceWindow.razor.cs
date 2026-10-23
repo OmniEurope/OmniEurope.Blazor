@@ -299,21 +299,9 @@ public partial class OmniAppearanceWindow : IDisposable
 
     private OmniAppearance ShownAppearance => FixedMode ?? Appearance;
 
-    private IReadOnlyList<OmniOption<OmniAppearance>> Modes =>
-    [
-        new(OmniAppearance.Light, Localize("AppearanceLight")),
-        new(OmniAppearance.Dark, Localize("AppearanceDark")),
-        new(OmniAppearance.System, Localize("AppearanceSystem"))
-    ];
-
-    private static OmniIconName ModeIcon(OmniAppearance mode) => mode switch
-    {
-        OmniAppearance.Light => OmniIconName.ThemeLight,
-        OmniAppearance.Dark => OmniIconName.ThemeDark,
-        _ => OmniIconName.ThemeSystem
-    };
-
     // A dark-only theme disables the mode buttons, and a disabled OmniButton raises no click.
+    private RenderFragment ModeGroup => AppearanceModeGroup.Render(this, ShownAppearance, ModeFixed, key => Localize(key), SetAppearanceAsync);
+
     private Task SetAppearanceAsync(OmniAppearance mode) => AppearanceChanged.InvokeAsync(mode);
 
     private string ThemeName => AppearanceChoices.ThemeName(Preset);

@@ -140,7 +140,6 @@
 /* The Mode row is one button, like the Theme row: its content fills it, the value (the mode in force) is at the end. */
 .omni-app-menu__card > .omni-button.omni-app-menu__item > .omni-button__content { inline-size: 100%; justify-content: flex-start; }
 .omni-app-menu__card > .omni-button.omni-app-menu__item .omni-app-menu__label { text-align: start; }
-.omni-app-menu__value { color: var(--omni-color-text-muted); flex: none; }
 /* The Language row: the native list is stretched over the whole row, transparent, so a click anywhere
    on the row opens it; the icon, the label and the flag lie over it and let the click through. The list
    shows its value after a label zone of fixed width, the chevron at the end. */

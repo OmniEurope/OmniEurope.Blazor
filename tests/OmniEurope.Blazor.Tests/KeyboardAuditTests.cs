@@ -85,14 +85,13 @@ public sealed class KeyboardAuditTests : OmniBunitContext
     }
 
     [Fact]
-    public void TheModesOfTheWindow_AreOneTabStop_TheModeInForce_AndTheMenuModeRowIsOneButton()
+    public void TheModesOfTheWindowAndOfTheMenu_AreOneTabStop_TheModeInForce()
     {
         var menu = Render<OmniAppMenu>(parameters => parameters
             .Add(component => component.Appearance, OmniAppearance.Dark)
             .Add(component => component.AppearanceChanged, _ => { }));
         menu.Find(".omni-app-menu__trigger").Click();
-        Assert.Single(menu.FindAll("button.omni-app-menu__mode"));
-        Assert.Empty(menu.FindAll(".omni-app-menu [role=radio]"));
+        AssertModes(menu.Find(".omni-app-menu__mode .omni-appearance-window__modes"), "Sombre");
 
         var window = Render<OmniAppearanceWindow>(parameters => parameters
             .Add(component => component.Open, true)

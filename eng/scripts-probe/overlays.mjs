@@ -287,8 +287,84 @@ export async function overlaySteps(session, results) {
   await evaluate(`(() => { const select = document.querySelector('.omni-appearance-window select'); select.value = [...select.options][0].value; select.dispatchEvent(new Event('change', { bubbles: true })); })()`);
   await waitFor('le fond de Trou noir retiré', "document.querySelector('.omni-theme-scope__canvas') === null", 10_000);
 
+  // The window never overflows, whatever the theme (the Retro theme widens its buttons: uppercase,
+  // weight 800, offset shadows). Every theme of the list, in light and dark, at text size 1, 5 and 10, in
+  // compact and comfortable density, at 1280 and 375 px: the window does not scroll sideways and no
+  // button clips its own text. The sweep runs inside the page through the window's own controls and
+  // waits two frames after each change, so it stays short; a dark-only theme keeps its fixed mode.
+  const sweepWindow = async () => {
+    const settle = () => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(resolve, 40))));
+    const windowOf = () => document.querySelector('.omni-appearance-window');
+    const themeSelect = () => windowOf().querySelector('select');
+    const modeButtons = () => [...windowOf().querySelectorAll('.omni-appearance-window__modes button[role="radio"]')];
+    const densityItems = () => [...windowOf().querySelector('[role="radiogroup"]:not(.omni-appearance-window__modes)').querySelectorAll('.omni-select-bar__item')];
+    const textSize = () => windowOf().querySelectorAll('input[type="range"]')[0];
+    const change = (element, value) => { element.value = value; element.dispatchEvent(new Event('input', { bubbles: true })); element.dispatchEvent(new Event('change', { bubbles: true })); };
+    const nameOf = button => button.getAttribute('aria-label') || button.textContent.trim() || button.className;
+    const measure = () => {
+      const dialog = windowOf();
+      const problems = [];
+      if (dialog.scrollWidth > dialog.clientWidth) problems.push(`fenêtre ${dialog.scrollWidth}>${dialog.clientWidth}`);
+      const footer = dialog.querySelector('.omni-appearance-window__footer');
+      if (footer && footer.scrollWidth > footer.clientWidth) problems.push(`pied ${footer.scrollWidth}>${footer.clientWidth}`);
+      for (const button of dialog.querySelectorAll('button')) {
+        if (button.getClientRects().length > 0 && button.scrollWidth > button.clientWidth) problems.push(`bouton « ${nameOf(button)} » ${button.scrollWidth}>${button.clientWidth}`);
+      }
+
+      return problems;
+    };
+
+    const themes = [...themeSelect().options].map(option => ({ value: option.value, text: option.text }));
+    const initialMode = modeButtons().findIndex(button => button.getAttribute('aria-checked') === 'true');
+    const failures = [];
+    let combinations = 0;
+    for (const theme of themes) {
+      change(themeSelect(), theme.value);
+      await settle();
+      for (const mode of [0, 1]) {
+        const button = modeButtons()[mode];
+        if (!button.disabled) {
+          button.click();
+          await settle();
+        }
+
+        const shown = modeButtons().findIndex(candidate => candidate.getAttribute('aria-checked') === 'true');
+        for (const level of [1, 5, 10]) {
+          change(textSize(), String(level));
+          await settle();
+          for (const density of [0, 1]) {
+            densityItems()[density].click();
+            await settle();
+            combinations++;
+            const problems = measure();
+            if (problems.length > 0) failures.push(`${theme.text} / mode ${shown} / texte ${level} / densité ${density} / ${innerWidth} px : ${problems.slice(0, 4).join(', ')}`);
+          }
+        }
+      }
+    }
+
+    change(themeSelect(), themes[0].value);
+    change(textSize(), '5');
+    densityItems()[1].click();
+    if (initialMode >= 0 && !modeButtons()[initialMode].disabled) modeButtons()[initialMode].click();
+    await settle();
+    return { themes: themes.length, combinations, failures };
+  };
+  for (const width of [1280, 375]) {
+    await send('Emulation.setDeviceMetricsOverride', { width, height: width < 600 ? 812 : 900, deviceScaleFactor: 1, mobile: width < 600 });
+    await pause(300);
+    const swept = await evaluate(`(${sweepWindow})()`);
+    check(swept.themes >= 15, `La liste des thèmes de la fenêtre n'en compte que ${swept.themes} : le balayage ne prouverait pas les 15 thèmes.`);
+    check(swept.combinations === swept.themes * 12, `Balayage incomplet à ${width} px : ${swept.combinations} combinaisons mesurées sur ${swept.themes * 12}.`);
+    check(swept.failures.length === 0, `La fenêtre d'apparence déborde (${swept.failures.length} cas sur ${swept.combinations}) : ${swept.failures.slice(0, 6).join(' | ')}`);
+  }
+
+  await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
+  await pause(300);
+  step('fenêtre d\'apparence sans débordement : chaque thème, clair et sombre, texte 1, 5 et 10, densité compacte et aérée, à 1280 et 375 px');
+
   // The window is moved by its header.
-  const header = await session.pointOf('section.omni-dialog [data-omni-dialog-drag-handle]');
+  const header =await session.pointOf('section.omni-dialog [data-omni-dialog-drag-handle]');
   const grip = { x: header.x - 60, y: header.y };
   const left = await evaluate("document.querySelector('section.omni-dialog').getBoundingClientRect().left");
   await mouse('mouseMoved', grip, { button: 'none' });

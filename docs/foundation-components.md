@@ -280,7 +280,7 @@ taille du texte et taille des contrôles, puis largeur du contenu ; l'interrupte
 titre du thème. Quand l'hôte lie `AppearanceChanged` (avec `Appearance`), le mode s'affiche en trois
 boutons icônes collés au bout de la ligne de titre de la palette (sur une ligne
 à lui si la palette n'est pas liée), figé en sombre sous un thème `DarkOnly`. Une seule colonne dès que deux de 19rem ne tiennent
-plus. Dans le pied de la fenêtre, le bouton « Aléatoire » tire un thème autre que le courant et, si la
+plus. Quel que soit le thème, la fenêtre ne défile jamais en largeur : un thème qui élargit ses boutons (Rétro : capitales, graisse 800, ombres décalées) fait passer à la ligne la rangée de contrôles d'un réglage (la liste prend la largeur restante, jusqu'à 8rem, et le bouton « Par défaut » garde la sienne), et les deux groupes du pied passent à la ligne sans créer de largeur à faire défiler. Dans le pied de la fenêtre, le bouton « Aléatoire » tire un thème autre que le courant et, si la
 palette est liée, une palette autre que celle en vigueur, et de même une police si elle est liée (`PresetChanged`, `PaletteChanged`, puis
 `FontChanged` avec `null` pour une police choisie pour l'ancien thème). Quand l'hôte lie des paramètres d'apparence, chaque ligne n'apparaît que s'il lie son changement
 (`AppearanceChanged`, `PresetChanged`, `PaletteChanged`, `FontChanged`, `TextSizeLevelChanged`, `DensityChanged`,

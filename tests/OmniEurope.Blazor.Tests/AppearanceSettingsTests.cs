@@ -598,4 +598,28 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         Assert.Equal((5, OmniDensity.Comfortable), (host.TextSize, host.Density));
         Assert.Equal([false], host.Closes);
     }
+
+    [Fact]
+    public void The_window_never_widens_whatever_the_theme_its_controls_row_wraps_and_its_select_gives_way()
+    {
+        // Only a browser measures the overflow (the probe sweeps every theme); this pins the rules that
+        // prevent it: the controls row wraps instead of running past its track, the select shrinks first
+        // and the buttons keep their width, and a row can shrink to its track.
+        const string window = ".omni-appearance-settings--window ";
+        var actions = ShippedLookTests.Body(window + ".omni-appearance-settings__actions");
+        Assert.Equal("wrap", ShippedLookTests.Value(actions, "flex-wrap"));
+        Assert.DoesNotContain("nowrap", actions, StringComparison.Ordinal);
+        Assert.Equal("0", ShippedLookTests.Value(actions, "min-inline-size"));
+        Assert.Equal("flex", ShippedLookTests.Value(ShippedLookTests.Body(window + ".omni-appearance-settings__actions:has(.omni-drop-down)"), "display"));
+
+        var select = ShippedLookTests.Body(window + ".omni-appearance-settings__actions > .omni-drop-down");
+        Assert.Equal("1 1 8rem", ShippedLookTests.Value(select, "flex"));
+        Assert.Equal("0", ShippedLookTests.Value(select, "min-inline-size"));
+        Assert.Equal("none", ShippedLookTests.Value(ShippedLookTests.Body(window + ".omni-appearance-settings__actions > .omni-button"), "flex"));
+        Assert.Equal("0", ShippedLookTests.Value(ShippedLookTests.Body(window + ".omni-appearance-settings__row"), "min-inline-size"));
+
+        // The footer wraps its two groups and its buttons keep their text on one line.
+        Assert.Equal("wrap", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-window__footer"), "flex-wrap"));
+        Assert.Equal("nowrap", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-window__footer .omni-button"), "white-space"));
+    }
 }
