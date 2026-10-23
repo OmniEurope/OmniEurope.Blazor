@@ -295,8 +295,6 @@ public partial class OmniAppearanceWindow : IDisposable
 
     private bool ModeFixed => FixedMode is not null;
 
-    private string? ModeFixedTitle => ModeFixed ? Localize("SettingsDarkOnly") : null;
-
     private OmniAppearance ShownAppearance => FixedMode ?? Appearance;
 
     // A dark-only theme disables the mode buttons, and a disabled OmniButton raises no click.

@@ -205,4 +205,26 @@ public sealed class CopyButtonTests : OmniBunitContext
 
         Assert.NotNull(button.Find("button .mine-icon"));
     }
-}
+
+    [Fact]
+    public async Task TextFactory_ReturningNull_CopiesAnEmptyText()
+    {
+        var module = Clipboard(true);
+        var button = Render<OmniCopyButton>(parameters => parameters.Add(component => component.TextFactory, () => Task.FromResult<string>(null!)));
+
+        await button.Find("button").ClickAsync();
+
+        Assert.Equal(string.Empty, Assert.Single(module.Invocations["copyText"]).Arguments[0]);
+    }
+
+    [Fact]
+    public void SecondClick_ReusesTheClipboardHelper_AndCopiesAgain()
+    {
+        var module = Clipboard(true);
+        var button = Render<OmniCopyButton>(parameters => parameters.Add(component => component.Text, "x"));
+
+        button.Find("button").Click();
+        button.Find("button").Click();
+
+        Assert.Equal(2, module.Invocations["copyText"].Count);
+    }}

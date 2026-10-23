@@ -121,6 +121,21 @@ public sealed class FormatTests : OmniBunitContext
     }
 
     [Fact]
+    public void Duration_WithoutACulture_ReadsTheCurrentUICulture()
+    {
+        var previous = CultureInfo.CurrentUICulture;
+        try
+        {
+            CultureInfo.CurrentUICulture = French;
+            Assert.Equal("1j2h", Formatter.Duration(TimeSpan.FromHours(26)));
+        }
+        finally
+        {
+            CultureInfo.CurrentUICulture = previous;
+        }
+    }
+
+    [Fact]
     public void Duration_Negative_IsRefused() =>
         Assert.Throws<ArgumentOutOfRangeException>(() => Formatter.Duration(TimeSpan.FromSeconds(-1), French));
 }

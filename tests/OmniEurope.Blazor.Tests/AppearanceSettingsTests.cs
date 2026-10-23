@@ -622,4 +622,18 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         Assert.Equal("wrap", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-window__footer"), "flex-wrap"));
         Assert.Equal("nowrap", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-window__footer .omni-button"), "white-space"));
     }
-}
+
+    [Fact]
+    public void Scale_sliders_are_bound_to_the_text_size_and_the_control_size_levels()
+    {
+        var window = Render<OmniAppearanceWindow>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.TextSizeLevel, 7)
+            .Add(component => component.TextSizeLevelChanged, _ => { })
+            .Add(component => component.ControlSizeLevel, 3)
+            .Add(component => component.ControlSizeLevelChanged, _ => { }));
+
+        var bound = window.FindComponents<OmniSlider>().Select(slider => slider.Instance.ValueExpression!.Compile()()).ToArray();
+
+        Assert.Equal([7d, 3d], bound);
+    }}
