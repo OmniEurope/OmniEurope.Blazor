@@ -204,7 +204,7 @@ public partial class OmniSpreadsheet
     {
         if (!_attached)
         {
-            _module ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", ModulePath);
+            _module ??= await OmniScriptModule.ImportAsync(JavaScript, ModulePath);
             if (_disposed)
             {
                 // Disposed while the script loaded: DisposeAsync had no module to release yet.

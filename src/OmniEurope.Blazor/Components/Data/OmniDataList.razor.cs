@@ -254,7 +254,7 @@ public partial class OmniDataList<TItem>
     // releases the module on arrival: DisposeAsync had none to release, and nothing may attach to it.
     private async Task<IJSObjectReference?> AcquireModuleAsync()
     {
-        _importing ??= JavaScript.InvokeAsync<IJSObjectReference>("import", GridModulePath).AsTask();
+        _importing ??= OmniScriptModule.ImportAsync(JavaScript, GridModulePath).AsTask();
         IJSObjectReference module;
         try
         {

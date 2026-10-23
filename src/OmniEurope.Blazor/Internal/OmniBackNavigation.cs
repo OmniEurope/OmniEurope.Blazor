@@ -18,7 +18,7 @@ internal static class OmniBackNavigation
 
         try
         {
-            await using var module = await javaScript.InvokeAsync<IJSObjectReference>("import", InteropModulePath);
+            await using var module = await OmniScriptModule.ImportAsync(javaScript, InteropModulePath);
             await module.InvokeVoidAsync("historyBack");
         }
         catch (JSDisconnectedException)

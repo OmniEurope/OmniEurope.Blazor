@@ -86,7 +86,7 @@ public partial class OmniFieldset
 
         if (wanted)
         {
-            _module ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", ModulePath);
+            _module ??= await Internal.OmniScriptModule.ImportAsync(JavaScript, ModulePath);
             _selfReference ??= DotNetObjectReference.Create(_toggleInterop);
             await _module.InvokeVoidAsync("observeFieldsetToggle", _details, _selfReference);
             _observing = true;

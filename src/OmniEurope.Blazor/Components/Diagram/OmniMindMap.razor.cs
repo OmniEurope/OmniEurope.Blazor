@@ -312,7 +312,7 @@ public partial class OmniMindMap
         {
             if (firstRender)
             {
-                _module = await JavaScript.InvokeAsync<IJSObjectReference>("import", ModulePath);
+                _module = await Internal.OmniScriptModule.ImportAsync(JavaScript, ModulePath);
                 _bridge = DotNetObjectReference.Create(new MindMapInteropBridge(this));
                 var size = await _module.InvokeAsync<MindMapCanvasSize?>("attach", _canvas, _bridge);
                 if (size is { Width: > 0, Height: > 0 })

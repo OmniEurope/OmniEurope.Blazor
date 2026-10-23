@@ -114,7 +114,7 @@ public partial class OmniTree<TValue>
             IJSObjectReference module;
             try
             {
-                module = await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Tree);
+                module = await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.Tree);
             }
             catch (JSDisconnectedException)
             {

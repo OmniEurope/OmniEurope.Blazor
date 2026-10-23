@@ -15,7 +15,7 @@ internal static class OmniPageKeys
     {
         try
         {
-            var module = await javaScript.InvokeAsync<IJSObjectReference>("import", OmniModules.Focus);
+            var module = await OmniScriptModule.ImportAsync(javaScript, OmniModules.Focus);
             await using (module.ConfigureAwait(true))
             {
                 await module.InvokeVoidAsync("enablePageKeys");

@@ -76,7 +76,7 @@ public partial class OmniSelectBar<TValue>
         {
             try
             {
-                _module = await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Focus);
+                _module = await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.Focus);
                 await _module.InvokeVoidAsync("configureSelectBarOverflow", _strip);
             }
             catch (JSDisconnectedException)

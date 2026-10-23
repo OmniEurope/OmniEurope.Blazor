@@ -175,7 +175,7 @@ public partial class OmniKanban<TItem>
         {
             if (firstRender)
             {
-                var module = await JavaScript.InvokeAsync<IJSObjectReference>("import", ModulePath);
+                var module = await Internal.OmniScriptModule.ImportAsync(JavaScript, ModulePath);
                 if (_disposed)
                 {
                     // Disposed while the module loaded: nothing was attached, and no reference is created.

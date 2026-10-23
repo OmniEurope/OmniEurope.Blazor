@@ -77,7 +77,7 @@ public partial class OmniStatTile
         {
             if (firstRender)
             {
-                var module = await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.StatTile);
+                var module = await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.StatTile);
                 if (_disposed)
                 {
                     await module.DisposeAsync();

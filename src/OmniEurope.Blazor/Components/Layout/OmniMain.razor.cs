@@ -107,7 +107,7 @@ public partial class OmniMain
                 return;
             }
 
-            _module ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", InteropModulePath);
+            _module ??= await Internal.OmniScriptModule.ImportAsync(JavaScript, InteropModulePath);
             if (!_disposed)
             {
                 await _module.InvokeVoidAsync("watchScrolling", _main, "omni-main--scrolling");

@@ -221,7 +221,7 @@ public partial class OmniThemeScope
     private string? SnapshotStorageKey => string.IsNullOrWhiteSpace(SnapshotKey) ? null : SnapshotKey;
 
     private async Task<IJSObjectReference> LoadThemeModuleAsync() =>
-        _themeModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Theme);
+        _themeModule ??= await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.Theme);
 
     /// <summary>Starts or stops following the system setting for <c>data-omni-theme-resolved</c>.</summary>
     private async Task SyncResolvedModeAsync()
@@ -351,7 +351,7 @@ public partial class OmniThemeScope
             return;
         }
 
-        _canvasModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.BlackHole);
+        _canvasModule ??= await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.BlackHole);
         if (!_canvasRunning || _canvasMotion != BackdropMotion)
         {
             var drawn = await _canvasModule.InvokeAsync<bool>("start", _canvas, _element, BackdropMotion);

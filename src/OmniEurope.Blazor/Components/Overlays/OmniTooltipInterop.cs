@@ -41,7 +41,7 @@ internal sealed class OmniTooltipInterop(IJSRuntime javaScript) : IAsyncDisposab
 
     private async Task InstallAsync()
     {
-        var module = await javaScript.InvokeAsync<IJSObjectReference>("import", ModulePath);
+        var module = await Internal.OmniScriptModule.ImportAsync(javaScript, ModulePath);
         if (_disposed)
         {
             // The circuit's scope ended while the script loaded: nothing is installed, nothing stays held.

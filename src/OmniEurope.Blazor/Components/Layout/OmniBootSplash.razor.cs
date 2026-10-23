@@ -46,7 +46,7 @@ public partial class OmniBootSplash
 
         try
         {
-            var module = await JavaScript.InvokeAsync<IJSObjectReference>("import", ModulePath);
+            var module = await Internal.OmniScriptModule.ImportAsync(JavaScript, ModulePath);
 
             // The splash is removed even when this component went away meanwhile: nothing else would.
             var hidden = await module.InvokeAsync<bool>("hideBootSplash", SplashId);

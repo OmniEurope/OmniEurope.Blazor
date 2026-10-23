@@ -87,12 +87,22 @@ Controle : grep des 8 clés dans `docs/localization.md` ; `eng/js-coverage-basel
 `"files": []` et `eng/Test-ShowcaseHost.ps1 -JsCoverage` vert.
 
 ### Lot 3 - Chargeur unique des modules de script (origine PLAN-018, lot 5)
-- [ ] Un chargeur interne pour tous les `import` de modules : `JSException` d'un circuit perdu traitée
-  comme telle, une nouvelle tentative, puis repli.
-- [ ] Remplacer les 46 appels directs `InvokeAsync<IJSObjectReference>("import", ...)` de la RCL.
-- [ ] Test de garde : aucun `import` de module hors du chargeur ; tests bUnit du repli et de la
-  nouvelle tentative.
-Controle : la garde échoue sur un appel direct ajouté pour l'essai ; tests du chargeur verts.
+- [x] Un chargeur interne pour tous les `import` de modules : `Internal/OmniScriptModule` (étendu, il existait
+  déjà pour les composants à libération tardive). Une nouvelle tentative après une `JSException`, la seconde
+  remontée telle quelle à l'appelant, qui garde son repli ; `JSDisconnectedException` et annulation jamais
+  retentées. Aucun repli silencieux ajouté. Tests : `ScriptModuleLoaderTests.Import_Succeeds_WithASingleAttempt`,
+  `Import_AfterAJavaScriptException_TriesOnceMore_AndReturnsTheModule`,
+  `Import_FailingTwice_SurfacesTheSecondJavaScriptException_AfterTwoAttemptsOnly`,
+  `Import_AfterALostCircuit_IsNotRetried_AndThrowsAsItCame`, `Import_AfterACancellation_IsNotRetried_AndThrowsAsItCame`.
+- [x] Remplacer les appels directs `InvokeAsync<IJSObjectReference>("import", ...)` de la RCL : 42 comptés
+  (le plan en annonçait 46), tous remplacés ; les 5 composants qui passaient déjà par `OmniScriptModule`
+  profitent de la nouvelle tentative.
+- [x] Test de garde : aucun `import` de module hors du chargeur
+  (`Guards/ScriptModuleImportGuardTests.ModuleImports_OnlyHappenInTheLoader` et
+  `ImportLines_FindsEveryFormOfTheDirectCall_AndNothingElse`) ; tests bUnit de la nouvelle tentative et du
+  chargement avec propriétaire libéré (`Import_OfADisposedOwner_ReleasesTheModule_AndReturnsNull`).
+Controle : la garde échoue sur un appel direct ajouté pour l'essai dans `OmniMain.razor.cs` (rouge sur
+`OmniMain.razor.cs:110`, puis revert et vert) ; tests du chargeur verts (9 sur 9).
 
 ### Lot 4 - Clôture du chargeur (origine PLAN-018, lot 6)
 - [ ] Suite complète, portes (couverture, CRAP, CSP, API publique, budgets, paquet), vitrine et hôtes.
