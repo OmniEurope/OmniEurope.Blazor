@@ -208,6 +208,7 @@ internal static class ThemePresetFactory
             ["warning"] = warningFill,
             ["danger"] = dangerFill,
         });
+        AnsiTokenBuilder.AddTo(tokens, dark);
         return tokens;
     }
 

@@ -45,7 +45,7 @@ public sealed class ShippedThemeTokensTests
         // A system scope nested in a dark one inherited the dark tokens on a light system: it needs light
         // values of its own, declared before the media block that replaces them on a dark system.
         var css = Render();
-        var light = css.IndexOf("[data-omni-theme=\"system\"] {\n    --omni-badge-solid-fill-accent: " + Shipped().Light["--omni-badge-solid-fill-accent"], StringComparison.Ordinal);
+        var light = css.IndexOf("[data-omni-theme=\"system\"] {\n    --omni-ansi-0: " + Shipped().Light["--omni-ansi-0"], StringComparison.Ordinal);
         var media = css.IndexOf("@media (prefers-color-scheme: dark)", StringComparison.Ordinal);
 
         Assert.True(light >= 0, "The system scope has no light colour tokens.");
