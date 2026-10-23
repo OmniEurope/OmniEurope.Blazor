@@ -304,11 +304,24 @@ export async function overlaySteps(session, results) {
     const measure = () => {
       const dialog = windowOf();
       const problems = [];
-      if (dialog.scrollWidth > dialog.clientWidth) problems.push(`fenêtre ${dialog.scrollWidth}>${dialog.clientWidth}`);
+      if (dialog.scrollWidth > dialog.clientWidth) {
+        // Named by its widest culprit: the element whose right edge passes the dialog's visible width.
+        const limit = dialog.getBoundingClientRect().left + dialog.clientLeft + dialog.clientWidth;
+        const culprit = [...dialog.querySelectorAll('*')].filter(element => element.getBoundingClientRect().right > limit + 1).at(-1);
+        const named = culprit ? `${culprit.tagName.toLowerCase()}.${String(culprit.className.baseVal ?? culprit.className).trim().split(/\s+/).slice(0, 2).join('.')}` : 'aucun élément';
+        problems.push(`fenêtre ${dialog.scrollWidth}>${dialog.clientWidth} (${named})`);
+      }
       const footer = dialog.querySelector('.omni-appearance-window__footer');
       if (footer && footer.scrollWidth > footer.clientWidth) problems.push(`pied ${footer.scrollWidth}>${footer.clientWidth}`);
+      // A button is cut when its content does not fit it: an element of it reaching past its box, or a
+      // label wider than its line. The button's own scrollWidth is not read: the close button widens its
+      // hit area with an absolute ::before beyond its box on purpose, and that counts in scrollWidth.
       for (const button of dialog.querySelectorAll('button')) {
-        if (button.getClientRects().length > 0 && button.scrollWidth > button.clientWidth) problems.push(`bouton « ${nameOf(button)} » ${button.scrollWidth}>${button.clientWidth}`);
+        if (button.getClientRects().length === 0) continue;
+        const box = button.getBoundingClientRect();
+        const outside = [...button.querySelectorAll('*')].find(element => { const own = element.getBoundingClientRect(); return own.width > 0 && (own.left < box.left - 1 || own.right > box.right + 1); });
+        const label = [...button.querySelectorAll('.omni-button__content')].find(element => element.scrollWidth > element.clientWidth + 1);
+        if (outside || label) problems.push(`bouton « ${nameOf(button)} » ${outside ? 'déborde' : `libellé ${label.scrollWidth}>${label.clientWidth}`}`);
       }
 
       return problems;
