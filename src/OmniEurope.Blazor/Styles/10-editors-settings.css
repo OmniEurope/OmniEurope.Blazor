@@ -202,8 +202,9 @@
 /* A fact tile (OmniFactTile): a title, then rows of icon, label and value. The three columns are fixed
    tracks (the icon, a label width read from --omni-fact-tile-label-width, the value takes the rest), the
    same for every row, so the icons, the labels and the values line up from one row to the next; being
-   fixed in rem rather than a share of the tile, they also line up from one tile to the next in a tile
-   grid, a double tile included, and scale with the text size like the labels they hold. A host sets
+   in rem, they line up from one tile to the next in a tile grid and scale with the text size like the
+   labels they hold. The label track never takes more than 40% of the rows, so a large text size does not
+   push them out of a narrow tile. The height of a row follows the density, like a control. A host sets
    --omni-fact-tile-label-width (or the icon width) once on the grid to change them for every tile. Each row
    is a subgrid of the rows block (the same tracks again where subgrid is missing). The label and the value
    stay on one line, cut by an ellipsis; the package tooltip (omni-tooltip.js) reads them whole. A badge in a
@@ -216,13 +217,13 @@
 .omni-fact-tile--title-end > .omni-fact-tile__title { justify-content: flex-end; text-align: end; }
 .omni-fact-tile__title-icon { color: var(--omni-color-accent-strong); display: inline-flex; flex: none; }
 .omni-fact-tile__title-text { min-inline-size: 0; overflow-wrap: anywhere; }
-.omni-fact-tile__rows { --omni-fact-tile-columns: var(--omni-fact-tile-icon-width, 1.25rem) var(--omni-fact-tile-label-width, 6.5rem) minmax(0, 1fr); align-content: start; column-gap: var(--omni-space-sm); display: grid; flex: 1 1 auto; grid-template-columns: var(--omni-fact-tile-columns); min-block-size: 0; overflow-x: hidden; overflow-y: auto; row-gap: var(--omni-space-xs); }
+.omni-fact-tile__rows { --omni-fact-tile-columns: var(--omni-fact-tile-icon-width, 1.25rem) minmax(0, min(var(--omni-fact-tile-label-width, 6.5rem), 40%)) minmax(0, 1fr); align-content: start; column-gap: var(--omni-space-sm); display: grid; flex: 1 1 auto; grid-template-columns: var(--omni-fact-tile-columns); min-block-size: 0; overflow-x: hidden; overflow-y: auto; row-gap: var(--omni-space-xs); }
 .omni-fact-tile--action > .omni-fact-tile__rows { overflow: hidden; }
-.omni-fact-tile__row { align-items: center; column-gap: inherit; display: grid; grid-column: 1 / -1; grid-template-columns: var(--omni-fact-tile-columns); grid-template-columns: subgrid; min-block-size: 1.25rem; min-inline-size: 0; }
+.omni-fact-tile__row { align-items: center; column-gap: inherit; display: grid; grid-column: 1 / -1; grid-template-columns: var(--omni-fact-tile-columns); grid-template-columns: subgrid; min-block-size: calc(var(--omni-control-height) * 0.875); min-inline-size: 0; }
 .omni-fact-tile__icon { align-items: center; color: var(--omni-color-accent-strong); display: inline-flex; justify-content: center; min-inline-size: 0; overflow: hidden; }
 .omni-fact-tile__label { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .omni-fact-tile__value { font-size: var(--omni-font-size-base); font-weight: 500; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.omni-fact-tile__value .omni-badge { --omni-badge-height: 1.125rem; --omni-badge-pad-y: 0.0625rem; font-size: var(--omni-font-size-xs); max-inline-size: 100%; overflow: hidden; padding-inline: 0.375rem; vertical-align: middle; }
+.omni-fact-tile__value .omni-badge { --omni-badge-height: calc(var(--omni-control-height) * 0.75); --omni-badge-pad-y: 0.0625rem; font-size: var(--omni-font-size-xs); max-inline-size: 100%; overflow: hidden; padding-inline: 0.375rem; vertical-align: middle; }
 /* The value clips what it holds, so a focus ring drawn outside a link in it would be cut: it is drawn inside. */
 .omni-fact-tile__value :focus-visible { box-shadow: var(--omni-focus-ring-inset); }
 .omni-fact-tile--action { cursor: pointer; transition: background-color var(--omni-duration-fast) ease; }

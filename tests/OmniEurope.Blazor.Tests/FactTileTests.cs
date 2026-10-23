@@ -272,16 +272,19 @@ public sealed class FactTileTests : OmniBunitContext
         Assert.Equal("0", ShippedLookTests.Value(reach, "min-inline-size"));
         Assert.Equal("0", ShippedLookTests.Value(reach, "min-block-size"));
 
-        // The columns: a fixed icon track, a fixed label track, the rest for the value, shared by the rows block
-        // and, as a subgrid, by every row; fixed in rem so they also match from one tile to the next.
+        // The columns: a fixed icon track, a label track in rem capped at 40% of the rows (so a large text size
+        // never pushes the rows out of a narrow tile), the rest for the value, shared by the rows block and, as a
+        // subgrid, by every row; tiles of one width resolve them alike, so they match from one tile to the next.
         var rows = ShippedLookTests.Body(".omni-fact-tile__rows");
         Assert.Equal("var(--omni-fact-tile-columns)", ShippedLookTests.Value(rows, "grid-template-columns"));
-        Assert.Contains("--omni-fact-tile-columns: var(--omni-fact-tile-icon-width, 1.25rem) var(--omni-fact-tile-label-width, 6.5rem) minmax(0, 1fr)", rows, StringComparison.Ordinal);
+        Assert.Contains("--omni-fact-tile-columns: var(--omni-fact-tile-icon-width, 1.25rem) minmax(0, min(var(--omni-fact-tile-label-width, 6.5rem), 40%)) minmax(0, 1fr)", rows, StringComparison.Ordinal);
         Assert.Equal("grid", ShippedLookTests.Value(rows, "display"));
         Assert.Equal("auto", ShippedLookTests.Value(rows, "overflow-y"));
         var row = ShippedLookTests.Body(".omni-fact-tile__row");
         Assert.Contains("grid-template-columns: subgrid", row, StringComparison.Ordinal);
         Assert.Equal("1 / -1", ShippedLookTests.Value(row, "grid-column"));
+        // A row is as tall as the density makes a control, so compact and comfortable tiles differ in height.
+        Assert.Equal("calc(var(--omni-control-height) * 0.875)", ShippedLookTests.Value(row, "min-block-size"));
         // A clickable tile clips its rows: a scrolling region inside a link or a button is a nested focus stop.
         Assert.Equal("hidden", ShippedLookTests.Value(ShippedLookTests.Body(".omni-fact-tile--action > .omni-fact-tile__rows"), "overflow"));
     }
@@ -303,7 +306,7 @@ public sealed class FactTileTests : OmniBunitContext
     public void ABadgeInAValue_IsDrawnSmall_ByTheValueCell()
     {
         var body = ShippedLookTests.Body(".omni-fact-tile__value .omni-badge");
-        Assert.Equal("1.125rem", ShippedLookTests.Value(body, "--omni-badge-height"));
+        Assert.Equal("calc(var(--omni-control-height) * 0.75)", ShippedLookTests.Value(body, "--omni-badge-height"));
         Assert.Equal("var(--omni-font-size-xs)", ShippedLookTests.Value(body, "font-size"));
         Assert.Equal("100%", ShippedLookTests.Value(body, "max-inline-size"));
     }
