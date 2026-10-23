@@ -31,8 +31,8 @@ internal static class ThemePresetFactory
     /// <summary>The near-black laid over the bright info and success fills.</summary>
     internal const string OnBright = "#111111";
 
-    /// <summary>The white laid over every solid badge in dark mode.</summary>
-    internal const string SolidBadgeDarkInk = "#ffffff";
+    /// <summary>The white laid over every solid badge, in both modes.</summary>
+    internal const string SolidBadgeInk = "#ffffff";
 
     /// <summary>Builds a palette, both modes derived.</summary>
     public static OmniThemePalette CreatePalette(PaletteDefinition palette)
@@ -199,7 +199,7 @@ internal static class ThemePresetFactory
         AddFill(tokens, "info", infoFill);
         AddFill(tokens, "warning", warningFill);
         AddFill(tokens, "danger", dangerFill);
-        AddSolidBadges(tokens, dark, new Dictionary<string, string>(StringComparer.Ordinal)
+        AddSolidBadges(tokens, new Dictionary<string, string>(StringComparer.Ordinal)
         {
             ["neutral"] = mutedText,
             ["accent"] = accentFill,
@@ -214,15 +214,15 @@ internal static class ThemePresetFactory
 
     /// <summary>
     /// The fill and the ink of the solid badge of each tone (<c>--omni-badge-solid-fill-X</c> and
-    /// <c>--omni-badge-solid-ink-X</c>). One ink for the whole mode, near-black in light mode and white in
-    /// dark mode, so a page never shows black and white lettering side by side; each fill is the brand
-    /// colour of its tone moved just far enough, lighter in light mode and deeper in dark mode, for that
-    /// ink to read on it at 4.5. They are tokens of the badge alone: the buttons, alerts and notification
+    /// <c>--omni-badge-solid-ink-X</c>). One white ink for every tone in both modes (owner decision of
+    /// 2026-10-23, after a single ink per mode), so a page never shows black and white lettering side by
+    /// side; each fill is the brand colour of its tone deepened just far enough for that ink to read on it
+    /// at 4.5. They are tokens of the badge alone: the buttons, alerts and notification
     /// marks keep their own fills and inks.
     /// </summary>
-    private static void AddSolidBadges(Dictionary<string, string> tokens, bool dark, IReadOnlyDictionary<string, string> toneColors)
+    private static void AddSolidBadges(Dictionary<string, string> tokens, IReadOnlyDictionary<string, string> toneColors)
     {
-        var ink = dark ? SolidBadgeDarkInk : OnBright;
+        const string ink = SolidBadgeInk;
         foreach (var (tone, color) in toneColors)
         {
             tokens[$"--omni-badge-solid-fill-{tone}"] = Settle(color, ink, OverlaidTextRatio);

@@ -85,6 +85,26 @@ public sealed class FeedbackFormsCoherenceTests : OmniBunitContext
         Assert.Contains("omni-badge--neutral", root.ClassList);
         Assert.Contains("omni-badge--solid", root.ClassList);
         Assert.Equal("Nouveau", root.TextContent.Trim());
+        Assert.DoesNotContain("omni-badge--ink-outline", root.ClassList);
+    }
+
+    [Theory]
+    [InlineData(OmniFill.Solid, true)]
+    [InlineData(OmniFill.Tonal, false)]
+    [InlineData(OmniFill.Outline, false)]
+    public void Badge_InkOutline_OutlinesTheWhiteLettersOfASolidBadgeOnly(OmniFill fill, bool outlined)
+    {
+        var badge = Render<OmniBadge>(parameters => parameters
+            .Add(component => component.Fill, fill)
+            .Add(component => component.InkOutline, true)
+            .AddChildContent("Nouveau"));
+
+        Assert.Equal(outlined, badge.Find(".omni-badge").ClassList.Contains("omni-badge--ink-outline"));
+        // Eight shadows of 1 px, one per direction, all black: the outline the owner validated.
+        var shadow = ShippedLookTests.Value(ShippedLookTests.Body(".omni-badge--solid.omni-badge--ink-outline"), "text-shadow");
+        Assert.Equal(
+            "-1px -1px 0 #000, 0 -1px 0 #000, 1px -1px 0 #000, -1px 0 0 #000, 1px 0 0 #000, -1px 1px 0 #000, 0 1px 0 #000, 1px 1px 0 #000",
+            shadow);
     }
 
     // ---- form field -----------------------------------------------------------------------------

@@ -23,8 +23,8 @@ public partial class OmniBadge
     public OmniTone Tone { get; set; }
 
     /// <summary>
-    /// Painted or drawn. <see cref="OmniFill.Solid"/>, the default, takes the fill and ink of the button
-    /// of the same intention; <see cref="OmniFill.Tonal"/> is the lighter tinted chip;
+    /// Painted or drawn. <see cref="OmniFill.Solid"/>, the default, writes white on a fill of its tone
+    /// deep enough for white to read at 4.5:1 in every theme; <see cref="OmniFill.Tonal"/> is the lighter tinted chip;
     /// <see cref="OmniFill.Outline"/> is for a badge that has to read as a different kind of thing from
     /// the painted ones beside it, not merely as another colour.
     /// </summary>
@@ -40,6 +40,13 @@ public partial class OmniBadge
     /// </summary>
     [Parameter]
     public OmniBadgeWidth Width { get; set; } = OmniBadgeWidth.Auto;
+
+    /// <summary>
+    /// Draws a 1 px black outline around the white letters of a <see cref="OmniFill.Solid"/> badge, for a
+    /// badge laid over a picture or a busy colour. Off by default; no effect on the tonal and outline fills.
+    /// </summary>
+    [Parameter]
+    public bool InkOutline { get; set; }
 
     /// <summary>An icon and nothing else: the badge is then a square as tall as a text badge.</summary>
     private bool IconOnly => Icon is not null && ChildContent is null;

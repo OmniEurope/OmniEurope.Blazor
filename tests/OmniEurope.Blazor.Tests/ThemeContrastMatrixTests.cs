@@ -149,7 +149,7 @@ public sealed partial class ThemeContrastMatrixTests
     /// surface, <c>--omni-badge-solid-fill-neutral</c>) stands out as a component from the grid and card
     /// frames it sits on, which a theme may tint away from the page (<c>--omni-card-background</c>, the
     /// grid's <c>--omni-grid-frame</c>, else the surface) and from the layer fill. Its ink on it is held at
-    /// 4.5 by <see cref="Solid_badges_share_one_ink_per_mode_and_read_at_the_text_ratio"/>.
+    /// 4.5 by <see cref="Solid_badges_share_one_white_ink_and_read_at_the_text_ratio"/>.
     /// </summary>
     [Theory]
     [MemberData(nameof(Sets))]
@@ -174,15 +174,12 @@ public sealed partial class ThemeContrastMatrixTests
         AssertOrAccept(themeName, paletteName, mode, failures);
     }
 
-    /// <summary>The ink of every solid badge in light mode (owner decision of 2026-10-22, recette R-22).</summary>
-    internal const string SolidBadgeLightInk = "#111111";
-
-    /// <summary>The ink of every solid badge in dark mode (owner decision of 2026-10-22, recette R-22).</summary>
-    internal const string SolidBadgeDarkInk = "#ffffff";
+    /// <summary>The ink of every solid badge, in both modes (owner decision of 2026-10-23, after one ink per mode in recette R-22).</summary>
+    internal const string SolidBadgeInk = "#ffffff";
 
     /// <summary>
     /// The sets in which a solid badge of a tone may fall short of the text ratio or of its single ink.
-    /// Empty: the badge tokens are derived from each palette against the ink of the mode, so every
+    /// Empty: the badge tokens are derived from each palette against the white ink, so every
     /// tone of every set holds both. A set added here is a deliberate edit, written with its reason, and
     /// its shortfall is written to the test output.
     /// </summary>
@@ -195,7 +192,7 @@ public sealed partial class ThemeContrastMatrixTests
     /// be no lighter than a luminance of 0.183 to carry white lettering, while the translucent card Trou
     /// noir lays over its black disk is darker still, so the two ratios cap out between 2.5:1 and 2.9:1 there. The
     /// owner kept the single white ink (recette R-22); the lettering is held at 4.5:1 on every set by
-    /// <see cref="Solid_badges_share_one_ink_per_mode_and_read_at_the_text_ratio"/>, and only the frame
+    /// <see cref="Solid_badges_share_one_white_ink_and_read_at_the_text_ratio"/>, and only the frame
     /// of the neutral badge against that card is accepted short, and written to the test output.
     /// </summary>
     private static readonly IReadOnlyDictionary<(string Theme, OmniAppearance Mode), string> NeutralBadgeBackdropExceptions =
@@ -205,19 +202,19 @@ public sealed partial class ThemeContrastMatrixTests
         };
 
     /// <summary>
-    /// Recette R-22: every solid badge of a mode carries the same ink (near-black in light mode, white in
-    /// dark mode), whatever its tone, and that ink reads on the fill of its tone at 4.5. The fill and the
+    /// Every solid badge carries the same white ink in both modes (owner decision of 2026-10-23), whatever
+    /// its tone, and that ink reads on the fill of its tone at 4.5. The fill and the
     /// ink are read from the declarations of the stylesheet (<c>.omni-badge--solid</c> and its tone rules),
     /// then resolved in the token set, so a stylesheet that paints one tone with another ink fails here.
     /// </summary>
     [Theory]
     [MemberData(nameof(Sets))]
-    public void Solid_badges_share_one_ink_per_mode_and_read_at_the_text_ratio(string themeName, string paletteName, OmniAppearance mode)
+    public void Solid_badges_share_one_white_ink_and_read_at_the_text_ratio(string themeName, string paletteName, OmniAppearance mode)
     {
         var theme = OmniThemePresets.All.Single(entry => entry.Name == themeName);
         var palette = OmniThemePalettes.All.Single(entry => entry.Name == paletteName);
         var tokens = theme.With(palette).For(mode);
-        var wanted = mode is OmniAppearance.Dark ? SolidBadgeDarkInk : SolidBadgeLightInk;
+        const string wanted = SolidBadgeInk;
 
         var failures = new List<string>();
         foreach (var tone in Enum.GetValues<OmniTone>())
@@ -229,7 +226,7 @@ public sealed partial class ThemeContrastMatrixTests
             var problems = new List<string>();
             if (!string.Equals(ink, wanted, StringComparison.OrdinalIgnoreCase))
             {
-                problems.Add($"ink {ink} is not the {mode} ink {wanted}");
+                problems.Add($"ink {ink} is not the badge ink {wanted}");
             }
 
             if (contrast < Text)
