@@ -170,7 +170,7 @@
 
     @* The table itself, alone or inside the frame of the bars. *@
     RenderFragment table = @<div @ref="_viewport" class="@Classes.ViewportClass()">
-        <table class="omni-data-grid__table" role="@(Tree.Active ? "treegrid" : null)" aria-rowcount="@Virtual.RowCountAttribute()">
+        <table class="omni-data-grid__table" role="@(Tree.Active ? "treegrid" : null)" aria-rowcount="@Virtual.RowCountAttribute()" data-omni-sizing="@(SizesToContent ? "content" : null)">
             @if (!string.IsNullOrWhiteSpace(Caption))
             {
                 <caption>@Caption</caption>
@@ -183,8 +183,9 @@
                     @* The width is in the markup as well, read by the stylesheet: the first paint has the final
                        widths instead of equal columns until the script applies them (no inline style, CSP).
                        A column with neither a width nor Truncate is sized to its content by omni-grid.js,
-                       which reads those two attributes to know it. *@
-                    <col @key="column.Key" class="omni-data-grid__col" data-omni-col="@column.Key" data-omni-width="@ColumnLayout.WidthOf(column)" data-omni-truncate="@(column.Truncate ? "true" : null)" />
+                       which reads those two attributes to know it. With ColumnSizing Content the table says so
+                       (data-omni-sizing) and the script reads Truncate, Grow and Wrap to size every column. *@
+                    <col @key="column.Key" class="omni-data-grid__col" data-omni-col="@column.Key" data-omni-width="@ColumnLayout.WidthOf(column)" data-omni-truncate="@(column.Truncate ? "true" : null)" data-omni-grow="@(SizesToContent && column.Grow ? "true" : null)" data-omni-wrap="@(SizesToContent && column.Wrap ? "true" : null)" />
                 }
                 @if (ColumnSet.HasEditing) { <col class="omni-data-grid__col--control omni-data-grid__col--edit" /> }
             </colgroup>

@@ -1647,4 +1647,13 @@
   <data name="DemoPagesFactStarted" xml:space="preserve"><value>Sākums</value></data>
   <data name="DemoPagesFactDuration" xml:space="preserve"><value>Ilgums</value></data>
   <data name="DemoPagesFactStepDuration" xml:space="preserve"><value>Soļa ilgums</value></data>
+  <data name="DemoGridSizingCaption" xml:space="preserve"><value>Kolonnas satura platumā</value></data>
+  <data name="DemoGridSizingName" xml:space="preserve"><value>Nosaukums</value></data>
+  <data name="DemoGridSizingStatus" xml:space="preserve"><value>Statuss</value></data>
+  <data name="DemoGridSizingVisitors" xml:space="preserve"><value>Pašreizējie apmeklētāji</value></data>
+  <data name="DemoGridSizingProject" xml:space="preserve"><value>Projekts</value></data>
+  <data name="DemoGridSizingSince" xml:space="preserve"><value>Kopš</value></data>
+  <data name="DemoGridSizingOnline" xml:space="preserve"><value>Tiešsaistē</value></data>
+  <data name="DemoGridSizingOffline" xml:space="preserve"><value>Bezsaistē</value></data>
+  <data name="DemoGridSizingDeclaredCaption" xml:space="preserve"><value>Tās pašas kolonnas ar norādītajiem platumiem</value></data>
 </root>

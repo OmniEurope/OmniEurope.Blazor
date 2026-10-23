@@ -1647,4 +1647,13 @@
   <data name="DemoPagesFactStarted" xml:space="preserve"><value>Začetek</value></data>
   <data name="DemoPagesFactDuration" xml:space="preserve"><value>Trajanje</value></data>
   <data name="DemoPagesFactStepDuration" xml:space="preserve"><value>Trajanje koraka</value></data>
+  <data name="DemoGridSizingCaption" xml:space="preserve"><value>Stolpci v širini svoje vsebine</value></data>
+  <data name="DemoGridSizingName" xml:space="preserve"><value>Ime</value></data>
+  <data name="DemoGridSizingStatus" xml:space="preserve"><value>Stanje</value></data>
+  <data name="DemoGridSizingVisitors" xml:space="preserve"><value>Trenutni obiskovalci</value></data>
+  <data name="DemoGridSizingProject" xml:space="preserve"><value>Projekt</value></data>
+  <data name="DemoGridSizingSince" xml:space="preserve"><value>Od</value></data>
+  <data name="DemoGridSizingOnline" xml:space="preserve"><value>Povezan</value></data>
+  <data name="DemoGridSizingOffline" xml:space="preserve"><value>Brez povezave</value></data>
+  <data name="DemoGridSizingDeclaredCaption" xml:space="preserve"><value>Isti stolpci z določenimi širinami</value></data>
 </root>

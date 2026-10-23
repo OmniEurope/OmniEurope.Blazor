@@ -21,6 +21,7 @@ internal sealed class GridCssClasses<TItem>(OmniDataGrid<TItem> grid)
         grid.Responsive ? "omni-data-grid--responsive" : null,
         grid.Virtual.RowsAreFixed ? "omni-data-grid--fixed-row-height" : null,
         grid.HeaderWrap == OmniDataGridHeaderWrap.Truncate ? "omni-data-grid--header-truncate" : null,
+        grid.SizesToContent ? "omni-data-grid--sizing-content" : null,
         grid.ColumnSet.HasFrozenColumns ? "omni-data-grid--has-frozen" : null,
         grid.FrozenState.FrozenDetached ? "omni-data-grid--frozen-detached" : null,
         grid.GridLines == OmniDataGridLines.Horizontal ? null : $"omni-data-grid--lines-{grid.GridLines.ToString().ToLowerInvariant()}",
@@ -49,6 +50,12 @@ internal sealed class GridCssClasses<TItem>(OmniDataGrid<TItem> grid)
         grid.LayoutInterop.EffectiveMaxHeight is null ? null : "omni-data-grid__viewport--capped"
     ]);
 
+    // Content sizing only: a column measured to its content keeps its header and cells on one line, a column
+    // that asked to wrap is the exception; a Truncate column keeps the ellipsis the default sizing gives it.
+    private string? SizingClass(OmniDataGridColumnDefinition<TItem> column) => !grid.SizesToContent || column.Truncate
+        ? null
+        : column.Wrap ? "omni-data-grid__column--wrap" : "omni-data-grid__column--fit";
+
     // A numeric column left at the default alignment takes the end, in figures of one width, so its
     // values compare at a glance; an alignment the consumer set (Center, End) is kept as is. A column
     // with its own Template is not the bare figure any more (a link, a label, buttons laid out from
@@ -64,6 +71,7 @@ internal sealed class GridCssClasses<TItem>(OmniDataGrid<TItem> grid)
             ? "omni-data-grid__column--align-end omni-data-grid__cell--numeric"
             : $"omni-data-grid__column--align-{(IsStart(column.TextAlign) ? "start" : column.TextAlign.ToString().ToLowerInvariant())}",
         column.Frozen ? "omni-data-grid__column--frozen" : null,
+        SizingClass(column),
         grid.HighlightActiveColumn && grid.Query.IsColumnActive(column) ? "omni-data-grid__column--active" : null,
         header && grid.Query.IsSortable(column) ? "omni-data-grid__column--sortable" : null,
         grid.HighlightColumnOnHover && !column.HighlightOnHover ? "omni-data-grid__column--no-hover" : null,

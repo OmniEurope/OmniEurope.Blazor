@@ -276,6 +276,10 @@
    or end-aligned column keeps its lines on that side. */
 .omni-data-grid__sort { align-items: center; background: none; border: 0; color: inherit; cursor: pointer; display: inline-flex; font: inherit; min-inline-size: 0; padding: 0; text-align: inherit; }
 .omni-data-grid--header-truncate .omni-data-grid__title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* ColumnSizing Content (omni-grid.js sizes every column to its widest content): a header and its cells stay on one line, whatever HeaderWrap says, since the width asked for is the width of that line. A column made to wrap (Wrap) breaks at its spaces and, for a word longer than the room it has, anywhere; a Truncate column keeps the rules of the default sizing. */
+.omni-data-grid .omni-data-grid__column--fit, .omni-data-grid .omni-data-grid__column--fit .omni-data-grid__title { white-space: nowrap; }
+.omni-data-grid th.omni-data-grid__column--wrap, .omni-data-grid th.omni-data-grid__column--wrap .omni-data-grid__title { overflow-wrap: anywhere; white-space: normal; }
+.omni-data-grid tbody td.omni-data-grid__cell--text.omni-data-grid__column--wrap { overflow: visible; overflow-wrap: anywhere; text-overflow: clip; white-space: normal; }
 .omni-data-grid__sort-icon { block-size: 0.9em; display: inline-flex; flex: none; inline-size: 0.9em; margin-inline-start: auto; opacity: 0.7; }
 .omni-data-grid__sort-icon > svg { block-size: 100%; inline-size: 100%; }
 .omni-data-grid__sort-icon--idle { visibility: hidden; }

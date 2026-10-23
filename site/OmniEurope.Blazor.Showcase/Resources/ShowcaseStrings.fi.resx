@@ -1647,4 +1647,13 @@
   <data name="DemoPagesFactStarted" xml:space="preserve"><value>Alkoi</value></data>
   <data name="DemoPagesFactDuration" xml:space="preserve"><value>Kesto</value></data>
   <data name="DemoPagesFactStepDuration" xml:space="preserve"><value>Vaiheen kesto</value></data>
+  <data name="DemoGridSizingCaption" xml:space="preserve"><value>Sarakkeet sisältönsä levyisinä</value></data>
+  <data name="DemoGridSizingName" xml:space="preserve"><value>Nimi</value></data>
+  <data name="DemoGridSizingStatus" xml:space="preserve"><value>Tila</value></data>
+  <data name="DemoGridSizingVisitors" xml:space="preserve"><value>Nykyiset kävijät</value></data>
+  <data name="DemoGridSizingProject" xml:space="preserve"><value>Projekti</value></data>
+  <data name="DemoGridSizingSince" xml:space="preserve"><value>Alkaen</value></data>
+  <data name="DemoGridSizingOnline" xml:space="preserve"><value>Verkossa</value></data>
+  <data name="DemoGridSizingOffline" xml:space="preserve"><value>Ei yhteyttä</value></data>
+  <data name="DemoGridSizingDeclaredCaption" xml:space="preserve"><value>Samat sarakkeet ilmoitetuilla leveyksillä</value></data>
 </root>

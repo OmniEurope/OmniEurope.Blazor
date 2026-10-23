@@ -1647,4 +1647,13 @@
   <data name="DemoPagesFactStarted" xml:space="preserve"><value>Έναρξη</value></data>
   <data name="DemoPagesFactDuration" xml:space="preserve"><value>Διάρκεια</value></data>
   <data name="DemoPagesFactStepDuration" xml:space="preserve"><value>Διάρκεια βήματος</value></data>
+  <data name="DemoGridSizingCaption" xml:space="preserve"><value>Στήλες με πλάτος ίσο με το περιεχόμενό τους</value></data>
+  <data name="DemoGridSizingName" xml:space="preserve"><value>Όνομα</value></data>
+  <data name="DemoGridSizingStatus" xml:space="preserve"><value>Κατάσταση</value></data>
+  <data name="DemoGridSizingVisitors" xml:space="preserve"><value>Τρέχοντες επισκέπτες</value></data>
+  <data name="DemoGridSizingProject" xml:space="preserve"><value>Έργο</value></data>
+  <data name="DemoGridSizingSince" xml:space="preserve"><value>Από</value></data>
+  <data name="DemoGridSizingOnline" xml:space="preserve"><value>Σε σύνδεση</value></data>
+  <data name="DemoGridSizingOffline" xml:space="preserve"><value>Εκτός σύνδεσης</value></data>
+  <data name="DemoGridSizingDeclaredCaption" xml:space="preserve"><value>Οι ίδιες στήλες με δηλωμένα πλάτη</value></data>
 </root>

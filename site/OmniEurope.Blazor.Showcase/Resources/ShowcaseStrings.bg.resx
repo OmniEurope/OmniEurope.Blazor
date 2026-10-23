@@ -1647,4 +1647,13 @@
   <data name="DemoPagesFactStarted" xml:space="preserve"><value>Начало</value></data>
   <data name="DemoPagesFactDuration" xml:space="preserve"><value>Продължителност</value></data>
   <data name="DemoPagesFactStepDuration" xml:space="preserve"><value>Продължителност на стъпката</value></data>
+  <data name="DemoGridSizingCaption" xml:space="preserve"><value>Колони с ширина според съдържанието им</value></data>
+  <data name="DemoGridSizingName" xml:space="preserve"><value>Име</value></data>
+  <data name="DemoGridSizingStatus" xml:space="preserve"><value>Статус</value></data>
+  <data name="DemoGridSizingVisitors" xml:space="preserve"><value>Текущи посетители</value></data>
+  <data name="DemoGridSizingProject" xml:space="preserve"><value>Проект</value></data>
+  <data name="DemoGridSizingSince" xml:space="preserve"><value>От</value></data>
+  <data name="DemoGridSizingOnline" xml:space="preserve"><value>Онлайн</value></data>
+  <data name="DemoGridSizingOffline" xml:space="preserve"><value>Офлайн</value></data>
+  <data name="DemoGridSizingDeclaredCaption" xml:space="preserve"><value>Същите колони със зададени ширини</value></data>
 </root>

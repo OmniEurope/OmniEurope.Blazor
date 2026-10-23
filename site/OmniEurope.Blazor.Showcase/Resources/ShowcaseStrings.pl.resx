@@ -1647,4 +1647,13 @@
   <data name="DemoPagesFactStarted" xml:space="preserve"><value>Początek</value></data>
   <data name="DemoPagesFactDuration" xml:space="preserve"><value>Czas trwania</value></data>
   <data name="DemoPagesFactStepDuration" xml:space="preserve"><value>Czas trwania kroku</value></data>
+  <data name="DemoGridSizingCaption" xml:space="preserve"><value>Kolumny o szerokości swojej zawartości</value></data>
+  <data name="DemoGridSizingName" xml:space="preserve"><value>Nazwa</value></data>
+  <data name="DemoGridSizingStatus" xml:space="preserve"><value>Status</value></data>
+  <data name="DemoGridSizingVisitors" xml:space="preserve"><value>Aktualni odwiedzający</value></data>
+  <data name="DemoGridSizingProject" xml:space="preserve"><value>Projekt</value></data>
+  <data name="DemoGridSizingSince" xml:space="preserve"><value>Od</value></data>
+  <data name="DemoGridSizingOnline" xml:space="preserve"><value>Online</value></data>
+  <data name="DemoGridSizingOffline" xml:space="preserve"><value>Offline</value></data>
+  <data name="DemoGridSizingDeclaredCaption" xml:space="preserve"><value>Te same kolumny z zadeklarowanymi szerokościami</value></data>
 </root>

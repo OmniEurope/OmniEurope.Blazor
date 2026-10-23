@@ -382,6 +382,99 @@ export async function requestSteps(session, results) {
   await pause(300);
   step(`tuiles de faits étroites : quatre tuiles sur une grille de 900 px (fenêtre de ${windowWidth} px), libellé de 16 et valeur de 20 caractères entiers sur deux niveaux, sans points de suspension ; trois colonnes gardées dans une tuile large`);
 
+  // 7d. Columns sized to their content (PLAN-004 lot M, request of 2026-10-23): a grid with
+  // ColumnSizing Content, a name, a status badge, a number, a project and a date, each column with the width of
+  // its widest content. In a box of 900, 1300 and 600 px: no header on two lines, no cell or title cut (no
+  // active ellipsis), the status column no wider than max(badge, header with its icons) plus the cell padding
+  // (a declared width of 9rem, which the default mode would keep, is wider and fails this), the columns that
+  // ask to grow (name, project) take the room that is left, the others stay at their content, no horizontal
+  // scroll while the box holds the content, and below it the columns stay at their content floor and the grid
+  // scrolls sideways instead of cutting. A second grid wraps its long column (Wrap) instead of cutting it.
+  await send('Emulation.setDeviceMetricsOverride', { width: 1800, height: 900, deviceScaleFactor: 1, mobile: false });
+  await session.visit('/composants/grille', '#demo-grid-sizing');
+  const sizingState = gridId => `(() => {
+    const grid = document.getElementById('${gridId}');
+    const viewport = grid.querySelector('.omni-data-grid__viewport');
+    const heads = [...grid.querySelectorAll('thead th[data-omni-col]')];
+    const problems = [];
+    const lineOf = element => parseFloat(getComputedStyle(element).lineHeight) || parseFloat(getComputedStyle(element).fontSize) * 1.5;
+    const headers = heads.map(head => {
+      const header = head.querySelector('.omni-data-grid__header');
+      const title = head.querySelector('.omni-data-grid__title');
+      if (title.getBoundingClientRect().height > lineOf(title) * 1.5) problems.push('l\\'en-tête « ' + title.textContent + ' » passe sur deux lignes');
+      if (title.scrollWidth > title.clientWidth + 1) problems.push('l\\'en-tête « ' + title.textContent + ' » est coupé (' + title.scrollWidth + ' > ' + title.clientWidth + ')');
+      if (header.scrollWidth > header.clientWidth + 1) problems.push('le bloc d\\'en-tête « ' + title.textContent + ' » déborde');
+      const range = document.createRange();
+      range.selectNodeContents(title);
+      const gap = parseFloat(getComputedStyle(header).columnGap) || 0;
+      const others = [...header.children].filter(child => !child.contains(title) && getComputedStyle(child).display !== 'none');
+      const style = getComputedStyle(head);
+      return range.getBoundingClientRect().width + others.reduce((sum, child) => sum + child.getBoundingClientRect().width, 0) + gap * others.length + parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+    });
+    for (const cell of grid.querySelectorAll('tbody tr:not(.omni-data-grid__spacer) td')) {
+      if (cell.scrollWidth > cell.clientWidth + 1) problems.push('la cellule « ' + cell.textContent.trim() + ' » est coupée (' + cell.scrollWidth + ' > ' + cell.clientWidth + ', points de suspension ' + getComputedStyle(cell).textOverflow + ')');
+    }
+    const badge = grid.querySelector('tbody td .omni-badge');
+    const badgeCell = badge?.closest('td');
+    const badges = [...grid.querySelectorAll('tbody td .omni-badge')].map(item => item.getBoundingClientRect().width);
+    const cellStyle = badgeCell ? getComputedStyle(badgeCell) : null;
+    return JSON.stringify({
+      problems,
+      widths: heads.map(head => Math.round(head.getBoundingClientRect().width * 10) / 10),
+      headers,
+      badge: cellStyle ? Math.max(...badges) + parseFloat(cellStyle.paddingLeft) + parseFloat(cellStyle.paddingRight) : 0,
+      client: viewport.clientWidth,
+      scroll: viewport.scrollWidth,
+      table: grid.querySelector('table').getBoundingClientRect().width
+    });
+  })()`;
+  const sizeBox = async (gridId, width) => {
+    await evaluate(`document.getElementById('${gridId}').closest('.demo-grid-sizing-box').style.inlineSize = '${width}px'`);
+    // The columns are measured and shared out after the box resizes: settled once three samples agree.
+    let last = '';
+    let same = 0;
+    for (let attempt = 0; attempt < 60 && same < 3; attempt++) {
+      await pause(100);
+      const now = await evaluate(sizingState(gridId));
+      same = now === last ? same + 1 : 0;
+      last = now;
+    }
+    check(same >= 3, `La grille ${gridId} ne se stabilise pas dans une boîte de ${width} px : ${last}`);
+    return JSON.parse(last);
+  };
+  const sizing = {};
+  for (const width of [1300, 900, 600]) {
+    sizing[width] = await sizeBox('demo-grid-sizing', width);
+    const state = sizing[width];
+    check(state.problems.length === 0, `Colonnes au contenu dans une boîte de ${width} px : ${state.problems.join(' | ')}`);
+    // Status is the second column: its width is at most the wider of its badge cell and its header.
+    check(state.widths[1] <= Math.max(state.badge, state.headers[1]) + 3, `La colonne État fait ${state.widths[1]} px dans une boîte de ${width} px, plus que son contenu (pastille ${state.badge.toFixed(1)}, en-tête ${state.headers[1].toFixed(1)}).`);
+  }
+  const wide = sizing[1300];
+  const narrow = sizing[600];
+  check(wide.scroll <= wide.client + 1, `La grille défile de côté dans une boîte de 1300 px : ${wide.scroll} > ${wide.client}.`);
+  check(Math.abs(wide.widths.reduce((sum, item) => sum + item, 0) - wide.client) <= 2, `Les colonnes ne se partagent pas la largeur de 1300 px : ${wide.widths.join(' + ')} pour ${wide.client}.`);
+  check(narrow.scroll > narrow.client + 1, `La grille ne défile pas de côté dans une boîte de 600 px : ${narrow.scroll} contre ${narrow.client}.`);
+  // The columns that grow (name, project: indexes 0 and 3) take the room, the others keep their content.
+  for (const index of [0, 3]) check(wide.widths[index] > narrow.widths[index] + 20, `La colonne ${index} qui grandit reste à ${wide.widths[index]} px (contenu ${narrow.widths[index]} px) dans une boîte de 1300 px.`);
+  for (const index of [1, 2, 4]) check(Math.abs(wide.widths[index] - narrow.widths[index]) <= 2, `La colonne ${index} grandit sans l'avoir demandé : ${narrow.widths[index]} px puis ${wide.widths[index]} px.`);
+  // Shrinking before the scroll: between the content floor and the wide box, the columns follow the box and
+  // the grid stays still sideways; the floor itself is the sum of the contents.
+  const floor = narrow.widths.reduce((sum, item) => sum + item, 0);
+  const between = await sizeBox('demo-grid-sizing', Math.round(floor) + 60);
+  check(between.problems.length === 0, `Colonnes au contenu dans une boîte à ${Math.round(floor) + 60} px : ${between.problems.join(' | ')}`);
+  check(between.scroll <= between.client + 1, `La grille défile de côté alors que le contenu tient (${between.scroll} > ${between.client}, plancher de ${floor.toFixed(0)} px).`);
+  check(between.widths[0] < wide.widths[0] - 20 && between.widths[0] >= narrow.widths[0] - 1, `La colonne du nom ne suit pas la boîte : ${narrow.widths[0]} px au plancher, ${between.widths[0]} px à ${Math.round(floor) + 60} px, ${wide.widths[0]} px à 1300 px.`);
+  // A long column that asks to wrap: wrapped when the box is narrow, nothing cut, headers on one line.
+  const wrapped = await sizeBox('demo-grid-sizing-wrap', 500);
+  check(wrapped.problems.length === 0, `Colonne à retour à la ligne dans une boîte de 500 px : ${wrapped.problems.join(' | ')}`);
+  const wrapLines = await evaluate("(() => { const cell = document.querySelector('#demo-grid-sizing-wrap tbody td:nth-child(2)'); const line = parseFloat(getComputedStyle(cell).lineHeight) || parseFloat(getComputedStyle(cell).fontSize) * 1.5; return Math.round(cell.getBoundingClientRect().height / line); })()");
+  check(Number(wrapLines) >= 2, `La colonne Wrap tient sur ${wrapLines} ligne dans une boîte de 500 px.`);
+  await evaluate("for (const box of document.querySelectorAll('.demo-grid-sizing-box')) box.style.removeProperty('inline-size')");
+  await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
+  await pause(300);
+  step(`colonnes au contenu : un en-tête sur une ligne, rien de coupé, la colonne État au plus à sa pastille ou à son en-tête (${narrow.widths[1]} px) dans des boîtes de 600, 900 et 1300 px, les colonnes Grow prennent la place restante, sans défilement latéral tant que le contenu tient (plancher de ${floor.toFixed(0)} px), colonne Wrap sur ${wrapLines} lignes dans 500 px`);
+
   // 8. FillAvailableHeight in a preview box that scrolls itself (request of 2026-10-12): with settings
   // taller than the visible part of the box above it, nothing is left to the grid, which drew 0px, its
   // frame 2px, every row cut. In both scroll modes and at 390 and 1280 px, the grid keeps its floor

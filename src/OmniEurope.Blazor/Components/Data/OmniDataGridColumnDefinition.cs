@@ -64,6 +64,10 @@ internal sealed class OmniDataGridColumnDefinition<TItem>
     public string? MinWidth { get; init; }
     /// <summary>The cells end in an ellipsis instead of the column widening to its longest content.</summary>
     public bool Truncate { get; init; }
+    /// <summary>With content sizing, the column takes the room the others leave.</summary>
+    public bool Grow { get; init; }
+    /// <summary>With content sizing, the column's header and cells wrap instead of staying on one line.</summary>
+    public bool Wrap { get; init; }
     public OmniAlignment TextAlign { get; init; }
     /// <summary>The property read is a number: the column aligns at the end unless its alignment was set.</summary>
     public bool Numeric { get; init; }
