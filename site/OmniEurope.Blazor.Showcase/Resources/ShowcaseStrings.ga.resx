@@ -653,6 +653,16 @@
   <data name="DemoDataListLogMissing" xml:space="preserve"><value>Doiciméad ar iarraidh</value></data>
   <data name="DemoDataListLogRejected" xml:space="preserve"><value>Diúltaíodh don bhailíochtú</value></data>
   <data name="DemoDataListLogAborted" xml:space="preserve"><value>Próiseáil idirbhriste</value></data>
+  <data name="DemoAnsiModeLabel" xml:space="preserve"><value>Seicheamh éalaithe</value></data>
+  <data name="DemoAnsiModeRender" xml:space="preserve"><value>Taispeáin dathanna</value></data>
+  <data name="DemoAnsiModeHide" xml:space="preserve"><value>Folaigh cóid</value></data>
+  <data name="DemoAnsiModeRaw" xml:space="preserve"><value>Téacs amh</value></data>
+  <data name="DemoAnsiLogLabel" xml:space="preserve"><value>Logleabhar le dathanna ANSI</value></data>
+  <data name="DemoAnsiCellLabel" xml:space="preserve"><value>An líne chéanna i gcill</value></data>
+  <data name="DemoAnsiNoLeaks" xml:space="preserve"><value>níor aimsíodh aon sceitheadh</value></data>
+  <data name="DemoAnsiSlow" xml:space="preserve"><value>iarratas mall, 1,2 s</value></data>
+  <data name="DemoAnsiRefused" xml:space="preserve"><value>diúltaíodh don nasc</value></data>
+  <data name="DemoAnsiRetry" xml:space="preserve"><value>ag triail arís i gceann 5 s</value></data>
   <data name="DemoChartChartTitle" xml:space="preserve"><value>Comhaid a comhdaíodh in aghaidh na ráithe</value></data>
   <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Ráithe</value></data>
   <data name="DemoChartAxisCases" xml:space="preserve"><value>Comhaid</value></data>

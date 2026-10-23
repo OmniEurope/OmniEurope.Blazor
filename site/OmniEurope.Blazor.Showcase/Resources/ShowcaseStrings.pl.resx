@@ -653,6 +653,16 @@
   <data name="DemoDataListLogMissing" xml:space="preserve"><value>Brakujący dokument</value></data>
   <data name="DemoDataListLogRejected" xml:space="preserve"><value>Zatwierdzenie odrzucone</value></data>
   <data name="DemoDataListLogAborted" xml:space="preserve"><value>Przetwarzanie przerwane</value></data>
+  <data name="DemoAnsiModeLabel" xml:space="preserve"><value>Sekwencje ucieczki</value></data>
+  <data name="DemoAnsiModeRender" xml:space="preserve"><value>Pokaż kolory</value></data>
+  <data name="DemoAnsiModeHide" xml:space="preserve"><value>Ukryj kody</value></data>
+  <data name="DemoAnsiModeRaw" xml:space="preserve"><value>Tekst surowy</value></data>
+  <data name="DemoAnsiLogLabel" xml:space="preserve"><value>Dziennik z kolorami ANSI</value></data>
+  <data name="DemoAnsiCellLabel" xml:space="preserve"><value>Ten sam wiersz w komórce</value></data>
+  <data name="DemoAnsiNoLeaks" xml:space="preserve"><value>nie znaleziono wycieków</value></data>
+  <data name="DemoAnsiSlow" xml:space="preserve"><value>wolne zapytanie, 1,2 s</value></data>
+  <data name="DemoAnsiRefused" xml:space="preserve"><value>połączenie odrzucone</value></data>
+  <data name="DemoAnsiRetry" xml:space="preserve"><value>ponowna próba za 5 s</value></data>
   <data name="DemoChartChartTitle" xml:space="preserve"><value>Sprawy złożone w poszczególnych kwartałach</value></data>
   <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Kwartał</value></data>
   <data name="DemoChartAxisCases" xml:space="preserve"><value>Sprawy</value></data>

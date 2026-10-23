@@ -40,6 +40,16 @@
 <OmniLogViewer Lines="LogLines" Label="@Text["DemoDataListLog"]" ShowLevels="true"
                ShowLevelFilter="true" ShowSearch="true" Height="14rem" />
 
+@* Séquences ANSI : la ligne reste écrite telle quelle, seul l'affichage change. Render dessine les couleurs et le
+   gras, Hide retire les codes sans rien dessiner, Raw montre la ligne brute ; la recherche porte sur le texte affiché.
+   OmniAnsiText fait de même hors d'un journal, pour une cellule de grille. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniSelectBar TValue="OmniAnsiMode" Id="demo-ansi-mode" Label="@Text["DemoAnsiModeLabel"]" Options="AnsiModes" @bind-Value="AnsiMode" />
+    <OmniLogViewer Id="demo-ansi-log" Lines="AnsiLines" AnsiMode="AnsiMode" Label="@Text["DemoAnsiLogLabel"]"
+                   ShowSearch="true" ShowTimestamps="false" Height="11rem" />
+    <p>@Text["DemoAnsiCellLabel"] : <OmniAnsiText Id="demo-ansi-text" Text="@AnsiLines[0].Text" Mode="AnsiMode" /></p>
+</OmniStack>
+
 <OmniKanban TItem="GridRow" Columns="WorkflowColumns" Items="KanbanRows"
             ColumnOf="WorkflowColumnOf" KeyOf="WorkflowKeyOf" ItemLabel="WorkflowLabelOf" OnItemMove="MoveWorkflowRow"
             Label="@Text["DemoDataListKanban"]">

@@ -653,6 +653,16 @@
   <data name="DemoDataListLogMissing" xml:space="preserve"><value>Chýbajúci dokument</value></data>
   <data name="DemoDataListLogRejected" xml:space="preserve"><value>Schválenie zamietnuté</value></data>
   <data name="DemoDataListLogAborted" xml:space="preserve"><value>Spracovanie prerušené</value></data>
+  <data name="DemoAnsiModeLabel" xml:space="preserve"><value>Escape sekvencie</value></data>
+  <data name="DemoAnsiModeRender" xml:space="preserve"><value>Zobraziť farby</value></data>
+  <data name="DemoAnsiModeHide" xml:space="preserve"><value>Skryť kódy</value></data>
+  <data name="DemoAnsiModeRaw" xml:space="preserve"><value>Holý text</value></data>
+  <data name="DemoAnsiLogLabel" xml:space="preserve"><value>Záznam s farbami ANSI</value></data>
+  <data name="DemoAnsiCellLabel" xml:space="preserve"><value>Rovnaký riadok v bunke</value></data>
+  <data name="DemoAnsiNoLeaks" xml:space="preserve"><value>nenašli sa žiadne úniky</value></data>
+  <data name="DemoAnsiSlow" xml:space="preserve"><value>pomalý dotaz, 1,2 s</value></data>
+  <data name="DemoAnsiRefused" xml:space="preserve"><value>pripojenie odmietnuté</value></data>
+  <data name="DemoAnsiRetry" xml:space="preserve"><value>ďalší pokus o 5 s</value></data>
   <data name="DemoChartChartTitle" xml:space="preserve"><value>Podané spisy podľa štvrťrokov</value></data>
   <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Štvrťrok</value></data>
   <data name="DemoChartAxisCases" xml:space="preserve"><value>Spisy</value></data>

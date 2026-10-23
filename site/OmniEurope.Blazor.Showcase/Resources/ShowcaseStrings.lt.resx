@@ -653,6 +653,16 @@
   <data name="DemoDataListLogMissing" xml:space="preserve"><value>Trūksta dokumento</value></data>
   <data name="DemoDataListLogRejected" xml:space="preserve"><value>Patvirtinimas atmestas</value></data>
   <data name="DemoDataListLogAborted" xml:space="preserve"><value>Apdorojimas nutrauktas</value></data>
+  <data name="DemoAnsiModeLabel" xml:space="preserve"><value>Pabėgimo sekos</value></data>
+  <data name="DemoAnsiModeRender" xml:space="preserve"><value>Rodyti spalvas</value></data>
+  <data name="DemoAnsiModeHide" xml:space="preserve"><value>Slėpti kodus</value></data>
+  <data name="DemoAnsiModeRaw" xml:space="preserve"><value>Neapdorotas tekstas</value></data>
+  <data name="DemoAnsiLogLabel" xml:space="preserve"><value>Žurnalas su ANSI spalvomis</value></data>
+  <data name="DemoAnsiCellLabel" xml:space="preserve"><value>Ta pati eilutė langelyje</value></data>
+  <data name="DemoAnsiNoLeaks" xml:space="preserve"><value>nutekėjimų nerasta</value></data>
+  <data name="DemoAnsiSlow" xml:space="preserve"><value>lėta užklausa, 1,2 s</value></data>
+  <data name="DemoAnsiRefused" xml:space="preserve"><value>ryšys atmestas</value></data>
+  <data name="DemoAnsiRetry" xml:space="preserve"><value>kartojama po 5 s</value></data>
   <data name="DemoChartChartTitle" xml:space="preserve"><value>Pateiktos bylos pagal ketvirtį</value></data>
   <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Ketvirtis</value></data>
   <data name="DemoChartAxisCases" xml:space="preserve"><value>Bylos</value></data>

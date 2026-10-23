@@ -653,6 +653,16 @@
   <data name="DemoDataListLogMissing" xml:space="preserve"><value>Document lipsă</value></data>
   <data name="DemoDataListLogRejected" xml:space="preserve"><value>Validare refuzată</value></data>
   <data name="DemoDataListLogAborted" xml:space="preserve"><value>Procesare întreruptă</value></data>
+  <data name="DemoAnsiModeLabel" xml:space="preserve"><value>Secvențe de evadare</value></data>
+  <data name="DemoAnsiModeRender" xml:space="preserve"><value>Afișează culorile</value></data>
+  <data name="DemoAnsiModeHide" xml:space="preserve"><value>Ascunde codurile</value></data>
+  <data name="DemoAnsiModeRaw" xml:space="preserve"><value>Text brut</value></data>
+  <data name="DemoAnsiLogLabel" xml:space="preserve"><value>Jurnal cu culori ANSI</value></data>
+  <data name="DemoAnsiCellLabel" xml:space="preserve"><value>Același rând într-o celulă</value></data>
+  <data name="DemoAnsiNoLeaks" xml:space="preserve"><value>nu s-au găsit scurgeri</value></data>
+  <data name="DemoAnsiSlow" xml:space="preserve"><value>interogare lentă, 1,2 s</value></data>
+  <data name="DemoAnsiRefused" xml:space="preserve"><value>conexiune refuzată</value></data>
+  <data name="DemoAnsiRetry" xml:space="preserve"><value>se reîncearcă în 5 s</value></data>
   <data name="DemoChartChartTitle" xml:space="preserve"><value>Dosare depuse pe trimestru</value></data>
   <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Trimestru</value></data>
   <data name="DemoChartAxisCases" xml:space="preserve"><value>Dosare</value></data>

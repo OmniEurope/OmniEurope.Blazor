@@ -653,6 +653,16 @@
   <data name="DemoDataListLogMissing" xml:space="preserve"><value>Ontbrekend document</value></data>
   <data name="DemoDataListLogRejected" xml:space="preserve"><value>Validatie geweigerd</value></data>
   <data name="DemoDataListLogAborted" xml:space="preserve"><value>Verwerking afgebroken</value></data>
+  <data name="DemoAnsiModeLabel" xml:space="preserve"><value>Escapesequenties</value></data>
+  <data name="DemoAnsiModeRender" xml:space="preserve"><value>Kleuren tonen</value></data>
+  <data name="DemoAnsiModeHide" xml:space="preserve"><value>Codes verbergen</value></data>
+  <data name="DemoAnsiModeRaw" xml:space="preserve"><value>Ruwe tekst</value></data>
+  <data name="DemoAnsiLogLabel" xml:space="preserve"><value>Logboek met ANSI-kleuren</value></data>
+  <data name="DemoAnsiCellLabel" xml:space="preserve"><value>Dezelfde regel in een cel</value></data>
+  <data name="DemoAnsiNoLeaks" xml:space="preserve"><value>geen lekken gevonden</value></data>
+  <data name="DemoAnsiSlow" xml:space="preserve"><value>trage query, 1,2 s</value></data>
+  <data name="DemoAnsiRefused" xml:space="preserve"><value>verbinding geweigerd</value></data>
+  <data name="DemoAnsiRetry" xml:space="preserve"><value>opnieuw proberen over 5 s</value></data>
   <data name="DemoChartChartTitle" xml:space="preserve"><value>Ingediende dossiers per kwartaal</value></data>
   <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Kwartaal</value></data>
   <data name="DemoChartAxisCases" xml:space="preserve"><value>Dossiers</value></data>

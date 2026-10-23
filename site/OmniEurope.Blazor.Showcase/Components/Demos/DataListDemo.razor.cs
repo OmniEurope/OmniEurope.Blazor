@@ -20,6 +20,12 @@ public partial class DataListDemo
 
     private IReadOnlyList<OmniLogLine> LogLines { get; set; } = [];
 
+    private IReadOnlyList<OmniLogLine> AnsiLines { get; set; } = [];
+
+    private IReadOnlyList<OmniOption<OmniAnsiMode>> AnsiModes { get; set; } = [];
+
+    private OmniAnsiMode AnsiMode { get; set; } = OmniAnsiMode.Render;
+
     private Dictionary<string, string> WorkflowPositions { get; } = new()
     {
         ["D-2401"] = "new", ["D-2402"] = "review", ["D-2403"] = "done"
@@ -60,6 +66,21 @@ public partial class DataListDemo
             new(Text["DemoDataListLogMissing"], OmniLogLevel.Warning),
             new(Text["DemoDataListLogRejected"], OmniLogLevel.Error),
             new(Text["DemoDataListLogAborted"], OmniLogLevel.Critical)
+        ];
+        AnsiModes =
+        [
+            new(OmniAnsiMode.Render, Text["DemoAnsiModeRender"]),
+            new(OmniAnsiMode.Hide, Text["DemoAnsiModeHide"]),
+            new(OmniAnsiMode.Raw, Text["DemoAnsiModeRaw"])
+        ];
+
+        // Lines as a program writes them to a terminal: the escape character (U+001B) opens each sequence.
+        AnsiLines =
+        [
+            new($"\u001b[90m3:27PM\u001b[0m \u001b[32mINF\u001b[0m \u001b[1m{Text["DemoAnsiNoLeaks"]}\u001b[0m"),
+            new($"\u001b[90m3:27PM\u001b[0m \u001b[33mWRN\u001b[0m \u001b[3m{Text["DemoAnsiSlow"]}\u001b[0m", OmniLogLevel.Warning),
+            new($"\u001b[90m3:28PM\u001b[0m \u001b[1;31mERR\u001b[0m \u001b[31m{Text["DemoAnsiRefused"]}\u001b[0m \u001b[2;4m{Text["DemoAnsiRetry"]}\u001b[0m", OmniLogLevel.Error),
+            new($"\u001b[2K\u001b[38;5;208m3:28PM\u001b[0m \u001b[38;2;0;153;204mDBG\u001b[0m \u001b[97;44m {Text["DemoAnsiNoLeaks"]} \u001b[0m", OmniLogLevel.Debug)
         ];
     }
 

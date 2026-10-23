@@ -653,6 +653,16 @@
   <data name="DemoDataListLogMissing" xml:space="preserve"><value>Manjka dokument</value></data>
   <data name="DemoDataListLogRejected" xml:space="preserve"><value>Potrditev je zavrnjena</value></data>
   <data name="DemoDataListLogAborted" xml:space="preserve"><value>Obdelava je prekinjena</value></data>
+  <data name="DemoAnsiModeLabel" xml:space="preserve"><value>Ubežna zaporedja</value></data>
+  <data name="DemoAnsiModeRender" xml:space="preserve"><value>Prikaži barve</value></data>
+  <data name="DemoAnsiModeHide" xml:space="preserve"><value>Skrij kode</value></data>
+  <data name="DemoAnsiModeRaw" xml:space="preserve"><value>Neobdelano besedilo</value></data>
+  <data name="DemoAnsiLogLabel" xml:space="preserve"><value>Dnevnik z barvami ANSI</value></data>
+  <data name="DemoAnsiCellLabel" xml:space="preserve"><value>Ista vrstica v celici</value></data>
+  <data name="DemoAnsiNoLeaks" xml:space="preserve"><value>puščanja niso bila najdena</value></data>
+  <data name="DemoAnsiSlow" xml:space="preserve"><value>počasna poizvedba, 1,2 s</value></data>
+  <data name="DemoAnsiRefused" xml:space="preserve"><value>povezava zavrnjena</value></data>
+  <data name="DemoAnsiRetry" xml:space="preserve"><value>ponoven poskus čez 5 s</value></data>
   <data name="DemoChartChartTitle" xml:space="preserve"><value>Vložene zadeve po četrtletjih</value></data>
   <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Četrtletje</value></data>
   <data name="DemoChartAxisCases" xml:space="preserve"><value>Zadeve</value></data>

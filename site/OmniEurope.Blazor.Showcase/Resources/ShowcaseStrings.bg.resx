@@ -653,6 +653,16 @@
   <data name="DemoDataListLogMissing" xml:space="preserve"><value>Липсващ документ</value></data>
   <data name="DemoDataListLogRejected" xml:space="preserve"><value>Одобрението е отказано</value></data>
   <data name="DemoDataListLogAborted" xml:space="preserve"><value>Обработката е прекъсната</value></data>
+  <data name="DemoAnsiModeLabel" xml:space="preserve"><value>Escape последователности</value></data>
+  <data name="DemoAnsiModeRender" xml:space="preserve"><value>Показване на цветовете</value></data>
+  <data name="DemoAnsiModeHide" xml:space="preserve"><value>Скриване на кодовете</value></data>
+  <data name="DemoAnsiModeRaw" xml:space="preserve"><value>Суров текст</value></data>
+  <data name="DemoAnsiLogLabel" xml:space="preserve"><value>Дневник с ANSI цветове</value></data>
+  <data name="DemoAnsiCellLabel" xml:space="preserve"><value>Същият ред в клетка</value></data>
+  <data name="DemoAnsiNoLeaks" xml:space="preserve"><value>не са открити течове</value></data>
+  <data name="DemoAnsiSlow" xml:space="preserve"><value>бавна заявка, 1,2 с</value></data>
+  <data name="DemoAnsiRefused" xml:space="preserve"><value>връзката е отказана</value></data>
+  <data name="DemoAnsiRetry" xml:space="preserve"><value>нов опит след 5 с</value></data>
   <data name="DemoChartChartTitle" xml:space="preserve"><value>Подадени дела по тримесечия</value></data>
   <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Тримесечие</value></data>
   <data name="DemoChartAxisCases" xml:space="preserve"><value>Дела</value></data>

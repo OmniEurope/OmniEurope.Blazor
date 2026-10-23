@@ -653,6 +653,16 @@
   <data name="DemoDataListLogMissing" xml:space="preserve"><value>Λείπει δικαιολογητικό</value></data>
   <data name="DemoDataListLogRejected" xml:space="preserve"><value>Η επικύρωση απορρίφθηκε</value></data>
   <data name="DemoDataListLogAborted" xml:space="preserve"><value>Η επεξεργασία διακόπηκε</value></data>
+  <data name="DemoAnsiModeLabel" xml:space="preserve"><value>Ακολουθίες διαφυγής</value></data>
+  <data name="DemoAnsiModeRender" xml:space="preserve"><value>Εμφάνιση χρωμάτων</value></data>
+  <data name="DemoAnsiModeHide" xml:space="preserve"><value>Απόκρυψη κωδικών</value></data>
+  <data name="DemoAnsiModeRaw" xml:space="preserve"><value>Ακατέργαστο κείμενο</value></data>
+  <data name="DemoAnsiLogLabel" xml:space="preserve"><value>Αρχείο καταγραφής με χρώματα ANSI</value></data>
+  <data name="DemoAnsiCellLabel" xml:space="preserve"><value>Η ίδια γραμμή σε κελί</value></data>
+  <data name="DemoAnsiNoLeaks" xml:space="preserve"><value>δεν βρέθηκαν διαρροές</value></data>
+  <data name="DemoAnsiSlow" xml:space="preserve"><value>αργό ερώτημα, 1,2 δ</value></data>
+  <data name="DemoAnsiRefused" xml:space="preserve"><value>η σύνδεση απορρίφθηκε</value></data>
+  <data name="DemoAnsiRetry" xml:space="preserve"><value>νέα προσπάθεια σε 5 δ</value></data>
   <data name="DemoChartChartTitle" xml:space="preserve"><value>Φάκελοι που κατατέθηκαν ανά τρίμηνο</value></data>
   <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Τρίμηνο</value></data>
   <data name="DemoChartAxisCases" xml:space="preserve"><value>Φάκελοι</value></data>

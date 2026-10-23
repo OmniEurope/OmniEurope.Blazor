@@ -44,6 +44,7 @@ public partial class OmniLogViewer : IAsyncDisposable
     private OmniLogLine? _observedLast;
     private OmniLogLevel? _filteredLevel;
     private string? _searchedText;
+    private OmniAnsiMode _searchedMode = OmniAnsiMode.Render;
 
     private bool _following = true;
     private bool _observedFollow = true;
@@ -146,6 +147,17 @@ public partial class OmniLogViewer : IAsyncDisposable
     [Parameter]
     public string? SearchPlaceholder { get; set; }
 
+    /// <summary>
+    /// What a line does with the ANSI escape sequences it holds (<c>ESC [ 32 m</c>): <see cref="OmniAnsiMode.Render"/>
+    /// (the default) draws their colours, bold, faint, italic and underline and removes them from the text,
+    /// <see cref="OmniAnsiMode.Hide"/> removes them without drawing anything, <see cref="OmniAnsiMode.Raw"/> shows the line as written.
+    /// The lines are never changed: the search, its marks and its counter run on the displayed text (without the
+    /// sequences in <c>Render</c> and <c>Hide</c>), the line numbers count lines as before, and a host that exports the
+    /// log exports <see cref="OmniLogLine.Text"/> as it stored it. See <see cref="OmniAnsi"/> for what is recognised.
+    /// </summary>
+    [Parameter]
+    public OmniAnsiMode AnsiMode { get; set; } = OmniAnsiMode.Render;
+
     /// <summary>What an empty log says; the localized "no line yet" when empty.</summary>
     [Parameter]
     public string? EmptyText { get; set; }
@@ -231,7 +243,7 @@ public partial class OmniLogViewer : IAsyncDisposable
     {
         var appended = ReferenceEquals(_observedLines, Lines) || _observedLines is null || IsAppendOf(Lines);
         var filterChanged = _filteredLevel != _minimumLevel;
-        var searchChanged = !string.Equals(_searchedText, _search, StringComparison.Ordinal);
+        var searchChanged = !string.Equals(_searchedText, _search, StringComparison.Ordinal) || _searchedMode != AnsiMode;
         var previousCount = _observedCount;
 
         // Lines that arrive while the reader is away from the tail are counted on the jump button.
@@ -275,6 +287,7 @@ public partial class OmniLogViewer : IAsyncDisposable
         if (searchChanged)
         {
             _searchedText = _search;
+            _searchedMode = AnsiMode;
             _matches.Clear();
             _matchCursor = -1;
             FindMatches(0);
@@ -306,7 +319,7 @@ public partial class OmniLogViewer : IAsyncDisposable
         var needle = _search!.Trim();
         for (var position = fromPosition; position < _visible.Count; position++)
         {
-            if (compare.IndexOf(Lines[_visible[position]].Text, needle, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace) >= 0)
+            if (compare.IndexOf(OmniAnsiMarkup.DisplayText(Lines[_visible[position]].Text, AnsiMode), needle, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace) >= 0)
             {
                 _matches.Add(position);
             }

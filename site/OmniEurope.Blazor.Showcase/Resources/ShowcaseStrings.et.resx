@@ -653,6 +653,16 @@
   <data name="DemoDataListLogMissing" xml:space="preserve"><value>Dokument puudub</value></data>
   <data name="DemoDataListLogRejected" xml:space="preserve"><value>Kinnitamine keelatud</value></data>
   <data name="DemoDataListLogAborted" xml:space="preserve"><value>Töötlemine katkestatud</value></data>
+  <data name="DemoAnsiModeLabel" xml:space="preserve"><value>Paojadad</value></data>
+  <data name="DemoAnsiModeRender" xml:space="preserve"><value>Näita värve</value></data>
+  <data name="DemoAnsiModeHide" xml:space="preserve"><value>Peida koodid</value></data>
+  <data name="DemoAnsiModeRaw" xml:space="preserve"><value>Toortekst</value></data>
+  <data name="DemoAnsiLogLabel" xml:space="preserve"><value>ANSI-värvidega logi</value></data>
+  <data name="DemoAnsiCellLabel" xml:space="preserve"><value>Sama rida lahtris</value></data>
+  <data name="DemoAnsiNoLeaks" xml:space="preserve"><value>lekkeid ei leitud</value></data>
+  <data name="DemoAnsiSlow" xml:space="preserve"><value>aeglane päring, 1,2 s</value></data>
+  <data name="DemoAnsiRefused" xml:space="preserve"><value>ühendus lükati tagasi</value></data>
+  <data name="DemoAnsiRetry" xml:space="preserve"><value>uus katse 5 s pärast</value></data>
   <data name="DemoChartChartTitle" xml:space="preserve"><value>Esitatud toimikud kvartalite kaupa</value></data>
   <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Kvartal</value></data>
   <data name="DemoChartAxisCases" xml:space="preserve"><value>Toimikud</value></data>

@@ -82,26 +82,7 @@
                         {
                             <span class="omni-visually-hidden">@Localize("LogViewerLevelPrefix", LevelName(line.Level))</span>
                         }
-                        <span class="omni-log-viewer__text">
-                            @if (HasSearch)
-                            {
-                                @foreach (var segment in OmniTextMatch.Split(line.Text, CurrentSearch))
-                                {
-                                    if (segment.Matched)
-                                    {
-                                        <mark class="omni-log-viewer__match">@segment.Text</mark>
-                                    }
-                                    else
-                                    {
-                                        @segment.Text
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                @line.Text
-                            }
-                        </span>
+                        <span class="omni-log-viewer__text">@OmniAnsiMarkup.Fragment(line.Text, AnsiMode, HasSearch ? CurrentSearch : null)</span>
                     </div>
                 }
                 <div class="omni-log-viewer__spacer" data-omni-spacer="bottom" aria-hidden="true"></div>
