@@ -1,9 +1,9 @@
+using System.Globalization;
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using OmniEurope.Blazor.Components;
-using System.Globalization;
 
 namespace OmniEurope.Blazor.Tests;
 
