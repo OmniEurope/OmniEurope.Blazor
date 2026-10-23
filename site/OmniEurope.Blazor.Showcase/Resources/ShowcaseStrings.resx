@@ -1629,4 +1629,14 @@
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Dossiers modifiables : cliquez une cellule pour modifier sa ligne</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Un simple clic n'importe où dans une cellule, même vide, ouvre la ligne sur le champ de cette cellule ; le bouton Détails garde son propre clic. Tab atteint chaque cellule, et Entrée ou Espace la modifie.</value></data>
   <data name="DemoButtonsCopies" xml:space="preserve"><value>Copies acceptées : {0}.</value></data>
+  <data name="DemoPagesFactSource" xml:space="preserve"><value>Source</value></data>
+  <data name="DemoPagesFactRun" xml:space="preserve"><value>Exécution</value></data>
+  <data name="DemoPagesFactTimeline" xml:space="preserve"><value>Chronologie</value></data>
+  <data name="DemoPagesFactRepository" xml:space="preserve"><value>Dépôt</value></data>
+  <data name="DemoPagesFactBranch" xml:space="preserve"><value>Branche</value></data>
+  <data name="DemoPagesFactStatus" xml:space="preserve"><value>Statut</value></data>
+  <data name="DemoPagesFactSucceeded" xml:space="preserve"><value>Réussi</value></data>
+  <data name="DemoPagesFactSteps" xml:space="preserve"><value>Étapes</value></data>
+  <data name="DemoPagesFactStarted" xml:space="preserve"><value>Début</value></data>
+  <data name="DemoPagesFactDuration" xml:space="preserve"><value>Durée</value></data>
 </root>

@@ -1626,4 +1626,14 @@
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Redigerbara ärenden: klicka på en cell för att redigera dess rad</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Ett enda klick var som helst i en cell, även en tom, öppnar raden på den cellens fält; knappen Detaljer behåller sitt eget klick. Tab når varje cell, och Enter eller blanksteg redigerar den.</value></data>
   <data name="DemoButtonsCopies" xml:space="preserve"><value>Godkända kopieringar: {0}.</value></data>
+  <data name="DemoPagesFactSource" xml:space="preserve"><value>Källa</value></data>
+  <data name="DemoPagesFactRun" xml:space="preserve"><value>Körning</value></data>
+  <data name="DemoPagesFactTimeline" xml:space="preserve"><value>Tidslinje</value></data>
+  <data name="DemoPagesFactRepository" xml:space="preserve"><value>Arkiv</value></data>
+  <data name="DemoPagesFactBranch" xml:space="preserve"><value>Gren</value></data>
+  <data name="DemoPagesFactStatus" xml:space="preserve"><value>Status</value></data>
+  <data name="DemoPagesFactSucceeded" xml:space="preserve"><value>Lyckades</value></data>
+  <data name="DemoPagesFactSteps" xml:space="preserve"><value>Steg</value></data>
+  <data name="DemoPagesFactStarted" xml:space="preserve"><value>Start</value></data>
+  <data name="DemoPagesFactDuration" xml:space="preserve"><value>Varaktighet</value></data>
 </root>

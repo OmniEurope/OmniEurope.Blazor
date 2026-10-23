@@ -121,6 +121,54 @@
         </OmniColumn>
     </OmniRow>
 
+    @* Tuiles de faits (OmniFactTile) : un titre, puis des lignes icône, libellé, valeur sur trois colonnes
+       communes, donc alignées d'une ligne à l'autre et d'une tuile à l'autre de la grille. Trois contenus de
+       longueurs différentes dans une même OmniTileGrid : même hauteur, une valeur trop longue est coupée de
+       points de suspension et lue en entier dans l'infobulle. La première porte des valeurs-liens, la deuxième
+       un badge (petit), la troisième est un seul lien (Href), titre aligné au début, une ligne sans icône. *@
+    <OmniTileGrid Id="demo-fact-tile-grid" Columns="3">
+        <OmniFactTile Id="demo-fact-tile-source" Title="@Text["DemoPagesFactSource"]">
+            <Icon><OmniIcon Name="OmniIconName.FolderOpen" /></Icon>
+            <ChildContent>
+                <OmniFactTileRow Term="@Text["DemoPagesFactRepository"]" Href="composants/pages">
+                    <Icon><OmniIcon Name="OmniIconName.Database" /></Icon>
+                    <ChildContent>omni-europe-blazor-showcase-demo</ChildContent>
+                </OmniFactTileRow>
+                <OmniFactTileRow Term="@Text["DemoPagesFactBranch"]" Href="composants/grille">
+                    <Icon><OmniIcon Name="OmniIconName.Graph" /></Icon>
+                    <ChildContent>release/1.9.0-alignement-des-tuiles</ChildContent>
+                </OmniFactTileRow>
+                <OmniFactTileRow Term="Commit">
+                    <Icon><OmniIcon Name="OmniIconName.GitCommit" /></Icon>
+                    <ChildContent>9f3c2a1</ChildContent>
+                </OmniFactTileRow>
+            </ChildContent>
+        </OmniFactTile>
+        <OmniFactTile Id="demo-fact-tile-run" Title="@Text["DemoPagesFactRun"]">
+            <ChildContent>
+                <OmniFactTileRow Term="@Text["DemoPagesFactStatus"]">
+                    <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
+                    <ChildContent><OmniBadge Tone="OmniTone.Success">@Text["DemoPagesFactSucceeded"]</OmniBadge></ChildContent>
+                </OmniFactTileRow>
+                <OmniFactTileRow Term="@Text["DemoPagesFactSteps"]">
+                    <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                    <ChildContent>5 / 5</ChildContent>
+                </OmniFactTileRow>
+            </ChildContent>
+        </OmniFactTile>
+        <OmniFactTile Id="demo-fact-tile-timeline" Title="@Text["DemoPagesFactTimeline"]" TitleAlign="OmniAlignment.Start" Href="composants/pages">
+            <ChildContent>
+                <OmniFactTileRow Term="@Text["DemoPagesFactStarted"]">
+                    <Icon><OmniIcon Name="OmniIconName.CalendarBlank" /></Icon>
+                    <ChildContent>2026-10-23 08:21:07 +02:00 (Europe/Paris)</ChildContent>
+                </OmniFactTileRow>
+                <OmniFactTileRow Term="@Text["DemoPagesFactDuration"]">
+                    <ChildContent>1h44min</ChildContent>
+                </OmniFactTileRow>
+            </ChildContent>
+        </OmniFactTile>
+    </OmniTileGrid>
+
     @* Tuiles de navigation : chacune est un vrai lien, son icône sur un carré à la teinte de son ton ;
        au survol, seule l'ombre change. Elles prennent la hauteur de leur colonne. *@
     <OmniRow Gap="OmniSpacing.Medium">

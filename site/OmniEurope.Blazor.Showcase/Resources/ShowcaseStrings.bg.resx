@@ -1626,4 +1626,14 @@
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Досиета за редактиране: щракнете върху клетка, за да редактирате реда ѝ</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Едно щракване навсякъде в клетка, дори празна, отваря реда върху полето на тази клетка; бутонът „Подробности“ запазва собственото си щракване. С Tab се стига до всяка клетка, а с Enter или интервал тя се редактира.</value></data>
   <data name="DemoButtonsCopies" xml:space="preserve"><value>Приети копирания: {0}.</value></data>
+  <data name="DemoPagesFactSource" xml:space="preserve"><value>Източник</value></data>
+  <data name="DemoPagesFactRun" xml:space="preserve"><value>Изпълнение</value></data>
+  <data name="DemoPagesFactTimeline" xml:space="preserve"><value>Хронология</value></data>
+  <data name="DemoPagesFactRepository" xml:space="preserve"><value>Хранилище</value></data>
+  <data name="DemoPagesFactBranch" xml:space="preserve"><value>Клон</value></data>
+  <data name="DemoPagesFactStatus" xml:space="preserve"><value>Състояние</value></data>
+  <data name="DemoPagesFactSucceeded" xml:space="preserve"><value>Успешно</value></data>
+  <data name="DemoPagesFactSteps" xml:space="preserve"><value>Стъпки</value></data>
+  <data name="DemoPagesFactStarted" xml:space="preserve"><value>Начало</value></data>
+  <data name="DemoPagesFactDuration" xml:space="preserve"><value>Продължителност</value></data>
 </root>

@@ -1626,4 +1626,14 @@
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Redigerbare sager: klik på en celle for at redigere rækken</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Et enkelt klik et vilkårligt sted i en celle, også en tom, åbner rækken på cellens felt; knappen Detaljer beholder sit eget klik. Tab når hver celle, og Enter eller mellemrum redigerer den.</value></data>
   <data name="DemoButtonsCopies" xml:space="preserve"><value>Accepterede kopieringer: {0}.</value></data>
+  <data name="DemoPagesFactSource" xml:space="preserve"><value>Kilde</value></data>
+  <data name="DemoPagesFactRun" xml:space="preserve"><value>Kørsel</value></data>
+  <data name="DemoPagesFactTimeline" xml:space="preserve"><value>Tidslinje</value></data>
+  <data name="DemoPagesFactRepository" xml:space="preserve"><value>Repository</value></data>
+  <data name="DemoPagesFactBranch" xml:space="preserve"><value>Gren</value></data>
+  <data name="DemoPagesFactStatus" xml:space="preserve"><value>Status</value></data>
+  <data name="DemoPagesFactSucceeded" xml:space="preserve"><value>Lykkedes</value></data>
+  <data name="DemoPagesFactSteps" xml:space="preserve"><value>Trin</value></data>
+  <data name="DemoPagesFactStarted" xml:space="preserve"><value>Start</value></data>
+  <data name="DemoPagesFactDuration" xml:space="preserve"><value>Varighed</value></data>
 </root>

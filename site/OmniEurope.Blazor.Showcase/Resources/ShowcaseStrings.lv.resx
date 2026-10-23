@@ -1626,4 +1626,14 @@
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Rediģējamas lietas: noklikšķiniet uz šūnas, lai rediģētu tās rindu</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Viens klikšķis jebkurā šūnas vietā, arī tukšā, atver rindu šīs šūnas laukā; poga Detaļas saglabā savu klikšķi. Tab sasniedz katru šūnu, un Enter vai atstarpe to rediģē.</value></data>
   <data name="DemoButtonsCopies" xml:space="preserve"><value>Pieņemtās kopēšanas: {0}.</value></data>
+  <data name="DemoPagesFactSource" xml:space="preserve"><value>Avots</value></data>
+  <data name="DemoPagesFactRun" xml:space="preserve"><value>Izpilde</value></data>
+  <data name="DemoPagesFactTimeline" xml:space="preserve"><value>Laika josla</value></data>
+  <data name="DemoPagesFactRepository" xml:space="preserve"><value>Krātuve</value></data>
+  <data name="DemoPagesFactBranch" xml:space="preserve"><value>Zars</value></data>
+  <data name="DemoPagesFactStatus" xml:space="preserve"><value>Statuss</value></data>
+  <data name="DemoPagesFactSucceeded" xml:space="preserve"><value>Veiksmīgi</value></data>
+  <data name="DemoPagesFactSteps" xml:space="preserve"><value>Soļi</value></data>
+  <data name="DemoPagesFactStarted" xml:space="preserve"><value>Sākums</value></data>
+  <data name="DemoPagesFactDuration" xml:space="preserve"><value>Ilgums</value></data>
 </root>

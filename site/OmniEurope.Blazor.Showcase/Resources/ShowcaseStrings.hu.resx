@@ -1626,4 +1626,14 @@
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Szerkeszthető ügyek: kattintson egy cellára a sor szerkesztéséhez</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Egyetlen kattintás a cella bármely pontján, üres cellán is, megnyitja a sort annak a cellának a mezőjében; a Részletek gomb megtartja a saját kattintását. A Tab minden cellához eljut, az Enter vagy a szóköz szerkeszti azt.</value></data>
   <data name="DemoButtonsCopies" xml:space="preserve"><value>Elfogadott másolások: {0}.</value></data>
+  <data name="DemoPagesFactSource" xml:space="preserve"><value>Forrás</value></data>
+  <data name="DemoPagesFactRun" xml:space="preserve"><value>Futtatás</value></data>
+  <data name="DemoPagesFactTimeline" xml:space="preserve"><value>Idővonal</value></data>
+  <data name="DemoPagesFactRepository" xml:space="preserve"><value>Tárhely</value></data>
+  <data name="DemoPagesFactBranch" xml:space="preserve"><value>Ág</value></data>
+  <data name="DemoPagesFactStatus" xml:space="preserve"><value>Állapot</value></data>
+  <data name="DemoPagesFactSucceeded" xml:space="preserve"><value>Sikeres</value></data>
+  <data name="DemoPagesFactSteps" xml:space="preserve"><value>Lépések</value></data>
+  <data name="DemoPagesFactStarted" xml:space="preserve"><value>Kezdés</value></data>
+  <data name="DemoPagesFactDuration" xml:space="preserve"><value>Időtartam</value></data>
 </root>

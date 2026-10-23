@@ -1626,4 +1626,14 @@
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Comhaid in-eagarthóireachta: cliceáil ar chill chun a sraith a chur in eagar</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Osclaíonn cliceáil amháin in aon áit i gcill, fiú cill fholamh, an tsraith ar réimse na cille sin; coinníonn an cnaipe Sonraí a chliceáil féin. Sroicheann Tab gach cill, agus cuireann Enter nó Space in eagar í.</value></data>
   <data name="DemoButtonsCopies" xml:space="preserve"><value>Cóipeanna glactha: {0}.</value></data>
+  <data name="DemoPagesFactSource" xml:space="preserve"><value>Foinse</value></data>
+  <data name="DemoPagesFactRun" xml:space="preserve"><value>Rith</value></data>
+  <data name="DemoPagesFactTimeline" xml:space="preserve"><value>Amlíne</value></data>
+  <data name="DemoPagesFactRepository" xml:space="preserve"><value>Stór</value></data>
+  <data name="DemoPagesFactBranch" xml:space="preserve"><value>Brainse</value></data>
+  <data name="DemoPagesFactStatus" xml:space="preserve"><value>Stádas</value></data>
+  <data name="DemoPagesFactSucceeded" xml:space="preserve"><value>D'éirigh leis</value></data>
+  <data name="DemoPagesFactSteps" xml:space="preserve"><value>Céimeanna</value></data>
+  <data name="DemoPagesFactStarted" xml:space="preserve"><value>Tús</value></data>
+  <data name="DemoPagesFactDuration" xml:space="preserve"><value>Fad</value></data>
 </root>

@@ -1626,4 +1626,14 @@
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Επεξεργάσιμοι φάκελοι: κάντε κλικ σε ένα κελί για να επεξεργαστείτε τη γραμμή του</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Ένα απλό κλικ οπουδήποτε σε ένα κελί, ακόμη και κενό, ανοίγει τη γραμμή στο πεδίο αυτού του κελιού· το κουμπί Λεπτομέρειες διατηρεί το δικό του κλικ. Με το Tab φτάνετε σε κάθε κελί και με Enter ή Space το επεξεργάζεστε.</value></data>
   <data name="DemoButtonsCopies" xml:space="preserve"><value>Αντιγραφές που έγιναν δεκτές: {0}.</value></data>
+  <data name="DemoPagesFactSource" xml:space="preserve"><value>Πηγή</value></data>
+  <data name="DemoPagesFactRun" xml:space="preserve"><value>Εκτέλεση</value></data>
+  <data name="DemoPagesFactTimeline" xml:space="preserve"><value>Χρονολόγιο</value></data>
+  <data name="DemoPagesFactRepository" xml:space="preserve"><value>Αποθετήριο</value></data>
+  <data name="DemoPagesFactBranch" xml:space="preserve"><value>Κλάδος</value></data>
+  <data name="DemoPagesFactStatus" xml:space="preserve"><value>Κατάσταση</value></data>
+  <data name="DemoPagesFactSucceeded" xml:space="preserve"><value>Επιτυχία</value></data>
+  <data name="DemoPagesFactSteps" xml:space="preserve"><value>Βήματα</value></data>
+  <data name="DemoPagesFactStarted" xml:space="preserve"><value>Έναρξη</value></data>
+  <data name="DemoPagesFactDuration" xml:space="preserve"><value>Διάρκεια</value></data>
 </root>

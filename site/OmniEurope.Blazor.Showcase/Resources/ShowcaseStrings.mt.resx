@@ -1626,4 +1626,14 @@
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Fajls li jistgħu jiġu editjati: ikklikkja fuq ċellula biex teditja r-ringiela tagħha</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Klikk wieħed f'kull post ta' ċellula, anki waħda vojta, jiftaħ ir-ringiela fuq il-qasam ta' dik iċ-ċellula; il-buttuna Dettalji żżomm il-klikk tagħha stess. Tab jilħaq kull ċellula, u Enter jew Spazju jeditjaha.</value></data>
   <data name="DemoButtonsCopies" xml:space="preserve"><value>Kopji aċċettati: {0}.</value></data>
+  <data name="DemoPagesFactSource" xml:space="preserve"><value>Sors</value></data>
+  <data name="DemoPagesFactRun" xml:space="preserve"><value>Eżekuzzjoni</value></data>
+  <data name="DemoPagesFactTimeline" xml:space="preserve"><value>Kronoloġija</value></data>
+  <data name="DemoPagesFactRepository" xml:space="preserve"><value>Repożitorju</value></data>
+  <data name="DemoPagesFactBranch" xml:space="preserve"><value>Fergħa</value></data>
+  <data name="DemoPagesFactStatus" xml:space="preserve"><value>Status</value></data>
+  <data name="DemoPagesFactSucceeded" xml:space="preserve"><value>Irnexxa</value></data>
+  <data name="DemoPagesFactSteps" xml:space="preserve"><value>Passi</value></data>
+  <data name="DemoPagesFactStarted" xml:space="preserve"><value>Bidu</value></data>
+  <data name="DemoPagesFactDuration" xml:space="preserve"><value>Tul ta' żmien</value></data>
 </root>

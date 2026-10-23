@@ -1626,4 +1626,14 @@
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Bearbeitbare Akten: Zelle anklicken, um die Zeile zu bearbeiten</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Ein einzelner Klick an beliebiger Stelle einer Zelle, auch einer leeren, öffnet die Zeile auf dem Feld dieser Zelle; die Schaltfläche Details behält ihren eigenen Klick. Mit Tab erreicht man jede Zelle, Enter oder Leertaste bearbeitet sie.</value></data>
   <data name="DemoButtonsCopies" xml:space="preserve"><value>Akzeptierte Kopiervorgänge: {0}.</value></data>
+  <data name="DemoPagesFactSource" xml:space="preserve"><value>Quelle</value></data>
+  <data name="DemoPagesFactRun" xml:space="preserve"><value>Ausführung</value></data>
+  <data name="DemoPagesFactTimeline" xml:space="preserve"><value>Zeitverlauf</value></data>
+  <data name="DemoPagesFactRepository" xml:space="preserve"><value>Repository</value></data>
+  <data name="DemoPagesFactBranch" xml:space="preserve"><value>Branch</value></data>
+  <data name="DemoPagesFactStatus" xml:space="preserve"><value>Status</value></data>
+  <data name="DemoPagesFactSucceeded" xml:space="preserve"><value>Erfolgreich</value></data>
+  <data name="DemoPagesFactSteps" xml:space="preserve"><value>Schritte</value></data>
+  <data name="DemoPagesFactStarted" xml:space="preserve"><value>Beginn</value></data>
+  <data name="DemoPagesFactDuration" xml:space="preserve"><value>Dauer</value></data>
 </root>

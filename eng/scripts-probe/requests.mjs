@@ -238,6 +238,85 @@ export async function requestSteps(session, results) {
   await waitFor('le libellé long de la tuile sur une ligne, entier ou coupé avec son titre', tileState);
   step('tuile de statistique : libellé sur une ligne, réduit ou coupé avec son texte entier en titre');
 
+  // 7b. The fact tile (OmniFactTile, request of 2026-10-23): three tiles of contents of different lengths in
+  // one tile grid have the same height, and their icons, labels and values sit on the same verticals, within a
+  // tile and from one tile to the next (the offset from the tile's left edge is the same: side by side the
+  // tiles are not at the same x, stacked on a phone they are). Nothing overflows: the tile, its rows block and
+  // each row hold their content (scrollWidth <= clientWidth), and every cell, title and row lies inside the
+  // tile. A value cell is the exception to scrollWidth: its text cut by the ellipsis is the cut itself, so the
+  // check on the cells is their rectangles, and the cut is proved by a value that is cut and read whole in the
+  // package tooltip. At 1280 and 375 px, at the default text size and at text size 10 (the level the appearance
+  // window writes on the root, data-oe-text-size).
+  await session.visit('/composants/pages', '#demo-fact-tile-timeline');
+  const factTiles = `(() => {
+    const grid = document.getElementById('demo-fact-tile-grid');
+    const tiles = [...grid.children];
+    const problems = [];
+    const near = (a, b) => Math.abs(a - b) <= 1;
+    if (tiles.length !== 3 || !tiles.every(tile => tile.classList.contains('omni-fact-tile'))) problems.push('les trois tuiles de faits ne sont pas les enfants directs de la grille');
+    const heights = tiles.map(tile => tile.getBoundingClientRect().height);
+    if (Math.max(...heights) - Math.min(...heights) > 1) problems.push('hauteurs inégales ' + heights.map(height => height.toFixed(1)).join(' / '));
+    const columns = { icon: [], label: [], value: [] };
+    for (const tile of tiles) {
+      const frame = tile.getBoundingClientRect();
+      const inside = (element, name) => {
+        const box = element.getBoundingClientRect();
+        if (box.left < frame.left - 1 || box.right > frame.right + 1 || box.top < frame.top - 1 || box.bottom > frame.bottom + 1) problems.push(name + ' sort de sa tuile ' + tile.id);
+      };
+      for (const holder of [tile, tile.querySelector('.omni-fact-tile__rows'), ...tile.querySelectorAll('.omni-fact-tile__row')]) {
+        if (holder.scrollWidth > holder.clientWidth + 1) problems.push(holder.className + ' déborde (' + holder.scrollWidth + ' > ' + holder.clientWidth + ') dans ' + tile.id);
+      }
+      inside(tile.querySelector('.omni-fact-tile__title'), 'le titre');
+      for (const row of tile.querySelectorAll('.omni-fact-tile__row')) {
+        inside(row, 'une ligne');
+        for (const name of ['icon', 'label', 'value']) {
+          const cell = row.querySelector('.omni-fact-tile__' + name);
+          inside(cell, 'la cellule ' + name);
+          columns[name].push({ offset: cell.getBoundingClientRect().left - frame.left, tile: tile.id });
+        }
+      }
+    }
+    for (const [name, cells] of Object.entries(columns)) {
+      if (cells.length < 6 || !cells.every(cell => near(cell.offset, cells[0].offset))) problems.push('les cellules ' + name + ' ne sont pas sur une même verticale : ' + cells.map(cell => cell.offset.toFixed(1)).join(' / '));
+    }
+    const cut = [...grid.querySelectorAll('.omni-fact-tile__value')].filter(value => value.scrollWidth > value.clientWidth + 1).length;
+    return JSON.stringify({ problems, cut, heights, columns: Object.fromEntries(Object.entries(columns).map(([name, cells]) => [name, cells.map(cell => Math.round(cell.offset * 10) / 10)])) });
+  })()`;
+  const textSizeBefore = await evaluate("document.documentElement.dataset.oeTextSize ?? ''");
+  for (const width of [1280, 375]) {
+    await send('Emulation.setDeviceMetricsOverride', { width, height: width < 600 ? 812 : 900, deviceScaleFactor: 1, mobile: width < 600 });
+    await pause(300);
+    for (const level of [textSizeBefore || '5', '10']) {
+      await evaluate(`document.documentElement.dataset.oeTextSize = ${JSON.stringify(level)}`);
+      await waitFor(`le texte au niveau ${level}`, `document.documentElement.dataset.oeTextSize === ${JSON.stringify(level)}`);
+      await pause(200);
+      const measured = JSON.parse(await evaluate(factTiles));
+      check(measured.problems.length === 0, `Tuiles de faits à ${width} px, texte ${level} : ${measured.problems.join(' | ')}`);
+      check(measured.cut >= 1, `Aucune valeur coupée à ${width} px, texte ${level} : la coupe par points de suspension n'est pas exercée (${JSON.stringify(measured)}).`);
+    }
+  }
+  if (textSizeBefore === '') await evaluate('delete document.documentElement.dataset.oeTextSize');
+  else await evaluate(`document.documentElement.dataset.oeTextSize = ${JSON.stringify(textSizeBefore)}`);
+  await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
+  await pause(300);
+  // A cut value is read whole in the package tooltip. The tile turns the tooltips on after its first render, a
+  // script round trip: the pointer leaves and comes back until the box shows.
+  const longValue = '2026-10-23 08:21:07 +02:00 (Europe/Paris)';
+  const longValueCut = await evaluate("(() => { const value = document.querySelector('#demo-fact-tile-timeline .omni-fact-tile__value'); return value.scrollWidth > value.clientWidth + 1 && value.textContent.trim(); })()");
+  check(longValueCut === longValue, `La valeur longue de la tuile n'est pas coupée à 1280 px : ${longValueCut}`);
+  const tipShows = "document.querySelector('.omni-title-tooltip.omni-title-tooltip--visible')?.textContent.trim()";
+  let tipText = '';
+  for (let attempt = 0; attempt < 10 && tipText !== longValue; attempt++) {
+    await mouse('mouseMoved', { x: 5, y: 5 }, { button: 'none' });
+    await pause(150);
+    await hover('#demo-fact-tile-timeline .omni-fact-tile__value');
+    await pause(900);
+    tipText = (await evaluate(tipShows)) ?? '';
+  }
+  check(tipText === longValue, `La valeur coupée n'est pas lue en entier dans l'infobulle : « ${tipText} ».`);
+  await mouse('mouseMoved', { x: 5, y: 5 }, { button: 'none' });
+  step('tuiles de faits : même hauteur, icônes, libellés et valeurs sur les mêmes verticales, rien ne déborde à 1280 et 375 px, texte par défaut et 10, valeur coupée lue en bulle');
+
   // 8. FillAvailableHeight in a preview box that scrolls itself (request of 2026-10-12): with settings
   // taller than the visible part of the box above it, nothing is left to the grid, which drew 0px, its
   // frame 2px, every row cut. In both scroll modes and at 390 and 1280 px, the grid keeps its floor
