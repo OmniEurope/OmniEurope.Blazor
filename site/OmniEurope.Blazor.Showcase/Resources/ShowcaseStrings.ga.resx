@@ -1625,4 +1625,5 @@
   <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Coinníonn colúin chaola a dteideal iomlán</value></data>
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Comhaid in-eagarthóireachta: cliceáil ar chill chun a sraith a chur in eagar</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Osclaíonn cliceáil amháin in aon áit i gcill, fiú cill fholamh, an tsraith ar réimse na cille sin; coinníonn an cnaipe Sonraí a chliceáil féin. Sroicheann Tab gach cill, agus cuireann Enter nó Space in eagar í.</value></data>
+  <data name="DemoButtonsCopies" xml:space="preserve"><value>Cóipeanna glactha: {0}.</value></data>
 </root>

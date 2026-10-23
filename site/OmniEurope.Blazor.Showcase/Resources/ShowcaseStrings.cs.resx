@@ -1625,4 +1625,5 @@
   <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Úzké sloupce si ponechají celý nadpis</value></data>
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Upravitelné spisy: kliknutím na buňku upravíte její řádek</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Jediné kliknutí kamkoli do buňky, i prázdné, otevře řádek na poli této buňky; tlačítko Podrobnosti si ponechá vlastní kliknutí. Klávesa Tab dojde na každou buňku a Enter nebo mezerník ji upraví.</value></data>
+  <data name="DemoButtonsCopies" xml:space="preserve"><value>Přijatá kopírování: {0}.</value></data>
 </root>

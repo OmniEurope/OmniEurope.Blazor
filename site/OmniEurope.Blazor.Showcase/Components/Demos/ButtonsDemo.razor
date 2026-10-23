@@ -62,6 +62,14 @@
         <OmniSplitButton Text="@Text["DemoButtonsDelete"]" Variant="OmniButtonVariant.Danger" OnClick="@(() => Count++)"><Icon><OmniIcon Name="OmniIconName.Delete" /></Icon></OmniSplitButton>
     </OmniStack>
 
+    @* Bouton de copie : un texte fixe, ou un texte calculé au clic (la fabrique). Le résultat est annoncé
+       dans une zone polie à côté du bouton ; OnCopy dit si le navigateur a accepté. *@
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true" Align="OmniAlignment.Center">
+        <OmniCopyButton Id="demo-copy" Text="@CopySample" OnCopy="OnCopied" />
+        <OmniCopyButton Id="demo-copy-factory" Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small" TextFactory="BuildCopySampleAsync" OnCopy="OnCopied" />
+        <span id="demo-copy-count">@Text["DemoButtonsCopies", Copies]</span>
+    </OmniStack>
+
     @* Dans un formulaire, le type décide de ce que le bouton déclenche. *@
     <EditForm Model="this" OnValidSubmit="SendAsync">
         <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true">

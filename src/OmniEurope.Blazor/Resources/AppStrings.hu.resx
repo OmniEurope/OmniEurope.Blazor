@@ -723,4 +723,5 @@
   <data name="MailTemplateEditorBannerWarning" xml:space="preserve"><value>Figyelmeztetés</value></data>
   <data name="MailTemplateEditorBannerDanger" xml:space="preserve"><value>Veszély</value></data>
   <data name="MailTemplateEditorButton" xml:space="preserve"><value>Gomb: {0}</value></data>
+  <data name="CopyButtonCopied" xml:space="preserve"><value>Másolva</value></data>
 </root>

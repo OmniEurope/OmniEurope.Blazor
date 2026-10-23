@@ -723,4 +723,5 @@
   <data name="MailTemplateEditorBannerWarning" xml:space="preserve"><value>Ostrzeżenie</value></data>
   <data name="MailTemplateEditorBannerDanger" xml:space="preserve"><value>Niebezpieczeństwo</value></data>
   <data name="MailTemplateEditorButton" xml:space="preserve"><value>Przycisk: {0}</value></data>
+  <data name="CopyButtonCopied" xml:space="preserve"><value>Skopiowano</value></data>
 </root>

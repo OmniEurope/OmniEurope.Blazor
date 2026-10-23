@@ -723,4 +723,5 @@
   <data name="MailTemplateEditorBannerWarning" xml:space="preserve"><value>Προειδοποίηση</value></data>
   <data name="MailTemplateEditorBannerDanger" xml:space="preserve"><value>Κίνδυνος</value></data>
   <data name="MailTemplateEditorButton" xml:space="preserve"><value>Κουμπί: {0}</value></data>
+  <data name="CopyButtonCopied" xml:space="preserve"><value>Αντιγράφηκε</value></data>
 </root>

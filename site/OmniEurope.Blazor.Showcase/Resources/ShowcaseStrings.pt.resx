@@ -1625,4 +1625,5 @@
   <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>As colunas estreitas mantêm o título completo</value></data>
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Processos editáveis: clique numa célula para editar a respetiva linha</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Um único clique em qualquer ponto de uma célula, mesmo vazia, abre a linha no campo dessa célula; o botão Detalhes mantém o seu próprio clique. O Tab chega a cada célula, e Enter ou Espaço edita-a.</value></data>
+  <data name="DemoButtonsCopies" xml:space="preserve"><value>Cópias aceitas: {0}.</value></data>
 </root>

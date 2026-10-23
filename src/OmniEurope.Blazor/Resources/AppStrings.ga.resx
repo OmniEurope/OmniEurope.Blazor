@@ -723,4 +723,5 @@
   <data name="MailTemplateEditorBannerWarning" xml:space="preserve"><value>Rabhadh</value></data>
   <data name="MailTemplateEditorBannerDanger" xml:space="preserve"><value>Contúirt</value></data>
   <data name="MailTemplateEditorButton" xml:space="preserve"><value>Cnaipe: {0}</value></data>
+  <data name="CopyButtonCopied" xml:space="preserve"><value>Cóipeáilte</value></data>
 </root>

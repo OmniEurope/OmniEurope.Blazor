@@ -1625,4 +1625,5 @@
   <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Тесните колони запазват заглавията си изцяло</value></data>
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Досиета за редактиране: щракнете върху клетка, за да редактирате реда ѝ</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Едно щракване навсякъде в клетка, дори празна, отваря реда върху полето на тази клетка; бутонът „Подробности“ запазва собственото си щракване. С Tab се стига до всяка клетка, а с Enter или интервал тя се редактира.</value></data>
+  <data name="DemoButtonsCopies" xml:space="preserve"><value>Приети копирания: {0}.</value></data>
 </root>

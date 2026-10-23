@@ -1628,4 +1628,5 @@
   <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Narrow columns keep their whole title</value></data>
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Editable files: click a cell to edit its row</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>A single click anywhere in a cell, an empty one included, opens the row on that cell's field; the Details button keeps its own click. Tab reaches each cell, and Enter or Space edits it.</value></data>
+  <data name="DemoButtonsCopies" xml:space="preserve"><value>Copies accepted: {0}.</value></data>
 </root>

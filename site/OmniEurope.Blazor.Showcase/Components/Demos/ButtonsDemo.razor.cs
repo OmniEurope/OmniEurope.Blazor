@@ -16,6 +16,20 @@ public partial class ButtonsDemo
 
     private bool Pinned { get; set; }
 
+    private const string CopySample = "# Error detail\n\n- code: `E-42`\n- when: 2026-10-23T09:30:00Z\n";
+
+    private int Copies { get; set; }
+
+    private Task<string> BuildCopySampleAsync() => Task.FromResult($"{CopySample}- computed at the click: {DateTimeOffset.UtcNow:O}\n");
+
+    private void OnCopied(bool accepted)
+    {
+        if (accepted)
+        {
+            Copies++;
+        }
+    }
+
     private async Task SaveAsync()
     {
         Saving = true;

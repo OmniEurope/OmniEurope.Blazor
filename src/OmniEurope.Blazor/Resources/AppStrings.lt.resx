@@ -723,4 +723,5 @@
   <data name="MailTemplateEditorBannerWarning" xml:space="preserve"><value>Įspėjimas</value></data>
   <data name="MailTemplateEditorBannerDanger" xml:space="preserve"><value>Pavojus</value></data>
   <data name="MailTemplateEditorButton" xml:space="preserve"><value>Mygtukas: {0}</value></data>
+  <data name="CopyButtonCopied" xml:space="preserve"><value>Nukopijuota</value></data>
 </root>

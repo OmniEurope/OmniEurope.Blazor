@@ -32,6 +32,7 @@ component OmniEurope.Blazor.Components.OmniComponentBase
 component OmniEurope.Blazor.Components.OmniComponentsHost
 component OmniEurope.Blazor.Components.OmniConnectionOverlay
 component OmniEurope.Blazor.Components.OmniContextMenu
+component OmniEurope.Blazor.Components.OmniCopyButton
 component OmniEurope.Blazor.Components.OmniDataAnnotationsValidator
 component OmniEurope.Blazor.Components.OmniDataGrid<TItem>
 component OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>
@@ -197,6 +198,7 @@ ctor public OmniEurope.Blazor.Components.OmniComponentsHost()
 ctor public OmniEurope.Blazor.Components.OmniConfirmRequest(System.String Title, System.String Message)
 ctor public OmniEurope.Blazor.Components.OmniConnectionOverlay()
 ctor public OmniEurope.Blazor.Components.OmniContextMenu()
+ctor public OmniEurope.Blazor.Components.OmniCopyButton()
 ctor public OmniEurope.Blazor.Components.OmniDataAnnotationsValidator()
 ctor public OmniEurope.Blazor.Components.OmniDataGrid<TItem>()
 ctor public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>()
@@ -1073,6 +1075,7 @@ method protected override OmniEurope.Blazor.Components.OmniConnectionOverlay.OnA
 method protected override OmniEurope.Blazor.Components.OmniContextMenu.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniContextMenu.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniContextMenu.OnParametersSet() : System.Void
+method protected override OmniEurope.Blazor.Components.OmniCopyButton.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDataAnnotationsValidator.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDataGrid<TItem>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
@@ -1391,6 +1394,7 @@ method public OmniEurope.Blazor.Components.OmniConfirmRequest.Deconstruct(out Sy
 method public OmniEurope.Blazor.Components.OmniConfirmRequest.Equals(OmniEurope.Blazor.Components.OmniConfirmRequest? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniConnectionOverlay.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniContextMenu.DisposeAsync() : System.Threading.Tasks.ValueTask
+method public OmniEurope.Blazor.Components.OmniCopyButton.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniDataAnnotationsValidator.Dispose() : System.Void
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.CancelEditAsync(TItem item) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.CollapseAllTreeRowsAsync() : System.Threading.Tasks.Task
@@ -2480,6 +2484,15 @@ property public OmniEurope.Blazor.Components.OmniContextMenu.MenuLabel : System.
 property public OmniEurope.Blazor.Components.OmniContextMenu.Open : System.Boolean? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniContextMenu.OpenChanged : Microsoft.AspNetCore.Components.EventCallback<System.Boolean> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniContextMenu.TriggerContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
+property public OmniEurope.Blazor.Components.OmniCopyButton.CopiedFeedbackDuration : System.TimeSpan {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniCopyButton.Disabled : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniCopyButton.Icon : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniCopyButton.Label : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniCopyButton.OnCopy : Microsoft.AspNetCore.Components.EventCallback<System.Boolean> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniCopyButton.Size : OmniEurope.Blazor.Components.OmniControlSize {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniCopyButton.Text : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniCopyButton.TextFactory : System.Func<System.Threading.Tasks.Task<System.String>>? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniCopyButton.Variant : OmniEurope.Blazor.Components.OmniButtonVariant {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataAnnotationsValidator.Localizer : Microsoft.Extensions.Localization.IStringLocalizer? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.AllGroupsExpanded : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.AllowAlternatingRows : System.Boolean {get(public);set(public)} [Parameter]
@@ -3977,6 +3990,7 @@ type public OmniEurope.Blazor.Components.OmniConnectionOverlay [class] : OmniEur
 type public OmniEurope.Blazor.Components.OmniConnectionState [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniContextMenu [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, OmniEurope.Blazor.Internal.IOmniMenu, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniControlSize [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
+type public OmniEurope.Blazor.Components.OmniCopyButton [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniDataAnnotationsValidator [class, sealed] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniDataGrid<TItem> [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniDataGridAggregate [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32

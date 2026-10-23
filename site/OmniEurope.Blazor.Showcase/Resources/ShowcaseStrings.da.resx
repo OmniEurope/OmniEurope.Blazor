@@ -1625,4 +1625,5 @@
   <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Smalle kolonner beholder hele deres titel</value></data>
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Redigerbare sager: klik på en celle for at redigere rækken</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Et enkelt klik et vilkårligt sted i en celle, også en tom, åbner rækken på cellens felt; knappen Detaljer beholder sit eget klik. Tab når hver celle, og Enter eller mellemrum redigerer den.</value></data>
+  <data name="DemoButtonsCopies" xml:space="preserve"><value>Accepterede kopieringer: {0}.</value></data>
 </root>

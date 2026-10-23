@@ -723,4 +723,5 @@
   <data name="MailTemplateEditorBannerWarning" xml:space="preserve"><value>Twissija</value></data>
   <data name="MailTemplateEditorBannerDanger" xml:space="preserve"><value>Periklu</value></data>
   <data name="MailTemplateEditorButton" xml:space="preserve"><value>Buttuna: {0}</value></data>
+  <data name="CopyButtonCopied" xml:space="preserve"><value>Ikkupjat</value></data>
 </root>

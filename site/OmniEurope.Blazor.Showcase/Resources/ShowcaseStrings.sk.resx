@@ -1625,4 +1625,5 @@
   <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Úzke stĺpce si zachovajú celý nadpis</value></data>
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Upraviteľné spisy: kliknutím na bunku upravíte jej riadok</value></data>
   <data name="DemoGridEditCellHint" xml:space="preserve"><value>Jediné kliknutie kdekoľvek v bunke, aj prázdnej, otvorí riadok na poli tejto bunky; tlačidlo Podrobnosti si ponechá vlastné kliknutie. Kláves Tab dosiahne každú bunku a Enter alebo medzerník ju upraví.</value></data>
+  <data name="DemoButtonsCopies" xml:space="preserve"><value>Prijaté kopírovania: {0}.</value></data>
 </root>
