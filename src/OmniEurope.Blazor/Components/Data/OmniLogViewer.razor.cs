@@ -244,18 +244,11 @@ public partial class OmniLogViewer : IAsyncDisposable
         var appended = ReferenceEquals(_observedLines, Lines) || _observedLines is null || IsAppendOf(Lines);
         var filterChanged = _filteredLevel != _minimumLevel;
         var searchChanged = !string.Equals(_searchedText, _search, StringComparison.Ordinal) || _searchedMode != AnsiMode;
-        var previousCount = _observedCount;
 
         // Lines that arrive while the reader is away from the tail are counted on the jump button.
         if (!_following && _observedLines is not null && !filterChanged)
         {
-            for (var index = previousCount; index < Lines.Count; index++)
-            {
-                if (_minimumLevel is not { } threshold || Lines[index].Level >= threshold)
-                {
-                    _unseen++;
-                }
-            }
+            _unseen += CountPassing(_observedCount);
         }
 
         if (!appended || filterChanged || Lines.Count < _observedCount)
@@ -270,13 +263,7 @@ public partial class OmniLogViewer : IAsyncDisposable
         }
 
         var firstNewPosition = _visible.Count;
-        for (var index = _observedCount; index < Lines.Count; index++)
-        {
-            if (_minimumLevel is not { } minimum || Lines[index].Level >= minimum)
-            {
-                _visible.Add(index);
-            }
-        }
+        AddVisibleFrom(_observedCount);
 
         _observedLines = Lines;
         _observedCount = Lines.Count;
@@ -298,6 +285,33 @@ public partial class OmniLogViewer : IAsyncDisposable
         }
 
         ComputeRange();
+    }
+
+    private bool PassesLevel(int index) => _minimumLevel is not { } threshold || Lines[index].Level >= threshold;
+
+    private int CountPassing(int fromIndex)
+    {
+        var count = 0;
+        for (var index = fromIndex; index < Lines.Count; index++)
+        {
+            if (PassesLevel(index))
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    private void AddVisibleFrom(int fromIndex)
+    {
+        for (var index = fromIndex; index < Lines.Count; index++)
+        {
+            if (PassesLevel(index))
+            {
+                _visible.Add(index);
+            }
+        }
     }
 
     /// <summary>
