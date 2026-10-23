@@ -32,7 +32,9 @@ internal sealed class GridContentTexts<TItem>(OmniDataGrid<TItem> grid)
 
         var columns = grid.ColumnSet.VisibleColumns.Where(IsMeasuredFromTexts).ToList();
         var items = grid.View.LoadedItems();
-        var count = items.TryGetNonEnumeratedCount(out var known) ? known : -1;
+        // Every source of the loaded rows is a collection (a list, a page, the values of the block cache): a count
+        // without enumerating. The fetched blocks grow inside the same collection, which the count catches.
+        var count = items.Count();
         var signature = string.Join('|', columns.Select(column => $"{column.Key}:{column.FormatString}"));
         if (ReferenceEquals(items, _items) && count == _count && signature == _columns)
         {
