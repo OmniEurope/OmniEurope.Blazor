@@ -276,8 +276,8 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-breadcrumb__item + .omni-breadcrumb__item::before { color: var(--omni-color-text-muted); content: "/"; margin-inline-end: var(--omni-space-xs); }
 .omni-breadcrumb a { color: var(--omni-color-accent-strong); }
 /* Entries touch: their hover and current fills meet, with no strip of page between them. */
-.omni-panel-menu { display: grid; gap: 0; }
-.omni-panel-menu__group { border: 0; display: grid; }
+.omni-panel-menu { display: grid; gap: 0; grid-template-columns: minmax(0, 1fr); }
+.omni-panel-menu__group { border: 0; display: grid; grid-template-columns: minmax(0, 1fr); }
 /* A group row is a link plus a chevron sitting side by side, so highlighting only the link left
    the row half painted: the gap and the chevron stayed the surface colour. The row carries the
    highlight instead, in the same colour the link paints, so the two coincide rather than differ. */

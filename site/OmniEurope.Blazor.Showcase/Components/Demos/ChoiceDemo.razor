@@ -9,7 +9,7 @@
 
         <OmniSelectBar TValue="string" Label="@Text["DemoChoicePeriodLabel"]" Options="Periods" @bind-Value="Period" />
 
-        <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Medium">
+        <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true">
             <OmniToggleButton @bind-Value="Pinned">@Text["DemoChoicePin"]</OmniToggleButton>
             <OmniToggleButton Value="false" Disabled="true">@Text["DemoChoiceUnavailable"]</OmniToggleButton>
             <OmniToggleButton Value="true" Busy="true">@Text["DemoChoiceSaving"]</OmniToggleButton>

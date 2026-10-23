@@ -601,6 +601,20 @@ public sealed partial class ShippedLookTests : OmniBunitContext
         Assert.Equal("22.5rem", Value(Body(".omni-notification--long"), "inline-size"));
     }
 
+    /// <summary>
+    /// The sideways overflow at 390 px that the Languages probe found under the themes in tracked capitals
+    /// (Néon, Ardoise, Rétro, Octet) in German, Finnish, Greek and Hungarian: a label kept on one line with an
+    /// ellipsis still gave its grid track its whole length, so one long entry widened every link of the menu
+    /// past the window. The menu tracks are as wide as their frame, and the label is cut instead.
+    /// </summary>
+    [Theory]
+    [InlineData(".omni-panel-menu")]
+    [InlineData(".omni-panel-menu__group")]
+    public void PanelMenu_TracksAreAsWideAsTheirFrame_SoALongLabelIsCutAndDoesNotWidenThePage(string selector)
+    {
+        Assert.Equal("minmax(0, 1fr)", Value(Body(selector), "grid-template-columns"));
+    }
+
     // ---- helpers ----
 
     internal static IEnumerable<(string Selector, string Body)> Rules() =>

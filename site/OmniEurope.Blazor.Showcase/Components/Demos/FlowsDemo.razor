@@ -87,7 +87,7 @@
     </div>
 
     @* L'hôte pilote l'état, le compte à rebours et les rappels ; le composant ne tient aucune connexion. *@
-    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Wrap="true">
         <OmniButton Id="flows-demo-drop" Variant="OmniButtonVariant.Warning" OnClick="DropAsync">
             <Icon><OmniIcon Name="OmniIconName.Offline" /></Icon><ChildContent><span>@Text["DemoFlowsSimulateDrop"]</span></ChildContent>
         </OmniButton>

@@ -168,9 +168,18 @@ sinon il est clos en B ou C.
   `docs/data-components.md`, sonde `AutoFit`). Sortie de l'hôte, vérifiée au navigateur (le même tableau tombe à 337 px quand le jeton est baissé à 4 rem sur
   la grille elle-même) : `Width` ou `MinWidth` absolue sur les colonnes, ou ce jeton. Aucun code ni CSS de la grille touché ;
   repris par PLAN-004 lot M (largeur des colonnes au contenu), qui possède cette zone.
-- [ ] Débordement en largeur à 390 px en fi, el et hu (jusqu'à 72 px) sous certains thèmes (Néon, Halo),
+- [x] Débordement en largeur à 390 px en fi, el et hu (jusqu'à 72 px) sous certains thèmes (Néon, Halo),
   vu par la sonde `Languages` quand le navigateur gardait le thème laissé par Contrast (2026-10-12) ;
-  la passe par défaut, qui mesure sous le thème livré, ne le voit pas.
+  la passe par défaut, qui mesure sous le thème livré, ne le voit pas. Reproduit le 2026-10-23 avec `OMNI_LANGUAGES_THEME`
+  (nouveau, la sonde ne choisissait aucun thème) : rouge sous Néon (48 px), Ardoise (44), Rétro (35), Octet (105 ; 72 en
+  fi et hu, le chiffre de 2026-10-12) et Épure (2), de, el, fi et hu ; Halo, clair et sombre, est propre : le constat
+  citait le mauvais thème. Causes : le titre du héros de la vitrine (piste de grille `auto` élargie au mot le plus long en
+  capitales espacées), deux rangées de boutons sans retour à la ligne de la vitrine (choix, parcours, tuiles de badges),
+  le champ d'`OmniUpload` (minimum 12rem ou 60 % + un bouton de 170 px) et le menu latéral (`OmniPanelMenu`, un libellé
+  coupé par des points de suspension donnait quand même sa longueur à la piste). Corrigé : pistes `minmax(0, 1fr)`,
+  `Wrap` sur les rangées, minimum du champ à 40 % ; la sonde `Languages` sous Néon, Ardoise, Rétro, Octet et Épure,
+  puis sous le thème livré, est propre ; classé A. Le thème par défaut de la passe reste le thème livré : mesurer sous un
+  thème en capitales est une option, et l'ajouter à la passe est une décision du propriétaire (durée).
 Controle : pour chaque case, test rouge puis vert, ou classement motivé en B ou C dans l'annexe.
 
 ### Lot 7 - Demandes d'applications clientes

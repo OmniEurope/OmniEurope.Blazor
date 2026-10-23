@@ -477,7 +477,8 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
         Assert.Contains("omni-button--primary", upload.Find(".omni-upload__field-button").ClassList);
         var field = ShippedLookTests.Body(".omni-upload__field-value");
         Assert.Equal("0", ShippedLookTests.Value(field, "border-inline-end-width"));
-        Assert.Equal("min(12rem, 60%)", ShippedLookTests.Value(field, "min-inline-size"));
+        // 40 %, not 60 %: the button keeps its whole text (170 px in German under tracked capitals) and the field yields, where 60 % left the row wider than a phone.
+        Assert.Equal("min(12rem, 40%)", ShippedLookTests.Value(field, "min-inline-size"));
         Assert.StartsWith("calc(", ShippedLookTests.Value(field, "padding-inline-end"), StringComparison.Ordinal);
         Assert.Equal("0", ShippedLookTests.Value(field, "padding-block"));
     }
