@@ -450,6 +450,8 @@ field public static OmniEurope.Blazor.Components.OmniDataGridColumnFilterType.Mu
 field public static OmniEurope.Blazor.Components.OmniDataGridColumnFilterType.Number : OmniEurope.Blazor.Components.OmniDataGridColumnFilterType const = 5
 field public static OmniEurope.Blazor.Components.OmniDataGridColumnFilterType.Select : OmniEurope.Blazor.Components.OmniDataGridColumnFilterType const = 1
 field public static OmniEurope.Blazor.Components.OmniDataGridColumnFilterType.Text : OmniEurope.Blazor.Components.OmniDataGridColumnFilterType const = 0
+field public static OmniEurope.Blazor.Components.OmniDataGridEditTrigger.Action : OmniEurope.Blazor.Components.OmniDataGridEditTrigger const = 0
+field public static OmniEurope.Blazor.Components.OmniDataGridEditTrigger.Cell : OmniEurope.Blazor.Components.OmniDataGridEditTrigger const = 1
 field public static OmniEurope.Blazor.Components.OmniDataGridFilterMode.Advanced : OmniEurope.Blazor.Components.OmniDataGridFilterMode const = 2
 field public static OmniEurope.Blazor.Components.OmniDataGridFilterMode.Simple : OmniEurope.Blazor.Components.OmniDataGridFilterMode const = 0
 field public static OmniEurope.Blazor.Components.OmniDataGridFilterMode.SimpleWithMenu : OmniEurope.Blazor.Components.OmniDataGridFilterMode const = 1
@@ -2500,6 +2502,7 @@ property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.Count : System.
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.Density : OmniEurope.Blazor.Components.OmniDensity? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.DetailTemplate : Microsoft.AspNetCore.Components.RenderFragment<TItem>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.EditMode : OmniEurope.Blazor.Components.OmniDataGridRowMode {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.EditTrigger : OmniEurope.Blazor.Components.OmniDataGridEditTrigger {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.EmptyContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.EmptyText : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ErrorContent : Microsoft.AspNetCore.Components.RenderFragment<System.Exception>? {get(public);set(public)} [Parameter]
@@ -3984,6 +3987,7 @@ type public OmniEurope.Blazor.Components.OmniDataGridColumnFilterType [enum, sea
 type public OmniEurope.Blazor.Components.OmniDataGridColumnOrderChange [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniDataGridColumnOrderChange>
 type public OmniEurope.Blazor.Components.OmniDataGridColumnWidthChange [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniDataGridColumnWidthChange>
 type public OmniEurope.Blazor.Components.OmniDataGridDateRange [static-class, static]
+type public OmniEurope.Blazor.Components.OmniDataGridEditTrigger [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniDataGridFilter [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniDataGridFilter>
 type public OmniEurope.Blazor.Components.OmniDataGridFilterCombo [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniDataGridFilterContext [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniDataGridFilterContext>

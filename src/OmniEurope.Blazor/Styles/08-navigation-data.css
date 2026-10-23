@@ -395,6 +395,9 @@
 .omni-data-grid--frozen-detached .omni-data-grid__table .omni-data-grid__column--frozen { inset-inline-start: auto; position: relative; z-index: auto; }
 .omni-data-grid.omni-data-grid--frozen-detached .omni-data-grid__viewport .omni-data-grid__column--frozen-last { box-shadow: none; }
 .omni-data-grid__row--interactive { cursor: pointer; }
+/* EditTrigger Cell: a cell that opens its row on a click reads as editable under the pointer, and the focus of its hidden button (the keyboard path) is drawn on the cell, which the button itself cannot show. */
+.omni-data-grid td.omni-data-grid__cell--edit-trigger { cursor: text; }
+.omni-data-grid td.omni-data-grid__cell--edit-trigger:has(> .omni-data-grid__edit-cell:focus-visible) { box-shadow: var(--omni-focus-ring-inset); }
 .omni-data-grid__state { color: var(--omni-color-text-muted); padding: var(--omni-space-lg); text-align: center; }
 .omni-data-grid__state--loading { block-size: 10rem; vertical-align: middle; }
 /* The detail toggle of a row is drawn like the row actions, a square as tall as the status badges

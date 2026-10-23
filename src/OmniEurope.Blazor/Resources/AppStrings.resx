@@ -102,6 +102,7 @@
   <data name="GridGroupPanel" xml:space="preserve"><value>Regroupements actifs</value></data>
   <data name="GridGroupPanelEmpty" xml:space="preserve"><value>Aucun regroupement.</value></data>
   <data name="GridGroupColumn" xml:space="preserve"><value>Regrouper par {0}</value></data>
+  <data name="GridEditCell" xml:space="preserve"><value>Modifier {0}</value></data>
   <data name="GridUngroupColumn" xml:space="preserve"><value>Retirer le regroupement {0}</value></data>
   <data name="GridExpandAll" xml:space="preserve"><value>Développer ou réduire toutes les lignes</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Détacher les colonnes figées</value></data>

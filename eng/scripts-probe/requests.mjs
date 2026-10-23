@@ -3,7 +3,7 @@
 // skip link moves the focus to the main content by script, without leaving the page.
 
 export async function requestSteps(session, results) {
-  const { evaluate, waitFor, key, check, hover, mouse, pointOf, clickOn, send, type } = session;
+  const { evaluate, waitFor, key, check, hover, mouse, pause, pointOf, click, clickOn, send, type } = session;
   const step = label => {
     if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
     results.push(label);
@@ -113,6 +113,60 @@ export async function requestSteps(session, results) {
   await clickOn(`${edit} tbody tr[data-omni-row-index="2"] .omni-data-grid__actions button`);
   await waitFor('le premier champ de la ligne ouverte au crayon focalisé, son texte sélectionné', editorState({ index: 2, column: 'Applicant' }));
   step('édition de ligne : le champ de la cellule double-cliquée, sinon le premier, prend le focus, texte sélectionné');
+
+  // 3b. EditTrigger Cell (#demo-grid-edit-cell, row 0 D-2001, row 1 D-2002 whose Country is empty, row 2
+  // D-2003): a single click anywhere in a cell with an EditTemplate opens its row and focuses that cell's
+  // field, the empty one included; the Details button inside the Country cell keeps its click and opens
+  // nothing; a cell with no EditTemplate (Reference) opens nothing; on the row already in edit a click in
+  // another cell only moves the focus. Tab reaches each cell through its button, the focus drawn on the
+  // cell, and Enter, then Space, start the edit on that cell's field.
+  const cellGrid = '#demo-grid-edit-cell';
+  const rowOf = index => `${cellGrid} tbody tr[data-omni-row-index="${index}"]`;
+  const cellOf = (index, column) => `${rowOf(index)} td[data-omni-col="${column}"]`;
+  const isEditing = index => `(document.querySelector(${JSON.stringify(rowOf(index))})?.classList.contains('omni-data-grid__row--editing') === true)`;
+  const editingRows = () => evaluate(`document.querySelectorAll(${JSON.stringify(`${cellGrid} tbody tr.omni-data-grid__row--editing`)}).length`);
+  // The field holding the focus: its row, its column and, unless the value is empty, its text selected whole.
+  const fieldFocus = (index, column, whole = true) => `(() => { const field = document.activeElement; const owner = field?.closest('td[data-omni-col]'); return field?.tagName === 'INPUT' && field.closest('tr')?.dataset.omniRowIndex === '${index}' && owner?.dataset.omniCol === '${column}' && (${!whole} || (field.value.length > 0 && field.selectionStart === 0 && field.selectionEnd === field.value.length)); })()`;
+  // A point in the padding at the end of a cell, away from anything the cell holds.
+  const paddingOf = async selector => {
+    await pointOf(selector);
+    return evaluate(`(() => { const box = document.querySelector(${JSON.stringify(selector)}).getBoundingClientRect(); return { x: Math.round(box.right - 4), y: Math.round(box.top + box.height / 2) }; })()`);
+  };
+  await evaluate(`document.querySelector(${JSON.stringify(cellGrid)}).scrollIntoView({ block: 'center' })`);
+  await waitFor('la grille à édition par cellule', `document.querySelectorAll(${JSON.stringify(`${cellGrid} tbody td.omni-data-grid__cell--edit-trigger`)}).length === 6`);
+  check(await evaluate(`document.querySelectorAll(${JSON.stringify(`${cellGrid} tbody td[data-omni-col="Reference"].omni-data-grid__cell--edit-trigger`)}).length`) === 0, 'Une cellule sans EditTemplate est offerte à l\'édition.');
+  await click(await paddingOf(cellOf(1, 'Country')));
+  await waitFor('la ligne de la cellule Pays vide ouverte par un clic dans la cellule', isEditing(1));
+  await waitFor('le champ Pays vide focalisé', fieldFocus(1, 'Country', false));
+  await clickOn(`${cellOf(0, 'Country')} .demo-grid-edit-cell-details`);
+  await waitFor('le clic du bouton Détails compté', "document.getElementById('demo-grid-edit-cell-clicks').textContent.includes('1')");
+  await pause(500);
+  check(!(await evaluate(isEditing(0))) && await evaluate(isEditing(1)), 'Un clic sur le bouton de la cellule a ouvert sa ligne.');
+  await clickOn(cellOf(2, 'Applicant'));
+  await waitFor('la ligne du clic ouverte, la précédente refermée', `${isEditing(2)} && !${isEditing(1)}`);
+  await waitFor('le champ Demandeur de la cellule cliquée focalisé, son texte sélectionné', fieldFocus(2, 'Applicant'));
+  await click(await paddingOf(cellOf(2, 'Country')));
+  await waitFor('le focus déplacé vers le champ Pays de la ligne déjà ouverte', fieldFocus(2, 'Country', false));
+  check(await editingRows() === 1 && await evaluate(isEditing(2)), 'Le clic sur la ligne déjà ouverte a changé les lignes en édition.');
+  await clickOn(cellOf(0, 'Reference'));
+  await pause(500);
+  check(!(await evaluate(isEditing(0))) && await evaluate(isEditing(2)), 'Une cellule sans EditTemplate a ouvert sa ligne.');
+  await clickOn(`${rowOf(2)} .omni-data-grid__action--cancel`);
+  await waitFor('la ligne annulée', `!${isEditing(2)}`);
+  await evaluate(`document.querySelector(${JSON.stringify(`${cellGrid} th[data-omni-col="Country"] button.omni-data-grid__sort`)}).focus()`);
+  await tab();
+  await waitFor('Tab : le bouton de la cellule Demandeur de la première ligne', "document.activeElement?.classList.contains('omni-data-grid__edit-cell') && document.activeElement.closest('td')?.dataset.omniCol === 'Applicant' && document.activeElement.closest('tr')?.dataset.omniRowIndex === '0'");
+  check(await evaluate("getComputedStyle(document.activeElement.closest('td')).boxShadow !== 'none'"), 'Le focus du bouton de la cellule n\'est pas dessiné sur la cellule.');
+  await key('Enter', 'Enter', 13, 0, '\r');
+  await waitFor('Entrée : la ligne ouverte, le champ Demandeur focalisé, son texte sélectionné', `${isEditing(0)} && ${fieldFocus(0, 'Applicant')}`);
+  await clickOn(`${rowOf(0)} .omni-data-grid__action--cancel`);
+  await waitFor('la ligne annulée', `!${isEditing(0)}`);
+  await evaluate(`document.querySelector(${JSON.stringify(`${cellOf(1, 'Country')} .omni-data-grid__edit-cell`)}).focus()`);
+  await key(' ', 'Space', 32, 0, ' ');
+  await waitFor('Espace : la ligne ouverte, le champ Pays vide focalisé', `${isEditing(1)} && ${fieldFocus(1, 'Country', false)}`);
+  await key('Escape', 'Escape', 27);
+  await waitFor('Échap : la ligne annulée', `!${isEditing(1)}`);
+  step('EditTrigger Cell : un clic dans une cellule (vide comprise) ouvre sa ligne sur son champ, le bouton de la cellule et une cellule sans EditTemplate n\'ouvrent rien, Tab, Entrée et Espace éditent, le clic sur une ligne ouverte déplace le focus');
 
   // 4. The initial focus of a dialog (recette R1-10, InitialFocus Panel on the intent dialogs): the panel
   // itself holds the focus as it opens, no control of the dialog is focused and nothing draws a focus

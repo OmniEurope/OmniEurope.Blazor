@@ -102,6 +102,7 @@
   <data name="GridGroupPanel" xml:space="preserve"><value>Grupări active</value></data>
   <data name="GridGroupPanelEmpty" xml:space="preserve"><value>Nicio grupare.</value></data>
   <data name="GridGroupColumn" xml:space="preserve"><value>Grupează după {0}</value></data>
+  <data name="GridEditCell" xml:space="preserve"><value>Editează {0}</value></data>
   <data name="GridUngroupColumn" xml:space="preserve"><value>Elimină gruparea {0}</value></data>
   <data name="GridExpandAll" xml:space="preserve"><value>Extinde sau restrânge toate rândurile</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Detașează coloanele fixate</value></data>

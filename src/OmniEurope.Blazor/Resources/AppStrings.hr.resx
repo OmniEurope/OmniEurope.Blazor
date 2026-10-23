@@ -102,6 +102,7 @@
   <data name="GridGroupPanel" xml:space="preserve"><value>Aktivna grupiranja</value></data>
   <data name="GridGroupPanelEmpty" xml:space="preserve"><value>Nema grupiranja.</value></data>
   <data name="GridGroupColumn" xml:space="preserve"><value>Grupiraj po {0}</value></data>
+  <data name="GridEditCell" xml:space="preserve"><value>Uredi: {0}</value></data>
   <data name="GridUngroupColumn" xml:space="preserve"><value>Ukloni grupiranje {0}</value></data>
   <data name="GridExpandAll" xml:space="preserve"><value>Proširi ili sažmi sve retke</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Odvoji zamrznute stupce</value></data>

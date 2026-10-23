@@ -1622,4 +1622,7 @@
   <data name="DemoAccordionLogBody" xml:space="preserve"><value>Šiam vykdymui pranešimų nėra.</value></data>
   <data name="DemoAccordionState" xml:space="preserve"><value>Atidarytos eilutės: {0}</value></data>
   <data name="DemoAccordionClicks" xml:space="preserve"><value>Spustelėjimai ties „Išsami informacija“: {0}</value></data>
+  <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Siauri stulpeliai išsaugo visą pavadinimą</value></data>
+  <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Redaguojamos bylos: spustelėkite langelį, kad redaguotumėte jo eilutę</value></data>
+  <data name="DemoGridEditCellHint" xml:space="preserve"><value>Vienas spustelėjimas bet kurioje langelio vietoje, net tuščiame, atidaro eilutę ties to langelio lauku; mygtukas „Išsami informacija“ išlaiko savo spustelėjimą. Tab pasiekia kiekvieną langelį, o Enter arba tarpas jį redaguoja.</value></data>
 </root>

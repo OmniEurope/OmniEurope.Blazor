@@ -1622,4 +1622,7 @@
   <data name="DemoAccordionLogBody" xml:space="preserve"><value>L-ebda messaġġ għal din l-eżekuzzjoni.</value></data>
   <data name="DemoAccordionState" xml:space="preserve"><value>Ringieli miftuħa: {0}</value></data>
   <data name="DemoAccordionClicks" xml:space="preserve"><value>Klikkjiet fuq Dettalji: {0}</value></data>
+  <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Kolonni dojoq iżommu t-titolu sħiħ tagħhom</value></data>
+  <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Fajls li jistgħu jiġu editjati: ikklikkja fuq ċellula biex teditja r-ringiela tagħha</value></data>
+  <data name="DemoGridEditCellHint" xml:space="preserve"><value>Klikk wieħed f'kull post ta' ċellula, anki waħda vojta, jiftaħ ir-ringiela fuq il-qasam ta' dik iċ-ċellula; il-buttuna Dettalji żżomm il-klikk tagħha stess. Tab jilħaq kull ċellula, u Enter jew Spazju jeditjaha.</value></data>
 </root>

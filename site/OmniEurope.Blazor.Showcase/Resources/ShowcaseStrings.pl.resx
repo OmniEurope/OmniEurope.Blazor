@@ -1622,4 +1622,7 @@
   <data name="DemoAccordionLogBody" xml:space="preserve"><value>Brak komunikatów dla tego uruchomienia.</value></data>
   <data name="DemoAccordionState" xml:space="preserve"><value>Otwarte wiersze: {0}</value></data>
   <data name="DemoAccordionClicks" xml:space="preserve"><value>Kliknięcia w Szczegóły: {0}</value></data>
+  <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Wąskie kolumny zachowują cały tytuł</value></data>
+  <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Edytowalne sprawy: kliknij komórkę, aby edytować jej wiersz</value></data>
+  <data name="DemoGridEditCellHint" xml:space="preserve"><value>Jedno kliknięcie w dowolnym miejscu komórki, także pustej, otwiera wiersz na polu tej komórki; przycisk Szczegóły zachowuje własne kliknięcie. Tab dociera do każdej komórki, a Enter lub spacja ją edytuje.</value></data>
 </root>

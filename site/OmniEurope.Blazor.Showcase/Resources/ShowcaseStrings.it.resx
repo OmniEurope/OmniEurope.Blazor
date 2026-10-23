@@ -1622,4 +1622,7 @@
   <data name="DemoAccordionLogBody" xml:space="preserve"><value>Nessun messaggio per questa esecuzione.</value></data>
   <data name="DemoAccordionState" xml:space="preserve"><value>Righe aperte: {0}</value></data>
   <data name="DemoAccordionClicks" xml:space="preserve"><value>Clic su Dettagli: {0}</value></data>
+  <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Le colonne strette mantengono il titolo intero</value></data>
+  <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Pratiche modificabili: fare clic su una cella per modificarne la riga</value></data>
+  <data name="DemoGridEditCellHint" xml:space="preserve"><value>Un solo clic in un punto qualsiasi di una cella, anche vuota, apre la riga sul campo di quella cella; il pulsante Dettagli conserva il proprio clic. Tab raggiunge ogni cella e Invio o Spazio la modifica.</value></data>
 </root>

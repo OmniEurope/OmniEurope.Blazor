@@ -1622,4 +1622,7 @@
   <data name="DemoAccordionLogBody" xml:space="preserve"><value>Inga meddelanden för den här körningen.</value></data>
   <data name="DemoAccordionState" xml:space="preserve"><value>Öppna rader: {0}</value></data>
   <data name="DemoAccordionClicks" xml:space="preserve"><value>Klick på Detaljer: {0}</value></data>
+  <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Smala kolumner behåller hela sin rubrik</value></data>
+  <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Redigerbara ärenden: klicka på en cell för att redigera dess rad</value></data>
+  <data name="DemoGridEditCellHint" xml:space="preserve"><value>Ett enda klick var som helst i en cell, även en tom, öppnar raden på den cellens fält; knappen Detaljer behåller sitt eget klick. Tab når varje cell, och Enter eller blanksteg redigerar den.</value></data>
 </root>

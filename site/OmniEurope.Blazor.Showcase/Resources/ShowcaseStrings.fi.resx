@@ -1622,4 +1622,7 @@
   <data name="DemoAccordionLogBody" xml:space="preserve"><value>Tälle ajolle ei ole viestejä.</value></data>
   <data name="DemoAccordionState" xml:space="preserve"><value>Avoimet rivit: {0}</value></data>
   <data name="DemoAccordionClicks" xml:space="preserve"><value>Napsautukset Tiedot-painikkeeseen: {0}</value></data>
+  <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Kapeat sarakkeet säilyttävät otsikkonsa kokonaan</value></data>
+  <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Muokattavat asiakirjat: napsauta solua muokataksesi sen riviä</value></data>
+  <data name="DemoGridEditCellHint" xml:space="preserve"><value>Yksi napsautus mihin tahansa solun kohtaan, tyhjäänkin, avaa rivin tämän solun kentässä; Tiedot-painike säilyttää oman napsautuksensa. Sarkain tavoittaa jokaisen solun, ja Enter tai välilyönti muokkaa sitä.</value></data>
 </root>

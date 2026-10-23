@@ -102,6 +102,7 @@
   <data name="GridGroupPanel" xml:space="preserve"><value>Aktiva grupperingar</value></data>
   <data name="GridGroupPanelEmpty" xml:space="preserve"><value>Ingen gruppering.</value></data>
   <data name="GridGroupColumn" xml:space="preserve"><value>Gruppera efter {0}</value></data>
+  <data name="GridEditCell" xml:space="preserve"><value>Redigera {0}</value></data>
   <data name="GridUngroupColumn" xml:space="preserve"><value>Ta bort grupperingen {0}</value></data>
   <data name="GridExpandAll" xml:space="preserve"><value>Visa eller dölj alla rader</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Lossa de låsta kolumnerna</value></data>

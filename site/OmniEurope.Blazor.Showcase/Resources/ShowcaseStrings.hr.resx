@@ -1622,4 +1622,7 @@
   <data name="DemoAccordionLogBody" xml:space="preserve"><value>Nema poruka za ovo izvršavanje.</value></data>
   <data name="DemoAccordionState" xml:space="preserve"><value>Otvoreni retci: {0}</value></data>
   <data name="DemoAccordionClicks" xml:space="preserve"><value>Klikovi na Pojedinosti: {0}</value></data>
+  <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Uski stupci zadržavaju cijeli naslov</value></data>
+  <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Predmeti koji se mogu uređivati: kliknite ćeliju da uredite njezin redak</value></data>
+  <data name="DemoGridEditCellHint" xml:space="preserve"><value>Jedan klik bilo gdje u ćeliji, čak i praznoj, otvara redak na polju te ćelije; gumb Pojedinosti zadržava vlastiti klik. Tab dolazi do svake ćelije, a Enter ili razmaknica je uređuje.</value></data>
 </root>

@@ -1622,4 +1622,7 @@
   <data name="DemoAccordionLogBody" xml:space="preserve"><value>Ingen meddelelser for denne kørsel.</value></data>
   <data name="DemoAccordionState" xml:space="preserve"><value>Åbne rækker: {0}</value></data>
   <data name="DemoAccordionClicks" xml:space="preserve"><value>Klik på Detaljer: {0}</value></data>
+  <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Smalle kolonner beholder hele deres titel</value></data>
+  <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Redigerbare sager: klik på en celle for at redigere rækken</value></data>
+  <data name="DemoGridEditCellHint" xml:space="preserve"><value>Et enkelt klik et vilkårligt sted i en celle, også en tom, åbner rækken på cellens felt; knappen Detaljer beholder sit eget klik. Tab når hver celle, og Enter eller mellemrum redigerer den.</value></data>
 </root>

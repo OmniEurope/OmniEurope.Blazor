@@ -1622,4 +1622,7 @@
   <data name="DemoAccordionLogBody" xml:space="preserve"><value>Pre tento beh nie sú žiadne správy.</value></data>
   <data name="DemoAccordionState" xml:space="preserve"><value>Otvorené riadky: {0}</value></data>
   <data name="DemoAccordionClicks" xml:space="preserve"><value>Kliknutia na Podrobnosti: {0}</value></data>
+  <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Úzke stĺpce si zachovajú celý nadpis</value></data>
+  <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Upraviteľné spisy: kliknutím na bunku upravíte jej riadok</value></data>
+  <data name="DemoGridEditCellHint" xml:space="preserve"><value>Jediné kliknutie kdekoľvek v bunke, aj prázdnej, otvorí riadok na poli tejto bunky; tlačidlo Podrobnosti si ponechá vlastné kliknutie. Kláves Tab dosiahne každú bunku a Enter alebo medzerník ju upraví.</value></data>
 </root>

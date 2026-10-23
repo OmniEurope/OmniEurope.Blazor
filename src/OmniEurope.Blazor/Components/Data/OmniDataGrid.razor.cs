@@ -261,6 +261,18 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public OmniDataGridRowMode EditMode { get; set; } = OmniDataGridRowMode.Single;
 
+    /// <summary>
+    /// What puts a row in edit mode: <see cref="OmniDataGridEditTrigger.Action"/> (the default) leaves it to the
+    /// edit button and <see cref="EditRowAsync"/>; <see cref="OmniDataGridEditTrigger.Cell"/> adds a single click
+    /// anywhere in a cell whose column has an <see cref="OmniDataGridColumn{TItem}.EditTemplate"/>, which opens the
+    /// row the same way and gives the focus to the field of that cell. A control inside the cell (button, link,
+    /// field) keeps its click. Each such cell also holds a button named after its column, so the keyboard
+    /// reaches it and Enter or Space starts the edit. Saving and cancelling stay with the edit column
+    /// (<see cref="ShowEditColumn"/>), whose buttons Enter and Escape press.
+    /// </summary>
+    [Parameter]
+    public OmniDataGridEditTrigger EditTrigger { get; set; } = OmniDataGridEditTrigger.Action;
+
     /// <summary>Raised when a row enters edit mode, from its edit button or <see cref="EditRowAsync"/>.</summary>
     [Parameter]
     public EventCallback<TItem> OnRowEdit { get; set; }

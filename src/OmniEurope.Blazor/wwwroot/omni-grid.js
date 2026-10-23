@@ -2,8 +2,8 @@
 // viewer imports sync, applyLayout and scrollToOffset): viewport observation and virtualisation,
 // spacers and viewport sizes, fill mode, the wheel scope and the wait for the first images. The
 // columns, the resize and auto-fit gestures, the header drag that reorders the columns, the filter
-// popovers and the virtualised data list live in ./grid/ and are re-exported here, so every export keeps
-// this address.
+// popovers, the focus of a row put in edit mode, the click that edits a row (EditTrigger) and the
+// virtualised data list live in ./grid/ and are re-exported here, so every export keeps this address.
 import { notifyDotNet } from './grid/notify.js';
 import { release } from './grid/release.js';
 
@@ -14,6 +14,7 @@ export { attachFilterMenus, closeFilterMenus, detachFilterMenus } from './grid/f
 export { attachList, detachList, syncList, applyListLayout } from './grid/list.js';
 export { attachColumnHover, detachColumnHover } from './grid/column-hover.js';
 export { focusEditor } from './grid/edit-focus.js';
+export { attachEditCell, detachEditCell } from './grid/edit-cell.js';
 // A text cell cut by its ellipsis shows its whole value in the package tooltip.
 export { installPackageTooltips, uninstallPackageTooltips } from './omni-tooltip.js';
 

@@ -1622,4 +1622,7 @@
   <data name="DemoAccordionLogBody" xml:space="preserve"><value>Šai izpildei nav ziņojumu.</value></data>
   <data name="DemoAccordionState" xml:space="preserve"><value>Atvērtās rindas: {0}</value></data>
   <data name="DemoAccordionClicks" xml:space="preserve"><value>Klikšķi uz Detaļas: {0}</value></data>
+  <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Šauras kolonnas saglabā visu virsrakstu</value></data>
+  <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Rediģējamas lietas: noklikšķiniet uz šūnas, lai rediģētu tās rindu</value></data>
+  <data name="DemoGridEditCellHint" xml:space="preserve"><value>Viens klikšķis jebkurā šūnas vietā, arī tukšā, atver rindu šīs šūnas laukā; poga Detaļas saglabā savu klikšķi. Tab sasniedz katru šūnu, un Enter vai atstarpe to rediģē.</value></data>
 </root>

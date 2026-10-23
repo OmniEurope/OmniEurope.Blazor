@@ -102,6 +102,7 @@
   <data name="GridGroupPanel" xml:space="preserve"><value>Aktívne zoskupenia</value></data>
   <data name="GridGroupPanelEmpty" xml:space="preserve"><value>Žiadne zoskupenie.</value></data>
   <data name="GridGroupColumn" xml:space="preserve"><value>Zoskupiť podľa: {0}</value></data>
+  <data name="GridEditCell" xml:space="preserve"><value>Upraviť: {0}</value></data>
   <data name="GridUngroupColumn" xml:space="preserve"><value>Zrušiť zoskupenie: {0}</value></data>
   <data name="GridExpandAll" xml:space="preserve"><value>Rozbaliť alebo zbaliť všetky riadky</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Uvoľniť ukotvené stĺpce</value></data>
