@@ -615,6 +615,15 @@ public sealed partial class ShippedLookTests : OmniBunitContext
         Assert.Equal("minmax(0, 1fr)", Value(Body(selector), "grid-template-columns"));
     }
 
+    [Fact]
+    public void FactTile_NarrowRow_KeepsAGapThatFollowsTheDensity()
+    {
+        // The Density probe found the two-level rows of a narrow tile as tall in compact as in spacious: the
+        // narrow rule dropped the row's own height and left no gap, so nothing in the row followed the density.
+        var narrow = Rules().Last(rule => rule.Selector == ".omni-fact-tile__row").Body;
+        Assert.Equal("var(--omni-field-gap)", Value(narrow, "row-gap"));
+    }
+
     // ---- helpers ----
 
     internal static IEnumerable<(string Selector, string Body)> Rules() =>
