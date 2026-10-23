@@ -377,12 +377,8 @@ public partial class OmniUpload
         _message = message;
     }
 
-    private string FormatSize(long bytes) => bytes switch
-    {
-        >= 1024 * 1024 => Localize("UploadSizeMegabytes", bytes / 1024d / 1024d),
-        >= 1024 => Localize("UploadSizeKilobytes", bytes / 1024d),
-        _ => Localize("UploadSizeBytes", bytes)
-    };
+    // The shared size writer, with the unit symbols read through this component's localizer so a host's text override still applies.
+    private string FormatSize(long bytes) => OmniValueFormatter.FileSize(bytes, CultureInfo.CurrentUICulture, key => Localize(key));
 
     /// <summary>A picture for images, a page for anything else: enough to tell a list apart at a glance.</summary>
     private static OmniIconName IconFor(string name, string? contentType) =>

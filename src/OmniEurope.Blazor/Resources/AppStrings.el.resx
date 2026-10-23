@@ -444,9 +444,6 @@
   <data name="UploadInProgress" xml:space="preserve"><value>Μεταφόρτωση σε εξέλιξη.</value></data>
   <data name="UploadCompleted" xml:space="preserve"><value>Η μεταφόρτωση ολοκληρώθηκε.</value></data>
   <data name="UploadCancelled" xml:space="preserve"><value>Η μεταφόρτωση ακυρώθηκε.</value></data>
-  <data name="UploadSizeMegabytes" xml:space="preserve"><value>{0:0.##} MB</value></data>
-  <data name="UploadSizeKilobytes" xml:space="preserve"><value>{0:0.##} KB</value></data>
-  <data name="UploadSizeBytes" xml:space="preserve"><value>{0} B</value></data>
   <data name="UploadDropOne" xml:space="preserve"><value>Αποθέστε ένα αρχείο εδώ ή</value></data>
   <data name="UploadDropMany" xml:space="preserve"><value>Αποθέστε αρχεία εδώ ή</value></data>
   <data name="UploadBrowse" xml:space="preserve"><value>κάντε αναζήτηση</value></data>
@@ -724,4 +721,13 @@
   <data name="MailTemplateEditorBannerDanger" xml:space="preserve"><value>Κίνδυνος</value></data>
   <data name="MailTemplateEditorButton" xml:space="preserve"><value>Κουμπί: {0}</value></data>
   <data name="CopyButtonCopied" xml:space="preserve"><value>Αντιγράφηκε</value></data>
+  <data name="FormatByte" xml:space="preserve"><value>B</value></data>
+  <data name="FormatKilobyte" xml:space="preserve"><value>KB</value></data>
+  <data name="FormatMegabyte" xml:space="preserve"><value>MB</value></data>
+  <data name="FormatGigabyte" xml:space="preserve"><value>GB</value></data>
+  <data name="FormatTerabyte" xml:space="preserve"><value>TB</value></data>
+  <data name="FormatSecond" xml:space="preserve"><value>δ</value></data>
+  <data name="FormatMinute" xml:space="preserve"><value>λ</value></data>
+  <data name="FormatHour" xml:space="preserve"><value>ω</value></data>
+  <data name="FormatDay" xml:space="preserve"><value>ημ</value></data>
 </root>

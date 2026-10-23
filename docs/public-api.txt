@@ -390,6 +390,7 @@ ctor public OmniEurope.Blazor.Components.OmniUnsavedChangesGuard()
 ctor public OmniEurope.Blazor.Components.OmniUpload()
 ctor public OmniEurope.Blazor.Components.OmniUploadFile(System.String Name, System.Int64 Size, System.String? ContentType = null)
 ctor public OmniEurope.Blazor.Components.OmniValueAxis()
+ctor public OmniEurope.Blazor.Components.OmniValueFormatter(Microsoft.Extensions.Localization.IStringLocalizer<OmniEurope.Blazor.Resources.AppStrings> localizer)
 ctor public OmniEurope.Blazor.Components.OmniWindowControls()
 ctor public OmniEurope.Blazor.Components.OmniWizard()
 ctor public OmniEurope.Blazor.Components.OmniWizardStep()
@@ -1731,6 +1732,8 @@ method public OmniEurope.Blazor.Components.OmniUploadRequest.Reject(System.Strin
 method public OmniEurope.Blazor.Components.OmniUploadRequest.ReportProgress(System.Double percentage) : System.Void
 method public OmniEurope.Blazor.Components.OmniValidatorBase<TValue>.Dispose() : System.Void
 method public OmniEurope.Blazor.Components.OmniValueAxis.Dispose() : System.Void
+method public OmniEurope.Blazor.Components.OmniValueFormatter.Duration(System.TimeSpan value, System.Globalization.CultureInfo? culture = null) : System.String
+method public OmniEurope.Blazor.Components.OmniValueFormatter.FileSize(System.Int64 bytes, System.Globalization.CultureInfo? culture = null) : System.String
 method public OmniEurope.Blazor.Components.OmniWizard.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniWizardStep.Dispose() : System.Void
 method public OmniEurope.Blazor.Localization.OmniTextOverrideLocalizer.GetAllStrings(System.Boolean includeParentCultures) : System.Collections.Generic.IEnumerable<Microsoft.Extensions.Localization.LocalizedString>
@@ -4274,6 +4277,7 @@ type public OmniEurope.Blazor.Components.OmniUploadFile [class, sealed] : System
 type public OmniEurope.Blazor.Components.OmniUploadRequest [class, sealed]
 type public OmniEurope.Blazor.Components.OmniValidatorBase<TValue> [class, abstract] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniValueAxis [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
+type public OmniEurope.Blazor.Components.OmniValueFormatter [class, sealed]
 type public OmniEurope.Blazor.Components.OmniWindowControls [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniWizard [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniWizardStep [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable

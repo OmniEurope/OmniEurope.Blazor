@@ -89,7 +89,7 @@ public sealed class UploadEdgeTests : OmniBunitContext
         upload.Find(".omni-upload__remove").Click();
 
         Assert.Empty(removed);
-        Assert.Equal("1,95 Ko", upload.Find(".omni-upload__file-size").TextContent);
+        Assert.Equal("2 Ko", upload.Find(".omni-upload__file-size").TextContent);
     }
 
     [Fact]

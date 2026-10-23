@@ -417,6 +417,18 @@ La coquille doit avoir une hauteur bornée : une `OmniLayout` dont le corps port
 </OmniLayout>
 ```
 
+## Tailles et durées : `OmniValueFormatter`
+
+`OmniValueFormatter` (service injectable, enregistré par `AddOmniEuropeBlazor`) écrit une taille de fichier ou une durée de la même façon partout, dans la langue et avec le séparateur décimal d'une culture. Un service plutôt qu'une classe statique : les symboles d'unité sont des textes du paquet, lus par le `IStringLocalizer<AppStrings>` injecté, donc `AddOmniEuropeTextOverrides` les remplace comme les autres, et une culture que le paquet ne livre pas retombe sur les symboles français. `culture` vaut `null` par défaut, la culture d'interface courante.
+
+- `FileSize(long bytes, CultureInfo? culture = null)` : base 1024 (1 Ko = 1024 octets, comme l'Explorateur de Windows), unités o, Ko, Mo, Go, To en français et B, KB, MB, GB, TB en anglais (`FormatByte`, `FormatKilobyte`, `FormatMegabyte`, `FormatGigabyte`, `FormatTerabyte`, dans les 24 langues), un chiffre après la virgule quand il y en a un, un espace entre le nombre et l'unité. `FileSize(3_931_000_000)` donne « 3,7 Go » en français et « 3.7 GB » en anglais ; une décimale qui s'arrondirait à 1024 passe à l'unité suivante (« 1 Mo », jamais « 1024 Ko »). Une taille négative lève `ArgumentOutOfRangeException`. `OmniUpload` l'emploie pour ses tailles de fichiers et gagne les Go et les To.
+- `Duration(TimeSpan value, CultureInfo? culture = null)` : durée tronquée à la seconde, écrite sans espace avec les deux unités les plus utiles. Moins d'une minute : les secondes (`45s`). Moins d'une heure : les minutes, avec les secondes seulement sous dix minutes et quand il y en a (`9min59s`, `10min`, `42min`). Moins d'un jour : les heures et les minutes, minutes omises quand elles valent zéro (`1h44min`, `2h`). Un jour ou plus : les jours et les heures, heures omises quand elles valent zéro (`1j2h`, `3j`). `Duration(TimeSpan.FromSeconds(2532))` donne `42min`, `6260` secondes `1h44min`, `45` secondes `45s`. Symboles `FormatSecond`, `FormatMinute`, `FormatHour`, `FormatDay` dans les 24 langues (français s, min, h, j ; anglais s, min, h, d). Une durée négative lève `ArgumentOutOfRangeException`.
+
+```razor
+@inject OmniValueFormatter Format
+<span>@Format.FileSize(Run.OutputBytes)</span> <span>@Format.Duration(Run.Elapsed)</span>
+```
+
 ## Exemple
 
 ```razor

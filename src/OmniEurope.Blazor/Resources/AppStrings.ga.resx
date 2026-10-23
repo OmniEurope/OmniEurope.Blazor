@@ -444,9 +444,6 @@
   <data name="UploadInProgress" xml:space="preserve"><value>Uaslódáil ar siúl.</value></data>
   <data name="UploadCompleted" xml:space="preserve"><value>Uaslódáil críochnaithe.</value></data>
   <data name="UploadCancelled" xml:space="preserve"><value>Uaslódáil cealaithe.</value></data>
-  <data name="UploadSizeMegabytes" xml:space="preserve"><value>{0:0.##} MB</value></data>
-  <data name="UploadSizeKilobytes" xml:space="preserve"><value>{0:0.##} KB</value></data>
-  <data name="UploadSizeBytes" xml:space="preserve"><value>{0} B</value></data>
   <data name="UploadDropOne" xml:space="preserve"><value>Scaoil comhad anseo nó</value></data>
   <data name="UploadDropMany" xml:space="preserve"><value>Scaoil comhaid anseo nó</value></data>
   <data name="UploadBrowse" xml:space="preserve"><value>brabhsáil</value></data>
@@ -724,4 +721,13 @@
   <data name="MailTemplateEditorBannerDanger" xml:space="preserve"><value>Contúirt</value></data>
   <data name="MailTemplateEditorButton" xml:space="preserve"><value>Cnaipe: {0}</value></data>
   <data name="CopyButtonCopied" xml:space="preserve"><value>Cóipeáilte</value></data>
+  <data name="FormatByte" xml:space="preserve"><value>B</value></data>
+  <data name="FormatKilobyte" xml:space="preserve"><value>KB</value></data>
+  <data name="FormatMegabyte" xml:space="preserve"><value>MB</value></data>
+  <data name="FormatGigabyte" xml:space="preserve"><value>GB</value></data>
+  <data name="FormatTerabyte" xml:space="preserve"><value>TB</value></data>
+  <data name="FormatSecond" xml:space="preserve"><value>s</value></data>
+  <data name="FormatMinute" xml:space="preserve"><value>nóim</value></data>
+  <data name="FormatHour" xml:space="preserve"><value>u</value></data>
+  <data name="FormatDay" xml:space="preserve"><value>l</value></data>
 </root>
