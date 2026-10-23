@@ -1,9 +1,9 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # PLAN-001 : Reliquats, audit du 2026-10-11 et retours UI récurrents
 
-> Statut : **ouvert**. Établi le 2026-10-12 : les plans actifs de la première série (PLAN-009, PLAN-013
+> Statut : **terminé** le 2026-10-23 (1.9.0 publiée, CI de `develop` verte sur `5078cc87`, run 39965675056). Établi le 2026-10-12 : les plans actifs de la première série (PLAN-009, PLAN-013
 > à PLAN-019) ont été vérifiés contre le code puis archivés dans [archive/serie-1/](archive/serie-1/) ;
-> leurs reliquats réels sont repris ici. Lot 1 fait, CI de `develop` verte sur `80c0691` (constatée le 2026-10-13), lot 2 fait (2026-10-23), lot 5 fait, lot 3 fait, lot 6 fait (2026-10-23), lot 8 fait (2026-10-13, non publié), lot 4 fait (2026-10-23).
+> leurs reliquats réels sont repris ici. Lot 1 fait, CI de `develop` verte sur `80c0691` (constatée le 2026-10-13), lot 2 fait (2026-10-23), lot 5 fait, lot 3 fait, lot 6 fait (2026-10-23), lot 8 fait (2026-10-13, publié en 1.8.1), lot 4 fait (2026-10-23).
 
 ## Objectif
 
@@ -317,7 +317,7 @@ publication.
 
 ## Ordre et dépendances
 
-Tous les lots sont faits ; reste la CI de `develop` après publication.
+Tous les lots sont faits ; CI de `develop` verte sur `5078cc87` (run 39965675056, 2026-10-23) après la publication de la 1.9.0.
 
 ## Critère de clôture
 

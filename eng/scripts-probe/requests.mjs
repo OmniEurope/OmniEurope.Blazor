@@ -480,11 +480,12 @@ export async function requestSteps(session, results) {
   check(shares.every(share => share > 20) && Math.max(...shares) - Math.min(...shares) <= 2, `Sans Grow, la place restante n'est pas partagée à parts égales : ${sharedNarrow.widths.join(', ')} px au contenu, ${sharedWide.widths.join(', ')} px à 1300 px.`);
   // Every column has a template and the rows arrive after the first render, the grid busy meanwhile
   // (request of 2026-10-23): the columns, sized to their headers while empty, take the width of the cells
-  // that arrive, nothing cut.
-  const templatesEmpty = await sizeBox('demo-grid-sizing-templates', 1000);
+  // that arrive, nothing cut. A box narrower than the content leaves no room to share out, so a column
+  // still at its header width is seen cut (with the content observer of columns.js off, a cell is cut).
+  const templatesEmpty = await sizeBox('demo-grid-sizing-templates', 300);
   await clickOn('#demo-grid-sizing-templates-load');
   await waitFor('les lignes de la grille à modèles', "document.querySelectorAll('#demo-grid-sizing-templates tbody td[data-omni-col=\"Name\"] a').length === 5");
-  const templatesFull = await sizeBox('demo-grid-sizing-templates', 1000);
+  const templatesFull = await sizeBox('demo-grid-sizing-templates', 300);
   check(templatesFull.problems.length === 0, `Grille à modèles chargée après coup : ${templatesFull.problems.join(' | ')} (largeurs vides ${templatesEmpty.widths.join(', ')}, chargées ${templatesFull.widths.join(', ')}).`);
   const widestName = await evaluate("Math.max(...[...document.querySelectorAll('#demo-grid-sizing-templates tbody td[data-omni-col=\"Name\"] a')].map(link => link.getBoundingClientRect().width))");
   check(templatesFull.widths[0] >= widestName, `La colonne du nom (${templatesFull.widths[0]} px) est plus étroite que son lien le plus long (${widestName.toFixed(1)} px).`);

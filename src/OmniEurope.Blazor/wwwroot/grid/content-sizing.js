@@ -16,6 +16,8 @@ function stateOf(viewport) {
             texts: new Map(),
             // The widest of those texts by key, laid out once: they only change with the texts or the fonts.
             textWidths: new Map(),
+            // The texts added to a column since its widest was laid out, by key: only they are laid out next.
+            fresh: new Map(),
             // The content width of each column, in pixels. It only grows while the rows stay the same, so
             // rows scrolling in and out never make a column jump back and forth.
             widths: new Map(),
@@ -67,20 +69,60 @@ export function planColumnWidths(columns, controls, available) {
 /**
  * Takes the texts of the loaded rows .NET holds, by column key, for the columns it could read (not a
  * templated one, which is measured on its cells). Sent when the rows or the measured columns change; the
- * columns are measured again against them.
+ * columns are measured again against them. With append, the texts are only the ones .NET did not send yet
+ * (the blocks a virtualized grid fetched): they join the ones held, and the widths measured so far stand,
+ * only the new texts are laid out.
  */
-export function setContentTexts(viewport, texts) {
+export function setContentTexts(viewport, texts, append) {
     if (!(viewport instanceof HTMLElement) || texts === null || typeof texts !== 'object') {
         return;
     }
 
     const state = stateOf(viewport);
-    state.texts = new Map(Object.entries(texts));
-    state.textWidths.clear();
-    state.widths.clear();
+    takeContentTexts(state, new Map(Object.entries(texts)), append);
     if (isContentSizing(viewport)) {
         sizeContent(viewport, state.onChanged);
     }
+}
+
+/**
+ * Folds the texts handed over into what a state holds. Replacing forgets the texts, their widest and the
+ * content widths (the rows are others); appending keeps them all and records the new texts to lay out.
+ */
+export function takeContentTexts(state, texts, append) {
+    if (!append) {
+        state.texts = texts;
+        state.textWidths.clear();
+        state.fresh.clear();
+        state.widths.clear();
+        return;
+    }
+
+    for (const [key, added] of texts) {
+        state.texts.set(key, [...(state.texts.get(key) ?? []), ...added]);
+        state.fresh.set(key, [...(state.fresh.get(key) ?? []), ...added]);
+    }
+}
+
+/**
+ * The widest of the texts handed over for a column, laid out by measureTexts: all of them the first time, and
+ * again after the fonts changed, only the ones added since otherwise. 0 when there are none.
+ */
+export function widestTextOf(state, key, measureTexts) {
+    const texts = state.texts.get(key);
+    if (!Array.isArray(texts) || texts.length === 0) {
+        return 0;
+    }
+
+    const added = state.fresh.get(key);
+    state.fresh.delete(key);
+    if (!state.textWidths.has(key)) {
+        state.textWidths.set(key, measureTexts(texts));
+    } else if (added) {
+        state.textWidths.set(key, Math.max(state.textWidths.get(key), measureTexts(added)));
+    }
+
+    return state.textWidths.get(key);
 }
 
 /** Forgets what a grid measured: it no longer sizes to its content, or it went. */
@@ -161,14 +203,7 @@ function measure(viewport, state, described) {
 
     const rendered = measureRenderedColumns(viewport, keys, true);
     for (const key of keys) {
-        let widest = rendered.get(key) ?? 0;
-        const texts = state.texts.get(key);
-        if (Array.isArray(texts) && texts.length > 0) {
-            if (!state.textWidths.has(key)) {
-                state.textWidths.set(key, measureColumnTexts(viewport, key, texts));
-            }
-            widest = Math.max(widest, state.textWidths.get(key));
-        }
+        const widest = Math.max(rendered.get(key) ?? 0, widestTextOf(state, key, texts => measureColumnTexts(viewport, key, texts)));
 
         // One pixel more than the content, so a cell never loses its last fraction.
         state.widths.set(key, Math.max(state.widths.get(key) ?? 0, widest > 0 ? Math.ceil(widest) + 1 : 0));

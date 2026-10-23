@@ -182,18 +182,18 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
 
     /// <summary>
     /// With content sizing (<see cref="OmniDataGridColumnSizing.Content"/>), hands the script the texts of the
-    /// loaded rows it measures, once and again only when the rows or the measured columns change. The default
-    /// sizing hands nothing over.
+    /// loaded rows it measures, once and again only when the rows or the measured columns change (the blocks a
+    /// virtualized grid fetches add only their new texts). The default sizing hands nothing over.
     /// </summary>
     private async Task PushContentTextsAsync()
     {
-        if (_contentTexts.TakeChanges() is not { } texts)
+        if (_contentTexts.TakeChanges() is not { } update)
         {
             return;
         }
 
         var module = await ModuleAsync();
-        await module.InvokeVoidAsync("setContentTexts", grid.Viewport, texts);
+        await module.InvokeVoidAsync("setContentTexts", grid.Viewport, update.Texts, update.Append);
     }
 
     /// <summary>

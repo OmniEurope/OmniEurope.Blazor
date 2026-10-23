@@ -4,7 +4,7 @@ import { test } from 'node:test';
 import { pathToFileURL } from 'node:url';
 
 const wwwroot = path.resolve(import.meta.dirname, '../../src/OmniEurope.Blazor/wwwroot');
-const { planColumnWidths } = await import(pathToFileURL(path.join(wwwroot, 'grid/content-sizing.js')).href);
+const { planColumnWidths, takeContentTexts, widestTextOf } = await import(pathToFileURL(path.join(wwwroot, 'grid/content-sizing.js')).href);
 
 const column = (key, base, role = 'plain') => ({ key, base, role });
 const total = plan => [...plan.widths.values()].reduce((sum, width) => sum + width, 0);
@@ -83,4 +83,97 @@ test('a grid without columns plans nothing', () => {
 
     assert.equal(plan.widths.size, 0);
     assert.equal(plan.minimum, 44);
+});
+
+// The state a viewport keeps, minus what only a browser fills (the observer, the lengths, the widths laid out).
+const emptyState = () => ({ texts: new Map(), textWidths: new Map(), fresh: new Map(), widths: new Map() });
+// A stand-in for the layout of a text: its length, so the widest is the longest.
+const layOut = laidOut => texts => {
+    laidOut.push(...texts);
+    return Math.max(...texts.map(text => text.length));
+};
+
+test('replacing the texts forgets the ones held, their widest and the content widths', () => {
+    const state = emptyState();
+    takeContentTexts(state, new Map([['a', ['one', 'three']], ['b', ['x']]]), false);
+    widestTextOf(state, 'a', layOut([]));
+    state.widths.set('a', 40);
+
+    takeContentTexts(state, new Map([['a', ['four']]]), false);
+
+    assert.deepEqual([...state.texts], [['a', ['four']]]);
+    assert.equal(state.textWidths.size, 0);
+    assert.equal(state.fresh.size, 0);
+    assert.equal(state.widths.size, 0);
+});
+
+test('appending joins the new texts to the ones held and keeps the widths measured', () => {
+    const state = emptyState();
+    takeContentTexts(state, new Map([['a', ['one', 'three']]]), false);
+    widestTextOf(state, 'a', layOut([]));
+    state.widths.set('a', 40);
+
+    takeContentTexts(state, new Map([['a', ['sixsix']], ['b', ['new']]]), true);
+
+    assert.deepEqual([...state.texts], [['a', ['one', 'three', 'sixsix']], ['b', ['new']]]);
+    assert.deepEqual([...state.fresh], [['a', ['sixsix']], ['b', ['new']]]);
+    assert.equal(state.textWidths.get('a'), 5);
+    assert.equal(state.widths.get('a'), 40);
+});
+
+test('texts appended twice before a layout are laid out together, once', () => {
+    const state = emptyState();
+    takeContentTexts(state, new Map([['a', ['one']]]), false);
+    widestTextOf(state, 'a', layOut([]));
+
+    takeContentTexts(state, new Map([['a', ['two']]]), true);
+    takeContentTexts(state, new Map([['a', ['eleven']]]), true);
+    const laidOut = [];
+
+    assert.equal(widestTextOf(state, 'a', layOut(laidOut)), 6);
+    assert.deepEqual(laidOut, ['two', 'eleven']);
+    assert.equal(state.fresh.size, 0);
+});
+
+test('the first layout takes every text, the next ones only what was appended', () => {
+    const state = emptyState();
+    takeContentTexts(state, new Map([['a', ['one', 'three']]]), false);
+    const laidOut = [];
+
+    assert.equal(widestTextOf(state, 'a', layOut(laidOut)), 5);
+    assert.deepEqual(laidOut, ['one', 'three']);
+
+    // Nothing new: nothing laid out, the widest is the one kept.
+    assert.equal(widestTextOf(state, 'a', layOut(laidOut)), 5);
+    assert.equal(laidOut.length, 2);
+
+    takeContentTexts(state, new Map([['a', ['ab']]]), true);
+    assert.equal(widestTextOf(state, 'a', layOut(laidOut)), 5);
+    assert.deepEqual(laidOut.slice(2), ['ab']);
+
+    takeContentTexts(state, new Map([['a', ['sixsix']]]), true);
+    assert.equal(widestTextOf(state, 'a', layOut(laidOut)), 6);
+});
+
+test('a font change that clears the widest has every text laid out again, the appended ones included', () => {
+    const state = emptyState();
+    takeContentTexts(state, new Map([['a', ['one']]]), false);
+    widestTextOf(state, 'a', layOut([]));
+    takeContentTexts(state, new Map([['a', ['two']]]), true);
+    state.textWidths.clear();
+    const laidOut = [];
+
+    assert.equal(widestTextOf(state, 'a', layOut(laidOut)), 3);
+    assert.deepEqual(laidOut, ['one', 'two']);
+    assert.equal(state.fresh.size, 0);
+});
+
+test('a column without texts has no widest', () => {
+    const state = emptyState();
+    takeContentTexts(state, new Map([['a', []]]), false);
+
+    assert.equal(widestTextOf(state, 'a', layOut([])), 0);
+    assert.equal(widestTextOf(state, 'unknown', layOut([])), 0);
+    state.texts.set('odd', 'not a list');
+    assert.equal(widestTextOf(state, 'odd', layOut([])), 0);
 });
