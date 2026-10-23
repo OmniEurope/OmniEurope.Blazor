@@ -974,11 +974,13 @@ field public static OmniEurope.Blazor.Components.OmniTextBoxType.Search : OmniEu
 field public static OmniEurope.Blazor.Components.OmniTextBoxType.Tel : OmniEurope.Blazor.Components.OmniTextBoxType const = 2
 field public static OmniEurope.Blazor.Components.OmniTextBoxType.Text : OmniEurope.Blazor.Components.OmniTextBoxType const = 0
 field public static OmniEurope.Blazor.Components.OmniTextBoxType.Url : OmniEurope.Blazor.Components.OmniTextBoxType const = 3
+field public static OmniEurope.Blazor.Components.OmniTextElement.Caption : OmniEurope.Blazor.Components.OmniTextElement const = 6
 field public static OmniEurope.Blazor.Components.OmniTextElement.Emphasis : OmniEurope.Blazor.Components.OmniTextElement const = 3
 field public static OmniEurope.Blazor.Components.OmniTextElement.Paragraph : OmniEurope.Blazor.Components.OmniTextElement const = 1
 field public static OmniEurope.Blazor.Components.OmniTextElement.Small : OmniEurope.Blazor.Components.OmniTextElement const = 4
 field public static OmniEurope.Blazor.Components.OmniTextElement.Span : OmniEurope.Blazor.Components.OmniTextElement const = 0
 field public static OmniEurope.Blazor.Components.OmniTextElement.Strong : OmniEurope.Blazor.Components.OmniTextElement const = 2
+field public static OmniEurope.Blazor.Components.OmniTextElement.Title : OmniEurope.Blazor.Components.OmniTextElement const = 5
 field public static OmniEurope.Blazor.Components.OmniTextTone.Accent : OmniEurope.Blazor.Components.OmniTextTone const = 2
 field public static OmniEurope.Blazor.Components.OmniTextTone.Danger : OmniEurope.Blazor.Components.OmniTextTone const = 4
 field public static OmniEurope.Blazor.Components.OmniTextTone.Info : OmniEurope.Blazor.Components.OmniTextTone const = 5
@@ -2358,6 +2360,7 @@ property public OmniEurope.Blazor.Components.OmniAxisTitle.Text : System.String 
 property public OmniEurope.Blazor.Components.OmniBadge.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniBadge.Fill : OmniEurope.Blazor.Components.OmniFill {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniBadge.Icon : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniBadge.InkOutline : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniBadge.Tone : OmniEurope.Blazor.Components.OmniTone {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniBadge.Width : OmniEurope.Blazor.Components.OmniBadgeWidth {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniBody.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
@@ -2425,6 +2428,7 @@ property public OmniEurope.Blazor.Components.OmniCheckBoxList<TValue>.Error : Sy
 property public OmniEurope.Blazor.Components.OmniCheckBoxList<TValue>.Label : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniCheckBoxList<TValue>.Options : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniOption<TValue>> {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniCheckBoxList<TValue>.ReadOnly : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniCodeBlock.AnsiMode : OmniEurope.Blazor.Components.OmniAnsiMode {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniCodeBlock.Code : System.String? {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniCodeBlock.CopiedFeedbackDuration : System.TimeSpan {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniCodeBlock.Inline : System.Boolean {get(public);set(public)} [Parameter]
