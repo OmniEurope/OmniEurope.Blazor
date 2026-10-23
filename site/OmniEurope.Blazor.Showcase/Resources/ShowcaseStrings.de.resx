@@ -840,6 +840,8 @@
   <data name="DemoNavigationDecisionText" xml:space="preserve"><value>Die Entscheidung wird per Post mitgeteilt.</value></data>
   <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Der Vorgang umfasst {0} Dokumente.</value></data>
   <data name="DemoPagesReload" xml:space="preserve"><value>Datensatz neu laden</value></data>
+  <data name="DemoPagesRerun" xml:space="preserve"><value>Erneut ausführen</value></data>
+  <data name="DemoPagesPipelineRun" xml:space="preserve"><value>Pipeline-Lauf #{0}</value></data>
   <data name="DemoPagesMissing" xml:space="preserve"><value>Datensatz nicht gefunden</value></data>
   <data name="DemoPagesNotFound" xml:space="preserve"><value>Der angeforderte Datensatz wurde entfernt oder hat nie existiert.</value></data>
   <data name="DemoPagesSubtitle" xml:space="preserve"><value>Virtuelle Maschine in der Zone Paris.</value></data>

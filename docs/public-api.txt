@@ -3283,6 +3283,7 @@ property public OmniEurope.Blazor.Components.OmniPageHeader.Framed : System.Bool
 property public OmniEurope.Blazor.Components.OmniPageHeader.Icon : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPageHeader.Level : OmniEurope.Blazor.Components.OmniHeadingLevel {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPageHeader.MenuContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniPageHeader.PinnedActionsContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPageHeader.ShowBack : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPageHeader.ShowTrail : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPageHeader.Subtitle : System.String? {get(public);set(public)} [Parameter]

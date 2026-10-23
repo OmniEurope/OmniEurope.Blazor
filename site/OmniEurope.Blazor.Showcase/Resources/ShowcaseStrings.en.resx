@@ -842,6 +842,8 @@
   <data name="DemoNavigationDecisionText" xml:space="preserve"><value>The decision will be sent by post.</value></data>
   <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>The case holds {0} documents.</value></data>
   <data name="DemoPagesReload" xml:space="preserve"><value>Reload the record</value></data>
+  <data name="DemoPagesRerun" xml:space="preserve"><value>Run again</value></data>
+  <data name="DemoPagesPipelineRun" xml:space="preserve"><value>Pipeline run #{0}</value></data>
   <data name="DemoPagesMissing" xml:space="preserve"><value>Record not found</value></data>
   <data name="DemoPagesNotFound" xml:space="preserve"><value>The requested record has been removed or never existed.</value></data>
   <data name="DemoPagesSubtitle" xml:space="preserve"><value>Virtual machine in the Paris zone.</value></data>

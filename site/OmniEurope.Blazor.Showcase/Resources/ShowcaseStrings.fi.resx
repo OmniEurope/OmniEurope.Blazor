@@ -840,6 +840,8 @@
   <data name="DemoNavigationDecisionText" xml:space="preserve"><value>Päätös annetaan tiedoksi postitse.</value></data>
   <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Asiassa on asiakirjoja: {0}.</value></data>
   <data name="DemoPagesReload" xml:space="preserve"><value>Lataa tietue uudelleen</value></data>
+  <data name="DemoPagesRerun" xml:space="preserve"><value>Suorita uudelleen</value></data>
+  <data name="DemoPagesPipelineRun" xml:space="preserve"><value>Putken ajo #{0}</value></data>
   <data name="DemoPagesMissing" xml:space="preserve"><value>Tietuetta ei löydy</value></data>
   <data name="DemoPagesNotFound" xml:space="preserve"><value>Pyydetty tietue on poistettu tai sitä ei ole koskaan ollut.</value></data>
   <data name="DemoPagesSubtitle" xml:space="preserve"><value>Virtuaalikone Pariisin alueella.</value></data>

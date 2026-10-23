@@ -8,7 +8,8 @@
    has no ancestor. A title longer than its line scrolls sideways, a chevron showing on each side that
    still has text (omni-page-header.js). The badges and actions fold behind a "Show more" toggle on a
    phone, and at any width once line 1 has no room for them (omni-page-header.js marks the frame
-   data-compact). Under the block: the subtitle when line 2 carries the trail, then the filters. *@
+   data-compact). The pinned actions never fold: at the end of line 1 before the "⋮" menu, and on a
+   row of their own under line 1 on a phone. Under the block: the subtitle when line 2 carries the trail, then the filters. *@
 <div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-page-header")">
     <div @ref="_frame" class="@FrameClass">
         <div class="omni-page-header__row">
@@ -60,6 +61,10 @@
                         <div class="omni-page-header__actions">@ActionsContent</div>
                     }
                 </div>
+            }
+            @if (PinnedActionsContent is not null)
+            {
+                <div class="omni-page-header__pinned">@PinnedActionsContent</div>
             }
             @if (MenuContent is not null)
             {

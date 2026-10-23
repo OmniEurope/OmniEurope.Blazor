@@ -97,6 +97,11 @@
 .omni-page-header__actions { align-items: center; display: flex; flex-wrap: nowrap; gap: var(--omni-space-sm); justify-content: flex-end; margin-inline-start: auto; }
 .omni-page-header__menu { flex: none; margin-inline-start: auto; }
 .omni-page-header__details + .omni-page-header__menu { margin-inline-start: 0; }
+/* The pinned actions are outside the fold: at the end of line 1, right before the menu, at every
+   width and in compact mode. The phone block below moves them to a row of their own. */
+.omni-page-header__pinned { align-items: center; display: flex; flex: none; flex-wrap: nowrap; gap: var(--omni-space-sm); margin-inline-start: auto; }
+.omni-page-header__details + .omni-page-header__pinned,
+.omni-page-header__pinned + .omni-page-header__menu { margin-inline-start: 0; }
 .omni-page-header__toggle { display: none; }
 .omni-page-header__trail { block-size: var(--omni-page-header-trail); flex: none; font-size: var(--omni-font-size-sm); line-height: var(--omni-page-header-trail); min-inline-size: 0; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; white-space: nowrap; }
 .omni-page-header__trail .omni-breadcrumb__list { flex-wrap: nowrap; white-space: nowrap; }
@@ -110,30 +115,42 @@
 .omni-page-header__filters { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); }
 /* On a phone the badges and actions fold behind the "Show more" toggle; opened, they take a full
    line and the block grows to hold it, which the reader asked for. The "⋮" menu stays in sight.
+   The title has a zero flex basis here: a wrapping row breaks before an item whose content width
+   does not fit, which would have dropped the "⋮" menu under a long title (recette R-31); with no
+   basis the title takes what line 1 leaves and scrolls the rest. Everything that wraps below line 1
+   has an order above 0, so line 1 holds the back button, icon, title, toggle and menu.
    The data-compact block below applies the same fold at any width. */
 @media (max-width: 39.99rem) {
-    .omni-page-header .omni-page-header__title { flex: 1 1 auto; }
+    .omni-page-header .omni-page-header__title { flex: 1 1 0; }
     .omni-page-header__toggle { display: inline-flex; }
     .omni-page-header__menu { margin-inline-start: 0; }
     .omni-page-header__details:not(.omni-page-header__details--open) { display: none; }
     .omni-page-header__row:has(> .omni-page-header__details--open) { block-size: auto; flex-wrap: wrap; }
     .omni-page-header__frame:has(.omni-page-header__details--open) { block-size: auto; }
-    .omni-page-header__details--open { flex: 1 1 100%; flex-wrap: wrap; order: 1; }
+    .omni-page-header__details--open { flex: 1 1 100%; flex-wrap: wrap; order: 2; }
     .omni-page-header__details--open :is(.omni-page-header__badges, .omni-page-header__actions) { flex-wrap: wrap; }
     .omni-page-header__details--open .omni-page-header__actions { justify-content: flex-start; margin-inline-start: 0; }
 }
 /* The same fold at any width once line 1 has no room for the badges and actions beside the title:
    omni-page-header.js measures line 1 unfolded and marks the frame data-compact. Rule for rule the
    phone block above, keyed on the attribute (Blazor owns the class attribute). */
-.omni-page-header__frame[data-compact] .omni-page-header__title { flex: 1 1 auto; }
+.omni-page-header__frame[data-compact] .omni-page-header__title { flex: 1 1 0; }
 .omni-page-header__frame[data-compact] .omni-page-header__toggle { display: inline-flex; }
 .omni-page-header__frame[data-compact] .omni-page-header__menu { margin-inline-start: 0; }
 .omni-page-header__frame[data-compact] .omni-page-header__details:not(.omni-page-header__details--open) { display: none; }
 .omni-page-header__frame[data-compact] .omni-page-header__row:has(> .omni-page-header__details--open) { block-size: auto; flex-wrap: wrap; }
 .omni-page-header__frame[data-compact]:has(.omni-page-header__details--open) { block-size: auto; }
-.omni-page-header__frame[data-compact] .omni-page-header__details--open { flex: 1 1 100%; flex-wrap: wrap; order: 1; }
+.omni-page-header__frame[data-compact] .omni-page-header__details--open { flex: 1 1 100%; flex-wrap: wrap; order: 2; }
 .omni-page-header__frame[data-compact] .omni-page-header__details--open :is(.omni-page-header__badges, .omni-page-header__actions) { flex-wrap: wrap; }
 .omni-page-header__frame[data-compact] .omni-page-header__details--open .omni-page-header__actions { justify-content: flex-start; margin-inline-start: 0; }
+/* The pinned actions have no compact twin: the data-compact block keeps them at the end of line 1.
+   Only a phone moves them to a row of their own under line 1, right-aligned, the block growing by
+   that row; the "⋮" menu stays at the end of line 1. */
+@media (max-width: 39.99rem) {
+    .omni-page-header__row:has(> .omni-page-header__pinned) { block-size: auto; flex-wrap: wrap; }
+    .omni-page-header__frame:has(.omni-page-header__pinned) { block-size: auto; }
+    .omni-page-header__pinned { flex: 1 1 100%; justify-content: flex-end; margin-inline-start: 0; order: 1; }
+}
 
 .omni-detail-shell { display: flex; flex-direction: column; min-inline-size: 0; }
 .omni-detail-shell__loading { padding-block: var(--omni-space-md); }

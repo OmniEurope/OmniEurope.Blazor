@@ -842,6 +842,8 @@
   <data name="DemoNavigationDecisionText" xml:space="preserve"><value>La décision sera notifiée par courrier.</value></data>
   <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Le dossier compte {0} pièces.</value></data>
   <data name="DemoPagesReload" xml:space="preserve"><value>Recharger la fiche</value></data>
+  <data name="DemoPagesRerun" xml:space="preserve"><value>Relancer</value></data>
+  <data name="DemoPagesPipelineRun" xml:space="preserve"><value>Exécution du pipeline #{0}</value></data>
   <data name="DemoPagesMissing" xml:space="preserve"><value>Fiche introuvable</value></data>
   <data name="DemoPagesNotFound" xml:space="preserve"><value>La fiche demandée a été retirée ou n'a jamais existé.</value></data>
   <data name="DemoPagesSubtitle" xml:space="preserve"><value>Machine virtuelle de la zone Paris.</value></data>

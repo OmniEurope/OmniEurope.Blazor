@@ -840,6 +840,8 @@
   <data name="DemoNavigationDecisionText" xml:space="preserve"><value>Rozhodnutie bude oznámené poštou.</value></data>
   <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Počet dokumentov v spise: {0}.</value></data>
   <data name="DemoPagesReload" xml:space="preserve"><value>Znova načítať záznam</value></data>
+  <data name="DemoPagesRerun" xml:space="preserve"><value>Spustiť znova</value></data>
+  <data name="DemoPagesPipelineRun" xml:space="preserve"><value>Spustenie pipeline #{0}</value></data>
   <data name="DemoPagesMissing" xml:space="preserve"><value>Záznam sa nenašiel</value></data>
   <data name="DemoPagesNotFound" xml:space="preserve"><value>Požadovaný záznam bol odstránený alebo nikdy neexistoval.</value></data>
   <data name="DemoPagesSubtitle" xml:space="preserve"><value>Virtuálny počítač v zóne Paríž.</value></data>

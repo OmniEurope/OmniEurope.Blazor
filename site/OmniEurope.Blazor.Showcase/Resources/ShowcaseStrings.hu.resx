@@ -840,6 +840,8 @@
   <data name="DemoNavigationDecisionText" xml:space="preserve"><value>A döntést postán közöljük.</value></data>
   <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Az ügyhöz {0} dokumentum tartozik.</value></data>
   <data name="DemoPagesReload" xml:space="preserve"><value>Az adatlap újratöltése</value></data>
+  <data name="DemoPagesRerun" xml:space="preserve"><value>Újrafuttatás</value></data>
+  <data name="DemoPagesPipelineRun" xml:space="preserve"><value>Folyamat futtatása #{0}</value></data>
   <data name="DemoPagesMissing" xml:space="preserve"><value>Az adatlap nem található</value></data>
   <data name="DemoPagesNotFound" xml:space="preserve"><value>A kért adatlapot eltávolították, vagy soha nem létezett.</value></data>
   <data name="DemoPagesSubtitle" xml:space="preserve"><value>Virtuális gép a párizsi zónában.</value></data>

@@ -68,6 +68,7 @@ Version mineure à ruptures assumées : l'API publique est rendue homogène (un 
 - `OmniAutocomplete` et `OmniDropDown` filtrable ont des identifiants propres à chaque instance (deux champs de même nom ne partagent plus les leurs), tolèrent une réponse de recherche nulle, gardent `Size` et offrent le choix vide.
 - Préférences : le service suit l'utilisateur connecté à chaque lecture, écriture et synchronisation (un changement d'utilisateur sans `ResetUserAsync` n'écrit plus les valeurs de l'ancien dans le magasin du nouveau), et chaque ouverture libère ses modules, observateurs et minuteurs avec son propriétaire. La fenêtre d'apparence écrit la préférence une seule fois par action (Restaurer, Tout réinitialiser, apparence au hasard) au lieu d'une fois par réglage, et une écriture refusée garde l'apparence pour la session.
 - Éditeur HTML : les modules JavaScript sont libérés quand le composant part pendant l'import ; les échecs du correcteur sont journalisés en avertissement ; les compteurs suivent la politique de l'éditeur.
+- `OmniPageHeader` : sous 40rem ou en mode compact, une ligne 1 qui se repliait sur plusieurs lignes (« Voir plus » ouvert) comptait le titre à sa largeur de contenu et faisait passer le menu « ⋮ » sur la ligne suivante quand le titre était long (recette R-31 : menu sous l'action, vide à sa gauche). Le titre n'a plus de base de largeur dans ces états : il prend ce que la ligne 1 lui laisse et défile pour le reste. Les badges et actions dépliés viennent après les actions épinglées.
 
 ### Security
 
@@ -86,6 +87,7 @@ Version mineure à ruptures assumées : l'API publique est rendue homogène (un 
 - `OmniSpreadsheetData.MaxRows`, `MaxColumns` et `MaxCells`.
 - `OmniTableExportDocument.EmptyText` et `OmniTableExporter.ToMarkdown`.
 - `eng/Test-ComponentIndex.ps1`, porte de l'intégration continue : chaque composant public et chaque paramètre est cité dans les guides de famille, et aucun nom `Omni` périmé n'y subsiste.
+- `OmniPageHeader.PinnedActionsContent` (`RenderFragment?`, `null`) : demande d'une application cliente (recette R-30, R-31, R-40). Des actions jamais repliées : pas derrière « Voir plus », pas derrière un chevron, quel que soit le mode compact (`data-compact`). À toute largeur, y compris compact, elles terminent la ligne 1 juste avant le menu « ⋮ » ; sous 40rem, elles prennent une ligne sous la ligne 1 (le bloc grandit de cette ligne), alignées à la fin, le menu « ⋮ » restant sur la ligne 1. `ActionsContent` et `Badges` se replient comme avant. Sans le fragment, aucun élément de plus. Voir [docs/page-components.md](docs/page-components.md), « En-tête de page ».
 
 ## [1.8.3] - 2026-10-21
 

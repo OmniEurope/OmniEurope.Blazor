@@ -347,6 +347,75 @@ public sealed class PageHeaderTests : OmniBunitContext
     }
 
     [Fact]
+    public void PinnedActionsContent_SitsOnLine1BeforeTheMenu_OutsideTheFoldedDetails()
+    {
+        var header = Render<OmniPageHeader>(parameters => parameters
+            .Add(component => component.Title, "Exécution")
+            .Add(component => component.Badges, builder => builder.AddContent(0, "En ligne"))
+            .Add(component => component.ActionsContent, builder => builder.AddContent(0, "Modifier"))
+            .Add(component => component.PinnedActionsContent, builder => builder.AddMarkupContent(0, "<button id=\"relaunch\">Relancer</button>"))
+            .Add(component => component.MenuContent, builder => builder.AddContent(0, "Dupliquer")));
+
+        var row = header.Find(".omni-page-header__row");
+        var pinned = header.Find(".omni-page-header__pinned");
+        Assert.Contains("omni-page-header__row", pinned.ParentElement!.ClassList);
+        Assert.Equal("Relancer", pinned.TextContent);
+
+        // In the DOM: details, then the pinned actions, then the menu, which stays the last of line 1.
+        var details = header.Find(".omni-page-header__details");
+        var children = row.Children.ToList();
+        var at = children.FindIndex(child => child.ClassList.Contains("omni-page-header__pinned"));
+        Assert.True(at > 0 && at == children.Count - 2, "The pinned actions are the last item of line 1 before the menu.");
+        Assert.Contains("omni-page-header__details", children[at - 1].ClassList);
+        Assert.Contains("omni-page-header__menu", children[at + 1].ClassList);
+
+        // Never inside the fold, whatever its state: the toggle controls the details alone.
+        Assert.Empty(details.QuerySelectorAll("#relaunch"));
+        Assert.Equal(details.Id, header.Find(".omni-page-header__toggle").GetAttribute("aria-controls"));
+        header.Find(".omni-page-header__toggle").Click();
+        Assert.Empty(header.Find(".omni-page-header__details").QuerySelectorAll("#relaunch"));
+        Assert.Single(header.FindAll(".omni-page-header__row > .omni-page-header__pinned #relaunch"));
+    }
+
+    [Fact]
+    public void PinnedActionsContent_AloneBringsNoToggleAndNoDetails_AndNullRendersNothing()
+    {
+        var alone = Render<OmniPageHeader>(parameters => parameters
+            .Add(component => component.Title, "Exécution")
+            .Add(component => component.PinnedActionsContent, builder => builder.AddContent(0, "Relancer")));
+        Assert.Empty(alone.FindAll(".omni-page-header__toggle"));
+        Assert.Empty(alone.FindAll(".omni-page-header__details"));
+        Assert.Equal("Relancer", alone.Find(".omni-page-header__pinned").TextContent);
+
+        var none = Render<OmniPageHeader>(parameters => parameters
+            .Add(component => component.Title, "Exécution")
+            .Add(component => component.ActionsContent, builder => builder.AddContent(0, "Modifier")));
+        Assert.Empty(none.FindAll(".omni-page-header__pinned"));
+    }
+
+    [Fact]
+    public void PinnedActionsContent_IsNeverFolded_AndOnlyAPhoneGivesItARowOfItsOwn()
+    {
+        var css = ShippedLookTests.Css;
+
+        // No rule hides the pinned actions, at any width or in compact mode, and none mirrors them into
+        // the data-compact block: the compact mode keeps them at the end of line 1.
+        Assert.DoesNotMatch(@"\.omni-page-header__pinned[^{]*\{[^}]*display: none", css);
+        Assert.DoesNotContain("[data-compact] .omni-page-header__pinned", css, StringComparison.Ordinal);
+
+        // The phone moves them under line 1, right-aligned, after line 1 (order 1) and before the open details (order 2).
+        var phone = System.Text.RegularExpressions.Regex.Matches(css, @"@media \(max-width: 39\.99rem\) \{(?<body>(?:[^{}]*\{[^{}]*\})*)\s*\}")
+            .Select(match => match.Groups["body"].Value)
+            .Single(body => body.Contains(".omni-page-header__pinned {", StringComparison.Ordinal));
+        Assert.Contains(".omni-page-header__pinned { flex: 1 1 100%; justify-content: flex-end; margin-inline-start: 0; order: 1; }", phone, StringComparison.Ordinal);
+        Assert.Contains(".omni-page-header__row:has(> .omni-page-header__pinned) { block-size: auto; flex-wrap: wrap; }", phone, StringComparison.Ordinal);
+        Assert.Contains(".omni-page-header__details--open { flex: 1 1 100%; flex-wrap: wrap; order: 2; }", css, StringComparison.Ordinal);
+
+        // The title takes no content basis in a folded row, so a wrapping row never drops the menu under it.
+        Assert.Contains(".omni-page-header .omni-page-header__title { flex: 1 1 0; }", css, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void Details_FoldAtAnyWidthOnceTheBlockIsMarkedCompact_WithEveryRuleOfThePhoneFold()
     {
         var css = ShippedLookTests.Css;

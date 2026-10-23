@@ -840,6 +840,8 @@
   <data name="DemoNavigationDecisionText" xml:space="preserve"><value>Odločitev bo vročena po pošti.</value></data>
   <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Število dokumentov v zadevi: {0}.</value></data>
   <data name="DemoPagesReload" xml:space="preserve"><value>Znova naloži zapis</value></data>
+  <data name="DemoPagesRerun" xml:space="preserve"><value>Znova zaženi</value></data>
+  <data name="DemoPagesPipelineRun" xml:space="preserve"><value>Izvajanje cevovoda #{0}</value></data>
   <data name="DemoPagesMissing" xml:space="preserve"><value>Zapisa ni mogoče najti</value></data>
   <data name="DemoPagesNotFound" xml:space="preserve"><value>Zahtevani zapis je bil odstranjen ali ni nikoli obstajal.</value></data>
   <data name="DemoPagesSubtitle" xml:space="preserve"><value>Navidezni računalnik v območju Pariz.</value></data>

@@ -840,6 +840,8 @@
   <data name="DemoNavigationDecisionText" xml:space="preserve"><value>Decyzja zostanie doręczona pocztą.</value></data>
   <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Liczba dokumentów w sprawie: {0}.</value></data>
   <data name="DemoPagesReload" xml:space="preserve"><value>Odśwież kartę</value></data>
+  <data name="DemoPagesRerun" xml:space="preserve"><value>Uruchom ponownie</value></data>
+  <data name="DemoPagesPipelineRun" xml:space="preserve"><value>Uruchomienie pipeline #{0}</value></data>
   <data name="DemoPagesMissing" xml:space="preserve"><value>Nie znaleziono karty</value></data>
   <data name="DemoPagesNotFound" xml:space="preserve"><value>Żądana karta została usunięta lub nigdy nie istniała.</value></data>
   <data name="DemoPagesSubtitle" xml:space="preserve"><value>Maszyna wirtualna w strefie Paryż.</value></data>
