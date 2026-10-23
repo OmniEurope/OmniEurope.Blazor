@@ -194,6 +194,22 @@
     </OmniDataGrid>
 </div>
 
+@* Sans colonne Grow, la place restante se partage à parts égales entre toutes les colonnes, chacune gardant
+   au moins la largeur de son contenu. *@
+<div class="demo-grid-sizing-box">
+    <OmniDataGrid TItem="SiteRow" Id="demo-grid-sizing-shared"
+                  Items="Sites"
+                  Caption="@Text["DemoGridSizingCaption"]"
+                  ColumnSizing="OmniDataGridColumnSizing.Content"
+                  ScrollMode="OmniDataGridScrollMode.All">
+        <Columns>
+            <OmniDataGridColumn TItem="SiteRow" Property="Name" Title="@Text["DemoGridSizingName"]" />
+            <OmniDataGridColumn TItem="SiteRow" Property="Visitors" Title="@Text["DemoGridSizingVisitors"]" />
+            <OmniDataGridColumn TItem="SiteRow" Property="Project" Title="@Text["DemoGridSizingProject"]" />
+        </Columns>
+    </OmniDataGrid>
+</div>
+
 @* Une colonne de texte long qui demande le retour à la ligne (Wrap) : elle n'a pas de largeur propre, elle
    prend la place que les autres lui laissent et passe à la ligne au lieu d'être coupée. *@
 <div class="demo-grid-sizing-box">
