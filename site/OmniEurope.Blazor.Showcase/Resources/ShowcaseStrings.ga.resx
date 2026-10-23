@@ -1279,6 +1279,9 @@
   <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>Tá an cuóta beagnach bainte amach.</value></data>
   <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Teip</value></data>
   <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>Theip ar an gceangal leis an tseirbhís.</value></data>
+  <data name="DemoOverlayNotifyShort" xml:space="preserve"><value>Fógra gearr</value></data>
+  <data name="DemoOverlayNotifyLong" xml:space="preserve"><value>Fógra fada</value></data>
+  <data name="DemoOverlayNoticeLong" xml:space="preserve"><value>Tá an tuarascáil iompórtála réidh. Léadh ceithre chomhad déag: sábháladh dhá cheann déag gan trácht, scipeadh ceann amháin toisc go raibh sé ann cheana agus diúltaíodh do cheann amháin toisc go raibh colún éigeantach ar iarraidh. Is féidir an mhionsonraí líne ar líne, leis an gceartúchán molta do gach diúltú, a léamh arís am ar bith sa logleabhar iompórtála ón leathanach próiseála.</value></data>
   <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Deimhnigh an scriosadh</value></data>
   <data name="DemoOverlayClose" xml:space="preserve"><value>Dún</value></data>
   <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Baineann an gníomh seo an fillteán den liosta. Is féidir é a chealú ar feadh tríocha lá.</value></data>

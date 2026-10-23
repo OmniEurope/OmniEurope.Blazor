@@ -1279,6 +1279,9 @@
   <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>Το όριο έχει σχεδόν συμπληρωθεί.</value></data>
   <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Αποτυχία</value></data>
   <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>Η σύνδεση με την υπηρεσία απέτυχε.</value></data>
+  <data name="DemoOverlayNotifyShort" xml:space="preserve"><value>Σύντομη ειδοποίηση</value></data>
+  <data name="DemoOverlayNotifyLong" xml:space="preserve"><value>Μεγάλη ειδοποίηση</value></data>
+  <data name="DemoOverlayNoticeLong" xml:space="preserve"><value>Η αναφορά εισαγωγής είναι έτοιμη. Διαβάστηκαν δεκατέσσερα αρχεία: δώδεκα αποθηκεύτηκαν χωρίς παρατηρήσεις, ένα παραλείφθηκε επειδή υπήρχε ήδη και ένα απορρίφθηκε επειδή έλειπε μια υποχρεωτική στήλη. Η αναλυτική εικόνα γραμμή προς γραμμή, με την προτεινόμενη διόρθωση για κάθε απόρριψη, μπορεί να διαβαστεί ξανά οποτεδήποτε στο ημερολόγιο εισαγωγής, από τη σελίδα των επεξεργασιών.</value></data>
   <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Επιβεβαίωση διαγραφής</value></data>
   <data name="DemoOverlayClose" xml:space="preserve"><value>Κλείσιμο</value></data>
   <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Αυτή η ενέργεια αφαιρεί τον φάκελο από τη λίστα. Μπορεί να αναιρεθεί για τριάντα ημέρες.</value></data>

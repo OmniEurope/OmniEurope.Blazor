@@ -1279,6 +1279,9 @@
   <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>A kvóta majdnem elfogyott.</value></data>
   <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Hiba</value></data>
   <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>Nem sikerült csatlakozni a szolgáltatáshoz.</value></data>
+  <data name="DemoOverlayNotifyShort" xml:space="preserve"><value>Rövid értesítés</value></data>
+  <data name="DemoOverlayNotifyLong" xml:space="preserve"><value>Hosszú értesítés</value></data>
+  <data name="DemoOverlayNoticeLong" xml:space="preserve"><value>Az importjelentés elkészült. Tizennégy fájlt olvastunk be: tizenkettőt észrevétel nélkül mentettünk, egyet kihagytunk, mert már létezett, egyet pedig elutasítottunk, mert hiányzott egy kötelező oszlop. A soronkénti részletek, az egyes elutasításokhoz javasolt javítással, bármikor újra elolvashatók az importnaplóban, a feldolgozások oldaláról.</value></data>
   <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Törlés megerősítése</value></data>
   <data name="DemoOverlayClose" xml:space="preserve"><value>Bezárás</value></data>
   <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Ez a művelet eltávolítja a mappát a listából. Harminc napig visszavonható.</value></data>

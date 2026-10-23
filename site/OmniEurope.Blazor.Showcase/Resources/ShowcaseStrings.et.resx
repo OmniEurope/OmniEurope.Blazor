@@ -1279,6 +1279,9 @@
   <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>Kvoot on peaaegu täis.</value></data>
   <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Tõrge</value></data>
   <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>Ühendus teenusega ebaõnnestus.</value></data>
+  <data name="DemoOverlayNotifyShort" xml:space="preserve"><value>Lühike teavitus</value></data>
+  <data name="DemoOverlayNotifyLong" xml:space="preserve"><value>Pikk teavitus</value></data>
+  <data name="DemoOverlayNoticeLong" xml:space="preserve"><value>Impordiaruanne on valmis. Loeti neliteist faili: kaksteist salvestati märkusteta, üks jäeti vahele, sest see oli juba olemas, ja üks lükati tagasi, sest kohustuslik veerg puudus. Üksikasjad rida realt koos iga tagasilükkamise puhul pakutud parandusega saab igal ajal uuesti lugeda impordi logist, töötluste lehelt.</value></data>
   <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Kinnita kustutamine</value></data>
   <data name="DemoOverlayClose" xml:space="preserve"><value>Sulge</value></data>
   <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>See toiming eemaldab kausta loendist. Seda saab kolmekümne päeva jooksul tagasi võtta.</value></data>

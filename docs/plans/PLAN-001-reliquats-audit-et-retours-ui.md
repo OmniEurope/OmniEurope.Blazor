@@ -149,8 +149,12 @@ sinon il est clos en B ou C.
   Reproduit (test rouge `PanelMenuSiblingAndGroupLinkTests.AmongSiblingsWhoseAddressesPrefixOneAnother_OnlyTheDeepestMatchIsCurrent`,
   `/settings` et `/settings/users`, au premier niveau et dans un groupe) : entre frères, l'adresse
   la plus longue qui correspond l'emporte ; classé A.
-- [ ] G-D23-09, `OmniNotification` (3, 2) : cartes courtes et longues de largeurs différentes dans une
-  même pile.
+- [x] G-D23-09, `OmniNotification` (3, 2) : cartes courtes et longues de largeurs différentes dans une
+  même pile. Reproduit le 2026-10-23 : la page Superpositions de la vitrine envoie maintenant une notification
+  courte et une longue à la pile de l'hôte (aucune démonstration n'en émettait) ; la partie `overlays` de la sonde
+  `Scripts` mesurait 260 px contre 360 px (rouge), puis les deux cartes à la même largeur à 1280 et 390 px. La zone
+  prend la largeur de son message le plus long et chaque carte la remplit, regroupée ou non ; verrou statique
+  `ShippedLookTests.NotificationRegion_GivesEveryCardTheWidthOfTheStack` ; classé A.
 - [x] G-D30-01, `OmniDataAnnotationsValidator` (2, 2) : un `IValidatableObject` affiche la clé de
   ressource brute. Reproduit le 2026-10-23 (`ValidatableObjectMessage_WrittenAsAResourceKey_IsTranslatedByTheHostLocalizer`,
   rouge : « Sur deux champs » au lieu de la traduction de l'hôte) ; le message est maintenant cherché dans `Localizer`
@@ -163,11 +167,30 @@ sinon il est clos en B ou C.
   `tests/js/tooltip.test.mjs`, « a title inside the anchor is set aside while the package tooltip is shown ») : le script
   met le `title` de côté tant que l'infobulle est suivie (survol, focus) et le rend à la sortie, `aria-label` prêté
   si le titre nommait seul le contrôle ; classé A.
-- [ ] G-D24-04, `OmniDataGrid` : alternance des lignes peu visible en sombre.
-- [ ] G-D22-04, `OmniDataGrid` : ascenseur horizontal dû au plancher de 8rem par colonne.
-- [ ] Débordement en largeur à 390 px en fi, el et hu (jusqu'à 72 px) sous certains thèmes (Néon, Halo),
+- [x] G-D24-04, `OmniDataGrid` : alternance des lignes peu visible en sombre. Non reproduit, classé C (2026-10-23) : sur
+  les 225 jeux thème x palette de chaque mode, entre deux lignes voisines, le clair tient 1,063 à 1,093:1 (médiane
+  1,082 ; écart de clarté CIE L* 2,4 à 3,5) et le sombre, à 5 % depuis la 1.8.0, 1,072 à 1,150:1 (médiane 1,123 ;
+  L* 3,3 à 5,8). Le constat citait les 4 % d'avant la part sombre propre ; le sombre n'est pas plus faible que le clair
+  et `Adjacent_rows_stay_apart_in_dark_mode` le verrouille déjà. Une alternance plus marquée dans les deux modes
+  serait un choix de design du propriétaire.
+- [x] G-D22-04, `OmniDataGrid` : ascenseur horizontal dû au plancher de 8rem par colonne. Classé B, comportement documenté
+  et voulu (2026-10-23) : mesuré à 390 px sur la page Grille, quatre colonnes sans largeur donnent un tableau de 512 px dans
+  un viewport de 312 px ; le plancher `--omni-data-grid-column-min-width` évite des colonnes écrasées à zéro (`GridColumnLayout.TableMinimumWidth`,
+  `docs/data-components.md`, sonde `AutoFit`). Sortie de l'hôte, vérifiée au navigateur (le même tableau tombe à 337 px quand le jeton est baissé à 4 rem sur
+  la grille elle-même) : `Width` ou `MinWidth` absolue sur les colonnes, ou ce jeton. Aucun code ni CSS de la grille touché ;
+  repris par PLAN-004 lot M (largeur des colonnes au contenu), qui possède cette zone.
+- [x] Débordement en largeur à 390 px en fi, el et hu (jusqu'à 72 px) sous certains thèmes (Néon, Halo),
   vu par la sonde `Languages` quand le navigateur gardait le thème laissé par Contrast (2026-10-12) ;
-  la passe par défaut, qui mesure sous le thème livré, ne le voit pas.
+  la passe par défaut, qui mesure sous le thème livré, ne le voit pas. Reproduit le 2026-10-23 avec `OMNI_LANGUAGES_THEME`
+  (nouveau, la sonde ne choisissait aucun thème) : rouge sous Néon (48 px), Ardoise (44), Rétro (35), Octet (105 ; 72 en
+  fi et hu, le chiffre de 2026-10-12) et Épure (2), de, el, fi et hu ; Halo, clair et sombre, est propre : le constat
+  citait le mauvais thème. Causes : le titre du héros de la vitrine (piste de grille `auto` élargie au mot le plus long en
+  capitales espacées), deux rangées de boutons sans retour à la ligne de la vitrine (choix, parcours, tuiles de badges),
+  le champ d'`OmniUpload` (minimum 12rem ou 60 % + un bouton de 170 px) et le menu latéral (`OmniPanelMenu`, un libellé
+  coupé par des points de suspension donnait quand même sa longueur à la piste). Corrigé : pistes `minmax(0, 1fr)`,
+  `Wrap` sur les rangées, minimum du champ à 40 % ; la sonde `Languages` sous Néon, Ardoise, Rétro, Octet et Épure,
+  puis sous le thème livré, est propre ; classé A. Le thème par défaut de la passe reste le thème livré : mesurer sous un
+  thème en capitales est une option, et l'ajouter à la passe est une décision du propriétaire (durée).
 Controle : pour chaque case, test rouge puis vert, ou classement motivé en B ou C dans l'annexe.
 
 ### Lot 7 - Demandes d'applications clientes

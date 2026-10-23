@@ -1282,6 +1282,9 @@
   <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>The quota has almost been reached.</value></data>
   <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Failure</value></data>
   <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>The connection to the service failed.</value></data>
+  <data name="DemoOverlayNotifyShort" xml:space="preserve"><value>Short notification</value></data>
+  <data name="DemoOverlayNotifyLong" xml:space="preserve"><value>Long notification</value></data>
+  <data name="DemoOverlayNoticeLong" xml:space="preserve"><value>The import report is ready. Fourteen files were read: twelve were saved without comment, one was skipped because it already existed and one was refused because a required column was missing. The line-by-line detail, with the correction suggested for each rejection, can be read again at any time in the import log, from the processing page.</value></data>
   <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Confirm the deletion</value></data>
   <data name="DemoOverlayClose" xml:space="preserve"><value>Close</value></data>
   <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>This action removes the folder from the list. It can be undone for thirty days.</value></data>

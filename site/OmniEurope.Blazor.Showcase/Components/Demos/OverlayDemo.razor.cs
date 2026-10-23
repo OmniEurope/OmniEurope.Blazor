@@ -106,6 +106,10 @@ public partial class OverlayDemo : IDisposable
             });
     }
 
+    private void NotifyShort() => Overlays.Notify(Text["DemoOverlayNoticeQuota"], OmniSeverity.Warning);
+
+    private void NotifyLong() => Overlays.Notify(Text["DemoOverlayNoticeLong"], OmniSeverity.Success, Text["DemoOverlayNoticeDoneTitle"]);
+
     private void CloseBlockingDialog()
     {
         Overlays.CloseDialog();

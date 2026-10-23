@@ -1279,6 +1279,9 @@
   <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>Cota este aproape atinsă.</value></data>
   <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Eșec</value></data>
   <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>Conectarea la serviciu a eșuat.</value></data>
+  <data name="DemoOverlayNotifyShort" xml:space="preserve"><value>Notificare scurtă</value></data>
+  <data name="DemoOverlayNotifyLong" xml:space="preserve"><value>Notificare lungă</value></data>
+  <data name="DemoOverlayNoticeLong" xml:space="preserve"><value>Raportul de import este gata. Au fost citite paisprezece fișiere: douăsprezece au fost salvate fără observații, unul a fost omis pentru că exista deja și unul a fost refuzat pentru că lipsea o coloană obligatorie. Detaliul rând cu rând, cu corecția propusă pentru fiecare refuz, poate fi consultat din nou oricând în jurnalul de import, din pagina prelucrărilor.</value></data>
   <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Confirmă ștergerea</value></data>
   <data name="DemoOverlayClose" xml:space="preserve"><value>Închide</value></data>
   <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Această acțiune elimină folderul din listă. Poate fi anulată timp de treizeci de zile.</value></data>

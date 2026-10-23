@@ -586,7 +586,9 @@ Les lignes alternent par défaut (`AllowAlternatingRows`, `true` depuis la 1.8.0
 prend une part de la couleur du texte posée sur le cadre, lue dans le jeton de portée
 `--omni-grid-stripe-share` (4 % par défaut et sur les portées claires, 5 % sur les portées sombres, où
 4 % laissait deux lignes voisines à 1,055:1 sur un cadre noir ; `DataGridEditRowAndDefaultsTests`
-mesure chaque thème et chaque palette en sombre). `AllowAlternatingRows="false"` garde des lignes d'un
+mesure chaque thème et chaque palette en sombre. Mesure du 2026-10-23 sur les 225 jeux de chaque mode, entre deux lignes voisines :
+clair 1,063 à 1,093:1 (médiane 1,082), sombre 1,072 à 1,150:1 (médiane 1,123), soit un écart de clarté CIE L* de 2,4 à 3,5 en clair
+et de 3,3 à 5,8 en sombre : le sombre n'est pas plus faible que le clair). `AllowAlternatingRows="false"` garde des lignes d'un
 seul fond, séparées par leur filet.
 
 Les titres de l'en-tête prennent la taille du texte des cellules : `--omni-grid-header-font-size`, que

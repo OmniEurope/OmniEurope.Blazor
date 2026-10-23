@@ -1279,6 +1279,9 @@
   <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>Kiintiö on melkein täynnä.</value></data>
   <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Virhe</value></data>
   <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>Yhteys palveluun epäonnistui.</value></data>
+  <data name="DemoOverlayNotifyShort" xml:space="preserve"><value>Lyhyt ilmoitus</value></data>
+  <data name="DemoOverlayNotifyLong" xml:space="preserve"><value>Pitkä ilmoitus</value></data>
+  <data name="DemoOverlayNoticeLong" xml:space="preserve"><value>Tuontiraportti on valmis. Luettiin neljätoista tiedostoa: kaksitoista tallennettiin ilman huomautuksia, yksi ohitettiin, koska se oli jo olemassa, ja yksi hylättiin, koska pakollinen sarake puuttui. Rivikohtaiset tiedot ja jokaisen hylkäyksen korjausehdotuksen voi lukea uudelleen milloin tahansa tuontilokista käsittelysivulta.</value></data>
   <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Vahvista poisto</value></data>
   <data name="DemoOverlayClose" xml:space="preserve"><value>Sulje</value></data>
   <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Tämä toiminto poistaa kansion luettelosta. Sen voi perua 30 päivän ajan.</value></data>

@@ -18,11 +18,19 @@
     min-inline-size: 9rem;
 }
 
+/* One track as wide as the page, and items capped to it, not to their longest word: the auto track and the item
+   width grew to the longest unbreakable word of the title, which a theme in tracked capitals makes wider
+   than a phone, and pushed the page sideways. The title then breaks that word (overflow-wrap) inside its box. */
 .showcase-hero {
     display: grid;
     gap: var(--omni-space-md);
+    grid-template-columns: minmax(0, 1fr);
     justify-items: start;
     padding-block: var(--omni-space-xl);
+}
+
+.showcase-hero > * {
+    max-inline-size: 100%;
 }
 
 .showcase-hero__lead {
@@ -91,7 +99,7 @@
     display: grid;
     gap: var(--omni-space-sm);
     margin-block: var(--omni-space-lg);
-    min-inline-size: 0;
+    max-inline-size: 100%;
     padding: var(--omni-space-lg);
 }
 

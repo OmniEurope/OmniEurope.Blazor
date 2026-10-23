@@ -1279,6 +1279,9 @@
   <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>Kvota je skoraj dosežena.</value></data>
   <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Neuspeh</value></data>
   <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>Povezava s storitvijo ni uspela.</value></data>
+  <data name="DemoOverlayNotifyShort" xml:space="preserve"><value>Kratko obvestilo</value></data>
+  <data name="DemoOverlayNotifyLong" xml:space="preserve"><value>Dolgo obvestilo</value></data>
+  <data name="DemoOverlayNoticeLong" xml:space="preserve"><value>Poročilo o uvozu je pripravljeno. Prebranih je bilo štirinajst datotek: dvanajst jih je bilo shranjenih brez pripomb, ena je bila preskočena, ker že obstaja, ena pa zavrnjena, ker je manjkal obvezni stolpec. Podrobnosti vrstico za vrstico s predlaganim popravkom za vsako zavrnitev lahko kadar koli znova preberete v dnevniku uvoza na strani obdelav.</value></data>
   <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Potrdite brisanje</value></data>
   <data name="DemoOverlayClose" xml:space="preserve"><value>Zapri</value></data>
   <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>To dejanje odstrani mapo s seznama. Razveljavite ga lahko v tridesetih dneh.</value></data>

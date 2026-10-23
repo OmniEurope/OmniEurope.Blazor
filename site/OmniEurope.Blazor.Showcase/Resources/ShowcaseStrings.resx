@@ -1282,6 +1282,9 @@
   <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>Le quota est presque atteint.</value></data>
   <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Échec</value></data>
   <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>La connexion au service a échoué.</value></data>
+  <data name="DemoOverlayNotifyShort" xml:space="preserve"><value>Notification courte</value></data>
+  <data name="DemoOverlayNotifyLong" xml:space="preserve"><value>Notification longue</value></data>
+  <data name="DemoOverlayNoticeLong" xml:space="preserve"><value>Le rapport d'import est prêt. Quatorze fichiers ont été lus : douze enregistrés sans remarque, un ignoré parce qu'il existait déjà et un refusé parce qu'une colonne obligatoire manquait. Le détail ligne par ligne, avec la correction proposée pour chaque rejet, peut être relu à tout moment dans le journal de l'import, depuis la page des traitements.</value></data>
   <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Confirmer la suppression</value></data>
   <data name="DemoOverlayClose" xml:space="preserve"><value>Fermer</value></data>
   <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Cette action retire le dossier de la liste. Elle est réversible pendant trente jours.</value></data>

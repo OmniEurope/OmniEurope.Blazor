@@ -1279,6 +1279,9 @@
   <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>Kvoten er næsten nået.</value></data>
   <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Fejl</value></data>
   <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>Forbindelsen til tjenesten mislykkedes.</value></data>
+  <data name="DemoOverlayNotifyShort" xml:space="preserve"><value>Kort meddelelse</value></data>
+  <data name="DemoOverlayNotifyLong" xml:space="preserve"><value>Lang meddelelse</value></data>
+  <data name="DemoOverlayNoticeLong" xml:space="preserve"><value>Importrapporten er klar. Fjorten filer blev læst: tolv blev gemt uden bemærkninger, én blev sprunget over, fordi den allerede fandtes, og én blev afvist, fordi en obligatorisk kolonne manglede. Detaljerne linje for linje, med den foreslåede rettelse for hver afvisning, kan til enhver tid læses igen i importloggen fra siden med behandlinger.</value></data>
   <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Bekræft sletningen</value></data>
   <data name="DemoOverlayClose" xml:space="preserve"><value>Luk</value></data>
   <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Denne handling fjerner mappen fra listen. Den kan fortrydes i tredive dage.</value></data>

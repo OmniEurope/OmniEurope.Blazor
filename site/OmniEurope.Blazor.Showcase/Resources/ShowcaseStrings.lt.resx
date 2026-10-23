@@ -1279,6 +1279,9 @@
   <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>Kvota beveik pasiekta.</value></data>
   <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Klaida</value></data>
   <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>Nepavyko prisijungti prie paslaugos.</value></data>
+  <data name="DemoOverlayNotifyShort" xml:space="preserve"><value>Trumpas pranešimas</value></data>
+  <data name="DemoOverlayNotifyLong" xml:space="preserve"><value>Ilgas pranešimas</value></data>
+  <data name="DemoOverlayNoticeLong" xml:space="preserve"><value>Importo ataskaita paruošta. Perskaityta keturiolika failų: dvylika išsaugota be pastabų, vienas praleistas, nes jau egzistavo, o vienas atmestas, nes trūko privalomo stulpelio. Išsamią informaciją eilutė po eilutės su siūlomu kiekvieno atmetimo pataisymu bet kada galite perskaityti dar kartą importo žurnale, apdorojimų puslapyje.</value></data>
   <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Patvirtinti šalinimą</value></data>
   <data name="DemoOverlayClose" xml:space="preserve"><value>Uždaryti</value></data>
   <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Šis veiksmas pašalina aplanką iš sąrašo. Jį galima atšaukti per trisdešimt dienų.</value></data>

@@ -1279,6 +1279,9 @@
   <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>Il-kwota kważi ntlaħqet.</value></data>
   <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Falliment</value></data>
   <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>Il-konnessjoni mas-servizz falliet.</value></data>
+  <data name="DemoOverlayNotifyShort" xml:space="preserve"><value>Notifika qasira</value></data>
+  <data name="DemoOverlayNotifyLong" xml:space="preserve"><value>Notifika twila</value></data>
+  <data name="DemoOverlayNoticeLong" xml:space="preserve"><value>Ir-rapport tal-importazzjoni huwa lest. Inqraw erbatax-il fajl: tnax inħażnu mingħajr rimarki, wieħed ġie maqbuż għax kien diġà jeżisti u wieħed ġie miċħud għax kienet nieqsa kolonna obbligatorja. Id-dettall linja b'linja, bil-korrezzjoni proposta għal kull ċaħda, jista' jinqara mill-ġdid fi kwalunkwe ħin fil-ġurnal tal-importazzjoni, mill-paġna tal-ipproċessar.</value></data>
   <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Ikkonferma t-tħassir</value></data>
   <data name="DemoOverlayClose" xml:space="preserve"><value>Agħlaq</value></data>
   <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Din l-azzjoni tneħħi l-folder mil-lista. Tista' titreġġa' lura għal tletin jum.</value></data>

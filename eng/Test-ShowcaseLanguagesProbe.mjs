@@ -47,6 +47,12 @@ const PLAN = ALL_LANGUAGES
 const LANGUAGES = PLAN.map(step => step.language);
 const SHARD_WIDTHS = WIDTHS.filter(width => PLAN.some(step => step.widths.includes(width)));
 const CULTURE_KEY = 'omnieurope.showcase.culture';
+const THEME_KEY = 'omnieurope.showcase.theme';
+// OMNI_LANGUAGES_THEME is the customizer entry to measure under, written before every page load, for example
+// '{"theme":"Néon","mode":"Dark"}'. Unset, the probe measures the shipped theme, as the fresh browser of the host
+// draws it; the entry is how a theme another probe left in the storage of a shared browser is reproduced.
+const THEME_ENTRY = process.env.OMNI_LANGUAGES_THEME ?? null;
+const THEME_MODE = THEME_ENTRY === null ? null : String(JSON.parse(THEME_ENTRY).mode ?? 'Light').toLowerCase();
 
 // Selectors exempted from the check, each with the reason its text may leave its box. Text inside
 // one of them is not measured.
@@ -214,10 +220,15 @@ try {
 
   for (const { language, widths } of PLAN) {
     await evaluate(`localStorage.setItem(${JSON.stringify(CULTURE_KEY)}, ${JSON.stringify(language)})`);
+    if (THEME_ENTRY !== null) await evaluate(`localStorage.setItem(${JSON.stringify(THEME_KEY)}, ${JSON.stringify(THEME_ENTRY)})`);
     await send('Emulation.setDeviceMetricsOverride', { width: widths[0], height: 900, deviceScaleFactor: 1, mobile: false });
     await send('Page.navigate', { url: siteUrl });
     await waitFor(`la vitrine en ${language}`, `${ready} && document.documentElement.lang === ${JSON.stringify(language)}`, 20_000);
     await pause(1000);
+    if (THEME_MODE !== null) {
+      const drawn = await evaluate("document.getElementById('showcase-theme').getAttribute('data-omni-theme-resolved')");
+      if (drawn !== THEME_MODE) throw new Error(`Langues : le thème demandé (${THEME_ENTRY}) n'est pas appliqué, la page est en mode ${drawn}.`);
+    }
     await evaluate(detectorSource);
 
     // The detector must see a text it overflows on purpose, or it proves nothing.
@@ -288,6 +299,7 @@ try {
 } finally {
   // The next probe of the pass starts in French, as the host's browser does.
   try { await evaluate(`localStorage.removeItem(${JSON.stringify(CULTURE_KEY)})`); } catch { /* page gone */ }
+  if (THEME_ENTRY !== null) { try { await evaluate(`localStorage.removeItem(${JSON.stringify(THEME_KEY)})`); } catch { /* page gone */ } }
   await coverage.finish();
   socket.close();
 }

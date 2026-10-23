@@ -585,6 +585,36 @@ public sealed partial class ShippedLookTests : OmniBunitContext
         Assert.DoesNotContain("var(--omni-radius) / 2", Css, StringComparison.Ordinal);
     }
 
+    [Fact]
+    public void NotificationRegion_GivesEveryCardTheWidthOfTheStack()
+    {
+        // G-D23-09: a short and a long message in one stack were drawn 16.25rem and 22.5rem wide, each card
+        // keeping the width of its own length class. The region takes the width of its longest message and
+        // every card in it fills that width, aligned or grouped, wherever the stack is anchored.
+        Assert.Equal("stretch", Value(BodyWith(".omni-notification-region", "justify-items"), "justify-items"));
+        Assert.Equal("auto", Value(Body(".omni-notification-region .omni-notification"), "inline-size"));
+        Assert.DoesNotContain(Rules(), rule =>
+            rule.Selector.Contains(".omni-notification-region", StringComparison.Ordinal)
+            && Regex.IsMatch(rule.Body, @"justify-items:\s*(start|end)\b"));
+
+        // A card laid by hand, outside a region, keeps its own width: the long class stays.
+        Assert.Equal("22.5rem", Value(Body(".omni-notification--long"), "inline-size"));
+    }
+
+    /// <summary>
+    /// The sideways overflow at 390 px that the Languages probe found under the themes in tracked capitals
+    /// (Néon, Ardoise, Rétro, Octet) in German, Finnish, Greek and Hungarian: a label kept on one line with an
+    /// ellipsis still gave its grid track its whole length, so one long entry widened every link of the menu
+    /// past the window. The menu tracks are as wide as their frame, and the label is cut instead.
+    /// </summary>
+    [Theory]
+    [InlineData(".omni-panel-menu")]
+    [InlineData(".omni-panel-menu__group")]
+    public void PanelMenu_TracksAreAsWideAsTheirFrame_SoALongLabelIsCutAndDoesNotWidenThePage(string selector)
+    {
+        Assert.Equal("minmax(0, 1fr)", Value(Body(selector), "grid-template-columns"));
+    }
+
     // ---- helpers ----
 
     internal static IEnumerable<(string Selector, string Body)> Rules() =>

@@ -1279,6 +1279,9 @@
   <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>La quota è quasi raggiunta.</value></data>
   <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Errore</value></data>
   <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>La connessione al servizio non è riuscita.</value></data>
+  <data name="DemoOverlayNotifyShort" xml:space="preserve"><value>Notifica breve</value></data>
+  <data name="DemoOverlayNotifyLong" xml:space="preserve"><value>Notifica lunga</value></data>
+  <data name="DemoOverlayNoticeLong" xml:space="preserve"><value>Il rapporto di importazione è pronto. Sono stati letti quattordici file: dodici sono stati salvati senza osservazioni, uno è stato saltato perché esisteva già e uno è stato rifiutato perché mancava una colonna obbligatoria. Il dettaglio riga per riga, con la correzione proposta per ogni rifiuto, può essere riletto in qualsiasi momento nel registro di importazione, dalla pagina delle elaborazioni.</value></data>
   <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Conferma l'eliminazione</value></data>
   <data name="DemoOverlayClose" xml:space="preserve"><value>Chiudi</value></data>
   <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Questa azione rimuove la cartella dall'elenco. È reversibile per trenta giorni.</value></data>

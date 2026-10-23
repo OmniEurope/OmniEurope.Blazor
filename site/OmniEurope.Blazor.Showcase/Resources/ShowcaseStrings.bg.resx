@@ -1279,6 +1279,9 @@
   <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>Квотата е почти достигната.</value></data>
   <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Неуспех</value></data>
   <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>Връзката с услугата е неуспешна.</value></data>
+  <data name="DemoOverlayNotifyShort" xml:space="preserve"><value>Кратко известие</value></data>
+  <data name="DemoOverlayNotifyLong" xml:space="preserve"><value>Дълго известие</value></data>
+  <data name="DemoOverlayNoticeLong" xml:space="preserve"><value>Отчетът за импортиране е готов. Прочетени са четиринадесет файла: дванайсет са записани без забележки, един е пропуснат, защото вече съществува, и един е отказан, защото липсва задължителна колона. Подробностите ред по ред, с предложената корекция за всеки отхвърлен файл, могат да се прочетат по всяко време в журнала на импортирането от страницата с обработките.</value></data>
   <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Потвърждаване на изтриването</value></data>
   <data name="DemoOverlayClose" xml:space="preserve"><value>Затваряне</value></data>
   <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Това действие премахва папката от списъка. То може да бъде отменено в рамките на трийсет дни.</value></data>

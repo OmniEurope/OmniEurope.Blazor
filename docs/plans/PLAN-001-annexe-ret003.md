@@ -44,12 +44,12 @@ Totaux : 715 citations, 341 hors périmètre, 374 en 82 groupes : **6 A**, **5 d
 |---|---|---|---|
 | G-D28-02 | `OmniPanelMenuItem` | 3/3 | libellé d'un groupe avec `Href` = lien sans `Toggle` ; `IsWithin` faux sur la route du groupe. **Reproduit et corrigé (2026-10-23), classe A** : le clic sur le libellé déplie |
 | G-D28-01 | `OmniPanelMenuItem` | 4/2 | `IsCurrent` arbitre groupe et enfants, pas deux frères en `Prefix`. **Reproduit et corrigé (2026-10-23), classe A** : l'adresse la plus longue l'emporte entre frères |
-| G-D23-09 | `OmniNotification` | 3/2 | cartes à 16,25rem ou 22,5rem selon la longueur ; aucune démo d'émission |
+| G-D23-09 | `OmniNotification` | 3/2 | cartes à 16,25rem ou 22,5rem selon la longueur ; aucune démo d'émission. **Reproduit et corrigé (2026-10-23), classe A** : démo ajoutée, sonde rouge (260 px contre 360 px), la zone étire ses cartes à sa largeur |
 | G-D30-01 | `OmniDataAnnotationsValidator` | 2/2 | messages `IValidatableObject` ajoutés sans `Lookup()` ; reproduit et corrigé le 2026-10-23 (lot 6) |
 | G-D28-04 | menus | 4/2 | placement abandonné après 10 essais sans prévenir .NET, `IsOpen` reste vrai. **Reproduit et corrigé (2026-10-23), classe A** : le script lâche le menu et prévient .NET (test node `tests/js/menus.test.mjs`) |
 | G-D34-02 | `OmniTooltip` | 1/1 | `title` d'un descendant non retiré pendant le survol. **Reproduit et corrigé (2026-10-23), classe A** : mis de côté pendant le survol et le focus, rendu ensuite, `aria-label` prêté (test node `tests/js/tooltip.test.mjs`) |
-| G-D24-04 | `OmniDataGrid` | 9/2 | alternance à 4 % du texte, peu visible en sombre |
-| G-D22-04 | `OmniDataGrid` | 5/2 | plancher de 8rem par colonne sans largeur, défilement horizontal |
+| G-D24-04 | `OmniDataGrid` | 9/2 | alternance à 4 % du texte, peu visible en sombre. **Non reproduit, classe C (2026-10-23)** : entre deux lignes voisines, clair 1,063 à 1,093:1 (L* 2,4 à 3,5) et sombre à 5 % 1,072 à 1,150:1 (L* 3,3 à 5,8) sur 225 jeux par mode |
+| G-D22-04 | `OmniDataGrid` | 5/2 | plancher de 8rem par colonne sans largeur, défilement horizontal. **Classe B (2026-10-23)** : voulu et documenté, mesuré 512 px dans 312 px à 390 px, sortie par `Width`/`MinWidth` ou par le jeton sur la grille ; repris par PLAN-004 lot M |
 
 ## Autres C
 

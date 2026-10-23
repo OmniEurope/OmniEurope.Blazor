@@ -1279,6 +1279,9 @@
   <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>Limit jest prawie osiągnięty.</value></data>
   <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Niepowodzenie</value></data>
   <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>Połączenie z usługą nie powiodło się.</value></data>
+  <data name="DemoOverlayNotifyShort" xml:space="preserve"><value>Krótkie powiadomienie</value></data>
+  <data name="DemoOverlayNotifyLong" xml:space="preserve"><value>Długie powiadomienie</value></data>
+  <data name="DemoOverlayNoticeLong" xml:space="preserve"><value>Raport z importu jest gotowy. Odczytano czternaście plików: dwanaście zapisano bez uwag, jeden pominięto, ponieważ już istniał, a jeden odrzucono, ponieważ brakowało wymaganej kolumny. Szczegóły wiersz po wierszu, wraz z proponowaną poprawką dla każdego odrzucenia, można w każdej chwili przeczytać ponownie w dzienniku importu, na stronie przetwarzań.</value></data>
   <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Potwierdź usunięcie</value></data>
   <data name="DemoOverlayClose" xml:space="preserve"><value>Zamknij</value></data>
   <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Ta akcja usuwa folder z listy. Można ją cofnąć w ciągu trzydziestu dni.</value></data>
