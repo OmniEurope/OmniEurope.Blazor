@@ -41,7 +41,9 @@ if ([Text.Encoding]::UTF8.GetString($shippedBytes).Contains('/*')) {
 $budgets = @(
     @{ Name = 'Assembly'; Length = (Read-Bytes $AssemblyPath 'The library assembly').Length; Maximum = 3MB }
 )
-if ($PackagePath) { $budgets += @{ Name = 'NuGet'; Length = (Get-Item -LiteralPath $PackagePath).Length; Maximum = 2MB } }
+# The owner raised the package budget to 3 MiB on 2026-10-23, the ceiling of the assembly: 1.9.0 reached
+# 2.01 MiB through real growth (assembly, XML documentation, script modules), with nothing parasitic in it.
+if ($PackagePath) { $budgets += @{ Name = 'NuGet'; Length = (Get-Item -LiteralPath $PackagePath).Length; Maximum = 3MB } }
 
 foreach ($budget in $budgets) {
     if ($budget.Length -gt $budget.Maximum) { throw "$($budget.Name) exceeds its budget: $($budget.Length) > $($budget.Maximum) bytes." }
