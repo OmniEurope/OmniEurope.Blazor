@@ -145,10 +145,11 @@ public sealed partial class ThemeContrastMatrixTests
     }
 
     /// <summary>
-    /// recette R-347: the solid neutral badge (muted text as fill, surface as ink) stands out as a
-    /// component from the grid and card frames it sits on, which a theme may tint away from the page
-    /// (<c>--omni-card-background</c>, the grid's <c>--omni-grid-frame</c>, else the surface) and from the layer
-    /// fill. Its ink on it is the muted-text-on-surface pair of <see cref="Pairs"/>.
+    /// recette R-347: the solid neutral badge (a grey held between the ratio of its ink and 3:1 against the
+    /// surface, <c>--omni-badge-solid-fill-neutral</c>) stands out as a component from the grid and card
+    /// frames it sits on, which a theme may tint away from the page (<c>--omni-card-background</c>, the
+    /// grid's <c>--omni-grid-frame</c>, else the surface) and from the layer fill. Its ink on it is held at
+    /// 4.5 by <see cref="Solid_badges_share_one_ink_per_mode_and_read_at_the_text_ratio"/>.
     /// </summary>
     [Theory]
     [MemberData(nameof(Sets))]
@@ -157,7 +158,7 @@ public sealed partial class ThemeContrastMatrixTests
         var theme = OmniThemePresets.All.Single(entry => entry.Name == themeName);
         var palette = OmniThemePalettes.All.Single(entry => entry.Name == paletteName);
         var tokens = theme.With(palette).For(mode);
-        var fill = ShowcaseThemeTests.Resolve(tokens, tokens["--omni-color-text-muted"]);
+        var fill = ShowcaseThemeTests.Resolve(tokens, tokens["--omni-badge-solid-fill-neutral"]);
 
         var failures = new List<string>();
         foreach (var frame in new[] { "--omni-card-background", "--omni-layer-fill" })
@@ -171,6 +172,97 @@ public sealed partial class ThemeContrastMatrixTests
         }
 
         AssertOrAccept(themeName, paletteName, mode, failures);
+    }
+
+    /// <summary>The ink of every solid badge in light mode (owner decision of 2026-10-22, recette R-22).</summary>
+    internal const string SolidBadgeLightInk = "#111111";
+
+    /// <summary>The ink of every solid badge in dark mode (owner decision of 2026-10-22, recette R-22).</summary>
+    internal const string SolidBadgeDarkInk = "#ffffff";
+
+    /// <summary>
+    /// The sets in which a solid badge of a tone may fall short of the text ratio or of its single ink.
+    /// Empty: the badge tokens are derived from each palette against the ink of the mode, so every
+    /// tone of every set holds both. A set added here is a deliberate edit, written with its reason, and
+    /// its shortfall is written to the test output.
+    /// </summary>
+    private static readonly IReadOnlyDictionary<(string Theme, string Palette, OmniAppearance Mode, OmniTone Tone), string> SolidBadgeExceptions =
+        new Dictionary<(string, string, OmniAppearance, OmniTone), string>();
+
+    /// <summary>
+    /// The one place where the neutral solid badge cannot stand out from the card at 3:1 (WCAG 1.4.11, a
+    /// non-text component) and keep its white ink at 4.5:1 at the same time: in dark mode the grey must
+    /// be no lighter than a luminance of 0.183 to carry white lettering, while the translucent card Trou
+    /// noir lays over its black disk is darker still, so the two ratios cap out between 2.5:1 and 2.9:1 there. The
+    /// owner kept the single white ink (recette R-22); the lettering is held at 4.5:1 on every set by
+    /// <see cref="Solid_badges_share_one_ink_per_mode_and_read_at_the_text_ratio"/>, and only the frame
+    /// of the neutral badge against that card is accepted short, and written to the test output.
+    /// </summary>
+    private static readonly IReadOnlyDictionary<(string Theme, OmniAppearance Mode), string> NeutralBadgeBackdropExceptions =
+        new Dictionary<(string, OmniAppearance), string>
+        {
+            [("Trou noir", OmniAppearance.Dark)] = "white ink caps the grey below the 3:1 a black-disk card asks",
+        };
+
+    /// <summary>
+    /// Recette R-22: every solid badge of a mode carries the same ink (near-black in light mode, white in
+    /// dark mode), whatever its tone, and that ink reads on the fill of its tone at 4.5. The fill and the
+    /// ink are read from the declarations of the stylesheet (<c>.omni-badge--solid</c> and its tone rules),
+    /// then resolved in the token set, so a stylesheet that paints one tone with another ink fails here.
+    /// </summary>
+    [Theory]
+    [MemberData(nameof(Sets))]
+    public void Solid_badges_share_one_ink_per_mode_and_read_at_the_text_ratio(string themeName, string paletteName, OmniAppearance mode)
+    {
+        var theme = OmniThemePresets.All.Single(entry => entry.Name == themeName);
+        var palette = OmniThemePalettes.All.Single(entry => entry.Name == paletteName);
+        var tokens = theme.With(palette).For(mode);
+        var wanted = mode is OmniAppearance.Dark ? SolidBadgeDarkInk : SolidBadgeLightInk;
+
+        var failures = new List<string>();
+        foreach (var tone in Enum.GetValues<OmniTone>())
+        {
+            var (fillReference, inkReference) = SolidBadgeDeclarations(tone);
+            var fill = ShowcaseThemeTests.Resolve(tokens, fillReference);
+            var ink = ShowcaseThemeTests.Resolve(tokens, inkReference);
+            var contrast = ThemeColor.Contrast(ink, fill);
+            var problems = new List<string>();
+            if (!string.Equals(ink, wanted, StringComparison.OrdinalIgnoreCase))
+            {
+                problems.Add($"ink {ink} is not the {mode} ink {wanted}");
+            }
+
+            if (contrast < Text)
+            {
+                problems.Add(string.Create(CultureInfo.InvariantCulture, $"{contrast:F2} is below {Text:F1}"));
+            }
+
+            if (problems.Count == 0)
+            {
+                continue;
+            }
+
+            var line = $"solid {tone} badge: ink {inkReference} ({ink}) on fill {fillReference} ({fill}): {string.Join(", ", problems)}";
+            if (SolidBadgeExceptions.TryGetValue((themeName, paletteName, mode, tone), out var reason))
+            {
+                TestContext.Current.TestOutputHelper?.WriteLine($"Accepted solid badge exception ({reason}): {themeName} + {paletteName} in {mode}: {line}");
+                continue;
+            }
+
+            failures.Add(line);
+        }
+
+        AssertOrAccept(themeName, paletteName, mode, failures);
+    }
+
+    /// <summary>The fill and the ink the stylesheet gives the solid badge of a tone: its own rule over the base rule.</summary>
+    private static (string Fill, string Ink) SolidBadgeDeclarations(OmniTone tone)
+    {
+        var baseBody = ShippedLookTests.Body(".omni-badge--solid");
+        var own = $".omni-badge--solid.omni-badge--{tone.ToString().ToLowerInvariant()}";
+        var hasOwn = ShippedLookTests.Css.Contains(own + " {", StringComparison.Ordinal);
+        var body = hasOwn ? ShippedLookTests.Body(own) : baseBody;
+        return (ShippedLookTests.Value(body, "background"), ShippedLookTests.Value(body, "color"));
     }
 
     /// <summary>
@@ -269,11 +361,19 @@ public sealed partial class ThemeContrastMatrixTests
                 failures.Add(string.Create(CultureInfo.InvariantCulture, $"--omni-color-border ({border}) on {stop} ({ground}): {borderContrast:F2}, below {BorderFloor:F1}"));
             }
 
-            var badge = ShowcaseThemeTests.Resolve(tokens, tokens["--omni-color-text-muted"]);
+            var badge = ShowcaseThemeTests.Resolve(tokens, tokens["--omni-badge-solid-fill-neutral"]);
             var badgeContrast = ThemeColor.Contrast(badge, card);
             if (badgeContrast < Component)
             {
-                failures.Add(string.Create(CultureInfo.InvariantCulture, $"badge fill {badge} on card over {stop} ({card}): {badgeContrast:F2}, below {Component:F1}"));
+                var line = string.Create(CultureInfo.InvariantCulture, $"badge fill {badge} on card over {stop} ({card}): {badgeContrast:F2}, below {Component:F1}");
+                if (NeutralBadgeBackdropExceptions.TryGetValue((themeName, mode), out var reason))
+                {
+                    TestContext.Current.TestOutputHelper?.WriteLine($"Accepted neutral solid badge exception ({reason}): {themeName} + {paletteName} in {mode}: {line}");
+                }
+                else
+                {
+                    failures.Add(line);
+                }
             }
         }
 

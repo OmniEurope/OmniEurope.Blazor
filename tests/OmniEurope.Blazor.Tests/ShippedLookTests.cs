@@ -160,34 +160,26 @@ public sealed partial class ShippedLookTests : OmniBunitContext
 
     // ---- T22, T24: one fill and one ink per intention for buttons, solid badges and alerts ----
 
-    [Theory]
-    [InlineData(OmniTone.Accent, OmniButtonVariant.Primary)]
-    [InlineData(OmniTone.Info, OmniButtonVariant.Info)]
-    [InlineData(OmniTone.Success, OmniButtonVariant.Success)]
-    [InlineData(OmniTone.Warning, OmniButtonVariant.Warning)]
-    [InlineData(OmniTone.Danger, OmniButtonVariant.Danger)]
-    public void SolidBadge_TakesExactlyTheFillAndInkOfTheMatchingButton(OmniTone badge, OmniButtonVariant button)
-    {
-        var solid = badge == OmniTone.Accent ? Body(".omni-badge--solid") : Body($".omni-badge--solid.omni-badge--{badge.ToString().ToLowerInvariant()}");
-        var fills = Body($".omni-button--{button.ToString().ToLowerInvariant()}");
-
-        Assert.Equal(Value(fills, "--omni-button-fill"), Value(solid, "background"));
-        Assert.Equal(Value(fills, "--omni-button-ink"), Value(solid, "color"));
-    }
-
     /// <summary>
-    /// recette R-347: the solid neutral badge took the secondary button's grey, 1.25:1 against a dark
-    /// grid surface, so a status badge vanished into its row. It is the one solid badge that departs from its
-    /// button: muted text as fill, surface as ink, a pair <see cref="ThemeContrastMatrixTests"/> holds at 4.5:1
-    /// on every surface of the 200 sets (above the 3:1 of a component and the 4.5:1 of its text).
+    /// recette R-22 (owner decision of 2026-10-22, which supersedes the earlier rule that a solid badge
+    /// takes the fill and the ink of its button): every solid badge reads its own badge tokens, and none of
+    /// them is a button, alert or notification token, so changing the badge never moves a button. The values
+    /// of those tokens, one ink per mode and 4.5:1 on every fill, are held by <see cref="ThemeContrastMatrixTests"/>.
     /// </summary>
-    [Fact]
-    public void SolidNeutralBadge_StandsOutFromEverySurface()
+    [Theory]
+    [InlineData(OmniTone.Neutral)]
+    [InlineData(OmniTone.Accent)]
+    [InlineData(OmniTone.Info)]
+    [InlineData(OmniTone.Success)]
+    [InlineData(OmniTone.Warning)]
+    [InlineData(OmniTone.Danger)]
+    public void SolidBadge_ReadsItsOwnFillAndInkTokens(OmniTone badge)
     {
-        var solid = Body(".omni-badge--solid.omni-badge--neutral");
+        var tone = badge.ToString().ToLowerInvariant();
+        var solid = badge == OmniTone.Accent ? Body(".omni-badge--solid") : Body($".omni-badge--solid.omni-badge--{tone}");
 
-        Assert.Equal("var(--omni-color-text-muted)", Value(solid, "background"));
-        Assert.Equal("var(--omni-color-surface)", Value(solid, "color"));
+        Assert.Equal($"var(--omni-badge-solid-fill-{tone})", Value(solid, "background"));
+        Assert.Equal($"var(--omni-badge-solid-ink-{tone})", Value(solid, "color"));
     }
 
     [Fact]

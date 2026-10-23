@@ -3,6 +3,18 @@
 :root,
 [data-omni-theme="light"],
 [data-omni-theme="system"] {
+    --omni-badge-solid-fill-accent: #7170d8;
+    --omni-badge-solid-fill-danger: #f44336;
+    --omni-badge-solid-fill-info: #2196f3;
+    --omni-badge-solid-fill-neutral: #7c7c7c;
+    --omni-badge-solid-fill-success: #48a64c;
+    --omni-badge-solid-fill-warning: #d07c00;
+    --omni-badge-solid-ink-accent: #111111;
+    --omni-badge-solid-ink-danger: #111111;
+    --omni-badge-solid-ink-info: #111111;
+    --omni-badge-solid-ink-neutral: #111111;
+    --omni-badge-solid-ink-success: #111111;
+    --omni-badge-solid-ink-warning: #111111;
     --omni-chart-color-0: #4340d2;
     --omni-chart-color-1: #327535;
     --omni-chart-color-2: #925600;
@@ -102,6 +114,18 @@
     --omni-radius-sm: 0.15625rem;
 }
 [data-omni-theme="dark"] {
+    --omni-badge-solid-fill-accent: #5e5cd8;
+    --omni-badge-solid-fill-danger: #dc3732;
+    --omni-badge-solid-fill-info: #217bbd;
+    --omni-badge-solid-fill-neutral: #767676;
+    --omni-badge-solid-fill-success: #328735;
+    --omni-badge-solid-fill-warning: #a36a00;
+    --omni-badge-solid-ink-accent: #ffffff;
+    --omni-badge-solid-ink-danger: #ffffff;
+    --omni-badge-solid-ink-info: #ffffff;
+    --omni-badge-solid-ink-neutral: #ffffff;
+    --omni-badge-solid-ink-success: #ffffff;
+    --omni-badge-solid-ink-warning: #ffffff;
     --omni-chart-color-0: #7573de;
     --omni-chart-color-1: #66bb69;
     --omni-chart-color-2: #ff9800;
@@ -184,6 +208,18 @@
 }
 @media (prefers-color-scheme: dark) {
     [data-omni-theme="system"] {
+        --omni-badge-solid-fill-accent: #5e5cd8;
+        --omni-badge-solid-fill-danger: #dc3732;
+        --omni-badge-solid-fill-info: #217bbd;
+        --omni-badge-solid-fill-neutral: #767676;
+        --omni-badge-solid-fill-success: #328735;
+        --omni-badge-solid-fill-warning: #a36a00;
+        --omni-badge-solid-ink-accent: #ffffff;
+        --omni-badge-solid-ink-danger: #ffffff;
+        --omni-badge-solid-ink-info: #ffffff;
+        --omni-badge-solid-ink-neutral: #ffffff;
+        --omni-badge-solid-ink-success: #ffffff;
+        --omni-badge-solid-ink-warning: #ffffff;
         --omni-chart-color-0: #7573de;
         --omni-chart-color-1: #66bb69;
         --omni-chart-color-2: #ff9800;

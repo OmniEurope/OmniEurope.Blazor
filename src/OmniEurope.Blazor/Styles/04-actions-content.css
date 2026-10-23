@@ -402,18 +402,19 @@
 
 .omni-badge--outline { background: transparent; border-color: color-mix(in srgb, var(--omni-badge-ink) 78%, transparent); }
 
-/* Solid: exactly the fill and the ink of the button of the same intention, so a status and the
-   action that concerns it carry the same colour. */
-.omni-badge--solid { background: var(--omni-color-accent-fill); border-color: transparent; color: var(--omni-color-on-accent-fill); }
-/* Neutral is the exception: the secondary button's grey sits within a few percent of the page and of a
-   grid or card surface (1.25:1 on a dark grid), and a solid badge has no shape of its own to be told apart by.
-   It takes the muted text as fill and the surface as ink: 4.5:1 or more on the page, muted and hovered
-   surfaces, 3:1 or more on grid, card and layer frames, in every set (ThemeContrastMatrixTests). */
-.omni-badge--solid.omni-badge--neutral { background: var(--omni-color-text-muted); color: var(--omni-color-surface); }
-.omni-badge--solid.omni-badge--info { background: var(--omni-color-info-bright); color: var(--omni-color-on-bright); }
-.omni-badge--solid.omni-badge--success { background: var(--omni-color-success-bright); color: var(--omni-color-on-bright); }
-.omni-badge--solid.omni-badge--warning { background: var(--omni-color-warning-deep); color: var(--omni-color-on-deep); }
-.omni-badge--solid.omni-badge--danger { background: var(--omni-color-danger-deep); color: var(--omni-color-on-deep); }
+/* Solid: one ink for the whole mode, whatever the tone (recette R-22): near-black in light mode, white
+   in dark mode, never a mix of the two on one page. The fill of each tone is its own badge token
+   (--omni-badge-solid-fill-X, with its ink --omni-badge-solid-ink-X), the brand colour of the tone moved
+   just far enough for that ink to read on it at 4.5:1 in every theme and palette
+   (ThemeContrastMatrixTests). They are not the fills of the buttons, which keep their own inks. A
+   neutral solid badge is a grey held between the ratio of its ink and 3:1 against the surface it stands
+   on, since it has no shape of its own to be told apart by (recette R-347). */
+.omni-badge--solid { background: var(--omni-badge-solid-fill-accent); border-color: transparent; color: var(--omni-badge-solid-ink-accent); }
+.omni-badge--solid.omni-badge--neutral { background: var(--omni-badge-solid-fill-neutral); color: var(--omni-badge-solid-ink-neutral); }
+.omni-badge--solid.omni-badge--info { background: var(--omni-badge-solid-fill-info); color: var(--omni-badge-solid-ink-info); }
+.omni-badge--solid.omni-badge--success { background: var(--omni-badge-solid-fill-success); color: var(--omni-badge-solid-ink-success); }
+.omni-badge--solid.omni-badge--warning { background: var(--omni-badge-solid-fill-warning); color: var(--omni-badge-solid-ink-warning); }
+.omni-badge--solid.omni-badge--danger { background: var(--omni-badge-solid-fill-danger); color: var(--omni-badge-solid-ink-danger); }
 
 /* Souligné au survol seulement. */
 .omni-link { color: var(--omni-color-accent-strong); text-decoration: none; text-underline-offset: 0.15em; }

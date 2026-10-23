@@ -31,6 +31,9 @@ internal static class ThemePresetFactory
     /// <summary>The near-black laid over the bright info and success fills.</summary>
     internal const string OnBright = "#111111";
 
+    /// <summary>The white laid over every solid badge in dark mode.</summary>
+    internal const string SolidBadgeDarkInk = "#ffffff";
+
     /// <summary>Builds a palette, both modes derived.</summary>
     public static OmniThemePalette CreatePalette(PaletteDefinition palette)
     {
@@ -111,6 +114,7 @@ internal static class ThemePresetFactory
             accentSubtle,
             BodyTextRatio);
         var neutralFill = ThemeColor.Mix(accent, ThemeColor.Mix(text, surface, dark ? 0.12 : 0.1), 0.05);
+        var mutedText = PushApart(ThemeColor.Mix(text, surface, 0.65), surfaceHover, BodyTextRatio);
 
         var tokens = new Dictionary<string, string>(StringComparer.Ordinal)
         {
@@ -125,7 +129,7 @@ internal static class ThemePresetFactory
             // Measured against the hovered surface, the furthest from the page of the three it sits on
             // (page, muted, hovered: darker in light mode, lighter in dark mode), so the discreet text of
             // a hovered row or menu item stays readable, and on the two others with it (PLAN-004 lot 8).
-            ["--omni-color-text-muted"] = PushApart(ThemeColor.Mix(text, surface, 0.65), surfaceHover, BodyTextRatio),
+            ["--omni-color-text-muted"] = mutedText,
             ["--omni-color-success"] = success,
             ["--omni-color-warning"] = warning,
             ["--omni-color-danger"] = danger,
@@ -195,7 +199,52 @@ internal static class ThemePresetFactory
         AddFill(tokens, "info", infoFill);
         AddFill(tokens, "warning", warningFill);
         AddFill(tokens, "danger", dangerFill);
+        AddSolidBadges(tokens, dark, new Dictionary<string, string>(StringComparer.Ordinal)
+        {
+            ["neutral"] = mutedText,
+            ["accent"] = accentFill,
+            ["info"] = infoFill,
+            ["success"] = successFill,
+            ["warning"] = warningFill,
+            ["danger"] = dangerFill,
+        });
         return tokens;
+    }
+
+    /// <summary>
+    /// The fill and the ink of the solid badge of each tone (<c>--omni-badge-solid-fill-X</c> and
+    /// <c>--omni-badge-solid-ink-X</c>). One ink for the whole mode, near-black in light mode and white in
+    /// dark mode, so a page never shows black and white lettering side by side; each fill is the brand
+    /// colour of its tone moved just far enough, lighter in light mode and deeper in dark mode, for that
+    /// ink to read on it at 4.5. They are tokens of the badge alone: the buttons, alerts and notification
+    /// marks keep their own fills and inks.
+    /// </summary>
+    private static void AddSolidBadges(Dictionary<string, string> tokens, bool dark, IReadOnlyDictionary<string, string> toneColors)
+    {
+        var ink = dark ? SolidBadgeDarkInk : OnBright;
+        foreach (var (tone, color) in toneColors)
+        {
+            tokens[$"--omni-badge-solid-fill-{tone}"] = Settle(color, ink, OverlaidTextRatio);
+            tokens[$"--omni-badge-solid-ink-{tone}"] = ink;
+        }
+    }
+
+    /// <summary>
+    /// Moves a colour away from a reference in small steps and stops at the first one that clears the
+    /// ratio, so the brand colour is bent no further than the ratio requires (the coarse steps of
+    /// <see cref="PushApart"/> overshoot, which matters for the grey neutral badge, held between the ratio
+    /// of its ink and the ratio of the surface it stands on).
+    /// </summary>
+    private static string Settle(string color, string reference, double ratio)
+    {
+        var target = ThemeColor.Luminance(reference) > 0.35 ? "#000000" : "#ffffff";
+        var candidate = color;
+        for (var step = 0; step < 400 && ThemeColor.Contrast(candidate, reference) < ratio; step++)
+        {
+            candidate = ThemeColor.Mix(target, candidate, 0.01);
+        }
+
+        return candidate;
     }
 
     /// <summary>
