@@ -182,7 +182,9 @@ const headerState = () => evaluate(`(() => {
   return { compact: frame.hasAttribute('data-compact'), toggle: getComputedStyle(frame.querySelector('.omni-page-header__toggle')).display, details: getComputedStyle(frame.querySelector('.omni-page-header__details')).display, expanded: frame.querySelector('.omni-page-header__toggle').getAttribute('aria-expanded') };
 })()`);
 await evaluate("Blazor.navigateTo('/composants/pages')");
-await waitFor('l\'en-tête de page de la vitrine', `document.querySelector(${JSON.stringify(`${frame} .omni-page-header__details`)}) !== null && document.querySelector(${JSON.stringify(`${frame} .omni-page-header__title`)}) !== null`);
+// The demo loads its record for 1.5 s and then writes the title it found: the probe lengthens the
+// title only after that, else the late write puts the short title back under the probe's feet.
+await waitFor('l\'en-tête de page de la vitrine, fiche chargée', `document.querySelector(${JSON.stringify(`${frame} .omni-page-header__details`)}) !== null && document.querySelector(${JSON.stringify(`${frame} .omni-page-header__title`)})?.textContent.trim() === 'srv-paris-01'`);
 await evaluate(`document.querySelector(${JSON.stringify(frame)}).scrollIntoView({ block: 'center' })`);
 await pause(800);
 const roomy = await headerState();
