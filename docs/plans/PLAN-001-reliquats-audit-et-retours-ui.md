@@ -3,7 +3,7 @@
 
 > Statut : **ouvert**. Établi le 2026-10-12 : les plans actifs de la première série (PLAN-009, PLAN-013
 > à PLAN-019) ont été vérifiés contre le code puis archivés dans [archive/serie-1/](archive/serie-1/) ;
-> leurs reliquats réels sont repris ici. Lot 1 fait, CI de `develop` verte sur `80c0691` (constatée le 2026-10-13), lot 2 fait (2026-10-23), lot 5 fait, lot 3 fait, lot 6 fait (2026-10-23), lot 8 fait (2026-10-13, non publié), lot 4 en cours.
+> leurs reliquats réels sont repris ici. Lot 1 fait, CI de `develop` verte sur `80c0691` (constatée le 2026-10-13), lot 2 fait (2026-10-23), lot 5 fait, lot 3 fait, lot 6 fait (2026-10-23), lot 8 fait (2026-10-13, non publié), lot 4 fait (2026-10-23).
 
 ## Objectif
 
@@ -112,8 +112,17 @@ Controle : la garde échoue sur un appel direct ajouté pour l'essai dans `OmniM
 `OmniMain.razor.cs:110`, puis revert et vert) ; tests du chargeur verts (9 sur 9).
 
 ### Lot 4 - Clôture du chargeur (origine PLAN-018, lot 6)
-- [ ] Suite complète, portes (couverture, CRAP, CSP, API publique, budgets, paquet), vitrine et hôtes.
-- [ ] `CHANGELOG.md` à jour.
+- [x] Suite complète, portes (couverture, CRAP, CSP, API publique, budgets, paquet), vitrine et hôtes. Le
+  2026-10-23 sur `bf5a7934` : 10057 tests verts ; couverture 99,95 % des lignes et 99,59 % des branches ; CRAP
+  3664 méthodes, aucune au-dessus de 30 hors des 13 exceptions ; CSP (929 fichiers) et ses fixtures ; API publique
+  4355 signatures ; index des composants 157 ; budgets (assemblage 2 471 424 / 3 145 728 octets, paquet
+  2 116 318 / 3 145 728 octets, plafond du paquet porté à 3 Mio par le propriétaire le même jour) ; contenu du
+  paquet (117 entrées, 23 cultures) et ses symboles, fixtures de paquet rejetées ; vitrine
+  `Test-ShowcaseHost.ps1 -JsCoverage -Parallel 2` verte (Pickers, Density, AutoFit, MindMap, Modules, Languages,
+  Scripts, couverture JavaScript) ; hôtes Catalog, WebAssembly (en-têtes, `--assert-title`), Auto et Hybrid
+  (WebView2) validés. Le format de tout le dépôt garde 89 écarts anciens hors des fichiers de ce lot, que la CI
+  ne vérifie pas. Les portes de provenance demandent le contexte GitHub Actions et ne tournent pas en local.
+- [x] `CHANGELOG.md` à jour (chargeur unique des modules dans « Changed »).
 Controle : toutes les portes vertes, sortie de chaque commande consignée.
 
 ### Lot 5 - Défauts d'interface reproduits (RET-003), trié par messages × projets
@@ -308,7 +317,7 @@ publication.
 
 ## Ordre et dépendances
 
-Lot 3 puis lot 4. Lot 6 case par case, indépendant des autres.
+Tous les lots sont faits ; reste la CI de `develop` après publication.
 
 ## Critère de clôture
 
