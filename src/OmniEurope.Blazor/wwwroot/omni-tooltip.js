@@ -201,10 +201,10 @@ export function install() {
 // selector stays intact, and an element the title alone named keeps that name as aria-label meanwhile.
 //
 // The same box serves the package's own tips, whether or not the host replaced its title tooltips: the
-// whole text of a data grid cell cut by its ellipsis, only while it is cut (the cell is narrower than
-// its text), and the text of an element carrying data-omni-tip (the toolbar of the HTML editor, with
-// a command's description on its second line). A grid or an editor turns them on
-// (installPackageTooltips). The cell keeps its full text in the page for screen readers, and an
+// whole text of a data grid cell, or of the label or value of a fact tile row, cut by its ellipsis, only
+// while it is cut (the cell is narrower than its text), and the text of an element carrying data-omni-tip
+// (the toolbar of the HTML editor, with a command's description on its second line). A grid, an editor
+// or a fact tile turns them on (installPackageTooltips). The cell keeps its full text in the page for screen readers, and an
 // element with a tip keeps its accessible name.
 
 const TITLE_DELAY = 450;
@@ -216,7 +216,7 @@ let titleTimer = 0;
 let titlePointer = { x: 0, y: 0 };
 // How many grids and editors are on the page: cut cells and data-omni-tip get the tooltip while one is.
 let packageInstalls = 0;
-const CUT_CELL = '.omni-data-grid__cell--text';
+const CUT_CELL = '.omni-data-grid__cell--text, .omni-fact-tile__label, .omni-fact-tile__value';
 
 const isCut = element => element.scrollWidth > element.clientWidth + 1;
 
@@ -238,7 +238,7 @@ const svgTitled = target => {
 };
 
 // What a pointer or the focus reaches: an element with a title once a host replaced title tooltips,
-// else an element with a package tip, else a grid cell whose text is cut.
+// else an element with a package tip, else a grid cell or a fact tile cell whose text is cut.
 const tipTarget = target => {
     if (!(target instanceof Element)) {
         return null;

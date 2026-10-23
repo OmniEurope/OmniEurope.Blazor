@@ -134,12 +134,14 @@
    would scroll with the rows): a theme gives the grid a denser fill of its own (--omni-grid-background). */
 .omni-card,
 .omni-stat-tile,
+.omni-fact-tile,
 .omni-settings-tile,
 .omni-appearance-settings__row,
 .omni-selectable-card,
 .omni-upload__file { position: relative; }
 .omni-card::before,
 .omni-stat-tile::before,
+.omni-fact-tile::before,
 .omni-settings-tile::before,
 .omni-appearance-settings__row::before,
 .omni-selectable-card::before,

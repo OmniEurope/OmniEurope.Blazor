@@ -1,0 +1,42 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+@inject IJSRuntime JavaScript
+
+@* A tile of facts: a title, then OmniFactTileRow rows of icon, label and value on three shared columns. With
+   OnClick the whole tile is one real button, with Href one real link, named by its content (the title, then each
+   label and value), so they answer Enter (and Space for the button) and show the focus ring; without either, a
+   plain group named by its title. Every part is a span, valid inside a button as well as inside a link. *@
+@{
+    // The content is the same whatever the element: a button, a link or a plain group.
+    RenderFragment body = @<text>
+    <span class="omni-fact-tile__title">
+        @if (Icon is not null)
+        {
+            <span class="omni-fact-tile__title-icon" aria-hidden="true">@Icon</span>
+        }
+        <span id="@_titleId" class="omni-fact-tile__title-text">@Title</span>
+    </span>
+    <span class="omni-fact-tile__rows">
+        <CascadingValue Value="_context" IsFixed="true">@ChildContent</CascadingValue>
+    </span>
+</text>;
+}
+@if (OnClick.HasDelegate)
+{
+    <button @attributes="AdditionalAttributes" id="@Id" type="button" class="@Css(TileClasses)" @onclick="OnClick">
+        @body
+    </button>
+}
+else if (_safeHref is not null)
+{
+    <a @attributes="AdditionalAttributes" id="@Id" href="@_safeHref" class="@Css(TileClasses)">
+        @body
+    </a>
+}
+else
+{
+    <div @attributes="AdditionalAttributes" id="@Id" class="@Css(TileClasses)" role="group" aria-labelledby="@_titleId">
+        @body
+    </div>
+}
