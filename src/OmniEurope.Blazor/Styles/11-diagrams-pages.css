@@ -268,7 +268,8 @@ body:has(.omni-connection-overlay) { overflow: hidden; }
 .omni-log-viewer__viewport { background: var(--omni-log-viewer-surface); block-size: var(--omni-grid-viewport, 24rem); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-sizing: border-box; line-height: var(--omni-log-line); overflow: auto; overscroll-behavior: contain; }
 .omni-log-viewer__viewport:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
 .omni-log-viewer__spacer { block-size: var(--omni-grid-spacer, 0px); }
-.omni-log-viewer__line { display: flex; gap: var(--omni-space-sm); inline-size: max-content; min-block-size: var(--omni-log-line); min-inline-size: 100%; padding-inline: var(--omni-space-sm); white-space: pre; }
+/* Border-box: the padding counts inside the 100% floor, or every log would scroll sideways by it. */
+.omni-log-viewer__line { box-sizing: border-box; display: flex; gap: var(--omni-space-sm); inline-size: max-content; min-block-size: var(--omni-log-line); min-inline-size: 100%; padding-inline: var(--omni-space-sm); white-space: pre; }
 .omni-log-viewer--wrap .omni-log-viewer__line { inline-size: auto; overflow-wrap: anywhere; white-space: pre-wrap; }
 /* The gutter (number and time) sticks to the start of the viewport when the log scrolls sideways
    (PLAN-001 lot 5). Opaque, so no scrolled text shows through: the tint of its row laid over the surface
