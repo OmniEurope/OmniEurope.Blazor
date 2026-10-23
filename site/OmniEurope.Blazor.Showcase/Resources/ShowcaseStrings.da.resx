@@ -1646,4 +1646,5 @@
   <data name="DemoPagesFactSteps" xml:space="preserve"><value>Trin</value></data>
   <data name="DemoPagesFactStarted" xml:space="preserve"><value>Start</value></data>
   <data name="DemoPagesFactDuration" xml:space="preserve"><value>Varighed</value></data>
+  <data name="DemoPagesFactStepDuration" xml:space="preserve"><value>Trinvarighed</value></data>
 </root>

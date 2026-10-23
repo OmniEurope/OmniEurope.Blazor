@@ -1646,4 +1646,5 @@
   <data name="DemoPagesFactSteps" xml:space="preserve"><value>Céimeanna</value></data>
   <data name="DemoPagesFactStarted" xml:space="preserve"><value>Tús</value></data>
   <data name="DemoPagesFactDuration" xml:space="preserve"><value>Fad</value></data>
+  <data name="DemoPagesFactStepDuration" xml:space="preserve"><value>Fad na céime</value></data>
 </root>

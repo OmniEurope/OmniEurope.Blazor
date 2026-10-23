@@ -1646,4 +1646,5 @@
   <data name="DemoPagesFactSteps" xml:space="preserve"><value>Lépések</value></data>
   <data name="DemoPagesFactStarted" xml:space="preserve"><value>Kezdés</value></data>
   <data name="DemoPagesFactDuration" xml:space="preserve"><value>Időtartam</value></data>
+  <data name="DemoPagesFactStepDuration" xml:space="preserve"><value>Lépés időtartama</value></data>
 </root>

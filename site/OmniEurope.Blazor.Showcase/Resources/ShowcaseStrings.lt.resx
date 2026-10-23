@@ -1646,4 +1646,5 @@
   <data name="DemoPagesFactSteps" xml:space="preserve"><value>Žingsniai</value></data>
   <data name="DemoPagesFactStarted" xml:space="preserve"><value>Pradžia</value></data>
   <data name="DemoPagesFactDuration" xml:space="preserve"><value>Trukmė</value></data>
+  <data name="DemoPagesFactStepDuration" xml:space="preserve"><value>Žingsnio trukmė</value></data>
 </root>

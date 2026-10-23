@@ -1646,4 +1646,5 @@
   <data name="DemoPagesFactSteps" xml:space="preserve"><value>Vaiheet</value></data>
   <data name="DemoPagesFactStarted" xml:space="preserve"><value>Alkoi</value></data>
   <data name="DemoPagesFactDuration" xml:space="preserve"><value>Kesto</value></data>
+  <data name="DemoPagesFactStepDuration" xml:space="preserve"><value>Vaiheen kesto</value></data>
 </root>

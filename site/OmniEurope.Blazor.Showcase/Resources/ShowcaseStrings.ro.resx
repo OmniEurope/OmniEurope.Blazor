@@ -1646,4 +1646,5 @@
   <data name="DemoPagesFactSteps" xml:space="preserve"><value>Pași</value></data>
   <data name="DemoPagesFactStarted" xml:space="preserve"><value>Început</value></data>
   <data name="DemoPagesFactDuration" xml:space="preserve"><value>Durată</value></data>
+  <data name="DemoPagesFactStepDuration" xml:space="preserve"><value>Durata pasului</value></data>
 </root>

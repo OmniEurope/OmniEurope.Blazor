@@ -1646,4 +1646,5 @@
   <data name="DemoPagesFactSteps" xml:space="preserve"><value>Soļi</value></data>
   <data name="DemoPagesFactStarted" xml:space="preserve"><value>Sākums</value></data>
   <data name="DemoPagesFactDuration" xml:space="preserve"><value>Ilgums</value></data>
+  <data name="DemoPagesFactStepDuration" xml:space="preserve"><value>Soļa ilgums</value></data>
 </root>
