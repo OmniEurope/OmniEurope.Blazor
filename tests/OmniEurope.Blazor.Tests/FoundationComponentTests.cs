@@ -35,6 +35,24 @@ public sealed class FoundationComponentTests : OmniBunitContext
         Assert.Equal("Paragraph", component.Find("p").TextContent);
     }
 
+    [Theory]
+    [InlineData(OmniTextElement.Title, "strong", true)]
+    [InlineData(OmniTextElement.Caption, "small", true)]
+    [InlineData(OmniTextElement.Strong, "strong", false)]
+    [InlineData(OmniTextElement.Small, "small", false)]
+    public void Text_TitleAndCaption_AreBlocks_SoTheirSpacingUtilitiesApply(OmniTextElement element, string tag, bool block)
+    {
+        var component = Render<OmniText>(parameters => parameters
+            .Add(item => item.Element, element)
+            .AddUnmatched("class", "omni-u-mb-sm")
+            .AddChildContent("Dossiers"));
+
+        var text = component.Find(tag);
+        Assert.Equal(block, text.ClassList.Contains("omni-text--block"));
+        Assert.Contains("omni-u-mb-sm", text.ClassList);
+        Assert.Contains("display: block", ShippedLookTests.Body(".omni-text--block"), StringComparison.Ordinal);
+    }
+
     [Fact]
     public void Heading_RendersRequestedLevel()
     {

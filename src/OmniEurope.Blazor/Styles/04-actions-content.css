@@ -326,6 +326,8 @@
 .omni-text--danger { color: var(--omni-color-danger); }
 .omni-text--info { color: var(--omni-color-info); }
 .omni-text--warning { color: var(--omni-color-warning); }
+/* A title or a caption (OmniTextElement.Title, Caption) is a block, so the spacing utilities on it apply. */
+.omni-text--block { display: block; }
 .omni-text--truncate {
     display: block;
     overflow: hidden;
@@ -404,10 +406,10 @@
 
 .omni-badge--outline { background: transparent; border-color: color-mix(in srgb, var(--omni-badge-ink) 78%, transparent); }
 
-/* Solid: one ink for the whole mode, whatever the tone (recette R-22): near-black in light mode, white
-   in dark mode, never a mix of the two on one page. The fill of each tone is its own badge token
-   (--omni-badge-solid-fill-X, with its ink --omni-badge-solid-ink-X), the brand colour of the tone moved
-   just far enough for that ink to read on it at 4.5:1 in every theme and palette
+/* Solid: one white ink in both modes, whatever the tone (owner decision of 2026-10-23, after the one ink
+   per mode of recette R-22), never a mix of black and white on one page. The fill of each tone is its own
+   badge token (--omni-badge-solid-fill-X, with its ink --omni-badge-solid-ink-X), the brand colour of the
+   tone deepened just far enough for that ink to read on it at 4.5:1 in every theme and palette
    (ThemeContrastMatrixTests). They are not the fills of the buttons, which keep their own inks. A
    neutral solid badge is a grey held between the ratio of its ink and 3:1 against the surface it stands
    on, since it has no shape of its own to be told apart by (recette R-347). */
@@ -417,6 +419,8 @@
 .omni-badge--solid.omni-badge--success { background: var(--omni-badge-solid-fill-success); color: var(--omni-badge-solid-ink-success); }
 .omni-badge--solid.omni-badge--warning { background: var(--omni-badge-solid-fill-warning); color: var(--omni-badge-solid-ink-warning); }
 .omni-badge--solid.omni-badge--danger { background: var(--omni-badge-solid-fill-danger); color: var(--omni-badge-solid-ink-danger); }
+/* InkOutline: a 1 px black outline around the white letters, drawn by eight shadows (one per direction). */
+.omni-badge--solid.omni-badge--ink-outline { text-shadow: -1px -1px 0 #000, 0 -1px 0 #000, 1px -1px 0 #000, -1px 0 0 #000, 1px 0 0 #000, -1px 1px 0 #000, 0 1px 0 #000, 1px 1px 0 #000; }
 
 /* Souligné au survol seulement. */
 .omni-link { color: var(--omni-color-accent-strong); text-decoration: none; text-underline-offset: 0.15em; }

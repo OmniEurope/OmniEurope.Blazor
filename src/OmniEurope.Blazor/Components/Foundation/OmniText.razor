@@ -15,6 +15,12 @@
     case OmniTextElement.Small:
         <small @attributes="AdditionalAttributes" id="@Id" class="@TextClass">@ChildContent</small>
         break;
+    case OmniTextElement.Title:
+        <strong @attributes="AdditionalAttributes" id="@Id" class="@TextClass">@ChildContent</strong>
+        break;
+    case OmniTextElement.Caption:
+        <small @attributes="AdditionalAttributes" id="@Id" class="@TextClass">@ChildContent</small>
+        break;
     default:
         <span @attributes="AdditionalAttributes" id="@Id" class="@TextClass">@ChildContent</span>
         break;

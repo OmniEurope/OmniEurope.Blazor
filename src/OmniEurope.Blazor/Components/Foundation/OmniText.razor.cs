@@ -7,7 +7,10 @@ public partial class OmniText
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary>The element drawn: a span by default, or a paragraph, strong, emphasis or small text.</summary>
+    /// <summary>
+    /// The element drawn: a span by default, or a paragraph, strong, emphasis or small text; a title or a
+    /// caption is a strong or small text drawn as a block, so its spacing utilities apply.
+    /// </summary>
     [Parameter]
     public OmniTextElement Element { get; set; }
 
@@ -22,5 +25,6 @@ public partial class OmniText
     private string TextClass => Css(
         "omni-text",
         $"omni-text--{Tone.ToString().ToLowerInvariant()}",
+        Element is OmniTextElement.Title or OmniTextElement.Caption ? "omni-text--block" : null,
         Truncate ? "omni-text--truncate" : null);
 }

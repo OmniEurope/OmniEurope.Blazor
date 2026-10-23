@@ -22,6 +22,14 @@
         @Text["DemoTypographyTruncated"]
     </OmniText>
 
+    @* Title et Caption : un texte fort ou petit dessiné en bloc, au-dessus d'une liste ou d'une grille ; ses
+       marges utilitaires s'appliquent sans classe d'affichage en plus. *@
+    <div id="demo-text-title">
+        <OmniText Element="OmniTextElement.Title" Class="omni-u-mb-xs">@Text["DemoGridOpenCases"]</OmniText>
+        <OmniText Element="OmniTextElement.Caption" Tone="OmniTextTone.Muted" Class="omni-u-mb-sm">@Text["DemoTypographySecondary"]</OmniText>
+        <OmniProgressBar Value="40" Label="@Text["DemoGridOpenCases"]" />
+    </div>
+
     <OmniLabel For="typography-demo-field" Required="true">@Text["DemoTypographyLabel"]</OmniLabel>
     <OmniLink Href="documentation">@Text["DemoTypographyInternalLink"]</OmniLink>
     <OmniLink Href="https://learn.microsoft.com/aspnet/core/blazor" NewTab="true">@Text["DemoTypographyExternalLink"]</OmniLink>

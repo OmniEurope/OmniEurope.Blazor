@@ -16,5 +16,15 @@ public enum OmniTextElement
     Emphasis,
 
     /// <summary>A <c>small</c> element: side comments and fine print.</summary>
-    Small
+    Small,
+
+    /// <summary>
+    /// A <c>strong</c> element drawn as a block: the title of a section of a card or of a list, above a grid.
+    /// Its margins (<c>omni-u-mb-sm</c> and the other spacing utilities) apply without a display class.
+    /// For a heading of the page outline, use <see cref="OmniHeading"/>.
+    /// </summary>
+    Title,
+
+    /// <summary>A <c>small</c> element drawn as a block: a caption under a title or a field, its margins applied.</summary>
+    Caption
 }
