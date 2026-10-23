@@ -153,7 +153,9 @@ export async function requestSteps(session, results) {
   check(!(await evaluate(isEditing(0))) && await evaluate(isEditing(2)), 'Une cellule sans EditTemplate a ouvert sa ligne.');
   await clickOn(`${rowOf(2)} .omni-data-grid__action--cancel`);
   await waitFor('la ligne annulée', `!${isEditing(2)}`);
-  await evaluate(`document.querySelector(${JSON.stringify(`${cellGrid} th[data-omni-col="Country"] button.omni-data-grid__sort`)}).focus()`);
+  // From the last stop of the header (the resize handle of the last column, keyboard-reachable), Tab
+  // enters the first row.
+  await evaluate(`[...document.querySelectorAll(${JSON.stringify(`${cellGrid} thead th[data-omni-col] :is(button, summary, [tabindex="0"])`)})].filter(element => element.getClientRects().length > 0).at(-1).focus()`);
   await tab();
   await waitFor('Tab : le bouton de la cellule Demandeur de la première ligne', "document.activeElement?.classList.contains('omni-data-grid__edit-cell') && document.activeElement.closest('td')?.dataset.omniCol === 'Applicant' && document.activeElement.closest('tr')?.dataset.omniRowIndex === '0'");
   check(await evaluate("getComputedStyle(document.activeElement.closest('td')).boxShadow !== 'none'"), 'Le focus du bouton de la cellule n\'est pas dessiné sur la cellule.');

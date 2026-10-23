@@ -116,12 +116,15 @@ function fitColumns(viewport, refresh = false) {
     const fitCells = eligible.some(Boolean);
     let changed = false;
     // The title shrinks inside the header's flex row and the row's other items take part of any width
-    // added, and a widened column narrows the others: a few passes until nothing is cut.
+    // added, and a widened column narrows the others: a few passes until nothing is cut. Under
+    // HeaderWrap.Wrap the title wraps at its spaces, but its longest word does not: the sort button
+    // around it shrinks below that word, which then runs under the icons, so the button is read too.
+    // That floor holds over a width the host declared as well.
     for (let pass = 0; pass < 8; pass++) {
         const wanted = new Array(cols.length).fill(0);
         if (fitTitles) {
             [...header.children].forEach((cell, index) => {
-                const overflow = Math.max(0, ...[...cell.querySelectorAll('.omni-data-grid__header, .omni-data-grid__title')]
+                const overflow = Math.max(0, ...[...cell.querySelectorAll('.omni-data-grid__header, .omni-data-grid__sort, .omni-data-grid__title')]
                     .map(element => element.scrollWidth - element.clientWidth));
                 if (overflow > 0) {
                     wanted[index] = Math.ceil(cell.getBoundingClientRect().width + overflow);
@@ -290,8 +293,9 @@ export function detachContentFit(viewport) {
 const headerWatchers = new WeakMap();
 
 /**
- * A title fitted once can be cut later: a larger text size or another density widens it without a new
- * column layout. Watching the size of the titles refits the columns whenever that happens.
+ * A title fitted once can be cut later: a larger text size or another density widens it, a narrower
+ * screen narrows its column, without a new column layout. Watching the size of the titles and of the
+ * sort buttons around them refits the columns whenever that happens.
  */
 function watchHeaders(viewport) {
     if (typeof ResizeObserver !== 'function') {
@@ -317,7 +321,7 @@ function watchHeaders(viewport) {
     }
     // A new column layout can bring new title elements: watch the ones on the page now.
     observer.disconnect();
-    viewport.querySelectorAll('thead .omni-data-grid__title').forEach(title => observer.observe(title));
+    viewport.querySelectorAll('thead :is(.omni-data-grid__sort, .omni-data-grid__title)').forEach(title => observer.observe(title));
 }
 
 /**

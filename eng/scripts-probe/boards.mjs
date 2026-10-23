@@ -47,7 +47,9 @@ export async function boardSteps(session, results) {
       return {
         column: cell.getAttribute('data-omni-col'),
         text: title.textContent.trim(),
-        cut: title.scrollWidth > title.clientWidth,
+        // The sort button around the title is read too: shrunk below the title's longest word, it lets
+        // that word run under the icons while the title itself still reads as whole.
+        cut: title.scrollWidth > title.clientWidth || [...cell.querySelectorAll('.omni-data-grid__sort')].some(sort => sort.scrollWidth > sort.clientWidth),
         outside: own.right > edge.right + 1 || own.left < edge.left - 1,
         widened: edge.width > 4 * rem + 1
       };
