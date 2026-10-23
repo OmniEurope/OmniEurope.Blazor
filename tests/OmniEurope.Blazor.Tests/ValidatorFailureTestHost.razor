@@ -1,8 +1,10 @@
 <EditForm EditContext="@EditContext">
-    <OmniRequiredValidator TValue="string" For="@(() => Model.Value)" ValidationDelay="TimeSpan.FromMilliseconds(1)" OnValidationFail="RecordFailure" />
+    <OmniRequiredValidator TValue="string" For="@(() => Model.Value)" ValidationDelay="@Delay" OnValidationFail="RecordFailure" />
 </EditForm>
 
 @code {
+    [Parameter] public TimeSpan Delay { get; set; } = TimeSpan.FromMilliseconds(1);
+
     public ThrowingValidatorModel Model { get; } = new();
     public EditContext EditContext { get; }
     public Exception? ObservedException { get; private set; }

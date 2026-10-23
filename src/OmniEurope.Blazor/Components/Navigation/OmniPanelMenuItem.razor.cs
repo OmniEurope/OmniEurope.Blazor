@@ -103,16 +103,17 @@ public partial class OmniPanelMenuItem
     /// <summary>Entries at the same level as this one, the menu's own or the enclosing group's.</summary>
     private OmniPanelMenuSiblings? Siblings => ParentGroup?.Siblings ?? Menu?.Siblings;
 
-    private bool IsOutrankedBySibling => RouteRank is { } rank && Siblings?.IsOutranked(this, rank) == true;
+    /// <summary>Read only where the entry matches the route (<see cref="IsCurrent"/> asks it after <see cref="IsActive"/>).</summary>
+    private bool IsOutrankedBySibling => Siblings?.IsOutranked(this, AddressRank) == true;
 
     /// <summary>
     /// How closely the address matches the route: the length of the address, so the deepest wins and an
     /// exact match, which is the longest address that can match, beats a prefix. Null when the entry
     /// does not match at all.
     /// </summary>
-    internal int? RouteRank => IsActive
-        ? Uri.UnescapeDataString(Navigation.ToAbsoluteUri(SafeHref!).AbsolutePath).Trim('/').Length
-        : null;
+    internal int? RouteRank => IsActive ? AddressRank : null;
+
+    private int AddressRank => Uri.UnescapeDataString(Navigation.ToAbsoluteUri(SafeHref!).AbsolutePath).Trim('/').Length;
 
     private bool IsOpen => _open ?? (Expanded || IsWithin);
 

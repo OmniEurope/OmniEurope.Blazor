@@ -472,6 +472,21 @@ public sealed class InteractionComponentTests : OmniBunitContext
         host.WaitForAssertion(() => Assert.IsType<InvalidOperationException>(host.Instance.ObservedException));
     }
 
+    [Fact]
+    public void Validator_ChangeThatSupersedesAPendingOne_CancelsItWithoutReportingAFailure()
+    {
+        // The delay outlasts the test: the first change can only end by being cancelled by the second,
+        // which cancels it on the spot. Had the cancellation escaped its own catch, the failure handler
+        // would have recorded it; the second, still pending, is cancelled when the context disposes.
+        var host = Render<ValidatorFailureTestHost>(parameters => parameters.Add(component => component.Delay, TimeSpan.FromHours(1)));
+
+        host.InvokeAsync(host.Instance.Trigger);
+        host.InvokeAsync(host.Instance.Trigger);
+
+        Assert.Null(host.Instance.ObservedException);
+        Assert.Empty(host.Instance.EditContext.GetValidationMessages());
+    }
+
     private static RenderFragment Content(string value) => builder => builder.AddContent(0, value);
 
     private sealed class NumericHolder
