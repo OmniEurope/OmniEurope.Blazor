@@ -360,9 +360,11 @@ public sealed class SelectionComponentTests : OmniBunitContext
     }
 
     [Fact]
+    // The three inputs must land inside one debounce window: 100 ms was crossed on a loaded machine (two
+    // searches counted), so the window is wide enough for any scheduler and the wait longer than it.
     public async Task Autocomplete_DebouncesRapidInputsAndSearchesOnlyTheLatestTerm()
     {
-        var form = Render<SelectionTestHost>(parameters => parameters.Add(component => component.Debounce, TimeSpan.FromMilliseconds(100)));
+        var form = Render<SelectionTestHost>(parameters => parameters.Add(component => component.Debounce, TimeSpan.FromMilliseconds(500)));
 
         var input = form.Find("#autocomplete");
         var first = input.InputAsync(new ChangeEventArgs { Value = "a" });
@@ -374,7 +376,7 @@ public sealed class SelectionComponentTests : OmniBunitContext
         {
             Assert.Equal(1, form.Instance.SearchCount);
             Assert.Equal("alp", form.Instance.LastSearch);
-        }, TimeSpan.FromSeconds(1));
+        }, TimeSpan.FromSeconds(3));
     }
 
     [Fact]
