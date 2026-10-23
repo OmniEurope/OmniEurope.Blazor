@@ -29,7 +29,11 @@ public partial class OmniPanelMenu
         ? OmniPanelMenuDisplay.Icon
         : Display;
 
-    private OmniPanelMenuContext OwnContext => new(EffectiveDisplay) { ExpandSidebar = Sidebar?.Expand, CanNavigate = CanNavigate };
+    // Kept across renders: the first-level entries register in it once, and a context rebuilt on each
+    // render would hand them a fresh, empty one.
+    private readonly OmniPanelMenuSiblings _siblings = new();
+
+    private OmniPanelMenuContext OwnContext => new(EffectiveDisplay) { ExpandSidebar = Sidebar?.Expand, CanNavigate = CanNavigate, Siblings = _siblings };
 
     private string EffectiveLabel => LocalizeOr(Label, "PanelMenuLabel");
 

@@ -33,6 +33,20 @@ public sealed class PanelMenuSiblingAndGroupLinkTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task ClickingTheLabelOfAGroupWhoseNavigationTheHostRefuses_StillUnfoldsItWithoutLeavingThePage()
+    {
+        var navigation = Services.GetRequiredService<NavigationManager>();
+        var start = navigation.Uri;
+        var host = Render<PanelMenuGroupLinkTestHost>(parameters => parameters
+            .Add(component => component.CanNavigate, _ => Task.FromResult(false)));
+
+        await host.Find(GroupLabel).ClickAsync(new MouseEventArgs());
+
+        Assert.Equal(start, navigation.Uri);
+        Assert.Contains(Open, host.Find("#group-servers").ClassName);
+    }
+
+    [Fact]
     public async Task ClickingTheLabelOfAnUnfoldedGroup_KeepsItUnfolded()
     {
         var host = Render<PanelMenuGroupLinkTestHost>(parameters => parameters

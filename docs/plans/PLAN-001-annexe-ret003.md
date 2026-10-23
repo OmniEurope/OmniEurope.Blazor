@@ -42,8 +42,8 @@ Totaux : 715 citations, 341 hors périmètre, 374 en 82 groupes : **6 A**, **5 d
 
 | Groupe | Composant | Msg/proj | Preuve dans le code |
 |---|---|---|---|
-| G-D28-02 | `OmniPanelMenuItem` | 3/3 | libellé d'un groupe avec `Href` = lien sans `Toggle` ; `IsWithin` faux sur la route du groupe |
-| G-D28-01 | `OmniPanelMenuItem` | 4/2 | `IsCurrent` arbitre groupe et enfants, pas deux frères en `Prefix` |
+| G-D28-02 | `OmniPanelMenuItem` | 3/3 | libellé d'un groupe avec `Href` = lien sans `Toggle` ; `IsWithin` faux sur la route du groupe. **Reproduit et corrigé (2026-10-23), classe A** : le clic sur le libellé déplie |
+| G-D28-01 | `OmniPanelMenuItem` | 4/2 | `IsCurrent` arbitre groupe et enfants, pas deux frères en `Prefix`. **Reproduit et corrigé (2026-10-23), classe A** : l'adresse la plus longue l'emporte entre frères |
 | G-D23-09 | `OmniNotification` | 3/2 | cartes à 16,25rem ou 22,5rem selon la longueur ; aucune démo d'émission |
 | G-D30-01 | `OmniDataAnnotationsValidator` | 2/2 | messages `IValidatableObject` ajoutés sans `Lookup()` |
 | G-D28-04 | menus | 4/2 | placement abandonné après 10 essais sans prévenir .NET, `IsOpen` reste vrai |

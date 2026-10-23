@@ -12,6 +12,9 @@ internal sealed class OmniPanelMenuGroupContext(Action onChanged)
 
     public bool HasActiveChild => _activeChildren.Count > 0;
 
+    /// <summary>The entries nested directly in the group, which arbitrate between themselves which one is current.</summary>
+    public OmniPanelMenuSiblings Siblings { get; } = new();
+
     public void Report(object child, bool active)
     {
         var changed = active ? _activeChildren.Add(child) : _activeChildren.Remove(child);

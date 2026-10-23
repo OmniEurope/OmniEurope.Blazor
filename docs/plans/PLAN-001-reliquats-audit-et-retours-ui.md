@@ -130,8 +130,14 @@ API publique (4081 signatures) et CSP vertes.
 ### Lot 6 - Candidats à reproduire avant classement (RET-003)
 Preuve dans le code, pas encore de reproduction : chacun commence par un test ou une démo qui échoue,
 sinon il est clos en B ou C.
-- [ ] G-D28-02, `OmniPanelMenuItem` (3, 3) : un groupe avec `Href` navigue sans se déplier.
-- [ ] G-D28-01, `OmniPanelMenuItem` (4, 2) : deux frères dont l'un préfixe l'autre sont actifs ensemble.
+- [x] G-D28-02, `OmniPanelMenuItem` (3, 3) : un groupe avec `Href` navigue sans se déplier. Reproduit
+  (test rouge `PanelMenuSiblingAndGroupLinkTests.ClickingTheLabelOfAGroupWithAnAddress_NavigatesAndUnfoldsIt`) :
+  le libellé d'un groupe à adresse navigue et déplie désormais (jamais ne replie, le chevron seul replie
+  sans naviguer) ; classé A.
+- [x] G-D28-01, `OmniPanelMenuItem` (4, 2) : deux frères dont l'un préfixe l'autre sont actifs ensemble.
+  Reproduit (test rouge `PanelMenuSiblingAndGroupLinkTests.AmongSiblingsWhoseAddressesPrefixOneAnother_OnlyTheDeepestMatchIsCurrent`,
+  `/settings` et `/settings/users`, au premier niveau et dans un groupe) : entre frères, l'adresse
+  la plus longue qui correspond l'emporte ; classé A.
 - [ ] G-D23-09, `OmniNotification` (3, 2) : cartes courtes et longues de largeurs différentes dans une
   même pile.
 - [ ] G-D30-01, `OmniDataAnnotationsValidator` (2, 2) : un `IValidatableObject` affiche la clé de
