@@ -106,7 +106,8 @@ public partial class OmniCopyButton : IAsyncDisposable
         }
         else
         {
-            text = Text ?? string.Empty;
+            // The button is disabled without a factory or a non-empty text, so no click reaches here with a null text.
+            text = Text!;
         }
 
         var copied = await Clipboard.CopyAsync(text, CopiedFeedbackDuration, Clock);
