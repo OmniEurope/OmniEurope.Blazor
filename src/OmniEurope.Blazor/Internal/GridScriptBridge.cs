@@ -16,6 +16,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
     private static readonly TimeSpan PreparationTimeout = TimeSpan.FromSeconds(5);
 
     private readonly CancellationTokenSource _preparationLifetime = new();
+    private readonly GridContentTexts<TItem> _contentTexts = new(grid);
     private IJSObjectReference? _gridModule;
     private DotNetObjectReference<GridInteropBridge<TItem>>? _selfReference;
     private bool _virtualAttached;
@@ -80,6 +81,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
             await EnsureFrozenScrollInteropAsync();
             await EnsureCutTooltipsAsync();
             await EnsureContentFitAsync();
+            await PushContentTextsAsync();
             await EnsureColumnHoverAsync();
             await CompletePreparationAsync();
             return;
@@ -95,6 +97,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         await EnsureFrozenScrollInteropAsync();
         await EnsureCutTooltipsAsync();
         await EnsureContentFitAsync();
+        await PushContentTextsAsync();
         await EnsureColumnHoverAsync();
         if (!_virtualAttached)
         {
@@ -175,6 +178,22 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         var module = await ModuleAsync();
         await module.InvokeVoidAsync("attachContentFit", grid.Viewport);
         _contentFitAttached = true;
+    }
+
+    /// <summary>
+    /// With content sizing (<see cref="OmniDataGridColumnSizing.Content"/>), hands the script the texts of the
+    /// loaded rows it measures, once and again only when the rows or the measured columns change. The default
+    /// sizing hands nothing over.
+    /// </summary>
+    private async Task PushContentTextsAsync()
+    {
+        if (_contentTexts.TakeChanges() is not { } texts)
+        {
+            return;
+        }
+
+        var module = await ModuleAsync();
+        await module.InvokeVoidAsync("setContentTexts", grid.Viewport, texts);
     }
 
     /// <summary>

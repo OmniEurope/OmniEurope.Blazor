@@ -1647,4 +1647,13 @@
   <data name="DemoPagesFactStarted" xml:space="preserve"><value>Tús</value></data>
   <data name="DemoPagesFactDuration" xml:space="preserve"><value>Fad</value></data>
   <data name="DemoPagesFactStepDuration" xml:space="preserve"><value>Fad na céime</value></data>
+  <data name="DemoGridSizingCaption" xml:space="preserve"><value>Colúin chomh leathan lena n-ábhar</value></data>
+  <data name="DemoGridSizingName" xml:space="preserve"><value>Ainm</value></data>
+  <data name="DemoGridSizingStatus" xml:space="preserve"><value>Stádas</value></data>
+  <data name="DemoGridSizingVisitors" xml:space="preserve"><value>Cuairteoirí reatha</value></data>
+  <data name="DemoGridSizingProject" xml:space="preserve"><value>Tionscadal</value></data>
+  <data name="DemoGridSizingSince" xml:space="preserve"><value>Ó</value></data>
+  <data name="DemoGridSizingOnline" xml:space="preserve"><value>Ar líne</value></data>
+  <data name="DemoGridSizingOffline" xml:space="preserve"><value>As líne</value></data>
+  <data name="DemoGridSizingDeclaredCaption" xml:space="preserve"><value>Na colúin chéanna le leithid dearbhaithe</value></data>
 </root>

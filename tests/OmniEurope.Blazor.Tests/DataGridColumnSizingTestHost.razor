@@ -1,0 +1,49 @@
+@using OmniEurope.Blazor.Components
+
+@* The columns of a client application's visitors table: a name and a project that take the room (a minimum
+   each), a status, a number and a date that declare a width. Which sizing, and the flags of the project
+   column, come from the test. *@
+<OmniDataGrid TItem="Site"
+              Items="Sites"
+              ScrollMode="OmniDataGridScrollMode.Paged"
+              PageSize="PageSize"
+              AllowColumnResize="true"
+              @attributes="GridAttributes">
+    <Columns>
+        <OmniDataGridColumn TItem="Site" Property="Name" Title="Nom" MinWidth="9rem" Grow="GrowName" />
+        <OmniDataGridColumn TItem="Site" Property="Status" Title="Statut" Width="9rem">
+            <Template Context="site">@site.Status</Template>
+        </OmniDataGridColumn>
+        <OmniDataGridColumn TItem="Site" Property="Visitors" Title="Visiteurs actuels" Width="8rem" />
+        <OmniDataGridColumn TItem="Site" Property="Project" Title="Projet" MinWidth="8rem" Grow="GrowProject" Wrap="WrapProject" Truncate="TruncateProject" />
+        <OmniDataGridColumn TItem="Site" Property="Since" Title="Depuis" Width="10rem" />
+    </Columns>
+</OmniDataGrid>
+
+@code {
+    public sealed record Site(string Name, string Status, int Visitors, string Project, DateOnly Since);
+
+    [Parameter] public IReadOnlyList<Site> Sites { get; set; } = DefaultSites;
+
+    [Parameter] public int PageSize { get; set; } = 2;
+
+    [Parameter] public bool GrowName { get; set; }
+
+    [Parameter] public bool GrowProject { get; set; }
+
+    [Parameter] public bool WrapProject { get; set; }
+
+    [Parameter] public bool TruncateProject { get; set; }
+
+    /// <summary>Parameters of the grid passed only when set, so that a test can leave ColumnSizing out.</summary>
+    [Parameter] public IDictionary<string, object>? GridAttributes { get; set; }
+
+    public static IReadOnlyList<Site> DefaultSites { get; } =
+    [
+        new("Boutique", "En ligne", 12, "Vitrine", new DateOnly(2026, 1, 5)),
+        new("Blog", "Hors ligne", 0, "Contenu", new DateOnly(2025, 11, 2)),
+        new("Documentation technique de la plateforme d'intégration", "En ligne", 7, "Intégration continue", new DateOnly(2024, 6, 30)),
+        new("Extranet", "En ligne", 3, "Partenaires", new DateOnly(2023, 2, 14)),
+        new("Intranet", "Hors ligne", 1, "RH", new DateOnly(2022, 9, 1))
+    ];
+}

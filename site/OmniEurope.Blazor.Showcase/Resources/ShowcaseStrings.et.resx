@@ -1647,4 +1647,13 @@
   <data name="DemoPagesFactStarted" xml:space="preserve"><value>Algus</value></data>
   <data name="DemoPagesFactDuration" xml:space="preserve"><value>Kestus</value></data>
   <data name="DemoPagesFactStepDuration" xml:space="preserve"><value>Sammu kestus</value></data>
+  <data name="DemoGridSizingCaption" xml:space="preserve"><value>Veerud sisu laiuses</value></data>
+  <data name="DemoGridSizingName" xml:space="preserve"><value>Nimi</value></data>
+  <data name="DemoGridSizingStatus" xml:space="preserve"><value>Olek</value></data>
+  <data name="DemoGridSizingVisitors" xml:space="preserve"><value>Praegused külastajad</value></data>
+  <data name="DemoGridSizingProject" xml:space="preserve"><value>Projekt</value></data>
+  <data name="DemoGridSizingSince" xml:space="preserve"><value>Alates</value></data>
+  <data name="DemoGridSizingOnline" xml:space="preserve"><value>Võrgus</value></data>
+  <data name="DemoGridSizingOffline" xml:space="preserve"><value>Võrguühenduseta</value></data>
+  <data name="DemoGridSizingDeclaredCaption" xml:space="preserve"><value>Samad veerud deklareeritud laiustega</value></data>
 </root>

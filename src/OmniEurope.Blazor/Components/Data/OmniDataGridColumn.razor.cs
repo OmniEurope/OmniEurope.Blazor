@@ -257,6 +257,25 @@ public partial class OmniDataGridColumn<TItem>
     public bool Truncate { get; set; }
 
     /// <summary>
+    /// With the grid's <c>ColumnSizing</c> at <see cref="OmniDataGridColumnSizing.Content"/>: the column takes
+    /// the room the others leave, on top of the width of its content, which stays its floor. Several columns
+    /// marked share it equally; with none marked (and no <see cref="Wrap"/> or <see cref="Truncate"/> column,
+    /// which take the room as well) every column shares it. False by default. Ignored by the default sizing.
+    /// </summary>
+    [Parameter]
+    public bool Grow { get; set; }
+
+    /// <summary>
+    /// With the grid's <c>ColumnSizing</c> at <see cref="OmniDataGridColumnSizing.Content"/>: the header and the
+    /// cells of this column run onto several lines instead of staying on one. Such a column has no width of
+    /// its own to measure: it takes its <see cref="MinWidth"/> (the grid's column floor otherwise) and the
+    /// room the others leave, and breaks a word that is longer than that. False by default. Ignored by the
+    /// default sizing.
+    /// </summary>
+    [Parameter]
+    public bool Wrap { get; set; }
+
+    /// <summary>
     /// Alignment of the header and the cells. Left at the start, a number column aligns at the end in
     /// figures of one width, unless it has a <see cref="Template"/>. Text has no cross axis to fill:
     /// <see cref="OmniAlignment.Stretch"/> reads as <see cref="OmniAlignment.Start"/>.
@@ -350,6 +369,8 @@ public partial class OmniDataGridColumn<TItem>
             Width = Width,
             MinWidth = MinWidth,
             Truncate = Truncate,
+            Grow = Grow,
+            Wrap = Wrap,
             TextAlign = TextAlign,
             Numeric = GridPropertyAccessor.IsNumeric<TItem>(Property),
             Class = Class,
@@ -502,7 +523,7 @@ public partial class OmniDataGridColumn<TItem>
         && left.Frozen == right.Frozen
         && string.Equals(left.Width, right.Width, StringComparison.Ordinal)
         && string.Equals(left.MinWidth, right.MinWidth, StringComparison.Ordinal)
-        && left.Truncate == right.Truncate
+        && (left.Truncate, left.Grow, left.Wrap).Equals((right.Truncate, right.Grow, right.Wrap))
         && left.TextAlign == right.TextAlign
         && string.Equals(left.Class, right.Class, StringComparison.Ordinal)
         && string.Equals(left.HeaderClass, right.HeaderClass, StringComparison.Ordinal)

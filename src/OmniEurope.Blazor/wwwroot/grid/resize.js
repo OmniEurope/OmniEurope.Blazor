@@ -159,10 +159,10 @@ export async function autoFitColumn(viewport, key) {
             return;
         }
 
-        const selector = `[data-omni-col="${CSS.escape(key)}"]`;
+        const selector = columnSelector(key);
         const col = viewport.querySelector(`col${selector}`);
         const widest = Math.max(
-            measureRenderedColumn(viewport, selector, col),
+            measureRenderedColumns(viewport, [key]).get(key) ?? 0,
             Array.isArray(texts) ? measureTexts(viewport, selector, texts) : 0);
         const width = Math.max(attachment.floor, columnMinimum(viewport, col), Math.ceil(widest) + 1);
         col?.style.setProperty('--omni-col-width', `${width}px`);
@@ -172,72 +172,112 @@ export async function autoFitColumn(viewport, key) {
     }
 }
 
+/** The attribute selector of a column's elements (its <col>, header, cells). */
+export function columnSelector(key) {
+    return `[data-omni-col="${CSS.escape(key)}"]`;
+}
+
 // The measurement needs the constraints actually lifted, which inline styles do and a class cannot:
 // under table-layout: fixed a cell is exactly as wide as its column, so reading it while the column
 // still applies returns the width being replaced rather than the width the content wants.
-function measureRenderedColumn(viewport, selector, col) {
+// Several columns are measured in one lift (one layout, not one per column): the result is the widest
+// content of each, by key. With wholeHeader, the header cell itself is counted, its sort and filter
+// icons included on one line (the sizing of a grid to its content); the fit of a column to its content
+// counts the text of the title alone.
+export function measureRenderedColumns(viewport, keys, wholeHeader = false) {
     const table = viewport.querySelector('.omni-data-grid__table');
-    const cells = [...viewport.querySelectorAll(`td${selector}`)];
+    const result = new Map(keys.map(key => [key, 0]));
     if (!table) {
-        return 0;
+        return result;
     }
+
+    const columns = keys.map(key => {
+        const selector = columnSelector(key);
+        return {
+            key,
+            selector,
+            col: viewport.querySelector(`col${selector}`),
+            cells: [...viewport.querySelectorAll(`td${selector}`)]
+        };
+    });
 
     // First pass, constraints still in place, on the clipped cells only: their scrollWidth is the
     // width their content wanted, the only reading that sees through an inner flex box whose items
     // were told they may shrink. It already counts the padding. A cell that is not clipped reports
     // the current column width there, which would forbid the fit from ever narrowing the column,
     // so it is left to the second pass.
-    let widest = 0;
-    for (const cell of cells) {
-        if (cell.scrollWidth > cell.clientWidth) {
-            const cellStyle = getComputedStyle(cell);
-            const borders = parseFloat(cellStyle.borderInlineStartWidth || '0')
-                + parseFloat(cellStyle.borderInlineEndWidth || '0');
-            widest = Math.max(widest, cell.scrollWidth + borders);
+    for (const { key, cells } of columns) {
+        let widest = 0;
+        for (const cell of cells) {
+            if (cell.scrollWidth > cell.clientWidth) {
+                const cellStyle = getComputedStyle(cell);
+                const borders = parseFloat(cellStyle.borderInlineStartWidth || '0')
+                    + parseFloat(cellStyle.borderInlineEndWidth || '0');
+                widest = Math.max(widest, cell.scrollWidth + borders);
+            }
         }
+        result.set(key, widest);
     }
 
     const tableStyle = table.getAttribute('style');
-    const colStyle = col?.getAttribute('style') ?? null;
-    const cellStyles = cells.map(cell => cell.getAttribute('style'));
+    const saved = columns.map(({ col, cells }) => ({
+        col: col?.getAttribute('style') ?? null,
+        cells: cells.map(cell => cell.getAttribute('style'))
+    }));
 
     // The table keeps a minimum width made of the widths already applied, this column's included:
     // left in place, it hands the column its old width back and a fit could never narrow it.
     table.style.tableLayout = 'auto';
     table.style.width = 'max-content';
     table.style.minWidth = '0';
-    col?.style.setProperty('--omni-col-width', 'auto');
-    col?.style.setProperty('--omni-col-min', '0');
-    for (const cell of cells) {
-        liftCellConstraints(cell);
+    for (const { col, cells } of columns) {
+        col?.style.setProperty('--omni-col-width', 'auto');
+        col?.style.setProperty('--omni-col-min', '0');
+        for (const cell of cells) {
+            liftCellConstraints(cell);
+        }
     }
 
     // Second pass, constraints lifted: border-box widths, so the padding is already counted.
     // This catches what the first pass cannot see, a cell that was not clipping because its own
     // box had already been squeezed to fit the column.
-    for (const cell of cells) {
-        widest = Math.max(widest, cell.getBoundingClientRect().width);
+    for (const { key, selector, cells } of columns) {
+        let widest = result.get(key);
+        for (const cell of cells) {
+            widest = Math.max(widest, cell.getBoundingClientRect().width);
+        }
+
+        // The header is measured through the text of its title alone: counting the sort button and the
+        // filter icon would make a short column grow on a gesture meant to shrink it. The text, not the
+        // title's box, which stretches with the column and would make every new fit a little wider.
+        const title = viewport.querySelector(`th${selector} .omni-data-grid__title`);
+        if (title) {
+            const header = title.closest('th');
+            const padding = header
+                ? parseFloat(getComputedStyle(header).paddingInlineStart || '0')
+                    + parseFloat(getComputedStyle(header).paddingInlineEnd || '0')
+                : 0;
+            const text = document.createRange();
+            text.selectNodeContents(title);
+            widest = Math.max(widest, text.getBoundingClientRect().width + padding);
+        }
+
+        // Sized to its content, a column must also hold its whole header: the table is laid out at the width
+        // its content wants, so the header cell is as wide as its title, icons and gaps need.
+        const header = wholeHeader ? viewport.querySelector(`th${selector}`) : null;
+        if (header) {
+            widest = Math.max(widest, header.getBoundingClientRect().width);
+        }
+
+        result.set(key, widest);
     }
 
-    // The header is measured through the text of its title alone: counting the sort button and the
-    // filter icon would make a short column grow on a gesture meant to shrink it. The text, not the
-    // title's box, which stretches with the column and would make every new fit a little wider.
-    const title = viewport.querySelector(`th${selector} .omni-data-grid__title`);
-    if (title) {
-        const header = title.closest('th');
-        const padding = header
-            ? parseFloat(getComputedStyle(header).paddingInlineStart || '0')
-                + parseFloat(getComputedStyle(header).paddingInlineEnd || '0')
-            : 0;
-        const text = document.createRange();
-        text.selectNodeContents(title);
-        widest = Math.max(widest, text.getBoundingClientRect().width + padding);
-    }
-
-    cells.forEach((cell, index) => restoreStyle(cell, cellStyles[index]));
-    restoreStyle(col, colStyle);
+    columns.forEach(({ col, cells }, index) => {
+        cells.forEach((cell, cellIndex) => restoreStyle(cell, saved[index].cells[cellIndex]));
+        restoreStyle(col, saved[index].col);
+    });
     restoreStyle(table, tableStyle);
-    return widest;
+    return result;
 }
 
 // How many candidates of the canvas ranking are measured again in a real cell: the canvas knows the
@@ -307,6 +347,11 @@ function measureTexts(viewport, selector, texts) {
     } finally {
         probeTable.remove();
     }
+}
+
+/** The widest of the given texts as the column of this key would show them (see measureTexts). */
+export function measureColumnTexts(viewport, key, texts) {
+    return measureTexts(viewport, columnSelector(key), texts);
 }
 
 /**

@@ -147,6 +147,69 @@
     </OmniDataGrid>
 </div>
 
+@* Colonnes à la largeur de leur contenu (ColumnSizing Content) : chaque colonne prend la largeur de sa
+   valeur la plus large, son en-tête sur une ligne avec ses icônes de tri et de filtre compris, mesurée sur
+   toutes les lignes chargées. Les largeurs déclarées (Width) sont ignorées : le contenu décide, et MinWidth
+   reste un plancher. La place restante va aux colonnes marquées Grow (le nom et le projet) ; un cadre plus
+   étroit resserre les colonnes jusqu'à leur contenu, puis la grille défile de côté sans rien couper. *@
+<div class="demo-grid-sizing-box">
+    <OmniDataGrid TItem="SiteRow" Id="demo-grid-sizing"
+                  Items="Sites"
+                  Caption="@Text["DemoGridSizingCaption"]"
+                  ColumnSizing="OmniDataGridColumnSizing.Content"
+                  ScrollMode="OmniDataGridScrollMode.All">
+        <Columns>
+            <OmniDataGridColumn TItem="SiteRow" Property="Name" Title="@Text["DemoGridSizingName"]" MinWidth="9rem" Grow="true" />
+            <OmniDataGridColumn TItem="SiteRow" Property="Online" Title="@Text["DemoGridSizingStatus"]" Width="9rem">
+                <Template Context="site">
+                    <OmniBadge Tone="@(site.Online ? OmniTone.Success : OmniTone.Neutral)">@Text[site.Online ? "DemoGridSizingOnline" : "DemoGridSizingOffline"]</OmniBadge>
+                </Template>
+            </OmniDataGridColumn>
+            <OmniDataGridColumn TItem="SiteRow" Property="Visitors" Title="@Text["DemoGridSizingVisitors"]" Width="8rem" />
+            <OmniDataGridColumn TItem="SiteRow" Property="Project" Title="@Text["DemoGridSizingProject"]" MinWidth="8rem" Grow="true" />
+            <OmniDataGridColumn TItem="SiteRow" Property="Since" Title="@Text["DemoGridSizingSince"]" Width="10rem" FormatString="{0:d}" />
+        </Columns>
+    </OmniDataGrid>
+</div>
+
+@* Les mêmes colonnes en mode par défaut (Declared) : chaque Width est la largeur de la colonne, quel que soit
+   son contenu, et un titre qui ne tient pas passe à la ligne. *@
+<div class="demo-grid-sizing-box">
+    <OmniDataGrid TItem="SiteRow" Id="demo-grid-sizing-declared"
+                  Items="Sites"
+                  Caption="@Text["DemoGridSizingDeclaredCaption"]"
+                  ColumnSizing="OmniDataGridColumnSizing.Declared"
+                  ScrollMode="OmniDataGridScrollMode.All">
+        <Columns>
+            <OmniDataGridColumn TItem="SiteRow" Property="Name" Title="@Text["DemoGridSizingName"]" MinWidth="9rem" />
+            <OmniDataGridColumn TItem="SiteRow" Property="Online" Title="@Text["DemoGridSizingStatus"]" Width="9rem">
+                <Template Context="site">
+                    <OmniBadge Tone="@(site.Online ? OmniTone.Success : OmniTone.Neutral)">@Text[site.Online ? "DemoGridSizingOnline" : "DemoGridSizingOffline"]</OmniBadge>
+                </Template>
+            </OmniDataGridColumn>
+            <OmniDataGridColumn TItem="SiteRow" Property="Visitors" Title="@Text["DemoGridSizingVisitors"]" Width="8rem" />
+            <OmniDataGridColumn TItem="SiteRow" Property="Project" Title="@Text["DemoGridSizingProject"]" MinWidth="8rem" />
+            <OmniDataGridColumn TItem="SiteRow" Property="Since" Title="@Text["DemoGridSizingSince"]" Width="10rem" FormatString="{0:d}" />
+        </Columns>
+    </OmniDataGrid>
+</div>
+
+@* Une colonne de texte long qui demande le retour à la ligne (Wrap) : elle n'a pas de largeur propre, elle
+   prend la place que les autres lui laissent et passe à la ligne au lieu d'être coupée. *@
+<div class="demo-grid-sizing-box">
+    <OmniDataGrid TItem="PackageRow" Id="demo-grid-sizing-wrap"
+                  Items="Packages"
+                  Caption="@Text["DemoGridSizingCaption"]"
+                  Filterable="false"
+                  ColumnSizing="OmniDataGridColumnSizing.Content"
+                  ScrollMode="OmniDataGridScrollMode.All">
+        <Columns>
+            <OmniDataGridColumn TItem="PackageRow" Property="Name" Title="@Text["DemoGridFitColumnPackage"]" />
+            <OmniDataGridColumn TItem="PackageRow" Property="Description" Title="@Text["DemoGridFitColumnDescription"]" Wrap="true" MinWidth="12rem" />
+        </Columns>
+    </OmniDataGrid>
+</div>
+
 @* Un compte de résultat en arbre (ChildrenOf) : les catégories, toujours ouvertes (CanToggleTreeRow),
    portent leurs sous-totaux, qui s'ouvrent d'un clic sur la ligne (ToggleTreeOnRowClick) ou par leur
    chevron, Droite et Gauche au clavier ; les deux boutons ouvrent et ferment tout. Le tri range les

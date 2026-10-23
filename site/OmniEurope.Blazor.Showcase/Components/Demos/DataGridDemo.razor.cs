@@ -25,6 +25,17 @@ public partial class DataGridDemo
     // itself to the names, the second (Truncate) is cut.
     private IReadOnlyList<PackageRow> Packages { get; set; } = [];
 
+    // Sites with names and projects of very different lengths, a status shown as a badge, a number and a
+    // date: the grid whose columns are sized to their content (sample data kept as written).
+    private IReadOnlyList<SiteRow> Sites { get; } =
+    [
+        new("Boutique en ligne", true, 128, "Vitrine commerciale", new DateOnly(2024, 3, 12)),
+        new("Documentation technique de la plateforme", true, 37, "Intégration continue", new DateOnly(2023, 9, 4)),
+        new("Intranet", false, 0, "Ressources humaines", new DateOnly(2022, 1, 17)),
+        new("Extranet partenaires", true, 9, "Relations partenaires", new DateOnly(2025, 6, 30)),
+        new("Blog", true, 54, "Communication", new DateOnly(2021, 11, 8))
+    ];
+
     // Two thousand files grouped by country; one amount, far from the first window, is much wider than
     // the others, so the fit to content of Amount has to rank every text, rendered or not.
     private IReadOnlyList<GridRow> FillRows { get; set; } = [];

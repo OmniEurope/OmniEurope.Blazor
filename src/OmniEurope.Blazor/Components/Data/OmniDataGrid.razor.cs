@@ -488,6 +488,22 @@ public partial class OmniDataGrid<TItem>
     public bool AllowColumnAutoFit { get; set; }
 
     /// <summary>
+    /// Where the column widths come from. <see cref="OmniDataGridColumnSizing.Declared"/> (the default)
+    /// keeps the declared <c>Width</c> and <c>MinWidth</c>. <see cref="OmniDataGridColumnSizing.Content"/> sizes each
+    /// column to its widest content, header included on one line with its sort and filter icons, measured
+    /// over every loaded row as the fit to content does: a column's <c>Width</c> is ignored, its
+    /// <c>MinWidth</c> stays a floor, the room left goes to the columns marked <c>Grow</c> (or is shared
+    /// out), a narrower grid shrinks the columns to their content and then scrolls sideways, never cutting
+    /// a value, and a column made to wrap (<c>Wrap</c>) or to be cut (<c>Truncate</c>) is the exception. A
+    /// width the reader chose by dragging still wins. A host-wide default needs no option of its own: a
+    /// preset (<c>AddOmniEuropePreset</c>) can set this parameter.
+    /// </summary>
+    [Parameter]
+    public OmniDataGridColumnSizing ColumnSizing { get; set; }
+
+    internal bool SizesToContent => ColumnSizing == OmniDataGridColumnSizing.Content;
+
+    /// <summary>
     /// Raised with the column key and its new CSS width once a resize ends: a drag, a fit to content or
     /// an arrow key on the handle.
     /// </summary>

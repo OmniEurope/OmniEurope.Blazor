@@ -466,6 +466,8 @@ field public static OmniEurope.Blazor.Components.OmniDataGridColumnFilterType.Mu
 field public static OmniEurope.Blazor.Components.OmniDataGridColumnFilterType.Number : OmniEurope.Blazor.Components.OmniDataGridColumnFilterType const = 5
 field public static OmniEurope.Blazor.Components.OmniDataGridColumnFilterType.Select : OmniEurope.Blazor.Components.OmniDataGridColumnFilterType const = 1
 field public static OmniEurope.Blazor.Components.OmniDataGridColumnFilterType.Text : OmniEurope.Blazor.Components.OmniDataGridColumnFilterType const = 0
+field public static OmniEurope.Blazor.Components.OmniDataGridColumnSizing.Content : OmniEurope.Blazor.Components.OmniDataGridColumnSizing const = 1
+field public static OmniEurope.Blazor.Components.OmniDataGridColumnSizing.Declared : OmniEurope.Blazor.Components.OmniDataGridColumnSizing const = 0
 field public static OmniEurope.Blazor.Components.OmniDataGridEditTrigger.Action : OmniEurope.Blazor.Components.OmniDataGridEditTrigger const = 0
 field public static OmniEurope.Blazor.Components.OmniDataGridEditTrigger.Cell : OmniEurope.Blazor.Components.OmniDataGridEditTrigger const = 1
 field public static OmniEurope.Blazor.Components.OmniDataGridFilterMode.Advanced : OmniEurope.Blazor.Components.OmniDataGridFilterMode const = 2
@@ -2556,6 +2558,7 @@ property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.CanToggleTreeRo
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.Caption : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.CaseSensitiveFilters : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ChildrenOf : System.Func<TItem,System.Collections.Generic.IReadOnlyList<TItem>?>? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ColumnSizing : OmniEurope.Blazor.Components.OmniDataGridColumnSizing {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.Columns : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.Count : System.Int32? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.Density : OmniEurope.Blazor.Components.OmniDensity? {get(public);set(public)} [Parameter]
@@ -2693,6 +2696,7 @@ property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Frozen : 
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.GroupAggregateFormat : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.GroupFooterTemplate : Microsoft.AspNetCore.Components.RenderFragment<OmniEurope.Blazor.Components.OmniDataGridGroupContext<TItem>>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Groupable : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Grow : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.HeaderClass : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.HeaderContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Hideable : System.Boolean {get(public);set(public)} [Parameter]
@@ -2711,6 +2715,7 @@ property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Truncate 
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Value : System.Func<TItem,System.Object?>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Visible : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Width : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Wrap : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumnOrderChange.Key : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniDataGridColumnOrderChange.Order : System.Collections.Generic.IReadOnlyList<System.String> {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniDataGridColumnWidthChange.Key : System.String {get(public);init(public)}
@@ -4062,6 +4067,7 @@ type public OmniEurope.Blazor.Components.OmniDataGridCellMouseEventArgs<TItem> [
 type public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem> [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniDataGridColumnFilterType [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniDataGridColumnOrderChange [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniDataGridColumnOrderChange>
+type public OmniEurope.Blazor.Components.OmniDataGridColumnSizing [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniDataGridColumnWidthChange [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniDataGridColumnWidthChange>
 type public OmniEurope.Blazor.Components.OmniDataGridDateRange [static-class, static]
 type public OmniEurope.Blazor.Components.OmniDataGridEditTrigger [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32

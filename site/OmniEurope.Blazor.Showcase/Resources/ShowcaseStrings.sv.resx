@@ -1647,4 +1647,13 @@
   <data name="DemoPagesFactStarted" xml:space="preserve"><value>Start</value></data>
   <data name="DemoPagesFactDuration" xml:space="preserve"><value>Varaktighet</value></data>
   <data name="DemoPagesFactStepDuration" xml:space="preserve"><value>Stegets varaktighet</value></data>
+  <data name="DemoGridSizingCaption" xml:space="preserve"><value>Kolumner lika breda som sitt innehåll</value></data>
+  <data name="DemoGridSizingName" xml:space="preserve"><value>Namn</value></data>
+  <data name="DemoGridSizingStatus" xml:space="preserve"><value>Status</value></data>
+  <data name="DemoGridSizingVisitors" xml:space="preserve"><value>Aktuella besökare</value></data>
+  <data name="DemoGridSizingProject" xml:space="preserve"><value>Projekt</value></data>
+  <data name="DemoGridSizingSince" xml:space="preserve"><value>Sedan</value></data>
+  <data name="DemoGridSizingOnline" xml:space="preserve"><value>Online</value></data>
+  <data name="DemoGridSizingOffline" xml:space="preserve"><value>Offline</value></data>
+  <data name="DemoGridSizingDeclaredCaption" xml:space="preserve"><value>Samma kolumner med angivna bredder</value></data>
 </root>

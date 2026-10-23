@@ -28,9 +28,12 @@ internal sealed class GridColumnLayout<TItem>(OmniDataGrid<TItem> grid)
     /// <summary>The widths chosen by the reader, by column key.</summary>
     internal IReadOnlyDictionary<string, string?> Widths => _columnWidths;
 
-    /// <summary>The width of a column: the reader's choice, else its declared width.</summary>
+    /// <summary>
+    /// The width of a column: the reader's choice, else its declared width. With content sizing the declared
+    /// width is ignored (the content decides), and only the reader's choice is a width.
+    /// </summary>
     internal string? WidthOf(OmniDataGridColumnDefinition<TItem> column) =>
-        _columnWidths.GetValueOrDefault(column.Key, column.Width);
+        _columnWidths.GetValueOrDefault(column.Key, grid.SizesToContent ? null : column.Width);
 
     internal void Forget(string key) => _columnWidths.Remove(key);
 
@@ -65,9 +68,12 @@ internal sealed class GridColumnLayout<TItem>(OmniDataGrid<TItem> grid)
     /// </summary>
     internal string TableMinimumWidth()
     {
+        // Content sizing: a column's floor is its content, which only the script can measure (it adds the sum
+        // to this minimum), so a column without a width or a minimum counts for nothing here, not for the
+        // auto-column floor, which would stop a narrow-content column from shrinking to its content.
         var terms = grid.ColumnSet.VisibleColumns
             .Select(column => WidthOf(column) ?? column.MinWidth)
-            .Select(width => IsAbsoluteLength(width) ? width! : "var(--omni-data-grid-column-min-width)")
+            .Select(width => IsAbsoluteLength(width) ? width! : grid.SizesToContent ? "0px" : "var(--omni-data-grid-column-min-width)")
             .ToList();
         if (grid.ColumnSet.ShowDetailColumn)
         {
@@ -109,7 +115,7 @@ internal sealed class GridColumnLayout<TItem>(OmniDataGrid<TItem> grid)
     internal string Signature() => string.Join(
         '|',
         grid.ColumnSet.VisibleColumns.Select(column =>
-            $"{column.Key}:{WidthOf(column)}:{column.MinWidth}:{column.Frozen}"));
+            $"{column.Key}:{WidthOf(column)}:{column.MinWidth}:{column.Frozen}").Append(grid.ColumnSizing.ToString()));
 
     /// <summary>The column specifications the script applies to the column elements.</summary>
     internal object Specs() => grid.ColumnSet.VisibleColumns.Select(column => new
@@ -142,7 +148,13 @@ internal sealed class GridColumnLayout<TItem>(OmniDataGrid<TItem> grid)
     internal string[]? AutoFitTexts(string key)
     {
         var column = grid.ColumnSet.FindVisible(key);
-        if (column is null || !IsAutoFit(column) || column.Template is not null)
+        return column is null || !IsAutoFit(column) ? null : LoadedTexts(column);
+    }
+
+    /// <summary>The distinct texts of a column without a template over every loaded row, bounded as <see cref="AutoFitTexts"/> says; null for a templated column.</summary>
+    internal string[]? LoadedTexts(OmniDataGridColumnDefinition<TItem> column)
+    {
+        if (column.Template is not null)
         {
             return null;
         }

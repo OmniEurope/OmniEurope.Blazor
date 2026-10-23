@@ -1647,4 +1647,13 @@
   <data name="DemoPagesFactStarted" xml:space="preserve"><value>Pradžia</value></data>
   <data name="DemoPagesFactDuration" xml:space="preserve"><value>Trukmė</value></data>
   <data name="DemoPagesFactStepDuration" xml:space="preserve"><value>Žingsnio trukmė</value></data>
+  <data name="DemoGridSizingCaption" xml:space="preserve"><value>Stulpeliai pagal turinio plotį</value></data>
+  <data name="DemoGridSizingName" xml:space="preserve"><value>Pavadinimas</value></data>
+  <data name="DemoGridSizingStatus" xml:space="preserve"><value>Būsena</value></data>
+  <data name="DemoGridSizingVisitors" xml:space="preserve"><value>Dabartiniai lankytojai</value></data>
+  <data name="DemoGridSizingProject" xml:space="preserve"><value>Projektas</value></data>
+  <data name="DemoGridSizingSince" xml:space="preserve"><value>Nuo</value></data>
+  <data name="DemoGridSizingOnline" xml:space="preserve"><value>Prisijungęs</value></data>
+  <data name="DemoGridSizingOffline" xml:space="preserve"><value>Neprisijungęs</value></data>
+  <data name="DemoGridSizingDeclaredCaption" xml:space="preserve"><value>Tie patys stulpeliai su nurodytais pločiais</value></data>
 </root>

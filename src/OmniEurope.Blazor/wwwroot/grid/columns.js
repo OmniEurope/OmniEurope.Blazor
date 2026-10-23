@@ -3,6 +3,7 @@
 // never narrower than their title, frozen columns and their detach control.
 import { notifyDotNet } from './notify.js';
 import { release } from './release.js';
+import { forgetContentSizing, isContentSizing, sizeContent } from './content-sizing.js';
 import { lengthInPixels } from './resize.js';
 
 /**
@@ -39,7 +40,13 @@ export function applyColumns(viewport, columns, tableMinimum) {
         viewport.style.removeProperty('--omni-grid-table-min');
     }
 
-    fitColumns(viewport, true);
+    if (isContentSizing(viewport)) {
+        sizeContent(viewport, () => anchorFrozen(viewport));
+    } else {
+        forgetContentSizing(viewport);
+        fitColumns(viewport, true);
+    }
+
     watchHeaders(viewport);
     applyFrozen(viewport);
 }
@@ -235,7 +242,20 @@ function reserveFittedWidths(viewport, header, cols, state) {
 
 // A width that changed moves the columns after it, and with them the frozen offsets.
 function fitAndAnchor(viewport) {
-    if (fitColumns(viewport) && viewport.querySelector('thead > tr.omni-data-grid__header-row > .omni-data-grid__column--frozen')) {
+    // A grid that sizes to its content has its own sizing (content-sizing.js); this one is the default.
+    if (isContentSizing(viewport)) {
+        sizeContent(viewport, () => anchorFrozen(viewport));
+        return;
+    }
+
+    forgetContentSizing(viewport);
+    if (fitColumns(viewport)) {
+        anchorFrozen(viewport);
+    }
+}
+
+function anchorFrozen(viewport) {
+    if (viewport.querySelector('thead > tr.omni-data-grid__header-row > .omni-data-grid__column--frozen')) {
         applyFrozen(viewport);
     }
 }
@@ -271,7 +291,7 @@ export function attachContentFit(viewport) {
         characterData: true,
         subtree: true,
         attributes: true,
-        attributeFilter: ['data-omni-width', 'data-omni-truncate']
+        attributeFilter: ['data-omni-width', 'data-omni-truncate', 'data-omni-grow', 'data-omni-wrap', 'data-omni-sizing']
     });
     contentFits.set(viewport, {
         dispose: () => {
@@ -288,6 +308,7 @@ export function attachContentFit(viewport) {
 
 export function detachContentFit(viewport) {
     release(contentFits, viewport);
+    forgetContentSizing(viewport);
 }
 
 const headerWatchers = new WeakMap();

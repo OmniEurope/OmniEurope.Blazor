@@ -112,6 +112,32 @@ Une colonne se déclare par lambda ou par nom de propriété.
   `Truncate` sur la colonne coupent un titre, avec ellipsis et infobulle. Démo `demo-grid-title-floor`
   (quatre colonnes de `4rem` aux titres d'un seul mot long) ; l'étape « titres entiers » de la sonde
   `boards` vérifie `scrollWidth <= clientWidth` de chaque `.omni-data-grid__title` à 1280 et 375 px.
+- **`ColumnSizing="OmniDataGridColumnSizing.Content"` : chaque colonne à la largeur de son contenu.** Le
+  défaut, `Declared`, est le comportement ci-dessus, inchangé. En `Content`, la largeur de chaque colonne est
+  celle de son contenu le plus large, **titre sur une seule ligne avec ses icônes de tri, de filtre et de
+  regroupement** compris, mesuré sur les lignes chargées (celles de la page, de la fenêtre virtualisée et le
+  texte de toutes les autres lignes chargées, fourni par .NET) avec le code de l'ajustement au double clic
+  (`measureRenderedColumns` de `grid/resize.js`, `GridColumnLayout`, `GridScriptBridge`), sans seconde
+  mesure. Le calcul est dans `grid/content-sizing.js` (`planColumnWidths`). La largeur ne descend jamais sous le
+  contenu : quand le cadre rétrécit, les colonnes se resserrent jusqu'à leur contenu, puis le viewport défile de
+  côté, sans rien couper. `Width` est **ignorée** (le contenu décide), `MinWidth` reste un plancher et une
+  largeur choisie par le lecteur (glisser, double clic, `StateKey`) l'emporte toujours. La place qui reste
+  va aux colonnes marquées `Grow="true"` (à parts entières égales), sinon à toutes les colonnes mesurées. Les
+  cellules et les titres restent sur une ligne, sans points de suspension, sauf une colonne qui demande
+  `Wrap="true"` (retour à la ligne entre les mots, elle prend la place que les autres lui laissent, plancher
+  `MinWidth`) ou `Truncate` (coupée, comme avant). `HeaderWrap` n'a pas d'effet sur une colonne mesurée : son
+  titre ne passe jamais à la ligne. Limites : une colonne à `Template` est mesurée sur ses cellules rendues
+  seulement, et la rangée de filtres en ligne n'entre pas dans la mesure. Démos `demo-grid-sizing` (nom,
+  pastille d'état, nombre, projet, date) et `demo-grid-sizing-wrap`. Pour en faire le défaut d'une
+  application, par le préréglage d'`OmniDataGrid<>` :
+
+  ```csharp
+  services.AddOmniEuropePreset(typeof(OmniDataGrid<>), "content",
+      new Dictionary<string, object?> { ["ColumnSizing"] = OmniDataGridColumnSizing.Content },
+      isDefault: true);
+  ```
+
+  Un `ColumnSizing` écrit sur la grille l'emporte sur le préréglage (`PresetName="none"` l'écarte).
 - Des colonnes déclarées dans un `@foreach` peuvent capturer la variable de boucle dans leur
   `Template` ou leur `Value` : un délégué issu de la même lambda ne réinscrit pas la colonne. Les
   cellules montrent l'état capturé du rendu du parent dès ce rendu (la grille se redessine une fois de

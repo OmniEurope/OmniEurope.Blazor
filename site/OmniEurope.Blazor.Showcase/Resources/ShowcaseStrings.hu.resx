@@ -1647,4 +1647,13 @@
   <data name="DemoPagesFactStarted" xml:space="preserve"><value>Kezdés</value></data>
   <data name="DemoPagesFactDuration" xml:space="preserve"><value>Időtartam</value></data>
   <data name="DemoPagesFactStepDuration" xml:space="preserve"><value>Lépés időtartama</value></data>
+  <data name="DemoGridSizingCaption" xml:space="preserve"><value>A tartalmuk szélességű oszlopok</value></data>
+  <data name="DemoGridSizingName" xml:space="preserve"><value>Név</value></data>
+  <data name="DemoGridSizingStatus" xml:space="preserve"><value>Állapot</value></data>
+  <data name="DemoGridSizingVisitors" xml:space="preserve"><value>Jelenlegi látogatók</value></data>
+  <data name="DemoGridSizingProject" xml:space="preserve"><value>Projekt</value></data>
+  <data name="DemoGridSizingSince" xml:space="preserve"><value>Óta</value></data>
+  <data name="DemoGridSizingOnline" xml:space="preserve"><value>Online</value></data>
+  <data name="DemoGridSizingOffline" xml:space="preserve"><value>Offline</value></data>
+  <data name="DemoGridSizingDeclaredCaption" xml:space="preserve"><value>Ugyanezek az oszlopok megadott szélességgel</value></data>
 </root>

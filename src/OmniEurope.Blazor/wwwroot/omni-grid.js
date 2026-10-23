@@ -1,7 +1,7 @@
 // The data grid and the data list, the module the components import (OmniModules.Grid; the log
 // viewer imports sync, applyLayout and scrollToOffset): viewport observation and virtualisation,
 // spacers and viewport sizes, fill mode, the wheel scope and the wait for the first images. The
-// columns, the resize and auto-fit gestures, the header drag that reorders the columns, the filter
+// columns, the sizing of the columns to their content, the resize and auto-fit gestures, the header drag that reorders the columns, the filter
 // popovers, the focus of a row put in edit mode, the click that edits a row (EditTrigger) and the
 // virtualised data list live in ./grid/ and are re-exported here, so every export keeps this address.
 import { notifyDotNet } from './grid/notify.js';
@@ -9,6 +9,7 @@ import { release } from './grid/release.js';
 
 export { applyColumns, applyFrozen, attachContentFit, attachFrozenScroll, detachContentFit, detachFrozenScroll } from './grid/columns.js';
 export { attachResize, detachResize, autoFitColumn } from './grid/resize.js';
+export { setContentTexts } from './grid/content-sizing.js';
 export { attachReorder, detachReorder, focusMoveControl } from './grid/reorder.js';
 export { attachFilterMenus, closeFilterMenus, detachFilterMenus } from './grid/filter-menus.js';
 export { attachList, detachList, syncList, applyListLayout } from './grid/list.js';

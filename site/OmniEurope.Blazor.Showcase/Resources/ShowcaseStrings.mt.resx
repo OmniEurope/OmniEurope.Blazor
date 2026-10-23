@@ -1647,4 +1647,13 @@
   <data name="DemoPagesFactStarted" xml:space="preserve"><value>Bidu</value></data>
   <data name="DemoPagesFactDuration" xml:space="preserve"><value>Tul ta' żmien</value></data>
   <data name="DemoPagesFactStepDuration" xml:space="preserve"><value>Tul ta' żmien tal-pass</value></data>
+  <data name="DemoGridSizingCaption" xml:space="preserve"><value>Kolonni bil-wisa’ tal-kontenut tagħhom</value></data>
+  <data name="DemoGridSizingName" xml:space="preserve"><value>Isem</value></data>
+  <data name="DemoGridSizingStatus" xml:space="preserve"><value>Status</value></data>
+  <data name="DemoGridSizingVisitors" xml:space="preserve"><value>Viżitaturi attwali</value></data>
+  <data name="DemoGridSizingProject" xml:space="preserve"><value>Proġett</value></data>
+  <data name="DemoGridSizingSince" xml:space="preserve"><value>Minn</value></data>
+  <data name="DemoGridSizingOnline" xml:space="preserve"><value>Online</value></data>
+  <data name="DemoGridSizingOffline" xml:space="preserve"><value>Offline</value></data>
+  <data name="DemoGridSizingDeclaredCaption" xml:space="preserve"><value>L-istess kolonni b’wisgħat iddikjarati</value></data>
 </root>

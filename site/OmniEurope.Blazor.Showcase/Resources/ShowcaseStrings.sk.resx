@@ -1647,4 +1647,13 @@
   <data name="DemoPagesFactStarted" xml:space="preserve"><value>Začiatok</value></data>
   <data name="DemoPagesFactDuration" xml:space="preserve"><value>Trvanie</value></data>
   <data name="DemoPagesFactStepDuration" xml:space="preserve"><value>Trvanie kroku</value></data>
+  <data name="DemoGridSizingCaption" xml:space="preserve"><value>Stĺpce so šírkou svojho obsahu</value></data>
+  <data name="DemoGridSizingName" xml:space="preserve"><value>Názov</value></data>
+  <data name="DemoGridSizingStatus" xml:space="preserve"><value>Stav</value></data>
+  <data name="DemoGridSizingVisitors" xml:space="preserve"><value>Aktuálni návštevníci</value></data>
+  <data name="DemoGridSizingProject" xml:space="preserve"><value>Projekt</value></data>
+  <data name="DemoGridSizingSince" xml:space="preserve"><value>Od</value></data>
+  <data name="DemoGridSizingOnline" xml:space="preserve"><value>Online</value></data>
+  <data name="DemoGridSizingOffline" xml:space="preserve"><value>Offline</value></data>
+  <data name="DemoGridSizingDeclaredCaption" xml:space="preserve"><value>Rovnaké stĺpce so zadanými šírkami</value></data>
 </root>
