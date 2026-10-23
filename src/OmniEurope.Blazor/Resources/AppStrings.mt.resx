@@ -16,6 +16,7 @@
   <data name="AppMenuRole" xml:space="preserve"><value>Rwol</value></data>
   <data name="AppMenuSettings" xml:space="preserve"><value>Settings</value></data>
   <data name="AppMenuSignOut" xml:space="preserve"><value>Oħroġ</value></data>
+  <data name="AppMenuModeNext" xml:space="preserve"><value>Aqleb għall-modalità li jmiss</value></data>
   <data name="SettingsMode" xml:space="preserve"><value>Modalità</value></data>
   <data name="SettingsDarkOnly" xml:space="preserve"><value>Dan it-tema huwa dejjem skur</value></data>
   <data name="SettingsTheme" xml:space="preserve"><value>Tema</value></data>

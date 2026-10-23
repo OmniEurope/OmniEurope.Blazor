@@ -47,9 +47,12 @@
             }
             @* The mode: its label at the start, then three icon buttons joined at the end (light, dark,
                system), the one in force highlighted, as in the appearance window: one click picks a mode,
-               the arrows move and pick it. A theme drawn in dark mode only fixes the mode on dark: the
+               the arrows move and pick it. A click on the row outside the buttons (the icon and the label), or
+               Enter and Space on the row itself (the page keys turn them into that click), steps to the next mode
+               (light, dark, system, light). A theme drawn in dark mode only fixes the mode on dark: the
                three buttons are disabled and the group says why. *@
-            <div class="omni-app-menu__row omni-app-menu__mode">
+            <div class="omni-app-menu__row omni-app-menu__mode" role="group" aria-label="@Localize("AppMenuModeNext")"
+                 tabindex="@(ModeFixed ? null : "0")" data-omni-key-button="@(ModeFixed ? null : true)" aria-disabled="@(ModeFixed ? "true" : null)" @onclick="CycleAppearanceAsync">
                 <OmniIcon Name="OmniIconName.ThemeSystem" />
                 <span class="omni-app-menu__label">@Localize("SettingsMode")</span>
                 @ModeGroup

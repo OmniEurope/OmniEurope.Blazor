@@ -16,6 +16,7 @@
   <data name="AppMenuRole" xml:space="preserve"><value>Rolle</value></data>
   <data name="AppMenuSettings" xml:space="preserve"><value>Indstillinger</value></data>
   <data name="AppMenuSignOut" xml:space="preserve"><value>Log ud</value></data>
+  <data name="AppMenuModeNext" xml:space="preserve"><value>Skift til næste tilstand</value></data>
   <data name="SettingsMode" xml:space="preserve"><value>Tilstand</value></data>
   <data name="SettingsDarkOnly" xml:space="preserve"><value>Dette tema er altid mørkt</value></data>
   <data name="SettingsTheme" xml:space="preserve"><value>Tema</value></data>

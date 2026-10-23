@@ -185,6 +185,17 @@ public partial class OmniAppMenu : IDisposable
         await OpenChanged.InvokeAsync(open);
     }
 
+    // A click on the Mode row outside the three buttons (they stop theirs) steps through light, dark, system,
+    // then light again. A dark-only theme fixes the mode: the row then does nothing.
+    private Task CycleAppearanceAsync() => ModeFixed ? Task.CompletedTask : AppearanceChanged.InvokeAsync(NextMode(ShownAppearance));
+
+    private static OmniAppearance NextMode(OmniAppearance mode) => mode switch
+    {
+        OmniAppearance.Light => OmniAppearance.Dark,
+        OmniAppearance.Dark => OmniAppearance.System,
+        _ => OmniAppearance.Light
+    };
+
     // The list offers only the codes of Languages, and no empty choice.
     private Task SetLanguageAsync(string? code) => LanguageChanged.InvokeAsync(code!);
 

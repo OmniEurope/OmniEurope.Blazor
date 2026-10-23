@@ -43,6 +43,8 @@ internal static class AppearanceModeGroup
         builder.AddAttribute(4, "aria-label", localize("SettingsMode"));
         builder.AddAttribute(5, "aria-disabled", fixedMode ? "true" : null);
         builder.AddAttribute(6, "title", fixedMode ? localize("SettingsDarkOnly") : null);
+        // A click inside the group is the buttons': it does not reach a row that steps to the next mode.
+        builder.AddEventStopPropagationAttribute(7, "onclick", true);
         foreach (var mode in Modes)
         {
             AddButton(builder, receiver, mode, shown, fixedMode, Name(mode, localize), pick);
@@ -54,18 +56,18 @@ internal static class AppearanceModeGroup
     private static void AddButton(RenderTreeBuilder builder, object receiver, OmniAppearance mode, OmniAppearance shown, bool fixedMode, string name, Func<OmniAppearance, Task> pick)
     {
         var selected = mode == shown;
-        builder.OpenComponent<OmniButton>(7);
+        builder.OpenComponent<OmniButton>(8);
         builder.SetKey(mode);
-        builder.AddComponentParameter(8, nameof(OmniButton.Variant), selected ? OmniButtonVariant.Primary : OmniButtonVariant.Secondary);
-        builder.AddComponentParameter(9, nameof(OmniButton.Class), "omni-appearance-window__mode");
-        builder.AddComponentParameter(10, nameof(OmniButton.Disabled), fixedMode);
-        builder.AddComponentParameter(11, nameof(OmniButton.Label), name);
-        builder.AddComponentParameter(12, "title", name);
-        builder.AddComponentParameter(13, "role", "radio");
-        builder.AddComponentParameter(14, "aria-checked", selected ? "true" : "false");
-        builder.AddComponentParameter(15, "tabindex", selected ? "0" : "-1");
-        builder.AddComponentParameter(16, nameof(OmniButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(receiver, () => pick(mode)));
-        builder.AddComponentParameter(17, nameof(OmniButton.Icon), (RenderFragment)(icon =>
+        builder.AddComponentParameter(9, nameof(OmniButton.Variant), selected ? OmniButtonVariant.Primary : OmniButtonVariant.Secondary);
+        builder.AddComponentParameter(10, nameof(OmniButton.Class), "omni-appearance-window__mode");
+        builder.AddComponentParameter(11, nameof(OmniButton.Disabled), fixedMode);
+        builder.AddComponentParameter(12, nameof(OmniButton.Label), name);
+        builder.AddComponentParameter(13, "title", name);
+        builder.AddComponentParameter(14, "role", "radio");
+        builder.AddComponentParameter(15, "aria-checked", selected ? "true" : "false");
+        builder.AddComponentParameter(16, "tabindex", selected ? "0" : "-1");
+        builder.AddComponentParameter(17, nameof(OmniButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(receiver, () => pick(mode)));
+        builder.AddComponentParameter(18, nameof(OmniButton.Icon), (RenderFragment)(icon =>
         {
             icon.OpenComponent<OmniIcon>(0);
             icon.AddComponentParameter(1, nameof(OmniIcon.Name), Icon(mode));

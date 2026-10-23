@@ -16,6 +16,7 @@
   <data name="AppMenuRole" xml:space="preserve"><value>Rôle</value></data>
   <data name="AppMenuSettings" xml:space="preserve"><value>Paramètres</value></data>
   <data name="AppMenuSignOut" xml:space="preserve"><value>Déconnexion</value></data>
+  <data name="AppMenuModeNext" xml:space="preserve"><value>Passer au mode suivant</value></data>
   <data name="SettingsMode" xml:space="preserve"><value>Mode</value></data>
   <data name="SettingsDarkOnly" xml:space="preserve"><value>Ce thème est toujours sombre</value></data>
   <data name="SettingsTheme" xml:space="preserve"><value>Thème</value></data>
