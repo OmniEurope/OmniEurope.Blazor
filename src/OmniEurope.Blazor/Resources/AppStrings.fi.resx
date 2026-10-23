@@ -102,6 +102,7 @@
   <data name="GridGroupPanel" xml:space="preserve"><value>Aktiiviset ryhmittelyt</value></data>
   <data name="GridGroupPanelEmpty" xml:space="preserve"><value>Ei ryhmittelyä.</value></data>
   <data name="GridGroupColumn" xml:space="preserve"><value>Ryhmittele: {0}</value></data>
+  <data name="GridEditCell" xml:space="preserve"><value>Muokkaa: {0}</value></data>
   <data name="GridUngroupColumn" xml:space="preserve"><value>Poista ryhmittely: {0}</value></data>
   <data name="GridExpandAll" xml:space="preserve"><value>Laajenna tai supista kaikki rivit</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Irrota kiinnitetyt sarakkeet</value></data>

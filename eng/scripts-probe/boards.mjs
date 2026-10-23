@@ -32,6 +32,40 @@ export async function boardSteps(session, results) {
   await waitFor('la grille virtuelle revenue au début', "document.querySelector('#demo-grid-capped-long .omni-data-grid__viewport').scrollTop === 0");
   step('grille virtuelle triée, ramenée au début');
 
+  // A title is never cut under HeaderWrap.Wrap, whatever width its column declares: the grid whose four
+  // columns declare 4rem, less than their one-word title with its sort and filter icons, keeps every title
+  // whole at 1280 and at 375 px. Whole is read twice: the title's own content fits its box
+  // (scrollWidth <= clientWidth) and its box ends inside its header cell. The columns widened beyond
+  // their declared width to get there, so the probe proves the floor and not a title that was short.
+  const floorGrid = '#demo-grid-title-floor';
+  const titleStates = `(() => {
+    const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    return [...document.querySelectorAll(${JSON.stringify(`${floorGrid} thead th[data-omni-col]`)})].map(cell => {
+      const title = cell.querySelector('.omni-data-grid__title');
+      const own = title.getBoundingClientRect();
+      const edge = cell.getBoundingClientRect();
+      return {
+        column: cell.getAttribute('data-omni-col'),
+        text: title.textContent.trim(),
+        cut: title.scrollWidth > title.clientWidth,
+        outside: own.right > edge.right + 1 || own.left < edge.left - 1,
+        widened: edge.width > 4 * rem + 1
+      };
+    });
+  })()`;
+  const titlesWhole = `(() => { const states = ${titleStates}; return states.length === 4 && states.every(state => !state.cut && !state.outside) && states.filter(state => state.widened).length >= 2; })()`;
+  for (const width of [1280, 375]) {
+    await send('Emulation.setDeviceMetricsOverride', { width, height: 900, deviceScaleFactor: 1, mobile: width < 600 });
+    await evaluate(`document.querySelector(${JSON.stringify(floorGrid)}).scrollIntoView({ block: 'center' })`);
+    await pause(400);
+    await waitFor(`les titres des colonnes de largeur déclarée entiers à ${width} px`, titlesWhole);
+    const states = await evaluate(titleStates);
+    check(states.every(state => !state.cut && !state.outside), `Un titre est coupé à ${width} px : ${JSON.stringify(states)}.`);
+    step(`titres entiers sous une largeur déclarée de 4rem à ${width} px (${states.map(state => state.text).join(', ')})`);
+  }
+  await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
+  await pause(300);
+
   // The grid that fills what is left of its frame: veiled by its loading content until its first
   // render is ready, as tall as the rest of the frame, every row at the fixed height, grouped and
   // virtualized; a wheel turn over the frame's hint scrolls its rows.

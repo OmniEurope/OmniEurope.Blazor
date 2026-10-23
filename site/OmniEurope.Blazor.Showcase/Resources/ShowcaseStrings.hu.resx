@@ -1620,4 +1620,7 @@
   <data name="DemoAccordionLogBody" xml:space="preserve"><value>Ehhez a futáshoz nincs üzenet.</value></data>
   <data name="DemoAccordionState" xml:space="preserve"><value>Megnyitott sorok: {0}</value></data>
   <data name="DemoAccordionClicks" xml:space="preserve"><value>Kattintások a Részletekre: {0}</value></data>
+  <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>A keskeny oszlopok megtartják a teljes címüket</value></data>
+  <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Szerkeszthető ügyek: kattintson egy cellára a sor szerkesztéséhez</value></data>
+  <data name="DemoGridEditCellHint" xml:space="preserve"><value>Egyetlen kattintás a cella bármely pontján, üres cellán is, megnyitja a sort annak a cellának a mezőjében; a Részletek gomb megtartja a saját kattintását. A Tab minden cellához eljut, az Enter vagy a szóköz szerkeszti azt.</value></data>
 </root>

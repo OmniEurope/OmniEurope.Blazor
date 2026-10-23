@@ -1620,4 +1620,7 @@
   <data name="DemoAccordionLogBody" xml:space="preserve"><value>Keine Meldung für diesen Lauf.</value></data>
   <data name="DemoAccordionState" xml:space="preserve"><value>Geöffnete Zeilen: {0}</value></data>
   <data name="DemoAccordionClicks" xml:space="preserve"><value>Klicks auf Details: {0}</value></data>
+  <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Schmale Spalten behalten ihren ganzen Titel</value></data>
+  <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Bearbeitbare Akten: Zelle anklicken, um die Zeile zu bearbeiten</value></data>
+  <data name="DemoGridEditCellHint" xml:space="preserve"><value>Ein einzelner Klick an beliebiger Stelle einer Zelle, auch einer leeren, öffnet die Zeile auf dem Feld dieser Zelle; die Schaltfläche Details behält ihren eigenen Klick. Mit Tab erreicht man jede Zelle, Enter oder Leertaste bearbeitet sie.</value></data>
 </root>

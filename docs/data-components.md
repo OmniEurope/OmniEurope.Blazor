@@ -105,6 +105,13 @@ Une colonne se déclare par lambda ou par nom de propriété.
   (`AllowColumnAutoFit`) ou largeur restaurée par `StateKey` ; la cellule coupée par cette largeur garde
   son ellipsis et son infobulle. `HeaderWrap="Truncate"` ne concerne que les titres : les cellules des
   colonnes sans largeur s'ajustent à leur contenu quand même.
+- **Un titre n'est jamais coupé en `HeaderWrap="Wrap"` (défaut), même avec une `Width`.** La largeur d'une
+  colonne ne descend pas sous son plus long mot de titre et ses icônes d'en-tête (tri, filtre, regroupement) :
+  `Width` reste la largeur préférée, le titre passe à la ligne entre ses mots et c'est `fitColumns`
+  (`grid/columns.js`) qui relève la largeur d'un titre qui ne tient pas. Seuls `HeaderWrap="Truncate"` et
+  `Truncate` sur la colonne coupent un titre, avec ellipsis et infobulle. Démo `demo-grid-title-floor`
+  (quatre colonnes de `4rem` aux titres d'un seul mot long) ; l'étape « titres entiers » de la sonde
+  `boards` vérifie `scrollWidth <= clientWidth` de chaque `.omni-data-grid__title` à 1280 et 375 px.
 - Des colonnes déclarées dans un `@foreach` peuvent capturer la variable de boucle dans leur
   `Template` ou leur `Value` : un délégué issu de la même lambda ne réinscrit pas la colonne. Les
   cellules montrent l'état capturé du rendu du parent dès ce rendu (la grille se redessine une fois de
@@ -455,6 +462,19 @@ vue : la page affichée d'une grille paginée. L'export n'écrit ni pieds de gro
   cette ligne quand elle en a un (double clic, clic que l'hôte change en `EditRowAsync`), sinon le
   premier champ modifiable de la ligne (`omni-grid.js`, `focusEditor`). Une touche tapée dans un
   éditeur reste à l'éditeur : Entrée ou Espace n'y lèvent pas `OnRowClick`.
+- `EditTrigger` (`OmniDataGridEditTrigger` : `Action` par défaut, `Cell`). `Action` garde le comportement
+  actuel : la ligne passe en édition par son bouton « Modifier » (ou `EditRowAsync`). `Cell` ajoute un clic
+  simple n'importe où dans une cellule dont la colonne porte un `EditTemplate`, même vide : la ligne passe en
+  édition par le chemin de `EditRowAsync` (`OnRowEdit`, mode `Single` ou `Multiple`) et le champ de cette
+  cellule prend le focus, texte sélectionné. Le clic ne déclenche rien quand il vient d'un contrôle de la
+  cellule (lien, bouton, champ, `summary`, rôle `button`, `checkbox`, `combobox`, etc.), quand le lecteur
+  sélectionne du texte, ni dans une colonne sans `EditTemplate` ; dans une ligne déjà en édition il ne fait que
+  déplacer le focus sur le champ de la cellule. Le script (`grid/edit-cell.js`) classe le clic, car un
+  événement Blazor n'a pas de cible DOM, et le signale à .NET. Au clavier, chaque cellule éditable porte un
+  bouton natif masqué, nommé « Modifier {colonne} » (`GridEditCell`) : Tab l'atteint (anneau de focus sur la
+  cellule), Entrée ou Espace le pressent. Le nom suit celui de `EditMode` et `OmniDataGridRowMode` (un
+  paramètre énumération, sans préfixe `Row`, car il décrit ce qui déclenche et non le mode). La colonne
+  d'actions (`ShowEditColumn`) reste pour enregistrer ou annuler. Démo `demo-grid-edit-cell`.
 - Dans une ligne en édition, Entrée enregistre la ligne et Échap l'annule : le script appuie sur les
   boutons « Enregistrer » et « Annuler » de la ligne, donc le même chemin qu'un clic (`OnRowUpdate`,
   `OnRowEditCancel`), après avoir fait valider au champ la valeur tapée (un clic la valide en lui

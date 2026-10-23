@@ -79,6 +79,22 @@
     </Columns>
 </OmniDataGrid>
 
+@* Un titre n'est jamais coupé en HeaderWrap.Wrap (le défaut), même sous une largeur déclarée : chaque
+   colonne déclare 4rem, moins que son titre d'un seul mot avec ses icônes de tri et de filtre, et ne
+   descend jamais sous ce mot (omni-grid.js). La largeur déclarée reste la largeur préférée : un titre
+   plus court qu'elle la laisse telle quelle. Seul HeaderWrap="Truncate" coupe un titre. *@
+<OmniDataGrid TItem="GridRow" Id="demo-grid-title-floor"
+              Items="FewRows"
+              Caption="@Text["DemoGridTitleFloorCaption"]"
+              ScrollMode="OmniDataGridScrollMode.All">
+    <Columns>
+        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="@Text["DemoGridColumnReference"]" Width="4rem" />
+        <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="@Text["DemoGridColumnApplicant"]" Width="4rem" />
+        <OmniDataGridColumn TItem="GridRow" Property="Country" Title="@Text["DemoGridColumnCountry"]" Width="4rem" />
+        <OmniDataGridColumn TItem="GridRow" Property="Amount" Title="@Text["DemoGridColumnAmount"]" FormatString="{0:C0}" Width="4rem" />
+    </Columns>
+</OmniDataGrid>
+
 @* Virtualisée avec MaxHeight : la grille prend la hauteur de ses lignes jusqu'au plafond, puis
    défile en ne rendant que sa fenêtre. Trois lignes restent courtes, dix mille défilent. La seconde
    ajuste Demandeur à son contenu au double clic sur son bord (AllowColumnAutoFit), en mesurant aussi
@@ -187,6 +203,7 @@
 <OmniDataGrid TItem="EditableFile" Id="demo-grid-edit" @ref="EditGrid"
               ScrollMode="OmniDataGridScrollMode.Paged"
               HeaderWrap="OmniDataGridHeaderWrap.Truncate"
+              EditTrigger="OmniDataGridEditTrigger.Action"
               Items="EditableFiles"
               Caption="@Text["DemoGridEditCaption"]"
               KeyOf="@(file => file.Reference)"
@@ -198,6 +215,35 @@
             <EditTemplate Context="file"><OmniTextBox @bind-Value="file.Applicant" aria-label="@Text["DemoGridColumnApplicant"]" /></EditTemplate>
         </OmniDataGridColumn>
         <OmniDataGridColumn TItem="EditableFile" Property="Country" Title="@Text["DemoGridColumnCountry"]" Filterable="false">
+            <EditTemplate Context="file"><OmniTextBox @bind-Value="file.Country" aria-label="@Text["DemoGridColumnCountry"]" /></EditTemplate>
+        </OmniDataGridColumn>
+    </Columns>
+</OmniDataGrid>
+
+@* EditTrigger="Cell" : un simple clic n'importe où dans une cellule qui a un EditTemplate (Demandeur ou Pays,
+   vide comprise) met la ligne en édition et donne le focus au champ de cette cellule, son texte sélectionné.
+   Le bouton Détails de la cellule Pays garde son clic. Tab atteint chaque cellule par son bouton, Entrée
+   ou Espace la modifie ; Référence, sans EditTemplate, n'ouvre rien. Entrée enregistre et Échap annule par
+   la colonne d'édition, qui reste. *@
+<p class="demo-hint">@Text["DemoGridEditCellHint"]</p>
+<p id="demo-grid-edit-cell-clicks" class="demo-hint">@Text["DemoAccordionClicks", CellEditDetails]</p>
+<OmniDataGrid TItem="EditableFile" Id="demo-grid-edit-cell"
+              EditTrigger="OmniDataGridEditTrigger.Cell"
+              ScrollMode="OmniDataGridScrollMode.All"
+              Items="CellEditFiles"
+              Caption="@Text["DemoGridEditCellCaption"]"
+              KeyOf="@(file => file.Reference)"
+              OnRowEdit="KeepOriginal" OnRowEditCancel="RestoreOriginal">
+    <Columns>
+        <OmniDataGridColumn TItem="EditableFile" Property="Reference" Title="@Text["DemoGridColumnReference"]" Filterable="false" />
+        <OmniDataGridColumn TItem="EditableFile" Property="Applicant" Title="@Text["DemoGridColumnApplicant"]" Filterable="false">
+            <EditTemplate Context="file"><OmniTextBox @bind-Value="file.Applicant" aria-label="@Text["DemoGridColumnApplicant"]" /></EditTemplate>
+        </OmniDataGridColumn>
+        <OmniDataGridColumn TItem="EditableFile" Property="Country" Title="@Text["DemoGridColumnCountry"]" Filterable="false">
+            <Template Context="file">
+                <span>@file.Country</span>
+                <OmniButton Class="demo-grid-edit-cell-details" Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small" Label="@Text["DemoAccordionDetails"]" OnClick="CountCellEditDetails"><Icon><OmniIcon Name="OmniIconName.Info" /></Icon></OmniButton>
+            </Template>
             <EditTemplate Context="file"><OmniTextBox @bind-Value="file.Country" aria-label="@Text["DemoGridColumnCountry"]" /></EditTemplate>
         </OmniDataGridColumn>
     </Columns>

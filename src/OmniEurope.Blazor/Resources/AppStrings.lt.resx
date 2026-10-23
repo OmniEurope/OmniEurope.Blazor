@@ -102,6 +102,7 @@
   <data name="GridGroupPanel" xml:space="preserve"><value>Aktyvūs grupavimai</value></data>
   <data name="GridGroupPanelEmpty" xml:space="preserve"><value>Grupavimo nėra.</value></data>
   <data name="GridGroupColumn" xml:space="preserve"><value>Grupuoti pagal: {0}</value></data>
+  <data name="GridEditCell" xml:space="preserve"><value>Redaguoti: {0}</value></data>
   <data name="GridUngroupColumn" xml:space="preserve"><value>Pašalinti grupavimą: {0}</value></data>
   <data name="GridExpandAll" xml:space="preserve"><value>Išskleisti arba suskleisti visas eilutes</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Atkabinti užfiksuotus stulpelius</value></data>

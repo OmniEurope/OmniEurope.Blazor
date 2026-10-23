@@ -63,6 +63,20 @@ public partial class DataGridDemo
         new() { Reference = "D-1003", Applicant = "Inês Costa", Country = "Portugal" },
     ];
 
+    // The grid that edits on a click of a cell: the Country of the second file is empty on purpose, a cell
+    // with nothing to read is still there to be clicked.
+    private List<EditableFile> CellEditFiles { get; } =
+    [
+        new() { Reference = "D-2001", Applicant = "Camille Durand", Country = "Belgique" },
+        new() { Reference = "D-2002", Applicant = "Sofia Rossi", Country = string.Empty },
+        new() { Reference = "D-2003", Applicant = "Lars Jansen", Country = "Pays-Bas" },
+    ];
+
+    // The clicks the Details button of a Country cell received: a click on it must not open the row.
+    private int CellEditDetails { get; set; }
+
+    private void CountCellEditDetails() => CellEditDetails++;
+
     // The values a row had when it entered edit mode: the editors write into the file itself, so a
     // cancelled edit is undone by the page from this copy (the grid only reports the cancellation).
     private readonly Dictionary<string, (string Applicant, string Country)> _originals = [];

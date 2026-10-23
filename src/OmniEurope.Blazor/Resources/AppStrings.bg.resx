@@ -102,6 +102,7 @@
   <data name="GridGroupPanel" xml:space="preserve"><value>Активни групирания</value></data>
   <data name="GridGroupPanelEmpty" xml:space="preserve"><value>Няма групиране.</value></data>
   <data name="GridGroupColumn" xml:space="preserve"><value>Групиране по {0}</value></data>
+  <data name="GridEditCell" xml:space="preserve"><value>Редактиране на {0}</value></data>
   <data name="GridUngroupColumn" xml:space="preserve"><value>Премахване на групирането по {0}</value></data>
   <data name="GridExpandAll" xml:space="preserve"><value>Разгъване или свиване на всички редове</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Освобождаване на фиксираните колони</value></data>

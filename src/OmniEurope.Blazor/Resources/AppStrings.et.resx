@@ -102,6 +102,7 @@
   <data name="GridGroupPanel" xml:space="preserve"><value>Aktiivsed rühmitused</value></data>
   <data name="GridGroupPanelEmpty" xml:space="preserve"><value>Rühmitusi pole.</value></data>
   <data name="GridGroupColumn" xml:space="preserve"><value>Rühmita: {0}</value></data>
+  <data name="GridEditCell" xml:space="preserve"><value>Muuda: {0}</value></data>
   <data name="GridUngroupColumn" xml:space="preserve"><value>Eemalda rühmitus: {0}</value></data>
   <data name="GridExpandAll" xml:space="preserve"><value>Laienda või ahenda kõik read</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Vabasta külmutatud veerud</value></data>

@@ -102,6 +102,7 @@
   <data name="GridGroupPanel" xml:space="preserve"><value>Aktywne grupowania</value></data>
   <data name="GridGroupPanelEmpty" xml:space="preserve"><value>Brak grupowania.</value></data>
   <data name="GridGroupColumn" xml:space="preserve"><value>Grupuj według: {0}</value></data>
+  <data name="GridEditCell" xml:space="preserve"><value>Edytuj: {0}</value></data>
   <data name="GridUngroupColumn" xml:space="preserve"><value>Usuń grupowanie: {0}</value></data>
   <data name="GridExpandAll" xml:space="preserve"><value>Rozwiń lub zwiń wszystkie wiersze</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Odepnij zablokowane kolumny</value></data>

@@ -102,6 +102,7 @@
   <data name="GridGroupPanel" xml:space="preserve"><value>Aktīvās grupas</value></data>
   <data name="GridGroupPanelEmpty" xml:space="preserve"><value>Nav grupēšanas.</value></data>
   <data name="GridGroupColumn" xml:space="preserve"><value>Grupēt pēc: {0}</value></data>
+  <data name="GridEditCell" xml:space="preserve"><value>Rediģēt: {0}</value></data>
   <data name="GridUngroupColumn" xml:space="preserve"><value>Noņemt grupēšanu: {0}</value></data>
   <data name="GridExpandAll" xml:space="preserve"><value>Izvērst vai sakļaut visas rindas</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Atdalīt fiksētās kolonnas</value></data>

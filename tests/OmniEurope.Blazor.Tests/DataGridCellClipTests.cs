@@ -62,6 +62,40 @@ public sealed class DataGridCellClipTests : OmniBunitContext
         Assert.Equal("nowrap", ShippedLookTests.Value(body, "white-space"));
     }
 
+    private sealed record TitleRow(string Reference);
+
+    private IRenderedComponent<OmniDataGrid<TitleRow>> RenderNarrowTitle(Action<ComponentParameterCollectionBuilder<OmniDataGrid<TitleRow>>>? configure = null) =>
+        Render<OmniDataGrid<TitleRow>>(parameters =>
+        {
+            parameters.Add(grid => grid.Items, [new TitleRow("A-1")])
+                .Add(grid => grid.Columns, (Microsoft.AspNetCore.Components.RenderFragment)(builder =>
+                {
+                    builder.OpenComponent<OmniDataGridColumn<TitleRow>>(0);
+                    builder.AddComponentParameter(1, nameof(OmniDataGridColumn<TitleRow>.Property), nameof(TitleRow.Reference));
+                    builder.AddComponentParameter(2, nameof(OmniDataGridColumn<TitleRow>.Title), "Responsabilité");
+                    builder.AddComponentParameter(3, nameof(OmniDataGridColumn<TitleRow>.Width), "4rem");
+                    builder.CloseComponent();
+                }));
+            configure?.Invoke(parameters);
+        });
+
+    [Fact]
+    public void ANarrowDeclaredWidth_DoesNotTurnTheTitleIntoATruncatedOne_UnlessAskedTo()
+    {
+        // The browser half (the title's scrollWidth never exceeds its clientWidth) is the boards probe; here the
+        // inputs that decide it: the declared width is only the preferred one (fitted by the script, which
+        // reads data-omni-width), and truncation is opt-in on the grid or on the column.
+        var wrapped = RenderNarrowTitle();
+
+        Assert.DoesNotContain("omni-data-grid--header-truncate", wrapped.Find(".omni-data-grid").ClassList);
+        var col = wrapped.Find("col[data-omni-col='Reference']");
+        Assert.Equal("4rem", col.GetAttribute("data-omni-width"));
+        Assert.Null(col.GetAttribute("data-omni-truncate"));
+
+        var truncated = RenderNarrowTitle(parameters => parameters.Add(grid => grid.HeaderWrap, OmniDataGridHeaderWrap.Truncate));
+        Assert.Contains("omni-data-grid--header-truncate", truncated.Find(".omni-data-grid").ClassList);
+    }
+
     [Fact]
     public void Stylesheet_ClipsNoTemplatedCellAndLetsResponsiveCardsWrap()
     {

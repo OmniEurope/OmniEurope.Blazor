@@ -75,11 +75,13 @@ internal sealed class GridCssClasses<TItem>(OmniDataGrid<TItem> grid)
     /// template) keeps to one line and ends in an ellipsis instead of spilling into the next column.
     /// A templated cell stays unclipped, so its badges, buttons, menus and edit inputs keep their
     /// focus rings and popups; a column opts its template in through
-    /// <c>Class="omni-data-grid__cell--text"</c>.
+    /// <c>Class="omni-data-grid__cell--text"</c>. A cell that puts its row in edit mode on a click
+    /// (<c>EditTrigger</c> Cell) is marked for the script and the stylesheet.
     /// </summary>
     internal string BodyCellClass(OmniDataGridColumnDefinition<TItem> column, bool editing) => CssClassBuilder.Combine([
         ColumnClass(column, false),
-        column.Template is null && !(editing && column.EditTemplate is not null) ? "omni-data-grid__cell--text" : null
+        column.Template is null && !(editing && column.EditTemplate is not null) ? "omni-data-grid__cell--text" : null,
+        !editing && grid.Editing.TriggersFrom(column) ? "omni-data-grid__cell--edit-trigger" : null
     ]);
 
     // Drawn for a row that holds its item only: a row still loading has its own placeholder markup.

@@ -1623,4 +1623,7 @@
   <data name="DemoAccordionLogBody" xml:space="preserve"><value>No message for this run.</value></data>
   <data name="DemoAccordionState" xml:space="preserve"><value>Open rows: {0}</value></data>
   <data name="DemoAccordionClicks" xml:space="preserve"><value>Clicks on Details: {0}</value></data>
+  <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Narrow columns keep their whole title</value></data>
+  <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Editable files: click a cell to edit its row</value></data>
+  <data name="DemoGridEditCellHint" xml:space="preserve"><value>A single click anywhere in a cell, an empty one included, opens the row on that cell's field; the Details button keeps its own click. Tab reaches each cell, and Enter or Space edits it.</value></data>
 </root>

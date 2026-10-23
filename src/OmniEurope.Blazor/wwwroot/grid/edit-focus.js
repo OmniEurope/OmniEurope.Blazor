@@ -27,31 +27,49 @@ const SELECTABLE = new Set(['text', 'search', 'tel', 'url', 'email', 'password',
 
 const editorIn = cell => cell?.querySelector(EDITABLE) ?? null;
 
+const cellOf = (row, column) => [...row.children].find(cell => cell.dataset?.omniCol === column);
+
+function focusField(editor, select) {
+    editor.focus();
+    const type = editor instanceof HTMLInputElement ? editor.getAttribute('type')?.toLowerCase() ?? '' : null;
+    if (select && (editor instanceof HTMLTextAreaElement || (type !== null && SELECTABLE.has(type)))) {
+        editor.select();
+    }
+}
+
 /**
- * Focuses the editor of the row marked data-omni-edit-focus in the viewport: the pressed cell's when it
- * has one, otherwise the first one of the row, and selects its text. Returns false while no row is marked
- * (the render that marks it has not reached the page yet), true once the marked row was handled.
+ * Focuses the editor of the row marked data-omni-edit-focus in the viewport: the one of the column .NET
+ * named (an edit started from a cell, EditTrigger Cell), else the pressed cell's when it has one, otherwise
+ * the first one of the row, and selects its text. Returns false while no row is marked (the render that
+ * marks it has not reached the page yet), true once the marked row was handled.
  */
-export function focusEditor(viewport) {
+export function focusEditor(viewport, column = null) {
     const row = viewport instanceof Element ? viewport.querySelector('tr[data-omni-edit-focus]') : null;
     if (!row) {
         return false;
     }
 
-    const pressed = lastPress.row === row && performance.now() - lastPress.time < PRESS_WINDOW_MS
-        ? editorIn([...row.children].find(cell => cell.dataset?.omniCol === lastPress.column))
-        : null;
+    const named = column === null ? null : editorIn(cellOf(row, column));
+    const pressed = named ?? (lastPress.row === row && performance.now() - lastPress.time < PRESS_WINDOW_MS
+        ? editorIn(cellOf(row, lastPress.column))
+        : null);
     const editor = pressed ?? [...row.querySelectorAll('td[data-omni-col]')].map(editorIn).find(Boolean);
-    if (!editor) {
-        return true;
-    }
-
-    editor.focus();
-    const type = editor instanceof HTMLInputElement ? editor.getAttribute('type')?.toLowerCase() ?? '' : null;
-    if (editor instanceof HTMLTextAreaElement || (type !== null && SELECTABLE.has(type))) {
-        editor.select();
+    if (editor) {
+        focusField(editor, true);
     }
     return true;
+}
+
+/**
+ * A click on a cell of a row already being edited (EditTrigger Cell) moves the focus to that cell's field,
+ * the text left as it is. Returns whether the cell holds a field.
+ */
+export function focusCellEditor(cell) {
+    const editor = editorIn(cell);
+    if (editor) {
+        focusField(editor, false);
+    }
+    return editor !== null;
 }
 
 // Enter saves a row in edit mode and Escape cancels it (G-D29-03), through the row's own save and cancel

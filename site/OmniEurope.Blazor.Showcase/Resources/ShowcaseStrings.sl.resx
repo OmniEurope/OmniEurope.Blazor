@@ -1620,4 +1620,7 @@
   <data name="DemoAccordionLogBody" xml:space="preserve"><value>Za to izvedbo ni sporočil.</value></data>
   <data name="DemoAccordionState" xml:space="preserve"><value>Odprte vrstice: {0}</value></data>
   <data name="DemoAccordionClicks" xml:space="preserve"><value>Kliki na Podrobnosti: {0}</value></data>
+  <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Ozki stolpci obdržijo celoten naslov</value></data>
+  <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Spisi, ki jih je mogoče urejati: kliknite celico, da uredite njeno vrstico</value></data>
+  <data name="DemoGridEditCellHint" xml:space="preserve"><value>En klik kjer koli v celici, tudi prazni, odpre vrstico v polju te celice; gumb Podrobnosti obdrži svoj klik. Tab doseže vsako celico, Enter ali preslednica pa jo uredi.</value></data>
 </root>

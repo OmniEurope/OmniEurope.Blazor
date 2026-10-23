@@ -1620,4 +1620,7 @@
   <data name="DemoAccordionLogBody" xml:space="preserve"><value>Geen bericht voor deze uitvoering.</value></data>
   <data name="DemoAccordionState" xml:space="preserve"><value>Open rijen: {0}</value></data>
   <data name="DemoAccordionClicks" xml:space="preserve"><value>Klikken op Details: {0}</value></data>
+  <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Smalle kolommen behouden hun volledige titel</value></data>
+  <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Bewerkbare dossiers: klik op een cel om de rij te bewerken</value></data>
+  <data name="DemoGridEditCellHint" xml:space="preserve"><value>Eén klik ergens in een cel, ook een lege, opent de rij op het veld van die cel; de knop Details houdt zijn eigen klik. Tab bereikt elke cel en Enter of spatie bewerkt hem.</value></data>
 </root>

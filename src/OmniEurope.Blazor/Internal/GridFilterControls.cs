@@ -131,7 +131,10 @@ internal sealed class GridFilterControls<TItem>(OmniDataGrid<TItem> grid)
         }
     };
 
-    /// <summary>A body cell: the edit template of a row in edit, else the column's template, else its text.</summary>
+    /// <summary>
+    /// A body cell: the edit template of a row in edit, else the column's template, else its text; the cell of a
+    /// column that edits its row on a click (<c>EditTrigger</c> Cell) also holds the button the keyboard reaches.
+    /// </summary>
     internal RenderFragment Cell(OmniDataGridColumnDefinition<TItem> column, TItem item, bool editing) => builder =>
     {
         if (editing && column.EditTemplate is not null)
@@ -143,9 +146,31 @@ internal sealed class GridFilterControls<TItem>(OmniDataGrid<TItem> grid)
         if (column.Template is not null)
         {
             builder.AddContent(1, column.Template(item));
-            return;
+        }
+        else
+        {
+            builder.AddContent(2, GridColumnLayout<TItem>.CellText(column, item));
         }
 
-        builder.AddContent(2, GridColumnLayout<TItem>.CellText(column, item));
+        if (!editing && grid.Editing.TriggersFrom(column))
+        {
+            EditCellButton(builder, column, item);
+        }
     };
+
+    // A real button, visually hidden and named after the column: the cell is reached by Tab and Enter or Space
+    // start the edit, whatever the cell shows. A pointer click anywhere in the cell goes through the script
+    // instead, which leaves the clicks of the cell's own controls alone. The click and the keys stop here, as
+    // those of the edit column's buttons do: they are not a click or a key of the row.
+    private void EditCellButton(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder builder, OmniDataGridColumnDefinition<TItem> column, TItem item)
+    {
+        builder.OpenElement(3, "button");
+        builder.AddAttribute(4, "type", "button");
+        builder.AddAttribute(5, "class", "omni-visually-hidden omni-data-grid__edit-cell");
+        builder.AddAttribute(6, "aria-label", grid.Text("GridEditCell", column.Title));
+        builder.AddAttribute(7, "onclick", EventCallback.Factory.Create<Microsoft.AspNetCore.Components.Web.MouseEventArgs>(grid, _ => grid.Editing.EditAsync(item, column.Key)));
+        builder.AddEventStopPropagationAttribute(8, "onclick", true);
+        builder.AddEventStopPropagationAttribute(9, "onkeydown", true);
+        builder.CloseElement();
+    }
 }

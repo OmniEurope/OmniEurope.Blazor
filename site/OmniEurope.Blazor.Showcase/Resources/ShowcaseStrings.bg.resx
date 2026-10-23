@@ -1566,7 +1566,7 @@
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} е подредена под {1}</value></data>
   <data name="DemoGridScopeHint" xml:space="preserve"><value>Завъртете колелцето навсякъде в тази рамка: редовете на таблицата се превъртат.</value></data>
   <data name="DemoGridFillCaption" xml:space="preserve"><value>Две хиляди преписки по държава</value></data>
-  <data name="DemoGridEditCaption" xml:space="preserve"><value>Редактируеми досиета: щракнете двукратно върху ред или използвайте молива</value></data>
+  <data name="DemoGridEditCaption" xml:space="preserve"><value>Досиета за редактиране: щракнете двукратно върху ред или използвайте молива</value></data>
   <data name="DemoGridEditHint" xml:space="preserve"><value>Полето на щракнатата клетка, иначе първото, получава фокуса с маркиран текст.</value></data>
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Насочени връзки</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Проверен текст, заключен в началото</value></data>
@@ -1620,4 +1620,7 @@
   <data name="DemoAccordionLogBody" xml:space="preserve"><value>Няма съобщения за това изпълнение.</value></data>
   <data name="DemoAccordionState" xml:space="preserve"><value>Отворени редове: {0}</value></data>
   <data name="DemoAccordionClicks" xml:space="preserve"><value>Щраквания върху Подробности: {0}</value></data>
+  <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Тесните колони запазват заглавията си изцяло</value></data>
+  <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Досиета за редактиране: щракнете върху клетка, за да редактирате реда ѝ</value></data>
+  <data name="DemoGridEditCellHint" xml:space="preserve"><value>Едно щракване навсякъде в клетка, дори празна, отваря реда върху полето на тази клетка; бутонът „Подробности“ запазва собственото си щракване. С Tab се стига до всяка клетка, а с Enter или интервал тя се редактира.</value></data>
 </root>

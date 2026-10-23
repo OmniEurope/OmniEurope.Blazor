@@ -27,6 +27,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
     private bool _cutTooltipsInstalled;
     private bool _contentFitAttached;
     private bool _columnHoverAttached;
+    private bool _editCellAttached;
     private string? _wheelScopeAttached;
     private bool _renderReady;
 
@@ -74,6 +75,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
             await EnsureReorderInteropAsync();
             await EnsureFilterMenuInteropAsync();
             await EnsureFillInteropAsync();
+            await EnsureEditCellInteropAsync();
             await EnsureWheelScopeInteropAsync();
             await EnsureFrozenScrollInteropAsync();
             await EnsureCutTooltipsAsync();
@@ -88,6 +90,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         await EnsureReorderInteropAsync();
         await EnsureFilterMenuInteropAsync();
         await EnsureFillInteropAsync();
+        await EnsureEditCellInteropAsync();
         await EnsureWheelScopeInteropAsync();
         await EnsureFrozenScrollInteropAsync();
         await EnsureCutTooltipsAsync();
@@ -135,7 +138,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         }
 
         var module = await ModuleAsync();
-        if (await module.InvokeAsync<bool>("focusEditor", grid.Viewport))
+        if (await module.InvokeAsync<bool>("focusEditor", grid.Viewport, grid.Editing.FocusColumn))
         {
             grid.Editing.FocusGiven();
         }
@@ -362,6 +365,33 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         _fillAttached = grid.FillAvailableHeight;
     }
 
+    /// <summary>
+    /// Follows <see cref="OmniDataGrid{TItem}.EditTrigger"/>: while it is <see cref="OmniDataGridEditTrigger.Cell"/> the
+    /// script listens to the clicks of the viewport and reports the ones that fall on an editable cell away from its
+    /// controls; back to <see cref="OmniDataGridEditTrigger.Action"/> it lets go. A grid that never edits on a cell
+    /// loads nothing for it.
+    /// </summary>
+    private async Task EnsureEditCellInteropAsync()
+    {
+        var wanted = grid.EditTrigger == OmniDataGridEditTrigger.Cell;
+        if (wanted == _editCellAttached)
+        {
+            return;
+        }
+
+        var module = await ModuleAsync();
+        if (wanted)
+        {
+            await module.InvokeVoidAsync("attachEditCell", grid.Viewport, SelfReference);
+        }
+        else
+        {
+            await module.InvokeVoidAsync("detachEditCell", grid.Viewport);
+        }
+
+        _editCellAttached = wanted;
+    }
+
     private async Task DetachViewportAsync()
     {
         if (!_virtualAttached || _gridModule is null)
@@ -483,6 +513,11 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
             functions.Add("detachContentFit");
         }
 
+        if (_editCellAttached)
+        {
+            functions.Add("detachEditCell");
+        }
+
         if (_cutTooltipsInstalled)
         {
             functions.Add(UninstallTooltips);
@@ -490,7 +525,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
 
         (_resizeAttached, _filterMenuAttached, _wheelScopeAttached, _fillAttached) = (false, false, null, false);
         (_frozenScrollAttached, _columnHoverAttached, _cutTooltipsInstalled, _reorderAttached) = (false, false, false, false);
-        _contentFitAttached = false;
+        (_contentFitAttached, _editCellAttached) = (false, false);
         return functions;
     }
 }

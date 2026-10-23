@@ -102,6 +102,7 @@
   <data name="GridGroupPanel" xml:space="preserve"><value>Active groups</value></data>
   <data name="GridGroupPanelEmpty" xml:space="preserve"><value>No grouping.</value></data>
   <data name="GridGroupColumn" xml:space="preserve"><value>Group by {0}</value></data>
+  <data name="GridEditCell" xml:space="preserve"><value>Edit {0}</value></data>
   <data name="GridUngroupColumn" xml:space="preserve"><value>Remove the {0} grouping</value></data>
   <data name="GridExpandAll" xml:space="preserve"><value>Expand or collapse every row</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Detach the frozen columns</value></data>

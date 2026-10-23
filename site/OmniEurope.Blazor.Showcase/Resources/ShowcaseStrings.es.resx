@@ -1620,4 +1620,7 @@
   <data name="DemoAccordionLogBody" xml:space="preserve"><value>Ningún mensaje para esta ejecución.</value></data>
   <data name="DemoAccordionState" xml:space="preserve"><value>Filas abiertas: {0}</value></data>
   <data name="DemoAccordionClicks" xml:space="preserve"><value>Clics en Detalles: {0}</value></data>
+  <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Las columnas estrechas conservan su título completo</value></data>
+  <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Expedientes editables: haga clic en una celda para editar su fila</value></data>
+  <data name="DemoGridEditCellHint" xml:space="preserve"><value>Un solo clic en cualquier punto de una celda, incluso vacía, abre la fila en el campo de esa celda; el botón Detalles conserva su propio clic. Tab llega a cada celda, y Intro o Espacio la edita.</value></data>
 </root>

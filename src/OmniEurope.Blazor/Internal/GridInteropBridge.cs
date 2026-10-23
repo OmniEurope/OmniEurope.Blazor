@@ -36,6 +36,10 @@ internal sealed class GridInteropBridge<TItem>(OmniDataGrid<TItem> grid)
     [JSInvokable]
     public Task OnColumnResizedAsync(string key, double width) => grid.OnColumnResizedAsync(key, width);
 
+    /// <summary>A cell that edits its row on a click was pressed away from any control it holds.</summary>
+    [JSInvokable]
+    public Task OnEditCellAsync(int rowIndex, string columnKey) => grid.Editing.EditCellAsync(rowIndex, columnKey);
+
     /// <summary>The end of a header drag.</summary>
     [JSInvokable]
     public Task OnColumnDroppedAsync(string key, string targetKey, bool after) => grid.OnColumnDroppedAsync(key, targetKey, after);
