@@ -4,7 +4,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
-## [1.9.0] - 2026-10-22
+## [1.9.0] - 2026-10-23
 
 Version mineure à ruptures assumées : l'API publique est rendue homogène (un nom par concept, une convention par famille de paramètres) sans couche de compatibilité ni alias `[Obsolete]`, par décision du propriétaire du 2026-10-22, pour le même motif qu'en `1.2.0` (le propriétaire est le seul consommateur du paquet ; voir [docs/versioning.md](docs/versioning.md) et [PLAN-002](docs/plans/PLAN-002-homogeneite-1-9-0.md)). Le compilateur désigne chaque ancien nom : un paramètre inconnu ne compile plus (`OE0001`) et un type renommé n'existe plus. Les conventions qui en résultent sont écrites dans [docs/public-api-conventions.md](docs/public-api-conventions.md). La version porte aussi les durcissements et corrections de l'audit du 2026-10-22.
 
