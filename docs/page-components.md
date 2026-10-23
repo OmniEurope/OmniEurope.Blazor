@@ -142,6 +142,33 @@ Comme `OmniNavTile`, elle prend la hauteur de sa colonne (`block-size: 100%`) : 
 empilée sur un téléphone, elle garde sa propre hauteur. `DoubleWidth` l'étale sur deux colonnes d'une
 `OmniTileGrid` (voir [layout-components.md](layout-components.md), « Règle des tuiles »).
 
+## Tuile de faits : `OmniFactTile` et `OmniFactTileRow`
+
+Une tuile de faits sur une chose (la source d'une exécution, son statut, ses durées), sœur d'`OmniStatTile` (demande d'une application cliente, recette R-28) : un titre, puis des lignes `OmniFactTileRow` d'icône, de libellé et de valeur. `OmniFactTile` : `Title` (obligatoire, passe à la ligne plutôt que de déborder), `Icon` (fragment décoratif avant le titre), `TitleAlign` (`OmniAlignment`, `Center` par défaut ; `Stretch` n'a pas de sens pour une ligne de texte et se lit `Start`), `ChildContent` (les lignes), `Href` ou `OnClick` et `DoubleWidth`. `OmniFactTileRow` : `Icon` (fragment décoratif), `Term` (obligatoire, le terme comme `OmniDescriptionItem.Term` : `Label` désigne un nom accessible, jamais un texte affiché), la valeur en `ChildContent` et `Href` facultatif pour une valeur lien (un `OmniLink`, adresse vérifiée par la politique d'URI).
+
+```razor
+<OmniTileGrid Columns="3">
+    <OmniFactTile Title="Source">
+        <Icon><OmniIcon Name="OmniIconName.FolderOpen" /></Icon>
+        <ChildContent>
+            <OmniFactTileRow Term="Dépôt" Href="depots/blazor">
+                <Icon><OmniIcon Name="OmniIconName.Database" /></Icon>
+                <ChildContent>omni-europe-blazor</ChildContent>
+            </OmniFactTileRow>
+            <OmniFactTileRow Term="Statut">
+                <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
+                <ChildContent><OmniBadge Tone="OmniTone.Success">Réussi</OmniBadge></ChildContent>
+            </OmniFactTileRow>
+        </ChildContent>
+    </OmniFactTile>
+</OmniTileGrid>
+```
+
+- **Alignement** : toutes les lignes partagent trois colonnes de largeurs fixes : l'icône (`--omni-fact-tile-icon-width`, 1,25 rem), le libellé (`--omni-fact-tile-label-width`, 6,5 rem), la valeur qui prend le reste. Chaque ligne est une sous-grille de ces colonnes (les mêmes pistes là où `subgrid` manque), et la cellule d'icône existe même sans icône : les libellés gardent leur colonne. Les largeurs sont en rem, pas en part de la tuile, parce que des tuiles de même largeur d'une `OmniTileGrid` (et une tuile `DoubleWidth`, plus large) doivent aligner leurs colonnes au même décalage du bord de la tuile, et que libellés et largeur suivent ensemble la taille du texte. Un hôte change les largeurs une fois, sur la grille ou sur une classe d'une tuile, en posant les deux propriétés.
+- **Coupe et infobulle** : le libellé et la valeur d'une ligne restent sur une ligne ; trop longs, ils sont coupés de points de suspension et lus en entier dans l'infobulle du paquet, au survol et au focus clavier, seulement tant qu'ils sont coupés (le même script `omni-tooltip.js` que les cellules de grille, que la tuile active à son premier rendu et libère à sa fin ; aucun nouveau script). Le texte entier reste dans la page pour les lecteurs d'écran.
+- **Badges** : un `OmniBadge` dans une valeur est dessiné petit (hauteur 1,125 rem, police `--omni-font-size-xs`) par la règle de la cellule, sans paramètre de taille ; il ne dépasse jamais la cellule.
+- **Tuile entière cliquable** : `Href` ou `OnClick` font de la tuile un seul lien ou un seul bouton, au rendu et au focus d'`OmniStatTile` ; la vérification (les deux ensemble lèvent `ArgumentException`, adresse dangereuse lève `InvalidOperationException`) est partagée avec `OmniStatTile`. Le nom accessible est le contenu (le titre, puis chaque libellé et sa valeur) et non le seul titre, pour que les faits soient lus ; sans `Href` ni `OnClick`, la tuile est un groupe nommé par son titre. Les éléments sont des `span`, valides dans un bouton comme dans un lien. Un `Href` de ligne dans une tuile elle-même lien ou bouton lève `InvalidOperationException` (un lien ne peut pas être dans un lien ni dans un bouton) ; aucun autre élément interactif non plus dans une tuile cliquable (non détecté).
+- **Dans une `OmniTileGrid`** : la tuile est un enfant direct et suit la règle des tuiles (même largeur et même hauteur que ses voisines, `DoubleWidth` sur deux colonnes, rien ne déborde, voir [layout-components.md](layout-components.md), « Règle des tuiles »). Les lignes défilent quand la tuile est trop haute, et sont coupées dans une tuile cliquable (une zone qui défile dans un lien ou un bouton est un arrêt de focus imbriqué). Hors grille, la tuile prend la hauteur de sa colonne.
 ## Tuile de navigation : `OmniNavTile`
 
 L'accueil d'une administration ou d'un regroupement de rubriques : `Icon` sur un carré teinté du ton
