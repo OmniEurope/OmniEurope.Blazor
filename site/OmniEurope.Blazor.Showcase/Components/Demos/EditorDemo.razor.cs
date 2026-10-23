@@ -12,6 +12,13 @@ public partial class EditorDemo
     private static readonly IReadOnlyList<int> ExcerptHighlights = [42];
     private const string ExampleDiff = "--- a/config.json\n+++ b/config.json\n@@ -1 +1 @@\n-ancien\n+nouveau\n";
 
+    // A command output as a terminal writes it: the escape character (U+001B) opens each colour sequence.
+    private const string CommandOutput = "\u001b[1;32m●\u001b[0m nginx.service - A high performance web server\n     Loaded: loaded (/lib/systemd/system/nginx.service; \u001b[32menabled\u001b[0m)\n     Active: \u001b[1;32mactive (running)\u001b[0m since Fri 2026-10-23 08:14:02 CEST\n    \u001b[33mWarning\u001b[0m: \u001b[31mfailed\u001b[0m to reload \u001b[4mnginx.conf\u001b[0m";
+
+    private IReadOnlyList<OmniOption<OmniAnsiMode>> AnsiModes { get; set; } = [];
+
+    private OmniAnsiMode AnsiMode { get; set; } = OmniAnsiMode.Render;
+
     private const string OriginalConfiguration = "{\n  \"mode\": \"ancien\"\n}";
     private const string ChangedConfiguration = "{\n  \"mode\": \"nouveau\"\n}";
 
@@ -133,6 +140,12 @@ public partial class EditorDemo
     /// <summary>Builds the commands and the sample documents in the reader's language.</summary>
     protected override void OnInitialized()
     {
+        AnsiModes =
+        [
+            new(OmniAnsiMode.Render, Text["DemoAnsiModeRender"]),
+            new(OmniAnsiMode.Hide, Text["DemoAnsiModeHide"]),
+            new(OmniAnsiMode.Raw, Text["DemoAnsiModeRaw"])
+        ];
         var signature = Encoded("DemoEditorSignatureText");
         var reference = Escape(Text["DemoEditorReferenceText", "D-2401"]);
         Commands =

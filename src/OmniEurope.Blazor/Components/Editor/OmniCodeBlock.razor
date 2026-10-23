@@ -4,9 +4,10 @@
 
 @* A command, a snippet or a secret to copy. The copy always takes the real value, even while a
    secret is masked on screen; the result is announced in words, never by a colour change alone. The
-   header (title, language, copy button) is the one OmniCodeViewer draws. *@
+   header (title, language, copy button) is the one OmniCodeViewer draws. AnsiMode decides what the
+   code does with the escape sequences of a command output; the copy carries them only in Raw. *@
 <figure @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-code-block", Inline ? "omni-code-block--inline" : null, Wrap ? "omni-code-block--wrap" : null)">
     @Header
-    <pre class="omni-code-block__pre" tabindex="0"><code class="@CodeClass">@DisplayedCode</code></pre>
+    <pre class="omni-code-block__pre" tabindex="0"><code class="@CodeClass">@CodeContent</code></pre>
     <span class="omni-visually-hidden" role="status" aria-live="polite">@CopyAnnouncement</span>
 </figure>

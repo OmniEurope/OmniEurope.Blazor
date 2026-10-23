@@ -53,6 +53,16 @@ public partial class OmniCodeBlock : IAsyncDisposable
     [Parameter]
     public int VisibleCharacters { get; set; } = 4;
 
+    /// <summary>
+    /// What the code does with the ANSI escape sequences of a command output (<c>ESC [ 32 m</c>):
+    /// <see cref="OmniAnsiMode.Render"/> (the default, as on <see cref="OmniLogViewer.AnsiMode"/>) draws the colours and
+    /// attributes, <see cref="OmniAnsiMode.Hide"/> removes the sequences without drawing anything, <see cref="OmniAnsiMode.Raw"/>
+    /// shows the code as written. Code without a sequence is unchanged in every mode. The copy takes the code without its
+    /// sequences in <see cref="OmniAnsiMode.Render"/> and <see cref="OmniAnsiMode.Hide"/>, and as written in <see cref="OmniAnsiMode.Raw"/>.
+    /// </summary>
+    [Parameter]
+    public OmniAnsiMode AnsiMode { get; set; } = OmniAnsiMode.Render;
+
     /// <summary>How long the button shows the check after a copy.</summary>
     [Parameter]
     public TimeSpan CopiedFeedbackDuration { get; set; } = TimeSpan.FromSeconds(2);
@@ -66,9 +76,17 @@ public partial class OmniCodeBlock : IAsyncDisposable
 
     private OmniClipboardCopy Clipboard => _clipboard ??= new OmniClipboardCopy(JavaScript, () => InvokeAsync(StateHasChanged));
 
-    private string DisplayedCode => Secret && !_revealed ? Mask(Code ?? string.Empty, VisibleCharacters) : Code ?? string.Empty;
+    /// <summary>The text a reader sees and the copy takes: the code without its sequences, or as written in Raw.</summary>
+    private string CopiedText => OmniAnsiMarkup.DisplayText(Code, AnsiMode);
 
-    private string? CodeClass => Secret && !_revealed ? "omni-code-block__masked" : null;
+    private bool Masked => Secret && !_revealed;
+
+    /// <summary>The code as drawn: the mask of a hidden secret, else the code read for <see cref="AnsiMode"/>.</summary>
+    private RenderFragment CodeContent => Masked
+        ? builder => builder.AddContent(0, Mask(CopiedText, VisibleCharacters))
+        : OmniAnsiMarkup.Fragment(Code, AnsiMode, null);
+
+    private string? CodeClass => Masked ? "omni-code-block__masked" : null;
 
     private bool? CopyResult => _clipboard?.Result;
 
@@ -146,10 +164,10 @@ public partial class OmniCodeBlock : IAsyncDisposable
 
     private void ToggleReveal() => _revealed = !_revealed;
 
-    /// <summary>Copies <see cref="Code"/> to the clipboard; true when the clipboard accepted it.</summary>
+    /// <summary>Copies <see cref="Code"/> to the clipboard, without its ANSI sequences unless <see cref="AnsiMode"/> is <see cref="OmniAnsiMode.Raw"/>; true when the clipboard accepted it.</summary>
     public async Task<bool> CopyAsync()
     {
-        var copied = await Clipboard.CopyAsync(Code ?? string.Empty, CopiedFeedbackDuration, Clock);
+        var copied = await Clipboard.CopyAsync(CopiedText, CopiedFeedbackDuration, Clock);
         StateHasChanged();
         await OnCopy.InvokeAsync(copied);
         return copied;
