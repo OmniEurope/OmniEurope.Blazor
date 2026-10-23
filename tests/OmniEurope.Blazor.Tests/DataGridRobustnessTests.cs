@@ -179,6 +179,7 @@ public sealed class DataGridRobustnessTests : OmniBunitContext
     {
         var loads = 0;
         var showSecond = true;
+        var handled = false;
         RenderFragment Declared() => builder =>
         {
             builder.OpenComponent<OmniDataGridColumn<Row>>(0);
@@ -194,7 +195,11 @@ public sealed class DataGridRobustnessTests : OmniBunitContext
         ;
         var grid = Render<OmniDataGrid<Row>>(parameters => parameters
             .Add(component => component.Columns, Declared())
-            .Add(component => component.OnLoadError, _ => throw new InvalidOperationException("handler failed"))
+            .Add(component => component.OnLoadError, _ =>
+            {
+                handled = true;
+                throw new InvalidOperationException("handler failed");
+            })
             .Add(component => component.Load, _ =>
             {
                 loads++;
@@ -208,7 +213,12 @@ public sealed class DataGridRobustnessTests : OmniBunitContext
         var failure = await Record.ExceptionAsync(async () =>
         {
             grid.Render(parameters => parameters.Add(component => component.Columns, Declared()));
-            await Task.Delay(200, Xunit.TestContext.Current.CancellationToken);
+            // The failed load reaches its handler on the renderer; the next render surfaces what it threw.
+            for (var wait = 0; wait < 500 && !handled; wait++)
+            {
+                await Task.Delay(10, Xunit.TestContext.Current.CancellationToken);
+            }
+
             grid.Render(parameters => parameters.Add(component => component.Caption, "Après"));
         });
 

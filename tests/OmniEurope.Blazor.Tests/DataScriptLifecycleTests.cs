@@ -55,6 +55,7 @@ public sealed class DataScriptLifecycleTests : OmniBunitContext
 
         RenderList();
 
+        await runtime.WaitForCallAsync("attachList");
         await SettleAsync();
         Assert.Contains("attachList", runtime.Module.Calls);
     }
@@ -212,7 +213,12 @@ public sealed class DataScriptLifecycleTests : OmniBunitContext
         runtime.Gates["Blazor._internal.domWrapper.focus"] = focus;
 
         sheet.Find("[data-omni-sheet-editor]").KeyDown(new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs { Key = "Escape" });
-        await Task.Delay(100, Xunit.TestContext.Current.CancellationToken);
+        // The grid takes the focus back on the renderer: the sheet is disposed while that call waits.
+        for (var wait = 0; wait < 500 && !runtime.DirectCalls.Contains("Blazor._internal.domWrapper.focus"); wait++)
+        {
+            await Task.Delay(10, Xunit.TestContext.Current.CancellationToken);
+        }
+
         await sheet.Instance.DisposeAsync();
         focus.SetResult(null);
 

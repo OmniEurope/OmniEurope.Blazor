@@ -48,7 +48,7 @@ public sealed class TreeItemRobustnessTests : OmniBunitContext
         // An item rendered under a tree that was expanded as a whole opens too, and says so to its host.
         items.Add("b");
         tree.Render(parameters => parameters.Add(component => component.ChildContent, Content()));
-        await Task.Delay(100, Xunit.TestContext.Current.CancellationToken);
+        await UntilAsync(() => reported.Count >= 1);
         Assert.Equal([true], reported);
 
         failing = true;
@@ -56,11 +56,20 @@ public sealed class TreeItemRobustnessTests : OmniBunitContext
         var failure = await Record.ExceptionAsync(async () =>
         {
             tree.Render(parameters => parameters.Add(component => component.ChildContent, Content()));
-            await Task.Delay(200, Xunit.TestContext.Current.CancellationToken);
+            await UntilAsync(() => reported.Count >= 2);
             tree.Render(parameters => parameters.Add(component => component.Label, "Arbre"));
         });
 
         Assert.NotNull(failure);
         Assert.Contains("handler failed", failure.ToString(), StringComparison.Ordinal);
+    }
+
+    // Polls a condition the renderer meets on its own schedule, for as long as a slow machine needs.
+    private static async Task UntilAsync(Func<bool> condition)
+    {
+        for (var wait = 0; wait < 500 && !condition(); wait++)
+        {
+            await Task.Delay(10, Xunit.TestContext.Current.CancellationToken);
+        }
     }
 }
