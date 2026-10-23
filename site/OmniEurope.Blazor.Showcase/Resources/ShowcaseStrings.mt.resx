@@ -1646,4 +1646,5 @@
   <data name="DemoPagesFactSteps" xml:space="preserve"><value>Passi</value></data>
   <data name="DemoPagesFactStarted" xml:space="preserve"><value>Bidu</value></data>
   <data name="DemoPagesFactDuration" xml:space="preserve"><value>Tul ta' żmien</value></data>
+  <data name="DemoPagesFactStepDuration" xml:space="preserve"><value>Tul ta' żmien tal-pass</value></data>
 </root>

@@ -169,6 +169,60 @@
         </OmniFactTile>
     </OmniTileGrid>
 
+    @* Quatre tuiles de faits sur une même rangée (Columns="4") : chacune est étroite, donc ses lignes passent sur
+       deux niveaux, le libellé au-dessus de la valeur, et un libellé de 16 caractères comme une valeur de 20
+       caractères s'affichent en entier, sans points de suspension. *@
+    <OmniTileGrid Id="demo-fact-tile-narrow-grid" Columns="4">
+        <OmniFactTile Id="demo-fact-tile-narrow-source" Title="@Text["DemoPagesFactSource"]">
+            <ChildContent>
+                <OmniFactTileRow Term="@Text["DemoPagesFactStepDuration"]">
+                    <Icon><OmniIcon Name="OmniIconName.CalendarBlank" /></Icon>
+                    <ChildContent>2026-10-23 08:14:02Z</ChildContent>
+                </OmniFactTileRow>
+                <OmniFactTileRow Term="@Text["DemoPagesFactBranch"]">
+                    <Icon><OmniIcon Name="OmniIconName.Graph" /></Icon>
+                    <ChildContent>release/1.9.0</ChildContent>
+                </OmniFactTileRow>
+            </ChildContent>
+        </OmniFactTile>
+        <OmniFactTile Id="demo-fact-tile-narrow-run" Title="@Text["DemoPagesFactRun"]">
+            <ChildContent>
+                <OmniFactTileRow Term="@Text["DemoPagesFactStepDuration"]">
+                    <Icon><OmniIcon Name="OmniIconName.CalendarBlank" /></Icon>
+                    <ChildContent>2026-10-23 08:14:02Z</ChildContent>
+                </OmniFactTileRow>
+                <OmniFactTileRow Term="@Text["DemoPagesFactStatus"]">
+                    <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
+                    <ChildContent><OmniBadge Tone="OmniTone.Success">@Text["DemoPagesFactSucceeded"]</OmniBadge></ChildContent>
+                </OmniFactTileRow>
+            </ChildContent>
+        </OmniFactTile>
+        <OmniFactTile Id="demo-fact-tile-narrow-timeline" Title="@Text["DemoPagesFactTimeline"]">
+            <ChildContent>
+                <OmniFactTileRow Term="@Text["DemoPagesFactStepDuration"]">
+                    <Icon><OmniIcon Name="OmniIconName.CalendarBlank" /></Icon>
+                    <ChildContent>2026-10-23 08:14:02Z</ChildContent>
+                </OmniFactTileRow>
+                <OmniFactTileRow Term="@Text["DemoPagesFactDuration"]">
+                    <Icon><OmniIcon Name="OmniIconName.Timer" /></Icon>
+                    <ChildContent>1h44min</ChildContent>
+                </OmniFactTileRow>
+            </ChildContent>
+        </OmniFactTile>
+        <OmniFactTile Id="demo-fact-tile-narrow-steps" Title="@Text["DemoPagesFactSteps"]">
+            <ChildContent>
+                <OmniFactTileRow Term="@Text["DemoPagesFactStepDuration"]">
+                    <Icon><OmniIcon Name="OmniIconName.CalendarBlank" /></Icon>
+                    <ChildContent>2026-10-23 08:14:02Z</ChildContent>
+                </OmniFactTileRow>
+                <OmniFactTileRow Term="@Text["DemoPagesFactSteps"]">
+                    <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                    <ChildContent>5 / 5</ChildContent>
+                </OmniFactTileRow>
+            </ChildContent>
+        </OmniFactTile>
+    </OmniTileGrid>
+
     @* Tuiles de navigation : chacune est un vrai lien, son icône sur un carré à la teinte de son ton ;
        au survol, seule l'ombre change. Elles prennent la hauteur de leur colonne. *@
     <OmniRow Gap="OmniSpacing.Medium">

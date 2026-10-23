@@ -319,6 +319,69 @@ export async function requestSteps(session, results) {
   await mouse('mouseMoved', { x: 5, y: 5 }, { button: 'none' });
   step('tuiles de faits : même hauteur, icônes, libellés et valeurs sur les mêmes verticales, rien ne déborde à 1280 et 375 px, texte par défaut et 10, valeur coupée lue en bulle');
 
+  // 7c. The fact tile in a narrow tile (PLAN-004 lot L, request of 2026-10-23): four tiles on one row of a tile
+  // grid (Columns 4) hold a label of 16 characters and a value of 20, and a tile of a quarter of 900 px is too
+  // narrow for the three aligned columns to leave the value its room. The rows then go on two levels (the
+  // label above the value, a container query on the tile, never the viewport) and nothing is cut, no ellipsis
+  // active, label or value. The window is widened until the grid itself is 900 px wide (the showcase shell
+  // keeps a sidebar and a side panel, so that is wider than 900 px of window, and below 1024 px of window the
+  // tile grid has two columns). At 1280 px the tile is narrower still and the value, on its own line, still
+  // fits. In a roomy tile (a phone, one column) the three aligned columns stay, label and value on one line.
+  await session.visit('/composants/pages', '#demo-fact-tile-narrow-grid');
+  const narrowGrid = `(() => {
+    const grid = document.getElementById('demo-fact-tile-narrow-grid');
+    const tiles = [...grid.children];
+    const problems = [];
+    const near = (a, b) => Math.abs(a - b) <= 1;
+    const columns = getComputedStyle(grid).gridTemplateColumns.split(' ').length;
+    const offsets = { icon: [], label: [], value: [] };
+    let twoLevels = 0;
+    for (const tile of tiles) {
+      const frame = tile.getBoundingClientRect();
+      for (const holder of [tile, tile.querySelector('.omni-fact-tile__rows'), ...tile.querySelectorAll('.omni-fact-tile__row')]) {
+        if (holder.scrollWidth > holder.clientWidth + 1) problems.push(holder.className + ' déborde dans ' + tile.id);
+      }
+      for (const row of tile.querySelectorAll('.omni-fact-tile__row')) {
+        const cells = Object.fromEntries(['icon', 'label', 'value'].map(name => [name, row.querySelector('.omni-fact-tile__' + name)]));
+        for (const name of ['icon', 'label', 'value']) offsets[name].push(cells[name].getBoundingClientRect().left - frame.left);
+        if (cells.value.getBoundingClientRect().top >= cells.label.getBoundingClientRect().bottom - 1) twoLevels++;
+      }
+      for (const name of ['label', 'value']) {
+        const cell = tile.querySelector('.omni-fact-tile__' + name);
+        const text = cell.textContent.trim();
+        if (text.length !== (name === 'label' ? 16 : 20)) problems.push('le ' + name + ' de ' + tile.id + ' n\\'a pas la longueur voulue : « ' + text + ' »');
+        if (cell.scrollWidth > cell.clientWidth + 1) problems.push('le ' + name + ' « ' + text + ' » est coupé dans ' + tile.id + ' (' + cell.scrollWidth + ' > ' + cell.clientWidth + ', points de suspension ' + getComputedStyle(cell).textOverflow + ')');
+      }
+    }
+    for (const [name, cells] of Object.entries(offsets)) {
+      if (!cells.every(cell => near(cell, cells[0]))) problems.push('les cellules ' + name + ' ne sont pas sur une même verticale : ' + cells.map(cell => cell.toFixed(1)).join(' / '));
+    }
+    return JSON.stringify({ problems, columns, tiles: tiles.length, rows: tiles.length * 2, twoLevels, gridWidth: Math.round(grid.getBoundingClientRect().width), tileWidth: Math.round(tiles[0].getBoundingClientRect().width) });
+  })()`;
+  let windowWidth = 1000;
+  for (; windowWidth <= 1800; windowWidth += 5) {
+    await send('Emulation.setDeviceMetricsOverride', { width: windowWidth, height: 900, deviceScaleFactor: 1, mobile: false });
+    await pause(60);
+    if (await evaluate("document.getElementById('demo-fact-tile-narrow-grid').getBoundingClientRect().width >= 900")) break;
+  }
+  await pause(300);
+  const atNinehundred = JSON.parse(await evaluate(narrowGrid));
+  check(atNinehundred.columns === 4 && atNinehundred.tiles === 4, `La grille de tuiles étroites n'a pas quatre colonnes de quatre tuiles : ${JSON.stringify(atNinehundred)}`);
+  check(atNinehundred.problems.length === 0, `Tuiles de faits étroites (grille de ${atNinehundred.gridWidth} px, fenêtre de ${windowWidth} px, tuile de ${atNinehundred.tileWidth} px) : ${atNinehundred.problems.join(' | ')}`);
+  check(atNinehundred.twoLevels === atNinehundred.rows, `Les lignes ne sont pas sur deux niveaux dans une tuile de ${atNinehundred.tileWidth} px : ${atNinehundred.twoLevels} sur ${atNinehundred.rows}.`);
+  await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
+  await pause(300);
+  const atWindow1280 = JSON.parse(await evaluate(narrowGrid));
+  check(atWindow1280.problems.length === 0, `Tuiles de faits étroites à 1280 px (tuile de ${atWindow1280.tileWidth} px) : ${atWindow1280.problems.join(' | ')}`);
+  await send('Emulation.setDeviceMetricsOverride', { width: 375, height: 812, deviceScaleFactor: 1, mobile: true });
+  await pause(300);
+  const atPhone = JSON.parse(await evaluate(narrowGrid));
+  check(atPhone.problems.length === 0, `Tuiles de faits étroites à 375 px (tuile de ${atPhone.tileWidth} px) : ${atPhone.problems.join(' | ')}`);
+  check(atPhone.columns === 1 && atPhone.twoLevels === 0, `Dans une tuile large (${atPhone.tileWidth} px) les lignes doivent rester sur un niveau, trois colonnes : ${JSON.stringify(atPhone)}`);
+  await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
+  await pause(300);
+  step(`tuiles de faits étroites : quatre tuiles sur une grille de 900 px (fenêtre de ${windowWidth} px), libellé de 16 et valeur de 20 caractères entiers sur deux niveaux, sans points de suspension ; trois colonnes gardées dans une tuile large`);
+
   // 8. FillAvailableHeight in a preview box that scrolls itself (request of 2026-10-12): with settings
   // taller than the visible part of the box above it, nothing is left to the grid, which drew 0px, its
   // frame 2px, every row cut. In both scroll modes and at 390 and 1280 px, the grid keeps its floor

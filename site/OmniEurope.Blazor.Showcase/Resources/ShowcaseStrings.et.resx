@@ -1646,4 +1646,5 @@
   <data name="DemoPagesFactSteps" xml:space="preserve"><value>Sammud</value></data>
   <data name="DemoPagesFactStarted" xml:space="preserve"><value>Algus</value></data>
   <data name="DemoPagesFactDuration" xml:space="preserve"><value>Kestus</value></data>
+  <data name="DemoPagesFactStepDuration" xml:space="preserve"><value>Sammu kestus</value></data>
 </root>

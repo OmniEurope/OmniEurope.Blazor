@@ -1646,4 +1646,5 @@
   <data name="DemoPagesFactSteps" xml:space="preserve"><value>Koraki</value></data>
   <data name="DemoPagesFactStarted" xml:space="preserve"><value>Začetek</value></data>
   <data name="DemoPagesFactDuration" xml:space="preserve"><value>Trajanje</value></data>
+  <data name="DemoPagesFactStepDuration" xml:space="preserve"><value>Trajanje koraka</value></data>
 </root>

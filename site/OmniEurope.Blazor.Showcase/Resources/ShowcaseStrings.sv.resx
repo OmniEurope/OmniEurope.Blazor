@@ -1646,4 +1646,5 @@
   <data name="DemoPagesFactSteps" xml:space="preserve"><value>Steg</value></data>
   <data name="DemoPagesFactStarted" xml:space="preserve"><value>Start</value></data>
   <data name="DemoPagesFactDuration" xml:space="preserve"><value>Varaktighet</value></data>
+  <data name="DemoPagesFactStepDuration" xml:space="preserve"><value>Stegets varaktighet</value></data>
 </root>
