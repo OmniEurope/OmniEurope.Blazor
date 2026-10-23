@@ -134,8 +134,10 @@ sinon il est clos en B ou C.
 - [ ] G-D28-01, `OmniPanelMenuItem` (4, 2) : deux frères dont l'un préfixe l'autre sont actifs ensemble.
 - [ ] G-D23-09, `OmniNotification` (3, 2) : cartes courtes et longues de largeurs différentes dans une
   même pile.
-- [ ] G-D30-01, `OmniDataAnnotationsValidator` (2, 2) : un `IValidatableObject` affiche la clé de
-  ressource brute.
+- [x] G-D30-01, `OmniDataAnnotationsValidator` (2, 2) : un `IValidatableObject` affiche la clé de
+  ressource brute. Reproduit le 2026-10-23 (`ValidatableObjectMessage_WrittenAsAResourceKey_IsTranslatedByTheHostLocalizer`,
+  rouge : « Sur deux champs » au lieu de la traduction de l'hôte) ; le message est maintenant cherché dans `Localizer`
+  comme un `ErrorMessage` d'attribut, une clé inconnue restant telle quelle.
 - [ ] G-D28-04, menus (4, 2) : menu ouvert resté invisible quand le placement abandonne.
 - [ ] G-D34-02, `OmniTooltip` : `title` d'un descendant qui double l'infobulle.
 - [ ] G-D24-04, `OmniDataGrid` : alternance des lignes peu visible en sombre.

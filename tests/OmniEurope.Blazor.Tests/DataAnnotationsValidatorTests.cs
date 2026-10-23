@@ -168,6 +168,22 @@ public sealed class DataAnnotationsValidatorTests : OmniBunitContext
     }
 
     [Fact]
+    public void ValidatableObjectMessage_WrittenAsAResourceKey_IsTranslatedByTheHostLocalizer()
+    {
+        // Like an attribute's ErrorMessage, a validatable result may carry a resource key of the host
+        // (PLAN-001, G-D30-01): it is looked up, and a key the host does not know stays as written.
+        var model = new Whole();
+        var context = new EditContext(model);
+        RenderValidator(context, new Texts(new Dictionary<string, string> { ["Sur deux champs"] = "Gauche et droite diffèrent" }));
+
+        context.Validate();
+
+        Assert.Equal("Gauche et droite diffèrent", Single(context, model, nameof(Whole.Left)));
+        Assert.Equal("Gauche et droite diffèrent", Single(context, model, nameof(Whole.Right)));
+        Assert.Contains(string.Empty, context.GetValidationMessages(new FieldIdentifier(model, string.Empty)));
+    }
+
+    [Fact]
     public void ChangedFieldThatIsNoProperty_ClearsItsMessagesOnly()
     {
         var model = new Rules();

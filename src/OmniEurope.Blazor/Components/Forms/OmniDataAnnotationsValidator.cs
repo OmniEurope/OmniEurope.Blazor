@@ -25,7 +25,8 @@ namespace OmniEurope.Blazor.Components;
 /// property name, each looked up in <see cref="Localizer"/>. A <see cref="ValidationAttribute"/> on
 /// the model type itself (a <see cref="CustomValidationAttribute"/> comparing two dates, say) and the
 /// <see cref="IValidatableObject"/> results are added on the members they name, or on the model when
-/// they name none, with their own message.
+/// they name none, with their own message, looked up first in <see cref="Localizer"/> like a custom
+/// <c>ErrorMessage</c>.
 /// </remarks>
 public sealed class OmniDataAnnotationsValidator : ComponentBase, IDisposable
 {
@@ -84,7 +85,9 @@ public sealed class OmniDataAnnotationsValidator : ComponentBase, IDisposable
         {
             foreach (var result in validatable.Validate(new ValidationContext(model)))
             {
-                AddResult(model, result, result.ErrorMessage ?? string.Empty);
+                // A message written as a resource key of the host is translated, as an attribute's is.
+                var message = result.ErrorMessage ?? string.Empty;
+                AddResult(model, result, (message.Length == 0 ? null : Lookup(message)) ?? message);
             }
         }
 

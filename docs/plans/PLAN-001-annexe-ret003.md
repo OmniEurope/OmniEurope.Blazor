@@ -45,7 +45,7 @@ Totaux : 715 citations, 341 hors périmètre, 374 en 82 groupes : **6 A**, **5 d
 | G-D28-02 | `OmniPanelMenuItem` | 3/3 | libellé d'un groupe avec `Href` = lien sans `Toggle` ; `IsWithin` faux sur la route du groupe |
 | G-D28-01 | `OmniPanelMenuItem` | 4/2 | `IsCurrent` arbitre groupe et enfants, pas deux frères en `Prefix` |
 | G-D23-09 | `OmniNotification` | 3/2 | cartes à 16,25rem ou 22,5rem selon la longueur ; aucune démo d'émission |
-| G-D30-01 | `OmniDataAnnotationsValidator` | 2/2 | messages `IValidatableObject` ajoutés sans `Lookup()` |
+| G-D30-01 | `OmniDataAnnotationsValidator` | 2/2 | messages `IValidatableObject` ajoutés sans `Lookup()` ; reproduit et corrigé le 2026-10-23 (lot 6) |
 | G-D28-04 | menus | 4/2 | placement abandonné après 10 essais sans prévenir .NET, `IsOpen` reste vrai |
 | G-D34-02 | `OmniTooltip` | 1/1 | `title` d'un descendant non retiré pendant le survol |
 | G-D24-04 | `OmniDataGrid` | 9/2 | alternance à 4 % du texte, peu visible en sombre |
