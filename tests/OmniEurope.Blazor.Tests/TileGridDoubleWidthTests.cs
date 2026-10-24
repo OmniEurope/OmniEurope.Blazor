@@ -259,6 +259,18 @@ public sealed class TileGridDoubleWidthTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task AGridDisposedBeforeItWasInitialized_ReleasesNothing()
+    {
+        // The renderer disposes a component whose first parameters failed before OnInitialized created the scope.
+        var grid = new OmniTileGrid();
+
+        var release = grid.DisposeAsync();
+
+        Assert.True(release.IsCompletedSuccessfully);
+        await release;
+    }
+
+    [Fact]
     public void ADoubleTileOutsideAnyGrid_IsHarmless_AndLoadsNoScript()
     {
         var tile = Render<OmniNavTile>(parameters => parameters
