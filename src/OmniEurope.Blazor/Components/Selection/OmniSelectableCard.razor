@@ -9,7 +9,11 @@
    not, and the frame keeps one width in every state, so the text never moves. A card that cannot change
    stays focusable and says so (aria-disabled), so a choice forced on by another one is still read out.
    Inside a radio OmniSelectableCardGroup only one card is in the tab order, and the arrows move the
-   choice. *@
+   choice. Layout, the same for every card: the first line is the head (the box when shown, the icon
+   when given, and the title, centred on one line); the description and the ChildContent follow below,
+   from the inline-start edge of the card (under the box) over its whole content width, so a narrow tile
+   of an OmniTileGrid does not squeeze them into a column beside the box and the icon. Only spans inside
+   the button; the accessible name is the title then the description. *@
 <button @attributes="AdditionalAttributes"
         @ref="_element"
         id="@Id"
@@ -22,20 +26,23 @@
         tabindex="@TabIndex"
         @onclick="ToggleAsync"
         @onkeydown="HandleKeyDownAsync">
-    @if (BoxShown)
-    {
-        <span class="omni-selectable-card__box" aria-hidden="true"></span>
-    }
-    @if (Icon is not null)
-    {
-        <span class="omni-selectable-card__icon" aria-hidden="true">@Icon</span>
-    }
-    <span class="omni-selectable-card__text">
-        <span class="omni-selectable-card__title">@Title</span>
-        @if (!string.IsNullOrWhiteSpace(Description))
+    <span class="omni-selectable-card__head">
+        @if (BoxShown)
         {
-            <span class="omni-selectable-card__description">@Description</span>
+            <span class="omni-selectable-card__box" aria-hidden="true"></span>
         }
-        @ChildContent
+        @if (Icon is not null)
+        {
+            <span class="omni-selectable-card__icon" aria-hidden="true">@Icon</span>
+        }
+        <span class="omni-selectable-card__title">@Title</span>
     </span>
+    @if (!string.IsNullOrWhiteSpace(Description))
+    {
+        <span class="omni-selectable-card__description">@Description</span>
+    }
+    @if (ChildContent is not null)
+    {
+        <span class="omni-selectable-card__extra">@ChildContent</span>
+    }
 </button>

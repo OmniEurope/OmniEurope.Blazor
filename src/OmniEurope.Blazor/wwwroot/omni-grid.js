@@ -352,7 +352,9 @@ export function attachFill(viewport) {
         const visible = page ? window.innerHeight : container.clientHeight;
         const computedStyle = getComputedStyle(container);
         const bottom = Number.parseFloat(computedStyle.paddingBottom) || 0;
-        const offset = grid.getBoundingClientRect().top - top + (page ? 0 : container.scrollTop);
+        // scrollTop counts for the page too: its rectangle top is relative to the window, so without it a re-measure
+        // made while the page is scrolled (a floored grid makes that usual) read a shorter offset and overshot.
+        const offset = grid.getBoundingClientRect().top - top + container.scrollTop;
         // What the boxes between the grid and the scrolling area add under it (their bottom margin,
         // padding and border): left out, the grid reached the bottom and the page still scrolled by it.
         let trailing = 0;

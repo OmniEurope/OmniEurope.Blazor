@@ -217,8 +217,12 @@ appel de script supplémentaire.
 
 `FillAvailableHeight` donne à la grille la hauteur qui reste sous elle dans la zone qui la fait
 défiler (mesurée par `attachFill` dans `omni-grid.js`), jamais moins que son plancher : `MinHeight`
-(`22.5rem` par défaut) pour le viewport, plus la barre d'en-tête, la barre de pied, le résumé et le
-paginateur. Quand le contenu placé au-dessus remplit déjà la partie visible de cette zone (des
+(`75dvh` par défaut, soit les trois quarts de la hauteur de la fenêtre) pour le viewport des lignes, plus la barre d'en-tête, la barre de pied, le résumé et le
+paginateur. Le plancher ne s'applique qu'au viewport des lignes (les barres s'ajoutent
+au-dessus et au-dessous) : le défilement des lignes n'est donc jamais plus court que `75dvh`, même si
+la page défile alors pour atteindre le bas de la grille. Quand le reste libre est plus grand, la grille
+prend ce reste, sans le dépasser (aucune barre de défilement inutile de la page quand tout tient).
+Quand le contenu placé au-dessus remplit déjà la partie visible de cette zone (des
 réglages dans un aperçu sur téléphone), la mesure vaut 0 et la grille garde ce plancher : la zone
 défile jusqu'à elle. Le cadre qui réunit les barres et le tableau coupe ses coins sans devenir une
 zone de défilement (`overflow: clip`) : un parent flex ou grille ne peut plus l'écraser sous son

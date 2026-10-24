@@ -479,4 +479,17 @@ public sealed class GridBranchEdgeTests : OmniBunitContext
 
         Assert.Contains(module.Invocations, call => call.Arguments.Any(argument => Equals(argument, "20rem")));
     }
+
+    [Fact]
+    public void FillAvailableHeight_WithoutAMinHeight_SendsThreeQuartersOfTheViewportAsTheFloor()
+    {
+        var module = JSInterop.SetupModule(OmniModules.Grid);
+        module.Mode = JSRuntimeMode.Loose;
+
+        RenderGrid(parameters => parameters.Add(component => component.FillAvailableHeight, true));
+
+        // The default reaches applyLayout (minHeight, the fifth argument), which writes --omni-grid-viewport-min.
+        var layout = Assert.Single(module.Invocations["applyLayout"]);
+        Assert.Equal("75dvh", layout.Arguments[4]);
+    }
 }

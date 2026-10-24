@@ -11,7 +11,7 @@ public sealed class DataGridComponentTests : OmniBunitContext
     {
         var grid = Render<OmniDataGrid<int>>();
 
-        Assert.Equal("22.5rem", grid.Instance.MinHeight);
+        Assert.Equal("75dvh", grid.Instance.MinHeight);
         Assert.False(grid.Instance.FillAvailableHeight);
     }
 

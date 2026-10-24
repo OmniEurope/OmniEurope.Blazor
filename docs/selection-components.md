@@ -167,7 +167,13 @@ application cliente, R2-4) ; la case est décorative (`aria-hidden`, ni `input` 
 contrôle) : l'unique contrôle reste la carte, avec son `role="checkbox"` et son `aria-checked`, annoncés une
 seule fois, et un clic sur la case est un clic sur la carte. Elle garde sa taille cochée ou non, donc le texte ne
 bouge pas. `ShowCheckBox="false"` (sur la carte ou sur le groupe) ne garde que le cadre et la teinte ; une carte
-radio ne dessine jamais de case. Le survol penche le cadre et le fond vers l'accent, en clair comme en sombre. `Disabled` garde l'état
+radio ne dessine jamais de case. Le survol penche le cadre et le fond vers l'accent, en clair comme en sombre.
+Mise en page, la même pour toute carte et sans paramètre : une grille d'une colonne. La première ligne est
+l'en-tête (`omni-selectable-card__head`), qui réunit la case (carte à cocher), l'icône (si elle existe) et le
+titre, centrés sur une ligne ; la `Description` et le `ChildContent` (`omni-selectable-card__extra`) viennent
+dessous, à partir du bord de début de la carte (sous la case) et sur toute la largeur de son contenu, jamais
+dans une colonne étroite à côté de la case et de l'icône. Le bouton reste unique et ne contient que des `span` ;
+le nom accessible reste le titre puis la description. `Disabled` garde l'état
 (une option imposée par une autre), laisse la carte focalisable et l'annonce indisponible
 (`aria-disabled`).
 

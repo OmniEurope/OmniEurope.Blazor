@@ -228,7 +228,7 @@ public sealed class TileRuleAndBadgeWidthTests : OmniBunitContext
         Assert.Equal("border-box", ShippedLookTests.Value(tiles, "box-sizing"));
         // A card keeps its header and footer and scrolls its body; the other tiles wrap or cut their words.
         Assert.Equal("auto", ShippedLookTests.Value(ShippedLookTests.Body(".omni-tile-grid > .omni-card > .omni-card__body"), "overflow"));
-        Assert.Equal("anywhere", ShippedLookTests.Value(ShippedLookTests.Body(".omni-selectable-card__text"), "overflow-wrap"));
+        Assert.Equal("anywhere", ShippedLookTests.Value(ShippedLookTests.Body(".omni-selectable-card"), "overflow-wrap"));
         Assert.Equal("anywhere", ShippedLookTests.Value(ShippedLookTests.Body(".omni-nav-tile__title"), "overflow-wrap"));
         Assert.Contains("overflow: hidden", ShippedLookTests.Body(".omni-stat-tile__value"), StringComparison.Ordinal);
         Assert.Contains("overflow: hidden", ShippedLookTests.Body(".omni-stat-tile__label"), StringComparison.Ordinal);
@@ -344,6 +344,51 @@ public sealed class TileRuleAndBadgeWidthTests : OmniBunitContext
         Assert.DoesNotContain("border-width", selected, StringComparison.Ordinal);
         Assert.Equal("0", ShippedLookTests.Value(ShippedLookTests.Body(".omni-selectable-card__box::before"), "opacity"));
         Assert.Equal("1", ShippedLookTests.Value(ShippedLookTests.Body(".omni-selectable-card--selected .omni-selectable-card__box::before"), "opacity"));
+    }
+
+    [Fact]
+    public void ACard_PutsTheBoxIconAndTitleOnTheFirstLine_AndTheTextBelowOutsideThatLine()
+    {
+        var card = Render<OmniSelectableCard>(parameters => parameters
+            .Add(component => component.Title, "Docker")
+            .Add(component => component.Description, "Container runtime")
+            .Add(component => component.Multiple, true)
+            .Add(component => component.Icon, builder => builder.AddContent(0, "★"))
+            .Add(component => component.ChildContent, builder => builder.AddContent(0, "More")));
+
+        var button = card.Find("button.omni-selectable-card");
+        var head = button.QuerySelector(":scope > .omni-selectable-card__head");
+        Assert.NotNull(head);
+        Assert.Equal(
+            ["omni-selectable-card__box", "omni-selectable-card__icon", "omni-selectable-card__title"],
+            head.Children.Select(child => child.ClassName).ToArray());
+        // The description and the extra content are siblings of the head, so they start at the card edge.
+        Assert.Equal(
+            ["omni-selectable-card__head", "omni-selectable-card__description", "omni-selectable-card__extra"],
+            button.Children.Select(child => child.ClassName).ToArray());
+        Assert.All(button.QuerySelectorAll("*"), element => Assert.Equal("span", element.LocalName));
+        // The accessible name reads the title, then the description.
+        Assert.Equal("★Docker", head.TextContent);
+        Assert.Equal("★DockerContainer runtimeMore", button.TextContent);
+    }
+
+    [Fact]
+    public void ACardWithoutDescriptionOrExtra_RendersTheHeadOnly()
+    {
+        var card = Render<OmniSelectableCard>(parameters => parameters.Add(component => component.Title, "Linux"));
+
+        Assert.Equal(["omni-selectable-card__head"], card.Find("button").Children.Select(child => child.ClassName).ToArray());
+    }
+
+    [Fact]
+    public void TheCardRule_IsAOneColumnGrid_WithTheHeadOnOneCentredLine()
+    {
+        var card = ShippedLookTests.Body(".omni-selectable-card");
+        Assert.Equal("grid", ShippedLookTests.Value(card, "display"));
+        Assert.Equal("minmax(0, 1fr)", ShippedLookTests.Value(card, "grid-template-columns"));
+        Assert.Equal("start", ShippedLookTests.Value(card, "align-content"));
+        Assert.Equal("flex", ShippedLookTests.Value(ShippedLookTests.Body(".omni-selectable-card__head"), "display"));
+        Assert.Equal("center", ShippedLookTests.Value(ShippedLookTests.Body(".omni-selectable-card__head"), "align-items"));
     }
 
     private readonly string? _bound = null;

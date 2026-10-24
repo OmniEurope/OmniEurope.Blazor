@@ -4,9 +4,15 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Changed
+
+- `OmniSelectableCard` : la description et le `ChildContent` passent sous l'en-tête et occupent toute la largeur du contenu de la carte, au lieu d'une colonne étroite à côté de la case et de l'icône (demande d'une application cliente : dans une `OmniTileGrid` de quatre colonnes à 1280 px, la description se coupait sur quatre à six lignes). Pour toutes les cartes, sans paramètre : la première ligne réunit la case (carte à cocher), l'icône (si elle existe) et le titre, centrés sur une ligne ; la description et le contenu complémentaire suivent dessous, à partir du bord de début de la carte (sous la case). Le bouton unique, le `role`, la case décorative, le cadre de même épaisseur dans tous les états et le remplissage de la tuile ne changent pas. Rupture visuelle assumée : le wrapper `omni-selectable-card__text` est remplacé par `omni-selectable-card__head` (case, icône, titre), `omni-selectable-card__description` et `omni-selectable-card__extra` (le `ChildContent`), tous frères dans le bouton ; la carte est une grille d'une colonne et son contenu s'aligne en haut de la tuile.
+- `OmniDataGrid.MinHeight` vaut `75dvh` par défaut (il valait `22.5rem`) : le viewport de défilement d'une grille en `FillAvailableHeight` n'est jamais plus court que les trois quarts de la hauteur de la fenêtre, quitte à ce que la page défile ; quand le reste libre est plus grand, la grille prend ce reste, sans le dépasser. Rupture visuelle assumée : une grille sans `MinHeight` explicite est plus haute qu'avant dans une fenêtre haute ou quand le contenu au-dessus laisse peu de place.
+
 ### Fixed
 
 - `OmniDataGrid` avec `ColumnSizing="OmniDataGridColumnSizing.Content"`, virtualisée sur une source `Load` : chaque bloc chargé ne transmet plus au script que les textes qu'il ne tient pas encore, ajoutés aux siens, au lieu de l'ensemble complet renvoyé à chaque bloc (mesuré sur 20 000 lignes par blocs de 100 : 0,14 Mo transmis au lieu de 1,84 Mo) ; les largeurs déjà mesurées restent et seuls les nouveaux textes sont mesurés.
+- `OmniDataGrid` en `FillAvailableHeight` dans la page (aucune zone de défilement propre) : la mesure du reste libre (`attachFill`, `omni-grid.js`) ignorait le défilement de la page, donc une nouvelle mesure faite page défilée surestimait le reste et la grille dépassait ; le défilement de la page compte désormais comme celui d'une zone défilante.
 
 ## [1.9.0] - 2026-10-23
 
