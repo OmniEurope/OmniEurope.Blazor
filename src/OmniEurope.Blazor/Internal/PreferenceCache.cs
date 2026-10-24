@@ -10,14 +10,16 @@ internal sealed record PreferenceCacheEntry(string? Value, DateTimeOffset Update
 /// <summary>
 /// The browser cache of <see cref="Components.OmniPreferences"/>: one <c>localStorage</c> entry per
 /// preference under <c>omni:pref:&lt;scope&gt;:&lt;key&gt;</c>, and the date of the last synchronization
-/// under <c>omni:pref-sync:&lt;scope&gt;</c>, read and written through <c>omni-preferences.js</c>. The key
-/// format and the entry encoding live here; the script only reads and writes strings, and falls back
+/// under <c>omni:pref-sync:&lt;scope&gt;</c>, and the moment (this device's clock) the last synchronization
+/// completed under <c>omni:pref-synced:&lt;scope&gt;</c>, read and written through <c>omni-preferences.js</c>.
+/// The key format and the entry encoding live here; the script only reads and writes strings, and falls back
 /// to memory when the browser refuses its storage.
 /// </summary>
 internal sealed class PreferenceCache(IJSObjectReference module, string scope)
 {
     internal const string KeyPrefix = "omni:pref:";
     internal const string SyncPrefix = "omni:pref-sync:";
+    internal const string SyncedPrefix = "omni:pref-synced:";
 
     /// <summary>The scope (the user's partition) this cache belongs to.</summary>
     internal string Scope { get; } = scope;
@@ -26,6 +28,8 @@ internal sealed class PreferenceCache(IJSObjectReference module, string scope)
     internal string Prefix { get; } = KeyPrefix + scope + ":";
 
     private string SyncKey { get; } = SyncPrefix + scope;
+
+    private string SyncedKey { get; } = SyncedPrefix + scope;
 
     internal string StorageKey(string key) => Prefix + key;
 
@@ -65,6 +69,16 @@ internal sealed class PreferenceCache(IJSObjectReference module, string scope)
 
     internal async Task WriteLastSyncAsync(DateTimeOffset value, CancellationToken cancellationToken) =>
         await module.InvokeVoidAsync("set", cancellationToken, SyncKey, value.ToString("O", CultureInfo.InvariantCulture));
+
+    /// <summary>When a synchronization of this scope last completed, by this device's clock; null when none did.</summary>
+    internal async Task<DateTimeOffset?> ReadSyncedAtAsync(CancellationToken cancellationToken)
+    {
+        var text = await module.InvokeAsync<string?>("get", cancellationToken, SyncedKey);
+        return DateTimeOffset.TryParse(text, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out var value) ? value : null;
+    }
+
+    internal async Task WriteSyncedAtAsync(DateTimeOffset value, CancellationToken cancellationToken) =>
+        await module.InvokeVoidAsync("set", cancellationToken, SyncedKey, value.ToString("O", CultureInfo.InvariantCulture));
 
     private static PreferenceCacheEntry? Parse(string? json)
     {

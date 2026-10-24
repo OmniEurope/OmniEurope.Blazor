@@ -73,7 +73,7 @@ public static class OmniEuropeBlazorServiceCollectionExtensions
     /// </summary>
     /// <typeparam name="TStore">The host's implementation of <see cref="IOmniPreferenceStore"/>.</typeparam>
     /// <param name="services">The host's service collection; must not be null.</param>
-    /// <param name="configure">Adjusts the synchronization (<see cref="OmniPreferencesOptions.SyncInterval"/>); null keeps the defaults.</param>
+    /// <param name="configure">Adjusts the synchronization (<see cref="OmniPreferencesOptions.SyncInterval"/>, <see cref="OmniPreferencesOptions.MinSyncGap"/>); null keeps the defaults.</param>
     /// <returns><paramref name="services"/>, for chaining.</returns>
     public static IServiceCollection AddOmniEuropePreferences<TStore>(this IServiceCollection services, Action<OmniPreferencesOptions>? configure = null)
         where TStore : class, IOmniPreferenceStore

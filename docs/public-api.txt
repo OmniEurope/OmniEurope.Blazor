@@ -3429,6 +3429,7 @@ property public OmniEurope.Blazor.Components.OmniPreference.Value : System.Strin
 property public OmniEurope.Blazor.Components.OmniPreferenceChangedEventArgs.Key : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniPreferenceChangedEventArgs.Origin : OmniEurope.Blazor.Components.OmniPreferenceChangeOrigin {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniPreferenceChangedEventArgs.Value : System.String? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniPreferencesOptions.MinSyncGap : System.TimeSpan {get(public);set(public)}
 property public OmniEurope.Blazor.Components.OmniPreferencesOptions.SyncInterval : System.TimeSpan {get(public);set(public)}
 property public OmniEurope.Blazor.Components.OmniProfileMenu.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniProfileMenu.CloseOnOutsideClick : System.Boolean {get(public);set(public)} [Parameter]

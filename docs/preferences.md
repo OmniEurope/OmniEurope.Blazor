@@ -30,7 +30,10 @@ builder.Services.AddOmniEuropePreferences<EfPreferenceStore>(options =>
 
 `OmniPreferencesOptions.SyncInterval` vaut une minute par défaut. `Timeout.InfiniteTimeSpan` coupe la
 synchronisation périodique ; toute autre valeur doit être positive, sinon la construction du service lève
-`ArgumentOutOfRangeException`. Les dates des valeurs viennent du `TimeProvider` de l'hôte quand il en
+`ArgumentOutOfRangeException`. `OmniPreferencesOptions.MinSyncGap` vaut 30 secondes par défaut : c'est le
+temps minimal entre deux synchronisations automatiques que ni la minuterie ni l'application n'ont demandées
+(retour sur l'onglet, première lecture d'une clé) ; `TimeSpan.Zero` supprime la limite, une valeur négative
+lève `ArgumentOutOfRangeException`. Les dates des valeurs viennent du `TimeProvider` de l'hôte quand il en
 enregistre un, de l'horloge système sinon, toujours en UTC.
 
 ## API
@@ -41,7 +44,11 @@ enregistre un, de l'horloge système sinon, toujours en UTC.
   Une valeur égale à la valeur du cache n'écrit rien ; tant que le cache n'est pas ouvert (prérendu, échec de
   `GetScopeAsync`), chaque appel lève `Changed` et écrit dans la base quand il y en a une.
 - `RemoveAsync(key)` : supprime la préférence, qui se relit ensuite comme `default`.
-- `SyncAsync()` : synchronise tout de suite, comme le fait la synchronisation automatique.
+- `SyncAsync()` : synchronise tout de suite, comme le fait la synchronisation automatique, mais sans la limite
+  de `MinSyncGap` : l'appel atteint toujours la base. C'est le chemin événementiel : une application qui
+  reçoit elle-même un signal de changement (par exemple par son propre hub SignalR) l'appelle à la réception ;
+  elle peut alors mettre `SyncInterval` à `Timeout.InfiniteTimeSpan` et ne garder que la synchronisation au
+  retour sur l'onglet et ce signal.
 - `Changed` : levé quand une préférence prend une nouvelle valeur, avec un `OmniPreferenceChangedEventArgs` :
   la clé (`Key`), la valeur JSON (`Value`, null pour une suppression) et l'origine (`Origin`,
   `OmniPreferenceChangeOrigin` : `Local`, écrit par ce circuit ; `Store`, valeur plus récente lue dans la
@@ -57,7 +64,8 @@ l'application préfixe les siennes de son propre nom.
 
 Le navigateur sert de cache : une entrée `localStorage` par préférence, sous
 `omni:pref:<portée>:<clé>`, qui porte la valeur JSON, sa date et un drapeau « pas encore confirmée par la
-base » ; la date de la dernière synchronisation est sous `omni:pref-sync:<portée>`. Quand le navigateur
+base » ; la date de la dernière synchronisation est sous `omni:pref-sync:<portée>` et l'instant (horloge du
+poste) où la dernière synchronisation s'est terminée sous `omni:pref-synced:<portée>`. Quand le navigateur
 refuse son stockage (données de site bloquées, quota atteint), les entrées vivent en mémoire le temps de
 la page, sans erreur.
 
@@ -78,8 +86,20 @@ la page, sans erreur.
   levant `Changed` (`Store`) quand la valeur change. La marque de la dernière synchronisation est la date
   la plus récente renvoyée par la base, jamais l'horloge du poste : un changement daté par un autre poste
   n'est pas sauté parce que les deux horloges diffèrent.
-- **Synchronisation automatique**, avec une base seulement : toutes les `SyncInterval`, et chaque fois que
-  l'onglet redevient visible (`visibilitychange`). Une synchronisation déjà en cours n'est pas doublée.
+- **Synchronisation automatique**, avec une base seulement : toutes les `SyncInterval`, chaque fois que
+  l'onglet redevient visible (`visibilitychange`) et à la première lecture d'une clé que le cache tient déjà
+  (relecture de cette clé seule). Une synchronisation déjà en cours n'est pas doublée : les déclencheurs
+  simultanés se partagent celle qui court.
+- **Écart minimal (`MinSyncGap`).** Le retour sur l'onglet et la première lecture d'une clé ne synchronisent
+  pas quand la dernière synchronisation s'est terminée il y a moins de `MinSyncGap` (30 secondes par défaut).
+  L'instant est gardé dans le cache du navigateur : il vaut donc d'un chargement de page à l'autre et d'un
+  onglet à l'autre du même navigateur et du même utilisateur, si bien qu'une navigation par chargements de
+  page complets, ou dix bascules d'onglet en une minute, ne font pas dix appels à la base. Seule une
+  synchronisation réussie compte : après un échec, le déclencheur suivant réessaie. La minuterie
+  (`SyncInterval`) et `SyncAsync()` ne sont jamais limitées. Une clé que le cache ne tient pas (nouveau poste)
+  est toujours lue dans la base. Le prix de la limite : un changement fait sur un autre poste peut mettre
+  jusqu'à `MinSyncGap` de plus à arriver par ces deux déclencheurs ; la minuterie et `SyncAsync()` restent
+  les chemins pour le recevoir plus tôt.
 - **Autres onglets.** Un autre onglet du même navigateur qui écrit une préférence de la même portée est
   suivi par l'événement `storage` du navigateur : `Changed` est levé (`OtherTab`), sans appel à la base.
   Il l'est pour toute écriture de l'autre onglet sous la portée, même quand la valeur ne change pas
@@ -360,7 +380,8 @@ store.
   sont celles des postes qui écrivent (le serveur en Blazor Server, le navigateur en WebAssembly) : une
   horloge très en avance peut faire gagner une valeur plus ancienne.
 - Le cache suit la base au rythme de `SyncInterval`, au retour sur l'onglet et à la première lecture de
-  chaque clé : un changement fait sur un autre poste n'arrive pas instantanément.
+  chaque clé (ces deux derniers au plus une fois par `MinSyncGap`), ou tout de suite sur `SyncAsync()` : un
+  changement fait sur un autre poste n'arrive pas instantanément.
 - Le paquet ne borne ni le nombre ni la taille des préférences, et ne purge pas les pierres tombales :
   c'est à la base de l'application d'en décider.
 

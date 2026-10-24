@@ -24,6 +24,15 @@ namespace OmniEurope.Blazor.Components;
 /// synchronization.
 /// </para>
 /// <para>
+/// The first-read and tab-visible synchronizations are limited: none runs when the cache (shared by the
+/// page loads and the tabs of the same browser and user) synchronized less than
+/// <see cref="OmniPreferencesOptions.MinSyncGap"/> ago (thirty seconds by default), and concurrent
+/// triggers share the one synchronization under way. The periodic synchronization and
+/// <see cref="SyncAsync"/> are never limited: a host that learns of a change by its own signal (a SignalR
+/// hub, for instance) calls <see cref="SyncAsync"/> at once, and may set
+/// <see cref="OmniPreferencesOptions.SyncInterval"/> to <see cref="Timeout.InfiniteTimeSpan"/>.
+/// </para>
+/// <para>
 /// While the page is prerendered, without JavaScript, reads and writes go to the store directly and
 /// the browser cache is left alone; without a store they read nothing and keep nothing.
 /// </para>
@@ -46,6 +55,7 @@ public sealed class OmniPreferences : IAsyncDisposable
     private readonly ILogger<OmniPreferences> _logger;
     private readonly TimeProvider _time;
     private readonly TimeSpan _syncInterval;
+    private readonly TimeSpan _minSyncGap;
     private readonly CancellationTokenSource _disposal = new();
     private readonly CancellationToken _stopping;
     private readonly SemaphoreSlim _syncGate = new(1, 1);
@@ -76,13 +86,20 @@ public sealed class OmniPreferences : IAsyncDisposable
             throw new ArgumentOutOfRangeException(nameof(options), interval, "OmniPreferencesOptions.SyncInterval must be positive, or Timeout.InfiniteTimeSpan.");
         }
 
+        var gap = options.MinSyncGap;
+        if (gap < TimeSpan.Zero)
+        {
+            throw new ArgumentOutOfRangeException(nameof(options), gap, "OmniPreferencesOptions.MinSyncGap must be positive, or TimeSpan.Zero.");
+        }
+
         _javaScript = javaScript;
         _store = store;
         _storeAccess = store is null ? null : new PreferenceStoreAccess(store, logger);
-        _sync = store is null ? null : new PreferenceSynchronizer(store, _storeAccess!, _cacheGate, logger);
+        _sync = store is null ? null : new PreferenceSynchronizer(store, _storeAccess!, _cacheGate, time, logger);
         _logger = logger;
         _time = time;
         _syncInterval = interval;
+        _minSyncGap = gap;
         _stopping = _disposal.Token;
     }
 
@@ -134,7 +151,9 @@ public sealed class OmniPreferences : IAsyncDisposable
     /// values the store has not confirmed are written to it unless it holds a later one, then every
     /// preference the store changed since the last synchronization replaces an older cached value. Does
     /// nothing without a store or while the page is prerendered. A store that cannot list its changes
-    /// fails the task with its own exception; the unconfirmed values stay cached.
+    /// fails the task with its own exception; the unconfirmed values stay cached. Never limited by
+    /// <see cref="OmniPreferencesOptions.MinSyncGap"/>: a call always reaches the store, which makes it the way
+    /// for a host to follow a change signal it receives itself.
     /// </summary>
     /// <param name="cancellationToken">Cancels the synchronization.</param>
     /// <returns>A task that completes once the synchronization is over.</returns>
@@ -462,6 +481,12 @@ public sealed class OmniPreferences : IAsyncDisposable
         await Task.Yield();
         await RunInBackgroundAsync(async token =>
         {
+            // A synchronization that just completed brought this key too: the store is not asked again.
+            if (await _sync!.SyncedWithinAsync(cache, _minSyncGap, token))
+            {
+                return;
+            }
+
             if (await _storeAccess!.TryGetAsync(key, token) is { } stored && await _sync!.ApplyStoredAsync(cache, key, stored, token) is { } change)
             {
                 await RaiseAsync(change);
@@ -469,7 +494,11 @@ public sealed class OmniPreferences : IAsyncDisposable
         });
     }
 
-    private async Task SyncInBackgroundAsync(PreferenceCache cache)
+    /// <summary>
+    /// An automatic synchronization. The periodic one is never limited; one started by a tab becoming visible
+    /// (<paramref name="limited"/>) is skipped when the cache synchronized less than <see cref="OmniPreferencesOptions.MinSyncGap"/> ago.
+    /// </summary>
+    private async Task SyncInBackgroundAsync(PreferenceCache cache, bool limited)
     {
         await Task.Yield();
         if (!await _syncGate.WaitAsync(0, CancellationToken.None))
@@ -482,7 +511,14 @@ public sealed class OmniPreferences : IAsyncDisposable
         var ran = true;
         try
         {
-            await RunInBackgroundAsync(async token => ran = await _sync!.SyncAsync(cache, changes, token));
+            await RunInBackgroundAsync(async token =>
+            {
+                // Checked under the gate: a trigger that came while another synchronization ran finds it done.
+                if (!limited || !await _sync!.SyncedWithinAsync(cache, _minSyncGap, token))
+                {
+                    ran = await _sync!.SyncAsync(cache, changes, token);
+                }
+            });
         }
         finally
         {
@@ -675,12 +711,12 @@ public sealed class OmniPreferences : IAsyncDisposable
         var hasStore = _store is not null;
         await session.WatchAsync(
             new PreferenceInteropBridge(
-                onVisible: () => hasStore ? SyncInBackgroundAsync(cache) : Task.CompletedTask,
+                onVisible: () => hasStore ? SyncInBackgroundAsync(cache, limited: true) : Task.CompletedTask,
                 onStored: storageKey => OnStoredAsync(cache, storageKey)),
             _stopping);
         if (hasStore && _syncInterval != Timeout.InfiniteTimeSpan)
         {
-            session.Schedule(_time.CreateTimer(_ => Track(SyncInBackgroundAsync(cache)), null, _syncInterval, _syncInterval));
+            session.Schedule(_time.CreateTimer(_ => Track(SyncInBackgroundAsync(cache, limited: false)), null, _syncInterval, _syncInterval));
         }
     }
 

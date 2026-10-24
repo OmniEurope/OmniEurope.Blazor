@@ -10,7 +10,7 @@ namespace OmniEurope.Blazor.Internal;
 /// the user the cache belongs to. Each read-decide-write of a cached entry runs under <c>cacheGate</c>,
 /// shared with the writes of <see cref="OmniPreferences"/>, so a write made meanwhile is never lost.
 /// </summary>
-internal sealed class PreferenceSynchronizer(IOmniPreferenceStore store, PreferenceStoreAccess access, SemaphoreSlim cacheGate, ILogger logger)
+internal sealed class PreferenceSynchronizer(IOmniPreferenceStore store, PreferenceStoreAccess access, SemaphoreSlim cacheGate, TimeProvider time, ILogger logger)
 {
     /// <summary>
     /// One synchronization; the changes it applied are added to <paramref name="changes"/>, for the caller
@@ -47,7 +47,25 @@ internal sealed class PreferenceSynchronizer(IOmniPreferenceStore store, Prefere
             await cache.WriteLastSyncAsync(next, cancellationToken);
         }
 
+        // Only a synchronization that went through counts: a failed one is tried again by the next trigger.
+        await cache.WriteSyncedAtAsync(time.GetUtcNow(), cancellationToken);
         return true;
+    }
+
+    /// <summary>
+    /// Whether the cache was synchronized less than <paramref name="gap"/> ago (this device's clock, kept in the
+    /// browser cache so a new page load or another tab of the same user sees it); never when the gap is zero.
+    /// </summary>
+    internal async Task<bool> SyncedWithinAsync(PreferenceCache cache, TimeSpan gap, CancellationToken cancellationToken)
+    {
+        if (gap <= TimeSpan.Zero || await cache.ReadSyncedAtAsync(cancellationToken) is not { } synced)
+        {
+            return false;
+        }
+
+        var elapsed = time.GetUtcNow() - synced;
+        // A clock set back is not "recent": the next trigger synchronizes and the date is written again.
+        return elapsed >= TimeSpan.Zero && elapsed < gap;
     }
 
     /// <summary>The latest store value of each key listed, and the latest date of the list.</summary>
