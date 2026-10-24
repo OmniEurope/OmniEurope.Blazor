@@ -174,35 +174,42 @@ export function applyChartMaxHeight(figure, maxHeight) {
     }
 }
 
-// OmniTileGrid.MinColumnWidth: the narrowest column of the grid, written as the custom property the
-// stylesheet reads (.omni-tile-grid--fluid), through the CSSOM rather than a style attribute, which a
-// strict CSP refuses. The grid is watched from then on: a double tile may span two columns only while the
-// grid has two, else the span would open an implicit one, so the grid is marked omni-tile-grid--multi-column
-// while it has two tracks or more and the stylesheet lets the double tile span only then. No value stops the
-// watch and gives the stylesheet columns back. Calling again with the same value measures again, which a new
-// class attribute (it drops the mark) or a new number of columns needs: neither resizes the grid.
+// OmniTileGrid (MinColumnWidth and UniformSize): the two things the stylesheet cannot do for a grid of tiles.
+// - MinColumnWidth: the narrowest column of this grid, written as the custom property the stylesheet reads
+//   (--omni-tile-min, which a UniformSize grid otherwise takes from the token --omni-tile-min-width), through
+//   the CSSOM rather than a style attribute, which a strict CSP refuses. No value removes it.
+// - watchColumns: a double tile may span two columns only while the grid has two, else the span would open an
+//   implicit one, so a grid whose columns follow its own width and that holds a double tile is watched and
+//   marked omni-tile-grid--multi-column while it has two tracks or more; the stylesheet lets the double tile
+//   span only then. False stops the watch and removes the mark.
+// Calling again with the same values measures again, which a new class attribute (it drops the mark) or a new
+// number of columns needs: neither resizes the grid.
 const tileGridWatchers = new WeakMap();
 
-// The implicit tracks of a fluid grid are 0 wide, so the tracks that are not are the explicit ones.
+// The implicit tracks of a tile grid are 0 wide, so the tracks that are not are the explicit ones.
 function markColumns(grid) {
     const widths = getComputedStyle(grid).gridTemplateColumns.split(/\s+/).map(parseFloat);
     grid.classList.toggle('omni-tile-grid--multi-column', widths.filter(width => width > 0).length > 1);
 }
 
-export function applyTileGridMinWidth(grid, minWidth) {
+export function applyTileGrid(grid, minWidth, watchColumns) {
     if (!(grid instanceof HTMLElement)) {
         return;
     }
 
-    if (typeof minWidth !== 'string' || minWidth.trim().length === 0) {
+    if (typeof minWidth === 'string' && minWidth.trim().length > 0) {
+        grid.style.setProperty('--omni-tile-min', minWidth.trim());
+    } else {
+        grid.style.removeProperty('--omni-tile-min');
+    }
+
+    if (watchColumns !== true) {
         tileGridWatchers.get(grid)?.disconnect();
         tileGridWatchers.delete(grid);
-        grid.style.removeProperty('--omni-tile-min');
         grid.classList.remove('omni-tile-grid--multi-column');
         return;
     }
 
-    grid.style.setProperty('--omni-tile-min', minWidth.trim());
     if (!tileGridWatchers.has(grid) && typeof ResizeObserver === 'function') {
         const observer = new ResizeObserver(() => markColumns(grid));
         observer.observe(grid);

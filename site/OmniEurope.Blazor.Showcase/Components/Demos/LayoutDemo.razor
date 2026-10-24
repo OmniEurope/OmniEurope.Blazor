@@ -236,6 +236,38 @@
         </OmniStatTile>
     </OmniTileGrid>
 
+    @* UniformSize : la règle des tuiles de l'application, en option d'une grille. Les tuiles ont à peu près la
+       même largeur (le nombre de colonnes suit la largeur de la grille elle-même, 18rem au moins chacune,
+       --omni-tile-min-width, Columns au plus) et exactement la même hauteur (celle de la plus haute, jamais moins
+       que --omni-tile-height, le jeton de la densité), quel que soit leur contenu : ici une tuile chiffre sans
+       détail, une tuile de faits de trois lignes, une tuile de navigation DoubleWidth (deux tuiles côte à côte là
+       où la grille a deux colonnes, une seule sinon) et une carte au texte long. *@
+    <OmniTileGrid Id="demo-tile-grid-uniform" Columns="4" UniformSize="true">
+        <OmniStatTile Value="@Text["DemoPagesTokensValue", 12.4]" Title="@Text["DemoPagesTokensToday"]">
+            <Icon><OmniIcon Name="OmniIconName.Database" /></Icon>
+        </OmniStatTile>
+        <OmniFactTile Id="demo-uniform-facts" Title="@Text["DemoPagesFactSource"]">
+            <ChildContent>
+                <OmniFactTileRow Term="@Text["DemoPagesFactRepository"]">
+                    <Icon><OmniIcon Name="OmniIconName.Database" /></Icon>
+                    <ChildContent>omni-europe-blazor</ChildContent>
+                </OmniFactTileRow>
+                <OmniFactTileRow Term="@Text["DemoPagesFactBranch"]">
+                    <Icon><OmniIcon Name="OmniIconName.Graph" /></Icon>
+                    <ChildContent>release/1.9.0</ChildContent>
+                </OmniFactTileRow>
+                <OmniFactTileRow Term="Commit">
+                    <Icon><OmniIcon Name="OmniIconName.GitCommit" /></Icon>
+                    <ChildContent>9f3c2a1</ChildContent>
+                </OmniFactTileRow>
+            </ChildContent>
+        </OmniFactTile>
+        <OmniNavTile Href="composants/editeur" Title="@Text["DemoEditorTitle"]" Description="@Text["DemoGridSummary"]" Tone="OmniTone.Info" DoubleWidth="true">
+            <Icon><OmniIcon Name="OmniIconName.FileDoc" /></Icon>
+        </OmniNavTile>
+        <OmniCard><ChildContent>@Text["DemoLayoutStretchedText"]</ChildContent></OmniCard>
+    </OmniTileGrid>
+
     @* Réglages : une carte par thème, chaque réglage dans son encadré, le contrôle sur sa ligne. *@
     <OmniSettingsSection Title="@Text["DemoLayoutNotifications"]" Description="@Text["DemoLayoutNotificationsText"]">
         <OmniSettingsTile Title="@Text["DemoLayoutEmailAlerts"]" Description="@Text["DemoLayoutEmailAlertsText"]">

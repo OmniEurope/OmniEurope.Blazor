@@ -9,6 +9,11 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 public partial class OmniNavTile
 {
+    private OmniTileGridScope? _countedIn;
+
+    [CascadingParameter]
+    private OmniTileGridScope? TileGrid { get; set; }
+
     /// <summary>Where the tile leads: a path of the site or an address.</summary>
     [Parameter, EditorRequired]
     public string Href { get; set; } = string.Empty;
@@ -32,9 +37,23 @@ public partial class OmniNavTile
     public OmniTone Tone { get; set; } = OmniTone.Accent;
 
     /// <summary>
-    /// In an <see cref="OmniTileGrid"/>, the tile spans two columns instead of one. Ignored elsewhere.
-    /// False by default.
+    /// In an <see cref="OmniTileGrid"/>, the tile spans two columns instead of one where the grid has two or
+    /// more. Ignored elsewhere. False by default.
     /// </summary>
     [Parameter]
     public bool DoubleWidth { get; set; }
+
+    /// <summary>Tells the tile grid around the tile whether it is double width.</summary>
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        OmniTileGridScope.Track(ref _countedIn, TileGrid, DoubleWidth);
+    }
+
+    /// <summary>Tells the tile grid around the tile that it no longer holds a double-width tile.</summary>
+    public void Dispose()
+    {
+        OmniTileGridScope.Track(ref _countedIn, null, false);
+        GC.SuppressFinalize(this);
+    }
 }

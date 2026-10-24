@@ -13,10 +13,14 @@ public partial class OmniSelectableCard
 {
     private ElementReference _element;
     private IOmniSelectableCardGroup? _registeredIn;
+    private OmniTileGridScope? _countedIn;
 
     /// <summary>The group around the card, which then owns the selection.</summary>
     [CascadingParameter]
     private IOmniSelectableCardGroup? Group { get; set; }
+
+    [CascadingParameter]
+    private OmniTileGridScope? TileGrid { get; set; }
 
     /// <summary>What the card offers: "Linux".</summary>
     [Parameter, EditorRequired]
@@ -87,7 +91,7 @@ public partial class OmniSelectableCard
 
     /// <summary>
     /// In an <see cref="OmniTileGrid"/> (or a group laid out in <c>Columns</c>), the card spans two columns
-    /// instead of one. Ignored elsewhere. False by default.
+    /// instead of one where the grid has two or more. Ignored elsewhere. False by default.
     /// </summary>
     [Parameter]
     public bool DoubleWidth { get; set; }
@@ -114,6 +118,8 @@ public partial class OmniSelectableCard
             _registeredIn = group;
             group.Register(this);
         }
+
+        OmniTileGridScope.Track(ref _countedIn, TileGrid, DoubleWidth);
     }
 
     internal ValueTask FocusAsync() => _element.FocusAsync();
@@ -133,11 +139,12 @@ public partial class OmniSelectableCard
     private Task HandleKeyDownAsync(KeyboardEventArgs args) =>
         Group is { Multiple: false } group && !IsReadOnly ? group.MoveAsync(this, args.Key) : Task.CompletedTask;
 
-    /// <summary>Leaves the group.</summary>
+    /// <summary>Leaves the group, and the count of double-width tiles of its tile grid.</summary>
     public void Dispose()
     {
         _registeredIn?.Unregister(this);
         _registeredIn = null;
+        OmniTileGridScope.Track(ref _countedIn, null, false);
         GC.SuppressFinalize(this);
     }
 }

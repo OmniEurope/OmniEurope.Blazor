@@ -21,6 +21,10 @@ public partial class OmniFactTile : IAsyncDisposable
     private readonly OmniFactTileContext _context = new();
     private OmniPackageTooltips? _tooltips;
     private string? _safeHref;
+    private OmniTileGridScope? _countedIn;
+
+    [CascadingParameter]
+    private OmniTileGridScope? TileGrid { get; set; }
 
     /// <summary>The rows, <see cref="OmniFactTileRow"/>. Required.</summary>
     [Parameter, EditorRequired]
@@ -61,8 +65,8 @@ public partial class OmniFactTile : IAsyncDisposable
     public string? Href { get; set; }
 
     /// <summary>
-    /// In an <see cref="OmniTileGrid"/>, the tile spans two columns instead of one. Ignored elsewhere.
-    /// False by default.
+    /// In an <see cref="OmniTileGrid"/>, the tile spans two columns instead of one where the grid has two or
+    /// more. Ignored elsewhere. False by default.
     /// </summary>
     [Parameter]
     public bool DoubleWidth { get; set; }
@@ -90,6 +94,7 @@ public partial class OmniFactTile : IAsyncDisposable
         base.OnParametersSet();
         _safeHref = OmniTileAction.SafeHref(nameof(OmniFactTile), Href, OnClick.HasDelegate);
         _context.IsAction = OnClick.HasDelegate || _safeHref is not null;
+        OmniTileGridScope.Track(ref _countedIn, TileGrid, DoubleWidth);
     }
 
     /// <summary>
@@ -111,6 +116,7 @@ public partial class OmniFactTile : IAsyncDisposable
     /// <returns>A task that completes once the script no longer counts the tile.</returns>
     public async ValueTask DisposeAsync()
     {
+        OmniTileGridScope.Track(ref _countedIn, null, false);
         if (_tooltips is not null)
         {
             await _tooltips.DisposeAsync();

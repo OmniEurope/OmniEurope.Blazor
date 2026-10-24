@@ -14,6 +14,10 @@ public partial class OmniStatTile
     private ElementReference? _attached;
     private bool _disposed;
     private string? _safeHref;
+    private OmniTileGridScope? _countedIn;
+
+    [CascadingParameter]
+    private OmniTileGridScope? TileGrid { get; set; }
 
     /// <summary>A decorative icon on a tinted square before the text. None when not given.</summary>
     [Parameter]
@@ -48,8 +52,8 @@ public partial class OmniStatTile
     public string? Href { get; set; }
 
     /// <summary>
-    /// In an <see cref="OmniTileGrid"/>, the tile spans two columns instead of one. Ignored elsewhere.
-    /// False by default.
+    /// In an <see cref="OmniTileGrid"/>, the tile spans two columns instead of one where the grid has two or
+    /// more. Ignored elsewhere. False by default.
     /// </summary>
     [Parameter]
     public bool DoubleWidth { get; set; }
@@ -61,6 +65,7 @@ public partial class OmniStatTile
     {
         base.OnParametersSet();
         _safeHref = Internal.OmniTileAction.SafeHref(nameof(OmniStatTile), Href, OnClick.HasDelegate);
+        OmniTileGridScope.Track(ref _countedIn, TileGrid, DoubleWidth);
     }
 
     /// <summary>
@@ -113,6 +118,7 @@ public partial class OmniStatTile
     public async ValueTask DisposeAsync()
     {
         _disposed = true;
+        OmniTileGridScope.Track(ref _countedIn, null, false);
         if (_module is not null)
         {
             try

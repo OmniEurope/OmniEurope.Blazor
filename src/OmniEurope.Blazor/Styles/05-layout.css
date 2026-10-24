@@ -48,7 +48,10 @@
    spans two columns only where the grid has them, so it never opens an implicit column. With
    EqualHeights="false" (omni-tile-grid--natural-heights) the rows are auto and the tiles stay as tall as
    their own content, aligned to the top of their row: each row is as tall as its tallest tile only, and a
-   short tile is not stretched to a tall neighbour. The widths and the columns do not change. */
+   short tile is not stretched to a tall neighbour. The widths and the columns do not change.
+   Three modes, one grid: the default above (the columns of the window, no script); MinColumnWidth
+   (omni-tile-grid--fluid), the columns of the grid's own width with a minimum of its own; UniformSize
+   (omni-tile-grid--uniform), the common tile size rule of the application, below the fluid rules. */
 .omni-tile-grid { --omni-tile-columns: 4; --omni-tile-columns-sm: 2; --omni-tile-gap: var(--omni-space-md); display: grid; gap: var(--omni-space-md); grid-auto-rows: 1fr; grid-template-columns: minmax(0, 1fr); min-inline-size: 0; }
 .omni-tile-grid--gap-none { --omni-tile-gap: 0px; gap: 0; }
 .omni-tile-grid--gap-xs { --omni-tile-gap: var(--omni-space-xs); gap: var(--omni-space-xs); }
@@ -89,6 +92,22 @@
 .omni-tile-grid.omni-tile-grid--fluid { grid-auto-columns: 0px; grid-template-columns: repeat(auto-fill, minmax(max(min(var(--omni-tile-min, 100%), 100%), calc((100% - (var(--omni-tile-columns) - 1) * var(--omni-tile-gap)) / var(--omni-tile-columns))), 1fr)); }
 .omni-tile-grid--fluid > .omni-tile--double { grid-column: auto; }
 .omni-tile-grid--fluid.omni-tile-grid--multi-column > .omni-tile--double { grid-column: span 2; }
+/* UniformSize (omni-tile-grid--uniform): the common tile size rule of the application. Every tile of the grid
+   is of roughly the same width and exactly the same height; a double tile is two tiles side by side.
+   Width: the columns follow the width of the grid itself, never the window, by the same formula as above, with
+   the track at least --omni-tile-min. The grid declares it as the theme token --omni-tile-min-width (18rem;
+   a host retunes every grid by setting the token on the root or on a scope); MinColumnWidth, on the same grid,
+   writes its own through the CSSOM, which outweighs this declaration, and the grid is then both classes. It is
+   declared on every uniform grid, so a grid nested in a tile does not inherit the length of the grid around
+   it. The stylesheet alone decides the columns, so they are right from the first paint, with no script.
+   Height: every row is as tall as the tallest tile of the grid and never shorter than --omni-tile-height, the
+   floor of the density (10rem comfortable), whatever the tiles hold; the tiles already fill their cell.
+   Double: as for the fluid grid, a script marks the grid omni-tile-grid--multi-column while it has two real
+   tracks or more, and only then does a double tile span two columns; else it has the width of the others and
+   opens no implicit column (the implicit tracks are 0 wide). */
+.omni-tile-grid.omni-tile-grid--uniform { --omni-tile-min: var(--omni-tile-min-width); grid-auto-columns: 0px; grid-auto-rows: minmax(var(--omni-tile-height), 1fr); grid-template-columns: repeat(auto-fill, minmax(max(min(var(--omni-tile-min), 100%), calc((100% - (var(--omni-tile-columns) - 1) * var(--omni-tile-gap)) / var(--omni-tile-columns))), 1fr)); }
+.omni-tile-grid--uniform > .omni-tile--double { grid-column: auto; }
+.omni-tile-grid--uniform.omni-tile-grid--multi-column > .omni-tile--double { grid-column: span 2; }
 
 .omni-layout { --omni-sidebar-inset: calc(var(--omni-item-pad-y) + var(--omni-space-xs)); --omni-sidebar-rail: calc(2 * var(--omni-sidebar-inset) + 1.25rem); box-sizing: border-box; margin-inline: auto; width: 100%; }
 .omni-main { --omni-main-max-width: 100%; display: block; min-width: 0; }

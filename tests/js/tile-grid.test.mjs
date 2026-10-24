@@ -4,13 +4,13 @@ import { test } from 'node:test';
 import { pathToFileURL } from 'node:url';
 import { installDom } from './dom-stub.mjs';
 
-// OmniTileGrid.MinColumnWidth (applyTileGridMinWidth of omniInterop.js): the custom property is written
-// through the CSSOM and the grid is marked while it has two real tracks or more. The tracks come from the
-// resolved grid-template-columns, which these tests set by hand: what the browser makes of them is the
-// business of the showcase.
+// The tile grid script (applyTileGrid of omniInterop.js): the minimum column width of a grid that sets its
+// own is written through the CSSOM, and a grid holding a double tile is marked while it has two real tracks
+// or more. The tracks come from the resolved grid-template-columns, which these tests set by hand: what the
+// browser makes of them is the business of the showcase.
 const wwwroot = path.resolve(import.meta.dirname, '../../src/OmniEurope.Blazor/wwwroot');
 const dom = installDom();
-const { applyTileGridMinWidth } = await import(pathToFileURL(path.join(wwwroot, 'omniInterop.js')).href);
+const { applyTileGrid } = await import(pathToFileURL(path.join(wwwroot, 'omniInterop.js')).href);
 
 const MULTI = 'omni-tile-grid--multi-column';
 const observers = [];
@@ -40,47 +40,67 @@ const gridWith = tracks => {
 test('the minimum is written as a custom property, trimmed, and never as a style attribute', () => {
     const { grid } = gridWith('300px 300px');
 
-    applyTileGridMinWidth(grid, ' 18rem ');
+    applyTileGrid(grid, ' 18rem ', false);
 
     assert.equal(grid.style.getPropertyValue('--omni-tile-min'), '18rem');
     assert.equal(grid.hasAttribute('style'), false);
 });
 
+test('a grid that only has a minimum width is not watched and never marked', () => {
+    const { grid } = gridWith('322px 322px 322px');
+
+    applyTileGrid(grid, '14rem', false);
+
+    assert.equal(grid.style.getPropertyValue('--omni-tile-min'), '14rem');
+    assert.equal(grid.classList.contains(MULTI), false);
+    assert.equal(observers.length, 0);
+});
+
 test('a grid with two real tracks or more is marked, one with a single track is not', () => {
     const { grid, state } = gridWith('322.656px 322.672px 322.656px');
-    applyTileGridMinWidth(grid, '18rem');
+    applyTileGrid(grid, null, true);
     assert.equal(grid.classList.contains(MULTI), true);
 
     state.tracks = '500px';
-    applyTileGridMinWidth(grid, '18rem');
+    applyTileGrid(grid, null, true);
     assert.equal(grid.classList.contains(MULTI), false);
+});
+
+test('a grid watched without a minimum keeps the stylesheet minimum, and is not given a style attribute', () => {
+    const { grid } = gridWith('288px 288px');
+
+    applyTileGrid(grid, undefined, true);
+
+    assert.equal(grid.style.getPropertyValue('--omni-tile-min'), '');
+    assert.equal(grid.hasAttribute('style'), false);
+    assert.equal(grid.classList.contains(MULTI), true);
 });
 
 test('the empty tracks a double tile opens in a grid of one column are not counted', () => {
     const { grid, state } = gridWith('484px 0px');
 
-    applyTileGridMinWidth(grid, '18rem');
+    applyTileGrid(grid, null, true);
     assert.equal(grid.classList.contains(MULTI), false);
 
     state.tracks = '342px 342px 0px';
-    applyTileGridMinWidth(grid, '18rem');
+    applyTileGrid(grid, null, true);
     assert.equal(grid.classList.contains(MULTI), true);
 });
 
 test('a grid that is not laid out as a grid (hidden, or no tracks yet) is not marked', () => {
     const { grid, state } = gridWith('none');
-    applyTileGridMinWidth(grid, '18rem');
+    applyTileGrid(grid, null, true);
     assert.equal(grid.classList.contains(MULTI), false);
 
     state.tracks = '';
-    applyTileGridMinWidth(grid, '18rem');
+    applyTileGrid(grid, null, true);
     assert.equal(grid.classList.contains(MULTI), false);
 });
 
 test('the grid is watched once, and a resize measures it again', () => {
     const { grid, state } = gridWith('500px');
-    applyTileGridMinWidth(grid, '18rem');
-    applyTileGridMinWidth(grid, '20rem');
+    applyTileGrid(grid, '18rem', true);
+    applyTileGrid(grid, '20rem', true);
 
     assert.equal(observers.length, 1);
     assert.deepEqual(observers[0].targets, [grid]);
@@ -98,40 +118,61 @@ test('the grid is watched once, and a resize measures it again', () => {
 
 test('calling again with the same value measures again, as a replaced class attribute needs', () => {
     const { grid } = gridWith('288px 288px');
-    applyTileGridMinWidth(grid, '18rem');
+    applyTileGrid(grid, null, true);
     grid.classList.remove(MULTI);
 
-    applyTileGridMinWidth(grid, '18rem');
+    applyTileGrid(grid, null, true);
 
     assert.equal(grid.classList.contains(MULTI), true);
     assert.equal(observers.length, 1);
 });
 
-test('no value removes the property and the mark, and stops watching the grid', () => {
+test('no watching removes the mark and stops the observer, and keeps the minimum width', () => {
     const { grid, state } = gridWith('288px 288px');
-    applyTileGridMinWidth(grid, '18rem');
+    applyTileGrid(grid, '18rem', true);
 
-    applyTileGridMinWidth(grid, null);
+    applyTileGrid(grid, '18rem', false);
+
+    assert.equal(grid.style.getPropertyValue('--omni-tile-min'), '18rem');
+    assert.equal(grid.classList.contains(MULTI), false);
+    assert.equal(observers[0].disconnected, true);
+
+    // Watched afresh when a double tile comes back, with a new observer.
+    state.tracks = '288px 288px';
+    applyTileGrid(grid, '18rem', true);
+    assert.equal(observers.length, 2);
+    assert.equal(grid.classList.contains(MULTI), true);
+});
+
+test('no value and no watching removes the property, the mark and the observer', () => {
+    const { grid } = gridWith('288px 288px');
+    applyTileGrid(grid, '18rem', true);
+
+    applyTileGrid(grid, null, false);
 
     assert.equal(grid.style.getPropertyValue('--omni-tile-min'), '');
     assert.equal(grid.classList.contains(MULTI), false);
     assert.equal(observers[0].disconnected, true);
 
-    // Watched afresh by the next value, with a new observer.
-    state.tracks = '288px 288px';
-    applyTileGridMinWidth(grid, '18rem');
-    assert.equal(observers.length, 2);
-    assert.equal(grid.classList.contains(MULTI), true);
-
-    applyTileGridMinWidth(grid, '   ');
+    applyTileGrid(grid, '   ', false);
     assert.equal(grid.style.getPropertyValue('--omni-tile-min'), '');
-    assert.equal(observers[1].disconnected, true);
 });
 
-test('removing the minimum of a grid never watched changes nothing and does not fail', () => {
+test('releasing a grid never set up changes nothing and does not fail', () => {
     const { grid } = gridWith('288px 288px');
 
-    assert.doesNotThrow(() => applyTileGridMinWidth(grid, undefined));
+    assert.doesNotThrow(() => applyTileGrid(grid, undefined, false));
+    assert.equal(observers.length, 0);
+    assert.equal(grid.classList.contains(MULTI), false);
+});
+
+test('only the boolean true watches: any other value counts as no watching', () => {
+    const { grid } = gridWith('288px 288px');
+
+    applyTileGrid(grid, null, 'true');
+    applyTileGrid(grid, null, 1);
+    applyTileGrid(grid, null, undefined);
+
     assert.equal(observers.length, 0);
     assert.equal(grid.classList.contains(MULTI), false);
 });
@@ -139,8 +180,8 @@ test('removing the minimum of a grid never watched changes nothing and does not 
 test('what is not an element (a stale reference after the grid left the page) is ignored', () => {
     gridWith('288px 288px');
 
-    assert.doesNotThrow(() => applyTileGridMinWidth(null, '18rem'));
-    assert.doesNotThrow(() => applyTileGridMinWidth({ style: {} }, '18rem'));
+    assert.doesNotThrow(() => applyTileGrid(null, '18rem', true));
+    assert.doesNotThrow(() => applyTileGrid({ style: {} }, '18rem', true));
     assert.equal(observers.length, 0);
 });
 
@@ -148,7 +189,7 @@ test('a browser without ResizeObserver still gets the property and a first measu
     const { grid } = gridWith('288px 288px');
     delete globalThis.ResizeObserver;
 
-    applyTileGridMinWidth(grid, '18rem');
+    applyTileGrid(grid, '18rem', true);
 
     assert.equal(grid.style.getPropertyValue('--omni-tile-min'), '18rem');
     assert.equal(grid.classList.contains(MULTI), true);

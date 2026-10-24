@@ -24,6 +24,10 @@ namespace OmniEurope.Blazor.Components;
 public partial class OmniCard
 {
     private string? _safeHref;
+    private OmniTileGridScope? _countedIn;
+
+    [CascadingParameter]
+    private OmniTileGridScope? TileGrid { get; set; }
 
     /// <summary>The top band of the card (<c>header</c>); null, the default, renders none.</summary>
     [Parameter]
@@ -55,8 +59,8 @@ public partial class OmniCard
     public EventCallback<MouseEventArgs> OnClick { get; set; }
 
     /// <summary>
-    /// In an <see cref="OmniTileGrid"/>, the card spans two columns instead of one. Ignored elsewhere.
-    /// False by default.
+    /// In an <see cref="OmniTileGrid"/>, the card spans two columns instead of one where the grid has two or
+    /// more. Ignored elsewhere. False by default.
     /// </summary>
     [Parameter]
     public bool DoubleWidth { get; set; }
@@ -81,5 +85,13 @@ public partial class OmniCard
         }
 
         _safeHref = hasHref ? OmniUriPolicy.EnsureSafe(Href, nameof(Href)) : null;
+        OmniTileGridScope.Track(ref _countedIn, TileGrid, DoubleWidth);
+    }
+
+    /// <summary>Tells the tile grid around the card that it no longer holds a double-width card.</summary>
+    public void Dispose()
+    {
+        OmniTileGridScope.Track(ref _countedIn, null, false);
+        GC.SuppressFinalize(this);
     }
 }

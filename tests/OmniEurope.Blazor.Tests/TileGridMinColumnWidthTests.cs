@@ -13,7 +13,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class TileGridMinColumnWidthTests : OmniBunitContext
 {
-    private const string Function = "applyTileGridMinWidth";
+    private const string Function = "applyTileGrid";
 
     [Fact]
     public void ATileGridWithoutMinColumnWidth_KeepsTheColumnsOfTheWindow_AndLoadsNoScript()
@@ -245,7 +245,7 @@ public sealed class TileGridMinColumnWidthTests : OmniBunitContext
     {
         var script = File.ReadAllText(Path.Combine(ShippedLookTests.RepositoryRoot(), "src", "OmniEurope.Blazor", "wwwroot", "omniInterop.js"));
 
-        Assert.Contains("export function applyTileGridMinWidth(grid, minWidth)", script, StringComparison.Ordinal);
+        Assert.Contains("export function applyTileGrid(grid, minWidth, watchColumns)", script, StringComparison.Ordinal);
         Assert.Contains("style.setProperty('--omni-tile-min'", script, StringComparison.Ordinal);
         Assert.Contains("style.removeProperty('--omni-tile-min')", script, StringComparison.Ordinal);
         Assert.Contains("'omni-tile-grid--multi-column'", script, StringComparison.Ordinal);

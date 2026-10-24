@@ -1214,6 +1214,7 @@ method protected override OmniEurope.Blazor.Components.OmniMultiSelect<TValue>.O
 method protected override OmniEurope.Blazor.Components.OmniMultiSelect<TValue>.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMultiSelect<TValue>.TryParseValueFromString(System.String? value, out System.Collections.Generic.IReadOnlyList<TValue> result, out System.String validationErrorMessage) : System.Boolean
 method protected override OmniEurope.Blazor.Components.OmniNavTile.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniNavTile.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniNotification.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniNumeric<TValue>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniNumeric<TValue>.FormatValueAsString(TValue? value) : System.String?
@@ -1328,6 +1329,7 @@ method protected override OmniEurope.Blazor.Components.OmniThemeScope.OnInitiali
 method protected override OmniEurope.Blazor.Components.OmniThemeScope.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniTileGrid.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniTileGrid.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
+method protected override OmniEurope.Blazor.Components.OmniTileGrid.OnInitialized() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniTileGrid.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniTimePicker.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniTimePicker.Dispose(System.Boolean disposing) : System.Void
@@ -1395,6 +1397,7 @@ method public OmniEurope.Blazor.Components.OmniBreadcrumbService.Push(OmniEurope
 method public OmniEurope.Blazor.Components.OmniBreadcrumbService.Replace(System.Int32 index, OmniEurope.Blazor.Components.OmniBreadcrumbEntry entry) : System.Void
 method public OmniEurope.Blazor.Components.OmniBreadcrumbService.Reset() : System.Void
 method public OmniEurope.Blazor.Components.OmniBreadcrumbService.Set(System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniBreadcrumbEntry> items) : System.Void
+method public OmniEurope.Blazor.Components.OmniCard.Dispose() : System.Void
 method public OmniEurope.Blazor.Components.OmniCategoryAxis.Dispose() : System.Void
 method public OmniEurope.Blazor.Components.OmniChart.Dispose() : System.Void
 method public OmniEurope.Blazor.Components.OmniChart.DisposeAsync() : System.Threading.Tasks.ValueTask
@@ -1595,6 +1598,7 @@ method public OmniEurope.Blazor.Components.OmniMindMapViewState.<Clone>$() : Omn
 method public OmniEurope.Blazor.Components.OmniMindMapViewState.Deconstruct(out System.Double PanX, out System.Double PanY, out System.Double Zoom) : System.Void
 method public OmniEurope.Blazor.Components.OmniMindMapViewState.Equals(OmniEurope.Blazor.Components.OmniMindMapViewState? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniMultiSelect<TValue>.DisposeAsync() : System.Threading.Tasks.ValueTask
+method public OmniEurope.Blazor.Components.OmniNavTile.Dispose() : System.Void
 method public OmniEurope.Blazor.Components.OmniNotificationMessage.<Clone>$() : OmniEurope.Blazor.Components.OmniNotificationMessage
 method public OmniEurope.Blazor.Components.OmniNotificationMessage.Deconstruct(out System.Guid Id, out System.String Message, out OmniEurope.Blazor.Components.OmniSeverity Severity, out System.String? Title) : System.Void
 method public OmniEurope.Blazor.Components.OmniNotificationMessage.Equals(OmniEurope.Blazor.Components.OmniNotificationMessage? other) : System.Boolean
@@ -3800,6 +3804,7 @@ property public OmniEurope.Blazor.Components.OmniTileGrid.Columns : System.Int32
 property public OmniEurope.Blazor.Components.OmniTileGrid.EqualHeights : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTileGrid.Gap : OmniEurope.Blazor.Components.OmniSpacing {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTileGrid.MinColumnWidth : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniTileGrid.UniformSize : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTimePicker.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTimePicker.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTimePicker.Maximum : System.TimeOnly? {get(public);set(public)} [Parameter]
@@ -4038,7 +4043,7 @@ type public OmniEurope.Blazor.Components.OmniButton [class] : OmniEurope.Blazor.
 type public OmniEurope.Blazor.Components.OmniButtonType [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniButtonVariant [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniCalendarView [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
-type public OmniEurope.Blazor.Components.OmniCard [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
+type public OmniEurope.Blazor.Components.OmniCard [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniCategoryAxis [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniCharacterPalette [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniChart [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable, System.IDisposable
@@ -4217,7 +4222,7 @@ type public OmniEurope.Blazor.Components.OmniMindMapViewState [class, sealed] : 
 type public OmniEurope.Blazor.Components.OmniMultiSelect<TValue> [class] : OmniEurope.Blazor.Components.OmniInputBase<System.Collections.Generic.IReadOnlyList<TValue>>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniMultiSelectDisplay [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniNavMatch [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
-type public OmniEurope.Blazor.Components.OmniNavTile [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
+type public OmniEurope.Blazor.Components.OmniNavTile [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniNotification [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniNotificationMessage [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniNotificationMessage>
 type public OmniEurope.Blazor.Components.OmniNotificationOptions [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniNotificationOptions>

@@ -4,10 +4,11 @@
 
 @* A grid of tiles: every tile the same width, every row the same height (that of the tallest tile) unless
    EqualHeights is false, a double-width tile on two columns. The tiles are the direct children: OmniCard,
-   OmniSelectableCard, OmniStatTile, OmniFactTile, OmniNavTile. *@
+   OmniSelectableCard, OmniStatTile, OmniFactTile, OmniNavTile. They tell the grid through the cascaded scope
+   when one of them is double width, which only a grid with MinColumnWidth or UniformSize acts on. *@
 <div @attributes="AdditionalAttributes"
      @ref="_grid"
      id="@Id"
-     class="@Css(TileGridClasses)">
-    @ChildContent
+     class="@GridClasses">
+    <CascadingValue Value="_scope" IsFixed="true">@ChildContent</CascadingValue>
 </div>

@@ -23,7 +23,7 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     [
         "--omni-control-height", "--omni-control-font", "--omni-button-pad-x", "--omni-input-pad-y",
         "--omni-cell-pad-y", "--omni-card-pad", "--omni-alert-pad-y", "--omni-alert-pad-x",
-        "--omni-item-pad-y", "--omni-tile-pad-y", "--omni-form-gap", "--omni-cal-cell", "--omni-pop-pad",
+        "--omni-item-pad-y", "--omni-tile-pad-y", "--omni-tile-height", "--omni-form-gap", "--omni-cal-cell", "--omni-pop-pad",
         "--omni-field-gap", "--omni-check-size", "--omni-switch-h", "--omni-icon-box",
         "--omni-badge-pad-y", "--omni-badge-height", "--omni-section-pad", "--omni-alert-icon", "--omni-alert-glyph"
     ];
@@ -51,6 +51,9 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     [InlineData("--omni-card-pad", "0.875rem", "0.5rem", "1.125rem")]
     [InlineData("--omni-switch-h", "1.25rem", "1rem", "1.5rem")]
     [InlineData("--omni-icon-box", "2.25rem", "1.625rem", "2.75rem")]
+    // The height floor of a tile row of an OmniTileGrid with UniformSize: 10rem comfortable, the compact and
+    // spacious levels scaled by 0.85 and 1.15, in rem so the text size follows.
+    [InlineData("--omni-tile-height", "10rem", "8.5rem", "11.5rem")]
     public void DensityLevels_TakeTheValuesOfTheMockup(string token, string comfortable, string compact, string spacious)
     {
         Assert.Equal(comfortable, ShippedLookTests.Value(ShippedLookTests.Body(ComfortableDensity), token));

@@ -433,6 +433,83 @@ export async function requestSteps(session, results) {
   await pause(300);
   step('grille de tuiles à hauteurs naturelles : la tuile courte plus basse que la longue, alignées en haut, largeurs égales, libellé long et valeur courte sur une ligne');
 
+  // 7c-ter. OmniTileGrid.UniformSize (owner decision of 2026-10-24): the common tile size rule of the application,
+  // as an option of one grid. Measured on #demo-tile-grid-uniform (a stat tile, a fact tile of three rows, a
+  // DoubleWidth nav tile and a card of unequal content) in windows of 1800, 1280 and 375 px, then in a window of
+  // 1800 px with the grid itself held to 600 px (the column count follows the width of the grid, not of the
+  // window). The number of real columns is the largest that keeps each one at the minimum width (the token
+  // --omni-tile-min-width, 18rem), at most Columns, one at least (a small tolerance at the boundary); the columns
+  // are equal; a single tile fills one column, the double tile two columns and the gap where the grid has two or
+  // more (the script's mark agrees), else one column, and none ever goes past the right edge of the grid (no
+  // implicit column); every tile has the same height, never below the density's --omni-tile-height; no tile's
+  // content goes past its box. The default grid, #demo-tile-grid, is not measured here: it keeps the columns of
+  // the window and the script is not loaded for it (tests/OmniEurope.Blazor.Tests prove that).
+  {
+    await send('Emulation.setDeviceMetricsOverride', { width: 1800, height: 900, deviceScaleFactor: 1, mobile: false });
+    await session.visit('/composants/mise-en-page', '#demo-tile-grid-uniform');
+    const uniformRule = `(() => {
+      const grid = document.getElementById('demo-tile-grid-uniform');
+      const style = getComputedStyle(grid);
+      const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+      const gap = parseFloat(style.columnGap);
+      const edge = grid.getBoundingClientRect();
+      const maximum = Number(/omni-tile-grid--columns-(\\d)/.exec(grid.className)[1]);
+      const minimum = parseFloat(grid.style.getPropertyValue('--omni-tile-min') || getComputedStyle(document.documentElement).getPropertyValue('--omni-tile-min-width')) * rem;
+      const floor = parseFloat(/minmax\\(([\\d.]+)px/.exec(style.gridAutoRows)?.[1]);
+      const wanted = Math.max(Math.min(minimum, edge.width), (edge.width - (maximum - 1) * gap) / maximum);
+      const expected = [-0.5, 0.5].map(slack => Math.max(1, Math.min(maximum, Math.floor((edge.width + gap + slack) / (wanted + gap)))));
+      const tracks = style.gridTemplateColumns.split(' ').map(parseFloat).filter(track => track > 0);
+      const near = (a, b) => Math.abs(a - b) <= 1;
+      const problems = [];
+      if (!(floor > 0)) problems.push('la hauteur minimale d\\'une rangée n\\'est pas lisible : ' + style.gridAutoRows);
+      if (tracks.length < expected[0] || tracks.length > expected[1]) problems.push(tracks.length + ' colonnes au lieu de ' + expected.join(' à ') + ' (grille de ' + Math.round(edge.width) + ' px, minimum de ' + Math.round(minimum) + ' px, Columns ' + maximum + ')');
+      if (!tracks.every(track => near(track, tracks[0]))) problems.push('colonnes inégales : ' + tracks.map(track => track.toFixed(1)).join(' / '));
+      if (grid.classList.contains('omni-tile-grid--multi-column') !== (tracks.length > 1)) problems.push('la marque de la grille (' + grid.classList.contains('omni-tile-grid--multi-column') + ') ne suit pas ses ' + tracks.length + ' colonnes');
+      const tiles = [...grid.children];
+      const boxes = tiles.map(tile => tile.getBoundingClientRect());
+      let doubles = 0;
+      tiles.forEach((tile, index) => {
+        const box = boxes[index];
+        const double = tile.classList.contains('omni-tile--double');
+        if (double) doubles++;
+        const wide = double && tracks.length > 1 ? 2 * tracks[0] + gap : tracks[0];
+        if (!near(box.width, wide)) problems.push((tile.id || tile.className) + ' large de ' + box.width.toFixed(1) + ' px au lieu de ' + wide.toFixed(1) + (double ? ' (tuile double)' : ''));
+        if (box.left < edge.left - 1 || box.right > edge.right + 1) problems.push((tile.id || tile.className) + ' sort de la grille (' + box.left.toFixed(1) + ' à ' + box.right.toFixed(1) + ' pour ' + edge.left.toFixed(1) + ' à ' + edge.right.toFixed(1) + ')');
+        if (!near(box.height, boxes[0].height)) problems.push((tile.id || tile.className) + ' haute de ' + box.height.toFixed(1) + ' px, la première de ' + boxes[0].height.toFixed(1));
+        if (box.height < floor - 1) problems.push((tile.id || tile.className) + ' plus basse (' + box.height.toFixed(1) + ' px) que --omni-tile-height (' + floor + ' px)');
+        if (tile.scrollWidth > tile.clientWidth + 1 || tile.scrollHeight > tile.clientHeight + 1) problems.push((tile.id || tile.className) + ' déborde (' + tile.scrollWidth + 'x' + tile.scrollHeight + ' dans ' + tile.clientWidth + 'x' + tile.clientHeight + ')');
+      });
+      return JSON.stringify({ problems, columns: tracks.length, expected, tiles: tiles.length, doubles, gridWidth: Math.round(edge.width), minimum: Math.round(minimum), floor, height: Math.round(boxes[0].height) });
+    })()`;
+    const uniformAt = async (windowWidth, heldTo) => {
+      await send('Emulation.setDeviceMetricsOverride', { width: windowWidth, height: windowWidth < 600 ? 812 : 900, deviceScaleFactor: 1, mobile: windowWidth < 600 });
+      await pause(400);
+      if (heldTo) await evaluate(`document.getElementById('demo-tile-grid-uniform').style.maxInlineSize = '${heldTo}px'`);
+      // The grid script measures again from a ResizeObserver: let it.
+      await pause(400);
+      const measured = JSON.parse(await evaluate(uniformRule));
+      if (heldTo) await evaluate("document.getElementById('demo-tile-grid-uniform').style.removeProperty('max-inline-size')");
+      const where = `#demo-tile-grid-uniform dans une fenêtre de ${windowWidth} px${heldTo ? `, grille tenue à ${heldTo} px` : ''}`;
+      check(measured.problems.length === 0, `Règle des tuiles, ${where} : ${measured.problems.join(' | ')}`);
+      check(measured.doubles >= 1 && measured.tiles >= 4, `Règle des tuiles, ${where} : la démo n'a plus de tuile double ou moins de quatre tuiles (${JSON.stringify(measured)}).`);
+      return measured;
+    };
+    const wide = await uniformAt(1800);
+    await uniformAt(1280);
+    const phone = await uniformAt(375);
+    const held = await uniformAt(1800, 600);
+    // The rule is exercised only when a window leaves the grid several columns, and a phone leaves it one.
+    check(wide.columns >= 2, `Règle des tuiles : #demo-tile-grid-uniform n'a qu'une colonne dans une fenêtre de 1800 px, la tuile double n'est pas exercée (${JSON.stringify(wide)}).`);
+    check(phone.columns === 1, `Règle des tuiles : #demo-tile-grid-uniform a ${phone.columns} colonnes sur un téléphone (${JSON.stringify(phone)}).`);
+    check(held.gridWidth <= 600 && held.columns < wide.columns, `Règle des tuiles : le nombre de colonnes de #demo-tile-grid-uniform ne suit pas la largeur de la grille elle-même, ${held.columns} colonnes dans ${held.gridWidth} px contre ${wide.columns} dans ${wide.gridWidth} px (même fenêtre).`);
+    // Only a grid that sets MinColumnWidth writes its own minimum: this one reads the token of the application.
+    const ownMinimum = await evaluate("document.getElementById('demo-tile-grid-uniform').style.getPropertyValue('--omni-tile-min')");
+    check(ownMinimum === '', `Une grille sans MinColumnWidth ne doit pas écrire son minimum : « ${ownMinimum} »`);
+    await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
+    await pause(300);
+    step(`règle des tuiles (UniformSize) : ${wide.columns} colonnes égales à 1800 px (suivant la largeur de la grille, ${held.columns} dans 600 px, ${phone.columns} sur téléphone), tuile double sur deux colonnes ou une seule, même hauteur au moins --omni-tile-height, rien ne déborde`);
+  }
+
   // 7d. Columns sized to their content (PLAN-004 lot M, request of 2026-10-23): a grid with
   // ColumnSizing Content, a name, a status badge, a number, a project and a date, each column with the width of
   // its widest content. In a box of 900, 1300 and 600 px: no header on two lines, no cell or title cut (no

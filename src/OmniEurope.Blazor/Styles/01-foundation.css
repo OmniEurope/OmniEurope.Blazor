@@ -36,6 +36,11 @@
     --omni-duration-slow: 300ms;
     --omni-space-xs: 0.25rem;
     --omni-space-xl: 1.5rem;
+    /* The narrowest column of a tile grid with UniformSize (OmniTileGrid): the grid has the largest number of
+       columns, at most Columns, that keeps each one at least this wide. A grid overrides it with MinColumnWidth;
+       a host retunes every uniform grid by setting it on the root or on a scope. The height floor of a tile
+       row, --omni-tile-height, follows the density and lives in the density blocks below. */
+    --omni-tile-min-width: 18rem;
     /* The spacing steps sm to lg, the control height and every other size a component reads live
        in the density blocks below the generated tokens, comfortable being the default. */
     /* 14px, the base body size of the hosts this package was drawn for. This package sets no
