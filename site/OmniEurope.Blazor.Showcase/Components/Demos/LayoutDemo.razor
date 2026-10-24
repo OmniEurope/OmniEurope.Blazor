@@ -125,9 +125,9 @@
         <OmniButton><Icon><OmniIcon Name="OmniIconName.Close" /></Icon><ChildContent><span>@Text["DemoLayoutCloseRequest"]</span></ChildContent></OmniButton>
     </OmniStack>
 
-    @* Grille de tuiles (OmniTileGrid) : toutes les tuiles du paquet y ont la même largeur et la même hauteur,
-       celle de la plus haute, quel que soit leur contenu ; DoubleWidth en étale une sur deux colonnes. Les
-       mots qui ne tiennent pas passent à la ligne ou sont coupés dans la tuile, rien ne déborde. *@
+    @* Grille de tuiles (OmniTileGrid) : toutes les tuiles du paquet y ont la même largeur et, par défaut, la
+       même hauteur, celle de la plus haute, quel que soit leur contenu ; DoubleWidth en étale une sur deux
+       colonnes. Les mots qui ne tiennent pas passent à la ligne ou sont coupés dans la tuile, rien ne déborde. *@
     <OmniTileGrid Id="demo-tile-grid" Columns="4">
         <OmniStatTile Value="@Text["DemoPagesTokensValue", 12.4]" Title="@Text["DemoPagesTokensToday"]" Detail="@Text["DemoPagesTokensReset", new TimeOnly(18, 0)]">
             <Icon><OmniIcon Name="OmniIconName.Database" /></Icon>
@@ -157,6 +157,64 @@
         <OmniStatTile Id="demo-link-tile" Href="composants/grille" Value="@Text["DemoPagesTokensValue", 5.1]" Title="@Text["DemoGridTitle"]">
             <Icon><OmniIcon Name="OmniIconName.Table" /></Icon>
         </OmniStatTile>
+    </OmniTileGrid>
+
+    @* EqualHeights="false" : chaque tuile garde la hauteur de son contenu, alignée en haut de sa rangée, au lieu
+       d'être étirée à celle de la plus haute (largeurs inchangées). Des tuiles de faits de 4, 1, 2 et 2 lignes ;
+       la deuxième a un libellé long et une valeur courte, sur une seule ligne dans cette tuile étroite. *@
+    <OmniTileGrid Id="demo-tile-grid-natural" Columns="4" EqualHeights="false">
+        <OmniFactTile Id="demo-natural-tall" Title="@Text["DemoPagesFactSource"]">
+            <ChildContent>
+                <OmniFactTileRow Term="@Text["DemoPagesFactRepository"]">
+                    <Icon><OmniIcon Name="OmniIconName.Database" /></Icon>
+                    <ChildContent>omni-europe-blazor</ChildContent>
+                </OmniFactTileRow>
+                <OmniFactTileRow Term="@Text["DemoPagesFactBranch"]">
+                    <Icon><OmniIcon Name="OmniIconName.Graph" /></Icon>
+                    <ChildContent>release/1.9.0</ChildContent>
+                </OmniFactTileRow>
+                <OmniFactTileRow Term="Commit">
+                    <Icon><OmniIcon Name="OmniIconName.GitCommit" /></Icon>
+                    <ChildContent>9f3c2a1</ChildContent>
+                </OmniFactTileRow>
+                <OmniFactTileRow Term="@Text["DemoPagesFactStepDuration"]">
+                    <Icon><OmniIcon Name="OmniIconName.CalendarBlank" /></Icon>
+                    <ChildContent>2026-10-23 08:14:02Z</ChildContent>
+                </OmniFactTileRow>
+            </ChildContent>
+        </OmniFactTile>
+        <OmniFactTile Id="demo-natural-short" Title="@Text["DemoPagesFactRun"]">
+            <ChildContent>
+                <OmniFactTileRow Term="@Text["DemoPagesFactStepDuration"]">
+                    <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                    <ChildContent>2</ChildContent>
+                </OmniFactTileRow>
+            </ChildContent>
+        </OmniFactTile>
+        <OmniFactTile Id="demo-natural-status" Title="@Text["DemoPagesFactRun"]">
+            <ChildContent>
+                <OmniFactTileRow Term="@Text["DemoPagesFactStatus"]">
+                    <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
+                    <ChildContent><OmniBadge Tone="OmniTone.Success">@Text["DemoPagesFactSucceeded"]</OmniBadge></ChildContent>
+                </OmniFactTileRow>
+                <OmniFactTileRow Term="@Text["DemoPagesFactSteps"]">
+                    <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                    <ChildContent>5 / 5</ChildContent>
+                </OmniFactTileRow>
+            </ChildContent>
+        </OmniFactTile>
+        <OmniFactTile Id="demo-natural-timeline" Title="@Text["DemoPagesFactTimeline"]">
+            <ChildContent>
+                <OmniFactTileRow Term="@Text["DemoPagesFactStarted"]">
+                    <Icon><OmniIcon Name="OmniIconName.CalendarBlank" /></Icon>
+                    <ChildContent>2026-10-23 08:21:07Z</ChildContent>
+                </OmniFactTileRow>
+                <OmniFactTileRow Term="@Text["DemoPagesFactDuration"]">
+                    <Icon><OmniIcon Name="OmniIconName.Timer" /></Icon>
+                    <ChildContent>1h44min</ChildContent>
+                </OmniFactTileRow>
+            </ChildContent>
+        </OmniFactTile>
     </OmniTileGrid>
 
     @* Réglages : une carte par thème, chaque réglage dans son encadré, le contrôle sur sa ligne. *@

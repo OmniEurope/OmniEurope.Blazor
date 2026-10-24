@@ -624,6 +624,36 @@ public sealed partial class ShippedLookTests : OmniBunitContext
         Assert.Equal("var(--omni-field-gap)", Value(narrow, "row-gap"));
     }
 
+    [Fact]
+    public void FactTile_NarrowRow_IsAWrappingFlexLine_SoTheValueGoesDownOnlyWhenItDoesNotFitBesideTheLabel()
+    {
+        // The narrow tile (container query) decides row by row: icon, label and value are the items of a
+        // wrapping flex line. The break uses the hypothetical sizes, so the label may not exceed the room beside
+        // the icon and the value may not exceed the line, or a long label would push itself and its value down.
+        var row = Rules().Last(rule => rule.Selector == ".omni-fact-tile__row").Body;
+        Assert.Equal("flex", Value(row, "display"));
+        Assert.Equal("wrap", Value(row, "flex-wrap"));
+
+        var icon = Rules().Last(rule => rule.Selector == ".omni-fact-tile__icon").Body;
+        Assert.Equal("none", Value(icon, "flex"));
+
+        var label = Rules().Last(rule => rule.Selector == ".omni-fact-tile__label").Body;
+        Assert.Equal("0 1 auto", Value(label, "flex"));
+        Assert.Contains("100%", Value(label, "max-inline-size"), StringComparison.Ordinal);
+        Assert.Contains("--omni-fact-tile-icon-width", Value(label, "max-inline-size"), StringComparison.Ordinal);
+
+        var value = Rules().Last(rule => rule.Selector == ".omni-fact-tile__value").Body;
+        Assert.Equal("1 1 auto", Value(value, "flex"));
+        Assert.Equal("100%", Value(value, "max-inline-size"));
+        Assert.Equal("end", Value(value, "text-align"));
+
+        // The wide mode keeps its shared tracks: the base row is still a subgrid of the rows block (the same
+        // tracks again, declared first, where subgrid is missing).
+        var baseRow = Rules().First(rule => rule.Selector == ".omni-fact-tile__row").Body;
+        Assert.Equal("grid", Value(baseRow, "display"));
+        Assert.Contains("grid-template-columns: subgrid", baseRow, StringComparison.Ordinal);
+    }
+
     // ---- helpers ----
 
     internal static IEnumerable<(string Selector, string Body)> Rules() =>

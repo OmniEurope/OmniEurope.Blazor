@@ -272,15 +272,19 @@ export async function requestSteps(session, results) {
       inside(tile.querySelector('.omni-fact-tile__title'), 'le titre');
       for (const row of tile.querySelectorAll('.omni-fact-tile__row')) {
         inside(row, 'une ligne');
+        // In a narrow tile (a wrapping flex line) the value starts after the label or under the icon, row by
+        // row: only the icons and the labels keep a common vertical there.
+        const narrowRow = getComputedStyle(row).display === 'flex';
         for (const name of ['icon', 'label', 'value']) {
           const cell = row.querySelector('.omni-fact-tile__' + name);
           inside(cell, 'la cellule ' + name);
+          if (name === 'value' && narrowRow) continue;
           columns[name].push({ offset: cell.getBoundingClientRect().left - frame.left, tile: tile.id });
         }
       }
     }
     for (const [name, cells] of Object.entries(columns)) {
-      if (cells.length < 6 || !cells.every(cell => near(cell.offset, cells[0].offset))) problems.push('les cellules ' + name + ' ne sont pas sur une même verticale : ' + cells.map(cell => cell.offset.toFixed(1)).join(' / '));
+      if (cells.length < (name === 'value' ? 0 : 6) || !cells.every(cell => near(cell.offset, cells[0].offset))) problems.push('les cellules ' + name + ' ne sont pas sur une même verticale : ' + cells.map(cell => cell.offset.toFixed(1)).join(' / '));
     }
     const cut = [...grid.querySelectorAll('.omni-fact-tile__value')].filter(value => value.scrollWidth > value.clientWidth + 1).length;
     return JSON.stringify({ problems, cut, heights, columns: Object.fromEntries(Object.entries(columns).map(([name, cells]) => [name, cells.map(cell => Math.round(cell.offset * 10) / 10)])) });
@@ -322,8 +326,9 @@ export async function requestSteps(session, results) {
 
   // 7c. The fact tile in a narrow tile (PLAN-004 lot L, request of 2026-10-23): four tiles on one row of a tile
   // grid (Columns 4) hold a label of 16 characters and a value of 20, and a tile of a quarter of 900 px is too
-  // narrow for the three aligned columns to leave the value its room. The rows then go on two levels (the
-  // label above the value, a container query on the tile, never the viewport) and nothing is cut, no ellipsis
+  // narrow for the three aligned columns to leave the value its room. Each row then decides by itself (a
+  // wrapping flex line, a container query on the tile, never the viewport): the value goes under the label
+  // only when it does not fit beside it, the short rows stay on one line, and nothing is cut, no ellipsis
   // active, label or value. The window is widened until the grid itself is 900 px wide (the showcase shell
   // keeps a sidebar and a side panel, so that is wider than 900 px of window, and below 1024 px of window the
   // tile grid has two columns). At 1280 px the tile is narrower still and the value, on its own line, still
@@ -335,7 +340,7 @@ export async function requestSteps(session, results) {
     const problems = [];
     const near = (a, b) => Math.abs(a - b) <= 1;
     const columns = getComputedStyle(grid).gridTemplateColumns.split(' ').length;
-    const offsets = { icon: [], label: [], value: [] };
+    const offsets = { icon: [], label: [], 'bord de fin de la valeur': [] };
     let twoLevels = 0;
     for (const tile of tiles) {
       const frame = tile.getBoundingClientRect();
@@ -344,8 +349,14 @@ export async function requestSteps(session, results) {
       }
       for (const row of tile.querySelectorAll('.omni-fact-tile__row')) {
         const cells = Object.fromEntries(['icon', 'label', 'value'].map(name => [name, row.querySelector('.omni-fact-tile__' + name)]));
-        for (const name of ['icon', 'label', 'value']) offsets[name].push(cells[name].getBoundingClientRect().left - frame.left);
-        if (cells.value.getBoundingClientRect().top >= cells.label.getBoundingClientRect().bottom - 1) twoLevels++;
+        // Icons and labels share a vertical; the value always ends at the row's end edge, and a value on a
+        // line of its own starts at the icon's edge (one line: after the label, wherever that ends).
+        for (const name of ['icon', 'label']) offsets[name].push(cells[name].getBoundingClientRect().left - frame.left);
+        offsets['bord de fin de la valeur'].push(frame.right - cells.value.getBoundingClientRect().right);
+        if (cells.value.getBoundingClientRect().top >= cells.label.getBoundingClientRect().bottom - 1) {
+          twoLevels++;
+          if (!near(cells.value.getBoundingClientRect().left, cells.icon.getBoundingClientRect().left)) problems.push('la valeur sur sa propre ligne ne commence pas au bord de l\\'icône dans ' + tile.id);
+        }
       }
       for (const name of ['label', 'value']) {
         const cell = tile.querySelector('.omni-fact-tile__' + name);
@@ -369,7 +380,9 @@ export async function requestSteps(session, results) {
   const atNinehundred = JSON.parse(await evaluate(narrowGrid));
   check(atNinehundred.columns === 4 && atNinehundred.tiles === 4, `La grille de tuiles étroites n'a pas quatre colonnes de quatre tuiles : ${JSON.stringify(atNinehundred)}`);
   check(atNinehundred.problems.length === 0, `Tuiles de faits étroites (grille de ${atNinehundred.gridWidth} px, fenêtre de ${windowWidth} px, tuile de ${atNinehundred.tileWidth} px) : ${atNinehundred.problems.join(' | ')}`);
-  check(atNinehundred.twoLevels === atNinehundred.rows, `Les lignes ne sont pas sur deux niveaux dans une tuile de ${atNinehundred.tileWidth} px : ${atNinehundred.twoLevels} sur ${atNinehundred.rows}.`);
+  // Row by row: the first row of every tile (a label of 16 characters, a value of 20) goes on two levels, and
+  // the short rows that fit beside their label stay on one line.
+  check(atNinehundred.twoLevels >= atNinehundred.tiles && atNinehundred.twoLevels < atNinehundred.rows, `Les lignes ne se décident pas une à une dans une tuile de ${atNinehundred.tileWidth} px : ${atNinehundred.twoLevels} sur deux niveaux, sur ${atNinehundred.rows} (au moins une par tuile, mais pas toutes).`);
   await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
   await pause(300);
   const atWindow1280 = JSON.parse(await evaluate(narrowGrid));
@@ -381,7 +394,44 @@ export async function requestSteps(session, results) {
   check(atPhone.columns === 1 && atPhone.twoLevels === 0, `Dans une tuile large (${atPhone.tileWidth} px) les lignes doivent rester sur un niveau, trois colonnes : ${JSON.stringify(atPhone)}`);
   await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
   await pause(300);
-  step(`tuiles de faits étroites : quatre tuiles sur une grille de 900 px (fenêtre de ${windowWidth} px), libellé de 16 et valeur de 20 caractères entiers sur deux niveaux, sans points de suspension ; trois colonnes gardées dans une tuile large`);
+  step(`tuiles de faits étroites : quatre tuiles sur une grille de 900 px (fenêtre de ${windowWidth} px), libellé de 16 et valeur de 20 caractères entiers sur deux niveaux, lignes courtes sur un seul niveau, sans points de suspension ; trois colonnes gardées dans une tuile large`);
+
+  // 7c-bis. OmniTileGrid.EqualHeights="false" (request of 2026-10-24): a grid of fact tiles of 4, 1, 2 and 2 rows
+  // keeps the widths and columns of the grid but not the equal heights: each tile has the height of its content
+  // (the one-row tile is shorter than the four-row one), aligned to the top of its row, and the row of a long
+  // label ("Durée de l'étape", 16 characters) with a short value ("2") stays on one line in the narrow tile.
+  // The window is widened until the grid is 900 px wide, as above.
+  await session.visit('/composants/mise-en-page', '#demo-tile-grid-natural');
+  for (let width = 1000; width <= 1800; width += 5) {
+    await send('Emulation.setDeviceMetricsOverride', { width, height: 900, deviceScaleFactor: 1, mobile: false });
+    await pause(60);
+    if (await evaluate("document.getElementById('demo-tile-grid-natural').getBoundingClientRect().width >= 900")) break;
+  }
+  await pause(300);
+  const naturalGrid = JSON.parse(await evaluate(`(() => {
+    const grid = document.getElementById('demo-tile-grid-natural');
+    const tiles = [...grid.children].map(tile => tile.getBoundingClientRect());
+    const short = document.querySelector('#demo-natural-short .omni-fact-tile__row');
+    const label = short.querySelector('.omni-fact-tile__label').getBoundingClientRect();
+    const value = short.querySelector('.omni-fact-tile__value').getBoundingClientRect();
+    return JSON.stringify({
+      columns: getComputedStyle(grid).gridTemplateColumns.split(' ').length,
+      rows: getComputedStyle(grid).gridAutoRows,
+      heights: tiles.map(box => Math.round(box.height)),
+      tops: tiles.map(box => Math.round(box.top)),
+      widths: tiles.map(box => Math.round(box.width)),
+      shortOnOneLine: value.top < label.bottom - 1,
+      shortCut: short.scrollWidth > short.clientWidth + 1
+    });
+  })()`));
+  check(naturalGrid.columns === 4 && naturalGrid.rows === 'auto', `La grille à hauteurs naturelles n'a pas quatre colonnes ni de rangées automatiques : ${JSON.stringify(naturalGrid)}`);
+  check(naturalGrid.heights[0] > naturalGrid.heights[1] + 1, `Les tuiles de faits gardent la même hauteur avec EqualHeights="false" : ${naturalGrid.heights.join(' / ')}`);
+  check(naturalGrid.tops.every(top => top === naturalGrid.tops[0]), `Les tuiles ne sont pas alignées en haut de leur rangée : ${naturalGrid.tops.join(' / ')}`);
+  check(naturalGrid.widths.every(width => Math.abs(width - naturalGrid.widths[0]) <= 1), `Les largeurs ne sont plus égales : ${naturalGrid.widths.join(' / ')}`);
+  check(naturalGrid.shortOnOneLine && !naturalGrid.shortCut, `Le libellé long et la valeur courte ne tiennent pas sur une ligne : ${JSON.stringify(naturalGrid)}`);
+  await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
+  await pause(300);
+  step('grille de tuiles à hauteurs naturelles : la tuile courte plus basse que la longue, alignées en haut, largeurs égales, libellé long et valeur courte sur une ligne');
 
   // 7d. Columns sized to their content (PLAN-004 lot M, request of 2026-10-23): a grid with
   // ColumnSizing Content, a name, a status badge, a number, a project and a date, each column with the width of

@@ -3,7 +3,8 @@
 
 @* One fact of a fact tile: three cells in a fixed order (icon, label, value), the same three tracks as every
    other row of the tile, so the icons, the labels and the values line up from one row to the next. The icon
-   cell is drawn even without an icon, or the label would slide into its track. A value that is a link is an
+   cell is drawn even without an icon, or the label would slide into its track (in a narrow tile the three
+   cells are the items of a wrapping line instead, see 10-editors-settings.css). A value that is a link is an
    OmniLink; everything else is a span, valid inside the button or the link the whole tile may be. *@
 <span @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-fact-tile__row")">
     <span class="omni-fact-tile__icon" aria-hidden="true">@Icon</span>

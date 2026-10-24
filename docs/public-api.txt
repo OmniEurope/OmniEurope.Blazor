@@ -3794,6 +3794,7 @@ property public OmniEurope.Blazor.Components.OmniThemeScope.Preset : OmniEurope.
 property public OmniEurope.Blazor.Components.OmniThemeScope.SnapshotKey : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTileGrid.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniTileGrid.Columns : System.Int32 {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniTileGrid.EqualHeights : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTileGrid.Gap : OmniEurope.Blazor.Components.OmniSpacing {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTimePicker.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTimePicker.Disabled : System.Boolean {get(public);set(public)} [Parameter]

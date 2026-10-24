@@ -199,23 +199,29 @@
 .omni-card--action:hover { background: color-mix(in srgb, var(--omni-color-text) 6%, var(--omni-card-background, var(--omni-color-surface))); }
 .omni-stat-tile--action:focus-visible,
 .omni-card--action:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
-/* A fact tile (OmniFactTile): a title, then rows of icon, label and value. The three columns are fixed
-   tracks (the icon, a label width read from --omni-fact-tile-label-width, the value takes the rest), the
-   same for every row, so the icons, the labels and the values line up from one row to the next; being
-   in rem, they line up from one tile to the next in a tile grid and scale with the text size like the
-   labels they hold. The label track never takes more than 40% of the rows, so a large text size does not
-   push them out of a narrow tile. The height of a row follows the density, like a control. A host sets
-   --omni-fact-tile-label-width (or the icon width) once on the grid to change them for every tile. Each row
-   is a subgrid of the rows block (the same tracks again where subgrid is missing). The label and the value
-   stay on one line, cut by an ellipsis; the package tooltip (omni-tooltip.js) reads them whole. A badge in a
-   value is drawn small. The rows block scrolls when the tile is too tall; a clickable tile clips it instead,
-   a scrolling region inside a link or a button being a nested focus stop. In a narrow tile (the tile is a size
-   container, so this follows the tile, never the viewport: four tiles on a row of a tile grid) the label column
-   would eat what the value needs: each row then goes on two levels, the icon and the label on the first line,
-   the value on the second from the icon's edge, still the same verticals from one row and one tile to the next.
-   The breakpoint, 18rem of tile content, leaves the value track 9.25rem once the icon, the label track and the
-   gaps (8.75rem) are taken: a value of twenty digits and capitals measures 8.4rem. In rem, it follows the text
-   size like the tracks. Ellipsis stays the last resort for a value too long even for its own line. */
+/* A fact tile (OmniFactTile): a title, then rows of icon, label and value. In a wide tile (18rem of content or
+   more) the three columns are fixed tracks (the icon, a label width read from --omni-fact-tile-label-width,
+   the value takes the rest), the same for every row, so the icons, the labels and the values line up from one
+   row to the next; being in rem, they line up from one tile to the next in a tile grid and scale with the text
+   size like the labels they hold. The label track never takes more than 40% of the rows, so a large text size
+   does not push them out of a narrow tile, and a label longer than its track is cut (a host widens it once with
+   --omni-fact-tile-label-width, or the icon width with --omni-fact-tile-icon-width, on the grid). The height of
+   a row follows the density, like a control. Each row is a subgrid of the rows block (the same tracks again
+   where subgrid is missing). The label and the value stay on one line, cut by an ellipsis; the package tooltip
+   (omni-tooltip.js) reads them whole. A badge in a value is drawn small. The rows block scrolls when the tile is
+   too tall; a clickable tile clips it instead, a scrolling region inside a link or a button being a nested focus
+   stop.
+   In a narrow tile (under 18rem of content; the tile is a size container, so this follows the tile, never the
+   viewport: four tiles on a row of a tile grid) the shared label track would eat what the value needs, so the
+   rows leave it and each row is a wrapping flex line, decided row by row: the icon (its fixed width), the label
+   (its own width) and the value (all the room left, its text at the end edge) share one line whenever the three
+   fit, even a long label with a short value; when they do not, the value breaks to a second line of its own, at
+   the icon's edge, as wide as the row. Flex breaks a line on the hypothetical size of its items, here the full
+   one-line width of the label (never more than the room beside the icon) and of the value (never more than the
+   row), so the value moves down whole before it is ever squeezed, and is cut by an ellipsis only when it is wider
+   than a whole line. Only the icons and the starts of the labels keep common verticals there, the value
+   column being the end edge. The breakpoint is in rem, so it follows the text size, and it does not follow
+   --omni-fact-tile-label-width. */
 .omni-fact-tile { background: var(--omni-card-background, var(--omni-color-surface)); block-size: 100%; border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-sizing: border-box; color: var(--omni-color-text); container-type: inline-size; display: flex; flex-direction: column; font: inherit; gap: var(--omni-space-sm); inline-size: 100%; margin: 0; min-inline-size: 0; padding: var(--omni-tile-pad-y) 0.875rem; text-align: start; text-decoration: none; }
 .omni-fact-tile__title { align-items: center; display: flex; flex: none; font-weight: 600; gap: var(--omni-space-xs); min-inline-size: 0; }
 .omni-fact-tile--title-start > .omni-fact-tile__title { justify-content: flex-start; text-align: start; }
@@ -233,12 +239,13 @@
 /* The value clips what it holds, so a focus ring drawn outside a link in it would be cut: it is drawn inside. */
 .omni-fact-tile__value :focus-visible { box-shadow: var(--omni-focus-ring-inset); }
 @container (width < 18rem) {
-    .omni-fact-tile__rows { --omni-fact-tile-columns: var(--omni-fact-tile-icon-width, 1.25rem) minmax(0, 1fr); row-gap: var(--omni-space-sm); }
-    /* The label sits over its value as a field label over its control: the gap between them follows the density. */
-    .omni-fact-tile__row { align-items: start; min-block-size: 0; row-gap: var(--omni-field-gap); }
-    .omni-fact-tile__icon { grid-column: 1; grid-row: 1; }
-    .omni-fact-tile__label { align-self: center; grid-column: 2; grid-row: 1; }
-    .omni-fact-tile__value { grid-column: 1 / -1; grid-row: 2; }
+    .omni-fact-tile__rows { --omni-fact-tile-columns: minmax(0, 1fr); row-gap: var(--omni-space-sm); }
+    /* A row is a flex line that wraps: the value goes to a line of its own only when it does not fit beside the
+       label. The gap between the two levels follows the density, as the gap between a field label and its control. */
+    .omni-fact-tile__row { column-gap: var(--omni-space-sm); display: flex; flex-wrap: wrap; row-gap: var(--omni-field-gap); }
+    .omni-fact-tile__icon { flex: none; inline-size: var(--omni-fact-tile-icon-width, 1.25rem); }
+    .omni-fact-tile__label { flex: 0 1 auto; max-inline-size: calc(100% - var(--omni-fact-tile-icon-width, 1.25rem) - var(--omni-space-sm)); }
+    .omni-fact-tile__value { flex: 1 1 auto; max-inline-size: 100%; text-align: end; }
 }
 .omni-fact-tile--action { cursor: pointer; transition: background-color var(--omni-duration-fast) ease; }
 .omni-fact-tile--action:hover { background: color-mix(in srgb, var(--omni-color-text) 6%, var(--omni-card-background, var(--omni-color-surface))); }

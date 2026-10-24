@@ -219,6 +219,53 @@ public sealed class TileRuleAndBadgeWidthTests : OmniBunitContext
     }
 
     [Fact]
+    public void ATileGrid_HasEqualHeightsByDefault_AndEmitsNoNaturalHeightsClass()
+    {
+        var grid = Render<OmniTileGrid>(parameters => parameters.AddChildContent("<div>a</div>"));
+
+        Assert.True(grid.Instance.EqualHeights);
+        Assert.DoesNotContain("omni-tile-grid--natural-heights", grid.Find(".omni-tile-grid").ClassName, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void ATileGridWithEqualHeightsOff_EmitsTheNaturalHeightsClass_AndKeepsItsColumnsAndGap()
+    {
+        var grid = Render<OmniTileGrid>(parameters => parameters
+            .Add(component => component.EqualHeights, false)
+            .Add(component => component.Columns, 3)
+            .AddChildContent("<div>a</div>"));
+
+        var element = grid.Find(".omni-tile-grid");
+        Assert.Contains("omni-tile-grid--natural-heights", element.ClassList);
+        Assert.Contains("omni-tile-grid--columns-3", element.ClassList);
+        Assert.Contains("omni-tile-grid--gap-md", element.ClassList);
+        Assert.False(element.HasAttribute("style"));
+
+        grid.Render(parameters => parameters.Add(component => component.EqualHeights, true));
+        Assert.DoesNotContain("omni-tile-grid--natural-heights", grid.Find(".omni-tile-grid").ClassName, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void TheNaturalHeightsRule_LetsRowsAndTilesTakeTheirOwnHeight_AndFollowsTheEqualHeightsRule()
+    {
+        var css = ShippedLookTests.Css;
+        var grid = ShippedLookTests.Body(".omni-tile-grid--natural-heights");
+        Assert.Equal("auto", ShippedLookTests.Value(grid, "grid-auto-rows"));
+        Assert.Equal("start", ShippedLookTests.Value(grid, "align-items"));
+
+        var tiles = ShippedLookTests.Body(".omni-tile-grid--natural-heights > :is(.omni-card, .omni-selectable-card, .omni-stat-tile, .omni-fact-tile, .omni-nav-tile)");
+        Assert.Equal("auto", ShippedLookTests.Value(tiles, "block-size"));
+
+        // Same specificity as the equal-heights rules: the natural-heights ones must come after to win.
+        Assert.True(
+            css.IndexOf(".omni-tile-grid--natural-heights {", StringComparison.Ordinal) > css.IndexOf(".omni-tile-grid {", StringComparison.Ordinal),
+            "The natural heights rule must follow the base grid rule.");
+        Assert.True(
+            css.IndexOf(".omni-tile-grid--natural-heights > :is(", StringComparison.Ordinal) > css.IndexOf(".omni-tile-grid > :is(", StringComparison.Ordinal),
+            "The natural heights tile rule must follow the equal heights tile rule.");
+    }
+
+    [Fact]
     public void TheTileRule_NeverLetsAContentSpill()
     {
         var tiles = ShippedLookTests.Body(".omni-tile-grid > :is(.omni-card, .omni-selectable-card, .omni-stat-tile, .omni-fact-tile, .omni-nav-tile)");

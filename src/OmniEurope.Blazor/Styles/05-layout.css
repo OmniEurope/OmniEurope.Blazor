@@ -45,7 +45,10 @@
    omni-tile--double (DoubleWidth) spans two columns. Nothing spills: a tile can shrink under its content
    (min-inline-size: 0), its words wrap inside, and the body of a card scrolls. Columns follow the
    breakpoints of OmniColumn: one column, at most two from 40rem, all of them from 64rem. A double tile
-   spans two columns only where the grid has them, so it never opens an implicit column. */
+   spans two columns only where the grid has them, so it never opens an implicit column. With
+   EqualHeights="false" (omni-tile-grid--natural-heights) the rows are auto and the tiles stay as tall as
+   their own content, aligned to the top of their row: each row is as tall as its tallest tile only, and a
+   short tile is not stretched to a tall neighbour. The widths and the columns do not change. */
 .omni-tile-grid { --omni-tile-columns: 4; --omni-tile-columns-sm: 2; display: grid; gap: var(--omni-space-md); grid-auto-rows: 1fr; grid-template-columns: minmax(0, 1fr); min-inline-size: 0; }
 .omni-tile-grid--gap-none { gap: 0; }
 .omni-tile-grid--gap-xs { gap: var(--omni-space-xs); }
@@ -60,6 +63,8 @@
 .omni-tile-grid--columns-5 { --omni-tile-columns: 5; --omni-tile-columns-sm: 2; }
 .omni-tile-grid--columns-6 { --omni-tile-columns: 6; --omni-tile-columns-sm: 2; }
 .omni-tile-grid > :is(.omni-card, .omni-selectable-card, .omni-stat-tile, .omni-fact-tile, .omni-nav-tile) { block-size: 100%; box-sizing: border-box; min-block-size: 0; min-inline-size: 0; }
+.omni-tile-grid--natural-heights { align-items: start; grid-auto-rows: auto; }
+.omni-tile-grid--natural-heights > :is(.omni-card, .omni-selectable-card, .omni-stat-tile, .omni-fact-tile, .omni-nav-tile) { block-size: auto; }
 .omni-tile-grid > .omni-card { display: flex; flex-direction: column; }
 .omni-tile-grid > .omni-card > .omni-card__body { flex: 1 1 auto; min-block-size: 0; overflow: auto; }
 /* A clickable card clips its body instead: a scrolling region inside a link or a button is a nested focus stop. */

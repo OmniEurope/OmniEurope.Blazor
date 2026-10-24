@@ -169,9 +169,10 @@
         </OmniFactTile>
     </OmniTileGrid>
 
-    @* Quatre tuiles de faits sur une même rangée (Columns="4") : chacune est étroite, donc ses lignes passent sur
-       deux niveaux, le libellé au-dessus de la valeur, et un libellé de 16 caractères comme une valeur de 20
-       caractères s'affichent en entier, sans points de suspension. *@
+    @* Quatre tuiles de faits sur une même rangée (Columns="4") : chacune est étroite, donc chaque ligne décide
+       seule : libellé et valeur sur une même ligne quand ils tiennent ensemble (les secondes lignes), la valeur
+       sous le libellé sinon (les premières lignes : un libellé de 16 caractères et une valeur de 20 s'affichent
+       en entier, sans points de suspension). *@
     <OmniTileGrid Id="demo-fact-tile-narrow-grid" Columns="4">
         <OmniFactTile Id="demo-fact-tile-narrow-source" Title="@Text["DemoPagesFactSource"]">
             <ChildContent>

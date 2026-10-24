@@ -5,7 +5,10 @@ namespace OmniEurope.Blazor.Components;
 /// <summary>
 /// A tile of facts about one thing (a run's source, its status and timing): a title, then rows of icon, label
 /// and value that line up, from one row to the next and from one tile to the next in an <see cref="OmniTileGrid"/>
-/// (the icon and the label columns have a width of their own, the value takes the rest). Sibling of
+/// (the icon and the label columns have a width of their own, the value takes the rest). In a tile narrower than
+/// 18rem of content (four tiles on a row of a tile grid) a row leaves those columns and puts its term and its value on one
+/// line whenever they fit together; only a row whose value does not fit beside its term puts the value on a second
+/// line, row by row. Sibling of
 /// <see cref="OmniStatTile"/>: given <see cref="OnClick"/>, the whole tile becomes one button; given
 /// <see cref="Href"/>, one link; either keeps the tile's place in the grid (same size as its neighbours,
 /// <see cref="DoubleWidth"/> honoured). A row's label and value stay on one line, cut with an ellipsis and read whole

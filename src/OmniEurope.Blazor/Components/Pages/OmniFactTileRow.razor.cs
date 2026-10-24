@@ -2,8 +2,9 @@ namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// One fact of an <see cref="OmniFactTile"/>: an icon, a term and a value, in three columns that every
-/// row of the tile (and every tile of an <see cref="OmniTileGrid"/>) shares. The value is the content; given
-/// <see cref="Href"/>, it is a link.
+/// row of the tile (and every tile of an <see cref="OmniTileGrid"/>) shares. In a tile narrower than 18rem of
+/// content the row is a wrapping line instead: term and value stay on one line when they fit together, the value
+/// goes to a line of its own when they do not. The value is the content; given <see cref="Href"/>, it is a link.
 /// </summary>
 public partial class OmniFactTileRow
 {
@@ -14,13 +15,13 @@ public partial class OmniFactTileRow
     [Parameter]
     public RenderFragment? Icon { get; set; }
 
-    /// <summary>The term: what the fact is ("Branch"), like <see cref="OmniDescriptionItem.Term"/>. One line: a term wider than its column is cut with an ellipsis and its whole text is in the tooltip.</summary>
+    /// <summary>The term: what the fact is ("Branch"), like <see cref="OmniDescriptionItem.Term"/>. One line: a term wider than its column (or, in a narrow tile, than its line) is cut with an ellipsis and its whole text is in the tooltip.</summary>
     [Parameter, EditorRequired]
     public string Term { get; set; } = string.Empty;
 
     /// <summary>
-    /// The value: text, a link, a badge. One line: a value wider than its column is cut with an ellipsis and its whole text
-    /// is in the tooltip. An <see cref="OmniBadge"/> in it is drawn small. Never put an interactive element in it when the
+    /// The value: text, a link, a badge. One line: a value wider than its column (or, in a narrow tile, than a whole line of
+    /// the tile) is cut with an ellipsis and its whole text is in the tooltip. An <see cref="OmniBadge"/> in it is drawn small. Never put an interactive element in it when the
     /// tile is a link or a button.
     /// </summary>
     [Parameter]
