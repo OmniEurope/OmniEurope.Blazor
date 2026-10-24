@@ -124,6 +124,25 @@ Choix de conception :
 - **Seul** : un `OmniAccordionItem` hors d'un `OmniAccordion` est une simple zone dépliable qui s'ouvre et se ferme seule.
 - **Limites** : en mode une ligne à la fois, des lignes ouvertes ensemble par `Expanded` au départ sont affichées telles quelles ; le rôle `region` multiplie les repères pour un lecteur d'écran, au-delà de six lignes ouvertes ensemble l'APG conseille de s'en passer.
 
+## Corps de page : l'espacement entre les blocs
+
+Les blocs frères d'une page (en-tête de page, alertes, cartes, grilles de tuiles, grilles de données, onglets)
+sont séparés par le conteneur, jamais par une marge posée sur chaque bloc : le corps de la page est un
+`OmniStack` sans paramètre, vertical et à `Gap` `Medium` (`--omni-space-md`, qui suit la densité). Aucune racine
+de bloc du paquet ne porte de marge extérieure ; la seule, celle de `OmniPageHeader` (`--omni-space-lg` sous
+lui hors d'une pile), est annulée dans un `OmniStack`, si bien que chaque écart entre deux blocs frères vaut le
+même jeton, de l'en-tête au dernier bloc. Une section qui demande plus d'air est un `OmniStack` imbriqué ou un
+`Gap` plus grand sur la pile, pas une marge.
+
+```razor
+<OmniStack>
+    <OmniPageHeader Title="Exécution 2" />
+    <OmniAlert Severity="OmniSeverity.Info">…</OmniAlert>
+    <OmniTileGrid Columns="4">…</OmniTileGrid>
+    <OmniDataGrid … FillAvailableHeight="true" />
+</OmniStack>
+```
+
 ## Séparateur
 
 `OmniDivider` dessine un filet fin entre deux blocs distincts, typiquement entre les enfants d'un `OmniStack` : le récapitulatif d'un assistant sépare ainsi le projet, l'architecture, les pipelines et ce qui reste à faire avant la création.
