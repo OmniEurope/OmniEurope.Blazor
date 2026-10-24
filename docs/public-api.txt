@@ -1327,6 +1327,7 @@ method protected override OmniEurope.Blazor.Components.OmniThemeScope.OnAfterRen
 method protected override OmniEurope.Blazor.Components.OmniThemeScope.OnInitializedAsync() : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniThemeScope.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniTileGrid.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniTileGrid.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniTileGrid.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniTimePicker.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniTimePicker.Dispose(System.Boolean disposing) : System.Void
@@ -1742,6 +1743,7 @@ method public OmniEurope.Blazor.Components.OmniThemePreset.Equals(OmniEurope.Bla
 method public OmniEurope.Blazor.Components.OmniThemePreset.For(OmniEurope.Blazor.Components.OmniAppearance mode) : System.Collections.Generic.IReadOnlyDictionary<System.String,System.String>
 method public OmniEurope.Blazor.Components.OmniThemePreset.With(OmniEurope.Blazor.Components.OmniThemePalette palette) : OmniEurope.Blazor.Components.OmniThemePreset
 method public OmniEurope.Blazor.Components.OmniThemeScope.DisposeAsync() : System.Threading.Tasks.ValueTask
+method public OmniEurope.Blazor.Components.OmniTileGrid.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniTitleTooltips.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniTree<TValue>.CollapseAllAsync() : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniTree<TValue>.DisposeAsync() : System.Threading.Tasks.ValueTask
@@ -3796,6 +3798,7 @@ property public OmniEurope.Blazor.Components.OmniTileGrid.ChildContent : Microso
 property public OmniEurope.Blazor.Components.OmniTileGrid.Columns : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTileGrid.EqualHeights : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTileGrid.Gap : OmniEurope.Blazor.Components.OmniSpacing {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniTileGrid.MinColumnWidth : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTimePicker.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTimePicker.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTimePicker.Maximum : System.TimeOnly? {get(public);set(public)} [Parameter]
@@ -4323,7 +4326,7 @@ type public OmniEurope.Blazor.Components.OmniThemePalettes [static-class, static
 type public OmniEurope.Blazor.Components.OmniThemePreset [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniThemePreset>
 type public OmniEurope.Blazor.Components.OmniThemePresets [static-class, static]
 type public OmniEurope.Blazor.Components.OmniThemeScope [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
-type public OmniEurope.Blazor.Components.OmniTileGrid [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
+type public OmniEurope.Blazor.Components.OmniTileGrid [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniTimePicker [class] : OmniEurope.Blazor.Components.OmniInputBase<System.TimeOnly?>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniTimeline [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniTimelineItem [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent

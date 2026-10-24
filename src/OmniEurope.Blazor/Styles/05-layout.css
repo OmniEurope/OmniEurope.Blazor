@@ -49,13 +49,13 @@
    EqualHeights="false" (omni-tile-grid--natural-heights) the rows are auto and the tiles stay as tall as
    their own content, aligned to the top of their row: each row is as tall as its tallest tile only, and a
    short tile is not stretched to a tall neighbour. The widths and the columns do not change. */
-.omni-tile-grid { --omni-tile-columns: 4; --omni-tile-columns-sm: 2; display: grid; gap: var(--omni-space-md); grid-auto-rows: 1fr; grid-template-columns: minmax(0, 1fr); min-inline-size: 0; }
-.omni-tile-grid--gap-none { gap: 0; }
-.omni-tile-grid--gap-xs { gap: var(--omni-space-xs); }
-.omni-tile-grid--gap-sm { gap: var(--omni-space-sm); }
-.omni-tile-grid--gap-md { gap: var(--omni-space-md); }
-.omni-tile-grid--gap-lg { gap: var(--omni-space-lg); }
-.omni-tile-grid--gap-xl { gap: var(--omni-space-xl); }
+.omni-tile-grid { --omni-tile-columns: 4; --omni-tile-columns-sm: 2; --omni-tile-gap: var(--omni-space-md); display: grid; gap: var(--omni-space-md); grid-auto-rows: 1fr; grid-template-columns: minmax(0, 1fr); min-inline-size: 0; }
+.omni-tile-grid--gap-none { --omni-tile-gap: 0px; gap: 0; }
+.omni-tile-grid--gap-xs { --omni-tile-gap: var(--omni-space-xs); gap: var(--omni-space-xs); }
+.omni-tile-grid--gap-sm { --omni-tile-gap: var(--omni-space-sm); gap: var(--omni-space-sm); }
+.omni-tile-grid--gap-md { --omni-tile-gap: var(--omni-space-md); gap: var(--omni-space-md); }
+.omni-tile-grid--gap-lg { --omni-tile-gap: var(--omni-space-lg); gap: var(--omni-space-lg); }
+.omni-tile-grid--gap-xl { --omni-tile-gap: var(--omni-space-xl); gap: var(--omni-space-xl); }
 .omni-tile-grid--columns-1 { --omni-tile-columns: 1; --omni-tile-columns-sm: 1; }
 .omni-tile-grid--columns-2 { --omni-tile-columns: 2; --omni-tile-columns-sm: 2; }
 .omni-tile-grid--columns-3 { --omni-tile-columns: 3; --omni-tile-columns-sm: 2; }
@@ -77,6 +77,18 @@
     .omni-tile-grid { grid-template-columns: repeat(var(--omni-tile-columns), minmax(0, 1fr)); }
 }
 .omni-tile-grid--columns-1 > .omni-tile--double { grid-column: auto; }
+/* MinColumnWidth (omni-tile-grid--fluid): the count of columns follows the width of the grid, not the window.
+   The track is at least the length given (--omni-tile-min, written by omniInterop.js through the CSSOM; 100%
+   while it is missing, one column) and at least a Columns-th of the room left by the gaps, so auto-fill
+   makes the largest count that keeps each column wide enough, capped at Columns, at least one, and a
+   track never wider than the grid. The doubled specificity beats the two media rules above, whatever the
+   window. A double tile spans two columns only where the script has marked the grid
+   omni-tile-grid--multi-column (two tracks or more): in a grid of one column that span would open an implicit
+   column, where the next tile would land. The implicit tracks are 0 wide, which is how the script tells them
+   from the explicit ones. Without the script the double tile has the width of the others. */
+.omni-tile-grid.omni-tile-grid--fluid { grid-auto-columns: 0px; grid-template-columns: repeat(auto-fill, minmax(max(min(var(--omni-tile-min, 100%), 100%), calc((100% - (var(--omni-tile-columns) - 1) * var(--omni-tile-gap)) / var(--omni-tile-columns))), 1fr)); }
+.omni-tile-grid--fluid > .omni-tile--double { grid-column: auto; }
+.omni-tile-grid--fluid.omni-tile-grid--multi-column > .omni-tile--double { grid-column: span 2; }
 
 .omni-layout { --omni-sidebar-inset: calc(var(--omni-item-pad-y) + var(--omni-space-xs)); --omni-sidebar-rail: calc(2 * var(--omni-sidebar-inset) + 1.25rem); box-sizing: border-box; margin-inline: auto; width: 100%; }
 .omni-main { --omni-main-max-width: 100%; display: block; min-width: 0; }

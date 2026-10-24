@@ -217,6 +217,25 @@
         </OmniFactTile>
     </OmniTileGrid>
 
+    @* MinColumnWidth : le nombre de colonnes suit la largeur de la grille elle-même (pas celle de la fenêtre) :
+       le plus grand nombre qui garde chaque colonne à 18rem au moins, au plus Columns, une au minimum. À côté
+       d'un menu latéral, la grille a moins de colonnes, plus larges, au lieu de quatre tuiles étroites ; une
+       tuile DoubleWidth occupe deux colonnes là où la grille en a deux, sinon une seule. *@
+    <OmniTileGrid Id="demo-tile-grid-fluid" Columns="4" MinColumnWidth="18rem">
+        <OmniStatTile Value="@Text["DemoPagesTokensValue", 12.4]" Title="@Text["DemoPagesTokensToday"]">
+            <Icon><OmniIcon Name="OmniIconName.Database" /></Icon>
+        </OmniStatTile>
+        <OmniStatTile Value="@Text["DemoPagesTokensValue", 8.2]" Title="@Text["DemoPagesWeekly"]">
+            <Icon><OmniIcon Name="OmniIconName.CalendarCheck" /></Icon>
+        </OmniStatTile>
+        <OmniNavTile Href="composants/editeur" Title="@Text["DemoEditorTitle"]" Tone="OmniTone.Info" DoubleWidth="true">
+            <Icon><OmniIcon Name="OmniIconName.FileDoc" /></Icon>
+        </OmniNavTile>
+        <OmniStatTile Value="@Text["DemoPagesTokensValue", 3.6]" Title="@Text["DemoPagesGain"]">
+            <Icon><OmniIcon Name="OmniIconName.ChartLineUp" /></Icon>
+        </OmniStatTile>
+    </OmniTileGrid>
+
     @* Réglages : une carte par thème, chaque réglage dans son encadré, le contrôle sur sa ligne. *@
     <OmniSettingsSection Title="@Text["DemoLayoutNotifications"]" Description="@Text["DemoLayoutNotificationsText"]">
         <OmniSettingsTile Title="@Text["DemoLayoutEmailAlerts"]" Description="@Text["DemoLayoutEmailAlertsText"]">

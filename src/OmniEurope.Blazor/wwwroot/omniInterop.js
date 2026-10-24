@@ -173,3 +173,41 @@ export function applyChartMaxHeight(figure, maxHeight) {
         figure.style.removeProperty('--omni-chart-max-height');
     }
 }
+
+// OmniTileGrid.MinColumnWidth: the narrowest column of the grid, written as the custom property the
+// stylesheet reads (.omni-tile-grid--fluid), through the CSSOM rather than a style attribute, which a
+// strict CSP refuses. The grid is watched from then on: a double tile may span two columns only while the
+// grid has two, else the span would open an implicit one, so the grid is marked omni-tile-grid--multi-column
+// while it has two tracks or more and the stylesheet lets the double tile span only then. No value stops the
+// watch and gives the stylesheet columns back. Calling again with the same value measures again, which a new
+// class attribute (it drops the mark) or a new number of columns needs: neither resizes the grid.
+const tileGridWatchers = new WeakMap();
+
+// The implicit tracks of a fluid grid are 0 wide, so the tracks that are not are the explicit ones.
+function markColumns(grid) {
+    const widths = getComputedStyle(grid).gridTemplateColumns.split(/\s+/).map(parseFloat);
+    grid.classList.toggle('omni-tile-grid--multi-column', widths.filter(width => width > 0).length > 1);
+}
+
+export function applyTileGridMinWidth(grid, minWidth) {
+    if (!(grid instanceof HTMLElement)) {
+        return;
+    }
+
+    if (typeof minWidth !== 'string' || minWidth.trim().length === 0) {
+        tileGridWatchers.get(grid)?.disconnect();
+        tileGridWatchers.delete(grid);
+        grid.style.removeProperty('--omni-tile-min');
+        grid.classList.remove('omni-tile-grid--multi-column');
+        return;
+    }
+
+    grid.style.setProperty('--omni-tile-min', minWidth.trim());
+    if (!tileGridWatchers.has(grid) && typeof ResizeObserver === 'function') {
+        const observer = new ResizeObserver(() => markColumns(grid));
+        observer.observe(grid);
+        tileGridWatchers.set(grid, observer);
+    }
+
+    markColumns(grid);
+}
