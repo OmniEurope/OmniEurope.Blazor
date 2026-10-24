@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+## [1.9.1] - 2026-10-24
+
+Correctif qui porte des ajouts d'API publique, là où SemVer demanderait `1.10.0` (décision du propriétaire du 2026-10-24, voir [docs/versioning.md](docs/versioning.md)) : demandes d'une application cliente sur les tuiles, la grille et la synchronisation des préférences. Chaque ajout est sans effet tant qu'il n'est pas utilisé ; les changements de rendu par défaut sont listés sous « Changed ».
+
 ### Added
 
 - `OmniTileGrid.EqualHeights` (`bool`, `true`) : demande d'une application cliente. `true`, le défaut, ne change rien (chaque rangée prend la hauteur de la plus haute tuile de la grille, chaque tuile la remplit). `false` laisse chaque rangée à la hauteur de sa propre plus haute tuile (`grid-auto-rows: auto`) et chaque tuile à la hauteur de son contenu, alignée en haut de sa rangée (`align-items: start`, plus de `block-size: 100%` sur les tuiles) : une tuile de faits de deux lignes n'est plus étirée à la hauteur d'une voisine de huit. Largeurs et colonnes inchangées ; classe `omni-tile-grid--natural-heights`, aucun style en ligne. `OmniSelectableCardGroup.Columns` n'expose pas ce paramètre. Voir [docs/layout-components.md](docs/layout-components.md), « Règle des tuiles ».
