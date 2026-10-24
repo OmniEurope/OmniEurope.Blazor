@@ -94,7 +94,7 @@ public sealed class PreferenceSyncRateTests
     }
 
     [Fact]
-    public async Task FullPageLoadNavigationAndTabSwitches_StayWithinOneSynchronizationPerGap_AndAskTheStoreFewKeys()
+    public async Task FullPageLoadNavigationAndTabSwitches_LimitTheChangeFeed_ButEveryPageLoadReadsItsKeys()
     {
         // Every navigation is a new document: a new service instance, the browser cache is the only memory.
         SeedCache();
@@ -119,8 +119,8 @@ public sealed class PreferenceSyncRateTests
 
         await preferences.DisposeAsync();
 
-        // The first page asks the store for its four keys; the 30 pages that follow load within a gap of a synchronization.
-        Assert.InRange(_store.Reads, 4, 4);
+        // Every page load re-reads the four cached keys it reads (31 pages), whatever the gap: freshness after a reload.
+        Assert.Equal(124, _store.Reads);
         Assert.InRange(_store.ChangedSinceCalls.Count, 1, 11);
     }
 
@@ -242,21 +242,23 @@ public sealed class PreferenceSyncRateTests
     }
 
     [Fact]
-    public async Task AKeyFirstRead_SkipsTheStore_WhileTheCacheSynchronizedWithinTheGap_AndAsksItAfter()
+    public async Task AKeyFirstRead_AlwaysReachesTheStore_EvenRightAfterASynchronization()
     {
         SeedCache();
         await using var first = Open();
         await first.SyncAsync(Token);
         await first.GetAsync<string>("appearance", Token);
         await first.WhenIdleAsync();
-        Assert.Equal(0, _store.Reads);
-
-        _time.Advance(TimeSpan.FromSeconds(31));
-        await using var later = Open();
-        await later.GetAsync<string>("appearance", Token);
-        await later.WhenIdleAsync();
-
         Assert.Equal(1, _store.Reads);
+
+        // A reload within the gap: the new page re-reads the key too, and shows the store's newer value.
+        _store.Put("appearance", "\"stored\"", Start);
+        await using var reloaded = Open();
+        Assert.Equal("before", await reloaded.GetAsync<string>("appearance", Token));
+        await reloaded.WhenIdleAsync();
+
+        Assert.Equal(2, _store.Reads);
+        Assert.Equal("stored", await reloaded.GetAsync<string>("appearance", Token));
     }
 
     [Fact]

@@ -31,8 +31,8 @@ builder.Services.AddOmniEuropePreferences<EfPreferenceStore>(options =>
 `OmniPreferencesOptions.SyncInterval` vaut une minute par défaut. `Timeout.InfiniteTimeSpan` coupe la
 synchronisation périodique ; toute autre valeur doit être positive, sinon la construction du service lève
 `ArgumentOutOfRangeException`. `OmniPreferencesOptions.MinSyncGap` vaut 30 secondes par défaut : c'est le
-temps minimal entre deux synchronisations automatiques que ni la minuterie ni l'application n'ont demandées
-(retour sur l'onglet, première lecture d'une clé) ; `TimeSpan.Zero` supprime la limite, une valeur négative
+temps minimal entre deux synchronisations au retour sur l'onglet (la première lecture d'une clé n'est pas
+limitée) ; `TimeSpan.Zero` supprime la limite, une valeur négative
 lève `ArgumentOutOfRangeException`. Les dates des valeurs viennent du `TimeProvider` de l'hôte quand il en
 enregistre un, de l'horloge système sinon, toujours en UTC.
 
@@ -90,16 +90,17 @@ la page, sans erreur.
   l'onglet redevient visible (`visibilitychange`) et à la première lecture d'une clé que le cache tient déjà
   (relecture de cette clé seule). Une synchronisation déjà en cours n'est pas doublée : les déclencheurs
   simultanés se partagent celle qui court.
-- **Écart minimal (`MinSyncGap`).** Le retour sur l'onglet et la première lecture d'une clé ne synchronisent
-  pas quand la dernière synchronisation s'est terminée il y a moins de `MinSyncGap` (30 secondes par défaut).
-  L'instant est gardé dans le cache du navigateur : il vaut donc d'un chargement de page à l'autre et d'un
-  onglet à l'autre du même navigateur et du même utilisateur, si bien qu'une navigation par chargements de
-  page complets, ou dix bascules d'onglet en une minute, ne font pas dix appels à la base. Seule une
-  synchronisation réussie compte : après un échec, le déclencheur suivant réessaie. La minuterie
-  (`SyncInterval`) et `SyncAsync()` ne sont jamais limitées. Une clé que le cache ne tient pas (nouveau poste)
-  est toujours lue dans la base. Le prix de la limite : un changement fait sur un autre poste peut mettre
-  jusqu'à `MinSyncGap` de plus à arriver par ces deux déclencheurs ; la minuterie et `SyncAsync()` restent
-  les chemins pour le recevoir plus tôt.
+- **Écart minimal (`MinSyncGap`).** Seule la synchronisation du retour sur l'onglet est limitée : elle ne
+  s'exécute pas quand la dernière synchronisation s'est terminée il y a moins de `MinSyncGap` (30 secondes
+  par défaut). L'instant est gardé dans le cache du navigateur : il vaut donc d'un chargement de page à
+  l'autre et d'un onglet à l'autre du même navigateur et du même utilisateur, si bien que dix bascules
+  d'onglet en une minute ne font pas dix synchronisations. Seule une synchronisation réussie compte : après
+  un échec, le déclencheur suivant réessaie. Un chargement de page relit toujours dans la base chaque clé
+  du cache qu'il lit (une fois), même juste après une synchronisation : après un rechargement, la valeur de
+  la base l'emporte sur le cache. La minuterie (`SyncInterval`) et `SyncAsync()` ne sont jamais limitées.
+  Le prix de la limite : un changement fait sur un autre poste peut mettre jusqu'à `MinSyncGap` de plus à
+  arriver par le retour sur l'onglet ; la minuterie et `SyncAsync()` restent les chemins pour le recevoir
+  plus tôt.
 - **Autres onglets.** Un autre onglet du même navigateur qui écrit une préférence de la même portée est
   suivi par l'événement `storage` du navigateur : `Changed` est levé (`OtherTab`), sans appel à la base.
   Il l'est pour toute écriture de l'autre onglet sous la portée, même quand la valeur ne change pas
@@ -379,8 +380,8 @@ store.
   avaient changé des réglages différents de la même clé (l'apparence est une seule préférence). Les dates
   sont celles des postes qui écrivent (le serveur en Blazor Server, le navigateur en WebAssembly) : une
   horloge très en avance peut faire gagner une valeur plus ancienne.
-- Le cache suit la base au rythme de `SyncInterval`, au retour sur l'onglet et à la première lecture de
-  chaque clé (ces deux derniers au plus une fois par `MinSyncGap`), ou tout de suite sur `SyncAsync()` : un
+- Le cache suit la base au rythme de `SyncInterval`, au retour sur l'onglet (au plus une fois par
+  `MinSyncGap`) et à la première lecture de chaque clé (non limitée), ou tout de suite sur `SyncAsync()` : un
   changement fait sur un autre poste n'arrive pas instantanément.
 - Le paquet ne borne ni le nombre ni la taille des préférences, et ne purge pas les pierres tombales :
   c'est à la base de l'application d'en décider.

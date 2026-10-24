@@ -24,10 +24,11 @@ namespace OmniEurope.Blazor.Components;
 /// synchronization.
 /// </para>
 /// <para>
-/// The first-read and tab-visible synchronizations are limited: none runs when the cache (shared by the
+/// Only the tab-visible synchronization is limited: it does not run when the cache (shared by the
 /// page loads and the tabs of the same browser and user) synchronized less than
 /// <see cref="OmniPreferencesOptions.MinSyncGap"/> ago (thirty seconds by default), and concurrent
-/// triggers share the one synchronization under way. The periodic synchronization and
+/// triggers share the one synchronization under way. A page load still re-reads from the store each
+/// cached key it reads, once, so a reload shows the store's value. The periodic synchronization and
 /// <see cref="SyncAsync"/> are never limited: a host that learns of a change by its own signal (a SignalR
 /// hub, for instance) calls <see cref="SyncAsync"/> at once, and may set
 /// <see cref="OmniPreferencesOptions.SyncInterval"/> to <see cref="Timeout.InfiniteTimeSpan"/>.
@@ -481,12 +482,7 @@ public sealed class OmniPreferences : IAsyncDisposable
         await Task.Yield();
         await RunInBackgroundAsync(async token =>
         {
-            // A synchronization that just completed brought this key too: the store is not asked again.
-            if (await _sync!.SyncedWithinAsync(cache, _minSyncGap, token))
-            {
-                return;
-            }
-
+            // Never limited: a page load re-reads each cached key it reads once, so a reload shows the store's value.
             if (await _storeAccess!.TryGetAsync(key, token) is { } stored && await _sync!.ApplyStoredAsync(cache, key, stored, token) is { } change)
             {
                 await RaiseAsync(change);
