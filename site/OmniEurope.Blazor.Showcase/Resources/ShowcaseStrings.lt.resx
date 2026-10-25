@@ -1334,6 +1334,10 @@
   <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Konfigūracijos pavyzdys</value></data>
   <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Ištrauka, eilutės nuo {0} iki {1}</value></data>
   <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Palyginti dvi konfigūracijas</value></data>
+  <data name="DemoEditorCompareNavigationLabel" xml:space="preserve"><value>Palyginimas su naršymu tarp pakeitimų</value></data>
+  <data name="DemoEditorCompareFillLabel" xml:space="preserve"><value>Palyginimas, užpildantis savo konteinerį</value></data>
+  <data name="DemoEditorComparePrevious" xml:space="preserve"><value>Ankstesnis pakeitimas</value></data>
+  <data name="DemoEditorCompareNext" xml:space="preserve"><value>Kitas pakeitimas</value></data>
   <data name="DemoEditorSignatureText" xml:space="preserve"><value>Bylų skyrius</value></data>
   <data name="DemoEditorReferenceText" xml:space="preserve"><value>Nuoroda: {0}</value></data>
   <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Įterpti parašo bloką</value></data>

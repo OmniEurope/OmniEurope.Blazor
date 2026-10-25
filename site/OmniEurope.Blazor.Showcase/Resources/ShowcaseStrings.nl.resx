@@ -1334,6 +1334,10 @@
   <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Voorbeeldconfiguratie</value></data>
   <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Fragment, regels {0} tot {1}</value></data>
   <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Twee configuraties vergelijken</value></data>
+  <data name="DemoEditorCompareNavigationLabel" xml:space="preserve"><value>Vergelijking met navigatie tussen wijzigingen</value></data>
+  <data name="DemoEditorCompareFillLabel" xml:space="preserve"><value>Vergelijking die zijn container vult</value></data>
+  <data name="DemoEditorComparePrevious" xml:space="preserve"><value>Vorige wijziging</value></data>
+  <data name="DemoEditorCompareNext" xml:space="preserve"><value>Volgende wijziging</value></data>
   <data name="DemoEditorSignatureText" xml:space="preserve"><value>De afdeling dossiers</value></data>
   <data name="DemoEditorReferenceText" xml:space="preserve"><value>Referentie: {0}</value></data>
   <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Handtekeningblok invoegen</value></data>

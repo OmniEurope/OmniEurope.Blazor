@@ -665,6 +665,8 @@
   <data name="DiffViewerOriginal" xml:space="preserve"><value>Voor</value></data>
   <data name="DiffViewerModified" xml:space="preserve"><value>Na</value></data>
   <data name="DiffViewerUnavailable" xml:space="preserve"><value>De Monaco-editor kon niet worden geladen: beide versies worden als platte tekst getoond, zonder gemarkeerde verschillen.</value></data>
+  <data name="DiffViewerPreviousChange" xml:space="preserve"><value>Vorige wijziging</value></data>
+  <data name="DiffViewerNextChange" xml:space="preserve"><value>Volgende wijziging</value></data>
   <data name="GitGraphMerge" xml:space="preserve"><value>Mergecommit.</value></data>
   <data name="StepTimelineColumnValue" xml:space="preserve"><value>{0}: {1}</value></data>
   <data name="LinkOpensInNewTab" xml:space="preserve"><value>(opent in een nieuw tabblad)</value></data>

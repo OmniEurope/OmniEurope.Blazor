@@ -665,6 +665,8 @@
   <data name="DiffViewerOriginal" xml:space="preserve"><value>Πριν</value></data>
   <data name="DiffViewerModified" xml:space="preserve"><value>Μετά</value></data>
   <data name="DiffViewerUnavailable" xml:space="preserve"><value>Δεν ήταν δυνατή η φόρτωση του Monaco: οι δύο εκδόσεις εμφανίζονται ως απλό κείμενο, χωρίς επισήμανση των διαφορών.</value></data>
+  <data name="DiffViewerPreviousChange" xml:space="preserve"><value>Προηγούμενη αλλαγή</value></data>
+  <data name="DiffViewerNextChange" xml:space="preserve"><value>Επόμενη αλλαγή</value></data>
   <data name="GitGraphMerge" xml:space="preserve"><value>Commit συγχώνευσης.</value></data>
   <data name="StepTimelineColumnValue" xml:space="preserve"><value>{0}: {1}</value></data>
   <data name="LinkOpensInNewTab" xml:space="preserve"><value>(ανοίγει σε νέα καρτέλα)</value></data>

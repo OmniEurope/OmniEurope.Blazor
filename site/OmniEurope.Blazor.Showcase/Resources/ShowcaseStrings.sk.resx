@@ -1334,6 +1334,10 @@
   <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Ukážka konfigurácie</value></data>
   <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Výňatok, riadky {0} až {1}</value></data>
   <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Porovnať dve konfigurácie</value></data>
+  <data name="DemoEditorCompareNavigationLabel" xml:space="preserve"><value>Porovnanie s navigáciou medzi zmenami</value></data>
+  <data name="DemoEditorCompareFillLabel" xml:space="preserve"><value>Porovnanie vypĺňajúce svoj kontajner</value></data>
+  <data name="DemoEditorComparePrevious" xml:space="preserve"><value>Predchádzajúca zmena</value></data>
+  <data name="DemoEditorCompareNext" xml:space="preserve"><value>Nasledujúca zmena</value></data>
   <data name="DemoEditorSignatureText" xml:space="preserve"><value>Oddelenie spisov</value></data>
   <data name="DemoEditorReferenceText" xml:space="preserve"><value>Značka: {0}</value></data>
   <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Vložiť blok podpisu</value></data>

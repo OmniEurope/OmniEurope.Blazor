@@ -1334,6 +1334,10 @@
   <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Eżempju ta' konfigurazzjoni</value></data>
   <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Silta, linji {0} sa {1}</value></data>
   <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Qabbel żewġ konfigurazzjonijiet</value></data>
+  <data name="DemoEditorCompareNavigationLabel" xml:space="preserve"><value>Tqabbil bin-navigazzjoni bejn il-bidliet</value></data>
+  <data name="DemoEditorCompareFillLabel" xml:space="preserve"><value>Tqabbil li jimla l-kontenitur tiegħu</value></data>
+  <data name="DemoEditorComparePrevious" xml:space="preserve"><value>Bidla preċedenti</value></data>
+  <data name="DemoEditorCompareNext" xml:space="preserve"><value>Bidla li jmiss</value></data>
   <data name="DemoEditorSignatureText" xml:space="preserve"><value>Is-servizz tal-fajls</value></data>
   <data name="DemoEditorReferenceText" xml:space="preserve"><value>Referenza: {0}</value></data>
   <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Daħħal il-blokk tal-firma</value></data>

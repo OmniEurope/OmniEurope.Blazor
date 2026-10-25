@@ -1334,6 +1334,10 @@
   <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Konfigurationseksempel</value></data>
   <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Uddrag, linje {0} til {1}</value></data>
   <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Sammenlign to konfigurationer</value></data>
+  <data name="DemoEditorCompareNavigationLabel" xml:space="preserve"><value>Sammenligning med navigation mellem ændringer</value></data>
+  <data name="DemoEditorCompareFillLabel" xml:space="preserve"><value>Sammenligning, der fylder sin container</value></data>
+  <data name="DemoEditorComparePrevious" xml:space="preserve"><value>Forrige ændring</value></data>
+  <data name="DemoEditorCompareNext" xml:space="preserve"><value>Næste ændring</value></data>
   <data name="DemoEditorSignatureText" xml:space="preserve"><value>Sagsafdelingen</value></data>
   <data name="DemoEditorReferenceText" xml:space="preserve"><value>Reference: {0}</value></data>
   <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Indsæt signaturblokken</value></data>

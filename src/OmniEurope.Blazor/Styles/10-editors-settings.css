@@ -127,7 +127,20 @@
 .omni-diff-viewer--inline .omni-diff-viewer__text { block-size: calc(var(--omni-code-editor-height, 20rem) / 2); }
 .omni-diff-viewer__text:focus-visible { box-shadow: var(--omni-focus-ring-inset); outline: none; }
 .omni-diff-viewer__notice { background: var(--omni-color-warning-subtle); color: var(--omni-color-text); font-size: var(--omni-font-size-sm); margin: 0; padding: var(--omni-space-xs) var(--omni-space-md); }
-@media (max-width: 39.99rem) { .omni-diff-viewer__panes { grid-template-columns: minmax(0, 1fr); } }
+/* ShowNavigation: the bar above the comparison, the previous and next change buttons. */
+.omni-diff-viewer__bar { align-items: center; background: var(--omni-color-surface-muted); border-block-end: var(--omni-border-width) solid var(--omni-color-border); display: flex; gap: var(--omni-space-xs); padding: var(--omni-space-xs) var(--omni-space-sm); }
+/* FillAvailableHeight: a column, the bar on top and the comparison (Monaco's host, or the two panes it falls back on)
+   taking the rest of the parent's height, never under Height (20rem by default). The comparison counts for that
+   minimum alone (contain: size, a flex basis of 0): without it the pixel size Monaco gave its editor would hold the
+   box open, and the viewer could only grow. The root keeps the bar and the minimum (min-content) as its own floor. */
+.omni-diff-viewer--fill { block-size: 100%; display: flex; flex: 1 1 auto; flex-direction: column; min-block-size: min-content; }
+.omni-diff-viewer--fill > .omni-diff-viewer__bar, .omni-diff-viewer--fill > .omni-diff-viewer__notice { flex: none; }
+.omni-diff-viewer--fill > :is(.omni-diff-viewer__host, .omni-diff-viewer__panes) { contain: size; flex: 1 1 0; min-block-size: var(--omni-code-editor-height, 20rem); overflow: hidden; }
+.omni-diff-viewer--fill .omni-diff-viewer__panes { grid-template-rows: minmax(0, 1fr); }
+.omni-diff-viewer--fill.omni-diff-viewer--inline .omni-diff-viewer__panes { grid-template-rows: repeat(2, minmax(0, 1fr)); }
+.omni-diff-viewer--fill .omni-diff-viewer__pane { grid-template-rows: auto minmax(0, 1fr); min-block-size: 0; }
+.omni-diff-viewer--fill .omni-diff-viewer__text { block-size: auto; min-block-size: 0; }
+@media (max-width: 39.99rem) { .omni-diff-viewer__panes { grid-template-columns: minmax(0, 1fr); } .omni-diff-viewer--fill .omni-diff-viewer__panes { grid-template-rows: repeat(2, minmax(0, 1fr)); } }
 
 
 /* Busy veil (STD-BUSY). A busy control keeps its exact size and content: a dark layer breathes over

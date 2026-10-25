@@ -162,3 +162,32 @@
 <OmniDiffViewer Original="@OriginalConfiguration" Modified="@ChangedConfiguration"
                 Engine="OmniCodeEditorEngine.PlainText" Language="json" ReadOnly="true"
                 Label="@Text["DemoEditorCompareLabel"]" Height="18rem" />
+
+@* ShowNavigation: the viewer's own bar, previous and next change. The showcase keeps to the strict policy, so the
+   plain text engine is chosen and the two buttons stay disabled; they work once Monaco is mounted. *@
+<OmniDiffViewer Id="editor-compare-navigation" Original="@OriginalConfiguration" Modified="@ChangedConfiguration"
+                Engine="OmniCodeEditorEngine.PlainText" Language="json" ReadOnly="true" ShowNavigation="true"
+                Label="@Text["DemoEditorCompareNavigationLabel"]" Height="12rem" />
+
+@* FillAvailableHeight with a bar owned by the page: previous and next on the left, two actions of the page on the right,
+   and the comparison taking the rest of the 24rem frame (Height is its minimum). The page calls GoToPreviousChangeAsync
+   and GoToNextChangeAsync on the viewer, which do nothing while Monaco is not mounted, as here with the plain text engine. *@
+<div id="editor-compare-fill-box" class="demo-diff-fill-box">
+    <div class="demo-diff-fill-bar">
+        <OmniButton Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small" OnClick="PreviousChangeAsync">
+            <Icon><OmniIcon Name="OmniIconName.ChevronUp" Size="OmniControlSize.Small" /></Icon>
+            <ChildContent><span>@Text["DemoEditorComparePrevious"]</span></ChildContent>
+        </OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small" OnClick="NextChangeAsync">
+            <Icon><OmniIcon Name="OmniIconName.ChevronDown" Size="OmniControlSize.Small" /></Icon>
+            <ChildContent><span>@Text["DemoEditorCompareNext"]</span></ChildContent>
+        </OmniButton>
+        <span class="demo-diff-fill-bar__actions">
+            <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small">@Text["DemoButtonsApprove"]</OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Primary" Size="OmniControlSize.Small">@Text["DemoButtonsSave"]</OmniButton>
+        </span>
+    </div>
+    <OmniDiffViewer @ref="_fillViewer" Id="editor-compare-fill" Original="@OriginalConfiguration" Modified="@ChangedConfiguration"
+                    Engine="OmniCodeEditorEngine.PlainText" Language="json" ReadOnly="true" FillAvailableHeight="true"
+                    Label="@Text["DemoEditorCompareFillLabel"]" Height="10rem" />
+</div>

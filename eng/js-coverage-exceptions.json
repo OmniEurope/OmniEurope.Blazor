@@ -63,8 +63,8 @@
     },
     {
       "file": "omni-code-editor.js",
-      "functions": 26,
-      "reason": "Le côté Monaco d'OmniCodeEditor et d'OmniDiffViewer : load (ligne 32), mount (ligne 84), mountDiff (ligne 224) et les 23 autres, qui n'agissent que sur Monaco en cours de chargement (monacoLocale) ou sur un éditeur Monaco monté. Le paquet ne livre pas Monaco (en-tête du fichier, lignes 1 à 8) et la vitrine ne le sert pas : ses deux éditeurs de code (EditorDemo.razor, editor-code et le comparateur) sont en Engine=PlainText, qui n'appelle que setHeight (OmniCodeEditor.razor.cs ligne 166, OmniDiffViewer.razor.cs ligne 198). Avec Engine=Monaco sans les fichiers, load demande loader.js sous MonacoPath et reçoit un 404 que la console de la sonde compte comme erreur ; mount et les suivantes exigent window.monaco. Servir Monaco demanderait d'embarquer le paquet monaco-editor dans la vitrine et d'y relâcher la CSP style-src 'self', Monaco écrivant des éléments style à l'exécution (en-tête du fichier)."
+      "functions": 27,
+      "reason": "Le côté Monaco d'OmniCodeEditor et d'OmniDiffViewer : load (ligne 32), mount (ligne 84), mountDiff (ligne 224), goToDiff (navigation entre les modifications, prouvée sur un hôte qui sert Monaco) et les 23 autres, qui n'agissent que sur Monaco en cours de chargement (monacoLocale) ou sur un éditeur Monaco monté. Le paquet ne livre pas Monaco (en-tête du fichier, lignes 1 à 8) et la vitrine ne le sert pas : ses deux éditeurs de code (EditorDemo.razor, editor-code et le comparateur) sont en Engine=PlainText, qui n'appelle que setHeight (OmniCodeEditor.razor.cs ligne 166, OmniDiffViewer.razor.cs ligne 198). Avec Engine=Monaco sans les fichiers, load demande loader.js sous MonacoPath et reçoit un 404 que la console de la sonde compte comme erreur ; mount et les suivantes exigent window.monaco. Servir Monaco demanderait d'embarquer le paquet monaco-editor dans la vitrine et d'y relâcher la CSP style-src 'self', Monaco écrivant des éléments style à l'exécution (en-tête du fichier)."
     },
     {
       "file": "omni-boot.js",

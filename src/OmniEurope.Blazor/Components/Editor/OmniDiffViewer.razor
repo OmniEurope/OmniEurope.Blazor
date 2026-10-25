@@ -6,10 +6,23 @@
 <div @ref="_root"
      @attributes="AdditionalAttributes"
      id="@Id"
-     class="@Css("omni-diff-viewer", $"omni-diff-viewer--{PhaseName}", Unified ? "omni-diff-viewer--inline" : null, Disabled ? "omni-diff-viewer--disabled" : null)"
+     class="@Css("omni-diff-viewer", $"omni-diff-viewer--{PhaseName}", Unified ? "omni-diff-viewer--inline" : null, FillAvailableHeight ? "omni-diff-viewer--fill" : null, Disabled ? "omni-diff-viewer--disabled" : null)"
      role="group"
      aria-label="@EffectiveLabel"
      data-engine="@Engine.ToString().ToLowerInvariant()">
+    @if (ShowNavigation)
+    {
+        <div class="omni-diff-viewer__bar">
+            <OmniButton Class="omni-diff-viewer__previous" Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small"
+                        Disabled="@(!NavigationReady)" Label="@Localize("DiffViewerPreviousChange")" title="@Localize("DiffViewerPreviousChange")" OnClick="GoToPreviousChangeAsync">
+                <Icon><OmniIcon Name="OmniIconName.ChevronUp" Size="OmniControlSize.Small" /></Icon>
+            </OmniButton>
+            <OmniButton Class="omni-diff-viewer__next" Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small"
+                        Disabled="@(!NavigationReady)" Label="@Localize("DiffViewerNextChange")" title="@Localize("DiffViewerNextChange")" OnClick="GoToNextChangeAsync">
+                <Icon><OmniIcon Name="OmniIconName.ChevronDown" Size="OmniControlSize.Small" /></Icon>
+            </OmniButton>
+        </div>
+    }
     <div @ref="_host" class="omni-diff-viewer__host" hidden="@(_phase != DiffPhase.Ready)"></div>
     @if (_phase != DiffPhase.Ready)
     {

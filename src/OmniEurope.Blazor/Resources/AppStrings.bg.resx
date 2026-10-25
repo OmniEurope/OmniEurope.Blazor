@@ -665,6 +665,8 @@
   <data name="DiffViewerOriginal" xml:space="preserve"><value>Преди</value></data>
   <data name="DiffViewerModified" xml:space="preserve"><value>След</value></data>
   <data name="DiffViewerUnavailable" xml:space="preserve"><value>Редакторът Monaco не можа да бъде зареден: двете версии са показани като обикновен текст, без отбелязани разлики.</value></data>
+  <data name="DiffViewerPreviousChange" xml:space="preserve"><value>Предишна промяна</value></data>
+  <data name="DiffViewerNextChange" xml:space="preserve"><value>Следваща промяна</value></data>
   <data name="GitGraphMerge" xml:space="preserve"><value>Комит за сливане.</value></data>
   <data name="StepTimelineColumnValue" xml:space="preserve"><value>{0}: {1}</value></data>
   <data name="LinkOpensInNewTab" xml:space="preserve"><value>(отваря се в нов раздел)</value></data>

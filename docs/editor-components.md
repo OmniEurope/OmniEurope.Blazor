@@ -600,13 +600,34 @@ pendant le chargement de Monaco et, avec un message d'état, s'il ne se charge p
 - `Language` (`string?`, `plaintext` quand il est nul), `Unified`, `Height` (longueur CSS posée par le CSSOM, toute autre valeur lève), `Label`
   (« Comparaison »), `OriginalLabel` (« Avant ») et `ModifiedLabel` (« Après ») ; textes et options
   changent à chaud.
+- Navigation entre les changements : `GoToNextChangeAsync()` et `GoToPreviousChangeAsync()` (demande
+  d'une application cliente, recette R-100) déplacent l'éditeur de différences de Monaco sur le
+  changement suivant ou précédent (`goToDiff('next' | 'previous')`) et l'affichent, pour qu'une page
+  câble ses propres boutons dans sa propre barre. Quand Monaco n'est pas monté (chargement, moteur
+  `PlainText`, échec), que le composant est détruit ou que le circuit est perdu, elles ne font rien et ne
+  lèvent rien. `ShowNavigation` (`bool`, `false`) dessine au-dessus de la comparaison une petite barre de
+  deux boutons à icône seule (`OmniButton` fantôme, petit, chevrons haut et bas), nommés et infobullés
+  « Modification précédente » / « Modification suivante » (clés `DiffViewerPreviousChange` et
+  `DiffViewerNextChange`, traduites dans toutes les langues livrées), désactivés tant que Monaco n'est
+  pas monté. La bibliothèque n'ajoute aucun raccourci clavier : seules les touches de navigation que
+  Monaco lie lui-même dans son éditeur de différences s'appliquent, une fois l'éditeur au focus.
+- `FillAvailableHeight` (`bool`, `false`, nommé comme `OmniDataGrid.FillAvailableHeight` ; demande d'une
+  application cliente, recette R-101) : le composant prend la hauteur libre de son parent (un bloc qui a
+  une hauteur, ou un conteneur flex en colonne), en colonne elle-même : la barre `ShowNavigation` en haut,
+  la comparaison (l'hôte de Monaco, ou les deux volets de repli) sur le reste. `Height` devient alors la
+  hauteur minimale de la comparaison (20rem quand elle est nulle) : en dessous, le composant garde ce
+  plancher et c'est le parent qui défile. La classe est `omni-diff-viewer--fill`, aucun style en ligne ;
+  Monaco se remet en page quand sa boîte change de taille (`automaticLayout`, déjà actif au montage, aucun
+  observateur ajouté).
 - Le composant est un `group` nommé ; chaque volet de repli est une `section` nommée dont le texte prend
   le focus pour défiler au clavier. Le thème suit l'`OmniThemeScope` englobant.
 - La référence `DotNetObjectReference` du pont est libérée et l'éditeur détruit à la destruction du
   composant ; un composant détruit pendant le chargement du script libère aussitôt le module.
 - Preuves : `DiffViewerComponentTests` (volets, saisie de repli, hauteur, chargement, échec, montage,
-  mises à jour, passage au texte brut, libération). Monaco lui-même n'a pas été exercé dans un
-  navigateur pour ce composant : la vitrine le montre en texte brut.
+  mises à jour, passage au texte brut, libération) et `DiffViewerNavigationTests` (méthodes de
+  navigation, barre `ShowNavigation`, `FillAvailableHeight`, côté .NET avec un module simulé). Monaco
+  lui-même n'a pas été exercé dans un navigateur pour ce composant : la vitrine le montre en texte brut
+  (boutons de navigation désactivés).
 
 ## OmniCodeBlock : commande ou secret à copier
 

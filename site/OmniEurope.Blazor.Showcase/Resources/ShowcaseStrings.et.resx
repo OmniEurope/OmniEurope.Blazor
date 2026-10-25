@@ -1334,6 +1334,10 @@
   <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Konfiguratsiooni näide</value></data>
   <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Väljavõte, read {0}–{1}</value></data>
   <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Võrdle kahte konfiguratsiooni</value></data>
+  <data name="DemoEditorCompareNavigationLabel" xml:space="preserve"><value>Võrdlus muudatuste vahel liikumisega</value></data>
+  <data name="DemoEditorCompareFillLabel" xml:space="preserve"><value>Võrdlus, mis täidab oma konteineri</value></data>
+  <data name="DemoEditorComparePrevious" xml:space="preserve"><value>Eelmine muudatus</value></data>
+  <data name="DemoEditorCompareNext" xml:space="preserve"><value>Järgmine muudatus</value></data>
   <data name="DemoEditorSignatureText" xml:space="preserve"><value>Toimikute osakond</value></data>
   <data name="DemoEditorReferenceText" xml:space="preserve"><value>Viide: {0}</value></data>
   <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Lisa allkirjaplokk</value></data>

@@ -322,6 +322,18 @@ export function configureDiff(host, options) {
     });
 }
 
+// Moves to the next or the previous change and reveals it. Nothing happens for an unknown host (no diff
+// editor mounted in it) or any other direction. The editor lays itself out when its box resizes
+// (automaticLayout, set in mountDiff), which is what keeps FillAvailableHeight right.
+export function goToDiff(host, direction) {
+    const state = diffs.get(host);
+    if (!state || (direction !== 'next' && direction !== 'previous') || typeof state.editor.goToDiff !== 'function') {
+        return;
+    }
+
+    state.editor.goToDiff(direction);
+}
+
 export function disposeDiff(host) {
     const state = diffs.get(host);
     if (!state) {

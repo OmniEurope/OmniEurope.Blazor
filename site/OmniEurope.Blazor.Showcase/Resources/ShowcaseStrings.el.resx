@@ -1334,6 +1334,10 @@
   <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Παράδειγμα διαμόρφωσης</value></data>
   <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Απόσπασμα, γραμμές {0} έως {1}</value></data>
   <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Σύγκριση δύο διαμορφώσεων</value></data>
+  <data name="DemoEditorCompareNavigationLabel" xml:space="preserve"><value>Σύγκριση με πλοήγηση μεταξύ των αλλαγών</value></data>
+  <data name="DemoEditorCompareFillLabel" xml:space="preserve"><value>Σύγκριση που καταλαμβάνει όλο το κοντέινερ της</value></data>
+  <data name="DemoEditorComparePrevious" xml:space="preserve"><value>Προηγούμενη αλλαγή</value></data>
+  <data name="DemoEditorCompareNext" xml:space="preserve"><value>Επόμενη αλλαγή</value></data>
   <data name="DemoEditorSignatureText" xml:space="preserve"><value>Η υπηρεσία φακέλων</value></data>
   <data name="DemoEditorReferenceText" xml:space="preserve"><value>Αριθμός αναφοράς: {0}</value></data>
   <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Εισαγωγή του μπλοκ υπογραφής</value></data>

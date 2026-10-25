@@ -1334,6 +1334,10 @@
   <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Exemplu de configurație</value></data>
   <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Extras, rândurile {0}–{1}</value></data>
   <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Compară două configurații</value></data>
+  <data name="DemoEditorCompareNavigationLabel" xml:space="preserve"><value>Comparație cu navigare între modificări</value></data>
+  <data name="DemoEditorCompareFillLabel" xml:space="preserve"><value>Comparație care își umple containerul</value></data>
+  <data name="DemoEditorComparePrevious" xml:space="preserve"><value>Modificarea anterioară</value></data>
+  <data name="DemoEditorCompareNext" xml:space="preserve"><value>Modificarea următoare</value></data>
   <data name="DemoEditorSignatureText" xml:space="preserve"><value>Serviciul dosare</value></data>
   <data name="DemoEditorReferenceText" xml:space="preserve"><value>Referință: {0}</value></data>
   <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Inserează blocul de semnătură</value></data>

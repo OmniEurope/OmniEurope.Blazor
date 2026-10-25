@@ -1334,6 +1334,10 @@
   <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Esimerkkimääritys</value></data>
   <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Ote, rivit {0}–{1}</value></data>
   <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Vertaa kahta määritystä</value></data>
+  <data name="DemoEditorCompareNavigationLabel" xml:space="preserve"><value>Vertailu muutosten välisellä siirtymisellä</value></data>
+  <data name="DemoEditorCompareFillLabel" xml:space="preserve"><value>Vertailu, joka täyttää säiliönsä</value></data>
+  <data name="DemoEditorComparePrevious" xml:space="preserve"><value>Edellinen muutos</value></data>
+  <data name="DemoEditorCompareNext" xml:space="preserve"><value>Seuraava muutos</value></data>
   <data name="DemoEditorSignatureText" xml:space="preserve"><value>Asiapalvelu</value></data>
   <data name="DemoEditorReferenceText" xml:space="preserve"><value>Viite: {0}</value></data>
   <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Lisää allekirjoituslohko</value></data>

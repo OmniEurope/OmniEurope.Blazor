@@ -1334,6 +1334,10 @@
   <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Konfigurationsbeispiel</value></data>
   <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Auszug, Zeilen {0} bis {1}</value></data>
   <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Zwei Konfigurationen vergleichen</value></data>
+  <data name="DemoEditorCompareNavigationLabel" xml:space="preserve"><value>Vergleich mit Navigation zwischen den Änderungen</value></data>
+  <data name="DemoEditorCompareFillLabel" xml:space="preserve"><value>Vergleich, der seinen Container ausfüllt</value></data>
+  <data name="DemoEditorComparePrevious" xml:space="preserve"><value>Vorherige Änderung</value></data>
+  <data name="DemoEditorCompareNext" xml:space="preserve"><value>Nächste Änderung</value></data>
   <data name="DemoEditorSignatureText" xml:space="preserve"><value>Die Vorgangsbearbeitung</value></data>
   <data name="DemoEditorReferenceText" xml:space="preserve"><value>Referenz: {0}</value></data>
   <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Signaturblock einfügen</value></data>

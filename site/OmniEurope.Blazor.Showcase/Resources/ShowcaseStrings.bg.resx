@@ -1334,6 +1334,10 @@
   <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Примерна конфигурация</value></data>
   <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Откъс, редове от {0} до {1}</value></data>
   <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Сравняване на две конфигурации</value></data>
+  <data name="DemoEditorCompareNavigationLabel" xml:space="preserve"><value>Сравнение с навигация между промените</value></data>
+  <data name="DemoEditorCompareFillLabel" xml:space="preserve"><value>Сравнение, запълващо контейнера си</value></data>
+  <data name="DemoEditorComparePrevious" xml:space="preserve"><value>Предишна промяна</value></data>
+  <data name="DemoEditorCompareNext" xml:space="preserve"><value>Следваща промяна</value></data>
   <data name="DemoEditorSignatureText" xml:space="preserve"><value>Отделът по делата</value></data>
   <data name="DemoEditorReferenceText" xml:space="preserve"><value>Референция: {0}</value></data>
   <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Вмъкване на блока за подпис</value></data>

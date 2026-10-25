@@ -22,6 +22,12 @@ public partial class EditorDemo
     private const string OriginalConfiguration = "{\n  \"mode\": \"ancien\"\n}";
     private const string ChangedConfiguration = "{\n  \"mode\": \"nouveau\"\n}";
 
+    private OmniDiffViewer? _fillViewer;
+
+    private Task PreviousChangeAsync() => _fillViewer?.GoToPreviousChangeAsync() ?? Task.CompletedTask;
+
+    private Task NextChangeAsync() => _fillViewer?.GoToNextChangeAsync() ?? Task.CompletedTask;
+
     private static readonly IReadOnlyList<string> Accepted = ["image/png", "image/jpeg", "application/pdf"];
 
     [Inject]

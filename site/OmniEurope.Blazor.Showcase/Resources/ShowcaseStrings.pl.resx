@@ -1334,6 +1334,10 @@
   <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Przykładowa konfiguracja</value></data>
   <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Fragment, wiersze od {0} do {1}</value></data>
   <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Porównaj dwie konfiguracje</value></data>
+  <data name="DemoEditorCompareNavigationLabel" xml:space="preserve"><value>Porównanie z nawigacją między zmianami</value></data>
+  <data name="DemoEditorCompareFillLabel" xml:space="preserve"><value>Porównanie wypełniające swój kontener</value></data>
+  <data name="DemoEditorComparePrevious" xml:space="preserve"><value>Poprzednia zmiana</value></data>
+  <data name="DemoEditorCompareNext" xml:space="preserve"><value>Następna zmiana</value></data>
   <data name="DemoEditorSignatureText" xml:space="preserve"><value>Dział spraw</value></data>
   <data name="DemoEditorReferenceText" xml:space="preserve"><value>Sygnatura: {0}</value></data>
   <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Wstaw blok podpisu</value></data>

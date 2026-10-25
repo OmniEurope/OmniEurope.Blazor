@@ -1334,6 +1334,10 @@
   <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Konfigurācijas paraugs</value></data>
   <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Izvilkums, rindas no {0} līdz {1}</value></data>
   <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Salīdzināt divas konfigurācijas</value></data>
+  <data name="DemoEditorCompareNavigationLabel" xml:space="preserve"><value>Salīdzinājums ar pārvietošanos starp izmaiņām</value></data>
+  <data name="DemoEditorCompareFillLabel" xml:space="preserve"><value>Salīdzinājums, kas aizpilda savu konteineru</value></data>
+  <data name="DemoEditorComparePrevious" xml:space="preserve"><value>Iepriekšējās izmaiņas</value></data>
+  <data name="DemoEditorCompareNext" xml:space="preserve"><value>Nākamās izmaiņas</value></data>
   <data name="DemoEditorSignatureText" xml:space="preserve"><value>Lietu nodaļa</value></data>
   <data name="DemoEditorReferenceText" xml:space="preserve"><value>Atsauce: {0}</value></data>
   <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Ievietot paraksta bloku</value></data>

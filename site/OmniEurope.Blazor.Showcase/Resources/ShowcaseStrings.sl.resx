@@ -1334,6 +1334,10 @@
   <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Primer konfiguracije</value></data>
   <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Izvleček, vrstice od {0} do {1}</value></data>
   <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Primerjaj dve konfiguraciji</value></data>
+  <data name="DemoEditorCompareNavigationLabel" xml:space="preserve"><value>Primerjava z navigacijo med spremembami</value></data>
+  <data name="DemoEditorCompareFillLabel" xml:space="preserve"><value>Primerjava, ki zapolni svoj vsebnik</value></data>
+  <data name="DemoEditorComparePrevious" xml:space="preserve"><value>Prejšnja sprememba</value></data>
+  <data name="DemoEditorCompareNext" xml:space="preserve"><value>Naslednja sprememba</value></data>
   <data name="DemoEditorSignatureText" xml:space="preserve"><value>Oddelek za zadeve</value></data>
   <data name="DemoEditorReferenceText" xml:space="preserve"><value>Sklic: {0}</value></data>
   <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Vstavi blok podpisa</value></data>

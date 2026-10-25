@@ -1334,6 +1334,10 @@
   <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Sampla cumraíochta</value></data>
   <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Sliocht, línte {0} go {1}</value></data>
   <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Cuir dhá chumraíocht i gcomparáid</value></data>
+  <data name="DemoEditorCompareNavigationLabel" xml:space="preserve"><value>Comparáid le nascleanúint idir athruithe</value></data>
+  <data name="DemoEditorCompareFillLabel" xml:space="preserve"><value>Comparáid a líonann a choimeádán</value></data>
+  <data name="DemoEditorComparePrevious" xml:space="preserve"><value>An t-athrú roimhe seo</value></data>
+  <data name="DemoEditorCompareNext" xml:space="preserve"><value>An chéad athrú eile</value></data>
   <data name="DemoEditorSignatureText" xml:space="preserve"><value>Seirbhís na gcomhad</value></data>
   <data name="DemoEditorReferenceText" xml:space="preserve"><value>Tagairt: {0}</value></data>
   <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Ionsáigh an bloc sínithe</value></data>

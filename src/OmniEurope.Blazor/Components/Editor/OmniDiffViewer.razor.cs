@@ -81,8 +81,30 @@ public partial class OmniDiffViewer
     /// </summary>
     [Parameter] public string MonacoPath { get; set; } = Internal.MonacoHost.DefaultPath;
 
-    /// <summary>The height, as a CSS length (<c>20rem</c>, <c>320px</c>, <c>50vh</c>). Null keeps 20rem.</summary>
+    /// <summary>
+    /// The height, as a CSS length (<c>20rem</c>, <c>320px</c>, <c>50vh</c>). Null keeps 20rem. With
+    /// <see cref="FillAvailableHeight"/> on, it is the minimum height of the comparison instead.
+    /// </summary>
     [Parameter] public string? Height { get; set; }
+
+    /// <summary>
+    /// Whether the viewer takes the free height of its parent instead of a height of its own, like
+    /// <see cref="OmniDataGrid{TItem}.FillAvailableHeight"/>: off by default. The parent is a block with a height or a
+    /// column flex container; the comparison, the two-pane view it falls back on and the optional
+    /// <see cref="ShowNavigation"/> bar are laid out in a column, the bar on top and the comparison taking the rest.
+    /// <see cref="Height"/> then becomes the minimum height of the comparison (20rem when null), which it never goes under:
+    /// when the parent leaves less, the viewer keeps that minimum and the parent scrolls. Monaco follows the size of its
+    /// box when it changes.
+    /// </summary>
+    [Parameter] public bool FillAvailableHeight { get; set; }
+
+    /// <summary>
+    /// Whether a small bar above the comparison offers two icon-only buttons, previous change and next change, that
+    /// do what <see cref="GoToPreviousChangeAsync"/> and <see cref="GoToNextChangeAsync"/> do. Off by default: a page
+    /// that draws the buttons itself, in its own top bar, calls the two methods. The buttons are disabled while
+    /// Monaco is not mounted (loading, <see cref="OmniCodeEditorEngine.PlainText"/>, or failed).
+    /// </summary>
+    [Parameter] public bool ShowNavigation { get; set; }
 
     /// <summary>The accessible name of the comparison; the localized "comparison" when empty.</summary>
     [Parameter] public string? Label { get; set; }
@@ -102,6 +124,44 @@ public partial class OmniDiffViewer
     private Internal.MonacoHost Monaco => _monaco ??= new(JavaScript, () => ModulePath, () => _disposed);
 
     private string PhaseName => _phase.ToString().ToLowerInvariant();
+
+    /// <summary>Whether Monaco's diff editor is mounted, so that the navigation has something to move in.</summary>
+    private bool NavigationReady => _phase == DiffPhase.Ready && Monaco.Mounted;
+
+    /// <summary>
+    /// Moves to the next change of the comparison and reveals it, as Monaco's diff editor does (<c>goToDiff('next')</c>).
+    /// It does nothing, and does not throw, when Monaco's diff editor is not mounted (still loading, the
+    /// <see cref="OmniCodeEditorEngine.PlainText"/> engine, or Monaco failed to load or mount), when the viewer is disposed
+    /// and when the circuit is gone.
+    /// </summary>
+    /// <returns>A task that completes once the editor has moved, or at once when there is nothing to move.</returns>
+    public Task GoToNextChangeAsync() => GoToChangeAsync("next");
+
+    /// <summary>
+    /// Moves to the previous change of the comparison and reveals it, as Monaco's diff editor does (<c>goToDiff('previous')</c>).
+    /// It does nothing, and does not throw, when Monaco's diff editor is not mounted (still loading, the
+    /// <see cref="OmniCodeEditorEngine.PlainText"/> engine, or Monaco failed to load or mount), when the viewer is disposed
+    /// and when the circuit is gone.
+    /// </summary>
+    /// <returns>A task that completes once the editor has moved, or at once when there is nothing to move.</returns>
+    public Task GoToPreviousChangeAsync() => GoToChangeAsync("previous");
+
+    private async Task GoToChangeAsync(string direction)
+    {
+        if (_disposed || !NavigationReady || Monaco.Module is null)
+        {
+            return;
+        }
+
+        try
+        {
+            await Monaco.Module.InvokeVoidAsync("goToDiff", _host, direction);
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit is gone, and the editor with it.
+        }
+    }
 
     /// <summary>
     /// Checks <see cref="Height"/> and <see cref="MonacoPath"/>, then switches to the plain text view
@@ -206,6 +266,11 @@ public partial class OmniDiffViewer
         {
             Monaco.Mounted = false;
             _phase = DiffPhase.Failed;
+            StateHasChanged();
+        }
+        else if (ShowNavigation)
+        {
+            // The navigation buttons are enabled once there is a mounted editor to move in.
             StateHasChanged();
         }
     }

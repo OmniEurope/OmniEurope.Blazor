@@ -1334,6 +1334,10 @@
   <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Konfigurációs minta</value></data>
   <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Részlet, {0}–{1}. sor</value></data>
   <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Két konfiguráció összehasonlítása</value></data>
+  <data name="DemoEditorCompareNavigationLabel" xml:space="preserve"><value>Összehasonlítás a módosítások közti lépkedéssel</value></data>
+  <data name="DemoEditorCompareFillLabel" xml:space="preserve"><value>A tárolóját kitöltő összehasonlítás</value></data>
+  <data name="DemoEditorComparePrevious" xml:space="preserve"><value>Előző módosítás</value></data>
+  <data name="DemoEditorCompareNext" xml:space="preserve"><value>Következő módosítás</value></data>
   <data name="DemoEditorSignatureText" xml:space="preserve"><value>Ügyiratkezelési osztály</value></data>
   <data name="DemoEditorReferenceText" xml:space="preserve"><value>Hivatkozási szám: {0}</value></data>
   <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Aláírásblokk beszúrása</value></data>

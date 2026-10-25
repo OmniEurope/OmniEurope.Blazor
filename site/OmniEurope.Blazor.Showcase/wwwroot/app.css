@@ -166,6 +166,10 @@
 .demo-grid-scope > .demo-hint { margin: 0; }
 /* L'aperçu de 36rem qui défile lui-même : des réglages au-dessus, la grille qui prend le reste. */
 .demo-grid-fill-box { block-size: 36rem; border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: flex; flex-direction: column; gap: var(--omni-space-md); margin-block-start: var(--omni-space-lg); overflow-y: auto; padding: var(--omni-space-md); }
+/* Un cadre de 24rem dont la barre appartient à la page (précédent et suivant à gauche, deux actions à droite) : le comparateur prend le reste. */
+.demo-diff-fill-box { block-size: 24rem; border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: flex; flex-direction: column; gap: var(--omni-space-sm); margin-block-start: var(--omni-space-lg); padding: var(--omni-space-md); }
+.demo-diff-fill-bar { align-items: center; display: flex; gap: var(--omni-space-xs); }
+.demo-diff-fill-bar__actions { display: flex; gap: var(--omni-space-xs); margin-inline-start: auto; }
 /* Un cadre étroit (22rem) : deux colonnes y ont chacune moins que la valeur la plus longue de la première. */
 .demo-grid-fit-box { max-inline-size: 22rem; }
 /* Le cadre des grilles à la largeur de leur contenu : il ne dépasse jamais la page, et la sonde en fixe la largeur (900 puis 600 px) pour voir les colonnes se resserrer avant le défilement. */
