@@ -76,3 +76,7 @@ Elle change de même quatre rendus par défaut hors de la grille, voulus et vali
 ## Ajouts dans un correctif : `1.9.2`
 
 `1.9.2` porte à nouveau des ajouts d'API publique dans une version de correctif, là où SemVer demanderait `1.10.0` : `OmniTextBox.CopyIconOnly` et `OmniCopyButton.IconOnly`. Décision du propriétaire du 2026-10-25, pour le même motif qu'en `1.9.1`. Des rendus et comportements par défaut changent, listés sous « Changed » dans `CHANGELOG.md` : les titres de groupe et l'ouverture au clic et au focus d'`OmniAutocomplete`, l'ouverture d'une liste native par son libellé, le survol des listes, la hauteur d'`OmniDialog` plafonnée en `dvh` et l'icône d'`OmniBadge` à la taille du texte.
+
+## Ajouts dans un correctif : `1.9.3`
+
+`1.9.3` porte encore des ajouts d'API publique dans une version de correctif, là où SemVer demanderait `1.10.0` : `OmniDiffViewer.GoToNextChangeAsync()`, `OmniDiffViewer.GoToPreviousChangeAsync()`, `OmniDiffViewer.ShowNavigation` et `OmniDiffViewer.FillAvailableHeight`. Décision du propriétaire du 2026-10-25, pour le même motif qu'en `1.9.1`. Aucun rendu ni comportement par défaut ne change.

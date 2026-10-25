@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+## [1.9.3] - 2026-10-25
+
+Correctif qui porte des ajouts d'API publique, là où SemVer demanderait `1.10.0` (décision du propriétaire du 2026-10-25, voir [docs/versioning.md](docs/versioning.md)) : demandes d'une application cliente sur la comparaison de textes. Ces ajouts sont sans effet tant qu'ils ne sont pas utilisés ; aucun rendu par défaut ne change.
+
 ### Added
 
 - `OmniDiffViewer.GoToNextChangeAsync()`, `OmniDiffViewer.GoToPreviousChangeAsync()` et `OmniDiffViewer.ShowNavigation` (`bool`, `false`) : demande d'une application cliente (recette R-100). Une comparaison longue obligeait à défiler pour trouver chaque changement. Les deux méthodes publiques déplacent l'éditeur de différences de Monaco sur le changement suivant ou précédent (`goToDiff` du script `omni-code-editor.js`) pour que la page câble ses propres boutons dans sa propre barre ; quand Monaco n'est pas monté (chargement, moteur `PlainText`, échec), que le composant est détruit ou que le circuit est perdu, elles ne font rien et ne lèvent rien. `ShowNavigation` dessine au-dessus de la comparaison une petite barre de deux boutons à icône seule (`OmniButton`, chevrons haut et bas), nommés et infobullés « Modification précédente » / « Modification suivante » (nouvelles clés `DiffViewerPreviousChange` et `DiffViewerNextChange`, traduites dans les 24 langues livrées), utilisables au clavier et au toucher, désactivés tant que Monaco n'est pas monté. Aucun raccourci clavier ajouté. `false` ne change rien. Voir [docs/editor-components.md](docs/editor-components.md), « OmniDiffViewer ».
