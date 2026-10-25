@@ -201,6 +201,16 @@ export async function requestSteps(session, results) {
   await waitFor('la liste refermée au second appui', `${options} === 0`);
   step('liste filtrable : le chevron ouvre la liste complète puis la referme, le focus reste dans le champ');
 
+  // 6. The label of a native drop-down (recette R-70): a real click on the label opens the select's own
+  // list (showPicker, called by omni-focus.js on the click itself, which a .NET round trip would lose).
+  await session.visit('/composants/grille-avancee', '#grid-lines');
+  check(await evaluate("document.getElementById('grid-lines')?.localName === 'select' && !document.getElementById('grid-lines').matches(':open')"), "La liste Lignes n'est pas une liste native fermée.");
+  await clickOn('label[for="grid-lines"]');
+  await waitFor('la liste native ouverte par son libellé, le focus sur la liste', "document.activeElement?.id === 'grid-lines' && document.getElementById('grid-lines').matches(':open')");
+  await key('Escape', 'Escape', 27);
+  await waitFor('la liste native refermée par Échap', "!document.getElementById('grid-lines').matches(':open')");
+  step('liste native : un clic sur son libellé ouvre la liste, Échap la referme');
+
   // 6. Charts of a client's recette (R1-12, R1-13, R1-16), on the range demo widened to its 36 months:
   // no two value labels drawn overlap and a masked one is read on hover, the navigator is graduated
   // without overlap, its handles follow the density, and the chart keeps a minimum width.
