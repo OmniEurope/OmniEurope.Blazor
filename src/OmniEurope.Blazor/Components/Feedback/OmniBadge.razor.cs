@@ -53,6 +53,9 @@ public partial class OmniBadge
     /// <summary>An icon and nothing else: the badge is then a square as tall as a text badge.</summary>
     private bool IconOnly => Icon is not null && ChildContent is null;
 
+    /// <summary>An icon before a text: the start padding then gives back the margin drawn inside the glyph's box.</summary>
+    private bool LeadingIcon => Icon is not null && ChildContent is not null;
+
     private string? InkClass => Fill != OmniFill.Solid ? null : Ink switch
     {
         OmniBadgeInk.WhiteOutlined => "omni-badge--ink-white-outlined",

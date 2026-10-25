@@ -1,0 +1,49 @@
+<OmniFormField For="city" Label="City">
+    @if (Kind == "native")
+    {
+        <OmniDropDown TValue="string" Id="city" Options="Cities" Disabled="Disabled" ReadOnly="ReadOnly" @bind-Value="_value" />
+    }
+    else if (Kind == "filterable")
+    {
+        <OmniDropDown TValue="string" Id="city" Options="Cities" Filterable="true" @bind-Value="_value" />
+    }
+    else
+    {
+        <OmniAutocomplete TValue="string" Id="city" Search="SearchAsync" Debounce="TimeSpan.Zero" MinimumLength="1"
+                          ShowToggle="ShowToggle" Disabled="Disabled" ReadOnly="ReadOnly" @bind-Value="_value" />
+    }
+</OmniFormField>
+
+@code {
+    private string _value = string.Empty;
+
+    /// <summary>"autocomplete" (default), "filterable" (a filterable drop-down) or "native" (a drop-down on a select).</summary>
+    [Parameter]
+    public string Kind { get; set; } = "autocomplete";
+
+    [Parameter]
+    public bool ShowToggle { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
+    public IReadOnlyList<OmniOption<string>> Cities { get; } =
+    [
+        new("bxl", "Bruxelles"),
+        new("brg", "Bruges"),
+        new("brn", "Brno")
+    ];
+
+    public int SearchCount { get; private set; }
+
+    private Task<IReadOnlyList<OmniOption<string>>> SearchAsync(string text, CancellationToken _)
+    {
+        SearchCount++;
+        IReadOnlyList<OmniOption<string>> found =
+            [.. Cities.Where(city => city.Text.Contains(text, StringComparison.OrdinalIgnoreCase))];
+        return Task.FromResult(found);
+    }
+}

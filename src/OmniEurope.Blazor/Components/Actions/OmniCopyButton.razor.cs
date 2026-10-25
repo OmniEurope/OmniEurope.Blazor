@@ -55,6 +55,14 @@ public partial class OmniCopyButton : IAsyncDisposable
     [Parameter]
     public RenderFragment? Icon { get; set; }
 
+    /// <summary>
+    /// Draws the button as its icon alone, a square button with no words: the words it would show (the
+    /// <see cref="Label"/> or the localized "Copy", then "Copied" or "Copy failed" while the feedback lasts)
+    /// become its accessible name and its tooltip (<c>title</c>). False, the default, shows the words.
+    /// </summary>
+    [Parameter]
+    public bool IconOnly { get; set; }
+
     /// <summary>Disables the button.</summary>
     [Parameter]
     public bool Disabled { get; set; }
@@ -81,6 +89,14 @@ public partial class OmniCopyButton : IAsyncDisposable
     };
 
     private string Announcement => CopyResult is null ? string.Empty : ButtonText;
+
+    // No content at all for IconOnly: OmniButton then draws the square icon button.
+    private RenderFragment? Words => IconOnly ? null : builder =>
+    {
+        builder.OpenElement(0, "span");
+        builder.AddContent(1, ButtonText);
+        builder.CloseElement();
+    };
 
     private RenderFragment IconContent => Icon ?? (builder =>
     {

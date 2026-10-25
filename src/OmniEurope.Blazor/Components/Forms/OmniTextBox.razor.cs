@@ -66,6 +66,15 @@ public partial class OmniTextBox
     [Parameter]
     public bool ShowCopy { get; set; }
 
+    /// <summary>
+    /// Draws the <see cref="ShowCopy"/> button as its icon alone, a square button with no word: the
+    /// localized "Copy" stays its accessible name and becomes its tooltip (<c>title</c>), and the outcome
+    /// of a copy is still shown by the icon and announced. For a narrow field, such as a demo credential
+    /// in a sign-in panel. False, the default, keeps the word.
+    /// </summary>
+    [Parameter]
+    public bool CopyIconOnly { get; set; }
+
     /// <summary>How long the Copy button of <see cref="ShowCopy"/> shows the outcome of a copy.</summary>
     [Parameter]
     public TimeSpan CopiedFeedbackDuration { get; set; } = TimeSpan.FromSeconds(2);
@@ -136,6 +145,14 @@ public partial class OmniTextBox
 
     // The button keeps its word and its size; the icon shows the outcome and the live region says it.
     private string CopyLabel => Localize(OmniClipboardCopy.LabelKey(null));
+
+    // No content at all for CopyIconOnly: OmniButton then draws the square icon button.
+    private RenderFragment? CopyContent => CopyIconOnly ? null : builder =>
+    {
+        builder.OpenElement(0, "span");
+        builder.AddContent(1, CopyLabel);
+        builder.CloseElement();
+    };
 
     private string CopyAnnouncement => OmniClipboardCopy.AnnouncementKey(CopyResult) is { } key ? Localize(key) : string.Empty;
 

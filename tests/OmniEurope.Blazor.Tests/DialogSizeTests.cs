@@ -56,6 +56,34 @@ public sealed class DialogSizeTests : OmniBunitContext
         Assert.Equal(OmniDialogSize.Medium, default(OmniDialogSize));
     }
 
+    [Theory]
+    [InlineData(".omni-dialog", "2rem")]
+    [InlineData(".omni-dialog--full", "1rem")]
+    public void EverySize_IsCappedByTheDynamicWindowHeight_AfterAStaticFallback(string selector, string margin)
+    {
+        // Client application acceptance review R-60: on a phone 100vh counts the room under the address
+        // bar, and a centred dialog lost its title and its buttons past both edges.
+        var body = ShippedLookTests.Body(selector);
+        Assert.Contains($"max-height: calc(100vh - {margin}); max-height: calc(100dvh - {margin})", body, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void OnlyTheContentScrolls_TheHeaderAndTheFooterStayWhole()
+    {
+        var dialog = ShippedLookTests.Body(".omni-dialog");
+        Assert.Equal("flex", ShippedLookTests.Value(dialog, "display"));
+        Assert.Equal("column", ShippedLookTests.Value(dialog, "flex-direction"));
+        Assert.Equal("hidden", ShippedLookTests.Value(dialog, "overflow"));
+
+        var content = ShippedLookTests.Body(".omni-dialog__content");
+        Assert.Contains("flex: 1 1 auto", content, StringComparison.Ordinal);
+        Assert.Equal("0", ShippedLookTests.Value(content, "min-block-size"));
+        Assert.Equal("auto", ShippedLookTests.Value(content, "overflow"));
+
+        var bands = Assert.Single(ShippedLookTests.Rules(), rule => rule.Selector.Contains(".omni-dialog__header", StringComparison.Ordinal) && rule.Selector.Contains(".omni-dialog__footer", StringComparison.Ordinal));
+        Assert.Equal("none", ShippedLookTests.Value(bands.Body, "flex"));
+    }
+
     [Fact]
     public void RequestSize_ReachesTheDialogRenderedByTheHost()
     {

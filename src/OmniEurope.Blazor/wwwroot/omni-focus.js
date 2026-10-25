@@ -3,7 +3,8 @@
 // responsibility under ./focus/ and re-exported, so every export keeps this address: the focus trap
 // and the focus return of dialogs and windows (dialog.js), the non-modal popover (popover.js), the
 // date and time pickers (picker.js), the native <details> disclosures and fieldsets (disclosure.js),
-// the menus (menus.js), the page keys (keys.js) and the tab strips (tabs.js).
+// the menus (menus.js), the page keys (keys.js), the picker opened by a click on the label of a native
+// select (labels.js) and the tab strips (tabs.js).
 import { notify } from './shared/notify.js';
 
 export { activateDialog, activateWindow, focusBoundary, restoreFocus } from './focus/dialog.js';
@@ -12,6 +13,7 @@ export { attachPicker, detachPicker, focusPickerItem } from './focus/picker.js';
 export { configureDisclosure, disposeDisclosure, observeFieldsetToggle, disposeFieldsetToggle } from './focus/disclosure.js';
 export { openMenu, closeMenu, moveMenuFocus } from './focus/menus.js';
 export { enablePageKeys } from './focus/keys.js';
+export { enableLabelPicker } from './focus/labels.js';
 export {
     configureTabs,
     disposeTabs,

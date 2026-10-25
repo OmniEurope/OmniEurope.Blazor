@@ -1133,6 +1133,7 @@ method protected override OmniEurope.Blazor.Components.OmniDiffViewer.OnAfterRen
 method protected override OmniEurope.Blazor.Components.OmniDiffViewer.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDivider.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDropDown<TValue>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniDropDown<TValue>.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniDropDown<TValue>.TryParseValueFromString(System.String? value, out TValue result, out System.String validationErrorMessage) : System.Boolean
 method protected override OmniEurope.Blazor.Components.OmniDynamicForm.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDynamicForm.OnInitialized() : System.Void
@@ -2541,6 +2542,7 @@ property public OmniEurope.Blazor.Components.OmniContextMenu.TriggerContent : Mi
 property public OmniEurope.Blazor.Components.OmniCopyButton.CopiedFeedbackDuration : System.TimeSpan {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniCopyButton.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniCopyButton.Icon : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniCopyButton.IconOnly : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniCopyButton.Label : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniCopyButton.OnCopy : Microsoft.AspNetCore.Components.EventCallback<System.Boolean> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniCopyButton.Size : OmniEurope.Blazor.Components.OmniControlSize {get(public);set(public)} [Parameter]
@@ -3768,6 +3770,7 @@ property public OmniEurope.Blazor.Components.OmniTextArea.ShowCount : System.Boo
 property public OmniEurope.Blazor.Components.OmniTextBox.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTextBox.Autocomplete : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTextBox.CopiedFeedbackDuration : System.TimeSpan {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniTextBox.CopyIconOnly : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTextBox.Debounce : System.TimeSpan {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTextBox.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTextBox.Icon : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]

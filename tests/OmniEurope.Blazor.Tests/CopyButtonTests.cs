@@ -123,6 +123,54 @@ public sealed class CopyButtonTests : OmniBunitContext
     }
 
     [Fact]
+    public void IconOnly_IsTheSquareIconButton_NamedAndTitledByItsWords_ThroughTheFeedback()
+    {
+        Clipboard(true);
+        var button = Render<OmniCopyButton>(parameters => parameters
+            .Add(component => component.Text, "x")
+            .Add(component => component.IconOnly, true)
+            .Add(component => component.CopiedFeedbackDuration, ShortFeedback));
+
+        var element = button.Find("button");
+        Assert.Contains("omni-button--icon", element.ClassList);
+        Assert.Equal(string.Empty, element.TextContent.Trim());
+        Assert.NotNull(element.QuerySelector("svg"));
+        Assert.Equal("Copier", element.GetAttribute("aria-label"));
+        Assert.Equal("Copier", element.GetAttribute("title"));
+
+        element.Click();
+
+        Assert.Equal("Copié", button.Find("button").GetAttribute("aria-label"));
+        Assert.Equal("Copié", button.Find("button").GetAttribute("title"));
+        Assert.Equal("Copié", button.Find("[role=status]").TextContent);
+        button.WaitForAssertion(() => Assert.Equal("Copier", button.Find("button").GetAttribute("aria-label")));
+    }
+
+    [Fact]
+    public void IconOnly_KeepsAGivenLabelAsItsName()
+    {
+        Clipboard(true);
+        var button = Render<OmniCopyButton>(parameters => parameters
+            .Add(component => component.Text, "x")
+            .Add(component => component.Label, "Copier l'identifiant")
+            .Add(component => component.IconOnly, true));
+
+        Assert.Equal("Copier l'identifiant", button.Find("button").GetAttribute("aria-label"));
+        Assert.Equal("Copier l'identifiant", button.Find("button").GetAttribute("title"));
+    }
+
+    [Fact]
+    public void ByDefault_ShowsItsWords_WithoutATitle()
+    {
+        Clipboard(true);
+        var button = Render<OmniCopyButton>(parameters => parameters.Add(component => component.Text, "x"));
+
+        Assert.DoesNotContain("omni-button--icon", button.Find("button").ClassList);
+        Assert.Null(button.Find("button").GetAttribute("title"));
+        Assert.Null(button.Find("button").GetAttribute("aria-label"));
+    }
+
+    [Fact]
     public void Refused_IsAnnouncedPolitely_ReportsFalse_AndNeverThrows()
     {
         Clipboard(false);

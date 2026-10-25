@@ -20,7 +20,7 @@ public sealed class IconContainerSizingTests : OmniBunitContext
     }
 
     [Theory]
-    [InlineData(".omni-badge", "0.875rem")]
+    [InlineData(".omni-badge", "1em")]
     [InlineData(".omni-split-button--small > .omni-split-button__main", "1rem")]
     [InlineData(".omni-button--small", "1rem")]
     public void Containers_HandTheirIconSizeDown_InsteadOfSizingTheIcon(string container, string size)
@@ -69,6 +69,21 @@ public sealed class IconContainerSizingTests : OmniBunitContext
         Assert.Equal(["omni-icon"], root.FirstElementChild!.ClassList);
         Assert.Equal("Publié", root.TextContent.Trim());
         Assert.DoesNotContain("omni-badge--icon", root.ClassList);
+        Assert.Contains("omni-badge--leading-icon", root.ClassList);
+    }
+
+    [Fact]
+    public void Badge_WithALeadingIcon_GivesTheGlyphMarginBackOnItsStartPadding()
+    {
+        // The shipped glyphs are drawn 24/256 inside their box: the start padding takes that much off so
+        // the ink sits as far from the start edge as the text ends from the other one (client application acceptance review R-42).
+        var body = ShippedLookTests.Body(".omni-badge--leading-icon");
+        Assert.Equal("calc(0.5rem - 0.09375 * var(--omni-icon-size))", ShippedLookTests.Value(body, "padding-inline-start"));
+
+        var textOnly = Render<OmniBadge>(parameters => parameters.AddChildContent("Annulé"));
+        var iconOnly = Render<OmniBadge>(parameters => parameters.Add(component => component.Icon, Icon(OmniIconName.Check, size: null)));
+        Assert.DoesNotContain("omni-badge--leading-icon", textOnly.Find(".omni-badge").ClassList);
+        Assert.DoesNotContain("omni-badge--leading-icon", iconOnly.Find(".omni-badge").ClassList);
     }
 
     [Fact]

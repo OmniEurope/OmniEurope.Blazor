@@ -3,7 +3,7 @@
 
 <span @attributes="AdditionalAttributes"
       id="@Id"
-      class="@Css("omni-badge", $"omni-badge--{Tone.ToString().ToLowerInvariant()}", $"omni-badge--{Fill.ToString().ToLowerInvariant()}", IconOnly ? "omni-badge--icon" : null, InkClass, WidthClass)">
+      class="@Css("omni-badge", $"omni-badge--{Tone.ToString().ToLowerInvariant()}", $"omni-badge--{Fill.ToString().ToLowerInvariant()}", IconOnly ? "omni-badge--icon" : null, LeadingIcon ? "omni-badge--leading-icon" : null, InkClass, WidthClass)">
     @Icon
     @ChildContent
 </span>

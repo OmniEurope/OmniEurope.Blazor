@@ -384,7 +384,13 @@
 
 /* Pastille tonale : l'encre de la variante mêlée à la surface et au texte, lisible en clair et en sombre. */
 .omni-badge { --omni-badge-ink: var(--omni-color-text-muted); align-items: center; background: color-mix(in srgb, var(--omni-badge-ink) 14%, var(--omni-color-surface)); border: var(--omni-border-width) solid color-mix(in srgb, var(--omni-badge-ink) 32%, transparent); border-radius: var(--omni-radius-sm); box-sizing: border-box; color: color-mix(in srgb, var(--omni-badge-ink) 40%, var(--omni-color-text)); display: inline-flex; font-size: calc(var(--omni-control-font) - 0.0625rem); font-variant-numeric: tabular-nums; font-weight: 650; gap: var(--omni-space-xs); justify-content: center; line-height: 1; min-height: var(--omni-badge-height); min-width: var(--omni-badge-height); padding: var(--omni-badge-pad-y) 0.5rem; white-space: nowrap; }
-.omni-badge { --omni-icon-size: 0.875rem; }
+/* The icon follows the badge's own text (1em), so a host that resizes the text resizes the icon with it
+   instead of leaving a glyph taller than the letters (client application acceptance review R-42). */
+.omni-badge { --omni-icon-size: 1em; }
+/* An icon before the text: a glyph is drawn inside its box with a margin (24/256 of it on each side for
+   the shipped glyphs), so the start padding gives that margin back and the ink sits as far from the
+   start edge as the text ends from the other one. */
+.omni-badge--leading-icon { padding-inline-start: calc(0.5rem - 0.09375 * var(--omni-icon-size)); }
 /* A badge keeps its one line whole: in a row too narrow it does not shrink under its text (the row
    wraps or scrolls, the badge is never cut). */
 .omni-badge { flex-shrink: 0; }

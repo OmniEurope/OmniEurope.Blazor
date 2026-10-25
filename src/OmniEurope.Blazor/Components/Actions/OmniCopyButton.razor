@@ -3,7 +3,8 @@
 @implements IAsyncDisposable
 
 @* The button is named by its words (the label, then "copied" or "copy failed"), so its name always says
-   what it shows. The result is also announced by the polite live region next to it. *@
+   what it shows; drawn as its icon alone (IconOnly), the same words become its accessible name and its
+   tooltip. The result is also announced by the polite live region next to it. *@
 <OmniButton @attributes="AdditionalAttributes"
             Id="@Id"
             Class="@Class"
@@ -11,8 +12,10 @@
             Size="Size"
             Disabled="Disabled || !CanCopy"
             Busy="_working"
+            Label="@(IconOnly ? ButtonText : null)"
+            title="@(IconOnly ? ButtonText : null)"
+            ChildContent="Words"
             OnClick="CopyAsync">
     <Icon>@IconContent</Icon>
-    <ChildContent><span>@ButtonText</span></ChildContent>
 </OmniButton>
 <span class="omni-visually-hidden" role="status" aria-live="polite">@Announcement</span>

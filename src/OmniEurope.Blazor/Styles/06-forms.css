@@ -332,9 +332,16 @@ select.omni-input.omni-input--large:not([multiple]):not([size]) { block-size: ca
     padding: var(--omni-space-sm);
     text-align: start;
 }
-.omni-autocomplete__option:hover,
-.omni-autocomplete__option--active { background: var(--omni-color-surface-muted); }
+/* The wash is drawn from the text colour over whatever the list shows, never from a surface token: a
+   theme whose list is already the muted surface would otherwise show no hover at all. */
+.omni-autocomplete__option:hover:not(.omni-autocomplete__option--disabled),
+.omni-autocomplete__option--active { background: color-mix(in srgb, var(--omni-color-text) 8%, transparent); }
 .omni-autocomplete__option--active { outline: var(--omni-border-width) solid var(--omni-color-accent); outline-offset: -1px; }
+/* Group headings (OmniOption.Group): a discreet label above its run of options, never hoverable. The
+   wrappers are presentation only, so the run of a group lays out like the options around it. */
+.omni-autocomplete__group { display: grid; }
+.omni-autocomplete__group-list { display: grid; list-style: none; margin: 0; padding: 0; }
+.omni-autocomplete__group-heading { color: var(--omni-color-text-muted); cursor: default; font-size: var(--omni-font-size-sm); font-weight: 600; padding: var(--omni-space-sm) var(--omni-space-sm) var(--omni-space-xs); user-select: none; }
 .omni-autocomplete__option--selected { font-weight: 600; }
 .omni-autocomplete__option--disabled { background: transparent; color: var(--omni-color-text-muted); cursor: not-allowed; opacity: 0.55; }
 /* OptionIconTemplate: the icon sits on the first line of the text, a fixed gap before it. */

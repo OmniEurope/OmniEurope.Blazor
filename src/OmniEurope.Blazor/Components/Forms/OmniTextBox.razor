@@ -48,9 +48,11 @@ else
             <OmniButton Class="omni-text-box-field__copy"
                         Variant="OmniButtonVariant.Secondary"
                         Disabled="@(Disabled || string.IsNullOrEmpty(CurrentValueAsString))"
+                        Label="@(CopyIconOnly ? CopyLabel : null)"
+                        title="@(CopyIconOnly ? CopyLabel : null)"
+                        ChildContent="CopyContent"
                         OnClick="CopyAsync">
                 <Icon><OmniIcon Name="@(CopyResult == true ? OmniIconName.Check : OmniIconName.Copy)" /></Icon>
-                <ChildContent><span>@CopyLabel</span></ChildContent>
             </OmniButton>
             <span class="omni-visually-hidden" role="status" aria-live="polite">@CopyAnnouncement</span>
         }

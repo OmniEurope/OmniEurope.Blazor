@@ -29,6 +29,8 @@
            aria-describedby="@CombinedAriaDescribedBy"
            @oninput="HandleInputAsync"
            @onkeydown="HandleKeyDownAsync"
+           @onfocus="OpenOnFocusCallback"
+           @onclick="OpenOnClickCallback"
            @onblur="HandleBlur" />
     @if (ShowToggle)
     {
@@ -56,25 +58,21 @@
     @if (IsOpen)
     {
         <ul id="@ResultsId" class="omni-autocomplete__results" role="listbox" aria-label="@Internal.OmniAriaLabel.Of(Label, AdditionalAttributes)">
-            @for (var index = 0; index < _results.Count; index++)
-            {
-                var position = index;
-                var option = _results[position];
-                var unavailable = option.Disabled || Disabled;
-                <li id="@OptionId(position)"
-                    class="@OptionClass(position, option)"
+            @{
+                RenderFragment<int> optionItem = at => @<li id="@OptionId(at)"
+                    class="@OptionClass(at, _results[at])"
                     role="option"
-                    aria-selected="@(position == _activeIndex ? "true" : "false")"
-                    aria-disabled="@(unavailable ? "true" : null)"
+                    aria-selected="@(at == _activeIndex ? "true" : "false")"
+                    aria-disabled="@(IsUnavailable(_results[at]) ? "true" : null)"
                     @onmousedown:preventDefault="true"
-                    @onclick="() => Select(option)">
+                    @onclick="() => Select(_results[at])">
                     @if (OptionIconTemplate is not null)
                     {
-                        <span class="omni-autocomplete__option-icon" aria-hidden="true">@OptionIconTemplate(option)</span>
+                        <span class="omni-autocomplete__option-icon" aria-hidden="true">@OptionIconTemplate(_results[at])</span>
                     }
                     @if (HighlightMatches)
                     {
-                        @foreach (var segment in OmniTextMatch.Split(option.Text, _resultsQuery))
+                        @foreach (var segment in OmniTextMatch.Split(_results[at].Text, _resultsQuery))
                         {
                             if (segment.Matched)
                             {
@@ -88,9 +86,34 @@
                     }
                     else
                     {
-                        @option.Text
+                        @_results[at].Text
                     }
-                </li>
+                </li>;
+            }
+            @* A run of options under a Group heading is a role=group named by its heading (the ARIA listbox
+               pattern). The heading is not an option, so the arrows, aria-activedescendant and the result
+               count never see it. Options without a group stay direct children of the listbox. *@
+            @foreach (var run in ResultRuns)
+            {
+                if (run.Group is null)
+                {
+                    @for (var position = run.Start; position < run.Start + run.Count; position++)
+                    {
+                        @optionItem(position)
+                    }
+                }
+                else
+                {
+                    <li role="presentation" class="omni-autocomplete__group">
+                        <ul role="group" class="omni-autocomplete__group-list" aria-labelledby="@GroupHeadingId(run)">
+                            <li id="@GroupHeadingId(run)" role="presentation" class="omni-autocomplete__group-heading" @onmousedown:preventDefault="true">@run.Group</li>
+                            @for (var position = run.Start; position < run.Start + run.Count; position++)
+                            {
+                                @optionItem(position)
+                            }
+                        </ul>
+                    </li>
+                }
             }
         </ul>
     }

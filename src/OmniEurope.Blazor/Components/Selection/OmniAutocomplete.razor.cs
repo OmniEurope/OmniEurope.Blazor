@@ -21,6 +21,9 @@ public partial class OmniAutocomplete<TValue>
     private bool _hasShownValue;
     private int _activeIndex = -1;
     private bool _closed;
+    private bool _opening;
+    // Counts the closings (blur, Escape, Enter, chevron): a full list on its way is not shown after one.
+    private int _closings;
     // The text that stands for the current value: a free text equal to it is not taken again.
     private string _committedText = string.Empty;
     private ElementReference _input;
@@ -107,8 +110,10 @@ public partial class OmniAutocomplete<TValue>
     /// Draws at the end of the field the chevron of a drop-down list, for a field that offers a closed
     /// list (as <see cref="OmniDropDown{TValue}"/> does with <c>Filterable</c>): a press on it opens the
     /// whole list, unfiltered (<see cref="Search"/> called with an empty text), and a second press closes
-    /// it. It is not a tab stop; the keyboard keeps the arrows. It follows <see cref="Disabled"/> and a
-    /// <c>readonly</c> attribute. False by default: a field that searches an open set has nothing to list.
+    /// it. A click on the field, and its focus (by Tab or by a click on its label), open that whole list too,
+    /// unless it is open already. It is not a tab stop; the keyboard keeps the arrows. It follows
+    /// <see cref="Disabled"/> and a <c>readonly</c> attribute. False by default: a field that searches an
+    /// open set has nothing to list, and does not open on focus.
     /// </summary>
     [Parameter]
     public bool ShowToggle { get; set; }
@@ -161,6 +166,40 @@ public partial class OmniAutocomplete<TValue>
         ? AriaDescribedBy
         : string.Join(' ', new[] { AriaDescribedBy, ErrorId }.Where(value => !string.IsNullOrWhiteSpace(value)));
     private bool IsSelected(TValue value) => EqualityComparer<TValue>.Default.Equals(CurrentValue, value);
+
+    // A suggestion cannot be picked when it is disabled itself or the whole field is.
+    private bool IsUnavailable(OmniOption<TValue> option) => option.Disabled || Disabled;
+
+    /// <summary>A stretch of consecutive suggestions sharing one group heading (<see cref="Group"/> null: none).</summary>
+    private readonly record struct ResultRun(string? Group, int Start, int Count);
+
+    // The suggestions in source order, cut into runs of consecutive options of the same group. A group
+    // that comes back later gets a second heading rather than a reordering. A null or blank group means
+    // no heading. The headings are derived from what is listed, so a group none of whose options is shown
+    // has none.
+    private IEnumerable<ResultRun> ResultRuns
+    {
+        get
+        {
+            var start = 0;
+            while (start < _results.Count)
+            {
+                var group = GroupOf(_results[start]);
+                var end = start + 1;
+                while (end < _results.Count && string.Equals(GroupOf(_results[end]), group, StringComparison.Ordinal))
+                {
+                    end++;
+                }
+
+                yield return new ResultRun(group, start, end - start);
+                start = end;
+            }
+        }
+    }
+
+    private static string? GroupOf(OmniOption<TValue> option) => string.IsNullOrWhiteSpace(option.Group) ? null : option.Group;
+
+    private string GroupHeadingId(ResultRun run) => $"{ResultsId}-group-{run.Start.ToString(CultureInfo.InvariantCulture)}";
 
     private string OptionClass(int index, OmniOption<TValue> option) => CssClassBuilder.Combine([
         "omni-autocomplete__option",
@@ -361,16 +400,59 @@ public partial class OmniAutocomplete<TValue>
             return;
         }
 
-        _error = null;
-        var (generation, token) = RestartSearch();
-        await RunSearchAsync(TimeSpan.Zero, generation, token, string.Empty);
-        _closed = false;
-        _activeIndex = -1;
+        await OpenFullListAsync();
         await _input.FocusAsync(preventScroll: true);
+    }
+
+    /// <summary>
+    /// A focus or a click on the field (a click on its label focuses it, and clicks it): with the toggle, opens
+    /// the whole list as the chevron does; without it, no handler is registered at all. A list already open
+    /// or being opened is left alone, so the focus and the click of one gesture open it once, and a click on an
+    /// open list neither closes it nor searches again.
+    /// </summary>
+    private EventCallback<FocusEventArgs> OpenOnFocusCallback => ShowToggle
+        ? EventCallback.Factory.Create<FocusEventArgs>(this, OpenOnEntryAsync)
+        : default;
+
+    private EventCallback<MouseEventArgs> OpenOnClickCallback => ShowToggle
+        ? EventCallback.Factory.Create<MouseEventArgs>(this, OpenOnEntryAsync)
+        : default;
+
+    private Task OpenOnEntryAsync() => IsOpen ? Task.CompletedTask : OpenFullListAsync();
+
+    /// <summary>
+    /// Lists every suggestion, <see cref="Search"/> called with an empty text. It gives way to a list being
+    /// opened already, and does not open the list when the field was left (or Escape pressed) meanwhile.
+    /// </summary>
+    private async Task OpenFullListAsync()
+    {
+        if (Disabled || IsReadOnly || Search is null || _opening)
+        {
+            return;
+        }
+
+        _opening = true;
+        try
+        {
+            var closings = _closings;
+            _error = null;
+            var (generation, token) = RestartSearch();
+            await RunSearchAsync(TimeSpan.Zero, generation, token, string.Empty);
+            if (closings == _closings)
+            {
+                _closed = false;
+                _activeIndex = -1;
+            }
+        }
+        finally
+        {
+            _opening = false;
+        }
     }
 
     private void Close()
     {
+        _closings++;
         _closed = true;
         _activeIndex = -1;
     }

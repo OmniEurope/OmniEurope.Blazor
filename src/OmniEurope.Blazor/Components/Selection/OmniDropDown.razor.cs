@@ -58,6 +58,26 @@ public partial class OmniDropDown<TValue>
     [Parameter]
     public string? AriaDescribedBy { get; set; }
 
+    [Inject]
+    private IJSRuntime JavaScript { get; set; } = default!;
+
+    private bool _labelPicker;
+
+    /// <summary>
+    /// Once a native select is on the page, asks the script to open its list on a click on its label. The
+    /// filterable field opens its own list on focus, and the read-only text field has none: neither asks.
+    /// </summary>
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_labelPicker || Filterable || ReadOnly)
+        {
+            return Task.CompletedTask;
+        }
+
+        _labelPicker = true;
+        return OmniLabelPicker.EnableAsync(JavaScript);
+    }
+
     private string EffectivePlaceholder => string.IsNullOrWhiteSpace(Placeholder)
         ? Localize("DropDownPlaceholder")
         : Placeholder;
