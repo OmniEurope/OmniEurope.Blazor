@@ -72,3 +72,7 @@ Elle change de même quatre rendus par défaut hors de la grille, voulus et vali
 ## Ajouts dans un correctif : `1.9.1`
 
 `1.9.1` porte des ajouts d'API publique dans une version de correctif, là où SemVer demanderait `1.10.0` : `OmniTileGrid.EqualHeights`, `OmniTileGrid.MinColumnWidth`, `OmniTileGrid.UniformSize` et les jetons `--omni-tile-min-width` et `--omni-tile-height`, `OmniPreferencesOptions.MinSyncGap`, `OmniCard` et `OmniNavTile` qui implémentent `IDisposable`. Décision du propriétaire du 2026-10-24 : le numéro ne doit pas bouger autant, pour le même motif qu'en `1.2.0` (le propriétaire est le seul consommateur du paquet). Quatre rendus par défaut changent, listés sous « Changed » dans `CHANGELOG.md` : la disposition d'`OmniSelectableCard`, `OmniDataGrid.MinHeight` à `75dvh`, les lignes d'`OmniFactTile` dans une tuile étroite, et la synchronisation des préférences au retour sur l'onglet, limitée par `MinSyncGap`.
+
+## Ajouts dans un correctif : `1.9.2`
+
+`1.9.2` porte à nouveau des ajouts d'API publique dans une version de correctif, là où SemVer demanderait `1.10.0` : `OmniTextBox.CopyIconOnly` et `OmniCopyButton.IconOnly`. Décision du propriétaire du 2026-10-25, pour le même motif qu'en `1.9.1`. Des rendus et comportements par défaut changent, listés sous « Changed » dans `CHANGELOG.md` : les titres de groupe et l'ouverture au clic et au focus d'`OmniAutocomplete`, l'ouverture d'une liste native par son libellé, le survol des listes, la hauteur d'`OmniDialog` plafonnée en `dvh` et l'icône d'`OmniBadge` à la taille du texte.

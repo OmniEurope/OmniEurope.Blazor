@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+## [1.9.2] - 2026-10-25
+
+Correctif qui porte deux ajouts d'API publique, là où SemVer demanderait `1.10.0` (décision du propriétaire du 2026-10-25, voir [docs/versioning.md](docs/versioning.md)) : demandes d'une application cliente sur les boutons de copie, les listes de sélection, les dialogues et les badges. Les deux ajouts sont sans effet tant qu'ils ne sont pas utilisés ; les changements de rendu et de comportement par défaut sont listés sous « Changed ».
+
 ### Added
 
 - `OmniTextBox.CopyIconOnly` (`bool`, `false`) : demande d'une application cliente (recette R-61). Le bouton Copier de `ShowCopy` est dessiné en icône seule, bouton carré sans mot (`omni-button--icon`), pour un champ étroit comme un identifiant de démonstration dans un encadré de connexion. Le mot localisé « Copier » reste son nom accessible (`aria-label`) et devient son infobulle (`title`) ; la coche après la copie et l'annonce de l'issue ne changent pas. `false`, le défaut, garde le mot.
