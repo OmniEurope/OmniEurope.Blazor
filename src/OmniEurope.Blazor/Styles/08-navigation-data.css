@@ -92,12 +92,14 @@
 /* A tab that takes a drop says so while a drag is over it: its wrapper draws no box, the button does. */
 .omni-tabs__tab--drag-over { background: var(--omni-color-accent-subtle); color: var(--omni-color-accent-strong); }
 /* A flex column that may shrink: a grid inside asking for the height its parent leaves free needs
-   a parent that is itself bounded, or it overflows the panel and runs off the bottom of the page. */
+   a parent that is itself bounded, or it overflows the panel and runs off the bottom of the page.
+   The panel stands from the strip by the gap of a page (--omni-space-md, the one of OmniStack) and adds
+   nothing below it: the container of the tabs spaces what follows. */
 .omni-tabs__panel {
     display: flex;
     flex-direction: column;
     min-block-size: 0;
-    padding: var(--omni-space-lg) 0;
+    padding: var(--omni-space-md) 0 0;
 }
 /* ScrollablePanels: the tabs fill their sized parent and only the selected panel scrolls, so the strip
    stays put. The scroll stops at the panel's edge rather than chaining to the page behind it. */

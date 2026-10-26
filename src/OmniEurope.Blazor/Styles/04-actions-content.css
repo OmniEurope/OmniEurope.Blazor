@@ -361,6 +361,10 @@
 .omni-heading-row--h5 { margin-block-end: calc(var(--omni-font-size-h5) / 2); }
 .omni-heading-row--h6 { margin-block-end: calc(var(--omni-font-size-h6) / 2); }
 .omni-heading-row > .omni-heading { margin-block: 0; min-inline-size: 0; }
+/* In a container that spaces its children itself (OmniStack, OmniRow), a heading, a heading row and a
+   paragraph of OmniText keep no margin of their own: the gap alone parts the blocks, a title is no
+   farther from the next block than any two blocks are (request of a client application, 2026-10-26). */
+:is(.omni-stack, .omni-row) > :is(.omni-heading, .omni-heading-row, .omni-text) { margin-block: 0; }
 .omni-heading__help-mark { color: var(--omni-color-text-muted); cursor: help; display: inline-flex; }
 .omni-heading__help .omni-tooltip__trigger { border-radius: 50%; display: inline-flex; }
 

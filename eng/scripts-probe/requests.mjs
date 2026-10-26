@@ -691,6 +691,35 @@ export async function requestSteps(session, results) {
     step(`colonnes au contenu au premier rendu, grilles Items et Load : ${seen.length} et ${traces['demo-grid-sizing-remote'].length} états vus, masquées aux largeurs égales et pendant le chargement, affichée aux largeurs du contenu (${settled.widths} px) sans saut ; sans script, affichée après 1 s`);
   }
 
+  // Blocks of a page in an OmniStack (request of a client application of 2026-10-26): a heading stood
+  // 20px from the next block, a paragraph of OmniText 26px, a tab panel 16px from its strip and 28px from
+  // what follows, for a gap of 12px. Every gap measured is now the stack's.
+  {
+    const gaps = await evaluate(`(() => {
+      const host = document.createElement('div');
+      host.innerHTML = '<div class="omni-stack omni-stack--vertical omni-stack--gap-md"><h5 class="omni-heading omni-heading--h5">Titre</h5><div>Bloc</div><p class="omni-text omni-text--neutral">Texte</p><div>Bloc</div><div class="omni-tabs"><div class="omni-tabs__strip" role="tablist"><button type="button" class="omni-tabs__tab" role="tab">A</button></div><section class="omni-tabs__panel" role="tabpanel"><div>Contenu</div></section></div><div>Après</div></div>';
+      document.querySelector('main').append(host);
+      const stack = host.firstElementChild;
+      const blocks = [...stack.children];
+      const between = (above, below) => Math.round((below.getBoundingClientRect().top - above.getBoundingClientRect().bottom) * 10) / 10;
+      const tabs = blocks[4];
+      const content = tabs.querySelector('.omni-tabs__panel > div');
+      const result = {
+        gap: parseFloat(getComputedStyle(stack).rowGap),
+        heading: between(blocks[0], blocks[1]),
+        beforeText: between(blocks[1], blocks[2]),
+        afterText: between(blocks[2], blocks[3]),
+        strip: between(tabs.querySelector('.omni-tabs__strip'), content),
+        afterTabs: between(content, blocks[5])
+      };
+      host.remove();
+      return result;
+    })()`);
+    const measured = Object.entries(gaps).filter(([name]) => name !== 'gap');
+    check(gaps.gap === 12 && measured.every(([, value]) => Math.abs(value - gaps.gap) <= 0.5), `Les blocs d'un OmniStack ne sont pas au gap de ${gaps.gap} px : ${measured.map(([name, value]) => `${name} ${value} px`).join(', ')}`);
+    step(`blocs d'un OmniStack au gap de ${gaps.gap} px : titre, texte avant et après, onglets (bandeau et suite) à ${measured.map(([, value]) => value).join(', ')} px`);
+  }
+
   // 8. FillAvailableHeight in a preview box that scrolls itself (request of 2026-10-12): with settings
   // taller than the visible part of the box above it, nothing is left to the grid, which drew 0px, its
   // frame 2px, every row cut. In both scroll modes and at 390 and 1280 px, the grid keeps its floor
