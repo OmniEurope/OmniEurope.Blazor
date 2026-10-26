@@ -524,9 +524,13 @@
    fills the visible part of the area that scrolls it), the measure is 0 and the grid keeps its bars,
    its pager and a viewport of MinHeight (min-content, the viewport counting for its minimum alone with
    a flex basis of 0), and that area scrolls to it. A floor of 0 drew a 0px grid whose rows were cut. */
+/* That floor never exceeds the room the rows have, the measured height less the grid's own bars
+   (--omni-grid-viewport-room, attachFill): a grid that starts low in the page kept 75dvh of rows, ran past
+   the bottom and both the page and the grid scrolled. The cap stops at ten rows, so a grid with nothing
+   left below it still shows rows and that area scrolls to them; a MinHeight below ten rows is kept. */
 .omni-data-grid--fill { block-size: var(--omni-grid-fill-height, 100%); display: flex; flex-direction: column; min-block-size: min-content; }
 .omni-data-grid--fill > .omni-data-grid__frame { display: flex; flex: auto; flex-direction: column; }
-.omni-data-grid--fill .omni-data-grid__viewport--fill { flex: 1 1 0; min-block-size: var(--omni-grid-viewport-min, 75dvh); }
+.omni-data-grid--fill .omni-data-grid__viewport--fill { flex: 1 1 0; min-block-size: min(var(--omni-grid-viewport-min, 75dvh), max(calc(10 * var(--omni-grid-row-estimate, 2.25rem)), var(--omni-grid-viewport-room, var(--omni-grid-viewport-min, 75dvh)))); }
 /* The spacers stand in for the rows outside the rendered window: never clamp them to one row.
    The declared height is the whole row: a cell counts its padding and its rule inside it (border-box),
    otherwise each row came out taller than declared by that much and the scroll total drifted from the rows. */

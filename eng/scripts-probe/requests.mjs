@@ -700,6 +700,18 @@ export async function requestSteps(session, results) {
     step(`grille remplissant un aperçu qui défile, en mode ${mode} : plancher de ${state.floor} px tenu sous des réglages trop hauts, ${state.cells} cellules et ${state.buttons} boutons de barre visibles à 390 et 1280 px, avec ou sans règle hôte flex 1 1 0`);
   }
   await evaluate(`(() => { const box = ${fillBox}; box.firstElementChild.style.removeProperty('min-block-size'); box.scrollTop = 0; })()`);
+
+  // A floor larger than the room (the default 75dvh under a grid that starts low, request of a client
+  // application of 2026-10-26): the floor is capped by the measured room, so the box does not scroll.
+  // Without the cap the rows kept 905 px for 478 px of room and the box scrolled by 203 px.
+  await send('Emulation.setDeviceMetricsOverride', { width: 1102, height: 1206, deviceScaleFactor: 1, mobile: false });
+  await evaluate(`(() => { const box = ${fillBox}; box.style.blockSize = '800px'; box.style.maxBlockSize = 'none'; box.scrollIntoView({ block: 'start' }); document.querySelector('#demo-grid-fill-box-grid .omni-data-grid__viewport--fill').style.setProperty('--omni-grid-viewport-min', '75dvh'); })()`);
+  const capState = `(() => { const box = ${fillBox}; const grid = document.getElementById('demo-grid-fill-box-grid'); const viewport = grid.querySelector('.omni-data-grid__viewport--fill'); return { scrolls: box.scrollHeight > box.clientHeight + 1, viewport: viewport.getBoundingClientRect().height, room: parseFloat(grid.style.getPropertyValue('--omni-grid-viewport-room')), wanted: innerHeight * 0.75 }; })()`;
+  await waitFor("la grille sous un plancher de 75dvh plafonné par sa place, l'aperçu sans défilement", `(() => { const state = ${capState}; return !state.scrolls && state.room > 0 && Math.abs(state.viewport - state.room) <= 1; })()`);
+  const cap = await evaluate(capState);
+  check(cap.viewport < cap.wanted - 1, `Le plancher n'est pas plafonné : ${cap.viewport} px de lignes pour 75dvh = ${cap.wanted} px.`);
+  await evaluate(`(() => { const box = ${fillBox}; box.style.removeProperty('block-size'); box.style.removeProperty('max-block-size'); document.querySelector('#demo-grid-fill-box-grid .omni-data-grid__viewport--fill').style.removeProperty('--omni-grid-viewport-min'); box.scrollTop = 0; })()`);
+  step(`grille remplissant un aperçu de 800 px dans une fenêtre de 1102 × 1206 : plancher de 75dvh (${Math.round(cap.wanted)} px) plafonné à la place des lignes (${Math.round(cap.room)} px), aucun double défilement`);
   await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
 
   // 10. Requests of a client application of 2026-10-13 (PLAN-001, lot 8). R3-7: a model typed outside the

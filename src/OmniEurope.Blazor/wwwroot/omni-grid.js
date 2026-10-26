@@ -368,6 +368,11 @@ export function attachFill(viewport) {
         }
         const available = Math.floor(visible - offset - bottom - trailing);
         grid.style.setProperty('--omni-grid-fill-height', `${Math.max(0, available)}px`);
+        // The room left to the rows: that height less what the grid draws around its viewport (toolbar,
+        // group panel, pager, frame border), read from the grid as it is laid out. The stylesheet caps the
+        // MinHeight floor by it, so a grid starting low in the page never runs past the bottom.
+        const bars = grid.getBoundingClientRect().height - viewport.getBoundingClientRect().height;
+        grid.style.setProperty('--omni-grid-viewport-room', `${Math.max(0, Math.floor(available - bars))}px`);
     };
     const schedule = () => {
         if (frame === 0) {
@@ -395,6 +400,7 @@ export function attachFill(viewport) {
             observer?.disconnect();
             window.removeEventListener('resize', schedule);
             grid.style.removeProperty('--omni-grid-fill-height');
+            grid.style.removeProperty('--omni-grid-viewport-room');
         }
     });
 }
