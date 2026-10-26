@@ -639,15 +639,18 @@ export async function requestSteps(session, results) {
   {
     await session.visit('/composants/pages', 'main');
     await evaluate(`(() => {
-      window.__probeSizing = [];
+      window.__probeSizing = { 'demo-grid-sizing': [], 'demo-grid-sizing-remote': [] };
       window.__probeSizingStop = false;
       const record = () => {
-        const table = document.querySelector('#demo-grid-sizing table');
-        if (!table) return;
-        const widths = [...table.querySelectorAll('thead th')].map(head => Math.round(head.getBoundingClientRect().width)).join(',');
-        const visible = getComputedStyle(table).visibility === 'visible';
-        const last = window.__probeSizing.at(-1);
-        if (!last || last.widths !== widths || last.visible !== visible) window.__probeSizing.push({ widths, visible });
+        for (const [id, seen] of Object.entries(window.__probeSizing)) {
+          const table = document.querySelector('#' + id + ' table');
+          if (!table) continue;
+          const widths = [...table.querySelectorAll('thead th')].map(head => Math.round(head.getBoundingClientRect().width)).join(',');
+          const visible = getComputedStyle(table).visibility === 'visible';
+          const rows = table.querySelector('tbody td[data-omni-col]') !== null;
+          const last = seen.at(-1);
+          if (!last || last.widths !== widths || last.visible !== visible || last.rows !== rows) seen.push({ widths, visible, rows });
+        }
       };
       const observer = new MutationObserver(record);
       observer.observe(document, { subtree: true, childList: true, attributes: true });
@@ -655,13 +658,21 @@ export async function requestSteps(session, results) {
       requestAnimationFrame(frame);
     })()`);
     await session.visit('/composants/grille', '#demo-grid-sizing table[data-omni-sized]');
+    await waitFor('la grille chargée par Load dimensionnée', "document.querySelector('#demo-grid-sizing-remote table[data-omni-sized]') !== null");
     await pause(500);
-    const seen = JSON.parse(await evaluate('(window.__probeSizingStop = true, JSON.stringify(window.__probeSizing))'));
+    const traces = JSON.parse(await evaluate('(window.__probeSizingStop = true, JSON.stringify(window.__probeSizing))'));
+    // The grid of Items, and the grid that loads its rows itself (Load): that one shows a loading row
+    // first, which it must neither be sized on nor shown with (a jump measured on it on 2026-10-26).
+    for (const [id, seen] of Object.entries(traces)) {
+      const final = seen.at(-1);
+      const trace = seen.map(state => `${state.widths} ${state.visible ? 'visible' : 'masquée'}${state.rows ? '' : ' sans ligne'}`).join(' → ');
+      check(final?.visible === true && final.rows, `La grille au contenu ${id} reste masquée ou sans ligne : ${trace}`);
+      check(seen.some(state => !state.visible && state.widths !== final.widths), `Les largeurs du premier rendu de ${id} n'ont pas été vues avant la mesure, le saut n'est pas éprouvé : ${trace}`);
+      check(seen.filter(state => state.visible).every(state => state.widths === final.widths && state.rows), `Les colonnes au contenu de ${id} sautent sous les yeux du lecteur : ${trace}`);
+    }
+    check(traces['demo-grid-sizing-remote'].some(state => !state.rows), "La grille Load n'a pas été vue en chargement : le cas demandé n'est pas éprouvé.");
+    const seen = traces['demo-grid-sizing'];
     const settled = seen.at(-1);
-    const trace = seen.map(state => `${state.widths} ${state.visible ? 'visible' : 'masquée'}`).join(' → ');
-    check(settled?.visible === true, `La grille au contenu reste masquée : ${trace}`);
-    check(seen.some(state => !state.visible && state.widths !== settled.widths), `Les largeurs du premier rendu n'ont pas été vues avant la mesure, le saut n'est pas éprouvé : ${trace}`);
-    check(seen.filter(state => state.visible).every(state => state.widths === settled.widths), `Les colonnes au contenu sautent sous les yeux du lecteur : ${trace}`);
     const fallback = await evaluate(`(async () => {
       const table = document.createElement('table');
       table.className = 'omni-data-grid__table';
@@ -677,7 +688,7 @@ export async function requestSteps(session, results) {
       return states.join(',');
     })()`);
     check(fallback === 'hidden,visible', `Une table au contenu sans script n'est pas masquée puis affichée après une seconde : ${fallback}`);
-    step(`colonnes au contenu au premier rendu : ${seen.length} états vus, masquée aux largeurs égales, affichée aux largeurs du contenu (${settled.widths} px) sans saut ; sans script, affichée après 1 s`);
+    step(`colonnes au contenu au premier rendu, grilles Items et Load : ${seen.length} et ${traces['demo-grid-sizing-remote'].length} états vus, masquées aux largeurs égales et pendant le chargement, affichée aux largeurs du contenu (${settled.widths} px) sans saut ; sans script, affichée après 1 s`);
   }
 
   // 8. FillAvailableHeight in a preview box that scrolls itself (request of 2026-10-12): with settings
@@ -759,8 +770,14 @@ export async function requestSteps(session, results) {
   await waitFor("la grille sous un plancher de 75dvh plafonné par sa place, l'aperçu sans défilement", `(() => { const state = ${capState}; return !state.scrolls && state.room > 0 && Math.abs(state.viewport - state.room) <= 1; })()`);
   const cap = await evaluate(capState);
   check(cap.viewport < cap.wanted - 1, `Le plancher n'est pas plafonné : ${cap.viewport} px de lignes pour 75dvh = ${cap.wanted} px.`);
+  // The rows area with a border of its own (a grid without a bar, a theme's frame): the room counts it,
+  // the rows area stays within the room and the box still does not scroll (2 px over on 2026-10-26).
+  await evaluate("document.querySelector('#demo-grid-fill-box-grid .omni-data-grid__viewport--fill').style.border = '3px solid'");
+  await waitFor("la zone de lignes bordée dans sa place, l'aperçu sans défilement", `(() => { const state = ${capState}; return !state.scrolls && state.room > 0 && state.viewport <= state.room + 0.5; })()`);
+  const bordered = await evaluate(capState);
+  await evaluate("document.querySelector('#demo-grid-fill-box-grid .omni-data-grid__viewport--fill').style.removeProperty('border')");
   await evaluate(`(() => { const box = ${fillBox}; box.style.removeProperty('block-size'); box.style.removeProperty('max-block-size'); document.querySelector('#demo-grid-fill-box-grid .omni-data-grid__viewport--fill').style.removeProperty('--omni-grid-viewport-min'); box.scrollTop = 0; })()`);
-  step(`grille remplissant un aperçu de 800 px dans une fenêtre de 1102 × 1206 : plancher de 75dvh (${Math.round(cap.wanted)} px) plafonné à la place des lignes (${Math.round(cap.room)} px), aucun double défilement`);
+  step(`grille remplissant un aperçu de 800 px dans une fenêtre de 1102 × 1206 : plancher de 75dvh (${Math.round(cap.wanted)} px) plafonné à la place des lignes (${Math.round(cap.room)} px), aucun double défilement, avec une bordure de 3 px aussi (${bordered.viewport} px pour ${bordered.room} px de place)`);
   await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
 
   // 10. Requests of a client application of 2026-10-13 (PLAN-001, lot 8). R3-7: a model typed outside the

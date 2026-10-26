@@ -51,6 +51,14 @@ public partial class DataGridDemo
         TemplatedSitesLoading = false;
     }
 
+    // The rows of the grid that loads them itself (Load), a moment after its first render, as a server
+    // would: the columns are sized once, on these rows, never on the loading row before them.
+    private async Task<OmniDataGridResult<SiteRow>> LoadSitesAsync(OmniDataGridLoadRequest request)
+    {
+        await Task.Delay(400, request.CancellationToken);
+        return new OmniDataGridResult<SiteRow>(Sites, Sites.Count);
+    }
+
     // Two thousand files grouped by country; one amount, far from the first window, is much wider than
     // the others, so the fit to content of Amount has to rank every text, rendered or not.
     private IReadOnlyList<GridRow> FillRows { get; set; } = [];

@@ -247,7 +247,7 @@ let titlePointer = { x: 0, y: 0 };
 let packageInstalls = 0;
 const CUT_CELL = [
     '.omni-data-grid__cell--text',
-    '.omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer) > td',
+    '.omni-data-grid tbody tr:not(.omni-data-grid__spacer) > td',
     '.omni-data-grid__title',
     '.omni-data-grid__multi-text',
     '.omni-fact-tile__label',

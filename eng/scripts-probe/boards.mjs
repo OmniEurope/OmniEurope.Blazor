@@ -26,6 +26,36 @@ export async function boardSteps(session, results) {
   await mouse('mouseMoved', { x: 5, y: 5 }, { button: 'none' });
   step('cellule coupée lue en bulle');
 
+  // A cell cut by a rule of the host (request of a client application of 2026-10-26: every cell of its
+  // grids cut by white-space nowrap and an ellipsis), in a grid of no fixed row height and outside a text
+  // cell: it shows its text too, and a cell the same rule does not cut shows nothing.
+  await evaluate(`(() => {
+    // The cells of the name column lose their text class: they stand for a template cell of the host.
+    // The name column narrowed to 160 px, under its longest name (its width is kept to be put back).
+    const col = document.querySelector('#demo-grid-sizing-declared col[data-omni-col="Name"]');
+    col.dataset.probeWidth = col.style.getPropertyValue('--omni-col-width');
+    col.style.setProperty('--omni-col-width', '160px');
+    const cells = [...document.querySelectorAll('#demo-grid-sizing-declared tbody td[data-omni-col="Name"]')];
+    for (const cell of cells) {
+      cell.classList.remove('omni-data-grid__cell--text');
+      cell.dataset.probeText = '';
+      Object.assign(cell.style, { whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' });
+    }
+    const cut = cells.find(cell => cell.scrollWidth > cell.clientWidth + 1);
+    const whole = cells.find(cell => cell.scrollWidth <= cell.clientWidth && cell.textContent.trim().length > 0);
+    cut.id = 'probe-host-cut-cell';
+    whole.id = 'probe-host-whole-cell';
+  })()`);
+  check(await evaluate("!document.querySelector('#demo-grid-sizing-declared').classList.contains('omni-data-grid--fixed-row-height')"), 'La grille des largeurs déclarées a une hauteur de ligne fixe : le cas demandé n\'est pas éprouvé.');
+  await hover('#probe-host-whole-cell');
+  await pause(1200);
+  check(await evaluate("document.querySelector('.omni-title-tooltip.omni-title-tooltip--visible') === null"), 'Une cellule entière montre une infobulle.');
+  await hover('#probe-host-cut-cell');
+  await waitFor('le texte coupé par une règle hôte en bulle', "document.querySelector('.omni-title-tooltip.omni-title-tooltip--visible')?.textContent.trim() === document.getElementById('probe-host-cut-cell').textContent.trim()");
+  await mouse('mouseMoved', { x: 5, y: 5 }, { button: 'none' });
+  await evaluate("for (const cell of document.querySelectorAll('#demo-grid-sizing-declared tbody td')) { cell.style.removeProperty('white-space'); cell.style.removeProperty('overflow'); cell.style.removeProperty('text-overflow'); cell.removeAttribute('id'); if (cell.hasAttribute('data-probe-text')) { cell.classList.add('omni-data-grid__cell--text'); cell.removeAttribute('data-probe-text'); } } const col = document.querySelector('#demo-grid-sizing-declared col[data-omni-col=\"Name\"]'); col.style.setProperty('--omni-col-width', col.dataset.probeWidth); delete col.dataset.probeWidth;");
+  step('cellule coupée par une règle hôte (grille sans hauteur fixe) lue en bulle, cellule entière sans bulle');
+
   const sortBefore = await evaluate("document.querySelector('#demo-grid-capped-long th[data-omni-col=\"Applicant\"]').getAttribute('aria-sort')");
   await clickOn('#demo-grid-capped-long th[data-omni-col="Applicant"] button');
   await waitFor('la grille virtuelle triée', `document.querySelector('#demo-grid-capped-long th[data-omni-col="Applicant"]').getAttribute('aria-sort') !== ${JSON.stringify(sortBefore)}`);

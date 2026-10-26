@@ -348,6 +348,8 @@ public sealed class FactTileTests : OmniBunitContext
         var selectors = script[start..script.IndexOf(';', start)];
         Assert.Contains(".omni-fact-tile__label", selectors, StringComparison.Ordinal);
         Assert.Contains(".omni-fact-tile__value", selectors, StringComparison.Ordinal);
+        // Every data cell of a grid, whatever rule cuts it (a host rule of white-space nowrap included).
+        Assert.Contains(".omni-data-grid tbody tr:not(.omni-data-grid__spacer) > td", selectors, StringComparison.Ordinal);
         Assert.Contains(".omni-data-grid__cell--text", selectors, StringComparison.Ordinal);
         Assert.Contains(".omni-data-grid__title", selectors, StringComparison.Ordinal);
         Assert.Contains(".omni-page-header__trail-text", selectors, StringComparison.Ordinal);

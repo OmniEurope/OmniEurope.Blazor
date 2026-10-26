@@ -26,6 +26,8 @@ function stateOf(viewport) {
             // Fonts and padding the measures were taken with.
             context: '',
             watcher: null,
+            // Watches the grid while its first rows load, to size and show the table once they are in.
+            loading: null,
             onChanged: null
         };
         states.set(viewport, state);
@@ -133,9 +135,41 @@ export function forgetContentSizing(viewport) {
     }
 
     state.watcher?.disconnect();
+    state.loading?.disconnect();
     states.delete(viewport);
     viewport.style.removeProperty('--omni-grid-fit-min');
     viewport.querySelector(':scope > table.omni-data-grid__table')?.removeAttribute('data-omni-sized');
+}
+
+// Whether the table already shows its content widths (the stylesheet hides it until then).
+function isShown(viewport) {
+    return viewport.querySelector(':scope > table.omni-data-grid__table')?.hasAttribute('data-omni-sized') === true;
+}
+
+// Whether the grid is loading: its own request, the host's (Busy) or its first virtual block.
+function isLoading(viewport) {
+    return viewport.closest('.omni-data-grid')?.getAttribute('aria-busy') === 'true';
+}
+
+// Sizes the grid again once it stops loading: the rows are in the DOM by then, measured before the paint.
+function awaitRows(viewport, state) {
+    const grid = viewport.closest('.omni-data-grid');
+    if (state.loading || !grid || typeof MutationObserver !== 'function') {
+        return;
+    }
+
+    state.loading = new MutationObserver(() => {
+        if (isLoading(viewport)) {
+            return;
+        }
+
+        state.loading.disconnect();
+        state.loading = null;
+        if (viewport.isConnected && isContentSizing(viewport)) {
+            sizeContent(viewport, state.onChanged);
+        }
+    });
+    state.loading.observe(grid, { attributes: true, attributeFilter: ['aria-busy'] });
 }
 
 /** A CSS length in pixels, laid out once per context (a probe in the grid, so it follows the grid's font). */
@@ -229,6 +263,13 @@ export function sizeContent(viewport, onChanged, remeasure = true) {
     state.onChanged = onChanged ?? state.onChanged;
     syncContext(viewport, header, state);
     watchViewport(viewport, state);
+
+    // A grid that has not shown yet and is loading (aria-busy) holds loading rows, not its own: it is sized
+    // and shown once, on its first real rows, so the reader never sees the widths of the loading rows jump.
+    if (!isShown(viewport) && isLoading(viewport)) {
+        awaitRows(viewport, state);
+        return false;
+    }
 
     const described = cols.map(col => describe(viewport, state, col)).filter(column => column.key !== null);
     if (remeasure || described.some(column => column.measured && !state.widths.has(column.key))) {
