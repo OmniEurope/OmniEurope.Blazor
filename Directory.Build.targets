@@ -11,7 +11,7 @@
   <!-- The items are updated by name, every target framework row at once: MSBuild forbids a metadata
        condition outside a target, and this repository only targets net10.0. -->
   <PropertyGroup>
-    <OmniImplicitSdkPackVersion>10.0.13</OmniImplicitSdkPackVersion>
+    <OmniImplicitSdkPackVersion>10.0.14</OmniImplicitSdkPackVersion>
   </PropertyGroup>
 
   <ItemGroup>
