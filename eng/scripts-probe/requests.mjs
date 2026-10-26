@@ -631,6 +631,55 @@ export async function requestSteps(session, results) {
   await pause(300);
   step(`colonnes au contenu : un en-tête sur une ligne, rien de coupé, la colonne État au plus à sa pastille ou à son en-tête (${narrow.widths[1]} px) dans des boîtes de 600, 900 et 1300 px, les colonnes Grow prennent la place restante, sans défilement latéral tant que le contenu tient (plancher de ${floor.toFixed(0)} px), sans Grow la place partagée à parts égales (+${Math.min(...shares)} px par colonne), grille à modèles chargée après coup à la largeur de ses cellules (nom ${templatesFull.widths[0]} px), colonne Wrap sur ${wrapLines} lignes dans 500 px`);
 
+  // The first paint of a grid sized to its content (request of 2026-10-26): its columns, equal until the
+  // script measures them, jumped to their content widths about 100 ms later. Sampled on every mutation and
+  // frame while the page renders again, the table is hidden while its widths are not the settled ones and
+  // shows only once they are; a table no script sizes (no interactivity, a failed module) still shows
+  // after its second.
+  {
+    await session.visit('/composants/pages', 'main');
+    await evaluate(`(() => {
+      window.__probeSizing = [];
+      window.__probeSizingStop = false;
+      const record = () => {
+        const table = document.querySelector('#demo-grid-sizing table');
+        if (!table) return;
+        const widths = [...table.querySelectorAll('thead th')].map(head => Math.round(head.getBoundingClientRect().width)).join(',');
+        const visible = getComputedStyle(table).visibility === 'visible';
+        const last = window.__probeSizing.at(-1);
+        if (!last || last.widths !== widths || last.visible !== visible) window.__probeSizing.push({ widths, visible });
+      };
+      const observer = new MutationObserver(record);
+      observer.observe(document, { subtree: true, childList: true, attributes: true });
+      const frame = () => { record(); if (window.__probeSizingStop) observer.disconnect(); else requestAnimationFrame(frame); };
+      requestAnimationFrame(frame);
+    })()`);
+    await session.visit('/composants/grille', '#demo-grid-sizing table[data-omni-sized]');
+    await pause(500);
+    const seen = JSON.parse(await evaluate('(window.__probeSizingStop = true, JSON.stringify(window.__probeSizing))'));
+    const settled = seen.at(-1);
+    const trace = seen.map(state => `${state.widths} ${state.visible ? 'visible' : 'masquée'}`).join(' → ');
+    check(settled?.visible === true, `La grille au contenu reste masquée : ${trace}`);
+    check(seen.some(state => !state.visible && state.widths !== settled.widths), `Les largeurs du premier rendu n'ont pas été vues avant la mesure, le saut n'est pas éprouvé : ${trace}`);
+    check(seen.filter(state => state.visible).every(state => state.widths === settled.widths), `Les colonnes au contenu sautent sous les yeux du lecteur : ${trace}`);
+    const fallback = await evaluate(`(async () => {
+      const table = document.createElement('table');
+      table.className = 'omni-data-grid__table';
+      table.setAttribute('data-omni-sizing', 'content');
+      table.innerHTML = '<tbody><tr><td>x</td></tr></tbody>';
+      document.querySelector('main').append(table);
+      const states = [];
+      for (const wait of [500, 900]) {
+        await new Promise(resolve => setTimeout(resolve, wait));
+        states.push(getComputedStyle(table).visibility);
+      }
+      table.remove();
+      return states.join(',');
+    })()`);
+    check(fallback === 'hidden,visible', `Une table au contenu sans script n'est pas masquée puis affichée après une seconde : ${fallback}`);
+    step(`colonnes au contenu au premier rendu : ${seen.length} états vus, masquée aux largeurs égales, affichée aux largeurs du contenu (${settled.widths} px) sans saut ; sans script, affichée après 1 s`);
+  }
+
   // 8. FillAvailableHeight in a preview box that scrolls itself (request of 2026-10-12): with settings
   // taller than the visible part of the box above it, nothing is left to the grid, which drew 0px, its
   // frame 2px, every row cut. In both scroll modes and at 390 and 1280 px, the grid keeps its floor

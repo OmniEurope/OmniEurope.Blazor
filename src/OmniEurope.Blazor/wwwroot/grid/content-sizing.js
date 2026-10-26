@@ -135,6 +135,7 @@ export function forgetContentSizing(viewport) {
     state.watcher?.disconnect();
     states.delete(viewport);
     viewport.style.removeProperty('--omni-grid-fit-min');
+    viewport.querySelector(':scope > table.omni-data-grid__table')?.removeAttribute('data-omni-sized');
 }
 
 /** A CSS length in pixels, laid out once per context (a probe in the grid, so it follows the grid's font). */
@@ -254,6 +255,8 @@ export function sizeContent(viewport, onChanged, remeasure = true) {
 
     // Below the sum of the bases the viewport scrolls sideways instead of squeezing a column.
     viewport.style.setProperty('--omni-grid-fit-min', `${plan.minimum}px`);
+    // The widths are in place: the stylesheet shows the table it kept hidden since its first paint.
+    viewport.querySelector(':scope > table.omni-data-grid__table')?.setAttribute('data-omni-sized', '');
     if (changed) {
         state.onChanged?.();
     }

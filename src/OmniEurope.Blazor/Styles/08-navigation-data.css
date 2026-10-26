@@ -240,6 +240,11 @@
    scrolls sideways instead. The separate border model with no spacing: a sticky header keeps its own
    rule as it scrolls (a collapsed border stays behind in the table), and the cells stay table cells. */
 .omni-data-grid__table { border-collapse: separate; border-spacing: 0; color: var(--omni-color-text); min-inline-size: max(var(--omni-grid-table-min, 0px), var(--omni-grid-fit-min, 0px)); table-layout: fixed; width: 100%; }
+/* A table sized to its content stays hidden, its room kept, until omni-grid.js has applied the content
+   widths (data-omni-sized): the reader never sees the equal widths of the first paint jump. Should the
+   script never run (no interactivity, a failed module), the table shows anyway after a second. */
+.omni-data-grid__table[data-omni-sizing="content"]:not([data-omni-sized]) { animation: omni-grid-reveal 0s 1s both; visibility: hidden; }
+@keyframes omni-grid-reveal { to { visibility: visible; } }
 .omni-data-grid__table caption { font-weight: 650; padding: var(--omni-space-sm); text-align: start; }
 .omni-data-grid__table :is(th, td) { padding: var(--omni-cell-pad-y) var(--omni-space-md); text-align: start; }
 .omni-data-grid__table th { font-weight: 600; }
