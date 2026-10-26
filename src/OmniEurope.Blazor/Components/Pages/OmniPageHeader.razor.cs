@@ -33,6 +33,7 @@ public partial class OmniPageHeader
     private OmniBreadcrumbService? _breadcrumb;
     private ElementReference _frame;
     private IJSObjectReference? _module;
+    private Internal.OmniPackageTooltips? _tooltips;
     private bool _expanded;
     private bool _disposed;
 
@@ -190,7 +191,8 @@ public partial class OmniPageHeader
 
     /// <summary>
     /// On the first render, attaches the script that folds line 1 when it overflows and scrolls the
-    /// title; a lost circuit is ignored.
+    /// title, and turns the package tooltips on so a text line cut by its ellipsis is read whole on hover;
+    /// a lost circuit is ignored.
     /// </summary>
     /// <param name="firstRender">True on the first render of the component.</param>
     /// <returns>A task that completes once the script is attached.</returns>
@@ -201,6 +203,8 @@ public partial class OmniPageHeader
             return;
         }
 
+        _tooltips = new Internal.OmniPackageTooltips(JavaScript);
+        await _tooltips.InstallAsync();
         try
         {
             var module = await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.PageHeader);
@@ -237,6 +241,11 @@ public partial class OmniPageHeader
         if (_breadcrumb is not null)
         {
             _breadcrumb.Changed -= OnBreadcrumbChanged;
+        }
+
+        if (_tooltips is not null)
+        {
+            await _tooltips.DisposeAsync();
         }
 
         if (_module is not null)

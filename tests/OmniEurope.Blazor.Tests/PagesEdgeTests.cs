@@ -133,7 +133,7 @@ public sealed class PagesEdgeTests : OmniBunitContext
 
         await header.Instance.DisposeAsync();
 
-        Assert.Equal(["attach", "detach"], runtime.Module.Calls);
+        Assert.Equal(["installPackageTooltips", "attach", "uninstallPackageTooltips", "detach"], runtime.Module.Calls);
     }
 
     // ---- wizard -----------------------------------------------------------------------------------

@@ -236,6 +236,25 @@ public sealed class AlertAndMultiSelectTests : OmniBunitContext
         Assert.Equal(3, select.FindAll(".omni-multi-select-compact__option input[type=checkbox]").Count);
     }
 
+    [Fact]
+    public async Task MultiSelect_TurnsThePackageTooltipsOnOnce_SoACutSummaryIsReadWhole_AndOffWhenDisposed()
+    {
+        var module = JSInterop.SetupModule(Internal.OmniModules.Tooltip);
+        IReadOnlyList<string> bound = ["nord", "sud"];
+        var select = Render<OmniMultiSelect<string>>(parameters => parameters
+            .Add(component => component.Options, Regions)
+            .Add(component => component.Value, bound)
+            .Add(component => component.ValueExpression, () => bound));
+
+        select.WaitForAssertion(() => Assert.Single(module.Invocations["installPackageTooltips"]));
+        select.Render(parameters => parameters.Add(component => component.Placeholder, "Régions"));
+        Assert.Single(module.Invocations["installPackageTooltips"]);
+        Assert.Empty(module.Invocations["uninstallPackageTooltips"]);
+
+        await select.Instance.DisposeAsync();
+        Assert.Single(module.Invocations["uninstallPackageTooltips"]);
+    }
+
     private static string[] OptionTexts(IRenderedComponent<OmniMultiSelect<string>> select) =>
         [.. select.FindAll(".omni-multi-select-compact__option").Select(option => option.TextContent.Trim())];
 }

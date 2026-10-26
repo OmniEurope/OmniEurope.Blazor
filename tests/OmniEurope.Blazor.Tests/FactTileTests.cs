@@ -343,9 +343,14 @@ public sealed class FactTileTests : OmniBunitContext
     {
         var script = File.ReadAllText(Path.Combine(ShippedLookTests.RepositoryRoot(), "src", "OmniEurope.Blazor", "wwwroot", "omni-tooltip.js"));
 
-        var selectors = script.Split('\n').Single(line => line.StartsWith("const CUT_CELL = ", StringComparison.Ordinal));
+        var start = script.IndexOf("const CUT_CELL = ", StringComparison.Ordinal);
+        Assert.True(start >= 0);
+        var selectors = script[start..script.IndexOf(';', start)];
         Assert.Contains(".omni-fact-tile__label", selectors, StringComparison.Ordinal);
         Assert.Contains(".omni-fact-tile__value", selectors, StringComparison.Ordinal);
         Assert.Contains(".omni-data-grid__cell--text", selectors, StringComparison.Ordinal);
+        Assert.Contains(".omni-data-grid__title", selectors, StringComparison.Ordinal);
+        Assert.Contains(".omni-page-header__trail-text", selectors, StringComparison.Ordinal);
+        Assert.Contains(".omni-multi-select-compact__text", selectors, StringComparison.Ordinal);
     }
 }

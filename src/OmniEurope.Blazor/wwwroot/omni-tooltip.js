@@ -226,11 +226,15 @@ export function install() {
 // selector stays intact, and an element the title alone named keeps that name as aria-label meanwhile.
 //
 // The same box serves the package's own tips, whether or not the host replaced its title tooltips: the
-// whole text of a data grid cell, or of the label or value of a fact tile row, cut by its ellipsis, only
-// while it is cut (the cell is narrower than its text), and the text of an element carrying data-omni-tip
-// (the toolbar of the HTML editor, with a command's description on its second line). A grid, an editor
-// or a fact tile turns them on (installPackageTooltips). The cell keeps its full text in the page for screen readers, and an
-// element with a tip keeps its accessible name.
+// whole text of a text cut by its ellipsis (a data grid cell, a cell of a grid with a fixed row height, a
+// column title, the summary of a grid's multiple-choice filter, the label or value of a fact tile row, the
+// text line of a page header, the summary of a compact multi-select), only while it is cut (the element is
+// narrower than its text), and the text of an element carrying data-omni-tip (the toolbar of the HTML
+// editor, with a command's description on its second line). A grid, an editor, a fact tile, a page header
+// or a multi-select turns them on (installPackageTooltips). A cut text inside a control (a column title in
+// its sort button, a multi-select summary) is read when the pointer is over it, and when the keyboard
+// focuses the control. The text keeps its full content in the page for screen readers, and an element
+// with a tip keeps its accessible name.
 
 const TITLE_DELAY = 450;
 // How many OmniTitleTooltips are placed: with the grids below, they share one set of listeners.
@@ -241,7 +245,16 @@ let titleTimer = 0;
 let titlePointer = { x: 0, y: 0 };
 // How many grids and editors are on the page: cut cells and data-omni-tip get the tooltip while one is.
 let packageInstalls = 0;
-const CUT_CELL = '.omni-data-grid__cell--text, .omni-fact-tile__label, .omni-fact-tile__value';
+const CUT_CELL = [
+    '.omni-data-grid__cell--text',
+    '.omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer) > td',
+    '.omni-data-grid__title',
+    '.omni-data-grid__multi-text',
+    '.omni-fact-tile__label',
+    '.omni-fact-tile__value',
+    '.omni-page-header__trail-text',
+    '.omni-multi-select-compact__text'
+].join(', ');
 
 const isCut = element => element.scrollWidth > element.clientWidth + 1;
 
@@ -416,8 +429,18 @@ const onTitleMove = event => {
     titlePointer = { x: event.clientX, y: event.clientY };
 };
 
+// The cut text a focused control holds (a column title in its sort button, a multi-select summary): the
+// focus lands on the control, never on the text inside it.
+const cutWithin = target => {
+    if (packageInstalls === 0 || !(target instanceof Element)) {
+        return null;
+    }
+
+    return [...target.querySelectorAll(CUT_CELL)].find(isCut) ?? null;
+};
+
 const onTitleFocus = event => {
-    const element = tipTarget(event.target);
+    const element = tipTarget(event.target) ?? cutWithin(event.target);
     hideTitle();
     if (!element || !event.target.matches(':focus-visible')) {
         return;

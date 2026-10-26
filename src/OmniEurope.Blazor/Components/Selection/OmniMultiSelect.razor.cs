@@ -15,6 +15,7 @@ public partial class OmniMultiSelect<TValue>
     private string? _boundFilterText;
     private ElementReference _details;
     private OmniDisclosureDismissal? _dismissal;
+    private OmniPackageTooltips? _tooltips;
 
     /// <summary>The options, in order; the value lists the selected ones in the order they were checked.</summary>
     [Parameter, EditorRequired]
@@ -216,16 +217,25 @@ public partial class OmniMultiSelect<TValue>
         return false;
     }
 
-    /// <summary>Applies <see cref="CloseOnOutsideClick"/> to the panel's dismissal script.</summary>
+    /// <summary>
+    /// Applies <see cref="CloseOnOutsideClick"/> to the panel's dismissal script and, on the first render, turns
+    /// the package tooltips on so a summary cut by its ellipsis is read whole on hover and on keyboard focus.
+    /// </summary>
     /// <param name="firstRender">True on the first render of the component.</param>
     /// <returns>A task that completes once the dismissal is applied.</returns>
-    protected override Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (firstRender)
+        {
+            _tooltips = new OmniPackageTooltips(JavaScript);
+            await _tooltips.InstallAsync();
+        }
+
         _dismissal ??= new OmniDisclosureDismissal(JavaScript);
-        return _dismissal.ApplyAsync(_details, CloseOnOutsideClick, closeOnItem: false);
+        await _dismissal.ApplyAsync(_details, CloseOnOutsideClick, closeOnItem: false);
     }
 
-    /// <summary>Releases the form subscription and the dismissal script.</summary>
+    /// <summary>Releases the form subscription, the dismissal script and the package tooltips.</summary>
     /// <returns>A task that completes once the script is released.</returns>
     public async ValueTask DisposeAsync()
     {
@@ -235,6 +245,11 @@ public partial class OmniMultiSelect<TValue>
         if (_dismissal is not null)
         {
             await _dismissal.DisposeAsync();
+        }
+
+        if (_tooltips is not null)
+        {
+            await _tooltips.DisposeAsync();
         }
 
         GC.SuppressFinalize(this);
