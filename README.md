@@ -48,7 +48,7 @@ Requires .NET 10.
 Install the package:
 
 ```xml
-<PackageReference Include="OmniEurope.Blazor" Version="1.9.3" />
+<PackageReference Include="OmniEurope.Blazor" Version="1.9.4" />
 ```
 
 Register the services:

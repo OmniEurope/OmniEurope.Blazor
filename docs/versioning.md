@@ -80,3 +80,7 @@ Elle change de même quatre rendus par défaut hors de la grille, voulus et vali
 ## Ajouts dans un correctif : `1.9.3`
 
 `1.9.3` porte encore des ajouts d'API publique dans une version de correctif, là où SemVer demanderait `1.10.0` : `OmniDiffViewer.GoToNextChangeAsync()`, `OmniDiffViewer.GoToPreviousChangeAsync()`, `OmniDiffViewer.ShowNavigation` et `OmniDiffViewer.FillAvailableHeight`. Décision du propriétaire du 2026-10-25, pour le même motif qu'en `1.9.1`. Aucun rendu ni comportement par défaut ne change.
+
+## Ajouts dans un correctif : `1.9.4`
+
+`1.9.4` porte encore un ajout d'API publique dans une version de correctif, là où SemVer demanderait `1.10.0` : `OmniDiffViewer.InteropModulePath`. Décision du propriétaire du 2026-10-26 (numéro donné à la demande d'une application cliente), pour le même motif qu'en `1.9.1`. Changent par défaut, listés sous « Changed » dans `CHANGELOG.md` : la vérification d'origine plus stricte d'`OmniCodeEditor.InteropModulePath`, et l'infobulle du texte entier sur les titres de colonne, les cellules de grille à hauteur fixe, la ligne de texte d'`OmniPageHeader` et le résumé d'`OmniMultiSelect` coupés par leurs points de suspension.

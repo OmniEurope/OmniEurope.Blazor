@@ -2887,6 +2887,7 @@ property public OmniEurope.Blazor.Components.OmniDiffViewer.Disabled : System.Bo
 property public OmniEurope.Blazor.Components.OmniDiffViewer.Engine : OmniEurope.Blazor.Components.OmniCodeEditorEngine {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDiffViewer.FillAvailableHeight : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDiffViewer.Height : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDiffViewer.InteropModulePath : System.String {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDiffViewer.Label : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDiffViewer.Language : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDiffViewer.Modified : System.String {get(public);set(public)} [Parameter]
