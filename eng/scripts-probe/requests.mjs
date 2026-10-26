@@ -688,7 +688,25 @@ export async function requestSteps(session, results) {
       return states.join(',');
     })()`);
     check(fallback === 'hidden,visible', `Une table au contenu sans script n'est pas masquée puis affichée après une seconde : ${fallback}`);
-    step(`colonnes au contenu au premier rendu, grilles Items et Load : ${seen.length} et ${traces['demo-grid-sizing-remote'].length} états vus, masquées aux largeurs égales et pendant le chargement, affichée aux largeurs du contenu (${settled.widths} px) sans saut ; sans script, affichée après 1 s`);
+    // In a grid loading its first rows, the second waits for the end of the load.
+    const held = await evaluate(`(async () => {
+      const grid = document.createElement('div');
+      grid.className = 'omni-data-grid';
+      grid.setAttribute('aria-busy', 'true');
+      grid.innerHTML = '<table class="omni-data-grid__table" data-omni-sizing="content"><tbody><tr><td>x</td></tr></tbody></table>';
+      document.querySelector('main').append(grid);
+      const table = grid.firstElementChild;
+      const states = [];
+      await new Promise(resolve => setTimeout(resolve, 1400));
+      states.push(getComputedStyle(table).visibility);
+      grid.setAttribute('aria-busy', 'false');
+      await new Promise(resolve => setTimeout(resolve, 1400));
+      states.push(getComputedStyle(table).visibility);
+      grid.remove();
+      return states.join(',');
+    })()`);
+    check(held === 'hidden,visible', `Une table au contenu d'une grille qui charge n'attend pas la fin du chargement : ${held}`);
+    step(`colonnes au contenu au premier rendu, grilles Items et Load : ${seen.length} et ${traces['demo-grid-sizing-remote'].length} états vus, masquées aux largeurs égales et pendant le chargement, affichée aux largeurs du contenu (${settled.widths} px) sans saut ; sans script, affichée après 1 s, après la fin du chargement dans une grille qui charge`);
   }
 
   // Blocks of a page in an OmniStack (request of a client application of 2026-10-26): a heading stood
@@ -718,6 +736,51 @@ export async function requestSteps(session, results) {
     const measured = Object.entries(gaps).filter(([name]) => name !== 'gap');
     check(gaps.gap === 12 && measured.every(([, value]) => Math.abs(value - gaps.gap) <= 0.5), `Les blocs d'un OmniStack ne sont pas au gap de ${gaps.gap} px : ${measured.map(([name, value]) => `${name} ${value} px`).join(', ')}`);
     step(`blocs d'un OmniStack au gap de ${gaps.gap} px : titre, texte avant et après, onglets (bandeau et suite) à ${measured.map(([, value]) => value).join(', ')} px`);
+  }
+
+  // A description list in two columns (request of a client application of 2026-10-26): the labels held
+  // 40% of a column whatever their length, so a value wrapped beside a label of three words. The labels of
+  // a column now share the width of the longest, capped at 40%, the values take all the room left; at
+  // 375 px the list is one column and nothing overflows.
+  {
+    await session.visit('/composants/pages', '#pages-demo-essentials .omni-description-list__item');
+    // The shell of the demonstration may be left loading or missing by an earlier step: it is loaded again.
+    await clickOn('#pages-demo-load');
+    await waitFor('la liste de description affichée', "[...document.querySelectorAll('#pages-demo-essentials > .omni-description-list__item')].filter(item => item.getClientRects().length > 0 && item.getBoundingClientRect().width > 0).length === 6", 10_000);
+    const listState = `(() => {
+      const list = document.getElementById('pages-demo-essentials');
+      const items = [...list.querySelectorAll(':scope > .omni-description-list__item')].filter(item => item.getClientRects().length > 0).map(item => {
+        const label = item.querySelector('.omni-description-list__label').getBoundingClientRect();
+        const value = item.querySelector('.omni-description-list__value').getBoundingClientRect();
+        const box = item.getBoundingClientRect();
+        return { left: Math.round(box.left), width: box.width, label: label.width, value: value.width, start: Math.round(value.left - label.right) };
+      });
+      return { items, overflow: list.scrollWidth - list.clientWidth, page: document.documentElement.scrollWidth - innerWidth, gap: parseFloat(getComputedStyle(list.querySelector('.omni-description-list__item')).columnGap) };
+    })()`;
+    const layoutOf = state => {
+      check(state.items.length >= 4, `La liste de description montre ${state.items.length} élément(s) au lieu de six.`);
+      const columns = [...new Set(state.items.map(item => item.left))];
+      for (const left of columns) {
+        const column = state.items.filter(item => item.left === left);
+        const labels = column.map(item => Math.round(item.label));
+        check(Math.max(...labels) - Math.min(...labels) <= 1, `Les libellés d'une colonne ne sont pas alignés : ${labels.join(', ')} px.`);
+        for (const item of column) {
+          check(item.label <= item.width * 0.4 + 1, `Un libellé dépasse 40 % de sa colonne : ${item.label} px sur ${item.width} px.`);
+          check(Math.abs(item.label + item.start + item.value - item.width) <= 1 && Math.abs(item.start - state.gap) <= 1, `La valeur ne prend pas la place laissée par son libellé : ${item.label} + ${item.start} + ${item.value} pour ${item.width} px.`);
+        }
+      }
+      check(state.overflow <= 0 && state.page <= 0, `La liste de description déborde : ${state.overflow} px dans la liste, ${state.page} px dans la page.`);
+      return columns.length;
+    };
+    const wide = await evaluate(listState);
+    const wideColumns = layoutOf(wide);
+    check(wideColumns === 2, `La liste de description a ${wideColumns} colonne(s) à 1280 px au lieu de 2.`);
+    await send('Emulation.setDeviceMetricsOverride', { width: 375, height: 812, deviceScaleFactor: 1, mobile: false });
+    await waitFor('la liste de description sur une colonne à 375 px', `new Set(${listState}.items.map(item => item.left)).size === 1`);
+    const phone = await evaluate(listState);
+    layoutOf(phone);
+    await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
+    step(`liste de description : libellés à la largeur du plus long (${Math.round(wide.items[0].label)} px), valeurs sur toute la place restante (${Math.round(wide.items[0].value)} px), deux colonnes à 1280 px, une à 375 px sans débordement`);
   }
 
   // 8. FillAvailableHeight in a preview box that scrolls itself (request of 2026-10-12): with settings

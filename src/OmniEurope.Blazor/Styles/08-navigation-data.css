@@ -244,8 +244,12 @@
 .omni-data-grid__table { border-collapse: separate; border-spacing: 0; color: var(--omni-color-text); min-inline-size: max(var(--omni-grid-table-min, 0px), var(--omni-grid-fit-min, 0px)); table-layout: fixed; width: 100%; }
 /* A table sized to its content stays hidden, its room kept, until omni-grid.js has applied the content
    widths (data-omni-sized): the reader never sees the equal widths of the first paint jump. Should the
-   script never run (no interactivity, a failed module), the table shows anyway after a second. */
-.omni-data-grid__table[data-omni-sizing="content"]:not([data-omni-sized]) { animation: omni-grid-reveal 0s 1s both; visibility: hidden; }
+   script never run (no interactivity, a failed module), the table shows anyway after a second. While
+   the grid loads its first rows (aria-busy) that second waits, the load bar alone showing, so the
+   widths of the loading row never show either; a load past five seconds shows the table anyway. */
+.omni-data-grid__table[data-omni-sizing="content"]:not([data-omni-sized]) { animation: omni-grid-reveal 0s 1s both, omni-grid-reveal 0s 5s both; visibility: hidden; }
+.omni-data-grid[aria-busy="true"] .omni-data-grid__table[data-omni-sizing="content"]:not([data-omni-sized]) { animation-play-state: paused, running; }
+.omni-data-grid__table[data-omni-sizing="content"]:not([data-omni-sized]) .omni-data-grid__progress { visibility: visible; }
 @keyframes omni-grid-reveal { to { visibility: visible; } }
 .omni-data-grid__table caption { font-weight: 650; padding: var(--omni-space-sm); text-align: start; }
 .omni-data-grid__table :is(th, td) { padding: var(--omni-cell-pad-y) var(--omni-space-md); text-align: start; }

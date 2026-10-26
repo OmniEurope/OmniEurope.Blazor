@@ -222,12 +222,15 @@ body:has(.omni-connection-overlay) { overflow: hidden; }
     .omni-wizard__actions { background: var(--omni-wizard-actions-background, transparent); }
 }
 
-/* A definition list in columns: the column count is a class, never a computed inline value. */
-.omni-description-list { display: grid; gap: 0 var(--omni-space-xl); grid-template-columns: repeat(var(--omni-description-columns, 1), minmax(0, 1fr)); margin: 0; }
+/* A definition list in columns: the column count is a class, never a computed inline value. Each column
+   is two tracks shared by its items (subgrid): the labels take the width of the longest, capped at 40%
+   of the column, and the values all the room left, so a value wraps only when its line has no room
+   (request of a client application, 2026-10-26: values wrapped beside labels holding 40% for 3 words). */
+.omni-description-list { display: grid; gap: 0 var(--omni-space-xl); grid-template-columns: repeat(var(--omni-description-columns, 1), fit-content(calc(40% / var(--omni-description-columns, 1))) minmax(0, 1fr)); margin: 0; }
 .omni-description-list--columns-2 { --omni-description-columns: 2; }
 .omni-description-list--columns-3 { --omni-description-columns: 3; }
 .omni-description-list--columns-4 { --omni-description-columns: 4; }
-.omni-description-list__item { align-items: baseline; border-block-start: var(--omni-border-width) solid var(--omni-color-border); display: grid; gap: var(--omni-space-sm); grid-template-columns: minmax(6rem, 2fr) minmax(0, 3fr); padding-block: var(--omni-space-sm); }
+.omni-description-list__item { align-items: baseline; border-block-start: var(--omni-border-width) solid var(--omni-color-border); column-gap: var(--omni-space-sm); display: grid; grid-column: span 2; grid-template-columns: subgrid; padding-block: var(--omni-space-sm); }
 .omni-description-list--columns-1 > :first-child,
 .omni-description-list--columns-2 > :nth-child(-n + 2),
 .omni-description-list--columns-3 > :nth-child(-n + 3),
@@ -240,7 +243,7 @@ body:has(.omni-connection-overlay) { overflow: hidden; }
 .omni-description-list__content { flex: 1 1 auto; min-inline-size: 0; overflow-wrap: anywhere; }
 .omni-description-list__actions { display: inline-flex; flex: 0 0 auto; gap: var(--omni-space-xs); }
 @media (max-width: 39.99rem) {
-    .omni-description-list { grid-template-columns: minmax(0, 1fr); }
+    .omni-description-list { --omni-description-columns: 1; }
     .omni-description-list > :nth-child(n + 2) { border-block-start: var(--omni-border-width) solid var(--omni-color-border); }
 }
 

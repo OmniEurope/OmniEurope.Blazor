@@ -241,6 +241,18 @@ public sealed class PageLayoutTests : OmniBunitContext
         Assert.Equal("Copier", item.QuerySelector("dd .omni-description-list__actions button")!.TextContent);
     }
 
+    [Fact]
+    public void DescriptionList_GivesTheLabelsTheLongestWidth_AndTheValuesTheRoomLeft()
+    {
+        var styles = StylesheetSource.Read();
+
+        // Two tracks per column shared by its items: a value no longer wraps beside a label holding 40% of
+        // the column for three words. The layout itself, at 1280 and 375 px, is the scripts probe's.
+        Assert.Contains("grid-template-columns: repeat(var(--omni-description-columns, 1), fit-content(calc(40% / var(--omni-description-columns, 1))) minmax(0, 1fr));", styles, StringComparison.Ordinal);
+        Assert.Matches(@"\.omni-description-list__item \{[^}]*grid-column: span 2; grid-template-columns: subgrid;", styles);
+        Assert.Contains(".omni-description-list { --omni-description-columns: 1; }", styles, StringComparison.Ordinal);
+    }
+
     [Theory]
     [InlineData(0, 1)]
     [InlineData(3, 3)]

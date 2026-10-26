@@ -97,7 +97,10 @@ public sealed class DataGridColumnSizingTests : OmniBunitContext
 
         // The equal widths of the first paint are never seen (the script marks the table data-omni-sized),
         // the room stays kept, and a table no script sizes still shows. The probe steps it in a browser.
-        Assert.Contains(".omni-data-grid__table[data-omni-sizing=\"content\"]:not([data-omni-sized]) { animation: omni-grid-reveal 0s 1s both; visibility: hidden; }", styles, StringComparison.Ordinal);
+        Assert.Contains(".omni-data-grid__table[data-omni-sizing=\"content\"]:not([data-omni-sized]) { animation: omni-grid-reveal 0s 1s both, omni-grid-reveal 0s 5s both; visibility: hidden; }", styles, StringComparison.Ordinal);
+        // While the first rows load, the second waits (five at most) and the load bar alone shows.
+        Assert.Contains(".omni-data-grid[aria-busy=\"true\"] .omni-data-grid__table[data-omni-sizing=\"content\"]:not([data-omni-sized]) { animation-play-state: paused, running; }", styles, StringComparison.Ordinal);
+        Assert.Contains(".omni-data-grid__table[data-omni-sizing=\"content\"]:not([data-omni-sized]) .omni-data-grid__progress { visibility: visible; }", styles, StringComparison.Ordinal);
         Assert.Contains("@keyframes omni-grid-reveal { to { visibility: visible; } }", styles, StringComparison.Ordinal);
     }
 
