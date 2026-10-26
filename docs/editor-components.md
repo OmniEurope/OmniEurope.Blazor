@@ -619,6 +619,16 @@ pendant le chargement de Monaco et, avec un message d'état, s'il ne se charge p
   plancher et c'est le parent qui défile. La classe est `omni-diff-viewer--fill`, aucun style en ligne ;
   Monaco se remet en page quand sa boîte change de taille (`automaticLayout`, déjà actif au montage, aucun
   observateur ajouté).
+- `InteropModulePath` (`string`, module du paquet par défaut ; même rôle que sur `OmniCodeEditor`) : le
+  module JavaScript de même origine par lequel le composant charge, monte et pilote l'éditeur de
+  différences. Sous une politique de styles stricte, l'hôte y met un module qui monte Monaco dans un cadre
+  à politique propre. Le module exporte `setHeight(root, height)`, `load(basePath, culture, timeout)`
+  (promesse : Monaco disponible ou non), `mountDiff(host, dotnet, options)` (monté ou non ; `options` porte
+  `original`, `modified`, `language`, `readOnly`, `inline`, `originalLabel`, `modifiedLabel`),
+  `setDiff(host, original, modified)`, `configureDiff(host, options)` (mêmes clés, textes nuls),
+  `goToDiff(host, 'next' | 'previous')` et `disposeDiff(host)`, et remonte les modifications par
+  `dotnet.invokeMethodAsync('OnModifiedChanged', value)`. Un chemin qui quitte l'origine de la page lève,
+  avec la règle de `MonacoPath`.
 - Le composant est un `group` nommé ; chaque volet de repli est une `section` nommée dont le texte prend
   le focus pour défiler au clavier. Le thème suit l'`OmniThemeScope` englobant.
 - La référence `DotNetObjectReference` du pont est libérée et l'éditeur détruit à la destruction du

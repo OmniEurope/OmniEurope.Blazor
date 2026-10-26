@@ -8,7 +8,8 @@ namespace OmniEurope.Blazor.Components;
 /// <para>
 /// It shares the Monaco of <see cref="OmniCodeEditor"/>, with the same conditions: the host serves the
 /// <c>min/vs</c> folder of the <c>monaco-editor</c> package at <see cref="MonacoPath"/> and allows
-/// <c>style-src 'unsafe-inline'</c>. Under the strict policy, set <see cref="Engine"/> to
+/// <c>style-src 'unsafe-inline'</c>. Under the strict policy, either hand through <see cref="InteropModulePath"/> a
+/// module that mounts Monaco in a frame with a policy of its own, or set <see cref="Engine"/> to
 /// <see cref="OmniCodeEditorEngine.PlainText"/>: the two texts are then shown in two panes, without
 /// the changes marked, which is also what is shown while Monaco loads and if it cannot be loaded.
 /// </para>
@@ -19,8 +20,6 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public partial class OmniDiffViewer
 {
-    private const string ModulePath = Internal.OmniModules.CodeEditor;
-
     private ElementReference _root;
     private ElementReference _host;
     private Internal.MonacoHost? _monaco;
@@ -82,6 +81,18 @@ public partial class OmniDiffViewer
     [Parameter] public string MonacoPath { get; set; } = Internal.MonacoHost.DefaultPath;
 
     /// <summary>
+    /// The same-origin JavaScript module that drives the diff editor, as on <see cref="OmniCodeEditor.InteropModulePath"/>.
+    /// The default mounts Monaco in this document. A host with a strict style policy hands a module of its own that
+    /// mounts Monaco in a frame with a policy of its own; that module exports <c>setHeight(root, height)</c>,
+    /// <c>load(basePath, culture, timeout)</c> (a promise of whether Monaco is available), <c>mountDiff(host, dotnet,
+    /// options)</c> (whether it mounted), <c>setDiff(host, original, modified)</c>, <c>configureDiff(host, options)</c>,
+    /// <c>goToDiff(host, direction)</c> and <c>disposeDiff(host)</c>, and reports the edits of the modified text through
+    /// <c>dotnet.invokeMethodAsync('OnModifiedChanged', value)</c>. The rule of <see cref="MonacoPath"/> applies: a path
+    /// leaving the origin of the page is refused.
+    /// </summary>
+    [Parameter] public string InteropModulePath { get; set; } = Internal.OmniModules.CodeEditor;
+
+    /// <summary>
     /// The height, as a CSS length (<c>20rem</c>, <c>320px</c>, <c>50vh</c>). Null keeps 20rem. With
     /// <see cref="FillAvailableHeight"/> on, it is the minimum height of the comparison instead.
     /// </summary>
@@ -121,7 +132,7 @@ public partial class OmniDiffViewer
 
     private string EffectiveModifiedLabel => string.IsNullOrWhiteSpace(ModifiedLabel) ? Localize("DiffViewerModified") : ModifiedLabel;
 
-    private Internal.MonacoHost Monaco => _monaco ??= new(JavaScript, () => ModulePath, () => _disposed);
+    private Internal.MonacoHost Monaco => _monaco ??= new(JavaScript, () => InteropModulePath, () => _disposed);
 
     private string PhaseName => _phase.ToString().ToLowerInvariant();
 
@@ -175,6 +186,7 @@ public partial class OmniDiffViewer
     {
         base.OnParametersSet();
         Internal.MonacoHost.RequireParameters(nameof(OmniDiffViewer), Height, MonacoPath);
+        Internal.MonacoHost.RequireInteropModulePath(InteropModulePath);
 
         if (Engine == OmniCodeEditorEngine.PlainText)
         {

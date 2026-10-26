@@ -117,6 +117,44 @@ public sealed class DiffViewerComponentTests : OmniBunitContext
     public void MonacoPath_OnAnotherOrigin_IsRefused(string path) =>
         Assert.Throws<ArgumentException>(() => Render<OmniDiffViewer>(parameters => parameters.Add(component => component.MonacoPath, path)));
 
+    [Theory]
+    [InlineData("https://cdn.example.test/editor.js")]
+    [InlineData("//cdn.example.test/editor.js")]
+    [InlineData("data:text/javascript,export%20default%200")]
+    [InlineData(@"\\evil.example.test\editor.js")]
+    [InlineData("/\t/evil.example.test/editor.js")]
+    [InlineData(" ")]
+    public void InteropModulePath_OnAnotherOrigin_IsRefused(string path)
+    {
+        var exception = Assert.Throws<ArgumentException>(() => Render<OmniDiffViewer>(parameters => parameters
+            .Add(component => component.InteropModulePath, path)));
+
+        Assert.Equal(nameof(OmniDiffViewer.InteropModulePath), exception.ParamName);
+    }
+
+    [Fact]
+    public void InteropModulePath_IsTheModuleTheDiffEditorIsLoadedMountedAndDrivenThrough()
+    {
+        const string framePath = "./js/omni-code-editor-frame.js?v=1";
+        var frame = JSInterop.SetupModule(framePath);
+        frame.Setup<bool>("load", _ => true).SetResult(true);
+        frame.Setup<bool>("mountDiff", _ => true).SetResult(true);
+        frame.SetupVoid("setHeight", _ => true).SetVoidResult();
+        frame.SetupVoid("setDiff", _ => true).SetVoidResult();
+        var bundled = JSInterop.SetupModule(ModulePath);
+
+        var viewer = Render<OmniDiffViewer>(parameters => parameters
+            .Add(component => component.InteropModulePath, framePath)
+            .Add(component => component.Original, "a")
+            .Add(component => component.Modified, "b"));
+        viewer.WaitForAssertion(() => Assert.Single(frame.Invocations["mountDiff"]));
+        viewer.Render(parameters => parameters.Add(component => component.Modified, "c"));
+
+        viewer.WaitForAssertion(() => Assert.Equal("c", Assert.Single(frame.Invocations["setDiff"]).Arguments[2]));
+        Assert.Single(frame.Invocations["load"]);
+        Assert.Empty(bundled.Invocations);
+    }
+
     [Fact]
     public void Monaco_IsLoadedFromTheHostPath_ThenMountedWithBothTextsAndTheOptions()
     {

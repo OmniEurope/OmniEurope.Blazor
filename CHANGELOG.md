@@ -4,6 +4,14 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Added
+
+- `OmniDiffViewer.InteropModulePath` (`string`, `OmniModules.CodeEditor` par défaut) : demande d'une application cliente servie sous une politique de styles stricte (`style-src 'self'`, sans `unsafe-inline`), où Monaco tourne dans un cadre à politique propre. Comme `OmniCodeEditor.InteropModulePath`, c'est le module JavaScript par lequel le composant charge, monte et pilote l'éditeur de différences ; jusqu'ici `OmniDiffViewer` importait toujours `omni-code-editor.js`, donc montait Monaco dans la page. Le module fourni exporte `setHeight`, `load`, `mountDiff`, `setDiff`, `configureDiff`, `goToDiff` et `disposeDiff`, et signale les modifications par `OnModifiedChanged` (contrat décrit sur le paramètre). Le chemin doit rester sur l'origine de la page, avec la règle de `MonacoPath`. La valeur par défaut ne change rien.
+
+### Changed
+
+- `OmniCodeEditor.InteropModulePath` : la vérification d'origine est celle de `MonacoPath` (`OmniSameOriginPath`), plus stricte que la précédente : un caractère de contrôle (le parseur d'URL retire les tabulations, `/<tab>/hôte` devenait `//hôte`), une espace en début ou en fin, ou un schéma dans le premier segment sont désormais refusés. Un chemin relatif ou à la racine de l'origine reste accepté.
+
 ## [1.9.3] - 2026-10-25
 
 Correctif qui porte des ajouts d'API publique, là où SemVer demanderait `1.10.0` (décision du propriétaire du 2026-10-25, voir [docs/versioning.md](docs/versioning.md)) : demandes d'une application cliente sur la comparaison de textes. Ces ajouts sont sans effet tant qu'ils ne sont pas utilisés ; aucun rendu par défaut ne change.

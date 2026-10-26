@@ -177,6 +177,8 @@ public sealed class CodeEditorComponentTests : OmniBunitContext
     [InlineData("//cdn.example.test/editor.js")]
     [InlineData("data:text/javascript,export%20default%200")]
     [InlineData(@"\\evil.example.test\editor.js")]
+    [InlineData("/\t/evil.example.test/editor.js")]
+    [InlineData("javascript:alert(1)")]
     public void InteropModulePath_OnAnotherOrigin_IsRefused(string path)
     {
         var value = string.Empty;

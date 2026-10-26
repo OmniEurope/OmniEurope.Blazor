@@ -38,6 +38,12 @@ internal sealed class MonacoHost(IJSRuntime javaScript, Func<string> modulePath,
         OmniSameOriginPath.Require(monacoPath, "MonacoPath");
     }
 
+    /// <summary>Refuses an <c>InteropModulePath</c> that leaves the origin of the page, with the rule of <c>MonacoPath</c>.</summary>
+    /// <param name="interopModulePath">The <c>InteropModulePath</c> parameter.</param>
+    /// <exception cref="ArgumentException">The path leaves the origin of the page.</exception>
+    internal static void RequireInteropModulePath(string interopModulePath) =>
+        OmniSameOriginPath.Require(interopModulePath, "InteropModulePath");
+
     /// <summary>
     /// Imports the script once. A component disposed while the import was pending releases the module at
     /// once rather than keeping one nothing will dispose; false then tells the caller to stop.

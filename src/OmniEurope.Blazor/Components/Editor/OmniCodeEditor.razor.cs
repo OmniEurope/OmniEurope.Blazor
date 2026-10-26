@@ -127,13 +127,7 @@ public partial class OmniCodeEditor
     {
         base.OnParametersSet();
         Internal.MonacoHost.RequireParameters(nameof(OmniCodeEditor), Height, MonacoPath);
-
-        // The text checks first: whether //host or \\host reads as an absolute URI depends on the system.
-        if (string.IsNullOrWhiteSpace(InteropModulePath) || InteropModulePath.StartsWith("//", StringComparison.Ordinal)
-            || InteropModulePath.Contains('\\') || Uri.TryCreate(InteropModulePath, UriKind.Absolute, out _))
-        {
-            throw new ArgumentException($"{nameof(InteropModulePath)} must be a path on the origin of the page.", nameof(InteropModulePath));
-        }
+        Internal.MonacoHost.RequireInteropModulePath(InteropModulePath);
 
         if (Engine == OmniCodeEditorEngine.PlainText)
         {
