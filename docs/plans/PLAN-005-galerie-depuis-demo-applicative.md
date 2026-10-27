@@ -52,20 +52,20 @@ Examples).
 | 1 | Split buttons, toggle buttons, alerts, progress, skeletons | `etats`, `alertes` (`chargement`, `retours` restent) | Fait |
 | 2 | Dialogs, context menus, overflow menu, popover | `superpositions` en partie | Fait |
 | 3 | Theme, icons, typography, badges, images | `themes`, `typographie`, `badges`, `medias` | Fait |
-| 4 | Stacks, rows and columns, cards, fieldsets, settings sections | `mise-en-page`, `surfaces`, `accordeon` | À faire |
+| 4 | Stacks, rows and columns, cards, fieldsets, settings sections | `mise-en-page`, `surfaces`, `accordeon` | Fait |
 | 5 | Page shell, details, stat tiles, nav tiles | `pages`, `coquille`, `coquille-application` | À faire |
-| 6 | Sidebar, window controls, loading bar, notifications, tabs | `notifications` | À faire |
-| 7 | Breadcrumbs, steps, profile menu, app menu, workflows, preferences | `navigation`, `parcours` | À faire |
-| 8 | Text fields, numbers, toggles, validation, unsaved changes | `formulaires`, `formulaire-vertical`, `validation`, `saisie-avancee`, `reglages-onglets` | À faire |
-| 9 | Drop-downs, autocomplete, multi-select, lists, radio buttons | `selection` | À faire |
+| 6 | Sidebar, window controls, loading bar, notifications, tooltips | `notifications` | À faire |
+| 7 | Tabs, breadcrumbs, steps, profile menu, app menu | `navigation`, `parcours` | À faire |
+| 8 | Text fields, numbers, toggles, validation, unsaved changes | `formulaires`, `formulaire-vertical`, `validation`, `saisie-avancee`, `reglages-onglets` | Fait |
+| 9 | Drop-downs, autocomplete, multi-select, lists, radio buttons | `selection` | Fait |
 | 10 | Select bar, selectable cards, dates, colors, slider, upload | `choix` | À faire |
 | 11 | Data grid (colonnes, détail), data list | `grille`, `grilles-maquette`, `grille-avancee`, `listes` | À faire |
 | 12 | Tree, spreadsheet, collections | `arborescence`, `tableur` | À faire |
 | 13 | Column, line, pie charts, gauges | `graphiques`, `graphiques-avances` | À faire |
 | 14 | Scheduler, timeline, Gantt, step timeline | `agenda`, `planification` | À faire |
 | 15 | HTML editor, document editor, code editor, code reading, mind map | `editeur`, `diagramme` | À faire |
-| 16 | Accueil de la galerie, retrait de l'ancienne galerie et de `DemoCatalog` | (reste) | À faire |
-| H1 | Hébergement : projets Back (API, EF Core, PostgreSQL, `/health/ready`) et Shared, préférences OE enregistrées en base sans compte (identifiant anonyme du navigateur, quotas), front servi en conteneur, le lanceur local démarre base, API et front | | À faire |
+| 16 | Workflows, préférences (enregistrées par l API), accueil de la galerie, retrait de l'ancienne galerie et de `DemoCatalog` | (reste) | À faire |
+| H1 | Hébergement : projets Back (API, EF Core, PostgreSQL, `/health/ready`) et Shared, préférences OE enregistrées en base sans compte (identifiant anonyme du navigateur, quotas), front servi en conteneur, le lanceur local démarre base, API et front | | Fait |
 | H2 | Déploiement : Dockerfiles, Compose de production, `.pipeline`, overlay `docs/code-rules.md` (règles d'hôte actives pour la vitrine), CI ; preuve : contrôle de conformité du déploiement sans écart et pile Compose démarrée en local | | À faire |
 | K | Règles du kit : corriger les constats du contrôle des règles mécanisées du kit (116 au 2026-10-27, dont STD-FILESIZE, STD-I18N, STD-OE, STD-STYLE, STD-TABS) sur la vitrine et ses nouveaux projets | | À faire |
 | 17 | Vérification complète (suite, publication, toutes les pages), documentation, prompt de retrait pour l'application cliente | | À faire |
@@ -91,3 +91,12 @@ worktree) ; aucune vague ne démarre avant que la précédente soit intégrée e
   navigateur sur leurs trois vues sans erreur console. Le plan nommait des outils privés (garde du
   contenu public) : formulation neutralisée. Le lanceur local signale 116 constats des règles du kit :
   lot K ajouté.
+- 2026-10-27 : H1, lots 4, 8 et 9 fusionnés. Preuve : build Release sans avertissement, `restore
+  --locked-mode` PASS, 431 tests `Showcase*`/conventions/contenu public et 64 tests de l'API (dont
+  PostgreSQL réel par Testcontainers) verts ; pile complète lancée par le lanceur local (base, API,
+  vitrine) : appels `OPTIONS`/`GET /api/preferences/omni.appearance` en 204 depuis la vitrine, sans
+  erreur CORS ; les 18 pages des lots 4, 8 et 9 ouvertes sur leurs trois vues sans erreur ;
+  autocomplétion « Par » → « Paris, France ». Défaut trouvé et corrigé : la vitrine n'avait pas
+  d'`OmniComponentsHost`, la garde de modifications retombait sur `window.confirm` ; le dialogue OE
+  s'ouvre maintenant et « Quitter sans enregistrer » navigue. Workflows et préférences passent au lot 16
+  (même famille que le lot 6).
