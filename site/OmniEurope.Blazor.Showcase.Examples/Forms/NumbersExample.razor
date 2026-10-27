@@ -1,0 +1,71 @@
+@using Microsoft.AspNetCore.Components.Forms
+
+@* An integer, a decimal and a nullable integer, with bounds and a step. The fields sit in a form: a
+   value the type cannot read becomes a validation message below instead of being ignored in silence. *@
+<OmniTemplateForm TModel="NumbersExample" EditContext="Context" Context="form">
+    <OmniStack Gap="OmniSpacing.Medium">
+        <OmniRow>
+            <OmniColumn Span="12" MediumSpan="6">
+                <OmniFormField For="numeric-int">
+                    <LabelContent>Integer</LabelContent>
+                    <ChildContent>
+                        <OmniNumeric TValue="int"
+                                     Id="numeric-int"
+                                     @bind-Value="IntegerValue"
+                                     DisplayName="Integer"
+                                     Minimum="@Minimum"
+                                     Maximum="@Maximum"
+                                     Step="@IntegerStep"
+                                     Placeholder="@(ShowPlaceholder ? "0" : null)"
+                                     Disabled="Disabled"
+                                     ReadOnly="ReadOnly" />
+                    </ChildContent>
+                </OmniFormField>
+                <OmniText Tone="OmniTextTone.Muted">@Echo(IntegerValue)</OmniText>
+            </OmniColumn>
+
+            <OmniColumn Span="12" MediumSpan="6">
+                <OmniFormField For="numeric-decimal">
+                    <LabelContent>Decimal</LabelContent>
+                    <ChildContent>
+                        <OmniNumeric TValue="decimal"
+                                     Id="numeric-decimal"
+                                     @bind-Value="DecimalValue"
+                                     DisplayName="Decimal"
+                                     Minimum="@Minimum"
+                                     Maximum="@Maximum"
+                                     Step="@DecimalStep"
+                                     Placeholder="@(ShowPlaceholder ? "0.00" : null)"
+                                     Disabled="Disabled"
+                                     ReadOnly="ReadOnly" />
+                    </ChildContent>
+                </OmniFormField>
+                <OmniText Tone="OmniTextTone.Muted">@Echo(DecimalValue)</OmniText>
+            </OmniColumn>
+
+            <OmniColumn Span="12" MediumSpan="6">
+                <OmniFormField For="numeric-nullable" Description="Emptying the field gives no value at all, rather than zero.">
+                    <LabelContent>Nullable integer</LabelContent>
+                    <ChildContent>
+                        <OmniNumeric TValue="int?"
+                                     Id="numeric-nullable"
+                                     @bind-Value="NullableValue"
+                                     DisplayName="Nullable integer"
+                                     Minimum="@Minimum"
+                                     Maximum="@Maximum"
+                                     Step="@IntegerStep"
+                                     Placeholder="@(ShowPlaceholder ? "Not set" : null)"
+                                     Disabled="Disabled"
+                                     ReadOnly="ReadOnly" />
+                    </ChildContent>
+                </OmniFormField>
+                <OmniText Tone="OmniTextTone.Muted">@(NullableValue is { } nullable ? Echo(nullable) : "Bound value: none (null)")</OmniText>
+            </OmniColumn>
+        </OmniRow>
+
+        @foreach (var message in form.GetValidationMessages())
+        {
+            <OmniAlert Severity="OmniSeverity.Danger">@message</OmniAlert>
+        }
+    </OmniStack>
+</OmniTemplateForm>

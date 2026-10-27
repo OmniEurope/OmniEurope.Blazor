@@ -4,4 +4,118 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="TextFieldsTitle" xml:space="preserve"><value>Champs texte</value></data>
+  <data name="TextFieldsDescription" xml:space="preserve"><value>La zone d&apos;une ligne dans chaque type, la zone multiligne et le mot de passe, avec leur étiquette et leur champ de formulaire. Chaque valeur est reprise pendant la frappe.</value></data>
+  <data name="TextFieldsSettingsTitle" xml:space="preserve"><value>Champs à l&apos;essai</value></data>
+  <data name="TextFieldsSettingsDescription" xml:space="preserve"><value>Les réglages s&apos;appliquent d&apos;un coup aux quatre champs de l&apos;aperçu.</value></data>
+  <data name="TextFieldsType" xml:space="preserve"><value>Type de la zone</value></data>
+  <data name="TextFieldsTypeDescription" xml:space="preserve"><value>Le type change le clavier mobile et l&apos;autoremplissage du navigateur, jamais la valeur.</value></data>
+  <data name="TextFieldsTypeText" xml:space="preserve"><value>Texte</value></data>
+  <data name="TextFieldsTypeEmail" xml:space="preserve"><value>Courriel</value></data>
+  <data name="TextFieldsTypeTel" xml:space="preserve"><value>Téléphone</value></data>
+  <data name="TextFieldsTypeUrl" xml:space="preserve"><value>Adresse web</value></data>
+  <data name="TextFieldsTypeSearch" xml:space="preserve"><value>Recherche</value></data>
+  <data name="TextFieldsPlaceholder" xml:space="preserve"><value>Texte indicatif</value></data>
+  <data name="TextFieldsPlaceholderDescription" xml:space="preserve"><value>Un exemple affiché tant que le champ est vide.</value></data>
+  <data name="TextFieldsDisabled" xml:space="preserve"><value>Désactivé</value></data>
+  <data name="TextFieldsDisabledDescription" xml:space="preserve"><value>Le champ ne peut être ni atteint ni modifié.</value></data>
+  <data name="TextFieldsReadOnly" xml:space="preserve"><value>Lecture seule</value></data>
+  <data name="TextFieldsReadOnlyDescription" xml:space="preserve"><value>Le champ s&apos;atteint et se copie, mais ne se modifie pas.</value></data>
+  <data name="TextFieldsMaxLength" xml:space="preserve"><value>Longueur maximale</value></data>
+  <data name="TextFieldsMaxLengthDescription" xml:space="preserve"><value>Le navigateur arrête la frappe à cette longueur. Zéro retire la limite.</value></data>
+  <data name="TextFieldsMaxLengthValue" xml:space="preserve"><value>{0} caractères</value></data>
+  <data name="TextFieldsMaxLengthNone" xml:space="preserve"><value>Sans limite</value></data>
+  <data name="TextFieldsDebounce" xml:space="preserve"><value>Saisie différée</value></data>
+  <data name="TextFieldsDebounceDescription" xml:space="preserve"><value>La valeur liée attend 400 ms de calme au lieu de suivre chaque frappe.</value></data>
+  <data name="TextFieldsShowCount" xml:space="preserve"><value>Compteur de caractères</value></data>
+  <data name="TextFieldsShowCountDescription" xml:space="preserve"><value>Affiché sous la zone multiligne quand une longueur maximale est fixée.</value></data>
+  <data name="TextFieldsRows" xml:space="preserve"><value>Lignes visibles</value></data>
+  <data name="TextFieldsRowsDescription" xml:space="preserve"><value>La hauteur de la zone multiligne, en lignes.</value></data>
+  <data name="TextFieldsRevealable" xml:space="preserve"><value>Bouton d&apos;affichage</value></data>
+  <data name="TextFieldsRevealableDescription" xml:space="preserve"><value>Permet de relire le mot de passe saisi.</value></data>
+  <data name="TextFieldsRequired" xml:space="preserve"><value>Obligatoire</value></data>
+  <data name="TextFieldsRequiredDescription" xml:space="preserve"><value>Ajoute l&apos;astérisque à l&apos;étiquette. Ne valide rien à lui seul.</value></data>
+  <data name="TextFieldsShowDescription" xml:space="preserve"><value>Texte d&apos;aide</value></data>
+  <data name="TextFieldsShowDescriptionDescription" xml:space="preserve"><value>Une ligne sous l&apos;étiquette, rattachée au champ pour les lecteurs d&apos;écran.</value></data>
+  <data name="TextFieldsShowError" xml:space="preserve"><value>Message d&apos;erreur</value></data>
+  <data name="TextFieldsShowErrorDescription" xml:space="preserve"><value>Le champ de formulaire affiche une erreur et prend son aspect invalide.</value></data>
+  <data name="TextFieldsPreviewTitle" xml:space="preserve"><value>Aperçu</value></data>
+  <data name="TextFieldsTypesTitle" xml:space="preserve"><value>Chaque type de zone</value></data>
+  <data name="TextFieldsStatesTitle" xml:space="preserve"><value>États</value></data>
+  <data name="NumbersTitle" xml:space="preserve"><value>Nombres</value></data>
+  <data name="NumbersDescription" xml:space="preserve"><value>Un champ numérique typé par sa valeur : entier, décimal ou nullable, avec des bornes et un pas. La valeur est reprise, et signalée quand elle sort des bornes.</value></data>
+  <data name="NumbersSettingsTitle" xml:space="preserve"><value>Nombres à l&apos;essai</value></data>
+  <data name="NumbersSettingsDescription" xml:space="preserve"><value>Les bornes s&apos;appliquent aux trois champs de l&apos;aperçu.</value></data>
+  <data name="NumbersMinimum" xml:space="preserve"><value>Minimum</value></data>
+  <data name="NumbersMinimumDescription" xml:space="preserve"><value>Transmis au navigateur, qui s&apos;en sert pour les flèches ; le composant ne l&apos;impose pas.</value></data>
+  <data name="NumbersMaximum" xml:space="preserve"><value>Maximum</value></data>
+  <data name="NumbersMaximumDescription" xml:space="preserve"><value>Comme le minimum : une indication au navigateur, pas une règle.</value></data>
+  <data name="NumbersBoundNone" xml:space="preserve"><value>Aucun</value></data>
+  <data name="NumbersIntegerStep" xml:space="preserve"><value>Pas entier</value></data>
+  <data name="NumbersIntegerStepDescription" xml:space="preserve"><value>Ce que les flèches et le clavier ajoutent ou retirent sur les champs entiers.</value></data>
+  <data name="NumbersDecimalStep" xml:space="preserve"><value>Pas décimal</value></data>
+  <data name="NumbersDecimalStepDescription" xml:space="preserve"><value>Le pas du champ décimal.</value></data>
+  <data name="NumbersPlaceholder" xml:space="preserve"><value>Texte indicatif</value></data>
+  <data name="NumbersPlaceholderDescription" xml:space="preserve"><value>Visible seulement sur un champ vide, donc sur le nullable.</value></data>
+  <data name="NumbersDisabled" xml:space="preserve"><value>Désactivé</value></data>
+  <data name="NumbersDisabledDescription" xml:space="preserve"><value>Les champs ne peuvent être ni atteints ni modifiés.</value></data>
+  <data name="NumbersReadOnly" xml:space="preserve"><value>Lecture seule</value></data>
+  <data name="NumbersReadOnlyDescription" xml:space="preserve"><value>Les champs s&apos;atteignent et se copient, mais ne se modifient pas.</value></data>
+  <data name="NumbersPreviewTitle" xml:space="preserve"><value>Aperçu</value></data>
+  <data name="NumbersUsesTitle" xml:space="preserve"><value>Usages types</value></data>
+  <data name="TogglesTitle" xml:space="preserve"><value>Cases à cocher et interrupteurs</value></data>
+  <data name="TogglesDescription" xml:space="preserve"><value>Cases et interrupteurs à deux et à trois états. Chaque valeur est reprise, y compris le troisième état nul.</value></data>
+  <data name="TogglesSettingsTitle" xml:space="preserve"><value>Bascules à l&apos;essai</value></data>
+  <data name="TogglesSettingsDescription" xml:space="preserve"><value>Les réglages s&apos;appliquent aux quatre contrôles de l&apos;aperçu.</value></data>
+  <data name="TogglesDisabled" xml:space="preserve"><value>Désactivé</value></data>
+  <data name="TogglesDisabledDescription" xml:space="preserve"><value>Les contrôles gardent leur valeur mais ne la changent plus.</value></data>
+  <data name="TogglesAllowIndeterminate" xml:space="preserve"><value>Troisième état au clic</value></data>
+  <data name="TogglesAllowIndeterminateDescription" xml:space="preserve"><value>Désactivé, le clic ne passe plus que de oui à non ; l&apos;état nul reste accessible par les boutons dessous.</value></data>
+  <data name="TogglesShowLabels" xml:space="preserve"><value>Libellés visibles</value></data>
+  <data name="TogglesShowLabelsDescription" xml:space="preserve"><value>Sans eux, chaque contrôle ne porte son nom qu&apos;en libellé accessible.</value></data>
+  <data name="TogglesTextFirst" xml:space="preserve"><value>Texte avant le contrôle</value></data>
+  <data name="TogglesTextFirstDescription" xml:space="preserve"><value>Le texte d&apos;une case ou d&apos;un interrupteur passe avant lui, comme dans une ligne de réglage.</value></data>
+  <data name="TogglesReset" xml:space="preserve"><value>Fixer toutes les valeurs</value></data>
+  <data name="TogglesResetDescription" xml:space="preserve"><value>Force les quatre valeurs d&apos;un coup ; nul ne touche que les contrôles à trois états.</value></data>
+  <data name="TogglesSetNull" xml:space="preserve"><value>Nul</value></data>
+  <data name="TogglesSetTrue" xml:space="preserve"><value>Oui</value></data>
+  <data name="TogglesSetFalse" xml:space="preserve"><value>Non</value></data>
+  <data name="TogglesPreviewTitle" xml:space="preserve"><value>Aperçu</value></data>
+  <data name="TogglesStatesTitle" xml:space="preserve"><value>États</value></data>
+  <data name="ValidationTitle" xml:space="preserve"><value>Validation</value></data>
+  <data name="ValidationDescription" xml:space="preserve"><value>Un petit formulaire d&apos;inscription dont la règle obligatoire est posée à côté des champs qu&apos;elle garde, puis un formulaire dont les règles de longueur, de courriel et de comparaison sont portées par le modèle.</value></data>
+  <data name="ValidationSettingsTitle" xml:space="preserve"><value>Validation à l&apos;essai</value></data>
+  <data name="ValidationSettingsDescription" xml:space="preserve"><value>Où paraissent les messages, quand ils paraissent, et comment répond un formulaire valide.</value></data>
+  <data name="ValidationPlacement" xml:space="preserve"><value>Où paraissent les messages</value></data>
+  <data name="ValidationPlacementDescription" xml:space="preserve"><value>Sous chaque validateur, dans le champ de formulaire, ou réunis dans un résumé au-dessus du formulaire.</value></data>
+  <data name="ValidationPlacementValidator" xml:space="preserve"><value>Sous le validateur</value></data>
+  <data name="ValidationPlacementField" xml:space="preserve"><value>Dans le champ</value></data>
+  <data name="ValidationPlacementSummary" xml:space="preserve"><value>Résumé</value></data>
+  <data name="ValidationDelay" xml:space="preserve"><value>Délai de validation</value></data>
+  <data name="ValidationDelayDescription" xml:space="preserve"><value>Combien de temps un validateur attend après la dernière frappe avant de vérifier.</value></data>
+  <data name="ValidationDelayValue" xml:space="preserve"><value>{0} ms</value></data>
+  <data name="ValidationFocusFirstInvalid" xml:space="preserve"><value>Placer le focus sur la première erreur</value></data>
+  <data name="ValidationFocusFirstInvalidDescription" xml:space="preserve"><value>Quand l&apos;envoi est refusé, le focus va au premier champ invalide.</value></data>
+  <data name="ValidationFeedback" xml:space="preserve"><value>Retour en cas de succès</value></data>
+  <data name="ValidationFeedbackDescription" xml:space="preserve"><value>Une notification dans la pile du site, ou une alerte sous le formulaire.</value></data>
+  <data name="ValidationFeedbackNotification" xml:space="preserve"><value>Notification</value></data>
+  <data name="ValidationFeedbackInline" xml:space="preserve"><value>Alerte dans la page</value></data>
+  <data name="ValidationFormTitle" xml:space="preserve"><value>Créer un compte</value></data>
+  <data name="ValidationAnnotationsTitle" xml:space="preserve"><value>Validation par attributs</value></data>
+  <data name="ValidationAnnotationsDescription" xml:space="preserve"><value>Longueur, courriel et comparaison portés par les DataAnnotations du modèle : OmniDataAnnotationsValidator écrit les messages standard dans la langue de l&apos;interface.</value></data>
+  <data name="ValidationDynamicTitle" xml:space="preserve"><value>Formulaire dynamique</value></data>
+  <data name="UnsavedChangesTitle" xml:space="preserve"><value>Garde des modifications non enregistrées</value></data>
+  <data name="UnsavedChangesDescription" xml:space="preserve"><value>Garde des modifications non enregistrées : avant de quitter la page, une navigation interne attend une confirmation et la fermeture de l&apos;onglet lève la question du navigateur.</value></data>
+  <data name="UnsavedChangesSettingsTitle" xml:space="preserve"><value>Réglages du garde</value></data>
+  <data name="UnsavedChangesSettingsDescription" xml:space="preserve"><value>L&apos;état que le garde surveille et les textes de sa question.</value></data>
+  <data name="UnsavedChangesHasChanges" xml:space="preserve"><value>Modifications en attente</value></data>
+  <data name="UnsavedChangesHasChangesDescription" xml:space="preserve"><value>Désactivé, toute navigation passe sans question.</value></data>
+  <data name="UnsavedChangesCustomTexts" xml:space="preserve"><value>Textes de l&apos;hôte</value></data>
+  <data name="UnsavedChangesCustomTextsDescription" xml:space="preserve"><value>Remplace le titre, la question et les deux boutons localisés du paquet.</value></data>
+  <data name="UnsavedChangesPreviewTitle" xml:space="preserve"><value>Quitter la page</value></data>
+  <data name="UnsavedChangesFormTitle" xml:space="preserve"><value>Garde d&apos;un formulaire</value></data>
+  <data name="FormLayoutsTitle" xml:space="preserve"><value>Mises en page de formulaire</value></data>
+  <data name="FormLayoutsDescription" xml:space="preserve"><value>Un formulaire vertical : étiquette au-dessus du champ, astérisque des champs obligatoires, lignes d&apos;aide et d&apos;erreur, récapitulatif des erreurs, puis les états désactivé et lecture seule.</value></data>
+  <data name="FormLayoutsVerticalTitle" xml:space="preserve"><value>Formulaire vertical</value></data>
+  <data name="FormLayoutsVerticalDescription" xml:space="preserve"><value>Les deux erreurs sont de vraies erreurs de validation du contexte d&apos;édition : chaque champ en tire son état invalide, et les corriger les retire du récapitulatif.</value></data>
 </root>

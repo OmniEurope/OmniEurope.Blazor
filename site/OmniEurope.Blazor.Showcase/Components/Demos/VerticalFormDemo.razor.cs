@@ -35,11 +35,10 @@ public partial class VerticalFormDemo : IDisposable
 
     private string? Status { get; set; }
 
-    /// <summary>The messages of the summary, in field order.</summary>
+    /// <summary>The messages of the summary.</summary>
     private IReadOnlyList<string> Errors =>
     [
-        .. new[] { nameof(VerticalFormDemoModel.Name), nameof(VerticalFormDemoModel.Email), nameof(VerticalFormDemoModel.Strategy) }
-            .SelectMany(name => Context.GetValidationMessages(Context.Field(name)))
+        .. Context.GetValidationMessages(Context.Field(nameof(VerticalFormDemoModel.Strategy)))
     ];
 
     protected override void OnInitialized()
@@ -57,7 +56,6 @@ public partial class VerticalFormDemo : IDisposable
             new("canary", Text["VFormStrategyCanary"], Disabled: true)
         ];
         Agents = [new("shared", Text["VFormAgentShared"])];
-        Model.Description = Text["VFormDescriptionValue"];
 
         Context = new EditContext(Model);
         Messages = new ValidationMessageStore(Context);
@@ -80,23 +78,12 @@ public partial class VerticalFormDemo : IDisposable
     }
 
     /// <summary>
-    /// The three rules of the form: a name, an address with a full domain, and a strategy. Each failure is a
-    /// message of the edit context, which the field reads for its error line and aria-invalid.
+    /// The one rule of the form: a strategy. The failure is a message of the edit context, which the
+    /// choice list reads for its error line and aria-invalid.
     /// </summary>
     private void Validate()
     {
         Messages.Clear();
-        if (string.IsNullOrWhiteSpace(Model.Name))
-        {
-            Messages.Add(Context.Field(nameof(VerticalFormDemoModel.Name)), Text["VFormNameError"]);
-        }
-
-        var at = Model.Email.IndexOf('@', StringComparison.Ordinal);
-        if (at <= 0 || !Model.Email[(at + 1)..].Contains('.', StringComparison.Ordinal))
-        {
-            Messages.Add(Context.Field(nameof(VerticalFormDemoModel.Email)), Text["VFormMailError"]);
-        }
-
         if (string.IsNullOrEmpty(Model.Strategy))
         {
             Messages.Add(Context.Field(nameof(VerticalFormDemoModel.Strategy)), Text["VFormStrategyError"]);
@@ -109,7 +96,6 @@ public partial class VerticalFormDemo : IDisposable
 
     private void Reset()
     {
-        Model.Email = "equipe@exemple";
         Model.Strategy = null;
         Status = null;
         Validate();

@@ -1,0 +1,73 @@
+@* A check box, a three-state check box, a switch and a three-state switch, each echoing its value, the
+   null third state included. The settings are parameters; SetAll and SetAllNull force the four values. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniRow>
+        <OmniColumn Span="12" MediumSpan="6">
+            <OmniStack Gap="OmniSpacing.Small">
+                <OmniText Element="OmniTextElement.Strong">Check box</OmniText>
+                <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small">
+                    <OmniCheckBox Id="toggle-check" @bind-Value="Checked" Disabled="Disabled" aria-label="@(ShowLabels ? null : "I accept the terms")" />
+                    @if (ShowLabels)
+                    {
+                        <OmniLabel For="toggle-check">I accept the terms</OmniLabel>
+                    }
+                </OmniStack>
+                <OmniText Tone="OmniTextTone.Muted">Bound value: @Describe(Checked)</OmniText>
+            </OmniStack>
+        </OmniColumn>
+
+        <OmniColumn Span="12" MediumSpan="6">
+            <OmniStack Gap="OmniSpacing.Small">
+                <OmniText Element="OmniTextElement.Strong">Three-state check box</OmniText>
+                @if (ShowLabels)
+                {
+                    <OmniCheckBox @bind-Value="NullableChecked" Disabled="Disabled" AllowIndeterminate="AllowIndeterminate" TextFirst="TextFirst">Select every file</OmniCheckBox>
+                }
+                else
+                {
+                    <OmniCheckBox @bind-Value="NullableChecked" Disabled="Disabled" AllowIndeterminate="AllowIndeterminate" aria-label="Select every file" />
+                }
+                <OmniText Tone="OmniTextTone.Muted">Bound value: @Describe(NullableChecked)</OmniText>
+            </OmniStack>
+        </OmniColumn>
+
+        <OmniColumn Span="12" MediumSpan="6">
+            <OmniStack Gap="OmniSpacing.Small">
+                <OmniText Element="OmniTextElement.Strong">Switch</OmniText>
+                @if (ShowLabels)
+                {
+                    <OmniSwitch @bind-Value="Switched" Disabled="Disabled" TextFirst="TextFirst">Receive alerts</OmniSwitch>
+                }
+                else
+                {
+                    <OmniSwitch @bind-Value="Switched" Disabled="Disabled" aria-label="Receive alerts" />
+                }
+                <OmniText Tone="OmniTextTone.Muted">Bound value: @Describe(Switched)</OmniText>
+            </OmniStack>
+        </OmniColumn>
+
+        <OmniColumn Span="12" MediumSpan="6">
+            <OmniStack Gap="OmniSpacing.Small">
+                <OmniText Element="OmniTextElement.Strong">Three-state switch</OmniText>
+                @if (ShowLabels)
+                {
+                    <OmniSwitch @bind-Value="NullableSwitched"
+                                Disabled="Disabled"
+                                AllowIndeterminate="AllowIndeterminate"
+                                TextFirst="TextFirst"
+                                IndeterminateDescription="Not set: the team setting applies">Inherit the team setting</OmniSwitch>
+                }
+                else
+                {
+                    <OmniSwitch @bind-Value="NullableSwitched"
+                                Disabled="Disabled"
+                                AllowIndeterminate="AllowIndeterminate"
+                                IndeterminateDescription="Not set: the team setting applies"
+                                aria-label="Inherit the team setting" />
+                }
+                <OmniText Tone="OmniTextTone.Muted">Bound value: @Describe(NullableSwitched)</OmniText>
+            </OmniStack>
+        </OmniColumn>
+    </OmniRow>
+    <OmniText Tone="OmniTextTone.Muted">A click on a three-state control goes from null to yes, then no, then back to null.</OmniText>
+</OmniStack>

@@ -1,0 +1,84 @@
+@* A text box, a text area, a password and a bare label with a box, every setting a parameter. A form
+   field assembles the label, the help line and the error; the paragraph under each field echoes its value. *@
+<OmniRow>
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniFormField Id="text-box-field"
+                       For="text-box"
+                       Required="Required"
+                       Disabled="Disabled"
+                       Description="@(ShowDescription ? "As it will appear on the invoice." : null)"
+                       Error="@(ShowError ? ErrorSample : null)">
+            <LabelContent>Full name</LabelContent>
+            <ChildContent>
+                <OmniTextBox Id="text-box"
+                             @bind-Value="TextValue"
+                             Type="BoxType"
+                             Placeholder="@(ShowPlaceholder ? PlaceholderFor(BoxType) : null)"
+                             Autocomplete="@AutocompleteFor(BoxType)"
+                             Disabled="Disabled"
+                             ReadOnly="ReadOnly"
+                             Debounce="Debounce"
+                             AriaDescribedBy="@DescribedBy("text-box-field")"
+                             maxlength="@MaxLength" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniText Tone="OmniTextTone.Muted">Value: "@TextValue" (@TextValue.Length characters)</OmniText>
+    </OmniColumn>
+
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniFormField Id="text-area-field"
+                       For="text-area"
+                       Required="Required"
+                       Disabled="Disabled"
+                       Description="@(ShowDescription ? "Anything the delivery driver should know." : null)"
+                       Error="@(ShowError ? ErrorSample : null)">
+            <LabelContent>Remarks</LabelContent>
+            <ChildContent>
+                <OmniTextArea Id="text-area"
+                              @bind-Value="AreaValue"
+                              Rows="Rows"
+                              MaxLength="MaxLength"
+                              ShowCount="ShowCount"
+                              Placeholder="@(ShowPlaceholder ? "Code, floor, opening hours" : null)"
+                              Disabled="Disabled"
+                              ReadOnly="ReadOnly"
+                              AriaDescribedBy="@DescribedBy("text-area-field")" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniText Tone="OmniTextTone.Muted">Value: "@AreaValue" (@AreaValue.Length characters)</OmniText>
+    </OmniColumn>
+
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniFormField Id="password-field"
+                       For="password"
+                       Required="Required"
+                       Disabled="Disabled"
+                       Description="@(ShowDescription ? "The reveal button shows what was typed without copying it anywhere." : null)"
+                       Error="@(ShowError ? ErrorSample : null)">
+            <LabelContent>Password</LabelContent>
+            <ChildContent>
+                <OmniPassword Id="password"
+                              @bind-Value="PasswordValue"
+                              Revealable="Revealable"
+                              Autocomplete="new-password"
+                              Placeholder="@(ShowPlaceholder ? "At least eight characters" : null)"
+                              Disabled="Disabled"
+                              ReadOnly="ReadOnly"
+                              AriaDescribedBy="@DescribedBy("password-field")" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniText Tone="OmniTextTone.Muted">Password: @PasswordValue.Length characters, never displayed here.</OmniText>
+    </OmniColumn>
+
+    @* Label and box laid by hand, without a form field: what the form field assembles. *@
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniLabel For="bare-text-box" Required="Required">Label and box side by side</OmniLabel>
+        <OmniTextBox Id="bare-text-box"
+                     @bind-Value="BareValue"
+                     Placeholder="@(ShowPlaceholder ? "Without a form field" : null)"
+                     Disabled="Disabled"
+                     ReadOnly="ReadOnly"
+                     maxlength="@MaxLength" />
+        <OmniText Tone="OmniTextTone.Muted">Value: "@BareValue" (@BareValue.Length characters)</OmniText>
+    </OmniColumn>
+</OmniRow>

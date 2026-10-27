@@ -1,0 +1,17 @@
+@* The guard watches a flag: while HasChanges is on, a navigation inside the application waits for a
+   confirmation and closing the tab raises the question of the browser. Without texts of its own, the guard
+   uses the localized texts of the library. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniText Tone="OmniTextTone.Muted">Follow the link, or a menu entry, with pending changes: the confirmation dialog opens before leaving.</OmniText>
+    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small">
+        <OmniIcon Name="OmniIconName.Info" />
+        <span>Page state:</span>
+        <OmniBadge Tone="@(HasChanges ? OmniTone.Warning : OmniTone.Neutral)">@(HasChanges ? "modified" : "saved")</OmniBadge>
+    </OmniStack>
+    <OmniLink Href="@LeaveHref">Back to the home page</OmniLink>
+    <OmniUnsavedChangesGuard HasChanges="HasChanges"
+                             Title="@(CustomTexts ? "Unsaved draft" : null)"
+                             Message="@(CustomTexts ? "Your draft will be lost if you leave this page." : null)"
+                             LeaveText="@(CustomTexts ? "Discard the draft" : null)"
+                             StayText="@(CustomTexts ? "Keep editing" : null)" />
+</OmniStack>

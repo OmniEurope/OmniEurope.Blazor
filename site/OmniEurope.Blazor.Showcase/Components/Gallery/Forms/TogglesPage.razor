@@ -1,0 +1,72 @@
+@page "/components/checkboxes-switches"
+@using OmniEurope.Blazor.Showcase.Examples.Forms
+
+<GalleryPageFrame Slug="checkboxes-switches">
+    <Settings>
+        <OmniSettingsSection Title="@Text["TogglesSettingsTitle"]" Description="@Text["TogglesSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["TogglesDisabled"]" Description="@Text["TogglesDisabledDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Disabled" aria-label="@Text["TogglesDisabled"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TogglesAllowIndeterminate"]" Description="@Text["TogglesAllowIndeterminateDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Remove" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="AllowIndeterminate" aria-label="@Text["TogglesAllowIndeterminate"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TogglesShowLabels"]" Description="@Text["TogglesShowLabelsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowLabels" aria-label="@Text["TogglesShowLabels"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TogglesTextFirst"]" Description="@Text["TogglesTextFirstDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Swap" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="TextFirst" aria-label="@Text["TogglesTextFirst"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TogglesReset"]" Description="@Text["TogglesResetDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Reset" /></Icon>
+                <Details>
+                    <OmniStack Orientation="OmniOrientation.Horizontal" Wrap="true" Gap="OmniSpacing.Small">
+                        <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="SetAllNull">
+                            <OmniIcon Name="OmniIconName.Remove" />
+                            <span>@Text["TogglesSetNull"]</span>
+                        </OmniButton>
+                        <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="@(() => SetAll(true))">
+                            <OmniIcon Name="OmniIconName.Check" />
+                            <span>@Text["TogglesSetTrue"]</span>
+                        </OmniButton>
+                        <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="@(() => SetAll(false))">
+                            <OmniIcon Name="OmniIconName.Close" />
+                            <span>@Text["TogglesSetFalse"]</span>
+                        </OmniButton>
+                    </OmniStack>
+                </Details>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["TogglesPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <TogglesExample @ref="Toggles"
+                                Disabled="Disabled"
+                                AllowIndeterminate="AllowIndeterminate"
+                                ShowLabels="ShowLabels"
+                                TextFirst="TextFirst" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["TogglesStatesTitle"]</HeaderContent>
+            <ChildContent><ToggleStatesExample /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

@@ -318,8 +318,8 @@ const pageLibrary = String.raw`
       const striped = first(document.getElementById('runs-striped'), 'tbody tr.omni-data-grid__row--alternate');
       add('ligne de grille alternée', striped, 'text', true, { text: striped ? first(striped, 'td.omni-data-grid__column--align-start') : null });
       add('statut dans la grille', first(sorted, '.omni-status'));
-      const forms = block('formulaires');
-      add('liste déroulante', first(forms, 'select.omni-drop-down'), 'text', true);
+      const forms = block('form-layouts');
+      add('liste déroulante', first(block('formulaire-vertical'), 'select.omni-drop-down'), 'text', true);
       const input = first(forms, 'input.omni-input:not([type="checkbox"]):not([type="radio"]):not([readonly]):not(:disabled)');
       add('champ de saisie', input, 'value', true);
       add('bord du champ de saisie', input, 'border', true);

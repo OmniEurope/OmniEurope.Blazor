@@ -1,0 +1,34 @@
+@page "/components/unsaved-changes"
+@using OmniEurope.Blazor.Showcase.Examples.Forms
+
+<GalleryPageFrame Slug="unsaved-changes">
+    <Settings>
+        <OmniSettingsSection Title="@Text["UnsavedChangesSettingsTitle"]" Description="@Text["UnsavedChangesSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["UnsavedChangesHasChanges"]" Description="@Text["UnsavedChangesHasChangesDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Edit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="HasChanges" aria-label="@Text["UnsavedChangesHasChanges"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["UnsavedChangesCustomTexts"]" Description="@Text["UnsavedChangesCustomTextsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="CustomTexts" aria-label="@Text["UnsavedChangesCustomTexts"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["UnsavedChangesPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <UnsavedChangesGuardExample HasChanges="HasChanges" CustomTexts="CustomTexts" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["UnsavedChangesFormTitle"]</HeaderContent>
+            <ChildContent><UnsavedChangesFormExample /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

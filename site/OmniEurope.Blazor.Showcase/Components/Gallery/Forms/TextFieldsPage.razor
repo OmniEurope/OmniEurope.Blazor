@@ -1,0 +1,130 @@
+@page "/components/text-fields"
+@using OmniEurope.Blazor.Showcase.Examples.Forms
+
+<GalleryPageFrame Slug="text-fields">
+    <Settings>
+        <OmniSettingsSection Title="@Text["TextFieldsSettingsTitle"]" Description="@Text["TextFieldsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["TextFieldsType"]" Description="@Text["TextFieldsTypeDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Edit" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniTextBoxType" Options="@TypeOptions" @bind-Value="BoxType" Label="@Text["TextFieldsType"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TextFieldsPlaceholder"]" Description="@Text["TextFieldsPlaceholderDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowPlaceholder" aria-label="@Text["TextFieldsPlaceholder"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TextFieldsDisabled"]" Description="@Text["TextFieldsDisabledDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Disabled" aria-label="@Text["TextFieldsDisabled"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TextFieldsReadOnly"]" Description="@Text["TextFieldsReadOnlyDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Document" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ReadOnly" aria-label="@Text["TextFieldsReadOnly"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TextFieldsMaxLength"]" Description="@Text["TextFieldsMaxLengthDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="MaxLengthValue"
+                                Minimum="0"
+                                Maximum="100"
+                                Step="5"
+                                ShowValue="true"
+                                FormatValue="@FormatMaxLength"
+                                aria-label="@Text["TextFieldsMaxLength"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TextFieldsDebounce"]" Description="@Text["TextFieldsDebounceDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Timer" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Debounced" aria-label="@Text["TextFieldsDebounce"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TextFieldsShowCount"]" Description="@Text["TextFieldsShowCountDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.NumberedList" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowCount" aria-label="@Text["TextFieldsShowCount"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TextFieldsRows"]" Description="@Text["TextFieldsRowsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="RowsValue"
+                                Minimum="1"
+                                Maximum="10"
+                                Step="1"
+                                ShowValue="true"
+                                aria-label="@Text["TextFieldsRows"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TextFieldsRevealable"]" Description="@Text["TextFieldsRevealableDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.ShieldCheck" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Revealable" aria-label="@Text["TextFieldsRevealable"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TextFieldsRequired"]" Description="@Text["TextFieldsRequiredDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Star" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Required" aria-label="@Text["TextFieldsRequired"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TextFieldsShowDescription"]" Description="@Text["TextFieldsShowDescriptionDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowDescription" aria-label="@Text["TextFieldsShowDescription"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TextFieldsShowError"]" Description="@Text["TextFieldsShowErrorDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Error" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowError" aria-label="@Text["TextFieldsShowError"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["TextFieldsPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <TextFieldsExample BoxType="BoxType"
+                                   ShowPlaceholder="ShowPlaceholder"
+                                   Disabled="Disabled"
+                                   ReadOnly="ReadOnly"
+                                   Debounce="Debounce"
+                                   MaxLength="MaxLength"
+                                   ShowCount="ShowCount"
+                                   Rows="Rows"
+                                   Revealable="Revealable"
+                                   Required="Required"
+                                   ShowDescription="ShowDescription"
+                                   ShowError="ShowError" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["TextFieldsTypesTitle"]</HeaderContent>
+            <ChildContent><TextFieldTypesExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["TextFieldsStatesTitle"]</HeaderContent>
+            <ChildContent><TextFieldStatesExample /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

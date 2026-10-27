@@ -1,0 +1,132 @@
+@* A sign-up form whose required rule sits next to the field it guards. Where the messages appear, how long
+   a validator waits, whether the focus goes to the first error and how a valid form answers are parameters. *@
+<OmniTemplateForm TModel="SignUpModel"
+                  EditContext="FormContext"
+                  Context="form"
+                  FocusOnFirstInvalid="FocusFirstInvalid"
+                  OnValidSubmit="HandleValidSubmitAsync"
+                  OnInvalidSubmit="HandleInvalidSubmit">
+    <OmniStack Gap="OmniSpacing.Medium">
+        @if (Placement == ValidationMessagePlacement.Summary && form.GetValidationMessages().Any())
+        {
+            <OmniAlert Severity="OmniSeverity.Danger" Title="Please correct the following">
+                <ul>
+                    @foreach (var message in form.GetValidationMessages())
+                    {
+                        <li>@message</li>
+                    }
+                </ul>
+            </OmniAlert>
+        }
+
+        <OmniFormField Id="signup-name-field"
+                       For="signup-name"
+                       Required="true"
+                       Description="As it will appear on the account."
+                       Error="@FieldError(nameof(SignUpModel.Name))">
+            <LabelContent>Name</LabelContent>
+            <ChildContent>
+                <OmniTextBox Id="signup-name"
+                             @bind-Value="Model.Name"
+                             Autocomplete="name"
+                             AriaDescribedBy="@DescribedBy("signup-name-field")" />
+                <OmniRequiredValidator TValue="string"
+                                       For="@(() => Model.Name)"
+                                       Message="The name is required."
+                                       ShowMessage="ShowValidatorMessages"
+                                       ValidationDelay="Delay" />
+            </ChildContent>
+        </OmniFormField>
+
+        <OmniFormField Id="signup-email-field"
+                       For="signup-email"
+                       Required="true"
+                       Description="Used to confirm the account."
+                       Error="@FieldError(nameof(SignUpModel.Email))">
+            <LabelContent>E-mail</LabelContent>
+            <ChildContent>
+                <OmniTextBox Id="signup-email"
+                             @bind-Value="Model.Email"
+                             Type="OmniTextBoxType.Email"
+                             Autocomplete="email"
+                             AriaDescribedBy="@DescribedBy("signup-email-field")" />
+                <OmniRequiredValidator TValue="string"
+                                       For="@(() => Model.Email)"
+                                       Message="The e-mail address is required."
+                                       ShowMessage="ShowValidatorMessages"
+                                       ValidationDelay="Delay" />
+            </ChildContent>
+        </OmniFormField>
+
+        @* The length and the address let an empty field through: the obligation stays with the required validator. *@
+        <OmniEmailValidator For="@(() => Model.Email)" ShowMessage="ShowValidatorMessages" ValidationDelay="Delay" />
+        <OmniLengthValidator For="@(() => Model.Name)" Minimum="2" Maximum="80" ShowMessage="ShowValidatorMessages" ValidationDelay="Delay" />
+
+        <OmniFormField Id="signup-password-field"
+                       For="signup-password"
+                       Required="true"
+                       Description="Pick one you use nowhere else."
+                       Error="@FieldError(nameof(SignUpModel.Password))">
+            <LabelContent>Password</LabelContent>
+            <ChildContent>
+                <OmniPassword Id="signup-password"
+                              @bind-Value="Model.Password"
+                              Autocomplete="new-password"
+                              AriaDescribedBy="@DescribedBy("signup-password-field")" />
+                <OmniRequiredValidator TValue="string"
+                                       For="@(() => Model.Password)"
+                                       Message="The password is required."
+                                       ShowMessage="ShowValidatorMessages"
+                                       ValidationDelay="Delay" />
+            </ChildContent>
+        </OmniFormField>
+
+        <OmniFormField Id="signup-confirmation-field"
+                       For="signup-confirmation"
+                       Required="true"
+                       Description="Type the same password again."
+                       Error="@FieldError(nameof(SignUpModel.Confirmation))">
+            <LabelContent>Confirm the password</LabelContent>
+            <ChildContent>
+                <OmniPassword Id="signup-confirmation"
+                              @bind-Value="Model.Confirmation"
+                              Autocomplete="new-password"
+                              AriaDescribedBy="@DescribedBy("signup-confirmation-field")" />
+                <OmniRequiredValidator TValue="string"
+                                       For="@(() => Model.Confirmation)"
+                                       Message="The confirmation is required."
+                                       ShowMessage="ShowValidatorMessages"
+                                       ValidationDelay="Delay" />
+            </ChildContent>
+        </OmniFormField>
+
+        @* The action row of the library, inside the form so that the submit button submits it: aligned to
+           the end, the main action last. *@
+        <OmniFormActions>
+            <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="ResetForm">
+                <OmniIcon Name="OmniIconName.Reset" />
+                <span>Clear</span>
+            </OmniButton>
+            <OmniButton ButtonType="OmniButtonType.Submit" Variant="OmniButtonVariant.Primary" Busy="Sending">
+                <OmniIcon Name="OmniIconName.Check" />
+                <span>Create the account</span>
+            </OmniButton>
+        </OmniFormActions>
+    </OmniStack>
+</OmniTemplateForm>
+
+@if (Outcome == SubmitOutcome.Accepted && Feedback == ValidationSuccessFeedback.InlineAlert)
+{
+    <OmniAlert Severity="OmniSeverity.Success" Live="true" Title="Account created">
+        <Icon><OmniIcon Name="OmniIconName.CheckCircle" /></Icon>
+        <ChildContent>Welcome, @AcceptedName. The account was created (simulation, nothing was sent).</ChildContent>
+    </OmniAlert>
+}
+else if (Outcome == SubmitOutcome.Refused)
+{
+    <OmniAlert Severity="OmniSeverity.Warning" Live="true" Title="Submission refused">
+        <Icon><OmniIcon Name="OmniIconName.Warning" /></Icon>
+        <ChildContent>The form still holds @RefusedErrorCount error(s).</ChildContent>
+    </OmniAlert>
+}
+<OmniText Tone="OmniTextTone.Muted">Accepted submissions: @AcceptedCount. Refused: @RefusedCount.</OmniText>

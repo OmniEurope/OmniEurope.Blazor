@@ -1,0 +1,44 @@
+@* The single-line box in every type. The type changes the mobile keyboard and the browser autofill; the
+   web address also has a copy button. *@
+<OmniRow>
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniFormField For="type-text">
+            <LabelContent>Text</LabelContent>
+            <ChildContent>
+                <OmniTextBox Id="type-text" @bind-Value="Text" Type="OmniTextBoxType.Text" Placeholder="Camille Durand" />
+            </ChildContent>
+        </OmniFormField>
+    </OmniColumn>
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniFormField For="type-email">
+            <LabelContent>E-mail</LabelContent>
+            <ChildContent>
+                <OmniTextBox Id="type-email" @bind-Value="Email" Type="OmniTextBoxType.Email" Autocomplete="email" Placeholder="camille@example.com" />
+            </ChildContent>
+        </OmniFormField>
+    </OmniColumn>
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniFormField For="type-tel">
+            <LabelContent>Telephone</LabelContent>
+            <ChildContent>
+                <OmniTextBox Id="type-tel" @bind-Value="Telephone" Type="OmniTextBoxType.Tel" Autocomplete="tel" Placeholder="+32 2 000 00 00" />
+            </ChildContent>
+        </OmniFormField>
+    </OmniColumn>
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniFormField For="type-url">
+            <LabelContent>Web address</LabelContent>
+            <ChildContent>
+                <OmniTextBox Id="type-url" @bind-Value="Address" Type="OmniTextBoxType.Url" Autocomplete="url" ShowCopy="true" Placeholder="https://example.com" />
+            </ChildContent>
+        </OmniFormField>
+    </OmniColumn>
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniFormField For="type-search">
+            <LabelContent>Search</LabelContent>
+            <ChildContent>
+                <OmniTextBox Id="type-search" @bind-Value="Search" Type="OmniTextBoxType.Search" Placeholder="Filter the list" />
+            </ChildContent>
+        </OmniFormField>
+    </OmniColumn>
+</OmniRow>

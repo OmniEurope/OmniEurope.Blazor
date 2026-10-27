@@ -4,4 +4,118 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="TextFieldsTitle" xml:space="preserve"><value>Text fields</value></data>
+  <data name="TextFieldsDescription" xml:space="preserve"><value>The single-line box in every type, the multi-line area and the password, with their label and form field. Each value is echoed as you type.</value></data>
+  <data name="TextFieldsSettingsTitle" xml:space="preserve"><value>Fields under test</value></data>
+  <data name="TextFieldsSettingsDescription" xml:space="preserve"><value>The settings apply to the four fields of the preview at once.</value></data>
+  <data name="TextFieldsType" xml:space="preserve"><value>Box type</value></data>
+  <data name="TextFieldsTypeDescription" xml:space="preserve"><value>The type changes the mobile keyboard and the browser autofill, never the value.</value></data>
+  <data name="TextFieldsTypeText" xml:space="preserve"><value>Text</value></data>
+  <data name="TextFieldsTypeEmail" xml:space="preserve"><value>E-mail</value></data>
+  <data name="TextFieldsTypeTel" xml:space="preserve"><value>Telephone</value></data>
+  <data name="TextFieldsTypeUrl" xml:space="preserve"><value>Web address</value></data>
+  <data name="TextFieldsTypeSearch" xml:space="preserve"><value>Search</value></data>
+  <data name="TextFieldsPlaceholder" xml:space="preserve"><value>Placeholder</value></data>
+  <data name="TextFieldsPlaceholderDescription" xml:space="preserve"><value>A sample shown while the field is empty.</value></data>
+  <data name="TextFieldsDisabled" xml:space="preserve"><value>Disabled</value></data>
+  <data name="TextFieldsDisabledDescription" xml:space="preserve"><value>The field can be neither focused nor edited.</value></data>
+  <data name="TextFieldsReadOnly" xml:space="preserve"><value>Read-only</value></data>
+  <data name="TextFieldsReadOnlyDescription" xml:space="preserve"><value>The field can be focused and copied, not edited.</value></data>
+  <data name="TextFieldsMaxLength" xml:space="preserve"><value>Maximum length</value></data>
+  <data name="TextFieldsMaxLengthDescription" xml:space="preserve"><value>The browser stops typing at this length. Zero removes the limit.</value></data>
+  <data name="TextFieldsMaxLengthValue" xml:space="preserve"><value>{0} characters</value></data>
+  <data name="TextFieldsMaxLengthNone" xml:space="preserve"><value>No limit</value></data>
+  <data name="TextFieldsDebounce" xml:space="preserve"><value>Debounced typing</value></data>
+  <data name="TextFieldsDebounceDescription" xml:space="preserve"><value>The bound value waits for 400 ms of calm instead of following every keystroke.</value></data>
+  <data name="TextFieldsShowCount" xml:space="preserve"><value>Character counter</value></data>
+  <data name="TextFieldsShowCountDescription" xml:space="preserve"><value>Shown under the multi-line area when a maximum length is set.</value></data>
+  <data name="TextFieldsRows" xml:space="preserve"><value>Visible rows</value></data>
+  <data name="TextFieldsRowsDescription" xml:space="preserve"><value>The height of the multi-line area, in lines.</value></data>
+  <data name="TextFieldsRevealable" xml:space="preserve"><value>Reveal button</value></data>
+  <data name="TextFieldsRevealableDescription" xml:space="preserve"><value>Lets the user read the password they typed.</value></data>
+  <data name="TextFieldsRequired" xml:space="preserve"><value>Required</value></data>
+  <data name="TextFieldsRequiredDescription" xml:space="preserve"><value>Adds the asterisk to the label. It does not validate anything by itself.</value></data>
+  <data name="TextFieldsShowDescription" xml:space="preserve"><value>Help text</value></data>
+  <data name="TextFieldsShowDescriptionDescription" xml:space="preserve"><value>A line under the label, linked to the field for screen readers.</value></data>
+  <data name="TextFieldsShowError" xml:space="preserve"><value>Error message</value></data>
+  <data name="TextFieldsShowErrorDescription" xml:space="preserve"><value>The form field shows an error and takes its invalid look.</value></data>
+  <data name="TextFieldsPreviewTitle" xml:space="preserve"><value>Preview</value></data>
+  <data name="TextFieldsTypesTitle" xml:space="preserve"><value>Every box type</value></data>
+  <data name="TextFieldsStatesTitle" xml:space="preserve"><value>States</value></data>
+  <data name="NumbersTitle" xml:space="preserve"><value>Numbers</value></data>
+  <data name="NumbersDescription" xml:space="preserve"><value>A numeric field typed by its value: integer, decimal or nullable, with bounds and a step. The value is echoed and flagged when it leaves the bounds.</value></data>
+  <data name="NumbersSettingsTitle" xml:space="preserve"><value>Numbers under test</value></data>
+  <data name="NumbersSettingsDescription" xml:space="preserve"><value>The bounds apply to the three fields of the preview.</value></data>
+  <data name="NumbersMinimum" xml:space="preserve"><value>Minimum</value></data>
+  <data name="NumbersMinimumDescription" xml:space="preserve"><value>Passed to the browser, which uses it for the arrows; the component does not enforce it.</value></data>
+  <data name="NumbersMaximum" xml:space="preserve"><value>Maximum</value></data>
+  <data name="NumbersMaximumDescription" xml:space="preserve"><value>Same as the minimum: a hint to the browser, not a rule.</value></data>
+  <data name="NumbersBoundNone" xml:space="preserve"><value>None</value></data>
+  <data name="NumbersIntegerStep" xml:space="preserve"><value>Integer step</value></data>
+  <data name="NumbersIntegerStepDescription" xml:space="preserve"><value>What the arrows and the keyboard add or remove on the integer fields.</value></data>
+  <data name="NumbersDecimalStep" xml:space="preserve"><value>Decimal step</value></data>
+  <data name="NumbersDecimalStepDescription" xml:space="preserve"><value>The step of the decimal field.</value></data>
+  <data name="NumbersPlaceholder" xml:space="preserve"><value>Placeholder</value></data>
+  <data name="NumbersPlaceholderDescription" xml:space="preserve"><value>Only visible on an empty field, so on the nullable one.</value></data>
+  <data name="NumbersDisabled" xml:space="preserve"><value>Disabled</value></data>
+  <data name="NumbersDisabledDescription" xml:space="preserve"><value>The fields can be neither focused nor edited.</value></data>
+  <data name="NumbersReadOnly" xml:space="preserve"><value>Read-only</value></data>
+  <data name="NumbersReadOnlyDescription" xml:space="preserve"><value>The fields can be focused and copied, not edited.</value></data>
+  <data name="NumbersPreviewTitle" xml:space="preserve"><value>Preview</value></data>
+  <data name="NumbersUsesTitle" xml:space="preserve"><value>Typical uses</value></data>
+  <data name="TogglesTitle" xml:space="preserve"><value>Check boxes and switches</value></data>
+  <data name="TogglesDescription" xml:space="preserve"><value>Two-state and three-state boxes and switches. Each value is echoed, including the null third state.</value></data>
+  <data name="TogglesSettingsTitle" xml:space="preserve"><value>Toggles under test</value></data>
+  <data name="TogglesSettingsDescription" xml:space="preserve"><value>The settings apply to the four controls of the preview.</value></data>
+  <data name="TogglesDisabled" xml:space="preserve"><value>Disabled</value></data>
+  <data name="TogglesDisabledDescription" xml:space="preserve"><value>The controls keep their value but no longer change it.</value></data>
+  <data name="TogglesAllowIndeterminate" xml:space="preserve"><value>Third state on click</value></data>
+  <data name="TogglesAllowIndeterminateDescription" xml:space="preserve"><value>Off, a click only cycles between yes and no; the null state stays reachable from the buttons below.</value></data>
+  <data name="TogglesShowLabels" xml:space="preserve"><value>Visible labels</value></data>
+  <data name="TogglesShowLabelsDescription" xml:space="preserve"><value>Without them, each control carries its name as an accessible label only.</value></data>
+  <data name="TogglesTextFirst" xml:space="preserve"><value>Text before the control</value></data>
+  <data name="TogglesTextFirstDescription" xml:space="preserve"><value>The text of a check box or a switch goes before it, as in a settings row.</value></data>
+  <data name="TogglesReset" xml:space="preserve"><value>Set every value</value></data>
+  <data name="TogglesResetDescription" xml:space="preserve"><value>Forces the four values at once; null only reaches the three-state controls.</value></data>
+  <data name="TogglesSetNull" xml:space="preserve"><value>Null</value></data>
+  <data name="TogglesSetTrue" xml:space="preserve"><value>Yes</value></data>
+  <data name="TogglesSetFalse" xml:space="preserve"><value>No</value></data>
+  <data name="TogglesPreviewTitle" xml:space="preserve"><value>Preview</value></data>
+  <data name="TogglesStatesTitle" xml:space="preserve"><value>States</value></data>
+  <data name="ValidationTitle" xml:space="preserve"><value>Validation</value></data>
+  <data name="ValidationDescription" xml:space="preserve"><value>A small sign-up form whose required rule sits next to the fields it guards, then a form whose length, e-mail and comparison rules are carried by the model.</value></data>
+  <data name="ValidationSettingsTitle" xml:space="preserve"><value>Validation under test</value></data>
+  <data name="ValidationSettingsDescription" xml:space="preserve"><value>Where messages appear, when they appear, and how a valid form answers.</value></data>
+  <data name="ValidationPlacement" xml:space="preserve"><value>Where messages appear</value></data>
+  <data name="ValidationPlacementDescription" xml:space="preserve"><value>Under each validator, inside the form field, or gathered in a summary above the form.</value></data>
+  <data name="ValidationPlacementValidator" xml:space="preserve"><value>Under the validator</value></data>
+  <data name="ValidationPlacementField" xml:space="preserve"><value>In the form field</value></data>
+  <data name="ValidationPlacementSummary" xml:space="preserve"><value>Summary</value></data>
+  <data name="ValidationDelay" xml:space="preserve"><value>Validation delay</value></data>
+  <data name="ValidationDelayDescription" xml:space="preserve"><value>How long a validator waits after the last keystroke before checking.</value></data>
+  <data name="ValidationDelayValue" xml:space="preserve"><value>{0} ms</value></data>
+  <data name="ValidationFocusFirstInvalid" xml:space="preserve"><value>Focus the first error</value></data>
+  <data name="ValidationFocusFirstInvalidDescription" xml:space="preserve"><value>On a refused submission, the focus moves to the first invalid field.</value></data>
+  <data name="ValidationFeedback" xml:space="preserve"><value>Success feedback</value></data>
+  <data name="ValidationFeedbackDescription" xml:space="preserve"><value>A notification in the site stack, or an alert under the form.</value></data>
+  <data name="ValidationFeedbackNotification" xml:space="preserve"><value>Notification</value></data>
+  <data name="ValidationFeedbackInline" xml:space="preserve"><value>Inline alert</value></data>
+  <data name="ValidationFormTitle" xml:space="preserve"><value>Create an account</value></data>
+  <data name="ValidationAnnotationsTitle" xml:space="preserve"><value>Validation by attributes</value></data>
+  <data name="ValidationAnnotationsDescription" xml:space="preserve"><value>Length, e-mail and comparison rules carried by the model&apos;s DataAnnotations: OmniDataAnnotationsValidator writes the standard messages in the interface language.</value></data>
+  <data name="ValidationDynamicTitle" xml:space="preserve"><value>Dynamic form</value></data>
+  <data name="UnsavedChangesTitle" xml:space="preserve"><value>Unsaved changes guard</value></data>
+  <data name="UnsavedChangesDescription" xml:space="preserve"><value>Unsaved changes guard: before leaving the page, a navigation inside the application waits for a confirmation and closing the tab raises the browser&apos;s own question.</value></data>
+  <data name="UnsavedChangesSettingsTitle" xml:space="preserve"><value>Guard settings</value></data>
+  <data name="UnsavedChangesSettingsDescription" xml:space="preserve"><value>The state the guard watches and the texts of its question.</value></data>
+  <data name="UnsavedChangesHasChanges" xml:space="preserve"><value>Pending changes</value></data>
+  <data name="UnsavedChangesHasChangesDescription" xml:space="preserve"><value>Turned off, every navigation goes through without a question.</value></data>
+  <data name="UnsavedChangesCustomTexts" xml:space="preserve"><value>Host texts</value></data>
+  <data name="UnsavedChangesCustomTextsDescription" xml:space="preserve"><value>Replaces the package&apos;s localized title, question and two buttons.</value></data>
+  <data name="UnsavedChangesPreviewTitle" xml:space="preserve"><value>Leaving the page</value></data>
+  <data name="UnsavedChangesFormTitle" xml:space="preserve"><value>Form guard</value></data>
+  <data name="FormLayoutsTitle" xml:space="preserve"><value>Form layouts</value></data>
+  <data name="FormLayoutsDescription" xml:space="preserve"><value>A vertical form: label above the field, asterisk on the required fields, help and error lines, a summary of the errors, then the disabled and read-only states.</value></data>
+  <data name="FormLayoutsVerticalTitle" xml:space="preserve"><value>Vertical form</value></data>
+  <data name="FormLayoutsVerticalDescription" xml:space="preserve"><value>The two errors are real validation errors of the edit context: each field takes its invalid state from them, and fixing them removes them from the summary.</value></data>
 </root>

@@ -2,32 +2,6 @@
 
 <EditForm Model="Model">
     <OmniStack Gap="OmniSpacing.Medium">
-        <OmniFormField For="inputs-amount">
-            <LabelContent>@Text["DemoInputsAmount"]</LabelContent>
-            <ChildContent>
-                <OmniNumeric TValue="decimal" Id="inputs-amount" @bind-Value="Model.Amount"
-                             Minimum="0" Maximum="100000" Step="50" Placeholder="0" />
-            </ChildContent>
-        </OmniFormField>
-
-        @* Clamp ramène une saisie hors bornes à la borne la plus proche, dans le modèle comme dans le
-           champ. Sans lui, la valeur est prise telle quelle, comme avant. *@
-        <OmniFormField For="inputs-quantity" Description="@Text["DemoInputsQuantityHelp", 0, 20]">
-            <LabelContent>@Text["DemoInputsQuantity"]</LabelContent>
-            <ChildContent>
-                <OmniNumeric TValue="int" Id="inputs-quantity" @bind-Value="Model.Quantity"
-                             Minimum="0" Maximum="20" Clamp="true" />
-            </ChildContent>
-        </OmniFormField>
-
-        <OmniFormField For="inputs-secret" Description="@Text["DemoInputsPasswordHelp"]">
-            <LabelContent>@Text["DemoInputsPassword"]</LabelContent>
-            <ChildContent>
-                <OmniPassword Id="inputs-secret" @bind-Value="Model.Secret" Revealable="true"
-                              Autocomplete="new-password" />
-            </ChildContent>
-        </OmniFormField>
-
         @* Les trois sélecteurs ouvrent leur panneau sur le calque des surfaces flottantes ; un seul
            panneau est ouvert à la fois. *@
         <OmniFormField For="inputs-date" Description="@Text["DemoInputsDateHelp"]">

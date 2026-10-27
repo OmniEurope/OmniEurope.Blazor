@@ -1,0 +1,14 @@
+@page "/components/form-layouts"
+@using OmniEurope.Blazor.Showcase.Examples.Forms
+
+<GalleryPageFrame Slug="form-layouts">
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["FormLayoutsVerticalTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["FormLayoutsVerticalDescription"]</OmniText>
+                <VerticalFormExample />
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

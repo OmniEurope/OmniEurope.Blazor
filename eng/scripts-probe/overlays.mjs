@@ -413,10 +413,10 @@ export async function overlaySteps(session, results) {
   step('fenêtre d\'apparence : taille des contrôles, Trou noir et retour, déplacée, fermée');
 
   // 10. Form helpers: the first invalid field focused on submit, a text copied by its button.
-  await session.visit('/components/legacy/validation', '#validation-name');
-  await evaluate("document.getElementById('validation-name').closest('form').querySelector('button[type=\"submit\"]').scrollIntoView({ block: 'center' })");
-  await clickOn('#validation-name ~ * button[type="submit"], form:has(#validation-name) button[type="submit"]');
-  await waitFor('le premier champ invalide focalisé', "document.activeElement?.id === 'validation-name' || document.activeElement?.closest('[aria-invalid=\"true\"]') !== null");
+  await session.visit('/components/validation', '#signup-name');
+  await evaluate("document.getElementById('signup-name').closest('form').querySelector('button[type=\"submit\"]').scrollIntoView({ block: 'center' })");
+  await clickOn('form:has(#signup-name) button[type="submit"]');
+  await waitFor('le premier champ invalide focalisé', "document.activeElement?.id === 'signup-name' || document.activeElement?.closest('[aria-invalid=\"true\"]') !== null");
   step('premier champ invalide focalisé');
 
   const origin = new URL(await evaluate('location.href')).origin;

@@ -1,0 +1,22 @@
+@* A form sets its own guard: a changed field is enough, and a valid submission counts as a save. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniText Tone="OmniTextTone.Muted">Change the note then leave the page: the form asks the same question, and saving clears it.</OmniText>
+    <OmniTemplateForm TModel="NoteModel" Model="Note" GuardUnsavedChanges="true" OnValidSubmit="SaveNote" Context="form">
+        <OmniStack Gap="OmniSpacing.Medium">
+            <OmniFormField For="guard-note" Label="Note">
+                <OmniTextBox Id="guard-note" @bind-Value="Note.Text" />
+            </OmniFormField>
+            <OmniFormActions>
+                <OmniButton ButtonType="OmniButtonType.Submit" Variant="OmniButtonVariant.Success">
+                    <OmniIcon Name="OmniIconName.Save" />
+                    <span>Save</span>
+                </OmniButton>
+            </OmniFormActions>
+        </OmniStack>
+    </OmniTemplateForm>
+    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small">
+        <OmniIcon Name="OmniIconName.Check" />
+        <span>Saved note:</span>
+        <OmniBadge Tone="@(SavedNote is null ? OmniTone.Neutral : OmniTone.Success)">@(SavedNote ?? "none")</OmniBadge>
+    </OmniStack>
+</OmniStack>

@@ -1,0 +1,118 @@
+@using Microsoft.AspNetCore.Components.Forms
+
+@* A vertical form: label above the field, asterisk on a required one, help line, error with an icon, a
+   summary of the errors on top, then the disabled and read-only states, which stay distinct. The two errors
+   are real validation errors held by the edit context: each field takes aria-invalid from them, and fixing
+   them removes them from the summary. *@
+<EditForm EditContext="Context">
+    <OmniStack Gap="OmniSpacing.Medium">
+        @if (Errors.Count > 0)
+        {
+            <OmniAlert Severity="OmniSeverity.Danger" Fill="OmniFill.Solid" Title="@($"{Errors.Count} error(s) to correct")">
+                <ul>
+                    @foreach (var error in Errors)
+                    {
+                        <li>@error</li>
+                    }
+                </ul>
+            </OmniAlert>
+        }
+
+        <OmniFormField For="vertical-name" Required="true" Description="Lowercase letters, digits and hyphens." Error="@ErrorOf(nameof(Model.Name))">
+            <LabelContent>Pipeline name</LabelContent>
+            <ChildContent>
+                <OmniTextBox Id="vertical-name" @bind-Value="Model.Name" />
+            </ChildContent>
+        </OmniFormField>
+
+        <OmniFormField Id="vertical-mail-field" For="vertical-mail" Required="true" Error="@ErrorOf(nameof(Model.Email))">
+            <LabelContent>Notification address</LabelContent>
+            <ChildContent>
+                <OmniTextBox Id="vertical-mail"
+                             Type="OmniTextBoxType.Email"
+                             Autocomplete="email"
+                             AriaDescribedBy="@(ErrorOf(nameof(Model.Email)) is null ? null : "vertical-mail-field-error")"
+                             @bind-Value="Model.Email" />
+            </ChildContent>
+        </OmniFormField>
+
+        <OmniRow>
+            <OmniColumn Span="12" MediumSpan="6">
+                <OmniFormField For="vertical-token">
+                    <LabelContent>Access token</LabelContent>
+                    <ChildContent>
+                        <OmniPassword Id="vertical-token" Autocomplete="off" Revealable="true" @bind-Value="Model.Token" />
+                    </ChildContent>
+                </OmniFormField>
+            </OmniColumn>
+            <OmniColumn Span="12" MediumSpan="6">
+                <OmniFormField For="vertical-replicas">
+                    <LabelContent>Replicas</LabelContent>
+                    <ChildContent>
+                        <OmniNumeric TValue="int" Id="vertical-replicas" Minimum="1" Maximum="12" Clamp="true" @bind-Value="Model.Replicas" />
+                    </ChildContent>
+                </OmniFormField>
+            </OmniColumn>
+        </OmniRow>
+
+        <OmniFormField For="vertical-description">
+            <LabelContent>Description</LabelContent>
+            <ChildContent>
+                <OmniTextArea Id="vertical-description" Rows="3" @bind-Value="Model.Description" />
+            </ChildContent>
+        </OmniFormField>
+
+        <OmniFieldset>
+            <Legend>Options</Legend>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Small">
+                    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small">
+                        <OmniCheckBox Id="vertical-locked" @bind-Value="Model.LockedRestore" />
+                        <OmniLabel For="vertical-locked">Locked restore</OmniLabel>
+                    </OmniStack>
+                    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small">
+                        <OmniCheckBox Id="vertical-symbols" @bind-Value="Model.Symbols" />
+                        <OmniLabel For="vertical-symbols">Publish the symbols</OmniLabel>
+                    </OmniStack>
+                    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small">
+                        <OmniCheckBox Id="vertical-signing" Disabled="true" @bind-Value="Model.Signing" />
+                        <OmniLabel For="vertical-signing">Sign the package (imposed)</OmniLabel>
+                    </OmniStack>
+                    <OmniSwitch Id="vertical-notify" @bind-Value="Model.Notify">Notify at the end</OmniSwitch>
+                    <OmniSwitch Id="vertical-auto" Disabled="true" @bind-Value="Model.AutoDeploy">Deploy automatically</OmniSwitch>
+                </OmniStack>
+            </ChildContent>
+        </OmniFieldset>
+
+        <OmniRow>
+            <OmniColumn Span="12" MediumSpan="6">
+                <OmniFormField For="vertical-server" Disabled="true" Description="Set by the environment.">
+                    <LabelContent>Server</LabelContent>
+                    <ChildContent>
+                        <OmniTextBox Id="vertical-server" Disabled="true" @bind-Value="Model.Server" />
+                    </ChildContent>
+                </OmniFormField>
+            </OmniColumn>
+            <OmniColumn Span="12" MediumSpan="6">
+                <OmniFormField For="vertical-identifier" Description="Read-only: it can be copied.">
+                    <LabelContent>Identifier</LabelContent>
+                    <ChildContent>
+                        <OmniTextBox Id="vertical-identifier" ReadOnly="true" @bind-Value="Model.Identifier" />
+                    </ChildContent>
+                </OmniFormField>
+            </OmniColumn>
+        </OmniRow>
+
+        <OmniFormActions>
+            <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => Reset())">
+                <Icon><OmniIcon Name="OmniIconName.Close" /></Icon>
+                <ChildContent><span>Cancel</span></ChildContent>
+            </OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Primary" OnClick="@(_ => Save())">
+                <Icon><OmniIcon Name="OmniIconName.Save" /></Icon>
+                <ChildContent><span>Save</span></ChildContent>
+            </OmniButton>
+        </OmniFormActions>
+        <OmniText Tone="OmniTextTone.Muted" aria-live="polite">@Status</OmniText>
+    </OmniStack>
+</EditForm>

@@ -1,10 +1,9 @@
 @using Microsoft.AspNetCore.Components.Forms
 
-@* Le formulaire vertical de la maquette (PLAN-004 T17 c) : libellé au-dessus, astérisque
-   d'obligation, aide, erreur avec icône, récapitulatif des erreurs en tête, tous les types de champ,
-   puis les états désactivé et lecture seule, distincts. Les deux erreurs sont de vraies erreurs de
-   validation posées dans le contexte d'édition : chaque champ en tire aria-invalid lui-même, et les
-   corriger les retire du récapitulatif. *@
+@* The text, password, number, check box, switch, disabled and read-only fields of this form moved to the
+   gallery page Form layouts. What stays are the selection, date, choice and file fields, until their pages
+   take them. The strategy error is a real validation error posed in the edit context: the choice list takes
+   aria-invalid from it, and choosing a strategy removes it. *@
 <EditForm EditContext="Context">
     <OmniStack Gap="OmniSpacing.Medium">
         @if (Errors.Count > 0)
@@ -19,37 +18,6 @@
                 </ul>
             </OmniAlert>
         }
-
-        <OmniFormField For="vform-name" Required="true" Description="@Text["VFormNameHelp"]" Error="@ErrorOf(nameof(Model.Name))">
-            <LabelContent>@Text["VFormName"]</LabelContent>
-            <ChildContent>
-                <OmniTextBox Id="vform-name" @bind-Value="Model.Name" />
-            </ChildContent>
-        </OmniFormField>
-
-        <OmniFormField Id="vform-mail-field" For="vform-mail" Required="true" Error="@ErrorOf(nameof(Model.Email))">
-            <LabelContent>@Text["VFormMail"]</LabelContent>
-            <ChildContent>
-                <OmniTextBox Id="vform-mail" Type="OmniTextBoxType.Email" Autocomplete="email"
-                             AriaDescribedBy="@(ErrorOf(nameof(Model.Email)) is null ? null : "vform-mail-field-error")"
-                             @bind-Value="Model.Email" />
-            </ChildContent>
-        </OmniFormField>
-
-        <div class="demo-form-row">
-            <OmniFormField For="vform-token">
-                <LabelContent>@Text["VFormToken"]</LabelContent>
-                <ChildContent>
-                    <OmniPassword Id="vform-token" Autocomplete="off" Revealable="true" @bind-Value="Model.Token" />
-                </ChildContent>
-            </OmniFormField>
-            <OmniFormField For="vform-replicas">
-                <LabelContent>@Text["VFormReplicas"]</LabelContent>
-                <ChildContent>
-                    <OmniNumeric TValue="int" Id="vform-replicas" Minimum="1" Maximum="12" Clamp="true" @bind-Value="Model.Replicas" />
-                </ChildContent>
-            </OmniFormField>
-        </div>
 
         <div class="demo-form-row">
             <OmniFormField For="vform-environment">
@@ -81,13 +49,6 @@
             </OmniFormField>
         </div>
 
-        <OmniFormField For="vform-description">
-            <LabelContent>@Text["VFormDescription"]</LabelContent>
-            <ChildContent>
-                <OmniTextArea Id="vform-description" Rows="3" @bind-Value="Model.Description" />
-            </ChildContent>
-        </OmniFormField>
-
         @* La liste de choix porte elle-même aria-invalid tant que l'erreur est posée ; la ligne
            d'erreur lui est reliée par aria-describedby. *@
         <div class="demo-choice">
@@ -103,28 +64,6 @@
                 </p>
             }
         </div>
-
-        <OmniFieldset>
-            <Legend>@Text["VFormOptions"]</Legend>
-            <ChildContent>
-                <OmniStack Gap="OmniSpacing.Small">
-                    <span class="demo-check">
-                        <OmniCheckBox Id="vform-locked" @bind-Value="Model.LockedRestore" />
-                        <OmniLabel For="vform-locked">@Text["VFormLocked"]</OmniLabel>
-                    </span>
-                    <span class="demo-check">
-                        <OmniCheckBox Id="vform-symbols" @bind-Value="Model.Symbols" />
-                        <OmniLabel For="vform-symbols">@Text["VFormSymbols"]</OmniLabel>
-                    </span>
-                    <span class="demo-check">
-                        <OmniCheckBox Id="vform-signing" Disabled="true" @bind-Value="Model.Signing" />
-                        <OmniLabel For="vform-signing">@Text["VFormSigning"]</OmniLabel>
-                    </span>
-                    <OmniSwitch Id="vform-notify" @bind-Value="Model.Notify">@Text["VFormNotify"]</OmniSwitch>
-                    <OmniSwitch Id="vform-auto" Disabled="true" @bind-Value="Model.AutoDeploy">@Text["VFormAutoDeploy"]</OmniSwitch>
-                </OmniStack>
-            </ChildContent>
-        </OmniFieldset>
 
         @* Les trois formes d'OmniUpload : le champ soudé à son bouton, la zone d'un seul fichier, la zone
            de plusieurs fichiers en liste réduite (les trois plus récents, le compte, Afficher tout,
@@ -158,21 +97,6 @@
                 </OmniStack>
             </ChildContent>
         </OmniFieldset>
-
-        <div class="demo-form-row">
-            <OmniFormField For="vform-server" Disabled="true" Description="@Text["VFormServerHelp"]">
-                <LabelContent>@Text["VFormServer"]</LabelContent>
-                <ChildContent>
-                    <OmniTextBox Id="vform-server" Disabled="true" @bind-Value="Model.Server" />
-                </ChildContent>
-            </OmniFormField>
-            <OmniFormField For="vform-identifier" Description="@Text["VFormIdentifierHelp"]">
-                <LabelContent>@Text["VFormIdentifier"]</LabelContent>
-                <ChildContent>
-                    <OmniTextBox Id="vform-identifier" ReadOnly="true" @bind-Value="Model.Identifier" />
-                </ChildContent>
-            </OmniFormField>
-        </div>
 
         <OmniFormField For="vform-agent" Disabled="true">
             <LabelContent>@Text["VFormAgent"]</LabelContent>
