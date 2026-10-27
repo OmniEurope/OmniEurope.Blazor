@@ -1,0 +1,14 @@
+@* A status badge reads the tone, the text and the icon of a value from a map. With no step (Auto) each
+   badge is as wide as its word; with the same step (Medium) on each badge of a column, words of
+   different lengths line up on one width. A status strip shows a series of states in dots or in segments;
+   it reads only the tone of each status, each run keeping its own label. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniRow Gap="OmniSpacing.Small" Align="OmniAlignment.Center">
+        <OmniStatusBadge TValue="string" Value="@("ready")" Map="BadgeMap" />
+        <OmniStatusBadge TValue="string" Value="@("failed")" Map="BadgeMap" />
+        <OmniStatusBadge TValue="string" Value="@("ready")" Map="BadgeMap" Width="OmniBadgeWidth.Medium" />
+        <OmniStatusBadge TValue="string" Value="@("failed")" Map="BadgeMap" Width="OmniBadgeWidth.Medium" />
+    </OmniRow>
+    <OmniStatusStrip Items="Runs" Map="RunMap" Label="Recent runs" />
+    <OmniStatusStrip Items="Runs" Map="RunMap" Shape="OmniStatusStripShape.Segment" Label="Availability" />
+</OmniStack>

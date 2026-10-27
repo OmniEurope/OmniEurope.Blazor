@@ -1,0 +1,12 @@
+@* One gauge, every setting a parameter. ValueText replaces the percentage on screen and for screen
+   readers; left null, the component writes its own. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniProgressBar Shape="Shape"
+                     Tone="Tone"
+                     Value="Value"
+                     Indeterminate="Indeterminate"
+                     ShowValue="ShowValue"
+                     Label="@Label"
+                     ValueText="@ValueText" />
+    <OmniText Tone="OmniTextTone.Muted">@Echo</OmniText>
+</OmniStack>

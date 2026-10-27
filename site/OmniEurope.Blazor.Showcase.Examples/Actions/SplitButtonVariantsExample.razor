@@ -1,0 +1,41 @@
+@* The split button takes the variants of the button, both halves together; Secondary, its original
+   look, stays the default. An icon may precede the text of the main half, the chevron of the menu
+   does not change. The second row shows the three sizes. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniRow Gap="OmniSpacing.Medium" Align="OmniAlignment.Center">
+        <OmniSplitButton Text="Publish" Variant="OmniButtonVariant.Primary" OnClick="CountClick">
+            <Icon><OmniIcon Name="OmniIconName.RocketLaunch" /></Icon>
+            <ChildContent>
+                <OmniMenuItem OnClick="CountClick">Publish later</OmniMenuItem>
+            </ChildContent>
+        </OmniSplitButton>
+        <OmniSplitButton Text="Draft" Variant="OmniButtonVariant.Secondary" OnClick="CountClick">
+            <Icon><OmniIcon Name="OmniIconName.Save" /></Icon>
+        </OmniSplitButton>
+        <OmniSplitButton Text="Preview" Variant="OmniButtonVariant.Ghost" OnClick="CountClick" />
+        <OmniSplitButton Text="Approve" Variant="OmniButtonVariant.Success" OnClick="CountClick">
+            <Icon><OmniIcon Name="OmniIconName.Check" /></Icon>
+        </OmniSplitButton>
+        <OmniSplitButton Text="Suspend" Variant="OmniButtonVariant.Warning" OnClick="CountClick">
+            <Icon><OmniIcon Name="OmniIconName.Pause" /></Icon>
+        </OmniSplitButton>
+        <OmniSplitButton Text="View" Variant="OmniButtonVariant.Info" OnClick="CountClick">
+            <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
+        </OmniSplitButton>
+        <OmniSplitButton Text="Delete" Variant="OmniButtonVariant.Danger" OnClick="CountClick">
+            <Icon><OmniIcon Name="OmniIconName.Delete" /></Icon>
+        </OmniSplitButton>
+    </OmniRow>
+    <OmniRow Gap="OmniSpacing.Medium" Align="OmniAlignment.Center">
+        <OmniSplitButton Size="OmniControlSize.Small" Text="Publish" OnClick="CountClick">
+            <Icon><OmniIcon Name="OmniIconName.RocketLaunch" /></Icon>
+        </OmniSplitButton>
+        <OmniSplitButton Size="OmniControlSize.Medium" Text="Publish" OnClick="CountClick">
+            <Icon><OmniIcon Name="OmniIconName.RocketLaunch" /></Icon>
+        </OmniSplitButton>
+        <OmniSplitButton Size="OmniControlSize.Large" Text="Publish" OnClick="CountClick">
+            <Icon><OmniIcon Name="OmniIconName.RocketLaunch" /></Icon>
+        </OmniSplitButton>
+    </OmniRow>
+    <OmniText Tone="OmniTextTone.Muted">Actions: @ClickCount.</OmniText>
+</OmniStack>

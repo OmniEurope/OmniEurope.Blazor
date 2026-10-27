@@ -1,0 +1,7 @@
+@* The linear gauge rounds its width in steps of five per cent: these values show where the steps fall. *@
+<OmniStack Gap="OmniSpacing.Small">
+    @foreach (var step in Steps)
+    {
+        <OmniProgressBar Value="step" ShowValue="true" Label="@($"Gauge at {step} %")" />
+    }
+</OmniStack>

@@ -65,11 +65,6 @@
   <data name="DemoBadgesCapability1" xml:space="preserve"><value>Five variants aligned with the theme severities.</value></data>
   <data name="DemoBadgesCapability2" xml:space="preserve"><value>Tinted backgrounds derived from the variables, so they repaint with the theme.</value></data>
   <data name="DemoBadgesCapability3" xml:space="preserve"><value>A common minimum width (Small, Medium, Large) lines up status words of different lengths in a column or list.</value></data>
-  <data name="DemoAlertsTitle" xml:space="preserve"><value>Alerts</value></data>
-  <data name="DemoAlertsSummary" xml:space="preserve"><value>The contextual message, from a plain notice to a blocking failure.</value></data>
-  <data name="DemoAlertsCapability1" xml:space="preserve"><value>Four severities: info, success, warning and danger.</value></data>
-  <data name="DemoAlertsCapability2" xml:space="preserve"><value>Two variants: quiet outline or filled surface.</value></data>
-  <data name="DemoAlertsCapability3" xml:space="preserve"><value>A live mode that announces the message to assistive technology.</value></data>
   <data name="CustomizePageTitle" xml:space="preserve"><value>Customisation</value></data>
   <data name="CustomizeTitle" xml:space="preserve"><value>Customisation</value></data>
   <data name="CustomizeLead" xml:space="preserve"><value>Pick a theme, which gives the shape, then a palette, which gives the colours: any palette paints any theme, and the whole site repaints as you go. The preview reuses the compositions of the reference mockup.</value></data>
@@ -300,10 +295,6 @@
   <data name="ContrastPair45" xml:space="preserve"><value>danger fill / surface</value></data>
   <data name="ContrastPair46" xml:space="preserve"><value>accent / surface</value></data>
   <data name="ContrastPair47" xml:space="preserve"><value>border / surface (OE floor 1.7)</value></data>
-  <data name="DemoStatesTitle" xml:space="preserve"><value>Rest, hover and press</value></data>
-  <data name="DemoStatesSummary" xml:space="preserve"><value>The three states of a button variant side by side.</value></data>
-  <data name="DemoStatesCapability1" xml:space="preserve"><value>Hover and press read the theme's tokens: hovered fill, pressed fill and press gesture.</value></data>
-  <data name="DemoStatesCapability2" xml:space="preserve"><value>A showcase comparison aid: a browser cannot freeze :hover or :active.</value></data>
   <data name="DemoAppShellTitle" xml:space="preserve"><value>Application shell</value></data>
   <data name="DemoAppShellSummary" xml:space="preserve"><value>Top bar, side menu that collapses to an icon rail, content.</value></data>
   <data name="DemoAppShellCapability1" xml:space="preserve"><value>Collapse button, search, help, bell with a dot and an account menu closed at rest.</value></data>
@@ -480,13 +471,6 @@
   <data name="ShellPipelinesRunning" xml:space="preserve"><value>Pipelines running</value></data>
   <data name="ShellLoading" xml:space="preserve"><value>Loading the dashboard</value></data>
   <data name="ShellLastAction" xml:space="preserve"><value>Last action: {0}</value></data>
-  <data name="StatesRest" xml:space="preserve"><value>Rest</value></data>
-  <data name="StatesHover" xml:space="preserve"><value>Hover</value></data>
-  <data name="StatesPress" xml:space="preserve"><value>Press</value></data>
-  <data name="StatesPrimary" xml:space="preserve"><value>Primary</value></data>
-  <data name="StatesSuccess" xml:space="preserve"><value>Success</value></data>
-  <data name="StatesSecondary" xml:space="preserve"><value>Secondary</value></data>
-  <data name="StatesGhost" xml:space="preserve"><value>Ghost</value></data>
   <data name="SurfServers" xml:space="preserve"><value>Servers</value></data>
   <data name="SurfServersText" xml:space="preserve"><value>Last heartbeat 4 minutes ago.</value></data>
   <data name="SurfPipelines" xml:space="preserve"><value>Pipelines</value></data>
@@ -894,25 +878,6 @@
   <data name="DemoBadgesPublished" xml:space="preserve"><value>Published</value></data>
   <data name="DemoBadgesFailed" xml:space="preserve"><value>Failed</value></data>
   <data name="DemoBadgesFixedSize" xml:space="preserve"><value>Fixed size</value></data>
-  <data name="DemoAlertsMaintenance" xml:space="preserve"><value>Maintenance</value></data>
-  <data name="DemoAlertsMaintenanceText" xml:space="preserve"><value>The service will be unavailable on Sunday from 2 to 4 am.</value></data>
-  <data name="DemoAlertsPublished" xml:space="preserve"><value>Package published</value></data>
-  <data name="DemoAlertsPublishedText" xml:space="preserve"><value>OmniEurope.Blazor is available on NuGet.org.</value></data>
-  <data name="DemoAlertsCertificate" xml:space="preserve"><value>Certificate expiring soon</value></data>
-  <data name="DemoAlertsFailure" xml:space="preserve"><value>Failure</value></data>
-  <data name="DemoAlertsFailureText" xml:space="preserve"><value>The connection to the service failed.</value></data>
-  <data name="DemoAlertsInfo" xml:space="preserve"><value>Information</value></data>
-  <data name="DemoAlertsInfoText" xml:space="preserve"><value>The library reads all its colours from CSS variables.</value></data>
-  <data name="DemoAlertsSaved" xml:space="preserve"><value>Saved</value></data>
-  <data name="DemoAlertsSavedText" xml:space="preserve"><value>The changes have been applied.</value></data>
-  <data name="DemoAlertsNew" xml:space="preserve"><value>What's new</value></data>
-  <data name="DemoAlertsNewText" xml:space="preserve"><value>Badges and alerts now share the same fill.</value></data>
-  <data name="DemoAlertsCaution" xml:space="preserve"><value>Caution</value></data>
-  <data name="DemoAlertsCautionText" xml:space="preserve"><value>This setting will be applied to every page.</value></data>
-  <data name="DemoAlertsTooLarge" xml:space="preserve"><value>The file exceeds the allowed size.</value></data>
-  <data name="DemoAlertsTip" xml:space="preserve"><value>Tip</value></data>
-  <data name="DemoAlertsTipText" xml:space="preserve"><value>This alert closes with its cross.</value></data>
-  <data name="DemoAlertsCertificateText" xml:space="preserve"><value>The signing certificate expires in {0} days.</value></data>
   <data name="DemoButtonsApprove" xml:space="preserve"><value>Approve</value></data>
   <data name="DemoButtonsSave" xml:space="preserve"><value>Save</value></data>
   <data name="DemoFeedbackUpload" xml:space="preserve"><value>Upload</value></data>

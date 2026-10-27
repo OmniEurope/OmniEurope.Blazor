@@ -42,4 +42,59 @@
   <data name="ButtonsStatesTitle" xml:space="preserve"><value>Variantes par état : au repos, désactivé, occupé, icône seule</value></data>
   <data name="ButtonsBusyFamilyTitle" xml:space="preserve"><value>Un même état occupé dans toute la famille des boutons</value></data>
   <data name="ButtonsCopyTitle" xml:space="preserve"><value>Boutons de copie</value></data>
+  <data name="ButtonsInteractionTitle" xml:space="preserve"><value>Repos, survol et appui</value></data>
+  <data name="ButtonsInteractionNote" xml:space="preserve"><value>Un navigateur ne sait pas figer :hover ni :active. La page rejoue les deux règles du paquet avec les mêmes jetons (les fonds de survol et d&apos;appui du bouton) : une aide de comparaison, pas un état du paquet.</value></data>
+  <data name="ButtonsInteractionRest" xml:space="preserve"><value>Au repos</value></data>
+  <data name="ButtonsInteractionHover" xml:space="preserve"><value>Survolé</value></data>
+  <data name="ButtonsInteractionPress" xml:space="preserve"><value>Appuyé</value></data>
+  <data name="SplitButtonsTitle" xml:space="preserve"><value>Boutons scindés</value></data>
+  <data name="SplitButtonsDescription" xml:space="preserve"><value>Une action principale et ses variantes dans un menu. La dernière action choisie s&apos;affiche sous l&apos;aperçu.</value></data>
+  <data name="SplitButtonsSettingsTitle" xml:space="preserve"><value>Bouton scindé à l&apos;essai</value></data>
+  <data name="SplitButtonsSettingsDescription" xml:space="preserve"><value>Chaque réglage s&apos;applique au bouton partagé du premier aperçu.</value></data>
+  <data name="SplitButtonsSize" xml:space="preserve"><value>Taille</value></data>
+  <data name="SplitButtonsSizeDescription" xml:space="preserve"><value>Paramètre Size : les trois tailles d&apos;OmniButton, partie principale et partie menu ensemble.</value></data>
+  <data name="SplitButtonsSizeSmall" xml:space="preserve"><value>Petit</value></data>
+  <data name="SplitButtonsSizeMedium" xml:space="preserve"><value>Moyen</value></data>
+  <data name="SplitButtonsSizeLarge" xml:space="preserve"><value>Grand</value></data>
+  <data name="SplitButtonsVariant" xml:space="preserve"><value>Variante</value></data>
+  <data name="SplitButtonsVariantDescription" xml:space="preserve"><value>Les deux moitiés prennent la couleur de la variante ; Secondary, son apparence d&apos;origine, reste la valeur par défaut.</value></data>
+  <data name="SplitButtonsDisabled" xml:space="preserve"><value>Désactivé</value></data>
+  <data name="SplitButtonsDisabledDescription" xml:space="preserve"><value>Les deux moitiés cessent de réagir : ni l&apos;action ni le menu ne s&apos;ouvrent.</value></data>
+  <data name="SplitButtonsBusy" xml:space="preserve"><value>Occupé</value></data>
+  <data name="SplitButtonsBusyDescription" xml:space="preserve"><value>Le bouton reste atteignable au clavier mais refuse l&apos;action et le menu.</value></data>
+  <data name="SplitButtonsBusyOnClick" xml:space="preserve"><value>Occupé au clic</value></data>
+  <data name="SplitButtonsBusyOnClickDescription" xml:space="preserve"><value>L&apos;action principale simule deux secondes de travail.</value></data>
+  <data name="SplitButtonsItemDisabled" xml:space="preserve"><value>Entrée indisponible</value></data>
+  <data name="SplitButtonsItemDisabledDescription" xml:space="preserve"><value>Désactive la dernière entrée du menu, la suppression.</value></data>
+  <data name="SplitButtonsMainText" xml:space="preserve"><value>Action principale</value></data>
+  <data name="SplitButtonsMainTextDescription" xml:space="preserve"><value>Le texte de la moitié principale du bouton.</value></data>
+  <data name="SplitButtonsMainPublish" xml:space="preserve"><value>Publier</value></data>
+  <data name="SplitButtonsMainSave" xml:space="preserve"><value>Enregistrer</value></data>
+  <data name="SplitButtonsMainSend" xml:space="preserve"><value>Envoyer</value></data>
+  <data name="SplitButtonsPreviewTitle" xml:space="preserve"><value>Aperçu</value></data>
+  <data name="SplitButtonsGalleryTitle" xml:space="preserve"><value>États</value></data>
+  <data name="SplitButtonsVariantsTitle" xml:space="preserve"><value>Variantes et tailles</value></data>
+  <data name="ToggleButtonsTitle" xml:space="preserve"><value>Boutons bascule</value></data>
+  <data name="ToggleButtonsDescription" xml:space="preserve"><value>Un bouton qui reste enfoncé : son état est lié à une valeur et annoncé aux technologies d&apos;assistance.</value></data>
+  <data name="ToggleButtonsSettingsTitle" xml:space="preserve"><value>Bouton bascule à l&apos;essai</value></data>
+  <data name="ToggleButtonsSettingsDescription" xml:space="preserve"><value>Chaque réglage s&apos;applique au bouton bascule du premier aperçu. Il n&apos;a pas de variante : l&apos;état enfoncé porte seul le sens.</value></data>
+  <data name="ToggleButtonsPressed" xml:space="preserve"><value>Enfoncé</value></data>
+  <data name="ToggleButtonsPressedDescription" xml:space="preserve"><value>La même valeur que le bouton : basculez l&apos;un, l&apos;autre suit.</value></data>
+  <data name="ToggleButtonsSize" xml:space="preserve"><value>Taille</value></data>
+  <data name="ToggleButtonsSizeDescription" xml:space="preserve"><value>Paramètre Size : les trois tailles d&apos;OmniButton ; avec une icône seule, le bouton est carré.</value></data>
+  <data name="ToggleButtonsSizeSmall" xml:space="preserve"><value>Petit</value></data>
+  <data name="ToggleButtonsSizeMedium" xml:space="preserve"><value>Moyen</value></data>
+  <data name="ToggleButtonsSizeLarge" xml:space="preserve"><value>Grand</value></data>
+  <data name="ToggleButtonsContent" xml:space="preserve"><value>Contenu</value></data>
+  <data name="ToggleButtonsContentDescription" xml:space="preserve"><value>Une bascule à icône seule porte son nom en libellé accessible et en bulle.</value></data>
+  <data name="ToggleButtonsContentIconAndLabel" xml:space="preserve"><value>Icône et libellé</value></data>
+  <data name="ToggleButtonsContentIconOnly" xml:space="preserve"><value>Icône seule</value></data>
+  <data name="ToggleButtonsDisabled" xml:space="preserve"><value>Désactivé</value></data>
+  <data name="ToggleButtonsDisabledDescription" xml:space="preserve"><value>Le bouton garde son état mais ne peut plus le changer.</value></data>
+  <data name="ToggleButtonsBusy" xml:space="preserve"><value>Occupé</value></data>
+  <data name="ToggleButtonsBusyDescription" xml:space="preserve"><value>Un voile respire sur le bouton et les clics sont ignorés.</value></data>
+  <data name="ToggleButtonsPreviewTitle" xml:space="preserve"><value>Aperçu</value></data>
+  <data name="ToggleButtonsToolbarTitle" xml:space="preserve"><value>Une barre de bascules</value></data>
+  <data name="ToggleButtonsStatesTitle" xml:space="preserve"><value>États</value></data>
+  <data name="ToggleButtonsSizesTitle" xml:space="preserve"><value>Tailles, avec un libellé et en icône seule</value></data>
 </root>

@@ -1,0 +1,108 @@
+@page "/components/progress"
+@using OmniEurope.Blazor.Showcase.Examples.Feedback
+
+<GalleryPageFrame Slug="progress">
+    <Settings>
+        <OmniSettingsSection Title="@Text["ProgressSettingsTitle"]" Description="@Text["ProgressSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["ProgressShape"]">
+                <Icon><OmniIcon Name="OmniIconName.ThemeSystem" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniProgressShape" Options="@ShapeOptions" @bind-Value="Shape" Label="@Text["ProgressShape"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ProgressTone"]" Description="@Text["ProgressToneDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Palette" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniTone" Options="@ToneOptions" @bind-Value="Tone" Label="@Text["ProgressTone"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ProgressValue"]" Description="@Text["ProgressValueDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Sliders" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="Value"
+                                Minimum="0"
+                                Maximum="100"
+                                Step="1"
+                                ShowValue="true"
+                                Disabled="Indeterminate"
+                                aria-label="@Text["ProgressValue"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ProgressIndeterminate"]" Description="@Text["ProgressIndeterminateDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Sync" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Indeterminate" aria-label="@Text["ProgressIndeterminate"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ProgressShowValue"]" Description="@Text["ProgressShowValueDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.NumberedList" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowValue" aria-label="@Text["ProgressShowValue"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ProgressCustomValueText"]" Description="@Text["ProgressCustomValueTextDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="CustomValueText" aria-label="@Text["ProgressCustomValueText"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ProgressLabel"]" Description="@Text["ProgressLabelDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Tag" /></Icon>
+                <Details>
+                    <OmniTextBox @bind-Value="Label" aria-label="@Text["ProgressLabel"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ProgressSimulate"]" Description="@Text["ProgressSimulateDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Play" /></Icon>
+                <Details>
+                    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Align="OmniAlignment.Center">
+                        <OmniButton Size="OmniControlSize.Small" Busy="Running" OnClick="RunAsync">
+                            <OmniIcon Name="OmniIconName.Play" />
+                            <span>@Text["ProgressSimulateStart"]</span>
+                        </OmniButton>
+                        <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" Disabled="@(!Running)" OnClick="Stop">
+                            <OmniIcon Name="OmniIconName.Close" />
+                            <span>@Text["ProgressSimulateStop"]</span>
+                        </OmniButton>
+                    </OmniStack>
+                </Details>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ProgressPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <ProgressExample Shape="Shape" Tone="Tone" Value="Value" Indeterminate="Indeterminate"
+                                 ShowValue="ShowValue" CustomValueText="CustomValueText" Label="@Label" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ProgressLinearTitle"]</HeaderContent>
+            <ChildContent><ProgressSamplesExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ProgressCircularTitle"]</HeaderContent>
+            <ChildContent><ProgressSamplesExample Circular="true" /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ProgressStepsTitle"]</HeaderContent>
+            <ChildContent><ProgressStepsExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ProgressLogoTitle"]</HeaderContent>
+            <ChildContent><LogoLoaderExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ProgressStatusTitle"]</HeaderContent>
+            <ChildContent><StatusExample /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

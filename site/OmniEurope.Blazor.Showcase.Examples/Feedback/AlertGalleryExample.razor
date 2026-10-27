@@ -1,0 +1,48 @@
+@* Every severity in every fill. Solid paints the background, drawn like a button; outline keeps the
+   surface of the page with a rule of the severity; tonal puts a light tint behind the text of the page.
+   The disc carries the glyph of the severity, or the icon the host puts in the Icon slot. The last
+   block shows the alert with nothing but its message. Each alert closes with its cross, and a button
+   brings the closed ones back. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    @foreach (var fill in Fills)
+    {
+        <OmniStack Gap="OmniSpacing.Small">
+            <OmniText Tone="OmniTextTone.Muted">@fill</OmniText>
+            <OmniRow Gap="OmniSpacing.Medium">
+                @foreach (var sample in AlertSample.All)
+                {
+                    @if (!IsClosed(fill, sample.Severity))
+                    {
+                        <OmniColumn Span="12" MediumSpan="6">
+                            <OmniAlert Severity="sample.Severity" Fill="fill" Title="@sample.Title" Dismissible="Dismissible"
+                                       OnDismiss="@(() => Close(fill, sample.Severity))">
+                                <Icon><OmniIcon Name="@sample.Icon" /></Icon>
+                                <ChildContent>@sample.Message</ChildContent>
+                            </OmniAlert>
+                        </OmniColumn>
+                    }
+                }
+            </OmniRow>
+        </OmniStack>
+    }
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniText Tone="OmniTextTone.Muted">Message only</OmniText>
+        <OmniRow Gap="OmniSpacing.Medium">
+            @foreach (var sample in AlertSample.All)
+            {
+                <OmniColumn Span="12" MediumSpan="6">
+                    <OmniAlert Severity="sample.Severity">@sample.Message</OmniAlert>
+                </OmniColumn>
+            }
+        </OmniRow>
+    </OmniStack>
+    @if (_closed.Count > 0)
+    {
+        <OmniStack Orientation="OmniOrientation.Horizontal">
+            <OmniButton Size="OmniControlSize.Small" OnClick="Restore">
+                <OmniIcon Name="OmniIconName.Restore" />
+                <span>Show the closed alerts again</span>
+            </OmniButton>
+        </OmniStack>
+    }
+</OmniStack>

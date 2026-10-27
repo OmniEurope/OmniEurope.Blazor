@@ -75,6 +75,34 @@
             <ChildContent><ButtonStatesExample /></ChildContent>
         </OmniCard>
         <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ButtonsInteractionTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Medium">
+                    <OmniText Tone="OmniTextTone.Muted">@Text["ButtonsInteractionNote"]</OmniText>
+                    <OmniRow Gap="OmniSpacing.Large" Align="OmniAlignment.Start">
+                        <OmniColumn Span="12" MediumSpan="4">
+                            <OmniStack Gap="OmniSpacing.Small">
+                                <OmniText Tone="OmniTextTone.Muted">@Text["ButtonsInteractionRest"]</OmniText>
+                                <ButtonVariantColumnExample />
+                            </OmniStack>
+                        </OmniColumn>
+                        <OmniColumn Span="12" MediumSpan="4">
+                            <OmniStack Gap="OmniSpacing.Small">
+                                <OmniText Tone="OmniTextTone.Muted">@Text["ButtonsInteractionHover"]</OmniText>
+                                <div class="gallery-buttons-hover"><ButtonVariantColumnExample /></div>
+                            </OmniStack>
+                        </OmniColumn>
+                        <OmniColumn Span="12" MediumSpan="4">
+                            <OmniStack Gap="OmniSpacing.Small">
+                                <OmniText Tone="OmniTextTone.Muted">@Text["ButtonsInteractionPress"]</OmniText>
+                                <div class="gallery-buttons-press"><ButtonVariantColumnExample /></div>
+                            </OmniStack>
+                        </OmniColumn>
+                    </OmniRow>
+                </OmniStack>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["ButtonsBusyFamilyTitle"]</HeaderContent>
             <ChildContent><BusyButtonsExample /></ChildContent>
         </OmniCard>

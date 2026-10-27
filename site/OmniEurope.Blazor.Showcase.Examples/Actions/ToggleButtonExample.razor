@@ -1,0 +1,20 @@
+@* One toggle button, every setting a parameter. Its pressed state is a value the host can bind: flip it
+   from the button or from the host, the count below follows either. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Justify="OmniJustification.Center" Align="OmniAlignment.Center">
+        <OmniToggleButton Value="Value"
+                          ValueChanged="SetValueAsync"
+                          Size="Size"
+                          Disabled="Disabled"
+                          Busy="Busy"
+                          Label="@(IconOnly ? "Pin" : null)"
+                          title="@(IconOnly ? "Pin" : null)">
+            <OmniIcon Name="OmniIconName.Pin" />
+            @if (!IconOnly)
+            {
+                <span>Pin</span>
+            }
+        </OmniToggleButton>
+    </OmniStack>
+    <OmniText Tone="OmniTextTone.Muted">Pressed: @(Value ? "yes" : "no"). Toggles: @ToggleCount.</OmniText>
+</OmniStack>

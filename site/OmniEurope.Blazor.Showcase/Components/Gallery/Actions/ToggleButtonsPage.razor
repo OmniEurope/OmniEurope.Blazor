@@ -1,0 +1,63 @@
+@page "/components/toggle-buttons"
+@using OmniEurope.Blazor.Showcase.Examples.Actions
+
+<GalleryPageFrame Slug="toggle-buttons">
+    <Settings>
+        <OmniSettingsSection Title="@Text["ToggleButtonsSettingsTitle"]" Description="@Text["ToggleButtonsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["ToggleButtonsPressed"]" Description="@Text["ToggleButtonsPressedDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Pin" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Pinned" aria-label="@Text["ToggleButtonsPressed"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ToggleButtonsSize"]" Description="@Text["ToggleButtonsSizeDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniControlSize" Options="@SizeOptions" @bind-Value="Size" Label="@Text["ToggleButtonsSize"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ToggleButtonsContent"]" Description="@Text["ToggleButtonsContentDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Star" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="bool" Options="@ContentOptions" @bind-Value="IconOnly" Label="@Text["ToggleButtonsContent"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ToggleButtonsDisabled"]" Description="@Text["ToggleButtonsDisabledDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Disabled" aria-label="@Text["ToggleButtonsDisabled"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ToggleButtonsBusy"]" Description="@Text["ToggleButtonsBusyDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Hourglass" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Busy" aria-label="@Text["ToggleButtonsBusy"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ToggleButtonsPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <ToggleButtonExample @bind-Value="Pinned" Size="Size" IconOnly="IconOnly" Disabled="Disabled" Busy="Busy" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ToggleButtonsToolbarTitle"]</HeaderContent>
+            <ChildContent><ToggleToolbarExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ToggleButtonsStatesTitle"]</HeaderContent>
+            <ChildContent><ToggleStatesExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ToggleButtonsSizesTitle"]</HeaderContent>
+            <ChildContent><ToggleSizesExample /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

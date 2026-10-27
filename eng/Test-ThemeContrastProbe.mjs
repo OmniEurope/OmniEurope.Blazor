@@ -329,7 +329,7 @@ const pageLibrary = String.raw`
         add('badge plein ' + variant, first(badges, '.omni-badge--solid.omni-badge--' + variant));
         if (variant !== 'info') add('badge contour ' + variant, first(badges, '.omni-badge--outline.omni-badge--' + variant));
       }
-      const alerts = block('alertes');
+      const alerts = block('alerts');
       for (const severity of ['info', 'success', 'warning', 'danger']) {
         for (const [variant, label] of [['solid', 'pleine'], ['outline', 'contour'], ...(severity === 'info' ? [['tonal', 'tonale']] : [])]) {
           const alert = first(alerts, '.omni-alert--' + variant + '.omni-alert--' + severity);
@@ -878,7 +878,7 @@ const slug = text => text.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
 const shoot = async name => {
   if (!screenshots) return;
   await mkdir(shotDirectory, { recursive: true });
-  const parts = [['etats', 'surfaces'], ['grilles-maquette', 'grilles-maquette']];
+  const parts = [['button-states', 'surfaces'], ['grilles-maquette', 'grilles-maquette']];
   let index = 0;
   for (const [from, to] of parts) {
     const top = await lib(`box('.showcase-stage section[aria-labelledby="stage-${from}-title"]')`);

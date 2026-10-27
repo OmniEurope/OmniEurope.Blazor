@@ -1,0 +1,27 @@
+@* One split button, every setting a parameter. The host owns the open state of the menu: OpenChanged
+   reports it, Open hands it back. The main action and the menu entries share one record of the last
+   action chosen. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Justify="OmniJustification.Center" Align="OmniAlignment.Center">
+        <OmniSplitButton Text="@MainText"
+                         MenuLabel="Other publishing actions"
+                         Variant="Variant"
+                         Size="Size"
+                         Disabled="Disabled"
+                         Busy="@(Busy || Working)"
+                         Open="@MenuOpen"
+                         OpenChanged="@(value => MenuOpen = value)"
+                         OnClick="HandleMainAsync">
+            <OmniMenuItem OnClick="@(() => Choose("Publish and close"))">Publish and close</OmniMenuItem>
+            <OmniMenuItem OnClick="@(() => Choose("Schedule"))">Schedule</OmniMenuItem>
+            <OmniMenuItem OnClick="@(() => Choose("Save as draft"))">Save as draft</OmniMenuItem>
+            <OmniMenuItem Disabled="DeleteDisabled" OnClick="@(() => Choose("Delete the draft"))">Delete the draft</OmniMenuItem>
+        </OmniSplitButton>
+    </OmniStack>
+    <OmniText Tone="OmniTextTone.Muted">@LastActionEcho</OmniText>
+    <OmniRow Gap="OmniSpacing.Small" Align="OmniAlignment.Center">
+        <OmniIcon Name="OmniIconName.Menu" />
+        <OmniText Tone="OmniTextTone.Muted">Menu:</OmniText>
+        <OmniBadge Tone="@(MenuOpen ? OmniTone.Accent : OmniTone.Neutral)">@(MenuOpen ? "open" : "closed")</OmniBadge>
+    </OmniRow>
+</OmniStack>
