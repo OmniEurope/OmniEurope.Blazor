@@ -31,9 +31,9 @@ export async function leakSteps(session, results) {
     ['/components/legacy/diagramme', '#demo-mindmap-canvas', async () => {}],
     ['/components/legacy/pages', '#pages-demo-shell', async () => {}],
     ['/components/legacy/coquille', '#shell-demo-sidebar', async () => {}],
-    ['/components/legacy/selection', '#demo-tags-compact', async () => {
-      await clickOn('#demo-tags-compact > summary');
-      await waitFor('le choix compact ouvert', "document.getElementById('demo-tags-compact').open");
+    ['/components/multi-select', '#multiselect-compact', async () => {
+      await clickOn('#multiselect-compact > summary');
+      await waitFor('le choix compact ouvert', "document.getElementById('multiselect-compact').open");
     }]
   ];
 

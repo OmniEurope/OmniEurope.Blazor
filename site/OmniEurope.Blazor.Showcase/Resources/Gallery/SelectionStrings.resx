@@ -4,4 +4,95 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="DropDownsTitle" xml:space="preserve"><value>Drop-down lists</value></data>
+  <data name="DropDownsDescription" xml:space="preserve"><value>A native drop-down list bound to a typed value: empty entry, groups, disabled options, and any value type.</value></data>
+  <data name="DropDownsSettingsTitle" xml:space="preserve"><value>Drop-down settings</value></data>
+  <data name="DropDownsSettingsDescription" xml:space="preserve"><value>Each setting applies to the preview below.</value></data>
+  <data name="DropDownsAllowEmpty" xml:space="preserve"><value>Allow empty</value></data>
+  <data name="DropDownsAllowEmptyDescription" xml:space="preserve"><value>Adds an empty entry at the top that sets the value back to null.</value></data>
+  <data name="DropDownsPlaceholder" xml:space="preserve"><value>Empty entry text</value></data>
+  <data name="DropDownsPlaceholderDescription" xml:space="preserve"><value>Only shown when empty is allowed. Left blank, the control uses its own text.</value></data>
+  <data name="DropDownsPlaceholderHint" xml:space="preserve"><value>Choose a country</value></data>
+  <data name="DropDownsGrouped" xml:space="preserve"><value>Group by region</value></data>
+  <data name="DropDownsGroupedDescription" xml:space="preserve"><value>Each option carries a group: the list files them under headings.</value></data>
+  <data name="DropDownsDisableOption" xml:space="preserve"><value>Disabled option</value></data>
+  <data name="DropDownsDisableOptionDescription" xml:space="preserve"><value>Luxembourg stays visible but cannot be chosen.</value></data>
+  <data name="DropDownsFilterable" xml:space="preserve"><value>Filterable</value></data>
+  <data name="DropDownsFilterableDescription" xml:space="preserve"><value>A search field comes before the list and narrows it as you type.</value></data>
+  <data name="DropDownsDisabled" xml:space="preserve"><value>Disable the list</value></data>
+  <data name="DropDownsDisabledDescription" xml:space="preserve"><value>The whole control is greyed out and ignores input.</value></data>
+  <data name="DropDownsPreviewTitle" xml:space="preserve"><value>Live preview</value></data>
+  <data name="DropDownsGalleryTitle" xml:space="preserve"><value>Gallery</value></data>
+  <data name="AutocompleteTitle" xml:space="preserve"><value>Autocomplete</value></data>
+  <data name="AutocompleteDescription" xml:space="preserve"><value>A search field that queries an asynchronous source as you type, with debounce, cancellation and explicit selection.</value></data>
+  <data name="AutocompleteSettingsTitle" xml:space="preserve"><value>Search settings</value></data>
+  <data name="AutocompleteSettingsDescription" xml:space="preserve"><value>The source is a list of European cities searched in memory, with a simulated delay.</value></data>
+  <data name="AutocompleteShowToggle" xml:space="preserve"><value>Chevron button</value></data>
+  <data name="AutocompleteShowToggleDescription" xml:space="preserve"><value>A chevron at the end of the field opens the whole list without typing; a click or the focus on the field opens it too.</value></data>
+  <data name="AutocompleteDebounce" xml:space="preserve"><value>Debounce</value></data>
+  <data name="AutocompleteDebounceDescription" xml:space="preserve"><value>Pause after the last keystroke before the search starts.</value></data>
+  <data name="AutocompleteMinimumLength" xml:space="preserve"><value>Minimum length</value></data>
+  <data name="AutocompleteMinimumLengthDescription" xml:space="preserve"><value>Number of characters to type before anything is searched.</value></data>
+  <data name="AutocompleteLatency" xml:space="preserve"><value>Simulated latency</value></data>
+  <data name="AutocompleteLatencyDescription" xml:space="preserve"><value>Time the fake service takes to answer; a new keystroke cancels the pending search.</value></data>
+  <data name="AutocompletePlaceholder" xml:space="preserve"><value>Placeholder</value></data>
+  <data name="AutocompletePlaceholderDescription" xml:space="preserve"><value>Shown in the empty field.</value></data>
+  <data name="AutocompleteHighlight" xml:space="preserve"><value>Highlight the search</value></data>
+  <data name="AutocompleteHighlightDescription" xml:space="preserve"><value>The typed letters are marked in each suggestion, ignoring case and accents.</value></data>
+  <data name="AutocompleteDisableClosed" xml:space="preserve"><value>Closed cities disabled</value></data>
+  <data name="AutocompleteDisableClosedDescription" xml:space="preserve"><value>Some results are listed but cannot be picked.</value></data>
+  <data name="AutocompleteFailure" xml:space="preserve"><value>Simulate a failure</value></data>
+  <data name="AutocompleteFailureDescription" xml:space="preserve"><value>The search throws: the field shows its error message.</value></data>
+  <data name="AutocompleteDisabled" xml:space="preserve"><value>Disable the field</value></data>
+  <data name="AutocompleteDisabledDescription" xml:space="preserve"><value>The field is greyed out and ignores input.</value></data>
+  <data name="AutocompletePreviewTitle" xml:space="preserve"><value>Live preview</value></data>
+  <data name="AutocompleteGalleryTitle" xml:space="preserve"><value>Gallery</value></data>
+  <data name="AutocompleteMilliseconds" xml:space="preserve"><value>{0} ms</value></data>
+  <data name="AutocompleteCharacters" xml:space="preserve"><value>Characters: {0}</value></data>
+  <data name="MultiSelectTitle" xml:space="preserve"><value>Multiple selection</value></data>
+  <data name="MultiSelectDescription" xml:space="preserve"><value>Several values at once in a compact single-line control with search and templates; the always-open list is an OmniListBox with Multiple.</value></data>
+  <data name="MultiSelectSettingsTitle" xml:space="preserve"><value>Multi-select settings</value></data>
+  <data name="MultiSelectSettingsDescription" xml:space="preserve"><value>Settings of the control in the live preview.</value></data>
+  <data name="MultiSelectFilterable" xml:space="preserve"><value>Search field</value></data>
+  <data name="MultiSelectFilterableDescription" xml:space="preserve"><value>Narrows the options to those containing the typed text.</value></data>
+  <data name="MultiSelectPlaceholder" xml:space="preserve"><value>Summary when empty</value></data>
+  <data name="MultiSelectPlaceholderDescription" xml:space="preserve"><value>Text of the closed control while nothing is selected.</value></data>
+  <data name="MultiSelectFilterPlaceholder" xml:space="preserve"><value>Search field text</value></data>
+  <data name="MultiSelectFilterPlaceholderDescription" xml:space="preserve"><value>Replaces the default label of the search field; needs the search field.</value></data>
+  <data name="MultiSelectCloseOutside" xml:space="preserve"><value>Close on outside click</value></data>
+  <data name="MultiSelectCloseOutsideDescription" xml:space="preserve"><value>A click elsewhere on the page closes the panel; a click in these settings does not count.</value></data>
+  <data name="MultiSelectDisableOption" xml:space="preserve"><value>Disabled option</value></data>
+  <data name="MultiSelectDisableOptionDescription" xml:space="preserve"><value>Luxembourg stays listed but cannot be ticked.</value></data>
+  <data name="MultiSelectDisabled" xml:space="preserve"><value>Disable the control</value></data>
+  <data name="MultiSelectDisabledDescription" xml:space="preserve"><value>The whole control is greyed out.</value></data>
+  <data name="MultiSelectPreviewTitle" xml:space="preserve"><value>Live preview</value></data>
+  <data name="MultiSelectGalleryTitle" xml:space="preserve"><value>Gallery</value></data>
+  <data name="ListsTitle" xml:space="preserve"><value>Lists</value></data>
+  <data name="ListsDescription" xml:space="preserve"><value>Two always-open lists: a list box for a single value, a check box list for several.</value></data>
+  <data name="ListsSettingsTitle" xml:space="preserve"><value>List settings</value></data>
+  <data name="ListsSettingsDescription" xml:space="preserve"><value>The settings apply to both lists of the preview when they support them.</value></data>
+  <data name="ListsVisibleRows" xml:space="preserve"><value>Visible rows (list box)</value></data>
+  <data name="ListsVisibleRowsDescription" xml:space="preserve"><value>Height of the list box, in rows.</value></data>
+  <data name="ListsShowLegend" xml:space="preserve"><value>Show the legend</value></data>
+  <data name="ListsShowLegendDescription" xml:space="preserve"><value>The check box list titles its group; hidden, it keeps an accessible name.</value></data>
+  <data name="ListsDisableOption" xml:space="preserve"><value>Disabled options</value></data>
+  <data name="ListsDisableOptionDescription" xml:space="preserve"><value>Lille and the certified copy stay visible but inert.</value></data>
+  <data name="ListsDisabled" xml:space="preserve"><value>Disable the lists</value></data>
+  <data name="ListsDisabledDescription" xml:space="preserve"><value>Both controls are greyed out.</value></data>
+  <data name="ListsRowsValue" xml:space="preserve"><value>{0} rows</value></data>
+  <data name="ListsPreviewTitle" xml:space="preserve"><value>Live preview</value></data>
+  <data name="ListsGalleryTitle" xml:space="preserve"><value>Gallery</value></data>
+  <data name="RadioButtonsTitle" xml:space="preserve"><value>Radio buttons</value></data>
+  <data name="RadioButtonsDescription" xml:space="preserve"><value>One choice among a few, every option always visible: the list builds its buttons from options.</value></data>
+  <data name="RadioButtonsSettingsTitle" xml:space="preserve"><value>Radio button settings</value></data>
+  <data name="RadioButtonsSettingsDescription" xml:space="preserve"><value>The settings apply to the list built from options.</value></data>
+  <data name="RadioButtonsShowLegend" xml:space="preserve"><value>Show the legend</value></data>
+  <data name="RadioButtonsShowLegendDescription" xml:space="preserve"><value>The list titles its group; hidden, it keeps an accessible name.</value></data>
+  <data name="RadioButtonsDisableOption" xml:space="preserve"><value>Disabled option</value></data>
+  <data name="RadioButtonsDisableOptionDescription" xml:space="preserve"><value>Agency pickup stays visible but cannot be chosen.</value></data>
+  <data name="RadioButtonsDisabled" xml:space="preserve"><value>Disable the choices</value></data>
+  <data name="RadioButtonsDisabledDescription" xml:space="preserve"><value>The whole group is greyed out.</value></data>
+  <data name="RadioButtonsPreviewTitle" xml:space="preserve"><value>Built from options</value></data>
+  <data name="RadioButtonsRatingTitle" xml:space="preserve"><value>Rating</value></data>
+  <data name="RadioButtonsGalleryTitle" xml:space="preserve"><value>Gallery</value></data>
 </root>

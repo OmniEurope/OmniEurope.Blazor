@@ -1,0 +1,25 @@
+@* A field that queries an asynchronous source as you type. Debounce waits after the last keystroke,
+   MinimumLength sets how many characters start a search, a new keystroke cancels the pending search, and a
+   search that throws shows SearchErrorMessage and raises OnSearchError. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniFormField For="autocomplete-city">
+        <LabelContent>City</LabelContent>
+        <ChildContent>
+            <OmniAutocomplete TValue="string"
+                              Id="autocomplete-city"
+                              ShowToggle="ShowToggle"
+                              Search="SearchAsync"
+                              @bind-Value="City"
+                              Debounce="@TimeSpan.FromMilliseconds(DebounceMilliseconds)"
+                              MinimumLength="MinimumLength"
+                              Placeholder="@Placeholder"
+                              HighlightMatches="HighlightMatches"
+                              Disabled="Disabled"
+                              SearchErrorMessage="The city search failed. Try again."
+                              OnSearchError="OnSearchFailed" />
+        </ChildContent>
+    </OmniFormField>
+    <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@(City ?? "null")</code></OmniText>
+    <OmniText Tone="OmniTextTone.Muted">City: <strong>@(City is null ? "(none)" : AutocompleteCities.NameOf(City))</strong></OmniText>
+    <OmniText Tone="OmniTextTone.Muted">Failed searches: @FailureCount</OmniText>
+</OmniStack>

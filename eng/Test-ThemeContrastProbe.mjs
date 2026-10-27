@@ -86,7 +86,7 @@ const registryPath = join(artifacts, 'theme-contrast-registry.json');
 // list, and the three gallery pages holding the rest (the Kanban board, the status strip, the list
 // options).
 const CUSTOMIZER = '/customizer';
-const EXTRA_PAGES = ['/components/legacy/listes', '/components/legacy/retours', '/components/legacy/selection'];
+const EXTRA_PAGES = ['/components/legacy/listes', '/components/legacy/retours', '/components/lists', '/components/multi-select'];
 const NARROW_PAGES = ['/', CUSTOMIZER, ...EXTRA_PAGES];
 
 // Screenshots besides every theme on its own palette in both modes: Halo and Néon, the two themes
@@ -359,14 +359,15 @@ const pageLibrary = String.raw`
         add('bande d\'état, ' + key, item, 'dot', item.matches('a, button'));
       }
       if (seen.size === 0) add('bande d\'état', null, 'dot');
-    } else if (page === '/components/legacy/selection') {
-      const box = document.getElementById('demo-city');
+    } else if (page === '/components/lists') {
+      const box = document.getElementById('listbox-city');
       add('option de liste', box ? [...box.options].find(option => !option.selected) ?? null : null);
       add('option de liste choisie', box ? [...box.options].find(option => option.selected) ?? null : null);
+    } else if (page === '/components/multi-select') {
       // The drop-down panel of the compact multiple selection, opened: its options and its action sit
       // on the floating layer. The layer is positioned over the page; its backdrop is taken as the page
       // surface of its ancestors, which is what lies under it on this demonstration.
-      const compact = document.getElementById('demo-tags-compact');
+      const compact = document.getElementById('multiselect-compact');
       if (compact && !compact.open) compact.open = true;
       add('option de liste déroulante', compact ? first(compact, '.omni-multi-select-compact__option') : null, 'text', true);
       add('action de liste déroulante', compact ? first(compact, '.omni-multi-select-compact__clear') : null, 'text', true);
@@ -733,7 +734,8 @@ const READY = {
   '/': "document.querySelector('main h1, main .omni-heading')",
   '/components/legacy/listes': "document.querySelector('.omni-kanban__card')",
   '/components/legacy/retours': "document.querySelector('.omni-status-strip__item')",
-  '/components/legacy/selection': "document.getElementById('demo-city')"
+  '/components/lists': "document.getElementById('listbox-city')",
+  '/components/multi-select': "document.getElementById('multiselect-compact')"
 };
 
 // The customizer's pickers. Selecting a theme gives it its own palette; the mode is kept.

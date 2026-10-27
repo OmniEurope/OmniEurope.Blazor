@@ -1,0 +1,5 @@
+@* A star rating bound to a nullable integer: the arrow keys move to the next or previous star and choose it. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniRating @bind-Value="Rating" Label="Stars" />
+    <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@(Rating?.ToString() ?? "null")</code></OmniText>
+</OmniStack>

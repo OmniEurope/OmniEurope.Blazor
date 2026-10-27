@@ -1,0 +1,69 @@
+@page "/components/multi-select"
+@using OmniEurope.Blazor.Showcase.Examples.Selection
+
+<GalleryPageFrame Slug="multi-select">
+    <Settings>
+        <OmniSettingsSection Title="@Text["MultiSelectSettingsTitle"]" Description="@Text["MultiSelectSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["MultiSelectFilterable"]" Description="@Text["MultiSelectFilterableDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Search" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Filterable" aria-label="@Text["MultiSelectFilterable"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["MultiSelectPlaceholder"]" Description="@Text["MultiSelectPlaceholderDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Edit" /></Icon>
+                <Details>
+                    <OmniTextBox @bind-Value="PlaceholderText" aria-label="@Text["MultiSelectPlaceholder"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["MultiSelectFilterPlaceholder"]" Description="@Text["MultiSelectFilterPlaceholderDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Filter" /></Icon>
+                <Details>
+                    <OmniTextBox @bind-Value="FilterPlaceholderText"
+                                 Disabled="@(!Filterable)"
+                                 aria-label="@Text["MultiSelectFilterPlaceholder"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["MultiSelectCloseOutside"]" Description="@Text["MultiSelectCloseOutsideDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Close" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="CloseOnOutsideClick" aria-label="@Text["MultiSelectCloseOutside"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["MultiSelectDisableOption"]" Description="@Text["MultiSelectDisableOptionDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="DisableOption" aria-label="@Text["MultiSelectDisableOption"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["MultiSelectDisabled"]" Description="@Text["MultiSelectDisabledDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Pin" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="FieldDisabled" aria-label="@Text["MultiSelectDisabled"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["MultiSelectPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <MultiSelectExample Filterable="Filterable"
+                                    Placeholder="@PlaceholderText"
+                                    FilterPlaceholder="@FilterPlaceholderText"
+                                    CloseOnOutsideClick="CloseOnOutsideClick"
+                                    DisableOption="DisableOption"
+                                    Disabled="FieldDisabled" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["MultiSelectGalleryTitle"]</HeaderContent>
+            <ChildContent><MultiSelectGalleryExample /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

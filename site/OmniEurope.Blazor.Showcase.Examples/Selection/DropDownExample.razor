@@ -1,0 +1,19 @@
+@* A native drop-down bound to a typed value. AllowEmpty adds an entry that sets the value back to null,
+   Filterable turns the list into a search field, and an option can be disabled or carry a group. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniFormField For="dropdown-country">
+        <LabelContent>Country</LabelContent>
+        <ChildContent>
+            <OmniDropDown TValue="string"
+                          Id="dropdown-country"
+                          Options="CountryOptions"
+                          @bind-Value="Country"
+                          AllowEmpty="AllowEmpty"
+                          Filterable="Filterable"
+                          Placeholder="@EmptyText"
+                          Disabled="Disabled" />
+        </ChildContent>
+    </OmniFormField>
+    <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@(Country ?? "null")</code></OmniText>
+    <OmniText Tone="OmniTextTone.Muted">Displayed text: <strong>@CountryName</strong></OmniText>
+</OmniStack>

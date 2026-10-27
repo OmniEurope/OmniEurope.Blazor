@@ -1,0 +1,13 @@
+@* One choice among a few, every option always visible: the list builds its radio buttons from options.
+   Label titles the group (hidden, the group keeps an accessible name) and an option can be disabled. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniRadioButtonList TValue="string"
+                         Id="radio-shipping"
+                         Name="radio-shipping"
+                         Options="ShippingOptions"
+                         @bind-Value="Shipping"
+                         Label="@(ShowLegend ? "Shipping method" : null)"
+                         Disabled="Disabled"
+                         aria-label="Shipping method" />
+    <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@(Shipping ?? "null")</code></OmniText>
+</OmniStack>

@@ -95,11 +95,6 @@
   <data name="DemoFormTitle" xml:space="preserve"><value>Formulaires</value></data>
   <data name="DemoFormSummary" xml:space="preserve"><value>Les champs de saisie et leur libellé accessible.</value></data>
   <data name="DemoFormCapability3" xml:space="preserve"><value>Curseur, case à cocher et interrupteur pilotés au clavier.</value></data>
-  <data name="DemoSelectionTitle" xml:space="preserve"><value>Sélection</value></data>
-  <data name="DemoSelectionSummary" xml:space="preserve"><value>Choisir une valeur parmi une liste, ou plusieurs.</value></data>
-  <data name="DemoSelectionCapability1" xml:space="preserve"><value>Liste déroulante avec valeur vide autorisée.</value></data>
-  <data name="DemoSelectionCapability2" xml:space="preserve"><value>Liste à hauteur fixée en nombre de lignes visibles.</value></data>
-  <data name="DemoSelectionCapability3" xml:space="preserve"><value>Sélection multiple restituant la liste des valeurs retenues.</value></data>
   <data name="DemoNavigationTitle" xml:space="preserve"><value>Navigation</value></data>
   <data name="DemoNavigationSummary" xml:space="preserve"><value>Situer l'utilisateur et le déplacer entre les sections.</value></data>
   <data name="DemoNavigationCapability1" xml:space="preserve"><value>Fil d'Ariane marquant la page courante.</value></data>
@@ -1213,6 +1208,25 @@
   <data name="DemoSelectionTagUrgent" xml:space="preserve"><value>Urgent</value></data>
   <data name="DemoSelectionTagInternal" xml:space="preserve"><value>Interne</value></data>
   <data name="DemoSelectionTagArchived" xml:space="preserve"><value>Archivé</value></data>
+  <data name="DemoFormTerms" xml:space="preserve"><value>J'accepte les conditions d'utilisation</value></data>
+  <data name="DemoFormAlerts" xml:space="preserve"><value>Recevoir les alertes</value></data>
+  <data name="DemoFormDynamicValues" xml:space="preserve"><value>Valeurs du formulaire : {0}</value></data>
+  <data name="DemoFormDynamicName" xml:space="preserve"><value>Nom</value></data>
+  <data name="DemoFormDynamicAmount" xml:space="preserve"><value>Montant</value></data>
+  <data name="DemoFormDynamicComment" xml:space="preserve"><value>Commentaire</value></data>
+  <data name="DemoFormDynamicActive" xml:space="preserve"><value>Actif</value></data>
+  <data name="DemoValidationName" xml:space="preserve"><value>Nom</value></data>
+  <data name="DemoValidationNameRequired" xml:space="preserve"><value>Le nom est obligatoire.</value></data>
+  <data name="DemoValidationMail" xml:space="preserve"><value>Courriel</value></data>
+  <data name="DemoValidationMailRequired" xml:space="preserve"><value>Le courriel est obligatoire.</value></data>
+  <data name="DemoValidationSend" xml:space="preserve"><value>Envoyer</value></data>
+  <data name="DemoValidationAccepted" xml:space="preserve"><value>Le formulaire a été accepté.</value></data>
+  <data name="DemoValidationProjectName" xml:space="preserve"><value>Nom du projet</value></data>
+  <data name="DemoValidationOwnerMail" xml:space="preserve"><value>Courriel du responsable</value></data>
+  <data name="DemoValidationMailConfirmation" xml:space="preserve"><value>Confirmation du courriel</value></data>
+  <data name="DemoValidationReplicas" xml:space="preserve"><value>Réplicas</value></data>
+  <data name="DemoValidationCheck" xml:space="preserve"><value>Vérifier</value></data>
+  <data name="DemoValidationSimulateUnsaved" xml:space="preserve"><value>Simuler des modifications non enregistrées</value></data>
   <data name="DemoFlowsCreateServer" xml:space="preserve"><value>Créer le serveur</value></data>
   <data name="DemoFlowsStepIdentity" xml:space="preserve"><value>Identité</value></data>
   <data name="DemoFlowsNameHelp" xml:space="preserve"><value>Suivant s'active dès que le nom est saisi.</value></data>

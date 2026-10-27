@@ -1,0 +1,55 @@
+@* Three more fields on the same source: a value set in advance and shown through FormatValue, a field that
+   waits for three characters with no debounce, and a disabled field. *@
+<OmniRow Gap="OmniSpacing.Large">
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniStack Gap="OmniSpacing.Small">
+            <OmniFormField For="autocomplete-preset">
+                <LabelContent>Initial value shown through FormatValue</LabelContent>
+                <ChildContent>
+                    <OmniAutocomplete TValue="string"
+                                      Id="autocomplete-preset"
+                                      ShowToggle="ShowToggle"
+                                      Search="SearchAsync"
+                                      @bind-Value="PresetCity"
+                                      FormatValue="@AutocompleteCities.NameOf" />
+                </ChildContent>
+            </OmniFormField>
+            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@(PresetCity ?? "null")</code></OmniText>
+        </OmniStack>
+    </OmniColumn>
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniStack Gap="OmniSpacing.Small">
+            <OmniFormField For="autocomplete-strict">
+                <LabelContent>Three characters, no debounce</LabelContent>
+                <ChildContent>
+                    <OmniAutocomplete TValue="string"
+                                      Id="autocomplete-strict"
+                                      ShowToggle="ShowToggle"
+                                      Search="SearchAsync"
+                                      @bind-Value="StrictCity"
+                                      MinimumLength="3"
+                                      Debounce="TimeSpan.Zero"
+                                      Placeholder="Type three letters" />
+                </ChildContent>
+            </OmniFormField>
+            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@(StrictCity ?? "null")</code></OmniText>
+        </OmniStack>
+    </OmniColumn>
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniStack Gap="OmniSpacing.Small">
+            <OmniFormField For="autocomplete-disabled" Disabled="true">
+                <LabelContent>Disabled field</LabelContent>
+                <ChildContent>
+                    <OmniAutocomplete TValue="string"
+                                      Id="autocomplete-disabled"
+                                      ShowToggle="ShowToggle"
+                                      Search="SearchAsync"
+                                      @bind-Value="FrozenCity"
+                                      FormatValue="@AutocompleteCities.NameOf"
+                                      Disabled="true" />
+                </ChildContent>
+            </OmniFormField>
+            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@FrozenCity</code></OmniText>
+        </OmniStack>
+    </OmniColumn>
+</OmniRow>

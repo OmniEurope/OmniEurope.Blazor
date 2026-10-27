@@ -1,0 +1,114 @@
+@page "/components/autocomplete"
+@using OmniEurope.Blazor.Showcase.Examples.Selection
+
+<GalleryPageFrame Slug="autocomplete">
+    <Settings>
+        <OmniSettingsSection Title="@Text["AutocompleteSettingsTitle"]" Description="@Text["AutocompleteSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["AutocompleteShowToggle"]" Description="@Text["AutocompleteShowToggleDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.ChevronDown" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowToggle" aria-label="@Text["AutocompleteShowToggle"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["AutocompleteDebounce"]" Description="@Text["AutocompleteDebounceDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Timer" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="DebounceValue"
+                                Minimum="0"
+                                Maximum="1000"
+                                Step="50"
+                                ShowValue="true"
+                                FormatValue="@FormatMilliseconds"
+                                aria-label="@Text["AutocompleteDebounce"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["AutocompleteMinimumLength"]" Description="@Text["AutocompleteMinimumLengthDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="MinimumLengthValue"
+                                Minimum="1"
+                                Maximum="4"
+                                Step="1"
+                                ShowValue="true"
+                                FormatValue="@FormatCharacters"
+                                aria-label="@Text["AutocompleteMinimumLength"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["AutocompleteLatency"]" Description="@Text["AutocompleteLatencyDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Hourglass" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="LatencyValue"
+                                Minimum="0"
+                                Maximum="2000"
+                                Step="100"
+                                ShowValue="true"
+                                FormatValue="@FormatMilliseconds"
+                                aria-label="@Text["AutocompleteLatency"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["AutocompletePlaceholder"]" Description="@Text["AutocompletePlaceholderDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Edit" /></Icon>
+                <Details>
+                    <OmniTextBox @bind-Value="PlaceholderText" aria-label="@Text["AutocompletePlaceholder"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["AutocompleteHighlight"]" Description="@Text["AutocompleteHighlightDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Search" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="HighlightMatches" aria-label="@Text["AutocompleteHighlight"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["AutocompleteDisableClosed"]" Description="@Text["AutocompleteDisableClosedDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="DisableClosed" aria-label="@Text["AutocompleteDisableClosed"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["AutocompleteFailure"]" Description="@Text["AutocompleteFailureDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Error" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="FailSearch" aria-label="@Text["AutocompleteFailure"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["AutocompleteDisabled"]" Description="@Text["AutocompleteDisabledDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Pin" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="FieldDisabled" aria-label="@Text["AutocompleteDisabled"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["AutocompletePreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <AutocompleteExample ShowToggle="ShowToggle"
+                                     DebounceMilliseconds="DebounceMilliseconds"
+                                     MinimumLength="MinimumLength"
+                                     LatencyMilliseconds="LatencyMilliseconds"
+                                     Placeholder="@PlaceholderText"
+                                     HighlightMatches="HighlightMatches"
+                                     DisableClosed="DisableClosed"
+                                     FailSearch="FailSearch"
+                                     Disabled="FieldDisabled" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["AutocompleteGalleryTitle"]</HeaderContent>
+            <ChildContent>
+                <AutocompleteGalleryExample ShowToggle="ShowToggle"
+                                            LatencyMilliseconds="LatencyMilliseconds"
+                                            DisableClosed="DisableClosed"
+                                            FailSearch="FailSearch" />
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

@@ -30,8 +30,6 @@ public static class DemoCatalog
             ["DemoSettingsTabsCapability1", "DemoSettingsTabsCapability2"]),
         new("saisie-avancee", typeof(InputsDemo), "DemoInputsTitle", "DemoInputsSummary",
             ["DemoInputsCapability3", "DemoInputsCapability4"]),
-        new("selection", typeof(SelectionDemo), "DemoSelectionTitle", "DemoSelectionSummary",
-            ["DemoSelectionCapability1", "DemoSelectionCapability2", "DemoSelectionCapability3"]),
         new("choix", typeof(ChoiceDemo), "DemoChoiceTitle", "DemoChoiceSummary",
             ["DemoChoiceCapability1", "DemoChoiceCapability2", "DemoChoiceCapability3", "DemoChoiceCapability4"]),
         new("editeur", typeof(EditorDemo), "DemoEditorTitle", "DemoEditorSummary",
