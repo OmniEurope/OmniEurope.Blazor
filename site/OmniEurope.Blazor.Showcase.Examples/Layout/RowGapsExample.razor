@@ -1,0 +1,10 @@
+@* The spacing scale on a row, from the tightest to the widest. *@
+<OmniStack Gap="OmniSpacing.Small">
+    @foreach (var gap in Gaps)
+    {
+        <OmniRow Gap="gap" Align="OmniAlignment.Center">
+            <OmniBadge>@gap</OmniBadge>
+            <OmniBadge>gap</OmniBadge>
+        </OmniRow>
+    }
+</OmniStack>

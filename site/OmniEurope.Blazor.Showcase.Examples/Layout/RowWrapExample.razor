@@ -1,0 +1,21 @@
+@* Three columns of 6 are eighteen units in a row of twelve. With Wrap, the third goes to the next line;
+   without it the row overflows, so the second row must sit in a container that scrolls (here the
+   page that shows this example provides one). *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">Wrap on: the third column goes to the next line</OmniText>
+        <OmniRow Gap="OmniSpacing.Small" Wrap="true">
+            <OmniColumn Span="6"><LayoutBlock Label="6" /></OmniColumn>
+            <OmniColumn Span="6"><LayoutBlock Label="6" /></OmniColumn>
+            <OmniColumn Span="6"><LayoutBlock Label="6" /></OmniColumn>
+        </OmniRow>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">Wrap off: the row overflows</OmniText>
+        <OmniRow Gap="OmniSpacing.Small" Wrap="false">
+            <OmniColumn Span="6"><LayoutBlock Label="6" /></OmniColumn>
+            <OmniColumn Span="6"><LayoutBlock Label="6" /></OmniColumn>
+            <OmniColumn Span="6"><LayoutBlock Label="6" /></OmniColumn>
+        </OmniRow>
+    </OmniStack>
+</OmniStack>

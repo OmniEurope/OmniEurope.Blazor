@@ -1,0 +1,54 @@
+@page "/components/settings-sections"
+@using OmniEurope.Blazor.Showcase.Examples.Layout
+
+<GalleryPageFrame Slug="settings-sections">
+    <Settings>
+        @* This section is itself an example: every setting of the gallery is built this way. *@
+        <OmniSettingsSection Title="@Text["SettingsSectionsSettingsTitle"]" Description="@Text["SettingsSectionsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["SettingsSectionsSectionDescription"]" Description="@Text["SettingsSectionsSectionDescriptionHint"]">
+                <Icon><OmniIcon Name="OmniIconName.Document" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowSectionDescription" aria-label="@Text["SettingsSectionsSectionDescription"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SettingsSectionsTileIcons"]" Description="@Text["SettingsSectionsTileIconsHint"]">
+                <Icon><OmniIcon Name="OmniIconName.Star" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowIcons" aria-label="@Text["SettingsSectionsTileIcons"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SettingsSectionsTileDescriptions"]" Description="@Text["SettingsSectionsTileDescriptionsHint"]">
+                <Icon><OmniIcon Name="OmniIconName.Chat" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowDescriptions" aria-label="@Text["SettingsSectionsTileDescriptions"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SettingsSectionsContent"]" Description="@Text["SettingsSectionsContentHint"]">
+                <Icon><OmniIcon Name="OmniIconName.Layers" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="SettingsTileContent" Options="@ContentOptions" @bind-Value="Content" Label="@Text["SettingsSectionsContent"]" />
+                </Details>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["SettingsSectionsPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <SettingsSectionsExample ShowSectionDescription="ShowSectionDescription" ShowIcons="ShowIcons"
+                                         ShowDescriptions="ShowDescriptions" Content="Content" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["SettingsSectionsGalleryTitle"]</HeaderContent>
+            <ChildContent>
+                <SettingsSectionsGalleryExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["SettingsSectionsGalleryDescription"]</OmniText>
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["SettingsSectionsClickHint"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

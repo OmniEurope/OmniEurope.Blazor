@@ -1,0 +1,44 @@
+@* The density of a card: each card carries its own (Density), which wins over the density of the page
+   for everything it holds. The height of the controls, the margins, the check boxes and the switches
+   follow it; a disabled field and a read-only field stay distinct in the three. *@
+<OmniRow Gap="OmniSpacing.Medium" Wrap="true" Align="OmniAlignment.Start">
+    @foreach (var density in Enum.GetValues<OmniDensity>())
+    {
+        var key = density.ToString().ToLowerInvariant();
+        <OmniColumn Span="12" LargeSpan="4">
+            <OmniCard Id="@($"demo-density-{key}")" Density="density">
+                <HeaderContent><OmniHeading Level="OmniHeadingLevel.H4">@density</OmniHeading></HeaderContent>
+                <ChildContent>
+                    <OmniStack Gap="OmniSpacing.Small">
+                        <OmniFormField For="@($"density-{key}-name")" Label="Server name" Required="true" Description="Visible in the console.">
+                            <OmniTextBox Id="@($"density-{key}-name")" @bind-Value="ServerName" />
+                        </OmniFormField>
+                        <OmniFormField For="@($"density-{key}-id")" Label="Identifier, read-only">
+                            <OmniTextBox Id="@($"density-{key}-id")" @bind-Value="ServerId" ReadOnly="true" />
+                        </OmniFormField>
+                        <OmniFormField For="@($"density-{key}-zone")" Label="Zone, disabled" Disabled="true">
+                            <OmniTextBox Id="@($"density-{key}-zone")" @bind-Value="ServerZone" Disabled="true" />
+                        </OmniFormField>
+                        <OmniCheckBox Id="@($"density-{key}-lock")" @bind-Value="LockedRestore" aria-label="Locked restore" />
+                        <OmniRow Gap="OmniSpacing.Small" Wrap="true">
+                            <OmniButton>
+                                <Icon><OmniIcon Name="OmniIconName.Save" /></Icon>
+                                <ChildContent><span>Save</span></ChildContent>
+                            </OmniButton>
+                            <OmniButton Variant="OmniButtonVariant.Secondary">
+                                <Icon><OmniIcon Name="OmniIconName.Close" /></Icon>
+                                <ChildContent><span>Cancel</span></ChildContent>
+                            </OmniButton>
+                            <OmniBadge Tone="OmniTone.Info">3 alerts</OmniBadge>
+                        </OmniRow>
+                        <OmniAlert Severity="OmniSeverity.Success" Title="Deployment complete">Version 1.0.1 is live.</OmniAlert>
+                        <OmniSettingsTile Title="Email alerts" Description="On every change.">
+                            <Icon><OmniIcon Name="OmniIconName.Bell" /></Icon>
+                            <ChildContent><OmniSwitch @bind-Value="EmailAlerts" aria-label="Email alerts" /></ChildContent>
+                        </OmniSettingsTile>
+                    </OmniStack>
+                </ChildContent>
+            </OmniCard>
+        </OmniColumn>
+    }
+</OmniRow>

@@ -1,0 +1,23 @@
+@* Several rows open together (Multiple), the body kept once opened (KeepContent), a chosen heading level
+   (Level) and a compact density. A free header (HeaderContent) fits in the button; a control of its
+   own (ActionsContent) sits beside it and does not toggle the row. The state of each row is bound
+   (@bind-Expanded). *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniAccordion Id="demo-accordion-multiple" Multiple="true" KeepContent="true" Level="OmniHeadingLevel.H4" Density="OmniDensity.Compact">
+        <OmniAccordionItem Id="demo-accordion-run" @bind-Expanded="RunOpen">
+            <HeaderContent>
+                <span>Pipeline run</span><br />
+                <small>Finished 3 minutes ago</small>
+            </HeaderContent>
+            <ActionsContent>
+                <OmniButton Id="demo-accordion-details" Variant="OmniButtonVariant.Ghost" OnClick="CountDetails">Details</OmniButton>
+            </ActionsContent>
+            <ChildContent>The steps of the run and their duration appear here.</ChildContent>
+        </OmniAccordionItem>
+        <OmniAccordionItem Id="demo-accordion-log" Title="Log" @bind-Expanded="LogOpen">
+            <ChildContent>No message for this run.</ChildContent>
+        </OmniAccordionItem>
+    </OmniAccordion>
+    <p id="demo-accordion-state">Open rows: @OpenRows</p>
+    <p id="demo-accordion-clicks">Clicks on Details: @DetailsClicks</p>
+</OmniStack>

@@ -1,0 +1,19 @@
+@* The content of the footer area of the preview card. The buttons sit at the end of the footer, the
+   action first and Cancel after it. *@
+@if (Kind == CardFooterKind.Actions)
+{
+    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Justify="OmniJustification.End" Wrap="true">
+        <OmniButton Variant="OmniButtonVariant.Primary" Size="OmniControlSize.Small" OnClick="@(() => OnAction.InvokeAsync("Save"))">
+            <OmniIcon Name="OmniIconName.Save" />
+            <span>Save</span>
+        </OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Danger" Size="OmniControlSize.Small" OnClick="@(() => OnAction.InvokeAsync("Cancel"))">
+            <OmniIcon Name="OmniIconName.Close" />
+            <span>Cancel</span>
+        </OmniButton>
+    </OmniStack>
+}
+else if (Kind == CardFooterKind.Text)
+{
+    <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@CardSample.FooterText</OmniText>
+}

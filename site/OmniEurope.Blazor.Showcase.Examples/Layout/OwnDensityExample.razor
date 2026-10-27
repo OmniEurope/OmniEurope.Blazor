@@ -1,0 +1,11 @@
+@* The density of a single component: in a comfortable page, each of these carries its own. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniAlert Severity="OmniSeverity.Info" Density="OmniDensity.Spacious">A spacious alert in a comfortable page.</OmniAlert>
+    <OmniTabs Label="Compact tabs" Density="OmniDensity.Compact" @bind-Value="Tab">
+        <OmniTabsItem Key="general" Title="General">General settings.</OmniTabsItem>
+        <OmniTabsItem Key="security" Title="Security">Access and tokens.</OmniTabsItem>
+    </OmniTabs>
+    <OmniSettingsTile Title="Spacious tile" Description="Its own density." Density="OmniDensity.Spacious">
+        <ChildContent><OmniSwitch @bind-Value="WeeklyDigest" aria-label="Spacious tile" /></ChildContent>
+    </OmniSettingsTile>
+</OmniStack>

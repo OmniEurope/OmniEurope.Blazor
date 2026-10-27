@@ -190,11 +190,14 @@ export async function overlaySteps(session, results) {
   step('molette sur la barre d\'onglets qui fait défiler le panneau');
 
   // 7. A bound fieldset that reports its toggle, and a scroll strip driven by its chevrons on a phone.
-  await session.visit('/components/legacy/mise-en-page', '#demo-fieldset-bound');
+  await session.visit('/components/fieldsets', '#demo-fieldset-bound');
   const stateBefore = await evaluate("document.getElementById('demo-fieldset-state').textContent");
   await clickOn('#demo-fieldset-bound summary');
   await waitFor('l\'état du groupe rapporté', `document.getElementById('demo-fieldset-state').textContent !== ${JSON.stringify(stateBefore)}`);
   step('groupe repliable lié');
+
+  // The scroll strip lives in the overflow specimens of the stacks page.
+  await session.visit('/components/stacks', '.omni-stack-scroll');
 
   await send('Emulation.setDeviceMetricsOverride', { width: 375, height: 812, deviceScaleFactor: 1, mobile: true });
   await pause(500);

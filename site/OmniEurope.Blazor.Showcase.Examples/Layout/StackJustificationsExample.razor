@@ -1,0 +1,14 @@
+@* The distributions along the axis: three blocks in a row wider than they are. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    @foreach (var justify in Justifications)
+    {
+        <OmniStack Gap="OmniSpacing.XSmall">
+            <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@justify</OmniText>
+            <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Justify="justify">
+                <LayoutBlock Label="1" />
+                <LayoutBlock Label="2" />
+                <LayoutBlock Label="3" />
+            </OmniStack>
+        </OmniStack>
+    }
+</OmniStack>

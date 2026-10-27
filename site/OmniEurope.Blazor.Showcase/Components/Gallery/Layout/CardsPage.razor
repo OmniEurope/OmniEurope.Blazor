@@ -1,0 +1,64 @@
+@page "/components/cards"
+@using OmniEurope.Blazor.Showcase.Examples.Layout
+
+<GalleryPageFrame Slug="cards">
+    <Settings>
+        <OmniSettingsSection Title="@Text["CardsSettingsTitle"]" Description="@Text["CardsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["CardsHeader"]" Description="@Text["CardsHeaderDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="CardHeaderKind" Options="@HeaderOptions" @bind-Value="SelectedHeader" Label="@Text["CardsHeader"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["CardsFooter"]" Description="@Text["CardsFooterDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="CardFooterKind" Options="@FooterOptions" @bind-Value="SelectedFooter" Label="@Text["CardsFooter"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["CardsLongBody"]" Description="@Text["CardsLongBodyDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Document" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="LongBody" aria-label="@Text["CardsLongBody"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["CardsPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <CardsExample Header="SelectedHeader" Footer="SelectedFooter" LongBody="LongBody" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["CardsGalleryTitle"]</HeaderContent>
+            <ChildContent>
+                <CardsGalleryExample />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["CardsDiscTitle"]</HeaderContent>
+            <ChildContent>
+                <DiscCardsExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["CardsDiscDescription"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["CardsDensitiesTitle"]</HeaderContent>
+            <ChildContent>
+                <CardDensitiesExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["CardsDensitiesDescription"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["CardsOwnDensityTitle"]</HeaderContent>
+            <ChildContent>
+                <OwnDensityExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["CardsOwnDensityDescription"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

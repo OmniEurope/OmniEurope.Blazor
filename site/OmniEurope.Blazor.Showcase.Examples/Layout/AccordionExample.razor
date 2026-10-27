@@ -1,0 +1,43 @@
+@* A list of quality gates, one note per row: one row open at a time (the default), the first one open
+   at the start (Expanded). The "?" help sits beside the toggle button, never inside it: clicking it or
+   reaching it with the keyboard does not open the row. The value and the badge (SummaryContent) are
+   part of the clickable row. The key rebuilds the accordion when a setting changes, since the open
+   state of a row is read at its first render. *@
+<OmniAccordion @key="AccordionKey" Id="demo-accordion-gates" Multiple="Multiple" KeepContent="KeepContent" Level="Level">
+    <OmniAccordionItem Id="demo-accordion-reliability" Title="Reliability" Help="@HelpText("Issues that can break the product in production.")" Expanded="FirstOpen">
+        <SummaryContent><span>Issues: 0</span> <OmniBadge Tone="OmniTone.Success">A</OmniBadge></SummaryContent>
+        <ChildContent>
+            <OmniDescriptionList>
+                <OmniDescriptionItem Term="Measured">0</OmniDescriptionItem>
+                <OmniDescriptionItem Term="Threshold">≤ 0</OmniDescriptionItem>
+            </OmniDescriptionList>
+        </ChildContent>
+    </OmniAccordionItem>
+    <OmniAccordionItem Id="demo-accordion-security" Title="Security" Help="@HelpText("Known vulnerabilities in the code and its dependencies.")">
+        <SummaryContent><span>Issues: 2</span> <OmniBadge Tone="OmniTone.Warning">C</OmniBadge></SummaryContent>
+        <ChildContent>
+            <OmniDescriptionList>
+                <OmniDescriptionItem Term="Measured">2</OmniDescriptionItem>
+                <OmniDescriptionItem Term="Threshold">≤ 0</OmniDescriptionItem>
+            </OmniDescriptionList>
+        </ChildContent>
+    </OmniAccordionItem>
+    <OmniAccordionItem Id="demo-accordion-maintainability" Title="Maintainability">
+        <SummaryContent><span>4.2 %</span> <OmniBadge Tone="OmniTone.Info">B</OmniBadge></SummaryContent>
+        <ChildContent>
+            <OmniDescriptionList>
+                <OmniDescriptionItem Term="Measured">4.2 %</OmniDescriptionItem>
+                <OmniDescriptionItem Term="Threshold">≤ 5 %</OmniDescriptionItem>
+            </OmniDescriptionList>
+        </ChildContent>
+    </OmniAccordionItem>
+    <OmniAccordionItem Id="demo-accordion-coverage" Title="Test coverage">
+        <SummaryContent><span>78 %</span> <OmniBadge Tone="OmniTone.Warning">C</OmniBadge></SummaryContent>
+        <ChildContent>
+            <OmniDescriptionList>
+                <OmniDescriptionItem Term="Measured">78 %</OmniDescriptionItem>
+                <OmniDescriptionItem Term="Threshold">≥ 80 %</OmniDescriptionItem>
+            </OmniDescriptionList>
+        </ChildContent>
+    </OmniAccordionItem>
+</OmniAccordion>

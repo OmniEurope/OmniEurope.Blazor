@@ -1,0 +1,14 @@
+@* One row of twelve units and the columns that share it. Every column takes the same Span; with
+   Responsive, SmallSpan, MediumSpan and LargeSpan each override it from their breakpoint up (40rem,
+   64rem and 80rem wide). One column in two is taller, so the alignment of the row shows. *@
+<OmniRow Gap="Gap" Align="Align" Justify="Justify" Wrap="Wrap">
+    @foreach (var number in Enumerable.Range(1, ColumnCount))
+    {
+        <OmniColumn Span="Span"
+                    SmallSpan="@(Responsive ? SmallSpan : null)"
+                    MediumSpan="@(Responsive ? MediumSpan : null)"
+                    LargeSpan="@(Responsive ? LargeSpan : null)">
+            <LayoutBlock Label="@Caption(number)" Tall="@(number % 2 == 0)" />
+        </OmniColumn>
+    }
+</OmniRow>

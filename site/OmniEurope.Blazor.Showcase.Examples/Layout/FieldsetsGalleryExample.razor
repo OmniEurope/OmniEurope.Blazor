@@ -1,0 +1,71 @@
+@* Six variants of a field group: plain, with a rich legend, collapsible and open, collapsible and
+   folded, disabled, and nested. *@
+<OmniRow Gap="OmniSpacing.Large">
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniFieldset>
+            <Legend>Plain group</Legend>
+            <ChildContent>
+                <OmniText Element="OmniTextElement.Paragraph">A legend and its content, nothing more.</OmniText>
+            </ChildContent>
+        </OmniFieldset>
+    </OmniColumn>
+
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniFieldset>
+            <Legend>
+                <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.XSmall">
+                    <OmniIcon Name="OmniIconName.ShieldCheck" Size="OmniControlSize.Small" />
+                    <span>Security</span>
+                    <OmniBadge Tone="OmniTone.Accent">Recommended</OmniBadge>
+                </OmniStack>
+            </Legend>
+            <ChildContent>
+                <OmniText Element="OmniTextElement.Paragraph">The legend is a fragment: an icon and a badge fit in it.</OmniText>
+            </ChildContent>
+        </OmniFieldset>
+    </OmniColumn>
+
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniFieldset Collapsible="true">
+            <Legend>Collapsible, open</Legend>
+            <ChildContent>
+                <OmniText Element="OmniTextElement.Paragraph">A click on the legend folds the group.</OmniText>
+            </ChildContent>
+        </OmniFieldset>
+    </OmniColumn>
+
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniFieldset Collapsible="true" Expanded="false">
+            <Legend>Collapsible, collapsed</Legend>
+            <ChildContent>
+                <OmniText Element="OmniTextElement.Paragraph">Folded at first, the reader opens it when needed.</OmniText>
+            </ChildContent>
+        </OmniFieldset>
+    </OmniColumn>
+
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniFieldset Disabled="true">
+            <Legend>Disabled group</Legend>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Medium">
+                    <OmniTextBox @bind-Value="DisabledSample" aria-label="Name" />
+                    <OmniSwitch @bind-Value="Newsletter">Receive the monthly letter</OmniSwitch>
+                </OmniStack>
+            </ChildContent>
+        </OmniFieldset>
+    </OmniColumn>
+
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniFieldset>
+            <Legend>Outer group</Legend>
+            <ChildContent>
+                <OmniFieldset>
+                    <Legend>Inner group</Legend>
+                    <ChildContent>
+                        <OmniText Element="OmniTextElement.Paragraph">A group inside another one.</OmniText>
+                    </ChildContent>
+                </OmniFieldset>
+            </ChildContent>
+        </OmniFieldset>
+    </OmniColumn>
+</OmniRow>

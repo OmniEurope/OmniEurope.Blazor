@@ -1,0 +1,13 @@
+@* The four distributions: two columns of 3 units leave six units free, and Justify decides where they go. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    @foreach (var justify in Justifications)
+    {
+        <OmniStack Gap="OmniSpacing.XSmall">
+            <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@justify</OmniText>
+            <OmniRow Gap="OmniSpacing.Small" Justify="justify">
+                <OmniColumn Span="3"><LayoutBlock Label="3" /></OmniColumn>
+                <OmniColumn Span="3"><LayoutBlock Label="3" /></OmniColumn>
+            </OmniRow>
+        </OmniStack>
+    }
+</OmniStack>

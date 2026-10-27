@@ -1,0 +1,13 @@
+@* Bound in both directions: ExpandedChanged reports what the reader does. Without it, the group loads
+   no script, as before. A group that is only read (the first one) loses nothing by being unbound. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniFieldset Collapsible="true" Expanded="false">
+        <Legend>Advanced settings</Legend>
+        <ChildContent>A group collapsed on opening, which the reader expands when needed.</ChildContent>
+    </OmniFieldset>
+    <OmniFieldset Id="demo-fieldset-bound" Collapsible="true" @bind-Expanded="OptionsExpanded">
+        <Legend>Tracked options</Legend>
+        <ChildContent>The page knows the collapsed state and can remember it.</ChildContent>
+    </OmniFieldset>
+    <p id="demo-fieldset-state">@(OptionsExpanded ? "Tracked options: expanded" : "Tracked options: collapsed")</p>
+</OmniStack>

@@ -123,11 +123,7 @@
   <data name="DemoTypographyCapability2" xml:space="preserve"><value>Five text elements, from paragraph to emphasis.</value></data>
   <data name="DemoTypographyCapability3" xml:space="preserve"><value>Ellipsis truncation, and a label tied to its field.</value></data>
   <data name="DemoLayoutTitle" xml:space="preserve"><value>Layout</value></data>
-  <data name="DemoLayoutSummary" xml:space="preserve"><value>The grid, rows, cards and field groups.</value></data>
-  <data name="DemoLayoutCapability1" xml:space="preserve"><value>A twelve-column grid with spans per breakpoint.</value></data>
-  <data name="DemoLayoutCapability2" xml:space="preserve"><value>A card in three zones: header, body and footer.</value></data>
-  <data name="DemoLayoutCapability3" xml:space="preserve"><value>A field group that can be disabled in one move.</value></data>
-  <data name="DemoLayoutCapability4" xml:space="preserve"><value>The full spacing scale, and the alignments a row accepts.</value></data>
+  <data name="DemoLayoutSummary" xml:space="preserve"><value>The tile grid.</value></data>
   <data name="DemoLayoutCapability5" xml:space="preserve"><value>A tile grid: equal widths, one height per row, and a double-width tile that spans two columns.</value></data>
   <data name="DemoShellTitle" xml:space="preserve"><value>Application shell</value></data>
   <data name="DemoShellSummary" xml:space="preserve"><value>The frame of an application, the one this site is built from.</value></data>
@@ -471,13 +467,6 @@
   <data name="ShellPipelinesRunning" xml:space="preserve"><value>Pipelines running</value></data>
   <data name="ShellLoading" xml:space="preserve"><value>Loading the dashboard</value></data>
   <data name="ShellLastAction" xml:space="preserve"><value>Last action: {0}</value></data>
-  <data name="SurfServers" xml:space="preserve"><value>Servers</value></data>
-  <data name="SurfServersText" xml:space="preserve"><value>Last heartbeat 4 minutes ago.</value></data>
-  <data name="SurfPipelines" xml:space="preserve"><value>Pipelines</value></data>
-  <data name="SurfPipelinesFigure" xml:space="preserve"><value>2,400</value></data>
-  <data name="SurfPipelinesText" xml:space="preserve"><value>Three failed runs out of the last ten.</value></data>
-  <data name="SurfCoverage" xml:space="preserve"><value>Coverage</value></data>
-  <data name="SurfCoverageFigure" xml:space="preserve"><value>87%</value></data>
   <data name="SurfAccount" xml:space="preserve"><value>Account</value></data>
   <data name="SurfPerson" xml:space="preserve"><value>Camille Durand</value></data>
   <data name="SurfPersonRole" xml:space="preserve"><value>Administrator, OmniEurope</value></data>
@@ -713,87 +702,11 @@
   <data name="DemoSchedulerFreeSlot" xml:space="preserve"><value>Free slot chosen: {0}</value></data>
   <data name="DemoSchedulerMarkPast" xml:space="preserve"><value>Hatch past slots</value></data>
   <!-- Demo texts: batch A -->
-  <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Fluid column</value></data>
-  <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Full width on a small screen, one third on a large one.</value></data>
-  <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Card with a header</value></data>
-  <data name="DemoLayoutCardWithHeaderText" xml:space="preserve"><value>Header, body and footer are three distinct areas.</value></data>
-  <data name="DemoLayoutBodyOnly" xml:space="preserve"><value>A card can have nothing but its body.</value></data>
-  <data name="DemoLayoutStart" xml:space="preserve"><value>Start</value></data>
-  <data name="DemoLayoutMiddle" xml:space="preserve"><value>Middle</value></data>
-  <data name="DemoLayoutEnd" xml:space="preserve"><value>End</value></data>
-  <data name="DemoLayoutFieldGroup" xml:space="preserve"><value>Field group</value></data>
-  <data name="DemoLayoutOne" xml:space="preserve"><value>One</value></data>
-  <data name="DemoLayoutTwo" xml:space="preserve"><value>Two</value></data>
-  <data name="DemoLayoutAdvanced" xml:space="preserve"><value>Advanced settings</value></data>
-  <data name="DemoLayoutAdvancedText" xml:space="preserve"><value>A group collapsed on opening, which the reader expands when needed.</value></data>
-  <data name="DemoLayoutTracked" xml:space="preserve"><value>Tracked options</value></data>
-  <data name="DemoLayoutTrackedText" xml:space="preserve"><value>The page knows the collapsed state and can remember it.</value></data>
-  <data name="DemoLayoutDisabledGroup" xml:space="preserve"><value>Disabled group</value></data>
-  <data name="DemoLayoutDisabledGroupText" xml:space="preserve"><value>Everything this group holds becomes inoperative in a single stroke.</value></data>
-  <data name="DemoLayoutAlignStart" xml:space="preserve"><value>Aligned to the start</value></data>
-  <data name="DemoLayoutAlignCenter" xml:space="preserve"><value>Centred</value></data>
-  <data name="DemoLayoutAlignEnd" xml:space="preserve"><value>Aligned to the end</value></data>
-  <data name="DemoLayoutTop" xml:space="preserve"><value>Top</value></data>
-  <data name="DemoLayoutTopText" xml:space="preserve"><value>A card taller than its neighbours.</value></data>
-  <data name="DemoLayoutBottom" xml:space="preserve"><value>Bottom</value></data>
-  <data name="DemoLayoutBottomText" xml:space="preserve"><value>The badge settles on the bottom of the row.</value></data>
   <data name="DemoLayoutStretched" xml:space="preserve"><value>Stretched</value></data>
   <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Both cards take the same height.</value></data>
   <data name="DemoLayoutClickCardTitle" xml:space="preserve"><value>Clickable card</value></data>
   <data name="DemoLayoutClickCardText" xml:space="preserve"><value>Click it or press Enter.</value></data>
   <data name="DemoLayoutClickCardCount" xml:space="preserve"><value>Clicks: {0}</value></data>
-  <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Approve the case</value></data>
-  <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Filter the documents</value></data>
-  <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Close the request</value></data>
-  <data name="DemoLayoutNotifications" xml:space="preserve"><value>Notifications</value></data>
-  <data name="DemoLayoutNotificationsText" xml:space="preserve"><value>What the application tells you, and how.</value></data>
-  <data name="DemoLayoutEmailAlerts" xml:space="preserve"><value>Email alerts</value></data>
-  <data name="DemoLayoutEmailAlertsText" xml:space="preserve"><value>A message on every status change.</value></data>
-  <data name="DemoLayoutWeeklyDigest" xml:space="preserve"><value>Weekly digest</value></data>
-  <data name="DemoLayoutWeeklyDigestText" xml:space="preserve"><value>The week's cases, on Monday morning.</value></data>
-  <data name="DemoLayoutServerName" xml:space="preserve"><value>Server name</value></data>
-  <data name="DemoLayoutServerNameText" xml:space="preserve"><value>Visible in the console.</value></data>
-  <data name="DemoLayoutIdentifierReadOnly" xml:space="preserve"><value>Identifier, read-only</value></data>
-  <data name="DemoLayoutZoneDisabled" xml:space="preserve"><value>Zone, disabled</value></data>
-  <data name="DemoLayoutLockedRestore" xml:space="preserve"><value>Locked restore</value></data>
-  <data name="DemoLayoutSave" xml:space="preserve"><value>Save</value></data>
-  <data name="DemoLayoutCancel" xml:space="preserve"><value>Cancel</value></data>
-  <data name="DemoLayoutDeployed" xml:space="preserve"><value>Deployment complete</value></data>
-  <data name="DemoLayoutDeployedText" xml:space="preserve"><value>Version 1.0.1 is live.</value></data>
-  <data name="DemoLayoutEachChange" xml:space="preserve"><value>On every change.</value></data>
-  <data name="DemoLayoutSpaciousAlert" xml:space="preserve"><value>A spacious alert in a comfortable page.</value></data>
-  <data name="DemoLayoutCompactTabs" xml:space="preserve"><value>Compact tabs</value></data>
-  <data name="DemoLayoutGeneral" xml:space="preserve"><value>General</value></data>
-  <data name="DemoLayoutGeneralText" xml:space="preserve"><value>General settings.</value></data>
-  <data name="DemoLayoutSecurity" xml:space="preserve"><value>Security</value></data>
-  <data name="DemoLayoutSecurityText" xml:space="preserve"><value>Access and tokens.</value></data>
-  <data name="DemoLayoutSpaciousTile" xml:space="preserve"><value>Spacious tile</value></data>
-  <data name="DemoLayoutOwnDensity" xml:space="preserve"><value>Its own density.</value></data>
-  <data name="DemoLayoutTrackedExpanded" xml:space="preserve"><value>Tracked options: expanded</value></data>
-  <data name="DemoLayoutTrackedCollapsed" xml:space="preserve"><value>Tracked options: collapsed</value></data>
-  <data name="DemoLayoutGapNone1" xml:space="preserve"><value>No</value></data>
-  <data name="DemoLayoutGapNone2" xml:space="preserve"><value>gap</value></data>
-  <data name="DemoLayoutGapXSmall1" xml:space="preserve"><value>Very</value></data>
-  <data name="DemoLayoutGapXSmall2" xml:space="preserve"><value>tight</value></data>
-  <data name="DemoLayoutGapSmall1" xml:space="preserve"><value>Tight</value></data>
-  <data name="DemoLayoutGapSmall2" xml:space="preserve"><value>small</value></data>
-  <data name="DemoLayoutGapMedium1" xml:space="preserve"><value>Usual</value></data>
-  <data name="DemoLayoutGapMedium2" xml:space="preserve"><value>medium</value></data>
-  <data name="DemoLayoutGapLarge1" xml:space="preserve"><value>Airy</value></data>
-  <data name="DemoLayoutGapLarge2" xml:space="preserve"><value>large</value></data>
-  <data name="DemoLayoutGapXLarge1" xml:space="preserve"><value>Very</value></data>
-  <data name="DemoLayoutGapXLarge2" xml:space="preserve"><value>airy</value></data>
-  <data name="DemoLayoutDensityCompact" xml:space="preserve"><value>Compact</value></data>
-  <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Comfortable</value></data>
-  <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Spacious</value></data>
-  <data name="DemoLayoutAlertCount" xml:space="preserve"><value>{0} alerts</value></data>
-  <data name="DemoLayoutDividerProject" xml:space="preserve"><value>Project</value></data>
-  <data name="DemoLayoutDividerArchitecture" xml:space="preserve"><value>Architecture</value></data>
-  <data name="DemoLayoutDividerPipelines" xml:space="preserve"><value>Pipelines</value></data>
-  <data name="DemoLayoutDividerTodo" xml:space="preserve"><value>To do before creating</value></data>
-  <data name="DemoLayoutDividerDraft" xml:space="preserve"><value>Draft</value></data>
-  <data name="DemoLayoutDividerReview" xml:space="preserve"><value>In review</value></data>
-  <data name="DemoLayoutDividerPublished" xml:space="preserve"><value>Published</value></data>
   <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Accented heading</value></data>
   <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Muted heading</value></data>
   <data name="DemoTypographyParagraph" xml:space="preserve"><value>An ordinary paragraph, in the theme's base size.</value></data>
@@ -1508,27 +1421,7 @@
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Reminder for file {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Reminder&lt;/h2&gt;&lt;p&gt;Hello {{client}},&lt;/p&gt;&lt;p&gt;File {{file}} awaits your answer before {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Open the file&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Test handed to the application, subject “{0}”.</value></data>
-  <data name="DemoAccordionTitle" xml:space="preserve"><value>Accordion</value></data>
-  <data name="DemoAccordionSummary" xml:space="preserve"><value>Rows whose body unfolds under the header, one at a time or several together.</value></data>
-  <data name="DemoAccordionCapability1" xml:space="preserve"><value>One toggle button per row, with the mouse or the keyboard, and arrows, Home and End between the headers.</value></data>
-  <data name="DemoAccordionCapability2" xml:space="preserve"><value>Free header: label, "?" help, value and badge, with no control nested in the button.</value></data>
-  <data name="DemoAccordionCapability3" xml:space="preserve"><value>One row at a time or several together, state bound row by row, body rendered on opening.</value></data>
-  <data name="DemoAccordionReliability" xml:space="preserve"><value>Reliability</value></data>
-  <data name="DemoAccordionReliabilityHelp" xml:space="preserve"><value>Issues that can break the product in production.</value></data>
-  <data name="DemoAccordionSecurity" xml:space="preserve"><value>Security</value></data>
-  <data name="DemoAccordionSecurityHelp" xml:space="preserve"><value>Known vulnerabilities in the code and its dependencies.</value></data>
-  <data name="DemoAccordionMaintainability" xml:space="preserve"><value>Maintainability</value></data>
-  <data name="DemoAccordionCoverage" xml:space="preserve"><value>Test coverage</value></data>
-  <data name="DemoAccordionIssues" xml:space="preserve"><value>Issues: {0}</value></data>
-  <data name="DemoAccordionMeasured" xml:space="preserve"><value>Measured</value></data>
-  <data name="DemoAccordionThreshold" xml:space="preserve"><value>Threshold</value></data>
-  <data name="DemoAccordionRunTitle" xml:space="preserve"><value>Pipeline run</value></data>
-  <data name="DemoAccordionRunSubtitle" xml:space="preserve"><value>Finished 3 minutes ago</value></data>
   <data name="DemoAccordionDetails" xml:space="preserve"><value>Details</value></data>
-  <data name="DemoAccordionRunBody" xml:space="preserve"><value>The steps of the run and their duration appear here.</value></data>
-  <data name="DemoAccordionLogTitle" xml:space="preserve"><value>Log</value></data>
-  <data name="DemoAccordionLogBody" xml:space="preserve"><value>No message for this run.</value></data>
-  <data name="DemoAccordionState" xml:space="preserve"><value>Open rows: {0}</value></data>
   <data name="DemoAccordionClicks" xml:space="preserve"><value>Clicks on Details: {0}</value></data>
   <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Narrow columns keep their whole title</value></data>
   <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Editable files: click a cell to edit its row</value></data>

@@ -1,0 +1,16 @@
+@* The two orientations side by side: the same three blocks in a column (the default) and in a row. *@
+<OmniRow>
+    @foreach (var orientation in Orientations)
+    {
+        <OmniColumn Span="12" MediumSpan="6">
+            <OmniStack Gap="OmniSpacing.XSmall">
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@orientation</OmniText>
+                <OmniStack Orientation="orientation" Gap="OmniSpacing.Small">
+                    <LayoutBlock Label="1" />
+                    <LayoutBlock Label="2" />
+                    <LayoutBlock Label="3" />
+                </OmniStack>
+            </OmniStack>
+        </OmniColumn>
+    }
+</OmniRow>

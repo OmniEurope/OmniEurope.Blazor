@@ -110,7 +110,7 @@ export async function keySteps(session, results) {
   // 6. Accordion: Down, Up, Home and End move between the headers (wrapping, the page not scrolling,
   // nothing opened by the move), Enter and Space toggle, a click on the value toggles its row and closes
   // its neighbour, a click or a key on the help mark and a click on an own control toggle nothing.
-  await session.visit('/components/legacy/accordeon', '#demo-accordion-gates');
+  await session.visit('/components/accordion', '#demo-accordion-gates');
   const gates = '#demo-accordion-gates';
   const toggles = `[...document.querySelectorAll('${gates} .omni-accordion__toggle')]`;
   const states = () => evaluate(`${toggles}.map(button => button.getAttribute('aria-expanded')).join()`);

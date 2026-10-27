@@ -1,0 +1,10 @@
+@* A numbered block that makes the space a layout component gives it visible. A tall block carries two
+   more lines of text, so that alignment and distribution have a difference in height to show. *@
+<OmniCard>
+    <OmniText>@Label</OmniText>
+    @if (Tall)
+    {
+        <OmniText Tone="OmniTextTone.Muted">A taller block,</OmniText>
+        <OmniText Tone="OmniTextTone.Muted">with two more lines.</OmniText>
+    }
+</OmniCard>

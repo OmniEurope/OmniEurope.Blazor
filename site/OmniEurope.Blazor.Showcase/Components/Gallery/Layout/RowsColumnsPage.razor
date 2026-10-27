@@ -1,0 +1,136 @@
+@page "/components/rows-columns"
+@using OmniEurope.Blazor.Showcase.Examples.Layout
+
+<GalleryPageFrame Slug="rows-columns">
+    <Settings>
+        <OmniSettingsSection Title="@Text["RowsColumnsRowSettingsTitle"]" Description="@Text["RowsColumnsRowSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["RowsColumnsGap"]" Description="@Text["RowsColumnsGapDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniSpacing" Options="@GapOptions" @bind-Value="Gap" Label="@Text["RowsColumnsGap"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["RowsColumnsAlign"]" Description="@Text["RowsColumnsAlignDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniAlignment" Options="@AlignOptions" @bind-Value="Align" Label="@Text["RowsColumnsAlign"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["RowsColumnsJustify"]" Description="@Text["RowsColumnsJustifyDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Sliders" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniJustification" Options="@JustifyOptions" @bind-Value="Justify" Label="@Text["RowsColumnsJustify"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["RowsColumnsWrap"]" Description="@Text["RowsColumnsWrapDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.ArrowRight" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Wrap" aria-label="@Text["RowsColumnsWrap"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+
+        <OmniSettingsSection Title="@Text["RowsColumnsColumnSettingsTitle"]" Description="@Text["RowsColumnsColumnSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["RowsColumnsColumnCount"]">
+                <Icon><OmniIcon Name="OmniIconName.NumberedList" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="ColumnCount" Minimum="1" Maximum="6" Step="1" ShowValue="true" aria-label="@Text["RowsColumnsColumnCount"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["RowsColumnsSpan"]" Description="@Text["RowsColumnsSpanDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="Span" Minimum="1" Maximum="12" Step="1" ShowValue="true" aria-label="@Text["RowsColumnsSpan"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["RowsColumnsResponsive"]" Description="@Text["RowsColumnsResponsiveDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Monitor" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Responsive" aria-label="@Text["RowsColumnsResponsive"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            @if (Responsive)
+            {
+                <OmniSettingsTile Title="@Text["RowsColumnsSmallSpan"]" Description="@Text["RowsColumnsSmallSpanDescription"]">
+                    <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                    <Details>
+                        <OmniSlider @bind-Value="SmallSpan" Minimum="1" Maximum="12" Step="1" ShowValue="true" aria-label="@Text["RowsColumnsSmallSpan"]" />
+                    </Details>
+                </OmniSettingsTile>
+
+                <OmniSettingsTile Title="@Text["RowsColumnsMediumSpan"]" Description="@Text["RowsColumnsMediumSpanDescription"]">
+                    <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                    <Details>
+                        <OmniSlider @bind-Value="MediumSpan" Minimum="1" Maximum="12" Step="1" ShowValue="true" aria-label="@Text["RowsColumnsMediumSpan"]" />
+                    </Details>
+                </OmniSettingsTile>
+
+                <OmniSettingsTile Title="@Text["RowsColumnsLargeSpan"]" Description="@Text["RowsColumnsLargeSpanDescription"]">
+                    <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                    <Details>
+                        <OmniSlider @bind-Value="LargeSpan" Minimum="1" Maximum="12" Step="1" ShowValue="true" aria-label="@Text["RowsColumnsLargeSpan"]" />
+                    </Details>
+                </OmniSettingsTile>
+            }
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["RowsColumnsPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <RowsColumnsExample Gap="Gap" Align="Align" Justify="Justify" Wrap="Wrap" ColumnCount="@((int)ColumnCount)" Span="@((int)Span)"
+                                    Responsive="Responsive" SmallSpan="@((int)SmallSpan)" MediumSpan="@((int)MediumSpan)" LargeSpan="@((int)LargeSpan)" />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["RowsColumnsPreviewHint"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["RowsColumnsSplitsTitle"]</HeaderContent>
+            <ChildContent>
+                <RowSplitsExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["RowsColumnsSplitsDescription"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["RowsColumnsGapsTitle"]</HeaderContent>
+            <ChildContent>
+                <RowGapsExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["RowsColumnsGapsDescription"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["RowsColumnsJustifiesTitle"]</HeaderContent>
+            <ChildContent>
+                <RowJustificationsExample />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["RowsColumnsAlignsTitle"]</HeaderContent>
+            <ChildContent>
+                <RowAlignmentsExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["RowsColumnsAlignsDescription"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["RowsColumnsWrapsTitle"]</HeaderContent>
+            <ChildContent>
+                <div class="gallery-rows-clip">
+                    <RowWrapExample />
+                </div>
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["RowsColumnsWrapsDescription"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["RowsColumnsResponsiveTitle"]</HeaderContent>
+            <ChildContent>
+                <RowResponsiveExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["RowsColumnsResponsiveExample"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

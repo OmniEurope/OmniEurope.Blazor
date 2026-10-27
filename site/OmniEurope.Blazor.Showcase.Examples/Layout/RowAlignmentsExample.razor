@@ -1,0 +1,14 @@
+@* The four alignments: the middle column is taller than its neighbours. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    @foreach (var align in Alignments)
+    {
+        <OmniStack Gap="OmniSpacing.XSmall">
+            <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@align</OmniText>
+            <OmniRow Gap="OmniSpacing.Small" Align="align">
+                <OmniColumn Span="4"><LayoutBlock Label="4" /></OmniColumn>
+                <OmniColumn Span="4"><LayoutBlock Label="4" Tall="true" /></OmniColumn>
+                <OmniColumn Span="4"><LayoutBlock Label="4" /></OmniColumn>
+            </OmniRow>
+        </OmniStack>
+    }
+</OmniStack>

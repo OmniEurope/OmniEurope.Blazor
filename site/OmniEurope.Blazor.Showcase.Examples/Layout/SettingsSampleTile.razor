@@ -1,0 +1,17 @@
+@* A tile of the preview whose icon, description and two content areas can each be left out. A tile
+   without an icon omits the Icon parameter: an empty fragment would still draw the badge. *@
+@if (ShowIcon)
+{
+    <OmniSettingsTile Title="@Title" Description="@Description">
+        <Icon><OmniIcon Name="IconName" /></Icon>
+        <ChildContent>@Control</ChildContent>
+        <Details>@Below</Details>
+    </OmniSettingsTile>
+}
+else
+{
+    <OmniSettingsTile Title="@Title" Description="@Description">
+        <ChildContent>@Control</ChildContent>
+        <Details>@Below</Details>
+    </OmniSettingsTile>
+}

@@ -1,0 +1,63 @@
+@* A settings section is a card with a title and a line of explanation; each setting sits in its own
+   tile, with an optional icon, a name, a description, a control beside it and content under it. *@
+<OmniSettingsSection Title="Account" Description="@(ShowSectionDescription ? "What the application sends you, and how it looks." : null)">
+    <SettingsSampleTile ShowIcon="ShowIcons" IconName="OmniIconName.Bell" Title="Email alerts"
+                        Description="@(ShowDescriptions ? "A message when one of your files changes status." : null)">
+        <Control>
+            @if (ShowControl)
+            {
+                <OmniSwitch @bind-Value="EmailAlerts" aria-label="Email alerts" />
+            }
+        </Control>
+        <Below>
+            @if (ShowDetails)
+            {
+                <OmniSelectBar TValue="DigestFrequency" Options="FrequencyOptions" @bind-Value="Frequency" Label="Frequency" />
+            }
+        </Below>
+    </SettingsSampleTile>
+
+    <SettingsSampleTile ShowIcon="ShowIcons" IconName="OmniIconName.TextSize" Title="Text size"
+                        Description="@(ShowDescriptions ? "Applies to every page of the application." : null)">
+        <Control>
+            @if (ShowControl)
+            {
+                <OmniBadge Tone="OmniTone.Neutral">@FormatPercent(TextScale)</OmniBadge>
+            }
+        </Control>
+        <Below>
+            @if (ShowDetails)
+            {
+                <OmniSlider @bind-Value="TextScale"
+                            Minimum="80"
+                            Maximum="150"
+                            Step="10"
+                            ShowValue="true"
+                            FormatValue="FormatPercent"
+                            aria-label="Text size" />
+            }
+        </Below>
+    </SettingsSampleTile>
+
+    <SettingsSampleTile ShowIcon="ShowIcons" IconName="OmniIconName.Timer" Title="Session length"
+                        Description="@(ShowDescriptions ? "Beyond it, you sign in again." : null)">
+        <Control>
+            @if (ShowControl)
+            {
+                <OmniDropDown TValue="int" Options="SessionOptions" @bind-Value="SessionMinutes" Label="Session length" />
+            }
+        </Control>
+        <Below>
+            @if (ShowDetails)
+            {
+                <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Wrap="true" Gap="OmniSpacing.Small">
+                    <OmniText Tone="OmniTextTone.Muted">The recommended length is thirty minutes.</OmniText>
+                    <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="ResetSession">
+                        <OmniIcon Name="OmniIconName.Reset" />
+                        <span>Reset</span>
+                    </OmniButton>
+                </OmniStack>
+            }
+        </Below>
+    </SettingsSampleTile>
+</OmniSettingsSection>
