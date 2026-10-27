@@ -4,4 +4,97 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="DialogsTitle" xml:space="preserve"><value>Boîtes de dialogue</value></data>
+  <data name="DialogsDescription" xml:space="preserve"><value>Boîtes de dialogue modales : un formulaire avec Enregistrer puis Annuler, un panneau d'information, des confirmations ouvertes depuis le code et attendues comme un booléen, des tailles, des intentions, et la fermeture par Échap ou par le fond.</value></data>
+  <data name="DialogsSettingsTitle" xml:space="preserve"><value>Réglages des dialogues</value></data>
+  <data name="DialogsSettingsDescription" xml:space="preserve"><value>Ils s'appliquent au formulaire et au panneau d'information du premier aperçu.</value></data>
+  <data name="DialogsInitialFocus" xml:space="preserve"><value>Focus à l'ouverture</value></data>
+  <data name="DialogsInitialFocusDescription" xml:space="preserve"><value>Ce qui reçoit le focus à l'ouverture du dialogue.</value></data>
+  <data name="DialogsFocusClose" xml:space="preserve"><value>Bouton Fermer</value></data>
+  <data name="DialogsFocusPanel" xml:space="preserve"><value>Panneau</value></data>
+  <data name="DialogsFocusField" xml:space="preserve"><value>Premier champ</value></data>
+  <data name="DialogsDismissible" xml:space="preserve"><value>Fermable</value></data>
+  <data name="DialogsDismissibleDescription" xml:space="preserve"><value>La croix, la touche Échap et le fond ferment la boîte de dialogue ; désactivé, seules ses propres actions la ferment.</value></data>
+  <data name="DialogsCloseOnBackdrop" xml:space="preserve"><value>Fermer par le fond</value></data>
+  <data name="DialogsCloseOnBackdropDescription" xml:space="preserve"><value>Un clic hors du panneau ferme la boîte de dialogue.</value></data>
+  <data name="DialogsShowFooter" xml:space="preserve"><value>Boutons du pied</value></data>
+  <data name="DialogsShowFooterDescription" xml:space="preserve"><value>Annuler et Enregistrer dans le pied du formulaire. Un dialogue non fermable les garde.</value></data>
+  <data name="DialogsSize" xml:space="preserve"><value>Largeur</value></data>
+  <data name="DialogsSizeDescription" xml:space="preserve"><value>Largeur du formulaire et du dialogue d'information, toujours bornée par l'écran.</value></data>
+  <data name="DialogsSizeSmall" xml:space="preserve"><value>Petit</value></data>
+  <data name="DialogsSizeMedium" xml:space="preserve"><value>Moyen</value></data>
+  <data name="DialogsSizeLarge" xml:space="preserve"><value>Grand</value></data>
+  <data name="DialogsSizeExtraLarge" xml:space="preserve"><value>Très grand</value></data>
+  <data name="DialogsSizeFullWidth" xml:space="preserve"><value>Pleine largeur</value></data>
+  <data name="DialogsIntent" xml:space="preserve"><value>Intention</value></data>
+  <data name="DialogsIntentDescription" xml:space="preserve"><value>Teinte l'en-tête et le pied, et place la pastille de l'intention avant le titre ; neutre, le dialogue n'en porte aucune.</value></data>
+  <data name="DialogsIntentNeutral" xml:space="preserve"><value>Neutre</value></data>
+  <data name="DialogsIntentAccent" xml:space="preserve"><value>Accent</value></data>
+  <data name="DialogsIntentInfo" xml:space="preserve"><value>Information</value></data>
+  <data name="DialogsIntentSuccess" xml:space="preserve"><value>Succès</value></data>
+  <data name="DialogsIntentWarning" xml:space="preserve"><value>Avertissement</value></data>
+  <data name="DialogsIntentDanger" xml:space="preserve"><value>Danger</value></data>
+  <data name="DialogsDraggable" xml:space="preserve"><value>Déplaçable</value></data>
+  <data name="DialogsDraggableDescription" xml:space="preserve"><value>Le dialogue se déplace par son en-tête.</value></data>
+  <data name="DialogsPreviewTitle" xml:space="preserve"><value>Ouvrir une boîte de dialogue</value></data>
+  <data name="DialogsConventionHint" xml:space="preserve"><value>Dans chaque dialogue, l'action vient d'abord et Annuler après elle, les deux au bout du pied et chacun avec son icône.</value></data>
+  <data name="DialogsServiceTitle" xml:space="preserve"><value>Dialogues ouverts depuis le code</value></data>
+  <data name="DialogsServiceHint" xml:space="preserve"><value>OmniOverlayService les ouvre et un OmniComponentsHost les dessine. Supprimer et Archiver sont des confirmations attendues comme un booléen : Entrée confirme, Échap annule, et le paquet rend lui-même la convention des boutons. Les deux derniers boutons ouvrent un dialogue qui ignore le fond puis, depuis lui, un dialogue que seul son propre bouton ferme.</value></data>
+  <data name="DialogsVariantsTitle" xml:space="preserve"><value>Variantes</value></data>
+  <data name="DialogsVariantsHint" xml:space="preserve"><value>La boîte longue défile dans son panneau ; la stricte ignore Échap et le fond.</value></data>
+  <data name="DialogsSizesTitle" xml:space="preserve"><value>Tailles et largeur libre</value></data>
+  <data name="DialogsSizesHint" xml:space="preserve"><value>Une taille plafonne la largeur ; sous 40rem d'écran, tout dialogue prend la largeur entière. Une largeur libre remplace la taille et peut être retirée pendant que le dialogue est ouvert.</value></data>
+  <data name="DialogsIntentsTitle" xml:space="preserve"><value>Intentions</value></data>
+  <data name="DialogsIntentsHint" xml:space="preserve"><value>Le focus part du panneau, sans anneau ; Tab mène au premier élément focalisable.</value></data>
+  <data name="ContextMenusTitle" xml:space="preserve"><value>Menus contextuels</value></data>
+  <data name="ContextMenusDescription" xml:space="preserve"><value>Menu contextuel ouvert au pointeur par un clic droit, ou sous la zone par la touche Menu ou Maj+F10, avec navigation au clavier entre ses entrées ; un clic ailleurs ou Échap le ferme.</value></data>
+  <data name="ContextMenusSettingsTitle" xml:space="preserve"><value>Réglages du menu</value></data>
+  <data name="ContextMenusSettingsDescription" xml:space="preserve"><value>L'action choisie est rappelée sous la zone.</value></data>
+  <data name="ContextMenusShowDelete" xml:space="preserve"><value>Entrée Supprimer</value></data>
+  <data name="ContextMenusShowDeleteDescription" xml:space="preserve"><value>Ajoute une entrée destructive en fin de menu.</value></data>
+  <data name="ContextMenusDisableRename" xml:space="preserve"><value>Désactiver Renommer</value></data>
+  <data name="ContextMenusDisableRenameDescription" xml:space="preserve"><value>L'entrée reste visible, et le clavier la saute.</value></data>
+  <data name="ContextMenusDisabled" xml:space="preserve"><value>Désactivé</value></data>
+  <data name="ContextMenusDisabledDescription" xml:space="preserve"><value>Le clic droit rend le menu du navigateur : le menu du paquet ne s'ouvre pas.</value></data>
+  <data name="ContextMenusKeepOpen" xml:space="preserve"><value>Garder ouvert après un choix</value></data>
+  <data name="ContextMenusKeepOpenDescription" xml:space="preserve"><value>Le menu reste ouvert une fois une entrée choisie.</value></data>
+  <data name="ContextMenusPreviewTitle" xml:space="preserve"><value>Menu en direct</value></data>
+  <data name="ContextMenusKeyboardHint" xml:space="preserve"><value>Les flèches, Début et Fin passent d'une entrée à l'autre ; Échap ferme le menu et rend le focus.</value></data>
+  <data name="ContextMenusRowsTitle" xml:space="preserve"><value>Un menu par ligne</value></data>
+  <data name="ContextMenusRowsHint" xml:space="preserve"><value>Chaque fichier a son propre menu ; en ouvrir un referme les autres.</value></data>
+  <data name="OverflowMenuTitle" xml:space="preserve"><value>Menu d'actions</value></data>
+  <data name="OverflowMenuDescription" xml:space="preserve"><value>Menu « ⋮ » d'une ligne, d'une carte ou d'un en-tête : trois points qui ouvrent une liste verticale d'actions, chacune avec son icône.</value></data>
+  <data name="OverflowMenuSettingsTitle" xml:space="preserve"><value>Réglages du menu</value></data>
+  <data name="OverflowMenuSettingsDescription" xml:space="preserve"><value>Le déclencheur et les entrées du menu de chaque ligne.</value></data>
+  <data name="OverflowMenuSize" xml:space="preserve"><value>Taille</value></data>
+  <data name="OverflowMenuSizeDescription" xml:space="preserve"><value>Taille du déclencheur à trois points.</value></data>
+  <data name="OverflowMenuSizeSmall" xml:space="preserve"><value>Petit</value></data>
+  <data name="OverflowMenuSizeMedium" xml:space="preserve"><value>Moyen</value></data>
+  <data name="OverflowMenuSizeLarge" xml:space="preserve"><value>Grand</value></data>
+  <data name="OverflowMenuDisabled" xml:space="preserve"><value>Désactivé</value></data>
+  <data name="OverflowMenuDisabledDescription" xml:space="preserve"><value>Le déclencheur est inactif : le menu ne s'ouvre pas.</value></data>
+  <data name="OverflowMenuShowDelete" xml:space="preserve"><value>Entrée destructrice</value></data>
+  <data name="OverflowMenuShowDeleteDescription" xml:space="preserve"><value>Ajoute l'entrée Supprimer, marquée par le ton de danger.</value></data>
+  <data name="OverflowMenuDisableRename" xml:space="preserve"><value>Renommer désactivé</value></data>
+  <data name="OverflowMenuDisableRenameDescription" xml:space="preserve"><value>L'entrée reste listée, atténuée ; les flèches la sautent.</value></data>
+  <data name="OverflowMenuPreviewTitle" xml:space="preserve"><value>Actions d'une ligne</value></data>
+  <data name="OverflowMenuKeyboardHint" xml:space="preserve"><value>Flèche bas ou haut ouvre le menu ; les flèches, Début et Fin passent d'une entrée à l'autre ; Échap ferme et rend le focus au déclencheur.</value></data>
+  <data name="PopoverTitle" xml:space="preserve"><value>Panneau ancré</value></data>
+  <data name="PopoverDescription" xml:space="preserve"><value>Un panneau non modal ancré à son bouton : un clic ailleurs ou Échap le ferme, Échap rend le focus au bouton.</value></data>
+  <data name="PopoverSettingsTitle" xml:space="preserve"><value>Panneau ancré</value></data>
+  <data name="PopoverPlacement" xml:space="preserve"><value>Placement</value></data>
+  <data name="PopoverPlacementEnd" xml:space="preserve"><value>Dessous, aligné à la fin</value></data>
+  <data name="PopoverPlacementStart" xml:space="preserve"><value>Dessous, aligné au début</value></data>
+  <data name="PopoverVariant" xml:space="preserve"><value>Bouton</value></data>
+  <data name="PopoverVariantGhost" xml:space="preserve"><value>Discret</value></data>
+  <data name="PopoverVariantSecondary" xml:space="preserve"><value>Secondaire</value></data>
+  <data name="PopoverVariantPrimary" xml:space="preserve"><value>Principal</value></data>
+  <data name="PopoverSize" xml:space="preserve"><value>Taille</value></data>
+  <data name="PopoverSizeDescription" xml:space="preserve"><value>Taille du bouton déclencheur.</value></data>
+  <data name="PopoverSizeSmall" xml:space="preserve"><value>Petit</value></data>
+  <data name="PopoverSizeMedium" xml:space="preserve"><value>Moyen</value></data>
+  <data name="PopoverSizeLarge" xml:space="preserve"><value>Grand</value></data>
+  <data name="PopoverDisabled" xml:space="preserve"><value>Désactivé</value></data>
+  <data name="PopoverDisabledDescription" xml:space="preserve"><value>Le déclencheur est inactif : le panneau ne s'ouvre pas.</value></data>
+  <data name="PopoverPreviewTitle" xml:space="preserve"><value>Panneaux ancrés</value></data>
 </root>

@@ -1,0 +1,78 @@
+@* A form dialog and an information dialog, every setting a parameter. OmniDialog is declarative: it
+   draws itself while Open is true, so this example needs neither OmniComponentsHost nor the overlay
+   service. Cancel comes after the action, both at the end of the footer and each with its icon. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Wrap="true">
+        <OmniButton Variant="OmniButtonVariant.Primary" OnClick="OpenForm">
+            <OmniIcon Name="OmniIconName.Edit" />
+            <span>Edit the file</span>
+        </OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(() => InfoOpen = true)">
+            <OmniIcon Name="OmniIconName.Info" />
+            <span>Information</span>
+        </OmniButton>
+    </OmniStack>
+
+    <OmniDescriptionList>
+        <OmniDescriptionItem Term="Saved name">@(string.IsNullOrWhiteSpace(SavedName) ? "none" : SavedName)</OmniDescriptionItem>
+        <OmniDescriptionItem Term="Saved comment">@(string.IsNullOrWhiteSpace(SavedComment) ? "none" : SavedComment)</OmniDescriptionItem>
+        <OmniDescriptionItem Term="Last outcome">@(LastOutcome ?? "none")</OmniDescriptionItem>
+    </OmniDescriptionList>
+
+    <OmniDialog Title="Edit the file"
+                Open="FormOpen"
+                OpenChanged="OnFormOpenChanged"
+                Dismissible="Dismissible"
+                CloseOnBackdrop="CloseOnBackdrop"
+                Size="Size"
+                Intent="Intent"
+                Draggable="Draggable"
+                InitialFocus="InitialFocus"
+                CloseLabel="Close the form">
+        <ChildContent>
+            <OmniStack Gap="OmniSpacing.Medium">
+                <OmniFormField For="dialogs-example-name" Description="The name shown in the list of files.">
+                    <LabelContent>Name</LabelContent>
+                    <ChildContent>
+                        <OmniTextBox Id="dialogs-example-name" @bind-Value="DraftName" Placeholder="For example: Renewal 2026" />
+                    </ChildContent>
+                </OmniFormField>
+                <OmniFormField For="dialogs-example-comment">
+                    <LabelContent>Comment</LabelContent>
+                    <ChildContent>
+                        <OmniTextArea Id="dialogs-example-comment" @bind-Value="DraftComment" Rows="3" MaxLength="200" ShowCount="true" />
+                    </ChildContent>
+                </OmniFormField>
+                @if (!HasFooter)
+                {
+                    <OmniText Tone="OmniTextTone.Muted">Without a footer, only the cross, Escape and the backdrop close the dialog, and nothing is saved.</OmniText>
+                }
+            </OmniStack>
+        </ChildContent>
+        <FooterContent>
+            @if (HasFooter)
+            {
+                <OmniButton Variant="OmniButtonVariant.Primary" OnClick="SaveForm">
+                    <OmniIcon Name="OmniIconName.Save" />
+                    <span>Save</span>
+                </OmniButton>
+                <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="CancelForm">
+                    <OmniIcon Name="OmniIconName.Close" />
+                    <span>Cancel</span>
+                </OmniButton>
+            }
+        </FooterContent>
+    </OmniDialog>
+
+    <OmniDialog Title="About this file"
+                Open="InfoOpen"
+                OpenChanged="@(value => InfoOpen = value)"
+                Dismissible="Dismissible"
+                CloseOnBackdrop="CloseOnBackdrop"
+                Size="Size"
+                Intent="Intent"
+                Draggable="Draggable"
+                InitialFocus="InitialFocus">
+        <p>A dialog without a footer: it closes with the cross, and with Escape or the backdrop when the settings allow it.</p>
+    </OmniDialog>
+</OmniStack>

@@ -1,127 +1,28 @@
 using System.Globalization;
-using Microsoft.AspNetCore.Components.Web;
 using OmniEurope.Blazor.Showcase.Resources;
 
 namespace OmniEurope.Blazor.Showcase.Components.Demos;
 
+/// <summary>
+/// What is left of the old overlays demo once dialogs, context menus, the overflow menu and the popover
+/// moved to their gallery pages: the split button, the account menu, inline notifications and the
+/// notification stack, which belong to later pages.
+/// </summary>
 public partial class OverlayDemo : IDisposable
 {
     [Inject]
     private IStringLocalizer<ShowcaseStrings> Text { get; set; } = default!;
 
-    private bool DialogOpen { get; set; }
-
-    private bool MenuOpen { get; set; }
-
     private string? Last { get; set; }
 
     private OmniOverlayService Overlays { get; } = new();
 
-    private bool SizedOpen { get; set; }
-
-    private OmniDialogSize SizedDialog { get; set; }
-
-    private string? SizedWidth { get; set; }
-
-    private bool IntentOpen { get; set; }
-
-    private OmniTone IntentDialog { get; set; }
-
     /// <summary>The start of the night job, written the way the reader's culture writes a time.</summary>
     private static string NightJobStart => new TimeOnly(23, 0).ToString("t", CultureInfo.CurrentCulture);
-
-    private void OpenIntent(OmniTone intent)
-    {
-        IntentDialog = intent;
-        IntentOpen = true;
-    }
-
-    private void OpenSized(OmniDialogSize size)
-    {
-        SizedDialog = size;
-        SizedWidth = null;
-        SizedOpen = true;
-    }
-
-    private void BackToMedium()
-    {
-        SizedDialog = OmniDialogSize.Medium;
-        SizedWidth = null;
-    }
-
-    private void OpenFreeWidth()
-    {
-        SizedWidth = "30rem";
-        SizedOpen = true;
-    }
-
-    private void Confirm()
-    {
-        Last = Text["DemoOverlayDeletionConfirmed"];
-        DialogOpen = false;
-    }
-
-    private void OpenStickyDialog() => Overlays.OpenDialog(
-        new OmniDialogRequest(Text["DemoOverlayStickyTitle"], StickyContent())
-        {
-            CloseOnBackdrop = false
-        });
-
-    // The text and a button that opens the blocking dialog over this one: a dialog opened from a dialog gives
-    // the focus back to the button that opened it, inside the lower dialog, when it closes.
-    private RenderFragment StickyContent() => builder =>
-    {
-        builder.AddContent(0, Paragraph(Text["DemoOverlayStickyBody"]));
-        builder.OpenComponent<OmniButton>(1);
-        builder.AddComponentParameter(2, nameof(OmniButton.Id), "demo-dialog-nested");
-        builder.AddComponentParameter(3, nameof(OmniButton.Variant), OmniButtonVariant.Secondary);
-        builder.AddComponentParameter(4, nameof(OmniButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, OpenBlockingDialog));
-        builder.AddComponentParameter(5, nameof(OmniButton.ChildContent), (RenderFragment)(content => content.AddContent(0, Text["DemoOverlayBlockingButton"])));
-        builder.CloseComponent();
-    };
-
-    private void OpenBlockingDialog()
-    {
-        string finish = Text["DemoOverlayFinish"];
-        Overlays.OpenDialog(
-            new OmniDialogRequest(Text["DemoOverlayBlockingTitle"], Paragraph(Text["DemoOverlayBlockingBody"]))
-            {
-                Dismissible = false,
-                FooterContent = builder =>
-                {
-                    builder.OpenComponent<OmniButton>(0);
-                    builder.AddComponentParameter(1, nameof(OmniButton.Id), "demo-dialog-blocking-done");
-                    builder.AddComponentParameter(2, nameof(OmniButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, CloseBlockingDialog));
-                    builder.AddComponentParameter(3, nameof(OmniButton.ChildContent), (RenderFragment)(content =>
-                    {
-                        content.OpenComponent<OmniIcon>(0);
-                        content.AddComponentParameter(1, nameof(OmniIcon.Name), OmniIconName.Check);
-                        content.CloseComponent();
-                        content.OpenElement(2, "span");
-                        content.AddContent(3, finish);
-                        content.CloseElement();
-                    }));
-                    builder.CloseComponent();
-                }
-            });
-    }
 
     private void NotifyShort() => Overlays.Notify(Text["DemoOverlayNoticeQuota"], OmniSeverity.Warning);
 
     private void NotifyLong() => Overlays.Notify(Text["DemoOverlayNoticeLong"], OmniSeverity.Success, Text["DemoOverlayNoticeDoneTitle"]);
-
-    private void CloseBlockingDialog()
-    {
-        Overlays.CloseDialog();
-        Last = Text["DemoOverlayMigrationDone"];
-    }
-
-    private static RenderFragment Paragraph(string text) => builder =>
-    {
-        builder.OpenElement(0, "p");
-        builder.AddContent(1, text);
-        builder.CloseElement();
-    };
 
     public void Dispose()
     {

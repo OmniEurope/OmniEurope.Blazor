@@ -11,10 +11,12 @@ export async function leakSteps(session, results) {
   const listeners = async () => ({ document: await session.listenersOf('document'), window: await session.listenersOf('window') });
 
   const pages = [
-    ['/components/legacy/superpositions', '#demo-overflow-menu', async () => {
-      await clickOn('#demo-overflow-menu');
+    ['/components/overflow-menu', '#overflow-menu-0', async () => {
+      await clickOn('#overflow-menu-0');
       await waitFor('le menu ouvert', "document.activeElement?.getAttribute('role') === 'menuitem'");
       await key('Escape', 'Escape', 27);
+    }],
+    ['/components/popover', '.omni-popover > button[aria-haspopup="dialog"]', async () => {
       await clickOn('.omni-popover > button[aria-haspopup="dialog"]');
       await waitFor('la bulle ouverte', "document.querySelector('.omni-popover > button[aria-haspopup=\"dialog\"]').getAttribute('aria-expanded') === 'true'");
     }],

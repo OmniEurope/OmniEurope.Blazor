@@ -1,0 +1,23 @@
+@* Dialog sizes and a free width. A size caps the width of the dialog (Medium, 40rem, by default) and the
+   screen always bounds it; below 40rem of screen every dialog takes the whole width. Width replaces the
+   size with a free CSS length, which the dialog script writes (the page policy forbids the style
+   attribute). Declarative dialog: no OmniComponentsHost needed. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Wrap="true">
+        <OmniButton Id="dialog-size-small" Variant="OmniButtonVariant.Secondary" OnClick="@(() => OpenSized(OmniDialogSize.Small))">Small</OmniButton>
+        <OmniButton Id="dialog-size-medium" Variant="OmniButtonVariant.Secondary" OnClick="@(() => OpenSized(OmniDialogSize.Medium))">Medium</OmniButton>
+        <OmniButton Id="dialog-size-large" Variant="OmniButtonVariant.Secondary" OnClick="@(() => OpenSized(OmniDialogSize.Large))">Large</OmniButton>
+        <OmniButton Id="dialog-size-xlarge" Variant="OmniButtonVariant.Secondary" OnClick="@(() => OpenSized(OmniDialogSize.ExtraLarge))">Extra large</OmniButton>
+        <OmniButton Id="dialog-size-full" Variant="OmniButtonVariant.Secondary" OnClick="@(() => OpenSized(OmniDialogSize.FullWidth))">Full width</OmniButton>
+        <OmniButton Id="dialog-size-free" Variant="OmniButtonVariant.Secondary" OnClick="OpenFreeWidth">Free width (30rem)</OmniButton>
+    </OmniStack>
+
+    <OmniDialog Title="Dialog width" Open="Opened" OpenChanged="@(value => Opened = value)" Size="DialogSize" Width="@FreeWidth">
+        <p>@(FreeWidth is null ? $"This dialog is open at size {DialogSize}." : $"This dialog has a free width of {FreeWidth}, always capped by the screen.")</p>
+        @* The free width removed while the dialog is open: it takes its size back without closing. *@
+        @if (FreeWidth is not null)
+        {
+            <OmniButton Id="dialog-size-back" Variant="OmniButtonVariant.Secondary" OnClick="BackToMedium">Medium</OmniButton>
+        }
+    </OmniDialog>
+</OmniStack>

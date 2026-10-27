@@ -169,10 +169,10 @@
   <data name="DemoEditorCapability2" xml:space="preserve"><value>A word processor on a page, word count, HTML and text export.</value></data>
   <data name="DemoEditorCapability3" xml:space="preserve"><value>Code editor (Monaco served by the host, plain text under a strict CSP) and bounded upload.</value></data>
   <data name="DemoOverlayTitle" xml:space="preserve"><value>Overlays</value></data>
-  <data name="DemoOverlaySummary" xml:space="preserve"><value>Dialogs, notifications and pop-up menus.</value></data>
-  <data name="DemoOverlayCapability1" xml:space="preserve"><value>A modal dialog, closable by Escape or by the backdrop.</value></data>
+  <data name="DemoOverlaySummary" xml:space="preserve"><value>Notifications, a split button and an account menu.</value></data>
+  <data name="DemoOverlayCapability1" xml:space="preserve"><value>Notifications sent to the stack of the overlay host, short or long.</value></data>
   <data name="DemoOverlayCapability2" xml:space="preserve"><value>Four notification severities, with optional dismissal.</value></data>
-  <data name="DemoOverlayCapability3" xml:space="preserve"><value>A context menu, a split button and an account menu.</value></data>
+  <data name="DemoOverlayCapability3" xml:space="preserve"><value>A split button and an account menu.</value></data>
   <data name="DemoGridAdvancedTitle" xml:space="preserve"><value>Data grid, full range</value></data>
   <data name="DemoGridAdvancedSummary" xml:space="preserve"><value>Selection, groups, editing, frozen columns and rich filters.</value></data>
   <data name="DemoGridAdvancedCapability1" xml:space="preserve"><value>Multiple selection, from a click on the row.</value></data>
@@ -1195,54 +1195,16 @@
   <data name="DemoAnnotatedValidationMailConfirmation" xml:space="preserve"><value>Email confirmation</value></data>
   <data name="DemoAnnotatedValidationReplicas" xml:space="preserve"><value>Replicas</value></data>
   <!-- Demo texts: batch B -->
-  <data name="DemoOverlayOpenDialog" xml:space="preserve"><value>Open the dialog</value></data>
   <data name="DemoOverlaySave" xml:space="preserve"><value>Save</value></data>
   <data name="DemoOverlayMoreSaves" xml:space="preserve"><value>More ways to save</value></data>
   <data name="DemoOverlaySaveAndClose" xml:space="preserve"><value>Save and close</value></data>
   <data name="DemoOverlaySaveCopy" xml:space="preserve"><value>Save a copy</value></data>
   <data name="DemoOverlayPublishUnavailable" xml:space="preserve"><value>Publish, unavailable</value></data>
-  <data name="DemoOverlayFolderActions" xml:space="preserve"><value>Folder actions</value></data>
-  <data name="DemoOverlayContextTrigger" xml:space="preserve"><value>Actions (right-click or Shift+F10)</value></data>
-  <data name="DemoOverlayDuplicate" xml:space="preserve"><value>Duplicate</value></data>
-  <data name="DemoOverlayExport" xml:space="preserve"><value>Export</value></data>
-  <data name="DemoOverlayDelete" xml:space="preserve"><value>Delete</value></data>
-  <data name="DemoOverlayDeleteFolder" xml:space="preserve"><value>Delete the folder</value></data>
-  <data name="DemoOverlayRunningTasks" xml:space="preserve"><value>Running tasks</value></data>
-  <data name="DemoOverlayBackupStep" xml:space="preserve"><value>Nightly backup, step {0} of {1}.</value></data>
-  <data name="DemoOverlayViewProgress" xml:space="preserve"><value>View progress</value></data>
-  <data name="DemoOverlayProgressOpened" xml:space="preserve"><value>Progress opened</value></data>
-  <data name="DemoOverlayQuickFilter" xml:space="preserve"><value>Quick filter</value></data>
-  <data name="DemoOverlayFilter" xml:space="preserve"><value>Filter</value></data>
-  <data name="DemoOverlayFilterBody" xml:space="preserve"><value>The panel lines up with the start of the button.</value></data>
   <data name="DemoOverlayAccountMenu" xml:space="preserve"><value>Account menu</value></data>
   <data name="DemoOverlayMyProfile" xml:space="preserve"><value>My profile</value></data>
   <data name="DemoOverlaySignOut" xml:space="preserve"><value>Sign out</value></data>
   <data name="DemoOverlaySignedOut" xml:space="preserve"><value>Signed out</value></data>
   <data name="DemoOverlayAdminUnavailable" xml:space="preserve"><value>Administration, unavailable</value></data>
-  <data name="DemoOverlayStickyButton" xml:space="preserve"><value>Dialog that ignores the backdrop</value></data>
-  <data name="DemoOverlayBlockingButton" xml:space="preserve"><value>Dialog with an enforced close</value></data>
-  <data name="DemoOverlaySizeSmall" xml:space="preserve"><value>Small</value></data>
-  <data name="DemoOverlaySizeMedium" xml:space="preserve"><value>Medium</value></data>
-  <data name="DemoOverlaySizeLarge" xml:space="preserve"><value>Large</value></data>
-  <data name="DemoOverlaySizeExtraLarge" xml:space="preserve"><value>Extra large</value></data>
-  <data name="DemoOverlaySizeFull" xml:space="preserve"><value>Full width</value></data>
-  <data name="DemoOverlaySizedTitle" xml:space="preserve"><value>Dialog width</value></data>
-  <data name="DemoOverlaySizedBody" xml:space="preserve"><value>This dialog is open at size {0}.</value></data>
-  <data name="DemoOverlaySizeFree" xml:space="preserve"><value>Free width (30rem)</value></data>
-  <data name="DemoOverlayWidthBody" xml:space="preserve"><value>This dialog has a free width of {0}, always capped by the screen.</value></data>
-  <data name="DemoOverlayIntentAccent" xml:space="preserve"><value>Form (accent)</value></data>
-  <data name="DemoOverlayIntentInfo" xml:space="preserve"><value>Information</value></data>
-  <data name="DemoOverlayIntentSuccess" xml:space="preserve"><value>Success</value></data>
-  <data name="DemoOverlayIntentWarning" xml:space="preserve"><value>Confirmation (warning)</value></data>
-  <data name="DemoOverlayIntentDanger" xml:space="preserve"><value>Deletion (danger)</value></data>
-  <data name="DemoOverlayIntentTitle" xml:space="preserve"><value>Run settings</value></data>
-  <data name="DemoOverlayIntentBody" xml:space="preserve"><value>This dialog carries the {0} intent.</value></data>
-  <data name="DemoOverlayConfirm" xml:space="preserve"><value>Confirm</value></data>
-  <data name="DemoOverlayCancel" xml:space="preserve"><value>Cancel</value></data>
-  <data name="DemoOverlayPipelineActions" xml:space="preserve"><value>Pipeline actions</value></data>
-  <data name="DemoOverlayEdit" xml:space="preserve"><value>Edit</value></data>
-  <data name="DemoOverlayUpdate" xml:space="preserve"><value>Update</value></data>
-  <data name="DemoOverlayRowActions" xml:space="preserve"><value>Row actions</value></data>
   <data name="DemoOverlayLastAction" xml:space="preserve"><value>Last action: {0}</value></data>
   <data name="DemoOverlayNoAction" xml:space="preserve"><value>none</value></data>
   <data name="DemoOverlayNoticeInfoTitle" xml:space="preserve"><value>Information</value></data>
@@ -1256,16 +1218,6 @@
   <data name="DemoOverlayNotifyShort" xml:space="preserve"><value>Short notification</value></data>
   <data name="DemoOverlayNotifyLong" xml:space="preserve"><value>Long notification</value></data>
   <data name="DemoOverlayNoticeLong" xml:space="preserve"><value>The import report is ready. Fourteen files were read: twelve were saved without comment, one was skipped because it already existed and one was refused because a required column was missing. The line-by-line detail, with the correction suggested for each rejection, can be read again at any time in the import log, from the processing page.</value></data>
-  <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Confirm the deletion</value></data>
-  <data name="DemoOverlayClose" xml:space="preserve"><value>Close</value></data>
-  <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>This action removes the folder from the list. It can be undone for thirty days.</value></data>
-  <data name="DemoOverlayDeletionConfirmed" xml:space="preserve"><value>Deletion confirmed</value></data>
-  <data name="DemoOverlayStickyTitle" xml:space="preserve"><value>Filter in progress</value></data>
-  <data name="DemoOverlayStickyBody" xml:space="preserve"><value>A click outside does not close this dialog: the cross and Escape do.</value></data>
-  <data name="DemoOverlayBlockingTitle" xml:space="preserve"><value>Migration in progress</value></data>
-  <data name="DemoOverlayBlockingBody" xml:space="preserve"><value>Neither the cross, nor Escape, nor the backdrop: only the dialog's own button closes it.</value></data>
-  <data name="DemoOverlayFinish" xml:space="preserve"><value>Finish</value></data>
-  <data name="DemoOverlayMigrationDone" xml:space="preserve"><value>Migration finished</value></data>
   <data name="DemoEditorBodyLabel" xml:space="preserve"><value>Letter body</value></data>
   <data name="DemoEditorSourceLabel" xml:space="preserve"><value>Letter source</value></data>
   <data name="DemoEditorAnnotatedLabel" xml:space="preserve"><value>Annotated article</value></data>

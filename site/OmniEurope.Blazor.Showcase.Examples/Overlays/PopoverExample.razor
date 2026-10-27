@@ -1,0 +1,32 @@
+@* A non-modal panel anchored to its button: a click elsewhere or Escape closes it, and Escape gives the
+   focus back to the button. The panel is placed inside the window when it opens. It needs no
+   OmniComponentsHost. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniText Tone="OmniTextTone.Muted">Open a panel, then click elsewhere or press Escape.</OmniText>
+    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Wrap="true">
+        <OmniPopover Label="Running tasks"
+                     PopupLabel="Details of the running tasks"
+                     Size="Size"
+                     Disabled="Disabled"
+                     Placement="Placement"
+                     TriggerVariant="Variant">
+            <TriggerIcon><OmniIcon Name="OmniIconName.Hourglass" /></TriggerIcon>
+            <TriggerContent><span>3</span></TriggerContent>
+            <ChildContent>
+                <p>Nightly backup, step 2 of 4.</p>
+                <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="@(() => Last = "Follow-up opened")">
+                    <OmniIcon Name="OmniIconName.OpenExternal" />
+                    <span>Follow</span>
+                </OmniButton>
+            </ChildContent>
+        </OmniPopover>
+        <OmniPopover Label="Filter" Size="Size" Disabled="Disabled" Placement="Placement" TriggerVariant="Variant">
+            <TriggerIcon><OmniIcon Name="OmniIconName.Filter" /></TriggerIcon>
+            <TriggerContent><span>Filter</span></TriggerContent>
+            <ChildContent>
+                <p>The panel aligns with its button.</p>
+            </ChildContent>
+        </OmniPopover>
+    </OmniStack>
+    <OmniText>Last action: <strong>@(Last ?? "none")</strong></OmniText>
+</OmniStack>

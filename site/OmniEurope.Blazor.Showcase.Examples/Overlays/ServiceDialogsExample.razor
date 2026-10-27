@@ -1,0 +1,30 @@
+@* Dialogs opened from code by OmniOverlayService. They are drawn by an OmniComponentsHost, which an
+   application places once around its pages (for instance in the main layout). AddOmniEuropeBlazor()
+   registers the service, so a component injects OmniOverlayService; this example creates its own
+   service and host so that it runs wherever it is pasted.
+   - ConfirmAsync asks a yes-or-no question and returns a boolean.
+   - The first dialog ignores the backdrop (CloseOnBackdrop false): the cross and Escape still close it.
+   - The second one is not dismissible: no cross, Escape and the backdrop are ignored, and only its own
+     button closes it through CloseDialog. Opened from the first one, it gives the focus back to the
+     button that opened it when it closes. *@
+<OmniComponentsHost OverlayService="Overlays">
+    <OmniStack Gap="OmniSpacing.Medium">
+        <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Wrap="true">
+            <OmniButton Variant="OmniButtonVariant.Danger" OnClick="ConfirmDeletionAsync">
+                <OmniIcon Name="OmniIconName.Delete" />
+                <span>Delete</span>
+            </OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="ConfirmArchiveAsync">
+                <OmniIcon Name="OmniIconName.Archive" />
+                <span>Archive</span>
+            </OmniButton>
+            <OmniButton Id="dialog-sticky" Variant="OmniButtonVariant.Secondary" OnClick="OpenStickyDialog">
+                Dialog that ignores the backdrop
+            </OmniButton>
+            <OmniButton Id="dialog-blocking" Variant="OmniButtonVariant.Secondary" OnClick="OpenBlockingDialog">
+                Dialog with an enforced close
+            </OmniButton>
+        </OmniStack>
+        <OmniText Tone="OmniTextTone.Muted">Last outcome: @(LastOutcome ?? "none").</OmniText>
+    </OmniStack>
+</OmniComponentsHost>

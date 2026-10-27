@@ -1,0 +1,95 @@
+@page "/components/dialogs"
+@using OmniEurope.Blazor.Showcase.Examples.Overlays
+
+<GalleryPageFrame Slug="dialogs">
+    <Settings>
+        <OmniSettingsSection Title="@Text["DialogsSettingsTitle"]" Description="@Text["DialogsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["DialogsInitialFocus"]" Description="@Text["DialogsInitialFocusDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Target" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniDialogInitialFocus" Options="@InitialFocusOptions" @bind-Value="InitialFocus" Label="@Text["DialogsInitialFocus"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DialogsDismissible"]" Description="@Text["DialogsDismissibleDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Close" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Dismissible" aria-label="@Text["DialogsDismissible"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DialogsCloseOnBackdrop"]" Description="@Text["DialogsCloseOnBackdropDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.PictureInPicture" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="CloseOnBackdrop" aria-label="@Text["DialogsCloseOnBackdrop"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DialogsShowFooter"]" Description="@Text["DialogsShowFooterDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowFooter" aria-label="@Text["DialogsShowFooter"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DialogsSize"]" Description="@Text["DialogsSizeDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniDialogSize" Options="@SizeOptions" @bind-Value="Size" Label="@Text["DialogsSize"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DialogsIntent"]" Description="@Text["DialogsIntentDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Palette" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniTone" Options="@IntentOptions" @bind-Value="Intent" Label="@Text["DialogsIntent"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DialogsDraggable"]" Description="@Text["DialogsDraggableDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Swap" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Draggable" aria-label="@Text["DialogsDraggable"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["DialogsPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <DialogsExample Dismissible="Dismissible" CloseOnBackdrop="CloseOnBackdrop" ShowFooter="ShowFooter"
+                                Size="Size" Intent="Intent" Draggable="Draggable" InitialFocus="InitialFocus" />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["DialogsConventionHint"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["DialogsServiceTitle"]</HeaderContent>
+            <ChildContent>
+                <ServiceDialogsExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["DialogsServiceHint"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["DialogsVariantsTitle"]</HeaderContent>
+            <ChildContent>
+                <DialogVariantsExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["DialogsVariantsHint"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["DialogsSizesTitle"]</HeaderContent>
+            <ChildContent>
+                <DialogSizesExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["DialogsSizesHint"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["DialogsIntentsTitle"]</HeaderContent>
+            <ChildContent>
+                <DialogIntentsExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["DialogsIntentsHint"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

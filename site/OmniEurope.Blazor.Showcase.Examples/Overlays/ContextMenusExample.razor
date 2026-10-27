@@ -1,0 +1,52 @@
+@* A context menu: the wrapped content is its trigger. A right click opens the menu at the pointer; the Menu
+   key or Shift+F10 opens it under the trigger. The arrows, Home and End move between entries, Escape or
+   a click elsewhere closes it and gives the focus back. The menu is drawn in the portal of an
+   OmniComponentsHost when the application has one, and next to the trigger otherwise, so this example
+   works with or without a host. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniContextMenu Id="context-menu-zone"
+                     MenuLabel="Actions on the file"
+                     Disabled="Disabled"
+                     Open="MenuOpen"
+                     OpenChanged="@(value => MenuOpen = value)">
+        <TriggerContent>
+            <OmniCard>
+                <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center">
+                    <OmniIcon Name="OmniIconName.Menu" />
+                    <OmniText>Right-click anywhere here: the menu opens at the pointer. From the keyboard, focus the zone and press Shift+F10.</OmniText>
+                </OmniStack>
+            </OmniCard>
+        </TriggerContent>
+        <ChildContent>
+            <OmniMenuItem OnClick="@(() => Choose("Open"))">
+                <Icon><OmniIcon Name="OmniIconName.OpenExternal" /></Icon>
+                <ChildContent>Open</ChildContent>
+            </OmniMenuItem>
+            <OmniMenuItem OnClick="@(() => Choose("Duplicate"))">
+                <Icon><OmniIcon Name="OmniIconName.Copy" /></Icon>
+                <ChildContent>Duplicate</ChildContent>
+            </OmniMenuItem>
+            <OmniMenuItem Disabled="DisableRename" OnClick="@(() => Choose("Rename"))">
+                <Icon><OmniIcon Name="OmniIconName.Edit" /></Icon>
+                <ChildContent>Rename</ChildContent>
+            </OmniMenuItem>
+            <OmniMenuItem OnClick="@(() => Choose("Archive"))">
+                <Icon><OmniIcon Name="OmniIconName.Archive" /></Icon>
+                <ChildContent>Archive</ChildContent>
+            </OmniMenuItem>
+            @if (ShowDelete)
+            {
+                <OmniMenuItem Tone="OmniTone.Danger" OnClick="@(() => Choose("Delete"))">
+                    <Icon><OmniIcon Name="OmniIconName.Delete" /></Icon>
+                    <ChildContent>Delete</ChildContent>
+                </OmniMenuItem>
+            }
+        </ChildContent>
+    </OmniContextMenu>
+
+    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Wrap="true">
+        <OmniIcon Name="OmniIconName.Check" />
+        <OmniText>Last action:</OmniText>
+        <OmniBadge Tone="@(LastAction is null ? OmniTone.Neutral : OmniTone.Accent)">@(LastAction ?? "none")</OmniBadge>
+    </OmniStack>
+</OmniStack>

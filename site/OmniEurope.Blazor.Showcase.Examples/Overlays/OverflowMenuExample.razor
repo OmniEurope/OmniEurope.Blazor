@@ -1,0 +1,57 @@
+@* The three-dot menu of a row, a card or a header: a frameless trigger that opens a vertical list of
+   actions, each with its icon. The menu stays inside the window, opens above when there is no room
+   below, and gives the focus back to the trigger. Without an OmniComponentsHost it is drawn next to
+   the trigger, so this example works with or without one. The Open state is kept here: one menu at a
+   time. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniStack Gap="OmniSpacing.Small">
+        @for (var index = 0; index < Files.Length; index++)
+        {
+            var file = Files[index];
+            <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Justify="OmniJustification.Between">
+                <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center">
+                    <OmniIcon Name="OmniIconName.Document" />
+                    <OmniText>@file</OmniText>
+                </OmniStack>
+                <OmniOverflowMenu Id="@($"overflow-menu-{index}")"
+                                  Label="@($"More actions on {file}")"
+                                  MenuLabel="@($"Actions on {file}")"
+                                  Size="Size"
+                                  Disabled="Disabled"
+                                  Open="@(OpenFile == file)"
+                                  OpenChanged="@(value => OnMenuChanged(file, value))">
+                    <OmniMenuItem OnClick="@(() => Choose(file, "Open"))">
+                        <Icon><OmniIcon Name="OmniIconName.OpenExternal" /></Icon>
+                        <ChildContent>Open</ChildContent>
+                    </OmniMenuItem>
+                    <OmniMenuItem OnClick="@(() => Choose(file, "Duplicate"))">
+                        <Icon><OmniIcon Name="OmniIconName.Copy" /></Icon>
+                        <ChildContent>Duplicate</ChildContent>
+                    </OmniMenuItem>
+                    <OmniMenuItem Disabled="DisableRename" OnClick="@(() => Choose(file, "Rename"))">
+                        <Icon><OmniIcon Name="OmniIconName.Edit" /></Icon>
+                        <ChildContent>Rename</ChildContent>
+                    </OmniMenuItem>
+                    @if (ShowDelete)
+                    {
+                        <OmniMenuItem Tone="OmniTone.Danger" OnClick="@(() => Choose(file, "Delete"))">
+                            <Icon><OmniIcon Name="OmniIconName.Delete" /></Icon>
+                            <ChildContent>Delete</ChildContent>
+                        </OmniMenuItem>
+                    }
+                </OmniOverflowMenu>
+            </OmniStack>
+        }
+    </OmniStack>
+
+    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Wrap="true">
+        <OmniIcon Name="OmniIconName.Check" />
+        <OmniText>Last action:</OmniText>
+        <OmniBadge Tone="@(LastAction is null ? OmniTone.Neutral : OmniTone.Accent)">@(LastAction ?? "none")</OmniBadge>
+    </OmniStack>
+    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Wrap="true">
+        <OmniIcon Name="OmniIconName.Menu" />
+        <OmniText>Menu:</OmniText>
+        <OmniBadge Tone="@(OpenFile is null ? OmniTone.Neutral : OmniTone.Accent)">@(OpenFile ?? "closed")</OmniBadge>
+    </OmniStack>
+</OmniStack>

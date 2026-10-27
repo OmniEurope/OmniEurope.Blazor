@@ -1,0 +1,44 @@
+@page "/components/popover"
+@using OmniEurope.Blazor.Showcase.Examples.Overlays
+
+<GalleryPageFrame Slug="popover">
+    <Settings>
+        <OmniSettingsSection Title="@Text["PopoverSettingsTitle"]">
+            <OmniSettingsTile Title="@Text["PopoverPlacement"]">
+                <Icon><OmniIcon Name="OmniIconName.Swap" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniPopoverPlacement" Options="@PlacementOptions" @bind-Value="Placement" Label="@Text["PopoverPlacement"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["PopoverVariant"]">
+                <Icon><OmniIcon Name="OmniIconName.Palette" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniButtonVariant" Options="@VariantOptions" @bind-Value="Variant" Label="@Text["PopoverVariant"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["PopoverSize"]" Description="@Text["PopoverSizeDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniControlSize" Options="@SizeOptions" @bind-Value="Size" Label="@Text["PopoverSize"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["PopoverDisabled"]" Description="@Text["PopoverDisabledDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Disabled" aria-label="@Text["PopoverDisabled"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["PopoverPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <PopoverExample Placement="Placement" Variant="Variant" Size="Size" Disabled="Disabled" />
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

@@ -1,0 +1,32 @@
+@* One context menu per row. The menus share the Open state kept here, so opening one closes the others.
+   Like every context menu, they work with or without an OmniComponentsHost. *@
+<OmniStack Gap="OmniSpacing.Small">
+    @foreach (var file in Files)
+    {
+        <OmniContextMenu MenuLabel="@($"Actions on {file}")"
+                         Open="@(OpenFile == file)"
+                         OpenChanged="@(value => OnMenuChanged(file, value))">
+            <TriggerContent>
+                <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center">
+                    <OmniIcon Name="OmniIconName.Document" />
+                    <OmniText>@file</OmniText>
+                </OmniStack>
+            </TriggerContent>
+            <ChildContent>
+                <OmniMenuItem OnClick="@(() => Choose(file, "Download"))">
+                    <Icon><OmniIcon Name="OmniIconName.Download" /></Icon>
+                    <ChildContent>Download</ChildContent>
+                </OmniMenuItem>
+                <OmniMenuItem OnClick="@(() => Choose(file, "Copy the name"))">
+                    <Icon><OmniIcon Name="OmniIconName.Copy" /></Icon>
+                    <ChildContent>Copy the name</ChildContent>
+                </OmniMenuItem>
+            </ChildContent>
+        </OmniContextMenu>
+    }
+    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Wrap="true">
+        <OmniIcon Name="OmniIconName.Check" />
+        <OmniText>Last action:</OmniText>
+        <OmniBadge Tone="@(LastAction is null ? OmniTone.Neutral : OmniTone.Accent)">@(LastAction ?? "none")</OmniBadge>
+    </OmniStack>
+</OmniStack>

@@ -1,0 +1,30 @@
+@* The intention of a dialog: header and footer take its tint and the title is preceded by a badge with
+   its icon; the body stays on the surface of the dialog. InitialFocus Panel gives the focus to the
+   panel itself, with no ring: nothing looks selected until a click or Tab, which leads to the first
+   focusable element. Declarative dialog: no OmniComponentsHost needed. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Wrap="true">
+        <OmniButton Id="dialog-intent-accent" Variant="OmniButtonVariant.Secondary" OnClick="@(() => OpenIntent(OmniTone.Accent))">Form (accent)</OmniButton>
+        <OmniButton Id="dialog-intent-info" Variant="OmniButtonVariant.Secondary" OnClick="@(() => OpenIntent(OmniTone.Info))">Information</OmniButton>
+        <OmniButton Id="dialog-intent-success" Variant="OmniButtonVariant.Secondary" OnClick="@(() => OpenIntent(OmniTone.Success))">Success</OmniButton>
+        <OmniButton Id="dialog-intent-warning" Variant="OmniButtonVariant.Secondary" OnClick="@(() => OpenIntent(OmniTone.Warning))">Confirmation (warning)</OmniButton>
+        <OmniButton Id="dialog-intent-danger" Variant="OmniButtonVariant.Secondary" OnClick="@(() => OpenIntent(OmniTone.Danger))">Deletion (danger)</OmniButton>
+    </OmniStack>
+
+    <OmniDialog Title="Run settings" Open="Opened" OpenChanged="@(value => Opened = value)" Intent="Intent"
+                InitialFocus="OmniDialogInitialFocus.Panel">
+        <ChildContent>
+            <p>This dialog carries the @Intent intent.</p>
+        </ChildContent>
+        <FooterContent>
+            <OmniButton OnClick="@(() => Opened = false)">
+                <OmniIcon Name="OmniIconName.Check" />
+                <span>Confirm</span>
+            </OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(() => Opened = false)">
+                <OmniIcon Name="OmniIconName.Close" />
+                <span>Cancel</span>
+            </OmniButton>
+        </FooterContent>
+    </OmniDialog>
+</OmniStack>

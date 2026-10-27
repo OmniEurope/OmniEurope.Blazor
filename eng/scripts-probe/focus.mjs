@@ -13,19 +13,19 @@ export async function focusSteps(session, results) {
 
   // 1. A dialog opened from a dialog: when it closes, the focus goes back to the button of the lower dialog that
   // opened it, not to the page body; the lower dialog then gives it back to the button that opened that one.
-  await session.visit('/components/legacy/superpositions', '#demo-dialog-sticky');
-  await clickOn('#demo-dialog-sticky');
-  await waitFor('la boîte collante ouverte', "document.getElementById('demo-dialog-nested') !== null");
+  await session.visit('/components/dialogs', '#dialog-sticky');
+  await clickOn('#dialog-sticky');
+  await waitFor('la boîte collante ouverte', "document.getElementById('dialog-nested') !== null");
   await pause(300);
-  await clickOn('#demo-dialog-nested');
-  await waitFor('la boîte bloquante ouverte par-dessus', "document.getElementById('demo-dialog-blocking-done') !== null");
+  await clickOn('#dialog-nested');
+  await waitFor('la boîte bloquante ouverte par-dessus', "document.getElementById('dialog-blocking-done') !== null");
   await pause(300);
-  await clickOn('#demo-dialog-blocking-done');
-  await waitFor('la boîte bloquante fermée', "document.getElementById('demo-dialog-blocking-done') === null");
-  await waitFor('le focus rendu au bouton qui a ouvert la seconde boîte', "document.activeElement?.id === 'demo-dialog-nested'");
+  await clickOn('#dialog-blocking-done');
+  await waitFor('la boîte bloquante fermée', "document.getElementById('dialog-blocking-done') === null");
+  await waitFor('le focus rendu au bouton qui a ouvert la seconde boîte', "document.activeElement?.id === 'dialog-nested'");
   await key('Escape', 'Escape', 27);
-  await waitFor('la boîte collante fermée', "document.getElementById('demo-dialog-nested') === null");
-  await waitFor('le focus rendu au bouton qui a ouvert la première boîte', "document.activeElement?.id === 'demo-dialog-sticky'");
+  await waitFor('la boîte collante fermée', "document.getElementById('dialog-nested') === null");
+  await waitFor('le focus rendu au bouton qui a ouvert la première boîte', "document.activeElement?.id === 'dialog-sticky'");
   step('dialogue ouvert depuis un dialogue : le focus revient au bouton qui l\'a ouvert, puis au déclencheur');
 
   // 2. The arrows of a tab strip follow what the reader sees: right to left, the right arrow goes to the previous tab.

@@ -18,14 +18,14 @@ export async function overlaySteps(session, results) {
   step('écran de démarrage de la page retiré après le premier rendu');
 
   // 1. Menus: the overflow menu by the keyboard, the context menu closed by a press outside.
-  await session.visit('/components/legacy/superpositions', '#demo-overflow-menu');
-  await clickOn('#demo-overflow-menu');
-  await waitFor('le menu ouvert', `[...document.querySelectorAll('.omni-overflow-menu:has(> #demo-overflow-menu) [role="menu"]')].some(menu => menu.getClientRects().length > 0)`);
+  await session.visit('/components/overflow-menu', '#overflow-menu-0');
+  await clickOn('#overflow-menu-0');
+  await waitFor('le menu ouvert', `[...document.querySelectorAll('.omni-overflow-menu:has(> #overflow-menu-0) [role="menu"]')].some(menu => menu.getClientRects().length > 0)`);
   await waitFor('le focus dans le menu', "document.activeElement?.getAttribute('role') === 'menuitem'");
   // The window narrows while the menu is open: the menu is placed again, still on screen.
   await send('Emulation.setDeviceMetricsOverride', { width: 1000, height: 800, deviceScaleFactor: 1, mobile: false });
   await pause(200);
-  const menuBox = await evaluate(`(() => { const menu = [...document.querySelectorAll('.omni-overflow-menu:has(> #demo-overflow-menu) [role="menu"]')].find(candidate => candidate.getClientRects().length > 0); const box = menu.getBoundingClientRect(); return { left: box.left, right: box.right, width: innerWidth }; })()`);
+  const menuBox = await evaluate(`(() => { const menu = [...document.querySelectorAll('.omni-overflow-menu:has(> #overflow-menu-0) [role="menu"]')].find(candidate => candidate.getClientRects().length > 0); const box = menu.getBoundingClientRect(); return { left: box.left, right: box.right, width: innerWidth }; })()`);
   check(menuBox.left >= 0 && menuBox.right <= menuBox.width, `Menu hors de la fenêtre après redimensionnement : ${JSON.stringify(menuBox)}.`);
   await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
   await pause(200);
@@ -34,13 +34,14 @@ export async function overlaySteps(session, results) {
   await waitFor('le focus sur l\'entrée suivante', `document.activeElement?.getAttribute('role') === 'menuitem' && document.activeElement.textContent.trim() !== ${JSON.stringify(first)}`);
   await key('Escape', 'Escape', 27);
   await waitFor('le menu fermé, le focus rendu', "document.activeElement?.classList.contains('omni-overflow-menu__trigger')");
-  await clickOn('#demo-overflow-menu');
+  await clickOn('#overflow-menu-0');
   await waitFor('le menu rouvert', "document.activeElement?.getAttribute('role') === 'menuitem'");
   await key('Tab', 'Tab', 9);
-  await waitFor('Tab qui ferme le menu', `[...document.querySelectorAll('.omni-overflow-menu:has(> #demo-overflow-menu) [role="menu"]')].every(menu => menu.getClientRects().length === 0)`);
+  await waitFor('Tab qui ferme le menu', `[...document.querySelectorAll('.omni-overflow-menu:has(> #overflow-menu-0) [role="menu"]')].every(menu => menu.getClientRects().length === 0)`);
   step('menu au clavier : flèche, Échap, Tab');
 
-  await clickOn('#demo-context-menu', { button: 'right' });
+  await session.visit('/components/context-menus', '#context-menu-zone');
+  await clickOn('#context-menu-zone', { button: 'right' });
   await waitFor('le menu contextuel', `[...document.querySelectorAll('[role="menu"]')].some(menu => menu.getClientRects().length > 0)`);
   await clickOn('main h1, h1');
   await waitFor('le menu contextuel fermé par un appui dehors', `[...document.querySelectorAll('[role="menu"]')].every(menu => menu.getClientRects().length === 0)`);
@@ -48,7 +49,8 @@ export async function overlaySteps(session, results) {
 
   // 2. Modal dialogs: Tab kept inside, a press on the veil of a sticky dialog that keeps it open, a
   // focus sentinel that sends the focus back in, and a free width written through the CSSOM.
-  await clickOn('#demo-dialog-sticky');
+  await session.visit('/components/dialogs', '#dialog-sticky');
+  await clickOn('#dialog-sticky');
   await waitFor('la boîte collante ouverte', "document.querySelector('.omni-overlay section.omni-dialog') !== null");
   await pause(200);
   for (let index = 0; index < 4; index++) await key('Tab', 'Tab', 9);
@@ -67,14 +69,14 @@ export async function overlaySteps(session, results) {
   await waitFor('la boîte collante fermée', "document.querySelector('.omni-overlay section.omni-dialog') === null");
   step('boîte modale : Tab gardé, voile sans effet, sentinelle, fermeture');
 
-  await clickOn('#demo-dialog-size-free');
+  await clickOn('#dialog-size-free');
   await waitFor('la largeur libre posée', "document.querySelector('section.omni-dialog[data-omni-dialog-width-ready]')?.style.getPropertyValue('--omni-dialog-width') === '30rem'");
   check(await evaluate("!/(^|;)\\s*(?!--)[a-z-]+\\s*:/i.test(document.querySelector('section.omni-dialog').getAttribute('style') ?? '')"), 'La largeur libre a écrit une propriété ordinaire.');
   // The free width removed while the dialog is open: the custom property and its ready mark leave, the
   // dialog stays open and takes the medium size, wider than 30rem.
   const freeWidth = await evaluate("document.querySelector('section.omni-dialog').getBoundingClientRect().width");
-  await clickOn('#demo-dialog-size-back');
-  await waitFor('la largeur libre retirée, le dialogue ouvert', "(() => { const dialog = document.querySelector('section.omni-dialog'); return dialog !== null && document.getElementById('demo-dialog-size-back') === null && dialog.style.getPropertyValue('--omni-dialog-width') === '' && !dialog.hasAttribute('data-omni-dialog-width-ready'); })()");
+  await clickOn('#dialog-size-back');
+  await waitFor('la largeur libre retirée, le dialogue ouvert', "(() => { const dialog = document.querySelector('section.omni-dialog'); return dialog !== null && document.getElementById('dialog-size-back') === null && dialog.style.getPropertyValue('--omni-dialog-width') === '' && !dialog.hasAttribute('data-omni-dialog-width-ready'); })()");
   await waitFor('la taille moyenne reprise', `document.querySelector('section.omni-dialog').getBoundingClientRect().width > ${freeWidth} + 100`);
   await clickOn('.omni-overlay .omni-dialog__close');
   await waitFor('la boîte à largeur libre fermée', "document.querySelector('section.omni-dialog') === null");
@@ -82,6 +84,7 @@ export async function overlaySteps(session, results) {
 
   // 2b. One notification stack, one card width: a short and a long message sent to the same stack are
   // drawn as wide as each other (the stack widens to its longest message), at 1280 and 390 px.
+  await session.visit('/components/legacy/superpositions', '#demo-notify-short');
   await clickOn('#demo-notify-short');
   await clickOn('#demo-notify-long');
   await waitFor('les deux notifications de la pile', "document.querySelectorAll('.omni-notification-region .omni-notification').length === 2");
@@ -100,6 +103,7 @@ export async function overlaySteps(session, results) {
   step('notifications courte et longue d\'une même pile : même largeur à 1280 et 390 px');
 
   // 3. Popovers: placed inside the window when opened, released when closed.
+  await session.visit('/components/popover', '.omni-popover > button[aria-haspopup="dialog"]');
   await clickOn('.omni-popover > button[aria-haspopup="dialog"]');
   await waitFor('la bulle ouverte', "document.querySelector('.omni-popover > button[aria-haspopup=\"dialog\"]').getAttribute('aria-expanded') === 'true'");
   const placed = await evaluate(`(() => { const panel = [...document.querySelectorAll('.omni-popover [role="dialog"], .omni-popover__panel')].find(element => element.getClientRects().length > 0); const box = panel.getBoundingClientRect(); return { left: box.left, right: box.right, top: box.top, bottom: box.bottom, width: innerWidth, height: innerHeight }; })()`);

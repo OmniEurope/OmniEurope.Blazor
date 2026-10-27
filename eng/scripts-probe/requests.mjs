@@ -175,8 +175,8 @@ export async function requestSteps(session, results) {
   // itself holds the focus as it opens, no control of the dialog is focused and nothing draws a focus
   // ring; the first Tab reaches the first focusable element (the close button), Escape gives the focus
   // back to the trigger.
-  await session.visit('/components/legacy/superpositions', '#demo-dialog-intent-accent');
-  await clickOn('#demo-dialog-intent-accent');
+  await session.visit('/components/dialogs', '#dialog-intent-accent');
+  await clickOn('#dialog-intent-accent');
   await waitFor("le dialogue d'intention ouvert, le panneau focalisé", "document.activeElement?.matches('.omni-overlay section.omni-dialog') === true");
   // The panel focused looks exactly as it does unfocused (outline and shadow, the library's rings being
   // drawn as box shadows), and no control inside it holds the focus.
@@ -185,7 +185,7 @@ export async function requestSteps(session, results) {
   await tab();
   await waitFor('le premier Tab sur le bouton Fermer', "document.activeElement?.classList.contains('omni-dialog__close') === true");
   await key('Escape', 'Escape', 27);
-  await waitFor('le focus rendu au déclencheur', "document.activeElement?.id === 'demo-dialog-intent-accent' && document.querySelector('.omni-overlay section.omni-dialog') === null");
+  await waitFor('le focus rendu au déclencheur', "document.activeElement?.id === 'dialog-intent-accent' && document.querySelector('.omni-overlay section.omni-dialog') === null");
   step('focus initial Panel : le panneau focalisé sans anneau, Tab mène au bouton Fermer, Échap rend le focus');
 
   // 5. The chevron of a filterable drop-down (recette R1-11): drawn at the end of the field, a press opens

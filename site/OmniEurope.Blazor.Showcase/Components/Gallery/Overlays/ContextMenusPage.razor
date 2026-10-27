@@ -1,0 +1,52 @@
+@page "/components/context-menus"
+@using OmniEurope.Blazor.Showcase.Examples.Overlays
+
+<GalleryPageFrame Slug="context-menus">
+    <Settings>
+        <OmniSettingsSection Title="@Text["ContextMenusSettingsTitle"]" Description="@Text["ContextMenusSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["ContextMenusShowDelete"]" Description="@Text["ContextMenusShowDeleteDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Delete" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowDelete" aria-label="@Text["ContextMenusShowDelete"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ContextMenusDisableRename"]" Description="@Text["ContextMenusDisableRenameDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="DisableRename" aria-label="@Text["ContextMenusDisableRename"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ContextMenusDisabled"]" Description="@Text["ContextMenusDisabledDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Disabled" aria-label="@Text["ContextMenusDisabled"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ContextMenusKeepOpen"]" Description="@Text["ContextMenusKeepOpenDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Pin" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="KeepOpen" aria-label="@Text["ContextMenusKeepOpen"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ContextMenusPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <ContextMenusExample ShowDelete="ShowDelete" DisableRename="DisableRename" KeepOpen="KeepOpen" Disabled="Disabled" />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["ContextMenusKeyboardHint"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ContextMenusRowsTitle"]</HeaderContent>
+            <ChildContent>
+                <ContextMenuRowsExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["ContextMenusRowsHint"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

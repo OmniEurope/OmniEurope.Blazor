@@ -1,0 +1,43 @@
+@* Two dialogs with their own closing rules. The long one scrolls inside its panel; the strict one
+   ignores the cross, Escape and the backdrop: only its own button closes it. Both are declarative,
+   so this example needs neither OmniComponentsHost nor the overlay service. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Wrap="true">
+        <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(() => LongOpen = true)">
+            <OmniIcon Name="OmniIconName.Document" />
+            <span>Long content</span>
+        </OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(() => StrictOpen = true)">
+            <OmniIcon Name="OmniIconName.ShieldCheck" />
+            <span>Strict closing</span>
+        </OmniButton>
+    </OmniStack>
+    <OmniText Tone="OmniTextTone.Muted">Acknowledgements: @Acknowledgements.</OmniText>
+
+    <OmniDialog Title="Processing rules" Open="LongOpen" OpenChanged="@(value => LongOpen = value)">
+        <ChildContent>
+            @foreach (var paragraph in Paragraphs)
+            {
+                <p>@paragraph</p>
+            }
+        </ChildContent>
+        <FooterContent>
+            <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(() => LongOpen = false)">
+                <OmniIcon Name="OmniIconName.Close" />
+                <span>Close</span>
+            </OmniButton>
+        </FooterContent>
+    </OmniDialog>
+
+    <OmniDialog Title="Read before continuing" Open="StrictOpen" OpenChanged="@(value => StrictOpen = value)" Dismissible="false">
+        <ChildContent>
+            <p>This dialog closes neither by the cross, nor by Escape, nor by the backdrop: only the button below closes it.</p>
+        </ChildContent>
+        <FooterContent>
+            <OmniButton Variant="OmniButtonVariant.Primary" OnClick="Acknowledge">
+                <OmniIcon Name="OmniIconName.Check" />
+                <span>I have read it</span>
+            </OmniButton>
+        </FooterContent>
+    </OmniDialog>
+</OmniStack>

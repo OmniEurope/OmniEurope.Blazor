@@ -4,4 +4,97 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="DialogsTitle" xml:space="preserve"><value>Dialogs</value></data>
+  <data name="DialogsDescription" xml:space="preserve"><value>Modal dialogs: a form with Save then Cancel, an information panel, confirmations opened from code and awaited as a boolean, sizes, intentions, and closing by Escape or the backdrop.</value></data>
+  <data name="DialogsSettingsTitle" xml:space="preserve"><value>Dialog settings</value></data>
+  <data name="DialogsSettingsDescription" xml:space="preserve"><value>They apply to the form and to the information panel of the first preview.</value></data>
+  <data name="DialogsInitialFocus" xml:space="preserve"><value>Focus on opening</value></data>
+  <data name="DialogsInitialFocusDescription" xml:space="preserve"><value>What holds the focus when the dialog opens.</value></data>
+  <data name="DialogsFocusClose" xml:space="preserve"><value>Close button</value></data>
+  <data name="DialogsFocusPanel" xml:space="preserve"><value>Panel</value></data>
+  <data name="DialogsFocusField" xml:space="preserve"><value>First field</value></data>
+  <data name="DialogsDismissible" xml:space="preserve"><value>Dismissible</value></data>
+  <data name="DialogsDismissibleDescription" xml:space="preserve"><value>The cross, the Escape key and the backdrop close the dialog; turned off, only its own actions close it.</value></data>
+  <data name="DialogsCloseOnBackdrop" xml:space="preserve"><value>Close on the backdrop</value></data>
+  <data name="DialogsCloseOnBackdropDescription" xml:space="preserve"><value>A click outside the panel closes the dialog.</value></data>
+  <data name="DialogsShowFooter" xml:space="preserve"><value>Footer buttons</value></data>
+  <data name="DialogsShowFooterDescription" xml:space="preserve"><value>Cancel and Save in the footer of the form. A dialog that cannot be dismissed keeps them.</value></data>
+  <data name="DialogsSize" xml:space="preserve"><value>Width</value></data>
+  <data name="DialogsSizeDescription" xml:space="preserve"><value>Width of the form and of the information dialog, always bounded by the screen.</value></data>
+  <data name="DialogsSizeSmall" xml:space="preserve"><value>Small</value></data>
+  <data name="DialogsSizeMedium" xml:space="preserve"><value>Medium</value></data>
+  <data name="DialogsSizeLarge" xml:space="preserve"><value>Large</value></data>
+  <data name="DialogsSizeExtraLarge" xml:space="preserve"><value>Extra large</value></data>
+  <data name="DialogsSizeFullWidth" xml:space="preserve"><value>Full width</value></data>
+  <data name="DialogsIntent" xml:space="preserve"><value>Intent</value></data>
+  <data name="DialogsIntentDescription" xml:space="preserve"><value>Tints the header and the footer, and puts the intent badge before the title; neutral, the dialog carries none.</value></data>
+  <data name="DialogsIntentNeutral" xml:space="preserve"><value>Neutral</value></data>
+  <data name="DialogsIntentAccent" xml:space="preserve"><value>Accent</value></data>
+  <data name="DialogsIntentInfo" xml:space="preserve"><value>Information</value></data>
+  <data name="DialogsIntentSuccess" xml:space="preserve"><value>Success</value></data>
+  <data name="DialogsIntentWarning" xml:space="preserve"><value>Warning</value></data>
+  <data name="DialogsIntentDanger" xml:space="preserve"><value>Danger</value></data>
+  <data name="DialogsDraggable" xml:space="preserve"><value>Draggable</value></data>
+  <data name="DialogsDraggableDescription" xml:space="preserve"><value>The dialog is moved by its header.</value></data>
+  <data name="DialogsPreviewTitle" xml:space="preserve"><value>Open a dialog</value></data>
+  <data name="DialogsConventionHint" xml:space="preserve"><value>In every dialog the action comes first and Cancel after it, both at the end of the footer and each with its icon.</value></data>
+  <data name="DialogsServiceTitle" xml:space="preserve"><value>Dialogs opened from code</value></data>
+  <data name="DialogsServiceHint" xml:space="preserve"><value>OmniOverlayService opens them and an OmniComponentsHost draws them. Delete and Archive are confirmations awaited as a boolean: Enter confirms, Escape cancels, and the package renders the button convention by itself. The last two buttons open a dialog that ignores the backdrop and, from it, one that only its own button closes.</value></data>
+  <data name="DialogsVariantsTitle" xml:space="preserve"><value>Variants</value></data>
+  <data name="DialogsVariantsHint" xml:space="preserve"><value>The long dialog scrolls inside its panel; the strict one ignores Escape and the backdrop.</value></data>
+  <data name="DialogsSizesTitle" xml:space="preserve"><value>Sizes and free width</value></data>
+  <data name="DialogsSizesHint" xml:space="preserve"><value>A size caps the width; below 40rem of screen every dialog takes the whole width. A free width replaces the size and can be dropped while the dialog is open.</value></data>
+  <data name="DialogsIntentsTitle" xml:space="preserve"><value>Intentions</value></data>
+  <data name="DialogsIntentsHint" xml:space="preserve"><value>The focus starts on the panel, with no ring; Tab leads to the first focusable element.</value></data>
+  <data name="ContextMenusTitle" xml:space="preserve"><value>Context menus</value></data>
+  <data name="ContextMenusDescription" xml:space="preserve"><value>Context menu opened at the pointer by a right click, or under the zone by the Menu key or Shift+F10, with keyboard navigation between its entries; a click elsewhere or Escape closes it.</value></data>
+  <data name="ContextMenusSettingsTitle" xml:space="preserve"><value>Menu settings</value></data>
+  <data name="ContextMenusSettingsDescription" xml:space="preserve"><value>The action chosen is echoed under the zone.</value></data>
+  <data name="ContextMenusShowDelete" xml:space="preserve"><value>Delete entry</value></data>
+  <data name="ContextMenusShowDeleteDescription" xml:space="preserve"><value>Adds a destructive entry at the end of the menu.</value></data>
+  <data name="ContextMenusDisableRename" xml:space="preserve"><value>Disable Rename</value></data>
+  <data name="ContextMenusDisableRenameDescription" xml:space="preserve"><value>The entry stays visible, and the keyboard skips it.</value></data>
+  <data name="ContextMenusDisabled" xml:space="preserve"><value>Disabled</value></data>
+  <data name="ContextMenusDisabledDescription" xml:space="preserve"><value>The right click gives the browser's menu back: the package's menu does not open.</value></data>
+  <data name="ContextMenusKeepOpen" xml:space="preserve"><value>Keep open after a choice</value></data>
+  <data name="ContextMenusKeepOpenDescription" xml:space="preserve"><value>The menu stays open once an entry is chosen.</value></data>
+  <data name="ContextMenusPreviewTitle" xml:space="preserve"><value>Live menu</value></data>
+  <data name="ContextMenusKeyboardHint" xml:space="preserve"><value>Arrows, Home and End move between entries; Escape closes the menu and gives the focus back.</value></data>
+  <data name="ContextMenusRowsTitle" xml:space="preserve"><value>One menu per row</value></data>
+  <data name="ContextMenusRowsHint" xml:space="preserve"><value>Each file has its own menu; opening one closes the others.</value></data>
+  <data name="OverflowMenuTitle" xml:space="preserve"><value>Overflow menu</value></data>
+  <data name="OverflowMenuDescription" xml:space="preserve"><value>The "⋮" menu of a row, a card or a header: three dots that open a vertical list of actions, each with its icon.</value></data>
+  <data name="OverflowMenuSettingsTitle" xml:space="preserve"><value>Menu settings</value></data>
+  <data name="OverflowMenuSettingsDescription" xml:space="preserve"><value>The trigger and the entries of each row's menu.</value></data>
+  <data name="OverflowMenuSize" xml:space="preserve"><value>Size</value></data>
+  <data name="OverflowMenuSizeDescription" xml:space="preserve"><value>Size of the three-dot trigger.</value></data>
+  <data name="OverflowMenuSizeSmall" xml:space="preserve"><value>Small</value></data>
+  <data name="OverflowMenuSizeMedium" xml:space="preserve"><value>Medium</value></data>
+  <data name="OverflowMenuSizeLarge" xml:space="preserve"><value>Large</value></data>
+  <data name="OverflowMenuDisabled" xml:space="preserve"><value>Disabled</value></data>
+  <data name="OverflowMenuDisabledDescription" xml:space="preserve"><value>The trigger is inactive: the menu does not open.</value></data>
+  <data name="OverflowMenuShowDelete" xml:space="preserve"><value>Destructive entry</value></data>
+  <data name="OverflowMenuShowDeleteDescription" xml:space="preserve"><value>Adds the Delete entry, marked with the danger tone.</value></data>
+  <data name="OverflowMenuDisableRename" xml:space="preserve"><value>Rename disabled</value></data>
+  <data name="OverflowMenuDisableRenameDescription" xml:space="preserve"><value>The entry stays listed, dimmed; the arrows skip it.</value></data>
+  <data name="OverflowMenuPreviewTitle" xml:space="preserve"><value>Row actions</value></data>
+  <data name="OverflowMenuKeyboardHint" xml:space="preserve"><value>Arrow down or up opens the menu; the arrows, Home and End move between entries; Escape closes and gives the focus back to the trigger.</value></data>
+  <data name="PopoverTitle" xml:space="preserve"><value>Popover</value></data>
+  <data name="PopoverDescription" xml:space="preserve"><value>A non-modal panel anchored to its button: a click elsewhere or Escape closes it, and Escape gives the focus back to the button.</value></data>
+  <data name="PopoverSettingsTitle" xml:space="preserve"><value>Popover</value></data>
+  <data name="PopoverPlacement" xml:space="preserve"><value>Placement</value></data>
+  <data name="PopoverPlacementEnd" xml:space="preserve"><value>Below, end aligned</value></data>
+  <data name="PopoverPlacementStart" xml:space="preserve"><value>Below, start aligned</value></data>
+  <data name="PopoverVariant" xml:space="preserve"><value>Button</value></data>
+  <data name="PopoverVariantGhost" xml:space="preserve"><value>Discreet</value></data>
+  <data name="PopoverVariantSecondary" xml:space="preserve"><value>Secondary</value></data>
+  <data name="PopoverVariantPrimary" xml:space="preserve"><value>Primary</value></data>
+  <data name="PopoverSize" xml:space="preserve"><value>Size</value></data>
+  <data name="PopoverSizeDescription" xml:space="preserve"><value>Size of the trigger button.</value></data>
+  <data name="PopoverSizeSmall" xml:space="preserve"><value>Small</value></data>
+  <data name="PopoverSizeMedium" xml:space="preserve"><value>Medium</value></data>
+  <data name="PopoverSizeLarge" xml:space="preserve"><value>Large</value></data>
+  <data name="PopoverDisabled" xml:space="preserve"><value>Disabled</value></data>
+  <data name="PopoverDisabledDescription" xml:space="preserve"><value>The trigger is inactive: the panel does not open.</value></data>
+  <data name="PopoverPreviewTitle" xml:space="preserve"><value>Anchored panels</value></data>
 </root>
