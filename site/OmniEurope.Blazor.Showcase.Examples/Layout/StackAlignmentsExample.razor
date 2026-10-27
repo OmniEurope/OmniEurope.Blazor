@@ -1,0 +1,15 @@
+@* The four alignments across the axis: the middle block is taller than its neighbours, so the
+   position of the others shows. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    @foreach (var align in Alignments)
+    {
+        <OmniStack Gap="OmniSpacing.XSmall">
+            <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@align</OmniText>
+            <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Align="align">
+                <LayoutBlock Label="1" />
+                <LayoutBlock Label="2" Tall="true" />
+                <LayoutBlock Label="3" />
+            </OmniStack>
+        </OmniStack>
+    }
+</OmniStack>

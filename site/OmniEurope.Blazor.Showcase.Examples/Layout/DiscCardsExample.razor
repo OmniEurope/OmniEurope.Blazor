@@ -1,0 +1,46 @@
+@* Cards with an icon disc in the header and a figure in the body: the surfaces of the mockup. The disc
+   (omni-disc) and the progress bar read the shape of the theme: fill, stroke, radius and shadow. *@
+<OmniRow Gap="OmniSpacing.Medium">
+    <OmniColumn Span="12" MediumSpan="4">
+        <OmniCard>
+            <HeaderContent>
+                <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small">
+                    <span class="omni-disc"><OmniIcon Name="OmniIconName.HardDrive" /></span>
+                    <OmniHeading Level="OmniHeadingLevel.H4">Servers</OmniHeading>
+                </OmniStack>
+            </HeaderContent>
+            <ChildContent>
+                <OmniHeading Level="OmniHeadingLevel.H3">1</OmniHeading>
+                <p>Last heartbeat 4 minutes ago.</p>
+            </ChildContent>
+        </OmniCard>
+    </OmniColumn>
+    <OmniColumn Span="12" MediumSpan="4">
+        <OmniCard>
+            <HeaderContent>
+                <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small">
+                    <span class="omni-disc"><OmniIcon Name="OmniIconName.GitFork" /></span>
+                    <OmniHeading Level="OmniHeadingLevel.H4">Pipelines</OmniHeading>
+                </OmniStack>
+            </HeaderContent>
+            <ChildContent>
+                <OmniHeading Level="OmniHeadingLevel.H3">2,400</OmniHeading>
+                <p>Three failed runs out of the last ten.</p>
+            </ChildContent>
+        </OmniCard>
+    </OmniColumn>
+    <OmniColumn Span="12" MediumSpan="4">
+        <OmniCard>
+            <HeaderContent>
+                <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small">
+                    <span class="omni-disc"><OmniIcon Name="OmniIconName.ShieldCheck" /></span>
+                    <OmniHeading Level="OmniHeadingLevel.H4">Coverage</OmniHeading>
+                </OmniStack>
+            </HeaderContent>
+            <ChildContent>
+                <OmniHeading Level="OmniHeadingLevel.H3">87%</OmniHeading>
+                <OmniProgressBar Value="87" Label="Coverage" />
+            </ChildContent>
+        </OmniCard>
+    </OmniColumn>
+</OmniRow>

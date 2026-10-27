@@ -1,0 +1,29 @@
+@* A group of fields under a legend. The collapsed state is the browser's and the component does not
+   follow it after the first render, so the key recreates the group whenever a setting changes: the
+   preview always shows the state chosen. *@
+<OmniFieldset @key="GroupKey" Disabled="Disabled" Collapsible="Collapsible" Expanded="@(!Collapsed)">
+    <Legend>@(string.IsNullOrWhiteSpace(LegendText) ? "Contact details" : LegendText)</Legend>
+    <ChildContent>
+        <OmniStack Gap="OmniSpacing.Medium">
+            <OmniStack Gap="OmniSpacing.XSmall">
+                <OmniLabel For="fieldset-name">Name</OmniLabel>
+                <OmniTextBox Id="fieldset-name" @bind-Value="ContactName" Placeholder="First and last name" />
+            </OmniStack>
+            <OmniStack Gap="OmniSpacing.XSmall">
+                <OmniLabel For="fieldset-email">Email address</OmniLabel>
+                <OmniTextBox Id="fieldset-email" Type="OmniTextBoxType.Email" @bind-Value="ContactEmail" Placeholder="name@example.org" />
+            </OmniStack>
+            <OmniSwitch @bind-Value="Newsletter">Receive the monthly letter</OmniSwitch>
+            <OmniStack Orientation="OmniOrientation.Horizontal">
+                <OmniButton Variant="OmniButtonVariant.Primary" Size="OmniControlSize.Small" OnClick="@(() => Saved = true)">
+                    <OmniIcon Name="OmniIconName.Save" />
+                    <span>Save</span>
+                </OmniButton>
+            </OmniStack>
+            @if (Saved)
+            {
+                <OmniText Tone="OmniTextTone.Muted">Saved.</OmniText>
+            }
+        </OmniStack>
+    </ChildContent>
+</OmniFieldset>

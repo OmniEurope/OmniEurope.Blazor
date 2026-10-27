@@ -1,0 +1,10 @@
+@* Span 12, SmallSpan 6, MediumSpan 4, LargeSpan 3: one, two, three then four columns per line as the
+   window widens. *@
+<OmniRow Gap="OmniSpacing.Small">
+    @foreach (var number in Enumerable.Range(1, 8))
+    {
+        <OmniColumn Span="12" SmallSpan="6" MediumSpan="4" LargeSpan="3">
+            <LayoutBlock Label="@number.ToString()" />
+        </OmniColumn>
+    }
+</OmniRow>

@@ -1,0 +1,111 @@
+@page "/components/stacks"
+@using OmniEurope.Blazor.Showcase.Examples.Layout
+
+<GalleryPageFrame Slug="stacks">
+    <Settings>
+        <OmniSettingsSection Title="@Text["StacksSettingsTitle"]" Description="@Text["StacksSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["StacksOrientation"]" Description="@Text["StacksOrientationDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Swap" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniOrientation" Options="@OrientationOptions" @bind-Value="Orientation" Label="@Text["StacksOrientation"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["StacksGap"]" Description="@Text["StacksGapDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniSpacing" Options="@GapOptions" @bind-Value="Gap" Label="@Text["StacksGap"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["StacksAlign"]" Description="@Text["StacksAlignDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniAlignment" Options="@AlignOptions" @bind-Value="Align" Label="@Text["StacksAlign"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["StacksJustify"]" Description="@Text["StacksJustifyDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Sliders" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniJustification" Options="@JustifyOptions" @bind-Value="Justify" Label="@Text["StacksJustify"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["StacksOverflow"]" Description="@Text["StacksOverflowDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.ArrowRight" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniStackOverflow" Options="@OverflowOptions" @bind-Value="Overflow" Label="@Text["StacksOverflow"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["StacksItemCount"]" Description="@Text["StacksItemCountDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.NumberedList" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="ItemCount"
+                                Minimum="1"
+                                Maximum="@MaximumItems"
+                                Step="1"
+                                ShowValue="true"
+                                aria-label="@Text["StacksItemCount"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["StacksNarrow"]" Description="@Text["StacksNarrowDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Sidebar" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Narrow" aria-label="@Text["StacksNarrow"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["StacksPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <StacksExample Orientation="Orientation" Gap="Gap" Align="Align" Justify="Justify" Overflow="Overflow"
+                               ItemCount="@((int)ItemCount)" Narrow="Narrow" />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["StacksPreviewHint"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["StacksGapsTitle"]</HeaderContent>
+            <ChildContent>
+                <StackGapsExample />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["StacksAlignsTitle"]</HeaderContent>
+            <ChildContent>
+                <StackAlignmentsExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["StacksAlignsDescription"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["StacksJustifiesTitle"]</HeaderContent>
+            <ChildContent>
+                <StackJustificationsExample />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["StacksOrientationsTitle"]</HeaderContent>
+            <ChildContent>
+                <StackOrientationsExample />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["StacksOverflowsTitle"]</HeaderContent>
+            <ChildContent>
+                <StackOverflowExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["StacksOverflowsDescription"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["StacksDividersTitle"]</HeaderContent>
+            <ChildContent>
+                <StackDividersExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["StacksDividersDescription"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

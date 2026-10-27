@@ -259,10 +259,6 @@
 
 .demo-notices { display: grid; gap: var(--omni-space-sm); justify-items: start; }
 
-.demo-cards { display: grid; gap: var(--omni-space-md); grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); }
-.demo-card-head { align-items: center; display: flex; gap: var(--omni-space-sm); }
-.demo-card-head .omni-heading { margin: 0; }
-.demo-figure { display: block; font-size: var(--omni-font-size-h3); font-weight: 700; }
 .demo-surfaces-row { align-items: start; display: grid; gap: var(--omni-space-lg); grid-template-columns: minmax(12rem, 16rem) minmax(0, 1fr); }
 @media (max-width: 36rem) { .demo-surfaces-row { grid-template-columns: minmax(0, 1fr); } }
 .demo-menu-item { align-items: center; display: flex; gap: var(--omni-space-sm); }
@@ -372,4 +368,9 @@
 
 .gallery-buttons-press .omni-button--ghost:not(:disabled) {
     box-shadow: 0 0 #0000;
+}
+
+/* Rows and columns page: a row that does not wrap overflows, so its example sits in a strip that scrolls. */
+.gallery-rows-clip {
+    overflow-x: auto;
 }

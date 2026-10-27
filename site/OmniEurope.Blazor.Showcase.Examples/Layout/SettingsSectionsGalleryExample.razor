@@ -1,0 +1,53 @@
+@* A section without description, a tile without icon, and a tile with its actions under the row.
+   A tile that carries a switch or a check box toggles on a click anywhere on it: its name labels the
+   control. Clicking the control itself toggles it once. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniSettingsSection Title="Privacy">
+        <OmniSettingsTile Title="Public profile" Description="Other members see your name and your picture.">
+            <Icon><OmniIcon Name="OmniIconName.User" /></Icon>
+            <ChildContent>
+                <OmniSwitch @bind-Value="PublicProfile" aria-label="Public profile" />
+            </ChildContent>
+        </OmniSettingsTile>
+
+        <OmniSettingsTile Title="Keep the search history">
+            <ChildContent>
+                <OmniSwitch @bind-Value="KeepHistory" aria-label="Keep the search history" />
+            </ChildContent>
+        </OmniSettingsTile>
+
+        <OmniSettingsTile Title="Receive the newsletter" Description="A check box: the whole tile ticks and unticks it.">
+            <Icon><OmniIcon Name="OmniIconName.Bell" /></Icon>
+            <ChildContent>
+                <OmniCheckBox @bind-Value="Newsletter" />
+            </ChildContent>
+        </OmniSettingsTile>
+
+        <OmniSettingsTile Title="Synchronise the devices" Description="A three-state switch: yes, no, then undecided.">
+            <Icon><OmniIcon Name="OmniIconName.Sync" /></Icon>
+            <ChildContent>
+                <OmniSwitch @bind-Value="SyncMode" />
+            </ChildContent>
+        </OmniSettingsTile>
+
+        <OmniSettingsTile Title="Your data" Description="A copy of everything the application keeps about you.">
+            <Icon><OmniIcon Name="OmniIconName.Database" /></Icon>
+            <Details>
+                <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Wrap="true" Gap="OmniSpacing.Small">
+                    <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="@(() => Last = "Export")">
+                        <OmniIcon Name="OmniIconName.Download" />
+                        <span>Export</span>
+                    </OmniButton>
+                    <OmniButton Variant="OmniButtonVariant.Danger" Size="OmniControlSize.Small" OnClick="@(() => Last = "Erase")">
+                        <OmniIcon Name="OmniIconName.Delete" />
+                        <span>Erase</span>
+                    </OmniButton>
+                </OmniStack>
+            </Details>
+        </OmniSettingsTile>
+    </OmniSettingsSection>
+    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small">
+        <OmniIcon Name="OmniIconName.Check" />
+        <span>Public profile: @OnOff(PublicProfile), history: @OnOff(KeepHistory), newsletter: @OnOff(Newsletter), synchronisation: @(SyncMode is null ? "undecided" : OnOff(SyncMode.Value)). Last action: @(Last ?? "none").</span>
+    </OmniStack>
+</OmniStack>

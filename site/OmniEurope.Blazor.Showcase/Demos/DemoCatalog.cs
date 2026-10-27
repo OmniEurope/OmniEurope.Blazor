@@ -15,9 +15,7 @@ public static class DemoCatalog
     public static IReadOnlyList<DemoDefinition> All { get; } =
     [
         new("mise-en-page", typeof(LayoutDemo), "DemoLayoutTitle", "DemoLayoutSummary",
-            ["DemoLayoutCapability1", "DemoLayoutCapability2", "DemoLayoutCapability3", "DemoLayoutCapability4", "DemoLayoutCapability5"]),
-        new("accordeon", typeof(AccordionDemo), "DemoAccordionTitle", "DemoAccordionSummary",
-            ["DemoAccordionCapability1", "DemoAccordionCapability2", "DemoAccordionCapability3"]),
+            ["DemoLayoutCapability5"]),
         new("coquille", typeof(ShellDemo), "DemoShellTitle", "DemoShellSummary",
             ["DemoShellCapability1", "DemoShellCapability2", "DemoShellCapability3", "DemoShellCapability4"]),
         new("coquille-application", typeof(AppShellDemo), "DemoAppShellTitle", "DemoAppShellSummary",

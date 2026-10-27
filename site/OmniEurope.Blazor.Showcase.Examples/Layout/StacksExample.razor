@@ -1,0 +1,25 @@
+@* One stack, every setting a parameter. The buttons have three sizes: an alignment only shows between
+   items of different heights, and an overflow needs enough items to run out of room. A narrow stack sits
+   in a column of half the width. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniRow>
+        <OmniColumn Span="@(Narrow ? 6 : 12)">
+            <OmniCard>
+                <OmniStack Orientation="Orientation"
+                           Gap="Gap"
+                           Align="Align"
+                           Justify="Justify"
+                           Overflow="Overflow">
+                    @foreach (var item in StackItem.All.Take(ItemCount))
+                    {
+                        <OmniButton Variant="OmniButtonVariant.Secondary" Size="item.Size" OnClick="@(() => Last = item.Label)">
+                            <OmniIcon Name="item.Icon" />
+                            <span>@item.Label</span>
+                        </OmniButton>
+                    }
+                </OmniStack>
+            </OmniCard>
+        </OmniColumn>
+    </OmniRow>
+    <OmniText Tone="OmniTextTone.Muted">Last action: <strong>@(Last ?? "none")</strong></OmniText>
+</OmniStack>

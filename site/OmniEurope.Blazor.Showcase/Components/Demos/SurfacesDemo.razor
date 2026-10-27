@@ -1,44 +1,8 @@
-@* Les surfaces de la maquette : des cartes à disque d'icône et chiffre, un menu flottant sur le calque
-   des surfaces flottantes, des onglets, un menu latéral, un lien et une infobulle. *@
+@using OmniEurope.Blazor.Showcase.Examples.Layout
+@* The surfaces of the mockup: cards with an icon disc and a figure (the example of the Cards page), a menu
+   floating on the floating-surface layer, tabs, a side menu, a link and a tooltip. *@
 <OmniStack Gap="OmniSpacing.Large">
-    <div class="demo-cards">
-        <OmniCard>
-            <HeaderContent>
-                <span class="demo-card-head">
-                    <span class="omni-disc"><OmniIcon Name="OmniIconName.HardDrive" /></span>
-                    <OmniHeading Level="OmniHeadingLevel.H4">@Text["SurfServers"]</OmniHeading>
-                </span>
-            </HeaderContent>
-            <ChildContent>
-                <span class="demo-figure">1</span>
-                <p>@Text["SurfServersText"]</p>
-            </ChildContent>
-        </OmniCard>
-        <OmniCard>
-            <HeaderContent>
-                <span class="demo-card-head">
-                    <span class="omni-disc"><OmniIcon Name="OmniIconName.GitFork" /></span>
-                    <OmniHeading Level="OmniHeadingLevel.H4">@Text["SurfPipelines"]</OmniHeading>
-                </span>
-            </HeaderContent>
-            <ChildContent>
-                <span class="demo-figure">@Text["SurfPipelinesFigure"]</span>
-                <p>@Text["SurfPipelinesText"]</p>
-            </ChildContent>
-        </OmniCard>
-        <OmniCard>
-            <HeaderContent>
-                <span class="demo-card-head">
-                    <span class="omni-disc"><OmniIcon Name="OmniIconName.ShieldCheck" /></span>
-                    <OmniHeading Level="OmniHeadingLevel.H4">@Text["SurfCoverage"]</OmniHeading>
-                </span>
-            </HeaderContent>
-            <ChildContent>
-                <span class="demo-figure">@Text["SurfCoverageFigure"]</span>
-                <OmniProgressBar Value="87" Label="@Text["SurfCoverage"]" />
-            </ChildContent>
-        </OmniCard>
-    </div>
+    <DiscCardsExample />
 
     @* Le menu de compte s'ouvre sur le calque des surfaces flottantes : fond acrylique, filet et ombre
        profonde du thème. *@

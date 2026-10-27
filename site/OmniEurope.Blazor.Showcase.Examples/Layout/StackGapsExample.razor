@@ -1,0 +1,14 @@
+@* The spacing scale: the same three blocks in a row, once per value of OmniSpacing. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    @foreach (var gap in Gaps)
+    {
+        <OmniStack Gap="OmniSpacing.XSmall">
+            <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@gap</OmniText>
+            <OmniStack Orientation="OmniOrientation.Horizontal" Gap="gap">
+                <LayoutBlock Label="1" />
+                <LayoutBlock Label="2" />
+                <LayoutBlock Label="3" />
+            </OmniStack>
+        </OmniStack>
+    }
+</OmniStack>

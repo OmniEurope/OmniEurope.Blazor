@@ -1,0 +1,22 @@
+@* Dividers: a thin rule between blocks, spaced by the gap of the stack that carries it (OmniDivider has
+   no margin of its own). Horizontal in a vertical stack, vertical in a row. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniCard>
+        <OmniStack Gap="OmniSpacing.Medium">
+            <OmniText>Project</OmniText>
+            <OmniDivider />
+            <OmniText>Architecture</OmniText>
+            <OmniDivider />
+            <OmniText>Pipelines</OmniText>
+            <OmniDivider />
+            <OmniText>To do before creating</OmniText>
+        </OmniStack>
+    </OmniCard>
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Stretch">
+        <OmniBadge Tone="OmniTone.Neutral">Draft</OmniBadge>
+        <OmniDivider Orientation="OmniOrientation.Vertical" />
+        <OmniBadge Tone="OmniTone.Info">In review</OmniBadge>
+        <OmniDivider Orientation="OmniOrientation.Vertical" />
+        <OmniBadge Tone="OmniTone.Success">Published</OmniBadge>
+    </OmniStack>
+</OmniStack>

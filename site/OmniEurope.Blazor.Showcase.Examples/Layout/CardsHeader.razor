@@ -1,0 +1,12 @@
+@* The content of the header area of the preview card, according to the kind chosen. *@
+@if (Kind == CardHeaderKind.TitleAndBadge)
+{
+    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Justify="OmniJustification.Between">
+        <OmniHeading Level="OmniHeadingLevel.H4">@CardSample.Title</OmniHeading>
+        <OmniBadge Tone="OmniTone.Warning">@CardSample.Badge</OmniBadge>
+    </OmniStack>
+}
+else if (Kind == CardHeaderKind.Title)
+{
+    <OmniHeading Level="OmniHeadingLevel.H4">@CardSample.Title</OmniHeading>
+}

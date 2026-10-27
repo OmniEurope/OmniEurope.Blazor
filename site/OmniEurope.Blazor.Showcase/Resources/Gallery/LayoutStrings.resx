@@ -4,4 +4,183 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="StacksTitle" xml:space="preserve"><value>Stacks</value></data>
+  <data name="StacksDescription" xml:space="preserve"><value>A stack lines its items up in one direction, with a gap from the spacing scale, a cross-axis alignment, a distribution along the axis, and a behaviour once a row runs out of room. It has no wrap parameter: a row that must wrap is an OmniRow.</value></data>
+  <data name="StacksSettingsTitle" xml:space="preserve"><value>Stack</value></data>
+  <data name="StacksSettingsDescription" xml:space="preserve"><value>These settings drive the preview stack.</value></data>
+  <data name="StacksOrientation" xml:space="preserve"><value>Orientation</value></data>
+  <data name="StacksOrientationDescription" xml:space="preserve"><value>Orientation parameter: a column by default.</value></data>
+  <data name="StacksOrientationHorizontal" xml:space="preserve"><value>Horizontal</value></data>
+  <data name="StacksOrientationVertical" xml:space="preserve"><value>Vertical</value></data>
+  <data name="StacksGap" xml:space="preserve"><value>Gap</value></data>
+  <data name="StacksGapDescription" xml:space="preserve"><value>Gap parameter: the space between two items.</value></data>
+  <data name="StacksGapNone" xml:space="preserve"><value>None</value></data>
+  <data name="StacksGapXSmall" xml:space="preserve"><value>Extra small</value></data>
+  <data name="StacksGapSmall" xml:space="preserve"><value>Small</value></data>
+  <data name="StacksGapMedium" xml:space="preserve"><value>Medium</value></data>
+  <data name="StacksGapLarge" xml:space="preserve"><value>Large</value></data>
+  <data name="StacksGapExtraLarge" xml:space="preserve"><value>Extra large</value></data>
+  <data name="StacksAlign" xml:space="preserve"><value>Alignment</value></data>
+  <data name="StacksAlignDescription" xml:space="preserve"><value>Align parameter: position across the axis.</value></data>
+  <data name="StacksAlignStart" xml:space="preserve"><value>Start</value></data>
+  <data name="StacksAlignCenter" xml:space="preserve"><value>Center</value></data>
+  <data name="StacksAlignEnd" xml:space="preserve"><value>End</value></data>
+  <data name="StacksAlignStretch" xml:space="preserve"><value>Stretch</value></data>
+  <data name="StacksJustify" xml:space="preserve"><value>Distribution</value></data>
+  <data name="StacksJustifyDescription" xml:space="preserve"><value>Justify parameter: position along the axis.</value></data>
+  <data name="StacksJustifyStart" xml:space="preserve"><value>Start</value></data>
+  <data name="StacksJustifyCenter" xml:space="preserve"><value>Center</value></data>
+  <data name="StacksJustifyEnd" xml:space="preserve"><value>End</value></data>
+  <data name="StacksJustifyBetween" xml:space="preserve"><value>Space between</value></data>
+  <data name="StacksOverflow" xml:space="preserve"><value>Overflow</value></data>
+  <data name="StacksOverflowDescription" xml:space="preserve"><value>Overflow parameter, horizontal only: scroll keeps every item at full size, collapse keeps only the icons.</value></data>
+  <data name="StacksOverflowNone" xml:space="preserve"><value>None</value></data>
+  <data name="StacksOverflowScroll" xml:space="preserve"><value>Scroll</value></data>
+  <data name="StacksOverflowCollapse" xml:space="preserve"><value>Collapse</value></data>
+  <data name="StacksItemCount" xml:space="preserve"><value>Number of items</value></data>
+  <data name="StacksItemCountDescription" xml:space="preserve"><value>Enough items to fill the row and trigger the overflow.</value></data>
+  <data name="StacksNarrow" xml:space="preserve"><value>Narrow frame</value></data>
+  <data name="StacksNarrowDescription" xml:space="preserve"><value>Squeezes the preview frame to test the overflow.</value></data>
+  <data name="StacksPreviewTitle" xml:space="preserve"><value>Preview</value></data>
+  <data name="StacksPreviewHint" xml:space="preserve"><value>Buttons of three sizes, in a frame taller than they are: alignment and vertical distribution show there.</value></data>
+  <data name="StacksGapsTitle" xml:space="preserve"><value>The spacing scale</value></data>
+  <data name="StacksAlignsTitle" xml:space="preserve"><value>The four alignments</value></data>
+  <data name="StacksAlignsDescription" xml:space="preserve"><value>The middle block is taller than its neighbours.</value></data>
+  <data name="StacksJustifiesTitle" xml:space="preserve"><value>The four distributions</value></data>
+  <data name="StacksOrientationsTitle" xml:space="preserve"><value>The two orientations</value></data>
+  <data name="StacksOverflowsTitle" xml:space="preserve"><value>The three overflow behaviours</value></data>
+  <data name="StacksOverflowsDescription" xml:space="preserve"><value>Five buttons in a frame too narrow for them.</value></data>
+  <data name="StacksDividersTitle" xml:space="preserve"><value>Dividers</value></data>
+  <data name="StacksDividersDescription" xml:space="preserve"><value>A thin rule between blocks, spaced by the gap of the stack that carries it: horizontal in a column, vertical in a row.</value></data>
+  <data name="RowsColumnsTitle" xml:space="preserve"><value>Rows and columns</value></data>
+  <data name="RowsColumnsDescription" xml:space="preserve"><value>A row of twelve units and the columns that share it: a span per column, optional spans per breakpoint, and the gap, alignment, distribution and wrapping of the row.</value></data>
+  <data name="RowsColumnsRowSettingsTitle" xml:space="preserve"><value>Row</value></data>
+  <data name="RowsColumnsRowSettingsDescription" xml:space="preserve"><value>OmniRow parameters, applied to the preview row.</value></data>
+  <data name="RowsColumnsGap" xml:space="preserve"><value>Gap</value></data>
+  <data name="RowsColumnsGapDescription" xml:space="preserve"><value>Gap parameter: the columns deduct it from their width.</value></data>
+  <data name="RowsColumnsGapNone" xml:space="preserve"><value>None</value></data>
+  <data name="RowsColumnsGapXSmall" xml:space="preserve"><value>Extra small</value></data>
+  <data name="RowsColumnsGapSmall" xml:space="preserve"><value>Small</value></data>
+  <data name="RowsColumnsGapMedium" xml:space="preserve"><value>Medium</value></data>
+  <data name="RowsColumnsGapLarge" xml:space="preserve"><value>Large</value></data>
+  <data name="RowsColumnsGapExtraLarge" xml:space="preserve"><value>Extra large</value></data>
+  <data name="RowsColumnsAlign" xml:space="preserve"><value>Alignment</value></data>
+  <data name="RowsColumnsAlignDescription" xml:space="preserve"><value>Align parameter: the vertical position of columns of different heights.</value></data>
+  <data name="RowsColumnsAlignStart" xml:space="preserve"><value>Top</value></data>
+  <data name="RowsColumnsAlignCenter" xml:space="preserve"><value>Center</value></data>
+  <data name="RowsColumnsAlignEnd" xml:space="preserve"><value>Bottom</value></data>
+  <data name="RowsColumnsAlignStretch" xml:space="preserve"><value>Stretch</value></data>
+  <data name="RowsColumnsJustify" xml:space="preserve"><value>Distribution</value></data>
+  <data name="RowsColumnsJustifyDescription" xml:space="preserve"><value>Justify parameter: where columns that do not fill the twelve units go.</value></data>
+  <data name="RowsColumnsJustifyStart" xml:space="preserve"><value>Start</value></data>
+  <data name="RowsColumnsJustifyCenter" xml:space="preserve"><value>Center</value></data>
+  <data name="RowsColumnsJustifyEnd" xml:space="preserve"><value>End</value></data>
+  <data name="RowsColumnsJustifyBetween" xml:space="preserve"><value>Space between</value></data>
+  <data name="RowsColumnsWrap" xml:space="preserve"><value>Wrap</value></data>
+  <data name="RowsColumnsWrapDescription" xml:space="preserve"><value>Wrap parameter, on by default: beyond twelve units, the columns go to the next line.</value></data>
+  <data name="RowsColumnsColumnSettingsTitle" xml:space="preserve"><value>Columns</value></data>
+  <data name="RowsColumnsColumnSettingsDescription" xml:space="preserve"><value>OmniColumn parameters, shared by every column of the preview.</value></data>
+  <data name="RowsColumnsColumnCount" xml:space="preserve"><value>Number of columns</value></data>
+  <data name="RowsColumnsSpan" xml:space="preserve"><value>Span</value></data>
+  <data name="RowsColumnsSpanDescription" xml:space="preserve"><value>Span parameter, from 1 to 12, 12 by default: the width at every screen size.</value></data>
+  <data name="RowsColumnsResponsive" xml:space="preserve"><value>Per breakpoint</value></data>
+  <data name="RowsColumnsResponsiveDescription" xml:space="preserve"><value>Adds SmallSpan, MediumSpan and LargeSpan, each of which overrides Span from its breakpoint up.</value></data>
+  <data name="RowsColumnsSmallSpan" xml:space="preserve"><value>Small screens</value></data>
+  <data name="RowsColumnsSmallSpanDescription" xml:space="preserve"><value>SmallSpan parameter, from 40rem (640 px) wide.</value></data>
+  <data name="RowsColumnsMediumSpan" xml:space="preserve"><value>Medium screens</value></data>
+  <data name="RowsColumnsMediumSpanDescription" xml:space="preserve"><value>MediumSpan parameter, from 64rem (1024 px) wide.</value></data>
+  <data name="RowsColumnsLargeSpan" xml:space="preserve"><value>Large screens</value></data>
+  <data name="RowsColumnsLargeSpanDescription" xml:space="preserve"><value>LargeSpan parameter, from 80rem (1280 px) wide.</value></data>
+  <data name="RowsColumnsPreviewTitle" xml:space="preserve"><value>Preview</value></data>
+  <data name="RowsColumnsPreviewHint" xml:space="preserve"><value>One column in two is taller, so the alignment of the row shows.</value></data>
+  <data name="RowsColumnsSplitsTitle" xml:space="preserve"><value>Common splits</value></data>
+  <data name="RowsColumnsSplitsDescription" xml:space="preserve"><value>Each figure is the Span of a column, out of twelve.</value></data>
+  <data name="RowsColumnsJustifiesTitle" xml:space="preserve"><value>The four distributions</value></data>
+  <data name="RowsColumnsAlignsTitle" xml:space="preserve"><value>The four alignments</value></data>
+  <data name="RowsColumnsAlignsDescription" xml:space="preserve"><value>The middle column is taller than its neighbours.</value></data>
+  <data name="RowsColumnsWrapsTitle" xml:space="preserve"><value>Wrapping</value></data>
+  <data name="RowsColumnsWrapsDescription" xml:space="preserve"><value>Three columns of 6, that is eighteen units in a row of twelve.</value></data>
+  <data name="RowsColumnsResponsiveTitle" xml:space="preserve"><value>Per breakpoint</value></data>
+  <data name="RowsColumnsResponsiveExample" xml:space="preserve"><value>Span 12, SmallSpan 6, MediumSpan 4, LargeSpan 3: one, two, three then four per line as the window widens.</value></data>
+  <data name="RowsColumnsGapsTitle" xml:space="preserve"><value>Gaps of a row</value></data>
+  <data name="RowsColumnsGapsDescription" xml:space="preserve"><value>The spacing scale on an OmniRow, from the tightest to the widest.</value></data>
+  <data name="CardsTitle" xml:space="preserve"><value>Cards</value></data>
+  <data name="CardsDescription" xml:space="preserve"><value>A card frames related content in three areas: an optional header, the body and an optional footer. An area that is left out is not drawn at all. A card takes a density of its own and has no variant; an action goes in the footer, as a button.</value></data>
+  <data name="CardsSettingsTitle" xml:space="preserve"><value>Card</value></data>
+  <data name="CardsSettingsDescription" xml:space="preserve"><value>These settings drive the preview card.</value></data>
+  <data name="CardsHeader" xml:space="preserve"><value>Header</value></data>
+  <data name="CardsHeaderDescription" xml:space="preserve"><value>Header parameter: left out, the card has no header area at all.</value></data>
+  <data name="CardsHeaderNone" xml:space="preserve"><value>None</value></data>
+  <data name="CardsHeaderTitle" xml:space="preserve"><value>Title</value></data>
+  <data name="CardsHeaderTitleAndBadge" xml:space="preserve"><value>Title and badge</value></data>
+  <data name="CardsFooter" xml:space="preserve"><value>Footer</value></data>
+  <data name="CardsFooterDescription" xml:space="preserve"><value>Footer parameter: left out, the card has no footer area at all.</value></data>
+  <data name="CardsFooterNone" xml:space="preserve"><value>None</value></data>
+  <data name="CardsFooterText" xml:space="preserve"><value>Text</value></data>
+  <data name="CardsFooterActions" xml:space="preserve"><value>Actions</value></data>
+  <data name="CardsLongBody" xml:space="preserve"><value>Long body</value></data>
+  <data name="CardsLongBodyDescription" xml:space="preserve"><value>ChildContent: a few more paragraphs.</value></data>
+  <data name="CardsPreviewTitle" xml:space="preserve"><value>Preview</value></data>
+  <data name="CardsGalleryTitle" xml:space="preserve"><value>Arrangements</value></data>
+  <data name="CardsDiscTitle" xml:space="preserve"><value>Cards with an icon disc</value></data>
+  <data name="CardsDiscDescription" xml:space="preserve"><value>An icon disc and a title in the header, a figure in the body: the surfaces of the mockup, which read the shape of the theme (fill, stroke, radius and shadow).</value></data>
+  <data name="CardsDensitiesTitle" xml:space="preserve"><value>Density of a card</value></data>
+  <data name="CardsDensitiesDescription" xml:space="preserve"><value>Each card carries its own density, which wins over the page's for everything it holds. The height of the controls, the margins, the check boxes and the switches follow it; a disabled field and a read-only field stay distinct in the three.</value></data>
+  <data name="CardsOwnDensityTitle" xml:space="preserve"><value>Density of a single component</value></data>
+  <data name="CardsOwnDensityDescription" xml:space="preserve"><value>In a comfortable page, an alert, a tab strip and a settings tile each carry a density of their own.</value></data>
+  <data name="FieldsetsTitle" xml:space="preserve"><value>Field groups</value></data>
+  <data name="FieldsetsDescription" xml:space="preserve"><value>A group of fields under a legend: it can be disabled in one go, and fold away as a native disclosure, without script.</value></data>
+  <data name="FieldsetsSettingsTitle" xml:space="preserve"><value>Group of fields</value></data>
+  <data name="FieldsetsSettingsDescription" xml:space="preserve"><value>These settings drive the preview group.</value></data>
+  <data name="FieldsetsLegend" xml:space="preserve"><value>Legend</value></data>
+  <data name="FieldsetsLegendDescription" xml:space="preserve"><value>Legend parameter: any content, usually a short title.</value></data>
+  <data name="FieldsetsLegendDefault" xml:space="preserve"><value>Contact details</value></data>
+  <data name="FieldsetsDisabled" xml:space="preserve"><value>Disabled</value></data>
+  <data name="FieldsetsDisabledDescription" xml:space="preserve"><value>Disabled parameter: the browser disables every field of the group.</value></data>
+  <data name="FieldsetsCollapsible" xml:space="preserve"><value>Collapsible</value></data>
+  <data name="FieldsetsCollapsibleDescription" xml:space="preserve"><value>Collapsible parameter: the legend becomes the handle of a disclosure.</value></data>
+  <data name="FieldsetsCollapsed" xml:space="preserve"><value>Collapsed at first</value></data>
+  <data name="FieldsetsCollapsedDescription" xml:space="preserve"><value>Collapsed parameter, for a collapsible group: read at the first render only, the browser handles it afterwards. The preview is rebuilt on each change.</value></data>
+  <data name="FieldsetsPreviewTitle" xml:space="preserve"><value>Preview</value></data>
+  <data name="FieldsetsGalleryTitle" xml:space="preserve"><value>Variants</value></data>
+  <data name="FieldsetsBoundTitle" xml:space="preserve"><value>A group whose state is bound</value></data>
+  <data name="FieldsetsBoundDescription" xml:space="preserve"><value>ExpandedChanged reports what the reader does with a collapsible group, so the page can show and remember it. Without it the group loads no script.</value></data>
+  <data name="SettingsSectionsTitle" xml:space="preserve"><value>Settings sections</value></data>
+  <data name="SettingsSectionsDescription" xml:space="preserve"><value>A settings section is a card with a title and a line of explanation; each setting sits in its own tile, with an optional icon, a name, a description, a control beside it and content under it.</value></data>
+  <data name="SettingsSectionsSettingsTitle" xml:space="preserve"><value>Section and tiles</value></data>
+  <data name="SettingsSectionsSettingsDescription" xml:space="preserve"><value>These settings shape the preview section, itself built with the same two components.</value></data>
+  <data name="SettingsSectionsSectionDescription" xml:space="preserve"><value>Section description</value></data>
+  <data name="SettingsSectionsSectionDescriptionHint" xml:space="preserve"><value>Description parameter of OmniSettingsSection.</value></data>
+  <data name="SettingsSectionsTileIcons" xml:space="preserve"><value>Tile icons</value></data>
+  <data name="SettingsSectionsTileIconsHint" xml:space="preserve"><value>Icon parameter of OmniSettingsTile, decorative.</value></data>
+  <data name="SettingsSectionsTileDescriptions" xml:space="preserve"><value>Tile descriptions</value></data>
+  <data name="SettingsSectionsTileDescriptionsHint" xml:space="preserve"><value>Description parameter of OmniSettingsTile, under the name.</value></data>
+  <data name="SettingsSectionsContent" xml:space="preserve"><value>Tile content</value></data>
+  <data name="SettingsSectionsContentHint" xml:space="preserve"><value>ChildContent sits beside the name, Details goes under the row.</value></data>
+  <data name="SettingsSectionsContentControl" xml:space="preserve"><value>Beside (ChildContent)</value></data>
+  <data name="SettingsSectionsContentDetails" xml:space="preserve"><value>Under (Details)</value></data>
+  <data name="SettingsSectionsContentBoth" xml:space="preserve"><value>Both</value></data>
+  <data name="SettingsSectionsContentNone" xml:space="preserve"><value>Name only</value></data>
+  <data name="SettingsSectionsPreviewTitle" xml:space="preserve"><value>Preview</value></data>
+  <data name="SettingsSectionsGalleryTitle" xml:space="preserve"><value>A section as found in an application</value></data>
+  <data name="SettingsSectionsGalleryDescription" xml:space="preserve"><value>A section without description, a tile without icon, and a tile with its actions under the row.</value></data>
+  <data name="SettingsSectionsClickHint" xml:space="preserve"><value>A tile holding a switch or a check box toggles on a click anywhere on it: its name labels the control. Clicking the control itself toggles it once.</value></data>
+  <data name="AccordionTitle" xml:space="preserve"><value>Accordion</value></data>
+  <data name="AccordionDescription" xml:space="preserve"><value>Rows whose body unfolds under the header, one at a time or several together. One toggle button per row, usable with the mouse or the keyboard, with the arrows, Home and End between the headers. A free header holds a label, a "?" help, a value and a badge, with no control nested in the button.</value></data>
+  <data name="AccordionSettingsTitle" xml:space="preserve"><value>Accordion</value></data>
+  <data name="AccordionSettingsDescription" xml:space="preserve"><value>These settings drive the first accordion of the preview.</value></data>
+  <data name="AccordionMultiple" xml:space="preserve"><value>Several rows open</value></data>
+  <data name="AccordionMultipleDescription" xml:space="preserve"><value>Multiple parameter: opening a row no longer closes its neighbour.</value></data>
+  <data name="AccordionKeepContent" xml:space="preserve"><value>Keep the body</value></data>
+  <data name="AccordionKeepContentDescription" xml:space="preserve"><value>KeepContent parameter: the body of a row stays rendered once it has been opened.</value></data>
+  <data name="AccordionLevel" xml:space="preserve"><value>Heading level</value></data>
+  <data name="AccordionLevelDescription" xml:space="preserve"><value>Level parameter: the heading that wraps the toggle button of each row.</value></data>
+  <data name="AccordionHelp" xml:space="preserve"><value>Help marks</value></data>
+  <data name="AccordionHelpDescription" xml:space="preserve"><value>Help parameter of a row: a "?" beside the toggle button, never inside it.</value></data>
+  <data name="AccordionFirstOpen" xml:space="preserve"><value>First row open</value></data>
+  <data name="AccordionFirstOpenDescription" xml:space="preserve"><value>Expanded parameter of the first row. The accordion is rebuilt on each change.</value></data>
+  <data name="AccordionPreviewTitle" xml:space="preserve"><value>Quality gates</value></data>
+  <data name="AccordionPreviewHint" xml:space="preserve"><value>Arrows, Home and End move between the headers; Enter and Space open a row.</value></data>
+  <data name="AccordionAdvancedTitle" xml:space="preserve"><value>Free headers and own controls</value></data>
+  <data name="AccordionAdvancedDescription" xml:space="preserve"><value>Several rows open together, the body kept, a chosen heading level and a compact density. A control of its own sits beside the toggle button and does not toggle the row.</value></data>
 </root>

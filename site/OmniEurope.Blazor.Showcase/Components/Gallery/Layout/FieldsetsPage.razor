@@ -1,0 +1,57 @@
+@page "/components/fieldsets"
+@using OmniEurope.Blazor.Showcase.Examples.Layout
+
+<GalleryPageFrame Slug="fieldsets">
+    <Settings>
+        <OmniSettingsSection Title="@Text["FieldsetsSettingsTitle"]" Description="@Text["FieldsetsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["FieldsetsLegend"]" Description="@Text["FieldsetsLegendDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Edit" /></Icon>
+                <ChildContent>
+                    <OmniTextBox @bind-Value="LegendText" aria-label="@Text["FieldsetsLegend"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["FieldsetsDisabled"]" Description="@Text["FieldsetsDisabledDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Disabled" aria-label="@Text["FieldsetsDisabled"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["FieldsetsCollapsible"]" Description="@Text["FieldsetsCollapsibleDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.ChevronDown" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Collapsible" aria-label="@Text["FieldsetsCollapsible"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["FieldsetsCollapsed"]" Description="@Text["FieldsetsCollapsedDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.ChevronUp" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Collapsed" Disabled="@(!Collapsible)" aria-label="@Text["FieldsetsCollapsed"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["FieldsetsPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <FieldsetsExample LegendText="@LegendText" Disabled="Disabled" Collapsible="Collapsible" Collapsed="Collapsed" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["FieldsetsGalleryTitle"]</HeaderContent>
+            <ChildContent>
+                <FieldsetsGalleryExample />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["FieldsetsBoundTitle"]</HeaderContent>
+            <ChildContent>
+                <FieldsetBoundExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["FieldsetsBoundDescription"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

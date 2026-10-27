@@ -1,0 +1,97 @@
+@* Six arrangements of a card: the body alone, with a header, with a footer, with both and actions, with
+   an image, and nested. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniRow Gap="OmniSpacing.Medium">
+        <OmniColumn Span="12" MediumSpan="6" LargeSpan="4">
+            <OmniStack Gap="OmniSpacing.XSmall">
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">Body only</OmniText>
+                <OmniCard>
+                    <OmniText Element="OmniTextElement.Paragraph">A card may have nothing but its body.</OmniText>
+                </OmniCard>
+            </OmniStack>
+        </OmniColumn>
+
+        <OmniColumn Span="12" MediumSpan="6" LargeSpan="4">
+            <OmniStack Gap="OmniSpacing.XSmall">
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">Header and body</OmniText>
+                <OmniCard>
+                    <HeaderContent><OmniHeading Level="OmniHeadingLevel.H4">@CardSample.Title</OmniHeading></HeaderContent>
+                    <ChildContent>
+                        <OmniText Element="OmniTextElement.Paragraph">@CardSample.Text</OmniText>
+                    </ChildContent>
+                </OmniCard>
+            </OmniStack>
+        </OmniColumn>
+
+        <OmniColumn Span="12" MediumSpan="6" LargeSpan="4">
+            <OmniStack Gap="OmniSpacing.XSmall">
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">Body and footer</OmniText>
+                <OmniCard>
+                    <ChildContent>
+                        <OmniText Element="OmniTextElement.Paragraph">@CardSample.Text</OmniText>
+                    </ChildContent>
+                    <FooterContent>
+                        <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@CardSample.FooterText</OmniText>
+                    </FooterContent>
+                </OmniCard>
+            </OmniStack>
+        </OmniColumn>
+
+        <OmniColumn Span="12" MediumSpan="6" LargeSpan="4">
+            <OmniStack Gap="OmniSpacing.XSmall">
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">Header, body and footer with actions</OmniText>
+                <OmniCard>
+                    <HeaderContent>
+                        <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Justify="OmniJustification.Between">
+                            <OmniHeading Level="OmniHeadingLevel.H4">@CardSample.Title</OmniHeading>
+                            <OmniBadge Tone="OmniTone.Warning">@CardSample.Badge</OmniBadge>
+                        </OmniStack>
+                    </HeaderContent>
+                    <ChildContent>
+                        <OmniText Element="OmniTextElement.Paragraph">@CardSample.Text</OmniText>
+                    </ChildContent>
+                    <FooterContent>
+                        <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Justify="OmniJustification.End" Wrap="true">
+                            <OmniButton Variant="OmniButtonVariant.Primary" Size="OmniControlSize.Small" OnClick="@(() => Last = "Save")">
+                                <OmniIcon Name="OmniIconName.Save" />
+                                <span>Save</span>
+                            </OmniButton>
+                            <OmniButton Variant="OmniButtonVariant.Danger" Size="OmniControlSize.Small" OnClick="@(() => Last = "Delete")">
+                                <OmniIcon Name="OmniIconName.Delete" />
+                                <span>Delete</span>
+                            </OmniButton>
+                        </OmniStack>
+                    </FooterContent>
+                </OmniCard>
+            </OmniStack>
+        </OmniColumn>
+
+        <OmniColumn Span="12" MediumSpan="6" LargeSpan="4">
+            <OmniStack Gap="OmniSpacing.XSmall">
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">With an image</OmniText>
+                <OmniCard>
+                    <HeaderContent><OmniHeading Level="OmniHeadingLevel.H4">Card of the week</OmniHeading></HeaderContent>
+                    <ChildContent>
+                        <OmniImage Source="@CardSample.LandscapeImage" Alt="Mountains by a lake at sunset" Width="240" Height="160" />
+                        <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">An OmniImage in the body, under the header.</OmniText>
+                    </ChildContent>
+                </OmniCard>
+            </OmniStack>
+        </OmniColumn>
+
+        <OmniColumn Span="12" MediumSpan="6" LargeSpan="4">
+            <OmniStack Gap="OmniSpacing.XSmall">
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">Nested</OmniText>
+                <OmniCard>
+                    <HeaderContent><OmniHeading Level="OmniHeadingLevel.H4">Outer card</OmniHeading></HeaderContent>
+                    <ChildContent>
+                        <OmniCard>
+                            <OmniText Element="OmniTextElement.Paragraph">A card inside the body of another one.</OmniText>
+                        </OmniCard>
+                    </ChildContent>
+                </OmniCard>
+            </OmniStack>
+        </OmniColumn>
+    </OmniRow>
+    <OmniText Tone="OmniTextTone.Muted">Last action: <strong>@(Last ?? "none")</strong></OmniText>
+</OmniStack>

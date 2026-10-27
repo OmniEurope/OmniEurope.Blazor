@@ -1,0 +1,17 @@
+@* The common splits of a row of twelve: each figure is the Span of a column. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    @foreach (var split in Splits)
+    {
+        <OmniStack Gap="OmniSpacing.XSmall">
+            <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@string.Join(" + ", split)</OmniText>
+            <OmniRow Gap="OmniSpacing.Small">
+                @foreach (var width in split)
+                {
+                    <OmniColumn Span="width">
+                        <LayoutBlock Label="@width.ToString()" />
+                    </OmniColumn>
+                }
+            </OmniRow>
+        </OmniStack>
+    }
+</OmniStack>

@@ -4,4 +4,183 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="StacksTitle" xml:space="preserve"><value>Piles</value></data>
+  <data name="StacksDescription" xml:space="preserve"><value>Une pile aligne ses éléments dans une direction, avec un écart pris dans l'échelle d'espacement, un alignement transversal, une répartition le long de l'axe, et un comportement quand une rangée manque de place. Elle n'a pas de paramètre de retour à la ligne : une rangée qui doit passer à la ligne est une OmniRow.</value></data>
+  <data name="StacksSettingsTitle" xml:space="preserve"><value>Pile</value></data>
+  <data name="StacksSettingsDescription" xml:space="preserve"><value>Ces réglages pilotent la pile de l'aperçu.</value></data>
+  <data name="StacksOrientation" xml:space="preserve"><value>Orientation</value></data>
+  <data name="StacksOrientationDescription" xml:space="preserve"><value>Paramètre Orientation : une colonne par défaut.</value></data>
+  <data name="StacksOrientationHorizontal" xml:space="preserve"><value>Horizontale</value></data>
+  <data name="StacksOrientationVertical" xml:space="preserve"><value>Verticale</value></data>
+  <data name="StacksGap" xml:space="preserve"><value>Écart</value></data>
+  <data name="StacksGapDescription" xml:space="preserve"><value>Paramètre Gap : l'espace entre deux éléments.</value></data>
+  <data name="StacksGapNone" xml:space="preserve"><value>Aucun</value></data>
+  <data name="StacksGapXSmall" xml:space="preserve"><value>Très petit</value></data>
+  <data name="StacksGapSmall" xml:space="preserve"><value>Petit</value></data>
+  <data name="StacksGapMedium" xml:space="preserve"><value>Moyen</value></data>
+  <data name="StacksGapLarge" xml:space="preserve"><value>Grand</value></data>
+  <data name="StacksGapExtraLarge" xml:space="preserve"><value>Très grand</value></data>
+  <data name="StacksAlign" xml:space="preserve"><value>Alignement</value></data>
+  <data name="StacksAlignDescription" xml:space="preserve"><value>Paramètre Align : la position en travers de l'axe.</value></data>
+  <data name="StacksAlignStart" xml:space="preserve"><value>Début</value></data>
+  <data name="StacksAlignCenter" xml:space="preserve"><value>Centre</value></data>
+  <data name="StacksAlignEnd" xml:space="preserve"><value>Fin</value></data>
+  <data name="StacksAlignStretch" xml:space="preserve"><value>Étiré</value></data>
+  <data name="StacksJustify" xml:space="preserve"><value>Répartition</value></data>
+  <data name="StacksJustifyDescription" xml:space="preserve"><value>Paramètre Justify : la position le long de l'axe.</value></data>
+  <data name="StacksJustifyStart" xml:space="preserve"><value>Début</value></data>
+  <data name="StacksJustifyCenter" xml:space="preserve"><value>Centre</value></data>
+  <data name="StacksJustifyEnd" xml:space="preserve"><value>Fin</value></data>
+  <data name="StacksJustifyBetween" xml:space="preserve"><value>Espacé</value></data>
+  <data name="StacksOverflow" xml:space="preserve"><value>Débordement</value></data>
+  <data name="StacksOverflowDescription" xml:space="preserve"><value>Paramètre Overflow, en horizontal seulement : le défilement garde chaque élément à sa taille, le repli ne garde que les icônes.</value></data>
+  <data name="StacksOverflowNone" xml:space="preserve"><value>Aucun</value></data>
+  <data name="StacksOverflowScroll" xml:space="preserve"><value>Défiler</value></data>
+  <data name="StacksOverflowCollapse" xml:space="preserve"><value>Replier</value></data>
+  <data name="StacksItemCount" xml:space="preserve"><value>Nombre d'éléments</value></data>
+  <data name="StacksItemCountDescription" xml:space="preserve"><value>De quoi remplir la rangée et déclencher le débordement.</value></data>
+  <data name="StacksNarrow" xml:space="preserve"><value>Cadre étroit</value></data>
+  <data name="StacksNarrowDescription" xml:space="preserve"><value>Resserre le cadre de l'aperçu pour éprouver le débordement.</value></data>
+  <data name="StacksPreviewTitle" xml:space="preserve"><value>Aperçu</value></data>
+  <data name="StacksPreviewHint" xml:space="preserve"><value>Des boutons de trois tailles, dans un cadre plus haut qu'eux : l'alignement et la répartition verticale s'y voient.</value></data>
+  <data name="StacksGapsTitle" xml:space="preserve"><value>L'échelle d'espacement</value></data>
+  <data name="StacksAlignsTitle" xml:space="preserve"><value>Les quatre alignements</value></data>
+  <data name="StacksAlignsDescription" xml:space="preserve"><value>Le bloc du milieu est plus haut que ses voisins.</value></data>
+  <data name="StacksJustifiesTitle" xml:space="preserve"><value>Les quatre répartitions</value></data>
+  <data name="StacksOrientationsTitle" xml:space="preserve"><value>Les deux orientations</value></data>
+  <data name="StacksOverflowsTitle" xml:space="preserve"><value>Les trois comportements de débordement</value></data>
+  <data name="StacksOverflowsDescription" xml:space="preserve"><value>Cinq boutons dans un cadre trop étroit pour eux.</value></data>
+  <data name="StacksDividersTitle" xml:space="preserve"><value>Séparateurs</value></data>
+  <data name="StacksDividersDescription" xml:space="preserve"><value>Un filet fin entre des blocs, espacé par l'écart de la pile qui le porte : horizontal dans une colonne, vertical dans une rangée.</value></data>
+  <data name="RowsColumnsTitle" xml:space="preserve"><value>Rangées et colonnes</value></data>
+  <data name="RowsColumnsDescription" xml:space="preserve"><value>Une rangée de douze unités et les colonnes qui se la partagent : une largeur par colonne, des largeurs par palier d'écran en option, et l'écart, l'alignement, la répartition et le retour à la ligne de la rangée.</value></data>
+  <data name="RowsColumnsRowSettingsTitle" xml:space="preserve"><value>Rangée</value></data>
+  <data name="RowsColumnsRowSettingsDescription" xml:space="preserve"><value>Paramètres d'OmniRow, appliqués à la rangée de l'aperçu.</value></data>
+  <data name="RowsColumnsGap" xml:space="preserve"><value>Écart</value></data>
+  <data name="RowsColumnsGapDescription" xml:space="preserve"><value>Paramètre Gap : les colonnes le retranchent de leur largeur.</value></data>
+  <data name="RowsColumnsGapNone" xml:space="preserve"><value>Aucun</value></data>
+  <data name="RowsColumnsGapXSmall" xml:space="preserve"><value>Très petit</value></data>
+  <data name="RowsColumnsGapSmall" xml:space="preserve"><value>Petit</value></data>
+  <data name="RowsColumnsGapMedium" xml:space="preserve"><value>Moyen</value></data>
+  <data name="RowsColumnsGapLarge" xml:space="preserve"><value>Grand</value></data>
+  <data name="RowsColumnsGapExtraLarge" xml:space="preserve"><value>Très grand</value></data>
+  <data name="RowsColumnsAlign" xml:space="preserve"><value>Alignement</value></data>
+  <data name="RowsColumnsAlignDescription" xml:space="preserve"><value>Paramètre Align : la position verticale des colonnes de hauteurs différentes.</value></data>
+  <data name="RowsColumnsAlignStart" xml:space="preserve"><value>Haut</value></data>
+  <data name="RowsColumnsAlignCenter" xml:space="preserve"><value>Centre</value></data>
+  <data name="RowsColumnsAlignEnd" xml:space="preserve"><value>Bas</value></data>
+  <data name="RowsColumnsAlignStretch" xml:space="preserve"><value>Étiré</value></data>
+  <data name="RowsColumnsJustify" xml:space="preserve"><value>Répartition</value></data>
+  <data name="RowsColumnsJustifyDescription" xml:space="preserve"><value>Paramètre Justify : où vont des colonnes qui ne remplissent pas les douze unités.</value></data>
+  <data name="RowsColumnsJustifyStart" xml:space="preserve"><value>Début</value></data>
+  <data name="RowsColumnsJustifyCenter" xml:space="preserve"><value>Centre</value></data>
+  <data name="RowsColumnsJustifyEnd" xml:space="preserve"><value>Fin</value></data>
+  <data name="RowsColumnsJustifyBetween" xml:space="preserve"><value>Espacé</value></data>
+  <data name="RowsColumnsWrap" xml:space="preserve"><value>Retour à la ligne</value></data>
+  <data name="RowsColumnsWrapDescription" xml:space="preserve"><value>Paramètre Wrap, actif par défaut : au-delà de douze unités, les colonnes passent à la ligne.</value></data>
+  <data name="RowsColumnsColumnSettingsTitle" xml:space="preserve"><value>Colonnes</value></data>
+  <data name="RowsColumnsColumnSettingsDescription" xml:space="preserve"><value>Paramètres d'OmniColumn, communs à toutes les colonnes de l'aperçu.</value></data>
+  <data name="RowsColumnsColumnCount" xml:space="preserve"><value>Nombre de colonnes</value></data>
+  <data name="RowsColumnsSpan" xml:space="preserve"><value>Largeur</value></data>
+  <data name="RowsColumnsSpanDescription" xml:space="preserve"><value>Paramètre Span, de 1 à 12, 12 par défaut : la largeur à toutes les tailles d'écran.</value></data>
+  <data name="RowsColumnsResponsive" xml:space="preserve"><value>Par palier d'écran</value></data>
+  <data name="RowsColumnsResponsiveDescription" xml:space="preserve"><value>Ajoute SmallSpan, MediumSpan et LargeSpan, qui remplacent chacun Span à partir de leur palier.</value></data>
+  <data name="RowsColumnsSmallSpan" xml:space="preserve"><value>Petits écrans</value></data>
+  <data name="RowsColumnsSmallSpanDescription" xml:space="preserve"><value>Paramètre SmallSpan, à partir de 40rem (640 px) de large.</value></data>
+  <data name="RowsColumnsMediumSpan" xml:space="preserve"><value>Écrans moyens</value></data>
+  <data name="RowsColumnsMediumSpanDescription" xml:space="preserve"><value>Paramètre MediumSpan, à partir de 64rem (1024 px) de large.</value></data>
+  <data name="RowsColumnsLargeSpan" xml:space="preserve"><value>Grands écrans</value></data>
+  <data name="RowsColumnsLargeSpanDescription" xml:space="preserve"><value>Paramètre LargeSpan, à partir de 80rem (1280 px) de large.</value></data>
+  <data name="RowsColumnsPreviewTitle" xml:space="preserve"><value>Aperçu</value></data>
+  <data name="RowsColumnsPreviewHint" xml:space="preserve"><value>Une colonne sur deux est plus haute, pour que l'alignement de la rangée se voie.</value></data>
+  <data name="RowsColumnsSplitsTitle" xml:space="preserve"><value>Découpages courants</value></data>
+  <data name="RowsColumnsSplitsDescription" xml:space="preserve"><value>Chaque chiffre est le Span d'une colonne, sur douze.</value></data>
+  <data name="RowsColumnsJustifiesTitle" xml:space="preserve"><value>Les quatre répartitions</value></data>
+  <data name="RowsColumnsAlignsTitle" xml:space="preserve"><value>Les quatre alignements</value></data>
+  <data name="RowsColumnsAlignsDescription" xml:space="preserve"><value>La colonne du milieu est plus haute que ses voisines.</value></data>
+  <data name="RowsColumnsWrapsTitle" xml:space="preserve"><value>Retour à la ligne</value></data>
+  <data name="RowsColumnsWrapsDescription" xml:space="preserve"><value>Trois colonnes de 6, soit dix-huit unités dans une rangée de douze.</value></data>
+  <data name="RowsColumnsResponsiveTitle" xml:space="preserve"><value>Par palier d'écran</value></data>
+  <data name="RowsColumnsResponsiveExample" xml:space="preserve"><value>Span 12, SmallSpan 6, MediumSpan 4, LargeSpan 3 : une, deux, trois puis quatre par ligne à mesure que la fenêtre s'élargit.</value></data>
+  <data name="RowsColumnsGapsTitle" xml:space="preserve"><value>Écarts d'une rangée</value></data>
+  <data name="RowsColumnsGapsDescription" xml:space="preserve"><value>L'échelle d'espacement sur une OmniRow, du plus serré au plus large.</value></data>
+  <data name="CardsTitle" xml:space="preserve"><value>Cartes</value></data>
+  <data name="CardsDescription" xml:space="preserve"><value>Une carte encadre un contenu d'un seul tenant en trois zones : un en-tête facultatif, le corps et un pied facultatif. Une zone omise n'est pas dessinée du tout. Une carte peut porter sa propre densité et n'a pas de variante ; une action se place dans le pied, sous forme de bouton.</value></data>
+  <data name="CardsSettingsTitle" xml:space="preserve"><value>Carte</value></data>
+  <data name="CardsSettingsDescription" xml:space="preserve"><value>Ces réglages pilotent la carte de l'aperçu.</value></data>
+  <data name="CardsHeader" xml:space="preserve"><value>En-tête</value></data>
+  <data name="CardsHeaderDescription" xml:space="preserve"><value>Paramètre Header : omis, la carte n'a aucune zone d'en-tête.</value></data>
+  <data name="CardsHeaderNone" xml:space="preserve"><value>Aucun</value></data>
+  <data name="CardsHeaderTitle" xml:space="preserve"><value>Titre</value></data>
+  <data name="CardsHeaderTitleAndBadge" xml:space="preserve"><value>Titre et badge</value></data>
+  <data name="CardsFooter" xml:space="preserve"><value>Pied</value></data>
+  <data name="CardsFooterDescription" xml:space="preserve"><value>Paramètre Footer : omis, la carte n'a aucune zone de pied.</value></data>
+  <data name="CardsFooterNone" xml:space="preserve"><value>Aucun</value></data>
+  <data name="CardsFooterText" xml:space="preserve"><value>Texte</value></data>
+  <data name="CardsFooterActions" xml:space="preserve"><value>Actions</value></data>
+  <data name="CardsLongBody" xml:space="preserve"><value>Corps long</value></data>
+  <data name="CardsLongBodyDescription" xml:space="preserve"><value>ChildContent : quelques paragraphes de plus.</value></data>
+  <data name="CardsPreviewTitle" xml:space="preserve"><value>Aperçu</value></data>
+  <data name="CardsGalleryTitle" xml:space="preserve"><value>Agencements</value></data>
+  <data name="CardsDiscTitle" xml:space="preserve"><value>Cartes à disque d'icône</value></data>
+  <data name="CardsDiscDescription" xml:space="preserve"><value>Un disque d'icône et un titre dans l'en-tête, un chiffre dans le corps : les surfaces de la maquette, qui lisent la forme du thème (fond, filet, rayon et ombre).</value></data>
+  <data name="CardsDensitiesTitle" xml:space="preserve"><value>Densité d'une carte</value></data>
+  <data name="CardsDensitiesDescription" xml:space="preserve"><value>Chaque carte porte sa propre densité, qui l'emporte sur celle de la page pour tout ce qu'elle contient. La hauteur des contrôles, les marges, les cases et les interrupteurs la suivent ; un champ désactivé et un champ en lecture seule restent distincts dans les trois.</value></data>
+  <data name="CardsOwnDensityTitle" xml:space="preserve"><value>Densité d'un seul composant</value></data>
+  <data name="CardsOwnDensityDescription" xml:space="preserve"><value>Dans une page confortable, une alerte, des onglets et une tuile de réglages portent chacun leur propre densité.</value></data>
+  <data name="FieldsetsTitle" xml:space="preserve"><value>Groupes de champs</value></data>
+  <data name="FieldsetsDescription" xml:space="preserve"><value>Un groupe de champs sous une légende : il se désactive d'un seul geste, et se replie comme une divulgation native, sans script.</value></data>
+  <data name="FieldsetsSettingsTitle" xml:space="preserve"><value>Groupe de champs</value></data>
+  <data name="FieldsetsSettingsDescription" xml:space="preserve"><value>Ces réglages pilotent le groupe de l'aperçu.</value></data>
+  <data name="FieldsetsLegend" xml:space="preserve"><value>Légende</value></data>
+  <data name="FieldsetsLegendDescription" xml:space="preserve"><value>Paramètre Legend : n'importe quel contenu, le plus souvent un titre court.</value></data>
+  <data name="FieldsetsLegendDefault" xml:space="preserve"><value>Coordonnées</value></data>
+  <data name="FieldsetsDisabled" xml:space="preserve"><value>Désactivé</value></data>
+  <data name="FieldsetsDisabledDescription" xml:space="preserve"><value>Paramètre Disabled : le navigateur désactive tous les champs du groupe.</value></data>
+  <data name="FieldsetsCollapsible" xml:space="preserve"><value>Repliable</value></data>
+  <data name="FieldsetsCollapsibleDescription" xml:space="preserve"><value>Paramètre Collapsible : la légende devient la poignée d'une divulgation.</value></data>
+  <data name="FieldsetsCollapsed" xml:space="preserve"><value>Replié au départ</value></data>
+  <data name="FieldsetsCollapsedDescription" xml:space="preserve"><value>Paramètre Collapsed, pour un groupe repliable : lu au premier rendu seulement, le navigateur s'en charge ensuite. L'aperçu est reconstruit à chaque changement.</value></data>
+  <data name="FieldsetsPreviewTitle" xml:space="preserve"><value>Aperçu</value></data>
+  <data name="FieldsetsGalleryTitle" xml:space="preserve"><value>Variantes</value></data>
+  <data name="FieldsetsBoundTitle" xml:space="preserve"><value>Un groupe dont l'état est lié</value></data>
+  <data name="FieldsetsBoundDescription" xml:space="preserve"><value>ExpandedChanged rapporte ce que fait le lecteur d'un groupe repliable, pour que la page puisse l'afficher et s'en souvenir. Sans lui, le groupe ne charge aucun script.</value></data>
+  <data name="SettingsSectionsTitle" xml:space="preserve"><value>Sections de réglages</value></data>
+  <data name="SettingsSectionsDescription" xml:space="preserve"><value>Une section de réglages est une carte avec un titre et une ligne d'explication ; chaque réglage tient dans sa tuile, avec une icône facultative, un nom, une description, un contrôle à côté et un contenu dessous.</value></data>
+  <data name="SettingsSectionsSettingsTitle" xml:space="preserve"><value>Section et tuiles</value></data>
+  <data name="SettingsSectionsSettingsDescription" xml:space="preserve"><value>Ces réglages façonnent la section de l'aperçu, bâtie elle-même avec les deux mêmes composants.</value></data>
+  <data name="SettingsSectionsSectionDescription" xml:space="preserve"><value>Description de la section</value></data>
+  <data name="SettingsSectionsSectionDescriptionHint" xml:space="preserve"><value>Paramètre Description d'OmniSettingsSection.</value></data>
+  <data name="SettingsSectionsTileIcons" xml:space="preserve"><value>Icônes des tuiles</value></data>
+  <data name="SettingsSectionsTileIconsHint" xml:space="preserve"><value>Paramètre Icon d'OmniSettingsTile, décoratif.</value></data>
+  <data name="SettingsSectionsTileDescriptions" xml:space="preserve"><value>Descriptions des tuiles</value></data>
+  <data name="SettingsSectionsTileDescriptionsHint" xml:space="preserve"><value>Paramètre Description d'OmniSettingsTile, sous le nom.</value></data>
+  <data name="SettingsSectionsContent" xml:space="preserve"><value>Contenu des tuiles</value></data>
+  <data name="SettingsSectionsContentHint" xml:space="preserve"><value>ChildContent se place à côté du nom, Details passe sous la ligne.</value></data>
+  <data name="SettingsSectionsContentControl" xml:space="preserve"><value>À côté (ChildContent)</value></data>
+  <data name="SettingsSectionsContentDetails" xml:space="preserve"><value>Dessous (Details)</value></data>
+  <data name="SettingsSectionsContentBoth" xml:space="preserve"><value>Les deux</value></data>
+  <data name="SettingsSectionsContentNone" xml:space="preserve"><value>Nom seul</value></data>
+  <data name="SettingsSectionsPreviewTitle" xml:space="preserve"><value>Aperçu</value></data>
+  <data name="SettingsSectionsGalleryTitle" xml:space="preserve"><value>Une section telle qu'on la trouve dans une application</value></data>
+  <data name="SettingsSectionsGalleryDescription" xml:space="preserve"><value>Une section sans description, une tuile sans icône, et une tuile avec ses actions sous la ligne.</value></data>
+  <data name="SettingsSectionsClickHint" xml:space="preserve"><value>Une tuile qui porte un interrupteur ou une case bascule d'un clic n'importe où : son nom est le libellé du contrôle. Cliquer le contrôle lui-même ne le bascule qu'une fois.</value></data>
+  <data name="AccordionTitle" xml:space="preserve"><value>Accordéon</value></data>
+  <data name="AccordionDescription" xml:space="preserve"><value>Des lignes dont le corps se déplie sous l'en-tête, une à la fois ou plusieurs ensemble. Un bouton de bascule par ligne, au clavier comme à la souris, avec les flèches, Début et Fin entre les en-têtes. Un en-tête libre porte un libellé, une aide « ? », une valeur et un badge, sans contrôle imbriqué dans le bouton.</value></data>
+  <data name="AccordionSettingsTitle" xml:space="preserve"><value>Accordéon</value></data>
+  <data name="AccordionSettingsDescription" xml:space="preserve"><value>Ces réglages pilotent le premier accordéon de l'aperçu.</value></data>
+  <data name="AccordionMultiple" xml:space="preserve"><value>Plusieurs lignes ouvertes</value></data>
+  <data name="AccordionMultipleDescription" xml:space="preserve"><value>Paramètre Multiple : ouvrir une ligne ne ferme plus sa voisine.</value></data>
+  <data name="AccordionKeepContent" xml:space="preserve"><value>Garder le corps</value></data>
+  <data name="AccordionKeepContentDescription" xml:space="preserve"><value>Paramètre KeepContent : le corps d'une ligne reste rendu une fois ouvert.</value></data>
+  <data name="AccordionLevel" xml:space="preserve"><value>Niveau de titre</value></data>
+  <data name="AccordionLevelDescription" xml:space="preserve"><value>Paramètre Level : le titre qui enveloppe le bouton de bascule de chaque ligne.</value></data>
+  <data name="AccordionHelp" xml:space="preserve"><value>Marques d'aide</value></data>
+  <data name="AccordionHelpDescription" xml:space="preserve"><value>Paramètre Help d'une ligne : un « ? » à côté du bouton de bascule, jamais dedans.</value></data>
+  <data name="AccordionFirstOpen" xml:space="preserve"><value>Première ligne ouverte</value></data>
+  <data name="AccordionFirstOpenDescription" xml:space="preserve"><value>Paramètre Expanded de la première ligne. L'accordéon est reconstruit à chaque changement.</value></data>
+  <data name="AccordionPreviewTitle" xml:space="preserve"><value>Seuils de qualité</value></data>
+  <data name="AccordionPreviewHint" xml:space="preserve"><value>Les flèches, Début et Fin passent d'un en-tête à l'autre ; Entrée et Espace ouvrent une ligne.</value></data>
+  <data name="AccordionAdvancedTitle" xml:space="preserve"><value>En-têtes libres et contrôles propres</value></data>
+  <data name="AccordionAdvancedDescription" xml:space="preserve"><value>Plusieurs lignes ouvertes ensemble, le corps conservé, un niveau de titre choisi et une densité compacte. Un contrôle propre se place à côté du bouton de bascule et ne bascule pas la ligne.</value></data>
 </root>

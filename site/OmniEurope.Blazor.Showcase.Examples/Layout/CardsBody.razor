@@ -1,0 +1,7 @@
+@* The body of the preview card: one paragraph, or three when it is long. *@
+<OmniText Element="OmniTextElement.Paragraph">@CardSample.Text</OmniText>
+@if (Long)
+{
+    <OmniText Element="OmniTextElement.Paragraph">@CardSample.LongText</OmniText>
+    <OmniText Element="OmniTextElement.Paragraph">@CardSample.LongTextEnd</OmniText>
+}

@@ -1,0 +1,59 @@
+@page "/components/accordion"
+@using OmniEurope.Blazor.Showcase.Examples.Layout
+
+<GalleryPageFrame Slug="accordion">
+    <Settings>
+        <OmniSettingsSection Title="@Text["AccordionSettingsTitle"]" Description="@Text["AccordionSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["AccordionMultiple"]" Description="@Text["AccordionMultipleDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Multiple" aria-label="@Text["AccordionMultiple"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["AccordionKeepContent"]" Description="@Text["AccordionKeepContentDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Layers" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="KeepContent" aria-label="@Text["AccordionKeepContent"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["AccordionLevel"]" Description="@Text["AccordionLevelDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniHeadingLevel" Options="@LevelOptions" @bind-Value="Level" Label="@Text["AccordionLevel"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["AccordionHelp"]" Description="@Text["AccordionHelpDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowHelp" aria-label="@Text["AccordionHelp"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["AccordionFirstOpen"]" Description="@Text["AccordionFirstOpenDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.ChevronDown" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="FirstOpen" aria-label="@Text["AccordionFirstOpen"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["AccordionPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <AccordionExample Multiple="Multiple" KeepContent="KeepContent" Level="Level" ShowHelp="ShowHelp" FirstOpen="FirstOpen" />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["AccordionPreviewHint"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["AccordionAdvancedTitle"]</HeaderContent>
+            <ChildContent>
+                <AccordionAdvancedExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["AccordionAdvancedDescription"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

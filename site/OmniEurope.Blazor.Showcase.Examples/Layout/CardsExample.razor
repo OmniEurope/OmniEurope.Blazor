@@ -1,0 +1,38 @@
+@* One card in three areas: an optional header, the body, an optional footer. An area that is absent
+   leaves out its parameter rather than passing an empty fragment: an empty fragment would still draw
+   the header or the footer, with its border. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniRow>
+        <OmniColumn Span="12" LargeSpan="8">
+            @if (HasHeader && HasFooter)
+            {
+                <OmniCard>
+                    <HeaderContent><CardsHeader Kind="Header" /></HeaderContent>
+                    <ChildContent><CardsBody Long="LongBody" /></ChildContent>
+                    <FooterContent><CardsFooter Kind="Footer" OnAction="Record" /></FooterContent>
+                </OmniCard>
+            }
+            else if (HasHeader)
+            {
+                <OmniCard>
+                    <HeaderContent><CardsHeader Kind="Header" /></HeaderContent>
+                    <ChildContent><CardsBody Long="LongBody" /></ChildContent>
+                </OmniCard>
+            }
+            else if (HasFooter)
+            {
+                <OmniCard>
+                    <ChildContent><CardsBody Long="LongBody" /></ChildContent>
+                    <FooterContent><CardsFooter Kind="Footer" OnAction="Record" /></FooterContent>
+                </OmniCard>
+            }
+            else
+            {
+                <OmniCard>
+                    <CardsBody Long="LongBody" />
+                </OmniCard>
+            }
+        </OmniColumn>
+    </OmniRow>
+    <OmniText Tone="OmniTextTone.Muted">Last action: <strong>@(Last ?? "none")</strong></OmniText>
+</OmniStack>

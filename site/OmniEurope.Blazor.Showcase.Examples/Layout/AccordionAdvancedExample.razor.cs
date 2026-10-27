@@ -1,11 +1,8 @@
-using OmniEurope.Blazor.Showcase.Resources;
+namespace OmniEurope.Blazor.Showcase.Examples.Layout;
 
-namespace OmniEurope.Blazor.Showcase.Components.Demos;
-
-public partial class AccordionDemo
+/// <summary>A compact accordion with free headers, an own control in a row and the open state of each row bound.</summary>
+public partial class AccordionAdvancedExample
 {
-    [Inject] private IStringLocalizer<ShowcaseStrings> Text { get; set; } = default!;
-
     private bool RunOpen { get; set; }
 
     private bool LogOpen { get; set; }

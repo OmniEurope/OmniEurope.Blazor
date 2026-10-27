@@ -1,0 +1,26 @@
+@* Rows made too narrow on purpose, the only case where Overflow changes anything: None lets the
+   buttons wrap their text, Scroll keeps each button at its size behind a scroll strip with chevrons,
+   Collapse keeps only the icons. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    @foreach (var overflow in Overflows)
+    {
+        <OmniStack Gap="OmniSpacing.XSmall">
+            <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@overflow</OmniText>
+            <OmniRow>
+                <OmniColumn Span="12" MediumSpan="6">
+                    <OmniCard>
+                        <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Overflow="overflow">
+                            @foreach (var item in StackItem.All.Take(5))
+                            {
+                                <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small">
+                                    <OmniIcon Name="item.Icon" />
+                                    <span>@item.Label</span>
+                                </OmniButton>
+                            }
+                        </OmniStack>
+                    </OmniCard>
+                </OmniColumn>
+            </OmniRow>
+        </OmniStack>
+    }
+</OmniStack>
