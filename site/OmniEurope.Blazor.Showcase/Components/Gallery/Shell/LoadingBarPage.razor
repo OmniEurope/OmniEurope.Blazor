@@ -1,0 +1,32 @@
+@page "/components/loading-bar"
+@using OmniEurope.Blazor.Showcase.Examples.Shell
+
+<GalleryPageFrame Slug="loading-bar">
+    <Settings>
+        @* Mode and colour drive the bar of the preview; the bar follows the loading state the buttons start. *@
+        <OmniSettingsSection Title="@Text["LoadingBarSettingsTitle"]" Description="@Text["LoadingBarSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["LoadingBarMode"]" Description="@Text["LoadingBarModeDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniLoadingBarMode" Options="@ModeOptions" @bind-Value="Mode" Label="@Text["LoadingBarMode"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["LoadingBarColor"]" Description="@Text["LoadingBarColorDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Palette" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="string" Options="@ColorOptions" @bind-Value="Color" Label="@Text["LoadingBarColor"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["LoadingBarPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <LoadingBarExample Mode="Mode" BarClass="@BarClass" />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["LoadingBarPreviewHint"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

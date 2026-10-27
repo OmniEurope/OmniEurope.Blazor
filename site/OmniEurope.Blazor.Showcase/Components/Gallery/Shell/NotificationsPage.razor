@@ -1,0 +1,53 @@
+@page "/components/notifications"
+@using OmniEurope.Blazor.Showcase.Examples.Shell
+
+<GalleryPageFrame Slug="notifications">
+    <Settings>
+        @* The settings of the host of the stack of the preview: every notification sent to it follows them. *@
+        <OmniSettingsSection Title="@Text["NotificationsSettingsTitle"]" Description="@Text["NotificationsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["NotificationsPlacement"]" Description="@Text["NotificationsPlacementDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.PictureInPicture" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniNotificationPlacement" Options="@PlacementOptions" @bind-Value="Placement" Label="@Text["NotificationsPlacement"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["NotificationsCountdown"]" Description="@Text["NotificationsCountdownDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Hourglass" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowCountdown" aria-label="@Text["NotificationsCountdown"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["NotificationsDismissible"]" Description="@Text["NotificationsDismissibleDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Close" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Dismissible" aria-label="@Text["NotificationsDismissible"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["NotificationsGroup"]" Description="@Text["NotificationsGroupDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Layers" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Group" aria-label="@Text["NotificationsGroup"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["NotificationsStackTitle"]</HeaderContent>
+            <ChildContent>
+                <NotificationsExample Placement="Placement" ShowCountdown="ShowCountdown" Dismissible="Dismissible" Group="Group" />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["NotificationsStackHint"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["NotificationsCardsTitle"]</HeaderContent>
+            <ChildContent>
+                <NotificationCardsExample Dismissible="Dismissible" />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["NotificationsCardsHint"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

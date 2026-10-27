@@ -1,0 +1,24 @@
+@* A tooltip appears after its delay and either follows the pointer (Pointer) or stays where it opened
+   (Pinned). Focusable puts the trigger in the tab order, so a tooltip is reachable from the keyboard and
+   not only on hover. Past its width, the text wraps; it is never cut. Past CompactLength (240 characters
+   by default) the tooltip opens on a preview and a "Show more" action unfolds the full text. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniText>Rest the pointer on a word, or reach it with the keyboard.</OmniText>
+    <OmniRow Gap="OmniSpacing.Medium" Wrap="true">
+        <OmniTooltip Text="One line."
+                     Tracking="Tracking"
+                     MaxWidth="MaxWidth"
+                     Delay="Delay"
+                     Focusable="true">Short tooltip</OmniTooltip>
+        <OmniTooltip Text="A merged record combines two source records once both have reached their final status."
+                     Tracking="Tracking"
+                     MaxWidth="MaxWidth"
+                     Delay="Delay"
+                     Focusable="true">Long tooltip</OmniTooltip>
+        <OmniTooltip Text="@VeryLongText"
+                     Tracking="Tracking"
+                     MaxWidth="MaxWidth"
+                     Delay="Delay"
+                     Focusable="true">Very long tooltip</OmniTooltip>
+    </OmniRow>
+</OmniStack>

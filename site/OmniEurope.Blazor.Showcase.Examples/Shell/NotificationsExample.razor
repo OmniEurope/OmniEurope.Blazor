@@ -1,0 +1,41 @@
+@* Notifications sent to the stack of a host. AddOmniEuropeBlazor() registers OmniOverlayService, so a
+   component injects it; the stack is drawn by an OmniComponentsHost, which an application places once
+   around its pages (for instance in the main layout) and which decides, for every notification alike,
+   where the stack sits, whether each card counts down, whether it can be dismissed and whether a burst
+   collapses into one pile. This example creates its own service and host so that it runs wherever it
+   is pasted, and takes those four options as parameters. *@
+<OmniComponentsHost OverlayService="Overlays" Notifications="Options">
+    <OmniStack Gap="OmniSpacing.Medium">
+        <OmniRow Gap="OmniSpacing.Small" Wrap="true">
+            <OmniButton Id="demo-notify-short" Size="OmniControlSize.Small" OnClick="@(() => Notify(NotificationLength.Short))">
+                <OmniIcon Name="OmniIconName.Bell" />
+                <span>Short text</span>
+            </OmniButton>
+            <OmniButton Size="OmniControlSize.Small" OnClick="@(() => Notify(NotificationLength.Long))">
+                <OmniIcon Name="OmniIconName.Bell" />
+                <span>Long text</span>
+            </OmniButton>
+            <OmniButton Size="OmniControlSize.Small" OnClick="@(() => Notify(NotificationLength.VeryLong))">
+                <OmniIcon Name="OmniIconName.Bell" />
+                <span>Very long text</span>
+            </OmniButton>
+            <OmniButton Id="demo-notify-long" Size="OmniControlSize.Small" OnClick="@(() => Notify(NotificationLength.Report))">
+                <OmniIcon Name="OmniIconName.Document" />
+                <span>4,000-character text</span>
+            </OmniButton>
+            <OmniButton Size="OmniControlSize.Small" OnClick="NotifyRoles">
+                <OmniIcon Name="OmniIconName.Palette" />
+                <span>Four roles</span>
+            </OmniButton>
+            <OmniButton Size="OmniControlSize.Small" OnClick="NotifyWithAction">
+                <OmniIcon Name="OmniIconName.Reset" />
+                <span>With an action</span>
+            </OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="NotifyBurst">
+                <OmniIcon Name="OmniIconName.Layers" />
+                <span>Burst of four</span>
+            </OmniButton>
+        </OmniRow>
+        <OmniText Tone="OmniTextTone.Muted">Actions chosen: @ActionCount.</OmniText>
+    </OmniStack>
+</OmniComponentsHost>

@@ -1,0 +1,49 @@
+@* An application shell in miniature: a header with the sidebar toggle, a sidebar holding a panel menu,
+   and the main area. Every setting is a parameter. The toggle is given to the header (SidebarToggle) so
+   it stays on the axis of the menu icons, and it follows Reveal: a hamburger while the menu pushes the
+   page, a cross while it floats over it. The veil (Backdrop) only exists for a floating menu. *@
+<OmniLayout>
+    <OmniHeader Brand="My application">
+        <SidebarToggle>
+            <OmniSidebarToggle Controls="sidebar-example-menu"
+                               Open="MenuOpen"
+                               OpenChanged="@(value => MenuOpen = value)"
+                               Reveal="Reveal"
+                               Label="Toggle the menu" />
+        </SidebarToggle>
+    </OmniHeader>
+    <OmniBody>
+        <OmniSidebar Id="sidebar-example-menu"
+                     Open="MenuOpen"
+                     OpenChanged="@(value => MenuOpen = value)"
+                     Placement="Placement"
+                     Reveal="Reveal"
+                     Backdrop="Backdrop"
+                     Collapse="Collapse"
+                     Transition="Transition"
+                     Label="Miniature menu">
+            <OmniPanelMenu Label="Miniature menu" Display="Display">
+                <OmniPanelMenuItem Text="Dashboard" Current="true">
+                    <Icon><OmniIcon Name="OmniIconName.Home" /></Icon>
+                </OmniPanelMenuItem>
+                <OmniPanelMenuItem Text="Folders" Expanded="true">
+                    <Icon><OmniIcon Name="OmniIconName.Archive" /></Icon>
+                    <ChildContent>
+                        <OmniPanelMenuItem Text="In progress">
+                            <Icon><OmniIcon Name="OmniIconName.Document" /></Icon>
+                        </OmniPanelMenuItem>
+                        <OmniPanelMenuItem Text="Archived">
+                            <Icon><OmniIcon Name="OmniIconName.Package" /></Icon>
+                        </OmniPanelMenuItem>
+                    </ChildContent>
+                </OmniPanelMenuItem>
+                <OmniPanelMenuItem Text="Settings">
+                    <Icon><OmniIcon Name="OmniIconName.Settings" /></Icon>
+                </OmniPanelMenuItem>
+            </OmniPanelMenu>
+        </OmniSidebar>
+        <OmniMain FocusTarget="false">
+            <OmniText>The page content sits here: pushed aside or covered, depending on how the menu opens.</OmniText>
+        </OmniMain>
+    </OmniBody>
+</OmniLayout>

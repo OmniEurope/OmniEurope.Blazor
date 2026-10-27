@@ -1,0 +1,52 @@
+@page "/components/window-controls"
+@using OmniEurope.Blazor.Showcase.Examples.Shell
+
+<GalleryPageFrame Slug="window-controls">
+    <Settings>
+        <OmniSettingsSection Title="@Text["WindowControlsSettingsTitle"]" Description="@Text["WindowControlsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["WindowControlsTray"]" Description="@Text["WindowControlsTrayDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Tray" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowTray" aria-label="@Text["WindowControlsTray"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["WindowControlsMinimize"]" Description="@Text["WindowControlsMinimizeDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Remove" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowMinimize" aria-label="@Text["WindowControlsMinimize"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["WindowControlsMaximize"]" Description="@Text["WindowControlsMaximizeDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.CornersOut" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowMaximize" aria-label="@Text["WindowControlsMaximize"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["WindowControlsClose"]" Description="@Text["WindowControlsCloseDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Close" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowClose" aria-label="@Text["WindowControlsClose"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["WindowControlsActions"]" Description="@Text["WindowControlsActionsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Add" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowActions" aria-label="@Text["WindowControlsActions"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["WindowControlsPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <WindowControlsExample ShowTray="ShowTray" ShowMinimize="ShowMinimize" ShowMaximize="ShowMaximize"
+                                       ShowClose="ShowClose" ShowActions="ShowActions" />
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

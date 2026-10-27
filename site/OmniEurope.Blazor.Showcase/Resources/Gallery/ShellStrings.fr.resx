@@ -4,4 +4,101 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="SidebarTitle" xml:space="preserve"><value>Menu latéral</value></data>
+  <data name="SidebarDescription" xml:space="preserve"><value>Une coquille en miniature pour essayer chaque combinaison de position, de rendu, d'ouverture et de repli du menu latéral, sans toucher au menu de ce site.</value></data>
+  <data name="SidebarSettingsTitle" xml:space="preserve"><value>Coquille en miniature</value></data>
+  <data name="SidebarSettingsDescription" xml:space="preserve"><value>Son propre menu, indépendant du site : changez un réglage et regardez l'aperçu.</value></data>
+  <data name="SidebarPlacement" xml:space="preserve"><value>Position</value></data>
+  <data name="SidebarPlacementStart" xml:space="preserve"><value>Début</value></data>
+  <data name="SidebarPlacementEnd" xml:space="preserve"><value>Fin</value></data>
+  <data name="SidebarDisplay" xml:space="preserve"><value>Rendu du menu</value></data>
+  <data name="SidebarDisplayIconAndText" xml:space="preserve"><value>Icône et texte</value></data>
+  <data name="SidebarDisplayIconOnly" xml:space="preserve"><value>Icône seule</value></data>
+  <data name="SidebarReveal" xml:space="preserve"><value>Ouverture</value></data>
+  <data name="SidebarRevealPush" xml:space="preserve"><value>Pousser</value></data>
+  <data name="SidebarRevealOverlay" xml:space="preserve"><value>Superposer</value></data>
+  <data name="SidebarTransition" xml:space="preserve"><value>Mouvement</value></data>
+  <data name="SidebarTransitionDescription" xml:space="preserve"><value>Comment le menu poussé s'ouvre et se ferme : d'un coup, ou en glissant.</value></data>
+  <data name="SidebarTransitionInstant" xml:space="preserve"><value>Instantané</value></data>
+  <data name="SidebarTransitionSmooth" xml:space="preserve"><value>Fluide</value></data>
+  <data name="SidebarBackdrop" xml:space="preserve"><value>Voile</value></data>
+  <data name="SidebarBackdropDescription" xml:space="preserve"><value>Un menu superposé assombrit le reste de l'aperçu ; un clic sur le voile le referme.</value></data>
+  <data name="SidebarCollapse" xml:space="preserve"><value>Repli</value></data>
+  <data name="SidebarCollapseHidden" xml:space="preserve"><value>Masquer</value></data>
+  <data name="SidebarCollapseIcons" xml:space="preserve"><value>Icônes seules</value></data>
+  <data name="SidebarPreviewTitle" xml:space="preserve"><value>Aperçu en direct</value></data>
+  <data name="WindowControlsTitle" xml:space="preserve"><value>Boutons de fenêtre</value></data>
+  <data name="WindowControlsDescription" xml:space="preserve"><value>Les boutons de légende d'une fenêtre de bureau sans bordure, carrés et à pleine hauteur dans l'en-tête ; un bouton n'est dessiné que si son rappel est posé.</value></data>
+  <data name="WindowControlsSettingsTitle" xml:space="preserve"><value>Boutons affichés</value></data>
+  <data name="WindowControlsSettingsDescription" xml:space="preserve"><value>Chaque interrupteur pose ou retire le rappel d'un bouton.</value></data>
+  <data name="WindowControlsTray" xml:space="preserve"><value>Réduire dans la zone de notification</value></data>
+  <data name="WindowControlsTrayDescription" xml:space="preserve"><value>Cache la fenêtre dans la zone de notification.</value></data>
+  <data name="WindowControlsMinimize" xml:space="preserve"><value>Réduire</value></data>
+  <data name="WindowControlsMinimizeDescription" xml:space="preserve"><value>Envoie la fenêtre dans la barre des tâches.</value></data>
+  <data name="WindowControlsMaximize" xml:space="preserve"><value>Agrandir ou restaurer</value></data>
+  <data name="WindowControlsMaximizeDescription" xml:space="preserve"><value>Son icône suit Maximized, que l'exemple bascule à chaque clic.</value></data>
+  <data name="WindowControlsClose" xml:space="preserve"><value>Fermer</value></data>
+  <data name="WindowControlsCloseDescription" xml:space="preserve"><value>Dans le coin, rouge au survol.</value></data>
+  <data name="WindowControlsActions" xml:space="preserve"><value>Action supplémentaire</value></data>
+  <data name="WindowControlsActionsDescription" xml:space="preserve"><value>Un bouton posé avant eux par ActionsContent.</value></data>
+  <data name="WindowControlsPreviewTitle" xml:space="preserve"><value>Aperçu en direct</value></data>
+  <data name="LoadingBarTitle" xml:space="preserve"><value>Barre de chargement</value></data>
+  <data name="LoadingBarDescription" xml:space="preserve"><value>Une barre sous l'en-tête qui annonce un chargement. Elle suit l'état de chargement de l'application et ne prend aucune place.</value></data>
+  <data name="LoadingBarSettingsTitle" xml:space="preserve"><value>Barre de chargement</value></data>
+  <data name="LoadingBarSettingsDescription" xml:space="preserve"><value>Elle ne prend aucune place : elle se pose par-dessus le bas de l'en-tête pendant un chargement, sans rien décaler ni laisser d'écart.</value></data>
+  <data name="LoadingBarMode" xml:space="preserve"><value>Mode</value></data>
+  <data name="LoadingBarModeDescription" xml:space="preserve"><value>Un balayage qui traverse, ou un remplissage qui ralentit sans finir tant que le chargement dure, puis va au bout.</value></data>
+  <data name="LoadingBarModeSweep" xml:space="preserve"><value>Balayage</value></data>
+  <data name="LoadingBarModeContinuous" xml:space="preserve"><value>Remplissage</value></data>
+  <data name="LoadingBarColor" xml:space="preserve"><value>Couleur</value></data>
+  <data name="LoadingBarColorDescription" xml:space="preserve"><value>La couleur de la barre. C'est la variable --omni-loading-bar-color, déclarée sur la barre elle-même et redéfinie ici par une classe posée sur la barre.</value></data>
+  <data name="LoadingBarColorAccent" xml:space="preserve"><value>Accent</value></data>
+  <data name="LoadingBarColorSuccess" xml:space="preserve"><value>Vert</value></data>
+  <data name="LoadingBarColorWarning" xml:space="preserve"><value>Ambre</value></data>
+  <data name="LoadingBarColorDanger" xml:space="preserve"><value>Rouge</value></data>
+  <data name="LoadingBarPreviewTitle" xml:space="preserve"><value>Aperçu en direct</value></data>
+  <data name="LoadingBarPreviewHint" xml:space="preserve"><value>Une barre sous un en-tête, nourrie par l'état de chargement : lancez un chargement de trois, cinq ou dix secondes, la durée d'un vrai chargement n'étant pas connue d'avance.</value></data>
+  <data name="NotificationsTitle" xml:space="preserve"><value>Notifications</value></data>
+  <data name="NotificationsDescription" xml:space="preserve"><value>La pile de notifications : position, décompte, croix et regroupement, puis la carte elle-même pour chaque rôle.</value></data>
+  <data name="NotificationsSettingsTitle" xml:space="preserve"><value>Notifications</value></data>
+  <data name="NotificationsSettingsDescription" xml:space="preserve"><value>Position, décompte, fermeture et regroupement de la pile. Ils ne valent que pour la pile de cette page.</value></data>
+  <data name="NotificationsPlacement" xml:space="preserve"><value>Position</value></data>
+  <data name="NotificationsPlacementDescription" xml:space="preserve"><value>Le coin ou le bord d'où la pile grandit.</value></data>
+  <data name="NotificationsPlacementTopStart" xml:space="preserve"><value>Haut gauche</value></data>
+  <data name="NotificationsPlacementTopCenter" xml:space="preserve"><value>Haut centre</value></data>
+  <data name="NotificationsPlacementTopEnd" xml:space="preserve"><value>Haut droite</value></data>
+  <data name="NotificationsPlacementBottomStart" xml:space="preserve"><value>Bas gauche</value></data>
+  <data name="NotificationsPlacementBottomCenter" xml:space="preserve"><value>Bas centre</value></data>
+  <data name="NotificationsPlacementBottomEnd" xml:space="preserve"><value>Bas droite</value></data>
+  <data name="NotificationsCountdown" xml:space="preserve"><value>Décompte</value></data>
+  <data name="NotificationsCountdownDescription" xml:space="preserve"><value>La carte prend la teinte de son rôle, qui se retire sur le temps qu'il lui reste.</value></data>
+  <data name="NotificationsDismissible" xml:space="preserve"><value>Bouton de fermeture</value></data>
+  <data name="NotificationsDismissibleDescription" xml:space="preserve"><value>Une croix pour écarter la notification sans attendre.</value></data>
+  <data name="NotificationsGroup" xml:space="preserve"><value>Regroupement</value></data>
+  <data name="NotificationsGroupDescription" xml:space="preserve"><value>Plusieurs notifications se rangent en pile derrière un compte, et se déploient au survol.</value></data>
+  <data name="NotificationsStackTitle" xml:space="preserve"><value>Pile de notifications</value></data>
+  <data name="NotificationsStackHint" xml:space="preserve"><value>Trois longueurs de texte, un rapport de 4 000 caractères, les quatre rôles, une action et une salve pour juger le regroupement. Les notifications paraissent dans la pile de l'hôte, au coin choisi dans les réglages.</value></data>
+  <data name="NotificationsCardsTitle" xml:space="preserve"><value>Cartes de notification</value></data>
+  <data name="NotificationsCardsHint" xml:space="preserve"><value>La carte posée à la main dans la page : une par rôle et une avec une action. Une croix masque sa carte.</value></data>
+  <data name="TooltipsTitle" xml:space="preserve"><value>Infobulles</value></data>
+  <data name="TooltipsDescription" xml:space="preserve"><value>Une infobulle paraît après son délai, puis suit le pointeur ou reste là où elle s'est ouverte.</value></data>
+  <data name="TooltipsSettingsTitle" xml:space="preserve"><value>Infobulles</value></data>
+  <data name="TooltipsSettingsDescription" xml:space="preserve"><value>Où se pose une infobulle et combien de temps elle attend. Les réglages valent pour le premier aperçu ci-dessous.</value></data>
+  <data name="TooltipsTracking" xml:space="preserve"><value>Placement</value></data>
+  <data name="TooltipsTrackingDescription" xml:space="preserve"><value>Suivre le pointeur, ou rester là où elle est apparue.</value></data>
+  <data name="TooltipsTrackingPointer" xml:space="preserve"><value>Suivre</value></data>
+  <data name="TooltipsTrackingPinned" xml:space="preserve"><value>Fixe</value></data>
+  <data name="TooltipsWidth" xml:space="preserve"><value>Largeur maximale</value></data>
+  <data name="TooltipsWidthDescription" xml:space="preserve"><value>Au-delà, le texte passe à la ligne ; il n'est jamais coupé.</value></data>
+  <data name="TooltipsWidthStandard" xml:space="preserve"><value>Standard (18 rem)</value></data>
+  <data name="TooltipsWidthNarrow" xml:space="preserve"><value>Étroite (12 rem)</value></data>
+  <data name="TooltipsWidthWide" xml:space="preserve"><value>Large (28 rem)</value></data>
+  <data name="TooltipsDelay" xml:space="preserve"><value>Délai</value></data>
+  <data name="TooltipsDelayDescription" xml:space="preserve"><value>Temps de pointeur posé avant l'apparition, de 0 à 2 secondes par pas de 100 ms. 300 ms par défaut.</value></data>
+  <data name="TooltipsDelayValue" xml:space="preserve"><value>{0} ms</value></data>
+  <data name="TooltipsPreviewTitle" xml:space="preserve"><value>Aperçu en direct</value></data>
+  <data name="TooltipsVariantsTitle" xml:space="preserve"><value>Variantes</value></data>
+  <data name="TooltipsVariantsHint" xml:space="preserve"><value>Sur un badge : par défaut, fixe, étroite, et large avec un long texte qui s'ouvre sur un aperçu et se déplie à la demande.</value></data>
+  <data name="TooltipsTitleAttributeTitle" xml:space="preserve"><value>Attribut title</value></data>
+  <data name="TooltipsTitleAttributeHint" xml:space="preserve"><value>Posé une fois dans une mise en page, OmniTitleTooltips remplace l'infobulle du navigateur de tout attribut title par celle du paquet.</value></data>
 </root>

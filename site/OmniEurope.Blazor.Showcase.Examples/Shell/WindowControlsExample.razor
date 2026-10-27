@@ -1,0 +1,28 @@
+@* The caption buttons of a borderless desktop window (MAUI, Electron, WebView2), square and the full
+   height of the header they sit in. A button is drawn only when its callback is set: a switched-off
+   button gets the empty callback. The maximize button's icon follows Maximized, which this example
+   flips at each click. Extra header actions go through ActionsContent, before the caption buttons;
+   left null, no room is kept for them. *@
+@{
+    RenderFragment searchAction = @<OmniButton Variant="OmniButtonVariant.Ghost"
+                                               Label="Search"
+                                               title="Search"
+                                               OnClick="@(() => LastAction = "Search")">
+        <OmniIcon Name="OmniIconName.Search" />
+    </OmniButton>;
+}
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniHeader Brand="My application">
+        <OmniWindowControls Label="Window controls"
+                            OnMinimizeToTray="@TrayCallback"
+                            OnMinimize="@MinimizeCallback"
+                            OnMaximizeRestore="@MaximizeCallback"
+                            OnClose="@CloseCallback"
+                            Maximized="Maximized"
+                            ActionsContent="@(ShowActions ? searchAction : null)" />
+    </OmniHeader>
+    <OmniText Tone="OmniTextTone.Muted">
+        <OmniIcon Name="OmniIconName.Info" />
+        <span>Last action: @(string.IsNullOrEmpty(LastAction) ? "none" : LastAction).</span>
+    </OmniText>
+</OmniStack>

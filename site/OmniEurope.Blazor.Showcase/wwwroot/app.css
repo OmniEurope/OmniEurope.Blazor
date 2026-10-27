@@ -372,3 +372,37 @@
 .gallery-rows-clip {
     overflow-x: auto;
 }
+
+/* Side menu page: the miniature shell gets a height and contains the veil of a floating menu, which is
+   fixed to the window otherwise; contained, it covers the preview and not the page. */
+.gallery-shell-stage {
+    block-size: 22rem;
+    border: var(--omni-border-width) solid var(--omni-color-border);
+    border-radius: var(--omni-radius);
+    contain: layout paint;
+    display: flex;
+    flex-direction: column;
+}
+
+.gallery-shell-stage > .omni-layout {
+    block-size: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Loading bar page: the colour is a variable declared on the bar itself, so each class sits on the bar. */
+.gallery-loading-bar-accent {
+    --omni-loading-bar-color: var(--omni-color-accent);
+}
+
+.gallery-loading-bar-success {
+    --omni-loading-bar-color: var(--omni-color-success);
+}
+
+.gallery-loading-bar-warning {
+    --omni-loading-bar-color: var(--omni-color-warning);
+}
+
+.gallery-loading-bar-danger {
+    --omni-loading-bar-color: var(--omni-color-danger);
+}

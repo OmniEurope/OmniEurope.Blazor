@@ -1,0 +1,63 @@
+@page "/components/sidebar"
+@using OmniEurope.Blazor.Showcase.Examples.Shell
+
+<GalleryPageFrame Slug="sidebar">
+    <Settings>
+        @* A shell in miniature: its settings change only the preview, never the menu of this site. *@
+        <OmniSettingsSection Title="@Text["SidebarSettingsTitle"]" Description="@Text["SidebarSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["SidebarPlacement"]">
+                <Icon><OmniIcon Name="OmniIconName.Swap" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniSidebarPlacement" Options="@PlacementOptions" @bind-Value="Placement" Label="@Text["SidebarPlacement"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SidebarDisplay"]">
+                <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniPanelMenuDisplay" Options="@DisplayOptions" @bind-Value="Display" Label="@Text["SidebarDisplay"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SidebarReveal"]">
+                <Icon><OmniIcon Name="OmniIconName.Layers" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniSidebarReveal" Options="@RevealOptions" @bind-Value="Reveal" Label="@Text["SidebarReveal"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SidebarTransition"]" Description="@Text["SidebarTransitionDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Play" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniSidebarTransition" Options="@TransitionOptions" @bind-Value="Transition" Label="@Text["SidebarTransition"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SidebarBackdrop"]" Description="@Text["SidebarBackdropDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Eye" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Backdrop" aria-label="@Text["SidebarBackdrop"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SidebarCollapse"]">
+                <Icon><OmniIcon Name="OmniIconName.Sidebar" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniSidebarCollapse" Options="@CollapseOptions" @bind-Value="Collapse" Label="@Text["SidebarCollapse"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["SidebarPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                @* The stage contains the veil of a floating menu: it covers the preview, not the window. *@
+                <div class="gallery-shell-stage">
+                    <SidebarExample Placement="Placement" Display="Display" Reveal="Reveal" Transition="Transition"
+                                    Backdrop="Backdrop" Collapse="Collapse" />
+                </div>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

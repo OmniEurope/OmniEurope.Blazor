@@ -4,4 +4,101 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="SidebarTitle" xml:space="preserve"><value>Side menu</value></data>
+  <data name="SidebarDescription" xml:space="preserve"><value>A miniature shell to try every combination of placement, rendering, opening and collapse of the side menu, without touching the menu of this site.</value></data>
+  <data name="SidebarSettingsTitle" xml:space="preserve"><value>Miniature shell</value></data>
+  <data name="SidebarSettingsDescription" xml:space="preserve"><value>Its own menu, independent from the site: change a setting and watch the preview.</value></data>
+  <data name="SidebarPlacement" xml:space="preserve"><value>Placement</value></data>
+  <data name="SidebarPlacementStart" xml:space="preserve"><value>Start</value></data>
+  <data name="SidebarPlacementEnd" xml:space="preserve"><value>End</value></data>
+  <data name="SidebarDisplay" xml:space="preserve"><value>Menu rendering</value></data>
+  <data name="SidebarDisplayIconAndText" xml:space="preserve"><value>Icon and text</value></data>
+  <data name="SidebarDisplayIconOnly" xml:space="preserve"><value>Icon only</value></data>
+  <data name="SidebarReveal" xml:space="preserve"><value>Opening</value></data>
+  <data name="SidebarRevealPush" xml:space="preserve"><value>Push</value></data>
+  <data name="SidebarRevealOverlay" xml:space="preserve"><value>Overlay</value></data>
+  <data name="SidebarTransition" xml:space="preserve"><value>Motion</value></data>
+  <data name="SidebarTransitionDescription" xml:space="preserve"><value>How the pushed menu opens and closes: at once, or sliding.</value></data>
+  <data name="SidebarTransitionInstant" xml:space="preserve"><value>Instant</value></data>
+  <data name="SidebarTransitionSmooth" xml:space="preserve"><value>Smooth</value></data>
+  <data name="SidebarBackdrop" xml:space="preserve"><value>Backdrop</value></data>
+  <data name="SidebarBackdropDescription" xml:space="preserve"><value>An overlaid menu dims the rest of the preview; a click on the veil closes it.</value></data>
+  <data name="SidebarCollapse" xml:space="preserve"><value>Collapse</value></data>
+  <data name="SidebarCollapseHidden" xml:space="preserve"><value>Hide</value></data>
+  <data name="SidebarCollapseIcons" xml:space="preserve"><value>Icons only</value></data>
+  <data name="SidebarPreviewTitle" xml:space="preserve"><value>Live preview</value></data>
+  <data name="WindowControlsTitle" xml:space="preserve"><value>Window controls</value></data>
+  <data name="WindowControlsDescription" xml:space="preserve"><value>The caption buttons of a borderless desktop window, square and full height in the header; a button is drawn only when its callback is set.</value></data>
+  <data name="WindowControlsSettingsTitle" xml:space="preserve"><value>Buttons shown</value></data>
+  <data name="WindowControlsSettingsDescription" xml:space="preserve"><value>Each switch sets or clears the callback of one button.</value></data>
+  <data name="WindowControlsTray" xml:space="preserve"><value>Minimize to tray</value></data>
+  <data name="WindowControlsTrayDescription" xml:space="preserve"><value>Hides the window in the notification area.</value></data>
+  <data name="WindowControlsMinimize" xml:space="preserve"><value>Minimize</value></data>
+  <data name="WindowControlsMinimizeDescription" xml:space="preserve"><value>Sends the window to the taskbar.</value></data>
+  <data name="WindowControlsMaximize" xml:space="preserve"><value>Maximize or restore</value></data>
+  <data name="WindowControlsMaximizeDescription" xml:space="preserve"><value>Its icon follows Maximized, which the example switches at each click.</value></data>
+  <data name="WindowControlsClose" xml:space="preserve"><value>Close</value></data>
+  <data name="WindowControlsCloseDescription" xml:space="preserve"><value>In the very corner, red on hover.</value></data>
+  <data name="WindowControlsActions" xml:space="preserve"><value>Extra action</value></data>
+  <data name="WindowControlsActionsDescription" xml:space="preserve"><value>A button placed before them through ActionsContent.</value></data>
+  <data name="WindowControlsPreviewTitle" xml:space="preserve"><value>Live preview</value></data>
+  <data name="LoadingBarTitle" xml:space="preserve"><value>Loading bar</value></data>
+  <data name="LoadingBarDescription" xml:space="preserve"><value>A bar under the header that announces a load. It follows the loading state of the application and takes no room of its own.</value></data>
+  <data name="LoadingBarSettingsTitle" xml:space="preserve"><value>Loading bar</value></data>
+  <data name="LoadingBarSettingsDescription" xml:space="preserve"><value>It takes no room: during a load it is laid over the bottom edge of the header, shifting nothing and leaving no gap.</value></data>
+  <data name="LoadingBarMode" xml:space="preserve"><value>Mode</value></data>
+  <data name="LoadingBarModeDescription" xml:space="preserve"><value>A sweep across, or a fill that slows down without finishing while the load lasts, then completes.</value></data>
+  <data name="LoadingBarModeSweep" xml:space="preserve"><value>Sweep</value></data>
+  <data name="LoadingBarModeContinuous" xml:space="preserve"><value>Fill</value></data>
+  <data name="LoadingBarColor" xml:space="preserve"><value>Colour</value></data>
+  <data name="LoadingBarColorDescription" xml:space="preserve"><value>The bar colour. It is the --omni-loading-bar-color variable, declared on the bar itself and redefined here by a class set on the bar.</value></data>
+  <data name="LoadingBarColorAccent" xml:space="preserve"><value>Accent</value></data>
+  <data name="LoadingBarColorSuccess" xml:space="preserve"><value>Green</value></data>
+  <data name="LoadingBarColorWarning" xml:space="preserve"><value>Amber</value></data>
+  <data name="LoadingBarColorDanger" xml:space="preserve"><value>Red</value></data>
+  <data name="LoadingBarPreviewTitle" xml:space="preserve"><value>Live preview</value></data>
+  <data name="LoadingBarPreviewHint" xml:space="preserve"><value>A bar under a header, fed by the loading state: start a load for three, five or ten seconds, the length of a real load not being known in advance.</value></data>
+  <data name="NotificationsTitle" xml:space="preserve"><value>Notifications</value></data>
+  <data name="NotificationsDescription" xml:space="preserve"><value>The notification stack: placement, countdown, close button and grouping, then the card itself for each role.</value></data>
+  <data name="NotificationsSettingsTitle" xml:space="preserve"><value>Notifications</value></data>
+  <data name="NotificationsSettingsDescription" xml:space="preserve"><value>Placement, countdown, dismissal and grouping of the stack. They hold for the stack of this page only.</value></data>
+  <data name="NotificationsPlacement" xml:space="preserve"><value>Placement</value></data>
+  <data name="NotificationsPlacementDescription" xml:space="preserve"><value>The corner or edge the stack grows from.</value></data>
+  <data name="NotificationsPlacementTopStart" xml:space="preserve"><value>Top left</value></data>
+  <data name="NotificationsPlacementTopCenter" xml:space="preserve"><value>Top centre</value></data>
+  <data name="NotificationsPlacementTopEnd" xml:space="preserve"><value>Top right</value></data>
+  <data name="NotificationsPlacementBottomStart" xml:space="preserve"><value>Bottom left</value></data>
+  <data name="NotificationsPlacementBottomCenter" xml:space="preserve"><value>Bottom centre</value></data>
+  <data name="NotificationsPlacementBottomEnd" xml:space="preserve"><value>Bottom right</value></data>
+  <data name="NotificationsCountdown" xml:space="preserve"><value>Countdown</value></data>
+  <data name="NotificationsCountdownDescription" xml:space="preserve"><value>The card takes the tint of its role, which drains over the time it has left.</value></data>
+  <data name="NotificationsDismissible" xml:space="preserve"><value>Close button</value></data>
+  <data name="NotificationsDismissibleDescription" xml:space="preserve"><value>A cross to send the notification away without waiting.</value></data>
+  <data name="NotificationsGroup" xml:space="preserve"><value>Grouping</value></data>
+  <data name="NotificationsGroupDescription" xml:space="preserve"><value>Several notifications stack behind a count, and fan out on hover.</value></data>
+  <data name="NotificationsStackTitle" xml:space="preserve"><value>Notification stack</value></data>
+  <data name="NotificationsStackHint" xml:space="preserve"><value>Three text lengths, a 4,000-character report, the four roles, an action and a burst to judge the grouping. The notifications appear in the stack of the host, at the corner chosen in the settings.</value></data>
+  <data name="NotificationsCardsTitle" xml:space="preserve"><value>Notification cards</value></data>
+  <data name="NotificationsCardsHint" xml:space="preserve"><value>The card placed by hand in the page: one per role and one with an action. A cross hides its card.</value></data>
+  <data name="TooltipsTitle" xml:space="preserve"><value>Tooltips</value></data>
+  <data name="TooltipsDescription" xml:space="preserve"><value>A tooltip appears after its delay, then follows the pointer or stays where it opened.</value></data>
+  <data name="TooltipsSettingsTitle" xml:space="preserve"><value>Tooltips</value></data>
+  <data name="TooltipsSettingsDescription" xml:space="preserve"><value>Where a tooltip sits and how long it waits. The settings apply to the first preview below.</value></data>
+  <data name="TooltipsTracking" xml:space="preserve"><value>Placement</value></data>
+  <data name="TooltipsTrackingDescription" xml:space="preserve"><value>Follow the pointer, or stay where it appeared.</value></data>
+  <data name="TooltipsTrackingPointer" xml:space="preserve"><value>Follow</value></data>
+  <data name="TooltipsTrackingPinned" xml:space="preserve"><value>Fixed</value></data>
+  <data name="TooltipsWidth" xml:space="preserve"><value>Maximum width</value></data>
+  <data name="TooltipsWidthDescription" xml:space="preserve"><value>Beyond it the text wraps; it is never cut.</value></data>
+  <data name="TooltipsWidthStandard" xml:space="preserve"><value>Standard (18 rem)</value></data>
+  <data name="TooltipsWidthNarrow" xml:space="preserve"><value>Narrow (12 rem)</value></data>
+  <data name="TooltipsWidthWide" xml:space="preserve"><value>Wide (28 rem)</value></data>
+  <data name="TooltipsDelay" xml:space="preserve"><value>Delay</value></data>
+  <data name="TooltipsDelayDescription" xml:space="preserve"><value>How long the pointer rests before the tooltip shows, from 0 to 2 seconds in steps of 100 ms. 300 ms by default.</value></data>
+  <data name="TooltipsDelayValue" xml:space="preserve"><value>{0} ms</value></data>
+  <data name="TooltipsPreviewTitle" xml:space="preserve"><value>Live preview</value></data>
+  <data name="TooltipsVariantsTitle" xml:space="preserve"><value>Variants</value></data>
+  <data name="TooltipsVariantsHint" xml:space="preserve"><value>On a badge: by default, pinned, narrow, and wide with a long text that opens on a preview and unfolds on request.</value></data>
+  <data name="TooltipsTitleAttributeTitle" xml:space="preserve"><value>Title attribute</value></data>
+  <data name="TooltipsTitleAttributeHint" xml:space="preserve"><value>Placed once in a layout, OmniTitleTooltips replaces the browser tooltip of every title attribute with the one of the package.</value></data>
 </root>
