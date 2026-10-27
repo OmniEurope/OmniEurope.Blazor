@@ -1,0 +1,86 @@
+@page "/components/typography"
+@using OmniEurope.Blazor.Showcase.Examples.Foundations
+
+<GalleryPageFrame Slug="typography">
+    <Settings>
+        <OmniSettingsSection Title="@Text["TypographyHeadingSettingsTitle"]" Description="@Text["TypographyHeadingSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["TypographyHeadingText"]">
+                <Icon><OmniIcon Name="OmniIconName.Edit" /></Icon>
+                <ChildContent>
+                    <OmniTextBox @bind-Value="HeadingText" aria-label="@Text["TypographyHeadingText"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TypographyLevel"]" Description="@Text["TypographyLevelDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniHeadingLevel" Options="@LevelOptions" @bind-Value="Level" Label="@Text["TypographyLevel"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TypographyHeadingTone"]" Description="@Text["TypographyToneDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Palette" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniTextTone" Options="@ToneOptions" @bind-Value="HeadingTone" Label="@Text["TypographyHeadingTone"]" />
+                </Details>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+
+        <OmniSettingsSection Title="@Text["TypographyTextSettingsTitle"]" Description="@Text["TypographyTextSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["TypographyElement"]" Description="@Text["TypographyElementDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.BracketsCurly" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniTextElement" Options="@ElementOptions" @bind-Value="Element" Label="@Text["TypographyElement"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TypographyTextTone"]" Description="@Text["TypographyToneDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Palette" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniTextTone" Options="@ToneOptions" @bind-Value="TextTone" Label="@Text["TypographyTextTone"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TypographyTruncate"]" Description="@Text["TypographyTruncateDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Truncate" aria-label="@Text["TypographyTruncate"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["TypographyPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <TypographyStageExample HeadingText="@HeadingText" Level="Level" HeadingTone="HeadingTone"
+                                        Element="Element" TextTone="TextTone" Truncate="Truncate" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["TypographyLevelsTitle"]</HeaderContent>
+            <ChildContent><HeadingLevelsExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["TypographyElementsTitle"]</HeaderContent>
+            <ChildContent><TextElementsExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["TypographyTonesTitle"]</HeaderContent>
+            <ChildContent><TextTonesExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["TypographyTruncateTitle"]</HeaderContent>
+            <ChildContent><TruncationExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["TypographyLabelsTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Medium">
+                    <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["TypographyLabelsDescription"]</OmniText>
+                    <LabelsAndLinksExample />
+                </OmniStack>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

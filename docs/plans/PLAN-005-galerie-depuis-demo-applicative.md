@@ -19,9 +19,9 @@ Ouvert le 2026-10-27. Demande du propriétaire : rapatrier dans la vitrine
    d'OE suivent la langue choisie.
 5. Tout est fait, par lots vérifiés.
 6. La vitrine est une **application déployée**, pas un exemple : front WebAssembly + API ASP.NET Core
-   + PostgreSQL, sur le modèle web du kit `_Generic` (Front, Back, Shared), sans authentification.
+   + PostgreSQL, sur le modèle web du kit de développement du propriétaire (Front, Back, Shared), sans authentification.
    Tous les kits s'appliquent : les règles d'hôte que le dépôt marque non applicables le deviennent
-   pour la vitrine. Le déploiement suit les conventions vérifiées par `/conformite` (Compose,
+   pour la vitrine. Le déploiement suit les conventions de déploiement du propriétaire (Compose,
    `PORT_FRONT`/`PORT_BACK` sur `127.0.0.1`, health checks, SDK tiré de `global.json`, `.pipeline`).
    Le projet Examples n'est qu'une bibliothèque interne au site (le code de l'onglet Code).
 
@@ -65,8 +65,8 @@ Examples).
 | 14 | Scheduler, timeline, Gantt, step timeline | `agenda`, `planification` | À faire |
 | 15 | HTML editor, document editor, code editor, code reading, mind map | `editeur`, `diagramme` | À faire |
 | 16 | Accueil de la galerie, retrait de l'ancienne galerie et de `DemoCatalog` | (reste) | À faire |
-| H1 | Hébergement : projets Back (API, EF Core, PostgreSQL, `/health/ready`) et Shared, préférences OE enregistrées en base sans compte (identifiant anonyme du navigateur, quotas), front servi en conteneur, `ylaunch.ps1` lance base, API et front | | À faire |
-| H2 | Déploiement : Dockerfiles, Compose de production, `.pipeline`, overlay `docs/code-rules.md` (règles d'hôte actives pour la vitrine), CI ; preuve `/conformite` conforme et pile Compose démarrée en local | | À faire |
+| H1 | Hébergement : projets Back (API, EF Core, PostgreSQL, `/health/ready`) et Shared, préférences OE enregistrées en base sans compte (identifiant anonyme du navigateur, quotas), front servi en conteneur, le lanceur local démarre base, API et front | | À faire |
+| H2 | Déploiement : Dockerfiles, Compose de production, `.pipeline`, overlay `docs/code-rules.md` (règles d'hôte actives pour la vitrine), CI ; preuve : contrôle de conformité du déploiement sans écart et pile Compose démarrée en local | | À faire |
 | 17 | Vérification complète (suite, publication, toutes les pages), documentation, prompt de retrait pour l'application cliente | | À faire |
 
 Vagues : lot 0 seul, puis H1 avec les lots 1 à 3, H2 avec les lots 4 à 6, lots 7 à 10, 11 à 14, 15 et 16 (4 en parallèle au plus, chacun dans son

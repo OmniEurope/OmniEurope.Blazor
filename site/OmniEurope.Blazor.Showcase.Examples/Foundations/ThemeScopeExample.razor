@@ -1,0 +1,12 @@
+@* A theme scope repaints and respaces everything inside it, and nothing outside: appearance, density,
+   theme, palette, font and the moving backdrop are parameters of OmniThemeScope. The card gives the
+   scope a visible edge; the main area inside it takes the content width. *@
+<OmniThemeScope Appearance="Appearance" Density="Density" Preset="Preset" Palette="Palette" Font="Font" BackdropMotion="BackdropMotion">
+    <OmniMain ContentWidth="@(FullWidth ? OmniLayoutWidth.FullWidth : OmniLayoutWidth.Content)">
+        <OmniCard>
+            <ChildContent>
+                <ThemeSample />
+            </ChildContent>
+        </OmniCard>
+    </OmniMain>
+</OmniThemeScope>

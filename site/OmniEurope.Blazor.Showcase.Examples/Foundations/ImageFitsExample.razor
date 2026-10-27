@@ -1,0 +1,18 @@
+@* A portrait image in a landscape box, then a landscape image in a portrait box: that is where the three
+   fits part. Natural stretches the image to the box, Contain keeps it whole with empty bands, Cover fills
+   the box and crops. *@
+<OmniRow Gap="OmniSpacing.Large" Wrap="true" Align="OmniAlignment.Start">
+    @foreach (var fit in Fits)
+    {
+        <OmniStack @key="fit" Gap="OmniSpacing.Small">
+            <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Start">
+                <OmniImage Source="@SampleImages.SourceOf(SampleImage.Portrait)" Alt="@SampleImages.AltOf(SampleImage.Portrait)"
+                           Width="@SampleImages.WidthOf(ImageBox.Landscape)" Height="@SampleImages.HeightOf(ImageBox.Landscape)" Fit="fit" />
+                <OmniImage Source="@SampleImages.SourceOf(SampleImage.Landscape)" Alt="@SampleImages.AltOf(SampleImage.Landscape)"
+                           Width="@SampleImages.WidthOf(ImageBox.Portrait)" Height="@SampleImages.HeightOf(ImageBox.Portrait)" Fit="fit" />
+            </OmniRow>
+            <OmniText Element="OmniTextElement.Strong">@fit</OmniText>
+            <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@HintOf(fit)</OmniText>
+        </OmniStack>
+    }
+</OmniRow>

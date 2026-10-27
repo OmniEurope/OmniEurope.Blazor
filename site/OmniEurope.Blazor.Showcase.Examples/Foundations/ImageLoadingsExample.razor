@@ -1,0 +1,12 @@
+@* The two loading modes, which write the native loading attribute of the img tag. *@
+<OmniRow Gap="OmniSpacing.Large" Wrap="true" Align="OmniAlignment.Start">
+    @foreach (var loading in Loadings)
+    {
+        <OmniStack @key="loading" Gap="OmniSpacing.Small">
+            <OmniImage Source="@SampleImages.SourceOf(SampleImage.Square)" Alt="@SampleImages.AltOf(SampleImage.Square)"
+                       Width="96" Height="96" Loading="loading" />
+            <OmniText Element="OmniTextElement.Strong">@loading</OmniText>
+            <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@HintOf(loading)</OmniText>
+        </OmniStack>
+    }
+</OmniRow>

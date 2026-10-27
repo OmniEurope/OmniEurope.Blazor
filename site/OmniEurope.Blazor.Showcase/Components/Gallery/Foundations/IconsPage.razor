@@ -1,0 +1,59 @@
+@page "/components/icons"
+@using OmniEurope.Blazor.Showcase.Examples.Foundations
+
+<GalleryPageFrame Slug="icons">
+    <Settings>
+        <OmniSettingsSection Title="@Text["IconsSettingsTitle"]" Description="@Text["IconsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["IconsSize"]" Description="@Text["IconsSizeDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniControlSize" Options="@SizeOptions" @bind-Value="Size" Label="@Text["IconsSize"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["IconsSelected"]" Description="@Text["IconsSelectedDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Star" /></Icon>
+                <ChildContent>
+                    <OmniDropDown TValue="OmniIconName" Options="@IconOptions" @bind-Value="SelectedIcon" Label="@Text["IconsSelected"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["IconsLabel"]" Description="@Text["IconsLabelDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Chat" /></Icon>
+                <ChildContent>
+                    <OmniTextBox @bind-Value="LabelText" Placeholder="@Text["IconsLabelPlaceholder"]" aria-label="@Text["IconsLabel"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["IconsPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Medium">
+                    <IconPreviewExample Name="SelectedIcon" Size="Size" Label="@LabelText" />
+                    <OmniText Element="OmniTextElement.Strong">@Text["IconsSizesTitle"]</OmniText>
+                    <IconSizesExample Name="SelectedIcon" />
+                </OmniStack>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["IconsGlyphTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Medium">
+                    <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["IconsGlyphDescription"]</OmniText>
+                    <IconGlyphExample />
+                </OmniStack>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["IconsGalleryTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Medium">
+                    <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["IconsGalleryDescription"]</OmniText>
+                    <IconGalleryExample Size="Size" Selected="SelectedIcon" SelectedChanged="@(icon => SelectedIcon = icon)" />
+                </OmniStack>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

@@ -1,0 +1,59 @@
+@page "/components/images"
+@using OmniEurope.Blazor.Showcase.Examples.Foundations
+
+<GalleryPageFrame Slug="images">
+    <Settings>
+        <OmniSettingsSection Title="@Text["ImagesSettingsTitle"]" Description="@Text["ImagesSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["ImagesSource"]" Description="@Text["ImagesSourceDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Image" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="SampleImage" Options="@SourceOptions" @bind-Value="Source" Label="@Text["ImagesSource"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ImagesBox"]" Description="@Text["ImagesBoxDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="ImageBox" Options="@BoxOptions" @bind-Value="Box" Label="@Text["ImagesBox"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ImagesFit"]" Description="@Text["ImagesFitDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.PictureInPicture" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniImageFit" Options="@FitOptions" @bind-Value="Fit" Label="@Text["ImagesFit"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ImagesLoading"]" Description="@Text["ImagesLoadingDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Hourglass" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniImageLoading" Options="@LoadingOptions" @bind-Value="Loading" Label="@Text["ImagesLoading"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ImagesPreviewTitle"]</HeaderContent>
+            <ChildContent><ImageExample Source="Source" Box="Box" Fit="Fit" Loading="Loading" /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ImagesFitsTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Medium">
+                    <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["ImagesFitsDescription"]</OmniText>
+                    <ImageFitsExample />
+                </OmniStack>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ImagesLoadingsTitle"]</HeaderContent>
+            <ChildContent><ImageLoadingsExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ImagesSourcesTitle"]</HeaderContent>
+            <ChildContent><ImageSourcesExample /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

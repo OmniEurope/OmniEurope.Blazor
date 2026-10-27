@@ -1,4 +1,5 @@
 using OmniEurope.Blazor.Showcase.Resources;
+using OmniEurope.Blazor.Showcase.Resources.Gallery;
 using OmniEurope.Blazor.Showcase.Theming;
 
 namespace OmniEurope.Blazor.Showcase.Components.Gallery;
@@ -16,6 +17,9 @@ public partial class GalleryThemePicker : IDisposable
 
     [Inject]
     private IStringLocalizer<ShowcaseStrings> Text { get; set; } = default!;
+
+    [Inject]
+    private IStringLocalizer<FoundationsStrings> Foundations { get; set; } = default!;
 
     [Inject]
     private ThemeState Theme { get; set; } = default!;
@@ -40,6 +44,12 @@ public partial class GalleryThemePicker : IDisposable
         OmniThemePalettes.All.FirstOrDefault(palette => palette.Name == name) is { } palette
             ? Theme.SelectPaletteAsync(palette)
             : Task.CompletedTask;
+
+    // The theme page carries its own settings, so the shortcut to it is pointless there.
+    private bool OnThemePage => Navigation.ToBaseRelativePath(Navigation.Uri)
+        .StartsWith("components/theme", StringComparison.OrdinalIgnoreCase);
+
+    private void OpenThemePage() => Navigation.NavigateTo("components/theme");
 
     private void OpenCustomizer() => Navigation.NavigateTo("customizer");
 

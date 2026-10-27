@@ -229,10 +229,10 @@ export async function overlaySteps(session, results) {
 
   // The header's back button names no destination: it steps back in the history, to the page the
   // reader came from.
-  await session.visit('/components/legacy/badges', '.omni-badge');
+  await session.visit('/components/badges', '.omni-badge');
   await session.visit('/components/legacy/pages', '#pages-demo-shell .omni-page-header__back');
   await clickOn('#pages-demo-shell .omni-page-header__back');
-  await waitFor('le retour à la page précédente', "location.pathname === '/components/legacy/badges'");
+  await waitFor('le retour à la page précédente', "location.pathname === '/components/badges'");
   step('retour sans destination : un pas en arrière dans l\'historique');
 
   // The pinned actions of the page header, with the markup of a pipeline run page (icon, back button,
@@ -282,7 +282,7 @@ export async function overlaySteps(session, results) {
   await pause(300);
 
   // 9. The appearance window: the control size and the Black hole theme, whose canvas the scope draws.
-  await session.visit('/components/legacy/themes', '#demo-appearance-window');
+  await session.visit('/components/theme', '#demo-appearance-window');
   await clickOn('#demo-appearance-window');
   await waitFor('la fenêtre d\'apparence', "document.querySelector('.omni-appearance-window input[type=\"range\"][aria-label]') !== null");
   await evaluate(`(() => { const range = [...document.querySelectorAll('.omni-appearance-window input[type="range"]')][1]; range.value = '7'; range.dispatchEvent(new Event('input', { bubbles: true })); range.dispatchEvent(new Event('change', { bubbles: true })); })()`);

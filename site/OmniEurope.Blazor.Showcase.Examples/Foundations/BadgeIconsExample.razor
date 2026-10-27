@@ -1,0 +1,7 @@
+@* The icon goes through the Icon slot and takes the size of the badge's text; alone, it makes a square
+   badge; a size set on the icon wins. *@
+<OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+    <OmniBadge Tone="OmniTone.Success"><Icon><OmniIcon Name="OmniIconName.Check" /></Icon><ChildContent>Published</ChildContent></OmniBadge>
+    <OmniBadge Tone="OmniTone.Info"><Icon><OmniIcon Name="OmniIconName.Info" Label="Information" /></Icon></OmniBadge>
+    <OmniBadge Tone="OmniTone.Warning"><Icon><OmniIcon Name="OmniIconName.Warning" Size="OmniControlSize.Medium" /></Icon><ChildContent>Fixed size</ChildContent></OmniBadge>
+</OmniRow>

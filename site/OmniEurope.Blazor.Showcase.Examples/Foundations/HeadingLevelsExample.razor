@@ -1,0 +1,10 @@
+@* The six heading levels: each is the HTML tag of the same number and a size on the scale. *@
+<OmniStack Gap="OmniSpacing.Small">
+    @foreach (var level in Levels)
+    {
+        <OmniRow @key="level" Gap="OmniSpacing.Medium" Align="OmniAlignment.Center" Wrap="true">
+            <code>@TypographySpecimens.LevelTag(level)</code>
+            <OmniHeading Level="level">Level @((int)level) heading</OmniHeading>
+        </OmniRow>
+    }
+</OmniStack>

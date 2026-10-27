@@ -1,0 +1,26 @@
+@* Four fixed looks, each in a scope of its own and none following the visitor: a theme with a palette
+   that is not its own, the same in dark, a theme with its own palette, and a palette alone over the
+   shipped shape. Preset and Palette of OmniThemeScope compose them; OmniThemePreset.With does the same in code. *@
+<OmniTileGrid Columns="4" MinColumnWidth="18rem" EqualHeights="false">
+    @foreach (var sample in Samples)
+    {
+        <OmniThemeScope @key="sample.Caption" Appearance="sample.Appearance" Preset="sample.Theme" Palette="sample.Palette">
+            <OmniCard>
+                <HeaderContent>
+                    <OmniHeading Level="OmniHeadingLevel.H4">@sample.Caption</OmniHeading>
+                </HeaderContent>
+                <ChildContent>
+                    <OmniStack Gap="OmniSpacing.Small">
+                        <OmniText Element="OmniTextElement.Paragraph">@(sample.Theme?.Description ?? sample.Palette?.Description)</OmniText>
+                        <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+                            <OmniButton><Icon><OmniIcon Name="OmniIconName.Save" /></Icon><ChildContent><span>Save</span></ChildContent></OmniButton>
+                            <OmniButton Variant="OmniButtonVariant.Secondary"><Icon><OmniIcon Name="OmniIconName.Close" /></Icon><ChildContent><span>Cancel</span></ChildContent></OmniButton>
+                            <OmniBadge Tone="OmniTone.Success" Fill="OmniFill.Solid">Published</OmniBadge>
+                        </OmniRow>
+                        <OmniAlert Severity="OmniSeverity.Info" Fill="OmniFill.Solid">Any palette paints any theme.</OmniAlert>
+                    </OmniStack>
+                </ChildContent>
+            </OmniCard>
+        </OmniThemeScope>
+    }
+</OmniTileGrid>

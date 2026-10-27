@@ -1,0 +1,20 @@
+@* A common width: words of different lengths line up on the same width in a column or a list when they
+   carry the same step (Width). It is a floor: a longer text widens its badge, nothing is cut. Without
+   Width, the width of the content. *@
+<OmniRow Gap="OmniSpacing.Large" Align="OmniAlignment.Start" Wrap="true">
+    <OmniStack Gap="OmniSpacing.Small" Align="OmniAlignment.Start">
+        <OmniBadge Tone="OmniTone.Success" Fill="OmniFill.Tonal" Width="OmniBadgeWidth.Small">SPF</OmniBadge>
+        <OmniBadge Tone="OmniTone.Success" Fill="OmniFill.Tonal" Width="OmniBadgeWidth.Small">DKIM</OmniBadge>
+        <OmniBadge Tone="OmniTone.Warning" Fill="OmniFill.Tonal" Width="OmniBadgeWidth.Small">DMARC</OmniBadge>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.Small" Align="OmniAlignment.Start">
+        <OmniBadge Tone="OmniTone.Danger" Width="OmniBadgeWidth.Medium">Failed</OmniBadge>
+        <OmniBadge Tone="OmniTone.Warning" Width="OmniBadgeWidth.Medium">Pending</OmniBadge>
+        <OmniBadge Tone="OmniTone.Accent" Width="OmniBadgeWidth.Medium">New</OmniBadge>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.Small" Align="OmniAlignment.Start">
+        <OmniBadge Tone="OmniTone.Info" Fill="OmniFill.Outline" Width="OmniBadgeWidth.Large">In review</OmniBadge>
+        <OmniBadge Tone="OmniTone.Success" Fill="OmniFill.Outline" Width="OmniBadgeWidth.Large">Published</OmniBadge>
+        <OmniBadge Tone="OmniTone.Danger" Fill="OmniFill.Outline" Width="OmniBadgeWidth.Large">Rejected</OmniBadge>
+    </OmniStack>
+</OmniRow>

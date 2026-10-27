@@ -262,7 +262,7 @@ const pickTheme = name => evaluate(`(() => {
   select.value = [...select.options].find(option => option.textContent.trim().startsWith(${JSON.stringify(name)})).value;
   select.dispatchEvent(new Event('change', { bubbles: true }));
 })()`);
-await evaluate("Blazor.navigateTo('/components/legacy/themes')");
+await evaluate("Blazor.navigateTo('/components/theme')");
 await waitFor('la démonstration des thèmes', "document.getElementById('demo-appearance-window') !== null");
 await evaluate("document.getElementById('demo-appearance-window').scrollIntoView({ block: 'center' })");
 await pause(500);

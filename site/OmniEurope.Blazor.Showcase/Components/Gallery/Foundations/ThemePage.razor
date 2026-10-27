@@ -1,0 +1,138 @@
+@page "/components/theme"
+@using OmniEurope.Blazor.Showcase.Examples.Foundations
+
+<GalleryPageFrame Slug="theme">
+    <Settings>
+        @* The appearance of the whole showcase, bound to the showcase's own theme state: the same state the
+           pickers beside every page title and the customizer write. The text size and the size of the
+           controls are not bound, so their rows are not shown; the font and the content width only reach
+           the nested preview. *@
+        <OmniAppearanceSettings Compact="true"
+                                Appearance="@ModuleAppearance" AppearanceChanged="@SetAppearanceAsync"
+                                Preset="@Look.Theme" PresetChanged="@SetPresetAsync"
+                                Palette="@PaletteSetting" PaletteChanged="@SetPaletteAsync"
+                                Density="@Look.Density" DensityChanged="@SetDensityAsync"
+                                Font="@PreviewFont" FontChanged="@SetFont"
+                                FullWidth="@PreviewFullWidth" FullWidthChanged="@SetFullWidth"
+                                BackdropMotion="@Look.BackdropMotion" BackdropMotionChanged="@SetBackdropMotionAsync" />
+
+        <OmniSettingsSection Title="@Text["ThemeSettingsTitle"]" Description="@Text["ThemeSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["ThemeAppearance"]" Description="@Text["ThemeAppearanceDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.ThemeSystem" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniAppearance" Options="@AppearanceOptions" @bind-Value="ScopeAppearance" Label="@Text["ThemeAppearance"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ThemeDensity"]" Description="@Text["ThemeDensityDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniDensity" Options="@DensityOptions" @bind-Value="ScopeDensity" Label="@Text["ThemeDensity"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ThemeBackdropMotion"]" Description="@Text["ThemeBackdropMotionDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Sparkle" /></Icon>
+                <ChildContent>
+                    <OmniSwitch TValue="bool" @bind-Value:get="Look.BackdropMotion" @bind-Value:set="SetBackdropMotionAsync" aria-label="@Text["ThemeBackdropMotion"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ThemeWindow"]" Description="@Text["ThemeWindowDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.PictureInPicture" /></Icon>
+                <ChildContent>
+                    <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(() => WindowOpen = true)">
+                        <OmniIcon Name="OmniIconName.OpenExternal" />
+                        <span>@Text["ThemeWindowOpen"]</span>
+                    </OmniButton>
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+
+        @* The window alone, as a host opens it from a menu entry: only the bound rows show. *@
+        <OmniAppearanceWindow @bind-Open="WindowOpen"
+                              Appearance="@ModuleAppearance" AppearanceChanged="@SetAppearanceAsync"
+                              Font="@PreviewFont" FontChanged="@SetFont"
+                              FullWidth="@PreviewFullWidth" FullWidthChanged="@SetFullWidth"
+                              Preset="@Look.Theme" PresetChanged="@SetPresetAsync"
+                              Palette="@PaletteSetting" PaletteChanged="@SetPaletteAsync"
+                              BackdropMotion="@Look.BackdropMotion" BackdropMotionChanged="@SetBackdropMotionAsync"
+                              Title="@Text["ThemeWindowTitle"]" />
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ThemeThemesTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Medium">
+                    <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["ThemeThemesDescription"]</OmniText>
+                    <ThemePresetsExample Preset="Look.Theme" PresetChanged="SelectPresetAsync" Palette="Look.Palette" Appearance="ModuleAppearance" />
+                </OmniStack>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ThemePalettesTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Medium">
+                    <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["ThemePalettesDescription"]</OmniText>
+                    <ThemePalettesExample Preset="Look.Theme" Palette="Look.Palette" PaletteChanged="SelectPaletteAsync" Appearance="ModuleAppearance" />
+                </OmniStack>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ThemeCombinationsTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Medium">
+                    <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["ThemeCombinationsDescription"]</OmniText>
+                    <OmniText Element="OmniTextElement.Paragraph">@CombinationCount</OmniText>
+                    <ThemeCombinationsExample />
+                </OmniStack>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ThemeComponentsTitle"]</HeaderContent>
+            <ChildContent><ThemeComponentsExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ThemePreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Medium">
+                    <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center" Justify="OmniJustification.End">
+                        <OmniText Tone="OmniTextTone.Muted">@Text["ThemeToggleHint"]</OmniText>
+                        <OmniButton Variant="OmniButtonVariant.Secondary" Label="@Text["ThemeToggleAria"]" title="@Text["ThemeToggleAria"]" OnClick="ToggleScopeAppearance">
+                            <OmniIcon Name="@ScopeToggleIcon" />
+                        </OmniButton>
+                    </OmniRow>
+                    <ThemeScopeExample Appearance="ScopeAppearance" Density="ScopeDensity" Preset="Look.Theme" Palette="Look.Palette"
+                                       Font="PreviewFont" BackdropMotion="Look.BackdropMotion" FullWidth="PreviewFullWidth" />
+                </OmniStack>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ThemeAppearancesTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Medium">
+                    <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["ThemeAppearancesDescription"]</OmniText>
+                    <ThemeScopesExample Preset="Look.Theme" Palette="Look.Palette" />
+                </OmniStack>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ThemeDensitiesTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Medium">
+                    <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["ThemeDensitiesDescription"]</OmniText>
+                    <ThemeScopesExample ByDensity="true" Appearance="ScopeAppearance" Preset="Look.Theme" Palette="Look.Palette" />
+                </OmniStack>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ThemeFollowingTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Medium">
+                    <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["ThemeFollowingDescription"]</OmniText>
+                    <ThemeFollowingExample />
+                </OmniStack>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

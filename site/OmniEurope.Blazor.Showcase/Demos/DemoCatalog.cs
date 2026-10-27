@@ -14,10 +14,6 @@ public static class DemoCatalog
     /// <summary>Every entry of the gallery.</summary>
     public static IReadOnlyList<DemoDefinition> All { get; } =
     [
-        new("badges", typeof(BadgesDemo), "DemoBadgesTitle", "DemoBadgesSummary",
-            ["DemoBadgesCapability1", "DemoBadgesCapability2", "DemoBadgesCapability3"]),
-        new("typographie", typeof(TypographyDemo), "DemoTypographyTitle", "DemoTypographySummary",
-            ["DemoTypographyCapability1", "DemoTypographyCapability2", "DemoTypographyCapability3"]),
         new("mise-en-page", typeof(LayoutDemo), "DemoLayoutTitle", "DemoLayoutSummary",
             ["DemoLayoutCapability1", "DemoLayoutCapability2", "DemoLayoutCapability3", "DemoLayoutCapability4", "DemoLayoutCapability5"]),
         new("accordeon", typeof(AccordionDemo), "DemoAccordionTitle", "DemoAccordionSummary",
@@ -26,19 +22,6 @@ public static class DemoCatalog
             ["DemoShellCapability1", "DemoShellCapability2", "DemoShellCapability3", "DemoShellCapability4"]),
         new("coquille-application", typeof(AppShellDemo), "DemoAppShellTitle", "DemoAppShellSummary",
             ["DemoAppShellCapability1", "DemoAppShellCapability2", "DemoAppShellCapability3"]),
-        new("themes", typeof(ThemesDemo), "DemoThemesTitle", "DemoThemesSummary",
-            ["DemoThemesCapability1", "DemoThemesCapability2", "DemoThemesCapability3"],
-            new Dictionary<string, object[]>
-            {
-                ["DemoThemesCapability3"] =
-                [
-                    OmniThemePresets.All.Count,
-                    OmniThemePalettes.All.Count,
-                    OmniThemePresets.All.Count * OmniThemePalettes.All.Count
-                ]
-            }),
-        new("medias", typeof(MediaDemo), "DemoMediaTitle", "DemoMediaSummary",
-            ["DemoMediaCapability1", "DemoMediaCapability2", "DemoMediaCapability3", "DemoMediaCapability4"]),
         new("surfaces", typeof(SurfacesDemo), "DemoSurfacesTitle", "DemoSurfacesSummary",
             ["DemoSurfacesCapability1", "DemoSurfacesCapability2", "DemoSurfacesCapability3"]),
         new("formulaires", typeof(FormDemo), "DemoFormTitle", "DemoFormSummary",

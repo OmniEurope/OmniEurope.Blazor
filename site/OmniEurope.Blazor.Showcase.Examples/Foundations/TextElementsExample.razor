@@ -1,0 +1,19 @@
+@* Every element OmniText renders, read from the enumeration, then a Title and a Caption in context:
+   the two block elements carry margins (the spacing utilities such as omni-u-mb-xs) without an extra
+   display class. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniStack Gap="OmniSpacing.Small">
+        @foreach (var element in Elements)
+        {
+            <OmniRow @key="element" Gap="OmniSpacing.Medium" Align="OmniAlignment.Center" Wrap="true">
+                <code>@TypographySpecimens.ElementTag(element)</code>
+                <OmniText Element="element">@TypographySpecimens.ElementSample(element)</OmniText>
+            </OmniRow>
+        }
+    </OmniStack>
+    <div>
+        <OmniText Element="OmniTextElement.Title" Class="omni-u-mb-xs">Open cases</OmniText>
+        <OmniText Element="OmniTextElement.Caption" Tone="OmniTextTone.Muted" Class="omni-u-mb-sm">Cases waiting for a decision this quarter.</OmniText>
+        <OmniProgressBar Value="40" Label="Open cases" />
+    </div>
+</OmniStack>

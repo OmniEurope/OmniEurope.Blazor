@@ -1,0 +1,9 @@
+@* One icon by name. Without a label the icon is decorative and hidden from screen readers; with one it is
+   announced as an image carrying that name. *@
+<OmniRow Gap="OmniSpacing.Large" Align="OmniAlignment.Center" Wrap="true">
+    <OmniIcon Name="Name" Size="Size" Label="@Label" />
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <code>OmniIconName.@Name</code>
+        <OmniText Tone="OmniTextTone.Muted">@AriaState</OmniText>
+    </OmniStack>
+</OmniRow>

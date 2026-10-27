@@ -1,0 +1,33 @@
+@* The look the visitor keeps. A scope that writes none of its appearance parameters follows
+   OmniAppearanceState, the user's appearance that the package keeps as a preference (the browser's
+   storage here, the host's database when it supplies one): it comes back on reload and passes from one
+   tab to the other. The settings and the window below bind nothing either, so they read and write that
+   same state. The text size and the size of the controls apply to the whole page, as the rem sizes
+   follow the document root, and are removed on leaving the page. *@
+<OmniThemeScope Id="theme-following">
+    <OmniStack Gap="OmniSpacing.Medium">
+        <OmniAppearanceSettings />
+        @* The same window opened from a menu entry: theme and palette side by side, the scales, the
+           density and the font. A new theme resets the palette and the font to its own, as in the settings. *@
+        <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+            <OmniButton Id="demo-appearance-window" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => _windowOpen = true)">
+                <Icon><OmniIcon Name="OmniIconName.Palette" /></Icon>
+                <ChildContent><span>Appearance window</span></ChildContent>
+            </OmniButton>
+        </OmniRow>
+        <OmniAppearanceWindow @bind-Open="_windowOpen" />
+        <OmniCard>
+            <HeaderContent><OmniHeading Level="OmniHeadingLevel.H4">Preview: @Caption</OmniHeading></HeaderContent>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Small">
+                    <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+                        <OmniButton><Icon><OmniIcon Name="OmniIconName.Save" /></Icon><ChildContent><span>Save</span></ChildContent></OmniButton>
+                        <OmniButton Variant="OmniButtonVariant.Secondary"><Icon><OmniIcon Name="OmniIconName.Close" /></Icon><ChildContent><span>Cancel</span></ChildContent></OmniButton>
+                        <OmniBadge Tone="OmniTone.Success" Fill="OmniFill.Solid">Published</OmniBadge>
+                    </OmniRow>
+                    <OmniAlert Severity="OmniSeverity.Info" Fill="OmniFill.Solid">Any palette paints any theme.</OmniAlert>
+                </OmniStack>
+            </ChildContent>
+        </OmniCard>
+    </OmniStack>
+</OmniThemeScope>

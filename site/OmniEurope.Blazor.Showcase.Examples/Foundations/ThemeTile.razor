@@ -1,0 +1,13 @@
+@* One tile of a theme or palette picker: the name and the description of the choice, drawn in a scope
+   that wears it, with four badges that read the tokens of that look. The badges are the swatches: no
+   colour is written here, they come from the scope. *@
+<OmniThemeScope Appearance="Appearance" Preset="Preset" Palette="Palette">
+    <OmniSelectableCard Title="@Title" Description="@Description" ShowCheckBox="false" Value="Active" ValueChanged="SelectAsync">
+        <OmniRow Gap="OmniSpacing.XSmall" Wrap="true">
+            <OmniBadge Tone="OmniTone.Accent">Accent</OmniBadge>
+            <OmniBadge Tone="OmniTone.Success">Success</OmniBadge>
+            <OmniBadge Tone="OmniTone.Warning">Warning</OmniBadge>
+            <OmniBadge Tone="OmniTone.Danger">Danger</OmniBadge>
+        </OmniRow>
+    </OmniSelectableCard>
+</OmniThemeScope>

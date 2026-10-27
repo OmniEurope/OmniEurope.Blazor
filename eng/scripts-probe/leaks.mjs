@@ -4,7 +4,7 @@
 // round trip is the reference). A module whose detach misses its element stays attached for good,
 // one more set of listeners per visit; this is where it shows.
 
-const neutral = ['/components/legacy/badges', '.omni-badge'];
+const neutral = ['/components/badges', '.omni-badge'];
 
 export async function leakSteps(session, results) {
   const { waitFor, key, pause, check, clickOn } = session;

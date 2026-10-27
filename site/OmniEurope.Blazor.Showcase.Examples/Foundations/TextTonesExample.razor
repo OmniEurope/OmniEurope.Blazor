@@ -1,0 +1,11 @@
+@* Every tone, on a heading and on running text, read from the enumeration. A tone is a colour, never a weight. *@
+<OmniStack Gap="OmniSpacing.Small">
+    @foreach (var tone in Tones)
+    {
+        <OmniRow @key="tone" Gap="OmniSpacing.Medium" Align="OmniAlignment.Center" Wrap="true">
+            <code>@tone</code>
+            <OmniHeading Level="OmniHeadingLevel.H5" Tone="tone">@TypographySpecimens.ToneName(tone)</OmniHeading>
+            <OmniText Tone="tone">The same sentence in running text, to judge the contrast.</OmniText>
+        </OmniRow>
+    }
+</OmniStack>

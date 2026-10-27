@@ -4,4 +4,163 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="ThemeTitle" xml:space="preserve"><value>Thème</value></data>
+  <data name="ThemeDescription" xml:space="preserve"><value>Chaque thème et chaque palette, appliqués à une vraie page : choisissez-les, limitez-les à une région, et regardez les boutons, badges, alertes et champs suivre. Une portée laissée libre suit la préférence d'apparence du visiteur.</value></data>
+  <data name="ThemeSettingsTitle" xml:space="preserve"><value>Thème de la page</value></data>
+  <data name="ThemeSettingsDescription" xml:space="preserve"><value>Ces réglages changent le thème de toute la vitrine, exactement comme la fenêtre d'apparence d'une application.</value></data>
+  <data name="ThemeAppearance" xml:space="preserve"><value>Apparence</value></data>
+  <data name="ThemeAppearanceDescription" xml:space="preserve"><value>Clair, sombre, ou selon le système d'exploitation.</value></data>
+  <data name="ThemeAppearanceLight" xml:space="preserve"><value>Clair</value></data>
+  <data name="ThemeAppearanceDark" xml:space="preserve"><value>Sombre</value></data>
+  <data name="ThemeAppearanceSystem" xml:space="preserve"><value>Système</value></data>
+  <data name="ThemeDensity" xml:space="preserve"><value>Densité</value></data>
+  <data name="ThemeDensityDescription" xml:space="preserve"><value>La place que prennent les contrôles et les espacements, pour la portée imbriquée ci-dessous.</value></data>
+  <data name="ThemeDensityCompact" xml:space="preserve"><value>Compacte</value></data>
+  <data name="ThemeDensityComfortable" xml:space="preserve"><value>Confortable</value></data>
+  <data name="ThemeDensitySpacious" xml:space="preserve"><value>Aérée</value></data>
+  <data name="ThemeBackdropMotion" xml:space="preserve"><value>Arrière-plan animé</value></data>
+  <data name="ThemeBackdropMotionDescription" xml:space="preserve"><value>Laisse bouger l'arrière-plan du thème, quand il en a un.</value></data>
+  <data name="ThemeWindow" xml:space="preserve"><value>Fenêtre d'apparence</value></data>
+  <data name="ThemeWindowDescription" xml:space="preserve"><value>La fenêtre toute faite qui réunit tous les réglages d'apparence au même endroit.</value></data>
+  <data name="ThemeWindowOpen" xml:space="preserve"><value>Ouvrir la fenêtre</value></data>
+  <data name="ThemeWindowTitle" xml:space="preserve"><value>Apparence</value></data>
+  <data name="ThemeOpenPage" xml:space="preserve"><value>Page des thèmes</value></data>
+  <data name="ThemeThemesTitle" xml:space="preserve"><value>Thèmes</value></data>
+  <data name="ThemeThemesDescription" xml:space="preserve"><value>Chaque tuile montre son thème dans sa propre portée. Un clic l'applique à toute la vitrine.</value></data>
+  <data name="ThemePalettesTitle" xml:space="preserve"><value>Palettes</value></data>
+  <data name="ThemePalettesDescription" xml:space="preserve"><value>Une palette recolore n'importe quel thème. Un clic l'applique par-dessus le thème courant.</value></data>
+  <data name="ThemeCombinationsTitle" xml:space="preserve"><value>Combinaisons</value></data>
+  <data name="ThemeCombinationsDescription" xml:space="preserve"><value>Un thème et une palette sont indépendants : quelques associations côte à côte, chacune dans sa propre portée.</value></data>
+  <data name="ThemeCombinationsCount" xml:space="preserve"><value>{0} thèmes et {1} palettes, {2} combinaisons, chacune en clair et en sombre.</value></data>
+  <data name="ThemeComponentsTitle" xml:space="preserve"><value>Ce que le thème change</value></data>
+  <data name="ThemePreviewTitle" xml:space="preserve"><value>Portée imbriquée</value></data>
+  <data name="ThemeToggleHint" xml:space="preserve"><value>Bascule la portée entre clair et sombre sans toucher au reste de la page.</value></data>
+  <data name="ThemeToggleAria" xml:space="preserve"><value>Basculer l'apparence de la portée imbriquée</value></data>
+  <data name="ThemeAppearancesTitle" xml:space="preserve"><value>Apparences</value></data>
+  <data name="ThemeAppearancesDescription" xml:space="preserve"><value>Le même contenu dans chaque apparence, côte à côte.</value></data>
+  <data name="ThemeDensitiesTitle" xml:space="preserve"><value>Densités</value></data>
+  <data name="ThemeDensitiesDescription" xml:space="preserve"><value>Le même contenu dans chaque densité, côte à côte.</value></data>
+  <data name="ThemeFollowingTitle" xml:space="preserve"><value>Suivre le visiteur</value></data>
+  <data name="ThemeFollowingDescription" xml:space="preserve"><value>Une portée sans paramètre d'apparence suit la préférence du visiteur, et la fenêtre et les réglages d'apparence ci-dessous changent cette préférence.</value></data>
+  <data name="IconsTitle" xml:space="preserve"><value>Icônes</value></data>
+  <data name="IconsDescription" xml:space="preserve"><value>Le jeu d'icônes, un glyphe à la fois : ses tailles, son nom accessible, les glyphes d'une autre famille, et tout le catalogue dans une grille filtrable.</value></data>
+  <data name="IconsSettingsTitle" xml:space="preserve"><value>Icône à l'essai</value></data>
+  <data name="IconsSettingsDescription" xml:space="preserve"><value>Choisissez un glyphe, une taille et un libellé accessible.</value></data>
+  <data name="IconsSize" xml:space="preserve"><value>Taille</value></data>
+  <data name="IconsSizeDescription" xml:space="preserve"><value>La taille d'affichage de l'icône.</value></data>
+  <data name="IconsSizeSmall" xml:space="preserve"><value>Petite</value></data>
+  <data name="IconsSizeMedium" xml:space="preserve"><value>Moyenne</value></data>
+  <data name="IconsSizeLarge" xml:space="preserve"><value>Grande</value></data>
+  <data name="IconsSelected" xml:space="preserve"><value>Icône</value></data>
+  <data name="IconsSelectedDescription" xml:space="preserve"><value>Le glyphe à afficher. En choisir un dans le catalogue ci-dessous met ce champ à jour.</value></data>
+  <data name="IconsLabel" xml:space="preserve"><value>Libellé accessible</value></data>
+  <data name="IconsLabelDescription" xml:space="preserve"><value>Lu par les lecteurs d'écran. Laissé vide, l'icône est décorative et leur est masquée.</value></data>
+  <data name="IconsLabelPlaceholder" xml:space="preserve"><value>Décorative si vide</value></data>
+  <data name="IconsLabelDefault" xml:space="preserve"><value>Favori</value></data>
+  <data name="IconsPreviewTitle" xml:space="preserve"><value>Aperçu</value></data>
+  <data name="IconsSizesTitle" xml:space="preserve"><value>Tailles</value></data>
+  <data name="IconsGlyphTitle" xml:space="preserve"><value>Autres familles de glyphes</value></data>
+  <data name="IconsGlyphDescription" xml:space="preserve"><value>Une icône accepte un glyphe d'une autre famille, et les formats de fichier prennent leur propre icône et couleur.</value></data>
+  <data name="IconsGalleryTitle" xml:space="preserve"><value>Catalogue</value></data>
+  <data name="IconsGalleryDescription" xml:space="preserve"><value>Filtrez par nom et choisissez une icône pour la voir ci-dessus.</value></data>
+  <data name="TypographyTitle" xml:space="preserve"><value>Typographie</value></data>
+  <data name="TypographyDescription" xml:space="preserve"><value>Titres, texte, libellés et liens : chaque niveau, élément et ton, plus la troncature d'un texte qui ne tient pas.</value></data>
+  <data name="TypographyHeadingSettingsTitle" xml:space="preserve"><value>Titre à l'essai</value></data>
+  <data name="TypographyHeadingSettingsDescription" xml:space="preserve"><value>Le texte, le niveau et le ton du titre de l'aperçu.</value></data>
+  <data name="TypographyHeadingText" xml:space="preserve"><value>Texte du titre</value></data>
+  <data name="TypographyHeadingDefault" xml:space="preserve"><value>Un titre qui dit ce qui suit</value></data>
+  <data name="TypographyLevel" xml:space="preserve"><value>Niveau</value></data>
+  <data name="TypographyLevelDescription" xml:space="preserve"><value>Le niveau dans le plan, du titre de page vers le bas.</value></data>
+  <data name="TypographyHeadingTone" xml:space="preserve"><value>Ton du titre</value></data>
+  <data name="TypographyToneDescription" xml:space="preserve"><value>La couleur sémantique du texte.</value></data>
+  <data name="TypographyTextSettingsTitle" xml:space="preserve"><value>Texte à l'essai</value></data>
+  <data name="TypographyTextSettingsDescription" xml:space="preserve"><value>L'élément, le ton et la troncature du paragraphe de l'aperçu.</value></data>
+  <data name="TypographyElement" xml:space="preserve"><value>Élément</value></data>
+  <data name="TypographyElementDescription" xml:space="preserve"><value>La balise avec laquelle le texte est rendu.</value></data>
+  <data name="TypographyTextTone" xml:space="preserve"><value>Ton du texte</value></data>
+  <data name="TypographyTruncate" xml:space="preserve"><value>Tronquer</value></data>
+  <data name="TypographyTruncateDescription" xml:space="preserve"><value>Coupe le texte qui ne tient pas sur une ligne et ajoute des points de suspension.</value></data>
+  <data name="TypographyPreviewTitle" xml:space="preserve"><value>Aperçu</value></data>
+  <data name="TypographyLevelsTitle" xml:space="preserve"><value>Niveaux de titre</value></data>
+  <data name="TypographyElementsTitle" xml:space="preserve"><value>Éléments de texte</value></data>
+  <data name="TypographyTonesTitle" xml:space="preserve"><value>Tons de texte</value></data>
+  <data name="TypographyTruncateTitle" xml:space="preserve"><value>Troncature</value></data>
+  <data name="TypographyLabelsTitle" xml:space="preserve"><value>Libellés et liens</value></data>
+  <data name="TypographyLabelsDescription" xml:space="preserve"><value>Un libellé est lié à son champ, et un lien est interne ou s'ouvre dans un nouvel onglet.</value></data>
+  <data name="TypographyToneDefault" xml:space="preserve"><value>Par défaut</value></data>
+  <data name="TypographyToneMuted" xml:space="preserve"><value>Atténué</value></data>
+  <data name="TypographyToneAccent" xml:space="preserve"><value>Accent</value></data>
+  <data name="TypographyToneSuccess" xml:space="preserve"><value>Succès</value></data>
+  <data name="TypographyToneDanger" xml:space="preserve"><value>Danger</value></data>
+  <data name="TypographyToneInfo" xml:space="preserve"><value>Information</value></data>
+  <data name="TypographyToneWarning" xml:space="preserve"><value>Avertissement</value></data>
+  <data name="TypographyElementSpan" xml:space="preserve"><value>Texte en ligne</value></data>
+  <data name="TypographyElementParagraph" xml:space="preserve"><value>Paragraphe</value></data>
+  <data name="TypographyElementStrong" xml:space="preserve"><value>Gras</value></data>
+  <data name="TypographyElementEmphasis" xml:space="preserve"><value>Emphase</value></data>
+  <data name="TypographyElementSmall" xml:space="preserve"><value>Petit</value></data>
+  <data name="TypographyElementTitle" xml:space="preserve"><value>Titre</value></data>
+  <data name="TypographyElementCaption" xml:space="preserve"><value>Légende</value></data>
+  <data name="BadgesTitle" xml:space="preserve"><value>Badges</value></data>
+  <data name="BadgesDescription" xml:space="preserve"><value>Courts libellés d'état : chaque ton et remplissage, une encre lisible sur tout fond, les icônes, les largeurs, et les badges en situation.</value></data>
+  <data name="BadgesSettingsTitle" xml:space="preserve"><value>Badge à l'essai</value></data>
+  <data name="BadgesSettingsDescription" xml:space="preserve"><value>Le ton, le remplissage, le libellé et l'icône du badge de l'aperçu.</value></data>
+  <data name="BadgesVariant" xml:space="preserve"><value>Ton</value></data>
+  <data name="BadgesVariantDescription" xml:space="preserve"><value>La couleur sémantique du badge.</value></data>
+  <data name="BadgesVariantNeutral" xml:space="preserve"><value>Neutre</value></data>
+  <data name="BadgesVariantAccent" xml:space="preserve"><value>Accent</value></data>
+  <data name="BadgesVariantInfo" xml:space="preserve"><value>Information</value></data>
+  <data name="BadgesVariantSuccess" xml:space="preserve"><value>Succès</value></data>
+  <data name="BadgesVariantWarning" xml:space="preserve"><value>Avertissement</value></data>
+  <data name="BadgesVariantDanger" xml:space="preserve"><value>Danger</value></data>
+  <data name="BadgesFill" xml:space="preserve"><value>Remplissage</value></data>
+  <data name="BadgesFillDescription" xml:space="preserve"><value>La façon dont la couleur est appliquée.</value></data>
+  <data name="BadgesFillTonal" xml:space="preserve"><value>Teinté</value></data>
+  <data name="BadgesFillSolid" xml:space="preserve"><value>Plein</value></data>
+  <data name="BadgesFillOutline" xml:space="preserve"><value>Contour</value></data>
+  <data name="BadgesLabel" xml:space="preserve"><value>Libellé</value></data>
+  <data name="BadgesLabelDescription" xml:space="preserve"><value>Le texte affiché dans le badge.</value></data>
+  <data name="BadgesLabelDefault" xml:space="preserve"><value>Nouveau</value></data>
+  <data name="BadgesWithIcon" xml:space="preserve"><value>Avec icône</value></data>
+  <data name="BadgesWithIconDescription" xml:space="preserve"><value>Affiche une icône avant le libellé.</value></data>
+  <data name="BadgesPreviewTitle" xml:space="preserve"><value>Aperçu</value></data>
+  <data name="BadgesMatrixTitle" xml:space="preserve"><value>Tons et remplissages</value></data>
+  <data name="BadgesMatrixDescription" xml:space="preserve"><value>Chaque remplissage pour chaque ton, avec des compteurs en dessous.</value></data>
+  <data name="BadgesInkTitle" xml:space="preserve"><value>Encre lisible</value></data>
+  <data name="BadgesInkDescription" xml:space="preserve"><value>La couleur de l'encre est choisie pour contraster avec le fond du badge, quel que soit le thème.</value></data>
+  <data name="BadgesIconsTitle" xml:space="preserve"><value>Icônes</value></data>
+  <data name="BadgesIconsDescription" xml:space="preserve"><value>Un badge peut porter une icône avant son libellé, ou une icône seule.</value></data>
+  <data name="BadgesWidthTitle" xml:space="preserve"><value>Largeurs</value></data>
+  <data name="BadgesWidthDescription" xml:space="preserve"><value>Un badge s'élargit avec son libellé, dans la limite de la place disponible.</value></data>
+  <data name="BadgesContextTitle" xml:space="preserve"><value>En situation</value></data>
+  <data name="ImagesTitle" xml:space="preserve"><value>Images</value></data>
+  <data name="ImagesDescription" xml:space="preserve"><value>Des images dans un cadre fixe : comment elles s'y ajustent, quand elles se chargent, et quelles sources elles acceptent.</value></data>
+  <data name="ImagesSettingsTitle" xml:space="preserve"><value>Image à l'essai</value></data>
+  <data name="ImagesSettingsDescription" xml:space="preserve"><value>La source, le cadre, l'ajustement et le chargement de l'image de l'aperçu.</value></data>
+  <data name="ImagesSource" xml:space="preserve"><value>Source</value></data>
+  <data name="ImagesSourceDescription" xml:space="preserve"><value>L'image à afficher.</value></data>
+  <data name="ImagesSourceSquare" xml:space="preserve"><value>Carrée</value></data>
+  <data name="ImagesSourcePortrait" xml:space="preserve"><value>Portrait</value></data>
+  <data name="ImagesSourceLandscape" xml:space="preserve"><value>Paysage</value></data>
+  <data name="ImagesSourceVector" xml:space="preserve"><value>Vectorielle</value></data>
+  <data name="ImagesBox" xml:space="preserve"><value>Cadre</value></data>
+  <data name="ImagesBoxDescription" xml:space="preserve"><value>La largeur et la hauteur dans lesquelles l'image est ajustée. Intrinsèque laisse le cadre libre.</value></data>
+  <data name="ImagesBoxIntrinsic" xml:space="preserve"><value>Intrinsèque</value></data>
+  <data name="ImagesBoxLandscape" xml:space="preserve"><value>Paysage</value></data>
+  <data name="ImagesBoxPortrait" xml:space="preserve"><value>Portrait</value></data>
+  <data name="ImagesBoxSquare" xml:space="preserve"><value>Carré</value></data>
+  <data name="ImagesFit" xml:space="preserve"><value>Ajustement</value></data>
+  <data name="ImagesFitDescription" xml:space="preserve"><value>La façon dont l'image remplit le cadre.</value></data>
+  <data name="ImagesFitNatural" xml:space="preserve"><value>Naturel</value></data>
+  <data name="ImagesFitContain" xml:space="preserve"><value>Contenir</value></data>
+  <data name="ImagesFitCover" xml:space="preserve"><value>Couvrir</value></data>
+  <data name="ImagesLoading" xml:space="preserve"><value>Chargement</value></data>
+  <data name="ImagesLoadingDescription" xml:space="preserve"><value>Immédiat charge tout de suite, différé attend que l'image approche de l'écran.</value></data>
+  <data name="ImagesLoadingEager" xml:space="preserve"><value>Immédiat</value></data>
+  <data name="ImagesLoadingLazy" xml:space="preserve"><value>Différé</value></data>
+  <data name="ImagesPreviewTitle" xml:space="preserve"><value>Aperçu</value></data>
+  <data name="ImagesFitsTitle" xml:space="preserve"><value>Ajustements</value></data>
+  <data name="ImagesFitsDescription" xml:space="preserve"><value>La même image dans le même cadre, avec chaque ajustement.</value></data>
+  <data name="ImagesLoadingsTitle" xml:space="preserve"><value>Modes de chargement</value></data>
+  <data name="ImagesSourcesTitle" xml:space="preserve"><value>Sources</value></data>
 </root>
