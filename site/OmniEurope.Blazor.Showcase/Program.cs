@@ -8,16 +8,25 @@ using OmniEurope.Blazor.Showcase.Theming;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.Services.AddOmniEuropeBlazor();
+await ShowcaseApiConfiguration.AddLocalOverrideAsync(builder.Configuration, new Uri(builder.HostEnvironment.BaseAddress));
 
 // DEMONSTRATION ONLY, opt-in: with ?store=demo in the address the preferences also go to a stand-in
-// database kept in the tab's sessionStorage (Preferences/DemoPreferenceStore.cs), so a probe can prove
-// the store path of OmniPreferences in a real browser. Without the flag nothing is registered and the
-// preferences stay in the browser alone, as for any visitor. The address is read before the host is
-// built, through the in-process runtime the WebAssembly builder registers as an instance.
+// database kept in the tab's sessionStorage (Preferences/DemoPreferenceStore.cs), so a probe of the static
+// published site can prove the store path of OmniPreferences in a real browser, another device included,
+// without an API. It wins over the API store below. The address is read before the host is built,
+// through the in-process runtime the WebAssembly builder registers as an instance.
 if (builder.Services.FirstOrDefault(service => service.ServiceType == typeof(IJSRuntime))?.ImplementationInstance is IJSInProcessRuntime bootRuntime
     && DemoPreferenceStore.Requested(bootRuntime) is { } demoSyncInterval)
 {
     builder.Services.AddOmniEuropePreferences<DemoPreferenceStore>(options => options.SyncInterval = demoSyncInterval);
+}
+// The deployed showcase: the preferences of the anonymous visitor are kept by the showcase API. Without
+// an API address (a static copy of the site) nothing is registered and they stay in the browser alone.
+else if (ShowcaseApiConfiguration.BaseAddress(builder.Configuration) is { } apiBaseAddress)
+{
+    builder.Services.AddSingleton(new ShowcaseApiHttpClient(new HttpClient { BaseAddress = apiBaseAddress, Timeout = TimeSpan.FromSeconds(10) }));
+    builder.Services.AddSingleton<ShowcaseVisitor>();
+    builder.Services.AddOmniEuropePreferences<ShowcaseApiPreferenceStore>();
 }
 
 builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });

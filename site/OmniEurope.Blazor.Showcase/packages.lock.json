@@ -280,6 +280,9 @@
           "OmniEurope.Blazor": "[1.9.4, )"
         }
       },
+      "omnieurope.blazor.showcase.shared": {
+        "type": "Project"
+      },
       "HtmlSanitizer": {
         "type": "CentralTransitive",
         "requested": "[9.2.1039, )",
