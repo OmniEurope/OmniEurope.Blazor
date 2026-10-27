@@ -1,0 +1,51 @@
+@page "/components/colors"
+@using OmniEurope.Blazor.Showcase.Examples.Selection
+
+<GalleryPageFrame Slug="colors">
+    <Settings>
+        <OmniSettingsSection Title="@Text["ColorsSettingsTitle"]" Description="@Text["ColorsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["ColorsShowValue"]" Description="@Text["ColorsShowValueDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowValue" aria-label="@Text["ColorsShowValue"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ColorsDisabled"]" Description="@Text["ColorsDisabledDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Pin" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="PickerDisabled" aria-label="@Text["ColorsDisabled"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ColorsPresets"]" Description="@Text["ColorsPresetsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Palette" /></Icon>
+                <Details>
+                    <OmniStack Orientation="OmniOrientation.Horizontal" Wrap="true" Gap="OmniSpacing.Small" Align="OmniAlignment.Center">
+                        @foreach (var preset in ColorPresets.All)
+                        {
+                            <OmniButton Variant="OmniButtonVariant.Secondary"
+                                        Size="OmniControlSize.Small"
+                                        OnClick="@(() => Color = preset.Hex)">
+                                <OmniIcon Name="OmniIconName.Palette" />
+                                <span>@Text["ColorsPreset" + preset.Key]</span>
+                            </OmniButton>
+                        }
+                    </OmniStack>
+                </Details>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ColorsPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <ColorsExample @bind-Color="Color" ShowValue="ShowValue" Disabled="PickerDisabled" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ColorsGalleryTitle"]</HeaderContent>
+            <ChildContent><ColorsGalleryExample /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

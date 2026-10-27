@@ -1,0 +1,12 @@
+@* Outside a group, a card binds a boolean (Multiple makes it a check box); a disabled card keeps its state. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Wrap="true" Gap="OmniSpacing.Medium">
+        <OmniSelectableCard Title="Cancellation insurance" Description="Refund until the day before departure." Multiple="true" @bind-Value="Insurance">
+            <Icon><OmniIcon Name="OmniIconName.ShieldCheck" /></Icon>
+        </OmniSelectableCard>
+        <OmniSelectableCard Title="Cabin luggage" Description="Always included in the fare." Multiple="true" Value="true" Disabled="true">
+            <Icon><OmniIcon Name="OmniIconName.Package" /></Icon>
+        </OmniSelectableCard>
+    </OmniStack>
+    <OmniText Tone="OmniTextTone.Muted">Insurance: <strong>@(Insurance ? "chosen" : "not chosen")</strong></OmniText>
+</OmniStack>

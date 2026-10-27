@@ -1,0 +1,10 @@
+@* The time picker binds a TimeOnly; Step sets the gap between two minutes it offers. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniFormField For="dates-time">
+        <LabelContent>Time</LabelContent>
+        <ChildContent>
+            <OmniTimePicker Id="dates-time" @bind-Value="Time" Step="TimeSpan.FromMinutes(5)" />
+        </ChildContent>
+    </OmniFormField>
+    <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@(Time?.ToString("HH:mm", System.Globalization.CultureInfo.InvariantCulture) ?? "null")</code></OmniText>
+</OmniStack>

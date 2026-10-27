@@ -1,0 +1,21 @@
+@* The colour picker only accepts and produces #RRGGBB, and never writes an inline style. The channels and the
+   luminance below are read back from the bound value: the luminance, not the hue, decides whether text laid on
+   the colour must be light or dark. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniFormField For="colors-color">
+        <LabelContent>Colour</LabelContent>
+        <ChildContent>
+            <OmniColorPicker Id="colors-color" @bind-Value="CurrentColor" ShowValue="ShowValue" Disabled="Disabled" />
+        </ChildContent>
+    </OmniFormField>
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Center">
+        <svg width="64" height="64" viewBox="0 0 10 10" focusable="false" aria-hidden="true">
+            <rect width="10" height="10" rx="1.5" fill="@Color" stroke="currentColor" stroke-opacity="0.3" stroke-width="0.2" />
+        </svg>
+        <OmniStack Gap="OmniSpacing.XSmall">
+            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Color</code></OmniText>
+            <OmniText Tone="OmniTextTone.Muted">Channels: <code>@RgbText</code></OmniText>
+            <OmniText Tone="OmniTextTone.Muted">Text on this colour: <strong>@BrightnessText</strong></OmniText>
+        </OmniStack>
+    </OmniStack>
+</OmniStack>

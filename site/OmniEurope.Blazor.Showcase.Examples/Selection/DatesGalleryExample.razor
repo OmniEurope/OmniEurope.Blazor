@@ -1,0 +1,59 @@
+@* More pickers: no initial value, read only, disabled, a date-time to the second, and a meeting bounded to the
+   weekdays of the current week. *@
+<OmniRow Gap="OmniSpacing.Large">
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniStack Gap="OmniSpacing.Small">
+            <OmniFormField For="dates-date-empty">
+                <LabelContent>No initial value</LabelContent>
+                <ChildContent>
+                    <OmniDatePicker Id="dates-date-empty" @bind-Value="EmptyDate" />
+                </ChildContent>
+            </OmniFormField>
+            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@FormatIso(EmptyDate)</code></OmniText>
+        </OmniStack>
+    </OmniColumn>
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniStack Gap="OmniSpacing.Small">
+            <OmniFormField For="dates-date-readonly">
+                <LabelContent>Read only</LabelContent>
+                <ChildContent>
+                    <OmniDatePicker Id="dates-date-readonly" @bind-Value="FrozenDate" ReadOnly="true" />
+                </ChildContent>
+            </OmniFormField>
+            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@FormatIso(FrozenDate)</code></OmniText>
+        </OmniStack>
+    </OmniColumn>
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniFormField For="dates-date-disabled" Disabled="true">
+            <LabelContent>Disabled</LabelContent>
+            <ChildContent>
+                <OmniDatePicker Id="dates-date-disabled" @bind-Value="FrozenDate" Disabled="true" />
+            </ChildContent>
+        </OmniFormField>
+    </OmniColumn>
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniStack Gap="OmniSpacing.Small">
+            <OmniFormField For="dates-datetime-seconds">
+                <LabelContent>Date and time to the second</LabelContent>
+                <ChildContent>
+                    <OmniDateTimePicker Id="dates-datetime-seconds" @bind-Value="PreciseMoment" ShowSeconds="true" />
+                </ChildContent>
+            </OmniFormField>
+            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@FormatIso(PreciseMoment)</code></OmniText>
+        </OmniStack>
+    </OmniColumn>
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniStack Gap="OmniSpacing.Small">
+            <OmniFormField For="dates-datetime-week" Description="@WeekText">
+                <LabelContent>Meeting this week, on a weekday</LabelContent>
+                <ChildContent>
+                    <OmniDateTimePicker Id="dates-datetime-week"
+                                        @bind-Value="MeetingMoment"
+                                        Minimum="WeekStart"
+                                        Maximum="WeekEnd" />
+                </ChildContent>
+            </OmniFormField>
+            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@FormatIso(MeetingMoment)</code></OmniText>
+        </OmniStack>
+    </OmniColumn>
+</OmniRow>

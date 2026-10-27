@@ -1,0 +1,6 @@
+@* The group draws one card per option: its text is the title, a disabled option a disabled card. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniSelectableCardGroup TValue="string" TSelection="IReadOnlyList<string>" Multiple="true" Options="ClassOptions"
+                             Label="Cards drawn from options" @bind-Value="Classes" />
+    <OmniText Tone="OmniTextTone.Muted">Bound value: <strong>@(Classes.Count == 0 ? "none" : string.Join(", ", Classes))</strong></OmniText>
+</OmniStack>

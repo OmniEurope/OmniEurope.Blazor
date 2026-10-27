@@ -1,0 +1,62 @@
+@page "/components/upload"
+@using OmniEurope.Blazor.Showcase.Examples.Selection
+
+<GalleryPageFrame Slug="upload">
+    <Settings>
+        <OmniSettingsSection Title="@Text["UploadSettingsTitle"]" Description="@Text["UploadSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["UploadAccept"]" Description="@Text["UploadAcceptDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Filter" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="AcceptFilter"
+                                   Options="AcceptOptions"
+                                   @bind-Value="AcceptMode"
+                                   Label="@Text["UploadAccept"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["UploadMaximumFiles"]" Description="@Text["UploadMaximumFilesDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.NumberedList" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="MaximumFilesValue"
+                                Minimum="1"
+                                Maximum="10"
+                                Step="1"
+                                ShowValue="true"
+                                aria-label="@Text["UploadMaximumFiles"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["UploadMaximumSize"]" Description="@Text["UploadMaximumSizeDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="long"
+                                   Options="SizeOptions"
+                                   @bind-Value="MaximumFileSize"
+                                   Label="@Text["UploadMaximumSize"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["UploadDisabled"]" Description="@Text["UploadDisabledDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Pin" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="UploadDisabled" aria-label="@Text["UploadDisabled"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["UploadPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <UploadExample AllowedContentTypes="AllowedContentTypes"
+                               MaximumFiles="MaximumFiles"
+                               MaximumFileSize="MaximumFileSize"
+                               Disabled="UploadDisabled" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["UploadFormTitle"]</HeaderContent>
+            <ChildContent><UploadFormExample /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

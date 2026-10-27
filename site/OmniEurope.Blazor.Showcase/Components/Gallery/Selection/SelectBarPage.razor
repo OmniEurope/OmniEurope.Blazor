@@ -1,0 +1,53 @@
+@page "/components/select-bar"
+@using OmniEurope.Blazor.Showcase.Examples.Selection
+
+<GalleryPageFrame Slug="select-bar">
+    <Settings>
+        <OmniSettingsSection Title="@Text["SelectBarSettingsTitle"]" Description="@Text["SelectBarSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["SelectBarOptionCount"]" Description="@Text["SelectBarOptionCountDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.NumberedList" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="int"
+                                   Options="CountOptions"
+                                   @bind-Value="OptionCount"
+                                   Label="@Text["SelectBarOptionCount"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SelectBarDisableOption"]" Description="@Text["SelectBarDisableOptionDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="DisableOption" aria-label="@Text["SelectBarDisableOption"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SelectBarDisabled"]" Description="@Text["SelectBarDisabledDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Pin" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="BarDisabled" aria-label="@Text["SelectBarDisabled"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["SelectBarPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <SelectBarExample OptionCount="OptionCount" DisableOption="DisableOption" Disabled="BarDisabled" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["SelectBarItemsTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Small">
+                    <OmniText Tone="OmniTextTone.Muted">@Text["SelectBarItemsHint"]</OmniText>
+                    <SelectBarIconsExample DisableOption="DisableOption" Disabled="BarDisabled" />
+                </OmniStack>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["SelectBarGalleryTitle"]</HeaderContent>
+            <ChildContent><SelectBarGalleryExample /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

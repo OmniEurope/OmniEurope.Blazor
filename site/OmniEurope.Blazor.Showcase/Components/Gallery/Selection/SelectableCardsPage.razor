@@ -1,0 +1,64 @@
+@page "/components/selectable-cards"
+@using OmniEurope.Blazor.Showcase.Examples.Selection
+
+<GalleryPageFrame Slug="selectable-cards">
+    <Settings>
+        <OmniSettingsSection Title="@Text["SelectableCardsSettingsTitle"]" Description="@Text["SelectableCardsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["SelectableCardsMultiple"]" Description="@Text["SelectableCardsMultipleDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.CheckSquare" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Multiple" aria-label="@Text["SelectableCardsMultiple"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SelectableCardsDisabled"]" Description="@Text["SelectableCardsDisabledDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Disabled" aria-label="@Text["SelectableCardsDisabled"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SelectableCardsDescriptions"]" Description="@Text["SelectableCardsDescriptionsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowDescriptions" aria-label="@Text["SelectableCardsDescriptions"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["SelectableCardsPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <SelectableCardsExample Multiple="Multiple" Disabled="Disabled" ShowDescriptions="ShowDescriptions" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["SelectableCardsGalleryTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Small">
+                    <OmniText Tone="OmniTextTone.Muted">@Text["SelectableCardsGalleryHint"]</OmniText>
+                    <SelectableCardsSingleExample />
+                </OmniStack>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["SelectableCardsOptionsTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Small">
+                    <OmniText Tone="OmniTextTone.Muted">@Text["SelectableCardsOptionsHint"]</OmniText>
+                    <SelectableCardsOptionsExample />
+                </OmniStack>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["SelectableCardsLayoutTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Small">
+                    <OmniText Tone="OmniTextTone.Muted">@Text["SelectableCardsLayoutHint"]</OmniText>
+                    <SelectableCardsLayoutExample />
+                </OmniStack>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

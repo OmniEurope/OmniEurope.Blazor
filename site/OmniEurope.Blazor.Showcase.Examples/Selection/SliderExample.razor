@@ -1,0 +1,24 @@
+@* A range slider bound to a double. FormatValue turns the number into the text shown beside the slider and
+   read by screen readers; OnValueCommit is raised once, when the slider is released, where ValueChanged
+   follows every step. A value outside the bounds makes the slider throw, so it is brought back inside them. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniFormField For="slider-value">
+        <LabelContent>Value</LabelContent>
+        <ChildContent>
+            <OmniSlider Id="slider-value"
+                        @bind-Value="SliderValue"
+                        Minimum="Minimum"
+                        Maximum="Maximum"
+                        Step="Step"
+                        ShowValue="ShowValue"
+                        Orientation="@(Vertical ? OmniOrientation.Vertical : OmniOrientation.Horizontal)"
+                        Disabled="Disabled"
+                        FormatValue="Formatter"
+                        OnValueCommit="OnCommitted" />
+        </ChildContent>
+    </OmniFormField>
+    <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@RawValue</code></OmniText>
+    <OmniText Tone="OmniTextTone.Muted">Committed value: <code>@CommittedText</code></OmniText>
+    <OmniText Tone="OmniTextTone.Muted">Formatted: <strong>@Formatter(SliderValue)</strong></OmniText>
+    <OmniText Tone="OmniTextTone.Muted">@BoundsEcho</OmniText>
+</OmniStack>
