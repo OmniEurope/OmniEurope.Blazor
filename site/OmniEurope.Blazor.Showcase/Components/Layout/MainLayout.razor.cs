@@ -14,6 +14,10 @@ public partial class MainLayout : IDisposable
     [Inject]
     private ThemeState Theme { get; set; } = default!;
 
+    /// <summary>The overlay service the pages inject; the host draws its dialogs and notifications.</summary>
+    [Inject]
+    private OmniOverlayService Overlay { get; set; } = default!;
+
     private OmniAppearance CurrentAppearance => Theme.EffectiveMode switch
     {
         ThemeMode.Dark => OmniAppearance.Dark,

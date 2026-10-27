@@ -1,6 +1,9 @@
 @inherits LayoutComponentBase
 
 <OmniThemeScope Id="showcase-theme" Appearance="CurrentAppearance" Density="Theme.Density" BackdropMotion="Theme.BackdropMotion">
+    @* The host draws the dialogs and notifications the pages ask for through OmniOverlayService; it
+       receives the injected instance, so a dialog content reaching the service by injection gets the same. *@
+    <OmniComponentsHost OverlayService="@Overlay">
     <OmniLayout>
         @* Le premier arrêt de Tab : il mène au contenu par-dessus l'en-tête et la navigation. *@
         <OmniSkipLink />
@@ -37,6 +40,7 @@
             </ErrorBoundary>
         </OmniBody>
     </OmniLayout>
+    </OmniComponentsHost>
 </OmniThemeScope>
 
 @* Retire l'écran de démarrage de index.html une fois l'application rendue : fondu, puis suppression. *@
