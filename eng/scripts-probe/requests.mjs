@@ -190,14 +190,16 @@ export async function requestSteps(session, results) {
 
   // 5. The chevron of a filterable drop-down (recette R1-11): drawn at the end of the field, a press opens
   // the whole list unfiltered and leaves the focus in the field, a second press closes it.
-  await session.visit('/components/legacy/selection', '#demo-country');
-  const options = "document.querySelectorAll('#demo-country-results [role=option]').length";
-  check(await evaluate("document.querySelector('#demo-country').closest('.omni-autocomplete') !== null"), "La liste des pays n'est pas un champ filtrable.");
-  const chevron = await evaluate("(() => { const toggle = document.querySelector('#demo-country ~ .omni-autocomplete__toggle'); const field = document.getElementById('demo-country').getBoundingClientRect(); const box = toggle?.getBoundingClientRect(); return !!toggle && box.right <= field.right + 0.5 && box.top >= field.top - 0.5 && box.bottom <= field.bottom + 0.5 && getComputedStyle(toggle, '::before').inlineSize !== 'auto'; })()");
+  await session.visit('/components/drop-downs', '#dropdown-country');
+  await clickOn('#drop-downs-filterable');
+  await waitFor('la liste en champ filtrable', "document.querySelector('#dropdown-country')?.closest('.omni-autocomplete') !== null");
+  const options = "document.querySelectorAll('#dropdown-country-results [role=option]').length";
+  check(await evaluate("document.querySelector('#dropdown-country').closest('.omni-autocomplete') !== null"), "La liste des pays n'est pas un champ filtrable.");
+  const chevron = await evaluate("(() => { const toggle = document.querySelector('#dropdown-country ~ .omni-autocomplete__toggle'); const field = document.getElementById('dropdown-country').getBoundingClientRect(); const box = toggle?.getBoundingClientRect(); return !!toggle && box.right <= field.right + 0.5 && box.top >= field.top - 0.5 && box.bottom <= field.bottom + 0.5 && getComputedStyle(toggle, '::before').inlineSize !== 'auto'; })()");
   check(chevron, 'Le chevron de la liste filtrable manque ou sort du champ.');
-  await clickOn('#demo-country ~ .omni-autocomplete__toggle');
-  await waitFor('la liste complète ouverte au chevron, le focus dans le champ', `${options} > 1 && document.activeElement?.id === 'demo-country'`);
-  await clickOn('#demo-country ~ .omni-autocomplete__toggle');
+  await clickOn('#dropdown-country ~ .omni-autocomplete__toggle');
+  await waitFor('la liste complète ouverte au chevron, le focus dans le champ', `${options} > 1 && document.activeElement?.id === 'dropdown-country'`);
+  await clickOn('#dropdown-country ~ .omni-autocomplete__toggle');
   await waitFor('la liste refermée au second appui', `${options} === 0`);
   step('liste filtrable : le chevron ouvre la liste complète puis la referme, le focus reste dans le champ');
 

@@ -1,0 +1,70 @@
+@page "/components/drop-downs"
+@using OmniEurope.Blazor.Showcase.Examples.Selection
+
+<GalleryPageFrame Slug="drop-downs">
+    <Settings>
+        <OmniSettingsSection Title="@Text["DropDownsSettingsTitle"]" Description="@Text["DropDownsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["DropDownsAllowEmpty"]" Description="@Text["DropDownsAllowEmptyDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Remove" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="AllowEmpty" aria-label="@Text["DropDownsAllowEmpty"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DropDownsPlaceholder"]" Description="@Text["DropDownsPlaceholderDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Edit" /></Icon>
+                <Details>
+                    <OmniTextBox @bind-Value="EmptyText"
+                                 Placeholder="@Text["DropDownsPlaceholderHint"]"
+                                 Disabled="@(!AllowEmpty)"
+                                 aria-label="@Text["DropDownsPlaceholder"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DropDownsGrouped"]" Description="@Text["DropDownsGroupedDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Layers" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Grouped" aria-label="@Text["DropDownsGrouped"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DropDownsDisableOption"]" Description="@Text["DropDownsDisableOptionDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="DisableOption" aria-label="@Text["DropDownsDisableOption"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DropDownsFilterable"]" Description="@Text["DropDownsFilterableDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Search" /></Icon>
+                <ChildContent>
+                    <OmniSwitch Id="drop-downs-filterable" @bind-Value="Filterable" aria-label="@Text["DropDownsFilterable"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DropDownsDisabled"]" Description="@Text["DropDownsDisabledDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Pin" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ListDisabled" aria-label="@Text["DropDownsDisabled"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["DropDownsPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <DropDownExample AllowEmpty="AllowEmpty"
+                                 EmptyText="@EmptyText"
+                                 Grouped="Grouped"
+                                 DisableOption="DisableOption"
+                                 Filterable="Filterable"
+                                 Disabled="ListDisabled" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["DropDownsGalleryTitle"]</HeaderContent>
+            <ChildContent><DropDownGalleryExample /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

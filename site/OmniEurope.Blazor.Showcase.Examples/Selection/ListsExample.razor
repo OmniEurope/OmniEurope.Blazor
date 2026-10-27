@@ -1,0 +1,32 @@
+@* Two always-open lists built from options: a list box for a single value and a check box list for
+   several. The list box shows VisibleRows rows; the check box list titles its group with Label and keeps
+   an accessible name when the title is hidden. *@
+<OmniRow Gap="OmniSpacing.Large">
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniStack Gap="OmniSpacing.Small">
+            <OmniFormField For="listbox-city">
+                <LabelContent>Office</LabelContent>
+                <ChildContent>
+                    <OmniListBox Id="listbox-city"
+                                 Options="CityOptions"
+                                 @bind-Value="City"
+                                 VisibleRows="VisibleRows"
+                                 Disabled="Disabled" />
+                </ChildContent>
+            </OmniFormField>
+            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@(City ?? "null")</code></OmniText>
+        </OmniStack>
+    </OmniColumn>
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniStack Gap="OmniSpacing.Small">
+            <OmniCheckBoxList TValue="string"
+                              Id="checkboxlist-extras"
+                              Options="ExtraOptions"
+                              @bind-Value="Extras"
+                              Label="@(ShowLegend ? "File options" : null)"
+                              Disabled="Disabled"
+                              aria-label="File options" />
+            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Join(Extras)</code></OmniText>
+        </OmniStack>
+    </OmniColumn>
+</OmniRow>

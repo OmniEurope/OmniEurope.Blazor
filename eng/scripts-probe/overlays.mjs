@@ -137,18 +137,18 @@ export async function overlaySteps(session, results) {
   step('bulle d\'aide placée, dépliée dans la fenêtre ; aide d\'un attribut title');
 
   // 5. A compact multiple choice: a click inside keeps it open, Escape and a press outside close it.
-  await session.visit('/components/legacy/selection', '#demo-tags-compact');
-  await clickOn('#demo-tags-compact > summary');
-  await waitFor('le choix compact ouvert', "document.getElementById('demo-tags-compact').open");
-  await clickOn('#demo-tags-compact input[type="checkbox"], #demo-tags-compact [role="option"], #demo-tags-compact label');
+  await session.visit('/components/multi-select', '#multiselect-compact');
+  await clickOn('#multiselect-compact > summary');
+  await waitFor('le choix compact ouvert', "document.getElementById('multiselect-compact').open");
+  await clickOn('#multiselect-compact input[type="checkbox"], #multiselect-compact [role="option"], #multiselect-compact label');
   await pause(200);
-  check(await evaluate("document.getElementById('demo-tags-compact').open"), 'Un clic dans le panneau l\'a fermé.');
+  check(await evaluate("document.getElementById('multiselect-compact').open"), 'Un clic dans le panneau l\'a fermé.');
   await key('Escape', 'Escape', 27);
-  await waitFor('Échap qui ferme le choix compact', "!document.getElementById('demo-tags-compact').open");
-  await clickOn('#demo-tags-compact > summary');
-  await waitFor('le choix compact rouvert', "document.getElementById('demo-tags-compact').open");
+  await waitFor('Échap qui ferme le choix compact', "!document.getElementById('multiselect-compact').open");
+  await clickOn('#multiselect-compact > summary');
+  await waitFor('le choix compact rouvert', "document.getElementById('multiselect-compact').open");
   await clickOn('main h1, h1');
-  await waitFor('l\'appui dehors qui ferme le choix compact', "!document.getElementById('demo-tags-compact').open");
+  await waitFor('l\'appui dehors qui ferme le choix compact', "!document.getElementById('multiselect-compact').open");
   step('choix compact : clic dedans, Échap, appui dehors');
 
   // 6. Tabs by the keyboard.

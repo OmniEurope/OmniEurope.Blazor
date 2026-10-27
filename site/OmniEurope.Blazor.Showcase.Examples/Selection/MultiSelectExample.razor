@@ -1,0 +1,22 @@
+@* Several values at once in a compact single-line control. Filterable adds a search field whose text can
+   be bound with FilterText, CloseOnOutsideClick closes the panel on a click elsewhere, and an option can
+   be disabled. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniFormField For="multiselect-countries">
+        <LabelContent>Countries served</LabelContent>
+        <ChildContent>
+            <OmniMultiSelect TValue="string"
+                             Id="multiselect-countries"
+                             Options="CountryOptions"
+                             @bind-Value="Countries"
+                             Placeholder="@Placeholder"
+                             Filterable="Filterable"
+                             @bind-FilterText="CountrySearch"
+                             FilterPlaceholder="@EffectiveFilterPlaceholder"
+                             CloseOnOutsideClick="CloseOnOutsideClick"
+                             Disabled="Disabled" />
+        </ChildContent>
+    </OmniFormField>
+    <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@(Countries.Count == 0 ? "(none)" : string.Join(", ", Countries))</code></OmniText>
+    <OmniText Tone="OmniTextTone.Muted">Search text (FilterText): <code>@(CountrySearch ?? "null")</code></OmniText>
+</OmniStack>

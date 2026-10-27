@@ -97,11 +97,6 @@
   <data name="DemoFormCapability1" xml:space="preserve"><value>Label, description and error message tied to the field by identifier.</value></data>
   <data name="DemoFormCapability2" xml:space="preserve"><value>Text area with a character counter and a limit.</value></data>
   <data name="DemoFormCapability3" xml:space="preserve"><value>Slider, checkbox and switch driven from the keyboard.</value></data>
-  <data name="DemoSelectionTitle" xml:space="preserve"><value>Selection</value></data>
-  <data name="DemoSelectionSummary" xml:space="preserve"><value>Picking one value from a list, or several.</value></data>
-  <data name="DemoSelectionCapability1" xml:space="preserve"><value>Drop-down with an optional empty value.</value></data>
-  <data name="DemoSelectionCapability2" xml:space="preserve"><value>List box sized by its number of visible rows.</value></data>
-  <data name="DemoSelectionCapability3" xml:space="preserve"><value>Multiple selection returning the list of retained values.</value></data>
   <data name="DemoNavigationTitle" xml:space="preserve"><value>Navigation</value></data>
   <data name="DemoNavigationSummary" xml:space="preserve"><value>Placing the reader and moving them between sections.</value></data>
   <data name="DemoNavigationCapability1" xml:space="preserve"><value>Breadcrumb marking the current page.</value></data>
@@ -1096,21 +1091,6 @@
   <data name="DemoValidationReplicas" xml:space="preserve"><value>Replicas</value></data>
   <data name="DemoValidationCheck" xml:space="preserve"><value>Check</value></data>
   <data name="DemoValidationSimulateUnsaved" xml:space="preserve"><value>Simulate unsaved changes</value></data>
-  <data name="DemoSelectionCountry" xml:space="preserve"><value>Country</value></data>
-  <data name="DemoSelectionCountryPlaceholder" xml:space="preserve"><value>Choose a country</value></data>
-  <data name="DemoSelectionCities" xml:space="preserve"><value>Cities served</value></data>
-  <data name="DemoSelectionTags" xml:space="preserve"><value>Tags</value></data>
-  <data name="DemoSelectionTagsCompact" xml:space="preserve"><value>Tags, compact form</value></data>
-  <data name="DemoSelectionTagsFilterable" xml:space="preserve"><value>Tags, search and creation</value></data>
-  <data name="DemoSelectionTagsPlaceholder" xml:space="preserve"><value>Choose tags</value></data>
-  <data name="DemoSelectionTagSearchPlaceholder" xml:space="preserve"><value>Search for a tag</value></data>
-  <data name="DemoSelectionBelgium" xml:space="preserve"><value>Belgium</value></data>
-  <data name="DemoSelectionFrance" xml:space="preserve"><value>France</value></data>
-  <data name="DemoSelectionLuxembourg" xml:space="preserve"><value>Luxembourg</value></data>
-  <data name="DemoSelectionNetherlands" xml:space="preserve"><value>Netherlands</value></data>
-  <data name="DemoSelectionTagUrgent" xml:space="preserve"><value>Urgent</value></data>
-  <data name="DemoSelectionTagInternal" xml:space="preserve"><value>Internal</value></data>
-  <data name="DemoSelectionTagArchived" xml:space="preserve"><value>Archived</value></data>
   <data name="DemoFlowsCreateServer" xml:space="preserve"><value>Create the server</value></data>
   <data name="DemoFlowsStepIdentity" xml:space="preserve"><value>Identity</value></data>
   <data name="DemoFlowsNameHelp" xml:space="preserve"><value>Next becomes available as soon as the name is typed.</value></data>

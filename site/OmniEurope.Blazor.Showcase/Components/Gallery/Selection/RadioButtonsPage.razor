@@ -1,0 +1,45 @@
+@page "/components/radio-buttons"
+@using OmniEurope.Blazor.Showcase.Examples.Selection
+
+<GalleryPageFrame Slug="radio-buttons">
+    <Settings>
+        <OmniSettingsSection Title="@Text["RadioButtonsSettingsTitle"]" Description="@Text["RadioButtonsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["RadioButtonsShowLegend"]" Description="@Text["RadioButtonsShowLegendDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowLegend" aria-label="@Text["RadioButtonsShowLegend"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["RadioButtonsDisableOption"]" Description="@Text["RadioButtonsDisableOptionDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="DisableOption" aria-label="@Text["RadioButtonsDisableOption"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["RadioButtonsDisabled"]" Description="@Text["RadioButtonsDisabledDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Pin" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ListDisabled" aria-label="@Text["RadioButtonsDisabled"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["RadioButtonsPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <RadioButtonsExample ShowLegend="ShowLegend" DisableOption="DisableOption" Disabled="ListDisabled" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["RadioButtonsGalleryTitle"]</HeaderContent>
+            <ChildContent><RadioButtonsGalleryExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["RadioButtonsRatingTitle"]</HeaderContent>
+            <ChildContent><RatingExample /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

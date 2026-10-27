@@ -1,0 +1,57 @@
+@page "/components/lists"
+@using OmniEurope.Blazor.Showcase.Examples.Selection
+
+<GalleryPageFrame Slug="lists">
+    <Settings>
+        <OmniSettingsSection Title="@Text["ListsSettingsTitle"]" Description="@Text["ListsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["ListsVisibleRows"]" Description="@Text["ListsVisibleRowsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="VisibleRowsValue"
+                                Minimum="2"
+                                Maximum="8"
+                                Step="1"
+                                ShowValue="true"
+                                FormatValue="@FormatRows"
+                                aria-label="@Text["ListsVisibleRows"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ListsShowLegend"]" Description="@Text["ListsShowLegendDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowLegend" aria-label="@Text["ListsShowLegend"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ListsDisableOption"]" Description="@Text["ListsDisableOptionDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="DisableOption" aria-label="@Text["ListsDisableOption"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ListsDisabled"]" Description="@Text["ListsDisabledDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Pin" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ListsDisabled" aria-label="@Text["ListsDisabled"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ListsPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <ListsExample VisibleRows="VisibleRows"
+                              ShowLegend="ShowLegend"
+                              DisableOption="DisableOption"
+                              Disabled="ListsDisabled" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ListsGalleryTitle"]</HeaderContent>
+            <ChildContent><ListsGalleryExample DisableOption="DisableOption" /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

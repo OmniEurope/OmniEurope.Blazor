@@ -4,4 +4,95 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="DropDownsTitle" xml:space="preserve"><value>Listes déroulantes</value></data>
+  <data name="DropDownsDescription" xml:space="preserve"><value>Une liste déroulante native liée à une valeur typée : entrée vide, groupes, options désactivées, et tout type de valeur.</value></data>
+  <data name="DropDownsSettingsTitle" xml:space="preserve"><value>Réglages de la liste</value></data>
+  <data name="DropDownsSettingsDescription" xml:space="preserve"><value>Chaque réglage s&apos;applique à l&apos;aperçu ci-dessous.</value></data>
+  <data name="DropDownsAllowEmpty" xml:space="preserve"><value>Autoriser le vide</value></data>
+  <data name="DropDownsAllowEmptyDescription" xml:space="preserve"><value>Ajoute en tête une entrée vide qui remet la valeur à null.</value></data>
+  <data name="DropDownsPlaceholder" xml:space="preserve"><value>Texte de l&apos;entrée vide</value></data>
+  <data name="DropDownsPlaceholderDescription" xml:space="preserve"><value>Visible seulement quand le vide est autorisé. Laissé vide, le contrôle met son propre texte.</value></data>
+  <data name="DropDownsPlaceholderHint" xml:space="preserve"><value>Choisir un pays</value></data>
+  <data name="DropDownsGrouped" xml:space="preserve"><value>Regrouper par région</value></data>
+  <data name="DropDownsGroupedDescription" xml:space="preserve"><value>Chaque option porte un groupe : la liste les range sous des intitulés.</value></data>
+  <data name="DropDownsDisableOption" xml:space="preserve"><value>Option désactivée</value></data>
+  <data name="DropDownsDisableOptionDescription" xml:space="preserve"><value>Le Luxembourg reste visible mais ne peut pas être choisi.</value></data>
+  <data name="DropDownsFilterable" xml:space="preserve"><value>Filtrable</value></data>
+  <data name="DropDownsFilterableDescription" xml:space="preserve"><value>Un champ de recherche précède la liste et la réduit à la frappe.</value></data>
+  <data name="DropDownsDisabled" xml:space="preserve"><value>Désactiver la liste</value></data>
+  <data name="DropDownsDisabledDescription" xml:space="preserve"><value>Tout le contrôle est grisé et ignore la saisie.</value></data>
+  <data name="DropDownsPreviewTitle" xml:space="preserve"><value>Aperçu en direct</value></data>
+  <data name="DropDownsGalleryTitle" xml:space="preserve"><value>Galerie</value></data>
+  <data name="AutocompleteTitle" xml:space="preserve"><value>Autocomplétion</value></data>
+  <data name="AutocompleteDescription" xml:space="preserve"><value>Un champ de recherche qui interroge une source asynchrone au fil de la frappe, avec délai, annulation et sélection explicite.</value></data>
+  <data name="AutocompleteSettingsTitle" xml:space="preserve"><value>Réglages de la recherche</value></data>
+  <data name="AutocompleteSettingsDescription" xml:space="preserve"><value>La source est une liste de villes européennes cherchées en mémoire, avec un délai simulé.</value></data>
+  <data name="AutocompleteShowToggle" xml:space="preserve"><value>Bouton chevron</value></data>
+  <data name="AutocompleteShowToggleDescription" xml:space="preserve"><value>Un chevron au bout du champ ouvre toute la liste sans rien taper ; un clic ou le focus sur le champ l&apos;ouvre aussi.</value></data>
+  <data name="AutocompleteDebounce" xml:space="preserve"><value>Délai de frappe</value></data>
+  <data name="AutocompleteDebounceDescription" xml:space="preserve"><value>Pause après la dernière frappe avant que la recherche parte.</value></data>
+  <data name="AutocompleteMinimumLength" xml:space="preserve"><value>Longueur minimale</value></data>
+  <data name="AutocompleteMinimumLengthDescription" xml:space="preserve"><value>Nombre de caractères à taper avant toute recherche.</value></data>
+  <data name="AutocompleteLatency" xml:space="preserve"><value>Latence simulée</value></data>
+  <data name="AutocompleteLatencyDescription" xml:space="preserve"><value>Temps que met le faux service à répondre ; une nouvelle frappe annule la recherche en cours.</value></data>
+  <data name="AutocompletePlaceholder" xml:space="preserve"><value>Texte indicatif</value></data>
+  <data name="AutocompletePlaceholderDescription" xml:space="preserve"><value>Affiché dans le champ vide.</value></data>
+  <data name="AutocompleteHighlight" xml:space="preserve"><value>Surligner la recherche</value></data>
+  <data name="AutocompleteHighlightDescription" xml:space="preserve"><value>Les lettres tapées sont marquées dans chaque suggestion, sans tenir compte des majuscules ni des accents.</value></data>
+  <data name="AutocompleteDisableClosed" xml:space="preserve"><value>Villes fermées désactivées</value></data>
+  <data name="AutocompleteDisableClosedDescription" xml:space="preserve"><value>Certains résultats sont listés mais ne peuvent pas être choisis.</value></data>
+  <data name="AutocompleteFailure" xml:space="preserve"><value>Simuler une panne</value></data>
+  <data name="AutocompleteFailureDescription" xml:space="preserve"><value>La recherche lève une exception : le champ affiche son message d&apos;erreur.</value></data>
+  <data name="AutocompleteDisabled" xml:space="preserve"><value>Désactiver le champ</value></data>
+  <data name="AutocompleteDisabledDescription" xml:space="preserve"><value>Le champ est grisé et ignore la saisie.</value></data>
+  <data name="AutocompletePreviewTitle" xml:space="preserve"><value>Aperçu en direct</value></data>
+  <data name="AutocompleteGalleryTitle" xml:space="preserve"><value>Galerie</value></data>
+  <data name="AutocompleteMilliseconds" xml:space="preserve"><value>{0} ms</value></data>
+  <data name="AutocompleteCharacters" xml:space="preserve"><value>Caractères : {0}</value></data>
+  <data name="MultiSelectTitle" xml:space="preserve"><value>Sélection multiple</value></data>
+  <data name="MultiSelectDescription" xml:space="preserve"><value>Plusieurs valeurs à la fois dans un contrôle compact sur une ligne, avec recherche et modèles ; la liste toujours ouverte est un OmniListBox avec Multiple.</value></data>
+  <data name="MultiSelectSettingsTitle" xml:space="preserve"><value>Réglages de la sélection multiple</value></data>
+  <data name="MultiSelectSettingsDescription" xml:space="preserve"><value>Réglages du contrôle de l&apos;aperçu en direct.</value></data>
+  <data name="MultiSelectFilterable" xml:space="preserve"><value>Champ de recherche</value></data>
+  <data name="MultiSelectFilterableDescription" xml:space="preserve"><value>Réduit les options à celles qui contiennent la saisie.</value></data>
+  <data name="MultiSelectPlaceholder" xml:space="preserve"><value>Résumé à vide</value></data>
+  <data name="MultiSelectPlaceholderDescription" xml:space="preserve"><value>Texte du contrôle fermé tant que rien n&apos;est choisi.</value></data>
+  <data name="MultiSelectFilterPlaceholder" xml:space="preserve"><value>Texte du champ de recherche</value></data>
+  <data name="MultiSelectFilterPlaceholderDescription" xml:space="preserve"><value>Remplace le libellé par défaut du champ de recherche ; demande le champ de recherche.</value></data>
+  <data name="MultiSelectCloseOutside" xml:space="preserve"><value>Fermer au clic extérieur</value></data>
+  <data name="MultiSelectCloseOutsideDescription" xml:space="preserve"><value>Un clic ailleurs dans la page ferme le panneau ; un clic dans ces réglages ne compte pas.</value></data>
+  <data name="MultiSelectDisableOption" xml:space="preserve"><value>Option désactivée</value></data>
+  <data name="MultiSelectDisableOptionDescription" xml:space="preserve"><value>Le Luxembourg reste listé mais ne peut pas être coché.</value></data>
+  <data name="MultiSelectDisabled" xml:space="preserve"><value>Désactiver le contrôle</value></data>
+  <data name="MultiSelectDisabledDescription" xml:space="preserve"><value>Tout le contrôle est grisé.</value></data>
+  <data name="MultiSelectPreviewTitle" xml:space="preserve"><value>Aperçu en direct</value></data>
+  <data name="MultiSelectGalleryTitle" xml:space="preserve"><value>Galerie</value></data>
+  <data name="ListsTitle" xml:space="preserve"><value>Listes</value></data>
+  <data name="ListsDescription" xml:space="preserve"><value>Deux listes toujours ouvertes : une zone de liste pour une seule valeur, une liste de cases pour plusieurs.</value></data>
+  <data name="ListsSettingsTitle" xml:space="preserve"><value>Réglages des listes</value></data>
+  <data name="ListsSettingsDescription" xml:space="preserve"><value>Les réglages s&apos;appliquent aux deux listes de l&apos;aperçu quand elles les connaissent.</value></data>
+  <data name="ListsVisibleRows" xml:space="preserve"><value>Lignes visibles (zone de liste)</value></data>
+  <data name="ListsVisibleRowsDescription" xml:space="preserve"><value>Hauteur de la zone de liste, en lignes.</value></data>
+  <data name="ListsShowLegend" xml:space="preserve"><value>Afficher la légende</value></data>
+  <data name="ListsShowLegendDescription" xml:space="preserve"><value>La liste de cases titre son groupe ; masquée, elle garde un nom accessible.</value></data>
+  <data name="ListsDisableOption" xml:space="preserve"><value>Options désactivées</value></data>
+  <data name="ListsDisableOptionDescription" xml:space="preserve"><value>Lille et la copie certifiée restent visibles mais inertes.</value></data>
+  <data name="ListsDisabled" xml:space="preserve"><value>Désactiver les listes</value></data>
+  <data name="ListsDisabledDescription" xml:space="preserve"><value>Les deux contrôles sont grisés.</value></data>
+  <data name="ListsRowsValue" xml:space="preserve"><value>{0} lignes</value></data>
+  <data name="ListsPreviewTitle" xml:space="preserve"><value>Aperçu en direct</value></data>
+  <data name="ListsGalleryTitle" xml:space="preserve"><value>Galerie</value></data>
+  <data name="RadioButtonsTitle" xml:space="preserve"><value>Boutons radio</value></data>
+  <data name="RadioButtonsDescription" xml:space="preserve"><value>Un choix parmi quelques-uns, chaque option toujours visible : la liste construit ses boutons à partir d&apos;options.</value></data>
+  <data name="RadioButtonsSettingsTitle" xml:space="preserve"><value>Réglages des boutons radio</value></data>
+  <data name="RadioButtonsSettingsDescription" xml:space="preserve"><value>Les réglages s&apos;appliquent à la liste construite à partir d&apos;options.</value></data>
+  <data name="RadioButtonsShowLegend" xml:space="preserve"><value>Afficher la légende</value></data>
+  <data name="RadioButtonsShowLegendDescription" xml:space="preserve"><value>La liste titre son groupe ; masquée, elle garde un nom accessible.</value></data>
+  <data name="RadioButtonsDisableOption" xml:space="preserve"><value>Option désactivée</value></data>
+  <data name="RadioButtonsDisableOptionDescription" xml:space="preserve"><value>Le retrait en agence reste visible mais ne peut pas être choisi.</value></data>
+  <data name="RadioButtonsDisabled" xml:space="preserve"><value>Désactiver les choix</value></data>
+  <data name="RadioButtonsDisabledDescription" xml:space="preserve"><value>Tout le groupe est grisé.</value></data>
+  <data name="RadioButtonsPreviewTitle" xml:space="preserve"><value>Construite à partir d&apos;options</value></data>
+  <data name="RadioButtonsRatingTitle" xml:space="preserve"><value>Note</value></data>
+  <data name="RadioButtonsGalleryTitle" xml:space="preserve"><value>Galerie</value></data>
 </root>
