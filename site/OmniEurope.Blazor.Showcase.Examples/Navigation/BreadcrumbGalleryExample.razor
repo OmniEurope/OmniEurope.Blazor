@@ -1,0 +1,27 @@
+@* Three shapes besides the live trail: a single current level, a trail with no current page, and links
+   in the same tab and in a new tab. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">A single level, current</OmniText>
+        <OmniBreadcrumb Label="A single level, current">
+            <OmniBreadcrumbItem Current="true">Components</OmniBreadcrumbItem>
+        </OmniBreadcrumb>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Every level a link</OmniText>
+        <OmniBreadcrumb Label="Every level a link">
+            <OmniBreadcrumbItem Href="components">Components</OmniBreadcrumbItem>
+            <OmniBreadcrumbItem Href="components/tabs">Tabs</OmniBreadcrumbItem>
+            <OmniBreadcrumbItem Href="components/steps">Steps</OmniBreadcrumbItem>
+        </OmniBreadcrumb>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Same tab and new tab</OmniText>
+        <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Medium" Wrap="true">
+            <OmniLink Href="components/tabs">Open the tabs</OmniLink>
+            <OmniLink Href="components/tabs" NewTab="true">
+                <span>Open the tabs in a new tab</span>
+            </OmniLink>
+        </OmniStack>
+    </OmniStack>
+</OmniStack>

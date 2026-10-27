@@ -1,0 +1,26 @@
+@* The standard menu at the end of an app bar. A row shows only when the host gives it what it needs: the
+   settings and sign-out rows follow bound callbacks, the language row appears from two languages, the
+   account rows need a user name. The mode and the theme rows are always there. The menu keeps no setting of
+   its own: the host stores and applies what it raises (here the language and the mode are held by the example). *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Justify="OmniJustification.End">
+        <OmniAppMenu UserName="@(WithAccount ? UserName : null)"
+                     Role="@(WithAccount ? "Admin" : null)"
+                     Languages="@(WithLanguages ? AppMenuLanguages.All : null)"
+                     Language="@Language"
+                     LanguageChanged="@(code => Language = code)"
+                     ShowFlags="@ShowFlags"
+                     Appearance="@Mode"
+                     AppearanceChanged="@(value => Mode = value)"
+                     OnThemeOpen="@(() => Choose("Theme"))"
+                     OnSettingsOpen="@SettingsCallback"
+                     Version="Sample v1.0.0"
+                     OnSignOut="@SignOutCallback" />
+    </OmniStack>
+    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small" Wrap="true">
+        <OmniIcon Name="OmniIconName.Check" />
+        <OmniText>Last entry chosen:</OmniText>
+        <OmniBadge Tone="@(LastChoice is null ? OmniTone.Neutral : OmniTone.Accent)">@(LastChoice ?? "none")</OmniBadge>
+        <OmniText>Language: @Language. Mode: @Mode.</OmniText>
+    </OmniStack>
+</OmniStack>

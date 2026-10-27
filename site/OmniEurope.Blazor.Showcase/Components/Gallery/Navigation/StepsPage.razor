@@ -1,0 +1,32 @@
+@page "/components/steps"
+@using OmniEurope.Blazor.Showcase.Examples.Navigation
+
+<GalleryPageFrame Slug="steps">
+    <Settings>
+        <OmniSettingsSection Title="@Text["StepsSettingsTitle"]" Description="@Text["StepsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["StepsLockAhead"]" Description="@Text["StepsLockAheadDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.ShieldCheck" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="LockAhead" aria-label="@Text["StepsLockAhead"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["StepsDisableReview"]" Description="@Text["StepsDisableReviewDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="DisableReview" aria-label="@Text["StepsDisableReview"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["StepsPreviewTitle"]</HeaderContent>
+            <ChildContent><StepsExample LockAhead="LockAhead" DisableReview="DisableReview" /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["StepsGalleryTitle"]</HeaderContent>
+            <ChildContent><StepsGalleryExample /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

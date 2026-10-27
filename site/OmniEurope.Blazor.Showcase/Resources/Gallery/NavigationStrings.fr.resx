@@ -4,4 +4,85 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="TabsDescription" xml:space="preserve"><value>Une bande d&apos;onglets liée à une clé : icônes, compteur dans un titre, onglet désactivé, bande qui défile quand elle déborde, et une page de réglages en onglets avec une zone de danger.</value></data>
+  <data name="TabsOverflowTitle" xml:space="preserve"><value>Une bande plus large que sa boîte</value></data>
+  <data name="TabsPlainTitle" xml:space="preserve"><value>Titres seuls, dernier onglet désactivé</value></data>
+  <data name="TabsDocumentCountDescription" xml:space="preserve"><value>Le compteur affiché dans l&apos;onglet Pièces.</value></data>
+  <data name="TabsDisableArchiveDescription" xml:space="preserve"><value>Le dernier onglet ne se choisit plus ni à la souris ni au clavier.</value></data>
+  <data name="TabsShowCountersDescription" xml:space="preserve"><value>Un badge dans le titre des onglets Pièces et Historique.</value></data>
+  <data name="TabsTitle" xml:space="preserve"><value>Onglets</value></data>
+  <data name="TabsShowIconsDescription" xml:space="preserve"><value>Une icône devant chaque titre.</value></data>
+  <data name="TabsSelectedDescription" xml:space="preserve"><value>Pilote la même valeur que la bande, même vers un onglet désactivé.</value></data>
+  <data name="TabsSettingsExampleNote" xml:space="preserve"><value>Un onglet à icône par thème, une section par onglet, une tuile par réglage. Un interrupteur posé dans une tuile prend le nom de la tuile pour libellé, et un clic sur la tuile le bascule. Le dernier onglet porte une zone de danger dont les actions demandent confirmation.</value></data>
+  <data name="TabsSettingsDescription" xml:space="preserve"><value>Ces onglets gardent leur état dans la page : contrairement aux onglets liés à l&apos;adresse, ils ne la changent pas.</value></data>
+  <data name="TabsSettingsExampleTitle" xml:space="preserve"><value>Réglages en onglets</value></data>
+  <data name="TabsSettingsTitle" xml:space="preserve"><value>Réglages des onglets</value></data>
+  <data name="TabsSelected" xml:space="preserve"><value>Onglet sélectionné</value></data>
+  <data name="TabsShowCounters" xml:space="preserve"><value>Compteurs</value></data>
+  <data name="TabsTabArchive" xml:space="preserve"><value>Archives</value></data>
+  <data name="TabsTabDocuments" xml:space="preserve"><value>Pièces</value></data>
+  <data name="TabsTabSummary" xml:space="preserve"><value>Résumé</value></data>
+  <data name="TabsPreviewTitle" xml:space="preserve"><value>Onglets en direct</value></data>
+  <data name="TabsDocumentCount" xml:space="preserve"><value>Nombre de pièces</value></data>
+  <data name="TabsShowIcons" xml:space="preserve"><value>Icônes</value></data>
+  <data name="TabsDisableArchive" xml:space="preserve"><value>Désactiver Archives</value></data>
+  <data name="TabsTabHistory" xml:space="preserve"><value>Historique</value></data>
+  <data name="BreadcrumbsTitle" xml:space="preserve"><value>Fil d&apos;Ariane et liens</value></data>
+  <data name="BreadcrumbsNewTabDescription" xml:space="preserve"><value>Les liens de la liste s&apos;ouvrent dans un nouvel onglet, avec rel=&quot;noopener noreferrer&quot;.</value></data>
+  <data name="BreadcrumbsUnlinkedStepDescription" xml:space="preserve"><value>Le niveau Navigation perd son adresse et s&apos;écrit en texte.</value></data>
+  <data name="BreadcrumbsMarkCurrentDescription" xml:space="preserve"><value>Le dernier niveau affiché devient un texte simple, annoncé comme page courante.</value></data>
+  <data name="BreadcrumbsDepthDescription" xml:space="preserve"><value>Nombre de niveaux affichés dans le fil.</value></data>
+  <data name="BreadcrumbsDescription" xml:space="preserve"><value>Fil d&apos;Ariane et liens : page courante, étape sans lien, même onglet ou nouvel onglet.</value></data>
+  <data name="BreadcrumbsNewTab" xml:space="preserve"><value>Ouvrir dans un nouvel onglet</value></data>
+  <data name="BreadcrumbsMarkCurrent" xml:space="preserve"><value>Marquer la page courante</value></data>
+  <data name="BreadcrumbsGalleryTitle" xml:space="preserve"><value>Galerie</value></data>
+  <data name="BreadcrumbsPreviewBreadcrumb" xml:space="preserve"><value>Fil d&apos;Ariane en direct</value></data>
+  <data name="BreadcrumbsPreviewLinks" xml:space="preserve"><value>Liens en direct</value></data>
+  <data name="BreadcrumbsSettingsDescription" xml:space="preserve"><value>Les liens pointent tous vers des pages de cette galerie.</value></data>
+  <data name="BreadcrumbsDepth" xml:space="preserve"><value>Profondeur</value></data>
+  <data name="BreadcrumbsUnlinkedStep" xml:space="preserve"><value>Étape sans lien</value></data>
+  <data name="BreadcrumbsSettingsTitle" xml:space="preserve"><value>Réglages du fil et des liens</value></data>
+  <data name="StepsDescription" xml:space="preserve"><value>Étapes d&apos;un parcours : étape courante, garde de navigation, étape désactivée, boutons précédent et suivant.</value></data>
+  <data name="StepsTitle" xml:space="preserve"><value>Étapes</value></data>
+  <data name="StepsLockAheadDescription" xml:space="preserve"><value>Un clic peut revenir en arrière ou passer à l&apos;étape suivante, jamais plus loin.</value></data>
+  <data name="StepsDisableReviewDescription" xml:space="preserve"><value>La deuxième étape ne se clique plus.</value></data>
+  <data name="StepsGalleryTitle" xml:space="preserve"><value>Galerie</value></data>
+  <data name="StepsPreviewTitle" xml:space="preserve"><value>Étapes en direct</value></data>
+  <data name="StepsDisableReview" xml:space="preserve"><value>Désactiver l&apos;étape d&apos;instruction</value></data>
+  <data name="StepsLockAhead" xml:space="preserve"><value>Verrouiller les étapes à venir</value></data>
+  <data name="StepsSettingsDescription" xml:space="preserve"><value>Les boutons posent l&apos;étape directement ; un clic sur une étape passe par la garde.</value></data>
+  <data name="StepsSettingsTitle" xml:space="preserve"><value>Réglages des étapes</value></data>
+  <data name="ProfileMenuShowIconsDescription" xml:space="preserve"><value>Une icône devant chaque entrée.</value></data>
+  <data name="ProfileMenuDisableAdminDescription" xml:space="preserve"><value>L&apos;entrée reste visible mais ne se choisit plus.</value></data>
+  <data name="ProfileMenuShowLinkDescription" xml:space="preserve"><value>Une entrée qui a une adresse se rend en lien plutôt qu&apos;en bouton.</value></data>
+  <data name="ProfileMenuDisabledDescription" xml:space="preserve"><value>Le déclencheur est inactif : le menu ne s&apos;ouvre pas.</value></data>
+  <data name="ProfileMenuCloseOutsideDescription" xml:space="preserve"><value>Un clic ailleurs dans la page ferme le menu ; un clic dans ces réglages ne compte pas.</value></data>
+  <data name="ProfileMenuCompactDescription" xml:space="preserve"><value>Resserre les contrôles et les espacements du menu.</value></data>
+  <data name="ProfileMenuTitle" xml:space="preserve"><value>Menu de profil</value></data>
+  <data name="ProfileMenuDescription" xml:space="preserve"><value>Menu du compte : un résumé ou un avatar qui ouvre une liste de liens et d&apos;actions, dont une peut être désactivée, sous un en-tête d&apos;identité facultatif.</value></data>
+  <data name="ProfileMenuShowIcons" xml:space="preserve"><value>Icônes</value></data>
+  <data name="ProfileMenuSettingsDescription" xml:space="preserve"><value>La dernière entrée choisie est rappelée sous le menu.</value></data>
+  <data name="ProfileMenuGalleryTitle" xml:space="preserve"><value>Galerie</value></data>
+  <data name="ProfileMenuPreviewTitle" xml:space="preserve"><value>Menu en direct</value></data>
+  <data name="ProfileMenuCloseOutside" xml:space="preserve"><value>Fermer au clic extérieur</value></data>
+  <data name="ProfileMenuDisabled" xml:space="preserve"><value>Désactivé</value></data>
+  <data name="ProfileMenuShowLink" xml:space="preserve"><value>Entrée en lien</value></data>
+  <data name="ProfileMenuDisableAdmin" xml:space="preserve"><value>Désactiver Administration</value></data>
+  <data name="ProfileMenuCompact" xml:space="preserve"><value>Densité compacte</value></data>
+  <data name="ProfileMenuSettingsTitle" xml:space="preserve"><value>Réglages du menu</value></data>
+  <data name="AppMenuTitle" xml:space="preserve"><value>Menu d&apos;application</value></data>
+  <data name="AppMenuFlagsDescription" xml:space="preserve"><value>Le drapeau de la langue en vigueur à côté de la liste.</value></data>
+  <data name="AppMenuLanguagesDescription" xml:space="preserve"><value>Trois langues proposées : la ligne Langue apparaît à partir de deux.</value></data>
+  <data name="AppMenuAccountDescription" xml:space="preserve"><value>Le nom de l’utilisateur sur le bouton et en tête du menu, avec son rôle.</value></data>
+  <data name="AppMenuDescription" xml:space="preserve"><value>Le menu standard du bout de la barre d’application, le même dans toutes les applications : compte, langue, mode, thème, paramètres, version et déconnexion. Une ligne n’apparaît que si l’application lui donne ce qu’il faut.</value></data>
+  <data name="AppMenuSignOutDescription" xml:space="preserve"><value>Le bouton de déconnexion au pied du menu, à côté de la version.</value></data>
+  <data name="AppMenuPreviewTitle" xml:space="preserve"><value>Barre d’application</value></data>
+  <data name="AppMenuSignOut" xml:space="preserve"><value>Déconnexion</value></data>
+  <data name="AppMenuSettingsRowDescription" xml:space="preserve"><value>La ligne qui mène aux paramètres de l’application.</value></data>
+  <data name="AppMenuSettings" xml:space="preserve"><value>Paramètres</value></data>
+  <data name="AppMenuLanguages" xml:space="preserve"><value>Langues</value></data>
+  <data name="AppMenuAccount" xml:space="preserve"><value>Compte</value></data>
+  <data name="AppMenuSettingsDescription" xml:space="preserve"><value>Le mode et le thème sont toujours là ; les autres lignes suivent ce que l’application fournit.</value></data>
+  <data name="AppMenuSettingsTitle" xml:space="preserve"><value>Lignes du menu</value></data>
+  <data name="AppMenuFlags" xml:space="preserve"><value>Drapeaux</value></data>
 </root>

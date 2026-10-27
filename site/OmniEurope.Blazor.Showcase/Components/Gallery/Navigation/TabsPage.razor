@@ -1,0 +1,77 @@
+@page "/components/tabs"
+@using OmniEurope.Blazor.Showcase.Examples.Navigation
+
+<GalleryPageFrame Slug="tabs">
+    <Settings>
+        <OmniSettingsSection Title="@Text["TabsSettingsTitle"]" Description="@Text["TabsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["TabsSelected"]" Description="@Text["TabsSelectedDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Layers" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="string" Options="@TabOptions" @bind-Value="SelectedTab" Label="@Text["TabsSelected"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TabsShowIcons"]" Description="@Text["TabsShowIconsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Star" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowIcons" aria-label="@Text["TabsShowIcons"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TabsShowCounters"]" Description="@Text["TabsShowCountersDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Tag" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowCounters" aria-label="@Text["TabsShowCounters"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TabsDisableArchive"]" Description="@Text["TabsDisableArchiveDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="DisableArchive" aria-label="@Text["TabsDisableArchive"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TabsDocumentCount"]" Description="@Text["TabsDocumentCountDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Document" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="DocumentCountValue"
+                                Minimum="0"
+                                Maximum="120"
+                                Step="1"
+                                ShowValue="true"
+                                aria-label="@Text["TabsDocumentCount"]" />
+                </Details>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["TabsPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <TabsExample @bind-Value="SelectedTab"
+                             ShowIcons="ShowIcons"
+                             ShowCounters="ShowCounters"
+                             DisableArchive="DisableArchive"
+                             DocumentCount="DocumentCount" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["TabsPlainTitle"]</HeaderContent>
+            <ChildContent><TabsPlainExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["TabsOverflowTitle"]</HeaderContent>
+            <ChildContent><TabsOverflowExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["TabsSettingsExampleTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Medium">
+                    <OmniText Tone="OmniTextTone.Muted">@Text["TabsSettingsExampleNote"]</OmniText>
+                    <SettingsTabsExample />
+                </OmniStack>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

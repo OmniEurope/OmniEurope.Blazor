@@ -1,0 +1,57 @@
+@page "/components/breadcrumbs-links"
+@using OmniEurope.Blazor.Showcase.Examples.Navigation
+
+<GalleryPageFrame Slug="breadcrumbs-links">
+    <Settings>
+        <OmniSettingsSection Title="@Text["BreadcrumbsSettingsTitle"]" Description="@Text["BreadcrumbsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["BreadcrumbsDepth"]" Description="@Text["BreadcrumbsDepthDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Path" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="DepthValue"
+                                Minimum="1"
+                                Maximum="@BreadcrumbExample.LevelCount"
+                                Step="1"
+                                ShowValue="true"
+                                aria-label="@Text["BreadcrumbsDepth"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["BreadcrumbsMarkCurrent"]" Description="@Text["BreadcrumbsMarkCurrentDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.MapPin" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="MarkCurrent" aria-label="@Text["BreadcrumbsMarkCurrent"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["BreadcrumbsUnlinkedStep"]" Description="@Text["BreadcrumbsUnlinkedStepDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="UnlinkedStep" aria-label="@Text["BreadcrumbsUnlinkedStep"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["BreadcrumbsNewTab"]" Description="@Text["BreadcrumbsNewTabDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.OpenExternal" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="NewTab" aria-label="@Text["BreadcrumbsNewTab"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["BreadcrumbsPreviewBreadcrumb"]</HeaderContent>
+            <ChildContent>
+                <BreadcrumbExample Depth="Depth" MarkCurrent="MarkCurrent" UnlinkedStep="UnlinkedStep" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["BreadcrumbsPreviewLinks"]</HeaderContent>
+            <ChildContent><LinksExample NewTab="NewTab" /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["BreadcrumbsGalleryTitle"]</HeaderContent>
+            <ChildContent><BreadcrumbGalleryExample /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

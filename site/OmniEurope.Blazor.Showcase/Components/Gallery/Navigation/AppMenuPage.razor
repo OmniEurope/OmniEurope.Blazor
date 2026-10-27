@@ -1,0 +1,55 @@
+@page "/components/app-menu"
+@using OmniEurope.Blazor.Showcase.Examples.Navigation
+
+<GalleryPageFrame Slug="app-menu">
+    <Settings>
+        <OmniSettingsSection Title="@Text["AppMenuSettingsTitle"]" Description="@Text["AppMenuSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["AppMenuAccount"]" Description="@Text["AppMenuAccountDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.User" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="WithAccount" aria-label="@Text["AppMenuAccount"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["AppMenuLanguages"]" Description="@Text["AppMenuLanguagesDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Globe" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="WithLanguages" aria-label="@Text["AppMenuLanguages"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["AppMenuFlags"]" Description="@Text["AppMenuFlagsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Image" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowFlags" aria-label="@Text["AppMenuFlags"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["AppMenuSettings"]" Description="@Text["AppMenuSettingsRowDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Settings" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="WithSettings" aria-label="@Text["AppMenuSettings"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["AppMenuSignOut"]" Description="@Text["AppMenuSignOutDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.SignOut" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="WithSignOut" aria-label="@Text["AppMenuSignOut"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["AppMenuPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <AppMenuExample WithAccount="WithAccount"
+                                WithLanguages="WithLanguages"
+                                ShowFlags="ShowFlags"
+                                WithSettings="WithSettings"
+                                WithSignOut="WithSignOut" />
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

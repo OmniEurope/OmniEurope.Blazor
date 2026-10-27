@@ -1,0 +1,12 @@
+@* More tabs than the strip can hold: it scrolls, and chevrons appear at the edges that hide tabs. *@
+<OmniTabs Id="tabs-overflow" Label="Documents" @bind-Value="Selected">
+    @foreach (var number in Numbers)
+    {
+        <OmniTabsItem @key="number" Key="@($"document-{number}")" Title="@($"Document {number}")">
+            <Icon><OmniIcon Name="OmniIconName.Document" /></Icon>
+            <ChildContent>
+                <OmniText Element="OmniTextElement.Paragraph">Content of document @number.</OmniText>
+            </ChildContent>
+        </OmniTabsItem>
+    }
+</OmniTabs>

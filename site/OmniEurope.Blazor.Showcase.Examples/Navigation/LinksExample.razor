@@ -1,0 +1,19 @@
+@* Links, in the same tab or in a new one (rel="noopener noreferrer" is added for you). An icon-only link
+   is named by its Label. *@
+<OmniStack Gap="OmniSpacing.Small">
+    @foreach (var link in Links)
+    {
+        <OmniLink Href="@link.Href" NewTab="@NewTab">
+            <span>@link.Text</span>
+        </OmniLink>
+    }
+    <OmniTooltip Text="An icon-only link is named by its accessible label.">
+        <OmniLink Href="" NewTab="@NewTab" Label="Gallery home">
+            <OmniIcon Name="OmniIconName.Home" />
+        </OmniLink>
+    </OmniTooltip>
+    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small">
+        <OmniIcon Name="OmniIconName.Info" />
+        <OmniText>@(NewTab ? "Target: new tab (target=\"_blank\")." : "Target: same tab.")</OmniText>
+    </OmniStack>
+</OmniStack>

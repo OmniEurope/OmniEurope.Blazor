@@ -1,0 +1,67 @@
+@page "/components/profile-menu"
+@using OmniEurope.Blazor.Showcase.Examples.Navigation
+
+<GalleryPageFrame Slug="profile-menu">
+    <Settings>
+        <OmniSettingsSection Title="@Text["ProfileMenuSettingsTitle"]" Description="@Text["ProfileMenuSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["ProfileMenuShowIcons"]" Description="@Text["ProfileMenuShowIconsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Star" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowIcons" aria-label="@Text["ProfileMenuShowIcons"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ProfileMenuDisableAdmin"]" Description="@Text["ProfileMenuDisableAdminDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="DisableAdministration" aria-label="@Text["ProfileMenuDisableAdmin"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ProfileMenuShowLink"]" Description="@Text["ProfileMenuShowLinkDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.OpenExternal" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowLinkItem" aria-label="@Text["ProfileMenuShowLink"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ProfileMenuDisabled"]" Description="@Text["ProfileMenuDisabledDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Disabled" aria-label="@Text["ProfileMenuDisabled"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ProfileMenuCloseOutside"]" Description="@Text["ProfileMenuCloseOutsideDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Close" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="CloseOnOutsideClick" aria-label="@Text["ProfileMenuCloseOutside"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ProfileMenuCompact"]" Description="@Text["ProfileMenuCompactDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Compact" aria-label="@Text["ProfileMenuCompact"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ProfileMenuPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <ProfileMenuExample ShowIcons="ShowIcons"
+                                    DisableAdministration="DisableAdministration"
+                                    ShowLinkItem="ShowLinkItem"
+                                    Disabled="Disabled"
+                                    CloseOnOutsideClick="CloseOnOutsideClick"
+                                    Compact="Compact" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ProfileMenuGalleryTitle"]</HeaderContent>
+            <ChildContent><ProfileMenuGalleryExample /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

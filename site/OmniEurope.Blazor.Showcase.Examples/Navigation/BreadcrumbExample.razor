@@ -1,0 +1,11 @@
+@* A breadcrumb trail: every level but the current one is a link, a level without an address is plain text,
+   and the last level shown can be marked as the current page, announced as such to assistive technologies. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniBreadcrumb Label="You are here">
+        @foreach (var crumb in VisibleCrumbs)
+        {
+            <OmniBreadcrumbItem Href="@crumb.Href" Current="@crumb.Current">@crumb.Text</OmniBreadcrumbItem>
+        }
+    </OmniBreadcrumb>
+    <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">Each level but the current one is a link.</OmniText>
+</OmniStack>

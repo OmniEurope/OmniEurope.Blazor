@@ -95,11 +95,6 @@
   <data name="DemoFormTitle" xml:space="preserve"><value>Forms</value></data>
   <data name="DemoFormSummary" xml:space="preserve"><value>Input fields and their accessible labelling.</value></data>
   <data name="DemoFormCapability3" xml:space="preserve"><value>Slider, checkbox and switch driven from the keyboard.</value></data>
-  <data name="DemoNavigationTitle" xml:space="preserve"><value>Navigation</value></data>
-  <data name="DemoNavigationSummary" xml:space="preserve"><value>Placing the reader and moving them between sections.</value></data>
-  <data name="DemoNavigationCapability1" xml:space="preserve"><value>Breadcrumb marking the current page.</value></data>
-  <data name="DemoNavigationCapability2" xml:space="preserve"><value>Controlled tabs, with roles and keyboard navigation.</value></data>
-  <data name="DemoNavigationCapability3" xml:space="preserve"><value>Numbered steps with validation before moving on.</value></data>
   <data name="DemoFeedbackTitle" xml:space="preserve"><value>Status feedback</value></data>
   <data name="DemoFeedbackSummary" xml:space="preserve"><value>Saying where the system stands without blocking the page.</value></data>
   <data name="DemoFeedbackCapability1" xml:space="preserve"><value>Progress bar, determinate or indeterminate.</value></data>
@@ -287,10 +282,6 @@
   <data name="DemoVerticalFormSummary" xml:space="preserve"><value>Every field type, the errors and their summary, the disabled and read-only states.</value></data>
   <data name="DemoVerticalFormCapability2" xml:space="preserve"><value>The errors are those of the edit context: the field takes aria-invalid from them, fixing them removes them from the summary.</value></data>
   <data name="DemoVerticalFormCapability3" xml:space="preserve"><value>Welded file field, single-file zone, multiple-file zone with a reduced list.</value></data>
-  <data name="DemoSettingsTabsTitle" xml:space="preserve"><value>Settings in tabs</value></data>
-  <data name="DemoSettingsTabsSummary" xml:space="preserve"><value>One icon tab per topic, one section per tab, one tile per setting.</value></data>
-  <data name="DemoSettingsTabsCapability1" xml:space="preserve"><value>A switch in a tile takes the tile's name as its label; a click on the tile toggles it.</value></data>
-  <data name="DemoSettingsTabsCapability2" xml:space="preserve"><value>The control stands on the right, the name, hint and icon on the left.</value></data>
   <data name="DemoNoticesTitle" xml:space="preserve"><value>Notifications and dialogs</value></data>
   <data name="DemoNoticesSummary" xml:space="preserve"><value>Dismissible notifications, dialogs on the backdrop.</value></data>
   <data name="DemoNoticesCapability1" xml:space="preserve"><value>Each notification closes with its cross.</value></data>
@@ -352,34 +343,6 @@
   <data name="RunsStatusInfo" xml:space="preserve"><value>Running</value></data>
   <data name="RunsStatusWarning" xml:space="preserve"><value>Cancelled</value></data>
   <data name="RunsStatusDanger" xml:space="preserve"><value>Failed</value></data>
-  <data name="SettingsTabsLabel" xml:space="preserve"><value>Settings</value></data>
-  <data name="SettingsGeneral" xml:space="preserve"><value>General</value></data>
-  <data name="SettingsGeneralLead" xml:space="preserve"><value>Working locations and startup behaviour.</value></data>
-  <data name="SettingsFolder" xml:space="preserve"><value>Artifact folder</value></data>
-  <data name="SettingsFolderHint" xml:space="preserve"><value>Where the builds drop their packages.</value></data>
-  <data name="SettingsBrowse" xml:space="preserve"><value>Browse</value></data>
-  <data name="SettingsStartup" xml:space="preserve"><value>Start with Windows</value></data>
-  <data name="SettingsStartupHint" xml:space="preserve"><value>Starts the agent when the session opens.</value></data>
-  <data name="SettingsLanguage" xml:space="preserve"><value>Language</value></data>
-  <data name="SettingsLanguageHint" xml:space="preserve"><value>Language of the interface and notifications.</value></data>
-  <data name="SettingsLanguageFrench" xml:space="preserve"><value>Français</value></data>
-  <data name="SettingsLanguageEnglish" xml:space="preserve"><value>English</value></data>
-  <data name="SettingsDisplay" xml:space="preserve"><value>Display</value></data>
-  <data name="SettingsDisplayLead" xml:space="preserve"><value>Appearance and density of the interface.</value></data>
-  <data name="SettingsDarkMode" xml:space="preserve"><value>Dark mode</value></data>
-  <data name="SettingsDarkModeHint" xml:space="preserve"><value>Follow the system or force a mode.</value></data>
-  <data name="SettingsModeSystem" xml:space="preserve"><value>Follow the system</value></data>
-  <data name="SettingsModeLight" xml:space="preserve"><value>Light</value></data>
-  <data name="SettingsModeDark" xml:space="preserve"><value>Dark</value></data>
-  <data name="SettingsCompact" xml:space="preserve"><value>Compact interface</value></data>
-  <data name="SettingsCompactHint" xml:space="preserve"><value>Reduces the margins of grids and forms.</value></data>
-  <data name="SettingsNotifications" xml:space="preserve"><value>Notifications</value></data>
-  <data name="SettingsNotificationsLead" xml:space="preserve"><value>What you are told about, and through which channel.</value></data>
-  <data name="SettingsFailures" xml:space="preserve"><value>Pipeline failures</value></data>
-  <data name="SettingsFailuresHint" xml:space="preserve"><value>A notification for each failed run.</value></data>
-  <data name="SettingsDigest" xml:space="preserve"><value>Daily digest</value></data>
-  <data name="SettingsDigestHint" xml:space="preserve"><value>Sent every morning at 8 am.</value></data>
-  <data name="SettingsDigestAddress" xml:space="preserve"><value>Digest address</value></data>
   <data name="DemoShellDashboard" xml:space="preserve"><value>Dashboard</value></data>
   <data name="DemoShellInProgress" xml:space="preserve"><value>In progress</value></data>
   <data name="DemoShellArchived" xml:space="preserve"><value>Archived</value></data>
@@ -723,24 +686,6 @@
   <data name="DemoAppShellMinimize" xml:space="preserve"><value>Minimise the window</value></data>
   <data name="DemoAppShellMaximize" xml:space="preserve"><value>Maximise or restore the window</value></data>
   <data name="DemoAppShellClose" xml:space="preserve"><value>Close the window</value></data>
-  <data name="DemoNavigationBreadcrumb" xml:space="preserve"><value>Breadcrumb</value></data>
-  <data name="DemoNavigationHome" xml:space="preserve"><value>Home</value></data>
-  <data name="DemoNavigationComponents" xml:space="preserve"><value>Components</value></data>
-  <data name="DemoNavigationCurrent" xml:space="preserve"><value>Navigation</value></data>
-  <data name="DemoNavigationSections" xml:space="preserve"><value>Case sections</value></data>
-  <data name="DemoNavigationTabSummary" xml:space="preserve"><value>Summary</value></data>
-  <data name="DemoNavigationDocuments" xml:space="preserve"><value>Documents</value></data>
-  <data name="DemoNavigationDocumentsText" xml:space="preserve"><value>Each document carries its filing date.</value></data>
-  <data name="DemoNavigationHistory" xml:space="preserve"><value>History</value></data>
-  <data name="DemoNavigationHistoryText" xml:space="preserve"><value>Twelve recorded movements.</value></data>
-  <data name="DemoNavigationProgress" xml:space="preserve"><value>Case progress</value></data>
-  <data name="DemoNavigationFiling" xml:space="preserve"><value>Filing</value></data>
-  <data name="DemoNavigationFilingText" xml:space="preserve"><value>The documents have been received.</value></data>
-  <data name="DemoNavigationReview" xml:space="preserve"><value>Review</value></data>
-  <data name="DemoNavigationReviewText" xml:space="preserve"><value>The case is under review.</value></data>
-  <data name="DemoNavigationDecision" xml:space="preserve"><value>Decision</value></data>
-  <data name="DemoNavigationDecisionText" xml:space="preserve"><value>The decision will be sent by post.</value></data>
-  <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>The case holds {0} documents.</value></data>
   <data name="DemoPagesReload" xml:space="preserve"><value>Reload the record</value></data>
   <data name="DemoPagesRerun" xml:space="preserve"><value>Run again</value></data>
   <data name="DemoPagesPipelineRun" xml:space="preserve"><value>Pipeline run #{0}</value></data>
@@ -1041,11 +986,6 @@
   <data name="DemoOverlaySaveAndClose" xml:space="preserve"><value>Save and close</value></data>
   <data name="DemoOverlaySaveCopy" xml:space="preserve"><value>Save a copy</value></data>
   <data name="DemoOverlayPublishUnavailable" xml:space="preserve"><value>Publish, unavailable</value></data>
-  <data name="DemoOverlayAccountMenu" xml:space="preserve"><value>Account menu</value></data>
-  <data name="DemoOverlayMyProfile" xml:space="preserve"><value>My profile</value></data>
-  <data name="DemoOverlaySignOut" xml:space="preserve"><value>Sign out</value></data>
-  <data name="DemoOverlaySignedOut" xml:space="preserve"><value>Signed out</value></data>
-  <data name="DemoOverlayAdminUnavailable" xml:space="preserve"><value>Administration, unavailable</value></data>
   <data name="DemoOverlayLastAction" xml:space="preserve"><value>Last action: {0}</value></data>
   <data name="DemoOverlayNoAction" xml:space="preserve"><value>none</value></data>
   <data name="DemoOverlayNoticeInfoTitle" xml:space="preserve"><value>Information</value></data>
@@ -1343,21 +1283,6 @@
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Directed links</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Proofread text, locked at first</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Read-only</value></data>
-  <data name="SettingsProject" xml:space="preserve"><value>Project</value></data>
-  <data name="SettingsProjectLead" xml:space="preserve"><value>The actions in this zone cannot be undone.</value></data>
-  <data name="SettingsDeleteProject" xml:space="preserve"><value>Delete the project</value></data>
-  <data name="SettingsDeleteProjectHint" xml:space="preserve"><value>The project, its reports and its history are erased.</value></data>
-  <data name="SettingsDeleteProjectConfirm" xml:space="preserve"><value>The project “PRJ-042” and its 42 reports will be permanently deleted.</value></data>
-  <data name="SettingsProjectDeleted" xml:space="preserve"><value>Project “PRJ-042” deleted (demonstration: nothing was erased).</value></data>
-  <data name="SettingsResetHistory" xml:space="preserve"><value>Reset the history</value></data>
-  <data name="SettingsResetHistoryHint" xml:space="preserve"><value>Clears the run log; this demonstration fails on purpose.</value></data>
-  <data name="SettingsResetHistoryConfirmTitle" xml:space="preserve"><value>Reset the history of “PRJ-042”?</value></data>
-  <data name="SettingsResetHistoryConfirm" xml:space="preserve"><value>Every past run of “PRJ-042” will be erased.</value></data>
-  <data name="SettingsResetAction" xml:space="preserve"><value>Reset</value></data>
-  <data name="SettingsResetFailed" xml:space="preserve"><value>The server refused the reset (simulated failure).</value></data>
-  <data name="SettingsTransferProject" xml:space="preserve"><value>Transfer the project</value></data>
-  <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Reserved for the project owner.</value></data>
-  <data name="SettingsTransferAction" xml:space="preserve"><value>Transfer</value></data>
   <data name="DemoInputsModel" xml:space="preserve"><value>Model</value></data>
   <data name="DemoInputsModelHelp" xml:space="preserve"><value>Pick from the list or type a name it lacks.</value></data>
   <data name="DemoInputsModelValue" xml:space="preserve"><value>Value: {0}</value></data>

@@ -1,18 +1,16 @@
-namespace OmniEurope.Blazor.Showcase.Components.Demos;
+namespace OmniEurope.Blazor.Showcase.Examples.Navigation;
 
-/// <summary>
-/// The settings the tabbed settings page edits.
-/// </summary>
-public sealed class SettingsTabsDemoModel
+/// <summary>The settings the tabbed settings example edits.</summary>
+public sealed class SettingsTabsModel
 {
     /// <summary>Where the builds drop their packages.</summary>
-    public string Folder { get; set; } = @"D:\Builds\artefacts";
+    public string Folder { get; set; } = @"D:\Builds\artifacts";
 
     /// <summary>Whether the agent starts with the session.</summary>
     public bool StartWithSystem { get; set; } = true;
 
     /// <summary>The interface language.</summary>
-    public string Language { get; set; } = "fr";
+    public string Language { get; set; } = "en";
 
     /// <summary>How the mode is chosen.</summary>
     public string Mode { get; set; } = "system";
@@ -24,5 +22,5 @@ public sealed class SettingsTabsDemoModel
     public bool Failures { get; set; } = true;
 
     /// <summary>Where the daily digest goes.</summary>
-    public string DigestAddress { get; set; } = "equipe@exemple.fr";
+    public string DigestAddress { get; set; } = "team@example.com";
 }

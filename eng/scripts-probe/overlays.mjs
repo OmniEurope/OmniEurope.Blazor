@@ -152,7 +152,7 @@ export async function overlaySteps(session, results) {
   step('choix compact : clic dedans, Échap, appui dehors');
 
   // 6. Tabs by the keyboard.
-  await session.visit('/components/legacy/navigation', '[role="tab"]');
+  await session.visit('/components/tabs', '[role="tab"]');
   await evaluate("document.querySelector('[role=\"tab\"][aria-selected=\"true\"]').focus()");
   const tabBefore = await focusedText();
   await key('ArrowRight', 'ArrowRight', 39);
