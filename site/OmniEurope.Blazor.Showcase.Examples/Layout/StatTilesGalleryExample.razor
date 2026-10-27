@@ -1,0 +1,17 @@
+@* Three tiles side by side: one with an icon and a detail, one clickable, one bare. The figures are formatted
+   by the example, as the tile expects. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Wrap="true" Gap="OmniSpacing.Medium">
+        <OmniStatTile Value="@FillRate" Title="Fill rate" Detail="Average of the week">
+            <Icon><OmniIcon Name="OmniIconName.ChartBar" /></Icon>
+        </OmniStatTile>
+        <OmniStatTile Value="@Delays" Title="Delayed flights" OnClick="CountClick">
+            <Icon><OmniIcon Name="OmniIconName.Timer" /></Icon>
+        </OmniStatTile>
+        <OmniStatTile Value="@Passengers" Title="Passengers" />
+    </OmniStack>
+    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Wrap="true" Gap="OmniSpacing.Small">
+        <OmniIcon Name="OmniIconName.Info" />
+        <OmniText>Clicks: @Clicks</OmniText>
+    </OmniStack>
+</OmniStack>

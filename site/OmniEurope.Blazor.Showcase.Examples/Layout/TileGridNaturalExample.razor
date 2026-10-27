@@ -1,0 +1,57 @@
+@* EqualHeights="false": each tile keeps the height of its content, aligned to the top of its row, instead of
+   being stretched to the tallest one (widths unchanged). Fact tiles of 4, 1, 2 and 2 rows; the second has a
+   long term and a short value, kept on one line in this narrow tile. *@
+<OmniTileGrid Id="demo-tile-grid-natural" Columns="4" EqualHeights="false">
+    <OmniFactTile Id="demo-natural-tall" Title="Source">
+        <ChildContent>
+            <OmniFactTileRow Term="Repository">
+                <Icon><OmniIcon Name="OmniIconName.Database" /></Icon>
+                <ChildContent>omni-europe-blazor</ChildContent>
+            </OmniFactTileRow>
+            <OmniFactTileRow Term="Branch">
+                <Icon><OmniIcon Name="OmniIconName.Graph" /></Icon>
+                <ChildContent>release/1.9.0</ChildContent>
+            </OmniFactTileRow>
+            <OmniFactTileRow Term="Commit">
+                <Icon><OmniIcon Name="OmniIconName.GitCommit" /></Icon>
+                <ChildContent>9f3c2a1</ChildContent>
+            </OmniFactTileRow>
+            <OmniFactTileRow Term="Step duration">
+                <Icon><OmniIcon Name="OmniIconName.CalendarBlank" /></Icon>
+                <ChildContent>2026-10-23 08:14:02Z</ChildContent>
+            </OmniFactTileRow>
+        </ChildContent>
+    </OmniFactTile>
+    <OmniFactTile Id="demo-natural-short" Title="Run">
+        <ChildContent>
+            <OmniFactTileRow Term="Step duration">
+                <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                <ChildContent>2</ChildContent>
+            </OmniFactTileRow>
+        </ChildContent>
+    </OmniFactTile>
+    <OmniFactTile Id="demo-natural-status" Title="Run">
+        <ChildContent>
+            <OmniFactTileRow Term="Status">
+                <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
+                <ChildContent><OmniBadge Tone="OmniTone.Success">Succeeded</OmniBadge></ChildContent>
+            </OmniFactTileRow>
+            <OmniFactTileRow Term="Steps">
+                <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                <ChildContent>5 / 5</ChildContent>
+            </OmniFactTileRow>
+        </ChildContent>
+    </OmniFactTile>
+    <OmniFactTile Id="demo-natural-timeline" Title="Timeline">
+        <ChildContent>
+            <OmniFactTileRow Term="Started">
+                <Icon><OmniIcon Name="OmniIconName.CalendarBlank" /></Icon>
+                <ChildContent>2026-10-23 08:21:07Z</ChildContent>
+            </OmniFactTileRow>
+            <OmniFactTileRow Term="Duration">
+                <Icon><OmniIcon Name="OmniIconName.Timer" /></Icon>
+                <ChildContent>1h44min</ChildContent>
+            </OmniFactTileRow>
+        </ChildContent>
+    </OmniFactTile>
+</OmniTileGrid>

@@ -1,0 +1,32 @@
+@* PinnedActionsContent: the action that must stay within reach is never folded behind "Show more". Wide, it
+   ends line 1 just before the "⋮" menu; under 40rem it takes a line below line 1, aligned to the end, the
+   menu staying at the end of the title row, "Show more" closed or open. ActionsContent (here a split button)
+   and the badges fold as elsewhere. *@
+<OmniPageHeader Id="details-pinned" Level="OmniHeadingLevel.H2" Framed="true" ShowBack="true" ShowTrail="false"
+                Title="Pipeline run #2842">
+    <Icon><OmniIcon Name="OmniIconName.RocketLaunch" /></Icon>
+    <Badges>
+        <OmniBadge Tone="OmniTone.Success">Online</OmniBadge>
+        <OmniBadge Tone="OmniTone.Neutral">Production</OmniBadge>
+    </Badges>
+    <ActionsContent>
+        <OmniSplitButton Id="details-pinned-split" Size="OmniControlSize.Small" Text="Edit">
+            <Icon><OmniIcon Name="OmniIconName.Edit" /></Icon>
+            <ChildContent>
+                <OmniMenuItem>Duplicate</OmniMenuItem>
+            </ChildContent>
+        </OmniSplitButton>
+    </ActionsContent>
+    <PinnedActionsContent>
+        <OmniButton Id="details-pinned-relaunch" Variant="OmniButtonVariant.Primary" Size="OmniControlSize.Small">
+            <Icon><OmniIcon Name="OmniIconName.Refresh" /></Icon>
+            <ChildContent><span>Run again</span></ChildContent>
+        </OmniButton>
+    </PinnedActionsContent>
+    <MenuContent>
+        <OmniMenuItem><Icon><OmniIcon Name="OmniIconName.Edit" /></Icon><ChildContent>Edit</ChildContent></OmniMenuItem>
+        <OmniMenuItem><Icon><OmniIcon Name="OmniIconName.Copy" /></Icon><ChildContent>Duplicate</ChildContent></OmniMenuItem>
+        <OmniMenuItem><Icon><OmniIcon Name="OmniIconName.Archive" /></Icon><ChildContent>Archive</ChildContent></OmniMenuItem>
+        <OmniMenuItem><Icon><OmniIcon Name="OmniIconName.Delete" /></Icon><ChildContent>Remove</ChildContent></OmniMenuItem>
+    </MenuContent>
+</OmniPageHeader>

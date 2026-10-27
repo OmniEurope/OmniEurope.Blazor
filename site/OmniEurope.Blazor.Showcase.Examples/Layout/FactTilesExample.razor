@@ -1,0 +1,47 @@
+@* Fact tiles: a title, then rows of icon, term and value on three shared columns, so they line up from one row
+   to the next and from one tile of the grid to the next. Three contents of different lengths in one grid
+   share the same height; a value that is too long is cut with an ellipsis and read whole in the tooltip.
+   The first tile carries linked values, the second a badge, the third is a single link (Href) with its title
+   aligned to the start and a row without icon. *@
+<OmniTileGrid Id="demo-fact-tile-grid" Columns="3">
+    <OmniFactTile Id="demo-fact-tile-source" Title="Source">
+        <Icon><OmniIcon Name="OmniIconName.FolderOpen" /></Icon>
+        <ChildContent>
+            <OmniFactTileRow Term="Repository" Href="components/stat-tiles">
+                <Icon><OmniIcon Name="OmniIconName.Database" /></Icon>
+                <ChildContent>omni-europe-blazor-showcase-demo</ChildContent>
+            </OmniFactTileRow>
+            <OmniFactTileRow Term="Branch" Href="components/nav-tiles">
+                <Icon><OmniIcon Name="OmniIconName.Graph" /></Icon>
+                <ChildContent>release/1.9.0-tile-alignment</ChildContent>
+            </OmniFactTileRow>
+            <OmniFactTileRow Term="Commit">
+                <Icon><OmniIcon Name="OmniIconName.GitCommit" /></Icon>
+                <ChildContent>9f3c2a1</ChildContent>
+            </OmniFactTileRow>
+        </ChildContent>
+    </OmniFactTile>
+    <OmniFactTile Id="demo-fact-tile-run" Title="Run">
+        <ChildContent>
+            <OmniFactTileRow Term="Status">
+                <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
+                <ChildContent><OmniBadge Tone="OmniTone.Success">Succeeded</OmniBadge></ChildContent>
+            </OmniFactTileRow>
+            <OmniFactTileRow Term="Steps">
+                <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                <ChildContent>5 / 5</ChildContent>
+            </OmniFactTileRow>
+        </ChildContent>
+    </OmniFactTile>
+    <OmniFactTile Id="demo-fact-tile-timeline" Title="Timeline" TitleAlign="OmniAlignment.Start" Href="components/stat-tiles">
+        <ChildContent>
+            <OmniFactTileRow Term="Started">
+                <Icon><OmniIcon Name="OmniIconName.CalendarBlank" /></Icon>
+                <ChildContent>2026-10-23 08:21:07 +02:00 (Europe/Paris)</ChildContent>
+            </OmniFactTileRow>
+            <OmniFactTileRow Term="Duration">
+                <ChildContent>1h44min</ChildContent>
+            </OmniFactTileRow>
+        </ChildContent>
+    </OmniFactTile>
+</OmniTileGrid>

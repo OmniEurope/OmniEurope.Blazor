@@ -1,0 +1,33 @@
+@* A tile grid (OmniTileGrid): every tile of the package has the same width and, by default, the same height,
+   that of the tallest, whatever its content; DoubleWidth spreads one over two columns. Words that do not fit
+   wrap or are cut inside the tile, nothing overflows. Clickable tiles keep their place in the grid (same size,
+   DoubleWidth honoured): a card with OnClick is a single button, so its content is phrasing content (spans);
+   a stat tile with Href is a single link. *@
+<OmniTileGrid Id="demo-tile-grid" Columns="4">
+    <OmniStatTile Value="@Tokens(12.4)" Title="Tokens today" Detail="@Reset">
+        <Icon><OmniIcon Name="OmniIconName.Database" /></Icon>
+    </OmniStatTile>
+    <OmniStatTile Value="@Tokens(8.2)" Title="Weekly">
+        <Icon><OmniIcon Name="OmniIconName.CalendarCheck" /></Icon>
+    </OmniStatTile>
+    <OmniNavTile Href="components/stacks" Title="Stacks" Description="Items lined up in one direction.">
+        <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+    </OmniNavTile>
+    <OmniCard><ChildContent>Both cards take the same height.</ChildContent></OmniCard>
+    <OmniSelectableCard Title="Linux" Description="Debian, Ubuntu, Fedora" Multiple="true" @bind-Value="TileChoice">
+        <Icon><OmniIcon Name="OmniIconName.TerminalWindow" /></Icon>
+    </OmniSelectableCard>
+    <OmniNavTile Href="components/rows-columns" Title="Rows and columns" Tone="OmniTone.Info" DoubleWidth="true">
+        <Icon><OmniIcon Name="OmniIconName.Layers" /></Icon>
+    </OmniNavTile>
+    <OmniStatTile Value="@Tokens(3.6)" Title="Gain">
+        <Icon><OmniIcon Name="OmniIconName.ChartLineUp" /></Icon>
+    </OmniStatTile>
+    <OmniCard Id="demo-click-card" OnClick="@(() => CardClicks++)" DoubleWidth="true">
+        <HeaderContent>Clickable card</HeaderContent>
+        <ChildContent>Click it or press Enter. <strong id="demo-click-card-count">Clicks: @CardClicks</strong></ChildContent>
+    </OmniCard>
+    <OmniStatTile Id="demo-link-tile" Href="components/stacks" Value="@Tokens(5.1)" Title="Stacks">
+        <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+    </OmniStatTile>
+</OmniTileGrid>

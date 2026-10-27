@@ -1,0 +1,20 @@
+@* Navigation tiles: the home of an administration area or a hub of sections. Each tile is a real link, its
+   icon on a square tinted with its tone; hovered, only its shadow changes. Switched off, the description
+   leaves the tile with only its title. *@
+<OmniRow Gap="OmniSpacing.Medium">
+    <OmniColumn Span="12" MediumSpan="4">
+        <OmniNavTile Href="components/cards" Title="Cards" Description="@Describe("Content framed in a header, a body and a footer")" Tone="Tone">
+            <Icon><OmniIcon Name="OmniIconName.Cards" /></Icon>
+        </OmniNavTile>
+    </OmniColumn>
+    <OmniColumn Span="12" MediumSpan="4">
+        <OmniNavTile Href="components/stat-tiles" Title="Stat tiles" Description="@Describe("A figure, its label and a detail line")" Tone="Tone">
+            <Icon><OmniIcon Name="OmniIconName.ChartBar" /></Icon>
+        </OmniNavTile>
+    </OmniColumn>
+    <OmniColumn Span="12" MediumSpan="4">
+        <OmniNavTile Href="components/settings-sections" Title="Settings" Description="@Describe("Setting tiles, two per row")" Tone="Tone">
+            <Icon><OmniIcon Name="OmniIconName.Settings" /></Icon>
+        </OmniNavTile>
+    </OmniColumn>
+</OmniRow>

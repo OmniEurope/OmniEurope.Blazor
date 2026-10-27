@@ -1,0 +1,44 @@
+@page "/components/nav-tiles"
+@using OmniEurope.Blazor.Showcase.Examples.Layout
+
+<GalleryPageFrame Slug="nav-tiles">
+    <Settings>
+        <OmniSettingsSection Title="@Text["NavTilesSettingsTitle"]" Description="@Text["NavTilesSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["NavTilesTone"]" Description="@Text["NavTilesToneDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Palette" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniTone" Options="@ToneOptions" @bind-Value="Tone" Label="@Text["NavTilesTone"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["NavTilesShowDescription"]" Description="@Text["NavTilesShowDescriptionHint"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowDescription" aria-label="@Text["NavTilesShowDescription"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["NavTilesPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                @* Each tile leads to a real page of the gallery: a click leaves this page for that one. *@
+                <NavTilesExample Tone="Tone" ShowDescription="ShowDescription" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["NavTilesTonesTitle"]</HeaderContent>
+            <ChildContent>
+                <NavTilesTonesExample />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["NavTilesGridTitle"]</HeaderContent>
+            <ChildContent>
+                <TileGridFluidExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["NavTilesGridDescription"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

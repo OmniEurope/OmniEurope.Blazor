@@ -1,0 +1,20 @@
+@* Stat tiles in the columns of a row: the second, clickable, is a real button named by its title and value.
+   The title stays on one line: smaller when it does not fit its column, then cut with an ellipsis, its whole
+   text in the tooltip (the third tile, narrowed to a small column). *@
+<OmniRow Gap="OmniSpacing.Small">
+    <OmniColumn Span="12" MediumSpan="4">
+        <OmniStatTile Value="@Tokens" Title="Tokens today" Detail="@Reset">
+            <Icon><OmniIcon Name="OmniIconName.Database" /></Icon>
+        </OmniStatTile>
+    </OmniColumn>
+    <OmniColumn Span="12" MediumSpan="4">
+        <OmniStatTile Value="@WeeklyShare" Title="Weekly" OnClick="@(() => { })">
+            <Icon><OmniIcon Name="OmniIconName.CalendarCheck" /></Icon>
+        </OmniStatTile>
+    </OmniColumn>
+    <OmniColumn Span="6" MediumSpan="3">
+        <OmniStatTile Id="demo-stat-tile-gain" Value="@Gain" Title="Capital gain on investments">
+            <Icon><OmniIcon Name="OmniIconName.ChartLineUp" /></Icon>
+        </OmniStatTile>
+    </OmniColumn>
+</OmniRow>

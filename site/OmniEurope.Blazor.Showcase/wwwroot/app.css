@@ -153,11 +153,6 @@
     #showcase-theme > .omni-layout > .omni-body { flex-direction: column; }
     #showcase-theme > .omni-layout > .omni-body > .omni-sidebar { flex: 0 0 auto; max-inline-size: none; }
 }
-
-/* Coquille à défilement propre, en miniature : la coquille reçoit une hauteur, l'élément principal
-   défile dedans et sa barre reste au bord droit du cadre, colonne centrée ou non. */
-.demo-shell-viewport { block-size: 14rem; border: var(--omni-border-width) solid var(--omni-color-border); }
-.demo-shell-viewport > .omni-layout { block-size: 100%; }
 /* Cadres de hauteur fixe : la grille qui prend le reste du sien, les onglets dont le panneau défile
    seul, la liste virtuelle que son cadre fait défiler. */
 .demo-grid-scope { block-size: 30rem; border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: flex; flex-direction: column; gap: var(--omni-space-sm); overflow-y: auto; padding: var(--omni-space-md); }
@@ -260,24 +255,6 @@
 .demo-surfaces-row { align-items: start; display: grid; gap: var(--omni-space-lg); grid-template-columns: minmax(12rem, 16rem) minmax(0, 1fr); }
 @media (max-width: 36rem) { .demo-surfaces-row { grid-template-columns: minmax(0, 1fr); } }
 .demo-menu-item { align-items: center; display: flex; gap: var(--omni-space-sm); }
-.demo-menu-item small { color: var(--omni-color-text-muted); display: block; font-size: var(--omni-font-size-sm); }
-
-
-/* Coquille d'application : logo, loupe, pastille de la cloche et avatar, que le paquet n'a pas. */
-.demo-appshell { border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); overflow: hidden; }
-.demo-appbar__brand { align-items: center; display: inline-flex; font-weight: var(--omni-heading-font-weight, 700); gap: var(--omni-space-sm); }
-.demo-appbar__logo { background: var(--omni-color-accent-fill); block-size: calc(var(--omni-icon-box) * 0.72); border-radius: var(--omni-radius); color: var(--omni-color-on-accent-fill); display: grid; font-size: 0.75rem; font-weight: 800; inline-size: calc(var(--omni-icon-box) * 0.72); place-content: center; }
-.demo-appbar__search { flex: 1 1 11rem; margin: 0 0 0 auto; max-inline-size: 17rem; position: relative; }
-.demo-appbar__search > .omni-icon { color: var(--omni-color-text-muted); inset-block-start: 50%; inset-inline-start: 9px; pointer-events: none; position: absolute; transform: translateY(-50%); }
-.demo-appbar__search .omni-input { box-sizing: border-box; inline-size: 100%; padding-inline-start: 30px; }
-.demo-appbar__actions { align-items: center; display: flex; gap: 6px; }
-.demo-appbar__bell { position: relative; }
-.demo-appbar__dot { background: var(--omni-color-danger-fill); block-size: 0.5rem; border-radius: var(--omni-radius-circle); box-shadow: 0 0 0 2px var(--omni-color-surface); inline-size: 0.5rem; inset-block-start: 5px; inset-inline-end: 5px; pointer-events: none; position: absolute; }
-.demo-appbar__account .omni-profile-menu__trigger { border-radius: var(--omni-radius-circle); display: block; }
-.demo-appbar__avatar { block-size: calc(var(--omni-icon-box) * 0.9); inline-size: calc(var(--omni-icon-box) * 0.9); }
-.demo-appshell .omni-main { align-content: start; display: grid; flex: 1 1 auto; gap: var(--omni-space-md); padding: var(--omni-section-pad); }
-.demo-appshell__tiles { display: grid; gap: var(--omni-space-sm); grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); }
-.demo-appshell__tiles .omni-heading { margin: 0; }
 /* Scheduler demo: an appointment the host marks apart through OmniSchedulerAppointment.CssClass. */
 .omni-scheduler__appointment.showcase-appointment--decision { background: var(--omni-color-warning-subtle); }
 

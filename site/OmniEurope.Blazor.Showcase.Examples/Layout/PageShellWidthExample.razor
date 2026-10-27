@@ -1,0 +1,16 @@
+@* A main area that scrolls by itself, with one of the three content widths: the scrollbar stays at the
+   right edge of the frame, only the column changes width. Each copy needs ids of its own, since two main
+   elements cannot share one. *@
+<OmniLayout>
+    <OmniHeader>
+        <OmniHeading Level="OmniHeadingLevel.H5">@PageShellWidths.Label(Width)</OmniHeading>
+    </OmniHeader>
+    <OmniBody>
+        <OmniMain Id="@MainId" AriaLabelledBy="@TitleId" ContentWidth="Width" Scrollable="true">
+            <OmniText Element="OmniTextElement.Strong" Id="@TitleId">Main content</OmniText>
+            <OmniText Element="OmniTextElement.Paragraph">@PageShellWidths.Paragraphs[0]</OmniText>
+            <OmniText Element="OmniTextElement.Paragraph">@PageShellWidths.Paragraphs[3]</OmniText>
+            <OmniText Element="OmniTextElement.Paragraph">@PageShellWidths.Paragraphs[1]</OmniText>
+        </OmniMain>
+    </OmniBody>
+</OmniLayout>
