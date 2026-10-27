@@ -1,53 +1,9 @@
 @using Microsoft.AspNetCore.Components.Forms
 
+@* The text fields, check boxes, switches and dynamic form of this demo moved to the gallery pages
+   Text fields, Check boxes and switches, and Validation. The sliders stay until the slider page takes them. *@
 <EditForm Model="Model">
     <OmniStack Gap="OmniSpacing.Medium">
-        <OmniFormField For="demo-name" Required="true" Description="@Text["DemoFormNameHelp"]">
-            <LabelContent>@Text["DemoFormName"]</LabelContent>
-            <ChildContent>
-                <OmniTextBox Id="demo-name" @bind-Value="Model.Name" Placeholder="Camille Durand" />
-            </ChildContent>
-        </OmniFormField>
-
-        <OmniFormField For="demo-notes">
-            <LabelContent>@Text["DemoFormNotes"]</LabelContent>
-            <ChildContent>
-                <OmniTextArea Id="demo-notes" @bind-Value="Model.Notes" Rows="3" MaxLength="200" ShowCount="true" />
-            </ChildContent>
-        </OmniFormField>
-
-        <OmniFormField Id="demo-email-field" For="demo-email" Help="@Text["DemoFormEmailHelp"]">
-            <LabelContent>@Text["DemoFormEmail"]</LabelContent>
-            <ChildContent>
-                <OmniTextBox Id="demo-email" Type="OmniTextBoxType.Email" Autocomplete="email"
-                             @bind-Value="Model.Email" Placeholder="camille@exemple.eu" />
-            </ChildContent>
-        </OmniFormField>
-
-        <OmniFormField For="demo-phone">
-            <LabelContent>@Text["DemoFormPhone"]</LabelContent>
-            <ChildContent>
-                <OmniTextBox Id="demo-phone" Type="OmniTextBoxType.Tel" Autocomplete="tel"
-                             @bind-Value="Model.Phone" Placeholder="+32 2 000 00 00" />
-            </ChildContent>
-        </OmniFormField>
-
-        <OmniFormField For="demo-website">
-            <LabelContent>@Text["DemoFormWebsite"]</LabelContent>
-            <ChildContent>
-                <OmniTextBox Id="demo-website" Type="OmniTextBoxType.Url" Autocomplete="url" ShowCopy="true"
-                             @bind-Value="Model.Website" Placeholder="https://exemple.eu" />
-            </ChildContent>
-        </OmniFormField>
-
-        <OmniFormField For="demo-search">
-            <LabelContent>@Text["DemoFormSearch"]</LabelContent>
-            <ChildContent>
-                <OmniTextBox Id="demo-search" Type="OmniTextBoxType.Search" @bind-Value="Model.Search"
-                             Placeholder="@Text["DemoFormSearchPlaceholder"]" />
-            </ChildContent>
-        </OmniFormField>
-
         <OmniFormField For="demo-budget">
             <LabelContent>@Text["DemoFormBudget"]</LabelContent>
             <ChildContent>
@@ -56,14 +12,5 @@
                             aria-label="@Text["DemoFormBudget"]" />
             </ChildContent>
         </OmniFormField>
-
-        <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Align="OmniAlignment.Center">
-            <OmniCheckBox Id="demo-terms" @bind-Value="Model.Accepted" />
-            <OmniLabel For="demo-terms">@Text["DemoFormTerms"]</OmniLabel>
-        </OmniStack>
-        <OmniSwitch Id="demo-alerts" @bind-Value="Model.Alerts">@Text["DemoFormAlerts"]</OmniSwitch>
     </OmniStack>
 </EditForm>
-
-<OmniDynamicForm Fields="DynamicFields" @bind-Values="DynamicValues" />
-<p>@Text["DemoFormDynamicValues", string.Join(", ", DynamicValues.Select(entry => $"{entry.Key}={entry.Value}"))]</p>

@@ -4,6 +4,7 @@ using Microsoft.JSInterop;
 using OmniEurope.Blazor.Showcase.Demos;
 using OmniEurope.Blazor.Showcase.Examples.Actions;
 using OmniEurope.Blazor.Showcase.Examples.Feedback;
+using OmniEurope.Blazor.Showcase.Examples.Forms;
 using OmniEurope.Blazor.Showcase.Resources;
 using OmniEurope.Blazor.Showcase.Resources.Gallery;
 using OmniEurope.Blazor.Showcase.Theming;
@@ -26,7 +27,7 @@ public partial class Customizer : IDisposable
         new("alerts", typeof(FeedbackStrings), "AlertsTitle", typeof(AlertGalleryExample)),
         Legacy("surfaces"),
         Legacy("reglages-onglets"),
-        Legacy("formulaires"),
+        new("form-layouts", typeof(FormsStrings), "FormLayoutsTitle", typeof(VerticalFormExample)),
         Legacy("formulaire-vertical"),
         Legacy("notifications"),
         Legacy("grilles-maquette"),

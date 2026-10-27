@@ -1,0 +1,47 @@
+@using Microsoft.AspNetCore.Components.Forms
+
+@* A form validated by the attributes of its model: OmniDataAnnotationsValidator writes the messages of
+   the standard attributes in the language of the interface, and ValidationMessage shows them. *@
+<OmniTemplateForm TModel="ContactModel" Model="Contact" Context="form" OnValidSubmit="Submit">
+    <OmniDataAnnotationsValidator />
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniFormField For="annotations-name" Required="true">
+            <LabelContent>Name</LabelContent>
+            <ChildContent>
+                <OmniTextBox Id="annotations-name" @bind-Value="Contact.Name" />
+                <ValidationMessage For="@(() => Contact.Name)" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniFormField For="annotations-email" Required="true">
+            <LabelContent>E-mail</LabelContent>
+            <ChildContent>
+                <OmniTextBox Id="annotations-email" Type="OmniTextBoxType.Email" @bind-Value="Contact.Email" />
+                <ValidationMessage For="@(() => Contact.Email)" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniFormField For="annotations-email-confirmation" Required="true">
+            <LabelContent>E-mail confirmation</LabelContent>
+            <ChildContent>
+                <OmniTextBox Id="annotations-email-confirmation" Type="OmniTextBoxType.Email" @bind-Value="Contact.EmailConfirmation" />
+                <ValidationMessage For="@(() => Contact.EmailConfirmation)" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniFormField For="annotations-seats" Description="Between 1 and 10.">
+            <LabelContent>Seats</LabelContent>
+            <ChildContent>
+                <OmniNumeric TValue="int" Id="annotations-seats" @bind-Value="Contact.Seats" />
+                <ValidationMessage For="@(() => Contact.Seats)" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniFormActions>
+            <OmniButton Variant="OmniButtonVariant.Primary" ButtonType="OmniButtonType.Submit">
+                <OmniIcon Name="OmniIconName.Check" />
+                <span>Check</span>
+            </OmniButton>
+        </OmniFormActions>
+        @if (Sent)
+        {
+            <OmniAlert Severity="OmniSeverity.Success" Title="The form is valid.">Every rule of the model is met.</OmniAlert>
+        }
+    </OmniStack>
+</OmniTemplateForm>

@@ -1,0 +1,64 @@
+@page "/components/validation"
+@using OmniEurope.Blazor.Showcase.Examples.Forms
+
+<GalleryPageFrame Slug="validation">
+    <Settings>
+        <OmniSettingsSection Title="@Text["ValidationSettingsTitle"]" Description="@Text["ValidationSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["ValidationPlacement"]" Description="@Text["ValidationPlacementDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Chat" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="ValidationMessagePlacement" Options="@PlacementOptions" @bind-Value="Placement" Label="@Text["ValidationPlacement"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ValidationDelay"]" Description="@Text["ValidationDelayDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Timer" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="DelayValue"
+                                Minimum="0"
+                                Maximum="1500"
+                                Step="100"
+                                ShowValue="true"
+                                FormatValue="@FormatDelay"
+                                aria-label="@Text["ValidationDelay"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ValidationFocusFirstInvalid"]" Description="@Text["ValidationFocusFirstInvalidDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.UserFocus" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="FocusFirstInvalid" aria-label="@Text["ValidationFocusFirstInvalid"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ValidationFeedback"]" Description="@Text["ValidationFeedbackDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Bell" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="ValidationSuccessFeedback" Options="@FeedbackOptions" @bind-Value="Feedback" Label="@Text["ValidationFeedback"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ValidationFormTitle"]</HeaderContent>
+            <ChildContent>
+                <SignUpValidationExample Placement="Placement"
+                                         Delay="Delay"
+                                         FocusFirstInvalid="FocusFirstInvalid"
+                                         Feedback="Feedback" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ValidationAnnotationsTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["ValidationAnnotationsDescription"]</OmniText>
+                <AnnotationsValidationExample />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ValidationDynamicTitle"]</HeaderContent>
+            <ChildContent><DynamicFormExample /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

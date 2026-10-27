@@ -1,0 +1,123 @@
+@* Each control in each state: yes, no, null, then disabled with a value and disabled at null. Every cell has
+   its own value: the controls need a bound expression, and a shared value would flip a whole row at once. *@
+<OmniStack Gap="OmniSpacing.Large">
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniHeading Level="OmniHeadingLevel.H4">Check box</OmniHeading>
+        <OmniRow>
+            <OmniColumn Span="6" MediumSpan="2">
+                <OmniStack Gap="OmniSpacing.Small">
+                    <OmniCheckBox @bind-Value="CheckTrue" aria-label="Yes" />
+                    <OmniText Tone="OmniTextTone.Muted">Yes</OmniText>
+                </OmniStack>
+            </OmniColumn>
+            <OmniColumn Span="6" MediumSpan="2">
+                <OmniStack Gap="OmniSpacing.Small">
+                    <OmniCheckBox @bind-Value="CheckFalse" aria-label="No" />
+                    <OmniText Tone="OmniTextTone.Muted">No</OmniText>
+                </OmniStack>
+            </OmniColumn>
+            <OmniColumn Span="6" MediumSpan="2">
+                <OmniStack Gap="OmniSpacing.Small">
+                    <OmniCheckBox @bind-Value="CheckDisabled" Disabled="true" aria-label="Disabled, yes" />
+                    <OmniText Tone="OmniTextTone.Muted">Disabled, yes</OmniText>
+                </OmniStack>
+            </OmniColumn>
+        </OmniRow>
+    </OmniStack>
+
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniHeading Level="OmniHeadingLevel.H4">Three-state check box</OmniHeading>
+        <OmniRow>
+            <OmniColumn Span="6" MediumSpan="2">
+                <OmniStack Gap="OmniSpacing.Small">
+                    <OmniCheckBox @bind-Value="NullableCheckTrue" aria-label="Yes" />
+                    <OmniText Tone="OmniTextTone.Muted">Yes</OmniText>
+                </OmniStack>
+            </OmniColumn>
+            <OmniColumn Span="6" MediumSpan="2">
+                <OmniStack Gap="OmniSpacing.Small">
+                    <OmniCheckBox @bind-Value="NullableCheckFalse" aria-label="No" />
+                    <OmniText Tone="OmniTextTone.Muted">No</OmniText>
+                </OmniStack>
+            </OmniColumn>
+            <OmniColumn Span="6" MediumSpan="2">
+                <OmniStack Gap="OmniSpacing.Small">
+                    <OmniCheckBox @bind-Value="NullableCheckNull" aria-label="Null" />
+                    <OmniText Tone="OmniTextTone.Muted">Null</OmniText>
+                </OmniStack>
+            </OmniColumn>
+            <OmniColumn Span="6" MediumSpan="3">
+                <OmniStack Gap="OmniSpacing.Small">
+                    <OmniCheckBox @bind-Value="NullableCheckDisabled" Disabled="true" aria-label="Disabled, yes" />
+                    <OmniText Tone="OmniTextTone.Muted">Disabled, yes</OmniText>
+                </OmniStack>
+            </OmniColumn>
+            <OmniColumn Span="6" MediumSpan="3">
+                <OmniStack Gap="OmniSpacing.Small">
+                    <OmniCheckBox @bind-Value="NullableCheckDisabledNull" Disabled="true" aria-label="Disabled, null" />
+                    <OmniText Tone="OmniTextTone.Muted">Disabled, null</OmniText>
+                </OmniStack>
+            </OmniColumn>
+        </OmniRow>
+    </OmniStack>
+
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniHeading Level="OmniHeadingLevel.H4">Switch</OmniHeading>
+        <OmniRow>
+            <OmniColumn Span="6" MediumSpan="2">
+                <OmniStack Gap="OmniSpacing.Small">
+                    <OmniSwitch @bind-Value="SwitchTrue" aria-label="Yes" />
+                    <OmniText Tone="OmniTextTone.Muted">Yes</OmniText>
+                </OmniStack>
+            </OmniColumn>
+            <OmniColumn Span="6" MediumSpan="2">
+                <OmniStack Gap="OmniSpacing.Small">
+                    <OmniSwitch @bind-Value="SwitchFalse" aria-label="No" />
+                    <OmniText Tone="OmniTextTone.Muted">No</OmniText>
+                </OmniStack>
+            </OmniColumn>
+            <OmniColumn Span="6" MediumSpan="2">
+                <OmniStack Gap="OmniSpacing.Small">
+                    <OmniSwitch @bind-Value="SwitchDisabled" Disabled="true" aria-label="Disabled, yes" />
+                    <OmniText Tone="OmniTextTone.Muted">Disabled, yes</OmniText>
+                </OmniStack>
+            </OmniColumn>
+        </OmniRow>
+    </OmniStack>
+
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniHeading Level="OmniHeadingLevel.H4">Three-state switch</OmniHeading>
+        <OmniRow>
+            <OmniColumn Span="6" MediumSpan="2">
+                <OmniStack Gap="OmniSpacing.Small">
+                    <OmniSwitch @bind-Value="NullableSwitchTrue" aria-label="Yes" />
+                    <OmniText Tone="OmniTextTone.Muted">Yes</OmniText>
+                </OmniStack>
+            </OmniColumn>
+            <OmniColumn Span="6" MediumSpan="2">
+                <OmniStack Gap="OmniSpacing.Small">
+                    <OmniSwitch @bind-Value="NullableSwitchFalse" aria-label="No" />
+                    <OmniText Tone="OmniTextTone.Muted">No</OmniText>
+                </OmniStack>
+            </OmniColumn>
+            <OmniColumn Span="6" MediumSpan="2">
+                <OmniStack Gap="OmniSpacing.Small">
+                    <OmniSwitch @bind-Value="NullableSwitchNull" aria-label="Null" />
+                    <OmniText Tone="OmniTextTone.Muted">Null</OmniText>
+                </OmniStack>
+            </OmniColumn>
+            <OmniColumn Span="6" MediumSpan="3">
+                <OmniStack Gap="OmniSpacing.Small">
+                    <OmniSwitch @bind-Value="NullableSwitchDisabled" Disabled="true" aria-label="Disabled, yes" />
+                    <OmniText Tone="OmniTextTone.Muted">Disabled, yes</OmniText>
+                </OmniStack>
+            </OmniColumn>
+            <OmniColumn Span="6" MediumSpan="3">
+                <OmniStack Gap="OmniSpacing.Small">
+                    <OmniSwitch @bind-Value="NullableSwitchDisabledNull" Disabled="true" aria-label="Disabled, null" />
+                    <OmniText Tone="OmniTextTone.Muted">Disabled, null</OmniText>
+                </OmniStack>
+            </OmniColumn>
+        </OmniRow>
+    </OmniStack>
+</OmniStack>

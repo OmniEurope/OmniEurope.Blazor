@@ -1,0 +1,6 @@
+@* A form described by data: the fields are a list, each with a key, a label and a kind, and the values come
+   back as a dictionary of text by key. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniDynamicForm Fields="Fields" @bind-Values="Values" />
+    <OmniText Tone="OmniTextTone.Muted">Form values: @string.Join(", ", Values.Select(entry => $"{entry.Key}={entry.Value}"))</OmniText>
+</OmniStack>

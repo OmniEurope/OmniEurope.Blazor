@@ -1,0 +1,65 @@
+@* Numeric fields in typical uses: a rating, a price, a quantity by fifties, a ratio, a field that clamps an
+   entry outside its bounds, then the disabled and read-only states. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniRow>
+        <OmniColumn Span="12" MediumSpan="6">
+            <OmniFormField For="numeric-rating" Description="From 0 to 10, one by one.">
+                <LabelContent>Rating</LabelContent>
+                <ChildContent>
+                    <OmniNumeric TValue="int" Id="numeric-rating" @bind-Value="Rating" Minimum="0" Maximum="10" Step="1" />
+                </ChildContent>
+            </OmniFormField>
+        </OmniColumn>
+        <OmniColumn Span="12" MediumSpan="6">
+            <OmniFormField For="numeric-price" Description="Decimal, to the cent.">
+                <LabelContent>Price</LabelContent>
+                <ChildContent>
+                    <OmniNumeric TValue="decimal" Id="numeric-price" @bind-Value="Price" Minimum="0" Step="0.01" />
+                </ChildContent>
+            </OmniFormField>
+        </OmniColumn>
+        <OmniColumn Span="12" MediumSpan="6">
+            <OmniFormField For="numeric-quantity" Description="By fifties, up to a thousand.">
+                <LabelContent>Quantity</LabelContent>
+                <ChildContent>
+                    <OmniNumeric TValue="int" Id="numeric-quantity" @bind-Value="Quantity" Minimum="0" Maximum="1000" Step="50" />
+                </ChildContent>
+            </OmniFormField>
+        </OmniColumn>
+        <OmniColumn Span="12" MediumSpan="6">
+            <OmniFormField For="numeric-ratio" Description="A double between 0 and 1, by five hundredths.">
+                <LabelContent>Ratio</LabelContent>
+                <ChildContent>
+                    <OmniNumeric TValue="double" Id="numeric-ratio" @bind-Value="Ratio" Minimum="0" Maximum="1" Step="0.05" />
+                </ChildContent>
+            </OmniFormField>
+        </OmniColumn>
+        @* Clamp brings an entry outside the bounds back to the nearest bound, in the bound value as in the
+           field. Without it the value is taken as typed. *@
+        <OmniColumn Span="12" MediumSpan="6">
+            <OmniFormField For="numeric-clamped" Description="Between 0 and 20: a larger or smaller entry is brought back to the nearest bound.">
+                <LabelContent>Clamped quantity</LabelContent>
+                <ChildContent>
+                    <OmniNumeric TValue="int" Id="numeric-clamped" @bind-Value="Clamped" Minimum="0" Maximum="20" Clamp="true" />
+                </ChildContent>
+            </OmniFormField>
+        </OmniColumn>
+        <OmniColumn Span="12" MediumSpan="6">
+            <OmniFormField For="numeric-disabled" Disabled="true">
+                <LabelContent>Disabled</LabelContent>
+                <ChildContent>
+                    <OmniNumeric TValue="int" Id="numeric-disabled" @bind-Value="FixedDisabled" Disabled="true" />
+                </ChildContent>
+            </OmniFormField>
+        </OmniColumn>
+        <OmniColumn Span="12" MediumSpan="6">
+            <OmniFormField For="numeric-readonly">
+                <LabelContent>Read-only</LabelContent>
+                <ChildContent>
+                    <OmniNumeric TValue="int" Id="numeric-readonly" @bind-Value="FixedReadOnly" ReadOnly="true" />
+                </ChildContent>
+            </OmniFormField>
+        </OmniColumn>
+    </OmniRow>
+    <OmniText Tone="OmniTextTone.Muted">Rating @Rating, price @Price, quantity @Quantity, ratio @Ratio, clamped quantity @Clamped.</OmniText>
+</OmniStack>

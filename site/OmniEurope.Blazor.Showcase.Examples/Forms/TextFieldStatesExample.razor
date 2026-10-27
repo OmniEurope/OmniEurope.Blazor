@@ -1,0 +1,44 @@
+@* The states a text field takes: disabled, read-only, with an error, a password without its reveal
+   button and a counted text area. *@
+<OmniRow>
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniFormField For="state-disabled" Disabled="true">
+            <LabelContent>Disabled</LabelContent>
+            <ChildContent>
+                <OmniTextBox Id="state-disabled" @bind-Value="DisabledValue" Disabled="true" />
+            </ChildContent>
+        </OmniFormField>
+    </OmniColumn>
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniFormField For="state-readonly">
+            <LabelContent>Read-only</LabelContent>
+            <ChildContent>
+                <OmniTextBox Id="state-readonly" @bind-Value="ReadOnlyValue" ReadOnly="true" />
+            </ChildContent>
+        </OmniFormField>
+    </OmniColumn>
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniFormField Id="state-error-field" For="state-error" Required="true" Error="This value is not accepted.">
+            <LabelContent>With an error</LabelContent>
+            <ChildContent>
+                <OmniTextBox Id="state-error" @bind-Value="ErrorValue" AriaDescribedBy="state-error-field-error" />
+            </ChildContent>
+        </OmniFormField>
+    </OmniColumn>
+    <OmniColumn Span="12" MediumSpan="6">
+        <OmniFormField For="state-password">
+            <LabelContent>Password without reveal button</LabelContent>
+            <ChildContent>
+                <OmniPassword Id="state-password" @bind-Value="PasswordValue" Revealable="false" />
+            </ChildContent>
+        </OmniFormField>
+    </OmniColumn>
+    <OmniColumn Span="12">
+        <OmniFormField For="state-area">
+            <LabelContent>Counted area</LabelContent>
+            <ChildContent>
+                <OmniTextArea Id="state-area" @bind-Value="AreaValue" Rows="2" MaxLength="80" ShowCount="true" />
+            </ChildContent>
+        </OmniFormField>
+    </OmniColumn>
+</OmniRow>

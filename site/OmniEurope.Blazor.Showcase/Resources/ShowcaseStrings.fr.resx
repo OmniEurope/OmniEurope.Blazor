@@ -89,8 +89,6 @@
   <data name="CustomizeDownloadFailed" xml:space="preserve"><value>Le téléchargement a échoué. Copiez le code ci-dessous à la place.</value></data>
   <data name="DemoFormTitle" xml:space="preserve"><value>Formulaires</value></data>
   <data name="DemoFormSummary" xml:space="preserve"><value>Les champs de saisie et leur libellé accessible.</value></data>
-  <data name="DemoFormCapability1" xml:space="preserve"><value>Libellé, description et message d'erreur reliés au champ par identifiant.</value></data>
-  <data name="DemoFormCapability2" xml:space="preserve"><value>Zone de texte avec compteur de caractères et limite.</value></data>
   <data name="DemoFormCapability3" xml:space="preserve"><value>Curseur, case à cocher et interrupteur pilotés au clavier.</value></data>
   <data name="DemoSelectionTitle" xml:space="preserve"><value>Sélection</value></data>
   <data name="DemoSelectionSummary" xml:space="preserve"><value>Choisir une valeur parmi une liste, ou plusieurs.</value></data>
@@ -143,8 +141,6 @@
   <data name="DemoMediaCapability4" xml:space="preserve"><value>Le jeu d'icônes embarqué au complet, et les trois cadrages d'image.</value></data>
   <data name="DemoInputsTitle" xml:space="preserve"><value>Saisie avancée</value></data>
   <data name="DemoInputsSummary" xml:space="preserve"><value>Nombres, mots de passe, dates, heures, couleurs et autocomplétion.</value></data>
-  <data name="DemoInputsCapability1" xml:space="preserve"><value>Champ numérique borné, avec pas réglable.</value></data>
-  <data name="DemoInputsCapability2" xml:space="preserve"><value>Mot de passe révélable, sans copie ailleurs.</value></data>
   <data name="DemoInputsCapability3" xml:space="preserve"><value>Autocomplétion asynchrone, temporisée et à longueur minimale.</value></data>
   <data name="DemoInputsCapability4" xml:space="preserve"><value>Date, heure, date et heure : calendrier et colonnes maison sur le calque flottant, clavier de grille, bornes et densité.</value></data>
   <data name="DemoChoiceTitle" xml:space="preserve"><value>Choix</value></data>
@@ -153,11 +149,6 @@
   <data name="DemoChoiceCapability2" xml:space="preserve"><value>Barre de sélection et bouton bascule, avec états occupé et désactivé.</value></data>
   <data name="DemoChoiceCapability3" xml:space="preserve"><value>Case et interrupteur à trois positions, dont l'indéterminé.</value></data>
   <data name="DemoChoiceCapability4" xml:space="preserve"><value>Une vraie case visible sur les cartes à cocher, et des cartes rangées en colonnes de même taille.</value></data>
-  <data name="DemoValidationTitle" xml:space="preserve"><value>Validation</value></data>
-  <data name="DemoValidationSummary" xml:space="preserve"><value>Les règles déclarées à côté du champ qu'elles gardent.</value></data>
-  <data name="DemoValidationCapability1" xml:space="preserve"><value>Obligation, longueur, format de courriel et comparaison.</value></data>
-  <data name="DemoValidationCapability2" xml:space="preserve"><value>Le focus part sur le premier champ invalide à l'envoi.</value></data>
-  <data name="DemoValidationCapability3" xml:space="preserve"><value>Aucune annotation sur le modèle, tout est dans le balisage.</value></data>
   <data name="DemoEditorTitle" xml:space="preserve"><value>Éditeurs et dépôt</value></data>
   <data name="DemoEditorSummary" xml:space="preserve"><value>L'éditeur WYSIWYG et sa source HTML, le traitement de texte, l'éditeur de code et le dépôt de fichiers.</value></data>
   <data name="DemoEditorCapability1" xml:space="preserve"><value>Barre de commandes que l'hôte complète ou réordonne, collage assaini, mode source.</value></data>
@@ -312,10 +303,8 @@
   <data name="DemoSurfacesCapability3" xml:space="preserve"><value>L'élément courant d'un menu se marque par son fond et le poids du texte, jamais par un trait latéral.</value></data>
   <data name="DemoVerticalFormTitle" xml:space="preserve"><value>Formulaire vertical</value></data>
   <data name="DemoVerticalFormSummary" xml:space="preserve"><value>Tous les types de champ, les erreurs et leur récapitulatif, les états désactivé et lecture seule.</value></data>
-  <data name="DemoVerticalFormCapability1" xml:space="preserve"><value>Libellé au-dessus, astérisque d'obligation, aide et erreur avec icône.</value></data>
   <data name="DemoVerticalFormCapability2" xml:space="preserve"><value>Les erreurs sont celles du contexte d'édition : le champ en tire aria-invalid, les corriger les retire du récapitulatif.</value></data>
   <data name="DemoVerticalFormCapability3" xml:space="preserve"><value>Champ de fichier soudé, zone d'un fichier, zone de plusieurs fichiers en liste réduite.</value></data>
-  <data name="DemoVerticalFormCapability4" xml:space="preserve"><value>Désactivé et lecture seule restent distincts, dans les trois densités.</value></data>
   <data name="DemoSettingsTabsTitle" xml:space="preserve"><value>Réglages en onglets</value></data>
   <data name="DemoSettingsTabsSummary" xml:space="preserve"><value>Un onglet à icône par thème, une section par onglet, une tuile par réglage.</value></data>
   <data name="DemoSettingsTabsCapability1" xml:space="preserve"><value>Un interrupteur posé dans une tuile prend le nom de la tuile pour libellé ; un clic sur la tuile le bascule.</value></data>
@@ -516,13 +505,6 @@
   <data name="ThemesBadge" xml:space="preserve"><value>Publié</value></data>
   <data name="ThemesAlert" xml:space="preserve"><value>Toute palette peint tout thème.</value></data>
   <data name="VFormSummaryTitle" xml:space="preserve"><value>{0} champ(s) à corriger.</value></data>
-  <data name="VFormName" xml:space="preserve"><value>Nom du pipeline</value></data>
-  <data name="VFormNameHelp" xml:space="preserve"><value>Lettres minuscules, chiffres et tirets.</value></data>
-  <data name="VFormNameError" xml:space="preserve"><value>Le nom du pipeline est obligatoire.</value></data>
-  <data name="VFormMail" xml:space="preserve"><value>Adresse de notification</value></data>
-  <data name="VFormMailError" xml:space="preserve"><value>Ajoutez un domaine complet, par exemple equipe@exemple.fr.</value></data>
-  <data name="VFormToken" xml:space="preserve"><value>Jeton d'accès</value></data>
-  <data name="VFormReplicas" xml:space="preserve"><value>Réplicas</value></data>
   <data name="VFormEnvironment" xml:space="preserve"><value>Environnement</value></data>
   <data name="VFormEnvironmentProduction" xml:space="preserve"><value>Production</value></data>
   <data name="VFormEnvironmentAcceptance" xml:space="preserve"><value>Recette</value></data>
@@ -530,18 +512,11 @@
   <data name="VFormDate" xml:space="preserve"><value>Date de déploiement</value></data>
   <data name="VFormTime" xml:space="preserve"><value>Heure de déploiement</value></data>
   <data name="VFormMoment" xml:space="preserve"><value>Fenêtre de maintenance</value></data>
-  <data name="VFormDescription" xml:space="preserve"><value>Description</value></data>
   <data name="VFormStrategy" xml:space="preserve"><value>Stratégie de déploiement</value></data>
   <data name="VFormStrategyRolling" xml:space="preserve"><value>Remplacement progressif</value></data>
   <data name="VFormStrategyBlueGreen" xml:space="preserve"><value>Bleu vert</value></data>
   <data name="VFormStrategyCanary" xml:space="preserve"><value>Canari (bientôt disponible)</value></data>
   <data name="VFormStrategyError" xml:space="preserve"><value>Choisissez une stratégie de déploiement.</value></data>
-  <data name="VFormOptions" xml:space="preserve"><value>Options</value></data>
-  <data name="VFormLocked" xml:space="preserve"><value>Restauration verrouillée</value></data>
-  <data name="VFormSymbols" xml:space="preserve"><value>Publier les symboles</value></data>
-  <data name="VFormSigning" xml:space="preserve"><value>Signature du paquet (imposée)</value></data>
-  <data name="VFormNotify" xml:space="preserve"><value>Notifier à la fin</value></data>
-  <data name="VFormAutoDeploy" xml:space="preserve"><value>Déploiement automatique (désactivé)</value></data>
   <data name="VFormFiles" xml:space="preserve"><value>Fichiers</value></data>
   <data name="VFormManifest" xml:space="preserve"><value>Manifeste de déploiement</value></data>
   <data name="VFormManifestHelp" xml:space="preserve"><value>Un seul fichier, ouvre la fenêtre de sélection du système.</value></data>
@@ -549,17 +524,12 @@
   <data name="VFormArchiveHelp" xml:space="preserve"><value>ZIP ou TAR, 50 Mo au plus.</value></data>
   <data name="VFormAttachments" xml:space="preserve"><value>Pièces jointes</value></data>
   <data name="VFormAttachmentsHelp" xml:space="preserve"><value>Jusqu'à 10 fichiers, 20 Mo chacun. Rien n'est envoyé : la démonstration garde les fichiers dans la liste.</value></data>
-  <data name="VFormServer" xml:space="preserve"><value>Serveur cible</value></data>
-  <data name="VFormServerHelp" xml:space="preserve"><value>Désactivé : fixé par l'environnement.</value></data>
-  <data name="VFormIdentifier" xml:space="preserve"><value>Identifiant</value></data>
-  <data name="VFormIdentifierHelp" xml:space="preserve"><value>Lecture seule : copiable, non modifiable.</value></data>
   <data name="VFormAgent" xml:space="preserve"><value>Agent</value></data>
   <data name="VFormAgentShared" xml:space="preserve"><value>Agent partagé</value></data>
   <data name="VFormCancel" xml:space="preserve"><value>Annuler</value></data>
   <data name="VFormSave" xml:space="preserve"><value>Enregistrer</value></data>
   <data name="VFormSaved" xml:space="preserve"><value>Pipeline enregistré.</value></data>
   <data name="VFormNotSaved" xml:space="preserve"><value>Corrigez les champs signalés avant d'enregistrer.</value></data>
-  <data name="VFormDescriptionValue" xml:space="preserve"><value>Déploie la branche principale après validation des tests de recette.</value></data>
   <data name="GridFiledColumn" xml:space="preserve"><value>Déposé le</value></data>
   <!-- Demo texts: batch C -->
   <data name="DemoGridOpenCases" xml:space="preserve"><value>Dossiers ouverts</value></data>
@@ -1155,10 +1125,6 @@
   <data name="DemoMediaIconCurrencyBtc" xml:space="preserve"><value>Montant en bitcoins</value></data>
   <data name="DemoMediaIconPercent" xml:space="preserve"><value>Pourcentage</value></data>
   <data name="DemoMediaIconLeaf" xml:space="preserve"><value>Écologie</value></data>
-  <data name="DemoAnnotatedValidationName" xml:space="preserve"><value>Nom du projet</value></data>
-  <data name="DemoAnnotatedValidationMail" xml:space="preserve"><value>Courriel du responsable</value></data>
-  <data name="DemoAnnotatedValidationMailConfirmation" xml:space="preserve"><value>Confirmation du courriel</value></data>
-  <data name="DemoAnnotatedValidationReplicas" xml:space="preserve"><value>Réplicas</value></data>
   <!-- Demo texts: batch B -->
   <data name="DemoOverlaySave" xml:space="preserve"><value>Enregistrer</value></data>
   <data name="DemoOverlayMoreSaves" xml:space="preserve"><value>Autres enregistrements</value></data>
@@ -1301,11 +1267,6 @@
   <data name="DemoChoiceFeatureCache" xml:space="preserve"><value>Cache des dépendances</value></data>
   <data name="DemoChoiceFeatureArtifacts" xml:space="preserve"><value>Conservation des artefacts</value></data>
   <data name="DemoChoiceFeatureGpu" xml:space="preserve"><value>Accélération GPU</value></data>
-  <data name="DemoInputsAmount" xml:space="preserve"><value>Montant</value></data>
-  <data name="DemoInputsQuantity" xml:space="preserve"><value>Quantité</value></data>
-  <data name="DemoInputsQuantityHelp" xml:space="preserve"><value>Entre {0} et {1} : une saisie hors bornes est ramenée à la borne la plus proche.</value></data>
-  <data name="DemoInputsPassword" xml:space="preserve"><value>Mot de passe</value></data>
-  <data name="DemoInputsPasswordHelp" xml:space="preserve"><value>Le bouton révèle la saisie sans la copier ailleurs.</value></data>
   <data name="DemoInputsDate" xml:space="preserve"><value>Date d'effet</value></data>
   <data name="DemoInputsDateHelp" xml:space="preserve"><value>Saisie au clavier ou calendrier ; les jours hors bornes ne se choisissent pas.</value></data>
   <data name="DemoInputsDialog" xml:space="preserve"><value>Dans un dialogue</value></data>
@@ -1321,35 +1282,7 @@
   <data name="DemoInputsNoDate" xml:space="preserve"><value>aucune</value></data>
   <data name="DemoInputsNoTime" xml:space="preserve"><value>aucune</value></data>
   <data name="DemoInputsNoAppointment" xml:space="preserve"><value>aucun</value></data>
-  <data name="DemoFormName" xml:space="preserve"><value>Nom complet</value></data>
-  <data name="DemoFormNameHelp" xml:space="preserve"><value>Tel qu'il apparaîtra sur la facture.</value></data>
-  <data name="DemoFormNotes" xml:space="preserve"><value>Remarques</value></data>
-  <data name="DemoFormEmail" xml:space="preserve"><value>Adresse e-mail</value></data>
-  <data name="DemoFormEmailHelp" xml:space="preserve"><value>Le type choisit le clavier mobile et l'autofill du navigateur.</value></data>
-  <data name="DemoFormPhone" xml:space="preserve"><value>Téléphone</value></data>
-  <data name="DemoFormWebsite" xml:space="preserve"><value>Site web</value></data>
-  <data name="DemoFormSearch" xml:space="preserve"><value>Rechercher</value></data>
-  <data name="DemoFormSearchPlaceholder" xml:space="preserve"><value>Filtrer la liste</value></data>
   <data name="DemoFormBudget" xml:space="preserve"><value>Budget</value></data>
-  <data name="DemoFormTerms" xml:space="preserve"><value>J'accepte les conditions d'utilisation</value></data>
-  <data name="DemoFormAlerts" xml:space="preserve"><value>Recevoir les alertes</value></data>
-  <data name="DemoFormDynamicValues" xml:space="preserve"><value>Valeurs du formulaire : {0}</value></data>
-  <data name="DemoFormDynamicName" xml:space="preserve"><value>Nom</value></data>
-  <data name="DemoFormDynamicAmount" xml:space="preserve"><value>Montant</value></data>
-  <data name="DemoFormDynamicComment" xml:space="preserve"><value>Commentaire</value></data>
-  <data name="DemoFormDynamicActive" xml:space="preserve"><value>Actif</value></data>
-  <data name="DemoValidationName" xml:space="preserve"><value>Nom</value></data>
-  <data name="DemoValidationNameRequired" xml:space="preserve"><value>Le nom est obligatoire.</value></data>
-  <data name="DemoValidationMail" xml:space="preserve"><value>Courriel</value></data>
-  <data name="DemoValidationMailRequired" xml:space="preserve"><value>Le courriel est obligatoire.</value></data>
-  <data name="DemoValidationSend" xml:space="preserve"><value>Envoyer</value></data>
-  <data name="DemoValidationAccepted" xml:space="preserve"><value>Le formulaire a été accepté.</value></data>
-  <data name="DemoValidationProjectName" xml:space="preserve"><value>Nom du projet</value></data>
-  <data name="DemoValidationOwnerMail" xml:space="preserve"><value>Courriel du responsable</value></data>
-  <data name="DemoValidationMailConfirmation" xml:space="preserve"><value>Confirmation du courriel</value></data>
-  <data name="DemoValidationReplicas" xml:space="preserve"><value>Réplicas</value></data>
-  <data name="DemoValidationCheck" xml:space="preserve"><value>Vérifier</value></data>
-  <data name="DemoValidationSimulateUnsaved" xml:space="preserve"><value>Simuler des modifications non enregistrées</value></data>
   <data name="DemoSelectionCountry" xml:space="preserve"><value>Pays</value></data>
   <data name="DemoSelectionCountryPlaceholder" xml:space="preserve"><value>Choisir un pays</value></data>
   <data name="DemoSelectionCities" xml:space="preserve"><value>Villes desservies</value></data>

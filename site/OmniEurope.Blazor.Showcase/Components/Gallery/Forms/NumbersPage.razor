@@ -1,0 +1,75 @@
+@page "/components/numbers"
+@using OmniEurope.Blazor.Showcase.Examples.Forms
+
+<GalleryPageFrame Slug="numbers">
+    <Settings>
+        <OmniSettingsSection Title="@Text["NumbersSettingsTitle"]" Description="@Text["NumbersSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["NumbersMinimum"]" Description="@Text["NumbersMinimumDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.SortAscending" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="int?" Options="@MinimumOptions" @bind-Value="Minimum" Label="@Text["NumbersMinimum"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["NumbersMaximum"]" Description="@Text["NumbersMaximumDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.SortDescending" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="int?" Options="@MaximumOptions" @bind-Value="Maximum" Label="@Text["NumbersMaximum"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["NumbersIntegerStep"]" Description="@Text["NumbersIntegerStepDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="double" Options="@IntegerStepOptions" @bind-Value="IntegerStep" Label="@Text["NumbersIntegerStep"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["NumbersDecimalStep"]" Description="@Text["NumbersDecimalStepDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Calculator" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="double" Options="@DecimalStepOptions" @bind-Value="DecimalStep" Label="@Text["NumbersDecimalStep"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["NumbersPlaceholder"]" Description="@Text["NumbersPlaceholderDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowPlaceholder" aria-label="@Text["NumbersPlaceholder"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["NumbersDisabled"]" Description="@Text["NumbersDisabledDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Disabled" aria-label="@Text["NumbersDisabled"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["NumbersReadOnly"]" Description="@Text["NumbersReadOnlyDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Document" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ReadOnly" aria-label="@Text["NumbersReadOnly"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["NumbersPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <NumbersExample Minimum="Minimum"
+                                Maximum="Maximum"
+                                IntegerStep="IntegerStep"
+                                DecimalStep="DecimalStep"
+                                ShowPlaceholder="ShowPlaceholder"
+                                Disabled="Disabled"
+                                ReadOnly="ReadOnly" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["NumbersUsesTitle"]</HeaderContent>
+            <ChildContent><NumberUsesExample /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>
