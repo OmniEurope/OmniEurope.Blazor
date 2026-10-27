@@ -1,0 +1,10 @@
+@* The palettes of the catalogue, one tile each. A palette gives the colours and keeps the shape of the
+   theme it is laid over: every tile wears the theme handed in. *@
+<OmniTileGrid Columns="5" MinColumnWidth="12rem">
+    @foreach (var palette in OmniThemePalettes.All)
+    {
+        <ThemeTile @key="palette.Name" Title="@TitleOf(palette)" Description="@palette.Description"
+                   Preset="Preset" Palette="palette" Appearance="Appearance"
+                   Active="@ReferenceEquals(palette, Selected)" OnSelect="@(() => SelectAsync(palette))" />
+    }
+</OmniTileGrid>

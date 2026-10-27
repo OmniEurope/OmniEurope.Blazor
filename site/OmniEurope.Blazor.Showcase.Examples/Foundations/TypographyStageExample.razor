@@ -1,0 +1,11 @@
+@* One heading and one paragraph whose every setting is a parameter. The column keeps the text narrower
+   than the card, so that Truncate has a line to cut. *@
+<OmniRow Wrap="true">
+    <OmniColumn Span="12" MediumSpan="8">
+        <OmniStack Gap="OmniSpacing.Small">
+            <OmniHeading Level="Level" Tone="HeadingTone">@DisplayedHeading</OmniHeading>
+            <OmniText Element="Element" Tone="TextTone" Truncate="Truncate">@LongSample</OmniText>
+            <OmniText Tone="OmniTextTone.Muted">@RenderedAs</OmniText>
+        </OmniStack>
+    </OmniColumn>
+</OmniRow>

@@ -1,0 +1,12 @@
+@* One image whose source, box, fit and loading are parameters. Width and Height reserve the box before
+   the image arrives, and with Contain or Cover they are the box the image is fitted into. The line under
+   it is the markup the component writes, to read the attributes without opening the browser tools. *@
+<OmniStack Gap="OmniSpacing.Medium" Align="OmniAlignment.Center">
+    <OmniImage Source="@SampleImages.SourceOf(Source)"
+               Alt="@SampleImages.AltOf(Source)"
+               Width="@SampleImages.WidthOf(Box)"
+               Height="@SampleImages.HeightOf(Box)"
+               Fit="Fit"
+               Loading="Loading" />
+    <code>@Markup</code>
+</OmniStack>

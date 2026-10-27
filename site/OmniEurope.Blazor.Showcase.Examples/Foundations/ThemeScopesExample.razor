@@ -1,0 +1,28 @@
+@* The same sample in three scopes side by side: one per appearance, or one per density. Each scope is
+   independent, so the three differ only by the one setting that is varied. *@
+<OmniTileGrid Columns="3" MinColumnWidth="18rem" EqualHeights="false">
+    @if (ByDensity)
+    {
+        @foreach (var density in Densities)
+        {
+            <OmniStack @key="density" Gap="OmniSpacing.XSmall">
+                <OmniText Element="OmniTextElement.Strong">@density</OmniText>
+                <OmniThemeScope Appearance="Appearance" Density="density" Preset="Preset" Palette="Palette">
+                    <OmniCard><ChildContent><ThemeSample /></ChildContent></OmniCard>
+                </OmniThemeScope>
+            </OmniStack>
+        }
+    }
+    else
+    {
+        @foreach (var appearance in Appearances)
+        {
+            <OmniStack @key="appearance" Gap="OmniSpacing.XSmall">
+                <OmniText Element="OmniTextElement.Strong">@appearance</OmniText>
+                <OmniThemeScope Appearance="appearance" Density="OmniDensity.Comfortable" Preset="Preset" Palette="Palette">
+                    <OmniCard><ChildContent><ThemeSample /></ChildContent></OmniCard>
+                </OmniThemeScope>
+            </OmniStack>
+        }
+    }
+</OmniTileGrid>

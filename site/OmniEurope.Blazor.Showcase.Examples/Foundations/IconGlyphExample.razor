@@ -1,0 +1,22 @@
+@* Glyph replaces Name: the package embeds its own catalogue only, and any other Phosphor outline goes
+   through OmniIconGlyph.Phosphor. This compass is not part of the package. The second row shows the file
+   icons in the colour of their format (FormatColor): only the outline changes, the button holding
+   one keeps its variant. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniRow Gap="OmniSpacing.Large" Align="OmniAlignment.End" Wrap="true">
+        @foreach (var size in Sizes)
+        {
+            <OmniStack @key="size" Gap="OmniSpacing.XSmall" Align="OmniAlignment.Center">
+                <OmniIcon Glyph="Compass" Size="size" Label="Compass" />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@size</OmniText>
+            </OmniStack>
+        }
+    </OmniRow>
+    <OmniRow Gap="OmniSpacing.Small" Align="OmniAlignment.Center" Wrap="true">
+        <OmniIcon Name="OmniIconName.FilePdf" FormatColor="true" Label="PDF file" />
+        <OmniIcon Name="OmniIconName.FileDoc" FormatColor="true" Label="Word file" />
+        <OmniIcon Name="OmniIconName.FileXls" FormatColor="true" Label="Excel file" />
+        <OmniIcon Name="OmniIconName.FileCsv" FormatColor="true" Label="CSV file" />
+        <OmniIcon Name="OmniIconName.FileMd" FormatColor="true" Label="Markdown file" />
+    </OmniRow>
+</OmniStack>

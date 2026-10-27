@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using OmniEurope.Blazor.Showcase.Demos;
 using OmniEurope.Blazor.Showcase.Examples.Actions;
+using OmniEurope.Blazor.Showcase.Examples.Foundations;
 using OmniEurope.Blazor.Showcase.Resources;
 using OmniEurope.Blazor.Showcase.Resources.Gallery;
 using OmniEurope.Blazor.Showcase.Theming;
@@ -21,7 +22,7 @@ public partial class Customizer : IDisposable
         Legacy("chargement"),
         new("buttons", typeof(ActionsStrings), "ButtonsTitle", typeof(ButtonsExample)),
         Legacy("etats"),
-        Legacy("badges"),
+        new("badges", typeof(FoundationsStrings), "BadgesMatrixTitle", typeof(BadgeMatrixExample)),
         Legacy("alertes"),
         Legacy("surfaces"),
         Legacy("reglages-onglets"),

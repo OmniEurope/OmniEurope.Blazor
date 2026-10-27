@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using OmniEurope.Blazor.Components;
+using OmniEurope.Blazor.Showcase.Components.Gallery.Foundations;
 using OmniEurope.Blazor.Showcase.Components.Layout;
 using OmniEurope.Blazor.Showcase.Localization;
 using OmniEurope.Blazor.Showcase.Resources;
+using OmniEurope.Blazor.Showcase.Theming;
 
 namespace OmniEurope.Blazor.Tests;
 
@@ -120,14 +122,17 @@ public sealed class ShowcaseLanguageTests : OmniBunitContext
         var themes = OmniThemePresets.All.Count;
         var palettes = OmniThemePalettes.All.Count;
 
+        Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri("https://localhost/") });
+        Services.AddScoped<ThemeTokenReader>();
+        Services.AddScoped<ThemeState>();
+
         WithUiCulture("en-IE", () =>
         {
-            var gallery = Render<OmniEurope.Blazor.Showcase.Components.Pages.ComponentGallery>(parameters => parameters
-                .Add(page => page.DemoKey, "themes"));
+            var page = Render<ThemePage>();
 
             Assert.Contains(
-                $"<li>{themes} themes and {palettes} palettes, {themes * palettes} combinations, each in light and dark.</li>",
-                gallery.Markup,
+                $"{themes} themes and {palettes} palettes, {themes * palettes} combinations, each in light and dark.",
+                page.Markup,
                 StringComparison.Ordinal);
         });
     }

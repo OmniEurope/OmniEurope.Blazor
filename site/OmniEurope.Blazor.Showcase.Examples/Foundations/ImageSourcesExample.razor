@@ -1,0 +1,12 @@
+@* The four sample illustrations at their own size, with no width and no height given. *@
+<OmniRow Gap="OmniSpacing.Large" Wrap="true" Align="OmniAlignment.Start">
+    @foreach (var sample in SampleImages.All)
+    {
+        <OmniColumn @key="sample" Span="12" MediumSpan="6" LargeSpan="3">
+            <OmniStack Gap="OmniSpacing.Small">
+                <OmniImage Source="@SampleImages.SourceOf(sample)" Alt="@SampleImages.AltOf(sample)" />
+                <OmniText Element="OmniTextElement.Strong">@SampleImages.LabelOf(sample)</OmniText>
+            </OmniStack>
+        </OmniColumn>
+    }
+</OmniRow>

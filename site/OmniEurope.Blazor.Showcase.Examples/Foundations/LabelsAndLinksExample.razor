@@ -1,0 +1,8 @@
+@* A label tied to its field (the For of OmniLabel is the Id of the field, Required adds the mark), and
+   the two kinds of link: inside the application, and to another site in a new tab. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniLabel For="labels-and-links-name" Required="true">Customer name</OmniLabel>
+    <OmniTextBox Id="labels-and-links-name" @bind-Value="Name" />
+    <OmniLink Href="#">An internal link</OmniLink>
+    <OmniLink Href="https://learn.microsoft.com/aspnet/core/blazor" NewTab="true">An external link, in a new tab</OmniLink>
+</OmniStack>

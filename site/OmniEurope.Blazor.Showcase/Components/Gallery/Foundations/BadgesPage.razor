@@ -1,0 +1,82 @@
+@page "/components/badges"
+@using OmniEurope.Blazor.Showcase.Examples.Foundations
+
+<GalleryPageFrame Slug="badges">
+    <Settings>
+        <OmniSettingsSection Title="@Text["BadgesSettingsTitle"]" Description="@Text["BadgesSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["BadgesVariant"]" Description="@Text["BadgesVariantDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Palette" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniTone" Options="@VariantOptions" @bind-Value="Variant" Label="@Text["BadgesVariant"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["BadgesFill"]" Description="@Text["BadgesFillDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Layers" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniFill" Options="@FillOptions" @bind-Value="Fill" Label="@Text["BadgesFill"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["BadgesLabel"]" Description="@Text["BadgesLabelDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Edit" /></Icon>
+                <ChildContent>
+                    <OmniTextBox @bind-Value="BadgeText" aria-label="@Text["BadgesLabel"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["BadgesWithIcon"]" Description="@Text["BadgesWithIconDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Tag" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="WithIcon" aria-label="@Text["BadgesWithIcon"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["BadgesPreviewTitle"]</HeaderContent>
+            <ChildContent><BadgeExample Tone="Variant" Fill="Fill" Label="@BadgeText" WithIcon="WithIcon" /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["BadgesMatrixTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Medium">
+                    <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["BadgesMatrixDescription"]</OmniText>
+                    <BadgeMatrixExample />
+                </OmniStack>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["BadgesInkTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Medium">
+                    <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["BadgesInkDescription"]</OmniText>
+                    <BadgeInkExample />
+                </OmniStack>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["BadgesIconsTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Medium">
+                    <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["BadgesIconsDescription"]</OmniText>
+                    <BadgeIconsExample />
+                </OmniStack>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["BadgesWidthTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Medium">
+                    <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["BadgesWidthDescription"]</OmniText>
+                    <BadgeWidthExample />
+                </OmniStack>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["BadgesContextTitle"]</HeaderContent>
+            <ChildContent><BadgeContextExample /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

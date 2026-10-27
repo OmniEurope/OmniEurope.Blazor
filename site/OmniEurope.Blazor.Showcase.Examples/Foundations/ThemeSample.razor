@@ -1,0 +1,27 @@
+@* The same sample in every scope: a title, a text, buttons, badges and fields, to compare at a glance. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniHeading Level="OmniHeadingLevel.H4">Customer file</OmniHeading>
+    <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">Last updated this morning by the support team.</OmniText>
+    <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+        <OmniButton Variant="OmniButtonVariant.Primary" Size="OmniControlSize.Small" OnClick="NotifySample">
+            <OmniIcon Name="OmniIconName.Save" />
+            <span>Save</span>
+        </OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="NotifySample">
+            <OmniIcon Name="OmniIconName.Edit" />
+            <span>Edit</span>
+        </OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Danger" Size="OmniControlSize.Small" OnClick="NotifySample">
+            <OmniIcon Name="OmniIconName.Delete" />
+            <span>Delete</span>
+        </OmniButton>
+    </OmniRow>
+    <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+        <OmniBadge Tone="OmniTone.Accent">New</OmniBadge>
+        <OmniBadge Tone="OmniTone.Success">Done</OmniBadge>
+        <OmniBadge Tone="OmniTone.Warning">Late</OmniBadge>
+        <OmniBadge Tone="OmniTone.Danger" Fill="OmniFill.Outline">Blocked</OmniBadge>
+    </OmniRow>
+    <OmniTextBox @bind-Value="Name" Placeholder="Contact name" aria-label="Contact name" />
+    <OmniSwitch @bind-Value="Notify">Notify the customer</OmniSwitch>
+</OmniStack>

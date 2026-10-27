@@ -1,0 +1,29 @@
+@* Every value of OmniIconName, read from the enumeration itself: an icon added to the package shows up
+   here without any edit. A click picks an icon, and the filter narrows the gallery by name. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniRow Gap="OmniSpacing.Medium" Align="OmniAlignment.Center" Wrap="true">
+        <OmniTextBox Type="OmniTextBoxType.Search" @bind-Value="Filter" Placeholder="Filter by name…" aria-label="Filter icons by name" />
+        <OmniText Tone="OmniTextTone.Muted">@Count</OmniText>
+    </OmniRow>
+
+    @if (Filtered.Count == 0)
+    {
+        <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">No icon name contains this text.</OmniText>
+    }
+    else
+    {
+        <OmniRow Gap="OmniSpacing.Small" Wrap="true">
+            @foreach (var icon in Filtered)
+            {
+                <OmniButton @key="icon"
+                            Variant="@(icon == Selected ? OmniButtonVariant.Primary : OmniButtonVariant.Secondary)"
+                            Size="OmniControlSize.Small"
+                            aria-pressed="@(icon == Selected ? "true" : "false")"
+                            OnClick="@(() => PickAsync(icon))">
+                    <OmniIcon Name="icon" Size="Size" />
+                    <span>@icon</span>
+                </OmniButton>
+            }
+        </OmniRow>
+    }
+</OmniStack>

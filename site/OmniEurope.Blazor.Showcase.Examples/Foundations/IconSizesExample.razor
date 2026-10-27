@@ -1,0 +1,10 @@
+@* The three sizes of an icon, side by side. *@
+<OmniRow Gap="OmniSpacing.Large" Align="OmniAlignment.End" Wrap="true">
+    @foreach (var size in Sizes)
+    {
+        <OmniStack @key="size" Gap="OmniSpacing.XSmall" Align="OmniAlignment.Center">
+            <OmniIcon Name="Name" Size="size" />
+            <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@size</OmniText>
+        </OmniStack>
+    }
+</OmniRow>

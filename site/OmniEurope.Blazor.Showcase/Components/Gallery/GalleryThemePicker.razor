@@ -6,6 +6,13 @@
                   @bind-Value:get="Theme.Theme.Name" @bind-Value:set="SelectThemeAsync" />
     <OmniDropDown TValue="string" Class="gallery-theme-picker__select" Options="PaletteOptions" Label="@Text["GalleryPalettePicker"]"
                   @bind-Value:get="Theme.Palette.Name" @bind-Value:set="SelectPaletteAsync" />
+    @if (!OnThemePage)
+    {
+        <OmniButton Variant="OmniButtonVariant.Secondary" Label="@Foundations["ThemeOpenPage"]" title="@Foundations["ThemeOpenPage"]"
+                    OnClick="OpenThemePage">
+            <OmniIcon Name="OmniIconName.ThemeSystem" />
+        </OmniButton>
+    }
     <OmniButton Variant="OmniButtonVariant.Secondary" Label="@Text["GalleryOpenCustomizer"]" title="@Text["GalleryOpenCustomizer"]"
                 OnClick="OpenCustomizer">
         <OmniIcon Name="OmniIconName.Palette" />

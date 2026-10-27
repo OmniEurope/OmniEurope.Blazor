@@ -1,0 +1,43 @@
+@* What a theme changes: the same components under the look in force, shape included. Nothing here is
+   isolated in a scope of its own, so the sample takes the look of whatever surrounds it. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+        <OmniButton Variant="OmniButtonVariant.Primary" OnClick="NotifySample"><OmniIcon Name="OmniIconName.Save" /><span>Primary</span></OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="NotifySample"><OmniIcon Name="OmniIconName.Edit" /><span>Secondary</span></OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Ghost" OnClick="NotifySample"><OmniIcon Name="OmniIconName.Info" /><span>Discreet</span></OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Success" OnClick="NotifySample"><OmniIcon Name="OmniIconName.CheckCircle" /><span>Success</span></OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Warning" OnClick="NotifySample"><OmniIcon Name="OmniIconName.Warning" /><span>Warning</span></OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Danger" OnClick="NotifySample"><OmniIcon Name="OmniIconName.Delete" /><span>Danger</span></OmniButton>
+    </OmniRow>
+
+    <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+        <OmniBadge Tone="OmniTone.Neutral">Neutral</OmniBadge>
+        <OmniBadge Tone="OmniTone.Accent">Primary</OmniBadge>
+        <OmniBadge Tone="OmniTone.Success">Success</OmniBadge>
+        <OmniBadge Tone="OmniTone.Warning">Warning</OmniBadge>
+        <OmniBadge Tone="OmniTone.Danger">Danger</OmniBadge>
+        <OmniBadge Tone="OmniTone.Accent" Fill="OmniFill.Outline">Outline</OmniBadge>
+        <OmniLink Href="#">A link</OmniLink>
+    </OmniRow>
+
+    <OmniTileGrid Columns="4" MinColumnWidth="16rem" EqualHeights="false">
+        <OmniAlert Severity="OmniSeverity.Info" Title="Information">An alert in this role, as the theme draws it.</OmniAlert>
+        <OmniAlert Severity="OmniSeverity.Success" Title="Done">An alert in this role, as the theme draws it.</OmniAlert>
+        <OmniAlert Severity="OmniSeverity.Warning" Fill="OmniFill.Solid" Title="Careful">An alert in this role, as the theme draws it.</OmniAlert>
+        <OmniAlert Severity="OmniSeverity.Danger" Fill="OmniFill.Solid" Title="Error">An alert in this role, as the theme draws it.</OmniAlert>
+    </OmniTileGrid>
+
+    <OmniCard>
+        <HeaderContent>A form</HeaderContent>
+        <ChildContent>
+            <OmniStack Gap="OmniSpacing.Small">
+                <OmniTextBox @bind-Value="Name" Placeholder="Your name" aria-label="Name" />
+                <OmniDropDown TValue="string" Options="CityOptions" @bind-Value="City" Label="City" />
+                <OmniCheckBox @bind-Value="Accept">I accept the terms</OmniCheckBox>
+                <OmniSwitch @bind-Value="Alerts">Receive alerts</OmniSwitch>
+                <OmniSlider @bind-Value="Budget" Minimum="0" Maximum="100" Step="5" ShowValue="true" aria-label="Budget used" />
+                <OmniProgressBar Value="Budget" ShowValue="true" Label="Budget used" />
+            </OmniStack>
+        </ChildContent>
+    </OmniCard>
+</OmniStack>

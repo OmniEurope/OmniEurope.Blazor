@@ -1,0 +1,19 @@
+@* Ink: White by default; WhiteOutlined, a black outline of 1 px around white letters, for a badge laid on
+   an image or a busy colour; Black, black letters without an outline on a background of the tone lightened
+   for them. *@
+<OmniStack Gap="OmniSpacing.Small">
+    @foreach (var ink in Inks)
+    {
+        <OmniRow @key="ink" Gap="OmniSpacing.Small" Align="OmniAlignment.Center" Wrap="true">
+            <OmniColumn Span="12" MediumSpan="2"><OmniText Element="OmniTextElement.Strong">@ink</OmniText></OmniColumn>
+            <OmniColumn Span="12" MediumSpan="9">
+                <OmniRow Gap="OmniSpacing.Small" Wrap="true">
+                    @foreach (var tone in Tones)
+                    {
+                        <OmniBadge @key="tone" Tone="tone" Ink="ink">@tone</OmniBadge>
+                    }
+                </OmniRow>
+            </OmniColumn>
+        </OmniRow>
+    }
+</OmniStack>

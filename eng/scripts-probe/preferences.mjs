@@ -13,8 +13,8 @@
 
 import { probeOptions } from '../ShowcaseCdp.mjs';
 
-const themesPage = '/components/legacy/themes';
-const preview = '.demo-themes__live';
+const themesPage = '/components/theme';
+const preview = '#theme-following';
 const windowButton = '#demo-appearance-window';
 const modeButton = mode => `.omni-appearance-window .omni-appearance-window__mode[title="${mode}"]`;
 const storedAppearance = `(() => {
@@ -123,7 +123,7 @@ export async function preferenceSteps(session, results) {
     await waitFor('l\'aperçu repeint sans stockage', `document.querySelector(${JSON.stringify(preview)}).getAttribute('data-omni-theme') === 'dark'`);
     await clickOn('.omni-appearance-window .omni-appearance-window__apply');
     // Within the page the look still holds: away and back, read from the memory copy.
-    await session.visit('/components/legacy/badges', '.omni-badge');
+    await session.visit('/components/badges', '.omni-badge');
     await session.visit(themesPage, preview);
     check(await previewMode() === 'dark', `Apparence perdue dans la page sans stockage : ${await previewMode()}.`);
     await pause(300);
@@ -202,7 +202,7 @@ export async function preferenceSteps(session, results) {
   // The shipped look again for whatever follows: nothing kept, the root attributes gone.
   await reload();
   check(await evaluate(storedAppearance) === null && await previewMode() === 'system', 'Préférences d\'apparence restées après la sonde.');
-  await session.visit('/components/legacy/badges', '.omni-badge');
+  await session.visit('/components/badges', '.omni-badge');
 }
 
 // A second tab driven through its own CDP connection: evaluation, waits, and its console errors.

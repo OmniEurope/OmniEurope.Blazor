@@ -1,0 +1,29 @@
+@* One row per fill, one badge per tone, then a row of counters: a counter stays at least square, at the
+   height of a label, and widens with its count. *@
+<OmniStack Gap="OmniSpacing.Small">
+    @foreach (var fill in Fills)
+    {
+        <OmniRow @key="fill" Gap="OmniSpacing.Small" Align="OmniAlignment.Center" Wrap="true">
+            <OmniColumn Span="12" MediumSpan="2"><OmniText Element="OmniTextElement.Strong">@fill</OmniText></OmniColumn>
+            <OmniColumn Span="12" MediumSpan="9">
+                <OmniRow Gap="OmniSpacing.Small" Wrap="true">
+                    @foreach (var tone in Tones)
+                    {
+                        <OmniBadge @key="tone" Tone="tone" Fill="fill">@tone</OmniBadge>
+                    }
+                </OmniRow>
+            </OmniColumn>
+        </OmniRow>
+    }
+    <OmniRow Gap="OmniSpacing.Small" Align="OmniAlignment.Center" Wrap="true">
+        <OmniColumn Span="12" MediumSpan="2"><OmniText Element="OmniTextElement.Strong">Counters</OmniText></OmniColumn>
+        <OmniColumn Span="12" MediumSpan="9">
+            <OmniRow Gap="OmniSpacing.Small" Wrap="true">
+                @foreach (var tone in Tones)
+                {
+                    <OmniBadge @key="tone" Tone="tone">@CounterFor(tone)</OmniBadge>
+                }
+            </OmniRow>
+        </OmniColumn>
+    </OmniRow>
+</OmniStack>
