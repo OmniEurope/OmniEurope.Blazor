@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="ButtonsTitle" xml:space="preserve"><value>Boutons</value></data>
+  <data name="ButtonsDescription" xml:space="preserve"><value>Chaque variante, taille et état du bouton, avec des compteurs de clics qui prouvent que les événements partent, plus le bouton de copie et un état occupé partagé par toute la famille des boutons.</value></data>
+  <data name="ButtonsSettingsTitle" xml:space="preserve"><value>Bouton à l'essai</value></data>
+  <data name="ButtonsSettingsDescription" xml:space="preserve"><value>Chaque réglage s'applique au bouton du premier aperçu.</value></data>
+  <data name="ButtonsVariant" xml:space="preserve"><value>Variante</value></data>
+  <data name="ButtonsVariantDescription" xml:space="preserve"><value>Ce que le bouton signifie : la couleur suit le rôle, pas le goût.</value></data>
+  <data name="ButtonsVariantPrimary" xml:space="preserve"><value>Principal</value></data>
+  <data name="ButtonsVariantSecondary" xml:space="preserve"><value>Secondaire</value></data>
+  <data name="ButtonsVariantGhost" xml:space="preserve"><value>Discret</value></data>
+  <data name="ButtonsVariantSuccess" xml:space="preserve"><value>Succès</value></data>
+  <data name="ButtonsVariantWarning" xml:space="preserve"><value>Avertissement</value></data>
+  <data name="ButtonsVariantInfo" xml:space="preserve"><value>Information</value></data>
+  <data name="ButtonsVariantDanger" xml:space="preserve"><value>Danger</value></data>
+  <data name="ButtonsSize" xml:space="preserve"><value>Taille</value></data>
+  <data name="ButtonsSizeSmall" xml:space="preserve"><value>Petit</value></data>
+  <data name="ButtonsSizeMedium" xml:space="preserve"><value>Moyen</value></data>
+  <data name="ButtonsSizeLarge" xml:space="preserve"><value>Grand</value></data>
+  <data name="ButtonsType" xml:space="preserve"><value>Type</value></data>
+  <data name="ButtonsTypeDescription" xml:space="preserve"><value>Envoi soumet le formulaire autour, Réinitialisation le vide, Bouton ne fait ni l'un ni l'autre.</value></data>
+  <data name="ButtonsTypeButton" xml:space="preserve"><value>Bouton</value></data>
+  <data name="ButtonsTypeSubmit" xml:space="preserve"><value>Envoi</value></data>
+  <data name="ButtonsTypeReset" xml:space="preserve"><value>Réinitialisation</value></data>
+  <data name="ButtonsContent" xml:space="preserve"><value>Contenu</value></data>
+  <data name="ButtonsContentDescription" xml:space="preserve"><value>Un bouton à icône seule porte son nom en libellé accessible et en bulle.</value></data>
+  <data name="ButtonsContentIconAndLabel" xml:space="preserve"><value>Icône et libellé</value></data>
+  <data name="ButtonsContentIconOnly" xml:space="preserve"><value>Icône seule</value></data>
+  <data name="ButtonsDisabled" xml:space="preserve"><value>Désactivé</value></data>
+  <data name="ButtonsDisabledDescription" xml:space="preserve"><value>Le bouton ne réagit plus et sort de l'ordre de tabulation.</value></data>
+  <data name="ButtonsBusy" xml:space="preserve"><value>Occupé</value></data>
+  <data name="ButtonsBusyDescription" xml:space="preserve"><value>Un voile respire sur le bouton ; il garde sa taille et ignore les clics.</value></data>
+  <data name="ButtonsBusyOnClick" xml:space="preserve"><value>Occupé au clic</value></data>
+  <data name="ButtonsBusyOnClickDescription" xml:space="preserve"><value>Chaque clic simule deux secondes de travail, comme un vrai enregistrement.</value></data>
+  <data name="ButtonsPreviewTitle" xml:space="preserve"><value>Aperçu</value></data>
+  <data name="ButtonsSizesTitle" xml:space="preserve"><value>Variantes par taille</value></data>
+  <data name="ButtonsIconSquaresTitle" xml:space="preserve"><value>Icône seule : carré à chaque taille</value></data>
+  <data name="ButtonsStatesTitle" xml:space="preserve"><value>Variantes par état : au repos, désactivé, occupé, icône seule</value></data>
+  <data name="ButtonsBusyFamilyTitle" xml:space="preserve"><value>Un même état occupé dans toute la famille des boutons</value></data>
+  <data name="ButtonsCopyTitle" xml:space="preserve"><value>Boutons de copie</value></data>
+</root>

@@ -22,6 +22,7 @@ structurelles ; un plan décrit un travail, pas l'état du produit.
 | [PLAN-002](PLAN-002-homogeneite-1-9-0.md) | Homogénéité de l'API publique, défauts et durcissements de l'audit du 2026-10-22, livrés en 1.9.0 (ruptures assumées) | Sans ADR supplémentaire |
 | [PLAN-003](PLAN-003-demandes-application-cliente-2026-10-23.md) | Dix demandes d'une application cliente du 2026-10-23, livrées en 1.9.0 en sept lots | Sans ADR supplémentaire |
 | [PLAN-004](PLAN-004-demandes-application-cliente-2026-10-23-bis.md) | Seconde demande de la même application cliente du 2026-10-23 (sept points, 1.9.0) | Sans ADR supplémentaire |
+| [PLAN-005](PLAN-005-galerie-depuis-demo-applicative.md) | Galerie de la vitrine reprise de la démo d'une application cliente : 71 pages, onglets aperçu, mobile et code, vitrine en anglais et français | Sans ADR supplémentaire |
 
 ## Archives
 

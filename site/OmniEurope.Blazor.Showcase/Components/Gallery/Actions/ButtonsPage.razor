@@ -1,0 +1,86 @@
+@page "/components/buttons"
+@using OmniEurope.Blazor.Showcase.Examples.Actions
+
+<GalleryPageFrame Slug="buttons">
+    <Settings>
+        <OmniSettingsSection Title="@Text["ButtonsSettingsTitle"]" Description="@Text["ButtonsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["ButtonsVariant"]" Description="@Text["ButtonsVariantDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Palette" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniButtonVariant" Options="@VariantOptions" @bind-Value="Variant" Label="@Text["ButtonsVariant"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ButtonsSize"]">
+                <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniControlSize" Options="@SizeOptions" @bind-Value="Size" Label="@Text["ButtonsSize"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ButtonsType"]" Description="@Text["ButtonsTypeDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Document" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniButtonType" Options="@TypeOptions" @bind-Value="ButtonType" Label="@Text["ButtonsType"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ButtonsContent"]" Description="@Text["ButtonsContentDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Star" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="bool" Options="@ContentOptions" @bind-Value="IconOnly" Label="@Text["ButtonsContent"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ButtonsDisabled"]" Description="@Text["ButtonsDisabledDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Disabled" aria-label="@Text["ButtonsDisabled"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ButtonsBusy"]" Description="@Text["ButtonsBusyDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Hourglass" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Busy" aria-label="@Text["ButtonsBusy"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ButtonsBusyOnClick"]" Description="@Text["ButtonsBusyOnClickDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Timer" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="BusyOnClick" aria-label="@Text["ButtonsBusyOnClick"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ButtonsPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <ButtonsExample Variant="Variant" Size="Size" ButtonType="ButtonType" IconOnly="IconOnly"
+                                Disabled="Disabled" Busy="Busy" BusyOnClick="BusyOnClick" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ButtonsSizesTitle"]</HeaderContent>
+            <ChildContent><ButtonSizesExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ButtonsIconSquaresTitle"]</HeaderContent>
+            <ChildContent><ButtonSizesExample IconOnly="true" /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ButtonsStatesTitle"]</HeaderContent>
+            <ChildContent><ButtonStatesExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ButtonsBusyFamilyTitle"]</HeaderContent>
+            <ChildContent><BusyButtonsExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ButtonsCopyTitle"]</HeaderContent>
+            <ChildContent><CopyButtonsExample /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

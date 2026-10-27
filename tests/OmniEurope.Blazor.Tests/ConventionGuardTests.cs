@@ -460,16 +460,25 @@ public sealed partial class ConventionGuardTests
     [Fact]
     public void ShowcaseText_EveryCulturePresentHasTheNeutralKeys()
     {
-        // The showcase pair (French neutral, English) must match, and so must every translation already
-        // present: a key added to the neutral file without its translations shows French in a German page.
+        // Each showcase resource pair (English neutral, French) must match, the shared strings and every
+        // family of the gallery alike: a key added to the neutral file without its French text shows
+        // English in a French page.
         var resources = Path.Combine(Root, "site", "OmniEurope.Blazor.Showcase", "Resources");
-        var neutral = ResourceKeys(Path.Combine(resources, "ShowcaseStrings.resx"));
-        var cultures = Directory.EnumerateFiles(resources, "ShowcaseStrings.*.resx").ToArray();
+        var neutrals = Directory.EnumerateFiles(resources, "*.resx", SearchOption.AllDirectories)
+            .Where(path => !Path.GetFileNameWithoutExtension(path).Contains('.', StringComparison.Ordinal))
+            .ToArray();
 
-        Assert.Contains(cultures, path => Path.GetFileName(path) == "ShowcaseStrings.en.resx");
-        Assert.All(cultures, path => Assert.True(
-            neutral.SequenceEqual(ResourceKeys(path)),
-            $"{Path.GetFileName(path)}: missing [{string.Join(", ", neutral.Except(ResourceKeys(path)))}], extra [{string.Join(", ", ResourceKeys(path).Except(neutral))}]."));
+        Assert.Contains(neutrals, path => Path.GetFileName(path) == "ShowcaseStrings.resx");
+        foreach (var neutralPath in neutrals)
+        {
+            var neutral = ResourceKeys(neutralPath);
+            var stem = Path.GetFileNameWithoutExtension(neutralPath);
+            var cultures = Directory.EnumerateFiles(Path.GetDirectoryName(neutralPath)!, $"{stem}.*.resx").ToArray();
+            Assert.Contains(cultures, path => Path.GetFileName(path) == $"{stem}.fr.resx");
+            Assert.All(cultures, path => Assert.True(
+                neutral.SequenceEqual(ResourceKeys(path)),
+                $"{Path.GetFileName(path)}: missing [{string.Join(", ", neutral.Except(ResourceKeys(path)))}], extra [{string.Join(", ", ResourceKeys(path).Except(neutral))}]."));
+        }
     }
 
     [Fact]

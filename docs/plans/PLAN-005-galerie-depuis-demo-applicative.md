@@ -1,0 +1,77 @@
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
+# PLAN-005 : galerie de la vitrine reprise de la démo d'une application cliente
+
+Ouvert le 2026-10-27. Demande du propriétaire : rapatrier dans la vitrine
+(`site/OmniEurope.Blazor.Showcase`) la démo OE d'une application cliente (71 pages, 15 familles,
+écrite contre OE 1.5.0), avec pour chaque page trois onglets : aperçu normal, aperçu mobile
+(écran de téléphone 360 × 780) et **Code** (sources réellement fonctionnelles, à la manière d'un
+« View Source »). La démo est ensuite retirée de l'application cliente par un prompt séparé.
+
+## Décisions du propriétaire (2026-10-27)
+
+1. Langues de la vitrine : **anglais (neutre, par défaut) et français**, au choix dans l'en-tête.
+   Les 22 autres langues sont retirées ; plus aucun test de couverture des langues.
+2. Routes en anglais (`/components/buttons`, `/documentation`, `/customizer`).
+3. Recoupements : quand une démo existe des deux côtés, la plus riche est gardée, l'autre supprimée.
+4. Code : chaque page est découpée en une page de vitrine (titre, réglages, onglets) et un ou
+   plusieurs composants « exemple » autonomes, compilés dans un projet qui ne référence qu'OE.
+   Les textes des exemples sont en anglais en dur ; l'habillage de la page et les textes internes
+   d'OE suivent la langue choisie.
+5. Tout est fait, par lots vérifiés.
+6. La vitrine est une **application déployée**, pas un exemple : front WebAssembly + API ASP.NET Core
+   + PostgreSQL, sur le modèle web du kit `_Generic` (Front, Back, Shared), sans authentification.
+   Tous les kits s'appliquent : les règles d'hôte que le dépôt marque non applicables le deviennent
+   pour la vitrine. Le déploiement suit les conventions vérifiées par `/conformite` (Compose,
+   `PORT_FRONT`/`PORT_BACK` sur `127.0.0.1`, health checks, SDK tiré de `global.json`, `.pipeline`).
+   Le projet Examples n'est qu'une bibliothèque interne au site (le code de l'onglet Code).
+
+## Architecture cible (contrat commun à tous les lots)
+
+- `site/OmniEurope.Blazor.Showcase.Examples` : bibliothèque Razor, seule référence
+  `src/OmniEurope.Blazor`. Un dossier par famille, un exemple = `<Name>Example.razor` +
+  `.razor.cs` (+ données d'exemple `.cs`). Aucun `IStringLocalizer`, aucun type de la vitrine.
+  Chaque fichier source est embarqué sous son chemin relatif : l'onglet Code affiche le fichier
+  compilé, jamais une recopie.
+- `site/OmniEurope.Blazor.Showcase/Components/Gallery/<Family>/<Name>Page.razor` : la page, son
+  `@page "/components/<slug>"`, ses réglages, et `GalleryPageFrame` (onglets Preview, Mobile, Code).
+- Catalogue : une famille par fichier, assemblées par `GalleryCatalog`. Chaque page déclare ses
+  composants éprouvés et ses fichiers sources.
+- Textes : une ressource par famille (neutre anglaise + `.fr`), l'habillage commun dans
+  `ShowcaseStrings`.
+
+## Lots
+
+Preuve de chaque lot : build Release sans avertissement, tests `Showcase*` verts, chaque page du lot
+ouverte dans le navigateur intégré sur ses trois onglets, en anglais et en français, sans erreur
+console ; le code d'au moins un exemple vérifié compilable seul (il l'est par construction du projet
+Examples).
+
+| Lot | Contenu | Démos existantes absorbées | État |
+|---|---|---|---|
+| 0 | Fondation : projet Examples, cadre à trois onglets, vue Code, catalogue, EN/FR, routes anglaises, tests réécrits, page pilote Buttons | `boutons` | À faire |
+| 1 | Split buttons, toggle buttons, alerts, progress, skeletons | `etats`, `alertes`, `chargement`, `retours` | À faire |
+| 2 | Dialogs, context menus, overflow menu, popover, tooltips | `superpositions` | À faire |
+| 3 | Theme, icons, typography, badges, images | `themes`, `typographie`, `badges`, `medias` | À faire |
+| 4 | Stacks, rows and columns, cards, fieldsets, settings sections | `mise-en-page`, `surfaces`, `accordeon` | À faire |
+| 5 | Page shell, details, stat tiles, nav tiles | `pages`, `coquille`, `coquille-application` | À faire |
+| 6 | Sidebar, window controls, loading bar, notifications, tabs | `notifications` | À faire |
+| 7 | Breadcrumbs, steps, profile menu, app menu, workflows, preferences | `navigation`, `parcours` | À faire |
+| 8 | Text fields, numbers, toggles, validation, unsaved changes | `formulaires`, `formulaire-vertical`, `validation`, `saisie-avancee`, `reglages-onglets` | À faire |
+| 9 | Drop-downs, autocomplete, multi-select, lists, radio buttons | `selection` | À faire |
+| 10 | Select bar, selectable cards, dates, colors, slider, upload | `choix` | À faire |
+| 11 | Data grid (colonnes, détail), data list | `grille`, `grilles-maquette`, `grille-avancee`, `listes` | À faire |
+| 12 | Tree, spreadsheet, collections | `arborescence`, `tableur` | À faire |
+| 13 | Column, line, pie charts, gauges | `graphiques`, `graphiques-avances` | À faire |
+| 14 | Scheduler, timeline, Gantt, step timeline | `agenda`, `planification` | À faire |
+| 15 | HTML editor, document editor, code editor, code reading, mind map | `editeur`, `diagramme` | À faire |
+| 16 | Accueil de la galerie, retrait de l'ancienne galerie et de `DemoCatalog` | (reste) | À faire |
+| H1 | Hébergement : projets Back (API, EF Core, PostgreSQL, `/health/ready`) et Shared, préférences OE enregistrées en base sans compte (identifiant anonyme du navigateur, quotas), front servi en conteneur, `ylaunch.ps1` lance base, API et front | | À faire |
+| H2 | Déploiement : Dockerfiles, Compose de production, `.pipeline`, overlay `docs/code-rules.md` (règles d'hôte actives pour la vitrine), CI ; preuve `/conformite` conforme et pile Compose démarrée en local | | À faire |
+| 17 | Vérification complète (suite, publication, toutes les pages), documentation, prompt de retrait pour l'application cliente | | À faire |
+
+Vagues : lot 0 seul, puis H1 avec les lots 1 à 3, H2 avec les lots 4 à 6, lots 7 à 10, 11 à 14, 15 et 16 (4 en parallèle au plus, chacun dans son
+worktree) ; aucune vague ne démarre avant que la précédente soit intégrée et prouvée.
+
+## Journal
+
+- 2026-10-27 : plan ouvert, inventaire fait (71 pages, environ 2 500 textes, 2 670 lignes de CSS).

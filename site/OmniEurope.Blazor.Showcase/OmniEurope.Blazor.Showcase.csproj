@@ -2,23 +2,26 @@
   <PropertyGroup>
     <EnforceRazorCodeBehind>true</EnforceRazorCodeBehind>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-    <!-- STD-WASMOPT: the showcase runs in the language picked in its header, one of the 24 official
-         EU languages (Program.cs, Localization/ShowcaseLanguages.cs). No ICU shard covers them all
-         (EFIGS lacks Bulgarian, Greek, Polish...), so the full ICU data is loaded, with the satellite
-         resource assemblies of every culture; invariant globalization would format amounts with the
-         generic currency sign. No SatelliteResourceLanguages filter: every culture is published. -->
+    <!-- STD-WASMOPT: the showcase runs in English (en-IE) or French (fr-FR), picked in its header
+         (Program.cs, Localization/ShowcaseLanguages.cs). Both are in the EFIGS ICU shard, so that shard
+         is loaded whatever the browser language, instead of the full ICU data the 24 languages needed;
+         invariant globalization would format amounts with the generic currency sign. The satellite
+         assemblies of the referenced packages are limited to the same two languages. -->
     <InvariantGlobalization>false</InvariantGlobalization>
-    <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+    <BlazorIcuDataFileName>icudt_EFIGS.dat</BlazorIcuDataFileName>
+    <SatelliteResourceLanguages>en;fr</SatelliteResourceLanguages>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" PrivateAssets="all" />
     <ProjectReference Include="../../src/OmniEurope.Blazor/OmniEurope.Blazor.csproj" />
+    <ProjectReference Include="../OmniEurope.Blazor.Showcase.Examples/OmniEurope.Blazor.Showcase.Examples.csproj" />
   </ItemGroup>
 
-  <!-- Every demo is embedded as the very file that gets compiled, so the gallery shows the source
-       it actually executed instead of a transcription that can drift away from it. -->
+  <!-- Every legacy demo is embedded as the very file that gets compiled, so the legacy gallery shows
+       the source it actually executed instead of a transcription that can drift away from it. The
+       new gallery reads the sources of the examples project the same way (Gallery/ExampleSource.cs). -->
   <ItemGroup>
     <EmbeddedResource Include="Components/Demos/**/*.razor" />
   </ItemGroup>

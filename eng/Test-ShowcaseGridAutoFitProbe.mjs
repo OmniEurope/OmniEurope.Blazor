@@ -139,7 +139,7 @@ await send('Page.navigate', { url: siteUrl });
 // navigation asked before the router listens changes the address and leaves the home page shown.
 await waitFor('le runtime Blazor', "typeof Blazor !== 'undefined' && typeof Blazor.navigateTo === 'function' && document.getElementById('showcase-theme') !== null");
 await pause(1500);
-await evaluate("Blazor.navigateTo('/composants/grille')");
+await evaluate("Blazor.navigateTo('/components/legacy/grille')");
 await waitFor('la grille virtualisée de la vitrine', `document.querySelectorAll('${grid} tbody tr[data-omni-row-index]').length > 3`);
 await evaluate(`document.querySelector('${grid}').scrollIntoView({ block: 'center' })`);
 await pause(300);

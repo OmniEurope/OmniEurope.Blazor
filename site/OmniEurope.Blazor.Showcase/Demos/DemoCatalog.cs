@@ -14,8 +14,6 @@ public static class DemoCatalog
     /// <summary>Every entry of the gallery.</summary>
     public static IReadOnlyList<DemoDefinition> All { get; } =
     [
-        new("boutons", typeof(ButtonsDemo), "DemoButtonsTitle", "DemoButtonsSummary",
-            ["DemoButtonsCapability1", "DemoButtonsCapability2", "DemoButtonsCapability3", "DemoButtonsCapability4"]),
         new("etats", typeof(ButtonStatesDemo), "DemoStatesTitle", "DemoStatesSummary",
             ["DemoStatesCapability1", "DemoStatesCapability2"]),
         new("badges", typeof(BadgesDemo), "DemoBadgesTitle", "DemoBadgesSummary",

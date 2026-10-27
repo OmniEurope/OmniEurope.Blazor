@@ -1,0 +1,34 @@
+@using OmniEurope.Blazor.Showcase.Demos
+@* The gallery menu: an overview entry, one group per family of the catalogue (a family without a page
+   yet is left out), then the legacy demos, kept reachable until every one is moved to a page. *@
+<nav class="showcase-gallery__nav" aria-label="@Text["GalleryNavLabel"]">
+    <OmniPanelMenu Label="@Text["GalleryNavLabel"]">
+        <OmniPanelMenuItem Text="@Text["GalleryOverview"]" Href="@GalleryPage.RoutePrefix" Match="OmniNavMatch.Exact">
+            <Icon><OmniIcon Name="OmniIconName.Flask" /></Icon>
+        </OmniPanelMenuItem>
+        @foreach (var family in GalleryCatalog.Families.Where(family => family.Pages.Count > 0))
+        {
+            var strings = StringsOf(family);
+            <OmniPanelMenuItem Text="@Text[family.TitleKey]">
+                <Icon><OmniIcon Name="family.Icon" /></Icon>
+                <ChildContent>
+                    @foreach (var entry in family.Pages)
+                    {
+                        <OmniPanelMenuItem Text="@strings[entry.TitleKey]" Href="@entry.Href" Match="OmniNavMatch.Exact">
+                            <Icon><OmniIcon Name="entry.Icon" /></Icon>
+                        </OmniPanelMenuItem>
+                    }
+                </ChildContent>
+            </OmniPanelMenuItem>
+        }
+        <OmniPanelMenuItem Text="@Text["GalleryLegacyGroup"]">
+            <Icon><OmniIcon Name="OmniIconName.Layers" /></Icon>
+            <ChildContent>
+                @foreach (var demo in DemoCatalog.All)
+                {
+                    <OmniPanelMenuItem Text="@Text[demo.TitleKey]" Href="@($"{LegacyPrefix}/{demo.Key}")" Match="OmniNavMatch.Exact" />
+                }
+            </ChildContent>
+        </OmniPanelMenuItem>
+    </OmniPanelMenu>
+</nav>

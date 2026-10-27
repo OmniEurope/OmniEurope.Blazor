@@ -1,4 +1,4 @@
-@page "/personnalisation"
+@page "/customizer"
 @implements IDisposable
 
 <PageTitle>@Text["CustomizePageTitle"]</PageTitle>
@@ -79,11 +79,11 @@
         <div class="@(ForceHover ? "showcase-stage showcase-force-hover" : "showcase-stage")">
             @foreach (var section in Sections)
             {
-                var demo = section.Demo;
+                var demo = section;
                 <section class="showcase-stage__block" aria-labelledby="@($"stage-{demo.Key}-title")"
                          data-omni-density="@(section.Density.Length == 0 ? null : section.Density)">
                     <div class="showcase-stage__head">
-                        <OmniHeading Id="@($"stage-{demo.Key}-title")" Level="OmniHeadingLevel.H3">@Text[demo.TitleKey]</OmniHeading>
+                        <OmniHeading Id="@($"stage-{demo.Key}-title")" Level="OmniHeadingLevel.H3">@Localizers.Create(demo.Strings)[demo.TitleKey]</OmniHeading>
                         <span class="showcase-stage__density">
                             <OmniLabel For="@($"stage-{demo.Key}-density")">@Text["WorkshopSectionDensity"]</OmniLabel>
                             <OmniDropDown TValue="string" Id="@($"stage-{demo.Key}-density")" Options="SectionDensityOptions"

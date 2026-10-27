@@ -17,7 +17,7 @@ export async function keySteps(session, results) {
   const focused = () => evaluate("document.activeElement?.textContent.trim() ?? ''");
 
   // 1. Tree: Enter, then Space, on the button of Anvers each toggle its selection once.
-  await session.visit('/composants/arborescence', '.omni-tree');
+  await session.visit('/components/legacy/arborescence', '.omni-tree');
   const anvers = "[...document.querySelectorAll('.omni-tree__select')].find(button => button.textContent.trim() === 'Anvers')";
   const anversSelected = `${anvers}.closest('[role=treeitem]').getAttribute('aria-selected') === 'true'`;
   const before = await evaluate(anversSelected);
@@ -29,7 +29,7 @@ export async function keySteps(session, results) {
   step('arborescence : Entrée puis Espace basculent une seule fois');
 
   // 2. Select bar: one tab stop; the arrows pick the next and the previous option, End the last, Home the first.
-  await session.visit('/composants/choix', '.omni-select-bar');
+  await session.visit('/components/legacy/choix', '.omni-select-bar');
   const bar = "document.querySelector('.omni-select-bar[data-omni-roving]')";
   const radios = `[...${bar}.querySelectorAll('[role=radio]:not([disabled])')]`;
   check(await evaluate(`${bar}.querySelectorAll('[role=radio][tabindex="0"]').length === 1`), 'La barre de choix n\'a pas un seul arrêt de tabulation.');
@@ -53,7 +53,7 @@ export async function keySteps(session, results) {
   step('barre de choix : un arrêt de tabulation, flèches, Début et Fin');
 
   // 3. Scheduler: its views are a radio group of the same keys.
-  await session.visit('/composants/agenda', '.omni-scheduler');
+  await session.visit('/components/legacy/agenda', '.omni-scheduler');
   const views = "document.querySelector('.omni-scheduler [role=radiogroup][data-omni-roving]')";
   await evaluate(`${views}.querySelector('[role=radio][tabindex="0"]').focus()`);
   const view = await focused();
@@ -65,7 +65,7 @@ export async function keySteps(session, results) {
 
   // 4. Chart legend on the right: Tab reaches an entry, Enter hides its series, Space shows it again, the
   // page does not scroll; a key that is neither leaves it alone.
-  await session.visit('/composants/graphiques-avances', '.omni-chart');
+  await session.visit('/components/legacy/graphiques-avances', '.omni-chart');
   const entry = "document.querySelector('g.omni-chart__legend-entry--toggle')";
   await evaluate(`${entry}.closest('.omni-chart').scrollIntoView({ block: 'center' })`);
   await evaluate(`(() => { const all = [...document.querySelectorAll('a[href], button, [tabindex="0"]')]; all[all.indexOf(${entry}) - 1].focus(); })()`);
@@ -87,7 +87,7 @@ export async function keySteps(session, results) {
 
   // 5. Grid row in edit mode (G-D29-03, G-D26-04): the row keeps its read height; the value typed in its
   // field is saved by Enter, the focus coming back to the row; Escape cancels the next edit.
-  await session.visit('/composants/grille', '#demo-grid-edit');
+  await session.visit('/components/legacy/grille', '#demo-grid-edit');
   const editRow = "document.querySelector('#demo-grid-edit tbody tr[data-omni-row-index=\"0\"]')";
   const editing = `${editRow}.classList.contains('omni-data-grid__row--editing')`;
   const fieldFocused = `${editRow}.contains(document.activeElement) && document.activeElement.matches('input')`;
@@ -110,7 +110,7 @@ export async function keySteps(session, results) {
   // 6. Accordion: Down, Up, Home and End move between the headers (wrapping, the page not scrolling,
   // nothing opened by the move), Enter and Space toggle, a click on the value toggles its row and closes
   // its neighbour, a click or a key on the help mark and a click on an own control toggle nothing.
-  await session.visit('/composants/accordeon', '#demo-accordion-gates');
+  await session.visit('/components/legacy/accordeon', '#demo-accordion-gates');
   const gates = '#demo-accordion-gates';
   const toggles = `[...document.querySelectorAll('${gates} .omni-accordion__toggle')]`;
   const states = () => evaluate(`${toggles}.map(button => button.getAttribute('aria-expanded')).join()`);

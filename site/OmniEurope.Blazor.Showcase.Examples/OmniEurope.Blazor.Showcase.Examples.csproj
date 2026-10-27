@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+  <!-- The examples of the showcase gallery: components a visitor can copy into a fresh project as they
+       are. The library is their only reference, so an example cannot lean on anything a consumer of
+       the package would not have (no showcase type, no showcase resource, no localizer). -->
+  <PropertyGroup>
+    <EnforceRazorCodeBehind>true</EnforceRazorCodeBehind>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/OmniEurope.Blazor/OmniEurope.Blazor.csproj" />
+  </ItemGroup>
+
+  <!-- Every source of an example is embedded as the very file that gets compiled, under its path
+       relative to this project with forward slashes (Actions/ButtonsExample.razor), so the Code tab
+       of the gallery shows the code that runs, never a transcription. Only the family folders hold
+       examples: the project-level files (this one, _Imports.razor, ExamplesAssembly.cs) are not. -->
+  <ItemGroup>
+    <EmbeddedResource Include="*/**/*.razor;*/**/*.cs;*/**/*.razor.css" Exclude="bin/**;obj/**"
+                      OmniExampleSource="true" WithCulture="false" />
+  </ItemGroup>
+
+  <!-- The resource name is set once the items exist: a property function over item metadata is only
+       evaluated in a target. -->
+  <Target Name="NameOmniExampleSources" BeforeTargets="PrepareResourceNames">
+    <ItemGroup>
+      <EmbeddedResource Condition="'%(EmbeddedResource.OmniExampleSource)' == 'true'">
+        <LogicalName>$([System.String]::Copy('%(EmbeddedResource.Identity)').Replace('\', '/'))</LogicalName>
+      </EmbeddedResource>
+    </ItemGroup>
+  </Target>
+</Project>

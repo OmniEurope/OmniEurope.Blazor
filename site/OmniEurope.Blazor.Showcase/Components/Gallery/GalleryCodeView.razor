@@ -1,0 +1,45 @@
+@* The Code tab: one sub-tab per source of the page, each the very file the examples project compiles,
+   then what a fresh project needs to run them. A missing file says so, never shows an empty block. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniText Tone="OmniTextTone.Muted">@Text["GalleryCodeNote"]</OmniText>
+    @if (SourceFiles.Count > 0)
+    {
+        <OmniTabs Label="@Text["GalleryCodeFiles"]" Value="@Selected" ValueChanged="@Select">
+            @foreach (var path in SourceFiles)
+            {
+                var source = ExampleSource.Read(path);
+                <OmniTabsItem Key="@path" Title="@ExampleSource.FileNameOf(path)">
+                    @if (source is null)
+                    {
+                        <OmniAlert Severity="OmniSeverity.Warning" Title="@Text["GallerySourceMissingTitle"]">
+                            @Text["GalleryExampleMissing", path]
+                        </OmniAlert>
+                    }
+                    else
+                    {
+                        <OmniCodeViewer Code="@source" Title="@path" Language="@ExampleSource.LanguageOf(path)" />
+                    }
+                </OmniTabsItem>
+            }
+        </OmniTabs>
+    }
+    else
+    {
+        <OmniAlert Severity="OmniSeverity.Warning" Title="@Text["GallerySourceMissingTitle"]">
+            @Text["GalleryNoSources"]
+        </OmniAlert>
+    }
+
+    <OmniCard>
+        <HeaderContent>@Text["GallerySetupTitle"]</HeaderContent>
+        <ChildContent>
+            <OmniStack Gap="OmniSpacing.Medium">
+                <OmniText>@Text["GallerySetupLead"]</OmniText>
+                <OmniCodeBlock Title="@Text["GallerySetupPackage"]" Language="xml" Code="@PackageReference" />
+                <OmniCodeBlock Title="@Text["GallerySetupImports"]" Language="razor" Code="@Imports" />
+                <OmniCodeBlock Title="@Text["GallerySetupProgram"]" Language="csharp" Code="@Registration" />
+                <OmniCodeBlock Title="@Text["GallerySetupStylesheet"]" Language="html" Code="@Stylesheet" />
+            </OmniStack>
+        </ChildContent>
+    </OmniCard>
+</OmniStack>

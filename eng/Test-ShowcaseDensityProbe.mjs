@@ -261,10 +261,10 @@ await waitFor('le runtime Blazor', "typeof Blazor !== 'undefined' && typeof Blaz
 await pause(1500);
 await evaluate(measureSource);
 
-await evaluate("Blazor.navigateTo('/composants')");
-await waitFor('la galerie', "document.querySelectorAll('a[href*=\"composants/\"]').length > 0");
-const demoPaths = await evaluate(`[...new Set([...document.querySelectorAll('a[href*="composants/"]')].map(link => new URL(link.href).pathname))]`);
-const paths = ['/', '/personnalisation', '/documentation', ...demoPaths];
+await evaluate("Blazor.navigateTo('/components')");
+await waitFor('la galerie', "document.querySelectorAll('a[href*=\"components/\"]').length > 0");
+const demoPaths = await evaluate(`[...new Set([...document.querySelectorAll('a[href*="components/"]')].map(link => new URL(link.href).pathname))]`);
+const paths = ['/', '/customizer', '/documentation', ...demoPaths];
 
 const exemptSelectors = EXEMPT.map(([selector]) => selector);
 const exemptSelfSelectors = EXEMPT_SELF.map(([selector]) => selector);

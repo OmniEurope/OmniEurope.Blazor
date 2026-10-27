@@ -1,0 +1,29 @@
+@* One button, every setting a parameter. It sits in a form: without one, the Submit and Reset types
+   would change nothing. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniTemplateForm TModel="ButtonsExample" Model="this" Context="form" OnValidSubmit="HandleSubmit">
+        <OmniStack Orientation="OmniOrientation.Horizontal" Justify="OmniJustification.Center" Align="OmniAlignment.Center">
+            <OmniButton Variant="Variant"
+                        Size="Size"
+                        ButtonType="ButtonType"
+                        Disabled="Disabled"
+                        Busy="@(Busy || Working)"
+                        Label="@(IconOnly ? Current.Action : null)"
+                        title="@(IconOnly ? Current.Action : null)"
+                        OnClick="HandleClickAsync">
+                <OmniIcon Name="@Current.Icon" />
+                @if (!IconOnly)
+                {
+                    <span>@Current.Action</span>
+                }
+            </OmniButton>
+        </OmniStack>
+    </OmniTemplateForm>
+    <OmniText Tone="OmniTextTone.Muted">Clicks: @ClickCount. Form submissions: @SubmitCount.</OmniText>
+    <OmniStack Orientation="OmniOrientation.Horizontal">
+        <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="ResetCounters">
+            <OmniIcon Name="OmniIconName.Reset" />
+            <span>Reset counters</span>
+        </OmniButton>
+    </OmniStack>
+</OmniStack>

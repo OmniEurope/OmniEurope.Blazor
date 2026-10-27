@@ -13,7 +13,7 @@ export async function boardSteps(session, results) {
 
   // 1. The data grid page: a hovered body cell tints its column, a cut cell shows its text, a sort of
   // the virtual grid scrolls it back to its start.
-  await session.visit('/composants/grille', '#demo-grid-tree');
+  await session.visit('/components/legacy/grille', '#demo-grid-tree');
   await hover('#demo-grid-tree tbody td[data-omni-col="Previous"]');
   await waitFor('la colonne teintée au survol', "document.querySelectorAll('#demo-grid-tree .omni-data-grid__column--hover').length > 1 && document.querySelector('#demo-grid-tree th.omni-data-grid__column--hover') !== null");
   await mouse('mouseMoved', { x: 5, y: 5 }, { button: 'none' });
@@ -162,7 +162,7 @@ export async function boardSteps(session, results) {
 
   // 2. The advanced grid: a frozen column while the viewport scrolls sideways, the suggestions of a
   // combo filter placed under it, and every module released when the page is left.
-  await session.visit('/composants/grille-avancee', '.omni-data-grid__viewport');
+  await session.visit('/components/legacy/grille-avancee', '.omni-data-grid__viewport');
   await send('Emulation.setDeviceMetricsOverride', { width: 640, height: 900, deviceScaleFactor: 1, mobile: false });
   await pause(400);
   const viewport = '.omni-data-grid:has(th[data-omni-col="Reference"]) .omni-data-grid__viewport';
@@ -190,14 +190,14 @@ export async function boardSteps(session, results) {
   // and the window hold exactly as many listeners as after the first (Blazor registers its delegated
   // events once, on their first use, which is why the first round trip is the reference).
   const listeners = async () => ({ document: await session.listenersOf('document'), window: await session.listenersOf('window') });
-  await session.visit('/composants/listes', '.omni-log-viewer');
+  await session.visit('/components/legacy/listes', '.omni-log-viewer');
   await pause(500);
   const listenersBefore = await listeners();
-  await session.visit('/composants/grille-avancee', '.omni-data-grid__viewport');
+  await session.visit('/components/legacy/grille-avancee', '.omni-data-grid__viewport');
   await clickOn('.omni-data-grid th[data-omni-col="Applicant"] details[data-omni-popover] > summary');
   await waitFor('le filtre Demandeur rouvert', "document.querySelector('.omni-data-grid th[data-omni-col=\"Applicant\"] details[data-omni-popover]').open");
   await key('Escape', 'Escape', 27);
-  await session.visit('/composants/listes', '.omni-log-viewer');
+  await session.visit('/components/legacy/listes', '.omni-log-viewer');
   await pause(500);
   const listenersAfter = await listeners();
   check(JSON.stringify(listenersAfter) === JSON.stringify(listenersBefore),
@@ -263,7 +263,7 @@ export async function boardSteps(session, results) {
   step('tableau : clavier, carte portée et posée, glisser à la souris');
 
   // 6. The spreadsheet: arrows move the active cell, F2 opens its editor at the end of the text.
-  await session.visit('/composants/tableur', '#demo-sheet [data-omni-sheet-grid]');
+  await session.visit('/components/legacy/tableur', '#demo-sheet [data-omni-sheet-grid]');
   await evaluate("document.querySelector('#demo-sheet [data-omni-sheet-grid]').focus()");
   const active = () => evaluate("document.querySelector('#demo-sheet [data-omni-sheet-grid]').getAttribute('aria-activedescendant')");
   const cellBefore = await active();
@@ -276,7 +276,7 @@ export async function boardSteps(session, results) {
   step('tableur : flèche, F2, Échap');
 
   // 7. The tree: a draggable account dragged onto another.
-  await session.visit('/composants/arborescence', '#demo-tree-accounts');
+  await session.visit('/components/legacy/arborescence', '#demo-tree-accounts');
   await clickOn('#demo-tree-accounts .omni-tree__toggle');
   await waitFor('les comptes dépliés', "document.querySelector('#demo-tree-accounts [draggable=\"true\"]') !== null");
   const status = await evaluate("document.querySelector('p[role=\"status\"]').textContent");
@@ -285,7 +285,7 @@ export async function boardSteps(session, results) {
   step('arborescence : compte glissé sur un autre');
 
   // 8. The scheduler: an appointment dragged.
-  await session.visit('/composants/agenda', '.omni-scheduler [data-omni-scheduler-appointment][draggable="true"]');
+  await session.visit('/components/legacy/agenda', '.omni-scheduler [data-omni-scheduler-appointment][draggable="true"]');
   const appointment = await evaluate("document.querySelector('.omni-scheduler [data-omni-scheduler-appointment][draggable=\"true\"]').getAttribute('data-omni-scheduler-appointment')");
   const carriedData = await html5Drag('.omni-scheduler [data-omni-scheduler-appointment][draggable="true"]', '.omni-scheduler td.omni-scheduler-grid__cell');
   check(carriedData.items?.some(item => item.mimeType === 'text/plain' && item.data === appointment) && carriedData.dragOperationsMask !== undefined,
@@ -293,7 +293,7 @@ export async function boardSteps(session, results) {
   step('agenda : rendez-vous glissé avec son identifiant');
 
   // 9. The mind map: a lasso on the background, a pinch, a long press and a double click on a node.
-  await session.visit('/composants/diagramme', '#demo-mindmap-canvas');
+  await session.visit('/components/legacy/diagramme', '#demo-mindmap-canvas');
   await evaluate("document.getElementById('demo-mindmap-canvas').scrollIntoView({ block: 'center' })");
   await waitFor('la carte ajustée par son script', "(() => { const zoom = Number(document.querySelector('#demo-mindmap .omni-mindmap__viewport').getAttribute('data-zoom')); return zoom > 0.2 && zoom < 1; })()");
 

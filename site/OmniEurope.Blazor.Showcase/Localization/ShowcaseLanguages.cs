@@ -12,8 +12,8 @@ namespace OmniEurope.Blazor.Showcase.Localization;
 public sealed record ShowcaseLanguage(string Code, string Culture, string Endonym);
 
 /// <summary>
-/// The 24 official languages of the European Union the showcase is offered in, and the culture the
-/// page runs in.
+/// The languages the showcase is offered in, English (the neutral resources) and French, and the
+/// culture the page runs in.
 /// </summary>
 /// <remarks>
 /// A WebAssembly page keeps the culture it started with: the choice is read from the browser before
@@ -25,39 +25,17 @@ public static class ShowcaseLanguages
     public const string StorageKey = "omnieurope.showcase.culture";
 
     /// <summary>
-    /// Every language, in the EU protocol order: alphabetical by each language's own name
-    /// (български, español, čeština, ... suomi, svenska), the order of the institutions' language menus.
+    /// Every language, by its own name: English, the language the showcase is written in, then French.
+    /// English runs in the Irish culture (<c>en-IE</c>), a member state whose currency is the euro.
     /// </summary>
     public static IReadOnlyList<ShowcaseLanguage> All { get; } =
     [
-        new("bg", "bg-BG", "Български"),
-        new("es", "es-ES", "Español"),
-        new("cs", "cs-CZ", "Čeština"),
-        new("da", "da-DK", "Dansk"),
-        new("de", "de-DE", "Deutsch"),
-        new("et", "et-EE", "Eesti"),
-        new("el", "el-GR", "Ελληνικά"),
         new("en", "en-IE", "English"),
-        new("fr", "fr-FR", "Français"),
-        new("ga", "ga-IE", "Gaeilge"),
-        new("hr", "hr-HR", "Hrvatski"),
-        new("it", "it-IT", "Italiano"),
-        new("lv", "lv-LV", "Latviešu"),
-        new("lt", "lt-LT", "Lietuvių"),
-        new("hu", "hu-HU", "Magyar"),
-        new("mt", "mt-MT", "Malti"),
-        new("nl", "nl-NL", "Nederlands"),
-        new("pl", "pl-PL", "Polski"),
-        new("pt", "pt-PT", "Português"),
-        new("ro", "ro-RO", "Română"),
-        new("sk", "sk-SK", "Slovenčina"),
-        new("sl", "sl-SI", "Slovenščina"),
-        new("fi", "fi-FI", "Suomi"),
-        new("sv", "sv-SE", "Svenska")
+        new("fr", "fr-FR", "Français")
     ];
 
-    /// <summary>French, the language the showcase is written in and the one used when nothing is saved.</summary>
-    public static ShowcaseLanguage Default { get; } = All.Single(language => language.Code == "fr");
+    /// <summary>English, the language the showcase is written in and the one used when nothing is saved.</summary>
+    public static ShowcaseLanguage Default { get; } = All.Single(language => language.Code == "en");
 
     /// <summary>
     /// The language of a saved code, compared without regard to case; <see cref="Default"/> when the
@@ -69,8 +47,7 @@ public static class ShowcaseLanguages
 
     /// <summary>
     /// The culture that formats numbers and dates for a language: the language's own culture, with the
-    /// euro as currency sign. The showcase's sample amounts are euros whatever the language; without the
-    /// override a {0:C0} amount would show "Kč", "zł" or "kr" in front of the same figure.
+    /// euro as currency sign. The showcase's sample amounts are euros whatever the language.
     /// </summary>
     public static CultureInfo FormattingCultureOf(ShowcaseLanguage language)
     {

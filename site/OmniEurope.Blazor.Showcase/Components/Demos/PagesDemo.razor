@@ -10,7 +10,7 @@
 
     @* L'en-tête est peint avant l'arrivée de la fiche ; le fil d'Ariane vient du service, dont la
        page remplace le dernier maillon quand le nom est connu. *@
-    <OmniDetailShell Id="pages-demo-shell" State="State" BackHref="composants/pages"
+    <OmniDetailShell Id="pages-demo-shell" State="State" BackHref="components/legacy/pages"
                      NotFoundDescription="@Text["DemoPagesNotFound"]">
         <HeaderContent>
             @* Ligne 1 : retour (Primary par défaut), titre, badges, actions et menu « ⋮ » ; ligne 2 : le fil
@@ -130,11 +130,11 @@
         <OmniFactTile Id="demo-fact-tile-source" Title="@Text["DemoPagesFactSource"]">
             <Icon><OmniIcon Name="OmniIconName.FolderOpen" /></Icon>
             <ChildContent>
-                <OmniFactTileRow Term="@Text["DemoPagesFactRepository"]" Href="composants/pages">
+                <OmniFactTileRow Term="@Text["DemoPagesFactRepository"]" Href="components/legacy/pages">
                     <Icon><OmniIcon Name="OmniIconName.Database" /></Icon>
                     <ChildContent>omni-europe-blazor-showcase-demo</ChildContent>
                 </OmniFactTileRow>
-                <OmniFactTileRow Term="@Text["DemoPagesFactBranch"]" Href="composants/grille">
+                <OmniFactTileRow Term="@Text["DemoPagesFactBranch"]" Href="components/legacy/grille">
                     <Icon><OmniIcon Name="OmniIconName.Graph" /></Icon>
                     <ChildContent>release/1.9.0-alignement-des-tuiles</ChildContent>
                 </OmniFactTileRow>
@@ -156,7 +156,7 @@
                 </OmniFactTileRow>
             </ChildContent>
         </OmniFactTile>
-        <OmniFactTile Id="demo-fact-tile-timeline" Title="@Text["DemoPagesFactTimeline"]" TitleAlign="OmniAlignment.Start" Href="composants/pages">
+        <OmniFactTile Id="demo-fact-tile-timeline" Title="@Text["DemoPagesFactTimeline"]" TitleAlign="OmniAlignment.Start" Href="components/legacy/pages">
             <ChildContent>
                 <OmniFactTileRow Term="@Text["DemoPagesFactStarted"]">
                     <Icon><OmniIcon Name="OmniIconName.CalendarBlank" /></Icon>
@@ -228,17 +228,17 @@
        au survol, seule l'ombre change. Elles prennent la hauteur de leur colonne. *@
     <OmniRow Gap="OmniSpacing.Medium">
         <OmniColumn Span="12" MediumSpan="4">
-            <OmniNavTile Href="composants/grille" Title="@Text["DemoGridTitle"]" Description="@Text["DemoGridSummary"]">
+            <OmniNavTile Href="components/legacy/grille" Title="@Text["DemoGridTitle"]" Description="@Text["DemoGridSummary"]">
                 <Icon><OmniIcon Name="OmniIconName.Table" /></Icon>
             </OmniNavTile>
         </OmniColumn>
         <OmniColumn Span="12" MediumSpan="4">
-            <OmniNavTile Href="composants/editeur" Title="@Text["DemoEditorTitle"]" Tone="OmniTone.Info">
+            <OmniNavTile Href="components/legacy/editeur" Title="@Text["DemoEditorTitle"]" Tone="OmniTone.Info">
                 <Icon><OmniIcon Name="OmniIconName.FileDoc" /></Icon>
             </OmniNavTile>
         </OmniColumn>
         <OmniColumn Span="12" MediumSpan="4">
-            <OmniNavTile Href="composants/medias" Title="@Text["DemoMediaTitle"]" Description="@Text["DemoMediaSummary"]" Tone="OmniTone.Success">
+            <OmniNavTile Href="components/legacy/medias" Title="@Text["DemoMediaTitle"]" Description="@Text["DemoMediaSummary"]" Tone="OmniTone.Success">
                 <Icon><OmniIcon Name="OmniIconName.Image" /></Icon>
             </OmniNavTile>
         </OmniColumn>

@@ -1,4 +1,4 @@
-// The HTML editor page (/composants/editeur): every script path of omni-html-editor.js and its
+// The HTML editor page (/components/legacy/editeur): every script path of omni-html-editor.js and its
 // html-editor/ parts that a reader reaches with the toolbar, the keyboard, the mouse, the clipboard,
 // the proofreader, the suggestions, the inline elements of an extension and the table commands.
 // Each step acts as a reader would and asserts the document the editor leaves.
@@ -112,7 +112,7 @@ export async function editorSteps(session, results) {
     await click(previous);
   };
 
-  await session.visit('/composants/editeur', '#editor-extended');
+  await session.visit('/components/legacy/editeur', '#editor-extended');
   await waitFor('les surfaces prêtes', `document.querySelectorAll('.omni-html-editor__surface[contenteditable="true"]').length >= 5`);
 
   // 1. #editor-body, inline formatting and blocks.

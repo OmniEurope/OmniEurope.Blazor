@@ -20,6 +20,7 @@
   </Folder>
   <Folder Name="/site/">
     <Project Path="site/OmniEurope.Blazor.Showcase/OmniEurope.Blazor.Showcase.csproj" />
+    <Project Path="site/OmniEurope.Blazor.Showcase.Examples/OmniEurope.Blazor.Showcase.Examples.csproj" />
   </Folder>
 </Solution>
 

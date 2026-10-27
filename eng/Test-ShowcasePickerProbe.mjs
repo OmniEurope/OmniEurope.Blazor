@@ -148,7 +148,7 @@ await send('Page.navigate', { url: siteUrl });
 // navigation asked before the router listens changes the address and leaves the home page shown.
 await waitFor('le runtime Blazor', "typeof Blazor !== 'undefined' && typeof Blazor.navigateTo === 'function' && document.getElementById('showcase-theme') !== null", 20_000);
 await pause(1500);
-await evaluate("Blazor.navigateTo('/composants/saisie-avancee')");
+await evaluate("Blazor.navigateTo('/components/legacy/saisie-avancee')");
 await waitFor('les sélecteurs de la vitrine', `document.getElementById('inputs-date') && document.getElementById('inputs-start') && document.getElementById('inputs-appointment')`, 15_000);
 check(await evaluate(`${value('inputs-date')} === '02/03/2026'`), `Valeur initiale de la date inattendue : ${await evaluate(value('inputs-date'))}.`);
 

@@ -48,7 +48,7 @@ Une clé absente constitue une régression : les tests doivent vérifier `Resour
 
 ## Vitrine
 
-La vitrine propose les mêmes 24 langues dans un sélecteur (noms des langues dans leur propre langue). Le choix est gardé dans `localStorage` (`omnieurope.showcase.culture`) et la page se recharge dans la nouvelle culture, avec les données ICU complètes ; l'euro reste le symbole des montants. `ShowcaseText_EveryCulturePresentHasTheNeutralKeys` exige que chaque traduction de `ShowcaseStrings` ait exactement les clés de la ressource neutre.
+La vitrine est proposée en anglais (ressources neutres, langue par défaut, culture `en-IE`) et en français (`fr-FR`), au choix dans un sélecteur de l'en-tête (décision du propriétaire, PLAN-005). Le choix est gardé dans `localStorage` (`omnieurope.showcase.culture`) et la page se recharge dans la nouvelle culture, avec le fragment ICU EFIGS qui couvre les deux langues ; l'euro reste le symbole des montants. `ShowcaseText_EveryCulturePresentHasTheNeutralKeys` exige que la ressource française de `ShowcaseStrings` et de chaque famille de la galerie (`Resources/Gallery/<Famille>Strings.fr.resx`) ait exactement les clés de la ressource neutre. Les exemples de la galerie (`site/OmniEurope.Blazor.Showcase.Examples`) gardent leurs textes en anglais écrits en dur ; les textes du paquet suivent la langue choisie.
 
 ## Limites connues des traductions
 

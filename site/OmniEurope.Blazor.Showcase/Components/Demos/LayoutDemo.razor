@@ -135,14 +135,14 @@
         <OmniStatTile Value="@Text["DemoPagesTokensValue", 8.2]" Title="@Text["DemoPagesWeekly"]">
             <Icon><OmniIcon Name="OmniIconName.CalendarCheck" /></Icon>
         </OmniStatTile>
-        <OmniNavTile Href="composants/grille" Title="@Text["DemoGridTitle"]" Description="@Text["DemoGridSummary"]">
+        <OmniNavTile Href="components/legacy/grille" Title="@Text["DemoGridTitle"]" Description="@Text["DemoGridSummary"]">
             <Icon><OmniIcon Name="OmniIconName.Table" /></Icon>
         </OmniNavTile>
         <OmniCard><ChildContent>@Text["DemoLayoutStretchedText"]</ChildContent></OmniCard>
         <OmniSelectableCard Title="Linux" Description="Debian, Ubuntu, Fedora" Multiple="true" @bind-Value="TileChoice">
             <Icon><OmniIcon Name="OmniIconName.TerminalWindow" /></Icon>
         </OmniSelectableCard>
-        <OmniNavTile Href="composants/editeur" Title="@Text["DemoEditorTitle"]" Tone="OmniTone.Info" DoubleWidth="true">
+        <OmniNavTile Href="components/legacy/editeur" Title="@Text["DemoEditorTitle"]" Tone="OmniTone.Info" DoubleWidth="true">
             <Icon><OmniIcon Name="OmniIconName.FileDoc" /></Icon>
         </OmniNavTile>
         <OmniStatTile Value="@Text["DemoPagesTokensValue", 3.6]" Title="@Text["DemoPagesGain"]">
@@ -154,7 +154,7 @@
             <HeaderContent>@Text["DemoLayoutClickCardTitle"]</HeaderContent>
             <ChildContent>@Text["DemoLayoutClickCardText"] <strong id="demo-click-card-count">@Text["DemoLayoutClickCardCount", CardClicks]</strong></ChildContent>
         </OmniCard>
-        <OmniStatTile Id="demo-link-tile" Href="composants/grille" Value="@Text["DemoPagesTokensValue", 5.1]" Title="@Text["DemoGridTitle"]">
+        <OmniStatTile Id="demo-link-tile" Href="components/legacy/grille" Value="@Text["DemoPagesTokensValue", 5.1]" Title="@Text["DemoGridTitle"]">
             <Icon><OmniIcon Name="OmniIconName.Table" /></Icon>
         </OmniStatTile>
     </OmniTileGrid>
@@ -228,7 +228,7 @@
         <OmniStatTile Value="@Text["DemoPagesTokensValue", 8.2]" Title="@Text["DemoPagesWeekly"]">
             <Icon><OmniIcon Name="OmniIconName.CalendarCheck" /></Icon>
         </OmniStatTile>
-        <OmniNavTile Href="composants/editeur" Title="@Text["DemoEditorTitle"]" Tone="OmniTone.Info" DoubleWidth="true">
+        <OmniNavTile Href="components/legacy/editeur" Title="@Text["DemoEditorTitle"]" Tone="OmniTone.Info" DoubleWidth="true">
             <Icon><OmniIcon Name="OmniIconName.FileDoc" /></Icon>
         </OmniNavTile>
         <OmniStatTile Value="@Text["DemoPagesTokensValue", 3.6]" Title="@Text["DemoPagesGain"]">
@@ -262,7 +262,7 @@
                 </OmniFactTileRow>
             </ChildContent>
         </OmniFactTile>
-        <OmniNavTile Href="composants/editeur" Title="@Text["DemoEditorTitle"]" Description="@Text["DemoGridSummary"]" Tone="OmniTone.Info" DoubleWidth="true">
+        <OmniNavTile Href="components/legacy/editeur" Title="@Text["DemoEditorTitle"]" Description="@Text["DemoGridSummary"]" Tone="OmniTone.Info" DoubleWidth="true">
             <Icon><OmniIcon Name="OmniIconName.FileDoc" /></Icon>
         </OmniNavTile>
         <OmniCard><ChildContent>@Text["DemoLayoutStretchedText"]</ChildContent></OmniCard>

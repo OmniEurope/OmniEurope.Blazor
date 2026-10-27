@@ -1,0 +1,29 @@
+@* Every variant at the three sizes: height, padding and text size change together. With IconOnly, the
+   button turns into a square at its size, its name kept as the accessible label and the tooltip. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    @foreach (var sample in ButtonSample.All)
+    {
+        <OmniStack Gap="OmniSpacing.Small">
+            <OmniText Tone="OmniTextTone.Muted">@sample.Name</OmniText>
+            <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Wrap="true">
+                @foreach (var size in Sizes)
+                {
+                    @if (IconOnly)
+                    {
+                        <OmniButton Variant="sample.Variant" Size="size" Label="@sample.Action" title="@sample.Action" OnClick="CountClick">
+                            <OmniIcon Name="@sample.Icon" />
+                        </OmniButton>
+                    }
+                    else
+                    {
+                        <OmniButton Variant="sample.Variant" Size="size" OnClick="CountClick">
+                            <OmniIcon Name="@sample.Icon" />
+                            <span>@sample.Action</span>
+                        </OmniButton>
+                    }
+                }
+            </OmniStack>
+        </OmniStack>
+    }
+    <OmniText Tone="OmniTextTone.Muted">Clicks: @ClickCount.</OmniText>
+</OmniStack>

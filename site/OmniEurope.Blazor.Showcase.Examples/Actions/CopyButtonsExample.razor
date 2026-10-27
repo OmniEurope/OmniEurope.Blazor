@@ -1,0 +1,7 @@
+@* A copy button takes a fixed text, or a text computed at the moment of the click (TextFactory). The
+   outcome is announced beside the button; OnCopy says whether the browser accepted it. *@
+<OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Wrap="true">
+    <OmniCopyButton Text="@Text" OnCopy="OnCopied" />
+    <OmniCopyButton Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small" TextFactory="BuildTextAsync" OnCopy="OnCopied" />
+    <OmniText Tone="OmniTextTone.Muted">Copies accepted: @Copies.</OmniText>
+</OmniStack>

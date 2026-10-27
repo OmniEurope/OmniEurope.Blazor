@@ -4,32 +4,32 @@
 // round trip is the reference). A module whose detach misses its element stays attached for good,
 // one more set of listeners per visit; this is where it shows.
 
-const neutral = ['/composants/badges', '.omni-badge'];
+const neutral = ['/components/legacy/badges', '.omni-badge'];
 
 export async function leakSteps(session, results) {
   const { waitFor, key, pause, check, clickOn } = session;
   const listeners = async () => ({ document: await session.listenersOf('document'), window: await session.listenersOf('window') });
 
   const pages = [
-    ['/composants/superpositions', '#demo-overflow-menu', async () => {
+    ['/components/legacy/superpositions', '#demo-overflow-menu', async () => {
       await clickOn('#demo-overflow-menu');
       await waitFor('le menu ouvert', "document.activeElement?.getAttribute('role') === 'menuitem'");
       await key('Escape', 'Escape', 27);
       await clickOn('.omni-popover > button[aria-haspopup="dialog"]');
       await waitFor('la bulle ouverte', "document.querySelector('.omni-popover > button[aria-haspopup=\"dialog\"]').getAttribute('aria-expanded') === 'true'");
     }],
-    ['/composants/editeur', '#editor-extended', async () => {
+    ['/components/legacy/editeur', '#editor-extended', async () => {
       await clickOn('#editor-body');
     }],
-    ['/composants/grille', '#demo-grid-tree', async () => {}],
-    ['/composants/listes', '.omni-log-viewer', async () => {}],
-    ['/composants/tableur', '#demo-sheet [data-omni-sheet-grid]', async () => {}],
-    ['/composants/arborescence', '#demo-tree-accounts', async () => {}],
-    ['/composants/agenda', '.omni-scheduler', async () => {}],
-    ['/composants/diagramme', '#demo-mindmap-canvas', async () => {}],
-    ['/composants/pages', '#pages-demo-shell', async () => {}],
-    ['/composants/coquille', '#shell-demo-sidebar', async () => {}],
-    ['/composants/selection', '#demo-tags-compact', async () => {
+    ['/components/legacy/grille', '#demo-grid-tree', async () => {}],
+    ['/components/legacy/listes', '.omni-log-viewer', async () => {}],
+    ['/components/legacy/tableur', '#demo-sheet [data-omni-sheet-grid]', async () => {}],
+    ['/components/legacy/arborescence', '#demo-tree-accounts', async () => {}],
+    ['/components/legacy/agenda', '.omni-scheduler', async () => {}],
+    ['/components/legacy/diagramme', '#demo-mindmap-canvas', async () => {}],
+    ['/components/legacy/pages', '#pages-demo-shell', async () => {}],
+    ['/components/legacy/coquille', '#shell-demo-sidebar', async () => {}],
+    ['/components/legacy/selection', '#demo-tags-compact', async () => {
       await clickOn('#demo-tags-compact > summary');
       await waitFor('le choix compact ouvert', "document.getElementById('demo-tags-compact').open");
     }]

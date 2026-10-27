@@ -296,3 +296,74 @@
 .demo-appshell__tiles .omni-heading { margin: 0; }
 /* Scheduler demo: an appointment the host marks apart through OmniSchedulerAppointment.CssClass. */
 .omni-scheduler__appointment.showcase-appointment--decision { background: var(--omni-color-warning-subtle); }
+
+/* Gallery pages (PLAN-005): the frame around every page, settings on the left and preview on the right
+   on a wide screen, stacked below; the examples themselves carry no class of the showcase. */
+.gallery-page {
+    min-inline-size: 0;
+}
+
+.gallery-page__description {
+    max-inline-size: 60rem;
+}
+
+.gallery-page__body {
+    align-items: start;
+    display: grid;
+    gap: var(--omni-space-md);
+    grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 75rem) {
+    .gallery-page__body {
+        grid-template-columns: minmax(20rem, 2fr) minmax(0, 3fr);
+    }
+
+    .gallery-page__body--single {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.gallery-page__settings,
+.gallery-page__preview {
+    display: flex;
+    flex-direction: column;
+    gap: var(--omni-space-md);
+    min-inline-size: 0;
+}
+
+.gallery-preview {
+    min-inline-size: 0;
+}
+
+/* The Mobile tab: the preview in the screen of a standard phone, 360 x 780 CSS pixels, centred in a
+   frame that recalls its shape; the content scrolls inside the screen as it would on the phone. */
+.gallery-phone {
+    border: 0.5rem solid var(--omni-color-border);
+    border-radius: 1.5rem;
+    box-sizing: content-box;
+    inline-size: 360px;
+    margin-inline: auto;
+    max-inline-size: calc(100% - 1rem);
+}
+
+.gallery-phone__screen {
+    block-size: 780px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--omni-space-md);
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.gallery-theme-picker {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--omni-space-xs);
+}
+
+.gallery-theme-picker__select {
+    min-inline-size: 11rem;
+}

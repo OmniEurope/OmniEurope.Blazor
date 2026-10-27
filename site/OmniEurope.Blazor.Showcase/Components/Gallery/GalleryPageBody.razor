@@ -1,0 +1,24 @@
+@* The body of a gallery page, settings on the left and preview on the right (stacked when narrow),
+   drawn in the Preview tab and, the preview inside the screen of a phone, in the Mobile tab. *@
+<div class="@BodyClass">
+    @if (Settings is not null)
+    {
+        @* data-omni-keep-open: a click in the settings is not a click outside, so a menu opened in the
+           preview stays open while its options change. *@
+        <div class="gallery-page__settings" data-omni-keep-open>
+            @Settings
+        </div>
+    }
+    <div class="gallery-page__preview">
+        @if (Phone)
+        {
+            <div class="gallery-phone">
+                <div class="gallery-phone__screen">@Preview</div>
+            </div>
+        }
+        else
+        {
+            @Preview
+        }
+    </div>
+</div>

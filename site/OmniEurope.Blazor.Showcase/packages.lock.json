@@ -274,6 +274,12 @@
           "Microsoft.Extensions.Localization": "[10.0.14, )"
         }
       },
+      "omnieurope.blazor.showcase.examples": {
+        "type": "Project",
+        "dependencies": {
+          "OmniEurope.Blazor": "[1.9.4, )"
+        }
+      },
       "HtmlSanitizer": {
         "type": "CentralTransitive",
         "requested": "[9.2.1039, )",

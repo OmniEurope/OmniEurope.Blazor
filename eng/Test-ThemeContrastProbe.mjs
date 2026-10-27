@@ -85,8 +85,8 @@ const registryPath = join(artifacts, 'theme-contrast-registry.json');
 // The pages visited for each combination: the customizer, whose preview stacks most of the closed
 // list, and the three gallery pages holding the rest (the Kanban board, the status strip, the list
 // options).
-const CUSTOMIZER = '/personnalisation';
-const EXTRA_PAGES = ['/composants/listes', '/composants/retours', '/composants/selection'];
+const CUSTOMIZER = '/customizer';
+const EXTRA_PAGES = ['/components/legacy/listes', '/components/legacy/retours', '/components/legacy/selection'];
 const NARROW_PAGES = ['/', CUSTOMIZER, ...EXTRA_PAGES];
 
 // Screenshots besides every theme on its own palette in both modes: Halo and Néon, the two themes
@@ -342,14 +342,14 @@ const pageLibrary = String.raw`
       add('titre de tuile de réglage', first(settings, '.omni-settings-tile__title'));
       add('indice de tuile de réglage', first(settings, '.omni-settings-hint'));
       add('texte de la page', first(document.querySelector('main'), 'section > p'));
-    } else if (page === '/composants/listes') {
+    } else if (page === '/components/legacy/listes') {
       const board = first(document, '.omni-kanban');
       const column = board ? first(board, '.omni-kanban__column') : null;
       add('titre de colonne de Kanban', column ? first(column, '.omni-kanban__title') : null);
       add('compteur de colonne de Kanban', column ? first(column, '.omni-kanban__count') : null);
       add('carte de Kanban', column ? first(column, '.omni-kanban__card') : null, 'text', true);
       add('bord de colonne de Kanban', column, 'border');
-    } else if (page === '/composants/retours') {
+    } else if (page === '/components/legacy/retours') {
       const seen = new Set();
       for (const item of within(document, '.omni-status-strip__item')) {
         const strip = item.closest('.omni-status-strip');
@@ -359,7 +359,7 @@ const pageLibrary = String.raw`
         add('bande d\'état, ' + key, item, 'dot', item.matches('a, button'));
       }
       if (seen.size === 0) add('bande d\'état', null, 'dot');
-    } else if (page === '/composants/selection') {
+    } else if (page === '/components/legacy/selection') {
       const box = document.getElementById('demo-city');
       add('option de liste', box ? [...box.options].find(option => !option.selected) ?? null : null);
       add('option de liste choisie', box ? [...box.options].find(option => option.selected) ?? null : null);
@@ -731,9 +731,9 @@ const navigate = async (path, ready) => {
 const READY = {
   [CUSTOMIZER]: "document.getElementById('workshop-theme') && document.getElementById('runs-sorted') && document.querySelector('.showcase-stage .omni-card')",
   '/': "document.querySelector('main h1, main .omni-heading')",
-  '/composants/listes': "document.querySelector('.omni-kanban__card')",
-  '/composants/retours': "document.querySelector('.omni-status-strip__item')",
-  '/composants/selection': "document.getElementById('demo-city')"
+  '/components/legacy/listes': "document.querySelector('.omni-kanban__card')",
+  '/components/legacy/retours': "document.querySelector('.omni-status-strip__item')",
+  '/components/legacy/selection': "document.getElementById('demo-city')"
 };
 
 // The customizer's pickers. Selecting a theme gives it its own palette; the mode is kept.

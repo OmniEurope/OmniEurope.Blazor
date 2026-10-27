@@ -86,7 +86,7 @@ export async function chevronSteps(session, results) {
 
   // 1. A tab strip too narrow for its tabs, on the navigation page.
   await send('Emulation.setDeviceMetricsOverride', { width: 250, height: 800, deviceScaleFactor: 1, mobile: false });
-  await session.visit('/composants/navigation', '.omni-tabs__strip [role="tab"]');
+  await session.visit('/components/legacy/navigation', '.omni-tabs__strip [role="tab"]');
   await waitFor('une bande d\'onglets qui déborde', "(() => { const view = document.querySelector('.omni-tabs__viewport'); return view.scrollWidth - view.clientWidth > 20; })()");
   await drive('onglets', { strip: '.omni-tabs__strip', viewport: '.omni-tabs__viewport', start: '.omni-tabs__scroll--start', end: '.omni-tabs__scroll--end' }, false);
   step('onglets : chevrons posés sur la bande, ni taille ni contenu qui bougent, butée à marge');
@@ -112,7 +112,7 @@ export async function chevronSteps(session, results) {
 
   // 3. The sidebar menu, shortened until it scrolls, on the shell page.
   await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 800, deviceScaleFactor: 1, mobile: false });
-  await session.visit('/composants/coquille', '#shell-demo-sidebar');
+  await session.visit('/components/legacy/coquille', '#shell-demo-sidebar');
   await evaluate(`(() => { const toggle = document.querySelector('[aria-controls="shell-demo-sidebar"]'); if (!document.querySelector('#shell-demo-sidebar').classList.contains('omni-sidebar--open')) toggle.click(); })()`);
   await waitFor('le menu de la coquille ouvert', "document.querySelector('#shell-demo-sidebar').classList.contains('omni-sidebar--open')");
   await evaluate("(() => { const aside = document.querySelector('#shell-demo-sidebar'); aside.style.height = '110px'; aside.style.maxHeight = '110px'; })()");
@@ -123,7 +123,7 @@ export async function chevronSteps(session, results) {
 
   // 4. A click on a chevron still scrolls by about a page, and the strip stays whole.
   await send('Emulation.setDeviceMetricsOverride', { width: 250, height: 800, deviceScaleFactor: 1, mobile: false });
-  await session.visit('/composants/navigation', '.omni-tabs__strip [role="tab"]');
+  await session.visit('/components/legacy/navigation', '.omni-tabs__strip [role="tab"]');
   await waitFor('une bande d\'onglets qui déborde', "(() => { const view = document.querySelector('.omni-tabs__viewport'); return view.scrollWidth - view.clientWidth > 20; })()");
   await waitFor('le chevron de fin', "document.querySelector('.omni-tabs__scroll--end') && !document.querySelector('.omni-tabs__scroll--end').hidden");
   await clickOn('.omni-tabs__scroll--end');

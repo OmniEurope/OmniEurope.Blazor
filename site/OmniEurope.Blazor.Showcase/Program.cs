@@ -28,13 +28,13 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 var host = builder.Build();
 
-// The showcase runs in the language the visitor chose in its header (saved in the browser), French
+// The showcase runs in the language the visitor chose in its header (saved in the browser), English
 // when nothing is saved, whatever the browser language: without an explicit culture, WebAssembly
 // takes the browser's, or the invariant one, and a {0:C0} amount shows "¤" instead of "€". The
 // culture must be set before RunAsync, which loads the resources of the current culture, and a page
-// keeps it for its lifetime, so the selector saves the choice and reloads. The full ICU data and every
-// satellite assembly are shipped (BlazorWebAssemblyLoadAllGlobalizationData in the project).
-// A missing or failing culture script must not keep the page from starting: it runs in French.
+// keeps it for its lifetime, so the selector saves the choice and reloads. English and French both
+// format with the EFIGS ICU shard the project pins (BlazorIcuDataFileName).
+// A missing or failing culture script must not keep the page from starting: it runs in English.
 var js = host.Services.GetRequiredService<IJSRuntime>();
 var language = ShowcaseLanguages.Default;
 try

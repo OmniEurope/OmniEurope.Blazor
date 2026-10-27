@@ -2,7 +2,9 @@ using System.Globalization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using OmniEurope.Blazor.Showcase.Demos;
+using OmniEurope.Blazor.Showcase.Examples.Actions;
 using OmniEurope.Blazor.Showcase.Resources;
+using OmniEurope.Blazor.Showcase.Resources.Gallery;
 using OmniEurope.Blazor.Showcase.Theming;
 
 namespace OmniEurope.Blazor.Showcase.Components.Pages;
@@ -10,17 +12,28 @@ namespace OmniEurope.Blazor.Showcase.Components.Pages;
 public partial class Customizer : IDisposable
 {
     /// <summary>
-    /// The gallery entries the preview stacks, in the order of the reference mockup's preview. They
-    /// are the gallery's own demonstrations, so the preview and the gallery cannot drift apart.
+    /// The sections the preview stacks, in the order of the reference mockup's preview, each with the
+    /// density it may take of its own. They are the gallery's own demonstrations and examples, so the
+    /// preview and the gallery cannot drift apart.
     /// </summary>
-    private static readonly string[] StageKeys =
+    private IReadOnlyList<StageSection> Sections { get; } =
     [
-        "chargement", "boutons", "etats", "badges", "alertes", "surfaces", "reglages-onglets",
-        "formulaires", "formulaire-vertical", "notifications", "grilles-maquette", "coquille-application"
+        Legacy("chargement"),
+        new("buttons", typeof(ActionsStrings), "ButtonsTitle", typeof(ButtonsExample)),
+        Legacy("etats"),
+        Legacy("badges"),
+        Legacy("alertes"),
+        Legacy("surfaces"),
+        Legacy("reglages-onglets"),
+        Legacy("formulaires"),
+        Legacy("formulaire-vertical"),
+        Legacy("notifications"),
+        Legacy("grilles-maquette"),
+        Legacy("coquille-application")
     ];
 
-    /// <summary>One section of the preview per entry, each with the density it may take of its own.</summary>
-    private IReadOnlyList<StageSection> Sections { get; } = [.. StageKeys.Select(key => new StageSection(DemoCatalog.Resolve(key)))];
+    [Inject]
+    private IStringLocalizerFactory Localizers { get; set; } = default!;
 
     [Inject]
     private IStringLocalizer<ShowcaseStrings> Text { get; set; } = default!;
@@ -97,6 +110,13 @@ public partial class Customizer : IDisposable
         return half.TryGetValue(name, out var value)
             ? value
             : Theme.Tokens.FirstOrDefault(token => token.Name == name)?.DefaultValue ?? string.Empty;
+    }
+
+    /// <summary>A section showing a legacy demo of the gallery, by its key.</summary>
+    private static StageSection Legacy(string key)
+    {
+        var demo = DemoCatalog.Resolve(key);
+        return new(demo.Key, typeof(ShowcaseStrings), demo.TitleKey, demo.Component);
     }
 
     private Task SelectThemeAsync(string? name) =>

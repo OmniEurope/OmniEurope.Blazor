@@ -13,7 +13,7 @@ export async function requestSteps(session, results) {
 
   // 1. Title tooltips (OmniTitleTooltips of the Retours page): an icon-only button the title alone names
   // lends it to aria-label while the title is away, a button named by its text gets nothing.
-  await session.visit('/composants/retours', '.omni-badge');
+  await session.visit('/components/legacy/retours', '.omni-badge');
   // The pointer of the previous steps rests over the page: content moving under it raises a pointerover,
   // and a titled element reached that way rightly takes the title tooltip from the focused button. It is
   // parked on the header first, where nothing carries a title.
@@ -89,7 +89,7 @@ export async function requestSteps(session, results) {
 
   // 2. Skip link of the site's layout: the first Tab stop; Enter focuses the main landmark, the address
   // unchanged.
-  await session.visit('/composants/grille', '#demo-grid-tree');
+  await session.visit('/components/legacy/grille', '#demo-grid-tree');
   const address = await evaluate('location.href');
   await evaluate("document.activeElement?.blur(); window.scrollTo(0, 0); document.body.focus()");
   await tab();
@@ -175,7 +175,7 @@ export async function requestSteps(session, results) {
   // itself holds the focus as it opens, no control of the dialog is focused and nothing draws a focus
   // ring; the first Tab reaches the first focusable element (the close button), Escape gives the focus
   // back to the trigger.
-  await session.visit('/composants/superpositions', '#demo-dialog-intent-accent');
+  await session.visit('/components/legacy/superpositions', '#demo-dialog-intent-accent');
   await clickOn('#demo-dialog-intent-accent');
   await waitFor("le dialogue d'intention ouvert, le panneau focalisé", "document.activeElement?.matches('.omni-overlay section.omni-dialog') === true");
   // The panel focused looks exactly as it does unfocused (outline and shadow, the library's rings being
@@ -190,7 +190,7 @@ export async function requestSteps(session, results) {
 
   // 5. The chevron of a filterable drop-down (recette R1-11): drawn at the end of the field, a press opens
   // the whole list unfiltered and leaves the focus in the field, a second press closes it.
-  await session.visit('/composants/selection', '#demo-country');
+  await session.visit('/components/legacy/selection', '#demo-country');
   const options = "document.querySelectorAll('#demo-country-results [role=option]').length";
   check(await evaluate("document.querySelector('#demo-country').closest('.omni-autocomplete') !== null"), "La liste des pays n'est pas un champ filtrable.");
   const chevron = await evaluate("(() => { const toggle = document.querySelector('#demo-country ~ .omni-autocomplete__toggle'); const field = document.getElementById('demo-country').getBoundingClientRect(); const box = toggle?.getBoundingClientRect(); return !!toggle && box.right <= field.right + 0.5 && box.top >= field.top - 0.5 && box.bottom <= field.bottom + 0.5 && getComputedStyle(toggle, '::before').inlineSize !== 'auto'; })()");
@@ -203,7 +203,7 @@ export async function requestSteps(session, results) {
 
   // 6. The label of a native drop-down (recette R-70): a real click on the label opens the select's own
   // list (showPicker, called by omni-focus.js on the click itself, which a .NET round trip would lose).
-  await session.visit('/composants/grille-avancee', '#grid-lines');
+  await session.visit('/components/legacy/grille-avancee', '#grid-lines');
   check(await evaluate("document.getElementById('grid-lines')?.localName === 'select' && !document.getElementById('grid-lines').matches(':open')"), "La liste Lignes n'est pas une liste native fermée.");
   await clickOn('label[for="grid-lines"]');
   await waitFor('la liste native ouverte par son libellé, le focus sur la liste', "document.activeElement?.id === 'grid-lines' && document.getElementById('grid-lines').matches(':open')");
@@ -214,7 +214,7 @@ export async function requestSteps(session, results) {
   // 6. Charts of a client's recette (R1-12, R1-13, R1-16), on the range demo widened to its 36 months:
   // no two value labels drawn overlap and a masked one is read on hover, the navigator is graduated
   // without overlap, its handles follow the density, and the chart keeps a minimum width.
-  await session.visit('/composants/graphiques-avances', '.omni-range-navigator__ticks text');
+  await session.visit('/components/legacy/graphiques-avances', '.omni-range-navigator__ticks text');
   await evaluate("(() => { const start = document.querySelector('.omni-range-navigator__handle--start'); start.value = 0; start.dispatchEvent(new Event('input', { bubbles: true })); })()");
   await waitFor('les 36 mois affichés', "document.querySelectorAll('.omni-range-navigator__column--selected').length === 36");
   const charts = await evaluate(`(() => {
@@ -246,7 +246,7 @@ export async function requestSteps(session, results) {
 
   // 7. The stat tile keeps its label on one line (R1-15): the long label of the demo stays one line
   // high, smaller or cut, its whole text in the title once cut.
-  await session.visit('/composants/pages', '#demo-stat-tile-gain');
+  await session.visit('/components/legacy/pages', '#demo-stat-tile-gain');
   const tileState = "(() => { const label = document.querySelector('#demo-stat-tile-gain .omni-stat-tile__label'); const line = parseFloat(getComputedStyle(label).lineHeight) || parseFloat(getComputedStyle(label).fontSize) * 1.6; const fits = label.scrollWidth <= label.clientWidth + 1; const fit = label.getAttribute('data-fit'); return label.getBoundingClientRect().height <= line + 1 && (fits || fit === 'clip') && (fit === 'clip') === (label.getAttribute('title') === label.textContent.trim()); })()";
   await waitFor('le libellé long de la tuile sur une ligne, entier ou coupé avec son titre', tileState);
   step('tuile de statistique : libellé sur une ligne, réduit ou coupé avec son texte entier en titre');
@@ -260,7 +260,7 @@ export async function requestSteps(session, results) {
   // check on the cells is their rectangles, and the cut is proved by a value that is cut and read whole in the
   // package tooltip. At 1280 and 375 px, at the default text size and at text size 10 (the level the appearance
   // window writes on the root, data-oe-text-size).
-  await session.visit('/composants/pages', '#demo-fact-tile-timeline');
+  await session.visit('/components/legacy/pages', '#demo-fact-tile-timeline');
   const factTiles = `(() => {
     const grid = document.getElementById('demo-fact-tile-grid');
     const tiles = [...grid.children];
@@ -343,7 +343,7 @@ export async function requestSteps(session, results) {
   // keeps a sidebar and a side panel, so that is wider than 900 px of window, and below 1024 px of window the
   // tile grid has two columns). At 1280 px the tile is narrower still and the value, on its own line, still
   // fits. In a roomy tile (a phone, one column) the three aligned columns stay, label and value on one line.
-  await session.visit('/composants/pages', '#demo-fact-tile-narrow-grid');
+  await session.visit('/components/legacy/pages', '#demo-fact-tile-narrow-grid');
   const narrowGrid = `(() => {
     const grid = document.getElementById('demo-fact-tile-narrow-grid');
     const tiles = [...grid.children];
@@ -411,7 +411,7 @@ export async function requestSteps(session, results) {
   // (the one-row tile is shorter than the four-row one), aligned to the top of its row, and the row of a long
   // label ("Durée de l'étape", 16 characters) with a short value ("2") stays on one line in the narrow tile.
   // The window is widened until the grid is 900 px wide, as above.
-  await session.visit('/composants/mise-en-page', '#demo-tile-grid-natural');
+  await session.visit('/components/legacy/mise-en-page', '#demo-tile-grid-natural');
   for (let width = 1000; width <= 1800; width += 5) {
     await send('Emulation.setDeviceMetricsOverride', { width, height: 900, deviceScaleFactor: 1, mobile: false });
     await pause(60);
@@ -456,7 +456,7 @@ export async function requestSteps(session, results) {
   // the window and the script is not loaded for it (tests/OmniEurope.Blazor.Tests prove that).
   {
     await send('Emulation.setDeviceMetricsOverride', { width: 1800, height: 900, deviceScaleFactor: 1, mobile: false });
-    await session.visit('/composants/mise-en-page', '#demo-tile-grid-uniform');
+    await session.visit('/components/legacy/mise-en-page', '#demo-tile-grid-uniform');
     const uniformRule = `(() => {
       const grid = document.getElementById('demo-tile-grid-uniform');
       const style = getComputedStyle(grid);
@@ -529,7 +529,7 @@ export async function requestSteps(session, results) {
   // scroll while the box holds the content, and below it the columns stay at their content floor and the grid
   // scrolls sideways instead of cutting. A second grid wraps its long column (Wrap) instead of cutting it.
   await send('Emulation.setDeviceMetricsOverride', { width: 1800, height: 900, deviceScaleFactor: 1, mobile: false });
-  await session.visit('/composants/grille', '#demo-grid-sizing');
+  await session.visit('/components/legacy/grille', '#demo-grid-sizing');
   const sizingState = gridId => `(() => {
     const grid = document.getElementById('${gridId}');
     const viewport = grid.querySelector('.omni-data-grid__viewport');
@@ -637,7 +637,7 @@ export async function requestSteps(session, results) {
   // shows only once they are; a table no script sizes (no interactivity, a failed module) still shows
   // after its second.
   {
-    await session.visit('/composants/pages', 'main');
+    await session.visit('/components/legacy/pages', 'main');
     await evaluate(`(() => {
       window.__probeSizing = { 'demo-grid-sizing': [], 'demo-grid-sizing-remote': [] };
       window.__probeSizingStop = false;
@@ -657,7 +657,7 @@ export async function requestSteps(session, results) {
       const frame = () => { record(); if (window.__probeSizingStop) observer.disconnect(); else requestAnimationFrame(frame); };
       requestAnimationFrame(frame);
     })()`);
-    await session.visit('/composants/grille', '#demo-grid-sizing table[data-omni-sized]');
+    await session.visit('/components/legacy/grille', '#demo-grid-sizing table[data-omni-sized]');
     await waitFor('la grille chargée par Load dimensionnée', "document.querySelector('#demo-grid-sizing-remote table[data-omni-sized]') !== null");
     await pause(500);
     const traces = JSON.parse(await evaluate('(window.__probeSizingStop = true, JSON.stringify(window.__probeSizing))'));
@@ -743,7 +743,7 @@ export async function requestSteps(session, results) {
   // a column now share the width of the longest, capped at 40%, the values take all the room left; at
   // 375 px the list is one column and nothing overflows.
   {
-    await session.visit('/composants/pages', '#pages-demo-essentials .omni-description-list__item');
+    await session.visit('/components/legacy/pages', '#pages-demo-essentials .omni-description-list__item');
     // The shell of the demonstration may be left loading or missing by an earlier step: it is loaded again.
     await clickOn('#pages-demo-load');
     await waitFor('la liste de description affichée', "[...document.querySelectorAll('#pages-demo-essentials > .omni-description-list__item')].filter(item => item.getClientRects().length > 0 && item.getBoundingClientRect().width > 0).length === 6", 10_000);
@@ -790,7 +790,7 @@ export async function requestSteps(session, results) {
   // cells and its bar buttons really show (intersected with every clipping ancestor and the window),
   // also under a host rule of a flex basis of 0 (display flex, flex 1 1 0, min-block-size 0). With room
   // left, the grid still ends at the bottom of the box and the box does not scroll.
-  await session.visit('/composants/grille', '#demo-grid-fill-box-grid');
+  await session.visit('/components/legacy/grille', '#demo-grid-fill-box-grid');
   const fillBox = "document.getElementById('demo-grid-fill-box')";
   const fillBoxState = `(() => {
     const box = ${fillBox};
@@ -877,7 +877,7 @@ export async function requestSteps(session, results) {
   // BarButtonSize are as tall as the page's buttons of that size. R1-75: a variable button writes its token
   // at the caret of the subject, and the preview draws the rendered mail under the strict CSP, its look
   // given through the CSSOM (any refused style would be a console error, failing the step).
-  await session.visit('/composants/saisie-avancee', '#inputs-model');
+  await session.visit('/components/legacy/saisie-avancee', '#inputs-model');
   await evaluate("(() => { const field = document.getElementById('inputs-model'); field.scrollIntoView({ block: 'center' }); field.focus(); })()");
   await waitFor('le champ du modèle focalisé', "document.activeElement?.id === 'inputs-model'");
   await type('modele-maison-7b');
@@ -885,7 +885,7 @@ export async function requestSteps(session, results) {
   await waitFor('le texte libre pris pour valeur à la sortie du champ', "document.getElementById('inputs-model-value').textContent.includes('modele-maison-7b')");
   step('saisie libre : un modèle absent des suggestions devient la valeur quand on quitte le champ');
 
-  await session.visit('/composants/grilles-maquette', '#runs-striped .omni-data-grid__export-button');
+  await session.visit('/components/legacy/grilles-maquette', '#runs-striped .omni-data-grid__export-button');
   const barState = await evaluate(`(() => {
     const heights = [...document.querySelectorAll('#runs-striped .omni-data-grid__export-button')].map(button => Math.round(button.getBoundingClientRect().height));
     const ruler = document.createElement('button');
@@ -900,7 +900,7 @@ export async function requestSteps(session, results) {
   check(bar.heights.length > 0 && bar.heights.every(height => height === bar.expected), `Les boutons d'export ne suivent pas BarButtonSize : ${barState}`);
   step(`boutons de barre de grille : ${bar.heights.length} boutons d'export à ${bar.expected} px, la hauteur d'un bouton Medium`);
 
-  await session.visit('/composants/editeur', '#editor-mail');
+  await session.visit('/components/legacy/editeur', '#editor-mail');
   await evaluate("(() => { const field = document.querySelector('#editor-mail .omni-mail-template-editor__subject input'); field.scrollIntoView({ block: 'center' }); field.focus(); field.setSelectionRange(field.value.length, field.value.length); })()");
   await waitFor("l'objet focalisé", "document.activeElement?.closest('.omni-mail-template-editor__subject') !== null");
   await clickOn('#editor-mail [data-omni-variable="client"]');
@@ -962,7 +962,7 @@ export async function requestSteps(session, results) {
       check(csp.length === 0, `Violations CSP avant le rechargement de la grille à images : ${csp.join(' | ')}`);
       await send('Page.navigate', { url: siteUrl });
       await waitFor('le runtime Blazor rechargé', "typeof Blazor !== 'undefined' && typeof Blazor.navigateTo === 'function' && document.getElementById('showcase-theme') !== null");
-      await session.visit('/composants/grille', '#demo-grid-pictures');
+      await session.visit('/components/legacy/grille', '#demo-grid-pictures');
       const until = Date.now() + 15_000;
       while (held.length === 0 && Date.now() < until) await pause(50);
       check(held.length > 0, "Aucune requête de l'image de la grille interceptée.");

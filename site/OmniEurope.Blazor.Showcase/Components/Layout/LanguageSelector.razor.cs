@@ -6,7 +6,7 @@ using OmniEurope.Blazor.Showcase.Resources;
 namespace OmniEurope.Blazor.Showcase.Components.Layout;
 
 /// <summary>
-/// Header control that switches the showcase to another of the 24 official EU languages: it saves the
+/// Header control that switches the showcase between English and French: it saves the
 /// language code in the browser, then reloads the page, which starts in that culture (<c>Program.cs</c>).
 /// </summary>
 public partial class LanguageSelector

@@ -55,7 +55,7 @@
        OmniReturnUrl ne rend qu'un chemin de l'application, jamais une adresse extérieure. *@
     <div class="showcase-preview-frame">
         @* SignUpHref : le lien d'inscription discret en tête du pied, jamais un second bouton. *@
-        <OmniLoginShell Description="@Text["DemoFlowsLoginDescription"]" SignUpHref="composants/parcours">
+        <OmniLoginShell Description="@Text["DemoFlowsLoginDescription"]" SignUpHref="components/legacy/parcours">
             <Logo><OmniIcon Name="OmniIconName.ShieldCheck" Size="OmniControlSize.Large" Label="@Text["DemoFlowsLoginLogo"]" /></Logo>
             <ChildContent>
                 <EditForm Model="Credentials" OnSubmit="SubmitSignIn">

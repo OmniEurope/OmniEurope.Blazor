@@ -27,8 +27,12 @@ public sealed class ShowcaseVariantCoverageTests
         "OmniDataGridFilterOperator"
     };
 
+    /// <summary>
+    /// What a visitor runs: the legacy demos, the gallery pages (their settings choose the values) and
+    /// every source of the examples project, its build output aside.
+    /// </summary>
     private static readonly string DemoSources = string.Concat(
-        Directory.EnumerateFiles(DemoFolder(), "*.razor*", SearchOption.AllDirectories)
+        DemoFiles()
             .OrderBy(path => path, StringComparer.Ordinal)
             .Select(File.ReadAllText));
 
@@ -124,7 +128,18 @@ public sealed class ShowcaseVariantCoverageTests
         }
     }
 
-    private static string DemoFolder()
+    private static IEnumerable<string> DemoFiles()
+    {
+        var site = Path.Combine(Root(), "site");
+        var examples = Path.Combine(site, "OmniEurope.Blazor.Showcase.Examples");
+        return Directory.EnumerateFiles(Path.Combine(site, "OmniEurope.Blazor.Showcase", "Components", "Demos"), "*.razor*", SearchOption.AllDirectories)
+            .Concat(Directory.EnumerateFiles(Path.Combine(site, "OmniEurope.Blazor.Showcase", "Components", "Gallery"), "*.razor*", SearchOption.AllDirectories))
+            .Concat(Directory.EnumerateFiles(examples, "*.*", SearchOption.AllDirectories)
+                .Where(path => Path.GetExtension(path) is ".razor" or ".cs" or ".css")
+                .Where(path => Path.GetRelativePath(examples, path).Split(Path.DirectorySeparatorChar)[0] is not ("bin" or "obj")));
+    }
+
+    private static string Root()
     {
         var directory = new DirectoryInfo(AppContext.BaseDirectory);
         while (directory is not null && !File.Exists(Path.Combine(directory.FullName, "OmniEurope.Blazor.slnx")))
@@ -133,6 +148,6 @@ public sealed class ShowcaseVariantCoverageTests
         }
 
         Assert.NotNull(directory);
-        return Path.Combine(directory.FullName, "site", "OmniEurope.Blazor.Showcase", "Components", "Demos");
+        return directory.FullName;
     }
 }

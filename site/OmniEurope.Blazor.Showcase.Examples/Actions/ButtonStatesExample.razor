@@ -1,0 +1,28 @@
+@* Every variant at rest, disabled, busy and as an icon alone. Busy keeps the content and the exact
+   size of the button at rest: a veil breathes over it and it ignores clicks, as a disabled one does. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    @foreach (var sample in ButtonSample.All)
+    {
+        <OmniStack Gap="OmniSpacing.Small">
+            <OmniText Tone="OmniTextTone.Muted">@sample.Name</OmniText>
+            <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Wrap="true">
+                <OmniButton Variant="sample.Variant" OnClick="CountClick">
+                    <OmniIcon Name="@sample.Icon" />
+                    <span>@sample.Action</span>
+                </OmniButton>
+                <OmniButton Variant="sample.Variant" Disabled="true" OnClick="CountClick">
+                    <OmniIcon Name="@sample.Icon" />
+                    <span>@sample.Action</span>
+                </OmniButton>
+                <OmniButton Variant="sample.Variant" Busy="true" OnClick="CountClick">
+                    <OmniIcon Name="@sample.Icon" />
+                    <span>@sample.Action</span>
+                </OmniButton>
+                <OmniButton Variant="sample.Variant" Label="@sample.Action" title="@sample.Action" OnClick="CountClick">
+                    <OmniIcon Name="@sample.Icon" />
+                </OmniButton>
+            </OmniStack>
+        </OmniStack>
+    }
+    <OmniText Tone="OmniTextTone.Muted">Clicks: @ClickCount. Disabled and busy buttons do not count.</OmniText>
+</OmniStack>

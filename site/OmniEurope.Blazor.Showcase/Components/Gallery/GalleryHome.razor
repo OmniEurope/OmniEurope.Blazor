@@ -1,0 +1,33 @@
+@page "/components"
+
+@* The entry of the gallery: the menu, and each family with its pages, from the catalogue. *@
+<PageTitle>@Text["GalleryPageTitle"]</PageTitle>
+
+<div class="showcase-gallery">
+    <GalleryMenu />
+
+    <OmniStack Gap="OmniSpacing.Medium" Class="gallery-page">
+        <OmniPageHeader Title="@Text["GalleryTitle"]" ShowTrail="false">
+            <Icon><OmniIcon Name="OmniIconName.Flask" /></Icon>
+            <ActionsContent>
+                <GalleryThemePicker />
+            </ActionsContent>
+        </OmniPageHeader>
+        <OmniText>@Text["GalleryLead"]</OmniText>
+        @foreach (var family in GalleryCatalog.Families.Where(family => family.Pages.Count > 0))
+        {
+            var strings = StringsOf(family);
+            <section aria-labelledby="@FamilyId(family)">
+                <OmniStack Gap="OmniSpacing.Small">
+                    <OmniHeading Id="@FamilyId(family)" Level="OmniHeadingLevel.H2">@Text[family.TitleKey]</OmniHeading>
+                    <OmniStack Orientation="OmniOrientation.Horizontal" Wrap="true">
+                        @foreach (var entry in family.Pages)
+                        {
+                            <OmniLink Href="@entry.Href">@strings[entry.TitleKey]</OmniLink>
+                        }
+                    </OmniStack>
+                </OmniStack>
+            </section>
+        }
+    </OmniStack>
+</div>

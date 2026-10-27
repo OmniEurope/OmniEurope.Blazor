@@ -8,7 +8,7 @@ window.omniShowcaseCulture = {
         try {
             return window.localStorage.getItem(storageKey);
         } catch {
-            // Private windows and blocked site data are normal: the page falls back to French.
+            // Private windows and blocked site data are normal: the page falls back to English.
             return null;
         }
     },

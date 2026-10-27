@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using OmniEurope.Blazor.Components;
 using OmniEurope.Blazor.Showcase.Demos;
+using OmniEurope.Blazor.Showcase.Gallery;
 
 namespace OmniEurope.Blazor.Tests;
 
@@ -26,8 +27,10 @@ public sealed class ShowcaseCoverageTests
     [Fact]
     public void EveryPublicComponent_IsDemonstratedSomewhere()
     {
+        // The legacy demos and every example source of the new gallery: both are what a visitor runs.
         var sources = DemoCatalog.All
             .Select(demo => DemoSource.Read(demo.Component) ?? string.Empty)
+            .Concat(ExampleSource.EmbeddedPaths.Select(path => ExampleSource.Read(path) ?? string.Empty))
             .ToArray();
 
         var missing = PublicComponents

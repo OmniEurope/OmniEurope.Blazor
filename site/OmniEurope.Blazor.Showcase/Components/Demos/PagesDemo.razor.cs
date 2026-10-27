@@ -35,8 +35,8 @@ public partial class PagesDemo : IDisposable
         State = OmniDetailState.Loading;
         var loading = new OmniBreadcrumbEntry(Text["DemoPagesCrumbServer"], Loading: true);
         Breadcrumb.Set(
-            new OmniBreadcrumbEntry(Text["DemoPagesCrumbComponents"], "composants"),
-            new OmniBreadcrumbEntry(Text["DemoPagesCrumbServers"], "composants/pages"),
+            new OmniBreadcrumbEntry(Text["DemoPagesCrumbComponents"], "components"),
+            new OmniBreadcrumbEntry(Text["DemoPagesCrumbServers"], "components/legacy/pages"),
             loading);
         try
         {

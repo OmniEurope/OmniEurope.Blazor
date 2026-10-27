@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="ButtonsTitle" xml:space="preserve"><value>Buttons</value></data>
+  <data name="ButtonsDescription" xml:space="preserve"><value>Every variant, size and state of the button, with click counters that prove the events fire, plus the copy button and one busy state shared by the whole button family.</value></data>
+  <data name="ButtonsSettingsTitle" xml:space="preserve"><value>Button under test</value></data>
+  <data name="ButtonsSettingsDescription" xml:space="preserve"><value>Each setting applies to the button of the first preview.</value></data>
+  <data name="ButtonsVariant" xml:space="preserve"><value>Variant</value></data>
+  <data name="ButtonsVariantDescription" xml:space="preserve"><value>What the button means: the colour follows the role, not taste.</value></data>
+  <data name="ButtonsVariantPrimary" xml:space="preserve"><value>Primary</value></data>
+  <data name="ButtonsVariantSecondary" xml:space="preserve"><value>Secondary</value></data>
+  <data name="ButtonsVariantGhost" xml:space="preserve"><value>Ghost</value></data>
+  <data name="ButtonsVariantSuccess" xml:space="preserve"><value>Success</value></data>
+  <data name="ButtonsVariantWarning" xml:space="preserve"><value>Warning</value></data>
+  <data name="ButtonsVariantInfo" xml:space="preserve"><value>Info</value></data>
+  <data name="ButtonsVariantDanger" xml:space="preserve"><value>Danger</value></data>
+  <data name="ButtonsSize" xml:space="preserve"><value>Size</value></data>
+  <data name="ButtonsSizeSmall" xml:space="preserve"><value>Small</value></data>
+  <data name="ButtonsSizeMedium" xml:space="preserve"><value>Medium</value></data>
+  <data name="ButtonsSizeLarge" xml:space="preserve"><value>Large</value></data>
+  <data name="ButtonsType" xml:space="preserve"><value>Type</value></data>
+  <data name="ButtonsTypeDescription" xml:space="preserve"><value>Submit sends the surrounding form, Reset clears it, Button does neither.</value></data>
+  <data name="ButtonsTypeButton" xml:space="preserve"><value>Button</value></data>
+  <data name="ButtonsTypeSubmit" xml:space="preserve"><value>Submit</value></data>
+  <data name="ButtonsTypeReset" xml:space="preserve"><value>Reset</value></data>
+  <data name="ButtonsContent" xml:space="preserve"><value>Content</value></data>
+  <data name="ButtonsContentDescription" xml:space="preserve"><value>An icon-only button carries its name as an accessible label and a tooltip.</value></data>
+  <data name="ButtonsContentIconAndLabel" xml:space="preserve"><value>Icon and label</value></data>
+  <data name="ButtonsContentIconOnly" xml:space="preserve"><value>Icon only</value></data>
+  <data name="ButtonsDisabled" xml:space="preserve"><value>Disabled</value></data>
+  <data name="ButtonsDisabledDescription" xml:space="preserve"><value>The button no longer reacts and leaves the tab order.</value></data>
+  <data name="ButtonsBusy" xml:space="preserve"><value>Busy</value></data>
+  <data name="ButtonsBusyDescription" xml:space="preserve"><value>A veil breathes over the button; it keeps its size and ignores clicks.</value></data>
+  <data name="ButtonsBusyOnClick" xml:space="preserve"><value>Busy on click</value></data>
+  <data name="ButtonsBusyOnClickDescription" xml:space="preserve"><value>Each click simulates two seconds of work, the way a real save would.</value></data>
+  <data name="ButtonsPreviewTitle" xml:space="preserve"><value>Preview</value></data>
+  <data name="ButtonsSizesTitle" xml:space="preserve"><value>Variants by size</value></data>
+  <data name="ButtonsIconSquaresTitle" xml:space="preserve"><value>Icon only: square at every size</value></data>
+  <data name="ButtonsStatesTitle" xml:space="preserve"><value>Variants by state: at rest, disabled, busy, icon only</value></data>
+  <data name="ButtonsBusyFamilyTitle" xml:space="preserve"><value>One busy state across the button family</value></data>
+  <data name="ButtonsCopyTitle" xml:space="preserve"><value>Copy buttons</value></data>
+</root>

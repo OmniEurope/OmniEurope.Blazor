@@ -33,8 +33,8 @@ if (!endpoint || !siteUrl) {
   throw new Error('Usage: node Test-ShowcaseLanguagesProbe.mjs --endpoint <cdp url> --url <showcase root url>');
 }
 
-// The languages whose words run longest against French, in the order they are walked.
-const ALL_LANGUAGES = (options.get('--languages') ?? 'de,fi,el,hu').split(',');
+// The languages of the showcase, in the order they are walked.
+const ALL_LANGUAGES = (options.get('--languages') ?? 'en,fr').split(',');
 const shard = parseShard(options.get('--shard'), options.get('--shard-file'));
 // The widths walked: a desktop window and a phone, where a long word has the least room.
 const WIDTHS = (options.get('--widths') ?? '1280,390').split(',').map(Number);
@@ -253,10 +253,10 @@ try {
     if (!selfCheck) throw new Error(`Langues : le détecteur ne voit pas un débordement provoqué exprès (${language}), la sonde ne prouverait rien.`);
 
     if (paths.length === 0) {
-      await evaluate("Blazor.navigateTo('/composants')");
-      await waitFor('la galerie', "document.querySelectorAll('a[href*=\"composants/\"]').length > 0");
-      const demoPaths = await evaluate(`[...new Set([...document.querySelectorAll('a[href*="composants/"]')].map(link => new URL(link.href).pathname))]`);
-      paths = ['/', '/personnalisation', '/documentation', ...demoPaths];
+      await evaluate("Blazor.navigateTo('/components')");
+      await waitFor('la galerie', "document.querySelectorAll('a[href*=\"components/\"]').length > 0");
+      const demoPaths = await evaluate(`[...new Set([...document.querySelectorAll('a[href*="components/"]')].map(link => new URL(link.href).pathname))]`);
+      paths = ['/', '/customizer', '/documentation', ...demoPaths];
     }
 
     for (const width of widths) {

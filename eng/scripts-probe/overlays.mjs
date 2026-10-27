@@ -18,7 +18,7 @@ export async function overlaySteps(session, results) {
   step('écran de démarrage de la page retiré après le premier rendu');
 
   // 1. Menus: the overflow menu by the keyboard, the context menu closed by a press outside.
-  await session.visit('/composants/superpositions', '#demo-overflow-menu');
+  await session.visit('/components/legacy/superpositions', '#demo-overflow-menu');
   await clickOn('#demo-overflow-menu');
   await waitFor('le menu ouvert', `[...document.querySelectorAll('.omni-overflow-menu:has(> #demo-overflow-menu) [role="menu"]')].some(menu => menu.getClientRects().length > 0)`);
   await waitFor('le focus dans le menu', "document.activeElement?.getAttribute('role') === 'menuitem'");
@@ -117,7 +117,7 @@ export async function overlaySteps(session, results) {
   step('bulle placée dans la fenêtre, fermée par Échap puis par un appui dehors');
 
   // 4. Tooltips: placed under the pointer, kept inside the window when « Show more » grows them.
-  await session.visit('/composants/retours', '.omni-tooltip--expandable');
+  await session.visit('/components/legacy/retours', '.omni-tooltip--expandable');
   await hover('.omni-tooltip .omni-tooltip__trigger');
   await waitFor('la bulle d\'aide placée sous le pointeur', "document.querySelector('.omni-tooltip.omni-tooltip--tracked')?.style.getPropertyValue('--omni-tooltip-x').endsWith('px') === true");
   await hover('.omni-tooltip--expandable .omni-tooltip__trigger');
@@ -133,7 +133,7 @@ export async function overlaySteps(session, results) {
   step('bulle d\'aide placée, dépliée dans la fenêtre ; aide d\'un attribut title');
 
   // 5. A compact multiple choice: a click inside keeps it open, Escape and a press outside close it.
-  await session.visit('/composants/selection', '#demo-tags-compact');
+  await session.visit('/components/legacy/selection', '#demo-tags-compact');
   await clickOn('#demo-tags-compact > summary');
   await waitFor('le choix compact ouvert', "document.getElementById('demo-tags-compact').open");
   await clickOn('#demo-tags-compact input[type="checkbox"], #demo-tags-compact [role="option"], #demo-tags-compact label');
@@ -148,7 +148,7 @@ export async function overlaySteps(session, results) {
   step('choix compact : clic dedans, Échap, appui dehors');
 
   // 6. Tabs by the keyboard.
-  await session.visit('/composants/navigation', '[role="tab"]');
+  await session.visit('/components/legacy/navigation', '[role="tab"]');
   await evaluate("document.querySelector('[role=\"tab\"][aria-selected=\"true\"]').focus()");
   const tabBefore = await focusedText();
   await key('ArrowRight', 'ArrowRight', 39);
@@ -161,7 +161,7 @@ export async function overlaySteps(session, results) {
   // keeps the snapshot of its look (SnapshotKey), rewritten when the appearance changes.
   const snapshotKey = 'omnieurope.showcase.shell-theme';
   await evaluate(`localStorage.removeItem(${JSON.stringify(snapshotKey)})`);
-  await session.visit('/composants/coquille', '#shell-demo-sidebar');
+  await session.visit('/components/legacy/coquille', '#shell-demo-sidebar');
   const snapshot = `JSON.parse(localStorage.getItem(${JSON.stringify(snapshotKey)}) ?? 'null')`;
   await waitFor('l\'instantané du thème écrit', `${snapshot}?.appearance === 'light' && ${snapshot}.density === 'compact' && ${snapshot}.version === 1`);
   await clickOn('#shell-demo-appearance');
@@ -186,7 +186,7 @@ export async function overlaySteps(session, results) {
   step('molette sur la barre d\'onglets qui fait défiler le panneau');
 
   // 7. A bound fieldset that reports its toggle, and a scroll strip driven by its chevrons on a phone.
-  await session.visit('/composants/mise-en-page', '#demo-fieldset-bound');
+  await session.visit('/components/legacy/mise-en-page', '#demo-fieldset-bound');
   const stateBefore = await evaluate("document.getElementById('demo-fieldset-state').textContent");
   await clickOn('#demo-fieldset-bound summary');
   await waitFor('l\'état du groupe rapporté', `document.getElementById('demo-fieldset-state').textContent !== ${JSON.stringify(stateBefore)}`);
@@ -210,7 +210,7 @@ export async function overlaySteps(session, results) {
 
   // 8. The page header's title strip on a phone: the demo title is short, so the probe lengthens it the
   // way a late value would; the chevron then scrolls it and the module watches that scroll.
-  await session.visit('/composants/pages', '#pages-demo-shell .omni-page-header__title');
+  await session.visit('/components/legacy/pages', '#pages-demo-shell .omni-page-header__title');
   const title = '#pages-demo-shell .omni-page-header__title';
   const shortTitle = await evaluate(`document.querySelector(${JSON.stringify(title)}).textContent`);
   await evaluate(`document.querySelector(${JSON.stringify(title)}).textContent = 'srv-paris-01-production-europe-ouest-grappe-principale-noeud-de-calcul-numero-quarante-deux'`);
@@ -225,10 +225,10 @@ export async function overlaySteps(session, results) {
 
   // The header's back button names no destination: it steps back in the history, to the page the
   // reader came from.
-  await session.visit('/composants/badges', '.omni-badge');
-  await session.visit('/composants/pages', '#pages-demo-shell .omni-page-header__back');
+  await session.visit('/components/legacy/badges', '.omni-badge');
+  await session.visit('/components/legacy/pages', '#pages-demo-shell .omni-page-header__back');
   await clickOn('#pages-demo-shell .omni-page-header__back');
-  await waitFor('le retour à la page précédente', "location.pathname === '/composants/badges'");
+  await waitFor('le retour à la page précédente', "location.pathname === '/components/legacy/badges'");
   step('retour sans destination : un pas en arrière dans l\'historique');
 
   // The pinned actions of the page header, with the markup of a pipeline run page (icon, back button,
@@ -249,7 +249,7 @@ export async function overlaySteps(session, results) {
   })()`;
   for (const width of [375, 320]) {
     await send('Emulation.setDeviceMetricsOverride', { width, height: 812, deviceScaleFactor: 1, mobile: true });
-    await session.visit('/composants/pages', '#pages-demo-pinned-relaunch');
+    await session.visit('/components/legacy/pages', '#pages-demo-pinned-relaunch');
     await evaluate("document.getElementById('pages-demo-pinned').scrollIntoView({ block: 'center' })");
     await pause(400);
     for (const state of ['closed', 'open']) {
@@ -278,7 +278,7 @@ export async function overlaySteps(session, results) {
   await pause(300);
 
   // 9. The appearance window: the control size and the Black hole theme, whose canvas the scope draws.
-  await session.visit('/composants/themes', '#demo-appearance-window');
+  await session.visit('/components/legacy/themes', '#demo-appearance-window');
   await clickOn('#demo-appearance-window');
   await waitFor('la fenêtre d\'apparence', "document.querySelector('.omni-appearance-window input[type=\"range\"][aria-label]') !== null");
   await evaluate(`(() => { const range = [...document.querySelectorAll('.omni-appearance-window input[type="range"]')][1]; range.value = '7'; range.dispatchEvent(new Event('input', { bubbles: true })); range.dispatchEvent(new Event('change', { bubbles: true })); })()`);
@@ -409,7 +409,7 @@ export async function overlaySteps(session, results) {
   step('fenêtre d\'apparence : taille des contrôles, Trou noir et retour, déplacée, fermée');
 
   // 10. Form helpers: the first invalid field focused on submit, a text copied by its button.
-  await session.visit('/composants/validation', '#validation-name');
+  await session.visit('/components/legacy/validation', '#validation-name');
   await evaluate("document.getElementById('validation-name').closest('form').querySelector('button[type=\"submit\"]').scrollIntoView({ block: 'center' })");
   await clickOn('#validation-name ~ * button[type="submit"], form:has(#validation-name) button[type="submit"]');
   await waitFor('le premier champ invalide focalisé', "document.activeElement?.id === 'validation-name' || document.activeElement?.closest('[aria-invalid=\"true\"]') !== null");
@@ -418,7 +418,7 @@ export async function overlaySteps(session, results) {
   const origin = new URL(await evaluate('location.href')).origin;
   await send('Browser.grantPermissions', { origin, permissions: ['clipboardReadWrite', 'clipboardSanitizedWrite'] });
   await send('Emulation.setFocusEmulationEnabled', { enabled: true });
-  await session.visit('/composants/editeur', '.omni-code-block__copy');
+  await session.visit('/components/legacy/editeur', '.omni-code-block__copy');
   await clickOn('.omni-code-block__copy');
   await waitFor('le texte copié', "navigator.clipboard.readText().then(text => text.includes('dotnet test'))");
   await send('Emulation.setFocusEmulationEnabled', { enabled: false });

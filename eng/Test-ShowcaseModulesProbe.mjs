@@ -138,7 +138,7 @@ await waitFor('le runtime Blazor', "typeof Blazor !== 'undefined' && typeof Blaz
 // outside.
 const popover = column => `.omni-data-grid th[data-omni-col="${column}"] details[data-omni-popover]`;
 const isOpen = column => evaluate(`document.querySelector(${JSON.stringify(popover(column))}).open`);
-await evaluate("Blazor.navigateTo('/composants/grille-avancee')");
+await evaluate("Blazor.navigateTo('/components/legacy/grille-avancee')");
 await waitFor('les filtres de la grille avancée', `document.querySelectorAll('.omni-data-grid details[data-omni-popover]').length >= 2`);
 await evaluate(`document.querySelector(${JSON.stringify(popover('Reference'))}).scrollIntoView({ block: 'center' })`);
 await pause(500);
@@ -181,7 +181,7 @@ const headerState = () => evaluate(`(() => {
   const frame = document.querySelector(${JSON.stringify(frame)});
   return { compact: frame.hasAttribute('data-compact'), toggle: getComputedStyle(frame.querySelector('.omni-page-header__toggle')).display, details: getComputedStyle(frame.querySelector('.omni-page-header__details')).display, expanded: frame.querySelector('.omni-page-header__toggle').getAttribute('aria-expanded') };
 })()`);
-await evaluate("Blazor.navigateTo('/composants/pages')");
+await evaluate("Blazor.navigateTo('/components/legacy/pages')");
 // The demo loads its record for 1.5 s and then writes the title it found: the probe lengthens the
 // title only after that, else the late write puts the short title back under the probe's feet.
 await waitFor('l\'en-tête de page de la vitrine, fiche chargée', `document.querySelector(${JSON.stringify(`${frame} .omni-page-header__details`)}) !== null && document.querySelector(${JSON.stringify(`${frame} .omni-page-header__title`)})?.textContent.trim() === 'srv-paris-01'`);
@@ -211,7 +211,7 @@ results.push('en-tête replié par un titre long, ouvert par « Voir plus », d�
 // back in the source editor bound to the same value.
 const surface = '#editor-body';
 const source = '#editor-source';
-await evaluate("Blazor.navigateTo('/composants/editeur')");
+await evaluate("Blazor.navigateTo('/components/legacy/editeur')");
 await waitFor('l\'éditeur HTML de la vitrine', `document.querySelector(${JSON.stringify(surface)})?.isContentEditable === true && document.querySelector(${JSON.stringify(source)}) !== null`);
 await evaluate(`document.querySelector(${JSON.stringify(surface)}).scrollIntoView({ block: 'center' })`);
 await pause(800);
@@ -262,7 +262,7 @@ const pickTheme = name => evaluate(`(() => {
   select.value = [...select.options].find(option => option.textContent.trim().startsWith(${JSON.stringify(name)})).value;
   select.dispatchEvent(new Event('change', { bubbles: true }));
 })()`);
-await evaluate("Blazor.navigateTo('/composants/themes')");
+await evaluate("Blazor.navigateTo('/components/legacy/themes')");
 await waitFor('la démonstration des thèmes', "document.getElementById('demo-appearance-window') !== null");
 await evaluate("document.getElementById('demo-appearance-window').scrollIntoView({ block: 'center' })");
 await pause(500);
@@ -328,7 +328,7 @@ const openSidebar = async () => {
   await waitFor('le menu de la coquille ouvert', `document.querySelector(${JSON.stringify(sidebar)}).classList.contains('omni-sidebar--open')`);
 };
 await send('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
-await evaluate("Blazor.navigateTo('/composants/coquille')");
+await evaluate("Blazor.navigateTo('/components/legacy/coquille')");
 await waitFor('la démonstration de coquille', `document.querySelector(${JSON.stringify(sidebar)}) !== null`);
 await openSidebar();
 await waitFor('le menu poussé superposé sur téléphone', `document.querySelector(${JSON.stringify(sidebar)}).classList.contains('omni-sidebar--overlay')`);

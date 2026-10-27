@@ -1,0 +1,15 @@
+@* One busy state across the button family: the button, the split button and the toggle button keep
+   their content and their size while the work runs. *@
+<OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Wrap="true">
+    <OmniButton Busy="Saving" OnClick="SaveAsync">
+        <Icon><OmniIcon Name="OmniIconName.Check" /></Icon>
+        <ChildContent><span>Save</span></ChildContent>
+    </OmniButton>
+    <OmniSplitButton Text="Publish" Busy="Saving" OnClick="SaveAsync">
+        <Icon><OmniIcon Name="OmniIconName.RocketLaunch" /></Icon>
+        <ChildContent>
+            <OmniMenuItem OnClick="SaveAsync">Publish later</OmniMenuItem>
+        </ChildContent>
+    </OmniSplitButton>
+    <OmniToggleButton @bind-Value="Pinned" Busy="Saving">Pin</OmniToggleButton>
+</OmniStack>

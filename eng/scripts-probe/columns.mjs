@@ -9,7 +9,7 @@
 
 import { probeOptions } from '../ShowcaseCdp.mjs';
 
-const page = '/composants/grille-avancee';
+const page = '/components/legacy/grille-avancee';
 const grid = '.omni-data-grid:has(th[data-omni-col="Reference"])';
 const header = key => `${grid} thead th[data-omni-col="${key}"]`;
 const declared = ['Reference', 'Applicant', 'Country', 'Filed', 'Amount'];
@@ -69,7 +69,7 @@ export async function columnSteps(session, results) {
   };
 
   // 0. The declared layout, from a clean preference.
-  await session.visit('/composants/badges', '.omni-badge');
+  await session.visit('/components/legacy/badges', '.omni-badge');
   await evaluate(clearGrid);
   await reload();
   check(JSON.stringify(await order()) === JSON.stringify(declared), `Ordre de départ inattendu : ${await order()}.`);
@@ -197,5 +197,5 @@ export async function columnSteps(session, results) {
 
   // The grid's preference removed for whatever follows; leaving the page detaches the drag.
   await evaluate(clearGrid);
-  await session.visit('/composants/badges', '.omni-badge');
+  await session.visit('/components/legacy/badges', '.omni-badge');
 }

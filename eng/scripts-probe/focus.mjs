@@ -13,7 +13,7 @@ export async function focusSteps(session, results) {
 
   // 1. A dialog opened from a dialog: when it closes, the focus goes back to the button of the lower dialog that
   // opened it, not to the page body; the lower dialog then gives it back to the button that opened that one.
-  await session.visit('/composants/superpositions', '#demo-dialog-sticky');
+  await session.visit('/components/legacy/superpositions', '#demo-dialog-sticky');
   await clickOn('#demo-dialog-sticky');
   await waitFor('la boîte collante ouverte', "document.getElementById('demo-dialog-nested') !== null");
   await pause(300);
@@ -29,7 +29,7 @@ export async function focusSteps(session, results) {
   step('dialogue ouvert depuis un dialogue : le focus revient au bouton qui l\'a ouvert, puis au déclencheur');
 
   // 2. The arrows of a tab strip follow what the reader sees: right to left, the right arrow goes to the previous tab.
-  await session.visit('/composants/navigation', '.omni-tabs__viewport[role="tablist"] [role="tab"]');
+  await session.visit('/components/legacy/navigation', '.omni-tabs__viewport[role="tablist"] [role="tab"]');
   const tabs = "[...document.querySelector('.omni-tabs__viewport[role=\"tablist\"]').querySelectorAll('[role=\"tab\"]')]";
   const keys = await evaluate(`${tabs}.map(tab => tab.dataset.key)`);
   check(keys.length >= 3, `Il faut trois onglets pour distinguer les deux sens, la page en montre ${keys.length}.`);

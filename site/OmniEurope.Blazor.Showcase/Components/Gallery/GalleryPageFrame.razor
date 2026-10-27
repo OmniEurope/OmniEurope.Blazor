@@ -1,0 +1,45 @@
+@* The frame of every gallery page: its title, icon and badges come from the catalogue, so a page and
+   its menu entry cannot drift apart. Three views: the preview at its own width, the same body with
+   the preview in the screen of a phone, and the code. Only the selected tab carries its body: a
+   visited tab keeps its panel, and two mounted previews would double the rendering and the ids. *@
+<PageTitle>@Title</PageTitle>
+
+<div class="showcase-gallery">
+    <GalleryMenu />
+
+    <OmniStack Gap="OmniSpacing.Medium" Class="gallery-page">
+        <OmniPageHeader Title="@Title" ShowTrail="false">
+            <Icon><OmniIcon Name="Page.Icon" /></Icon>
+            <Badges>
+                @foreach (var component in Page.Components)
+                {
+                    <OmniBadge Tone="OmniTone.Neutral">@component</OmniBadge>
+                }
+            </Badges>
+            <ActionsContent>
+                <GalleryThemePicker />
+            </ActionsContent>
+        </OmniPageHeader>
+        <OmniText Class="gallery-page__description">@Strings[Page.DescriptionKey]</OmniText>
+        <OmniTabs Class="gallery-page__views" Label="@Text["GalleryViews"]" Value="@View" ValueChanged="@SetView">
+            <OmniTabsItem Key="@PreviewView" Title="@Text["GalleryViewPreview"]">
+                @if (View == PreviewView)
+                {
+                    <GalleryPageBody Settings="Settings" Preview="Preview" />
+                }
+            </OmniTabsItem>
+            <OmniTabsItem Key="@MobileView" Title="@Text["GalleryViewMobile"]">
+                @if (View == MobileView)
+                {
+                    <GalleryPageBody Settings="Settings" Preview="Preview" Phone="true" />
+                }
+            </OmniTabsItem>
+            <OmniTabsItem Key="@CodeView" Title="@Text["GalleryViewCode"]">
+                @if (View == CodeView)
+                {
+                    <GalleryCodeView SourceFiles="Page.SourceFiles" />
+                }
+            </OmniTabsItem>
+        </OmniTabs>
+    </OmniStack>
+</div>

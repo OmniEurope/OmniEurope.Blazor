@@ -82,7 +82,7 @@
         <OmniPanelMenu Label="@Text["SurfMenuLabel"]" CanNavigate="SelectAsync">
             @foreach (var (key, textKey) in MenuEntries)
             {
-                <OmniPanelMenuItem Text="@Text[textKey]" Href="@($"composants/surfaces#{key}")"
+                <OmniPanelMenuItem Text="@Text[textKey]" Href="@($"components/legacy/surfaces#{key}")"
                                    Current="@(MenuCurrent == key)" Match="OmniNavMatch.None" />
             }
         </OmniPanelMenu>

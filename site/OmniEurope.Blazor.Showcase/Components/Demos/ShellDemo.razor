@@ -16,17 +16,17 @@
         <OmniBody>
             <OmniSidebar Id="shell-demo-sidebar" Open="SidebarOpen" OpenChanged="@(value => SidebarOpen = value)" Label="@Text["DemoShellMenu"]" Placement="OmniSidebarPlacement.Start">
                 <OmniPanelMenu Label="@Text["DemoShellSections"]" Display="OmniPanelMenuDisplay.IconAndText">
-                    <OmniPanelMenuItem Text="@Text["DemoShellDashboard"]" Href="composants/coquille" Match="OmniNavMatch.Exact">
+                    <OmniPanelMenuItem Text="@Text["DemoShellDashboard"]" Href="components/legacy/coquille" Match="OmniNavMatch.Exact">
                         <Icon><OmniIcon Name="OmniIconName.Home" /></Icon>
                     </OmniPanelMenuItem>
                     <OmniPanelMenuItem Text="@Text["DemoShellFolders"]" Expanded="true">
                         <Icon><OmniIcon Name="OmniIconName.Folder" /></Icon>
                         <ChildContent>
-                            <OmniPanelMenuItem Text="@Text["DemoShellInProgress"]" Href="composants/coquille#en-cours" Match="OmniNavMatch.None" />
-                            <OmniPanelMenuItem Text="@Text["DemoShellArchived"]" Href="composants/coquille#archives" Match="OmniNavMatch.None" />
+                            <OmniPanelMenuItem Text="@Text["DemoShellInProgress"]" Href="components/legacy/coquille#en-cours" Match="OmniNavMatch.None" />
+                            <OmniPanelMenuItem Text="@Text["DemoShellArchived"]" Href="components/legacy/coquille#archives" Match="OmniNavMatch.None" />
                         </ChildContent>
                     </OmniPanelMenuItem>
-                    <OmniPanelMenuItem Text="@Text["DemoShellSettings"]" Href="composants/coquille#reglages" Match="OmniNavMatch.None">
+                    <OmniPanelMenuItem Text="@Text["DemoShellSettings"]" Href="components/legacy/coquille#reglages" Match="OmniNavMatch.None">
                         <Icon><OmniIcon Name="OmniIconName.Settings" /></Icon>
                     </OmniPanelMenuItem>
                 </OmniPanelMenu>
@@ -54,7 +54,7 @@
                          Placement="OmniSidebarPlacement.End" Collapse="OmniSidebarCollapse.Hidden"
                          Transition="OmniSidebarTransition.Instant">
                 <OmniPanelMenu Label="@Text["DemoShellTools"]" Display="OmniPanelMenuDisplay.Icon">
-                    <OmniPanelMenuItem Text="@Text["DemoShellLogs"]" Href="composants/coquille" Match="OmniNavMatch.Prefix">
+                    <OmniPanelMenuItem Text="@Text["DemoShellLogs"]" Href="components/legacy/coquille" Match="OmniNavMatch.Prefix">
                         <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
                     </OmniPanelMenuItem>
                     <OmniPanelMenuItem Text="@Text["DemoShellOneOffAction"]" Match="OmniNavMatch.None">
@@ -84,7 +84,7 @@
                          Reveal="OmniSidebarReveal.Overlay" Collapse="OmniSidebarCollapse.Icons" Backdrop="true"
                          Label="@Text["DemoShellFloatingMenuLabel"]">
                 <OmniPanelMenu Label="@Text["DemoShellSections"]" Display="OmniPanelMenuDisplay.IconAndText" Density="OmniDensity.Spacious">
-                    <OmniPanelMenuItem Text="@Text["DemoShellLogs"]" Href="composants/coquille" Match="OmniNavMatch.Exact">
+                    <OmniPanelMenuItem Text="@Text["DemoShellLogs"]" Href="components/legacy/coquille" Match="OmniNavMatch.Exact">
                         <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
                     </OmniPanelMenuItem>
                     <OmniPanelMenuItem Text="@Text["DemoShellFilters"]" Match="OmniNavMatch.None">
@@ -111,7 +111,7 @@
             <OmniBody>
                 <OmniSidebar Open="true" Label="@Text["DemoShellScrollMenu"]">
                     <OmniPanelMenu Label="@Text["DemoShellSections"]" Display="OmniPanelMenuDisplay.Icon">
-                        <OmniPanelMenuItem Text="@Text["DemoShellLogs"]" Href="composants/coquille" Match="OmniNavMatch.Exact">
+                        <OmniPanelMenuItem Text="@Text["DemoShellLogs"]" Href="components/legacy/coquille" Match="OmniNavMatch.Exact">
                             <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
                         </OmniPanelMenuItem>
                     </OmniPanelMenu>

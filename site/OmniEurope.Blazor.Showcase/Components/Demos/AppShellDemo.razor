@@ -55,7 +55,7 @@
                 <OmniPanelMenu Label="@Text["ShellMenu"]" Display="OmniPanelMenuDisplay.IconAndText" CanNavigate="SelectAsync">
                     @foreach (var section in Sections)
                     {
-                        <OmniPanelMenuItem Text="@Text[section.TextKey]" Href="@($"composants/coquille-application#{section.Key}")"
+                        <OmniPanelMenuItem Text="@Text[section.TextKey]" Href="@($"components/legacy/coquille-application#{section.Key}")"
                                            Current="@(Selected == section.Key)" Match="OmniNavMatch.None">
                             <Icon><OmniIcon Name="section.Icon" /></Icon>
                         </OmniPanelMenuItem>
