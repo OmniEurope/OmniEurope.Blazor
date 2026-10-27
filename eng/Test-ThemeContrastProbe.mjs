@@ -289,7 +289,7 @@ const pageLibrary = String.raw`
     const entries = [];
     const add = (id, element, kind = 'text', interactive = false, extra = {}) => entries.push({ id, element, kind, interactive, ...extra });
     if (page === '${CUSTOMIZER}') {
-      const buttons = block('boutons');
+      const buttons = block('buttons');
       for (const variant of ['primary', 'secondary', 'ghost', 'success', 'warning', 'info', 'danger']) {
         add('bouton ' + variant, first(buttons, '.omni-button--' + variant + '.omni-button--medium:not(.omni-busy):not(:disabled):not(' + ICON_ONLY + ')'), 'text', true);
       }

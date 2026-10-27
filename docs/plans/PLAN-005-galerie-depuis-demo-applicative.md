@@ -48,9 +48,9 @@ Examples).
 
 | Lot | Contenu | Démos existantes absorbées | État |
 |---|---|---|---|
-| 0 | Fondation : projet Examples, cadre à trois onglets, vue Code, catalogue, EN/FR, routes anglaises, tests réécrits, page pilote Buttons | `boutons` | À faire |
-| 1 | Split buttons, toggle buttons, alerts, progress, skeletons | `etats`, `alertes`, `chargement`, `retours` | À faire |
-| 2 | Dialogs, context menus, overflow menu, popover, tooltips | `superpositions` | À faire |
+| 0 | Fondation : projet Examples, cadre à trois onglets, vue Code, catalogue, EN/FR, routes anglaises, tests réécrits, page pilote Buttons | `boutons` | Fait |
+| 1 | Split buttons, toggle buttons, alerts, progress, skeletons | `etats`, `alertes` (`chargement`, `retours` restent) | Fait |
+| 2 | Dialogs, context menus, overflow menu, popover | `superpositions` en partie | Fait |
 | 3 | Theme, icons, typography, badges, images | `themes`, `typographie`, `badges`, `medias` | À faire |
 | 4 | Stacks, rows and columns, cards, fieldsets, settings sections | `mise-en-page`, `surfaces`, `accordeon` | À faire |
 | 5 | Page shell, details, stat tiles, nav tiles | `pages`, `coquille`, `coquille-application` | À faire |
@@ -75,3 +75,12 @@ worktree) ; aucune vague ne démarre avant que la précédente soit intégrée e
 ## Journal
 
 - 2026-10-27 : plan ouvert, inventaire fait (71 pages, environ 2 500 textes, 2 670 lignes de CSS).
+- 2026-10-27 : lot 0 livré (`19e78c72`). Preuve : build Release sans avertissement, 228 tests
+  `Showcase*` verts, `/components/buttons` vu dans le navigateur sur Aperçu, Mobile (cadre 360 × 780) et
+  Code (fichiers réels), en anglais et en français, console sans erreur. Les infobulles restent dans la
+  famille Shell (lot 6), le lot 2 a donc quatre pages. Vague 1 lancée : H1, lots 1 à 3.
+- 2026-10-27 : lots 1 et 2 fusionnés. Preuve : build Release sans avertissement, 304 tests
+  `Showcase*` + `ConventionGuardTests` verts, les 10 pages ouvertes dans le navigateur sur leurs trois
+  vues sans erreur ni source manquante, dialogue ouvert et refermé par Échap, menu contextuel ouvert au
+  clic droit. Restent dans l'ancienne galerie : `chargement` et `retours` (lot 6, badges au lot 3),
+  `superpositions` (bouton scindé, menu de profil au lot 7, notifications au lot 6).
