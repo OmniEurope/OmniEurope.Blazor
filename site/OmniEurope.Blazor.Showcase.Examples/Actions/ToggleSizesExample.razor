@@ -1,0 +1,22 @@
+@* The three sizes of the toggle button, with a label and as an icon alone: with an icon alone the
+   button is a square at its size and its name is carried by the accessible label and the tooltip. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniRow Gap="OmniSpacing.Medium" Align="OmniAlignment.Center">
+        @foreach (var size in Sizes)
+        {
+            <OmniToggleButton Size="size" @bind-Value="Pinned">
+                <OmniIcon Name="OmniIconName.Pin" />
+                <span>Pin</span>
+            </OmniToggleButton>
+        }
+    </OmniRow>
+    <OmniRow Gap="OmniSpacing.Medium" Align="OmniAlignment.Center">
+        @foreach (var size in Sizes)
+        {
+            <OmniToggleButton Size="size" @bind-Value="Pinned" Label="Pin" title="Pin">
+                <OmniIcon Name="OmniIconName.Pin" />
+            </OmniToggleButton>
+        }
+    </OmniRow>
+    <OmniText Tone="OmniTextTone.Muted">Pressed: @(Pinned ? "yes" : "no"), shared by all six.</OmniText>
+</OmniStack>

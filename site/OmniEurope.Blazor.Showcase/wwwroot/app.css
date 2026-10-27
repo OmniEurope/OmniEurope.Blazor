@@ -268,11 +268,6 @@
 .demo-menu-item { align-items: center; display: flex; gap: var(--omni-space-sm); }
 .demo-menu-item small { color: var(--omni-color-text-muted); display: block; font-size: var(--omni-font-size-sm); }
 
-.demo-state-label { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); inline-size: 6rem; }
-.demo-state-hover.omni-button:not(:disabled) { background: var(--omni-button-fill-hover); }
-.demo-state-press.omni-button:not(:disabled) { background: var(--omni-button-fill-active); box-shadow: var(--omni-button-press-shadow, var(--omni-button-shadow)); transform: var(--omni-button-press-transform, translateY(1px)); }
-.demo-state-press.omni-button--ghost:not(:disabled) { box-shadow: 0 0 #0000; }
-
 .demo-themes { display: grid; gap: var(--omni-space-md); grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); }
 .demo-themes__live { display: grid; gap: var(--omni-space-md); grid-column: 1 / -1; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); }
 .demo-themes__live--centred { box-sizing: border-box; inline-size: 100%; margin-inline: auto; max-inline-size: 48rem; }
@@ -366,4 +361,20 @@
 
 .gallery-theme-picker__select {
     min-inline-size: 11rem;
+}
+
+/* Buttons page, rest / hover / press comparison. A browser cannot freeze :hover or :active, so the page
+   repaints the two rules of the package with the same tokens around an ordinary column of buttons. */
+.gallery-buttons-hover .omni-button:not(:disabled) {
+    background: var(--omni-button-fill-hover);
+}
+
+.gallery-buttons-press .omni-button:not(:disabled) {
+    background: var(--omni-button-fill-active);
+    box-shadow: var(--omni-button-press-shadow, var(--omni-button-shadow));
+    transform: var(--omni-button-press-transform, translateY(1px));
+}
+
+.gallery-buttons-press .omni-button--ghost:not(:disabled) {
+    box-shadow: 0 0 #0000;
 }

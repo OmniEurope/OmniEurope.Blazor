@@ -4,4 +4,84 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="AlertsTitle" xml:space="preserve"><value>Alerts</value></data>
+  <data name="AlertsDescription" xml:space="preserve"><value>An inline message in four severities and three fills, with an optional title, icon and close cross.</value></data>
+  <data name="AlertsSettingsTitle" xml:space="preserve"><value>Alert under test</value></data>
+  <data name="AlertsSettingsDescription" xml:space="preserve"><value>Each setting applies to the alert in the preview below.</value></data>
+  <data name="AlertsSeverity" xml:space="preserve"><value>Severity</value></data>
+  <data name="AlertsSeverityDescription" xml:space="preserve"><value>The severity chooses the colour and the default sample text.</value></data>
+  <data name="AlertsSeverityInfo" xml:space="preserve"><value>Information</value></data>
+  <data name="AlertsSeveritySuccess" xml:space="preserve"><value>Success</value></data>
+  <data name="AlertsSeverityWarning" xml:space="preserve"><value>Warning</value></data>
+  <data name="AlertsSeverityDanger" xml:space="preserve"><value>Danger</value></data>
+  <data name="AlertsVariant" xml:space="preserve"><value>Fill</value></data>
+  <data name="AlertsVariantDescription" xml:space="preserve"><value>Outline stays light on the page, tonal puts a light tint behind the text, filled is for a message that must not be scrolled past.</value></data>
+  <data name="AlertsVariantOutline" xml:space="preserve"><value>Outline</value></data>
+  <data name="AlertsVariantFilled" xml:space="preserve"><value>Filled</value></data>
+  <data name="AlertsVariantTonal" xml:space="preserve"><value>Tonal</value></data>
+  <data name="AlertsShowTitle" xml:space="preserve"><value>Title</value></data>
+  <data name="AlertsShowTitleDescription" xml:space="preserve"><value>A bold line above the message.</value></data>
+  <data name="AlertsShowIcon" xml:space="preserve"><value>Icon</value></data>
+  <data name="AlertsShowIconDescription" xml:space="preserve"><value>The icon slot, filled here with the icon of the severity.</value></data>
+  <data name="AlertsLive" xml:space="preserve"><value>Live announcement</value></data>
+  <data name="AlertsLiveDescription" xml:space="preserve"><value>A live alert interrupts the screen reader; otherwise it waits for a pause.</value></data>
+  <data name="AlertsLongText" xml:space="preserve"><value>Long text</value></data>
+  <data name="AlertsLongTextDescription" xml:space="preserve"><value>Checks how the message wraps next to the icon.</value></data>
+  <data name="AlertsDismissible" xml:space="preserve"><value>Close cross</value></data>
+  <data name="AlertsDismissibleDescription" xml:space="preserve"><value>Dismissible adds the cross; without it, an alert stays displayed.</value></data>
+  <data name="AlertsPreviewTitle" xml:space="preserve"><value>Preview</value></data>
+  <data name="AlertsGalleryTitle" xml:space="preserve"><value>Severities by fill</value></data>
+  <data name="ProgressTitle" xml:space="preserve"><value>Progress</value></data>
+  <data name="ProgressDescription" xml:space="preserve"><value>A linear or circular gauge, determinate or not, in six colours, with the logo loader and the status badges and strips. A simulation shows it filling up.</value></data>
+  <data name="ProgressSettingsTitle" xml:space="preserve"><value>Gauge under test</value></data>
+  <data name="ProgressSettingsDescription" xml:space="preserve"><value>Each setting applies to the gauge in the preview below.</value></data>
+  <data name="ProgressShape" xml:space="preserve"><value>Shape</value></data>
+  <data name="ProgressShapeLinear" xml:space="preserve"><value>Linear</value></data>
+  <data name="ProgressShapeCircular" xml:space="preserve"><value>Circular</value></data>
+  <data name="ProgressTone" xml:space="preserve"><value>Colour</value></data>
+  <data name="ProgressToneDescription" xml:space="preserve"><value>The colour says what the progress means: normal, neutral, informative, done, at risk or failing.</value></data>
+  <data name="ProgressToneAccent" xml:space="preserve"><value>Accent</value></data>
+  <data name="ProgressToneNeutral" xml:space="preserve"><value>Neutral</value></data>
+  <data name="ProgressToneInfo" xml:space="preserve"><value>Info</value></data>
+  <data name="ProgressToneSuccess" xml:space="preserve"><value>Success</value></data>
+  <data name="ProgressToneWarning" xml:space="preserve"><value>Warning</value></data>
+  <data name="ProgressToneDanger" xml:space="preserve"><value>Danger</value></data>
+  <data name="ProgressValue" xml:space="preserve"><value>Value</value></data>
+  <data name="ProgressValueDescription" xml:space="preserve"><value>From 0 to 100. Unavailable while the gauge is indeterminate.</value></data>
+  <data name="ProgressIndeterminate" xml:space="preserve"><value>Indeterminate</value></data>
+  <data name="ProgressIndeterminateDescription" xml:space="preserve"><value>For work whose end is unknown: the gauge moves without a value.</value></data>
+  <data name="ProgressShowValue" xml:space="preserve"><value>Show the value</value></data>
+  <data name="ProgressShowValueDescription" xml:space="preserve"><value>Writes the percentage, or the custom text, next to the gauge.</value></data>
+  <data name="ProgressCustomValueText" xml:space="preserve"><value>Custom value text</value></data>
+  <data name="ProgressCustomValueTextDescription" xml:space="preserve"><value>Replaces the percentage, on screen and for screen readers.</value></data>
+  <data name="ProgressLabel" xml:space="preserve"><value>Accessible name</value></data>
+  <data name="ProgressLabelDescription" xml:space="preserve"><value>Read by screen readers. Left empty, the component uses its own default name.</value></data>
+  <data name="ProgressSimulate" xml:space="preserve"><value>Simulation</value></data>
+  <data name="ProgressSimulateDescription" xml:space="preserve"><value>Runs the value from 0 to 100 in eight seconds.</value></data>
+  <data name="ProgressSimulateStart" xml:space="preserve"><value>Start</value></data>
+  <data name="ProgressSimulateStop" xml:space="preserve"><value>Stop</value></data>
+  <data name="ProgressPreviewTitle" xml:space="preserve"><value>Preview</value></data>
+  <data name="ProgressLinearTitle" xml:space="preserve"><value>Linear, every colour</value></data>
+  <data name="ProgressCircularTitle" xml:space="preserve"><value>Circular, every colour</value></data>
+  <data name="ProgressStepsTitle" xml:space="preserve"><value>Width steps</value></data>
+  <data name="ProgressLogoTitle" xml:space="preserve"><value>Site logo, floating</value></data>
+  <data name="ProgressStatusTitle" xml:space="preserve"><value>Status</value></data>
+  <data name="SkeletonsTitle" xml:space="preserve"><value>Skeletons</value></data>
+  <data name="SkeletonsDescription" xml:space="preserve"><value>A placeholder shaped like the content it replaces while it loads, named for screen readers or purely decorative.</value></data>
+  <data name="SkeletonsSettingsTitle" xml:space="preserve"><value>Skeleton under test</value></data>
+  <data name="SkeletonsSettingsDescription" xml:space="preserve"><value>Each setting applies to the skeleton in the preview below.</value></data>
+  <data name="SkeletonsShape" xml:space="preserve"><value>Shape</value></data>
+  <data name="SkeletonsShapeDescription" xml:space="preserve"><value>Text lines, a picture block or an avatar.</value></data>
+  <data name="SkeletonsShapeText" xml:space="preserve"><value>Text</value></data>
+  <data name="SkeletonsShapeRectangle" xml:space="preserve"><value>Rectangle</value></data>
+  <data name="SkeletonsShapeCircle" xml:space="preserve"><value>Circle</value></data>
+  <data name="SkeletonsLineCount" xml:space="preserve"><value>Line count</value></data>
+  <data name="SkeletonsLineCountDescription" xml:space="preserve"><value>From 1 to 10, for the text shape only.</value></data>
+  <data name="SkeletonsNamed" xml:space="preserve"><value>Named status region</value></data>
+  <data name="SkeletonsNamedDescription" xml:space="preserve"><value>Named, the skeleton announces the loading; otherwise it is hidden from screen readers.</value></data>
+  <data name="SkeletonsLoaded" xml:space="preserve"><value>Content loaded</value></data>
+  <data name="SkeletonsLoadedDescription" xml:space="preserve"><value>Swaps the skeleton for the content it stands for.</value></data>
+  <data name="SkeletonsPreviewTitle" xml:space="preserve"><value>Preview</value></data>
+  <data name="SkeletonsShapesTitle" xml:space="preserve"><value>Every shape and line count</value></data>
+  <data name="SkeletonsComposedTitle" xml:space="preserve"><value>Composed placeholders</value></data>
 </root>

@@ -1,0 +1,36 @@
+@* A split button at rest, disabled, busy, with an unavailable entry and without any entry. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniRow Gap="OmniSpacing.Large" Align="OmniAlignment.End">
+        <OmniStack Gap="OmniSpacing.Small">
+            <OmniText Tone="OmniTextTone.Muted">At rest</OmniText>
+            <OmniSplitButton Text="Save" OnClick="@(() => Choose("Save"))">
+                <OmniMenuItem OnClick="@(() => Choose("Save as"))">Save as</OmniMenuItem>
+                <OmniMenuItem OnClick="@(() => Choose("Export"))">Export</OmniMenuItem>
+            </OmniSplitButton>
+        </OmniStack>
+        <OmniStack Gap="OmniSpacing.Small">
+            <OmniText Tone="OmniTextTone.Muted">Disabled</OmniText>
+            <OmniSplitButton Text="Save" Disabled="true">
+                <OmniMenuItem>Save as</OmniMenuItem>
+            </OmniSplitButton>
+        </OmniStack>
+        <OmniStack Gap="OmniSpacing.Small">
+            <OmniText Tone="OmniTextTone.Muted">Busy</OmniText>
+            <OmniSplitButton Text="Save" Busy="true">
+                <OmniMenuItem>Save as</OmniMenuItem>
+            </OmniSplitButton>
+        </OmniStack>
+        <OmniStack Gap="OmniSpacing.Small">
+            <OmniText Tone="OmniTextTone.Muted">With an unavailable entry</OmniText>
+            <OmniSplitButton Text="Send" OnClick="@(() => Choose("Send"))">
+                <OmniMenuItem OnClick="@(() => Choose("Send later"))">Send later</OmniMenuItem>
+                <OmniMenuItem Disabled="true">Send to everyone</OmniMenuItem>
+            </OmniSplitButton>
+        </OmniStack>
+        <OmniStack Gap="OmniSpacing.Small">
+            <OmniText Tone="OmniTextTone.Muted">Without menu entries</OmniText>
+            <OmniSplitButton Text="Send" OnClick="@(() => Choose("Send"))" />
+        </OmniStack>
+    </OmniRow>
+    <OmniText Tone="OmniTextTone.Muted">@(LastAction is null ? "No action chosen yet." : $"Last action: {LastAction} ({ActionCount} in total).")</OmniText>
+</OmniStack>

@@ -1,0 +1,58 @@
+@page "/components/skeletons"
+@using OmniEurope.Blazor.Showcase.Examples.Feedback
+
+<GalleryPageFrame Slug="skeletons">
+    <Settings>
+        <OmniSettingsSection Title="@Text["SkeletonsSettingsTitle"]" Description="@Text["SkeletonsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["SkeletonsShape"]" Description="@Text["SkeletonsShapeDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Pattern" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniSkeletonShape" Options="@ShapeOptions" @bind-Value="Shape" Label="@Text["SkeletonsShape"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SkeletonsLineCount"]" Description="@Text["SkeletonsLineCountDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="LineCountValue"
+                                Minimum="1"
+                                Maximum="10"
+                                Step="1"
+                                ShowValue="true"
+                                Disabled="@(Shape != OmniSkeletonShape.Text)"
+                                aria-label="@Text["SkeletonsLineCount"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SkeletonsNamed"]" Description="@Text["SkeletonsNamedDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Bell" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Named" aria-label="@Text["SkeletonsNamed"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SkeletonsLoaded"]" Description="@Text["SkeletonsLoadedDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.CheckCircle" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Loaded" aria-label="@Text["SkeletonsLoaded"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["SkeletonsPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <SkeletonExample Shape="Shape" LineCount="LineCount" Named="Named" Loaded="Loaded" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["SkeletonsShapesTitle"]</HeaderContent>
+            <ChildContent><SkeletonShapesExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["SkeletonsComposedTitle"]</HeaderContent>
+            <ChildContent><SkeletonComposedExample /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

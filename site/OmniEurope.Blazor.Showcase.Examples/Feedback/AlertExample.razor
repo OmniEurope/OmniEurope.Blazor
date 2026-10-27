@@ -1,0 +1,27 @@
+@* One alert, every setting a parameter. Dismissible adds the cross: closing it removes the alert from the
+   render, and showing it again replays its announcement when it is live. Two branches rather than an
+   empty slot: an Icon that is present but empty would keep its place. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    @if (Visible && ShowIcon)
+    {
+        <OmniAlert Severity="Severity" Fill="Fill" Live="Live" Dismissible="Dismissible" OnDismiss="Hide" Title="@PreviewTitle">
+            <Icon><OmniIcon Name="@Current.Icon" /></Icon>
+            <ChildContent>@PreviewMessage</ChildContent>
+        </OmniAlert>
+    }
+    else if (Visible)
+    {
+        <OmniAlert Severity="Severity" Fill="Fill" Live="Live" Dismissible="Dismissible" OnDismiss="Hide" Title="@PreviewTitle">@PreviewMessage</OmniAlert>
+    }
+    else
+    {
+        <OmniText Tone="OmniTextTone.Muted">The alert is closed. Show it again to replay its announcement.</OmniText>
+        <OmniStack Orientation="OmniOrientation.Horizontal">
+            <OmniButton Size="OmniControlSize.Small" OnClick="Show">
+                <OmniIcon Name="OmniIconName.Restore" />
+                <span>Show again</span>
+            </OmniButton>
+        </OmniStack>
+    }
+    <OmniText Tone="OmniTextTone.Muted">@(Live ? "Announced with the alert role: the screen reader reads it at once." : "Announced with the status role: the screen reader reads it at the next pause.")</OmniText>
+</OmniStack>

@@ -4,4 +4,84 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="AlertsTitle" xml:space="preserve"><value>Alertes</value></data>
+  <data name="AlertsDescription" xml:space="preserve"><value>Un message en ligne en quatre sévérités et trois remplissages, avec un titre, une icône et une croix de fermeture facultatifs.</value></data>
+  <data name="AlertsSettingsTitle" xml:space="preserve"><value>Alerte à l&apos;essai</value></data>
+  <data name="AlertsSettingsDescription" xml:space="preserve"><value>Chaque réglage s&apos;applique à l&apos;alerte de l&apos;aperçu dessous.</value></data>
+  <data name="AlertsSeverity" xml:space="preserve"><value>Gravité</value></data>
+  <data name="AlertsSeverityDescription" xml:space="preserve"><value>La gravité choisit la couleur et le texte d&apos;exemple.</value></data>
+  <data name="AlertsSeverityInfo" xml:space="preserve"><value>Information</value></data>
+  <data name="AlertsSeveritySuccess" xml:space="preserve"><value>Succès</value></data>
+  <data name="AlertsSeverityWarning" xml:space="preserve"><value>Avertissement</value></data>
+  <data name="AlertsSeverityDanger" xml:space="preserve"><value>Danger</value></data>
+  <data name="AlertsVariant" xml:space="preserve"><value>Remplissage</value></data>
+  <data name="AlertsVariantDescription" xml:space="preserve"><value>Le contour reste léger sur la page, le teinté pose une teinte légère derrière le texte, le plein est pour un message qu&apos;on ne doit pas laisser défiler.</value></data>
+  <data name="AlertsVariantOutline" xml:space="preserve"><value>Contour</value></data>
+  <data name="AlertsVariantFilled" xml:space="preserve"><value>Plein</value></data>
+  <data name="AlertsVariantTonal" xml:space="preserve"><value>Teinté</value></data>
+  <data name="AlertsShowTitle" xml:space="preserve"><value>Titre</value></data>
+  <data name="AlertsShowTitleDescription" xml:space="preserve"><value>Une ligne en gras au-dessus du message.</value></data>
+  <data name="AlertsShowIcon" xml:space="preserve"><value>Icône</value></data>
+  <data name="AlertsShowIconDescription" xml:space="preserve"><value>L&apos;emplacement d&apos;icône, rempli ici avec l&apos;icône de la gravité.</value></data>
+  <data name="AlertsLive" xml:space="preserve"><value>Annonce immédiate</value></data>
+  <data name="AlertsLiveDescription" xml:space="preserve"><value>Une alerte immédiate interrompt le lecteur d&apos;écran ; sinon elle attend une pause.</value></data>
+  <data name="AlertsLongText" xml:space="preserve"><value>Texte long</value></data>
+  <data name="AlertsLongTextDescription" xml:space="preserve"><value>Vérifie comment le message revient à la ligne à côté de l&apos;icône.</value></data>
+  <data name="AlertsDismissible" xml:space="preserve"><value>Croix de fermeture</value></data>
+  <data name="AlertsDismissibleDescription" xml:space="preserve"><value>Dismissible ajoute la croix ; sans elle, une alerte reste affichée.</value></data>
+  <data name="AlertsPreviewTitle" xml:space="preserve"><value>Aperçu</value></data>
+  <data name="AlertsGalleryTitle" xml:space="preserve"><value>Gravités par remplissage</value></data>
+  <data name="ProgressTitle" xml:space="preserve"><value>Progression</value></data>
+  <data name="ProgressDescription" xml:space="preserve"><value>Une jauge linéaire ou circulaire, déterminée ou non, en six couleurs, avec l&apos;indicateur au logo et les badges et bandes d&apos;état. Une simulation la montre se remplir.</value></data>
+  <data name="ProgressSettingsTitle" xml:space="preserve"><value>Jauge à l&apos;essai</value></data>
+  <data name="ProgressSettingsDescription" xml:space="preserve"><value>Chaque réglage s&apos;applique à la jauge de l&apos;aperçu dessous.</value></data>
+  <data name="ProgressShape" xml:space="preserve"><value>Forme</value></data>
+  <data name="ProgressShapeLinear" xml:space="preserve"><value>Linéaire</value></data>
+  <data name="ProgressShapeCircular" xml:space="preserve"><value>Circulaire</value></data>
+  <data name="ProgressTone" xml:space="preserve"><value>Couleur</value></data>
+  <data name="ProgressToneDescription" xml:space="preserve"><value>La couleur dit ce que signifie la progression : normale, neutre, informative, terminée, à risque ou en échec.</value></data>
+  <data name="ProgressToneAccent" xml:space="preserve"><value>Accent</value></data>
+  <data name="ProgressToneNeutral" xml:space="preserve"><value>Neutre</value></data>
+  <data name="ProgressToneInfo" xml:space="preserve"><value>Information</value></data>
+  <data name="ProgressToneSuccess" xml:space="preserve"><value>Succès</value></data>
+  <data name="ProgressToneWarning" xml:space="preserve"><value>Avertissement</value></data>
+  <data name="ProgressToneDanger" xml:space="preserve"><value>Danger</value></data>
+  <data name="ProgressValue" xml:space="preserve"><value>Valeur</value></data>
+  <data name="ProgressValueDescription" xml:space="preserve"><value>De 0 à 100. Indisponible tant que la jauge est indéterminée.</value></data>
+  <data name="ProgressIndeterminate" xml:space="preserve"><value>Indéterminée</value></data>
+  <data name="ProgressIndeterminateDescription" xml:space="preserve"><value>Pour un travail dont on ignore la fin : la jauge bouge sans valeur.</value></data>
+  <data name="ProgressShowValue" xml:space="preserve"><value>Afficher la valeur</value></data>
+  <data name="ProgressShowValueDescription" xml:space="preserve"><value>Écrit le pourcentage, ou le texte personnalisé, à côté de la jauge.</value></data>
+  <data name="ProgressCustomValueText" xml:space="preserve"><value>Texte de valeur personnalisé</value></data>
+  <data name="ProgressCustomValueTextDescription" xml:space="preserve"><value>Remplace le pourcentage, à l&apos;écran comme pour les lecteurs d&apos;écran.</value></data>
+  <data name="ProgressLabel" xml:space="preserve"><value>Nom accessible</value></data>
+  <data name="ProgressLabelDescription" xml:space="preserve"><value>Lu par les lecteurs d&apos;écran. Laissé vide, le composant prend son nom par défaut.</value></data>
+  <data name="ProgressSimulate" xml:space="preserve"><value>Simulation</value></data>
+  <data name="ProgressSimulateDescription" xml:space="preserve"><value>Fait monter la valeur de 0 à 100 en huit secondes.</value></data>
+  <data name="ProgressSimulateStart" xml:space="preserve"><value>Lancer</value></data>
+  <data name="ProgressSimulateStop" xml:space="preserve"><value>Arrêter</value></data>
+  <data name="ProgressPreviewTitle" xml:space="preserve"><value>Aperçu</value></data>
+  <data name="ProgressLinearTitle" xml:space="preserve"><value>Linéaire, chaque couleur</value></data>
+  <data name="ProgressCircularTitle" xml:space="preserve"><value>Circulaire, chaque couleur</value></data>
+  <data name="ProgressStepsTitle" xml:space="preserve"><value>Paliers de largeur</value></data>
+  <data name="ProgressLogoTitle" xml:space="preserve"><value>Logo du site, qui flotte</value></data>
+  <data name="ProgressStatusTitle" xml:space="preserve"><value>Statuts</value></data>
+  <data name="SkeletonsTitle" xml:space="preserve"><value>Squelettes</value></data>
+  <data name="SkeletonsDescription" xml:space="preserve"><value>Un gabarit qui prend la forme du contenu qu&apos;il remplace le temps du chargement, nommé pour les lecteurs d&apos;écran ou purement décoratif.</value></data>
+  <data name="SkeletonsSettingsTitle" xml:space="preserve"><value>Squelette à l&apos;essai</value></data>
+  <data name="SkeletonsSettingsDescription" xml:space="preserve"><value>Chaque réglage s&apos;applique au squelette de l&apos;aperçu dessous.</value></data>
+  <data name="SkeletonsShape" xml:space="preserve"><value>Forme</value></data>
+  <data name="SkeletonsShapeDescription" xml:space="preserve"><value>Des lignes de texte, un bloc d&apos;image ou un avatar.</value></data>
+  <data name="SkeletonsShapeText" xml:space="preserve"><value>Texte</value></data>
+  <data name="SkeletonsShapeRectangle" xml:space="preserve"><value>Rectangle</value></data>
+  <data name="SkeletonsShapeCircle" xml:space="preserve"><value>Cercle</value></data>
+  <data name="SkeletonsLineCount" xml:space="preserve"><value>Nombre de lignes</value></data>
+  <data name="SkeletonsLineCountDescription" xml:space="preserve"><value>De 1 à 10, pour la forme texte seulement.</value></data>
+  <data name="SkeletonsNamed" xml:space="preserve"><value>Région de statut nommée</value></data>
+  <data name="SkeletonsNamedDescription" xml:space="preserve"><value>Nommé, le squelette annonce le chargement ; sinon il est caché aux lecteurs d&apos;écran.</value></data>
+  <data name="SkeletonsLoaded" xml:space="preserve"><value>Contenu chargé</value></data>
+  <data name="SkeletonsLoadedDescription" xml:space="preserve"><value>Remplace le squelette par le contenu qu&apos;il représente.</value></data>
+  <data name="SkeletonsPreviewTitle" xml:space="preserve"><value>Aperçu</value></data>
+  <data name="SkeletonsShapesTitle" xml:space="preserve"><value>Chaque forme et nombre de lignes</value></data>
+  <data name="SkeletonsComposedTitle" xml:space="preserve"><value>Gabarits composés</value></data>
 </root>

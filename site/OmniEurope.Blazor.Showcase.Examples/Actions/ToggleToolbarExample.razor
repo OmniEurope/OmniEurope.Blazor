@@ -1,0 +1,22 @@
+@* A toolbar of independent toggles: each one keeps its own pressed state, and an icon-only toggle carries
+   its name as an accessible label and a tooltip. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniRow Gap="OmniSpacing.Small" Align="OmniAlignment.Center" role="toolbar" aria-label="A toolbar of toggles">
+        <OmniToggleButton @bind-Value="Favorite">
+            <OmniIcon Name="OmniIconName.Star" />
+            <span>Favorite</span>
+        </OmniToggleButton>
+        <OmniToggleButton @bind-Value="Alerts">
+            <OmniIcon Name="OmniIconName.Bell" />
+            <span>Alerts</span>
+        </OmniToggleButton>
+        <OmniToggleButton @bind-Value="Offline">
+            <OmniIcon Name="OmniIconName.Offline" />
+            <span>Offline</span>
+        </OmniToggleButton>
+        <OmniToggleButton @bind-Value="Sync" Label="Synchronise" title="Synchronise">
+            <OmniIcon Name="OmniIconName.Sync" />
+        </OmniToggleButton>
+    </OmniRow>
+    <OmniText Tone="OmniTextTone.Muted">Pressed buttons: @PressedCount of 4.</OmniText>
+</OmniStack>

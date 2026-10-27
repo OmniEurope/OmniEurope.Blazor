@@ -1,0 +1,13 @@
+@* One skeleton, every setting a parameter. Named, it is a status region that announces the loading;
+   otherwise it is hidden from screen readers. Loaded swaps it for the content it stands for. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    @if (Loaded)
+    {
+        <OmniText>The account file holds twelve documents, the last one added this morning.</OmniText>
+    }
+    else
+    {
+        <OmniSkeleton Shape="Shape" LineCount="LineCount" Label="@(Named ? "Loading the file" : null)" />
+    }
+    <OmniText Tone="OmniTextTone.Muted">@(Named ? "Status role, announced as: Loading the file." : "Decorative: hidden from screen readers (aria-hidden).")</OmniText>
+</OmniStack>

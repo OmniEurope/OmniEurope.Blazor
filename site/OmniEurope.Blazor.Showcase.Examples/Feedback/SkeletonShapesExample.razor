@@ -1,0 +1,26 @@
+@* The three shapes of a skeleton, then the line counts of the text shape: the component keeps the count
+   between one and ten, and these samples cover the range. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniRow Gap="OmniSpacing.Large" Align="OmniAlignment.Start">
+        @foreach (var shape in Shapes)
+        {
+            <OmniColumn Span="12" MediumSpan="4">
+                <OmniStack Gap="OmniSpacing.Small">
+                    <OmniText Tone="OmniTextTone.Muted">@shape</OmniText>
+                    <OmniSkeleton Shape="shape" LineCount="3" />
+                </OmniStack>
+            </OmniColumn>
+        }
+    </OmniRow>
+    <OmniRow Gap="OmniSpacing.Large" Align="OmniAlignment.Start">
+        @foreach (var count in LineSamples)
+        {
+            <OmniColumn Span="6" MediumSpan="3">
+                <OmniStack Gap="OmniSpacing.Small">
+                    <OmniText Tone="OmniTextTone.Muted">@count line(s)</OmniText>
+                    <OmniSkeleton LineCount="count" />
+                </OmniStack>
+            </OmniColumn>
+        }
+    </OmniRow>
+</OmniStack>

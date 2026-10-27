@@ -1,0 +1,74 @@
+@page "/components/split-buttons"
+@using OmniEurope.Blazor.Showcase.Examples.Actions
+
+<GalleryPageFrame Slug="split-buttons">
+    <Settings>
+        <OmniSettingsSection Title="@Text["SplitButtonsSettingsTitle"]" Description="@Text["SplitButtonsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["SplitButtonsVariant"]" Description="@Text["SplitButtonsVariantDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Palette" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniButtonVariant" Options="@VariantOptions" @bind-Value="Variant" Label="@Text["SplitButtonsVariant"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SplitButtonsSize"]" Description="@Text["SplitButtonsSizeDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniControlSize" Options="@SizeOptions" @bind-Value="Size" Label="@Text["SplitButtonsSize"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SplitButtonsDisabled"]" Description="@Text["SplitButtonsDisabledDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Disabled" aria-label="@Text["SplitButtonsDisabled"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SplitButtonsBusy"]" Description="@Text["SplitButtonsBusyDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Hourglass" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Busy" aria-label="@Text["SplitButtonsBusy"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SplitButtonsBusyOnClick"]" Description="@Text["SplitButtonsBusyOnClickDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Timer" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="BusyOnClick" aria-label="@Text["SplitButtonsBusyOnClick"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SplitButtonsItemDisabled"]" Description="@Text["SplitButtonsItemDisabledDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Delete" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="DeleteDisabled" aria-label="@Text["SplitButtonsItemDisabled"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SplitButtonsMainText"]" Description="@Text["SplitButtonsMainTextDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="string" Options="@MainOptions" @bind-Value="MainText" Label="@Text["SplitButtonsMainText"]" />
+                </Details>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["SplitButtonsPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <SplitButtonExample Variant="Variant" Size="Size" Disabled="Disabled" Busy="Busy"
+                                    BusyOnClick="BusyOnClick" DeleteDisabled="DeleteDisabled" MainText="@MainText" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["SplitButtonsGalleryTitle"]</HeaderContent>
+            <ChildContent><SplitButtonStatesExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["SplitButtonsVariantsTitle"]</HeaderContent>
+            <ChildContent><SplitButtonVariantsExample /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

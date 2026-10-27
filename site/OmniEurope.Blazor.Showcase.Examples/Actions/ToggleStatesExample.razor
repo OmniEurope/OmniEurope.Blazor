@@ -1,0 +1,13 @@
+@* A toggle button released and pressed, in each of its states: enabled, disabled and busy. *@
+<OmniRow Gap="OmniSpacing.Large" Align="OmniAlignment.End">
+    @foreach (var state in States)
+    {
+        <OmniStack Gap="OmniSpacing.Small">
+            <OmniText Tone="OmniTextTone.Muted">@state.Caption</OmniText>
+            <OmniToggleButton Value="state.Pressed" Disabled="state.Disabled" Busy="state.Busy">
+                <OmniIcon Name="OmniIconName.Pin" />
+                <span>Pin</span>
+            </OmniToggleButton>
+        </OmniStack>
+    }
+</OmniRow>

@@ -1,0 +1,70 @@
+@page "/components/alerts"
+@using OmniEurope.Blazor.Showcase.Examples.Feedback
+
+<GalleryPageFrame Slug="alerts">
+    <Settings>
+        <OmniSettingsSection Title="@Text["AlertsSettingsTitle"]" Description="@Text["AlertsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["AlertsSeverity"]" Description="@Text["AlertsSeverityDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Warning" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniSeverity" Options="@SeverityOptions" @bind-Value="Severity" Label="@Text["AlertsSeverity"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["AlertsVariant"]" Description="@Text["AlertsVariantDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Palette" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniFill" Options="@FillOptions" @bind-Value="Fill" Label="@Text["AlertsVariant"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["AlertsShowTitle"]" Description="@Text["AlertsShowTitleDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowTitle" aria-label="@Text["AlertsShowTitle"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["AlertsShowIcon"]" Description="@Text["AlertsShowIconDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Star" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowIcon" aria-label="@Text["AlertsShowIcon"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["AlertsDismissible"]" Description="@Text["AlertsDismissibleDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Close" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Dismissible" aria-label="@Text["AlertsDismissible"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["AlertsLive"]" Description="@Text["AlertsLiveDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Bell" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Live" aria-label="@Text["AlertsLive"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["AlertsLongText"]" Description="@Text["AlertsLongTextDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Document" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="LongText" aria-label="@Text["AlertsLongText"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["AlertsPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <AlertExample Severity="Severity" Fill="Fill" ShowTitle="ShowTitle" ShowIcon="ShowIcon"
+                              Live="Live" LongText="LongText" Dismissible="Dismissible" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["AlertsGalleryTitle"]</HeaderContent>
+            <ChildContent><AlertGalleryExample /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

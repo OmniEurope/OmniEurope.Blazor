@@ -1,0 +1,22 @@
+@* The six tones of the gauge, linear or circular. Indeterminate, the gauge shows no number: ShowValue
+   then writes "In progress". *@
+@if (Circular)
+{
+    <OmniRow Gap="OmniSpacing.Large" Align="OmniAlignment.Start">
+        @foreach (var sample in ProgressSample.All)
+        {
+            <OmniProgressBar Shape="OmniProgressShape.Circular" Tone="sample.Tone" Value="sample.Value" ShowValue="true" Label="@sample.Label" />
+        }
+        <OmniProgressBar Shape="OmniProgressShape.Circular" Indeterminate="true" ShowValue="true" Label="Analysis in progress" />
+    </OmniRow>
+}
+else
+{
+    <OmniStack Gap="OmniSpacing.Small">
+        @foreach (var sample in ProgressSample.All)
+        {
+            <OmniProgressBar Tone="sample.Tone" Value="sample.Value" ShowValue="true" Label="@sample.Label" />
+        }
+        <OmniProgressBar Indeterminate="true" ShowValue="true" Label="Analysis in progress" />
+    </OmniStack>
+}
