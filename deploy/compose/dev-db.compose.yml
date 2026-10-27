@@ -1,0 +1,38 @@
+# =============================================================================
+# dev-db.compose.yml - local development PostgreSQL of the showcase application
+# =============================================================================
+# Runs ONLY the database of site/OmniEurope.Blazor.Showcase.Back, on host port 15470 (bound to
+# 127.0.0.1, so the development credentials below never reach the network) to stay clear of a local
+# PostgreSQL on 5432. The API and the showcase run on the host with `dotnet run`, started by the local
+# launcher, which passes the API this connection string:
+#   Host=localhost;Port=15470;Database=showcase;Username=postgres;Password=showcase
+#
+# Usage:
+#   docker compose -f deploy/compose/dev-db.compose.yml up -d
+#   docker compose -f deploy/compose/dev-db.compose.yml down -v   # wipes the data
+# =============================================================================
+
+name: omnieurope-showcase-local
+
+services:
+  database:
+    container_name: omnieurope-showcase-local-database
+    image: postgres:18-alpine
+    ports:
+      - "127.0.0.1:15470:5432"
+    environment:
+      POSTGRES_DB: showcase
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: showcase
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - omnieurope-showcase-local-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d showcase"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    restart: unless-stopped
+
+volumes:
+  omnieurope-showcase-local-db-data:

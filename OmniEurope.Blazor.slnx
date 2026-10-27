@@ -5,6 +5,7 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/OmniEurope.Blazor.Analyzers.Tests/OmniEurope.Blazor.Analyzers.Tests.csproj" />
+    <Project Path="tests/OmniEurope.Blazor.Showcase.Back.Tests/OmniEurope.Blazor.Showcase.Back.Tests.csproj" />
     <Project Path="tests/OmniEurope.Blazor.Tests/OmniEurope.Blazor.Tests.csproj" />
   </Folder>
   <Folder Name="/eng/">
@@ -20,7 +21,9 @@
   </Folder>
   <Folder Name="/site/">
     <Project Path="site/OmniEurope.Blazor.Showcase/OmniEurope.Blazor.Showcase.csproj" />
+    <Project Path="site/OmniEurope.Blazor.Showcase.Back/OmniEurope.Blazor.Showcase.Back.csproj" />
     <Project Path="site/OmniEurope.Blazor.Showcase.Examples/OmniEurope.Blazor.Showcase.Examples.csproj" />
+    <Project Path="site/OmniEurope.Blazor.Showcase.Shared/OmniEurope.Blazor.Showcase.Shared.csproj" />
   </Folder>
 </Solution>
 

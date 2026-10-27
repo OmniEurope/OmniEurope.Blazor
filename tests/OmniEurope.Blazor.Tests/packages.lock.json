@@ -458,7 +458,8 @@
         "dependencies": {
           "Microsoft.AspNetCore.Components.WebAssembly": "[10.0.14, )",
           "OmniEurope.Blazor": "[1.9.4, )",
-          "OmniEurope.Blazor.Showcase.Examples": "[1.0.0, )"
+          "OmniEurope.Blazor.Showcase.Examples": "[1.0.0, )",
+          "OmniEurope.Blazor.Showcase.Shared": "[1.0.0, )"
         }
       },
       "omnieurope.blazor.showcase.examples": {
@@ -466,6 +467,9 @@
         "dependencies": {
           "OmniEurope.Blazor": "[1.9.4, )"
         }
+      },
+      "omnieurope.blazor.showcase.shared": {
+        "type": "Project"
       },
       "HtmlSanitizer": {
         "type": "CentralTransitive",

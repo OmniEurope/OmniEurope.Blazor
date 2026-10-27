@@ -9,4 +9,4 @@ TestResults/
 coverage/
 *.nupkg
 *.snupkg
-
+appsettings.Local.json

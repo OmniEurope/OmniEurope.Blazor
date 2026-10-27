@@ -17,6 +17,14 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" PrivateAssets="all" />
     <ProjectReference Include="../../src/OmniEurope.Blazor/OmniEurope.Blazor.csproj" />
     <ProjectReference Include="../OmniEurope.Blazor.Showcase.Examples/OmniEurope.Blazor.Showcase.Examples.csproj" />
+    <ProjectReference Include="../OmniEurope.Blazor.Showcase.Shared/OmniEurope.Blazor.Showcase.Shared.csproj" />
+  </ItemGroup>
+
+  <!-- STD-CFGOVERRIDE: the local launcher writes wwwroot/appsettings.Local.json (the API address of this
+       checkout, Preferences/ShowcaseApiConfiguration.cs). It is a developer file: never published, so a
+       published copy of the site never points at a developer machine. -->
+  <ItemGroup>
+    <Content Update="wwwroot/appsettings.Local.json" CopyToPublishDirectory="Never" />
   </ItemGroup>
 
   <!-- Every legacy demo is embedded as the very file that gets compiled, so the legacy gallery shows

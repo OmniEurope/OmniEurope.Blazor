@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- The contracts the showcase front and its API share: routes, header, DTOs and the validation
+       both sides apply. No dependency, so the WebAssembly front pays nothing for it. Not packable:
+       it belongs to the showcase application, never to the NuGet package. -->
+  <PropertyGroup>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+</Project>

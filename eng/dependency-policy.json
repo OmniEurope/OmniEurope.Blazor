@@ -75,6 +75,31 @@
       "version": "4.0.2",
       "status": "latest-stable",
       "source": "https://www.nuget.org/packages/xunit.v3/"
+    },
+    "Microsoft.AspNetCore.Mvc.Testing": {
+      "version": "10.0.14",
+      "status": "latest-stable",
+      "source": "https://www.nuget.org/packages/Microsoft.AspNetCore.Mvc.Testing/"
+    },
+    "Microsoft.EntityFrameworkCore.Design": {
+      "version": "10.0.14",
+      "status": "latest-stable",
+      "source": "https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Design/"
+    },
+    "Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore": {
+      "version": "10.0.14",
+      "status": "latest-stable",
+      "source": "https://www.nuget.org/packages/Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore/"
+    },
+    "Npgsql.EntityFrameworkCore.PostgreSQL": {
+      "version": "10.0.3",
+      "status": "latest-stable",
+      "source": "https://www.nuget.org/packages/Npgsql.EntityFrameworkCore.PostgreSQL/"
+    },
+    "Testcontainers.PostgreSql": {
+      "version": "4.16.0",
+      "status": "latest-stable",
+      "source": "https://www.nuget.org/packages/Testcontainers.PostgreSql/"
     }
   },
   "toolchain": {
