@@ -51,7 +51,7 @@ Examples).
 | 0 | Fondation : projet Examples, cadre à trois onglets, vue Code, catalogue, EN/FR, routes anglaises, tests réécrits, page pilote Buttons | `boutons` | Fait |
 | 1 | Split buttons, toggle buttons, alerts, progress, skeletons | `etats`, `alertes` (`chargement`, `retours` restent) | Fait |
 | 2 | Dialogs, context menus, overflow menu, popover | `superpositions` en partie | Fait |
-| 3 | Theme, icons, typography, badges, images | `themes`, `typographie`, `badges`, `medias` | À faire |
+| 3 | Theme, icons, typography, badges, images | `themes`, `typographie`, `badges`, `medias` | Fait |
 | 4 | Stacks, rows and columns, cards, fieldsets, settings sections | `mise-en-page`, `surfaces`, `accordeon` | À faire |
 | 5 | Page shell, details, stat tiles, nav tiles | `pages`, `coquille`, `coquille-application` | À faire |
 | 6 | Sidebar, window controls, loading bar, notifications, tabs | `notifications` | À faire |
@@ -67,6 +67,7 @@ Examples).
 | 16 | Accueil de la galerie, retrait de l'ancienne galerie et de `DemoCatalog` | (reste) | À faire |
 | H1 | Hébergement : projets Back (API, EF Core, PostgreSQL, `/health/ready`) et Shared, préférences OE enregistrées en base sans compte (identifiant anonyme du navigateur, quotas), front servi en conteneur, le lanceur local démarre base, API et front | | À faire |
 | H2 | Déploiement : Dockerfiles, Compose de production, `.pipeline`, overlay `docs/code-rules.md` (règles d'hôte actives pour la vitrine), CI ; preuve : contrôle de conformité du déploiement sans écart et pile Compose démarrée en local | | À faire |
+| K | Règles du kit : corriger les constats du contrôle des règles mécanisées du kit (116 au 2026-10-27, dont STD-FILESIZE, STD-I18N, STD-OE, STD-STYLE, STD-TABS) sur la vitrine et ses nouveaux projets | | À faire |
 | 17 | Vérification complète (suite, publication, toutes les pages), documentation, prompt de retrait pour l'application cliente | | À faire |
 
 Vagues : lot 0 seul, puis H1 avec les lots 1 à 3, H2 avec les lots 4 à 6, lots 7 à 10, 11 à 14, 15 et 16 (4 en parallèle au plus, chacun dans son
@@ -84,3 +85,9 @@ worktree) ; aucune vague ne démarre avant que la précédente soit intégrée e
   vues sans erreur ni source manquante, dialogue ouvert et refermé par Échap, menu contextuel ouvert au
   clic droit. Restent dans l'ancienne galerie : `chargement` et `retours` (lot 6, badges au lot 3),
   `superpositions` (bouton scindé, menu de profil au lot 7, notifications au lot 6).
+- 2026-10-27 : lot 3 fusionné (`7237e441`, conflits de suppression résolus dans `app.css`,
+  `DemoCatalog.cs`, `Customizer.razor.cs`). Preuve : build Release sans avertissement, 324 tests
+  `Showcase*`, `ConventionGuardTests`, `PublicContentGuardTests` verts ; les 5 pages ouvertes dans le
+  navigateur sur leurs trois vues sans erreur console. Le plan nommait des outils privés (garde du
+  contenu public) : formulation neutralisée. Le lanceur local signale 116 constats des règles du kit :
+  lot K ajouté.
