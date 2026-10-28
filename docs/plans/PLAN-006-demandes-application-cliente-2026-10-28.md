@@ -46,3 +46,6 @@ contrôle mesurable ; un point n'est « fait » qu'avec sa preuve observée (nav
 - Validé côté client (OE en sources locales) : R-26 sur ses 3 pages ; R-16 mesuré (infobulle centrée à
   1 px sur son bouton, chevauchement de 3 px voulu car placée sur le pointeur) ; R-4, catégorie E2E
   tableau de bord 28/28 verte, test réactivé des quatre barres de chargement sous les en-têtes passé.
+- R-8 (`f146a1df`) : `OmniFormField.EndContent` sur la ligne du contrôle (`omni-form-field__control--end`),
+  mesuré dans la vitrine à 943 et 375 px ; validé côté client (champ et trois boutons sur une ligne),
+  qui a retiré son contournement local.
