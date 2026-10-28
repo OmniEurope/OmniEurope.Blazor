@@ -13,7 +13,7 @@
 - `tests/OmniEurope.Blazor.Tests` : contrat de rendu, garde-fous CSP, gardes d'architecture, de conventions et de couverture de la vitrine ;
 - `tests/OmniEurope.Blazor.Analyzers.Tests` : tests de `OE0001` sur la sortie réelle du générateur Razor ;
 - `samples/` : hôte Server de référence (`OmniEurope.Blazor.Catalog`) et hôtes de fumée WebAssembly, Interactive Auto (serveur et client) et MAUI Hybrid, ce dernier hors de `OmniEurope.Blazor.slnx` ([compatibility.md](compatibility.md)) ;
-- `site/OmniEurope.Blazor.Showcase` : vitrine WebAssembly statique (page produit, documentation, galerie, personnalisateur de thème) ;
+- `site/OmniEurope.Blazor.Showcase` : vitrine, front WebAssembly (page produit, documentation, galerie, personnalisateur de thème), avec ses projets `site/OmniEurope.Blazor.Showcase.Back` (API ASP.NET Core, EF Core, PostgreSQL), `.Shared` (contrats) et `.Examples` (exemples de la galerie) ;
 - `docs` : contrats, conventions, guides de famille et plans numérotés (`docs/plans`) ;
 - `eng` : scripts de vérification et de génération, décrits dans [testing.md](testing.md) (portée) et [reproducibility.md](reproducibility.md) (verrous et paquet), analyseurs de conventions du dépôt `GEN001` à `GEN008` (`eng/OmniEurope.Analyzers`, tests dans `eng/OmniEurope.Analyzers.Tests`) et extracteur de la baseline d'API publique (`eng/OmniEurope.PublicApiGuard`) ;
 - `artifacts/packages` : paquets locaux, ignorés par Git.

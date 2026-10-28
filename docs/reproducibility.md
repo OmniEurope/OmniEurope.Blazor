@@ -25,6 +25,6 @@ Les contrôles actuellement rejouables dans le dépôt vérifient séparément :
 
 ## Limites des preuves actuelles
 
-- Le contrôle CSP du catalogue vérifie les sources et les réponses HTTP, puis `eng/Test-CatalogProbe.mjs` pilote Chromium par CDP (navigation, dialogue, focus, notification, éditeur) et exige une console sans erreur et aucune violation CSP ; il ne couvre que ces parcours, pas chaque composant. Les sept sondes de la vitrine (`eng/Test-ShowcaseHost.ps1`, voir [testing.md](testing.md)) couvrent davantage de parcours, mais restent une porte manuelle, hors CI.
+- Le contrôle CSP du catalogue vérifie les sources et les réponses HTTP, puis `eng/Test-CatalogProbe.mjs` pilote Chromium par CDP (navigation, dialogue, focus, notification, éditeur) et exige une console sans erreur et aucune violation CSP ; il ne couvre que ces parcours, pas chaque composant. Les huit sondes de la vitrine (`eng/Test-ShowcaseHost.ps1`, voir [testing.md](testing.md)) couvrent davantage de parcours, mais restent une porte manuelle, hors CI.
 - Les métriques de comparaison de provenance annoncées lors de la revue ne sont pas accompagnées dans le dépôt de leurs versions de référence, scanner, paramètres et résultats bruts. Elles ne sont donc pas reproductibles indépendamment en l'état.
 - Le dépôt ne conserve pas les hashes, listings ou journaux de la double exécution de `dotnet pack` citée plus haut ; ce constat historique n'est donc pas reproductible indépendamment en l'état.

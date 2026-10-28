@@ -358,12 +358,12 @@ projet serveur enregistre le store EF Core, le projet client le store HTTP, chac
 
 ### Base de démonstration de la vitrine
 
-La vitrine statique n'a ni serveur ni base. Ouverte avec `?store=demo` (et `&sync=<secondes>` pour la
+Une copie statique de la vitrine, sans adresse d'API, n'a ni serveur ni base (la vitrine déployée garde les préférences du visiteur anonyme dans son API). Ouverte avec `?store=demo` (et `&sync=<secondes>` pour la
 synchronisation périodique, coupée sinon), elle enregistre un store de démonstration
 (`site/OmniEurope.Blazor.Showcase/Preferences/DemoPreferenceStore.cs`) qui garde ses lignes dans le
 `sessionStorage` de l'onglet, hors du cache `localStorage`, pour que la sonde `preferences` éprouve le
 chemin de la base dans un vrai navigateur. Ce n'est pas un modèle de store de production : il n'a ni
-utilisateur ni base, et sa portée est fixe (`demo`). Sans le paramètre, la vitrine n'enregistre aucun
+utilisateur ni base, et sa portée est fixe (`demo`). Sans le paramètre ni adresse d'API, la vitrine n'enregistre aucun
 store.
 
 ## Clés utilisées par le paquet
