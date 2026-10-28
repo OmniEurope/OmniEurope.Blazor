@@ -68,8 +68,8 @@ Examples).
 | F | Fidélité (audit du 2026-10-28) : thème transmis à la portée racine, menu de galerie à la place du menu du site, accueil en cartes, sélecteur de thème avec bascule clair/sombre, espacement des cartes d'aperçu ; habillage perdu des démos (cadres pointillés, matrices, tuiles d'icônes, cadre des images, zones de clic droit, lignes à survol, grilles d'exemples adaptées au conteneur, largeurs plafonnées, curseur vertical, bascule du menu latéral à la fin, infobulle épinglée par défaut, tableau des fichiers) | | Fait |
 | H1 | Hébergement : projets Back (API, EF Core, PostgreSQL, `/health/ready`) et Shared, préférences OE enregistrées en base sans compte (identifiant anonyme du navigateur, quotas), front servi en conteneur, le lanceur local démarre base, API et front | | Fait |
 | H2 | Déploiement : Dockerfiles, Compose de production, `.pipeline`, overlay `docs/code-rules.md` (règles d'hôte actives pour la vitrine), CI ; preuve : contrôle de conformité du déploiement sans écart et pile Compose démarrée en local | | À faire |
-| K | Règles du kit : corriger les constats du contrôle des règles mécanisées du kit (116 au 2026-10-27, dont STD-FILESIZE, STD-I18N, STD-OE, STD-STYLE, STD-TABS) sur la vitrine et ses nouveaux projets | | À faire |
-| 17 | Vérification complète (suite, publication, toutes les pages), documentation, prompt de retrait pour l'application cliente | | À faire |
+| K | Règles du kit : corriger les constats du contrôle des règles mécanisées du kit (116 au 2026-10-27, dont STD-FILESIZE, STD-I18N, STD-OE, STD-STYLE, STD-TABS) sur la vitrine et ses nouveaux projets | | Fait (contrôle des règles mécanisées du kit sans constat au 2026-10-28) |
+| 17 | Vérification complète (suite, publication, toutes les pages), documentation, prompt de retrait pour l'application cliente | | Fait (a3d23163, 2a2334c3, 648de866, 8af7f27f ; suite 10729 verte, huit sondes vertes sur la vitrine publiée dont Contrast à part et la couverture JavaScript ; prompt de retrait remis au propriétaire) |
 
 Vagues : lot 0 seul, puis H1 avec les lots 1 à 3, H2 avec les lots 4 à 6, lots 7 à 10, 11 à 14, 15 et 16 (4 en parallèle au plus, chacun dans son
 worktree) ; aucune vague ne démarre avant que la précédente soit intégrée et prouvée.
@@ -121,3 +121,11 @@ worktree) ; aucune vague ne démarre avant que la précédente soit intégrée e
   Mobile, vu sur drop-downs). Preuve : build Release sans avertissement, 10633 tests verts, 52 pages de
   galerie ouvertes sans erreur console (la page des modifications non enregistrées retient la
   navigation, comportement voulu). Consigne commune de portage renforcée pour les lots 11 et suivants.
+- 2026-10-28 : lots K et 17. Toutes les sondes de la vitrine sont vertes sur la vitrine publiée : Scripts,
+  Languages (78 pages en anglais et en français à 1280 et 390 px), Modules, AutoFit, Density, Pickers,
+  MindMap, puis Contrast à part (122 200 mesures sur 450 combinaisons) ; la passe complète
+  `-JsCoverage` est verte après l'ajout de la fermeture du menu de la carte mentale par un appui dehors.
+  Défauts réels corrigés en chemin (navigateur de plage, onglets, contrôles de fenêtre, tuiles de faits,
+  menu à panneaux, bordure des colonnes Kanban) ; faux positifs de densité justifiés en exceptions.
+  Suite .NET 10729 verte, contrôle des règles du kit sans constat. Documentation alignée (`8af7f27f`).
+  Prompt de retrait de la démo remis au propriétaire. Reste : H2.
