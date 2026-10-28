@@ -118,6 +118,13 @@
   <data name="BadgesFillTonal" xml:space="preserve"><value>Tonal</value></data>
   <data name="BadgesFillSolid" xml:space="preserve"><value>Solid</value></data>
   <data name="BadgesFillOutline" xml:space="preserve"><value>Outline</value></data>
+  <data name="BadgesShape" xml:space="preserve"><value>Shape</value></data>
+  <data name="BadgesShapeDescription" xml:space="preserve"><value>The corners of the badge: pill by default.</value></data>
+  <data name="BadgesShapePill" xml:space="preserve"><value>Pill</value></data>
+  <data name="BadgesShapeRounded" xml:space="preserve"><value>Rounded</value></data>
+  <data name="BadgesShapeSquare" xml:space="preserve"><value>Square</value></data>
+  <data name="BadgesShapesTitle" xml:space="preserve"><value>Shapes</value></data>
+  <data name="BadgesShapesDescription" xml:space="preserve"><value>Pill is the default; Rounded keeps the small radius of the theme and Square has none. Colours and borders do not change.</value></data>
   <data name="BadgesLabel" xml:space="preserve"><value>Label</value></data>
   <data name="BadgesLabelDescription" xml:space="preserve"><value>The text shown inside the badge.</value></data>
   <data name="BadgesLabelDefault" xml:space="preserve"><value>New</value></data>

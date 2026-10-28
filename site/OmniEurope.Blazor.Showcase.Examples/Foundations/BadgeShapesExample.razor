@@ -1,0 +1,20 @@
+@* Shape: Pill by default (fully rounded ends); Rounded is the small radius of the theme, Square has no
+   radius. The same badges, tones and borders in the three: words, a counter, an icon and a word, an icon alone. *@
+<OmniStack Gap="OmniSpacing.Small">
+    @foreach (var shape in Shapes)
+    {
+        <OmniRow @key="shape" Gap="OmniSpacing.Small" Align="OmniAlignment.Center" Wrap="true">
+            <OmniColumn Span="12" MediumSpan="2"><OmniText Element="OmniTextElement.Strong">@BadgeLabels.ShapeOf(shape)</OmniText></OmniColumn>
+            <OmniColumn Span="12" MediumSpan="9">
+                <OmniRow Gap="OmniSpacing.Small" Align="OmniAlignment.Center" Wrap="true">
+                    <OmniBadge Tone="OmniTone.Accent" Shape="shape">New</OmniBadge>
+                    <OmniBadge Tone="OmniTone.Success" Fill="OmniFill.Tonal" Shape="shape">Published</OmniBadge>
+                    <OmniBadge Tone="OmniTone.Info" Fill="OmniFill.Outline" Shape="shape">In review</OmniBadge>
+                    <OmniBadge Tone="OmniTone.Danger" Shape="shape">9+</OmniBadge>
+                    <OmniBadge Tone="OmniTone.Warning" Fill="OmniFill.Tonal" Shape="shape"><Icon><OmniIcon Name="OmniIconName.Tag" /></Icon><ChildContent>Tag</ChildContent></OmniBadge>
+                    <OmniBadge Tone="OmniTone.Neutral" Fill="OmniFill.Outline" Shape="shape"><Icon><OmniIcon Name="OmniIconName.Tag" Label="Tag" /></Icon></OmniBadge>
+                </OmniRow>
+            </OmniColumn>
+        </OmniRow>
+    }
+</OmniStack>

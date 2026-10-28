@@ -46,6 +46,7 @@ internal static class FoundationsFamily
                 "Foundations/BadgeExample.razor", "Foundations/BadgeExample.razor.cs",
                 "Foundations/BadgeMatrixExample.razor", "Foundations/BadgeMatrixExample.razor.cs",
                 "Foundations/BadgeInkExample.razor", "Foundations/BadgeInkExample.razor.cs",
+                "Foundations/BadgeShapesExample.razor", "Foundations/BadgeShapesExample.razor.cs",
                 "Foundations/BadgeIconsExample.razor", "Foundations/BadgeIconsExample.razor.cs",
                 "Foundations/BadgeWidthExample.razor", "Foundations/BadgeWidthExample.razor.cs",
                 "Foundations/BadgeContextExample.razor", "Foundations/BadgeContextExample.razor.cs",

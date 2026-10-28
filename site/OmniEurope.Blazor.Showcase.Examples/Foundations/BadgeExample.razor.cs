@@ -14,6 +14,10 @@ public partial class BadgeExample
     [Parameter]
     public OmniFill Fill { get; set; } = OmniFill.Tonal;
 
+    /// <summary>The corners of the badge: pill, rounded or square.</summary>
+    [Parameter]
+    public OmniBadgeShape Shape { get; set; } = OmniBadgeShape.Pill;
+
     /// <summary>The word or number the badge carries.</summary>
     [Parameter]
     public string Label { get; set; } = "New";

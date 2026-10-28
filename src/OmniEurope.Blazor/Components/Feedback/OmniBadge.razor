@@ -12,7 +12,7 @@
             aria-label="@AccessibleName"
             @onclick="OnClick">
         @Icon
-        @ChildContent
+        @TextPart
     </button>
 }
 else if (_safeHref is not null)
@@ -23,7 +23,7 @@ else if (_safeHref is not null)
        class="@BadgeClass"
        aria-label="@AccessibleName">
         @Icon
-        @ChildContent
+        @TextPart
     </a>
 }
 else
@@ -32,6 +32,6 @@ else
           id="@Id"
           class="@BadgeClass">
         @Icon
-        @ChildContent
+        @TextPart
     </span>
 }
