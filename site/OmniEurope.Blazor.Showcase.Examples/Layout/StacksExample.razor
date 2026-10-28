@@ -4,21 +4,19 @@
 <OmniStack Gap="OmniSpacing.Medium">
     <OmniRow>
         <OmniColumn Span="@(Narrow ? 6 : 12)">
-            <OmniCard>
-                <OmniStack Orientation="Orientation"
-                           Gap="Gap"
-                           Align="Align"
-                           Justify="Justify"
-                           Overflow="Overflow">
-                    @foreach (var item in StackItem.All.Take(ItemCount))
-                    {
-                        <OmniButton Variant="OmniButtonVariant.Secondary" Size="item.Size" OnClick="@(() => Last = item.Label)">
-                            <OmniIcon Name="item.Icon" />
-                            <span>@item.Label</span>
-                        </OmniButton>
-                    }
-                </OmniStack>
-            </OmniCard>
+            <OmniStack Orientation="Orientation"
+                       Gap="Gap"
+                       Align="Align"
+                       Justify="Justify"
+                       Overflow="Overflow">
+                @foreach (var item in StackItem.All.Take(ItemCount))
+                {
+                    <OmniButton Variant="OmniButtonVariant.Secondary" Size="item.Size" OnClick="@(() => Last = item.Label)">
+                        <OmniIcon Name="item.Icon" />
+                        <span>@item.Label</span>
+                    </OmniButton>
+                }
+            </OmniStack>
         </OmniColumn>
     </OmniRow>
     <OmniText Tone="OmniTextTone.Muted">Last action: <strong>@(Last ?? "none")</strong></OmniText>

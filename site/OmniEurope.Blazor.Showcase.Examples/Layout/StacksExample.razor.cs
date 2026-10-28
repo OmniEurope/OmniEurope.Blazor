@@ -6,7 +6,7 @@ namespace OmniEurope.Blazor.Showcase.Examples.Layout;
 /// <summary>A stack of buttons whose orientation, gap, alignment, distribution and overflow are parameters.</summary>
 public partial class StacksExample
 {
-    /// <summary>The direction of the stack: a column by default.</summary>
+    /// <summary>The direction of the stack: this example starts as a row (horizontal), while OmniStack itself is a column (vertical) by default.</summary>
     [Parameter]
     public OmniOrientation Orientation { get; set; } = OmniOrientation.Horizontal;
 

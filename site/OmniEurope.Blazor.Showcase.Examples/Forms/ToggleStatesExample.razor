@@ -1,123 +1,49 @@
-@* Each control in each state: yes, no, null, then disabled with a value and disabled at null. Every cell has
-   its own value: the controls need a bound expression, and a shared value would flip a whole row at once. *@
-<OmniStack Gap="OmniSpacing.Large">
-    <OmniStack Gap="OmniSpacing.Small">
-        <OmniHeading Level="OmniHeadingLevel.H4">Check box</OmniHeading>
-        <OmniRow>
-            <OmniColumn Span="6" MediumSpan="2">
-                <OmniStack Gap="OmniSpacing.Small">
-                    <OmniCheckBox @bind-Value="CheckTrue" aria-label="Yes" />
-                    <OmniText Tone="OmniTextTone.Muted">Yes</OmniText>
-                </OmniStack>
-            </OmniColumn>
-            <OmniColumn Span="6" MediumSpan="2">
-                <OmniStack Gap="OmniSpacing.Small">
-                    <OmniCheckBox @bind-Value="CheckFalse" aria-label="No" />
-                    <OmniText Tone="OmniTextTone.Muted">No</OmniText>
-                </OmniStack>
-            </OmniColumn>
-            <OmniColumn Span="6" MediumSpan="2">
-                <OmniStack Gap="OmniSpacing.Small">
-                    <OmniCheckBox @bind-Value="CheckDisabled" Disabled="true" aria-label="Disabled, yes" />
-                    <OmniText Tone="OmniTextTone.Muted">Disabled, yes</OmniText>
-                </OmniStack>
-            </OmniColumn>
-        </OmniRow>
-    </OmniStack>
-
-    <OmniStack Gap="OmniSpacing.Small">
-        <OmniHeading Level="OmniHeadingLevel.H4">Three-state check box</OmniHeading>
-        <OmniRow>
-            <OmniColumn Span="6" MediumSpan="2">
-                <OmniStack Gap="OmniSpacing.Small">
-                    <OmniCheckBox @bind-Value="NullableCheckTrue" aria-label="Yes" />
-                    <OmniText Tone="OmniTextTone.Muted">Yes</OmniText>
-                </OmniStack>
-            </OmniColumn>
-            <OmniColumn Span="6" MediumSpan="2">
-                <OmniStack Gap="OmniSpacing.Small">
-                    <OmniCheckBox @bind-Value="NullableCheckFalse" aria-label="No" />
-                    <OmniText Tone="OmniTextTone.Muted">No</OmniText>
-                </OmniStack>
-            </OmniColumn>
-            <OmniColumn Span="6" MediumSpan="2">
-                <OmniStack Gap="OmniSpacing.Small">
-                    <OmniCheckBox @bind-Value="NullableCheckNull" aria-label="Null" />
-                    <OmniText Tone="OmniTextTone.Muted">Null</OmniText>
-                </OmniStack>
-            </OmniColumn>
-            <OmniColumn Span="6" MediumSpan="3">
-                <OmniStack Gap="OmniSpacing.Small">
-                    <OmniCheckBox @bind-Value="NullableCheckDisabled" Disabled="true" aria-label="Disabled, yes" />
-                    <OmniText Tone="OmniTextTone.Muted">Disabled, yes</OmniText>
-                </OmniStack>
-            </OmniColumn>
-            <OmniColumn Span="6" MediumSpan="3">
-                <OmniStack Gap="OmniSpacing.Small">
-                    <OmniCheckBox @bind-Value="NullableCheckDisabledNull" Disabled="true" aria-label="Disabled, null" />
-                    <OmniText Tone="OmniTextTone.Muted">Disabled, null</OmniText>
-                </OmniStack>
-            </OmniColumn>
-        </OmniRow>
-    </OmniStack>
-
-    <OmniStack Gap="OmniSpacing.Small">
-        <OmniHeading Level="OmniHeadingLevel.H4">Switch</OmniHeading>
-        <OmniRow>
-            <OmniColumn Span="6" MediumSpan="2">
-                <OmniStack Gap="OmniSpacing.Small">
-                    <OmniSwitch @bind-Value="SwitchTrue" aria-label="Yes" />
-                    <OmniText Tone="OmniTextTone.Muted">Yes</OmniText>
-                </OmniStack>
-            </OmniColumn>
-            <OmniColumn Span="6" MediumSpan="2">
-                <OmniStack Gap="OmniSpacing.Small">
-                    <OmniSwitch @bind-Value="SwitchFalse" aria-label="No" />
-                    <OmniText Tone="OmniTextTone.Muted">No</OmniText>
-                </OmniStack>
-            </OmniColumn>
-            <OmniColumn Span="6" MediumSpan="2">
-                <OmniStack Gap="OmniSpacing.Small">
-                    <OmniSwitch @bind-Value="SwitchDisabled" Disabled="true" aria-label="Disabled, yes" />
-                    <OmniText Tone="OmniTextTone.Muted">Disabled, yes</OmniText>
-                </OmniStack>
-            </OmniColumn>
-        </OmniRow>
-    </OmniStack>
-
-    <OmniStack Gap="OmniSpacing.Small">
-        <OmniHeading Level="OmniHeadingLevel.H4">Three-state switch</OmniHeading>
-        <OmniRow>
-            <OmniColumn Span="6" MediumSpan="2">
-                <OmniStack Gap="OmniSpacing.Small">
-                    <OmniSwitch @bind-Value="NullableSwitchTrue" aria-label="Yes" />
-                    <OmniText Tone="OmniTextTone.Muted">Yes</OmniText>
-                </OmniStack>
-            </OmniColumn>
-            <OmniColumn Span="6" MediumSpan="2">
-                <OmniStack Gap="OmniSpacing.Small">
-                    <OmniSwitch @bind-Value="NullableSwitchFalse" aria-label="No" />
-                    <OmniText Tone="OmniTextTone.Muted">No</OmniText>
-                </OmniStack>
-            </OmniColumn>
-            <OmniColumn Span="6" MediumSpan="2">
-                <OmniStack Gap="OmniSpacing.Small">
-                    <OmniSwitch @bind-Value="NullableSwitchNull" aria-label="Null" />
-                    <OmniText Tone="OmniTextTone.Muted">Null</OmniText>
-                </OmniStack>
-            </OmniColumn>
-            <OmniColumn Span="6" MediumSpan="3">
-                <OmniStack Gap="OmniSpacing.Small">
-                    <OmniSwitch @bind-Value="NullableSwitchDisabled" Disabled="true" aria-label="Disabled, yes" />
-                    <OmniText Tone="OmniTextTone.Muted">Disabled, yes</OmniText>
-                </OmniStack>
-            </OmniColumn>
-            <OmniColumn Span="6" MediumSpan="3">
-                <OmniStack Gap="OmniSpacing.Small">
-                    <OmniSwitch @bind-Value="NullableSwitchDisabledNull" Disabled="true" aria-label="Disabled, null" />
-                    <OmniText Tone="OmniTextTone.Muted">Disabled, null</OmniText>
-                </OmniStack>
-            </OmniColumn>
-        </OmniRow>
-    </OmniStack>
-</OmniStack>
+@* Each control in each state: true, false, null, then disabled with a value and disabled at null. A control
+   without a third state shows n/a in the null columns. Every cell has its own value: the controls need a
+   bound expression, and a shared value would flip a whole row at once. *@
+<table>
+    <thead>
+        <tr>
+            <th scope="col">Control</th>
+            <th scope="col">True</th>
+            <th scope="col">False</th>
+            <th scope="col">Null</th>
+            <th scope="col">Disabled</th>
+            <th scope="col">Disabled null</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">Check box</th>
+            <td><OmniCheckBox @bind-Value="CheckTrue" aria-label="Check box, true" /></td>
+            <td><OmniCheckBox @bind-Value="CheckFalse" aria-label="Check box, false" /></td>
+            <td>n/a</td>
+            <td><OmniCheckBox @bind-Value="CheckDisabled" Disabled="true" aria-label="Check box, disabled" /></td>
+            <td>n/a</td>
+        </tr>
+        <tr>
+            <th scope="row">Three-state check box</th>
+            <td><OmniCheckBox @bind-Value="NullableCheckTrue" aria-label="Three-state check box, true" /></td>
+            <td><OmniCheckBox @bind-Value="NullableCheckFalse" aria-label="Three-state check box, false" /></td>
+            <td><OmniCheckBox @bind-Value="NullableCheckNull" aria-label="Three-state check box, null" /></td>
+            <td><OmniCheckBox @bind-Value="NullableCheckDisabled" Disabled="true" aria-label="Three-state check box, disabled" /></td>
+            <td><OmniCheckBox @bind-Value="NullableCheckDisabledNull" Disabled="true" aria-label="Three-state check box, disabled null" /></td>
+        </tr>
+        <tr>
+            <th scope="row">Switch</th>
+            <td><OmniSwitch @bind-Value="SwitchTrue" aria-label="Switch, true" /></td>
+            <td><OmniSwitch @bind-Value="SwitchFalse" aria-label="Switch, false" /></td>
+            <td>n/a</td>
+            <td><OmniSwitch @bind-Value="SwitchDisabled" Disabled="true" aria-label="Switch, disabled" /></td>
+            <td>n/a</td>
+        </tr>
+        <tr>
+            <th scope="row">Three-state switch</th>
+            <td><OmniSwitch @bind-Value="NullableSwitchTrue" aria-label="Three-state switch, true" /></td>
+            <td><OmniSwitch @bind-Value="NullableSwitchFalse" aria-label="Three-state switch, false" /></td>
+            <td><OmniSwitch @bind-Value="NullableSwitchNull" aria-label="Three-state switch, null" /></td>
+            <td><OmniSwitch @bind-Value="NullableSwitchDisabled" Disabled="true" aria-label="Three-state switch, disabled" /></td>
+            <td><OmniSwitch @bind-Value="NullableSwitchDisabledNull" Disabled="true" aria-label="Three-state switch, disabled null" /></td>
+        </tr>
+    </tbody>
+</table>
