@@ -65,7 +65,7 @@ Examples).
 | 14 | Scheduler, timeline, Gantt, step timeline | `agenda`, `planification` | À faire |
 | 15 | HTML editor, document editor, code editor, code reading, mind map | `editeur`, `diagramme` | À faire |
 | 16 | Workflows, préférences (enregistrées par l API), accueil de la galerie, retrait de l'ancienne galerie et de `DemoCatalog` | (reste) | À faire |
-| F | Fidélité (audit du 2026-10-28) : thème transmis à la portée racine, menu de galerie à la place du menu du site, accueil en cartes, sélecteur de thème avec bascule clair/sombre, espacement des cartes d'aperçu ; habillage perdu des démos (cadres pointillés, matrices, tuiles d'icônes, cadre des images, zones de clic droit, lignes à survol, grilles d'exemples adaptées au conteneur, largeurs plafonnées, curseur vertical, bascule du menu latéral à la fin, infobulle épinglée par défaut, tableau des fichiers) | | En cours |
+| F | Fidélité (audit du 2026-10-28) : thème transmis à la portée racine, menu de galerie à la place du menu du site, accueil en cartes, sélecteur de thème avec bascule clair/sombre, espacement des cartes d'aperçu ; habillage perdu des démos (cadres pointillés, matrices, tuiles d'icônes, cadre des images, zones de clic droit, lignes à survol, grilles d'exemples adaptées au conteneur, largeurs plafonnées, curseur vertical, bascule du menu latéral à la fin, infobulle épinglée par défaut, tableau des fichiers) | | Fait |
 | H1 | Hébergement : projets Back (API, EF Core, PostgreSQL, `/health/ready`) et Shared, préférences OE enregistrées en base sans compte (identifiant anonyme du navigateur, quotas), front servi en conteneur, le lanceur local démarre base, API et front | | Fait |
 | H2 | Déploiement : Dockerfiles, Compose de production, `.pipeline`, overlay `docs/code-rules.md` (règles d'hôte actives pour la vitrine), CI ; preuve : contrôle de conformité du déploiement sans écart et pile Compose démarrée en local | | À faire |
 | K | Règles du kit : corriger les constats du contrôle des règles mécanisées du kit (116 au 2026-10-27, dont STD-FILESIZE, STD-I18N, STD-OE, STD-STYLE, STD-TABS) sur la vitrine et ses nouveaux projets | | À faire |
@@ -111,3 +111,13 @@ worktree) ; aucune vague ne démarre avant que la précédente soit intégrée e
   trois vues dans le navigateur, 66 vues sans erreur console. Non vérifiés : le français de ces pages,
   les interactions page par page et les sondes repointées (`chevrons`, `focus`, `overlays`, `keys`,
   `leaks`, `requests`, modules, contraste), à passer avant la release.
+- 2026-10-28 : lot F (fidélité). Trois audits en lecture (cadre, puis familles par trois) ont trouvé le
+  contenu fidèle et l'habillage perdu. Corrigé en quatre lots fusionnés (`b6b497dc`, `ebe9437e`,
+  `45b86386`, `c699aadf`) : thème peint transmis à la portée racine (fond animé de Trou noir dessiné
+  sur une page de galerie, vu), menu de la galerie dans la barre latérale avec retour au site, accueil
+  en cartes par famille (vu), sélecteur de thème avec bascule et mention « (par défaut) » (vu),
+  matrices de boutons et d'états (vues), tuiles d'icônes (vues), cadre des images (vu), zone de clic
+  droit et lignes encadrées (vues), grilles d'exemples adaptées au conteneur (une colonne dans l'onglet
+  Mobile, vu sur drop-downs). Preuve : build Release sans avertissement, 10633 tests verts, 52 pages de
+  galerie ouvertes sans erreur console (la page des modifications non enregistrées retient la
+  navigation, comportement voulu). Consigne commune de portage renforcée pour les lots 11 et suivants.
