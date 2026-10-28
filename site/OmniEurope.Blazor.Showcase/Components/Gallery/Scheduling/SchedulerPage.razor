@@ -1,0 +1,80 @@
+@page "/components/scheduler"
+@using OmniEurope.Blazor.Showcase.Examples.Scheduling
+
+<GalleryPageFrame Slug="scheduler">
+    <Settings>
+        <OmniSettingsSection Title="@Text["SchedulerSettingsTitle"]" Description="@Text["SchedulerSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["SchedulerPastSlots"]" Description="@Text["SchedulerPastSlotsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Hourglass" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="MarkPastSlots" aria-label="@Text["SchedulerPastSlots"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SchedulerView"]" Description="@Text["SchedulerViewDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Layers" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniCalendarView"
+                                   Options="ViewOptions"
+                                   @bind-Value="View"
+                                   Label="@Text["SchedulerView"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SchedulerCulture"]" Description="@Text["SchedulerCultureDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Globe" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="string"
+                                   Options="CultureOptions"
+                                   @bind-Value="CultureName"
+                                   Label="@Text["SchedulerCulture"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SchedulerShowWeekend"]" Description="@Text["SchedulerShowWeekendDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Bed" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="IncludeWeekend" aria-label="@Text["SchedulerShowWeekend"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SchedulerTimeGrid"]" Description="@Text["SchedulerTimeGridDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="TimeGrid" aria-label="@Text["SchedulerTimeGrid"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SchedulerMovable"]" Description="@Text["SchedulerMovableDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Swap" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Movable" aria-label="@Text["SchedulerMovable"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SchedulerToday"]" Description="@Text["SchedulerTodayDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Timer" /></Icon>
+                <ChildContent>
+                    <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="BackToToday">
+                        <OmniIcon Name="OmniIconName.Reset" />
+                        <span>@Text["SchedulerBackToToday"]</span>
+                    </OmniButton>
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview gallery-scheduler">
+            <HeaderContent>@Text["SchedulerPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <SchedulerExample @bind-Date="Anchor"
+                                  @bind-View="View"
+                                  Culture="Culture"
+                                  IncludeWeekend="IncludeWeekend"
+                                  TimeGrid="TimeGrid"
+                                  Movable="Movable"
+                                  MarkPastSlots="MarkPastSlots" />
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

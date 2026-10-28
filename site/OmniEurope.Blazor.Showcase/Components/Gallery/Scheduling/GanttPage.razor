@@ -1,0 +1,63 @@
+@page "/components/gantt"
+@using OmniEurope.Blazor.Showcase.Examples.Scheduling
+
+<GalleryPageFrame Slug="gantt">
+    <Settings>
+        <OmniSettingsSection Title="@Text["GanttSettingsTitle"]" Description="@Text["GanttSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["GanttScale"]" Description="@Text["GanttScaleDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniCalendarView"
+                                   Options="ScaleOptions"
+                                   @bind-Value="Scale"
+                                   Label="@Text["GanttScale"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["GanttScalePicker"]" Description="@Text["GanttScalePickerDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Sliders" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowScalePicker" aria-label="@Text["GanttScalePicker"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["GanttGroups"]" Description="@Text["GanttGroupsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Layers" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowGroups" aria-label="@Text["GanttGroups"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["GanttDependencies"]" Description="@Text["GanttDependenciesDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Graph" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowDependencies" aria-label="@Text["GanttDependencies"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["GanttToday"]" Description="@Text["GanttTodayDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Timer" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowToday" aria-label="@Text["GanttToday"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["GanttPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <GanttExample @bind-View="Scale"
+                              ShowViewPicker="ShowScalePicker"
+                              ShowGroups="ShowGroups"
+                              ShowDependencies="ShowDependencies"
+                              ShowToday="ShowToday" />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["GanttPreviewHint"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["GanttFixedTitle"]</HeaderContent>
+            <ChildContent><GanttFixedExample /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

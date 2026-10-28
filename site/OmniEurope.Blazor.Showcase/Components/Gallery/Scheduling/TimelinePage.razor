@@ -1,0 +1,79 @@
+@page "/components/timeline"
+@using OmniEurope.Blazor.Showcase.Examples.Scheduling
+
+<GalleryPageFrame Slug="timeline">
+    <Settings>
+        <OmniSettingsSection Title="@Text["TimelineSettingsTitle"]" Description="@Text["TimelineSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["TimelineDateMode"]" Description="@Text["TimelineDateModeDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Timer" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="TimelineDateMode"
+                                   Options="DateModeOptions"
+                                   @bind-Value="DateMode"
+                                   Label="@Text["TimelineDateMode"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TimelineLayout"]" Description="@Text["TimelineLayoutDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Swap" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniTimelineLayout"
+                                   Options="LayoutOptions"
+                                   @bind-Value="Layout"
+                                   Label="@Text["TimelineLayout"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TimelineShowTitles"]" Description="@Text["TimelineShowTitlesDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowTitles" aria-label="@Text["TimelineShowTitles"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TimelineShowDetails"]" Description="@Text["TimelineShowDetailsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Document" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowDetails" aria-label="@Text["TimelineShowDetails"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TimelineItemCount"]" Description="@Text["TimelineItemCountDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.NumberedList" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="ItemCount"
+                                Minimum="1"
+                                Maximum="6"
+                                Step="1"
+                                ShowValue="true"
+                                aria-label="@Text["TimelineItemCount"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TimelineNewestFirst"]" Description="@Text["TimelineNewestFirstDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.SortDescending" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="NewestFirst" aria-label="@Text["TimelineNewestFirst"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["TimelinePreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <TimelineExample Layout="Layout"
+                                 DateMode="DateMode"
+                                 ShowTitles="ShowTitles"
+                                 ShowDetails="ShowDetails"
+                                 ItemCount="ItemCount"
+                                 NewestFirst="NewestFirst" />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["TimelinePreviewHint"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["TimelineGalleryTitle"]</HeaderContent>
+            <ChildContent><TimelineGalleryExample /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

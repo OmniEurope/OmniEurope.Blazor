@@ -1,0 +1,44 @@
+@* More timelines: an entry with a title, a date and content; a date written as text; entries with content only and
+   no header; and entry titles set one level lower than the default level 3, to follow the outline of a page. *@
+<OmniTileGrid Columns="4" MinColumnWidth="18rem" EqualHeights="false" Gap="OmniSpacing.Large">
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniText Element="OmniTextElement.Strong">Title, date and content</OmniText>
+        <OmniTimeline Label="Title, date and content">
+            <OmniTimelineItem Title="File filed" Date="@(Today.AddDays(-9).AddHours(10))">
+                <OmniText>Filed online with eleven documents.</OmniText>
+            </OmniTimelineItem>
+            <OmniTimelineItem Title="Review finished" Date="@(Today.AddDays(-4).AddHours(15))">
+                <OmniText>The reviewer recommends acceptance.</OmniText>
+            </OmniTimelineItem>
+        </OmniTimeline>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniText Element="OmniTextElement.Strong">Date written as text</OmniText>
+        <OmniTimeline Label="Date written as text">
+            <OmniTimelineItem Title="Decision signed" DateText="Yesterday" />
+            <OmniTimelineItem Title="Applicant notified" DateText="Today" />
+        </OmniTimeline>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniText Element="OmniTextElement.Strong">Content only, no header</OmniText>
+        <OmniTimeline Label="Content only, no header">
+            <OmniTimelineItem>
+                <OmniText>An entry that names itself in its own content.</OmniText>
+            </OmniTimelineItem>
+            <OmniTimelineItem>
+                <OmniText>No empty header is left behind for a screen reader.</OmniText>
+            </OmniTimelineItem>
+        </OmniTimeline>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniText Element="OmniTextElement.Strong">Titles one level lower</OmniText>
+        <OmniTimeline Label="Titles one level lower" Layout="OmniTimelineLayout.Start">
+            <OmniTimelineItem Title="File filed" DateText="In 2 days" Level="OmniHeadingLevel.H5">
+                <OmniText>Filed online with eleven documents.</OmniText>
+            </OmniTimelineItem>
+            <OmniTimelineItem Title="Review finished" DateText="In 9 days" Level="OmniHeadingLevel.H5">
+                <OmniText>The reviewer recommends acceptance.</OmniText>
+            </OmniTimelineItem>
+        </OmniTimeline>
+    </OmniStack>
+</OmniTileGrid>

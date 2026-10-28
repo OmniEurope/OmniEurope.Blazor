@@ -1,0 +1,32 @@
+@* A scheduler with its day, week and month views, driven by the page or by its own toolbar. DayStart and DayEnd
+   turn the day and week views into a time grid of SlotDuration slots; without them they stay lists. The scheduler
+   never changes Items: it reports a click, a free slot or a move, and the host applies it. An appointment moves
+   only when OnAppointmentMove has a handler. Class marks one appointment apart. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniScheduler Date="Date"
+                   DateChanged="ChangeDate"
+                   View="View"
+                   ViewChanged="ChangeView"
+                   Culture="Culture"
+                   DayStart="DayStart"
+                   DayEnd="DayEnd"
+                   SlotDuration="SlotDuration"
+                   OnAppointmentClick="OnAppointmentClicked"
+                   OnSlotClick="OnSlotClicked"
+                   OnAppointmentMove="MoveCallback"
+                   MarkPastSlots="MarkPastSlots"
+                   Items="_appointments" />
+    @if (_selectedSlot is { } slot)
+    {
+        <OmniText>Selected slot: @slot.Start.ToString("g", Formats) – @slot.End.ToString("g", Formats)</OmniText>
+    }
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Align="OmniAlignment.Center" Wrap="true">
+        <OmniIcon Name="OmniIconName.Info" />
+        <span>@Echo</span>
+    </OmniStack>
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Align="OmniAlignment.Center" Wrap="true">
+        <OmniIcon Name="OmniIconName.Check" />
+        <span>Last event:</span>
+        <OmniBadge Tone="@(_lastEvent is null ? OmniTone.Neutral : OmniTone.Accent)">@(_lastEvent ?? "none")</OmniBadge>
+    </OmniStack>
+</OmniStack>

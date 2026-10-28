@@ -236,8 +236,6 @@
 @media (max-width: 36rem) { .demo-surfaces-row { grid-template-columns: minmax(0, 1fr); } }
 .demo-menu-item { align-items: center; display: flex; gap: var(--omni-space-sm); }
 .demo-menu-item small { color: var(--omni-color-text-muted); display: block; font-size: var(--omni-font-size-sm); }
-/* Scheduler demo: an appointment the host marks apart through OmniSchedulerAppointment.CssClass. */
-.omni-scheduler__appointment.showcase-appointment--decision { background: var(--omni-color-warning-subtle); }
 
 /* Gallery pages (PLAN-005): the frame around every page, settings on the left and preview on the right
    on a wide screen, stacked below; the examples themselves carry no class of the showcase. */
@@ -915,4 +913,12 @@
     border: var(--omni-border-width) solid var(--omni-color-border);
     border-radius: var(--omni-radius-lg);
     padding: var(--omni-space-lg);
+}
+
+/* Scheduling fidelity */
+
+/* Scheduler: the example marks one appointment apart through the Class of the appointment, with an OE
+   utility class; the page makes sure that tint wins over the background the view gives an appointment. */
+.gallery-scheduler .omni-scheduler__appointment.omni-u-bg-warning-subtle {
+    background: var(--omni-color-warning-subtle);
 }

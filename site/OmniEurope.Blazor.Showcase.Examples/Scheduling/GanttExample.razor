@@ -1,0 +1,20 @@
+@* A Gantt chart: tasks on a day, week or month scale, grouped or not, with their progress, their dependencies and
+   the line of today. View binds with @bind-View; Value is the chosen task, outlined in its bar. The chart scrolls
+   sideways when the zoom makes it wider than its container, the task names staying in place. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniGantt Tasks="_tasks"
+               View="View"
+               ViewChanged="ChangeView"
+               ShowViewPicker="ShowViewPicker"
+               ShowGroups="ShowGroups"
+               ShowDependencies="ShowDependencies"
+               ShowToday="ShowToday"
+               Value="_selected?.Id"
+               OnTaskClick="Select"
+               Label="Schedule of the website redesign" />
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Align="OmniAlignment.Center" Wrap="true">
+        <OmniIcon Name="OmniIconName.Info" />
+        <span>@SelectedText</span>
+    </OmniStack>
+    <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">Scale shown: @ScaleName</OmniText>
+</OmniStack>

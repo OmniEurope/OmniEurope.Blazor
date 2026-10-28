@@ -285,7 +285,7 @@ export async function boardSteps(session, results) {
   step('arborescence : compte glissé sur un autre');
 
   // 8. The scheduler: an appointment dragged.
-  await session.visit('/components/legacy/agenda', '.omni-scheduler [data-omni-scheduler-appointment][draggable="true"]');
+  await session.visit('/components/scheduler', '.omni-scheduler [data-omni-scheduler-appointment][draggable="true"]');
   const appointment = await evaluate("document.querySelector('.omni-scheduler [data-omni-scheduler-appointment][draggable=\"true\"]').getAttribute('data-omni-scheduler-appointment')");
   const carriedData = await html5Drag('.omni-scheduler [data-omni-scheduler-appointment][draggable="true"]', '.omni-scheduler td.omni-scheduler-grid__cell');
   check(carriedData.items?.some(item => item.mimeType === 'text/plain' && item.data === appointment) && carriedData.dragOperationsMask !== undefined,

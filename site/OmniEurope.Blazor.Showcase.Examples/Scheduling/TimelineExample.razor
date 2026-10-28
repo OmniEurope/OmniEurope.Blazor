@@ -1,0 +1,18 @@
+@* A timeline of dated entries. Date draws the date formatted by the component (and the machine date in the
+   datetime attribute); DateText replaces the visible text with one of the host's; an entry with neither a
+   title nor a date has no header at all. Layout sets which side of the line the entries sit on. *@
+<OmniTimeline Label="History of the file" Layout="Layout">
+    @foreach (var entry in VisibleEntries)
+    {
+        <OmniTimelineItem @key="entry.Key"
+                          Level="OmniHeadingLevel.H3"
+                          Title="@(ShowTitles ? entry.Title : string.Empty)"
+                          Date="DateFor(entry)"
+                          DateText="DateTextFor(entry)">
+            @if (ShowDetails)
+            {
+                <OmniText>@entry.Detail</OmniText>
+            }
+        </OmniTimelineItem>
+    }
+</OmniTimeline>

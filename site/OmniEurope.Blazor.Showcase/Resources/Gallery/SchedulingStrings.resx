@@ -4,4 +4,93 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="SchedulerTitle" xml:space="preserve"><value>Scheduler</value></data>
+  <data name="SchedulerDescription" xml:space="preserve"><value>Scheduler with its day, week and month views, driven by the page or by its own toolbar.</value></data>
+  <data name="SchedulerSettingsTitle" xml:space="preserve"><value>Scheduler settings</value></data>
+  <data name="SchedulerSettingsDescription" xml:space="preserve"><value>The sample appointments always fall in the current week.</value></data>
+  <data name="SchedulerView" xml:space="preserve"><value>View</value></data>
+  <data name="SchedulerViewDescription" xml:space="preserve"><value>The same value as the scheduler&apos;s own switch.</value></data>
+  <data name="SchedulerViewDay" xml:space="preserve"><value>Day</value></data>
+  <data name="SchedulerViewWeek" xml:space="preserve"><value>Week</value></data>
+  <data name="SchedulerViewMonth" xml:space="preserve"><value>Month</value></data>
+  <data name="SchedulerCulture" xml:space="preserve"><value>Culture</value></data>
+  <data name="SchedulerCultureDescription" xml:space="preserve"><value>Sets the first day of the week, the day names and the date formats.</value></data>
+  <data name="SchedulerCultureFrench" xml:space="preserve"><value>French</value></data>
+  <data name="SchedulerCultureEnglish" xml:space="preserve"><value>English (United States)</value></data>
+  <data name="SchedulerCultureGerman" xml:space="preserve"><value>German</value></data>
+  <data name="SchedulerShowWeekend" xml:space="preserve"><value>Weekend appointment</value></data>
+  <data name="SchedulerShowWeekendDescription" xml:space="preserve"><value>Adds an appointment on Saturday.</value></data>
+  <data name="SchedulerToday" xml:space="preserve"><value>Current date</value></data>
+  <data name="SchedulerTodayDescription" xml:space="preserve"><value>Brings the scheduler back to today after navigating.</value></data>
+  <data name="SchedulerBackToToday" xml:space="preserve"><value>Today</value></data>
+  <data name="SchedulerTimeGrid" xml:space="preserve"><value>Time grid</value></data>
+  <data name="SchedulerTimeGridDescription" xml:space="preserve"><value>The day and week views become a grid from 8 am to 6 pm, in 30-minute slots; turned off, they stay lists.</value></data>
+  <data name="SchedulerMovable" xml:space="preserve"><value>Movable appointments</value></data>
+  <data name="SchedulerMovableDescription" xml:space="preserve"><value>An appointment is dragged onto a slot or a day, or moved from the keyboard through its button; the page applies the reported move.</value></data>
+  <data name="SchedulerPreviewTitle" xml:space="preserve"><value>Live scheduler</value></data>
+  <data name="TimelineTitle" xml:space="preserve"><value>Timeline</value></data>
+  <data name="TimelineDescription" xml:space="preserve"><value>Timeline of dated entries: title, automatic or custom date text, entries without a header.</value></data>
+  <data name="TimelineSettingsTitle" xml:space="preserve"><value>Timeline settings</value></data>
+  <data name="TimelineSettingsDescription" xml:space="preserve"><value>Each setting redraws the timeline below.</value></data>
+  <data name="TimelineDateMode" xml:space="preserve"><value>Date</value></data>
+  <data name="TimelineDateModeDescription" xml:space="preserve"><value>The date formatted by the component, a relative text, or no date at all.</value></data>
+  <data name="TimelineDateAutomatic" xml:space="preserve"><value>Automatic</value></data>
+  <data name="TimelineDateRelative" xml:space="preserve"><value>Relative</value></data>
+  <data name="TimelineDateNone" xml:space="preserve"><value>None</value></data>
+  <data name="TimelineLayout" xml:space="preserve"><value>Side</value></data>
+  <data name="TimelineLayoutDescription" xml:space="preserve"><value>Where the entries sit relative to the line: on its right, on its left, or taking turns from one side. Below 30rem wide, the entries stack on the right.</value></data>
+  <data name="TimelineLayoutEnd" xml:space="preserve"><value>Right</value></data>
+  <data name="TimelineLayoutStart" xml:space="preserve"><value>Left</value></data>
+  <data name="TimelineLayoutAlternateEnd" xml:space="preserve"><value>Alternating, first on the right</value></data>
+  <data name="TimelineLayoutAlternateStart" xml:space="preserve"><value>Alternating, first on the left</value></data>
+  <data name="TimelineShowTitles" xml:space="preserve"><value>Titles</value></data>
+  <data name="TimelineShowTitlesDescription" xml:space="preserve"><value>Without a title nor a date, an entry has no header at all.</value></data>
+  <data name="TimelineShowDetails" xml:space="preserve"><value>Details</value></data>
+  <data name="TimelineShowDetailsDescription" xml:space="preserve"><value>The content under each header.</value></data>
+  <data name="TimelineItemCount" xml:space="preserve"><value>Number of entries</value></data>
+  <data name="TimelineItemCountDescription" xml:space="preserve"><value>Keeps only the first entries.</value></data>
+  <data name="TimelineNewestFirst" xml:space="preserve"><value>Newest first</value></data>
+  <data name="TimelineNewestFirstDescription" xml:space="preserve"><value>Reverses the order of the entries.</value></data>
+  <data name="TimelinePreviewTitle" xml:space="preserve"><value>Live timeline</value></data>
+  <data name="TimelinePreviewHint" xml:space="preserve"><value>The last entry is dated in the future.</value></data>
+  <data name="TimelineGalleryTitle" xml:space="preserve"><value>Gallery</value></data>
+  <data name="GanttTitle" xml:space="preserve"><value>Gantt</value></data>
+  <data name="GanttDescription" xml:space="preserve"><value>Gantt chart: tasks on a time scale, grouped or not, with their progress, their dependencies and the today line.</value></data>
+  <data name="GanttSettingsTitle" xml:space="preserve"><value>Chart settings</value></data>
+  <data name="GanttSettingsDescription" xml:space="preserve"><value>The sample project always starts two weeks ago, so today falls inside it.</value></data>
+  <data name="GanttScale" xml:space="preserve"><value>Zoom</value></data>
+  <data name="GanttScaleDescription" xml:space="preserve"><value>One column per day, per week or per month; the same value as the chart&apos;s own picker.</value></data>
+  <data name="GanttScaleDay" xml:space="preserve"><value>Day</value></data>
+  <data name="GanttScaleWeek" xml:space="preserve"><value>Week</value></data>
+  <data name="GanttScaleMonth" xml:space="preserve"><value>Month</value></data>
+  <data name="GanttScalePicker" xml:space="preserve"><value>Built-in picker</value></data>
+  <data name="GanttScalePickerDescription" xml:space="preserve"><value>Shows the day, week and month picker above the chart.</value></data>
+  <data name="GanttGroups" xml:space="preserve"><value>Groups</value></data>
+  <data name="GanttGroupsDescription" xml:space="preserve"><value>Lists the tasks under their group, each group with a bar spanning its tasks.</value></data>
+  <data name="GanttDependencies" xml:space="preserve"><value>Dependencies</value></data>
+  <data name="GanttDependenciesDescription" xml:space="preserve"><value>An arrow from the end of a task to the start of the task that waits for it.</value></data>
+  <data name="GanttToday" xml:space="preserve"><value>Today line</value></data>
+  <data name="GanttTodayDescription" xml:space="preserve"><value>A dashed line down today&apos;s column.</value></data>
+  <data name="GanttPreviewTitle" xml:space="preserve"><value>Project schedule</value></data>
+  <data name="GanttPreviewHint" xml:space="preserve"><value>The chart scrolls sideways when the zoom makes it wider than the card; the task names stay in place.</value></data>
+  <data name="StepTimelineTitle" xml:space="preserve"><value>Run steps</value></data>
+  <data name="StepTimelineDescription" xml:space="preserve"><value>The steps of a run on one time axis: where the run spent its time, which steps overlapped, and which never started.</value></data>
+  <data name="StepTimelineSettingsTitle" xml:space="preserve"><value>Run settings</value></data>
+  <data name="StepTimelineOutcome" xml:space="preserve"><value>Outcome</value></data>
+  <data name="StepTimelineOutcomeDescription" xml:space="preserve"><value>A finished run, a run still going, or a run whose tests failed.</value></data>
+  <data name="StepTimelineOutcomeSucceeded" xml:space="preserve"><value>Succeeded</value></data>
+  <data name="StepTimelineOutcomeRunning" xml:space="preserve"><value>Running</value></data>
+  <data name="StepTimelineOutcomeFailed" xml:space="preserve"><value>Failed</value></data>
+  <data name="StepTimelineElapsed" xml:space="preserve"><value>Minutes elapsed</value></data>
+  <data name="StepTimelineElapsedDescription" xml:space="preserve"><value>For a run still going: the instant it is looked at, which the running steps reach.</value></data>
+  <data name="StepTimelineSecondary" xml:space="preserve"><value>Secondary steps</value></data>
+  <data name="StepTimelineSecondaryDescription" xml:space="preserve"><value>Prepare and Cleanup, set in italics.</value></data>
+  <data name="StepTimelineNeverStarted" xml:space="preserve"><value>Steps never started</value></data>
+  <data name="StepTimelineNeverStartedDescription" xml:space="preserve"><value>Named under the bars rather than drawn: they took no time.</value></data>
+  <data name="StepTimelinePreviewTitle" xml:space="preserve"><value>Run 42</value></data>
+  <data name="StepTimelinePreviewHint" xml:space="preserve"><value>Green succeeded, red failed, blue still running, grey skipped or cancelled; the duration of each step is on the right.</value></data>
+  <data name="StepTimelineSettingsDescription" xml:space="preserve"><value>A pipeline run, as a continuous integration server draws them.</value></data>
+  <data name="SchedulerPastSlots" xml:space="preserve"><value>Mark past slots</value></data>
+  <data name="SchedulerPastSlotsDescription" xml:space="preserve"><value>Hatches what is already over: the slots of the time grid and the days before today.</value></data>
+  <data name="GanttFixedTitle" xml:space="preserve"><value>Fixed zoom</value></data>
 </root>

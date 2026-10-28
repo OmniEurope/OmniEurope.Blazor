@@ -1,0 +1,57 @@
+@page "/components/step-timeline"
+@using OmniEurope.Blazor.Showcase.Examples.Scheduling
+
+<GalleryPageFrame Slug="step-timeline">
+    <Settings>
+        <OmniSettingsSection Title="@Text["StepTimelineSettingsTitle"]" Description="@Text["StepTimelineSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["StepTimelineOutcome"]" Description="@Text["StepTimelineOutcomeDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.CheckCircle" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="StepTimelineOutcome"
+                                   Options="OutcomeOptions"
+                                   @bind-Value="Outcome"
+                                   Label="@Text["StepTimelineOutcome"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["StepTimelineElapsed"]" Description="@Text["StepTimelineElapsedDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Hourglass" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="ElapsedMinutes"
+                                Minimum="1"
+                                Maximum="20"
+                                Step="1"
+                                ShowValue="true"
+                                Disabled="@(Outcome != StepTimelineOutcome.Running)"
+                                aria-label="@Text["StepTimelineElapsed"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["StepTimelineSecondary"]" Description="@Text["StepTimelineSecondaryDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowSecondary" aria-label="@Text["StepTimelineSecondary"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["StepTimelineNeverStarted"]" Description="@Text["StepTimelineNeverStartedDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowNeverStarted" aria-label="@Text["StepTimelineNeverStarted"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["StepTimelinePreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <StepTimelineExample Outcome="Outcome"
+                                     ElapsedMinutes="ElapsedMinutes"
+                                     ShowSecondary="ShowSecondary"
+                                     ShowNeverStarted="ShowNeverStarted" />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["StepTimelinePreviewHint"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

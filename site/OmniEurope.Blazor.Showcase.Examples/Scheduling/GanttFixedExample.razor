@@ -1,0 +1,12 @@
+@* Two charts with their zoom fixed by the host: a month scale without groups and without the picker, and a day
+   scale without dependencies, today line or picker. The charts scroll sideways inside their own tile. *@
+<OmniTileGrid Columns="2" MinColumnWidth="28rem" EqualHeights="false" Gap="OmniSpacing.Large">
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniText Element="OmniTextElement.Strong">Month scale, without groups</OmniText>
+        <OmniGantt Tasks="_tasks" View="OmniCalendarView.Month" ShowGroups="false" ShowViewPicker="false" Label="Schedule by month" />
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniText Element="OmniTextElement.Strong">Day scale, without dependencies nor today line</OmniText>
+        <OmniGantt Tasks="_tasks" View="OmniCalendarView.Day" ShowDependencies="false" ShowToday="false" ShowViewPicker="false" Label="Schedule by day" />
+    </OmniStack>
+</OmniTileGrid>

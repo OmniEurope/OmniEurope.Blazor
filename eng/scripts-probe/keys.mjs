@@ -53,7 +53,7 @@ export async function keySteps(session, results) {
   step('barre de choix : un arrêt de tabulation, flèches, Début et Fin');
 
   // 3. Scheduler: its views are a radio group of the same keys.
-  await session.visit('/components/legacy/agenda', '.omni-scheduler');
+  await session.visit('/components/scheduler', '.omni-scheduler');
   const views = "document.querySelector('.omni-scheduler [role=radiogroup][data-omni-roving]')";
   await evaluate(`${views}.querySelector('[role=radio][tabindex="0"]').focus()`);
   const view = await focused();
