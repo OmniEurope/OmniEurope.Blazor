@@ -138,11 +138,6 @@
   <data name="DemoSchedulerCapability1" xml:space="preserve"><value>Day, week and month views, switchable.</value></data>
   <data name="DemoSchedulerCapability2" xml:space="preserve"><value>Recurring appointments described by a rule.</value></data>
   <data name="DemoSchedulerCapability3" xml:space="preserve"><value>Each view can also be used on its own, outside the calendar.</value></data>
-  <data name="DemoFlowsTitle" xml:space="preserve"><value>Flows</value></data>
-  <data name="DemoFlowsSummary" xml:space="preserve"><value>A wizard, a sign-in page and a lost connection.</value></data>
-  <data name="DemoFlowsCapability1" xml:space="preserve"><value>Step wizard: progress, per-step validation, in a page or in a dialog.</value></data>
-  <data name="DemoFlowsCapability2" xml:space="preserve"><value>A sign-in page with no authentication built in, and a return address kept inside the application.</value></data>
-  <data name="DemoFlowsCapability3" xml:space="preserve"><value>Lost connection overlay: countdown, reason, manual retry, failure and refusal.</value></data>
   <data name="WorkshopBarTitle" xml:space="preserve"><value>Preview settings</value></data>
   <data name="WorkshopTheme" xml:space="preserve"><value>Theme (shape)</value></data>
   <data name="WorkshopPalette" xml:space="preserve"><value>Palette (colours)</value></data>
@@ -912,48 +907,6 @@
   <data name="DemoValidationReplicas" xml:space="preserve"><value>Replicas</value></data>
   <data name="DemoValidationCheck" xml:space="preserve"><value>Check</value></data>
   <data name="DemoValidationSimulateUnsaved" xml:space="preserve"><value>Simulate unsaved changes</value></data>
-  <data name="DemoFlowsCreateServer" xml:space="preserve"><value>Create the server</value></data>
-  <data name="DemoFlowsStepIdentity" xml:space="preserve"><value>Identity</value></data>
-  <data name="DemoFlowsNameHelp" xml:space="preserve"><value>Next becomes available as soon as the name is typed.</value></data>
-  <data name="DemoFlowsServerName" xml:space="preserve"><value>Server name</value></data>
-  <data name="DemoFlowsStepOptions" xml:space="preserve"><value>Options</value></data>
-  <data name="DemoFlowsDailyBackup" xml:space="preserve"><value>Daily backup</value></data>
-  <data name="DemoFlowsBackupRequired" xml:space="preserve"><value>Tick the daily backup for a production server.</value></data>
-  <data name="DemoFlowsStepSummary" xml:space="preserve"><value>Summary</value></data>
-  <data name="DemoFlowsSummaryName" xml:space="preserve"><value>Name</value></data>
-  <data name="DemoFlowsSummaryBackup" xml:space="preserve"><value>Backup</value></data>
-  <data name="DemoFlowsBackupDaily" xml:space="preserve"><value>Daily</value></data>
-  <data name="DemoFlowsBackupNone" xml:space="preserve"><value>None</value></data>
-  <data name="DemoFlowsOutcome" xml:space="preserve"><value>Result: {0}</value></data>
-  <data name="DemoFlowsOutcomePending" xml:space="preserve"><value>in progress</value></data>
-  <data name="DemoFlowsOutcomeCreated" xml:space="preserve"><value>server “{0}” created</value></data>
-  <data name="DemoFlowsOutcomeCancelled" xml:space="preserve"><value>cancelled</value></data>
-  <data name="DemoFlowsWizardInDialog" xml:space="preserve"><value>Wizard in a dialog</value></data>
-  <data name="DemoFlowsInviteTitle" xml:space="preserve"><value>Invite a member</value></data>
-  <data name="DemoFlowsInviteSteps" xml:space="preserve"><value>Invitation steps</value></data>
-  <data name="DemoFlowsInvite" xml:space="preserve"><value>Invite</value></data>
-  <data name="DemoFlowsStepAddress" xml:space="preserve"><value>Address</value></data>
-  <data name="DemoFlowsAddressBody" xml:space="preserve"><value>The address of the person invited.</value></data>
-  <data name="DemoFlowsStepRole" xml:space="preserve"><value>Role</value></data>
-  <data name="DemoFlowsRoleBody" xml:space="preserve"><value>The role they will receive.</value></data>
-  <data name="DemoFlowsLongStepNote" xml:space="preserve"><value>A step taller than the wizard body: it scrolls, and the buttons stay where they are.</value></data>
-  <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Administration area</value></data>
-  <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Operations</value></data>
-  <data name="DemoFlowsUser" xml:space="preserve"><value>Username</value></data>
-  <data name="DemoFlowsPassword" xml:space="preserve"><value>Password</value></data>
-  <data name="DemoFlowsSignIn" xml:space="preserve"><value>Sign in</value></data>
-  <data name="DemoFlowsSignInNote" xml:space="preserve"><value>Form handed to the host for “{0}”.</value></data>
-  <data name="DemoFlowsReturnAfterSignIn" xml:space="preserve"><value>Return after sign-in: {0}</value></data>
-  <data name="DemoFlowsExternalRefused" xml:space="preserve"><value>External address refused: {0}</value></data>
-  <data name="DemoFlowsSimulateDrop" xml:space="preserve"><value>Simulate an outage</value></data>
-  <data name="DemoFlowsSimulateReject" xml:space="preserve"><value>Simulate a rejection</value></data>
-  <data name="DemoFlowsConnection" xml:space="preserve"><value>Connection: {0}</value></data>
-  <data name="DemoFlowsConnectionReconnecting" xml:space="preserve"><value>reconnecting</value></data>
-  <data name="DemoFlowsConnectionFailed" xml:space="preserve"><value>failed</value></data>
-  <data name="DemoFlowsConnectionRejected" xml:space="preserve"><value>rejected</value></data>
-  <data name="DemoFlowsConnectionEstablished" xml:space="preserve"><value>established</value></data>
-  <data name="DemoFlowsReasonTimeout" xml:space="preserve"><value>the server no longer responds (timed out)</value></data>
-  <data name="DemoFlowsReasonExpired" xml:space="preserve"><value>session expired on the server</value></data>
   <data name="DemoGridTreeIncome" xml:space="preserve"><value>Income</value></data>
   <data name="DemoGridTreeSales" xml:space="preserve"><value>Sales</value></data>
   <data name="DemoGridTreeServices" xml:space="preserve"><value>Services</value></data>

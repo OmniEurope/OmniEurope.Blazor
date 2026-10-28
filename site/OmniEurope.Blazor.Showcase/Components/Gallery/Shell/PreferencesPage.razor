@@ -1,0 +1,14 @@
+@page "/components/preferences"
+@using OmniEurope.Blazor.Showcase.Examples.Shell
+
+<GalleryPageFrame Slug="preferences">
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["PreferencesStored"]</HeaderContent>
+            <ChildContent>
+                <PreferencesExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["PreferencesHint"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

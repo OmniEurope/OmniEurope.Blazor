@@ -34,6 +34,19 @@ internal static class ShellFamily
                 "Shell/TooltipsExample.razor", "Shell/TooltipsExample.razor.cs",
                 "Shell/TooltipVariantsExample.razor", "Shell/TooltipVariantsExample.razor.cs",
                 "Shell/TitleTooltipExample.razor", "Shell/TitleTooltipExample.razor.cs"
+            ]),
+        new("workflows", "WorkflowsTitle", "WorkflowsDescription", OmniIconName.Path,
+            ["OmniWizard", "OmniWizardStep", "OmniLoginShell", "OmniConnectionOverlay"],
+            [
+                "Shell/WizardExample.razor", "Shell/WizardExample.razor.cs",
+                "Shell/WizardDialogExample.razor", "Shell/WizardDialogExample.razor.cs",
+                "Shell/LoginShellExample.razor", "Shell/LoginShellExample.razor.cs",
+                "Shell/ConnectionOverlayExample.razor", "Shell/ConnectionOverlayExample.razor.cs"
+            ]),
+        new("preferences", "PreferencesTitle", "PreferencesDescription", OmniIconName.Settings,
+            ["OmniPreferences"],
+            [
+                "Shell/PreferencesExample.razor", "Shell/PreferencesExample.razor.cs"
             ])
     ]);
 }

@@ -101,4 +101,25 @@
   <data name="TooltipsVariantsHint" xml:space="preserve"><value>Sur un badge : par défaut, fixe, étroite, et large avec un long texte qui s'ouvre sur un aperçu et se déplie à la demande.</value></data>
   <data name="TooltipsTitleAttributeTitle" xml:space="preserve"><value>Attribut title</value></data>
   <data name="TooltipsTitleAttributeHint" xml:space="preserve"><value>Posé une fois dans une mise en page, OmniTitleTooltips remplace l'infobulle du navigateur de tout attribut title par celle du paquet.</value></data>
+  <data name="WorkflowsTitle" xml:space="preserve"><value>Parcours</value></data>
+  <data name="WorkflowsDescription" xml:space="preserve"><value>Assistant (dans une page et dans un dialogue), coquille de connexion et états de la connexion.</value></data>
+  <data name="WorkflowsConnection" xml:space="preserve"><value>Connexion</value></data>
+  <data name="WorkflowsConnectionDescription" xml:space="preserve"><value>L'état du voile de connexion perdue : tout état autre que Connectée recouvre la page.</value></data>
+  <data name="WorkflowsConnected" xml:space="preserve"><value>Connectée</value></data>
+  <data name="WorkflowsReconnecting" xml:space="preserve"><value>Reconnexion</value></data>
+  <data name="WorkflowsFailed" xml:space="preserve"><value>Échec</value></data>
+  <data name="WorkflowsRejected" xml:space="preserve"><value>Refusée</value></data>
+  <data name="WorkflowsSignUp" xml:space="preserve"><value>Ligne d'inscription</value></data>
+  <data name="WorkflowsSignUpDescription" xml:space="preserve"><value>Une invitation discrète en pied de l'écran de connexion, jamais un second bouton.</value></data>
+  <data name="WorkflowsWizard" xml:space="preserve"><value>Assistant</value></data>
+  <data name="WorkflowsWizardHint" xml:space="preserve"><value>Suivant attend le nom, l'étape des options refuse d'avancer tant que la sauvegarde n'est pas cochée, et l'étape longue défile dans le corps pendant que les boutons restent en place.</value></data>
+  <data name="WorkflowsWizardDialog" xml:space="preserve"><value>Assistant dans un dialogue</value></data>
+  <data name="WorkflowsWizardDialogHint" xml:space="preserve"><value>Échap et la croix sont ceux du dialogue ; l'assistant n'y ajoute rien.</value></data>
+  <data name="WorkflowsLogin" xml:space="preserve"><value>Connexion</value></data>
+  <data name="WorkflowsConnectionTitle" xml:space="preserve"><value>Connexion perdue</value></data>
+  <data name="WorkflowsConnectionHint" xml:space="preserve"><value>Les boutons pilotent le même état que le réglage : une coupure réessaie deux fois d'elle-même puis échoue, un refus demande un rechargement.</value></data>
+  <data name="PreferencesTitle" xml:space="preserve"><value>Préférences</value></data>
+  <data name="PreferencesDescription" xml:space="preserve"><value>Une valeur écrite par OmniPreferences. Elle est conservée dans ce navigateur et, quand l'hôte enregistre un magasin de préférences, enregistrée là aussi : sur ce site, l'API de la vitrine la garde dans PostgreSQL sous un identifiant anonyme de ce navigateur, sans compte. La page lit la clé aux deux endroits et dit ce que chacun contient.</value></data>
+  <data name="PreferencesStored" xml:space="preserve"><value>Valeur enregistrée</value></data>
+  <data name="PreferencesHint" xml:space="preserve"><value>Sans magasin, comme sur une copie statique de ce site, ou quand l'API est injoignable, la valeur reste dans ce navigateur et la page le dit.</value></data>
 </root>
