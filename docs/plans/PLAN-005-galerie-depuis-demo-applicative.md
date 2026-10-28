@@ -59,7 +59,7 @@ Examples).
 | 8 | Text fields, numbers, toggles, validation, unsaved changes | `formulaires`, `formulaire-vertical`, `validation`, `saisie-avancee`, `reglages-onglets` | Fait |
 | 9 | Drop-downs, autocomplete, multi-select, lists, radio buttons | `selection` | Fait |
 | 10 | Select bar, selectable cards, dates, colors, slider, upload | `choix` | Fait |
-| 11 | Data grid (colonnes, détail), data list | `grille`, `grilles-maquette`, `grille-avancee`, `listes` | À faire |
+| 11 | Data grid (colonnes, détail), data list | `grille`, `grilles-maquette`, `grille-avancee`, `listes` | Fait (41395d65 ; 5 pages rendues dans Chromium sans erreur, vols annulés barrés, ids des sondes présents) |
 | 12 | Tree, spreadsheet, collections | `arborescence`, `tableur` | Fait (396ad044 ; 3 pages rendues sans erreur dans Chromium) |
 | 13 | Column, line, pie charts, gauges | `graphiques`, `graphiques-avances` | Fait (a5721bab ; 4 pages, 37 graphiques et jauges rendus, légende des secteurs lue dans le DOM) |
 | 14 | Scheduler, timeline, Gantt, step timeline | `agenda`, `planification` | Fait (5374fdce ; 4 pages rendues sans erreur dans Chromium) |
