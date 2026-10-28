@@ -1,0 +1,48 @@
+@page "/components/details"
+@using OmniEurope.Blazor.Showcase.Examples.Layout
+
+<GalleryPageFrame Slug="details">
+    <Settings>
+        <OmniSettingsSection Title="@Text["DetailsSettingsTitle"]" Description="@Text["DetailsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["DetailsState"]" Description="@Text["DetailsStateDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Document" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniDetailState" Options="@StateOptions" @bind-Value="State" Label="@Text["DetailsState"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+            <OmniSettingsTile Title="@Text["DetailsBackVariant"]" Description="@Text["DetailsBackVariantDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.ArrowLeft" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniButtonVariant" Options="@BackVariantOptions" @bind-Value="BackVariant" Label="@Text["DetailsBackVariant"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+            <OmniSettingsTile Title="@Text["DetailsFramed"]" Description="@Text["DetailsFramedDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Cards" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Framed" aria-label="@Text["DetailsFramed"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["DetailsPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <DetailsExample State="State" BackVariant="BackVariant" Framed="Framed" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["DetailsPinnedTitle"]</HeaderContent>
+            <ChildContent>
+                <PinnedActionsExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["DetailsPinnedDescription"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["DetailsEmptyTitle"]</HeaderContent>
+            <ChildContent>
+                <EmptyStatesExample />
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

@@ -1,0 +1,146 @@
+@page "/components/page-shell"
+@using OmniEurope.Blazor.Showcase.Examples.Layout
+
+<GalleryPageFrame Slug="page-shell">
+    <Settings>
+        <OmniSettingsSection Title="@Text["PageShellSettingsTitle"]" Description="@Text["PageShellSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["PageShellContentWidth"]" Description="@Text["PageShellContentWidthDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniLayoutWidth" Options="@WidthOptions" @bind-Value="ContentWidth" Label="@Text["PageShellContentWidth"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["PageShellScrollable"]" Description="@Text["PageShellScrollableDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Scrollable" aria-label="@Text["PageShellScrollable"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["PageShellAutoHide"]" Description="@Text["PageShellAutoHideDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Eye" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="AutoHideScrollbar" aria-label="@Text["PageShellAutoHide"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["PageShellSticky"]" Description="@Text["PageShellStickyDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Pin" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Sticky" aria-label="@Text["PageShellSticky"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["PageShellSurface"]" Description="@Text["PageShellSurfaceDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Palette" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniHeaderSurface" Options="@SurfaceOptions" @bind-Value="Surface" Label="@Text["PageShellSurface"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["PageShellFocusTarget"]" Description="@Text["PageShellFocusTargetDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.UserFocus" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="FocusTarget" aria-label="@Text["PageShellFocusTarget"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["PageShellLabelledBy"]" Description="@Text["PageShellLabelledByDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Tag" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="LabelledBy" aria-label="@Text["PageShellLabelledBy"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["PageShellWideCanvas"]" Description="@Text["PageShellWideCanvasDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Layers" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="WideCanvas" aria-label="@Text["PageShellWideCanvas"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        @* Without its own scrolling, the frame scrolls and a sticky header sticks to it; with it, the shell takes
+           the height of the frame and the main area scrolls. *@
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["PageShellPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["PageShellPreviewHint"]</OmniText>
+                <code class="gallery-shell-markup">@MainMarkup</code>
+                <div class="gallery-shell-viewport">
+                    <div class="@CanvasClass">
+                        <PageShellExample ContentWidth="ContentWidth" Scrollable="Scrollable" Sticky="Sticky" Surface="Surface"
+                                          FocusTarget="FocusTarget" LabelledBy="LabelledBy" AutoHideScrollbar="AutoHideScrollbar" />
+                    </div>
+                </div>
+            </ChildContent>
+        </OmniCard>
+
+        @* ContentWidth on a main area that scrolls by itself: the scrollbar stays at the right edge of the frame,
+           whether the column is centred or not. *@
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["PageShellWidthsTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["PageShellWidthsDescription"]</OmniText>
+                @foreach (var width in PageShellWidths.All)
+                {
+                    <OmniStack Gap="OmniSpacing.XSmall">
+                        <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@WidthCaption(width)</OmniText>
+                        <div class="gallery-shell-viewport gallery-shell-viewport--short">
+                            <div class="gallery-shell-canvas gallery-shell-canvas--wide gallery-shell-canvas--fill">
+                                <PageShellWidthExample Width="width" />
+                            </div>
+                        </div>
+                    </OmniStack>
+                }
+            </ChildContent>
+        </OmniCard>
+
+        @* The side menu in its arrangements: pushing the content, at the end of a full-width shell, and floating over it. *@
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["PageShellSidebarTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["PageShellSidebarDescription"]</OmniText>
+                <SidebarShellExample />
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["PageShellEndSidebarTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["PageShellEndSidebarDescription"]</OmniText>
+                <EndSidebarShellExample />
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["PageShellRailTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["PageShellRailDescription"]</OmniText>
+                <OverlayRailShellExample />
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["PageShellTabsTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["PageShellTabsDescription"]</OmniText>
+                <div id="page-shell-tabs-scope" class="gallery-shell-tabs">
+                    <ScrollingTabsExample WheelScope="#page-shell-tabs-scope" />
+                </div>
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["PageShellApplicationTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["PageShellApplicationDescription"]</OmniText>
+                <div class="gallery-shell-app">
+                    <ApplicationShellExample />
+                </div>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

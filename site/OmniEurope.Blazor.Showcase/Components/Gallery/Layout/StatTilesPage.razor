@@ -1,0 +1,106 @@
+@page "/components/stat-tiles"
+@using OmniEurope.Blazor.Showcase.Examples.Layout
+
+<GalleryPageFrame Slug="stat-tiles">
+    <Settings>
+        <OmniSettingsSection Title="@Text["StatTilesSettingsTitle"]" Description="@Text["StatTilesSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["StatTilesValue"]" Description="@Text["StatTilesValueDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.NumberedList" /></Icon>
+                <ChildContent>
+                    <OmniTextBox @bind-Value="TileValue" aria-label="@Text["StatTilesValue"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["StatTilesTitleSetting"]" Description="@Text["StatTilesTitleSettingDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
+                <ChildContent>
+                    <OmniTextBox @bind-Value="TileTitle" aria-label="@Text["StatTilesTitleSetting"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["StatTilesDetail"]" Description="@Text["StatTilesDetailDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowDetail" aria-label="@Text["StatTilesDetail"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["StatTilesIcon"]" Description="@Text["StatTilesIconDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Star" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowIcon" aria-label="@Text["StatTilesIcon"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["StatTilesClickable"]" Description="@Text["StatTilesClickableDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Play" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Clickable" aria-label="@Text["StatTilesClickable"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["StatTilesPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <StatTilesExample Value="@TileValue" Title="@TileTitle" ShowDetail="ShowDetail" ShowIcon="ShowIcon" Clickable="Clickable" />
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["StatTilesGalleryTitle"]</HeaderContent>
+            <ChildContent>
+                <StatTilesGalleryExample />
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["StatTilesColumnsTitle"]</HeaderContent>
+            <ChildContent>
+                <StatTilesColumnsExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["StatTilesColumnsDescription"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["StatTilesFactsTitle"]</HeaderContent>
+            <ChildContent>
+                <FactTilesExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["StatTilesFactsDescription"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["StatTilesFactsNarrowTitle"]</HeaderContent>
+            <ChildContent>
+                <FactTilesNarrowExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["StatTilesFactsNarrowDescription"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["StatTilesGridTitle"]</HeaderContent>
+            <ChildContent>
+                <TileGridExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["StatTilesGridDescription"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["StatTilesNaturalTitle"]</HeaderContent>
+            <ChildContent>
+                <TileGridNaturalExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["StatTilesNaturalDescription"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["StatTilesUniformTitle"]</HeaderContent>
+            <ChildContent>
+                <TileGridUniformExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["StatTilesUniformDescription"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

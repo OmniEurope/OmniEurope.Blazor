@@ -1,0 +1,69 @@
+@using Microsoft.AspNetCore.Components.Forms
+
+@* A whole application shell: a top bar with a collapse button, a brand, a search, help, a bell and the account
+   menu, a side menu that collapses to a rail of icons, and the content. The menu does not navigate: it marks
+   the section chosen. *@
+<OmniLayout>
+    @* The collapse button goes through SidebarToggle: the header puts it on the axis of the rail icons,
+       whatever content follows. *@
+    <OmniHeader Brand="Boutique">
+        <SidebarToggle>
+            <OmniSidebarToggle Controls="application-shell-menu" Open="MenuOpen" OpenChanged="@(value => MenuOpen = value)"
+                               Label="Collapse or expand the menu" />
+        </SidebarToggle>
+        <ChildContent>
+            <EditForm Model="this" role="search">
+                <OmniTextBox Id="application-shell-search" Type="OmniTextBoxType.Search" aria-label="Search"
+                             Placeholder="Search for a pipeline" @bind-Value="Search" />
+            </EditForm>
+            <OmniButton Variant="OmniButtonVariant.Ghost" Label="Help">
+                <Icon><OmniIcon Name="OmniIconName.Question" /></Icon>
+            </OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Ghost" Label="@($"Notifications, {Unread} unread")">
+                <Icon><OmniIcon Name="OmniIconName.Bell" /></Icon>
+            </OmniButton>
+            <OmniBadge Tone="OmniTone.Danger">@Unread</OmniBadge>
+            @* The standard app menu of the package: name and role, the language, the mode, the theme, the
+               settings, then the version and signing out; here every action only reports itself. *@
+            <OmniAppMenu UserName="admin" Role="Account"
+                         Languages="Languages" Language="LanguageCode" LanguageChanged="@(code => LanguageCode = code)"
+                         Appearance="MenuAppearance" AppearanceChanged="@(value => MenuAppearance = value)"
+                         OnThemeOpen="@(() => Last = "Appearance")" OnSettingsOpen="@(() => Last = "Settings")"
+                         Version="Boutique" OnSignOut="@(() => Last = "Sign out")" />
+            @* The caption buttons of a borderless desktop window; here they only report the click. *@
+            <OmniWindowControls OnMinimize="@(() => Last = "Minimise the window")"
+                                OnMaximizeRestore="@(() => { Maximized = !Maximized; Last = "Maximise or restore the window"; })"
+                                Maximized="Maximized" OnClose="@(() => Last = "Close the window")" />
+        </ChildContent>
+    </OmniHeader>
+    <OmniBody>
+        <OmniSidebar Id="application-shell-menu" Open="MenuOpen" OpenChanged="@(value => MenuOpen = value)"
+                     Collapse="OmniSidebarCollapse.Icons" Transition="OmniSidebarTransition.Smooth"
+                     Label="Main menu">
+            <OmniPanelMenu Label="Main menu" Display="OmniPanelMenuDisplay.IconAndText" CanNavigate="SelectAsync">
+                @foreach (var section in Sections)
+                {
+                    <OmniPanelMenuItem Text="@section.Text" Href="@($"components/page-shell#{section.Key}")"
+                                       Current="@(Selected == section.Key)" Match="OmniNavMatch.None">
+                        <Icon><OmniIcon Name="section.Icon" /></Icon>
+                    </OmniPanelMenuItem>
+                }
+            </OmniPanelMenu>
+        </OmniSidebar>
+        <OmniMain AriaLabelledBy="application-shell-title">
+            <OmniStack Gap="OmniSpacing.Medium">
+                <OmniHeading Id="application-shell-title" Level="OmniHeadingLevel.H3">@Sections.Single(section => section.Key == Selected).Text</OmniHeading>
+                <OmniTileGrid Columns="3">
+                    <OmniStatTile Value="1" Title="Server online" />
+                    <OmniStatTile Value="2" Title="Applications tracked" />
+                    <OmniStatTile Value="0" Title="Pipelines running" />
+                </OmniTileGrid>
+                <OmniSkeleton Shape="OmniSkeletonShape.Text" LineCount="2" Label="Loading the dashboard" />
+                @if (Last is not null)
+                {
+                    <OmniText>Last action: @Last</OmniText>
+                }
+            </OmniStack>
+        </OmniMain>
+    </OmniBody>
+</OmniLayout>

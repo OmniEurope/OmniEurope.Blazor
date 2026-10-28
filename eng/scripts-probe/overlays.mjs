@@ -163,19 +163,21 @@ export async function overlaySteps(session, results) {
 
   // The shell demo's sidebar watches its overflow; leaving the page releases it. Its first theme scope
   // keeps the snapshot of its look (SnapshotKey), rewritten when the appearance changes.
-  const snapshotKey = 'omnieurope.showcase.shell-theme';
+  const snapshotKey = 'omnieurope.example.shell-theme';
   await evaluate(`localStorage.removeItem(${JSON.stringify(snapshotKey)})`);
-  await session.visit('/components/legacy/coquille', '#shell-demo-sidebar');
+  await session.visit('/components/page-shell', '#shell-sidebar');
   const snapshot = `JSON.parse(localStorage.getItem(${JSON.stringify(snapshotKey)}) ?? 'null')`;
   await waitFor('l\'instantané du thème écrit', `${snapshot}?.appearance === 'light' && ${snapshot}.density === 'compact' && ${snapshot}.version === 1`);
-  await clickOn('#shell-demo-appearance');
+  await clickOn('#shell-sidebar-appearance');
   await waitFor('l\'instantané réécrit en sombre', `${snapshot}?.appearance === 'dark'`);
-  await clickOn('#shell-demo-appearance');
+  await clickOn('#shell-sidebar-appearance');
   await waitFor('l\'instantané revenu en clair', `${snapshot}?.appearance === 'light'`);
   step('instantané du thème écrit puis réécrit à chaque apparence');
 
   // The main element that scrolls on its own shows its scrollbar while it moves, then hides it again.
-  const scrollMain = '#shell-demo-scroll-main';
+  const scrollMain = '#page-shell-main';
+  // The miniature sits on a wide canvas that scrolls sideways: bring the column into the frame before the wheel turns.
+  await evaluate(`document.querySelector(${JSON.stringify(`${scrollMain} p`)}).scrollIntoView({ block: 'nearest', inline: 'center' })`);
   await mouse('mouseWheel', await session.pointOf(`${scrollMain} p`), { button: 'none', deltaX: 0, deltaY: 60 });
   await waitFor('la barre montrée pendant le défilement', `document.querySelector(${JSON.stringify(scrollMain)}).scrollTop > 0 && document.querySelector(${JSON.stringify(scrollMain)}).classList.contains('omni-main--scrolling')`);
   await waitFor('la barre cachée après le défilement', `!document.querySelector(${JSON.stringify(scrollMain)}).classList.contains('omni-main--scrolling')`, 5_000);
@@ -183,9 +185,9 @@ export async function overlaySteps(session, results) {
 
   // Tabs whose selected panel scrolls on its own: a wheel turn over the tab strip, outside the
   // panel but inside the named frame, scrolls the panel.
-  const tabsPanel = "[...document.querySelectorAll('#shell-demo-tabs-scope .omni-tabs__panel')].find(panel => !panel.hidden)";
+  const tabsPanel = "[...document.querySelectorAll('#page-shell-tabs-scope .omni-tabs__panel')].find(panel => !panel.hidden)";
   check(await evaluate(`${tabsPanel}.scrollHeight > ${tabsPanel}.clientHeight + 10`), 'Le panneau des onglets ne déborde pas : la molette ne prouverait rien.');
-  await mouse('mouseWheel', await session.pointOf('#shell-demo-tabs-scope [role="tab"]'), { button: 'none', deltaX: 0, deltaY: 80 });
+  await mouse('mouseWheel', await session.pointOf('#page-shell-tabs-scope [role="tab"]'), { button: 'none', deltaX: 0, deltaY: 80 });
   await waitFor('le panneau défilé par la molette sur la barre d\'onglets', `${tabsPanel}.scrollTop > 20`);
   step('molette sur la barre d\'onglets qui fait défiler le panneau');
 
@@ -217,14 +219,14 @@ export async function overlaySteps(session, results) {
 
   // 8. The page header's title strip on a phone: the demo title is short, so the probe lengthens it the
   // way a late value would; the chevron then scrolls it and the module watches that scroll.
-  await session.visit('/components/legacy/pages', '#pages-demo-shell .omni-page-header__title');
-  const title = '#pages-demo-shell .omni-page-header__title';
+  await session.visit('/components/details', '#details-shell .omni-page-header__title');
+  const title = '#details-shell .omni-page-header__title';
   const shortTitle = await evaluate(`document.querySelector(${JSON.stringify(title)}).textContent`);
   await evaluate(`document.querySelector(${JSON.stringify(title)}).textContent = 'srv-paris-01-production-europe-ouest-grappe-principale-noeud-de-calcul-numero-quarante-deux'`);
-  await waitFor('le chevron de fin du titre', `document.querySelector('#pages-demo-shell .omni-page-header__scroll--end')?.getClientRects().length > 0`);
-  await clickOn('#pages-demo-shell .omni-page-header__scroll--end');
+  await waitFor('le chevron de fin du titre', `document.querySelector('#details-shell .omni-page-header__scroll--end')?.getClientRects().length > 0`);
+  await clickOn('#details-shell .omni-page-header__scroll--end');
   await waitFor('le titre défilé', `Math.abs(document.querySelector(${JSON.stringify(title)}).scrollLeft) > 10`);
-  await waitFor('le chevron de début du titre', `document.querySelector('#pages-demo-shell .omni-page-header__scroll--start')?.getClientRects().length > 0`);
+  await waitFor('le chevron de début du titre', `document.querySelector('#details-shell .omni-page-header__scroll--start')?.getClientRects().length > 0`);
   await evaluate(`document.querySelector(${JSON.stringify(title)}).textContent = ${JSON.stringify(shortTitle)}`);
   step('titre d\'en-tête long défilé par son chevron à 375 px');
   await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
@@ -233,8 +235,8 @@ export async function overlaySteps(session, results) {
   // The header's back button names no destination: it steps back in the history, to the page the
   // reader came from.
   await session.visit('/components/badges', '.omni-badge');
-  await session.visit('/components/legacy/pages', '#pages-demo-shell .omni-page-header__back');
-  await clickOn('#pages-demo-shell .omni-page-header__back');
+  await session.visit('/components/details', '#details-shell .omni-page-header__back');
+  await clickOn('#details-shell .omni-page-header__back');
   await waitFor('le retour à la page précédente', "location.pathname === '/components/badges'");
   step('retour sans destination : un pas en arrière dans l\'historique');
 
@@ -244,25 +246,25 @@ export async function overlaySteps(session, results) {
   // with the inline end of the header, and the "⋮" trigger stays on line 1 at the end of the title row,
   // whether "Show more" is closed or open (recette R-30, R-31, R-40).
   const pinnedBox = `(() => {
-    const header = document.getElementById('pages-demo-pinned');
+    const header = document.getElementById('details-pinned');
     const rect = element => { const box = element.getBoundingClientRect(); return { top: box.top, bottom: box.bottom, left: box.left, right: box.right, width: box.width, height: box.height }; };
     const row = header.querySelector('.omni-page-header__row');
     const back = header.querySelector('.omni-page-header__back');
     const title = header.querySelector('.omni-page-header__title');
-    const pinned = document.getElementById('pages-demo-pinned-relaunch');
+    const pinned = document.getElementById('details-pinned-relaunch');
     const trigger = header.querySelector('.omni-page-header__menu .omni-overflow-menu__trigger');
     const toggle = header.querySelector('.omni-page-header__toggle');
     return { viewport: innerWidth, row: rect(row), back: rect(back), title: rect(title), pinned: rect(pinned), pinnedShown: pinned.getClientRects().length > 0, trigger: rect(trigger), toggleShown: toggle.getClientRects().length > 0, expanded: toggle.getAttribute('aria-expanded') };
   })()`;
   for (const width of [375, 320]) {
     await send('Emulation.setDeviceMetricsOverride', { width, height: 812, deviceScaleFactor: 1, mobile: true });
-    await session.visit('/components/legacy/pages', '#pages-demo-pinned-relaunch');
-    await evaluate("document.getElementById('pages-demo-pinned').scrollIntoView({ block: 'center' })");
+    await session.visit('/components/details', '#details-pinned-relaunch');
+    await evaluate("document.getElementById('details-pinned').scrollIntoView({ block: 'center' })");
     await pause(400);
     for (const state of ['closed', 'open']) {
       if (state === 'open') {
-        await clickOn('#pages-demo-pinned .omni-page-header__toggle');
-        await waitFor('« Voir plus » ouvert', "document.querySelector('#pages-demo-pinned .omni-page-header__toggle')?.getAttribute('aria-expanded') === 'true'");
+        await clickOn('#details-pinned .omni-page-header__toggle');
+        await waitFor('« Voir plus » ouvert', "document.querySelector('#details-pinned .omni-page-header__toggle')?.getAttribute('aria-expanded') === 'true'");
         await pause(300);
       }
 
@@ -277,7 +279,7 @@ export async function overlaySteps(session, results) {
       check(box.trigger.left >= box.title.right - 1 && Math.abs(box.trigger.right - box.row.right) <= 1, `Le menu ⋮ n'est pas à l'extrémité de la ligne du titre ${where} : ${JSON.stringify({ trigger: box.trigger, title: box.title, row: box.row })}.`);
     }
 
-    await clickOn('#pages-demo-pinned .omni-page-header__toggle');
+    await clickOn('#details-pinned .omni-page-header__toggle');
   }
 
   step('actions épinglées de l\'en-tête visibles sans clic sous la ligne 1 et menu ⋮ au bout de la ligne du titre à 375 et 320 px, « Voir plus » fermé et ouvert');

@@ -183,4 +183,112 @@
   <data name="AccordionPreviewHint" xml:space="preserve"><value>Arrows, Home and End move between the headers; Enter and Space open a row.</value></data>
   <data name="AccordionAdvancedTitle" xml:space="preserve"><value>Free headers and own controls</value></data>
   <data name="AccordionAdvancedDescription" xml:space="preserve"><value>Several rows open together, the body kept, a chosen heading level and a compact density. A control of its own sits beside the toggle button and does not toggle the row.</value></data>
+  <data name="PageShellTitle" xml:space="preserve"><value>Page shell</value></data>
+  <data name="PageShellDescription" xml:space="preserve"><value>The frame of an application page: the layout takes the full width, the header can stay pinned at the top, the body holds the main area, which sets the reading width and stays the landmark that skip links and focus aim at.</value></data>
+  <data name="PageShellSettingsTitle" xml:space="preserve"><value>Page shell</value></data>
+  <data name="PageShellSettingsDescription" xml:space="preserve"><value>These settings drive the miniature shell of the preview.</value></data>
+  <data name="PageShellContentWidth" xml:space="preserve"><value>Content width</value></data>
+  <data name="PageShellContentWidthDescription" xml:space="preserve"><value>OmniMain ContentWidth parameter: only the content is centred, the header and the sidebar keep the full width.</value></data>
+  <data name="PageShellScrollable" xml:space="preserve"><value>Own scrolling</value></data>
+  <data name="PageShellScrollableDescription" xml:space="preserve"><value>OmniMain Scrollable parameter: the main area scrolls from edge to edge, its scrollbar at the right edge, even when the content is centred.</value></data>
+  <data name="PageShellAutoHide" xml:space="preserve"><value>Auto-hide scrollbar</value></data>
+  <data name="PageShellAutoHideDescription" xml:space="preserve"><value>OmniMain AutoHideScrollbar parameter: the scrollbar keeps its room but stays transparent until the content moves.</value></data>
+  <data name="PageShellSticky" xml:space="preserve"><value>Sticky header</value></data>
+  <data name="PageShellStickyDescription" xml:space="preserve"><value>Sticky parameter of OmniHeader: the header stays at the top of the container that scrolls.</value></data>
+  <data name="PageShellSurface" xml:space="preserve"><value>Header surface</value></data>
+  <data name="PageShellSurfaceDescription" xml:space="preserve"><value>Surface parameter of OmniHeader: the colour of the page, or the accent band of the application.</value></data>
+  <data name="PageShellSurfacePage" xml:space="preserve"><value>Page</value></data>
+  <data name="PageShellSurfaceAccent" xml:space="preserve"><value>Accent</value></data>
+  <data name="PageShellFocusTarget" xml:space="preserve"><value>Focus target</value></data>
+  <data name="PageShellFocusTargetDescription" xml:space="preserve"><value>FocusTarget parameter of OmniMain: tabindex="-1", so that a skip link or a navigation can put the focus on it.</value></data>
+  <data name="PageShellLabelledBy" xml:space="preserve"><value>Named by its heading</value></data>
+  <data name="PageShellLabelledByDescription" xml:space="preserve"><value>AriaLabelledBy parameter of OmniMain: the id of the heading that names the area.</value></data>
+  <data name="PageShellWideCanvas" xml:space="preserve"><value>Wide canvas</value></data>
+  <data name="PageShellWideCanvasDescription" xml:space="preserve"><value>Draws the miniature on 100rem, scrolling sideways: in a narrower frame, the three widths look the same.</value></data>
+  <data name="PageShellPreviewTitle" xml:space="preserve"><value>Preview</value></data>
+  <data name="PageShellPreviewHint" xml:space="preserve"><value>Scroll inside the frame: a sticky header stays in place, the dashed outline shows the width of the layout.</value></data>
+  <data name="PageShellWidthsTitle" xml:space="preserve"><value>Centred content or full width</value></data>
+  <data name="PageShellWidthsDescription" xml:space="preserve"><value>A main area that scrolls by itself, with each of the three content widths: the scrollbar stays at the right edge of the frame, only the tinted column changes width. Content is the usual choice for an application that centres its reading column.</value></data>
+  <data name="PageShellWidthCaption" xml:space="preserve"><value>{0}: column of at most {1}</value></data>
+  <data name="PageShellWidthFull" xml:space="preserve"><value>Full</value></data>
+  <data name="PageShellWidthWide" xml:space="preserve"><value>Wide</value></data>
+  <data name="PageShellWidthContent" xml:space="preserve"><value>Content</value></data>
+  <data name="PageShellApplicationTitle" xml:space="preserve"><value>Application shell</value></data>
+  <data name="PageShellApplicationDescription" xml:space="preserve"><value>A whole application shell: a top bar with a collapse button, search, help, a bell and the account menu, a side menu that collapses to a rail of icons, and the content. The menu only marks the section chosen.</value></data>
+  <data name="PageShellSidebarTitle" xml:space="preserve"><value>Side menu pushing the content</value></data>
+  <data name="PageShellSidebarDescription" xml:space="preserve"><value>A skip link, a header with the menu toggle and an appearance button, and a side menu that pushes the content. The theme scope keeps a snapshot of its look that a startup script can replay.</value></data>
+  <data name="PageShellEndSidebarTitle" xml:space="preserve"><value>Full width, menu at the end</value></data>
+  <data name="PageShellEndSidebarDescription" xml:space="preserve"><value>The same shell in the other arrangement: full width, the menu at the end, a roomy density, an appearance that follows the system setting and the header drawn as an accent band.</value></data>
+  <data name="PageShellRailTitle" xml:space="preserve"><value>Floating menu and icon rail</value></data>
+  <data name="PageShellRailDescription" xml:space="preserve"><value>The menu floats over the content, which keeps its width, and leaves a rail of icons once closed; a click on the veil closes it.</value></data>
+  <data name="PageShellTabsTitle" xml:space="preserve"><value>Tabs scrolling inside a frame</value></data>
+  <data name="PageShellTabsDescription" xml:space="preserve"><value>Tabs in a frame of fixed height: only the selected panel scrolls (ScrollablePanels), and a wheel turn anywhere in the frame, the tab strip included, scrolls it (WheelScrollScope).</value></data>
+  <data name="DetailsTitle" xml:space="preserve"><value>Details</value></data>
+  <data name="DetailsDescription" xml:space="preserve"><value>The page of one record: a header with back button, title, badges, actions and menu, the loading, found and not-found states, labelled values in columns, relative time and empty states.</value></data>
+  <data name="DetailsSettingsTitle" xml:space="preserve"><value>Detail page</value></data>
+  <data name="DetailsSettingsDescription" xml:space="preserve"><value>These settings drive the detail page of the preview.</value></data>
+  <data name="DetailsState" xml:space="preserve"><value>Detail state</value></data>
+  <data name="DetailsStateDescription" xml:space="preserve"><value>State parameter of OmniDetailShell: the header is painted at once, the content waits for the record.</value></data>
+  <data name="DetailsStateLoading" xml:space="preserve"><value>Loading</value></data>
+  <data name="DetailsStateFound" xml:space="preserve"><value>Found</value></data>
+  <data name="DetailsStateMissing" xml:space="preserve"><value>Not found</value></data>
+  <data name="DetailsBackVariant" xml:space="preserve"><value>Back button</value></data>
+  <data name="DetailsBackVariantDescription" xml:space="preserve"><value>BackVariant parameter of OmniPageHeader: the back arrow in the accent colour, or discreet.</value></data>
+  <data name="DetailsBackPrimary" xml:space="preserve"><value>Primary</value></data>
+  <data name="DetailsBackGhost" xml:space="preserve"><value>Discreet</value></data>
+  <data name="DetailsFramed" xml:space="preserve"><value>Framed header</value></data>
+  <data name="DetailsFramedDescription" xml:space="preserve"><value>Framed parameter of OmniPageHeader: brings back the bordered block; by default the header sits on the page.</value></data>
+  <data name="DetailsPreviewTitle" xml:space="preserve"><value>Sample record</value></data>
+  <data name="DetailsPinnedTitle" xml:space="preserve"><value>Header with a pinned action</value></data>
+  <data name="DetailsPinnedDescription" xml:space="preserve"><value>Narrow the window under 40rem: the pinned button is never folded behind "Show more", it takes a line under the title row, and the menu stays at the end of that row.</value></data>
+  <data name="DetailsEmptyTitle" xml:space="preserve"><value>Empty states</value></data>
+  <data name="StatTilesTitle" xml:space="preserve"><value>Stat tiles</value></data>
+  <data name="StatTilesDescription" xml:space="preserve"><value>A figure on the card surface: tinted icon, value, title and an optional detail line; clickable, the whole tile becomes a button. Tiles of facts and tile grids complete the family.</value></data>
+  <data name="StatTilesSettingsTitle" xml:space="preserve"><value>Tile settings</value></data>
+  <data name="StatTilesSettingsDescription" xml:space="preserve"><value>Each setting drives the tile of the live preview.</value></data>
+  <data name="StatTilesValue" xml:space="preserve"><value>Value</value></data>
+  <data name="StatTilesValueDescription" xml:space="preserve"><value>The figure itself, already formatted by the page.</value></data>
+  <data name="StatTilesTitleSetting" xml:space="preserve"><value>Title</value></data>
+  <data name="StatTilesTitleSettingDescription" xml:space="preserve"><value>What the figure measures.</value></data>
+  <data name="StatTilesDetail" xml:space="preserve"><value>Detail line</value></data>
+  <data name="StatTilesDetailDescription" xml:space="preserve"><value>A muted line under the title: a trend, a reset time.</value></data>
+  <data name="StatTilesIcon" xml:space="preserve"><value>Icon</value></data>
+  <data name="StatTilesIconDescription" xml:space="preserve"><value>A decorative icon on a tinted square before the text.</value></data>
+  <data name="StatTilesClickable" xml:space="preserve"><value>Clickable</value></data>
+  <data name="StatTilesClickableDescription" xml:space="preserve"><value>OnClick makes the whole tile one button, named by its title and value.</value></data>
+  <data name="StatTilesPreviewTitle" xml:space="preserve"><value>Live preview</value></data>
+  <data name="StatTilesGalleryTitle" xml:space="preserve"><value>Gallery</value></data>
+  <data name="StatTilesColumnsTitle" xml:space="preserve"><value>Tiles in columns</value></data>
+  <data name="StatTilesColumnsDescription" xml:space="preserve"><value>The second tile is clickable. The title of a tile stays on one line: smaller when it does not fit, then cut with an ellipsis, its whole text in the tooltip (third tile, narrowed to a small column).</value></data>
+  <data name="StatTilesFactsTitle" xml:space="preserve"><value>Fact tiles</value></data>
+  <data name="StatTilesFactsDescription" xml:space="preserve"><value>A title, then rows of icon, term and value on three columns shared by the tiles of the grid, so they line up. A value too long is cut with an ellipsis and read whole in the tooltip. The first tile carries linked values, the second a badge, the third is a single link.</value></data>
+  <data name="StatTilesFactsNarrowTitle" xml:space="preserve"><value>Narrow fact tiles</value></data>
+  <data name="StatTilesFactsNarrowDescription" xml:space="preserve"><value>Four tiles on one row: each row decides on its own whether the term and the value share a line or the value goes under the term.</value></data>
+  <data name="StatTilesGridTitle" xml:space="preserve"><value>Tile grid</value></data>
+  <data name="StatTilesGridDescription" xml:space="preserve"><value>All the tiles of the package have the same width and, by default, the same height, whatever their content; DoubleWidth spreads one over two columns, and a clickable card or a linked stat tile keeps its place.</value></data>
+  <data name="StatTilesNaturalTitle" xml:space="preserve"><value>Natural heights</value></data>
+  <data name="StatTilesNaturalDescription" xml:space="preserve"><value>EqualHeights set to false: each tile keeps the height of its content, aligned to the top of its row; the widths do not change.</value></data>
+  <data name="StatTilesUniformTitle" xml:space="preserve"><value>Uniform size</value></data>
+  <data name="StatTilesUniformDescription" xml:space="preserve"><value>UniformSize: about the same width, exactly the same height, whatever the content (a stat tile, a fact tile, a double-width navigation tile and a card).</value></data>
+  <data name="NavTilesTitle" xml:space="preserve"><value>Navigation tiles</value></data>
+  <data name="NavTilesDescription" xml:space="preserve"><value>A navigation tile, the home of an administration area or a hub of sections: an icon on a tinted square, a title and an optional description, the whole tile one link. Hovered, only its shadow changes.</value></data>
+  <data name="NavTilesSettingsTitle" xml:space="preserve"><value>Tile settings</value></data>
+  <data name="NavTilesSettingsDescription" xml:space="preserve"><value>Each setting drives the preview tiles live.</value></data>
+  <data name="NavTilesTone" xml:space="preserve"><value>Tone</value></data>
+  <data name="NavTilesToneDescription" xml:space="preserve"><value>Tone parameter: the colour of the square and its icon, Accent by default.</value></data>
+  <data name="NavTilesShowDescription" xml:space="preserve"><value>Description</value></data>
+  <data name="NavTilesShowDescriptionHint" xml:space="preserve"><value>Description parameter: a muted line under the title, what is found there.</value></data>
+  <data name="NavTilesPreviewTitle" xml:space="preserve"><value>Live preview</value></data>
+  <data name="NavTilesTonesTitle" xml:space="preserve"><value>Tones</value></data>
+  <data name="NavTilesFitTitle" xml:space="preserve"><value>Fit the title</value></data>
+  <data name="NavTilesFitTitleHint" xml:space="preserve"><value>The title shrinks to stay on one line instead of wrapping.</value></data>
+  <data name="NavTilesFitTitleTitle" xml:space="preserve"><value>Titles fitted on one line</value></data>
+  <data name="NavTilesToneNeutral" xml:space="preserve"><value>Neutral</value></data>
+  <data name="NavTilesToneAccent" xml:space="preserve"><value>Accent</value></data>
+  <data name="NavTilesToneInfo" xml:space="preserve"><value>Info</value></data>
+  <data name="NavTilesToneSuccess" xml:space="preserve"><value>Success</value></data>
+  <data name="NavTilesToneWarning" xml:space="preserve"><value>Warning</value></data>
+  <data name="NavTilesToneDanger" xml:space="preserve"><value>Danger</value></data>
+  <data name="NavTilesGridTitle" xml:space="preserve"><value>Double-width tile in a fluid grid</value></data>
+  <data name="NavTilesGridDescription" xml:space="preserve"><value>MinColumnWidth: the column count follows the width of the grid itself, not the window's. Beside a side menu the grid has fewer, wider columns; a DoubleWidth tile takes two columns where the grid has two, one otherwise.</value></data>
 </root>

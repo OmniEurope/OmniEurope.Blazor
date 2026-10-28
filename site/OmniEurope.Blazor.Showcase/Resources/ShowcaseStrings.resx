@@ -113,12 +113,6 @@
   <data name="DemoLayoutTitle" xml:space="preserve"><value>Layout</value></data>
   <data name="DemoLayoutSummary" xml:space="preserve"><value>The tile grid.</value></data>
   <data name="DemoLayoutCapability5" xml:space="preserve"><value>A tile grid: equal widths, one height per row, and a double-width tile that spans two columns.</value></data>
-  <data name="DemoShellTitle" xml:space="preserve"><value>Application shell</value></data>
-  <data name="DemoShellSummary" xml:space="preserve"><value>The frame of an application, the one this site is built from.</value></data>
-  <data name="DemoShellCapability1" xml:space="preserve"><value>Header, collapsible sidebar and main region.</value></data>
-  <data name="DemoShellCapability2" xml:space="preserve"><value>A navigation menu with expandable groups.</value></data>
-  <data name="DemoShellCapability3" xml:space="preserve"><value>An appearance toggle and a local theme scope.</value></data>
-  <data name="DemoShellCapability4" xml:space="preserve"><value>Both arrangements: a centred reading column or full width, menu on either side.</value></data>
   <data name="DemoInputsTitle" xml:space="preserve"><value>Advanced inputs</value></data>
   <data name="DemoInputsSummary" xml:space="preserve"><value>Numbers, passwords, dates, times, colours and autocomplete.</value></data>
   <data name="DemoInputsCapability3" xml:space="preserve"><value>Asynchronous autocomplete, debounced and length-gated.</value></data>
@@ -181,14 +175,6 @@
   <data name="DemoPlanningCapability1" xml:space="preserve"><value>Gantt by day, week or month, with groups, dependencies and a today marker.</value></data>
   <data name="DemoPlanningCapability2" xml:space="preserve"><value>Run steps on a time scale, with the steps that never started.</value></data>
   <data name="DemoPlanningCapability3" xml:space="preserve"><value>Timeline on the right, on the left or alternating, choosing the first side.</value></data>
-  <data name="DemoPagesTitle" xml:space="preserve"><value>Pages</value></data>
-  <data name="DemoPagesSummary" xml:space="preserve"><value>The header, the detail page and what fills it.</value></data>
-  <data name="DemoPagesIconsTitle" xml:space="preserve"><value>Icons</value></data>
-  <data name="DemoPagesIconsSummary" xml:space="preserve"><value>Sizes, accessible names and the whole catalogue.</value></data>
-  <data name="DemoPagesCapability1" xml:space="preserve"><value>Page header: a breadcrumb held by a service, back, title, badges and actions folded on a phone.</value></data>
-  <data name="DemoPagesCapability2" xml:space="preserve"><value>Detail page: the header painted before the data arrives, the content hidden while loading, a not-found state with a way back.</value></data>
-  <data name="DemoPagesCapability3" xml:space="preserve"><value>A description list in columns, with an action per value.</value></data>
-  <data name="DemoPagesCapability4" xml:space="preserve"><value>A relative time with the exact date on hover and focus, and an empty state with its action.</value></data>
   <data name="DemoFlowsTitle" xml:space="preserve"><value>Flows</value></data>
   <data name="DemoFlowsSummary" xml:space="preserve"><value>A wizard, a sign-in page and a lost connection.</value></data>
   <data name="DemoFlowsCapability1" xml:space="preserve"><value>Step wizard: progress, per-step validation, in a page or in a dialog.</value></data>
@@ -268,11 +254,6 @@
   <data name="ContrastPair45" xml:space="preserve"><value>danger fill / surface</value></data>
   <data name="ContrastPair46" xml:space="preserve"><value>accent / surface</value></data>
   <data name="ContrastPair47" xml:space="preserve"><value>border / surface (OE floor 1.7)</value></data>
-  <data name="DemoAppShellTitle" xml:space="preserve"><value>Application shell</value></data>
-  <data name="DemoAppShellSummary" xml:space="preserve"><value>Top bar, side menu that collapses to an icon rail, content.</value></data>
-  <data name="DemoAppShellCapability1" xml:space="preserve"><value>Collapse button, search, help, bell with a dot and an account menu closed at rest.</value></data>
-  <data name="DemoAppShellCapability2" xml:space="preserve"><value>The side menu keeps its icons once collapsed (Collapse Icons).</value></data>
-  <data name="DemoAppShellCapability3" xml:space="preserve"><value>The dot, the magnifier, the logo and the avatar are drawn by the showcase: the package has no component for them.</value></data>
   <data name="DemoSurfacesTitle" xml:space="preserve"><value>Surfaces</value></data>
   <data name="DemoSurfacesSummary" xml:space="preserve"><value>Cards, floating menu, tabs, side menu, link and tooltip.</value></data>
   <data name="DemoSurfacesCapability1" xml:space="preserve"><value>Cards and the floating menu read the theme's shape: fill, stroke, radius and shadow.</value></data>
@@ -389,22 +370,36 @@
   <data name="ShellNotifications" xml:space="preserve"><value>Notifications, {0} unread</value></data>
   <data name="ShellAccount" xml:space="preserve"><value>Account</value></data>
   <data name="ShellSettings" xml:space="preserve"><value>Settings</value></data>
+  <data name="SettingsTabsLabel" xml:space="preserve"><value>Settings</value></data>
+  <data name="SettingsGeneral" xml:space="preserve"><value>General</value></data>
+  <data name="SettingsGeneralLead" xml:space="preserve"><value>Working locations and startup behaviour.</value></data>
+  <data name="SettingsFolder" xml:space="preserve"><value>Artifact folder</value></data>
+  <data name="SettingsFolderHint" xml:space="preserve"><value>Where the builds drop their packages.</value></data>
+  <data name="SettingsBrowse" xml:space="preserve"><value>Browse</value></data>
+  <data name="SettingsStartup" xml:space="preserve"><value>Start with Windows</value></data>
+  <data name="SettingsStartupHint" xml:space="preserve"><value>Starts the agent when the session opens.</value></data>
+  <data name="SettingsLanguage" xml:space="preserve"><value>Language</value></data>
+  <data name="SettingsLanguageHint" xml:space="preserve"><value>Language of the interface and notifications.</value></data>
+  <data name="SettingsLanguageFrench" xml:space="preserve"><value>Français</value></data>
+  <data name="SettingsLanguageEnglish" xml:space="preserve"><value>English</value></data>
+  <data name="SettingsDisplay" xml:space="preserve"><value>Display</value></data>
+  <data name="SettingsDisplayLead" xml:space="preserve"><value>Appearance and density of the interface.</value></data>
+  <data name="SettingsDarkMode" xml:space="preserve"><value>Dark mode</value></data>
+  <data name="SettingsDarkModeHint" xml:space="preserve"><value>Follow the system or force a mode.</value></data>
+  <data name="SettingsModeSystem" xml:space="preserve"><value>Follow the system</value></data>
+  <data name="SettingsModeLight" xml:space="preserve"><value>Light</value></data>
+  <data name="SettingsModeDark" xml:space="preserve"><value>Dark</value></data>
+  <data name="SettingsCompact" xml:space="preserve"><value>Compact interface</value></data>
+  <data name="SettingsCompactHint" xml:space="preserve"><value>Reduces the margins of grids and forms.</value></data>
+  <data name="SettingsNotifications" xml:space="preserve"><value>Notifications</value></data>
+  <data name="SettingsNotificationsLead" xml:space="preserve"><value>What you are told about, and through which channel.</value></data>
+  <data name="SettingsFailures" xml:space="preserve"><value>Pipeline failures</value></data>
+  <data name="SettingsFailuresHint" xml:space="preserve"><value>A notification for each failed run.</value></data>
+  <data name="SettingsDigest" xml:space="preserve"><value>Daily digest</value></data>
+  <data name="SettingsDigestHint" xml:space="preserve"><value>Sent every morning at 8 am.</value></data>
+  <data name="SettingsDigestAddress" xml:space="preserve"><value>Digest address</value></data>
   <data name="ShellSettingsHint" xml:space="preserve"><value>Theme, language, notifications</value></data>
-  <data name="ShellAppearance" xml:space="preserve"><value>Appearance</value></data>
   <data name="ShellAppearanceHint" xml:space="preserve"><value>Light, dark or system</value></data>
-  <data name="ShellSignOut" xml:space="preserve"><value>Sign out</value></data>
-  <data name="ShellMenu" xml:space="preserve"><value>Main menu</value></data>
-  <data name="ShellDashboard" xml:space="preserve"><value>Dashboard</value></data>
-  <data name="ShellPipelines" xml:space="preserve"><value>Pipelines</value></data>
-  <data name="ShellServers" xml:space="preserve"><value>Servers</value></data>
-  <data name="ShellProjects" xml:space="preserve"><value>Projects</value></data>
-  <data name="ShellHelpCenter" xml:space="preserve"><value>Help centre</value></data>
-  <data name="ShellAdministration" xml:space="preserve"><value>Administration</value></data>
-  <data name="ShellServersOnline" xml:space="preserve"><value>Server online</value></data>
-  <data name="ShellAppsTracked" xml:space="preserve"><value>Applications tracked</value></data>
-  <data name="ShellPipelinesRunning" xml:space="preserve"><value>Pipelines running</value></data>
-  <data name="ShellLoading" xml:space="preserve"><value>Loading the dashboard</value></data>
-  <data name="ShellLastAction" xml:space="preserve"><value>Last action: {0}</value></data>
   <data name="SurfAccount" xml:space="preserve"><value>Account</value></data>
   <data name="SurfPerson" xml:space="preserve"><value>Camille Durand</value></data>
   <data name="SurfPersonRole" xml:space="preserve"><value>Administrator, OmniEurope</value></data>
@@ -711,14 +706,29 @@
   <data name="DemoPagesNoResultText" xml:space="preserve"><value>No server matches the filter.</value></data>
   <data name="DemoPagesHideToken" xml:space="preserve"><value>Hide the token</value></data>
   <data name="DemoPagesShowToken" xml:space="preserve"><value>Show the token</value></data>
+  <data name="DemoNavigationBreadcrumb" xml:space="preserve"><value>Breadcrumb</value></data>
+  <data name="DemoNavigationHome" xml:space="preserve"><value>Home</value></data>
+  <data name="DemoNavigationComponents" xml:space="preserve"><value>Components</value></data>
+  <data name="DemoNavigationCurrent" xml:space="preserve"><value>Navigation</value></data>
+  <data name="DemoNavigationSections" xml:space="preserve"><value>Case sections</value></data>
+  <data name="DemoNavigationTabSummary" xml:space="preserve"><value>Summary</value></data>
+  <data name="DemoNavigationDocuments" xml:space="preserve"><value>Documents</value></data>
+  <data name="DemoNavigationDocumentsText" xml:space="preserve"><value>Each document carries its filing date.</value></data>
+  <data name="DemoNavigationHistory" xml:space="preserve"><value>History</value></data>
+  <data name="DemoNavigationHistoryText" xml:space="preserve"><value>Twelve recorded movements.</value></data>
+  <data name="DemoNavigationProgress" xml:space="preserve"><value>Case progress</value></data>
+  <data name="DemoNavigationFiling" xml:space="preserve"><value>Filing</value></data>
+  <data name="DemoNavigationFilingText" xml:space="preserve"><value>The documents have been received.</value></data>
+  <data name="DemoNavigationReview" xml:space="preserve"><value>Review</value></data>
+  <data name="DemoNavigationReviewText" xml:space="preserve"><value>The case is under review.</value></data>
+  <data name="DemoNavigationDecision" xml:space="preserve"><value>Decision</value></data>
+  <data name="DemoNavigationDecisionText" xml:space="preserve"><value>The decision will be sent by post.</value></data>
+  <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>The case holds {0} documents.</value></data>
   <data name="DemoPagesTokensValue" xml:space="preserve"><value>{0:N1}k</value></data>
   <data name="DemoPagesTokensToday" xml:space="preserve"><value>Tokens today</value></data>
   <data name="DemoPagesTokensReset" xml:space="preserve"><value>Resets at {0:t}</value></data>
   <data name="DemoPagesWeekly" xml:space="preserve"><value>Weekly</value></data>
   <data name="DemoPagesGain" xml:space="preserve"><value>Capital gain on investments</value></data>
-  <data name="DemoPagesCrumbComponents" xml:space="preserve"><value>Components</value></data>
-  <data name="DemoPagesCrumbServers" xml:space="preserve"><value>Servers</value></data>
-  <data name="DemoPagesCrumbServer" xml:space="preserve"><value>Server</value></data>
   <data name="DemoBadgesNeutral" xml:space="preserve"><value>Neutral</value></data>
   <data name="DemoBadgesAccent" xml:space="preserve"><value>Accent</value></data>
   <data name="DemoBadgesInfo" xml:space="preserve"><value>Information</value></data>

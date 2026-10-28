@@ -294,7 +294,7 @@ const pageLibrary = String.raw`
         add('bouton ' + variant, first(buttons, '.omni-button--' + variant + '.omni-button--medium:not(.omni-busy):not(:disabled):not(' + ICON_ONLY + ')'), 'text', true);
       }
       within(buttons, '.omni-button:not(.omni-busy)' + ICON_ONLY).forEach((button, index) => add('bouton icône seul ' + (index + 1), button, 'icon', true));
-      within(block('coquille-application'), '.omni-button' + ICON_ONLY).forEach((button, index) => add('bouton icône seul de la coquille ' + (index + 1), button, 'icon', true));
+      within(block('application-shell'), '.omni-button' + ICON_ONLY).forEach((button, index) => add('bouton icône seul de la coquille ' + (index + 1), button, 'icon', true));
       const surfaces = block('surfaces');
       add('lien', first(surfaces, '.omni-link'), 'text', true);
       add('onglet', first(surfaces, '.omni-tabs__tab[aria-selected="false"]'), 'text', true);

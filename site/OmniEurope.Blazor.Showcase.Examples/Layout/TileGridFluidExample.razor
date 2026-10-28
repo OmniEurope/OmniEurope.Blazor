@@ -1,0 +1,18 @@
+@* MinColumnWidth: the column count follows the width of the grid itself, not the window's: the largest number
+   that keeps every column at 18rem at least, Columns at most, one at the minimum. Beside a side menu the grid
+   has fewer, wider columns instead of four narrow tiles; a DoubleWidth tile takes two columns where the grid
+   has two, one otherwise. *@
+<OmniTileGrid Id="demo-tile-grid-fluid" Columns="4" MinColumnWidth="18rem">
+    <OmniStatTile Value="@Tokens(12.4)" Title="Tokens today">
+        <Icon><OmniIcon Name="OmniIconName.Database" /></Icon>
+    </OmniStatTile>
+    <OmniStatTile Value="@Tokens(8.2)" Title="Weekly">
+        <Icon><OmniIcon Name="OmniIconName.CalendarCheck" /></Icon>
+    </OmniStatTile>
+    <OmniNavTile Href="components/rows-columns" Title="Rows and columns" Tone="OmniTone.Info" DoubleWidth="true">
+        <Icon><OmniIcon Name="OmniIconName.Layers" /></Icon>
+    </OmniNavTile>
+    <OmniStatTile Value="@Tokens(3.6)" Title="Gain">
+        <Icon><OmniIcon Name="OmniIconName.ChartLineUp" /></Icon>
+    </OmniStatTile>
+</OmniTileGrid>

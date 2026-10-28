@@ -1,0 +1,30 @@
+@* The same shell in the other arrangement: full width, the menu at the end, a roomy density, an appearance that
+   follows the system setting instead of being imposed, and the header drawn as an accent band. *@
+<OmniThemeScope Appearance="OmniAppearance.System" Density="OmniDensity.Spacious">
+    <OmniLayout>
+        <OmniHeader Surface="OmniHeaderSurface.Accent">
+            <OmniHeading Level="OmniHeadingLevel.H4">Console</OmniHeading>
+            <OmniButton Size="OmniControlSize.Small" Variant="OmniButtonVariant.Secondary"
+                        aria-controls="shell-end-sidebar" aria-expanded="@Open.ToString().ToLowerInvariant()"
+                        OnClick="@(() => Open = !Open)">Menu</OmniButton>
+        </OmniHeader>
+        <OmniBody>
+            <OmniSidebar Id="shell-end-sidebar" Open="Open" Label="Secondary menu"
+                         Placement="OmniSidebarPlacement.End" Collapse="OmniSidebarCollapse.Hidden"
+                         Transition="OmniSidebarTransition.Instant">
+                <OmniPanelMenu Label="Tools" Display="OmniPanelMenuDisplay.Icon">
+                    <OmniPanelMenuItem Text="Logs" Href="components/page-shell" Match="OmniNavMatch.Prefix">
+                        <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
+                    </OmniPanelMenuItem>
+                    <OmniPanelMenuItem Text="One-off action" Match="OmniNavMatch.None">
+                        <Icon><OmniIcon Name="OmniIconName.Filter" /></Icon>
+                    </OmniPanelMenuItem>
+                </OmniPanelMenu>
+            </OmniSidebar>
+            <OmniMain ContentWidth="OmniLayoutWidth.Wide" AriaLabelledBy="shell-end-title">
+                <OmniHeading Id="shell-end-title" Level="OmniHeadingLevel.H5">Wide view</OmniHeading>
+                <OmniText Element="OmniTextElement.Paragraph">The content takes all the width the menu leaves, up to the wide cap.</OmniText>
+            </OmniMain>
+        </OmniBody>
+    </OmniLayout>
+</OmniThemeScope>

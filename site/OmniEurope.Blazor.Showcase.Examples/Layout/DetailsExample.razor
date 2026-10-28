@@ -1,0 +1,74 @@
+@* A detail page: the header is painted before the record arrives, the content stays hidden while it loads, and a
+   record that does not exist gets a not-found state. The header holds the back button, the title, badges,
+   actions and a menu; the content is a description list, one value per term, some with an action of their own. *@
+<OmniDetailShell Id="details-shell" State="State" BackHref="components" NotFoundTitle="Not found"
+                 NotFoundDescription="The requested record has been removed or never existed.">
+    <HeaderContent>
+        <OmniPageHeader Title="Sample record" Subtitle="The header stays visible while the record loads." ShowTrail="false"
+                        Level="OmniHeadingLevel.H3" ShowBack="true" BackLabel="Back to the module"
+                        BackVariant="BackVariant" Framed="Framed">
+            <Icon><OmniIcon Name="OmniIconName.Document" /></Icon>
+            <Badges><OmniBadge Tone="OmniTone.Success">Active</OmniBadge></Badges>
+            <ActionsContent>
+                <OmniButton Variant="OmniButtonVariant.Primary" Size="OmniControlSize.Small" OnClick="@(() => LastAction = "Edit")">
+                    <Icon><OmniIcon Name="OmniIconName.Edit" /></Icon>
+                    <ChildContent><span>Edit</span></ChildContent>
+                </OmniButton>
+            </ActionsContent>
+            <MenuContent>
+                <OmniMenuItem OnClick="@(() => LastAction = "Duplicate")">
+                    <Icon><OmniIcon Name="OmniIconName.Copy" /></Icon>
+                    <ChildContent>Duplicate</ChildContent>
+                </OmniMenuItem>
+                <OmniMenuItem Tone="OmniTone.Danger" OnClick="@(() => LastAction = "Archive")">
+                    <Icon><OmniIcon Name="OmniIconName.Archive" /></Icon>
+                    <ChildContent>Archive</ChildContent>
+                </OmniMenuItem>
+            </MenuContent>
+            <Filters>
+                <OmniBadge Tone="OmniTone.Neutral">Production</OmniBadge>
+                <OmniBadge Tone="OmniTone.Neutral">Linux</OmniBadge>
+            </Filters>
+        </OmniPageHeader>
+    </HeaderContent>
+    <ChildContent>
+        <OmniStack Gap="OmniSpacing.Medium">
+            <OmniDescriptionList Id="details-essentials" Columns="2">
+                <OmniDescriptionItem Term="Owner">
+                    <Icon><OmniIcon Name="OmniIconName.User" /></Icon>
+                    <ChildContent>Platform team</ChildContent>
+                </OmniDescriptionItem>
+                <OmniDescriptionItem Term="Updated"><OmniRelativeTime Value="UpdatedAt" /></OmniDescriptionItem>
+                <OmniDescriptionItem Term="System">
+                    <Icon><OmniIcon Name="OmniIconName.Monitor" /></Icon>
+                    <ChildContent>Debian 13</ChildContent>
+                </OmniDescriptionItem>
+                <OmniDescriptionItem Term="IP address">
+                    <Icon><OmniIcon Name="OmniIconName.Globe" /></Icon>
+                    <ChildContent>10.0.4.21</ChildContent>
+                </OmniDescriptionItem>
+                <OmniDescriptionItem Term="Access token">
+                    <ChildContent>@(TokenShown ? "7f3a-91c2-0bd4" : "••••-••••-••••")</ChildContent>
+                    <ActionsContent>
+                        <OmniButton Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small"
+                                    Label="@(TokenShown ? "Hide the token" : "Show the token")"
+                                    OnClick="@(_ => TokenShown = !TokenShown)">
+                            <Icon><OmniIcon Name="@(TokenShown ? OmniIconName.EyeSlash : OmniIconName.Eye)" /></Icon>
+                        </OmniButton>
+                    </ActionsContent>
+                </OmniDescriptionItem>
+                <OmniDescriptionItem Term="Last signal">
+                    <OmniRelativeTime Value="Heartbeat" RefreshInterval="TimeSpan.FromSeconds(15)" />
+                </OmniDescriptionItem>
+                <OmniDescriptionItem Term="Certificate">
+                    <OmniRelativeTime Value="CertificateExpiry" Format="d MMMM yyyy" />
+                </OmniDescriptionItem>
+            </OmniDescriptionList>
+            <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Wrap="true" Gap="OmniSpacing.Small">
+                <OmniIcon Name="OmniIconName.Check" />
+                <OmniText>Last action:</OmniText>
+                <OmniBadge Tone="@(LastAction is null ? OmniTone.Neutral : OmniTone.Accent)">@(LastAction ?? "none")</OmniBadge>
+            </OmniStack>
+        </OmniStack>
+    </ChildContent>
+</OmniDetailShell>

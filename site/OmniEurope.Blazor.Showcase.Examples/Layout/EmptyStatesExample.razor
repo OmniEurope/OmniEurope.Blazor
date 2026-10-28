@@ -1,0 +1,16 @@
+@* The title of an empty state is a paragraph by default; Level makes it a heading when the state opens a
+   section. An icon and an action are optional. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniEmptyState Title="No related records" Description="Related records will appear here." />
+    <OmniEmptyState Title="No backups" Description="Scheduled backups will appear here after their first run.">
+        <ActionsContent>
+            <OmniButton Variant="OmniButtonVariant.Primary" Size="OmniControlSize.Small">
+                <Icon><OmniIcon Name="OmniIconName.Add" /></Icon>
+                <ChildContent><span>Schedule</span></ChildContent>
+            </OmniButton>
+        </ActionsContent>
+    </OmniEmptyState>
+    <OmniEmptyState Level="OmniHeadingLevel.H3" Title="No results" Description="No server matches the filter.">
+        <Icon><OmniIcon Name="OmniIconName.Search" Size="OmniControlSize.Large" /></Icon>
+    </OmniEmptyState>
+</OmniStack>

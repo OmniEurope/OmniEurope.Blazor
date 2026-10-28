@@ -1,0 +1,19 @@
+@* A figure on the card surface: a tinted icon, a value, a title and an optional detail line. Without Icon the
+   tile draws no tinted square, so the fragment is only given when the icon is on; the tile becomes one
+   button only when OnClick has a delegate. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    @if (ShowIcon)
+    {
+        <OmniStatTile Value="@Value" Title="@Title" Detail="@Detail" OnClick="@Click">
+            <Icon><OmniIcon Name="OmniIconName.MapPin" /></Icon>
+        </OmniStatTile>
+    }
+    else
+    {
+        <OmniStatTile Value="@Value" Title="@Title" Detail="@Detail" OnClick="@Click" />
+    }
+    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Wrap="true" Gap="OmniSpacing.Small">
+        <OmniIcon Name="OmniIconName.Info" />
+        <OmniText>Clicks: @Clicks</OmniText>
+    </OmniStack>
+</OmniStack>

@@ -176,15 +176,15 @@ results.push('appui dehors ferme');
 // 2. Fold of the page header: no demo header is crowded, so the probe lengthens the title the way a
 // late value would, and the module, which watches the content, must fold the badges and actions
 // behind "Show more" at desktop width, then unfold them once the title is short again.
-const frame = '.omni-page-header__frame';
+const frame = '#details-shell .omni-page-header__frame';
 const headerState = () => evaluate(`(() => {
   const frame = document.querySelector(${JSON.stringify(frame)});
   return { compact: frame.hasAttribute('data-compact'), toggle: getComputedStyle(frame.querySelector('.omni-page-header__toggle')).display, details: getComputedStyle(frame.querySelector('.omni-page-header__details')).display, expanded: frame.querySelector('.omni-page-header__toggle').getAttribute('aria-expanded') };
 })()`);
-await evaluate("Blazor.navigateTo('/components/legacy/pages')");
-// The demo loads its record for 1.5 s and then writes the title it found: the probe lengthens the
-// title only after that, else the late write puts the short title back under the probe's feet.
-await waitFor('l\'en-tête de page de la vitrine, fiche chargée', `document.querySelector(${JSON.stringify(`${frame} .omni-page-header__details`)}) !== null && document.querySelector(${JSON.stringify(`${frame} .omni-page-header__title`)})?.textContent.trim() === 'srv-paris-01'`);
+await evaluate("Blazor.navigateTo('/components/details')");
+// The details page shows its record at once: the probe waits for the header of the sample record
+// before it lengthens the title.
+await waitFor('l\'en-tête de page de la vitrine, fiche chargée', `document.querySelector(${JSON.stringify(`${frame} .omni-page-header__details`)}) !== null && document.querySelector(${JSON.stringify(`${frame} .omni-page-header__title`)})?.textContent.trim() === 'Sample record'`);
 await evaluate(`document.querySelector(${JSON.stringify(frame)}).scrollIntoView({ block: 'center' })`);
 await pause(800);
 const roomy = await headerState();
@@ -316,8 +316,8 @@ await pause(300);
 // 5. Phone width watch of a pushing sidebar (omni-focus.js, watchNarrow): under 40rem the shell demo's
 // pushing menu, whose host binds OpenChanged, floats over the content with its veil and Escape closes
 // it; wider, it pushes again.
-const sidebar = '#shell-demo-sidebar';
-const sidebarToggle = '[aria-controls="shell-demo-sidebar"]';
+const sidebar = '#shell-sidebar';
+const sidebarToggle = '[aria-controls="shell-sidebar"]';
 const sidebarState = () => evaluate(`(() => {
   const aside = document.querySelector(${JSON.stringify(sidebar)});
   const main = aside.parentElement.querySelector('main') ?? aside.nextElementSibling;
@@ -328,7 +328,7 @@ const openSidebar = async () => {
   await waitFor('le menu de la coquille ouvert', `document.querySelector(${JSON.stringify(sidebar)}).classList.contains('omni-sidebar--open')`);
 };
 await send('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
-await evaluate("Blazor.navigateTo('/components/legacy/coquille')");
+await evaluate("Blazor.navigateTo('/components/page-shell')");
 await waitFor('la démonstration de coquille', `document.querySelector(${JSON.stringify(sidebar)}) !== null`);
 await openSidebar();
 await waitFor('le menu poussé superposé sur téléphone', `document.querySelector(${JSON.stringify(sidebar)}).classList.contains('omni-sidebar--overlay')`);

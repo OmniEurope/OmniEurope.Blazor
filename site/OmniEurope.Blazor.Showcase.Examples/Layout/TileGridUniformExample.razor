@@ -1,0 +1,31 @@
+@* UniformSize: the application's tile rule, as an option of one grid. The tiles have about the same width (the
+   column count follows the width of the grid itself, 18rem at least each, --omni-tile-min-width, Columns at
+   most) and exactly the same height (that of the tallest, never less than --omni-tile-height, the density's
+   token), whatever their content: here a stat tile without a detail, a fact tile of three rows, a DoubleWidth
+   navigation tile (two tiles side by side where the grid has two columns, one otherwise) and a card with a
+   long text. *@
+<OmniTileGrid Id="demo-tile-grid-uniform" Columns="4" UniformSize="true">
+    <OmniStatTile Value="@Tokens" Title="Tokens today">
+        <Icon><OmniIcon Name="OmniIconName.Database" /></Icon>
+    </OmniStatTile>
+    <OmniFactTile Id="demo-uniform-facts" Title="Source">
+        <ChildContent>
+            <OmniFactTileRow Term="Repository">
+                <Icon><OmniIcon Name="OmniIconName.Database" /></Icon>
+                <ChildContent>omni-europe-blazor</ChildContent>
+            </OmniFactTileRow>
+            <OmniFactTileRow Term="Branch">
+                <Icon><OmniIcon Name="OmniIconName.Graph" /></Icon>
+                <ChildContent>release/1.9.0</ChildContent>
+            </OmniFactTileRow>
+            <OmniFactTileRow Term="Commit">
+                <Icon><OmniIcon Name="OmniIconName.GitCommit" /></Icon>
+                <ChildContent>9f3c2a1</ChildContent>
+            </OmniFactTileRow>
+        </ChildContent>
+    </OmniFactTile>
+    <OmniNavTile Href="components/rows-columns" Title="Rows and columns" Description="Rows that wrap, columns that split the width." Tone="OmniTone.Info" DoubleWidth="true">
+        <Icon><OmniIcon Name="OmniIconName.Layers" /></Icon>
+    </OmniNavTile>
+    <OmniCard><ChildContent>Both cards take the same height.</ChildContent></OmniCard>
+</OmniTileGrid>

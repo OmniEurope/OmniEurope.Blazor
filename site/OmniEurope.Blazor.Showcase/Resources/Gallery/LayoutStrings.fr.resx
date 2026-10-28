@@ -183,4 +183,112 @@
   <data name="AccordionPreviewHint" xml:space="preserve"><value>Les flèches, Début et Fin passent d'un en-tête à l'autre ; Entrée et Espace ouvrent une ligne.</value></data>
   <data name="AccordionAdvancedTitle" xml:space="preserve"><value>En-têtes libres et contrôles propres</value></data>
   <data name="AccordionAdvancedDescription" xml:space="preserve"><value>Plusieurs lignes ouvertes ensemble, le corps conservé, un niveau de titre choisi et une densité compacte. Un contrôle propre se place à côté du bouton de bascule et ne bascule pas la ligne.</value></data>
+  <data name="PageShellTitle" xml:space="preserve"><value>Coquille de page</value></data>
+  <data name="PageShellDescription" xml:space="preserve"><value>Le cadre d'une page d'application : la mise en page occupe toute la largeur, l'en-tête peut rester collé en haut, le corps accueille la zone principale, qui fixe la largeur de lecture et reste le repère que visent les liens d'évitement et le focus.</value></data>
+  <data name="PageShellSettingsTitle" xml:space="preserve"><value>Coquille de page</value></data>
+  <data name="PageShellSettingsDescription" xml:space="preserve"><value>Ces réglages pilotent la coquille miniature de l'aperçu.</value></data>
+  <data name="PageShellContentWidth" xml:space="preserve"><value>Largeur du contenu</value></data>
+  <data name="PageShellContentWidthDescription" xml:space="preserve"><value>Paramètre ContentWidth d'OmniMain : seul le contenu se centre, l'en-tête et la barre latérale gardent toute la largeur.</value></data>
+  <data name="PageShellScrollable" xml:space="preserve"><value>Défilement propre</value></data>
+  <data name="PageShellScrollableDescription" xml:space="preserve"><value>Paramètre Scrollable d'OmniMain : la zone principale défile d'un bord à l'autre, sa barre au bord droit, même quand le contenu est centré.</value></data>
+  <data name="PageShellAutoHide" xml:space="preserve"><value>Barre de défilement discrète</value></data>
+  <data name="PageShellAutoHideDescription" xml:space="preserve"><value>Paramètre AutoHideScrollbar d'OmniMain : la barre garde sa place mais reste transparente tant que le contenu ne bouge pas.</value></data>
+  <data name="PageShellSticky" xml:space="preserve"><value>En-tête collant</value></data>
+  <data name="PageShellStickyDescription" xml:space="preserve"><value>Paramètre Sticky d'OmniHeader : l'en-tête reste en haut du conteneur qui défile.</value></data>
+  <data name="PageShellSurface" xml:space="preserve"><value>Surface de l'en-tête</value></data>
+  <data name="PageShellSurfaceDescription" xml:space="preserve"><value>Paramètre Surface d'OmniHeader : la couleur de la page, ou le bandeau d'accent de l'application.</value></data>
+  <data name="PageShellSurfacePage" xml:space="preserve"><value>Page</value></data>
+  <data name="PageShellSurfaceAccent" xml:space="preserve"><value>Accent</value></data>
+  <data name="PageShellFocusTarget" xml:space="preserve"><value>Cible du focus</value></data>
+  <data name="PageShellFocusTargetDescription" xml:space="preserve"><value>Paramètre FocusTarget d'OmniMain : tabindex="-1", pour qu'un lien d'évitement ou une navigation puisse y placer le focus.</value></data>
+  <data name="PageShellLabelledBy" xml:space="preserve"><value>Nommée par son titre</value></data>
+  <data name="PageShellLabelledByDescription" xml:space="preserve"><value>Paramètre AriaLabelledBy d'OmniMain : l'identifiant du titre qui nomme la zone.</value></data>
+  <data name="PageShellWideCanvas" xml:space="preserve"><value>Canevas large</value></data>
+  <data name="PageShellWideCanvasDescription" xml:space="preserve"><value>Dessine la miniature sur 100rem, avec un défilement horizontal : dans un cadre plus étroit, les trois largeurs se confondent.</value></data>
+  <data name="PageShellPreviewTitle" xml:space="preserve"><value>Aperçu</value></data>
+  <data name="PageShellPreviewHint" xml:space="preserve"><value>Faites défiler l'intérieur du cadre : un en-tête collant reste en place, le contour pointillé montre la largeur de la mise en page.</value></data>
+  <data name="PageShellWidthsTitle" xml:space="preserve"><value>Contenu centré ou pleine largeur</value></data>
+  <data name="PageShellWidthsDescription" xml:space="preserve"><value>Une zone principale qui défile d'elle-même, avec chacune des trois largeurs de contenu : la barre de défilement reste au bord droit du cadre, seule la colonne teintée change de largeur. Contenu est le choix habituel d'une application qui centre sa colonne de lecture.</value></data>
+  <data name="PageShellWidthCaption" xml:space="preserve"><value>{0} : colonne d'au plus {1}</value></data>
+  <data name="PageShellWidthFull" xml:space="preserve"><value>Pleine</value></data>
+  <data name="PageShellWidthWide" xml:space="preserve"><value>Large</value></data>
+  <data name="PageShellWidthContent" xml:space="preserve"><value>Contenu</value></data>
+  <data name="PageShellApplicationTitle" xml:space="preserve"><value>Coquille d'application</value></data>
+  <data name="PageShellApplicationDescription" xml:space="preserve"><value>Une coquille d'application complète : barre supérieure avec bouton de repli, recherche, aide, cloche et menu de compte, menu latéral qui se replie en rail d'icônes, et le contenu. Le menu se contente de marquer la section choisie.</value></data>
+  <data name="PageShellSidebarTitle" xml:space="preserve"><value>Menu latéral qui pousse le contenu</value></data>
+  <data name="PageShellSidebarDescription" xml:space="preserve"><value>Un lien d'évitement, un en-tête avec le bouton du menu et un bouton d'apparence, et un menu latéral qui pousse le contenu. La portée de thème garde un instantané de son aspect qu'un script de démarrage peut rejouer.</value></data>
+  <data name="PageShellEndSidebarTitle" xml:space="preserve"><value>Pleine largeur, menu à la fin</value></data>
+  <data name="PageShellEndSidebarDescription" xml:space="preserve"><value>La même coquille dans l'autre arrangement : pleine largeur, menu à la fin, densité aérée, une apparence qui suit le réglage du système et l'en-tête en bandeau d'accent.</value></data>
+  <data name="PageShellRailTitle" xml:space="preserve"><value>Menu flottant et rail d'icônes</value></data>
+  <data name="PageShellRailDescription" xml:space="preserve"><value>Le menu flotte au-dessus du contenu, qui garde sa largeur, et laisse un rail d'icônes une fois fermé ; un clic sur le voile le referme.</value></data>
+  <data name="PageShellTabsTitle" xml:space="preserve"><value>Onglets qui défilent dans un cadre</value></data>
+  <data name="PageShellTabsDescription" xml:space="preserve"><value>Des onglets dans un cadre de hauteur fixe : seul le panneau choisi défile (ScrollablePanels), et la molette tournée n'importe où dans le cadre, sur la barre d'onglets comprise, le fait défiler (WheelScrollScope).</value></data>
+  <data name="DetailsTitle" xml:space="preserve"><value>Fiches</value></data>
+  <data name="DetailsDescription" xml:space="preserve"><value>La page d'une fiche : un en-tête avec bouton retour, titre, badges, actions et menu, les états de chargement, trouvée et introuvable, des valeurs libellées en colonnes, le temps relatif et les états vides.</value></data>
+  <data name="DetailsSettingsTitle" xml:space="preserve"><value>Page de fiche</value></data>
+  <data name="DetailsSettingsDescription" xml:space="preserve"><value>Ces réglages pilotent la page de fiche de l'aperçu.</value></data>
+  <data name="DetailsState" xml:space="preserve"><value>État de la fiche</value></data>
+  <data name="DetailsStateDescription" xml:space="preserve"><value>Paramètre State d'OmniDetailShell : l'en-tête est peint tout de suite, le contenu attend la fiche.</value></data>
+  <data name="DetailsStateLoading" xml:space="preserve"><value>Chargement</value></data>
+  <data name="DetailsStateFound" xml:space="preserve"><value>Trouvée</value></data>
+  <data name="DetailsStateMissing" xml:space="preserve"><value>Introuvable</value></data>
+  <data name="DetailsBackVariant" xml:space="preserve"><value>Bouton retour</value></data>
+  <data name="DetailsBackVariantDescription" xml:space="preserve"><value>Paramètre BackVariant d'OmniPageHeader : la flèche de retour en accent, ou discrète.</value></data>
+  <data name="DetailsBackPrimary" xml:space="preserve"><value>Principal</value></data>
+  <data name="DetailsBackGhost" xml:space="preserve"><value>Discret</value></data>
+  <data name="DetailsFramed" xml:space="preserve"><value>En-tête encadré</value></data>
+  <data name="DetailsFramedDescription" xml:space="preserve"><value>Paramètre Framed d'OmniPageHeader : rétablit le bloc bordé ; par défaut l'en-tête est posé sur la page.</value></data>
+  <data name="DetailsPreviewTitle" xml:space="preserve"><value>Fiche exemple</value></data>
+  <data name="DetailsPinnedTitle" xml:space="preserve"><value>En-tête à action épinglée</value></data>
+  <data name="DetailsPinnedDescription" xml:space="preserve"><value>Réduisez la fenêtre sous 40rem : le bouton épinglé n'est jamais replié derrière « Voir plus », il prend une ligne sous la ligne du titre, et le menu reste au bout de cette ligne.</value></data>
+  <data name="DetailsEmptyTitle" xml:space="preserve"><value>États vides</value></data>
+  <data name="StatTilesTitle" xml:space="preserve"><value>Tuiles de statistique</value></data>
+  <data name="StatTilesDescription" xml:space="preserve"><value>Un chiffre sur la surface des cartes : icône teintée, valeur, titre et ligne de détail facultative ; cliquable, la tuile entière devient un bouton. Les tuiles de faits et les grilles de tuiles complètent la famille.</value></data>
+  <data name="StatTilesSettingsTitle" xml:space="preserve"><value>Réglages de la tuile</value></data>
+  <data name="StatTilesSettingsDescription" xml:space="preserve"><value>Chaque réglage pilote la tuile de l'aperçu en direct.</value></data>
+  <data name="StatTilesValue" xml:space="preserve"><value>Valeur</value></data>
+  <data name="StatTilesValueDescription" xml:space="preserve"><value>Le chiffre lui-même, déjà mis en forme par la page.</value></data>
+  <data name="StatTilesTitleSetting" xml:space="preserve"><value>Titre</value></data>
+  <data name="StatTilesTitleSettingDescription" xml:space="preserve"><value>Ce que mesure le chiffre.</value></data>
+  <data name="StatTilesDetail" xml:space="preserve"><value>Ligne de détail</value></data>
+  <data name="StatTilesDetailDescription" xml:space="preserve"><value>Une ligne atténuée sous le titre : une tendance, une heure de remise à zéro.</value></data>
+  <data name="StatTilesIcon" xml:space="preserve"><value>Icône</value></data>
+  <data name="StatTilesIconDescription" xml:space="preserve"><value>Une icône décorative sur un carré teinté, avant le texte.</value></data>
+  <data name="StatTilesClickable" xml:space="preserve"><value>Cliquable</value></data>
+  <data name="StatTilesClickableDescription" xml:space="preserve"><value>OnClick fait de la tuile entière un seul bouton, nommé par son titre et sa valeur.</value></data>
+  <data name="StatTilesPreviewTitle" xml:space="preserve"><value>Aperçu en direct</value></data>
+  <data name="StatTilesGalleryTitle" xml:space="preserve"><value>Galerie</value></data>
+  <data name="StatTilesColumnsTitle" xml:space="preserve"><value>Tuiles en colonnes</value></data>
+  <data name="StatTilesColumnsDescription" xml:space="preserve"><value>La deuxième tuile est cliquable. Le titre d'une tuile reste sur une ligne : plus petit quand il ne tient pas, puis coupé de points de suspension, son texte entier dans l'infobulle (troisième tuile, réduite à une petite colonne).</value></data>
+  <data name="StatTilesFactsTitle" xml:space="preserve"><value>Tuiles de faits</value></data>
+  <data name="StatTilesFactsDescription" xml:space="preserve"><value>Un titre, puis des lignes icône, libellé, valeur sur trois colonnes communes aux tuiles de la grille, donc alignées. Une valeur trop longue est coupée de points de suspension et lue en entier dans l'infobulle. La première tuile porte des valeurs-liens, la deuxième un badge, la troisième est un seul lien.</value></data>
+  <data name="StatTilesFactsNarrowTitle" xml:space="preserve"><value>Tuiles de faits étroites</value></data>
+  <data name="StatTilesFactsNarrowDescription" xml:space="preserve"><value>Quatre tuiles sur une rangée : chaque ligne décide seule si le libellé et la valeur partagent une ligne ou si la valeur passe sous le libellé.</value></data>
+  <data name="StatTilesGridTitle" xml:space="preserve"><value>Grille de tuiles</value></data>
+  <data name="StatTilesGridDescription" xml:space="preserve"><value>Toutes les tuiles du paquet ont la même largeur et, par défaut, la même hauteur, quel que soit leur contenu ; DoubleWidth en étale une sur deux colonnes, et une carte cliquable ou une tuile chiffre avec lien garde sa place.</value></data>
+  <data name="StatTilesNaturalTitle" xml:space="preserve"><value>Hauteurs naturelles</value></data>
+  <data name="StatTilesNaturalDescription" xml:space="preserve"><value>EqualHeights à false : chaque tuile garde la hauteur de son contenu, alignée en haut de sa rangée ; les largeurs ne changent pas.</value></data>
+  <data name="StatTilesUniformTitle" xml:space="preserve"><value>Taille uniforme</value></data>
+  <data name="StatTilesUniformDescription" xml:space="preserve"><value>UniformSize : à peu près la même largeur, exactement la même hauteur, quel que soit le contenu (une tuile chiffre, une tuile de faits, une tuile de navigation double largeur et une carte).</value></data>
+  <data name="NavTilesTitle" xml:space="preserve"><value>Tuiles de navigation</value></data>
+  <data name="NavTilesDescription" xml:space="preserve"><value>Une tuile de navigation, l'accueil d'un espace d'administration ou d'un carrefour de rubriques : une icône sur un carré teinté, un titre et une description facultative, la tuile entière formant un seul lien. Au survol, seule son ombre change.</value></data>
+  <data name="NavTilesSettingsTitle" xml:space="preserve"><value>Réglages des tuiles</value></data>
+  <data name="NavTilesSettingsDescription" xml:space="preserve"><value>Chaque réglage pilote les tuiles de l'aperçu en direct.</value></data>
+  <data name="NavTilesTone" xml:space="preserve"><value>Ton</value></data>
+  <data name="NavTilesToneDescription" xml:space="preserve"><value>Paramètre Tone : la couleur du carré et de son icône, Accent par défaut.</value></data>
+  <data name="NavTilesShowDescription" xml:space="preserve"><value>Description</value></data>
+  <data name="NavTilesShowDescriptionHint" xml:space="preserve"><value>Paramètre Description : une ligne atténuée sous le titre, ce qu'on trouve derrière.</value></data>
+  <data name="NavTilesPreviewTitle" xml:space="preserve"><value>Aperçu en direct</value></data>
+  <data name="NavTilesTonesTitle" xml:space="preserve"><value>Tons</value></data>
+  <data name="NavTilesFitTitle" xml:space="preserve"><value>Ajuster le titre</value></data>
+  <data name="NavTilesFitTitleHint" xml:space="preserve"><value>Le titre rétrécit pour tenir sur une ligne au lieu de passer à la ligne.</value></data>
+  <data name="NavTilesFitTitleTitle" xml:space="preserve"><value>Titres ajustés sur une ligne</value></data>
+  <data name="NavTilesToneNeutral" xml:space="preserve"><value>Neutre</value></data>
+  <data name="NavTilesToneAccent" xml:space="preserve"><value>Accent</value></data>
+  <data name="NavTilesToneInfo" xml:space="preserve"><value>Information</value></data>
+  <data name="NavTilesToneSuccess" xml:space="preserve"><value>Succès</value></data>
+  <data name="NavTilesToneWarning" xml:space="preserve"><value>Avertissement</value></data>
+  <data name="NavTilesToneDanger" xml:space="preserve"><value>Danger</value></data>
+  <data name="NavTilesGridTitle" xml:space="preserve"><value>Tuile double largeur dans une grille fluide</value></data>
+  <data name="NavTilesGridDescription" xml:space="preserve"><value>MinColumnWidth : le nombre de colonnes suit la largeur de la grille elle-même, pas celle de la fenêtre. À côté d'un menu latéral, la grille a moins de colonnes, plus larges ; une tuile DoubleWidth occupe deux colonnes là où la grille en a deux, sinon une seule.</value></data>
 </root>

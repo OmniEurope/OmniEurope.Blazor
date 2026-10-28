@@ -1,0 +1,25 @@
+@* The frame of an application page: the layout takes the full width, the header can stay pinned at the top,
+   and the body holds the main area, which sets the reading width and stays the landmark that skip links and
+   focus aim at. *@
+<OmniLayout>
+    <OmniSkipLink TargetId="page-shell-main" />
+    <OmniHeader Sticky="Sticky" Surface="Surface">
+        <OmniIcon Name="OmniIconName.Home" />
+        <OmniHeading Level="OmniHeadingLevel.H4">My application</OmniHeading>
+        <OmniBadge Tone="OmniTone.Accent">@PageShellWidths.Label(ContentWidth)</OmniBadge>
+    </OmniHeader>
+    <OmniBody>
+        <OmniMain Id="page-shell-main" FocusTarget="FocusTarget" AriaLabelledBy="@(LabelledBy ? "page-shell-title" : null)"
+                  ContentWidth="ContentWidth" Scrollable="Scrollable" AutoHideScrollbar="AutoHideScrollbar">
+            <OmniHeading Id="page-shell-title" Level="OmniHeadingLevel.H5">Main content</OmniHeading>
+            @foreach (var paragraph in PageShellWidths.Paragraphs)
+            {
+                <OmniText Element="OmniTextElement.Paragraph">@paragraph</OmniText>
+            }
+        </OmniMain>
+    </OmniBody>
+</OmniLayout>
+
+@* A host-owned startup splash sits outside Blazor's root; here none exists, which is the safe absence path. *@
+<OmniBootSplash SplashId="page-shell-absent-splash" OnHide="@(found => SplashFound = found)" />
+<OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@SplashStatus</OmniText>

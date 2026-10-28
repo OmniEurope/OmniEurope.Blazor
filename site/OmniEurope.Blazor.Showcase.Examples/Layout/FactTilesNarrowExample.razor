@@ -1,0 +1,53 @@
+@* Four fact tiles on one row (Columns="4"): each is narrow, so each row decides on its own. The term and the
+   value share a line when they fit together (the second rows); the value goes under the term otherwise (the
+   first rows: a term of 16 characters and a value of 20 show whole, without an ellipsis). *@
+<OmniTileGrid Id="demo-fact-tile-narrow-grid" Columns="4">
+    <OmniFactTile Id="demo-fact-tile-narrow-source" Title="Source">
+        <ChildContent>
+            <OmniFactTileRow Term="Step duration">
+                <Icon><OmniIcon Name="OmniIconName.CalendarBlank" /></Icon>
+                <ChildContent>2026-10-23 08:14:02Z</ChildContent>
+            </OmniFactTileRow>
+            <OmniFactTileRow Term="Branch">
+                <Icon><OmniIcon Name="OmniIconName.Graph" /></Icon>
+                <ChildContent>release/1.9.0</ChildContent>
+            </OmniFactTileRow>
+        </ChildContent>
+    </OmniFactTile>
+    <OmniFactTile Id="demo-fact-tile-narrow-run" Title="Run">
+        <ChildContent>
+            <OmniFactTileRow Term="Step duration">
+                <Icon><OmniIcon Name="OmniIconName.CalendarBlank" /></Icon>
+                <ChildContent>2026-10-23 08:14:02Z</ChildContent>
+            </OmniFactTileRow>
+            <OmniFactTileRow Term="Status">
+                <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
+                <ChildContent><OmniBadge Tone="OmniTone.Success">Succeeded</OmniBadge></ChildContent>
+            </OmniFactTileRow>
+        </ChildContent>
+    </OmniFactTile>
+    <OmniFactTile Id="demo-fact-tile-narrow-timeline" Title="Timeline">
+        <ChildContent>
+            <OmniFactTileRow Term="Step duration">
+                <Icon><OmniIcon Name="OmniIconName.CalendarBlank" /></Icon>
+                <ChildContent>2026-10-23 08:14:02Z</ChildContent>
+            </OmniFactTileRow>
+            <OmniFactTileRow Term="Duration">
+                <Icon><OmniIcon Name="OmniIconName.Timer" /></Icon>
+                <ChildContent>1h44min</ChildContent>
+            </OmniFactTileRow>
+        </ChildContent>
+    </OmniFactTile>
+    <OmniFactTile Id="demo-fact-tile-narrow-steps" Title="Steps">
+        <ChildContent>
+            <OmniFactTileRow Term="Step duration">
+                <Icon><OmniIcon Name="OmniIconName.CalendarBlank" /></Icon>
+                <ChildContent>2026-10-23 08:14:02Z</ChildContent>
+            </OmniFactTileRow>
+            <OmniFactTileRow Term="Steps">
+                <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                <ChildContent>5 / 5</ChildContent>
+            </OmniFactTileRow>
+        </ChildContent>
+    </OmniFactTile>
+</OmniTileGrid>

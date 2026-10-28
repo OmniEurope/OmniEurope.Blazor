@@ -248,7 +248,7 @@ export async function requestSteps(session, results) {
 
   // 7. The stat tile keeps its label on one line (R1-15): the long label of the demo stays one line
   // high, smaller or cut, its whole text in the title once cut.
-  await session.visit('/components/legacy/pages', '#demo-stat-tile-gain');
+  await session.visit('/components/stat-tiles', '#demo-stat-tile-gain');
   const tileState = "(() => { const label = document.querySelector('#demo-stat-tile-gain .omni-stat-tile__label'); const line = parseFloat(getComputedStyle(label).lineHeight) || parseFloat(getComputedStyle(label).fontSize) * 1.6; const fits = label.scrollWidth <= label.clientWidth + 1; const fit = label.getAttribute('data-fit'); return label.getBoundingClientRect().height <= line + 1 && (fits || fit === 'clip') && (fit === 'clip') === (label.getAttribute('title') === label.textContent.trim()); })()";
   await waitFor('le libellé long de la tuile sur une ligne, entier ou coupé avec son titre', tileState);
   step('tuile de statistique : libellé sur une ligne, réduit ou coupé avec son texte entier en titre');
@@ -262,7 +262,7 @@ export async function requestSteps(session, results) {
   // check on the cells is their rectangles, and the cut is proved by a value that is cut and read whole in the
   // package tooltip. At 1280 and 375 px, at the default text size and at text size 10 (the level the appearance
   // window writes on the root, data-oe-text-size).
-  await session.visit('/components/legacy/pages', '#demo-fact-tile-timeline');
+  await session.visit('/components/stat-tiles', '#demo-fact-tile-timeline');
   const factTiles = `(() => {
     const grid = document.getElementById('demo-fact-tile-grid');
     const tiles = [...grid.children];
@@ -345,7 +345,7 @@ export async function requestSteps(session, results) {
   // keeps a sidebar and a side panel, so that is wider than 900 px of window, and below 1024 px of window the
   // tile grid has two columns). At 1280 px the tile is narrower still and the value, on its own line, still
   // fits. In a roomy tile (a phone, one column) the three aligned columns stay, label and value on one line.
-  await session.visit('/components/legacy/pages', '#demo-fact-tile-narrow-grid');
+  await session.visit('/components/stat-tiles', '#demo-fact-tile-narrow-grid');
   const narrowGrid = `(() => {
     const grid = document.getElementById('demo-fact-tile-narrow-grid');
     const tiles = [...grid.children];
@@ -639,7 +639,7 @@ export async function requestSteps(session, results) {
   // shows only once they are; a table no script sizes (no interactivity, a failed module) still shows
   // after its second.
   {
-    await session.visit('/components/legacy/pages', 'main');
+    await session.visit('/components/details', 'main');
     await evaluate(`(() => {
       window.__probeSizing = { 'demo-grid-sizing': [], 'demo-grid-sizing-remote': [] };
       window.__probeSizingStop = false;
@@ -745,12 +745,10 @@ export async function requestSteps(session, results) {
   // a column now share the width of the longest, capped at 40%, the values take all the room left; at
   // 375 px the list is one column and nothing overflows.
   {
-    await session.visit('/components/legacy/pages', '#pages-demo-essentials .omni-description-list__item');
-    // The shell of the demonstration may be left loading or missing by an earlier step: it is loaded again.
-    await clickOn('#pages-demo-load');
-    await waitFor('la liste de description affichée', "[...document.querySelectorAll('#pages-demo-essentials > .omni-description-list__item')].filter(item => item.getClientRects().length > 0 && item.getBoundingClientRect().width > 0).length === 6", 10_000);
+    await session.visit('/components/details', '#details-essentials .omni-description-list__item');
+    await waitFor('la liste de description affichée', "[...document.querySelectorAll('#details-essentials > .omni-description-list__item')].filter(item => item.getClientRects().length > 0 && item.getBoundingClientRect().width > 0).length === 6", 10_000);
     const listState = `(() => {
-      const list = document.getElementById('pages-demo-essentials');
+      const list = document.getElementById('details-essentials');
       const items = [...list.querySelectorAll(':scope > .omni-description-list__item')].filter(item => item.getClientRects().length > 0).map(item => {
         const label = item.querySelector('.omni-description-list__label').getBoundingClientRect();
         const value = item.querySelector('.omni-description-list__value').getBoundingClientRect();

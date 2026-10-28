@@ -65,6 +65,46 @@ internal static class LayoutFamily
                 "Layout/SettingsTileContent.cs",
                 "Layout/SettingsSampleTile.razor", "Layout/SettingsSampleTile.razor.cs",
                 "Layout/SettingsSectionsGalleryExample.razor", "Layout/SettingsSectionsGalleryExample.razor.cs"
+            ]),
+        new("page-shell", "PageShellTitle", "PageShellDescription", OmniIconName.Layout,
+            ["OmniLayout", "OmniHeader", "OmniBody", "OmniMain", "OmniSkipLink", "OmniBootSplash", "OmniThemeScope",
+             "OmniSidebar", "OmniSidebarToggle", "OmniPanelMenu", "OmniTabs", "OmniAppMenu", "OmniWindowControls"],
+            [
+                "Layout/PageShellExample.razor", "Layout/PageShellExample.razor.cs",
+                "Layout/PageShellWidths.cs",
+                "Layout/PageShellWidthExample.razor", "Layout/PageShellWidthExample.razor.cs",
+                "Layout/SidebarShellExample.razor", "Layout/SidebarShellExample.razor.cs",
+                "Layout/EndSidebarShellExample.razor", "Layout/EndSidebarShellExample.razor.cs",
+                "Layout/OverlayRailShellExample.razor", "Layout/OverlayRailShellExample.razor.cs",
+                "Layout/ScrollingTabsExample.razor", "Layout/ScrollingTabsExample.razor.cs",
+                "Layout/ApplicationShellExample.razor", "Layout/ApplicationShellExample.razor.cs"
+            ]),
+        new("details", "DetailsTitle", "DetailsDescription", OmniIconName.Document,
+            ["OmniDetailShell", "OmniPageHeader", "OmniDescriptionList", "OmniDescriptionItem", "OmniRelativeTime", "OmniEmptyState"],
+            [
+                "Layout/DetailsExample.razor", "Layout/DetailsExample.razor.cs",
+                "Layout/PinnedActionsExample.razor",
+                "Layout/EmptyStatesExample.razor"
+            ]),
+        new("stat-tiles", "StatTilesTitle", "StatTilesDescription", OmniIconName.ChartBar,
+            ["OmniStatTile", "OmniFactTile", "OmniFactTileRow", "OmniTileGrid"],
+            [
+                "Layout/StatTilesExample.razor", "Layout/StatTilesExample.razor.cs",
+                "Layout/StatTilesGalleryExample.razor", "Layout/StatTilesGalleryExample.razor.cs",
+                "Layout/StatTilesColumnsExample.razor", "Layout/StatTilesColumnsExample.razor.cs",
+                "Layout/FactTilesExample.razor",
+                "Layout/FactTilesNarrowExample.razor",
+                "Layout/TileGridExample.razor", "Layout/TileGridExample.razor.cs",
+                "Layout/TileGridNaturalExample.razor",
+                "Layout/TileGridUniformExample.razor", "Layout/TileGridUniformExample.razor.cs"
+            ]),
+        new("nav-tiles", "NavTilesTitle", "NavTilesDescription", OmniIconName.SquaresFour,
+            ["OmniNavTile", "OmniTileGrid"],
+            [
+                "Layout/NavTilesExample.razor", "Layout/NavTilesExample.razor.cs",
+                "Layout/NavTilesTonesExample.razor", "Layout/NavTilesTonesExample.razor.cs",
+                "Layout/NavTilesFitTitleExample.razor", "Layout/NavTilesFitTitleExample.razor.cs",
+                "Layout/TileGridFluidExample.razor", "Layout/TileGridFluidExample.razor.cs"
             ])
     ]);
 }

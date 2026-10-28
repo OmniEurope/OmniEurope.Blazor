@@ -1,0 +1,11 @@
+@* One navigation tile per tone. *@
+<OmniRow Gap="OmniSpacing.Medium">
+    @foreach (var tone in Tones)
+    {
+        <OmniColumn Span="12" MediumSpan="4">
+            <OmniNavTile Href="components/nav-tiles" Title="@tone.ToString()" Description="Leads back to this page" Tone="tone">
+                <Icon><OmniIcon Name="OmniIconName.Layers" /></Icon>
+            </OmniNavTile>
+        </OmniColumn>
+    }
+</OmniRow>
