@@ -1,18 +1,26 @@
-namespace OmniEurope.Blazor.Showcase.Components.Demos;
+using OmniEurope.Blazor.Components;
+
+namespace OmniEurope.Blazor.Showcase.Examples.Editor;
 
 /// <summary>
-/// A proofreader as small as a demonstration allows: one misspelled word it knows the correction of, and a word written
+/// A proofreader as small as an example allows: one misspelled word it knows the correction of, and a word written
 /// twice in a row, flagged as grammar. A real host plugs its own engine and dictionaries in the same place; the editor
 /// only underlines, offers the corrections and calls back.
 /// </summary>
-internal sealed class DemoProofreader(string wrong, string right, string repeated) : OmniHtmlEditorProofreader
+/// <param name="wrong">The misspelled word to underline.</param>
+/// <param name="right">The correction offered for it.</param>
+/// <param name="repeated">The message shown for a word written twice in a row.</param>
+public sealed class SampleProofreader(string wrong, string right, string repeated) : OmniHtmlEditorProofreader
 {
     private readonly HashSet<string> _accepted = new(StringComparer.OrdinalIgnoreCase);
 
+    /// <inheritdoc />
     public override bool CanIgnoreAll => true;
 
+    /// <inheritdoc />
     public override bool CanAddToDictionary => true;
 
+    /// <inheritdoc />
     public override Task<IReadOnlyList<OmniHtmlEditorProofreadingIssue>> CheckAsync(
         IReadOnlyList<OmniHtmlEditorProofreadingText> texts, CancellationToken cancellationToken)
     {
@@ -39,6 +47,7 @@ internal sealed class DemoProofreader(string wrong, string right, string repeate
         return Task.FromResult<IReadOnlyList<OmniHtmlEditorProofreadingIssue>>(issues);
     }
 
+    /// <inheritdoc />
     public override Task<IReadOnlyList<string>> SuggestAsync(
         OmniHtmlEditorProofreadingText text, OmniHtmlEditorProofreadingIssue issue, CancellationToken cancellationToken)
     {
@@ -49,12 +58,14 @@ internal sealed class DemoProofreader(string wrong, string right, string repeate
         return Task.FromResult(suggestions);
     }
 
+    /// <inheritdoc />
     public override Task IgnoreAllAsync(string passage, string? language)
     {
         _accepted.Add(passage);
         return Task.CompletedTask;
     }
 
+    /// <inheritdoc />
     public override Task AddToDictionaryAsync(string passage, string? language)
     {
         _accepted.Add(passage);

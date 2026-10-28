@@ -1,0 +1,14 @@
+@* A mail template: subject, body and variables. A variable button writes its token at the caret of the subject or of the body;
+   the Preview tab shows the mail rendered by OmniMailRenderer with the sample values, in the colours of the theme, as a mail
+   client will receive it. Insert a block adds a banner or an action button to the file link; Expected documents is a block
+   variable. Send a test hands the rendered mail to the application, which would send it: this example sends nothing and
+   only says what it received. *@
+<OmniMailTemplateEditor Id="editor-mail"
+                        @bind-Value="MailBody"
+                        @bind-Subject="MailSubject"
+                        Variables="MailVariables"
+                        Theme="MailTheme"
+                        Label="Reminder mail template"
+                        Rows="8"
+                        OnSendTest="SendMailTest" />
+<p id="editor-mail-test" aria-live="polite">@MailTestNotice</p>

@@ -900,7 +900,7 @@ export async function requestSteps(session, results) {
   check(bar.heights.length > 0 && bar.heights.every(height => height === bar.expected), `Les boutons d'export ne suivent pas BarButtonSize : ${barState}`);
   step(`boutons de barre de grille : ${bar.heights.length} boutons d'export à ${bar.expected} px, la hauteur d'un bouton Medium`);
 
-  await session.visit('/components/legacy/editeur', '#editor-mail');
+  await session.visit('/components/html-editor', '#editor-mail');
   await evaluate("(() => { const field = document.querySelector('#editor-mail .omni-mail-template-editor__subject input'); field.scrollIntoView({ block: 'center' }); field.focus(); field.setSelectionRange(field.value.length, field.value.length); })()");
   await waitFor("l'objet focalisé", "document.activeElement?.closest('.omni-mail-template-editor__subject') !== null");
   await clickOn('#editor-mail [data-omni-variable="client"]');

@@ -4,4 +4,99 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="HtmlEditorTitle" xml:space="preserve"><value>Éditeur WYSIWYG</value></data>
+  <data name="HtmlEditorDescription" xml:space="preserve"><value>Éditeur WYSIWYG et sa source HTML : une barre de commandes que la page choisit, réordonne ou complète, le collage assaini, l'historique, le HTML qu'il lie, et ce qu'un hôte apporte par des extensions (notes, correcteur, suggestions, tableaux, modèles de mail).</value></data>
+  <data name="HtmlEditorSettingsTitle" xml:space="preserve"><value>Réglages de l'éditeur</value></data>
+  <data name="HtmlEditorSettingsDescription" xml:space="preserve"><value>La barre est une liste de commandes publique : chaque réglage ci-dessous la change.</value></data>
+  <data name="HtmlEditorToolbarRows" xml:space="preserve"><value>Limiter la barre à deux lignes</value></data>
+  <data name="HtmlEditorToolbarLabels" xml:space="preserve"><value>Afficher les noms des commandes</value></data>
+  <data name="HtmlEditorMode" xml:space="preserve"><value>Face</value></data>
+  <data name="HtmlEditorModeDescription" xml:space="preserve"><value>Le document mis en forme ou sa source HTML ; le bouton Source de la barre fait de même.</value></data>
+  <data name="HtmlEditorModeVisual" xml:space="preserve"><value>Visuel</value></data>
+  <data name="HtmlEditorModeSource" xml:space="preserve"><value>Source</value></data>
+  <data name="HtmlEditorToolbar" xml:space="preserve"><value>Barre</value></data>
+  <data name="HtmlEditorToolbarDescription" xml:space="preserve"><value>La barre complète du paquet, une sélection essentielle, ou les mêmes commandes dans un autre ordre.</value></data>
+  <data name="HtmlEditorToolbarComplete" xml:space="preserve"><value>Complète</value></data>
+  <data name="HtmlEditorToolbarEssential" xml:space="preserve"><value>Essentielle</value></data>
+  <data name="HtmlEditorToolbarReordered" xml:space="preserve"><value>Réordonnée</value></data>
+  <data name="HtmlEditorCommand" xml:space="preserve"><value>Commande de la page</value></data>
+  <data name="HtmlEditorCommandDescription" xml:space="preserve"><value>Une commande ajoutée par la page, en fin de barre : elle insère la signature au curseur.</value></data>
+  <data name="HtmlEditorCustomTools" xml:space="preserve"><value>Outils ajoutés</value></data>
+  <data name="HtmlEditorCustomToolsDescription" xml:space="preserve"><value>Deux commandes à libellé texte, après la barre : une signature et une référence ajoutées en fin de texte.</value></data>
+  <data name="HtmlEditorBold" xml:space="preserve"><value>Gras</value></data>
+  <data name="HtmlEditorBoldDescription" xml:space="preserve"><value>Montre ou retire la commande Gras, quelle que soit la barre.</value></data>
+  <data name="HtmlEditorItalic" xml:space="preserve"><value>Italique</value></data>
+  <data name="HtmlEditorItalicDescription" xml:space="preserve"><value>Montre ou retire la commande Italique, quelle que soit la barre.</value></data>
+  <data name="HtmlEditorSubscript" xml:space="preserve"><value>Indice</value></data>
+  <data name="HtmlEditorSubscriptDescription" xml:space="preserve"><value>Montre ou retire la commande Indice, quelle que soit la barre.</value></data>
+  <data name="HtmlEditorSuperscript" xml:space="preserve"><value>Exposant</value></data>
+  <data name="HtmlEditorSuperscriptDescription" xml:space="preserve"><value>Montre ou retire la commande Exposant, quelle que soit la barre.</value></data>
+  <data name="HtmlEditorIndent" xml:space="preserve"><value>Retrait</value></data>
+  <data name="HtmlEditorIndentDescription" xml:space="preserve"><value>Montre ou retire la commande qui augmente le retrait.</value></data>
+  <data name="HtmlEditorOutdent" xml:space="preserve"><value>Retrait inverse</value></data>
+  <data name="HtmlEditorOutdentDescription" xml:space="preserve"><value>Montre ou retire la commande qui réduit le retrait.</value></data>
+  <data name="HtmlEditorPreview" xml:space="preserve"><value>Aperçu</value></data>
+  <data name="HtmlEditorPreviewDescription" xml:space="preserve"><value>En face source, rend le balisage assaini sous la zone de texte.</value></data>
+  <data name="HtmlEditorDisabled" xml:space="preserve"><value>Désactivé</value></data>
+  <data name="HtmlEditorDisabledDescription" xml:space="preserve"><value>Le document, la source et toutes les commandes sont verrouillés.</value></data>
+  <data name="HtmlEditorRows" xml:space="preserve"><value>Hauteur</value></data>
+  <data name="HtmlEditorRowsDescription" xml:space="preserve"><value>Lignes de la source et hauteur minimale du document.</value></data>
+  <data name="HtmlEditorCharactersTitle" xml:space="preserve"><value>Caractères spéciaux</value></data>
+  <data name="HtmlEditorCharactersDescription" xml:space="preserve"><value>L'hôte donne le jeu de lettres et reçoit le caractère choisi : la première palette le saisit dans une zone de texte, la seconde ne fait que lister ce qu'elle a remis.</value></data>
+  <data name="HtmlEditorPreviewTitle" xml:space="preserve"><value>Éditeur en direct</value></data>
+  <data name="HtmlEditorRenderedTitle" xml:space="preserve"><value>Rendu du HTML lié</value></data>
+  <data name="HtmlEditorRenderedDescription" xml:space="preserve"><value>La valeur affichée hors de l'éditeur, dans un conteneur omni-rich-text qui porte les alignements et les tailles.</value></data>
+  <data name="HtmlEditorBoundTitle" xml:space="preserve"><value>Balisage lié</value></data>
+  <data name="HtmlEditorGalleryTitle" xml:space="preserve"><value>Galerie</value></data>
+  <data name="HtmlEditorHostCommandsTitle" xml:space="preserve"><value>Commandes de l'hôte</value></data>
+  <data name="HtmlEditorHostCommandsDescription" xml:space="preserve"><value>La barre par défaut se termine par des commandes de l'hôte : l'une insère un bloc, l'une réécrit toute la valeur, l'une insère une référence au curseur. Le second éditeur montre la même valeur en face source.</value></data>
+  <data name="HtmlEditorAnnotatedTitle" xml:space="preserve"><value>Article annoté</value></data>
+  <data name="HtmlEditorAnnotatedDescription" xml:space="preserve"><value>L'éditeur garde le balisage de l'hôte (notes dans des aside, attributs data), signale où se trouve le curseur et active les commandes de tableau dans une cellule. Un clic sur une note la coche.</value></data>
+  <data name="HtmlEditorExtensionTitle" xml:space="preserve"><value>Extension : notes, correcteur et suggestions</value></data>
+  <data name="HtmlEditorExtensionDescription" xml:space="preserve"><value>Une extension apporte une commande de note (Ctrl+Maj+N), un clic qui marque une note comme relue, un menu contextuel, un correcteur et des suggestions de texte (Tab les accepte). Le second éditeur applique le même correcteur à un texte d'abord en lecture seule.</value></data>
+  <data name="HtmlEditorMailTitle" xml:space="preserve"><value>Modèle de mail</value></data>
+  <data name="HtmlEditorMailDescription" xml:space="preserve"><value>Objet, corps et variables : un bouton de variable écrit son jeton au curseur, l'onglet Aperçu montre le mail tel qu'un client de messagerie le reçoit, et Envoyer un essai le remet à l'application. Rien n'est envoyé ici.</value></data>
+  <data name="HtmlEditorIconsTitle" xml:space="preserve"><value>Icônes des barres d'outils</value></data>
+  <data name="DocumentEditorTitle" xml:space="preserve"><value>Traitement de texte</value></data>
+  <data name="DocumentEditorDescription" xml:space="preserve"><value>Un traitement de texte léger : une page, des styles et des tailles, des listes, des alignements, un tableau, le décompte des mots et l'export en HTML ou en texte.</value></data>
+  <data name="DocumentEditorSettingsTitle" xml:space="preserve"><value>Réglages du traitement de texte</value></data>
+  <data name="DocumentEditorSettingsDescription" xml:space="preserve"><value>Ce que montre la barre sous la page, et ce que la page accepte.</value></data>
+  <data name="DocumentEditorStatusBar" xml:space="preserve"><value>Barre d'état</value></data>
+  <data name="DocumentEditorStatusBarDescription" xml:space="preserve"><value>Mots et caractères, mis à jour pendant la frappe, à côté des téléchargements en HTML et en texte brut.</value></data>
+  <data name="DocumentEditorReadOnly" xml:space="preserve"><value>Lecture seule</value></data>
+  <data name="DocumentEditorReadOnlyDescription" xml:space="preserve"><value>La page et la barre sont verrouillées, les exports restent possibles.</value></data>
+  <data name="DocumentEditorFileName" xml:space="preserve"><value>Nom du fichier</value></data>
+  <data name="DocumentEditorFileNameDescription" xml:space="preserve"><value>Nom donné aux fichiers téléchargés, sans l'extension.</value></data>
+  <data name="DocumentEditorPreviewTitle" xml:space="preserve"><value>Document</value></data>
+  <data name="CodeEditorTitle" xml:space="preserve"><value>Éditeur de code</value></data>
+  <data name="CodeEditorDescription" xml:space="preserve"><value>Éditeur de code : langage, lecture seule, numéros de ligne, retour à la ligne, liens Ctrl+clic et moteur en texte brut sans script. Monaco est servi par l'hôte depuis son propre dossier ; ce site ne le sert pas, la page fonctionne donc avec le moteur en texte brut.</value></data>
+  <data name="CodeEditorSettingsTitle" xml:space="preserve"><value>Réglages de l'éditeur de code</value></data>
+  <data name="CodeEditorSettingsDescription" xml:space="preserve"><value>Chaque réglage s'applique à chaud, sans recréer l'éditeur.</value></data>
+  <data name="CodeEditorLanguage" xml:space="preserve"><value>Langage</value></data>
+  <data name="CodeEditorLanguageDescription" xml:space="preserve"><value>La coloration de l'éditeur ; l'exemple change avec le langage.</value></data>
+  <data name="CodeEditorReadOnly" xml:space="preserve"><value>Lecture seule</value></data>
+  <data name="CodeEditorReadOnlyDescription" xml:space="preserve"><value>Le code se lit et se sélectionne sans pouvoir changer.</value></data>
+  <data name="CodeEditorLineNumbers" xml:space="preserve"><value>Numéros de ligne</value></data>
+  <data name="CodeEditorLineNumbersDescription" xml:space="preserve"><value>La marge des numéros de ligne.</value></data>
+  <data name="CodeEditorWordWrap" xml:space="preserve"><value>Retour à la ligne</value></data>
+  <data name="CodeEditorWordWrapDescription" xml:space="preserve"><value>Les lignes longues passent à la ligne au lieu de défiler.</value></data>
+  <data name="CodeEditorLinks" xml:space="preserve"><value>Liens de pipeline</value></data>
+  <data name="CodeEditorLinksDescription" xml:space="preserve"><value>En YAML, le nom qui suit pipeline: devient un lien Ctrl+clic, rapporté à la page.</value></data>
+  <data name="CodeEditorHeight" xml:space="preserve"><value>Hauteur</value></data>
+  <data name="CodeEditorHeightDescription" xml:space="preserve"><value>Hauteur de l'éditeur, en rem.</value></data>
+  <data name="CodeEditorPreviewTitle" xml:space="preserve"><value>Éditeur en direct</value></data>
+  <data name="CodeEditorBoundTitle" xml:space="preserve"><value>Valeur liée</value></data>
+  <data name="CodeReadingTitle" xml:space="preserve"><value>Lecture du code</value></data>
+  <data name="CodeReadingDescription" xml:space="preserve"><value>Code en lecture seule, sortie de commande en couleurs, et différences côte à côte ou unifiées.</value></data>
+  <data name="CodeReadingSettingsTitle" xml:space="preserve"><value>Exemple</value></data>
+  <data name="CodeReadingChanged" xml:space="preserve"><value>Afficher la commande modifiée</value></data>
+  <data name="CodeReadingExcerpt" xml:space="preserve"><value>Extrait numéroté</value></data>
+  <data name="CodeReadingExcerptDescription" xml:space="preserve"><value>La visionneuse numérote ses lignes depuis la ligne 120, comme dans le fichier d'origine ; la ligne surlignée compte de même.</value></data>
+  <data name="CodeReadingDiffExpanded" xml:space="preserve"><value>Fichiers dépliés</value></data>
+  <data name="CodeReadingDiffExpandedDescription" xml:space="preserve"><value>Les fichiers du diff unifié s'ouvrent dépliés ; désactivé, seul leur en-tête paraît.</value></data>
+  <data name="CodeReadingAnsiTitle" xml:space="preserve"><value>Sortie de commande en couleurs</value></data>
+  <data name="CodeReadingAnsiDescription" xml:space="preserve"><value>AnsiMode dessine les séquences de couleur (Render), retire les codes (Hide) ou garde le texte brut (Raw) ; la copie ne prend les codes qu'en Raw.</value></data>
+  <data name="CodeReadingExcerptTitle" xml:space="preserve"><value>Ligne surlignée et extrait</value></data>
+  <data name="CodeReadingNavigationTitle" xml:space="preserve"><value>Navigation entre les modifications</value></data>
+  <data name="CodeReadingNavigationDescription" xml:space="preserve"><value>La barre propre à la visionneuse (ShowNavigation), puis une comparaison qui remplit son cadre sous une barre de la page. Le moteur en texte brut garde désactivés les boutons précédent et suivant : ils fonctionnent une fois Monaco monté.</value></data>
 </root>

@@ -1,0 +1,16 @@
+@* A unified diff, as git writes it, drawn without Monaco. Each file can carry actions of the host: here, a button that reports
+   which file was opened. *@
+@* ExpandedByDefault is only read when the files are created: the key creates the component again. *@
+<OmniUnifiedDiff @key="ExpandedByDefault" Diff="@CodeReadingSamples.CommandDiff" ExpandedByDefault="ExpandedByDefault">
+    <FileActionsTemplate Context="file">
+        <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="@(() => OpenedFile = file.Path)">
+            <OmniIcon Name="OmniIconName.OpenExternal" />
+            <span>Open</span>
+        </OmniButton>
+    </FileActionsTemplate>
+</OmniUnifiedDiff>
+<OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+    <OmniIcon Name="OmniIconName.Document" />
+    <span>Opened file:</span>
+    <OmniBadge Tone="@(OpenedFile is null ? OmniTone.Neutral : OmniTone.Accent)">@(OpenedFile ?? "none")</OmniBadge>
+</OmniRow>

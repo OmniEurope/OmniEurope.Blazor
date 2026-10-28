@@ -141,12 +141,6 @@
     #showcase-theme > .omni-layout > .omni-body { flex-direction: column; }
     #showcase-theme > .omni-layout > .omni-body > .omni-sidebar { flex: 0 0 auto; max-inline-size: none; }
 }
-/* Cadres de hauteur fixe : la grille qui prend le reste du sien, les onglets dont le panneau défile
-   seul, la liste virtuelle que son cadre fait défiler. */
-/* Un cadre de 24rem dont la barre appartient à la page (précédent et suivant à gauche, deux actions à droite) : le comparateur prend le reste. */
-.demo-diff-fill-box { block-size: 24rem; border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: flex; flex-direction: column; gap: var(--omni-space-sm); margin-block-start: var(--omni-space-lg); padding: var(--omni-space-md); }
-.demo-diff-fill-bar { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); }
-.demo-diff-fill-bar__actions { display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); margin-inline-start: auto; }
 
 /* La page de connexion en miniature : un fond discret la détache du reste de la démonstration. */
 .showcase-preview-frame { background: var(--omni-color-surface-muted); border: var(--omni-border-width) dashed var(--omni-color-border); border-radius: var(--omni-radius); padding-inline: var(--omni-space-md); }
@@ -1083,4 +1077,22 @@
     margin: 0;
     min-inline-size: 0;
     overflow-wrap: anywhere;
+
+/* Editor fidelity */
+/* The examples carry no class of the showcase: each page wraps its example in a gallery-* div and these
+   rules reach the Omni* markup inside it. */
+
+/* HTML editor page: the bound HTML rendered outside the editor, in a bordered frame. */
+.gallery-editor-rendered .omni-rich-text {
+    border: var(--omni-border-width) solid var(--omni-color-border);
+    border-radius: var(--omni-radius);
+    padding: var(--omni-space-md);
+}
+
+/* Code reading page: a frame of fixed height whose bar belongs to the page; the comparison takes the rest of it. */
+.gallery-code-reading-fill > .omni-stack > .omni-stack {
+    block-size: 24rem;
+    border: var(--omni-border-width) solid var(--omni-color-border);
+    border-radius: var(--omni-radius);
+    padding: var(--omni-space-md);
 }

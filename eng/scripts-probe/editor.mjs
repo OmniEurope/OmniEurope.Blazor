@@ -1,4 +1,4 @@
-// The HTML editor page (/components/legacy/editeur): every script path of omni-html-editor.js and its
+// The HTML editor page (/components/html-editor): every script path of omni-html-editor.js and its
 // html-editor/ parts that a reader reaches with the toolbar, the keyboard, the mouse, the clipboard,
 // the proofreader, the suggestions, the inline elements of an extension and the table commands.
 // Each step acts as a reader would and asserts the document the editor leaves.
@@ -112,7 +112,7 @@ export async function editorSteps(session, results) {
     await click(previous);
   };
 
-  await session.visit('/components/legacy/editeur', '#editor-extended');
+  await session.visit('/components/html-editor', '#editor-extended');
   await waitFor('les surfaces prêtes', `document.querySelectorAll('.omni-html-editor__surface[contenteditable="true"]').length >= 5`);
 
   // 1. #editor-body, inline formatting and blocks.
@@ -129,11 +129,11 @@ export async function editorSteps(session, results) {
   await waitFor('la référence annulée', `${surface('editor-body')}.querySelectorAll('p').length === 2 && !${surface('editor-body')}.textContent.includes('D-2401')`, 5_000).catch(async error => { throw new Error(error.message + ' HTML : ' + await html('editor-body')); });
   step('référence insérée entre les deux moitiés du curseur, puis annulée');
 
-  await select('editor-body', 'dossier');
+  await select('editor-body', 'case file');
   await command('editor-body', 'inline-code');
-  await waitFor('le code en ligne', `${surface('editor-body')}.querySelector('code')?.textContent === 'dossier'`);
+  await waitFor('le code en ligne', `${surface('editor-body')}.querySelector('code')?.textContent === 'case file'`);
   await caretIn('editor-body', 'code', true);
-  await select('editor-body', 'dossier', 'start');
+  await select('editor-body', 'case file', 'start');
   await command('editor-body', 'inline-code');
   await waitFor('le code en ligne retiré', `${surface('editor-body')}.querySelector('code') === null`);
   step('code en ligne posé puis retiré');
@@ -141,7 +141,7 @@ export async function editorSteps(session, results) {
   await caretIn('editor-body', 'p');
   await command('editor-body', 'align-center');
   await waitFor('le paragraphe centré', `${surface('editor-body')}.querySelector('p.omni-align-center') !== null`);
-  await select('editor-body', 'dossier');
+  await select('editor-body', 'case file');
   await command('editor-body', 'bold');
   await waitFor('le gras', `${surface('editor-body')}.querySelector('b, strong') !== null`);
   await evaluate(`(() => { const root = ${surface('editor-body')}; root.focus(); const range = document.createRange(); range.selectNodeContents(root); const selection = getSelection(); selection.removeAllRanges(); selection.addRange(range); document.dispatchEvent(new Event('selectionchange')); })()`);
@@ -150,7 +150,7 @@ export async function editorSteps(session, results) {
   step('centrage, gras puis mise en forme effacée');
 
   // A quote holding an inline element (the bold word) is unwrapped back into a paragraph that keeps it.
-  await select('editor-body', 'reçu');
+  await select('editor-body', 'received');
   await command('editor-body', 'bold');
   await waitFor('le mot en gras', `${surface('editor-body')}.querySelector('p:last-of-type b, p:last-of-type strong') !== null`);
   await caretIn('editor-body', 'p:last-of-type');
@@ -256,40 +256,40 @@ export async function editorSteps(session, results) {
 
   // 3. #editor-extended: case, proofreading, suggestions, inline element and context menu.
   await scrollTo('editor-extended');
-  await select('editor-extended', 'correcteur');
+  await select('editor-extended', 'checker');
   await choose('editor-extended', 'change-case', 'upper');
-  await waitFor('la casse changée', `${surface('editor-extended')}.textContent.includes('CORRECTEUR')`);
-  await select('editor-extended', 'douteuse');
+  await waitFor('la casse changée', `${surface('editor-extended')}.textContent.includes('CHECKER')`);
+  await select('editor-extended', 'doubtful');
   await choose('editor-extended', 'change-case', 'title');
-  await waitFor('les initiales en capitale', `${surface('editor-extended')}.textContent.includes('Douteuse')`);
+  await waitFor('les initiales en capitale', `${surface('editor-extended')}.textContent.includes('Doubtful')`);
   step('casse changée');
 
   // Highlight: a mark around the selection, removed with the caret inside it.
-  await select('editor-extended', 'favorable');
+  await select('editor-extended', 'Approved');
   await command('editor-extended', 'highlight');
-  await waitFor('le texte surligné', `${surface('editor-extended')}.querySelector('mark')?.textContent === 'favorable'`);
+  await waitFor('le texte surligné', `${surface('editor-extended')}.querySelector('mark')?.textContent === 'Approved'`);
   await caretIn('editor-extended', 'mark');
   await command('editor-extended', 'highlight');
-  await waitFor('le surlignage retiré', `${surface('editor-extended')}.querySelector('mark') === null && ${surface('editor-extended')}.textContent.includes('favorable')`);
+  await waitFor('le surlignage retiré', `${surface('editor-extended')}.querySelector('mark') === null && ${surface('editor-extended')}.textContent.includes('Approved')`);
   step('surlignage posé puis retiré');
 
-  await waitFor('la faute soulignée sur son texte', "[...(CSS.highlights?.get('omni-proofreading-spelling') ?? [])].some(range => range.toString() === 'ortografe')", 20_000);
+  await waitFor('la faute soulignée sur son texte', "[...(CSS.highlights?.get('omni-proofreading-spelling') ?? [])].some(range => range.toString() === 'speling')", 20_000);
 
-  await rightClickText('editor-extended', 'ortografe');
+  await rightClickText('editor-extended', 'speling');
   await menuItem('[data-proofreading="suggestion"]');
-  await waitFor('la suggestion appliquée', `${surface('editor-extended')}.textContent.includes('orthographe')`);
+  await waitFor('la suggestion appliquée', `${surface('editor-extended')}.textContent.includes('spelling')`);
   await waitFor('la répétition relevée', "[...(CSS.highlights.get('omni-proofreading-grammar') ?? CSS.highlights.get('omni-proofreading-spelling') ?? [])].length > 0 || [...CSS.highlights.keys()].some(name => name.startsWith('omni-proofreading') && CSS.highlights.get(name).size > 0)");
   const issuesBefore = await evaluate("[...CSS.highlights.keys()].filter(name => name.startsWith('omni-proofreading')).reduce((sum, name) => sum + CSS.highlights.get(name).size, 0)");
-  await rightClickText('editor-extended', 'répété répété');
+  await rightClickText('editor-extended', 'repeated repeated');
   await menuItem('[data-proofreading="ignore"]');
   await waitFor('la répétition ignorée', `[...CSS.highlights.keys()].filter(name => name.startsWith('omni-proofreading')).reduce((sum, name) => sum + CSS.highlights.get(name).size, 0) < ${issuesBefore}`);
-  await select('editor-extended', 'Douteuse', 'end');
-  await type(' ortografe');
-  await waitFor('la nouvelle faute relevée', "[...(CSS.highlights.get('omni-proofreading-spelling') ?? [])].some(range => range.toString() === 'ortografe')", 20_000);
-  await rightClickText('editor-extended', ' ortografe');
+  await select('editor-extended', 'Doubtful', 'end');
+  await type(' speling');
+  await waitFor('la nouvelle faute relevée', "[...(CSS.highlights.get('omni-proofreading-spelling') ?? [])].some(range => range.toString() === 'speling')", 20_000);
+  await rightClickText('editor-extended', ' speling');
   await menuItem('[data-proofreading="ignore-all"]');
   // Ignore all forgets the answers and asks again: the word is no longer flagged anywhere.
-  await waitFor('tout ignoré puis revérifié', "![...(CSS.highlights.get('omni-proofreading-spelling') ?? [])].some(range => range.toString().trim() === 'ortografe')", 20_000);
+  await waitFor('tout ignoré puis revérifié', "![...(CSS.highlights.get('omni-proofreading-spelling') ?? [])].some(range => range.toString().trim() === 'speling')", 20_000);
   step('correcteur : remplacer, ignorer, tout ignorer');
 
   // The same proofreader on a text that starts read-only: nothing is underlined while it is locked
@@ -301,15 +301,15 @@ export async function editorSteps(session, results) {
   check(await evaluate(lockedIssues) === 0, 'Le texte en lecture seule est souligné par le correcteur.');
   await session.clickOn('#editor-locked-toggle');
   await waitFor('le texte déverrouillé', `${surface('editor-locked')}.getAttribute('contenteditable') === 'true'`);
-  await waitFor('la faute soulignée une fois déverrouillé', `[...(CSS.highlights.get('omni-proofreading-spelling') ?? [])].some(range => range.toString() === 'ortografe' && document.getElementById('editor-locked').contains(range.startContainer))`, 20_000);
+  await waitFor('la faute soulignée une fois déverrouillé', `[...(CSS.highlights.get('omni-proofreading-spelling') ?? [])].some(range => range.toString() === 'speling' && document.getElementById('editor-locked').contains(range.startContainer))`, 20_000);
   step('correcteur : rien de souligné en lecture seule, la faute soulignée une fois déverrouillé');
   await scrollTo('editor-extended');
 
   await caretIn('editor-extended', 'p:last-of-type', true);
-  await type(' sous réserve');
-  await waitFor('la suggestion de texte', `${surface('editor-extended')}.closest('.omni-html-editor').querySelector('.omni-html-editor__suggestion')?.textContent.includes('vérification')`, 10_000);
+  await type(' subject to');
+  await waitFor('la suggestion de texte', `${surface('editor-extended')}.closest('.omni-html-editor').querySelector('.omni-html-editor__suggestion')?.textContent.includes('verification')`, 10_000);
   await key('Tab', 'Tab', 9);
-  await waitFor('la suggestion acceptée', `${surface('editor-extended')}.querySelector('p:last-of-type').textContent.trimEnd().endsWith('sous réserve de vérification') && document.querySelector('.omni-html-editor__suggestion') === null`);
+  await waitFor('la suggestion acceptée', `${surface('editor-extended')}.querySelector('p:last-of-type').textContent.trimEnd().endsWith('subject to verification') && document.querySelector('.omni-html-editor__suggestion') === null`);
   step('suggestion proposée puis acceptée par Tab');
 
   await click(await centerOf('#editor-extended .demo-note'));
@@ -325,9 +325,9 @@ export async function editorSteps(session, results) {
   await scrollTo('editor-annotated');
   // A host command reads the selected words and makes them a note; a click on a note ticks it, then
   // unticks it, its text changed and its attributes kept.
-  await select('editor-annotated', 'règlement');
+  await select('editor-annotated', 'rules');
   await command('editor-annotated', 'demo-note');
-  await waitFor('la sélection devenue une note', `${surface('editor-annotated')}.querySelector('.demo-note[data-marker="2"]')?.textContent.trim() === 'règlement'`);
+  await waitFor('la sélection devenue une note', `${surface('editor-annotated')}.querySelector('.demo-note[data-marker="2"]')?.textContent.trim() === 'rules'`);
   const tick = '#editor-annotated .demo-note[data-marker="1"]';
   const noteText = await evaluate(`document.querySelector(${JSON.stringify(tick)}).textContent`);
   await click(await centerOf(tick));
@@ -396,9 +396,11 @@ export async function editorSteps(session, results) {
   await send('Emulation.setFocusEmulationEnabled', { enabled: false });
   step('copier puis coller par le presse-papiers');
 
-  // 5. #editor-document: the size select and the HTML export of the status bar.
+  // 5. #editor-document, on the word processor page: the size select and the HTML export of the status bar.
+  await session.visit('/components/document-editor', '#editor-document');
+  await waitFor('la surface du document prête', `${surface('editor-document')}.getAttribute('contenteditable') === 'true'`);
   await scrollTo('editor-document');
-  await select('editor-document', 'important');
+  await select('editor-document', 'quarter');
   await choose('editor-document', 'font-size', 'large');
   await waitFor('la taille appliquée', `${surface('editor-document')}.querySelector('span.omni-font-size-large') !== null && ${surface('editor-document')}.querySelector('font') === null`);
   // The caret inside the sized text: the toolbar reads the size back at the caret.
@@ -406,7 +408,7 @@ export async function editorSteps(session, results) {
   await waitFor('la taille relue au curseur', `${surface('editor-document')}.closest('.omni-html-editor').querySelector('select[data-command="font-size"]').value === 'large'`);
   await caretIn('editor-document', 'p');
   await command('editor-document', 'align-right');
-  await waitFor('l\'alignement à droite', `${surface('editor-document')}.querySelector('.omni-align-end') !== null`);
+  await waitFor('l\'alignement à droite', `${surface('editor-document')}.querySelector('p').classList.contains('omni-align-end')`);
   step('taille et alignement du document');
 
   const downloads = [];

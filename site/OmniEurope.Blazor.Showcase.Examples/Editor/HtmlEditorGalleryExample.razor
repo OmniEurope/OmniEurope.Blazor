@@ -1,0 +1,35 @@
+@* Four editors side by side: a short toolbar, the source face, a disabled editor and a read-only one. *@
+<OmniTileGrid MinColumnWidth="18rem" EqualHeights="false" Gap="OmniSpacing.Large">
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Short toolbar: bold, italic, history</OmniText>
+        <OmniHtmlEditor Id="html-editor-minimal"
+                        @bind-Value="MinimalBody"
+                        Label="Short toolbar: bold, italic, history"
+                        Rows="4"
+                        Commands="MinimalCommands" />
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Source face</OmniText>
+        <OmniHtmlEditor Id="html-editor-source"
+                        @bind-Value="MinimalBody"
+                        Label="Source face"
+                        Mode="OmniHtmlEditorMode.Source"
+                        Rows="4" />
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Disabled</OmniText>
+        <OmniHtmlEditor Id="html-editor-disabled"
+                        @bind-Value="DisabledBody"
+                        Label="Disabled"
+                        Rows="4"
+                        Disabled="true" />
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Read-only</OmniText>
+        <OmniHtmlEditor Id="html-editor-readonly"
+                        @bind-Value="ReadOnlyBody"
+                        Label="Read-only"
+                        Rows="4"
+                        ReadOnly="true" />
+    </OmniStack>
+</OmniTileGrid>

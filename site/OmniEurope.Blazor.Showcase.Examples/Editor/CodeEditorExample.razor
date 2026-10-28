@@ -1,0 +1,25 @@
+@* A code editor with its language, line numbers, wrapping, Ctrl+click links and height. This example runs the plain text
+   engine, the script-free text area that is also the fallback wherever Monaco is not served by the host: Monaco is
+   loaded from a folder of the host's own origin (MonacoPath) and needs a policy that lets it write styles. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniCodeEditor Id="editor-code"
+                    @bind-Value="Code"
+                    @bind-Value:after="NotifyCodeAsync"
+                    Label="Code"
+                    Language="@Language"
+                    Engine="OmniCodeEditorEngine.PlainText"
+                    ReadOnly="ReadOnly"
+                    ShowLineNumbers="ShowLineNumbers"
+                    Wrap="WordWrap"
+                    TabSize="2"
+                    Height="@Height"
+                    Links="ActiveLinks"
+                    OnLinkActivate="FollowLink" />
+    <OmniText Tone="OmniTextTone.Muted">@LinkState</OmniText>
+    <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+        <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="ResetCodeAsync">
+            <OmniIcon Name="OmniIconName.Reset" />
+            <span>Reset the sample</span>
+        </OmniButton>
+    </OmniRow>
+</OmniStack>

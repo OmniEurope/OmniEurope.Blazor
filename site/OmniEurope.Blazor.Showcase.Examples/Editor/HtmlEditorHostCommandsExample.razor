@@ -1,0 +1,17 @@
+@* The default toolbar with commands of the host at the end, and the same value in its source face. A command of the host
+   receives a context through which it inserts sanitised HTML at the caret, or rewrites the whole value, in either face. *@
+<OmniStack Gap="OmniSpacing.Large">
+    <OmniHtmlEditor Id="editor-body"
+                    @bind-Value="Body"
+                    Label="Letter body"
+                    Rows="8"
+                    ShowPreview="true"
+                    Commands="Commands" />
+
+    <OmniHtmlEditor Id="editor-source"
+                    @bind-Value="Body"
+                    Label="Letter source"
+                    Mode="OmniHtmlEditorMode.Source"
+                    Rows="6"
+                    ShowPreview="true" />
+</OmniStack>

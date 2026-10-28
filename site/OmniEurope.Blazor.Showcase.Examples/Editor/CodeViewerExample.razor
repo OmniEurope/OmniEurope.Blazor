@@ -1,0 +1,12 @@
+@* Code in read-only with numbered lines, a highlighted line and a copy button that reports the clipboard's answer. *@
+<OmniCodeViewer Code="@Code"
+                Title="Command"
+                Language="shell"
+                FirstLineNumber="FirstLineNumber"
+                HighlightedLines="HighlightedLines"
+                OnCopy="OnCopied" />
+<OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+    <OmniIcon Name="OmniIconName.Copy" />
+    <span>Last copy:</span>
+    <OmniBadge Tone="CopyTone">@CopyText</OmniBadge>
+</OmniRow>

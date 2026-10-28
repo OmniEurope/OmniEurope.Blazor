@@ -20,7 +20,7 @@ export async function leakSteps(session, results) {
       await clickOn('.omni-popover > button[aria-haspopup="dialog"]');
       await waitFor('la bulle ouverte', "document.querySelector('.omni-popover > button[aria-haspopup=\"dialog\"]').getAttribute('aria-expanded') === 'true'");
     }],
-    ['/components/legacy/editeur', '#editor-extended', async () => {
+    ['/components/html-editor', '#editor-extended', async () => {
       await clickOn('#editor-body');
     }],
     ['/components/data-grid-variants', '#demo-grid-tree', async () => {}],

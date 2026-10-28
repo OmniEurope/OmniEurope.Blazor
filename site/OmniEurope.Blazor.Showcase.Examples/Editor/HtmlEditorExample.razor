@@ -1,0 +1,28 @@
+@* The toolbar of the editor is a list the page builds: the package's own, a selection of it, or the same
+   commands in another order. A command is hidden by leaving it out of the list, and the page can add
+   commands of its own at the end. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniHtmlEditor Id="html-editor"
+                    Characters="HtmlEditorSamples.FrenchCharacters"
+                    ToolbarRows="@(LimitToolbarRows ? 2 : (int?)null)"
+                    ToolbarLabels="ToolbarLabels"
+                    @bind-Value="Body"
+                    @bind-Value:after="NotifyBodyAsync"
+                    @bind-Mode="Mode"
+                    @bind-Mode:after="NotifyModeAsync"
+                    Label="Body of the letter"
+                    Rows="Rows"
+                    Disabled="Disabled"
+                    ShowPreview="ShowPreview"
+                    Commands="ActiveCommands" />
+    <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+        <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="ResetBodyAsync">
+            <OmniIcon Name="OmniIconName.Reset" />
+            <span>Reset the text</span>
+        </OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Danger" OnClick="ClearBodyAsync">
+            <OmniIcon Name="OmniIconName.Delete" />
+            <span>Clear</span>
+        </OmniButton>
+    </OmniRow>
+</OmniStack>

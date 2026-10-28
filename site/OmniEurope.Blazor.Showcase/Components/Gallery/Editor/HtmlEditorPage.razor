@@ -1,0 +1,182 @@
+@page "/components/html-editor"
+@using OmniEurope.Blazor.Showcase.Examples.Editor
+
+<GalleryPageFrame Slug="html-editor">
+    <Settings>
+        <OmniSettingsSection Title="@Text["HtmlEditorSettingsTitle"]" Description="@Text["HtmlEditorSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["HtmlEditorToolbarRows"]">
+                <ChildContent><OmniSwitch @bind-Value="LimitToolbarRows" aria-label="@Text["HtmlEditorToolbarRows"]" /></ChildContent>
+            </OmniSettingsTile>
+            <OmniSettingsTile Title="@Text["HtmlEditorToolbarLabels"]">
+                <ChildContent><OmniSwitch @bind-Value="ToolbarLabels" aria-label="@Text["HtmlEditorToolbarLabels"]" /></ChildContent>
+            </OmniSettingsTile>
+            <OmniSettingsTile Title="@Text["HtmlEditorMode"]" Description="@Text["HtmlEditorModeDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.FileHtml" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniHtmlEditorMode" Options="@ModeOptions" @bind-Value="Mode" Label="@Text["HtmlEditorMode"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["HtmlEditorToolbar"]" Description="@Text["HtmlEditorToolbarDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Sliders" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="HtmlEditorToolbarChoice" Options="@ToolbarOptions" @bind-Value="Toolbar" Label="@Text["HtmlEditorToolbar"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["HtmlEditorCommand"]" Description="@Text["HtmlEditorCommandDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Add" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowCommand" aria-label="@Text["HtmlEditorCommand"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["HtmlEditorCustomTools"]" Description="@Text["HtmlEditorCustomToolsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Edit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowCustomTools" aria-label="@Text["HtmlEditorCustomTools"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["HtmlEditorBold"]" Description="@Text["HtmlEditorBoldDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextB" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="EnableBold" aria-label="@Text["HtmlEditorBold"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["HtmlEditorItalic"]" Description="@Text["HtmlEditorItalicDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextItalic" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="EnableItalic" aria-label="@Text["HtmlEditorItalic"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["HtmlEditorSubscript"]" Description="@Text["HtmlEditorSubscriptDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSubscript" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="EnableSubscript" aria-label="@Text["HtmlEditorSubscript"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["HtmlEditorSuperscript"]" Description="@Text["HtmlEditorSuperscriptDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSuperscript" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="EnableSuperscript" aria-label="@Text["HtmlEditorSuperscript"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["HtmlEditorIndent"]" Description="@Text["HtmlEditorIndentDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextIndent" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="EnableIndent" aria-label="@Text["HtmlEditorIndent"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["HtmlEditorOutdent"]" Description="@Text["HtmlEditorOutdentDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextOutdent" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="EnableOutdent" aria-label="@Text["HtmlEditorOutdent"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["HtmlEditorPreview"]" Description="@Text["HtmlEditorPreviewDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Monitor" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowPreview" aria-label="@Text["HtmlEditorPreview"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["HtmlEditorDisabled"]" Description="@Text["HtmlEditorDisabledDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Disabled" aria-label="@Text["HtmlEditorDisabled"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["HtmlEditorRows"]" Description="@Text["HtmlEditorRowsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="RowsValue"
+                                Minimum="3"
+                                Maximum="20"
+                                Step="1"
+                                ShowValue="true"
+                                aria-label="@Text["HtmlEditorRows"]" />
+                </Details>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["HtmlEditorCharactersTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["HtmlEditorCharactersDescription"]</OmniText>
+                <HtmlEditorCharactersExample />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["HtmlEditorPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <HtmlEditorExample @bind-Body="Body"
+                                   @bind-Mode="Mode"
+                                   Toolbar="Toolbar"
+                                   ShowSignatureCommand="ShowCommand"
+                                   ShowCustomTools="ShowCustomTools"
+                                   HiddenActions="HiddenActions"
+                                   LimitToolbarRows="LimitToolbarRows"
+                                   ToolbarLabels="ToolbarLabels"
+                                   ShowPreview="ShowPreview"
+                                   Disabled="Disabled"
+                                   Rows="Rows" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["HtmlEditorRenderedTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["HtmlEditorRenderedDescription"]</OmniText>
+                <div class="gallery-editor-rendered"><HtmlEditorRenderedExample Body="@Body" /></div>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["HtmlEditorBoundTitle"]</HeaderContent>
+            <ChildContent><HtmlEditorBoundExample Body="@Body" /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["HtmlEditorGalleryTitle"]</HeaderContent>
+            <ChildContent><HtmlEditorGalleryExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["HtmlEditorHostCommandsTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["HtmlEditorHostCommandsDescription"]</OmniText>
+                <HtmlEditorHostCommandsExample />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["HtmlEditorAnnotatedTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["HtmlEditorAnnotatedDescription"]</OmniText>
+                <HtmlEditorAnnotatedExample />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["HtmlEditorExtensionTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["HtmlEditorExtensionDescription"]</OmniText>
+                <HtmlEditorExtensionExample />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["HtmlEditorMailTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["HtmlEditorMailDescription"]</OmniText>
+                <MailTemplateExample />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["HtmlEditorIconsTitle"]</HeaderContent>
+            <ChildContent><HtmlEditorIconsExample /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

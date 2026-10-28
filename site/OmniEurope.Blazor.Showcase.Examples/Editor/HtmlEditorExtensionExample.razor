@@ -1,0 +1,22 @@
+@* An extension brings its commands and shortcut (Ctrl+Shift+N), its sanitising policy, a click on a note that marks it
+   as read, a context menu, a proofreader and text suggestions (Tab accepts). The case, the special characters, the
+   table import and the display of the blocks are built-in commands. *@
+<OmniStack Gap="OmniSpacing.Large">
+    <OmniHtmlEditor Id="editor-extended"
+                    @bind-Value="Extended"
+                    Label="Annotated opinion"
+                    Rows="6"
+                    Commands="ExtendedCommands"
+                    Extensions="[NoteExtension]" />
+
+    @* The same proofreader on a text that starts locked: in read-only, nothing is underlined and the script keeps no
+       answer; once unlocked, the misspellings are underlined. *@
+    <OmniToggleButton Id="editor-locked-toggle" @bind-Value="LockedReadOnly">Read-only</OmniToggleButton>
+    <OmniHtmlEditor Id="editor-locked"
+                    @bind-Value="Locked"
+                    Label="Proofread text, locked at first"
+                    Rows="3"
+                    ReadOnly="LockedReadOnly"
+                    Commands="PaletteCommands"
+                    Extensions="[ProofreadingExtension]" />
+</OmniStack>

@@ -1,0 +1,73 @@
+@page "/components/code-editor"
+@using OmniEurope.Blazor.Showcase.Examples.Editor
+
+<GalleryPageFrame Slug="code-editor">
+    <Settings>
+        <OmniSettingsSection Title="@Text["CodeEditorSettingsTitle"]" Description="@Text["CodeEditorSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["CodeEditorLanguage"]" Description="@Text["CodeEditorLanguageDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.BracketsCurly" /></Icon>
+                <ChildContent>
+                    <OmniDropDown TValue="string" Options="@LanguageOptions" Value="@Language" ValueChanged="ChangeLanguage" ValueExpression="() => Language" Label="@Text["CodeEditorLanguage"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["CodeEditorReadOnly"]" Description="@Text["CodeEditorReadOnlyDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ReadOnly" aria-label="@Text["CodeEditorReadOnly"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["CodeEditorLineNumbers"]" Description="@Text["CodeEditorLineNumbersDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.NumberedList" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowLineNumbers" aria-label="@Text["CodeEditorLineNumbers"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["CodeEditorWordWrap"]" Description="@Text["CodeEditorWordWrapDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextAlignJustify" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="WordWrap" aria-label="@Text["CodeEditorWordWrap"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["CodeEditorLinks"]" Description="@Text["CodeEditorLinksDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Link" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowLinks" aria-label="@Text["CodeEditorLinks"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["CodeEditorHeight"]" Description="@Text["CodeEditorHeightDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="HeightValue"
+                                Minimum="10"
+                                Maximum="40"
+                                Step="2"
+                                ShowValue="true"
+                                aria-label="@Text["CodeEditorHeight"]" />
+                </Details>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["CodeEditorPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <CodeEditorExample @bind-Code="Code"
+                                   Language="@Language"
+                                   ReadOnly="ReadOnly"
+                                   ShowLineNumbers="ShowLineNumbers"
+                                   WordWrap="WordWrap"
+                                   ShowLinks="ShowLinks"
+                                   HeightRem="HeightRem" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["CodeEditorBoundTitle"]</HeaderContent>
+            <ChildContent><CodeEditorBoundExample Code="@Code" /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

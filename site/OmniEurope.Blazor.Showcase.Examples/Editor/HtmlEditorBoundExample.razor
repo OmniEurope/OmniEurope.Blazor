@@ -1,0 +1,7 @@
+@* The HTML the page receives after each change, already sanitised, in a read-only text area. *@
+<OmniFormField For="html-editor-bound" Description="Read-only: the HTML the page receives after each change, already sanitised.">
+    <LabelContent>Value of the editor</LabelContent>
+    <ChildContent>
+        <OmniTextArea Id="html-editor-bound" @bind-Value="Body" ReadOnly="true" Rows="6" ShowCount="true" />
+    </ChildContent>
+</OmniFormField>
