@@ -42,10 +42,6 @@ public static class DemoCatalog
             ["DemoGridAdvancedCapability1", "DemoGridAdvancedCapability2", "DemoGridAdvancedCapability3", "DemoGridAdvancedCapability4"]),
         new("listes", typeof(DataListDemo), "DemoDataListTitle", "DemoDataListSummary",
             ["DemoDataListCapability1", "DemoDataListCapability2", "DemoDataListCapability3"]),
-        new("graphiques", typeof(ChartDemo), "DemoChartTitle", "DemoChartSummary",
-            ["DemoChartCapability1", "DemoChartCapability2"]),
-        new("graphiques-avances", typeof(ChartsExtendedDemo), "DemoChartsExtendedTitle", "DemoChartsExtendedSummary",
-            ["DemoChartsExtendedCapability1", "DemoChartsExtendedCapability2", "DemoChartsExtendedCapability3"]),
         new("diagramme", typeof(DiagramDemo), "DemoDiagramTitle", "DemoDiagramSummary",
             ["DemoDiagramCapability1", "DemoDiagramCapability2", "DemoDiagramCapability3", "DemoDiagramCapability4"])
     ];

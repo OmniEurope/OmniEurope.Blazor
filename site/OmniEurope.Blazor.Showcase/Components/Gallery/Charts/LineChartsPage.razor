@@ -1,0 +1,137 @@
+@page "/components/line-charts"
+@using OmniEurope.Blazor.Showcase.Examples.Charts
+
+<GalleryPageFrame Slug="line-charts">
+    <Settings>
+        <OmniSettingsSection Title="@Text["LineChartsSettingsTitle"]" Description="@Text["LineChartsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["LineChartsSharedTooltip"]">
+                <ChildContent><OmniSwitch @bind-Value="SharedTooltip" aria-label="@Text["LineChartsSharedTooltip"]" /></ChildContent>
+            </OmniSettingsTile>
+            <OmniSettingsTile Title="@Text["LineChartsDashed"]">
+                <ChildContent><OmniSwitch @bind-Value="Dashed" aria-label="@Text["LineChartsDashed"]" /></ChildContent>
+            </OmniSettingsTile>
+            <OmniSettingsTile Title="@Text["LineChartsLegendAbove"]">
+                <ChildContent><OmniSwitch @bind-Value="LegendAbove" aria-label="@Text["LineChartsLegendAbove"]" /></ChildContent>
+            </OmniSettingsTile>
+            <OmniSettingsTile Title="@Text["LineChartsRange"]">
+                <ChildContent><OmniSwitch @bind-Value="ShowRange" aria-label="@Text["LineChartsRange"]" /></ChildContent>
+            </OmniSettingsTile>
+            <OmniSettingsTile Title="@Text["LineChartsLegendToggle"]">
+                <ChildContent><OmniSwitch @bind-Value="AllowLegendToggle" aria-label="@Text["LineChartsLegendToggle"]" /></ChildContent>
+            </OmniSettingsTile>
+            <OmniSettingsTile Title="@Text["LineChartsMinWidth"]">
+                <ChildContent><OmniSwitch @bind-Value="KeepMinWidth" aria-label="@Text["LineChartsMinWidth"]" /></ChildContent>
+            </OmniSettingsTile>
+            <OmniSettingsTile Title="@Text["LineChartsKind"]" Description="@Text["LineChartsKindDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Path" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="LineChartKind"
+                                   Options="@KindOptions"
+                                   @bind-Value="Kind"
+                                   Label="@Text["LineChartsKind"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["LineChartsMarkers"]" Description="@Text["LineChartsMarkersDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.MapPin" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowMarkers" aria-label="@Text["LineChartsMarkers"]" />
+                </ChildContent>
+                <Details>
+                    <OmniSlider @bind-Value="MarkerRadius"
+                                Minimum="0.5"
+                                Maximum="4"
+                                Step="0.5"
+                                ShowValue="true"
+                                Disabled="@(!ShowMarkers)"
+                                aria-label="@Text["LineChartsMarkerRadius"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["LineChartsFirstColor"]" Description="@Text["LineChartsFirstColorDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Palette" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="FirstColorValue"
+                                Minimum="0"
+                                Maximum="7"
+                                Step="1"
+                                ShowValue="true"
+                                aria-label="@Text["LineChartsFirstColor"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["LineChartsLegend"]" Description="@Text["LineChartsLegendDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.NumberedList" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowLegend" aria-label="@Text["LineChartsLegend"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["LineChartsGridLines"]" Description="@Text["LineChartsGridLinesDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Pattern" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowGridLines" aria-label="@Text["LineChartsGridLines"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["LineChartsDataLabels"]" Description="@Text["LineChartsDataLabelsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Tag" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowDataLabels" aria-label="@Text["LineChartsDataLabels"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["LineChartsPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <div class="gallery-charts-chart">
+                    <LineChartExample Kind="Kind"
+                                      SharedTooltip="SharedTooltip"
+                                      Dashed="Dashed"
+                                      LegendAbove="LegendAbove"
+                                      ShowRange="ShowRange"
+                                      AllowLegendToggle="AllowLegendToggle"
+                                      KeepMinWidth="KeepMinWidth"
+                                      ShowMarkers="ShowMarkers"
+                                      MarkerRadius="MarkerRadius"
+                                      FirstColor="FirstColor"
+                                      ShowLegend="ShowLegend"
+                                      ShowGridLines="ShowGridLines"
+                                      ShowDataLabels="ShowDataLabels" />
+                </div>
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["LineChartsPreviewHint"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["LineChartsGalleryTitle"]</HeaderContent>
+            <ChildContent><LineChartKindsExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["LineChartsMonthlyTitle"]</HeaderContent>
+            <ChildContent>
+                <div class="gallery-charts-chart"><LineChartMonthlyExample /></div>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["LineChartsDailyTitle"]</HeaderContent>
+            <ChildContent>
+                <div class="gallery-charts-chart"><LineChartDailyExample /></div>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["LineChartsBacklogTitle"]</HeaderContent>
+            <ChildContent>
+                <div class="gallery-charts-chart"><LineChartBacklogExample /></div>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["LineChartsRangeTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["LineChartsRangeHint"]</OmniText>
+                <LineChartRangeExample />
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

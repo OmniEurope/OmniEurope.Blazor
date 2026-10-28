@@ -216,12 +216,12 @@ export async function requestSteps(session, results) {
   // 6. Charts of a client's recette (R1-12, R1-13, R1-16), on the range demo widened to its 36 months:
   // no two value labels drawn overlap and a masked one is read on hover, the navigator is graduated
   // without overlap, its handles follow the density, and the chart keeps a minimum width.
-  await session.visit('/components/legacy/graphiques-avances', '.omni-range-navigator__ticks text');
-  await evaluate("(() => { const start = document.querySelector('.omni-range-navigator__handle--start'); start.value = 0; start.dispatchEvent(new Event('input', { bubbles: true })); })()");
-  await waitFor('les 36 mois affichés', "document.querySelectorAll('.omni-range-navigator__column--selected').length === 36");
+  await session.visit('/components/line-charts', '#chart-range .omni-range-navigator__ticks text');
+  await evaluate("(() => { const start = document.querySelector('#chart-range .omni-range-navigator__handle--start'); start.value = 0; start.dispatchEvent(new Event('input', { bubbles: true })); })()");
+  await waitFor('les 36 mois affichés', "document.querySelectorAll('#chart-range .omni-range-navigator__column--selected').length === 36");
   const charts = await evaluate(`(() => {
     const overlap = (a, b) => a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom;
-    const figure = document.querySelector('.omni-range-navigator').closest('figure');
+    const figure = document.getElementById('chart-range');
     const labels = [...figure.querySelectorAll('.omni-chart__labels text')].map(text => text.getBoundingClientRect()).filter(box => box.bottom > figure.getBoundingClientRect().top);
     let labelOverlaps = 0;
     for (let i = 0; i < labels.length; i++) for (let j = i + 1; j < labels.length; j++) if (overlap(labels[i], labels[j])) labelOverlaps++;

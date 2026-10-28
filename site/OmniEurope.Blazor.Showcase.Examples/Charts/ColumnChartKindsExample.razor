@@ -1,0 +1,33 @@
+@* The three kinds of column series side by side on the same data, settings fixed, to compare their drawing.
+   The tiles are as many columns as the room allows, at least 14rem wide. *@
+<OmniTileGrid Columns="3" MinColumnWidth="14rem" EqualHeights="false" Gap="OmniSpacing.Large">
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Columns</OmniText>
+        <OmniChart Label="Columns">
+            <OmniGridLines />
+            <OmniCategoryAxis Labels="ColumnChartData.Quarters" />
+            <OmniValueAxis Maximum="80" />
+            <OmniColumnSeries Title="@ColumnChartData.LastYearTitle" ColorIndex="0" Data="ColumnChartData.LastYear" />
+            <OmniColumnSeries Title="@ColumnChartData.ThisYearTitle" ColorIndex="1" Data="ColumnChartData.ThisYear" ColorByPoint="ColorByPoint" />
+        </OmniChart>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Bars</OmniText>
+        <OmniChart Label="Bars">
+            <OmniCategoryAxis Labels="ColumnChartData.Quarters" />
+            <OmniValueAxis Maximum="80" />
+            <OmniColumnSeries Horizontal="true" Title="@ColumnChartData.ThisYearTitle" ColorIndex="4" Data="ColumnChartData.ThisYear" ColorByPoint="ColorByPoint" />
+        </OmniChart>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Stacked columns</OmniText>
+        <OmniChart Label="Stacked columns">
+            <OmniGridLines Count="4" />
+            <OmniCategoryAxis Labels="ColumnChartData.Quarters" />
+            <OmniValueAxis Maximum="160" TickCount="4" />
+            <OmniColumnSeries Title="@ColumnChartData.LastYearTitle" ColorIndex="2" Stacked="true" Data="ColumnChartData.LastYear" />
+            <OmniColumnSeries Title="@ColumnChartData.ThisYearTitle" ColorIndex="3" Stacked="true" Data="ColumnChartData.ThisYear" ColorByPoint="ColorByPoint" />
+            <OmniLegend Label="Series" />
+        </OmniChart>
+    </OmniStack>
+</OmniTileGrid>

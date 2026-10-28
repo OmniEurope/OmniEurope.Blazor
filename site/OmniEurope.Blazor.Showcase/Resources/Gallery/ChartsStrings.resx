@@ -4,4 +4,123 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="ColumnChartsTitle" xml:space="preserve"><value>Columns and bars</value></data>
+  <data name="ColumnChartsDescription" xml:space="preserve"><value>Column, bar and stacked charts drawn in SVG: series, axes, grid lines, legend, data labels, tooltip text and the accessible data table.</value></data>
+  <data name="ColumnChartsSettingsTitle" xml:space="preserve"><value>Chart settings</value></data>
+  <data name="ColumnChartsSettingsDescription" xml:space="preserve"><value>Each setting redraws the chart below.</value></data>
+  <data name="ColumnChartsColorByPoint" xml:space="preserve"><value>One colour per value</value></data>
+  <data name="ColumnChartsInsideLabels" xml:space="preserve"><value>Labels inside the bars</value></data>
+  <data name="ColumnChartsKind" xml:space="preserve"><value>Series kind</value></data>
+  <data name="ColumnChartsKindDescription" xml:space="preserve"><value>Side-by-side columns, horizontal bars or columns stacked on each other.</value></data>
+  <data name="ColumnChartsKindColumn" xml:space="preserve"><value>Columns</value></data>
+  <data name="ColumnChartsKindBar" xml:space="preserve"><value>Bars</value></data>
+  <data name="ColumnChartsKindStacked" xml:space="preserve"><value>Stacked columns</value></data>
+  <data name="ColumnChartsLegend" xml:space="preserve"><value>Legend</value></data>
+  <data name="ColumnChartsLegendDescription" xml:space="preserve"><value>Shows the name and colour of each series.</value></data>
+  <data name="ColumnChartsDataLabels" xml:space="preserve"><value>Data labels</value></data>
+  <data name="ColumnChartsDataLabelsDescription" xml:space="preserve"><value>Writes the values of the 2026 series above their points.</value></data>
+  <data name="ColumnChartsGridLines" xml:space="preserve"><value>Grid lines</value></data>
+  <data name="ColumnChartsGridLinesDescription" xml:space="preserve"><value>Horizontal guides behind the series; the slider sets how many bands they draw.</value></data>
+  <data name="ColumnChartsGridLineCount" xml:space="preserve"><value>Number of grid bands</value></data>
+  <data name="ColumnChartsAxisTitles" xml:space="preserve"><value>Axis titles</value></data>
+  <data name="ColumnChartsAxisTitlesDescription" xml:space="preserve"><value>Names the horizontal and the vertical axis.</value></data>
+  <data name="ColumnChartsAutoAxis" xml:space="preserve"><value>Automatic bounds</value></data>
+  <data name="ColumnChartsAutoAxisDescription" xml:space="preserve"><value>The axis takes its bounds from the series, rounded to a round step: no value leaves the plot.</value></data>
+  <data name="ColumnChartsAxisMaximum" xml:space="preserve"><value>Value axis maximum</value></data>
+  <data name="ColumnChartsAxisMaximumDescription" xml:space="preserve"><value>Below the stacked total, the columns are clipped at the top of the chart.</value></data>
+  <data name="ColumnChartsTickCount" xml:space="preserve"><value>Axis graduations</value></data>
+  <data name="ColumnChartsTickCountDescription" xml:space="preserve"><value>Number of intervals written on the value axis.</value></data>
+  <data name="ColumnChartsDataTable" xml:space="preserve"><value>Data table</value></data>
+  <data name="ColumnChartsDataTableDescription" xml:space="preserve"><value>Shows the figures under the chart, for those who do not read the drawing.</value></data>
+  <data name="ColumnChartsPreviewTitle" xml:space="preserve"><value>Live chart</value></data>
+  <data name="ColumnChartsPreviewHint" xml:space="preserve"><value>Hover a column to read its value.</value></data>
+  <data name="ColumnChartsKindsTitle" xml:space="preserve"><value>The three kinds side by side</value></data>
+  <data name="ColumnChartsMaxHeightTitle" xml:space="preserve"><value>Bars under a height ceiling</value></data>
+  <data name="ColumnChartsMaxHeightHint" xml:space="preserve"><value>A square chart in a wide card is held under a ceiling; MaxHeight lowers it to 20rem and the drawing keeps its proportions.</value></data>
+  <data name="ColumnChartsStackedBarsTitle" xml:space="preserve"><value>Stacked bars</value></data>
+  <data name="LineChartsTitle" xml:space="preserve"><value>Lines and areas</value></data>
+  <data name="LineChartsDescription" xml:space="preserve"><value>Line, area and stacked area series with their markers, over a category axis, with a legend, a shared tooltip and a range navigator.</value></data>
+  <data name="LineChartsSettingsTitle" xml:space="preserve"><value>Chart settings</value></data>
+  <data name="LineChartsSettingsDescription" xml:space="preserve"><value>Each setting redraws the chart below.</value></data>
+  <data name="LineChartsSharedTooltip" xml:space="preserve"><value>Tooltip shared by the series</value></data>
+  <data name="LineChartsDashed" xml:space="preserve"><value>Dashed lines</value></data>
+  <data name="LineChartsLegendAbove" xml:space="preserve"><value>Legend above the chart</value></data>
+  <data name="LineChartsRange" xml:space="preserve"><value>Range navigator</value></data>
+  <data name="LineChartsLegendToggle" xml:space="preserve"><value>Hide a series from the legend</value></data>
+  <data name="LineChartsMinWidth" xml:space="preserve"><value>Keep a readable width on a narrow screen</value></data>
+  <data name="LineChartsKind" xml:space="preserve"><value>Series kind</value></data>
+  <data name="LineChartsKindDescription" xml:space="preserve"><value>A line, a filled area or areas stacked on each other.</value></data>
+  <data name="LineChartsKindLine" xml:space="preserve"><value>Lines</value></data>
+  <data name="LineChartsKindArea" xml:space="preserve"><value>Areas</value></data>
+  <data name="LineChartsKindStacked" xml:space="preserve"><value>Stacked areas</value></data>
+  <data name="LineChartsMarkers" xml:space="preserve"><value>Markers</value></data>
+  <data name="LineChartsMarkersDescription" xml:space="preserve"><value>A dot on each point; the slider sets its radius. Stacked, only the first series keeps them.</value></data>
+  <data name="LineChartsMarkerRadius" xml:space="preserve"><value>Marker radius</value></data>
+  <data name="LineChartsFirstColor" xml:space="preserve"><value>First colour</value></data>
+  <data name="LineChartsFirstColorDescription" xml:space="preserve"><value>Rank in the eight-colour chart palette of the first series; the others follow.</value></data>
+  <data name="LineChartsLegend" xml:space="preserve"><value>Legend</value></data>
+  <data name="LineChartsLegendDescription" xml:space="preserve"><value>Shows the name and colour of each series.</value></data>
+  <data name="LineChartsGridLines" xml:space="preserve"><value>Grid lines</value></data>
+  <data name="LineChartsGridLinesDescription" xml:space="preserve"><value>Horizontal guides behind the series.</value></data>
+  <data name="LineChartsDataLabels" xml:space="preserve"><value>Data labels</value></data>
+  <data name="LineChartsDataLabelsDescription" xml:space="preserve"><value>Writes the values of the filings series above its points.</value></data>
+  <data name="LineChartsPreviewTitle" xml:space="preserve"><value>Live chart</value></data>
+  <data name="LineChartsPreviewHint" xml:space="preserve"><value>Hover a line or a marker to read its name or value.</value></data>
+  <data name="LineChartsGalleryTitle" xml:space="preserve"><value>Gallery</value></data>
+  <data name="LineChartsMonthlyTitle" xml:space="preserve"><value>A line and an area with value labels</value></data>
+  <data name="LineChartsDailyTitle" xml:space="preserve"><value>Thirty days with a shared tooltip</value></data>
+  <data name="LineChartsBacklogTitle" xml:space="preserve"><value>Stacked columns and a dashed area</value></data>
+  <data name="LineChartsRangeTitle" xml:space="preserve"><value>Three years and a chosen range</value></data>
+  <data name="LineChartsRangeHint" xml:space="preserve"><value>Move the handles under the chart, with the pointer or the arrow keys, to choose the months it draws.</value></data>
+  <data name="PieChartsTitle" xml:space="preserve"><value>Pies and donuts</value></data>
+  <data name="PieChartsDescription" xml:space="preserve"><value>Pie and donut series: shares of a whole, with labels outside the disc, a legend and a data table in option.</value></data>
+  <data name="PieChartsSettingsTitle" xml:space="preserve"><value>Chart settings</value></data>
+  <data name="PieChartsSettingsDescription" xml:space="preserve"><value>Each setting redraws the chart below.</value></data>
+  <data name="PieChartsOutsideLabels" xml:space="preserve"><value>Labels outside the disc</value></data>
+  <data name="PieChartsOutsideLabelsDescription" xml:space="preserve"><value>What is written beside each slice, joined to it by a leader line.</value></data>
+  <data name="PieChartsLabelsNone" xml:space="preserve"><value>None</value></data>
+  <data name="PieChartsLabelsName" xml:space="preserve"><value>Name</value></data>
+  <data name="PieChartsLabelsNameAndValue" xml:space="preserve"><value>Name and value</value></data>
+  <data name="PieChartsLabelsNameAndPercent" xml:space="preserve"><value>Name and percentage</value></data>
+  <data name="PieChartsKind" xml:space="preserve"><value>Series kind</value></data>
+  <data name="PieChartsKindDescription" xml:space="preserve"><value>A full disc or a ring.</value></data>
+  <data name="PieChartsKindPie" xml:space="preserve"><value>Pie</value></data>
+  <data name="PieChartsKindDonut" xml:space="preserve"><value>Donut</value></data>
+  <data name="PieChartsDataset" xml:space="preserve"><value>Data</value></data>
+  <data name="PieChartsDatasetDescription" xml:space="preserve"><value>Two sample distributions of different lengths.</value></data>
+  <data name="PieChartsDatasetChannels" xml:space="preserve"><value>Filings by channel</value></data>
+  <data name="PieChartsDatasetCountries" xml:space="preserve"><value>Files by country</value></data>
+  <data name="PieChartsSliceCount" xml:space="preserve"><value>Number of slices</value></data>
+  <data name="PieChartsSliceCountDescription" xml:space="preserve"><value>Keeps only the first slices of the distribution.</value></data>
+  <data name="PieChartsZeroSlice" xml:space="preserve"><value>Add an empty share</value></data>
+  <data name="PieChartsZeroSliceDescription" xml:space="preserve"><value>A zero value is skipped by the series without shifting the colours of the following slices.</value></data>
+  <data name="PieChartsLegend" xml:space="preserve"><value>Legend</value></data>
+  <data name="PieChartsLegendDescription" xml:space="preserve"><value>Names each slice that is drawn, with its share, in the colour of the slice.</value></data>
+  <data name="PieChartsDataTable" xml:space="preserve"><value>Data table</value></data>
+  <data name="PieChartsDataTableDescription" xml:space="preserve"><value>Shows the values and shares under the chart.</value></data>
+  <data name="PieChartsPreviewTitle" xml:space="preserve"><value>Live chart</value></data>
+  <data name="PieChartsGalleryTitle" xml:space="preserve"><value>Gallery</value></data>
+  <data name="PieChartsLabelsTitle" xml:space="preserve"><value>Labels outside the disc</value></data>
+  <data name="GaugesTitle" xml:space="preserve"><value>Gauges</value></data>
+  <data name="GaugesDescription" xml:space="preserve"><value>Arc gauge with its scale and value: bounds, colour index and value formatting.</value></data>
+  <data name="GaugesSettingsTitle" xml:space="preserve"><value>Gauge settings</value></data>
+  <data name="GaugesSettingsDescription" xml:space="preserve"><value>Each setting redraws the gauge below.</value></data>
+  <data name="GaugesValue" xml:space="preserve"><value>Value</value></data>
+  <data name="GaugesValueDescription" xml:space="preserve"><value>The value drawn by the arc, between the bounds of the scale.</value></data>
+  <data name="GaugesScale" xml:space="preserve"><value>Scale</value></data>
+  <data name="GaugesScaleDescription" xml:space="preserve"><value>Changes the bounds; the value moves back to the middle of the new scale.</value></data>
+  <data name="GaugesScalePercent" xml:space="preserve"><value>0 to 100</value></data>
+  <data name="GaugesScaleFiles" xml:space="preserve"><value>0 to 500</value></data>
+  <data name="GaugesScaleTemperature" xml:space="preserve"><value>-20 to 40</value></data>
+  <data name="GaugesFormat" xml:space="preserve"><value>Value format</value></data>
+  <data name="GaugesFormatDescription" xml:space="preserve"><value>What the text in the middle of the gauge shows.</value></data>
+  <data name="GaugesFormatRaw" xml:space="preserve"><value>Raw number</value></data>
+  <data name="GaugesFormatShare" xml:space="preserve"><value>Share of the scale</value></data>
+  <data name="GaugesFormatUnit" xml:space="preserve"><value>With unit</value></data>
+  <data name="GaugesColor" xml:space="preserve"><value>Colour</value></data>
+  <data name="GaugesColorDescription" xml:space="preserve"><value>Rank in the eight-colour chart palette.</value></data>
+  <data name="GaugesPreviewTitle" xml:space="preserve"><value>Live gauge</value></data>
+  <data name="GaugesPreviewHint" xml:space="preserve"><value>The value is clamped to the scale: the arc never goes past its bounds.</value></data>
+  <data name="GaugesPaletteTitle" xml:space="preserve"><value>The eight palette colours</value></data>
+  <data name="GaugesLimitsTitle" xml:space="preserve"><value>Limits</value></data>
 </root>

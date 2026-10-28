@@ -1,0 +1,15 @@
+@* The limits of a scale from 0 to 100: empty, half, full, and a value above the maximum or below the minimum,
+   which the gauge clamps to the end of the arc. *@
+<OmniTileGrid Columns="5" MinColumnWidth="9rem" EqualHeights="false" Gap="OmniSpacing.Medium">
+    @foreach (var sample in Samples)
+    {
+        <OmniStack Gap="OmniSpacing.XSmall" Align="OmniAlignment.Center">
+            <OmniArcGauge Label="@sample.Label">
+                <OmniArcGaugeScale Minimum="0" Maximum="100">
+                    <OmniArcGaugeScaleValue Value="sample.Value" ColorIndex="sample.ColorIndex" FormatValue="FormatPercentOfHundred" />
+                </OmniArcGaugeScale>
+            </OmniArcGauge>
+            <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@sample.Label</OmniText>
+        </OmniStack>
+    }
+</OmniTileGrid>

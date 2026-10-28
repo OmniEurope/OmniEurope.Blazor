@@ -1,0 +1,47 @@
+@* The kinds of line series side by side on the same data, settings fixed, and the eight colours of the chart
+   palette, one line each. The tiles are as many columns as the room allows, at least 14rem wide. *@
+<OmniTileGrid Columns="4" MinColumnWidth="14rem" EqualHeights="false" Gap="OmniSpacing.Large">
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Lines</OmniText>
+        <OmniChart Label="Lines">
+            <OmniGridLines />
+            <OmniCategoryAxis Labels="LineChartData.Months" />
+            <OmniValueAxis Maximum="80" />
+            <OmniLineSeries Title="Filings" ColorIndex="0" Data="LineChartData.Deposits" />
+            <OmniMarkers ColorIndex="0" Data="LineChartData.Deposits" Radius="2" />
+            <OmniLineSeries Title="Decisions" ColorIndex="1" Data="LineChartData.Decisions" />
+            <OmniMarkers ColorIndex="1" Data="LineChartData.Decisions" Radius="2" />
+        </OmniChart>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Areas</OmniText>
+        <OmniChart Label="Areas">
+            <OmniCategoryAxis Labels="LineChartData.Months" />
+            <OmniValueAxis Maximum="80" />
+            <OmniAreaSeries Title="Filings" ColorIndex="2" Data="LineChartData.Deposits" />
+            <OmniAreaSeries Title="Decisions" ColorIndex="3" Data="LineChartData.Decisions" />
+        </OmniChart>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Stacked areas</OmniText>
+        <OmniChart Label="Stacked areas">
+            <OmniCategoryAxis Labels="LineChartData.Months" />
+            <OmniValueAxis Maximum="200" />
+            <OmniAreaSeries Title="Filings" ColorIndex="4" Stacked="true" Data="LineChartData.Deposits" />
+            <OmniAreaSeries Title="Decisions" ColorIndex="5" Stacked="true" Data="LineChartData.Decisions" />
+            <OmniAreaSeries Title="Backlog" ColorIndex="6" Stacked="true" Data="LineChartData.Backlog" />
+        </OmniChart>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">The eight palette colours</OmniText>
+        <OmniChart Label="The eight palette colours" Description="One line per colour index, from 0 to 7.">
+            <OmniCategoryAxis Labels="LineChartData.Months" />
+            <OmniValueAxis Maximum="100" />
+            @foreach (var series in LineChartData.Palette())
+            {
+                <OmniLineSeries Title="@series.Title" ColorIndex="series.ColorIndex" Data="series.Data" />
+                <OmniMarkers ColorIndex="series.ColorIndex" Data="series.Data" Radius="1" />
+            }
+        </OmniChart>
+    </OmniStack>
+</OmniTileGrid>

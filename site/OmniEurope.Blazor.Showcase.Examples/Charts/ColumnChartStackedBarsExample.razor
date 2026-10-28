@@ -1,0 +1,9 @@
+@* Horizontal and stacked: the bars of a country sit end to end, the legend below reads the series and the value
+   axis takes its bounds from the totals. *@
+<OmniChart Label="Processed and pending cases, per country">
+    <OmniCategoryAxis Labels="ColumnChartData.Countries" />
+    <OmniValueAxis Automatic="true" />
+    <OmniColumnSeries Horizontal="true" Stacked="true" Title="Processed" ColorIndex="0" Data="ColumnChartData.ByCountry" />
+    <OmniColumnSeries Horizontal="true" Stacked="true" Title="Pending" ColorIndex="2" Data="ColumnChartData.ByCountryPending" />
+    <OmniLegend Placement="OmniLegendPlacement.Bottom" />
+</OmniChart>

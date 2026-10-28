@@ -1,0 +1,16 @@
+@* One gauge per colour of the chart palette, from 0 to 7, each a little fuller than the last. The tiles are as many
+   columns as the room allows, at least 9rem wide. *@
+<OmniTileGrid Columns="6" MinColumnWidth="9rem" EqualHeights="false" Gap="OmniSpacing.Medium">
+    @for (var index = 0; index < 8; index++)
+    {
+        var colorIndex = index;
+        <OmniStack Gap="OmniSpacing.XSmall" Align="OmniAlignment.Center">
+            <OmniArcGauge Label="@($"Colour {colorIndex}")">
+                <OmniArcGaugeScale Minimum="0" Maximum="100">
+                    <OmniArcGaugeScaleValue Value="20 + (colorIndex * 10)" ColorIndex="colorIndex" />
+                </OmniArcGaugeScale>
+            </OmniArcGauge>
+            <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">Colour @colorIndex</OmniText>
+        </OmniStack>
+    }
+</OmniTileGrid>

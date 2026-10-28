@@ -106,10 +106,6 @@
   <data name="DemoGridCapability1" xml:space="preserve"><value>Tri et filtre par colonne, sur la donnée réelle.</value></data>
   <data name="DemoGridCapability2" xml:space="preserve"><value>Pagination avec taille de page réglable.</value></data>
   <data name="DemoGridCapability3" xml:space="preserve"><value>Lignes alternées et formats de colonne déclaratifs.</value></data>
-  <data name="DemoChartTitle" xml:space="preserve"><value>Graphiques</value></data>
-  <data name="DemoChartSummary" xml:space="preserve"><value>Les séries catégorielles, aux couleurs du thème.</value></data>
-  <data name="DemoChartCapability1" xml:space="preserve"><value>Séries en colonnes avec axes titrés.</value></data>
-  <data name="DemoChartCapability2" xml:space="preserve"><value>Couleurs prises dans les variables de graphique du thème.</value></data>
   <data name="DemoLayoutTitle" xml:space="preserve"><value>Mise en page</value></data>
   <data name="DemoLayoutSummary" xml:space="preserve"><value>La grille de tuiles.</value></data>
   <data name="DemoLayoutCapability5" xml:space="preserve"><value>Une grille de tuiles : mêmes largeurs, une seule hauteur par rangée et une tuile double qui occupe deux colonnes.</value></data>
@@ -153,11 +149,6 @@
   <data name="DemoSchedulerCapability1" xml:space="preserve"><value>Vues jour, semaine et mois, commutables.</value></data>
   <data name="DemoSchedulerCapability2" xml:space="preserve"><value>Rendez-vous récurrents décrits par une règle.</value></data>
   <data name="DemoSchedulerCapability3" xml:space="preserve"><value>Chaque vue s'utilise aussi seule, hors du calendrier.</value></data>
-  <data name="DemoChartsExtendedTitle" xml:space="preserve"><value>Graphiques, vue complète</value></data>
-  <data name="DemoChartsExtendedSummary" xml:space="preserve"><value>Toutes les séries, la légende, les étiquettes et la jauge.</value></data>
-  <data name="DemoChartsExtendedCapability1" xml:space="preserve"><value>Lignes, aires, colonnes, barres, empilements, secteurs et anneau.</value></data>
-  <data name="DemoChartsExtendedCapability2" xml:space="preserve"><value>Légende, marqueurs, étiquettes de valeur et infobulle.</value></data>
-  <data name="DemoChartsExtendedCapability3" xml:space="preserve"><value>Jauge à arc, avec échelle et format de valeur.</value></data>
   <data name="DemoDiagramTitle" xml:space="preserve"><value>Carte mentale</value></data>
   <data name="DemoDiagramSummary" xml:space="preserve"><value>Une carte mentale éditable à la souris, au toucher et au clavier.</value></data>
   <data name="DemoDiagramCapability1" xml:space="preserve"><value>Glisser, lasso, zoom à la molette ou au pincement, menu contextuel.</value></data>
@@ -541,6 +532,44 @@
   <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Autre</value></data>
   <data name="DemoChartsExtendedRangeTitle" xml:space="preserve"><value>Trois ans de dépôts, une plage choisie</value></data>
   <data name="DemoChartsExtendedRangeShown" xml:space="preserve"><value>Mois affichés : de {0} à {1}</value></data>
+  <data name="DemoPlanningGanttLabel" xml:space="preserve"><value>Planning du projet</value></data>
+  <data name="DemoPlanningScaleShown" xml:space="preserve"><value>Échelle affichée : {0}</value></data>
+  <data name="DemoPlanningScaleDay" xml:space="preserve"><value>jour</value></data>
+  <data name="DemoPlanningScaleWeek" xml:space="preserve"><value>semaine</value></data>
+  <data name="DemoPlanningScaleMonth" xml:space="preserve"><value>mois</value></data>
+  <data name="DemoPlanningMonthHeading" xml:space="preserve"><value>Le même planning, au mois et sans groupes</value></data>
+  <data name="DemoPlanningMonthLabel" xml:space="preserve"><value>Planning mensuel</value></data>
+  <data name="DemoPlanningDayLabel" xml:space="preserve"><value>Planning au jour</value></data>
+  <data name="DemoPlanningRunHeading" xml:space="preserve"><value>Déroulement d'une exécution</value></data>
+  <data name="DemoPlanningRunLabel" xml:space="preserve"><value>Exécution {0}</value></data>
+  <data name="DemoPlanningTimelineHeading" xml:space="preserve"><value>Frise à gauche, puis en alterné depuis chaque côté</value></data>
+  <data name="DemoPlanningTimelineStart" xml:space="preserve"><value>Frise à gauche</value></data>
+  <data name="DemoPlanningTimelineAlternateStart" xml:space="preserve"><value>Frise alternée, départ à gauche</value></data>
+  <data name="DemoPlanningTimelineAlternateEnd" xml:space="preserve"><value>Frise alternée, départ à droite</value></data>
+  <data name="DemoPlanningFiled" xml:space="preserve"><value>Dépôt</value></data>
+  <data name="DemoPlanningFiledText" xml:space="preserve"><value>Le dossier a été enregistré.</value></data>
+  <data name="DemoPlanningReview" xml:space="preserve"><value>Instruction</value></data>
+  <data name="DemoPlanningReviewText" xml:space="preserve"><value>Un agent a été désigné.</value></data>
+  <data name="DemoPlanningDecision" xml:space="preserve"><value>Décision</value></data>
+  <data name="DemoPlanningDecisionText" xml:space="preserve"><value>La décision a été notifiée.</value></data>
+  <data name="DemoPlanningGroupDesign" xml:space="preserve"><value>Conception</value></data>
+  <data name="DemoPlanningGroupBuild" xml:space="preserve"><value>Réalisation</value></data>
+  <data name="DemoPlanningTaskScoping" xml:space="preserve"><value>Cadrage</value></data>
+  <data name="DemoPlanningTaskMockups" xml:space="preserve"><value>Maquettes</value></data>
+  <data name="DemoPlanningTaskProofreading" xml:space="preserve"><value>Relecture</value></data>
+  <data name="DemoPlanningTaskDevelopment" xml:space="preserve"><value>Développement</value></data>
+  <data name="DemoPlanningTaskAcceptance" xml:space="preserve"><value>Recette</value></data>
+  <data name="DemoSchedulerView" xml:space="preserve"><value>Vue</value></data>
+  <data name="DemoSchedulerTimeGrid" xml:space="preserve"><value>Grille horaire de 8 h à 18 h</value></data>
+  <data name="DemoSchedulerViewDay" xml:space="preserve"><value>Jour</value></data>
+  <data name="DemoSchedulerViewWeek" xml:space="preserve"><value>Semaine</value></data>
+  <data name="DemoSchedulerViewMonth" xml:space="preserve"><value>Mois</value></data>
+  <data name="DemoSchedulerCaseReview" xml:space="preserve"><value>Instruction du dossier</value></data>
+  <data name="DemoSchedulerReadingCommittee" xml:space="preserve"><value>Comité de lecture</value></data>
+  <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Point hebdomadaire</value></data>
+  <data name="DemoSchedulerRoom" xml:space="preserve"><value>Salle {0}</value></data>
+  <data name="DemoSchedulerFreeSlot" xml:space="preserve"><value>Créneau libre choisi : {0}</value></data>
+  <data name="DemoSchedulerMarkPast" xml:space="preserve"><value>Hachurer les créneaux passés</value></data>
   <!-- Demo texts: batch A -->
   <data name="DemoLayoutStretched" xml:space="preserve"><value>Étirée</value></data>
   <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Les deux cartes prennent la même hauteur.</value></data>
