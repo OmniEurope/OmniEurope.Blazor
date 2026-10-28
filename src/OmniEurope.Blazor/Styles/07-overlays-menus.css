@@ -337,7 +337,8 @@ body:has(.omni-overlay) { overflow: hidden; }
     display: inline-flex;
     flex: 0 0 auto;
     justify-content: center;
-    padding: var(--omni-space-xs);
+    /* 0.25rem at the comfortable density, the box around the chevron following the row's density. */
+    padding: calc(var(--omni-item-pad-y) * 4 / 7);
 }
 .omni-panel-menu__chevron { height: 1.25em; transition: transform var(--omni-duration-medium) ease; width: 1.25em; }
 .omni-panel-menu__group--open > .omni-panel-menu__summary .omni-panel-menu__chevron { transform: rotate(180deg); }

@@ -45,7 +45,19 @@ const EXEMPT = [
   // The sort arrow of a grid header is 0.9em of the title and the accordion chevron a 1.25rem box
   // around one OmniIcon: glyphs, kept fixed like every other icon. The header button and the row it
   // sits in do follow the density, and are measured.
-  ['.omni-data-grid__sort-icon, .omni-accordion__chevron', 'glyphe de tri ou de chevron : marque de texte gardée fixe comme les icônes ; le contrôle et la ligne qui l\'entourent suivent la densité'],
+  // The chevrons of the panel menu, of the tab strip and of a scrolling stack are the same 1.25em glyphs.
+  ['.omni-data-grid__sort-icon, .omni-accordion__chevron, .omni-panel-menu__chevron, .omni-tabs__chevron, .omni-stack-scroll__chevron', 'glyphe de tri ou de chevron : marque de texte gardée fixe comme les icônes ; le contrôle et la ligne qui l\'entourent suivent la densité'],
+  // The title of a page header is a line of heading text: its padding-block is given back by an equal
+  // negative margin-block (the optical centring of R-83, text-box trim), so it has no size of its own.
+  ['.omni-page-header .omni-page-header__title', 'titre d\'en-tête de page : une ligne de texte, son padding-block rendu par une marge négative égale (centrage optique R-83)'],
+  // The error line a form field keeps (R-12) is one line of the fixed 0.75rem error text (min-block-size
+  // 1lh): text, which the density does not resize; the field and its control do follow the density.
+  ['.omni-form-field__message, .omni-form-field__control .omni-validation-message', 'ligne d\'erreur réservée d\'un champ (R-12) : une ligne du texte d\'erreur fixe, 1lh'],
+  // The counter of a tab title is a mark of the fixed xs text beside the title, as a status dot is.
+  ['.omni-tabs__title .omni-badge', 'compteur d\'un titre d\'onglet : marque du texte xs fixe, comme une pastille de statut'],
+  // The spreadsheet page echoes the active cell in a compact list of its own (showcase CSS: no padding,
+  // no rule): each item is a line of text.
+  ['.gallery-sheet-stage .omni-description-list__item', 'écho compact de la cellule active (CSS de la vitrine, sans padding) : une ligne de texte'],
   // Status dots: a mark the size of a letter, not a control; the plan exempts them. The status strip
   // is a row of them (or, in its segment form, a status bar).
   ['.omni-status, .omni-status-strip', 'pastille de statut : repère de la taille d\'une lettre, pas un contrôle'],
@@ -96,7 +108,16 @@ const EXEMPT_SELF = [
   // The body of OmniWizard is a frame of fixed height so the page does not jump from one step to the
   // next (BodyHeight, min(24rem, 60vh) by default): the height of a frame, not of a control. The
   // controls the steps hold are measured.
-  ['.omni-wizard__body', 'cadre de hauteur fixe voulue (BodyHeight, min(24rem, 60vh) par défaut) pour que la page ne saute pas d\'une étape à l\'autre']
+  ['.omni-wizard__body', 'cadre de hauteur fixe voulue (BodyHeight, min(24rem, 60vh) par défaut) pour que la page ne saute pas d\'une étape à l\'autre'],
+  // A grid Height (applied as --omni-grid-viewport on the viewport) is the consumer's explicit length, as
+  // MaxHeight is; the rows inside are measured.
+  ['.omni-data-grid__viewport[style*="--omni-grid-viewport:"]', 'hauteur explicite du consommateur (paramètre Height), que la densité ne remplace pas'],
+  // A diff viewer in Fill mode takes the height of the frame its host sized, as scrollable tab panels do;
+  // its bar, its notice and its text are measured.
+  ['.omni-diff-viewer--fill, .omni-diff-viewer--fill > :is(.omni-diff-viewer__host, .omni-diff-viewer__panes)', 'comparaison en mode Fill : la hauteur du cadre que l\'hôte dimensionne'],
+  // The open panel of the compact multi-select scrolls within a maximum of 16rem, a frame; its options
+  // are measured.
+  ['.omni-multi-select-compact__panel', 'panneau défilant de hauteur maximale fixe (16rem) ; les options qu\'il contient suivent la densité']
 ];
 
 const deadline = Date.now() + 20_000;
@@ -212,6 +233,10 @@ window.__omniDensityMeasure = (density, exempt, exemptSelf) => {
       if (rule instanceof CSSStyleRule) {
         if (sized(rule.style)) rules.push(rule.selectorText);
         if (rule.cssRules?.length) walk(rule.cssRules);
+      } else if (rule instanceof CSSMediaRule && !matchMedia(rule.conditionText).matches) {
+        // A rule of a media query that does not apply at this window (a phone rule at 1280 px) does not
+        // size the element.
+        continue;
       } else if (rule.cssRules) {
         walk(rule.cssRules);
       }

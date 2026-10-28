@@ -585,7 +585,8 @@
 
 .gallery-stacks-tray .omni-stack > .omni-card > .omni-card__body,
 .gallery-rows .omni-column > .omni-card > .omni-card__body {
-    padding: var(--omni-space-xs) var(--omni-space-sm);
+    /* 0.25rem at the comfortable density, following the density as the package's card padding does. */
+    padding: calc(var(--omni-item-pad-y) * 4 / 7) var(--omni-space-sm);
 }
 
 /* Rows and columns page: the main row sits in a dashed frame. */
