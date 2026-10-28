@@ -57,28 +57,6 @@
     padding: var(--omni-space-md);
 }
 
-.showcase-gallery__detail {
-    min-width: 0;
-}
-
-.showcase-preview {
-    background: var(--omni-color-surface);
-    border: var(--omni-border-width) solid var(--omni-color-border);
-    border-radius: var(--omni-radius);
-    display: grid;
-    gap: var(--omni-space-md);
-    /* A column that never grows with its content: a component that folds or scrolls when it lacks
-       room (page header, grid) is given the width of the preview, not the width of what it holds. */
-    grid-template-columns: minmax(0, 1fr);
-    padding: var(--omni-space-lg);
-}
-
-.showcase-source-note {
-    color: var(--omni-color-text-muted);
-    font-size: var(--omni-font-size-sm);
-    max-width: 46rem;
-}
-
 /* A fieldset is at least as wide as its content by default: without min-inline-size, the token
    rows widened the page on a phone. */
 .showcase-tokens {

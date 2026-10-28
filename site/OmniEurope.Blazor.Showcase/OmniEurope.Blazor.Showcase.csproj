@@ -26,11 +26,4 @@
   <ItemGroup>
     <Content Update="wwwroot/appsettings.Local.json" CopyToPublishDirectory="Never" />
   </ItemGroup>
-
-  <!-- Every legacy demo is embedded as the very file that gets compiled, so the legacy gallery shows
-       the source it actually executed instead of a transcription that can drift away from it. The
-       new gallery reads the sources of the examples project the same way (Gallery/ExampleSource.cs). -->
-  <ItemGroup>
-    <EmbeddedResource Include="Components/Demos/**/*.razor" />
-  </ItemGroup>
 </Project>

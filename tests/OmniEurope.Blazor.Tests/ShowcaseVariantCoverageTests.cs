@@ -28,7 +28,7 @@ public sealed class ShowcaseVariantCoverageTests
     };
 
     /// <summary>
-    /// What a visitor runs: the legacy demos, the gallery pages (their settings choose the values) and
+    /// What a visitor runs: the gallery pages (their settings choose the values) and
     /// every source of the examples project, its build output aside.
     /// </summary>
     private static readonly string DemoSources = string.Concat(
@@ -132,8 +132,7 @@ public sealed class ShowcaseVariantCoverageTests
     {
         var site = Path.Combine(Root(), "site");
         var examples = Path.Combine(site, "OmniEurope.Blazor.Showcase.Examples");
-        return Directory.EnumerateFiles(Path.Combine(site, "OmniEurope.Blazor.Showcase", "Components", "Demos"), "*.razor*", SearchOption.AllDirectories)
-            .Concat(Directory.EnumerateFiles(Path.Combine(site, "OmniEurope.Blazor.Showcase", "Components", "Gallery"), "*.razor*", SearchOption.AllDirectories))
+        return Directory.EnumerateFiles(Path.Combine(site, "OmniEurope.Blazor.Showcase", "Components", "Gallery"), "*.razor*", SearchOption.AllDirectories)
             .Concat(Directory.EnumerateFiles(examples, "*.*", SearchOption.AllDirectories)
                 .Where(path => Path.GetExtension(path) is ".razor" or ".cs" or ".css")
                 .Where(path => Path.GetRelativePath(examples, path).Split(Path.DirectorySeparatorChar)[0] is not ("bin" or "obj")));

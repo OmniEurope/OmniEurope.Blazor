@@ -1,22 +1,15 @@
 using System.Text.RegularExpressions;
-using Bunit;
-using OmniEurope.Blazor.Showcase.Components.Pages;
-using OmniEurope.Blazor.Showcase.Demos;
 using OmniEurope.Blazor.Showcase.Gallery;
 
 namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
 /// Holds the gallery addresses to the catalogues: every written link lands on a real page of the
-/// gallery or on a real legacy demo, and an address naming no entry reads as not found instead of
-/// showing another demo.
+/// gallery, and an address naming no entry resolves to nothing instead of another page.
 /// </summary>
-public sealed partial class ShowcaseGalleryRoutingTests : OmniBunitContext
+public sealed partial class ShowcaseGalleryRoutingTests
 {
     private static readonly string[] SiteExtensions = [".razor", ".cs", ".html", ".js", ".json", ".resx"];
-
-    /// <summary>The segment under which the legacy demos stay reachable until they all move to pages.</summary>
-    private const string Legacy = "legacy";
 
     [Fact]
     public void EveryWrittenGalleryLink_NamesACatalogueEntry()
@@ -31,26 +24,14 @@ public sealed partial class ShowcaseGalleryRoutingTests : OmniBunitContext
         Assert.NotEmpty(files);
 
         var slugs = GalleryCatalog.Pages.Select(page => page.Slug).ToHashSet(StringComparer.Ordinal);
-        var keys = DemoCatalog.All.Select(demo => demo.Key).ToHashSet(StringComparer.Ordinal);
         var pageLinks = 0;
-        var legacyLinks = 0;
         var dead = new List<string>();
         foreach (var file in files)
         {
             foreach (Match link in GalleryLink().Matches(File.ReadAllText(file)))
             {
-                var legacy = link.Groups["legacy"].Success;
-                var known = legacy ? keys.Contains(link.Groups["key"].Value) : slugs.Contains(link.Groups["key"].Value);
-                if (legacy)
-                {
-                    legacyLinks++;
-                }
-                else
-                {
-                    pageLinks++;
-                }
-
-                if (!known)
+                pageLinks++;
+                if (!slugs.Contains(link.Groups["key"].Value))
                 {
                     dead.Add($"{Path.GetRelativePath(root, file)}: {link.Value}");
                 }
@@ -59,7 +40,6 @@ public sealed partial class ShowcaseGalleryRoutingTests : OmniBunitContext
 
         // The scan must have found the links it guards, or a broken pattern would pass silently.
         Assert.True(pageLinks > 0, "No literal gallery page link was found; the scan pattern no longer matches the sources.");
-        Assert.True(legacyLinks > 0, "No literal legacy demo link was found; the scan pattern no longer matches the sources.");
         Assert.True(dead.Count == 0, $"Gallery links naming no catalogue entry:{Environment.NewLine}{string.Join(Environment.NewLine, dead)}");
     }
 
@@ -83,32 +63,8 @@ public sealed partial class ShowcaseGalleryRoutingTests : OmniBunitContext
     }
 
     [Fact]
-    public void UnknownLegacyKey_RendersNotFound_NotTheFirstDemo()
+    public void Find_ReturnsNullForAnUnknownSlug_AndResolveRefusesIt()
     {
-        var page = Render<ComponentGallery>(parameters => parameters.Add(p => p.DemoKey, "unknown"));
-
-        Assert.NotNull(page.Find("#not-found-title"));
-        Assert.Empty(page.FindAll("#demo-title"));
-        Assert.Empty(page.FindAll(".showcase-preview"));
-    }
-
-    [Fact]
-    public void BareLegacyAddress_ShowsTheFirstEntry()
-    {
-        var page = Render<ComponentGallery>();
-
-        Assert.Empty(page.FindAll("#not-found-title"));
-        Assert.NotNull(page.Find("#demo-title"));
-    }
-
-    [Fact]
-    public void Find_ReturnsNullForAnUnknownKey_AndResolveRefusesIt()
-    {
-        Assert.Null(DemoCatalog.Find("unknown"));
-        Assert.Null(DemoCatalog.Find(null));
-        Assert.Same(DemoCatalog.All[0], DemoCatalog.Find(DemoCatalog.All[0].Key));
-        Assert.Throws<ArgumentException>(() => DemoCatalog.Resolve("unknown"));
-
         Assert.Null(GalleryCatalog.Find("unknown"));
         Assert.Null(GalleryCatalog.Find(null));
         Assert.Throws<ArgumentException>(() => GalleryCatalog.Resolve("unknown"));
@@ -116,9 +72,8 @@ public sealed partial class ShowcaseGalleryRoutingTests : OmniBunitContext
     }
 
     [Fact]
-    public void LegacyKeysAndPageSlugs_NeverCollideWithTheLegacySegment()
+    public void PageSlugs_AreUnique()
     {
-        Assert.DoesNotContain(Legacy, GalleryCatalog.Pages.Select(page => page.Slug));
         Assert.Equal(GalleryCatalog.Pages.Count(), GalleryCatalog.Pages.Select(page => page.Slug).Distinct(StringComparer.Ordinal).Count());
     }
 
@@ -126,11 +81,10 @@ public sealed partial class ShowcaseGalleryRoutingTests : OmniBunitContext
         relative.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).Any(segment => segment is "bin" or "obj");
 
     /// <summary>
-    /// A literal gallery address: <c>components/</c> then a lowercase slug, or
-    /// <c>components/legacy/</c> then a legacy key. An interpolated key (<c>components/{page.Slug}</c>,
+    /// A literal gallery address: <c>components/</c> then a lowercase slug. An interpolated key (<c>components/{page.Slug}</c>,
     /// <c>components/${key}</c>) starts with a brace or a dollar and is not a literal, so it is left out.
     /// </summary>
-    [GeneratedRegex(@"(?<![A-Za-z0-9_.-])components/(?:(?<legacy>legacy)/)?(?<key>(?!legacy\b)[a-z0-9]+(?:-[a-z0-9]+)*)")]
+    [GeneratedRegex(@"(?<![A-Za-z0-9_.-])components/(?<key>[a-z0-9]+(?:-[a-z0-9]+)*)")]
     private static partial Regex GalleryLink();
 
     /// <summary>The addresses the showcase used before its routes were written in English.</summary>
