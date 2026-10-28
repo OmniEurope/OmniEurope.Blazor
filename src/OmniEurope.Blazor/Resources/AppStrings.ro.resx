@@ -682,6 +682,9 @@
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Export limitat: limita de {0, plural, one {# rând} few {# rânduri} other {# de rânduri}} a fost atinsă, iar sursa nu anunță un total, pot exista mai multe rânduri.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Niciun rând.</value></data>
   <data name="FormFieldHelp" xml:space="preserve"><value>Ajutor</value></data>
+  <data name="DateHintDay" xml:space="preserve"><value>zz</value></data>
+  <data name="DateHintMonth" xml:space="preserve"><value>ll</value></data>
+  <data name="DateHintYear" xml:space="preserve"><value>aaaa</value></data>
   <data name="GridExportBar" xml:space="preserve"><value>Exportul tabelului</value></data>
   <data name="GridExportAs" xml:space="preserve"><value>Exportă ca {0}</value></data>
   <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>

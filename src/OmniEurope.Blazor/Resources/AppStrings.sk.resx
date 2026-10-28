@@ -682,6 +682,9 @@
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Obmedzený export: dosiahol sa limit {0, plural, one {# riadka} few {# riadkov} other {# riadkov}} a zdroj neuvádza celkový počet, môžu existovať ďalšie riadky.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Žiadne riadky.</value></data>
   <data name="FormFieldHelp" xml:space="preserve"><value>Pomocník</value></data>
+  <data name="DateHintDay" xml:space="preserve"><value>dd</value></data>
+  <data name="DateHintMonth" xml:space="preserve"><value>mm</value></data>
+  <data name="DateHintYear" xml:space="preserve"><value>rrrr</value></data>
   <data name="GridExportBar" xml:space="preserve"><value>Export tabuľky</value></data>
   <data name="GridExportAs" xml:space="preserve"><value>Exportovať ako {0}</value></data>
   <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>

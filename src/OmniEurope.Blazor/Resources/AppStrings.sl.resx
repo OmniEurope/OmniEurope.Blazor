@@ -682,6 +682,9 @@
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Omejen izvoz: dosežena je omejitev {0, plural, one {# vrstice} two {# vrstic} few {# vrstic} other {# vrstic}}, vir pa ne navaja skupnega števila, morda je vrstic več.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Ni vrstic.</value></data>
   <data name="FormFieldHelp" xml:space="preserve"><value>Pomoč</value></data>
+  <data name="DateHintDay" xml:space="preserve"><value>dd</value></data>
+  <data name="DateHintMonth" xml:space="preserve"><value>mm</value></data>
+  <data name="DateHintYear" xml:space="preserve"><value>llll</value></data>
   <data name="GridExportBar" xml:space="preserve"><value>Izvoz tabele</value></data>
   <data name="GridExportAs" xml:space="preserve"><value>Izvozi kot {0}</value></data>
   <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>

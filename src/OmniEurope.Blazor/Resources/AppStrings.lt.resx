@@ -682,6 +682,9 @@
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Ribotas eksportas: pasiekta eilučių riba ({0}), o šaltinis nenurodo bendro skaičiaus, gali būti daugiau eilučių.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Eilučių nėra.</value></data>
   <data name="FormFieldHelp" xml:space="preserve"><value>Pagalba</value></data>
+  <data name="DateHintDay" xml:space="preserve"><value>dd</value></data>
+  <data name="DateHintMonth" xml:space="preserve"><value>mm</value></data>
+  <data name="DateHintYear" xml:space="preserve"><value>mmmm</value></data>
   <data name="GridExportBar" xml:space="preserve"><value>Lentelės eksportas</value></data>
   <data name="GridExportAs" xml:space="preserve"><value>Eksportuoti kaip {0}</value></data>
   <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>

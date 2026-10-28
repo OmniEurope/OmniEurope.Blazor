@@ -682,6 +682,9 @@
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Esportazzjoni limitata: intlaħaq il-limitu ta' {0, plural, one {# ringiela} two {# ringieli} few {# ringieli} many {#-il ringiela} other {# ringiela}} u s-sors ma jħabbarx total, jista' jkun hemm aktar ringieli.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>L-ebda ringiela.</value></data>
   <data name="FormFieldHelp" xml:space="preserve"><value>Għajnuna</value></data>
+  <data name="DateHintDay" xml:space="preserve"><value>jj</value></data>
+  <data name="DateHintMonth" xml:space="preserve"><value>xx</value></data>
+  <data name="DateHintYear" xml:space="preserve"><value>ssss</value></data>
   <data name="GridExportBar" xml:space="preserve"><value>Esportazzjoni tat-tabella</value></data>
   <data name="GridExportAs" xml:space="preserve"><value>Esporta bħala {0}</value></data>
   <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>

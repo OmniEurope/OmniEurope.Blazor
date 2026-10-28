@@ -682,6 +682,9 @@
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Beperkte export: de limiet van {0, plural, one {# rij} other {# rijen}} is bereikt en de bron meldt geen totaal, er kunnen meer rijen zijn.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Geen rijen.</value></data>
   <data name="FormFieldHelp" xml:space="preserve"><value>Help</value></data>
+  <data name="DateHintDay" xml:space="preserve"><value>dd</value></data>
+  <data name="DateHintMonth" xml:space="preserve"><value>mm</value></data>
+  <data name="DateHintYear" xml:space="preserve"><value>jjjj</value></data>
   <data name="GridExportBar" xml:space="preserve"><value>Export van de tabel</value></data>
   <data name="GridExportAs" xml:space="preserve"><value>Exporteren als {0}</value></data>
   <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>

@@ -682,6 +682,9 @@
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Ierobežots eksports: sasniegts rindu ierobežojums ({0}), un avots nenorāda kopskaitu, var būt vēl citas rindas.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Nav rindu.</value></data>
   <data name="FormFieldHelp" xml:space="preserve"><value>Palīdzība</value></data>
+  <data name="DateHintDay" xml:space="preserve"><value>dd</value></data>
+  <data name="DateHintMonth" xml:space="preserve"><value>mm</value></data>
+  <data name="DateHintYear" xml:space="preserve"><value>gggg</value></data>
   <data name="GridExportBar" xml:space="preserve"><value>Tabulas eksports</value></data>
   <data name="GridExportAs" xml:space="preserve"><value>Eksportēt kā {0}</value></data>
   <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>

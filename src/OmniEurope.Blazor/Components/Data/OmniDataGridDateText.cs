@@ -115,20 +115,27 @@ public static class OmniDataGridDateText
     }
 
     /// <summary>
-    /// The hint of the format, in the order and with the separator of the culture: <c>dd/mm/yyyy</c> for
-    /// a day-first culture, <c>mm/dd/yyyy</c> for a month-first one, <c>yyyy-mm-dd</c> for a year-first one.
+    /// The hint of the format, in the order and with the separator of the culture, written with the given
+    /// letters: <c>dd/mm/yyyy</c> for a day-first culture, <c>mm/dd/yyyy</c> for a month-first one,
+    /// <c>yyyy-mm-dd</c> for a year-first one; <c>jj/mm/aaaa</c> with the French letters.
     /// </summary>
     /// <param name="culture">The culture whose date order and separator the hint follows.</param>
+    /// <param name="day">The letters standing for the day, in the language of the reader (<c>dd</c>, <c>jj</c>).</param>
+    /// <param name="month">The letters standing for the month (<c>mm</c>).</param>
+    /// <param name="year">The letters standing for the year (<c>yyyy</c>, <c>aaaa</c>).</param>
     /// <returns>The hint, for example a placeholder.</returns>
-    public static string Pattern(CultureInfo culture)
+    public static string Pattern(CultureInfo culture, string day, string month, string year)
     {
         ArgumentNullException.ThrowIfNull(culture);
+        ArgumentException.ThrowIfNullOrWhiteSpace(day);
+        ArgumentException.ThrowIfNullOrWhiteSpace(month);
+        ArgumentException.ThrowIfNullOrWhiteSpace(year);
         var separator = SeparatorOf(culture);
         return OrderOf(culture) switch
         {
-            DateOrder.MonthDayYear => $"mm{separator}dd{separator}yyyy",
-            DateOrder.YearMonthDay => $"yyyy{separator}mm{separator}dd",
-            _ => $"dd{separator}mm{separator}yyyy"
+            DateOrder.MonthDayYear => $"{month}{separator}{day}{separator}{year}",
+            DateOrder.YearMonthDay => $"{year}{separator}{month}{separator}{day}",
+            _ => $"{day}{separator}{month}{separator}{year}"
         };
     }
 

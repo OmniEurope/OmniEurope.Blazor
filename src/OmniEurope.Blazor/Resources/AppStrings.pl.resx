@@ -682,6 +682,9 @@
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Ograniczony eksport: osiągnięto limit {0, plural, one {# wiersza} few {# wierszy} many {# wierszy} other {# wiersza}}, a źródło nie podaje łącznej liczby, może istnieć więcej wierszy.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Brak wierszy.</value></data>
   <data name="FormFieldHelp" xml:space="preserve"><value>Pomoc</value></data>
+  <data name="DateHintDay" xml:space="preserve"><value>dd</value></data>
+  <data name="DateHintMonth" xml:space="preserve"><value>mm</value></data>
+  <data name="DateHintYear" xml:space="preserve"><value>rrrr</value></data>
   <data name="GridExportBar" xml:space="preserve"><value>Eksport tabeli</value></data>
   <data name="GridExportAs" xml:space="preserve"><value>Eksportuj jako {0}</value></data>
   <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>

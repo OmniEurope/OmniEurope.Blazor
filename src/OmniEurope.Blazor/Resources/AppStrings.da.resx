@@ -682,6 +682,9 @@
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Begrænset eksport: grænsen på {0, plural, one {# række} other {# rækker}} er nået, og kilden angiver intet samlet antal, der kan findes flere rækker.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Ingen rækker.</value></data>
   <data name="FormFieldHelp" xml:space="preserve"><value>Hjælp</value></data>
+  <data name="DateHintDay" xml:space="preserve"><value>dd</value></data>
+  <data name="DateHintMonth" xml:space="preserve"><value>mm</value></data>
+  <data name="DateHintYear" xml:space="preserve"><value>åååå</value></data>
   <data name="GridExportBar" xml:space="preserve"><value>Eksport af tabellen</value></data>
   <data name="GridExportAs" xml:space="preserve"><value>Eksportér som {0}</value></data>
   <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>

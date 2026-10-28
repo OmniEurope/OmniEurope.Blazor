@@ -18,14 +18,14 @@ public sealed class DataGridDateFilterTests : OmniBunitContext
 
     private static IDisposable French()
     {
-        var previous = CultureInfo.CurrentCulture;
-        CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("fr-FR");
-        return new Restore(previous);
+        var previous = (CultureInfo.CurrentCulture, CultureInfo.CurrentUICulture);
+        CultureInfo.CurrentCulture = CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("fr-FR");
+        return new Restore(previous.CurrentCulture, previous.CurrentUICulture);
     }
 
-    private sealed class Restore(CultureInfo culture) : IDisposable
+    private sealed class Restore(CultureInfo culture, CultureInfo uiCulture) : IDisposable
     {
-        public void Dispose() => CultureInfo.CurrentCulture = culture;
+        public void Dispose() => (CultureInfo.CurrentCulture, CultureInfo.CurrentUICulture) = (culture, uiCulture);
     }
 
     // A date column left at its default, filtered from the inline row.
@@ -42,7 +42,7 @@ public sealed class DataGridDateFilterTests : OmniBunitContext
         var grid = RenderInline();
 
         var input = grid.Find(TextInRow);
-        Assert.Equal("dd/mm/yyyy", input.GetAttribute("placeholder"));
+        Assert.Equal("jj/mm/aaaa", input.GetAttribute("placeholder"));
         Assert.Equal("text", input.GetAttribute("type"));
         Assert.Null(input.GetAttribute("aria-invalid"));
         Assert.Empty(grid.FindAll(".omni-data-grid__date-range"));

@@ -682,6 +682,9 @@
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Limited export: the limit of {0, plural, one {# row} other {# rows}} was reached and the source announces no total; more rows may exist.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>No rows.</value></data>
   <data name="FormFieldHelp" xml:space="preserve"><value>Help</value></data>
+  <data name="DateHintDay" xml:space="preserve"><value>dd</value></data>
+  <data name="DateHintMonth" xml:space="preserve"><value>mm</value></data>
+  <data name="DateHintYear" xml:space="preserve"><value>yyyy</value></data>
   <data name="GridExportBar" xml:space="preserve"><value>Table export</value></data>
   <data name="GridExportAs" xml:space="preserve"><value>Export as {0}</value></data>
   <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>

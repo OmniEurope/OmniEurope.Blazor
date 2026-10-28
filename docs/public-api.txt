@@ -2063,7 +2063,7 @@ method public static OmniEurope.Blazor.Components.OmniDataGridDateRange.Join(Sys
 method public static OmniEurope.Blazor.Components.OmniDataGridDateRange.Resolve(System.String? value) : System.ValueTuple<System.DateTime?,System.DateTime?>
 method public static OmniEurope.Blazor.Components.OmniDataGridDateRange.Split(System.String? value) : System.ValueTuple<System.String,System.String>
 method public static OmniEurope.Blazor.Components.OmniDataGridDateText.Format(System.String? value, System.Globalization.CultureInfo culture) : System.String
-method public static OmniEurope.Blazor.Components.OmniDataGridDateText.Pattern(System.Globalization.CultureInfo culture) : System.String
+method public static OmniEurope.Blazor.Components.OmniDataGridDateText.Pattern(System.Globalization.CultureInfo culture, System.String day, System.String month, System.String year) : System.String
 method public static OmniEurope.Blazor.Components.OmniDataGridDateText.ToValue(System.DateTime start, System.DateTime endExclusive) : System.String
 method public static OmniEurope.Blazor.Components.OmniDataGridDateText.TryParse(System.String? text, System.Globalization.CultureInfo culture, out System.DateTime start, out System.DateTime endExclusive) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniDataGridFilter.op_Equality(OmniEurope.Blazor.Components.OmniDataGridFilter? left, OmniEurope.Blazor.Components.OmniDataGridFilter? right) : System.Boolean

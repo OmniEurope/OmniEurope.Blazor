@@ -682,6 +682,9 @@
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Begränsad export: gränsen på {0, plural, one {# rad} other {# rader}} har nåtts och källan anger inget totalt antal, det kan finnas fler rader.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Inga rader.</value></data>
   <data name="FormFieldHelp" xml:space="preserve"><value>Hjälp</value></data>
+  <data name="DateHintDay" xml:space="preserve"><value>dd</value></data>
+  <data name="DateHintMonth" xml:space="preserve"><value>mm</value></data>
+  <data name="DateHintYear" xml:space="preserve"><value>åååå</value></data>
   <data name="GridExportBar" xml:space="preserve"><value>Export av tabellen</value></data>
   <data name="GridExportAs" xml:space="preserve"><value>Exportera som {0}</value></data>
   <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>

@@ -55,6 +55,7 @@ La vitrine est proposée en anglais (ressources neutres, langue par défaut, cul
 Les 23 langues autres que le français ont été relues le 2026-09-29 par des agents, sans locuteur natif (`5b8827a`). Ce que la relecture a laissé en l'état, à reprendre avec un locuteur natif ou par une décision :
 
 - **Formes de pluriel** : les formes ajoutées le 2026-09-30 (341 textes, voir plus haut) ont été écrites sans locuteur natif, comme le reste. À relire en priorité : l'irlandais (mutation du nom après le nombre : `2 chomhad`, `8 gcomhad`, `8 mbliana`) et le maltais (`2 jumejn`, `12-il jum`, singulier à partir de 20).
+- **Lettres de l'indication de date** (`DateHintDay`, `DateHintMonth`, `DateHintYear`, recette R-84, 2026-10-28) : les lettres jour, mois, année de la saisie de date des grilles (`jj/mm/aaaa`, `TT.MM.JJJJ`, `gg/mm/aaaa`, `pp.kk.vvvv`...) sont les initiales usuelles de chaque langue, choisies sans locuteur natif.
 - **Alerte et avertissement** : un seul mot en néerlandais (« Waarschuwingen ») et en suédois (« varning ») pour le composant Alertes et pour la sévérité avertissement.
 - **Dossier** : « comhad » en irlandais et « fajl » en maltais désignent aussi un fichier informatique.
 - **Irlandais** : « Deais » (tableau de bord) et « tiomantas » (commit git) n'ont pas été vérifiés sur téarma.ie.

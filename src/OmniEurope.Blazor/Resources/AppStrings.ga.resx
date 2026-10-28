@@ -682,6 +682,9 @@
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Easpórtáil theoranta: sroicheadh an teorainn de {0} ró agus ní fhógraíonn an fhoinse iomlán, d'fhéadfadh níos mó rónna a bheith ann.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Gan rónna.</value></data>
   <data name="FormFieldHelp" xml:space="preserve"><value>Cabhair</value></data>
+  <data name="DateHintDay" xml:space="preserve"><value>ll</value></data>
+  <data name="DateHintMonth" xml:space="preserve"><value>mm</value></data>
+  <data name="DateHintYear" xml:space="preserve"><value>bbbb</value></data>
   <data name="GridExportBar" xml:space="preserve"><value>Easpórtáil an tábla</value></data>
   <data name="GridExportAs" xml:space="preserve"><value>Easpórtáil mar {0}</value></data>
   <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>

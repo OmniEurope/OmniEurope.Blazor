@@ -27,11 +27,15 @@ public partial class OmniDataGridFilterDate
     [Parameter]
     public EventCallback<string> ValueChanged { get; set; }
 
-    /// <summary>The hint of the input; null gives the format of the current culture (for example <c>dd/mm/yyyy</c>).</summary>
+    /// <summary>
+    /// The hint of the input; null gives the format of the current culture, written with the letters of the
+    /// package texts (<c>jj/mm/aaaa</c> in French, <c>dd/mm/yyyy</c> in English).
+    /// </summary>
     [Parameter]
     public string? Placeholder { get; set; }
 
-    private string Hint => Placeholder ?? OmniDataGridDateText.Pattern(CultureInfo.CurrentCulture);
+    private string Hint => Placeholder ?? OmniDataGridDateText.Pattern(
+        CultureInfo.CurrentCulture, Localize("DateHintDay"), Localize("DateHintMonth"), Localize("DateHintYear"));
 
     /// <inheritdoc />
     protected override void OnParametersSet()

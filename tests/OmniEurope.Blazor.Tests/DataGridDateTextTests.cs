@@ -209,10 +209,11 @@ public sealed class DataGridDateTextTests
     [Fact]
     public void TheHintFollowsTheCulture()
     {
-        Assert.Equal("dd/mm/yyyy", OmniDataGridDateText.Pattern(French));
-        Assert.Equal("mm/dd/yyyy", OmniDataGridDateText.Pattern(American));
-        Assert.Equal("dd.mm.yyyy", OmniDataGridDateText.Pattern(German));
-        Assert.Equal("yyyy-mm-dd", OmniDataGridDateText.Pattern(Swedish));
+        Assert.Equal("dd/mm/yyyy", OmniDataGridDateText.Pattern(French, "dd", "mm", "yyyy"));
+        Assert.Equal("jj/mm/aaaa", OmniDataGridDateText.Pattern(French, "jj", "mm", "aaaa"));
+        Assert.Equal("mm/dd/yyyy", OmniDataGridDateText.Pattern(American, "dd", "mm", "yyyy"));
+        Assert.Equal("TT.MM.JJJJ", OmniDataGridDateText.Pattern(German, "TT", "MM", "JJJJ"));
+        Assert.Equal("åååå-mm-dd", OmniDataGridDateText.Pattern(Swedish, "dd", "mm", "åååå"));
     }
 
     [Fact]
@@ -220,7 +221,8 @@ public sealed class DataGridDateTextTests
     {
         Assert.Throws<ArgumentNullException>(() => OmniDataGridDateText.TryParse("2026", null!, out _, out _));
         Assert.Throws<ArgumentNullException>(() => OmniDataGridDateText.Format("2026-03-05/", null!));
-        Assert.Throws<ArgumentNullException>(() => OmniDataGridDateText.Pattern(null!));
+        Assert.Throws<ArgumentNullException>(() => OmniDataGridDateText.Pattern(null!, "dd", "mm", "yyyy"));
+        Assert.ThrowsAny<ArgumentException>(() => OmniDataGridDateText.Pattern(French, " ", "mm", "yyyy"));
     }
 
     [Fact]

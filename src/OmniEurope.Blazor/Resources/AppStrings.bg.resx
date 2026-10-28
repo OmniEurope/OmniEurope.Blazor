@@ -682,6 +682,9 @@
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Ограничен експорт: достигнато е ограничението от {0, plural, one {# ред} other {# реда}}, а източникът не обявява общ брой, може да има още редове.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Няма редове.</value></data>
   <data name="FormFieldHelp" xml:space="preserve"><value>Помощ</value></data>
+  <data name="DateHintDay" xml:space="preserve"><value>дд</value></data>
+  <data name="DateHintMonth" xml:space="preserve"><value>мм</value></data>
+  <data name="DateHintYear" xml:space="preserve"><value>гггг</value></data>
   <data name="GridExportBar" xml:space="preserve"><value>Експорт на таблицата</value></data>
   <data name="GridExportAs" xml:space="preserve"><value>Експортиране като {0}</value></data>
   <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>

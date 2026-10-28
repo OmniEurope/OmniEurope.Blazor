@@ -1,3 +1,4 @@
+using System.Globalization;
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
@@ -125,6 +126,28 @@ public sealed class DataFamilyEdgeTests : OmniBunitContext
 
         Assert.Equal(start, range.Find(".omni-data-grid__date-range-start").GetAttribute("value"));
         Assert.Equal(end, range.Find(".omni-data-grid__date-range-end").GetAttribute("value"));
+    }
+
+    [Theory]
+    [InlineData("fr-FR", "jj/mm/aaaa")]
+    [InlineData("en-IE", "dd/mm/yyyy")]
+    [InlineData("en-US", "mm/dd/yyyy")]
+    [InlineData("de-DE", "TT.MM.JJJJ")]
+    public void DateText_HintFollowsTheCultureOrder_AndThePackageLetters(string cultureName, string hint)
+    {
+        var previous = (CultureInfo.CurrentCulture, CultureInfo.CurrentUICulture);
+        try
+        {
+            CultureInfo.CurrentCulture = CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo(cultureName);
+
+            var filter = Render<OmniDataGridFilterDate>();
+
+            Assert.Equal(hint, filter.Find("input.omni-data-grid__date-text").GetAttribute("placeholder"));
+        }
+        finally
+        {
+            (CultureInfo.CurrentCulture, CultureInfo.CurrentUICulture) = previous;
+        }
     }
 
     [Fact]

@@ -682,6 +682,9 @@
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Περιορισμένη εξαγωγή: συμπληρώθηκε το όριο {0, plural, one {της # γραμμής} other {των # γραμμών}} και η πηγή δεν δηλώνει σύνολο, ενδέχεται να υπάρχουν κι άλλες γραμμές.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Καμία γραμμή.</value></data>
   <data name="FormFieldHelp" xml:space="preserve"><value>Βοήθεια</value></data>
+  <data name="DateHintDay" xml:space="preserve"><value>ηη</value></data>
+  <data name="DateHintMonth" xml:space="preserve"><value>μμ</value></data>
+  <data name="DateHintYear" xml:space="preserve"><value>εεεε</value></data>
   <data name="GridExportBar" xml:space="preserve"><value>Εξαγωγή του πίνακα</value></data>
   <data name="GridExportAs" xml:space="preserve"><value>Εξαγωγή ως {0}</value></data>
   <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>

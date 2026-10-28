@@ -32,6 +32,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Fixed
 
+- L'indication de format de `OmniDataGridFilterDate` (`input.omni-data-grid__date-text`) suit la langue : demande d'une application cliente (recette R-84), où une grille en `fr-FR` montrait `dd/mm/yyyy`. L'ordre et le séparateur restent ceux de la culture courante ; les lettres viennent des textes du paquet (nouvelles clés `DateHintDay`, `DateHintMonth`, `DateHintYear`, traduites dans les 24 langues livrées) : `jj/mm/aaaa` en français, `dd/mm/yyyy` en anglais, `TT.MM.JJJJ` en allemand. Rupture voulue, sans alias : `OmniDataGridDateText.Pattern(culture)` devient `Pattern(culture, day, month, year)`, l'appelant fournit les lettres. Un `Placeholder` posé par l'hôte garde la priorité.
 - `OmniDataGridDateRange.Resolve` ne lève plus d'exception pour une borne de fin au `9999-12-31` (le jour suivant n'existe pas) : la fin exclue est le dernier instant représentable.
 
 ## [1.9.4] - 2026-10-26

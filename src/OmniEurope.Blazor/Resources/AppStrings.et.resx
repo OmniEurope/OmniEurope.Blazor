@@ -682,6 +682,9 @@
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Piiratud eksport: piirang ({0} rida) on täis ja allikas ei teata koguarvu, ridu võib olla rohkem.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Ridu pole.</value></data>
   <data name="FormFieldHelp" xml:space="preserve"><value>Abi</value></data>
+  <data name="DateHintDay" xml:space="preserve"><value>pp</value></data>
+  <data name="DateHintMonth" xml:space="preserve"><value>kk</value></data>
+  <data name="DateHintYear" xml:space="preserve"><value>aaaa</value></data>
   <data name="GridExportBar" xml:space="preserve"><value>Tabeli eksport</value></data>
   <data name="GridExportAs" xml:space="preserve"><value>Ekspordi vormingus {0}</value></data>
   <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>

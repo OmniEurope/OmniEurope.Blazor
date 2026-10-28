@@ -682,6 +682,9 @@
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Rajattu vienti: raja ({0, plural, one {# rivi} other {# riviä}}) saavutettiin, eikä lähde ilmoita kokonaismäärää, rivejä voi olla enemmän.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Ei rivejä.</value></data>
   <data name="FormFieldHelp" xml:space="preserve"><value>Ohje</value></data>
+  <data name="DateHintDay" xml:space="preserve"><value>pp</value></data>
+  <data name="DateHintMonth" xml:space="preserve"><value>kk</value></data>
+  <data name="DateHintYear" xml:space="preserve"><value>vvvv</value></data>
   <data name="GridExportBar" xml:space="preserve"><value>Taulukon vienti</value></data>
   <data name="GridExportAs" xml:space="preserve"><value>Vie muodossa {0}</value></data>
   <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>

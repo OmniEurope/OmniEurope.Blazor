@@ -682,6 +682,9 @@
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Exportação limitada: foi atingido o limite de {0, plural, one {# linha} other {# linhas}} e a fonte não anuncia um total, podem existir mais linhas.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Nenhuma linha.</value></data>
   <data name="FormFieldHelp" xml:space="preserve"><value>Ajuda</value></data>
+  <data name="DateHintDay" xml:space="preserve"><value>dd</value></data>
+  <data name="DateHintMonth" xml:space="preserve"><value>mm</value></data>
+  <data name="DateHintYear" xml:space="preserve"><value>aaaa</value></data>
   <data name="GridExportBar" xml:space="preserve"><value>Exportação da tabela</value></data>
   <data name="GridExportAs" xml:space="preserve"><value>Exportar como {0}</value></data>
   <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>
