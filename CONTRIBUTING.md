@@ -18,7 +18,7 @@ dotnet test --solution OmniEurope.Blazor.slnx --configuration Release --no-build
 - A documented public API following `docs/public-api-conventions.md`.
 - Rendering, interaction and accessibility tests proportionate to the change.
 - Proof that no inline style and no inline script handler is emitted; the CSP contract is in `docs/contracts/csp-contract.md`.
-- A demonstration in `site/OmniEurope.Blazor.Showcase/Components/Demos`, registered in `site/OmniEurope.Blazor.Showcase/Demos/DemoCatalog.cs`, covering the component and every value of its enumerated parameters; the `ShowcaseCoverageTests` and `ShowcaseVariantCoverageTests` guards fail the build otherwise.
+- A demonstration in the gallery: an example under `site/OmniEurope.Blazor.Showcase.Examples/<Family>`, shown by a page under `site/OmniEurope.Blazor.Showcase/Components/Gallery/<Family>` and registered in `site/OmniEurope.Blazor.Showcase/Gallery/Families/<Family>Family.cs`, covering the component and every value of its enumerated parameters; the `ShowcaseCoverageTests` and `ShowcaseVariantCoverageTests` guards fail the build otherwise.
 - A `CHANGELOG.md` entry whenever public behaviour changes.
 
 ## Ground rules
