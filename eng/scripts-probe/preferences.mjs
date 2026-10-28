@@ -16,7 +16,10 @@ import { probeOptions } from '../ShowcaseCdp.mjs';
 const themesPage = '/components/theme';
 const preview = '#theme-following';
 const windowButton = '#demo-appearance-window';
-const modeButton = mode => `.omni-appearance-window .omni-appearance-window__mode[title="${mode}"]`;
+// The showcase speaks French or English (a refused localStorage keeps the default language): a label is
+// looked for in both.
+const english = { Sombre: 'Dark', Clair: 'Light' };
+const modeButton = mode => [mode, english[mode]].map(title => `.omni-appearance-window .omni-appearance-window__mode[title="${title}"]`).join(', ');
 const storedAppearance = `(() => {
   const key = Object.keys(localStorage).find(name => name.startsWith('omni:pref:') && name.endsWith(':omni.appearance'));
   if (!key) return null;
@@ -73,7 +76,7 @@ export async function preferenceSteps(session, results) {
   await openWindow();
   await clickOn(modeButton('Sombre'));
   await waitFor('l\'aperçu repeint en sombre', `document.querySelector(${JSON.stringify(preview)}).getAttribute('data-omni-theme') === 'dark'`);
-  await evaluate("document.querySelector('.omni-appearance-window button[aria-label=\"Augmenter la taille du texte\"]').click()");
+  await evaluate("document.querySelector('.omni-appearance-window button[aria-label=\"Augmenter la taille du texte\"], .omni-appearance-window button[aria-label=\"Increase the text size\"]').click()");
   await waitFor('la taille du texte posée sur la racine', "document.documentElement.dataset.oeTextSize === '6'");
   await waitFor('la préférence écrite', `${storedAppearance}?.value.textSize === 6`);
   const written = await evaluate(storedAppearance);

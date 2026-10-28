@@ -207,6 +207,7 @@ export async function boardSteps(session, results) {
   // 3. The virtual data list renders only the items its frame shows, two spacers standing for the
   // others: a wheel turn moves the window; a jump to the end of the frame shows the last item, the
   // frame kept at its end while the items it reached are measured taller than estimated.
+  await session.visit('/components/data-list', '#demo-list-virtual');
   const list = '#demo-list-virtual';
   const listIndexes = `[...document.querySelectorAll(${JSON.stringify(list + ' > [data-omni-row-index]')})].map(item => Number(item.getAttribute('data-omni-row-index')))`;
   await evaluate(`document.querySelector(${JSON.stringify(list)}).parentElement.scrollIntoView({ block: 'center' })`);
@@ -220,6 +221,7 @@ export async function boardSteps(session, results) {
   step(`liste virtuelle : ${rendered} éléments rendus sur deux mille, fenêtre suivie jusqu'au dernier`);
 
   // 4. The log viewer (collections page): a wheel upwards stops following, a search walks its matches, a scroll is watched.
+  await session.visit('/components/collections', '.omni-log-viewer');
   const logViewport = '.omni-log-viewer .omni-log-viewer__viewport';
   await mouse('mouseWheel', await pointOf(logViewport), { button: 'none', deltaX: 0, deltaY: -200 });
   await waitFor('le suivi interrompu par la molette', "document.querySelector('.omni-log-viewer button[aria-pressed]')?.getAttribute('aria-pressed') === 'false'");

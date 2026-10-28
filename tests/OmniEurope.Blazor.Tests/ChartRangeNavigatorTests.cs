@@ -305,6 +305,41 @@ public sealed class ChartRangeNavigatorTests : OmniBunitContext
     }
 
     [Fact]
+    public void TheGraduationNames_NeverOverlap_TheFirstAndLastAnchoredToTheEdges()
+    {
+        // Thirty-six months: the first name, anchored to the left edge rather than centred on its
+        // graduation, reaches further right than a centred one, so its neighbour has to move away.
+        var labels = Enumerable.Range(0, 36).Select(month => new DateTime(2024, 1, 1).AddMonths(month).ToString("MMM yyyy", CultureInfo.InvariantCulture)).ToArray();
+        var chart = ChartWith(builder =>
+        {
+            builder.OpenComponent<OmniCategoryAxis>(10);
+            builder.AddComponentParameter(11, nameof(OmniCategoryAxis.Labels), labels);
+            builder.CloseComponent();
+            Series<OmniLineSeries>(builder, [.. Enumerable.Range(0, 36).Select(index => new OmniChartPoint(index, index))]);
+        }, start: 0);
+
+        chart.WaitForAssertion(() => Assert.NotEmpty(chart.FindAll(".omni-range-navigator__ticks text")));
+        var width = Number(chart.Find(".omni-range-navigator__ticks").GetAttribute("viewBox")!.Split(' ')[2]);
+        var boxes = chart.FindAll(".omni-range-navigator__ticks text").Select(text =>
+        {
+            var x = Number(text, "x");
+            var length = text.TextContent.Length * OmniChartContext.CharacterWidth;
+            var left = text.GetAttribute("text-anchor") switch { "middle" => x - (length / 2), "end" => x - length, _ => x };
+            return (Text: text.TextContent, Left: left, Right: left + length);
+        }).ToArray();
+
+        Assert.True(boxes.Length > 2);
+        Assert.Equal("Jan 2024", boxes[0].Text);
+        Assert.Equal("Dec 2026", boxes[^1].Text);
+        Assert.Equal(0, boxes[0].Left, 3);
+        Assert.Equal(width, boxes[^1].Right, 3);
+        for (var index = 1; index < boxes.Length; index++)
+        {
+            Assert.True(boxes[index].Left >= boxes[index - 1].Right, $"{boxes[index - 1].Text} overlaps {boxes[index].Text}.");
+        }
+    }
+
+    [Fact]
     public void ACategoryWithoutAxisLabel_IsNamedByItsPoint_OrElseByItsRank()
     {
         string[] labels = ["Jan", null!, "Mar"];

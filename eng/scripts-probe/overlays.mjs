@@ -17,15 +17,17 @@ export async function overlaySteps(session, results) {
   await waitFor('l\'écran de démarrage retiré', "document.getElementById('omni-boot-splash') === null");
   step('écran de démarrage de la page retiré après le premier rendu');
 
-  // 1. Menus: the overflow menu by the keyboard, the context menu closed by a press outside.
+  // 1. Menus: the overflow menu by the keyboard, the context menu closed by a press outside. The open
+  // overflow menu is the one its trigger names in aria-controls: under the shell's OmniComponentsHost it
+  // is drawn in the host layer, not inside the .omni-overflow-menu wrapper.
   await session.visit('/components/overflow-menu', '#overflow-menu-0');
   await clickOn('#overflow-menu-0');
-  await waitFor('le menu ouvert', `[...document.querySelectorAll('.omni-overflow-menu:has(> #overflow-menu-0) [role="menu"]')].some(menu => menu.getClientRects().length > 0)`);
+  await waitFor('le menu ouvert', `[document.getElementById(document.getElementById('overflow-menu-0')?.getAttribute('aria-controls') ?? '')].filter(Boolean).some(menu => menu.getClientRects().length > 0)`);
   await waitFor('le focus dans le menu', "document.activeElement?.getAttribute('role') === 'menuitem'");
   // The window narrows while the menu is open: the menu is placed again, still on screen.
   await send('Emulation.setDeviceMetricsOverride', { width: 1000, height: 800, deviceScaleFactor: 1, mobile: false });
   await pause(200);
-  const menuBox = await evaluate(`(() => { const menu = [...document.querySelectorAll('.omni-overflow-menu:has(> #overflow-menu-0) [role="menu"]')].find(candidate => candidate.getClientRects().length > 0); const box = menu.getBoundingClientRect(); return { left: box.left, right: box.right, width: innerWidth }; })()`);
+  const menuBox = await evaluate(`(() => { const menu = [document.getElementById(document.getElementById('overflow-menu-0')?.getAttribute('aria-controls') ?? '')].filter(Boolean).find(candidate => candidate.getClientRects().length > 0); const box = menu.getBoundingClientRect(); return { left: box.left, right: box.right, width: innerWidth }; })()`);
   check(menuBox.left >= 0 && menuBox.right <= menuBox.width, `Menu hors de la fenêtre après redimensionnement : ${JSON.stringify(menuBox)}.`);
   await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
   await pause(200);
@@ -37,7 +39,7 @@ export async function overlaySteps(session, results) {
   await clickOn('#overflow-menu-0');
   await waitFor('le menu rouvert', "document.activeElement?.getAttribute('role') === 'menuitem'");
   await key('Tab', 'Tab', 9);
-  await waitFor('Tab qui ferme le menu', `[...document.querySelectorAll('.omni-overflow-menu:has(> #overflow-menu-0) [role="menu"]')].every(menu => menu.getClientRects().length === 0)`);
+  await waitFor('Tab qui ferme le menu', `document.getElementById('overflow-menu-0').getAttribute('aria-expanded') === 'false' && [...document.querySelectorAll('[role="menu"]')].every(menu => menu.getClientRects().length === 0)`);
   step('menu au clavier : flèche, Échap, Tab');
 
   await session.visit('/components/context-menus', '#context-menu-zone');
@@ -103,21 +105,21 @@ export async function overlaySteps(session, results) {
   step('notifications courte et longue d\'une même pile : même largeur à 1280 et 390 px');
 
   // 3. Popovers: placed inside the window when opened, released when closed.
-  await session.visit('/components/popover', '.omni-popover > button[aria-haspopup="dialog"]');
-  await clickOn('.omni-popover > button[aria-haspopup="dialog"]');
-  await waitFor('la bulle ouverte', "document.querySelector('.omni-popover > button[aria-haspopup=\"dialog\"]').getAttribute('aria-expanded') === 'true'");
+  await session.visit('/components/popover', 'main .omni-popover > button[aria-haspopup="dialog"]');
+  await clickOn('main .omni-popover > button[aria-haspopup="dialog"]');
+  await waitFor('la bulle ouverte', "document.querySelector('main .omni-popover > button[aria-haspopup=\"dialog\"]').getAttribute('aria-expanded') === 'true'");
   const placed = await evaluate(`(() => { const panel = [...document.querySelectorAll('.omni-popover [role="dialog"], .omni-popover__panel')].find(element => element.getClientRects().length > 0); const box = panel.getBoundingClientRect(); return { left: box.left, right: box.right, top: box.top, bottom: box.bottom, width: innerWidth, height: innerHeight }; })()`);
   check(placed.left >= 0 && placed.right <= placed.width && placed.top >= 0 && placed.bottom <= placed.height, `Bulle hors de la fenêtre : ${JSON.stringify(placed)}.`);
   await waitFor('le focus dans la bulle', "document.activeElement?.closest('.omni-popover__panel') !== null");
   await key('Escape', 'Escape', 27);
-  await waitFor('la bulle fermée', "document.querySelector('.omni-popover > button[aria-haspopup=\"dialog\"]').getAttribute('aria-expanded') === 'false'");
-  await clickOn('.omni-popover > button[aria-haspopup="dialog"]');
-  await waitFor('la bulle rouverte', "document.querySelector('.omni-popover > button[aria-haspopup=\"dialog\"]').getAttribute('aria-expanded') === 'true'");
+  await waitFor('la bulle fermée', "document.querySelector('main .omni-popover > button[aria-haspopup=\"dialog\"]').getAttribute('aria-expanded') === 'false'");
+  await clickOn('main .omni-popover > button[aria-haspopup="dialog"]');
+  await waitFor('la bulle rouverte', "document.querySelector('main .omni-popover > button[aria-haspopup=\"dialog\"]').getAttribute('aria-expanded') === 'true'");
   await send('Emulation.setDeviceMetricsOverride', { width: 1100, height: 850, deviceScaleFactor: 1, mobile: false });
   await pause(200);
   await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
   await clickOn('main h1, h1');
-  await waitFor('la bulle fermée par un appui dehors', "document.querySelector('.omni-popover > button[aria-haspopup=\"dialog\"]').getAttribute('aria-expanded') === 'false'");
+  await waitFor('la bulle fermée par un appui dehors', "document.querySelector('main .omni-popover > button[aria-haspopup=\"dialog\"]').getAttribute('aria-expanded') === 'false'");
   step('bulle placée dans la fenêtre, fermée par Échap puis par un appui dehors');
 
   // 4. Tooltips: placed under the pointer, kept inside the window when « Show more » grows them.
@@ -249,12 +251,18 @@ export async function overlaySteps(session, results) {
     const header = document.getElementById('details-pinned');
     const rect = element => { const box = element.getBoundingClientRect(); return { top: box.top, bottom: box.bottom, left: box.left, right: box.right, width: box.width, height: box.height }; };
     const row = header.querySelector('.omni-page-header__row');
+    // On a phone the title row lends its items to the frame (display: contents, R-26) and has no box of its
+    // own: the end it aligns to is then the inner end of the frame.
+    const frame = header.querySelector('.omni-page-header__frame');
+    const frameStyle = getComputedStyle(frame);
+    const frameEnd = frame.getBoundingClientRect().right - parseFloat(frameStyle.borderRightWidth) - parseFloat(frameStyle.paddingRight);
+    const rowBox = row.getClientRects().length > 0 ? rect(row) : { ...rect(row), right: frameEnd };
     const back = header.querySelector('.omni-page-header__back');
     const title = header.querySelector('.omni-page-header__title');
     const pinned = document.getElementById('details-pinned-relaunch');
     const trigger = header.querySelector('.omni-page-header__menu .omni-overflow-menu__trigger');
     const toggle = header.querySelector('.omni-page-header__toggle');
-    return { viewport: innerWidth, row: rect(row), back: rect(back), title: rect(title), pinned: rect(pinned), pinnedShown: pinned.getClientRects().length > 0, trigger: rect(trigger), toggleShown: toggle.getClientRects().length > 0, expanded: toggle.getAttribute('aria-expanded') };
+    return { viewport: innerWidth, row: rowBox, back: rect(back), title: rect(title), pinned: rect(pinned), pinnedShown: pinned.getClientRects().length > 0, trigger: rect(trigger), toggleShown: toggle.getClientRects().length > 0, expanded: toggle.getAttribute('aria-expanded') };
   })()`;
   for (const width of [375, 320]) {
     await send('Emulation.setDeviceMetricsOverride', { width, height: 812, deviceScaleFactor: 1, mobile: true });
@@ -299,7 +307,8 @@ export async function overlaySteps(session, results) {
   await evaluate(`(() => { const select = document.querySelector('.omni-appearance-window select'); select.value = [...select.options].at(-1).value; select.dispatchEvent(new Event('change', { bubbles: true })); })()`);
   // The canvas is drawn before the scope starts the script on it: the request keeps its relaxed flag
   // until the first frame sizes the canvas to the window, else start() can still meet the plain one.
-  await waitFor('le fond de Trou noir', "(() => { const canvas = document.querySelector('.omni-theme-scope__canvas'); return canvas !== null && canvas.width === Math.round(innerWidth * Math.min(Math.max(devicePixelRatio || 1, 1), 2)); })()", 10_000);
+  // The page also previews themes in its own scopes: the scope that follows the appearance is #theme-following.
+  await waitFor('le fond de Trou noir', "(() => { const canvas = document.querySelector('#theme-following .omni-theme-scope__canvas'); return canvas !== null && canvas.width === Math.round(innerWidth * Math.min(Math.max(devicePixelRatio || 1, 1), 2)); })()", 10_000);
   await evaluate('HTMLCanvasElement.prototype.getContext = window.__omniGetContext');
   // The field follows the system's wish for less motion as it changes.
   await send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] });
@@ -313,7 +322,7 @@ export async function overlaySteps(session, results) {
   await evaluate(`(() => { const select = [...document.querySelectorAll('.omni-appearance-window select')][1]; select.value = [...select.options][1].value; select.dispatchEvent(new Event('change', { bubbles: true })); })()`);
   await pause(300);
   await evaluate(`(() => { const select = document.querySelector('.omni-appearance-window select'); select.value = [...select.options][0].value; select.dispatchEvent(new Event('change', { bubbles: true })); })()`);
-  await waitFor('le fond de Trou noir retiré', "document.querySelector('.omni-theme-scope__canvas') === null", 10_000);
+  await waitFor('le fond de Trou noir retiré', "document.querySelector('#theme-following .omni-theme-scope__canvas') === null", 10_000);
 
   // The window never overflows, whatever the theme (the Retro theme widens its buttons: uppercase,
   // weight 800, offset shadows). Every theme of the list, in light and dark, at text size 1, 5 and 10, in

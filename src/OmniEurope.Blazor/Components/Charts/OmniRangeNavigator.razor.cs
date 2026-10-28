@@ -166,7 +166,8 @@ public partial class OmniRangeNavigator : IDisposable
     /// <summary>
     /// The graduations under the overview: one every so many categories, so that no two names overlap
     /// (their width estimated as the category axis estimates it), the first and the last always. A name
-    /// that would leave the overview is anchored to the edge it would cross.
+    /// that would leave the overview is anchored to the edge it would cross; it then reaches further in
+    /// than a centred one, and a neighbour it would meet is left out.
     /// </summary>
     internal IReadOnlyList<(double X, double TextX, string? Anchor, string Text)> Ticks()
     {
@@ -178,17 +179,41 @@ public partial class OmniRangeNavigator : IDisposable
         var names = Enumerable.Range(0, Count).Select(Name).ToArray();
         var width = TicksWidth;
         var pitch = Last == 0 ? width : width / Last;
-        var needed = (names.Max(name => name.Length) * OmniChartContext.CharacterWidth) + 1.5;
-        var ticks = new List<(double, double, string?, string)>();
-        foreach (var index in OmniChartRange.Thin(0, Last, Math.Max(1, (int)Math.Ceiling(needed / pitch))))
+        var needed = (names.Max(name => name.Length) * OmniChartContext.CharacterWidth) + TickGap;
+        var candidates = OmniChartRange.Thin(0, Last, Math.Max(1, (int)Math.Ceiling(needed / pitch)))
+            .Select(index => Tick(Last == 0 ? width / 2 : index * pitch, names[index], width))
+            .ToArray();
+        var ticks = new List<(double, double, string?, string)> { candidates[0].Tick };
+        var previousRight = candidates[0].Right;
+        for (var index = 1; index < candidates.Length - 1; index++)
         {
-            var x = Last == 0 ? width / 2 : index * pitch;
-            var half = names[index].Length * OmniChartContext.CharacterWidth / 2;
-            var (textX, anchor) = x - half < 0 ? (0d, (string?)null) : x + half > width ? (width, "end") : (x, "middle");
-            ticks.Add((x, textX, anchor, names[index]));
+            var candidate = candidates[index];
+            if (candidate.Left >= previousRight + TickGap && candidate.Right + TickGap <= candidates[^1].Left)
+            {
+                ticks.Add(candidate.Tick);
+                previousRight = candidate.Right;
+            }
+        }
+
+        if (candidates.Length > 1)
+        {
+            ticks.Add(candidates[^1].Tick);
         }
 
         return ticks;
+    }
+
+    // The room kept between two graduation names, in the units of the chart's drawing.
+    private const double TickGap = 1.5;
+
+    // One graduation at x, its name centred on it or anchored to the edge it would cross, and the
+    // estimated extent of that name.
+    private static ((double X, double TextX, string? Anchor, string Text) Tick, double Left, double Right) Tick(double x, string name, double width)
+    {
+        var length = name.Length * OmniChartContext.CharacterWidth;
+        var half = length / 2;
+        var (textX, anchor, left) = x - half < 0 ? (0d, (string?)null, 0d) : x + half > width ? (width, "end", width - length) : (x, "middle", x - half);
+        return ((x, textX, anchor, name), left, left + length);
     }
 
     // The graduations are drawn in the units of the chart's drawing, as wide as it (100 for a square

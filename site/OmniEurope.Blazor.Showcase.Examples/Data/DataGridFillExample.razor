@@ -2,7 +2,8 @@
    country, every row the same height (FixedRowHeight), veiled by LoadingContent until its first ready render.
    The wheel turned anywhere in the frame scrolls its rows (WheelScrollScope); a country picked in the filter,
    or an applicant taken from the suggestions, closes the menu (HideFilterMenuOnSelect); a double click on the
-   edge of Amount fits the column to the widest amount of the two thousand files, rendered or not. *@
+   edge of Amount, drawn narrower than its widest amount, fits the column to the widest of the two thousand
+   files, rendered or not. *@
 <div id="demo-grid-scope">
     <OmniText Tone="OmniTextTone.Muted">Turn the wheel anywhere in this frame to scroll the grid.</OmniText>
     <OmniDataGrid TItem="CaseRow" Id="demo-grid-fill"
@@ -27,7 +28,7 @@
             <OmniDataGridColumn TItem="CaseRow" Property="Applicant" Title="Applicant" FilterType="OmniDataGridColumnFilterType.Combo" />
             <OmniDataGridColumn TItem="CaseRow" Property="Country" Title="Country" FilterType="OmniDataGridColumnFilterType.Select" Groupable="true" />
             <OmniDataGridColumn TItem="CaseRow" Property="Amount" Title="Amount" FormatString="{0:C0}" Filterable="false"
-                                TextAlign="OmniAlignment.End" />
+                                Width="8rem" TextAlign="OmniAlignment.End" />
         </Columns>
     </OmniDataGrid>
 </div>

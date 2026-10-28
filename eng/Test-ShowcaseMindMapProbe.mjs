@@ -192,7 +192,7 @@ await mouse('mouseReleased', root, { button: 'right' });
 await waitFor('le menu contextuel', `document.querySelector('${map} [role=menu]') !== null`);
 await waitFor('le focus dans le menu', `document.activeElement?.getAttribute('role') === 'menuitem'`);
 const items = await evaluate(`[...document.querySelectorAll('${map} [role=menu] [role=menuitem]')].map(item => item.textContent.trim()).join('|')`);
-check(items === 'Renommer le nœud|Dupliquer|Lien|Centrer|Supprimer', `Actions du menu inattendues : ${items}.`);
+check(items === 'Rename node|Duplicate|Link|Centre|Delete', `Actions du menu inattendues : ${items}.`);
 await key('ArrowDown', 'ArrowDown');
 await pause(100);
 check(await evaluate("document.activeElement?.textContent?.trim() === 'Duplicate'"), 'La flèche bas ne parcourt pas le menu.');

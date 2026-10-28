@@ -68,7 +68,8 @@ export async function keySteps(session, results) {
   await session.visit('/components/line-charts', '#chart-legend-right.omni-chart');
   const entry = "document.querySelector('#chart-legend-right g.omni-chart__legend-entry--toggle')";
   await evaluate(`${entry}.closest('.omni-chart').scrollIntoView({ block: 'center' })`);
-  await evaluate(`(() => { const all = [...document.querySelectorAll('a[href], button, [tabindex="0"]')]; all[all.indexOf(${entry}) - 1].focus(); })()`);
+  // The element just before it in the Tab order, whatever it is (a range handle of the chart above).
+  await evaluate(`(() => { const all = [...document.querySelectorAll('*')].filter(element => element.tabIndex >= 0 && !element.disabled && element.getClientRects().length > 0); all[all.indexOf(${entry}) - 1].focus(); })()`);
   await tab();
   await waitFor('l\'entrée de légende atteinte par Tab', `document.activeElement === ${entry}`);
   const scroll = await evaluate('window.scrollY');

@@ -16,9 +16,9 @@ export async function leakSteps(session, results) {
       await waitFor('le menu ouvert', "document.activeElement?.getAttribute('role') === 'menuitem'");
       await key('Escape', 'Escape', 27);
     }],
-    ['/components/popover', '.omni-popover > button[aria-haspopup="dialog"]', async () => {
-      await clickOn('.omni-popover > button[aria-haspopup="dialog"]');
-      await waitFor('la bulle ouverte', "document.querySelector('.omni-popover > button[aria-haspopup=\"dialog\"]').getAttribute('aria-expanded') === 'true'");
+    ['/components/popover', 'main .omni-popover > button[aria-haspopup="dialog"]', async () => {
+      await clickOn('main .omni-popover > button[aria-haspopup="dialog"]');
+      await waitFor('la bulle ouverte', "document.querySelector('main .omni-popover > button[aria-haspopup=\"dialog\"]').getAttribute('aria-expanded') === 'true'");
     }],
     ['/components/html-editor', '#editor-extended', async () => {
       await clickOn('#editor-body');

@@ -91,8 +91,11 @@ export async function requestSteps(session, results) {
   // unchanged.
   await session.visit('/components/data-grid-variants', '#demo-grid-tree');
   const address = await evaluate('location.href');
-  await evaluate("document.activeElement?.blur(); window.scrollTo(0, 0); document.body.focus()");
+  // A blur leaves the browser's Tab starting point where the focus was (the page header after the
+  // visit): an unfocusable mark at the very start of the body stands for a freshly loaded page.
+  await evaluate("(() => { document.activeElement?.blur(); window.scrollTo(0, 0); const start = document.createElement('span'); start.id = 'probe-tab-start'; start.tabIndex = -1; document.body.prepend(start); start.focus(); })()");
   await tab();
+  await evaluate("document.getElementById('probe-tab-start').remove()");
   await waitFor('le lien d\'évitement, premier arrêt, visible au focus', "document.activeElement?.classList.contains('omni-skip-link') && document.activeElement.getBoundingClientRect().top >= 0");
   await key('Enter', 'Enter', 13, 0, '\r');
   await waitFor('le contenu principal focalisé', "document.activeElement?.tagName === 'MAIN'");
@@ -341,10 +344,9 @@ export async function requestSteps(session, results) {
   // narrow for the three aligned columns to leave the value its room. Each row then decides by itself (a
   // wrapping flex line, a container query on the tile, never the viewport): the value goes under the label
   // only when it does not fit beside it, the short rows stay on one line, and nothing is cut, no ellipsis
-  // active, label or value. The window is widened until the grid itself is 900 px wide (the showcase shell
-  // keeps a sidebar and a side panel, so that is wider than 900 px of window, and below 1024 px of window the
-  // tile grid has two columns). At 1280 px the tile is narrower still and the value, on its own line, still
-  // fits. In a roomy tile (a phone, one column) the three aligned columns stay, label and value on one line.
+  // active, label or value. From 1024 px of window (the tile grid has two columns below), the window is
+  // widened until the grid itself is at least 900 px wide. At 1280 px the tile is narrower still and the
+  // value, on its own line, still fits. In a roomy tile (a phone, one column) the three aligned columns stay, label and value on one line.
   await session.visit('/components/stat-tiles', '#demo-fact-tile-narrow-grid');
   const narrowGrid = `(() => {
     const grid = document.getElementById('demo-fact-tile-narrow-grid');
@@ -382,7 +384,7 @@ export async function requestSteps(session, results) {
     }
     return JSON.stringify({ problems, columns, tiles: tiles.length, rows: tiles.length * 2, twoLevels, gridWidth: Math.round(grid.getBoundingClientRect().width), tileWidth: Math.round(tiles[0].getBoundingClientRect().width) });
   })()`;
-  let windowWidth = 1000;
+  let windowWidth = 1024;
   for (; windowWidth <= 1800; windowWidth += 5) {
     await send('Emulation.setDeviceMetricsOverride', { width: windowWidth, height: 900, deviceScaleFactor: 1, mobile: false });
     await pause(60);
