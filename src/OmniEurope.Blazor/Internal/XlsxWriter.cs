@@ -117,49 +117,58 @@ internal static class XlsxWriter
         xml.WriteAttributeString("r", number.ToString(CultureInfo.InvariantCulture));
         for (var index = 0; index < cells.Count; index++)
         {
-            var cell = cells[index];
-            var text = TextOf(cell, heading);
-            xml.WriteStartElement("c", MainNamespace);
-            xml.WriteAttributeString("r", $"{ColumnName(index)}{number}");
-            if (heading)
-            {
-                xml.WriteAttributeString("s", Heading.ToString(CultureInfo.InvariantCulture));
-            }
-
-            if (!heading && cell.Number is { } value)
-            {
-                xml.WriteElementString("v", MainNamespace, value.ToString(CultureInfo.InvariantCulture));
-            }
-            else if (!heading && cell.Date is { } date && date.DateTime >= FirstSerialDate)
-            {
-                var clock = date.DateTime;
-                xml.WriteAttributeString("s", (clock.TimeOfDay == TimeSpan.Zero ? DateStyle : DateTimeStyle).ToString(CultureInfo.InvariantCulture));
-                xml.WriteElementString("v", MainNamespace, (clock - Epoch).TotalDays.ToString("R", CultureInfo.InvariantCulture));
-            }
-            else if (!heading && cell.Boolean is { } flag)
-            {
-                xml.WriteAttributeString("t", "b");
-                xml.WriteElementString("v", MainNamespace, flag ? "1" : "0");
-            }
-            else if (text.Length > 0)
-            {
-                xml.WriteAttributeString("t", "inlineStr");
-                if (!heading && ExportFormula.StartsLikeFormula(text))
-                {
-                    xml.WriteAttributeString("s", QuotedText.ToString(CultureInfo.InvariantCulture));
-                }
-
-                xml.WriteStartElement("is", MainNamespace);
-                xml.WriteStartElement("t", MainNamespace);
-                xml.WriteAttributeString("xml", "space", null, "preserve");
-                xml.WriteString(heading ? XmlText(text) : CellText(text));
-                xml.WriteEndElement();
-                xml.WriteEndElement();
-            }
-
-            xml.WriteEndElement();
+            Cell(xml, $"{ColumnName(index)}{number}", cells[index], heading);
         }
 
+        xml.WriteEndElement();
+    }
+
+    private static void Cell(XmlWriter xml, string reference, OmniTableExportCell cell, bool heading)
+    {
+        var text = TextOf(cell, heading);
+        xml.WriteStartElement("c", MainNamespace);
+        xml.WriteAttributeString("r", reference);
+        if (heading)
+        {
+            xml.WriteAttributeString("s", Heading.ToString(CultureInfo.InvariantCulture));
+        }
+
+        if (!heading && cell.Number is { } value)
+        {
+            xml.WriteElementString("v", MainNamespace, value.ToString(CultureInfo.InvariantCulture));
+        }
+        else if (!heading && cell.Date is { } date && date.DateTime >= FirstSerialDate)
+        {
+            var clock = date.DateTime;
+            xml.WriteAttributeString("s", (clock.TimeOfDay == TimeSpan.Zero ? DateStyle : DateTimeStyle).ToString(CultureInfo.InvariantCulture));
+            xml.WriteElementString("v", MainNamespace, (clock - Epoch).TotalDays.ToString("R", CultureInfo.InvariantCulture));
+        }
+        else if (!heading && cell.Boolean is { } flag)
+        {
+            xml.WriteAttributeString("t", "b");
+            xml.WriteElementString("v", MainNamespace, flag ? "1" : "0");
+        }
+        else if (text.Length > 0)
+        {
+            InlineText(xml, text, heading);
+        }
+
+        xml.WriteEndElement();
+    }
+
+    private static void InlineText(XmlWriter xml, string text, bool heading)
+    {
+        xml.WriteAttributeString("t", "inlineStr");
+        if (!heading && ExportFormula.StartsLikeFormula(text))
+        {
+            xml.WriteAttributeString("s", QuotedText.ToString(CultureInfo.InvariantCulture));
+        }
+
+        xml.WriteStartElement("is", MainNamespace);
+        xml.WriteStartElement("t", MainNamespace);
+        xml.WriteAttributeString("xml", "space", null, "preserve");
+        xml.WriteString(heading ? XmlText(text) : CellText(text));
+        xml.WriteEndElement();
         xml.WriteEndElement();
     }
 
