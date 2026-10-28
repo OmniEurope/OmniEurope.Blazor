@@ -74,6 +74,18 @@
    (OE 1.5.0 check). */
 .omni-page-header .omni-page-header__title { flex: 0 1 auto; line-height: var(--omni-page-header-line); margin: -0.25em 0; min-inline-size: 0; overflow-x: auto; overflow-y: hidden; padding-block: 0.25em; scrollbar-width: none; text-overflow: clip; white-space: nowrap; }
 .omni-page-header .omni-page-header__title::-webkit-scrollbar { display: none; }
+/* Optical middle (client application review R-83). Centring the line box of the title does not centre
+   its letters: where the baseline falls in that box depends on the ascent and descent of the font (the
+   middle of the capitals was on the row middle in one font, 1.3 px below it in Segoe UI). Trimmed to its
+   cap height and baseline, the title box holds just the capitals, so the row centres their middle; the
+   title then moves up a quarter of the gap between cap height and x-height, which puts the middle of
+   the row halfway between the two, where a lowercase title looks centred beside badges and buttons.
+   The wider padding, kept out of the layout by the equal negative margin, leaves room to the accents
+   above the capitals and to the descenders, which the scroll container would clip. Font-relative
+   units: right in any theme font. Without text-box (Firefox today) the title stays as it was. */
+@supports (text-box: trim-both cap alphabetic) {
+    .omni-page-header .omni-page-header__title { margin-block: -0.4em; padding-block: 0.4em; text-box: trim-both cap alphabetic; translate: 0 calc((1ex - 1cap) / 4); }
+}
 .omni-page-header__scroll { display: none; flex: none; }
 .omni-page-header__frame[data-title-start] .omni-page-header__scroll--start,
 .omni-page-header__frame[data-title-end] .omni-page-header__scroll--end { display: inline-flex; }
@@ -88,6 +100,13 @@
    the line: a logo taller than the line would otherwise grow it and move the baseline down. Inline,
    since an image is a block of its own (omni-image) and a block ignores vertical-align. */
 .omni-page-header__icon > * { display: inline-block; inset-block-start: calc(0.5ex - 0.5cap); margin-block: calc(-1 * var(--omni-page-header-line)); position: relative; vertical-align: middle; }
+/* With the trimmed title (R-83 above) the middle of the row is the optical middle of the title: the
+   icon is centred on the row as a flex item, like the badges and buttons, instead of on the middle of
+   the capitals of its own line box, which sat 1 to 2 px lower. */
+@supports (text-box: trim-both cap alphabetic) {
+    .omni-page-header .omni-page-header__icon { align-items: center; display: flex; }
+    .omni-page-header__icon > * { inset-block-start: 0; margin-block: 0; }
+}
 .omni-page-header__title-loading { flex: 0 1 16rem; }
 .omni-page-header__title-loading .omni-skeleton__item { min-height: calc(var(--omni-control-height) - 0.75rem); }
 .omni-page-header__row .omni-badge,

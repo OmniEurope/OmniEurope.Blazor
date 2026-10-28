@@ -207,6 +207,30 @@ const unfolded = await headerState();
 check(unfolded.toggle === 'none' && unfolded.details !== 'none', `En-tête resté replié après le retour du titre court : ${JSON.stringify(unfolded)}.`);
 results.push('en-tête replié par un titre long, ouvert par « Voir plus », déplié au retour du titre court');
 
+// 2b. Optical middle of the title (client application review R-83): the ink of the title, halfway
+// between its cap height and its x-height above the baseline, sits on the middle of the icon, badges and
+// buttons of its row, within a pixel. Measured on the ink, not on the boxes: a zero-height mark in the
+// title gives the baseline, and two empty boxes of 1cap and 1ex in the title font give their heights.
+const ink = await evaluate(`(() => {
+  const title = document.querySelector(${JSON.stringify(`${frame} .omni-page-header__title`)});
+  const probe = (css) => { const mark = document.createElement('span'); mark.style.cssText = css; title.append(mark); const box = mark.getBoundingClientRect(); mark.remove(); return box; };
+  const baseline = probe('display:inline-block;block-size:0;inline-size:0;vertical-align:baseline').bottom;
+  const cap = probe('display:inline-block;block-size:1cap;inline-size:0').height;
+  const ex = probe('display:inline-block;block-size:1ex;inline-size:0').height;
+  const optical = baseline - (cap + ex) / 4;
+  const row = title.closest('.omni-page-header__row');
+  const centres = [...row.querySelectorAll('.omni-badge, .omni-button, .omni-page-header__icon > *')]
+    .filter(element => element.getClientRects().length > 0)
+    .map(element => { const box = element.getBoundingClientRect(); return { name: element.textContent.trim().slice(0, 20), centre: box.top + box.height / 2 }; });
+  return { optical, cap, ex, centres };
+})()`);
+check(ink.cap > ink.ex && ink.ex > 0, `Hauteurs de capitale et d'x illisibles dans le titre : ${JSON.stringify(ink)}.`);
+check(ink.centres.length >= 2, `Moins de deux badges, boutons ou icône à côté du titre : le test ne prouverait rien (${JSON.stringify(ink)}).`);
+for (const item of ink.centres) {
+  check(Math.abs(item.centre - ink.optical) <= 1, `« ${item.name} » centré à ${item.centre.toFixed(2)} px, milieu optique du titre à ${ink.optical.toFixed(2)} px (écart > 1 px).`);
+}
+results.push(`titre d'en-tête au milieu optique de son icône, ses badges et boutons (${ink.centres.length}), à 1 px près`);
+
 // 3. Visual face of the HTML editor: text typed in the surface and a toolbar command reach .NET, read
 // back in the source editor bound to the same value.
 const surface = '#editor-body';
