@@ -20,8 +20,9 @@ public static class ShowcaseApiConfiguration
     public static readonly TimeSpan LocalSettingsTimeout = TimeSpan.FromSeconds(3);
 
     /// <summary>
-    /// STD-BOOTFETCH: adds the local override when the site serves one. It is absent from every deployment,
-    /// so a 404, no network or a slow answer is the normal path and the start-up goes on without it.
+    /// STD-BOOTFETCH: adds the local override when the site serves one. Called in development only (a
+    /// deployment never has the file); there too a 404, no network or a slow answer lets the start-up go
+    /// on without it.
     /// </summary>
     /// <param name="configuration">The configuration of the WebAssembly host builder.</param>
     /// <param name="siteBaseAddress">The address the site is served from.</param>

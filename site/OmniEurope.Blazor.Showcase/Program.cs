@@ -8,7 +8,12 @@ using OmniEurope.Blazor.Showcase.Theming;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.Services.AddOmniEuropeBlazor();
-await ShowcaseApiConfiguration.AddLocalOverrideAsync(builder.Configuration, new Uri(builder.HostEnvironment.BaseAddress));
+// The local launcher writes its override only beside the development server: a deployment, which never has
+// the file, does not ask for it and logs no 404 on every start.
+if (builder.HostEnvironment.IsDevelopment())
+{
+    await ShowcaseApiConfiguration.AddLocalOverrideAsync(builder.Configuration, new Uri(builder.HostEnvironment.BaseAddress));
+}
 
 // DEMONSTRATION ONLY, opt-in: with ?store=demo in the address the preferences also go to a stand-in
 // database kept in the tab's sessionStorage (Preferences/DemoPreferenceStore.cs), so a probe of the static

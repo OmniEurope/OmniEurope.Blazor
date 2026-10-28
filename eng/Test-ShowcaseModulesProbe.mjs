@@ -254,6 +254,10 @@ for (let index = 0; index < marker.length; index++) {
   await key('ArrowLeft', 'ArrowLeft', 37, 8);
 }
 const boldButton = `document.querySelector(${JSON.stringify(surface)}).closest('.omni-html-editor').querySelector('[role="toolbar"] button[data-command="bold"]')`;
+// Typing at the end of the text scrolls the page: the toolbar left the viewport (56 px above it) and the
+// click fell on nothing. Scrolling keeps the selection.
+await evaluate(`${boldButton}.scrollIntoView({ block: 'center' })`);
+await pause(300);
 await click(await evaluate(`(() => { const box = ${boldButton}.getBoundingClientRect(); return { x: box.left + box.width / 2, y: box.top + box.height / 2 }; })()`));
 await waitFor('le gras dans la source', `${boldMarker}.test(document.querySelector(${JSON.stringify(source)}).value)`);
 await waitFor('l\'état enfoncé du bouton Gras', `${boldButton}.getAttribute('aria-pressed') === 'true'`);
@@ -327,13 +331,13 @@ await pause(300);
 const spaced = await windowLabels();
 check(spaced.tight.length === 0, `Libellés à l'étroit dans leur bouton sous Octet : ${JSON.stringify(spaced.tight)}.`);
 const textSize = await evaluate('document.documentElement.dataset.oeTextSize ?? ""');
-await evaluate(`document.querySelector(${JSON.stringify(`${appearanceWindow} button[aria-label="Augmenter la taille du texte"]`)}).click()`);
+await evaluate(`document.querySelector(${JSON.stringify(`${appearanceWindow} button[aria-label="Augmenter la taille du texte"], ${appearanceWindow} button[aria-label="Increase the text size"]`)}).click()`);
 await waitFor('le changement de taille du texte', `(document.documentElement.dataset.oeTextSize ?? "") !== ${JSON.stringify(textSize)}`);
 await pause(300);
 const scaled = await windowLabels();
 check(scaled.width === spaced.width && scaled.height === spaced.height, `La fenêtre gelée a suivi la taille du texte : ${spaced.width} x ${spaced.height} puis ${scaled.width} x ${scaled.height}.`);
 results.push(`libellés à leur place après un changement de thème (${spaced.spacing}), fenêtre inchangée quand la taille du texte change`);
-await evaluate(`document.querySelector(${JSON.stringify(`${appearanceWindow} button[aria-label="Réduire la taille du texte"]`)}).click()`);
+await evaluate(`document.querySelector(${JSON.stringify(`${appearanceWindow} button[aria-label="Réduire la taille du texte"], ${appearanceWindow} button[aria-label="Decrease the text size"]`)}).click()`);
 await pickTheme('Essentiel');
 await pause(300);
 
