@@ -95,4 +95,119 @@
   <data name="RadioButtonsPreviewTitle" xml:space="preserve"><value>Built from options</value></data>
   <data name="RadioButtonsRatingTitle" xml:space="preserve"><value>Rating</value></data>
   <data name="RadioButtonsGalleryTitle" xml:space="preserve"><value>Gallery</value></data>
+  <data name="ColorsDescription" xml:space="preserve"><value>A native colour picker that only accepts #RRGGBB and never produces an inline style.</value></data>
+  <data name="ColorsDisabled" xml:space="preserve"><value>Disable the picker</value></data>
+  <data name="ColorsDisabledDescription" xml:space="preserve"><value>The picker is greyed out and cannot be opened.</value></data>
+  <data name="ColorsGalleryTitle" xml:space="preserve"><value>Gallery</value></data>
+  <data name="ColorsPresetAccent" xml:space="preserve"><value>Accent</value></data>
+  <data name="ColorsPresetDanger" xml:space="preserve"><value>Danger</value></data>
+  <data name="ColorsPresetInk" xml:space="preserve"><value>Ink</value></data>
+  <data name="ColorsPresets" xml:space="preserve"><value>Presets</value></data>
+  <data name="ColorsPresetsDescription" xml:space="preserve"><value>Sets the bound value from the page, as a program would.</value></data>
+  <data name="ColorsPresetSuccess" xml:space="preserve"><value>Success</value></data>
+  <data name="ColorsPresetWarning" xml:space="preserve"><value>Warning</value></data>
+  <data name="ColorsPreviewTitle" xml:space="preserve"><value>Live preview</value></data>
+  <data name="ColorsSettingsDescription" xml:space="preserve"><value>The settings apply to the preview picker.</value></data>
+  <data name="ColorsSettingsTitle" xml:space="preserve"><value>Colour settings</value></data>
+  <data name="ColorsShowValue" xml:space="preserve"><value>Show the value</value></data>
+  <data name="ColorsShowValueDescription" xml:space="preserve"><value>Writes the hexadecimal code next to the swatch.</value></data>
+  <data name="ColorsTitle" xml:space="preserve"><value>Colors</value></data>
+  <data name="DatesDescription" xml:space="preserve"><value>The native date and date-time pickers, bound to DateOnly and DateTime, with bounds and optional seconds.</value></data>
+  <data name="DatesDialogTitle" xml:space="preserve"><value>In a dialog</value></data>
+  <data name="DatesDisabled" xml:space="preserve"><value>Disable the pickers</value></data>
+  <data name="DatesDisabledDescription" xml:space="preserve"><value>Both pickers are greyed out.</value></data>
+  <data name="DatesFormTitle" xml:space="preserve"><value>In a form</value></data>
+  <data name="DatesGalleryTitle" xml:space="preserve"><value>Gallery</value></data>
+  <data name="DatesMaximum" xml:space="preserve"><value>Maximum date</value></data>
+  <data name="DatesMaximumDescription" xml:space="preserve"><value>Later dates are refused. Empty the field to remove the bound.</value></data>
+  <data name="DatesMinimum" xml:space="preserve"><value>Minimum date</value></data>
+  <data name="DatesMinimumDescription" xml:space="preserve"><value>Earlier dates are refused. Empty the field to remove the bound.</value></data>
+  <data name="DatesPreviewTitle" xml:space="preserve"><value>Live preview</value></data>
+  <data name="DatesReadOnly" xml:space="preserve"><value>Read only</value></data>
+  <data name="DatesReadOnlyDescription" xml:space="preserve"><value>The value is shown and can be copied but not changed.</value></data>
+  <data name="DatesSettingsDescription" xml:space="preserve"><value>The bounds apply to both pickers of the preview; the date-time picker takes the whole last day.</value></data>
+  <data name="DatesSettingsTitle" xml:space="preserve"><value>Date settings</value></data>
+  <data name="DatesShowSeconds" xml:space="preserve"><value>Show seconds</value></data>
+  <data name="DatesShowSecondsDescription" xml:space="preserve"><value>Date-time picker only: the time is entered to the second.</value></data>
+  <data name="DatesTimeTitle" xml:space="preserve"><value>Time of day</value></data>
+  <data name="DatesTitle" xml:space="preserve"><value>Dates</value></data>
+  <data name="SelectableCardsDescription" xml:space="preserve"><value>Selectable cards: a choice that deserves more than a radio button, with an icon, a title and a line of explanation.</value></data>
+  <data name="SelectableCardsDescriptions" xml:space="preserve"><value>Descriptions</value></data>
+  <data name="SelectableCardsDescriptionsDescription" xml:space="preserve"><value>The muted line under the title of each card.</value></data>
+  <data name="SelectableCardsDisabled" xml:space="preserve"><value>Disabled</value></data>
+  <data name="SelectableCardsDisabledDescription" xml:space="preserve"><value>Every card of the group keeps its state and ignores clicks.</value></data>
+  <data name="SelectableCardsGalleryHint" xml:space="preserve"><value>Outside a group, a card binds a boolean; a disabled card keeps its state.</value></data>
+  <data name="SelectableCardsGalleryTitle" xml:space="preserve"><value>Cards on their own</value></data>
+  <data name="SelectableCardsLayoutHint" xml:space="preserve"><value>Multiple-choice cards draw a check box, can be laid out in columns or drop the check box; the three groups share one list.</value></data>
+  <data name="SelectableCardsLayoutTitle" xml:space="preserve"><value>Check box and columns</value></data>
+  <data name="SelectableCardsMultiple" xml:space="preserve"><value>Multiple choice</value></data>
+  <data name="SelectableCardsMultipleDescription" xml:space="preserve"><value>The cards become check boxes and the group binds a list of values.</value></data>
+  <data name="SelectableCardsOptionsHint" xml:space="preserve"><value>The group draws one card per option: its text as the title, a disabled option as a disabled card.</value></data>
+  <data name="SelectableCardsOptionsTitle" xml:space="preserve"><value>Cards drawn from options</value></data>
+  <data name="SelectableCardsPreviewTitle" xml:space="preserve"><value>Card group</value></data>
+  <data name="SelectableCardsSettingsDescription" xml:space="preserve"><value>The card group of the preview.</value></data>
+  <data name="SelectableCardsSettingsTitle" xml:space="preserve"><value>Card settings</value></data>
+  <data name="SelectableCardsTitle" xml:space="preserve"><value>Selectable cards</value></data>
+  <data name="SelectBarDescription" xml:space="preserve"><value>A row of joined buttons for a short, exclusive choice, built from options.</value></data>
+  <data name="SelectBarDisabled" xml:space="preserve"><value>Disable the bars</value></data>
+  <data name="SelectBarDisabledDescription" xml:space="preserve"><value>Every button is greyed out.</value></data>
+  <data name="SelectBarDisableOption" xml:space="preserve"><value>Disabled option</value></data>
+  <data name="SelectBarDisableOptionDescription" xml:space="preserve"><value>The quarter and the map view stay visible but cannot be chosen.</value></data>
+  <data name="SelectBarGalleryTitle" xml:space="preserve"><value>Gallery</value></data>
+  <data name="SelectBarItemsHint" xml:space="preserve"><value>IconFor places an icon beside the text of each option.</value></data>
+  <data name="SelectBarItemsTitle" xml:space="preserve"><value>Options with icons</value></data>
+  <data name="SelectBarOptionCount" xml:space="preserve"><value>Number of options</value></data>
+  <data name="SelectBarOptionCountDescription" xml:space="preserve"><value>How many periods the bar offers; a value that leaves the bar falls back to the first.</value></data>
+  <data name="SelectBarPreviewTitle" xml:space="preserve"><value>Built from options</value></data>
+  <data name="SelectBarSettingsDescription" xml:space="preserve"><value>The settings apply to the preview bars.</value></data>
+  <data name="SelectBarSettingsTitle" xml:space="preserve"><value>Select bar settings</value></data>
+  <data name="SelectBarTitle" xml:space="preserve"><value>Select bar</value></data>
+  <data name="SliderDescription" xml:space="preserve"><value>A range slider bound to a double: bounds, step, orientation and a formatter for the displayed value.</value></data>
+  <data name="SliderDisabled" xml:space="preserve"><value>Disable the slider</value></data>
+  <data name="SliderDisabledDescription" xml:space="preserve"><value>The slider is greyed out and cannot be moved.</value></data>
+  <data name="SliderFormat" xml:space="preserve"><value>Displayed value</value></data>
+  <data name="SliderFormatDescription" xml:space="preserve"><value>FormatValue turns the number into text, for the label and screen readers.</value></data>
+  <data name="SliderFormatEuro" xml:space="preserve"><value>Euros</value></data>
+  <data name="SliderFormatKilometres" xml:space="preserve"><value>Kilometres</value></data>
+  <data name="SliderFormatPercent" xml:space="preserve"><value>Share</value></data>
+  <data name="SliderFormatRaw" xml:space="preserve"><value>Raw</value></data>
+  <data name="SliderGalleryTitle" xml:space="preserve"><value>Gallery</value></data>
+  <data name="SliderMaximum" xml:space="preserve"><value>Maximum</value></data>
+  <data name="SliderMaximumDescription" xml:space="preserve"><value>Highest value of the preview slider.</value></data>
+  <data name="SliderMinimum" xml:space="preserve"><value>Minimum</value></data>
+  <data name="SliderMinimumDescription" xml:space="preserve"><value>Lowest value of the preview slider.</value></data>
+  <data name="SliderPreviewTitle" xml:space="preserve"><value>Live preview</value></data>
+  <data name="SliderSelectableHint" xml:space="preserve"><value>The track keeps its full length but refuses the positions below the selectable minimum.</value></data>
+  <data name="SliderSelectableTitle" xml:space="preserve"><value>Selectable minimum</value></data>
+  <data name="SliderSettingsDescription" xml:space="preserve"><value>Moving a bound brings the value back inside it before the next render.</value></data>
+  <data name="SliderSettingsTitle" xml:space="preserve"><value>Slider settings</value></data>
+  <data name="SliderShowValue" xml:space="preserve"><value>Show the value</value></data>
+  <data name="SliderShowValueDescription" xml:space="preserve"><value>Writes the formatted value next to the slider.</value></data>
+  <data name="SliderStep" xml:space="preserve"><value>Step</value></data>
+  <data name="SliderStepDescription" xml:space="preserve"><value>Gap between two positions.</value></data>
+  <data name="SliderTitle" xml:space="preserve"><value>Slider</value></data>
+  <data name="SliderVertical" xml:space="preserve"><value>Vertical</value></data>
+  <data name="SliderVerticalDescription" xml:space="preserve"><value>Turns the slider upright.</value></data>
+  <data name="UploadAccept" xml:space="preserve"><value>Accepted types</value></data>
+  <data name="UploadAcceptAny" xml:space="preserve"><value>Any</value></data>
+  <data name="UploadAcceptDescription" xml:space="preserve"><value>Filters the file dialog and refuses the other types.</value></data>
+  <data name="UploadAcceptDocuments" xml:space="preserve"><value>PDF</value></data>
+  <data name="UploadAcceptImages" xml:space="preserve"><value>Images</value></data>
+  <data name="UploadAcceptText" xml:space="preserve"><value>Text and CSV</value></data>
+  <data name="UploadDescription" xml:space="preserve"><value>A drop zone that checks the count, size and type of files, as a single-file field and as a several-file field whose list grows and shrinks one line at a time. This page sends nothing: it only reads what the browser says about the chosen files.</value></data>
+  <data name="UploadDisabled" xml:space="preserve"><value>Disable the field</value></data>
+  <data name="UploadDisabledDescription" xml:space="preserve"><value>The file field is greyed out.</value></data>
+  <data name="UploadFormTitle" xml:space="preserve"><value>In a form</value></data>
+  <data name="UploadMaximumFiles" xml:space="preserve"><value>Maximum files</value></data>
+  <data name="UploadMaximumFilesDescription" xml:space="preserve"><value>Several-file field: the whole list, files already attached included, never goes beyond this.</value></data>
+  <data name="UploadMaximumSize" xml:space="preserve"><value>Maximum size</value></data>
+  <data name="UploadMaximumSizeDescription" xml:space="preserve"><value>Per file: a larger file makes the whole selection refused.</value></data>
+  <data name="UploadPreviewTitle" xml:space="preserve"><value>File picker</value></data>
+  <data name="UploadSettingsDescription" xml:space="preserve"><value>The settings apply to both fields. The checks run in the browser, on metadata supplied by the client: they never replace a server check.</value></data>
+  <data name="UploadSettingsTitle" xml:space="preserve"><value>Upload settings</value></data>
+  <data name="UploadSizeKilobytes" xml:space="preserve"><value>{0} KB</value></data>
+  <data name="UploadSizeMegabytes" xml:space="preserve"><value>{0} MB</value></data>
+  <data name="UploadTitle" xml:space="preserve"><value>Upload</value></data>
+  <data name="AutocompleteFreeTextTitle" xml:space="preserve"><value>Free text</value></data>
+  <data name="RadioButtonsErrorTitle" xml:space="preserve"><value>With an error</value></data>
 </root>

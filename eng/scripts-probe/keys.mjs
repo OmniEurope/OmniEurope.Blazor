@@ -29,8 +29,8 @@ export async function keySteps(session, results) {
   step('arborescence : Entrée puis Espace basculent une seule fois');
 
   // 2. Select bar: one tab stop; the arrows pick the next and the previous option, End the last, Home the first.
-  await session.visit('/components/legacy/choix', '.omni-select-bar');
-  const bar = "document.querySelector('.omni-select-bar[data-omni-roving]')";
+  await session.visit('/components/select-bar', '#selectbar-period');
+  const bar = "document.querySelector('#selectbar-period[data-omni-roving]')";
   const radios = `[...${bar}.querySelectorAll('[role=radio]:not([disabled])')]`;
   check(await evaluate(`${bar}.querySelectorAll('[role=radio][tabindex="0"]').length === 1`), 'La barre de choix n\'a pas un seul arrêt de tabulation.');
   await evaluate(`${bar}.querySelector('[role=radio][tabindex="0"]').focus()`);

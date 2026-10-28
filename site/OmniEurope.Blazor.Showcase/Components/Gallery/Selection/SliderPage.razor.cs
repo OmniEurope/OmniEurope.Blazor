@@ -1,4 +1,5 @@
 using System.Globalization;
+using OmniEurope.Blazor.Showcase.Examples.Selection;
 using OmniEurope.Blazor.Showcase.Resources.Gallery;
 
 namespace OmniEurope.Blazor.Showcase.Components.Gallery.Selection;
