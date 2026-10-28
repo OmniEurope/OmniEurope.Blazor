@@ -4,4 +4,64 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="TreeTitle" xml:space="preserve"><value>Arbre</value></data>
+  <data name="TreeDescription" xml:space="preserve"><value>Un arbre d'éléments sélectionnables, écrit à la main ou généré à partir de données, avec un contenu d'élément personnalisé, des niveaux chargés à la demande et des éléments déplacés à la souris.</value></data>
+  <data name="TreeSettingsTitle" xml:space="preserve"><value>Réglages des arbres</value></data>
+  <data name="TreeSettingsDescription" xml:space="preserve"><value>Les réglages s'appliquent aux arbres de la page.</value></data>
+  <data name="TreeMultiple" xml:space="preserve"><value>Sélection multiple</value></data>
+  <data name="TreeMultipleDescription" xml:space="preserve"><value>Coupée, choisir un élément libère le précédent.</value></data>
+  <data name="TreeStartExpanded" xml:space="preserve"><value>Arbre écrit à la main ouvert</value></data>
+  <data name="TreeStartExpandedDescription" xml:space="preserve"><value>Pilote le paramètre Expanded de ses branches.</value></data>
+  <data name="TreeDisableItems" xml:space="preserve"><value>Éléments désactivés</value></data>
+  <data name="TreeDisableItemsDescription" xml:space="preserve"><value>Les archives, les certificats, le Luxembourg et les villes marquées fermées ne se sélectionnent plus.</value></data>
+  <data name="TreeLatency" xml:space="preserve"><value>Durée de chargement de la branche</value></data>
+  <data name="TreeLatencyDescription" xml:space="preserve"><value>Temps que prend la branche chargée à l'ouverture.</value></data>
+  <data name="TreeMilliseconds" xml:space="preserve"><value>{0} ms</value></data>
+  <data name="TreeFailure" xml:space="preserve"><value>Simuler une panne</value></data>
+  <data name="TreeFailureDescription" xml:space="preserve"><value>La branche échoue à se charger ; la refermer puis la rouvrir retente.</value></data>
+  <data name="TreeStaticTitle" xml:space="preserve"><value>Éléments écrits à la main</value></data>
+  <data name="TreeStaticHint" xml:space="preserve"><value>Chaque OmniTreeItem est posé dans le balisage ; ses enfants se placent directement à l'intérieur.</value></data>
+  <data name="TreeDataTitle" xml:space="preserve"><value>Niveaux générés à partir de données</value></data>
+  <data name="TreeDataHint" xml:space="preserve"><value>Régions, pays et villes viennent d'une seule liste ; la dernière branche se charge à son ouverture.</value></data>
+  <data name="TreeCustomTitle" xml:space="preserve"><value>Éléments à contenu personnalisé</value></data>
+  <data name="TreeCustomHint" xml:space="preserve"><value>TextContent place une icône et une remarque à côté du nom ; le Luxembourg est désactivé mais garde sa place dans le parcours.</value></data>
+  <data name="TreeMoveTitle" xml:space="preserve"><value>Déplacement et grille arborescente</value></data>
+  <data name="TreeMoveHint" xml:space="preserve"><value>Ces dossiers fictifs se déplacent dans cet aperçu seulement. Glissez un document vers un dossier ; la grille reprend la nouvelle arborescence.</value></data>
+  <data name="TreeAccountsTitle" xml:space="preserve"><value>Plan de comptes</value></data>
+  <data name="TreeAccountsHint" xml:space="preserve"><value>Glissez un compte sur un autre pour l'y ranger : il devient son enfant, et la branche d'arrivée s'ouvre.</value></data>
+  <data name="SpreadsheetTitle" xml:space="preserve"><value>Tableur</value></data>
+  <data name="SpreadsheetDescription" xml:space="preserve"><value>Un tableur simple : cellules nommées par lettres et chiffres, formules, navigation au clavier, barre de formule et un modèle lié dans les deux sens, sérialisable en JSON.</value></data>
+  <data name="SpreadsheetSheetTitle" xml:space="preserve"><value>Feuille</value></data>
+  <data name="SpreadsheetSheetDescription" xml:space="preserve"><value>Ce que la feuille montre et laisse modifier.</value></data>
+  <data name="SpreadsheetReadOnly" xml:space="preserve"><value>Lecture seule</value></data>
+  <data name="SpreadsheetReadOnlyDescription" xml:space="preserve"><value>Les cellules se sélectionnent et se lisent, sans jamais changer.</value></data>
+  <data name="SpreadsheetFormulaBar" xml:space="preserve"><value>Barre de formule</value></data>
+  <data name="SpreadsheetFormulaBarDescription" xml:space="preserve"><value>L'adresse active et ce qui a été saisi dans la cellule, modifiable là aussi.</value></data>
+  <data name="SpreadsheetGridLines" xml:space="preserve"><value>Quadrillage</value></data>
+  <data name="SpreadsheetGridLinesDescription" xml:space="preserve"><value>Les filets entre les cellules.</value></data>
+  <data name="SpreadsheetAddRows" xml:space="preserve"><value>Ajout de lignes</value></data>
+  <data name="SpreadsheetAddRowsDescription" xml:space="preserve"><value>Un bouton au-dessus de la feuille ajoute une ligne en bas.</value></data>
+  <data name="SpreadsheetAddColumns" xml:space="preserve"><value>Ajout de colonnes</value></data>
+  <data name="SpreadsheetAddColumnsDescription" xml:space="preserve"><value>Un bouton au-dessus de la feuille ajoute une colonne à droite.</value></data>
+  <data name="SpreadsheetColumnWidth" xml:space="preserve"><value>Largeur des colonnes</value></data>
+  <data name="SpreadsheetColumnWidthDescription" xml:space="preserve"><value>Posée par la page sur sa propre classe, par une variable du paquet.</value></data>
+  <data name="SpreadsheetWidthNarrow" xml:space="preserve"><value>Étroites</value></data>
+  <data name="SpreadsheetWidthNormal" xml:space="preserve"><value>Normales</value></data>
+  <data name="SpreadsheetWidthWide" xml:space="preserve"><value>Larges</value></data>
+  <data name="SpreadsheetDataTitle" xml:space="preserve"><value>Contenu</value></data>
+  <data name="SpreadsheetDataDescription" xml:space="preserve"><value>La feuille est un modèle sérialisable, lié dans les deux sens.</value></data>
+  <data name="SpreadsheetReset" xml:space="preserve"><value>Recommencer</value></data>
+  <data name="SpreadsheetResetDescription" xml:space="preserve"><value>Remet le budget d'exemple.</value></data>
+  <data name="SpreadsheetResetAction" xml:space="preserve"><value>Rétablir</value></data>
+  <data name="SpreadsheetJson" xml:space="preserve"><value>JSON</value></data>
+  <data name="SpreadsheetJsonDescription" xml:space="preserve"><value>Montre le modèle tel qu'il serait enregistré : les saisies seules, formules comprises.</value></data>
+  <data name="SpreadsheetMirror" xml:space="preserve"><value>Copie en lecture seule</value></data>
+  <data name="SpreadsheetMirrorDescription" xml:space="preserve"><value>Une seconde feuille lit le même modèle : une saisie dans la première s'y voit aussitôt.</value></data>
+  <data name="SpreadsheetPreviewTitle" xml:space="preserve"><value>Budget du trimestre</value></data>
+  <data name="SpreadsheetHowTo" xml:space="preserve"><value>Les flèches déplacent, taper remplace la cellule, Entrée ou F2 la modifie, Entrée valide, Échap annule, Suppr vide. Essayez =SUM(B2:D2), =MOYENNE(B2:B6), =B8/0 ou =Z99.</value></data>
+  <data name="CollectionsTitle" xml:space="preserve"><value>Collections</value></data>
+  <data name="CollectionsDescription" xml:space="preserve"><value>Cartes déplaçables sur un tableau et lignes de journal filtrables.</value></data>
+  <data name="CollectionsSettingsTitle" xml:space="preserve"><value>Réglages du journal</value></data>
+  <data name="CollectionsSearch" xml:space="preserve"><value>Recherche</value></data>
+  <data name="CollectionsWrap" xml:space="preserve"><value>Retour à la ligne</value></data>
 </root>

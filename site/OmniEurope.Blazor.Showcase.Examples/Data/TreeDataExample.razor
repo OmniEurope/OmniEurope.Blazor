@@ -1,0 +1,64 @@
+@* A tree generated from data: regions, countries and cities come from one list, the open branches are kept
+   by the host (Expanded and ExpandedChanged), and the last branch is loaded when it is opened
+   (LoadChildren): the tree waits on the task before drawing the level, and a failure leaves the branch
+   empty so that opening it again retries (OnLoadError). The two buttons call ExpandAllAsync and
+   CollapseAllAsync on the tree. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniRow Gap="OmniSpacing.Small">
+        <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="ExpandAll">
+            <OmniIcon Name="OmniIconName.ChevronDown" />
+            <span>Expand all</span>
+        </OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="CollapseAll">
+            <OmniIcon Name="OmniIconName.ChevronUp" />
+            <span>Collapse all</span>
+        </OmniButton>
+    </OmniRow>
+    <OmniTree TValue="string"
+              Id="tree-data"
+              Label="Destinations"
+              Multiple="Multiple"
+              @bind-Value="Selection">
+        @foreach (var region in Regions)
+        {
+            <OmniTreeItem TValue="string"
+                          @key="region.Id"
+                          Value="@region.Id"
+                          Text="@region.Name"
+                          Expanded="@IsExpanded(region.Id)"
+                          ExpandedChanged="@(value => SetExpanded(region.Id, value))">
+                @foreach (var country in region.Countries)
+                {
+                    <OmniTreeItem TValue="string"
+                                  @key="country.Id"
+                                  Value="@country.Id"
+                                  Text="@country.Name"
+                                  Expanded="@IsExpanded(country.Id)"
+                                  ExpandedChanged="@(value => SetExpanded(country.Id, value))">
+                        @foreach (var city in country.Cities)
+                        {
+                            <OmniTreeItem TValue="string"
+                                          @key="city.Id"
+                                          Value="@city.Id"
+                                          Text="@city.Name"
+                                          Disabled="@(DisableItems && city.Closed)" />
+                        }
+                    </OmniTreeItem>
+                }
+            </OmniTreeItem>
+        }
+        <OmniTreeItem TValue="string"
+                      Value="@("more")"
+                      Text="Nordic destinations, loaded on opening"
+                      LoadChildren="LoadMoreAsync"
+                      OnLoadError="OnLoadFailed">
+            @foreach (var city in LazyCities)
+            {
+                <OmniTreeItem TValue="string" @key="city.Id" Value="@city.Id" Text="@city.Name" />
+            }
+        </OmniTreeItem>
+    </OmniTree>
+    <OmniText Tone="OmniTextTone.Muted">Bound values: <code>@Join(Selection)</code></OmniText>
+    <OmniText Tone="OmniTextTone.Muted">Selected: <strong>@SelectionText</strong></OmniText>
+    <OmniText Tone="OmniTextTone.Muted">@ActivityEcho</OmniText>
+</OmniStack>

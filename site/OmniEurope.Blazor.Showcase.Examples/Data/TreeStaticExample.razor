@@ -1,0 +1,26 @@
+@* A tree written by hand: each OmniTreeItem is placed in the markup and its children sit directly inside
+   it. Multiple keeps several selected items, StartExpanded opens the branches at the start and Disabled
+   keeps an item visible but out of reach. The selection is bound both ways. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniTree TValue="string"
+              Id="tree-static"
+              Label="Documents"
+              Multiple="Multiple"
+              @bind-Value="Selection">
+        <OmniTreeItem TValue="string" Value="@("documents")" Text="Documents" Expanded="StartExpanded">
+            <OmniTreeItem TValue="string" Value="@("invoices")" Text="Invoices" Expanded="StartExpanded">
+                <OmniTreeItem TValue="string" Value="@("invoices-2025")" Text="2025" />
+                <OmniTreeItem TValue="string" Value="@("invoices-2026")" Text="2026" />
+            </OmniTreeItem>
+            <OmniTreeItem TValue="string" Value="@("contracts")" Text="Contracts" />
+            <OmniTreeItem TValue="string" Value="@("certificates")" Text="Certificates" Disabled="DisableItems" />
+        </OmniTreeItem>
+        <OmniTreeItem TValue="string" Value="@("photos")" Text="Photos" Expanded="StartExpanded">
+            <OmniTreeItem TValue="string" Value="@("holidays")" Text="Holidays" />
+            <OmniTreeItem TValue="string" Value="@("family")" Text="Family" />
+        </OmniTreeItem>
+        <OmniTreeItem TValue="string" Value="@("archives")" Text="Archives" Disabled="DisableItems" />
+    </OmniTree>
+    <OmniText Tone="OmniTextTone.Muted">Bound values: <code>@Join(Selection)</code></OmniText>
+    <OmniText Tone="OmniTextTone.Muted">Selected: <strong>@SelectionText</strong></OmniText>
+</OmniStack>

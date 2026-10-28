@@ -1,0 +1,94 @@
+@page "/components/spreadsheet"
+@using OmniEurope.Blazor.Showcase.Examples.Data
+
+<GalleryPageFrame Slug="spreadsheet">
+    <Settings>
+        <OmniSettingsSection Title="@Text["SpreadsheetSheetTitle"]" Description="@Text["SpreadsheetSheetDescription"]">
+            <OmniSettingsTile Title="@Text["SpreadsheetReadOnly"]" Description="@Text["SpreadsheetReadOnlyDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ReadOnly" aria-label="@Text["SpreadsheetReadOnly"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SpreadsheetFormulaBar"]" Description="@Text["SpreadsheetFormulaBarDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Function" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowFormulaBar" aria-label="@Text["SpreadsheetFormulaBar"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SpreadsheetGridLines"]" Description="@Text["SpreadsheetGridLinesDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Pattern" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowGridLines" aria-label="@Text["SpreadsheetGridLines"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SpreadsheetAddRows"]" Description="@Text["SpreadsheetAddRowsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="AllowAddRows" Disabled="@ReadOnly" aria-label="@Text["SpreadsheetAddRows"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SpreadsheetAddColumns"]" Description="@Text["SpreadsheetAddColumnsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Layers" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="AllowAddColumns" Disabled="@ReadOnly" aria-label="@Text["SpreadsheetAddColumns"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SpreadsheetColumnWidth"]" Description="@Text["SpreadsheetColumnWidthDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="SheetWidth" Options="@WidthOptions" @bind-Value="Width" Label="@Text["SpreadsheetColumnWidth"]" />
+                </Details>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+
+        <OmniSettingsSection Title="@Text["SpreadsheetDataTitle"]" Description="@Text["SpreadsheetDataDescription"]">
+            <OmniSettingsTile Title="@Text["SpreadsheetReset"]" Description="@Text["SpreadsheetResetDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Reset" /></Icon>
+                <ChildContent>
+                    <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="ResetSheet">
+                        <OmniIcon Name="OmniIconName.Reset" />
+                        <span>@Text["SpreadsheetResetAction"]</span>
+                    </OmniButton>
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SpreadsheetJson"]" Description="@Text["SpreadsheetJsonDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.BracketsCurly" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowJson" aria-label="@Text["SpreadsheetJson"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SpreadsheetMirror"]" Description="@Text["SpreadsheetMirrorDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Copy" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowMirror" aria-label="@Text["SpreadsheetMirror"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["SpreadsheetPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted" Class="gallery-sheet-hint">@Text["SpreadsheetHowTo"]</OmniText>
+                <div class="@StageClass">
+                    <SpreadsheetExample @ref="Sheet"
+                                        ReadOnly="ReadOnly"
+                                        ShowFormulaBar="ShowFormulaBar"
+                                        ShowGridLines="ShowGridLines"
+                                        AllowAddRows="AllowAddRows"
+                                        AllowAddColumns="AllowAddColumns"
+                                        ShowJson="ShowJson"
+                                        ShowMirror="ShowMirror" />
+                </div>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

@@ -1,0 +1,50 @@
+@* Documents moved between folders with the pointer (AllowDragDrop): CanDrag keeps the folders in place,
+   CanDrop accepts a folder as the only target, and OnItemDropped reports the pair so that the host moves
+   the document in its own data. The same data feeds a data grid shown as a tree (ChildrenOf, KeyOf,
+   TreeColumnKey), so it follows every move. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniRow Gap="OmniSpacing.Small">
+        <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="ExpandAsync">Expand all</OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="CollapseAsync">Collapse all</OmniButton>
+    </OmniRow>
+    <OmniTree TValue="string"
+              @ref="Tree"
+              Id="tree-move"
+              Label="Moving documents"
+              AllowDragDrop="true"
+              CanDrag="CanDrag"
+              CanDrop="CanDrop"
+              OnItemDropped="Move">
+        @foreach (var folder in Folders)
+        {
+            <OmniTreeItem TValue="string" @key="folder.Key" Value="@folder.Key" Text="@folder.Key" Expanded="true">
+                @foreach (var item in folder.Value)
+                {
+                    <OmniTreeItem TValue="string" @key="item" Value="@item" Text="@item" />
+                }
+            </OmniTreeItem>
+        }
+    </OmniTree>
+    <OmniDataGrid TItem="Node"
+                  Id="tree-grid"
+                  Items="@Rows"
+                  ChildrenOf="ChildrenOf"
+                  KeyOf="KeyOf"
+                  ScrollMode="OmniDataGridScrollMode.Paged"
+                  Height="24rem"
+                  TreeColumnKey="name"
+                  InitiallyExpanded="InitiallyExpanded"
+                  ShowExpandAll="true"
+                  AllowSorting="true"
+                  Filterable="true"
+                  FilterMode="OmniDataGridFilterMode.Simple"
+                  HeaderWrap="OmniDataGridHeaderWrap.Truncate"
+                  HighlightColumnOnHover="true"
+                  ShowHeaderBar="true"
+                  ShowExportButtonText="true">
+        <Columns>
+            <OmniDataGridColumn TItem="Node" Key="name" Property="Name" Title="Sample documents" />
+            <OmniDataGridColumn TItem="Node" Property="Count" Title="Number of documents" Aggregate="OmniDataGridAggregate.Sum" />
+        </Columns>
+    </OmniDataGrid>
+</OmniStack>

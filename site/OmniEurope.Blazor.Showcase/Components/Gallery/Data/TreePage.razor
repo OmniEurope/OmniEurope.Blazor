@@ -1,0 +1,99 @@
+@page "/components/tree"
+@using OmniEurope.Blazor.Showcase.Examples.Data
+
+<GalleryPageFrame Slug="tree">
+    <Settings>
+        <OmniSettingsSection Title="@Text["TreeSettingsTitle"]" Description="@Text["TreeSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["TreeMultiple"]" Description="@Text["TreeMultipleDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.CheckCircle" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Multiple" aria-label="@Text["TreeMultiple"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TreeStartExpanded"]" Description="@Text["TreeStartExpandedDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.ChevronDown" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="StartExpanded" aria-label="@Text["TreeStartExpanded"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TreeDisableItems"]" Description="@Text["TreeDisableItemsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="DisableItems" aria-label="@Text["TreeDisableItems"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TreeLatency"]" Description="@Text["TreeLatencyDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Hourglass" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="LatencyValue"
+                                Minimum="0"
+                                Maximum="3000"
+                                Step="250"
+                                ShowValue="true"
+                                FormatValue="@FormatMilliseconds"
+                                aria-label="@Text["TreeLatency"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TreeFailure"]" Description="@Text["TreeFailureDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Error" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="FailLoad" aria-label="@Text["TreeFailure"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["TreeStaticTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted" Class="gallery-tree-hint">@Text["TreeStaticHint"]</OmniText>
+                <div class="gallery-tree-stage gallery-tree-capped">
+                    <TreeStaticExample Multiple="Multiple" StartExpanded="StartExpanded" DisableItems="DisableItems" />
+                </div>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["TreeDataTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted" Class="gallery-tree-hint">@Text["TreeDataHint"]</OmniText>
+                <div class="gallery-tree-stage gallery-tree-capped">
+                    <TreeDataExample Multiple="Multiple"
+                                     DisableItems="DisableItems"
+                                     LatencyMilliseconds="LatencyValue"
+                                     FailLoad="FailLoad" />
+                </div>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["TreeCustomTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted" Class="gallery-tree-hint">@Text["TreeCustomHint"]</OmniText>
+                <div class="gallery-tree-stage">
+                    <TreeCustomContentExample Multiple="Multiple" DisableItems="DisableItems" />
+                </div>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["TreeMoveTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted" Class="gallery-tree-hint">@Text["TreeMoveHint"]</OmniText>
+                <div class="gallery-tree-stage gallery-tree-move">
+                    <TreeMoveExample />
+                </div>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["TreeAccountsTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted" Class="gallery-tree-hint">@Text["TreeAccountsHint"]</OmniText>
+                <div class="gallery-tree-stage">
+                    <TreeAccountsExample />
+                </div>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

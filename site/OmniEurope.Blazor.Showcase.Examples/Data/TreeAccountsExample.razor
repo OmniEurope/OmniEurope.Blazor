@@ -1,0 +1,47 @@
+@* A chart of accounts reorganised with the pointer (AllowDragDrop): an account dragged onto another becomes
+   its child. The tree reports the pair (OnItemDropped) and the host moves the account in its own data,
+   which renders the tree again. An account cannot be filed under itself or inside its own branch, and a
+   class (a single digit) does not move (CanDrag). The two buttons open and close the whole tree. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    @{
+        RenderFragment<Account> account = null!;
+        @* A leaf declares no child content: content, even empty, would give it a toggle. *@
+        account = node => @<text>@if (ChildrenOf(node.Number).Any())
+        {
+            <OmniTreeItem @key="node.Number" TValue="string" Value="@node.Number" Text="@node.Label"
+                          Expanded="@Open.Contains(node.Number)" ExpandedChanged="@(open => SetOpen(node.Number, open))">
+                @foreach (var child in ChildrenOf(node.Number))
+                {
+                    @account(child)
+                }
+            </OmniTreeItem>
+        }
+        else
+        {
+            <OmniTreeItem @key="node.Number" TValue="string" Value="@node.Number" Text="@node.Label" />
+        }</text>;
+    }
+    <OmniRow Gap="OmniSpacing.Small">
+        <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="ExpandAsync">
+            <Icon><OmniIcon Name="OmniIconName.CornersOut" /></Icon>
+            <ChildContent><span>Expand all</span></ChildContent>
+        </OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="CollapseAsync">
+            <Icon><OmniIcon Name="OmniIconName.CornersIn" /></Icon>
+            <ChildContent><span>Collapse all</span></ChildContent>
+        </OmniButton>
+    </OmniRow>
+    <OmniTree @ref="Tree"
+              TValue="string"
+              Id="demo-tree-accounts"
+              Label="Chart of accounts"
+              AllowDragDrop="true"
+              CanDrag="number => number.Length > 1"
+              OnItemDropped="MoveAccount">
+        @foreach (var root in ChildrenOf(null))
+        {
+            @account(root)
+        }
+    </OmniTree>
+    <OmniText Element="OmniTextElement.Paragraph" Id="demo-tree-accounts-status" role="status" Tone="OmniTextTone.Muted">@(Moved ?? "Drag an account onto another to file it there.")</OmniText>
+</OmniStack>

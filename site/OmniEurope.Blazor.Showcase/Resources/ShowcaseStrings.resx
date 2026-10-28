@@ -138,16 +138,6 @@
   <data name="DemoDataListCapability1" xml:space="preserve"><value>An item template entirely supplied by the host.</value></data>
   <data name="DemoDataListCapability2" xml:space="preserve"><value>Empty, loading and error states kept distinct.</value></data>
   <data name="DemoDataListCapability3" xml:space="preserve"><value>A pager with adjustable page size and first and last shortcuts.</value></data>
-  <data name="DemoTreeTitle" xml:space="preserve"><value>Tree</value></data>
-  <data name="DemoTreeSummary" xml:space="preserve"><value>The expandable hierarchy, single or multiple selection.</value></data>
-  <data name="DemoTreeCapability1" xml:space="preserve"><value>Multiple selection and keyboard navigation.</value></data>
-  <data name="DemoTreeCapability2" xml:space="preserve"><value>A branch fetched on demand, when the node opens.</value></data>
-  <data name="DemoTreeCapability3" xml:space="preserve"><value>Nodes can be disabled without breaking traversal.</value></data>
-  <data name="DemoSpreadsheetTitle" xml:space="preserve"><value>Spreadsheet</value></data>
-  <data name="DemoSpreadsheetSummary" xml:space="preserve"><value>A basic spreadsheet: cells, formulas and a formula bar.</value></data>
-  <data name="DemoSpreadsheetCapability1" xml:space="preserve"><value>Formulas with references, ranges, SUM, AVERAGE, MIN, MAX and error codes.</value></data>
-  <data name="DemoSpreadsheetCapability2" xml:space="preserve"><value>Keyboard navigation, in-place editing and a formula bar.</value></data>
-  <data name="DemoSpreadsheetCapability3" xml:space="preserve"><value>Content bound both ways and serialisable to JSON.</value></data>
   <data name="DemoSchedulerTitle" xml:space="preserve"><value>Scheduler</value></data>
   <data name="DemoSchedulerSummary" xml:space="preserve"><value>The calendar and its three views.</value></data>
   <data name="DemoSchedulerCapability1" xml:space="preserve"><value>Day, week and month views, switchable.</value></data>
@@ -1164,31 +1154,6 @@
   <data name="DemoFlowsConnectionEstablished" xml:space="preserve"><value>established</value></data>
   <data name="DemoFlowsReasonTimeout" xml:space="preserve"><value>the server no longer responds (timed out)</value></data>
   <data name="DemoFlowsReasonExpired" xml:space="preserve"><value>session expired on the server</value></data>
-  <data name="DemoTreeLabel" xml:space="preserve"><value>Folder tree</value></data>
-  <data name="DemoTreeEurope" xml:space="preserve"><value>Europe</value></data>
-  <data name="DemoTreeBelgium" xml:space="preserve"><value>Belgium</value></data>
-  <data name="DemoTreeCapitalText" xml:space="preserve"><value>{0}, capital</value></data>
-  <data name="DemoTreeCapital" xml:space="preserve"><value>capital</value></data>
-  <data name="DemoTreeFrance" xml:space="preserve"><value>France</value></data>
-  <data name="DemoTreeLuxembourg" xml:space="preserve"><value>Luxembourg</value></data>
-  <data name="DemoTreeArchives" xml:space="preserve"><value>Archives, loaded when opened</value></data>
-  <data name="DemoTreeSelection" xml:space="preserve"><value>Selection: {0}</value></data>
-  <data name="DemoTreeNoSelection" xml:space="preserve"><value>none</value></data>
-  <data name="DemoSpreadsheetLabel" xml:space="preserve"><value>Quarterly budget</value></data>
-  <data name="DemoSpreadsheetStatus" xml:space="preserve"><value>Active cell: {0}. Quarter total: {1}</value></data>
-  <data name="DemoSpreadsheetReadOnlyLabel" xml:space="preserve"><value>The same budget, read-only</value></data>
-  <data name="DemoSpreadsheetItem" xml:space="preserve"><value>Item</value></data>
-  <data name="DemoSpreadsheetJanuary" xml:space="preserve"><value>January</value></data>
-  <data name="DemoSpreadsheetFebruary" xml:space="preserve"><value>February</value></data>
-  <data name="DemoSpreadsheetMarch" xml:space="preserve"><value>March</value></data>
-  <data name="DemoSpreadsheetQuarter" xml:space="preserve"><value>Quarter</value></data>
-  <data name="DemoSpreadsheetRent" xml:space="preserve"><value>Rent</value></data>
-  <data name="DemoSpreadsheetGroceries" xml:space="preserve"><value>Groceries</value></data>
-  <data name="DemoSpreadsheetEnergy" xml:space="preserve"><value>Energy</value></data>
-  <data name="DemoSpreadsheetTransport" xml:space="preserve"><value>Transport</value></data>
-  <data name="DemoSpreadsheetLeisure" xml:space="preserve"><value>Leisure</value></data>
-  <data name="DemoSpreadsheetTotal" xml:space="preserve"><value>Total</value></data>
-  <data name="DemoSpreadsheetAverage" xml:space="preserve"><value>Average</value></data>
   <data name="DemoDiagramReadOnly" xml:space="preserve"><value>Read-only</value></data>
   <data name="DemoDiagramMindMapLabel" xml:space="preserve"><value>Mind map: planning a house move</value></data>
   <data name="DemoDiagramGitGraphLabel" xml:space="preserve"><value>History with a merged branch</value></data>
@@ -1228,9 +1193,6 @@
   <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Expand all</value></data>
   <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Collapse all</value></data>
   <data name="DemoGridTreeExport" xml:space="preserve"><value>Export to Excel</value></data>
-  <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Chart of accounts</value></data>
-  <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Drag an account onto another to file it there.</value></data>
-  <data name="DemoTreeMoved" xml:space="preserve"><value>{0} filed under {1}</value></data>
   <data name="DemoGridScopeHint" xml:space="preserve"><value>Turn the wheel anywhere in this frame: the grid rows scroll.</value></data>
   <data name="DemoGridFillCaption" xml:space="preserve"><value>Two thousand files by country</value></data>
   <data name="DemoGridEditCaption" xml:space="preserve"><value>Editable files: double-click a row or use the pencil</value></data>

@@ -4,4 +4,64 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="TreeTitle" xml:space="preserve"><value>Tree</value></data>
+  <data name="TreeDescription" xml:space="preserve"><value>A tree of selectable items, written by hand or generated from data, with custom item content, levels loaded on demand and items moved with the pointer.</value></data>
+  <data name="TreeSettingsTitle" xml:space="preserve"><value>Tree settings</value></data>
+  <data name="TreeSettingsDescription" xml:space="preserve"><value>The settings apply to the trees of the page.</value></data>
+  <data name="TreeMultiple" xml:space="preserve"><value>Multiple selection</value></data>
+  <data name="TreeMultipleDescription" xml:space="preserve"><value>Off, selecting an item releases the previous one.</value></data>
+  <data name="TreeStartExpanded" xml:space="preserve"><value>Hand-written tree open</value></data>
+  <data name="TreeStartExpandedDescription" xml:space="preserve"><value>Drives the Expanded parameter of its branches.</value></data>
+  <data name="TreeDisableItems" xml:space="preserve"><value>Disabled items</value></data>
+  <data name="TreeDisableItemsDescription" xml:space="preserve"><value>Archives, certificates, Luxembourg and the cities marked closed can no longer be selected.</value></data>
+  <data name="TreeLatency" xml:space="preserve"><value>Branch load time</value></data>
+  <data name="TreeLatencyDescription" xml:space="preserve"><value>Time taken by the branch loaded on opening.</value></data>
+  <data name="TreeMilliseconds" xml:space="preserve"><value>{0} ms</value></data>
+  <data name="TreeFailure" xml:space="preserve"><value>Simulate a failure</value></data>
+  <data name="TreeFailureDescription" xml:space="preserve"><value>The branch fails to load; closing and reopening it tries again.</value></data>
+  <data name="TreeStaticTitle" xml:space="preserve"><value>Items written by hand</value></data>
+  <data name="TreeStaticHint" xml:space="preserve"><value>Each OmniTreeItem is placed in the markup; its children sit directly inside it.</value></data>
+  <data name="TreeDataTitle" xml:space="preserve"><value>Levels generated from data</value></data>
+  <data name="TreeDataHint" xml:space="preserve"><value>Regions, countries and cities come from one list; the last branch is loaded when it is opened.</value></data>
+  <data name="TreeCustomTitle" xml:space="preserve"><value>Items with their own content</value></data>
+  <data name="TreeCustomHint" xml:space="preserve"><value>TextContent puts an icon and a remark beside the name; Luxembourg is disabled but keeps its place in the traversal.</value></data>
+  <data name="TreeMoveTitle" xml:space="preserve"><value>Moving items and tree grid</value></data>
+  <data name="TreeMoveHint" xml:space="preserve"><value>These sample folders move in this preview only. Drag a document onto a folder; the grid follows the new structure.</value></data>
+  <data name="TreeAccountsTitle" xml:space="preserve"><value>Chart of accounts</value></data>
+  <data name="TreeAccountsHint" xml:space="preserve"><value>Drag an account onto another to file it there: it becomes its child, and the branch it lands on opens.</value></data>
+  <data name="SpreadsheetTitle" xml:space="preserve"><value>Spreadsheet</value></data>
+  <data name="SpreadsheetDescription" xml:space="preserve"><value>A basic spreadsheet: cells named by letters and numbers, formulas, keyboard navigation, a formula bar and a model bound both ways that serialises to JSON.</value></data>
+  <data name="SpreadsheetSheetTitle" xml:space="preserve"><value>Sheet</value></data>
+  <data name="SpreadsheetSheetDescription" xml:space="preserve"><value>What the sheet shows and lets you change.</value></data>
+  <data name="SpreadsheetReadOnly" xml:space="preserve"><value>Read only</value></data>
+  <data name="SpreadsheetReadOnlyDescription" xml:space="preserve"><value>Cells can still be selected and read, never changed.</value></data>
+  <data name="SpreadsheetFormulaBar" xml:space="preserve"><value>Formula bar</value></data>
+  <data name="SpreadsheetFormulaBarDescription" xml:space="preserve"><value>The active address and what was typed in the cell, editable there too.</value></data>
+  <data name="SpreadsheetGridLines" xml:space="preserve"><value>Grid lines</value></data>
+  <data name="SpreadsheetGridLinesDescription" xml:space="preserve"><value>The lines between cells.</value></data>
+  <data name="SpreadsheetAddRows" xml:space="preserve"><value>Add rows</value></data>
+  <data name="SpreadsheetAddRowsDescription" xml:space="preserve"><value>A button above the sheet adds a row at the bottom.</value></data>
+  <data name="SpreadsheetAddColumns" xml:space="preserve"><value>Add columns</value></data>
+  <data name="SpreadsheetAddColumnsDescription" xml:space="preserve"><value>A button above the sheet adds a column on the right.</value></data>
+  <data name="SpreadsheetColumnWidth" xml:space="preserve"><value>Column width</value></data>
+  <data name="SpreadsheetColumnWidthDescription" xml:space="preserve"><value>Set by the page on its own class, through a variable of the package.</value></data>
+  <data name="SpreadsheetWidthNarrow" xml:space="preserve"><value>Narrow</value></data>
+  <data name="SpreadsheetWidthNormal" xml:space="preserve"><value>Normal</value></data>
+  <data name="SpreadsheetWidthWide" xml:space="preserve"><value>Wide</value></data>
+  <data name="SpreadsheetDataTitle" xml:space="preserve"><value>Content</value></data>
+  <data name="SpreadsheetDataDescription" xml:space="preserve"><value>The sheet is a serialisable model bound both ways.</value></data>
+  <data name="SpreadsheetReset" xml:space="preserve"><value>Start again</value></data>
+  <data name="SpreadsheetResetDescription" xml:space="preserve"><value>Puts back the sample budget.</value></data>
+  <data name="SpreadsheetResetAction" xml:space="preserve"><value>Reset</value></data>
+  <data name="SpreadsheetJson" xml:space="preserve"><value>JSON</value></data>
+  <data name="SpreadsheetJsonDescription" xml:space="preserve"><value>Shows the model as it would be saved: inputs only, formulas included.</value></data>
+  <data name="SpreadsheetMirror" xml:space="preserve"><value>Read-only copy</value></data>
+  <data name="SpreadsheetMirrorDescription" xml:space="preserve"><value>A second sheet reads the same model, so an edit in the first shows there at once.</value></data>
+  <data name="SpreadsheetPreviewTitle" xml:space="preserve"><value>Quarterly budget</value></data>
+  <data name="SpreadsheetHowTo" xml:space="preserve"><value>Arrows move, typing replaces the cell, Enter or F2 edits it, Enter commits, Escape cancels, Delete empties. Try =SUM(B2:D2), =AVERAGE(B2:B6), =B8/0 or =Z99.</value></data>
+  <data name="CollectionsTitle" xml:space="preserve"><value>Collections</value></data>
+  <data name="CollectionsDescription" xml:space="preserve"><value>Movable cards on a board and searchable log lines.</value></data>
+  <data name="CollectionsSettingsTitle" xml:space="preserve"><value>Log settings</value></data>
+  <data name="CollectionsSearch" xml:space="preserve"><value>Search</value></data>
+  <data name="CollectionsWrap" xml:space="preserve"><value>Line wrap</value></data>
 </root>
