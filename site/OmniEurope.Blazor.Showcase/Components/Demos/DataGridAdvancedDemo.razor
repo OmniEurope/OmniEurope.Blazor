@@ -122,7 +122,7 @@
         </OmniDataGridColumn>
         @* A date column filters from one text input (a day, a month or a year, in the order of the culture);
            AdvancedFilter adds the From and To range, either bound optional, to the same filter. *@
-        <OmniDataGridColumn TItem="GridRow" Property="Filed" Title="@Text["GridFiledColumn"]" FormatString="{0:g}"
+        <OmniDataGridColumn TItem="GridRow" Property="Filed" Title="@Text["GridFiledColumn"]" FormatString="{0:g}" FilterType="OmniDataGridColumnFilterType.Date"
                             AdvancedFilter="true" />
         <OmniDataGridColumn TItem="GridRow" Property="Amount" Title="@Text["DemoGridColumnAmount"]" FormatString="{0:C0}" FilterType="OmniDataGridColumnFilterType.Number"
                             TextAlign="OmniAlignment.End" Aggregate="Aggregate" AggregateFormat="@AggregateFormat" GroupAggregateFormat="@GroupAggregateFormat" />

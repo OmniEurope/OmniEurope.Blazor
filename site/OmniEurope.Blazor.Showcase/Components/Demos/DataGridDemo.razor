@@ -167,13 +167,21 @@
             </OmniDataGridColumn>
             <OmniDataGridColumn TItem="SiteRow" Property="Visitors" Title="@Text["DemoGridSizingVisitors"]" Width="8rem" />
             <OmniDataGridColumn TItem="SiteRow" Property="Project" Title="@Text["DemoGridSizingProject"]" MinWidth="8rem" Grow="true" />
-            <OmniDataGridColumn TItem="SiteRow" Property="Since" Title="@Text["DemoGridSizingSince"]" Width="10rem" FormatString="{0:d}" />
+            @* Les deux sélecteurs natifs Du / Au (DateRange) plutôt que la saisie de texte par défaut d'une date ;
+               un modèle de filtre reprend le même éditeur. *@
+            <OmniDataGridColumn TItem="SiteRow" Property="Since" Title="@Text["DemoGridSizingSince"]" Width="10rem" FormatString="{0:d}"
+                                FilterType="OmniDataGridColumnFilterType.DateRange">
+                <FilterTemplate>
+                    <OmniDataGridFilterDateRange Value="@context.Value" ValueChanged="@(value => context.ValueChanged(value))" />
+                </FilterTemplate>
+            </OmniDataGridColumn>
         </Columns>
     </OmniDataGrid>
 </div>
 
 @* Les mêmes colonnes chargées par la grille elle-même (Load), un instant après son premier rendu : la table
-   reste masquée pendant le chargement et apparaît directement aux largeurs des lignes reçues. *@
+   montre ses en-têtes sous la barre de chargement, sans défiler, et ses lignes apparaissent directement aux
+   largeurs des lignes reçues. La date se filtre d'une seule saisie (un jour, un mois ou une année). *@
 <div class="demo-grid-sizing-box">
     <OmniDataGrid TItem="SiteRow" Id="demo-grid-sizing-remote"
                   Load="LoadSitesAsync"
@@ -189,7 +197,12 @@
             </OmniDataGridColumn>
             <OmniDataGridColumn TItem="SiteRow" Property="Visitors" Title="@Text["DemoGridSizingVisitors"]" />
             <OmniDataGridColumn TItem="SiteRow" Property="Project" Title="@Text["DemoGridSizingProject"]" MinWidth="8rem" Grow="true" />
-            <OmniDataGridColumn TItem="SiteRow" Property="Since" Title="@Text["DemoGridSizingSince"]" FormatString="{0:d}" />
+            <OmniDataGridColumn TItem="SiteRow" Property="Since" Title="@Text["DemoGridSizingSince"]" FormatString="{0:d}"
+                                FilterType="OmniDataGridColumnFilterType.Date">
+                <FilterTemplate>
+                    <OmniDataGridFilterDate Value="@context.Value" ValueChanged="@(value => context.ValueChanged(value))" />
+                </FilterTemplate>
+            </OmniDataGridColumn>
         </Columns>
     </OmniDataGrid>
 </div>
