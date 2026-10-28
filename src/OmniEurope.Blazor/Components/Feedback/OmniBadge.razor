@@ -1,9 +1,37 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-<span @attributes="AdditionalAttributes"
-      id="@Id"
-      class="@Css("omni-badge", $"omni-badge--{Tone.ToString().ToLowerInvariant()}", $"omni-badge--{Fill.ToString().ToLowerInvariant()}", IconOnly ? "omni-badge--icon" : null, LeadingIcon ? "omni-badge--leading-icon" : null, InkClass, WidthClass)">
-    @Icon
-    @ChildContent
-</span>
+@* Three roots, one look. Plain, the badge is a span. With OnClick it is one real button, with Href one
+   real link: both focusable, a button activated by Enter and Space. The content is the same in the three. *@
+@if (OnClick.HasDelegate)
+{
+    <button @attributes="AdditionalAttributes"
+            id="@Id"
+            type="button"
+            class="@BadgeClass"
+            aria-label="@AccessibleName"
+            @onclick="OnClick">
+        @Icon
+        @ChildContent
+    </button>
+}
+else if (_safeHref is not null)
+{
+    <a @attributes="AdditionalAttributes"
+       id="@Id"
+       href="@_safeHref"
+       class="@BadgeClass"
+       aria-label="@AccessibleName">
+        @Icon
+        @ChildContent
+    </a>
+}
+else
+{
+    <span @attributes="AdditionalAttributes"
+          id="@Id"
+          class="@BadgeClass">
+        @Icon
+        @ChildContent
+    </span>
+}

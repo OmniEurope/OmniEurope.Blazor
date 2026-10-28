@@ -4,6 +4,14 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Added
+
+- `OmniBadge.OnClick` (`EventCallback<MouseEventArgs>`), `OmniBadge.Href` (`string?`) et `OmniBadge.AriaLabel` (`string?`) : demande d'une application cliente (recette R-67), où un compteur (« Utilisé par 2 ») était un `OmniButton` Ghost contenant un `OmniBadge`, soit un double bouton. Avec `OnClick`, le badge est un vrai `<button type="button">` (focalisable, Entrée et Espace l'activent) ; avec `Href`, un vrai lien `<a>`, à l'adresse validée comme celle d'`OmniNavTile` (`javascript:`, `data:` et `//hôte` refusés) ; les deux ensemble lèvent une `ArgumentException`. `AriaLabel` nomme le badge cliquable. Il garde la forme et le `Tone` du badge, avec l'anneau de focus du paquet et, au survol, un soulignement et une teinte légère de son encre (ni relief, ni ombre). Sans `OnClick` ni `Href`, le badge reste un `<span>`, inchangé.
+
+### Changed
+
+- `OmniBadge` n'est jamais plus étroit que haut : demande d'une application cliente (recette R-5). Un badge d'un seul caractère (« 1 », « F », « A ») est au moins un carré, même quand l'hôte agrandit le texte de ce badge ; un texte plus long l'élargit, et les pas `Width` relèvent ce plancher sans l'abaisser. Le texte est centré. Jusqu'ici seul le badge à icône seule était garanti carré.
+
 ## [1.9.4] - 2026-10-26
 
 Correctif qui porte un ajout d'API publique, là où SemVer demanderait `1.10.0` (décision du propriétaire du 2026-10-26, voir [docs/versioning.md](docs/versioning.md)) : demandes d'une application cliente sur la comparaison de textes sous une politique de styles stricte et sur les textes coupés à 375 px. L'ajout est sans effet tant qu'il n'est pas utilisé ; les changements de comportement par défaut sont listés sous « Changed ».
