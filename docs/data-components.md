@@ -137,6 +137,16 @@ Une colonne se déclare par lambda ou par nom de propriété.
       isDefault: true);
   ```
 
+  Pendant la première mesure, la grille ne défile pas et ne masque pas ses en-têtes. Tant que la table n'est pas
+  dimensionnée (`data-omni-sized`), seules ses lignes et son pied sont masqués, leur place gardée, et son viewport
+  est en `overflow: hidden`. Une grille qui charge ses premières lignes (`aria-busy`) mesure d'abord ses seuls
+  en-têtes, sans ses lignes de chargement, puis les affiche sous la barre de chargement
+  (`data-omni-headed`, `sizingStage` de `grid/content-sizing.js`) ; ses lignes n'apparaissent qu'une fois
+  dimensionnées sur les premières vraies lignes, ce qui garde la correction d'affichage sans saut du
+  corps. Les largeurs des en-têtes, mesurées sur les titres seuls, peuvent encore s'élargir à l'arrivée de
+  lignes plus larges qu'eux. Sans script, tout s'affiche après une seconde (cinq au plus pendant un
+  chargement).
+
   Un `ColumnSizing` écrit sur la grille l'emporte sur le préréglage (`PresetName="none"` l'écarte).
 - Des colonnes déclarées dans un `@foreach` peuvent capturer la variable de boucle dans leur
   `Template` ou leur `Value` : un délégué issu de la même lambda ne réinscrit pas la colonne. Les
@@ -356,7 +366,7 @@ qui défile, ou la page, ne rend que les éléments proches de la zone visible, 
 
 ### Forme du contrôle de filtre
 
-`FilterType` (`OmniDataGridColumnFilterType`) choisit la forme du contrôle, sur un seul axe, parmi six formes :
+`FilterType` (`OmniDataGridColumnFilterType`) choisit la forme du contrôle, sur un seul axe, parmi sept formes :
 
 | `FilterType` | Contrôle rendu |
 | --- | --- |
@@ -366,8 +376,13 @@ qui défile, ou la page, ne rend que les éléments proches de la zone visible, 
 | `MultiSelect` | liste cochable, la ligne correspond à une valeur cochée |
 | `DateRange` | début et fin facultatifs (`OmniDataGridFilterDateRange`) ; un jour seul couvre toute la journée, `FilterIncludesTime` ajoute les heures, et un chargeur distant reçoit deux bornes (`OmniDataGridDateRange`) |
 | `Number` | saisie numérique et opérateurs ordonnés (égal, supérieur, inférieur...), pour une colonne dont la valeur est lue par une fonction et dont la grille ne peut pas déduire le type |
+| `Date` | une saisie de texte pour un jour (`05/03/2026`), un mois (`03/2026`) ou une année (`2026`) (`OmniDataGridFilterDate`, lu par `OmniDataGridDateText`) |
 
-Les contrôles de `Combo`, `MultiSelect` et `DateRange` sont aussi publics, `OmniDataGridFilterCombo` (`OnPick` au choix d'une suggestion), `OmniDataGridFilterMultiSelect` (`Filterable`, `FormatValue`) et `OmniDataGridFilterDateRange`, pour être posés à la main dans un `FilterTemplate` ; ils rendent leurs attributs supplémentaires et leur `Id`.
+**Filtre de date.** Une colonne qui lit une `DateTime`, une `DateTimeOffset` ou une `DateOnly` et ne dit rien reçoit `Date` (ou `DateRange`, les deux sélecteurs, avec `FilterIncludesTime`, puisque la saisie ne lit pas l'heure) ; `FilterType="DateRange"` garde les deux sélecteurs sur une colonne de date. La saisie lit un jour, un mois ou une année, avec `/`, `.` ou `-` entre les nombres et des espaces tolérés, dans l'ordre jour et mois de la culture courante (`jj/mm/aaaa` pour le français, `mm/jj/aaaa` pour `en-US`) ; une année écrite en premier (`2026-03-05`) se lit année, mois, jour quelle que soit la culture. L'année a quatre chiffres (`0001` à `9999`) : une année à deux ou cinq chiffres, un `31/02/2026` ou tout autre texte n'est pas une date, la saisie porte alors `aria-invalid` et ne filtre rien (son texte reste pour être corrigé, et un filtre déjà posé par elle est retiré). Elle lit à la validation (Entrée ou sortie de la zone), pas à chaque touche. Le texte devient la période demi-ouverte `[début, fin[` (le jour, le mois ou l'année entier), gardée comme la valeur codée de `OmniDataGridDateRange` (`2026-03-01/2026-03-31`) : un chargeur distant reçoit les mêmes deux bornes que pour `DateRange`. `OmniDataGridDateText` (`TryParse`, `ToValue`, `Format`, `Pattern`) est public et pur : la culture lui est toujours passée.
+
+`AdvancedFilter` (par colonne, faux par défaut) ajoute au filtre d'une colonne `Date` une plage **Du / Au** (`OmniDataGridFilterDateRange`), chaque borne facultative, y compris une seule. Avec la rangée de filtres en ligne (`ShowHeaderFilterMenu` à faux), la saisie reste dans la rangée et la plage s'ouvre d'un bouton calendrier dans l'en-tête de la colonne ; avec le menu d'en-tête (le défaut) ou le mode `Advanced`, la plage est dans le même menu que la saisie, sous elle. La saisie et la plage sont deux éditeurs d'**un seul** filtre, pas deux filtres combinés : le dernier éditeur utilisé remplace l'autre, et chacun montre ce que l'autre a posé (un mois tapé fait apparaître son premier et son dernier jour dans la plage ; une plage qui n'est pas un seul jour, mois ou année se lit `du - au` dans la saisie). `AdvancedFilter` est ignoré par les autres types, et par une colonne qui a un `FilterTemplate`. Les sélecteurs natifs de `DateRange` sont bornés aux années à quatre chiffres (`min`/`max`), et une borne que la grille ne sait pas lire (cinq chiffres d'année) porte `aria-invalid` et ne filtre pas.
+
+Les contrôles de `Combo`, `MultiSelect`, `Date` et `DateRange` sont aussi publics, `OmniDataGridFilterCombo` (`OnPick` au choix d'une suggestion), `OmniDataGridFilterMultiSelect` (`Filterable`, `FormatValue`), `OmniDataGridFilterDate` (`Placeholder`, qui vaut par défaut le format de la culture) et `OmniDataGridFilterDateRange`, pour être posés à la main dans un `FilterTemplate` ; ils rendent leurs attributs supplémentaires et leur `Id`.
 
 Posés à la main, leurs paramètres sont les suivants. `OmniDataGridFilterCombo.Suggestions` (`IReadOnlyList<string>`) liste les candidats sous la saisie, réduits à ceux qui contiennent le texte tapé (casse et accents ignorés) ; `MaxSuggestions` (50 par défaut) borne le nombre de suggestions rendues et `Placeholder` est le texte indicatif de la saisie. `OmniDataGridFilterMultiSelect.Suggestions` liste les valeurs de la liste cochable ; `MaxSuggestions` (200 par défaut) borne le nombre d'options rendues à la fois et `Placeholder` est le texte de la boîte de recherche, repris dans le résumé replié tant que rien n'est coché. `OmniDataGridFilterDateRange.IncludesTime` (faux par défaut) fait choisir les heures en plus du jour.
 

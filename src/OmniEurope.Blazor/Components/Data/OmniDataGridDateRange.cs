@@ -55,8 +55,8 @@ public static class OmniDataGridDateRange
         DateTime? from = TryParse(start, out var startValue, out _) ? startValue : null;
         DateTime? to = TryParse(end, out var endValue, out var endHasTime)
             ? endHasTime
-                ? endValue.AddSeconds(-endValue.Second).AddMinutes(1)
-                : endValue.Date.AddDays(1)
+                ? After(endValue.AddSeconds(-endValue.Second), TimeSpan.FromMinutes(1))
+                : After(endValue.Date, TimeSpan.FromDays(1))
             : null;
         return (from, to);
     }
@@ -95,6 +95,14 @@ public static class OmniDataGridDateRange
     /// <returns>The bound written as <c>yyyy-MM-ddTHH:mm:ss</c>.</returns>
     public static string FormatBound(DateTime value) =>
         value.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture);
+
+    // Whether one side is a date the range reads: yyyy-MM-dd, with or without a time. A year of more than
+    // four digits (a native picker takes them) or any other text is not.
+    internal static bool IsReadable(string side) => TryParse(side, out _, out _);
+
+    // The end after the last day or minute picked; the last representable instant when the picker reached 9999-12-31.
+    private static DateTime After(DateTime value, TimeSpan span) =>
+        DateTime.MaxValue - value <= span ? DateTime.MaxValue : value + span;
 
     private static bool TryParse(string text, out DateTime value, out bool hasTime)
     {

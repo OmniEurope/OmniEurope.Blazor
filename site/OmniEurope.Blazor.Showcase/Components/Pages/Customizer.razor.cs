@@ -6,6 +6,7 @@ using OmniEurope.Blazor.Showcase.Examples.Actions;
 using OmniEurope.Blazor.Showcase.Examples.Feedback;
 using OmniEurope.Blazor.Showcase.Examples.Foundations;
 using OmniEurope.Blazor.Showcase.Examples.Forms;
+using OmniEurope.Blazor.Showcase.Examples.Navigation;
 using OmniEurope.Blazor.Showcase.Resources;
 using OmniEurope.Blazor.Showcase.Resources.Gallery;
 using OmniEurope.Blazor.Showcase.Theming;
@@ -27,7 +28,7 @@ public partial class Customizer : IDisposable
         new("badges", typeof(FoundationsStrings), "BadgesMatrixTitle", typeof(BadgeMatrixExample)),
         new("alerts", typeof(FeedbackStrings), "AlertsTitle", typeof(AlertGalleryExample)),
         Legacy("surfaces"),
-        Legacy("reglages-onglets"),
+        new("settings-tabs", typeof(NavigationStrings), "TabsSettingsExampleTitle", typeof(SettingsTabsExample)),
         new("form-layouts", typeof(FormsStrings), "FormLayoutsTitle", typeof(VerticalFormExample)),
         Legacy("formulaire-vertical"),
         Legacy("notifications"),

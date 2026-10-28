@@ -53,6 +53,48 @@ public sealed class NavTileAndSettingsPairTests : OmniBunitContext
     }
 
     [Fact]
+    public void ANavTile_WithoutFitTitle_HasNoFitClass()
+    {
+        var tile = Render<OmniNavTile>(parameters => parameters.Add(component => component.Href, "/aide").Add(component => component.Title, "Aide"));
+
+        Assert.DoesNotContain(tile.Find("a").ClassList, name => name.StartsWith("omni-nav-tile--fit", StringComparison.Ordinal));
+    }
+
+    [Theory]
+    [InlineData("Aide", "omni-nav-tile--fit-8")]
+    [InlineData("Environnements", "omni-nav-tile--fit-16")]
+    [InlineData("Bibliothèques partagées", "omni-nav-tile--fit-24")]
+    [InlineData("Un titre vraiment très long qui dépasse tous les paliers de la tuile", "omni-nav-tile--fit-48")]
+    public void ANavTile_WithFitTitle_CarriesTheFitClass_OfTheLengthStepOfItsTitle(string title, string expectedClass)
+    {
+        var tile = Render<OmniNavTile>(parameters => parameters
+            .Add(component => component.Href, "/aide")
+            .Add(component => component.Title, title)
+            .Add(component => component.FitTitle, true));
+
+        var link = tile.Find("a");
+        Assert.Contains("omni-nav-tile--fit", link.ClassList);
+        Assert.Contains(expectedClass, link.ClassList);
+        Assert.Null(link.GetAttribute("style"));
+        Assert.Null(tile.Find(".omni-nav-tile__title").GetAttribute("style"));
+    }
+
+    [Fact]
+    public void TheFitTitleRules_FitOnOneLine_WithoutBreakingAWord_AndAlignLeft()
+    {
+        var tile = ShippedLookTests.Body(".omni-nav-tile--fit");
+        Assert.Equal("inline-size", ShippedLookTests.Value(tile, "container-type"));
+        Assert.Equal("flex-start", ShippedLookTests.Value(tile, "align-items"));
+        Assert.Equal("start", ShippedLookTests.Value(tile, "text-align"));
+        var title = ShippedLookTests.Body(".omni-nav-tile--fit .omni-nav-tile__title");
+        Assert.Equal("nowrap", ShippedLookTests.Value(title, "white-space"));
+        Assert.Equal("normal", ShippedLookTests.Value(title, "overflow-wrap"));
+        Assert.Equal("none", ShippedLookTests.Value(title, "hyphens"));
+        Assert.Equal("ellipsis", ShippedLookTests.Value(title, "text-overflow"));
+        Assert.Contains("cqi", ShippedLookTests.Value(title, "font-size"), StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void APairedSection_SetsItsTilesTwoPerRow_AndAFullWidthTileTakesTheRow()
     {
         var section = Render<OmniSettingsSection>(parameters => parameters

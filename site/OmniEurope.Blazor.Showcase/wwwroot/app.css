@@ -248,8 +248,6 @@
 .demo-check .omni-label { font-weight: 400; }
 /* Le contrôle d'une tuile se tient à droite du nom, comme dans la maquette : sans cadre, un champ
    pleine largeur passait sous le nom. */
-.demo-tile-control { align-items: center; display: flex; flex: 0 1 20rem; gap: var(--omni-space-sm); min-inline-size: 0; }
-.demo-tile-control > .omni-input { flex: 1 1 auto; min-inline-size: 0; }
 
 .demo-loading-frame { border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); overflow: hidden; }
 .demo-loading-frame__head { align-items: baseline; background: var(--omni-color-surface); display: flex; gap: var(--omni-space-md); padding: var(--omni-space-sm) var(--omni-space-md); }

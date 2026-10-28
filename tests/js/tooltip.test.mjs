@@ -81,3 +81,75 @@ test('a scroll of the page gives the title back', async () => {
 
     assert.equal(button.getAttribute('title'), 'Delete the row');
 });
+
+// R-16: a tooltip is fixed to the window, so when its element moves under a still pointer (a dialog that
+// grows and centres itself again) it must close rather than stay behind, far from the element.
+test('a placed tooltip lets go when its trigger moves under a still pointer', async () => {
+    const { root, button, dom, pointerOn } = await fixture();
+    const trigger = root.querySelector('.omni-tooltip__trigger');
+    trigger.rect = { left: 180, top: 290, right: 220, bottom: 310, width: 40, height: 20 };
+    pointerOn(button);
+    assert.ok(root.classList.contains('omni-tooltip--tracked'));
+
+    dom.runFrames();
+    assert.ok(root.classList.contains('omni-tooltip--tracked'), 'still in place, it stays');
+
+    trigger.rect = { left: 180, top: 250, right: 220, bottom: 270, width: 40, height: 20 };
+    dom.runFrames();
+    assert.ok(!root.classList.contains('omni-tooltip--tracked'));
+    assert.equal(button.getAttribute('title'), 'Delete the row');
+});
+
+const titleFixture = async () => {
+    const dom = installDom();
+    const tooltip = await import(`${pathToFileURL(path.join(wwwroot, 'omni-tooltip.js')).href}?tooltip${loads++}`);
+    tooltip.installTitleTooltips();
+    return { dom, tooltip };
+};
+
+// The stub has no className: the floating box is found by its role.
+const shownTitle = dom => dom.body.querySelector('[role="tooltip"]');
+
+test('a title tooltip closes when its element moves under a still pointer', async () => {
+    const { dom } = await titleFixture();
+    const button = dom.el('button', { title: 'Generate a password' });
+    button.rect = { left: 100, top: 100, right: 140, bottom: 130, width: 40, height: 30 };
+    dom.body.append(button);
+    dom.dispatch('pointermove', { target: button, clientX: 120, clientY: 115 });
+    dom.dispatch('pointerover', { target: button });
+    dom.runTimers();
+    assert.ok(shownTitle(dom).classList.contains('omni-title-tooltip--visible'));
+
+    button.rect = { left: 100, top: 60, right: 140, bottom: 90, width: 40, height: 30 };
+    dom.runFrames();
+
+    assert.ok(!shownTitle(dom).classList.contains('omni-title-tooltip--visible'));
+    assert.equal(button.getAttribute('title'), 'Generate a password');
+});
+
+test('a title tooltip is placed on its element when the last pointer seen is not over it', async () => {
+    const { dom } = await titleFixture();
+    const button = dom.el('button', { title: 'Generate a password' });
+    button.rect = { left: 600, top: 400, right: 640, bottom: 430, width: 40, height: 30 };
+    dom.body.append(button);
+    // No pointer move since the listeners came: the pointer last seen is the corner of the window.
+    dom.dispatch('pointerover', { target: button });
+    dom.runTimers();
+
+    assert.equal(shownTitle(dom).style.getPropertyValue('--omni-title-tooltip-x'), '620px');
+});
+
+test('a text cut by its ellipsis anywhere gets the title tooltip with its whole text', async () => {
+    const { dom } = await titleFixture();
+    const label = dom.el('span', { class: 'host-tile-title', text: 'Environnements' });
+    label.rect = { left: 10, top: 10, right: 70, bottom: 30, width: 60, height: 20 };
+    Object.defineProperty(label, 'scrollWidth', { value: 96 });
+    dom.body.append(label);
+    globalThis.getComputedStyle = element => ({ visibility: 'visible', direction: 'ltr', fontFamily: '', textOverflow: element === label ? 'ellipsis' : 'clip' });
+    dom.dispatch('pointermove', { target: label, clientX: 40, clientY: 20 });
+    dom.dispatch('pointerover', { target: label });
+    dom.runTimers();
+
+    assert.equal(shownTitle(dom).textContent, 'Environnements');
+    assert.ok(shownTitle(dom).classList.contains('omni-title-tooltip--visible'));
+});

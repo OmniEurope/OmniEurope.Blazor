@@ -35,6 +35,15 @@ public partial class OmniDataGridFilterDateRange
 
     private string? EndLimit => string.IsNullOrEmpty(End) ? null : End;
 
+    // The years the grid reads (four digits): the native picker would take more.
+    private string Earliest => IncludesTime ? "0001-01-01T00:00" : "0001-01-01";
+
+    private string Latest => IncludesTime ? "9999-12-31T23:59" : "9999-12-31";
+
+    // A side that is filled but that the grid cannot read, a five-digit year for one.
+    private static bool IsUnreadable(string side) =>
+        side.Length > 0 && !OmniDataGridDateRange.IsReadable(side);
+
     private Task OnStartChangedAsync(ChangeEventArgs args) =>
         ValueChanged.InvokeAsync(OmniDataGridDateRange.Join(args.Value?.ToString(), End));
 

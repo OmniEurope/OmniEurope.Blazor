@@ -1,0 +1,77 @@
+@* The account menu of an application header: a summary that opens a list of menu items. The host keeps the
+   open state (Open / OpenChanged), an item with an address is a link, an item can be disabled, and a press
+   outside closes the menu unless CloseOnOutsideClick is off. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Justify="OmniJustification.End">
+        <OmniProfileMenu Label="Account menu"
+                         MenuLabel="Account actions"
+                         Disabled="@Disabled"
+                         Density="@(Compact ? OmniDensity.Compact : null)"
+                         Open="@MenuOpen"
+                         OpenChanged="@(value => MenuOpen = value)"
+                         CloseOnOutsideClick="@CloseOnOutsideClick">
+            <SummaryContent>
+                <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small">
+                    <OmniIcon Name="OmniIconName.User" />
+                    <span>@UserName</span>
+                    <OmniIcon Name="OmniIconName.ChevronDown" />
+                </OmniStack>
+            </SummaryContent>
+            <ChildContent>
+                @if (ShowLinkItem)
+                {
+                    <OmniMenuItem Href="components/profile-menu">
+                        <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small">
+                            @if (ShowIcons)
+                            {
+                                <OmniIcon Name="OmniIconName.UserFocus" />
+                            }
+                            <span>My profile</span>
+                        </OmniStack>
+                    </OmniMenuItem>
+                }
+                <OmniMenuItem OnClick="@(() => Choose("Settings"))">
+                    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small">
+                        @if (ShowIcons)
+                        {
+                            <OmniIcon Name="OmniIconName.Settings" />
+                        }
+                        <span>Settings</span>
+                    </OmniStack>
+                </OmniMenuItem>
+                <OmniMenuItem OnClick="@(() => Choose("Appearance"))">
+                    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small">
+                        @if (ShowIcons)
+                        {
+                            <OmniIcon Name="OmniIconName.Palette" />
+                        }
+                        <span>Appearance</span>
+                    </OmniStack>
+                </OmniMenuItem>
+                <OmniMenuItem Disabled="@DisableAdministration" OnClick="@(() => Choose("Administration"))">
+                    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small">
+                        @if (ShowIcons)
+                        {
+                            <OmniIcon Name="OmniIconName.ShieldCheck" />
+                        }
+                        <span>Administration</span>
+                    </OmniStack>
+                </OmniMenuItem>
+                <OmniMenuItem OnClick="@(() => Choose("Sign out"))">
+                    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small">
+                        @if (ShowIcons)
+                        {
+                            <OmniIcon Name="OmniIconName.ArrowRight" />
+                        }
+                        <span>Sign out</span>
+                    </OmniStack>
+                </OmniMenuItem>
+            </ChildContent>
+        </OmniProfileMenu>
+    </OmniStack>
+    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small">
+        <OmniIcon Name="OmniIconName.Check" />
+        <OmniText>Last entry chosen:</OmniText>
+        <OmniBadge Tone="@(LastChoice is null ? OmniTone.Neutral : OmniTone.Accent)">@(LastChoice ?? "none")</OmniBadge>
+    </OmniStack>
+</OmniStack>

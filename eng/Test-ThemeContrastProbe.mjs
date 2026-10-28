@@ -338,7 +338,7 @@ const pageLibrary = String.raw`
         }
       }
       add('fermeture d\'alerte', first(alerts, '.omni-alert__dismiss'), 'icon', true);
-      const settings = block('reglages-onglets');
+      const settings = block('settings-tabs');
       add('titre de tuile de réglage', first(settings, '.omni-settings-tile__title'));
       add('indice de tuile de réglage', first(settings, '.omni-settings-hint'));
       add('texte de la page', first(document.querySelector('main'), 'section > p'));

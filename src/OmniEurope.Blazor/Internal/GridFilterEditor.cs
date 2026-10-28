@@ -36,12 +36,29 @@ internal sealed class GridFilterEditor<TItem>(OmniDataGrid<TItem> grid)
         && (grid.ShowHeaderFilterMenu
             || UsesAdvancedFilter
             || column.FilterTemplate is not null
-            || column.FilterType is OmniDataGridColumnFilterType.MultiSelect or OmniDataGridColumnFilterType.Combo));
+            || column.FilterType is OmniDataGridColumnFilterType.MultiSelect or OmniDataGridColumnFilterType.Combo
+            || ShowsRangeMenu(column)));
 
     /// <summary>
-    /// Whether this column's editor is the two-condition one of the advanced mode. A checkable list
-    /// and a date range already express their whole condition (any of these values, between these
-    /// dates), so they keep their single editor and apply as they change, in every mode.
+    /// Whether a date column puts its From and To range in a calendar menu of its header, beside the
+    /// text input of the inline filter row. With the header filter menu on, or in the advanced mode, the
+    /// filter already sits in a popover and holds the range itself, under the text input.
+    /// </summary>
+    internal bool ShowsRangeMenu(OmniDataGridColumnDefinition<TItem> column) =>
+        column is { AdvancedFilter: true, FilterType: OmniDataGridColumnFilterType.Date, FilterTemplate: null }
+        && IsFilterable(column)
+        && !grid.ShowHeaderFilterMenu
+        && !UsesAdvancedFilter;
+
+    /// <summary>Whether the popover editor of a date column also holds its From and To range.</summary>
+    internal static bool HoldsRange(OmniDataGridColumnDefinition<TItem> column, bool inPanel) =>
+        inPanel && column is { AdvancedFilter: true, FilterType: OmniDataGridColumnFilterType.Date };
+
+    /// <summary>
+    /// Whether this column's editor is the two-condition one of the advanced mode. A checkable list,
+    /// a date range and a date already express their whole condition (any of these values, between
+    /// these dates, within this period), so they keep their single editor and apply as they change, in
+    /// every mode.
     /// </summary>
     internal bool UsesAdvancedEditor(OmniDataGridColumnDefinition<TItem> column) =>
         UsesAdvancedFilter && !HasSelfContainedEditor(column);
@@ -51,7 +68,7 @@ internal sealed class GridFilterEditor<TItem>(OmniDataGrid<TItem> grid)
 
     private static bool HasSelfContainedEditor(OmniDataGridColumnDefinition<TItem> column) =>
         column.FilterTemplate is null
-        && column.FilterType is OmniDataGridColumnFilterType.MultiSelect or OmniDataGridColumnFilterType.DateRange;
+        && column.FilterType is OmniDataGridColumnFilterType.MultiSelect or OmniDataGridColumnFilterType.DateRange or OmniDataGridColumnFilterType.Date;
 
     internal bool IsOneConditionPanel(OmniDataGridColumnDefinition<TItem> column) =>
         !UsesAdvancedEditor(column) && !HasSelfContainedEditor(column);
@@ -107,10 +124,12 @@ internal sealed class GridFilterEditor<TItem>(OmniDataGrid<TItem> grid)
     }
 
     /// <summary>A multi-valued filter travels encoded; the summary shows its values, not the encoding.</summary>
-    private static string DisplayFilterValue(OmniDataGridColumnDefinition<TItem> column, string value) =>
-        column.FilterType == OmniDataGridColumnFilterType.DateRange
-            ? string.Join(" - ", OmniDataGridDateRange.Split(value).Start, OmniDataGridDateRange.Split(value).End)
-            : string.Join(", ", OmniDataGridFilterValues.Split(value).Select(candidate => CandidateText(column, candidate)));
+    private static string DisplayFilterValue(OmniDataGridColumnDefinition<TItem> column, string value) => column.FilterType switch
+    {
+        OmniDataGridColumnFilterType.DateRange => string.Join(" - ", OmniDataGridDateRange.Split(value).Start, OmniDataGridDateRange.Split(value).End),
+        OmniDataGridColumnFilterType.Date => OmniDataGridDateText.Format(value, CultureInfo.CurrentCulture),
+        _ => string.Join(", ", OmniDataGridFilterValues.Split(value).Select(candidate => CandidateText(column, candidate)))
+    };
 
     /// <summary>What one filter candidate reads as: the column's text for it, or the value itself.</summary>
     internal static string CandidateText(OmniDataGridColumnDefinition<TItem> column, string candidate) =>

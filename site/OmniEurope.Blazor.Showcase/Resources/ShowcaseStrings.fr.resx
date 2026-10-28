@@ -95,11 +95,6 @@
   <data name="DemoFormTitle" xml:space="preserve"><value>Formulaires</value></data>
   <data name="DemoFormSummary" xml:space="preserve"><value>Les champs de saisie et leur libellé accessible.</value></data>
   <data name="DemoFormCapability3" xml:space="preserve"><value>Curseur, case à cocher et interrupteur pilotés au clavier.</value></data>
-  <data name="DemoNavigationTitle" xml:space="preserve"><value>Navigation</value></data>
-  <data name="DemoNavigationSummary" xml:space="preserve"><value>Situer l'utilisateur et le déplacer entre les sections.</value></data>
-  <data name="DemoNavigationCapability1" xml:space="preserve"><value>Fil d'Ariane marquant la page courante.</value></data>
-  <data name="DemoNavigationCapability2" xml:space="preserve"><value>Onglets contrôlés, avec rôles et navigation au clavier.</value></data>
-  <data name="DemoNavigationCapability3" xml:space="preserve"><value>Étapes numérotées avec validation avant changement.</value></data>
   <data name="DemoFeedbackTitle" xml:space="preserve"><value>Retours d'état</value></data>
   <data name="DemoFeedbackSummary" xml:space="preserve"><value>Dire où en est le système sans bloquer la lecture.</value></data>
   <data name="DemoFeedbackCapability1" xml:space="preserve"><value>Barre de progression déterminée ou indéterminée.</value></data>
@@ -140,10 +135,10 @@
   <data name="DemoEditorCapability2" xml:space="preserve"><value>Traitement de texte sur une page, décompte des mots, export HTML et texte.</value></data>
   <data name="DemoEditorCapability3" xml:space="preserve"><value>Éditeur de code (Monaco chez l'hôte, texte brut sous CSP stricte) et dépôt borné.</value></data>
   <data name="DemoOverlayTitle" xml:space="preserve"><value>Superpositions</value></data>
-  <data name="DemoOverlaySummary" xml:space="preserve"><value>Notifications, bouton scindé et menu de compte.</value></data>
+  <data name="DemoOverlaySummary" xml:space="preserve"><value>Notifications et bouton scindé.</value></data>
   <data name="DemoOverlayCapability1" xml:space="preserve"><value>Notifications envoyées à la pile de l'hôte, courtes ou longues.</value></data>
   <data name="DemoOverlayCapability2" xml:space="preserve"><value>Quatre sévérités de notification, avec fermeture facultative.</value></data>
-  <data name="DemoOverlayCapability3" xml:space="preserve"><value>Un bouton scindé et un menu de compte.</value></data>
+  <data name="DemoOverlayCapability3" xml:space="preserve"><value>Un bouton scindé et son menu.</value></data>
   <data name="DemoGridAdvancedTitle" xml:space="preserve"><value>Grille, vue complète</value></data>
   <data name="DemoGridAdvancedSummary" xml:space="preserve"><value>Sélection, groupes, édition, colonnes figées et filtres riches.</value></data>
   <data name="DemoGridAdvancedCapability1" xml:space="preserve"><value>Sélection multiple, au clic sur la ligne.</value></data>
@@ -287,10 +282,6 @@
   <data name="DemoVerticalFormSummary" xml:space="preserve"><value>Tous les types de champ, les erreurs et leur récapitulatif, les états désactivé et lecture seule.</value></data>
   <data name="DemoVerticalFormCapability2" xml:space="preserve"><value>Les erreurs sont celles du contexte d'édition : le champ en tire aria-invalid, les corriger les retire du récapitulatif.</value></data>
   <data name="DemoVerticalFormCapability3" xml:space="preserve"><value>Champ de fichier soudé, zone d'un fichier, zone de plusieurs fichiers en liste réduite.</value></data>
-  <data name="DemoSettingsTabsTitle" xml:space="preserve"><value>Réglages en onglets</value></data>
-  <data name="DemoSettingsTabsSummary" xml:space="preserve"><value>Un onglet à icône par thème, une section par onglet, une tuile par réglage.</value></data>
-  <data name="DemoSettingsTabsCapability1" xml:space="preserve"><value>Un interrupteur posé dans une tuile prend le nom de la tuile pour libellé ; un clic sur la tuile le bascule.</value></data>
-  <data name="DemoSettingsTabsCapability2" xml:space="preserve"><value>Le contrôle se tient à droite, le nom, l'aide et l'icône à gauche.</value></data>
   <data name="DemoNoticesTitle" xml:space="preserve"><value>Notifications et dialogues</value></data>
   <data name="DemoNoticesSummary" xml:space="preserve"><value>Notifications à fermer, dialogues sur le voile.</value></data>
   <data name="DemoNoticesCapability1" xml:space="preserve"><value>Chaque notification se ferme par sa croix.</value></data>
@@ -352,34 +343,6 @@
   <data name="RunsStatusInfo" xml:space="preserve"><value>En cours</value></data>
   <data name="RunsStatusWarning" xml:space="preserve"><value>Annulé</value></data>
   <data name="RunsStatusDanger" xml:space="preserve"><value>Échec</value></data>
-  <data name="SettingsTabsLabel" xml:space="preserve"><value>Réglages</value></data>
-  <data name="SettingsGeneral" xml:space="preserve"><value>Général</value></data>
-  <data name="SettingsGeneralLead" xml:space="preserve"><value>Emplacements de travail et comportement au démarrage.</value></data>
-  <data name="SettingsFolder" xml:space="preserve"><value>Dossier des artefacts</value></data>
-  <data name="SettingsFolderHint" xml:space="preserve"><value>Où les builds déposent leurs paquets.</value></data>
-  <data name="SettingsBrowse" xml:space="preserve"><value>Parcourir</value></data>
-  <data name="SettingsStartup" xml:space="preserve"><value>Démarrer avec Windows</value></data>
-  <data name="SettingsStartupHint" xml:space="preserve"><value>Lance l'agent à l'ouverture de session.</value></data>
-  <data name="SettingsLanguage" xml:space="preserve"><value>Langue</value></data>
-  <data name="SettingsLanguageHint" xml:space="preserve"><value>Langue de l'interface et des notifications.</value></data>
-  <data name="SettingsLanguageFrench" xml:space="preserve"><value>Français</value></data>
-  <data name="SettingsLanguageEnglish" xml:space="preserve"><value>English</value></data>
-  <data name="SettingsDisplay" xml:space="preserve"><value>Affichage</value></data>
-  <data name="SettingsDisplayLead" xml:space="preserve"><value>Apparence et densité de l'interface.</value></data>
-  <data name="SettingsDarkMode" xml:space="preserve"><value>Mode sombre</value></data>
-  <data name="SettingsDarkModeHint" xml:space="preserve"><value>Suivre le système ou forcer un mode.</value></data>
-  <data name="SettingsModeSystem" xml:space="preserve"><value>Suivre le système</value></data>
-  <data name="SettingsModeLight" xml:space="preserve"><value>Clair</value></data>
-  <data name="SettingsModeDark" xml:space="preserve"><value>Sombre</value></data>
-  <data name="SettingsCompact" xml:space="preserve"><value>Interface compacte</value></data>
-  <data name="SettingsCompactHint" xml:space="preserve"><value>Réduit les marges des grilles et des formulaires.</value></data>
-  <data name="SettingsNotifications" xml:space="preserve"><value>Notifications</value></data>
-  <data name="SettingsNotificationsLead" xml:space="preserve"><value>Ce qui vous est signalé, et par quel canal.</value></data>
-  <data name="SettingsFailures" xml:space="preserve"><value>Échecs de pipeline</value></data>
-  <data name="SettingsFailuresHint" xml:space="preserve"><value>Une notification à chaque exécution en échec.</value></data>
-  <data name="SettingsDigest" xml:space="preserve"><value>Résumé quotidien</value></data>
-  <data name="SettingsDigestHint" xml:space="preserve"><value>Envoyé chaque matin à 8 h.</value></data>
-  <data name="SettingsDigestAddress" xml:space="preserve"><value>Adresse du résumé</value></data>
   <data name="DemoShellDashboard" xml:space="preserve"><value>Tableau de bord</value></data>
   <data name="DemoShellInProgress" xml:space="preserve"><value>En cours</value></data>
   <data name="DemoShellArchived" xml:space="preserve"><value>Archivés</value></data>
@@ -723,24 +686,6 @@
   <data name="DemoAppShellMinimize" xml:space="preserve"><value>Réduire la fenêtre</value></data>
   <data name="DemoAppShellMaximize" xml:space="preserve"><value>Agrandir ou restaurer la fenêtre</value></data>
   <data name="DemoAppShellClose" xml:space="preserve"><value>Fermer la fenêtre</value></data>
-  <data name="DemoNavigationBreadcrumb" xml:space="preserve"><value>Fil d'Ariane</value></data>
-  <data name="DemoNavigationHome" xml:space="preserve"><value>Accueil</value></data>
-  <data name="DemoNavigationComponents" xml:space="preserve"><value>Composants</value></data>
-  <data name="DemoNavigationCurrent" xml:space="preserve"><value>Navigation</value></data>
-  <data name="DemoNavigationSections" xml:space="preserve"><value>Sections du dossier</value></data>
-  <data name="DemoNavigationTabSummary" xml:space="preserve"><value>Résumé</value></data>
-  <data name="DemoNavigationDocuments" xml:space="preserve"><value>Pièces</value></data>
-  <data name="DemoNavigationDocumentsText" xml:space="preserve"><value>Chaque pièce porte sa date de dépôt.</value></data>
-  <data name="DemoNavigationHistory" xml:space="preserve"><value>Historique</value></data>
-  <data name="DemoNavigationHistoryText" xml:space="preserve"><value>Douze mouvements enregistrés.</value></data>
-  <data name="DemoNavigationProgress" xml:space="preserve"><value>Avancement du dossier</value></data>
-  <data name="DemoNavigationFiling" xml:space="preserve"><value>Dépôt</value></data>
-  <data name="DemoNavigationFilingText" xml:space="preserve"><value>Les pièces ont été reçues.</value></data>
-  <data name="DemoNavigationReview" xml:space="preserve"><value>Instruction</value></data>
-  <data name="DemoNavigationReviewText" xml:space="preserve"><value>Le dossier est en cours d'examen.</value></data>
-  <data name="DemoNavigationDecision" xml:space="preserve"><value>Décision</value></data>
-  <data name="DemoNavigationDecisionText" xml:space="preserve"><value>La décision sera notifiée par courrier.</value></data>
-  <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Le dossier compte {0} pièces.</value></data>
   <data name="DemoPagesReload" xml:space="preserve"><value>Recharger la fiche</value></data>
   <data name="DemoPagesRerun" xml:space="preserve"><value>Relancer</value></data>
   <data name="DemoPagesPipelineRun" xml:space="preserve"><value>Exécution du pipeline #{0}</value></data>
@@ -828,6 +773,9 @@
   <data name="DemoFeedbackNarrow" xml:space="preserve"><value>Étroite</value></data>
   <data name="DemoFeedbackLongTooltip" xml:space="preserve"><value>Un dossier archivé reste consultable en lecture seule. Il ne compte plus dans les quotas, n'apparaît plus dans les recherches par défaut et ne reçoit plus de notifications. Pour le rouvrir, un administrateur le restaure depuis l'onglet Archives ; son historique, ses pièces jointes et ses commentaires reviennent alors intacts, avec la date de restauration.</value></data>
   <data name="DemoFeedbackLongText" xml:space="preserve"><value>Texte long</value></data>
+  <data name="DemoFeedbackBadgeClickLabel" xml:space="preserve"><value>Cliqué {0} fois, cliquer pour compter une fois de plus</value></data>
+  <data name="DemoFeedbackBadgeLinkLabel" xml:space="preserve"><value>Retour à la page d'accueil</value></data>
+  <data name="DemoFeedbackBadgeLink" xml:space="preserve"><value>Accueil</value></data>
   <data name="DemoFeedbackTitleTooltip" xml:space="preserve"><value>Infobulle du paquet sur un simple attribut title.</value></data>
   <data name="DemoFeedbackHover" xml:space="preserve"><value>Survoler</value></data>
   <data name="DemoFeedbackLoadingAvatar" xml:space="preserve"><value>Chargement de l'avatar</value></data>
@@ -1041,11 +989,6 @@
   <data name="DemoOverlaySaveAndClose" xml:space="preserve"><value>Enregistrer et fermer</value></data>
   <data name="DemoOverlaySaveCopy" xml:space="preserve"><value>Enregistrer une copie</value></data>
   <data name="DemoOverlayPublishUnavailable" xml:space="preserve"><value>Publier, indisponible</value></data>
-  <data name="DemoOverlayAccountMenu" xml:space="preserve"><value>Menu du compte</value></data>
-  <data name="DemoOverlayMyProfile" xml:space="preserve"><value>Mon profil</value></data>
-  <data name="DemoOverlaySignOut" xml:space="preserve"><value>Se déconnecter</value></data>
-  <data name="DemoOverlaySignedOut" xml:space="preserve"><value>Déconnexion</value></data>
-  <data name="DemoOverlayAdminUnavailable" xml:space="preserve"><value>Administration, indisponible</value></data>
   <data name="DemoOverlayLastAction" xml:space="preserve"><value>Dernière action : {0}</value></data>
   <data name="DemoOverlayNoAction" xml:space="preserve"><value>aucune</value></data>
   <data name="DemoOverlayNoticeInfoTitle" xml:space="preserve"><value>Information</value></data>
@@ -1343,21 +1286,6 @@
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Liens orientés</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Texte relu, verrouillé au départ</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Lecture seule</value></data>
-  <data name="SettingsProject" xml:space="preserve"><value>Projet</value></data>
-  <data name="SettingsProjectLead" xml:space="preserve"><value>Les actions de cette zone ne peuvent pas être annulées.</value></data>
-  <data name="SettingsDeleteProject" xml:space="preserve"><value>Supprimer le projet</value></data>
-  <data name="SettingsDeleteProjectHint" xml:space="preserve"><value>Le projet, ses rapports et son historique sont effacés.</value></data>
-  <data name="SettingsDeleteProjectConfirm" xml:space="preserve"><value>Le projet « PRJ-042 » et ses 42 rapports seront supprimés définitivement.</value></data>
-  <data name="SettingsProjectDeleted" xml:space="preserve"><value>Projet « PRJ-042 » supprimé (démonstration : rien n'a été effacé).</value></data>
-  <data name="SettingsResetHistory" xml:space="preserve"><value>Réinitialiser l'historique</value></data>
-  <data name="SettingsResetHistoryHint" xml:space="preserve"><value>Vide le journal des exécutions ; cette démonstration échoue exprès.</value></data>
-  <data name="SettingsResetHistoryConfirmTitle" xml:space="preserve"><value>Réinitialiser l'historique de « PRJ-042 » ?</value></data>
-  <data name="SettingsResetHistoryConfirm" xml:space="preserve"><value>Toutes les exécutions passées de « PRJ-042 » seront effacées.</value></data>
-  <data name="SettingsResetAction" xml:space="preserve"><value>Réinitialiser</value></data>
-  <data name="SettingsResetFailed" xml:space="preserve"><value>Le serveur a refusé la réinitialisation (échec simulé).</value></data>
-  <data name="SettingsTransferProject" xml:space="preserve"><value>Transférer le projet</value></data>
-  <data name="SettingsTransferProjectHint" xml:space="preserve"><value>Réservé au propriétaire du projet.</value></data>
-  <data name="SettingsTransferAction" xml:space="preserve"><value>Transférer</value></data>
   <data name="DemoInputsModel" xml:space="preserve"><value>Modèle</value></data>
   <data name="DemoInputsModelHelp" xml:space="preserve"><value>Choisissez dans la liste ou tapez un nom qui n'y figure pas.</value></data>
   <data name="DemoInputsModelValue" xml:space="preserve"><value>Valeur : {0}</value></data>

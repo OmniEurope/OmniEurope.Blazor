@@ -84,17 +84,17 @@ export async function chevronSteps(session, results) {
     return seen;
   };
 
-  // 1. A tab strip too narrow for its tabs, on the navigation page.
+  // 1. A tab strip too narrow for its tabs, on the tabs page.
   await send('Emulation.setDeviceMetricsOverride', { width: 250, height: 800, deviceScaleFactor: 1, mobile: false });
-  await session.visit('/components/legacy/navigation', '.omni-tabs__strip [role="tab"]');
-  await waitFor('une bande d\'onglets qui déborde', "(() => { const view = document.querySelector('.omni-tabs__viewport'); return view.scrollWidth - view.clientWidth > 20; })()");
-  await drive('onglets', { strip: '.omni-tabs__strip', viewport: '.omni-tabs__viewport', start: '.omni-tabs__scroll--start', end: '.omni-tabs__scroll--end' }, false);
+  await session.visit('/components/tabs', '#tabs-overflow .omni-tabs__strip [role="tab"]');
+  await waitFor('une bande d\'onglets qui déborde', "(() => { const view = document.querySelector('#tabs-overflow .omni-tabs__viewport'); return view.scrollWidth - view.clientWidth > 20; })()");
+  await drive('onglets', { strip: '#tabs-overflow .omni-tabs__strip', viewport: '.omni-tabs__viewport', start: '.omni-tabs__scroll--start', end: '.omni-tabs__scroll--end' }, false);
   step('onglets : chevrons posés sur la bande, ni taille ni contenu qui bougent, butée à marge');
 
   // 2. The keyboard brings a focused tab clear of the chevron that now covers the edge.
-  await evaluate("document.querySelector('.omni-tabs__viewport').scrollTo({ left: 0, behavior: 'instant' })");
+  await evaluate("document.querySelector('#tabs-overflow .omni-tabs__viewport').scrollTo({ left: 0, behavior: 'instant' })");
   await pause(150);
-  const lastTab = "[...document.querySelectorAll('.omni-tabs__strip [role=\"tab\"]')].at(-1)";
+  const lastTab = "[...document.querySelectorAll('#tabs-overflow .omni-tabs__strip [role=\"tab\"]')].at(-1)";
   await evaluate(`${lastTab}.focus()`);
   await send('Input.dispatchKeyEvent', { type: 'rawKeyDown', key: 'Shift', code: 'ShiftLeft', windowsVirtualKeyCode: 16 });
   await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Shift', code: 'ShiftLeft', windowsVirtualKeyCode: 16 });
@@ -104,7 +104,7 @@ export async function chevronSteps(session, results) {
   await pause(300);
   const covered = await evaluate(`(() => {
     const tab = ${lastTab}.getBoundingClientRect();
-    const hit = [...document.querySelectorAll('.omni-tabs__strip .omni-tabs__scroll')].filter(chevron => !chevron.hidden).map(chevron => chevron.getBoundingClientRect()).filter(box => box.left < tab.right && box.right > tab.left && box.top < tab.bottom && box.bottom > tab.top);
+    const hit = [...document.querySelectorAll('#tabs-overflow .omni-tabs__strip .omni-tabs__scroll')].filter(chevron => !chevron.hidden).map(chevron => chevron.getBoundingClientRect()).filter(box => box.left < tab.right && box.right > tab.left && box.top < tab.bottom && box.bottom > tab.top);
     return hit.length;
   })()`);
   check(covered === 0, 'Le dernier onglet, focalisé, reste sous un chevron.');
@@ -123,11 +123,11 @@ export async function chevronSteps(session, results) {
 
   // 4. A click on a chevron still scrolls by about a page, and the strip stays whole.
   await send('Emulation.setDeviceMetricsOverride', { width: 250, height: 800, deviceScaleFactor: 1, mobile: false });
-  await session.visit('/components/legacy/navigation', '.omni-tabs__strip [role="tab"]');
-  await waitFor('une bande d\'onglets qui déborde', "(() => { const view = document.querySelector('.omni-tabs__viewport'); return view.scrollWidth - view.clientWidth > 20; })()");
-  await waitFor('le chevron de fin', "document.querySelector('.omni-tabs__scroll--end') && !document.querySelector('.omni-tabs__scroll--end').hidden");
-  await clickOn('.omni-tabs__scroll--end');
-  await waitFor('la bande défilée par son chevron', "document.querySelector('.omni-tabs__viewport').scrollLeft > 10");
+  await session.visit('/components/tabs', '#tabs-overflow .omni-tabs__strip [role="tab"]');
+  await waitFor('une bande d\'onglets qui déborde', "(() => { const view = document.querySelector('#tabs-overflow .omni-tabs__viewport'); return view.scrollWidth - view.clientWidth > 20; })()");
+  await waitFor('le chevron de fin', "document.querySelector('#tabs-overflow .omni-tabs__scroll--end') && !document.querySelector('#tabs-overflow .omni-tabs__scroll--end').hidden");
+  await clickOn('#tabs-overflow .omni-tabs__scroll--end');
+  await waitFor('la bande défilée par son chevron', "document.querySelector('#tabs-overflow .omni-tabs__viewport').scrollLeft > 10");
   step('chevron des onglets cliqué : la bande défile');
   await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
   await pause(200);

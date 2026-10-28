@@ -244,7 +244,7 @@ internal sealed class GridQueryState<TItem>(OmniDataGrid<TItem> grid)
         var columns = grid.ColumnSet.EffectiveColumns;
         var keys = columns.Select(column => column.Key).ToHashSet(StringComparer.Ordinal);
         var dateRanges = columns
-            .Where(column => column.FilterType == OmniDataGridColumnFilterType.DateRange && column.FilterPredicate is null)
+            .Where(column => column.FilterType is OmniDataGridColumnFilterType.DateRange or OmniDataGridColumnFilterType.Date && column.FilterPredicate is null)
             .Select(column => column.Key)
             .ToHashSet(StringComparer.Ordinal);
         return _filters

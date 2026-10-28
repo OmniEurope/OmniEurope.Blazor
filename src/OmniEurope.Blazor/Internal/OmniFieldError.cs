@@ -6,7 +6,9 @@ namespace OmniEurope.Blazor.Internal;
 /// its text. The region exists before the error does, so the error is announced when it appears, and
 /// politely: the accessibility contract reserves assertive announcements (<c>role="alert"</c>) for
 /// blocking errors, and a field error is not one. The line carries the id the control names in
-/// <c>aria-describedby</c>. Empty, the region takes no room (<c>.omni-form-field__message:empty</c>).
+/// <c>aria-describedby</c>. Empty or not, the region keeps the height of one error line
+/// (<c>.omni-form-field__message</c>, <c>min-block-size: 1lh</c>), so an error appearing shifts nothing
+/// below the field; a second line of a long error grows it.
 /// </summary>
 internal static class OmniFieldError
 {
