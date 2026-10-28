@@ -8,6 +8,13 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 - Fond du thème Trou noir : plus aucun halo autour de l'ombre et du disque, en sombre comme en clair, et dans le champ CSS de repli sans WebGL. Le halo venait d'un terme « brume » du shader (`omni-black-hole.js`), ajouté au commit `f9561457` du 2026-10-02 et publié dans la 1.5.0 (« baigne dans un halo ») : il épaississait l'arc et voilait l'ombre. Il est supprimé, le disque et l'anneau de photons restent seuls ; le jeton `--omni-backdrop-halo` et son dégradé disparaissent du repli CSS. Demande d'une application cliente (recette R-44).
 - Fond du thème Trou noir : les étoiles sont de petits points nets d'environ un pixel et demi, sans flou ni halo (bord antialiasé sur un pixel au plus, calculé en pixels physiques), de luminosité variable, toujours déviées près de l'ombre ; même traitement à l'encre en clair. Demande d'une application cliente (recette R-73).
+### Added
+
+- `OmniNavTile.FitTitle` (`bool`, faux par défaut) : demande d'une application cliente (recette R-57), dont les tuiles de six par rangée coupaient les mots de leurs titres (« Environnements »). Vrai, la police du titre diminue avec la largeur de la tuile (unités de requête de conteneur `cqi`, sans script) jusqu'à ce que tout le titre tienne sur une ligne, aucun mot n'est coupé, le titre et la description sont alignés à gauche, et sous 0,75rem le titre est coupé par des points de suspension. La taille suit la longueur du titre, arrondie à un palier (classe `omni-nav-tile--fit-N`, jamais un style en ligne, pour rester compatible avec une politique de styles stricte). Sans effet tant que le paramètre n'est pas posé.
+
+### Changed
+
+- `OmniFormField` (et la ligne d'erreur d'`OmniRadioButtonList`) : la région de l'erreur garde toujours la hauteur d'une ligne d'erreur (`min-block-size: 1lh`), même vide, au lieu d'être sortie du flux. Demande d'une application cliente (recette R-12) : l'apparition du message de validation décalait vers le bas tout ce qui suit le champ. Chaque champ prend désormais une ligne de plus (environ 1,1 rem au texte courant) ; seule une erreur sur plusieurs lignes agrandit encore la région. Le message des validateurs autonomes (`OmniRequiredValidator`, `OmniLengthValidator`, `OmniEmailValidator`) reste hors du flux tant qu'il est vide.
 
 ## [1.9.4] - 2026-10-26
 
