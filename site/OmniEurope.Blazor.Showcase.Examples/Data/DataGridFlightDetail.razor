@@ -1,0 +1,20 @@
+@* The panel that opens under a flight: aircraft, route, seats and arrival, in short cards. The tile grid
+   adapts to the width of its container, one column in a narrow one. *@
+<OmniTileGrid Columns="4" MinColumnWidth="14rem" EqualHeights="false" Gap="OmniSpacing.Small">
+    <OmniRow Gap="OmniSpacing.XSmall" Align="OmniAlignment.Center">
+        <OmniIcon Name="OmniIconName.Airplane" />
+        <span>@AircraftText</span>
+    </OmniRow>
+    <OmniRow Gap="OmniSpacing.XSmall" Align="OmniAlignment.Center">
+        <OmniIcon Name="OmniIconName.MapPinLine" />
+        <span>@RouteText</span>
+    </OmniRow>
+    <OmniRow Gap="OmniSpacing.XSmall" Align="OmniAlignment.Center">
+        <OmniIcon Name="OmniIconName.User" />
+        <span>@SeatsText</span>
+    </OmniRow>
+    <OmniRow Gap="OmniSpacing.XSmall" Align="OmniAlignment.Center">
+        <OmniIcon Name="OmniIconName.AirplaneLanding" />
+        <span>@ArrivalText</span>
+    </OmniRow>
+</OmniTileGrid>

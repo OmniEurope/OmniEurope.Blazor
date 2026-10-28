@@ -1,0 +1,46 @@
+@* An income statement as a tree (ChildrenOf): the categories, always open (CanToggleTreeRow), carry their
+   sub-totals, which open on a click on the row (ToggleTreeOnRowClick) or by their chevron, Right and Left on
+   the keyboard; the two first buttons open and close everything. Sorting keeps the siblings under their
+   parent; the hovered column is tinted (HighlightColumnOnHover). The three buttons are the content of the
+   header bar (HeaderBarContent), which carries no export (HeaderBarExport None); the third writes the table
+   the example builds, every row open, as an Excel workbook (OmniTableExportDownloader). The footer bar
+   exports to Markdown only, at its start (ExportCsv, ExportExcel and ExportPdf set to false). *@
+<OmniDataGrid @ref="_grid" TItem="StatementLine" Id="demo-grid-tree"
+              ScrollMode="OmniDataGridScrollMode.Paged"
+              HeaderWrap="OmniDataGridHeaderWrap.Truncate"
+              Items="StatementLine.Sample"
+              Caption="Income statement"
+              KeyOf="line => line.Id"
+              ChildrenOf="line => line.Children"
+              CanToggleTreeRow="line => line.Level > 0"
+              ToggleTreeOnRowClick="true"
+              HighlightColumnOnHover="true"
+              Filterable="false"
+              ShowHeaderBar="true"
+              HeaderBarExport="OmniDataGridBarExport.None"
+              ShowFooterBar="true"
+              FooterBarExport="OmniDataGridBarExport.Start"
+              ExportCsv="false"
+              ExportExcel="false"
+              ExportPdf="false"
+              ExportFileName="income-statement">
+    <HeaderBarContent>
+        <OmniRow Gap="OmniSpacing.Small">
+            <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="ExpandAsync">
+                <Icon><OmniIcon Name="OmniIconName.CornersOut" /></Icon><ChildContent><span>Expand all</span></ChildContent>
+            </OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="CollapseAsync">
+                <Icon><OmniIcon Name="OmniIconName.CornersIn" /></Icon><ChildContent><span>Collapse all</span></ChildContent>
+            </OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="ExportAsync">
+                <Icon><OmniIcon Name="OmniIconName.FileXls" /></Icon><ChildContent><span>Excel export</span></ChildContent>
+            </OmniButton>
+        </OmniRow>
+    </HeaderBarContent>
+    <Columns>
+        <OmniDataGridColumn TItem="StatementLine" Property="Label" Title="Item" HighlightOnHover="false" />
+        <OmniDataGridColumn TItem="StatementLine" Property="Previous" Title="2025" FormatString="{0:C0}" />
+        <OmniDataGridColumn TItem="StatementLine" Property="Current" Title="2026" FormatString="{0:C0}" />
+        <OmniDataGridColumn TItem="StatementLine" Property="Variation" Title="Change" FormatString="{0:P1}" />
+    </Columns>
+</OmniDataGrid>

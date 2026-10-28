@@ -1,0 +1,45 @@
+@* The list in its default states and the pager in its forms: an empty list says so by itself, a list
+   needs only an item template, and a pager can drop its numbers, keep its first and last buttons or be
+   disabled. The samples flow into as many columns as their container has room for. *@
+<OmniTileGrid Columns="5" MinColumnWidth="18rem" EqualHeights="false" Gap="OmniSpacing.Large">
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">List without items, default text</OmniText>
+        <OmniDataList TItem="Product" Items="@ProductData.None">
+            <ItemTemplate>@context.Name</ItemTemplate>
+        </OmniDataList>
+    </OmniStack>
+
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">List with a plain item template</OmniText>
+        <OmniDataList TItem="Product" Items="@TopProducts">
+            <ItemTemplate>@context.Name</ItemTemplate>
+        </OmniDataList>
+    </OmniStack>
+
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Pager without numbers</OmniText>
+        <OmniPager Id="gallery-pager-status" Label="Pager without numbers" @bind-Page="StatusPage" PageCount="12" />
+    </OmniStack>
+
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Pager with numbers and first/last buttons</OmniText>
+        <OmniPager Id="gallery-pager-full"
+                   Label="Pager with numbers and first/last buttons"
+                   @bind-Page="FullPage"
+                   PageCount="20"
+                   NumericPageCount="5"
+                   ShowFirstLast="true"
+                   Justify="OmniJustification.Center" />
+    </OmniStack>
+
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Disabled pager</OmniText>
+        <OmniPager Id="gallery-pager-disabled"
+                   Label="Disabled pager"
+                   Page="3"
+                   PageCount="8"
+                   NumericPageCount="3"
+                   ShowFirstLast="true"
+                   Disabled="true" />
+    </OmniStack>
+</OmniTileGrid>

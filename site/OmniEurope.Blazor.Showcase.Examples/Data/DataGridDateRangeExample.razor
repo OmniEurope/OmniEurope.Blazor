@@ -1,0 +1,5 @@
+@* The two native Du / Au date pickers of a date-range filter, outside any grid: the value is the encoded range. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniDataGridFilterDateRange @bind-Value="DateRange" />
+    <OmniText Tone="OmniTextTone.Muted">Encoded range: <code>@(DateRange.Length == 0 ? "(none)" : DateRange)</code></OmniText>
+</OmniStack>

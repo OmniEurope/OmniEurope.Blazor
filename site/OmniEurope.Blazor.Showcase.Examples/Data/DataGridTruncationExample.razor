@@ -1,0 +1,55 @@
+@* Three ways a grid treats text that does not fit.
+   A long value in a narrow column: the text cell stays on one line and ends with an ellipsis instead of
+   spilling over the next column; the template cell (the country badge) is not cut.
+   A title is never cut under HeaderWrap.Wrap (the default), even under a declared width: each column
+   declares 4rem, less than its one-word title with its sort and filter icons, and never goes under that
+   word. The declared width stays the preferred width: a title shorter than it leaves it as it is. Only
+   HeaderWrap="Truncate" cuts a title.
+   Without a declared width, a column takes the width of its longest value, title included: the package
+   name shows whole. Truncate="true" gives the description column the width the layout leaves it: its value
+   ends with an ellipsis and stays readable whole in the tooltip. A declared width (Width) or one chosen by
+   dragging (AllowColumnResize) always wins. The narrow frame (22rem) gives each column less than the
+   longest name. *@
+<OmniStack Gap="OmniSpacing.Large">
+    <OmniDataGrid TItem="CaseRow" Id="demo-grid-narrow"
+                  HeaderWrap="OmniDataGridHeaderWrap.Truncate"
+                  Items="CaseData.Narrow"
+                  Caption="Long text in a narrow column"
+                  Filterable="false"
+                  ScrollMode="OmniDataGridScrollMode.All">
+        <Columns>
+            <OmniDataGridColumn TItem="CaseRow" Property="Reference" Title="Reference" Width="7rem" />
+            <OmniDataGridColumn TItem="CaseRow" Property="Applicant" Title="Applicant" Width="11rem" />
+            <OmniDataGridColumn TItem="CaseRow" Property="Country" Title="Country">
+                <Template Context="row"><OmniBadge Tone="OmniTone.Info">@row.Country</OmniBadge></Template>
+            </OmniDataGridColumn>
+        </Columns>
+    </OmniDataGrid>
+
+    <OmniDataGrid TItem="CaseRow" Id="demo-grid-title-floor"
+                  Items="CaseData.Few"
+                  Caption="Narrow columns keep their whole title"
+                  ScrollMode="OmniDataGridScrollMode.All">
+        <Columns>
+            <OmniDataGridColumn TItem="CaseRow" Property="Reference" Title="Reference" Width="4rem" />
+            <OmniDataGridColumn TItem="CaseRow" Property="Applicant" Title="Applicant" Width="4rem" />
+            <OmniDataGridColumn TItem="CaseRow" Property="Country" Title="Country" Width="4rem" />
+            <OmniDataGridColumn TItem="CaseRow" Property="Amount" Title="Amount" FormatString="{0:C0}" Width="4rem" />
+        </Columns>
+    </OmniDataGrid>
+
+    <div id="demo-grid-fit-box" role="group" aria-label="Frame of 22rem">
+        <OmniDataGrid TItem="PackageRow" Id="demo-grid-fit"
+                      HeaderWrap="OmniDataGridHeaderWrap.Truncate"
+                      Items="SiteData.Packages"
+                      Caption="Columns sized to their content, description truncated"
+                      Filterable="false"
+                      AllowColumnResize="true"
+                      ScrollMode="OmniDataGridScrollMode.All">
+            <Columns>
+                <OmniDataGridColumn TItem="PackageRow" Property="Name" Title="Package" />
+                <OmniDataGridColumn TItem="PackageRow" Property="Description" Title="Description" Truncate="true" />
+            </Columns>
+        </OmniDataGrid>
+    </div>
+</OmniStack>

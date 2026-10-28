@@ -1,0 +1,58 @@
+@using System.Globalization
+@* A catalogue of sixty products in a list with a free item template, paged by an OmniPager the page owns.
+   The list is fed either by the page (Items) or by a loader it calls itself (Load), which can be slow or
+   fail: the loading, empty and error states are templates. Virtualize renders only the products in view,
+   in a frame of bounded height that gives the list a scroll to follow. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <div role="region" aria-label="Catalogue">
+        <OmniDataList TItem="Product"
+                      Items="@ListItems"
+                      Load="@ListLoader"
+                      Virtualize="@Virtualize"
+                      aria-label="Products">
+            <ItemTemplate>
+                <OmniRow Gap="OmniSpacing.Small" Align="OmniAlignment.Center" Wrap="true">
+                    <OmniStack Gap="OmniSpacing.None">
+                        <strong>@context.Name</strong>
+                        <OmniText Tone="OmniTextTone.Muted">@CategoryLabel(context.Category)</OmniText>
+                    </OmniStack>
+                    <OmniText Element="OmniTextElement.Strong">@context.Price.ToString("C", CultureInfo.CurrentCulture)</OmniText>
+                    <OmniBadge Tone="@StockTone(context.Stock)">@StockLabel(context.Stock)</OmniBadge>
+                </OmniRow>
+            </ItemTemplate>
+            <LoadingContent>
+                <OmniRow Gap="OmniSpacing.Small" Align="OmniAlignment.Center">
+                    <OmniIcon Name="OmniIconName.Hourglass" />
+                    <span>Loading the catalogue.</span>
+                </OmniRow>
+            </LoadingContent>
+            <EmptyContent>
+                <OmniRow Gap="OmniSpacing.Small" Align="OmniAlignment.Center">
+                    <OmniIcon Name="OmniIconName.Archive" />
+                    <span>The catalogue is empty.</span>
+                </OmniRow>
+            </EmptyContent>
+            <ErrorContent>
+                <OmniRow Gap="OmniSpacing.Small" Align="OmniAlignment.Center">
+                    <OmniIcon Name="OmniIconName.Error" />
+                    <span>The catalogue could not be loaded.</span>
+                </OmniRow>
+            </ErrorContent>
+        </OmniDataList>
+    </div>
+    @if (!Virtualize)
+    {
+        <OmniPager Id="gallery-data-list-pager"
+                   Label="Catalogue pages"
+                   @bind-Page="CurrentPage"
+                   PageCount="@PageCount"
+                   PageSize="@_pageSize"
+                   PageSizeChanged="ChangePageSize"
+                   PageSizeOptions="@PageSizeChoices"
+                   NumericPageCount="@NumericPageCount"
+                   ShowFirstLast="@ShowFirstLast"
+                   Justify="@PagerJustify"
+                   Disabled="@PagerDisabled" />
+    }
+    <OmniText Tone="OmniTextTone.Muted">@StateEcho</OmniText>
+</OmniStack>

@@ -1,0 +1,34 @@
+@* Every column has a template (Template) and the rows arrive only after the first render: the columns, first
+   at the width of their headers, take the width of the cells that arrive. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniRow>
+        <OmniButton Id="demo-grid-sizing-templates-load" Variant="OmniButtonVariant.Secondary" OnClick="LoadTemplatedSitesAsync">
+            <Icon><OmniIcon Name="OmniIconName.Refresh" /></Icon>
+            <ChildContent><span>Simulate a load</span></ChildContent>
+        </OmniButton>
+    </OmniRow>
+    <div role="group" aria-label="Frame of the grid with templates">
+        <OmniDataGrid TItem="SiteRow" Id="demo-grid-sizing-templates"
+                      Items="TemplatedSites"
+                      Busy="TemplatedSitesLoading"
+                      AllowColumnResize="true"
+                      AllowColumnAutoFit="true"
+                      Caption="Columns sized to their content"
+                      ColumnSizing="OmniDataGridColumnSizing.Content"
+                      ScrollMode="OmniDataGridScrollMode.All">
+            <Columns>
+                <OmniDataGridColumn TItem="SiteRow" Property="Name" Title="Name" Frozen="true">
+                    <Template Context="site"><OmniLink Href="documentation">@site.Name</OmniLink></Template>
+                </OmniDataGridColumn>
+                <OmniDataGridColumn TItem="SiteRow" Property="Project" Title="Project">
+                    <Template Context="site"><span>@site.Project</span></Template>
+                </OmniDataGridColumn>
+                <OmniDataGridColumn TItem="SiteRow" Property="Online" Title="Status">
+                    <Template Context="site">
+                        <OmniBadge Tone="@(site.Online ? OmniTone.Success : OmniTone.Neutral)">@(site.Online ? "Online" : "Offline")</OmniBadge>
+                    </Template>
+                </OmniDataGridColumn>
+            </Columns>
+        </OmniDataGrid>
+    </div>
+</OmniStack>

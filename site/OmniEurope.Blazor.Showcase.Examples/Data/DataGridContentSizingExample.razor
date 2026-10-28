@@ -1,0 +1,116 @@
+@* Columns sized to their content (ColumnSizing Content): each column takes the width of its widest value, its
+   header on one line with its sort and filter icons included, measured on every row loaded. Declared widths
+   (Width) are ignored: the content decides, and MinWidth stays a floor. The room left goes to the columns
+   marked Grow (the name and the project); a narrower frame tightens the columns to their content, then
+   the grid scrolls sideways without cutting anything. Each grid sits in a frame of its own, which never
+   goes past the page. *@
+<OmniStack Gap="OmniSpacing.Large">
+    @* The two native From / To pickers (DateRange) rather than the default text entry of a date; a filter
+       template takes the same editor again. *@
+    <div role="group" aria-label="Frame of the grid sized to its content">
+        <OmniDataGrid TItem="SiteRow" Id="demo-grid-sizing"
+                      Items="SiteData.Sites"
+                      Caption="Columns sized to their content"
+                      ColumnSizing="OmniDataGridColumnSizing.Content"
+                      ScrollMode="OmniDataGridScrollMode.All">
+            <Columns>
+                <OmniDataGridColumn TItem="SiteRow" Property="Name" Title="Name" MinWidth="9rem" Grow="true" />
+                <OmniDataGridColumn TItem="SiteRow" Property="Online" Title="Status" Width="9rem">
+                    <Template Context="site">
+                        <OmniBadge Tone="@(site.Online ? OmniTone.Success : OmniTone.Neutral)">@(site.Online ? "Online" : "Offline")</OmniBadge>
+                    </Template>
+                </OmniDataGridColumn>
+                <OmniDataGridColumn TItem="SiteRow" Property="Visitors" Title="Current visitors" Width="8rem" />
+                <OmniDataGridColumn TItem="SiteRow" Property="Project" Title="Project" MinWidth="8rem" Grow="true" />
+                <OmniDataGridColumn TItem="SiteRow" Property="Since" Title="Since" Width="10rem" FormatString="{0:d}"
+                                    FilterType="OmniDataGridColumnFilterType.DateRange">
+                    <FilterTemplate>
+                        <OmniDataGridFilterDateRange Value="@context.Value" ValueChanged="@(value => context.ValueChanged(value))" />
+                    </FilterTemplate>
+                </OmniDataGridColumn>
+            </Columns>
+        </OmniDataGrid>
+    </div>
+
+    @* The same columns loaded by the grid itself (Load), a moment after its first render: the table shows its
+       headers under the loading bar, without scrolling, and its rows appear straight at the widths of the
+       rows received. The date is filtered from a single entry (a day, a month or a year). *@
+    <div role="group" aria-label="Frame of the grid that loads its rows">
+        <OmniDataGrid TItem="SiteRow" Id="demo-grid-sizing-remote"
+                      Load="LoadSitesAsync"
+                      Caption="Columns sized to their content"
+                      ColumnSizing="OmniDataGridColumnSizing.Content"
+                      ScrollMode="OmniDataGridScrollMode.All">
+            <Columns>
+                <OmniDataGridColumn TItem="SiteRow" Property="Name" Title="Name" MinWidth="9rem" Grow="true" />
+                <OmniDataGridColumn TItem="SiteRow" Property="Online" Title="Status">
+                    <Template Context="site">
+                        <OmniBadge Tone="@(site.Online ? OmniTone.Success : OmniTone.Neutral)">@(site.Online ? "Online" : "Offline")</OmniBadge>
+                    </Template>
+                </OmniDataGridColumn>
+                <OmniDataGridColumn TItem="SiteRow" Property="Visitors" Title="Current visitors" />
+                <OmniDataGridColumn TItem="SiteRow" Property="Project" Title="Project" MinWidth="8rem" Grow="true" />
+                <OmniDataGridColumn TItem="SiteRow" Property="Since" Title="Since" FormatString="{0:d}"
+                                    FilterType="OmniDataGridColumnFilterType.Date">
+                    <FilterTemplate>
+                        <OmniDataGridFilterDate Value="@context.Value" ValueChanged="@(value => context.ValueChanged(value))" />
+                    </FilterTemplate>
+                </OmniDataGridColumn>
+            </Columns>
+        </OmniDataGrid>
+    </div>
+
+    @* The same columns in the default mode (Declared): each Width is the width of the column whatever its
+       content, and a title that does not fit wraps. *@
+    <div role="group" aria-label="Frame of the grid with declared widths">
+        <OmniDataGrid TItem="SiteRow" Id="demo-grid-sizing-declared"
+                      Items="SiteData.Sites"
+                      Caption="The same columns with declared widths"
+                      ColumnSizing="OmniDataGridColumnSizing.Declared"
+                      ScrollMode="OmniDataGridScrollMode.All">
+            <Columns>
+                <OmniDataGridColumn TItem="SiteRow" Property="Name" Title="Name" MinWidth="9rem" />
+                <OmniDataGridColumn TItem="SiteRow" Property="Online" Title="Status" Width="9rem">
+                    <Template Context="site">
+                        <OmniBadge Tone="@(site.Online ? OmniTone.Success : OmniTone.Neutral)">@(site.Online ? "Online" : "Offline")</OmniBadge>
+                    </Template>
+                </OmniDataGridColumn>
+                <OmniDataGridColumn TItem="SiteRow" Property="Visitors" Title="Current visitors" Width="8rem" />
+                <OmniDataGridColumn TItem="SiteRow" Property="Project" Title="Project" MinWidth="8rem" />
+                <OmniDataGridColumn TItem="SiteRow" Property="Since" Title="Since" Width="10rem" FormatString="{0:d}" />
+            </Columns>
+        </OmniDataGrid>
+    </div>
+
+    @* Without a Grow column, the room left is shared in equal parts among all the columns, each keeping at
+       least the width of its content. *@
+    <div role="group" aria-label="Frame of the grid that shares the room left">
+        <OmniDataGrid TItem="SiteRow" Id="demo-grid-sizing-shared"
+                      Items="SiteData.Sites"
+                      Caption="Columns sized to their content"
+                      ColumnSizing="OmniDataGridColumnSizing.Content"
+                      ScrollMode="OmniDataGridScrollMode.All">
+            <Columns>
+                <OmniDataGridColumn TItem="SiteRow" Property="Name" Title="Name" />
+                <OmniDataGridColumn TItem="SiteRow" Property="Visitors" Title="Current visitors" />
+                <OmniDataGridColumn TItem="SiteRow" Property="Project" Title="Project" />
+            </Columns>
+        </OmniDataGrid>
+    </div>
+
+    @* A long text column that asks to wrap (Wrap): it has no width of its own, it takes the room the others
+       leave it and wraps instead of being cut. *@
+    <div role="group" aria-label="Frame of the grid with a wrapping column">
+        <OmniDataGrid TItem="PackageRow" Id="demo-grid-sizing-wrap"
+                      Items="SiteData.Packages"
+                      Caption="Columns sized to their content"
+                      Filterable="false"
+                      ColumnSizing="OmniDataGridColumnSizing.Content"
+                      ScrollMode="OmniDataGridScrollMode.All">
+            <Columns>
+                <OmniDataGridColumn TItem="PackageRow" Property="Name" Title="Package" />
+                <OmniDataGridColumn TItem="PackageRow" Property="Description" Title="Description" Wrap="true" MinWidth="12rem" />
+            </Columns>
+        </OmniDataGrid>
+    </div>
+</OmniStack>

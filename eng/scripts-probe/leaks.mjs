@@ -23,8 +23,8 @@ export async function leakSteps(session, results) {
     ['/components/legacy/editeur', '#editor-extended', async () => {
       await clickOn('#editor-body');
     }],
-    ['/components/legacy/grille', '#demo-grid-tree', async () => {}],
-    ['/components/legacy/listes', '.omni-log-viewer', async () => {}],
+    ['/components/data-grid-variants', '#demo-grid-tree', async () => {}],
+    ['/components/data-list', '.omni-log-viewer', async () => {}],
     ['/components/spreadsheet', '#demo-sheet [data-omni-sheet-grid]', async () => {}],
     ['/components/tree', '#demo-tree-accounts', async () => {}],
     ['/components/scheduler', '.omni-scheduler', async () => {}],

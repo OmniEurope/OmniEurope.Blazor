@@ -1,0 +1,165 @@
+@page "/components/data-list"
+@using OmniEurope.Blazor.Showcase.Examples.Data
+
+<GalleryPageFrame Slug="data-list">
+    <Settings>
+        <OmniSettingsSection Title="@Text["DataListSourceTitle"]" Description="@Text["DataListSourceDescription"]">
+            <OmniSettingsTile Title="@Text["DataListSource"]" Description="@Text["DataListSourceModeDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Database" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="DataListSource" Options="@SourceOptions" @bind-Value="Source" Label="@Text["DataListSource"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataListLatency"]" Description="@Text["DataListLatencyDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Hourglass" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="LatencyValue"
+                                Minimum="0"
+                                Maximum="3000"
+                                Step="250"
+                                ShowValue="true"
+                                Disabled="@(Source != DataListSource.Load)"
+                                FormatValue="@FormatMilliseconds"
+                                aria-label="@Text["DataListLatency"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataListFailure"]" Description="@Text["DataListFailureDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Error" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="FailLoad" Disabled="@(Source != DataListSource.Load)" aria-label="@Text["DataListFailure"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataListEmptyData"]" Description="@Text["DataListEmptyDataDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Archive" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="EmptyData" aria-label="@Text["DataListEmptyData"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataListVirtualize"]" Description="@Text["DataListVirtualizeDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Layers" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Virtualize" aria-label="@Text["DataListVirtualize"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+
+        <OmniSettingsSection Title="@Text["DataListPagerTitle"]" Description="@Text["DataListPagerDescription"]">
+            <OmniSettingsTile Title="@Text["DataListPageSize"]" Description="@Text["DataListPageSizeDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="int" Options="@PageSizeChoices" @bind-Value="PageSize" Label="@Text["DataListPageSize"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataListNumericPages"]" Description="@Text["DataListNumericPagesDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.NumberedList" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="int" Options="@NumericPageChoices" @bind-Value="NumericPageCount" Label="@Text["DataListNumericPages"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataListAlign"]" Description="@Text["DataListAlignDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Sliders" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniJustification" Options="@AlignOptions" @bind-Value="PagerAlign" Label="@Text["DataListAlign"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataListFirstLast"]" Description="@Text["DataListFirstLastDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.ArrowRight" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowFirstLast" aria-label="@Text["DataListFirstLast"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataListPageSizeOptions"]" Description="@Text["DataListPageSizeOptionsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.ChevronDown" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowPageSizeOptions" aria-label="@Text["DataListPageSizeOptions"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataListPagerDisabled"]" Description="@Text["DataListPagerDisabledDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Pin" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="PagerDisabled" aria-label="@Text["DataListPagerDisabled"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["DataListPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <div class="gallery-data-list">
+                    <DataListExample Source="Source"
+                                     Latency="LatencyValue"
+                                     FailLoad="FailLoad"
+                                     EmptyData="EmptyData"
+                                     Virtualize="Virtualize"
+                                     @bind-PageSize="PageSize"
+                                     NumericPageCount="NumericPageCount"
+                                     PagerJustify="PagerAlign"
+                                     ShowFirstLast="ShowFirstLast"
+                                     ShowPageSizeOptions="ShowPageSizeOptions"
+                                     PagerDisabled="PagerDisabled" />
+                </div>
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["DataListGalleryTitle"]</HeaderContent>
+            <ChildContent>
+                <div class="gallery-data-list-samples">
+                    <DataListGalleryExample />
+                </div>
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["DataListCardsTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["DataListCardsHint"]</OmniText>
+                <DataListCardsExample />
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["DataListVirtualTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["DataListVirtualHint"]</OmniText>
+                <div class="gallery-data-list-virtual">
+                    <DataListVirtualExample />
+                </div>
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["DataListLogTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["DataListLogHint"]</OmniText>
+                <DataListLogExample />
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["DataListAnsiTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["DataListAnsiHint"]</OmniText>
+                <DataListAnsiExample />
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["DataListKanbanTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["DataListKanbanHint"]</OmniText>
+                <DataListKanbanExample />
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

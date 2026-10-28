@@ -1,0 +1,151 @@
+@* The full grid on 240 fictional flights: paging, sorting, four filter shapes, selection, inline editing,
+   detail rows, grouping, virtualization and presentation. Virtualization refuses grouping and detail rows,
+   so its form declares neither. Both forms receive the same columns, from DataGridFlightColumns. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniRow Gap="OmniSpacing.Small" Align="OmniAlignment.Center" Justify="OmniJustification.Between" Wrap="true">
+        <OmniRow Gap="OmniSpacing.XSmall" Wrap="true">
+            <OmniBadge Tone="OmniTone.Neutral">@FlightCountText</OmniBadge>
+            <OmniBadge Tone="OmniTone.Accent">@SelectedCountText</OmniBadge>
+            <OmniBadge Tone="OmniTone.Warning">@CancelledCountText</OmniBadge>
+        </OmniRow>
+        <OmniMarkdownExportButton TItem="Flight" Export="CreateExport" FileName="flights" Size="OmniControlSize.Small" OnExport="OnExported" />
+    </OmniRow>
+
+    <OmniText Tone="OmniTextTone.Muted">Sort by clicking a title, filter in the row below it, tick flights, open one with its chevron, edit status and gate with the pencil. Narrow the window: the table scrolls sideways instead of squeezing its columns.</OmniText>
+
+    @if (Virtualize)
+    {
+        <OmniDataGrid TItem="Flight"
+                      Id="gallery-data-grid-virtual"
+                      Items="@GridItems"
+                      Caption="Departures"
+                      ScrollMode="OmniDataGridScrollMode.Virtual"
+                      Height="32rem"
+                      EstimatedRowHeight="@FixedRowHeightPixels"
+                      FixedRowHeight="@FixedRowHeight"
+                      AllowSorting="@AllowSorting"
+                      Filterable="@Filterable"
+                      FilterMode="@FilterMode"
+                      ShowHeaderFilterMenu="@ShowHeaderFilterMenu"
+                      HideFilterMenuOnSelect="@HideFilterMenuOnSelect"
+                      CaseSensitiveFilters="@CaseSensitiveFilters"
+                      IgnoreDiacritics="@IgnoreDiacritics"
+                      SelectionMode="@SelectionMode"
+                      KeyOf="FlightKey"
+                      @bind-Value="SelectedFlights"
+                      AllowRowSelectOnRowClick="@SelectOnRowClick"
+                      RowRender="RenderRow"
+                      OnRowClick="OnRowClick"
+                      OnRowDoubleClick="OnRowDoubleClick"
+                      EditMode="@EditMode"
+                      ShowEditColumn="@ShowEditColumn"
+                      OnRowEdit="OnEditRequested"
+                      OnRowUpdate="OnRowUpdated"
+                      OnRowEditCancel="OnEditCancelled"
+                      HeaderWrap="@HeaderWrap"
+                      Density="@Density"
+                      GridLines="@GridLines"
+                      FooterPlacement="@FooterPlacement"
+                      AllowAlternatingRows="@AlternatingRows"
+                      HighlightRowOnHover="@HighlightRowOnHover"
+                      HighlightActiveColumn="@HighlightActiveColumn"
+                      AllowColumnResize="@AllowColumnResize"
+                      AllowColumnReorder="@AllowColumnReorder"
+                      AllowColumnHide="@AllowColumnHide"
+                      ShowResetLayout="@ShowResetLayout"
+                      StateKey="gallery-data-grid-flights"
+                      ShowHeaderBar="true"
+                      ShowExportButtonText="@ShowExportButtonText"
+                      Responsive="@Responsive"
+                      Busy="@Busy"
+                      ShowLoadingBar="@ShowLoadingBar"
+                      LoadingBarMode="@LoadingBarMode"
+                      OnRowContextMenu="OnRowContextMenu"
+                      OnColumnResize="OnColumnResized"
+                      EmptyText="No flight to show.">
+            <Columns>
+                <DataGridFlightColumns Flights="@GridItems" FreezeNumber="@FreezeNumber" />
+            </Columns>
+        </OmniDataGrid>
+    }
+    else
+    {
+        <OmniDataGrid TItem="Flight"
+                      Id="gallery-data-grid"
+                      Items="@GridItems"
+                      Caption="Departures"
+                      Height="32rem"
+                      EstimatedRowHeight="@FixedRowHeightPixels"
+                      FixedRowHeight="@FixedRowHeight"
+                      ScrollMode="@PagedScrollMode"
+                      @bind-Page="CurrentPage"
+                      PageSize="@_pageSize"
+                      PageSizeChanged="ChangePageSize"
+                      PageSizeOptions="@PageSizeChoices"
+                      PagerPlacement="@PagerPlacement"
+                      PagerJustify="@PagerJustify"
+                      NumericPageCount="@NumericPageCount"
+                      ShowPagingSummary="@ShowPagingSummary"
+                      AlwaysShowPager="@AlwaysShowPager"
+                      AllowSorting="@AllowSorting"
+                      Filterable="@Filterable"
+                      FilterMode="@FilterMode"
+                      ShowHeaderFilterMenu="@ShowHeaderFilterMenu"
+                      HideFilterMenuOnSelect="@HideFilterMenuOnSelect"
+                      CaseSensitiveFilters="@CaseSensitiveFilters"
+                      IgnoreDiacritics="@IgnoreDiacritics"
+                      SelectionMode="@SelectionMode"
+                      KeyOf="FlightKey"
+                      @bind-Value="SelectedFlights"
+                      AllowRowSelectOnRowClick="@SelectOnRowClick"
+                      RowRender="RenderRow"
+                      OnRowClick="OnRowClick"
+                      OnRowDoubleClick="OnRowDoubleClick"
+                      EditMode="@EditMode"
+                      ShowEditColumn="@ShowEditColumn"
+                      OnRowEdit="OnEditRequested"
+                      OnRowUpdate="OnRowUpdated"
+                      OnRowEditCancel="OnEditCancelled"
+                      AllowGrouping="@AllowGrouping"
+                      ShowGroupPanel="@ShowGroupPanel"
+                      @bind-Groups="Groups"
+                      AllGroupsExpanded="@AllGroupsExpanded"
+                      DetailTemplate="@DetailTemplate"
+                      OnRowExpand="OnRowExpanded"
+                      OnRowCollapse="OnRowCollapsed"
+                      ExpandMode="@ExpandMode"
+                      ShowExpandAll="@ShowExpandAll"
+                      @bind-ExpandedKeys="ExpandedKeys"
+                      HeaderWrap="@HeaderWrap"
+                      Density="@Density"
+                      GridLines="@GridLines"
+                      FooterPlacement="@FooterPlacement"
+                      AllowAlternatingRows="@AlternatingRows"
+                      HighlightRowOnHover="@HighlightRowOnHover"
+                      HighlightActiveColumn="@HighlightActiveColumn"
+                      AllowColumnResize="@AllowColumnResize"
+                      AllowColumnReorder="@AllowColumnReorder"
+                      AllowColumnHide="@AllowColumnHide"
+                      ShowResetLayout="@ShowResetLayout"
+                      StateKey="gallery-data-grid-flights"
+                      ShowHeaderBar="true"
+                      ShowExportButtonText="@ShowExportButtonText"
+                      Responsive="@Responsive"
+                      Busy="@Busy"
+                      ShowLoadingBar="@ShowLoadingBar"
+                      LoadingBarMode="@LoadingBarMode"
+                      OnRowContextMenu="OnRowContextMenu"
+                      OnColumnResize="OnColumnResized"
+                      EmptyText="No flight to show.">
+            <Columns>
+                <DataGridFlightColumns Flights="@GridItems" FreezeNumber="@FreezeNumber" />
+            </Columns>
+        </OmniDataGrid>
+    }
+
+    <OmniDescriptionList>
+        <OmniDescriptionItem Term="Selection">@SelectionEcho</OmniDescriptionItem>
+        <OmniDescriptionItem Term="Last event">@ActivityEcho</OmniDescriptionItem>
+        <OmniDescriptionItem Term="State">@StateEcho</OmniDescriptionItem>
+    </OmniDescriptionList>
+</OmniStack>

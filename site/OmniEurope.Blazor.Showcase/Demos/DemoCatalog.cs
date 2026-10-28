@@ -34,14 +34,6 @@ public static class DemoCatalog
             ["DemoFeedbackCapability1", "DemoFeedbackCapability2", "DemoFeedbackCapability3", "DemoFeedbackCapability4"]),
         new("chargement", typeof(LoadingDemo), "DemoLoadingTitle", "DemoLoadingSummary",
             ["DemoLoadingCapability1", "DemoLoadingCapability2", "DemoLoadingCapability3"]),
-        new("grille", typeof(DataGridDemo), "DemoGridTitle", "DemoGridSummary",
-            ["DemoGridCapability1", "DemoGridCapability2", "DemoGridCapability3"]),
-        new("grilles-maquette", typeof(RunGridsDemo), "DemoRunGridsTitle", "DemoRunGridsSummary",
-            ["DemoRunGridsCapability1", "DemoRunGridsCapability2", "DemoRunGridsCapability3"]),
-        new("grille-avancee", typeof(DataGridAdvancedDemo), "DemoGridAdvancedTitle", "DemoGridAdvancedSummary",
-            ["DemoGridAdvancedCapability1", "DemoGridAdvancedCapability2", "DemoGridAdvancedCapability3", "DemoGridAdvancedCapability4"]),
-        new("listes", typeof(DataListDemo), "DemoDataListTitle", "DemoDataListSummary",
-            ["DemoDataListCapability1", "DemoDataListCapability2", "DemoDataListCapability3"]),
         new("diagramme", typeof(DiagramDemo), "DemoDiagramTitle", "DemoDiagramSummary",
             ["DemoDiagramCapability1", "DemoDiagramCapability2", "DemoDiagramCapability3", "DemoDiagramCapability4"])
     ];

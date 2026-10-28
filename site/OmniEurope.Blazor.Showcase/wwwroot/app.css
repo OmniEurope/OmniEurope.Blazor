@@ -143,19 +143,10 @@
 }
 /* Cadres de hauteur fixe : la grille qui prend le reste du sien, les onglets dont le panneau défile
    seul, la liste virtuelle que son cadre fait défiler. */
-.demo-grid-scope { block-size: 30rem; border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: flex; flex-direction: column; gap: var(--omni-space-sm); overflow-y: auto; padding: var(--omni-space-md); }
-.demo-grid-scope > .demo-hint { margin: 0; }
-/* L'aperçu de 36rem qui défile lui-même : des réglages au-dessus, la grille qui prend le reste. */
-.demo-grid-fill-box { block-size: 36rem; border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: flex; flex-direction: column; gap: var(--omni-space-md); margin-block-start: var(--omni-space-lg); overflow-y: auto; padding: var(--omni-space-md); }
 /* Un cadre de 24rem dont la barre appartient à la page (précédent et suivant à gauche, deux actions à droite) : le comparateur prend le reste. */
 .demo-diff-fill-box { block-size: 24rem; border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: flex; flex-direction: column; gap: var(--omni-space-sm); margin-block-start: var(--omni-space-lg); padding: var(--omni-space-md); }
 .demo-diff-fill-bar { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); }
 .demo-diff-fill-bar__actions { display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); margin-inline-start: auto; }
-/* Un cadre étroit (22rem) : deux colonnes y ont chacune moins que la valeur la plus longue de la première. */
-.demo-grid-fit-box { max-inline-size: 22rem; }
-/* Le cadre des grilles à la largeur de leur contenu : il ne dépasse jamais la page, et la sonde en fixe la largeur (900 puis 600 px) pour voir les colonnes se resserrer avant le défilement. */
-.demo-grid-sizing-box { max-inline-size: 100%; min-inline-size: 0; }
-.demo-list-scroll { border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); max-block-size: 16rem; overflow-y: auto; padding: var(--omni-space-sm); }
 
 /* La page de connexion en miniature : un fond discret la détache du reste de la démonstration. */
 .showcase-preview-frame { background: var(--omni-color-surface-muted); border: var(--omni-border-width) dashed var(--omni-color-border); border-radius: var(--omni-radius); padding-inline: var(--omni-space-md); }
@@ -1054,3 +1045,23 @@
 .gallery-charts-gauges .omni-stack {
     text-align: center;
 }
+
+/* Data fidelity: the look of the data pages, kept off the examples (which carry only omni-* classes). */
+/* Data grid: the flight number reads as a code, a cancelled flight is struck through, the cabin load is bold above its thresholds. */
+.gallery-data-grid td[data-omni-col="Number"] { font-variant-numeric: tabular-nums; font-weight: 650; letter-spacing: 0.02em; }
+.gallery-data-grid td[data-omni-col="LoadFactor"] { font-variant-numeric: tabular-nums; font-weight: 650; }
+.gallery-data-grid .flight-cancelled td { color: var(--omni-color-text-muted); text-decoration: line-through; }
+.gallery-data-grid .omni-data-grid__detail .omni-icon { color: var(--omni-color-accent); flex: 0 0 auto; }
+.gallery-data-grid .omni-description-list { font-size: var(--omni-font-size-sm); }
+/* Data list: a bounded height gives the virtualisation a scroll to follow. */
+.gallery-data-list [role="region"], .gallery-data-list-virtual [role="region"] { border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); overflow-y: auto; }
+.gallery-data-list [role="region"] { max-block-size: 30rem; }
+.gallery-data-list-virtual [role="region"] { max-block-size: 16rem; padding: var(--omni-space-sm); }
+.gallery-data-list strong { font-variant-numeric: tabular-nums; }
+.gallery-data-list-samples { min-inline-size: 0; }
+/* Data grid variants: frames of fixed or bounded size. */
+.gallery-data-sizing [role="group"][aria-label^="Frame of"], .gallery-data-truncation [role="group"][aria-label^="Frame of"] { max-inline-size: 100%; min-inline-size: 0; }
+#demo-grid-fit-box { max-inline-size: 22rem; }
+#demo-grid-scope { block-size: 30rem; border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: flex; flex-direction: column; gap: var(--omni-space-sm); overflow-y: auto; padding: var(--omni-space-md); }
+#demo-grid-scope > .omni-text { margin: 0; }
+#demo-grid-fill-box { block-size: 36rem; border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: flex; flex-direction: column; gap: var(--omni-space-md); overflow-y: auto; padding: var(--omni-space-md); }

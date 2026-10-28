@@ -9,7 +9,7 @@
 
 import { probeOptions } from '../ShowcaseCdp.mjs';
 
-const page = '/components/legacy/grille-avancee';
+const page = '/components/data-grid-advanced';
 const grid = '.omni-data-grid:has(th[data-omni-col="Reference"])';
 const header = key => `${grid} thead th[data-omni-col="${key}"]`;
 const declared = ['Reference', 'Applicant', 'Country', 'Filed', 'Amount'];

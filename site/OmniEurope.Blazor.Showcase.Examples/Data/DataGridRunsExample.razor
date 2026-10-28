@@ -1,0 +1,54 @@
+@* Two run grids. The first, without striping (AllowAlternatingRows false, rows alternate by default), is sorted
+   by pipeline: the sorted column is tinted (HighlightActiveColumn), more lightly than the chosen row, so that
+   they stay apart where they cross; the hovered row is tinted too. The second alternates its rows, like any
+   grid by default, and keeps its header stuck to the top while it scrolls (MaxHeight). The duration, a
+   number, aligns to the end; the status is a compact pill (class omni-status). Its header bar carries export
+   buttons the size of the other buttons of the page (BarButtonSize Medium), instead of the compact defaults. *@
+<OmniStack Gap="OmniSpacing.Large">
+    <OmniDataGrid TItem="PipelineRun" Id="runs-sorted"
+                  HeaderWrap="OmniDataGridHeaderWrap.Truncate"
+                  ScrollMode="OmniDataGridScrollMode.Paged"
+                  Items="RunData.Recent"
+                  Caption="Runs sorted by pipeline"
+                  Filterable="false"
+                  AllowAlternatingRows="false"
+                  AllowSorting="true"
+                  HighlightActiveColumn="true"
+                  HighlightRowOnHover="true"
+                  SelectionMode="OmniDataGridSelectionMode.Single"
+                  KeyOf="run => run.Run"
+                  @bind-Value="_sortedSelection">
+        <Columns>
+            <OmniDataGridColumn TItem="PipelineRun" Property="Run" Title="Run" />
+            <OmniDataGridColumn TItem="PipelineRun" Property="Pipeline" Title="Pipeline" SortOrder="OmniDataGridSortOrder.Ascending" />
+            <OmniDataGridColumn TItem="PipelineRun" Property="Seconds" Title="Seconds" />
+            <OmniDataGridColumn TItem="PipelineRun" Property="Status" Title="Status">
+                <Template Context="run"><span class="@($"omni-status omni-status--{run.Tone}")">@run.Status</span></Template>
+            </OmniDataGridColumn>
+        </Columns>
+    </OmniDataGrid>
+
+    <OmniDataGrid TItem="PipelineRun" Id="runs-striped"
+                  HeaderWrap="OmniDataGridHeaderWrap.Truncate"
+                  ScrollMode="OmniDataGridScrollMode.Paged"
+                  Items="RunData.History"
+                  Caption="Run history"
+                  Filterable="false"
+                  HighlightRowOnHover="true"
+                  MaxHeight="15rem"
+                  ShowHeaderBar="true"
+                  BarButtonSize="OmniControlSize.Medium"
+                  SelectionMode="OmniDataGridSelectionMode.Single"
+                  KeyOf="run => run.Run"
+                  @bind-Value="_stripedSelection">
+        <Columns>
+            <OmniDataGridColumn TItem="PipelineRun" Property="Run" Title="Run" />
+            <OmniDataGridColumn TItem="PipelineRun" Property="Pipeline" Title="Pipeline" />
+            <OmniDataGridColumn TItem="PipelineRun" Property="Trigger" Title="Trigger" />
+            <OmniDataGridColumn TItem="PipelineRun" Property="Seconds" Title="Seconds" />
+            <OmniDataGridColumn TItem="PipelineRun" Property="Status" Title="Status">
+                <Template Context="run"><span class="@($"omni-status omni-status--{run.Tone}")">@run.Status</span></Template>
+            </OmniDataGridColumn>
+        </Columns>
+    </OmniDataGrid>
+</OmniStack>

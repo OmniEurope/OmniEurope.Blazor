@@ -1,0 +1,385 @@
+@page "/components/data-grid"
+@using OmniEurope.Blazor.Showcase.Examples.Data
+
+<GalleryPageFrame Slug="data-grid">
+    <Settings>
+        <OmniSettingsSection Title="@Text["DataGridDataTitle"]" Description="@Text["DataGridDataDescription"]">
+            <OmniSettingsTile Title="@Text["DataGridVirtualization"]" Description="@Text["DataGridVirtualizeDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Layers" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Virtualize" aria-label="@Text["DataGridVirtualization"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridEmptyData"]" Description="@Text["DataGridEmptyDataDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Archive" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="EmptyData" aria-label="@Text["DataGridEmptyData"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridLoading"]" Description="@Text["DataGridLoadingDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Hourglass" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="IsLoading" aria-label="@Text["DataGridLoading"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridShowLoadingBar"]" Description="@Text["DataGridShowLoadingBarDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Timer" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowLoadingBar" aria-label="@Text["DataGridShowLoadingBar"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridLoadingBarMode"]" Description="@Text["DataGridLoadingBarModeDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Path" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniLoadingBarMode" Options="@LoadingBarModeOptions" @bind-Value="LoadingBarMode" Disabled="@(!ShowLoadingBar)" Label="@Text["DataGridLoadingBarMode"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+
+        <OmniSettingsSection Title="@Text["DataGridPagingTitle"]" Description="@Text["DataGridPagingSectionDescription"]">
+            <OmniSettingsTile Title="@Text["DataGridAllowPaging"]" Description="@Text["DataGridAllowPagingDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Cards" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="AllowPaging" Disabled="@Virtualize" aria-label="@Text["DataGridAllowPaging"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridPageSize"]" Description="@Text["DataGridPageSizeDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="int" Options="@PageSizeChoices" @bind-Value="PageSize" Disabled="@PagingDisabled" Label="@Text["DataGridPageSize"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridPagerPosition"]" Description="@Text["DataGridPagerPositionDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Swap" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniDataGridPlacement" Options="@PagerPositionOptions" @bind-Value="PagerPlacement" Disabled="@PagingDisabled" Label="@Text["DataGridPagerPosition"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridPagerAlign"]" Description="@Text["DataGridPagerAlignDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Sliders" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniJustification" Options="@PagerAlignOptions" @bind-Value="PagerJustify" Disabled="@PagingDisabled" Label="@Text["DataGridPagerAlign"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridNumericPages"]" Description="@Text["DataGridNumericPagesDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.NumberedList" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="int" Options="@NumericPageChoices" @bind-Value="NumericPageCount" Disabled="@PagingDisabled" Label="@Text["DataGridNumericPages"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridPageSizeOptions"]" Description="@Text["DataGridPageSizeOptionsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.ChevronDown" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowPageSizeOptions" Disabled="@PagingDisabled" aria-label="@Text["DataGridPageSizeOptions"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridPagingSummary"]" Description="@Text["DataGridPagingSummaryDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowPagingSummary" Disabled="@PagingDisabled" aria-label="@Text["DataGridPagingSummary"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridAlwaysShowPager"]" Description="@Text["DataGridAlwaysShowPagerDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Pin" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="AlwaysShowPager" Disabled="@PagingDisabled" aria-label="@Text["DataGridAlwaysShowPager"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+
+        <OmniSettingsSection Title="@Text["DataGridFilteringTitle"]" Description="@Text["DataGridFilteringSectionDescription"]">
+            <OmniSettingsTile Title="@Text["DataGridAllowSorting"]" Description="@Text["DataGridSortingDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.SortAscending" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="AllowSorting" aria-label="@Text["DataGridAllowSorting"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridAllowFiltering"]" Description="@Text["DataGridFilteringShapesDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Filter" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="AllowFiltering" aria-label="@Text["DataGridAllowFiltering"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridFilterMode"]" Description="@Text["DataGridFilterModesDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Sliders" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniDataGridFilterMode" Options="@FilterModeOptions" @bind-Value="FilterMode" Disabled="@(!AllowFiltering)" Label="@Text["DataGridFilterMode"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridHeaderFilterMenu"]" Description="@Text["DataGridHeaderMenuDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Menu" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowHeaderFilterMenu" Disabled="@(!AllowFiltering)" aria-label="@Text["DataGridHeaderFilterMenu"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridHideMenuOnSelect"]" Description="@Text["DataGridHideMenuOnSelectDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Close" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="HideFilterMenuOnSelect" Disabled="@(!AllowFiltering || !ShowHeaderFilterMenu)" aria-label="@Text["DataGridHideMenuOnSelect"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridCaseSensitivity"]" Description="@Text["DataGridCaseSensitivityDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="CaseSensitiveFilters" Disabled="@(!AllowFiltering)" aria-label="@Text["DataGridCaseSensitivity"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridIgnoreDiacritics"]" Description="@Text["DataGridIgnoreDiacriticsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Search" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="IgnoreDiacritics" Disabled="@(!AllowFiltering)" aria-label="@Text["DataGridIgnoreDiacritics"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+
+        <OmniSettingsSection Title="@Text["DataGridRowsTitle"]" Description="@Text["DataGridRowsSectionDescription"]">
+            <OmniSettingsTile Title="@Text["DataGridSelectionMode"]" Description="@Text["DataGridSelectionModesDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.CheckCircle" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniDataGridSelectionMode" Options="@SelectionModeOptions" @bind-Value="SelectionMode" Label="@Text["DataGridSelectionMode"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridSelectOnRowClick"]" Description="@Text["DataGridSelectOnRowClickDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Check" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="SelectOnRowClick" Disabled="@(SelectionMode == OmniDataGridSelectionMode.None)" aria-label="@Text["DataGridSelectOnRowClick"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridLockCancelled"]" Description="@Text["DataGridLockCancelledDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="LockCancelled" aria-label="@Text["DataGridLockCancelled"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridShowEditColumn"]" Description="@Text["DataGridEditColumnDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Edit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowEditColumn" aria-label="@Text["DataGridShowEditColumn"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridEditMode"]" Description="@Text["DataGridEditModeDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Layers" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniDataGridRowMode" Options="@EditModeOptions" @bind-Value="EditMode" Disabled="@(!ShowEditColumn)" Label="@Text["DataGridEditMode"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridDetailRows"]" Description="@Text["DataGridDetailRowsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Document" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowDetails" Disabled="@Virtualize" aria-label="@Text["DataGridDetailRows"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridExpandMode"]" Description="@Text["DataGridExpandModeDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Sliders" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniDataGridRowMode" Options="@ExpandModeOptions" @bind-Value="ExpandMode" Disabled="@DetailsDisabled" Label="@Text["DataGridExpandMode"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridExpandAll"]" Description="@Text["DataGridExpandAllDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowExpandAll" Disabled="@(DetailsDisabled || ExpandMode == OmniDataGridRowMode.Single)" aria-label="@Text["DataGridExpandAll"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridAllowGrouping"]" Description="@Text["DataGridGroupingDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Package" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="AllowGrouping" Disabled="@Virtualize" aria-label="@Text["DataGridAllowGrouping"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridGroupPanel"]" Description="@Text["DataGridGroupPanelDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Tag" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowGroupPanel" Disabled="@GroupingDisabled" aria-label="@Text["DataGridGroupPanel"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridGroupsExpanded"]" Description="@Text["DataGridGroupsExpandedDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.ChevronDown" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="AllGroupsExpanded" Disabled="@GroupingDisabled" aria-label="@Text["DataGridGroupsExpanded"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+
+        <OmniSettingsSection Title="@Text["DataGridColumnsTitle"]" Description="@Text["DataGridColumnsDescription"]">
+            <OmniSettingsTile Title="@Text["DataGridColumnReorder"]">
+                <ChildContent><OmniSwitch @bind-Value="AllowColumnReorder" aria-label="@Text["DataGridColumnReorder"]" /></ChildContent>
+            </OmniSettingsTile>
+            <OmniSettingsTile Title="@Text["DataGridColumnHide"]">
+                <ChildContent><OmniSwitch @bind-Value="AllowColumnHide" aria-label="@Text["DataGridColumnHide"]" /></ChildContent>
+            </OmniSettingsTile>
+            <OmniSettingsTile Title="@Text["DataGridResetLayout"]">
+                <ChildContent><OmniSwitch @bind-Value="ShowResetLayout" aria-label="@Text["DataGridResetLayout"]" /></ChildContent>
+            </OmniSettingsTile>
+            <OmniSettingsTile Title="@Text["DataGridExportLabels"]">
+                <ChildContent><OmniSwitch @bind-Value="ShowExportButtonText" aria-label="@Text["DataGridExportLabels"]" /></ChildContent>
+            </OmniSettingsTile>
+            <OmniSettingsTile Title="@Text["DataGridColumnResize"]" Description="@Text["DataGridColumnResizeHowDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Swap" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="AllowColumnResize" aria-label="@Text["DataGridColumnResize"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridFreezeNumber"]" Description="@Text["DataGridFreezeNumberDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Pin" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="FreezeNumber" aria-label="@Text["DataGridFreezeNumber"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridHeaderWrap"]" Description="@Text["DataGridHeaderWrapDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniDataGridHeaderWrap" Options="@HeaderWrapOptions" @bind-Value="HeaderWrap" Label="@Text["DataGridHeaderWrap"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridActiveColumn"]" Description="@Text["DataGridActiveColumnDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Sparkle" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="HighlightActiveColumn" aria-label="@Text["DataGridActiveColumn"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+
+        <OmniSettingsSection Title="@Text["DataGridLookTitle"]" Description="@Text["DataGridLookSectionDescription"]">
+            <OmniSettingsTile Title="@Text["DataGridDensity"]" Description="@Text["DataGridDensityDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniDensity" Options="@DensityOptions" @bind-Value="Density" Label="@Text["DataGridDensity"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridGridLines"]" Description="@Text["DataGridGridLinesDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Pattern" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniDataGridLines" Options="@GridLinesOptions" @bind-Value="GridLines" Label="@Text["DataGridGridLines"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridAlternating"]" Description="@Text["DataGridAlternatingDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="AlternatingRows" aria-label="@Text["DataGridAlternating"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridRowHover"]" Description="@Text["DataGridRowHoverDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.UserFocus" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="HighlightRowOnHover" aria-label="@Text["DataGridRowHover"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridFixedRowHeight"]" Description="@Text["DataGridFixedRowHeightDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="FixedRowHeight" aria-label="@Text["DataGridFixedRowHeight"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridFooterPosition"]" Description="@Text["DataGridFooterPositionDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Calculator" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniDataGridPlacement" Options="@FooterPositionOptions" @bind-Value="FooterPlacement" Label="@Text["DataGridFooterPosition"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridResponsive"]" Description="@Text["DataGridResponsiveDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Monitor" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Responsive" aria-label="@Text["DataGridResponsive"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["DataGridPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <div class="gallery-data-grid">
+                    <DataGridExample Virtualize="Virtualize"
+                                     EmptyData="EmptyData"
+                                     Busy="IsLoading"
+                                     ShowLoadingBar="ShowLoadingBar"
+                                     LoadingBarMode="LoadingBarMode"
+                                     AllowPaging="AllowPaging"
+                                     @bind-PageSize="PageSize"
+                                     PagerPlacement="PagerPlacement"
+                                     PagerJustify="PagerJustify"
+                                     NumericPageCount="NumericPageCount"
+                                     ShowPageSizeOptions="ShowPageSizeOptions"
+                                     ShowPagingSummary="ShowPagingSummary"
+                                     AlwaysShowPager="AlwaysShowPager"
+                                     AllowSorting="AllowSorting"
+                                     Filterable="AllowFiltering"
+                                     FilterMode="FilterMode"
+                                     ShowHeaderFilterMenu="ShowHeaderFilterMenu"
+                                     HideFilterMenuOnSelect="HideFilterMenuOnSelect"
+                                     CaseSensitiveFilters="CaseSensitiveFilters"
+                                     IgnoreDiacritics="IgnoreDiacritics"
+                                     SelectionMode="SelectionMode"
+                                     SelectOnRowClick="SelectOnRowClick"
+                                     LockCancelled="LockCancelled"
+                                     ShowEditColumn="ShowEditColumn"
+                                     EditMode="EditMode"
+                                     ShowDetails="ShowDetails"
+                                     ExpandMode="ExpandMode"
+                                     ShowExpandAll="ShowExpandAll"
+                                     AllowGrouping="AllowGrouping"
+                                     ShowGroupPanel="ShowGroupPanel"
+                                     AllGroupsExpanded="AllGroupsExpanded"
+                                     AllowColumnResize="AllowColumnResize"
+                                     AllowColumnReorder="AllowColumnReorder"
+                                     AllowColumnHide="AllowColumnHide"
+                                     ShowResetLayout="ShowResetLayout"
+                                     ShowExportButtonText="ShowExportButtonText"
+                                     FreezeNumber="FreezeNumber"
+                                     HeaderWrap="HeaderWrap"
+                                     HighlightActiveColumn="HighlightActiveColumn"
+                                     Density="Density"
+                                     GridLines="GridLines"
+                                     AlternatingRows="AlternatingRows"
+                                     HighlightRowOnHover="HighlightRowOnHover"
+                                     FixedRowHeight="FixedRowHeight"
+                                     FooterPlacement="FooterPlacement"
+                                     Responsive="Responsive" />
+                </div>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["DataGridDateRangeTitle"]</HeaderContent>
+            <ChildContent>
+                <DataGridDateRangeExample />
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>
