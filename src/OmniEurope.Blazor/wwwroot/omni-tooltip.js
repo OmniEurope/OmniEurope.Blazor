@@ -86,7 +86,37 @@ const resizeObserver = typeof ResizeObserver === 'function'
     ? new ResizeObserver(entries => entries.forEach(entry => keepInside(entry.target)))
     : null;
 
+// A placed tooltip is fixed to the window, so it does not follow its element: when the element moves
+// under a still pointer (a dialog that grows and centres itself again as an error line appears, content
+// loading above it), the browser sends no pointer event and the tooltip stayed behind, far from its
+// element (client application acceptance review R-16). Each frame while it shows, the element's box is
+// compared with the one it was placed against; moved by more than two pixels or gone, the tooltip closes.
+const watchAnchor = (element, onMoved) => {
+    const start = element.getBoundingClientRect();
+    let frame = 0;
+    const check = () => {
+        if (!element.isConnected) {
+            onMoved();
+            return;
+        }
+
+        const now = element.getBoundingClientRect();
+        if (Math.abs(now.left - start.left) > 2 || Math.abs(now.top - start.top) > 2) {
+            onMoved();
+            return;
+        }
+
+        frame = window.requestAnimationFrame(check);
+    };
+    frame = window.requestAnimationFrame(check);
+    return () => window.cancelAnimationFrame(frame);
+};
+
+let unwatchTracked = null;
+
 const clear = () => {
+    unwatchTracked?.();
+    unwatchTracked = null;
     if (!tracked) {
         return;
     }
@@ -144,6 +174,9 @@ const place = (tooltip, x, y) => {
     // upward when the box is flipped below it.
     tooltip.style.setProperty('--omni-tooltip-arrow', `${x - left + half}px`);
     tooltip.classList.toggle('omni-tooltip--below', below);
+    // Placed again on every move: the box to compare with is the trigger's now.
+    unwatchTracked?.();
+    unwatchTracked = watchAnchor(tooltip.querySelector('.omni-tooltip__trigger') ?? tooltip, clear);
 };
 
 const onPointerMove = event => {
@@ -258,6 +291,21 @@ const CUT_CELL = [
 
 const isCut = element => element.scrollWidth > element.clientWidth + 1;
 
+// Any other text cut by its ellipsis, in the package or in the host (a badge, a tile title, a tab label,
+// most of them only at a phone width such as 375 px): the closest element, a few levels up at most, that
+// ends its own text with an ellipsis and is cut. Read on pointerover only.
+const ELLIPSIS_DEPTH = 4;
+const endsWithEllipsis = element => getComputedStyle(element).textOverflow === 'ellipsis';
+const ellipsisCut = target => {
+    for (let element = target, depth = 0; element && depth < ELLIPSIS_DEPTH; element = element.parentElement, depth++) {
+        if (isCut(element) && endsWithEllipsis(element)) {
+            return element;
+        }
+    }
+
+    return null;
+};
+
 // A chart point names itself with an SVG <title> child, which the browser shows as its own box. It is
 // replaced like a title attribute: the node is set aside while the point is hovered or focused, and the
 // same node goes back afterwards, so the renderer that owns it still finds it. The titles of the SVG
@@ -287,21 +335,24 @@ const tipTarget = target => {
         return titled;
     }
 
-    if (packageInstalls === 0) {
-        return null;
+    if (packageInstalls > 0) {
+        const tipped = target.closest('[data-omni-tip]');
+        if (tipped) {
+            return tipped;
+        }
+
+        const cell = target.closest(CUT_CELL);
+        if (cell && isCut(cell)) {
+            return cell;
+        }
     }
 
-    const tipped = target.closest('[data-omni-tip]');
-    if (tipped) {
-        return tipped;
-    }
-
-    const cell = target.closest(CUT_CELL);
-    return cell && isCut(cell) ? cell : null;
+    return ellipsisCut(target);
 };
 
 const titleOf = element => element.getAttribute('title') || element.getAttribute('data-omni-title')
-    || element.getAttribute('data-omni-tip') || (element.matches(CUT_CELL) ? element.textContent.trim() : '');
+    || element.getAttribute('data-omni-tip')
+    || (element.matches(CUT_CELL) || endsWithEllipsis(element) ? element.textContent.trim() : '');
 
 // Whether the title is the only name of the element: no aria-label, no aria-labelledby, no label of a
 // form field and no text of its own (an icon-only button named by its title alone).
@@ -358,7 +409,11 @@ const restoreTitle = element => {
     element?.removeAttribute('data-omni-title');
 };
 
+let unwatchTitle = null;
+
 const hideTitle = () => {
+    unwatchTitle?.();
+    unwatchTitle = null;
     window.clearTimeout(titleTimer);
     titleTimer = 0;
     restoreTitle(titleTarget);
@@ -391,6 +446,8 @@ const showTitle = (text, x, y, source) => {
     // The chevron points at the pointer even when the box was pushed back inside the window.
     titleBox.style.setProperty('--omni-title-tooltip-arrow', `${x - left + half}px`);
     titleBox.classList.add('omni-title-tooltip--visible');
+    unwatchTitle?.();
+    unwatchTitle = source ? watchAnchor(source, hideTitle) : null;
 };
 
 const onTitleOver = event => {
@@ -420,7 +477,12 @@ const onTitleOver = event => {
     titleTarget = element;
     titleTimer = window.setTimeout(() => {
         if (titleTarget === element && element.isConnected) {
-            showTitle(text, titlePointer.x, titlePointer.y, element);
+            // The pointer last seen, unless it is not over the element (no move since the listeners
+            // came, or the element moved under it): then the element itself is the anchor.
+            const box = element.getBoundingClientRect();
+            const over = titlePointer.x >= box.left && titlePointer.x <= box.right
+                && titlePointer.y >= box.top && titlePointer.y <= box.bottom;
+            showTitle(text, over ? titlePointer.x : box.left + box.width / 2, over ? titlePointer.y : box.top, element);
         }
     }, TITLE_DELAY);
 };

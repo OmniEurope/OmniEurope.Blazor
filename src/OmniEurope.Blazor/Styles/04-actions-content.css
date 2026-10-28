@@ -400,6 +400,18 @@
 .omni-badge { flex-shrink: 0; }
 /* An icon-only badge is a square as tall as the text badges beside it, its glyph in the middle. */
 .omni-badge--icon { aspect-ratio: 1; padding-inline: 0; }
+/* A badge is never narrower than it is tall (client application acceptance review R-5): a one-character
+   badge ("1", "F", "A") is at least a square, a longer text widens it. The floor is the tallest the badge
+   can be, the density height or, when the host raised the text size of one badge, its own text line with
+   the padding and the border, so the width follows the height whatever sets it. The Width steps below
+   come after and raise the floor; they never lower it. */
+.omni-badge { min-inline-size: max(var(--omni-badge-height), calc(1em + 2 * var(--omni-badge-pad-y) + 2 * var(--omni-border-width, 1px))); text-align: center; }
+/* A clickable badge (OnClick: a button, Href: a link) keeps the badge's shape and colours: the browser's
+   own button and link looks are reset, and it is told from a plain one, and from an OmniButton, by an
+   underline and a light tint of its own ink on hover, with no lift, no shadow and no fill change. */
+.omni-badge--action { cursor: pointer; font-family: inherit; margin: 0; text-decoration: none; }
+.omni-badge.omni-badge--action:hover { background-image: linear-gradient(color-mix(in srgb, currentColor 14%, transparent), color-mix(in srgb, currentColor 14%, transparent)); text-decoration: underline; }
+.omni-badge--action:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
 /* A common floor (OmniBadge.Width, recette R1-23): the badges of one column or list that carry the same
    step line up on the same width, whatever their words; a longer text widens its own badge. The floors
    are tokens in em of the badge's text, so they follow the density and the font, and a host retunes

@@ -23,6 +23,7 @@ structurelles ; un plan décrit un travail, pas l'état du produit.
 | [PLAN-003](PLAN-003-demandes-application-cliente-2026-10-23.md) | Dix demandes d'une application cliente du 2026-10-23, livrées en 1.9.0 en sept lots | Sans ADR supplémentaire |
 | [PLAN-004](PLAN-004-demandes-application-cliente-2026-10-23-bis.md) | Seconde demande de la même application cliente du 2026-10-23 (sept points, 1.9.0) | Sans ADR supplémentaire |
 | [PLAN-005](PLAN-005-galerie-depuis-demo-applicative.md) | Galerie de la vitrine reprise de la démo d'une application cliente : 71 pages, onglets aperçu, mobile et code, vitrine en anglais et français | Sans ADR supplémentaire |
+| [PLAN-006](PLAN-006-demandes-application-cliente-2026-10-28.md) | Neuf demandes d'une application cliente du 2026-10-28 : badges, champ de formulaire, tuile à texte ajusté, filtre de date de grille, trou noir, infobulles | Sans ADR supplémentaire |
 
 ## Archives
 

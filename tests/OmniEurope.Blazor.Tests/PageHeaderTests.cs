@@ -403,12 +403,17 @@ public sealed class PageHeaderTests : OmniBunitContext
         Assert.DoesNotMatch(@"\.omni-page-header__pinned[^{]*\{[^}]*display: none", css);
         Assert.DoesNotContain("[data-compact] .omni-page-header__pinned", css, StringComparison.Ordinal);
 
-        // The phone moves them under line 1, right-aligned, after line 1 (order 1) and before the open details (order 2).
+        // The phone moves them to a row of their own, right-aligned, after the trail (R-26): line 1 lends its
+        // items to the frame (display: contents), the trail takes order 1, the pinned actions order 2 and the
+        // open details order 3.
         var phone = System.Text.RegularExpressions.Regex.Matches(css, @"@media \(max-width: 39\.99rem\) \{(?<body>(?:[^{}]*\{[^{}]*\})*)\s*\}")
             .Select(match => match.Groups["body"].Value)
             .Single(body => body.Contains(".omni-page-header__pinned {", StringComparison.Ordinal));
-        Assert.Contains(".omni-page-header__pinned { flex: 1 1 100%; justify-content: flex-end; margin-inline-start: 0; order: 1; }", phone, StringComparison.Ordinal);
-        Assert.Contains(".omni-page-header__row:has(> .omni-page-header__pinned) { block-size: auto; flex-wrap: wrap; }", phone, StringComparison.Ordinal);
+        Assert.Contains(".omni-page-header__pinned { flex: 1 1 100%; justify-content: flex-end; margin-block-start: var(--omni-space-xs); margin-inline-start: 0; order: 2; }", phone, StringComparison.Ordinal);
+        Assert.Contains(".omni-page-header__row:has(> .omni-page-header__pinned) { display: contents; }", phone, StringComparison.Ordinal);
+        Assert.Contains(".omni-page-header__frame:has(.omni-page-header__pinned) { align-items: center; block-size: auto; column-gap: var(--omni-space-sm); flex-direction: row; flex-wrap: wrap; }", phone, StringComparison.Ordinal);
+        Assert.Contains(".omni-page-header__frame:has(.omni-page-header__pinned) > .omni-page-header__trail { flex: 1 1 100%; order: 1; }", phone, StringComparison.Ordinal);
+        Assert.Contains(".omni-page-header__frame:has(.omni-page-header__pinned) .omni-page-header__details--open { order: 3; }", phone, StringComparison.Ordinal);
         Assert.Contains(".omni-page-header__details--open { flex: 1 1 100%; flex-wrap: wrap; order: 2; }", css, StringComparison.Ordinal);
 
         // The title takes no content basis in a folded row, so a wrapping row never drops the menu under it.

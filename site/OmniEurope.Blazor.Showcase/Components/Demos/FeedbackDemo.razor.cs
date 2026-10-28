@@ -16,6 +16,10 @@ public partial class FeedbackDemo
     // The strip reads only the tone of each status: each run keeps its own label.
     private OmniStatusMap<string> RunTones { get; set; } = null!;
 
+    private int _badgeClicks;
+
+    private void CountBadgeClick() => _badgeClicks++;
+
     protected override void OnInitialized()
     {
         DemoStatuses = new OmniStatusMap<string> { Localizer = Text }

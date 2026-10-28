@@ -274,6 +274,17 @@
 .omni-nav-tile__icon .omni-icon { block-size: 1.5rem; inline-size: 1.5rem; }
 .omni-nav-tile__title { font-weight: 600; overflow-wrap: anywhere; }
 .omni-nav-tile__description { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); overflow-wrap: anywhere; }
+/* FitTitle: the tile is the container; the title takes 100cqi shared among its length step (0.6em a
+   character, bold), from the base size down to 0.75rem, on one line, left-aligned. */
+.omni-nav-tile--fit { align-items: flex-start; container-type: inline-size; text-align: start; }
+.omni-nav-tile--fit .omni-nav-tile__title { font-size: clamp(0.75rem, calc(100cqi / (var(--omni-nav-tile-fit-chars, 16) * 0.6)), 1rem); hyphens: none; max-inline-size: 100%; min-inline-size: 0; overflow: hidden; overflow-wrap: normal; text-overflow: ellipsis; white-space: nowrap; word-break: normal; }
+.omni-nav-tile--fit-8 { --omni-nav-tile-fit-chars: 8; }
+.omni-nav-tile--fit-12 { --omni-nav-tile-fit-chars: 12; }
+.omni-nav-tile--fit-16 { --omni-nav-tile-fit-chars: 16; }
+.omni-nav-tile--fit-20 { --omni-nav-tile-fit-chars: 20; }
+.omni-nav-tile--fit-24 { --omni-nav-tile-fit-chars: 24; }
+.omni-nav-tile--fit-32 { --omni-nav-tile-fit-chars: 32; }
+.omni-nav-tile--fit-48 { --omni-nav-tile-fit-chars: 48; }
 .omni-nav-tile--neutral { --omni-nav-tile-tone: var(--omni-color-text-muted); --omni-nav-tile-tint: var(--omni-color-surface-muted); }
 .omni-nav-tile--info { --omni-nav-tile-tone: var(--omni-color-info); --omni-nav-tile-tint: var(--omni-color-info-subtle); }
 .omni-nav-tile--success { --omni-nav-tile-tone: var(--omni-color-success); --omni-nav-tile-tint: var(--omni-color-success-subtle); }

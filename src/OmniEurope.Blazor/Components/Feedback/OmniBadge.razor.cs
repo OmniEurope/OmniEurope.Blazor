@@ -36,7 +36,8 @@ public partial class OmniBadge
     /// (recette R1-23): <see cref="OmniBadgeWidth.Small"/>, <see cref="OmniBadgeWidth.Medium"/> or
     /// <see cref="OmniBadgeWidth.Large"/>, the same step on every badge of the column. A longer text widens
     /// its badge, nothing is cut. <see cref="OmniBadgeWidth.Auto"/>, the default, keeps the width of the
-    /// content; an icon-only badge stays a square whatever the step.
+    /// content; an icon-only badge stays a square whatever the step. Whatever the step, a badge is never
+    /// narrower than it is tall: a one-character badge ("1", "F") is a square, a longer text widens it.
     /// </summary>
     [Parameter]
     public OmniBadgeWidth Width { get; set; } = OmniBadgeWidth.Auto;
@@ -49,6 +50,58 @@ public partial class OmniBadge
     /// </summary>
     [Parameter]
     public OmniBadgeInk Ink { get; set; } = OmniBadgeInk.White;
+
+    /// <summary>
+    /// Makes the badge one real <c>&lt;button type="button"&gt;</c>, called when it is activated: a count
+    /// that opens the list it counts, a tag that filters. It is focusable, Enter and Space activate it, and
+    /// it shows a focus ring and a light hover mark (an underline and a tint, no lift or shadow) so that it
+    /// does not read as an <see cref="OmniButton"/>. Cannot be combined with <see cref="Href"/>. Without
+    /// either, the badge stays a plain <c>span</c>. The content should be a short text and an icon.
+    /// </summary>
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    /// <summary>
+    /// Makes the badge one real link (<c>a</c>) to this path or address (relative, http, https, mailto or tel;
+    /// any other scheme is refused), like <see cref="OmniNavTile.Href"/>. It looks and focuses like the
+    /// clickable badge of <see cref="OnClick"/>. Cannot be combined with <see cref="OnClick"/>. Null or blank,
+    /// the default, leaves the badge a plain <c>span</c>.
+    /// </summary>
+    [Parameter]
+    public string? Href { get; set; }
+
+    /// <summary>
+    /// The accessible name of a clickable badge (<see cref="OnClick"/> or <see cref="Href"/>), for a badge
+    /// whose text alone does not say what it does ("2" opens the list of the 2 users). Written as the
+    /// <c>aria-label</c> attribute, over one passed by the host. A plain badge ignores it: its text stays its
+    /// only name. Null, the default, leaves the badge named by its content.
+    /// </summary>
+    [Parameter]
+    public string? Label { get; set; }
+
+    private string? _safeHref;
+
+    /// <summary>Whether the badge is a button or a link instead of a plain span.</summary>
+    private bool Clickable => OnClick.HasDelegate || _safeHref is not null;
+
+    private string? AccessibleName => Clickable ? OmniAriaLabel.Of(Label, AdditionalAttributes) : null;
+
+    private string BadgeClass => Css("omni-badge", $"omni-badge--{Tone.ToString().ToLowerInvariant()}", $"omni-badge--{Fill.ToString().ToLowerInvariant()}", IconOnly ? "omni-badge--icon" : null, LeadingIcon ? "omni-badge--leading-icon" : null, Clickable ? "omni-badge--action" : null, InkClass, WidthClass);
+
+    /// <summary>Checks that <see cref="Href"/> and <see cref="OnClick"/> are not both given and that the address is safe.</summary>
+    /// <exception cref="ArgumentException"><see cref="Href"/> and <see cref="OnClick"/> are both given.</exception>
+    /// <exception cref="InvalidOperationException"><see cref="Href"/> uses a scheme that is not allowed, or is a relative address that names another host (<c>//host</c>).</exception>
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        var hasHref = !string.IsNullOrWhiteSpace(Href);
+        if (hasHref && OnClick.HasDelegate)
+        {
+            throw new ArgumentException("OmniBadge takes either Href (a link) or OnClick (a button), not both.", nameof(Href));
+        }
+
+        _safeHref = hasHref ? OmniUriPolicy.EnsureSafe(Href, nameof(Href)) : null;
+    }
 
     /// <summary>An icon and nothing else: the badge is then a square as tall as a text badge.</summary>
     private bool IconOnly => Icon is not null && ChildContent is null;

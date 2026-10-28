@@ -828,6 +828,9 @@
   <data name="DemoFeedbackNarrow" xml:space="preserve"><value>Narrow</value></data>
   <data name="DemoFeedbackLongTooltip" xml:space="preserve"><value>An archived case remains viewable as read-only. It no longer counts towards the quotas, no longer appears in default searches and no longer receives notifications. To reopen it, an administrator restores it from the Archives tab; its history, its attachments and its comments then come back intact, along with the restore date.</value></data>
   <data name="DemoFeedbackLongText" xml:space="preserve"><value>Long text</value></data>
+  <data name="DemoFeedbackBadgeClickLabel" xml:space="preserve"><value>Clicked {0} times, click to count once more</value></data>
+  <data name="DemoFeedbackBadgeLinkLabel" xml:space="preserve"><value>Back to the home page</value></data>
+  <data name="DemoFeedbackBadgeLink" xml:space="preserve"><value>Home</value></data>
   <data name="DemoFeedbackTitleTooltip" xml:space="preserve"><value>The package's tooltip on a plain title attribute.</value></data>
   <data name="DemoFeedbackHover" xml:space="preserve"><value>Hover</value></data>
   <data name="DemoFeedbackLoadingAvatar" xml:space="preserve"><value>Loading the avatar</value></data>

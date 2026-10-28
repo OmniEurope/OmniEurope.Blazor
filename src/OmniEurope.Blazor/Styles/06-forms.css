@@ -12,9 +12,23 @@
 /* The error reads without its colour: a glyph leads it, and the control carries aria-invalid. */
 .omni-form-field__error { align-items: center; color: var(--omni-color-danger); display: flex; font-size: var(--omni-font-size-sm); font-weight: 500; gap: 5px; }
 .omni-form-field__error-icon { block-size: 0.875rem; flex: none; inline-size: 0.875rem; }
-/* The live region of a field error exists before the error, so the error is announced when it appears;
-   empty, it is taken out of the flow, so it adds neither height nor a grid or flex gap. */
-.omni-form-field__message:empty, .omni-validation-message:empty { position: absolute; }
+/* The live region of a field error exists before the error, so the error is announced when it appears.
+   It keeps the height of one error line, empty or not (1lh of its own small text), so the error appearing
+   moves nothing below it; only a second line of a long error grows it. */
+.omni-form-field__message { font-size: var(--omni-font-size-sm); font-weight: 500; min-block-size: 1lh; }
+/* A validator's own message has no such slot: empty, it is taken out of the flow, so it adds neither
+   height nor a grid or flex gap. */
+.omni-validation-message:empty { position: absolute; }
+/* A validator's message inside a field's control takes over the field's reserved line instead of adding a
+   second one: it keeps one line in the flow, empty or not, and the field's own empty region then takes no room. */
+.omni-form-field__control .omni-validation-message { min-block-size: 1lh; }
+.omni-form-field__control .omni-validation-message:empty { position: static; }
+.omni-form-field:has(> .omni-form-field__control .omni-validation-message) > .omni-form-field__message:empty { min-block-size: 0; position: absolute; }
+/* Blazor's own ValidationMessage writes its line only when there is an error: in a field's control it
+   replaces the reserved line, at the same distance under the control and in the same text, so the
+   error appearing still moves nothing below the field. */
+.omni-form-field__control .validation-message { color: var(--omni-color-danger); font-size: var(--omni-font-size-sm); font-weight: 500; margin-block-start: var(--omni-field-gap); }
+.omni-form-field:has(> .omni-form-field__control .validation-message) > .omni-form-field__message:empty { min-block-size: 0; position: absolute; }
 /* The wrapper of OmniTemplateForm is only the root the focus script searches: it draws no box, so the
    form, which carries the host's Class and attributes, is laid out as if it were the outermost element. */
 .omni-template-form { display: contents; }
