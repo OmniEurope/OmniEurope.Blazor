@@ -99,6 +99,14 @@ public partial class MainLayout : IAsyncDisposable
     {
         Theme.Changed += OnThemeChanged;
         Navigation.LocationChanged += OnLocationChanged;
+
+        // In the browser the width is read before the first render, so a phone never shows the desktop
+        // menu pushed open for the second the asynchronous read would take.
+        if (Js is IJSInProcessRuntime inProcess)
+        {
+            _narrowViewport = inProcess.Invoke<bool>("omniShowcaseLayout.narrow");
+            _sidebarOpen = !_narrowViewport;
+        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
