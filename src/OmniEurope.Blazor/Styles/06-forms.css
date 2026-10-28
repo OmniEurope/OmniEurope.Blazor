@@ -29,6 +29,12 @@
    error appearing still moves nothing below the field. */
 .omni-form-field__control .validation-message { color: var(--omni-color-danger); font-size: var(--omni-font-size-sm); font-weight: 500; margin-block-start: var(--omni-field-gap); }
 .omni-form-field:has(> .omni-form-field__control .validation-message) > .omni-form-field__message:empty { min-block-size: 0; position: absolute; }
+/* EndContent sits on the control's line: the control takes the room left, the end content (a unit, a few
+   icon buttons) keeps its own size, and a validator's message inside still drops to a line of its own. */
+.omni-form-field__control--end { align-items: center; column-gap: var(--omni-space-sm); display: flex; flex-wrap: wrap; min-inline-size: 0; }
+.omni-form-field__control--end > * { flex: none; }
+.omni-form-field__control--end > :first-child { flex: 1 1 0; min-inline-size: 0; }
+.omni-form-field__control--end > :is(.omni-validation-message, .validation-message) { flex-basis: 100%; }
 /* The wrapper of OmniTemplateForm is only the root the focus script searches: it draws no box, so the
    form, which carries the host's Class and attributes, is laid out as if it were the outermost element. */
 .omni-template-form { display: contents; }

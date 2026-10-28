@@ -30,7 +30,8 @@
     {
         <div id="@DescriptionId" class="omni-form-field__description">@Description</div>
     }
-    <div class="omni-form-field__control">
+    @* With an end content the control row lays the control and that content on one line. *@
+    <div class="@(EndContent is null ? "omni-form-field__control" : "omni-form-field__control omni-form-field__control--end")">
         @* A control that a label for cannot name (an editable div, a radio group) reads the label id
            from here and points aria-labelledby at it. *@
         <CascadingValue Value="@_requirement" IsFixed="true">

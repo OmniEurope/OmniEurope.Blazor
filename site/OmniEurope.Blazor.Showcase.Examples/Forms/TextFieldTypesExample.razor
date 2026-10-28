@@ -1,5 +1,5 @@
 @* The single-line box in every type. The type changes the mobile keyboard and the browser autofill; the
-   web address also has a copy button. *@
+   web address also has a copy button, and the password has buttons on its line. *@
 <OmniRow>
     <OmniColumn Span="12" MediumSpan="6">
         <OmniFormField For="type-text">
@@ -39,6 +39,21 @@
             <ChildContent>
                 <OmniTextBox Id="type-search" @bind-Value="Search" Type="OmniTextBoxType.Search" Placeholder="Filter the list" />
             </ChildContent>
+        </OmniFormField>
+    </OmniColumn>
+    <OmniColumn Span="12" MediumSpan="6">
+        @* EndContent sits on the line of the control: the box takes the room left, the buttons keep their size. *@
+        <OmniFormField For="type-password">
+            <LabelContent>Password</LabelContent>
+            <ChildContent>
+                <OmniPassword Id="type-password" @bind-Value="Password" Autocomplete="new-password" />
+            </ChildContent>
+            <EndContent>
+                <OmniButton Variant="OmniButtonVariant.Secondary" Label="Generate a password" title="Generate a password" OnClick="Generate">
+                    <Icon><OmniIcon Name="OmniIconName.Dice" /></Icon>
+                </OmniButton>
+                <OmniCopyButton Text="@Password" IconOnly="true" />
+            </EndContent>
         </OmniFormField>
     </OmniColumn>
 </OmniRow>
