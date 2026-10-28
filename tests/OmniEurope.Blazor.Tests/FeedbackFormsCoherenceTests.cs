@@ -174,6 +174,13 @@ public sealed class FeedbackFormsCoherenceTests : OmniBunitContext
         Assert.Contains("omni-form-field--invalid", field.Find(".omni-form-field").ClassList);
         // Empty, the region keeps one error line (R-12); a validator's own message still takes no room.
         Assert.Equal("1lh", ShippedLookTests.Value(ShippedLookTests.Body(".omni-form-field__message"), "min-block-size"));
+        // A validator's message inside the control takes that line over instead of adding a second one.
+        Assert.Equal("1lh", ShippedLookTests.Value(ShippedLookTests.Body(".omni-form-field__control .omni-validation-message"), "min-block-size"));
+        Assert.Equal("static", ShippedLookTests.Value(ShippedLookTests.Body(".omni-form-field__control .omni-validation-message:empty"), "position"));
+        Assert.Equal("absolute", ShippedLookTests.Value(ShippedLookTests.Body(".omni-form-field:has(> .omni-form-field__control .omni-validation-message) > .omni-form-field__message:empty"), "position"));
+        // Blazor's ValidationMessage, written only on error, replaces the reserved line at the same distance.
+        Assert.Equal("var(--omni-field-gap)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-form-field__control .validation-message"), "margin-block-start"));
+        Assert.Equal("absolute", ShippedLookTests.Value(ShippedLookTests.Body(".omni-form-field:has(> .omni-form-field__control .validation-message) > .omni-form-field__message:empty"), "position"));
         Assert.Equal("absolute", ShippedLookTests.Value(ShippedLookTests.Body(".omni-validation-message:empty"), "position"));
     }
 
