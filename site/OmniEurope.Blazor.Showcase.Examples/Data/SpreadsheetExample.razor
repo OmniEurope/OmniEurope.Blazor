@@ -1,0 +1,34 @@
+@* A quarterly budget in a spreadsheet bound both ways to a serialisable model (OmniSpreadsheetData). The
+   settings are parameters of the sheet: ReadOnly, ShowFormulaBar, ShowGridLines, AllowAddRows and
+   AllowAddColumns. ActiveCellChanged reports the active address, and the model is read outside the
+   sheet (Evaluate, GetInput, ToJson), so the echoes below follow every entry. A second, read-only sheet
+   reads the very same instance: an edit in the first shows there at once. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniSpreadsheet Id="demo-sheet"
+                     @bind-Value="Budget"
+                     ReadOnly="ReadOnly"
+                     ShowFormulaBar="ShowFormulaBar"
+                     ShowGridLines="ShowGridLines"
+                     AllowAddRows="AllowAddRows"
+                     AllowAddColumns="AllowAddColumns"
+                     Label="Quarterly budget"
+                     ActiveCellChanged="OnActiveCellChanged" />
+    <OmniDescriptionList>
+        <OmniDescriptionItem Term="Active cell">@ActiveEcho</OmniDescriptionItem>
+        <OmniDescriptionItem Term="Quarter total, read through the model">@TotalEcho</OmniDescriptionItem>
+        <OmniDescriptionItem Term="Size">@SizeEcho</OmniDescriptionItem>
+    </OmniDescriptionList>
+    @if (ShowJson)
+    {
+        <OmniCodeBlock Code="@Budget.ToJson()" Language="json" Wrap="true" Title="Model as saved" />
+    }
+    @if (ShowMirror)
+    {
+        <OmniSpreadsheet Id="demo-sheet-readonly"
+                         Value="@Budget"
+                         ReadOnly="true"
+                         ShowFormulaBar="false"
+                         ShowGridLines="false"
+                         Label="The same budget, read-only" />
+    }
+</OmniStack>

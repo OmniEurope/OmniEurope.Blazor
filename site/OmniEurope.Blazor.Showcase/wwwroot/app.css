@@ -922,3 +922,88 @@
 .gallery-scheduler .omni-scheduler__appointment.omni-u-bg-warning-subtle {
     background: var(--omni-color-warning-subtle);
 }
+
+/* Tree, spreadsheet, collections fidelity */
+/* The examples carry no class of the showcase: each page wraps its example in a gallery-* div and these
+   rules reach the Omni* markup inside it. */
+
+/* Hints and echoes: small, muted, free to break anywhere; the figures inside them read in the text colour. */
+.gallery-tree-hint,
+.gallery-sheet-hint,
+.gallery-tree-stage .omni-text--muted,
+.gallery-sheet-stage .omni-text--muted {
+    font-size: var(--omni-font-size-sm);
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.gallery-tree-hint code,
+.gallery-sheet-hint code,
+.gallery-tree-stage .omni-text--muted :is(strong, code),
+.gallery-sheet-stage .omni-text--muted :is(strong, code) {
+    color: var(--omni-color-text);
+}
+
+/* Tree page: the hand-written tree and the generated tree are no wider than a navigation tree would be. */
+.gallery-tree-capped .omni-tree {
+    max-inline-size: 36rem;
+}
+
+/* Tree page, moving items: the tree grid sits in a box of fixed height and scrolls inside it, and its rows
+   keep a minimum height with their text cut on one line. */
+.gallery-tree-move .omni-data-grid {
+    block-size: 36rem;
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    min-block-size: 0;
+}
+
+.gallery-tree-move .omni-data-grid__table > tbody > tr:not(.omni-data-grid__spacer),
+.gallery-tree-move .omni-data-grid__table > tbody > tr:not(.omni-data-grid__spacer) > td,
+.gallery-tree-move .omni-data-grid__table > tfoot > tr,
+.gallery-tree-move .omni-data-grid__table > tfoot > tr > td {
+    min-block-size: 2.75rem;
+}
+
+.gallery-tree-move .omni-data-grid__table > tbody > tr:not(.omni-data-grid__spacer) > td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+/* Spreadsheet page: the column width is the package's variable, redefined on the class of the page. */
+.gallery-sheet-stage .omni-spreadsheet {
+    --omni-spreadsheet-height: 30rem;
+}
+
+.gallery-sheet-narrow .omni-spreadsheet {
+    --omni-spreadsheet-column-width: 5.5rem;
+}
+
+.gallery-sheet-wide .omni-spreadsheet {
+    --omni-spreadsheet-column-width: 10rem;
+}
+
+/* Spreadsheet page: the echo of the active cell, the total and the size is a compact two-column list. */
+.gallery-sheet-stage .omni-description-list {
+    font-size: var(--omni-font-size-sm);
+    row-gap: var(--omni-space-xs);
+}
+
+.gallery-sheet-stage .omni-description-list__item {
+    border-block-start: 0;
+    padding-block: 0;
+}
+
+.gallery-sheet-stage .omni-description-list__label {
+    font-weight: 650;
+}
+
+/* Spreadsheet page: the JSON of the model scrolls in a box of bounded height. */
+.gallery-sheet-stage .omni-code-block__pre {
+    max-block-size: 14rem;
+    overflow: auto;
+    word-break: break-all;
+}

@@ -263,7 +263,7 @@ export async function boardSteps(session, results) {
   step('tableau : clavier, carte portée et posée, glisser à la souris');
 
   // 6. The spreadsheet: arrows move the active cell, F2 opens its editor at the end of the text.
-  await session.visit('/components/legacy/tableur', '#demo-sheet [data-omni-sheet-grid]');
+  await session.visit('/components/spreadsheet', '#demo-sheet [data-omni-sheet-grid]');
   await evaluate("document.querySelector('#demo-sheet [data-omni-sheet-grid]').focus()");
   const active = () => evaluate("document.querySelector('#demo-sheet [data-omni-sheet-grid]').getAttribute('aria-activedescendant')");
   const cellBefore = await active();
@@ -276,12 +276,12 @@ export async function boardSteps(session, results) {
   step('tableur : flèche, F2, Échap');
 
   // 7. The tree: a draggable account dragged onto another.
-  await session.visit('/components/legacy/arborescence', '#demo-tree-accounts');
+  await session.visit('/components/tree', '#demo-tree-accounts');
   await clickOn('#demo-tree-accounts .omni-tree__toggle');
   await waitFor('les comptes dépliés', "document.querySelector('#demo-tree-accounts [draggable=\"true\"]') !== null");
-  const status = await evaluate("document.querySelector('p[role=\"status\"]').textContent");
+  const status = await evaluate("document.querySelector('#demo-tree-accounts-status').textContent");
   await html5Drag('#demo-tree-accounts [draggable="true"]', '#demo-tree-accounts .omni-tree__item:last-child > .omni-tree__row');
-  await waitFor('le compte rangé', `document.querySelector('p[role="status"]').textContent !== ${JSON.stringify(status)}`);
+  await waitFor('le compte rangé', `document.querySelector('#demo-tree-accounts-status').textContent !== ${JSON.stringify(status)}`);
   step('arborescence : compte glissé sur un autre');
 
   // 8. The scheduler: an appointment dragged.

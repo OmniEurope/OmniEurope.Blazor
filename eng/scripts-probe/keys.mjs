@@ -16,16 +16,16 @@ export async function keySteps(session, results) {
   const tab = () => key('Tab', 'Tab', 9);
   const focused = () => evaluate("document.activeElement?.textContent.trim() ?? ''");
 
-  // 1. Tree: Enter, then Space, on the button of Anvers each toggle its selection once.
-  await session.visit('/components/legacy/arborescence', '.omni-tree');
-  const anvers = "[...document.querySelectorAll('.omni-tree__select')].find(button => button.textContent.trim() === 'Anvers')";
+  // 1. Tree: Enter, then Space, on the button of Antwerp each toggle its selection once.
+  await session.visit('/components/tree', '.omni-tree');
+  const anvers = "[...document.querySelectorAll('.omni-tree__select')].find(button => button.textContent.trim() === 'Antwerp')";
   const anversSelected = `${anvers}.closest('[role=treeitem]').getAttribute('aria-selected') === 'true'`;
   const before = await evaluate(anversSelected);
   await evaluate(`${anvers}.focus()`);
   await enter();
-  await waitFor('Anvers basculé une fois par Entrée', `(${anversSelected}) === ${!before}`);
+  await waitFor('Antwerp basculé une fois par Entrée', `(${anversSelected}) === ${!before}`);
   await space();
-  await waitFor('Anvers rebasculé une fois par Espace', `(${anversSelected}) === ${before}`);
+  await waitFor('Antwerp rebasculé une fois par Espace', `(${anversSelected}) === ${before}`);
   step('arborescence : Entrée puis Espace basculent une seule fois');
 
   // 2. Select bar: one tab stop; the arrows pick the next and the previous option, End the last, Home the first.

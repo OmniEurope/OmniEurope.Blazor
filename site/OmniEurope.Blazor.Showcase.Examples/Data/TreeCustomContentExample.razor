@@ -1,0 +1,25 @@
+@* An item whose label is more than text: TextContent replaces Text in the select button (an icon, the name
+   and a remark here), and Text stays the accessible name. A disabled item keeps its place in the
+   traversal. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniTree TValue="string"
+              Id="tree-custom"
+              Label="Folder tree"
+              Multiple="Multiple"
+              @bind-Value="Selection">
+        <OmniTreeItem TValue="string" Value="@("europe")" Text="Europe" Expanded="true">
+            <OmniTreeItem TValue="string" Value="@("be")" Text="Belgium" Expanded="true">
+                <OmniTreeItem TValue="string" Value="@("bru")" Text="Brussels, capital">
+                    <TextContent><OmniIcon Name="OmniIconName.Buildings" /> <span>Brussels</span> <em>capital</em></TextContent>
+                </OmniTreeItem>
+                <OmniTreeItem TValue="string" Value="@("anv")" Text="Antwerp" />
+            </OmniTreeItem>
+            <OmniTreeItem TValue="string" Value="@("fr")" Text="France">
+                <OmniTreeItem TValue="string" Value="@("par")" Text="Paris" />
+                <OmniTreeItem TValue="string" Value="@("lyo")" Text="Lyon" />
+            </OmniTreeItem>
+            <OmniTreeItem TValue="string" Value="@("lu")" Text="Luxembourg" Disabled="DisableItems" />
+        </OmniTreeItem>
+    </OmniTree>
+    <OmniText Tone="OmniTextTone.Muted">Selection: <strong>@(Selection.Count == 0 ? "none" : string.Join(", ", Selection))</strong></OmniText>
+</OmniStack>

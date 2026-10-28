@@ -1,0 +1,13 @@
+@* A board of movable cards: Columns are the lanes, ColumnOf says in which lane an item sits, and OnItemMove
+   reports a card dropped or carried (keyboard) into another lane, so that the host updates its own data.
+   KeyOf gives each card a stable identity and ItemLabel its accessible name. *@
+<OmniKanban TItem="Record"
+            Columns="Columns"
+            Items="Records"
+            ColumnOf="ColumnOf"
+            KeyOf="KeyOf"
+            ItemLabel="LabelOf"
+            OnItemMove="Move"
+            Label="Records">
+    <CardTemplate Context="item">@item.Name</CardTemplate>
+</OmniKanban>

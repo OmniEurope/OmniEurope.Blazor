@@ -1,0 +1,36 @@
+@page "/components/collections"
+@using OmniEurope.Blazor.Showcase.Examples.Data
+
+<GalleryPageFrame Slug="collections">
+    <Settings>
+        <OmniSettingsSection Title="@Text["CollectionsSettingsTitle"]">
+            <OmniSettingsTile Title="@Text["CollectionsSearch"]">
+                <Icon><OmniIcon Name="OmniIconName.Search" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowSearch" aria-label="@Text["CollectionsSearch"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["CollectionsWrap"]">
+                <Icon><OmniIcon Name="OmniIconName.TextAlignLeft" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Wrap" aria-label="@Text["CollectionsWrap"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>OmniKanban</HeaderContent>
+            <ChildContent>
+                <KanbanExample />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>OmniLogViewer</HeaderContent>
+            <ChildContent>
+                <LogViewerExample ShowSearch="ShowSearch" Wrap="Wrap" />
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

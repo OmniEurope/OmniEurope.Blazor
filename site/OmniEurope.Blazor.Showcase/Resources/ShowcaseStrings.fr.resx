@@ -148,6 +148,11 @@
   <data name="DemoSpreadsheetCapability1" xml:space="preserve"><value>Formules avec références, plages, SOMME, MOYENNE, MIN, MAX et codes d'erreur.</value></data>
   <data name="DemoSpreadsheetCapability2" xml:space="preserve"><value>Navigation au clavier, saisie en place et barre de formule.</value></data>
   <data name="DemoSpreadsheetCapability3" xml:space="preserve"><value>Contenu lié dans les deux sens et sérialisable en JSON.</value></data>
+  <data name="DemoSchedulerTitle" xml:space="preserve"><value>Agenda</value></data>
+  <data name="DemoSchedulerSummary" xml:space="preserve"><value>Le calendrier et ses trois vues.</value></data>
+  <data name="DemoSchedulerCapability1" xml:space="preserve"><value>Vues jour, semaine et mois, commutables.</value></data>
+  <data name="DemoSchedulerCapability2" xml:space="preserve"><value>Rendez-vous récurrents décrits par une règle.</value></data>
+  <data name="DemoSchedulerCapability3" xml:space="preserve"><value>Chaque vue s'utilise aussi seule, hors du calendrier.</value></data>
   <data name="DemoChartsExtendedTitle" xml:space="preserve"><value>Graphiques, vue complète</value></data>
   <data name="DemoChartsExtendedSummary" xml:space="preserve"><value>Toutes les séries, la légende, les étiquettes et la jauge.</value></data>
   <data name="DemoChartsExtendedCapability1" xml:space="preserve"><value>Lignes, aires, colonnes, barres, empilements, secteurs et anneau.</value></data>
@@ -1116,31 +1121,6 @@
   <data name="DemoFlowsConnectionEstablished" xml:space="preserve"><value>établie</value></data>
   <data name="DemoFlowsReasonTimeout" xml:space="preserve"><value>le serveur ne répond plus (délai dépassé)</value></data>
   <data name="DemoFlowsReasonExpired" xml:space="preserve"><value>session expirée côté serveur</value></data>
-  <data name="DemoTreeLabel" xml:space="preserve"><value>Arborescence des dossiers</value></data>
-  <data name="DemoTreeEurope" xml:space="preserve"><value>Europe</value></data>
-  <data name="DemoTreeBelgium" xml:space="preserve"><value>Belgique</value></data>
-  <data name="DemoTreeCapitalText" xml:space="preserve"><value>{0}, capitale</value></data>
-  <data name="DemoTreeCapital" xml:space="preserve"><value>capitale</value></data>
-  <data name="DemoTreeFrance" xml:space="preserve"><value>France</value></data>
-  <data name="DemoTreeLuxembourg" xml:space="preserve"><value>Luxembourg</value></data>
-  <data name="DemoTreeArchives" xml:space="preserve"><value>Archives, chargées à l'ouverture</value></data>
-  <data name="DemoTreeSelection" xml:space="preserve"><value>Sélection : {0}</value></data>
-  <data name="DemoTreeNoSelection" xml:space="preserve"><value>aucune</value></data>
-  <data name="DemoSpreadsheetLabel" xml:space="preserve"><value>Budget du trimestre</value></data>
-  <data name="DemoSpreadsheetStatus" xml:space="preserve"><value>Cellule active : {0}. Total du trimestre : {1}</value></data>
-  <data name="DemoSpreadsheetReadOnlyLabel" xml:space="preserve"><value>Le même budget, en lecture seule</value></data>
-  <data name="DemoSpreadsheetItem" xml:space="preserve"><value>Poste</value></data>
-  <data name="DemoSpreadsheetJanuary" xml:space="preserve"><value>Janvier</value></data>
-  <data name="DemoSpreadsheetFebruary" xml:space="preserve"><value>Février</value></data>
-  <data name="DemoSpreadsheetMarch" xml:space="preserve"><value>Mars</value></data>
-  <data name="DemoSpreadsheetQuarter" xml:space="preserve"><value>Trimestre</value></data>
-  <data name="DemoSpreadsheetRent" xml:space="preserve"><value>Loyer</value></data>
-  <data name="DemoSpreadsheetGroceries" xml:space="preserve"><value>Courses</value></data>
-  <data name="DemoSpreadsheetEnergy" xml:space="preserve"><value>Énergie</value></data>
-  <data name="DemoSpreadsheetTransport" xml:space="preserve"><value>Transport</value></data>
-  <data name="DemoSpreadsheetLeisure" xml:space="preserve"><value>Loisirs</value></data>
-  <data name="DemoSpreadsheetTotal" xml:space="preserve"><value>Total</value></data>
-  <data name="DemoSpreadsheetAverage" xml:space="preserve"><value>Moyenne</value></data>
   <data name="DemoDiagramReadOnly" xml:space="preserve"><value>Lecture seule</value></data>
   <data name="DemoDiagramMindMapLabel" xml:space="preserve"><value>Carte mentale : préparer un déménagement</value></data>
   <data name="DemoDiagramGitGraphLabel" xml:space="preserve"><value>Historique avec une branche fusionnée</value></data>
@@ -1180,9 +1160,6 @@
   <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Tout déplier</value></data>
   <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Tout replier</value></data>
   <data name="DemoGridTreeExport" xml:space="preserve"><value>Exporter en Excel</value></data>
-  <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Plan de comptes</value></data>
-  <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Glissez un compte sur un autre pour l'y ranger.</value></data>
-  <data name="DemoTreeMoved" xml:space="preserve"><value>{0} rangé sous {1}</value></data>
   <data name="DemoGridScopeHint" xml:space="preserve"><value>Tournez la molette n&apos;importe où dans ce cadre : les lignes de la grille défilent.</value></data>
   <data name="DemoGridFillCaption" xml:space="preserve"><value>Deux mille dossiers par pays</value></data>
   <data name="DemoGridEditCaption" xml:space="preserve"><value>Dossiers modifiables : double-cliquez une ligne ou utilisez le crayon</value></data>
