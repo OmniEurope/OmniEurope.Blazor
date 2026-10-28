@@ -1,0 +1,18 @@
+@* A radio list with an error: while Error is set, the group is marked invalid (aria-invalid) and described by
+   the message, drawn under the choices with the error glyph. Choosing an option removes the error. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniRadioButtonList TValue="string"
+                         Id="radio-strategy"
+                         Name="radio-strategy"
+                         Options="StrategyOptions"
+                         @bind-Value="Strategy"
+                         Label="Deployment strategy"
+                         Error="@(string.IsNullOrEmpty(Strategy) ? "Choose a deployment strategy." : null)" />
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Align="OmniAlignment.Center">
+        <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => Reset())">
+            <Icon><OmniIcon Name="OmniIconName.Close" /></Icon>
+            <ChildContent><span>Clear the choice</span></ChildContent>
+        </OmniButton>
+        <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@(Strategy ?? "null")</code></OmniText>
+    </OmniStack>
+</OmniStack>

@@ -1,0 +1,20 @@
+@* A group of cards binds one value, or a list of values with Multiple. The bound type changes with Multiple, so
+   the group is drawn once for each. In a single-choice group only the chosen card is in the tab order and
+   the arrow keys move the choice. *@
+<OmniStack Gap="OmniSpacing.Small">
+    @if (Multiple)
+    {
+        <OmniSelectableCardGroup TValue="string" TSelection="IReadOnlyList<string>" Multiple="true" Disabled="Disabled"
+                                 Label="Means of transport" @bind-Value="Transports">
+            <SelectableCardsChoices ShowDescriptions="ShowDescriptions" />
+        </OmniSelectableCardGroup>
+    }
+    else
+    {
+        <OmniSelectableCardGroup TValue="string" TSelection="string" Disabled="Disabled"
+                                 Label="Means of transport" @bind-Value="Transport">
+            <SelectableCardsChoices ShowDescriptions="ShowDescriptions" />
+        </OmniSelectableCardGroup>
+    }
+    <OmniText Tone="OmniTextTone.Muted">Bound value: <strong>@SelectionEcho</strong></OmniText>
+</OmniStack>

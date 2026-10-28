@@ -18,6 +18,7 @@ internal static class SelectionFamily
             [
                 "Selection/AutocompleteExample.razor", "Selection/AutocompleteExample.razor.cs",
                 "Selection/AutocompleteGalleryExample.razor", "Selection/AutocompleteGalleryExample.razor.cs",
+                "Selection/AutocompleteFreeTextExample.razor", "Selection/AutocompleteFreeTextExample.razor.cs",
                 "Selection/AutocompleteCities.cs"
             ]),
         new("multi-select", "MultiSelectTitle", "MultiSelectDescription", OmniIconName.Tag,
@@ -37,7 +38,54 @@ internal static class SelectionFamily
             [
                 "Selection/RadioButtonsExample.razor", "Selection/RadioButtonsExample.razor.cs",
                 "Selection/RadioButtonsGalleryExample.razor", "Selection/RadioButtonsGalleryExample.razor.cs",
+                "Selection/RadioButtonsErrorExample.razor", "Selection/RadioButtonsErrorExample.razor.cs",
                 "Selection/RatingExample.razor", "Selection/RatingExample.razor.cs"
+            ]),
+        new("select-bar", "SelectBarTitle", "SelectBarDescription", OmniIconName.Sliders,
+            ["OmniSelectBar"],
+            [
+                "Selection/SelectBarExample.razor", "Selection/SelectBarExample.razor.cs",
+                "Selection/SelectBarIconsExample.razor", "Selection/SelectBarIconsExample.razor.cs",
+                "Selection/SelectBarGalleryExample.razor", "Selection/SelectBarGalleryExample.razor.cs"
+            ]),
+        new("selectable-cards", "SelectableCardsTitle", "SelectableCardsDescription", OmniIconName.Cards,
+            ["OmniSelectableCard", "OmniSelectableCardGroup"],
+            [
+                "Selection/SelectableCardsExample.razor", "Selection/SelectableCardsExample.razor.cs",
+                "Selection/SelectableCardsChoices.razor", "Selection/SelectableCardsChoices.razor.cs",
+                "Selection/SelectableCardsSingleExample.razor", "Selection/SelectableCardsSingleExample.razor.cs",
+                "Selection/SelectableCardsOptionsExample.razor", "Selection/SelectableCardsOptionsExample.razor.cs",
+                "Selection/SelectableCardsLayoutExample.razor", "Selection/SelectableCardsLayoutExample.razor.cs"
+            ]),
+        new("dates", "DatesTitle", "DatesDescription", OmniIconName.Timer,
+            ["OmniDatePicker", "OmniDateTimePicker", "OmniTimePicker"],
+            [
+                "Selection/DatesExample.razor", "Selection/DatesExample.razor.cs",
+                "Selection/DatesGalleryExample.razor", "Selection/DatesGalleryExample.razor.cs",
+                "Selection/DatesTimeExample.razor", "Selection/DatesTimeExample.razor.cs",
+                "Selection/DatesFormExample.razor", "Selection/DatesFormExample.razor.cs",
+                "Selection/DatesDialogExample.razor", "Selection/DatesDialogExample.razor.cs"
+            ]),
+        new("colors", "ColorsTitle", "ColorsDescription", OmniIconName.Palette,
+            ["OmniColorPicker"],
+            [
+                "Selection/ColorsExample.razor", "Selection/ColorsExample.razor.cs",
+                "Selection/ColorsGalleryExample.razor", "Selection/ColorsGalleryExample.razor.cs",
+                "Selection/ColorPresets.cs"
+            ]),
+        new("slider", "SliderTitle", "SliderDescription", OmniIconName.Ruler,
+            ["OmniSlider"],
+            [
+                "Selection/SliderExample.razor", "Selection/SliderExample.razor.cs",
+                "Selection/SliderGalleryExample.razor", "Selection/SliderGalleryExample.razor.cs",
+                "Selection/SliderSelectableMinimumExample.razor", "Selection/SliderSelectableMinimumExample.razor.cs",
+                "Selection/SliderFormat.cs"
+            ]),
+        new("upload", "UploadTitle", "UploadDescription", OmniIconName.Upload,
+            ["OmniUpload"],
+            [
+                "Selection/UploadExample.razor", "Selection/UploadExample.razor.cs",
+                "Selection/UploadFormExample.razor", "Selection/UploadFormExample.razor.cs"
             ])
     ]);
 }

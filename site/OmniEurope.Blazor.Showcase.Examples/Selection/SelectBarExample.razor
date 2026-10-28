@@ -1,0 +1,11 @@
+@* A segmented choice built from options: the bar is one radio group, a disabled option stays visible but cannot be
+   picked, and a bound value that leaves the bar falls back to a pickable option. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniSelectBar TValue="string"
+                   Id="selectbar-period"
+                   Options="PeriodOptions"
+                   @bind-Value="Period"
+                   Label="Period"
+                   Disabled="Disabled" />
+    <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@(Period ?? "null")</code></OmniText>
+</OmniStack>

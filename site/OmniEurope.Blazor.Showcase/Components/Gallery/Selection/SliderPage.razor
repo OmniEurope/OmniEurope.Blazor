@@ -1,0 +1,100 @@
+@page "/components/slider"
+@using OmniEurope.Blazor.Showcase.Examples.Selection
+
+<GalleryPageFrame Slug="slider">
+    <Settings>
+        <OmniSettingsSection Title="@Text["SliderSettingsTitle"]" Description="@Text["SliderSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["SliderMinimum"]" Description="@Text["SliderMinimumDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.ArrowLeft" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="Minimum"
+                                Minimum="0"
+                                Maximum="50"
+                                Step="5"
+                                ShowValue="true"
+                                aria-label="@Text["SliderMinimum"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SliderMaximum"]" Description="@Text["SliderMaximumDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.ArrowRight" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="Maximum"
+                                Minimum="60"
+                                Maximum="200"
+                                Step="10"
+                                ShowValue="true"
+                                aria-label="@Text["SliderMaximum"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SliderStep"]" Description="@Text["SliderStepDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="double"
+                                   Options="StepOptions"
+                                   @bind-Value="Step"
+                                   Label="@Text["SliderStep"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SliderFormat"]" Description="@Text["SliderFormatDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="SliderFormat"
+                                   Options="FormatOptions"
+                                   @bind-Value="ValueFormat"
+                                   Label="@Text["SliderFormat"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SliderShowValue"]" Description="@Text["SliderShowValueDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowValue" aria-label="@Text["SliderShowValue"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SliderVertical"]" Description="@Text["SliderVerticalDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Swap" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Vertical" aria-label="@Text["SliderVertical"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SliderDisabled"]" Description="@Text["SliderDisabledDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Pin" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="SliderDisabled" aria-label="@Text["SliderDisabled"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["SliderPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <SliderExample Minimum="Minimum"
+                               Maximum="Maximum"
+                               Step="Step"
+                               ValueFormat="ValueFormat"
+                               ShowValue="ShowValue"
+                               Vertical="Vertical"
+                               Disabled="SliderDisabled" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["SliderGalleryTitle"]</HeaderContent>
+            <ChildContent><SliderGalleryExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["SliderSelectableTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Small">
+                    <OmniText Tone="OmniTextTone.Muted">@Text["SliderSelectableHint"]</OmniText>
+                    <SliderSelectableMinimumExample />
+                </OmniStack>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

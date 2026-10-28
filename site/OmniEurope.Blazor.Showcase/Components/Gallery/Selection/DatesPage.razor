@@ -1,0 +1,71 @@
+@page "/components/dates"
+@using OmniEurope.Blazor.Showcase.Examples.Selection
+
+<GalleryPageFrame Slug="dates">
+    <Settings>
+        <OmniSettingsSection Title="@Text["DatesSettingsTitle"]" Description="@Text["DatesSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["DatesMinimum"]" Description="@Text["DatesMinimumDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.ArrowLeft" /></Icon>
+                <ChildContent>
+                    <OmniDatePicker @bind-Value="MinimumBound" aria-label="@Text["DatesMinimum"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DatesMaximum"]" Description="@Text["DatesMaximumDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.ArrowRight" /></Icon>
+                <ChildContent>
+                    <OmniDatePicker @bind-Value="MaximumBound" aria-label="@Text["DatesMaximum"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DatesShowSeconds"]" Description="@Text["DatesShowSecondsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Timer" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowSeconds" aria-label="@Text["DatesShowSeconds"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DatesReadOnly"]" Description="@Text["DatesReadOnlyDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Document" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="PickersReadOnly" aria-label="@Text["DatesReadOnly"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DatesDisabled"]" Description="@Text["DatesDisabledDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Pin" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="PickersDisabled" aria-label="@Text["DatesDisabled"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["DatesPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <DatesExample Minimum="MinimumBound"
+                              Maximum="MaximumBound"
+                              ShowSeconds="ShowSeconds"
+                              ReadOnly="PickersReadOnly"
+                              Disabled="PickersDisabled" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["DatesGalleryTitle"]</HeaderContent>
+            <ChildContent><DatesGalleryExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["DatesTimeTitle"]</HeaderContent>
+            <ChildContent><DatesTimeExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["DatesFormTitle"]</HeaderContent>
+            <ChildContent><DatesFormExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["DatesDialogTitle"]</HeaderContent>
+            <ChildContent><DatesDialogExample /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

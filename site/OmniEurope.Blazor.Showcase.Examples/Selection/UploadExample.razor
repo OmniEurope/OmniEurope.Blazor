@@ -1,0 +1,58 @@
+@* A file field that checks the count, size and type of the files, as a single-file field and as a several-file
+   field whose list grows and shrinks one line at a time. The Upload callback reads each accepted file in the
+   browser and reports its progress: nothing is sent to a server. The checks (count, size, type) also run in the
+   browser, on what it says about the files: they never replace a check on the server. *@
+<OmniStack Gap="OmniSpacing.Large">
+    <OmniAlert Severity="OmniSeverity.Info">The files you choose are read in your browser and never leave your computer: no request is sent to a server.</OmniAlert>
+
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniHeading Level="OmniHeadingLevel.H3">Single file</OmniHeading>
+        <OmniLabel For="upload-single">Supporting document</OmniLabel>
+        <OmniUpload Id="upload-single"
+                    @bind-Files="SingleFiles"
+                    MaximumFileSize="MaximumFileSize"
+                    AllowedContentTypes="AllowedContentTypes"
+                    Disabled="Disabled"
+                    Upload="ReadAsync"
+                    OnFileRemove="OnFileRemoved" />
+        <OmniText Tone="OmniTextTone.Muted">@AcceptedTypesEcho</OmniText>
+    </OmniStack>
+
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniHeading Level="OmniHeadingLevel.H3">Several files</OmniHeading>
+        <OmniLabel For="upload-multiple">Case attachments</OmniLabel>
+        <OmniUpload Id="upload-multiple"
+                    Multiple="true"
+                    @bind-Files="AttachedFiles"
+                    MaximumFiles="MaximumFiles"
+                    MaximumFileSize="MaximumFileSize"
+                    AllowedContentTypes="AllowedContentTypes"
+                    Disabled="Disabled"
+                    Upload="ReadAsync"
+                    OnFileRemove="OnFileRemoved" />
+        <OmniText Tone="OmniTextTone.Muted">@AttachedEcho</OmniText>
+        <OmniText Tone="OmniTextTone.Muted">Last file removed: <strong>@(LastRemoved ?? "none")</strong></OmniText>
+    </OmniStack>
+
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniHeading Level="OmniHeadingLevel.H3">Read in the browser</OmniHeading>
+        @if (ReadFiles.Count == 0)
+        {
+            <OmniText Tone="OmniTextTone.Muted">No file accepted yet. A refused selection leaves this list as it was.</OmniText>
+        }
+        else
+        {
+            @foreach (var file in ReadFiles)
+            {
+                <OmniDescriptionList>
+                    <OmniDescriptionItem Term="Name">@file.Name</OmniDescriptionItem>
+                    <OmniDescriptionItem Term="Type"><code>@file.ContentType</code></OmniDescriptionItem>
+                    <OmniDescriptionItem Term="Size">@file.Size</OmniDescriptionItem>
+                    <OmniDescriptionItem Term="Modified">@file.Modified</OmniDescriptionItem>
+                    <OmniDescriptionItem Term="Read in the browser">@file.Content</OmniDescriptionItem>
+                </OmniDescriptionList>
+            }
+            <OmniText Tone="OmniTextTone.Muted">@TotalEcho</OmniText>
+        }
+    </OmniStack>
+</OmniStack>

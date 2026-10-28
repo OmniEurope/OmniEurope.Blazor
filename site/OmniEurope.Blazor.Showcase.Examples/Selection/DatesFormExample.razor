@@ -1,0 +1,30 @@
+@* The three pickers of a form, each bound to its own value of one model: a date, a time on a five-minute step
+   and a date with a time, the date ones bounded to 2020-2035. They open their panel on the layer of floating
+   surfaces, and only one panel is open at a time. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniFormField For="dates-form-date" Description="From 2020 to 2035.">
+        <LabelContent>Deployment date</LabelContent>
+        <ChildContent>
+            <OmniDatePicker Id="dates-form-date" @bind-Value="Date" Minimum="Floor" Maximum="Ceiling" />
+        </ChildContent>
+    </OmniFormField>
+
+    <OmniFormField For="dates-form-start" Description="Offered every 5 minutes.">
+        <LabelContent>Start time</LabelContent>
+        <ChildContent>
+            <OmniTimePicker Id="dates-form-start" @bind-Value="Start" Step="TimeSpan.FromMinutes(5)" />
+        </ChildContent>
+    </OmniFormField>
+
+    <OmniFormField For="dates-form-appointment" Description="The day and the time are chosen in one panel.">
+        <LabelContent>Maintenance window</LabelContent>
+        <ChildContent>
+            <OmniDateTimePicker Id="dates-form-appointment"
+                                @bind-Value="Appointment"
+                                Minimum="AppointmentFloor"
+                                Maximum="AppointmentCeiling" />
+        </ChildContent>
+    </OmniFormField>
+
+    <OmniText Id="dates-form-picked" Tone="OmniTextTone.Muted">@PickedSummary</OmniText>
+</OmniStack>

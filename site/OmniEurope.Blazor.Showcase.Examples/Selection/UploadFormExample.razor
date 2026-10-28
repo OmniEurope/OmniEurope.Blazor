@@ -1,0 +1,34 @@
+@* The three shapes of OmniUpload in a form: a field welded to its Browse button, a one-file drop zone, and a
+   several-file zone with a reduced list (the three most recent files, the count, Show all and Remove all).
+   No Upload callback is given, so the component stops at the selection and keeps the names: the files are
+   not read and nothing leaves the browser. *@
+<OmniFieldset>
+    <Legend>Files</Legend>
+    <ChildContent>
+        <OmniStack Gap="OmniSpacing.Medium">
+            <OmniFormField For="upload-manifest" Description="Up to 1 MB, shown in a field with a Browse button.">
+                <LabelContent>Manifest</LabelContent>
+                <ChildContent>
+                    <OmniUpload Display="OmniUploadDisplay.Field" Id="upload-manifest" MaximumFileSize="1048576" @bind-Files="Manifest" />
+                </ChildContent>
+            </OmniFormField>
+            <OmniFormField For="upload-archive" Description="One file, up to 50 MB.">
+                <LabelContent>Archive</LabelContent>
+                <ChildContent>
+                    <OmniUpload Id="upload-archive" MaximumFiles="1" MaximumFileSize="52428800" @bind-Files="Archive" />
+                </ChildContent>
+            </OmniFormField>
+            <OmniFormField For="upload-attachments" Description="Up to 10 files of 20 MB; the list shows the three most recent.">
+                <LabelContent>Attachments</LabelContent>
+                <ChildContent>
+                    <OmniUpload Multiple="true"
+                                Id="upload-attachments"
+                                MaximumFiles="10"
+                                MaximumFileSize="20971520"
+                                ReducedList="true"
+                                @bind-Files="Attachments" />
+                </ChildContent>
+            </OmniFormField>
+        </OmniStack>
+    </ChildContent>
+</OmniFieldset>

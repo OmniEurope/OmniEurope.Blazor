@@ -117,12 +117,6 @@
   <data name="DemoInputsSummary" xml:space="preserve"><value>Numbers, passwords, dates, times, colours and autocomplete.</value></data>
   <data name="DemoInputsCapability3" xml:space="preserve"><value>Asynchronous autocomplete, debounced and length-gated.</value></data>
   <data name="DemoInputsCapability4" xml:space="preserve"><value>Date, time, date and time: the house calendar and columns on the floating layer, grid keyboard, bounds and density.</value></data>
-  <data name="DemoChoiceTitle" xml:space="preserve"><value>Choice</value></data>
-  <data name="DemoChoiceSummary" xml:space="preserve"><value>Radio buttons, multi-checkboxes, select bars and toggles.</value></data>
-  <data name="DemoChoiceCapability1" xml:space="preserve"><value>Lists driven by options, or laid out item by item.</value></data>
-  <data name="DemoChoiceCapability2" xml:space="preserve"><value>A select bar and a toggle button, with busy and disabled states.</value></data>
-  <data name="DemoChoiceCapability3" xml:space="preserve"><value>A checkbox and a switch with three positions, indeterminate included.</value></data>
-  <data name="DemoChoiceCapability4" xml:space="preserve"><value>A visible check box on check box cards, and cards laid out in columns of equal size.</value></data>
   <data name="DemoEditorTitle" xml:space="preserve"><value>Editors and upload</value></data>
   <data name="DemoEditorSummary" xml:space="preserve"><value>The WYSIWYG editor and its HTML source, the word processor, the code editor and the file upload.</value></data>
   <data name="DemoEditorCapability1" xml:space="preserve"><value>A command toolbar the host extends or reorders, sanitised paste, source mode.</value></data>
@@ -1078,42 +1072,6 @@
   <data name="DemoEditorBodyGreeting" xml:space="preserve"><value>Dear Sir or Madam,</value></data>
   <data name="DemoEditorBodyText" xml:space="preserve"><value>Your case file has been received.</value></data>
   <data name="DemoEditorEmptyFile" xml:space="preserve"><value>A file is empty.</value></data>
-  <data name="DemoChoiceShippingLabel" xml:space="preserve"><value>Shipping method</value></data>
-  <data name="DemoChoiceExtrasLabel" xml:space="preserve"><value>Case options</value></data>
-  <data name="DemoChoicePeriodLabel" xml:space="preserve"><value>Period</value></data>
-  <data name="DemoChoicePin" xml:space="preserve"><value>Pin</value></data>
-  <data name="DemoChoiceUnavailable" xml:space="preserve"><value>Unavailable</value></data>
-  <data name="DemoChoiceSaving" xml:space="preserve"><value>Saving</value></data>
-  <data name="DemoChoiceLabelledCheck" xml:space="preserve"><value>Checkbox with its label</value></data>
-  <data name="DemoChoiceTriStateCheck" xml:space="preserve"><value>Three-state checkbox</value></data>
-  <data name="DemoChoiceTriStateSwitch" xml:space="preserve"><value>Three-state switch</value></data>
-  <data name="DemoChoiceTriStateValue" xml:space="preserve"><value>Three-position state: {0}</value></data>
-  <data name="DemoChoiceIndeterminate" xml:space="preserve"><value>indeterminate</value></data>
-  <data name="DemoChoiceOn" xml:space="preserve"><value>on</value></data>
-  <data name="DemoChoiceOff" xml:space="preserve"><value>off</value></data>
-  <data name="DemoChoiceTextFirstCheck" xml:space="preserve"><value>Label before the checkbox</value></data>
-  <data name="DemoChoiceTextFirstSwitch" xml:space="preserve"><value>Label before the switch</value></data>
-  <data name="DemoChoicePlatformLabel" xml:space="preserve"><value>Agent operating system</value></data>
-  <data name="DemoChoiceWindowsDescription" xml:space="preserve"><value>Windows Server 2022 and later</value></data>
-  <data name="DemoChoiceFeaturesLabel" xml:space="preserve"><value>Agent features</value></data>
-  <data name="DemoChoiceRunnerTitle" xml:space="preserve"><value>Pipeline runner</value></data>
-  <data name="DemoChoiceRunnerDescription" xml:space="preserve"><value>Runs the steps on this machine.</value></data>
-  <data name="DemoChoiceDockerDescription" xml:space="preserve"><value>Required by the runner.</value></data>
-  <data name="DemoChoiceRating" xml:space="preserve"><value>Rating</value></data>
-  <data name="DemoChoiceRatingReadOnly" xml:space="preserve"><value>Read-only rating</value></data>
-  <data name="DemoChoiceRatingDisabled" xml:space="preserve"><value>Disabled rating</value></data>
-  <data name="DemoChoiceShippingStandard" xml:space="preserve"><value>Standard</value></data>
-  <data name="DemoChoiceShippingExpress" xml:space="preserve"><value>Express</value></data>
-  <data name="DemoChoiceShippingPickup" xml:space="preserve"><value>Pick up at the branch</value></data>
-  <data name="DemoChoiceExtraReceipt" xml:space="preserve"><value>Acknowledgement of receipt</value></data>
-  <data name="DemoChoiceExtraCertifiedCopy" xml:space="preserve"><value>Certified copy</value></data>
-  <data name="DemoChoiceExtraTracking" xml:space="preserve"><value>Email tracking</value></data>
-  <data name="DemoChoicePeriodDay" xml:space="preserve"><value>Day</value></data>
-  <data name="DemoChoicePeriodMonth" xml:space="preserve"><value>Month</value></data>
-  <data name="DemoChoicePeriodYear" xml:space="preserve"><value>Year</value></data>
-  <data name="DemoChoiceFeatureCache" xml:space="preserve"><value>Dependency cache</value></data>
-  <data name="DemoChoiceFeatureArtifacts" xml:space="preserve"><value>Artifact retention</value></data>
-  <data name="DemoChoiceFeatureGpu" xml:space="preserve"><value>GPU acceleration</value></data>
   <data name="DemoInputsDate" xml:space="preserve"><value>Effective date</value></data>
   <data name="DemoInputsDateHelp" xml:space="preserve"><value>Type it or use the calendar; days out of bounds cannot be chosen.</value></data>
   <data name="DemoInputsDialog" xml:space="preserve"><value>In a dialog</value></data>

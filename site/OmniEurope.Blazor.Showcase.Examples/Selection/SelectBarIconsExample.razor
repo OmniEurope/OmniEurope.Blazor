@@ -1,0 +1,17 @@
+@* IconTemplate places an icon beside the text of each option; the template receives the option's value. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniSelectBar TValue="string"
+                   Id="selectbar-view"
+                   Options="ViewOptions"
+                   @bind-Value="View"
+                   Label="View"
+                   Disabled="Disabled">
+        <IconTemplate Context="view">
+            @if (IconOf(view) is { } icon)
+            {
+                <OmniIcon Name="icon" />
+            }
+        </IconTemplate>
+    </OmniSelectBar>
+    <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@View</code></OmniText>
+</OmniStack>

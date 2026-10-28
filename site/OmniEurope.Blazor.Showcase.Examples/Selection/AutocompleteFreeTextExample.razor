@@ -1,0 +1,18 @@
+@* Free text (AllowFreeText): a suggestion is picked as usual, and a name that is not in the list becomes the
+   value when the field is left, or when Enter is pressed with no suggestion highlighted. The chevron opens the
+   whole list with nothing typed. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniFormField For="autocomplete-model" Description="Pick a model, or type your own name.">
+        <LabelContent>Model</LabelContent>
+        <ChildContent>
+            <OmniAutocomplete TValue="string"
+                              Id="autocomplete-model"
+                              @bind-Value="Model"
+                              Search="SearchModelsAsync"
+                              MinimumLength="0"
+                              ShowToggle="true"
+                              AllowFreeText="true" />
+        </ChildContent>
+    </OmniFormField>
+    <OmniText Id="autocomplete-model-value" Tone="OmniTextTone.Muted">Bound value: <code>@(Model ?? "-")</code></OmniText>
+</OmniStack>

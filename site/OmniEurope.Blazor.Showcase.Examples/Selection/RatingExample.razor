@@ -1,5 +1,8 @@
-@* A star rating bound to a nullable integer: the arrow keys move to the next or previous star and choose it. *@
+@* A star rating bound to a nullable integer: the arrow keys move to the next or previous star and choose it.
+   ReadOnly shows the rating without letting it change; Disabled greys it out. *@
 <OmniStack Gap="OmniSpacing.Small">
     <OmniRating @bind-Value="Rating" Label="Stars" />
     <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@(Rating?.ToString() ?? "null")</code></OmniText>
+    <OmniRating @bind-Value="FrozenRating" ReadOnly="true" Label="Stars, read only" />
+    <OmniRating @bind-Value="FrozenRating" Disabled="true" Label="Stars, disabled" />
 </OmniStack>

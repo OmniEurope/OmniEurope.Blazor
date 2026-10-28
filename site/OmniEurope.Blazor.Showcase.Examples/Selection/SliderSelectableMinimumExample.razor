@@ -1,0 +1,22 @@
+@* SelectableMinimum keeps the track at its full length but refuses the positions below it: this budget runs
+   from 0 to 100 and cannot be set under 5. The two sliders, flat and upright, share one bound value. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniFormField For="slider-budget">
+        <LabelContent>Budget</LabelContent>
+        <ChildContent>
+            <OmniStack Gap="OmniSpacing.Medium">
+                <OmniSlider Id="slider-budget" @bind-Value="Budget" Minimum="0" SelectableMinimum="5" Maximum="100" Step="5" ShowValue="true" />
+                <OmniSlider Id="slider-budget-vertical"
+                            Orientation="OmniOrientation.Vertical"
+                            @bind-Value="Budget"
+                            Minimum="0"
+                            SelectableMinimum="5"
+                            Maximum="100"
+                            Step="5"
+                            ShowValue="true"
+                            aria-label="Budget, upright" />
+            </OmniStack>
+        </ChildContent>
+    </OmniFormField>
+    <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Budget</code></OmniText>
+</OmniStack>

@@ -1,0 +1,17 @@
+@* In a dialog, the calendar opens over it: fixed to the window, it adds the dialog no scrollbar, and it stays
+   under its field when the dialog is dragged. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniButton Id="dates-dialog-open" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => Open = true)">
+        <Icon><OmniIcon Name="OmniIconName.CalendarBlank" /></Icon>
+        <ChildContent><span>Pick a date in a dialog</span></ChildContent>
+    </OmniButton>
+    <OmniDialog Id="dates-dialog" Title="Date" @bind-Open="Open" Size="OmniDialogSize.Small" Draggable="true">
+        <OmniFormField For="dates-dialog-date">
+            <LabelContent>Date</LabelContent>
+            <ChildContent>
+                <OmniDatePicker Id="dates-dialog-date" @bind-Value="Date" />
+            </ChildContent>
+        </OmniFormField>
+    </OmniDialog>
+    <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@(Date?.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture) ?? "null")</code></OmniText>
+</OmniStack>

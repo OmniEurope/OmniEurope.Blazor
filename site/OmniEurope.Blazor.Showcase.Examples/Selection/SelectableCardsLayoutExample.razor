@@ -1,0 +1,18 @@
+@* A multiple-choice card draws a real check box, ticked when the card is chosen: decorative, the card stays the
+   only control (role="checkbox", aria-checked). ShowCheckBox="false" removes it; Columns lays the cards in
+   columns of the same width and height, as an OmniTileGrid does. The three groups share one bound list. *@
+<OmniStack Gap="OmniSpacing.Large">
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniHeading Level="OmniHeadingLevel.H4">With a check box</OmniHeading>
+        <OmniSelectableCardGroup Options="FeatureOptions" Multiple="true" Label="Build agent features" @bind-Value="Features" />
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniHeading Level="OmniHeadingLevel.H4">In three columns</OmniHeading>
+        <OmniSelectableCardGroup Id="cards-columns" Options="FeatureOptions" Multiple="true" Columns="3" Label="Build agent features" @bind-Value="Features" />
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniHeading Level="OmniHeadingLevel.H4">Without a check box</OmniHeading>
+        <OmniSelectableCardGroup Options="FeatureOptions" Multiple="true" ShowCheckBox="false" Label="Build agent features" @bind-Value="Features" />
+    </OmniStack>
+    <OmniText Tone="OmniTextTone.Muted">Bound value: <strong>@(Features.Count == 0 ? "none" : string.Join(", ", Features))</strong></OmniText>
+</OmniStack>
