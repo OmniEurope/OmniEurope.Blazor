@@ -199,7 +199,16 @@ check(await evaluate("document.activeElement?.textContent?.trim() === 'Duplicate
 await key('Escape', 'Escape');
 await waitFor('la fermeture du menu', `document.querySelector('${map} [role=menu]') === null`);
 await waitFor('le retour du focus au canevas', `document.activeElement === document.querySelector('${map} svg')`);
-results.push('menu contextuel');
+// Opened again, a press outside the canvas (just beside it, on the page) closes it, as beside a native menu.
+await mouse('mousePressed', root, { button: 'right' });
+await mouse('mouseReleased', root, { button: 'right' });
+await waitFor('le menu contextuel rouvert', `document.querySelector('${map} [role=menu]') !== null`);
+const outside = await evaluate(`(() => { const box = document.querySelector('${map}').getBoundingClientRect(); return { x: box.left - 6, y: box.top + box.height / 2 }; })()`);
+check(outside.x > 0, `Aucune place à côté du canevas pour l'appui dehors : ${JSON.stringify(outside)}.`);
+await mouse('mousePressed', outside);
+await mouse('mouseReleased', outside);
+await waitFor('la fermeture du menu par un appui dehors', `document.querySelector('${map} [role=menu]') === null`);
+results.push('menu contextuel (Échap, appui dehors)');
 
 // Double click on the background adds a node where it was clicked.
 const empty = await evaluate(`(() => { const box = document.querySelector('${map} svg').getBoundingClientRect(); return { x: box.left + 30, y: box.bottom - 30 }; })()`);
