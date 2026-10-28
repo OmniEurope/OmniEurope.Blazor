@@ -181,6 +181,14 @@ seule l'ombre change, la tuile ne bouge pas. Elle prend la hauteur de sa colonne
 une `OmniTileGrid`, toutes les tuiles ont la même largeur et la même hauteur, et `DoubleWidth` en étale une
 sur deux colonnes (« Règle des tuiles » dans [layout-components.md](layout-components.md)).
 
+`FitTitle` (faux par défaut ; demande d'une application cliente, recette R-57) tient le titre sur une ligne
+dans une colonne étroite, six tuiles par rangée par exemple : la taille de la police du titre diminue avec la
+largeur de la tuile (unités de requête de conteneur, sans script) jusqu'à ce que tout le titre tienne, aucun
+mot n'est coupé, et le titre et la description sont alignés à gauche au lieu d'être centrés. La taille se
+calcule d'après la longueur de `Title`, arrondie à un palier (8, 12, 16, 20, 24, 32 ou 48 caractères, une
+classe et jamais un style en ligne) et s'arrête à 0,75rem ; en dessous, le titre est coupé par des points
+de suspension. Le calcul compte 0,6em par caractère : une police très large peut couper un titre un peu avant.
+
 ```razor
 <OmniRow Gap="OmniSpacing.Medium">
     <OmniColumn Span="12" MediumSpan="4">

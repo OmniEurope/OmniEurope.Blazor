@@ -172,8 +172,9 @@ public sealed class FeedbackFormsCoherenceTests : OmniBunitContext
         Assert.Empty(field.FindAll("[role=alert]"));
         Assert.Equal("Trop lourd.", error.TextContent.Trim());
         Assert.Contains("omni-form-field--invalid", field.Find(".omni-form-field").ClassList);
-        // Empty, the region takes no room in the field's grid.
-        Assert.Equal("absolute", ShippedLookTests.Value(ShippedLookTests.Body(".omni-form-field__message:empty, .omni-validation-message:empty"), "position"));
+        // Empty, the region keeps one error line (R-12); a validator's own message still takes no room.
+        Assert.Equal("1lh", ShippedLookTests.Value(ShippedLookTests.Body(".omni-form-field__message"), "min-block-size"));
+        Assert.Equal("absolute", ShippedLookTests.Value(ShippedLookTests.Body(".omni-validation-message:empty"), "position"));
     }
 
     // ---- Class on the outermost element ---------------------------------------------------------
