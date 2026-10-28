@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using OmniEurope.Blazor.Components;
 using OmniEurope.Blazor.Showcase.Components.Gallery.Foundations;
-using OmniEurope.Blazor.Showcase.Components.Layout;
 using OmniEurope.Blazor.Showcase.Localization;
 using OmniEurope.Blazor.Showcase.Resources;
 using OmniEurope.Blazor.Showcase.Theming;
@@ -14,7 +13,7 @@ using OmniEurope.Blazor.Showcase.Theming;
 namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
-/// The showcase in English (the neutral resources, the default) and French: the header selector, the
+/// The showcase in English (the neutral resources, the default) and French: the language switcher, the
 /// culture the page runs in, and the resources each language resolves to. Owner decision (PLAN-005):
 /// the language coverage of the resources is not tested; the selector and the cultures are.
 /// </summary>
@@ -54,31 +53,28 @@ public sealed class ShowcaseLanguageTests : OmniBunitContext
     }
 
     [Fact]
-    public void Selector_ListsBothLanguagesByTheirOwnNameWithAnAccessibleName()
+    public void Switcher_OffersBothLanguagesByTheirOwnName_AndNamesTheCurrentOne()
     {
         WithUiCulture("en-IE", () =>
         {
-            var selector = Render<LanguageSelector>();
-
-            var select = selector.Find("select.showcase-language");
-            var options = select.QuerySelectorAll("option").Select(option => option.TextContent).ToArray();
-            Assert.Equal(["English", "Français"], options);
-            Assert.Equal("Showcase language", select.GetAttribute("aria-label"));
-            Assert.Equal("English", select.QuerySelector("option[selected]")?.TextContent);
+            Assert.Equal(["English", "Français"], ShowcaseLanguageSwitcher.Languages.Select(language => language.Name));
+            Assert.Equal(["en", "fr"], ShowcaseLanguageSwitcher.Languages.Select(language => language.Code));
+            Assert.Equal("en", ShowcaseLanguageSwitcher.Current);
         });
     }
 
     [Fact]
-    public void Selector_SavesTheChosenLanguageAndReloadsThePage()
+    public void Switcher_SavesTheChosenLanguageAndReloadsThePage()
     {
         WithUiCulture("en-IE", () =>
         {
             JSInterop.Setup<bool>("omniShowcaseCulture.save", ShowcaseLanguages.StorageKey, "fr").SetResult(true);
             var navigation = (BunitNavigationManager)Services.GetRequiredService<NavigationManager>();
-            var selector = Render<LanguageSelector>();
+            var switcher = new ShowcaseLanguageSwitcher(JSInterop.JSRuntime, navigation);
 
-            selector.Find("select").Change(IndexOf("fr"));
+            var reloaded = switcher.SwitchAsync("fr").GetAwaiter().GetResult();
 
+            Assert.True(reloaded);
             Assert.Single(JSInterop.Invocations, invocation => invocation.Identifier == "omniShowcaseCulture.save");
             var reload = Assert.Single(navigation.History);
             Assert.True(reload.Options.ForceLoad);
@@ -87,18 +83,35 @@ public sealed class ShowcaseLanguageTests : OmniBunitContext
     }
 
     [Fact]
-    public void Selector_StaysOnTheCurrentLanguageWhenTheBrowserRefusesToStoreTheChoice()
+    public void Switcher_StaysOnTheCurrentLanguageWhenTheBrowserRefusesToStoreTheChoice()
     {
         WithUiCulture("en-IE", () =>
         {
             JSInterop.Setup<bool>("omniShowcaseCulture.save", ShowcaseLanguages.StorageKey, "fr").SetResult(false);
             var navigation = (BunitNavigationManager)Services.GetRequiredService<NavigationManager>();
-            var selector = Render<LanguageSelector>();
+            var switcher = new ShowcaseLanguageSwitcher(JSInterop.JSRuntime, navigation);
 
-            selector.Find("select").Change(IndexOf("fr"));
+            var reloaded = switcher.SwitchAsync("fr").GetAwaiter().GetResult();
 
+            Assert.False(reloaded);
             Assert.Empty(navigation.History);
-            Assert.Equal("English", selector.Find("select option[selected]").TextContent);
+            Assert.Equal("en", ShowcaseLanguageSwitcher.Current);
+        });
+    }
+
+    [Fact]
+    public void Switcher_DoesNothingWhenTheChosenLanguageIsTheCurrentOne()
+    {
+        WithUiCulture("fr-FR", () =>
+        {
+            var navigation = (BunitNavigationManager)Services.GetRequiredService<NavigationManager>();
+            var switcher = new ShowcaseLanguageSwitcher(JSInterop.JSRuntime, navigation);
+
+            var reloaded = switcher.SwitchAsync("fr").GetAwaiter().GetResult();
+
+            Assert.False(reloaded);
+            Assert.Empty(navigation.History);
+            Assert.DoesNotContain(JSInterop.Invocations, invocation => invocation.Identifier == "omniShowcaseCulture.save");
         });
     }
 
@@ -136,9 +149,6 @@ public sealed class ShowcaseLanguageTests : OmniBunitContext
                 StringComparison.Ordinal);
         });
     }
-
-    private static string IndexOf(string code) =>
-        ShowcaseLanguages.All.ToList().FindIndex(language => language.Code == code).ToString(CultureInfo.InvariantCulture);
 
     /// <summary>Runs an assertion under a UI culture, whatever the culture of the machine running the tests.</summary>
     internal static void WithUiCulture(string cultureName, Action action)

@@ -1,7 +1,10 @@
 @inherits LayoutComponentBase
 @using OmniEurope.Blazor.Showcase.Components.Gallery
+@using OmniEurope.Blazor.Showcase.Localization
 
-@* The theme is handed over painted (palette and hand edits included) for the whole site: a theme with a
+@* The OE shell (STD-SHELL): one theme scope around the whole site, the header with the sidebar toggle and the
+   application menu at its end, the loading bar under it, then the sidebar and the main area. The application
+   only fills their slots. The theme is handed over painted (palette and hand edits included): a theme with a
    canvas backdrop draws it behind every page, as in a real application. ThemeState still pushes the same
    tokens through the CSSOM, so the two writers agree. *@
 <OmniThemeScope Id="showcase-theme" Appearance="CurrentAppearance" Density="Theme.Density" Preset="Theme.Painted" BackdropMotion="Theme.BackdropMotion">
@@ -11,17 +14,30 @@
     <OmniLayout>
         @* Le premier arrêt de Tab : il mène au contenu par-dessus l'en-tête et la navigation. *@
         <OmniSkipLink />
-        <OmniHeader Sticky="true">
-            <a class="showcase-brand" href="">OmniEurope.Blazor</a>
-            <OmniBadge Tone="OmniTone.Accent">@Text["HeaderBadge"]</OmniBadge>
-            <span class="showcase-header__spacer"></span>
-            <LanguageSelector />
-            <OmniButton Variant="OmniButtonVariant.Ghost" Disabled="Theme.Theme.DarkOnly" OnClick="@(_ => ToggleModeAsync())">
-                @(Theme.EffectiveMode is ThemeMode.Dark ? Text["ModeLight"] : Text["ModeDark"])
-            </OmniButton>
+        <OmniHeader Sticky="true" Brand="OmniEurope.Blazor" BrandHref="/">
+            <SidebarToggle>
+                <OmniSidebarToggle Controls="@SidebarId" Open="_sidebarOpen" OpenChanged="SetSidebarOpen"
+                                   Reveal="EffectiveReveal" Label="@Text["ToggleMenu"]" />
+            </SidebarToggle>
+            <ChildContent>
+                <OmniBadge Class="showcase-header__badge" Tone="OmniTone.Accent">@Text["HeaderBadge"]</OmniBadge>
+                <span class="showcase-header__spacer"></span>
+                @* The standard application menu: mode, theme (it opens the appearance window), language and
+                   version. The showcase has neither an account nor a settings page of its own. *@
+                <OmniAppMenu Appearance="MenuAppearance" AppearanceChanged="SetAppearanceAsync"
+                             Preset="LookPreset" OnThemeOpen="OpenAppearanceWindow"
+                             Languages="ShowcaseLanguageSwitcher.Languages" Language="@ShowcaseLanguageSwitcher.Current"
+                             LanguageChanged="ChangeLanguageAsync" Version="@VersionLine" />
+            </ChildContent>
         </OmniHeader>
+        <OmniLoadingBar Mode="OmniLoadingBarMode.Continuous" Label="@Text["Loading"]" />
         <OmniBody>
-            <OmniSidebar Label="@Text["SidebarLabel"]" Open="true">
+            @* Two independent axes: what opening does to the content (pushed on a wide screen, overlaid on a
+               phone, where it also gets a veil) and what closing leaves (a rail of icons, nothing on a phone). *@
+            <OmniSidebar Id="@SidebarId" Label="@Text["SidebarLabel"]" CloseLabel="@Text["CloseMenu"]"
+                         Open="_sidebarOpen" OpenChanged="SetSidebarOpen"
+                         Reveal="EffectiveReveal" Collapse="EffectiveCollapse"
+                         Transition="OmniSidebarTransition.Smooth" Backdrop="_narrowViewport">
                 @* Inside the gallery its menu replaces the site's, as on a site of its own; its first entry,
                    and the brand in the header, lead back to the other sections. *@
                 @if (InGallery)
@@ -31,10 +47,18 @@
                 else
                 {
                     <OmniPanelMenu Label="@Text["MenuLabel"]">
-                        <OmniPanelMenuItem Href="" Text="@Text["NavShowcase"]" Match="OmniNavMatch.Exact" />
-                        <OmniPanelMenuItem Href="documentation" Text="@Text["NavDocumentation"]" />
-                        <OmniPanelMenuItem Href="components" Text="@Text["NavComponents"]" />
-                        <OmniPanelMenuItem Href="customizer" Text="@Text["NavCustomize"]" />
+                        <OmniPanelMenuItem Href="" Text="@Text["NavShowcase"]" Match="OmniNavMatch.Exact">
+                            <Icon><OmniIcon Name="OmniIconName.Home" /></Icon>
+                        </OmniPanelMenuItem>
+                        <OmniPanelMenuItem Href="documentation" Text="@Text["NavDocumentation"]">
+                            <Icon><OmniIcon Name="OmniIconName.BookOpen" /></Icon>
+                        </OmniPanelMenuItem>
+                        <OmniPanelMenuItem Href="components" Text="@Text["NavComponents"]">
+                            <Icon><OmniIcon Name="OmniIconName.Flask" /></Icon>
+                        </OmniPanelMenuItem>
+                        <OmniPanelMenuItem Href="customizer" Text="@Text["NavCustomize"]">
+                            <Icon><OmniIcon Name="OmniIconName.Palette" /></Icon>
+                        </OmniPanelMenuItem>
                     </OmniPanelMenu>
                 }
             </OmniSidebar>
@@ -53,6 +77,14 @@
             </ErrorBoundary>
         </OmniBody>
     </OmniLayout>
+    @* The window of the look, opened by the Theme row of the application menu. It writes the same state as
+       the customizer and the gallery pages, so the page, the menus and the customizer always agree. *@
+    <OmniAppearanceWindow Open="_appearanceWindowOpen" OpenChanged="SetAppearanceWindowOpen"
+                          Appearance="MenuAppearance" AppearanceChanged="SetAppearanceAsync"
+                          Preset="LookPreset" PresetChanged="SetPresetAsync"
+                          Palette="WindowPalette" PaletteChanged="SetPaletteAsync"
+                          Density="Theme.Density" DensityChanged="SetDensityAsync"
+                          BackdropMotion="Theme.BackdropMotion" BackdropMotionChanged="SetBackdropMotionAsync" />
     </OmniComponentsHost>
 </OmniThemeScope>
 

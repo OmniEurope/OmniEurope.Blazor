@@ -282,14 +282,23 @@ const paint = async () => {
   await waitFor('la fermeture', `document.querySelector('${datePanel}') === null`);
   return colours;
 };
+// The mode is picked in the application menu at the end of the header (OmniAppMenu): its trigger opens the menu,
+// the mode row holds three radio buttons (light, dark, system), then Escape closes the menu again.
+const pickMode = async position => {
+  await click('.omni-header .omni-app-menu__trigger');
+  await waitFor("le menu d'application", "document.querySelector('.omni-app-menu__mode') !== null");
+  await click(`.omni-app-menu__mode .omni-appearance-window__mode:nth-child(${position})`);
+  await key('Escape');
+  await waitFor("le menu d'application refermé", "document.querySelector('.omni-app-menu__mode') === null");
+};
 const light = await paint();
-await click('.omni-header .omni-button');
+await pickMode(2);
 await waitFor('le mode sombre', "document.documentElement.getAttribute('data-omni-theme') === 'dark'");
 await pause(300);
 const dark = await paint();
 check(light.panel !== dark.panel && light.text !== dark.text, `Le panneau ne change pas avec le mode : ${JSON.stringify(light)} / ${JSON.stringify(dark)}.`);
 check(light.chosen && light.chosen !== 'rgba(0, 0, 0, 0)' && dark.chosen && dark.chosen !== 'rgba(0, 0, 0, 0)', 'Le jour choisi n\'est pas rempli.');
-await click('.omni-header .omni-button');
+await pickMode(1);
 results.push(`clair ${light.panel} et sombre ${dark.panel}`);
 
 // ---- In a dialog: the calendar opens over it, fixed to the window, and adds it no scrollbar; once the

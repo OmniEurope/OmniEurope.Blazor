@@ -32,6 +32,7 @@ else if (ShowcaseApiConfiguration.BaseAddress(builder.Configuration) is { } apiB
 builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped<ThemeTokenReader>();
 builder.Services.AddScoped<ThemeState>();
+builder.Services.AddScoped<ShowcaseLanguageSwitcher>();
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
