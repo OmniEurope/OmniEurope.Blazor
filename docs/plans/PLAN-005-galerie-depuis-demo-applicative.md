@@ -60,9 +60,9 @@ Examples).
 | 9 | Drop-downs, autocomplete, multi-select, lists, radio buttons | `selection` | Fait |
 | 10 | Select bar, selectable cards, dates, colors, slider, upload | `choix` | Fait |
 | 11 | Data grid (colonnes, détail), data list | `grille`, `grilles-maquette`, `grille-avancee`, `listes` | À faire |
-| 12 | Tree, spreadsheet, collections | `arborescence`, `tableur` | À faire |
-| 13 | Column, line, pie charts, gauges | `graphiques`, `graphiques-avances` | À faire |
-| 14 | Scheduler, timeline, Gantt, step timeline | `agenda`, `planification` | À faire |
+| 12 | Tree, spreadsheet, collections | `arborescence`, `tableur` | Fait (396ad044 ; 3 pages rendues sans erreur dans Chromium) |
+| 13 | Column, line, pie charts, gauges | `graphiques`, `graphiques-avances` | Fait (a5721bab ; 4 pages, 37 graphiques et jauges rendus, légende des secteurs lue dans le DOM) |
+| 14 | Scheduler, timeline, Gantt, step timeline | `agenda`, `planification` | Fait (5374fdce ; 4 pages rendues sans erreur dans Chromium) |
 | 15 | HTML editor, document editor, code editor, code reading, mind map | `editeur`, `diagramme` | À faire |
 | 16 | Workflows, préférences (enregistrées par l API), accueil de la galerie, retrait de l'ancienne galerie et de `DemoCatalog` | (reste) | À faire |
 | F | Fidélité (audit du 2026-10-28) : thème transmis à la portée racine, menu de galerie à la place du menu du site, accueil en cartes, sélecteur de thème avec bascule clair/sombre, espacement des cartes d'aperçu ; habillage perdu des démos (cadres pointillés, matrices, tuiles d'icônes, cadre des images, zones de clic droit, lignes à survol, grilles d'exemples adaptées au conteneur, largeurs plafonnées, curseur vertical, bascule du menu latéral à la fin, infobulle épinglée par défaut, tableau des fichiers) | | Fait |
