@@ -1,7 +1,6 @@
-@using OmniEurope.Blazor.Showcase.Demos
 @* The gallery menu, shown in the sidebar in place of the site's menu while a gallery page is open: a way
-   back to the site, an overview entry, one group per family of the catalogue (a family without a page
-   yet is left out), then the legacy demos, kept reachable until every one is moved to a page. *@
+   back to the site, an overview entry, then one group per family of the catalogue (a family without a
+   page yet is left out). *@
 <OmniPanelMenu Label="@Text["GalleryNavLabel"]">
     <OmniPanelMenuItem Text="@Text["GalleryBackToSite"]" Href="" Match="OmniNavMatch.None">
         <Icon><OmniIcon Name="OmniIconName.ArrowLeft" /></Icon>
@@ -24,13 +23,4 @@
             </ChildContent>
         </OmniPanelMenuItem>
     }
-    <OmniPanelMenuItem Text="@Text["GalleryLegacyGroup"]">
-        <Icon><OmniIcon Name="OmniIconName.Layers" /></Icon>
-        <ChildContent>
-            @foreach (var demo in DemoCatalog.All)
-            {
-                <OmniPanelMenuItem Text="@Text[demo.TitleKey]" Href="@($"{LegacyPrefix}/{demo.Key}")" Match="OmniNavMatch.Exact" />
-            }
-        </ChildContent>
-    </OmniPanelMenuItem>
 </OmniPanelMenu>

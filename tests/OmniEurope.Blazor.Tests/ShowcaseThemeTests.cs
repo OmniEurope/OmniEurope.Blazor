@@ -1,14 +1,13 @@
 using OmniEurope.Blazor.Components;
 using OmniEurope.Blazor.Internal;
 using System.Text.RegularExpressions;
-using OmniEurope.Blazor.Showcase.Demos;
 using OmniEurope.Blazor.Showcase.Theming;
 
 namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
 /// Guards the showcase against the two ways it could quietly start lying: a theme editor that no
-/// longer exposes what the stylesheet ships, and a gallery that shows code it does not run.
+/// longer exposes what the stylesheet ships, and a theme whose colors stop being readable.
 /// </summary>
 public sealed class ShowcaseThemeTests
 {
@@ -165,25 +164,6 @@ public sealed class ShowcaseThemeTests
                 contrast >= 5.0,
                 $"Shipped light theme: {over} over {fill} is {contrast:F2}, below the 5.0 rendering margin.");
         }
-    }
-
-    [Fact]
-    public void EveryDemo_ShipsTheSourceItExecutes()
-    {
-        Assert.NotEmpty(DemoCatalog.All);
-        foreach (var demo in DemoCatalog.All)
-        {
-            var source = DemoSource.Read(demo.Component);
-            Assert.False(string.IsNullOrWhiteSpace(source), $"No embedded source for {demo.Component.Name}.");
-        }
-    }
-
-    [Fact]
-    public void DemoKeys_AreUniqueAndUrlSafe()
-    {
-        var keys = DemoCatalog.All.Select(demo => demo.Key).ToArray();
-        Assert.Equal(keys.Length, keys.Distinct(StringComparer.Ordinal).Count());
-        Assert.All(keys, key => Assert.Matches("^[a-z0-9-]+$", key));
     }
 
     [Fact]

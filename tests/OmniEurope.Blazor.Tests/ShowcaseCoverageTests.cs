@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Components;
 using OmniEurope.Blazor.Components;
-using OmniEurope.Blazor.Showcase.Demos;
 using OmniEurope.Blazor.Showcase.Gallery;
 
 namespace OmniEurope.Blazor.Tests;
@@ -27,11 +26,12 @@ public sealed class ShowcaseCoverageTests
     [Fact]
     public void EveryPublicComponent_IsDemonstratedSomewhere()
     {
-        // The legacy demos and every example source of the new gallery: both are what a visitor runs.
-        var sources = DemoCatalog.All
-            .Select(demo => DemoSource.Read(demo.Component) ?? string.Empty)
-            .Concat(ExampleSource.EmbeddedPaths.Select(path => ExampleSource.Read(path) ?? string.Empty))
+        // Every example source of the gallery is what a visitor runs.
+        var sources = ExampleSource.EmbeddedPaths
+            .Select(path => ExampleSource.Read(path) ?? string.Empty)
             .ToArray();
+
+        Assert.NotEmpty(sources);
 
         var missing = PublicComponents
             .Select(TagName)
@@ -41,17 +41,6 @@ public sealed class ShowcaseCoverageTests
         Assert.True(
             missing.Length == 0,
             $"{missing.Length} component(s) have no demonstration: {string.Join(", ", missing)}");
-    }
-
-    [Fact]
-    public void EveryDemo_IsReachableFromTheGallery()
-    {
-        Assert.NotEmpty(DemoCatalog.All);
-        foreach (var demo in DemoCatalog.All)
-        {
-            Assert.False(string.IsNullOrWhiteSpace(demo.Key));
-            Assert.NotEmpty(demo.CapabilityKeys);
-        }
     }
 
     /// <summary>The name a component is written under in markup, generic arity stripped.</summary>
