@@ -77,14 +77,14 @@ public partial class OmniBadge
     /// only name. Null, the default, leaves the badge named by its content.
     /// </summary>
     [Parameter]
-    public string? AriaLabel { get; set; }
+    public string? Label { get; set; }
 
     private string? _safeHref;
 
     /// <summary>Whether the badge is a button or a link instead of a plain span.</summary>
     private bool Clickable => OnClick.HasDelegate || _safeHref is not null;
 
-    private string? AccessibleName => Clickable ? OmniAriaLabel.Of(AriaLabel, AdditionalAttributes) : null;
+    private string? AccessibleName => Clickable ? OmniAriaLabel.Of(Label, AdditionalAttributes) : null;
 
     private string BadgeClass => Css("omni-badge", $"omni-badge--{Tone.ToString().ToLowerInvariant()}", $"omni-badge--{Fill.ToString().ToLowerInvariant()}", IconOnly ? "omni-badge--icon" : null, LeadingIcon ? "omni-badge--leading-icon" : null, Clickable ? "omni-badge--action" : null, InkClass, WidthClass);
 

@@ -12,10 +12,10 @@ namespace OmniEurope.Blazor.Tests;
 public sealed class ClickableBadgeTests : OmniBunitContext
 {
     [Fact]
-    public void AStaticBadge_StaysASpan_WithoutActionClassOrAriaLabel()
+    public void AStaticBadge_StaysASpan_WithoutActionClassOrLabel()
     {
         var badge = Render<OmniBadge>(parameters => parameters
-            .Add(component => component.AriaLabel, "ignored")
+            .Add(component => component.Label, "ignored")
             .AddChildContent("Quota"));
 
         var root = badge.Find(".omni-badge");
@@ -48,11 +48,11 @@ public sealed class ClickableBadgeTests : OmniBunitContext
     }
 
     [Fact]
-    public void ABadge_WithHref_IsOneLink_AndAriaLabelNamesIt()
+    public void ABadge_WithHref_IsOneLink_AndLabelNamesIt()
     {
         var badge = Render<OmniBadge>(parameters => parameters
             .Add(component => component.Href, "/users")
-            .Add(component => component.AriaLabel, "Used by 2 users")
+            .Add(component => component.Label, "Used by 2 users")
             .AddChildContent("2"));
 
         var root = badge.Find(".omni-badge");
@@ -63,11 +63,11 @@ public sealed class ClickableBadgeTests : OmniBunitContext
     }
 
     [Fact]
-    public void AClickableBadge_NamedByAriaLabel_OverTheHostsOwnAttribute_AndKeepsTheHostsWhenNone()
+    public void AClickableBadge_NamedByLabel_OverTheHostsOwnAttribute_AndKeepsTheHostsWhenNone()
     {
         var named = Render<OmniBadge>(parameters => parameters
             .Add(component => component.OnClick, () => { })
-            .Add(component => component.AriaLabel, "Open the list")
+            .Add(component => component.Label, "Open the list")
             .AddUnmatched("aria-label", "host")
             .AddChildContent("2"));
         Assert.Equal("Open the list", named.Find(".omni-badge").GetAttribute("aria-label"));
@@ -80,7 +80,7 @@ public sealed class ClickableBadgeTests : OmniBunitContext
     }
 
     [Fact]
-    public void ABadge_WithoutAriaLabel_IsNamedByItsContent()
+    public void ABadge_WithoutLabel_IsNamedByItsContent()
     {
         var badge = Render<OmniBadge>(parameters => parameters
             .Add(component => component.OnClick, () => { })
