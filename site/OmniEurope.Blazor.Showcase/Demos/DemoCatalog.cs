@@ -1,5 +1,3 @@
-using OmniEurope.Blazor.Showcase.Components.Demos;
-
 namespace OmniEurope.Blazor.Showcase.Demos;
 
 /// <summary>
