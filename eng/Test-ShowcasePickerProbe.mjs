@@ -128,9 +128,9 @@ const momentPanel = '.omni-date--datetime .omni-calendar';
 // A panel is there for the user once the script has placed it under its field: before that it waits
 // out of sight, and a press aimed at it would land beside it.
 const shown = panel => `document.querySelector('${panel}')?.style.getPropertyValue('--omni-picker-x').endsWith('px') === true`;
-const dateToggle = '#inputs-date ~ .omni-date__toggle';
-const timeToggle = '#inputs-start ~ .omni-date__toggle';
-const momentToggle = '#inputs-appointment ~ .omni-date__toggle';
+const dateToggle = '#dates-form-date ~ .omni-date__toggle';
+const timeToggle = '#dates-form-start ~ .omni-date__toggle';
+const momentToggle = '#dates-form-appointment ~ .omni-date__toggle';
 const results = [];
 
 const coverage = createJsCoverage(sendCdp, 'Pickers');
@@ -148,9 +148,9 @@ await send('Page.navigate', { url: siteUrl });
 // navigation asked before the router listens changes the address and leaves the home page shown.
 await waitFor('le runtime Blazor', "typeof Blazor !== 'undefined' && typeof Blazor.navigateTo === 'function' && document.getElementById('showcase-theme') !== null", 20_000);
 await pause(1500);
-await evaluate("Blazor.navigateTo('/components/legacy/saisie-avancee')");
-await waitFor('les sélecteurs de la vitrine', `document.getElementById('inputs-date') && document.getElementById('inputs-start') && document.getElementById('inputs-appointment')`, 15_000);
-check(await evaluate(`${value('inputs-date')} === '02/03/2026'`), `Valeur initiale de la date inattendue : ${await evaluate(value('inputs-date'))}.`);
+await evaluate("Blazor.navigateTo('/components/dates')");
+await waitFor('les sélecteurs de la vitrine', `document.getElementById('dates-form-date') && document.getElementById('dates-form-start') && document.getElementById('dates-form-appointment')`, 15_000);
+check(await evaluate(`${value('dates-form-date')} === '02/03/2026'`), `Valeur initiale de la date inattendue : ${await evaluate(value('dates-form-date'))}.`);
 
 // ---- Date: the grid from the keyboard ----
 await click(dateToggle);
@@ -177,10 +177,10 @@ const scrollAfter = await evaluate('document.scrollingElement.scrollTop');
 check(scrollAfter === scrollBefore, `Les touches du calendrier ont fait défiler la page : ${scrollBefore} puis ${scrollAfter}.`);
 check(await evaluate(`document.querySelector('${datePanel} .omni-calendar__title').textContent === 'mars 2026'`), 'Le titre n\'a pas suivi la page précédente.');
 await key('Enter');
-await waitFor('la date choisie à Entrée', `${value('inputs-date')} === '05/03/2026'`);
+await waitFor('la date choisie à Entrée', `${value('dates-form-date')} === '05/03/2026'`);
 await waitFor('la fermeture après le choix', `document.querySelector('${datePanel}') === null`);
 await waitFor('le focus rendu au bouton', `${active} === document.querySelector('${dateToggle}')`);
-check(await evaluate(`document.getElementById('inputs-picked').textContent.includes('05/03/2026')`), 'Le modèle n\'a pas reçu la date choisie.');
+check(await evaluate(`document.getElementById('dates-form-picked').textContent.includes('05/03/2026')`), 'Le modèle n\'a pas reçu la date choisie.');
 results.push('date au clavier (flèches, pages, Début, Fin, Entrée)');
 
 // Escape from the keyboard: the toggle has the focus, Enter opens, Escape closes and gives it back.
@@ -199,7 +199,7 @@ await waitFor('la fermeture par un appui dehors', `document.querySelector('${dat
 await click(dateToggle);
 await waitFor('le calendrier rouvert', shown(datePanel));
 await click(`${datePanel} [data-date='2026-03-18']`);
-await waitFor('la date choisie à la souris', `${value('inputs-date')} === '18/03/2026'`);
+await waitFor('la date choisie à la souris', `${value('dates-form-date')} === '18/03/2026'`);
 results.push('appui dehors, choix à la souris');
 
 // ---- Time: the columns ----
@@ -209,13 +209,13 @@ await waitFor('le focus sur l\'heure choisie', `${active}?.textContent === '14' 
 const hourList = await evaluate(`(() => { const list = document.querySelector('${timePanel} [data-omni-part=hour]'); const item = list.querySelector('[aria-selected=true]'); const a = list.getBoundingClientRect(), b = item.getBoundingClientRect(); return { top: b.top - a.top, bottom: a.bottom - b.bottom, scrolled: list.scrollTop }; })()`);
 check(hourList.scrolled > 0 && hourList.top > 0 && hourList.bottom > 0, `L'heure choisie n'est pas centrée dans sa colonne : ${JSON.stringify(hourList)}.`);
 await key('ArrowDown');
-await waitFor('l\'heure suivante', `${value('inputs-start')} === '15:30' && ${active}?.textContent === '15'`);
+await waitFor('l\'heure suivante', `${value('dates-form-start')} === '15:30' && ${active}?.textContent === '15'`);
 await key('Tab');
 await waitFor('le focus dans les minutes', `${active}?.closest('[data-omni-part=minute]') !== null && ${active}.textContent === '30'`);
 await key('ArrowDown');
-await waitFor('la minute suivante', `${value('inputs-start')} === '15:35'`);
+await waitFor('la minute suivante', `${value('dates-form-start')} === '15:35'`);
 await key('End');
-await waitFor('la dernière minute', `${value('inputs-start')} === '15:55'`);
+await waitFor('la dernière minute', `${value('dates-form-start')} === '15:55'`);
 
 // One panel at a time: opening the date closes the time.
 await click(dateToggle);
@@ -227,7 +227,7 @@ await waitFor('le panneau d\'heure rouvert', shown(timePanel));
 await click(`${timePanel} .omni-calendar__foot .omni-button--primary`);
 await waitFor('la fermeture par Valider', `document.querySelector('${timePanel}') === null`);
 await waitFor('le focus rendu au bouton de l\'heure', `${active} === document.querySelector('${timeToggle}')`);
-check(await evaluate(`document.getElementById('inputs-picked').textContent.includes('heure : 15:55')`), 'Le modèle n\'a pas reçu l\'heure choisie.');
+check(await evaluate(`document.getElementById('dates-form-picked').textContent.includes('time: 15:55')`), 'Le modèle n\'a pas reçu l\'heure choisie.');
 results.push('heure au clavier (flèches, Tab, Fin), un seul panneau, Valider');
 
 // ---- Date and time ----
@@ -236,9 +236,9 @@ await waitFor('le panneau date et heure', `document.querySelector('${momentPanel
 const sideBySide = await evaluate(`(() => { const grid = document.querySelector('${momentPanel} .omni-picker__cal').getBoundingClientRect(); const time = document.querySelector('${momentPanel} .omni-time').getBoundingClientRect(); return time.left >= grid.right && Math.abs(time.top - grid.top) < 4; })()`);
 check(sideBySide, 'Le calendrier et les colonnes ne sont pas côte à côte.');
 await click(`${momentPanel} [data-date='2026-03-20']`);
-await waitFor('le jour choisi, heure gardée', `${value('inputs-appointment')} === '20/03/2026 14:30'`);
+await waitFor('le jour choisi, heure gardée', `${value('dates-form-appointment')} === '20/03/2026 14:30'`);
 await click(`${momentPanel} [data-omni-part=hour] [role=option]:nth-child(10)`);
-await waitFor('l\'heure choisie, jour gardé', `${value('inputs-appointment')} === '20/03/2026 09:30'`);
+await waitFor('l\'heure choisie, jour gardé', `${value('dates-form-appointment')} === '20/03/2026 09:30'`);
 await click(`${momentPanel} .omni-calendar__foot .omni-button--primary`);
 await waitFor('la fermeture du panneau date et heure', `document.querySelector('${momentPanel}') === null`);
 results.push('date et heure côte à côte, souris, Valider');
@@ -251,7 +251,7 @@ const measure = async density => {
   const sizes = await evaluate(`(() => ({
     day: document.querySelector('${momentPanel} .omni-calendar__day').getBoundingClientRect().height,
     item: document.querySelector('${momentPanel} .omni-time__item').getBoundingClientRect().height,
-    field: document.getElementById('inputs-appointment').getBoundingClientRect().height,
+    field: document.getElementById('dates-form-appointment').getBoundingClientRect().height,
     pad: getComputedStyle(document.querySelector('${momentPanel}')).paddingTop
   }))()`);
   await key('Escape');
@@ -294,12 +294,12 @@ results.push(`clair ${light.panel} et sombre ${dark.panel}`);
 
 // ---- In a dialog: the calendar opens over it, fixed to the window, and adds it no scrollbar; once the
 // dialog is dragged by its header, the calendar still opens under its field ----
-const dialogToggle = '#inputs-dialog-date ~ .omni-date__toggle';
-const dialogPanel = '#inputs-dialog .omni-calendar';
+const dialogToggle = '#dates-dialog-date ~ .omni-date__toggle';
+const dialogPanel = '#dates-dialog .omni-calendar';
 const dialogState = () => evaluate(`(() => {
-  const dialog = document.getElementById('inputs-dialog');
+  const dialog = document.getElementById('dates-dialog');
   const panel = document.querySelector('${dialogPanel}');
-  const field = document.getElementById('inputs-dialog-date').closest('.omni-date__field').getBoundingClientRect();
+  const field = document.getElementById('dates-dialog-date').closest('.omni-date__field').getBoundingClientRect();
   const box = dialog.getBoundingClientRect();
   const drawn = panel.getBoundingClientRect();
   const hit = document.elementFromPoint(drawn.left + drawn.width / 2, drawn.bottom - 12);
@@ -317,17 +317,17 @@ const dialogState = () => evaluate(`(() => {
 })()`);
 const opensOver = state => state.position === 'fixed' && Math.abs(state.under - 6) <= 1 && Math.abs(state.start) <= 1
   && state.outside && !state.scroll && state.whole && state.reachable && state.transform === 'none';
-await click('#inputs-dialog-open');
-await waitFor('le dialogue ouvert', "document.getElementById('inputs-dialog') !== null");
+await click('#dates-dialog-open');
+await waitFor('le dialogue ouvert', "document.getElementById('dates-dialog') !== null");
 await pause(400);
 await click(dialogToggle);
 await waitFor('le calendrier du dialogue', shown(dialogPanel));
 const inDialog = await dialogState();
 check(opensOver(inDialog), `Le calendrier ne s'ouvre pas par-dessus le dialogue : ${JSON.stringify(inDialog)}.`);
 await key('Escape');
-await waitFor('la fermeture du calendrier, le dialogue restant ouvert', `document.querySelector('${dialogPanel}') === null && document.getElementById('inputs-dialog') !== null`);
+await waitFor('la fermeture du calendrier, le dialogue restant ouvert', `document.querySelector('${dialogPanel}') === null && document.getElementById('dates-dialog') !== null`);
 
-const grip = await evaluate(`(() => { const box = document.querySelector('#inputs-dialog .omni-dialog__title').getBoundingClientRect(); return { x: box.left + 24, y: box.top + box.height / 2 }; })()`);
+const grip = await evaluate(`(() => { const box = document.querySelector('#dates-dialog .omni-dialog__title').getBoundingClientRect(); return { x: box.left + 24, y: box.top + box.height / 2 }; })()`);
 await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: grip.x, y: grip.y });
 await send('Input.dispatchMouseEvent', { type: 'mousePressed', x: grip.x, y: grip.y, button: 'left', clickCount: 1 });
 for (let step = 1; step <= 5; step++) {
@@ -342,8 +342,8 @@ check(dragged.offsets[0] === '-150px' && dragged.offsets[1] === '-120px', `Le di
 check(opensOver(dragged), `Dialogue déplacé, le calendrier n'est plus à sa place : ${JSON.stringify(dragged)}.`);
 await key('Escape');
 await waitFor('la fermeture du calendrier du dialogue déplacé', `document.querySelector('${dialogPanel}') === null`);
-await click('#inputs-dialog .omni-dialog__close');
-await waitFor('la fermeture du dialogue', "document.getElementById('inputs-dialog') === null");
+await click('#dates-dialog .omni-dialog__close');
+await waitFor('la fermeture du dialogue', "document.getElementById('dates-dialog') === null");
 results.push('dans un dialogue : calendrier par-dessus, sans barre de défilement, encore sous son champ après un glisser');
 
 await pause(300);

@@ -1,0 +1,8 @@
+@* A one-character badge is at least a square. With OnClick a badge becomes a real button, with Href a real link,
+   both named by Label: a counter that opens what it counts, with no button around it. *@
+<OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Center" Wrap="true">
+    <OmniBadge Tone="OmniTone.Neutral">1</OmniBadge>
+    <OmniBadge Tone="OmniTone.Info">F</OmniBadge>
+    <OmniBadge Tone="OmniTone.Accent" OnClick="CountClick" Label="@($"Clicked {Clicks} times, click to count once more")">@Clicks</OmniBadge>
+    <OmniBadge Tone="OmniTone.Accent" Href="" Label="Back to the gallery home">Home</OmniBadge>
+</OmniStack>

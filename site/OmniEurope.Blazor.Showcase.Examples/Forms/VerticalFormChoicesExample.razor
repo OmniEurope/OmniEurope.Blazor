@@ -1,0 +1,117 @@
+@using Microsoft.AspNetCore.Components.Forms
+
+@* The selection, date, choice and file fields of a vertical form: a drop-down and a date, a time and a
+   date-time picker, a radio list, the three shapes of OmniUpload and a disabled drop-down. The strategy
+   error is a real validation error held by the edit context: the choice list takes aria-invalid and its
+   error line from it, the summary on top lists it, and choosing a strategy removes it. *@
+<EditForm EditContext="Context">
+    <OmniStack Gap="OmniSpacing.Medium">
+        @if (Errors.Count > 0)
+        {
+            <OmniAlert Severity="OmniSeverity.Danger" Fill="OmniFill.Solid" Title="@($"{Errors.Count} error(s) to correct")">
+                <ul>
+                    @foreach (var error in Errors)
+                    {
+                        <li>@error</li>
+                    }
+                </ul>
+            </OmniAlert>
+        }
+
+        <OmniRow>
+            <OmniColumn Span="12" MediumSpan="6">
+                <OmniFormField For="vform-environment">
+                    <LabelContent>Environment</LabelContent>
+                    <ChildContent>
+                        <OmniDropDown TValue="string" Id="vform-environment" Options="Environments" @bind-Value="Model.Environment" />
+                    </ChildContent>
+                </OmniFormField>
+            </OmniColumn>
+            <OmniColumn Span="12" MediumSpan="6">
+                <OmniFormField For="vform-date">
+                    <LabelContent>Deployment date</LabelContent>
+                    <ChildContent>
+                        <OmniDatePicker Id="vform-date" @bind-Value="Model.Date" />
+                    </ChildContent>
+                </OmniFormField>
+            </OmniColumn>
+        </OmniRow>
+
+        <OmniRow>
+            <OmniColumn Span="12" MediumSpan="6">
+                <OmniFormField For="vform-time">
+                    <LabelContent>Deployment time</LabelContent>
+                    <ChildContent>
+                        <OmniTimePicker Id="vform-time" Step="TimeSpan.FromMinutes(5)" @bind-Value="Model.Time" />
+                    </ChildContent>
+                </OmniFormField>
+            </OmniColumn>
+            <OmniColumn Span="12" MediumSpan="6">
+                <OmniFormField For="vform-moment">
+                    <LabelContent>Maintenance window</LabelContent>
+                    <ChildContent>
+                        <OmniDateTimePicker Id="vform-moment" @bind-Value="Model.Moment" />
+                    </ChildContent>
+                </OmniFormField>
+            </OmniColumn>
+        </OmniRow>
+
+        <OmniRadioButtonList TValue="string"
+                             Id="vform-strategy"
+                             Name="vform-strategy"
+                             Label="Deployment strategy"
+                             Options="Strategies"
+                             Error="@ErrorOf(nameof(Model.Strategy))"
+                             @bind-Value="Model.Strategy" />
+
+        @* The three shapes of OmniUpload: the field welded to its button, the one-file zone, the several-file
+           zone with a reduced list (the three most recent files, the count, Show all and Remove all). Nothing
+           leaves the browser: the drop only keeps the name. *@
+        <OmniFieldset>
+            <Legend>Files</Legend>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Medium">
+                    <OmniFormField For="vform-manifest" Description="Up to 1 MB, shown in a field with a Browse button.">
+                        <LabelContent>Manifest</LabelContent>
+                        <ChildContent>
+                            <OmniUpload Display="OmniUploadDisplay.Field" Id="vform-manifest"
+                                        MaximumFileSize="1048576" @bind-Files="Manifest" />
+                        </ChildContent>
+                    </OmniFormField>
+                    <OmniFormField For="vform-archive" Description="One file, up to 50 MB.">
+                        <LabelContent>Archive</LabelContent>
+                        <ChildContent>
+                            <OmniUpload Id="vform-archive" MaximumFiles="1" MaximumFileSize="52428800" @bind-Files="Archive" />
+                        </ChildContent>
+                    </OmniFormField>
+                    <OmniFormField For="vform-attachments" Description="Up to 10 files of 20 MB; the list shows the three most recent.">
+                        <LabelContent>Attachments</LabelContent>
+                        <ChildContent>
+                            <OmniUpload Multiple="true" Id="vform-attachments" MaximumFiles="10"
+                                        MaximumFileSize="20971520" ReducedList="true" @bind-Files="Attachments" />
+                        </ChildContent>
+                    </OmniFormField>
+                </OmniStack>
+            </ChildContent>
+        </OmniFieldset>
+
+        <OmniFormField For="vform-agent" Disabled="true" Description="Set by the environment.">
+            <LabelContent>Build agent</LabelContent>
+            <ChildContent>
+                <OmniDropDown TValue="string" Id="vform-agent" Disabled="true" Options="Agents" @bind-Value="Model.Agent" />
+            </ChildContent>
+        </OmniFormField>
+
+        <OmniFormActions>
+            <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => Reset())">
+                <Icon><OmniIcon Name="OmniIconName.Close" /></Icon>
+                <ChildContent><span>Cancel</span></ChildContent>
+            </OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Primary" OnClick="@(_ => Save())">
+                <Icon><OmniIcon Name="OmniIconName.Save" /></Icon>
+                <ChildContent><span>Save</span></ChildContent>
+            </OmniButton>
+        </OmniFormActions>
+        <OmniText Tone="OmniTextTone.Muted" aria-live="polite">@Status</OmniText>
+    </OmniStack>
+</EditForm>

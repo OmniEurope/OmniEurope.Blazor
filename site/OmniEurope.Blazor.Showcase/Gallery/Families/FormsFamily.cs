@@ -46,10 +46,13 @@ internal static class FormsFamily
                 "Forms/NoteModel.cs"
             ]),
         new("form-layouts", "FormLayoutsTitle", "FormLayoutsDescription", OmniIconName.Rows,
-            ["OmniFormField", "OmniFieldset", "OmniFormActions", "OmniPassword", "OmniNumeric"],
+            ["OmniFormField", "OmniFieldset", "OmniFormActions", "OmniPassword", "OmniNumeric", "OmniDropDown",
+             "OmniDatePicker", "OmniTimePicker", "OmniDateTimePicker", "OmniRadioButtonList", "OmniUpload"],
             [
                 "Forms/VerticalFormExample.razor", "Forms/VerticalFormExample.razor.cs",
-                "Forms/VerticalFormModel.cs"
+                "Forms/VerticalFormModel.cs",
+                "Forms/VerticalFormChoicesExample.razor", "Forms/VerticalFormChoicesExample.razor.cs",
+                "Forms/VerticalFormChoicesModel.cs"
             ])
     ]);
 }

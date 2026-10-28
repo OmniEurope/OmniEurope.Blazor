@@ -106,5 +106,12 @@
             <HeaderContent>@Text["ProgressStatusTitle"]</HeaderContent>
             <ChildContent><StatusExample /></ChildContent>
         </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ProgressLoadingTitle"]</HeaderContent>
+            <ChildContent>
+                <LoadingOverviewExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["ProgressLoadingDescription"]</OmniText>
+            </ChildContent>
+        </OmniCard>
     </Preview>
 </GalleryPageFrame>

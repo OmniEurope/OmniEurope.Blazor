@@ -14,22 +14,6 @@ public static class DemoCatalog
     /// <summary>Every entry of the gallery.</summary>
     public static IReadOnlyList<DemoDefinition> All { get; } =
     [
-        new("mise-en-page", typeof(LayoutDemo), "DemoLayoutTitle", "DemoLayoutSummary",
-            ["DemoLayoutCapability5"]),
-        new("surfaces", typeof(SurfacesDemo), "DemoSurfacesTitle", "DemoSurfacesSummary",
-            ["DemoSurfacesCapability1", "DemoSurfacesCapability2", "DemoSurfacesCapability3"]),
-        new("formulaires", typeof(FormDemo), "DemoFormTitle", "DemoFormSummary",
-            ["DemoFormCapability3"]),
-        new("formulaire-vertical", typeof(VerticalFormDemo), "DemoVerticalFormTitle", "DemoVerticalFormSummary",
-            ["DemoVerticalFormCapability2", "DemoVerticalFormCapability3"]),
-        new("saisie-avancee", typeof(InputsDemo), "DemoInputsTitle", "DemoInputsSummary",
-            ["DemoInputsCapability3", "DemoInputsCapability4"]),
-        new("superpositions", typeof(OverlayDemo), "DemoOverlayTitle", "DemoOverlaySummary",
-            ["DemoOverlayCapability1", "DemoOverlayCapability2", "DemoOverlayCapability3"]),
-        new("retours", typeof(FeedbackDemo), "DemoFeedbackTitle", "DemoFeedbackSummary",
-            ["DemoFeedbackCapability1", "DemoFeedbackCapability2", "DemoFeedbackCapability3", "DemoFeedbackCapability4"]),
-        new("chargement", typeof(LoadingDemo), "DemoLoadingTitle", "DemoLoadingSummary",
-            ["DemoLoadingCapability1", "DemoLoadingCapability2", "DemoLoadingCapability3"])
     ];
 
     /// <summary>The entry with the given key, or <see langword="null"/> when no entry has it.</summary>

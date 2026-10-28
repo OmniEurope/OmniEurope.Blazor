@@ -118,4 +118,6 @@
   <data name="FormLayoutsDescription" xml:space="preserve"><value>A vertical form: label above the field, asterisk on the required fields, help and error lines, a summary of the errors, then the disabled and read-only states.</value></data>
   <data name="FormLayoutsVerticalTitle" xml:space="preserve"><value>Vertical form</value></data>
   <data name="FormLayoutsVerticalDescription" xml:space="preserve"><value>The two errors are real validation errors of the edit context: each field takes its invalid state from them, and fixing them removes them from the summary.</value></data>
+  <data name="FormLayoutsChoicesTitle" xml:space="preserve"><value>Selection, date, choice and file fields</value></data>
+  <data name="FormLayoutsChoicesDescription" xml:space="preserve"><value>A drop-down, the three pickers, a radio list and the three shapes of the upload. The strategy error is a real validation error of the edit context: the choice list takes aria-invalid and its error line from it, and choosing a strategy removes it from the summary.</value></data>
 </root>

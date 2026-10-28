@@ -106,7 +106,7 @@ public sealed partial class ShowcaseGalleryRoutingTests : OmniBunitContext
     {
         Assert.Null(DemoCatalog.Find("unknown"));
         Assert.Null(DemoCatalog.Find(null));
-        Assert.Same(DemoCatalog.All[1], DemoCatalog.Find(DemoCatalog.All[1].Key));
+        Assert.Same(DemoCatalog.All[0], DemoCatalog.Find(DemoCatalog.All[0].Key));
         Assert.Throws<ArgumentException>(() => DemoCatalog.Resolve("unknown"));
 
         Assert.Null(GalleryCatalog.Find("unknown"));
