@@ -163,4 +163,6 @@
   <data name="ImagesFitsDescription" xml:space="preserve"><value>The same picture in the same box, with each fit.</value></data>
   <data name="ImagesLoadingsTitle" xml:space="preserve"><value>Loading modes</value></data>
   <data name="ImagesSourcesTitle" xml:space="preserve"><value>Sources</value></data>
+  <data name="BadgesActionsTitle" xml:space="preserve"><value>Badges that act</value></data>
+  <data name="BadgesActionsDescription" xml:space="preserve"><value>A one-character badge is at least a square. With OnClick it becomes a real button, with Href a real link, both named by Label: a counter that opens what it counts, without a button around it.</value></data>
 </root>

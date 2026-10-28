@@ -1,0 +1,80 @@
+@* The surfaces of the mockup together: cards with an icon disc and a figure, an account menu floating on the
+   layer of floating surfaces (acrylic fill, hairline and the theme's deep shadow), tabs, a side menu, a link
+   and a tooltip. Cards and the floating menu read the theme's shape (fill, stroke, radius and shadow), and a
+   menu's current item is marked by its fill and text weight, never by a side bar. *@
+<OmniStack Gap="OmniSpacing.Large">
+    @if (WithCards)
+    {
+        <DiscCardsExample />
+    }
+
+    <OmniProfileMenu Label="Account">
+        <SummaryContent>
+            <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small">
+                <span class="omni-disc"><OmniIcon Name="OmniIconName.User" /></span>
+                <OmniStack Gap="OmniSpacing.XSmall">
+                    <span>Camille Durand</span>
+                    <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">Administrator</OmniText>
+                </OmniStack>
+            </OmniStack>
+        </SummaryContent>
+        <ChildContent>
+            <OmniMenuItem OnClick="@(() => Last = "Settings")">
+                <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small">
+                    <span class="omni-disc"><OmniIcon Name="OmniIconName.Settings" /></span>
+                    <OmniStack Gap="OmniSpacing.XSmall">
+                        <span>Settings</span>
+                        <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">Theme, language, notifications</OmniText>
+                    </OmniStack>
+                </OmniStack>
+            </OmniMenuItem>
+            <OmniMenuItem OnClick="@(() => Last = "Switch workspace")">
+                <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small">
+                    <span class="omni-disc"><OmniIcon Name="OmniIconName.Swap" /></span>
+                    <OmniStack Gap="OmniSpacing.XSmall">
+                        <span>Switch workspace</span>
+                        <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">Shop, Agenda, Workshop</OmniText>
+                    </OmniStack>
+                </OmniStack>
+            </OmniMenuItem>
+            <OmniMenuItem OnClick="@(() => Last = "Sign out")">
+                <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small">
+                    <span class="omni-disc"><OmniIcon Name="OmniIconName.SignOut" /></span>
+                    <span>Sign out</span>
+                </OmniStack>
+            </OmniMenuItem>
+        </ChildContent>
+    </OmniProfileMenu>
+
+    <OmniTabs Label="Run sections" @bind-Value="Tab">
+        <OmniTabsItem Key="overview" Title="Overview">Run #2399, finished in 1 min 48 s.</OmniTabsItem>
+        <OmniTabsItem Key="logs" Title="Logs">412 lines, no errors.</OmniTabsItem>
+        <OmniTabsItem Key="artifacts" Title="Artifacts">Two packages and their symbols.</OmniTabsItem>
+        <OmniTabsItem Key="settings" Title="Settings">Locked restore, signing enforced.</OmniTabsItem>
+    </OmniTabs>
+
+    @* A side menu that marks the entry chosen and refuses the navigation (CanNavigate): the example stays on its page. *@
+    <OmniRow Gap="OmniSpacing.Large">
+        <OmniColumn Span="12" MediumSpan="4">
+            <OmniPanelMenu Label="Sections" CanNavigate="SelectAsync">
+                @foreach (var (key, text) in MenuEntries)
+                {
+                    <OmniPanelMenuItem Text="@text" Href="@($"components/cards#{key}")"
+                                       Current="@(MenuCurrent == key)" Match="OmniNavMatch.None" />
+                }
+            </OmniPanelMenu>
+        </OmniColumn>
+        <OmniColumn Span="12" MediumSpan="8">
+            <OmniStack Gap="OmniSpacing.Small">
+                <p>Read the <OmniLink Href="components/breadcrumbs-links">publishing procedure</OmniLink> before unlisting a version.</p>
+                <OmniTooltip Text="Inverse surface, inverse text">
+                    <OmniBadge Tone="OmniTone.Neutral">Tooltip</OmniBadge>
+                </OmniTooltip>
+                @if (Last is not null)
+                {
+                    <p aria-live="polite">Last action: @Last</p>
+                }
+            </OmniStack>
+        </OmniColumn>
+    </OmniRow>
+</OmniStack>

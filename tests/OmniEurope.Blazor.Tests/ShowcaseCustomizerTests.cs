@@ -103,11 +103,11 @@ public sealed class ShowcaseCustomizerTests : OmniBunitContext
         Assert.Empty(page.FindAll(".showcase-stage__block[data-omni-density]"));
 
         // Inherited, compact, comfortable, spacious.
-        page.Find("#stage-formulaire-vertical-density").Change("1");
+        page.Find("#stage-form-choices-density").Change("1");
 
         var section = page.Find(".showcase-stage__block[data-omni-density]");
         Assert.Equal("compact", section.GetAttribute("data-omni-density"));
-        Assert.Equal("stage-formulaire-vertical-title", section.GetAttribute("aria-labelledby"));
+        Assert.Equal("stage-form-choices-title", section.GetAttribute("aria-labelledby"));
     }
 
     [Fact]

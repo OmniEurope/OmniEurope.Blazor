@@ -291,4 +291,6 @@
   <data name="NavTilesToneDanger" xml:space="preserve"><value>Danger</value></data>
   <data name="NavTilesGridTitle" xml:space="preserve"><value>Tuile double largeur dans une grille fluide</value></data>
   <data name="NavTilesGridDescription" xml:space="preserve"><value>MinColumnWidth : le nombre de colonnes suit la largeur de la grille elle-même, pas celle de la fenêtre. À côté d'un menu latéral, la grille a moins de colonnes, plus larges ; une tuile DoubleWidth occupe deux colonnes là où la grille en a deux, sinon une seule.</value></data>
+  <data name="CardsSurfacesTitle" xml:space="preserve"><value>Surfaces de la maquette</value></data>
+  <data name="CardsSurfacesDescription" xml:space="preserve"><value>Un menu de compte sur le calque des surfaces flottantes, des onglets, un menu latéral dont l&apos;élément courant se marque par son fond et le poids du texte, un lien et une infobulle. Les cartes et les menus lisent la forme du thème (fond, filet, rayon et ombre).</value></data>
 </root>

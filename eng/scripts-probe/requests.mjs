@@ -11,9 +11,9 @@ export async function requestSteps(session, results) {
   };
   const tab = () => key('Tab', 'Tab', 9);
 
-  // 1. Title tooltips (OmniTitleTooltips of the Retours page): an icon-only button the title alone names
+  // 1. Title tooltips (OmniTitleTooltips of the Tooltips page): an icon-only button the title alone names
   // lends it to aria-label while the title is away, a button named by its text gets nothing.
-  await session.visit('/components/legacy/retours', '.omni-badge');
+  await session.visit('/components/tooltips', '.omni-badge');
   // The pointer of the previous steps rests over the page: content moving under it raises a pointerover,
   // and a titled element reached that way rightly takes the title tooltip from the focused button. It is
   // parked on the header first, where nothing carries a title.
@@ -413,7 +413,7 @@ export async function requestSteps(session, results) {
   // (the one-row tile is shorter than the four-row one), aligned to the top of its row, and the row of a long
   // label ("Durée de l'étape", 16 characters) with a short value ("2") stays on one line in the narrow tile.
   // The window is widened until the grid is 900 px wide, as above.
-  await session.visit('/components/legacy/mise-en-page', '#demo-tile-grid-natural');
+  await session.visit('/components/stat-tiles', '#demo-tile-grid-natural');
   for (let width = 1000; width <= 1800; width += 5) {
     await send('Emulation.setDeviceMetricsOverride', { width, height: 900, deviceScaleFactor: 1, mobile: false });
     await pause(60);
@@ -458,7 +458,7 @@ export async function requestSteps(session, results) {
   // the window and the script is not loaded for it (tests/OmniEurope.Blazor.Tests prove that).
   {
     await send('Emulation.setDeviceMetricsOverride', { width: 1800, height: 900, deviceScaleFactor: 1, mobile: false });
-    await session.visit('/components/legacy/mise-en-page', '#demo-tile-grid-uniform');
+    await session.visit('/components/stat-tiles', '#demo-tile-grid-uniform');
     const uniformRule = `(() => {
       const grid = document.getElementById('demo-tile-grid-uniform');
       const style = getComputedStyle(grid);
@@ -877,12 +877,12 @@ export async function requestSteps(session, results) {
   // BarButtonSize are as tall as the page's buttons of that size. R1-75: a variable button writes its token
   // at the caret of the subject, and the preview draws the rendered mail under the strict CSP, its look
   // given through the CSSOM (any refused style would be a console error, failing the step).
-  await session.visit('/components/legacy/saisie-avancee', '#inputs-model');
-  await evaluate("(() => { const field = document.getElementById('inputs-model'); field.scrollIntoView({ block: 'center' }); field.focus(); })()");
-  await waitFor('le champ du modèle focalisé', "document.activeElement?.id === 'inputs-model'");
+  await session.visit('/components/autocomplete', '#autocomplete-model');
+  await evaluate("(() => { const field = document.getElementById('autocomplete-model'); field.scrollIntoView({ block: 'center' }); field.focus(); })()");
+  await waitFor('le champ du modèle focalisé', "document.activeElement?.id === 'autocomplete-model'");
   await type('modele-maison-7b');
   await tab();
-  await waitFor('le texte libre pris pour valeur à la sortie du champ', "document.getElementById('inputs-model-value').textContent.includes('modele-maison-7b')");
+  await waitFor('le texte libre pris pour valeur à la sortie du champ', "document.getElementById('autocomplete-model-value').textContent.includes('modele-maison-7b')");
   step('saisie libre : un modèle absent des suggestions devient la valeur quand on quitte le champ');
 
   await session.visit('/components/data-grid-runs', '#runs-striped .omni-data-grid__export-button');

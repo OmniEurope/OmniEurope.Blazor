@@ -15,13 +15,14 @@ internal static class FeedbackFamily
                 "Feedback/AlertSample.cs"
             ]),
         new("progress", "ProgressTitle", "ProgressDescription", OmniIconName.Timer,
-            ["OmniProgressBar", "OmniLogoLoader", "OmniStatusBadge", "OmniStatusStrip"],
+            ["OmniProgressBar", "OmniLogoLoader", "OmniStatusBadge", "OmniStatusStrip", "OmniLoadingBar"],
             [
                 "Feedback/ProgressExample.razor", "Feedback/ProgressExample.razor.cs",
                 "Feedback/ProgressSamplesExample.razor", "Feedback/ProgressSamplesExample.razor.cs",
                 "Feedback/ProgressStepsExample.razor", "Feedback/ProgressStepsExample.razor.cs",
                 "Feedback/LogoLoaderExample.razor", "Feedback/LogoLoaderExample.razor.cs",
                 "Feedback/StatusExample.razor", "Feedback/StatusExample.razor.cs",
+                "Feedback/LoadingOverviewExample.razor", "Feedback/LoadingOverviewExample.razor.cs",
                 "Feedback/ProgressSample.cs"
             ]),
         new("skeletons", "SkeletonsTitle", "SkeletonsDescription", OmniIconName.Rows,

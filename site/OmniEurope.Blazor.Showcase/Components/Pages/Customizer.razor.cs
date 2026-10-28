@@ -1,7 +1,6 @@
 using System.Globalization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
-using OmniEurope.Blazor.Showcase.Demos;
 using OmniEurope.Blazor.Showcase.Examples.Actions;
 using OmniEurope.Blazor.Showcase.Examples.Data;
 using OmniEurope.Blazor.Showcase.Examples.Feedback;
@@ -25,15 +24,15 @@ public partial class Customizer : IDisposable
     /// </summary>
     private IReadOnlyList<StageSection> Sections { get; } =
     [
-        Legacy("chargement"),
+        new("loading", typeof(FeedbackStrings), "ProgressLoadingTitle", typeof(LoadingOverviewExample)),
         new("buttons", typeof(ActionsStrings), "ButtonsTitle", typeof(ButtonsExample)),
         new("button-states", typeof(ActionsStrings), "ButtonsStatesTitle", typeof(ButtonStatesExample)),
         new("badges", typeof(FoundationsStrings), "BadgesMatrixTitle", typeof(BadgeMatrixExample)),
         new("alerts", typeof(FeedbackStrings), "AlertsTitle", typeof(AlertGalleryExample)),
-        Legacy("surfaces"),
+        new("surfaces", typeof(LayoutStrings), "CardsSurfacesTitle", typeof(SurfacesExample)),
         new("settings-tabs", typeof(NavigationStrings), "TabsSettingsExampleTitle", typeof(SettingsTabsExample)),
         new("form-layouts", typeof(FormsStrings), "FormLayoutsTitle", typeof(VerticalFormExample)),
-        Legacy("formulaire-vertical"),
+        new("form-choices", typeof(FormsStrings), "FormLayoutsChoicesTitle", typeof(VerticalFormChoicesExample)),
         new("notifications", typeof(ShellStrings), "NotificationsTitle", typeof(NotificationCardsExample)),
         new("run-grids", typeof(DataStrings), "DataGridRunsPreviewTitle", typeof(DataGridRunsExample)),
         new("application-shell", typeof(LayoutStrings), "PageShellApplicationTitle", typeof(ApplicationShellExample))
@@ -119,12 +118,6 @@ public partial class Customizer : IDisposable
             : Theme.Tokens.FirstOrDefault(token => token.Name == name)?.DefaultValue ?? string.Empty;
     }
 
-    /// <summary>A section showing a legacy demo of the gallery, by its key.</summary>
-    private static StageSection Legacy(string key)
-    {
-        var demo = DemoCatalog.Resolve(key);
-        return new(demo.Key, typeof(ShowcaseStrings), demo.TitleKey, demo.Component);
-    }
 
     private Task SelectThemeAsync(string? name) =>
         OmniThemePresets.All.FirstOrDefault(theme => theme.Name == name) is { } theme

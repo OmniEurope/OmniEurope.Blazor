@@ -84,7 +84,7 @@ export async function overlaySteps(session, results) {
 
   // 2b. One notification stack, one card width: a short and a long message sent to the same stack are
   // drawn as wide as each other (the stack widens to its longest message), at 1280 and 390 px.
-  await session.visit('/components/legacy/superpositions', '#demo-notify-short');
+  await session.visit('/components/notifications', '#demo-notify-short');
   await clickOn('#demo-notify-short');
   await clickOn('#demo-notify-long');
   await waitFor('les deux notifications de la pile', "document.querySelectorAll('.omni-notification-region .omni-notification').length === 2");
@@ -121,8 +121,8 @@ export async function overlaySteps(session, results) {
   step('bulle placée dans la fenêtre, fermée par Échap puis par un appui dehors');
 
   // 4. Tooltips: placed under the pointer, kept inside the window when « Show more » grows them.
-  await session.visit('/components/legacy/retours', '.omni-tooltip--expandable');
-  await hover('.omni-tooltip .omni-tooltip__trigger');
+  await session.visit('/components/tooltips', '.omni-tooltip--expandable');
+  await hover('.omni-tooltip[data-omni-tooltip-track="pointer"] .omni-tooltip__trigger');
   await waitFor('la bulle d\'aide placée sous le pointeur', "document.querySelector('.omni-tooltip.omni-tooltip--tracked')?.style.getPropertyValue('--omni-tooltip-x').endsWith('px') === true");
   await hover('.omni-tooltip--expandable .omni-tooltip__trigger');
   await pause(300);

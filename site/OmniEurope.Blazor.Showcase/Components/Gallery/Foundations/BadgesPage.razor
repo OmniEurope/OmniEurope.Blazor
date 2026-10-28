@@ -78,5 +78,14 @@
             <HeaderContent>@Text["BadgesContextTitle"]</HeaderContent>
             <ChildContent><BadgeContextExample /></ChildContent>
         </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["BadgesActionsTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Medium">
+                    <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["BadgesActionsDescription"]</OmniText>
+                    <BadgeActionsExample />
+                </OmniStack>
+            </ChildContent>
+        </OmniCard>
     </Preview>
 </GalleryPageFrame>

@@ -1,0 +1,35 @@
+@* Waiting, as a page shows it: the bar laid under a header, sweeping or filling, follows a real load
+   (OmniLoadingState) and, at the end, runs to the end then fades. Then the wait with no known end, the busy
+   buttons (a veil breathes over them, size and content unchanged), a known progress and the skeleton. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <div>
+        <OmniHeader Brand="My application">
+            <OmniText Tone="OmniTextTone.Muted">Dashboard</OmniText>
+        </OmniHeader>
+        <OmniLoadingBar Mode="Mode" Label="Page loading" />
+    </div>
+    <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+        <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@Loading.Loading"
+                    OnClick="@(_ => LoadAsync(OmniLoadingBarMode.Sweep))">
+            <Icon><OmniIcon Name="OmniIconName.ArrowRight" /></Icon>
+            <ChildContent><span>Sweeping bar</span></ChildContent>
+        </OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@Loading.Loading"
+                    OnClick="@(_ => LoadAsync(OmniLoadingBarMode.Continuous))">
+            <Icon><OmniIcon Name="OmniIconName.Hourglass" /></Icon>
+            <ChildContent><span>Filling bar</span></ChildContent>
+        </OmniButton>
+        <OmniText Tone="OmniTextTone.Muted">The bar sits just under the header above. When loading finishes, it runs to the end, then fades.</OmniText>
+    </OmniRow>
+    <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+        <OmniProgressBar Shape="OmniProgressShape.Circular" Indeterminate="true" Label="Waiting" />
+        @* The logo of a site as its loader: it floats, never turns (the plane of an aviation site, here). *@
+        <OmniLogoLoader Label="Waiting"><OmniIcon Name="OmniIconName.Airplane" /></OmniLogoLoader>
+        <OmniButton Busy="true"><Icon><OmniIcon Name="OmniIconName.RocketLaunch" /></Icon><ChildContent><span>Deploying</span></ChildContent></OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Secondary" Busy="true"><Icon><OmniIcon Name="OmniIconName.ListChecks" /></Icon><ChildContent><span>Checking</span></ChildContent></OmniButton>
+        <OmniButton Busy="true" Label="Saving"><Icon><OmniIcon Name="OmniIconName.Check" /></Icon></OmniButton>
+    </OmniRow>
+    <OmniProgressBar Indeterminate="true" Label="Analysis in progress" />
+    <OmniProgressBar Value="87" ShowValue="true" Label="Coverage" />
+    <OmniSkeleton Shape="OmniSkeletonShape.Text" LineCount="3" Label="Loading the content" />
+</OmniStack>

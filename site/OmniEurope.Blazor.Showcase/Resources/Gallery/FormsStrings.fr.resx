@@ -118,4 +118,6 @@
   <data name="FormLayoutsDescription" xml:space="preserve"><value>Un formulaire vertical : étiquette au-dessus du champ, astérisque des champs obligatoires, lignes d&apos;aide et d&apos;erreur, récapitulatif des erreurs, puis les états désactivé et lecture seule.</value></data>
   <data name="FormLayoutsVerticalTitle" xml:space="preserve"><value>Formulaire vertical</value></data>
   <data name="FormLayoutsVerticalDescription" xml:space="preserve"><value>Les deux erreurs sont de vraies erreurs de validation du contexte d&apos;édition : chaque champ en tire son état invalide, et les corriger les retire du récapitulatif.</value></data>
+  <data name="FormLayoutsChoicesTitle" xml:space="preserve"><value>Champs de sélection, de date, de choix et de fichier</value></data>
+  <data name="FormLayoutsChoicesDescription" xml:space="preserve"><value>Une liste déroulante, les trois sélecteurs, une liste de choix et les trois formes du dépôt de fichier. L&apos;erreur de stratégie est une vraie erreur du contexte d&apos;édition : la liste de choix en tire aria-invalid et sa ligne d&apos;erreur, et choisir une stratégie la retire du récapitulatif.</value></data>
 </root>

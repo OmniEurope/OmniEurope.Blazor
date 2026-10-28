@@ -85,4 +85,6 @@
   <data name="SkeletonsShapesTitle" xml:space="preserve"><value>Every shape</value></data>
   <data name="SkeletonsLinesTitle" xml:space="preserve"><value>Line counts of the text shape</value></data>
   <data name="SkeletonsComposedTitle" xml:space="preserve"><value>Composed placeholders</value></data>
+  <data name="ProgressLoadingTitle" xml:space="preserve"><value>Waiting, together</value></data>
+  <data name="ProgressLoadingDescription" xml:space="preserve"><value>The loading bar under a header follows a real load, sweeping or filling, reaches the end then fades. A busy button keeps its size and content (a veil breathes over it), and the skeleton takes the shape of what it replaces.</value></data>
 </root>

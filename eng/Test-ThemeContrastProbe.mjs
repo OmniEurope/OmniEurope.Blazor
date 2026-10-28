@@ -86,7 +86,7 @@ const registryPath = join(artifacts, 'theme-contrast-registry.json');
 // list, and the three gallery pages holding the rest (the Kanban board, the status strip, the list
 // options).
 const CUSTOMIZER = '/customizer';
-const EXTRA_PAGES = ['/components/data-list', '/components/legacy/retours', '/components/lists', '/components/multi-select'];
+const EXTRA_PAGES = ['/components/data-list', '/components/progress', '/components/lists', '/components/multi-select'];
 const NARROW_PAGES = ['/', CUSTOMIZER, ...EXTRA_PAGES];
 
 // Screenshots besides every theme on its own palette in both modes: Halo and Néon, the two themes
@@ -319,7 +319,7 @@ const pageLibrary = String.raw`
       add('ligne de grille alternée', striped, 'text', true, { text: striped ? first(striped, 'td.omni-data-grid__column--align-start') : null });
       add('statut dans la grille', first(sorted, '.omni-status'));
       const forms = block('form-layouts');
-      add('liste déroulante', first(block('formulaire-vertical'), 'select.omni-drop-down'), 'text', true);
+      add('liste déroulante', first(block('form-choices'), 'select.omni-drop-down'), 'text', true);
       const input = first(forms, 'input.omni-input:not([type="checkbox"]):not([type="radio"]):not([readonly]):not(:disabled)');
       add('champ de saisie', input, 'value', true);
       add('bord du champ de saisie', input, 'border', true);
@@ -349,7 +349,7 @@ const pageLibrary = String.raw`
       add('compteur de colonne de Kanban', column ? first(column, '.omni-kanban__count') : null);
       add('carte de Kanban', column ? first(column, '.omni-kanban__card') : null, 'text', true);
       add('bord de colonne de Kanban', column, 'border');
-    } else if (page === '/components/legacy/retours') {
+    } else if (page === '/components/progress') {
       const seen = new Set();
       for (const item of within(document, '.omni-status-strip__item')) {
         const strip = item.closest('.omni-status-strip');
@@ -733,7 +733,7 @@ const READY = {
   [CUSTOMIZER]: "document.getElementById('workshop-theme') && document.getElementById('runs-sorted') && document.querySelector('.showcase-stage .omni-card')",
   '/': "document.querySelector('main h1, main .omni-heading')",
   '/components/data-list': "document.querySelector('.omni-kanban__card')",
-  '/components/legacy/retours': "document.querySelector('.omni-status-strip__item')",
+  '/components/progress': "document.querySelector('.omni-status-strip__item')",
   '/components/lists': "document.getElementById('listbox-city')",
   '/components/multi-select': "document.getElementById('multiselect-compact')"
 };

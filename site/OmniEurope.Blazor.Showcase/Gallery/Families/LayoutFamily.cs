@@ -33,7 +33,7 @@ internal static class LayoutFamily
                 "Layout/RowResponsiveExample.razor", "Layout/RowResponsiveExample.razor.cs"
             ]),
         new("cards", "CardsTitle", "CardsDescription", OmniIconName.Cards,
-            ["OmniCard"],
+            ["OmniCard", "OmniProfileMenu", "OmniMenuItem", "OmniTabs", "OmniPanelMenu", "OmniLink", "OmniTooltip"],
             [
                 "Layout/CardsExample.razor", "Layout/CardsExample.razor.cs",
                 "Layout/CardKinds.cs", "Layout/CardSample.cs",
@@ -42,6 +42,7 @@ internal static class LayoutFamily
                 "Layout/CardsFooter.razor", "Layout/CardsFooter.razor.cs",
                 "Layout/CardsGalleryExample.razor", "Layout/CardsGalleryExample.razor.cs",
                 "Layout/DiscCardsExample.razor", "Layout/DiscCardsExample.razor.cs",
+                "Layout/SurfacesExample.razor", "Layout/SurfacesExample.razor.cs",
                 "Layout/CardDensitiesExample.razor", "Layout/CardDensitiesExample.razor.cs",
                 "Layout/OwnDensityExample.razor", "Layout/OwnDensityExample.razor.cs"
             ]),

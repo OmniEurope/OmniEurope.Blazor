@@ -291,4 +291,6 @@
   <data name="NavTilesToneDanger" xml:space="preserve"><value>Danger</value></data>
   <data name="NavTilesGridTitle" xml:space="preserve"><value>Double-width tile in a fluid grid</value></data>
   <data name="NavTilesGridDescription" xml:space="preserve"><value>MinColumnWidth: the column count follows the width of the grid itself, not the window's. Beside a side menu the grid has fewer, wider columns; a DoubleWidth tile takes two columns where the grid has two, one otherwise.</value></data>
+  <data name="CardsSurfacesTitle" xml:space="preserve"><value>Surfaces of the mockup</value></data>
+  <data name="CardsSurfacesDescription" xml:space="preserve"><value>An account menu on the layer of floating surfaces, tabs, a side menu whose current item is marked by its fill and text weight, a link and a tooltip. Cards and menus read the shape of the theme (fill, stroke, radius and shadow).</value></data>
 </root>

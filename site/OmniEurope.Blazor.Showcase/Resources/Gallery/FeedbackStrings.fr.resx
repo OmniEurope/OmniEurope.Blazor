@@ -85,4 +85,6 @@
   <data name="SkeletonsShapesTitle" xml:space="preserve"><value>Chaque forme</value></data>
   <data name="SkeletonsLinesTitle" xml:space="preserve"><value>Nombres de lignes de la forme texte</value></data>
   <data name="SkeletonsComposedTitle" xml:space="preserve"><value>Gabarits composés</value></data>
+  <data name="ProgressLoadingTitle" xml:space="preserve"><value>L&apos;attente, ensemble</value></data>
+  <data name="ProgressLoadingDescription" xml:space="preserve"><value>Le bandeau de chargement sous un en-tête suit un vrai chargement, en balayage ou en remplissage, va au bout puis s&apos;efface. Un bouton occupé garde sa taille et son contenu (un voile respire par-dessus), et le squelette prend la forme de ce qu&apos;il remplace.</value></data>
 </root>

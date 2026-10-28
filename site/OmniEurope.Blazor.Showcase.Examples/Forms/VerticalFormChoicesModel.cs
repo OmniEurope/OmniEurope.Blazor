@@ -1,9 +1,7 @@
-namespace OmniEurope.Blazor.Showcase.Components.Demos;
+namespace OmniEurope.Blazor.Showcase.Examples.Forms;
 
-/// <summary>
-/// The selection, date, choice and file fields of the vertical form that stay in this demo.
-/// </summary>
-public sealed class VerticalFormDemoModel
+/// <summary>The selection, date, choice and file fields of a deployment form, one property per field.</summary>
+public sealed class VerticalFormChoicesModel
 {
     /// <summary>The target environment.</summary>
     public string Environment { get; set; } = "production";
@@ -17,7 +15,7 @@ public sealed class VerticalFormDemoModel
     /// <summary>The maintenance window.</summary>
     public DateTime? Moment { get; set; } = new(2026, 9, 18, 22, 0, 0, DateTimeKind.Unspecified);
 
-    /// <summary>The deployment strategy, required; none is chosen at first so the error shows.</summary>
+    /// <summary>The deployment strategy, required; none is chosen at first so that the error shows.</summary>
     public string? Strategy { get; set; }
 
     /// <summary>The build agent, disabled.</summary>
