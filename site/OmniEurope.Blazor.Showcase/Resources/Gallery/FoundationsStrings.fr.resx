@@ -118,6 +118,13 @@
   <data name="BadgesFillTonal" xml:space="preserve"><value>Teinté</value></data>
   <data name="BadgesFillSolid" xml:space="preserve"><value>Plein</value></data>
   <data name="BadgesFillOutline" xml:space="preserve"><value>Contour</value></data>
+  <data name="BadgesShape" xml:space="preserve"><value>Forme</value></data>
+  <data name="BadgesShapeDescription" xml:space="preserve"><value>Les coins du badge : en pilule par défaut.</value></data>
+  <data name="BadgesShapePill" xml:space="preserve"><value>Pilule</value></data>
+  <data name="BadgesShapeRounded" xml:space="preserve"><value>Arrondi</value></data>
+  <data name="BadgesShapeSquare" xml:space="preserve"><value>Carré</value></data>
+  <data name="BadgesShapesTitle" xml:space="preserve"><value>Formes</value></data>
+  <data name="BadgesShapesDescription" xml:space="preserve"><value>La pilule est la forme par défaut ; Arrondi garde le petit rayon du thème et Carré n'en a aucun. Les couleurs et les bordures ne changent pas.</value></data>
   <data name="BadgesLabel" xml:space="preserve"><value>Libellé</value></data>
   <data name="BadgesLabelDescription" xml:space="preserve"><value>Le texte affiché dans le badge.</value></data>
   <data name="BadgesLabelDefault" xml:space="preserve"><value>Nouveau</value></data>

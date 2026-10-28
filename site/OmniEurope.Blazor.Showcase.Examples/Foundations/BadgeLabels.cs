@@ -24,6 +24,14 @@ public static class BadgeLabels
         _ => "Tonal"
     };
 
+    /// <summary>The word for a corner shape.</summary>
+    public static string ShapeOf(OmniBadgeShape shape) => shape switch
+    {
+        OmniBadgeShape.Rounded => "Rounded",
+        OmniBadgeShape.Square => "Square",
+        _ => "Pill"
+    };
+
     /// <summary>The words for an ink of the solid badge.</summary>
     public static string InkOf(OmniBadgeInk ink) => ink switch
     {

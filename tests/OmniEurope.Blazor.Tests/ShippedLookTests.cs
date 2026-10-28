@@ -576,13 +576,49 @@ public sealed partial class ShippedLookTests : OmniBunitContext
     // ---- T16: the small radius ----
 
     [Theory]
-    [InlineData(".omni-badge")]
     [InlineData(".omni-checkbox-nullable__indicator")]
-    public void BadgesAndCheckboxes_TakeTheThemesSmallRadius(string selector)
+    public void Checkboxes_TakeTheThemesSmallRadius(string selector)
     {
         Assert.Equal("var(--omni-radius-sm)", Value(Body(selector), "border-radius"));
         // The half radius used to stand in for the small one in a dozen rules: the token is always declared.
         Assert.DoesNotContain("var(--omni-radius) / 2", Css, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Badges_ArePillsByDefault_TheThemesSmallRadiusWithRounded_NoneWithSquare()
+    {
+        // Recette R-3: the pill is the base rule of the badge, Rounded gives back the small radius of the
+        // theme, Square drops it; the shape never touches the colours or the border.
+        Assert.Equal("var(--omni-radius-pill)", Value(Body(".omni-badge"), "border-radius"));
+        Assert.Equal("var(--omni-radius-sm)", Value(Body(".omni-badge--rounded"), "border-radius"));
+        Assert.Equal("0", Value(Body(".omni-badge--square"), "border-radius"));
+        Assert.Equal("border-radius: var(--omni-radius-sm);", Body(".omni-badge--rounded").Trim());
+        Assert.Equal("border-radius: 0;", Body(".omni-badge--square").Trim());
+        Assert.DoesNotContain("var(--omni-radius) / 2", Css, StringComparison.Ordinal);
+    }
+
+    [Theory]
+    [InlineData(OmniBadgeShape.Pill, "omni-badge--rounded", false)]
+    [InlineData(OmniBadgeShape.Pill, "omni-badge--square", false)]
+    [InlineData(OmniBadgeShape.Rounded, "omni-badge--rounded", true)]
+    [InlineData(OmniBadgeShape.Square, "omni-badge--square", true)]
+    public void Badge_RendersAShapeClassOnlyForTheTwoNonPillShapes(OmniBadgeShape shape, string cssClass, bool expected)
+    {
+        var badge = Render<OmniBadge>(parameters => parameters.Add(p => p.Shape, shape).AddChildContent("3"));
+        Assert.Equal(expected, badge.Find(".omni-badge").ClassList.Contains(cssClass));
+    }
+
+    [Fact]
+    public void Badge_DefaultsToThePillAndKeepsItsTextInATrimmableBox()
+    {
+        var badge = Render<OmniBadge>(parameters => parameters.AddChildContent("9+"));
+        var root = badge.Find(".omni-badge");
+        Assert.DoesNotContain("omni-badge--rounded", root.ClassList);
+        Assert.DoesNotContain("omni-badge--square", root.ClassList);
+        Assert.Equal("9+", badge.Find(".omni-badge > .omni-badge__text").TextContent);
+        // The trim is declared only where the browser knows it; the centring without it is unchanged.
+        Assert.Contains("@supports (text-box: trim-both cap alphabetic) {\n    .omni-badge__text { text-box: trim-both cap alphabetic; }\n}", Css, StringComparison.Ordinal);
+        Assert.Contains("lining-nums tabular-nums", Value(Body(".omni-badge"), "font-variant-numeric"), StringComparison.Ordinal);
     }
 
     [Fact]

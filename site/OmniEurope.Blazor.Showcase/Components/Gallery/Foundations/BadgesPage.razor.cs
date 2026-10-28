@@ -9,12 +9,16 @@ public partial class BadgesPage
 
     private static readonly OmniFill[] AllFills = Enum.GetValues<OmniFill>();
 
+    private static readonly OmniBadgeShape[] AllShapes = Enum.GetValues<OmniBadgeShape>();
+
     [Inject]
     private IStringLocalizer<FoundationsStrings> Text { get; set; } = default!;
 
     private OmniTone Variant { get; set; } = OmniTone.Accent;
 
     private OmniFill Fill { get; set; } = OmniFill.Tonal;
+
+    private OmniBadgeShape Shape { get; set; } = OmniBadgeShape.Pill;
 
     private string BadgeText { get; set; } = string.Empty;
 
@@ -26,6 +30,9 @@ public partial class BadgesPage
     private IReadOnlyList<OmniOption<OmniFill>> FillOptions =>
         [.. AllFills.Select(fill => new OmniOption<OmniFill>(fill, FillLabel(fill)))];
 
+    private IReadOnlyList<OmniOption<OmniBadgeShape>> ShapeOptions =>
+        [.. AllShapes.Select(shape => new OmniOption<OmniBadgeShape>(shape, ShapeLabel(shape)))];
+
     protected override void OnInitialized() => BadgeText = Text["BadgesLabelDefault"];
 
     private string VariantLabel(OmniTone variant) => variant switch
@@ -36,6 +43,13 @@ public partial class BadgesPage
         OmniTone.Warning => Text["BadgesVariantWarning"],
         OmniTone.Danger => Text["BadgesVariantDanger"],
         _ => Text["BadgesVariantNeutral"]
+    };
+
+    private string ShapeLabel(OmniBadgeShape shape) => shape switch
+    {
+        OmniBadgeShape.Rounded => Text["BadgesShapeRounded"],
+        OmniBadgeShape.Square => Text["BadgesShapeSquare"],
+        _ => Text["BadgesShapePill"]
     };
 
     private string FillLabel(OmniFill fill) => fill switch

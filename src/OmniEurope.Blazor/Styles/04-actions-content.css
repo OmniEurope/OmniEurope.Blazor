@@ -387,7 +387,7 @@
 .omni-icon--format-text { color: var(--omni-color-text-muted); }
 
 /* Pastille tonale : l'encre de la variante mêlée à la surface et au texte, lisible en clair et en sombre. */
-.omni-badge { --omni-badge-ink: var(--omni-color-text-muted); align-items: center; background: color-mix(in srgb, var(--omni-badge-ink) 14%, var(--omni-color-surface)); border: var(--omni-border-width) solid color-mix(in srgb, var(--omni-badge-ink) 32%, transparent); border-radius: var(--omni-radius-sm); box-sizing: border-box; color: color-mix(in srgb, var(--omni-badge-ink) 40%, var(--omni-color-text)); display: inline-flex; font-size: calc(var(--omni-control-font) - 0.0625rem); font-variant-numeric: tabular-nums; font-weight: 650; gap: var(--omni-space-xs); justify-content: center; line-height: 1; min-height: var(--omni-badge-height); min-width: var(--omni-badge-height); padding: var(--omni-badge-pad-y) 0.5rem; white-space: nowrap; }
+.omni-badge { --omni-badge-ink: var(--omni-color-text-muted); align-items: center; background: color-mix(in srgb, var(--omni-badge-ink) 14%, var(--omni-color-surface)); border: var(--omni-border-width) solid color-mix(in srgb, var(--omni-badge-ink) 32%, transparent); border-radius: var(--omni-radius-pill); box-sizing: border-box; color: color-mix(in srgb, var(--omni-badge-ink) 40%, var(--omni-color-text)); display: inline-flex; font-size: calc(var(--omni-control-font) - 0.0625rem); font-variant-numeric: lining-nums tabular-nums; font-weight: 650; gap: var(--omni-space-xs); justify-content: center; line-height: 1; min-height: var(--omni-badge-height); min-width: var(--omni-badge-height); padding: var(--omni-badge-pad-y) 0.5rem; white-space: nowrap; }
 /* The icon follows the badge's own text (1em), so a host that resizes the text resizes the icon with it
    instead of leaving a glyph taller than the letters (client application acceptance review R-42). */
 .omni-badge { --omni-icon-size: 1em; }
@@ -406,6 +406,16 @@
    the padding and the border, so the width follows the height whatever sets it. The Width steps below
    come after and raise the floor; they never lower it. */
 .omni-badge { min-inline-size: max(var(--omni-badge-height), calc(1em + 2 * var(--omni-badge-pad-y) + 2 * var(--omni-border-width, 1px))); text-align: center; }
+/* The corners (OmniBadge.Shape, client application acceptance review R-3): the pill is the base rule above;
+   Rounded gives back the small radius of the theme, Square drops the radius. Same colours, same border. */
+.omni-badge--rounded { border-radius: var(--omni-radius-sm); }
+.omni-badge--square { border-radius: 0; }
+/* The text sits in its own box, trimmed to the height of the capitals (from the cap height down to the
+   baseline) where the browser can: the middle of the pill is then the middle of the letters, and the icon,
+   centred on the same line, shares it. Elsewhere the full line box stays, as before. */
+@supports (text-box: trim-both cap alphabetic) {
+    .omni-badge__text { text-box: trim-both cap alphabetic; }
+}
 /* A clickable badge (OnClick: a button, Href: a link) keeps the badge's shape and colours: the browser's
    own button and link looks are reset, and it is told from a plain one, and from an OmniButton, by an
    underline and a light tint of its own ink on hover, with no lift, no shadow and no fill change. */

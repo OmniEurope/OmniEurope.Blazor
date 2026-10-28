@@ -43,6 +43,15 @@ public partial class OmniBadge
     public OmniBadgeWidth Width { get; set; } = OmniBadgeWidth.Auto;
 
     /// <summary>
+    /// The corners of the badge, whatever its <see cref="Fill"/>: <see cref="OmniBadgeShape.Pill"/>, the
+    /// default, fully rounded ends; <see cref="OmniBadgeShape.Rounded"/>, the small radius of the theme (the
+    /// look before the pill); <see cref="OmniBadgeShape.Square"/>, no radius. Colours, border and height are
+    /// the same in the three (recette R-3).
+    /// </summary>
+    [Parameter]
+    public OmniBadgeShape Shape { get; set; } = OmniBadgeShape.Pill;
+
+    /// <summary>
     /// The lettering of a <see cref="OmniFill.Solid"/> badge: <see cref="OmniBadgeInk.White"/>, the
     /// default; <see cref="OmniBadgeInk.WhiteOutlined"/>, white with a 1 px black outline, for a badge laid
     /// over a picture or a busy colour; <see cref="OmniBadgeInk.Black"/>, black letters on a fill of the
@@ -86,7 +95,7 @@ public partial class OmniBadge
 
     private string? AccessibleName => Clickable ? OmniAriaLabel.Of(Label, AdditionalAttributes) : null;
 
-    private string BadgeClass => Css("omni-badge", $"omni-badge--{Tone.ToString().ToLowerInvariant()}", $"omni-badge--{Fill.ToString().ToLowerInvariant()}", IconOnly ? "omni-badge--icon" : null, LeadingIcon ? "omni-badge--leading-icon" : null, Clickable ? "omni-badge--action" : null, InkClass, WidthClass);
+    private string BadgeClass => Css("omni-badge", $"omni-badge--{Tone.ToString().ToLowerInvariant()}", $"omni-badge--{Fill.ToString().ToLowerInvariant()}", IconOnly ? "omni-badge--icon" : null, LeadingIcon ? "omni-badge--leading-icon" : null, Clickable ? "omni-badge--action" : null, ShapeClass, InkClass, WidthClass);
 
     /// <summary>Checks that <see cref="Href"/> and <see cref="OnClick"/> are not both given and that the address is safe.</summary>
     /// <exception cref="ArgumentException"><see cref="Href"/> and <see cref="OnClick"/> are both given.</exception>
@@ -108,6 +117,27 @@ public partial class OmniBadge
 
     /// <summary>An icon before a text: the start padding then gives back the margin drawn inside the glyph's box.</summary>
     private bool LeadingIcon => Icon is not null && ChildContent is not null;
+
+    /// <summary>
+    /// The text in its own box: the box whose line gets trimmed to the height of the capitals, so that the
+    /// middle of the badge is the middle of the letters (the badge itself is a flex container, which the
+    /// trim does not apply to).
+    /// </summary>
+    private RenderFragment? TextPart => ChildContent is null ? null : builder =>
+    {
+        builder.OpenElement(0, "span");
+        builder.AddAttribute(1, "class", "omni-badge__text");
+        builder.AddContent(2, ChildContent);
+        builder.CloseElement();
+    };
+
+    /// <summary>The pill, the default, is the base rule of the badge: only the other two shapes carry a modifier.</summary>
+    private string? ShapeClass => Shape switch
+    {
+        OmniBadgeShape.Rounded => "omni-badge--rounded",
+        OmniBadgeShape.Square => "omni-badge--square",
+        _ => null,
+    };
 
     private string? InkClass => Fill != OmniFill.Solid ? null : Ink switch
     {

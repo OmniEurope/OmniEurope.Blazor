@@ -18,6 +18,13 @@
                 </ChildContent>
             </OmniSettingsTile>
 
+            <OmniSettingsTile Title="@Text["BadgesShape"]" Description="@Text["BadgesShapeDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Tag" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniBadgeShape" Options="@ShapeOptions" @bind-Value="Shape" Label="@Text["BadgesShape"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
             <OmniSettingsTile Title="@Text["BadgesLabel"]" Description="@Text["BadgesLabelDescription"]">
                 <Icon><OmniIcon Name="OmniIconName.Edit" /></Icon>
                 <ChildContent>
@@ -36,7 +43,7 @@
     <Preview>
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["BadgesPreviewTitle"]</HeaderContent>
-            <ChildContent><BadgeExample Tone="Variant" Fill="Fill" Label="@BadgeText" WithIcon="WithIcon" /></ChildContent>
+            <ChildContent><BadgeExample Tone="Variant" Fill="Fill" Shape="Shape" Label="@BadgeText" WithIcon="WithIcon" /></ChildContent>
         </OmniCard>
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["BadgesMatrixTitle"]</HeaderContent>
@@ -53,6 +60,15 @@
                 <OmniStack Gap="OmniSpacing.Medium">
                     <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["BadgesInkDescription"]</OmniText>
                     <BadgeInkExample />
+                </OmniStack>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["BadgesShapesTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Medium">
+                    <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["BadgesShapesDescription"]</OmniText>
+                    <BadgeShapesExample />
                 </OmniStack>
             </ChildContent>
         </OmniCard>

@@ -425,6 +425,9 @@ field public static OmniEurope.Blazor.Components.OmniAppearanceState.PreferenceK
 field public static OmniEurope.Blazor.Components.OmniBadgeInk.Black : OmniEurope.Blazor.Components.OmniBadgeInk const = 2
 field public static OmniEurope.Blazor.Components.OmniBadgeInk.White : OmniEurope.Blazor.Components.OmniBadgeInk const = 0
 field public static OmniEurope.Blazor.Components.OmniBadgeInk.WhiteOutlined : OmniEurope.Blazor.Components.OmniBadgeInk const = 1
+field public static OmniEurope.Blazor.Components.OmniBadgeShape.Pill : OmniEurope.Blazor.Components.OmniBadgeShape const = 0
+field public static OmniEurope.Blazor.Components.OmniBadgeShape.Rounded : OmniEurope.Blazor.Components.OmniBadgeShape const = 1
+field public static OmniEurope.Blazor.Components.OmniBadgeShape.Square : OmniEurope.Blazor.Components.OmniBadgeShape const = 2
 field public static OmniEurope.Blazor.Components.OmniBadgeWidth.Auto : OmniEurope.Blazor.Components.OmniBadgeWidth const = 0
 field public static OmniEurope.Blazor.Components.OmniBadgeWidth.Large : OmniEurope.Blazor.Components.OmniBadgeWidth const = 3
 field public static OmniEurope.Blazor.Components.OmniBadgeWidth.Medium : OmniEurope.Blazor.Components.OmniBadgeWidth const = 2
@@ -2388,6 +2391,7 @@ property public OmniEurope.Blazor.Components.OmniBadge.Icon : Microsoft.AspNetCo
 property public OmniEurope.Blazor.Components.OmniBadge.Ink : OmniEurope.Blazor.Components.OmniBadgeInk {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniBadge.Label : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniBadge.OnClick : Microsoft.AspNetCore.Components.EventCallback<Microsoft.AspNetCore.Components.Web.MouseEventArgs> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniBadge.Shape : OmniEurope.Blazor.Components.OmniBadgeShape {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniBadge.Tone : OmniEurope.Blazor.Components.OmniTone {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniBadge.Width : OmniEurope.Blazor.Components.OmniBadgeWidth {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniBody.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
@@ -4058,6 +4062,7 @@ type public OmniEurope.Blazor.Components.OmniAutocomplete<TValue> [class] : Omni
 type public OmniEurope.Blazor.Components.OmniAxisTitle [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniBadge [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniBadgeInk [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
+type public OmniEurope.Blazor.Components.OmniBadgeShape [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniBadgeWidth [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniBody [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniBootSplash [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
