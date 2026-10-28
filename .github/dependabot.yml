@@ -1,0 +1,26 @@
+# Version guard (STD-SDKPIN): one PR per newer version, never a build failure.
+# Two ecosystems: the .NET SDK floor in global.json and the NuGet packages (Directory.Packages.props).
+# No Docker ecosystem: the repository ships no Dockerfile.
+version: 2
+updates:
+  - package-ecosystem: "dotnet-sdk"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels: ["dependencies", "sdk"]
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    labels: ["dependencies", "nuget"]
+    groups:
+      minor-and-patch:
+        update-types: ["minor", "patch"]
+    # The ONLY packages excluded from updates (STD-SDKPIN): Roslyn follows the compiler of the
+    # global.json floor, and an analyzer compiled against a newer Roslyn than the host compiler is
+    # rejected (CS9057). They move with the floor, in the same commit. Everything else stays current.
+    ignore:
+      - dependency-name: "Microsoft.CodeAnalysis.CSharp"
+      - dependency-name: "Microsoft.CodeAnalysis.CSharp.Workspaces"
+      - dependency-name: "Microsoft.CodeAnalysis.Workspaces.Common"

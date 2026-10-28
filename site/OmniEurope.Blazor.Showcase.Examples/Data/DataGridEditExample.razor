@@ -35,6 +35,7 @@
         <OmniText Tone="OmniTextTone.Muted">A single click in the Applicant or Country cell edits the row.</OmniText>
         <OmniText Id="demo-grid-edit-cell-clicks" Tone="OmniTextTone.Muted">Details clicked: @_cellEditDetails</OmniText>
         <OmniDataGrid TItem="EditableFile" Id="demo-grid-edit-cell"
+                      HeaderWrap="OmniDataGridHeaderWrap.Truncate"
                       EditTrigger="OmniDataGridEditTrigger.Cell"
                       ScrollMode="OmniDataGridScrollMode.All"
                       Items="_cellEditFiles"

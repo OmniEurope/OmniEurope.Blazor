@@ -265,10 +265,7 @@
                             @((MarkupString)HtmlEditorTableFile.ToHtml(rows.Take(6).ToList(), _panels.TableHeader))
                         </div>
                         <div class="omni-html-editor__panel-bar">
-                            <label class="omni-html-editor__check">
-                                <OmniCheckBox @bind-Value="_panels.TableHeader" />
-                                <span>@Localize("HtmlEditorImportTableHeader")</span>
-                            </label>
+                            <OmniCheckBox Class="omni-html-editor__check" @bind-Value="_panels.TableHeader">@Localize("HtmlEditorImportTableHeader")</OmniCheckBox>
                             <OmniButton Variant="OmniButtonVariant.Success" Size="OmniControlSize.Small" OnClick="InsertTableAsync">
                                 <Icon><OmniIcon Name="OmniIconName.Table" /></Icon>
                                 <ChildContent><span>@Localize("HtmlEditorImportTableInsert")</span></ChildContent>

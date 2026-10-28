@@ -112,7 +112,7 @@
 
     <section class="catalog-section" aria-labelledby="data-title">
         <OmniHeading Level="OmniHeadingLevel.H2" Id="data-title">@Text["DataTitle"]</OmniHeading>
-        <OmniDataGrid TItem="CatalogRow" Items="@Rows" Caption="@Text["GridCaption"]" PageSize="5" SelectionMode="OmniDataGridSelectionMode.Multiple" KeyOf="row => row.Id" @bind-Value="GridSelection">
+        <OmniDataGrid TItem="CatalogRow" Items="@Rows" Caption="@Text["GridCaption"]" ScrollMode="OmniDataGridScrollMode.Paged" HeaderWrap="OmniDataGridHeaderWrap.Truncate" PageSize="5" SelectionMode="OmniDataGridSelectionMode.Multiple" KeyOf="row => row.Id" @bind-Value="GridSelection">
             <Columns>
                 <OmniDataGridColumn TItem="CatalogRow" Key="name" Title="@Text["NameColumn"]" Value="row => row.Name" Filterable="true" />
                 <OmniDataGridColumn TItem="CatalogRow" Key="value" Title="@Text["ValueColumn"]" Value="row => row.Value" />

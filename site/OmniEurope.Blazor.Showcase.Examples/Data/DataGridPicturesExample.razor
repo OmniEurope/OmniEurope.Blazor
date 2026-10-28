@@ -2,6 +2,8 @@
    admits no other): it stays veiled until those pictures have arrived, two seconds at most, then shows. The
    probe scripts delay this picture to check it. *@
 <OmniDataGrid TItem="CaseRow" Id="demo-grid-pictures"
+              HeaderWrap="OmniDataGridHeaderWrap.Truncate"
+              ScrollMode="OmniDataGridScrollMode.Paged"
               Items="Rows"
               Caption="Files with a picture">
     <LoadingContent>Loading...</LoadingContent>
