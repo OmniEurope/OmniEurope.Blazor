@@ -84,6 +84,7 @@
   <data name="TooltipShowLess" xml:space="preserve"><value>Pokaži manj</value></data>
   <data name="GridFilterDateFrom" xml:space="preserve"><value>Od</value></data>
   <data name="GridFilterDateTo" xml:space="preserve"><value>Do</value></data>
+  <data name="GridFilterDateRangeColumn" xml:space="preserve"><value>Filtriraj {0} po obdobju</value></data>
   <data name="GridFilterContains" xml:space="preserve"><value>Vsebuje</value></data>
   <data name="GridFilterDoesNotContain" xml:space="preserve"><value>Ne vsebuje</value></data>
   <data name="GridFilterEquals" xml:space="preserve"><value>Je enako</value></data>

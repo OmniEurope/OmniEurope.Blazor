@@ -84,6 +84,7 @@
   <data name="TooltipShowLess" xml:space="preserve"><value>Minder tonen</value></data>
   <data name="GridFilterDateFrom" xml:space="preserve"><value>Van</value></data>
   <data name="GridFilterDateTo" xml:space="preserve"><value>Tot</value></data>
+  <data name="GridFilterDateRangeColumn" xml:space="preserve"><value>{0} filteren op periode</value></data>
   <data name="GridFilterContains" xml:space="preserve"><value>Bevat</value></data>
   <data name="GridFilterDoesNotContain" xml:space="preserve"><value>Bevat niet</value></data>
   <data name="GridFilterEquals" xml:space="preserve"><value>Gelijk aan</value></data>

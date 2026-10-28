@@ -38,6 +38,7 @@ component OmniEurope.Blazor.Components.OmniDataAnnotationsValidator
 component OmniEurope.Blazor.Components.OmniDataGrid<TItem>
 component OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>
 component OmniEurope.Blazor.Components.OmniDataGridFilterCombo
+component OmniEurope.Blazor.Components.OmniDataGridFilterDate
 component OmniEurope.Blazor.Components.OmniDataGridFilterDateRange
 component OmniEurope.Blazor.Components.OmniDataGridFilterMultiSelect
 component OmniEurope.Blazor.Components.OmniDataList<TItem>
@@ -212,6 +213,7 @@ ctor public OmniEurope.Blazor.Components.OmniDataGridColumnWidthChange(System.St
 ctor public OmniEurope.Blazor.Components.OmniDataGridFilter(System.String Key, OmniEurope.Blazor.Components.OmniDataGridFilterOperator Operator, System.String Value, OmniEurope.Blazor.Components.OmniDataGridLogicalOperator LogicalOperator = OmniEurope.Blazor.Components.OmniDataGridLogicalOperator.And, OmniEurope.Blazor.Components.OmniDataGridFilterOperator? SecondOperator = null, System.String? SecondValue = null)
 ctor public OmniEurope.Blazor.Components.OmniDataGridFilterCombo()
 ctor public OmniEurope.Blazor.Components.OmniDataGridFilterContext(System.String Id, System.String Value, System.Collections.Generic.IReadOnlyList<System.String> Suggestions, System.String Placeholder, System.Func<System.String,System.Threading.Tasks.Task> ValueChanged)
+ctor public OmniEurope.Blazor.Components.OmniDataGridFilterDate()
 ctor public OmniEurope.Blazor.Components.OmniDataGridFilterDateRange()
 ctor public OmniEurope.Blazor.Components.OmniDataGridFilterMultiSelect()
 ctor public OmniEurope.Blazor.Components.OmniDataGridGroup(System.String Key, System.Boolean Descending = false)
@@ -461,6 +463,7 @@ field public static OmniEurope.Blazor.Components.OmniDataGridBarExport.End : Omn
 field public static OmniEurope.Blazor.Components.OmniDataGridBarExport.None : OmniEurope.Blazor.Components.OmniDataGridBarExport const = 0
 field public static OmniEurope.Blazor.Components.OmniDataGridBarExport.Start : OmniEurope.Blazor.Components.OmniDataGridBarExport const = 1
 field public static OmniEurope.Blazor.Components.OmniDataGridColumnFilterType.Combo : OmniEurope.Blazor.Components.OmniDataGridColumnFilterType const = 2
+field public static OmniEurope.Blazor.Components.OmniDataGridColumnFilterType.Date : OmniEurope.Blazor.Components.OmniDataGridColumnFilterType const = 6
 field public static OmniEurope.Blazor.Components.OmniDataGridColumnFilterType.DateRange : OmniEurope.Blazor.Components.OmniDataGridColumnFilterType const = 4
 field public static OmniEurope.Blazor.Components.OmniDataGridColumnFilterType.MultiSelect : OmniEurope.Blazor.Components.OmniDataGridColumnFilterType const = 3
 field public static OmniEurope.Blazor.Components.OmniDataGridColumnFilterType.Number : OmniEurope.Blazor.Components.OmniDataGridColumnFilterType const = 5
@@ -1105,6 +1108,8 @@ method protected override OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnPar
 method protected override OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDataGridFilterCombo.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniDataGridFilterDate.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniDataGridFilterDate.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDataGridFilterDateRange.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDataGridFilterMultiSelect.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDataList<TItem>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
@@ -2053,6 +2058,10 @@ method public static OmniEurope.Blazor.Components.OmniDataGridDateRange.FormatBo
 method public static OmniEurope.Blazor.Components.OmniDataGridDateRange.Join(System.String? start, System.String? end) : System.String
 method public static OmniEurope.Blazor.Components.OmniDataGridDateRange.Resolve(System.String? value) : System.ValueTuple<System.DateTime?,System.DateTime?>
 method public static OmniEurope.Blazor.Components.OmniDataGridDateRange.Split(System.String? value) : System.ValueTuple<System.String,System.String>
+method public static OmniEurope.Blazor.Components.OmniDataGridDateText.Format(System.String? value, System.Globalization.CultureInfo culture) : System.String
+method public static OmniEurope.Blazor.Components.OmniDataGridDateText.Pattern(System.Globalization.CultureInfo culture) : System.String
+method public static OmniEurope.Blazor.Components.OmniDataGridDateText.ToValue(System.DateTime start, System.DateTime endExclusive) : System.String
+method public static OmniEurope.Blazor.Components.OmniDataGridDateText.TryParse(System.String? text, System.Globalization.CultureInfo culture, out System.DateTime start, out System.DateTime endExclusive) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniDataGridFilter.op_Equality(OmniEurope.Blazor.Components.OmniDataGridFilter? left, OmniEurope.Blazor.Components.OmniDataGridFilter? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniDataGridFilter.op_Inequality(OmniEurope.Blazor.Components.OmniDataGridFilter? left, OmniEurope.Blazor.Components.OmniDataGridFilter? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniDataGridFilterContext.op_Equality(OmniEurope.Blazor.Components.OmniDataGridFilterContext? left, OmniEurope.Blazor.Components.OmniDataGridFilterContext? right) : System.Boolean
@@ -2682,6 +2691,7 @@ property public OmniEurope.Blazor.Components.OmniDataGridCellMouseEventArgs<TIte
 property public OmniEurope.Blazor.Components.OmniDataGridCellMouseEventArgs<TItem>.RowIndex : System.Int32 {get(public)}
 property public OmniEurope.Blazor.Components.OmniDataGridCellMouseEventArgs<TItem>.ShiftKey : System.Boolean {get(public)}
 property public OmniEurope.Blazor.Components.OmniDataGridCellMouseEventArgs<TItem>.Value : System.Object? {get(public)}
+property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.AdvancedFilter : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Aggregate : OmniEurope.Blazor.Components.OmniDataGridAggregate {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.AggregateFormat : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.AutoFit : System.Boolean? {get(public);set(public)} [Parameter]
@@ -2748,6 +2758,9 @@ property public OmniEurope.Blazor.Components.OmniDataGridFilterContext.Placehold
 property public OmniEurope.Blazor.Components.OmniDataGridFilterContext.Suggestions : System.Collections.Generic.IReadOnlyList<System.String> {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniDataGridFilterContext.Value : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniDataGridFilterContext.ValueChanged : System.Func<System.String,System.Threading.Tasks.Task> {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniDataGridFilterDate.Placeholder : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGridFilterDate.Value : System.String {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGridFilterDate.ValueChanged : Microsoft.AspNetCore.Components.EventCallback<System.String> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridFilterDateRange.IncludesTime : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridFilterDateRange.Value : System.String {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridFilterDateRange.ValueChanged : Microsoft.AspNetCore.Components.EventCallback<System.String> {get(public);set(public)} [Parameter]
@@ -4088,10 +4101,12 @@ type public OmniEurope.Blazor.Components.OmniDataGridColumnOrderChange [class, s
 type public OmniEurope.Blazor.Components.OmniDataGridColumnSizing [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniDataGridColumnWidthChange [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniDataGridColumnWidthChange>
 type public OmniEurope.Blazor.Components.OmniDataGridDateRange [static-class, static]
+type public OmniEurope.Blazor.Components.OmniDataGridDateText [static-class, static]
 type public OmniEurope.Blazor.Components.OmniDataGridEditTrigger [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniDataGridFilter [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniDataGridFilter>
 type public OmniEurope.Blazor.Components.OmniDataGridFilterCombo [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniDataGridFilterContext [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniDataGridFilterContext>
+type public OmniEurope.Blazor.Components.OmniDataGridFilterDate [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniDataGridFilterDateRange [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniDataGridFilterMode [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniDataGridFilterMultiSelect [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
