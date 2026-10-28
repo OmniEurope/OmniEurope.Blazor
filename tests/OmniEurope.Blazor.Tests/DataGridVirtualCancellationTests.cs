@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Components;
 using OmniEurope.Blazor.Components;
 using OmniEurope.Blazor.Internal;
 
@@ -91,7 +92,12 @@ public sealed class DataGridVirtualCancellationTests
     }
 
     [Fact]
-    public async Task A_window_that_moved_on_while_a_block_loaded_does_not_ask_for_the_next_one()
+    public Task A_window_that_moved_on_while_a_block_loaded_does_not_ask_for_the_next_one() =>
+        // The grid drives its source from the renderer's dispatcher, one continuation at a time. Run there
+        // too: on the thread pool the two waiting windows resumed at once and wrote the cache together.
+        Dispatcher.CreateDefault().InvokeAsync(AWindowThatMovedOnDoesNotAskForTheNextOneAsync);
+
+    private static async Task AWindowThatMovedOnDoesNotAskForTheNextOneAsync()
     {
         await using var source = new GridVirtualDataSource<int>();
         var asked = new List<int>();

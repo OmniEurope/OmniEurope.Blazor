@@ -5,7 +5,8 @@ namespace OmniEurope.Blazor.Internal;
 /// <summary>
 /// Sparse item cache for a virtualized grid backed by a remote loader. Rows are fetched in
 /// fixed-size blocks around the viewport, stale responses are discarded, and blocks far from the
-/// viewport are evicted so an endless scroll cannot grow the cache without bound.
+/// viewport are evicted so an endless scroll cannot grow the cache without bound. Not thread-safe: the
+/// grid calls it from the renderer's dispatcher, which runs its continuations one at a time.
 /// </summary>
 internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
 {
