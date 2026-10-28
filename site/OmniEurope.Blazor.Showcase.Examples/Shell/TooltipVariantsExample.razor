@@ -1,0 +1,22 @@
+@* Tooltips on badges, one per variant. By default a tooltip follows the pointer; Pinned keeps it where it
+   opened, which is what lets the pointer reach the "Show more" action of a long text. Narrow and Wide
+   change the width at which the text wraps. Past CompactLength the tooltip opens on a preview and
+   unfolds on request: the text is never cut in silence, and the full text stays the accessible
+   description. *@
+<OmniRow Gap="OmniSpacing.Medium" Wrap="true">
+    <OmniTooltip Text="The quota is computed over a rolling thirty days.">
+        <OmniBadge Tone="OmniTone.Neutral">Quota</OmniBadge>
+    </OmniTooltip>
+    <OmniTooltip Text="An archived case remains viewable as read-only." Tracking="OmniTooltipTracking.Pinned">
+        <OmniBadge Tone="OmniTone.Accent">Archived</OmniBadge>
+    </OmniTooltip>
+    <OmniTooltip Text="Draft." MaxWidth="OmniTooltipWidth.Narrow">
+        <OmniBadge Tone="OmniTone.Neutral">Narrow</OmniBadge>
+    </OmniTooltip>
+    <OmniTooltip Id="tooltip-expandable"
+                 MaxWidth="OmniTooltipWidth.Wide"
+                 Tracking="OmniTooltipTracking.Pinned"
+                 Text="An archived case remains viewable as read-only. It no longer counts towards the quota, it can no longer be assigned, and it is removed from the search suggestions. Reopening it restores all three, and the history of the case is kept whatever happens to it in between.">
+        <OmniBadge Tone="OmniTone.Accent">Long text</OmniBadge>
+    </OmniTooltip>
+</OmniRow>

@@ -1,0 +1,24 @@
+@* The loading bar takes no height: it is laid over the bottom edge of what precedes it, here the header,
+   so nothing moves when it appears. It follows OmniLoadingState, which AddOmniEuropeBlazor() registers:
+   every Track() is a load in progress, and when the last one is disposed the bar runs to the end then
+   fades. The buttons start loads of three lengths, since a real load never announces its own. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <div>
+        <OmniHeader Brand="My application">
+            <OmniText Tone="OmniTextTone.Muted">Reports</OmniText>
+        </OmniHeader>
+        <OmniLoadingBar Mode="Mode" Label="Page loading" Class="@BarClass" />
+    </div>
+    <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+        @foreach (var seconds in DemonstrationSeconds)
+        {
+            <OmniButton Variant="OmniButtonVariant.Primary"
+                        Size="OmniControlSize.Small"
+                        Disabled="@Loading.Loading"
+                        OnClick="@(() => LoadAsync(seconds))">
+                <OmniIcon Name="OmniIconName.Timer" />
+                <span>@seconds seconds</span>
+            </OmniButton>
+        }
+    </OmniRow>
+</OmniStack>

@@ -1,0 +1,57 @@
+@page "/components/tooltips"
+@using OmniEurope.Blazor.Showcase.Examples.Shell
+
+<GalleryPageFrame Slug="tooltips">
+    <Settings>
+        <OmniSettingsSection Title="@Text["TooltipsSettingsTitle"]" Description="@Text["TooltipsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["TooltipsTracking"]" Description="@Text["TooltipsTrackingDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Pin" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniTooltipTracking" Options="@TrackingOptions" @bind-Value="Tracking" Label="@Text["TooltipsTracking"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TooltipsWidth"]" Description="@Text["TooltipsWidthDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.CornersOut" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniTooltipWidth" Options="@WidthOptions" @bind-Value="Width" Label="@Text["TooltipsWidth"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["TooltipsDelay"]" Description="@Text["TooltipsDelayDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Timer" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="DelayMilliseconds"
+                                Minimum="0"
+                                Maximum="2000"
+                                Step="100"
+                                ShowValue="true"
+                                FormatValue="@FormatDelay"
+                                aria-label="@Text["TooltipsDelay"]" />
+                </Details>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["TooltipsPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <TooltipsExample Tracking="Tracking" MaxWidth="Width" Delay="Delay" />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["TooltipsVariantsTitle"]</HeaderContent>
+            <ChildContent>
+                <TooltipVariantsExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["TooltipsVariantsHint"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["TooltipsTitleAttributeTitle"]</HeaderContent>
+            <ChildContent>
+                <TitleTooltipExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["TooltipsTitleAttributeHint"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

@@ -238,14 +238,11 @@
 .demo-form-status { color: var(--omni-color-text-muted); margin: 0; min-block-size: 1.25em; }
 .demo-choice { display: grid; gap: var(--omni-field-gap); }
 .demo-choice__error { align-items: center; color: var(--omni-color-danger); display: flex; font-size: var(--omni-font-size-sm); gap: var(--omni-space-xs); margin: 0; }
-.demo-check { align-items: center; display: inline-flex; gap: var(--omni-space-sm); }
-.demo-check .omni-label { font-weight: 400; }
 
 .demo-loading-frame { border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); overflow: hidden; }
 .demo-loading-frame__head { align-items: baseline; background: var(--omni-color-surface); display: flex; gap: var(--omni-space-md); padding: var(--omni-space-sm) var(--omni-space-md); }
 .demo-loading-frame__head span { color: var(--omni-color-text-muted); }
 
-.demo-notices { display: grid; gap: var(--omni-space-sm); justify-items: start; }
 
 .demo-surfaces-row { align-items: start; display: grid; gap: var(--omni-space-lg); grid-template-columns: minmax(12rem, 16rem) minmax(0, 1fr); }
 @media (max-width: 36rem) { .demo-surfaces-row { grid-template-columns: minmax(0, 1fr); } }
@@ -446,4 +443,38 @@
     flex: 1 1 auto;
     gap: var(--omni-space-md);
     padding: var(--omni-section-pad);
+}
+
+/* Side menu page: the miniature shell gets a height and contains the veil of a floating menu, which is
+   fixed to the window otherwise; contained, it covers the preview and not the page. */
+.gallery-shell-stage {
+    block-size: 22rem;
+    border: var(--omni-border-width) solid var(--omni-color-border);
+    border-radius: var(--omni-radius);
+    contain: layout paint;
+    display: flex;
+    flex-direction: column;
+}
+
+.gallery-shell-stage > .omni-layout {
+    block-size: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Loading bar page: the colour is a variable declared on the bar itself, so each class sits on the bar. */
+.gallery-loading-bar-accent {
+    --omni-loading-bar-color: var(--omni-color-accent);
+}
+
+.gallery-loading-bar-success {
+    --omni-loading-bar-color: var(--omni-color-success);
+}
+
+.gallery-loading-bar-warning {
+    --omni-loading-bar-color: var(--omni-color-warning);
+}
+
+.gallery-loading-bar-danger {
+    --omni-loading-bar-color: var(--omni-color-danger);
 }

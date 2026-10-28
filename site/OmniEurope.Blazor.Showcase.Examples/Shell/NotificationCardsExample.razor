@@ -1,0 +1,45 @@
+@* The notification card itself, placed by hand in a page: one per role, then one with an action. A card
+   placed by hand stays until the page removes it, so each cross hides its card here and a button brings
+   them back. Choosing the action raises OnActionClick, which this example counts. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniStack Gap="OmniSpacing.Small">
+        @foreach (var role in Roles)
+        {
+            @if (!Hidden.Contains(role.Title))
+            {
+                <OmniNotification Severity="role.Severity"
+                                  Title="@role.Title"
+                                  Message="@role.Message"
+                                  Dismissible="Dismissible"
+                                  ShowCountdown="false"
+                                  OnDismiss="@(() => Hidden.Add(role.Title))" />
+            }
+        }
+        @if (!Hidden.Contains(ActionTitle))
+        {
+            <OmniNotification Severity="OmniSeverity.Success"
+                              Title="@ActionTitle"
+                              Message="The file went to the archives."
+                              ActionText="Undo"
+                              OnActionClick="@(() => ActionCount++)"
+                              CloseLabel="Close the notification"
+                              Dismissible="Dismissible"
+                              ShowCountdown="false"
+                              OnDismiss="@(() => Hidden.Add(ActionTitle))" />
+        }
+    </OmniStack>
+    @if (Hidden.Count > 0)
+    {
+        <OmniRow>
+            <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="@(() => Hidden.Clear())">
+                <OmniIcon Name="OmniIconName.Refresh" />
+                <span>Show the notifications again</span>
+            </OmniButton>
+        </OmniRow>
+    }
+    <OmniText Tone="OmniTextTone.Muted">
+        <OmniIcon Name="OmniIconName.Reset" />
+        <span>Actions chosen:</span>
+        <OmniBadge Tone="@(ActionCount == 0 ? OmniTone.Neutral : OmniTone.Accent)">@ActionCount</OmniBadge>
+    </OmniText>
+</OmniStack>

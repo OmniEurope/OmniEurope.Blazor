@@ -8,6 +8,7 @@ using OmniEurope.Blazor.Showcase.Examples.Foundations;
 using OmniEurope.Blazor.Showcase.Examples.Forms;
 using OmniEurope.Blazor.Showcase.Examples.Navigation;
 using OmniEurope.Blazor.Showcase.Examples.Layout;
+using OmniEurope.Blazor.Showcase.Examples.Shell;
 using OmniEurope.Blazor.Showcase.Resources;
 using OmniEurope.Blazor.Showcase.Resources.Gallery;
 using OmniEurope.Blazor.Showcase.Theming;
@@ -32,7 +33,7 @@ public partial class Customizer : IDisposable
         new("settings-tabs", typeof(NavigationStrings), "TabsSettingsExampleTitle", typeof(SettingsTabsExample)),
         new("form-layouts", typeof(FormsStrings), "FormLayoutsTitle", typeof(VerticalFormExample)),
         Legacy("formulaire-vertical"),
-        Legacy("notifications"),
+        new("notifications", typeof(ShellStrings), "NotificationsTitle", typeof(NotificationCardsExample)),
         Legacy("grilles-maquette"),
         new("application-shell", typeof(LayoutStrings), "PageShellApplicationTitle", typeof(ApplicationShellExample))
     ];
