@@ -67,11 +67,16 @@ internal static class LayoutFamily
                 "Layout/SettingsSectionsGalleryExample.razor", "Layout/SettingsSectionsGalleryExample.razor.cs"
             ]),
         new("page-shell", "PageShellTitle", "PageShellDescription", OmniIconName.Layout,
-            ["OmniLayout", "OmniHeader", "OmniBody", "OmniMain", "OmniSkipLink", "OmniBootSplash"],
+            ["OmniLayout", "OmniHeader", "OmniBody", "OmniMain", "OmniSkipLink", "OmniBootSplash", "OmniThemeScope",
+             "OmniSidebar", "OmniSidebarToggle", "OmniPanelMenu", "OmniTabs", "OmniAppMenu", "OmniWindowControls"],
             [
                 "Layout/PageShellExample.razor", "Layout/PageShellExample.razor.cs",
                 "Layout/PageShellWidths.cs",
                 "Layout/PageShellWidthExample.razor", "Layout/PageShellWidthExample.razor.cs",
+                "Layout/SidebarShellExample.razor", "Layout/SidebarShellExample.razor.cs",
+                "Layout/EndSidebarShellExample.razor", "Layout/EndSidebarShellExample.razor.cs",
+                "Layout/OverlayRailShellExample.razor", "Layout/OverlayRailShellExample.razor.cs",
+                "Layout/ScrollingTabsExample.razor", "Layout/ScrollingTabsExample.razor.cs",
                 "Layout/ApplicationShellExample.razor", "Layout/ApplicationShellExample.razor.cs"
             ]),
         new("details", "DetailsTitle", "DetailsDescription", OmniIconName.Document,

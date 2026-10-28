@@ -1,0 +1,40 @@
+@* The application shell in miniature: a skip link, a header with the menu toggle and an appearance button, and a
+   side menu that pushes the content. The theme scope keeps a snapshot of its look under SnapshotKey, which a
+   startup script can replay before the first paint. *@
+<OmniThemeScope Appearance="Appearance" Density="OmniDensity.Compact" SnapshotKey="omnieurope.example.shell-theme">
+    <OmniLayout>
+        <OmniSkipLink TargetId="shell-sidebar-main" />
+        <OmniHeader>
+            <OmniSidebarToggle Open="SidebarOpen" OpenChanged="@(value => SidebarOpen = value)"
+                               Controls="shell-sidebar" Reveal="OmniSidebarReveal.Push" Label="Show or hide the menu" />
+            <OmniHeading Level="OmniHeadingLevel.H4">My application</OmniHeading>
+            <OmniButton Id="shell-sidebar-appearance" Variant="OmniButtonVariant.Ghost" Label="Change the appearance" OnClick="ToggleAppearance">
+                <Icon><OmniIcon Name="@(Appearance == OmniAppearance.Dark ? OmniIconName.ThemeLight : OmniIconName.ThemeDark)" /></Icon>
+            </OmniButton>
+        </OmniHeader>
+        <OmniBody>
+            <OmniSidebar Id="shell-sidebar" Open="SidebarOpen" OpenChanged="@(value => SidebarOpen = value)"
+                         Label="Menu" Placement="OmniSidebarPlacement.Start">
+                <OmniPanelMenu Label="Sections" Display="OmniPanelMenuDisplay.IconAndText">
+                    <OmniPanelMenuItem Text="Dashboard" Href="components/page-shell" Match="OmniNavMatch.Exact">
+                        <Icon><OmniIcon Name="OmniIconName.Home" /></Icon>
+                    </OmniPanelMenuItem>
+                    <OmniPanelMenuItem Text="Folders" Expanded="true">
+                        <Icon><OmniIcon Name="OmniIconName.Folder" /></Icon>
+                        <ChildContent>
+                            <OmniPanelMenuItem Text="In progress" Href="components/page-shell#in-progress" Match="OmniNavMatch.None" />
+                            <OmniPanelMenuItem Text="Archived" Href="components/page-shell#archived" Match="OmniNavMatch.None" />
+                        </ChildContent>
+                    </OmniPanelMenuItem>
+                    <OmniPanelMenuItem Text="Settings" Href="components/page-shell#settings" Match="OmniNavMatch.None">
+                        <Icon><OmniIcon Name="OmniIconName.Settings" /></Icon>
+                    </OmniPanelMenuItem>
+                </OmniPanelMenu>
+            </OmniSidebar>
+            <OmniMain Id="shell-sidebar-main" ContentWidth="OmniLayoutWidth.Content" AriaLabelledBy="shell-sidebar-title">
+                <OmniHeading Id="shell-sidebar-title" Level="OmniHeadingLevel.H5">Main content</OmniHeading>
+                <OmniText Element="OmniTextElement.Paragraph">@(Appearance is OmniAppearance.Dark ? "The appearance is dark." : "The appearance is light.")</OmniText>
+            </OmniMain>
+        </OmniBody>
+    </OmniLayout>
+</OmniThemeScope>

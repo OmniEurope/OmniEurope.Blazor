@@ -1,0 +1,13 @@
+@* Tabs in a frame of fixed height: only the selected panel scrolls (ScrollablePanels), and a wheel turn anywhere
+   in the frame named by WheelScrollScope, the tab strip included, scrolls it. *@
+<OmniTabs Label="Sections" ScrollablePanels="true" WheelScrollScope="@WheelScope">
+    <OmniTabsItem Key="reading" Title="Reading column">
+        @foreach (var paragraph in PageShellWidths.Paragraphs)
+        {
+            <OmniText Element="OmniTextElement.Paragraph">@paragraph</OmniText>
+        }
+    </OmniTabsItem>
+    <OmniTabsItem Key="wide" Title="Wide view">
+        <OmniText Element="OmniTextElement.Paragraph">A short panel has nothing to scroll.</OmniText>
+    </OmniTabsItem>
+</OmniTabs>

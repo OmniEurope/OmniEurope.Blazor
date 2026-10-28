@@ -112,13 +112,13 @@ export async function chevronSteps(session, results) {
 
   // 3. The sidebar menu, shortened until it scrolls, on the shell page.
   await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 800, deviceScaleFactor: 1, mobile: false });
-  await session.visit('/components/legacy/coquille', '#shell-demo-sidebar');
-  await evaluate(`(() => { const toggle = document.querySelector('[aria-controls="shell-demo-sidebar"]'); if (!document.querySelector('#shell-demo-sidebar').classList.contains('omni-sidebar--open')) toggle.click(); })()`);
-  await waitFor('le menu de la coquille ouvert', "document.querySelector('#shell-demo-sidebar').classList.contains('omni-sidebar--open')");
-  await evaluate("(() => { const aside = document.querySelector('#shell-demo-sidebar'); aside.style.height = '110px'; aside.style.maxHeight = '110px'; })()");
-  await waitFor('un menu qui déborde', "(() => { const view = document.querySelector('#shell-demo-sidebar .omni-sidebar__viewport'); return view.scrollHeight - view.clientHeight > 20; })()");
-  await drive('menu latéral', { strip: '#shell-demo-sidebar .omni-sidebar__scroller', viewport: '.omni-sidebar__viewport', start: '.omni-sidebar__scroll--start', end: '.omni-sidebar__scroll--end' }, true);
-  await evaluate("(() => { const aside = document.querySelector('#shell-demo-sidebar'); aside.style.height = ''; aside.style.maxHeight = ''; })()");
+  await session.visit('/components/page-shell', '#shell-sidebar');
+  await evaluate(`(() => { const toggle = document.querySelector('[aria-controls="shell-sidebar"]'); if (!document.querySelector('#shell-sidebar').classList.contains('omni-sidebar--open')) toggle.click(); })()`);
+  await waitFor('le menu de la coquille ouvert', "document.querySelector('#shell-sidebar').classList.contains('omni-sidebar--open')");
+  await evaluate("(() => { const aside = document.querySelector('#shell-sidebar'); aside.style.height = '110px'; aside.style.maxHeight = '110px'; })()");
+  await waitFor('un menu qui déborde', "(() => { const view = document.querySelector('#shell-sidebar .omni-sidebar__viewport'); return view.scrollHeight - view.clientHeight > 20; })()");
+  await drive('menu latéral', { strip: '#shell-sidebar .omni-sidebar__scroller', viewport: '.omni-sidebar__viewport', start: '.omni-sidebar__scroll--start', end: '.omni-sidebar__scroll--end' }, true);
+  await evaluate("(() => { const aside = document.querySelector('#shell-sidebar'); aside.style.height = ''; aside.style.maxHeight = ''; })()");
   step('menu latéral : chevrons posés sur le menu, ni taille ni contenu qui bougent, butée à marge');
 
   // 4. A click on a chevron still scrolls by about a page, and the strip stays whole.

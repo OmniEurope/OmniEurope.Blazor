@@ -33,4 +33,13 @@ public partial class PageShellExample
     /// <summary>The surface of the header: the page colour or the accent band.</summary>
     [Parameter]
     public OmniHeaderSurface Surface { get; set; } = OmniHeaderSurface.Surface;
+
+    private bool? SplashFound { get; set; }
+
+    private string SplashStatus => SplashFound switch
+    {
+        null => "Looking for a startup splash...",
+        true => "The startup splash was found and removed.",
+        false => "No startup splash on this page: nothing to remove."
+    };
 }

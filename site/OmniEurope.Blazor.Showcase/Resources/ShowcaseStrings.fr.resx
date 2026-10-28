@@ -118,12 +118,6 @@
   <data name="DemoLayoutTitle" xml:space="preserve"><value>Mise en page</value></data>
   <data name="DemoLayoutSummary" xml:space="preserve"><value>La grille de tuiles.</value></data>
   <data name="DemoLayoutCapability5" xml:space="preserve"><value>Une grille de tuiles : mêmes largeurs, une seule hauteur par rangée et une tuile double qui occupe deux colonnes.</value></data>
-  <data name="DemoShellTitle" xml:space="preserve"><value>Coquille applicative</value></data>
-  <data name="DemoShellSummary" xml:space="preserve"><value>L'ossature d'une application, celle dont ce site est fait.</value></data>
-  <data name="DemoShellCapability1" xml:space="preserve"><value>Entête, barre latérale repliable et zone principale.</value></data>
-  <data name="DemoShellCapability2" xml:space="preserve"><value>Menu de navigation à groupes dépliables.</value></data>
-  <data name="DemoShellCapability3" xml:space="preserve"><value>Bascule d'apparence et portée de thème locale.</value></data>
-  <data name="DemoShellCapability4" xml:space="preserve"><value>Les deux arrangements : colonne de lecture centrée ou pleine largeur, menu à gauche ou à droite.</value></data>
   <data name="DemoInputsTitle" xml:space="preserve"><value>Saisie avancée</value></data>
   <data name="DemoInputsSummary" xml:space="preserve"><value>Nombres, mots de passe, dates, heures, couleurs et autocomplétion.</value></data>
   <data name="DemoInputsCapability3" xml:space="preserve"><value>Autocomplétion asynchrone, temporisée et à longueur minimale.</value></data>
@@ -186,14 +180,6 @@
   <data name="DemoPlanningCapability1" xml:space="preserve"><value>Gantt au jour, à la semaine ou au mois, avec groupes, dépendances et aujourd'hui.</value></data>
   <data name="DemoPlanningCapability2" xml:space="preserve"><value>Déroulement d'étapes sur une échelle de temps, avec les étapes jamais démarrées.</value></data>
   <data name="DemoPlanningCapability3" xml:space="preserve"><value>Frise à droite, à gauche ou alternée, en choisissant le premier côté.</value></data>
-  <data name="DemoPagesTitle" xml:space="preserve"><value>Pages</value></data>
-  <data name="DemoPagesSummary" xml:space="preserve"><value>L'en-tête, la fiche détaillée et ce qui la remplit.</value></data>
-  <data name="DemoPagesIconsTitle" xml:space="preserve"><value>Icônes</value></data>
-  <data name="DemoPagesIconsSummary" xml:space="preserve"><value>Les tailles, les noms accessibles et tout le catalogue.</value></data>
-  <data name="DemoPagesCapability1" xml:space="preserve"><value>En-tête de page : fil d'Ariane tenu par un service, retour, titre, badges et actions repliés sur téléphone.</value></data>
-  <data name="DemoPagesCapability2" xml:space="preserve"><value>Fiche détaillée : en-tête peint avant l'arrivée des données, contenu masqué au chargement, état introuvable avec retour.</value></data>
-  <data name="DemoPagesCapability3" xml:space="preserve"><value>Liste de définitions en colonnes, avec une action par valeur.</value></data>
-  <data name="DemoPagesCapability4" xml:space="preserve"><value>Date relative avec la date exacte au survol et au focus, et état vide avec son action.</value></data>
   <data name="DemoFlowsTitle" xml:space="preserve"><value>Parcours</value></data>
   <data name="DemoFlowsSummary" xml:space="preserve"><value>Assistant, connexion et perte de connexion.</value></data>
   <data name="DemoFlowsCapability1" xml:space="preserve"><value>Assistant à étapes : progression, validation par étape, dans une page ou un dialogue.</value></data>
@@ -273,11 +259,6 @@
   <data name="ContrastPair45" xml:space="preserve"><value>échec plein / surface</value></data>
   <data name="ContrastPair46" xml:space="preserve"><value>accent / surface</value></data>
   <data name="ContrastPair47" xml:space="preserve"><value>bordure / surface (plancher OE 1,7)</value></data>
-  <data name="DemoAppShellTitle" xml:space="preserve"><value>Coquille d'application</value></data>
-  <data name="DemoAppShellSummary" xml:space="preserve"><value>Barre supérieure, menu latéral qui se replie en rail d'icônes, contenu.</value></data>
-  <data name="DemoAppShellCapability1" xml:space="preserve"><value>Bouton de repli, recherche, aide, cloche à pastille et menu de compte fermé au repos.</value></data>
-  <data name="DemoAppShellCapability2" xml:space="preserve"><value>Le menu latéral garde ses icônes une fois replié (Collapse Icons).</value></data>
-  <data name="DemoAppShellCapability3" xml:space="preserve"><value>La pastille, la loupe, le logo et l'avatar sont dessinés par la vitrine : le paquet n'a pas de composant pour eux.</value></data>
   <data name="DemoSurfacesTitle" xml:space="preserve"><value>Surfaces</value></data>
   <data name="DemoSurfacesSummary" xml:space="preserve"><value>Cartes, menu flottant, onglets, menu latéral, lien et infobulle.</value></data>
   <data name="DemoSurfacesCapability1" xml:space="preserve"><value>Les cartes et le menu flottant lisent la forme du thème : fond, filet, rayon et ombre.</value></data>
@@ -380,68 +361,8 @@
   <data name="SettingsDigest" xml:space="preserve"><value>Résumé quotidien</value></data>
   <data name="SettingsDigestHint" xml:space="preserve"><value>Envoyé chaque matin à 8 h.</value></data>
   <data name="SettingsDigestAddress" xml:space="preserve"><value>Adresse du résumé</value></data>
-  <data name="DemoShellDashboard" xml:space="preserve"><value>Tableau de bord</value></data>
-  <data name="DemoShellInProgress" xml:space="preserve"><value>En cours</value></data>
-  <data name="DemoShellArchived" xml:space="preserve"><value>Archivés</value></data>
-  <data name="DemoShellSettings" xml:space="preserve"><value>Réglages</value></data>
-  <data name="DemoShellOneOffAction" xml:space="preserve"><value>Action ponctuelle</value></data>
-  <data name="DemoShellToggleMenu" xml:space="preserve"><value>Afficher ou masquer le menu</value></data>
-  <data name="DemoShellAppName" xml:space="preserve"><value>Mon application</value></data>
-  <data name="DemoShellChangeAppearance" xml:space="preserve"><value>Changer l'apparence</value></data>
-  <data name="DemoShellMenu" xml:space="preserve"><value>Menu de la démonstration</value></data>
-  <data name="DemoShellSections" xml:space="preserve"><value>Sections</value></data>
-  <data name="DemoShellFolders" xml:space="preserve"><value>Dossiers</value></data>
-  <data name="DemoShellMainContent" xml:space="preserve"><value>Contenu principal</value></data>
-  <data name="DemoShellAppearanceDark" xml:space="preserve"><value>L'apparence retenue ici est sombre.</value></data>
-  <data name="DemoShellAppearanceLight" xml:space="preserve"><value>L'apparence retenue ici est claire.</value></data>
-  <data name="DemoShellConsole" xml:space="preserve"><value>Console d'exploitation</value></data>
-  <data name="DemoShellSecondaryMenu" xml:space="preserve"><value>Menu secondaire</value></data>
-  <data name="DemoShellTools" xml:space="preserve"><value>Outils</value></data>
-  <data name="DemoShellLogs" xml:space="preserve"><value>Journaux</value></data>
-  <data name="DemoShellWideView" xml:space="preserve"><value>Vue large</value></data>
-  <data name="DemoShellWideText" xml:space="preserve"><value>La zone de contenu court d'un bord à l'autre, plafonnée à la largeur large (90 rem) sans colonne de lecture étroite.</value></data>
-  <data name="DemoShellToggleFloatingMenu" xml:space="preserve"><value>Afficher ou masquer le menu flottant</value></data>
-  <data name="DemoShellFloatingMenu" xml:space="preserve"><value>Menu flottant</value></data>
-  <data name="DemoShellFloatingMenuLabel" xml:space="preserve"><value>Menu flottant de la démonstration</value></data>
-  <data name="DemoShellFilters" xml:space="preserve"><value>Filtres</value></data>
-  <data name="DemoShellContent" xml:space="preserve"><value>Contenu</value></data>
-  <data name="DemoShellFloatingText" xml:space="preserve"><value>Ouvrir le menu ne décale pas ce texte : le panneau passe par-dessus.</value></data>
-  <data name="DemoShellScrollTitle" xml:space="preserve"><value>Contenu centré, défilement au bord</value></data>
-  <data name="DemoShellScrollMenu" xml:space="preserve"><value>Menu de la démonstration défilante</value></data>
-  <data name="DemoShellReadingColumn" xml:space="preserve"><value>Colonne de lecture</value></data>
-  <data name="DemoShellScroll1" xml:space="preserve"><value>La colonne est plafonnée à 72rem et centrée ; le reste de la largeur appartient encore à l'élément principal.</value></data>
-  <data name="DemoShellScroll2" xml:space="preserve"><value>C'est donc lui qui défile, sur toute la largeur de la zone : sa barre se tient au bord droit du cadre.</value></data>
-  <data name="DemoShellScroll3" xml:space="preserve"><value>Un enfant à 100 % de hauteur remplirait exactement la zone ; un contenu plus haut la fait défiler.</value></data>
-  <data name="DemoShellScroll4" xml:space="preserve"><value>La marge du bas reste acquise à la fin du défilement.</value></data>
-  <data name="DemoShellScroll5" xml:space="preserve"><value>Réduire la fenêtre ramène la colonne à la largeur disponible, gouttière comprise.</value></data>
-  <data name="DemoShellSplashChecking" xml:space="preserve"><value>Vérification de l'écran de démarrage</value></data>
-  <data name="DemoShellSplashRemoved" xml:space="preserve"><value>Écran de démarrage retiré</value></data>
-  <data name="DemoShellSplashAbsent" xml:space="preserve"><value>Aucun écran de démarrage dans cette démonstration</value></data>
-  <data name="ShellToggle" xml:space="preserve"><value>Replier ou déplier le menu</value></data>
-  <data name="ShellLogo" xml:space="preserve"><value>Ae</value></data>
-  <data name="ShellBrand" xml:space="preserve"><value>Boutique</value></data>
-  <data name="ShellSearch" xml:space="preserve"><value>Rechercher</value></data>
-  <data name="ShellSearchPlaceholder" xml:space="preserve"><value>Rechercher un pipeline</value></data>
-  <data name="ShellHelp" xml:space="preserve"><value>Aide</value></data>
-  <data name="ShellNotifications" xml:space="preserve"><value>Notifications, {0} non lues</value></data>
-  <data name="ShellAccount" xml:space="preserve"><value>Compte</value></data>
-  <data name="ShellSettings" xml:space="preserve"><value>Paramètres</value></data>
   <data name="ShellSettingsHint" xml:space="preserve"><value>Thème, langue, notifications</value></data>
-  <data name="ShellAppearance" xml:space="preserve"><value>Apparence</value></data>
   <data name="ShellAppearanceHint" xml:space="preserve"><value>Clair, sombre ou système</value></data>
-  <data name="ShellSignOut" xml:space="preserve"><value>Se déconnecter</value></data>
-  <data name="ShellMenu" xml:space="preserve"><value>Menu principal</value></data>
-  <data name="ShellDashboard" xml:space="preserve"><value>Tableau de bord</value></data>
-  <data name="ShellPipelines" xml:space="preserve"><value>Pipelines</value></data>
-  <data name="ShellServers" xml:space="preserve"><value>Serveurs</value></data>
-  <data name="ShellProjects" xml:space="preserve"><value>Projets</value></data>
-  <data name="ShellHelpCenter" xml:space="preserve"><value>Centre d'aide</value></data>
-  <data name="ShellAdministration" xml:space="preserve"><value>Administration</value></data>
-  <data name="ShellServersOnline" xml:space="preserve"><value>Serveur en ligne</value></data>
-  <data name="ShellAppsTracked" xml:space="preserve"><value>Applications suivies</value></data>
-  <data name="ShellPipelinesRunning" xml:space="preserve"><value>Pipelines en cours</value></data>
-  <data name="ShellLoading" xml:space="preserve"><value>Chargement du tableau de bord</value></data>
-  <data name="ShellLastAction" xml:space="preserve"><value>Dernière action : {0}</value></data>
   <data name="SurfAccount" xml:space="preserve"><value>Compte</value></data>
   <data name="SurfPerson" xml:space="preserve"><value>Camille Durand</value></data>
   <data name="SurfPersonRole" xml:space="preserve"><value>Administratrice, OmniEurope</value></data>
@@ -720,9 +641,6 @@
   <data name="DemoTypographyExternalLink" xml:space="preserve"><value>Lien externe</value></data>
   <data name="DemoTypographyLevelHeading" xml:space="preserve"><value>Titre de niveau {0}</value></data>
   <data name="DemoThemesAppearanceWindow" xml:space="preserve"><value>Fenêtre d'apparence</value></data>
-  <data name="DemoAppShellMinimize" xml:space="preserve"><value>Réduire la fenêtre</value></data>
-  <data name="DemoAppShellMaximize" xml:space="preserve"><value>Agrandir ou restaurer la fenêtre</value></data>
-  <data name="DemoAppShellClose" xml:space="preserve"><value>Fermer la fenêtre</value></data>
   <data name="DemoNavigationBreadcrumb" xml:space="preserve"><value>Fil d'Ariane</value></data>
   <data name="DemoNavigationHome" xml:space="preserve"><value>Accueil</value></data>
   <data name="DemoNavigationComponents" xml:space="preserve"><value>Composants</value></data>
@@ -741,39 +659,11 @@
   <data name="DemoNavigationDecision" xml:space="preserve"><value>Décision</value></data>
   <data name="DemoNavigationDecisionText" xml:space="preserve"><value>La décision sera notifiée par courrier.</value></data>
   <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Le dossier compte {0} pièces.</value></data>
-  <data name="DemoPagesReload" xml:space="preserve"><value>Recharger la fiche</value></data>
-  <data name="DemoPagesRerun" xml:space="preserve"><value>Relancer</value></data>
-  <data name="DemoPagesPipelineRun" xml:space="preserve"><value>Exécution du pipeline #{0}</value></data>
-  <data name="DemoPagesMissing" xml:space="preserve"><value>Fiche introuvable</value></data>
-  <data name="DemoPagesNotFound" xml:space="preserve"><value>La fiche demandée a été retirée ou n'a jamais existé.</value></data>
-  <data name="DemoPagesSubtitle" xml:space="preserve"><value>Machine virtuelle de la zone Paris.</value></data>
-  <data name="DemoPagesOnline" xml:space="preserve"><value>En ligne</value></data>
-  <data name="DemoPagesEdit" xml:space="preserve"><value>Modifier</value></data>
-  <data name="DemoPagesRemove" xml:space="preserve"><value>Retirer</value></data>
-  <data name="DemoPagesDuplicate" xml:space="preserve"><value>Dupliquer</value></data>
-  <data name="DemoPagesArchive" xml:space="preserve"><value>Archiver</value></data>
-  <data name="DemoPagesProduction" xml:space="preserve"><value>Production</value></data>
-  <data name="DemoPagesName" xml:space="preserve"><value>Nom</value></data>
-  <data name="DemoPagesSystem" xml:space="preserve"><value>Système</value></data>
-  <data name="DemoPagesIpAddress" xml:space="preserve"><value>Adresse IP</value></data>
-  <data name="DemoPagesToken" xml:space="preserve"><value>Jeton d'accès</value></data>
-  <data name="DemoPagesLastSignal" xml:space="preserve"><value>Dernier signal</value></data>
-  <data name="DemoPagesCertificate" xml:space="preserve"><value>Certificat</value></data>
-  <data name="DemoPagesNoBackup" xml:space="preserve"><value>Aucune sauvegarde</value></data>
-  <data name="DemoPagesNoBackupText" xml:space="preserve"><value>Les sauvegardes planifiées apparaîtront ici après leur première exécution.</value></data>
-  <data name="DemoPagesSchedule" xml:space="preserve"><value>Planifier</value></data>
-  <data name="DemoPagesNoResult" xml:space="preserve"><value>Aucun résultat</value></data>
-  <data name="DemoPagesNoResultText" xml:space="preserve"><value>Aucun serveur ne correspond au filtre.</value></data>
-  <data name="DemoPagesHideToken" xml:space="preserve"><value>Masquer le jeton</value></data>
-  <data name="DemoPagesShowToken" xml:space="preserve"><value>Afficher le jeton</value></data>
   <data name="DemoPagesTokensValue" xml:space="preserve"><value>{0:N1} k</value></data>
   <data name="DemoPagesTokensToday" xml:space="preserve"><value>Tokens aujourd'hui</value></data>
   <data name="DemoPagesTokensReset" xml:space="preserve"><value>Réinitialisation à {0:t}</value></data>
   <data name="DemoPagesWeekly" xml:space="preserve"><value>Hebdomadaire</value></data>
   <data name="DemoPagesGain" xml:space="preserve"><value>Plus-value des placements</value></data>
-  <data name="DemoPagesCrumbComponents" xml:space="preserve"><value>Composants</value></data>
-  <data name="DemoPagesCrumbServers" xml:space="preserve"><value>Serveurs</value></data>
-  <data name="DemoPagesCrumbServer" xml:space="preserve"><value>Serveur</value></data>
   <data name="DemoBadgesNeutral" xml:space="preserve"><value>Neutre</value></data>
   <data name="DemoBadgesAccent" xml:space="preserve"><value>Accent</value></data>
   <data name="DemoBadgesInfo" xml:space="preserve"><value>Information</value></data>

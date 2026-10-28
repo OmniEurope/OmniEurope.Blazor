@@ -215,6 +215,14 @@
   <data name="PageShellWidthContent" xml:space="preserve"><value>Contenu</value></data>
   <data name="PageShellApplicationTitle" xml:space="preserve"><value>Coquille d'application</value></data>
   <data name="PageShellApplicationDescription" xml:space="preserve"><value>Une coquille d'application complète : barre supérieure avec bouton de repli, recherche, aide, cloche et menu de compte, menu latéral qui se replie en rail d'icônes, et le contenu. Le menu se contente de marquer la section choisie.</value></data>
+  <data name="PageShellSidebarTitle" xml:space="preserve"><value>Menu latéral qui pousse le contenu</value></data>
+  <data name="PageShellSidebarDescription" xml:space="preserve"><value>Un lien d'évitement, un en-tête avec le bouton du menu et un bouton d'apparence, et un menu latéral qui pousse le contenu. La portée de thème garde un instantané de son aspect qu'un script de démarrage peut rejouer.</value></data>
+  <data name="PageShellEndSidebarTitle" xml:space="preserve"><value>Pleine largeur, menu à la fin</value></data>
+  <data name="PageShellEndSidebarDescription" xml:space="preserve"><value>La même coquille dans l'autre arrangement : pleine largeur, menu à la fin, densité aérée, une apparence qui suit le réglage du système et l'en-tête en bandeau d'accent.</value></data>
+  <data name="PageShellRailTitle" xml:space="preserve"><value>Menu flottant et rail d'icônes</value></data>
+  <data name="PageShellRailDescription" xml:space="preserve"><value>Le menu flotte au-dessus du contenu, qui garde sa largeur, et laisse un rail d'icônes une fois fermé ; un clic sur le voile le referme.</value></data>
+  <data name="PageShellTabsTitle" xml:space="preserve"><value>Onglets qui défilent dans un cadre</value></data>
+  <data name="PageShellTabsDescription" xml:space="preserve"><value>Des onglets dans un cadre de hauteur fixe : seul le panneau choisi défile (ScrollablePanels), et la molette tournée n'importe où dans le cadre, sur la barre d'onglets comprise, le fait défiler (WheelScrollScope).</value></data>
   <data name="DetailsTitle" xml:space="preserve"><value>Fiches</value></data>
   <data name="DetailsDescription" xml:space="preserve"><value>La page d'une fiche : un en-tête avec bouton retour, titre, badges, actions et menu, les états de chargement, trouvée et introuvable, des valeurs libellées en colonnes, le temps relatif et les états vides.</value></data>
   <data name="DetailsSettingsTitle" xml:space="preserve"><value>Page de fiche</value></data>

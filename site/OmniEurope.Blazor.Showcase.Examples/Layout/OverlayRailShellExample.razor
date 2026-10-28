@@ -1,0 +1,29 @@
+@* The menu floats over the content, which keeps its width, and leaves a rail of icons once closed; a click on
+   the veil closes it again. *@
+<OmniThemeScope Appearance="OmniAppearance.Light" Density="OmniDensity.Compact">
+    <OmniLayout>
+        <OmniHeader>
+            <OmniSidebarToggle Open="Open" OpenChanged="@(value => Open = value)"
+                               Controls="shell-rail" Reveal="OmniSidebarReveal.Overlay" Label="Show or hide the floating menu" />
+            <OmniHeading Level="OmniHeadingLevel.H4">Floating menu</OmniHeading>
+        </OmniHeader>
+        <OmniBody>
+            <OmniSidebar Id="shell-rail" Open="Open" OpenChanged="@(value => Open = value)"
+                         Reveal="OmniSidebarReveal.Overlay" Collapse="OmniSidebarCollapse.Icons" Backdrop="true"
+                         Label="Floating menu">
+                <OmniPanelMenu Label="Sections" Display="OmniPanelMenuDisplay.IconAndText" Density="OmniDensity.Spacious">
+                    <OmniPanelMenuItem Text="Logs" Href="components/page-shell" Match="OmniNavMatch.Exact">
+                        <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
+                    </OmniPanelMenuItem>
+                    <OmniPanelMenuItem Text="Filters" Match="OmniNavMatch.None">
+                        <Icon><OmniIcon Name="OmniIconName.Filter" /></Icon>
+                    </OmniPanelMenuItem>
+                </OmniPanelMenu>
+            </OmniSidebar>
+            <OmniMain ContentWidth="OmniLayoutWidth.Content" AriaLabelledBy="shell-rail-title">
+                <OmniHeading Id="shell-rail-title" Level="OmniHeadingLevel.H5">Content</OmniHeading>
+                <OmniText Element="OmniTextElement.Paragraph">Open the menu: it floats over this text instead of pushing it.</OmniText>
+            </OmniMain>
+        </OmniBody>
+    </OmniLayout>
+</OmniThemeScope>

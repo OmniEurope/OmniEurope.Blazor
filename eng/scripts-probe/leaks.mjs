@@ -29,8 +29,8 @@ export async function leakSteps(session, results) {
     ['/components/legacy/arborescence', '#demo-tree-accounts', async () => {}],
     ['/components/legacy/agenda', '.omni-scheduler', async () => {}],
     ['/components/legacy/diagramme', '#demo-mindmap-canvas', async () => {}],
-    ['/components/legacy/pages', '#pages-demo-shell', async () => {}],
-    ['/components/legacy/coquille', '#shell-demo-sidebar', async () => {}],
+    ['/components/details', '#details-shell', async () => {}],
+    ['/components/page-shell', '#shell-sidebar', async () => {}],
     ['/components/multi-select', '#multiselect-compact', async () => {
       await clickOn('#multiselect-compact > summary');
       await waitFor('le choix compact ouvert', "document.getElementById('multiselect-compact').open");

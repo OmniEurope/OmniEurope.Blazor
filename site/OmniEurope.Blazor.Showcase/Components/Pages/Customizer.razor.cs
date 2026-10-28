@@ -6,6 +6,7 @@ using OmniEurope.Blazor.Showcase.Examples.Actions;
 using OmniEurope.Blazor.Showcase.Examples.Feedback;
 using OmniEurope.Blazor.Showcase.Examples.Foundations;
 using OmniEurope.Blazor.Showcase.Examples.Forms;
+using OmniEurope.Blazor.Showcase.Examples.Layout;
 using OmniEurope.Blazor.Showcase.Resources;
 using OmniEurope.Blazor.Showcase.Resources.Gallery;
 using OmniEurope.Blazor.Showcase.Theming;
@@ -32,7 +33,7 @@ public partial class Customizer : IDisposable
         Legacy("formulaire-vertical"),
         Legacy("notifications"),
         Legacy("grilles-maquette"),
-        Legacy("coquille-application")
+        new("application-shell", typeof(LayoutStrings), "PageShellApplicationTitle", typeof(ApplicationShellExample))
     ];
 
     [Inject]

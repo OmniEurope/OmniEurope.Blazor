@@ -167,7 +167,6 @@
 .demo-grid-fit-box { max-inline-size: 22rem; }
 /* Le cadre des grilles à la largeur de leur contenu : il ne dépasse jamais la page, et la sonde en fixe la largeur (900 puis 600 px) pour voir les colonnes se resserrer avant le défilement. */
 .demo-grid-sizing-box { max-inline-size: 100%; min-inline-size: 0; }
-.demo-tabs-scope { block-size: 13rem; border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: flex; flex-direction: column; padding: var(--omni-space-sm); }
 .demo-list-scroll { border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); max-block-size: 16rem; overflow-y: auto; padding: var(--omni-space-sm); }
 
 /* La page de connexion en miniature : un fond discret la détache du reste de la démonstration. */
@@ -255,6 +254,7 @@
 .demo-surfaces-row { align-items: start; display: grid; gap: var(--omni-space-lg); grid-template-columns: minmax(12rem, 16rem) minmax(0, 1fr); }
 @media (max-width: 36rem) { .demo-surfaces-row { grid-template-columns: minmax(0, 1fr); } }
 .demo-menu-item { align-items: center; display: flex; gap: var(--omni-space-sm); }
+.demo-menu-item small { color: var(--omni-color-text-muted); display: block; font-size: var(--omni-font-size-sm); }
 /* Scheduler demo: an appointment the host marks apart through OmniSchedulerAppointment.CssClass. */
 .omni-scheduler__appointment.showcase-appointment--decision { background: var(--omni-color-warning-subtle); }
 
@@ -348,4 +348,106 @@
 /* Rows and columns page: a row that does not wrap overflows, so its example sits in a strip that scrolls. */
 .gallery-rows-clip {
     overflow-x: auto;
+}
+
+/* Page shell page: the miniature scrolls inside its frame, a sticky header sticks to it, and the wide canvas
+   scrolls sideways so the three content widths can be told apart. The rules reach the example by its own
+   layout classes, so the example itself carries no showcase class. */
+.gallery-shell-markup {
+    color: var(--omni-color-text-muted);
+    font-size: var(--omni-font-size-sm);
+    overflow-wrap: anywhere;
+}
+
+.gallery-shell-viewport {
+    block-size: 18rem;
+    border: var(--omni-border-width) solid var(--omni-color-border);
+    border-radius: var(--omni-radius);
+    overflow: auto;
+}
+
+.gallery-shell-viewport--short {
+    block-size: auto;
+    max-block-size: 12rem;
+}
+
+.gallery-shell-canvas {
+    background: var(--omni-color-surface-muted);
+    min-block-size: 100%;
+}
+
+.gallery-shell-canvas--wide {
+    inline-size: 100rem;
+}
+
+/* With its own scrolling the miniature takes the height of the frame and its main area is what scrolls. */
+.gallery-shell-canvas--fill,
+.gallery-shell-canvas--fill > .omni-layout {
+    block-size: 100%;
+}
+
+.gallery-shell-viewport--short:has(.gallery-shell-canvas--fill) {
+    block-size: 12rem;
+}
+
+.gallery-shell-canvas > .omni-layout {
+    background: var(--omni-color-surface);
+    outline: var(--omni-border-width) dashed var(--omni-color-accent);
+    outline-offset: -0.0625rem;
+}
+
+.gallery-shell-canvas .omni-header {
+    align-items: center;
+    border-block-end: var(--omni-border-width) solid var(--omni-color-border);
+    display: flex;
+    gap: var(--omni-space-sm);
+    padding: var(--omni-space-sm) var(--omni-space-md);
+}
+
+.gallery-shell-canvas .omni-header .omni-heading {
+    flex: 1 1 auto;
+    margin: 0;
+}
+
+.gallery-shell-canvas .omni-main {
+    flex: 1 1 auto;
+}
+
+/* A main area that scrolls by itself takes its margin from the package, which also centres the column. */
+.gallery-shell-canvas .omni-main:not(.omni-main--scrollable) {
+    padding: var(--omni-space-md);
+}
+
+.gallery-shell-canvas .omni-main .omni-heading {
+    margin-block-start: 0;
+}
+
+/* The text columns are tinted to show the width of the column. */
+.gallery-shell-canvas .omni-main p {
+    background: color-mix(in srgb, var(--omni-color-accent) 8%, transparent);
+}
+
+/* Tabs in a frame of fixed height: only the selected panel scrolls. */
+.gallery-shell-tabs {
+    block-size: 13rem;
+    border: var(--omni-border-width) solid var(--omni-color-border);
+    border-radius: var(--omni-radius);
+    display: flex;
+    flex-direction: column;
+    padding: var(--omni-space-sm);
+}
+
+/* A whole application shell in its frame. */
+.gallery-shell-app {
+    border: var(--omni-border-width) solid var(--omni-color-border);
+    border-radius: var(--omni-radius);
+    overflow: hidden;
+}
+
+.gallery-shell-app .omni-main {
+    align-content: start;
+    display: grid;
+    flex: 1 1 auto;
+    gap: var(--omni-space-md);
+    padding: var(--omni-section-pad);
 }

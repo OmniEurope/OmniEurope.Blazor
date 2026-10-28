@@ -215,6 +215,14 @@
   <data name="PageShellWidthContent" xml:space="preserve"><value>Content</value></data>
   <data name="PageShellApplicationTitle" xml:space="preserve"><value>Application shell</value></data>
   <data name="PageShellApplicationDescription" xml:space="preserve"><value>A whole application shell: a top bar with a collapse button, search, help, a bell and the account menu, a side menu that collapses to a rail of icons, and the content. The menu only marks the section chosen.</value></data>
+  <data name="PageShellSidebarTitle" xml:space="preserve"><value>Side menu pushing the content</value></data>
+  <data name="PageShellSidebarDescription" xml:space="preserve"><value>A skip link, a header with the menu toggle and an appearance button, and a side menu that pushes the content. The theme scope keeps a snapshot of its look that a startup script can replay.</value></data>
+  <data name="PageShellEndSidebarTitle" xml:space="preserve"><value>Full width, menu at the end</value></data>
+  <data name="PageShellEndSidebarDescription" xml:space="preserve"><value>The same shell in the other arrangement: full width, the menu at the end, a roomy density, an appearance that follows the system setting and the header drawn as an accent band.</value></data>
+  <data name="PageShellRailTitle" xml:space="preserve"><value>Floating menu and icon rail</value></data>
+  <data name="PageShellRailDescription" xml:space="preserve"><value>The menu floats over the content, which keeps its width, and leaves a rail of icons once closed; a click on the veil closes it.</value></data>
+  <data name="PageShellTabsTitle" xml:space="preserve"><value>Tabs scrolling inside a frame</value></data>
+  <data name="PageShellTabsDescription" xml:space="preserve"><value>Tabs in a frame of fixed height: only the selected panel scrolls (ScrollablePanels), and a wheel turn anywhere in the frame, the tab strip included, scrolls it (WheelScrollScope).</value></data>
   <data name="DetailsTitle" xml:space="preserve"><value>Details</value></data>
   <data name="DetailsDescription" xml:space="preserve"><value>The page of one record: a header with back button, title, badges, actions and menu, the loading, found and not-found states, labelled values in columns, relative time and empty states.</value></data>
   <data name="DetailsSettingsTitle" xml:space="preserve"><value>Detail page</value></data>

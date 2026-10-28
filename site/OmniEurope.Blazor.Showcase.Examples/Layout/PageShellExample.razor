@@ -21,4 +21,5 @@
 </OmniLayout>
 
 @* A host-owned startup splash sits outside Blazor's root; here none exists, which is the safe absence path. *@
-<OmniBootSplash SplashId="page-shell-absent-splash" />
+<OmniBootSplash SplashId="page-shell-absent-splash" OnHide="@(found => SplashFound = found)" />
+<OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@SplashStatus</OmniText>

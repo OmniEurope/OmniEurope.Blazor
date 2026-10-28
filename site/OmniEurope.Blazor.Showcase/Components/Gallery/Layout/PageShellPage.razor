@@ -98,6 +98,41 @@
             </ChildContent>
         </OmniCard>
 
+        @* The side menu in its arrangements: pushing the content, at the end of a full-width shell, and floating over it. *@
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["PageShellSidebarTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["PageShellSidebarDescription"]</OmniText>
+                <SidebarShellExample />
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["PageShellEndSidebarTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["PageShellEndSidebarDescription"]</OmniText>
+                <EndSidebarShellExample />
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["PageShellRailTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["PageShellRailDescription"]</OmniText>
+                <OverlayRailShellExample />
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["PageShellTabsTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["PageShellTabsDescription"]</OmniText>
+                <div id="page-shell-tabs-scope" class="gallery-shell-tabs">
+                    <ScrollingTabsExample WheelScope="#page-shell-tabs-scope" />
+                </div>
+            </ChildContent>
+        </OmniCard>
+
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["PageShellApplicationTitle"]</HeaderContent>
             <ChildContent>
