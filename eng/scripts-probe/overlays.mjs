@@ -244,7 +244,7 @@ export async function overlaySteps(session, results) {
 
   // The pinned actions of the page header, with the markup of a pipeline run page (icon, back button,
   // two badges, a split button in the actions, a "⋮" menu of four entries, a pinned "Run again"): on a
-  // phone the pinned button is in sight without any click, on a row of its own under line 1 and flush
+  // phone the pinned button is in sight without any click, on a row of its own under line 2 (the subtitle, R-26) and flush
   // with the inline end of the header, and the "⋮" trigger stays on line 1 at the end of the title row,
   // whether "Show more" is closed or open (recette R-30, R-31, R-40).
   const pinnedBox = `(() => {
@@ -262,7 +262,8 @@ export async function overlaySteps(session, results) {
     const pinned = document.getElementById('details-pinned-relaunch');
     const trigger = header.querySelector('.omni-page-header__menu .omni-overflow-menu__trigger');
     const toggle = header.querySelector('.omni-page-header__toggle');
-    return { viewport: innerWidth, row: rowBox, back: rect(back), title: rect(title), pinned: rect(pinned), pinnedShown: pinned.getClientRects().length > 0, trigger: rect(trigger), toggleShown: toggle.getClientRects().length > 0, expanded: toggle.getAttribute('aria-expanded') };
+    const trail = header.querySelector('.omni-page-header__trail');
+    return { viewport: innerWidth, row: rowBox, back: rect(back), title: rect(title), trail: rect(trail), trailText: trail.innerText.trim(), pinned: rect(pinned), pinnedShown: pinned.getClientRects().length > 0, trigger: rect(trigger), toggleShown: toggle.getClientRects().length > 0, expanded: toggle.getAttribute('aria-expanded') };
   })()`;
   for (const width of [375, 320]) {
     await send('Emulation.setDeviceMetricsOverride', { width, height: 812, deviceScaleFactor: 1, mobile: true });
@@ -283,6 +284,7 @@ export async function overlaySteps(session, results) {
       check(box.pinnedShown && box.pinned.width > 0 && box.pinned.left >= 0 && box.pinned.right <= box.viewport, `Le bouton épinglé n'est pas visible sans clic ${where} : ${JSON.stringify(box.pinned)}.`);
       check(Math.abs(box.pinned.right - box.row.right) <= 1, `Le bouton épinglé n'est pas aligné à la fin de l'en-tête ${where} : ${box.pinned.right} contre ${box.row.right}.`);
       check(box.pinned.top >= box.trigger.bottom - 1, `Le bouton épinglé n'est pas sous la ligne 1 ${where} : ${box.pinned.top} contre ${box.trigger.bottom}.`);
+      check(box.trailText.length > 0 && box.trail.top >= box.trigger.bottom - 1 && box.pinned.top >= box.trail.bottom - 1, `La ligne 2 ne passe pas entre le titre et le bouton épinglé ${where} : ${JSON.stringify({ trigger: box.trigger, trail: box.trail, trailText: box.trailText, pinned: box.pinned })}.`);
       check(Math.abs(box.trigger.top - box.back.top) <= 2 && box.trigger.top < box.pinned.top, `Le menu ⋮ n'est pas sur la ligne du titre ${where} : ${box.trigger.top} contre ${box.back.top}.`);
       check(box.trigger.left >= box.title.right - 1 && Math.abs(box.trigger.right - box.row.right) <= 1, `Le menu ⋮ n'est pas à l'extrémité de la ligne du titre ${where} : ${JSON.stringify({ trigger: box.trigger, title: box.title, row: box.row })}.`);
     }
@@ -290,7 +292,7 @@ export async function overlaySteps(session, results) {
     await clickOn('#details-pinned .omni-page-header__toggle');
   }
 
-  step('actions épinglées de l\'en-tête visibles sans clic sous la ligne 1 et menu ⋮ au bout de la ligne du titre à 375 et 320 px, « Voir plus » fermé et ouvert');
+  step('actions épinglées de l\'en-tête visibles sans clic sous la ligne 2 et menu ⋮ au bout de la ligne du titre à 375 et 320 px, « Voir plus » fermé et ouvert');
   await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
   await pause(300);
 
