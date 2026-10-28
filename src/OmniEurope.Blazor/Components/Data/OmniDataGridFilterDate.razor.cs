@@ -36,6 +36,7 @@ public partial class OmniDataGridFilterDate
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
+        base.OnParametersSet();
         if (string.Equals(Value, _synced, StringComparison.Ordinal))
         {
             return;
