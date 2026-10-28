@@ -5,10 +5,14 @@
 .omni-tabs { display: flex; flex-direction: column; min-block-size: 0; }
 /* The strip closes on a rule: without it the selected tab's underline floated with nothing to sit
    on, and the panel below started at no particular place. */
+/* The strip clips sideways what passes its edges, the viewport's ring room included, still painting that
+   room: a tab row against the window's edge no longer widens the page. */
 .omni-tabs__strip {
     align-items: center;
     border-block-end: var(--omni-border-width) solid var(--omni-color-border);
     display: flex;
+    overflow-clip-margin: 0.25rem;
+    overflow-x: clip;
     position: relative;
 }
 /* The padding, given back by a negative margin, leaves room for the focus ring of a tab that the

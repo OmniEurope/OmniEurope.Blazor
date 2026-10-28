@@ -26,7 +26,7 @@ public partial class Customizer : IDisposable
     [
         new("loading", typeof(FeedbackStrings), "ProgressLoadingTitle", typeof(LoadingOverviewExample)),
         new("buttons", typeof(ActionsStrings), "ButtonsTitle", typeof(ButtonsExample)),
-        new("button-states", typeof(ActionsStrings), "ButtonsStatesTitle", typeof(ButtonStatesExample)),
+        new("button-states", typeof(ActionsStrings), "ButtonsStatesTitle", typeof(ButtonStatesExample), scrolls: true),
         new("badges", typeof(FoundationsStrings), "BadgesMatrixTitle", typeof(BadgeMatrixExample)),
         new("alerts", typeof(FeedbackStrings), "AlertsTitle", typeof(AlertGalleryExample)),
         new("surfaces", typeof(LayoutStrings), "CardsSurfacesTitle", typeof(SurfacesExample)),

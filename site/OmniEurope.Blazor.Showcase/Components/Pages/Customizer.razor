@@ -90,7 +90,14 @@
                                           @bind-Value="section.Density" />
                         </span>
                     </div>
-                    <DynamicComponent Type="demo.Component" />
+                    @if (demo.Scrolls)
+                    {
+                        <div class="showcase-stage__scroll"><DynamicComponent Type="demo.Component" /></div>
+                    }
+                    else
+                    {
+                        <DynamicComponent Type="demo.Component" />
+                    }
                 </section>
             }
         </div>

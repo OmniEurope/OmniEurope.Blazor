@@ -125,6 +125,7 @@
 /* One track that may shrink: an auto track took the widest demo's minimum width and widened the page on
    a phone under the themes with spaced capitals. No fill of its own: the block lies on the theme scope,
    which already paints the surface, and a theme's colour field (Givre) shows through it. */
+.showcase-stage__scroll { max-inline-size: 100%; overflow-x: auto; }
 .showcase-stage__block { background: transparent; border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: grid; gap: var(--omni-space-md); grid-template-columns: minmax(0, 1fr); min-inline-size: 0; padding: var(--omni-section-pad); }
 .showcase-stage__head { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm) var(--omni-space-md); justify-content: space-between; }
 .showcase-stage__head .omni-heading { margin: 0; }
@@ -549,6 +550,13 @@
 
 /* Stacks page: the main stack sits in a dashed frame taller than its items, so Justify and Align act in a
    vertical stack; the specimens sit on a muted tray. */
+/* An overflow left to spill (Overflow None) scrolls in the preview rather than widening the page on a phone. */
+.gallery-stacks-main,
+.gallery-stacks-overflows {
+    max-inline-size: 100%;
+    overflow-x: auto;
+}
+
 .gallery-stacks-main .omni-column > :is(.omni-stack, .omni-stack-scroll) {
     border: var(--omni-border-width) dashed var(--omni-color-border);
     border-radius: var(--omni-radius);
