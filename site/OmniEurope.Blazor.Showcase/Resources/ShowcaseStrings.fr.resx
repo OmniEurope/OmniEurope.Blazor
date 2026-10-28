@@ -7,7 +7,10 @@
   <data name="HeaderBadge" xml:space="preserve"><value>Bibliothèque de composants</value></data>
   <data name="ModeLight" xml:space="preserve"><value>Thème clair</value></data>
   <data name="ModeDark" xml:space="preserve"><value>Thème sombre</value></data>
-  <data name="LanguageSelectorLabel" xml:space="preserve"><value>Langue de la vitrine</value></data>
+  <data name="ToggleMenu" xml:space="preserve"><value>Afficher ou masquer la navigation</value></data>
+  <data name="CloseMenu" xml:space="preserve"><value>Fermer la navigation</value></data>
+  <data name="Loading" xml:space="preserve"><value>Chargement</value></data>
+  <data name="LayoutVersion" xml:space="preserve"><value>Version {0}</value></data>
   <data name="SidebarLabel" xml:space="preserve"><value>Navigation principale</value></data>
   <data name="MenuLabel" xml:space="preserve"><value>Sections du site</value></data>
   <data name="NavShowcase" xml:space="preserve"><value>Présentation</value></data>

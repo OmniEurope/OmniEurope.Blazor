@@ -1,21 +1,15 @@
 /* Layout of the showcase itself. Every value reads a library token, so the site is repainted by
    the theme editor exactly like the components it presents. */
 
-.showcase-brand {
-    color: inherit;
-    font-weight: 600;
-    text-decoration: none;
-}
-
+/* The header: the brand and the sidebar toggle are the library's, the badge follows the brand and the spacer
+   pushes the application menu to the end of the bar. */
 .showcase-header__spacer {
     flex: 1 1 auto;
 }
 
-/* The language selector sizes to its longest language name instead of taking the header's width. */
-.showcase-language {
-    flex: 0 0 auto;
-    inline-size: auto;
-    min-inline-size: 9rem;
+/* On a phone the toggle, the brand and the application menu already fill the bar: the badge gives way. */
+@media (max-width: 47.99rem) {
+    .showcase-header__badge { display: none; }
 }
 
 /* One track as wide as the page, and items capped to it, not to their longest word: the auto track and the item
@@ -111,13 +105,6 @@
 @media (max-width: 36rem) {
     .showcase-token { grid-template-columns: minmax(0, 1fr) auto; }
     .showcase-token__text { grid-column: 1 / -1; }
-}
-
-/* On a narrow screen the site menu goes above the page instead of taking 18rem beside it, which left
-   the page a sliver and made it scroll sideways at 375 px (RET-002 n°28, PLAN-004 lot 10). */
-@media (max-width: 47.99rem) {
-    #showcase-theme > .omni-layout > .omni-body { flex-direction: column; }
-    #showcase-theme > .omni-layout > .omni-body > .omni-sidebar { flex: 0 0 auto; max-inline-size: none; }
 }
 
 /* Workflows page of the gallery: the sign-in page in miniature, a muted dashed frame sets it apart from the rest of the preview. */
