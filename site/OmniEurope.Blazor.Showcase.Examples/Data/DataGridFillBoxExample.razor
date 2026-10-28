@@ -1,0 +1,39 @@
+@* A fixed-height frame that scrolls by itself, settings above, a grid below that takes the rest
+   (FillAvailableHeight, MinHeight floor) with its export bar. When the settings exceed the visible part of
+   the frame, nothing is left for the grid: it keeps its floor and the frame scrolls down to it. "Paging: none"
+   makes it scroll virtually, the other values page it. *@
+<div id="demo-grid-fill-box" role="group" aria-label="Frame of fixed height">
+    <OmniRow Gap="OmniSpacing.Medium" Wrap="true" Align="OmniAlignment.End">
+        <OmniFormField For="grid-fill-box-pager">
+            <LabelContent>Pager</LabelContent>
+            <ChildContent>
+                <OmniDropDown TValue="string" Id="grid-fill-box-pager" Options="_pagerOptions" @bind-Value="_pager" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniFormField For="grid-fill-box-lines">
+            <LabelContent>Lines</LabelContent>
+            <ChildContent>
+                <OmniDropDown TValue="OmniDataGridLines" Id="grid-fill-box-lines" Options="_lineOptions" @bind-Value="_lines" />
+            </ChildContent>
+        </OmniFormField>
+    </OmniRow>
+    <OmniDataGrid TItem="CaseRow" Id="demo-grid-fill-box-grid"
+                  HeaderWrap="OmniDataGridHeaderWrap.Truncate"
+                  Items="CaseData.Fill"
+                  Caption="Two thousand files"
+                  ScrollMode="@(Paged ? OmniDataGridScrollMode.Paged : OmniDataGridScrollMode.Virtual)"
+                  PagerPlacement="PagerPlacement"
+                  PageSize="20"
+                  GridLines="_lines"
+                  FillAvailableHeight="true"
+                  MinHeight="12rem"
+                  ShowHeaderBar="true"
+                  ExportFileName="files">
+        <Columns>
+            <OmniDataGridColumn TItem="CaseRow" Property="Reference" Title="Reference" Filterable="false" />
+            <OmniDataGridColumn TItem="CaseRow" Property="Applicant" Title="Applicant" Filterable="false" />
+            <OmniDataGridColumn TItem="CaseRow" Property="Amount" Title="Amount" FormatString="{0:C0}" Filterable="false"
+                                TextAlign="OmniAlignment.End" />
+        </Columns>
+    </OmniDataGrid>
+</div>

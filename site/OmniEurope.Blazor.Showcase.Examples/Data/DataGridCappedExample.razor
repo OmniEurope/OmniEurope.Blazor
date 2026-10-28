@@ -1,0 +1,32 @@
+@* Virtualized with MaxHeight: the grid takes the height of its rows up to the cap, then scrolls rendering
+   only its window. Three rows stay short, ten thousand scroll. The second grid fits Applicant to its
+   content on a double click on its edge (AllowColumnAutoFit), also measuring the very long applicant of
+   case D-07777, far outside the window; Reference opts out (AutoFit="false"). *@
+<OmniStack Gap="OmniSpacing.Large">
+    <OmniDataGrid TItem="CaseRow" Id="demo-grid-capped-short"
+                  HeaderWrap="OmniDataGridHeaderWrap.Truncate"
+                  Items="CaseData.Few"
+                  Caption="Three cases, content height"
+                  Filterable="false"
+                  ScrollMode="OmniDataGridScrollMode.Virtual"
+                  MaxHeight="18rem">
+        <Columns>
+            <OmniDataGridColumn TItem="CaseRow" Property="Reference" Title="Reference" />
+            <OmniDataGridColumn TItem="CaseRow" Property="Applicant" Title="Applicant" />
+        </Columns>
+    </OmniDataGrid>
+
+    <OmniDataGrid TItem="CaseRow" Id="demo-grid-capped-long"
+                  HeaderWrap="OmniDataGridHeaderWrap.Truncate"
+                  Items="CaseData.Many"
+                  Caption="Ten thousand cases, 18rem cap"
+                  Filterable="false"
+                  AllowColumnAutoFit="true"
+                  ScrollMode="OmniDataGridScrollMode.Virtual"
+                  MaxHeight="18rem">
+        <Columns>
+            <OmniDataGridColumn TItem="CaseRow" Property="Reference" Title="Reference" AutoFit="false" />
+            <OmniDataGridColumn TItem="CaseRow" Property="Applicant" Title="Applicant" />
+        </Columns>
+    </OmniDataGrid>
+</OmniStack>

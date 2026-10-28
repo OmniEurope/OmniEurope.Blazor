@@ -1,0 +1,103 @@
+@page "/components/data-grid-variants"
+@using OmniEurope.Blazor.Showcase.Examples.Data
+
+<GalleryPageFrame Slug="data-grid-variants">
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["VariantsCasesTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["VariantsCasesHint"]</OmniText>
+                <DataGridCasesExample />
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["VariantsSizingTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["VariantsSizingHint"]</OmniText>
+                <div class="gallery-data-sizing">
+                    <DataGridContentSizingExample />
+                </div>
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["VariantsTemplatedTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["VariantsTemplatedHint"]</OmniText>
+                <div class="gallery-data-sizing">
+                    <DataGridTemplatedSizingExample />
+                </div>
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["VariantsTruncationTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["VariantsTruncationHint"]</OmniText>
+                <div class="gallery-data-truncation">
+                    <DataGridTruncationExample />
+                </div>
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["VariantsCappedTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["VariantsCappedHint"]</OmniText>
+                <DataGridCappedExample />
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["VariantsRunStatusTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["VariantsRunStatusHint"]</OmniText>
+                <DataGridRunStatusExample />
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["VariantsTreeTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["VariantsTreeHint"]</OmniText>
+                <DataGridTreeExample />
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["VariantsEditTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["VariantsEditHint"]</OmniText>
+                <DataGridEditExample />
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["VariantsPicturesTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["VariantsPicturesHint"]</OmniText>
+                <DataGridPicturesExample />
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["VariantsFillTitle"]</HeaderContent>
+            <ChildContent>
+                <div class="gallery-data-fill">
+                    <DataGridFillExample />
+                </div>
+            </ChildContent>
+        </OmniCard>
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["VariantsFillBoxTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["VariantsFillBoxHint"]</OmniText>
+                <div class="gallery-data-fill-box">
+                    <DataGridFillBoxExample />
+                </div>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

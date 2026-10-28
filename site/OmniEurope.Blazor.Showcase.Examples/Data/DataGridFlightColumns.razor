@@ -1,0 +1,136 @@
+@using System.Globalization
+@* The columns of the flights grid, written once for its two forms (paged and virtual): the grid receives
+   them through its cascading context, through this component. Every filter shape of the package has a
+   column: text, suggestions, checkable list and closed list. *@
+<OmniDataGridColumn TItem="Flight"
+                    Property="Number"
+                    Title="Flight"
+                    Frozen="@FreezeNumber"
+                    Width="7rem"
+                    Groupable="false"
+                    Filterable="true"
+                    FilterType="OmniDataGridColumnFilterType.Text">
+    <Template>
+        <strong>@context.Number</strong>
+    </Template>
+</OmniDataGridColumn>
+
+<OmniDataGridColumn TItem="Flight"
+                    Property="Airline"
+                    Title="Airline"
+                    Width="11rem"
+                    Filterable="true"
+                    FilterType="OmniDataGridColumnFilterType.Combo">
+    <FilterTemplate>
+        <OmniDataGridFilterCombo Id="@context.Id"
+                                 Value="@context.Value"
+                                 ValueChanged="@(value => context.ValueChanged(value))"
+                                 Suggestions="@context.Suggestions"
+                                 Placeholder="@context.Placeholder"
+                                 MaxSuggestions="6" />
+    </FilterTemplate>
+</OmniDataGridColumn>
+
+<OmniDataGridColumn TItem="Flight"
+                    Property="Origin"
+                    Title="Origin"
+                    Width="9rem"
+                    Filterable="true"
+                    FilterType="OmniDataGridColumnFilterType.MultiSelect"
+                    FilterSearchable="true">
+    <FilterTemplate>
+        <OmniDataGridFilterMultiSelect Id="@context.Id"
+                                       Value="@context.Value"
+                                       ValueChanged="@(value => context.ValueChanged(value))"
+                                       Suggestions="@context.Suggestions"
+                                       Placeholder="@context.Placeholder"
+                                       Display="@(context.InPopover ? OmniMultiSelectDisplay.List : OmniMultiSelectDisplay.Compact)"
+                                       Filterable="true"
+                                       MaxSuggestions="12" />
+    </FilterTemplate>
+</OmniDataGridColumn>
+
+<OmniDataGridColumn TItem="Flight"
+                    Property="Destination"
+                    Title="Destination"
+                    Width="9rem"
+                    Filterable="true"
+                    FilterType="OmniDataGridColumnFilterType.Select" />
+
+<OmniDataGridColumn TItem="Flight"
+                    Property="Departure"
+                    Filterable="false"
+                    Title="Departure"
+                    FormatString="{0:HH:mm}"
+                    Width="6rem"
+                    TextAlign="OmniAlignment.End"
+                    SortOrder="OmniDataGridSortOrder.Ascending"
+                    Groupable="false" />
+
+<OmniDataGridColumn TItem="Flight"
+                    Property="DurationMinutes"
+                    Filterable="false"
+                    Title="Duration"
+                    Width="6rem"
+                    TextAlign="OmniAlignment.End"
+                    Groupable="false">
+    <Template>
+        @FormatDuration(context.DurationMinutes)
+    </Template>
+</OmniDataGridColumn>
+
+@* The status is read, sorted, filtered and grouped under its label, never under the name of the
+   enumeration: that is what the filter list offers. *@
+<OmniDataGridColumn TItem="Flight"
+                    Key="status"
+                    Value="@StatusValue"
+                    Title="Status"
+                    Width="9rem"
+                    TextAlign="OmniAlignment.Center"
+                    Filterable="true"
+                    FilterType="OmniDataGridColumnFilterType.Select">
+    <Template>
+        <OmniBadge Tone="@StatusTone(context.Status)">@StatusLabel(context.Status)</OmniBadge>
+    </Template>
+    <EditTemplate>
+        <OmniDropDown TValue="FlightStatus"
+                      Options="@StatusOptions"
+                      @bind-Value="context.Status"
+                      Label="Status" />
+    </EditTemplate>
+</OmniDataGridColumn>
+
+<OmniDataGridColumn TItem="Flight"
+                    Property="Gate"
+                    Title="Gate"
+                    Width="6rem"
+                    TextAlign="OmniAlignment.Center"
+                    Filterable="true"
+                    Groupable="false">
+    <EditTemplate>
+        <OmniTextBox @bind-Value="context.Gate" aria-label="Gate" />
+    </EditTemplate>
+</OmniDataGridColumn>
+
+<OmniDataGridColumn TItem="Flight"
+                    Property="LoadFactor"
+                    Filterable="false"
+                    Title="Cabin load factor of the flight"
+                    Width="7rem"
+                    TextAlign="OmniAlignment.End"
+                    Groupable="false">
+    <Template>
+        <OmniText Tone="@LoadTone(context.LoadFactor)">@context.LoadFactor.ToString("P0", CultureInfo.CurrentCulture)</OmniText>
+    </Template>
+</OmniDataGridColumn>
+
+<OmniDataGridColumn TItem="Flight"
+                    Property="Price"
+                    Filterable="false"
+                    Title="Price"
+                    FormatString="{0:C0}"
+                    Width="7rem"
+                    TextAlign="OmniAlignment.End"
+                    Groupable="false">
+    <FooterContent>@TotalText</FooterContent>
+</OmniDataGridColumn>

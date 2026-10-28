@@ -86,7 +86,7 @@ const registryPath = join(artifacts, 'theme-contrast-registry.json');
 // list, and the three gallery pages holding the rest (the Kanban board, the status strip, the list
 // options).
 const CUSTOMIZER = '/customizer';
-const EXTRA_PAGES = ['/components/legacy/listes', '/components/legacy/retours', '/components/lists', '/components/multi-select'];
+const EXTRA_PAGES = ['/components/data-list', '/components/legacy/retours', '/components/lists', '/components/multi-select'];
 const NARROW_PAGES = ['/', CUSTOMIZER, ...EXTRA_PAGES];
 
 // Screenshots besides every theme on its own palette in both modes: Halo and Néon, the two themes
@@ -342,7 +342,7 @@ const pageLibrary = String.raw`
       add('titre de tuile de réglage', first(settings, '.omni-settings-tile__title'));
       add('indice de tuile de réglage', first(settings, '.omni-settings-hint'));
       add('texte de la page', first(document.querySelector('main'), 'section > p'));
-    } else if (page === '/components/legacy/listes') {
+    } else if (page === '/components/data-list') {
       const board = first(document, '.omni-kanban');
       const column = board ? first(board, '.omni-kanban__column') : null;
       add('titre de colonne de Kanban', column ? first(column, '.omni-kanban__title') : null);
@@ -732,7 +732,7 @@ const navigate = async (path, ready) => {
 const READY = {
   [CUSTOMIZER]: "document.getElementById('workshop-theme') && document.getElementById('runs-sorted') && document.querySelector('.showcase-stage .omni-card')",
   '/': "document.querySelector('main h1, main .omni-heading')",
-  '/components/legacy/listes': "document.querySelector('.omni-kanban__card')",
+  '/components/data-list': "document.querySelector('.omni-kanban__card')",
   '/components/legacy/retours': "document.querySelector('.omni-status-strip__item')",
   '/components/lists': "document.getElementById('listbox-city')",
   '/components/multi-select': "document.getElementById('multiselect-compact')"
@@ -880,7 +880,7 @@ const slug = text => text.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
 const shoot = async name => {
   if (!screenshots) return;
   await mkdir(shotDirectory, { recursive: true });
-  const parts = [['button-states', 'surfaces'], ['grilles-maquette', 'grilles-maquette']];
+  const parts = [['button-states', 'surfaces'], ['run-grids', 'run-grids']];
   let index = 0;
   for (const [from, to] of parts) {
     const top = await lib(`box('.showcase-stage section[aria-labelledby="stage-${from}-title"]')`);

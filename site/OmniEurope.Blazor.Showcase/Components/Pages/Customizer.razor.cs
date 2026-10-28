@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using OmniEurope.Blazor.Showcase.Demos;
 using OmniEurope.Blazor.Showcase.Examples.Actions;
+using OmniEurope.Blazor.Showcase.Examples.Data;
 using OmniEurope.Blazor.Showcase.Examples.Feedback;
 using OmniEurope.Blazor.Showcase.Examples.Foundations;
 using OmniEurope.Blazor.Showcase.Examples.Forms;
@@ -34,7 +35,7 @@ public partial class Customizer : IDisposable
         new("form-layouts", typeof(FormsStrings), "FormLayoutsTitle", typeof(VerticalFormExample)),
         Legacy("formulaire-vertical"),
         new("notifications", typeof(ShellStrings), "NotificationsTitle", typeof(NotificationCardsExample)),
-        Legacy("grilles-maquette"),
+        new("run-grids", typeof(DataStrings), "DataGridRunsPreviewTitle", typeof(DataGridRunsExample)),
         new("application-shell", typeof(LayoutStrings), "PageShellApplicationTitle", typeof(ApplicationShellExample))
     ];
 

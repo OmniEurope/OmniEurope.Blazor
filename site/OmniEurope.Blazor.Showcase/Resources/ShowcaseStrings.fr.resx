@@ -103,9 +103,6 @@
   <data name="DemoFeedbackCapability4" xml:space="preserve"><value>Barre linéaire ou circulaire en quatre intentions, et un squelette qui prend la forme de ce qu'il remplace.</value></data>
   <data name="DemoGridTitle" xml:space="preserve"><value>Grille de données</value></data>
   <data name="DemoGridSummary" xml:space="preserve"><value>Le tableau de travail : tri, filtre, pagination et groupes.</value></data>
-  <data name="DemoGridCapability1" xml:space="preserve"><value>Tri et filtre par colonne, sur la donnée réelle.</value></data>
-  <data name="DemoGridCapability2" xml:space="preserve"><value>Pagination avec taille de page réglable.</value></data>
-  <data name="DemoGridCapability3" xml:space="preserve"><value>Lignes alternées et formats de colonne déclaratifs.</value></data>
   <data name="DemoChartTitle" xml:space="preserve"><value>Graphiques</value></data>
   <data name="DemoChartSummary" xml:space="preserve"><value>Les séries catégorielles, aux couleurs du thème.</value></data>
   <data name="DemoChartCapability1" xml:space="preserve"><value>Séries en colonnes avec axes titrés.</value></data>
@@ -127,17 +124,6 @@
   <data name="DemoOverlayCapability1" xml:space="preserve"><value>Notifications envoyées à la pile de l'hôte, courtes ou longues.</value></data>
   <data name="DemoOverlayCapability2" xml:space="preserve"><value>Quatre sévérités de notification, avec fermeture facultative.</value></data>
   <data name="DemoOverlayCapability3" xml:space="preserve"><value>Un bouton scindé et son menu.</value></data>
-  <data name="DemoGridAdvancedTitle" xml:space="preserve"><value>Grille, vue complète</value></data>
-  <data name="DemoGridAdvancedSummary" xml:space="preserve"><value>Sélection, groupes, édition, colonnes figées et filtres riches.</value></data>
-  <data name="DemoGridAdvancedCapability1" xml:space="preserve"><value>Sélection multiple, au clic sur la ligne.</value></data>
-  <data name="DemoGridAdvancedCapability2" xml:space="preserve"><value>Filtres à liste déroulante et à sélection multiple par colonne.</value></data>
-  <data name="DemoGridAdvancedCapability3" xml:space="preserve"><value>Colonne figée, groupes dépliés et pied de colonne calculé.</value></data>
-  <data name="DemoGridAdvancedCapability4" xml:space="preserve"><value>Réglages d'affichage pilotés en direct : lignes, densité, pagination, sélection, édition et filtres.</value></data>
-  <data name="DemoDataListTitle" xml:space="preserve"><value>Listes et pagination</value></data>
-  <data name="DemoDataListSummary" xml:space="preserve"><value>La liste à gabarit libre et son paginateur.</value></data>
-  <data name="DemoDataListCapability1" xml:space="preserve"><value>Gabarit d'élément entièrement fourni par l'hôte.</value></data>
-  <data name="DemoDataListCapability2" xml:space="preserve"><value>États vide, en chargement et en erreur distincts.</value></data>
-  <data name="DemoDataListCapability3" xml:space="preserve"><value>Paginateur avec taille de page réglable et raccourcis de bord.</value></data>
   <data name="DemoTreeTitle" xml:space="preserve"><value>Arborescence</value></data>
   <data name="DemoTreeSummary" xml:space="preserve"><value>La hiérarchie dépliable, à sélection simple ou multiple.</value></data>
   <data name="DemoTreeCapability1" xml:space="preserve"><value>Sélection multiple et navigation au clavier.</value></data>
@@ -270,11 +256,6 @@
   <data name="DemoLoadingCapability1" xml:space="preserve"><value>Le bandeau suit un vrai chargement, en balayage ou en remplissage, va au bout puis s'efface.</value></data>
   <data name="DemoLoadingCapability2" xml:space="preserve"><value>Un bouton occupé garde sa taille et son contenu : un voile respire par-dessus.</value></data>
   <data name="DemoLoadingCapability3" xml:space="preserve"><value>Le squelette prend la forme de ce qu'il remplace.</value></data>
-  <data name="DemoRunGridsTitle" xml:space="preserve"><value>Grilles d'exécutions</value></data>
-  <data name="DemoRunGridsSummary" xml:space="preserve"><value>Les deux grilles de la maquette : triée avec colonne active, alternée avec en-tête collant.</value></data>
-  <data name="DemoRunGridsCapability1" xml:space="preserve"><value>La colonne triée est teintée plus légèrement que la ligne choisie, pour qu'elles se distinguent.</value></data>
-  <data name="DemoRunGridsCapability2" xml:space="preserve"><value>L'en-tête reste visible quand la grille défile ; la durée s'aligne à la fin.</value></data>
-  <data name="DemoRunGridsCapability3" xml:space="preserve"><value>Le statut est une pastille compacte (omni-status).</value></data>
   <data name="LoadingFrameBrand" xml:space="preserve"><value>Boutique</value></data>
   <data name="LoadingFramePage" xml:space="preserve"><value>Tableau de bord</value></data>
   <data name="LoadingBarLabel" xml:space="preserve"><value>Chargement de la page</value></data>
@@ -288,20 +269,6 @@
   <data name="LoadingAnalysis" xml:space="preserve"><value>Analyse en cours</value></data>
   <data name="LoadingCoverage" xml:space="preserve"><value>Couverture</value></data>
   <data name="LoadingContent" xml:space="preserve"><value>Chargement du contenu</value></data>
-  <data name="RunsSortedCaption" xml:space="preserve"><value>Exécutions, triées par pipeline</value></data>
-  <data name="RunsStripedCaption" xml:space="preserve"><value>Historique des exécutions</value></data>
-  <data name="RunsRun" xml:space="preserve"><value>Exécution</value></data>
-  <data name="RunsPipeline" xml:space="preserve"><value>Pipeline</value></data>
-  <data name="RunsTrigger" xml:space="preserve"><value>Déclencheur</value></data>
-  <data name="RunsSeconds" xml:space="preserve"><value>Durée (s)</value></data>
-  <data name="RunsStatus" xml:space="preserve"><value>Statut</value></data>
-  <data name="RunsTriggerPush" xml:space="preserve"><value>Poussée</value></data>
-  <data name="RunsTriggerManual" xml:space="preserve"><value>Manuel</value></data>
-  <data name="RunsTriggerScheduled" xml:space="preserve"><value>Planifié</value></data>
-  <data name="RunsStatusSuccess" xml:space="preserve"><value>Succès</value></data>
-  <data name="RunsStatusInfo" xml:space="preserve"><value>En cours</value></data>
-  <data name="RunsStatusWarning" xml:space="preserve"><value>Annulé</value></data>
-  <data name="RunsStatusDanger" xml:space="preserve"><value>Échec</value></data>
   <data name="DemoShellDashboard" xml:space="preserve"><value>Tableau de bord</value></data>
   <data name="DemoShellInProgress" xml:space="preserve"><value>En cours</value></data>
   <data name="DemoShellArchived" xml:space="preserve"><value>Archivés</value></data>
@@ -432,88 +399,15 @@
   <data name="VFormSave" xml:space="preserve"><value>Enregistrer</value></data>
   <data name="VFormSaved" xml:space="preserve"><value>Pipeline enregistré.</value></data>
   <data name="VFormNotSaved" xml:space="preserve"><value>Corrigez les champs signalés avant d'enregistrer.</value></data>
-  <data name="GridFiledColumn" xml:space="preserve"><value>Déposé le</value></data>
   <!-- Demo texts: batch C -->
-  <data name="DemoGridOpenCases" xml:space="preserve"><value>Dossiers ouverts</value></data>
-  <data name="DemoGridRecentRuns" xml:space="preserve"><value>Exécutions récentes</value></data>
-  <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Texte long dans une colonne étroite</value></data>
-  <data name="DemoGridShortCaption" xml:space="preserve"><value>Trois dossiers, hauteur de contenu</value></data>
-  <data name="DemoGridLongCaption" xml:space="preserve"><value>Dix mille dossiers, plafond de 18rem</value></data>
-  <data name="DemoGridFitCaption" xml:space="preserve"><value>Colonnes à la largeur de leur contenu, description tronquée</value></data>
-  <data name="DemoGridFitColumnPackage" xml:space="preserve"><value>Paquet</value></data>
-  <data name="DemoGridFitColumnDescription" xml:space="preserve"><value>Description</value></data>
-  <data name="DemoGridFitDescription" xml:space="preserve"><value>Mesure d'audience : pages vues, événements et rapports collectés sans cookies, pour chaque site de l'organisation.</value></data>
-  <data name="DemoGridColumnReference" xml:space="preserve"><value>Référence</value></data>
-  <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Demandeur</value></data>
-  <data name="DemoGridColumnCountry" xml:space="preserve"><value>Pays</value></data>
-  <data name="DemoGridColumnAmount" xml:space="preserve"><value>Montant</value></data>
   <data name="DemoGridCountryBelgium" xml:space="preserve"><value>Belgique</value></data>
   <data name="DemoGridCountryFrance" xml:space="preserve"><value>France</value></data>
   <data name="DemoGridCountryLuxembourg" xml:space="preserve"><value>Luxembourg</value></data>
   <data name="DemoGridCountryNetherlands" xml:space="preserve"><value>Pays-Bas</value></data>
-  <data name="DemoGridStatusPending" xml:space="preserve"><value>En attente</value></data>
-  <data name="DemoGridExportFileName" xml:space="preserve"><value>dossiers-ouverts</value></data>
-  <data name="DemoGridExportSort" xml:space="preserve"><value>Tri</value></data>
-  <data name="DemoGridExportSortValue" xml:space="preserve"><value>référence, croissant</value></data>
-  <data name="DemoGridAdvancedLines" xml:space="preserve"><value>Lignes</value></data>
-  <data name="DemoGridAdvancedDensity" xml:space="preserve"><value>Densité</value></data>
-  <data name="DemoGridAdvancedPager" xml:space="preserve"><value>Pagination</value></data>
-  <data name="DemoGridAdvancedSelection" xml:space="preserve"><value>Sélection</value></data>
-  <data name="DemoGridAdvancedFilters" xml:space="preserve"><value>Filtres</value></data>
-  <data name="DemoGridAdvancedEdit" xml:space="preserve"><value>Édition</value></data>
-  <data name="DemoGridAdvancedExpand" xml:space="preserve"><value>Dépliage</value></data>
-  <data name="DemoGridAdvancedFooter" xml:space="preserve"><value>Pied de tableau</value></data>
-  <data name="DemoGridAdvancedLinesNone" xml:space="preserve"><value>Aucune</value></data>
-  <data name="DemoGridAdvancedLinesHorizontal" xml:space="preserve"><value>Horizontales</value></data>
-  <data name="DemoGridAdvancedLinesVertical" xml:space="preserve"><value>Verticales</value></data>
-  <data name="DemoGridAdvancedLinesBoth" xml:space="preserve"><value>Les deux</value></data>
-  <data name="DemoGridAdvancedDensityCompact" xml:space="preserve"><value>Compacte</value></data>
-  <data name="DemoGridAdvancedDensityComfortable" xml:space="preserve"><value>Confortable</value></data>
-  <data name="DemoGridAdvancedDensitySpacious" xml:space="preserve"><value>Aérée</value></data>
-  <data name="DemoGridAdvancedPagerBottom" xml:space="preserve"><value>En bas</value></data>
-  <data name="DemoGridAdvancedPagerTop" xml:space="preserve"><value>En haut</value></data>
-  <data name="DemoGridAdvancedPagerBoth" xml:space="preserve"><value>En haut et en bas</value></data>
-  <data name="DemoGridAdvancedSelectionNone" xml:space="preserve"><value>Aucune</value></data>
-  <data name="DemoGridAdvancedSelectionSingle" xml:space="preserve"><value>Une ligne</value></data>
-  <data name="DemoGridAdvancedSelectionMultiple" xml:space="preserve"><value>Plusieurs lignes</value></data>
-  <data name="DemoGridAdvancedFilterSimple" xml:space="preserve"><value>Champ dans l'entête</value></data>
-  <data name="DemoGridAdvancedFilterSimpleWithMenu" xml:space="preserve"><value>Champ et menu</value></data>
-  <data name="DemoGridAdvancedFilterAdvanced" xml:space="preserve"><value>Menu à deux conditions</value></data>
-  <data name="DemoGridAdvancedEditSingle" xml:space="preserve"><value>Une ligne à la fois</value></data>
-  <data name="DemoGridAdvancedEditMultiple" xml:space="preserve"><value>Plusieurs lignes</value></data>
-  <data name="DemoGridAdvancedExpandSingle" xml:space="preserve"><value>Un groupe ouvert</value></data>
-  <data name="DemoGridAdvancedExpandMultiple" xml:space="preserve"><value>Plusieurs groupes ouverts</value></data>
-  <data name="DemoGridAdvancedFooterBottom" xml:space="preserve"><value>Sous le tableau</value></data>
-  <data name="DemoGridAdvancedFooterTop" xml:space="preserve"><value>Au-dessus du tableau</value></data>
-  <data name="DemoGridAdvancedFooterBoth" xml:space="preserve"><value>Au-dessus et en dessous</value></data>
-  <data name="DemoGridAdvancedCaption" xml:space="preserve"><value>Dossiers, vue complète</value></data>
-  <data name="DemoGridAdvancedTotal" xml:space="preserve"><value>Total : {0:C0}</value></data>
-  <data name="DemoGridAdvancedRetained" xml:space="preserve"><value>Lignes retenues : {0}</value></data>
-  <data name="DemoGridAdvancedRetainedNone" xml:space="preserve"><value>aucune</value></data>
-  <data name="DemoDataListEmpty" xml:space="preserve"><value>Aucun dossier sur cette page.</value></data>
-  <data name="DemoDataListLoading" xml:space="preserve"><value>Chargement des dossiers.</value></data>
-  <data name="DemoDataListPager" xml:space="preserve"><value>Pagination des dossiers</value></data>
-  <data name="DemoDataListLog" xml:space="preserve"><value>Journal de traitement</value></data>
-  <data name="DemoDataListKanban" xml:space="preserve"><value>Suivi des dossiers</value></data>
-  <data name="DemoDataListColumnNew" xml:space="preserve"><value>À examiner</value></data>
-  <data name="DemoDataListColumnReview" xml:space="preserve"><value>En cours</value></data>
-  <data name="DemoDataListColumnDone" xml:space="preserve"><value>Terminé</value></data>
-  <data name="DemoDataListLogSearch" xml:space="preserve"><value>Recherche du dossier</value></data>
-  <data name="DemoDataListLogConnected" xml:space="preserve"><value>Connexion établie</value></data>
-  <data name="DemoDataListLogStarted" xml:space="preserve"><value>Traitement commencé</value></data>
-  <data name="DemoDataListLogMissing" xml:space="preserve"><value>Pièce manquante</value></data>
-  <data name="DemoDataListLogRejected" xml:space="preserve"><value>Validation refusée</value></data>
-  <data name="DemoDataListLogAborted" xml:space="preserve"><value>Traitement interrompu</value></data>
   <data name="DemoAnsiModeLabel" xml:space="preserve"><value>Séquences d'échappement</value></data>
   <data name="DemoAnsiModeRender" xml:space="preserve"><value>Afficher les couleurs</value></data>
   <data name="DemoAnsiModeHide" xml:space="preserve"><value>Masquer les codes</value></data>
   <data name="DemoAnsiModeRaw" xml:space="preserve"><value>Texte brut</value></data>
-  <data name="DemoAnsiLogLabel" xml:space="preserve"><value>Journal avec couleurs ANSI</value></data>
-  <data name="DemoAnsiCellLabel" xml:space="preserve"><value>La même ligne dans une cellule</value></data>
-  <data name="DemoAnsiNoLeaks" xml:space="preserve"><value>aucune fuite détectée</value></data>
-  <data name="DemoAnsiSlow" xml:space="preserve"><value>requête lente, 1,2 s</value></data>
-  <data name="DemoAnsiRefused" xml:space="preserve"><value>connexion refusée</value></data>
-  <data name="DemoAnsiRetry" xml:space="preserve"><value>nouvel essai dans 5 s</value></data>
   <data name="DemoChartChartTitle" xml:space="preserve"><value>Dossiers déposés par trimestre</value></data>
   <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Trimestre</value></data>
   <data name="DemoChartAxisCases" xml:space="preserve"><value>Dossiers</value></data>
@@ -780,7 +674,6 @@
   <data name="DemoFeedbackRunFailed" xml:space="preserve"><value>Exécution {0} échouée</value></data>
   <data name="DemoFeedbackSucceeded" xml:space="preserve"><value>Réussie</value></data>
   <data name="DemoFeedbackWarning" xml:space="preserve"><value>Avertissement</value></data>
-  <data name="DemoMediaIconImage" xml:space="preserve"><value>Image</value></data>
   <data name="DemoAnnotatedValidationName" xml:space="preserve"><value>Nom du projet</value></data>
   <data name="DemoAnnotatedValidationMail" xml:space="preserve"><value>Courriel du responsable</value></data>
   <data name="DemoAnnotatedValidationMailConfirmation" xml:space="preserve"><value>Confirmation du courriel</value></data>
@@ -1205,19 +1098,6 @@
   <data name="DemoDiagramNodeTruck" xml:space="preserve"><value>Réserver le camion</value></data>
   <data name="DemoDiagramNodeNeighbours" xml:space="preserve"><value>Prévenir les voisins</value></data>
   <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Avant le 15</value></data>
-  <data name="DemoGridAdvancedCellHint" xml:space="preserve"><value>Double-cliquez une cellule : elle est lue ici.</value></data>
-  <data name="DemoGridAdvancedCellRead" xml:space="preserve"><value>{0} de {1} : {2}</value></data>
-  <data name="DemoGridAdvancedAggregate" xml:space="preserve"><value>Calcul du montant</value></data>
-  <data name="DemoGridAdvancedAggregateSum" xml:space="preserve"><value>Somme</value></data>
-  <data name="DemoGridAdvancedAggregateAverage" xml:space="preserve"><value>Moyenne</value></data>
-  <data name="DemoGridAdvancedAggregateMin" xml:space="preserve"><value>Minimum</value></data>
-  <data name="DemoGridAdvancedAggregateMax" xml:space="preserve"><value>Maximum</value></data>
-  <data name="DemoGridAdvancedAggregateCount" xml:space="preserve"><value>Nombre de lignes</value></data>
-  <data name="DemoGridAdvancedGroupFooter" xml:space="preserve"><value>{0}, dossiers : {1}</value></data>
-  <data name="DemoGridAdvancedAggregateNone" xml:space="preserve"><value>Aucun</value></data>
-  <data name="DemoGridTreeCaption" xml:space="preserve"><value>Compte de résultat</value></data>
-  <data name="DemoGridTreeColumnItem" xml:space="preserve"><value>Poste</value></data>
-  <data name="DemoGridTreeVariation" xml:space="preserve"><value>Variation</value></data>
   <data name="DemoGridTreeIncome" xml:space="preserve"><value>Produits</value></data>
   <data name="DemoGridTreeSales" xml:space="preserve"><value>Ventes</value></data>
   <data name="DemoGridTreeServices" xml:space="preserve"><value>Prestations de services</value></data>
@@ -1227,14 +1107,9 @@
   <data name="DemoGridTreeStaff" xml:space="preserve"><value>Personnel</value></data>
   <data name="DemoGridTreeExpandAll" xml:space="preserve"><value>Tout déplier</value></data>
   <data name="DemoGridTreeCollapseAll" xml:space="preserve"><value>Tout replier</value></data>
-  <data name="DemoGridTreeExport" xml:space="preserve"><value>Exporter en Excel</value></data>
   <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Plan de comptes</value></data>
   <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Glissez un compte sur un autre pour l'y ranger.</value></data>
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} rangé sous {1}</value></data>
-  <data name="DemoGridScopeHint" xml:space="preserve"><value>Tournez la molette n&apos;importe où dans ce cadre : les lignes de la grille défilent.</value></data>
-  <data name="DemoGridFillCaption" xml:space="preserve"><value>Deux mille dossiers par pays</value></data>
-  <data name="DemoGridEditCaption" xml:space="preserve"><value>Dossiers modifiables : double-cliquez une ligne ou utilisez le crayon</value></data>
-  <data name="DemoGridEditHint" xml:space="preserve"><value>Le champ de la cellule double-cliquée, sinon le premier, prend le focus, son texte sélectionné.</value></data>
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Liens orientés</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Texte relu, verrouillé au départ</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Lecture seule</value></data>
@@ -1250,11 +1125,6 @@
   <data name="DemoEditorMailSubject" xml:space="preserve"><value>Relance du dossier {{file}}</value></data>
   <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Relance&lt;/h2&gt;&lt;p&gt;Bonjour {{client}},&lt;/p&gt;&lt;p&gt;Le dossier {{file}} attend votre réponse avant le {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Ouvrir le dossier&lt;/a&gt;&lt;/p&gt;</value></data>
   <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Essai remis à l'application, objet « {0} ».</value></data>
-  <data name="DemoAccordionDetails" xml:space="preserve"><value>Détails</value></data>
-  <data name="DemoAccordionClicks" xml:space="preserve"><value>Clics sur Détails : {0}</value></data>
-  <data name="DemoGridTitleFloorCaption" xml:space="preserve"><value>Les colonnes étroites gardent leur titre entier</value></data>
-  <data name="DemoGridEditCellCaption" xml:space="preserve"><value>Dossiers modifiables : cliquez une cellule pour modifier sa ligne</value></data>
-  <data name="DemoGridEditCellHint" xml:space="preserve"><value>Un simple clic n'importe où dans une cellule, même vide, ouvre la ligne sur le champ de cette cellule ; le bouton Détails garde son propre clic. Tab atteint chaque cellule, et Entrée ou Espace la modifie.</value></data>
   <data name="DemoPagesFactSource" xml:space="preserve"><value>Source</value></data>
   <data name="DemoPagesFactRun" xml:space="preserve"><value>Exécution</value></data>
   <data name="DemoPagesFactTimeline" xml:space="preserve"><value>Chronologie</value></data>
@@ -1266,15 +1136,6 @@
   <data name="DemoPagesFactStarted" xml:space="preserve"><value>Début</value></data>
   <data name="DemoPagesFactDuration" xml:space="preserve"><value>Durée</value></data>
   <data name="DemoPagesFactStepDuration" xml:space="preserve"><value>Durée de l'étape</value></data>
-  <data name="DemoGridSizingCaption" xml:space="preserve"><value>Colonnes à la largeur de leur contenu</value></data>
-  <data name="DemoGridSizingName" xml:space="preserve"><value>Nom</value></data>
-  <data name="DemoGridSizingStatus" xml:space="preserve"><value>Statut</value></data>
-  <data name="DemoGridSizingVisitors" xml:space="preserve"><value>Visiteurs actuels</value></data>
-  <data name="DemoGridSizingProject" xml:space="preserve"><value>Projet</value></data>
-  <data name="DemoGridSizingSince" xml:space="preserve"><value>Depuis</value></data>
-  <data name="DemoGridSizingOnline" xml:space="preserve"><value>En ligne</value></data>
-  <data name="DemoGridSizingOffline" xml:space="preserve"><value>Hors ligne</value></data>
-  <data name="DemoGridSizingDeclaredCaption" xml:space="preserve"><value>Les mêmes colonnes aux largeurs déclarées</value></data>
   <data name="GalleryFamilyShell" xml:space="preserve"><value>Coquille</value></data>
   <data name="GalleryFamilyNavigation" xml:space="preserve"><value>Navigation</value></data>
   <data name="GalleryFamilyFoundations" xml:space="preserve"><value>Fondations</value></data>

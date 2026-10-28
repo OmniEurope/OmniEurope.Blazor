@@ -4,4 +4,217 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="DataGridActiveColumn" xml:space="preserve"><value>Colonne active</value></data>
+  <data name="DataGridActiveColumnDescription" xml:space="preserve"><value>Teinte une colonne triée ou filtrée, en-tête compris.</value></data>
+  <data name="DataGridAdvancedDescription" xml:space="preserve"><value>La grille à pleine puissance : sélection, regroupement, édition, colonnes figées, agrégats et les contrôles de filtre que l&apos;en-tête de colonne peut accueillir.</value></data>
+  <data name="DataGridAdvancedPreviewTitle" xml:space="preserve"><value>Dossiers avec toutes les fonctions de la grille</value></data>
+  <data name="DataGridAdvancedTitle" xml:space="preserve"><value>Grille avancée</value></data>
+  <data name="DataGridAlignBetween" xml:space="preserve"><value>Réparti</value></data>
+  <data name="DataGridAlignCenter" xml:space="preserve"><value>Centre</value></data>
+  <data name="DataGridAlignEnd" xml:space="preserve"><value>Fin</value></data>
+  <data name="DataGridAlignStart" xml:space="preserve"><value>Début</value></data>
+  <data name="DataGridAllowFiltering" xml:space="preserve"><value>Filtres</value></data>
+  <data name="DataGridAllowGrouping" xml:space="preserve"><value>Regroupement</value></data>
+  <data name="DataGridAllowPaging" xml:space="preserve"><value>Pagination</value></data>
+  <data name="DataGridAllowPagingDescription" xml:space="preserve"><value>Coupée, toutes les lignes tiennent sur une page.</value></data>
+  <data name="DataGridAllowSorting" xml:space="preserve"><value>Tri</value></data>
+  <data name="DataGridAlternating" xml:space="preserve"><value>Lignes alternées</value></data>
+  <data name="DataGridAlternatingDescription" xml:space="preserve"><value>Teinte une ligne sur deux.</value></data>
+  <data name="DataGridAlwaysShowPager" xml:space="preserve"><value>Toujours montrer la pagination</value></data>
+  <data name="DataGridAlwaysShowPagerDescription" xml:space="preserve"><value>Garde la pagination même quand une page suffit.</value></data>
+  <data name="DataGridCaseSensitivity" xml:space="preserve"><value>Casse</value></data>
+  <data name="DataGridCaseSensitivityDescription" xml:space="preserve"><value>Si un filtre distingue les majuscules des minuscules.</value></data>
+  <data name="DataGridColumnHide" xml:space="preserve"><value>Afficher ou masquer les colonnes</value></data>
+  <data name="DataGridColumnReorder" xml:space="preserve"><value>Réordonner les colonnes</value></data>
+  <data name="DataGridColumnResize" xml:space="preserve"><value>Redimensionnement des colonnes</value></data>
+  <data name="DataGridColumnResizeHowDescription" xml:space="preserve"><value>Glisser le bord d&apos;un titre, double-cliquer pour ajuster, ou les flèches du clavier.</value></data>
+  <data name="DataGridColumnsDescription" xml:space="preserve"><value>Largeur, colonne figée et titres longs.</value></data>
+  <data name="DataGridColumnsTitle" xml:space="preserve"><value>Colonnes</value></data>
+  <data name="DataGridDataDescription" xml:space="preserve"><value>Ce que la grille contient : 240 vols fictifs, rien, ou des lignes en cours de chargement.</value></data>
+  <data name="DataGridDataTitle" xml:space="preserve"><value>Données</value></data>
+  <data name="DataGridDateRangeTitle" xml:space="preserve"><value>Filtre de plage de dates</value></data>
+  <data name="DataGridDensity" xml:space="preserve"><value>Densité</value></data>
+  <data name="DataGridDensityComfortable" xml:space="preserve"><value>Confortable</value></data>
+  <data name="DataGridDensityCompact" xml:space="preserve"><value>Compacte</value></data>
+  <data name="DataGridDensityDescription" xml:space="preserve"><value>Hauteur des lignes et des cellules.</value></data>
+  <data name="DataGridDensitySpacious" xml:space="preserve"><value>Aérée</value></data>
+  <data name="DataGridDescription" xml:space="preserve"><value>La grille complète sur 240 vols fictifs : pagination, tri, quatre formes de filtre, sélection, édition en ligne, lignes de détail, regroupement, virtualisation et présentation.</value></data>
+  <data name="DataGridDetailRows" xml:space="preserve"><value>Lignes de détail</value></data>
+  <data name="DataGridDetailRowsDescription" xml:space="preserve"><value>Un chevron ouvre un panneau sous le vol : appareil, trajet, places, arrivée.</value></data>
+  <data name="DataGridEditColumnDescription" xml:space="preserve"><value>Ajoute le crayon qui ouvre une ligne : statut et porte deviennent modifiables.</value></data>
+  <data name="DataGridEditMode" xml:space="preserve"><value>Mode d&apos;édition</value></data>
+  <data name="DataGridEditModeDescription" xml:space="preserve"><value>Une ligne à la fois, ou plusieurs ensemble.</value></data>
+  <data name="DataGridEditMultiple" xml:space="preserve"><value>Plusieurs lignes</value></data>
+  <data name="DataGridEditSingle" xml:space="preserve"><value>Une ligne</value></data>
+  <data name="DataGridEmptyData" xml:space="preserve"><value>Aucune donnée</value></data>
+  <data name="DataGridEmptyDataDescription" xml:space="preserve"><value>Vide les lignes pour montrer le texte d&apos;absence.</value></data>
+  <data name="DataGridExpandAll" xml:space="preserve"><value>Tout ouvrir</value></data>
+  <data name="DataGridExpandAllDescription" xml:space="preserve"><value>Ajoute un bouton d&apos;en-tête qui ouvre ou ferme tous les détails de la page.</value></data>
+  <data name="DataGridExpandMode" xml:space="preserve"><value>Détails ouverts</value></data>
+  <data name="DataGridExpandModeDescription" xml:space="preserve"><value>Un détail à la fois, ou plusieurs.</value></data>
+  <data name="DataGridExpandMultiple" xml:space="preserve"><value>Plusieurs</value></data>
+  <data name="DataGridExpandSingle" xml:space="preserve"><value>Un seul</value></data>
+  <data name="DataGridExportLabels" xml:space="preserve"><value>Afficher le nom des formats d&apos;export</value></data>
+  <data name="DataGridFilterAdvanced" xml:space="preserve"><value>Deux conditions</value></data>
+  <data name="DataGridFilteringSectionDescription" xml:space="preserve"><value>Un clic sur un titre trie (Maj pour un second tri) ; la rangée sous les titres filtre.</value></data>
+  <data name="DataGridFilteringShapesDescription" xml:space="preserve"><value>Quatre formes : texte pour le vol, suggestions pour la compagnie, cases pour l&apos;origine, liste pour la destination.</value></data>
+  <data name="DataGridFilteringTitle" xml:space="preserve"><value>Tri et filtres</value></data>
+  <data name="DataGridFilterMode" xml:space="preserve"><value>Mode de filtre</value></data>
+  <data name="DataGridFilterModesDescription" xml:space="preserve"><value>Un champ, un champ avec son opérateur, ou deux conditions dans un panneau appliqué à la demande.</value></data>
+  <data name="DataGridFilterSimple" xml:space="preserve"><value>Champ</value></data>
+  <data name="DataGridFilterSimpleWithMenu" xml:space="preserve"><value>Champ et opérateur</value></data>
+  <data name="DataGridFixedRowHeight" xml:space="preserve"><value>Hauteur de ligne fixe</value></data>
+  <data name="DataGridFixedRowHeightDescription" xml:space="preserve"><value>Chaque ligne prend 44 pixels, le surplus est rogné.</value></data>
+  <data name="DataGridFooterBottom" xml:space="preserve"><value>En bas</value></data>
+  <data name="DataGridFooterPosition" xml:space="preserve"><value>Ligne de total</value></data>
+  <data name="DataGridFooterPositionDescription" xml:space="preserve"><value>Le total des prix sous le tableau, ou juste sous les en-têtes.</value></data>
+  <data name="DataGridFooterTop" xml:space="preserve"><value>En haut</value></data>
+  <data name="DataGridFreezeNumber" xml:space="preserve"><value>Figer le numéro de vol</value></data>
+  <data name="DataGridFreezeNumberDescription" xml:space="preserve"><value>La première colonne reste en place quand le tableau défile de côté.</value></data>
+  <data name="DataGridGridLines" xml:space="preserve"><value>Filets</value></data>
+  <data name="DataGridGridLinesDescription" xml:space="preserve"><value>Quelles bordures séparent les cellules.</value></data>
+  <data name="DataGridGroupingDescription" xml:space="preserve"><value>Un bouton dans chaque titre regroupe les lignes par cette colonne.</value></data>
+  <data name="DataGridGroupPanel" xml:space="preserve"><value>Panneau des regroupements</value></data>
+  <data name="DataGridGroupPanelDescription" xml:space="preserve"><value>Liste les regroupements actifs au-dessus du tableau, chacun amovible.</value></data>
+  <data name="DataGridGroupsExpanded" xml:space="preserve"><value>Groupes ouverts</value></data>
+  <data name="DataGridGroupsExpandedDescription" xml:space="preserve"><value>État initial des en-têtes de groupe.</value></data>
+  <data name="DataGridHeaderFilterMenu" xml:space="preserve"><value>Menu de filtre dans l&apos;en-tête</value></data>
+  <data name="DataGridHeaderMenuDescription" xml:space="preserve"><value>Range chaque filtre dans un menu ouvert par l&apos;entonnoir de son titre.</value></data>
+  <data name="DataGridHeaderWrap" xml:space="preserve"><value>En-têtes longs</value></data>
+  <data name="DataGridHeaderWrapDescription" xml:space="preserve"><value>Le titre du taux de remplissage dépasse sa colonne : le renvoyer à la ligne ou le couper.</value></data>
+  <data name="DataGridHeaderWrapTruncate" xml:space="preserve"><value>Coupés</value></data>
+  <data name="DataGridHeaderWrapWrap" xml:space="preserve"><value>À la ligne</value></data>
+  <data name="DataGridHideMenuOnSelect" xml:space="preserve"><value>Fermer le menu au choix</value></data>
+  <data name="DataGridHideMenuOnSelectDescription" xml:space="preserve"><value>Avec le menu d&apos;en-tête : le ferme dès qu&apos;une valeur est choisie.</value></data>
+  <data name="DataGridIgnoreDiacritics" xml:space="preserve"><value>Ignorer les accents</value></data>
+  <data name="DataGridIgnoreDiacriticsDescription" xml:space="preserve"><value>Taper zurich trouve Zürich, et liege trouve Liège.</value></data>
+  <data name="DataGridLinesBoth" xml:space="preserve"><value>Les deux</value></data>
+  <data name="DataGridLinesHorizontal" xml:space="preserve"><value>Horizontaux</value></data>
+  <data name="DataGridLinesNone" xml:space="preserve"><value>Aucun</value></data>
+  <data name="DataGridLinesVertical" xml:space="preserve"><value>Verticaux</value></data>
+  <data name="DataGridLoading" xml:space="preserve"><value>État de chargement</value></data>
+  <data name="DataGridLoadingBarContinuous" xml:space="preserve"><value>Continu</value></data>
+  <data name="DataGridLoadingBarMode" xml:space="preserve"><value>Mouvement de la barre</value></data>
+  <data name="DataGridLoadingBarModeDescription" xml:space="preserve"><value>Un balayage d&apos;un bord à l&apos;autre, ou un défilement continu.</value></data>
+  <data name="DataGridLoadingBarSweep" xml:space="preserve"><value>Balayage</value></data>
+  <data name="DataGridLoadingDescription" xml:space="preserve"><value>Force l&apos;état occupé, comme pendant la réponse d&apos;une source.</value></data>
+  <data name="DataGridLockCancelled" xml:space="preserve"><value>Verrouiller les vols annulés</value></data>
+  <data name="DataGridLockCancelledDescription" xml:space="preserve"><value>RowRender les rend non sélectionnables, non dépliables, et barrés.</value></data>
+  <data name="DataGridLookSectionDescription" xml:space="preserve"><value>Densité, filets, rayures et palette propre à la grille.</value></data>
+  <data name="DataGridLookTitle" xml:space="preserve"><value>Présentation</value></data>
+  <data name="DataGridNumericPages" xml:space="preserve"><value>Pages numérotées</value></data>
+  <data name="DataGridNumericPagesDescription" xml:space="preserve"><value>Combien de numéros entourent la page courante ; aucun affiche page X sur Y.</value></data>
+  <data name="DataGridNumericPagesNone" xml:space="preserve"><value>Aucun</value></data>
+  <data name="DataGridPagerAlign" xml:space="preserve"><value>Alignement de la pagination</value></data>
+  <data name="DataGridPagerAlignDescription" xml:space="preserve"><value>Où les boutons de pagination se placent dans leur rangée.</value></data>
+  <data name="DataGridPagerBoth" xml:space="preserve"><value>Les deux</value></data>
+  <data name="DataGridPagerBottom" xml:space="preserve"><value>En bas</value></data>
+  <data name="DataGridPagerPosition" xml:space="preserve"><value>Position de la pagination</value></data>
+  <data name="DataGridPagerPositionDescription" xml:space="preserve"><value>Au-dessus du tableau, en dessous, ou les deux.</value></data>
+  <data name="DataGridPagerTop" xml:space="preserve"><value>En haut</value></data>
+  <data name="DataGridPageSize" xml:space="preserve"><value>Lignes par page</value></data>
+  <data name="DataGridPageSizeDescription" xml:space="preserve"><value>Taille d&apos;une page ; la changer ramène à la première.</value></data>
+  <data name="DataGridPageSizeOptions" xml:space="preserve"><value>Choix de la taille de page</value></data>
+  <data name="DataGridPageSizeOptionsDescription" xml:space="preserve"><value>Laisse le lecteur changer la taille de page depuis la pagination.</value></data>
+  <data name="DataGridPagingSectionDescription" xml:space="preserve"><value>Comment les lignes se découpent en pages et ce que dit la pagination.</value></data>
+  <data name="DataGridPagingSummary" xml:space="preserve"><value>Résumé de pagination</value></data>
+  <data name="DataGridPagingSummaryDescription" xml:space="preserve"><value>Écrit la première et la dernière ligne affichées sur le total.</value></data>
+  <data name="DataGridPagingTitle" xml:space="preserve"><value>Pagination</value></data>
+  <data name="DataGridPreviewTitle" xml:space="preserve"><value>Vols du jour</value></data>
+  <data name="DataGridResetLayout" xml:space="preserve"><value>Proposer de réinitialiser la disposition</value></data>
+  <data name="DataGridResponsive" xml:space="preserve"><value>Cartes sur petit écran</value></data>
+  <data name="DataGridResponsiveDescription" xml:space="preserve"><value>Sous 40 rem, chaque ligne s&apos;empile en carte légendée.</value></data>
+  <data name="DataGridRowHover" xml:space="preserve"><value>Survol des lignes</value></data>
+  <data name="DataGridRowHoverDescription" xml:space="preserve"><value>Teinte la ligne sous le pointeur.</value></data>
+  <data name="DataGridRowsSectionDescription" xml:space="preserve"><value>Sélection, édition, panneaux de détail et regroupement.</value></data>
+  <data name="DataGridRowsTitle" xml:space="preserve"><value>Lignes</value></data>
+  <data name="DataGridRunsDescription" xml:space="preserve"><value>Deux grilles d&apos;exécutions de pipeline : l&apos;une triée avec une colonne teintée, l&apos;autre rayée avec un en-tête collé et des boutons d&apos;export.</value></data>
+  <data name="DataGridRunsPreviewTitle" xml:space="preserve"><value>Exécutions de pipeline</value></data>
+  <data name="DataGridRunsTitle" xml:space="preserve"><value>Grilles d&apos;exécutions</value></data>
+  <data name="DataGridSelectionMode" xml:space="preserve"><value>Sélection</value></data>
+  <data name="DataGridSelectionModesDescription" xml:space="preserve"><value>Aucune, une ligne, ou plusieurs avec une case d&apos;en-tête qui coche la page.</value></data>
+  <data name="DataGridSelectionMultiple" xml:space="preserve"><value>Plusieurs lignes</value></data>
+  <data name="DataGridSelectionNone" xml:space="preserve"><value>Aucune</value></data>
+  <data name="DataGridSelectionSingle" xml:space="preserve"><value>Une ligne</value></data>
+  <data name="DataGridSelectOnRowClick" xml:space="preserve"><value>Sélection au clic sur la ligne</value></data>
+  <data name="DataGridSelectOnRowClickDescription" xml:space="preserve"><value>Un clic n&apos;importe où sur la ligne la coche, pas seulement sur sa case.</value></data>
+  <data name="DataGridShowEditColumn" xml:space="preserve"><value>Colonne d&apos;édition</value></data>
+  <data name="DataGridShowLoadingBar" xml:space="preserve"><value>Barre de chargement</value></data>
+  <data name="DataGridShowLoadingBarDescription" xml:space="preserve"><value>Pendant un chargement, une barre passe sous les en-têtes et les lignes restent en place ; désactivé, une grille paginée les remplace par la ligne de chargement, une grille virtualisée garde celles qu&apos;elle a.</value></data>
+  <data name="DataGridSortingDescription" xml:space="preserve"><value>Croissant, décroissant, puis retour à l&apos;ordre d&apos;origine.</value></data>
+  <data name="DataGridTitle" xml:space="preserve"><value>Grille de données</value></data>
+  <data name="DataGridVariantsDescription" xml:space="preserve"><value>La grille à la largeur de son contenu, plafonnée, tronquée, modifiée sur place, en arbre, groupée et remplissant la place restante de son cadre.</value></data>
+  <data name="DataGridVariantsTitle" xml:space="preserve"><value>Variantes de la grille</value></data>
+  <data name="DataGridVirtualization" xml:space="preserve"><value>Virtualisation</value></data>
+  <data name="DataGridVirtualizeDescription" xml:space="preserve"><value>Ne rend que les lignes visibles et défile sur les 240 ; pagination, regroupement et détails s&apos;effacent.</value></data>
+  <data name="DataListAlign" xml:space="preserve"><value>Alignement</value></data>
+  <data name="DataListAlignBetween" xml:space="preserve"><value>Réparti</value></data>
+  <data name="DataListAlignCenter" xml:space="preserve"><value>Centre</value></data>
+  <data name="DataListAlignDescription" xml:space="preserve"><value>Où la pagination se place dans sa rangée.</value></data>
+  <data name="DataListAlignEnd" xml:space="preserve"><value>Fin</value></data>
+  <data name="DataListAlignStart" xml:space="preserve"><value>Début</value></data>
+  <data name="DataListAnsiHint" xml:space="preserve"><value>Une sortie de terminal avec ses codes couleur, affichée en couleur ou sans les codes.</value></data>
+  <data name="DataListAnsiTitle" xml:space="preserve"><value>Texte ANSI</value></data>
+  <data name="DataListCardsHint" xml:space="preserve"><value>Une liste dessinée en cartes, paginée par son propre pager, avec un export Markdown des dossiers.</value></data>
+  <data name="DataListCardsTitle" xml:space="preserve"><value>Liste de cartes</value></data>
+  <data name="DataListDescription" xml:space="preserve"><value>Une liste à modèle alimentée par une collection ou un chargeur asynchrone, avec ses états de chargement, de vide et d&apos;erreur, et la pagination autonome.</value></data>
+  <data name="DataListEmptyData" xml:space="preserve"><value>Aucune donnée</value></data>
+  <data name="DataListEmptyDataDescription" xml:space="preserve"><value>Vide le catalogue pour montrer le contenu d&apos;absence.</value></data>
+  <data name="DataListFailure" xml:space="preserve"><value>Simuler une panne</value></data>
+  <data name="DataListFailureDescription" xml:space="preserve"><value>Load seulement : le chargeur lève une exception ; la liste montre son contenu d&apos;erreur et un bouton pour réessayer.</value></data>
+  <data name="DataListFirstLast" xml:space="preserve"><value>Première et dernière</value></data>
+  <data name="DataListFirstLastDescription" xml:space="preserve"><value>Ajoute les boutons qui sautent à chaque extrémité.</value></data>
+  <data name="DataListGalleryTitle" xml:space="preserve"><value>Galerie</value></data>
+  <data name="DataListKanbanHint" xml:space="preserve"><value>Des cartes déplacées entre colonnes à la souris ou au clavier.</value></data>
+  <data name="DataListKanbanTitle" xml:space="preserve"><value>Tableau kanban</value></data>
+  <data name="DataListLatency" xml:space="preserve"><value>Latence simulée</value></data>
+  <data name="DataListLatencyDescription" xml:space="preserve"><value>Load seulement : temps que prend le chargeur, pendant lequel s&apos;affiche le contenu de chargement.</value></data>
+  <data name="DataListListLabel" xml:space="preserve"><value>Catalogue des produits</value></data>
+  <data name="DataListLogHint" xml:space="preserve"><value>Un journal de traitement avec niveaux, une recherche et une longue ligne d&apos;erreur qui passe à la ligne au lieu d&apos;être coupée.</value></data>
+  <data name="DataListLogTitle" xml:space="preserve"><value>Visionneuse de journal</value></data>
+  <data name="DataListMilliseconds" xml:space="preserve"><value>{0} ms</value></data>
+  <data name="DataListNumericPages" xml:space="preserve"><value>Pages numérotées</value></data>
+  <data name="DataListNumericPagesDescription" xml:space="preserve"><value>Combien de numéros entourent la page courante ; aucun affiche page X sur Y.</value></data>
+  <data name="DataListNumericPagesNone" xml:space="preserve"><value>Aucun</value></data>
+  <data name="DataListPagerDescription" xml:space="preserve"><value>OmniPager seul, piloté par la page : il ne fait que signaler la page demandée.</value></data>
+  <data name="DataListPagerDisabled" xml:space="preserve"><value>Désactiver la pagination</value></data>
+  <data name="DataListPagerDisabledDescription" xml:space="preserve"><value>Tous les boutons sont grisés.</value></data>
+  <data name="DataListPagerTitle" xml:space="preserve"><value>Pagination</value></data>
+  <data name="DataListPageSize" xml:space="preserve"><value>Éléments par page</value></data>
+  <data name="DataListPageSizeDescription" xml:space="preserve"><value>La changer ramène à la première page.</value></data>
+  <data name="DataListPageSizeOptions" xml:space="preserve"><value>Choix de la taille de page</value></data>
+  <data name="DataListPageSizeOptionsDescription" xml:space="preserve"><value>Une liste dans la pagination pour changer la taille de page.</value></data>
+  <data name="DataListPreviewTitle" xml:space="preserve"><value>Catalogue</value></data>
+  <data name="DataListSource" xml:space="preserve"><value>Source des données</value></data>
+  <data name="DataListSourceDescription" xml:space="preserve"><value>D&apos;où viennent les éléments, et ce qui arrive en chemin.</value></data>
+  <data name="DataListSourceItems" xml:space="preserve"><value>Items</value></data>
+  <data name="DataListSourceLoad" xml:space="preserve"><value>Load</value></data>
+  <data name="DataListSourceModeDescription" xml:space="preserve"><value>Items passe la page directement ; Load interroge un chargeur asynchrone annulable.</value></data>
+  <data name="DataListSourceTitle" xml:space="preserve"><value>Source</value></data>
+  <data name="DataListTitle" xml:space="preserve"><value>Liste de données</value></data>
+  <data name="DataListVirtualHint" xml:space="preserve"><value>Deux mille fichiers dans un cadre qui défile seul : seule la fenêtre visible est rendue.</value></data>
+  <data name="DataListVirtualize" xml:space="preserve"><value>Virtualisation</value></data>
+  <data name="DataListVirtualizeDescription" xml:space="preserve"><value>Ne rend que les éléments visibles de tout le catalogue ; la pagination est alors masquée.</value></data>
+  <data name="DataListVirtualTitle" xml:space="preserve"><value>Liste virtuelle</value></data>
+  <data name="VariantsCappedHint" xml:space="preserve"><value>Trois lignes restent courtes, dix mille défilent sous un plafond de 18 rem en ne rendant que la fenêtre visible.</value></data>
+  <data name="VariantsCappedTitle" xml:space="preserve"><value>Hauteur plafonnée</value></data>
+  <data name="VariantsCasesHint" xml:space="preserve"><value>La grille dans sa forme courante, une colonne de chaque forme de filtre et d&apos;alignement, et une barre d&apos;export en pied.</value></data>
+  <data name="VariantsCasesTitle" xml:space="preserve"><value>Dossiers ouverts</value></data>
+  <data name="VariantsEditHint" xml:space="preserve"><value>Modifier depuis le crayon ou un double clic, ou depuis un simple clic dans une cellule.</value></data>
+  <data name="VariantsEditTitle" xml:space="preserve"><value>Édition sur place</value></data>
+  <data name="VariantsFillBoxHint" xml:space="preserve"><value>Des réglages au-dessus, une grille en dessous qui prend le reste d&apos;un cadre de hauteur fixe ; le cadre défile quand les réglages ne lui laissent rien.</value></data>
+  <data name="VariantsFillBoxTitle" xml:space="preserve"><value>Grille dans un cadre qui défile</value></data>
+  <data name="VariantsFillTitle" xml:space="preserve"><value>Grille remplissant son cadre</value></data>
+  <data name="VariantsPicturesHint" xml:space="preserve"><value>La grille reste voilée tant que les images de ses premières lignes ne sont pas chargées, deux secondes au plus.</value></data>
+  <data name="VariantsPicturesTitle" xml:space="preserve"><value>Grille voilée jusqu&apos;à l&apos;arrivée de ses images</value></data>
+  <data name="VariantsRunStatusHint" xml:space="preserve"><value>Une pastille de statut par ligne, un nombre aligné à la fin et une exécution sélectionnée.</value></data>
+  <data name="VariantsRunStatusTitle" xml:space="preserve"><value>Statut et sélection</value></data>
+  <data name="VariantsSizingHint" xml:space="preserve"><value>Chaque colonne prend la largeur de sa valeur la plus large. La grille qui se charge elle-même montre ses en-têtes sous la barre de chargement ; les colonnes de date se filtrent d&apos;une saisie ou d&apos;une plage Du et Au.</value></data>
+  <data name="VariantsSizingTitle" xml:space="preserve"><value>Colonnes à la largeur de leur contenu</value></data>
+  <data name="VariantsTemplatedHint" xml:space="preserve"><value>Chaque colonne a un modèle et les lignes arrivent après le premier rendu : les colonnes prennent la largeur des cellules qui arrivent.</value></data>
+  <data name="VariantsTemplatedTitle" xml:space="preserve"><value>Colonnes à modèle qui arrivent tard</value></data>
+  <data name="VariantsTreeHint" xml:space="preserve"><value>Un compte de résultat dont les catégories portent des sous-totaux ; les boutons ouvrent, ferment et exportent tout l&apos;arbre.</value></data>
+  <data name="VariantsTreeTitle" xml:space="preserve"><value>Grille en arbre</value></data>
+  <data name="VariantsTruncationHint" xml:space="preserve"><value>Une valeur longue est coupée par une ellipse, entière dans son infobulle ; dans un cadre étroit, les colonnes se partagent ce qui reste.</value></data>
+  <data name="VariantsTruncationTitle" xml:space="preserve"><value>Valeurs tronquées</value></data>
 </root>

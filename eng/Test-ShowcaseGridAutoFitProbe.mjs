@@ -139,7 +139,7 @@ await send('Page.navigate', { url: siteUrl });
 // navigation asked before the router listens changes the address and leaves the home page shown.
 await waitFor('le runtime Blazor', "typeof Blazor !== 'undefined' && typeof Blazor.navigateTo === 'function' && document.getElementById('showcase-theme') !== null");
 await pause(1500);
-await evaluate("Blazor.navigateTo('/components/legacy/grille')");
+await evaluate("Blazor.navigateTo('/components/data-grid-variants')");
 await waitFor('la grille virtualisée de la vitrine', `document.querySelectorAll('${grid} tbody tr[data-omni-row-index]').length > 3`);
 await evaluate(`document.querySelector('${grid}').scrollIntoView({ block: 'center' })`);
 await pause(300);
@@ -246,7 +246,7 @@ results.push('infobulle de la cellule coupée');
 // The frame shrinks below what the columns need: the table keeps their widths and scrolls sideways
 // instead of squeezing the Truncate column to nothing.
 const squeeze = await evaluate(`(async () => {
-  const box = document.querySelector('${fit}').closest('.demo-grid-fit-box');
+  const box = document.querySelector('${fit}').closest('#demo-grid-fit-box');
   const viewport = document.querySelector('${fit} .omni-data-grid__viewport');
   box.style.maxInlineSize = '8rem';
   await new Promise(resolve => setTimeout(resolve, 500));
@@ -267,7 +267,7 @@ results.push(`cadre trop étroit : défilement latéral (${Math.round(squeeze.sc
 // hidden tab) must not shrink its columns to their padding, and they are intact once it is shown.
 const nameFitted = await fitWidth('Name');
 const hidden = await evaluate(`(async () => {
-  const box = document.querySelector('${fit}').closest('.demo-grid-fit-box');
+  const box = document.querySelector('${fit}').closest('#demo-grid-fit-box');
   const cell = document.querySelector('${fit} tbody td[data-omni-col="Name"]');
   box.style.display = 'none';
   const marker = document.createTextNode('');

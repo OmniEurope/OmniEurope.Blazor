@@ -1,0 +1,15 @@
+@* A grid veiled by LoadingContent whose first rows carry a picture (a file of the site, the security policy
+   admits no other): it stays veiled until those pictures have arrived, two seconds at most, then shows. The
+   probe scripts delay this picture to check it. *@
+<OmniDataGrid TItem="CaseRow" Id="demo-grid-pictures"
+              Items="Rows"
+              Caption="Files with a picture">
+    <LoadingContent>Loading...</LoadingContent>
+    <Columns>
+        <OmniDataGridColumn TItem="CaseRow" Property="Reference" Title="Reference" Filterable="false" />
+        <OmniDataGridColumn TItem="CaseRow" Property="Country" Title="Picture" Filterable="false">
+            <Template Context="row"><OmniImage Source="showcase-sample.svg?grid-preparation" Alt="Picture" Width="48" Height="32" Fit="OmniImageFit.Cover" Loading="OmniImageLoading.Eager" /></Template>
+        </OmniDataGridColumn>
+        <OmniDataGridColumn TItem="CaseRow" Property="Applicant" Title="Applicant" Filterable="false" />
+    </Columns>
+</OmniDataGrid>

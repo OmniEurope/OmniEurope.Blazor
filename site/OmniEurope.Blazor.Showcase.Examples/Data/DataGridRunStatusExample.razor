@@ -1,0 +1,27 @@
+@* The mockup's drawing: a frame dressed as a card, a thin sticky header, the duration (a number) aligned at
+   the end in digits of the same width without asking, the status as a compact pill (omni-status class), the
+   chosen row tinted and bold, the sorted column tinted more lightly (HighlightActiveColumn), row separators
+   without alternation (AllowAlternatingRows="false": rows alternate by default), and every row without
+   paging (ScrollMode All) under a height cap. Filterable="false" on the grid: no column shows a filter. *@
+<OmniDataGrid TItem="RunRow" Id="demo-grid-runs"
+              HeaderWrap="OmniDataGridHeaderWrap.Truncate"
+              Items="RunData.Compact"
+              ScrollMode="OmniDataGridScrollMode.All"
+              Caption="Recent runs"
+              AllowSorting="true"
+              Filterable="false"
+              AllowAlternatingRows="false"
+              HighlightActiveColumn="true"
+              MaxHeight="17rem"
+              SelectionMode="OmniDataGridSelectionMode.Single"
+              KeyOf="run => run.Run"
+              @bind-Value="SelectedRuns">
+    <Columns>
+        <OmniDataGridColumn TItem="RunRow" Property="Run" Title="Run" />
+        <OmniDataGridColumn TItem="RunRow" Property="Pipeline" Title="Pipeline" SortOrder="OmniDataGridSortOrder.Ascending" />
+        <OmniDataGridColumn TItem="RunRow" Property="Seconds" Title="Duration (s)" />
+        <OmniDataGridColumn TItem="RunRow" Property="Status" Title="Status">
+            <Template Context="run"><span class="@($"omni-status omni-status--{run.Tone}")">@run.Status</span></Template>
+        </OmniDataGridColumn>
+    </Columns>
+</OmniDataGrid>

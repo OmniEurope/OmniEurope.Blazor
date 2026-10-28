@@ -1,0 +1,8 @@
+@* Virtualize: two thousand files of which only the ones in the window are rendered; the list scrolls in its
+   frame, the first ancestor that scrolls, and two spacers hold the place of the others. *@
+<div role="region" aria-label="Two thousand files">
+    <OmniDataList TItem="CaseRow" Id="demo-list-virtual" Items="Files" Virtualize="true">
+        <ItemTemplate><strong>@context.Reference</strong> : @context.Applicant, @context.Country</ItemTemplate>
+        <EmptyContent>No cases on this page.</EmptyContent>
+    </OmniDataList>
+</div>

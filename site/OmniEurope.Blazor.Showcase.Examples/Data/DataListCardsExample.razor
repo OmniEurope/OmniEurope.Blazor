@@ -1,0 +1,30 @@
+@using System.Globalization
+@* A list of cards with its pager, and a Markdown export outside any grid: every announced row, read page
+   by page by the provider, not only the page of cards on screen; the header carries the title, the sort,
+   the limit, the time and the count. A grid exports through its own bars (ShowFooterBar, FooterBarExport). *@
+<OmniStack Gap="OmniSpacing.Large">
+    <OmniDataList TItem="CaseRow" Items="Page" Virtualize="false">
+        <ItemTemplate>
+            <OmniCard>
+                <HeaderContent><OmniHeading Level="OmniHeadingLevel.H5">@context.Reference</OmniHeading></HeaderContent>
+                <ChildContent>@context.Applicant, @context.Country</ChildContent>
+                <FooterContent><OmniBadge Tone="OmniTone.Neutral">@context.Amount.ToString("C0", CultureInfo.CurrentCulture)</OmniBadge></FooterContent>
+            </OmniCard>
+        </ItemTemplate>
+        <EmptyContent>No cases on this page.</EmptyContent>
+        <LoadingContent>Loading cases.</LoadingContent>
+    </OmniDataList>
+
+    <OmniPager Label="Case pagination"
+               Page="PageNumber"
+               PageChanged="@(value => PageNumber = value)"
+               PageSize="PageSize"
+               PageSizeChanged="ChangePageSize"
+               PageSizeOptions="Sizes"
+               PageCount="PageCount"
+               NumericPageCount="5"
+               ShowFirstLast="true"
+               Justify="OmniJustification.Center" />
+
+    <OmniMarkdownExportButton TItem="CaseRow" Export="CreateExport" FileName="open-cases" />
+</OmniStack>

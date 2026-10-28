@@ -138,7 +138,7 @@ await waitFor('le runtime Blazor', "typeof Blazor !== 'undefined' && typeof Blaz
 // outside.
 const popover = column => `.omni-data-grid th[data-omni-col="${column}"] details[data-omni-popover]`;
 const isOpen = column => evaluate(`document.querySelector(${JSON.stringify(popover(column))}).open`);
-await evaluate("Blazor.navigateTo('/components/legacy/grille-avancee')");
+await evaluate("Blazor.navigateTo('/components/data-grid-advanced')");
 await waitFor('les filtres de la grille avancée', `document.querySelectorAll('.omni-data-grid details[data-omni-popover]').length >= 2`);
 await evaluate(`document.querySelector(${JSON.stringify(popover('Reference'))}).scrollIntoView({ block: 'center' })`);
 await pause(500);

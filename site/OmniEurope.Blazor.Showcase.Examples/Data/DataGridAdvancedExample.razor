@@ -1,0 +1,133 @@
+@* The grid at full stretch: selection, grouping, editing, frozen columns and the two filter controls the
+   column header can host. The row of selectors above it drives the display settings live, so every value the
+   parameters accept can be seen rather than merely described. Its columns can be dragged by their header,
+   hidden or moved from the chooser of the header bar (the reference stays: Hideable false) and reset there;
+   StateKey keeps that layout, the sorts and the filters across a reload. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniRow Gap="OmniSpacing.Medium" Wrap="true" Align="OmniAlignment.End">
+        <OmniFormField For="grid-lines">
+            <LabelContent>Lines</LabelContent>
+            <ChildContent>
+                <OmniDropDown TValue="OmniDataGridLines" Id="grid-lines" Options="_lineOptions" @bind-Value="_lines" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniFormField For="grid-density">
+            <LabelContent>Density</LabelContent>
+            <ChildContent>
+                <OmniDropDown TValue="OmniDensity" Id="grid-density" Options="_densityOptions" @bind-Value="_density" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniFormField For="grid-pager">
+            <LabelContent>Pager</LabelContent>
+            <ChildContent>
+                <OmniDropDown TValue="OmniDataGridPlacement" Id="grid-pager" Options="_pagerOptions" @bind-Value="_pager" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniFormField For="grid-selection">
+            <LabelContent>Selection</LabelContent>
+            <ChildContent>
+                <OmniDropDown TValue="OmniDataGridSelectionMode" Id="grid-selection" Options="_selectionOptions" @bind-Value="_mode" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniFormField For="grid-filter">
+            <LabelContent>Filters</LabelContent>
+            <ChildContent>
+                <OmniDropDown TValue="OmniDataGridFilterMode" Id="grid-filter" Options="_filterOptions" @bind-Value="_filters" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniFormField For="grid-edit">
+            <LabelContent>Edit</LabelContent>
+            <ChildContent>
+                <OmniDropDown TValue="OmniDataGridRowMode" Id="grid-edit" Options="_editOptions" @bind-Value="_edit" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniFormField For="grid-expand">
+            <LabelContent>Expand</LabelContent>
+            <ChildContent>
+                <OmniDropDown TValue="OmniDataGridRowMode" Id="grid-expand" Options="_expandOptions" @bind-Value="_expand" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniFormField For="grid-footer">
+            <LabelContent>Footer</LabelContent>
+            <ChildContent>
+                <OmniDropDown TValue="OmniDataGridPlacement" Id="grid-footer" Options="_footerOptions" @bind-Value="_footer" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniFormField For="grid-aggregate">
+            <LabelContent>Aggregate</LabelContent>
+            <ChildContent>
+                <OmniDropDown TValue="OmniDataGridAggregate" Id="grid-aggregate" Options="_aggregateOptions" @bind-Value="_aggregate" />
+            </ChildContent>
+        </OmniFormField>
+    </OmniRow>
+
+    <OmniDataGrid TItem="CaseRow"
+                  Items="CaseData.Rows"
+                  Caption="Cases with every grid feature"
+                  HeaderWrap="OmniDataGridHeaderWrap.Wrap"
+                  AllowSorting="true"
+                  Filterable="true"
+                  AllowGrouping="true"
+                  AllowColumnResize="true"
+                  AllowColumnReorder="true"
+                  AllowColumnHide="true"
+                  ShowResetLayout="true"
+                  StateKey="showcase-grid-advanced"
+                  AllowRowSelectOnRowClick="true"
+                  ScrollMode="OmniDataGridScrollMode.Paged"
+                  AllGroupsExpanded="true"
+                  AlwaysShowPager="true"
+                  PageSize="4"
+                  SelectionMode="_mode"
+                  EditMode="_edit"
+                  ExpandMode="_expand"
+                  FooterPlacement="_footer"
+                  FilterMode="_filters"
+                  PagerPlacement="_pager"
+                  Density="_density"
+                  @bind-Groups="_grouping"
+                  Value="_selection"
+                  ValueChanged="@(value => _selection = value)"
+                  OnCellDoubleClick="ReadCell"
+                  HighlightColumnOnHover="true"
+                  GridLines="_lines">
+        <Columns>
+            <OmniDataGridColumn TItem="CaseRow" Property="Reference" Title="Reference" Frozen="true" Hideable="false" HighlightOnHover="false" FilterOperators="ReferenceOperators" />
+            <OmniDataGridColumn TItem="CaseRow" Property="Applicant" Title="Applicant"
+                                FilterType="OmniDataGridColumnFilterType.Combo" FilterSearchable="true">
+                <GroupFooterTemplate>Group @context.Key: @context.Items.Count rows</GroupFooterTemplate>
+                <FilterTemplate>
+                    @* The same control the column would raise on its own, placed by hand to show that a
+                       host can take the filter over without losing what the grid provides. *@
+                    <OmniDataGridFilterCombo Value="@context.Value"
+                                             ValueChanged="@(value => context.ValueChanged(value))"
+                                             Suggestions="@context.Suggestions"
+                                             Placeholder="@context.Placeholder"
+                                             MaxSuggestions="6" />
+                </FilterTemplate>
+            </OmniDataGridColumn>
+            <OmniDataGridColumn TItem="CaseRow" Property="Country" Title="Country" Groupable="true"
+                                FilterType="OmniDataGridColumnFilterType.MultiSelect"
+                                FilterValues="CaseData.Countries">
+                <FilterTemplate>
+                    <OmniDataGridFilterMultiSelect Value="@context.Value"
+                                                   ValueChanged="@(value => context.ValueChanged(value))"
+                                                   Suggestions="@context.Suggestions"
+                                                   Placeholder="@context.Placeholder"
+                                                   Filterable="true"
+                                                   MaxSuggestions="8"
+                                                   Display="@(context.InPopover ? OmniMultiSelectDisplay.List : OmniMultiSelectDisplay.Compact)" />
+                </FilterTemplate>
+            </OmniDataGridColumn>
+            @* A date column filters from one text input (a day, a month or a year, in the order of the culture);
+               AdvancedFilter adds the From and To range, either bound optional, to the same filter. *@
+            <OmniDataGridColumn TItem="CaseRow" Property="Filed" Title="Filed" FormatString="{0:g}" FilterType="OmniDataGridColumnFilterType.Date"
+                                AdvancedFilter="true" />
+            <OmniDataGridColumn TItem="CaseRow" Property="Amount" Title="Amount" FormatString="{0:C0}" FilterType="OmniDataGridColumnFilterType.Number"
+                                TextAlign="OmniAlignment.End" Aggregate="_aggregate" AggregateFormat="@AggregateFormat" GroupAggregateFormat="@GroupAggregateFormat" />
+        </Columns>
+    </OmniDataGrid>
+
+    <p>Retained: @(_selection.Count == 0 ? "none" : string.Join(", ", _selection.Select(row => row.Reference)))</p>
+    <p role="status">@(_cellRead ?? "Double-click a cell to read it back.")</p>
+</OmniStack>

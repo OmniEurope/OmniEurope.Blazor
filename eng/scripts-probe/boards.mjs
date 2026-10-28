@@ -13,7 +13,7 @@ export async function boardSteps(session, results) {
 
   // 1. The data grid page: a hovered body cell tints its column, a cut cell shows its text, a sort of
   // the virtual grid scrolls it back to its start.
-  await session.visit('/components/legacy/grille', '#demo-grid-tree');
+  await session.visit('/components/data-grid-variants', '#demo-grid-tree');
   await hover('#demo-grid-tree tbody td[data-omni-col="Previous"]');
   await waitFor('la colonne teintée au survol', "document.querySelectorAll('#demo-grid-tree .omni-data-grid__column--hover').length > 1 && document.querySelector('#demo-grid-tree th.omni-data-grid__column--hover') !== null");
   await mouse('mouseMoved', { x: 5, y: 5 }, { button: 'none' });
@@ -115,7 +115,7 @@ export async function boardSteps(session, results) {
   const rowHeights = await evaluate(`[...document.querySelectorAll(${JSON.stringify(fill + ' tbody tr[data-omni-slot]')})].map(row => Math.round(row.getBoundingClientRect().height * 10) / 10)`);
   check(rowHeights.length > 3 && rowHeights.every(height => height === 36), `Lignes de hauteur inégale malgré FixedRowHeight : ${JSON.stringify(rowHeights)}.`);
   check(await evaluate(`document.querySelector(${JSON.stringify(fillViewport)}).style.getPropertyValue('--omni-row-height') === '36px'`), 'La hauteur fixe des lignes n\'est pas posée sur la zone de défilement.');
-  await mouse('mouseWheel', await pointOf('#demo-grid-scope > .demo-hint'), { button: 'none', deltaX: 0, deltaY: 1500 });
+  await mouse('mouseWheel', await pointOf('#demo-grid-scope > .omni-text'), { button: 'none', deltaX: 0, deltaY: 1500 });
   await waitFor('les lignes défilées par la molette sur le cadre', `document.querySelector(${JSON.stringify(fillViewport)}).scrollTop > 1000`);
   await waitFor('la fenêtre groupée déplacée', `Math.min(...[...document.querySelectorAll(${JSON.stringify(fill + ' tbody tr[data-omni-slot]')})].map(row => Number(row.getAttribute('data-omni-slot')))) > 20`);
   step('grille remplissant son cadre : voile levé, lignes fixes, groupes virtualisés, molette sur le cadre');
@@ -162,7 +162,7 @@ export async function boardSteps(session, results) {
 
   // 2. The advanced grid: a frozen column while the viewport scrolls sideways, the suggestions of a
   // combo filter placed under it, and every module released when the page is left.
-  await session.visit('/components/legacy/grille-avancee', '.omni-data-grid__viewport');
+  await session.visit('/components/data-grid-advanced', '.omni-data-grid__viewport');
   await send('Emulation.setDeviceMetricsOverride', { width: 640, height: 900, deviceScaleFactor: 1, mobile: false });
   await pause(400);
   const viewport = '.omni-data-grid:has(th[data-omni-col="Reference"]) .omni-data-grid__viewport';
@@ -190,14 +190,14 @@ export async function boardSteps(session, results) {
   // and the window hold exactly as many listeners as after the first (Blazor registers its delegated
   // events once, on their first use, which is why the first round trip is the reference).
   const listeners = async () => ({ document: await session.listenersOf('document'), window: await session.listenersOf('window') });
-  await session.visit('/components/legacy/listes', '.omni-log-viewer');
+  await session.visit('/components/data-list', '.omni-log-viewer');
   await pause(500);
   const listenersBefore = await listeners();
-  await session.visit('/components/legacy/grille-avancee', '.omni-data-grid__viewport');
+  await session.visit('/components/data-grid-advanced', '.omni-data-grid__viewport');
   await clickOn('.omni-data-grid th[data-omni-col="Applicant"] details[data-omni-popover] > summary');
   await waitFor('le filtre Demandeur rouvert', "document.querySelector('.omni-data-grid th[data-omni-col=\"Applicant\"] details[data-omni-popover]').open");
   await key('Escape', 'Escape', 27);
-  await session.visit('/components/legacy/listes', '.omni-log-viewer');
+  await session.visit('/components/data-list', '.omni-log-viewer');
   await pause(500);
   const listenersAfter = await listeners();
   check(JSON.stringify(listenersAfter) === JSON.stringify(listenersBefore),
@@ -233,7 +233,7 @@ export async function boardSteps(session, results) {
   await pause(200);
   check(await evaluate("document.querySelector('.omni-log-viewer button[aria-pressed]')?.getAttribute('aria-pressed') === 'true'"), 'Un défilement en largeur a interrompu le suivi du journal.');
   await clickOn('.omni-log-viewer input');
-  await session.type('dossier');
+  await session.type('document');
   await key('Enter', 'Enter', 13);
   await waitFor('le passage trouvé', "document.querySelector('.omni-log-viewer mark, .omni-log-viewer [class*=\"match\"]') !== null");
   const next = await evaluate("[...document.querySelectorAll('.omni-log-viewer button')].some(button => /next|suivant/i.test(button.className + ' ' + (button.getAttribute('aria-label') ?? '')))");

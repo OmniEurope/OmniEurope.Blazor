@@ -1,0 +1,12 @@
+@* ANSI sequences: the line stays written as it is, only the display changes. Render draws the colours and the
+   bold, Hide removes the codes without drawing anything, Raw shows the raw line; the search covers the text
+   shown. OmniAnsiText does the same outside a log, for a grid cell. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniSelectBar TValue="OmniAnsiMode" Id="demo-ansi-mode" Label="Escape sequences" Options="AnsiModes" @bind-Value="AnsiMode" />
+    <OmniLogViewer Id="demo-ansi-log" Lines="AnsiLines" AnsiMode="AnsiMode" Label="Log with ANSI colours"
+                   ShowSearch="true" ShowTimestamps="false" Height="11rem" />
+    <OmniRow Gap="OmniSpacing.Small" Align="OmniAlignment.Center" Wrap="true">
+        <span>The same line in a cell :</span>
+        <OmniAnsiText Id="demo-ansi-text" Text="@AnsiLines[0].Text" Mode="AnsiMode" />
+    </OmniRow>
+</OmniStack>

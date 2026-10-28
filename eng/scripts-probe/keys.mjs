@@ -87,7 +87,7 @@ export async function keySteps(session, results) {
 
   // 5. Grid row in edit mode (G-D29-03, G-D26-04): the row keeps its read height; the value typed in its
   // field is saved by Enter, the focus coming back to the row; Escape cancels the next edit.
-  await session.visit('/components/legacy/grille', '#demo-grid-edit');
+  await session.visit('/components/data-grid-variants', '#demo-grid-edit');
   const editRow = "document.querySelector('#demo-grid-edit tbody tr[data-omni-row-index=\"0\"]')";
   const editing = `${editRow}.classList.contains('omni-data-grid__row--editing')`;
   const fieldFocused = `${editRow}.contains(document.activeElement) && document.activeElement.matches('input')`;

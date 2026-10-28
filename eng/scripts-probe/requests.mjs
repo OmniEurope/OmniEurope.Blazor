@@ -89,7 +89,7 @@ export async function requestSteps(session, results) {
 
   // 2. Skip link of the site's layout: the first Tab stop; Enter focuses the main landmark, the address
   // unchanged.
-  await session.visit('/components/legacy/grille', '#demo-grid-tree');
+  await session.visit('/components/data-grid-variants', '#demo-grid-tree');
   const address = await evaluate('location.href');
   await evaluate("document.activeElement?.blur(); window.scrollTo(0, 0); document.body.focus()");
   await tab();
@@ -139,7 +139,7 @@ export async function requestSteps(session, results) {
   await click(await paddingOf(cellOf(1, 'Country')));
   await waitFor('la ligne de la cellule Pays vide ouverte par un clic dans la cellule', isEditing(1));
   await waitFor('le champ Pays vide focalisé', fieldFocus(1, 'Country', false));
-  await clickOn(`${cellOf(0, 'Country')} .demo-grid-edit-cell-details`);
+  await clickOn(`${cellOf(0, 'Country')} button[aria-label="Details"]`);
   await waitFor('le clic du bouton Détails compté', "document.getElementById('demo-grid-edit-cell-clicks').textContent.includes('1')");
   await pause(500);
   check(!(await evaluate(isEditing(0))) && await evaluate(isEditing(1)), 'Un clic sur le bouton de la cellule a ouvert sa ligne.');
@@ -205,7 +205,7 @@ export async function requestSteps(session, results) {
 
   // 6. The label of a native drop-down (recette R-70): a real click on the label opens the select's own
   // list (showPicker, called by omni-focus.js on the click itself, which a .NET round trip would lose).
-  await session.visit('/components/legacy/grille-avancee', '#grid-lines');
+  await session.visit('/components/data-grid-advanced', '#grid-lines');
   check(await evaluate("document.getElementById('grid-lines')?.localName === 'select' && !document.getElementById('grid-lines').matches(':open')"), "La liste Lignes n'est pas une liste native fermée.");
   await clickOn('label[for="grid-lines"]');
   await waitFor('la liste native ouverte par son libellé, le focus sur la liste', "document.activeElement?.id === 'grid-lines' && document.getElementById('grid-lines').matches(':open')");
@@ -531,7 +531,7 @@ export async function requestSteps(session, results) {
   // scroll while the box holds the content, and below it the columns stay at their content floor and the grid
   // scrolls sideways instead of cutting. A second grid wraps its long column (Wrap) instead of cutting it.
   await send('Emulation.setDeviceMetricsOverride', { width: 1800, height: 900, deviceScaleFactor: 1, mobile: false });
-  await session.visit('/components/legacy/grille', '#demo-grid-sizing');
+  await session.visit('/components/data-grid-variants', '#demo-grid-sizing');
   const sizingState = gridId => `(() => {
     const grid = document.getElementById('${gridId}');
     const viewport = grid.querySelector('.omni-data-grid__viewport');
@@ -569,7 +569,7 @@ export async function requestSteps(session, results) {
     });
   })()`;
   const sizeBox = async (gridId, width) => {
-    await evaluate(`document.getElementById('${gridId}').closest('.demo-grid-sizing-box').style.inlineSize = '${width}px'`);
+    await evaluate(`document.getElementById('${gridId}').closest('[role="group"]').style.inlineSize = '${width}px'`);
     // The columns are measured and shared out after the box resizes: settled once three samples agree.
     let last = '';
     let same = 0;
@@ -628,7 +628,7 @@ export async function requestSteps(session, results) {
   check(templatesFull.problems.length === 0, `Grille à modèles chargée après coup : ${templatesFull.problems.join(' | ')} (largeurs vides ${templatesEmpty.widths.join(', ')}, chargées ${templatesFull.widths.join(', ')}).`);
   const widestName = await evaluate("Math.max(...[...document.querySelectorAll('#demo-grid-sizing-templates tbody td[data-omni-col=\"Name\"] a')].map(link => link.getBoundingClientRect().width))");
   check(templatesFull.widths[0] >= widestName, `La colonne du nom (${templatesFull.widths[0]} px) est plus étroite que son lien le plus long (${widestName.toFixed(1)} px).`);
-  await evaluate("for (const box of document.querySelectorAll('.demo-grid-sizing-box')) box.style.removeProperty('inline-size')");
+  await evaluate(`for (const box of document.querySelectorAll('[role="group"][aria-label^="Frame of"]')) box.style.removeProperty('inline-size')`);
   await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
   await pause(300);
   step(`colonnes au contenu : un en-tête sur une ligne, rien de coupé, la colonne État au plus à sa pastille ou à son en-tête (${narrow.widths[1]} px) dans des boîtes de 600, 900 et 1300 px, les colonnes Grow prennent la place restante, sans défilement latéral tant que le contenu tient (plancher de ${floor.toFixed(0)} px), sans Grow la place partagée à parts égales (+${Math.min(...shares)} px par colonne), grille à modèles chargée après coup à la largeur de ses cellules (nom ${templatesFull.widths[0]} px), colonne Wrap sur ${wrapLines} lignes dans 500 px`);
@@ -659,7 +659,7 @@ export async function requestSteps(session, results) {
       const frame = () => { record(); if (window.__probeSizingStop) observer.disconnect(); else requestAnimationFrame(frame); };
       requestAnimationFrame(frame);
     })()`);
-    await session.visit('/components/legacy/grille', '#demo-grid-sizing table[data-omni-sized]');
+    await session.visit('/components/data-grid-variants', '#demo-grid-sizing table[data-omni-sized]');
     await waitFor('la grille chargée par Load dimensionnée', "document.querySelector('#demo-grid-sizing-remote table[data-omni-sized]') !== null");
     await pause(500);
     const traces = JSON.parse(await evaluate('(window.__probeSizingStop = true, JSON.stringify(window.__probeSizing))'));
@@ -790,7 +790,7 @@ export async function requestSteps(session, results) {
   // cells and its bar buttons really show (intersected with every clipping ancestor and the window),
   // also under a host rule of a flex basis of 0 (display flex, flex 1 1 0, min-block-size 0). With room
   // left, the grid still ends at the bottom of the box and the box does not scroll.
-  await session.visit('/components/legacy/grille', '#demo-grid-fill-box-grid');
+  await session.visit('/components/data-grid-variants', '#demo-grid-fill-box-grid');
   const fillBox = "document.getElementById('demo-grid-fill-box')";
   const fillBoxState = `(() => {
     const box = ${fillBox};
@@ -885,7 +885,7 @@ export async function requestSteps(session, results) {
   await waitFor('le texte libre pris pour valeur à la sortie du champ', "document.getElementById('inputs-model-value').textContent.includes('modele-maison-7b')");
   step('saisie libre : un modèle absent des suggestions devient la valeur quand on quitte le champ');
 
-  await session.visit('/components/legacy/grilles-maquette', '#runs-striped .omni-data-grid__export-button');
+  await session.visit('/components/data-grid-runs', '#runs-striped .omni-data-grid__export-button');
   const barState = await evaluate(`(() => {
     const heights = [...document.querySelectorAll('#runs-striped .omni-data-grid__export-button')].map(button => Math.round(button.getBoundingClientRect().height));
     const ruler = document.createElement('button');
@@ -962,7 +962,7 @@ export async function requestSteps(session, results) {
       check(csp.length === 0, `Violations CSP avant le rechargement de la grille à images : ${csp.join(' | ')}`);
       await send('Page.navigate', { url: siteUrl });
       await waitFor('le runtime Blazor rechargé', "typeof Blazor !== 'undefined' && typeof Blazor.navigateTo === 'function' && document.getElementById('showcase-theme') !== null");
-      await session.visit('/components/legacy/grille', '#demo-grid-pictures');
+      await session.visit('/components/data-grid-variants', '#demo-grid-pictures');
       const until = Date.now() + 15_000;
       while (held.length === 0 && Date.now() < until) await pause(50);
       check(held.length > 0, "Aucune requête de l'image de la grille interceptée.");

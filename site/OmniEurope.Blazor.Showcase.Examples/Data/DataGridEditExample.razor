@@ -1,0 +1,59 @@
+@* An editable grid (EditTemplate): the pencil or a double click (OnRowDoubleClick to EditRowAsync) puts the row
+   in edit mode, and the field of the double-clicked cell, otherwise the first, takes the focus with its text
+   selected so typing replaces it. Enter saves the row and Escape cancels it; Enter does not click the row.
+   Its rows keep their reading height while edited. *@
+<OmniStack Gap="OmniSpacing.Large">
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniText Tone="OmniTextTone.Muted">Use the pencil or double-click a row to edit it. Enter saves, Escape cancels.</OmniText>
+        <OmniDataGrid TItem="EditableFile" Id="demo-grid-edit" @ref="_editGrid"
+                      ScrollMode="OmniDataGridScrollMode.Paged"
+                      HeaderWrap="OmniDataGridHeaderWrap.Truncate"
+                      EditTrigger="OmniDataGridEditTrigger.Action"
+                      Items="_editableFiles"
+                      Caption="Editable files"
+                      KeyOf="@(file => file.Reference)"
+                      OnRowEdit="KeepOriginal" OnRowEditCancel="RestoreOriginal"
+                      OnRowDoubleClick="@(args => _editGrid!.EditRowAsync(args.Item))">
+            <Columns>
+                <OmniDataGridColumn TItem="EditableFile" Property="Reference" Title="Reference" Filterable="false" />
+                <OmniDataGridColumn TItem="EditableFile" Property="Applicant" Title="Applicant" Filterable="false">
+                    <EditTemplate Context="file"><OmniTextBox @bind-Value="file.Applicant" aria-label="Applicant" /></EditTemplate>
+                </OmniDataGridColumn>
+                <OmniDataGridColumn TItem="EditableFile" Property="Country" Title="Country" Filterable="false">
+                    <EditTemplate Context="file"><OmniTextBox @bind-Value="file.Country" aria-label="Country" /></EditTemplate>
+                </OmniDataGridColumn>
+            </Columns>
+        </OmniDataGrid>
+    </OmniStack>
+
+    @* EditTrigger Cell: a single click anywhere in a cell that has an EditTemplate (Applicant or Country, even
+       an empty one) puts the row in edit mode and focuses the field of that cell, its text selected. The
+       Details button of the Country cell keeps its own click. Tab reaches each cell through its button, Enter
+       or Space edits it; Reference, which has no EditTemplate, opens nothing. Enter saves and Escape cancels
+       through the edit column, which stays. *@
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniText Tone="OmniTextTone.Muted">A single click in the Applicant or Country cell edits the row.</OmniText>
+        <OmniText Id="demo-grid-edit-cell-clicks" Tone="OmniTextTone.Muted">Details clicked: @_cellEditDetails</OmniText>
+        <OmniDataGrid TItem="EditableFile" Id="demo-grid-edit-cell"
+                      EditTrigger="OmniDataGridEditTrigger.Cell"
+                      ScrollMode="OmniDataGridScrollMode.All"
+                      Items="_cellEditFiles"
+                      Caption="Files edited on a click of a cell"
+                      KeyOf="@(file => file.Reference)"
+                      OnRowEdit="KeepOriginal" OnRowEditCancel="RestoreOriginal">
+            <Columns>
+                <OmniDataGridColumn TItem="EditableFile" Property="Reference" Title="Reference" Filterable="false" />
+                <OmniDataGridColumn TItem="EditableFile" Property="Applicant" Title="Applicant" Filterable="false">
+                    <EditTemplate Context="file"><OmniTextBox @bind-Value="file.Applicant" aria-label="Applicant" /></EditTemplate>
+                </OmniDataGridColumn>
+                <OmniDataGridColumn TItem="EditableFile" Property="Country" Title="Country" Filterable="false">
+                    <Template Context="file">
+                        <span>@file.Country</span>
+                        <OmniButton Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small" Label="Details" OnClick="CountCellEditDetails"><Icon><OmniIcon Name="OmniIconName.Info" /></Icon></OmniButton>
+                    </Template>
+                    <EditTemplate Context="file"><OmniTextBox @bind-Value="file.Country" aria-label="Country" /></EditTemplate>
+                </OmniDataGridColumn>
+            </Columns>
+        </OmniDataGrid>
+    </OmniStack>
+</OmniStack>
