@@ -45,15 +45,13 @@ internal static class DataFamily
                 "Data/CaseRow.cs"
             ]),
         new("data-list", "DataListTitle", "DataListDescription", OmniIconName.ListBullets,
-            ["OmniDataList", "OmniPager", "OmniLogViewer", "OmniAnsiText", "OmniKanban", "OmniMarkdownExportButton"],
+            ["OmniDataList", "OmniPager", "OmniAnsiText", "OmniMarkdownExportButton"],
             [
                 "Data/DataListExample.razor", "Data/DataListExample.razor.cs",
                 "Data/DataListGalleryExample.razor", "Data/DataListGalleryExample.razor.cs",
                 "Data/DataListCardsExample.razor", "Data/DataListCardsExample.razor.cs",
                 "Data/DataListVirtualExample.razor", "Data/DataListVirtualExample.razor.cs",
-                "Data/DataListLogExample.razor", "Data/DataListLogExample.razor.cs",
                 "Data/DataListAnsiExample.razor", "Data/DataListAnsiExample.razor.cs",
-                "Data/DataListKanbanExample.razor", "Data/DataListKanbanExample.razor.cs",
                 "Data/Product.cs"
             ]),
         new("tree", "TreeTitle", "TreeDescription", OmniIconName.Graph,

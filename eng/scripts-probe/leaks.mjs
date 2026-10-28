@@ -24,7 +24,7 @@ export async function leakSteps(session, results) {
       await clickOn('#editor-body');
     }],
     ['/components/data-grid-variants', '#demo-grid-tree', async () => {}],
-    ['/components/data-list', '.omni-log-viewer', async () => {}],
+    ['/components/collections', '.omni-log-viewer', async () => {}],
     ['/components/spreadsheet', '#demo-sheet [data-omni-sheet-grid]', async () => {}],
     ['/components/tree', '#demo-tree-accounts', async () => {}],
     ['/components/scheduler', '.omni-scheduler', async () => {}],

@@ -85,7 +85,8 @@ internal static class SelectionFamily
             ["OmniUpload"],
             [
                 "Selection/UploadExample.razor", "Selection/UploadExample.razor.cs",
-                "Selection/UploadFormExample.razor", "Selection/UploadFormExample.razor.cs"
+                "Selection/UploadFormExample.razor", "Selection/UploadFormExample.razor.cs",
+                "Selection/UploadEmptyFileExample.razor", "Selection/UploadEmptyFileExample.razor.cs"
             ])
     ]);
 }

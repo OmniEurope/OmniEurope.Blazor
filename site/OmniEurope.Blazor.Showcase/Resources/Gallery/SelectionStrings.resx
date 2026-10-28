@@ -197,6 +197,8 @@
   <data name="UploadDescription" xml:space="preserve"><value>A drop zone that checks the count, size and type of files, as a single-file field and as a several-file field whose list grows and shrinks one line at a time. This page sends nothing: it only reads what the browser says about the chosen files.</value></data>
   <data name="UploadDisabled" xml:space="preserve"><value>Disable the field</value></data>
   <data name="UploadDisabledDescription" xml:space="preserve"><value>The file field is greyed out.</value></data>
+  <data name="UploadEmptyFileDescription" xml:space="preserve"><value>The component checks count, size and type itself; an empty file is refused by the host, in the Upload callback, with a message that the field shows as its error.</value></data>
+  <data name="UploadEmptyFileTitle" xml:space="preserve"><value>Empty file refused</value></data>
   <data name="UploadFormTitle" xml:space="preserve"><value>In a form</value></data>
   <data name="UploadMaximumFiles" xml:space="preserve"><value>Maximum files</value></data>
   <data name="UploadMaximumFilesDescription" xml:space="preserve"><value>Several-file field: the whole list, files already attached included, never goes beyond this.</value></data>

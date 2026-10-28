@@ -58,5 +58,12 @@
             <HeaderContent>@Text["UploadFormTitle"]</HeaderContent>
             <ChildContent><UploadFormExample /></ChildContent>
         </OmniCard>
+        <OmniCard Class="gallery-preview gallery-upload">
+            <HeaderContent>@Text["UploadEmptyFileTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["UploadEmptyFileDescription"]</OmniText>
+                <UploadEmptyFileExample />
+            </ChildContent>
+        </OmniCard>
     </Preview>
 </GalleryPageFrame>

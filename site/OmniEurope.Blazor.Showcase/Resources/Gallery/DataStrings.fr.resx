@@ -225,13 +225,9 @@
   <data name="DataListFirstLast" xml:space="preserve"><value>Première et dernière</value></data>
   <data name="DataListFirstLastDescription" xml:space="preserve"><value>Ajoute les boutons qui sautent à chaque extrémité.</value></data>
   <data name="DataListGalleryTitle" xml:space="preserve"><value>Galerie</value></data>
-  <data name="DataListKanbanHint" xml:space="preserve"><value>Des cartes déplacées entre colonnes à la souris ou au clavier.</value></data>
-  <data name="DataListKanbanTitle" xml:space="preserve"><value>Tableau kanban</value></data>
   <data name="DataListLatency" xml:space="preserve"><value>Latence simulée</value></data>
   <data name="DataListLatencyDescription" xml:space="preserve"><value>Load seulement : temps que prend le chargeur, pendant lequel s&apos;affiche le contenu de chargement.</value></data>
   <data name="DataListListLabel" xml:space="preserve"><value>Catalogue des produits</value></data>
-  <data name="DataListLogHint" xml:space="preserve"><value>Un journal de traitement avec niveaux, une recherche et une longue ligne d&apos;erreur qui passe à la ligne au lieu d&apos;être coupée.</value></data>
-  <data name="DataListLogTitle" xml:space="preserve"><value>Visionneuse de journal</value></data>
   <data name="DataListMilliseconds" xml:space="preserve"><value>{0} ms</value></data>
   <data name="DataListNumericPages" xml:space="preserve"><value>Pages numérotées</value></data>
   <data name="DataListNumericPagesDescription" xml:space="preserve"><value>Combien de numéros entourent la page courante ; aucun affiche page X sur Y.</value></data>

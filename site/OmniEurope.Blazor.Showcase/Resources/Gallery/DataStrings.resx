@@ -225,13 +225,9 @@
   <data name="DataListFirstLast" xml:space="preserve"><value>First and last</value></data>
   <data name="DataListFirstLastDescription" xml:space="preserve"><value>Adds the buttons that jump to either end.</value></data>
   <data name="DataListGalleryTitle" xml:space="preserve"><value>Gallery</value></data>
-  <data name="DataListKanbanHint" xml:space="preserve"><value>Cards moved between columns with the pointer or the keyboard.</value></data>
-  <data name="DataListKanbanTitle" xml:space="preserve"><value>Kanban board</value></data>
   <data name="DataListLatency" xml:space="preserve"><value>Simulated latency</value></data>
   <data name="DataListLatencyDescription" xml:space="preserve"><value>Load only: time the loader takes, while the loading content shows.</value></data>
   <data name="DataListListLabel" xml:space="preserve"><value>Product catalogue</value></data>
-  <data name="DataListLogHint" xml:space="preserve"><value>A processing log with levels, a search and a long error line that wraps instead of being cut.</value></data>
-  <data name="DataListLogTitle" xml:space="preserve"><value>Log viewer</value></data>
   <data name="DataListMilliseconds" xml:space="preserve"><value>{0} ms</value></data>
   <data name="DataListNumericPages" xml:space="preserve"><value>Numbered pages</value></data>
   <data name="DataListNumericPagesDescription" xml:space="preserve"><value>How many page numbers surround the current one; none shows page X of Y.</value></data>

@@ -1,9 +1,0 @@
-@* A kanban board: the cards move between columns by drag and drop or from the keyboard, and the host
-   records where each one now stands. *@
-<OmniKanban TItem="CaseRow" Columns="WorkflowColumns" Items="KanbanRows"
-            ColumnOf="WorkflowColumnOf" KeyOf="WorkflowKeyOf" ItemLabel="WorkflowLabelOf" OnItemMove="MoveWorkflowRow"
-            Label="Case tracking">
-    <CardTemplate Context="row">
-        <strong>@row.Reference</strong> : @row.Applicant
-    </CardTemplate>
-</OmniKanban>

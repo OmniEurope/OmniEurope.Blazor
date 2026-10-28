@@ -197,6 +197,8 @@
   <data name="UploadDescription" xml:space="preserve"><value>Une zone de dépôt qui contrôle le nombre, la taille et le type des fichiers, en champ à un fichier et en champ à plusieurs fichiers dont la liste se garnit et se retire ligne par ligne. Cette page n&apos;envoie rien : elle ne lit que ce que le navigateur dit des fichiers choisis.</value></data>
   <data name="UploadDisabled" xml:space="preserve"><value>Désactiver le champ</value></data>
   <data name="UploadDisabledDescription" xml:space="preserve"><value>Le champ de fichier est grisé.</value></data>
+  <data name="UploadEmptyFileDescription" xml:space="preserve"><value>Le composant contrôle lui-même le nombre, la taille et le type ; un fichier vide est refusé par l&apos;hôte, dans le rappel Upload, avec un message que le champ affiche comme erreur.</value></data>
+  <data name="UploadEmptyFileTitle" xml:space="preserve"><value>Fichier vide refusé</value></data>
   <data name="UploadFormTitle" xml:space="preserve"><value>Dans un formulaire</value></data>
   <data name="UploadMaximumFiles" xml:space="preserve"><value>Nombre maximal de fichiers</value></data>
   <data name="UploadMaximumFilesDescription" xml:space="preserve"><value>Champ à plusieurs fichiers : la liste entière, pièces déjà jointes comprises, n&apos;en dépasse pas autant.</value></data>

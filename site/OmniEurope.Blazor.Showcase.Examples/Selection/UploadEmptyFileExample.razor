@@ -1,0 +1,8 @@
+@* A file field whose Upload callback refuses an empty file: the component checks count, size and type itself,
+   but an empty file (zero bytes) is the host's call, made in the callback with OmniUploadRequest.Reject. The
+   field then shows the message as its error, offers no retry and does not keep the file. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniLabel For="upload-empty-file">Document to attach</OmniLabel>
+    <OmniUpload Id="upload-empty-file" Upload="RefuseEmptyAsync" />
+    <OmniText Tone="OmniTextTone.Muted">Choose a file with no content (zero bytes) to see it refused; any other file is accepted.</OmniText>
+</OmniStack>

@@ -190,14 +190,14 @@ export async function boardSteps(session, results) {
   // and the window hold exactly as many listeners as after the first (Blazor registers its delegated
   // events once, on their first use, which is why the first round trip is the reference).
   const listeners = async () => ({ document: await session.listenersOf('document'), window: await session.listenersOf('window') });
-  await session.visit('/components/data-list', '.omni-log-viewer');
+  await session.visit('/components/collections', '.omni-log-viewer');
   await pause(500);
   const listenersBefore = await listeners();
   await session.visit('/components/data-grid-advanced', '.omni-data-grid__viewport');
   await clickOn('.omni-data-grid th[data-omni-col="Applicant"] details[data-omni-popover] > summary');
   await waitFor('le filtre Demandeur rouvert', "document.querySelector('.omni-data-grid th[data-omni-col=\"Applicant\"] details[data-omni-popover]').open");
   await key('Escape', 'Escape', 27);
-  await session.visit('/components/data-list', '.omni-log-viewer');
+  await session.visit('/components/collections', '.omni-log-viewer');
   await pause(500);
   const listenersAfter = await listeners();
   check(JSON.stringify(listenersAfter) === JSON.stringify(listenersBefore),
@@ -219,7 +219,7 @@ export async function boardSteps(session, results) {
   await waitFor('le dernier élément de la liste en vue au bas du cadre', `(() => { const last = document.querySelector(${JSON.stringify(list + ' > [data-omni-row-index="1999"]')}); const frame = document.querySelector(${JSON.stringify(list)}).parentElement; return last !== null && last.getBoundingClientRect().bottom <= frame.getBoundingClientRect().bottom + 1; })()`, 10_000).catch(async error => { throw new Error(error.message + ' ' + await evaluate(`JSON.stringify({ indexes: ${listIndexes}, frame: (() => { const frame = document.querySelector(${JSON.stringify(list)}).parentElement; return { top: frame.scrollTop, height: frame.scrollHeight, client: frame.clientHeight }; })(), bottom: document.querySelector(${JSON.stringify(list + ' > [data-omni-spacer="bottom"]')}).style.cssText, top: document.querySelector(${JSON.stringify(list + ' > [data-omni-spacer="top"]')}).style.cssText })`)); });
   step(`liste virtuelle : ${rendered} éléments rendus sur deux mille, fenêtre suivie jusqu'au dernier`);
 
-  // 4. The log viewer: a wheel upwards stops following, a search walks its matches, a scroll is watched.
+  // 4. The log viewer (collections page): a wheel upwards stops following, a search walks its matches, a scroll is watched.
   const logViewport = '.omni-log-viewer .omni-log-viewer__viewport';
   await mouse('mouseWheel', await pointOf(logViewport), { button: 'none', deltaX: 0, deltaY: -200 });
   await waitFor('le suivi interrompu par la molette', "document.querySelector('.omni-log-viewer button[aria-pressed]')?.getAttribute('aria-pressed') === 'false'");
@@ -241,7 +241,8 @@ export async function boardSteps(session, results) {
   await waitFor('le suivi coupé par la recherche', "document.querySelector('.omni-log-viewer button[aria-pressed]')?.getAttribute('aria-pressed') === 'false'");
   step('journal : molette, suivi, défilement, recherche');
 
-  // 5. The kanban board by the keyboard, then a card dragged with the mouse.
+  // 5. The kanban board (collections page; its cards sit in two lanes, the carried card is in the last one so it is carried to the left), then a card dragged with the mouse.
+  await session.visit('/components/collections', '.omni-kanban [data-omni-kanban-card]');
   const card = '.omni-kanban [data-omni-kanban-card]';
   await evaluate(`document.querySelector(${JSON.stringify(card)}).focus()`);
   const firstCard = await evaluate("document.activeElement.getAttribute('data-omni-kanban-card')");
@@ -252,8 +253,8 @@ export async function boardSteps(session, results) {
   const columnBefore = await evaluate(columnOf(carried));
   await key(' ', 'Space', 32, 0, ' ');
   await waitFor('la carte saisie', "document.querySelector('.omni-kanban[data-omni-kanban-grabbed=\"true\"]') !== null");
-  await key('ArrowRight', 'ArrowRight', 39);
-  await waitFor('la carte portée dans la colonne suivante', `${columnOf(carried)} !== ${JSON.stringify(columnBefore)} && document.activeElement?.getAttribute('data-omni-kanban-card') === ${JSON.stringify(carried)}`);
+  await key('ArrowLeft', 'ArrowLeft', 37);
+  await waitFor('la carte portée dans la colonne précédente', `${columnOf(carried)} !== ${JSON.stringify(columnBefore)} && document.activeElement?.getAttribute('data-omni-kanban-card') === ${JSON.stringify(carried)}`);
   await key('Enter', 'Enter', 13);
   await waitFor('la carte posée', "document.querySelector('.omni-kanban[data-omni-kanban-grabbed=\"true\"]') === null");
   const dragged = await html5Drag(card, '.omni-kanban [data-omni-kanban-column]:first-child', async () => {
