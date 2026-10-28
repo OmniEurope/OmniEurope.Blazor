@@ -1,0 +1,46 @@
+@* Tabs bound to a key: an icon before each title, a counter in the title of two tabs, a disabled tab.
+   Every setting is a parameter, and the host can bind the selected key to drive the strip from outside,
+   even towards the disabled tab (the strip refuses the click, not the value). *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniTabs Label="Sections of the file" Value="@Value" ValueChanged="@SelectAsync">
+        <OmniTabsItem Key="@SummaryKey" Title="Summary" Icon="@IconOf(OmniIconName.Info)">
+            <OmniText Element="OmniTextElement.Paragraph">The file was filed nine days ago and is being reviewed.</OmniText>
+        </OmniTabsItem>
+        <OmniTabsItem Key="@DocumentsKey" Title="Documents" Icon="@IconOf(OmniIconName.Document)">
+            <TitleContent>
+                <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.XSmall">
+                    <span>Documents</span>
+                    @if (ShowCounters)
+                    {
+                        <OmniBadge Tone="OmniTone.Accent">@DocumentCount</OmniBadge>
+                    }
+                </OmniStack>
+            </TitleContent>
+            <ChildContent>
+                <OmniText Element="OmniTextElement.Paragraph">The file holds @DocumentCount documents, each with its filing date.</OmniText>
+            </ChildContent>
+        </OmniTabsItem>
+        <OmniTabsItem Key="@HistoryKey" Title="History" Icon="@IconOf(OmniIconName.Timer)">
+            <TitleContent>
+                <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.XSmall">
+                    <span>History</span>
+                    @if (ShowCounters)
+                    {
+                        <OmniBadge Tone="OmniTone.Warning">@HistoryCount</OmniBadge>
+                    }
+                </OmniStack>
+            </TitleContent>
+            <ChildContent>
+                <OmniText Element="OmniTextElement.Paragraph">Twelve changes have been recorded since the filing.</OmniText>
+            </ChildContent>
+        </OmniTabsItem>
+        <OmniTabsItem Key="@ArchiveKey" Title="Archive" Disabled="DisableArchive" Icon="@IconOf(OmniIconName.Archive)">
+            <OmniText Element="OmniTextElement.Paragraph">Closed files are kept here for ten years.</OmniText>
+        </OmniTabsItem>
+    </OmniTabs>
+    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small">
+        <OmniIcon Name="OmniIconName.Check" />
+        <OmniText>Selected key:</OmniText>
+        <OmniBadge Tone="OmniTone.Neutral">@Value</OmniBadge>
+    </OmniStack>
+</OmniStack>

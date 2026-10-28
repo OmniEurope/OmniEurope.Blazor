@@ -6,15 +6,6 @@
             <OmniMenuItem OnClick="@(() => Last = Text["DemoOverlaySaveCopy"])">@Text["DemoOverlaySaveCopy"]</OmniMenuItem>
             <OmniMenuItem Disabled="true">@Text["DemoOverlayPublishUnavailable"]</OmniMenuItem>
         </OmniSplitButton>
-
-        <OmniProfileMenu Label="@Text["DemoOverlayAccountMenu"]" Density="OmniDensity.Compact">
-            <SummaryContent>Camille Durand</SummaryContent>
-            <ChildContent>
-                <OmniMenuItem Href="documentation">@Text["DemoOverlayMyProfile"]</OmniMenuItem>
-                <OmniMenuItem OnClick="@(() => Last = Text["DemoOverlaySignedOut"])">@Text["DemoOverlaySignOut"]</OmniMenuItem>
-                <OmniMenuItem Disabled="true">@Text["DemoOverlayAdminUnavailable"]</OmniMenuItem>
-            </ChildContent>
-        </OmniProfileMenu>
     </OmniStack>
 
     @* Notifications sent to the stack of the host: one stack gives all its cards the same width,

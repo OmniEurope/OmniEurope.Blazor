@@ -1,0 +1,12 @@
+@* The simplest strip: titles only, the last tab disabled. *@
+<OmniTabs Label="Period" @bind-Value="Selected">
+    <OmniTabsItem Key="day" Title="Day">
+        <OmniText Element="OmniTextElement.Paragraph">The appointments of the day.</OmniText>
+    </OmniTabsItem>
+    <OmniTabsItem Key="week" Title="Week">
+        <OmniText Element="OmniTextElement.Paragraph">The appointments of the week.</OmniText>
+    </OmniTabsItem>
+    <OmniTabsItem Key="month" Title="Month" Disabled="true">
+        <OmniText Element="OmniTextElement.Paragraph">The appointments of the month.</OmniText>
+    </OmniTabsItem>
+</OmniTabs>

@@ -1,0 +1,49 @@
+@* Steps of a process. The value is the index of the current step. Clicking a step goes through the optional
+   CanNavigate guard; the Previous and Next buttons set the value directly, so the guard does not see them. A step
+   can be disabled, and an icon can replace the number in its marker (the number stays readable by screen readers). *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniSteps Label="Progress of the file" @bind-Value="CurrentStep" CanNavigate="@NavigationGuard">
+        <OmniStepsItem Id="steps-live-0" Index="0" Title="Filing">
+            <OmniText Tone="OmniTextTone.Muted">The documents have been received and registered.</OmniText>
+        </OmniStepsItem>
+        <OmniStepsItem Id="steps-live-1" Index="1" Title="Review" Disabled="@DisableReview">
+            <OmniText Tone="OmniTextTone.Muted">The file is being examined by the department.</OmniText>
+        </OmniStepsItem>
+        <OmniStepsItem Id="steps-live-2" Index="2" Title="Decision">
+            <OmniText Tone="OmniTextTone.Muted">The decision is being drafted.</OmniText>
+        </OmniStepsItem>
+        <OmniStepsItem Id="steps-live-3" Index="3" Title="Notification">
+            <Icon><OmniIcon Name="OmniIconName.Bell" /></Icon>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">The decision will be sent by post.</OmniText>
+            </ChildContent>
+        </OmniStepsItem>
+    </OmniSteps>
+
+    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small" Wrap="true">
+        <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(CurrentStep == 0)" OnClick="Previous">
+            <OmniIcon Name="OmniIconName.ArrowLeft" />
+            <span>Previous</span>
+        </OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Primary" Disabled="@(CurrentStep == LastStep)" OnClick="Next">
+            <span>Next</span>
+            <OmniIcon Name="OmniIconName.ArrowRight" />
+        </OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Ghost" Disabled="@(CurrentStep == 0)" OnClick="Restart">
+            <OmniIcon Name="OmniIconName.Reset" />
+            <span>Restart</span>
+        </OmniButton>
+    </OmniStack>
+
+    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small">
+        <OmniIcon Name="OmniIconName.Check" />
+        <OmniText>Step @(CurrentStep + 1) of @StepCount.</OmniText>
+    </OmniStack>
+    @if (RefusedStep is { } refused)
+    {
+        <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small">
+            <OmniIcon Name="OmniIconName.Warning" />
+            <OmniText>The guard refused step @(refused + 1).</OmniText>
+        </OmniStack>
+    }
+</OmniStack>

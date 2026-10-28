@@ -29,8 +29,8 @@ export async function focusSteps(session, results) {
   step('dialogue ouvert depuis un dialogue : le focus revient au bouton qui l\'a ouvert, puis au déclencheur');
 
   // 2. The arrows of a tab strip follow what the reader sees: right to left, the right arrow goes to the previous tab.
-  await session.visit('/components/legacy/navigation', '.omni-tabs__viewport[role="tablist"] [role="tab"]');
-  const tabs = "[...document.querySelector('.omni-tabs__viewport[role=\"tablist\"]').querySelectorAll('[role=\"tab\"]')]";
+  await session.visit('/components/tabs', '#tabs-overflow .omni-tabs__viewport[role="tablist"] [role="tab"]');
+  const tabs = "[...document.querySelector('#tabs-overflow .omni-tabs__viewport[role=\"tablist\"]').querySelectorAll('[role=\"tab\"]')]";
   const keys = await evaluate(`${tabs}.map(tab => tab.dataset.key)`);
   check(keys.length >= 3, `Il faut trois onglets pour distinguer les deux sens, la page en montre ${keys.length}.`);
   const focusedKey = () => evaluate('document.activeElement?.dataset?.key ?? ""');
