@@ -15,6 +15,13 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 ### Changed
 
 - `OmniFormField` (et la ligne d'erreur d'`OmniRadioButtonList`) : la région de l'erreur garde toujours la hauteur d'une ligne d'erreur (`min-block-size: 1lh`), même vide, au lieu d'être sortie du flux. Demande d'une application cliente (recette R-12) : l'apparition du message de validation décalait vers le bas tout ce qui suit le champ. Chaque champ prend désormais une ligne de plus (environ 1,1 rem au texte courant) ; seule une erreur sur plusieurs lignes agrandit encore la région. Le message des validateurs autonomes (`OmniRequiredValidator`, `OmniLengthValidator`, `OmniEmailValidator`) reste hors du flux tant qu'il est vide.
+### Added
+
+- `OmniBadge.OnClick` (`EventCallback<MouseEventArgs>`), `OmniBadge.Href` (`string?`) et `OmniBadge.AriaLabel` (`string?`) : demande d'une application cliente (recette R-67), où un compteur (« Utilisé par 2 ») était un `OmniButton` Ghost contenant un `OmniBadge`, soit un double bouton. Avec `OnClick`, le badge est un vrai `<button type="button">` (focalisable, Entrée et Espace l'activent) ; avec `Href`, un vrai lien `<a>`, à l'adresse validée comme celle d'`OmniNavTile` (`javascript:`, `data:` et `//hôte` refusés) ; les deux ensemble lèvent une `ArgumentException`. `AriaLabel` nomme le badge cliquable. Il garde la forme et le `Tone` du badge, avec l'anneau de focus du paquet et, au survol, un soulignement et une teinte légère de son encre (ni relief, ni ombre). Sans `OnClick` ni `Href`, le badge reste un `<span>`, inchangé.
+
+### Changed
+
+- `OmniBadge` n'est jamais plus étroit que haut : demande d'une application cliente (recette R-5). Un badge d'un seul caractère (« 1 », « F », « A ») est au moins un carré, même quand l'hôte agrandit le texte de ce badge ; un texte plus long l'élargit, et les pas `Width` relèvent ce plancher sans l'abaisser. Le texte est centré. Jusqu'ici seul le badge à icône seule était garanti carré.
 
 ## [1.9.4] - 2026-10-26
 
