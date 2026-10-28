@@ -63,7 +63,7 @@ Examples).
 | 12 | Tree, spreadsheet, collections | `arborescence`, `tableur` | Fait (396ad044 ; 3 pages rendues sans erreur dans Chromium) |
 | 13 | Column, line, pie charts, gauges | `graphiques`, `graphiques-avances` | Fait (a5721bab ; 4 pages, 37 graphiques et jauges rendus, légende des secteurs lue dans le DOM) |
 | 14 | Scheduler, timeline, Gantt, step timeline | `agenda`, `planification` | Fait (5374fdce ; 4 pages rendues sans erreur dans Chromium) |
-| 15 | HTML editor, document editor, code editor, code reading, mind map | `editeur`, `diagramme` | À faire |
+| 15 | HTML editor, document editor, code editor, code reading, mind map | `editeur`, `diagramme` | Fait (e4ca56ef, 8b5864c5 ; 5 pages rendues dans Chromium sans erreur, ids des sondes présents, carte de 10 nœuds et 9 liens) |
 | 16 | Workflows, préférences (enregistrées par l API), accueil de la galerie, retrait de l'ancienne galerie et de `DemoCatalog` | (reste) | À faire |
 | F | Fidélité (audit du 2026-10-28) : thème transmis à la portée racine, menu de galerie à la place du menu du site, accueil en cartes, sélecteur de thème avec bascule clair/sombre, espacement des cartes d'aperçu ; habillage perdu des démos (cadres pointillés, matrices, tuiles d'icônes, cadre des images, zones de clic droit, lignes à survol, grilles d'exemples adaptées au conteneur, largeurs plafonnées, curseur vertical, bascule du menu latéral à la fin, infobulle épinglée par défaut, tableau des fichiers) | | Fait |
 | H1 | Hébergement : projets Back (API, EF Core, PostgreSQL, `/health/ready`) et Shared, préférences OE enregistrées en base sans compte (identifiant anonyme du navigateur, quotas), front servi en conteneur, le lanceur local démarre base, API et front | | Fait |
