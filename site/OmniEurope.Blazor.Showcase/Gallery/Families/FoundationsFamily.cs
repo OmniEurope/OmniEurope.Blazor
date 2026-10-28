@@ -48,7 +48,8 @@ internal static class FoundationsFamily
                 "Foundations/BadgeInkExample.razor", "Foundations/BadgeInkExample.razor.cs",
                 "Foundations/BadgeIconsExample.razor", "Foundations/BadgeIconsExample.razor.cs",
                 "Foundations/BadgeWidthExample.razor", "Foundations/BadgeWidthExample.razor.cs",
-                "Foundations/BadgeContextExample.razor", "Foundations/BadgeContextExample.razor.cs"
+                "Foundations/BadgeContextExample.razor", "Foundations/BadgeContextExample.razor.cs",
+                "Foundations/BadgeLabels.cs"
             ]),
         new("images", "ImagesTitle", "ImagesDescription", OmniIconName.Image,
             ["OmniImage"],

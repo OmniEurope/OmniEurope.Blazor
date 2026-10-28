@@ -43,7 +43,9 @@
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["SkeletonsPreviewTitle"]</HeaderContent>
             <ChildContent>
-                <SkeletonExample Shape="Shape" LineCount="LineCount" Named="Named" Loaded="Loaded" />
+                <div class="gallery-feedback-stage">
+                    <SkeletonExample Shape="Shape" LineCount="LineCount" Named="Named" Loaded="Loaded" />
+                </div>
             </ChildContent>
         </OmniCard>
         <OmniCard Class="gallery-preview">
@@ -51,8 +53,12 @@
             <ChildContent><SkeletonShapesExample /></ChildContent>
         </OmniCard>
         <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["SkeletonsLinesTitle"]</HeaderContent>
+            <ChildContent><SkeletonLinesExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["SkeletonsComposedTitle"]</HeaderContent>
-            <ChildContent><SkeletonComposedExample /></ChildContent>
+            <ChildContent><div class="gallery-skeletons-profile"><SkeletonComposedExample /></div></ChildContent>
         </OmniCard>
     </Preview>
 </GalleryPageFrame>

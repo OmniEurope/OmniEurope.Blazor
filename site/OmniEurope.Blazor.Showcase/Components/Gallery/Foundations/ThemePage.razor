@@ -102,8 +102,10 @@
                             <OmniIcon Name="@ScopeToggleIcon" />
                         </OmniButton>
                     </OmniRow>
-                    <ThemeScopeExample Appearance="ScopeAppearance" Density="ScopeDensity" Preset="Look.Theme" Palette="Look.Palette"
-                                       Font="PreviewFont" BackdropMotion="Look.BackdropMotion" FullWidth="PreviewFullWidth" />
+                    <div class="gallery-theme-frame">
+                        <ThemeScopeExample Appearance="ScopeAppearance" Density="ScopeDensity" Preset="Look.Theme" Palette="Look.Palette"
+                                           Font="PreviewFont" BackdropMotion="Look.BackdropMotion" FullWidth="PreviewFullWidth" />
+                    </div>
                 </OmniStack>
             </ChildContent>
         </OmniCard>
@@ -112,7 +114,9 @@
             <ChildContent>
                 <OmniStack Gap="OmniSpacing.Medium">
                     <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["ThemeAppearancesDescription"]</OmniText>
-                    <ThemeScopesExample Preset="Look.Theme" Palette="Look.Palette" />
+                    <div class="gallery-theme-frame">
+                        <ThemeScopesExample Preset="Look.Theme" Palette="Look.Palette" />
+                    </div>
                 </OmniStack>
             </ChildContent>
         </OmniCard>
@@ -121,7 +125,9 @@
             <ChildContent>
                 <OmniStack Gap="OmniSpacing.Medium">
                     <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["ThemeDensitiesDescription"]</OmniText>
-                    <ThemeScopesExample ByDensity="true" Appearance="ScopeAppearance" Preset="Look.Theme" Palette="Look.Palette" />
+                    <div class="gallery-theme-frame">
+                        <ThemeScopesExample ByDensity="true" Appearance="ScopeAppearance" Preset="Look.Theme" Palette="Look.Palette" />
+                    </div>
                 </OmniStack>
             </ChildContent>
         </OmniCard>

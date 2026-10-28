@@ -1,16 +1,13 @@
-@* The same sentence in a column narrower than it: it wraps by default, and with Truncate it keeps one
-   line and ends with an ellipsis. *@
-<OmniRow Wrap="true">
-    <OmniColumn Span="12" MediumSpan="6">
-        <OmniStack Gap="OmniSpacing.XSmall">
-            <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">Truncate off: the text wraps</OmniText>
-            <OmniText Element="OmniTextElement.Paragraph">@Sample</OmniText>
-        </OmniStack>
-    </OmniColumn>
-    <OmniColumn Span="12" MediumSpan="6">
-        <OmniStack Gap="OmniSpacing.XSmall">
-            <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">Truncate on: one line and an ellipsis</OmniText>
-            <OmniText Element="OmniTextElement.Paragraph" Truncate="true">@Sample</OmniText>
-        </OmniStack>
-    </OmniColumn>
-</OmniRow>
+@* The same sentence in a column narrower than it, once without and once with Truncate. Each sits in a
+   group a host can frame narrow: it wraps by default, and with Truncate it keeps one line and ends with
+   an ellipsis. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniStack Gap="OmniSpacing.XSmall" role="group" aria-label="Truncate off">
+        <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">Truncate off: the text wraps</OmniText>
+        <OmniText Element="OmniTextElement.Paragraph">@Sample</OmniText>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.XSmall" role="group" aria-label="Truncate on">
+        <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">Truncate on: one line and an ellipsis</OmniText>
+        <OmniText Element="OmniTextElement.Paragraph" Truncate="true">@Sample</OmniText>
+    </OmniStack>
+</OmniStack>

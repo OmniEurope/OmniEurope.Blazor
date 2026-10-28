@@ -1,7 +1,7 @@
 @* One toggle button, every setting a parameter. Its pressed state is a value the host can bind: flip it
    from the button or from the host, the count below follows either. *@
 <OmniStack Gap="OmniSpacing.Medium">
-    <OmniStack Orientation="OmniOrientation.Horizontal" Justify="OmniJustification.Center" Align="OmniAlignment.Center">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Justify="OmniJustification.Center" Align="OmniAlignment.Center" role="group" aria-label="Toggle button preview">
         <OmniToggleButton Value="Value"
                           ValueChanged="SetValueAsync"
                           Size="Size"

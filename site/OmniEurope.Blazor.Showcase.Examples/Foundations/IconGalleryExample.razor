@@ -1,5 +1,6 @@
-@* Every value of OmniIconName, read from the enumeration itself: an icon added to the package shows up
-   here without any edit. A click picks an icon, and the filter narrows the gallery by name. *@
+@* Every value of OmniIconName, one button each, in a group a host can lay out as a grid of tiles. An
+   icon added to the package shows up here without any edit. A click picks an icon, and the filter
+   narrows the gallery by name. *@
 <OmniStack Gap="OmniSpacing.Medium">
     <OmniRow Gap="OmniSpacing.Medium" Align="OmniAlignment.Center" Wrap="true">
         <OmniTextBox Type="OmniTextBoxType.Search" @bind-Value="Filter" Placeholder="Filter by name…" aria-label="Filter icons by name" />
@@ -12,7 +13,7 @@
     }
     else
     {
-        <OmniRow Gap="OmniSpacing.Small" Wrap="true">
+        <OmniRow Gap="OmniSpacing.Small" Wrap="true" role="group" aria-label="Icons">
             @foreach (var icon in Filtered)
             {
                 <OmniButton @key="icon"

@@ -5,12 +5,12 @@
     @foreach (var ink in Inks)
     {
         <OmniRow @key="ink" Gap="OmniSpacing.Small" Align="OmniAlignment.Center" Wrap="true">
-            <OmniColumn Span="12" MediumSpan="2"><OmniText Element="OmniTextElement.Strong">@ink</OmniText></OmniColumn>
+            <OmniColumn Span="12" MediumSpan="2"><OmniText Element="OmniTextElement.Strong">@BadgeLabels.InkOf(ink)</OmniText></OmniColumn>
             <OmniColumn Span="12" MediumSpan="9">
                 <OmniRow Gap="OmniSpacing.Small" Wrap="true">
                     @foreach (var tone in Tones)
                     {
-                        <OmniBadge @key="tone" Tone="tone" Ink="ink">@tone</OmniBadge>
+                        <OmniBadge @key="tone" Tone="tone" Ink="ink">@BadgeLabels.ToneOf(tone)</OmniBadge>
                     }
                 </OmniRow>
             </OmniColumn>

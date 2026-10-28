@@ -1,13 +1,16 @@
 @* One skeleton, every setting a parameter. Named, it is a status region that announces the loading;
-   otherwise it is hidden from screen readers. Loaded swaps it for the content it stands for. *@
+   otherwise it is hidden from screen readers. Loaded swaps it for the content it stands for. The group
+   around them is the stage a host can frame, so the preview keeps its height across the swap. *@
 <OmniStack Gap="OmniSpacing.Medium">
-    @if (Loaded)
-    {
-        <OmniText>The account file holds twelve documents, the last one added this morning.</OmniText>
-    }
-    else
-    {
-        <OmniSkeleton Shape="Shape" LineCount="LineCount" Label="@(Named ? "Loading the file" : null)" />
-    }
+    <OmniStack role="group" aria-label="Skeleton preview">
+        @if (Loaded)
+        {
+            <OmniText>The account file holds twelve documents, the last one added this morning.</OmniText>
+        }
+        else
+        {
+            <OmniSkeleton Shape="Shape" LineCount="LineCount" Label="@(Named ? "Loading the file" : null)" />
+        }
+    </OmniStack>
     <OmniText Tone="OmniTextTone.Muted">@(Named ? "Status role, announced as: Loading the file." : "Decorative: hidden from screen readers (aria-hidden).")</OmniText>
 </OmniStack>

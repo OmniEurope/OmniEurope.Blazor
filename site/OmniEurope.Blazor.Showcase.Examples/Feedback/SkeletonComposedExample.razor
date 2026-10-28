@@ -1,13 +1,14 @@
 @* A composed placeholder takes the shape of what it replaces while it loads: an avatar beside two lines,
-   a picture beside four. Each piece stays decorative and one name announces the loading. *@
+   a picture beside four. The avatar keeps its own size, the picture a fixed width and the lines the room
+   left. Each piece stays decorative and one name announces the loading. *@
 <OmniStack Gap="OmniSpacing.Large">
     <OmniRow Gap="OmniSpacing.Medium" Align="OmniAlignment.Center" role="status">
         <span class="omni-visually-hidden">Loading the profile</span>
-        <OmniColumn Span="2"><OmniSkeleton Shape="OmniSkeletonShape.Circle" /></OmniColumn>
+        <OmniSkeleton Shape="OmniSkeletonShape.Circle" />
         <OmniColumn><OmniSkeleton LineCount="2" /></OmniColumn>
     </OmniRow>
     <OmniRow Gap="OmniSpacing.Medium" Align="OmniAlignment.Center">
-        <OmniColumn Span="4"><OmniSkeleton Shape="OmniSkeletonShape.Rectangle" /></OmniColumn>
+        <OmniSkeleton Shape="OmniSkeletonShape.Rectangle" />
         <OmniColumn><OmniSkeleton LineCount="4" /></OmniColumn>
     </OmniRow>
 </OmniStack>

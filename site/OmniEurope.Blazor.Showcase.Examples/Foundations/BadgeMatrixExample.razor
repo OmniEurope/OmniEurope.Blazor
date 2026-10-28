@@ -4,12 +4,12 @@
     @foreach (var fill in Fills)
     {
         <OmniRow @key="fill" Gap="OmniSpacing.Small" Align="OmniAlignment.Center" Wrap="true">
-            <OmniColumn Span="12" MediumSpan="2"><OmniText Element="OmniTextElement.Strong">@fill</OmniText></OmniColumn>
+            <OmniColumn Span="12" MediumSpan="2"><OmniText Element="OmniTextElement.Strong">@BadgeLabels.FillOf(fill)</OmniText></OmniColumn>
             <OmniColumn Span="12" MediumSpan="9">
                 <OmniRow Gap="OmniSpacing.Small" Wrap="true">
                     @foreach (var tone in Tones)
                     {
-                        <OmniBadge @key="tone" Tone="tone" Fill="fill">@tone</OmniBadge>
+                        <OmniBadge @key="tone" Tone="tone" Fill="fill">@BadgeLabels.ToneOf(tone)</OmniBadge>
                     }
                 </OmniRow>
             </OmniColumn>

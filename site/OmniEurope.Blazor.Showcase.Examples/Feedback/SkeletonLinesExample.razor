@@ -1,0 +1,13 @@
+@* The line counts of the text shape: the component keeps the count between one and ten, and these
+   samples cover the range. *@
+<OmniRow Gap="OmniSpacing.Large" Align="OmniAlignment.Start">
+    @foreach (var count in LineSamples)
+    {
+        <OmniColumn Span="6" MediumSpan="3">
+            <OmniStack Gap="OmniSpacing.Small">
+                <OmniText Tone="OmniTextTone.Muted">@count line(s)</OmniText>
+                <OmniSkeleton LineCount="count" />
+            </OmniStack>
+        </OmniColumn>
+    }
+</OmniRow>
