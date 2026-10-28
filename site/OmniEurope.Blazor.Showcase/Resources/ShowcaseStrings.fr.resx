@@ -135,10 +135,10 @@
   <data name="DemoEditorCapability2" xml:space="preserve"><value>Traitement de texte sur une page, décompte des mots, export HTML et texte.</value></data>
   <data name="DemoEditorCapability3" xml:space="preserve"><value>Éditeur de code (Monaco chez l'hôte, texte brut sous CSP stricte) et dépôt borné.</value></data>
   <data name="DemoOverlayTitle" xml:space="preserve"><value>Superpositions</value></data>
-  <data name="DemoOverlaySummary" xml:space="preserve"><value>Notifications, bouton scindé et menu de compte.</value></data>
+  <data name="DemoOverlaySummary" xml:space="preserve"><value>Notifications et bouton scindé.</value></data>
   <data name="DemoOverlayCapability1" xml:space="preserve"><value>Notifications envoyées à la pile de l'hôte, courtes ou longues.</value></data>
   <data name="DemoOverlayCapability2" xml:space="preserve"><value>Quatre sévérités de notification, avec fermeture facultative.</value></data>
-  <data name="DemoOverlayCapability3" xml:space="preserve"><value>Un bouton scindé et un menu de compte.</value></data>
+  <data name="DemoOverlayCapability3" xml:space="preserve"><value>Un bouton scindé et son menu.</value></data>
   <data name="DemoGridAdvancedTitle" xml:space="preserve"><value>Grille, vue complète</value></data>
   <data name="DemoGridAdvancedSummary" xml:space="preserve"><value>Sélection, groupes, édition, colonnes figées et filtres riches.</value></data>
   <data name="DemoGridAdvancedCapability1" xml:space="preserve"><value>Sélection multiple, au clic sur la ligne.</value></data>

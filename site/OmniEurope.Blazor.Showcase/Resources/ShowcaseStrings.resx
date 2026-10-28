@@ -135,10 +135,10 @@
   <data name="DemoEditorCapability2" xml:space="preserve"><value>A word processor on a page, word count, HTML and text export.</value></data>
   <data name="DemoEditorCapability3" xml:space="preserve"><value>Code editor (Monaco served by the host, plain text under a strict CSP) and bounded upload.</value></data>
   <data name="DemoOverlayTitle" xml:space="preserve"><value>Overlays</value></data>
-  <data name="DemoOverlaySummary" xml:space="preserve"><value>Notifications, a split button and an account menu.</value></data>
+  <data name="DemoOverlaySummary" xml:space="preserve"><value>Notifications and a split button.</value></data>
   <data name="DemoOverlayCapability1" xml:space="preserve"><value>Notifications sent to the stack of the overlay host, short or long.</value></data>
   <data name="DemoOverlayCapability2" xml:space="preserve"><value>Four notification severities, with optional dismissal.</value></data>
-  <data name="DemoOverlayCapability3" xml:space="preserve"><value>A split button and an account menu.</value></data>
+  <data name="DemoOverlayCapability3" xml:space="preserve"><value>A split button with its menu.</value></data>
   <data name="DemoGridAdvancedTitle" xml:space="preserve"><value>Data grid, full range</value></data>
   <data name="DemoGridAdvancedSummary" xml:space="preserve"><value>Selection, groups, editing, frozen columns and rich filters.</value></data>
   <data name="DemoGridAdvancedCapability1" xml:space="preserve"><value>Multiple selection, from a click on the row.</value></data>
