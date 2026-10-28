@@ -53,12 +53,12 @@ Examples).
 | 2 | Dialogs, context menus, overflow menu, popover | `superpositions` en partie | Fait |
 | 3 | Theme, icons, typography, badges, images | `themes`, `typographie`, `badges`, `medias` | Fait |
 | 4 | Stacks, rows and columns, cards, fieldsets, settings sections | `mise-en-page`, `surfaces`, `accordeon` | Fait |
-| 5 | Page shell, details, stat tiles, nav tiles | `pages`, `coquille`, `coquille-application` | À faire |
-| 6 | Sidebar, window controls, loading bar, notifications, tooltips | `notifications` | À faire |
-| 7 | Tabs, breadcrumbs, steps, profile menu, app menu | `navigation`, `parcours` | À faire |
+| 5 | Page shell, details, stat tiles, nav tiles | `pages`, `coquille`, `coquille-application` | Fait |
+| 6 | Sidebar, window controls, loading bar, notifications, tooltips | `notifications` | Fait |
+| 7 | Tabs, breadcrumbs, steps, profile menu, app menu | `navigation`, `reglages-onglets` (`parcours` passe au lot 16) | Fait |
 | 8 | Text fields, numbers, toggles, validation, unsaved changes | `formulaires`, `formulaire-vertical`, `validation`, `saisie-avancee`, `reglages-onglets` | Fait |
 | 9 | Drop-downs, autocomplete, multi-select, lists, radio buttons | `selection` | Fait |
-| 10 | Select bar, selectable cards, dates, colors, slider, upload | `choix` | À faire |
+| 10 | Select bar, selectable cards, dates, colors, slider, upload | `choix` | Fait |
 | 11 | Data grid (colonnes, détail), data list | `grille`, `grilles-maquette`, `grille-avancee`, `listes` | À faire |
 | 12 | Tree, spreadsheet, collections | `arborescence`, `tableur` | À faire |
 | 13 | Column, line, pie charts, gauges | `graphiques`, `graphiques-avances` | À faire |
@@ -100,3 +100,13 @@ worktree) ; aucune vague ne démarre avant que la précédente soit intégrée e
   d'`OmniComponentsHost`, la garde de modifications retombait sur `window.confirm` ; le dialogue OE
   s'ouvre maintenant et « Quitter sans enregistrer » navigue. Workflows et préférences passent au lot 16
   (même famille que le lot 6).
+- 2026-10-28 : lots 5, 6, 7 et 10 repris des WIP interrompus et fusionnés dans `develop` (`1771a0c8`,
+  `c619450d`, `4ea876ec`, `148e6ed3`). Démos absorbées : `pages`, `coquille`, `coquille-application`,
+  `notifications`, `navigation`, `reglages-onglets`, `choix` ; `parcours` (assistant, connexion) reste
+  pour le lot 16. Preuve : build Release sans avertissement, suite complète 10633 tests verts ; les
+  22 pages (page-shell, details, stat-tiles, nav-tiles, sidebar, window-controls, loading-bar,
+  notifications, tooltips, tabs, breadcrumbs-links, steps, profile-menu, app-menu, select-bar,
+  selectable-cards, dates, colors, slider, upload, autocomplete, radio-buttons) ouvertes sur leurs
+  trois vues dans le navigateur, 66 vues sans erreur console. Non vérifiés : le français de ces pages,
+  les interactions page par page et les sondes repointées (`chevrons`, `focus`, `overlays`, `keys`,
+  `leaks`, `requests`, modules, contraste), à passer avant la release.
