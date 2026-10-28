@@ -1,0 +1,48 @@
+@using Microsoft.AspNetCore.Components.Forms
+
+@* A step wizard. Next stays greyed while the name is empty (CanContinue on the step); the options step answers
+   Next with a validation that may refuse (Validate); a step already reached reopens with a click. BodyHeight
+   fixes the height of the body: a step taller than it scrolls and the buttons stay where they are. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <EditForm Model="Model">
+        <OmniWizard Id="workflows-wizard" @bind-Value="Step" FinishText="Create the server" BodyHeight="@BodyHeight"
+                    OnFinish="Finish" OnCancel="Reset">
+            <OmniWizardStep Title="Identity" CanContinue="@(!string.IsNullOrWhiteSpace(Model.Name))">
+                <OmniFormField For="workflows-wizard-name" Required="true" Description="Next becomes available as soon as the name is typed.">
+                    <LabelContent>Server name</LabelContent>
+                    <ChildContent>
+                        <OmniTextBox Id="workflows-wizard-name" @bind-Value="Model.Name" Placeholder="srv-paris-02" />
+                    </ChildContent>
+                </OmniFormField>
+            </OmniWizardStep>
+            <OmniWizardStep Title="Options" Validate="ValidateOptionsAsync">
+                <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Align="OmniAlignment.Center">
+                    <OmniCheckBox Id="workflows-wizard-backup" @bind-Value="Model.Backup" />
+                    <OmniLabel For="workflows-wizard-backup">Daily backup</OmniLabel>
+                </OmniStack>
+                @* A step taller than the body: it scrolls and the footer keeps the place it has on the short steps. *@
+                @for (var line = 0; line < 8; line++)
+                {
+                    <OmniText>A step taller than the body of the wizard: it scrolls, and the buttons stay where they are.</OmniText>
+                }
+                @if (OptionsRefused)
+                {
+                    <OmniAlert Severity="OmniSeverity.Warning" Live="true">Tick the daily backup for a production server.</OmniAlert>
+                }
+            </OmniWizardStep>
+            <OmniWizardStep Title="Summary">
+                <OmniDescriptionList>
+                    <OmniDescriptionItem Term="Name">@Model.Name</OmniDescriptionItem>
+                    <OmniDescriptionItem Term="Backup">@(Model.Backup ? "Daily" : "None")</OmniDescriptionItem>
+                </OmniDescriptionList>
+            </OmniWizardStep>
+        </OmniWizard>
+    </EditForm>
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Align="OmniAlignment.Center" Wrap="true">
+        <OmniText Id="workflows-wizard-outcome">Result: @(Outcome ?? "in progress")</OmniText>
+        @if (Finished)
+        {
+            <OmniBadge Tone="OmniTone.Success">Finished</OmniBadge>
+        }
+    </OmniStack>
+</OmniStack>

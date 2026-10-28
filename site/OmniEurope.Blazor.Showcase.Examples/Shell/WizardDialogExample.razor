@@ -1,0 +1,11 @@
+@* A wizard inside a dialog: Escape and the cross are those of the dialog, the wizard adds nothing to them. *@
+<OmniButton Id="workflows-wizard-open" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => DialogOpen = true)">
+    <Icon><OmniIcon Name="OmniIconName.Add" /></Icon>
+    <ChildContent><span>Wizard in a dialog</span></ChildContent>
+</OmniButton>
+<OmniDialog Title="Invite a member" Open="DialogOpen" OpenChanged="@(value => DialogOpen = value)">
+    <OmniWizard Label="Invitation steps" FinishText="Invite" OnFinish="@(() => DialogOpen = false)">
+        <OmniWizardStep Title="Address"><OmniText>The address of the person invited.</OmniText></OmniWizardStep>
+        <OmniWizardStep Title="Role"><OmniText>The role they will receive.</OmniText></OmniWizardStep>
+    </OmniWizard>
+</OmniDialog>

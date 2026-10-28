@@ -101,4 +101,25 @@
   <data name="TooltipsVariantsHint" xml:space="preserve"><value>On a badge: by default, pinned, narrow, and wide with a long text that opens on a preview and unfolds on request.</value></data>
   <data name="TooltipsTitleAttributeTitle" xml:space="preserve"><value>Title attribute</value></data>
   <data name="TooltipsTitleAttributeHint" xml:space="preserve"><value>Placed once in a layout, OmniTitleTooltips replaces the browser tooltip of every title attribute with the one of the package.</value></data>
+  <data name="WorkflowsTitle" xml:space="preserve"><value>Workflows</value></data>
+  <data name="WorkflowsDescription" xml:space="preserve"><value>Wizard (in a page and in a dialog), sign in shell and connection states.</value></data>
+  <data name="WorkflowsConnection" xml:space="preserve"><value>Connection</value></data>
+  <data name="WorkflowsConnectionDescription" xml:space="preserve"><value>The state of the lost-connection overlay: any state but Connected covers the page.</value></data>
+  <data name="WorkflowsConnected" xml:space="preserve"><value>Connected</value></data>
+  <data name="WorkflowsReconnecting" xml:space="preserve"><value>Reconnecting</value></data>
+  <data name="WorkflowsFailed" xml:space="preserve"><value>Failed</value></data>
+  <data name="WorkflowsRejected" xml:space="preserve"><value>Rejected</value></data>
+  <data name="WorkflowsSignUp" xml:space="preserve"><value>Sign-up line</value></data>
+  <data name="WorkflowsSignUpDescription" xml:space="preserve"><value>A discreet invitation at the foot of the sign-in screen, never a second button.</value></data>
+  <data name="WorkflowsWizard" xml:space="preserve"><value>Wizard</value></data>
+  <data name="WorkflowsWizardHint" xml:space="preserve"><value>Next waits for the name, the options step refuses to go on until the backup is ticked, and the long step scrolls inside the body while the buttons stay in place.</value></data>
+  <data name="WorkflowsWizardDialog" xml:space="preserve"><value>Wizard in a dialog</value></data>
+  <data name="WorkflowsWizardDialogHint" xml:space="preserve"><value>Escape and the cross are those of the dialog; the wizard adds nothing to them.</value></data>
+  <data name="WorkflowsLogin" xml:space="preserve"><value>Sign in</value></data>
+  <data name="WorkflowsConnectionTitle" xml:space="preserve"><value>Lost connection</value></data>
+  <data name="WorkflowsConnectionHint" xml:space="preserve"><value>The buttons drive the same state as the setting: an outage retries twice by itself then fails, a rejection asks for a reload.</value></data>
+  <data name="PreferencesTitle" xml:space="preserve"><value>Preferences</value></data>
+  <data name="PreferencesDescription" xml:space="preserve"><value>A value written through OmniPreferences. It is kept in this browser and, where the host registers a preference store, saved there too: on this site the showcase API keeps it in PostgreSQL under an anonymous identifier of this browser, without an account. The page reads the key from both places and says what each holds.</value></data>
+  <data name="PreferencesStored" xml:space="preserve"><value>Stored value</value></data>
+  <data name="PreferencesHint" xml:space="preserve"><value>Without a store, as on a static copy of this site, or when the API cannot be reached, the value stays in this browser and the page says so.</value></data>
 </root>

@@ -1,0 +1,53 @@
+@page "/components/workflows"
+@using OmniEurope.Blazor.Showcase.Examples.Shell
+
+<GalleryPageFrame Slug="workflows">
+    <Settings>
+        <OmniSettingsSection Title="@Text["WorkflowsConnection"]">
+            <OmniSettingsTile Title="@Text["WorkflowsConnection"]" Description="@Text["WorkflowsConnectionDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Offline" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniConnectionState" Options="@ConnectionOptions" @bind-Value="Connection" Label="@Text["WorkflowsConnection"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["WorkflowsSignUp"]" Description="@Text["WorkflowsSignUpDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.UserFocus" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowSignUp" aria-label="@Text["WorkflowsSignUp"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["WorkflowsWizard"]</HeaderContent>
+            <ChildContent>
+                <WizardExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["WorkflowsWizardHint"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["WorkflowsWizardDialog"]</HeaderContent>
+            <ChildContent>
+                <WizardDialogExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["WorkflowsWizardDialogHint"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["WorkflowsLogin"]</HeaderContent>
+            <ChildContent>
+                <div class="gallery-workflows-login">
+                    <LoginShellExample ShowSignUp="ShowSignUp" />
+                </div>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["WorkflowsConnectionTitle"]</HeaderContent>
+            <ChildContent>
+                <ConnectionOverlayExample @bind-State="Connection" />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["WorkflowsConnectionHint"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

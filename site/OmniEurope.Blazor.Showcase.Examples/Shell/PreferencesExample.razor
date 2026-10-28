@@ -1,0 +1,40 @@
+@* A preference written through OmniPreferences, the service AddOmniEuropeBlazor registers. The value is kept
+   in the browser first; when the host registers a store (AddOmniEuropePreferences), it is also written
+   there and the store wins when it holds a later value. The two lines below read the same key from both
+   places, the second straight from IOmniPreferenceStore, so the example shows what the store really holds
+   instead of assuming it: a host without a store says so, a store that cannot be reached says so. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniFormField For="preferences-value">
+        <LabelContent>Demonstration value</LabelContent>
+        <ChildContent><OmniTextBox Id="preferences-value" @bind-Value="Value" Placeholder="Demonstration value" /></ChildContent>
+    </OmniFormField>
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Wrap="true">
+        <OmniButton Id="preferences-save" Busy="Working" OnClick="SaveAsync">Save</OmniButton>
+        <OmniButton Id="preferences-delete" Variant="OmniButtonVariant.Danger" Busy="Working" OnClick="RemoveAsync">Delete</OmniButton>
+        <OmniButton Id="preferences-sync" Variant="OmniButtonVariant.Secondary" Busy="Working" OnClick="SyncAsync">Synchronize now</OmniButton>
+    </OmniStack>
+    <OmniDescriptionList>
+        <OmniDescriptionItem Term="Value read by OmniPreferences (this browser)"><OmniText Id="preferences-stored">@Display(Stored)</OmniText></OmniDescriptionItem>
+        <OmniDescriptionItem Term="@StoreTerm"><OmniText Id="preferences-database">@(HasStore ? Display(DatabaseValue) : "(no store)")</OmniText></OmniDescriptionItem>
+    </OmniDescriptionList>
+    @if (!HasStore)
+    {
+        <OmniAlert Id="preferences-status" Severity="OmniSeverity.Info">No preference store is registered in this host: the value stays in this browser and never reaches a database.</OmniAlert>
+    }
+    else if (StoreFailure is not null)
+    {
+        <OmniAlert Id="preferences-status" Severity="OmniSeverity.Warning">The store could not be reached (@StoreFailure). The value stays in this browser and is sent again at the next synchronization.</OmniAlert>
+    }
+    else if (!InSync)
+    {
+        <OmniAlert Id="preferences-status" Severity="OmniSeverity.Warning">The store does not hold this value yet: it stays in this browser and is sent at the next synchronization.</OmniAlert>
+    }
+    else
+    {
+        <OmniAlert Id="preferences-status" Severity="OmniSeverity.Success">The store holds the value this browser holds.</OmniAlert>
+    }
+    @if (SyncFailed)
+    {
+        <OmniAlert Id="preferences-sync-failure" Severity="OmniSeverity.Warning">The synchronization is unavailable. The local value is kept.</OmniAlert>
+    }
+</OmniStack>

@@ -138,11 +138,6 @@
   <data name="DemoSchedulerCapability1" xml:space="preserve"><value>Vues jour, semaine et mois, commutables.</value></data>
   <data name="DemoSchedulerCapability2" xml:space="preserve"><value>Rendez-vous récurrents décrits par une règle.</value></data>
   <data name="DemoSchedulerCapability3" xml:space="preserve"><value>Chaque vue s'utilise aussi seule, hors du calendrier.</value></data>
-  <data name="DemoFlowsTitle" xml:space="preserve"><value>Parcours</value></data>
-  <data name="DemoFlowsSummary" xml:space="preserve"><value>Assistant, connexion et perte de connexion.</value></data>
-  <data name="DemoFlowsCapability1" xml:space="preserve"><value>Assistant à étapes : progression, validation par étape, dans une page ou un dialogue.</value></data>
-  <data name="DemoFlowsCapability2" xml:space="preserve"><value>Page de connexion sans authentification embarquée, et adresse de retour limitée à l'application.</value></data>
-  <data name="DemoFlowsCapability3" xml:space="preserve"><value>Voile de connexion perdue : compte à rebours, cause, reprise manuelle, échec et refus.</value></data>
   <data name="WorkshopBarTitle" xml:space="preserve"><value>Réglages de l'aperçu</value></data>
   <data name="WorkshopTheme" xml:space="preserve"><value>Thème (forme)</value></data>
   <data name="WorkshopPalette" xml:space="preserve"><value>Palette (couleurs)</value></data>
@@ -912,48 +907,6 @@
   <data name="DemoValidationReplicas" xml:space="preserve"><value>Réplicas</value></data>
   <data name="DemoValidationCheck" xml:space="preserve"><value>Vérifier</value></data>
   <data name="DemoValidationSimulateUnsaved" xml:space="preserve"><value>Simuler des modifications non enregistrées</value></data>
-  <data name="DemoFlowsCreateServer" xml:space="preserve"><value>Créer le serveur</value></data>
-  <data name="DemoFlowsStepIdentity" xml:space="preserve"><value>Identité</value></data>
-  <data name="DemoFlowsNameHelp" xml:space="preserve"><value>Suivant s'active dès que le nom est saisi.</value></data>
-  <data name="DemoFlowsServerName" xml:space="preserve"><value>Nom du serveur</value></data>
-  <data name="DemoFlowsStepOptions" xml:space="preserve"><value>Options</value></data>
-  <data name="DemoFlowsDailyBackup" xml:space="preserve"><value>Sauvegarde quotidienne</value></data>
-  <data name="DemoFlowsBackupRequired" xml:space="preserve"><value>Cochez la sauvegarde quotidienne pour un serveur de production.</value></data>
-  <data name="DemoFlowsStepSummary" xml:space="preserve"><value>Récapitulatif</value></data>
-  <data name="DemoFlowsSummaryName" xml:space="preserve"><value>Nom</value></data>
-  <data name="DemoFlowsSummaryBackup" xml:space="preserve"><value>Sauvegarde</value></data>
-  <data name="DemoFlowsBackupDaily" xml:space="preserve"><value>Quotidienne</value></data>
-  <data name="DemoFlowsBackupNone" xml:space="preserve"><value>Aucune</value></data>
-  <data name="DemoFlowsOutcome" xml:space="preserve"><value>Résultat : {0}</value></data>
-  <data name="DemoFlowsOutcomePending" xml:space="preserve"><value>en cours</value></data>
-  <data name="DemoFlowsOutcomeCreated" xml:space="preserve"><value>serveur « {0} » créé</value></data>
-  <data name="DemoFlowsOutcomeCancelled" xml:space="preserve"><value>annulé</value></data>
-  <data name="DemoFlowsWizardInDialog" xml:space="preserve"><value>Assistant dans un dialogue</value></data>
-  <data name="DemoFlowsInviteTitle" xml:space="preserve"><value>Inviter un membre</value></data>
-  <data name="DemoFlowsInviteSteps" xml:space="preserve"><value>Étapes de l'invitation</value></data>
-  <data name="DemoFlowsInvite" xml:space="preserve"><value>Inviter</value></data>
-  <data name="DemoFlowsStepAddress" xml:space="preserve"><value>Adresse</value></data>
-  <data name="DemoFlowsAddressBody" xml:space="preserve"><value>L'adresse de la personne invitée.</value></data>
-  <data name="DemoFlowsStepRole" xml:space="preserve"><value>Rôle</value></data>
-  <data name="DemoFlowsRoleBody" xml:space="preserve"><value>Le rôle qu'elle recevra.</value></data>
-  <data name="DemoFlowsLongStepNote" xml:space="preserve"><value>Une étape plus haute que le corps de l'assistant : il défile, et les boutons restent à la même place.</value></data>
-  <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Espace d'administration</value></data>
-  <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Exploitation</value></data>
-  <data name="DemoFlowsUser" xml:space="preserve"><value>Identifiant</value></data>
-  <data name="DemoFlowsPassword" xml:space="preserve"><value>Mot de passe</value></data>
-  <data name="DemoFlowsSignIn" xml:space="preserve"><value>Se connecter</value></data>
-  <data name="DemoFlowsSignInNote" xml:space="preserve"><value>Formulaire remis à l'hôte pour « {0} ».</value></data>
-  <data name="DemoFlowsReturnAfterSignIn" xml:space="preserve"><value>Retour après connexion : {0}</value></data>
-  <data name="DemoFlowsExternalRefused" xml:space="preserve"><value>Adresse extérieure refusée : {0}</value></data>
-  <data name="DemoFlowsSimulateDrop" xml:space="preserve"><value>Simuler une coupure</value></data>
-  <data name="DemoFlowsSimulateReject" xml:space="preserve"><value>Simuler un refus</value></data>
-  <data name="DemoFlowsConnection" xml:space="preserve"><value>Connexion : {0}</value></data>
-  <data name="DemoFlowsConnectionReconnecting" xml:space="preserve"><value>reconnexion</value></data>
-  <data name="DemoFlowsConnectionFailed" xml:space="preserve"><value>échec</value></data>
-  <data name="DemoFlowsConnectionRejected" xml:space="preserve"><value>refusée</value></data>
-  <data name="DemoFlowsConnectionEstablished" xml:space="preserve"><value>établie</value></data>
-  <data name="DemoFlowsReasonTimeout" xml:space="preserve"><value>le serveur ne répond plus (délai dépassé)</value></data>
-  <data name="DemoFlowsReasonExpired" xml:space="preserve"><value>session expirée côté serveur</value></data>
   <data name="DemoGridTreeIncome" xml:space="preserve"><value>Produits</value></data>
   <data name="DemoGridTreeSales" xml:space="preserve"><value>Ventes</value></data>
   <data name="DemoGridTreeServices" xml:space="preserve"><value>Prestations de services</value></data>

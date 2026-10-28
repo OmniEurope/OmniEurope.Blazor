@@ -1,0 +1,36 @@
+@using Microsoft.AspNetCore.Components.Forms
+
+@* The sign-in page laid out. The shell carries no authentication: the form and what submitting does are the
+   host's. OmniReturnUrl only ever renders a path of the application, never an outside address. SignUpHref
+   is the discreet invitation at the head of the footer, never a second button: without an address the line
+   is not drawn. *@
+<OmniLoginShell Title="Sign in" Description="Presentation only; no credentials are sent." Level="OmniHeadingLevel.H3"
+                SignUpHref="@SignUpHref" SignUpPrompt="No account?" SignUpText="Sign up">
+    <Logo><OmniIcon Name="OmniIconName.ShieldCheck" Size="OmniControlSize.Large" Label="Operations" /></Logo>
+    <ChildContent>
+        <EditForm Model="Credentials" OnSubmit="Submit">
+            <OmniStack Gap="OmniSpacing.Medium">
+                <OmniFormField For="workflows-login-user">
+                    <LabelContent>Username</LabelContent>
+                    <ChildContent><OmniTextBox Id="workflows-login-user" @bind-Value="Credentials.Name" Autocomplete="username" /></ChildContent>
+                </OmniFormField>
+                <OmniFormField For="workflows-login-password">
+                    <LabelContent>Password</LabelContent>
+                    <ChildContent><OmniPassword Id="workflows-login-password" @bind-Value="Credentials.Secret" Revealable="true" Autocomplete="current-password" /></ChildContent>
+                </OmniFormField>
+                @* OmniFormActions: the button stays in the form and sits at the end. *@
+                <OmniFormActions>
+                    <OmniButton ButtonType="OmniButtonType.Submit"><Icon><OmniIcon Name="OmniIconName.SignIn" /></Icon><ChildContent><span>Sign in</span></ChildContent></OmniButton>
+                </OmniFormActions>
+            </OmniStack>
+        </EditForm>
+    </ChildContent>
+    <FooterContent>
+        @if (Note is not null)
+        {
+            <OmniText role="status">@Note</OmniText>
+        }
+        <OmniText>Return after sign-in: @OmniReturnUrl.Resolve("/projects/12?tab=journal")</OmniText>
+        <OmniText>External address refused: @OmniReturnUrl.Resolve("//example.invalid/trap")</OmniText>
+    </FooterContent>
+</OmniLoginShell>

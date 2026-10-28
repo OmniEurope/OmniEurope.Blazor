@@ -142,8 +142,8 @@
     #showcase-theme > .omni-layout > .omni-body > .omni-sidebar { flex: 0 0 auto; max-inline-size: none; }
 }
 
-/* La page de connexion en miniature : un fond discret la détache du reste de la démonstration. */
-.showcase-preview-frame { background: var(--omni-color-surface-muted); border: var(--omni-border-width) dashed var(--omni-color-border); border-radius: var(--omni-radius); padding-inline: var(--omni-space-md); }
+/* Workflows page of the gallery: the sign-in page in miniature, a muted dashed frame sets it apart from the rest of the preview. */
+.gallery-workflows-login { background: var(--omni-color-surface-muted); border: var(--omni-border-width) dashed var(--omni-color-border); border-radius: var(--omni-radius); padding-inline: var(--omni-space-md); }
 
 /* Personnalisateur : la barre de réglages de la maquette, puis l'aperçu et son rail de contrastes. */
 .showcase-workshop-bar { align-items: end; background: var(--omni-color-surface-muted); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: flex; flex-wrap: wrap; gap: var(--omni-space-md) var(--omni-space-lg); margin-block: var(--omni-space-lg); padding: var(--omni-space-md) var(--omni-space-lg); }

@@ -1,0 +1,19 @@
+@* The lost-connection veil. The host drives the state, the countdown and the callbacks; the component holds
+   no connection of its own. The buttons simulate an outage (two automatic attempts of three seconds, then
+   the failure, where only the manual retry is left) and a rejection (the session is refused, the page
+   reloads); State may also be set from outside, as the settings of the page do. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Wrap="true">
+        <OmniButton Id="workflows-connection-drop" Variant="OmniButtonVariant.Warning" OnClick="DropAsync">
+            <Icon><OmniIcon Name="OmniIconName.Offline" /></Icon>
+            <ChildContent><span>Simulate an outage</span></ChildContent>
+        </OmniButton>
+        <OmniButton Id="workflows-connection-reject" Variant="OmniButtonVariant.Danger" OnClick="Reject">
+            <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+            <ChildContent><span>Simulate a rejection</span></ChildContent>
+        </OmniButton>
+    </OmniStack>
+    <OmniText Id="workflows-connection-state">Connection: @StateText</OmniText>
+</OmniStack>
+<OmniConnectionOverlay Id="workflows-connection" State="State" TimeUntilRetry="RetryDelay" Busy="Reconnecting" Reason="@Reason"
+                       OnReconnect="ReconnectAsync" OnReload="Reload" />
