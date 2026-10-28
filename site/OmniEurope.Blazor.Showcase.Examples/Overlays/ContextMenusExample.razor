@@ -10,12 +10,10 @@
                      Open="MenuOpen"
                      OpenChanged="@(value => MenuOpen = value)">
         <TriggerContent>
-            <OmniCard>
-                <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center">
-                    <OmniIcon Name="OmniIconName.Menu" />
-                    <OmniText>Right-click anywhere here: the menu opens at the pointer. From the keyboard, focus the zone and press Shift+F10.</OmniText>
-                </OmniStack>
-            </OmniCard>
+            <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Justify="OmniJustification.Center">
+                <OmniIcon Name="OmniIconName.Menu" />
+                <OmniText>Right-click anywhere here: the menu opens at the pointer. From the keyboard, focus the zone and press Shift+F10.</OmniText>
+            </OmniStack>
         </TriggerContent>
         <ChildContent>
             <OmniMenuItem OnClick="@(() => Choose("Open"))">

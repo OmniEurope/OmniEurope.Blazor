@@ -63,34 +63,44 @@
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["StacksPreviewTitle"]</HeaderContent>
             <ChildContent>
-                <StacksExample Orientation="Orientation" Gap="Gap" Align="Align" Justify="Justify" Overflow="Overflow"
-                               ItemCount="@((int)ItemCount)" Narrow="Narrow" />
+                <div class="gallery-stacks-main">
+                    <StacksExample Orientation="Orientation" Gap="Gap" Align="Align" Justify="Justify" Overflow="Overflow"
+                                   ItemCount="@((int)ItemCount)" Narrow="Narrow" />
+                </div>
                 <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["StacksPreviewHint"]</OmniText>
             </ChildContent>
         </OmniCard>
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["StacksGapsTitle"]</HeaderContent>
             <ChildContent>
-                <StackGapsExample />
+                <div class="gallery-stacks-tray">
+                    <StackGapsExample />
+                </div>
             </ChildContent>
         </OmniCard>
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["StacksAlignsTitle"]</HeaderContent>
             <ChildContent>
-                <StackAlignmentsExample />
+                <div class="gallery-stacks-tray">
+                    <StackAlignmentsExample />
+                </div>
                 <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["StacksAlignsDescription"]</OmniText>
             </ChildContent>
         </OmniCard>
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["StacksJustifiesTitle"]</HeaderContent>
             <ChildContent>
-                <StackJustificationsExample />
+                <div class="gallery-stacks-tray">
+                    <StackJustificationsExample />
+                </div>
             </ChildContent>
         </OmniCard>
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["StacksOrientationsTitle"]</HeaderContent>
             <ChildContent>
-                <StackOrientationsExample />
+                <div class="gallery-stacks-tray">
+                    <StackOrientationsExample />
+                </div>
             </ChildContent>
         </OmniCard>
         <OmniCard Class="gallery-preview">

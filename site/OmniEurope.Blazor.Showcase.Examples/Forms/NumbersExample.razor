@@ -4,8 +4,8 @@
    value the type cannot read becomes a validation message below instead of being ignored in silence. *@
 <OmniTemplateForm TModel="NumbersExample" EditContext="Context" Context="form">
     <OmniStack Gap="OmniSpacing.Medium">
-        <OmniRow>
-            <OmniColumn Span="12" MediumSpan="6">
+        <OmniTileGrid MinColumnWidth="16rem" Columns="6" EqualHeights="false">
+            <OmniStack Gap="OmniSpacing.XSmall">
                 <OmniFormField For="numeric-int">
                     <LabelContent>Integer</LabelContent>
                     <ChildContent>
@@ -21,10 +21,10 @@
                                      ReadOnly="ReadOnly" />
                     </ChildContent>
                 </OmniFormField>
-                <OmniText Tone="OmniTextTone.Muted">@Echo(IntegerValue)</OmniText>
-            </OmniColumn>
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Echo(IntegerValue)</OmniText>
+            </OmniStack>
 
-            <OmniColumn Span="12" MediumSpan="6">
+            <OmniStack Gap="OmniSpacing.XSmall">
                 <OmniFormField For="numeric-decimal">
                     <LabelContent>Decimal</LabelContent>
                     <ChildContent>
@@ -40,10 +40,10 @@
                                      ReadOnly="ReadOnly" />
                     </ChildContent>
                 </OmniFormField>
-                <OmniText Tone="OmniTextTone.Muted">@Echo(DecimalValue)</OmniText>
-            </OmniColumn>
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Echo(DecimalValue)</OmniText>
+            </OmniStack>
 
-            <OmniColumn Span="12" MediumSpan="6">
+            <OmniStack Gap="OmniSpacing.XSmall">
                 <OmniFormField For="numeric-nullable" Description="Emptying the field gives no value at all, rather than zero.">
                     <LabelContent>Nullable integer</LabelContent>
                     <ChildContent>
@@ -59,9 +59,9 @@
                                      ReadOnly="ReadOnly" />
                     </ChildContent>
                 </OmniFormField>
-                <OmniText Tone="OmniTextTone.Muted">@(NullableValue is { } nullable ? Echo(nullable) : "Bound value: none (null)")</OmniText>
-            </OmniColumn>
-        </OmniRow>
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@(NullableValue is { } nullable ? Echo(nullable) : "Bound value: none (null)")</OmniText>
+            </OmniStack>
+        </OmniTileGrid>
 
         @foreach (var message in form.GetValidationMessages())
         {

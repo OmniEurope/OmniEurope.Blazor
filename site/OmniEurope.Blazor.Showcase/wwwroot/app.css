@@ -550,3 +550,123 @@
 .gallery-loading-bar-danger {
     --omni-loading-bar-color: var(--omni-color-danger);
 }
+
+/* Layout, Forms, Overlays fidelity */
+/* The examples carry no class of the showcase: each page wraps its example in a gallery-* div and these
+   rules reach the Omni* markup inside it. */
+
+/* Context menus page: the right-click zone is a target to aim at, the file list is bordered rows. */
+.gallery-context-zone .omni-context-menu__trigger > .omni-stack {
+    border: 0.125rem dashed var(--omni-color-border);
+    border-radius: var(--omni-radius);
+    box-sizing: border-box;
+    color: var(--omni-color-text-muted);
+    min-block-size: 8rem;
+    padding: var(--omni-space-md);
+    text-align: center;
+}
+
+.gallery-context-zone .omni-context-menu__trigger .omni-text {
+    color: inherit;
+}
+
+.gallery-context-rows .omni-context-menu__trigger > .omni-stack,
+.gallery-overflow-rows .omni-stack--vertical > .omni-stack--justify-between {
+    border: var(--omni-border-width) solid var(--omni-color-border);
+    border-radius: var(--omni-radius);
+    box-sizing: border-box;
+    padding: var(--omni-space-sm) var(--omni-space-md);
+}
+
+.gallery-context-rows .omni-context-menu__trigger > .omni-stack:hover,
+.gallery-overflow-rows .omni-stack--vertical > .omni-stack--justify-between:hover {
+    background: var(--omni-color-surface-hover);
+}
+
+/* Overflow menu page: the name takes the free room, the three-dot menu stays at the end of the row. */
+.gallery-overflow-rows .omni-stack--justify-between > .omni-stack:first-child {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+}
+
+/* Check boxes and switches page: the states matrix scrolls inside its box on a small screen. */
+.gallery-toggles-matrix {
+    max-inline-size: 100%;
+    overflow-x: auto;
+}
+
+.gallery-toggles-matrix table {
+    border-collapse: collapse;
+}
+
+.gallery-toggles-matrix th,
+.gallery-toggles-matrix td {
+    border-block-end: var(--omni-border-width) solid var(--omni-color-border);
+    padding: var(--omni-space-sm) var(--omni-space-md);
+    text-align: start;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.gallery-toggles-matrix thead th {
+    color: var(--omni-color-text-muted);
+    font-size: var(--omni-font-size-sm);
+    font-weight: 600;
+}
+
+.gallery-toggles-matrix tbody th {
+    font-weight: 600;
+}
+
+/* Stacks page: the main stack sits in a dashed frame taller than its items, so Justify and Align act in a
+   vertical stack; the specimens sit on a muted tray. */
+.gallery-stacks-main .omni-column > :is(.omni-stack, .omni-stack-scroll) {
+    border: var(--omni-border-width) dashed var(--omni-color-border);
+    border-radius: var(--omni-radius);
+    box-sizing: border-box;
+    min-inline-size: 0;
+    padding: var(--omni-space-sm);
+}
+
+.gallery-stacks-main .omni-column > .omni-stack,
+.gallery-stacks-main .omni-column > .omni-stack-scroll > .omni-stack {
+    min-block-size: 12rem;
+}
+
+.gallery-stacks-tray .omni-stack:has(> .omni-card) {
+    background: var(--omni-color-surface-muted);
+    border-radius: var(--omni-radius);
+    padding: var(--omni-space-xs);
+}
+
+/* Stacks and rows pages: the numbered blocks are compact, small and centred. */
+.gallery-stacks-tray .omni-stack > .omni-card,
+.gallery-rows .omni-column > .omni-card {
+    font-size: var(--omni-font-size-sm);
+    text-align: center;
+}
+
+.gallery-stacks-tray .omni-stack > .omni-card > .omni-card__body,
+.gallery-rows .omni-column > .omni-card > .omni-card__body {
+    padding: var(--omni-space-xs) var(--omni-space-sm);
+}
+
+/* Rows and columns page: the main row sits in a dashed frame. */
+.gallery-rows-frame > .omni-row {
+    border: var(--omni-border-width) dashed var(--omni-color-border);
+    border-radius: var(--omni-radius);
+    box-sizing: border-box;
+    padding: var(--omni-space-sm);
+}
+
+/* Fieldsets, sign-up validation and cards pages: a form or a card is no wider than a real one would be. */
+.gallery-fieldsets-fields {
+    max-inline-size: 28rem;
+    min-inline-size: 0;
+}
+
+.gallery-validation-signup,
+.gallery-cards-stage {
+    max-inline-size: 32rem;
+    min-inline-size: 0;
+}

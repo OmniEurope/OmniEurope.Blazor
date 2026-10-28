@@ -81,42 +81,44 @@
         </OmniSettingsSection>
     </Settings>
     <Preview>
-        <OmniCard Class="gallery-preview">
+        <OmniCard Class="gallery-preview gallery-rows">
             <HeaderContent>@Text["RowsColumnsPreviewTitle"]</HeaderContent>
             <ChildContent>
-                <RowsColumnsExample Gap="Gap" Align="Align" Justify="Justify" Wrap="Wrap" ColumnCount="@((int)ColumnCount)" Span="@((int)Span)"
-                                    Responsive="Responsive" SmallSpan="@((int)SmallSpan)" MediumSpan="@((int)MediumSpan)" LargeSpan="@((int)LargeSpan)" />
+                <div class="gallery-rows-frame">
+                    <RowsColumnsExample Gap="Gap" Align="Align" Justify="Justify" Wrap="Wrap" ColumnCount="@((int)ColumnCount)" Span="@((int)Span)"
+                                        Responsive="Responsive" SmallSpan="@((int)SmallSpan)" MediumSpan="@((int)MediumSpan)" LargeSpan="@((int)LargeSpan)" />
+                </div>
                 <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["RowsColumnsPreviewHint"]</OmniText>
             </ChildContent>
         </OmniCard>
-        <OmniCard Class="gallery-preview">
+        <OmniCard Class="gallery-preview gallery-rows">
             <HeaderContent>@Text["RowsColumnsSplitsTitle"]</HeaderContent>
             <ChildContent>
                 <RowSplitsExample />
                 <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["RowsColumnsSplitsDescription"]</OmniText>
             </ChildContent>
         </OmniCard>
-        <OmniCard Class="gallery-preview">
+        <OmniCard Class="gallery-preview gallery-rows">
             <HeaderContent>@Text["RowsColumnsGapsTitle"]</HeaderContent>
             <ChildContent>
                 <RowGapsExample />
                 <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["RowsColumnsGapsDescription"]</OmniText>
             </ChildContent>
         </OmniCard>
-        <OmniCard Class="gallery-preview">
+        <OmniCard Class="gallery-preview gallery-rows">
             <HeaderContent>@Text["RowsColumnsJustifiesTitle"]</HeaderContent>
             <ChildContent>
                 <RowJustificationsExample />
             </ChildContent>
         </OmniCard>
-        <OmniCard Class="gallery-preview">
+        <OmniCard Class="gallery-preview gallery-rows">
             <HeaderContent>@Text["RowsColumnsAlignsTitle"]</HeaderContent>
             <ChildContent>
                 <RowAlignmentsExample />
                 <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["RowsColumnsAlignsDescription"]</OmniText>
             </ChildContent>
         </OmniCard>
-        <OmniCard Class="gallery-preview">
+        <OmniCard Class="gallery-preview gallery-rows">
             <HeaderContent>@Text["RowsColumnsWrapsTitle"]</HeaderContent>
             <ChildContent>
                 <div class="gallery-rows-clip">
@@ -125,7 +127,7 @@
                 <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["RowsColumnsWrapsDescription"]</OmniText>
             </ChildContent>
         </OmniCard>
-        <OmniCard Class="gallery-preview">
+        <OmniCard Class="gallery-preview gallery-rows">
             <HeaderContent>@Text["RowsColumnsResponsiveTitle"]</HeaderContent>
             <ChildContent>
                 <RowResponsiveExample />

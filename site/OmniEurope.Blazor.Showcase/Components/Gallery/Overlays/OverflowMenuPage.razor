@@ -37,7 +37,9 @@
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["OverflowMenuPreviewTitle"]</HeaderContent>
             <ChildContent>
-                <OverflowMenuExample Size="Size" Disabled="Disabled" ShowDelete="ShowDelete" DisableRename="DisableRename" />
+                <div class="gallery-overflow-rows">
+                    <OverflowMenuExample Size="Size" Disabled="Disabled" ShowDelete="ShowDelete" DisableRename="DisableRename" />
+                </div>
                 <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["OverflowMenuKeyboardHint"]</OmniText>
             </ChildContent>
         </OmniCard>

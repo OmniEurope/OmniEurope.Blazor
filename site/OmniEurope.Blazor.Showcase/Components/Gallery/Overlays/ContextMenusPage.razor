@@ -37,14 +37,18 @@
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["ContextMenusPreviewTitle"]</HeaderContent>
             <ChildContent>
-                <ContextMenusExample ShowDelete="ShowDelete" DisableRename="DisableRename" KeepOpen="KeepOpen" Disabled="Disabled" />
+                <div class="gallery-context-zone">
+                    <ContextMenusExample ShowDelete="ShowDelete" DisableRename="DisableRename" KeepOpen="KeepOpen" Disabled="Disabled" />
+                </div>
                 <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["ContextMenusKeyboardHint"]</OmniText>
             </ChildContent>
         </OmniCard>
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["ContextMenusRowsTitle"]</HeaderContent>
             <ChildContent>
-                <ContextMenuRowsExample />
+                <div class="gallery-context-rows">
+                    <ContextMenuRowsExample />
+                </div>
                 <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["ContextMenusRowsHint"]</OmniText>
             </ChildContent>
         </OmniCard>

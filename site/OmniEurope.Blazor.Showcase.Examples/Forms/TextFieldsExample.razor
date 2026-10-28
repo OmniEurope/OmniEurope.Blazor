@@ -1,7 +1,7 @@
 @* A text box, a text area, a password and a bare label with a box, every setting a parameter. A form
    field assembles the label, the help line and the error; the paragraph under each field echoes its value. *@
-<OmniRow>
-    <OmniColumn Span="12" MediumSpan="6">
+<OmniTileGrid MinColumnWidth="16rem" Columns="6" EqualHeights="false">
+    <OmniStack Gap="OmniSpacing.XSmall">
         <OmniFormField Id="text-box-field"
                        For="text-box"
                        Required="Required"
@@ -22,10 +22,10 @@
                              maxlength="@MaxLength" />
             </ChildContent>
         </OmniFormField>
-        <OmniText Tone="OmniTextTone.Muted">Value: "@TextValue" (@TextValue.Length characters)</OmniText>
-    </OmniColumn>
+        <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">Value: "@TextValue" (@TextValue.Length characters)</OmniText>
+    </OmniStack>
 
-    <OmniColumn Span="12" MediumSpan="6">
+    <OmniStack Gap="OmniSpacing.XSmall">
         <OmniFormField Id="text-area-field"
                        For="text-area"
                        Required="Required"
@@ -45,10 +45,10 @@
                               AriaDescribedBy="@DescribedBy("text-area-field")" />
             </ChildContent>
         </OmniFormField>
-        <OmniText Tone="OmniTextTone.Muted">Value: "@AreaValue" (@AreaValue.Length characters)</OmniText>
-    </OmniColumn>
+        <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">Value: "@AreaValue" (@AreaValue.Length characters)</OmniText>
+    </OmniStack>
 
-    <OmniColumn Span="12" MediumSpan="6">
+    <OmniStack Gap="OmniSpacing.XSmall">
         <OmniFormField Id="password-field"
                        For="password"
                        Required="Required"
@@ -67,11 +67,11 @@
                               AriaDescribedBy="@DescribedBy("password-field")" />
             </ChildContent>
         </OmniFormField>
-        <OmniText Tone="OmniTextTone.Muted">Password: @PasswordValue.Length characters, never displayed here.</OmniText>
-    </OmniColumn>
+        <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">Password: @PasswordValue.Length characters, never displayed here.</OmniText>
+    </OmniStack>
 
     @* Label and box laid by hand, without a form field: what the form field assembles. *@
-    <OmniColumn Span="12" MediumSpan="6">
+    <OmniStack Gap="OmniSpacing.XSmall">
         <OmniLabel For="bare-text-box" Required="Required">Label and box side by side</OmniLabel>
         <OmniTextBox Id="bare-text-box"
                      @bind-Value="BareValue"
@@ -79,6 +79,6 @@
                      Disabled="Disabled"
                      ReadOnly="ReadOnly"
                      maxlength="@MaxLength" />
-        <OmniText Tone="OmniTextTone.Muted">Value: "@BareValue" (@BareValue.Length characters)</OmniText>
-    </OmniColumn>
-</OmniRow>
+        <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">Value: "@BareValue" (@BareValue.Length characters)</OmniText>
+    </OmniStack>
+</OmniTileGrid>
