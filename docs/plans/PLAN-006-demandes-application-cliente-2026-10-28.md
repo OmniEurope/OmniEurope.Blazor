@@ -41,7 +41,7 @@ contrôle mesurable ; un point n'est « fait » qu'avec sa preuve observée (nav
     navigateur masqué, minuteries ralenties).
   - Gardes rattrapées à l'intégration : couverture de la vitrine (filtres de date démontrés,
     `ce51ad50`), appel de `base.OnParametersSet` (`c68bcfe4`). Suite complète : 10633 tests, 0 échec.
-- En attente du propriétaire : R-3 (badge distinct d'un bouton, la garde de rayon `--omni-radius-sm`
+- Ancienne attente du propriétaire, levée le 2026-10-28 : R-3 (badge distinct d'un bouton, la garde de rayon `--omni-radius-sm`
   interdit la pastille sans sa décision).
 - Validé côté client (OE en sources locales) : R-26 sur ses 3 pages ; R-16 mesuré (infobulle centrée à
   1 px sur son bouton, chevauchement de 3 px voulu car placée sur le pointeur) ; R-4, catégorie E2E
@@ -49,3 +49,7 @@ contrôle mesurable ; un point n'est « fait » qu'avec sa preuve observée (nav
 - R-8 (`f146a1df`) : `OmniFormField.EndContent` sur la ligne du contrôle (`omni-form-field__control--end`),
   mesuré dans la vitrine à 943 et 375 px ; validé côté client (champ et trois boutons sur une ligne),
   qui a retiré son contournement local.
+- R-3 (`84f11869`, décision du propriétaire du 2026-10-28) : `OmniBadge` en pastille par défaut, paramètre
+  `Shape` (Pill, Rounded, Square), texte rogné à la hauteur des capitales, chiffres alignés ; mesuré dans la
+  vitrine sur 80 badges (rayon 999 px, 2,5 px, 0 ; écart centre de la pastille et centre des capitales
+  0,01 px au plus ; aucun badge plus étroit que haut).
