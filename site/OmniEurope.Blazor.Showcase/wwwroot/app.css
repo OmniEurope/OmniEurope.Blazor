@@ -670,3 +670,101 @@
     max-inline-size: 32rem;
     min-inline-size: 0;
 }
+
+/* Navigation, Selection, Shell fidelity */
+
+/* Selection pages: the main field of the autocomplete, drop-down and multi-select pages stops at a readable
+   width, and the text boxes of the settings keep to one size. */
+.gallery-selection-field .omni-form-field {
+    max-inline-size: 26rem;
+}
+
+.gallery-selection-setting-input {
+    inline-size: 14rem;
+    max-inline-size: 100%;
+}
+
+/* Slider page: an upright slider has no length of its own, so every upright preview is given one. */
+.gallery-slider .omni-slider--vertical .omni-slider__input {
+    flex: 0 0 auto;
+    height: 10rem;
+}
+
+/* Upload page: the file fields stop at 36rem and the picked files sit in a compact table that scrolls
+   sideways inside its own wrapper. */
+.gallery-upload .omni-upload {
+    max-inline-size: 36rem;
+}
+
+.gallery-upload div:has(> table) {
+    max-inline-size: 100%;
+    overflow-x: auto;
+}
+
+.gallery-upload table {
+    border-collapse: collapse;
+    font-size: var(--omni-font-size-sm);
+    inline-size: 100%;
+}
+
+.gallery-upload :is(th, td) {
+    border-block-end: var(--omni-border-width) solid var(--omni-color-border);
+    padding: var(--omni-space-xs) var(--omni-space-sm);
+    text-align: start;
+}
+
+.gallery-upload td {
+    font-variant-numeric: tabular-nums;
+}
+
+.gallery-upload :is(th, td):nth-child(3) {
+    text-align: end;
+}
+
+/* App menu and profile menu pages: the menu sits at the end of a bordered bar tall enough for it to open. */
+.gallery-menu-bar .omni-card__body > .omni-stack > .omni-stack:first-child {
+    border: var(--omni-border-width) solid var(--omni-color-border);
+    border-radius: var(--omni-radius);
+    min-block-size: 16rem;
+    padding: var(--omni-space-sm) var(--omni-space-md);
+}
+
+.gallery-menu-samples .omni-card__body > .omni-stack:first-child {
+    min-block-size: 10rem;
+}
+
+/* Tabs page: a panel has room below its content as well as above. */
+.gallery-tabs .omni-tabs__panel {
+    padding-block-end: var(--omni-space-md);
+}
+
+/* Breadcrumbs page: the links are a bulleted list. */
+.gallery-link-list ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--omni-space-xs);
+    margin: 0;
+    padding-inline-start: var(--omni-space-lg);
+}
+
+.gallery-link-list .omni-link {
+    align-items: center;
+    display: inline-flex;
+    gap: var(--omni-space-xs);
+}
+
+/* Loading bar page: a dashed track around the header the bar is laid over, so the bar is seen on its track. */
+.gallery-loading-bar-frame .omni-card__body > .omni-stack > div:first-child {
+    border: var(--omni-border-width) dashed var(--omni-color-border);
+    border-radius: var(--omni-radius);
+    overflow: hidden;
+}
+
+/* Side menu page: with the menu at the end the toggle follows it to the end of the header. */
+.gallery-shell-stage--end .omni-header {
+    flex-direction: row-reverse;
+}
+
+.gallery-shell-stage--end .omni-header .omni-sidebar-toggle {
+    margin-inline: 0 calc(-1 * var(--omni-header-pad-x));
+}

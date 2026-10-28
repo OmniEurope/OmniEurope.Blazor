@@ -1,48 +1,40 @@
 @* The bar binds any value type: an enumeration, an integer, a boolean, and a disabled bar. Inside a form field,
    the bar takes its accessible name from the field's label. *@
-<OmniRow Gap="OmniSpacing.Large">
-    <OmniColumn Span="12" MediumSpan="6">
-        <OmniStack Gap="OmniSpacing.Small">
-            <OmniFormField For="selectbar-density">
-                <LabelContent>Density</LabelContent>
-                <ChildContent>
-                    <OmniSelectBar TValue="OmniDensity" Id="selectbar-density" Options="DensityOptions" @bind-Value="Density" />
-                </ChildContent>
-            </OmniFormField>
-            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Density</code></OmniText>
-        </OmniStack>
-    </OmniColumn>
-    <OmniColumn Span="12" MediumSpan="6">
-        <OmniStack Gap="OmniSpacing.Small">
-            <OmniFormField For="selectbar-zoom">
-                <LabelContent>Zoom</LabelContent>
-                <ChildContent>
-                    <OmniSelectBar TValue="int" Id="selectbar-zoom" Options="ZoomOptions" @bind-Value="Zoom" />
-                </ChildContent>
-            </OmniFormField>
-            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Zoom</code></OmniText>
-        </OmniStack>
-    </OmniColumn>
-    <OmniColumn Span="12" MediumSpan="6">
-        <OmniStack Gap="OmniSpacing.Small">
-            <OmniFormField For="selectbar-confirmed">
-                <LabelContent>Two options</LabelContent>
-                <ChildContent>
-                    <OmniSelectBar TValue="bool" Id="selectbar-confirmed" Options="YesNoOptions" @bind-Value="Confirmed" />
-                </ChildContent>
-            </OmniFormField>
-            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Confirmed</code></OmniText>
-        </OmniStack>
-    </OmniColumn>
-    <OmniColumn Span="12" MediumSpan="6">
-        <OmniStack Gap="OmniSpacing.Small">
-            <OmniFormField For="selectbar-frozen" Disabled="true">
-                <LabelContent>Disabled bar</LabelContent>
-                <ChildContent>
-                    <OmniSelectBar TValue="string" Id="selectbar-frozen" Options="PeriodOptions" @bind-Value="FrozenPeriod" Disabled="true" />
-                </ChildContent>
-            </OmniFormField>
-            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@FrozenPeriod</code></OmniText>
-        </OmniStack>
-    </OmniColumn>
-</OmniRow>
+<OmniTileGrid Columns="4" MinColumnWidth="16rem" EqualHeights="false" Gap="OmniSpacing.Large">
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniFormField For="selectbar-density">
+            <LabelContent>Density</LabelContent>
+            <ChildContent>
+                <OmniSelectBar TValue="OmniDensity" Id="selectbar-density" Options="DensityOptions" @bind-Value="Density" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Density</code></OmniText>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniFormField For="selectbar-zoom">
+            <LabelContent>Zoom</LabelContent>
+            <ChildContent>
+                <OmniSelectBar TValue="int" Id="selectbar-zoom" Options="ZoomOptions" @bind-Value="Zoom" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Zoom</code></OmniText>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniFormField For="selectbar-confirmed">
+            <LabelContent>Two options</LabelContent>
+            <ChildContent>
+                <OmniSelectBar TValue="bool" Id="selectbar-confirmed" Options="YesNoOptions" @bind-Value="Confirmed" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Confirmed</code></OmniText>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniFormField For="selectbar-frozen" Disabled="true">
+            <LabelContent>Disabled bar</LabelContent>
+            <ChildContent>
+                <OmniSelectBar TValue="string" Id="selectbar-frozen" Options="PeriodOptions" @bind-Value="FrozenPeriod" Disabled="true" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@FrozenPeriod</code></OmniText>
+    </OmniStack>
+</OmniTileGrid>

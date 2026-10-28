@@ -1,35 +1,29 @@
 @* The radio list for other value types: an integer, an enumeration, and a disabled group. Every group has
    its own Name, so the browser keeps them apart. *@
-<OmniRow Gap="OmniSpacing.Large">
-    <OmniColumn Span="12" MediumSpan="6">
-        <OmniStack Gap="OmniSpacing.Small">
-            <OmniRadioButtonList TValue="int"
-                                 Name="radio-passengers"
-                                 Options="PassengerOptions"
-                                 @bind-Value="Passengers"
-                                 Label="Passengers" />
-            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Passengers</code></OmniText>
-        </OmniStack>
-    </OmniColumn>
-    <OmniColumn Span="12" MediumSpan="6">
-        <OmniStack Gap="OmniSpacing.Small">
-            <OmniRadioButtonList TValue="OmniSeverity"
-                                 Name="radio-severity"
-                                 Options="SeverityOptions"
-                                 @bind-Value="Severity"
-                                 Label="Severity" />
-            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Severity</code></OmniText>
-        </OmniStack>
-    </OmniColumn>
-    <OmniColumn Span="12" MediumSpan="6">
-        <OmniStack Gap="OmniSpacing.Small">
-            <OmniRadioButtonList TValue="string"
-                                 Name="radio-disabled"
-                                 Options="ShippingOptions"
-                                 @bind-Value="FrozenShipping"
-                                 Label="Disabled list"
-                                 Disabled="true" />
-            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@FrozenShipping</code></OmniText>
-        </OmniStack>
-    </OmniColumn>
-</OmniRow>
+<OmniTileGrid Columns="4" MinColumnWidth="16rem" EqualHeights="false" Gap="OmniSpacing.Large">
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniRadioButtonList TValue="int"
+                             Name="radio-passengers"
+                             Options="PassengerOptions"
+                             @bind-Value="Passengers"
+                             Label="Passengers" />
+        <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Passengers</code></OmniText>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniRadioButtonList TValue="OmniSeverity"
+                             Name="radio-severity"
+                             Options="SeverityOptions"
+                             @bind-Value="Severity"
+                             Label="Severity" />
+        <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Severity</code></OmniText>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniRadioButtonList TValue="string"
+                             Name="radio-disabled"
+                             Options="ShippingOptions"
+                             @bind-Value="FrozenShipping"
+                             Label="Disabled list"
+                             Disabled="true" />
+        <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@FrozenShipping</code></OmniText>
+    </OmniStack>
+</OmniTileGrid>

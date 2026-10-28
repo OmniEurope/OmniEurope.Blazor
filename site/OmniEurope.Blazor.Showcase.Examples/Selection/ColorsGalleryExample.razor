@@ -1,36 +1,30 @@
 @* More colour pickers: one without the code written beside it, one disabled, and the presets as swatches. *@
-<OmniRow Gap="OmniSpacing.Large">
-    <OmniColumn Span="12" MediumSpan="6">
-        <OmniStack Gap="OmniSpacing.Small">
-            <OmniFormField For="colors-color-bare">
-                <LabelContent>Without the value</LabelContent>
-                <ChildContent>
-                    <OmniColorPicker Id="colors-color-bare" @bind-Value="BareColor" ShowValue="false" />
-                </ChildContent>
-            </OmniFormField>
-            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@BareColor</code></OmniText>
-        </OmniStack>
-    </OmniColumn>
-    <OmniColumn Span="12" MediumSpan="6">
-        <OmniFormField For="colors-color-disabled" Disabled="true">
-            <LabelContent>Disabled picker</LabelContent>
+<OmniTileGrid Columns="4" MinColumnWidth="16rem" EqualHeights="false" Gap="OmniSpacing.Large">
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniFormField For="colors-color-bare">
+            <LabelContent>Without the value</LabelContent>
             <ChildContent>
-                <OmniColorPicker Id="colors-color-disabled" @bind-Value="FrozenColor" Disabled="true" />
+                <OmniColorPicker Id="colors-color-bare" @bind-Value="BareColor" ShowValue="false" />
             </ChildContent>
         </OmniFormField>
-    </OmniColumn>
+        <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@BareColor</code></OmniText>
+    </OmniStack>
+    <OmniFormField For="colors-color-disabled" Disabled="true">
+        <LabelContent>Disabled picker</LabelContent>
+        <ChildContent>
+            <OmniColorPicker Id="colors-color-disabled" @bind-Value="FrozenColor" Disabled="true" />
+        </ChildContent>
+    </OmniFormField>
     @foreach (var preset in ColorPresets.All)
     {
-        <OmniColumn Span="6" MediumSpan="3">
-            <OmniStack Gap="OmniSpacing.XSmall">
-                <OmniText>@preset.Name</OmniText>
-                <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Align="OmniAlignment.Center">
-                    <svg width="14" height="14" viewBox="0 0 10 10" focusable="false" aria-hidden="true">
-                        <rect width="10" height="10" rx="1.5" fill="@preset.Hex" />
-                    </svg>
-                    <code>@preset.Hex</code>
-                </OmniStack>
+        <OmniStack Gap="OmniSpacing.XSmall">
+            <OmniText>@preset.Name</OmniText>
+            <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Align="OmniAlignment.Center">
+                <svg width="14" height="14" viewBox="0 0 10 10" focusable="false" aria-hidden="true">
+                    <rect width="10" height="10" rx="1.5" fill="@preset.Hex" />
+                </svg>
+                <code>@preset.Hex</code>
             </OmniStack>
-        </OmniColumn>
+        </OmniStack>
     }
-</OmniRow>
+</OmniTileGrid>

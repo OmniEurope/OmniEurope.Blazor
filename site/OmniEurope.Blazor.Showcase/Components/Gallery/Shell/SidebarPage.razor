@@ -53,7 +53,7 @@
             <HeaderContent>@Text["SidebarPreviewTitle"]</HeaderContent>
             <ChildContent>
                 @* The stage contains the veil of a floating menu: it covers the preview, not the window. *@
-                <div class="gallery-shell-stage">
+                <div class="gallery-shell-stage @(Placement == OmniSidebarPlacement.End ? "gallery-shell-stage--end" : null)">
                     <SidebarExample Placement="Placement" Display="Display" Reveal="Reveal" Transition="Transition"
                                     Backdrop="Backdrop" Collapse="Collapse" />
                 </div>

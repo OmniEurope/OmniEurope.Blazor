@@ -46,7 +46,7 @@
         </OmniSettingsSection>
     </Settings>
     <Preview>
-        <OmniCard Class="gallery-preview">
+        <OmniCard Class="gallery-preview gallery-tabs">
             <HeaderContent>@Text["TabsPreviewTitle"]</HeaderContent>
             <ChildContent>
                 <TabsExample @bind-Value="SelectedTab"
@@ -56,15 +56,15 @@
                              DocumentCount="DocumentCount" />
             </ChildContent>
         </OmniCard>
-        <OmniCard Class="gallery-preview">
+        <OmniCard Class="gallery-preview gallery-tabs">
             <HeaderContent>@Text["TabsPlainTitle"]</HeaderContent>
             <ChildContent><TabsPlainExample /></ChildContent>
         </OmniCard>
-        <OmniCard Class="gallery-preview">
+        <OmniCard Class="gallery-preview gallery-tabs">
             <HeaderContent>@Text["TabsOverflowTitle"]</HeaderContent>
             <ChildContent><TabsOverflowExample /></ChildContent>
         </OmniCard>
-        <OmniCard Class="gallery-preview">
+        <OmniCard Class="gallery-preview gallery-tabs">
             <HeaderContent>@Text["TabsSettingsExampleTitle"]</HeaderContent>
             <ChildContent>
                 <OmniStack Gap="OmniSpacing.Medium">

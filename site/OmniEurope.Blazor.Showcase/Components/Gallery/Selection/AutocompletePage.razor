@@ -53,7 +53,7 @@
             <OmniSettingsTile Title="@Text["AutocompletePlaceholder"]" Description="@Text["AutocompletePlaceholderDescription"]">
                 <Icon><OmniIcon Name="OmniIconName.Edit" /></Icon>
                 <Details>
-                    <OmniTextBox @bind-Value="PlaceholderText" aria-label="@Text["AutocompletePlaceholder"]" />
+                    <OmniTextBox Class="gallery-selection-setting-input" @bind-Value="PlaceholderText" aria-label="@Text["AutocompletePlaceholder"]" />
                 </Details>
             </OmniSettingsTile>
 
@@ -90,15 +90,17 @@
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["AutocompletePreviewTitle"]</HeaderContent>
             <ChildContent>
-                <AutocompleteExample ShowToggle="ShowToggle"
-                                     DebounceMilliseconds="DebounceMilliseconds"
-                                     MinimumLength="MinimumLength"
-                                     LatencyMilliseconds="LatencyMilliseconds"
-                                     Placeholder="@PlaceholderText"
-                                     HighlightMatches="HighlightMatches"
-                                     DisableClosed="DisableClosed"
-                                     FailSearch="FailSearch"
-                                     Disabled="FieldDisabled" />
+                <div class="gallery-selection-field">
+                    <AutocompleteExample ShowToggle="ShowToggle"
+                                         DebounceMilliseconds="DebounceMilliseconds"
+                                         MinimumLength="MinimumLength"
+                                         LatencyMilliseconds="LatencyMilliseconds"
+                                         Placeholder="@PlaceholderText"
+                                         HighlightMatches="HighlightMatches"
+                                         DisableClosed="DisableClosed"
+                                         FailSearch="FailSearch"
+                                         Disabled="FieldDisabled" />
+                </div>
             </ChildContent>
         </OmniCard>
         <OmniCard Class="gallery-preview">

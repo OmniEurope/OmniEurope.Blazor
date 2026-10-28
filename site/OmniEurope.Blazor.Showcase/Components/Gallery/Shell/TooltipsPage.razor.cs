@@ -9,7 +9,7 @@ public partial class TooltipsPage
     [Inject]
     private IStringLocalizer<ShellStrings> Text { get; set; } = default!;
 
-    private OmniTooltipTracking Tracking { get; set; } = OmniTooltipTracking.Pointer;
+    private OmniTooltipTracking Tracking { get; set; } = OmniTooltipTracking.Pinned;
 
     private OmniTooltipWidth Width { get; set; } = OmniTooltipWidth.Standard;
 

@@ -14,7 +14,7 @@
             <OmniSettingsTile Title="@Text["DropDownsPlaceholder"]" Description="@Text["DropDownsPlaceholderDescription"]">
                 <Icon><OmniIcon Name="OmniIconName.Edit" /></Icon>
                 <Details>
-                    <OmniTextBox @bind-Value="EmptyText"
+                    <OmniTextBox Class="gallery-selection-setting-input" @bind-Value="EmptyText"
                                  Placeholder="@Text["DropDownsPlaceholderHint"]"
                                  Disabled="@(!AllowEmpty)"
                                  aria-label="@Text["DropDownsPlaceholder"]" />
@@ -54,12 +54,14 @@
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["DropDownsPreviewTitle"]</HeaderContent>
             <ChildContent>
-                <DropDownExample AllowEmpty="AllowEmpty"
-                                 EmptyText="@EmptyText"
-                                 Grouped="Grouped"
-                                 DisableOption="DisableOption"
-                                 Filterable="Filterable"
-                                 Disabled="ListDisabled" />
+                <div class="gallery-selection-field">
+                    <DropDownExample AllowEmpty="AllowEmpty"
+                                     EmptyText="@EmptyText"
+                                     Grouped="Grouped"
+                                     DisableOption="DisableOption"
+                                     Filterable="Filterable"
+                                     Disabled="ListDisabled" />
+                </div>
             </ChildContent>
         </OmniCard>
         <OmniCard Class="gallery-preview">

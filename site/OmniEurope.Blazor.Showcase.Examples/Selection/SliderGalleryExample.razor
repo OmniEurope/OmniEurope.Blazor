@@ -1,48 +1,40 @@
 @* More sliders: a share from 0 to 1 formatted as a percentage, one without its value, a disabled one, and an
    upright one for a temperature. *@
-<OmniRow Gap="OmniSpacing.Large">
-    <OmniColumn Span="12" MediumSpan="6">
-        <OmniStack Gap="OmniSpacing.Small">
-            <OmniFormField For="slider-percent">
-                <LabelContent>Opacity, from 0 to 1 by 0.05</LabelContent>
-                <ChildContent>
-                    <OmniSlider Id="slider-percent" @bind-Value="Opacity" Minimum="0" Maximum="1" Step="0.05" FormatValue="FormatPercent" />
-                </ChildContent>
-            </OmniFormField>
-            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Opacity.ToString(System.Globalization.CultureInfo.InvariantCulture)</code></OmniText>
-        </OmniStack>
-    </OmniColumn>
-    <OmniColumn Span="12" MediumSpan="6">
-        <OmniStack Gap="OmniSpacing.Small">
-            <OmniFormField For="slider-bare">
-                <LabelContent>Without the value</LabelContent>
-                <ChildContent>
-                    <OmniSlider Id="slider-bare" @bind-Value="Volume" ShowValue="false" />
-                </ChildContent>
-            </OmniFormField>
-            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Volume</code></OmniText>
-        </OmniStack>
-    </OmniColumn>
-    <OmniColumn Span="12" MediumSpan="6">
-        <OmniFormField For="slider-disabled" Disabled="true">
-            <LabelContent>Disabled slider</LabelContent>
+<OmniTileGrid Columns="4" MinColumnWidth="16rem" EqualHeights="false" Gap="OmniSpacing.Large">
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniFormField For="slider-percent">
+            <LabelContent>Opacity, from 0 to 1 by 0.05</LabelContent>
             <ChildContent>
-                <OmniSlider Id="slider-disabled" @bind-Value="FrozenValue" Disabled="true" />
+                <OmniSlider Id="slider-percent" @bind-Value="Opacity" Minimum="0" Maximum="1" Step="0.05" FormatValue="FormatPercent" />
             </ChildContent>
         </OmniFormField>
-    </OmniColumn>
-    <OmniColumn Span="12" MediumSpan="6">
-        <OmniFormField For="slider-vertical">
-            <LabelContent>Temperature, upright</LabelContent>
+        <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Opacity.ToString(System.Globalization.CultureInfo.InvariantCulture)</code></OmniText>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniFormField For="slider-bare">
+            <LabelContent>Without the value</LabelContent>
             <ChildContent>
-                <OmniSlider Id="slider-vertical"
-                            @bind-Value="Temperature"
-                            Minimum="-10"
-                            Maximum="40"
-                            Step="0.5"
-                            Orientation="OmniOrientation.Vertical"
-                            FormatValue="FormatTemperature" />
+                <OmniSlider Id="slider-bare" @bind-Value="Volume" ShowValue="false" />
             </ChildContent>
         </OmniFormField>
-    </OmniColumn>
-</OmniRow>
+        <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Volume</code></OmniText>
+    </OmniStack>
+    <OmniFormField For="slider-disabled" Disabled="true">
+        <LabelContent>Disabled slider</LabelContent>
+        <ChildContent>
+            <OmniSlider Id="slider-disabled" @bind-Value="FrozenValue" Disabled="true" />
+        </ChildContent>
+    </OmniFormField>
+    <OmniFormField For="slider-vertical">
+        <LabelContent>Temperature, upright</LabelContent>
+        <ChildContent>
+            <OmniSlider Id="slider-vertical"
+                        @bind-Value="Temperature"
+                        Minimum="-10"
+                        Maximum="40"
+                        Step="0.5"
+                        Orientation="OmniOrientation.Vertical"
+                        FormatValue="FormatTemperature" />
+        </ChildContent>
+    </OmniFormField>
+</OmniTileGrid>

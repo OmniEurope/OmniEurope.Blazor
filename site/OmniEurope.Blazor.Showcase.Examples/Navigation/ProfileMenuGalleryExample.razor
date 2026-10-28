@@ -1,46 +1,40 @@
 @* Other triggers: the user's name alone, an icon alone, and the default avatar with its initials and an
    identity header at the top of the open menu. *@
-<OmniRow Gap="OmniSpacing.Large" Align="OmniAlignment.Start">
-    <OmniColumn Span="12" MediumSpan="4">
-        <OmniStack Gap="OmniSpacing.XSmall">
-            <OmniText Element="OmniTextElement.Strong">Text summary</OmniText>
-            <OmniProfileMenu>
-                <SummaryContent>@UserName</SummaryContent>
-                <ChildContent>
-                    <OmniMenuItem OnClick="@(() => Choose("Settings"))">Settings</OmniMenuItem>
-                    <OmniMenuItem OnClick="@(() => Choose("Sign out"))">Sign out</OmniMenuItem>
-                </ChildContent>
-            </OmniProfileMenu>
-        </OmniStack>
-    </OmniColumn>
-    <OmniColumn Span="12" MediumSpan="4">
-        <OmniStack Gap="OmniSpacing.XSmall">
-            <OmniText Element="OmniTextElement.Strong">Icon summary</OmniText>
-            <OmniProfileMenu Label="Account menu">
-                <SummaryContent><OmniIcon Name="OmniIconName.User" /></SummaryContent>
-                <ChildContent>
-                    <OmniMenuItem Href="components">Components</OmniMenuItem>
-                    <OmniMenuItem Disabled="true">Unavailable</OmniMenuItem>
-                </ChildContent>
-            </OmniProfileMenu>
-        </OmniStack>
-    </OmniColumn>
-    <OmniColumn Span="12" MediumSpan="4">
-        <OmniStack Gap="OmniSpacing.XSmall">
-            <OmniText Element="OmniTextElement.Strong">Avatar with an identity header</OmniText>
-            <OmniProfileMenu Label="Camille Durand" Initials="CD">
-                <HeaderContent>
-                    <strong>@UserName</strong>
-                    <span>Administrator</span>
-                </HeaderContent>
-                <ChildContent>
-                    <OmniMenuItem OnClick="@(() => Choose("Settings"))">Settings</OmniMenuItem>
-                    <OmniMenuItem OnClick="@(() => Choose("Sign out"))">Sign out</OmniMenuItem>
-                </ChildContent>
-            </OmniProfileMenu>
-        </OmniStack>
-    </OmniColumn>
-</OmniRow>
+<OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Start" Wrap="true" Gap="OmniSpacing.ExtraLarge">
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Text summary</OmniText>
+        <OmniProfileMenu>
+            <SummaryContent>@UserName</SummaryContent>
+            <ChildContent>
+                <OmniMenuItem OnClick="@(() => Choose("Settings"))">Settings</OmniMenuItem>
+                <OmniMenuItem OnClick="@(() => Choose("Sign out"))">Sign out</OmniMenuItem>
+            </ChildContent>
+        </OmniProfileMenu>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Icon summary</OmniText>
+        <OmniProfileMenu Label="Account menu">
+            <SummaryContent><OmniIcon Name="OmniIconName.User" /></SummaryContent>
+            <ChildContent>
+                <OmniMenuItem Href="components">Components</OmniMenuItem>
+                <OmniMenuItem Disabled="true">Unavailable</OmniMenuItem>
+            </ChildContent>
+        </OmniProfileMenu>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Avatar with an identity header</OmniText>
+        <OmniProfileMenu Label="Camille Durand" Initials="CD">
+            <HeaderContent>
+                <strong>@UserName</strong>
+                <span>Administrator</span>
+            </HeaderContent>
+            <ChildContent>
+                <OmniMenuItem OnClick="@(() => Choose("Settings"))">Settings</OmniMenuItem>
+                <OmniMenuItem OnClick="@(() => Choose("Sign out"))">Sign out</OmniMenuItem>
+            </ChildContent>
+        </OmniProfileMenu>
+    </OmniStack>
+</OmniStack>
 <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small">
     <OmniIcon Name="OmniIconName.Check" />
     <OmniText>Last entry chosen:</OmniText>
