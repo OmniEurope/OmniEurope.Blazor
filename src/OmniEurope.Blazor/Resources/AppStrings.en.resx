@@ -84,6 +84,7 @@
   <data name="TooltipShowLess" xml:space="preserve"><value>Show less</value></data>
   <data name="GridFilterDateFrom" xml:space="preserve"><value>From</value></data>
   <data name="GridFilterDateTo" xml:space="preserve"><value>To</value></data>
+  <data name="GridFilterDateRangeColumn" xml:space="preserve"><value>Filter {0} by period</value></data>
   <data name="GridFilterContains" xml:space="preserve"><value>Contains</value></data>
   <data name="GridFilterDoesNotContain" xml:space="preserve"><value>Does not contain</value></data>
   <data name="GridFilterEquals" xml:space="preserve"><value>Equals</value></data>

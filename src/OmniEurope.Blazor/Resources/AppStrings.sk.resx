@@ -84,6 +84,7 @@
   <data name="TooltipShowLess" xml:space="preserve"><value>Zobraziť menej</value></data>
   <data name="GridFilterDateFrom" xml:space="preserve"><value>Od</value></data>
   <data name="GridFilterDateTo" xml:space="preserve"><value>Do</value></data>
+  <data name="GridFilterDateRangeColumn" xml:space="preserve"><value>Filtrovať {0} podľa obdobia</value></data>
   <data name="GridFilterContains" xml:space="preserve"><value>Obsahuje</value></data>
   <data name="GridFilterDoesNotContain" xml:space="preserve"><value>Neobsahuje</value></data>
   <data name="GridFilterEquals" xml:space="preserve"><value>Rovná sa</value></data>

@@ -138,7 +138,18 @@ export function forgetContentSizing(viewport) {
     state.loading?.disconnect();
     states.delete(viewport);
     viewport.style.removeProperty('--omni-grid-fit-min');
-    viewport.querySelector(':scope > table.omni-data-grid__table')?.removeAttribute('data-omni-sized');
+    const table = viewport.querySelector(':scope > table.omni-data-grid__table');
+    table?.removeAttribute('data-omni-sized');
+    table?.removeAttribute('data-omni-headed');
+}
+
+/**
+ * What a pass of sizeContent shows. A grid that is loading its first rows (not shown yet, aria-busy) holds
+ * loading rows, not its own: only its headers are measured and shown ('headed'), on their own titles, and the
+ * rows stay hidden until the first real ones are in; any other pass sizes the whole table and shows it ('sized').
+ */
+export function sizingStage(shown, loading) {
+    return !shown && loading ? 'headed' : 'sized';
 }
 
 // Whether the table already shows its content widths (the stylesheet hides it until then).
@@ -264,16 +275,32 @@ export function sizeContent(viewport, onChanged, remeasure = true) {
     syncContext(viewport, header, state);
     watchViewport(viewport, state);
 
-    // A grid that has not shown yet and is loading (aria-busy) holds loading rows, not its own: it is sized
-    // and shown once, on its first real rows, so the reader never sees the widths of the loading rows jump.
-    if (!isShown(viewport) && isLoading(viewport)) {
+    // A grid that has not shown yet and is loading (aria-busy) holds loading rows, not its own: its headers are
+    // measured on their own titles and shown, the rows are sized and shown once, on the first real ones, so the
+    // reader never sees the widths of the loading rows jump.
+    const stage = sizingStage(isShown(viewport), isLoading(viewport));
+    const table = viewport.querySelector(':scope > table.omni-data-grid__table');
+    if (stage === 'headed') {
         awaitRows(viewport, state);
-        return false;
     }
 
     const described = cols.map(col => describe(viewport, state, col)).filter(column => column.key !== null);
     if (remeasure || described.some(column => column.measured && !state.widths.has(column.key))) {
-        measure(viewport, state, described);
+        // The loading rows are out of the layout while the headers are measured: a wide loading content in a
+        // colspan cell would widen the columns of the auto layout the measure runs in.
+        const body = stage === 'headed' ? table?.tBodies[0] : null;
+        const display = body?.style.display ?? '';
+        if (body) {
+            body.style.display = 'none';
+        }
+
+        try {
+            measure(viewport, state, described);
+        } finally {
+            if (body) {
+                body.style.display = display;
+            }
+        }
     }
 
     const floor = pixelsOf(viewport, state, 'var(--omni-data-grid-column-min-width)');
@@ -296,8 +323,9 @@ export function sizeContent(viewport, onChanged, remeasure = true) {
 
     // Below the sum of the bases the viewport scrolls sideways instead of squeezing a column.
     viewport.style.setProperty('--omni-grid-fit-min', `${plan.minimum}px`);
-    // The widths are in place: the stylesheet shows the table it kept hidden since its first paint.
-    viewport.querySelector(':scope > table.omni-data-grid__table')?.setAttribute('data-omni-sized', '');
+    // The widths are in place: the stylesheet shows the headers (headed) or the whole table (sized) it kept
+    // hidden since the first paint, and lets the viewport scroll once the table is sized.
+    table?.setAttribute(stage === 'headed' ? 'data-omni-headed' : 'data-omni-sized', '');
     if (changed) {
         state.onChanged?.();
     }

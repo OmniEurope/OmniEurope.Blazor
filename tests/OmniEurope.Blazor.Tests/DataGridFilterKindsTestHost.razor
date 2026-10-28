@@ -12,7 +12,7 @@
               ExportCsv="@Formats.Contains(OmniTableExportFormat.Csv)"
               ExportExcel="@Formats.Contains(OmniTableExportFormat.Excel)"
               ExportPdf="@Formats.Contains(OmniTableExportFormat.Pdf)"
-              ShowHeaderFilterMenu="true">
+              ShowHeaderFilterMenu="@HeaderMenu">
     <Columns>
         <OmniDataGridColumn TItem="Ticket" Property="Id" Title="N°" Filterable="true" />
         <OmniDataGridColumn TItem="Ticket"
@@ -26,6 +26,8 @@
                             Property="Opened"
                             Title="Ouvert le"
                             Filterable="true"
+                            FilterType="@DateFilter"
+                            AdvancedFilter="@AdvancedDate"
                             FilterIncludesTime="@IncludesTime" />
     </Columns>
 </OmniDataGrid>
@@ -44,6 +46,13 @@
     [Parameter] public string? StatusDefault { get; set; }
 
     [Parameter] public bool IncludesTime { get; set; }
+
+    // The two pickers unless a test asks for the default of a date column (Text) or the Date text input.
+    [Parameter] public OmniDataGridColumnFilterType DateFilter { get; set; } = OmniDataGridColumnFilterType.DateRange;
+
+    [Parameter] public bool AdvancedDate { get; set; }
+
+    [Parameter] public bool HeaderMenu { get; set; } = true;
 
     [Parameter] public OmniDataGridFilterMode FilterMode { get; set; } = OmniDataGridFilterMode.Simple;
 

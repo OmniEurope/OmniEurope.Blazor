@@ -1,0 +1,15 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+@* One text input for a day, a month or a year (OmniDataGridDateText). It reads on change (Enter or leaving
+   the box), not on every key: half a date is not a mistake yet. *@
+<input @attributes="AdditionalAttributes"
+       id="@Id"
+       type="text"
+       class="@Css("omni-input omni-data-grid__filter omni-data-grid__date-text")"
+       autocomplete="off"
+       maxlength="10"
+       placeholder="@Hint"
+       value="@_text"
+       aria-invalid="@(_invalid ? "true" : null)"
+       @onchange="OnChangedAsync" />

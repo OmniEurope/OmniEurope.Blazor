@@ -91,17 +91,33 @@ public sealed class DataGridColumnSizingTests : OmniBunitContext
     }
 
     [Fact]
-    public void Content_HidesTheTableUntilItsWidthsAreApplied_ThenShowsItAnywayAfterASecond()
+    public void Content_HidesTheRowsUntilItsWidthsAreApplied_ThenShowsThemAnywayAfterASecond()
     {
         var styles = StylesheetSource.Read();
+        const string Unsized = ".omni-data-grid__table[data-omni-sizing=\"content\"]:not([data-omni-sized])";
 
         // The equal widths of the first paint are never seen (the script marks the table data-omni-sized),
         // the room stays kept, and a table no script sizes still shows. The probe steps it in a browser.
-        Assert.Contains(".omni-data-grid__table[data-omni-sizing=\"content\"]:not([data-omni-sized]) { animation: omni-grid-reveal 0s 1s both, omni-grid-reveal 0s 5s both; visibility: hidden; }", styles, StringComparison.Ordinal);
-        // While the first rows load, the second waits (five at most) and the load bar alone shows.
-        Assert.Contains(".omni-data-grid[aria-busy=\"true\"] .omni-data-grid__table[data-omni-sizing=\"content\"]:not([data-omni-sized]) { animation-play-state: paused, running; }", styles, StringComparison.Ordinal);
-        Assert.Contains(".omni-data-grid__table[data-omni-sizing=\"content\"]:not([data-omni-sized]) .omni-data-grid__progress { visibility: visible; }", styles, StringComparison.Ordinal);
+        Assert.Contains(Unsized + " > :is(tbody, tfoot) { animation: omni-grid-reveal 0s 1s both, omni-grid-reveal 0s 5s both; visibility: hidden; }", styles, StringComparison.Ordinal);
+        // While the first rows load, the second waits (five at most) and the headers and the load bar show.
+        Assert.Contains(".omni-data-grid[aria-busy=\"true\"] " + Unsized + " > :is(tbody, tfoot) { animation-play-state: paused, running; }", styles, StringComparison.Ordinal);
+        Assert.Contains(Unsized + " .omni-data-grid__progress { visibility: visible; }", styles, StringComparison.Ordinal);
         Assert.Contains("@keyframes omni-grid-reveal { to { visibility: visible; } }", styles, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Content_KeepsTheHeadersVisibleOnceMeasured_AndTheViewportStillWhileUnsized()
+    {
+        var styles = StylesheetSource.Read();
+        const string Unsized = ".omni-data-grid__table[data-omni-sizing=\"content\"]:not([data-omni-sized])";
+
+        // Only the rows and the footer are hidden: the header row is hidden before its own first measure
+        // (data-omni-headed) and not after, with the same one second fallback when no script runs.
+        Assert.Contains(Unsized + ":not([data-omni-headed]) > thead { animation: omni-grid-reveal 0s 1s both; visibility: hidden; }", styles, StringComparison.Ordinal);
+        Assert.DoesNotContain(Unsized + " { animation", styles, StringComparison.Ordinal);
+        // The viewport does not scroll while the table is unsized, and unclips on the same timeline.
+        Assert.Contains(".omni-data-grid__viewport:has(> " + Unsized.TrimStart() + ") { animation: omni-grid-unclip 0s 1s both, omni-grid-unclip 0s 5s both; overflow: hidden; }", styles, StringComparison.Ordinal);
+        Assert.Contains("@keyframes omni-grid-unclip { to { overflow: auto; } }", styles, StringComparison.Ordinal);
     }
 
     [Fact]

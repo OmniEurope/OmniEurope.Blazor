@@ -84,6 +84,7 @@
   <data name="TooltipShowLess" xml:space="preserve"><value>Taispeáin níos lú</value></data>
   <data name="GridFilterDateFrom" xml:space="preserve"><value>Ó</value></data>
   <data name="GridFilterDateTo" xml:space="preserve"><value>Go</value></data>
+  <data name="GridFilterDateRangeColumn" xml:space="preserve"><value>Scag {0} de réir tréimhse</value></data>
   <data name="GridFilterContains" xml:space="preserve"><value>Cuimsíonn</value></data>
   <data name="GridFilterDoesNotContain" xml:space="preserve"><value>Ní chuimsíonn</value></data>
   <data name="GridFilterEquals" xml:space="preserve"><value>Cothrom le</value></data>

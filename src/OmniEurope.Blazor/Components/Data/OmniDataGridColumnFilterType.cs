@@ -34,5 +34,18 @@ public enum OmniDataGridColumnFilterType
     /// whose value is a number read through a function, where the grid cannot learn its type from a
     /// property. Appended, so the published values keep their numbers.
     /// </summary>
-    Number
+    Number,
+
+    /// <summary>
+    /// One text input that reads a day (<c>05/03/2026</c>), a month (<c>03/2026</c>) or a year
+    /// (<c>2026</c>), in the date order of the current culture, and keeps the rows dated in that period.
+    /// The year has four digits; a text that is not a date marks the input invalid
+    /// (<c>aria-invalid</c>) and filters nothing. It is what a column reading a <c>DateTime</c>,
+    /// <c>DateTimeOffset</c> or <c>DateOnly</c> gets by default (unless its <c>FilterIncludesTime</c> is set,
+    /// which keeps the <see cref="DateRange"/> pickers). The column's <c>AdvancedFilter</c> adds a From and
+    /// To range to the same filter. The value is the same encoded range as <see cref="DateRange"/>
+    /// (<see cref="OmniDataGridDateRange"/>), and the text is read by <see cref="OmniDataGridDateText"/>.
+    /// Appended, so the published values keep their numbers.
+    /// </summary>
+    Date
 }

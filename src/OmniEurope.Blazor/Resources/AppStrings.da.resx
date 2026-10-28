@@ -84,6 +84,7 @@
   <data name="TooltipShowLess" xml:space="preserve"><value>Vis mindre</value></data>
   <data name="GridFilterDateFrom" xml:space="preserve"><value>Fra</value></data>
   <data name="GridFilterDateTo" xml:space="preserve"><value>Til</value></data>
+  <data name="GridFilterDateRangeColumn" xml:space="preserve"><value>Filtrer {0} efter periode</value></data>
   <data name="GridFilterContains" xml:space="preserve"><value>Indeholder</value></data>
   <data name="GridFilterDoesNotContain" xml:space="preserve"><value>Indeholder ikke</value></data>
   <data name="GridFilterEquals" xml:space="preserve"><value>Er lig med</value></data>

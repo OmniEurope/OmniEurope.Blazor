@@ -84,6 +84,7 @@
   <data name="TooltipShowLess" xml:space="preserve"><value>Kuva vähem</value></data>
   <data name="GridFilterDateFrom" xml:space="preserve"><value>Alates</value></data>
   <data name="GridFilterDateTo" xml:space="preserve"><value>Kuni</value></data>
+  <data name="GridFilterDateRangeColumn" xml:space="preserve"><value>Filtreeri {0} ajavahemiku järgi</value></data>
   <data name="GridFilterContains" xml:space="preserve"><value>Sisaldab</value></data>
   <data name="GridFilterDoesNotContain" xml:space="preserve"><value>Ei sisalda</value></data>
   <data name="GridFilterEquals" xml:space="preserve"><value>Võrdub</value></data>

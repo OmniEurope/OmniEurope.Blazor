@@ -152,8 +152,12 @@ public partial class OmniDataGridColumn<TItem>
     public bool? Filterable { get; set; }
 
     /// <summary>
-    /// The filter editor: free text (the default, a date range for a date property), number, closed list,
-    /// list with free text (combo), checkable list or date range.
+    /// The filter editor: free text (the default), number, closed list, list with free text (combo),
+    /// checkable list, date range (two pickers) or date (one text input for a day, a month or a year). A
+    /// column left at the default that reads a <c>DateTime</c>, <c>DateTimeOffset</c> or <c>DateOnly</c>
+    /// property gets <see cref="OmniDataGridColumnFilterType.Date"/>, or
+    /// <see cref="OmniDataGridColumnFilterType.DateRange"/> when <see cref="FilterIncludesTime"/> is set;
+    /// ask for <c>DateRange</c> to keep the two pickers on a date column.
     /// </summary>
     [Parameter]
     public OmniDataGridColumnFilterType FilterType { get; set; }
@@ -187,6 +191,20 @@ public partial class OmniDataGridColumn<TItem>
     /// <summary>A DateRange filter also picks the hours; without it a day covers all of it.</summary>
     [Parameter]
     public bool FilterIncludesTime { get; set; }
+
+    /// <summary>
+    /// Adds a From and To range to the filter of a date column (the <see cref="OmniDataGridColumnFilterType.Date"/>
+    /// type), next to its text input: either bound may be left empty. With the inline filter row
+    /// (<c>ShowHeaderFilterMenu</c> off) the text input stays in the row and the range opens from a
+    /// calendar button in the column header; with the header filter menu on, or in the advanced filter
+    /// mode, the range sits under the text input in the same popover. The text input and the range are
+    /// two editors of one filter, not two filters: the last one used replaces the other, and each shows
+    /// what the other set (a range that is not one day, month or year reads as <c>from - to</c> in the
+    /// text input). False by default; ignored by the other filter types, and by a column with a
+    /// <see cref="FilterTemplate"/>.
+    /// </summary>
+    [Parameter]
+    public bool AdvancedFilter { get; set; }
 
     /// <summary>
     /// The operators this column offers, in this order, when the grid shows an operator choice.
@@ -357,6 +375,7 @@ public partial class OmniDataGridColumn<TItem>
             FormatFilterValue = FormatFilterValue,
             DefaultFilterValue = DefaultFilterValue,
             FilterIncludesTime = FilterIncludesTime,
+            AdvancedFilter = AdvancedFilter,
             EnumType = GridPropertyAccessor.EnumType<TItem>(Property),
             ValueType = GridPropertyAccessor.ValueType<TItem>(Property),
             FilterOperators = FilterOperators,
@@ -462,10 +481,14 @@ public partial class OmniDataGridColumn<TItem>
     private OmniDataGridColumnFilterType ResolveFilterType()
     {
         var type = GridPropertyAccessor.ValueType<TItem>(Property);
-        return FilterType == OmniDataGridColumnFilterType.Text
-            && (type == typeof(DateTime) || type == typeof(DateTimeOffset) || type == typeof(DateOnly))
-            ? OmniDataGridColumnFilterType.DateRange
-            : FilterType;
+        var isDate = type == typeof(DateTime) || type == typeof(DateTimeOffset) || type == typeof(DateOnly);
+        if (FilterType != OmniDataGridColumnFilterType.Text || !isDate)
+        {
+            return FilterType;
+        }
+
+        // A time part needs the pickers; a text input only reads days, months and years.
+        return FilterIncludesTime ? OmniDataGridColumnFilterType.DateRange : OmniDataGridColumnFilterType.Date;
     }
 
     /// <summary>Removes the column from its grid.</summary>
@@ -513,6 +536,7 @@ public partial class OmniDataGridColumn<TItem>
         && Equivalent(left.FormatFilterValue, right.FormatFilterValue)
         && string.Equals(left.DefaultFilterValue, right.DefaultFilterValue, StringComparison.Ordinal)
         && left.FilterIncludesTime == right.FilterIncludesTime
+        && left.AdvancedFilter == right.AdvancedFilter
         && SameContent(left.FilterOperators, right.FilterOperators)
         && left.FilterOperator == right.FilterOperator;
 

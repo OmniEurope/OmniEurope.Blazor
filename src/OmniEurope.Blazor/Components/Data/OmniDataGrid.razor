@@ -280,6 +280,19 @@
                                         @filterReset(column)
                                     }
                                 }
+                                else if (FilterEditor.ShowsRangeMenu(column))
+                                {
+                                    @* A date column with the inline text input and AdvancedFilter: the same filter, edited
+                                       as a From and To range from a calendar menu of the header. *@
+                                    <details class="omni-data-grid__filter-menu omni-data-grid__popover" data-omni-popover @onclick:stopPropagation="true">
+                                        <summary class="@Classes.FilterToggleClass(column)" aria-label="@Localize("GridFilterDateRangeColumn", column.Title)" title="@Localize("GridFilterDateRangeColumn", column.Title)" aria-haspopup="true">
+                                            <OmniIcon Name="OmniIconName.CalendarBlank" Size="OmniControlSize.Small" />
+                                        </summary>
+                                        <div class="omni-data-grid__filter-menu-panel omni-data-grid__popover-panel" role="group" aria-label="@Localize("GridFilterDateRangeColumn", column.Title)">
+                                            @FilterControls.DateRangeControl(column, $"{FilterEditor.HeaderFilterId(column)}-range", FilterEditor.FilterValue(column), value => FilterEditor.FilterValueChangedAsync(column, value))
+                                        </div>
+                                    </details>
+                                }
                                 @* Always last, and always occupying its slot: a column that gains a sort must
                                    not shift its title sideways, which is what an icon appearing from nowhere
                                    does on a narrow column. *@

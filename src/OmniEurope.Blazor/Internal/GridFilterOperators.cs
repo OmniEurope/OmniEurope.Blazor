@@ -95,7 +95,7 @@ internal static class GridFilterOperators<TItem>
     /// </summary>
     private static OmniDataGridFilterOperator DefaultOperator(OmniDataGridColumnDefinition<TItem> column) => column.FilterType switch
     {
-        OmniDataGridColumnFilterType.Select or OmniDataGridColumnFilterType.DateRange => OmniDataGridFilterOperator.Equals,
+        OmniDataGridColumnFilterType.Select or OmniDataGridColumnFilterType.DateRange or OmniDataGridColumnFilterType.Date => OmniDataGridFilterOperator.Equals,
         OmniDataGridColumnFilterType.MultiSelect => OmniDataGridFilterOperator.In,
         OmniDataGridColumnFilterType.Text or OmniDataGridColumnFilterType.Number => Offered(column, column.FilterOperator),
         _ => column.FilterOperator

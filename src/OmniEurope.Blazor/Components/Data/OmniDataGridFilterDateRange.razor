@@ -2,7 +2,9 @@
 @inherits OmniComponentBase
 
 @* Two native pickers, start and end, either left empty. The grid reads the pair through
-   OmniDataGridDateRange, so a day alone already covers the whole day. *@
+   OmniDataGridDateRange, so a day alone already covers the whole day. A side the grid cannot read (a
+   year of more than four digits, which the native picker accepts) is flagged aria-invalid and filters
+   nothing. *@
 <div @attributes="AdditionalAttributes" class="@Css("omni-data-grid__date-range")">
     <label class="omni-data-grid__date-range-field">
         <span class="omni-data-grid__date-range-label">@Localize("GridFilterDateFrom")</span>
@@ -10,7 +12,9 @@
                type="@InputType"
                class="omni-input omni-data-grid__filter omni-data-grid__date-range-start"
                value="@Start"
-               max="@EndLimit"
+               min="@Earliest"
+               max="@(EndLimit ?? Latest)"
+               aria-invalid="@(IsUnreadable(Start) ? "true" : null)"
                @onchange="OnStartChangedAsync" />
     </label>
     <label class="omni-data-grid__date-range-field">
@@ -19,7 +23,9 @@
                type="@InputType"
                class="omni-input omni-data-grid__filter omni-data-grid__date-range-end"
                value="@End"
-               min="@StartLimit"
+               min="@(StartLimit ?? Earliest)"
+               max="@Latest"
+               aria-invalid="@(IsUnreadable(End) ? "true" : null)"
                @onchange="OnEndChangedAsync" />
     </label>
 </div>

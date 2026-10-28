@@ -43,15 +43,24 @@ internal sealed class GridFilterControls<TItem>(OmniDataGrid<TItem> grid)
         switch (column.FilterType)
         {
             case OmniDataGridColumnFilterType.DateRange:
-                builder.OpenComponent<OmniDataGridFilterDateRange>(0);
-                builder.AddComponentParameter(1, nameof(OmniDataGridFilterDateRange.Id), id);
-                builder.AddComponentParameter(2, nameof(OmniDataGridFilterDateRange.Value), value);
-                builder.AddComponentParameter(3, nameof(OmniDataGridFilterDateRange.IncludesTime), column.FilterIncludesTime);
+                OpenDateRange(builder, 0, column, id, value, onChanged);
+                break;
+
+            case OmniDataGridColumnFilterType.Date:
+                builder.OpenComponent<OmniDataGridFilterDate>(0);
+                builder.AddComponentParameter(1, nameof(OmniDataGridFilterDate.Id), id);
+                builder.AddComponentParameter(2, nameof(OmniDataGridFilterDate.Value), value);
                 builder.AddComponentParameter(
-                    4,
-                    nameof(OmniDataGridFilterDateRange.ValueChanged),
+                    3,
+                    nameof(OmniDataGridFilterDate.ValueChanged),
                     EventCallback.Factory.Create<string>(grid, encoded => onChanged(encoded)));
                 builder.CloseComponent();
+                // The popover of a date column that asks for it also holds the From and To range.
+                if (GridFilterEditor<TItem>.HoldsRange(column, inPanel))
+                {
+                    OpenDateRange(builder, 4, column, $"{id}-range", value, onChanged);
+                }
+
                 break;
 
             case OmniDataGridColumnFilterType.MultiSelect:
@@ -130,6 +139,25 @@ internal sealed class GridFilterControls<TItem>(OmniDataGrid<TItem> grid)
                 break;
         }
     };
+
+    /// <summary>The From and To range of a date column, alone: what its header calendar menu holds.</summary>
+    internal RenderFragment DateRangeControl(OmniDataGridColumnDefinition<TItem> column, string id, string value, Func<string, Task> onChanged) =>
+        builder => OpenDateRange(builder, 0, column, id, value, onChanged);
+
+    // The two pickers, reading and writing the filter's one encoded value. The sequence numbers start at
+    // the caller's: the Date editor renders this after its text input in the same fragment.
+    private void OpenDateRange(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder builder, int sequence, OmniDataGridColumnDefinition<TItem> column, string id, string value, Func<string, Task> onChanged)
+    {
+        builder.OpenComponent<OmniDataGridFilterDateRange>(sequence);
+        builder.AddComponentParameter(sequence + 1, nameof(OmniDataGridFilterDateRange.Id), id);
+        builder.AddComponentParameter(sequence + 2, nameof(OmniDataGridFilterDateRange.Value), value);
+        builder.AddComponentParameter(sequence + 3, nameof(OmniDataGridFilterDateRange.IncludesTime), column.FilterIncludesTime);
+        builder.AddComponentParameter(
+            sequence + 4,
+            nameof(OmniDataGridFilterDateRange.ValueChanged),
+            EventCallback.Factory.Create<string>(grid, encoded => onChanged(encoded)));
+        builder.CloseComponent();
+    }
 
     /// <summary>
     /// A body cell: the edit template of a row in edit, else the column's template, else its text; the cell of a

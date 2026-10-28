@@ -84,6 +84,7 @@
   <data name="TooltipShowLess" xml:space="preserve"><value>Näytä vähemmän</value></data>
   <data name="GridFilterDateFrom" xml:space="preserve"><value>Alkaen</value></data>
   <data name="GridFilterDateTo" xml:space="preserve"><value>Päättyen</value></data>
+  <data name="GridFilterDateRangeColumn" xml:space="preserve"><value>Suodata {0} ajanjakson mukaan</value></data>
   <data name="GridFilterContains" xml:space="preserve"><value>Sisältää</value></data>
   <data name="GridFilterDoesNotContain" xml:space="preserve"><value>Ei sisällä</value></data>
   <data name="GridFilterEquals" xml:space="preserve"><value>Yhtä kuin</value></data>

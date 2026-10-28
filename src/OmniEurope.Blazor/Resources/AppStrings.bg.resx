@@ -84,6 +84,7 @@
   <data name="TooltipShowLess" xml:space="preserve"><value>Показване на по-малко</value></data>
   <data name="GridFilterDateFrom" xml:space="preserve"><value>От</value></data>
   <data name="GridFilterDateTo" xml:space="preserve"><value>До</value></data>
+  <data name="GridFilterDateRangeColumn" xml:space="preserve"><value>Филтриране на {0} по период</value></data>
   <data name="GridFilterContains" xml:space="preserve"><value>Съдържа</value></data>
   <data name="GridFilterDoesNotContain" xml:space="preserve"><value>Не съдържа</value></data>
   <data name="GridFilterEquals" xml:space="preserve"><value>Равно на</value></data>
