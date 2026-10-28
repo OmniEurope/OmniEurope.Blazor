@@ -8,12 +8,14 @@
         @for (var index = 0; index < Files.Length; index++)
         {
             var file = Files[index];
+            @* A copy per row: the child content renders after the loop, when index is already past the end. *@
+            var menuId = $"overflow-menu-{index}";
             <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Justify="OmniJustification.Between">
                 <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center">
                     <OmniIcon Name="OmniIconName.Document" />
                     <OmniText>@file</OmniText>
                 </OmniStack>
-                <OmniOverflowMenu Id="@($"overflow-menu-{index}")"
+                <OmniOverflowMenu Id="@menuId"
                                   Label="@($"More actions on {file}")"
                                   MenuLabel="@($"Actions on {file}")"
                                   Size="Size"

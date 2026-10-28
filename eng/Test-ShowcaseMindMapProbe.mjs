@@ -150,7 +150,7 @@ for (let step = 1; step <= 8; step++) {
   await pause(16);
 }
 await mouse('mouseReleased', { x: start.x, y: start.y + 80 });
-await waitFor('la propriété du nœud déplacé', `document.querySelector('${map} .omni-mindmap-properties input')?.value === 'Cartons'`);
+await waitFor('la propriété du nœud déplacé', `document.querySelector('${map} .omni-mindmap-properties input')?.value === 'Boxes'`);
 const dragged = await evaluate(`(() => {
   const moved = ${node('node_5')};
   const y = moved.getAttribute('data-y');
@@ -160,7 +160,7 @@ const dragged = await evaluate(`(() => {
 check(Number(dragged.y) > Number(before) + 100, `Le glisser n'a pas déplacé le nœud : y ${before} puis ${dragged.y}.`);
 check(dragged.transform === `translate(260 ${dragged.y})`, `Transformation inattendue après le glisser : ${dragged.transform}.`);
 check(dragged.edge.startsWith(`M 260 ${dragged.y} `), `Le lien n'a pas suivi le nœud : ${dragged.edge}.`);
-check(dragged.selected === 'true' && dragged.live.startsWith('Cartons'), `Sélection ou annonce absente : ${JSON.stringify(dragged)}.`);
+check(dragged.selected === 'true' && dragged.live.startsWith('Boxes'), `Sélection ou annonce absente : ${JSON.stringify(dragged)}.`);
 results.push(`glisser y ${before} -> ${dragged.y}`);
 
 // Wheel: zooms about the pointer, reported to .NET once it settles.
@@ -195,7 +195,7 @@ const items = await evaluate(`[...document.querySelectorAll('${map} [role=menu] 
 check(items === 'Renommer le nœud|Dupliquer|Lien|Centrer|Supprimer', `Actions du menu inattendues : ${items}.`);
 await key('ArrowDown', 'ArrowDown');
 await pause(100);
-check(await evaluate("document.activeElement?.textContent?.trim() === 'Dupliquer'"), 'La flèche bas ne parcourt pas le menu.');
+check(await evaluate("document.activeElement?.textContent?.trim() === 'Duplicate'"), 'La flèche bas ne parcourt pas le menu.');
 await key('Escape', 'Escape');
 await waitFor('la fermeture du menu', `document.querySelector('${map} [role=menu]') === null`);
 await waitFor('le retour du focus au canevas', `document.activeElement === document.querySelector('${map} svg')`);

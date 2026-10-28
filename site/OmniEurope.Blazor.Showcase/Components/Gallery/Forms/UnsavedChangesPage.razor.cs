@@ -8,7 +8,9 @@ public partial class UnsavedChangesPage
     [Inject]
     private IStringLocalizer<FormsStrings> Text { get; set; } = default!;
 
-    private bool HasChanges { get; set; } = true;
+    // Off on arrival: a visitor who only passes through is not stopped on the way out; the switch turns the
+    // pending changes on to try the guard.
+    private bool HasChanges { get; set; }
 
     private bool CustomTexts { get; set; }
 }

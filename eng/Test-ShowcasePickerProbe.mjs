@@ -140,8 +140,10 @@ await send('Log.enable');
 await send('Page.enable');
 await coverage.start();
 await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
+// The showcase opens in English; the probe checks the French calendar (mars 2026, lun to dim), so it
+// chooses French the way a visitor does, before the first load.
 await send('Page.addScriptToEvaluateOnNewDocument', {
-  source: "window.__omniCsp = []; document.addEventListener('securitypolicyviolation', event => window.__omniCsp.push(`${event.violatedDirective} ${event.blockedURI}`));"
+  source: "localStorage.setItem('omnieurope.showcase.culture', 'fr'); window.__omniCsp = []; document.addEventListener('securitypolicyviolation', event => window.__omniCsp.push(`${event.violatedDirective} ${event.blockedURI}`));"
 });
 await send('Page.navigate', { url: siteUrl });
 // #showcase-theme is rendered by the application itself; #app is already in the static page, and a
@@ -358,6 +360,8 @@ results.push('dans un dialogue : calendrier par-dessus, sans barre de défilemen
 await pause(300);
 const csp = await evaluate('window.__omniCsp');
 const inlineStyles = await evaluate(`document.querySelectorAll('.omni-date [style], .omni-date[style]').length`);
+// The next probe of a shared browser opens the showcase in its own default language.
+await evaluate("localStorage.removeItem('omnieurope.showcase.culture')");
 await coverage.finish();
 socket.close();
 
