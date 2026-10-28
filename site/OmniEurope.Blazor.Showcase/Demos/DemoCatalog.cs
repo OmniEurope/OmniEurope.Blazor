@@ -42,8 +42,6 @@ public static class DemoCatalog
             ["DemoFlowsCapability1", "DemoFlowsCapability2", "DemoFlowsCapability3"]),
         new("superpositions", typeof(OverlayDemo), "DemoOverlayTitle", "DemoOverlaySummary",
             ["DemoOverlayCapability1", "DemoOverlayCapability2", "DemoOverlayCapability3"]),
-        new("notifications", typeof(NoticesDemo), "DemoNoticesTitle", "DemoNoticesSummary",
-            ["DemoNoticesCapability1", "DemoNoticesCapability2"]),
         new("retours", typeof(FeedbackDemo), "DemoFeedbackTitle", "DemoFeedbackSummary",
             ["DemoFeedbackCapability1", "DemoFeedbackCapability2", "DemoFeedbackCapability3", "DemoFeedbackCapability4"]),
         new("chargement", typeof(LoadingDemo), "DemoLoadingTitle", "DemoLoadingSummary",

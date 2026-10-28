@@ -291,10 +291,6 @@
   <data name="DemoSettingsTabsSummary" xml:space="preserve"><value>One icon tab per topic, one section per tab, one tile per setting.</value></data>
   <data name="DemoSettingsTabsCapability1" xml:space="preserve"><value>A switch in a tile takes the tile's name as its label; a click on the tile toggles it.</value></data>
   <data name="DemoSettingsTabsCapability2" xml:space="preserve"><value>The control stands on the right, the name, hint and icon on the left.</value></data>
-  <data name="DemoNoticesTitle" xml:space="preserve"><value>Notifications and dialogs</value></data>
-  <data name="DemoNoticesSummary" xml:space="preserve"><value>Dismissible notifications, dialogs on the backdrop.</value></data>
-  <data name="DemoNoticesCapability1" xml:space="preserve"><value>Each notification closes with its cross.</value></data>
-  <data name="DemoNoticesCapability2" xml:space="preserve"><value>The dialogs' footer follows the package convention: the action first, then Cancel.</value></data>
   <data name="DemoLoadingTitle" xml:space="preserve"><value>Loading</value></data>
   <data name="DemoLoadingSummary" xml:space="preserve"><value>Loading bar, waiting, busy buttons, progress and skeleton.</value></data>
   <data name="DemoLoadingCapability1" xml:space="preserve"><value>The bar follows a real load, sweeping or filling, reaches the end then fades.</value></data>
@@ -318,26 +314,6 @@
   <data name="LoadingAnalysis" xml:space="preserve"><value>Analysis in progress</value></data>
   <data name="LoadingCoverage" xml:space="preserve"><value>Coverage</value></data>
   <data name="LoadingContent" xml:space="preserve"><value>Loading the content</value></data>
-  <data name="NoticeDoneTitle" xml:space="preserve"><value>Deployment finished</value></data>
-  <data name="NoticeDoneMessage" xml:space="preserve"><value>orders-deploy-prod #2399 in 1 min 48 s.</value></data>
-  <data name="NoticeRefusedTitle" xml:space="preserve"><value>Locked restore refused</value></data>
-  <data name="NoticeRefusedMessage" xml:space="preserve"><value>The NuGet graph diverged from the lock file.</value></data>
-  <data name="NoticeShowAgain" xml:space="preserve"><value>Show the notifications again</value></data>
-  <data name="NoticeUnlistOpen" xml:space="preserve"><value>Unlist version 1.0.0</value></data>
-  <data name="NoticeUnlistTitle" xml:space="preserve"><value>Unlist version 1.0.0</value></data>
-  <data name="NoticeUnlistBody" xml:space="preserve"><value>The version will disappear from search and floating ranges. It will remain downloadable by its exact number.</value></data>
-  <data name="NoticeUnlistAlpha" xml:space="preserve"><value>Also unlist 0.1.0-alpha.1</value></data>
-  <data name="NoticeUnlist" xml:space="preserve"><value>Unlist</value></data>
-  <data name="NoticeUnlistDone" xml:space="preserve"><value>Version unlisted</value></data>
-  <data name="NoticeRerunOpen" xml:space="preserve"><value>Rerun the pipeline</value></data>
-  <data name="NoticeRerunTitle" xml:space="preserve"><value>Rerun the pipeline?</value></data>
-  <data name="NoticeRerunBody" xml:space="preserve"><value>orders-deploy-prod #2399 will run again on server srv-01, with the same variables.</value></data>
-  <data name="NoticeRerunNotify" xml:space="preserve"><value>Notify me at the end</value></data>
-  <data name="NoticeRerun" xml:space="preserve"><value>Rerun</value></data>
-  <data name="NoticeRerunDone" xml:space="preserve"><value>Pipeline rerun</value></data>
-  <data name="NoticeCancel" xml:space="preserve"><value>Cancel</value></data>
-  <data name="NoticeClose" xml:space="preserve"><value>Close</value></data>
-  <data name="NoticeLast" xml:space="preserve"><value>Last action: {0}</value></data>
   <data name="RunsSortedCaption" xml:space="preserve"><value>Runs, sorted by pipeline</value></data>
   <data name="RunsStripedCaption" xml:space="preserve"><value>Run history</value></data>
   <data name="RunsRun" xml:space="preserve"><value>Run</value></data>

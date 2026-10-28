@@ -291,10 +291,6 @@
   <data name="DemoSettingsTabsSummary" xml:space="preserve"><value>Un onglet à icône par thème, une section par onglet, une tuile par réglage.</value></data>
   <data name="DemoSettingsTabsCapability1" xml:space="preserve"><value>Un interrupteur posé dans une tuile prend le nom de la tuile pour libellé ; un clic sur la tuile le bascule.</value></data>
   <data name="DemoSettingsTabsCapability2" xml:space="preserve"><value>Le contrôle se tient à droite, le nom, l'aide et l'icône à gauche.</value></data>
-  <data name="DemoNoticesTitle" xml:space="preserve"><value>Notifications et dialogues</value></data>
-  <data name="DemoNoticesSummary" xml:space="preserve"><value>Notifications à fermer, dialogues sur le voile.</value></data>
-  <data name="DemoNoticesCapability1" xml:space="preserve"><value>Chaque notification se ferme par sa croix.</value></data>
-  <data name="DemoNoticesCapability2" xml:space="preserve"><value>Le pied des dialogues suit la convention du paquet : l'action d'abord, puis Annuler.</value></data>
   <data name="DemoLoadingTitle" xml:space="preserve"><value>Chargement</value></data>
   <data name="DemoLoadingSummary" xml:space="preserve"><value>Bandeau de chargement, attente, boutons occupés, progression et squelette.</value></data>
   <data name="DemoLoadingCapability1" xml:space="preserve"><value>Le bandeau suit un vrai chargement, en balayage ou en remplissage, va au bout puis s'efface.</value></data>
@@ -318,26 +314,6 @@
   <data name="LoadingAnalysis" xml:space="preserve"><value>Analyse en cours</value></data>
   <data name="LoadingCoverage" xml:space="preserve"><value>Couverture</value></data>
   <data name="LoadingContent" xml:space="preserve"><value>Chargement du contenu</value></data>
-  <data name="NoticeDoneTitle" xml:space="preserve"><value>Déploiement terminé</value></data>
-  <data name="NoticeDoneMessage" xml:space="preserve"><value>orders-deploy-prod #2399 en 1 min 48 s.</value></data>
-  <data name="NoticeRefusedTitle" xml:space="preserve"><value>Restauration verrouillée refusée</value></data>
-  <data name="NoticeRefusedMessage" xml:space="preserve"><value>Le graphe NuGet a divergé du fichier de verrou.</value></data>
-  <data name="NoticeShowAgain" xml:space="preserve"><value>Réafficher les notifications</value></data>
-  <data name="NoticeUnlistOpen" xml:space="preserve"><value>Délister la version 1.0.0</value></data>
-  <data name="NoticeUnlistTitle" xml:space="preserve"><value>Délister la version 1.0.0</value></data>
-  <data name="NoticeUnlistBody" xml:space="preserve"><value>La version disparaîtra de la recherche et des plages flottantes. Elle restera téléchargeable par numéro exact.</value></data>
-  <data name="NoticeUnlistAlpha" xml:space="preserve"><value>Délister aussi 0.1.0-alpha.1</value></data>
-  <data name="NoticeUnlist" xml:space="preserve"><value>Délister</value></data>
-  <data name="NoticeUnlistDone" xml:space="preserve"><value>Version délistée</value></data>
-  <data name="NoticeRerunOpen" xml:space="preserve"><value>Relancer le pipeline</value></data>
-  <data name="NoticeRerunTitle" xml:space="preserve"><value>Relancer le pipeline ?</value></data>
-  <data name="NoticeRerunBody" xml:space="preserve"><value>orders-deploy-prod #2399 sera relancé sur le serveur srv-01, avec les mêmes variables.</value></data>
-  <data name="NoticeRerunNotify" xml:space="preserve"><value>Me notifier à la fin</value></data>
-  <data name="NoticeRerun" xml:space="preserve"><value>Relancer</value></data>
-  <data name="NoticeRerunDone" xml:space="preserve"><value>Pipeline relancé</value></data>
-  <data name="NoticeCancel" xml:space="preserve"><value>Annuler</value></data>
-  <data name="NoticeClose" xml:space="preserve"><value>Fermer</value></data>
-  <data name="NoticeLast" xml:space="preserve"><value>Dernière action : {0}</value></data>
   <data name="RunsSortedCaption" xml:space="preserve"><value>Exécutions, triées par pipeline</value></data>
   <data name="RunsStripedCaption" xml:space="preserve"><value>Historique des exécutions</value></data>
   <data name="RunsRun" xml:space="preserve"><value>Exécution</value></data>

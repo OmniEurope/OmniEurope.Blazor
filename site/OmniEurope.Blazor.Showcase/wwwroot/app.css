@@ -244,8 +244,6 @@
 .demo-form-status { color: var(--omni-color-text-muted); margin: 0; min-block-size: 1.25em; }
 .demo-choice { display: grid; gap: var(--omni-field-gap); }
 .demo-choice__error { align-items: center; color: var(--omni-color-danger); display: flex; font-size: var(--omni-font-size-sm); gap: var(--omni-space-xs); margin: 0; }
-.demo-check { align-items: center; display: inline-flex; gap: var(--omni-space-sm); }
-.demo-check .omni-label { font-weight: 400; }
 /* Le contrôle d'une tuile se tient à droite du nom, comme dans la maquette : sans cadre, un champ
    pleine largeur passait sous le nom. */
 .demo-tile-control { align-items: center; display: flex; flex: 0 1 20rem; gap: var(--omni-space-sm); min-inline-size: 0; }
@@ -255,7 +253,6 @@
 .demo-loading-frame__head { align-items: baseline; background: var(--omni-color-surface); display: flex; gap: var(--omni-space-md); padding: var(--omni-space-sm) var(--omni-space-md); }
 .demo-loading-frame__head span { color: var(--omni-color-text-muted); }
 
-.demo-notices { display: grid; gap: var(--omni-space-sm); justify-items: start; }
 
 .demo-surfaces-row { align-items: start; display: grid; gap: var(--omni-space-lg); grid-template-columns: minmax(12rem, 16rem) minmax(0, 1fr); }
 @media (max-width: 36rem) { .demo-surfaces-row { grid-template-columns: minmax(0, 1fr); } }

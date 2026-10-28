@@ -6,6 +6,7 @@ using OmniEurope.Blazor.Showcase.Examples.Actions;
 using OmniEurope.Blazor.Showcase.Examples.Feedback;
 using OmniEurope.Blazor.Showcase.Examples.Foundations;
 using OmniEurope.Blazor.Showcase.Examples.Forms;
+using OmniEurope.Blazor.Showcase.Examples.Shell;
 using OmniEurope.Blazor.Showcase.Resources;
 using OmniEurope.Blazor.Showcase.Resources.Gallery;
 using OmniEurope.Blazor.Showcase.Theming;
@@ -30,7 +31,7 @@ public partial class Customizer : IDisposable
         Legacy("reglages-onglets"),
         new("form-layouts", typeof(FormsStrings), "FormLayoutsTitle", typeof(VerticalFormExample)),
         Legacy("formulaire-vertical"),
-        Legacy("notifications"),
+        new("notifications", typeof(ShellStrings), "NotificationsTitle", typeof(NotificationCardsExample)),
         Legacy("grilles-maquette"),
         Legacy("coquille-application")
     ];
