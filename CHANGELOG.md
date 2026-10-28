@@ -4,6 +4,11 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Changed
+
+- Fond du thème Trou noir : plus aucun halo autour de l'ombre et du disque, en sombre comme en clair, et dans le champ CSS de repli sans WebGL. Le halo venait d'un terme « brume » du shader (`omni-black-hole.js`), ajouté au commit `f9561457` du 2026-10-02 et publié dans la 1.5.0 (« baigne dans un halo ») : il épaississait l'arc et voilait l'ombre. Il est supprimé, le disque et l'anneau de photons restent seuls ; le jeton `--omni-backdrop-halo` et son dégradé disparaissent du repli CSS. Demande d'une application cliente (recette R-44).
+- Fond du thème Trou noir : les étoiles sont de petits points nets d'environ un pixel et demi, sans flou ni halo (bord antialiasé sur un pixel au plus, calculé en pixels physiques), de luminosité variable, toujours déviées près de l'ombre ; même traitement à l'encre en clair. Demande d'une application cliente (recette R-73).
+
 ## [1.9.4] - 2026-10-26
 
 Correctif qui porte un ajout d'API publique, là où SemVer demanderait `1.10.0` (décision du propriétaire du 2026-10-26, voir [docs/versioning.md](docs/versioning.md)) : demandes d'une application cliente sur la comparaison de textes sous une politique de styles stricte et sur les textes coupés à 375 px. L'ajout est sans effet tant qu'il n'est pas utilisé ; les changements de comportement par défaut sont listés sous « Changed ».

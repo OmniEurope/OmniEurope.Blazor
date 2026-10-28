@@ -1,15 +1,15 @@
 // Trou noir's field for OmniThemeScope: a black hole drawn by a WebGL shader on a canvas behind the
 // content of the scope. Each pixel sends a ray toward the hole and bends it step by step (the photon
 // geodesic of a Schwarzschild hole, acceleration -1.5 h² r / |r|^5 with the horizon at r = 1); where the
-// ray crosses the plane of the disc between r = 2.9 and r = 15 it picks up the disc's light, and along
-// the way the glowing haze around the disc. So the far side of the disc shows as an arc above the horizon
+// ray crosses the plane of the disc between r = 2.9 and r = 15 it picks up the disc's light, and
+// nothing else: no haze or glow around the disc and the shadow. So the far side of the disc shows as an arc above the horizon
 // and a ring below it, as in Interstellar, and the thin photon ring circles the shadow. The gas is white
 // hot at the inner edge, the accent colour further out, an ember at the rim, wound into filaments with
 // darker lanes of dust; it turns, faster inside, its approaching side whiter and brighter. A rotation
 // faster inside winds the filaments tighter with every turn: left to run, after a few minutes they were
 // finer than a pixel and the disc turned to grain. So the gas is drawn twice, each copy with a time that
 // runs over one period only (LAYER_PERIOD) and starts again unwound, half a period apart, and each copy
-// fades out before its time starts again: the winding never grows past one period, with no jump. Faint stars
+// fades out before its time starts again: the winding never grows past one period, with no jump. Sharp stars
 // are seen through the rays that escape. Rays that fall in draw the page colour: the horizon.
 //
 // In light mode the theme asks for the same hole turned over (--omni-scope-canvas: white-hole), on a light
@@ -122,14 +122,6 @@ void main() {
         vel += -1.5 * h2 * pos / (r2 * r2 * r) * dt;
         vec3 next = pos + vel * dt;
 
-        // The thick glowing haze around the disc, crossed along the bent ray: it swells the lensed arc
-        // and veils the near side of the shadow.
-        float rx = length(pos.xz);
-        if (rx < 15.0) {
-            float haze = exp(-abs(pos.y) / (0.15 + 0.08 * rx)) * smoothstep(2.6, 3.6, rx) * smoothstep(15.0, 4.0, rx) / (rx * rx);
-            emit += (1.0 - alpha) * haze * dt * 4.5 * gas(rx, 1.0);
-        }
-
         if (pos.y * next.y < 0.0) {
             vec3 hit = mix(pos, next, pos.y / (pos.y - next.y));
             float rr = length(hit.xz);
@@ -157,14 +149,18 @@ void main() {
         pos = next;
     }
 
-    // A few faint stars, seen through the bent rays that escaped: the sky behind the hole, shifted by
-    // the deflection of each ray, so the stars close to the shadow are lensed too.
+    // A few stars, seen through the bent rays that escaped: the sky behind the hole, shifted by the
+    // deflection of each ray, so the stars close to the shadow are lensed too. Each is a small hard point
+    // of about a pixel and a half, edged by one pixel of antialiasing at most, with no halo; only its
+    // brightness varies from star to star.
     if (captured == 0.0 && alpha < 0.98) {
         vec3 d = normalize(vel);
         vec2 sky = (p + vec2(d.x, dot(d, up)) * 6.0) * 2.6;
         vec2 cell = floor(sky);
-        float star = step(0.988, hash(cell)) * smoothstep(0.32, 0.0, length(fract(sky) - 0.5 - 0.3 * (vec2(hash(cell + 3.1), hash(cell + 7.7)) - 0.5)));
-        emit += (1.0 - alpha) * star * (0.25 + 0.5 * hash(cell + 1.3)) * u_light * 0.5;
+        // A cell of the sky is u_unit / 2.6 device pixels wide: the distance to the star's centre in pixels.
+        float away = length(fract(sky) - 0.5 - 0.3 * (vec2(hash(cell + 3.1), hash(cell + 7.7)) - 0.5)) * u_unit / 2.6;
+        float star = step(0.988, hash(cell)) * clamp(1.25 - away, 0.0, 1.0);
+        emit += (1.0 - alpha) * star * (0.4 + 0.6 * hash(cell + 1.3)) * u_light * 0.9;
     }
 
     // The photon ring: light that circled the hole before escaping, a thin line at the critical impact

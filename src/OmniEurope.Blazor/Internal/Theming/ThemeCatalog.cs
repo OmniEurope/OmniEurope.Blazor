@@ -412,7 +412,6 @@ internal static class ThemeCatalog
                 // colour of its own), a sober ring around a horizon of the page colour; the rule, the neutral
                 // badge and the text still read on them with every palette.
                 ("--omni-backdrop-disk", "color-mix(in srgb, var(--omni-color-text) 9%, var(--omni-color-surface))"),
-                ("--omni-backdrop-halo", "color-mix(in srgb, var(--omni-color-text) 2%, var(--omni-color-surface))"),
                 // A firmer rule than the palette's, for its floor on the stops of the field: on a light page they
                 // sit closer to it than on a black one.
                 ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 40%, var(--omni-color-surface))"),
@@ -497,12 +496,11 @@ internal static class ThemeCatalog
 
     /// <summary>
     /// Trou noir's field without WebGL, where the shader puts the hole (high on the right, a shadow of
-    /// 9vmax): the horizon in the page colour, its thin photon ring, and a faint halo further out.
+    /// 9vmax): the horizon in the page colour and its thin photon ring, with no halo around them.
     /// </summary>
     private const string TrouNoirField =
         "radial-gradient(circle at 76% 26%, var(--omni-color-surface) 0 9vmax, transparent 9.1vmax), "
-        + "radial-gradient(circle at 76% 26%, transparent 0 9.05vmax, var(--omni-backdrop-disk) 9.3vmax, transparent 10.4vmax), "
-        + "radial-gradient(circle at 76% 26%, transparent 0 9vmax, var(--omni-backdrop-halo) 9.6vmax, transparent 22vmax)";
+        + "radial-gradient(circle at 76% 26%, transparent 0 9.05vmax, var(--omni-backdrop-disk) 9.3vmax, transparent 10.4vmax)";
 
     /// <summary>
     /// Relief's dark shadow in light mode: the page darkened, so the shadow keeps the hue of the
