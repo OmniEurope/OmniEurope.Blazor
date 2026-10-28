@@ -290,8 +290,10 @@ const pageLibrary = String.raw`
     const add = (id, element, kind = 'text', interactive = false, extra = {}) => entries.push({ id, element, kind, interactive, ...extra });
     if (page === '${CUSTOMIZER}') {
       const buttons = block('buttons');
+      // The buttons section shows one button of a chosen variant; every variant at rest is in the states table.
+      const states = block('button-states');
       for (const variant of ['primary', 'secondary', 'ghost', 'success', 'warning', 'info', 'danger']) {
-        add('bouton ' + variant, first(buttons, '.omni-button--' + variant + '.omni-button--medium:not(.omni-busy):not(:disabled):not(' + ICON_ONLY + ')'), 'text', true);
+        add('bouton ' + variant, first(states,'.omni-button--' + variant + '.omni-button--medium:not(.omni-busy):not(:disabled):not(' + ICON_ONLY + ')'), 'text', true);
       }
       within(buttons, '.omni-button:not(.omni-busy)' + ICON_ONLY).forEach((button, index) => add('bouton icône seul ' + (index + 1), button, 'icon', true));
       within(block('application-shell'), '.omni-button' + ICON_ONLY).forEach((button, index) => add('bouton icône seul de la coquille ' + (index + 1), button, 'icon', true));
@@ -756,8 +758,9 @@ const pick = async (id, name) => {
 };
 
 const setMode = async mode => {
-  const label = mode === 'dark' ? 'Sombre' : 'Clair';
-  await evaluate(`[...document.querySelectorAll('#workshop-mode .omni-select-bar__item')].find(item => item.textContent.trim() === ${JSON.stringify(label)}).click()`);
+  // The showcase speaks French or English: the mode is found under either name.
+  const labels = mode === 'dark' ? ['Sombre', 'Dark'] : ['Clair', 'Light'];
+  await evaluate(`[...document.querySelectorAll('#workshop-mode .omni-select-bar__item')].find(item => ${JSON.stringify(labels)}.includes(item.textContent.trim())).click()`);
   await waitFor(`le mode ${mode}`, `document.getElementById('showcase-theme').getAttribute('data-omni-theme') === ${JSON.stringify(mode)}`);
 };
 
