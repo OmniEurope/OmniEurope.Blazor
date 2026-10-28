@@ -57,18 +57,6 @@
     padding: var(--omni-space-md);
 }
 
-.showcase-gallery {
-    display: grid;
-    gap: var(--omni-space-xl);
-    grid-template-columns: minmax(12rem, 16rem) minmax(0, 1fr);
-}
-
-@media (max-width: 60rem) {
-    .showcase-gallery {
-        grid-template-columns: minmax(0, 1fr);
-    }
-}
-
 .showcase-gallery__detail {
     min-width: 0;
 }
@@ -320,6 +308,90 @@
 
 .gallery-theme-picker__select {
     min-inline-size: 11rem;
+}
+
+/* Gallery shell (PLAN-005 fidelity): the gallery menu lives in the sidebar, the home is a dashboard of
+   family cards, and the cards of a page keep a rhythm between their hint and their example. */
+.gallery-preview .omni-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--omni-space-md);
+    min-inline-size: 0;
+}
+
+/* The home of the gallery: the family cards flow in columns at least 17rem wide, a short card under a
+   tall one, with no script to measure them. */
+.gallery-home__grid {
+    column-gap: var(--omni-space-lg);
+    column-width: 17rem;
+}
+
+.gallery-home__family {
+    break-inside: avoid;
+    margin-block-end: var(--omni-space-lg);
+}
+
+.gallery-home__family .omni-card__header {
+    align-items: center;
+    background: var(--omni-color-surface-muted);
+    border-start-end-radius: inherit;
+    border-start-start-radius: inherit;
+    display: flex;
+    gap: var(--omni-space-sm);
+}
+
+.gallery-home__family .omni-card__body {
+    padding: var(--omni-space-xs);
+}
+
+.gallery-home__family-icon {
+    align-items: center;
+    /* Mixed into the surface rather than a subtle token, so the square reads on a dark theme too. */
+    background: color-mix(in srgb, var(--omni-color-accent) 18%, var(--omni-color-surface));
+    block-size: 2.25rem;
+    border-radius: var(--omni-radius);
+    color: var(--omni-color-accent);
+    display: inline-flex;
+    flex: none;
+    inline-size: 2.25rem;
+    justify-content: center;
+}
+
+.gallery-home__family .gallery-home__family-title {
+    flex: 1 1 auto;
+    font-size: 1.125rem;
+    margin: 0;
+    min-inline-size: 0;
+}
+
+.gallery-home__pages {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.gallery-home__pages .gallery-home__page {
+    align-items: center;
+    border-radius: var(--omni-radius);
+    color: var(--omni-color-text);
+    display: flex;
+    gap: var(--omni-space-sm);
+    padding: var(--omni-space-xs) var(--omni-space-sm);
+}
+
+.gallery-home__page .omni-icon {
+    color: var(--omni-color-text-muted);
+    flex: none;
+}
+
+.gallery-home__pages .gallery-home__page:hover {
+    background: var(--omni-color-surface-hover);
+}
+
+.gallery-home__page:hover .omni-icon {
+    color: var(--omni-color-accent);
 }
 
 /* Buttons page, rest / hover / press comparison. A browser cannot freeze :hover or :active, so the page

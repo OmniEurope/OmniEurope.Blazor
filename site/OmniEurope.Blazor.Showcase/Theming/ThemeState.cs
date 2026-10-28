@@ -57,6 +57,14 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
     /// <summary>The theme of the catalogue that gives the shape.</summary>
     public OmniThemePreset Theme { get; private set; } = OmniThemePresets.All[0];
 
+    /// <summary>
+    /// The theme as the page shows it: the theme painted with the palette, edits included, in a single
+    /// preset. The layout hands it to its theme scope, which draws the theme's canvas backdrop from its
+    /// shape and writes the very tokens <see cref="Light"/> and <see cref="Dark"/> push, so the scope and
+    /// the CSSOM push agree and an edit survives the scope repainting. A new instance follows each push.
+    /// </summary>
+    public OmniThemePreset Painted { get; private set; } = OmniThemePresets.All[0];
+
     /// <summary>The palette of the catalogue that gives the colours.</summary>
     public OmniThemePalette Palette { get; private set; } = DefaultPaletteOf(OmniThemePresets.All[0]);
 
@@ -353,6 +361,7 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
 
     private async Task PushAsync(CancellationToken cancellationToken)
     {
+        Painted = _painted with { Light = Light, Dark = Dark };
         await js.InvokeVoidAsync(
             "omniShowcaseTheme.apply",
             cancellationToken,

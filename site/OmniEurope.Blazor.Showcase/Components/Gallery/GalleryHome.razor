@@ -1,33 +1,42 @@
 @page "/components"
 
-@* The entry of the gallery: the menu, and each family with its pages, from the catalogue. *@
+@* The entry of the gallery, a dashboard of the families of the catalogue: one card per family with its
+   icon, its page count and a link to each page. The cards flow in CSS columns, so a short card sits
+   under a tall one without any script. The menu is the sidebar's, see MainLayout. *@
 <PageTitle>@Text["GalleryPageTitle"]</PageTitle>
 
-<div class="showcase-gallery">
-    <GalleryMenu />
-
-    <OmniStack Gap="OmniSpacing.Medium" Class="gallery-page">
-        <OmniPageHeader Title="@Text["GalleryTitle"]" ShowTrail="false">
-            <Icon><OmniIcon Name="OmniIconName.Flask" /></Icon>
-            <ActionsContent>
-                <GalleryThemePicker />
-            </ActionsContent>
-        </OmniPageHeader>
-        <OmniText>@Text["GalleryLead"]</OmniText>
+<OmniStack Gap="OmniSpacing.Medium" Class="gallery-page gallery-home">
+    <OmniPageHeader Title="@Text["GalleryTitle"]" ShowTrail="false">
+        <Icon><OmniIcon Name="OmniIconName.Flask" /></Icon>
+        <ActionsContent>
+            <GalleryThemePicker />
+        </ActionsContent>
+    </OmniPageHeader>
+    <OmniText Class="gallery-page__description">@Text["GalleryLead"]</OmniText>
+    <div class="gallery-home__grid">
         @foreach (var family in GalleryCatalog.Families.Where(family => family.Pages.Count > 0))
         {
             var strings = StringsOf(family);
-            <section aria-labelledby="@FamilyId(family)">
-                <OmniStack Gap="OmniSpacing.Small">
-                    <OmniHeading Id="@FamilyId(family)" Level="OmniHeadingLevel.H2">@Text[family.TitleKey]</OmniHeading>
-                    <OmniStack Orientation="OmniOrientation.Horizontal" Wrap="true">
+            <OmniCard Class="gallery-home__family" aria-labelledby="@FamilyId(family)">
+                <HeaderContent>
+                    <span class="gallery-home__family-icon"><OmniIcon Name="family.Icon" /></span>
+                    <OmniHeading Id="@FamilyId(family)" Level="OmniHeadingLevel.H2" Class="gallery-home__family-title">@Text[family.TitleKey]</OmniHeading>
+                    <OmniBadge Tone="OmniTone.Neutral">@family.Pages.Count</OmniBadge>
+                </HeaderContent>
+                <ChildContent>
+                    <ul class="gallery-home__pages">
                         @foreach (var entry in family.Pages)
                         {
-                            <OmniLink Href="@entry.Href">@strings[entry.TitleKey]</OmniLink>
+                            <li>
+                                <OmniLink Href="@entry.Href" Class="gallery-home__page">
+                                    <OmniIcon Name="entry.Icon" />
+                                    <span>@strings[entry.TitleKey]</span>
+                                </OmniLink>
+                            </li>
                         }
-                    </OmniStack>
-                </OmniStack>
-            </section>
+                    </ul>
+                </ChildContent>
+            </OmniCard>
         }
-    </OmniStack>
-</div>
+    </div>
+</OmniStack>

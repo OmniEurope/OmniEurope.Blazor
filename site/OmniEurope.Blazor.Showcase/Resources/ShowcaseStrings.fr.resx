@@ -1293,6 +1293,8 @@
   <data name="GalleryLegacyGroup" xml:space="preserve"><value>Démonstrations précédentes</value></data>
   <data name="GalleryThemePicker" xml:space="preserve"><value>Thème</value></data>
   <data name="GalleryPalettePicker" xml:space="preserve"><value>Palette</value></data>
+  <data name="GalleryDefaultSuffix" xml:space="preserve"><value>par défaut</value></data>
+  <data name="GalleryBackToSite" xml:space="preserve"><value>Retour au site</value></data>
   <data name="GalleryOpenCustomizer" xml:space="preserve"><value>Ouvrir la personnalisation du thème</value></data>
   <data name="GalleryViews" xml:space="preserve"><value>Vues de la page</value></data>
   <data name="GalleryViewPreview" xml:space="preserve"><value>Aperçu</value></data>

@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Components.Web;
+using OmniEurope.Blazor.Showcase.Gallery;
 using OmniEurope.Blazor.Showcase.Resources;
 using OmniEurope.Blazor.Showcase.Theming;
 
@@ -25,7 +27,25 @@ public partial class MainLayout : IDisposable
         _ => OmniAppearance.Light
     };
 
-    protected override void OnInitialized() => Theme.Changed += OnThemeChanged;
+    [Inject]
+    private NavigationManager Navigation { get; set; } = default!;
+
+    /// <summary>Whether the page shown belongs to the gallery, whose menu then takes the place of the site's.</summary>
+    private bool InGallery
+    {
+        get
+        {
+            var path = Navigation.ToBaseRelativePath(Navigation.Uri);
+            var end = path.IndexOfAny(['/', '?', '#']);
+            return string.Equals(end < 0 ? path : path[..end], GalleryPage.RoutePrefix, StringComparison.OrdinalIgnoreCase);
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        Theme.Changed += OnThemeChanged;
+        Navigation.LocationChanged += OnLocationChanged;
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -35,7 +55,13 @@ public partial class MainLayout : IDisposable
         }
     }
 
-    public void Dispose() => Theme.Changed -= OnThemeChanged;
+    public void Dispose()
+    {
+        Theme.Changed -= OnThemeChanged;
+        Navigation.LocationChanged -= OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e) => InvokeAsync(StateHasChanged);
 
     private Task ToggleModeAsync() =>
         Theme.SetModeAsync(Theme.Mode is ThemeMode.Dark ? ThemeMode.Light : ThemeMode.Dark);

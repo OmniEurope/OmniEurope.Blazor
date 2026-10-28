@@ -25,38 +25,34 @@
     <p>@Text["GalleryLead"]</p>
 </section>
 
-<div class="showcase-gallery">
-    <GalleryMenu />
+<article class="showcase-gallery__detail" aria-labelledby="demo-title">
+    <OmniHeading Id="demo-title" Level="OmniHeadingLevel.H2">@Text[Current.TitleKey]</OmniHeading>
+    <p>@Text[Current.SummaryKey]</p>
 
-    <article class="showcase-gallery__detail" aria-labelledby="demo-title">
-        <OmniHeading Id="demo-title" Level="OmniHeadingLevel.H2">@Text[Current.TitleKey]</OmniHeading>
-        <p>@Text[Current.SummaryKey]</p>
-
-        <OmniHeading Level="OmniHeadingLevel.H3">@Text["GalleryCapabilities"]</OmniHeading>
-        <ul>
-            @foreach (var capability in Current.CapabilityKeys)
-            {
-                var arguments = Current.ArgumentsOf(capability);
-                <li>@(arguments.Length == 0 ? Text[capability] : Text[capability, arguments])</li>
-            }
-        </ul>
-
-        <OmniHeading Level="OmniHeadingLevel.H3">@Text["GalleryPreview"]</OmniHeading>
-        <div class="showcase-preview">
-            <DynamicComponent Type="Current.Component" />
-        </div>
-
-        <OmniHeading Level="OmniHeadingLevel.H3">@Text["GallerySource"]</OmniHeading>
-        <p class="showcase-source-note">@Text["GallerySourceNote"]</p>
-        @if (Source is null)
+    <OmniHeading Level="OmniHeadingLevel.H3">@Text["GalleryCapabilities"]</OmniHeading>
+    <ul>
+        @foreach (var capability in Current.CapabilityKeys)
         {
-            <OmniAlert Severity="OmniSeverity.Warning" Title="@Text["GallerySourceMissingTitle"]">
-                @Text["GallerySourceMissing"]
-            </OmniAlert>
+            var arguments = Current.ArgumentsOf(capability);
+            <li>@(arguments.Length == 0 ? Text[capability] : Text[capability, arguments])</li>
         }
-        else
-        {
-            <pre class="showcase-code"><code>@Source</code></pre>
-        }
-    </article>
-</div>
+    </ul>
+
+    <OmniHeading Level="OmniHeadingLevel.H3">@Text["GalleryPreview"]</OmniHeading>
+    <div class="showcase-preview">
+        <DynamicComponent Type="Current.Component" />
+    </div>
+
+    <OmniHeading Level="OmniHeadingLevel.H3">@Text["GallerySource"]</OmniHeading>
+    <p class="showcase-source-note">@Text["GallerySourceNote"]</p>
+    @if (Source is null)
+    {
+        <OmniAlert Severity="OmniSeverity.Warning" Title="@Text["GallerySourceMissingTitle"]">
+            @Text["GallerySourceMissing"]
+        </OmniAlert>
+    }
+    else
+    {
+        <pre class="showcase-code"><code>@Source</code></pre>
+    }
+</article>

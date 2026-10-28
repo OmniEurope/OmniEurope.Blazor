@@ -1,11 +1,15 @@
-@* The theme and the palette of the whole showcase, beside the title of every gallery page: they write
-   the same state as the customizer, so the page, the menu and the customizer always agree. The light
-   or dark mode stays in the site header. *@
+@* The theme, the palette and the light or dark mode of the whole showcase, beside the title of every gallery
+   page: they write the same state as the customizer and the site header, so the page, the menu and the
+   customizer always agree. *@
 <div class="gallery-theme-picker">
     <OmniDropDown TValue="string" Class="gallery-theme-picker__select" Options="ThemeOptions" Label="@Text["GalleryThemePicker"]"
                   @bind-Value:get="Theme.Theme.Name" @bind-Value:set="SelectThemeAsync" />
     <OmniDropDown TValue="string" Class="gallery-theme-picker__select" Options="PaletteOptions" Label="@Text["GalleryPalettePicker"]"
                   @bind-Value:get="Theme.Palette.Name" @bind-Value:set="SelectPaletteAsync" />
+    <OmniButton Variant="OmniButtonVariant.Secondary" Label="@ModeLabel" title="@ModeLabel" Disabled="Theme.Theme.DarkOnly"
+                OnClick="ToggleModeAsync">
+        <OmniIcon Name="@(IsDark ? OmniIconName.ThemeLight : OmniIconName.ThemeDark)" />
+    </OmniButton>
     @if (!OnThemePage)
     {
         <OmniButton Variant="OmniButtonVariant.Secondary" Label="@Foundations["ThemeOpenPage"]" title="@Foundations["ThemeOpenPage"]"

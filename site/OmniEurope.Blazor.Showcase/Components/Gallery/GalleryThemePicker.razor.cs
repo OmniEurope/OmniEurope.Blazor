@@ -5,16 +5,11 @@ using OmniEurope.Blazor.Showcase.Theming;
 namespace OmniEurope.Blazor.Showcase.Components.Gallery;
 
 /// <summary>
-/// Theme and palette pickers of a gallery page, bound to the showcase's own <see cref="ThemeState"/>.
+/// Theme and palette pickers and the light or dark toggle of a gallery page, bound to the showcase's own
+/// <see cref="ThemeState"/>.
 /// </summary>
 public partial class GalleryThemePicker : IDisposable
 {
-    private static readonly IReadOnlyList<OmniOption<string>> ThemeOptions =
-        [.. OmniThemePresets.All.Select(theme => new OmniOption<string>(theme.Name, theme.Name))];
-
-    private static readonly IReadOnlyList<OmniOption<string>> PaletteOptions =
-        [.. OmniThemePalettes.All.Select(palette => new OmniOption<string>(palette.Name, palette.Name))];
-
     [Inject]
     private IStringLocalizer<ShowcaseStrings> Text { get; set; } = default!;
 
@@ -26,6 +21,29 @@ public partial class GalleryThemePicker : IDisposable
 
     [Inject]
     private NavigationManager Navigation { get; set; } = default!;
+
+    /// <summary>The themes of the catalogue, the shipped one marked as the default.</summary>
+    private IReadOnlyList<OmniOption<string>> ThemeOptions =>
+        [.. OmniThemePresets.All.Select(theme => new OmniOption<string>(
+            theme.Name,
+            ReferenceEquals(theme, OmniThemePresets.All[0]) ? WithDefaultMark(theme.Name) : theme.Name))];
+
+    /// <summary>The palettes of the catalogue, the one the selected theme comes with marked as the default.</summary>
+    private IReadOnlyList<OmniOption<string>> PaletteOptions
+    {
+        get
+        {
+            var themePalette = ThemeState.DefaultPaletteOf(Theme.Theme);
+            return [.. OmniThemePalettes.All.Select(palette => new OmniOption<string>(
+                palette.Name,
+                ReferenceEquals(palette, themePalette) ? WithDefaultMark(palette.Name) : palette.Name))];
+        }
+    }
+
+    /// <summary>Whether the page is drawn dark; the system mode reads as light, as in the site header.</summary>
+    private bool IsDark => Theme.EffectiveMode is ThemeMode.Dark;
+
+    private string ModeLabel => IsDark ? Text["ModeLight"] : Text["ModeDark"];
 
     protected override void OnInitialized() => Theme.Changed += OnThemeChanged;
 
@@ -44,6 +62,10 @@ public partial class GalleryThemePicker : IDisposable
         OmniThemePalettes.All.FirstOrDefault(palette => palette.Name == name) is { } palette
             ? Theme.SelectPaletteAsync(palette)
             : Task.CompletedTask;
+
+    private Task ToggleModeAsync() => Theme.SetModeAsync(IsDark ? ThemeMode.Light : ThemeMode.Dark);
+
+    private string WithDefaultMark(string name) => $"{name} ({Text["GalleryDefaultSuffix"]})";
 
     // The theme page carries its own settings, so the shortcut to it is pointless there.
     private bool OnThemePage => Navigation.ToBaseRelativePath(Navigation.Uri)

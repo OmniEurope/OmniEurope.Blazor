@@ -1,6 +1,10 @@
 @inherits LayoutComponentBase
+@using OmniEurope.Blazor.Showcase.Components.Gallery
 
-<OmniThemeScope Id="showcase-theme" Appearance="CurrentAppearance" Density="Theme.Density" BackdropMotion="Theme.BackdropMotion">
+@* The theme is handed over painted (palette and hand edits included) for the whole site: a theme with a
+   canvas backdrop draws it behind every page, as in a real application. ThemeState still pushes the same
+   tokens through the CSSOM, so the two writers agree. *@
+<OmniThemeScope Id="showcase-theme" Appearance="CurrentAppearance" Density="Theme.Density" Preset="Theme.Painted" BackdropMotion="Theme.BackdropMotion">
     @* The host draws the dialogs and notifications the pages ask for through OmniOverlayService; it
        receives the injected instance, so a dialog content reaching the service by injection gets the same. *@
     <OmniComponentsHost OverlayService="@Overlay">
@@ -18,12 +22,21 @@
         </OmniHeader>
         <OmniBody>
             <OmniSidebar Label="@Text["SidebarLabel"]" Open="true">
-                <OmniPanelMenu Label="@Text["MenuLabel"]">
-                    <OmniPanelMenuItem Href="" Text="@Text["NavShowcase"]" Match="OmniNavMatch.Exact" />
-                    <OmniPanelMenuItem Href="documentation" Text="@Text["NavDocumentation"]" />
-                    <OmniPanelMenuItem Href="components" Text="@Text["NavComponents"]" />
-                    <OmniPanelMenuItem Href="customizer" Text="@Text["NavCustomize"]" />
-                </OmniPanelMenu>
+                @* Inside the gallery its menu replaces the site's, as on a site of its own; its first entry,
+                   and the brand in the header, lead back to the other sections. *@
+                @if (InGallery)
+                {
+                    <GalleryMenu />
+                }
+                else
+                {
+                    <OmniPanelMenu Label="@Text["MenuLabel"]">
+                        <OmniPanelMenuItem Href="" Text="@Text["NavShowcase"]" Match="OmniNavMatch.Exact" />
+                        <OmniPanelMenuItem Href="documentation" Text="@Text["NavDocumentation"]" />
+                        <OmniPanelMenuItem Href="components" Text="@Text["NavComponents"]" />
+                        <OmniPanelMenuItem Href="customizer" Text="@Text["NavCustomize"]" />
+                    </OmniPanelMenu>
+                }
             </OmniSidebar>
             <ErrorBoundary @ref="_errorBoundary">
                 <ChildContent>
