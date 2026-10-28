@@ -1,0 +1,24 @@
+@* Outside labels: the name, and the value or the share, of each slice beside the disc, joined to it by a leader line
+   and stacked on each side so that none overlaps the next. The charts are wider than tall (AspectRatio 1.6) to
+   leave room for the labels. MinWidth None (the default, written here for the demonstration) lets the ring follow
+   its card down to any width. *@
+<OmniTileGrid Columns="3" MinColumnWidth="20rem" EqualHeights="false" Gap="OmniSpacing.Large">
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Name</OmniText>
+        <OmniChart Label="Share by origin, names only" AspectRatio="1.6">
+            <OmniPieSeries Title="Origin" Data="PieChartData.Origins" OutsideLabels="OmniPieLabels.Name" />
+        </OmniChart>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Name and percentage</OmniText>
+        <OmniChart Label="Share by origin" AspectRatio="1.6">
+            <OmniPieSeries Title="Origin" Data="PieChartData.Origins" OutsideLabels="OmniPieLabels.NameAndPercent" />
+        </OmniChart>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Ring, name and value</OmniText>
+        <OmniChart Label="Share by origin, as a ring" MinWidth="OmniChartMinWidth.None" AspectRatio="1.6">
+            <OmniPieSeries Donut="true" Title="Origin" Data="PieChartData.Origins" OutsideLabels="OmniPieLabels.NameAndValue" />
+        </OmniChart>
+    </OmniStack>
+</OmniTileGrid>

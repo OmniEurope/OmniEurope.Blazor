@@ -106,10 +106,6 @@
   <data name="DemoGridCapability1" xml:space="preserve"><value>Tri et filtre par colonne, sur la donnée réelle.</value></data>
   <data name="DemoGridCapability2" xml:space="preserve"><value>Pagination avec taille de page réglable.</value></data>
   <data name="DemoGridCapability3" xml:space="preserve"><value>Lignes alternées et formats de colonne déclaratifs.</value></data>
-  <data name="DemoChartTitle" xml:space="preserve"><value>Graphiques</value></data>
-  <data name="DemoChartSummary" xml:space="preserve"><value>Les séries catégorielles, aux couleurs du thème.</value></data>
-  <data name="DemoChartCapability1" xml:space="preserve"><value>Séries en colonnes avec axes titrés.</value></data>
-  <data name="DemoChartCapability2" xml:space="preserve"><value>Couleurs prises dans les variables de graphique du thème.</value></data>
   <data name="DemoLayoutTitle" xml:space="preserve"><value>Mise en page</value></data>
   <data name="DemoLayoutSummary" xml:space="preserve"><value>La grille de tuiles.</value></data>
   <data name="DemoLayoutCapability5" xml:space="preserve"><value>Une grille de tuiles : mêmes largeurs, une seule hauteur par rangée et une tuile double qui occupe deux colonnes.</value></data>
@@ -153,11 +149,6 @@
   <data name="DemoSchedulerCapability1" xml:space="preserve"><value>Vues jour, semaine et mois, commutables.</value></data>
   <data name="DemoSchedulerCapability2" xml:space="preserve"><value>Rendez-vous récurrents décrits par une règle.</value></data>
   <data name="DemoSchedulerCapability3" xml:space="preserve"><value>Chaque vue s'utilise aussi seule, hors du calendrier.</value></data>
-  <data name="DemoChartsExtendedTitle" xml:space="preserve"><value>Graphiques, vue complète</value></data>
-  <data name="DemoChartsExtendedSummary" xml:space="preserve"><value>Toutes les séries, la légende, les étiquettes et la jauge.</value></data>
-  <data name="DemoChartsExtendedCapability1" xml:space="preserve"><value>Lignes, aires, colonnes, barres, empilements, secteurs et anneau.</value></data>
-  <data name="DemoChartsExtendedCapability2" xml:space="preserve"><value>Légende, marqueurs, étiquettes de valeur et infobulle.</value></data>
-  <data name="DemoChartsExtendedCapability3" xml:space="preserve"><value>Jauge à arc, avec échelle et format de valeur.</value></data>
   <data name="DemoDiagramTitle" xml:space="preserve"><value>Carte mentale</value></data>
   <data name="DemoDiagramSummary" xml:space="preserve"><value>Une carte mentale éditable à la souris, au toucher et au clavier.</value></data>
   <data name="DemoDiagramCapability1" xml:space="preserve"><value>Glisser, lasso, zoom à la molette ou au pincement, menu contextuel.</value></data>
@@ -514,38 +505,6 @@
   <data name="DemoAnsiSlow" xml:space="preserve"><value>requête lente, 1,2 s</value></data>
   <data name="DemoAnsiRefused" xml:space="preserve"><value>connexion refusée</value></data>
   <data name="DemoAnsiRetry" xml:space="preserve"><value>nouvel essai dans 5 s</value></data>
-  <data name="DemoChartChartTitle" xml:space="preserve"><value>Dossiers déposés par trimestre</value></data>
-  <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Trimestre</value></data>
-  <data name="DemoChartAxisCases" xml:space="preserve"><value>Dossiers</value></data>
-  <data name="DemoChartQuarter" xml:space="preserve"><value>T{0}</value></data>
-  <data name="DemoChartsExtendedMonthlyTitle" xml:space="preserve"><value>Évolution mensuelle</value></data>
-  <data name="DemoChartsExtendedMonthlyDescription" xml:space="preserve"><value>Valeur au survol et au clavier</value></data>
-  <data name="DemoChartsExtendedAxisMonth" xml:space="preserve"><value>Mois</value></data>
-  <data name="DemoChartsExtendedDeposits" xml:space="preserve"><value>Dépôts</value></data>
-  <data name="DemoChartsExtendedDecisions" xml:space="preserve"><value>Décisions</value></data>
-  <data name="DemoChartsExtendedLegend" xml:space="preserve"><value>Séries</value></data>
-  <data name="DemoChartsExtendedDailyTitle" xml:space="preserve"><value>Audience quotidienne sur trente jours</value></data>
-  <data name="DemoChartsExtendedPageViews" xml:space="preserve"><value>Pages vues par jour</value></data>
-  <data name="DemoChartsExtendedVisitors" xml:space="preserve"><value>Visiteurs uniques par jour</value></data>
-  <data name="DemoChartsExtendedStackedTitle" xml:space="preserve"><value>Répartition empilée</value></data>
-  <data name="DemoChartsExtendedIncoming" xml:space="preserve"><value>Entrants</value></data>
-  <data name="DemoChartsExtendedOutgoing" xml:space="preserve"><value>Sortants</value></data>
-  <data name="DemoChartsExtendedBacklog" xml:space="preserve"><value>Stock</value></data>
-  <data name="DemoChartsExtendedHorizontalTitle" xml:space="preserve"><value>Comparatif horizontal</value></data>
-  <data name="DemoChartsExtendedByCountry" xml:space="preserve"><value>Dossiers par pays</value></data>
-  <data name="DemoChartsExtendedStackedBarsTitle" xml:space="preserve"><value>Dossiers traités et en attente, par pays</value></data>
-  <data name="DemoChartsExtendedProcessed" xml:space="preserve"><value>Traités</value></data>
-  <data name="DemoChartsExtendedPending" xml:space="preserve"><value>En attente</value></data>
-  <data name="DemoChartsExtendedPieTitle" xml:space="preserve"><value>Parts par origine</value></data>
-  <data name="DemoChartsExtendedDonutTitle" xml:space="preserve"><value>Parts par origine, en anneau</value></data>
-  <data name="DemoChartsExtendedOrigin" xml:space="preserve"><value>Origine</value></data>
-  <data name="DemoChartsExtendedGauge" xml:space="preserve"><value>Taux de traitement</value></data>
-  <data name="DemoChartsExtendedSliceCounter" xml:space="preserve"><value>Guichet</value></data>
-  <data name="DemoChartsExtendedSliceMail" xml:space="preserve"><value>Courrier</value></data>
-  <data name="DemoChartsExtendedSliceOnline" xml:space="preserve"><value>En ligne</value></data>
-  <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Autre</value></data>
-  <data name="DemoChartsExtendedRangeTitle" xml:space="preserve"><value>Trois ans de dépôts, une plage choisie</value></data>
-  <data name="DemoChartsExtendedRangeShown" xml:space="preserve"><value>Mois affichés : de {0} à {1}</value></data>
   <data name="DemoPlanningGanttLabel" xml:space="preserve"><value>Planning du projet</value></data>
   <data name="DemoPlanningScaleShown" xml:space="preserve"><value>Échelle affichée : {0}</value></data>
   <data name="DemoPlanningScaleDay" xml:space="preserve"><value>jour</value></data>

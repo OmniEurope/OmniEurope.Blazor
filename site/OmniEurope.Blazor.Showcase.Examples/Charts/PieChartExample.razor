@@ -1,0 +1,34 @@
+@* One distribution as a pie or a ring. The legend names the slices that are drawn, so a zero share, which the series
+   skips, is left out of it as well and the colours of the following slices do not shift. *@
+@{
+    RenderFragment dataTable = @<table>
+        <caption>@ChartTitle</caption>
+        <thead>
+            <tr>
+                <th scope="col">Slice</th>
+                <th scope="col">Value</th>
+                <th scope="col">Share</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var slice in Slices)
+            {
+                <tr>
+                    <th scope="row">@slice.Label</th>
+                    <td>@FormatValue(slice.Value)</td>
+                    <td>@FormatShare(slice.Value)</td>
+                </tr>
+            }
+        </tbody>
+    </table>;
+}
+<OmniChart Label="@ChartTitle"
+           AspectRatio="1.6"
+           Description="Hover a slice to read its label and value."
+           DataTableContent="@(ShowDataTable ? dataTable : null)">
+    <OmniPieSeries Title="@ChartTitle" Donut="Kind == PieChartKind.Donut" Data="Slices" OutsideLabels="OutsideLabels" />
+    @if (ShowLegend)
+    {
+        <OmniLegend Label="Slices" Items="LegendItems" />
+    }
+</OmniChart>

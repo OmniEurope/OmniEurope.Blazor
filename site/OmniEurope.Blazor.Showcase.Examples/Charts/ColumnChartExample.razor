@@ -1,0 +1,65 @@
+@* The quarterly chart: columns, bars or stacked columns, with every part of the chart a parameter. The data
+   table, when asked for, is the host's own and replaces the hidden one the chart writes for screen readers. *@
+@{
+    RenderFragment dataTable = @<table>
+        <caption>Files filed per quarter</caption>
+        <thead>
+            <tr>
+                <th scope="col">Quarter</th>
+                <th scope="col">@ColumnChartData.LastYearTitle</th>
+                <th scope="col">@ColumnChartData.ThisYearTitle</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (var index = 0; index < ColumnChartData.Quarters.Count; index++)
+            {
+                <tr>
+                    <th scope="row">@ColumnChartData.Quarters[index]</th>
+                    <td>@ColumnChartData.FormatCount(ColumnChartData.LastYear[index].Y)</td>
+                    <td>@ColumnChartData.FormatCount(ColumnChartData.ThisYear[index].Y)</td>
+                </tr>
+            }
+        </tbody>
+    </table>;
+}
+<OmniChart Label="Files filed per quarter"
+           Description="Comparison of 2025 and 2026, quarter by quarter."
+           DataTableContent="@(ShowDataTable ? dataTable : null)">
+    <ChildContent>
+        @if (ShowGridLines)
+        {
+            <OmniGridLines Count="GridLineCount" />
+        }
+        <OmniCategoryAxis Labels="ColumnChartData.Quarters" />
+        <OmniValueAxis Minimum="0" Maximum="AxisMaximum" Automatic="AutoAxis" TickCount="TickCount" FormatValue="ColumnChartData.FormatCount" />
+        @if (ShowAxisTitles)
+        {
+            @* Bars turn the chart: the categories go to the left and the values to the bottom, and the titles follow. *@
+            <OmniAxisTitle Text="@(Kind == ColumnChartKind.Bar ? "Files" : "Quarter")" />
+            <OmniAxisTitle Text="@(Kind == ColumnChartKind.Bar ? "Quarter" : "Files")" Orientation="OmniOrientation.Vertical" />
+        }
+        @if (Kind == ColumnChartKind.Column)
+        {
+            <OmniColumnSeries Title="@ColumnChartData.LastYearTitle" ColorIndex="0" Data="ColumnChartData.LastYear" />
+            <OmniColumnSeries Title="@ColumnChartData.ThisYearTitle" ColorIndex="1" Data="ColumnChartData.ThisYear" ColorByPoint="ColorByPoint" />
+        }
+        else if (Kind == ColumnChartKind.Bar)
+        {
+            <OmniColumnSeries Horizontal="true" Title="@ColumnChartData.LastYearTitle" ColorIndex="0" Data="ColumnChartData.LastYear" />
+            <OmniColumnSeries Horizontal="true" Title="@ColumnChartData.ThisYearTitle" ColorIndex="1" Data="ColumnChartData.ThisYear" ColorByPoint="ColorByPoint" />
+        }
+        else
+        {
+            <OmniColumnSeries Title="@ColumnChartData.LastYearTitle" ColorIndex="0" Stacked="true" Data="ColumnChartData.LastYear" />
+            <OmniColumnSeries Title="@ColumnChartData.ThisYearTitle" ColorIndex="1" Stacked="true" Data="ColumnChartData.ThisYear" ColorByPoint="ColorByPoint" />
+        }
+        @if (ShowDataLabels)
+        {
+            <OmniSeriesDataLabels Data="ColumnChartData.ThisYear" FormatValue="ColumnChartData.FormatCount" Inside="InsideLabels" />
+        }
+        @if (ShowLegend)
+        {
+            <OmniLegend Label="Series" />
+        }
+    </ChildContent>
+</OmniChart>

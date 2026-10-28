@@ -146,7 +146,7 @@ courbe, marqueurs, bandes de survol, axe des valeurs recalé, étiquettes hors p
 poignées qui ne se croisent pas, les bornes, le refus dans le dessin et le retour à toutes les catégories
 quand le navigateur disparaît. bUnit lève l'événement `input` que le navigateur produit pour une touche
 ou un glissement. Contrôlé dans Chromium sur la vitrine publiée en Release et servie sous CSP stricte
-(`/components/legacy/graphiques-avances`, console sans erreur) : flèche, Page suivante (3 mois sur 36), Début
+(`/components/line-charts`, console sans erreur) : flèche, Page suivante (3 mois sur 36), Début
 et Fin sur les vraies touches, poignées arrêtées l'une sur l'autre, glissement à la souris (la poignée
 s'arrête sur le mois visé, le graphique se redessine pendant le geste), thème sombre et largeur de
 téléphone sans défilement horizontal. Le glissement au doigt n'a pas été joué (le navigateur de contrôle

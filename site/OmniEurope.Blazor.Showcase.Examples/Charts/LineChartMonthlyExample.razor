@@ -1,0 +1,13 @@
+@* A line with its markers and an area on the same axes, the value of the line written above its points and the
+   legend fixed on the right. Hover or Tab onto a series to read its value. *@
+<OmniChart Id="chart-legend-right" Label="Monthly trend" Description="Value on hover and with the keyboard">
+    <OmniGridLines />
+    <OmniCategoryAxis Labels="LineChartData.Months" />
+    <OmniValueAxis TickCount="5" />
+    <OmniAxisTitle Text="Month" />
+    <OmniLineSeries Title="Filings" ColorIndex="0" Data="LineChartData.Deposits" />
+    <OmniMarkers ColorIndex="0" Data="LineChartData.Deposits" Radius="3" />
+    <OmniAreaSeries Title="Decisions" ColorIndex="1" Data="LineChartData.Decisions" />
+    <OmniSeriesDataLabels Data="LineChartData.Deposits" />
+    <OmniLegend Label="Series" Placement="OmniLegendPlacement.Right" />
+</OmniChart>

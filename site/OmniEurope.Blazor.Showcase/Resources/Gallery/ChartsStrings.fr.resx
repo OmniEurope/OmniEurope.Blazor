@@ -4,4 +4,123 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="ColumnChartsTitle" xml:space="preserve"><value>Colonnes et barres</value></data>
+  <data name="ColumnChartsDescription" xml:space="preserve"><value>Graphiques en colonnes, en barres et empilés dessinés en SVG : séries, axes, lignes de grille, légende, étiquettes de valeurs, texte d'infobulle et tableau de données accessible.</value></data>
+  <data name="ColumnChartsSettingsTitle" xml:space="preserve"><value>Réglages du graphique</value></data>
+  <data name="ColumnChartsSettingsDescription" xml:space="preserve"><value>Chaque réglage redessine le graphique ci-dessous.</value></data>
+  <data name="ColumnChartsColorByPoint" xml:space="preserve"><value>Une couleur par valeur</value></data>
+  <data name="ColumnChartsInsideLabels" xml:space="preserve"><value>Étiquettes dans les barres</value></data>
+  <data name="ColumnChartsKind" xml:space="preserve"><value>Type de série</value></data>
+  <data name="ColumnChartsKindDescription" xml:space="preserve"><value>Colonnes côte à côte, barres horizontales ou colonnes empilées.</value></data>
+  <data name="ColumnChartsKindColumn" xml:space="preserve"><value>Colonnes</value></data>
+  <data name="ColumnChartsKindBar" xml:space="preserve"><value>Barres</value></data>
+  <data name="ColumnChartsKindStacked" xml:space="preserve"><value>Colonnes empilées</value></data>
+  <data name="ColumnChartsLegend" xml:space="preserve"><value>Légende</value></data>
+  <data name="ColumnChartsLegendDescription" xml:space="preserve"><value>Affiche le nom et la couleur de chaque série.</value></data>
+  <data name="ColumnChartsDataLabels" xml:space="preserve"><value>Étiquettes de valeurs</value></data>
+  <data name="ColumnChartsDataLabelsDescription" xml:space="preserve"><value>Écrit les valeurs de la série 2026 au-dessus de leurs points.</value></data>
+  <data name="ColumnChartsGridLines" xml:space="preserve"><value>Lignes de grille</value></data>
+  <data name="ColumnChartsGridLinesDescription" xml:space="preserve"><value>Repères horizontaux derrière les séries ; le curseur règle le nombre de bandes.</value></data>
+  <data name="ColumnChartsGridLineCount" xml:space="preserve"><value>Nombre de bandes de grille</value></data>
+  <data name="ColumnChartsAxisTitles" xml:space="preserve"><value>Titres des axes</value></data>
+  <data name="ColumnChartsAxisTitlesDescription" xml:space="preserve"><value>Nomme l'axe horizontal et l'axe vertical.</value></data>
+  <data name="ColumnChartsAutoAxis" xml:space="preserve"><value>Bornes automatiques</value></data>
+  <data name="ColumnChartsAutoAxisDescription" xml:space="preserve"><value>L'axe prend ses bornes dans les séries, arrondies à un pas rond : aucune valeur ne sort du tracé.</value></data>
+  <data name="ColumnChartsAxisMaximum" xml:space="preserve"><value>Maximum de l'axe des valeurs</value></data>
+  <data name="ColumnChartsAxisMaximumDescription" xml:space="preserve"><value>En dessous du total empilé, les colonnes sont écrêtées en haut du graphique.</value></data>
+  <data name="ColumnChartsTickCount" xml:space="preserve"><value>Graduations de l'axe</value></data>
+  <data name="ColumnChartsTickCountDescription" xml:space="preserve"><value>Nombre d'intervalles écrits sur l'axe des valeurs.</value></data>
+  <data name="ColumnChartsDataTable" xml:space="preserve"><value>Tableau de données</value></data>
+  <data name="ColumnChartsDataTableDescription" xml:space="preserve"><value>Affiche les chiffres sous le graphique, pour qui ne lit pas le dessin.</value></data>
+  <data name="ColumnChartsPreviewTitle" xml:space="preserve"><value>Graphique en direct</value></data>
+  <data name="ColumnChartsPreviewHint" xml:space="preserve"><value>Survolez une colonne pour lire sa valeur.</value></data>
+  <data name="ColumnChartsKindsTitle" xml:space="preserve"><value>Les trois types côte à côte</value></data>
+  <data name="ColumnChartsMaxHeightTitle" xml:space="preserve"><value>Barres sous un plafond de hauteur</value></data>
+  <data name="ColumnChartsMaxHeightHint" xml:space="preserve"><value>Un graphique carré dans une carte large est tenu sous un plafond ; MaxHeight l'abaisse à 20rem et le dessin garde ses proportions.</value></data>
+  <data name="ColumnChartsStackedBarsTitle" xml:space="preserve"><value>Barres empilées</value></data>
+  <data name="LineChartsTitle" xml:space="preserve"><value>Courbes et aires</value></data>
+  <data name="LineChartsDescription" xml:space="preserve"><value>Séries en lignes, en aires et en aires empilées avec leurs marqueurs, sur un axe de catégories, avec légende, infobulle commune et navigateur de plage.</value></data>
+  <data name="LineChartsSettingsTitle" xml:space="preserve"><value>Réglages du graphique</value></data>
+  <data name="LineChartsSettingsDescription" xml:space="preserve"><value>Chaque réglage redessine le graphique ci-dessous.</value></data>
+  <data name="LineChartsSharedTooltip" xml:space="preserve"><value>Infobulle commune aux séries</value></data>
+  <data name="LineChartsDashed" xml:space="preserve"><value>Courbes en tirets</value></data>
+  <data name="LineChartsLegendAbove" xml:space="preserve"><value>Légende au-dessus du graphique</value></data>
+  <data name="LineChartsRange" xml:space="preserve"><value>Navigateur de plage</value></data>
+  <data name="LineChartsLegendToggle" xml:space="preserve"><value>Masquer une série depuis la légende</value></data>
+  <data name="LineChartsMinWidth" xml:space="preserve"><value>Conserver une largeur lisible sur écran étroit</value></data>
+  <data name="LineChartsKind" xml:space="preserve"><value>Type de série</value></data>
+  <data name="LineChartsKindDescription" xml:space="preserve"><value>Une ligne, une aire remplie ou des aires empilées.</value></data>
+  <data name="LineChartsKindLine" xml:space="preserve"><value>Lignes</value></data>
+  <data name="LineChartsKindArea" xml:space="preserve"><value>Aires</value></data>
+  <data name="LineChartsKindStacked" xml:space="preserve"><value>Aires empilées</value></data>
+  <data name="LineChartsMarkers" xml:space="preserve"><value>Marqueurs</value></data>
+  <data name="LineChartsMarkersDescription" xml:space="preserve"><value>Un point sur chaque valeur ; le curseur règle son rayon. Empilées, seule la première série les garde.</value></data>
+  <data name="LineChartsMarkerRadius" xml:space="preserve"><value>Rayon des marqueurs</value></data>
+  <data name="LineChartsFirstColor" xml:space="preserve"><value>Première couleur</value></data>
+  <data name="LineChartsFirstColorDescription" xml:space="preserve"><value>Rang dans la palette de huit couleurs de la première série ; les suivantes s'enchaînent.</value></data>
+  <data name="LineChartsLegend" xml:space="preserve"><value>Légende</value></data>
+  <data name="LineChartsLegendDescription" xml:space="preserve"><value>Affiche le nom et la couleur de chaque série.</value></data>
+  <data name="LineChartsGridLines" xml:space="preserve"><value>Lignes de grille</value></data>
+  <data name="LineChartsGridLinesDescription" xml:space="preserve"><value>Repères horizontaux derrière les séries.</value></data>
+  <data name="LineChartsDataLabels" xml:space="preserve"><value>Étiquettes de valeurs</value></data>
+  <data name="LineChartsDataLabelsDescription" xml:space="preserve"><value>Écrit les valeurs de la série des dépôts au-dessus de ses points.</value></data>
+  <data name="LineChartsPreviewTitle" xml:space="preserve"><value>Graphique en direct</value></data>
+  <data name="LineChartsPreviewHint" xml:space="preserve"><value>Survolez une ligne ou un marqueur pour lire son nom ou sa valeur.</value></data>
+  <data name="LineChartsGalleryTitle" xml:space="preserve"><value>Galerie</value></data>
+  <data name="LineChartsMonthlyTitle" xml:space="preserve"><value>Une ligne et une aire avec étiquettes de valeurs</value></data>
+  <data name="LineChartsDailyTitle" xml:space="preserve"><value>Trente jours avec une infobulle commune</value></data>
+  <data name="LineChartsBacklogTitle" xml:space="preserve"><value>Colonnes empilées et aire en tirets</value></data>
+  <data name="LineChartsRangeTitle" xml:space="preserve"><value>Trois ans et une plage choisie</value></data>
+  <data name="LineChartsRangeHint" xml:space="preserve"><value>Déplacez les poignées sous le graphique, au pointeur ou aux flèches du clavier, pour choisir les mois qu'il dessine.</value></data>
+  <data name="PieChartsTitle" xml:space="preserve"><value>Secteurs et anneaux</value></data>
+  <data name="PieChartsDescription" xml:space="preserve"><value>Séries en secteurs et en anneau : les parts d'un tout, avec étiquettes hors du disque, légende et tableau de données en option.</value></data>
+  <data name="PieChartsSettingsTitle" xml:space="preserve"><value>Réglages du graphique</value></data>
+  <data name="PieChartsSettingsDescription" xml:space="preserve"><value>Chaque réglage redessine le graphique ci-dessous.</value></data>
+  <data name="PieChartsOutsideLabels" xml:space="preserve"><value>Étiquettes hors du disque</value></data>
+  <data name="PieChartsOutsideLabelsDescription" xml:space="preserve"><value>Ce qui s'écrit à côté de chaque secteur, relié à lui par un trait.</value></data>
+  <data name="PieChartsLabelsNone" xml:space="preserve"><value>Aucune</value></data>
+  <data name="PieChartsLabelsName" xml:space="preserve"><value>Nom</value></data>
+  <data name="PieChartsLabelsNameAndValue" xml:space="preserve"><value>Nom et valeur</value></data>
+  <data name="PieChartsLabelsNameAndPercent" xml:space="preserve"><value>Nom et pourcentage</value></data>
+  <data name="PieChartsKind" xml:space="preserve"><value>Type de série</value></data>
+  <data name="PieChartsKindDescription" xml:space="preserve"><value>Un disque plein ou un anneau.</value></data>
+  <data name="PieChartsKindPie" xml:space="preserve"><value>Secteurs</value></data>
+  <data name="PieChartsKindDonut" xml:space="preserve"><value>Anneau</value></data>
+  <data name="PieChartsDataset" xml:space="preserve"><value>Données</value></data>
+  <data name="PieChartsDatasetDescription" xml:space="preserve"><value>Deux répartitions d'exemple de longueurs différentes.</value></data>
+  <data name="PieChartsDatasetChannels" xml:space="preserve"><value>Dépôts par canal</value></data>
+  <data name="PieChartsDatasetCountries" xml:space="preserve"><value>Dossiers par pays</value></data>
+  <data name="PieChartsSliceCount" xml:space="preserve"><value>Nombre de secteurs</value></data>
+  <data name="PieChartsSliceCountDescription" xml:space="preserve"><value>Ne garde que les premiers secteurs de la répartition.</value></data>
+  <data name="PieChartsZeroSlice" xml:space="preserve"><value>Ajouter une part nulle</value></data>
+  <data name="PieChartsZeroSliceDescription" xml:space="preserve"><value>Une valeur nulle est écartée par la série sans décaler les couleurs des secteurs suivants.</value></data>
+  <data name="PieChartsLegend" xml:space="preserve"><value>Légende</value></data>
+  <data name="PieChartsLegendDescription" xml:space="preserve"><value>Nomme chaque secteur dessiné, avec sa part, à la couleur du secteur.</value></data>
+  <data name="PieChartsDataTable" xml:space="preserve"><value>Tableau de données</value></data>
+  <data name="PieChartsDataTableDescription" xml:space="preserve"><value>Affiche les valeurs et les parts sous le graphique.</value></data>
+  <data name="PieChartsPreviewTitle" xml:space="preserve"><value>Graphique en direct</value></data>
+  <data name="PieChartsGalleryTitle" xml:space="preserve"><value>Galerie</value></data>
+  <data name="PieChartsLabelsTitle" xml:space="preserve"><value>Étiquettes hors du disque</value></data>
+  <data name="GaugesTitle" xml:space="preserve"><value>Jauges</value></data>
+  <data name="GaugesDescription" xml:space="preserve"><value>Jauge en arc avec son échelle et sa valeur : bornes, rang de couleur et mise en forme de la valeur.</value></data>
+  <data name="GaugesSettingsTitle" xml:space="preserve"><value>Réglages de la jauge</value></data>
+  <data name="GaugesSettingsDescription" xml:space="preserve"><value>Chaque réglage redessine la jauge ci-dessous.</value></data>
+  <data name="GaugesValue" xml:space="preserve"><value>Valeur</value></data>
+  <data name="GaugesValueDescription" xml:space="preserve"><value>La valeur que trace l'arc, entre les bornes de l'échelle.</value></data>
+  <data name="GaugesScale" xml:space="preserve"><value>Échelle</value></data>
+  <data name="GaugesScaleDescription" xml:space="preserve"><value>Change les bornes ; la valeur revient au milieu de la nouvelle échelle.</value></data>
+  <data name="GaugesScalePercent" xml:space="preserve"><value>0 à 100</value></data>
+  <data name="GaugesScaleFiles" xml:space="preserve"><value>0 à 500</value></data>
+  <data name="GaugesScaleTemperature" xml:space="preserve"><value>-20 à 40</value></data>
+  <data name="GaugesFormat" xml:space="preserve"><value>Format de la valeur</value></data>
+  <data name="GaugesFormatDescription" xml:space="preserve"><value>Ce qu'affiche le texte au centre de la jauge.</value></data>
+  <data name="GaugesFormatRaw" xml:space="preserve"><value>Nombre brut</value></data>
+  <data name="GaugesFormatShare" xml:space="preserve"><value>Part de l'échelle</value></data>
+  <data name="GaugesFormatUnit" xml:space="preserve"><value>Avec unité</value></data>
+  <data name="GaugesColor" xml:space="preserve"><value>Couleur</value></data>
+  <data name="GaugesColorDescription" xml:space="preserve"><value>Rang dans la palette de huit couleurs des graphiques.</value></data>
+  <data name="GaugesPreviewTitle" xml:space="preserve"><value>Jauge en direct</value></data>
+  <data name="GaugesPreviewHint" xml:space="preserve"><value>La valeur est bornée à l'échelle : l'arc ne dépasse jamais ses bornes.</value></data>
+  <data name="GaugesPaletteTitle" xml:space="preserve"><value>Les huit couleurs de la palette</value></data>
+  <data name="GaugesLimitsTitle" xml:space="preserve"><value>Limites</value></data>
 </root>

@@ -1,0 +1,92 @@
+@page "/components/pie-charts"
+@using OmniEurope.Blazor.Showcase.Examples.Charts
+
+<GalleryPageFrame Slug="pie-charts">
+    <Settings>
+        <OmniSettingsSection Title="@Text["PieChartsSettingsTitle"]" Description="@Text["PieChartsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["PieChartsOutsideLabels"]" Description="@Text["PieChartsOutsideLabelsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Tag" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniPieLabels" Options="@OutsideLabelOptions" @bind-Value="OutsideLabels" Label="@Text["PieChartsOutsideLabels"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["PieChartsKind"]" Description="@Text["PieChartsKindDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.ThemeSystem" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="PieChartKind"
+                                   Options="@KindOptions"
+                                   @bind-Value="Kind"
+                                   Label="@Text["PieChartsKind"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["PieChartsDataset"]" Description="@Text["PieChartsDatasetDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Database" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="PieDataset"
+                                   Options="@DatasetOptions"
+                                   @bind-Value="Dataset"
+                                   Label="@Text["PieChartsDataset"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["PieChartsSliceCount"]" Description="@Text["PieChartsSliceCountDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Layers" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="SliceCountValue"
+                                Minimum="1"
+                                Maximum="@MaximumSlices"
+                                Step="1"
+                                ShowValue="true"
+                                aria-label="@Text["PieChartsSliceCount"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["PieChartsZeroSlice"]" Description="@Text["PieChartsZeroSliceDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="IncludeZeroSlice" aria-label="@Text["PieChartsZeroSlice"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["PieChartsLegend"]" Description="@Text["PieChartsLegendDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.NumberedList" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowLegend" aria-label="@Text["PieChartsLegend"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["PieChartsDataTable"]" Description="@Text["PieChartsDataTableDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowDataTable" aria-label="@Text["PieChartsDataTable"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["PieChartsPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <div class="gallery-charts-pie">
+                    <PieChartExample Kind="Kind"
+                                     Dataset="Dataset"
+                                     SliceCount="SliceCount"
+                                     IncludeZeroSlice="IncludeZeroSlice"
+                                     ShowLegend="ShowLegend"
+                                     ShowDataTable="ShowDataTable"
+                                     OutsideLabels="OutsideLabels" />
+                </div>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["PieChartsGalleryTitle"]</HeaderContent>
+            <ChildContent><PieChartKindsExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["PieChartsLabelsTitle"]</HeaderContent>
+            <ChildContent><PieChartLabelsExample /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

@@ -1,0 +1,28 @@
+@* A pie, a ring, a single slice and two slices side by side. The tiles are as many columns as the room allows,
+   at least 14rem wide. *@
+<OmniTileGrid Columns="4" MinColumnWidth="14rem" EqualHeights="false" Gap="OmniSpacing.Large">
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Pie</OmniText>
+        <OmniChart Label="Pie">
+            <OmniPieSeries Title="Filings by channel" Data="PieChartData.Channels" />
+        </OmniChart>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Donut</OmniText>
+        <OmniChart Label="Donut">
+            <OmniPieSeries Title="Files by country" Donut="true" Data="PieChartData.Countries" />
+        </OmniChart>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">A single slice</OmniText>
+        <OmniChart Label="A single slice">
+            <OmniPieSeries Title="A single slice" Donut="true" Data="PieChartData.SingleSlice" />
+        </OmniChart>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Two slices</OmniText>
+        <OmniChart Label="Two slices">
+            <OmniPieSeries Title="Two slices" Data="PieChartData.TwoSlices" />
+        </OmniChart>
+    </OmniStack>
+</OmniTileGrid>

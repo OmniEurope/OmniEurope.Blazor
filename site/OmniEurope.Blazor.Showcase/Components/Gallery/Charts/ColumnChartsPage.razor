@@ -1,0 +1,139 @@
+@page "/components/column-charts"
+@using OmniEurope.Blazor.Showcase.Examples.Charts
+
+<GalleryPageFrame Slug="column-charts">
+    <Settings>
+        <OmniSettingsSection Title="@Text["ColumnChartsSettingsTitle"]" Description="@Text["ColumnChartsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["ColumnChartsColorByPoint"]">
+                <ChildContent><OmniSwitch @bind-Value="ColorByPoint" aria-label="@Text["ColumnChartsColorByPoint"]" /></ChildContent>
+            </OmniSettingsTile>
+            <OmniSettingsTile Title="@Text["ColumnChartsInsideLabels"]">
+                <ChildContent><OmniSwitch @bind-Value="InsideLabels" aria-label="@Text["ColumnChartsInsideLabels"]" /></ChildContent>
+            </OmniSettingsTile>
+            <OmniSettingsTile Title="@Text["ColumnChartsKind"]" Description="@Text["ColumnChartsKindDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.ChartBarHorizontal" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="ColumnChartKind"
+                                   Options="@KindOptions"
+                                   @bind-Value="Kind"
+                                   Label="@Text["ColumnChartsKind"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ColumnChartsLegend"]" Description="@Text["ColumnChartsLegendDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.NumberedList" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowLegend" aria-label="@Text["ColumnChartsLegend"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ColumnChartsDataLabels"]" Description="@Text["ColumnChartsDataLabelsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Tag" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowDataLabels" aria-label="@Text["ColumnChartsDataLabels"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ColumnChartsGridLines"]" Description="@Text["ColumnChartsGridLinesDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Pattern" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowGridLines" aria-label="@Text["ColumnChartsGridLines"]" />
+                </ChildContent>
+                <Details>
+                    <OmniSlider @bind-Value="GridLineCountValue"
+                                Minimum="2"
+                                Maximum="10"
+                                Step="1"
+                                ShowValue="true"
+                                Disabled="@(!ShowGridLines)"
+                                aria-label="@Text["ColumnChartsGridLineCount"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ColumnChartsAxisTitles"]" Description="@Text["ColumnChartsAxisTitlesDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowAxisTitles" aria-label="@Text["ColumnChartsAxisTitles"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ColumnChartsAutoAxis"]" Description="@Text["ColumnChartsAutoAxisDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Sparkle" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="AutoAxis" aria-label="@Text["ColumnChartsAutoAxis"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ColumnChartsAxisMaximum"]" Description="@Text["ColumnChartsAxisMaximumDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="AxisMaximum"
+                                Minimum="50"
+                                Maximum="250"
+                                Step="10"
+                                ShowValue="true"
+                                Disabled="@AutoAxis"
+                                aria-label="@Text["ColumnChartsAxisMaximum"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ColumnChartsTickCount"]" Description="@Text["ColumnChartsTickCountDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Sliders" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="TickCountValue"
+                                Minimum="1"
+                                Maximum="10"
+                                Step="1"
+                                ShowValue="true"
+                                aria-label="@Text["ColumnChartsTickCount"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["ColumnChartsDataTable"]" Description="@Text["ColumnChartsDataTableDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Database" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowDataTable" aria-label="@Text["ColumnChartsDataTable"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ColumnChartsPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <div class="gallery-charts-chart">
+                    <ColumnChartExample Kind="Kind"
+                                        ColorByPoint="ColorByPoint"
+                                        InsideLabels="InsideLabels"
+                                        ShowLegend="ShowLegend"
+                                        ShowDataLabels="ShowDataLabels"
+                                        ShowGridLines="ShowGridLines"
+                                        GridLineCount="GridLineCount"
+                                        ShowAxisTitles="ShowAxisTitles"
+                                        AutoAxis="AutoAxis"
+                                        AxisMaximum="AxisMaximum"
+                                        TickCount="TickCount"
+                                        ShowDataTable="ShowDataTable" />
+                </div>
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["ColumnChartsPreviewHint"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ColumnChartsKindsTitle"]</HeaderContent>
+            <ChildContent><ColumnChartKindsExample ColorByPoint="ColorByPoint" /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ColumnChartsMaxHeightTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["ColumnChartsMaxHeightHint"]</OmniText>
+                <div class="gallery-charts-chart"><ColumnChartMaxHeightExample /></div>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["ColumnChartsStackedBarsTitle"]</HeaderContent>
+            <ChildContent>
+                <div class="gallery-charts-chart"><ColumnChartStackedBarsExample /></div>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

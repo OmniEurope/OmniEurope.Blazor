@@ -916,3 +916,50 @@
     border-radius: var(--omni-radius-lg);
     padding: var(--omni-space-lg);
 }
+
+/* Charts fidelity */
+/* A chart is square and takes the whole width of its card: it is bounded so that it stays readable. A pie
+   and its legend are wider than tall, so they share the same cap. */
+.gallery-charts-chart,
+.gallery-charts-pie {
+    max-inline-size: 36rem;
+    min-inline-size: 0;
+}
+
+/* The figures a chart writes under itself when it is given a data table. */
+:is(.gallery-charts-chart, .gallery-charts-pie) .omni-chart__data table {
+    border-collapse: collapse;
+    font-size: var(--omni-font-size-sm);
+    margin-block-start: var(--omni-space-sm);
+}
+
+:is(.gallery-charts-chart, .gallery-charts-pie) .omni-chart__data caption {
+    font-weight: 650;
+    padding-block-end: var(--omni-space-xs);
+    text-align: start;
+}
+
+:is(.gallery-charts-chart, .gallery-charts-pie) .omni-chart__data :is(th, td) {
+    border-block-end: var(--omni-border-width) solid var(--omni-color-border);
+    padding: var(--omni-space-xs) var(--omni-space-sm);
+    text-align: start;
+}
+
+:is(.gallery-charts-chart, .gallery-charts-pie) .omni-chart__data td {
+    font-variant-numeric: tabular-nums;
+    text-align: end;
+}
+
+/* The single gauge is a half circle of a fixed, modest width. */
+.gallery-charts-gauge {
+    max-inline-size: 22rem;
+}
+
+/* The gauge samples: each gauge fills its tile and its caption sits centred under it. */
+.gallery-charts-gauges .omni-arc-gauge {
+    inline-size: 100%;
+}
+
+.gallery-charts-gauges .omni-stack {
+    text-align: center;
+}

@@ -1,0 +1,75 @@
+@page "/components/gauges"
+@using OmniEurope.Blazor.Showcase.Examples.Charts
+
+<GalleryPageFrame Slug="gauges">
+    <Settings>
+        <OmniSettingsSection Title="@Text["GaugesSettingsTitle"]" Description="@Text["GaugesSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["GaugesValue"]" Description="@Text["GaugesValueDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Sliders" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="Value"
+                                Minimum="@Minimum"
+                                Maximum="@Maximum"
+                                Step="@Step"
+                                ShowValue="true"
+                                aria-label="@Text["GaugesValue"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["GaugesScale"]" Description="@Text["GaugesScaleDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Ruler" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="GaugeScale"
+                                   Options="@ScaleOptions"
+                                   @bind-Value="Scale"
+                                   Label="@Text["GaugesScale"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["GaugesFormat"]" Description="@Text["GaugesFormatDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="GaugeFormat"
+                                   Options="@FormatOptions"
+                                   @bind-Value="Format"
+                                   Label="@Text["GaugesFormat"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["GaugesColor"]" Description="@Text["GaugesColorDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Palette" /></Icon>
+                <Details>
+                    <OmniSlider @bind-Value="ColorIndexValue"
+                                Minimum="0"
+                                Maximum="7"
+                                Step="1"
+                                ShowValue="true"
+                                aria-label="@Text["GaugesColor"]" />
+                </Details>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["GaugesPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <div class="gallery-charts-gauge">
+                    <GaugeExample Value="Value" Scale="Scale" Format="Format" ColorIndex="ColorIndex" />
+                </div>
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["GaugesPreviewHint"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["GaugesPaletteTitle"]</HeaderContent>
+            <ChildContent>
+                <div class="gallery-charts-gauges"><GaugePaletteExample /></div>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["GaugesLimitsTitle"]</HeaderContent>
+            <ChildContent>
+                <div class="gallery-charts-gauges"><GaugeLimitsExample /></div>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

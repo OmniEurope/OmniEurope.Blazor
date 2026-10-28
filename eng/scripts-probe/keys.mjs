@@ -65,8 +65,8 @@ export async function keySteps(session, results) {
 
   // 4. Chart legend on the right: Tab reaches an entry, Enter hides its series, Space shows it again, the
   // page does not scroll; a key that is neither leaves it alone.
-  await session.visit('/components/legacy/graphiques-avances', '.omni-chart');
-  const entry = "document.querySelector('g.omni-chart__legend-entry--toggle')";
+  await session.visit('/components/line-charts', '#chart-legend-right.omni-chart');
+  const entry = "document.querySelector('#chart-legend-right g.omni-chart__legend-entry--toggle')";
   await evaluate(`${entry}.closest('.omni-chart').scrollIntoView({ block: 'center' })`);
   await evaluate(`(() => { const all = [...document.querySelectorAll('a[href], button, [tabindex="0"]')]; all[all.indexOf(${entry}) - 1].focus(); })()`);
   await tab();
@@ -79,9 +79,9 @@ export async function keySteps(session, results) {
   check(await evaluate(`window.scrollY === ${scroll}`), 'Espace sur l\'entrée de légende a fait défiler la page.');
   await key('x', 'KeyX', 88, 0, 'x');
   check(await evaluate(`${entry}.getAttribute('aria-pressed') === 'true'`), 'Une autre touche a basculé l\'entrée de légende.');
-  await clickOn('g.omni-chart__legend-entry--toggle');
+  await clickOn('#chart-legend-right g.omni-chart__legend-entry--toggle');
   await waitFor('la série masquée au clic', `${entry}.getAttribute('aria-pressed') === 'false'`);
-  await clickOn('g.omni-chart__legend-entry--toggle');
+  await clickOn('#chart-legend-right g.omni-chart__legend-entry--toggle');
   await waitFor('la série rendue au clic', `${entry}.getAttribute('aria-pressed') === 'true'`);
   step('légende à droite : Tab, Entrée, Espace sans défilement, clic');
 

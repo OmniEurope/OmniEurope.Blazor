@@ -1,0 +1,53 @@
+@* The monthly trend: lines, areas or stacked areas, with markers, legend, labels and a range navigator, every part
+   a parameter. Stacked, the three series add up, so the value axis carries their sum and only the first series
+   keeps its markers (a marker sits at the raw value of its point, which is the top of the first area alone). *@
+<OmniChart Label="Monthly trend"
+           Description="Filings, decisions and backlog over six months."
+           SharedTooltip="SharedTooltip"
+           MinWidth="@(KeepMinWidth ? OmniChartMinWidth.Auto : OmniChartMinWidth.None)">
+    <ChildContent>
+        @if (ShowGridLines)
+        {
+            <OmniGridLines />
+        }
+        <OmniCategoryAxis Labels="LineChartData.Months" />
+        <OmniValueAxis Maximum="AxisMaximum" TickCount="5" />
+        <OmniAxisTitle Text="Month" />
+        @foreach (var series in Series)
+        {
+            if (Kind == LineChartKind.Line)
+            {
+                <OmniLineSeries Title="@series.Title" ColorIndex="series.ColorIndex" Data="series.Data" Dashed="Dashed" />
+            }
+            else if (Kind == LineChartKind.Area)
+            {
+                <OmniAreaSeries Title="@series.Title" ColorIndex="series.ColorIndex" Data="series.Data" Dashed="Dashed" />
+            }
+            else
+            {
+                <OmniAreaSeries Title="@series.Title" ColorIndex="series.ColorIndex" Stacked="true" Data="series.Data" Dashed="Dashed" />
+            }
+        }
+        @if (ShowMarkers)
+        {
+            foreach (var series in MarkedSeries)
+            {
+                <OmniMarkers ColorIndex="series.ColorIndex" Data="series.Data" Radius="MarkerRadius" />
+            }
+        }
+        @if (ShowDataLabels)
+        {
+            <OmniSeriesDataLabels Data="LineChartData.Deposits" />
+        }
+        @if (ShowLegend)
+        {
+            <OmniLegend Label="Series" AllowToggle="AllowLegendToggle" Placement="@(LegendAbove ? OmniLegendPlacement.Top : OmniLegendPlacement.Auto)" />
+        }
+    </ChildContent>
+    <FooterContent>
+        @if (ShowRange)
+        {
+            <OmniRangeNavigator @bind-RangeStart="RangeStart" @bind-RangeEnd="RangeEnd" />
+        }
+    </FooterContent>
+</OmniChart>

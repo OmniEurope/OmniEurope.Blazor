@@ -1,0 +1,7 @@
+@* Square and in a wide card, a chart is held under a ceiling: min(32rem, 70vh) by default. Here MaxHeight lowers
+   it to 20rem and the drawing keeps its proportions in the middle of the card. *@
+<OmniChart Id="demo-chart-max-height" Label="Horizontal comparison" MaxHeight="20rem">
+    <OmniCategoryAxis Labels="ColumnChartData.Countries" />
+    <OmniValueAxis />
+    <OmniColumnSeries Horizontal="true" Title="Cases per country" ColorIndex="4" Data="ColumnChartData.ByCountry" />
+</OmniChart>

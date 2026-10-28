@@ -1,0 +1,9 @@
+@* Stacked columns with a dashed stacked area over them, and the legend above the drawing. *@
+<OmniChart Label="Stacked breakdown">
+    <OmniCategoryAxis Labels="LineChartData.Months" />
+    <OmniValueAxis />
+    <OmniColumnSeries Stacked="true" Title="Incoming" ColorIndex="0" Data="LineChartData.Deposits" />
+    <OmniColumnSeries Stacked="true" Title="Outgoing" ColorIndex="2" Data="LineChartData.Decisions" />
+    <OmniAreaSeries Stacked="true" Dashed="true" Title="Backlog" ColorIndex="3" Data="LineChartData.Backlog" />
+    <OmniLegend Placement="OmniLegendPlacement.Top" />
+</OmniChart>

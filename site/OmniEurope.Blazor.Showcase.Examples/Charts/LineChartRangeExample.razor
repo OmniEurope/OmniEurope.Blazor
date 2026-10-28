@@ -1,0 +1,20 @@
+@* Three years of months, the last twelve shown first. The navigator under the drawing shows every month in small
+   columns, graduated under them, and its two handles (pointer, touch or keyboard) choose the months the chart
+   above draws, live. The range is bound both ways: the sentence under the chart follows it. The value of each
+   column is written above it; widen the range and the labels that would overlap are masked, the last one kept,
+   each masked value still read on hover. MinWidth Auto: under its minimum width (a phone), the chart scrolls
+   sideways in its card. *@
+<OmniChart Id="chart-range" Label="Three years of filings, a chosen range" MinWidth="OmniChartMinWidth.Auto">
+    <ChildContent>
+        <OmniGridLines />
+        <OmniCategoryAxis Labels="LongMonths" />
+        <OmniValueAxis Automatic="true" />
+        <OmniColumnSeries Title="Filings" ColorIndex="0" Data="LongDeposits" />
+        <OmniLineSeries Title="Decisions" ColorIndex="1" Data="LongDecisions" />
+        <OmniSeriesDataLabels Data="LongDeposits" />
+    </ChildContent>
+    <FooterContent>
+        <OmniRangeNavigator @bind-RangeStart="RangeStart" @bind-RangeEnd="RangeEnd" />
+    </FooterContent>
+</OmniChart>
+<OmniText Id="chart-range-shown">@RangeShown</OmniText>
