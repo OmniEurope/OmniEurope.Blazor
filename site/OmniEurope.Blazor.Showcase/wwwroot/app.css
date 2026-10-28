@@ -478,3 +478,152 @@
 .gallery-loading-bar-danger {
     --omni-loading-bar-color: var(--omni-color-danger);
 }
+
+/* Actions, Feedback, Foundations fidelity */
+
+/* The stage: the component under test alone in a dashed frame of a stable height, so the preview does not
+   jump when an option changes. The example marks its stage as a group; the page wrapper frames it. */
+.gallery-actions-stage [role="group"],
+.gallery-feedback-stage [role="group"] {
+    border: var(--omni-border-width) dashed var(--omni-color-border);
+    border-radius: var(--omni-radius);
+    box-sizing: border-box;
+    min-block-size: 6rem;
+    padding: var(--omni-space-lg);
+}
+
+.gallery-actions-stage [role="group"] {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+/* Buttons: variants as rows, sizes or states as columns; the matrix scrolls in its box on a narrow screen. */
+.gallery-buttons-matrix {
+    max-inline-size: 100%;
+    overflow-x: auto;
+}
+
+.gallery-buttons-matrix table {
+    border-collapse: collapse;
+}
+
+.gallery-buttons-matrix th,
+.gallery-buttons-matrix td {
+    border-block-end: var(--omni-border-width) solid var(--omni-color-border);
+    padding: var(--omni-space-sm) var(--omni-space-md);
+    text-align: start;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.gallery-buttons-matrix thead th {
+    color: var(--omni-color-text-muted);
+    font-size: var(--omni-font-size-sm);
+    font-weight: 600;
+}
+
+.gallery-buttons-matrix tbody th {
+    font-weight: 600;
+}
+
+/* Skeletons: a profile row keeps the circle at its own size, the picture at a fixed width and gives the
+   lines the room left. */
+.gallery-skeletons-profile .omni-row {
+    max-inline-size: 32rem;
+}
+
+.gallery-skeletons-profile .omni-row > .omni-skeleton--circle {
+    flex: 0 0 auto;
+}
+
+.gallery-skeletons-profile .omni-row > .omni-skeleton--rectangle {
+    flex: 0 0 8rem;
+}
+
+/* Icons: a uniform grid of tiles, the icon above its name, the name cut by an ellipsis. */
+.gallery-icons-grid .omni-row[role="group"] {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+}
+
+.gallery-icons-grid .omni-row[role="group"] > .omni-button {
+    font-weight: 400;
+    min-inline-size: 0;
+    padding: var(--omni-space-md) var(--omni-space-sm);
+}
+
+.gallery-icons-grid .omni-row[role="group"] .omni-button__content {
+    flex-direction: column;
+    gap: var(--omni-space-xs);
+    max-inline-size: 100%;
+    min-inline-size: 0;
+}
+
+.gallery-icons-grid .omni-row[role="group"] .omni-button__content > span {
+    font-size: var(--omni-font-size-sm);
+    max-inline-size: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Images: the stage of the single image, then the box an image is asked to fit, imposed in CSS because the
+   package leaves the height automatic, so that Natural stretches and Contain and Cover show their frame.
+   The boxes are told by the width and height the example writes on the image. */
+.gallery-images-stage [role="group"] {
+    align-items: center;
+    background: var(--omni-color-surface-muted);
+    border: var(--omni-border-width) dashed var(--omni-color-border);
+    border-radius: var(--omni-radius);
+    box-sizing: border-box;
+    justify-content: center;
+    min-block-size: 14rem;
+    padding: var(--omni-space-md);
+}
+
+.gallery-images-stage .omni-image[width][height] {
+    background: var(--omni-color-surface);
+    outline: var(--omni-border-width) dashed var(--omni-color-accent);
+}
+
+.gallery-images-stage .omni-image[width="240"][height="120"] {
+    block-size: 7.5rem;
+    inline-size: 15rem;
+}
+
+.gallery-images-stage .omni-image[width="120"][height="200"] {
+    block-size: 12.5rem;
+    inline-size: 7.5rem;
+}
+
+.gallery-images-stage .omni-image[width="160"][height="160"] {
+    block-size: 10rem;
+    inline-size: 10rem;
+}
+
+/* Typography: the stage is narrower than its card and the frames narrower still, so Truncate always has a
+   line to cut at every width. */
+.gallery-typography-stage [role="group"] {
+    border: var(--omni-border-width) dashed var(--omni-color-border);
+    border-radius: var(--omni-radius);
+    box-sizing: border-box;
+    max-inline-size: 28rem;
+    padding: var(--omni-space-md);
+}
+
+.gallery-typography-narrow [role="group"] {
+    border: var(--omni-border-width) dashed var(--omni-color-border);
+    border-radius: var(--omni-radius);
+    box-sizing: border-box;
+    max-inline-size: 20rem;
+    padding: var(--omni-space-sm);
+}
+
+/* Theme: a scope in the preview shows its edge; the sample sits straight in it, so its colour field or
+   canvas is not hidden under a card. */
+.gallery-theme-frame .omni-theme-scope {
+    border: var(--omni-border-width) solid var(--omni-color-border);
+    border-radius: var(--omni-radius-lg);
+    padding: var(--omni-space-lg);
+}

@@ -82,6 +82,7 @@
   <data name="SkeletonsLoaded" xml:space="preserve"><value>Contenu chargé</value></data>
   <data name="SkeletonsLoadedDescription" xml:space="preserve"><value>Remplace le squelette par le contenu qu&apos;il représente.</value></data>
   <data name="SkeletonsPreviewTitle" xml:space="preserve"><value>Aperçu</value></data>
-  <data name="SkeletonsShapesTitle" xml:space="preserve"><value>Chaque forme et nombre de lignes</value></data>
+  <data name="SkeletonsShapesTitle" xml:space="preserve"><value>Chaque forme</value></data>
+  <data name="SkeletonsLinesTitle" xml:space="preserve"><value>Nombres de lignes de la forme texte</value></data>
   <data name="SkeletonsComposedTitle" xml:space="preserve"><value>Gabarits composés</value></data>
 </root>

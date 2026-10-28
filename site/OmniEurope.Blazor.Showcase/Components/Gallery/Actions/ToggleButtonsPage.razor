@@ -44,7 +44,9 @@
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["ToggleButtonsPreviewTitle"]</HeaderContent>
             <ChildContent>
-                <ToggleButtonExample @bind-Value="Pinned" Size="Size" IconOnly="IconOnly" Disabled="Disabled" Busy="Busy" />
+                <div class="gallery-actions-stage">
+                    <ToggleButtonExample @bind-Value="Pinned" Size="Size" IconOnly="IconOnly" Disabled="Disabled" Busy="Busy" />
+                </div>
             </ChildContent>
         </OmniCard>
         <OmniCard Class="gallery-preview">

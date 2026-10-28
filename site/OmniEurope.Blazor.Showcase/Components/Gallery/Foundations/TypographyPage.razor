@@ -53,8 +53,10 @@
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["TypographyPreviewTitle"]</HeaderContent>
             <ChildContent>
-                <TypographyStageExample HeadingText="@HeadingText" Level="Level" HeadingTone="HeadingTone"
-                                        Element="Element" TextTone="TextTone" Truncate="Truncate" />
+                <div class="gallery-typography-stage">
+                    <TypographyStageExample HeadingText="@HeadingText" Level="Level" HeadingTone="HeadingTone"
+                                            Element="Element" TextTone="TextTone" Truncate="Truncate" />
+                </div>
             </ChildContent>
         </OmniCard>
         <OmniCard Class="gallery-preview">
@@ -71,7 +73,7 @@
         </OmniCard>
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["TypographyTruncateTitle"]</HeaderContent>
-            <ChildContent><TruncationExample /></ChildContent>
+            <ChildContent><div class="gallery-typography-narrow"><TruncationExample /></div></ChildContent>
         </OmniCard>
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["TypographyLabelsTitle"]</HeaderContent>

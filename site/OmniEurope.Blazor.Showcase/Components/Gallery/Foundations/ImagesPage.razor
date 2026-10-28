@@ -36,14 +36,20 @@
     <Preview>
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["ImagesPreviewTitle"]</HeaderContent>
-            <ChildContent><ImageExample Source="Source" Box="Box" Fit="Fit" Loading="Loading" /></ChildContent>
+            <ChildContent>
+                <div class="gallery-images-stage">
+                    <ImageExample Source="Source" Box="Box" Fit="Fit" Loading="Loading" />
+                </div>
+            </ChildContent>
         </OmniCard>
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["ImagesFitsTitle"]</HeaderContent>
             <ChildContent>
                 <OmniStack Gap="OmniSpacing.Medium">
                     <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["ImagesFitsDescription"]</OmniText>
-                    <ImageFitsExample />
+                    <div class="gallery-images-stage">
+                        <ImageFitsExample />
+                    </div>
                 </OmniStack>
             </ChildContent>
         </OmniCard>

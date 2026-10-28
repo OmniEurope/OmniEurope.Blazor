@@ -1,8 +1,9 @@
 @* One button, every setting a parameter. It sits in a form: without one, the Submit and Reset types
-   would change nothing. *@
+   would change nothing. The group around it is the stage a host can frame, so the button is judged
+   without a neighbour. *@
 <OmniStack Gap="OmniSpacing.Medium">
     <OmniTemplateForm TModel="ButtonsExample" Model="this" Context="form" OnValidSubmit="HandleSubmit">
-        <OmniStack Orientation="OmniOrientation.Horizontal" Justify="OmniJustification.Center" Align="OmniAlignment.Center">
+        <OmniStack Orientation="OmniOrientation.Horizontal" Justify="OmniJustification.Center" Align="OmniAlignment.Center" role="group" aria-label="Button preview">
             <OmniButton Variant="Variant"
                         Size="Size"
                         ButtonType="ButtonType"

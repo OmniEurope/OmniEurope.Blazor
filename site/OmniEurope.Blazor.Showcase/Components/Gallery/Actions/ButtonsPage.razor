@@ -58,21 +58,23 @@
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["ButtonsPreviewTitle"]</HeaderContent>
             <ChildContent>
-                <ButtonsExample Variant="Variant" Size="Size" ButtonType="ButtonType" IconOnly="IconOnly"
-                                Disabled="Disabled" Busy="Busy" BusyOnClick="BusyOnClick" />
+                <div class="gallery-actions-stage">
+                    <ButtonsExample Variant="Variant" Size="Size" ButtonType="ButtonType" IconOnly="IconOnly"
+                                    Disabled="Disabled" Busy="Busy" BusyOnClick="BusyOnClick" />
+                </div>
             </ChildContent>
         </OmniCard>
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["ButtonsSizesTitle"]</HeaderContent>
-            <ChildContent><ButtonSizesExample /></ChildContent>
+            <ChildContent><div class="gallery-buttons-matrix"><ButtonSizesExample /></div></ChildContent>
         </OmniCard>
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["ButtonsIconSquaresTitle"]</HeaderContent>
-            <ChildContent><ButtonSizesExample IconOnly="true" /></ChildContent>
+            <ChildContent><div class="gallery-buttons-matrix"><ButtonSizesExample IconOnly="true" /></div></ChildContent>
         </OmniCard>
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["ButtonsStatesTitle"]</HeaderContent>
-            <ChildContent><ButtonStatesExample /></ChildContent>
+            <ChildContent><div class="gallery-buttons-matrix"><ButtonStatesExample /></div></ChildContent>
         </OmniCard>
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["ButtonsInteractionTitle"]</HeaderContent>

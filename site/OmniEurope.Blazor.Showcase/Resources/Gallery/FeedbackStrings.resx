@@ -82,6 +82,7 @@
   <data name="SkeletonsLoaded" xml:space="preserve"><value>Content loaded</value></data>
   <data name="SkeletonsLoadedDescription" xml:space="preserve"><value>Swaps the skeleton for the content it stands for.</value></data>
   <data name="SkeletonsPreviewTitle" xml:space="preserve"><value>Preview</value></data>
-  <data name="SkeletonsShapesTitle" xml:space="preserve"><value>Every shape and line count</value></data>
+  <data name="SkeletonsShapesTitle" xml:space="preserve"><value>Every shape</value></data>
+  <data name="SkeletonsLinesTitle" xml:space="preserve"><value>Line counts of the text shape</value></data>
   <data name="SkeletonsComposedTitle" xml:space="preserve"><value>Composed placeholders</value></data>
 </root>

@@ -51,7 +51,9 @@
             <ChildContent>
                 <OmniStack Gap="OmniSpacing.Medium">
                     <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["IconsGalleryDescription"]</OmniText>
-                    <IconGalleryExample Size="Size" Selected="SelectedIcon" SelectedChanged="@(icon => SelectedIcon = icon)" />
+                    <div class="gallery-icons-grid">
+                        <IconGalleryExample Size="Size" Selected="SelectedIcon" SelectedChanged="@(icon => SelectedIcon = icon)" />
+                    </div>
                 </OmniStack>
             </ChildContent>
         </OmniCard>
