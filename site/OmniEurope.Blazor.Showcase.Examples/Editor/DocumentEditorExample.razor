@@ -1,0 +1,34 @@
+@* A light word processor: the same OmniHtmlEditor, on a sheet, with the document commands and a status bar that
+   counts the words and offers the HTML and text downloads. The page can also read the exports. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniHtmlEditor @ref="_document"
+                    Id="editor-document"
+                    @bind-Value="Content"
+                    Label="Summary note"
+                    Sheet="true"
+                    Commands="OmniHtmlEditorCommands.Document"
+                    Rows="20"
+                    FileName="@FileName"
+                    Disabled="ReadOnly"
+                    ShowStatusBar="ShowStatusBar" />
+    <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+        <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="ShowHtmlAsync">
+            <OmniIcon Name="OmniIconName.FileHtml" />
+            <span>Show the HTML</span>
+        </OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="ShowTextAsync">
+            <OmniIcon Name="OmniIconName.Document" />
+            <span>Show the text</span>
+        </OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="ResetContent">
+            <OmniIcon Name="OmniIconName.Reset" />
+            <span>Reset</span>
+        </OmniButton>
+    </OmniRow>
+    <OmniFormField For="editor-document-export" Description="@ExportDescription">
+        <LabelContent>Exported content</LabelContent>
+        <ChildContent>
+            <OmniTextArea Id="editor-document-export" @bind-Value="Exported" ReadOnly="true" Rows="10" />
+        </ChildContent>
+    </OmniFormField>
+</OmniStack>

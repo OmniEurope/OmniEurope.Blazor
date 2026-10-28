@@ -1,0 +1,7 @@
+@* A command to copy: the block shows it with a copy button and reports whether the clipboard accepted the text. *@
+<OmniCodeBlock Code="@Code" Title="Command" Language="shell" OnCopy="OnCopied" />
+<OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+    <OmniIcon Name="OmniIconName.Copy" />
+    <span>Last copy:</span>
+    <OmniBadge Tone="CopyTone">@CopyText</OmniBadge>
+</OmniRow>

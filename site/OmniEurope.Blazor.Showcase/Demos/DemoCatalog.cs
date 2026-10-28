@@ -24,8 +24,6 @@ public static class DemoCatalog
             ["DemoVerticalFormCapability2", "DemoVerticalFormCapability3"]),
         new("saisie-avancee", typeof(InputsDemo), "DemoInputsTitle", "DemoInputsSummary",
             ["DemoInputsCapability3", "DemoInputsCapability4"]),
-        new("editeur", typeof(EditorDemo), "DemoEditorTitle", "DemoEditorSummary",
-            ["DemoEditorCapability1", "DemoEditorCapability2", "DemoEditorCapability3"]),
         new("parcours", typeof(FlowsDemo), "DemoFlowsTitle", "DemoFlowsSummary",
             ["DemoFlowsCapability1", "DemoFlowsCapability2", "DemoFlowsCapability3"]),
         new("superpositions", typeof(OverlayDemo), "DemoOverlayTitle", "DemoOverlaySummary",

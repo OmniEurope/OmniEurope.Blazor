@@ -4,4 +4,99 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="HtmlEditorTitle" xml:space="preserve"><value>WYSIWYG editor</value></data>
+  <data name="HtmlEditorDescription" xml:space="preserve"><value>WYSIWYG editor and its HTML source: a command toolbar the page picks, reorders or extends, sanitised paste, history, the HTML it binds, and what a host brings through extensions (notes, proofreading, suggestions, tables, mail templates).</value></data>
+  <data name="HtmlEditorSettingsTitle" xml:space="preserve"><value>Editor settings</value></data>
+  <data name="HtmlEditorSettingsDescription" xml:space="preserve"><value>The toolbar is a public list of commands: every setting below changes it.</value></data>
+  <data name="HtmlEditorToolbarRows" xml:space="preserve"><value>Limit the toolbar to two rows</value></data>
+  <data name="HtmlEditorToolbarLabels" xml:space="preserve"><value>Show the command names</value></data>
+  <data name="HtmlEditorMode" xml:space="preserve"><value>Face</value></data>
+  <data name="HtmlEditorModeDescription" xml:space="preserve"><value>The formatted document or its HTML source; the Source button of the toolbar does the same.</value></data>
+  <data name="HtmlEditorModeVisual" xml:space="preserve"><value>Visual</value></data>
+  <data name="HtmlEditorModeSource" xml:space="preserve"><value>Source</value></data>
+  <data name="HtmlEditorToolbar" xml:space="preserve"><value>Toolbar</value></data>
+  <data name="HtmlEditorToolbarDescription" xml:space="preserve"><value>The complete toolbar of the package, an essential selection, or the same commands in another order.</value></data>
+  <data name="HtmlEditorToolbarComplete" xml:space="preserve"><value>Complete</value></data>
+  <data name="HtmlEditorToolbarEssential" xml:space="preserve"><value>Essential</value></data>
+  <data name="HtmlEditorToolbarReordered" xml:space="preserve"><value>Reordered</value></data>
+  <data name="HtmlEditorCommand" xml:space="preserve"><value>Page command</value></data>
+  <data name="HtmlEditorCommandDescription" xml:space="preserve"><value>A command added by the page, at the end of the toolbar: it inserts the signature at the caret.</value></data>
+  <data name="HtmlEditorCustomTools" xml:space="preserve"><value>Custom tools</value></data>
+  <data name="HtmlEditorCustomToolsDescription" xml:space="preserve"><value>Two commands labelled in text, after the toolbar: a signature and a reference added at the end of the text.</value></data>
+  <data name="HtmlEditorBold" xml:space="preserve"><value>Bold</value></data>
+  <data name="HtmlEditorBoldDescription" xml:space="preserve"><value>Shows or removes the Bold command, whatever the toolbar.</value></data>
+  <data name="HtmlEditorItalic" xml:space="preserve"><value>Italic</value></data>
+  <data name="HtmlEditorItalicDescription" xml:space="preserve"><value>Shows or removes the Italic command, whatever the toolbar.</value></data>
+  <data name="HtmlEditorSubscript" xml:space="preserve"><value>Subscript</value></data>
+  <data name="HtmlEditorSubscriptDescription" xml:space="preserve"><value>Shows or removes the Subscript command, whatever the toolbar.</value></data>
+  <data name="HtmlEditorSuperscript" xml:space="preserve"><value>Superscript</value></data>
+  <data name="HtmlEditorSuperscriptDescription" xml:space="preserve"><value>Shows or removes the Superscript command, whatever the toolbar.</value></data>
+  <data name="HtmlEditorIndent" xml:space="preserve"><value>Indent</value></data>
+  <data name="HtmlEditorIndentDescription" xml:space="preserve"><value>Shows or removes the command that increases the indent.</value></data>
+  <data name="HtmlEditorOutdent" xml:space="preserve"><value>Outdent</value></data>
+  <data name="HtmlEditorOutdentDescription" xml:space="preserve"><value>Shows or removes the command that decreases the indent.</value></data>
+  <data name="HtmlEditorPreview" xml:space="preserve"><value>Preview</value></data>
+  <data name="HtmlEditorPreviewDescription" xml:space="preserve"><value>In the source face, renders the sanitised markup under the text area.</value></data>
+  <data name="HtmlEditorDisabled" xml:space="preserve"><value>Disabled</value></data>
+  <data name="HtmlEditorDisabledDescription" xml:space="preserve"><value>The document, the source and every command are locked.</value></data>
+  <data name="HtmlEditorRows" xml:space="preserve"><value>Height</value></data>
+  <data name="HtmlEditorRowsDescription" xml:space="preserve"><value>Lines of the source and minimum height of the document.</value></data>
+  <data name="HtmlEditorCharactersTitle" xml:space="preserve"><value>Special characters</value></data>
+  <data name="HtmlEditorCharactersDescription" xml:space="preserve"><value>The host gives the set of letters and receives the character chosen: the first palette types it into a text area, the second only lists what it handed out.</value></data>
+  <data name="HtmlEditorPreviewTitle" xml:space="preserve"><value>Live editor</value></data>
+  <data name="HtmlEditorRenderedTitle" xml:space="preserve"><value>Bound HTML, rendered</value></data>
+  <data name="HtmlEditorRenderedDescription" xml:space="preserve"><value>The value shown outside the editor, in an omni-rich-text container that carries alignments and sizes.</value></data>
+  <data name="HtmlEditorBoundTitle" xml:space="preserve"><value>Bound markup</value></data>
+  <data name="HtmlEditorGalleryTitle" xml:space="preserve"><value>Gallery</value></data>
+  <data name="HtmlEditorHostCommandsTitle" xml:space="preserve"><value>Commands of the host</value></data>
+  <data name="HtmlEditorHostCommandsDescription" xml:space="preserve"><value>The default toolbar ends with commands of the host: one inserts a block, one rewrites the whole value, one inserts a reference at the caret. The second editor shows the same value in its source face.</value></data>
+  <data name="HtmlEditorAnnotatedTitle" xml:space="preserve"><value>Annotated article</value></data>
+  <data name="HtmlEditorAnnotatedDescription" xml:space="preserve"><value>The editor keeps the markup of the host (notes in asides, data attributes), reports where the caret is and enables the table commands inside a cell. Click a note to tick it.</value></data>
+  <data name="HtmlEditorExtensionTitle" xml:space="preserve"><value>Extension: notes, proofreading and suggestions</value></data>
+  <data name="HtmlEditorExtensionDescription" xml:space="preserve"><value>An extension brings a note command (Ctrl+Shift+N), a click that marks a note as read, a context menu, a proofreader and text suggestions (Tab accepts). The second editor runs the same proofreader on a text that starts read-only.</value></data>
+  <data name="HtmlEditorMailTitle" xml:space="preserve"><value>Mail template</value></data>
+  <data name="HtmlEditorMailDescription" xml:space="preserve"><value>Subject, body and variables: a variable button writes its token at the caret, the Preview tab shows the mail as a mail client receives it, and Send a test hands it to the application. Nothing is sent here.</value></data>
+  <data name="HtmlEditorIconsTitle" xml:space="preserve"><value>Toolbar icons</value></data>
+  <data name="DocumentEditorTitle" xml:space="preserve"><value>Word processor</value></data>
+  <data name="DocumentEditorDescription" xml:space="preserve"><value>A light word processor: a page, styles and sizes, lists, alignment, a table, the word count and export to HTML or text.</value></data>
+  <data name="DocumentEditorSettingsTitle" xml:space="preserve"><value>Word processor settings</value></data>
+  <data name="DocumentEditorSettingsDescription" xml:space="preserve"><value>What the bar under the page shows, and what the page accepts.</value></data>
+  <data name="DocumentEditorStatusBar" xml:space="preserve"><value>Status bar</value></data>
+  <data name="DocumentEditorStatusBarDescription" xml:space="preserve"><value>Words and characters, updated while typing, next to the HTML and plain text downloads.</value></data>
+  <data name="DocumentEditorReadOnly" xml:space="preserve"><value>Read only</value></data>
+  <data name="DocumentEditorReadOnlyDescription" xml:space="preserve"><value>The page and the toolbar are locked, exports stay available.</value></data>
+  <data name="DocumentEditorFileName" xml:space="preserve"><value>File name</value></data>
+  <data name="DocumentEditorFileNameDescription" xml:space="preserve"><value>Name given to the downloaded files, without the extension.</value></data>
+  <data name="DocumentEditorPreviewTitle" xml:space="preserve"><value>Document</value></data>
+  <data name="CodeEditorTitle" xml:space="preserve"><value>Code editor</value></data>
+  <data name="CodeEditorDescription" xml:space="preserve"><value>Code editor: language, read only, line numbers, wrapping, Ctrl+click links and a script-free plain text engine. Monaco is served by the host from its own folder; this site does not serve it, so the page runs the plain text engine.</value></data>
+  <data name="CodeEditorSettingsTitle" xml:space="preserve"><value>Code editor settings</value></data>
+  <data name="CodeEditorSettingsDescription" xml:space="preserve"><value>Every setting applies live, without recreating the editor.</value></data>
+  <data name="CodeEditorLanguage" xml:space="preserve"><value>Language</value></data>
+  <data name="CodeEditorLanguageDescription" xml:space="preserve"><value>The highlighting of the editor; the sample changes with the language.</value></data>
+  <data name="CodeEditorReadOnly" xml:space="preserve"><value>Read only</value></data>
+  <data name="CodeEditorReadOnlyDescription" xml:space="preserve"><value>The code can be read and selected but not changed.</value></data>
+  <data name="CodeEditorLineNumbers" xml:space="preserve"><value>Line numbers</value></data>
+  <data name="CodeEditorLineNumbersDescription" xml:space="preserve"><value>The line number gutter.</value></data>
+  <data name="CodeEditorWordWrap" xml:space="preserve"><value>Word wrap</value></data>
+  <data name="CodeEditorWordWrapDescription" xml:space="preserve"><value>Long lines wrap instead of scrolling.</value></data>
+  <data name="CodeEditorLinks" xml:space="preserve"><value>Pipeline links</value></data>
+  <data name="CodeEditorLinksDescription" xml:space="preserve"><value>In YAML, the name after pipeline: becomes a Ctrl+click link, reported to the page.</value></data>
+  <data name="CodeEditorHeight" xml:space="preserve"><value>Height</value></data>
+  <data name="CodeEditorHeightDescription" xml:space="preserve"><value>Height of the editor, in rem.</value></data>
+  <data name="CodeEditorPreviewTitle" xml:space="preserve"><value>Live editor</value></data>
+  <data name="CodeEditorBoundTitle" xml:space="preserve"><value>Bound value</value></data>
+  <data name="CodeReadingTitle" xml:space="preserve"><value>Code reading</value></data>
+  <data name="CodeReadingDescription" xml:space="preserve"><value>Read only code, command output with colours, and side by side or unified differences.</value></data>
+  <data name="CodeReadingSettingsTitle" xml:space="preserve"><value>Example</value></data>
+  <data name="CodeReadingChanged" xml:space="preserve"><value>Show modified command</value></data>
+  <data name="CodeReadingExcerpt" xml:space="preserve"><value>Numbered excerpt</value></data>
+  <data name="CodeReadingExcerptDescription" xml:space="preserve"><value>The viewer numbers its lines from line 120, as in the source file; the highlighted line counts the same way.</value></data>
+  <data name="CodeReadingDiffExpanded" xml:space="preserve"><value>Files expanded</value></data>
+  <data name="CodeReadingDiffExpandedDescription" xml:space="preserve"><value>The files of the unified diff open expanded; turned off, only their header shows.</value></data>
+  <data name="CodeReadingAnsiTitle" xml:space="preserve"><value>Command output with colours</value></data>
+  <data name="CodeReadingAnsiDescription" xml:space="preserve"><value>AnsiMode draws the colour sequences (Render), removes the codes (Hide) or keeps the raw text (Raw); copying takes the codes only in Raw.</value></data>
+  <data name="CodeReadingExcerptTitle" xml:space="preserve"><value>Highlighted line and excerpt</value></data>
+  <data name="CodeReadingNavigationTitle" xml:space="preserve"><value>Navigation between changes</value></data>
+  <data name="CodeReadingNavigationDescription" xml:space="preserve"><value>The viewer's own bar (ShowNavigation), then a comparison filling its frame under a bar owned by the page. The plain text engine keeps the previous and next buttons disabled: they work once Monaco is mounted.</value></data>
 </root>

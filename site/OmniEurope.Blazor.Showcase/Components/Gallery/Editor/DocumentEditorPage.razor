@@ -1,0 +1,37 @@
+@page "/components/document-editor"
+@using OmniEurope.Blazor.Showcase.Examples.Editor
+
+<GalleryPageFrame Slug="document-editor">
+    <Settings>
+        <OmniSettingsSection Title="@Text["DocumentEditorSettingsTitle"]" Description="@Text["DocumentEditorSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["DocumentEditorStatusBar"]" Description="@Text["DocumentEditorStatusBarDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Calculator" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowStatusBar" aria-label="@Text["DocumentEditorStatusBar"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DocumentEditorReadOnly"]" Description="@Text["DocumentEditorReadOnlyDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ReadOnly" aria-label="@Text["DocumentEditorReadOnly"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DocumentEditorFileName"]" Description="@Text["DocumentEditorFileNameDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Document" /></Icon>
+                <ChildContent>
+                    <OmniTextBox @bind-Value="FileName" aria-label="@Text["DocumentEditorFileName"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["DocumentEditorPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <DocumentEditorExample FileName="@FileName" ShowStatusBar="ShowStatusBar" ReadOnly="ReadOnly" />
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

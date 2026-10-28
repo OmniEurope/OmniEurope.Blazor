@@ -1,0 +1,12 @@
+@* The palette of special letters: the host gives the set, a click hands the chosen character to the host, which
+   does what it wants with it. The first palette types into a text area; the second only lists what it handed out. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniCharacterPalette Label="French letters" Characters="HtmlEditorSamples.FrenchCharacters" OnSelect="AppendCharacter" />
+    <OmniTextArea @bind-Value="CharacterText" aria-label="French letters typed" />
+
+    <OmniCharacterPalette Id="editor-palette-german"
+                          Label="German letters"
+                          Characters="GermanCharacters"
+                          OnSelect="Choose" />
+    <p id="editor-palette-chosen" aria-live="polite">Characters chosen: @(Chosen.Length == 0 ? "none" : Chosen)</p>
+</OmniStack>

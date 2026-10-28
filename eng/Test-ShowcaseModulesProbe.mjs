@@ -211,7 +211,7 @@ results.push('en-tête replié par un titre long, ouvert par « Voir plus », d�
 // back in the source editor bound to the same value.
 const surface = '#editor-body';
 const source = '#editor-source';
-await evaluate("Blazor.navigateTo('/components/legacy/editeur')");
+await evaluate("Blazor.navigateTo('/components/html-editor')");
 await waitFor('l\'éditeur HTML de la vitrine', `document.querySelector(${JSON.stringify(surface)})?.isContentEditable === true && document.querySelector(${JSON.stringify(source)}) !== null`);
 await evaluate(`document.querySelector(${JSON.stringify(surface)}).scrollIntoView({ block: 'center' })`);
 await pause(800);

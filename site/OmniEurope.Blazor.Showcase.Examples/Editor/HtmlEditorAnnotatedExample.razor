@@ -1,0 +1,13 @@
+@* The markup of the host kept by the editor: a note carried by an aside, its marker and identifier in data attributes, and a
+   class the host styles. The page also learns where the caret is, to enable the commands that fit there (the table
+   commands act on the cell at the caret and stay disabled elsewhere). *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniHtmlEditor Id="editor-annotated"
+                    @bind-Value="Annotated"
+                    Label="Annotated article"
+                    Rows="6"
+                    Extensions="[AnnotationExtension]"
+                    Commands="AnnotatedCommands"
+                    SelectionChanged="ShowSelection" />
+    <p id="editor-annotated-path" aria-live="polite">Position: @(SelectionPath ?? "outside the text")</p>
+</OmniStack>

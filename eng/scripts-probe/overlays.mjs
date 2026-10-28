@@ -427,7 +427,7 @@ export async function overlaySteps(session, results) {
   const origin = new URL(await evaluate('location.href')).origin;
   await send('Browser.grantPermissions', { origin, permissions: ['clipboardReadWrite', 'clipboardSanitizedWrite'] });
   await send('Emulation.setFocusEmulationEnabled', { enabled: true });
-  await session.visit('/components/legacy/editeur', '.omni-code-block__copy');
+  await session.visit('/components/code-reading', '.omni-code-block__copy');
   await clickOn('.omni-code-block__copy');
   await waitFor('le texte copié', "navigator.clipboard.readText().then(text => text.includes('dotnet test'))");
   await send('Emulation.setFocusEmulationEnabled', { enabled: false });

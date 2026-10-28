@@ -118,10 +118,6 @@
   <data name="DemoInputsCapability3" xml:space="preserve"><value>Asynchronous autocomplete, debounced and length-gated.</value></data>
   <data name="DemoInputsCapability4" xml:space="preserve"><value>Date, time, date and time: the house calendar and columns on the floating layer, grid keyboard, bounds and density.</value></data>
   <data name="DemoEditorTitle" xml:space="preserve"><value>Editors and upload</value></data>
-  <data name="DemoEditorSummary" xml:space="preserve"><value>The WYSIWYG editor and its HTML source, the word processor, the code editor and the file upload.</value></data>
-  <data name="DemoEditorCapability1" xml:space="preserve"><value>A command toolbar the host extends or reorders, sanitised paste, source mode.</value></data>
-  <data name="DemoEditorCapability2" xml:space="preserve"><value>A word processor on a page, word count, HTML and text export.</value></data>
-  <data name="DemoEditorCapability3" xml:space="preserve"><value>Code editor (Monaco served by the host, plain text under a strict CSP) and bounded upload.</value></data>
   <data name="DemoOverlayTitle" xml:space="preserve"><value>Overlays</value></data>
   <data name="DemoOverlaySummary" xml:space="preserve"><value>Notifications and a split button.</value></data>
   <data name="DemoOverlayCapability1" xml:space="preserve"><value>Notifications sent to the stack of the overlay host, short or long.</value></data>
@@ -397,10 +393,6 @@
   <data name="DemoGridCountryFrance" xml:space="preserve"><value>France</value></data>
   <data name="DemoGridCountryLuxembourg" xml:space="preserve"><value>Luxembourg</value></data>
   <data name="DemoGridCountryNetherlands" xml:space="preserve"><value>Netherlands</value></data>
-  <data name="DemoAnsiModeLabel" xml:space="preserve"><value>Escape sequences</value></data>
-  <data name="DemoAnsiModeRender" xml:space="preserve"><value>Render colours</value></data>
-  <data name="DemoAnsiModeHide" xml:space="preserve"><value>Hide codes</value></data>
-  <data name="DemoAnsiModeRaw" xml:space="preserve"><value>Raw text</value></data>
   <data name="DemoChartChartTitle" xml:space="preserve"><value>Cases filed per quarter</value></data>
   <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Quarter</value></data>
   <data name="DemoChartAxisCases" xml:space="preserve"><value>Cases</value></data>
@@ -876,88 +868,6 @@
   <data name="DemoOverlayNotifyShort" xml:space="preserve"><value>Short notification</value></data>
   <data name="DemoOverlayNotifyLong" xml:space="preserve"><value>Long notification</value></data>
   <data name="DemoOverlayNoticeLong" xml:space="preserve"><value>The import report is ready. Fourteen files were read: twelve were saved without comment, one was skipped because it already existed and one was refused because a required column was missing. The line-by-line detail, with the correction suggested for each rejection, can be read again at any time in the import log, from the processing page.</value></data>
-  <data name="DemoEditorBodyLabel" xml:space="preserve"><value>Letter body</value></data>
-  <data name="DemoEditorSourceLabel" xml:space="preserve"><value>Letter source</value></data>
-  <data name="DemoEditorAnnotatedLabel" xml:space="preserve"><value>Annotated article</value></data>
-  <data name="DemoEditorPosition" xml:space="preserve"><value>Position: {0}</value></data>
-  <data name="DemoEditorOutsideText" xml:space="preserve"><value>outside the text</value></data>
-  <data name="DemoEditorRoot" xml:space="preserve"><value>root</value></data>
-  <data name="DemoEditorExtendedLabel" xml:space="preserve"><value>Annotated opinion</value></data>
-  <data name="DemoEditorReportLabel" xml:space="preserve"><value>Report</value></data>
-  <data name="DemoEditorReportFileName" xml:space="preserve"><value>report</value></data>
-  <data name="DemoEditorCodeLabel" xml:space="preserve"><value>JSON settings</value></data>
-  <data name="DemoEditorIconBold" xml:space="preserve"><value>Bold</value></data>
-  <data name="DemoEditorIconItalic" xml:space="preserve"><value>Italic</value></data>
-  <data name="DemoEditorIconUnderline" xml:space="preserve"><value>Underline</value></data>
-  <data name="DemoEditorIconStrikethrough" xml:space="preserve"><value>Strikethrough</value></data>
-  <data name="DemoEditorIconSubscript" xml:space="preserve"><value>Subscript</value></data>
-  <data name="DemoEditorIconSuperscript" xml:space="preserve"><value>Superscript</value></data>
-  <data name="DemoEditorIconBulletList" xml:space="preserve"><value>Bulleted list</value></data>
-  <data name="DemoEditorIconIndent" xml:space="preserve"><value>Increase indent</value></data>
-  <data name="DemoEditorIconOutdent" xml:space="preserve"><value>Decrease indent</value></data>
-  <data name="DemoEditorIconQuote" xml:space="preserve"><value>Quote</value></data>
-  <data name="DemoEditorIconInlineCode" xml:space="preserve"><value>Inline code</value></data>
-  <data name="DemoEditorIconCodeBlock" xml:space="preserve"><value>Code block</value></data>
-  <data name="DemoEditorIconLink" xml:space="preserve"><value>Link</value></data>
-  <data name="DemoEditorIconUnlink" xml:space="preserve"><value>Remove link</value></data>
-  <data name="DemoEditorIconAlignLeft" xml:space="preserve"><value>Align left</value></data>
-  <data name="DemoEditorIconAlignCenter" xml:space="preserve"><value>Centre</value></data>
-  <data name="DemoEditorIconAlignRight" xml:space="preserve"><value>Align right</value></data>
-  <data name="DemoEditorIconJustify" xml:space="preserve"><value>Justify</value></data>
-  <data name="DemoEditorIconUndo" xml:space="preserve"><value>Undo</value></data>
-  <data name="DemoEditorIconRedo" xml:space="preserve"><value>Redo</value></data>
-  <data name="DemoEditorIconClearFormatting" xml:space="preserve"><value>Clear formatting</value></data>
-  <data name="DemoEditorIconHtmlSource" xml:space="preserve"><value>HTML source</value></data>
-  <data name="DemoEditorIconTable" xml:space="preserve"><value>Table</value></data>
-  <data name="DemoEditorManifest" xml:space="preserve"><value>Deployment manifest</value></data>
-  <data name="DemoEditorManifestHelp" xml:space="preserve"><value>A single file; opens the system file picker.</value></data>
-  <data name="DemoEditorUploadFailed" xml:space="preserve"><value>The upload failed.</value></data>
-  <data name="DemoEditorUploaded" xml:space="preserve"><value>Uploaded files: {0}</value></data>
-  <data name="DemoEditorNoUpload" xml:space="preserve"><value>none</value></data>
-  <data name="DemoEditorTestCommand" xml:space="preserve"><value>Test command</value></data>
-  <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Configuration sample</value></data>
-  <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Excerpt, lines {0} to {1}</value></data>
-  <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Compare two configurations</value></data>
-  <data name="DemoEditorCompareNavigationLabel" xml:space="preserve"><value>Comparison with navigation between changes</value></data>
-  <data name="DemoEditorCompareFillLabel" xml:space="preserve"><value>Comparison filling its container</value></data>
-  <data name="DemoEditorComparePrevious" xml:space="preserve"><value>Previous change</value></data>
-  <data name="DemoEditorCompareNext" xml:space="preserve"><value>Next change</value></data>
-  <data name="DemoEditorSignatureText" xml:space="preserve"><value>The case files department</value></data>
-  <data name="DemoEditorReferenceText" xml:space="preserve"><value>Reference: {0}</value></data>
-  <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Insert the signature block</value></data>
-  <data name="DemoEditorAddSignature" xml:space="preserve"><value>Add the signature</value></data>
-  <data name="DemoEditorInsertReference" xml:space="preserve"><value>Insert the reference</value></data>
-  <data name="DemoEditorAddNote" xml:space="preserve"><value>Add a note</value></data>
-  <data name="DemoEditorAddNoteDescription" xml:space="preserve"><value>Inserts a numbered note in the margin of the text.</value></data>
-  <data name="DemoEditorNewNoteSentence" xml:space="preserve"><value>New note.</value></data>
-  <data name="DemoEditorNewNote" xml:space="preserve"><value>New note</value></data>
-  <data name="DemoEditorRemoveNote" xml:space="preserve"><value>Remove the note</value></data>
-  <data name="DemoEditorArticleText" xml:space="preserve"><value>Article 1. These rules apply to the case files received.</value></data>
-  <data name="DemoEditorArticleDelay" xml:space="preserve"><value>Deadline</value></data>
-  <data name="DemoEditorArticleDocument" xml:space="preserve"><value>Document</value></data>
-  <data name="DemoEditorArticleDays" xml:space="preserve"><value>{0} days</value></data>
-  <data name="DemoEditorArticleForm" xml:space="preserve"><value>Form</value></data>
-  <data name="DemoEditorArticleNote" xml:space="preserve"><value>Note: text consolidated as of 1 January.</value></data>
-  <data name="DemoEditorOpinion" xml:space="preserve"><value>Approved subject to{0}.</value></data>
-  <data name="DemoEditorOpinionNote" xml:space="preserve"><value>check the deadline</value></data>
-  <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>subject to</value></data>
-  <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> verification</value></data>
-  <data name="DemoEditorProofreadingSample" xml:space="preserve"><value>The checker underlines a doubtful speling and a repeated repeated word.</value></data>
-  <data name="DemoEditorPaletteLabel" xml:space="preserve"><value>Note in French</value></data>
-  <data name="DemoEditorPaletteSample" xml:space="preserve"><value>Click below the text: the chosen letter is inserted at the caret, Shift+click for the capital.</value></data>
-  <data name="DemoEditorPaletteGerman" xml:space="preserve"><value>German letters</value></data>
-  <data name="DemoEditorPaletteChosen" xml:space="preserve"><value>Characters chosen: {0}</value></data>
-  <data name="DemoEditorPaletteNone" xml:space="preserve"><value>none</value></data>
-  <data name="DemoEditorProofreadingWrong" xml:space="preserve"><value>speling</value></data>
-  <data name="DemoEditorProofreadingRight" xml:space="preserve"><value>spelling</value></data>
-  <data name="DemoEditorProofreadingRepeated" xml:space="preserve"><value>Repeated word</value></data>
-  <data name="DemoEditorReportParagraph" xml:space="preserve"><value>An {0} paragraph.</value></data>
-  <data name="DemoEditorReportImportant" xml:space="preserve"><value>important</value></data>
-  <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>First point</value></data>
-  <data name="DemoEditorReportSecondPoint" xml:space="preserve"><value>Second point</value></data>
-  <data name="DemoEditorBodyGreeting" xml:space="preserve"><value>Dear Sir or Madam,</value></data>
-  <data name="DemoEditorBodyText" xml:space="preserve"><value>Your case file has been received.</value></data>
-  <data name="DemoEditorEmptyFile" xml:space="preserve"><value>A file is empty.</value></data>
   <data name="DemoInputsDate" xml:space="preserve"><value>Effective date</value></data>
   <data name="DemoInputsDateHelp" xml:space="preserve"><value>Type it or use the calendar; days out of bounds cannot be chosen.</value></data>
   <data name="DemoInputsDialog" xml:space="preserve"><value>In a dialog</value></data>
@@ -1084,20 +994,9 @@
   <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Drag an account onto another to file it there.</value></data>
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} filed under {1}</value></data>
   <data name="DemoDiagramDirected" xml:space="preserve"><value>Directed links</value></data>
-  <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Proofread text, locked at first</value></data>
-  <data name="DemoEditorReadOnly" xml:space="preserve"><value>Read-only</value></data>
   <data name="DemoInputsModel" xml:space="preserve"><value>Model</value></data>
   <data name="DemoInputsModelHelp" xml:space="preserve"><value>Pick from the list or type a name it lacks.</value></data>
   <data name="DemoInputsModelValue" xml:space="preserve"><value>Value: {0}</value></data>
-  <data name="DemoEditorMailLabel" xml:space="preserve"><value>Reminder mail template</value></data>
-  <data name="DemoEditorMailClient" xml:space="preserve"><value>Client name</value></data>
-  <data name="DemoEditorMailFile" xml:space="preserve"><value>File number</value></data>
-  <data name="DemoEditorMailDue" xml:space="preserve"><value>Due date</value></data>
-  <data name="DemoEditorMailLink" xml:space="preserve"><value>File link</value></data>
-  <data name="DemoEditorMailPieces" xml:space="preserve"><value>Expected documents</value></data>
-  <data name="DemoEditorMailSubject" xml:space="preserve"><value>Reminder for file {{file}}</value></data>
-  <data name="DemoEditorMailBody" xml:space="preserve"><value>&lt;h2&gt;Reminder&lt;/h2&gt;&lt;p&gt;Hello {{client}},&lt;/p&gt;&lt;p&gt;File {{file}} awaits your answer before {{due}}.&lt;/p&gt;&lt;p&gt;&lt;a href="{{link}}"&gt;Open the file&lt;/a&gt;&lt;/p&gt;</value></data>
-  <data name="DemoEditorMailTestSent" xml:space="preserve"><value>Test handed to the application, subject “{0}”.</value></data>
   <data name="DemoPagesFactSource" xml:space="preserve"><value>Source</value></data>
   <data name="DemoPagesFactRun" xml:space="preserve"><value>Run</value></data>
   <data name="DemoPagesFactTimeline" xml:space="preserve"><value>Timeline</value></data>

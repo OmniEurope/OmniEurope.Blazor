@@ -1,0 +1,6 @@
+@* The output of a command as a terminal writes it. AnsiMode draws the colours (Render), removes the codes (Hide) or keeps the
+   raw text (Raw); copying takes the codes only in Raw. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniSelectBar TValue="OmniAnsiMode" Id="editor-ansi-mode" Label="Escape sequences" Options="AnsiModes" @bind-Value="AnsiMode" />
+    <OmniCodeBlock Id="editor-ansi-block" Code="@CommandOutput" Language="shell" AnsiMode="AnsiMode" Wrap="true" />
+</OmniStack>

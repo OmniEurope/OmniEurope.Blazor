@@ -1,0 +1,45 @@
+@* ShowNavigation: the bar of the viewer itself, previous and next change. The plain text engine is chosen, so the two buttons
+   stay disabled: they work once Monaco is mounted. *@
+@* FillAvailableHeight with a bar owned by the page: previous and next on the left, two actions of the page on the right, and
+   the comparison taking the rest of the frame (Height is its minimum). The page calls GoToPreviousChangeAsync and
+   GoToNextChangeAsync on the viewer, which do nothing while Monaco is not mounted, as here with the plain text engine. *@
+<OmniStack Gap="OmniSpacing.Large">
+    <OmniDiffViewer Id="editor-compare-navigation"
+                    Original="@CodeReadingSamples.OriginalConfiguration"
+                    Modified="@CodeReadingSamples.ChangedConfiguration"
+                    Engine="OmniCodeEditorEngine.PlainText"
+                    Language="json"
+                    ReadOnly="true"
+                    ShowNavigation="true"
+                    Label="Comparison with navigation between changes"
+                    Height="12rem" />
+
+    <OmniStack Id="editor-compare-fill-box" Gap="OmniSpacing.Small">
+        <OmniRow Gap="OmniSpacing.XSmall" Wrap="true" Align="OmniAlignment.Center" Justify="OmniJustification.Between">
+            <OmniRow Gap="OmniSpacing.XSmall" Wrap="true" Align="OmniAlignment.Center">
+                <OmniButton Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small" OnClick="PreviousChangeAsync">
+                    <Icon><OmniIcon Name="OmniIconName.ChevronUp" Size="OmniControlSize.Small" /></Icon>
+                    <ChildContent><span>Previous change</span></ChildContent>
+                </OmniButton>
+                <OmniButton Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small" OnClick="NextChangeAsync">
+                    <Icon><OmniIcon Name="OmniIconName.ChevronDown" Size="OmniControlSize.Small" /></Icon>
+                    <ChildContent><span>Next change</span></ChildContent>
+                </OmniButton>
+            </OmniRow>
+            <OmniRow Gap="OmniSpacing.XSmall" Wrap="true" Align="OmniAlignment.Center">
+                <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small">Approve</OmniButton>
+                <OmniButton Variant="OmniButtonVariant.Primary" Size="OmniControlSize.Small">Save</OmniButton>
+            </OmniRow>
+        </OmniRow>
+        <OmniDiffViewer @ref="_fillViewer"
+                        Id="editor-compare-fill"
+                        Original="@CodeReadingSamples.OriginalConfiguration"
+                        Modified="@CodeReadingSamples.ChangedConfiguration"
+                        Engine="OmniCodeEditorEngine.PlainText"
+                        Language="json"
+                        ReadOnly="true"
+                        FillAvailableHeight="true"
+                        Label="Comparison filling its container"
+                        Height="10rem" />
+    </OmniStack>
+</OmniStack>

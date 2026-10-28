@@ -1,0 +1,60 @@
+@page "/components/code-reading"
+@using OmniEurope.Blazor.Showcase.Examples.Editor
+
+<GalleryPageFrame Slug="code-reading">
+    <Settings>
+        <OmniSettingsSection Title="@Text["CodeReadingSettingsTitle"]">
+            <OmniSettingsTile Title="@Text["CodeReadingChanged"]">
+                <ChildContent><OmniSwitch @bind-Value="Changed" aria-label="@Text["CodeReadingChanged"]" /></ChildContent>
+            </OmniSettingsTile>
+            <OmniSettingsTile Title="@Text["CodeReadingExcerpt"]" Description="@Text["CodeReadingExcerptDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.NumberedList" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Excerpt" aria-label="@Text["CodeReadingExcerpt"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+            <OmniSettingsTile Title="@Text["CodeReadingDiffExpanded"]" Description="@Text["CodeReadingDiffExpandedDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="DiffExpanded" aria-label="@Text["CodeReadingDiffExpanded"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>OmniCodeBlock</HeaderContent>
+            <ChildContent><CodeBlockExample Changed="Changed" /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["CodeReadingAnsiTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["CodeReadingAnsiDescription"]</OmniText>
+                <CodeBlockAnsiExample />
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>OmniCodeViewer</HeaderContent>
+            <ChildContent><CodeViewerExample Changed="Changed" Excerpt="Excerpt" /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["CodeReadingExcerptTitle"]</HeaderContent>
+            <ChildContent><CodeViewerExcerptExample /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>OmniUnifiedDiff</HeaderContent>
+            <ChildContent><UnifiedDiffExample ExpandedByDefault="DiffExpanded" /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>OmniDiffViewer</HeaderContent>
+            <ChildContent><DiffViewerExample Changed="Changed" /></ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["CodeReadingNavigationTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["CodeReadingNavigationDescription"]</OmniText>
+                <div class="gallery-code-reading-fill"><DiffViewerNavigationExample /></div>
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

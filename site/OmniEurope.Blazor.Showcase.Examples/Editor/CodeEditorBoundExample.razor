@@ -1,0 +1,7 @@
+@* The text the page receives while typing, in a read-only text area. *@
+<OmniFormField For="editor-code-bound" Description="Read only: the text the page receives while typing.">
+    <LabelContent>Editor value</LabelContent>
+    <ChildContent>
+        <OmniTextArea Id="editor-code-bound" @bind-Value="Code" ReadOnly="true" Rows="8" ShowCount="true" />
+    </ChildContent>
+</OmniFormField>
