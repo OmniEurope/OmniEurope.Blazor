@@ -43,3 +43,6 @@ contrôle mesurable ; un point n'est « fait » qu'avec sa preuve observée (nav
     `ce51ad50`), appel de `base.OnParametersSet` (`c68bcfe4`). Suite complète : 10633 tests, 0 échec.
 - En attente du propriétaire : R-3 (badge distinct d'un bouton, la garde de rayon `--omni-radius-sm`
   interdit la pastille sans sa décision).
+- Validé côté client (OE en sources locales) : R-26 sur ses 3 pages ; R-16 mesuré (infobulle centrée à
+  1 px sur son bouton, chevauchement de 3 px voulu car placée sur le pointeur) ; R-4, catégorie E2E
+  tableau de bord 28/28 verte, test réactivé des quatre barres de chargement sous les en-têtes passé.
