@@ -260,6 +260,12 @@
     .omni-fact-tile__label { flex: 0 1 auto; max-inline-size: calc(100% - var(--omni-fact-tile-icon-width, 1.25rem) - var(--omni-space-sm)); }
     .omni-fact-tile__value { flex: 1 1 auto; max-inline-size: 100%; text-align: end; }
 }
+/* A very narrow tile (a quarter of a 600 px grid) gives its content 0.375rem of each side margin back, as a
+   tighter padding would (the tile is the container, its own padding cannot follow the query): a value of
+   twenty characters keeps its room. */
+@container (width < 10rem) {
+    .omni-fact-tile__title, .omni-fact-tile__rows { margin-inline: -0.375rem; }
+}
 .omni-fact-tile--action { cursor: pointer; transition: background-color var(--omni-duration-fast) ease; }
 .omni-fact-tile--action:hover { background: color-mix(in srgb, var(--omni-color-text) 6%, var(--omni-card-background, var(--omni-color-surface))); }
 .omni-fact-tile--action:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }

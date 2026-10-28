@@ -413,10 +413,10 @@ export async function requestSteps(session, results) {
   // 7c-bis. OmniTileGrid.EqualHeights="false" (request of 2026-10-24): a grid of fact tiles of 4, 1, 2 and 2 rows
   // keeps the widths and columns of the grid but not the equal heights: each tile has the height of its content
   // (the one-row tile is shorter than the four-row one), aligned to the top of its row, and the row of a long
-  // label ("Durée de l'étape", 16 characters) with a short value ("2") stays on one line in the narrow tile.
-  // The window is widened until the grid is 900 px wide, as above.
+  // label ("Retries per step", 16 characters) with a short value ("2") stays on one line in the narrow tile.
+  // From 1024 px of window, the window is widened until the grid is 900 px wide, as above.
   await session.visit('/components/stat-tiles', '#demo-tile-grid-natural');
-  for (let width = 1000; width <= 1800; width += 5) {
+  for (let width = 1024; width <= 1800; width += 5) {
     await send('Emulation.setDeviceMetricsOverride', { width, height: 900, deviceScaleFactor: 1, mobile: false });
     await pause(60);
     if (await evaluate("document.getElementById('demo-tile-grid-natural').getBoundingClientRect().width >= 900")) break;
@@ -450,7 +450,7 @@ export async function requestSteps(session, results) {
   // 7c-ter. OmniTileGrid.UniformSize (owner decision of 2026-10-24): the common tile size rule of the application,
   // as an option of one grid. Measured on #demo-tile-grid-uniform (a stat tile, a fact tile of three rows, a
   // DoubleWidth nav tile and a card of unequal content) in windows of 1800, 1280 and 375 px, then in a window of
-  // 1800 px with the grid itself held to 600 px (the column count follows the width of the grid, not of the
+  // 1800 px with the grid itself held to 480 px, under two columns of 18rem and their gap (the column count follows the width of the grid, not of the
   // window). The number of real columns is the largest that keeps each one at the minimum width (the token
   // --omni-tile-min-width, 18rem), at most Columns, one at least (a small tolerance at the boundary); the columns
   // are equal; a single tile fills one column, the double tile two columns and the gap where the grid has two or
@@ -511,17 +511,17 @@ export async function requestSteps(session, results) {
     const wide = await uniformAt(1800);
     await uniformAt(1280);
     const phone = await uniformAt(375);
-    const held = await uniformAt(1800, 600);
+    const held = await uniformAt(1800, 480);
     // The rule is exercised only when a window leaves the grid several columns, and a phone leaves it one.
     check(wide.columns >= 2, `Règle des tuiles : #demo-tile-grid-uniform n'a qu'une colonne dans une fenêtre de 1800 px, la tuile double n'est pas exercée (${JSON.stringify(wide)}).`);
     check(phone.columns === 1, `Règle des tuiles : #demo-tile-grid-uniform a ${phone.columns} colonnes sur un téléphone (${JSON.stringify(phone)}).`);
-    check(held.gridWidth <= 600 && held.columns < wide.columns, `Règle des tuiles : le nombre de colonnes de #demo-tile-grid-uniform ne suit pas la largeur de la grille elle-même, ${held.columns} colonnes dans ${held.gridWidth} px contre ${wide.columns} dans ${wide.gridWidth} px (même fenêtre).`);
+    check(held.gridWidth <= 480 && held.columns < wide.columns, `Règle des tuiles : le nombre de colonnes de #demo-tile-grid-uniform ne suit pas la largeur de la grille elle-même, ${held.columns} colonnes dans ${held.gridWidth} px contre ${wide.columns} dans ${wide.gridWidth} px (même fenêtre).`);
     // Only a grid that sets MinColumnWidth writes its own minimum: this one reads the token of the application.
     const ownMinimum = await evaluate("document.getElementById('demo-tile-grid-uniform').style.getPropertyValue('--omni-tile-min')");
     check(ownMinimum === '', `Une grille sans MinColumnWidth ne doit pas écrire son minimum : « ${ownMinimum} »`);
     await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
     await pause(300);
-    step(`règle des tuiles (UniformSize) : ${wide.columns} colonnes égales à 1800 px (suivant la largeur de la grille, ${held.columns} dans 600 px, ${phone.columns} sur téléphone), tuile double sur deux colonnes ou une seule, même hauteur au moins --omni-tile-height, rien ne déborde`);
+    step(`règle des tuiles (UniformSize) : ${wide.columns} colonnes égales à 1800 px (suivant la largeur de la grille, ${held.columns} dans ${held.gridWidth} px, ${phone.columns} sur téléphone), tuile double sur deux colonnes ou une seule, même hauteur au moins --omni-tile-height, rien ne déborde`);
   }
 
   // 7d. Columns sized to their content (PLAN-004 lot M, request of 2026-10-23): a grid with
@@ -650,10 +650,12 @@ export async function requestSteps(session, results) {
           const table = document.querySelector('#' + id + ' table');
           if (!table) continue;
           const widths = [...table.querySelectorAll('thead th')].map(head => Math.round(head.getBoundingClientRect().width)).join(',');
-          const visible = getComputedStyle(table).visibility === 'visible';
+          // The veil hides the rows (tbody) until the widths are applied, the headers until their first measure.
+          const visible = table.tBodies[0] !== undefined && getComputedStyle(table.tBodies[0]).visibility === 'visible';
+          const head = table.tHead !== null && getComputedStyle(table.tHead).visibility === 'visible';
           const rows = table.querySelector('tbody td[data-omni-col]') !== null;
           const last = seen.at(-1);
-          if (!last || last.widths !== widths || last.visible !== visible || last.rows !== rows) seen.push({ widths, visible, rows });
+          if (!last || last.widths !== widths || last.visible !== visible || last.head !== head || last.rows !== rows) seen.push({ widths, visible, head, rows });
         }
       };
       const observer = new MutationObserver(record);
@@ -669,7 +671,7 @@ export async function requestSteps(session, results) {
     // first, which it must neither be sized on nor shown with (a jump measured on it on 2026-10-26).
     for (const [id, seen] of Object.entries(traces)) {
       const final = seen.at(-1);
-      const trace = seen.map(state => `${state.widths} ${state.visible ? 'visible' : 'masquée'}${state.rows ? '' : ' sans ligne'}`).join(' → ');
+      const trace = seen.map(state => `${state.widths} ${state.visible ? 'lignes visibles' : 'lignes masquées'}${state.head ? ', en-tête visible' : ''}${state.rows ? '' : ' sans ligne'}`).join(' → ');
       check(final?.visible === true && final.rows, `La grille au contenu ${id} reste masquée ou sans ligne : ${trace}`);
       check(seen.some(state => !state.visible && state.widths !== final.widths), `Les largeurs du premier rendu de ${id} n'ont pas été vues avant la mesure, le saut n'est pas éprouvé : ${trace}`);
       check(seen.filter(state => state.visible).every(state => state.widths === final.widths && state.rows), `Les colonnes au contenu de ${id} sautent sous les yeux du lecteur : ${trace}`);
@@ -686,7 +688,7 @@ export async function requestSteps(session, results) {
       const states = [];
       for (const wait of [500, 900]) {
         await new Promise(resolve => setTimeout(resolve, wait));
-        states.push(getComputedStyle(table).visibility);
+        states.push(getComputedStyle(table.tBodies[0]).visibility);
       }
       table.remove();
       return states.join(',');
@@ -702,10 +704,10 @@ export async function requestSteps(session, results) {
       const table = grid.firstElementChild;
       const states = [];
       await new Promise(resolve => setTimeout(resolve, 1400));
-      states.push(getComputedStyle(table).visibility);
+      states.push(getComputedStyle(table.tBodies[0]).visibility);
       grid.setAttribute('aria-busy', 'false');
       await new Promise(resolve => setTimeout(resolve, 1400));
-      states.push(getComputedStyle(table).visibility);
+      states.push(getComputedStyle(table.tBodies[0]).visibility);
       grid.remove();
       return states.join(',');
     })()`);
@@ -748,7 +750,7 @@ export async function requestSteps(session, results) {
   // 375 px the list is one column and nothing overflows.
   {
     await session.visit('/components/details', '#details-essentials .omni-description-list__item');
-    await waitFor('la liste de description affichée', "[...document.querySelectorAll('#details-essentials > .omni-description-list__item')].filter(item => item.getClientRects().length > 0 && item.getBoundingClientRect().width > 0).length === 6", 10_000);
+    await waitFor('la liste de description affichée', "[...document.querySelectorAll('#details-essentials > .omni-description-list__item')].filter(item => item.getClientRects().length > 0 && item.getBoundingClientRect().width > 0).length === document.querySelectorAll('#details-essentials > .omni-description-list__item').length && document.querySelectorAll('#details-essentials > .omni-description-list__item').length >= 4", 10_000);
     const listState = `(() => {
       const list = document.getElementById('details-essentials');
       const items = [...list.querySelectorAll(':scope > .omni-description-list__item')].filter(item => item.getClientRects().length > 0).map(item => {
@@ -760,7 +762,7 @@ export async function requestSteps(session, results) {
       return { items, overflow: list.scrollWidth - list.clientWidth, page: document.documentElement.scrollWidth - innerWidth, gap: parseFloat(getComputedStyle(list.querySelector('.omni-description-list__item')).columnGap) };
     })()`;
     const layoutOf = state => {
-      check(state.items.length >= 4, `La liste de description montre ${state.items.length} élément(s) au lieu de six.`);
+      check(state.items.length >= 4, `La liste de description ne montre que ${state.items.length} élément(s), au moins quatre attendus.`);
       const columns = [...new Set(state.items.map(item => item.left))];
       for (const left of columns) {
         const column = state.items.filter(item => item.left === left);

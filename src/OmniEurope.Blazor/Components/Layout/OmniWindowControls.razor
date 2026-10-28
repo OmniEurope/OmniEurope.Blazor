@@ -1,9 +1,9 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-@* The caption buttons of a borderless desktop window (MAUI, Electron, WebView2 host): square, the full
+@* The caption buttons of a borderless desktop window (MAUI, Electron, WebView2 host): 2.875rem wide, the full
    height of the header, side by side without a gap, the close button in the very corner. Extra header
-   actions (a theme toggle) sit before them, square too, with a small gap. *@
+   actions (a theme toggle) sit before them, as wide, with a small gap. *@
 <div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-window-controls")" role="group" aria-label="@EffectiveLabel">
     @if (ActionsContent is not null)
     {

@@ -42,10 +42,14 @@ public sealed class WindowControlsTests : OmniBunitContext
     }
 
     [Fact]
-    public void WindowControls_AreSquareAndTakeTheHeaderHeight()
+    public void WindowControls_HaveTheSystemCaptionWidth_AndTakeTheHeaderHeight()
     {
+        // A width taken from the height (aspect-ratio) was unknown when the row was sized: the buttons ran
+        // past the header. A fixed width, kept whole, sizes the row from the start.
         var button = ShippedLookTests.Body(".omni-window-controls__button, .omni-window-controls__actions .omni-button");
-        Assert.Equal("1", ShippedLookTests.Value(button, "aspect-ratio"));
+        Assert.Equal("2.875rem", ShippedLookTests.Value(button, "inline-size"));
+        Assert.Equal("none", ShippedLookTests.Value(button, "flex"));
+        Assert.DoesNotContain("aspect-ratio", button, StringComparison.Ordinal);
         Assert.Equal("100%", ShippedLookTests.Value(button, "block-size"));
         Assert.Equal("calc(-1 * var(--omni-window-controls-pad-y))", ShippedLookTests.Value(ShippedLookTests.Body(".omni-window-controls"), "margin-block"));
     }

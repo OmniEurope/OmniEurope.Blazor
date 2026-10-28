@@ -4,10 +4,10 @@ namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The caption buttons of a borderless desktop window, placed last in an <see cref="OmniHeader"/>: minimize to
-/// the tray, minimize, maximize or restore, and close. Each button is square and fills the header's height, the
+/// the tray, minimize, maximize or restore, and close. Each button is 2.875rem wide, as a system caption, and fills the header's height; the
 /// buttons touch, and close takes the top-right corner and turns red on hover like a system caption. A button
 /// is drawn only when its callback is set. <see cref="ActionsContent"/> holds extra header buttons (a theme toggle),
-/// drawn square at the same height before the caption buttons, with a small gap.
+/// drawn at the same width and height before the caption buttons, with a small gap.
 /// </summary>
 public partial class OmniWindowControls
 {
@@ -34,7 +34,7 @@ public partial class OmniWindowControls
     [Parameter]
     public bool Maximized { get; set; }
 
-    /// <summary>Extra header buttons, such as a theme toggle, drawn square before the caption buttons; none by default.</summary>
+    /// <summary>Extra header buttons, such as a theme toggle, drawn at the caption width before the caption buttons; none by default.</summary>
     [Parameter]
     public RenderFragment? ActionsContent { get; set; }
 

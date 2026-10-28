@@ -28,7 +28,7 @@
   <data name="SidebarCollapseIcons" xml:space="preserve"><value>Icônes seules</value></data>
   <data name="SidebarPreviewTitle" xml:space="preserve"><value>Aperçu en direct</value></data>
   <data name="WindowControlsTitle" xml:space="preserve"><value>Boutons de fenêtre</value></data>
-  <data name="WindowControlsDescription" xml:space="preserve"><value>Les boutons de légende d'une fenêtre de bureau sans bordure, carrés et à pleine hauteur dans l'en-tête ; un bouton n'est dessiné que si son rappel est posé.</value></data>
+  <data name="WindowControlsDescription" xml:space="preserve"><value>Les boutons de légende d'une fenêtre de bureau sans bordure, larges comme ceux du système et à pleine hauteur dans l'en-tête ; un bouton n'est dessiné que si son rappel est posé.</value></data>
   <data name="WindowControlsSettingsTitle" xml:space="preserve"><value>Boutons affichés</value></data>
   <data name="WindowControlsSettingsDescription" xml:space="preserve"><value>Chaque interrupteur pose ou retire le rappel d'un bouton.</value></data>
   <data name="WindowControlsTray" xml:space="preserve"><value>Réduire dans la zone de notification</value></data>

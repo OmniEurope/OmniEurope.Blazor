@@ -28,7 +28,7 @@
   <data name="SidebarCollapseIcons" xml:space="preserve"><value>Icons only</value></data>
   <data name="SidebarPreviewTitle" xml:space="preserve"><value>Live preview</value></data>
   <data name="WindowControlsTitle" xml:space="preserve"><value>Window controls</value></data>
-  <data name="WindowControlsDescription" xml:space="preserve"><value>The caption buttons of a borderless desktop window, square and full height in the header; a button is drawn only when its callback is set.</value></data>
+  <data name="WindowControlsDescription" xml:space="preserve"><value>The caption buttons of a borderless desktop window, as wide as a system caption and full height in the header; a button is drawn only when its callback is set.</value></data>
   <data name="WindowControlsSettingsTitle" xml:space="preserve"><value>Buttons shown</value></data>
   <data name="WindowControlsSettingsDescription" xml:space="preserve"><value>Each switch sets or clears the callback of one button.</value></data>
   <data name="WindowControlsTray" xml:space="preserve"><value>Minimize to tray</value></data>
