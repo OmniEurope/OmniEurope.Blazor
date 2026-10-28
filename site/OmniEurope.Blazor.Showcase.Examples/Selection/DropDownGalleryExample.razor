@@ -1,53 +1,45 @@
 @* The same drop-down for other value types: an enumeration and an integer, an empty entry with its own
    text, and a disabled list. Each is bound to a typed value shown under it. *@
-<OmniRow Gap="OmniSpacing.Large">
-    <OmniColumn Span="12" MediumSpan="6">
-        <OmniStack Gap="OmniSpacing.Small">
-            <OmniFormField For="dropdown-size">
-                <LabelContent>Enumeration value</LabelContent>
-                <ChildContent>
-                    <OmniDropDown TValue="OmniControlSize" Id="dropdown-size" Options="SizeOptions" @bind-Value="Size" />
-                </ChildContent>
-            </OmniFormField>
-            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Size</code></OmniText>
-        </OmniStack>
-    </OmniColumn>
-    <OmniColumn Span="12" MediumSpan="6">
-        <OmniStack Gap="OmniSpacing.Small">
-            <OmniFormField For="dropdown-seats">
-                <LabelContent>Integer value</LabelContent>
-                <ChildContent>
-                    <OmniDropDown TValue="int" Id="dropdown-seats" Options="SeatOptions" @bind-Value="Seats" />
-                </ChildContent>
-            </OmniFormField>
-            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Seats</code></OmniText>
-        </OmniStack>
-    </OmniColumn>
-    <OmniColumn Span="12" MediumSpan="6">
-        <OmniStack Gap="OmniSpacing.Small">
-            <OmniFormField For="dropdown-empty">
-                <LabelContent>Empty allowed, custom text</LabelContent>
-                <ChildContent>
-                    <OmniDropDown TValue="string"
-                                  Id="dropdown-empty"
-                                  Options="CityOptions"
-                                  @bind-Value="City"
-                                  AllowEmpty="true"
-                                  Placeholder="Choose a city" />
-                </ChildContent>
-            </OmniFormField>
-            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@(City ?? "null")</code></OmniText>
-        </OmniStack>
-    </OmniColumn>
-    <OmniColumn Span="12" MediumSpan="6">
-        <OmniStack Gap="OmniSpacing.Small">
-            <OmniFormField For="dropdown-disabled" Disabled="true">
-                <LabelContent>Disabled list</LabelContent>
-                <ChildContent>
-                    <OmniDropDown TValue="string" Id="dropdown-disabled" Options="CityOptions" @bind-Value="FrozenCity" Disabled="true" />
-                </ChildContent>
-            </OmniFormField>
-            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@FrozenCity</code></OmniText>
-        </OmniStack>
-    </OmniColumn>
-</OmniRow>
+<OmniTileGrid Columns="4" MinColumnWidth="16rem" EqualHeights="false" Gap="OmniSpacing.Large">
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniFormField For="dropdown-size">
+            <LabelContent>Enumeration value</LabelContent>
+            <ChildContent>
+                <OmniDropDown TValue="OmniControlSize" Id="dropdown-size" Options="SizeOptions" @bind-Value="Size" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Size</code></OmniText>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniFormField For="dropdown-seats">
+            <LabelContent>Integer value</LabelContent>
+            <ChildContent>
+                <OmniDropDown TValue="int" Id="dropdown-seats" Options="SeatOptions" @bind-Value="Seats" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Seats</code></OmniText>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniFormField For="dropdown-empty">
+            <LabelContent>Empty allowed, custom text</LabelContent>
+            <ChildContent>
+                <OmniDropDown TValue="string"
+                              Id="dropdown-empty"
+                              Options="CityOptions"
+                              @bind-Value="City"
+                              AllowEmpty="true"
+                              Placeholder="Choose a city" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@(City ?? "null")</code></OmniText>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniFormField For="dropdown-disabled" Disabled="true">
+            <LabelContent>Disabled list</LabelContent>
+            <ChildContent>
+                <OmniDropDown TValue="string" Id="dropdown-disabled" Options="CityOptions" @bind-Value="FrozenCity" Disabled="true" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@FrozenCity</code></OmniText>
+    </OmniStack>
+</OmniTileGrid>

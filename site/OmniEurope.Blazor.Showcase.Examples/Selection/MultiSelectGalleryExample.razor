@@ -1,80 +1,72 @@
 @* The multiple selection in its other forms: the always-open list box with Multiple, the compact form, the
    compact form with a search field, an option template and a footer that creates the tag that was typed,
    and a disabled one. *@
-<OmniRow Gap="OmniSpacing.Large">
-    <OmniColumn Span="12" MediumSpan="6">
-        <OmniStack Gap="OmniSpacing.Small">
-            <OmniFormField For="multiselect-list">
-                <LabelContent>Always-open list (OmniListBox Multiple)</LabelContent>
-                <ChildContent>
-                    <OmniListBox Id="multiselect-list" Options="TagOptions" Multiple="true" @bind-Value="ListTags" VisibleRows="4" />
-                </ChildContent>
-            </OmniFormField>
-            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Join(ListTags)</code></OmniText>
-        </OmniStack>
-    </OmniColumn>
-    <OmniColumn Span="12" MediumSpan="6">
-        <OmniStack Gap="OmniSpacing.Small">
-            <OmniFormField For="multiselect-compact">
-                <LabelContent>Compact form</LabelContent>
-                <ChildContent>
-                    <OmniMultiSelect TValue="string"
-                                     Id="multiselect-compact"
-                                     Options="TagOptions"
-                                     @bind-Value="CompactTags"
-                                     Placeholder="Choose tags" />
-                </ChildContent>
-            </OmniFormField>
-            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Join(CompactTags)</code></OmniText>
-        </OmniStack>
-    </OmniColumn>
-    <OmniColumn Span="12" MediumSpan="6">
-        <OmniStack Gap="OmniSpacing.Small">
-            <OmniFormField For="multiselect-templates">
-                <LabelContent>Search, option template and footer</LabelContent>
-                <ChildContent>
-                    <OmniMultiSelect TValue="string"
-                                     Id="multiselect-templates"
-                                     Options="EditableTagOptions"
-                                     @bind-Value="TemplateTags"
-                                     Placeholder="Choose tags"
-                                     Filterable="true"
-                                     @bind-FilterText="TagSearch"
-                                     FilterPlaceholder="Search a tag">
-                        <OptionTemplate Context="tag">
-                            <svg width="14" height="14" viewBox="0 0 10 10" focusable="false" aria-hidden="true">
-                                <circle cx="5" cy="5" r="5" fill="@SwatchOf(tag.Value)" />
-                            </svg>
-                            <span>@tag.Text</span>
-                        </OptionTemplate>
-                        <FooterContent>
-                            @if (CanCreateSearchedTag)
-                            {
-                                <OmniButton Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small" OnClick="CreateSearchedTag">
-                                    <OmniIcon Name="OmniIconName.Add" />
-                                    <span>Create “@TagSearch?.Trim()”</span>
-                                </OmniButton>
-                            }
-                            else
-                            {
-                                <OmniText Tone="OmniTextTone.Muted">Type a new name to create it.</OmniText>
-                            }
-                        </FooterContent>
-                    </OmniMultiSelect>
-                </ChildContent>
-            </OmniFormField>
-            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Join(TemplateTags)</code></OmniText>
-        </OmniStack>
-    </OmniColumn>
-    <OmniColumn Span="12" MediumSpan="6">
-        <OmniStack Gap="OmniSpacing.Small">
-            <OmniFormField For="multiselect-disabled" Disabled="true">
-                <LabelContent>Disabled compact form</LabelContent>
-                <ChildContent>
-                    <OmniMultiSelect TValue="string" Id="multiselect-disabled" Options="TagOptions" @bind-Value="FrozenTags" Disabled="true" />
-                </ChildContent>
-            </OmniFormField>
-            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Join(FrozenTags)</code></OmniText>
-        </OmniStack>
-    </OmniColumn>
-</OmniRow>
+<OmniTileGrid Columns="4" MinColumnWidth="16rem" EqualHeights="false" Gap="OmniSpacing.Large">
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniFormField For="multiselect-list">
+            <LabelContent>Always-open list (OmniListBox Multiple)</LabelContent>
+            <ChildContent>
+                <OmniListBox Id="multiselect-list" Options="TagOptions" Multiple="true" @bind-Value="ListTags" VisibleRows="4" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Join(ListTags)</code></OmniText>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniFormField For="multiselect-compact">
+            <LabelContent>Compact form</LabelContent>
+            <ChildContent>
+                <OmniMultiSelect TValue="string"
+                                 Id="multiselect-compact"
+                                 Options="TagOptions"
+                                 @bind-Value="CompactTags"
+                                 Placeholder="Choose tags" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Join(CompactTags)</code></OmniText>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniFormField For="multiselect-templates">
+            <LabelContent>Search, option template and footer</LabelContent>
+            <ChildContent>
+                <OmniMultiSelect TValue="string"
+                                 Id="multiselect-templates"
+                                 Options="EditableTagOptions"
+                                 @bind-Value="TemplateTags"
+                                 Placeholder="Choose tags"
+                                 Filterable="true"
+                                 @bind-FilterText="TagSearch"
+                                 FilterPlaceholder="Search a tag">
+                    <OptionTemplate Context="tag">
+                        <svg width="14" height="14" viewBox="0 0 10 10" focusable="false" aria-hidden="true">
+                            <circle cx="5" cy="5" r="5" fill="@SwatchOf(tag.Value)" />
+                        </svg>
+                        <span>@tag.Text</span>
+                    </OptionTemplate>
+                    <FooterContent>
+                        @if (CanCreateSearchedTag)
+                        {
+                            <OmniButton Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small" OnClick="CreateSearchedTag">
+                                <OmniIcon Name="OmniIconName.Add" />
+                                <span>Create “@TagSearch?.Trim()”</span>
+                            </OmniButton>
+                        }
+                        else
+                        {
+                            <OmniText Tone="OmniTextTone.Muted">Type a new name to create it.</OmniText>
+                        }
+                    </FooterContent>
+                </OmniMultiSelect>
+            </ChildContent>
+        </OmniFormField>
+        <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Join(TemplateTags)</code></OmniText>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniFormField For="multiselect-disabled" Disabled="true">
+            <LabelContent>Disabled compact form</LabelContent>
+            <ChildContent>
+                <OmniMultiSelect TValue="string" Id="multiselect-disabled" Options="TagOptions" @bind-Value="FrozenTags" Disabled="true" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Join(FrozenTags)</code></OmniText>
+    </OmniStack>
+</OmniTileGrid>

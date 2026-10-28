@@ -11,7 +11,7 @@ public partial class TooltipsExample
 
     /// <summary>Whether the tooltip follows the pointer or stays where it appeared.</summary>
     [Parameter]
-    public OmniTooltipTracking Tracking { get; set; } = OmniTooltipTracking.Pointer;
+    public OmniTooltipTracking Tracking { get; set; } = OmniTooltipTracking.Pinned;
 
     /// <summary>The width beyond which the text wraps.</summary>
     [Parameter]

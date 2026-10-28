@@ -14,7 +14,7 @@ public partial class NotificationsExample : IDisposable
     private const int ReportLength = 4000;
 
     /// <summary>Where a report too long to read in a notification points: the full account lives in a log of the application.</summary>
-    private const string ReportDetailsHref = "#import-log";
+    private const string ReportDetailsHref = "components/notifications";
 
     private const string RoleMessage = "A notification of this role, to compare the tints.";
 

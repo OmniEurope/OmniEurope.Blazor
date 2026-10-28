@@ -42,16 +42,31 @@
         }
         else
         {
-            @foreach (var file in ReadFiles)
-            {
-                <OmniDescriptionList>
-                    <OmniDescriptionItem Term="Name">@file.Name</OmniDescriptionItem>
-                    <OmniDescriptionItem Term="Type"><code>@file.ContentType</code></OmniDescriptionItem>
-                    <OmniDescriptionItem Term="Size">@file.Size</OmniDescriptionItem>
-                    <OmniDescriptionItem Term="Modified">@file.Modified</OmniDescriptionItem>
-                    <OmniDescriptionItem Term="Read in the browser">@file.Content</OmniDescriptionItem>
-                </OmniDescriptionList>
-            }
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Size</th>
+                            <th scope="col">Modified</th>
+                            <th scope="col">Read in the browser</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var file in ReadFiles)
+                        {
+                            <tr>
+                                <td>@file.Name</td>
+                                <td><code>@file.ContentType</code></td>
+                                <td>@file.Size</td>
+                                <td>@file.Modified</td>
+                                <td>@file.Content</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
             <OmniText Tone="OmniTextTone.Muted">@TotalEcho</OmniText>
         }
     </OmniStack>

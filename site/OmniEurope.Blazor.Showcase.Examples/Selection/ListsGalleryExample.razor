@@ -1,47 +1,39 @@
 @* The same lists for other value types: an integer list box and a check box list bound to enumeration
    values, each next to its disabled twin. *@
-<OmniRow Gap="OmniSpacing.Large">
-    <OmniColumn Span="12" MediumSpan="6">
-        <OmniStack Gap="OmniSpacing.Small">
-            <OmniFormField For="listbox-year">
-                <LabelContent>Integer value</LabelContent>
-                <ChildContent>
-                    <OmniListBox Id="listbox-year" Options="YearOptions" @bind-Value="Year" VisibleRows="4" />
-                </ChildContent>
-            </OmniFormField>
-            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Year</code></OmniText>
-        </OmniStack>
-    </OmniColumn>
-    <OmniColumn Span="12" MediumSpan="6">
-        <OmniStack Gap="OmniSpacing.Small">
-            <OmniFormField For="listbox-disabled" Disabled="true">
-                <LabelContent>Disabled list box</LabelContent>
-                <ChildContent>
-                    <OmniListBox Id="listbox-disabled" Options="CityOptions" @bind-Value="FrozenCity" VisibleRows="3" Disabled="true" />
-                </ChildContent>
-            </OmniFormField>
-            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@FrozenCity</code></OmniText>
-        </OmniStack>
-    </OmniColumn>
-    <OmniColumn Span="12" MediumSpan="6">
-        <OmniStack Gap="OmniSpacing.Small">
-            <OmniCheckBoxList TValue="OmniTone"
-                              Id="checkboxlist-tones"
-                              Options="ToneOptions"
-                              @bind-Value="Tones"
-                              Label="Enumeration values" />
-            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Join(Tones)</code></OmniText>
-        </OmniStack>
-    </OmniColumn>
-    <OmniColumn Span="12" MediumSpan="6">
-        <OmniStack Gap="OmniSpacing.Small">
-            <OmniCheckBoxList TValue="string"
-                              Id="checkboxlist-disabled"
-                              Options="ExtraOptions"
-                              @bind-Value="FrozenExtras"
-                              Label="Disabled check box list"
-                              Disabled="true" />
-            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Join(FrozenExtras)</code></OmniText>
-        </OmniStack>
-    </OmniColumn>
-</OmniRow>
+<OmniTileGrid Columns="4" MinColumnWidth="16rem" EqualHeights="false" Gap="OmniSpacing.Large">
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniFormField For="listbox-year">
+            <LabelContent>Integer value</LabelContent>
+            <ChildContent>
+                <OmniListBox Id="listbox-year" Options="YearOptions" @bind-Value="Year" VisibleRows="4" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Year</code></OmniText>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniFormField For="listbox-disabled" Disabled="true">
+            <LabelContent>Disabled list box</LabelContent>
+            <ChildContent>
+                <OmniListBox Id="listbox-disabled" Options="CityOptions" @bind-Value="FrozenCity" VisibleRows="3" Disabled="true" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@FrozenCity</code></OmniText>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniCheckBoxList TValue="OmniTone"
+                          Id="checkboxlist-tones"
+                          Options="ToneOptions"
+                          @bind-Value="Tones"
+                          Label="Enumeration values" />
+        <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Join(Tones)</code></OmniText>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniCheckBoxList TValue="string"
+                          Id="checkboxlist-disabled"
+                          Options="ExtraOptions"
+                          @bind-Value="FrozenExtras"
+                          Label="Disabled check box list"
+                          Disabled="true" />
+        <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@Join(FrozenExtras)</code></OmniText>
+    </OmniStack>
+</OmniTileGrid>

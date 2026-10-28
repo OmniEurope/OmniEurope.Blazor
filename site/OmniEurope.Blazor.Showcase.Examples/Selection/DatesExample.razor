@@ -6,41 +6,37 @@
     {
         <OmniAlert Severity="OmniSeverity.Warning" Title="Bounds ignored">The minimum is after the maximum: the pickers would refuse to render, so they run without bounds.</OmniAlert>
     }
-    <OmniRow Gap="OmniSpacing.Large">
-        <OmniColumn Span="12" MediumSpan="6">
-            <OmniStack Gap="OmniSpacing.Small">
-                <OmniFormField For="dates-date" Description="@BoundsText">
-                    <LabelContent>Date</LabelContent>
-                    <ChildContent>
-                        <OmniDatePicker Id="dates-date"
-                                        @bind-Value="Date"
-                                        Minimum="EffectiveMinimum"
-                                        Maximum="EffectiveMaximum"
+    <OmniTileGrid Columns="2" MinColumnWidth="16rem" EqualHeights="false" Gap="OmniSpacing.Large">
+        <OmniStack Gap="OmniSpacing.Small">
+            <OmniFormField For="dates-date" Description="@BoundsText">
+                <LabelContent>Date</LabelContent>
+                <ChildContent>
+                    <OmniDatePicker Id="dates-date"
+                                    @bind-Value="Date"
+                                    Minimum="EffectiveMinimum"
+                                    Maximum="EffectiveMaximum"
+                                    ReadOnly="ReadOnly"
+                                    Disabled="Disabled" />
+                </ChildContent>
+            </OmniFormField>
+            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@FormatIso(Date)</code></OmniText>
+            <OmniText Tone="OmniTextTone.Muted">Long form: <strong>@FormatLong(Date)</strong></OmniText>
+        </OmniStack>
+        <OmniStack Gap="OmniSpacing.Small">
+            <OmniFormField For="dates-datetime" Description="@BoundsText">
+                <LabelContent>Date and time</LabelContent>
+                <ChildContent>
+                    <OmniDateTimePicker Id="dates-datetime"
+                                        @bind-Value="Moment"
+                                        Minimum="EffectiveMinimumMoment"
+                                        Maximum="EffectiveMaximumMoment"
+                                        ShowSeconds="ShowSeconds"
                                         ReadOnly="ReadOnly"
                                         Disabled="Disabled" />
-                    </ChildContent>
-                </OmniFormField>
-                <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@FormatIso(Date)</code></OmniText>
-                <OmniText Tone="OmniTextTone.Muted">Long form: <strong>@FormatLong(Date)</strong></OmniText>
-            </OmniStack>
-        </OmniColumn>
-        <OmniColumn Span="12" MediumSpan="6">
-            <OmniStack Gap="OmniSpacing.Small">
-                <OmniFormField For="dates-datetime" Description="@BoundsText">
-                    <LabelContent>Date and time</LabelContent>
-                    <ChildContent>
-                        <OmniDateTimePicker Id="dates-datetime"
-                                            @bind-Value="Moment"
-                                            Minimum="EffectiveMinimumMoment"
-                                            Maximum="EffectiveMaximumMoment"
-                                            ShowSeconds="ShowSeconds"
-                                            ReadOnly="ReadOnly"
-                                            Disabled="Disabled" />
-                    </ChildContent>
-                </OmniFormField>
-                <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@FormatIso(Moment)</code></OmniText>
-                <OmniText Tone="OmniTextTone.Muted">Long form: <strong>@FormatLong(Moment)</strong></OmniText>
-            </OmniStack>
-        </OmniColumn>
-    </OmniRow>
+                </ChildContent>
+            </OmniFormField>
+            <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@FormatIso(Moment)</code></OmniText>
+            <OmniText Tone="OmniTextTone.Muted">Long form: <strong>@FormatLong(Moment)</strong></OmniText>
+        </OmniStack>
+    </OmniTileGrid>
 </OmniStack>

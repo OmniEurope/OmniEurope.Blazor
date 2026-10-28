@@ -14,14 +14,14 @@
             <OmniSettingsTile Title="@Text["MultiSelectPlaceholder"]" Description="@Text["MultiSelectPlaceholderDescription"]">
                 <Icon><OmniIcon Name="OmniIconName.Edit" /></Icon>
                 <Details>
-                    <OmniTextBox @bind-Value="PlaceholderText" aria-label="@Text["MultiSelectPlaceholder"]" />
+                    <OmniTextBox Class="gallery-selection-setting-input" @bind-Value="PlaceholderText" aria-label="@Text["MultiSelectPlaceholder"]" />
                 </Details>
             </OmniSettingsTile>
 
             <OmniSettingsTile Title="@Text["MultiSelectFilterPlaceholder"]" Description="@Text["MultiSelectFilterPlaceholderDescription"]">
                 <Icon><OmniIcon Name="OmniIconName.Filter" /></Icon>
                 <Details>
-                    <OmniTextBox @bind-Value="FilterPlaceholderText"
+                    <OmniTextBox Class="gallery-selection-setting-input" @bind-Value="FilterPlaceholderText"
                                  Disabled="@(!Filterable)"
                                  aria-label="@Text["MultiSelectFilterPlaceholder"]" />
                 </Details>
@@ -53,12 +53,14 @@
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["MultiSelectPreviewTitle"]</HeaderContent>
             <ChildContent>
-                <MultiSelectExample Filterable="Filterable"
-                                    Placeholder="@PlaceholderText"
-                                    FilterPlaceholder="@FilterPlaceholderText"
-                                    CloseOnOutsideClick="CloseOnOutsideClick"
-                                    DisableOption="DisableOption"
-                                    Disabled="FieldDisabled" />
+                <div class="gallery-selection-field">
+                    <MultiSelectExample Filterable="Filterable"
+                                        Placeholder="@PlaceholderText"
+                                        FilterPlaceholder="@FilterPlaceholderText"
+                                        CloseOnOutsideClick="CloseOnOutsideClick"
+                                        DisableOption="DisableOption"
+                                        Disabled="FieldDisabled" />
+                </div>
             </ChildContent>
         </OmniCard>
         <OmniCard Class="gallery-preview">

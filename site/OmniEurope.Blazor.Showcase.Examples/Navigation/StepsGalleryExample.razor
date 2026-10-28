@@ -1,17 +1,15 @@
 @* The same three steps on the first, a middle and the last step, then with a disabled step. Each strip
    derives its element ids from the index alone, so each is given a distinct id prefix. *@
-<OmniRow Gap="OmniSpacing.Large">
+<OmniTileGrid Columns="4" MinColumnWidth="18rem" EqualHeights="false" Gap="OmniSpacing.Large">
     @foreach (var sample in Samples)
     {
-        <OmniColumn Span="12" MediumSpan="6">
-            <OmniStack Gap="OmniSpacing.XSmall">
-                <OmniText Element="OmniTextElement.Strong">@sample.Caption</OmniText>
-                <OmniSteps Label="@sample.Caption" Value="@sample.Value">
-                    <OmniStepsItem Id="@($"steps-{sample.Key}-0")" Index="0" Title="Filing" />
-                    <OmniStepsItem Id="@($"steps-{sample.Key}-1")" Index="1" Title="Review" />
-                    <OmniStepsItem Id="@($"steps-{sample.Key}-2")" Index="2" Title="Decision" Disabled="@sample.DecisionDisabled" />
-                </OmniSteps>
-            </OmniStack>
-        </OmniColumn>
+        <OmniStack Gap="OmniSpacing.XSmall">
+            <OmniText Element="OmniTextElement.Strong">@sample.Caption</OmniText>
+            <OmniSteps Label="@sample.Caption" Value="@sample.Value">
+                <OmniStepsItem Id="@($"steps-{sample.Key}-0")" Index="0" Title="Filing" />
+                <OmniStepsItem Id="@($"steps-{sample.Key}-1")" Index="1" Title="Review" />
+                <OmniStepsItem Id="@($"steps-{sample.Key}-2")" Index="2" Title="Decision" Disabled="@sample.DecisionDisabled" />
+            </OmniSteps>
+        </OmniStack>
     }
-</OmniRow>
+</OmniTileGrid>
