@@ -293,7 +293,7 @@ export async function boardSteps(session, results) {
   step('agenda : rendez-vous glissé avec son identifiant');
 
   // 9. The mind map: a lasso on the background, a pinch, a long press and a double click on a node.
-  await session.visit('/components/legacy/diagramme', '#demo-mindmap-canvas');
+  await session.visit('/components/mind-map', '#demo-mindmap-canvas');
   await evaluate("document.getElementById('demo-mindmap-canvas').scrollIntoView({ block: 'center' })");
   await waitFor('la carte ajustée par son script', "(() => { const zoom = Number(document.querySelector('#demo-mindmap .omni-mindmap__viewport').getAttribute('data-zoom')); return zoom > 0.2 && zoom < 1; })()");
 

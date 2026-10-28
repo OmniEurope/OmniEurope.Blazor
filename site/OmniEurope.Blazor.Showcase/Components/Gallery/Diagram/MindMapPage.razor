@@ -1,0 +1,107 @@
+@page "/components/mind-map"
+@using OmniEurope.Blazor.Showcase.Examples.Diagram
+
+<GalleryPageFrame Slug="mind-map">
+    <Settings>
+        <OmniSettingsSection Title="@Text["MindMapSettingsTitle"]" Description="@Text["MindMapSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["MindMapReadOnly"]" Description="@Text["MindMapReadOnlyDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.ShieldCheck" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ReadOnly" aria-label="@Text["MindMapReadOnly"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["MindMapDirected"]" Description="@Text["MindMapDirectedDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.ArrowRight" /></Icon>
+                <ChildContent>
+                    <OmniSwitch Id="demo-mindmap-directed" @bind-Value="Directed" aria-label="@Text["MindMapDirected"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["MindMapShowToolbar"]" Description="@Text["MindMapShowToolbarDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Menu" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowToolbar" aria-label="@Text["MindMapShowToolbar"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["MindMapShowPanel"]" Description="@Text["MindMapShowPanelDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Sidebar" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowPanel" aria-label="@Text["MindMapShowPanel"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["MindMapCustomLabels"]" Description="@Text["MindMapCustomLabelsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Tag" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="UseCustomLabels" aria-label="@Text["MindMapCustomLabels"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["MindMapShowJson"]" Description="@Text["MindMapShowJsonDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.BracketsCurly" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowJson" aria-label="@Text["MindMapShowJson"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["MindMapActions"]" Description="@Text["MindMapActionsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Refresh" /></Icon>
+                <Details>
+                    <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+                        <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="ResetView">
+                            <OmniIcon Name="OmniIconName.Monitor" />
+                            <span>@Text["MindMapResetView"]</span>
+                        </OmniButton>
+                        <OmniButton Variant="OmniButtonVariant.Danger" Size="OmniControlSize.Small" OnClick="ResetDocument">
+                            <OmniIcon Name="OmniIconName.Reset" />
+                            <span>@Text["MindMapResetDocument"]</span>
+                        </OmniButton>
+                    </OmniRow>
+                </Details>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["MindMapPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <MindMapExample @bind-Document="Map"
+                                @bind-ViewState="View"
+                                ReadOnly="ReadOnly"
+                                Directed="Directed"
+                                ShowToolbar="ShowToolbar"
+                                ShowPanel="ShowPanel"
+                                UseCustomLabels="UseCustomLabels"
+                                OnNodeSelect="OnNodeSelected" />
+                <dl class="gallery-diagram-facts">
+                    <dt>@Text["MindMapSelectedNode"]</dt>
+                    <dd>@(SelectedLabel ?? Text["MindMapNoSelection"].Value)</dd>
+                    <dt>@Text["MindMapSummary"]</dt>
+                    <dd>@Text["MindMapSummaryValue", Map.Nodes.Count, Map.Edges.Count, Map.Notes.Count]</dd>
+                    <dt>@Text["MindMapZoom"]</dt>
+                    <dd>@ZoomText</dd>
+                </dl>
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["MindMapKeyboardHint"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+
+        @if (ShowJson)
+        {
+            <OmniCard Class="gallery-preview">
+                <HeaderContent>@Text["MindMapJsonTitle"]</HeaderContent>
+                <ChildContent>
+                    <MindMapJsonExample Document="Map" />
+                </ChildContent>
+            </OmniCard>
+        }
+
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["MindMapGitGraphTitle"]</HeaderContent>
+            <ChildContent>
+                <GitGraphExample />
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

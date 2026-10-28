@@ -33,9 +33,7 @@ public static class DemoCatalog
         new("retours", typeof(FeedbackDemo), "DemoFeedbackTitle", "DemoFeedbackSummary",
             ["DemoFeedbackCapability1", "DemoFeedbackCapability2", "DemoFeedbackCapability3", "DemoFeedbackCapability4"]),
         new("chargement", typeof(LoadingDemo), "DemoLoadingTitle", "DemoLoadingSummary",
-            ["DemoLoadingCapability1", "DemoLoadingCapability2", "DemoLoadingCapability3"]),
-        new("diagramme", typeof(DiagramDemo), "DemoDiagramTitle", "DemoDiagramSummary",
-            ["DemoDiagramCapability1", "DemoDiagramCapability2", "DemoDiagramCapability3", "DemoDiagramCapability4"])
+            ["DemoLoadingCapability1", "DemoLoadingCapability2", "DemoLoadingCapability3"])
     ];
 
     /// <summary>The entry with the given key, or <see langword="null"/> when no entry has it.</summary>

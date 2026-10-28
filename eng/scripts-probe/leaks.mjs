@@ -28,7 +28,7 @@ export async function leakSteps(session, results) {
     ['/components/spreadsheet', '#demo-sheet [data-omni-sheet-grid]', async () => {}],
     ['/components/tree', '#demo-tree-accounts', async () => {}],
     ['/components/scheduler', '.omni-scheduler', async () => {}],
-    ['/components/legacy/diagramme', '#demo-mindmap-canvas', async () => {}],
+    ['/components/mind-map', '#demo-mindmap-canvas', async () => {}],
     ['/components/details', '#details-shell', async () => {}],
     ['/components/page-shell', '#shell-sidebar', async () => {}],
     ['/components/multi-select', '#multiselect-compact', async () => {

@@ -1,0 +1,5 @@
+@* A commit graph, newest first: a feature branch (f4, f2) opened from c1 and merged back by m5, so the graph shows a
+   second lane, its merge point and its return to the main line. *@
+<OmniGitGraph TItem="string" Items="Commits" KeyOf="CommitId" ParentsOf="CommitParents" Label="History with a merged branch">
+    <RowTemplate Context="commit"><code>@commit</code></RowTemplate>
+</OmniGitGraph>

@@ -4,4 +4,34 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="MindMapTitle" xml:space="preserve"><value>Carte mentale</value></data>
+  <data name="MindMapDescription" xml:space="preserve"><value>Carte mentale interactive avec sa barre d'actions et son panneau de propriétés, mode lecture seule, liens orientés et format enregistré, puis un graphe de commits.</value></data>
+  <data name="MindMapSettingsTitle" xml:space="preserve"><value>Réglages de la carte</value></data>
+  <data name="MindMapSettingsDescription" xml:space="preserve"><value>La carte garde ses modifications pendant qu'on change les réglages.</value></data>
+  <data name="MindMapReadOnly" xml:space="preserve"><value>Lecture seule</value></data>
+  <data name="MindMapReadOnlyDescription" xml:space="preserve"><value>Les nœuds se sélectionnent, la carte se déplace et se zoome, mais rien ne change.</value></data>
+  <data name="MindMapDirected" xml:space="preserve"><value>Liens orientés</value></data>
+  <data name="MindMapDirectedDescription" xml:space="preserve"><value>Chaque lien part du bord d'un nœud et finit par une flèche sur le bord de l'autre.</value></data>
+  <data name="MindMapShowToolbar" xml:space="preserve"><value>Barre d'actions</value></data>
+  <data name="MindMapShowToolbarDescription" xml:space="preserve"><value>Les actions au-dessus du canevas.</value></data>
+  <data name="MindMapShowPanel" xml:space="preserve"><value>Panneau de propriétés</value></data>
+  <data name="MindMapShowPanelDescription" xml:space="preserve"><value>Texte, couleur, taille et style du nœud sélectionné.</value></data>
+  <data name="MindMapCustomLabels" xml:space="preserve"><value>Libellés personnalisés</value></data>
+  <data name="MindMapCustomLabelsDescription" xml:space="preserve"><value>La page renomme trois actions ; les autres gardent les textes du composant.</value></data>
+  <data name="MindMapShowJson" xml:space="preserve"><value>Format enregistré</value></data>
+  <data name="MindMapShowJsonDescription" xml:space="preserve"><value>Affiche le JSON que la page enregistrerait.</value></data>
+  <data name="MindMapActions" xml:space="preserve"><value>Actions</value></data>
+  <data name="MindMapActionsDescription" xml:space="preserve"><value>Réajuster la vue, ou revenir à la carte d'exemple.</value></data>
+  <data name="MindMapResetView" xml:space="preserve"><value>Ajuster la vue</value></data>
+  <data name="MindMapResetDocument" xml:space="preserve"><value>Réinitialiser la carte</value></data>
+  <data name="MindMapPreviewTitle" xml:space="preserve"><value>Carte en direct</value></data>
+  <data name="MindMapSelectedNode" xml:space="preserve"><value>Nœud sélectionné</value></data>
+  <data name="MindMapNoSelection" xml:space="preserve"><value>aucun</value></data>
+  <data name="MindMapSummary" xml:space="preserve"><value>Contenu</value></data>
+  <data name="MindMapSummaryValue" xml:space="preserve"><value>{0} nœuds, {1} liens, {2} notes</value></data>
+  <data name="MindMapZoom" xml:space="preserve"><value>Zoom</value></data>
+  <data name="MindMapZoomFitted" xml:space="preserve"><value>ajusté au canevas</value></data>
+  <data name="MindMapKeyboardHint" xml:space="preserve"><value>Clavier : flèches pour passer d'un nœud à l'autre, N pour un nouveau nœud, F2 pour renommer, Suppr pour supprimer, Ctrl+Z pour annuler.</value></data>
+  <data name="MindMapJsonTitle" xml:space="preserve"><value>Format enregistré</value></data>
+  <data name="MindMapGitGraphTitle" xml:space="preserve"><value>Graphe des commits</value></data>
 </root>

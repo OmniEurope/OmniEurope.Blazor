@@ -1,0 +1,25 @@
+@* A mind map with its action bar and its node properties panel. The document and the view are bindable: a host
+   keeps them to store the map or to fit the view again. A null view fits the map to the canvas, as at first render. *@
+<OmniMindMap Id="demo-mindmap"
+             Document="Document"
+             DocumentChanged="OnDocumentChanged"
+             ViewState="ViewState"
+             ViewStateChanged="OnViewStateChanged"
+             ReadOnly="ReadOnly"
+             Directed="Directed"
+             Label="Mind map: planning a house move"
+             ContextLabels="@(UseCustomLabels ? MindMapSample.CustomLabels : null)"
+             OnNodeSelect="OnNodeSelect">
+    <ToolbarContent>
+        @if (ShowToolbar)
+        {
+            <OmniMindMapToolbar Label="Map actions" />
+        }
+    </ToolbarContent>
+    <PanelContent>
+        @if (ShowPanel)
+        {
+            <OmniMindMapNodeProperties />
+        }
+    </PanelContent>
+</OmniMindMap>

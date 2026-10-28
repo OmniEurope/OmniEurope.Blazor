@@ -142,12 +142,6 @@
   <data name="DemoSchedulerCapability1" xml:space="preserve"><value>Vues jour, semaine et mois, commutables.</value></data>
   <data name="DemoSchedulerCapability2" xml:space="preserve"><value>Rendez-vous récurrents décrits par une règle.</value></data>
   <data name="DemoSchedulerCapability3" xml:space="preserve"><value>Chaque vue s'utilise aussi seule, hors du calendrier.</value></data>
-  <data name="DemoDiagramTitle" xml:space="preserve"><value>Carte mentale</value></data>
-  <data name="DemoDiagramSummary" xml:space="preserve"><value>Une carte mentale éditable à la souris, au toucher et au clavier.</value></data>
-  <data name="DemoDiagramCapability1" xml:space="preserve"><value>Glisser, lasso, zoom à la molette ou au pincement, menu contextuel.</value></data>
-  <data name="DemoDiagramCapability2" xml:space="preserve"><value>Chaque action a son raccourci clavier, annoncé aux lecteurs d'écran.</value></data>
-  <data name="DemoDiagramCapability3" xml:space="preserve"><value>Barre d'actions et panneau des propriétés du nœud sélectionné.</value></data>
-  <data name="DemoDiagramCapability4" xml:space="preserve"><value>Relit et réécrit le format de graphe enregistré sans rien perdre.</value></data>
   <data name="DemoFlowsTitle" xml:space="preserve"><value>Parcours</value></data>
   <data name="DemoFlowsSummary" xml:space="preserve"><value>Assistant, connexion et perte de connexion.</value></data>
   <data name="DemoFlowsCapability1" xml:space="preserve"><value>Assistant à étapes : progression, validation par étape, dans une page ou un dialogue.</value></data>
@@ -1050,22 +1044,6 @@
   <data name="DemoFlowsConnectionEstablished" xml:space="preserve"><value>établie</value></data>
   <data name="DemoFlowsReasonTimeout" xml:space="preserve"><value>le serveur ne répond plus (délai dépassé)</value></data>
   <data name="DemoFlowsReasonExpired" xml:space="preserve"><value>session expirée côté serveur</value></data>
-  <data name="DemoDiagramReadOnly" xml:space="preserve"><value>Lecture seule</value></data>
-  <data name="DemoDiagramMindMapLabel" xml:space="preserve"><value>Carte mentale : préparer un déménagement</value></data>
-  <data name="DemoDiagramGitGraphLabel" xml:space="preserve"><value>Historique avec une branche fusionnée</value></data>
-  <data name="DemoDiagramMapSummary" xml:space="preserve"><value>{0} nœuds, {1} liens, {2} caractères une fois enregistrée.</value></data>
-  <data name="DemoDiagramNewIdea" xml:space="preserve"><value>Nouvelle idée</value></data>
-  <data name="DemoDiagramNodeMove" xml:space="preserve"><value>Déménagement</value></data>
-  <data name="DemoDiagramNodePaperwork" xml:space="preserve"><value>Administratif</value></data>
-  <data name="DemoDiagramNodeAddress" xml:space="preserve"><value>Changer d'adresse</value></data>
-  <data name="DemoDiagramNodeInsurance" xml:space="preserve"><value>Assurance habitation</value></data>
-  <data name="DemoDiagramNodeBoxes" xml:space="preserve"><value>Cartons</value></data>
-  <data name="DemoDiagramNodeKitchen" xml:space="preserve"><value>Cuisine</value></data>
-  <data name="DemoDiagramNodeBooks" xml:space="preserve"><value>Livres</value></data>
-  <data name="DemoDiagramNodeMovingDay" xml:space="preserve"><value>Jour J</value></data>
-  <data name="DemoDiagramNodeTruck" xml:space="preserve"><value>Réserver le camion</value></data>
-  <data name="DemoDiagramNodeNeighbours" xml:space="preserve"><value>Prévenir les voisins</value></data>
-  <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Avant le 15</value></data>
   <data name="DemoGridTreeIncome" xml:space="preserve"><value>Produits</value></data>
   <data name="DemoGridTreeSales" xml:space="preserve"><value>Ventes</value></data>
   <data name="DemoGridTreeServices" xml:space="preserve"><value>Prestations de services</value></data>
@@ -1083,7 +1061,6 @@
   <data name="DemoTreeAccountsLabel" xml:space="preserve"><value>Plan de comptes</value></data>
   <data name="DemoTreeAccountsHint" xml:space="preserve"><value>Glissez un compte sur un autre pour l'y ranger.</value></data>
   <data name="DemoTreeMoved" xml:space="preserve"><value>{0} rangé sous {1}</value></data>
-  <data name="DemoDiagramDirected" xml:space="preserve"><value>Liens orientés</value></data>
   <data name="DemoEditorLockedLabel" xml:space="preserve"><value>Texte relu, verrouillé au départ</value></data>
   <data name="DemoEditorReadOnly" xml:space="preserve"><value>Lecture seule</value></data>
   <data name="DemoInputsModel" xml:space="preserve"><value>Modèle</value></data>

@@ -131,7 +131,7 @@ await send('Page.navigate', { url: siteUrl });
 // navigation asked before the router listens changes the address and leaves the home page shown.
 await waitFor('le runtime Blazor', "typeof Blazor !== 'undefined' && typeof Blazor.navigateTo === 'function' && document.getElementById('showcase-theme') !== null");
 await pause(1500);
-await evaluate("Blazor.navigateTo('/components/legacy/diagramme')");
+await evaluate("Blazor.navigateTo('/components/mind-map')");
 await waitFor('la carte mentale de la vitrine', `document.querySelectorAll('${map} [data-omni-node]').length === 10`);
 await evaluate(`document.querySelector('${map} svg').scrollIntoView({ block: 'center' })`);
 // The map is first drawn at zoom 1, before its script is loaded; the script is attached, then the map

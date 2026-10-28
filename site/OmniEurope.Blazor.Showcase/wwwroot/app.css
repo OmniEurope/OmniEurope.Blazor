@@ -1065,3 +1065,22 @@
 #demo-grid-scope { block-size: 30rem; border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: flex; flex-direction: column; gap: var(--omni-space-sm); overflow-y: auto; padding: var(--omni-space-md); }
 #demo-grid-scope > .omni-text { margin: 0; }
 #demo-grid-fill-box { block-size: 36rem; border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: flex; flex-direction: column; gap: var(--omni-space-md); overflow-y: auto; padding: var(--omni-space-md); }
+
+/* Diagram fidelity */
+/* The facts echoed under the map: a label column as wide as its longest label, the values taking the room left. */
+.gallery-diagram-facts {
+    display: grid;
+    gap: var(--omni-space-xs) var(--omni-space-md);
+    grid-template-columns: max-content 1fr;
+    margin: 0;
+}
+
+.gallery-diagram-facts dt {
+    color: var(--omni-color-text-muted);
+}
+
+.gallery-diagram-facts dd {
+    margin: 0;
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+}

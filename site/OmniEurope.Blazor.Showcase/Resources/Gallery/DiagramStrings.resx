@@ -4,4 +4,34 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="MindMapTitle" xml:space="preserve"><value>Mind map</value></data>
+  <data name="MindMapDescription" xml:space="preserve"><value>An interactive mind map with its action bar and node properties panel, read-only mode, directed links and stored format, then a commit graph.</value></data>
+  <data name="MindMapSettingsTitle" xml:space="preserve"><value>Map settings</value></data>
+  <data name="MindMapSettingsDescription" xml:space="preserve"><value>The map keeps its changes while you switch the settings.</value></data>
+  <data name="MindMapReadOnly" xml:space="preserve"><value>Read only</value></data>
+  <data name="MindMapReadOnlyDescription" xml:space="preserve"><value>Nodes can be selected, the map panned and zoomed, but nothing changes.</value></data>
+  <data name="MindMapDirected" xml:space="preserve"><value>Directed links</value></data>
+  <data name="MindMapDirectedDescription" xml:space="preserve"><value>Each link starts at the edge of a node and ends with an arrow on the edge of the other.</value></data>
+  <data name="MindMapShowToolbar" xml:space="preserve"><value>Toolbar</value></data>
+  <data name="MindMapShowToolbarDescription" xml:space="preserve"><value>The actions above the canvas.</value></data>
+  <data name="MindMapShowPanel" xml:space="preserve"><value>Properties panel</value></data>
+  <data name="MindMapShowPanelDescription" xml:space="preserve"><value>Text, colour, size and style of the selected node.</value></data>
+  <data name="MindMapCustomLabels" xml:space="preserve"><value>Custom labels</value></data>
+  <data name="MindMapCustomLabelsDescription" xml:space="preserve"><value>The page renames three actions; the others keep the component's texts.</value></data>
+  <data name="MindMapShowJson" xml:space="preserve"><value>Stored format</value></data>
+  <data name="MindMapShowJsonDescription" xml:space="preserve"><value>Shows the JSON the page would store.</value></data>
+  <data name="MindMapActions" xml:space="preserve"><value>Actions</value></data>
+  <data name="MindMapActionsDescription" xml:space="preserve"><value>Fit the view again, or go back to the sample map.</value></data>
+  <data name="MindMapResetView" xml:space="preserve"><value>Fit the view</value></data>
+  <data name="MindMapResetDocument" xml:space="preserve"><value>Reset the map</value></data>
+  <data name="MindMapPreviewTitle" xml:space="preserve"><value>Live map</value></data>
+  <data name="MindMapSelectedNode" xml:space="preserve"><value>Selected node</value></data>
+  <data name="MindMapNoSelection" xml:space="preserve"><value>none</value></data>
+  <data name="MindMapSummary" xml:space="preserve"><value>Content</value></data>
+  <data name="MindMapSummaryValue" xml:space="preserve"><value>{0} nodes, {1} links, {2} notes</value></data>
+  <data name="MindMapZoom" xml:space="preserve"><value>Zoom</value></data>
+  <data name="MindMapZoomFitted" xml:space="preserve"><value>fitted to the canvas</value></data>
+  <data name="MindMapKeyboardHint" xml:space="preserve"><value>Keyboard: arrows to move between nodes, N for a new node, F2 to rename, Delete to remove, Ctrl+Z to undo.</value></data>
+  <data name="MindMapJsonTitle" xml:space="preserve"><value>Stored format</value></data>
+  <data name="MindMapGitGraphTitle" xml:space="preserve"><value>Commit graph</value></data>
 </root>

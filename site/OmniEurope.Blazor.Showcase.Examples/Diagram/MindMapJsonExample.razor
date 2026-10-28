@@ -1,0 +1,7 @@
+@* The stored format of a map: the JSON a host would keep, rewritten after each change of the document. *@
+<OmniFormField For="demo-mindmap-json" Description="Read-only: rewritten after each change of the map.">
+    <LabelContent>Map JSON</LabelContent>
+    <ChildContent>
+        <OmniTextArea Id="demo-mindmap-json" Value="@Json" ValueExpression="@(() => Json)" ReadOnly="true" Rows="8" ShowCount="true" />
+    </ChildContent>
+</OmniFormField>
