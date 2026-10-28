@@ -243,4 +243,23 @@
             </OmniNavTile>
         </OmniColumn>
     </OmniRow>
+
+    @* FitTitle : en six colonnes, le titre rétrécit pour tenir sur une ligne, sans couper de mot, aligné à gauche. *@
+    <OmniRow Gap="OmniSpacing.Medium">
+        <OmniColumn Span="6" MediumSpan="2">
+            <OmniNavTile Href="components/legacy/grille" Title="@Text["DemoGridTitle"]" FitTitle="true">
+                <Icon><OmniIcon Name="OmniIconName.Table" /></Icon>
+            </OmniNavTile>
+        </OmniColumn>
+        <OmniColumn Span="6" MediumSpan="2">
+            <OmniNavTile Href="components/legacy/editeur" Title="@Text["DemoEditorTitle"]" Tone="OmniTone.Info" FitTitle="true">
+                <Icon><OmniIcon Name="OmniIconName.FileDoc" /></Icon>
+            </OmniNavTile>
+        </OmniColumn>
+        <OmniColumn Span="6" MediumSpan="2">
+            <OmniNavTile Href="components/icons" Title="@Text["DemoPagesIconsTitle"]" Tone="OmniTone.Success" FitTitle="true">
+                <Icon><OmniIcon Name="OmniIconName.Image" /></Icon>
+            </OmniNavTile>
+        </OmniColumn>
+    </OmniRow>
 </OmniStack>

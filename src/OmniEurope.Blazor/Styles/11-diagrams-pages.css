@@ -144,12 +144,16 @@
 .omni-page-header__frame[data-compact] .omni-page-header__details--open :is(.omni-page-header__badges, .omni-page-header__actions) { flex-wrap: wrap; }
 .omni-page-header__frame[data-compact] .omni-page-header__details--open .omni-page-header__actions { justify-content: flex-start; margin-inline-start: 0; }
 /* The pinned actions have no compact twin: the data-compact block keeps them at the end of line 1.
-   Only a phone moves them to a row of their own under line 1, right-aligned, the block growing by
-   that row; the "⋮" menu stays at the end of line 1. */
+   Only a phone moves them to a row of their own, right-aligned, the block growing by that row, and
+   after the breadcrumb: title, trail, then the main action, then the opened details (client application
+   acceptance review R-26; they came before the trail). Line 1 is a box of its own, so the frame lays
+   its items out instead (display: contents), the "⋮" menu still at the end of line 1. */
 @media (max-width: 39.99rem) {
-    .omni-page-header__row:has(> .omni-page-header__pinned) { block-size: auto; flex-wrap: wrap; }
-    .omni-page-header__frame:has(.omni-page-header__pinned) { block-size: auto; }
-    .omni-page-header__pinned { flex: 1 1 100%; justify-content: flex-end; margin-inline-start: 0; order: 1; }
+    .omni-page-header__frame:has(.omni-page-header__pinned) { align-items: center; block-size: auto; column-gap: var(--omni-space-sm); flex-direction: row; flex-wrap: wrap; }
+    .omni-page-header__row:has(> .omni-page-header__pinned) { display: contents; }
+    .omni-page-header__frame:has(.omni-page-header__pinned) > .omni-page-header__trail { flex: 1 1 100%; order: 1; }
+    .omni-page-header__pinned { flex: 1 1 100%; justify-content: flex-end; margin-block-start: var(--omni-space-xs); margin-inline-start: 0; order: 2; }
+    .omni-page-header__frame:has(.omni-page-header__pinned) .omni-page-header__details--open { order: 3; }
 }
 
 .omni-detail-shell { display: flex; flex-direction: column; min-inline-size: 0; }

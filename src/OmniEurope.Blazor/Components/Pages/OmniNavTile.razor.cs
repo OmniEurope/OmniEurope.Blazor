@@ -43,6 +43,37 @@ public partial class OmniNavTile
     [Parameter]
     public bool DoubleWidth { get; set; }
 
+    /// <summary>
+    /// Fits the title on one line: its font size shrinks with the tile's width (container query units, no
+    /// script) until the whole title fits, a word is never broken, and the title and the description are
+    /// left-aligned instead of centred. The size is computed from the length of <see cref="Title"/> (rounded
+    /// up to a step of 8, 12, 16, 20, 24, 32 or 48 characters, so the markup carries a class, never an inline
+    /// style) and stops at 0.75rem; under that size the title is cut with an ellipsis. For a tile used
+    /// in a narrow column, such as six per row. False by default: the title wraps and is centred.
+    /// </summary>
+    [Parameter]
+    public bool FitTitle { get; set; }
+
+    private static readonly int[] FitBuckets = [8, 12, 16, 20, 24, 32, 48];
+
+    /// <summary>The smallest length step that holds the title, 48 for anything longer.</summary>
+    private int FitBucket
+    {
+        get
+        {
+            var length = Title?.Length ?? 0;
+            foreach (var bucket in FitBuckets)
+            {
+                if (length <= bucket)
+                {
+                    return bucket;
+                }
+            }
+
+            return FitBuckets[^1];
+        }
+    }
+
     /// <summary>Tells the tile grid around the tile whether it is double width.</summary>
     protected override void OnParametersSet()
     {

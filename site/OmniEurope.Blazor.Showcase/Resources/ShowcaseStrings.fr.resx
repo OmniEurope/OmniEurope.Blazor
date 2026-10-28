@@ -773,6 +773,9 @@
   <data name="DemoFeedbackNarrow" xml:space="preserve"><value>Étroite</value></data>
   <data name="DemoFeedbackLongTooltip" xml:space="preserve"><value>Un dossier archivé reste consultable en lecture seule. Il ne compte plus dans les quotas, n'apparaît plus dans les recherches par défaut et ne reçoit plus de notifications. Pour le rouvrir, un administrateur le restaure depuis l'onglet Archives ; son historique, ses pièces jointes et ses commentaires reviennent alors intacts, avec la date de restauration.</value></data>
   <data name="DemoFeedbackLongText" xml:space="preserve"><value>Texte long</value></data>
+  <data name="DemoFeedbackBadgeClickLabel" xml:space="preserve"><value>Cliqué {0} fois, cliquer pour compter une fois de plus</value></data>
+  <data name="DemoFeedbackBadgeLinkLabel" xml:space="preserve"><value>Retour à la page d'accueil</value></data>
+  <data name="DemoFeedbackBadgeLink" xml:space="preserve"><value>Accueil</value></data>
   <data name="DemoFeedbackTitleTooltip" xml:space="preserve"><value>Infobulle du paquet sur un simple attribut title.</value></data>
   <data name="DemoFeedbackHover" xml:space="preserve"><value>Survoler</value></data>
   <data name="DemoFeedbackLoadingAvatar" xml:space="preserve"><value>Chargement de l'avatar</value></data>

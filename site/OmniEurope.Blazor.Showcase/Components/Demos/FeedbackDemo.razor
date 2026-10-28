@@ -32,7 +32,16 @@
         <OmniTooltip Text="@Text["DemoFeedbackDraftTooltip"]" MaxWidth="OmniTooltipWidth.Narrow">
             <OmniBadge Tone="OmniTone.Neutral">@Text["DemoFeedbackNarrow"]</OmniBadge>
         </OmniTooltip>
-        @* Au-delà de CompactLength (240 caractères par défaut), l'infobulle s'ouvre sur un aperçu et
+        @* Un badge d'un seul caractère est au moins un carré ; avec OnClick il devient un vrai bouton, avec Href
+       un vrai lien, nommés par Label : un compteur qui ouvre ce qu'il compte, sans OmniButton autour. *@
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Center" Wrap="true">
+        <OmniBadge Tone="OmniTone.Neutral">1</OmniBadge>
+        <OmniBadge Tone="OmniTone.Info">F</OmniBadge>
+        <OmniBadge Tone="OmniTone.Accent" OnClick="CountBadgeClick" Label="@Text["DemoFeedbackBadgeClickLabel", _badgeClicks]">@_badgeClicks</OmniBadge>
+        <OmniBadge Tone="OmniTone.Accent" Href="/" Label="@Text["DemoFeedbackBadgeLinkLabel"]">@Text["DemoFeedbackBadgeLink"]</OmniBadge>
+    </OmniStack>
+
+    @* Au-delà de CompactLength (240 caractères par défaut), l'infobulle s'ouvre sur un aperçu et
            une action « Afficher plus » que le pointeur peut atteindre ; le texte n'est jamais coupé en silence. *@
         <OmniTooltip MaxWidth="OmniTooltipWidth.Wide" Tracking="OmniTooltipTracking.Pinned"
                      Text="@Text["DemoFeedbackLongTooltip"]">
