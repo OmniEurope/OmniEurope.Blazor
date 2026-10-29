@@ -22,4 +22,23 @@
     <KnownAspNetCorePack Update="Microsoft.AspNetCore.App.Internal.Assets"
                          AspNetCorePackVersion="$(OmniImplicitSdkPackVersion)" />
   </ItemGroup>
+
+  <!--
+    The Mono runtime pack of the WebAssembly hosts (Microsoft.NETCore.App.Runtime.Mono.browser-wasm, whose
+    native libraries end up in dotnet.native.wasm) follows the same pin. An installed wasm-tools workload
+    rewrites its version to the runtime it bundles (WorkloadManifest.targets of
+    microsoft.net.workload.mono.toolchain.current, 10.0.13 under workload manifest 10.0.113), below the SDK's
+    own runtime, so the security fixes of a runtime patch (GHSA-p3jp-9v83-76w9, Brotli, fixed in 10.0.14)
+    never reached a publish. That rewrite is an evaluation-time item update, so the pin runs in a target,
+    after evaluation, before the framework references are resolved (restore and build alike). A pack
+    missing from the dotnet packs folder is restored from NuGet; eng/Test-WasmRuntimeVersion.ps1 checks
+    the published dotnet.native.wasm.
+  -->
+  <Target Name="OmniPinMonoRuntimePack" BeforeTargets="ProcessFrameworkReferences">
+    <ItemGroup>
+      <KnownRuntimePack Condition="'%(KnownRuntimePack.Identity)' == 'Microsoft.NETCore.App' and '%(KnownRuntimePack.TargetFramework)' == 'net10.0' and '%(KnownRuntimePack.RuntimePackLabels)' == 'Mono'">
+        <LatestRuntimeFrameworkVersion>$(OmniImplicitSdkPackVersion)</LatestRuntimeFrameworkVersion>
+      </KnownRuntimePack>
+    </ItemGroup>
+  </Target>
 </Project>

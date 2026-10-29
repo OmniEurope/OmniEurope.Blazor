@@ -11,6 +11,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 ### Fixed
 
 - Vitrine, API : l'admission d'un nouveau visiteur (comptage de la capacité et insertion) se fait sous un verrou consultatif PostgreSQL de transaction, partagé par toutes les instances de l'API : douze premières écritures simultanées avec `MaxVisitors=1` ne laissent plus qu'un visiteur (audit A360-003).
+- Hôtes WebAssembly (vitrine, WasmSmoke, AutoSmoke) : le pack d'exécution Mono `browser-wasm` est épinglé sur `OmniImplicitSdkPackVersion` (`10.0.14`), au lieu du `10.0.13` qu'imposait le workload `wasm-tools` installé, sans le correctif Brotli GHSA-p3jp-9v83-76w9 (CVE-2026-111497) ; `eng/Test-WasmRuntimeVersion.ps1` vérifie la version du `dotnet.native.wasm` publié (audit A360-007).
 - Vitrine, API : `PUT /api/preferences/{key}` répond 200 avec la préférence gardée (date du serveur, au microseconde près comme PostgreSQL) au lieu de 204 (audit A360-002).
 
 ## [1.10.0] - 2026-10-29
