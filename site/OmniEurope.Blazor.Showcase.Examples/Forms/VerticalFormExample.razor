@@ -5,7 +5,7 @@
    are real validation errors held by the edit context: each field takes aria-invalid from them, and fixing
    them removes them from the summary. *@
 <EditForm EditContext="Context">
-    <OmniStack Gap="OmniSpacing.Medium">
+    <OmniStack Gap="OmniSpacing.Small">
         @if (Errors.Count > 0)
         {
             <OmniAlert Severity="OmniSeverity.Danger" Fill="OmniFill.Solid" Title="@($"{Errors.Count} error(s) to correct")">

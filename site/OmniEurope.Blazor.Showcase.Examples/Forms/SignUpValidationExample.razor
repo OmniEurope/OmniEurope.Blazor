@@ -6,7 +6,7 @@
                   FocusOnFirstInvalid="FocusFirstInvalid"
                   OnValidSubmit="HandleValidSubmitAsync"
                   OnInvalidSubmit="HandleInvalidSubmit">
-    <OmniStack Gap="OmniSpacing.Medium">
+    <OmniStack Gap="OmniSpacing.Small">
         @if (Placement == ValidationMessagePlacement.Summary && form.GetValidationMessages().Any())
         {
             <OmniAlert Severity="OmniSeverity.Danger" Title="Please correct the following">
