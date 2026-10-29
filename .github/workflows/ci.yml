@@ -75,6 +75,17 @@ jobs:
         shell: pwsh
         run: |
           if (-not (Get-ChildItem artifacts/analyzer-tests -Filter analyzer-tests.trx -Recurse -File)) { throw 'The shipped analyzer suite produced no TRX.' }
+      - name: Showcase API tests
+        # The showcase API suite runs against a real PostgreSQL started by Testcontainers (Docker is
+        # available on the ubuntu runner): an API regression fails the job like a library one.
+        run: >-
+          dotnet test --project tests/OmniEurope.Blazor.Showcase.Back.Tests/OmniEurope.Blazor.Showcase.Back.Tests.csproj
+          --configuration Release --no-build --no-progress
+          --report-trx --report-trx-filename showcase-back-tests.trx --results-directory artifacts/showcase-back-tests
+      - name: Verify showcase API test results
+        shell: pwsh
+        run: |
+          if (-not (Get-ChildItem artifacts/showcase-back-tests -Filter showcase-back-tests.trx -Recurse -File)) { throw 'The showcase API suite produced no TRX.' }
       - name: Convention analyzer tests
         # GEN001 to GEN008 guard the repository's own sources and are not shipped: each diagnostic runs
         # against a positive and a negative case on a real Roslyn compilation (docs/analyzers.md).
