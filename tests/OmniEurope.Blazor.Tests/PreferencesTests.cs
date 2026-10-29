@@ -162,6 +162,65 @@ public sealed class PreferencesTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task Set_WithADeviceClockAhead_TakesTheStoreDate_SoALaterStoreWriteStillWins()
+    {
+        // The audit scenario: this device's clock is a day ahead, the server keeps its own time instead.
+        var server = Start;
+        _store.ServerClock = () => server;
+        _time.Now = Start.AddDays(1);
+        var preferences = Create();
+
+        await preferences.SetAsync("theme", "octet", Token);
+
+        Assert.Equal(new OmniPreference("theme", "\"octet\"", Start.AddDays(1)), Assert.Single(_store.Saved));
+        Assert.Equal(new PreferenceCacheEntry("\"octet\"", Start, false), Cached("theme"));
+
+        // Another device writes later by the server's clock, still earlier than this device's clock.
+        server = Start.AddHours(1);
+        _store.Put("theme", "\"givre\"", server);
+        await preferences.SyncAsync(Token);
+
+        Assert.Equal(new PreferenceCacheEntry("\"givre\"", Start.AddHours(1), false), Cached("theme"));
+        Assert.Equal("givre", await preferences.GetAsync<string>("theme", Token));
+        Assert.Equal(new OmniPreferenceChangedEventArgs("theme", "\"givre\"", OmniPreferenceChangeOrigin.Store), _changes[^1]);
+    }
+
+    [Fact]
+    public async Task Set_WhenALaterLocalWriteLandsDuringTheSave_KeepsItOverTheStoreAnswer()
+    {
+        _store.ServerClock = () => Start;
+        _time.Now = Start.AddDays(1);
+        var later = Entry("\"relief\"", Start.AddDays(1).AddMinutes(1), dirty: true);
+        _store.OnSave = preference =>
+        {
+            if (preference.Value == "\"octet\"")
+            {
+                _browser.Storage[Key("u-7f3a", "theme")] = later;
+            }
+        };
+        var preferences = Create();
+
+        await preferences.SetAsync("theme", "octet", Token);
+
+        // The answer for "octet" never replaces the write that came after it; that write is pushed by its own save.
+        Assert.Equal(later, _browser.Storage[Key("u-7f3a", "theme")]);
+    }
+
+    [Fact]
+    public async Task Set_WhenTheStoreAnswersAnotherValue_TakesItAndRaisesTheChange()
+    {
+        // Another device stored a later value the browser has not synchronized yet; the store keeps it.
+        _store.KeepNewer = true;
+        _store.Put("theme", "\"givre\"", Start.AddHours(1));
+        var preferences = Create();
+
+        await preferences.SetAsync("theme", "octet", Token);
+
+        Assert.Equal(new PreferenceCacheEntry("\"givre\"", Start.AddHours(1), false), Cached("theme"));
+        Assert.Equal(new OmniPreferenceChangedEventArgs("theme", "\"givre\"", OmniPreferenceChangeOrigin.Store), _changes[^1]);
+    }
+
+    [Fact]
     public async Task Sync_ADirtyValueOlderThanTheStoreOne_GivesWayToTheStore()
     {
         _browser.Storage[Key("u-7f3a", "theme")] = Entry("\"octet\"", Start.AddHours(-2), dirty: true);
@@ -639,7 +698,7 @@ public sealed class PreferencesTests : OmniBunitContext
         public Task<IReadOnlyList<OmniPreference>> GetChangedSinceAsync(DateTimeOffset? since, CancellationToken cancellationToken = default) =>
             inner.GetChangedSinceAsync(since, cancellationToken);
 
-        public Task SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default) => inner.SaveAsync(preference, cancellationToken);
+        public Task<OmniPreference> SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default) => inner.SaveAsync(preference, cancellationToken);
 
         public ValueTask<string> GetScopeAsync(CancellationToken cancellationToken = default) =>
             ValueTask.FromException<string>(new TimeoutException("database down"));

@@ -34,7 +34,7 @@ public sealed class VisitorPreferenceServiceTests
 
         var outcome = await service.SaveAsync(visitor, "omni.appearance", Request("{\"theme\":\"aplat\"}", Now.AddMinutes(-5)), "203.0.113.7", Token);
 
-        Assert.Equal(VisitorPreferenceSaveOutcome.Stored, outcome);
+        Assert.Equal(new VisitorPreferenceDto("omni.appearance", "{\"theme\":\"aplat\"}", Now.AddMinutes(-5)), outcome);
         Assert.Equal(new VisitorPreferenceDto("omni.appearance", "{\"theme\":\"aplat\"}", Now.AddMinutes(-5)),
             await service.GetAsync(visitor, "omni.appearance", Token));
         var stored = Assert.Single(_repository.Visitors);
@@ -53,7 +53,8 @@ public sealed class VisitorPreferenceServiceTests
 
         var outcome = await service.SaveAsync(visitor, "omni.appearance", Request("2", Now.AddMinutes(-2)), "a", Token);
 
-        Assert.Equal(VisitorPreferenceSaveOutcome.KeptNewer, outcome);
+        // The answer is the value the server kept, so the browser learns it lost.
+        Assert.Equal(new VisitorPreferenceDto("omni.appearance", "1", Now.AddMinutes(-1)), outcome);
         Assert.Equal("1", (await service.GetAsync(visitor, "omni.appearance", Token))!.Value);
     }
 
@@ -63,8 +64,9 @@ public sealed class VisitorPreferenceServiceTests
         var service = Create();
         var visitor = VisitorPreferenceApi.CreateVisitorId();
 
-        await service.SaveAsync(visitor, "omni.appearance", Request("1", Now.AddYears(5)), "a", Token);
+        var acknowledged = await service.SaveAsync(visitor, "omni.appearance", Request("1", Now.AddYears(5)), "a", Token);
 
+        Assert.Equal(new VisitorPreferenceDto("omni.appearance", "1", Now), acknowledged);
         Assert.Equal(Now, (await service.GetAsync(visitor, "omni.appearance", Token))!.UpdatedAt);
     }
 
@@ -93,7 +95,7 @@ public sealed class VisitorPreferenceServiceTests
         }
 
         await Assert.ThrowsAsync<QuotaExceededException>(() => service.SaveAsync(visitor, "k4", Request("1", Now), "a", Token));
-        Assert.Equal(VisitorPreferenceSaveOutcome.Stored, await service.SaveAsync(visitor, "k2", Request("2", Now), "a", Token));
+        Assert.Equal(new VisitorPreferenceDto("k2", "2", Now), await service.SaveAsync(visitor, "k2", Request("2", Now), "a", Token));
     }
 
     [Fact]
@@ -120,6 +122,21 @@ public sealed class VisitorPreferenceServiceTests
         await Assert.ThrowsAsync<CapacityReachedException>(() =>
             service.SaveAsync(VisitorPreferenceApi.CreateVisitorId(), "k", Request("1", Now), "a", Token));
         Assert.Equal(2, _repository.Visitors.Count);
+        // Every admission counted under the admission lock; only the two admitted ones committed.
+        Assert.Equal(3, _repository.AdmissionLocks);
+        Assert.Equal(2, _unitOfWork.Commits);
+    }
+
+    [Fact]
+    public async Task Save_OfAnExistingVisitor_TakesNoAdmissionLock()
+    {
+        var service = Create();
+        var visitor = VisitorPreferenceApi.CreateVisitorId();
+        await service.SaveAsync(visitor, "k1", Request("1", Now), "a", Token);
+
+        await service.SaveAsync(visitor, "k2", Request("1", Now), "a", Token);
+
+        Assert.Equal(1, _repository.AdmissionLocks);
     }
 
     [Fact]
@@ -132,7 +149,7 @@ public sealed class VisitorPreferenceServiceTests
 
         await Assert.ThrowsAsync<TooManyRequestsException>(() =>
             service.SaveAsync(VisitorPreferenceApi.CreateVisitorId(), "k", Request("1", Now), "198.51.100.1", Token));
-        Assert.Equal(VisitorPreferenceSaveOutcome.Stored, await service.SaveAsync(first, "k", Request("2", Now), "198.51.100.1", Token));
+        Assert.Equal(new VisitorPreferenceDto("k", "2", Now), await service.SaveAsync(first, "k", Request("2", Now), "198.51.100.1", Token));
         // The existing visitor never asked the gate again.
         Assert.Equal(2, _gate.Partitions.Count);
     }
@@ -145,7 +162,7 @@ public sealed class VisitorPreferenceServiceTests
 
         var outcome = await service.SaveAsync(VisitorPreferenceApi.CreateVisitorId(), "k", Request("1", Now), "a", Token);
 
-        Assert.Equal(VisitorPreferenceSaveOutcome.Stored, outcome);
+        Assert.Equal(new VisitorPreferenceDto("k", "1", Now), outcome);
         Assert.Equal(VisitorPreferenceService.MaxAttempts - 1, _unitOfWork.Discards);
         Assert.Single(_repository.Preferences);
     }

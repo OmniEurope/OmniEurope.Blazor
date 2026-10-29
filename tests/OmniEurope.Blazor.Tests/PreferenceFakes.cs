@@ -159,23 +159,35 @@ internal sealed class MemoryPreferenceStore : IOmniPreferenceStore
     /// <summary>Run before a write is kept, to change the browser cache while the store is busy.</summary>
     public Action<OmniPreference>? OnSave { get; set; }
 
+    /// <summary>When set, the server's clock: a date later than it is kept at it, as the showcase API does.</summary>
+    public Func<DateTimeOffset>? ServerClock { get; set; }
+
+    /// <summary>When set, a write not later than the stored value keeps the stored one and answers it.</summary>
+    public bool KeepNewer { get; set; }
+
     private async Task<IReadOnlyList<OmniPreference>> HeldAsync(IReadOnlyList<OmniPreference> changed, CancellationToken cancellationToken)
     {
         await Hold!.Task.WaitAsync(cancellationToken);
         return changed;
     }
 
-    public Task SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default)
+    public Task<OmniPreference> SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default)
     {
         if (FailWrites)
         {
-            return Task.FromException(new TimeoutException("database down"));
+            return Task.FromException<OmniPreference>(new TimeoutException("database down"));
         }
 
         OnSave?.Invoke(preference);
         Saved.Enqueue(preference);
-        _values[preference.Key] = preference;
-        return Task.CompletedTask;
+        var kept = ServerClock?.Invoke() is { } now && preference.UpdatedAt > now ? preference with { UpdatedAt = now } : preference;
+        if (KeepNewer && _values.TryGetValue(preference.Key, out var stored) && stored.UpdatedAt >= kept.UpdatedAt)
+        {
+            return Task.FromResult(stored);
+        }
+
+        _values[preference.Key] = kept;
+        return Task.FromResult(kept);
     }
 
     public ValueTask<string> GetScopeAsync(CancellationToken cancellationToken = default) => ValueTask.FromResult(Scope);
@@ -268,12 +280,8 @@ internal sealed class ExclusivePreferenceStore(MemoryPreferenceStore inner) : IO
     public Task<IReadOnlyList<OmniPreference>> GetChangedSinceAsync(DateTimeOffset? since, CancellationToken cancellationToken = default) =>
         RunAsync(() => inner.GetChangedSinceAsync(since, cancellationToken));
 
-    public Task SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default) =>
-        RunAsync(async () =>
-        {
-            await inner.SaveAsync(preference, cancellationToken);
-            return true;
-        });
+    public Task<OmniPreference> SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default) =>
+        RunAsync(() => inner.SaveAsync(preference, cancellationToken));
 
     public ValueTask<string> GetScopeAsync(CancellationToken cancellationToken = default) =>
         new(RunAsync(() => inner.GetScopeAsync(cancellationToken).AsTask()));

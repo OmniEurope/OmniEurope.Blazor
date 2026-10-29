@@ -470,9 +470,9 @@ public sealed class OmniPreferences : IAsyncDisposable
             await RaiseAsync(new(key, value, OmniPreferenceChangeOrigin.Local));
         }
 
-        if (_store is not null)
+        if (_store is not null && await _sync!.PushAsync(cache, preference, cancellationToken) is { } kept)
         {
-            await _sync!.PushAsync(cache, preference, cancellationToken);
+            await RaiseAsync(kept);
         }
     }
 

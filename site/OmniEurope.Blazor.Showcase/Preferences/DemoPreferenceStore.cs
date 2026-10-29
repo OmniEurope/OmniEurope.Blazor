@@ -63,10 +63,12 @@ public sealed class DemoPreferenceStore(IJSRuntime javaScript) : IOmniPreference
     }
 
     /// <inheritdoc />
-    public async Task SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default)
+    /// <remarks>The demo keeps the date it receives: the answer is the preference as written.</remarks>
+    public async Task<OmniPreference> SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(preference);
         await javaScript.InvokeVoidAsync("omniShowcaseDemoStore.save", cancellationToken, preference.Key, JsonSerializer.Serialize(preference));
+        return preference;
     }
 
     /// <inheritdoc />

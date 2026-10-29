@@ -64,25 +64,33 @@ internal sealed class PreferenceStoreAccess(IOmniPreferenceStore store, ILogger 
     /// <summary>
     /// Saves a preference while <paramref name="stillCurrent"/>, checked under the gate, says it is still the
     /// one to save: a write that replaced it is saved after it, by its own call, so an older value is never
-    /// saved over a newer one. False when it was not current or the store failed (logged).
+    /// saved over a newer one. The store's answer (the preference it holds for the key, with the date it kept);
+    /// null when it was not current or the store failed (logged).
     /// </summary>
-    internal async Task<bool> TrySaveAsync(OmniPreference preference, Func<Task<bool>> stillCurrent, CancellationToken cancellationToken)
+    internal async Task<OmniPreference?> TrySaveAsync(OmniPreference preference, Func<Task<bool>> stillCurrent, CancellationToken cancellationToken)
     {
         await _gate.WaitAsync(cancellationToken);
         try
         {
             if (!await stillCurrent())
             {
-                return false;
+                return null;
             }
 
-            await store.SaveAsync(preference, cancellationToken);
-            return true;
+            var acknowledged = await store.SaveAsync(preference, cancellationToken);
+            if (acknowledged is null || !string.Equals(acknowledged.Key, preference.Key, StringComparison.Ordinal))
+            {
+                // A store that breaks the contract still saved: the value written is taken as kept, as it was sent.
+                logger.LogWarning("The preference store answered the write of {Key} with another preference; the value written is taken as stored with its own date.", preference.Key);
+                return preference;
+            }
+
+            return acknowledged;
         }
         catch (Exception exception) when (exception is not OperationCanceledException || !cancellationToken.IsCancellationRequested)
         {
             logger.LogWarning(exception, "The preference {Key} could not be written to the store; it stays in the browser and the next synchronization writes it again.", preference.Key);
-            return false;
+            return null;
         }
         finally
         {

@@ -25,6 +25,14 @@ internal sealed class MemoryVisitorRepository : IVisitorPreferenceRepository
     public Task<Visitor?> FindVisitorAsync(string visitorKey, CancellationToken cancellationToken) =>
         Task.FromResult(Visitors.FirstOrDefault(visitor => visitor.Id == visitorKey));
 
+    public int AdmissionLocks { get; private set; }
+
+    public Task LockVisitorAdmissionAsync(CancellationToken cancellationToken)
+    {
+        AdmissionLocks++;
+        return Task.CompletedTask;
+    }
+
     public Task<int> CountVisitorsAsync(CancellationToken cancellationToken) => Task.FromResult(Visitors.Count);
 
     public void AddVisitor(Visitor visitor) => PendingVisitors.Add(visitor);
@@ -95,11 +103,30 @@ internal sealed class MemoryUnitOfWork(MemoryVisitorRepository repository) : IUn
         return Task.CompletedTask;
     }
 
+    public int Commits { get; private set; }
+
+    public Task<IUnitOfWorkTransaction> BeginTransactionAsync(CancellationToken cancellationToken) =>
+        Task.FromResult<IUnitOfWorkTransaction>(new MemoryTransaction(this));
+
+    public void CountCommit() => Commits++;
+
     public void Discard()
     {
         Discards++;
         repository.Drop();
     }
+}
+
+/// <summary>A transaction of <see cref="MemoryUnitOfWork"/>: it only counts the commits, the saves already kept the rows.</summary>
+internal sealed class MemoryTransaction(MemoryUnitOfWork unitOfWork) : IUnitOfWorkTransaction
+{
+    public Task CommitAsync(CancellationToken cancellationToken)
+    {
+        unitOfWork.CountCommit();
+        return Task.CompletedTask;
+    }
+
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 }
 
 /// <summary>A visitor creation gate that lets through a fixed number of creations.</summary>

@@ -6,6 +6,12 @@ namespace OmniEurope.Blazor.Showcase.Back.Components.Preferences;
 
 public sealed class VisitorPreferenceRepository(ShowcaseDbContext db) : IVisitorPreferenceRepository
 {
+    /// <summary>The PostgreSQL advisory lock key of visitor admissions (an arbitrary constant, "OEVISADM" in ASCII).</summary>
+    internal const long AdmissionLockKey = 0x4F45_5649_5341_444D;
+
+    public Task LockVisitorAdmissionAsync(CancellationToken cancellationToken) =>
+        db.Database.ExecuteSqlAsync($"SELECT pg_advisory_xact_lock({AdmissionLockKey})", cancellationToken);
+
     public Task<Visitor?> FindVisitorAsync(string visitorKey, CancellationToken cancellationToken) =>
         db.Visitors.FirstOrDefaultAsync(visitor => visitor.Id == visitorKey, cancellationToken);
 

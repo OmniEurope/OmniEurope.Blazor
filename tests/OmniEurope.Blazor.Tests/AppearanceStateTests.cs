@@ -490,7 +490,7 @@ public sealed class AppearanceStateTests : OmniBunitContext
         public Task<IReadOnlyList<OmniPreference>> GetChangedSinceAsync(DateTimeOffset? since, CancellationToken cancellationToken = default) =>
             inner.GetChangedSinceAsync(since, cancellationToken);
 
-        public Task SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default) => inner.SaveAsync(preference, cancellationToken);
+        public Task<OmniPreference> SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default) => inner.SaveAsync(preference, cancellationToken);
 
         public ValueTask<string> GetScopeAsync(CancellationToken cancellationToken = default) => inner.GetScopeAsync(cancellationToken);
     }

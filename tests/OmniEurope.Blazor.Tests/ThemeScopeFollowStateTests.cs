@@ -189,7 +189,7 @@ public sealed class ThemeScopeFollowStateTests : OmniBunitContext
         public Task<IReadOnlyList<OmniPreference>> GetChangedSinceAsync(DateTimeOffset? since, CancellationToken cancellationToken = default) =>
             Inner.GetChangedSinceAsync(since, cancellationToken);
 
-        public Task SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default) => Inner.SaveAsync(preference, cancellationToken);
+        public Task<OmniPreference> SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default) => Inner.SaveAsync(preference, cancellationToken);
 
         public ValueTask<string> GetScopeAsync(CancellationToken cancellationToken = default) => Inner.GetScopeAsync(cancellationToken);
     }

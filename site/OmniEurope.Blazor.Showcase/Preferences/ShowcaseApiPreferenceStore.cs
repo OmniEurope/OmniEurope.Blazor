@@ -53,13 +53,17 @@ public sealed class ShowcaseApiPreferenceStore(ShowcaseApiHttpClient api, Showca
     }
 
     /// <inheritdoc />
-    public async Task SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default)
+    /// <remarks>The API answers the preference it now holds, with the date it kept (a future browser date becomes the server's time).</remarks>
+    public async Task<OmniPreference> SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(preference);
         using var request = await RequestAsync(HttpMethod.Put, $"{VisitorPreferenceApi.Route}/{Uri.EscapeDataString(preference.Key)}", cancellationToken);
         request.Content = JsonContent.Create(new SaveVisitorPreferenceRequest(preference.Value, preference.UpdatedAt));
         using var response = await api.Http.SendAsync(request, cancellationToken);
         response.EnsureSuccessStatusCode();
+        var stored = await response.Content.ReadFromJsonAsync<VisitorPreferenceDto>(cancellationToken)
+            ?? throw new InvalidDataException("The preference API answered a write without the stored preference.");
+        return new OmniPreference(stored.Key, stored.Value, stored.UpdatedAt);
     }
 
     /// <inheritdoc />
