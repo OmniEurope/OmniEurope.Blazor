@@ -112,6 +112,8 @@ public sealed class SelectionRecetteTests : OmniBunitContext
             Assert.Equal("true", chevron.GetAttribute("aria-hidden"));
             Assert.Equal("-1", chevron.GetAttribute("tabindex"));
         });
+        Assert.Single(bar.FindAll(".omni-select-bar__scroll--start.omni-stack-scroll__button--start"));
+        Assert.Single(bar.FindAll(".omni-select-bar__scroll--end.omni-stack-scroll__button--end"));
         var items = bar.FindAll(".omni-select-bar__item");
         Assert.True(items[2].HasAttribute("disabled"));
         items[2].Click();
