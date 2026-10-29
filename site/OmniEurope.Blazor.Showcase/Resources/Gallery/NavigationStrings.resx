@@ -90,4 +90,13 @@
   <data name="AppMenuUserDisplayName" xml:space="preserve"><value>Name</value></data>
   <data name="AppMenuUserDisplayInitials" xml:space="preserve"><value>Initials</value></data>
   <data name="AppMenuUserDisplayIcon" xml:space="preserve"><value>Icon</value></data>
+  <data name="SiteSearchTitle" xml:space="preserve"><value>Site search</value></data>
+  <data name="SiteSearchDescription" xml:space="preserve"><value>The search of an app bar: typing lists the pages the application gave it, grouped, ignoring case and accents and looking at the keywords too; a click or Enter leads to the page and empties the field, Escape closes the list. On a phone it takes a row of its own under the brand.</value></data>
+  <data name="SiteSearchPreviewTitle" xml:space="preserve"><value>App bar</value></data>
+  <data name="SiteSearchSettingsTitle" xml:space="preserve"><value>Pages</value></data>
+  <data name="SiteSearchSettingsDescription" xml:space="preserve"><value>What the application gives the search for each page.</value></data>
+  <data name="SiteSearchGrouped" xml:space="preserve"><value>Groups</value></data>
+  <data name="SiteSearchGroupedDescription" xml:space="preserve"><value>Group: the heading each page is listed under (a section, a family).</value></data>
+  <data name="SiteSearchIcons" xml:space="preserve"><value>Icons</value></data>
+  <data name="SiteSearchIconsDescription" xml:space="preserve"><value>Icon: a glyph drawn before the name of each page.</value></data>
 </root>

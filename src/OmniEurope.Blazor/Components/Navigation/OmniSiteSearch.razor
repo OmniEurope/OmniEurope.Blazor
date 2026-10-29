@@ -1,0 +1,25 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+@* A search field for the pages of an application, built on OmniAutocomplete (the editable combobox: the
+   focus stays in the field, the arrows move through the matches, Enter picks one, Escape closes the
+   list). Picking navigates and empties the field. The matches are found here, in the list the host gave;
+   the "no match" line is drawn under the field while it has the focus, as the list is. *@
+<div class="@Css("omni-site-search")" role="search" @onkeydown="HandleKeyDown" @oninput="HandleInput">
+    <span class="omni-site-search__icon" aria-hidden="true"><OmniIcon Name="OmniIconName.Search" /></span>
+    <OmniAutocomplete TValue="OmniSiteSearchDestination"
+                      @attributes="AdditionalAttributes"
+                      Id="@Id"
+                      Value="_picked"
+                      ValueChanged="PickAsync"
+                      ValueExpression="() => _picked"
+                      Search="SearchAsync"
+                      Debounce="TimeSpan.Zero"
+                      Label="@LocalizeOr(Label, "SiteSearchLabel")"
+                      Placeholder="@LocalizeOr(Placeholder, "SiteSearchPlaceholder")"
+                      OptionIconTemplate="@(HasIcons ? OptionIcon : null)" />
+    @if (_noMatch)
+    {
+        <div class="omni-site-search__empty">@LocalizeOr(NoMatchText, "SiteSearchNoMatch")</div>
+    }
+</div>

@@ -740,4 +740,7 @@
   <data name="FormatHour" xml:space="preserve"><value>ω</value></data>
   <data name="FormatDay" xml:space="preserve"><value>ημ</value></data>
   <data name="ValidationSummaryTitle" xml:space="preserve"><value>{0, plural, one {# σφάλμα προς διόρθωση} other {# σφάλματα προς διόρθωση}}</value></data>
+  <data name="SiteSearchLabel" xml:space="preserve"><value>Αναζήτηση στον ιστότοπο</value></data>
+  <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Αναζήτηση…</value></data>
+  <data name="SiteSearchNoMatch" xml:space="preserve"><value>Κανένα αποτέλεσμα</value></data>
 </root>

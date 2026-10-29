@@ -740,4 +740,7 @@
   <data name="FormatHour" xml:space="preserve"><value>ó</value></data>
   <data name="FormatDay" xml:space="preserve"><value>n</value></data>
   <data name="ValidationSummaryTitle" xml:space="preserve"><value>{0} hiba javítandó</value></data>
+  <data name="SiteSearchLabel" xml:space="preserve"><value>Keresés az oldalon</value></data>
+  <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Keresés…</value></data>
+  <data name="SiteSearchNoMatch" xml:space="preserve"><value>Nincs találat</value></data>
 </root>

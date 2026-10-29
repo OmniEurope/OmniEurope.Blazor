@@ -740,4 +740,7 @@
   <data name="FormatHour" xml:space="preserve"><value>h</value></data>
   <data name="FormatDay" xml:space="preserve"><value>j</value></data>
   <data name="ValidationSummaryTitle" xml:space="preserve"><value>{0, plural, one {# erreur à corriger} other {# erreurs à corriger}}</value></data>
+  <data name="SiteSearchLabel" xml:space="preserve"><value>Rechercher dans le site</value></data>
+  <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Rechercher…</value></data>
+  <data name="SiteSearchNoMatch" xml:space="preserve"><value>Aucun résultat</value></data>
 </root>

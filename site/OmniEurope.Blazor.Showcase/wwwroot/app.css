@@ -1,12 +1,6 @@
 /* Layout of the showcase itself. Every value reads a library token, so the site is repainted by
    the theme editor exactly like the components it presents. */
 
-/* The header: the brand and the sidebar toggle are the library's, and the spacer pushes the application menu to
-   the end of the bar. */
-.showcase-header__spacer {
-    flex: 1 1 auto;
-}
-
 /* The site's shell takes the window's height, so only the main area scrolls (OmniMain Scrollable) and the
    header and the menu stay in place. Scoped to the site's own shell, not to the shells drawn in examples. */
 #showcase-theme > .omni-layout {

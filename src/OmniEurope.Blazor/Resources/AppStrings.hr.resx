@@ -740,4 +740,7 @@
   <data name="FormatHour" xml:space="preserve"><value>h</value></data>
   <data name="FormatDay" xml:space="preserve"><value>d</value></data>
   <data name="ValidationSummaryTitle" xml:space="preserve"><value>{0, plural, one {# pogreška za ispravak} few {# pogreške za ispravak} other {# pogrešaka za ispravak}}</value></data>
+  <data name="SiteSearchLabel" xml:space="preserve"><value>Pretraži web-mjesto</value></data>
+  <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Pretraži…</value></data>
+  <data name="SiteSearchNoMatch" xml:space="preserve"><value>Nema rezultata</value></data>
 </root>

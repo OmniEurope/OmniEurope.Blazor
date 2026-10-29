@@ -740,4 +740,7 @@
   <data name="FormatHour" xml:space="preserve"><value>t</value></data>
   <data name="FormatDay" xml:space="preserve"><value>p</value></data>
   <data name="ValidationSummaryTitle" xml:space="preserve"><value>{0, plural, one {# viga tuleb parandada} other {# viga tuleb parandada}}</value></data>
+  <data name="SiteSearchLabel" xml:space="preserve"><value>Otsi saidilt</value></data>
+  <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Otsi…</value></data>
+  <data name="SiteSearchNoMatch" xml:space="preserve"><value>Tulemusi pole</value></data>
 </root>

@@ -1,0 +1,30 @@
+@page "/components/site-search"
+@using OmniEurope.Blazor.Showcase.Examples.Navigation
+
+<GalleryPageFrame Slug="site-search">
+    <Settings>
+        <OmniSettingsSection Title="@Text["SiteSearchSettingsTitle"]" Description="@Text["SiteSearchSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["SiteSearchGrouped"]" Description="@Text["SiteSearchGroupedDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Layers" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Grouped" aria-label="@Text["SiteSearchGrouped"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SiteSearchIcons"]" Description="@Text["SiteSearchIconsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Image" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowIcons" aria-label="@Text["SiteSearchIcons"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["SiteSearchPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <SiteSearchExample Grouped="Grouped" ShowIcons="ShowIcons" />
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

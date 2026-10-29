@@ -740,4 +740,7 @@
   <data name="FormatHour" xml:space="preserve"><value>h</value></data>
   <data name="FormatDay" xml:space="preserve"><value>d</value></data>
   <data name="ValidationSummaryTitle" xml:space="preserve"><value>{0, plural, one {# chyba k opravě} few {# chyby k opravě} other {# chyb k opravě}}</value></data>
+  <data name="SiteSearchLabel" xml:space="preserve"><value>Hledat na webu</value></data>
+  <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Hledat…</value></data>
+  <data name="SiteSearchNoMatch" xml:space="preserve"><value>Žádné výsledky</value></data>
 </root>

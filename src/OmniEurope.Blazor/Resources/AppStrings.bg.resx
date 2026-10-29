@@ -740,4 +740,7 @@
   <data name="FormatHour" xml:space="preserve"><value>ч</value></data>
   <data name="FormatDay" xml:space="preserve"><value>д</value></data>
   <data name="ValidationSummaryTitle" xml:space="preserve"><value>{0, plural, one {# грешка за коригиране} other {# грешки за коригиране}}</value></data>
+  <data name="SiteSearchLabel" xml:space="preserve"><value>Търсене в сайта</value></data>
+  <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Търсене…</value></data>
+  <data name="SiteSearchNoMatch" xml:space="preserve"><value>Няма резултати</value></data>
 </root>

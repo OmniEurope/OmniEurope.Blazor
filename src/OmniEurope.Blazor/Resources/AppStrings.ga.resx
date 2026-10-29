@@ -740,4 +740,7 @@
   <data name="FormatHour" xml:space="preserve"><value>u</value></data>
   <data name="FormatDay" xml:space="preserve"><value>l</value></data>
   <data name="ValidationSummaryTitle" xml:space="preserve"><value>{0, plural, one {# earráid le ceartú} two {# earráid le ceartú} few {# earráid le ceartú} many {# n-earráid le ceartú} other {# earráid le ceartú}}</value></data>
+  <data name="SiteSearchLabel" xml:space="preserve"><value>Cuardaigh an suíomh</value></data>
+  <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Cuardaigh…</value></data>
+  <data name="SiteSearchNoMatch" xml:space="preserve"><value>Gan torthaí</value></data>
 </root>

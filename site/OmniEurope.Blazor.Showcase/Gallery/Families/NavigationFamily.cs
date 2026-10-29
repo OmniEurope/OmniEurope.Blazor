@@ -40,6 +40,11 @@ internal static class NavigationFamily
             [
                 "Navigation/AppMenuExample.razor", "Navigation/AppMenuExample.razor.cs",
                 "Navigation/AppMenuLanguages.cs"
+            ]),
+        new("site-search", "SiteSearchTitle", "SiteSearchDescription", OmniIconName.Search,
+            ["OmniSiteSearch"],
+            [
+                "Navigation/SiteSearchExample.razor", "Navigation/SiteSearchExample.razor.cs"
             ])
     ]);
 }

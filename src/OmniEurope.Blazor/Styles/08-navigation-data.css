@@ -139,6 +139,35 @@
 /* On a phone the bar has no room for the name: the trigger keeps its icon, its label and the chevron,
    and the name stays in the menu it opens. */
 @media (max-width: 39.99rem) { .omni-app-menu__trigger-name { display: none; } }
+/* The site search (OmniSiteSearch): the field of OmniAutocomplete with a magnifier laid over its start padding,
+   as a text box with an Icon draws it. It grows from 14rem up to 28rem and no further; in an app bar, the controls
+   after it are pushed to the end by the margin it leaves free. On a phone the bar has no room beside the brand
+   and the menus: the field takes a row of its own under them (order), the whole width. The "no match" line is
+   drawn like the list of suggestions, under the field, and only while the field has the focus. */
+.omni-site-search { flex: 1 1 14rem; max-inline-size: 28rem; min-inline-size: 0; position: relative; }
+.omni-header > .omni-site-search { margin-inline-end: auto; }
+.omni-site-search__icon { color: var(--omni-color-text-muted); display: flex; inset-block-start: 50%; inset-inline-start: calc(0.5625rem * var(--omni-control-scale, 1)); pointer-events: none; position: absolute; transform: translateY(-50%); z-index: 1; }
+.omni-site-search .omni-autocomplete__input { padding-inline-start: calc(1.875rem * var(--omni-control-scale, 1)); }
+.omni-site-search__empty {
+    backdrop-filter: var(--omni-overlay-filter, none);
+    background: var(--omni-overlay-background, var(--omni-color-surface));
+    border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border));
+    border-radius: var(--omni-card-radius, var(--omni-radius));
+    box-shadow: var(--omni-overlay-shadow, var(--omni-shadow-md));
+    box-sizing: border-box;
+    color: var(--omni-color-text-muted);
+    display: none;
+    margin-block-start: var(--omni-space-xs);
+    padding: var(--omni-space-sm);
+    position: absolute;
+    width: 100%;
+    z-index: var(--omni-z-popover);
+}
+.omni-site-search:focus-within > .omni-site-search__empty { display: block; }
+@media (max-width: 39.99rem) {
+    .omni-header > .omni-site-search { flex-basis: 100%; max-inline-size: none; order: 1; margin-inline-end: 0; }
+    .omni-header > .omni-site-search ~ .omni-app-menu { margin-inline-start: auto; }
+}
 .omni-app-menu__card { --omni-app-menu-row: calc(var(--omni-control-height) + 1rem); display: flex; flex-direction: column; }
 .omni-app-menu__row, .omni-app-menu__card > .omni-button.omni-app-menu__item { align-items: center; border-block-end: var(--omni-border-width) solid var(--omni-color-border); box-sizing: border-box; display: flex; gap: var(--omni-space-sm); min-block-size: var(--omni-app-menu-row); padding: 0 var(--omni-space-md); }
 .omni-app-menu__card > .omni-button.omni-app-menu__item { border-radius: 0; inline-size: 100%; justify-content: flex-start; }
