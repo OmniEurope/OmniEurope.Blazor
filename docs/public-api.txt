@@ -94,6 +94,7 @@ component OmniEurope.Blazor.Components.OmniNotification
 component OmniEurope.Blazor.Components.OmniNumeric<TValue>
 component OmniEurope.Blazor.Components.OmniOverflowMenu
 component OmniEurope.Blazor.Components.OmniPageHeader
+component OmniEurope.Blazor.Components.OmniPageVeil
 component OmniEurope.Blazor.Components.OmniPager
 component OmniEurope.Blazor.Components.OmniPanelMenu
 component OmniEurope.Blazor.Components.OmniPanelMenuItem
@@ -312,6 +313,7 @@ ctor public OmniEurope.Blazor.Components.OmniOption<TValue>(TValue Value, System
 ctor public OmniEurope.Blazor.Components.OmniOverflowMenu()
 ctor public OmniEurope.Blazor.Components.OmniOverlayService(System.TimeProvider? timeProvider = null, System.Int32 notificationCapacity = 5, System.TimeSpan? defaultNotificationDuration = null)
 ctor public OmniEurope.Blazor.Components.OmniPageHeader()
+ctor public OmniEurope.Blazor.Components.OmniPageVeil()
 ctor public OmniEurope.Blazor.Components.OmniPager()
 ctor public OmniEurope.Blazor.Components.OmniPanelMenu()
 ctor public OmniEurope.Blazor.Components.OmniPanelMenuItem()
@@ -1241,6 +1243,7 @@ method protected override OmniEurope.Blazor.Components.OmniOverflowMenu.OnParame
 method protected override OmniEurope.Blazor.Components.OmniPageHeader.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniPageHeader.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniPageHeader.OnInitialized() : System.Void
+method protected override OmniEurope.Blazor.Components.OmniPageVeil.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniPager.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniPanelMenu.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniPanelMenuItem.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
@@ -3424,6 +3427,10 @@ property public OmniEurope.Blazor.Components.OmniPageHeader.ShowTrail : System.B
 property public OmniEurope.Blazor.Components.OmniPageHeader.Subtitle : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPageHeader.Title : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPageHeader.TrailLabel : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniPageVeil.Busy : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniPageVeil.Label : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniPageVeil.Logo : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniPageVeil.LogoSource : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPager.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPager.Justify : OmniEurope.Blazor.Components.OmniJustification {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPager.Label : System.String? {get(public);set(public)} [Parameter]
@@ -4298,6 +4305,7 @@ type public OmniEurope.Blazor.Components.OmniOrientation [enum, sealed] : System
 type public OmniEurope.Blazor.Components.OmniOverflowMenu [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, OmniEurope.Blazor.Internal.IOmniMenu, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniOverlayService [class, sealed] : System.IDisposable
 type public OmniEurope.Blazor.Components.OmniPageHeader [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
+type public OmniEurope.Blazor.Components.OmniPageVeil [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniPager [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniPanelMenu [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniPanelMenuDisplay [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32

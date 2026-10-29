@@ -1,0 +1,43 @@
+@* The veil of a whole page: opaque, fixed over the viewport, one constant colour of the theme, the logo
+   of the application at its centre. The package has no logo and animates nothing: the application gives
+   the mark it wants, as markup (Logo) or as an image address (LogoSource), still or animated by itself
+   (the third button animates its own SVG). It appears only after 100 ms of waiting: the last button waits
+   for 50 ms and shows nothing at all. *@
+@{
+    RenderFragment stillLogo = @<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="32" cy="32" r="28" fill="none" stroke="currentColor" stroke-width="6" />
+        <path d="M20 40 L32 16 L44 40 Z" fill="currentColor" />
+    </svg>;
+    RenderFragment animatedLogo = @<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="32" cy="32" r="28" fill="none" stroke="currentColor" stroke-width="6" />
+        <circle cx="32" cy="32" r="10" fill="currentColor">
+            <animate attributeName="r" values="6;16;6" dur="1.6s" repeatCount="indefinite" />
+        </circle>
+    </svg>;
+}
+<OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+    <OmniButton Id="page-veil-markup" Variant="OmniButtonVariant.Secondary" Disabled="@Waiting" OnClick="@(_ => WaitAsync(VeilLogo.Markup, TimeSpan.FromSeconds(2.5)))">
+        <Icon><OmniIcon Name="OmniIconName.Hourglass" /></Icon>
+        <ChildContent><span>Logo as markup</span></ChildContent>
+    </OmniButton>
+    <OmniButton Id="page-veil-address" Variant="OmniButtonVariant.Secondary" Disabled="@Waiting" OnClick="@(_ => WaitAsync(VeilLogo.Address, TimeSpan.FromSeconds(2.5)))">
+        <Icon><OmniIcon Name="OmniIconName.Image" /></Icon>
+        <ChildContent><span>Logo as image address</span></ChildContent>
+    </OmniButton>
+    <OmniButton Id="page-veil-animated" Variant="OmniButtonVariant.Secondary" Disabled="@Waiting" OnClick="@(_ => WaitAsync(VeilLogo.Animated, TimeSpan.FromSeconds(2.5)))">
+        <Icon><OmniIcon Name="OmniIconName.Sync" /></Icon>
+        <ChildContent><span>Animated logo of the application</span></ChildContent>
+    </OmniButton>
+    <OmniButton Id="page-veil-none" Variant="OmniButtonVariant.Secondary" Disabled="@Waiting" OnClick="@(_ => WaitAsync(VeilLogo.None, TimeSpan.FromSeconds(2.5)))">
+        <Icon><OmniIcon Name="OmniIconName.Eye" /></Icon>
+        <ChildContent><span>No logo</span></ChildContent>
+    </OmniButton>
+    <OmniButton Id="page-veil-short" Variant="OmniButtonVariant.Secondary" Disabled="@Waiting" OnClick="@(_ => WaitAsync(VeilLogo.Markup, TimeSpan.FromMilliseconds(50)))">
+        <Icon><OmniIcon Name="OmniIconName.Timer" /></Icon>
+        <ChildContent><span>A 50 ms wait (nothing shows)</span></ChildContent>
+    </OmniButton>
+</OmniRow>
+<OmniPageVeil Id="page-veil-demo"
+              Busy="@Waiting"
+              Logo="@(Current switch { VeilLogo.Markup => stillLogo, VeilLogo.Animated => animatedLogo, _ => null })"
+              LogoSource="@(Current == VeilLogo.Address ? "showcase-logo.svg" : null)" />

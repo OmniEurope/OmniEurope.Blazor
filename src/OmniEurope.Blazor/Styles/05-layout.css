@@ -462,6 +462,28 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
     .omni-logo-loader--animated .omni-logo-loader__mark * { animation: none !important; }
 }
 
+/* OmniPageVeil: the wait of a whole page. An opaque layer fixed over the viewport, in the theme's surface
+   colour (one constant colour, light and dark), the application's logo at its centre. Nothing animates and
+   there is no opacity at all. The veil appears once the wait has lasted --omni-page-veil-delay (100 ms): the
+   element is hidden by a zero-length step animation that only holds its first keyframe during that delay, so
+   a wait that ends sooner removes the element unseen (no timer, no flicker) and, were animations off, the
+   veil would show at once rather than never. The pointer stays on the veil (it covers the page). */
+.omni-page-veil {
+    align-items: center;
+    animation: omni-page-veil-wait 0s linear var(--omni-page-veil-delay, 100ms) backwards;
+    background: var(--omni-color-surface);
+    color: var(--omni-color-text);
+    display: flex;
+    inset: 0;
+    justify-content: center;
+    position: fixed;
+    z-index: var(--omni-z-overlay);
+}
+@keyframes omni-page-veil-wait { from { visibility: hidden; } }
+.omni-page-veil__logo { block-size: var(--omni-page-veil-logo-size, 6rem); display: inline-flex; inline-size: var(--omni-page-veil-logo-size, 6rem); }
+.omni-page-veil__logo > :is(img, svg) { block-size: 100%; inline-size: 100%; object-fit: contain; }
+.omni-page-veil__logo .omni-icon { block-size: 100%; inline-size: 100%; }
+
 @media (min-width: 40rem) {
     .omni-column--sm-1 { flex: 0 0 calc(100% * 1 / 12 - var(--omni-row-gap, 0px) * 11 / 12); max-width: calc(100% * 1 / 12 - var(--omni-row-gap, 0px) * 11 / 12); }
     .omni-column--sm-2 { flex: 0 0 calc(100% * 2 / 12 - var(--omni-row-gap, 0px) * 10 / 12); max-width: calc(100% * 2 / 12 - var(--omni-row-gap, 0px) * 10 / 12); }
