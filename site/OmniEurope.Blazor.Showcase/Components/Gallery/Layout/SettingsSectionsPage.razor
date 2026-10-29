@@ -26,6 +26,13 @@
                 </ChildContent>
             </OmniSettingsTile>
 
+            <OmniSettingsTile Title="@Text["SettingsSectionsFlat"]" Description="@Text["SettingsSectionsFlatHint"]">
+                <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                <ChildContent>
+                    <OmniSwitch Id="settings-sections-flat" @bind-Value="Flat" aria-label="@Text["SettingsSectionsFlat"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
             <OmniSettingsTile Title="@Text["SettingsSectionsContent"]" Description="@Text["SettingsSectionsContentHint"]">
                 <Icon><OmniIcon Name="OmniIconName.Layers" /></Icon>
                 <Details>
@@ -39,7 +46,7 @@
             <HeaderContent>@Text["SettingsSectionsPreviewTitle"]</HeaderContent>
             <ChildContent>
                 <SettingsSectionsExample ShowSectionDescription="ShowSectionDescription" ShowIcons="ShowIcons"
-                                         ShowDescriptions="ShowDescriptions" Content="Content" />
+                                         ShowDescriptions="ShowDescriptions" Flat="Flat" Content="Content" />
             </ChildContent>
         </OmniCard>
         <OmniCard Class="gallery-preview">

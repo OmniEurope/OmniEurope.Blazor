@@ -1,6 +1,6 @@
 @* A settings section is a card with a title and a line of explanation; each setting sits in its own
    tile, with an optional icon, a name, a description, a control beside it and content under it. *@
-<OmniSettingsSection Title="Account" Description="@(ShowSectionDescription ? "What the application sends you, and how it looks." : null)">
+<OmniSettingsSection Title="Account" Description="@(ShowSectionDescription ? "What the application sends you, and how it looks." : null)" Flat="Flat">
     <SettingsSampleTile ShowIcon="ShowIcons" IconName="OmniIconName.Bell" Title="Email alerts"
                         Description="@(ShowDescriptions ? "A message when one of your files changes status." : null)">
         <Control>

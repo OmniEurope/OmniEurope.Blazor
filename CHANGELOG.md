@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Added
+
+- `OmniSettingsSection.Flat` (`bool`, faux par défaut) : demande d'une application cliente (PLAN-008, W-2), dont les tuiles de réglages faisaient une boîte dans la carte de leur rubrique (le fond et le cadre de la tuile se superposaient à ceux de la carte). Vrai, les tuiles n'ont ni fond, ni cadre, ni couche de givre ; un filet fin sépare deux tuiles d'une colonne, l'espacement seul les sépare dans une rubrique `Paired`. Le survol et la teinte au focus clavier d'un contrôle de la tuile restent. Rien ne change pour une rubrique sans `Flat`.
+
 ## [1.10.0] - 2026-10-29
 
 Version mineure : demandes d'une application cliente (recettes R-3 à R-84) sur les badges, les champs de formulaire, les infobulles, l'en-tête de page sur téléphone et le filtre de date des grilles. Elle porte des ruptures assumées, voir [docs/versioning.md](docs/versioning.md) ; chacune est listée sous « Breaking changes », avec sa migration.

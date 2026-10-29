@@ -155,6 +155,8 @@
   <data name="SettingsSectionsTileIconsHint" xml:space="preserve"><value>Paramètre Icon d'OmniSettingsTile, décoratif.</value></data>
   <data name="SettingsSectionsTileDescriptions" xml:space="preserve"><value>Descriptions des tuiles</value></data>
   <data name="SettingsSectionsTileDescriptionsHint" xml:space="preserve"><value>Paramètre Description d'OmniSettingsTile, sous le nom.</value></data>
+  <data name="SettingsSectionsFlat" xml:space="preserve"><value>Tuiles à plat</value></data>
+  <data name="SettingsSectionsFlatHint" xml:space="preserve"><value>Paramètre Flat d'OmniSettingsSection : ni fond ni cadre, un filet entre les tuiles.</value></data>
   <data name="SettingsSectionsContent" xml:space="preserve"><value>Contenu des tuiles</value></data>
   <data name="SettingsSectionsContentHint" xml:space="preserve"><value>ChildContent se place à côté du nom, Details passe sous la ligne.</value></data>
   <data name="SettingsSectionsContentControl" xml:space="preserve"><value>À côté (ChildContent)</value></data>

@@ -3584,6 +3584,7 @@ property public OmniEurope.Blazor.Components.OmniSettingsDangerZone.Description 
 property public OmniEurope.Blazor.Components.OmniSettingsDangerZone.Title : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSettingsSection.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSettingsSection.Description : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniSettingsSection.Flat : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSettingsSection.Paired : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSettingsSection.Title : System.String {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniSettingsTile.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]

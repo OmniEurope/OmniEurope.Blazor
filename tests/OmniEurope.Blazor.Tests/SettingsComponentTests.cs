@@ -25,6 +25,46 @@ public sealed class SettingsComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public void SettingsSection_Flat_AddsItsModifierClass_AndFramedIsTheDefault()
+    {
+        var flat = Render<OmniSettingsSection>(parameters => parameters
+            .Add(component => component.Title, "Compte")
+            .Add(component => component.Flat, true)
+            .AddChildContent("<div class=\"setting\">Nom</div>"));
+        var framed = Render<OmniSettingsSection>(parameters => parameters.Add(component => component.Title, "Compte"));
+
+        Assert.Contains("omni-settings-section--flat", flat.Find("section.omni-settings-section").ClassList);
+        Assert.NotNull(flat.Find(".omni-card__body .setting"));
+        Assert.DoesNotContain("omni-settings-section--flat", framed.Find("section.omni-settings-section").ClassList);
+        Assert.DoesNotContain("style=", flat.Markup, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void SettingsSection_Flat_StylesTilesWithNoFillNoFrameAndAHairlineBetweenThem_KeepingTheHover()
+    {
+        // The framed tile is the baseline the flat rules take away from.
+        var framed = ShippedLookTests.Body(".omni-settings-tile");
+        Assert.StartsWith("var(--omni-border-width) solid", ShippedLookTests.Value(framed, "border"), StringComparison.Ordinal);
+
+        var tile = ShippedLookTests.Body(".omni-settings-section--flat .omni-settings-tile");
+        Assert.Equal("transparent", ShippedLookTests.Value(tile, "background"));
+        Assert.Equal("0", ShippedLookTests.Value(tile, "border"));
+
+        Assert.Equal("none", ShippedLookTests.Value(ShippedLookTests.Body(".omni-settings-section--flat .omni-settings-tile::before"), "content"));
+
+        var divider = ShippedLookTests.Body(".omni-settings-section--flat .omni-settings-tile + .omni-settings-tile");
+        Assert.Equal("var(--omni-border-width) solid var(--omni-color-border)", ShippedLookTests.Value(divider, "border-block-start"));
+
+        // Hover and keyboard focus inside the tile still tint it, so the affordance of the tile survives.
+        var hover = ShippedLookTests.Body(".omni-settings-section--flat .omni-settings-tile:hover,\n.omni-settings-section--flat .omni-settings-tile:focus-within");
+        Assert.Contains("color-mix(in srgb, var(--omni-color-text)", ShippedLookTests.Value(hover, "background"), StringComparison.Ordinal);
+
+        // Paired and flat: spacing alone separates the tiles.
+        var paired = ShippedLookTests.Body(".omni-settings-section--flat.omni-settings-section--paired .omni-settings-tile + .omni-settings-tile");
+        Assert.Equal("0", ShippedLookTests.Value(paired, "border-block-start"));
+    }
+
+    [Fact]
     public void SettingsSection_WithoutDescription_RendersNoHint()
     {
         var section = Render<OmniSettingsSection>(parameters => parameters.Add(component => component.Title, "Données"));

@@ -187,6 +187,20 @@
 .omni-settings-tile { background: color-mix(in srgb, var(--omni-color-text) 6%, var(--omni-card-background, var(--omni-color-surface))); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-radius); display: flex; flex-direction: column; gap: var(--omni-space-sm); padding: var(--omni-tile-pad-y) 0.875rem; transition: background-color var(--omni-duration-fast) ease; }
 /* Every tile answers the pointer, an informative one included: the hover says which setting the eye is on. */
 .omni-settings-tile:hover { background: color-mix(in srgb, var(--omni-color-text) 10%, var(--omni-card-background, var(--omni-color-surface))); }
+/* Flat section (OmniSettingsSection.Flat): the tiles are rows of the card, not boxes in it. No fill, no
+   frame, no frost layer of their own; a hairline rule between two tiles of a column, spacing alone in a
+   paired grid. The tile keeps its inline padding and the body gives that much back, so the text still
+   lines up with the heading and the hover tint (and the tint while a control of the tile has the
+   focus) has room around the text. */
+.omni-settings-section--flat > .omni-card__body { gap: 0; padding-inline: max(0px, calc(var(--omni-section-pad) - 0.875rem)); }
+.omni-settings-section--flat > .omni-card__body > .omni-settings-section__heading { padding-block-end: var(--omni-space-sm); padding-inline: min(var(--omni-section-pad), 0.875rem); }
+.omni-settings-section--flat .omni-settings-tile { background: transparent; border: 0; }
+.omni-settings-section--flat .omni-settings-tile::before { content: none; }
+.omni-settings-section--flat .omni-settings-tile + .omni-settings-tile { border-block-start: var(--omni-border-width) solid var(--omni-color-border); border-start-end-radius: 0; border-start-start-radius: 0; }
+.omni-settings-section--flat .omni-settings-tile:hover,
+.omni-settings-section--flat .omni-settings-tile:focus-within { background: color-mix(in srgb, var(--omni-color-text) 6%, transparent); }
+.omni-settings-section--flat.omni-settings-section--paired > .omni-card__body { gap: var(--omni-space-sm) var(--omni-form-gap); }
+.omni-settings-section--flat.omni-settings-section--paired .omni-settings-tile + .omni-settings-tile { border-block-start: 0; border-start-end-radius: var(--omni-radius); border-start-start-radius: var(--omni-radius); }
 
 /* Stat tile: a key figure on the card surface. The icon square takes the accent tint of the settings
    tiles; the value is the largest text of the tile and never wraps; label and detail stay muted.

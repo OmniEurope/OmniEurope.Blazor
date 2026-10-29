@@ -15,6 +15,8 @@ public partial class SettingsSectionsPage
 
     private bool ShowDescriptions { get; set; } = true;
 
+    private bool Flat { get; set; }
+
     private SettingsTileContent Content { get; set; } = SettingsTileContent.Both;
 
     private IReadOnlyList<OmniOption<SettingsTileContent>> ContentOptions =>

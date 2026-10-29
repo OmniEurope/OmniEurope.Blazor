@@ -23,6 +23,10 @@ public partial class SettingsSectionsExample
     [Parameter]
     public bool ShowDescriptions { get; set; } = true;
 
+    /// <summary>Whether the tiles are drawn flat, with no fill and no frame, a hairline between them.</summary>
+    [Parameter]
+    public bool Flat { get; set; }
+
     /// <summary>Where each tile carries its control.</summary>
     [Parameter]
     public SettingsTileContent Content { get; set; } = SettingsTileContent.Both;

@@ -155,6 +155,8 @@
   <data name="SettingsSectionsTileIconsHint" xml:space="preserve"><value>Icon parameter of OmniSettingsTile, decorative.</value></data>
   <data name="SettingsSectionsTileDescriptions" xml:space="preserve"><value>Tile descriptions</value></data>
   <data name="SettingsSectionsTileDescriptionsHint" xml:space="preserve"><value>Description parameter of OmniSettingsTile, under the name.</value></data>
+  <data name="SettingsSectionsFlat" xml:space="preserve"><value>Flat tiles</value></data>
+  <data name="SettingsSectionsFlatHint" xml:space="preserve"><value>Flat parameter of OmniSettingsSection: no fill and no frame, a hairline between tiles.</value></data>
   <data name="SettingsSectionsContent" xml:space="preserve"><value>Tile content</value></data>
   <data name="SettingsSectionsContentHint" xml:space="preserve"><value>ChildContent sits beside the name, Details goes under the row.</value></data>
   <data name="SettingsSectionsContentControl" xml:space="preserve"><value>Beside (ChildContent)</value></data>
