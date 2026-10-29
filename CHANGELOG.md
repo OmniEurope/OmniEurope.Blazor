@@ -7,6 +7,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 ### Added
 
 - `OmniDataList.Density` (`OmniDensity?`, nulle par défaut) : demande d'une application cliente (lot W-4), dont une liste d'une ligne par mot (un dictionnaire) prenait 77 px par rangée à cause de la marge intérieure de l'élément et surchargeait `.omni-data-list__item`. Comme `OmniCard.Density`, elle pose `data-omni-density` sur la racine : la marge de chaque élément et l'écart entre éléments suivent la densité (`Compact` : 0,5 rem de marge et 0,375 rem d'écart au lieu de 0,75 et 0,5), sans surcharge de la feuille de style. Nulle, la liste suit la portée de thème comme avant.
+- `OmniAppMenu.UserDisplay` (`OmniAppMenuUserDisplay` : `Name`, `Initials`, `Icon`, `Name` par défaut) et `OmniAppMenu.Initials` (`string?`) : demande d'une application cliente (lot W-7), dont l'adresse électronique de l'utilisateur était coupée sur le bouton. `Initials` montre les initiales (données par `Initials`, sinon prises dans `UserName` : « JD » pour `jean.dupont@exemple.fr`) et le chevron, `Icon` l'icône d'utilisateur seule ; dans les deux cas le nom entier reste dans le nom accessible du bouton (« Menu de l'application : nom »), son infobulle et le menu ouvert. `Name` garde le rendu d'avant.
 
 ## [1.10.0] - 2026-10-29
 

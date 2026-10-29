@@ -10,6 +10,15 @@ public partial class AppMenuPage
 
     private bool WithAccount { get; set; } = true;
 
+    private OmniAppMenuUserDisplay UserDisplay { get; set; } = OmniAppMenuUserDisplay.Name;
+
+    private IReadOnlyList<OmniOption<OmniAppMenuUserDisplay>> UserDisplayOptions =>
+    [
+        new(OmniAppMenuUserDisplay.Name, Text["AppMenuUserDisplayName"]),
+        new(OmniAppMenuUserDisplay.Initials, Text["AppMenuUserDisplayInitials"]),
+        new(OmniAppMenuUserDisplay.Icon, Text["AppMenuUserDisplayIcon"])
+    ];
+
     private bool WithLanguages { get; set; } = true;
 
     private bool ShowFlags { get; set; }

@@ -70,6 +70,86 @@ public sealed class AppMenuTests : OmniBunitContext
         Assert.Equal("admin", menu.Find(".omni-app-menu__identity .omni-app-menu__label").TextContent);
     }
 
+    [Theory]
+    [InlineData("jean.dupont@example.org", "JD")]
+    [InlineData("Marie-Claire Dubois", "MD")]
+    [InlineData("Ada Lovelace King", "AK")]
+    [InlineData("admin", "A")]
+    [InlineData("élodie@example.org", "É")]
+    public void Initials_display_shows_the_initials_of_the_name_and_keeps_the_full_name_accessible(string userName, string initials)
+    {
+        var menu = Render<OmniAppMenu>(parameters => parameters
+            .Add(component => component.UserName, userName)
+            .Add(component => component.UserDisplay, OmniAppMenuUserDisplay.Initials)
+            .Add(component => component.AppearanceChanged, _ => { }));
+
+        var trigger = menu.Find(".omni-app-menu__trigger");
+        Assert.Equal(initials, menu.Find(".omni-app-menu__trigger-initials").TextContent);
+        Assert.Empty(menu.FindAll(".omni-app-menu__trigger-name"));
+        Assert.DoesNotContain(userName, trigger.TextContent, StringComparison.Ordinal);
+        Assert.Equal($"Menu de l’application: {userName}", trigger.GetAttribute("aria-label"));
+        Assert.Equal($"Menu de l’application: {userName}", trigger.GetAttribute("title"));
+        Assert.Equal(2, menu.FindAll(".omni-app-menu__trigger .omni-icon").Count);
+        trigger.Click();
+        Assert.Equal(userName, menu.Find(".omni-app-menu__identity .omni-app-menu__label").TextContent);
+        Assert.Equal("Menu de l’application", menu.Find(".omni-popover__panel").GetAttribute("aria-label"));
+    }
+
+    [Fact]
+    public void Initials_given_by_the_host_replace_the_ones_taken_from_the_name()
+    {
+        var menu = Render<OmniAppMenu>(parameters => parameters
+            .Add(component => component.UserName, "jean.dupont@example.org")
+            .Add(component => component.UserDisplay, OmniAppMenuUserDisplay.Initials)
+            .Add(component => component.Initials, " jpd ")
+            .Add(component => component.AppearanceChanged, _ => { }));
+
+        Assert.Equal("jpd", menu.Find(".omni-app-menu__trigger-initials").TextContent);
+    }
+
+    [Fact]
+    public void Icon_display_shows_the_user_icon_alone_square_and_keeps_the_full_name_accessible()
+    {
+        var menu = Render<OmniAppMenu>(parameters => parameters
+            .Add(component => component.UserName, "jean.dupont@example.org")
+            .Add(component => component.UserDisplay, OmniAppMenuUserDisplay.Icon)
+            .Add(component => component.AppearanceChanged, _ => { }));
+
+        var trigger = menu.Find(".omni-app-menu__trigger");
+        Assert.Contains("omni-button--icon", trigger.ClassList);
+        Assert.Single(menu.FindAll(".omni-app-menu__trigger .omni-icon"));
+        Assert.Empty(menu.FindAll(".omni-app-menu__trigger-name, .omni-app-menu__trigger-initials"));
+        Assert.Equal("Menu de l’application: jean.dupont@example.org", trigger.GetAttribute("aria-label"));
+    }
+
+    [Fact]
+    public void Initials_display_falls_back_to_the_icon_when_the_name_has_no_letter_and_changes_nothing_without_a_name()
+    {
+        var noLetter = Render<OmniAppMenu>(parameters => parameters
+            .Add(component => component.UserName, "--")
+            .Add(component => component.UserDisplay, OmniAppMenuUserDisplay.Initials)
+            .Add(component => component.AppearanceChanged, _ => { }));
+        Assert.Contains("omni-button--icon", noLetter.Find(".omni-app-menu__trigger").ClassList);
+
+        var anonymous = Render<OmniAppMenu>(parameters => parameters
+            .Add(component => component.UserDisplay, OmniAppMenuUserDisplay.Initials)
+            .Add(component => component.AppearanceChanged, _ => { }));
+        Assert.Equal("Menu de l’application", anonymous.Find(".omni-app-menu__trigger").GetAttribute("aria-label"));
+        Assert.Empty(anonymous.FindAll(".omni-app-menu__trigger-initials"));
+    }
+
+    [Fact]
+    public void Name_display_stays_the_default_and_keeps_the_label_alone_as_the_accessible_name()
+    {
+        var menu = Render<OmniAppMenu>(parameters => parameters
+            .Add(component => component.UserName, "admin")
+            .Add(component => component.AppearanceChanged, _ => { }));
+
+        Assert.Equal(OmniAppMenuUserDisplay.Name, menu.Instance.UserDisplay);
+        Assert.Equal("admin", menu.Find(".omni-app-menu__trigger-name").TextContent);
+        Assert.Equal("Menu de l’application", menu.Find(".omni-app-menu__trigger").GetAttribute("aria-label"));
+    }
+
     [Fact]
     public void Every_row_shows_once_the_host_gives_what_it_needs_in_the_order_of_the_standard()
     {

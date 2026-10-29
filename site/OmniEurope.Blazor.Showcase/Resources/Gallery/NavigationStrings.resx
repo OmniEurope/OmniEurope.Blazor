@@ -85,4 +85,9 @@
   <data name="AppMenuSettingsDescription" xml:space="preserve"><value>The mode and the theme are always there; the other rows follow what the application provides.</value></data>
   <data name="AppMenuSettingsTitle" xml:space="preserve"><value>Menu rows</value></data>
   <data name="AppMenuFlags" xml:space="preserve"><value>Flags</value></data>
+  <data name="AppMenuUserDisplay" xml:space="preserve"><value>User on the button</value></data>
+  <data name="AppMenuUserDisplayDescription" xml:space="preserve"><value>UserDisplay: the full name (cut when long, such as an e-mail address), the initials, or the user icon alone. The full name stays in the accessible name and the tooltip.</value></data>
+  <data name="AppMenuUserDisplayName" xml:space="preserve"><value>Name</value></data>
+  <data name="AppMenuUserDisplayInitials" xml:space="preserve"><value>Initials</value></data>
+  <data name="AppMenuUserDisplayIcon" xml:space="preserve"><value>Icon</value></data>
 </root>
