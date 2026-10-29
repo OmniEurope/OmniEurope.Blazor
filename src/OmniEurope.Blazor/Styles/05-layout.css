@@ -378,6 +378,26 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 .omni-progress--danger { color: var(--omni-color-danger); }
 .omni-progress__track { background: var(--omni-color-surface-muted); border-radius: var(--omni-radius-pill); display: block; height: var(--omni-progress-thickness, 2px); overflow: hidden; width: 100%; }
 .omni-progress__indicator { background: currentColor; display: block; height: 100%; transition: width var(--omni-duration-medium) ease; width: 0; }
+/* Segments (OmniProgressBar.Segments): several values stacked on one total. The track lays them end to end from the
+   inline start (a row follows the direction of the page, so a right-to-left page fills from the right), each segment
+   takes the colour of its tone and the width step of its share (the omni-progress__indicator--N classes), and a line
+   in the page colour between two segments, at the theme border width, tells them apart without a second hue. */
+.omni-progress--segments .omni-progress__track { display: flex; }
+.omni-progress__segment { flex: none; }
+.omni-progress__segment + .omni-progress__segment { border-inline-start: var(--omni-border-width) solid var(--omni-color-surface); }
+.omni-progress__segment--neutral { color: var(--omni-color-text-muted); }
+.omni-progress__segment--accent { color: var(--omni-color-accent); }
+.omni-progress__segment--info { color: var(--omni-color-info); }
+.omni-progress__segment--success { color: var(--omni-color-success); }
+.omni-progress__segment--warning { color: var(--omni-color-warning); }
+.omni-progress__segment--danger { color: var(--omni-color-danger); }
+/* The legend wraps under the bar, on its own line, whatever the shape: the track keeps a minimum width and the
+   legend takes the whole row. */
+.omni-progress--legend { flex-wrap: wrap; }
+.omni-progress--legend .omni-progress__track { flex: 1 1 8rem; width: auto; }
+.omni-progress__legend { display: flex; flex: 0 0 100%; flex-wrap: wrap; font-size: var(--omni-font-size-sm); gap: var(--omni-space-xs) var(--omni-space-md); list-style: none; margin: 0; padding: 0; }
+.omni-progress__legend-item { align-items: center; color: var(--omni-color-text); display: inline-flex; gap: var(--omni-space-xs); }
+.omni-progress__swatch { background: currentColor; block-size: 0.625rem; border-radius: var(--omni-radius-pill); flex: none; inline-size: 0.625rem; }
 .omni-progress__indicator--0 { width: 0; }
 .omni-progress__indicator--5 { width: 5%; }
 .omni-progress__indicator--10 { width: 10%; }

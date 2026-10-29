@@ -324,6 +324,7 @@ ctor public OmniEurope.Blazor.Components.OmniPreferencesOptions()
 ctor public OmniEurope.Blazor.Components.OmniPresetRegistry()
 ctor public OmniEurope.Blazor.Components.OmniProfileMenu()
 ctor public OmniEurope.Blazor.Components.OmniProgressBar()
+ctor public OmniEurope.Blazor.Components.OmniProgressSegment(System.Double Value, System.String Label, OmniEurope.Blazor.Components.OmniTone Tone = OmniEurope.Blazor.Components.OmniTone.Accent)
 ctor public OmniEurope.Blazor.Components.OmniRadioButtonList<TValue>()
 ctor public OmniEurope.Blazor.Components.OmniRangeNavigator()
 ctor public OmniEurope.Blazor.Components.OmniRating()
@@ -1654,6 +1655,9 @@ method public OmniEurope.Blazor.Components.OmniPreferences.SetAsync<T>(System.St
 method public OmniEurope.Blazor.Components.OmniPreferences.SyncAsync(System.Threading.CancellationToken cancellationToken = null) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniPresetRegistry.Add(System.Type componentType, System.String name, System.Collections.Generic.IReadOnlyDictionary<System.String,System.Object?> values, System.Boolean isDefault = false) : System.Void
 method public OmniEurope.Blazor.Components.OmniProfileMenu.DisposeAsync() : System.Threading.Tasks.ValueTask
+method public OmniEurope.Blazor.Components.OmniProgressSegment.<Clone>$() : OmniEurope.Blazor.Components.OmniProgressSegment
+method public OmniEurope.Blazor.Components.OmniProgressSegment.Deconstruct(out System.Double Value, out System.String Label, out OmniEurope.Blazor.Components.OmniTone Tone) : System.Void
+method public OmniEurope.Blazor.Components.OmniProgressSegment.Equals(OmniEurope.Blazor.Components.OmniProgressSegment? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniRangeNavigator.Dispose() : System.Void
 method public OmniEurope.Blazor.Components.OmniRelativeTime.Dispose() : System.Void
 method public OmniEurope.Blazor.Components.OmniScheduler.DisposeAsync() : System.Threading.Tasks.ValueTask
@@ -1962,6 +1966,9 @@ method public override OmniEurope.Blazor.Components.OmniPreference.ToString() : 
 method public override OmniEurope.Blazor.Components.OmniPreferenceChangedEventArgs.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniPreferenceChangedEventArgs.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniPreferenceChangedEventArgs.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniProgressSegment.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniProgressSegment.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniProgressSegment.ToString() : System.String
 method public override OmniEurope.Blazor.Components.OmniSchedulerAppointment.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniSchedulerAppointment.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniSchedulerAppointment.ToString() : System.String
@@ -2174,6 +2181,8 @@ method public static OmniEurope.Blazor.Components.OmniPreference.op_Equality(Omn
 method public static OmniEurope.Blazor.Components.OmniPreference.op_Inequality(OmniEurope.Blazor.Components.OmniPreference? left, OmniEurope.Blazor.Components.OmniPreference? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniPreferenceChangedEventArgs.op_Equality(OmniEurope.Blazor.Components.OmniPreferenceChangedEventArgs? left, OmniEurope.Blazor.Components.OmniPreferenceChangedEventArgs? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniPreferenceChangedEventArgs.op_Inequality(OmniEurope.Blazor.Components.OmniPreferenceChangedEventArgs? left, OmniEurope.Blazor.Components.OmniPreferenceChangedEventArgs? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniProgressSegment.op_Equality(OmniEurope.Blazor.Components.OmniProgressSegment? left, OmniEurope.Blazor.Components.OmniProgressSegment? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniProgressSegment.op_Inequality(OmniEurope.Blazor.Components.OmniProgressSegment? left, OmniEurope.Blazor.Components.OmniProgressSegment? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniReturnUrl.Append(System.String path, System.String? returnUrl, System.String parameterName = "returnUrl") : System.String
 method public static OmniEurope.Blazor.Components.OmniReturnUrl.IsLocal(System.String? url) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniReturnUrl.Resolve(System.String? returnUrl, System.String fallback = "/") : System.String
@@ -3479,11 +3488,16 @@ property public OmniEurope.Blazor.Components.OmniProfileMenu.SummaryContent : Mi
 property public OmniEurope.Blazor.Components.OmniProgressBar.Indeterminate : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniProgressBar.Label : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniProgressBar.Maximum : System.Double {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniProgressBar.Segments : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniProgressSegment>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniProgressBar.Shape : OmniEurope.Blazor.Components.OmniProgressShape {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniProgressBar.ShowLegend : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniProgressBar.ShowValue : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniProgressBar.Tone : OmniEurope.Blazor.Components.OmniTone {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniProgressBar.Value : System.Double {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniProgressBar.ValueText : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniProgressSegment.Label : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniProgressSegment.Tone : OmniEurope.Blazor.Components.OmniTone {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniProgressSegment.Value : System.Double {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniRadioButtonList<TValue>.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniRadioButtonList<TValue>.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniRadioButtonList<TValue>.Error : System.String? {get(public);set(public)} [Parameter]
@@ -4284,6 +4298,7 @@ type public OmniEurope.Blazor.Components.OmniPreferencesOptions [class, sealed]
 type public OmniEurope.Blazor.Components.OmniPresetRegistry [class, sealed]
 type public OmniEurope.Blazor.Components.OmniProfileMenu [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, OmniEurope.Blazor.Internal.IOmniMenu, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniProgressBar [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
+type public OmniEurope.Blazor.Components.OmniProgressSegment [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniProgressSegment>
 type public OmniEurope.Blazor.Components.OmniProgressShape [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniRadioButtonList<TValue> [class] : OmniEurope.Blazor.Components.OmniInputBase<TValue>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniRangeNavigator [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
