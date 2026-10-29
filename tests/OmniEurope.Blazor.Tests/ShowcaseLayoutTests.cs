@@ -41,7 +41,10 @@ public sealed class ShowcaseLayoutTests : OmniBunitContext
         Assert.Contains("omni-header__brand", children[1], StringComparison.Ordinal);
         Assert.Contains("omni-app-menu", children[^1], StringComparison.Ordinal);
         Assert.Equal("OmniEurope.Blazor", layout.Find("a.omni-header__brand").TextContent.Trim());
-        Assert.Contains("Component library", header.TextContent, StringComparison.Ordinal);
+        // R1-22: the header carries no badge beside the brand any more.
+        Assert.Empty(header.QuerySelectorAll(".omni-badge"));
+        // R1-20: only the main area scrolls, the header and the menu stay in place.
+        Assert.Contains("omni-main--scrollable", layout.Find("main.omni-main").ClassName, StringComparison.Ordinal);
         Assert.NotNull(layout.Find("a.omni-skip-link"));
         Assert.Equal("showcase-theme", layout.Find("[data-omni-theme]").Id);
     });

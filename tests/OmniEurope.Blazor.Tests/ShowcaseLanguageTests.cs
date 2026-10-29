@@ -116,13 +116,13 @@ public sealed class ShowcaseLanguageTests : OmniBunitContext
     }
 
     [Theory]
-    [InlineData("en-IE", "Component library")]
-    [InlineData("fr-FR", "Bibliothèque de composants")]
+    [InlineData("en-IE", "Something went wrong")]
+    [InlineData("fr-FR", "Une erreur est survenue")]
     public void Resources_ResolveInTheChosenLanguage(string cultureName, string expected)
     {
         WithUiCulture(cultureName, () =>
         {
-            var translated = Services.GetRequiredService<IStringLocalizer<ShowcaseStrings>>()["HeaderBadge"];
+            var translated = Services.GetRequiredService<IStringLocalizer<ShowcaseStrings>>()["ErrorTitle"];
 
             Assert.False(translated.ResourceNotFound);
             Assert.Equal(expected, translated.Value);

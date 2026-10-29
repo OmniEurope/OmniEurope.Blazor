@@ -4,7 +4,6 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
-  <data name="HeaderBadge" xml:space="preserve"><value>Bibliothèque de composants</value></data>
   <data name="ModeLight" xml:space="preserve"><value>Thème clair</value></data>
   <data name="ModeDark" xml:space="preserve"><value>Thème sombre</value></data>
   <data name="ToggleMenu" xml:space="preserve"><value>Afficher ou masquer la navigation</value></data>

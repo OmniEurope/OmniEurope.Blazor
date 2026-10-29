@@ -1,15 +1,16 @@
 /* Layout of the showcase itself. Every value reads a library token, so the site is repainted by
    the theme editor exactly like the components it presents. */
 
-/* The header: the brand and the sidebar toggle are the library's, the badge follows the brand and the spacer
-   pushes the application menu to the end of the bar. */
+/* The header: the brand and the sidebar toggle are the library's, and the spacer pushes the application menu to
+   the end of the bar. */
 .showcase-header__spacer {
     flex: 1 1 auto;
 }
 
-/* On a phone the toggle, the brand and the application menu already fill the bar: the badge gives way. */
-@media (max-width: 47.99rem) {
-    .showcase-header__badge { display: none; }
+/* The site's shell takes the window's height, so only the main area scrolls (OmniMain Scrollable) and the
+   header and the menu stay in place. Scoped to the site's own shell, not to the shells drawn in examples. */
+#showcase-theme > .omni-layout {
+    block-size: 100dvh;
 }
 
 /* One track as wide as the page, and items capped to it, not to their longest word: the auto track and the item

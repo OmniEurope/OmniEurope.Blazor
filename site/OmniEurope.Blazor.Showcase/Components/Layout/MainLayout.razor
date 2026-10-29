@@ -20,7 +20,6 @@
                                    Reveal="EffectiveReveal" Label="@Text["ToggleMenu"]" />
             </SidebarToggle>
             <ChildContent>
-                <OmniBadge Class="showcase-header__badge" Tone="OmniTone.Accent">@Text["HeaderBadge"]</OmniBadge>
                 <span class="showcase-header__spacer"></span>
                 @* The standard application menu: mode, theme (it opens the appearance window), language and
                    version. The showcase has neither an account nor a settings page of its own. *@
@@ -64,10 +63,10 @@
             </OmniSidebar>
             <ErrorBoundary @ref="_errorBoundary">
                 <ChildContent>
-                    <OmniMain ContentWidth="OmniLayoutWidth.Wide">@Body</OmniMain>
+                    <OmniMain ContentWidth="OmniLayoutWidth.Wide" Scrollable="true">@Body</OmniMain>
                 </ChildContent>
                 <ErrorContent Context="error">
-                    <OmniMain ContentWidth="OmniLayoutWidth.Wide">
+                    <OmniMain ContentWidth="OmniLayoutWidth.Wide" Scrollable="true">
                         <OmniAlert Severity="OmniSeverity.Danger" Title="@Text["ErrorTitle"]">
                             @Text["ErrorMessage"]
                             <OmniButton OnClick="@(_ => RecoverAsync())">@Text["Retry"]</OmniButton>
