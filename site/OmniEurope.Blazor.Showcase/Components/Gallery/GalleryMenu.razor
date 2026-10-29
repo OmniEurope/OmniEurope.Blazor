@@ -1,10 +1,7 @@
-@* The gallery menu, shown in the sidebar in place of the site's menu while a gallery page is open: a way
-   back to the site, an overview entry, then one group per family of the catalogue (a family without a
+@* The gallery menu, shown in the sidebar in place of the site's menu while a gallery page is open: an
+   overview entry, then one group per family of the catalogue (a family without a
    page yet is left out). *@
 <OmniPanelMenu Label="@Text["GalleryNavLabel"]">
-    <OmniPanelMenuItem Text="@Text["GalleryBackToSite"]" Href="" Match="OmniNavMatch.None">
-        <Icon><OmniIcon Name="OmniIconName.ArrowLeft" /></Icon>
-    </OmniPanelMenuItem>
     <OmniPanelMenuItem Text="@Text["GalleryOverview"]" Href="@GalleryPage.RoutePrefix" Match="OmniNavMatch.Exact">
         <Icon><OmniIcon Name="OmniIconName.Flask" /></Icon>
     </OmniPanelMenuItem>

@@ -99,8 +99,10 @@ public sealed class ShowcaseLayoutTests : OmniBunitContext
         layout.WaitForAssertion(() =>
         {
             var inGallery = layout.FindAll("#showcase-sidebar .omni-panel-menu__text").Select(text => text.TextContent.Trim()).ToArray();
-            Assert.Contains("Back to the site", inGallery);
+            Assert.Equal("Overview", inGallery[0]);
             Assert.DoesNotContain("Documentation", inGallery);
+            // R1-27: the gallery menu has no "Back to the site" entry any more, the brand of the header leads home.
+            Assert.DoesNotContain("Back to the site", inGallery);
         });
     });
 

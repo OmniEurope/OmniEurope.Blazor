@@ -150,13 +150,15 @@
 .omni-app-menu__card > .omni-button.omni-app-menu__item .omni-app-menu__label { text-align: start; }
 /* The Language row: the native list is stretched over the whole row, transparent, so a click anywhere
    on the row opens it; the icon, the label and the flag lie over it and let the click through. The list
-   shows its value after a label zone of fixed width, the chevron at the end. */
-.omni-app-menu__language-row { --omni-app-menu-label-zone: 6rem; --omni-app-menu-flag-zone: 0rem; position: relative; }
+   shows its value after a label zone of fixed width, the chevron at the end. The list is out of the flow,
+   so it gives the row no width: the row reserves a value zone itself, or the panel stays at its minimum
+   width and the clipped list overflows it with a horizontal scrollbar (R1-26). */
+.omni-app-menu__language-row { --omni-app-menu-label-zone: 6rem; --omni-app-menu-flag-zone: 0rem; --omni-app-menu-value-zone: 6rem; min-inline-size: calc(var(--omni-space-md) + 1.5rem + var(--omni-space-sm) + var(--omni-app-menu-label-zone) + var(--omni-space-sm) + var(--omni-app-menu-flag-zone) + var(--omni-app-menu-value-zone) + var(--omni-space-md)); position: relative; }
 .omni-app-menu__language-row:has(.omni-app-menu__flag) { --omni-app-menu-flag-zone: calc(1.5rem + var(--omni-space-sm)); }
 .omni-app-menu__language-row > :is(.omni-icon, .omni-app-menu__label, .omni-app-menu__flag) { pointer-events: none; position: relative; z-index: 1; }
 .omni-app-menu__language-row > .omni-app-menu__label { flex: none; inline-size: var(--omni-app-menu-label-zone); }
 .omni-app-menu__language-row > .omni-app-menu__flag { flex: none; inline-size: 1.5rem; object-fit: contain; }
-.omni-app-menu .omni-app-menu__language-row > select.omni-app-menu__language.omni-input { background: transparent; border: 0; border-radius: 0; box-shadow: none; inset: 0; inline-size: 100%; min-block-size: 0; block-size: 100%; padding-block: 0; padding-inline: calc(var(--omni-space-md) + 1.5rem + var(--omni-space-sm) + var(--omni-app-menu-label-zone) + var(--omni-space-sm) + var(--omni-app-menu-flag-zone)) var(--omni-space-md); position: absolute; }
+.omni-app-menu .omni-app-menu__language-row > select.omni-app-menu__language.omni-input { background: transparent; border: 0; border-radius: 0; box-shadow: none; inset: 0; inline-size: 100%; min-block-size: 0; min-inline-size: 0; block-size: 100%; padding-block: 0; padding-inline: calc(var(--omni-space-md) + 1.5rem + var(--omni-space-sm) + var(--omni-app-menu-label-zone) + var(--omni-space-sm) + var(--omni-app-menu-flag-zone)) var(--omni-space-md); position: absolute; }
 .omni-app-menu .omni-app-menu__language-row > select.omni-app-menu__language.omni-input:hover:not(:disabled) { background: var(--omni-color-surface-highlight); border-color: transparent; }
 .omni-app-menu .omni-app-menu__language-row > select.omni-app-menu__language.omni-input:focus-visible { box-shadow: var(--omni-focus-ring-inset); outline: none; }
 .omni-app-menu__flag { block-size: 1rem; border-radius: 2px; inline-size: auto; }
