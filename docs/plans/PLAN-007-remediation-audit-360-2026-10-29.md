@@ -20,3 +20,21 @@ Un point n'est « fait » qu'avec sa preuve observée (navigateur, HTTP réel, P
 
 - 2026-10-29 : plan ouvert, lots A et B délégués en parallèle en worktrees ; décisions du propriétaire :
   autorité serveur pour les dates (rupture de contrat admise), alignement du runtime WebAssembly.
+- 2026-10-29 : les huit points livrés sur `develop` (lots A `60c8e49e`, B `5139cb3a`, A360-004 `a685b10a`,
+  garde CI `a2b1cad1`). Suites : bibliothèque 10 743, API 70, garde d'API publique, aucun échec.
+  - A360-001 : à 390 px, chevron « suivant » à 323..348 px, « Primary » à 42..115 ; un vrai clic
+    défile de 0 à 187 px puis le chevron « précédent » apparaît à gauche ; en `dir=rtl` le chevron
+    passe à 42..67.
+  - A360-002 : sur Kestrel et PostgreSQL, un PUT daté du 2026-10-30 répond 200 avec la date serveur
+    (2026-10-29T10:08:58Z) ; l'écriture suivante, plus récente, l'emporte. Cache navigateur couvert par
+    les tests du synchroniseur, non rejoué dans un navigateur avec une horloge décalée.
+  - A360-003 : `MaxVisitors` égal au nombre de visiteurs plus un, rafale de 12 PUT de visiteurs distincts :
+    un 200, onze 503, un seul visiteur ajouté.
+  - A360-004 : sur Kestrel, le 400 porte `nosniff`, CSP, `X-Frame-Options` et `no-store` comme le 200.
+    422, 500 et 503 non mesurés.
+  - A360-005 : étape CI avec contrôle du TRX ; non exécutée sur un runner GitHub.
+  - A360-006 : `Test-Sbom.ps1` vert (160 composants) ; un parent caché échouait avant le correctif.
+  - A360-007 : avis GHSA-p3jp-9v83-76w9 vérifié (High, corrigé en 10.0.14). Publications WasmSmoke et
+    AutoSmoke en 10.0.14 selon `Test-WasmRuntimeVersion.ps1`, qui a aussi rejeté les fichiers 10.0.13
+    restés d'une publication antérieure ; `Test-WasmHost` et `Test-AutoHost` verts.
+  - A360-008 : textes alignés sur `Test-Budgets.ps1` et `.github/dependabot.yml`.
