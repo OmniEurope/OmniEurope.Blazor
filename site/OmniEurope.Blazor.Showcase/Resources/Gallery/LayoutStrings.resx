@@ -118,6 +118,8 @@
   <data name="CardsFooterNone" xml:space="preserve"><value>None</value></data>
   <data name="CardsFooterText" xml:space="preserve"><value>Text</value></data>
   <data name="CardsFooterActions" xml:space="preserve"><value>Actions</value></data>
+  <data name="CardsBorderless" xml:space="preserve"><value>No card border</value></data>
+  <data name="CardsBorderlessDescription" xml:space="preserve"><value>A host class sets --omni-card-border-width to 0 around the cards of the preview.</value></data>
   <data name="CardsLongBody" xml:space="preserve"><value>Long body</value></data>
   <data name="CardsLongBodyDescription" xml:space="preserve"><value>ChildContent: a few more paragraphs.</value></data>
   <data name="CardsPreviewTitle" xml:space="preserve"><value>Preview</value></data>

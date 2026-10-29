@@ -166,6 +166,23 @@ Toute palette peint tout thème : quinze thèmes par quinze palettes, deux cent 
 
 Le thème ne repeint que sa portée. Les valeurs sont des surcharges des variables de la feuille, écrites par le CSSOM (`omni-theme.js`), jamais par un attribut `style` ; le mode suit `Appearance`, et `System` suit le réglage du système quand il change. Sous un thème marqué `OmniThemePreset.DarkOnly` (aucun thème du catalogue ne l'est depuis 1.7.0 ; un hôte peut en composer un), la portée peint toujours sa moitié sombre, quel que soit `Appearance`, et le choix du mode d'`OmniAppearanceSettings` et d'`OmniAppMenu` est figé sur Sombre avec la mention « Ce thème est toujours sombre ». Les variables de forme (`--omni-button-*`, `--omni-card-*`, `--omni-heading-*`, `--omni-border-width`) valent par défaut l'apparence livrée : une application peut aussi les redéfinir elle-même.
 
+### Liseré des cartes (`--omni-card-border-width`)
+
+L'épaisseur du liseré des cartes est un crochet de forme public, qu'une application règle sans composant ni paramètre. Non réglé, il vaut `--omni-border-width` (1 px) ; `0` retire le liseré. Six thèmes du catalogue le posent déjà à `0` (Galet, Octet, Nénuphar, Velours, Relief, Aplat, qui dessinent leurs surfaces sans cadre) : le jeton est donc le liseré des **surfaces cadrées comme une carte**, pas celui de la seule `OmniCard`.
+
+```css
+/* Feuille de l'application, après celle du paquet. */
+:root,
+[data-omni-theme] {
+    --omni-card-border-width: 0;
+}
+```
+
+- **Où le poser.** Chaque portée de thème (`[data-omni-theme]`, donc `OmniThemeScope`) remet le jeton à `initial` : une règle sur `:root` seule ne passe pas la première portée, d'où le sélecteur double ci-dessus (écrit après la feuille du paquet, à spécificité égale). Pour ne retirer le liseré qu'autour d'une partie de la page, la règle va sur une classe de l'hôte posée sur un ancêtre des cartes (`.page-sans-liseré { --omni-card-border-width: 0; }`), sans portée de thème entre elle et les cartes. Un thème qui pose lui-même une largeur l'emporte sur la feuille de l'application, puisqu'il l'écrit par le CSSOM sur sa portée.
+- **Ce qui change.** Les surfaces qui lisent le jeton : `OmniCard` (et les rubriques de réglages, qui en sont une), `OmniAccordion`, le calendrier des sélecteurs de date, le cadre et la fenêtre de défilement de `OmniDataGrid`, `OmniSpreadsheet` (fenêtre de défilement et barre de formule), le corps de `OmniGantt`, les éditeurs `OmniHtmlEditor` et `OmniCodeEditor`, `OmniDiffViewer` et les fichiers d'`OmniUnifiedDiff`, le cadre et les propriétés d'`OmniMindMap`, `OmniLogViewer`, `OmniCodeBlock`, `OmniCodeViewer` et les cartes d'`OmniKanban`. Une application qui veut des cartes sans liseré mais des grilles cadrées pose le jeton à `0`, puis le redonne à ces surfaces (`.omni-data-grid__frame, .omni-data-grid__viewport { --omni-card-border-width: 1px; }`) : chacune lit le jeton sur son propre élément.
+- **Ce qui ne change pas.** Les tuiles (`OmniSettingsTile`, `OmniStatTile`, `OmniNavTile`, `OmniFactTile`), les champs, les fichiers déposés, l'en-tête, les menus et les infobulles gardent leur liseré : ils lisent `--omni-border-width`, et la couleur `--omni-card-border-color`, partagée par toutes ces surfaces, reste un jeton de thème qu'on ne règle pas pour retirer un cadre. Pour les tuiles de réglages, `OmniSettingsSection.Flat` (voir [layout-components.md](layout-components.md)) retire le cadre.
+- **Garde.** `CardBorderWidthHookTests` fixe la liste des règles de la feuille qui lisent le jeton : en ajouter une exige de mettre cette liste et cette section à jour.
+
 ### Mode résolu
 
 `data-omni-theme` garde la valeur demandée (`light`, `dark` ou `system`). La portée porte en plus `data-omni-theme-resolved`, toujours `light` ou `dark` : le mode réellement dessiné. En clair ou en sombre (et sous un thème `DarkOnly`, toujours `dark`), le balisage le rend directement ; en `System`, seul le navigateur connaît le réglage, si bien que `omni-theme.js` l'écrit après le rendu et le réécrit quand le réglage du système change. Une règle du site vise ainsi le mode dessiné sans recopier la préférence du système :

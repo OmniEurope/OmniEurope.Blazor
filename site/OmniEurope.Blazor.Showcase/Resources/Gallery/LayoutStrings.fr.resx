@@ -118,6 +118,8 @@
   <data name="CardsFooterNone" xml:space="preserve"><value>Aucun</value></data>
   <data name="CardsFooterText" xml:space="preserve"><value>Texte</value></data>
   <data name="CardsFooterActions" xml:space="preserve"><value>Actions</value></data>
+  <data name="CardsBorderless" xml:space="preserve"><value>Cartes sans liseré</value></data>
+  <data name="CardsBorderlessDescription" xml:space="preserve"><value>Une classe de l'hôte pose --omni-card-border-width à 0 autour des cartes de l'aperçu.</value></data>
   <data name="CardsLongBody" xml:space="preserve"><value>Corps long</value></data>
   <data name="CardsLongBodyDescription" xml:space="preserve"><value>ChildContent : quelques paragraphes de plus.</value></data>
   <data name="CardsPreviewTitle" xml:space="preserve"><value>Aperçu</value></data>
