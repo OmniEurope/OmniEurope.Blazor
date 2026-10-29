@@ -16,7 +16,7 @@ contrôle mesurable ; un point n'est « fait » qu'avec sa preuve observée (nav
 ## Journal
 
 - 2026-10-28 : plan ouvert, lots A à D délégués en worktrees, lot E traité par l'orchestrateur.
-- 2026-10-28 : livrés et prouvés sur `develop` (release prévue : 1.10.0).
+- 2026-10-28 : livrés et prouvés sur `develop`, publiés dans la 1.10.0 (`ba2f31fe`, 2026-10-29).
   - R-5 : badges « 1 » et « F » mesurés 25 × 22 px dans la vitrine, jamais plus étroits que hauts.
   - R-67 (`91e60b87`, `796dc286`, nom accessible `Label`) : Entrée puis Espace sur le badge bouton
     font passer le compteur de 0 à 2, anneau de focus visible.
