@@ -22,6 +22,7 @@
               ExportFileName="@FileName"
               ExportVariants="@Variants"
               ShowExportButtonText="@ShowExportButtonText"
+              ShowExportCancel="@ShowExportCancel"
               ExportRowLimit="@RowLimit"
               OnExport="@Deliver"
               OnExportError="@(exception => Failure = exception)">
@@ -102,6 +103,7 @@
     [Parameter] public bool OnlyTemplates { get; set; }
 
     [Parameter] public bool ShowExportButtonText { get; set; }
+    [Parameter] public bool ShowExportCancel { get; set; }
 
     public OmniTableExportDocument? Exported { get; private set; }
 

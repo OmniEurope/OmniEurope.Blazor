@@ -972,8 +972,13 @@ en variante `Secondary` (gris neutre), une exportation étant une autre action d
 en donne une autre par format (le Markdown en `Primary`, par exemple).
 `ShowExportButtonText` (`bool`, `false`) écrit le nom du format à côté de l'icône (« Markdown », « CSV »,
 « Excel », « PDF »), pour une barre large où l'icône seule se lit mal ; le nom accessible et le titre
-restent « Exporter en Markdown », qui contient le texte visible (WCAG 2.5.3), et le bouton d'annulation
+restent « Exporter en Markdown », qui contient le texte visible (WCAG 2.5.3), et le bouton d'annulation,
+quand `ShowExportCancel` le montre,
 affiche de même « Annuler ».
+`ShowExportCancel` (`bool`, `false`) montre un bouton « Annuler » à côté des boutons pendant un export. Par
+défaut, seul le bouton du format en cours change (occupé), les autres sont désactivés et rien d'autre
+n'apparaît : une croix surgie après le clic se lisait comme une erreur (recette R1-23). Une grille qui
+quitte la page abandonne son export dans les deux cas.
 `BarButtonSize` (`OmniControlSize?`, `null`) règle la taille des boutons des barres : boutons d'export,
 leur annulation et déclencheur du sélecteur de colonnes. Nul, ils restent compacts, plus petits qu'un bouton
 `Small` (classe `omni-data-grid__bar-button--compact`), pour une barre basse ; une taille en fait des

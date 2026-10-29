@@ -377,6 +377,39 @@ public sealed class DataGridExportTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task ByDefault_AnExportShowsNoCancelButton_ItsButtonIsBusyAndTheOthersWait()
+    {
+        // R1-23: a click on an export button made a cross appear, read as an error; by default only the
+        // button being written changes (busy), and nothing else appears beside it.
+        var pending = new TaskCompletionSource<OmniDataGridResult<Row>>();
+        var first = true;
+        var host = Render<DataGridExportTestHost>(parameters => parameters
+            .Add(component => component.Load, _ =>
+            {
+                if (first)
+                {
+                    first = false;
+                    return Task.FromResult(new OmniDataGridResult<Row>(Rows.Take(2).ToArray(), Rows.Length));
+                }
+
+                return pending.Task;
+            })
+            .Add(component => component.Formats, [OmniTableExportFormat.Markdown, OmniTableExportFormat.Csv]));
+        host.WaitForAssertion(() => Assert.Equal(2, host.FindAll("tbody tr").Count));
+
+        var running = Button(host, "Markdown").ClickAsync(new());
+
+        host.WaitForAssertion(() => Assert.Equal("true", Button(host, "Markdown").GetAttribute("aria-busy")));
+        Assert.True(Button(host, "CSV").HasAttribute("disabled"));
+        Assert.Empty(host.FindAll(".omni-data-grid__export-cancel"));
+        Assert.Equal(2, host.FindAll(".omni-data-grid__export-button").Count);
+
+        pending.SetResult(new OmniDataGridResult<Row>(Rows, Rows.Length));
+        await running;
+        Assert.Empty(host.FindAll(".omni-data-grid__export-cancel"));
+    }
+
+    [Fact]
     public async Task WhileAnExportRuns_ItsButtonIsBusy_TheOthersWait_AndCancelStopsIt()
     {
         var pending = new TaskCompletionSource<OmniDataGridResult<Row>>();
@@ -392,6 +425,7 @@ public sealed class DataGridExportTests : OmniBunitContext
 
                 return pending.Task;
             })
+            .Add(component => component.ShowExportCancel, true)
             .Add(component => component.Formats, [OmniTableExportFormat.Markdown, OmniTableExportFormat.Csv]));
         host.WaitForAssertion(() => Assert.Equal(2, host.FindAll("tbody tr").Count));
 
@@ -425,6 +459,7 @@ public sealed class DataGridExportTests : OmniBunitContext
                 return pending.Task;
             })
             .Add(component => component.ShowExportButtonText, true)
+            .Add(component => component.ShowExportCancel, true)
             .Add(component => component.Formats, [OmniTableExportFormat.Csv]));
         host.WaitForAssertion(() => Assert.Equal(2, host.FindAll("tbody tr").Count));
 

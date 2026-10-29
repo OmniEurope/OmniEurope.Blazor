@@ -852,10 +852,18 @@ public partial class OmniDataGrid<TItem>
     /// <summary>
     /// Writes the format's name beside each export button's icon ("Markdown", "CSV"), false by default:
     /// the buttons are then icons alone. The name and tooltip stay "Export as Markdown", which contains
-    /// the visible text; the cancel button shows its "Cancel" the same way.
+    /// the visible text; the cancel button (<see cref="ShowExportCancel"/>) shows its "Cancel" the same way.
     /// </summary>
     [Parameter]
     public bool ShowExportButtonText { get; set; }
+
+    /// <summary>
+    /// Shows a cancel button beside the export buttons while an export runs, false by default: the button
+    /// of the format being written is then busy and the others disabled, with no other control appearing
+    /// (recette R1-23). An export the grid abandons (it leaves the page) is cancelled either way.
+    /// </summary>
+    [Parameter]
+    public bool ShowExportCancel { get; set; }
 
     /// <summary>
     /// The size of the buttons of the header and footer bars: the export buttons, their cancel button and

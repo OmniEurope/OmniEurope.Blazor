@@ -90,8 +90,9 @@
 
     @* The export buttons of a bar: one icon per format somebody can write, named and titled
        "Export as ...", with the format's name beside it when ShowExportButtonText asks (the name then
-       contains the visible text). The one being written is busy, the others wait, and a cancel action
-       ends the reading. An empty grid has nothing to write: its buttons are disabled. *@
+       contains the visible text). The one being written is busy, the others wait, and a cancel action,
+       shown only when ShowExportCancel asks, ends the reading. An empty grid has nothing to write: its
+       buttons are disabled. *@
     RenderFragment exportGroup = @<div class="omni-data-grid__export" role="group" aria-label="@Localize("GridExportBar")">
         @foreach (var format in Export.Formats)
         {
@@ -103,7 +104,7 @@
                 <Icon><OmniIcon Name="@(GridExport<TItem>.IconOf(format))" /></Icon>
             </OmniButton>
         }
-        @if (Export.Running is not null)
+        @if (Export.Running is not null && ShowExportCancel)
         {
             <OmniButton Variant="OmniButtonVariant.Ghost" Size="@Classes.BarButtonSize" Class="@($"{Classes.ExportButtonClass} omni-data-grid__export-cancel")"
                         Label="@Localize("Cancel")" title="@Localize("Cancel")" OnClick="Export.Cancel"
