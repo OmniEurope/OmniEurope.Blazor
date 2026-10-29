@@ -90,4 +90,13 @@
   <data name="AppMenuUserDisplayName" xml:space="preserve"><value>Nom</value></data>
   <data name="AppMenuUserDisplayInitials" xml:space="preserve"><value>Initiales</value></data>
   <data name="AppMenuUserDisplayIcon" xml:space="preserve"><value>Icône</value></data>
+  <data name="SiteSearchTitle" xml:space="preserve"><value>Recherche dans le site</value></data>
+  <data name="SiteSearchDescription" xml:space="preserve"><value>La recherche d’une barre d’application : en tapant, elle liste les pages que l’application lui a données, groupées, sans tenir compte de la casse ni des accents et en regardant aussi les mots-clés ; un clic ou Entrée mène à la page et vide le champ, Échap ferme la liste. Sur un téléphone, elle prend une ligne à elle sous la marque.</value></data>
+  <data name="SiteSearchPreviewTitle" xml:space="preserve"><value>Barre d’application</value></data>
+  <data name="SiteSearchSettingsTitle" xml:space="preserve"><value>Pages</value></data>
+  <data name="SiteSearchSettingsDescription" xml:space="preserve"><value>Ce que l’application donne à la recherche pour chaque page.</value></data>
+  <data name="SiteSearchGrouped" xml:space="preserve"><value>Groupes</value></data>
+  <data name="SiteSearchGroupedDescription" xml:space="preserve"><value>Group : l’intitulé sous lequel chaque page est listée (une section, une famille).</value></data>
+  <data name="SiteSearchIcons" xml:space="preserve"><value>Icônes</value></data>
+  <data name="SiteSearchIconsDescription" xml:space="preserve"><value>Icon : un pictogramme devant le nom de chaque page.</value></data>
 </root>

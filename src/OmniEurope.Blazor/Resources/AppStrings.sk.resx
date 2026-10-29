@@ -737,4 +737,7 @@
   <data name="FormatMinute" xml:space="preserve"><value>min</value></data>
   <data name="FormatHour" xml:space="preserve"><value>h</value></data>
   <data name="FormatDay" xml:space="preserve"><value>d</value></data>
+  <data name="SiteSearchLabel" xml:space="preserve"><value>Hľadať na stránke</value></data>
+  <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Hľadať…</value></data>
+  <data name="SiteSearchNoMatch" xml:space="preserve"><value>Žiadne výsledky</value></data>
 </root>

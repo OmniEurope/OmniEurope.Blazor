@@ -16,6 +16,7 @@
   <data name="NavDocumentation" xml:space="preserve"><value>Documentation</value></data>
   <data name="NavComponents" xml:space="preserve"><value>Composants</value></data>
   <data name="NavCustomize" xml:space="preserve"><value>Personnalisation</value></data>
+  <data name="SearchGroupSite" xml:space="preserve"><value>Site</value></data>
   <data name="ErrorTitle" xml:space="preserve"><value>Une erreur est survenue</value></data>
   <data name="ErrorMessage" xml:space="preserve"><value>La page n'a pas pu s'afficher correctement.</value></data>
   <data name="Retry" xml:space="preserve"><value>Réessayer</value></data>

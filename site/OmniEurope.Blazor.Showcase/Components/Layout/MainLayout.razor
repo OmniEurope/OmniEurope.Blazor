@@ -20,7 +20,8 @@
                                    Reveal="EffectiveReveal" Label="@Text["ToggleMenu"]" />
             </SidebarToggle>
             <ChildContent>
-                <span class="showcase-header__spacer"></span>
+                @* The search of the site (OmniSiteSearch): after the brand, it grows and leaves the menu at the end. *@
+                <OmniSiteSearch Destinations="SearchDestinations" />
                 @* The standard application menu: mode, theme (it opens the appearance window), language and
                    version. The showcase has neither an account nor a settings page of its own. *@
                 <OmniAppMenu Appearance="MenuAppearance" AppearanceChanged="SetAppearanceAsync"

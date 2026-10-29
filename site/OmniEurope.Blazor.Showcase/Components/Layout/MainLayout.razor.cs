@@ -19,6 +19,8 @@ public partial class MainLayout : IAsyncDisposable
     private bool _narrowViewport;
     private bool _appearanceWindowOpen;
     private bool _disposed;
+    private IReadOnlyList<OmniSiteSearchDestination>? _searchDestinations;
+    private string? _searchCulture;
 
     [Inject]
     private IStringLocalizer<ShowcaseStrings> Text { get; set; } = default!;
@@ -38,6 +40,25 @@ public partial class MainLayout : IAsyncDisposable
 
     [Inject]
     private NavigationManager Navigation { get; set; } = default!;
+
+    [Inject]
+    private IStringLocalizerFactory Localizers { get; set; } = default!;
+
+    /// <summary>The pages the search of the header leads to, built again when the language changes.</summary>
+    private IReadOnlyList<OmniSiteSearchDestination> SearchDestinations
+    {
+        get
+        {
+            var culture = System.Globalization.CultureInfo.CurrentUICulture.Name;
+            if (_searchDestinations is null || _searchCulture != culture)
+            {
+                _searchDestinations = ShowcaseSearchDestinations.Build(Text, Localizers);
+                _searchCulture = culture;
+            }
+
+            return _searchDestinations;
+        }
+    }
 
     /// <summary>The mode the scope draws: the one chosen, except under a theme drawn in dark mode only, always dark.</summary>
     private OmniAppearance CurrentAppearance => ToAppearance(Theme.EffectiveMode);

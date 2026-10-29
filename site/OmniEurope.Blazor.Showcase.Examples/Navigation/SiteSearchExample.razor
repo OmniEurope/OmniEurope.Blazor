@@ -1,0 +1,14 @@
+@* The search of an application, in its app bar: the host gives the pages it can lead to (text, address,
+   group, keywords), and picking one navigates to its address. Here the addresses are fragments of this very
+   page, so the example shows where the pick led without leaving the gallery. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniHeader Brand="Sample shop">
+        <OmniSiteSearch Destinations="Destinations" />
+    </OmniHeader>
+    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Gap="OmniSpacing.Small" Wrap="true">
+        <OmniIcon Name="OmniIconName.Check" />
+        <OmniText>Last page reached:</OmniText>
+        <OmniBadge Tone="@(Reached is null ? OmniTone.Neutral : OmniTone.Accent)">@(Reached ?? "none")</OmniBadge>
+    </OmniStack>
+    <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">Try "order", "delivery" or "facture": a keyword finds a page its name does not contain, and accents do not matter.</OmniText>
+</OmniStack>
