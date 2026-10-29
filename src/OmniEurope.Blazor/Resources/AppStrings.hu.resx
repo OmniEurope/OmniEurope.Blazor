@@ -378,6 +378,8 @@
   <data name="PagerNext" xml:space="preserve"><value>Következő oldal</value></data>
   <data name="PanelMenuLabel" xml:space="preserve"><value>Navigáció</value></data>
   <data name="PanelMenuToggle" xml:space="preserve"><value>{0} kibontása vagy összecsukása</value></data>
+  <data name="PanelMenuFilter" xml:space="preserve"><value>Menü szűrése</value></data>
+  <data name="PanelMenuNoMatch" xml:space="preserve"><value>Nincs egyező elem.</value></data>
   <data name="PasswordRevealLabel" xml:space="preserve"><value>Jelszó megjelenítése</value></data>
   <data name="PasswordHideLabel" xml:space="preserve"><value>Jelszó elrejtése</value></data>
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Profilmenü</value></data>

@@ -257,6 +257,21 @@
     column-width: 17rem;
 }
 
+/* The search above the cards, as wide as a comfortable line; the status line under it is empty (and
+   takes no room) until no component matches. */
+.gallery-home__search {
+    max-inline-size: 28rem;
+}
+
+.gallery-home__empty {
+    color: var(--omni-color-text-muted);
+    margin: 0;
+}
+
+.gallery-home__empty:empty {
+    display: none;
+}
+
 .gallery-home__family {
     break-inside: avoid;
     margin-block-end: var(--omni-space-lg);

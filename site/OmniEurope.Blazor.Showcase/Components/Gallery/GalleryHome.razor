@@ -13,19 +13,25 @@
         </ActionsContent>
     </OmniPageHeader>
     <OmniText Class="gallery-page__description">@Text["GalleryLead"]</OmniText>
+    <OmniTextBox Id="gallery-home-search" Type="OmniTextBoxType.Search" Class="gallery-home__search"
+                 Placeholder="@Text["GalleryFilterPlaceholder"]" aria-label="@Text["GalleryFilterPlaceholder"]"
+                 @bind-Value="Filter">
+        <Icon><OmniIcon Name="OmniIconName.Search" /></Icon>
+    </OmniTextBox>
+    <p class="gallery-home__empty" role="status">@(HasNoMatch ? Text["GalleryNoMatch"].Value : null)</p>
     <div class="gallery-home__grid">
-        @foreach (var family in GalleryCatalog.Families.Where(family => family.Pages.Count > 0))
+        @foreach (var (family, pages) in Visible)
         {
             var strings = StringsOf(family);
             <OmniCard Class="gallery-home__family" aria-labelledby="@FamilyId(family)">
                 <HeaderContent>
                     <span class="gallery-home__family-icon"><OmniIcon Name="family.Icon" /></span>
                     <OmniHeading Id="@FamilyId(family)" Level="OmniHeadingLevel.H2" Class="gallery-home__family-title">@Text[family.TitleKey]</OmniHeading>
-                    <OmniBadge Tone="OmniTone.Neutral">@family.Pages.Count</OmniBadge>
+                    <OmniBadge Tone="OmniTone.Neutral">@pages.Count</OmniBadge>
                 </HeaderContent>
                 <ChildContent>
                     <ul class="gallery-home__pages">
-                        @foreach (var entry in family.Pages)
+                        @foreach (var entry in pages)
                         {
                             <li>
                                 <OmniLink Href="@entry.Href" Class="gallery-home__page">

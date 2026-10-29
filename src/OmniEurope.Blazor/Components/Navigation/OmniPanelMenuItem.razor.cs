@@ -17,6 +17,9 @@ public partial class OmniPanelMenuItem
 
     private bool _wasActive;
     private bool? _lastExpanded;
+    private bool? _filterOpen;
+    private OmniPanelMenuFilter? _seenFilter;
+    private string? _seenText;
     private OmniPanelMenuGroupContext? _ownContext;
 
     /// <summary>Group this item is nested in, if any, so it can report being the current page.</summary>
@@ -115,7 +118,10 @@ public partial class OmniPanelMenuItem
 
     private int AddressRank => Uri.UnescapeDataString(Navigation.ToAbsoluteUri(SafeHref!).AbsolutePath).Trim('/').Length;
 
-    private bool IsOpen => _open ?? (Expanded || IsWithin);
+    // While the menu is filtered the display state is the filter's: what the reader folds or unfolds then
+    // is kept apart from _open, so the state the host owns (Expanded, ExpandedChanged) is the one found
+    // again once the filter is cleared.
+    private bool IsOpen => Filtering ? _filterOpen ?? FilterOpensByDefault : _open ?? (Expanded || IsWithin);
 
     /// <summary>
     /// A group reveals itself when the current page is one of its own entries, or when the route
@@ -134,7 +140,52 @@ public partial class OmniPanelMenuItem
         // menu deeper than two levels leaves the outer group closed over the branch it should reveal.
         ReportToParent();
         _ = InvokeAsync(StateHasChanged);
-    });
+    }) { Owner = this };
+
+    private OmniPanelMenuFilter Filter => Menu?.Filter ?? OmniPanelMenuFilter.None;
+
+    // Down to its icons the menu shows no field and no reason for a hidden entry, so it stops filtering.
+    private bool Filtering => Filter.Active && !IconsOnly;
+
+    private bool HasMatchingDescendant => _ownContext?.Siblings.AnyMatchesFilter(Filter) ?? false;
+
+    /// <summary>Whether this entry, or an entry nested under it, matches <paramref name="filter"/>.</summary>
+    internal bool MatchesFilterWithin(OmniPanelMenuFilter filter) =>
+        filter.Matches(Text) || (_ownContext?.Siblings.AnyMatchesFilter(filter) ?? false);
+
+    /// <summary>Whether this entry, or a group above it, matches <paramref name="filter"/>: all that is under such a group is shown.</summary>
+    internal bool InMatchedBranch(OmniPanelMenuFilter filter) =>
+        filter.Matches(Text) || (ParentGroup?.Owner?.InMatchedBranch(filter) ?? false);
+
+    // Hidden through the attribute rather than left out of the markup: a group has to keep its children
+    // mounted to learn whether one of them matches, and a hidden element leaves the tab order and the
+    // accessibility tree.
+    private bool IsFilteredOut => Filtering && !InMatchedBranch(Filter) && !HasMatchingDescendant;
+
+    // A group holding a match unfolds to show it, and one that matches by itself unfolds to show all its
+    // entries; a group shown only because a group above it matches keeps the state it had.
+    private bool FilterOpensByDefault => MatchesFilterWithin(Filter) || (_open ?? (Expanded || IsWithin));
+
+    // The ancestors that show this entry depend on its text and on its being there: while the menu is
+    // filtered they are asked to look again when it comes, goes or changes, or a group rendered before
+    // its entries registered would stay hidden over a match.
+    private void NotifyFilterChanged()
+    {
+        if (ParentGroup?.Owner is { } group)
+        {
+            group.RefreshForFilter();
+        }
+        else
+        {
+            Menu?.ItemsChanged?.Invoke();
+        }
+    }
+
+    internal void RefreshForFilter()
+    {
+        _ = InvokeAsync(StateHasChanged);
+        NotifyFilterChanged();
+    }
 
     private string ChildrenId => _childrenId;
 
@@ -194,6 +245,11 @@ public partial class OmniPanelMenuItem
         _wasActive = IsWithin;
         Siblings?.Add(this);
         ReportToParent();
+        if (Filtering)
+        {
+            NotifyFilterChanged();
+        }
+
         Navigation.LocationChanged += HandleLocationChanged;
     }
 
@@ -241,12 +297,36 @@ public partial class OmniPanelMenuItem
         }
 
         _lastExpanded = Expanded;
+
+        // A new filter drops what the reader folded or unfolded under the previous one.
+        if (!ReferenceEquals(_seenFilter, Menu?.Filter))
+        {
+            _seenFilter = Menu?.Filter;
+            _filterOpen = null;
+        }
+
+        if (Text != _seenText)
+        {
+            var renamed = _seenText is not null;
+            _seenText = Text;
+            if (renamed && Filtering)
+            {
+                NotifyFilterChanged();
+            }
+        }
     }
 
     private Task Toggle() => SetOpenAsync(!IsOpen);
 
     private async Task SetOpenAsync(bool open)
     {
+        if (Filtering)
+        {
+            // What is shown now is the filter's doing: the host's Expanded and its callback are not told.
+            _filterOpen = open;
+            return;
+        }
+
         var changed = open != IsOpen;
         _open = open;
         if (changed)
@@ -304,6 +384,10 @@ public partial class OmniPanelMenuItem
         Siblings?.Remove(this);
         ParentGroup?.Remove(this);
         Navigation.LocationChanged -= HandleLocationChanged;
+        if (Filtering)
+        {
+            NotifyFilterChanged();
+        }
     }
 
     private bool GuardsNavigation => Menu?.CanNavigate is not null;

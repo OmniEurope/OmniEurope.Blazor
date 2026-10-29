@@ -378,6 +378,8 @@
   <data name="PagerNext" xml:space="preserve"><value>Il-paġna li jmiss</value></data>
   <data name="PanelMenuLabel" xml:space="preserve"><value>Navigazzjoni</value></data>
   <data name="PanelMenuToggle" xml:space="preserve"><value>Espandi jew ikkollassa {0}</value></data>
+  <data name="PanelMenuFilter" xml:space="preserve"><value>Iffiltra l-menu</value></data>
+  <data name="PanelMenuNoMatch" xml:space="preserve"><value>L-ebda vuċi ma taqbel.</value></data>
   <data name="PasswordRevealLabel" xml:space="preserve"><value>Uri l-password</value></data>
   <data name="PasswordHideLabel" xml:space="preserve"><value>Aħbi l-password</value></data>
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Menu tal-profil</value></data>

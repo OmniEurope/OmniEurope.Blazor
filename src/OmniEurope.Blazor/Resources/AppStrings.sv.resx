@@ -378,6 +378,8 @@
   <data name="PagerNext" xml:space="preserve"><value>Nästa sida</value></data>
   <data name="PanelMenuLabel" xml:space="preserve"><value>Navigering</value></data>
   <data name="PanelMenuToggle" xml:space="preserve"><value>Visa eller dölj {0}</value></data>
+  <data name="PanelMenuFilter" xml:space="preserve"><value>Filtrera menyn</value></data>
+  <data name="PanelMenuNoMatch" xml:space="preserve"><value>Inget alternativ matchar.</value></data>
   <data name="PasswordRevealLabel" xml:space="preserve"><value>Visa lösenordet</value></data>
   <data name="PasswordHideLabel" xml:space="preserve"><value>Dölj lösenordet</value></data>
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Profilmeny</value></data>

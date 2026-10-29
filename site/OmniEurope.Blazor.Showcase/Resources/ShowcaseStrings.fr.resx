@@ -56,6 +56,8 @@
   <data name="GalleryTitle" xml:space="preserve"><value>Composants</value></data>
   <data name="GalleryLead" xml:space="preserve"><value>Chaque famille est présentée avec ce qu'elle sait faire, une démonstration vivante et le code qui la produit.</value></data>
   <data name="GalleryNavLabel" xml:space="preserve"><value>Familles de composants</value></data>
+  <data name="GalleryFilterPlaceholder" xml:space="preserve"><value>Filtrer les composants</value></data>
+  <data name="GalleryNoMatch" xml:space="preserve"><value>Aucun composant ne correspond.</value></data>
   <data name="GallerySourceMissingTitle" xml:space="preserve"><value>Source indisponible</value></data>
   <data name="CustomizePageTitle" xml:space="preserve"><value>Personnalisation</value></data>
   <data name="CustomizeTitle" xml:space="preserve"><value>Personnalisation</value></data>

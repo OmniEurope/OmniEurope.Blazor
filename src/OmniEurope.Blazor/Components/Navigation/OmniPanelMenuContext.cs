@@ -18,4 +18,10 @@ internal sealed record OmniPanelMenuContext(OmniPanelMenuDisplay Display)
 
     /// <summary>The menu's navigation guard, <see cref="OmniPanelMenu.CanNavigate"/>.</summary>
     public Func<string, Task<bool>>? CanNavigate { get; init; }
+
+    /// <summary>The text the menu is narrowed by, <see cref="OmniPanelMenuFilter.None"/> when it is not.</summary>
+    public OmniPanelMenuFilter Filter { get; init; } = OmniPanelMenuFilter.None;
+
+    /// <summary>Tells the menu an entry came or went while it is filtered, so its "no match" line follows.</summary>
+    public Action? ItemsChanged { get; init; }
 }

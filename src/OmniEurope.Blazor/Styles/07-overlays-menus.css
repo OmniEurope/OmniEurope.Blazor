@@ -348,6 +348,12 @@ body:has(.omni-overlay) { overflow: hidden; }
 /* display:grid l'emporterait sur le display:none implicite de [hidden] : le groupe replié doit
    rester monté, ses enfants étant seuls à savoir qu'ils sont la page courante. */
 .omni-panel-menu__children[hidden] { display: none; }
+/* The filter: an entry it leaves out stays mounted, and hidden, so the groups can still ask it whether
+   it matches. Their display would beat the implicit display:none of [hidden], hence the rule. */
+.omni-panel-menu :is(.omni-panel-menu__group, .omni-panel-menu__link, .omni-panel-menu__label)[hidden] { display: none; }
+.omni-panel-menu__filter { margin-block-end: var(--omni-space-sm); }
+.omni-panel-menu__empty { color: var(--omni-color-text-muted); margin: 0; padding: var(--omni-item-pad-y) 11px; }
+.omni-panel-menu__empty:empty { display: none; }
 .omni-panel-menu [aria-current="page"],
 .omni-panel-menu__link--current { background: var(--omni-color-accent-subtle); color: var(--omni-color-accent-strong); font-weight: 600; }
 

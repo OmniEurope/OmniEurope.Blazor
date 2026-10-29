@@ -378,6 +378,8 @@
   <data name="PagerNext" xml:space="preserve"><value>Další stránka</value></data>
   <data name="PanelMenuLabel" xml:space="preserve"><value>Navigace</value></data>
   <data name="PanelMenuToggle" xml:space="preserve"><value>Rozbalit nebo sbalit: {0}</value></data>
+  <data name="PanelMenuFilter" xml:space="preserve"><value>Filtrovat nabídku</value></data>
+  <data name="PanelMenuNoMatch" xml:space="preserve"><value>Žádná položka neodpovídá.</value></data>
   <data name="PasswordRevealLabel" xml:space="preserve"><value>Zobrazit heslo</value></data>
   <data name="PasswordHideLabel" xml:space="preserve"><value>Skrýt heslo</value></data>
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Nabídka profilu</value></data>

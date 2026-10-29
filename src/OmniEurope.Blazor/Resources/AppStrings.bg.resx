@@ -378,6 +378,8 @@
   <data name="PagerNext" xml:space="preserve"><value>Следваща страница</value></data>
   <data name="PanelMenuLabel" xml:space="preserve"><value>Навигация</value></data>
   <data name="PanelMenuToggle" xml:space="preserve"><value>Разгъване или свиване на {0}</value></data>
+  <data name="PanelMenuFilter" xml:space="preserve"><value>Филтриране на менюто</value></data>
+  <data name="PanelMenuNoMatch" xml:space="preserve"><value>Няма съвпадащи елементи.</value></data>
   <data name="PasswordRevealLabel" xml:space="preserve"><value>Показване на паролата</value></data>
   <data name="PasswordHideLabel" xml:space="preserve"><value>Скриване на паролата</value></data>
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Меню на профила</value></data>

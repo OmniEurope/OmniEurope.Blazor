@@ -378,6 +378,8 @@
   <data name="PagerNext" xml:space="preserve"><value>An chéad leathanach eile</value></data>
   <data name="PanelMenuLabel" xml:space="preserve"><value>Nascleanúint</value></data>
   <data name="PanelMenuToggle" xml:space="preserve"><value>Leathnaigh nó laghdaigh {0}</value></data>
+  <data name="PanelMenuFilter" xml:space="preserve"><value>Scag an roghchlár</value></data>
+  <data name="PanelMenuNoMatch" xml:space="preserve"><value>Níl aon iontráil ag teacht leis.</value></data>
   <data name="PasswordRevealLabel" xml:space="preserve"><value>Taispeáin an pasfhocal</value></data>
   <data name="PasswordHideLabel" xml:space="preserve"><value>Folaigh an pasfhocal</value></data>
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Roghchlár na próifíle</value></data>

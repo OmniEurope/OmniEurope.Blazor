@@ -6,7 +6,24 @@
      class="@Css("omni-panel-menu", EffectiveDisplay == OmniPanelMenuDisplay.Icon ? "omni-panel-menu--icons" : null)"
      aria-label="@EffectiveLabel"
      data-omni-density="@OmniDensityAttribute.Of(Density)">
+    @if (ShowsFilterField)
+    {
+        <OmniTextBox Type="OmniTextBoxType.Search"
+                     Class="omni-panel-menu__filter"
+                     Placeholder="@EffectiveFilterPlaceholder"
+                     aria-label="@EffectiveFilterPlaceholder"
+                     @bind-Value:get="_filterText"
+                     @bind-Value:set="SetFilterTextAsync">
+            <Icon><OmniIcon Name="OmniIconName.Search" /></Icon>
+        </OmniTextBox>
+    }
     <CascadingValue Value="OwnContext">
         @ChildContent
     </CascadingValue>
+    @if (ShowsFilterField || IsFiltering)
+    {
+        @* Present while the menu can be filtered, empty until nothing matches: a live region has to
+           exist before its text changes for a screen reader to announce the change. *@
+        <p class="omni-panel-menu__empty" role="status">@(HasNoMatch ? Localize("PanelMenuNoMatch") : null)</p>
+    }
 </nav>
