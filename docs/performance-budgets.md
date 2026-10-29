@@ -10,7 +10,7 @@ Il est passé de 2 à 3 Mio le 2026-10-09, sur décision du propriétaire : la D
 | Artefact ou scénario | Budget Release |
 |---|---:|
 | Assembly principal | 3 Mio |
-| Paquet NuGet `.nupkg` | 2 Mio |
+| Paquet NuGet `.nupkg` | 3 Mio |
 | Rendu de 1 000 boutons bUnit | 5 s et 160 Mio alloués |
 | DataGrid local, source de 10 000 lignes, page de 50 | 3 s et 160 Mio alloués |
 | SVG de 1 000 points | 3 s et 80 Mio alloués |
