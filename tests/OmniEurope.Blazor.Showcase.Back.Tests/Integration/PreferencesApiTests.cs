@@ -167,12 +167,16 @@ public sealed class PreferencesApiTests(PostgresFixture postgres) : IAsyncLifeti
         }
     }
 
-    [Fact]
-    public async Task Responses_CarryTheSecurityHeaders()
+    [Theory]
+    [InlineData(HttpStatusCode.OK, true)]
+    [InlineData(HttpStatusCode.BadRequest, false)]
+    public async Task Responses_CarryTheSecurityHeaders(HttpStatusCode status, bool withVisitor)
     {
-        using var get = Message(HttpMethod.Get, VisitorPreferenceApi.Route, VisitorPreferenceApi.CreateVisitorId());
+        // A refusal is converted from an exception after the response was cleared: its headers too.
+        using var get = Message(HttpMethod.Get, VisitorPreferenceApi.Route, withVisitor ? VisitorPreferenceApi.CreateVisitorId() : null);
         using var response = await _client.SendAsync(get, Token);
 
+        Assert.Equal(status, response.StatusCode);
         Assert.Equal("nosniff", response.Headers.GetValues("X-Content-Type-Options").Single());
         Assert.Equal("DENY", response.Headers.GetValues("X-Frame-Options").Single());
         Assert.Equal("default-src 'none'; frame-ancestors 'none'", response.Headers.GetValues("Content-Security-Policy").Single());
@@ -187,5 +191,7 @@ public sealed class PreferencesApiTests(PostgresFixture postgres) : IAsyncLifeti
 
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         Assert.Equal("application/problem+json", response.Content.Headers.ContentType?.MediaType);
+        Assert.Equal("nosniff", response.Headers.GetValues("X-Content-Type-Options").Single());
+        Assert.Equal("no-store", response.Headers.CacheControl?.ToString());
     }
 }
