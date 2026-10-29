@@ -146,6 +146,9 @@ public partial class OmniHtmlEditor
     /// <summary>Whether the value is closed to editing, read-only or disabled.</summary>
     internal bool IsLocked => ReadOnly || Disabled;
 
+    /// <summary>Whether the script has mounted the visual surface (<c>data-omni-ready</c>); editable only from then on.</summary>
+    internal bool SurfaceReady => _visual is { SurfaceReady: true };
+
     /// <summary>Whether the editor was disposed, for the script imports that end after it left.</summary>
     internal bool IsDisposed => _disposed;
 

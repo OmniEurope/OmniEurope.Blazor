@@ -22,7 +22,12 @@ La famille Editor couvre huit composants :
 `Mode` choisit la face affichée, liée dans les deux sens par `ModeChanged` :
 
 - `OmniHtmlEditorMode.Visual` (défaut) : le document mis en forme, édité sur place dans une surface
-  `contenteditable` (`role="textbox"`, `aria-multiline="true"`) que pilote `omni-html-editor.js`.
+  `contenteditable` (`role="textbox"`, `aria-multiline="true"`) que pilote `omni-html-editor.js`. La surface
+  n'est modifiable qu'une fois montée par ce script : rendue par Blazor avant son chargement, elle reste
+  `contenteditable="false"` et `aria-busy="true"` jusqu'à la fin du montage, qui l'ouvre (sauf éditeur en
+  lecture seule ou désactivé) et pose `data-omni-ready="true"`. Ce signal public est celui qu'une
+  application ou ses tests de bout en bout attendent avant de taper (`.omni-html-editor__surface[data-omni-ready="true"]`),
+  plutôt qu'une propriété interne de la surface.
 - `OmniHtmlEditorMode.Source` : le HTML dans une zone de texte, avec l'aperçu assaini de `ShowPreview`.
   Les commandes y entourent le texte sélectionné des balises correspondantes.
 

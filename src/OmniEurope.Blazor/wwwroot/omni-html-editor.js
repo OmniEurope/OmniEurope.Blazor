@@ -18,7 +18,7 @@
 // editing in tables.js, the text an extension proposes after the caret in suggestions.js and the
 // passages a proofreader flags in proofreading.js.
 import {
-    editors, allowedClasses, normalise, elementOf, caretOffset, placeCaret, joinInstead, insertHtmlAt
+    editors, allowedClasses, normalise, elementOf, caretOffset, placeCaret, joinInstead, insertHtmlAt, editorState, openSurface
 } from './html-editor/model.js';
 import { describe, apply, readClipboard } from './html-editor/commands.js';
 import { startDrag, endDrag, placeDrop } from './html-editor/dragging.js';
@@ -33,17 +33,16 @@ export { installPackageTooltips, uninstallPackageTooltips } from './omni-tooltip
 const inputDelay = 250;
 const selectionDelay = 120;
 
-export function mount(surface, dotnet, html, options) {
+// The surface arrives from Blazor not editable and aria-busy (Blazor renders it before this module
+// loads): it opens it only here, once its content and listeners are in place, so nothing typed before
+// the mount can be overwritten by it. data-omni-ready="true" is the public signal that it is ready;
+// the next render of the component writes the same attributes.
+export function mount(surface, dotnet, html, options, editable = true) {
     if (!surface || editors.has(surface)) {
         return;
     }
 
-    const state = {
-        surface, dotnet, timer: 0, range: null, key: '', sent: null, listeners: [], classes: allowedClasses, policy: false,
-        selection: false, selectionTimer: 0, selectionKey: '', shortcuts: new Map(), inline: [], menu: false, activated: null,
-        drag: null, suggest: false, suggestion: null, suggestTimer: 0, suggestTicket: 0,
-        proofread: false, proofreadTimer: 0, proofreadTicket: 0, proofreadCache: new Map(), proofreadIgnored: new Set(), proofreadIssues: [], menuIssue: null
-    };
+    const state = editorState(surface, dotnet);
     editors.set(surface, state);
     configure(surface, options);
     surface.innerHTML = html ?? '';
@@ -66,6 +65,7 @@ export function mount(surface, dotnet, html, options) {
     listen(state, document, 'selectionchange', () => selectionChanged(state));
     listen(state, surface, 'click', event => activate(state, event));
     listen(state, surface, 'contextmenu', event => contextMenu(state, event));
+    openSurface(surface, editable);
     requestProofreading(state, true);
 }
 

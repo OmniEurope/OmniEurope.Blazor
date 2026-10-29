@@ -24,6 +24,8 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
         var editor = Render<OmniHtmlEditor>(parameters => parameters
             .Add(component => component.Value, value)
             .Add(component => component.ValueExpression, () => value));
+        // Mounted by the module double at once: the next render writes what the script set (data-omni-ready).
+        editor.Render();
 
         var surface = editor.Find(".omni-html-editor__surface");
         Assert.Equal("true", surface.GetAttribute("contenteditable"));
@@ -32,6 +34,65 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
         var mount = Assert.Single(module.Invocations["mount"]);
         Assert.Equal("<p>Sain</p>", mount.Arguments[2]);
         Assert.IsType<DotNetObjectReference<HtmlEditorInteropBridge>>(mount.Arguments[1]);
+    }
+
+    [Fact]
+    public void Visual_TheSurfaceStaysClosedAndBusyUntilTheScriptHasMountedIt_ThenSaysItIsReady()
+    {
+        // Typed into the surface before the script mounted it, text was overwritten by the mount and never
+        // reached the component: the surface now opens only once the mount has ended (data-omni-ready).
+        var module = JSInterop.SetupModule(ModulePath);
+        var mounting = module.SetupVoid("mount", _ => true);
+        var value = "<p>Texte</p>";
+
+        var editor = Render<OmniHtmlEditor>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value));
+
+        var surface = editor.Find(".omni-html-editor__surface");
+        Assert.Equal("false", surface.GetAttribute("contenteditable"));
+        Assert.Equal("true", surface.GetAttribute("aria-busy"));
+        Assert.False(surface.HasAttribute("data-omni-ready"));
+        Assert.Equal(true, Assert.Single(module.Invocations["mount"]).Arguments[4]);
+
+        mounting.SetVoidResult();
+        // The script opens the surface itself; the next render of the component writes the same attributes.
+        editor.WaitForAssertion(() => Assert.True(editor.Instance.SurfaceReady));
+        editor.Render();
+
+        editor.WaitForAssertion(() =>
+        {
+            var ready = editor.Find(".omni-html-editor__surface");
+            Assert.Equal("true", ready.GetAttribute("contenteditable"));
+            Assert.False(ready.HasAttribute("aria-busy"));
+            Assert.Equal("true", ready.GetAttribute("data-omni-ready"));
+        });
+    }
+
+    [Fact]
+    public void Visual_ALockedEditor_IsMountedNotEditable_AndStillSaysItIsReady()
+    {
+        var module = JSInterop.SetupModule(ModulePath);
+        var mounting = module.SetupVoid("mount", _ => true);
+        var value = "<p>Texte</p>";
+
+        var editor = Render<OmniHtmlEditor>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ReadOnly, true)
+            .Add(component => component.ValueExpression, () => value));
+
+        Assert.Equal(false, Assert.Single(module.Invocations["mount"]).Arguments[4]);
+        mounting.SetVoidResult();
+        // The script opens the surface itself; the next render of the component writes the same attributes.
+        editor.WaitForAssertion(() => Assert.True(editor.Instance.SurfaceReady));
+        editor.Render();
+
+        editor.WaitForAssertion(() =>
+        {
+            var ready = editor.Find(".omni-html-editor__surface");
+            Assert.Equal("false", ready.GetAttribute("contenteditable"));
+            Assert.Equal("true", ready.GetAttribute("data-omni-ready"));
+        });
     }
 
     [Fact]

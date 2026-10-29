@@ -18,6 +18,12 @@ internal sealed class HtmlEditorVisualSurface(OmniHtmlEditor owner, IJSRuntime j
     private HtmlEditorExtensionSet? _set;
     private bool _locked;
 
+    /// <summary>
+    /// Whether the script has mounted the surface: until then the surface is not editable, so nothing typed
+    /// before the script took it over is overwritten by the mount and lost.
+    /// </summary>
+    internal bool SurfaceReady { get; private set; }
+
     /// <summary>Whether the surface is mounted, or being mounted.</summary>
     internal bool Mounted { get; private set; }
 
@@ -108,7 +114,10 @@ internal sealed class HtmlEditorVisualSurface(OmniHtmlEditor owner, IJSRuntime j
             _tracking = owner.TracksSelection;
             _set = owner.ExtensionSet;
             _locked = owner.IsLocked;
-            await _module.InvokeVoidAsync("mount", owner.SurfaceElement, _bridge, owner.Clean(owner.EditorValue), Options);
+            await _module.InvokeVoidAsync("mount", owner.SurfaceElement, _bridge, owner.Clean(owner.EditorValue), Options, !owner.IsLocked);
+            // The script opened the surface and set data-omni-ready at the end of its mount; the next render
+            // writes the same attributes, so Blazor and the script agree without a render of its own.
+            SurfaceReady = Mounted;
         }
         else if (_module is not null)
         {
@@ -327,6 +336,7 @@ internal sealed class HtmlEditorVisualSurface(OmniHtmlEditor owner, IJSRuntime j
             await _module!.InvokeVoidAsync("dispose", owner.SurfaceElement);
         }
 
+        SurfaceReady = false;
         Mounted = false;
     }
 

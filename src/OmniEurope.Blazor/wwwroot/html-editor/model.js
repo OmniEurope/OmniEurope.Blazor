@@ -463,3 +463,25 @@ export function escapeHtml(text) {
 export function escapeAttribute(text) {
     return escapeHtml(text).replace(/"/g, '&quot;');
 }
+
+// Ends a mount: the surface Blazor rendered closed and aria-busy opens (unless the editor is read-only or
+// disabled) and says it is ready, data-omni-ready="true" being the public signal hosts and their tests wait for.
+export function openSurface(surface, editable) {
+    if (editable) {
+        surface.setAttribute('contenteditable', 'true');
+    }
+
+    surface.removeAttribute('aria-busy');
+    surface.setAttribute('data-omni-ready', 'true');
+}
+
+// The state of one mounted surface: its pending timers, the selection and history it reports to .NET,
+// the shortcuts and inline elements of its extensions, the suggestion and proofreading in flight.
+export function editorState(surface, dotnet) {
+    return {
+        surface, dotnet, timer: 0, range: null, key: '', sent: null, listeners: [], classes: allowedClasses, policy: false,
+        selection: false, selectionTimer: 0, selectionKey: '', shortcuts: new Map(), inline: [], menu: false, activated: null,
+        drag: null, suggest: false, suggestion: null, suggestTimer: 0, suggestTicket: 0,
+        proofread: false, proofreadTimer: 0, proofreadTicket: 0, proofreadCache: new Map(), proofreadIgnored: new Set(), proofreadIssues: [], menuIssue: null
+    };
+}
