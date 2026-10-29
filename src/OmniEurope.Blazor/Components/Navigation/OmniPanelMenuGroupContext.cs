@@ -12,6 +12,9 @@ internal sealed class OmniPanelMenuGroupContext(Action onChanged)
 
     public bool HasActiveChild => _activeChildren.Count > 0;
 
+    /// <summary>The group entry itself, which its children ask whether it, or a group above it, matches the filter.</summary>
+    public OmniPanelMenuItem? Owner { get; init; }
+
     /// <summary>The entries nested directly in the group, which arbitrate between themselves which one is current.</summary>
     public OmniPanelMenuSiblings Siblings { get; } = new();
 

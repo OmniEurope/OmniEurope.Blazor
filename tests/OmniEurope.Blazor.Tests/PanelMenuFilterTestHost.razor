@@ -1,0 +1,44 @@
+@namespace OmniEurope.Blazor.Tests
+@using OmniEurope.Blazor.Components
+
+@* A menu three levels deep: "Rapports" holds a group "Mensuels" (itself holding two entries) and a leaf,
+   "Paramètres" is a group whose children do not repeat its name, and "Café" is an accented leaf. The
+   host binds Expanded of "Rapports" the way an application keeps it, and counts what is reported back. *@
+<OmniPanelMenu ShowFilter="ShowFilter" Display="Display" @bind-Filter="Filter">
+    <OmniPanelMenuItem Id="g-reports" Text="Rapports" Expanded="ReportsExpanded" ExpandedChanged="OnReportsExpandedChanged">
+        <OmniPanelMenuItem Id="g-monthly" Text="Mensuels">
+            <OmniPanelMenuItem Id="l-january" Text="Janvier" Href="/reports/january" />
+            <OmniPanelMenuItem Id="l-february" Text="Février" Href="/reports/february" />
+        </OmniPanelMenuItem>
+        <OmniPanelMenuItem Id="l-summary" Text="Synthèse" Href="/reports/summary" />
+    </OmniPanelMenuItem>
+    <OmniPanelMenuItem Id="g-settings" Text="Paramètres">
+        <OmniPanelMenuItem Id="l-general" Text="Général" Href="/settings/general" />
+        <OmniPanelMenuItem Id="l-security" Text="Sécurité" Href="/settings/security" />
+        @if (ShowExtra)
+        {
+            <OmniPanelMenuItem Id="l-extra" Text="Extra" Href="/settings/extra" />
+        }
+    </OmniPanelMenuItem>
+    <OmniPanelMenuItem Id="l-cafe" Text="Café" Href="/cafe" />
+</OmniPanelMenu>
+
+@code {
+    [Parameter] public bool ShowFilter { get; set; } = true;
+
+    [Parameter] public OmniPanelMenuDisplay Display { get; set; } = OmniPanelMenuDisplay.IconAndText;
+
+    [Parameter] public string? Filter { get; set; }
+
+    [Parameter] public bool ShowExtra { get; set; }
+
+    public bool ReportsExpanded { get; private set; }
+
+    public List<bool> ExpandedReports { get; } = [];
+
+    private void OnReportsExpandedChanged(bool expanded)
+    {
+        ReportsExpanded = expanded;
+        ExpandedReports.Add(expanded);
+    }
+}

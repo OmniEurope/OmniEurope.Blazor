@@ -378,6 +378,8 @@
   <data name="PagerNext" xml:space="preserve"><value>Volgende pagina</value></data>
   <data name="PanelMenuLabel" xml:space="preserve"><value>Navigatie</value></data>
   <data name="PanelMenuToggle" xml:space="preserve"><value>{0} uit- of samenvouwen</value></data>
+  <data name="PanelMenuFilter" xml:space="preserve"><value>Menu filteren</value></data>
+  <data name="PanelMenuNoMatch" xml:space="preserve"><value>Geen item komt overeen.</value></data>
   <data name="PasswordRevealLabel" xml:space="preserve"><value>Wachtwoord tonen</value></data>
   <data name="PasswordHideLabel" xml:space="preserve"><value>Wachtwoord verbergen</value></data>
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Profielmenu</value></data>

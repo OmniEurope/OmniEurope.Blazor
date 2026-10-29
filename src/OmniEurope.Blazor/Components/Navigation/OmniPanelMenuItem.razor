@@ -10,7 +10,8 @@
        active route, and a <details> the browser toggles on its own drifts away from that. *@
     <div @attributes="AdditionalAttributes"
          id="@Id"
-         class="@Css("omni-panel-menu__group", IsOpen ? "omni-panel-menu__group--open" : "omni-panel-menu__group--closed")">
+         class="@Css("omni-panel-menu__group", IsOpen ? "omni-panel-menu__group--open" : "omni-panel-menu__group--closed")"
+         hidden="@IsFilteredOut">
         <div class="omni-panel-menu__summary">
             @if (!string.IsNullOrWhiteSpace(Href) && !IconsOnly)
             {
@@ -79,6 +80,7 @@ else if (!string.IsNullOrWhiteSpace(Href))
     <a @attributes="AdditionalAttributes"
        id="@Id"
        class="@LinkClass"
+       hidden="@IsFilteredOut"
        href="@SafeHref"
        aria-current="@(IsCurrent ? "page" : null)"
        @onclick="HandleNavigateAsync"
@@ -96,7 +98,7 @@ else if (!string.IsNullOrWhiteSpace(Href))
 }
 else if (OnClick.HasDelegate)
 {
-    <button @attributes="AdditionalAttributes" type="button" id="@Id" class="@LinkClass" @onclick="OnClick">
+    <button @attributes="AdditionalAttributes" type="button" id="@Id" class="@LinkClass" hidden="@IsFilteredOut" @onclick="OnClick">
         @if (Icon is not null)
         {
             <span class="omni-panel-menu__icon" aria-hidden="true">@Icon</span>
@@ -110,7 +112,7 @@ else if (OnClick.HasDelegate)
 }
 else
 {
-    <span @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-panel-menu__label")">
+    <span @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-panel-menu__label")" hidden="@IsFilteredOut">
         @if (Icon is not null)
         {
             <span class="omni-panel-menu__icon" aria-hidden="true">@Icon</span>

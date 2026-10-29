@@ -378,6 +378,8 @@
   <data name="PagerNext" xml:space="preserve"><value>Pagina următoare</value></data>
   <data name="PanelMenuLabel" xml:space="preserve"><value>Navigare</value></data>
   <data name="PanelMenuToggle" xml:space="preserve"><value>Extinde sau restrânge {0}</value></data>
+  <data name="PanelMenuFilter" xml:space="preserve"><value>Filtrează meniul</value></data>
+  <data name="PanelMenuNoMatch" xml:space="preserve"><value>Nicio intrare nu se potrivește.</value></data>
   <data name="PasswordRevealLabel" xml:space="preserve"><value>Afișează parola</value></data>
   <data name="PasswordHideLabel" xml:space="preserve"><value>Ascunde parola</value></data>
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Meniul profilului</value></data>

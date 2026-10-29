@@ -378,6 +378,8 @@
   <data name="PagerNext" xml:space="preserve"><value>Página siguiente</value></data>
   <data name="PanelMenuLabel" xml:space="preserve"><value>Navegación</value></data>
   <data name="PanelMenuToggle" xml:space="preserve"><value>Expandir o contraer {0}</value></data>
+  <data name="PanelMenuFilter" xml:space="preserve"><value>Filtrar el menú</value></data>
+  <data name="PanelMenuNoMatch" xml:space="preserve"><value>Ninguna entrada coincide.</value></data>
   <data name="PasswordRevealLabel" xml:space="preserve"><value>Mostrar la contraseña</value></data>
   <data name="PasswordHideLabel" xml:space="preserve"><value>Ocultar la contraseña</value></data>
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Menú del perfil</value></data>

@@ -14,6 +14,9 @@ internal sealed class OmniPanelMenuSiblings
 
     public void Remove(OmniPanelMenuItem item) => _items.Remove(item);
 
+    /// <summary>Whether an entry of this level, or one nested under it, matches the menu's filter.</summary>
+    public bool AnyMatchesFilter(OmniPanelMenuFilter filter) => _items.Any(item => item.MatchesFilterWithin(filter));
+
     /// <summary>
     /// True when another entry of this level matches the route with a longer address. An exact match is
     /// always the longest address that can match, so it needs no rule of its own.

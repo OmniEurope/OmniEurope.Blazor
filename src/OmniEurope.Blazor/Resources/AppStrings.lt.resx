@@ -378,6 +378,8 @@
   <data name="PagerNext" xml:space="preserve"><value>Kitas puslapis</value></data>
   <data name="PanelMenuLabel" xml:space="preserve"><value>Naršymas</value></data>
   <data name="PanelMenuToggle" xml:space="preserve"><value>Išskleisti arba suskleisti: {0}</value></data>
+  <data name="PanelMenuFilter" xml:space="preserve"><value>Filtruoti meniu</value></data>
+  <data name="PanelMenuNoMatch" xml:space="preserve"><value>Nėra atitinkančių elementų.</value></data>
   <data name="PasswordRevealLabel" xml:space="preserve"><value>Rodyti slaptažodį</value></data>
   <data name="PasswordHideLabel" xml:space="preserve"><value>Slėpti slaptažodį</value></data>
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Profilio meniu</value></data>

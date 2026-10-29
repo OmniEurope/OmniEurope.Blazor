@@ -378,6 +378,8 @@
   <data name="PagerNext" xml:space="preserve"><value>Sljedeća stranica</value></data>
   <data name="PanelMenuLabel" xml:space="preserve"><value>Navigacija</value></data>
   <data name="PanelMenuToggle" xml:space="preserve"><value>Proširi ili sažmi {0}</value></data>
+  <data name="PanelMenuFilter" xml:space="preserve"><value>Filtriraj izbornik</value></data>
+  <data name="PanelMenuNoMatch" xml:space="preserve"><value>Nijedna stavka ne odgovara.</value></data>
   <data name="PasswordRevealLabel" xml:space="preserve"><value>Prikaži lozinku</value></data>
   <data name="PasswordHideLabel" xml:space="preserve"><value>Sakrij lozinku</value></data>
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Izbornik profila</value></data>
