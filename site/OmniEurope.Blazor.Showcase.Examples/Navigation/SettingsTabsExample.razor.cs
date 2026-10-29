@@ -21,6 +21,21 @@ public partial class SettingsTabsExample : IDisposable
 
     private string? Tab { get; set; } = "general";
 
+    // The password typed in the dialog of "Delete the account": this page's own field, read by CanConfirm
+    // and forgotten by OnConfirm and OnCancel. Demonstration only: it is checked for its length, not against anything.
+    private string? AccountPassword { get; set; }
+
+    private bool AccountPasswordIsFilled => AccountPassword is { Length: >= 8 };
+
+    private void ForgetAccountPassword() => AccountPassword = null;
+
+    // Demonstration only: nothing is deleted.
+    private void DeleteAccount()
+    {
+        ForgetAccountPassword();
+        Overlays.Notify("The account was deleted (not really).", OmniSeverity.Success);
+    }
+
     // Demonstration only: nothing is deleted, the delay shows the busy button.
     private async Task DeleteProjectAsync()
     {

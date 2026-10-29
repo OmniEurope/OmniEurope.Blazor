@@ -24,13 +24,20 @@
                     <OmniSwitch @bind-Value="LongBody" aria-label="@Text["CardsLongBody"]" />
                 </ChildContent>
             </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["CardsBorderless"]" Description="@Text["CardsBorderlessDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.FrameCorners" /></Icon>
+                <ChildContent>
+                    <OmniSwitch Id="cards-borderless" @bind-Value="Borderless" aria-label="@Text["CardsBorderless"]" />
+                </ChildContent>
+            </OmniSettingsTile>
         </OmniSettingsSection>
     </Settings>
     <Preview>
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["CardsPreviewTitle"]</HeaderContent>
             <ChildContent>
-                <div class="gallery-cards-stage">
+                <div class="@(Borderless ? "gallery-cards-stage gallery-cards-stage--borderless" : "gallery-cards-stage")">
                     <CardsExample Header="SelectedHeader" Footer="SelectedFooter" LongBody="LongBody" />
                 </div>
             </ChildContent>

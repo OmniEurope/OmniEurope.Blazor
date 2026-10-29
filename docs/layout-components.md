@@ -18,7 +18,7 @@ Ces composants posent la structure d'une application et d'une page : la coquille
 | `OmniFieldset` | Groupe de champs natif avec `legend` obligatoire, désactivable, repliable. |
 | `OmniAccordion`, `OmniAccordionItem` | Liste de lignes dont le corps se déplie sous l'en-tête, une à la fois (défaut) ou plusieurs ensemble (`Multiple`). L'en-tête est libre (libellé, aide « ? », valeur, badge) et le composant dessine le chevron. Voir « Accordéon » plus bas. |
 | `OmniDivider` | Filet fin de 1 px entre deux blocs, horizontal ou vertical (`Orientation`), sans marge : l'écart de la pile qui le porte l'espace. Voir « Séparateur » plus bas. |
-| `OmniSettingsSection` | Carte d'une rubrique de réglages : son titre, une ligne sur ce qu'elle change, puis ses réglages. La rubrique prend toute la largeur de son conteneur, sans plafond ; `Paired` range ses tuiles deux par ligne (chacune la moitié, empilées sous environ 24 rem par tuile), une tuile `FullWidth` prenant toute la ligne. |
+| `OmniSettingsSection` | Carte d'une rubrique de réglages : son titre, une ligne sur ce qu'elle change, puis ses réglages. La rubrique prend toute la largeur de son conteneur, sans plafond ; `Paired` range ses tuiles deux par ligne (chacune la moitié, empilées sous environ 24 rem par tuile), une tuile `FullWidth` prenant toute la ligne. `Flat` (`bool`, faux par défaut) dessine les tuiles à plat : ni fond, ni cadre, ni couche de givre, pour qu'elles ne fassent pas une boîte dans la carte ; un filet fin de la couleur de bordure sépare deux tuiles d'une colonne, l'espacement seul les sépare dans une rubrique `Paired`. Le survol, et la teinte quand un contrôle de la tuile a le focus clavier, restent : la tuile montre toujours ce qu'un clic atteint. Les tuiles d'une `OmniSettingsDangerZone` ne sont pas concernées (la zone n'a pas de `Flat`). |
 | `OmniSettingsTile` | Un réglage dans une tuile de sa rubrique : icône, nom et effet à gauche, contrôle à droite ; un interrupteur ou une case à côté du nom fait de toute la tuile son libellé cliquable. |
 | `OmniSettingsDangerZone` | Rubrique des actions irréversibles, en fin de page de réglages : la carte d'une `OmniSettingsSection` dont le filet et le titre prennent la couleur de danger de la palette (dans chaque thème, en clair comme en sombre), région nommée par son titre de niveau 2. `Title` vaut par défaut « Zone de danger », `Description` est facultative. |
 | `OmniSettingsDangerAction` | Une action irréversible dans une tuile de la zone : nom et ce qu'elle détruit à gauche, bouton `Danger` à droite qui demande d'abord par la confirmation du paquet. Voir « Zone de danger » plus bas. |
@@ -210,4 +210,19 @@ Une page de réglages range ses actions irréversibles (supprimer un projet, ré
 - Un échec d'`OnConfirm` va à `OnConfirmError`, qui reçoit l'exception (à l'hôte de le dire, par exemple par `OmniOverlayService.Notify`) ; sans gestionnaire, l'exception remonte au moteur de rendu, comme pour `OmniMarkdownExportButton.OnExportError`. Une annulation (`OperationCanceledException`) n'y passe jamais.
 - `Disabled` désactive le bouton (action interdite à cet utilisateur).
 - Le bouton garde son texte visible pour nom accessible ; il est décrit (`aria-describedby`) par le nom et la description de la tuile, donc un lecteur d'écran entend quelle action il lance. `Id` va sur le bouton, avec les attributs supplémentaires ; `Class` sur la tuile.
-- Le paquet n'a pas de saisie de confirmation (taper le nom du projet) : la confirmation est le dialogue du paquet.
+- Une action qui demande quelque chose avant de s'exécuter (supprimer un compte : le mot de passe actuel ; supprimer un projet : son nom) met sa saisie dans `ConfirmDetails` (un `RenderFragment`, affiché sous la question, avec le champ de l'hôte lié à son propre état) et sa validité dans `CanConfirm` (`bool`, vrai par défaut) :
+
+  ```razor
+  <OmniSettingsDangerAction Title="Supprimer le compte" CanConfirm="@(_password.Length >= 8)"
+                            OnConfirm="DeleteAccountAsync" OnCancel="@(() => _password = string.Empty)">
+      <ConfirmDetails>
+          <OmniFormField For="current-password">
+              <LabelContent>Mot de passe actuel</LabelContent>
+              <ChildContent><OmniPassword Id="current-password" @bind-Value="_password" /></ChildContent>
+          </OmniFormField>
+      </ConfirmDetails>
+  </OmniSettingsDangerAction>
+  ```
+
+  Tant que `CanConfirm` est faux, le bouton d'action du dialogue est désactivé et `OnConfirm` n'est jamais appelé ; le dialogue suit la valeur chaque fois que l'hôte rend l'action de nouveau (la saisie qui change fait rendre la page, donc l'action). Le focus va au premier champ du dialogue à l'ouverture ; l'ordre de tabulation est le champ, l'action (sautée tant qu'elle est désactivée), Annuler, puis la croix. Le composant ne lit, ne garde et ne journalise rien de ce qui est saisi : le champ est celui de l'hôte, qui décide du contrôle et le vide à l'issue (`OnCancel`, levé quand la question se ferme sans confirmation : Annuler, Échap, la croix, le fond ; jamais après une confirmation). Sans `OmniComponentsHost`, le navigateur n'a pas la place d'un champ : un clic avec `ConfirmDetails` lève `InvalidOperationException` plutôt que de poser la question sans lui, et un `CanConfirm` faux sans détails ne pose aucune question. La même mécanique existe pour tout dialogue de confirmation : `OmniConfirmRequest.Details` et `OmniConfirmRequest.CanConfirm` (`Func<bool>`), avec `Refresh()` pour faire redessiner le dialogue ; `OmniOverlayService.ConfirmAsync` les rend.
+- Le paquet n'a pas de contrôle de saisie qui lui soit propre pour cette confirmation : le champ est toujours celui de l'hôte.

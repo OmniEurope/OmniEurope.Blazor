@@ -609,6 +609,11 @@
     min-inline-size: 0;
 }
 
+/* A host class that sets the documented card-frame hook: every card inside draws no border. */
+.gallery-cards-stage--borderless {
+    --omni-card-border-width: 0;
+}
+
 /* Navigation, Selection, Shell fidelity */
 
 /* Selection pages: the main field of the autocomplete, drop-down and multi-select pages stops at a readable

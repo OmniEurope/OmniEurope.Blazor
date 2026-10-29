@@ -118,6 +118,8 @@
   <data name="CardsFooterNone" xml:space="preserve"><value>None</value></data>
   <data name="CardsFooterText" xml:space="preserve"><value>Text</value></data>
   <data name="CardsFooterActions" xml:space="preserve"><value>Actions</value></data>
+  <data name="CardsBorderless" xml:space="preserve"><value>No card border</value></data>
+  <data name="CardsBorderlessDescription" xml:space="preserve"><value>A host class sets --omni-card-border-width to 0 around the cards of the preview.</value></data>
   <data name="CardsLongBody" xml:space="preserve"><value>Long body</value></data>
   <data name="CardsLongBodyDescription" xml:space="preserve"><value>ChildContent: a few more paragraphs.</value></data>
   <data name="CardsPreviewTitle" xml:space="preserve"><value>Preview</value></data>
@@ -155,6 +157,8 @@
   <data name="SettingsSectionsTileIconsHint" xml:space="preserve"><value>Icon parameter of OmniSettingsTile, decorative.</value></data>
   <data name="SettingsSectionsTileDescriptions" xml:space="preserve"><value>Tile descriptions</value></data>
   <data name="SettingsSectionsTileDescriptionsHint" xml:space="preserve"><value>Description parameter of OmniSettingsTile, under the name.</value></data>
+  <data name="SettingsSectionsFlat" xml:space="preserve"><value>Flat tiles</value></data>
+  <data name="SettingsSectionsFlatHint" xml:space="preserve"><value>Flat parameter of OmniSettingsSection: no fill and no frame, a hairline between tiles.</value></data>
   <data name="SettingsSectionsContent" xml:space="preserve"><value>Tile content</value></data>
   <data name="SettingsSectionsContentHint" xml:space="preserve"><value>ChildContent sits beside the name, Details goes under the row.</value></data>
   <data name="SettingsSectionsContentControl" xml:space="preserve"><value>Beside (ChildContent)</value></data>

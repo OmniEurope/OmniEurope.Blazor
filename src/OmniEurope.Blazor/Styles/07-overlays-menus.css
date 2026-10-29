@@ -75,6 +75,8 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-dialog__glyph { block-size: 1.125rem; inline-size: 1.125rem; }
 @media (prefers-reduced-motion: reduce) { .omni-dialog .omni-dialog__close { transition: none; } }
 .omni-confirm__message { margin: 0; }
+/* What a confirmation asks of the user under its question (OmniConfirmRequest.Details): a field, a box. */
+.omni-confirm__details { display: grid; gap: var(--omni-space-sm); margin-block-start: var(--omni-space-md); }
 /* La pile se pose sur un coin ou un bord, nommés en logique (lecture de droite à gauche). */
 /* --omni-notification-top: a host with a fixed top bar starts the top regions under it. */
 .omni-notification-region { display: grid; gap: var(--omni-space-sm); max-width: min(24rem, 90vw); position: fixed; z-index: var(--omni-z-toast); }

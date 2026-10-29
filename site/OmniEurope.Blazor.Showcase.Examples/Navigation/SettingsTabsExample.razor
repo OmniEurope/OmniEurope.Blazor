@@ -90,6 +90,24 @@
                                                   OnConfirm="ResetHistoryAsync" OnConfirmError="ReportResetFailure">
                             <Icon><OmniIcon Name="OmniIconName.Reset" /></Icon>
                         </OmniSettingsDangerAction>
+                        @* An action that asks for something first: the dialog holds a password field (ConfirmDetails)
+                           and its action stays disabled until the entry has eight characters (CanConfirm). The
+                           entry is this page's own field: the action never reads it, and OnCancel forgets it.
+                           Demonstration only: no password is checked, nothing is erased. *@
+                        <OmniSettingsDangerAction Id="settings-delete-account" Title="Delete the account"
+                                                  Description="Removes your account. Your current password is asked first."
+                                                  ConfirmMessage="Your account will be deleted. Type your current password to confirm. This is only a demonstration: nothing is erased."
+                                                  CanConfirm="AccountPasswordIsFilled"
+                                                  OnConfirm="DeleteAccount" OnCancel="ForgetAccountPassword">
+                            <ConfirmDetails>
+                                <OmniFormField For="settings-account-password">
+                                    <LabelContent>Current password</LabelContent>
+                                    <ChildContent>
+                                        <OmniPassword Id="settings-account-password" Autocomplete="current-password" @bind-Value="AccountPassword" />
+                                    </ChildContent>
+                                </OmniFormField>
+                            </ConfirmDetails>
+                        </OmniSettingsDangerAction>
                         <OmniSettingsDangerAction Title="Transfer the project" Description="Hands the project over to another owner."
                                                   ActionText="Transfer" Disabled="true">
                             <Icon><OmniIcon Name="OmniIconName.Swap" /></Icon>

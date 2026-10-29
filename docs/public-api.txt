@@ -1285,6 +1285,7 @@ method protected override OmniEurope.Blazor.Components.OmniSelectableCardGroup<T
 method protected override OmniEurope.Blazor.Components.OmniSeriesDataLabels.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniSeriesDataLabels.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniSettingsDangerAction.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniSettingsDangerAction.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniSettingsDangerZone.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniSettingsSection.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniSettingsTile.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
@@ -1438,6 +1439,7 @@ method public OmniEurope.Blazor.Components.OmniComponentsHost.Dispose() : System
 method public OmniEurope.Blazor.Components.OmniConfirmRequest.<Clone>$() : OmniEurope.Blazor.Components.OmniConfirmRequest
 method public OmniEurope.Blazor.Components.OmniConfirmRequest.Deconstruct(out System.String Title, out System.String Message) : System.Void
 method public OmniEurope.Blazor.Components.OmniConfirmRequest.Equals(OmniEurope.Blazor.Components.OmniConfirmRequest? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniConfirmRequest.Refresh() : System.Void
 method public OmniEurope.Blazor.Components.OmniConnectionOverlay.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniContextMenu.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniCopyButton.DisposeAsync() : System.Threading.Tasks.ValueTask
@@ -2547,12 +2549,14 @@ property public OmniEurope.Blazor.Components.OmniComponentBase.PresetName : Syst
 property public OmniEurope.Blazor.Components.OmniComponentsHost.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniComponentsHost.Notifications : OmniEurope.Blazor.Components.OmniNotificationOptions {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniComponentsHost.OverlayService : OmniEurope.Blazor.Components.OmniOverlayService? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniConfirmRequest.CanConfirm : System.Func<System.Boolean>? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniConfirmRequest.CancelText : System.String? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniConfirmRequest.CancelVariant : OmniEurope.Blazor.Components.OmniButtonVariant {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniConfirmRequest.ConfirmIcon : OmniEurope.Blazor.Components.OmniIconName {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniConfirmRequest.ConfirmIconContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniConfirmRequest.ConfirmText : System.String? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniConfirmRequest.ConfirmVariant : OmniEurope.Blazor.Components.OmniButtonVariant {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniConfirmRequest.Details : Microsoft.AspNetCore.Components.RenderFragment? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniConfirmRequest.Intent : OmniEurope.Blazor.Components.OmniTone? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniConfirmRequest.Message : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniConfirmRequest.Title : System.String {get(public);init(public)}
@@ -3592,12 +3596,15 @@ property public OmniEurope.Blazor.Components.OmniSeriesDataLabels.Data : System.
 property public OmniEurope.Blazor.Components.OmniSeriesDataLabels.FormatValue : System.Func<System.Double,System.String>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSeriesDataLabels.Inside : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSettingsDangerAction.ActionText : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniSettingsDangerAction.CanConfirm : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniSettingsDangerAction.ConfirmDetails : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSettingsDangerAction.ConfirmMessage : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSettingsDangerAction.ConfirmText : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSettingsDangerAction.ConfirmTitle : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSettingsDangerAction.Description : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSettingsDangerAction.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSettingsDangerAction.Icon : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniSettingsDangerAction.OnCancel : Microsoft.AspNetCore.Components.EventCallback {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSettingsDangerAction.OnConfirm : Microsoft.AspNetCore.Components.EventCallback {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSettingsDangerAction.OnConfirmError : Microsoft.AspNetCore.Components.EventCallback<System.Exception> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSettingsDangerAction.Title : System.String {get(public);set(public)} [Parameter, EditorRequired]
@@ -3606,6 +3613,7 @@ property public OmniEurope.Blazor.Components.OmniSettingsDangerZone.Description 
 property public OmniEurope.Blazor.Components.OmniSettingsDangerZone.Title : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSettingsSection.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSettingsSection.Description : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniSettingsSection.Flat : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSettingsSection.Paired : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSettingsSection.Title : System.String {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniSettingsTile.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]

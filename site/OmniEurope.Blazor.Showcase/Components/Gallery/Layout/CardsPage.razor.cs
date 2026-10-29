@@ -15,6 +15,8 @@ public partial class CardsPage
 
     private bool LongBody { get; set; }
 
+    private bool Borderless { get; set; }
+
     private IReadOnlyList<OmniOption<CardHeaderKind>> HeaderOptions =>
     [
         new(CardHeaderKind.None, Text["CardsHeaderNone"]),
