@@ -33,6 +33,10 @@
         <Icon><OmniIcon Name="OmniIconName.Eye" /></Icon>
         <ChildContent><span>No logo</span></ChildContent>
     </OmniButton>
+    <OmniButton Id="page-veil-window" Variant="OmniButtonVariant.Secondary" Disabled="@Waiting" OnClick="@(_ => WaitAsync(VeilLogo.Markup, TimeSpan.FromSeconds(2.5), OmniPageVeilScope.Viewport))">
+        <Icon><OmniIcon Name="OmniIconName.FrameCorners" /></Icon>
+        <ChildContent><span>Whole window (Scope Viewport)</span></ChildContent>
+    </OmniButton>
     <OmniButton Id="page-veil-short" Variant="OmniButtonVariant.Secondary" Disabled="@Waiting" OnClick="@(_ => WaitAsync(VeilLogo.Markup, TimeSpan.FromMilliseconds(50)))">
         <Icon><OmniIcon Name="OmniIconName.Timer" /></Icon>
         <ChildContent><span>A 50 ms wait (nothing shows)</span></ChildContent>
@@ -40,5 +44,6 @@
 </OmniRow>
 <OmniPageVeil Id="page-veil-demo"
               Busy="@Waiting"
+              Scope="@Scope"
               Logo="@(Current switch { VeilLogo.Markup => stillLogo, VeilLogo.Animated => animatedLogo, _ => null })"
               LogoSource="@(Current == VeilLogo.Address ? "showcase-logo.svg" : null)" />

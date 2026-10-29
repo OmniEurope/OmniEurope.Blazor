@@ -13,8 +13,9 @@ export async function veilSteps(session, results) {
   };
 
   // Samples every frame while the veil exists: when it is inserted (MutationObserver), its visibility,
-  // opacity and colour at each frame, and its geometry and logo whenever it is visible. The viewport is the
-  // layout viewport (the page scrollbar stays outside the veil, which is fixed to it).
+  // opacity and colour at each frame, and its geometry and logo whenever it is visible. The showcase main area
+  // scrolls (OmniMain Scrollable), so the veil is drawn in its non-scrolling frame and must cover that frame
+  // exactly: under the header and beside the sidebar, which stay outside it (recette R1-29).
   const recorder = `(() => {
     const probe = window.__veilProbe = { insertedAt: null, removedAt: null, frames: [], geometry: null, done: false };
     new MutationObserver(records => {
@@ -36,10 +37,12 @@ export async function veilSteps(session, results) {
           const logoBox = logo?.getBoundingClientRect() ?? null;
           probe.geometry = {
             position: style.position, zIndex: style.zIndex, role: veil.getAttribute('role'), label: veil.querySelector('.omni-visually-hidden')?.textContent ?? null,
-            veil: [box.left, box.top, box.width, box.height], viewport: [document.documentElement.clientWidth, document.documentElement.clientHeight],
+            veil: [box.left, box.top, box.width, box.height], frame: (() => { const frame = veil.parentElement.getBoundingClientRect(); return [frame.left, frame.top, frame.width, frame.height]; })(), inFrame: veil.parentElement.matches('.omni-main-scroll'),
+            header: document.querySelector('.omni-header')?.getBoundingClientRect().bottom ?? null, sidebar: (() => { const side = document.querySelector('.omni-sidebar--open'); return side ? side.getBoundingClientRect().right : null; })(),
             logo: logoBox ? [logoBox.left + logoBox.width / 2, logoBox.top + logoBox.height / 2, logoBox.width, logoBox.height] : null,
             mark: mark ? { tag: mark.tagName.toLowerCase(), loaded: mark.tagName === 'IMG' ? mark.complete && mark.naturalWidth > 0 : true, animated: mark.querySelector('animate') !== null } : null,
-            pointerHit: document.elementFromPoint(document.documentElement.clientWidth / 2, document.documentElement.clientHeight / 2)?.closest('.omni-page-veil') !== null,
+            pointerHit: document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2)?.closest('.omni-page-veil') !== null,
+            headerHit: (() => { const header = document.querySelector('.omni-header')?.getBoundingClientRect(); return header ? document.elementFromPoint(header.left + header.width / 2, header.top + header.height / 2)?.closest('.omni-page-veil') === null : false; })(),
             surface: (() => { const probeElement = document.createElement('div'); probeElement.style.backgroundColor = 'var(--omni-color-surface)'; veil.parentElement.appendChild(probeElement); const colour = getComputedStyle(probeElement).backgroundColor; probeElement.remove(); return colour; })()
           };
         }
@@ -77,15 +80,19 @@ export async function veilSteps(session, results) {
     check(distinct(probe.frames, 'opacity').join() === '1', `${label} : l'opacité varie pendant le délai : ${distinct(probe.frames, 'opacity').join(' | ')}.`);
     check(distinct(visible, 'color').length === 1, `${label} : la couleur varie : ${distinct(visible, 'color').join(' | ')}.`);
     const geometry = probe.geometry;
-    check(geometry.veil[0] === 0 && geometry.veil[1] === 0 && geometry.veil[2] === geometry.viewport[0] && geometry.veil[3] === geometry.viewport[1], `${label} : le voile ne couvre pas la fenêtre : ${JSON.stringify(geometry)}.`);
-    check(geometry.position === 'fixed' && geometry.role === 'status' && geometry.pointerHit, `${label} : voile non fixe, sans rôle status ou qui laisse passer le pointeur : ${JSON.stringify(geometry)}.`);
+    const near = (a, b) => Math.abs(a - b) <= 1;
+    check(geometry.inFrame && geometry.veil.every((value, index) => near(value, geometry.frame[index])), `${label} : le voile ne couvre pas exactement le cadre de la zone principale : ${JSON.stringify(geometry)}.`);
+    check(geometry.header !== null && geometry.veil[1] >= geometry.header - 1 && geometry.headerHit, `${label} : le voile couvre la barre du haut : ${JSON.stringify(geometry)}.`);
+    check(geometry.sidebar === null || geometry.veil[0] >= geometry.sidebar - 1, `${label} : le voile couvre le menu latéral : ${JSON.stringify(geometry)}.`);
+    check(geometry.position === 'absolute' && geometry.role === 'status' && geometry.pointerHit, `${label} : voile non posé sur son cadre, sans rôle status ou qui laisse passer le pointeur : ${JSON.stringify(geometry)}.`);
     check(visible[0].color === geometry.surface && (!expectedSurface || visible[0].color === expectedSurface), `${label} : la couleur ${visible[0].color} n'est pas la surface du thème ${geometry.surface}.`);
     return { delay, color: visible[0].color, geometry, frames: probe.frames.length };
   };
   const checkCentred = (label, geometry, tag) => {
     check(geometry.logo !== null && geometry.mark?.tag === tag, `${label} : logo attendu (${tag}), obtenu ${JSON.stringify(geometry.mark)}.`);
     const [centreX, centreY] = geometry.logo;
-    check(Math.abs(centreX - geometry.viewport[0] / 2) <= 1 && Math.abs(centreY - geometry.viewport[1] / 2) <= 1, `${label} : logo non centré (${centreX}, ${centreY}) dans ${geometry.viewport.join(' x ')}.`);
+    const [left, top, width, height] = geometry.veil;
+    check(Math.abs(centreX - (left + width / 2)) <= 1 && Math.abs(centreY - (top + height / 2)) <= 1, `${label} : logo non centré (${centreX}, ${centreY}) dans le voile ${geometry.veil.join(' x ')}.`);
     check(geometry.mark.loaded, `${label} : l'image du logo n'est pas chargée.`);
   };
 

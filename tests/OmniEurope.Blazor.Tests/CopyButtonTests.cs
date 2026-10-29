@@ -1,5 +1,6 @@
 using Bunit;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using OmniEurope.Blazor.Components;
 
@@ -13,6 +14,12 @@ public sealed class CopyButtonTests : OmniBunitContext
 {
     private const string InteropModulePath = Internal.OmniModules.Interop;
     private static readonly TimeSpan ShortFeedback = TimeSpan.FromMilliseconds(60);
+
+    // The feedback waits on this clock, moved by hand: on the system clock its 60 ms could run out under a
+    // loaded full suite before the click had even rendered, and the feedback was gone when the test read it.
+    private readonly ManualTimeProvider _clock = new();
+
+    public CopyButtonTests() => Services.AddSingleton<TimeProvider>(_clock);
 
     private BunitJSModuleInterop Clipboard(bool accepted)
     {
@@ -115,6 +122,7 @@ public sealed class CopyButtonTests : OmniBunitContext
         Assert.Equal("Copié", button.Find("button").TextContent.Trim());
         Assert.Equal("Copié", button.Find("[role=status]").TextContent);
 
+        _clock.Advance(ShortFeedback);
         button.WaitForAssertion(() =>
         {
             Assert.Equal("Copier", button.Find("button").TextContent.Trim());
@@ -143,6 +151,7 @@ public sealed class CopyButtonTests : OmniBunitContext
         Assert.Equal("Copié", button.Find("button").GetAttribute("aria-label"));
         Assert.Equal("Copié", button.Find("button").GetAttribute("title"));
         Assert.Equal("Copié", button.Find("[role=status]").TextContent);
+        _clock.Advance(ShortFeedback);
         button.WaitForAssertion(() => Assert.Equal("Copier", button.Find("button").GetAttribute("aria-label")));
     }
 
@@ -185,6 +194,7 @@ public sealed class CopyButtonTests : OmniBunitContext
         Assert.False(reported);
         Assert.Equal("La copie a échoué", button.Find("[role=status]").TextContent);
         Assert.Equal("La copie a échoué", button.Find("button").TextContent.Trim());
+        _clock.Advance(ShortFeedback);
         button.WaitForAssertion(() => Assert.Equal("Copier", button.Find("button").TextContent.Trim()));
     }
 
