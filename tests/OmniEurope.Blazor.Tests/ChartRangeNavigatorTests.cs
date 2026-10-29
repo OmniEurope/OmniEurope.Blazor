@@ -340,6 +340,29 @@ public sealed class ChartRangeNavigatorTests : OmniBunitContext
     }
 
     [Fact]
+    public void AGraduationThatWouldMeetTheEdgeAnchoredLastName_IsLeftOut()
+    {
+        // Twenty-nine names of one length: the graduations fall every two categories and the last one lands
+        // exactly two after the previous. The last name, anchored to the edge, reaches further in than a
+        // centred one, so the graduation before it, well spaced from its own predecessor, is dropped.
+        var labels = Enumerable.Range(0, 29).Select(index => $"Cat {index:00}").ToArray();
+        var chart = ChartWith(builder =>
+        {
+            builder.OpenComponent<OmniCategoryAxis>(10);
+            builder.AddComponentParameter(11, nameof(OmniCategoryAxis.Labels), labels);
+            builder.CloseComponent();
+            Series<OmniLineSeries>(builder, [.. Enumerable.Range(0, 29).Select(index => new OmniChartPoint(index, index))]);
+        }, start: 0);
+
+        chart.WaitForAssertion(() => Assert.NotEmpty(chart.FindAll(".omni-range-navigator__ticks text")));
+        var names = chart.FindAll(".omni-range-navigator__ticks text").Select(text => text.TextContent).ToArray();
+
+        Assert.Equal("Cat 28", names[^1]);
+        Assert.Equal("Cat 24", names[^2]);
+        Assert.DoesNotContain("Cat 26", names);
+    }
+
+    [Fact]
     public void ACategoryWithoutAxisLabel_IsNamedByItsPoint_OrElseByItsRank()
     {
         string[] labels = ["Jan", null!, "Mar"];

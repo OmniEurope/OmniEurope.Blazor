@@ -45,7 +45,7 @@
         "type": "Project",
         "dependencies": {
           "Microsoft.AspNetCore.Components.WebAssembly": "[10.0.14, )",
-          "OmniEurope.Blazor": "[1.9.4, )"
+          "OmniEurope.Blazor": "[1.10.0, )"
         }
       },
       "HtmlSanitizer": {

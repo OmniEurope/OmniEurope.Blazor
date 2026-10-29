@@ -51,7 +51,7 @@ public static class OmniDataGridDateText
         }
 
         var parts = text.Split(Separators).Select(part => part.Trim()).ToArray();
-        if (parts.Length is < 1 or > 3 || !parts.All(IsNumber))
+        if (parts.Length > 3 || !parts.All(IsNumber))
         {
             return false;
         }

@@ -151,6 +151,33 @@ public sealed class DataFamilyEdgeTests : OmniBunitContext
     }
 
     [Fact]
+    public void DateText_GivenAPlaceholder_ShowsItInsteadOfTheCultureHint()
+    {
+        var filter = Render<OmniDataGridFilterDate>(parameters => parameters
+            .Add(component => component.Placeholder, "Choisir un jour"));
+
+        Assert.Equal("Choisir un jour", filter.Find("input.omni-data-grid__date-text").GetAttribute("placeholder"));
+    }
+
+    [Fact]
+    public void DateText_ChangedToNothing_SendsAnEmptyValue_AndEmptiesTheText()
+    {
+        var changes = new List<string>();
+        var filter = Render<OmniDataGridFilterDate>(parameters => parameters
+            .Add(component => component.Value, "2026-01-05/2026-01-05")
+            .Add(component => component.ValueChanged, value => changes.Add(value)));
+        var input = filter.Find("input.omni-data-grid__date-text");
+        Assert.False(string.IsNullOrEmpty(input.GetAttribute("value")));
+
+        input.Change((object?)null);
+
+        Assert.Equal([string.Empty], changes);
+        input = filter.Find("input.omni-data-grid__date-text");
+        Assert.True(string.IsNullOrEmpty(input.GetAttribute("value")));
+        Assert.Null(input.GetAttribute("aria-invalid"));
+    }
+
+    [Fact]
     public void DateRange_ClearedPickers_SendEmptySides()
     {
         var changes = new List<string>();

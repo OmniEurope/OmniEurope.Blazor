@@ -80,6 +80,19 @@ public sealed class NavTileAndSettingsPairTests : OmniBunitContext
     }
 
     [Fact]
+    public void ANavTile_WithFitTitle_AndANullTitle_CarriesTheSmallestStep()
+    {
+        var tile = Render<OmniNavTile>(parameters => parameters
+            .Add(component => component.Href, "/aide")
+            .Add(component => component.Title, null!)
+            .Add(component => component.FitTitle, true));
+
+        var link = tile.Find("a");
+        Assert.Contains("omni-nav-tile--fit-8", link.ClassList);
+        Assert.Equal(string.Empty, tile.Find(".omni-nav-tile__title").TextContent);
+    }
+
+    [Fact]
     public void TheFitTitleRules_FitOnOneLine_WithoutBreakingAWord_AndAlignLeft()
     {
         var tile = ShippedLookTests.Body(".omni-nav-tile--fit");

@@ -98,6 +98,18 @@ public sealed class RelativeTimeTests : OmniBunitContext
     }
 
     [Fact]
+    public void GivenAnId_TheTooltipIdIsDerivedFromIt()
+    {
+        var time = Render<OmniRelativeTime>(parameters => parameters
+            .Add(component => component.Value, Now)
+            .Add(component => component.Id, "deposit-date"));
+
+        var tooltip = time.Find("[role=tooltip]");
+        Assert.StartsWith("deposit-date-tooltip", tooltip.Id, StringComparison.Ordinal);
+        Assert.Equal(tooltip.Id, time.Find(".omni-tooltip__trigger").GetAttribute("aria-describedby"));
+    }
+
+    [Fact]
     public void TwoInstances_NeverShareATooltipId()
     {
         var first = RenderAt(Now);

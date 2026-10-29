@@ -93,7 +93,7 @@ public partial class OmniBadge
     /// <summary>Whether the badge is a button or a link instead of a plain span.</summary>
     private bool Clickable => OnClick.HasDelegate || _safeHref is not null;
 
-    private string? AccessibleName => Clickable ? OmniAriaLabel.Of(Label, AdditionalAttributes) : null;
+    private string? AccessibleName => OmniAriaLabel.Of(Label, AdditionalAttributes);
 
     private string BadgeClass => Css("omni-badge", $"omni-badge--{Tone.ToString().ToLowerInvariant()}", $"omni-badge--{Fill.ToString().ToLowerInvariant()}", IconOnly ? "omni-badge--icon" : null, LeadingIcon ? "omni-badge--leading-icon" : null, Clickable ? "omni-badge--action" : null, ShapeClass, InkClass, WidthClass);
 

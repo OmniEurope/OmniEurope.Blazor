@@ -108,6 +108,18 @@ public sealed class DataGridDateTextTests
         Assert.Null(Read(text, French));
 
     [Theory]
+    [InlineData("03/0000")]
+    [InlineData("0000/03")]
+    public void AMonthOfYearZero_IsNotADate(string text) =>
+        Assert.Null(Read(text, French));
+
+    [Theory]
+    [InlineData("123/03/2026")]
+    [InlineData("2026/03/123")]
+    public void ADayWrittenOnThreeDigits_IsNotADate(string text) =>
+        Assert.Null(Read(text, French));
+
+    [Theory]
     [InlineData("26")]
     [InlineData("12/03/26")]
     [InlineData("03/26")]
@@ -214,6 +226,30 @@ public sealed class DataGridDateTextTests
         Assert.Equal("mm/dd/yyyy", OmniDataGridDateText.Pattern(American, "dd", "mm", "yyyy"));
         Assert.Equal("TT.MM.JJJJ", OmniDataGridDateText.Pattern(German, "TT", "MM", "JJJJ"));
         Assert.Equal("åååå-mm-dd", OmniDataGridDateText.Pattern(Swedish, "dd", "mm", "åååå"));
+    }
+
+    [Theory]
+    [InlineData(":")]
+    [InlineData("::")]
+    public void ASeparatorTheParserDoesNotRead_IsReplacedByTheSlash(string separator)
+    {
+        // A writable copy: the cached cultures are read-only.
+        var culture = (CultureInfo)French.Clone();
+        culture.DateTimeFormat.DateSeparator = separator;
+
+        Assert.Equal("05/03/2026", OmniDataGridDateText.Format("2026-03-05/2026-03-05", culture));
+        Assert.Equal("03/2026", OmniDataGridDateText.Format("2026-03-01/2026-03-31", culture));
+        Assert.Equal("jj/mm/aaaa", OmniDataGridDateText.Pattern(culture, "jj", "mm", "aaaa"));
+    }
+
+    [Fact]
+    public void APatternWithoutADayLetter_PutsTheDayAfterTheMonth()
+    {
+        var culture = (CultureInfo)French.Clone();
+        culture.DateTimeFormat.ShortDatePattern = "MM/yyyy";
+
+        Assert.Equal("mm/dd/yyyy", OmniDataGridDateText.Pattern(culture, "dd", "mm", "yyyy"));
+        Assert.Equal("03/05/2026", OmniDataGridDateText.Format("2026-03-05/2026-03-05", culture));
     }
 
     [Fact]
