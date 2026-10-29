@@ -292,7 +292,7 @@ const pageLibrary = String.raw`
       const buttons = block('buttons');
       // The buttons section shows one button of a chosen variant; every variant at rest is in the states table.
       const states = block('button-states');
-      for (const variant of ['primary', 'secondary', 'ghost', 'success', 'warning', 'info', 'danger']) {
+      for (const variant of ['primary', 'secondary', 'ghost', 'success', 'warning', 'info', 'danger', 'ghostdanger']) {
         add('bouton ' + variant, first(states,'.omni-button--' + variant + '.omni-button--medium:not(.omni-busy):not(:disabled):not(' + ICON_ONLY + ')'), 'text', true);
       }
       within(buttons, '.omni-button:not(.omni-busy)' + ICON_ONLY).forEach((button, index) => add('bouton icône seul ' + (index + 1), button, 'icon', true));

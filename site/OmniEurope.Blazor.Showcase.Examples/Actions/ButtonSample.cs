@@ -18,7 +18,8 @@ public sealed record ButtonSample(OmniButtonVariant Variant, string Name, string
         new(OmniButtonVariant.Success, "Success", "Confirm", OmniIconName.Check),
         new(OmniButtonVariant.Warning, "Warning", "Suspend", OmniIconName.Warning),
         new(OmniButtonVariant.Info, "Info", "Details", OmniIconName.Info),
-        new(OmniButtonVariant.Danger, "Danger", "Delete", OmniIconName.Delete)
+        new(OmniButtonVariant.Danger, "Danger", "Delete", OmniIconName.Delete),
+        new(OmniButtonVariant.GhostDanger, "GhostDanger", "Abandon", OmniIconName.Close)
     ];
 
     /// <summary>The sample of a variant, the primary one for a value the list does not hold.</summary>

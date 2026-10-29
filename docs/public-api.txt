@@ -437,6 +437,7 @@ field public static OmniEurope.Blazor.Components.OmniButtonType.Reset : OmniEuro
 field public static OmniEurope.Blazor.Components.OmniButtonType.Submit : OmniEurope.Blazor.Components.OmniButtonType const = 1
 field public static OmniEurope.Blazor.Components.OmniButtonVariant.Danger : OmniEurope.Blazor.Components.OmniButtonVariant const = 3
 field public static OmniEurope.Blazor.Components.OmniButtonVariant.Ghost : OmniEurope.Blazor.Components.OmniButtonVariant const = 2
+field public static OmniEurope.Blazor.Components.OmniButtonVariant.GhostDanger : OmniEurope.Blazor.Components.OmniButtonVariant const = 7
 field public static OmniEurope.Blazor.Components.OmniButtonVariant.Info : OmniEurope.Blazor.Components.OmniButtonVariant const = 6
 field public static OmniEurope.Blazor.Components.OmniButtonVariant.Primary : OmniEurope.Blazor.Components.OmniButtonVariant const = 0
 field public static OmniEurope.Blazor.Components.OmniButtonVariant.Secondary : OmniEurope.Blazor.Components.OmniButtonVariant const = 1

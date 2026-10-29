@@ -439,6 +439,7 @@ public sealed class OptInEvolutionTests : OmniBunitContext
     [InlineData(OmniButtonVariant.Danger, "omni-split-button--danger")]
     [InlineData(OmniButtonVariant.Success, "omni-split-button--success")]
     [InlineData(OmniButtonVariant.Warning, "omni-split-button--warning")]
+    [InlineData(OmniButtonVariant.GhostDanger, "omni-split-button--ghostdanger")]
     public void SplitButton_Variant_AddsItsModifierExceptTheOriginalSecondary(OmniButtonVariant variant, string? expected)
     {
         var split = Render<OmniSplitButton>(parameters => parameters

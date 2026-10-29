@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Added
+
+- `OmniButtonVariant.GhostDanger` (valeur ajoutée à la fin de l'énumération, les valeurs publiées gardent leur numéro) : demande d'une application cliente (bouton discret dans la teinte du danger, pour une action comme « Abandonner » placée à côté d'un « Pause » `Secondary`). Le bouton est plat et sans fond comme `Ghost`, avec la couleur de texte du danger (`--omni-color-danger`) ; au survol et à l'appui il prend la teinte du danger (`--omni-color-danger-subtle`), et l'appui y ajoute un anneau dans la couleur du danger. Les teintes de page de `Ghost` ne conviennent pas : le texte du danger y passe sous le ratio de texte dans une partie des thèmes, alors que la paire texte du danger sur teinte du danger est tenue par la matrice de contraste, dans tous les thèmes, palettes et modes. `OmniSplitButton` et `OmniCopyButton` le prennent aussi (`omni-split-button--ghostdanger`). La vitrine le montre sur la page Boutons (réglage « Variante », tableau des états, colonne repos, survol et appui) et sur la page Boutons scindés.
+
 ## [1.10.0] - 2026-10-29
 
 Version mineure : demandes d'une application cliente (recettes R-3 à R-84) sur les badges, les champs de formulaire, les infobulles, l'en-tête de page sur téléphone et le filtre de date des grilles. Elle porte des ruptures assumées, voir [docs/versioning.md](docs/versioning.md) ; chacune est listée sous « Breaking changes », avec sa migration.

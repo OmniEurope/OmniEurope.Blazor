@@ -33,7 +33,7 @@ Ces règles sont celles de la passe de cohérence 1.2.0 ([PLAN-007](plans/archiv
 - Une taille d'espacement s'écrit `OmniSpacing.ExtraLarge`, pas `XLarge`.
 - `OmniSeverity` (`Info`, `Success`, `Warning`, `Danger`) reste la sévérité d'un message : alertes, notifications, `OmniOverlayService.Notify`. La même sévérité donne le même glyphe dans une alerte, une notification et un dialogue.
 - `OmniHeaderSurface { Surface, Accent }` dit de quoi est peinte la barre d'application (`OmniHeader.Surface`) : c'est une surface, pas un ton, et elle n'emprunte pas le nom `Tone`.
-- `OmniButtonVariant` reste l'emphase d'un bouton (`Primary`, `Secondary`, `Ghost`…) et n'est pas un ton.
+- `OmniButtonVariant` reste l'emphase d'un bouton (`Primary`, `Secondary`, `Ghost`…) et n'est pas un ton. Un bouton discret teinté est une valeur de plus de cette énumération (`GhostDanger`), pas un paramètre `Tone` posé sur `Ghost` : l'emphase et l'intention y sont déjà une seule échelle (`Success`, `Warning`, `Info`, `Danger`), et deux paramètres qui se combinent multiplieraient les états à garder lisibles.
 
 ## HTML, attributs et CSS
 
