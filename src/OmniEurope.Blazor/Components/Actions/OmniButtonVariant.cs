@@ -33,5 +33,14 @@ public enum OmniButtonVariant
     // Appended for the same reason as the two above.
 
     /// <summary>An action that opens or explains rather than commits, on the bright information fill.</summary>
-    Info
+    Info,
+
+    // A quiet action in the danger tint, appended for the same reason as the values above.
+
+    /// <summary>
+    /// A quiet action in the danger tint: no fill and no relief like <see cref="Ghost"/>, but the danger text
+    /// colour, so an action that abandons or removes something can sit beside a <see cref="Secondary"/> one
+    /// without the weight of a <see cref="Danger"/> fill. Tinted only on hover and press, like <see cref="Ghost"/>.
+    /// </summary>
+    GhostDanger
 }

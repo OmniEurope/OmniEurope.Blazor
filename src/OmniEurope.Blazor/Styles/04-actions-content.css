@@ -80,6 +80,13 @@
    strong accent, like every other accent text. */
 .omni-button--ghost { --omni-button-fill: transparent; --omni-button-fill-hover: var(--omni-color-surface-hover); --omni-button-fill-active: var(--omni-color-surface-highlight); --omni-button-ink: var(--omni-color-accent-strong); --omni-button-shadow: 0 0 #0000; border-color: transparent; }
 .omni-button--ghost:active:not(:disabled) { box-shadow: 0 0 #0000; }
+/* GhostDanger is the ghost button in the danger text colour: body-less and flat like Ghost, tinted only on hover and
+   press. Its tint is the danger tint (--omni-color-danger-subtle), not the page tints of Ghost: the danger text holds the
+   text ratio on the page and on that tint in every theme and palette (the theme contrast matrix checks the pair), but not
+   on the darker page tints. The tint cannot darken on press without losing that ratio, so the press keeps the tint and
+   draws a ring in the danger text colour in the border, which is already there, transparent, so nothing moves. */
+.omni-button--ghostdanger { --omni-button-fill: transparent; --omni-button-fill-hover: var(--omni-color-danger-subtle); --omni-button-fill-active: var(--omni-color-danger-subtle); --omni-button-ink: var(--omni-color-danger); --omni-button-shadow: 0 0 #0000; border-color: transparent; }
+.omni-button--ghostdanger:active:not(:disabled) { border-color: color-mix(in srgb, var(--omni-color-danger) 55%, transparent); box-shadow: 0 0 #0000; }
 /* One rule for buttons, solid badges, notification marks and alerts. Information and success take
    the bright fill, lightened until the dark ink holds 4.5:1; warning and danger take the deep fill,
    darkened until the light ink does, since dark text on a vivid orange or red passed the ratio but

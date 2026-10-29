@@ -20,6 +20,7 @@ internal static class FeedbackFamily
                 "Feedback/ProgressExample.razor", "Feedback/ProgressExample.razor.cs",
                 "Feedback/ProgressSamplesExample.razor", "Feedback/ProgressSamplesExample.razor.cs",
                 "Feedback/ProgressStepsExample.razor", "Feedback/ProgressStepsExample.razor.cs",
+                "Feedback/ProgressSegmentsExample.razor", "Feedback/ProgressSegmentsExample.razor.cs",
                 "Feedback/LogoLoaderExample.razor", "Feedback/LogoLoaderExample.razor.cs",
                 "Feedback/StatusExample.razor", "Feedback/StatusExample.razor.cs",
                 "Feedback/LoadingOverviewExample.razor", "Feedback/LoadingOverviewExample.razor.cs",

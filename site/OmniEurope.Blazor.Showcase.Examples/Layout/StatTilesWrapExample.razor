@@ -1,0 +1,14 @@
+@* WrapTitle lets a long caption wrap at its normal size instead of staying on one line that shrinks, then is cut
+   with an ellipsis. In a tile grid every tile takes the height of the tallest, so the row stays even: the same
+   long caption is shown twice, wrapped and on one line, next to a short tile. *@
+<OmniTileGrid Id="demo-stat-tile-wrap-grid" Columns="3">
+    <OmniStatTile Id="demo-stat-tile-wrap" Value="14" Title="Longest streak of correct answers" WrapTitle="true">
+        <Icon><OmniIcon Name="OmniIconName.Star" /></Icon>
+    </OmniStatTile>
+    <OmniStatTile Id="demo-stat-tile-oneline" Value="14" Title="Longest streak of correct answers">
+        <Icon><OmniIcon Name="OmniIconName.Star" /></Icon>
+    </OmniStatTile>
+    <OmniStatTile Id="demo-stat-tile-short" Value="82 %" Title="Accuracy">
+        <Icon><OmniIcon Name="OmniIconName.Check" /></Icon>
+    </OmniStatTile>
+</OmniTileGrid>

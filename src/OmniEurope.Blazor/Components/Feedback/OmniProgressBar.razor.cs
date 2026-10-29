@@ -48,10 +48,37 @@ public partial class OmniProgressBar
     [Parameter]
     public OmniProgressShape Shape { get; set; }
 
-    private double NormalizedValue => Math.Clamp(Value, 0, Maximum);
+    /// <summary>
+    /// Several values stacked on the one total, <see cref="Maximum"/>: the bar draws them one after the other
+    /// from the start, each in its own <see cref="OmniProgressSegment.Tone"/>, as discovered, known and
+    /// mastered words of a lesson. Null or empty, the default, draws the single <see cref="Value"/>. With
+    /// segments <see cref="Value"/> and <see cref="Tone"/> are not read, and an <see cref="Indeterminate"/>
+    /// bar draws none. The segments are counted in order and together never pass <see cref="Maximum"/>: what
+    /// would pass it is cut. A line draws each boundary to the nearest 5 % of the track, like the single
+    /// indicator, so a segment under 2.5 % of the total is not drawn; it stays in the announced text and the
+    /// legend. The bar announces the sum as its value and, unless <see cref="ValueText"/> says otherwise, each
+    /// segment as its label and amount ("Known 8, Mastered 3"). Each segment has its label as tooltip.
+    /// </summary>
+    [Parameter]
+    public IReadOnlyList<OmniProgressSegment>? Segments { get; set; }
+
+    /// <summary>
+    /// Lists the <see cref="Segments"/> under the bar with a swatch of their colour, their label and their
+    /// amount, so that the colours are not the only way to tell them apart. False by default; without
+    /// segments it draws nothing.
+    /// </summary>
+    [Parameter]
+    public bool ShowLegend { get; set; }
+
+    private IReadOnlyList<SegmentPart> _parts = [];
+
+    private bool HasSegments => !Indeterminate && Segments is { Count: > 0 };
+    private bool HasLegend => HasSegments && ShowLegend;
+    private double SegmentTotal => Math.Round(_parts.Sum(part => part.Amount), 9);
+    private double NormalizedValue => HasSegments ? SegmentTotal : Math.Clamp(Value, 0, Maximum);
     private double Percentage => NormalizedValue / Maximum * 100;
     private double DrawnPercentage => Indeterminate ? IndeterminateShare : Percentage;
-    private int PercentageBucket => Math.Clamp((int)(Math.Round(DrawnPercentage / 5, MidpointRounding.AwayFromZero) * 5), 0, 100);
+    private int PercentageBucket => Bucket(DrawnPercentage);
     private string MaximumText => Maximum.ToString(System.Globalization.CultureInfo.InvariantCulture);
     private string? CurrentValueText => Indeterminate ? null : NormalizedValue.ToString(System.Globalization.CultureInfo.InvariantCulture);
     private string EffectiveLabel => LocalizeOr(Label, "ProgressLabel");
@@ -59,7 +86,20 @@ public partial class OmniProgressBar
     private string DashArray => Indeterminate ? "25 75" : $"{Percentage.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)} 100";
     private string LinearIndicatorClass => $"omni-progress__indicator omni-progress__indicator--{PercentageBucket}";
 
-    /// <summary>Refuses a <see cref="Maximum"/> that is not positive and values that are not finite.</summary>
+    // What a screen reader gets in place of the number: the host's words, else the segments one by one.
+    private string? AccessibleValueText => ValueText ?? (HasSegments ? string.Join(", ", _parts.Select(part => part.Text)) : null);
+
+    // The width of a linear indicator or boundary, rounded to a step of 5 %: the stylesheet has one class per step,
+    // since a style attribute would break a strict CSP.
+    private static int Bucket(double percentage) =>
+        Math.Clamp((int)(Math.Round(percentage / 5, MidpointRounding.AwayFromZero) * 5), 0, 100);
+
+    private static string Number(double value, CultureInfo culture) => value.ToString("0.##", culture);
+
+    /// <summary>
+    /// Refuses a <see cref="Maximum"/> that is not positive, values that are not finite, and a segment that is
+    /// missing, not finite or without a label.
+    /// </summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -68,5 +108,43 @@ public partial class OmniProgressBar
         {
             throw new ArgumentOutOfRangeException(nameof(Maximum), "Progress values must be finite and Maximum must be greater than zero.");
         }
+
+        _parts = HasSegments ? Layout(Segments!, Maximum) : [];
+    }
+
+    // The segments laid end to end on the total. Each boundary is rounded once, from the running sum, so the
+    // widths add up to the rounded sum whatever the rounding of each segment on its own.
+    private static List<SegmentPart> Layout(IReadOnlyList<OmniProgressSegment> segments, double maximum)
+    {
+        var parts = new List<SegmentPart>(segments.Count);
+        var sum = 0d;
+        var previousBoundary = 0;
+        foreach (var segment in segments)
+        {
+            if (segment is null || !double.IsFinite(segment.Value) || string.IsNullOrWhiteSpace(segment.Label))
+            {
+                throw new ArgumentException("Every progress segment needs a finite value and a label.", nameof(Segments));
+            }
+
+            var amount = Math.Clamp(segment.Value, 0, Math.Max(0, maximum - sum));
+            var boundary = Bucket((sum + amount) / maximum * 100);
+            parts.Add(new SegmentPart(segment, amount, sum / maximum * 100, amount / maximum * 100, boundary - previousBoundary));
+            sum += amount;
+            previousBoundary = boundary;
+        }
+
+        return parts;
+    }
+
+    private sealed record SegmentPart(OmniProgressSegment Segment, double Amount, double StartPercent, double LengthPercent, int WidthBucket)
+    {
+        public string ToneName => Segment.Tone.ToString().ToLowerInvariant();
+
+        public string Text => $"{Segment.Label} {Number(Amount, CultureInfo.CurrentCulture)}";
+
+        // The dash pattern starts at the offset taken away from the start of the path: a negative offset moves it forward.
+        public string OffsetText => StartPercent > 0 ? "-" + Number(StartPercent, CultureInfo.InvariantCulture) : "0";
+
+        public string LengthText => Number(LengthPercent, CultureInfo.InvariantCulture);
     }
 }

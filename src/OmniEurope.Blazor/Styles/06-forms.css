@@ -611,11 +611,15 @@ select.omni-input.omni-input--large:not([multiple]):not([size]) { block-size: ca
 .omni-split-button > :is(.omni-split-button__main, .omni-split-button__toggle):hover:not(:disabled) { background: var(--omni-button-fill-hover); }
 .omni-split-button > :is(.omni-split-button__main, .omni-split-button__toggle):active:not(:disabled) { background: var(--omni-button-fill-active); box-shadow: var(--omni-button-press-shadow, var(--omni-button-shadow)); transform: var(--omni-button-press-transform, translateY(1px)); }
 /* A rule in the ink separates the two parts of one fill. */
-.omni-split-button:not(.omni-split-button--ghost) > .omni-split-button__toggle { border-inline-start: var(--omni-border-width) solid color-mix(in srgb, var(--omni-button-ink) 40%, transparent); }
+.omni-split-button:not(.omni-split-button--ghost):not(.omni-split-button--ghostdanger) > .omni-split-button__toggle { border-inline-start: var(--omni-border-width) solid color-mix(in srgb, var(--omni-button-ink) 40%, transparent); }
 /* Ghost stays flat, at rest and pressed, for the reason given on .omni-button--ghost. */
 .omni-split-button--ghost { --omni-button-fill: transparent; --omni-button-fill-hover: var(--omni-color-surface-hover); --omni-button-fill-active: var(--omni-color-surface-highlight); --omni-button-ink: var(--omni-color-accent-strong); }
-.omni-split-button--ghost > :is(.omni-split-button__main, .omni-split-button__toggle) { --omni-button-shadow: 0 0 #0000; border-color: transparent; }
+.omni-split-button--ghostdanger { --omni-button-fill: transparent; --omni-button-fill-hover: var(--omni-color-danger-subtle); --omni-button-fill-active: var(--omni-color-danger-subtle); --omni-button-ink: var(--omni-color-danger); }
+.omni-split-button--ghost > :is(.omni-split-button__main, .omni-split-button__toggle),
+.omni-split-button--ghostdanger > :is(.omni-split-button__main, .omni-split-button__toggle) { --omni-button-shadow: 0 0 #0000; border-color: transparent; }
 .omni-split-button--ghost > :is(.omni-split-button__main, .omni-split-button__toggle):active:not(:disabled) { box-shadow: 0 0 #0000; }
+/* GhostDanger: the press keeps the danger tint and draws a ring in the danger text colour, as on .omni-button--ghostdanger. */
+.omni-split-button--ghostdanger > :is(.omni-split-button__main, .omni-split-button__toggle):active:not(:disabled) { border-color: color-mix(in srgb, var(--omni-color-danger) 55%, transparent); box-shadow: 0 0 #0000; }
 @media (prefers-reduced-motion: reduce) {
     .omni-split-button > :is(.omni-split-button__main, .omni-split-button__toggle) { transition: none; }
 }

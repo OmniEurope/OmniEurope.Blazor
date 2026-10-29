@@ -64,6 +64,7 @@
   <data name="ProgressLinearTitle" xml:space="preserve"><value>Linéaire, chaque couleur</value></data>
   <data name="ProgressCircularTitle" xml:space="preserve"><value>Circulaire, chaque couleur</value></data>
   <data name="ProgressStepsTitle" xml:space="preserve"><value>Paliers de largeur</value></data>
+  <data name="ProgressSegmentsTitle" xml:space="preserve"><value>Plusieurs valeurs sur un même total</value></data>
   <data name="ProgressLogoTitle" xml:space="preserve"><value>Logo du site, qui flotte</value></data>
   <data name="ProgressStatusTitle" xml:space="preserve"><value>Statuts</value></data>
   <data name="SkeletonsTitle" xml:space="preserve"><value>Squelettes</value></data>

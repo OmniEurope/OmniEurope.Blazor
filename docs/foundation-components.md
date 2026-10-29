@@ -30,7 +30,7 @@ Ce lot fournit 15 composants. Ils produisent du HTML sémantique, refusent les a
 | `OmniMain` | Landmark `main`, ciblable par un lien d'évitement grâce à `FocusTarget`. `ContentWidth` centre le contenu seul (`Wide`, 90rem, ou `Content`, 72rem) ; `Scrollable` en fait le conteneur de défilement de la page. |
 | `OmniHeader` | Landmark `header`, avec position collante optionnelle définie dans la feuille statique. `Brand` (nom de l'application, en gras) et `BrandLogo` (logo en image, décoratif) ouvrent la barre ; `BrandHref` en fait un lien vers l'accueil ; `SidebarToggle` reçoit la bascule de barre latérale, que l'en-tête pose lui-même au bord, avant la marque, sur l'axe des icônes du rail. C'est la seule façon fiable de la placer : enveloppée dans un élément de l'application, sa marge intérieure la décalerait de l'axe ; ne pas envelopper la bascule ni la marque. Une bascule posée parmi les enfants reste dessinée au bord, comme avant. |
 | `OmniFieldset` | Groupe de champs natif avec `legend` obligatoire et état désactivé ; `Collapsible` le replie avec l'élément natif `details`, déplié tant que `Expanded` vaut vrai (par défaut). `ExpandedChanged` (facultatif) rapporte l'état quand le lecteur ouvre ou ferme le groupe, ce qui permet `@bind-Expanded` : l'événement natif `toggle` est écouté par `omni-focus.js`, sans gestionnaire en ligne, et seulement si le paramètre a un délégué ; sans lui, le groupe est rendu et se comporte comme avant, sans script. |
-| `OmniProgressBar` | Progression linéaire ou circulaire, déterminée ou indéterminée, avec valeurs ARIA. L'indéterminée linéaire glisse d'un mouvement continu, sans arrêt ni retour ; sans mouvement demandé, la piste se remplit à demi-teinte. |
+| `OmniProgressBar` | Progression linéaire ou circulaire, déterminée ou indéterminée, avec valeurs ARIA. L'indéterminée linéaire glisse d'un mouvement continu, sans arrêt ni retour ; sans mouvement demandé, la piste se remplit à demi-teinte. `Segments` (`IReadOnlyList<OmniProgressSegment>?`, nul par défaut) empile plusieurs valeurs sur le même total `Maximum`, voir « Plusieurs valeurs sur un total » plus bas. |
 
 Paramètres de `OmniText` : `ChildContent` (obligatoire) est le texte ; `Element` (`OmniTextElement` : `Span` par défaut, `Paragraph`, `Strong`, `Emphasis`, `Small`, `Title`, `Caption`) choisit l'élément dessiné ; `Title` (un `strong`) et `Caption` (un `small`) sont des blocs, pour un titre de section posé au-dessus d'une grille ou d'une liste et sa légende : les marges utilitaires (`omni-u-mb-sm`) s'y appliquent sans `omni-u-block` (un titre du plan de la page reste un `OmniHeading`) ; `Truncate` (faux par défaut) garde le texte sur une ligne, coupée d'une ellipse quand elle ne tient pas.
 
@@ -442,6 +442,26 @@ La coquille doit avoir une hauteur bornée : une `OmniLayout` dont le corps port
                      ShowValue="true" />
 </OmniMain>
 ```
+
+### Plusieurs valeurs sur un total
+
+`OmniProgressBar.Segments` empile plusieurs valeurs sur un seul total, par exemple les mots d'une leçon découverts, connus et maîtrisés. Chaque `OmniProgressSegment` est un enregistrement `(Value, Label, Tone)` : `Value` (`double`) dans l'unité de `Maximum`, `Label` (`string`, obligatoire et non vide) son nom, et `Tone` (`OmniTone`, `Accent` par défaut) sa couleur, prise parmi les teintes de texte de la palette comme celle d'une barre simple.
+
+```razor
+<OmniProgressBar Label="Avancement de la leçon" Maximum="30" ShowLegend="true"
+                 Segments="@(new OmniProgressSegment[]
+                 {
+                     new(12, "Découverts", OmniTone.Info),
+                     new(8, "Connus", OmniTone.Accent),
+                     new(3, "Maîtrisés", OmniTone.Success)
+                 })" />
+```
+
+- Les segments se posent bout à bout depuis le début de la piste (le côté de départ de la langue : une page de droite à gauche se remplit par la droite) et ne dépassent jamais `Maximum` : ce qui le dépasserait est coupé, une valeur négative compte pour zéro. `Value` et `Tone` de la barre ne sont pas lus ; une barre `Indeterminate` ne dessine aucun segment, et `Segments` nul ou vide laisse la barre simple inchangée.
+- Une barre linéaire arrondit chaque limite au pas de 5 % le plus proche, comme l'indicateur simple (une classe par pas, jamais un style en ligne, pour rester compatible avec une CSP stricte) ; un segment de moins de 2,5 % du total n'est donc pas dessiné, mais reste dans le texte annoncé et la légende. L'anneau dessine chaque arc à sa valeur exacte.
+- Sémantique : l'élément garde `role="progressbar"`, `aria-valuemax` est `Maximum` et `aria-valuenow` la somme des segments. `aria-valuetext` est `ValueText` s'il est posé, sinon le résumé « Découverts 12, Connus 8, Maîtrisés 3 » (libellé et quantité de chaque segment, dans l'ordre). Un `ValueText` plus parlant (« 23 mots sur 30 ») est donc le bon réglage pour une phrase complète. `ShowValue` écrit le pourcentage de la somme, ou `ValueText`.
+- `ShowLegend` (`bool`, faux par défaut) ajoute sous la barre une liste d'une pastille de couleur, du libellé et de la quantité de chaque segment : la couleur n'est ainsi jamais le seul moyen de les distinguer. Chaque segment porte aussi son libellé en infobulle.
+- Un `Label` vide ou une valeur qui n'est pas un nombre fini lève une `ArgumentException` ; aucun texte n'est localisé par le paquet (les libellés sont ceux de l'hôte).
 
 ## Bande d'états et écran de démarrage
 

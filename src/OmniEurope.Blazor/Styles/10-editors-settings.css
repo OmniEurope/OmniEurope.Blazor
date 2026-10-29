@@ -205,6 +205,10 @@
    not fit, then data-fit="clip", cut with an ellipsis, its whole text in the tooltip. */
 .omni-stat-tile__label { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .omni-stat-tile__label[data-fit] { font-size: 0.6875rem; }
+/* WrapTitle: the caption wraps at its normal size instead of staying on one line. The tile script leaves a wrapping caption
+   alone, and the rule also holds if a data-fit mark is left over. Long words break so that nothing overflows the tile. */
+.omni-stat-tile--wrap .omni-stat-tile__label,
+.omni-stat-tile--wrap .omni-stat-tile__label[data-fit] { font-size: var(--omni-font-size-sm); overflow: visible; overflow-wrap: anywhere; text-overflow: clip; white-space: normal; }
 .omni-stat-tile__detail { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); overflow-wrap: anywhere; }
 .omni-stat-tile--action { cursor: pointer; text-decoration: none; transition: background-color var(--omni-duration-fast) ease; }
 /* The hover and the focus ring of a clickable stat tile (button or link) are those of a clickable card. */

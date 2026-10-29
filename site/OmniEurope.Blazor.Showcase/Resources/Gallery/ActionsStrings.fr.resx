@@ -17,6 +17,7 @@
   <data name="ButtonsVariantWarning" xml:space="preserve"><value>Avertissement</value></data>
   <data name="ButtonsVariantInfo" xml:space="preserve"><value>Information</value></data>
   <data name="ButtonsVariantDanger" xml:space="preserve"><value>Danger</value></data>
+  <data name="ButtonsVariantGhostDanger" xml:space="preserve"><value>Discret danger</value></data>
   <data name="ButtonsSize" xml:space="preserve"><value>Taille</value></data>
   <data name="ButtonsSizeSmall" xml:space="preserve"><value>Petit</value></data>
   <data name="ButtonsSizeMedium" xml:space="preserve"><value>Moyen</value></data>

@@ -31,7 +31,8 @@ public partial class SplitButtonsPage
         new(OmniButtonVariant.Success, Text["ButtonsVariantSuccess"]),
         new(OmniButtonVariant.Warning, Text["ButtonsVariantWarning"]),
         new(OmniButtonVariant.Info, Text["ButtonsVariantInfo"]),
-        new(OmniButtonVariant.Danger, Text["ButtonsVariantDanger"])
+        new(OmniButtonVariant.Danger, Text["ButtonsVariantDanger"]),
+        new(OmniButtonVariant.GhostDanger, Text["ButtonsVariantGhostDanger"])
     ];
 
     private IReadOnlyList<OmniOption<OmniControlSize>> SizeOptions =>

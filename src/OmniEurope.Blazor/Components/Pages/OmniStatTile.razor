@@ -27,21 +27,21 @@
 }
 @if (OnClick.HasDelegate)
 {
-    <button @attributes="AdditionalAttributes" @ref="_tile" id="@Id" type="button" class="@Css("omni-stat-tile", "omni-stat-tile--action", DoubleWidth ? "omni-tile--double" : null)"
+    <button @attributes="AdditionalAttributes" @ref="_tile" id="@Id" type="button" class="@Css("omni-stat-tile", "omni-stat-tile--action", DoubleWidth ? "omni-tile--double" : null, WrapTitle ? "omni-stat-tile--wrap" : null)"
             aria-label="@AccessibleName" @onclick="OnClick">
         @body
     </button>
 }
 else if (_safeHref is not null)
 {
-    <a @attributes="AdditionalAttributes" @ref="_tile" id="@Id" href="@_safeHref" class="@Css("omni-stat-tile", "omni-stat-tile--action", DoubleWidth ? "omni-tile--double" : null)"
+    <a @attributes="AdditionalAttributes" @ref="_tile" id="@Id" href="@_safeHref" class="@Css("omni-stat-tile", "omni-stat-tile--action", DoubleWidth ? "omni-tile--double" : null, WrapTitle ? "omni-stat-tile--wrap" : null)"
        aria-label="@AccessibleName">
         @body
     </a>
 }
 else
 {
-    <div @attributes="AdditionalAttributes" @ref="_tile" id="@Id" class="@Css("omni-stat-tile", DoubleWidth ? "omni-tile--double" : null)">
+    <div @attributes="AdditionalAttributes" @ref="_tile" id="@Id" class="@Css("omni-stat-tile", DoubleWidth ? "omni-tile--double" : null, WrapTitle ? "omni-stat-tile--wrap" : null)">
         @body
     </div>
 }

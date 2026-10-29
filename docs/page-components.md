@@ -142,6 +142,14 @@ Comme `OmniNavTile`, elle prend la hauteur de sa colonne (`block-size: 100%`) : 
 empilée sur un téléphone, elle garde sa propre hauteur. `DoubleWidth` l'étale sur deux colonnes d'une
 `OmniTileGrid` (voir [layout-components.md](layout-components.md), « Règle des tuiles »).
 
+`WrapTitle` (`bool`, faux par défaut ; demande d'une application cliente) laisse le titre passer à la ligne, à sa
+taille normale, au lieu de le garder sur une ligne qui rétrécit puis se coupe : pour une légende longue comme
+« Meilleure série de bonnes réponses ». Le script de la tuile ne la touche plus (ni réduction, ni coupure, ni
+infobulle de titre) et il suit le changement de la classe `omni-stat-tile--wrap` si le paramètre bascule. La tuile
+grandit, les mots trop longs se coupent plutôt que de déborder. Dans une `OmniTileGrid` aux hauteurs égales (le
+défaut, `grid-auto-rows: 1fr`), toutes les tuiles de la grille prennent la hauteur de la plus haute, comme avec
+un `Detail` ; avec `EqualHeights="false"`, seules celles de la rangée.
+
 ## Tuile de faits : `OmniFactTile` et `OmniFactTileRow`
 
 Une tuile de faits sur une chose (la source d'une exécution, son statut, ses durées), sœur d'`OmniStatTile` (demande d'une application cliente, recette R-28) : un titre, puis des lignes `OmniFactTileRow` d'icône, de libellé et de valeur. `OmniFactTile` : `Title` (obligatoire, passe à la ligne plutôt que de déborder), `Icon` (fragment décoratif avant le titre), `TitleAlign` (`OmniAlignment`, `Center` par défaut ; `Stretch` n'a pas de sens pour une ligne de texte et se lit `Start`), `ChildContent` (les lignes), `Href` ou `OnClick` et `DoubleWidth`. `OmniFactTileRow` : `Icon` (fragment décoratif), `Term` (obligatoire, le terme comme `OmniDescriptionItem.Term` : `Label` désigne un nom accessible, jamais un texte affiché), la valeur en `ChildContent` et `Href` facultatif pour une valeur lien (un `OmniLink`, adresse vérifiée par la politique d'URI).

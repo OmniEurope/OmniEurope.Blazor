@@ -336,7 +336,7 @@
     transform: var(--omni-button-press-transform, translateY(1px));
 }
 
-.gallery-buttons-press .omni-button--ghost:not(:disabled) {
+.gallery-buttons-press :is(.omni-button--ghost, .omni-button--ghostdanger):not(:disabled) {
     box-shadow: 0 0 #0000;
 }
 

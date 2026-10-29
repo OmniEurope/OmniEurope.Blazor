@@ -3,28 +3,60 @@
 
 <div @attributes="AdditionalAttributes"
      id="@Id"
-     class="@Css("omni-progress", $"omni-progress--{Shape.ToString().ToLowerInvariant()}", $"omni-progress--{Tone.ToString().ToLowerInvariant()}", Indeterminate ? "omni-progress--indeterminate" : null)"
+     class="@Css("omni-progress", $"omni-progress--{Shape.ToString().ToLowerInvariant()}", $"omni-progress--{Tone.ToString().ToLowerInvariant()}", Indeterminate ? "omni-progress--indeterminate" : null, HasSegments ? "omni-progress--segments" : null, HasLegend ? "omni-progress--legend" : null)"
      role="progressbar"
      aria-label="@EffectiveLabel"
      aria-valuemin="0"
      aria-valuemax="@MaximumText"
      aria-valuenow="@CurrentValueText"
-     aria-valuetext="@ValueText">
+     aria-valuetext="@AccessibleValueText">
     @if (Shape == OmniProgressShape.Circular)
     {
         <svg class="omni-progress__circle" viewBox="0 0 44 44" aria-hidden="true" focusable="false">
             <circle class="omni-progress__circle-track" cx="22" cy="22" r="18" pathLength="100" />
-            <circle class="omni-progress__circle-value" cx="22" cy="22" r="18" pathLength="100" stroke-dasharray="@DashArray" />
+            @if (HasSegments)
+            {
+                @foreach (var part in _parts.Where(part => part.LengthPercent > 0))
+                {
+                    <circle class="@($"omni-progress__circle-value omni-progress__segment--{part.ToneName}")" cx="22" cy="22" r="18" pathLength="100"
+                            stroke-dasharray="@($"{part.LengthText} 100")" stroke-dashoffset="@part.OffsetText">
+                        <title>@part.Text</title>
+                    </circle>
+                }
+            }
+            else
+            {
+                <circle class="omni-progress__circle-value" cx="22" cy="22" r="18" pathLength="100" stroke-dasharray="@DashArray" />
+            }
         </svg>
     }
     else
     {
         <span class="omni-progress__track" aria-hidden="true">
-            <span class="@LinearIndicatorClass"></span>
+            @if (HasSegments)
+            {
+                @foreach (var part in _parts.Where(part => part.WidthBucket > 0))
+                {
+                    <span class="@($"omni-progress__indicator omni-progress__indicator--{part.WidthBucket} omni-progress__segment omni-progress__segment--{part.ToneName}")" title="@part.Text"></span>
+                }
+            }
+            else
+            {
+                <span class="@LinearIndicatorClass"></span>
+            }
         </span>
     }
     @if (ShowValue)
     {
         <span class="omni-progress__label">@DisplayValue</span>
+    }
+    @if (HasLegend)
+    {
+        <ul class="omni-progress__legend">
+            @foreach (var part in _parts)
+            {
+                <li class="omni-progress__legend-item"><span class="@($"omni-progress__swatch omni-progress__segment--{part.ToneName}")"></span>@part.Text</li>
+            }
+        </ul>
     }
 </div>
