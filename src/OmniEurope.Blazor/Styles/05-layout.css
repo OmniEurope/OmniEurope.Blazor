@@ -122,6 +122,9 @@
    fenêtre ; la colonne se centre par la marge intérieure, mesurée sur le cadre de même largeur. */
 .omni-main-scroll { display: flex; flex: 1 1 auto; min-block-size: 0; min-inline-size: 0; }
 .omni-main--scrollable { --omni-main-pad: var(--omni-main-gutter, var(--omni-space-md)); box-sizing: border-box; display: flex; flex: 1 1 auto; flex-direction: column; min-block-size: 0; min-inline-size: 0; overflow: auto; padding: var(--omni-main-pad) max(var(--omni-main-pad), calc((100% - var(--omni-main-max-width)) / 2 + var(--omni-main-pad))); }
+/* A page veil (OmniPageVeil) held by the area is drawn inside it, absolutely, so the frame (or the landmark when
+   it does not scroll) becomes its containing block; only then, so a main area without a veil is unchanged. */
+.omni-main-scroll--veiled, .omni-main--veiled { position: relative; }
 .omni-layout:has(> .omni-body > .omni-main-scroll) { display: flex; flex-direction: column; min-block-size: 0; }
 /* A shell whose main area scrolls on its own owns the window: the browser's default 8px body margin
    would otherwise frame the app bar and the sidebar in a gap on every side. */
@@ -462,12 +465,16 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
     .omni-logo-loader--animated .omni-logo-loader__mark * { animation: none !important; }
 }
 
-/* OmniPageVeil: the wait of a whole page. An opaque layer fixed over the viewport, in the theme's surface
+/* OmniPageVeil: the wait of a page. An opaque layer, in the theme's surface
    colour (one constant colour, light and dark), the application's logo at its centre. Nothing animates and
    there is no opacity at all. The veil appears once the wait has lasted --omni-page-veil-delay (100 ms): the
    element is hidden by a zero-length step animation that only holds its first keyframe during that delay, so
    a wait that ends sooner removes the element unseen (no timer, no flicker) and, were animations off, the
-   veil would show at once rather than never. The pointer stays on the veil (it covers the page). */
+   veil would show at once rather than never. The pointer stays on the veil (it covers the page).
+   Fixed over the viewport by default (outside any main area, or Scope Viewport). Held by an OmniMain it covers
+   that area only: --frame fills the non-scrolling frame of a scrollable area (the visible content area, whatever
+   the scroll), --flow fills the landmark of an area that does not scroll, where the logo sticks at the middle of
+   the visible window. Above the content (sticky bars), under the sidebar drawer. */
 .omni-page-veil {
     align-items: center;
     animation: omni-page-veil-wait 0s linear var(--omni-page-veil-delay, 100ms) backwards;
@@ -480,6 +487,9 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
     z-index: var(--omni-z-overlay);
 }
 @keyframes omni-page-veil-wait { from { visibility: hidden; } }
+.omni-page-veil--frame, .omni-page-veil--flow { position: absolute; z-index: var(--omni-z-sticky); }
+.omni-page-veil--flow { align-items: flex-start; }
+.omni-page-veil--flow .omni-page-veil__logo { inset-block-start: calc(50dvh - var(--omni-page-veil-logo-size, 6rem) / 2); position: sticky; }
 .omni-page-veil__logo { block-size: var(--omni-page-veil-logo-size, 6rem); display: inline-flex; inline-size: var(--omni-page-veil-logo-size, 6rem); }
 .omni-page-veil__logo > :is(img, svg) { block-size: 100%; inline-size: 100%; object-fit: contain; }
 .omni-page-veil__logo .omni-icon { block-size: 100%; inline-size: 100%; }
