@@ -62,9 +62,14 @@ public static class VisitorPreferenceValidator
         }
 
         // A browser clock in the future would otherwise win over every later write of the visitor.
-        var updatedAt = request.UpdatedAt.ToUniversalTime();
-        return updatedAt > now ? now : updatedAt;
+        // Cut to the microsecond PostgreSQL keeps, so the date answered to the browser is the one later reads return.
+        var updatedAt = ToStoredPrecision(request.UpdatedAt.ToUniversalTime());
+        var serverNow = ToStoredPrecision(now.ToUniversalTime());
+        return updatedAt > serverNow ? serverNow : updatedAt;
     }
+
+    private static DateTimeOffset ToStoredPrecision(DateTimeOffset date) =>
+        new(date.Ticks - (date.Ticks % TimeSpan.TicksPerMicrosecond), date.Offset);
 
     private static void EnsureJson(string value)
     {

@@ -41,7 +41,7 @@ public sealed class VisitorPreferenceService(
         return [.. changed.Select(ToDto)];
     }
 
-    public async Task<VisitorPreferenceSaveOutcome> SaveAsync(string? visitorId, string? key, SaveVisitorPreferenceRequest? request,
+    public async Task<VisitorPreferenceDto> SaveAsync(string? visitorId, string? key, SaveVisitorPreferenceRequest? request,
         string clientPartition, CancellationToken cancellationToken)
     {
         var visitorKey = VisitorPreferenceValidator.VisitorKey(visitorId);
@@ -66,7 +66,7 @@ public sealed class VisitorPreferenceService(
         }
     }
 
-    private async Task<VisitorPreferenceSaveOutcome> TrySaveAsync(string visitorKey, string key, string? value, DateTimeOffset updatedAt,
+    private async Task<VisitorPreferenceDto> TrySaveAsync(string visitorKey, string key, string? value, DateTimeOffset updatedAt,
         string clientPartition, CancellationToken cancellationToken)
     {
         var now = time.GetUtcNow();
@@ -85,7 +85,7 @@ public sealed class VisitorPreferenceService(
         return outcome;
     }
 
-    private async Task<VisitorPreferenceSaveOutcome> WriteAsync(Visitor visitor, string visitorKey, string key, string? value,
+    private async Task<VisitorPreferenceDto> WriteAsync(Visitor visitor, string visitorKey, string key, string? value,
         DateTimeOffset updatedAt, DateTimeOffset now, CancellationToken cancellationToken)
     {
         // Every write moves the revision, the concurrency token: of two writes of this visitor at once,
@@ -97,13 +97,14 @@ public sealed class VisitorPreferenceService(
         if (stored is not null && stored.UpdatedAt >= updatedAt)
         {
             await unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-            return VisitorPreferenceSaveOutcome.KeptNewer;
+            return ToDto(stored);
         }
 
         await EnsureQuotaAsync(visitorKey, key, value, cancellationToken).ConfigureAwait(false);
         if (stored is null)
         {
-            repository.AddPreference(new VisitorPreference { VisitorId = visitorKey, Key = key, Value = value, UpdatedAt = updatedAt });
+            stored = new VisitorPreference { VisitorId = visitorKey, Key = key, Value = value, UpdatedAt = updatedAt };
+            repository.AddPreference(stored);
         }
         else
         {
@@ -112,7 +113,7 @@ public sealed class VisitorPreferenceService(
         }
 
         await unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-        return VisitorPreferenceSaveOutcome.Stored;
+        return ToDto(stored);
     }
 
     private async Task<Visitor> AdmitVisitorAsync(string visitorKey, string clientPartition, DateTimeOffset now, CancellationToken cancellationToken)

@@ -150,7 +150,7 @@ connecté : le paquet ne lui passe jamais d'identité, elle la trouve elle-même
 |---|---|
 | `GetAsync(key)` | Une préférence de l'utilisateur, une pierre tombale (`Value` nulle) si elle a été supprimée, ou `null` si la base ne l'a jamais tenue. |
 | `GetChangedSinceAsync(since)` | Toutes les préférences de l'utilisateur modifiées à `since` ou après (`UpdatedAt >= since`), pierres tombales comprises, dans n'importe quel ordre ; `null` demande tout. |
-| `SaveAsync(preference)` | Écrit la préférence en remplaçant celle de même clé, avec la date reçue (`preference.UpdatedAt`, ne pas la remplacer par l'heure du serveur : c'est elle que comparent les postes). Une pierre tombale se garde avec sa date. |
+| `SaveAsync(preference)` | Écrit la préférence en remplaçant celle de même clé, avec la date reçue (`preference.UpdatedAt`) ; une pierre tombale se garde avec sa date. Renvoie la préférence que la base tient ensuite pour cette clé : le stockage fait autorité sur les dates et le cache du navigateur prend cette réponse. Un stockage qui garde la date reçue renvoie `preference` ; un stockage qui la corrige (horloge d'un poste en avance ramenée à l'heure du serveur, précision plus grossière) renvoie la date gardée ; un stockage qui tenait déjà une valeur plus récente et la garde renvoie cette valeur. |
 | `GetScopeAsync()` | La partition du cache propre à l'utilisateur (voir plus bas). |
 
 Une exception d'un membre n'interrompt rien : une lecture qui échoue laisse répondre le cache, une
@@ -282,12 +282,12 @@ public sealed class EfPreferenceStore(
             .ToListAsync(cancellationToken);
     }
 
-    public async Task SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default)
+    public async Task<OmniPreference> SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default)
     {
         if (await UserIdAsync() is not { } userId)
         {
             // Visiteur anonyme : la valeur reste dans son navigateur.
-            return;
+            return preference;
         }
 
         await using var db = await contexts.CreateDbContextAsync(cancellationToken);
@@ -302,6 +302,8 @@ public sealed class EfPreferenceStore(
         row.Value = preference.Value;
         row.UpdatedAt = preference.UpdatedAt;
         await db.SaveChangesAsync(cancellationToken);
+        // La date gardée : celle reçue ici. Un stockage qui la corrige renvoie la sienne.
+        return new OmniPreference(row.Key, row.Value, row.UpdatedAt);
     }
 
     public async ValueTask<string> GetScopeAsync(CancellationToken cancellationToken = default)

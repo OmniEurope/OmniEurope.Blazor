@@ -85,11 +85,44 @@ public sealed class PreferencesApiTests(PostgresFixture postgres) : IAsyncLifeti
         using var list = Message(HttpMethod.Get, $"{VisitorPreferenceApi.Route}?since={Uri.EscapeDataString(Written.AddSeconds(-1).ToString("O"))}", visitor);
         using var changed = await _client.SendAsync(list, Token);
 
-        Assert.Equal(HttpStatusCode.NoContent, put.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, put.StatusCode);
+        Assert.Equal(new VisitorPreferenceDto("omni.appearance", "{\"theme\":\"givre\",\"density\":2}", Written),
+            await put.Content.ReadFromJsonAsync<VisitorPreferenceDto>(Token));
         Assert.Equal(new VisitorPreferenceDto("omni.appearance", "{\"theme\":\"givre\",\"density\":2}", Written),
             await one.Content.ReadFromJsonAsync<VisitorPreferenceDto>(Token));
         Assert.Equal([new VisitorPreferenceDto("omni.appearance", "{\"theme\":\"givre\",\"density\":2}", Written)],
             (await changed.Content.ReadFromJsonAsync<VisitorPreferenceDto[]>(Token))!);
+    }
+
+    [Fact]
+    public async Task Put_OfAFutureDate_AnswersTheServerDateItStored()
+    {
+        var visitor = VisitorPreferenceApi.CreateVisitorId();
+        var before = TimeProvider.System.GetUtcNow();
+
+        using var put = await PutAsync(visitor, "omni.appearance", "1", before.AddDays(1));
+        var acknowledged = await put.Content.ReadFromJsonAsync<VisitorPreferenceDto>(Token);
+        using var get = Message(HttpMethod.Get, $"{VisitorPreferenceApi.Route}/omni.appearance", visitor);
+        using var one = await _client.SendAsync(get, Token);
+
+        // The server is the authority for dates: the browser learns the date the server kept, not its own clock's.
+        Assert.Equal(HttpStatusCode.OK, put.StatusCode);
+        Assert.NotNull(acknowledged);
+        Assert.Equal("1", acknowledged.Value);
+        Assert.InRange(acknowledged.UpdatedAt, before, TimeProvider.System.GetUtcNow());
+        Assert.Equal(acknowledged, await one.Content.ReadFromJsonAsync<VisitorPreferenceDto>(Token));
+    }
+
+    [Fact]
+    public async Task Put_OlderThanTheStoredValue_AnswersTheValueTheServerKept()
+    {
+        var visitor = VisitorPreferenceApi.CreateVisitorId();
+        using var first = await PutAsync(visitor, "omni.appearance", "2", Written);
+
+        using var older = await PutAsync(visitor, "omni.appearance", "1", Written.AddMinutes(-1));
+
+        Assert.Equal(HttpStatusCode.OK, older.StatusCode);
+        Assert.Equal(new VisitorPreferenceDto("omni.appearance", "2", Written), await older.Content.ReadFromJsonAsync<VisitorPreferenceDto>(Token));
     }
 
     [Fact]

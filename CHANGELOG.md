@@ -4,6 +4,15 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Breaking changes
+
+- `IOmniPreferenceStore.SaveAsync` renvoie `Task<OmniPreference>` au lieu de `Task` : la préférence que le stockage tient pour la clé une fois l'écriture faite. Le stockage fait autorité sur les dates : `OmniPreferences` remplace l'entrée du cache du navigateur par cette réponse (sauf si une écriture locale plus récente l'a remplacée entre-temps), si bien qu'une date corrigée par le serveur (horloge d'un poste en avance) ne bloque plus les valeurs écrites ensuite sur un autre poste (audit A360-002). Migration : renvoyer la préférence enregistrée, `return preference;` pour un stockage qui garde la date reçue. Quand la réponse porte une autre valeur (le stockage gardait une valeur plus récente), le cache la prend et `Changed` est levé avec l'origine `Store`.
+
+### Fixed
+
+- Vitrine, API : l'admission d'un nouveau visiteur (comptage de la capacité et insertion) se fait sous un verrou consultatif PostgreSQL de transaction, partagé par toutes les instances de l'API : douze premières écritures simultanées avec `MaxVisitors=1` ne laissent plus qu'un visiteur (audit A360-003).
+- Vitrine, API : `PUT /api/preferences/{key}` répond 200 avec la préférence gardée (date du serveur, au microseconde près comme PostgreSQL) au lieu de 204 (audit A360-002).
+
 ## [1.10.0] - 2026-10-29
 
 Version mineure : demandes d'une application cliente (recettes R-3 à R-84) sur les badges, les champs de formulaire, les infobulles, l'en-tête de page sur téléphone et le filtre de date des grilles. Elle porte des ruptures assumées, voir [docs/versioning.md](docs/versioning.md) ; chacune est listée sous « Breaking changes », avec sa migration.

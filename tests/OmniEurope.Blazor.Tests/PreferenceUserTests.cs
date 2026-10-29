@@ -386,7 +386,7 @@ public sealed class PreferenceUserTests : OmniBunitContext
             return changed;
         }
 
-        public Task SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default) => Current().SaveAsync(preference, cancellationToken);
+        public Task<OmniPreference> SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default) => Current().SaveAsync(preference, cancellationToken);
 
         public async ValueTask<string> GetScopeAsync(CancellationToken cancellationToken = default)
         {

@@ -33,8 +33,8 @@ public sealed class PreferenceLimitsApiTests(PostgresFixture postgres)
         using var client = factory.CreateClient();
         var visitor = VisitorPreferenceApi.CreateVisitorId();
 
-        Assert.Equal(HttpStatusCode.NoContent, (await PutAsync(client, visitor, "k1")).StatusCode);
-        Assert.Equal(HttpStatusCode.NoContent, (await PutAsync(client, visitor, "k2")).StatusCode);
+        Assert.Equal(HttpStatusCode.OK, (await PutAsync(client, visitor, "k1")).StatusCode);
+        Assert.Equal(HttpStatusCode.OK, (await PutAsync(client, visitor, "k2")).StatusCode);
         Assert.Equal(HttpStatusCode.UnprocessableEntity, (await PutAsync(client, visitor, "k3")).StatusCode);
     }
 
@@ -45,7 +45,7 @@ public sealed class PreferenceLimitsApiTests(PostgresFixture postgres)
         using var client = factory.CreateClient();
         var visitor = VisitorPreferenceApi.CreateVisitorId();
         // The first write creates the visitor, so the concurrent ones all meet the revision token.
-        Assert.Equal(HttpStatusCode.NoContent, (await PutAsync(client, visitor, "k0")).StatusCode);
+        Assert.Equal(HttpStatusCode.OK, (await PutAsync(client, visitor, "k0")).StatusCode);
 
         var responses = await Task.WhenAll(Enumerable.Range(1, 12).Select(index => PutAsync(client, visitor, $"k{index}")));
 
@@ -54,8 +54,8 @@ public sealed class PreferenceLimitsApiTests(PostgresFixture postgres)
         var stored = db.VisitorPreferences.Count(preference => preference.VisitorId == VisitorPreferenceValidator.VisitorKey(visitor));
         // Every accepted write is stored and none past the quota; a write that lost every replay is a 409.
         Assert.InRange(stored, 2, 5);
-        Assert.Equal(stored - 1, responses.Count(response => response.StatusCode == HttpStatusCode.NoContent));
-        Assert.All(responses, response => Assert.Contains(response.StatusCode, new[] { HttpStatusCode.NoContent, HttpStatusCode.UnprocessableEntity, HttpStatusCode.Conflict }));
+        Assert.Equal(stored - 1, responses.Count(response => response.StatusCode == HttpStatusCode.OK));
+        Assert.All(responses, response => Assert.Contains(response.StatusCode, new[] { HttpStatusCode.OK, HttpStatusCode.UnprocessableEntity, HttpStatusCode.Conflict }));
     }
 
     [Fact]
@@ -65,8 +65,8 @@ public sealed class PreferenceLimitsApiTests(PostgresFixture postgres)
         using var client = factory.CreateClient();
         var visitor = VisitorPreferenceApi.CreateVisitorId();
 
-        Assert.Equal(HttpStatusCode.NoContent, (await PutAsync(client, visitor, "k1")).StatusCode);
-        Assert.Equal(HttpStatusCode.NoContent, (await PutAsync(client, visitor, "k2")).StatusCode);
+        Assert.Equal(HttpStatusCode.OK, (await PutAsync(client, visitor, "k1")).StatusCode);
+        Assert.Equal(HttpStatusCode.OK, (await PutAsync(client, visitor, "k2")).StatusCode);
         using var refused = await PutAsync(client, visitor, "k3");
 
         Assert.Equal(HttpStatusCode.TooManyRequests, refused.StatusCode);
@@ -79,8 +79,8 @@ public sealed class PreferenceLimitsApiTests(PostgresFixture postgres)
         await using var factory = new ShowcaseApiFactory(postgres, new Dictionary<string, string> { ["Preferences:Limits:NewVisitorsPerAddressPerHour"] = "2" });
         using var client = factory.CreateClient();
 
-        Assert.Equal(HttpStatusCode.NoContent, (await PutAsync(client, VisitorPreferenceApi.CreateVisitorId(), "k")).StatusCode);
-        Assert.Equal(HttpStatusCode.NoContent, (await PutAsync(client, VisitorPreferenceApi.CreateVisitorId(), "k")).StatusCode);
+        Assert.Equal(HttpStatusCode.OK, (await PutAsync(client, VisitorPreferenceApi.CreateVisitorId(), "k")).StatusCode);
+        Assert.Equal(HttpStatusCode.OK, (await PutAsync(client, VisitorPreferenceApi.CreateVisitorId(), "k")).StatusCode);
         Assert.Equal(HttpStatusCode.TooManyRequests, (await PutAsync(client, VisitorPreferenceApi.CreateVisitorId(), "k")).StatusCode);
     }
 
@@ -91,9 +91,9 @@ public sealed class PreferenceLimitsApiTests(PostgresFixture postgres)
         using var client = factory.CreateClient();
         var first = VisitorPreferenceApi.CreateVisitorId();
 
-        Assert.Equal(HttpStatusCode.NoContent, (await PutAsync(client, first, "k")).StatusCode);
+        Assert.Equal(HttpStatusCode.OK, (await PutAsync(client, first, "k")).StatusCode);
         Assert.Equal(HttpStatusCode.ServiceUnavailable, (await PutAsync(client, VisitorPreferenceApi.CreateVisitorId(), "k")).StatusCode);
-        Assert.Equal(HttpStatusCode.NoContent, (await PutAsync(client, first, "k2")).StatusCode);
+        Assert.Equal(HttpStatusCode.OK, (await PutAsync(client, first, "k2")).StatusCode);
     }
 
     [Fact]
@@ -111,7 +111,7 @@ public sealed class PreferenceLimitsApiTests(PostgresFixture postgres)
         await using var scope = factory.Services.CreateAsyncScope();
         var db = scope.ServiceProvider.GetRequiredService<ShowcaseDbContext>();
         Assert.Equal(1, db.Visitors.Count());
-        Assert.Equal(1, responses.Count(response => response.StatusCode == HttpStatusCode.NoContent));
+        Assert.Equal(1, responses.Count(response => response.StatusCode == HttpStatusCode.OK));
         Assert.Equal(11, responses.Count(response => response.StatusCode == HttpStatusCode.ServiceUnavailable));
     }
 
@@ -140,7 +140,7 @@ public sealed class PreferenceLimitsApiTests(PostgresFixture postgres)
         });
         using var client = factory.CreateClient();
         var active = VisitorPreferenceApi.CreateVisitorId();
-        Assert.Equal(HttpStatusCode.NoContent, (await PutAsync(client, active, "k")).StatusCode);
+        Assert.Equal(HttpStatusCode.OK, (await PutAsync(client, active, "k")).StatusCode);
         var now = TimeProvider.System.GetUtcNow();
         await using (var scope = factory.Services.CreateAsyncScope())
         {
@@ -171,7 +171,7 @@ public sealed class PreferenceLimitsApiTests(PostgresFixture postgres)
         await using var factory = new ShowcaseApiFactory(postgres);
         using var client = factory.CreateClient();
         var visitor = VisitorPreferenceApi.CreateVisitorId();
-        Assert.Equal(HttpStatusCode.NoContent, (await PutAsync(client, visitor, "k")).StatusCode);
+        Assert.Equal(HttpStatusCode.OK, (await PutAsync(client, visitor, "k")).StatusCode);
         var key = VisitorPreferenceValidator.VisitorKey(visitor);
         var longAgo = TimeProvider.System.GetUtcNow().AddDays(-10);
         await using (var scope = factory.Services.CreateAsyncScope())

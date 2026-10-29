@@ -42,16 +42,17 @@ public sealed class VisitorPreferencesController(IVisitorPreferenceService servi
         return preference is null ? NoContent() : Ok(preference);
     }
 
+    /// <summary>Stores the preference; 200 with the preference the server now holds, whose date the browser adopts.</summary>
     [HttpPut("{key}")]
     [EnableRateLimiting(ShowcaseRateLimiterPolicies.Writes)]
     [RequestSizeLimit(MaxRequestBodyBytes)]
-    public async Task<IActionResult> Save(
+    public async Task<ActionResult<VisitorPreferenceDto>> Save(
         [FromHeader(Name = VisitorPreferenceApi.VisitorHeader)] string? visitor,
         string key,
         [FromBody] SaveVisitorPreferenceRequest? request,
         CancellationToken cancellationToken)
     {
-        await service.SaveAsync(visitor, key, request, ClientPartition, cancellationToken);
-        return NoContent();
+        var stored = await service.SaveAsync(visitor, key, request, ClientPartition, cancellationToken);
+        return Ok(stored);
     }
 }

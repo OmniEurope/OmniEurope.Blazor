@@ -41,8 +41,14 @@ public interface IOmniPreferenceStore
     /// </summary>
     /// <param name="preference">The preference to store, with the date of the change.</param>
     /// <param name="cancellationToken">Cancels the write.</param>
-    /// <returns>A task that completes once the preference is stored.</returns>
-    Task SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default);
+    /// <returns>
+    /// The preference the store holds for this key once the write is done: the store is the authority for
+    /// dates, and <see cref="OmniPreferences"/> replaces the cached entry with this answer. A store that
+    /// keeps the received date returns <paramref name="preference"/>; one that corrects it (a browser clock
+    /// in the future, a coarser date precision) returns the date it kept; one that already held a later
+    /// value of the key, and kept it, returns that value.
+    /// </returns>
+    Task<OmniPreference> SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The partition of the browser cache that belongs to the signed-in user, so two users of the same

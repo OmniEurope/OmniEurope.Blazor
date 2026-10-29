@@ -42,14 +42,13 @@ public sealed class ShowcaseApiPreferenceStoreTests : OmniBunitContext
     }
 
     [Fact]
-    public async Task Save_PutsTheValueWithTheVisitorHeader_ThenGetReadsItBack()
+    public async Task Save_PutsTheValueWithTheVisitorHeader_AnswersTheStoredDate_ThenGetReadsItBack()
     {
         var store = CreateStore();
-        _api.Respond = request => request.Method == HttpMethod.Put
-            ? new HttpResponseMessage(HttpStatusCode.NoContent)
-            : Json(new VisitorPreferenceDto("omni.appearance", "{\"theme\":\"givre\"}", Start));
+        _api.Respond = request => Json(new VisitorPreferenceDto("omni.appearance", "{\"theme\":\"givre\"}", Start));
 
-        await store.SaveAsync(new OmniPreference("omni.appearance", "{\"theme\":\"givre\"}", Start), Token);
+        // The browser's date is a day ahead; the API answers the date it kept.
+        var acknowledged = await store.SaveAsync(new OmniPreference("omni.appearance", "{\"theme\":\"givre\"}", Start.AddDays(1)), Token);
         var read = await store.GetAsync("omni.appearance", Token);
 
         var put = _api.Requests[0];
@@ -58,7 +57,8 @@ public sealed class ShowcaseApiPreferenceStoreTests : OmniBunitContext
         Assert.Equal(_storage.Values[ShowcaseVisitor.StorageKey], put.Visitor);
         Assert.True(VisitorPreferenceApi.IsValidVisitorId(put.Visitor));
         var body = JsonSerializer.Deserialize<SaveVisitorPreferenceRequest>(put.Body!, JsonSerializerOptions.Web);
-        Assert.Equal(new SaveVisitorPreferenceRequest("{\"theme\":\"givre\"}", Start), body);
+        Assert.Equal(new SaveVisitorPreferenceRequest("{\"theme\":\"givre\"}", Start.AddDays(1)), body);
+        Assert.Equal(new OmniPreference("omni.appearance", "{\"theme\":\"givre\"}", Start), acknowledged);
         Assert.Equal(new OmniPreference("omni.appearance", "{\"theme\":\"givre\"}", Start), read);
         // The visitor id never travels in the address.
         Assert.All(_api.Requests, request => Assert.DoesNotContain(put.Visitor!, request.Uri, StringComparison.Ordinal));

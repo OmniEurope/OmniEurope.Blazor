@@ -30,7 +30,7 @@ internal sealed class PreferenceSynchronizer(IOmniPreferenceStore store, Prefere
         }
 
         var entries = await cache.EntriesAsync(cancellationToken);
-        await PushDirtyAsync(cache, entries, stored, cancellationToken);
+        await PushDirtyAsync(cache, entries, stored, changes, cancellationToken);
         foreach (var (key, preference) in stored)
         {
             // The snapshot taken above may be stale by now: the entry is read again before deciding.
@@ -93,10 +93,11 @@ internal sealed class PreferenceSynchronizer(IOmniPreferenceStore store, Prefere
 
     /// <summary>
     /// Writes each unconfirmed entry to the store, unless the store holds a value at least as late,
-    /// which is then left in <paramref name="stored"/> to replace it.
+    /// which is then left in <paramref name="stored"/> to replace it. A write the store answers with
+    /// another value adds that change to <paramref name="changes"/>.
     /// </summary>
     private async Task PushDirtyAsync(PreferenceCache cache, Dictionary<string, PreferenceCacheEntry> entries,
-        Dictionary<string, OmniPreference> stored, CancellationToken cancellationToken)
+        Dictionary<string, OmniPreference> stored, List<OmniPreferenceChangedEventArgs> changes, CancellationToken cancellationToken)
     {
         foreach (var (key, entry) in entries.Where(pair => pair.Value.Dirty))
         {
@@ -110,7 +111,10 @@ internal sealed class PreferenceSynchronizer(IOmniPreferenceStore store, Prefere
             }
 
             stored.Remove(key);
-            await PushAsync(cache, new OmniPreference(key, entry.Value, entry.UpdatedAt), cancellationToken);
+            if (await PushAsync(cache, new OmniPreference(key, entry.Value, entry.UpdatedAt), cancellationToken) is { } change)
+            {
+                changes.Add(change);
+            }
         }
     }
 
@@ -151,35 +155,38 @@ internal sealed class PreferenceSynchronizer(IOmniPreferenceStore store, Prefere
     }
 
     /// <summary>
-    /// Writes a preference to the store while the cached entry is still the one to write, then marks the
-    /// cached entry confirmed. Nothing is saved when the store now answers for another user than the cache
-    /// belongs to: a value is never saved for a user other than the one it was written for.
+    /// Writes a preference to the store while the cached entry is still the one to write, then replaces the
+    /// cached entry with the store's answer, confirmed: the store is the authority for dates, so a date it
+    /// corrected (a device clock in the future) is the one later synchronizations compare. Nothing is saved
+    /// when the store now answers for another user than the cache belongs to: a value is never saved for a
+    /// user other than the one it was written for.
     /// </summary>
-    internal async Task PushAsync(PreferenceCache? cache, OmniPreference preference, CancellationToken cancellationToken)
+    /// <returns>The change to raise when the store answered with another value (it kept a later one); else null.</returns>
+    internal async Task<OmniPreferenceChangedEventArgs?> PushAsync(PreferenceCache? cache, OmniPreference preference, CancellationToken cancellationToken)
     {
         // Checked under the store gate: an entry another write replaced is not saved over (its own push saves
         // it). An entry gone from the cache (cleared, or a browser that keeps nothing) is still saved.
-        if (!await access.TrySaveAsync(preference, async () =>
+        var acknowledged = await access.TrySaveAsync(preference, async () =>
                 (cache is null || await store.GetScopeAsync(cancellationToken) == cache.Scope)
                 && (cache is null || await cache.ReadAsync(preference.Key, cancellationToken) is not { } cached || IsCached(cached, preference)),
-                cancellationToken))
+                cancellationToken);
+        if (acknowledged is null || cache is null)
         {
-            return;
+            return null;
         }
 
-        if (cache is null)
-        {
-            return;
-        }
-
-        // Confirmed: unless a later write replaced it meanwhile, the cached entry is no longer pending.
+        // Confirmed: unless a later write replaced it meanwhile (its own push is acknowledged in turn), the
+        // cached entry becomes the store's answer, no longer pending.
         await cacheGate.WaitAsync(cancellationToken);
         try
         {
-            if (await cache.ReadAsync(preference.Key, cancellationToken) is { } entry && IsCached(entry, preference))
+            if (await cache.ReadAsync(preference.Key, cancellationToken) is not { } entry || !IsCached(entry, preference))
             {
-                await cache.WriteAsync(preference.Key, entry with { Dirty = false }, cancellationToken);
+                return null;
             }
+
+            await cache.WriteAsync(preference.Key, new(acknowledged.Value, acknowledged.UpdatedAt, Dirty: false), cancellationToken);
+            return acknowledged.Value == preference.Value ? null : new(preference.Key, acknowledged.Value, OmniPreferenceChangeOrigin.Store);
         }
         finally
         {
