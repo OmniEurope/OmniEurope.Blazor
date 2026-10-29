@@ -69,6 +69,26 @@ public sealed class ConfirmDetailsTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task ConfirmRequest_AClickBeforeTheRedraw_IsCheckedAgainstTheGate()
+    {
+        var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, _overlays));
+        var allowed = true;
+        var answer = _overlays.ConfirmAsync(new OmniConfirmRequest("Titre", "Question ?") { CanConfirm = () => allowed });
+
+        host.WaitForAssertion(() => Assert.False(host.Find(".omni-confirm__action").HasAttribute("disabled")));
+        // The host closes the gate but the action, drawn enabled, is clicked before any Refresh.
+        allowed = false;
+        host.Find(".omni-confirm__action").Click();
+
+        Assert.False(answer.IsCompleted);
+        Assert.NotNull(_overlays.Dialog);
+        // The refused click redrew the action with the closed gate.
+        host.WaitForAssertion(() => Assert.True(host.Find(".omni-confirm__action").HasAttribute("disabled")));
+        host.Find(".omni-confirm__cancel").Click();
+        Assert.False(await answer.WaitAsync(TimeSpan.FromSeconds(5), Xunit.TestContext.Current.CancellationToken));
+    }
+
+    [Fact]
     public async Task ConfirmRequest_CancellingStaysPossible_WhileTheGateIsClosed()
     {
         var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, _overlays));

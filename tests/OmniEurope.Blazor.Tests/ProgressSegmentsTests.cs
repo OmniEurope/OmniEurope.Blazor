@@ -179,4 +179,10 @@ public sealed class ProgressSegmentsTests : OmniBunitContext
             Assert.Equal(Value(bar, "color"), Value(Body($".omni-progress__segment--{name}"), "color"));
         }
     }
+
+    [Fact]
+    public void ASegmentBordersItsWidthInsteadOfAddingToIt()
+    {
+        Assert.Equal("border-box", Value(Body(".omni-progress__segment"), "box-sizing"));
+    }
 }

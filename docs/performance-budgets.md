@@ -6,6 +6,7 @@ La feuille CSS n'a pas de budget de taille, retiré à la demande du propriétai
 
 Le budget de l'assembly est passé de 1,5 à 2 Mio le 2026-09-18, sur décision du propriétaire : la DLL atteignait 1 557 504 octets (99 %) après l'arrivée des composants d'une application cliente, du catalogue de thèmes et palettes et des sélecteurs de date et d'heure, et les composants de la barre d'application restaient à ajouter.
 Il est passé de 2 à 3 Mio le 2026-10-09, sur décision du propriétaire : la DLL atteignait 2 113 024 octets (101 %) avec le navigateur de plage des graphiques, le thème Trou blanc et la largeur du contenu.
+Le budget du paquet NuGet est passé de 2 à 3 Mio le 2026-10-23, sur décision du propriétaire, au plafond de l'assembly : la 1.9.0 atteignait 2,01 Mio par une croissance réelle (assembly, documentation XML, modules de script), sans contenu parasite.
 
 | Artefact ou scénario | Budget Release |
 |---|---:|

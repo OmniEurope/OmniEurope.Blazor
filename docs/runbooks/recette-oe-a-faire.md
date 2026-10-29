@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # Recette d'OmniEurope.Blazor, points à faire
 
-> Statut : ouverte le 2026-10-09. Prochain numéro : **R1-17**.
+> Statut : ouverte le 2026-10-09. Prochain numéro : **R1-23**.
 
 ## État
 
@@ -40,3 +40,9 @@ Traitement direct demandé par le propriétaire le 2026-10-09.
 La recette se ferme quand chaque ligne est faite et prouvée par une observation (mesure, capture,
 test qui échouait avant), archivée dans `recette-oe-fait.md`, et que la compilation, la suite de tests
 et les gardes d'architecture passent réellement.
+| R1-17 | `OmniFormField` et champs de formulaire | Moche | La ligne d'erreur réservée en permanence (1.10.0) rend chaque champ plus haut d'une ligne : réduire les espacements verticaux du formulaire pour qu'il ne soit pas plus haut qu'avant la réserve, sans qu'aucun champ ne bouge quand un message apparaît. Déjà dit : non. | OE | Recette d'une application cliente (2026-10-29, page de création de compte). Preuve attendue : position des champs identique avant et après l'apparition de l'erreur, hauteur du formulaire mesurée avant et après. | Ouvert |
+| R1-18 | Voile d'attente de page | Autre | Un voile de page opaque, fixe, de couleur constante adaptée aux modes clair et sombre, sans clignotement ni variation d'opacité, avec un logo fourni par l'application (emplacement ou paramètre) affiché au centre et animé ; OE n'a pas de logo par défaut. Déjà dit : non. | OE | Recette d'une application cliente (R-19 : 31 voiles posés à la main remplacés par un seul mécanisme). `.omni-busy` est un voile de contrôle dont l'opacité pulse de 0,25 à 0,55 (`Styles/10-editors-settings.css:152-168`) ; aucun voile de page n'existe. | Ouvert |
+| R1-19 | `.omni-busy` posé sur un conteneur de page | Bug | Double ascenseur observé quand le voile couvre une zone qui défile. Piste non mesurée : le `::after` déborde d'un pixel (`inset: calc(-1 * var(--omni-button-border-width, 1px))`, prévu pour la bordure d'un bouton). Déjà dit : non. | OE | Recette d'une application cliente, question posée le 2026-10-29. À reproduire avant correction. | Ouvert |
+| R1-20 | Vitrine, mise en page | Bug | Toute la page défile, menu compris : seul le contenu doit défiler, le menu reste fixe. Déjà dit : non. | OE | Propriétaire, 2026-10-29. | Ouvert |
+| R1-21 | Vitrine, mise en page | Moche | Le contenu n'a ni marge ni espacement intérieur, contrairement à une application cliente qui sert de référence. Déjà dit : non. | OE | Propriétaire, 2026-10-29. Mesurer la marge du contenu de l'application de référence et celle de la vitrine avant de corriger. | Ouvert |
+| R1-22 | Vitrine, en-tête | Moche | Retirer le badge « Component library » affiché au-dessus du titre. Déjà dit : non. | OE | Propriétaire, 2026-10-29 ; texte `HeaderBadge` de `site/OmniEurope.Blazor.Showcase/Resources/ShowcaseStrings.resx:7`. | Ouvert |

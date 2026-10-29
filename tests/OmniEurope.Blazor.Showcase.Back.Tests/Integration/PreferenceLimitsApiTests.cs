@@ -35,7 +35,10 @@ public sealed class PreferenceLimitsApiTests(PostgresFixture postgres)
 
         Assert.Equal(HttpStatusCode.OK, (await PutAsync(client, visitor, "k1")).StatusCode);
         Assert.Equal(HttpStatusCode.OK, (await PutAsync(client, visitor, "k2")).StatusCode);
-        Assert.Equal(HttpStatusCode.UnprocessableEntity, (await PutAsync(client, visitor, "k3")).StatusCode);
+        using var refused = await PutAsync(client, visitor, "k3");
+
+        Assert.Equal(HttpStatusCode.UnprocessableEntity, refused.StatusCode);
+        SecurityHeaderAssert.Carried(refused);
     }
 
     [Fact]
@@ -71,6 +74,7 @@ public sealed class PreferenceLimitsApiTests(PostgresFixture postgres)
 
         Assert.Equal(HttpStatusCode.TooManyRequests, refused.StatusCode);
         Assert.Equal("application/problem+json", refused.Content.Headers.ContentType?.MediaType);
+        SecurityHeaderAssert.Carried(refused);
     }
 
     [Fact]
@@ -92,7 +96,9 @@ public sealed class PreferenceLimitsApiTests(PostgresFixture postgres)
         var first = VisitorPreferenceApi.CreateVisitorId();
 
         Assert.Equal(HttpStatusCode.OK, (await PutAsync(client, first, "k")).StatusCode);
-        Assert.Equal(HttpStatusCode.ServiceUnavailable, (await PutAsync(client, VisitorPreferenceApi.CreateVisitorId(), "k")).StatusCode);
+        using var refused = await PutAsync(client, VisitorPreferenceApi.CreateVisitorId(), "k");
+        Assert.Equal(HttpStatusCode.ServiceUnavailable, refused.StatusCode);
+        SecurityHeaderAssert.Carried(refused);
         Assert.Equal(HttpStatusCode.OK, (await PutAsync(client, first, "k2")).StatusCode);
     }
 

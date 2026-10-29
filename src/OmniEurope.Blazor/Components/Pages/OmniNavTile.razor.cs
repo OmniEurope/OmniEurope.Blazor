@@ -21,7 +21,7 @@ public partial class OmniNavTile
     private string? SafeHref => OmniUriPolicy.EnsureSafe(Href, nameof(Href));
 
     // Checked even when disabled, so a disabled tile cannot hide an unsafe address that enabling it would use.
-    private string? LinkTarget => SafeHref is { } safe && !Disabled ? safe : null;
+    private string? LinkTarget => SafeHref is var safe && !Disabled ? safe : null;
 
     /// <summary>The name of the destination, the accessible name of the link with the description.</summary>
     [Parameter, EditorRequired]

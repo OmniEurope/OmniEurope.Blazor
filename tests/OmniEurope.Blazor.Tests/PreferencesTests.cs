@@ -235,6 +235,48 @@ public sealed class PreferencesTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task Sync_ADirtyValueFromADeviceClockAhead_TakesTheStoreDate()
+    {
+        // An offline write from a device a day ahead: the push adopts the date the store keeps.
+        _store.ServerClock = () => Start;
+        _browser.Storage[Key("u-7f3a", "theme")] = Entry("\"octet\"", Start.AddDays(1), dirty: true);
+        var preferences = Create();
+
+        await preferences.SyncAsync(Token);
+
+        Assert.Equal(new OmniPreference("theme", "\"octet\"", Start.AddDays(1)), Assert.Single(_store.Saved));
+        Assert.Equal(new PreferenceCacheEntry("\"octet\"", Start, false), Cached("theme"));
+    }
+
+    [Fact]
+    public async Task Sync_WhenAnotherDeviceWritesDuringThePush_TakesTheStoreValueAndRaisesTheChange()
+    {
+        // The dirty value is the latest when compared; another device writes a later one before the store keeps it.
+        _store.KeepNewer = true;
+        _store.OnSave = _ => _store.Put("theme", "\"givre\"", Start.AddHours(1));
+        _browser.Storage[Key("u-7f3a", "theme")] = Entry("\"octet\"", Start, dirty: true);
+        var preferences = Create();
+
+        await preferences.SyncAsync(Token);
+
+        Assert.Equal(new PreferenceCacheEntry("\"givre\"", Start.AddHours(1), false), Cached("theme"));
+        Assert.Equal(new OmniPreferenceChangedEventArgs("theme", "\"givre\"", OmniPreferenceChangeOrigin.Store), _changes[^1]);
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task Set_WhenTheStoreAnswersNothingOrAnotherKey_KeepsTheWrittenValueAsStored(bool anotherKey)
+    {
+        _store.Answer = kept => anotherKey ? kept with { Key = "other" } : null;
+        var preferences = Create();
+
+        await preferences.SetAsync("theme", "octet", Token);
+
+        Assert.Equal(new PreferenceCacheEntry("\"octet\"", Start, false), Cached("theme"));
+    }
+
+    [Fact]
     public async Task Sync_ADirtyValueTheStoreDidNotReportAsChanged_IsComparedWithTheStoreValueFirst()
     {
         // The store value predates the last synchronization, so it is not in the changes; it is still

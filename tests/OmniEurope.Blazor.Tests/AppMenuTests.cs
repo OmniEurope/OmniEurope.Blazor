@@ -76,6 +76,7 @@ public sealed class AppMenuTests : OmniBunitContext
     [InlineData("Ada Lovelace King", "AK")]
     [InlineData("admin", "A")]
     [InlineData("élodie@example.org", "É")]
+    [InlineData("élodie@example.org", "É")]
     public void Initials_display_shows_the_initials_of_the_name_and_keeps_the_full_name_accessible(string userName, string initials)
     {
         var menu = Render<OmniAppMenu>(parameters => parameters

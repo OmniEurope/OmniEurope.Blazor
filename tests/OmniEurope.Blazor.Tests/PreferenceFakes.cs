@@ -165,6 +165,9 @@ internal sealed class MemoryPreferenceStore : IOmniPreferenceStore
     /// <summary>When set, a write not later than the stored value keeps the stored one and answers it.</summary>
     public bool KeepNewer { get; set; }
 
+    /// <summary>When set, the answer to a write instead of the preference kept: a store that breaks the contract.</summary>
+    public Func<OmniPreference, OmniPreference?>? Answer { get; set; }
+
     private async Task<IReadOnlyList<OmniPreference>> HeldAsync(IReadOnlyList<OmniPreference> changed, CancellationToken cancellationToken)
     {
         await Hold!.Task.WaitAsync(cancellationToken);
@@ -187,7 +190,7 @@ internal sealed class MemoryPreferenceStore : IOmniPreferenceStore
         }
 
         _values[preference.Key] = kept;
-        return Task.FromResult(kept);
+        return Task.FromResult(Answer is null ? kept : Answer(kept)!);
     }
 
     public ValueTask<string> GetScopeAsync(CancellationToken cancellationToken = default) => ValueTask.FromResult(Scope);

@@ -301,6 +301,23 @@ public sealed partial class ConventionGuardTests
         }
     }
 
+    /// <summary>
+    /// The wasm-tools workload rewrites the Mono runtime pack row to the runtime it bundles, which may be older
+    /// than the pin (A360-007). Directory.Build.targets brings that row back to the pin; the CI runner has no
+    /// workload, so Test-WasmRuntimeVersion.ps1 alone would not notice the target disappearing.
+    /// </summary>
+    [Fact]
+    public void MonoRuntimePack_IsPinnedOverTheWorkload()
+    {
+        var targets = Read("Directory.Build.targets");
+
+        Assert.Matches(
+            "<Target Name=\"OmniPinMonoRuntimePack\" BeforeTargets=\"ProcessFrameworkReferences\">\\s*<ItemGroup>\\s*"
+            + "<KnownRuntimePack Condition=\"[^\"]*'%\\(KnownRuntimePack\\.RuntimePackLabels\\)' == 'Mono'[^\"]*\">\\s*"
+            + "<LatestRuntimeFrameworkVersion>\\$\\(OmniImplicitSdkPackVersion\\)</LatestRuntimeFrameworkVersion>",
+            targets);
+    }
+
     /// <summary>SDK feature band of the global.json floor, and the Roslyn version its compiler ships (kit STD-SDKPIN table).</summary>
     private static readonly (string Band, string Roslyn)[] RoslynBySdkBand =
     [

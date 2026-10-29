@@ -2,6 +2,9 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
+using OmniEurope.Blazor.Showcase.Back.Components.Preferences;
 using OmniEurope.Blazor.Showcase.Shared.Components.Preferences;
 
 namespace OmniEurope.Blazor.Showcase.Back.Tests.Integration;
@@ -210,11 +213,20 @@ public sealed class PreferencesApiTests(PostgresFixture postgres) : IAsyncLifeti
         using var response = await _client.SendAsync(get, Token);
 
         Assert.Equal(status, response.StatusCode);
-        Assert.Equal("nosniff", response.Headers.GetValues("X-Content-Type-Options").Single());
-        Assert.Equal("DENY", response.Headers.GetValues("X-Frame-Options").Single());
-        Assert.Equal("default-src 'none'; frame-ancestors 'none'", response.Headers.GetValues("Content-Security-Policy").Single());
-        Assert.Equal("no-store", response.Headers.CacheControl?.ToString());
-        Assert.False(response.Headers.Contains("Server"));
+        SecurityHeaderAssert.Carried(response);
+    }
+
+    [Fact]
+    public async Task AnUnexpectedFailure_Is500_WithTheSecurityHeaders()
+    {
+        await using var failing = _factory.WithWebHostBuilder(builder => builder.ConfigureTestServices(
+            services => services.AddScoped<IVisitorPreferenceService, FailingPreferenceService>()));
+        using var client = failing.CreateClient();
+        using var get = Message(HttpMethod.Get, VisitorPreferenceApi.Route, VisitorPreferenceApi.CreateVisitorId());
+        using var response = await client.SendAsync(get, Token);
+
+        Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
+        SecurityHeaderAssert.Carried(response);
     }
 
     [Fact]

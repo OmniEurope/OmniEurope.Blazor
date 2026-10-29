@@ -43,9 +43,12 @@ jobs:
       - name: Publish Interactive Auto smoke host
         run: dotnet publish samples/OmniEurope.Blazor.AutoSmoke/OmniEurope.Blazor.AutoSmoke.csproj --configuration Release --no-restore --output artifacts/auto-smoke
       - name: WebAssembly runtime version
-        # The published runtime is the pinned one, never an older runtime a workload brought (A360-007).
+        # The published runtime equals the Mono pack pinned in Directory.Build.targets (A360-007). This job installs no
+        # wasm-tools workload, so the SDK alone brings the runtime here; ConventionGuardTests keeps the pin itself.
         shell: pwsh
-        run: ./eng/Test-WasmRuntimeVersion.ps1 -PublishPath artifacts/wasm-smoke, artifacts/auto-smoke
+        run: |
+          ./eng/Test-WasmRuntimeVersionFixtures.ps1
+          ./eng/Test-WasmRuntimeVersion.ps1 -PublishPath artifacts/wasm-smoke, artifacts/auto-smoke
       - name: Interactive Auto smoke test
         shell: pwsh
         run: ./eng/Test-AutoHost.ps1

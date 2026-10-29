@@ -20,7 +20,7 @@ Un point n'est « fait » qu'avec sa preuve observée (navigateur, HTTP réel, P
 
 - 2026-10-29 : plan ouvert, lots A et B délégués en parallèle en worktrees ; décisions du propriétaire :
   autorité serveur pour les dates (rupture de contrat admise), alignement du runtime WebAssembly.
-- 2026-10-29 : les huit points livrés sur `develop` (lots A `60c8e49e`, B `5139cb3a`, A360-004 `a685b10a`,
+- 2026-10-29 : les huit points livrés sur `develop`, avec les limites de preuve notées ci-dessous (lots A `60c8e49e`, B `5139cb3a`, A360-004 `a685b10a`,
   garde CI `a2b1cad1`). Suites : bibliothèque 10 743, API 70, garde d'API publique, aucun échec.
   - A360-001 : à 390 px, chevron « suivant » à 323..348 px, « Primary » à 42..115 ; un vrai clic
     défile de 0 à 187 px puis le chevron « précédent » apparaît à gauche ; en `dir=rtl` le chevron
@@ -38,3 +38,14 @@ Un point n'est « fait » qu'avec sa preuve observée (navigateur, HTTP réel, P
     AutoSmoke en 10.0.14 selon `Test-WasmRuntimeVersion.ps1`, qui a aussi rejeté les fichiers 10.0.13
     restés d'une publication antérieure ; `Test-WasmHost` et `Test-AutoHost` verts.
   - A360-008 : textes alignés sur `Test-Budgets.ps1` et `.github/dependabot.yml`.
+- 2026-10-29 : compléments de preuve après la revue de `/next`.
+  - A360-004 : les tests d'intégration (API réelle sur PostgreSQL, serveur de test) exigent les en-têtes sur
+    422 (quota de clés), 429 (débit), 503 (capacité) et 500 (exception imprévue) ; suite API 71/71.
+  - A360-007 : la vitrine publiée (`artifacts/showcase-smoke`) embarque aussi le runtime 10.0.14 selon
+    `Test-WasmRuntimeVersion.ps1` ; la garde a son auto-test en CI (`Test-WasmRuntimeVersionFixtures.ps1`).
+
+### Annoncé, non prouvé
+
+- A360-002 : adoption de la date du serveur par le cache, couverte par les tests du synchroniseur (doubles),
+  non rejouée dans un navigateur dont l'horloge est décalée.
+- A360-005 : étapes CI de la suite API et du runtime, rejouées en local seulement, pas sur un runner GitHub.

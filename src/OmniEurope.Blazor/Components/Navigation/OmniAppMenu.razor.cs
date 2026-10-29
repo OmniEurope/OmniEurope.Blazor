@@ -121,11 +121,11 @@ public partial class OmniAppMenu : IDisposable
 
     // The trigger's text: the user's name and the open state, or nothing, and the trigger is then its
     // icon alone, square like every icon-only button.
-    private RenderFragment? TriggerText => UserName is null || ShownDisplay == OmniAppMenuUserDisplay.Icon ? null : builder =>
+    private RenderFragment? TriggerText => UserName is not { } name || ShownDisplayFor(name) == OmniAppMenuUserDisplay.Icon ? null : builder =>
     {
         builder.OpenElement(0, "span");
-        builder.AddAttribute(1, "class", ShownDisplay == OmniAppMenuUserDisplay.Initials ? "omni-app-menu__trigger-initials" : "omni-app-menu__trigger-name");
-        builder.AddContent(2, ShownDisplay == OmniAppMenuUserDisplay.Initials ? ShownInitials : UserName);
+        builder.AddAttribute(1, "class", ShownDisplayFor(name) == OmniAppMenuUserDisplay.Initials ? "omni-app-menu__trigger-initials" : "omni-app-menu__trigger-name");
+        builder.AddContent(2, ShownDisplayFor(name) == OmniAppMenuUserDisplay.Initials ? ShownInitialsOf(name) : name);
         builder.CloseElement();
         builder.OpenComponent<OmniIcon>(3);
         builder.AddComponentParameter(4, nameof(OmniIcon.Name), IsOpen ? OmniIconName.ChevronUp : OmniIconName.ChevronDown);
@@ -135,19 +135,19 @@ public partial class OmniAppMenu : IDisposable
     private string EffectiveLabel => LocalizeOr(Label, "AppMenuLabel");
 
     // Initials that cannot be made (a name without a letter or digit) leave the icon alone.
-    private OmniAppMenuUserDisplay ShownDisplay =>
-        UserDisplay == OmniAppMenuUserDisplay.Initials && string.IsNullOrEmpty(ShownInitials) ? OmniAppMenuUserDisplay.Icon : UserDisplay;
+    private OmniAppMenuUserDisplay ShownDisplayFor(string name) =>
+        UserDisplay == OmniAppMenuUserDisplay.Initials && string.IsNullOrEmpty(ShownInitialsOf(name)) ? OmniAppMenuUserDisplay.Icon : UserDisplay;
 
-    private string ShownInitials => string.IsNullOrWhiteSpace(Initials) ? InitialsOf(UserName) : Initials.Trim();
+    private string ShownInitialsOf(string name) => string.IsNullOrWhiteSpace(Initials) ? InitialsOf(name) : Initials.Trim();
 
     // The full name is not on the trigger in the shortened forms, so it names the trigger and its tooltip.
     private string TriggerLabel => UserName is null || UserDisplay == OmniAppMenuUserDisplay.Name ? EffectiveLabel : $"{EffectiveLabel}: {UserName}";
 
     // The first letter or digit of the first and of the last word (one word gives one letter); an
     // e-mail address is read up to its @. Words are cut at anything that is not a letter or a digit.
-    private static string InitialsOf(string? name)
+    private static string InitialsOf(string name)
     {
-        var local = name ?? string.Empty;
+        var local = name.Normalize(System.Text.NormalizationForm.FormC);
         var at = local.IndexOf('@', StringComparison.Ordinal);
         if (at >= 0)
         {

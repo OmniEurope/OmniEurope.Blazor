@@ -38,3 +38,7 @@ Constats de départ :
     non focalisable.
   - W-9 : `--omni-card-border-width` documenté comme prise publique ; à 0 sur une classe hôte, cartes
     sans liseré (1 px vers 0). Il touche aussi grilles et éditeurs ; un `OmniCard.Bordered` reste à décider.
+- 2026-10-29 : W-6, contrôle annoncé à 375 px mesuré après la revue de `/next` : la grille de la démonstration
+  passe à une colonne (329 px) et la légende tient sur une ligne en 12 px, avec ou sans `WrapTitle`, sans
+  coupure ni infobulle. Le débordement de la demande n'existe que dans une grille étroite à plusieurs
+  colonnes ; le contrôle retenu est donc celui des six colonnes (121 px) ci-dessus.
