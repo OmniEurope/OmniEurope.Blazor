@@ -181,6 +181,13 @@ seule l'ombre change, la tuile ne bouge pas. Elle prend la hauteur de sa colonne
 une `OmniTileGrid`, toutes les tuiles ont la même largeur et la même hauteur, et `DoubleWidth` en étale une
 sur deux colonnes (« Règle des tuiles » dans [layout-components.md](layout-components.md)).
 
+`Disabled` (faux par défaut ; demande d'une application cliente, lot W-8) est pour la tuile qui ne mène nulle
+part pour l'instant (rien à examiner, un droit absent) : elle n'a plus d'attribut `href`, donc ne s'ouvre ni
+au clic ni au clic du milieu et ne prend pas le focus au clavier ; elle porte `role="link"` et
+`aria-disabled="true"` pour être annoncée comme un lien indisponible, et la classe `omni-nav-tile--disabled`
+l'atténue (opacité de 0,55 comme les autres éléments désactivés du paquet, curseur « interdit », pas de relief
+au survol). Sa taille ne change pas, dans une `OmniColumn` comme dans une `OmniTileGrid`. `Href` reste vérifié.
+
 `FitTitle` (faux par défaut ; demande d'une application cliente, recette R-57) tient le titre sur une ligne
 dans une colonne étroite, six tuiles par rangée par exemple : la taille de la police du titre diminue avec la
 largeur de la tuile (unités de requête de conteneur, sans script) jusqu'à ce que tout le titre tienne, aucun

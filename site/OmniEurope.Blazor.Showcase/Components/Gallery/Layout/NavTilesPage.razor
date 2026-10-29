@@ -24,6 +24,13 @@
                     <OmniSwitch @bind-Value="ShowDescription" aria-label="@Text["NavTilesShowDescription"]" />
                 </ChildContent>
             </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["NavTilesDisabled"]" Description="@Text["NavTilesDisabledHint"]">
+                <Icon><OmniIcon Name="OmniIconName.Pin" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="DisableLast" aria-label="@Text["NavTilesDisabled"]" />
+                </ChildContent>
+            </OmniSettingsTile>
         </OmniSettingsSection>
     </Settings>
     <Preview>
@@ -31,7 +38,7 @@
             <HeaderContent>@Text["NavTilesPreviewTitle"]</HeaderContent>
             <ChildContent>
                 @* Each tile leads to a real page of the gallery: a click leaves this page for that one. *@
-                <NavTilesExample Tone="Tone" ShowDescription="ShowDescription" />
+                <NavTilesExample Tone="Tone" ShowDescription="ShowDescription" DisableLast="DisableLast" />
             </ChildContent>
         </OmniCard>
         <OmniCard Class="gallery-preview">

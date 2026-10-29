@@ -17,6 +17,8 @@ public partial class NavTilesPage
 
     private bool FitTitle { get; set; } = true;
 
+    private bool DisableLast { get; set; }
+
     private IReadOnlyList<OmniOption<OmniTone>> ToneOptions =>
         [.. Tones.Select(tone => new OmniOption<OmniTone>(tone, Text[$"NavTilesTone{tone}"]))];
 }

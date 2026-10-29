@@ -32,6 +32,60 @@ public sealed class NavTileAndSettingsPairTests : OmniBunitContext
         Assert.DoesNotContain(ShippedLookTests.Rules(), rule => rule.Selector.StartsWith(".omni-nav-tile", StringComparison.Ordinal) && rule.Body.Contains("transform", StringComparison.Ordinal));
     }
 
+    [Fact]
+    public void ADisabledNavTile_IsNotALink_IsAnnouncedAsUnavailable_AndKeepsItsContentAndClasses()
+    {
+        var tile = Render<OmniNavTile>(parameters => parameters
+            .Add(component => component.Href, "/admin/users")
+            .Add(component => component.Title, "Utilisateurs")
+            .Add(component => component.Description, "Rien à examiner")
+            .Add(component => component.DoubleWidth, true)
+            .Add(component => component.Disabled, true));
+
+        var root = tile.Find(".omni-nav-tile");
+        Assert.False(root.HasAttribute("href"));
+        Assert.DoesNotContain("/admin/users", tile.Markup, StringComparison.Ordinal);
+        Assert.False(root.HasAttribute("tabindex"));
+        Assert.Equal("true", root.GetAttribute("aria-disabled"));
+        Assert.Equal("link", root.GetAttribute("role"));
+        Assert.Contains("omni-nav-tile--disabled", root.ClassList);
+        Assert.Contains("omni-tile--double", root.ClassList);
+        Assert.Equal("Utilisateurs", tile.Find(".omni-nav-tile__title").TextContent);
+        Assert.Equal("Rien à examiner", tile.Find(".omni-nav-tile__description").TextContent);
+
+        // Attenuated as the other disabled surfaces are, with no hover lift and no change of size.
+        var disabled = ShippedLookTests.Body(".omni-nav-tile--disabled");
+        Assert.Equal("0.55", ShippedLookTests.Value(disabled, "opacity"));
+        Assert.Equal("not-allowed", ShippedLookTests.Value(disabled, "cursor"));
+        Assert.DoesNotContain("padding", disabled, StringComparison.Ordinal);
+        Assert.DoesNotContain("block-size", disabled, StringComparison.Ordinal);
+        Assert.Equal("var(--omni-card-shadow, none)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-nav-tile--disabled:hover"), "box-shadow"));
+    }
+
+    [Fact]
+    public void AnEnabledNavTile_KeepsItsHref_AndHasNoDisabledMarkers()
+    {
+        var tile = Render<OmniNavTile>(parameters => parameters
+            .Add(component => component.Href, "/admin/users")
+            .Add(component => component.Title, "Utilisateurs"));
+
+        var root = tile.Find(".omni-nav-tile");
+        Assert.Equal("/admin/users", root.GetAttribute("href"));
+        Assert.False(root.HasAttribute("aria-disabled"));
+        Assert.False(root.HasAttribute("role"));
+        Assert.DoesNotContain("omni-nav-tile--disabled", root.ClassList);
+    }
+
+    [Fact]
+    public void ADisabledNavTile_StillRejectsAnActiveUriScheme()
+    {
+        Assert.Throws<InvalidOperationException>(() =>
+            Render<OmniNavTile>(parameters => parameters
+                .Add(component => component.Href, "javascript:alert(1)")
+                .Add(component => component.Title, "X")
+                .Add(component => component.Disabled, true)));
+    }
+
     [Theory]
     [InlineData("javascript:alert(1)")]
     [InlineData("data:text/html,<script>alert(1)</script>")]
