@@ -42,6 +42,10 @@ jobs:
         run: ./eng/Test-WasmHost.ps1
       - name: Publish Interactive Auto smoke host
         run: dotnet publish samples/OmniEurope.Blazor.AutoSmoke/OmniEurope.Blazor.AutoSmoke.csproj --configuration Release --no-restore --output artifacts/auto-smoke
+      - name: WebAssembly runtime version
+        # The published runtime is the pinned one, never an older runtime a workload brought (A360-007).
+        shell: pwsh
+        run: ./eng/Test-WasmRuntimeVersion.ps1 -PublishPath artifacts/wasm-smoke, artifacts/auto-smoke
       - name: Interactive Auto smoke test
         shell: pwsh
         run: ./eng/Test-AutoHost.ps1
