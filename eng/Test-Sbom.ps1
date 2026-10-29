@@ -13,7 +13,10 @@ foreach ($path in @($registryPath, $sbomPath, $noticePath)) {
 
 $expected = [Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
 $locks = @(Get-ChildItem -LiteralPath $repoRoot -Recurse -File -Filter 'packages.lock.json' |
-    Where-Object FullName -NotMatch '[\\/](bin|obj|artifacts|\.[^\\/]+)[\\/]')
+    Where-Object { [IO.Path]::GetRelativePath($repoRoot, $_.FullName) -NotMatch '(^|[\\/])(bin|obj|artifacts|\.[^\\/]+)[\\/]' })
+# The exclusion applies to the path relative to the repository root: a hidden parent directory of the
+# checkout (a worktree under .claude or .codex) must not drop every lock file.
+if ($locks.Count -eq 0) { throw "No packages.lock.json found under ${repoRoot}: the lock inventory cannot be empty." }
 foreach ($lock in $locks) {
     $document = Get-Content -LiteralPath $lock.FullName -Raw | ConvertFrom-Json
     foreach ($framework in $document.dependencies.PSObject.Properties) {
