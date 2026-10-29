@@ -1,0 +1,25 @@
+@* A one-line-per-entry list, a small dictionary, drawn three times: Compact tightens the padding of every
+   row and the gap between rows without any style of the page, Spacious gives them more room, and the
+   middle list keeps the density of its scope. *@
+<OmniTileGrid Columns="3" MinColumnWidth="14rem" EqualHeights="false" Gap="OmniSpacing.Large">
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Compact</OmniText>
+        <OmniDataList TItem="string" Id="gallery-data-list-density-compact" Items="@Words" Density="OmniDensity.Compact" aria-label="Words, compact">
+            <ItemTemplate>@context</ItemTemplate>
+        </OmniDataList>
+    </OmniStack>
+
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Density of the scope</OmniText>
+        <OmniDataList TItem="string" Id="gallery-data-list-density-inherited" Items="@Words" aria-label="Words, density of the scope">
+            <ItemTemplate>@context</ItemTemplate>
+        </OmniDataList>
+    </OmniStack>
+
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Spacious</OmniText>
+        <OmniDataList TItem="string" Id="gallery-data-list-density-spacious" Items="@Words" Density="OmniDensity.Spacious" aria-label="Words, spacious">
+            <ItemTemplate>@context</ItemTemplate>
+        </OmniDataList>
+    </OmniStack>
+</OmniTileGrid>

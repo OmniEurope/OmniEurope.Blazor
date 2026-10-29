@@ -84,6 +84,13 @@ public partial class OmniDataList<TItem>
     [Parameter]
     public bool Virtualize { get; set; }
 
+    /// <summary>
+    /// The density of the list (the padding of each row, the gap between rows) and of what its rows
+    /// hold, over the one it inherits from its theme scope or section. Null, the default, inherits it.
+    /// </summary>
+    [Parameter]
+    public OmniDensity? Density { get; set; }
+
     private RenderFragment DefaultLoading => builder => builder.AddContent(0, Localize("Loading"));
     private RenderFragment DefaultEmpty => builder => builder.AddContent(0, Localize("DataListEmpty"));
 

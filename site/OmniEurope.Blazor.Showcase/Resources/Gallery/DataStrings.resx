@@ -217,6 +217,8 @@
   <data name="DataListAnsiTitle" xml:space="preserve"><value>ANSI text</value></data>
   <data name="DataListCardsHint" xml:space="preserve"><value>A list drawn as cards, paged by its own pager, with a Markdown export of the cases.</value></data>
   <data name="DataListCardsTitle" xml:space="preserve"><value>Cards list</value></data>
+  <data name="DataListDensityHint" xml:space="preserve"><value>A one-line-per-entry list in three densities. Density tightens or loosens the padding of each row and the gap between rows, with no style written by the page.</value></data>
+  <data name="DataListDensityTitle" xml:space="preserve"><value>Density of a list</value></data>
   <data name="DataListDescription" xml:space="preserve"><value>A templated list fed by a collection or an asynchronous loader, with its own loading, empty and error states, and the standalone pager.</value></data>
   <data name="DataListEmptyData" xml:space="preserve"><value>No data</value></data>
   <data name="DataListEmptyDataDescription" xml:space="preserve"><value>Empties the catalogue to show the empty content.</value></data>

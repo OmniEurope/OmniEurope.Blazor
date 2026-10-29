@@ -50,6 +50,7 @@ internal static class DataFamily
                 "Data/DataListExample.razor", "Data/DataListExample.razor.cs",
                 "Data/DataListGalleryExample.razor", "Data/DataListGalleryExample.razor.cs",
                 "Data/DataListCardsExample.razor", "Data/DataListCardsExample.razor.cs",
+                "Data/DataListDensityExample.razor", "Data/DataListDensityExample.razor.cs",
                 "Data/DataListVirtualExample.razor", "Data/DataListVirtualExample.razor.cs",
                 "Data/DataListAnsiExample.razor", "Data/DataListAnsiExample.razor.cs",
                 "Data/Product.cs"

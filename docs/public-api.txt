@@ -2814,6 +2814,7 @@ property public OmniEurope.Blazor.Components.OmniDataGridRowRenderArgs<TItem>.Se
 property public OmniEurope.Blazor.Components.OmniDataGridSort.Descending : System.Boolean {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniDataGridSort.Key : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniDataGridSort.Property : System.String? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniDataList<TItem>.Density : OmniEurope.Blazor.Components.OmniDensity? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataList<TItem>.EmptyContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataList<TItem>.ErrorContent : Microsoft.AspNetCore.Components.RenderFragment<System.Exception>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataList<TItem>.ItemTemplate : Microsoft.AspNetCore.Components.RenderFragment<TItem> {get(public);set(public)} [Parameter, EditorRequired]

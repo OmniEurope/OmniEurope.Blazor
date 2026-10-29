@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Added
+
+- `OmniDataList.Density` (`OmniDensity?`, nulle par défaut) : demande d'une application cliente (lot W-4), dont une liste d'une ligne par mot (un dictionnaire) prenait 77 px par rangée à cause de la marge intérieure de l'élément et surchargeait `.omni-data-list__item`. Comme `OmniCard.Density`, elle pose `data-omni-density` sur la racine : la marge de chaque élément et l'écart entre éléments suivent la densité (`Compact` : 0,5 rem de marge et 0,375 rem d'écart au lieu de 0,75 et 0,5), sans surcharge de la feuille de style. Nulle, la liste suit la portée de thème comme avant.
+
 ## [1.10.0] - 2026-10-29
 
 Version mineure : demandes d'une application cliente (recettes R-3 à R-84) sur les badges, les champs de formulaire, les infobulles, l'en-tête de page sur téléphone et le filtre de date des grilles. Elle porte des ruptures assumées, voir [docs/versioning.md](docs/versioning.md) ; chacune est listée sous « Breaking changes », avec sa migration.
