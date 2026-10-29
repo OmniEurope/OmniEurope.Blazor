@@ -272,7 +272,8 @@ body:has(.omni-connection-overlay) { overflow: hidden; }
 
 .omni-relative-time { font-variant-numeric: tabular-nums; white-space: nowrap; }
 
-.omni-dynamic-form { display: grid; gap: var(--omni-space-md); min-inline-size: 0; }
+/* No gap of its own: every field already carries its reserved error line (.omni-form-field__message), which is the room between two fields. */
+.omni-dynamic-form { display: grid; gap: 0; min-inline-size: 0; }
 
 /* Status badge: a stale value keeps its colour, outlined, and says so beside it. */
 .omni-status-badge { align-items: center; display: inline-flex; flex-wrap: wrap; gap: var(--omni-space-xs); vertical-align: middle; }

@@ -14,8 +14,10 @@
 .omni-form-field__error-icon { block-size: 0.875rem; flex: none; inline-size: 0.875rem; }
 /* The live region of a field error exists before the error, so the error is announced when it appears.
    It keeps the height of one error line, empty or not (1lh of its own small text), so the error appearing
-   moves nothing below it; only a second line of a long error grows it. */
-.omni-form-field__message { font-size: var(--omni-font-size-sm); font-weight: 500; min-block-size: 1lh; }
+   moves nothing below it; only a second line of a long error grows it. The slot is the field's own
+   spacing below: its top margin cancels the grid gap above it and leaves 0.125rem under the control
+   (the line's own leading does the rest), so reserving it costs one text line, not a line plus a gap. */
+.omni-form-field__message { font-size: var(--omni-font-size-sm); font-weight: 500; margin-block-start: calc(0.125rem - var(--omni-field-gap)); min-block-size: 1lh; }
 /* A validator's own message has no such slot: empty, it is taken out of the flow, so it adds neither
    height nor a grid or flex gap. */
 .omni-validation-message:empty { position: absolute; }
@@ -27,7 +29,7 @@
 /* Blazor's own ValidationMessage writes its line only when there is an error: in a field's control it
    replaces the reserved line, at the same distance under the control and in the same text, so the
    error appearing still moves nothing below the field. */
-.omni-form-field__control .validation-message { color: var(--omni-color-danger); font-size: var(--omni-font-size-sm); font-weight: 500; margin-block-start: var(--omni-field-gap); }
+.omni-form-field__control .validation-message { color: var(--omni-color-danger); font-size: var(--omni-font-size-sm); font-weight: 500; margin-block-start: 0.125rem; }
 .omni-form-field:has(> .omni-form-field__control .validation-message) > .omni-form-field__message:empty { min-block-size: 0; position: absolute; }
 /* EndContent sits on the control's line: the control takes the room left, the end content (a unit, a few
    icon buttons) keeps its own size, and a validator's message inside still drops to a line of its own. */

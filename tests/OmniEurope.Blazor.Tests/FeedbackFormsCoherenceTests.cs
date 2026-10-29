@@ -179,7 +179,11 @@ public sealed class FeedbackFormsCoherenceTests : OmniBunitContext
         Assert.Equal("static", ShippedLookTests.Value(ShippedLookTests.Body(".omni-form-field__control .omni-validation-message:empty"), "position"));
         Assert.Equal("absolute", ShippedLookTests.Value(ShippedLookTests.Body(".omni-form-field:has(> .omni-form-field__control .omni-validation-message) > .omni-form-field__message:empty"), "position"));
         // Blazor's ValidationMessage, written only on error, replaces the reserved line at the same distance.
-        Assert.Equal("var(--omni-field-gap)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-form-field__control .validation-message"), "margin-block-start"));
+        Assert.Equal("0.125rem", ShippedLookTests.Value(ShippedLookTests.Body(".omni-form-field__control .validation-message"), "margin-block-start"));
+        // The reserved line is the room between two fields (R1-17): its top margin cancels the grid gap above it
+        // and leaves the same 0.125rem, and a form of the package keeps no gap of its own between its fields.
+        Assert.Equal("calc(0.125rem - var(--omni-field-gap))", ShippedLookTests.Value(ShippedLookTests.Body(".omni-form-field__message"), "margin-block-start"));
+        Assert.Equal("0", ShippedLookTests.Value(ShippedLookTests.Body(".omni-dynamic-form"), "gap"));
         Assert.Equal("absolute", ShippedLookTests.Value(ShippedLookTests.Body(".omni-form-field:has(> .omni-form-field__control .validation-message) > .omni-form-field__message:empty"), "position"));
         Assert.Equal("absolute", ShippedLookTests.Value(ShippedLookTests.Body(".omni-validation-message:empty"), "position"));
     }
