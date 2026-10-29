@@ -1,10 +1,16 @@
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Showcase.Examples.Forms;
 
 /// <summary>A vertical form with its errors, their summary and its disabled and read-only fields.</summary>
 public partial class VerticalFormExample : IDisposable
 {
+    /// <summary>Where the summary of the errors shows: above the fields, just above the actions, or nowhere.</summary>
+    [Parameter]
+    public OmniValidationSummaryPosition SummaryPosition { get; set; } = OmniValidationSummaryPosition.Bottom;
+
     private VerticalFormModel Model { get; } = new();
 
     private EditContext Context { get; set; } = default!;

@@ -7,4 +7,14 @@ public partial class FormLayoutsPage
 {
     [Inject]
     private IStringLocalizer<FormsStrings> Text { get; set; } = default!;
+
+    /// <summary>Where the two forms of the preview show their summary of the errors: just above the actions, by default.</summary>
+    private OmniValidationSummaryPosition SummaryPosition { get; set; } = OmniValidationSummaryPosition.Bottom;
+
+    private IReadOnlyList<OmniOption<OmniValidationSummaryPosition>> SummaryPositionOptions =>
+    [
+        new(OmniValidationSummaryPosition.Top, Text["FormLayoutsSummaryTop"]),
+        new(OmniValidationSummaryPosition.Bottom, Text["FormLayoutsSummaryBottom"]),
+        new(OmniValidationSummaryPosition.Hidden, Text["FormLayoutsSummaryHidden"])
+    ];
 }

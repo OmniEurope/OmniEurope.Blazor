@@ -1,0 +1,23 @@
+@using Microsoft.AspNetCore.Components.Forms
+
+@* A form the way a host writes it: a summary slot before the fields, the fields, a summary slot just above
+   the actions. The edit context is the host's, so a test adds and clears messages on it. *@
+<EditForm EditContext="Context">
+    <OmniValidationSummary Slot="OmniValidationSummaryPosition.Top" Position="Position" Title="@Title" />
+    <div class="test-fields">fields</div>
+    <OmniValidationSummary Slot="OmniValidationSummaryPosition.Bottom" Position="Position" Title="@Title" />
+    <OmniFormActions>
+        <button type="submit">Save</button>
+    </OmniFormActions>
+</EditForm>
+
+@code {
+    [Parameter, EditorRequired]
+    public EditContext Context { get; set; } = default!;
+
+    [Parameter]
+    public OmniValidationSummaryPosition Position { get; set; } = OmniValidationSummaryPosition.Bottom;
+
+    [Parameter]
+    public string? Title { get; set; }
+}

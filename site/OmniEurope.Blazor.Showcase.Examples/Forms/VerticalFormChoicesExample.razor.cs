@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using OmniEurope.Blazor.Components;
 
@@ -21,6 +22,10 @@ public partial class VerticalFormChoicesExample : IDisposable
     ];
 
     private static readonly IReadOnlyList<OmniOption<string>> Agents = [new("shared", "Shared agent")];
+
+    /// <summary>Where the summary of the errors shows: above the fields, just above the actions, or nowhere.</summary>
+    [Parameter]
+    public OmniValidationSummaryPosition SummaryPosition { get; set; } = OmniValidationSummaryPosition.Bottom;
 
     private VerticalFormChoicesModel Model { get; } = new();
 

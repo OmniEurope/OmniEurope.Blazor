@@ -29,7 +29,7 @@ internal static class FormsFamily
         new("validation", "ValidationTitle", "ValidationDescription", OmniIconName.ShieldCheck,
             [
                 "OmniTemplateForm", "OmniRequiredValidator", "OmniEmailValidator", "OmniLengthValidator",
-                "OmniDataAnnotationsValidator", "OmniDynamicForm", "OmniFormActions"
+                "OmniDataAnnotationsValidator", "OmniDynamicForm", "OmniFormActions", "OmniValidationSummary"
             ],
             [
                 "Forms/SignUpValidationExample.razor", "Forms/SignUpValidationExample.razor.cs",
@@ -46,7 +46,7 @@ internal static class FormsFamily
                 "Forms/NoteModel.cs"
             ]),
         new("form-layouts", "FormLayoutsTitle", "FormLayoutsDescription", OmniIconName.Rows,
-            ["OmniFormField", "OmniFieldset", "OmniFormActions", "OmniPassword", "OmniNumeric", "OmniDropDown",
+            ["OmniFormField", "OmniFieldset", "OmniFormActions", "OmniValidationSummary", "OmniPassword", "OmniNumeric", "OmniDropDown",
              "OmniDatePicker", "OmniTimePicker", "OmniDateTimePicker", "OmniRadioButtonList", "OmniUpload"],
             [
                 "Forms/VerticalFormExample.razor", "Forms/VerticalFormExample.razor.cs",

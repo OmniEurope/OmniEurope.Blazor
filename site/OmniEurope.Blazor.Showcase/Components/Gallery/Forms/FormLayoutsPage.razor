@@ -2,19 +2,29 @@
 @using OmniEurope.Blazor.Showcase.Examples.Forms
 
 <GalleryPageFrame Slug="form-layouts">
+    <Settings>
+        <OmniSettingsSection Title="@Text["FormLayoutsSettingsTitle"]" Description="@Text["FormLayoutsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["FormLayoutsSummaryPosition"]" Description="@Text["FormLayoutsSummaryPositionDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniValidationSummaryPosition" Options="@SummaryPositionOptions" @bind-Value="SummaryPosition" Label="@Text["FormLayoutsSummaryPosition"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
     <Preview>
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["FormLayoutsVerticalTitle"]</HeaderContent>
             <ChildContent>
                 <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["FormLayoutsVerticalDescription"]</OmniText>
-                <VerticalFormExample />
+                <VerticalFormExample SummaryPosition="SummaryPosition" />
             </ChildContent>
         </OmniCard>
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["FormLayoutsChoicesTitle"]</HeaderContent>
             <ChildContent>
                 <OmniText Element="OmniTextElement.Paragraph" Tone="OmniTextTone.Muted">@Text["FormLayoutsChoicesDescription"]</OmniText>
-                <VerticalFormChoicesExample />
+                <VerticalFormChoicesExample SummaryPosition="SummaryPosition" />
             </ChildContent>
         </OmniCard>
     </Preview>

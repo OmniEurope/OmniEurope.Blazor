@@ -737,4 +737,5 @@
   <data name="FormatMinute" xml:space="preserve"><value>nóim</value></data>
   <data name="FormatHour" xml:space="preserve"><value>u</value></data>
   <data name="FormatDay" xml:space="preserve"><value>l</value></data>
+  <data name="ValidationSummaryTitle" xml:space="preserve"><value>{0, plural, one {# earráid le ceartú} two {# earráid le ceartú} few {# earráid le ceartú} many {# n-earráid le ceartú} other {# earráid le ceartú}}</value></data>
 </root>

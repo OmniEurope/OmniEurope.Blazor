@@ -1,0 +1,22 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IDisposable
+
+@* Nothing is drawn without an error, or when the host chose another position than this slot's: the
+   summary appears and disappears as one block, in the place the host picked. *@
+@if (Position == Slot && Position != OmniValidationSummaryPosition.Hidden && _messages.Count > 0)
+{
+    <OmniAlert @attributes="AdditionalAttributes"
+               Id="@Id"
+               Class="@Css("omni-validation-summary")"
+               Severity="OmniSeverity.Danger"
+               Fill="Fill"
+               Title="@(string.IsNullOrWhiteSpace(Title) ? Localize("ValidationSummaryTitle", _messages.Count) : Title)">
+        <ul>
+            @foreach (var message in _messages)
+            {
+                <li>@message</li>
+            }
+        </ul>
+    </OmniAlert>
+}

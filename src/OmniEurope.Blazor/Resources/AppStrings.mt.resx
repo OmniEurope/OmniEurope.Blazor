@@ -737,4 +737,5 @@
   <data name="FormatMinute" xml:space="preserve"><value>min</value></data>
   <data name="FormatHour" xml:space="preserve"><value>sieg</value></data>
   <data name="FormatDay" xml:space="preserve"><value>jum</value></data>
+  <data name="ValidationSummaryTitle" xml:space="preserve"><value>{0, plural, one {# żball biex jiġi kkorreġut} two {# żbalji biex jiġu kkorreġuti} few {# żbalji biex jiġu kkorreġuti} many {# żball biex jiġi kkorreġut} other {# żball biex jiġi kkorreġut}}</value></data>
 </root>

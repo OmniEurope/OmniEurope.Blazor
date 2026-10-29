@@ -7,18 +7,6 @@
                   OnValidSubmit="HandleValidSubmitAsync"
                   OnInvalidSubmit="HandleInvalidSubmit">
     <OmniStack Gap="OmniSpacing.Small">
-        @if (Placement == ValidationMessagePlacement.Summary && form.GetValidationMessages().Any())
-        {
-            <OmniAlert Severity="OmniSeverity.Danger" Title="Please correct the following">
-                <ul>
-                    @foreach (var message in form.GetValidationMessages())
-                    {
-                        <li>@message</li>
-                    }
-                </ul>
-            </OmniAlert>
-        }
-
         <OmniFormField Id="signup-name-field"
                        For="signup-name"
                        Required="true"
@@ -99,6 +87,9 @@
                                        ValidationDelay="Delay" />
             </ChildContent>
         </OmniFormField>
+
+        @* The summary of the errors, just above the actions, drawn only when the messages are asked as a summary. *@
+        <OmniValidationSummary Position="@(Placement == ValidationMessagePlacement.Summary ? OmniValidationSummaryPosition.Bottom : OmniValidationSummaryPosition.Hidden)" />
 
         @* The action row of the library, inside the form so that the submit button submits it: aligned to
            the end, the main action last. *@

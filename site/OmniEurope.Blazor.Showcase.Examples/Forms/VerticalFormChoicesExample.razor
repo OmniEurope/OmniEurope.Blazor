@@ -3,20 +3,10 @@
 @* The selection, date, choice and file fields of a vertical form: a drop-down and a date, a time and a
    date-time picker, a radio list, the three shapes of OmniUpload and a disabled drop-down. The strategy
    error is a real validation error held by the edit context: the choice list takes aria-invalid and its
-   error line from it, the summary on top lists it, and choosing a strategy removes it. *@
+   error line from it, the summary lists it (where SummaryPosition puts it), and choosing a strategy removes it. *@
 <EditForm EditContext="Context">
     <OmniStack Gap="OmniSpacing.Small">
-        @if (Errors.Count > 0)
-        {
-            <OmniAlert Severity="OmniSeverity.Danger" Fill="OmniFill.Solid" Title="@($"{Errors.Count} error(s) to correct")">
-                <ul>
-                    @foreach (var error in Errors)
-                    {
-                        <li>@error</li>
-                    }
-                </ul>
-            </OmniAlert>
-        }
+        <OmniValidationSummary Slot="OmniValidationSummaryPosition.Top" Position="SummaryPosition" />
 
         <OmniRow>
             <OmniColumn Span="12" MediumSpan="6">
@@ -102,6 +92,7 @@
             </ChildContent>
         </OmniFormField>
 
+        <OmniValidationSummary Slot="OmniValidationSummaryPosition.Bottom" Position="SummaryPosition" />
         <OmniFormActions>
             <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => Reset())">
                 <Icon><OmniIcon Name="OmniIconName.Close" /></Icon>

@@ -737,4 +737,5 @@
   <data name="FormatMinute" xml:space="preserve"><value>min</value></data>
   <data name="FormatHour" xml:space="preserve"><value>h</value></data>
   <data name="FormatDay" xml:space="preserve"><value>d</value></data>
+  <data name="ValidationSummaryTitle" xml:space="preserve"><value>{0, plural, one {# error to correct} other {# errors to correct}}</value></data>
 </root>

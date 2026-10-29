@@ -120,4 +120,11 @@
   <data name="FormLayoutsVerticalDescription" xml:space="preserve"><value>The two errors are real validation errors of the edit context: each field takes its invalid state from them, and fixing them removes them from the summary.</value></data>
   <data name="FormLayoutsChoicesTitle" xml:space="preserve"><value>Selection, date, choice and file fields</value></data>
   <data name="FormLayoutsChoicesDescription" xml:space="preserve"><value>A drop-down, the three pickers, a radio list and the three shapes of the upload. The strategy error is a real validation error of the edit context: the choice list takes aria-invalid and its error line from it, and choosing a strategy removes it from the summary.</value></data>
+  <data name="FormLayoutsSettingsTitle" xml:space="preserve"><value>Summary of the errors</value></data>
+  <data name="FormLayoutsSettingsDescription" xml:space="preserve"><value>OmniValidationSummary titles itself with the number of errors, in the singular or the plural. The setting applies to both forms of the preview.</value></data>
+  <data name="FormLayoutsSummaryPosition" xml:space="preserve"><value>Position</value></data>
+  <data name="FormLayoutsSummaryPositionDescription" xml:space="preserve"><value>Above the fields, just above the actions (the default), or not shown: the errors then stay under their fields.</value></data>
+  <data name="FormLayoutsSummaryTop" xml:space="preserve"><value>Top</value></data>
+  <data name="FormLayoutsSummaryBottom" xml:space="preserve"><value>Bottom</value></data>
+  <data name="FormLayoutsSummaryHidden" xml:space="preserve"><value>Hidden</value></data>
 </root>

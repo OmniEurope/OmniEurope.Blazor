@@ -120,4 +120,11 @@
   <data name="FormLayoutsVerticalDescription" xml:space="preserve"><value>Les deux erreurs sont de vraies erreurs de validation du contexte d&apos;édition : chaque champ en tire son état invalide, et les corriger les retire du récapitulatif.</value></data>
   <data name="FormLayoutsChoicesTitle" xml:space="preserve"><value>Champs de sélection, de date, de choix et de fichier</value></data>
   <data name="FormLayoutsChoicesDescription" xml:space="preserve"><value>Une liste déroulante, les trois sélecteurs, une liste de choix et les trois formes du dépôt de fichier. L&apos;erreur de stratégie est une vraie erreur du contexte d&apos;édition : la liste de choix en tire aria-invalid et sa ligne d&apos;erreur, et choisir une stratégie la retire du récapitulatif.</value></data>
+  <data name="FormLayoutsSettingsTitle" xml:space="preserve"><value>Récapitulatif des erreurs</value></data>
+  <data name="FormLayoutsSettingsDescription" xml:space="preserve"><value>OmniValidationSummary se titre lui-même avec le nombre d&apos;erreurs, au singulier ou au pluriel. Le réglage vaut pour les deux formulaires de l&apos;aperçu.</value></data>
+  <data name="FormLayoutsSummaryPosition" xml:space="preserve"><value>Position</value></data>
+  <data name="FormLayoutsSummaryPositionDescription" xml:space="preserve"><value>Au-dessus des champs, juste au-dessus des actions (par défaut), ou masqué : les erreurs restent alors sous leurs champs.</value></data>
+  <data name="FormLayoutsSummaryTop" xml:space="preserve"><value>Haut</value></data>
+  <data name="FormLayoutsSummaryBottom" xml:space="preserve"><value>Bas</value></data>
+  <data name="FormLayoutsSummaryHidden" xml:space="preserve"><value>Masqué</value></data>
 </root>

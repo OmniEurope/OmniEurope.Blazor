@@ -737,4 +737,5 @@
   <data name="FormatMinute" xml:space="preserve"><value>мин</value></data>
   <data name="FormatHour" xml:space="preserve"><value>ч</value></data>
   <data name="FormatDay" xml:space="preserve"><value>д</value></data>
+  <data name="ValidationSummaryTitle" xml:space="preserve"><value>{0, plural, one {# грешка за коригиране} other {# грешки за коригиране}}</value></data>
 </root>

@@ -1,22 +1,12 @@
 @using Microsoft.AspNetCore.Components.Forms
 
 @* A vertical form: label above the field, asterisk on a required one, help line, error with an icon, a
-   summary of the errors on top, then the disabled and read-only states, which stay distinct. The two errors
+   summary of the errors (on top, above the actions or hidden, as SummaryPosition says), then the disabled and read-only states, which stay distinct. The two errors
    are real validation errors held by the edit context: each field takes aria-invalid from them, and fixing
    them removes them from the summary. *@
 <EditForm EditContext="Context">
     <OmniStack Gap="OmniSpacing.Small">
-        @if (Errors.Count > 0)
-        {
-            <OmniAlert Severity="OmniSeverity.Danger" Fill="OmniFill.Solid" Title="@($"{Errors.Count} error(s) to correct")">
-                <ul>
-                    @foreach (var error in Errors)
-                    {
-                        <li>@error</li>
-                    }
-                </ul>
-            </OmniAlert>
-        }
+        <OmniValidationSummary Slot="OmniValidationSummaryPosition.Top" Position="SummaryPosition" />
 
         <OmniFormField For="vertical-name" Required="true" Description="Lowercase letters, digits and hyphens." Error="@ErrorOf(nameof(Model.Name))">
             <LabelContent>Pipeline name</LabelContent>
@@ -103,6 +93,7 @@
             </OmniColumn>
         </OmniRow>
 
+        <OmniValidationSummary Slot="OmniValidationSummaryPosition.Bottom" Position="SummaryPosition" />
         <OmniFormActions>
             <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => Reset())">
                 <Icon><OmniIcon Name="OmniIconName.Close" /></Icon>
