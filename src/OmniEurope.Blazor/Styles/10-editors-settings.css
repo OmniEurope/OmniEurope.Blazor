@@ -148,16 +148,22 @@
    appearances. .btn-busy is the same rule under the application-kit name. No cursor: with pointer
    events off the pointer never reaches the button. The veil covers the border too, with its own
    inherited radius for the corners: laid inside the padding box under overflow: hidden, it left the
-   one-pixel border outside, read as a light rim around a darkened button, worst in dark mode. */
+   one-pixel border outside, read as a light rim around a darkened button, worst in dark mode.
+   The outset past the padding box is the border of a button and nothing else (--omni-busy-veil-outset,
+   0 by default): on a container it pushed the veil one pixel past the box on every side, which is
+   scrollable overflow, so a scroller grew both scrollbars and a box as tall as the page made the page
+   scroll (R1-19). */
 .omni-busy,
 .btn-busy { pointer-events: none; position: relative; }
+:is(.omni-button, .omni-toggle-button, .omni-split-button__main, .omni-split-button__toggle).omni-busy,
+.btn-busy { --omni-busy-veil-outset: var(--omni-button-border-width, 1px); }
 .omni-busy::after,
 .btn-busy::after {
     animation: omni-busy-veil 1.3s ease-in-out infinite;
     background: var(--omni-busy-veil-color, #000000);
     border-radius: inherit;
     content: "";
-    inset: calc(-1 * var(--omni-button-border-width, 1px));
+    inset: calc(-1 * var(--omni-busy-veil-outset, 0px));
     opacity: 0.25;
     pointer-events: none;
     position: absolute;

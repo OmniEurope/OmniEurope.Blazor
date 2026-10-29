@@ -28,6 +28,22 @@ public sealed class BusyButtonTests : OmniBunitContext
     }
 
     [Fact]
+    public void TheVeil_OverhangsOnlyTheBorderOfAButton_NeverAContainer()
+    {
+        // R1-19: past the padding box by one pixel on every side, the veil of a scrolling container is
+        // scrollable overflow (both scrollbars on a short scroller, a scrollbar on the page for a box as
+        // tall as it). The outset is the border of a button and nothing else.
+        var veil = ShippedLookTests.Body(".omni-busy::after,\n.btn-busy::after");
+        Assert.Equal("calc(-1 * var(--omni-busy-veil-outset, 0px))", ShippedLookTests.Value(veil, "inset"));
+
+        // Only the button selectors set the outset: a bare .omni-busy (a container) never does.
+        var outsetRules = ShippedLookTests.Rules().Where(rule => rule.Body.Contains("--omni-busy-veil-outset:", StringComparison.Ordinal)).ToArray();
+        var rule = Assert.Single(outsetRules);
+        Assert.StartsWith(":is(.omni-button, .omni-toggle-button, .omni-split-button__main, .omni-split-button__toggle).omni-busy", rule.Selector, StringComparison.Ordinal);
+        Assert.Equal("var(--omni-button-border-width, 1px)", ShippedLookTests.Value(rule.Body, "--omni-busy-veil-outset"));
+    }
+
+    [Fact]
     public void Button_IgnoresClicksAndCancelsTheDefaultActionOnlyWhileBusy()
     {
         var clicks = 0;

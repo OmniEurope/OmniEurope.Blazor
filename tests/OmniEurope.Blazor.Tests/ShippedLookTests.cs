@@ -153,9 +153,13 @@ public sealed partial class ShippedLookTests : OmniBunitContext
         Assert.DoesNotContain("overflow", host, StringComparison.Ordinal);
         Assert.Contains("position: relative", host, StringComparison.Ordinal);
 
+        // R1-19: the veil overhangs its box by --omni-busy-veil-outset, which is the border of a button (so the
+        // veil still covers it) and 0 on anything else (see BusyButtonTests.TheVeil_OverhangsOnlyTheBorderOfAButton_NeverAContainer).
         var veil = Body(".omni-busy::after,\n.btn-busy::after");
-        Assert.Equal("calc(-1 * var(--omni-button-border-width, 1px))", Value(veil, "inset"));
+        Assert.Equal("calc(-1 * var(--omni-busy-veil-outset, 0px))", Value(veil, "inset"));
         Assert.Equal("inherit", Value(veil, "border-radius"));
+        var buttons = Body(":is(.omni-button, .omni-toggle-button, .omni-split-button__main, .omni-split-button__toggle).omni-busy,\n.btn-busy");
+        Assert.Equal("var(--omni-button-border-width, 1px)", Value(buttons, "--omni-busy-veil-outset"));
     }
 
     // ---- T22, T24: one fill and one ink per intention for buttons, solid badges and alerts ----
