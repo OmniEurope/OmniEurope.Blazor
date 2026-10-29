@@ -41,18 +41,18 @@
                      Collapse="OmniSidebarCollapse.Icons" Transition="OmniSidebarTransition.Smooth"
                      Label="Main menu">
             <OmniPanelMenu Label="Main menu" Display="OmniPanelMenuDisplay.IconAndText" CanNavigate="SelectAsync">
-                @foreach (var section in Sections)
+                @foreach (var entry in Sections)
                 {
-                    <OmniPanelMenuItem Text="@section.Text" Href="@($"components/page-shell#{section.Key}")"
-                                       Current="@(Selected == section.Key)" Match="OmniNavMatch.None">
-                        <Icon><OmniIcon Name="section.Icon" /></Icon>
+                    <OmniPanelMenuItem Text="@entry.Text" Href="@($"components/page-shell#{entry.Key}")"
+                                       Current="@(Selected == entry.Key)" Match="OmniNavMatch.None">
+                        <Icon><OmniIcon Name="entry.Icon" /></Icon>
                     </OmniPanelMenuItem>
                 }
             </OmniPanelMenu>
         </OmniSidebar>
         <OmniMain AriaLabelledBy="application-shell-title">
             <OmniStack Gap="OmniSpacing.Medium">
-                <OmniHeading Id="application-shell-title" Level="OmniHeadingLevel.H3">@Sections.Single(section => section.Key == Selected).Text</OmniHeading>
+                <OmniHeading Id="application-shell-title" Level="OmniHeadingLevel.H3">@Sections.Single(entry => entry.Key == Selected).Text</OmniHeading>
                 <OmniTileGrid Columns="3">
                     <OmniStatTile Value="1" Title="Server online" />
                     <OmniStatTile Value="2" Title="Applications tracked" />
