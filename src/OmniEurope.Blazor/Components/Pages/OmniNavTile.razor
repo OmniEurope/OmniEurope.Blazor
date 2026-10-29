@@ -4,8 +4,10 @@
 
 @* A tile that leads to a part of the site: the icon on a square tinted with its tone, the title and
    an optional description, the whole tile one real link (a middle click opens it in a tab, the
-   browser shows where it goes). Hovered, it lifts by its shadow only and never moves. *@
-<a @attributes="AdditionalAttributes" id="@Id" href="@SafeHref" class="@Css("omni-nav-tile", $"omni-nav-tile--{Tone.ToString().ToLowerInvariant()}", DoubleWidth ? "omni-tile--double" : null, FitTitle ? $"omni-nav-tile--fit omni-nav-tile--fit-{FitBucket}" : null)">
+   browser shows where it goes). Hovered, it lifts by its shadow only and never moves. Disabled, the
+   tile has no href: it is not a link any more, cannot take focus, is announced as an unavailable link
+   (aria-disabled) and is drawn attenuated, at the same size. *@
+<a @attributes="AdditionalAttributes" id="@Id" href="@LinkTarget" role="@(Disabled ? "link" : null)" aria-disabled="@(Disabled ? "true" : null)" class="@Css("omni-nav-tile", $"omni-nav-tile--{Tone.ToString().ToLowerInvariant()}", Disabled ? "omni-nav-tile--disabled" : null, DoubleWidth ? "omni-tile--double" : null, FitTitle ? $"omni-nav-tile--fit omni-nav-tile--fit-{FitBucket}" : null)">
     @if (Icon is not null)
     {
         <span class="omni-nav-tile__icon" aria-hidden="true">@Icon</span>

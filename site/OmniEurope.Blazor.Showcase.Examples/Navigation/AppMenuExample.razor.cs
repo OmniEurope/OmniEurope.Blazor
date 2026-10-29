@@ -7,11 +7,15 @@ namespace OmniEurope.Blazor.Showcase.Examples.Navigation;
 public partial class AppMenuExample
 {
     /// <summary>The make-believe holder of the account, sample data.</summary>
-    private const string UserName = "Camille Durand";
+    private const string UserName = "camille.durand@example.org";
 
     /// <summary>Whether the menu shows the signed-in user and their role.</summary>
     [Parameter]
     public bool WithAccount { get; set; } = true;
+
+    /// <summary>What the trigger shows of the user: the name, the initials or the icon alone.</summary>
+    [Parameter]
+    public OmniAppMenuUserDisplay UserDisplay { get; set; } = OmniAppMenuUserDisplay.Name;
 
     /// <summary>Whether three languages are offered: the language row shows from two.</summary>
     [Parameter]

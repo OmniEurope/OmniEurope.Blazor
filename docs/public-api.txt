@@ -418,6 +418,9 @@ field public static OmniEurope.Blazor.Components.OmniAlignment.Stretch : OmniEur
 field public static OmniEurope.Blazor.Components.OmniAnsiMode.Hide : OmniEurope.Blazor.Components.OmniAnsiMode const = 1
 field public static OmniEurope.Blazor.Components.OmniAnsiMode.Raw : OmniEurope.Blazor.Components.OmniAnsiMode const = 2
 field public static OmniEurope.Blazor.Components.OmniAnsiMode.Render : OmniEurope.Blazor.Components.OmniAnsiMode const = 0
+field public static OmniEurope.Blazor.Components.OmniAppMenuUserDisplay.Icon : OmniEurope.Blazor.Components.OmniAppMenuUserDisplay const = 2
+field public static OmniEurope.Blazor.Components.OmniAppMenuUserDisplay.Initials : OmniEurope.Blazor.Components.OmniAppMenuUserDisplay const = 1
+field public static OmniEurope.Blazor.Components.OmniAppMenuUserDisplay.Name : OmniEurope.Blazor.Components.OmniAppMenuUserDisplay const = 0
 field public static OmniEurope.Blazor.Components.OmniAppearance.Dark : OmniEurope.Blazor.Components.OmniAppearance const = 2
 field public static OmniEurope.Blazor.Components.OmniAppearance.Light : OmniEurope.Blazor.Components.OmniAppearance const = 1
 field public static OmniEurope.Blazor.Components.OmniAppearance.System : OmniEurope.Blazor.Components.OmniAppearance const = 0
@@ -2283,6 +2286,7 @@ property public OmniEurope.Blazor.Components.OmniAppMenu.Appearance : OmniEurope
 property public OmniEurope.Blazor.Components.OmniAppMenu.AppearanceChanged : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniAppearance> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppMenu.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppMenu.Disabled : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniAppMenu.Initials : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppMenu.Label : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppMenu.Language : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppMenu.LanguageChanged : Microsoft.AspNetCore.Components.EventCallback<System.String> {get(public);set(public)} [Parameter]
@@ -2295,6 +2299,7 @@ property public OmniEurope.Blazor.Components.OmniAppMenu.OpenChanged : Microsoft
 property public OmniEurope.Blazor.Components.OmniAppMenu.Preset : OmniEurope.Blazor.Components.OmniThemePreset? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppMenu.Role : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppMenu.ShowFlags : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniAppMenu.UserDisplay : OmniEurope.Blazor.Components.OmniAppMenuUserDisplay {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppMenu.UserName : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppMenu.Version : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppMenuLanguage.Code : System.String {get(public);init(public)}
@@ -2814,6 +2819,7 @@ property public OmniEurope.Blazor.Components.OmniDataGridRowRenderArgs<TItem>.Se
 property public OmniEurope.Blazor.Components.OmniDataGridSort.Descending : System.Boolean {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniDataGridSort.Key : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniDataGridSort.Property : System.String? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniDataList<TItem>.Density : OmniEurope.Blazor.Components.OmniDensity? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataList<TItem>.EmptyContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataList<TItem>.ErrorContent : Microsoft.AspNetCore.Components.RenderFragment<System.Exception>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataList<TItem>.ItemTemplate : Microsoft.AspNetCore.Components.RenderFragment<TItem> {get(public);set(public)} [Parameter, EditorRequired]
@@ -3336,6 +3342,7 @@ property public OmniEurope.Blazor.Components.OmniMultiSelect<TValue>.Options : S
 property public OmniEurope.Blazor.Components.OmniMultiSelect<TValue>.Placeholder : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMultiSelect<TValue>.ReadOnly : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNavTile.Description : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniNavTile.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNavTile.DoubleWidth : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNavTile.FitTitle : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNavTile.Href : System.String {get(public);set(public)} [Parameter, EditorRequired]
@@ -4050,6 +4057,7 @@ type public OmniEurope.Blazor.Components.OmniAnsiSegment [class, sealed] : Syste
 type public OmniEurope.Blazor.Components.OmniAnsiText [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniAppMenu [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniAppMenuLanguage [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniAppMenuLanguage>
+type public OmniEurope.Blazor.Components.OmniAppMenuUserDisplay [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniAppearance [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniAppearanceSettings [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniAppearanceState [class, sealed] : System.IDisposable

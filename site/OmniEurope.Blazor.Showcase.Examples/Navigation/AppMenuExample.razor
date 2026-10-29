@@ -5,6 +5,7 @@
 <OmniStack Gap="OmniSpacing.Medium">
     <OmniStack Orientation="OmniOrientation.Horizontal" Justify="OmniJustification.End">
         <OmniAppMenu UserName="@(WithAccount ? UserName : null)"
+                     UserDisplay="@UserDisplay"
                      Role="@(WithAccount ? "Admin" : null)"
                      Languages="@(WithLanguages ? AppMenuLanguages.All : null)"
                      Language="@Language"

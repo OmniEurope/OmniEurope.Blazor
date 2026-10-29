@@ -20,6 +20,9 @@ public partial class OmniNavTile
 
     private string? SafeHref => OmniUriPolicy.EnsureSafe(Href, nameof(Href));
 
+    // Checked even when disabled, so a disabled tile cannot hide an unsafe address that enabling it would use.
+    private string? LinkTarget => SafeHref is { } safe && !Disabled ? safe : null;
+
     /// <summary>The name of the destination, the accessible name of the link with the description.</summary>
     [Parameter, EditorRequired]
     public string Title { get; set; } = string.Empty;
@@ -27,6 +30,15 @@ public partial class OmniNavTile
     /// <summary>An optional muted line under the title: what is found there.</summary>
     [Parameter]
     public string? Description { get; set; }
+
+    /// <summary>
+    /// Whether the tile leads nowhere for now (nothing to review, a right the user lacks): it renders no
+    /// <c>href</c>, so it is neither a working link nor reachable by Tab, carries <c>aria-disabled="true"</c>
+    /// and is drawn attenuated, with no hover lift and the same size in an <see cref="OmniTileGrid"/>.
+    /// <see cref="Href"/> is still checked. False by default.
+    /// </summary>
+    [Parameter]
+    public bool Disabled { get; set; }
 
     /// <summary>The icon, usually an <see cref="OmniIcon"/>, drawn on the tinted square; decorative. None when not given.</summary>
     [Parameter]

@@ -283,6 +283,8 @@
   <data name="NavTilesFitTitle" xml:space="preserve"><value>Ajuster le titre</value></data>
   <data name="NavTilesFitTitleHint" xml:space="preserve"><value>Le titre rétrécit pour tenir sur une ligne au lieu de passer à la ligne.</value></data>
   <data name="NavTilesFitTitleTitle" xml:space="preserve"><value>Titres ajustés sur une ligne</value></data>
+  <data name="NavTilesDisabled" xml:space="preserve"><value>Tuile désactivée</value></data>
+  <data name="NavTilesDisabledHint" xml:space="preserve"><value>Disabled : la dernière tuile n'a plus de lien, ne prend plus le focus, est annoncée comme indisponible et atténuée, à la même taille.</value></data>
   <data name="NavTilesToneNeutral" xml:space="preserve"><value>Neutre</value></data>
   <data name="NavTilesToneAccent" xml:space="preserve"><value>Accent</value></data>
   <data name="NavTilesToneInfo" xml:space="preserve"><value>Information</value></data>

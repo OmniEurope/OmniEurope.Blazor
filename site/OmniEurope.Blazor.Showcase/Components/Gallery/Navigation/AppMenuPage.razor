@@ -11,6 +11,13 @@
                 </ChildContent>
             </OmniSettingsTile>
 
+            <OmniSettingsTile Title="@Text["AppMenuUserDisplay"]" Description="@Text["AppMenuUserDisplayDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.User" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniAppMenuUserDisplay" Options="@UserDisplayOptions" @bind-Value="UserDisplay" Label="@Text["AppMenuUserDisplay"]" Disabled="@(!WithAccount)" />
+                </Details>
+            </OmniSettingsTile>
+
             <OmniSettingsTile Title="@Text["AppMenuLanguages"]" Description="@Text["AppMenuLanguagesDescription"]">
                 <Icon><OmniIcon Name="OmniIconName.Globe" /></Icon>
                 <ChildContent>
@@ -45,6 +52,7 @@
             <HeaderContent>@Text["AppMenuPreviewTitle"]</HeaderContent>
             <ChildContent>
                 <AppMenuExample WithAccount="WithAccount"
+                                UserDisplay="UserDisplay"
                                 WithLanguages="WithLanguages"
                                 ShowFlags="ShowFlags"
                                 WithSettings="WithSettings"

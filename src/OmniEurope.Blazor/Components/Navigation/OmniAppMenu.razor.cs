@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
@@ -31,6 +33,22 @@ public partial class OmniAppMenu : IDisposable
     /// </summary>
     [Parameter]
     public string? UserName { get; set; }
+
+    /// <summary>
+    /// What the trigger shows of <see cref="UserName"/>: the full name (<see cref="OmniAppMenuUserDisplay.Name"/>, the
+    /// default, cut when it is long, such as an e-mail address), the initials, or the user icon alone. The
+    /// shortened forms keep the full name in the trigger's accessible name and tooltip, and in the menu.
+    /// Ignored without a <see cref="UserName"/>.
+    /// </summary>
+    [Parameter]
+    public OmniAppMenuUserDisplay UserDisplay { get; set; } = OmniAppMenuUserDisplay.Name;
+
+    /// <summary>
+    /// The initials shown by <see cref="OmniAppMenuUserDisplay.Initials"/>, as the host words them; null or blank takes
+    /// them from <see cref="UserName"/> (the first letters of its first and last words, an e-mail address read up to its @).
+    /// </summary>
+    [Parameter]
+    public string? Initials { get; set; }
 
     /// <summary>The user's role, shown as a badge beside the name; left out when null or blank.</summary>
     [Parameter]
@@ -103,11 +121,11 @@ public partial class OmniAppMenu : IDisposable
 
     // The trigger's text: the user's name and the open state, or nothing, and the trigger is then its
     // icon alone, square like every icon-only button.
-    private RenderFragment? TriggerText => UserName is null ? null : builder =>
+    private RenderFragment? TriggerText => UserName is null || ShownDisplay == OmniAppMenuUserDisplay.Icon ? null : builder =>
     {
         builder.OpenElement(0, "span");
-        builder.AddAttribute(1, "class", "omni-app-menu__trigger-name");
-        builder.AddContent(2, UserName);
+        builder.AddAttribute(1, "class", ShownDisplay == OmniAppMenuUserDisplay.Initials ? "omni-app-menu__trigger-initials" : "omni-app-menu__trigger-name");
+        builder.AddContent(2, ShownDisplay == OmniAppMenuUserDisplay.Initials ? ShownInitials : UserName);
         builder.CloseElement();
         builder.OpenComponent<OmniIcon>(3);
         builder.AddComponentParameter(4, nameof(OmniIcon.Name), IsOpen ? OmniIconName.ChevronUp : OmniIconName.ChevronDown);
@@ -115,6 +133,48 @@ public partial class OmniAppMenu : IDisposable
     };
 
     private string EffectiveLabel => LocalizeOr(Label, "AppMenuLabel");
+
+    // Initials that cannot be made (a name without a letter or digit) leave the icon alone.
+    private OmniAppMenuUserDisplay ShownDisplay =>
+        UserDisplay == OmniAppMenuUserDisplay.Initials && string.IsNullOrEmpty(ShownInitials) ? OmniAppMenuUserDisplay.Icon : UserDisplay;
+
+    private string ShownInitials => string.IsNullOrWhiteSpace(Initials) ? InitialsOf(UserName) : Initials.Trim();
+
+    // The full name is not on the trigger in the shortened forms, so it names the trigger and its tooltip.
+    private string TriggerLabel => UserName is null || UserDisplay == OmniAppMenuUserDisplay.Name ? EffectiveLabel : $"{EffectiveLabel}: {UserName}";
+
+    // The first letter or digit of the first and of the last word (one word gives one letter); an
+    // e-mail address is read up to its @. Words are cut at anything that is not a letter or a digit.
+    private static string InitialsOf(string? name)
+    {
+        var local = name ?? string.Empty;
+        var at = local.IndexOf('@', StringComparison.Ordinal);
+        if (at >= 0)
+        {
+            local = local[..at];
+        }
+
+        var words = new List<string>();
+        var start = -1;
+        for (var index = 0; index <= local.Length; index++)
+        {
+            var inWord = index < local.Length && char.IsLetterOrDigit(local[index]);
+            if (inWord && start < 0)
+            {
+                start = index;
+            }
+            else if (!inWord && start >= 0)
+            {
+                words.Add(local[start..index]);
+                start = -1;
+            }
+        }
+
+        return words.Count == 0 ? string.Empty : words.Count == 1 ? FirstLetter(words[0]) : FirstLetter(words[0]) + FirstLetter(words[^1]);
+    }
+
+    private static string FirstLetter(string word) =>
+        Rune.ToUpperInvariant(Rune.GetRuneAt(word, 0)).ToString();
 
     /// <summary>The mode a theme drawn in one mode only fixes, or null.</summary>
     private OmniAppearance? FixedMode => Preset?.FixedAppearance;

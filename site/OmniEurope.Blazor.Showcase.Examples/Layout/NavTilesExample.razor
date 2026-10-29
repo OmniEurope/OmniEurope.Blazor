@@ -1,6 +1,7 @@
 @* Navigation tiles: the home of an administration area or a hub of sections. Each tile is a real link, its
    icon on a square tinted with its tone; hovered, only its shadow changes. Switched off, the description
-   leaves the tile with only its title. *@
+   leaves the tile with only its title. Disabled, the last tile is no longer a link (nothing to open here
+   for now): it is attenuated and keeps its size beside the two others. *@
 <OmniRow Gap="OmniSpacing.Medium">
     <OmniColumn Span="12" MediumSpan="4">
         <OmniNavTile Href="components/cards" Title="Cards" Description="@Describe("Content framed in a header, a body and a footer")" Tone="Tone">
@@ -13,7 +14,7 @@
         </OmniNavTile>
     </OmniColumn>
     <OmniColumn Span="12" MediumSpan="4">
-        <OmniNavTile Href="components/settings-sections" Title="Settings" Description="@Describe("Setting tiles, two per row")" Tone="Tone">
+        <OmniNavTile Id="gallery-nav-tile-settings" Href="components/settings-sections" Title="Settings" Description="@Describe("Setting tiles, two per row")" Tone="Tone" Disabled="@DisableLast">
             <Icon><OmniIcon Name="OmniIconName.Settings" /></Icon>
         </OmniNavTile>
     </OmniColumn>

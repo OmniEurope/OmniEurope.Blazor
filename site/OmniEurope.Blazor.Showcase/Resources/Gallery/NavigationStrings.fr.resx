@@ -85,4 +85,9 @@
   <data name="AppMenuSettingsDescription" xml:space="preserve"><value>Le mode et le thème sont toujours là ; les autres lignes suivent ce que l’application fournit.</value></data>
   <data name="AppMenuSettingsTitle" xml:space="preserve"><value>Lignes du menu</value></data>
   <data name="AppMenuFlags" xml:space="preserve"><value>Drapeaux</value></data>
+  <data name="AppMenuUserDisplay" xml:space="preserve"><value>Utilisateur sur le bouton</value></data>
+  <data name="AppMenuUserDisplayDescription" xml:space="preserve"><value>UserDisplay : le nom entier (coupé s’il est long, comme une adresse électronique), les initiales, ou l’icône d’utilisateur seule. Le nom entier reste dans le nom accessible et l’infobulle.</value></data>
+  <data name="AppMenuUserDisplayName" xml:space="preserve"><value>Nom</value></data>
+  <data name="AppMenuUserDisplayInitials" xml:space="preserve"><value>Initiales</value></data>
+  <data name="AppMenuUserDisplayIcon" xml:space="preserve"><value>Icône</value></data>
 </root>

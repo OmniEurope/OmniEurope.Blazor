@@ -321,6 +321,8 @@ qui défile, ou la page, ne rend que les éléments proches de la zone visible, 
 (écart de la grille compris) et dimensionne ses deux espaceurs par la propriété personnalisée
 `--omni-data-list-spacer`, posée depuis `omni-grid.js`. Aucun attribut `style` n'est rendu.
 
+`OmniDataList.Density` (`OmniDensity?`, nulle par défaut : la liste suit alors la densité de l'`OmniThemeScope` ou de la section qui l'entoure) donne à la liste sa propre densité, comme `OmniCard.Density` : elle pose `data-omni-density` sur la racine, et la marge intérieure de chaque élément (`--omni-space-md`) comme l'écart entre éléments (`--omni-space-sm`) la suivent, ainsi que tout ce que le gabarit d'élément contient. `Compact` resserre une liste d'une ligne par entrée (un dictionnaire, un journal) sans surcharge de la feuille de style : un élément d'une ligne de texte passe de 0,75 à 0,5 rem de marge de chaque côté et de 0,5 à 0,375 rem d'écart.
+
 ## Tri, filtres et regroupements
 
 - `AllowSorting`, `Filterable`, `AllowColumnResize` et `AllowGrouping` coupent les

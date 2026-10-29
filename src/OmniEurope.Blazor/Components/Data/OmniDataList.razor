@@ -3,7 +3,7 @@
 @inherits OmniComponentBase
 @implements IAsyncDisposable
 
-<section @ref="_root" @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-data-list")" aria-busy="@(_loading ? "true" : "false")">
+<section @ref="_root" @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-data-list")" data-omni-density="@OmniDensityAttribute.Of(Density)" aria-busy="@(_loading ? "true" : "false")">
     @if (_loading)
     {
         <div class="omni-data-list__state" role="status">@(LoadingContent ?? DefaultLoading)</div>

@@ -283,6 +283,8 @@
   <data name="NavTilesFitTitle" xml:space="preserve"><value>Fit the title</value></data>
   <data name="NavTilesFitTitleHint" xml:space="preserve"><value>The title shrinks to stay on one line instead of wrapping.</value></data>
   <data name="NavTilesFitTitleTitle" xml:space="preserve"><value>Titles fitted on one line</value></data>
+  <data name="NavTilesDisabled" xml:space="preserve"><value>Disabled tile</value></data>
+  <data name="NavTilesDisabledHint" xml:space="preserve"><value>Disabled: the last tile has no link, cannot take focus, is announced as unavailable and is attenuated, at the same size.</value></data>
   <data name="NavTilesToneNeutral" xml:space="preserve"><value>Neutral</value></data>
   <data name="NavTilesToneAccent" xml:space="preserve"><value>Accent</value></data>
   <data name="NavTilesToneInfo" xml:space="preserve"><value>Info</value></data>

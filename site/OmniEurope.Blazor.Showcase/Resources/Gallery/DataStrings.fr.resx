@@ -217,6 +217,8 @@
   <data name="DataListAnsiTitle" xml:space="preserve"><value>Texte ANSI</value></data>
   <data name="DataListCardsHint" xml:space="preserve"><value>Une liste dessinée en cartes, paginée par son propre pager, avec un export Markdown des dossiers.</value></data>
   <data name="DataListCardsTitle" xml:space="preserve"><value>Liste de cartes</value></data>
+  <data name="DataListDensityHint" xml:space="preserve"><value>Une liste d&apos;une ligne par entrée en trois densités. La densité resserre ou aère la marge de chaque ligne et l&apos;écart entre les lignes, sans style écrit par la page.</value></data>
+  <data name="DataListDensityTitle" xml:space="preserve"><value>Densité d&apos;une liste</value></data>
   <data name="DataListDescription" xml:space="preserve"><value>Une liste à modèle alimentée par une collection ou un chargeur asynchrone, avec ses états de chargement, de vide et d&apos;erreur, et la pagination autonome.</value></data>
   <data name="DataListEmptyData" xml:space="preserve"><value>Aucune donnée</value></data>
   <data name="DataListEmptyDataDescription" xml:space="preserve"><value>Vide le catalogue pour montrer le contenu d&apos;absence.</value></data>

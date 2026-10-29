@@ -8,7 +8,7 @@
    nothing. Every row has one height and the same grid (icon, label, value at the end). *@
 <OmniPopover AdditionalAttributes="AdditionalAttributes" Id="@Id" Class="@Css("omni-app-menu")"
              Open="@IsOpen" OpenChanged="SetOpenAsync"
-             Label="@EffectiveLabel" PopupLabel="@EffectiveLabel" TriggerTitle="@EffectiveLabel"
+             Label="@TriggerLabel" PopupLabel="@EffectiveLabel" TriggerTitle="@TriggerLabel"
              TriggerVariant="@(UserName is null ? OmniButtonVariant.Ghost : OmniButtonVariant.Primary)"
              TriggerClass="omni-app-menu__trigger" Disabled="Disabled" TriggerContent="@TriggerText">
     <TriggerIcon><OmniIcon Name="@(UserName is null ? OmniIconName.Sliders : OmniIconName.User)" /></TriggerIcon>

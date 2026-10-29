@@ -161,4 +161,21 @@ public sealed class DataListBehaviourTests : OmniBunitContext
         Assert.True(runtime.Module.Disposal.Task.IsCompleted);
         Assert.Contains("detachList", runtime.Module.Calls);
     }
+
+    [Fact]
+    public void Density_IsAnAttributeOnTheRoot_AndNullInheritsTheScopeDensity()
+    {
+        var inherited = RenderList(parameters => parameters.Add(list => list.Items, new[] { 1, 2 }));
+        var compact = RenderList(parameters => parameters
+            .Add(list => list.Items, new[] { 1, 2 })
+            .Add(list => list.Density, OmniDensity.Compact));
+        var spacious = RenderList(parameters => parameters
+            .Add(list => list.Items, new[] { 1, 2 })
+            .Add(list => list.Density, OmniDensity.Spacious));
+
+        Assert.False(inherited.Find(".omni-data-list").HasAttribute("data-omni-density"));
+        Assert.Equal("compact", compact.Find(".omni-data-list").GetAttribute("data-omni-density"));
+        Assert.Equal("spacious", spacious.Find(".omni-data-list").GetAttribute("data-omni-density"));
+        Assert.Equal(2, compact.FindAll(".omni-data-list__item").Count);
+    }
 }
