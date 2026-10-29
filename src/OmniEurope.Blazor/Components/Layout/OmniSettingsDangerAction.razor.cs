@@ -6,13 +6,15 @@ namespace OmniEurope.Blazor.Components;
 /// <see cref="OmniOverlayService.ConfirmAsync(OmniConfirmRequest)"/> (the browser's own question without
 /// an <see cref="OmniComponentsHost"/>); only the confirmation runs <see cref="OnConfirm"/>, and the
 /// button stays busy until it completes. Cancelling, Escape, the close button and the backdrop do
-/// nothing, and the dialog gives the focus back to the button.
+/// nothing, and the dialog gives the focus back to the button. An action that asks for something first
+/// (the current password) puts it in <see cref="ConfirmDetails"/> and its validity in <see cref="CanConfirm"/>.
 /// </summary>
 public partial class OmniSettingsDangerAction
 {
     private readonly string _generatedId = $"omni-settings-danger-action-{Guid.NewGuid():N}";
     private bool _asking;
     private bool _busy;
+    private OmniConfirmRequest? _request;
 
     [Inject]
     private IJSRuntime JavaScript { get; set; } = default!;
@@ -57,6 +59,35 @@ public partial class OmniSettingsDangerAction
     public string? ConfirmText { get; set; }
 
     /// <summary>
+    /// What the user has to do in the dialog before confirming, under the question: typing the current
+    /// password, the name of the project. The content is the host's, with its own bound field; the
+    /// action neither reads, stores nor logs what is typed. Put the validity of the entry in
+    /// <see cref="CanConfirm"/>. Needs an <see cref="OmniComponentsHost"/> to draw it: the browser's own
+    /// question has no room for a field, so the click throws <see cref="InvalidOperationException"/>
+    /// rather than ask without it. When set, the focus goes to the first field of the dialog on opening.
+    /// Null, the default, asks the question alone.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ConfirmDetails { get; set; }
+
+    /// <summary>
+    /// Whether the dialog's action can be chosen: false disables it while the entry of
+    /// <see cref="ConfirmDetails"/> is not valid, and <see cref="OnConfirm"/> does not run. The dialog
+    /// follows the value each time the host renders the action again, so bind it to a field the
+    /// details change. True by default.
+    /// </summary>
+    [Parameter]
+    public bool CanConfirm { get; set; } = true;
+
+    /// <summary>
+    /// Raised when the question ends without a confirmation (Cancel, Escape, the close button, the
+    /// backdrop), for the host to forget what it asked for in <see cref="ConfirmDetails"/> (a typed
+    /// password) instead of showing it again the next time. Never raised after a confirmation.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnCancel { get; set; }
+
+    /// <summary>
     /// Carries the action out once the user confirmed; the button is busy until the returned task
     /// completes, and a second click meanwhile is ignored.
     /// </summary>
@@ -86,6 +117,16 @@ public partial class OmniSettingsDangerAction
 
     private string ActionLabel => LocalizeOr(ActionText, "SettingsDangerActionText");
 
+    /// <summary>
+    /// The host renders the action again when its entry changes: an open dialog then redraws its details
+    /// and its action button from the new <see cref="CanConfirm"/>.
+    /// </summary>
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _request?.Refresh();
+    }
+
     // The button itself ignores a click while it is disabled or busy; while the question is open it is
     // neither, so a second click (the browser's own question, a quick double click) asks nothing more.
     private async Task ConfirmAsync()
@@ -106,8 +147,11 @@ public partial class OmniSettingsDangerAction
             _asking = false;
         }
 
-        if (!confirmed)
+        // The dialog's action is disabled while CanConfirm is false; the value is read once more here so
+        // that no path, whatever the dialog answered, runs OnConfirm on an entry the host holds invalid.
+        if (!confirmed || !CanConfirm)
         {
+            await OnCancel.InvokeAsync();
             return;
         }
 
@@ -132,15 +176,32 @@ public partial class OmniSettingsDangerAction
         var message = LocalizeOr(ConfirmMessage, "SettingsDangerConfirmMessage");
         if (Overlays is null)
         {
-            return await JavaScript.InvokeAsync<bool>("confirm", message);
+            if (ConfirmDetails is not null)
+            {
+                throw new InvalidOperationException(
+                    $"{nameof(OmniSettingsDangerAction)}.{nameof(ConfirmDetails)} needs an {nameof(OmniComponentsHost)} to draw it: the browser's own question has no room for a field.");
+            }
+
+            return CanConfirm && await JavaScript.InvokeAsync<bool>("confirm", message);
         }
 
-        return await Overlays.ConfirmAsync(new OmniConfirmRequest(string.IsNullOrWhiteSpace(ConfirmTitle) ? Title : ConfirmTitle, message)
+        var request = new OmniConfirmRequest(string.IsNullOrWhiteSpace(ConfirmTitle) ? Title : ConfirmTitle, message)
         {
             ConfirmText = string.IsNullOrWhiteSpace(ConfirmText) ? ActionLabel : ConfirmText,
             ConfirmVariant = OmniButtonVariant.Danger,
             ConfirmIcon = OmniIconName.Delete,
-            ConfirmIconContent = Icon
-        });
+            ConfirmIconContent = Icon,
+            Details = ConfirmDetails,
+            CanConfirm = () => CanConfirm
+        };
+        _request = request;
+        try
+        {
+            return await Overlays.ConfirmAsync(request);
+        }
+        finally
+        {
+            _request = null;
+        }
     }
 }

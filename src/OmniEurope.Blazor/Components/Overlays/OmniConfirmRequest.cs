@@ -44,6 +44,38 @@ public sealed record OmniConfirmRequest(string Title, string Message)
     /// </summary>
     public OmniTone? Intent { get; init; }
 
+    /// <summary>
+    /// What the user has to do before confirming, shown under <see cref="Message"/> (typing the current
+    /// password, ticking a box). The content is the host's: the dialog reads nothing of it, stores nothing
+    /// of it and logs nothing of it. A request with details puts the focus on the first field of the
+    /// dialog when it opens (<see cref="OmniDialogInitialFocus.FirstFocusable"/>). Null, the default, shows
+    /// the message alone.
+    /// </summary>
+    public RenderFragment? Details { get; init; }
+
+    /// <summary>
+    /// Whether the action can be chosen now, read each time the dialog draws: while it returns false the
+    /// action button is disabled and the question is never answered true. Null, the default, always
+    /// allows it. The dialog redraws when the host calls <see cref="Refresh"/>.
+    /// </summary>
+    public Func<bool>? CanConfirm { get; init; }
+
+    private Action? _refreshed;
+
+    internal event Action? Refreshed
+    {
+        add => _refreshed += value;
+        remove => _refreshed -= value;
+    }
+
+    /// <summary>
+    /// Tells the dialog that what <see cref="Details"/> and <see cref="CanConfirm"/> read has changed: it
+    /// redraws the details and the action button. Does nothing when the dialog is not open.
+    /// </summary>
+    public void Refresh() => _refreshed?.Invoke();
+
+    internal bool IsConfirmAllowed => CanConfirm?.Invoke() ?? true;
+
     internal OmniTone EffectiveIntent => Intent
         ?? (ConfirmVariant == OmniButtonVariant.Danger ? OmniTone.Warning : OmniTone.Accent);
 }

@@ -210,4 +210,19 @@ Une page de réglages range ses actions irréversibles (supprimer un projet, ré
 - Un échec d'`OnConfirm` va à `OnConfirmError`, qui reçoit l'exception (à l'hôte de le dire, par exemple par `OmniOverlayService.Notify`) ; sans gestionnaire, l'exception remonte au moteur de rendu, comme pour `OmniMarkdownExportButton.OnExportError`. Une annulation (`OperationCanceledException`) n'y passe jamais.
 - `Disabled` désactive le bouton (action interdite à cet utilisateur).
 - Le bouton garde son texte visible pour nom accessible ; il est décrit (`aria-describedby`) par le nom et la description de la tuile, donc un lecteur d'écran entend quelle action il lance. `Id` va sur le bouton, avec les attributs supplémentaires ; `Class` sur la tuile.
-- Le paquet n'a pas de saisie de confirmation (taper le nom du projet) : la confirmation est le dialogue du paquet.
+- Une action qui demande quelque chose avant de s'exécuter (supprimer un compte : le mot de passe actuel ; supprimer un projet : son nom) met sa saisie dans `ConfirmDetails` (un `RenderFragment`, affiché sous la question, avec le champ de l'hôte lié à son propre état) et sa validité dans `CanConfirm` (`bool`, vrai par défaut) :
+
+  ```razor
+  <OmniSettingsDangerAction Title="Supprimer le compte" CanConfirm="@(_password.Length >= 8)"
+                            OnConfirm="DeleteAccountAsync" OnCancel="@(() => _password = string.Empty)">
+      <ConfirmDetails>
+          <OmniFormField For="current-password">
+              <LabelContent>Mot de passe actuel</LabelContent>
+              <ChildContent><OmniPassword Id="current-password" @bind-Value="_password" /></ChildContent>
+          </OmniFormField>
+      </ConfirmDetails>
+  </OmniSettingsDangerAction>
+  ```
+
+  Tant que `CanConfirm` est faux, le bouton d'action du dialogue est désactivé et `OnConfirm` n'est jamais appelé ; le dialogue suit la valeur chaque fois que l'hôte rend l'action de nouveau (la saisie qui change fait rendre la page, donc l'action). Le focus va au premier champ du dialogue à l'ouverture ; l'ordre de tabulation est le champ, l'action (sautée tant qu'elle est désactivée), Annuler, puis la croix. Le composant ne lit, ne garde et ne journalise rien de ce qui est saisi : le champ est celui de l'hôte, qui décide du contrôle et le vide à l'issue (`OnCancel`, levé quand la question se ferme sans confirmation : Annuler, Échap, la croix, le fond ; jamais après une confirmation). Sans `OmniComponentsHost`, le navigateur n'a pas la place d'un champ : un clic avec `ConfirmDetails` lève `InvalidOperationException` plutôt que de poser la question sans lui, et un `CanConfirm` faux sans détails ne pose aucune question. La même mécanique existe pour tout dialogue de confirmation : `OmniConfirmRequest.Details` et `OmniConfirmRequest.CanConfirm` (`Func<bool>`), avec `Refresh()` pour faire redessiner le dialogue ; `OmniOverlayService.ConfirmAsync` les rend.
+- Le paquet n'a pas de contrôle de saisie qui lui soit propre pour cette confirmation : le champ est toujours celui de l'hôte.

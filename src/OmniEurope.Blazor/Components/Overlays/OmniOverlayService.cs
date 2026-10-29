@@ -151,7 +151,9 @@ public sealed class OmniOverlayService : IDisposable
     /// Asks a yes-or-no question in a dialog built to the package's button convention: the action
     /// first, cancelling after it in the neutral <see cref="OmniButtonVariant.Secondary"/>, both at the end of the
     /// footer and each with its icon. True only when the action is chosen; cancelling, the close
-    /// button, Escape and the backdrop all answer false.
+    /// button, Escape and the backdrop all answer false. A request with <see cref="OmniConfirmRequest.Details"/>
+    /// draws them under the question, and while its <see cref="OmniConfirmRequest.CanConfirm"/> says no the
+    /// action is disabled and never answers true.
     /// </summary>
     public async Task<bool> ConfirmAsync(OmniConfirmRequest request)
     {
@@ -162,9 +164,17 @@ public sealed class OmniOverlayService : IDisposable
             content.AddAttribute(1, "class", "omni-confirm__message");
             content.AddContent(2, request.Message);
             content.CloseElement();
+            if (request.Details is not null)
+            {
+                content.OpenComponent<OmniConfirmDetails>(3);
+                content.AddComponentParameter(4, nameof(OmniConfirmDetails.Request), request);
+                content.CloseComponent();
+            }
         })
         {
             Intent = request.EffectiveIntent,
+            // A question that asks for something puts the cursor where the answer is typed.
+            InitialFocus = request.Details is null ? OmniDialogInitialFocus.CloseButton : OmniDialogInitialFocus.FirstFocusable,
             FooterContent = footer =>
             {
                 footer.OpenComponent<OmniConfirmFooter>(0);
