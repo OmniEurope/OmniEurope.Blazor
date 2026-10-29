@@ -8,6 +8,8 @@ namespace OmniEurope.Blazor.Components;
 /// scroll container of the page.
 /// </summary>
 /// <remarks>
+/// A page veil (<see cref="OmniPageVeil"/>) declared in the content covers this main area and nothing
+/// else: the area draws it over its own frame, so the header and the sidebar stay visible.
 /// The outermost main area (one not nested in another <see cref="OmniMain"/>) follows the user's content
 /// width, <see cref="OmniAppearanceState.FullWidth"/>: when the user asks for the whole width, it is
 /// drawn as <see cref="OmniLayoutWidth.FullWidth"/> whatever <see cref="ContentWidth"/> says; otherwise
@@ -23,6 +25,7 @@ public partial class OmniMain
     private bool _watching;
     private bool _disposed;
     private AppearanceFollower? _shared;
+    private readonly List<OmniPageVeil> _veils = [];
 
     [Inject]
     private IJSRuntime JavaScript { get; set; } = default!;
@@ -136,6 +139,22 @@ public partial class OmniMain
         }
         catch (JSDisconnectedException)
         {
+        }
+    }
+
+    /// <summary>Holds a page veil declared in this main area, which draws it over the area instead of in place.</summary>
+    internal void AddVeil(OmniPageVeil veil)
+    {
+        _veils.Add(veil);
+        _ = InvokeAsync(StateHasChanged);
+    }
+
+    /// <summary>Lets go of a page veil that was disposed or moved to another scope.</summary>
+    internal void RemoveVeil(OmniPageVeil veil)
+    {
+        if (_veils.Remove(veil) && !_disposed)
+        {
+            _ = InvokeAsync(StateHasChanged);
         }
     }
 

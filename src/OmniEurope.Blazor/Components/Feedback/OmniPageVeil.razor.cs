@@ -1,7 +1,7 @@
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
-/// The wait of a whole page: an opaque veil fixed over the viewport, in one constant colour of the
+/// The wait of a page: an opaque veil over the content of the page, in one constant colour of the
 /// theme (light and dark), with the application's own logo at its centre. It replaces the veils an
 /// application would otherwise lay by hand on each page.
 /// </summary>
@@ -21,13 +21,24 @@ namespace OmniEurope.Blazor.Components;
 /// </para>
 /// <para>
 /// The wait is announced as a polite status in words (<see cref="Label"/>, the localized "Loading in
-/// progress" by default); the logo is decorative. The veil sits at <c>--omni-z-overlay</c>: above the
-/// page, the header and the sidebars, under the notifications, windows, tooltips and the blocking
-/// connection overlay.
+/// progress" by default); the logo is decorative.
+/// </para>
+/// <para>
+/// Declared inside an <see cref="OmniMain"/> (the default <see cref="Scope"/>), the veil covers that main
+/// area and nothing else: the header and the sidebar stay visible and usable. It draws nothing where it is
+/// declared; the main area draws it over its own frame (the whole visible area of a
+/// <see cref="OmniMain.Scrollable"/> one, which does not scroll with the content; the main element of any
+/// other, the logo kept in the visible part of the window), so no ancestor of the veil can capture it.
+/// Anywhere else, or with <see cref="OmniPageVeilScope.Viewport"/>, it is drawn in place and fixed over the
+/// window at <c>--omni-z-overlay</c>: above the page, the header and the sidebars, under the notifications,
+/// windows, tooltips and the blocking connection overlay. Over a main area it sits above the content and
+/// under the sidebar drawer.
 /// </para>
 /// </remarks>
-public partial class OmniPageVeil
+public partial class OmniPageVeil : IDisposable
 {
+    private OmniMain? _host;
+
     /// <summary>
     /// True while the page waits: the veil then exists and shows after the delay. False, the default,
     /// renders nothing.
@@ -51,11 +62,58 @@ public partial class OmniPageVeil
     [Parameter]
     public string? LogoSource { get; set; }
 
+    /// <summary>
+    /// How much of the window the veil covers: the content of the page (the default), or the whole window.
+    /// </summary>
+    [Parameter]
+    public OmniPageVeilScope Scope { get; set; }
+
     /// <summary>What is announced while the veil is up; the localized "Loading in progress" when null or blank.</summary>
     [Parameter]
     public string? Label { get; set; }
 
-    private bool HasLogo => Logo is not null || !string.IsNullOrWhiteSpace(LogoSource);
+    /// <summary>The main area this veil is declared in, if any: the one that draws it for <see cref="OmniPageVeilScope.Content"/>.</summary>
+    [CascadingParameter]
+    private OmniMain? Main { get; set; }
 
-    private string EffectiveLabel => LocalizeOr(Label, "LoadingLabel");
+    /// <summary>Raised when a parameter was set, so the element, drawn by the main area, draws again.</summary>
+    internal event Action? Changed;
+
+    /// <summary>The element of the veil, keyed by the veil so the main area that draws it keeps it across renders.</summary>
+    internal RenderFragment Surface => builder =>
+    {
+        builder.OpenComponent<OmniPageVeilSurface>(0);
+        builder.SetKey(this);
+        builder.AddComponentParameter(1, nameof(OmniPageVeilSurface.Veil), this);
+        builder.CloseComponent();
+    };
+
+    internal bool HasLogo => Logo is not null || !string.IsNullOrWhiteSpace(LogoSource);
+
+    internal string EffectiveLabel => LocalizeOr(Label, "LoadingLabel");
+
+    /// <summary>The element's classes: the viewport veil is the base; a veil held by a main area adds how that area frames it.</summary>
+    internal string RootClass => Css("omni-page-veil", _host is null ? null : _host.Scrollable ? "omni-page-veil--frame" : "omni-page-veil--flow");
+
+    /// <summary>Hands the veil to its main area (or takes it back) and tells the element to draw again.</summary>
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        var host = Scope == OmniPageVeilScope.Content ? Main : null;
+        if (!ReferenceEquals(host, _host))
+        {
+            _host?.RemoveVeil(this);
+            _host = host;
+            _host?.AddVeil(this);
+        }
+
+        Changed?.Invoke();
+    }
+
+    /// <summary>Takes the veil back from its main area.</summary>
+    public void Dispose()
+    {
+        _host?.RemoveVeil(this);
+        _host = null;
+    }
 }

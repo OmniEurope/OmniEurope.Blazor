@@ -1,29 +1,14 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-@* The wait of a whole page: an opaque layer fixed over the viewport with the application's own logo at its
-   centre. Nothing here animates; the wait is told in words to assistive technologies (the logo is
-   decorative) and the veil only shows once the wait has lasted 100 ms, a delay the stylesheet keeps
-   (no timer, so a wait that ends sooner removes the element before it was ever visible). *@
-@if (Busy)
+@* The wait of a page: an opaque layer with the application's own logo at its centre. Nothing here animates;
+   the wait is told in words to assistive technologies (the logo is decorative) and the veil only shows once
+   the wait has lasted 100 ms, a delay the stylesheet keeps (no timer, so a wait that ends sooner removes the
+   element before it was ever visible). The element itself is OmniPageVeilSurface. Inside an OmniMain the
+   veil draws nothing here: the main area draws it over its own frame, so no ancestor of the veil, a
+   positioned card for example, can capture it or scroll it. Anywhere else it is drawn in place, fixed to
+   the viewport. *@
+@if (_host is null)
 {
-    <div @attributes="AdditionalAttributes"
-         id="@Id"
-         class="@Css("omni-page-veil")"
-         role="status">
-        @if (HasLogo)
-        {
-            <span class="omni-page-veil__logo" aria-hidden="true">
-                @if (Logo is not null)
-                {
-                    @Logo
-                }
-                else
-                {
-                    <img class="omni-page-veil__image" src="@LogoSource" alt="" />
-                }
-            </span>
-        }
-        <span class="omni-visually-hidden">@EffectiveLabel</span>
-    </div>
+    @Surface
 }
