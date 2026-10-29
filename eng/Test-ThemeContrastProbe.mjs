@@ -955,6 +955,7 @@ if (shippedLookHere && chosenModes.length > 0) {
 // 2. Every combination (theme x palette x mode).
 const defaultPalette = {};
 const startedAt = Date.now();
+// nosemgrep - the keys are the probe's own theme names (chosenThemes), never parsed input.
 for (const theme of chosenThemes) {
   // Light is asked before each theme while the mode picker allows it, so a dark-only theme proves it
   // draws dark whatever the mode asked.

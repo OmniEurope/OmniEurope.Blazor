@@ -196,6 +196,7 @@ export function insertHtmlAt(surface, range, html) {
     }
 
     const template = document.createElement('template');
+    // nosemgrep - every caller passes sanitized HTML (OmniHtmlSanitizer output) or markup it escaped itself (tableHtml, escapeHtml).
     template.innerHTML = html;
     const last = template.content.lastChild;
     if (!last) {

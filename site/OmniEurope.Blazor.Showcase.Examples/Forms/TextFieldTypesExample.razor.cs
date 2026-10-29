@@ -3,7 +3,7 @@ namespace OmniEurope.Blazor.Showcase.Examples.Forms;
 /// <summary>The single-line box in each of its types.</summary>
 public partial class TextFieldTypesExample
 {
-    private const string PasswordAlphabet = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    private const string PasswordAlphabet = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // gitleaks:allow (an alphabet for generated demo passwords, not a secret)
 
     private string Text { get; set; } = string.Empty;
 

@@ -89,6 +89,7 @@ await new Promise((resolve, reject) => {
 let commandId = 0;
 const pending = new Map();
 const consoleErrors = [];
+// nosemgrep - a CDP WebSocket on the loopback debugging port, not a window postMessage: there is no origin to check.
 socket.addEventListener('message', event => {
   const message = JSON.parse(event.data);
   if (message.id && pending.has(message.id)) {
