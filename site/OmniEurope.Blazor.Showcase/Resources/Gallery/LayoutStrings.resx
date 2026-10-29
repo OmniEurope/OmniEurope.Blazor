@@ -259,6 +259,8 @@
   <data name="StatTilesPreviewTitle" xml:space="preserve"><value>Live preview</value></data>
   <data name="StatTilesGalleryTitle" xml:space="preserve"><value>Gallery</value></data>
   <data name="StatTilesColumnsTitle" xml:space="preserve"><value>Tiles in columns</value></data>
+  <data name="StatTilesWrapTitle" xml:space="preserve"><value>A long caption that wraps</value></data>
+  <data name="StatTilesWrapDescription" xml:space="preserve"><value>With WrapTitle the caption wraps at its normal size instead of shrinking and being cut. The first tile wraps, the second keeps the caption on one line, and the three tiles of the grid keep the same height.</value></data>
   <data name="StatTilesColumnsDescription" xml:space="preserve"><value>The second tile is clickable. The title of a tile stays on one line: smaller when it does not fit, then cut with an ellipsis, its whole text in the tooltip (third tile, narrowed to a small column).</value></data>
   <data name="StatTilesFactsTitle" xml:space="preserve"><value>Fact tiles</value></data>
   <data name="StatTilesFactsDescription" xml:space="preserve"><value>A title, then rows of icon, term and value on three columns shared by the tiles of the grid, so they line up. A value too long is cut with an ellipsis and read whole in the tooltip. The first tile carries linked values, the second a badge, the third is a single link.</value></data>

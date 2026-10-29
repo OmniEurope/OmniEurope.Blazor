@@ -58,6 +58,17 @@ public partial class OmniStatTile
     [Parameter]
     public bool DoubleWidth { get; set; }
 
+    /// <summary>
+    /// Lets the <see cref="Title"/> wrap onto as many lines as it needs, at the normal caption size, instead of
+    /// keeping it on one line that shrinks, then is cut with an ellipsis. For a long caption such as
+    /// "Longest streak of correct answers". The tile grows taller, and in an <see cref="OmniTileGrid"/> with
+    /// equal heights (the default) every tile of the grid takes the height of the tallest, as with a detail
+    /// line; with <c>EqualHeights="false"</c> only the tiles of that row do. Long words break rather than
+    /// overflow. False by default: the caption stays on one line.
+    /// </summary>
+    [Parameter]
+    public bool WrapTitle { get; set; }
+
     /// <summary>Checks that <see cref="Href"/> and <see cref="OnClick"/> are not both given and that the address is safe.</summary>
     /// <exception cref="ArgumentException"><see cref="Href"/> and <see cref="OnClick"/> are both given.</exception>
     /// <exception cref="InvalidOperationException"><see cref="Href"/> uses a scheme that is not allowed, or is a relative address that names another host (`//host`).</exception>

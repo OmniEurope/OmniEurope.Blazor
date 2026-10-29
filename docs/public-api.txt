@@ -3688,6 +3688,7 @@ property public OmniEurope.Blazor.Components.OmniStatTile.Icon : Microsoft.AspNe
 property public OmniEurope.Blazor.Components.OmniStatTile.OnClick : Microsoft.AspNetCore.Components.EventCallback<Microsoft.AspNetCore.Components.Web.MouseEventArgs> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniStatTile.Title : System.String {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniStatTile.Value : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniStatTile.WrapTitle : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniStatus.Description : System.String? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniStatus.Fill : OmniEurope.Blazor.Components.OmniFill {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniStatus.Icon : OmniEurope.Blazor.Components.OmniIconName? {get(public);init(public)}
