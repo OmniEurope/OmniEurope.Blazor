@@ -70,8 +70,24 @@ public sealed class VisitorPreferenceService(
         string clientPartition, CancellationToken cancellationToken)
     {
         var now = time.GetUtcNow();
-        var visitor = await repository.FindVisitorAsync(visitorKey, cancellationToken).ConfigureAwait(false)
-            ?? await CreateVisitorAsync(visitorKey, clientPartition, now, cancellationToken).ConfigureAwait(false);
+        var visitor = await repository.FindVisitorAsync(visitorKey, cancellationToken).ConfigureAwait(false);
+        if (visitor is not null)
+        {
+            return await WriteAsync(visitor, visitorKey, key, value, updatedAt, now, cancellationToken).ConfigureAwait(false);
+        }
+
+        // A new visitor: its admission (the capacity count, the insert and the save) holds the admission
+        // lock until the commit, so concurrent admissions on every API instance see each other's rows.
+        await using var admission = await unitOfWork.BeginTransactionAsync(cancellationToken).ConfigureAwait(false);
+        var admitted = await AdmitVisitorAsync(visitorKey, clientPartition, now, cancellationToken).ConfigureAwait(false);
+        var outcome = await WriteAsync(admitted, visitorKey, key, value, updatedAt, now, cancellationToken).ConfigureAwait(false);
+        await admission.CommitAsync(cancellationToken).ConfigureAwait(false);
+        return outcome;
+    }
+
+    private async Task<VisitorPreferenceSaveOutcome> WriteAsync(Visitor visitor, string visitorKey, string key, string? value,
+        DateTimeOffset updatedAt, DateTimeOffset now, CancellationToken cancellationToken)
+    {
         // Every write moves the revision, the concurrency token: of two writes of this visitor at once,
         // the second fails to save and replays with the quotas the first one left.
         visitor.LastSeenAt = now;
@@ -99,8 +115,15 @@ public sealed class VisitorPreferenceService(
         return VisitorPreferenceSaveOutcome.Stored;
     }
 
-    private async Task<Visitor> CreateVisitorAsync(string visitorKey, string clientPartition, DateTimeOffset now, CancellationToken cancellationToken)
+    private async Task<Visitor> AdmitVisitorAsync(string visitorKey, string clientPartition, DateTimeOffset now, CancellationToken cancellationToken)
     {
+        await repository.LockVisitorAdmissionAsync(cancellationToken).ConfigureAwait(false);
+        // A concurrent first write of the same visitor may have been admitted while this one waited for the lock.
+        if (await repository.FindVisitorAsync(visitorKey, cancellationToken).ConfigureAwait(false) is { } admitted)
+        {
+            return admitted;
+        }
+
         if (await repository.CountVisitorsAsync(cancellationToken).ConfigureAwait(false) >= _limits.MaxVisitors)
         {
             logger.LogWarning("The visitor capacity ({MaxVisitors}) is reached: a new visitor was refused.", _limits.MaxVisitors);

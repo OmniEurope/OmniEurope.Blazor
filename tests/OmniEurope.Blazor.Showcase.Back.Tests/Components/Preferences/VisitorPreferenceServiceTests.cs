@@ -120,6 +120,21 @@ public sealed class VisitorPreferenceServiceTests
         await Assert.ThrowsAsync<CapacityReachedException>(() =>
             service.SaveAsync(VisitorPreferenceApi.CreateVisitorId(), "k", Request("1", Now), "a", Token));
         Assert.Equal(2, _repository.Visitors.Count);
+        // Every admission counted under the admission lock; only the two admitted ones committed.
+        Assert.Equal(3, _repository.AdmissionLocks);
+        Assert.Equal(2, _unitOfWork.Commits);
+    }
+
+    [Fact]
+    public async Task Save_OfAnExistingVisitor_TakesNoAdmissionLock()
+    {
+        var service = Create();
+        var visitor = VisitorPreferenceApi.CreateVisitorId();
+        await service.SaveAsync(visitor, "k1", Request("1", Now), "a", Token);
+
+        await service.SaveAsync(visitor, "k2", Request("1", Now), "a", Token);
+
+        Assert.Equal(1, _repository.AdmissionLocks);
     }
 
     [Fact]

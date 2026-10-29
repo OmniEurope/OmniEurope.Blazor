@@ -16,6 +16,13 @@ public interface IVisitorPreferenceRepository
     /// <summary>The visitor, tracked for a write, or null.</summary>
     Task<Visitor?> FindVisitorAsync(string visitorKey, CancellationToken cancellationToken);
 
+    /// <summary>
+    /// Waits for, then holds until the end of the open transaction, the one lock every visitor admission takes,
+    /// across every API instance on the database: the count and the insert of an admission run alone.
+    /// </summary>
+    /// <remarks>Only meaningful inside <see cref="Shared.IUnitOfWork.BeginTransactionAsync"/>: outside, the lock ends with the statement.</remarks>
+    Task LockVisitorAdmissionAsync(CancellationToken cancellationToken);
+
     Task<int> CountVisitorsAsync(CancellationToken cancellationToken);
 
     void AddVisitor(Visitor visitor);

@@ -97,6 +97,40 @@ public sealed class PreferenceLimitsApiTests(PostgresFixture postgres)
     }
 
     [Fact]
+    public async Task ConcurrentNewVisitors_NeverGoPastTheVisitorCapacity()
+    {
+        await using var factory = new ShowcaseApiFactory(postgres, new Dictionary<string, string>
+        {
+            ["Preferences:Limits:MaxVisitors"] = "1",
+            ["Preferences:Limits:NewVisitorsPerAddressPerHour"] = "100",
+        });
+        using var client = factory.CreateClient();
+
+        var responses = await Task.WhenAll(Enumerable.Range(0, 12).Select(_ => PutAsync(client, VisitorPreferenceApi.CreateVisitorId(), "k")));
+
+        await using var scope = factory.Services.CreateAsyncScope();
+        var db = scope.ServiceProvider.GetRequiredService<ShowcaseDbContext>();
+        Assert.Equal(1, db.Visitors.Count());
+        Assert.Equal(1, responses.Count(response => response.StatusCode == HttpStatusCode.NoContent));
+        Assert.Equal(11, responses.Count(response => response.StatusCode == HttpStatusCode.ServiceUnavailable));
+    }
+
+    [Fact]
+    public async Task ConcurrentFirstWrites_OfOneNewVisitor_AreAllAdmitted()
+    {
+        await using var factory = new ShowcaseApiFactory(postgres, new Dictionary<string, string> { ["Preferences:Limits:MaxVisitors"] = "1" });
+        using var client = factory.CreateClient();
+        var visitor = VisitorPreferenceApi.CreateVisitorId();
+
+        var responses = await Task.WhenAll(Enumerable.Range(0, 6).Select(index => PutAsync(client, visitor, $"k{index}")));
+
+        // The writes that wait for the admission lock find the visitor the first one created: none is refused as over capacity.
+        Assert.DoesNotContain(responses, response => response.StatusCode == HttpStatusCode.ServiceUnavailable);
+        await using var scope = factory.Services.CreateAsyncScope();
+        Assert.Equal(1, scope.ServiceProvider.GetRequiredService<ShowcaseDbContext>().Visitors.Count());
+    }
+
+    [Fact]
     public async Task TheRetention_DeletesIdleVisitorsWithTheirPreferences_AndKeepsTheOthers()
     {
         await using var factory = new ShowcaseApiFactory(postgres, new Dictionary<string, string>
