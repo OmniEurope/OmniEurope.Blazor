@@ -328,11 +328,13 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
 
     private sealed class CountedModule : IJSObjectReference
     {
-        public int Disposals { get; private set; }
+        private int _disposals;
+
+        public int Disposals => Volatile.Read(ref _disposals);
 
         public ValueTask DisposeAsync()
         {
-            Disposals++;
+            Interlocked.Increment(ref _disposals);
             return ValueTask.CompletedTask;
         }
 

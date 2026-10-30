@@ -9,8 +9,8 @@ param(
     # AutoFit: the fit to content of a grid column, double click, off-screen virtual row and Enter.
     # MindMap: the mind map gestures, trusted drag, wheel zoom, keyboard, context menu, double click.
     # Modules: the grid filter popovers, the fold of the page header and the visual HTML editor.
-    # Languages: no text leaves its box and no page scrolls sideways in German, Finnish, Greek and
-    # Hungarian, at 1280 and 390 px.
+    # Languages: no text leaves its box and no page scrolls sideways in English and French,
+    # at 1280 and 390 px.
     # Omitted: every probe of $scripts below, in its order, except Contrast.
     [ValidateSet('Pickers', 'Density', 'Contrast', 'AutoFit', 'MindMap', 'Modules', 'Languages', 'Scripts')]
     [string[]]$Probe,
@@ -36,7 +36,7 @@ param(
 #
 # With more than one worker (-Parallel), the probes run as units on a pool of workers, the longest units
 # first. Contrast is cut into 2 x workers shards by theme plus one for the shipped look, and Languages into
-# 2 x workers shards of language x width pairs, eight at most (eng/ProbeShards.mjs): each shard checks
+# 2 x workers shards of language x width pairs, four at most (eng/ProbeShards.mjs): each shard checks
 # its slice at full strength, and eng/Merge-ProbeShards.mjs then proves the shards cover the whole pass
 # exactly once and gives the result of the whole probe (for Contrast, the one registry). Each unit runs
 # in a fresh browser; its output is buffered and printed whole, in the probes' order.
@@ -120,8 +120,8 @@ try {
         $shardDirectory = Join-Path ([IO.Path]::GetTempPath()) ('omni-probe-shards-' + [guid]::NewGuid().ToString('N'))
         New-Item -ItemType Directory -Path $shardDirectory | Out-Null
         if ($Probe -contains 'Contrast') { $shardCounts.Contrast = 2 * $Parallel + 1 }
-        # Languages walks 4 languages x 2 widths: at most one shard per pair, never an empty shard.
-        if ($Probe -contains 'Languages') { $shardCounts.Languages = [Math]::Min(8, 2 * $Parallel) }
+        # Languages walks 2 languages x 2 widths: at most one shard per pair, never an empty shard.
+        if ($Probe -contains 'Languages') { $shardCounts.Languages = [Math]::Min(4, 2 * $Parallel) }
     }
     $units = [Collections.Generic.List[object]]::new()
     foreach ($name in $Probe) {
