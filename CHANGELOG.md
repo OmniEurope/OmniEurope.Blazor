@@ -6,6 +6,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Breaking changes
 
+- `OmniDataGrid` lit `RendererInfo` dès son rendu : un projet qui le rend en bUnit doit poser `SetRendererInfo(new RendererInfo("Server", isInteractive: true))` sur son contexte de test, sinon le rendu lève `MissingRendererInfoException`. Constaté sur 1 875 tests d'une application cliente ; `OmniBunitContext` montre le modèle.
 - `IOmniPreferenceStore.SaveAsync` renvoie `Task<OmniPreference>` au lieu de `Task` : la préférence que le stockage tient pour la clé une fois l'écriture faite. Le stockage fait autorité sur les dates : `OmniPreferences` remplace l'entrée du cache du navigateur par cette réponse (sauf si une écriture locale plus récente l'a remplacée entre-temps), si bien qu'une date corrigée par le serveur (horloge d'un poste en avance) ne bloque plus les valeurs écrites ensuite sur un autre poste (audit A360-002). Migration : renvoyer la préférence enregistrée, `return preference;` pour un stockage qui garde la date reçue. Quand la réponse porte une autre valeur (le stockage gardait une valeur plus récente), le cache la prend et `Changed` est levé avec l'origine `Store`.
 
 ### Changed
