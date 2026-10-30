@@ -27,6 +27,10 @@ function local() {
 }
 
 export function get(key) {
+    if (memory.has(key)) {
+        return memory.get(key);
+    }
+
     const area = local();
     if (area) {
         try {
@@ -39,7 +43,7 @@ export function get(key) {
         }
     }
 
-    return memory.has(key) ? memory.get(key) : null;
+    return null;
 }
 
 export function set(key, value) {
@@ -57,7 +61,7 @@ export function set(key, value) {
     memory.set(key, value);
 }
 
-// Every entry whose key starts with the prefix, as [key, value] pairs; the stored copy wins over memory.
+// Every entry whose key starts with the prefix, as [key, value] pairs; an unpersisted memory copy wins.
 export function entries(prefix) {
     const found = new Map();
     for (const [key, value] of memory) {
@@ -72,7 +76,7 @@ export function entries(prefix) {
             for (let index = 0; index < area.length; index++) {
                 const key = area.key(index);
                 const value = key !== null && key.startsWith(prefix) ? area.getItem(key) : null;
-                if (value !== null) {
+                if (value !== null && !found.has(key)) {
                     found.set(key, value);
                 }
             }

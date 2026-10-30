@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # PLAN-009 : Remédiation de l’audit 360 du 2026-10-30
 
-> Statut : **ouvert, lot 1 terminé le 2026-10-30**. A360-008 et A360-011 vérifiés ; autres lots non commencés. Lot 1 et commit final autorisés par le propriétaire.
+> Statut : **ouvert, lots 1 et 2 terminés le 2026-10-30**. A360-001, A360-002, A360-008 et A360-011 vérifiés ; autres lots non commencés. Correction adjacente du seul test de menu explicitement autorisée et vérifiée.
 
 ## Objectif et périmètre
 
@@ -46,10 +46,12 @@ Lot 1 livré : Languages passe avec Parallel 4, 2 et 1 (316 mesures à chaque pa
 
 ### Lot 2 : protéger la page et les préférences, P1
 
-- [ ] **A360-001** : dans `wwwroot/html-editor/tables.js`, reproduire le collage d’une cellule B avec `rowspan="2"` en dernière ligne, puis Delete row. Traiter l’absence de ligne suivante dans le chemin existant. Rejouer une suppression ordinaire, des cellules fusionnées valides et la conservation des cellules voisines.
-- [ ] **A360-002** : dans `wwwroot/omni-preferences.js`, reproduire un vrai quota localStorage sur une origine de test isolée : ancienne valeur persistée, écriture nouvelle non persistable, lecture par `get` et `entries`. Faire primer le repli mémoire approprié et contrôler sa réconciliation après une nouvelle écriture persistante réussie, ainsi que remove et clear.
+- [x] **A360-001** : dans `wwwroot/html-editor/tables.js`, reproduire le collage d’une cellule B avec `rowspan="2"` en dernière ligne, puis Delete row. Traiter l’absence de ligne suivante dans le chemin existant. Rejouer une suppression ordinaire, des cellules fusionnées valides et la conservation des cellules voisines.
+- [x] **A360-002** : dans `wwwroot/omni-preferences.js`, reproduire un vrai quota localStorage sur une origine de test isolée : ancienne valeur persistée, écriture nouvelle non persistable, lecture par `get` et `entries`. Faire primer le repli mémoire approprié et contrôler sa réconciliation après une nouvelle écriture persistante réussie, ainsi que remove et clear.
 
 Contrôle : dans un vrai navigateur, l’éditeur reste utilisable, la cellule supprimée disparaît et les cellules attendues restent présentes, sans JSException. Pour les préférences, les deux lectures rendent la nouvelle valeur après échec persistant ; après libération du quota et écriture réussie, elles rendent la nouvelle valeur persistée. Extraire le module du nupkg frais et comparer son SHA avant la preuve. Nettoyer uniquement les clés de test. Cette preuve JS ne vaut pas preuve C#/HTTP/PostgreSQL : ajouter le parcours consommateur réel si le contrat de cette couche est concerné par le correctif.
+
+Lot 2 livré : les deux défauts sont reproduits avant modification puis vérifiés sur les mêmes parcours. Quatre suppressions de tableau contrôlées dans la démo ; quota natif, tombstone et réconciliation contrôlés avec le module extrait du nupkg. Le test adjacent du menu est corrigé sur accord explicite, dix passages consécutifs réussissent et la suite complète compte 10 908 réussites. Voir les [preuves du lot 2](PLAN-009-lot-2-verifications.md).
 
 ### Lot 3 : verrouillage et actions utilisateur, P1 puis P2
 
@@ -97,6 +99,6 @@ Contrôle : journal de clôture par constat, avec base Git, fichiers strictement
 
 Ordre proposé : lot 1 (outils de preuve), lot 2 (exception et préférence), lot 3 (verrouillage et actions), lot 4 (disposition), lot 5 (couverture finale), lot 6 (documentation), lot 7 (recette du paquet et de la démo). Le lot 6 ne dépend pas des correctifs produit, mais ses descriptions de mesures doivent utiliser les résultats frais. Le lot 5 est P1, exécuté après les correctifs pour éviter une mesure périmée.
 
-Avant chaque lot, confirmer l’état Git et réutiliser la reproduction conservée. Un correctif non reproductible, un changement d’API, une version, une politique ou une extension architecturale exige une décision supplémentaire. Ne pas corriger un défaut adjacent par opportunité. La demande du 2026-10-30 autorise le lot 1 et son commit final. Aucun autre lot, push ou déploiement autorisé.
+Avant chaque lot, confirmer l’état Git et réutiliser la reproduction conservée. Un correctif non reproductible, un changement d’API, une version, une politique ou une extension architecturale exige une décision supplémentaire. Ne pas corriger un défaut adjacent par opportunité. Les demandes du 2026-10-30 autorisent les lots 1 et 2, leurs commits finaux et la correction ciblée du test du menu. Aucun autre lot, push ou déploiement autorisé.
 
 Clôture : quinze constats initiaux et deux écarts de branche disposent chacun d’une preuve observée ou d’une décision explicite traçable ; les gardes applicables passent sans assouplissement ; les limites d’environnement sont écrites. Tant que ces critères ne sont pas réunis, conserver ce plan ouvert.

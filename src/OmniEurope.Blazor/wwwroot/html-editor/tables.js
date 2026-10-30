@@ -175,8 +175,8 @@ function deleteRow(table, cell) {
         const at = info.places.get(over);
         if (at.rows > 1) {
             setSpan(over, 'rowspan', at.rows - 1);
-            if (at.row === r) {
-                // Anchored in the row that goes: it moves down, keeping its column.
+            if (at.row === r && info.rows[r + 1]) {
+                // Anchored in the row that goes: move down only when that row exists.
                 placeCell(info, r + 1, over, at.col);
             }
         }

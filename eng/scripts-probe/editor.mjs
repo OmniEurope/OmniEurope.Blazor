@@ -396,6 +396,25 @@ export async function editorSteps(session, results) {
   await send('Emulation.setFocusEmulationEnabled', { enabled: false });
   step('copier puis coller par le presse-papiers');
 
+  // An imported terminal rowspan may extend beyond the last row. Deleting that row must not try
+  // to move its cell into a nonexistent row or bring down the Blazor page.
+  await caretIn('editor-annotated', 'p', true);
+  await evaluate(`(() => {
+    const data = new DataTransfer();
+    data.setData('text/html', '<table><tbody><tr><td>Terminal A</td></tr><tr><td rowspan="2">Terminal B</td></tr></tbody></table><p>After terminal table</p>');
+    data.setData('text/plain', 'Terminal A Terminal B');
+    ${surface('editor-annotated')}.dispatchEvent(new ClipboardEvent('paste', { clipboardData: data, bubbles: true, cancelable: true }));
+  })()`);
+  await waitFor('le rowspan terminal conservé au collage', `${surface('editor-annotated')}.querySelector('td[rowspan="2"]')?.textContent === 'Terminal B'`);
+  await cell('td[rowspan="2"]');
+  await command('editor-annotated', 'delete-row');
+  await waitFor('la ligne terminale supprimée sans perdre sa voisine', `(() => {
+    const root = ${surface('editor-annotated')};
+    const kept = root && [...root.querySelectorAll('td')].find(td => td.textContent === 'Terminal A');
+    return kept?.closest('table').rows.length === 1 && !root.textContent.includes('Terminal B') && root.textContent.includes('After terminal table');
+  })()`);
+  step('suppression du rowspan terminal : page utilisable, ligne voisine et suite du document conservées');
+
   // 5. #editor-document, on the word processor page: the size select and the HTML export of the status bar.
   await session.visit('/components/document-editor', '#editor-document');
   await waitFor('la surface du document prête', `${surface('editor-document')}.getAttribute('contenteditable') === 'true'`);

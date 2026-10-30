@@ -247,7 +247,9 @@ public sealed class AppearanceStateTests : OmniBunitContext
         Assert.NotEmpty(host.FindAll(".omni-app-menu__card"));
         await Services.GetRequiredService<OmniPreferences>().SyncAsync(Xunit.TestContext.Current.CancellationToken);
         Assert.Equal(savedBefore + 1, _store.Saved.Count);
-        Assert.Contains(State.Preset!.Name, StoredJson, StringComparison.Ordinal);
+        using var stored = JsonDocument.Parse(StoredJson!);
+        Xunit.TestContext.Current.TestOutputHelper?.WriteLine($"PRESET_TRACE expected={State.Preset!.Name}; raw={StoredJson}");
+        Assert.Equal(State.Preset!.Name, stored.RootElement.GetProperty("preset").GetString());
     }
 
     [Fact]
