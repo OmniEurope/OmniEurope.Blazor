@@ -35,6 +35,9 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
     /// <summary>The module, or null while nothing has needed it.</summary>
     internal IJSObjectReference? Module => _gridModule;
 
+    /// <summary>Whether the first content-sizing observer was attached successfully.</summary>
+    internal bool ContentFitAttached => _contentFitAttached;
+
     /// <summary>The module, imported on first use.</summary>
     internal async Task<IJSObjectReference> ModuleAsync() =>
         _gridModule ??= await OmniScriptModule.ImportAsync(grid.JavaScript, GridModulePath);

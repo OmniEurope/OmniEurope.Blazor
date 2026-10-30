@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # PLAN-009 : Remédiation de l’audit 360 du 2026-10-30
 
-> Statut : **ouvert, lots 1 à 3 terminés le 2026-10-30**. A360-001, A360-002, A360-003, A360-005, A360-006, A360-008 et A360-011 vérifiés ; lots 4 à 7 non commencés. Les corrections adjacentes du test de menu (lot 2) et du scanner partagé (lot 3, commit distinct) sont explicitement autorisées et vérifiées.
+> Statut : **ouvert, lots 1 à 4 terminés le 2026-10-30**. Dix constats initiaux et l’écart adjacent GRID-PAINT-001 sont vérifiés ; cinq constats initiaux et deux écarts documentaires du voile restent ouverts. Lots 5 à 7 autorisés, le lot 5 dispose de sa reproduction fraîche. Les corrections adjacentes explicitement autorisées sont tracées dans les annexes de chaque lot.
 
 ## Objectif et périmètre
 
@@ -65,11 +65,13 @@ Lot 3 livré : six parcours navigateur avec compteurs vérifient les trois séle
 
 ### Lot 4 : disposition et homogénéité visuelle, P2
 
-- [ ] **A360-004** : instrumenter d’abord le choix d’ancêtre dans `wwwroot/omni-grid.js`, sa hauteur utile et les recalculs. Le cadre mesuré à 506 px avec une grille à 128 px est prouvé, mais le choix d’ancêtre n’a pas encore été isolé comme cause. Corriger uniquement après confirmation ; couvrir cadre imbriqué, redimensionnement, dialogue et cadre simple.
-- [ ] **A360-009** : utiliser les jetons de densité existants pour les chevrons latéraux dans `05-layout.css`, sans créer d’exception STD-BTN. Préserver l’hystérésis, les butées et l’absence de déplacement du contenu lorsque le chevron apparaît.
-- [ ] **A360-010** : fermer la règle CSS incomplète de `site/OmniEurope.Blazor.Showcase/wwwroot/app.css` avant les règles des éditeurs. Aucun autre ajustement esthétique.
+- [x] **A360-004** : la trace confirme le choix erroné de la zone principale avant le défileur local contraint, avec une disponibilité négative. Le correctif distingue le cadre contraint de l’enveloppe automatique ; cadre imbriqué, redimensionnement, contenu de dialogue, apparition différée et cadre simple vérifiés. La fixture de contenu de dialogue éprouve le module et les styles réels, sans prétendre exercer un dialogue Blazor complet.
+- [x] **A360-009** : les chevrons latéraux suivent les jetons de densité existants dans `05-layout.css`, sans nouvelle exception STD-BTN. Hystérésis, butées et absence de déplacement du contenu vérifiées.
+- [x] **A360-010** : la règle CSS incomplète de `site/OmniEurope.Blazor.Showcase/wwwroot/app.css` est fermée avant celles des éditeurs. Bordures, padding et hauteur utile de 24 rem mesurés dans les deux modes et largeurs. Aucun autre ajustement esthétique.
 
 Contrôle : à 1280 × 900, mesurer le cadre et la grille remplie, sans l’écart vide initial de 338 px, puis redimensionner et vérifier la mise à jour. Rejouer Scripts pour la grille et les chevrons, et Density ; les trois invariants de remplissage et les 42 mesures de chevrons initialement en échec doivent être satisfaits, sans nouvelle exception. Vérifier les deux pages d’éditeur : bordure et padding réellement appliqués, cadre du comparateur à 24 rem (384 px avec racine à 16 px). Captures et styles calculés, clair/sombre et largeur mobile, console et CSP contrôlées. Vérifier aussi le voile à 85 % et 100 % car il partage la feuille de disposition.
+
+Lot 4 livré : les trois constats initiaux sont reproduits puis vérifiés ; Density accepte 11 001 mesures sur 79 pages. Boards passe trois fois après correction de son ciblage, sur accord explicite. Pour **GRID-PAINT-001**, le propriétaire choisit la stabilité : le rendu interactif attend son dimensionnement réel, avec secours et journalisation sur erreur explicite, tandis que le rendu statique conserve ses délais. Trois passes complètes de Requests sous CPU ralenti passent, sans retirer d’assertion ; le nupkg est aussi éprouvé dans un hôte Server isolé, y compris sur erreur réseau et sans JavaScript. Debug et Release comptent chacun 10 924 réussites. La couverture fraîche reste bloquée sur les six seuls fichiers prévus au lot 5 ; CRAP passe. Voir les [preuves du lot 4](PLAN-009-lot-4-verifications.md).
 
 ### Lot 5 : rétablir la porte de couverture, P1 bloquant la livraison
 
@@ -101,6 +103,6 @@ Contrôle : journal de clôture par constat, avec base Git, fichiers strictement
 
 Ordre proposé : lot 1 (outils de preuve), lot 2 (exception et préférence), lot 3 (verrouillage et actions), lot 4 (disposition), lot 5 (couverture finale), lot 6 (documentation), lot 7 (recette du paquet et de la démo). Le lot 6 ne dépend pas des correctifs produit, mais ses descriptions de mesures doivent utiliser les résultats frais. Le lot 5 est P1, exécuté après les correctifs pour éviter une mesure périmée.
 
-Avant chaque lot, confirmer l’état Git et réutiliser la reproduction conservée. Un correctif non reproductible, un changement d’API, une version, une politique ou une extension architecturale exige une décision supplémentaire. Ne pas corriger un défaut adjacent par opportunité. Les demandes du 2026-10-30 autorisent les lots 1 à 3, leurs commits finaux, la correction ciblée du test du menu au lot 2 et celle du scanner partagé au lot 3, avec un commit distinct dans le kit. Aucun autre lot, push ou déploiement autorisé.
+Avant chaque lot, confirmer l’état Git et réutiliser la reproduction conservée. Un correctif non reproductible, un changement d’API, une version, une politique ou une extension architecturale exige une décision supplémentaire. Ne pas corriger un défaut adjacent par opportunité. Les demandes du 2026-10-30 autorisent les lots 1 à 4 et leurs commits finaux, la correction ciblée du test du menu au lot 2, celle du scanner partagé au lot 3 avec un commit distinct et les deux écarts adjacents du lot 4. La dernière décision choisit explicitement la stabilité visuelle et son nouveau contrat de secours, confirme le commit du lot 4 puis autorise les lots 5, 6 et 7. Les seuils, baselines et exceptions de validation restent inchangés. Aucun push ni déploiement autorisé.
 
 Clôture : quinze constats initiaux et deux écarts de branche disposent chacun d’une preuve observée ou d’une décision explicite traçable ; les gardes applicables passent sans assouplissement ; les limites d’environnement sont écrites. Tant que ces critères ne sont pas réunis, conserver ce plan ouvert.

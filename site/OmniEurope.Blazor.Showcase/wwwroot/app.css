@@ -1047,6 +1047,7 @@
     margin: 0;
     min-inline-size: 0;
     overflow-wrap: anywhere;
+}
 
 /* Editor fidelity */
 /* The examples carry no class of the showcase: each page wraps its example in a gallery-* div and these

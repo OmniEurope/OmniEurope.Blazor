@@ -2,6 +2,8 @@
 // package tooltip takes away still names an icon-only button while it is focused or hovered, and the
 // skip link moves the focus to the main content by script, without leaving the page.
 import { probeOptions } from '../ShowcaseCdp.mjs';
+import { writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
 
 export async function requestSteps(session, results) {
   const { evaluate, waitFor, key, check, hover, mouse, pause, pointOf, click, clickOn, send, type } = session;
@@ -10,6 +12,101 @@ export async function requestSteps(session, results) {
     results.push(label);
   };
   const tab = () => key('Tab', 'Tab', 9);
+
+  // Both rules used to be nested under an unrelated diagram selector by a missing closing brace.
+  const editorStyles = [];
+  const pickEditorMode = async mode => {
+    await clickOn('.omni-header .omni-app-menu__trigger');
+    await waitFor('le menu de choix du mode', "document.querySelector('.omni-app-menu__mode') !== null");
+    await clickOn(`.omni-app-menu__mode .omni-appearance-window__mode:nth-child(${mode === 'light' ? 1 : mode === 'dark' ? 2 : 3})`);
+    await key('Escape', 'Escape', 27);
+    await waitFor('le mode appliqué et le menu refermé', `document.documentElement.getAttribute('data-omni-theme') === ${JSON.stringify(mode)} && document.querySelector('.omni-app-menu__mode') === null`);
+  };
+  for (const width of [1280, 390]) {
+    await send('Emulation.setDeviceMetricsOverride', { width, height: 900, deviceScaleFactor: 1, mobile: false });
+    for (const mode of ['light', 'dark']) {
+      const previous = await evaluate(`document.documentElement.getAttribute('data-omni-theme')`);
+      await pickEditorMode(mode);
+      try {
+        for (const [page, selector] of [
+          ['html-editor', '.gallery-editor-rendered .omni-rich-text'],
+          ['code-reading', '.gallery-code-reading-fill > .omni-stack > .omni-stack']
+        ]) {
+          await session.visit(`/components/${page}`, selector);
+          await pointOf(selector);
+          const measured = await evaluate(`(() => {
+            const element = document.querySelector(${JSON.stringify(selector)}), style = getComputedStyle(element);
+            return { blockSize: parseFloat(style.blockSize), border: parseFloat(style.borderTopWidth), padding: parseFloat(style.paddingTop), rootFont: parseFloat(getComputedStyle(document.documentElement).fontSize), height: element.getBoundingClientRect().height, color: style.color, mode: element.closest('[data-omni-theme]').getAttribute('data-omni-theme') };
+          })()`);
+          check(measured.border > 0 && measured.padding > 0 && measured.mode === mode, `Styles de ${page}, ${width} px, ${mode} : ${JSON.stringify(measured)}.`);
+          if (page === 'code-reading') check(Math.abs(measured.blockSize - 24 * measured.rootFont) <= 1, `Le cadre du comparateur ne mesure pas 24 rem : ${JSON.stringify(measured)}.`);
+          if (mode === 'dark') check(editorStyles.find(item => item.page === page && item.width === width && item.mode === 'light')?.color !== measured.color, `Le texte de ${page} ne change pas réellement de couleur en mode sombre.`);
+          editorStyles.push({ page, width, ...measured });
+          if (process.env.OMNI_LAYOUT_EVIDENCE) {
+            const { data } = await send('Page.captureScreenshot', { format: 'png' });
+            await writeFile(join(process.env.OMNI_LAYOUT_EVIDENCE, `${page}-${width}-${mode}.png`), Buffer.from(data, 'base64'));
+          }
+        }
+      } finally {
+        await pickEditorMode(previous ?? 'light');
+      }
+    }
+  }
+  await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
+  if (process.env.OMNI_LAYOUT_EVIDENCE) await writeFile(join(process.env.OMNI_LAYOUT_EVIDENCE, 'editor-styles.json'), JSON.stringify(editorStyles, null, 2));
+  step('styles des deux éditeurs : bordures, espacements et cadre de 24 rem, clair et sombre, 1280 et 390 px');
+
+  // Real CSS/JS layout fixtures: a constrained nested scroller takes precedence, while an
+  // auto-height wrapper still fills from its owner. This does not simulate a Blazor dialog.
+  for (const [ownerClass, bounded, hidden] of [
+    ['omni-main--scrollable', true, false], ['omni-main--scrollable', false, false],
+    ['omni-dialog__content', true, false], ['omni-dialog__content', false, false],
+    ['omni-dialog__content', true, true]
+  ]) {
+    try {
+      await evaluate(`(async () => {
+        const owner = document.createElement('div');
+        owner.className = ${JSON.stringify(ownerClass)};
+        for (const [name, value] of Object.entries({ position: 'fixed', top: '48px', left: '240px', width: '400px', 'block-size': '420px', overflow: 'auto', flex: 'none', padding: '12px', 'z-index': '10000' })) owner.style.setProperty(name, value);
+        const inner = document.createElement('div');
+        inner.style.setProperty('overflow', 'auto');
+        inner.style.setProperty('flex', 'none');
+        if (${bounded}) inner.style.setProperty('block-size', '240px');
+        const hint = document.createElement('div');
+        hint.textContent = 'Sonde de remplissage';
+        const grid = document.createElement('div');
+        grid.className = 'omni-data-grid omni-data-grid--fill';
+        grid.style.setProperty('margin-bottom', '7px', 'important');
+        grid.innerHTML = '<div class="omni-data-grid__frame"><div class="omni-data-grid__viewport omni-data-grid__viewport--fill"><input aria-label="Champ de la sonde" /></div></div>';
+        const viewport = grid.querySelector('.omni-data-grid__viewport');
+        viewport.style.setProperty('--omni-grid-viewport-min', '64px');
+        inner.append(hint, grid);
+        owner.append(inner);
+        document.getElementById('showcase-theme').append(owner);
+        if (${hidden}) owner.style.setProperty('display', 'none');
+        const module = await import('/_content/OmniEurope.Blazor/omni-grid.js');
+        window.__omniFillProbe = { owner, inner, grid, viewport, field: grid.querySelector('input'), module };
+        module.attachFill(viewport);
+        if (${hidden}) owner.style.removeProperty('display');
+        grid.querySelector('input').focus({ preventScroll: true });
+      })()`);
+      const state = `(() => {
+        const p = window.__omniFillProbe, container = ${bounded} ? p.inner : p.owner;
+        const style = getComputedStyle(container), rect = container.getBoundingClientRect();
+        const innerBottom = rect.bottom - parseFloat(style.borderBottomWidth) - parseFloat(style.paddingBottom);
+        return { gap: innerBottom - p.grid.getBoundingClientRect().bottom - 7, height: p.grid.getBoundingClientRect().height, focus: document.activeElement === p.field, margin: p.grid.style.getPropertyValue('margin-bottom'), priority: p.grid.style.getPropertyPriority('margin-bottom') };
+      })()`;
+      await waitFor(`le remplissage depuis ${ownerClass}, cadre ${bounded ? 'contraint' : 'automatique'}${hidden ? ', initialement caché' : ''}`, `Math.abs((${state}).gap) <= 1`);
+      const before = await evaluate(state);
+      await evaluate(`(window.__omniFillProbe.${bounded ? 'inner' : 'owner'}).style.setProperty('block-size', '${bounded ? 320 : 520}px')`);
+      await waitFor('le recalcul après redimensionnement du cadre', `Math.abs((${state}).gap) <= 1 && (${state}).height > ${before.height} + 50`);
+      const after = await evaluate(state);
+      check(before.focus && after.focus && after.margin === '7px' && after.priority === 'important', `Le remplissage change le focus ou la marge de l'hôte : ${JSON.stringify({ before, after })}.`);
+    } finally {
+      await evaluate(`(() => { const p = window.__omniFillProbe; if (p) { p.module.detachFill(p.viewport); p.owner.remove(); delete window.__omniFillProbe; } })()`);
+    }
+  }
+  step('remplissage : cadres contraints et enveloppes automatiques, surfaces principales et de dialogue, apparition différée, redimensionnement, focus et marge conservés');
 
   // 1. Title tooltips (OmniTitleTooltips of the Tooltips page): an icon-only button the title alone names
   // lends it to aria-label while the title is away, a button named by its text gets nothing.
@@ -638,9 +735,13 @@ export async function requestSteps(session, results) {
   // The first paint of a grid sized to its content (request of 2026-10-26): its columns, equal until the
   // script measures them, jumped to their content widths about 100 ms later. Sampled on every mutation and
   // frame while the page renders again, the table is hidden while its widths are not the settled ones and
-  // shows only once they are; a table no script sizes (no interactivity, a failed module) still shows
-  // after its second.
+  // shows only once they are; a statically rendered table still has its timed fallback. Interactive
+  // initialization failures instead remove the gate explicitly and are logged by the component.
   {
+    // Replays the measured slow-interop failure without changing waits or assertions. The host owns
+    // this private browser and destroys it if a step fails before the normal reset below.
+    const sizingStress = process.env.OMNI_SIZING_STRESS === '1';
+    if (sizingStress) await send('Emulation.setCPUThrottlingRate', { rate: 4 });
     await session.visit('/components/details', 'main');
     await evaluate(`(() => {
       window.__probeSizing = { 'demo-grid-sizing': [], 'demo-grid-sizing-remote': [] };
@@ -712,6 +813,7 @@ export async function requestSteps(session, results) {
       return states.join(',');
     })()`);
     check(held === 'hidden,visible', `Une table au contenu d'une grille qui charge n'attend pas la fin du chargement : ${held}`);
+    if (sizingStress) await send('Emulation.setCPUThrottlingRate', { rate: 1 });
     step(`colonnes au contenu au premier rendu, grilles Items et Load : ${seen.length} et ${traces['demo-grid-sizing-remote'].length} états vus, masquées aux largeurs égales et pendant le chargement, affichée aux largeurs du contenu (${settled.widths} px) sans saut ; sans script, affichée après 1 s, après la fin du chargement dans une grille qui charge`);
   }
 

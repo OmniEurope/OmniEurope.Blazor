@@ -287,8 +287,8 @@
    applied the content widths (data-omni-sized): the reader never sees the equal widths of the first paint
    jump. The headers wait only for the first measure of their own (data-omni-headed, taken from the titles
    alone while the first rows load), so a loading grid shows its headers under the load bar. Until the
-   table is sized its viewport does not scroll. Should the script never run (no interactivity, a failed
-   module), everything shows anyway after a second. While the grid loads its first rows (aria-busy) that
+   table is sized its viewport does not scroll. A static renderer has no pending gate: should the script
+   never run there, everything shows anyway after a second. While the grid loads its first rows (aria-busy) that
    second waits for the rows, the headers showing, so the widths of the loading row never show either; a
    load past five seconds shows the rows anyway. */
 .omni-data-grid__table[data-omni-sizing="content"]:not([data-omni-sized]) > :is(tbody, tfoot) { animation: omni-grid-reveal 0s 1s both, omni-grid-reveal 0s 5s both; visibility: hidden; }
@@ -299,6 +299,12 @@
 .omni-data-grid[aria-busy="true"] .omni-data-grid__viewport:has(> .omni-data-grid__table[data-omni-sizing="content"]:not([data-omni-sized])) { animation-play-state: paused, running; }
 @keyframes omni-grid-reveal { to { visibility: visible; } }
 @keyframes omni-grid-unclip { to { overflow: auto; } }
+/* An interactive renderer waits for actual sizing, without a timed reveal ahead of slow interop.
+   A failed initialization removes the sizing gate and logs its error; static renderers keep the
+   timed fallback above. The headers can still show as soon as their own first measure is ready. */
+.omni-data-grid__table[data-omni-sizing="content"][data-omni-sizing-pending]:not([data-omni-sized]) > :is(tbody, tfoot) { animation: none; visibility: hidden; }
+.omni-data-grid__table[data-omni-sizing="content"][data-omni-sizing-pending]:not([data-omni-sized]):not([data-omni-headed]) > thead { animation: none; visibility: hidden; }
+.omni-data-grid__viewport:has(> .omni-data-grid__table[data-omni-sizing="content"][data-omni-sizing-pending]:not([data-omni-sized])) { animation: none; overflow: hidden; }
 .omni-data-grid__table caption { font-weight: 650; padding: var(--omni-space-sm); text-align: start; }
 .omni-data-grid__table :is(th, td) { padding: var(--omni-cell-pad-y) var(--omni-space-md); text-align: start; }
 .omni-data-grid__table th { font-weight: 600; }

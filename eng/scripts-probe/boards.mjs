@@ -358,25 +358,35 @@ export async function boardSteps(session, results) {
   await key('Escape', 'Escape', 27);
   step('carte mentale : appui long');
 
-  // The pinch moved the nodes: the one double-clicked is one whose centre lies inside the canvas.
+  // The pinch can leave every node body outside the canvas. Fit the view with its public action.
+  const pinchedZoom = await zoom();
+  await clickOn('#demo-mindmap [data-omni-mindmap-action="fit"]');
+  await waitFor('la carte ajustée après le pincement', `document.querySelector('#demo-mindmap .omni-mindmap__viewport').getAttribute('data-zoom') !== ${JSON.stringify(pinchedZoom)}`);
+  await evaluate("document.getElementById('demo-mindmap-canvas').scrollIntoView({ block: 'center' })");
+  // A group's box includes its note, whose centre can be blank canvas;
+  // click the node's own shape, visibly hit-tested, rather than a centre that creates a new node.
   await evaluate(`(() => {
     const canvas = document.getElementById('demo-mindmap-canvas').getBoundingClientRect();
     const inside = [...document.querySelectorAll('#demo-mindmap .omni-mindmap__node')].find(candidate => {
-      const box = candidate.getBoundingClientRect();
+      const box = candidate.querySelector(':scope > .omni-mindmap__node-shape').getBoundingClientRect();
       const x = box.left + box.width / 2;
       const y = box.top + box.height / 2;
-      return x > canvas.left + 10 && x < canvas.right - 10 && y > canvas.top + 10 && y < canvas.bottom - 10;
+      return x > canvas.left + 10 && x < canvas.right - 10 && y > canvas.top + 10 && y < canvas.bottom - 10
+        && document.elementFromPoint(x, y)?.closest('.omni-mindmap__node') === candidate;
     });
     if (!inside) throw new Error('Aucun nœud dans le cadre de la carte après le pincement.');
     inside.setAttribute('data-probe-node', '');
   })()`);
-  const node = await pointOf('#demo-mindmap [data-probe-node]');
+  const nodeCount = await evaluate("document.querySelectorAll('#demo-mindmap .omni-mindmap__node').length");
+  const nodeLabel = await evaluate("document.querySelector('#demo-mindmap [data-probe-node] .omni-mindmap__node-label').textContent");
+  const node = await pointOf('#demo-mindmap [data-probe-node] > .omni-mindmap__node-shape');
   await mouse('mouseMoved', node, { button: 'none' });
   await mouse('mousePressed', node, { clickCount: 1 });
   await mouse('mouseReleased', node, { clickCount: 1 });
   await mouse('mousePressed', node, { clickCount: 2 });
   await mouse('mouseReleased', node, { clickCount: 2 });
   await waitFor('le libellé du nœud à renommer', "document.activeElement?.id?.endsWith('-label') === true");
+  check(await evaluate(`document.activeElement.value === ${JSON.stringify(nodeLabel)} && document.querySelectorAll('#demo-mindmap .omni-mindmap__node').length === ${nodeCount}`), 'Le double clic ne renomme pas le nœud ciblé ou crée un autre nœud.');
   await key('Escape', 'Escape', 27);
   step('carte mentale : double clic qui ouvre le renommage');
 }
