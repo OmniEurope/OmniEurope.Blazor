@@ -1,4 +1,5 @@
 using System.Text;
+using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Components;
 
@@ -11,9 +12,10 @@ namespace OmniEurope.Blazor.Components;
 /// on <see cref="OnThemeOpen"/>.
 /// </summary>
 /// <remarks>
-/// A menu whose markup writes none of <see cref="Appearance"/>, <see cref="AppearanceChanged"/> and
-/// <see cref="Preset"/> follows the user's <see cref="OmniAppearanceState"/>: the mode and the theme in
-/// force come from it and the mode picked is written to it. Writing any of them keeps the menu
+/// A menu whose markup writes none of <see cref="Appearance"/>, <see cref="AppearanceChanged"/>,
+/// <see cref="Preset"/>, <see cref="PresetChanged"/>, <see cref="Palette"/>, <see cref="PaletteChanged"/>,
+/// <see cref="Font"/> and <see cref="FontChanged"/> follows the user's <see cref="OmniAppearanceState"/>: the
+/// look in force comes from it, and the mode picked and the look drawn are written to it. Writing any of them keeps the menu
 /// controlled by the host, as before. The choice is made at the first render; <see cref="OnThemeOpen"/>
 /// still opens the host's appearance window, which can follow the state too.
 /// </remarks>
@@ -88,6 +90,30 @@ public partial class OmniAppMenu : IDisposable
     /// <summary>The theme in force: a theme drawn in dark mode only (<see cref="OmniThemePreset.DarkOnly"/>) fixes the mode.</summary>
     [Parameter]
     public OmniThemePreset? Preset { get; set; }
+
+    /// <summary>
+    /// Raised with the theme drawn by the random button of the Theme row; bound, it shows that button, the same
+    /// draw as the Random button of <see cref="OmniAppearanceWindow"/>. A menu that follows the
+    /// <see cref="OmniAppearanceState"/> always shows it (see the remarks).
+    /// </summary>
+    [Parameter]
+    public EventCallback<OmniThemePreset?> PresetChanged { get; set; }
+
+    /// <summary>The palette in force, which the random button never draws again; null for the theme's own.</summary>
+    [Parameter]
+    public OmniThemePalette? Palette { get; set; }
+
+    /// <summary>Raised with the palette drawn by the random button; unbound, the button draws no palette.</summary>
+    [Parameter]
+    public EventCallback<OmniThemePalette?> PaletteChanged { get; set; }
+
+    /// <summary>The font in force, which the random button never draws again; null for the theme's own.</summary>
+    [Parameter]
+    public OmniThemeFont? Font { get; set; }
+
+    /// <summary>Raised with the font drawn by the random button; unbound, the button draws no font.</summary>
+    [Parameter]
+    public EventCallback<OmniThemeFont?> FontChanged { get; set; }
 
     /// <summary>Raised by the Theme row, after the menu closes: the host opens its appearance window.</summary>
     [Parameter, EditorRequired]
@@ -195,7 +221,7 @@ public partial class OmniAppMenu : IDisposable
 
     /// <summary>
     /// Decides, from the parameters of the first render, whether the menu follows the user's
-    /// <see cref="OmniAppearanceState"/> (none of <see cref="Appearance"/>, <see cref="AppearanceChanged"/> and <see cref="Preset"/> written).
+    /// <see cref="OmniAppearanceState"/> (none of the appearance parameters written).
     /// </summary>
     /// <param name="parameters">The parameters given by the renderer.</param>
     public override Task SetParametersAsync(ParameterView parameters)
@@ -203,7 +229,7 @@ public partial class OmniAppMenu : IDisposable
         if (!_decided)
         {
             _decided = true;
-            _shared = AppearanceFollower.Start(SharedAppearance, AppearanceFollower.Sets(parameters, nameof(Appearance), nameof(AppearanceChanged), nameof(Preset)),
+            _shared = AppearanceFollower.Start(SharedAppearance, AppearanceFollower.Sets(parameters, nameof(Appearance), nameof(AppearanceChanged), nameof(Preset), nameof(PresetChanged), nameof(Palette), nameof(PaletteChanged), nameof(Font), nameof(FontChanged)),
                 () => InvokeAsync(() =>
                 {
                     FollowState();
@@ -217,7 +243,7 @@ public partial class OmniAppMenu : IDisposable
     /// <summary>Following the state, reads the preference before showing it.</summary>
     protected override Task OnInitializedAsync() => _shared?.State.LoadAsync() ?? Task.CompletedTask;
 
-    /// <summary>Following the state, takes the mode and the theme from it.</summary>
+    /// <summary>Following the state, takes the look from it.</summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -236,7 +262,12 @@ public partial class OmniAppMenu : IDisposable
 
         Appearance = state.Appearance;
         Preset = state.Preset;
+        Palette = state.Palette;
+        Font = state.Font;
         AppearanceChanged = EventCallback.Factory.Create<OmniAppearance>(this, state.SetAppearanceAsync);
+        PresetChanged = EventCallback.Factory.Create<OmniThemePreset?>(this, state.SetPresetAsync);
+        PaletteChanged = EventCallback.Factory.Create<OmniThemePalette?>(this, state.SetPaletteAsync);
+        FontChanged = EventCallback.Factory.Create<OmniThemeFont?>(this, state.SetFontAsync);
     }
 
     private async Task SetOpenAsync(bool open)
@@ -258,6 +289,13 @@ public partial class OmniAppMenu : IDisposable
 
     // The list offers only the codes of Languages, and no empty choice.
     private Task SetLanguageAsync(string? code) => LanguageChanged.InvokeAsync(code!);
+
+    // Following the state, the look drawn is written once, never theme by palette by font.
+    private Task RandomLookAsync()
+    {
+        Task Draw() => AppearanceChoices.RandomLookAsync(Preset, Palette, Font, PresetChanged, PaletteChanged, FontChanged);
+        return _shared?.State is { } state ? state.BatchAsync(Draw) : Draw();
+    }
 
     private async Task OpenThemeAsync()
     {

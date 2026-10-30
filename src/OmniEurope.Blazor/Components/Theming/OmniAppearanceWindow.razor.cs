@@ -369,29 +369,7 @@ public partial class OmniAppearanceWindow : IDisposable
     /// force when the palette is bound: any palette paints any theme. A font other than the one in force
     /// is drawn the same way when the font is bound.
     /// </summary>
-    private Task RandomLookAsync() => InBatchAsync(RandomLookCoreAsync);
-
-    private async Task RandomLookCoreAsync()
-    {
-        var theme = AppearanceChoices.RandomOther(OmniThemePresets.All, AppearanceChoices.EffectivePreset(Preset));
-        var preset = AppearanceChoices.Theme(AppearanceChoices.ThemeName(theme));
-        var inForce = PaletteName;
-        await PresetChanged.InvokeAsync(preset);
-        if (PaletteChanged.HasDelegate)
-        {
-            var palette = AppearanceChoices.RandomOther(OmniThemePalettes.All, OmniThemePalettes.All.FirstOrDefault(item => item.Name == inForce));
-            await PaletteChanged.InvokeAsync(AppearanceChoices.Palette(preset, palette.Name));
-        }
-
-        if (FontChanged.HasDelegate)
-        {
-            // A font drawn too, other than the one in force (review point 90): any font sets any
-            // theme. The new theme's own font comes back as null, as when it is picked in the list.
-            var inForceFont = OmniThemeFonts.All.FirstOrDefault(item => item.Name == AppearanceChoices.FontName(Preset, Font));
-            var font = AppearanceChoices.RandomOther(OmniThemeFonts.All, inForceFont);
-            await FontChanged.InvokeAsync(AppearanceChoices.Font(preset, font.Name));
-        }
-    }
+    private Task RandomLookAsync() => InBatchAsync(() => AppearanceChoices.RandomLookAsync(Preset, Palette, Font, PresetChanged, PaletteChanged, FontChanged));
 
     private Task SetPaletteAsync(string? name) => PaletteChanged.InvokeAsync(AppearanceChoices.Palette(Preset, name));
 

@@ -25,7 +25,8 @@
                 @* The standard application menu: mode, theme (it opens the appearance window), language and
                    version. The showcase has neither an account nor a settings page of its own. *@
                 <OmniAppMenu Appearance="MenuAppearance" AppearanceChanged="SetAppearanceAsync"
-                             Preset="LookPreset" OnThemeOpen="OpenAppearanceWindow"
+                             Preset="LookPreset" PresetChanged="SetPresetAsync"
+                             Palette="WindowPalette" PaletteChanged="SetPaletteAsync" OnThemeOpen="OpenAppearanceWindow"
                              Languages="ShowcaseLanguageSwitcher.Languages" Language="@ShowcaseLanguageSwitcher.Current"
                              LanguageChanged="ChangeLanguageAsync" Version="@VersionLine" />
             </ChildContent>

@@ -32,6 +32,59 @@ public sealed class AppMenuTests : OmniBunitContext
     }
 
     [Fact]
+    public void A_host_that_controls_the_menu_gets_no_random_button_unless_it_binds_the_theme()
+    {
+        var menu = Render<OmniAppMenu>(parameters => parameters
+            .Add(component => component.AppearanceChanged, _ => { })
+            .Add(component => component.OnThemeOpen, () => { }));
+        menu.Find(".omni-app-menu__trigger").Click();
+
+        Assert.Empty(menu.FindAll(".omni-app-menu__random"));
+    }
+
+    [Fact]
+    public void The_random_button_is_named_draws_another_look_each_time_and_leaves_the_menu_open()
+    {
+        var theme = OmniThemePresets.All.Single(item => item.Name == "Papier");
+        OmniThemePalette? palette = OmniThemePalettes.All.Single(item => item.Name == "Mono");
+        OmniThemeFont? font = OmniThemeFonts.All.Single(item => item.Name == "JetBrains Mono");
+        var opened = 0;
+        var menu = Render<OmniAppMenu>(parameters => parameters
+            .Add(component => component.AppearanceChanged, _ => { })
+            .Add(component => component.OnThemeOpen, () => opened++));
+        menu.Find(".omni-app-menu__trigger").Click();
+
+        for (var draw = 0; draw < 40; draw++)
+        {
+            var themeBefore = theme;
+            var paletteBefore = (palette ?? OmniThemePresets.DefaultPaletteFor(theme)).Name;
+            var fontBefore = (font ?? OmniThemePresets.DefaultFontFor(theme)).Name;
+            var events = (Theme: 0, Palette: 0, Font: 0);
+            menu.Render(parameters => parameters
+                .Add(component => component.Preset, theme)
+                .Add(component => component.Palette, palette)
+                .Add(component => component.Font, font)
+                .Add(component => component.PresetChanged, value => { events.Theme++; theme = value ?? OmniThemePresets.All[0]; })
+                .Add(component => component.PaletteChanged, value => { events.Palette++; palette = value; })
+                .Add(component => component.FontChanged, value => { events.Font++; font = value; }));
+
+            var random = menu.Find(".omni-app-menu__theme-row > .omni-app-menu__random");
+            Assert.Equal("Tirer au hasard un thème, une palette et une police", random.GetAttribute("aria-label"));
+            Assert.Equal(random.GetAttribute("aria-label"), random.GetAttribute("title"));
+            Assert.Contains("omni-button--icon", random.ClassList);
+            random.Click();
+
+            Assert.Equal((1, 1, 1), events);
+            Assert.NotSame(themeBefore, theme);
+            Assert.NotEqual(paletteBefore, (palette ?? OmniThemePresets.DefaultPaletteFor(theme)).Name);
+            Assert.NotEqual(fontBefore, (font ?? OmniThemePresets.DefaultFontFor(theme)).Name);
+        }
+
+        Assert.NotEmpty(menu.FindAll(".omni-app-menu__card"));
+        Assert.Equal(0, opened);
+    }
+
+    [Fact]
     public void The_panel_takes_the_width_of_its_widest_row_instead_of_a_fixed_width()
     {
         // The width is the stylesheet's, so only a browser measures it; this pins the rule that sets it

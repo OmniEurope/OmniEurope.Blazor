@@ -171,11 +171,15 @@
 .omni-app-menu__card { --omni-app-menu-row: calc(var(--omni-control-height) + 1rem); display: flex; flex-direction: column; }
 .omni-app-menu__row, .omni-app-menu__card > .omni-button.omni-app-menu__item { align-items: center; border-block-end: var(--omni-border-width) solid var(--omni-color-border); box-sizing: border-box; display: flex; gap: var(--omni-space-sm); min-block-size: var(--omni-app-menu-row); padding: 0 var(--omni-space-md); }
 .omni-app-menu__card > .omni-button.omni-app-menu__item { border-radius: 0; inline-size: 100%; justify-content: flex-start; }
-.omni-app-menu__card > .omni-button.omni-app-menu__item:hover { background: var(--omni-color-surface-highlight); }
+.omni-app-menu__card > .omni-button.omni-app-menu__item:hover, .omni-app-menu__theme-row > .omni-button.omni-app-menu__item:hover { background: var(--omni-color-surface-highlight); }
+/* The Theme row: its button takes the whole row but for the random button at the end, square like the mode buttons. */
+.omni-app-menu__theme-row { gap: 0; padding: 0; }
+.omni-app-menu__theme-row > .omni-button.omni-app-menu__item { border-radius: 0; flex: 1 1 auto; justify-content: flex-start; min-block-size: var(--omni-app-menu-row); min-inline-size: 0; padding: 0 var(--omni-space-md); }
+.omni-app-menu__theme-row > .omni-button.omni-app-menu__random { flex: none; inline-size: var(--omni-control-height); margin-inline: var(--omni-space-sm) var(--omni-space-md); min-inline-size: var(--omni-control-height); padding: 0; }
 .omni-app-menu__label { flex: 1 1 auto; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .omni-app-menu__extra { border-block-end: var(--omni-border-width) solid var(--omni-color-border); display: flex; flex-direction: column; gap: var(--omni-space-xs); padding: var(--omni-space-sm) var(--omni-space-md); }
 /* The Mode row is one button, like the Theme row: its content fills it, the value (the mode in force) is at the end. */
-.omni-app-menu__card > .omni-button.omni-app-menu__item > .omni-button__content { inline-size: 100%; justify-content: flex-start; }
+.omni-app-menu__card > .omni-button.omni-app-menu__item > .omni-button__content, .omni-app-menu__theme-row > .omni-button.omni-app-menu__item > .omni-button__content { inline-size: 100%; justify-content: flex-start; }
 .omni-app-menu__card > .omni-button.omni-app-menu__item .omni-app-menu__label { text-align: start; }
 /* The Language row: the native list is stretched over the whole row, transparent, so a click anywhere
    on the row opens it; the icon, the label and the flag lie over it and let the click through. The list

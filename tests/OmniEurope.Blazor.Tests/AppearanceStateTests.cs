@@ -232,6 +232,25 @@ public sealed class AppearanceStateTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task The_random_button_of_a_menu_that_follows_the_state_writes_the_whole_look_once()
+    {
+        UseStore();
+        var host = Render<AppearanceStateTestHost>();
+        host.Find(".omni-app-menu__trigger").Click();
+        var savedBefore = _store.Saved.Count;
+
+        host.Find(".omni-app-menu__random").Click();
+
+        // The shipped theme was in force: the draw is any other, and the menu stays open to draw again.
+        host.WaitForAssertion(() => Assert.NotNull(State.Preset));
+        Assert.NotSame(OmniThemePresets.All[0], State.Preset);
+        Assert.NotEmpty(host.FindAll(".omni-app-menu__card"));
+        await Services.GetRequiredService<OmniPreferences>().SyncAsync(Xunit.TestContext.Current.CancellationToken);
+        Assert.Equal(savedBefore + 1, _store.Saved.Count);
+        Assert.Contains(State.Preset!.Name, StoredJson, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void Restore_in_a_window_that_follows_the_state_puts_back_the_look_it_opened_on()
     {
         var host = Render<AppearanceStateTestHost>(parameters => parameters.Add(component => component.WindowOpen, true));

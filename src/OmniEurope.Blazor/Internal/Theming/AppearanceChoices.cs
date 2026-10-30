@@ -57,6 +57,38 @@ internal static class AppearanceChoices
         return all[drawn >= skipped ? drawn + 1 : drawn];
     }
 
+    /// <summary>
+    /// The random look of the appearance window and of the application menu: a theme other than the one in
+    /// force, and with it a palette and a font other than those in force when their change is bound (any
+    /// palette paints any theme, any font sets it). What equals the new theme's own comes back as null, as
+    /// when it is picked in the list.
+    /// </summary>
+    internal static async Task RandomLookAsync(
+        OmniThemePreset? currentPreset,
+        OmniThemePalette? currentPalette,
+        OmniThemeFont? currentFont,
+        EventCallback<OmniThemePreset?> presetChanged,
+        EventCallback<OmniThemePalette?> paletteChanged,
+        EventCallback<OmniThemeFont?> fontChanged)
+    {
+        var theme = RandomOther(OmniThemePresets.All, EffectivePreset(currentPreset));
+        var preset = Theme(ThemeName(theme));
+        var paletteInForce = PaletteName(currentPreset, currentPalette);
+        var fontInForce = FontName(currentPreset, currentFont);
+        await presetChanged.InvokeAsync(preset);
+        if (paletteChanged.HasDelegate)
+        {
+            var palette = RandomOther(OmniThemePalettes.All, OmniThemePalettes.All.FirstOrDefault(item => item.Name == paletteInForce));
+            await paletteChanged.InvokeAsync(Palette(preset, palette.Name));
+        }
+
+        if (fontChanged.HasDelegate)
+        {
+            var font = RandomOther(OmniThemeFonts.All, OmniThemeFonts.All.FirstOrDefault(item => item.Name == fontInForce));
+            await fontChanged.InvokeAsync(Font(preset, font.Name));
+        }
+    }
+
     /// <summary>The theme an option names; null for the default one or an unknown name.</summary>
     internal static OmniThemePreset? Theme(string? name) =>
         name == DefaultTheme ? null : OmniThemePresets.All.FirstOrDefault(theme => theme.Name == name);

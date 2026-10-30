@@ -57,9 +57,19 @@
                 <span class="omni-app-menu__label">@Localize("SettingsMode")</span>
                 @ModeGroup
             </div>
-            <OmniButton Variant="OmniButtonVariant.Ghost" Class="omni-app-menu__item omni-app-menu__theme" OnClick="OpenThemeAsync">
-                <Icon><OmniIcon Name="OmniIconName.Palette" /></Icon><ChildContent><span>@Localize("SettingsTheme")</span></ChildContent>
-            </OmniButton>
+            @* The theme: the row opens the appearance window; the dice at its end draws a look at once, the
+               same draw as the Random button of that window, and leaves the menu open to draw again. *@
+            <div class="omni-app-menu__row omni-app-menu__theme-row">
+                <OmniButton Variant="OmniButtonVariant.Ghost" Class="omni-app-menu__item omni-app-menu__theme" OnClick="OpenThemeAsync">
+                    <Icon><OmniIcon Name="OmniIconName.Palette" /></Icon><ChildContent><span>@Localize("SettingsTheme")</span></ChildContent>
+                </OmniButton>
+                @if (PresetChanged.HasDelegate)
+                {
+                    <OmniButton Variant="OmniButtonVariant.Secondary" Class="omni-app-menu__random" Label="@Localize("SettingsRandomTitle")" title="@Localize("SettingsRandomTitle")" OnClick="RandomLookAsync">
+                        <Icon><OmniIcon Name="OmniIconName.Dice" /></Icon>
+                    </OmniButton>
+                }
+            </div>
             @if (OnSettingsOpen.HasDelegate)
             {
                 <OmniButton Variant="OmniButtonVariant.Ghost" Class="omni-app-menu__item omni-app-menu__settings" OnClick="OpenSettingsAsync">
