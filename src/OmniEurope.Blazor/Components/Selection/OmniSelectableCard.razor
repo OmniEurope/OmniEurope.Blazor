@@ -18,7 +18,7 @@
         @ref="_element"
         id="@Id"
         type="button"
-        class="@Css("omni-selectable-card", IsSelected ? "omni-selectable-card--selected" : null, DoubleWidth ? "omni-tile--double" : null)"
+        class="@Css("omni-selectable-card", ToneClass, IsSelected ? "omni-selectable-card--selected" : null, DoubleWidth ? "omni-tile--double" : null)"
         role="@(IsMultiple ? "checkbox" : "radio")"
         aria-checked="@(IsSelected ? "true" : "false")"
         aria-disabled="@(IsDisabled ? "true" : null)"

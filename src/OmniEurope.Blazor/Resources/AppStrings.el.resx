@@ -743,4 +743,6 @@
   <data name="SiteSearchLabel" xml:space="preserve"><value>Αναζήτηση στον ιστότοπο</value></data>
   <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Αναζήτηση…</value></data>
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Κανένα αποτέλεσμα</value></data>
+  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: ολοκληρώθηκαν {1} από {2} περάσματα</value></data>
+  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: ολοκληρώθηκαν {1} από {2} περάσματα, ένα σε εξέλιξη</value></data>
 </root>

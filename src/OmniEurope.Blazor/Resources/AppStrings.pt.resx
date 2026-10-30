@@ -743,4 +743,6 @@
   <data name="SiteSearchLabel" xml:space="preserve"><value>Pesquisar no site</value></data>
   <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Pesquisar…</value></data>
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Sem resultados</value></data>
+  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} de {2} passagens feitas</value></data>
+  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} de {2} passagens feitas, uma em curso</value></data>
 </root>

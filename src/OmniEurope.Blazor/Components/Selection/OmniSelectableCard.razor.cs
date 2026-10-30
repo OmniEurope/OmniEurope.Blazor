@@ -96,6 +96,17 @@ public partial class OmniSelectableCard
     [Parameter]
     public bool DoubleWidth { get; set; }
 
+    /// <summary>
+    /// The colour of the card, to tell the cards of a group apart: the icon sits on a square tinted with it,
+    /// as on an <see cref="OmniNavTile"/>, and the hover, the frame, the tint and the box of the chosen card
+    /// take it. Null, the default, keeps the muted icon and the accent choice of an untoned card. The tone
+    /// never carries the choice alone: the frame, the box and <c>aria-checked</c> stay.
+    /// </summary>
+    [Parameter]
+    public OmniTone? Tone { get; set; }
+
+    private string? ToneClass => Tone is { } tone ? $"omni-selectable-card--toned omni-selectable-card--{tone.ToString().ToLowerInvariant()}" : null;
+
     private bool IsSelected => Group?.IsSelected(this) ?? Value;
 
     private bool IsMultiple => Group?.Multiple ?? Multiple;

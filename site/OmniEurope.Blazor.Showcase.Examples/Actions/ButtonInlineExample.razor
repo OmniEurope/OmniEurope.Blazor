@@ -1,0 +1,10 @@
+@* Inline sets a button inside a sentence: the words below are real buttons in the font and colour of the text, marked
+   by a dotted underline. The line keeps its height and the words still reach the keyboard. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniText>
+        The <OmniButton Id="button-inline-word" Inline="true" OnClick="@(() => Pick("harbour"))">harbour</OmniButton> was quiet
+        when the <OmniButton Inline="true" OnClick="@(() => Pick("first boats"))">first boats</OmniButton> left at dawn, and only
+        a <OmniButton Inline="true" Disabled="true">locked word</OmniButton> stayed out of reach.
+    </OmniText>
+    <OmniText Tone="OmniTextTone.Muted">Last word opened: <strong>@Word</strong></OmniText>
+</OmniStack>

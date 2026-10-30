@@ -401,6 +401,15 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 .omni-progress__legend { display: flex; flex: 0 0 100%; flex-wrap: wrap; font-size: var(--omni-font-size-sm); gap: var(--omni-space-xs) var(--omni-space-md); list-style: none; margin: 0; padding: 0; }
 .omni-progress__legend-item { align-items: center; color: var(--omni-color-text); display: inline-flex; gap: var(--omni-space-xs); }
 .omni-progress__swatch { background: currentColor; block-size: 0.625rem; border-radius: var(--omni-radius-pill); flex: none; inline-size: 0.625rem; }
+/* OmniPassTracker: the elements share the row and wrap, one group of marks above each name. The marks use the text
+   colours of their tones, which hold their ratio on the surface, and an empty mark keeps a border to stay seen. */
+.omni-pass-tracker { display: flex; flex-wrap: wrap; font-size: var(--omni-font-size-sm); gap: var(--omni-space-sm); list-style: none; margin: 0; padding: 0; }
+.omni-pass-tracker__item { align-items: center; color: var(--omni-color-text-muted); display: flex; flex: 1 1 3.25rem; flex-direction: column; gap: var(--omni-space-xs); min-inline-size: 0; overflow-wrap: anywhere; position: relative; text-align: center; }
+.omni-pass-tracker__item--current { color: var(--omni-color-text); font-weight: 600; }
+.omni-pass-tracker__marks { display: flex; flex-wrap: wrap; gap: 3px; justify-content: center; }
+.omni-pass-tracker__mark { background: var(--omni-color-surface-muted); block-size: calc(var(--omni-control-height) / 3); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius-sm); box-sizing: border-box; inline-size: calc(var(--omni-control-height) / 3); }
+.omni-pass-tracker__mark--done { background: var(--omni-color-success); border-color: var(--omni-color-success); }
+.omni-pass-tracker__mark--active { background: var(--omni-color-accent-strong); border-color: var(--omni-color-accent-strong); }
 .omni-progress__indicator--0 { width: 0; }
 .omni-progress__indicator--5 { width: 5%; }
 .omni-progress__indicator--10 { width: 10%; }

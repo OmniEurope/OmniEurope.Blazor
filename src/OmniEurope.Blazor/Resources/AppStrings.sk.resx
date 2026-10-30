@@ -743,4 +743,6 @@
   <data name="SiteSearchLabel" xml:space="preserve"><value>Hľadať na stránke</value></data>
   <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Hľadať…</value></data>
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Žiadne výsledky</value></data>
+  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: dokončené {1} z {2} prechodov</value></data>
+  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: dokončené {1} z {2} prechodov, jeden prebieha</value></data>
 </root>

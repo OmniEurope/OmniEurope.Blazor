@@ -743,4 +743,6 @@
   <data name="SiteSearchLabel" xml:space="preserve"><value>Ieškoti svetainėje</value></data>
   <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Ieškoti…</value></data>
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Rezultatų nėra</value></data>
+  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: atlikta {1} iš {2} perėjimų</value></data>
+  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: atlikta {1} iš {2} perėjimų, vienas vyksta</value></data>
 </root>

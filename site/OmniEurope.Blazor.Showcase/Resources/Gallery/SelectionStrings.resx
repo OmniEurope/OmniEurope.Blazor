@@ -212,4 +212,6 @@
   <data name="UploadTitle" xml:space="preserve"><value>Upload</value></data>
   <data name="AutocompleteFreeTextTitle" xml:space="preserve"><value>Free text</value></data>
   <data name="RadioButtonsErrorTitle" xml:space="preserve"><value>With an error</value></data>
+  <data name="ListsColumnsTitle" xml:space="preserve"><value>In columns</value></data>
+  <data name="SelectableCardsTonesTitle" xml:space="preserve"><value>Tones</value></data>
 </root>

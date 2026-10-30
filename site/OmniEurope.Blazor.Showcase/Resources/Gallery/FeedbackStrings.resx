@@ -90,4 +90,5 @@
   <data name="ProgressLoadingDescription" xml:space="preserve"><value>The loading bar under a header follows a real load, sweeping or filling, reaches the end then fades. A busy button keeps its size and content (a veil breathes over it), and the skeleton takes the shape of what it replaces.</value></data>
   <data name="ProgressVeilTitle" xml:space="preserve"><value>Page wait veil</value></data>
   <data name="ProgressVeilDescription" xml:space="preserve"><value>A slightly see-through veil (Opacity, 85 % by default) over the content of the page (under the top bar and beside the side menu, which stay usable) or the whole window (Scope), of one constant theme colour, with the application's own logo at its centre: given as markup (Logo), as an image address (LogoSource) or as an animated mark of its own. The package animates nothing. It appears only after 100 ms of waiting: a very short wait shows nothing, so nothing flickers.</value></data>
+  <data name="ProgressPassTrackerTitle" xml:space="preserve"><value>Several passes per element</value></data>
 </root>

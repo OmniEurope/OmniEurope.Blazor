@@ -743,4 +743,6 @@
   <data name="SiteSearchLabel" xml:space="preserve"><value>Zoeken op de site</value></data>
   <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Zoeken…</value></data>
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Geen resultaten</value></data>
+  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} van {2} rondes klaar</value></data>
+  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} van {2} rondes klaar, één bezig</value></data>
 </root>

@@ -98,4 +98,5 @@
   <data name="ToggleButtonsToolbarTitle" xml:space="preserve"><value>Une barre de bascules</value></data>
   <data name="ToggleButtonsStatesTitle" xml:space="preserve"><value>États</value></data>
   <data name="ToggleButtonsSizesTitle" xml:space="preserve"><value>Tailles, avec un libellé et en icône seule</value></data>
+  <data name="ButtonsInlineTitle" xml:space="preserve"><value>Dans une phrase</value></data>
 </root>

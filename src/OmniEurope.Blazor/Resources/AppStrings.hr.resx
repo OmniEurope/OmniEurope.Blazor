@@ -743,4 +743,6 @@
   <data name="SiteSearchLabel" xml:space="preserve"><value>Pretraži web-mjesto</value></data>
   <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Pretraži…</value></data>
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Nema rezultata</value></data>
+  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: dovršeno {1} od {2} prolaza</value></data>
+  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: dovršeno {1} od {2} prolaza, jedan u tijeku</value></data>
 </root>

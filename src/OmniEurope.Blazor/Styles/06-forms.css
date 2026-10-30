@@ -393,6 +393,26 @@ select.omni-input.omni-input--large:not([multiple]):not([size]) { block-size: ca
 .omni-selectable-card__box::before { block-size: 0.5rem; border: solid var(--omni-color-on-accent-fill); border-width: 0 2px 2px 0; box-sizing: border-box; content: ""; inline-size: 0.3125rem; opacity: 0; transform: translateY(-1px) rotate(45deg); }
 .omni-selectable-card--selected .omni-selectable-card__box { background: var(--omni-color-accent-fill); border-color: var(--omni-color-accent-fill); }
 .omni-selectable-card--selected .omni-selectable-card__box::before { opacity: 1; }
+/* OmniSelectableCard.Tone: one set of five colours per tone, read by the rules that follow. An untoned card never meets
+   them and keeps the rules above. The card shows its colour at rest too: the icon on a square tinted with it, as on an
+   OmniNavTile. Once chosen the card itself wears the tint, so the square takes the surface to stay visible. */
+.omni-selectable-card--neutral { --omni-selectable-card-tone: var(--omni-color-text-muted); --omni-selectable-card-tint: var(--omni-color-surface-muted); --omni-selectable-card-fill: var(--omni-color-neutral-fill); --omni-selectable-card-ink: var(--omni-color-text); }
+.omni-selectable-card--accent { --omni-selectable-card-tone: var(--omni-color-accent-strong); --omni-selectable-card-tint: var(--omni-color-accent-subtle); --omni-selectable-card-fill: var(--omni-color-accent-fill); --omni-selectable-card-ink: var(--omni-color-on-accent-fill); }
+.omni-selectable-card--info { --omni-selectable-card-tone: var(--omni-color-info); --omni-selectable-card-tint: var(--omni-color-info-subtle); --omni-selectable-card-fill: var(--omni-color-info-bright); --omni-selectable-card-ink: var(--omni-color-on-bright); }
+.omni-selectable-card--success { --omni-selectable-card-tone: var(--omni-color-success); --omni-selectable-card-tint: var(--omni-color-success-subtle); --omni-selectable-card-fill: var(--omni-color-success-bright); --omni-selectable-card-ink: var(--omni-color-on-bright); }
+.omni-selectable-card--warning { --omni-selectable-card-tone: var(--omni-color-warning); --omni-selectable-card-tint: var(--omni-color-warning-subtle); --omni-selectable-card-fill: var(--omni-color-warning-deep); --omni-selectable-card-ink: var(--omni-color-on-deep); }
+.omni-selectable-card--danger { --omni-selectable-card-tone: var(--omni-color-danger); --omni-selectable-card-tint: var(--omni-color-danger-subtle); --omni-selectable-card-fill: var(--omni-color-danger-deep); --omni-selectable-card-ink: var(--omni-color-on-deep); }
+.omni-selectable-card--toned:hover:not([aria-disabled="true"]) { background: color-mix(in srgb, var(--omni-selectable-card-tone) 7%, var(--omni-card-background, var(--omni-color-surface))); border-color: color-mix(in srgb, var(--omni-selectable-card-tone) 55%, var(--omni-color-border)); }
+.omni-selectable-card.omni-selectable-card--toned.omni-selectable-card--selected { background: var(--omni-selectable-card-tint); border-color: var(--omni-selectable-card-tone); }
+.omni-selectable-card--toned.omni-selectable-card--selected:hover:not([aria-disabled="true"]) { background: color-mix(in srgb, var(--omni-selectable-card-tone) 6%, var(--omni-selectable-card-tint)); }
+.omni-selectable-card--toned .omni-selectable-card__icon, .omni-selectable-card--toned.omni-selectable-card--selected .omni-selectable-card__icon { color: var(--omni-selectable-card-tone); }
+.omni-selectable-card--toned .omni-selectable-card__icon { background: var(--omni-selectable-card-tint); block-size: calc(var(--omni-icon-box) * 4 / 3); border-radius: var(--omni-radius); inline-size: calc(var(--omni-icon-box) * 4 / 3); }
+.omni-selectable-card--toned .omni-selectable-card__icon > svg { block-size: 1.5rem; inline-size: 1.5rem; }
+.omni-selectable-card--toned.omni-selectable-card--selected .omni-selectable-card__icon { background: var(--omni-card-background, var(--omni-color-surface)); }
+.omni-selectable-card--toned.omni-selectable-card--selected .omni-selectable-card__box { background: var(--omni-selectable-card-fill); border-color: var(--omni-selectable-card-fill); }
+.omni-selectable-card--toned .omni-selectable-card__box::before { border-color: var(--omni-selectable-card-ink); }
+/* The muted text falls short of 4.5:1 on the warning tint of the dark mode (4.45): on a chosen toned card the description takes the page text. */
+.omni-selectable-card--toned.omni-selectable-card--selected .omni-selectable-card__description { color: var(--omni-color-text); }
 .omni-selectable-card__title { flex: 1 1 auto; font-weight: 600; min-inline-size: 0; }
 .omni-selectable-card__description { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); }
 @media (prefers-reduced-motion: reduce) { .omni-selectable-card { transition: none; } }
@@ -401,6 +421,19 @@ select.omni-input.omni-input--large:not([multiple]):not([size]) { block-size: ca
 .omni-choice-list__legend { color: var(--omni-color-text); font-size: var(--omni-font-size-label); font-weight: 600; inline-size: 100%; margin-block-end: 6px; padding: 0; }
 .omni-choice-list__item { align-items: center; cursor: pointer; display: inline-flex; gap: 7px; }
 .omni-choice-list__item > input { cursor: inherit; margin: 0; }
+/* OmniCheckBoxList.Columns: balanced columns on the fieldset itself, at most the number asked, 5rem each at least, so a
+   narrow list draws fewer with no media query. A multi-column box has no row gap: each item but the first carries it above,
+   and the margin at the top of a column falls away with the column break. The error line spans the columns. */
+.omni-choice-list--columns { column-gap: var(--omni-space-xl); display: block; }
+.omni-choice-list--columns > .omni-choice-list__item { break-inside: avoid; display: flex; }
+.omni-choice-list--columns > .omni-choice-list__item + .omni-choice-list__item { margin-block-start: calc(var(--omni-field-gap) + 2px); }
+.omni-choice-list--columns > :not(.omni-choice-list__item, .omni-choice-list__legend) { column-span: all; margin-block-start: calc(var(--omni-field-gap) - 2px); }
+.omni-choice-list--columns-1 { columns: 5rem 1; }
+.omni-choice-list--columns-2 { columns: 5rem 2; }
+.omni-choice-list--columns-3 { columns: 5rem 3; }
+.omni-choice-list--columns-4 { columns: 5rem 4; }
+.omni-choice-list--columns-5 { columns: 5rem 5; }
+.omni-choice-list--columns-6 { columns: 5rem 6; }
 /* Invalid (an Error, or a validation message of the form), every radio or check box of the list takes
    the danger border, as an invalid field does. */
 .omni-choice-list--invalid :is(.omni-radio, .omni-checkbox) { border-color: var(--omni-color-danger); }

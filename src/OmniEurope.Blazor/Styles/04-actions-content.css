@@ -108,6 +108,16 @@
     line-height: 1.2;
 }
 
+/* OmniButton.Inline: a word or a phrase of running text that acts. It takes the font and colour of its sentence and marks
+   itself by a dotted underline, with no fill, frame, relief or padding, so the line keeps its height and rhythm. Last of the
+   button rules: it outweighs the variant and the size whatever they are. The content goes back to inline, or the underline
+   of the button would not reach the text inside a flex box. WCAG 2.5.8 exempts a target inside a sentence from the 24 px floor. */
+.omni-button--inline { --omni-button-fill: transparent; --omni-button-fill-hover: var(--omni-color-surface-hover); --omni-button-fill-active: var(--omni-color-surface-highlight); --omni-button-press-transform: none; border: 0; box-shadow: none; border-radius: 0.2em; color: inherit; display: inline-block; font: inherit; letter-spacing: inherit; max-inline-size: 100%; min-height: 0; padding: 0; text-align: start; text-decoration: underline dotted color-mix(in srgb, currentColor 60%, transparent); text-decoration-thickness: 1px; text-transform: inherit; text-underline-offset: 0.25em; vertical-align: baseline; white-space: normal; }
+.omni-button--inline:hover:not(:disabled) { text-decoration-color: currentColor; }
+.omni-button--inline:active:not(:disabled) { box-shadow: none; }
+.omni-button--inline:focus-visible { box-shadow: var(--omni-focus-ring); }
+.omni-button--inline > .omni-button__content { display: inline; line-height: inherit; }
+
 /* Indicator: a danger dot at the top end corner, ringed by the surface so it detaches from the icon it
    overlaps (the bell of an app bar). Decorative, the accessible name says what it means. On the
    accent band the ring takes the band. */

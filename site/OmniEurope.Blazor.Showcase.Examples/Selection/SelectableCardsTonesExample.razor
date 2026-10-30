@@ -1,0 +1,28 @@
+@* Tone tells the cards of a group apart: the icon sits on a tinted square at rest, and the chosen card wears the
+   tone in its frame and tint. The last card has no tone and keeps the muted icon and the accent choice. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniSelectableCardGroup Id="cards-tones" TValue="string" TSelection="string" Columns="3" Label="Activity" @bind-Value="Activity">
+        <OmniSelectableCard Choice="@("neutral")" Title="Neutral" Description="Browse the list" Tone="OmniTone.Neutral">
+            <Icon><OmniIcon Name="OmniIconName.Search" /></Icon>
+        </OmniSelectableCard>
+        <OmniSelectableCard Choice="@("accent")" Title="Accent" Description="Learn new words" Tone="OmniTone.Accent">
+            <Icon><OmniIcon Name="OmniIconName.Sparkle" /></Icon>
+        </OmniSelectableCard>
+        <OmniSelectableCard Choice="@("info")" Title="Info" Description="Read a text" Tone="OmniTone.Info">
+            <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
+        </OmniSelectableCard>
+        <OmniSelectableCard Choice="@("success")" Title="Success" Description="Review what you know" Tone="OmniTone.Success">
+            <Icon><OmniIcon Name="OmniIconName.Check" /></Icon>
+        </OmniSelectableCard>
+        <OmniSelectableCard Choice="@("warning")" Title="Warning" Description="Revise weak words" Tone="OmniTone.Warning">
+            <Icon><OmniIcon Name="OmniIconName.Warning" /></Icon>
+        </OmniSelectableCard>
+        <OmniSelectableCard Choice="@("danger")" Title="Danger" Description="Take the hard test" Tone="OmniTone.Danger">
+            <Icon><OmniIcon Name="OmniIconName.Timer" /></Icon>
+        </OmniSelectableCard>
+        <OmniSelectableCard Choice="@("none")" Title="No tone" Description="The default card">
+            <Icon><OmniIcon Name="OmniIconName.Shuffle" /></Icon>
+        </OmniSelectableCard>
+    </OmniSelectableCardGroup>
+    <OmniText Tone="OmniTextTone.Muted">Bound value: <strong>@Activity</strong></OmniText>
+</OmniStack>

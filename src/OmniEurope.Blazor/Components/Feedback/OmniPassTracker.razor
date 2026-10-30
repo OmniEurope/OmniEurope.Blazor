@@ -1,0 +1,25 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+@* A row of elements, each with its own passes: one mark per pass, finished, under way or still to do, and
+   the name of the element below. An ordered list, so the elements are counted and the current one says
+   so (aria-current); the marks and the name are hidden from assistive technology, which reads one
+   sentence per element instead of a run of empty shapes. The elements share the row equally and wrap, so
+   any number of them needs no inline width. *@
+<ol @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-pass-tracker")" aria-label="@EffectiveLabel">
+    @for (var index = 0; index < Items.Count; index++)
+    {
+        var item = Items[index];
+        var current = index == CurrentIndex;
+        <li class="@ItemClass(current)" aria-current="@(current ? "step" : null)">
+            <span class="omni-pass-tracker__marks" aria-hidden="true">
+                @for (var pass = 0; pass < item.Passes; pass++)
+                {
+                    <span class="@MarkClass(item, pass)"></span>
+                }
+            </span>
+            <span class="omni-pass-tracker__text" aria-hidden="true">@item.Text</span>
+            <span class="omni-visually-hidden">@Announcement(item)</span>
+        </li>
+    }
+</ol>

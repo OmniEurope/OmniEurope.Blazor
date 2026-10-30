@@ -743,4 +743,6 @@
   <data name="SiteSearchLabel" xml:space="preserve"><value>Keresés az oldalon</value></data>
   <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Keresés…</value></data>
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Nincs találat</value></data>
+  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {2} menetből {1} kész</value></data>
+  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {2} menetből {1} kész, egy folyamatban</value></data>
 </root>

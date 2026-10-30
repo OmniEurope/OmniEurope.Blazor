@@ -743,4 +743,6 @@
   <data name="SiteSearchLabel" xml:space="preserve"><value>Sök på webbplatsen</value></data>
   <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Sök…</value></data>
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Inga resultat</value></data>
+  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} av {2} omgångar klara</value></data>
+  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} av {2} omgångar klara, en pågår</value></data>
 </root>

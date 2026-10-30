@@ -67,6 +67,15 @@ public partial class OmniButton
     [Parameter]
     public bool Indicator { get; set; }
 
+    /// <summary>
+    /// Sets the button inside a sentence: a word or a phrase of running text that acts, such as a word that
+    /// opens its definition. It takes the font and colour of the text around it and shows a dotted
+    /// underline, with no fill, frame, relief or padding, tinted on hover and press. <see cref="Variant"/>
+    /// and <see cref="Size"/> then change nothing. False, the default, draws a regular button.
+    /// </summary>
+    [Parameter]
+    public bool Inline { get; set; }
+
     /// <summary>Raised when the button is clicked, unless it is <see cref="Disabled"/> or <see cref="Busy"/>.</summary>
     [Parameter]
     public EventCallback<MouseEventArgs> OnClick { get; set; }

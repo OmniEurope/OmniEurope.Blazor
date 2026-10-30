@@ -1,0 +1,12 @@
+@* Columns sets many short options in balanced columns, read top to bottom. Each column keeps 5rem at least, so a
+   narrow list draws fewer. The error line stays under all the columns. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniCheckBoxList TValue="string"
+                      Id="checkboxlist-columns"
+                      Options="LevelOptions"
+                      Columns="3"
+                      @bind-Value="Levels"
+                      Label="Levels"
+                      Error="@(Levels.Count == 0 ? "Choose one level at least." : null)" />
+    <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@(Levels.Count == 0 ? "none" : string.Join(", ", Levels))</code></OmniText>
+</OmniStack>

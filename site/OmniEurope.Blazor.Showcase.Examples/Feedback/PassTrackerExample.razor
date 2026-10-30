@@ -1,0 +1,9 @@
+@* Five words of a lesson, three passes each: finished passes, the pass under way, and the ones still to do. The button
+   moves the session on, so the marks and the current word can be followed. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniPassTracker Id="pass-tracker" Label="Lesson progress" Items="Items" CurrentIndex="Current" />
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small">
+        <OmniButton Id="pass-tracker-next" Variant="OmniButtonVariant.Secondary" Disabled="Finished" OnClick="Advance">Next pass</OmniButton>
+        <OmniButton Id="pass-tracker-reset" Variant="OmniButtonVariant.Ghost" OnClick="Reset">Start again</OmniButton>
+    </OmniStack>
+</OmniStack>

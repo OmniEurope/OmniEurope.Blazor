@@ -98,4 +98,5 @@
   <data name="ToggleButtonsToolbarTitle" xml:space="preserve"><value>A toolbar of toggles</value></data>
   <data name="ToggleButtonsStatesTitle" xml:space="preserve"><value>States</value></data>
   <data name="ToggleButtonsSizesTitle" xml:space="preserve"><value>Sizes, with a label and as an icon alone</value></data>
+  <data name="ButtonsInlineTitle" xml:space="preserve"><value>Inside a sentence</value></data>
 </root>

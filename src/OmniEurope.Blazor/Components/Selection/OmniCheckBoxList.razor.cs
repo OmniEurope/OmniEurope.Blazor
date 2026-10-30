@@ -48,12 +48,31 @@ public partial class OmniCheckBoxList<TValue>
     [Parameter]
     public string? Error { get; set; }
 
+    /// <summary>
+    /// A number of columns, from 1 to 6, sets the boxes in that many balanced columns, read top to bottom
+    /// then left to right, for many short options. Each column keeps 5rem at least: a narrower list draws
+    /// fewer. Null, the default, stacks the boxes one under the other.
+    /// </summary>
+    [Parameter]
+    public int? Columns { get; set; }
+
     private bool HasError => !string.IsNullOrWhiteSpace(Error);
     private bool IsInvalid => HasError || AriaInvalid is not null;
     private string ErrorId => $"{Id ?? _generatedId}-error";
     private string? DescribedBy => OmniChoiceListParts.DescribedBy(AriaDescribedBy, HasError ? ErrorId : null);
 
     private static string ItemClass(OmniOption<TValue> option) => OmniChoiceListParts.ItemClass(option.Disabled);
+
+    /// <summary>Refuses a number of columns the stylesheet does not draw.</summary>
+    protected override void OnParametersSet()
+    {
+        if (Columns is < 1 or > OmniTileGrid.MaxColumns)
+        {
+            throw new ArgumentOutOfRangeException(nameof(Columns), Columns, "A check box list has between 1 and 6 columns.");
+        }
+
+        base.OnParametersSet();
+    }
 
     private bool IsSelected(TValue value) => CurrentValue?.Contains(value, EqualityComparer<TValue>.Default) == true;
 

@@ -10,6 +10,7 @@ Ces composants disent où en est quelque chose : un message, un état, une progr
 | `OmniStatusStrip` | Rangée d'états : dernières exécutions d'une tâche en points colorés, tranches d'une fenêtre de disponibilité en segments, point pulsant pour ce qui tourne encore ; chaque élément a son nom, son infobulle et peut mener ailleurs. Elle lit la même table d'états que `OmniStatusBadge`. |
 | `OmniIcon` | Icône Phosphor intégrée, décorative par défaut ou nommée ; accepte aussi un tracé fourni par l'hôte. |
 | `OmniImage` | Image responsive avec texte alternatif, chargement différé et dimensions natives facultatives. |
+| `OmniPassTracker` | Une suite d'éléments ayant chacun plusieurs passages (`Items`, `OmniPassTrackerItem`), une marque par passage (terminé, en cours, à faire), l'élément travaillé désigné par `CurrentIndex`. Rend compte seulement : rien n'y est cliquable. |
 | `OmniProgressBar` | Avancement d'une tâche (`role="progressbar"`), en ligne ou en anneau, teinté par `Tone` (`Accent` par défaut), indéterminé tant que la fin n'est pas connue (`ShowValue` affiche alors « En cours » ou `ValueText`, jamais un faux pourcentage). |
 | `OmniLoadingBar` | Barre fine de chargement de page, en balayage ou en remplissage continu, qui reste le temps de finir sa course puis s'efface. |
 | `OmniSkeleton` | Silhouette de chargement, décorative ou région `status` nommée, d'une à dix lignes. |

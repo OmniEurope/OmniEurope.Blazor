@@ -14,6 +14,7 @@ internal static class ActionsFamily
                 "Actions/ButtonSizesExample.razor", "Actions/ButtonSizesExample.razor.cs",
                 "Actions/ButtonStatesExample.razor", "Actions/ButtonStatesExample.razor.cs",
                 "Actions/ButtonVariantColumnExample.razor", "Actions/ButtonVariantColumnExample.razor.cs",
+                "Actions/ButtonInlineExample.razor", "Actions/ButtonInlineExample.razor.cs",
                 "Actions/BusyButtonsExample.razor", "Actions/BusyButtonsExample.razor.cs",
                 "Actions/CopyButtonsExample.razor", "Actions/CopyButtonsExample.razor.cs",
                 "Actions/ButtonSample.cs"

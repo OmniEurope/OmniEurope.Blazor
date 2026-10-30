@@ -31,7 +31,8 @@ internal static class SelectionFamily
             ["OmniListBox", "OmniCheckBoxList"],
             [
                 "Selection/ListsExample.razor", "Selection/ListsExample.razor.cs",
-                "Selection/ListsGalleryExample.razor", "Selection/ListsGalleryExample.razor.cs"
+                "Selection/ListsGalleryExample.razor", "Selection/ListsGalleryExample.razor.cs",
+                "Selection/ListsColumnsExample.razor", "Selection/ListsColumnsExample.razor.cs"
             ]),
         new("radio-buttons", "RadioButtonsTitle", "RadioButtonsDescription", OmniIconName.CheckCircle,
             ["OmniRadioButtonList", "OmniRating"],
@@ -55,7 +56,8 @@ internal static class SelectionFamily
                 "Selection/SelectableCardsChoices.razor", "Selection/SelectableCardsChoices.razor.cs",
                 "Selection/SelectableCardsSingleExample.razor", "Selection/SelectableCardsSingleExample.razor.cs",
                 "Selection/SelectableCardsOptionsExample.razor", "Selection/SelectableCardsOptionsExample.razor.cs",
-                "Selection/SelectableCardsLayoutExample.razor", "Selection/SelectableCardsLayoutExample.razor.cs"
+                "Selection/SelectableCardsLayoutExample.razor", "Selection/SelectableCardsLayoutExample.razor.cs",
+                "Selection/SelectableCardsTonesExample.razor", "Selection/SelectableCardsTonesExample.razor.cs"
             ]),
         new("dates", "DatesTitle", "DatesDescription", OmniIconName.Timer,
             ["OmniDatePicker", "OmniDateTimePicker", "OmniTimePicker"],

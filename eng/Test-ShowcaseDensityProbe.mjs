@@ -64,6 +64,9 @@ const EXEMPT = [
   // A chart legend swatch is the same kind of mark: a 0.75em square in the legend's text, which keeps
   // the fixed small font (--omni-font-size-sm) outside the density blocks, so it is text by the plan.
   ['.omni-chart__swatch', 'pastille de légende en em du texte de légende, marque de texte que la densité ne redimensionne pas'],
+  // An inline button is a word of a sentence: its height is the line of the text around it, which keeps
+  // its own size in every density, and it has no padding or floor of its own.
+  ['.omni-button--inline', 'bouton dans une phrase : la hauteur de la ligne de texte, que la densité ne change pas'],
   // Progress bars: the track is a hairline whose thickness is the drawing, the plan exempts them.
   ['.omni-progress, .omni-loading-bar, [role="progressbar"]', 'barre de progression : épaisseur fixe par dessin'],
   // Separators: a rule of one border width.

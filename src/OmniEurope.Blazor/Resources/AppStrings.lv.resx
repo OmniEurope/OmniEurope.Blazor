@@ -743,4 +743,6 @@
   <data name="SiteSearchLabel" xml:space="preserve"><value>Meklēt vietnē</value></data>
   <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Meklēt…</value></data>
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Nav rezultātu</value></data>
+  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: pabeigtas {1} no {2} kārtām</value></data>
+  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: pabeigtas {1} no {2} kārtām, viena notiek</value></data>
 </root>

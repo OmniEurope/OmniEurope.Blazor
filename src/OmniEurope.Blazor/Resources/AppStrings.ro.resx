@@ -743,4 +743,6 @@
   <data name="SiteSearchLabel" xml:space="preserve"><value>Căutați în site</value></data>
   <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Căutare…</value></data>
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Niciun rezultat</value></data>
+  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} din {2} treceri încheiate</value></data>
+  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} din {2} treceri încheiate, una în curs</value></data>
 </root>
