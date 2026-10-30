@@ -415,6 +415,39 @@ export async function editorSteps(session, results) {
   })()`);
   step('suppression du rowspan terminal : page utilisable, ligne voisine et suite du document conservées');
 
+  // Mail variables use the caret of the active face, replacing a selection rather than wrapping it.
+  const mailSource = "document.querySelector('#editor-mail textarea')";
+  const mailValue = "document.querySelector('#editor-mail textarea').value";
+  await session.clickOn('#editor-mail [data-command=toggle-source]');
+  await waitFor('la source du courriel', `${mailSource} !== null`);
+  await evaluate(`${mailSource}.focus(); ${mailSource}.select()`);
+  await type('<p>Before TARGET after.</p>');
+  await waitFor('la source saisie', `${mailValue} === '<p>Before TARGET after.</p>'`);
+  await evaluate(`${mailSource}.setSelectionRange(10, 10)`);
+  await session.clickOn('#editor-mail [data-omni-variable=client]');
+  await waitFor('le token au caret une seule fois', `${mailValue} === '<p>Before {{client}}TARGET after.</p>'`);
+  await evaluate(`(() => { const area = ${mailSource}; area.focus(); const at = area.value.indexOf('TARGET'); area.setSelectionRange(at, at + 6); })()`);
+  await session.clickOn('#editor-mail [data-omni-variable=file]');
+  await waitFor('la sélection remplacée par le token', `${mailValue} === '<p>Before {{client}}{{file}} after.</p>'`);
+  await session.clickOn('#editor-mail [data-command=toggle-source]');
+  await waitFor('la face visuelle du courriel', "document.querySelector('#editor-mail [contenteditable=true]') !== null");
+  const mailVisualId = await evaluate("document.querySelector('#editor-mail [contenteditable=true]').id");
+  await select(mailVisualId, 'after.');
+  await session.clickOn('#editor-mail [data-omni-variable=due]');
+  await waitFor('le token remplace aussi la sélection visuelle', `document.getElementById('${mailVisualId}').textContent === 'Before {{client}}{{file}} {{due}}'`);
+  await session.clickOn('#editor-mail [data-command=toggle-source]');
+  await waitFor('les tokens conservés après aller-retour', `${mailValue} === '<p>Before {{client}}{{file}} {{due}}</p>'`);
+  await evaluate(`${mailSource}.focus(); ${mailSource}.setSelectionRange(${mailValue}.length, ${mailValue}.length)`);
+  await session.clickOn('#editor-mail [data-omni-variable=pieces]');
+  await waitFor('la variable Block dans son paragraphe', `${mailValue} === '<p>Before {{client}}{{file}} {{due}}</p><p>{{pieces}}</p>'`);
+  await session.clickOn('#editor-mail-subject');
+  await evaluate("document.getElementById('editor-mail-subject').select()");
+  await type('Subject TARGET end');
+  await evaluate("document.getElementById('editor-mail-subject').setSelectionRange(8, 14)");
+  await session.clickOn('#editor-mail [data-omni-variable=client]');
+  await waitFor('le sujet remplace sa sélection sans changer le corps', `document.getElementById('editor-mail-subject').value === 'Subject {{client}} end' && ${mailValue} === '<p>Before {{client}}{{file}} {{due}}</p><p>{{pieces}}</p>'`);
+  step('variables du courriel : caret source, remplacement, aller-retour visuel, sujet et Block');
+
   // 5. #editor-document, on the word processor page: the size select and the HTML export of the status bar.
   await session.visit('/components/document-editor', '#editor-document');
   await waitFor('la surface du document prête', `${surface('editor-document')}.getAttribute('contenteditable') === 'true'`);

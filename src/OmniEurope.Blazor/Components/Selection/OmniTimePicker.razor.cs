@@ -116,6 +116,11 @@ public partial class OmniTimePicker
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+        if (Disabled || ReadOnly)
+        {
+            _popup?.Close(restoreFocus: false);
+        }
+
         StepMinutes(Step);
         if (Minimum is { } minimum && Maximum is { } maximum && minimum > maximum)
         {

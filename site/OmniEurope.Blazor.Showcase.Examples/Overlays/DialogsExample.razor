@@ -73,6 +73,14 @@
                 Intent="Intent"
                 Draggable="Draggable"
                 InitialFocus="InitialFocus">
-        <p>A dialog without a footer: it closes with the cross, and with Escape or the backdrop when the settings allow it.</p>
+        <ChildContent>
+            <p>Information about this file. Use Close to return to the page.</p>
+        </ChildContent>
+        <FooterContent>
+            <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(() => InfoOpen = false)">
+                <OmniIcon Name="OmniIconName.Close" />
+                <span>Close</span>
+            </OmniButton>
+        </FooterContent>
     </OmniDialog>
 </OmniStack>

@@ -69,11 +69,11 @@ export function render(host, html) {
     shadow.replaceChildren(page);
 }
 
-// Writes a variable's token at the caret of the subject field, replacing its selection, then tells
+// Writes a variable's token at the caret of the subject or source field, replacing its selection, then tells
 // Blazor the value changed through the field's own input event.
 export function insertAtCaret(id, text) {
     const field = document.getElementById(id);
-    if (!(field instanceof HTMLInputElement) || field.disabled || field.readOnly) {
+    if (!(field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement) || field.disabled || field.readOnly) {
         return false;
     }
 

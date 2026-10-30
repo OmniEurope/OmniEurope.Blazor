@@ -99,6 +99,26 @@ public sealed class MailTemplateEditorTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task AVariable_InTheSourceFace_UsesTheSourceCaretAndItsInputEvent()
+    {
+        var surface = SetupSurface();
+        var preview = JSInterop.SetupModule(Internal.OmniModules.MailPreview);
+        preview.Setup<bool>("insertAtCaret", _ => true).SetResult(true);
+        var editor = RenderEditor();
+        await editor.Find("[data-command=toggle-source]").ClickAsync(new MouseEventArgs());
+        var source = editor.Find("textarea");
+
+        await editor.FindAll(".omni-mail-template-editor__variable")[0].ClickAsync(new MouseEventArgs());
+
+        Assert.Equal([source.Id, "{{client.name}}"], Assert.Single(preview.Invocations["insertAtCaret"]).Arguments);
+        Assert.Empty(surface.Invocations["exec"]);
+        var bodies = new List<string?>();
+        editor.Render(parameters => parameters.Add(component => component.ValueChanged, (string? value) => bodies.Add(value)));
+        await source.InputAsync(new ChangeEventArgs { Value = "<p>{{client.name}}</p>" });
+        Assert.Equal(["<p>{{client.name}}</p>"], bodies);
+    }
+
+    [Fact]
     public async Task TheBody_TakesTheVariablesAgain_OnceFocusedAfterTheSubject()
     {
         var surface = SetupSurface();

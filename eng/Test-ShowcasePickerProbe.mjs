@@ -154,6 +154,32 @@ await evaluate("Blazor.navigateTo('/components/dates')");
 await waitFor('les sélecteurs de la vitrine', `document.getElementById('dates-form-date') && document.getElementById('dates-form-start') && document.getElementById('dates-form-appointment')`, 15_000);
 check(await evaluate(`${value('dates-form-date')} === '02/03/2026'`), `Valeur initiale de la date inattendue : ${await evaluate(value('dates-form-date'))}.`);
 
+// Lock from the keyboard without an outside pointer press, which would dismiss the panel first.
+for (const id of ['dates-date', 'dates-datetime']) {
+  for (const label of ['Lecture seule', 'Désactiver les sélecteurs']) {
+    const panel = id === 'dates-date' ? '#dates-date-calendar' : '#dates-datetime-panel';
+    const toggle = `#${id} + button`;
+    const setting = `[role=switch][aria-label=${JSON.stringify(label)}]`;
+    const bound = `document.getElementById('${id}').closest('.omni-stack').querySelector('code').textContent`;
+    const before = await evaluate(`({ value: ${value(id)}, bound: ${bound} })`);
+    await click(toggle);
+    await waitFor('le panneau avant verrouillage', shown(panel));
+    await evaluate(`document.querySelector(${JSON.stringify(setting)}).focus()`);
+    await key('Enter');
+    await waitFor('le verrouillage appliqué', `document.querySelector(${JSON.stringify(toggle)}).disabled`);
+    check(await evaluate(`document.querySelector('${panel}') === null && ${value(id)} === ${JSON.stringify(before.value)} && ${bound} === ${JSON.stringify(before.bound)}`), `Le verrouillage ${label} de ${id} laisse le panneau ouvert ou change la valeur liée.`);
+    await key('Enter');
+    await waitFor('le sélecteur réactivé', `!document.querySelector(${JSON.stringify(toggle)}).disabled`);
+    await click(toggle);
+    await waitFor('le panneau réactivé', shown(panel));
+    const day = await evaluate(`document.querySelector('${panel} [data-date]:not([disabled]):not([aria-selected=true])').dataset.date`);
+    await click(`${panel} [data-date='${day}']`);
+    await waitFor('le choix après réactivation reçu par le modèle', `${value(id)} !== ${JSON.stringify(before.value)} && ${bound} !== ${JSON.stringify(before.bound)}`);
+    await key('Escape');
+  }
+}
+results.push('lecture seule et désactivation pendant l’ouverture : panneau fermé, valeur liée conservée, sélection rétablie');
+
 // ---- Date: the grid from the keyboard ----
 await click(dateToggle);
 await waitFor('le calendrier ouvert', `document.querySelector('${datePanel}') !== null`);

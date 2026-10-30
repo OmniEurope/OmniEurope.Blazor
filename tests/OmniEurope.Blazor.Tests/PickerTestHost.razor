@@ -1,9 +1,9 @@
 @using Microsoft.AspNetCore.Components.Forms
 
 <EditForm EditContext="@EditContext">
-    <OmniDatePicker Id="date" Minimum="@DateMinimum" Maximum="@DateMaximum" @bind-Value="Model.Date" />
-    <OmniTimePicker Id="time" Minimum="@TimeMinimum" Maximum="@TimeMaximum" Step="@Step" @bind-Value="Model.Time" />
-    <OmniDateTimePicker Id="moment" Minimum="@MomentMinimum" Maximum="@MomentMaximum" ShowSeconds="@ShowSeconds" @bind-Value="Model.Moment" />
+    <OmniDatePicker Id="date" Minimum="@DateMinimum" Maximum="@DateMaximum" ReadOnly="ReadOnly" Disabled="Disabled" @bind-Value="Model.Date" />
+    <OmniTimePicker Id="time" Minimum="@TimeMinimum" Maximum="@TimeMaximum" Step="@Step" ReadOnly="ReadOnly" Disabled="Disabled" @bind-Value="Model.Time" />
+    <OmniDateTimePicker Id="moment" Minimum="@MomentMinimum" Maximum="@MomentMaximum" ShowSeconds="@ShowSeconds" ReadOnly="ReadOnly" Disabled="Disabled" @bind-Value="Model.Moment" />
 </EditForm>
 
 @code {
@@ -15,6 +15,8 @@
     [Parameter] public DateTime? MomentMaximum { get; set; }
     [Parameter] public TimeSpan Step { get; set; } = TimeSpan.FromMinutes(5);
     [Parameter] public bool ShowSeconds { get; set; }
+    [Parameter] public bool ReadOnly { get; set; }
+    [Parameter] public bool Disabled { get; set; }
     [Parameter] public PickerTestModel Model { get; set; } = new();
 
     public EditContext EditContext { get; private set; } = default!;

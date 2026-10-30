@@ -30,6 +30,9 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Fixed
 
+- Sélecteurs de date, d’heure et de date avec heure (PLAN-009, lot 3) : activer `ReadOnly` ou `Disabled` ferme le panneau déjà ouvert sans changer la valeur liée. Après réactivation, la sélection redevient possible.
+- Démonstration des dialogues (PLAN-009, lot 3) : le panneau Information dispose toujours d’une action Close, y compris lorsque `Dismissible` est faux ; les fermetures implicites restent régies par les paramètres existants.
+- `OmniMailTemplateEditor` (PLAN-009, lot 3) : une variable textuelle s’insère au caret de la face source active et remplace sa sélection, par le même chemin d’entrée que le champ ; son token reste présent après le retour à la face visuelle.
 - `OmniHtmlEditor` (PLAN-009, lot 2) : supprimer une dernière ligne importée avec un `rowspan` dépassant le tableau ne tente plus de déplacer sa cellule vers une ligne inexistante ; la page reste utilisable et les autres lignes sont conservées.
 - Préférences du navigateur (PLAN-009, lot 2) : après une écriture refusée par le stockage local, `get` et `entries` rendent la nouvelle copie mémoire au lieu de relire l’ancienne valeur persistée. Une écriture persistante réussie libère cette copie mémoire, de sorte que les écritures externes et les suppressions natives restent visibles.
 - `OmniAppMenu` (recette R1-26) : le panneau ouvert ne montre plus de barre de défilement horizontale. La liste des langues, posée en absolu sur sa rangée, ne donnait aucune largeur au panneau, resté à sa largeur minimale (180 px) : la valeur n'avait que 20 px et débordait. La rangée Langue réserve maintenant la largeur de la valeur (`--omni-app-menu-value-zone`, 6 rem).

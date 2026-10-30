@@ -11,8 +11,8 @@ namespace OmniEurope.Blazor.Components;
 /// <remarks>
 /// The template is what the host stores; sending a mail is rendering it on the server with the real values
 /// (<see cref="OmniMailRenderer.Render"/>). The preview draws that rendering in a shadow root and gives its
-/// styles through the CSSOM, so it shows the mail's own colours under the page's strict CSP. A variable is
-/// inserted in the body only in its visual face; in the source face, its token is typed as text.
+/// styles through the CSSOM, so it shows the mail's own colours under the page's strict CSP. A text variable is
+/// inserted at the remembered caret in either face of the body, replacing the selected text.
 /// </remarks>
 public partial class OmniMailTemplateEditor
 {
@@ -332,7 +332,17 @@ public partial class OmniMailTemplateEditor
 
         if (_editor is not null)
         {
-            await _editor.InsertTextAsync(variable.Token);
+            if (_mode == OmniHtmlEditorMode.Source)
+            {
+                if (await ModuleAsync() is { } module)
+                {
+                    await module.InvokeAsync<bool>("insertAtCaret", _editor.SurfaceId, variable.Token);
+                }
+            }
+            else
+            {
+                await _editor.InsertTextAsync(variable.Token);
+            }
         }
     }
 

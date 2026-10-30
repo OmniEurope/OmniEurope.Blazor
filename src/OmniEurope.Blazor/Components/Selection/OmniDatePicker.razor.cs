@@ -101,6 +101,11 @@ public partial class OmniDatePicker
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+        if (Disabled || ReadOnly)
+        {
+            _popup?.Close(restoreFocus: false);
+        }
+
         if (Minimum is { } minimum && Maximum is { } maximum && minimum > maximum)
         {
             throw new InvalidOperationException("Minimum cannot be greater than Maximum.");

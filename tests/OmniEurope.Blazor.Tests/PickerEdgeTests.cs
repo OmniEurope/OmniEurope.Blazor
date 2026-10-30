@@ -45,6 +45,57 @@ public sealed class PickerEdgeTests : OmniBunitContext
     private static string Title(IRenderedComponent<PickerTestHost> host) => host.Find(".omni-calendar__title").TextContent;
 
     [Theory]
+    [InlineData("date", false)]
+    [InlineData("date", true)]
+    [InlineData("time", false)]
+    [InlineData("time", true)]
+    [InlineData("moment", false)]
+    [InlineData("moment", true)]
+    public void LockingAnOpenPicker_ClosesItsPanelWithoutChangingTheValue_AndUnlockingAllowsSelection(string id, bool disabled)
+    {
+        var host = RenderHost(model =>
+        {
+            model.Date = new DateOnly(2026, 9, 21);
+            model.Time = new TimeOnly(9, 30);
+            model.Moment = new DateTime(2026, 9, 21, 9, 30, 0, DateTimeKind.Unspecified);
+        });
+        var notifications = 0;
+        host.Instance.EditContext.OnFieldChanged += (_, _) => notifications++;
+        Toggle(host, id).Click();
+        Assert.Single(host.FindAll("[role='dialog']"));
+
+        host.Render(parameters => parameters
+            .Add(component => component.Disabled, disabled)
+            .Add(component => component.ReadOnly, !disabled));
+
+        Assert.Empty(host.FindAll("[role='dialog']"));
+        Assert.Equal("false", Toggle(host, id).GetAttribute("aria-expanded"));
+        Assert.True(Toggle(host, id).HasAttribute("disabled"));
+        Assert.Equal(new DateOnly(2026, 9, 21), host.Instance.Model.Date);
+        Assert.Equal(new TimeOnly(9, 30), host.Instance.Model.Time);
+        Assert.Equal(new DateTime(2026, 9, 21, 9, 30, 0, DateTimeKind.Unspecified), host.Instance.Model.Moment);
+        Assert.Equal(0, notifications);
+
+        host.Render(parameters => parameters
+            .Add(component => component.Disabled, false)
+            .Add(component => component.ReadOnly, false));
+        Toggle(host, id).Click();
+        if (id == "time")
+        {
+            host.FindAll("[data-omni-part='hour'] [role='option']")[10].Click();
+            Assert.Equal(new TimeOnly(10, 30), host.Instance.Model.Time);
+        }
+        else
+        {
+            host.Find(".omni-calendar__day[data-date='2026-09-22']").Click();
+            Assert.Equal(id == "date" ? new DateOnly(2026, 9, 22) : new DateOnly(2026, 9, 21), host.Instance.Model.Date);
+            Assert.Equal(id == "moment" ? new DateTime(2026, 9, 22, 9, 30, 0, DateTimeKind.Unspecified) : new DateTime(2026, 9, 21, 9, 30, 0, DateTimeKind.Unspecified), host.Instance.Model.Moment);
+        }
+
+        Assert.Equal(1, notifications);
+    }
+
+    [Theory]
     [InlineData("date")]
     [InlineData("time")]
     [InlineData("moment")]

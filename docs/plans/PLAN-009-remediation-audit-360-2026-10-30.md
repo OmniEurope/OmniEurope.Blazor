@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # PLAN-009 : Remédiation de l’audit 360 du 2026-10-30
 
-> Statut : **ouvert, lots 1 et 2 terminés le 2026-10-30**. A360-001, A360-002, A360-008 et A360-011 vérifiés ; autres lots non commencés. Correction adjacente du seul test de menu explicitement autorisée et vérifiée.
+> Statut : **ouvert, lots 1 à 3 terminés le 2026-10-30**. A360-001, A360-002, A360-003, A360-005, A360-006, A360-008 et A360-011 vérifiés ; lots 4 à 7 non commencés. Les corrections adjacentes du test de menu (lot 2) et du scanner partagé (lot 3, commit distinct) sont explicitement autorisées et vérifiées.
 
 ## Objectif et périmètre
 
@@ -55,11 +55,13 @@ Lot 2 livré : les deux défauts sont reproduits avant modification puis vérifi
 
 ### Lot 3 : verrouillage et actions utilisateur, P1 puis P2
 
-- [ ] **A360-003, P1** : reproduire l’ouverture du calendrier puis l’activation de ReadOnly au clavier, sans clic extérieur, et le choix d’un jour. Fermer le panneau ou refuser la mutation dans le chemin existant. Vérifier Disabled et les chemins analogues TimePicker/DateTimePicker avant de décider quels fichiers doivent changer ; leurs défauts ne sont pas encore prouvés en exécution.
-- [ ] **A360-006, P1** : corriger seulement la composition de `DialogsExample.razor` pour donner une action explicite de fermeture quand Dismissible est faux. Conserver le contrat de la primitive : Échap et fond ne doivent pas devenir des fermetures implicites dans ce cas.
-- [ ] **A360-005, P2** : dans `OmniMailTemplateEditor`, insérer la variable textuelle dans la face source active avec le chemin et la sélection existants. Rejouer aussi sujet, face visuelle, remplacement de sélection et variable de type Block.
+- [x] **A360-003, P1** : reproduire l’ouverture du calendrier puis l’activation de ReadOnly au clavier, sans clic extérieur, et le choix d’un jour. Fermer le panneau ou refuser la mutation dans le chemin existant. Vérifier Disabled et les chemins analogues TimePicker/DateTimePicker avant de décider quels fichiers doivent changer ; les trois défauts sont désormais reproduits puis vérifiés en exécution.
+- [x] **A360-006, P1** : corriger seulement la composition de `DialogsExample.razor` pour donner une action explicite de fermeture quand Dismissible est faux. Conserver le contrat de la primitive : Échap et fond ne doivent pas devenir des fermetures implicites dans ce cas.
+- [x] **A360-005, P2** : dans `OmniMailTemplateEditor`, insérer la variable textuelle dans la face source active avec le chemin et la sélection existants. Rejouer aussi sujet, face visuelle, remplacement de sélection et variable de type Block.
 
 Contrôle : navigateur réel, valeur et événement lié inchangés après verrouillage ; réactivation permettant une sélection normale. Le dialogue Information s’ouvre puis se ferme par son action et restitue le focus, avec les deux réglages Dismissible. En source mail, le token apparaît exactement au caret, une seule fois, puis reste présent après aller-retour visuel/source ; les autres modes conservent leur comportement. Ajouter les tests ciblés de ces contrats sans modifier l’API.
+
+Lot 3 livré : six parcours navigateur avec compteurs vérifient les trois sélecteurs dans les deux verrouillages, puis leur réactivation. Information conserve son action explicite et restitue le focus ; les insertions du courriel sont vérifiées dans les deux faces, le sujet et les blocs. Pickers et Scripts ciblé passent sur la publication finale ; la suite complète compte 10 917 réussites. Le blocage du scanner partagé est réparé sur accord distinct, sans assouplir ses règles. Voir les [preuves du lot 3](PLAN-009-lot-3-verifications.md).
 
 ### Lot 4 : disposition et homogénéité visuelle, P2
 
@@ -99,6 +101,6 @@ Contrôle : journal de clôture par constat, avec base Git, fichiers strictement
 
 Ordre proposé : lot 1 (outils de preuve), lot 2 (exception et préférence), lot 3 (verrouillage et actions), lot 4 (disposition), lot 5 (couverture finale), lot 6 (documentation), lot 7 (recette du paquet et de la démo). Le lot 6 ne dépend pas des correctifs produit, mais ses descriptions de mesures doivent utiliser les résultats frais. Le lot 5 est P1, exécuté après les correctifs pour éviter une mesure périmée.
 
-Avant chaque lot, confirmer l’état Git et réutiliser la reproduction conservée. Un correctif non reproductible, un changement d’API, une version, une politique ou une extension architecturale exige une décision supplémentaire. Ne pas corriger un défaut adjacent par opportunité. Les demandes du 2026-10-30 autorisent les lots 1 et 2, leurs commits finaux et la correction ciblée du test du menu. Aucun autre lot, push ou déploiement autorisé.
+Avant chaque lot, confirmer l’état Git et réutiliser la reproduction conservée. Un correctif non reproductible, un changement d’API, une version, une politique ou une extension architecturale exige une décision supplémentaire. Ne pas corriger un défaut adjacent par opportunité. Les demandes du 2026-10-30 autorisent les lots 1 à 3, leurs commits finaux, la correction ciblée du test du menu au lot 2 et celle du scanner partagé au lot 3, avec un commit distinct dans le kit. Aucun autre lot, push ou déploiement autorisé.
 
 Clôture : quinze constats initiaux et deux écarts de branche disposent chacun d’une preuve observée ou d’une décision explicite traçable ; les gardes applicables passent sans assouplissement ; les limites d’environnement sont écrites. Tant que ces critères ne sont pas réunis, conserver ce plan ouvert.

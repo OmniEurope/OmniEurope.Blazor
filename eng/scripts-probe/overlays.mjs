@@ -52,6 +52,25 @@ export async function overlaySteps(session, results) {
   // 2. Modal dialogs: Tab kept inside, a press on the veil of a sticky dialog that keeps it open, a
   // focus sentinel that sends the focus back in, and a free width written through the CSSOM.
   await session.visit('/components/dialogs', '#dialog-sticky');
+  const infoTrigger = "[...document.querySelectorAll('button:not([role])')].find(button => button.textContent.trim() === 'Information' && !button.closest('.omni-dialog'))";
+  const dismiss = '[role=switch][aria-label="Dismissible"], [role=switch][aria-label="Fermable"]';
+  for (const dismissible of [true, false]) {
+    if (!dismissible) await clickOn(dismiss);
+    const triggerId = await evaluate(`(() => { const button = ${infoTrigger}; button.id ||= 'probe-information-trigger'; return button.id; })()`);
+    await clickOn(`#${triggerId}`);
+    await waitFor('le dialogue Information ouvert', "document.querySelector('section.omni-dialog') !== null");
+    if (!dismissible) {
+      await key('Escape', 'Escape', 27);
+      await mouse('mousePressed', { x: 4, y: 4 });
+      await mouse('mouseReleased', { x: 4, y: 4 });
+      await pause(100);
+      check(await evaluate("document.querySelector('section.omni-dialog[role=alertdialog]') !== null"), 'Le dialogue non révocable a accepté une fermeture implicite.');
+    }
+    await clickOn('section.omni-dialog footer button');
+    await waitFor('Information fermé avec focus rendu', `document.querySelector('section.omni-dialog') === null && document.activeElement?.id === '${triggerId}'`);
+  }
+  await clickOn(dismiss);
+  step('Information : fermeture explicite et focus rendu dans les deux réglages, Échap et fond refusés sans révocation');
   await clickOn('#dialog-sticky');
   await waitFor('la boîte collante ouverte', "document.querySelector('.omni-overlay section.omni-dialog') !== null");
   await pause(200);
