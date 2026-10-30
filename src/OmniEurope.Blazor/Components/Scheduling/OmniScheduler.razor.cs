@@ -11,8 +11,12 @@ namespace OmniEurope.Blazor.Components;
 /// <remarks>
 /// <para>
 /// With <see cref="DayStart"/> and <see cref="DayEnd"/>, the day and week views become a time grid of
-/// <see cref="SlotDuration"/> slots; an appointment sits in the slot where it starts (one starting before
-/// the first slot or after the last sits in that slot), its times written on it.
+/// <see cref="SlotDuration"/> slots. An appointment is drawn from its start to its end, to the minute,
+/// and cut at the edges of the grid; one wholly before the first slot or after the last keeps a short
+/// block in that slot. Appointments sharing their time stand side by side, at most eight abreast, and
+/// each one names those it overlaps to assistive technology; <see cref="OmniSchedulerOverlap.Find"/>
+/// gives the host the same pairs. A <see cref="DayEnd"/> earlier than <see cref="DayStart"/> draws a night
+/// grid: the column of a day runs into the morning after, which is loaded with it.
 /// </para>
 /// <para>
 /// The scheduler never changes <see cref="Items"/>: a click is reported through
@@ -30,6 +34,12 @@ namespace OmniEurope.Blazor.Components;
 public partial class OmniScheduler
 {
     private const string ModulePath = OmniModules.Scheduler;
+
+    // The shortest block of the time grid, in slots: its one line stays readable. The stylesheet draws the same.
+    private const double ShortestBlock = 0.5;
+
+    // The stylesheet draws this many lanes at most.
+    private const int MostLanes = 8;
 
     private CancellationTokenSource? _loadCancellation;
     private int _loadGeneration;
@@ -100,7 +110,10 @@ public partial class OmniScheduler
     /// <summary>The first hour of the time grid; with <see cref="DayEnd"/>, the day and week views show one.</summary>
     [Parameter] public TimeOnly? DayStart { get; set; }
 
-    /// <summary>The end of the time grid, after <see cref="DayStart"/>.</summary>
+    /// <summary>
+    /// The end of the time grid. Earlier than <see cref="DayStart"/>, the grid crosses midnight: from 20:00
+    /// to 08:00, the column of a day holds its evening and the morning after. Equal to it, no grid is drawn.
+    /// </summary>
     [Parameter] public TimeOnly? DayEnd { get; set; }
 
     /// <summary>The length of a slot of the time grid; one hour by default. Zero or less draws no grid.</summary>
@@ -140,8 +153,12 @@ public partial class OmniScheduler
     private bool Clickable => OnAppointmentClick.HasDelegate;
     private bool Movable => OnAppointmentMove.HasDelegate;
     private bool SlotClickable => OnSlotClick.HasDelegate;
-    private bool HasTimeGrid => DayStart is { } start && DayEnd is { } end && end > start && SlotDuration > TimeSpan.Zero;
-    private int SlotCount => (int)Math.Ceiling((DayEnd!.Value - DayStart!.Value).TotalMinutes / SlotDuration.TotalMinutes);
+    private bool HasTimeGrid => DayStart is { } start && DayEnd is { } end && end != start && SlotDuration > TimeSpan.Zero;
+    private bool CrossesMidnight => HasTimeGrid && DayEnd < DayStart;
+
+    // TimeOnly subtraction wraps around midnight, so this holds for a night grid too.
+    private TimeSpan GridLength => DayEnd!.Value - DayStart!.Value;
+    private int SlotCount => (int)Math.Ceiling(GridLength / SlotDuration);
     private DateTimeOffset LocalDate => TimeZoneInfo.ConvertTime(_date, TimeZone);
     private DateOnly LocalToday => DateOnly.FromDateTime(TimeZoneInfo.ConvertTime(Clock.GetUtcNow(), TimeZone).Date);
     private IReadOnlyList<OmniSchedulerAppointment> SourceItems => Load is null ? Items : _loadedItems;
@@ -277,6 +294,13 @@ public partial class OmniScheduler
             OmniCalendarView.Week => WeekRange(local),
             _ => (new DateTime(local.Year, local.Month, 1), new DateTime(local.Year, local.Month, 1).AddMonths(1))
         };
+
+        // The last column of a night grid runs into the morning after.
+        if (_view != OmniCalendarView.Month && CrossesMidnight)
+        {
+            end += DayEnd!.Value.ToTimeSpan();
+        }
+
         return (CreateBoundary(start), CreateBoundary(end));
     }
 
@@ -402,16 +426,16 @@ public partial class OmniScheduler
     /// </summary>
     private OmniSchedulerSlot CreateSlot(DateOnly day, int? slot)
     {
-        var midnight = day.ToDateTime(TimeOnly.MinValue);
         if (slot is not { } index)
         {
+            var midnight = day.ToDateTime(TimeOnly.MinValue);
             return new OmniSchedulerSlot(CreateBoundary(midnight), CreateBoundary(midnight.AddDays(1)));
         }
 
-        var start = DayStart!.Value.ToTimeSpan() + SlotDuration * index;
-        var end = DayStart.Value.ToTimeSpan() + SlotDuration * (index + 1);
-        var limit = DayEnd!.Value.ToTimeSpan();
-        return new OmniSchedulerSlot(CreateBoundary(midnight + start), CreateBoundary(midnight + (end < limit ? end : limit)));
+        var start = SlotStartOn(day, index);
+        var end = start + SlotDuration;
+        var limit = SlotStartOn(day, 0) + GridLength;
+        return new OmniSchedulerSlot(CreateBoundary(start), CreateBoundary(end < limit ? end : limit));
     }
 
     /// <summary>Adds the past mark to a slot or day container when <see cref="MarkPastSlots"/> is on and it is over.</summary>
@@ -524,7 +548,7 @@ public partial class OmniScheduler
     /// <summary>Where an appointment would start in a target: the slot's start, or the same time on another day.</summary>
     private DateTimeOffset NewStart(OmniSchedulerAppointment local, MoveTarget target) =>
         CreateBoundary(target.Slot is { } slot
-            ? target.Day.ToDateTime(SlotStart(slot))
+            ? SlotStartOn(target.Day, slot)
             : target.Day.ToDateTime(TimeOnly.FromTimeSpan(local.Start.TimeOfDay)));
 
     private bool CanPlace(Carried moving, MoveTarget target) => NewStart(moving.Local, target) != moving.Local.Start;
@@ -540,17 +564,112 @@ public partial class OmniScheduler
     private static IEnumerable<OmniSchedulerAppointment> AppointmentsOn(IReadOnlyList<OmniSchedulerAppointment> appointments, DateTime day) =>
         appointments.Where(item => item.Start.Date == day).OrderBy(item => item.Start);
 
-    /// <summary>The appointments of a local day whose start falls in a slot, the first and last slots taking those outside the grid.</summary>
-    private IEnumerable<OmniSchedulerAppointment> AppointmentsInSlot(IReadOnlyList<OmniSchedulerAppointment> appointments, DateOnly day, int slot) =>
-        AppointmentsOn(appointments, day.ToDateTime(TimeOnly.MinValue)).Where(item => SlotOf(item) == slot);
-
-    private int SlotOf(OmniSchedulerAppointment appointment)
+    /// <summary>The blocks of the time grid, by the day and slot of the cell each one starts in.</summary>
+    private ILookup<(DateOnly Day, int Slot), GridBlock> GridBlocks(IReadOnlyList<OmniSchedulerAppointment> appointments, IReadOnlyCollection<DateOnly> days)
     {
-        var minutes = (appointment.Start.TimeOfDay - DayStart!.Value.ToTimeSpan()).TotalMinutes;
-        return Math.Clamp((int)Math.Floor(minutes / SlotDuration.TotalMinutes), 0, SlotCount - 1);
+        var overlapping = OmniSchedulerOverlap.Find(appointments)
+            .SelectMany(pair => new[] { (pair.First.Id, pair.Second.Title), (pair.Second.Id, pair.First.Title) })
+            .ToLookup(pair => pair.Item1, pair => pair.Item2);
+        return appointments.GroupBy(GridDay)
+            .Where(group => days.Contains(group.Key))
+            .SelectMany(group => LayOutDay(group.Key, group, overlapping))
+            .ToLookup(block => (block.Day, block.Slot));
     }
 
+    /// <summary>The column of an appointment: the day it starts on, or the day before in the morning of a night grid.</summary>
+    private DateOnly GridDay(OmniSchedulerAppointment appointment)
+    {
+        var day = DateOnly.FromDateTime(appointment.Start.Date);
+        return CrossesMidnight && TimeOnly.FromTimeSpan(appointment.Start.TimeOfDay) < DayEnd ? day.AddDays(-1) : day;
+    }
+
+    /// <summary>
+    /// Places the appointments of a column, in slots from the top of the grid, on the wall clock so a block
+    /// lines up with the times of the rows: each takes the first lane free when it starts, and appointments
+    /// chained by shared time divide the width by the lanes they need.
+    /// </summary>
+    private List<GridBlock> LayOutDay(DateOnly day, IEnumerable<OmniSchedulerAppointment> appointments, ILookup<string, string> overlapping)
+    {
+        var origin = SlotStartOn(day, 0);
+        var length = GridLength / SlotDuration;
+        var placed = appointments
+            .Select(appointment =>
+            {
+                var top = Math.Clamp((appointment.Start.DateTime - origin) / SlotDuration, 0, Math.Max(0, length - ShortestBlock));
+                var bottom = Math.Min((appointment.End.DateTime - origin) / SlotDuration, length);
+                return (Appointment: appointment, Top: top, Span: Math.Max(bottom - top, 0));
+            })
+            .OrderBy(item => item.Top)
+            .ThenBy(item => item.Appointment.Start);
+
+        var blocks = new List<GridBlock>();
+        var chain = new List<GridBlock>();
+        var laneEnds = new List<double>();
+        foreach (var (appointment, top, span) in placed)
+        {
+            if (laneEnds.Count > 0 && laneEnds.Max() <= top)
+            {
+                blocks.AddRange(chain.Select(block => block with { Lanes = laneEnds.Count }));
+                chain.Clear();
+                laneEnds.Clear();
+            }
+
+            var lane = laneEnds.FindIndex(end => end <= top);
+            if (lane < 0)
+            {
+                lane = laneEnds.Count;
+                laneEnds.Add(0);
+            }
+
+            // Drawn at its shortest, a brief appointment still takes that height from its lane.
+            laneEnds[lane] = top + Math.Max(span, ShortestBlock);
+            var slot = Math.Min((int)top, SlotCount - 1);
+            chain.Add(new GridBlock(appointment, day, slot, top - slot, span, lane, 1, [.. overlapping[appointment.Id]]));
+        }
+
+        blocks.AddRange(chain.Select(block => block with { Lanes = laneEnds.Count }));
+        return blocks;
+    }
+
+    /// <summary>
+    /// The classes of a block. An inline style being out of reach, its place and height are written digit
+    /// by digit in hundredths of a slot, each digit a class setting a custom property the stylesheet adds
+    /// up; the zero digits are left out. Past <see cref="MostLanes"/> lanes, the last one is shared.
+    /// </summary>
+    private string BlockCss(GridBlock block)
+    {
+        var offset = Math.Min((int)Math.Round(block.Offset * 100), 99);
+        var span = Math.Min((int)Math.Round(block.Span * 100), 99_999);
+        var lanes = Math.Min(block.Lanes, MostLanes);
+        var lane = Math.Min(block.Lane, MostLanes - 1);
+        return string.Join(' ', new[]
+        {
+            AppointmentCss(block.Appointment),
+            block.Overlaps.Count == 0 ? null : "omni-scheduler__appointment--overlapping",
+            Digits("at", offset, 2),
+            Digits("len", span, 5),
+            lanes == 1 ? null : $"omni-scheduler__lanes-{lanes.ToString(CultureInfo.InvariantCulture)}",
+            lane == 0 ? null : $"omni-scheduler__lane-{lane.ToString(CultureInfo.InvariantCulture)}"
+        }.Where(part => !string.IsNullOrEmpty(part)));
+    }
+
+    private static string Digits(string name, int value, int count) => string.Join(' ', Enumerable.Range(0, count)
+        .Select(position => (Position: position, Digit: value / (int)Math.Pow(10, position) % 10))
+        .Where(item => item.Digit != 0)
+        .Select(item => string.Create(CultureInfo.InvariantCulture, $"omni-scheduler__{name}-{item.Position}-{item.Digit}")));
+
     private TimeOnly SlotStart(int slot) => DayStart!.Value.Add(SlotDuration * slot);
+
+    /// <summary>The wall-clock start of a slot in the column of a day, on the next date past midnight.</summary>
+    private DateTime SlotStartOn(DateOnly day, int slot) =>
+        day.ToDateTime(TimeOnly.MinValue) + DayStart!.Value.ToTimeSpan() + SlotDuration * slot;
+
+    /// <summary>Whether a slot is the first of a night grid to fall on the next date.</summary>
+    private bool StartsNextDay(int slot)
+    {
+        var start = DayStart!.Value.ToTimeSpan() + SlotDuration * slot;
+        return CrossesMidnight && start >= TimeSpan.FromDays(1) && start - SlotDuration < TimeSpan.FromDays(1);
+    }
 
     private static string DayCss(string baseClass, DateOnly day, DateOnly today) =>
         day == today ? $"{baseClass} {baseClass}--today" : baseClass;
@@ -639,6 +758,12 @@ public partial class OmniScheduler
 
     /// <summary>An appointment being moved: as drawn (in the scheduler's time zone) and as the host gave it.</summary>
     private sealed record Carried(OmniSchedulerAppointment Local, OmniSchedulerAppointment Original);
+
+    /// <summary>
+    /// An appointment placed in the time grid: the cell it starts in, its offset in that slot and its span,
+    /// in slots, its lane among those of its chain, and the titles it overlaps.
+    /// </summary>
+    private sealed record GridBlock(OmniSchedulerAppointment Appointment, DateOnly Day, int Slot, double Offset, double Span, int Lane, int Lanes, IReadOnlyList<string> Overlaps);
 
     /// <summary>Where an appointment can be dropped: a slot of a day in the time grid, or a whole day.</summary>
     private readonly record struct MoveTarget(DateOnly Day, int? Slot);

@@ -8,9 +8,10 @@ internal static class SchedulingFamily
     public static GalleryFamily Family { get; } = new("GalleryFamilyScheduling", OmniIconName.Timer, typeof(SchedulingStrings),
     [
         new("scheduler", "SchedulerTitle", "SchedulerDescription", OmniIconName.Timer,
-            ["OmniScheduler"],
+            ["OmniScheduler", "OmniSchedulerOverlap"],
             [
-                "Scheduling/SchedulerExample.razor", "Scheduling/SchedulerExample.razor.cs"
+                "Scheduling/SchedulerExample.razor", "Scheduling/SchedulerExample.razor.cs",
+                "Scheduling/SchedulerNightExample.razor", "Scheduling/SchedulerNightExample.razor.cs"
             ]),
         new("timeline", "TimelineTitle", "TimelineDescription", OmniIconName.Path,
             ["OmniTimeline", "OmniTimelineItem"],

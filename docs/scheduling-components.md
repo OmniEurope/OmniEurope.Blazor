@@ -23,16 +23,44 @@ pour qu'un hôte en distingue certains, par exemple les heures facturables).
 | `Items` ou `Load` | Les rendez-vous, donnés en liste ou chargés pour la période visible (annulable, chargement et échec affichés, bouton Réessayer). `LoadingContent` et `ErrorContent` (`RenderFragment<Exception>`) remplacent l'indicateur et le message d'échec ; `OnLoadError` reçoit l'exception. |
 | `Date` / `DateChanged`, `View` / `ViewChanged` | Le jour affiché et la vue (`OmniCalendarView` : `Day`, `Week`, `Month`, défaut `Month`) ; les boutons de l'en-tête les changent. L'agenda tient son propre état, recopié depuis ces paramètres quand l'hôte les change : sans liaison, la navigation fonctionne quand même. Les boutons précédent et suivant avancent d'un jour, de sept jours ou d'un mois du calendrier dans `TimeZone` (l'heure murale est conservée), jamais de 24 heures : un jour de changement d'heure en compte 23 ou 25. |
 | `TimeZone`, `Culture` | Le fuseau où les rendez-vous sont dessinés, et la culture (`CultureInfo?`) des dates, du premier jour de la semaine et des textes ; nulle, la culture courante. |
-| `DayStart`, `DayEnd`, `SlotDuration` | Avec les deux bornes, les vues jour et semaine deviennent une grille horaire de créneaux de `SlotDuration` (`TimeSpan`, une heure par défaut). |
+| `DayStart`, `DayEnd`, `SlotDuration` | Avec les deux bornes, les vues jour et semaine deviennent une grille horaire de créneaux de `SlotDuration` (`TimeSpan`, une heure par défaut). Un `DayEnd` antérieur à `DayStart` traverse minuit ; deux bornes égales ne dessinent pas de grille. |
 | `OnAppointmentClick` | Fait de chaque rendez-vous un bouton ; reçoit le rendez-vous tel que l'hôte l'a donné. |
 | `OnAppointmentMove` | Rend les rendez-vous déplaçables ; reçoit un `OmniSchedulerAppointmentMove` (le rendez-vous d'origine, son nouveau début et sa nouvelle fin). |
 | `OnSlotClick` | Fait de la partie libre de chaque créneau (grille horaire) ou de chaque jour (semaine en liste, mois, jour en liste) un bouton ; reçoit un `OmniSchedulerSlot` (`Start`, `End`, `Duration`), pour que l'hôte ouvre son dialogue de création. Non posé par défaut : aucun créneau n'est un bouton. |
 | `MarkPastSlots` | Hachure ce qui est déjà passé et atténue sa date : un créneau de la grille dès que sa fin est passée, un jour (semaine en liste, mois, jour en liste) dès qu'il précède aujourd'hui. `false` par défaut. |
 
-La grille horaire est un tableau : une ligne par créneau, une colonne par jour. Un rendez-vous se
-place dans le créneau où il commence, ses heures écrites dessus ; celui qui commence avant le premier
-créneau ou après le dernier se range dans ce créneau, rien n'est caché. Le jour courant est teinté et
-porte `aria-current="date"` dans toutes les vues.
+La grille horaire est un tableau : une ligne par créneau, une colonne par jour. Un rendez-vous reste
+dans la cellule où il commence et s'y dessine sur sa durée, à la minute près, en descendant sur les
+lignes suivantes (la position est calculée sur l'heure murale, alignée sur les heures des lignes). Il
+est coupé aux bords de la grille ; celui qui en sort entièrement garde un bloc court dans le premier ou
+le dernier créneau, rien n'est caché. Un bloc mesure au moins un demi-créneau pour rester lisible. Le
+jour courant est teinté et porte `aria-current="date"` dans toutes les vues.
+
+Sous la CSP stricte, aucun attribut `style` : la position et la hauteur sont écrites chiffre par
+chiffre en centièmes de créneau par des classes (`omni-scheduler__at-*`, `omni-scheduler__len-*`),
+un ensemble fini que la feuille additionne. Les rendez-vous qui partagent du temps se placent côte à
+côte (`omni-scheduler__lanes-*`, `omni-scheduler__lane-*`, huit colonnes au plus, la dernière étant
+partagée au-delà). Un bloc très court qui ne chevauche rien mais occuperait la même hauteur qu'un
+voisin prend aussi une colonne, sans la marque de chevauchement.
+
+Un rendez-vous qui en chevauche un autre porte `omni-scheduler__appointment--overlapping` (un contour
+tireté d'alerte) et un texte masqué qui nomme les autres, entendu par les technologies
+d'assistance. L'hôte obtient les mêmes paires avec `OmniSchedulerOverlap.Find(appointments)`, qui
+compare des instants : deux rendez-vous qui se touchent ne se chevauchent pas. Ce calcul est pur et ne
+dépend pas du rendu ; l'hôte l'appelle sur ses données, et `Class` lui permet de marquer lui-même un
+rendez-vous selon sa propre règle. Aucun événement n'est levé pendant un glissé : le déplacement n'est
+rapporté qu'au dépôt, et un chevauchement se constate après que l'hôte l'a appliqué.
+
+Pendant un glissé ou un déplacement au clavier, les blocs laissent passer le pointeur : un dépôt vise
+la cellule sous le pointeur, même couverte par un bloc.
+
+Avec `DayEnd` antérieur à `DayStart`, par exemple de 20:00 à 08:00, la colonne d'un jour porte sa
+soirée et le matin suivant : un rendez-vous de 01:00 le mardi est dans la colonne du lundi, et la
+première ligne de la nouvelle date porte un filet plus marqué. Le matin du premier jour affiché
+appartient à la colonne précédente, qui n'est pas affichée. `Load` reçoit une fin de plage prolongée
+jusqu'à `DayEnd` le lendemain du dernier jour, `OnSlotClick` et `OnAppointmentMove` rapportent la
+vraie date. Le jour de la vue reste le jour calendaire : à 02:00, « Aujourd'hui » va à la nuit qui
+commence le soir même, pas à celle en cours.
 
 Avec `OnSlotClick`, chaque créneau porte, sous ses rendez-vous, un bouton transparent qui couvre sa
 cellule : un clic sur un rendez-vous reste le sien, un clic ailleurs dans la cellule (la date

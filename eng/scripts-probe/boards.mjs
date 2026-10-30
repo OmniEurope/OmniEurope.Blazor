@@ -295,6 +295,12 @@ export async function boardSteps(session, results) {
     `Le glisser ne porte pas l'identifiant du rendez-vous ${appointment} : ${JSON.stringify(carriedData)}.`);
   step('agenda : rendez-vous glissé avec son identifiant');
 
+  // The night grid: a drop over a block lands in the slot under the pointer, not in the cell where that block starts.
+  await evaluate("document.querySelector('#scheduler-night [data-omni-scheduler-appointment=\"backup\"]').scrollIntoView({ block: 'center' })");
+  await html5Drag('#scheduler-night [data-omni-scheduler-appointment="reports"]', '#scheduler-night [data-omni-scheduler-appointment="backup"]');
+  await waitFor('le lancement posé sous le pointeur', "document.querySelector('#scheduler-night [data-omni-scheduler-appointment=\"reports\"]').getAttribute('data-start').includes('T00:00:00')");
+  step('agenda : dépôt sur un bloc, dans le créneau sous le pointeur, après minuit');
+
   // 9. The mind map: a lasso on the background, a pinch, a long press and a double click on a node.
   await session.visit('/components/mind-map', '#demo-mindmap-canvas');
   await evaluate("document.getElementById('demo-mindmap-canvas').scrollIntoView({ block: 'center' })");

@@ -411,6 +411,7 @@
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Avbryt flytten</value></data>
   <data name="SchedulerMoving" xml:space="preserve"><value>{0} har plockats upp: välj en ny plats, Esc för att avbryta.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} ligger kvar på sin plats.</value></data>
+  <data name="SchedulerOverlaps" xml:space="preserve"><value>Överlappar {0}</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>{0} flyttades till {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>Det segmenterade valet är ogiltigt.</value></data>
   <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>Valet är ogiltigt.</value></data>

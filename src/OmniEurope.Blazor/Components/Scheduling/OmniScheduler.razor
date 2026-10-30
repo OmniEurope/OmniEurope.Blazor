@@ -6,18 +6,22 @@
 @{
     // The time and title of an appointment, as a button when the host listens for clicks, then its
     // move button when appointments can be moved. The day list adds the end time and the description.
-    void AppointmentBody(OmniSchedulerAppointment appointment, bool detailed)
+    void AppointmentBody(OmniSchedulerAppointment appointment, bool detailed, string? overlap = null)
     {
         var time = detailed
             ? $"{appointment.Start.ToString("t", Formats)}–{appointment.End.ToString("t", Formats)}"
             : appointment.Start.ToString("t", Formats);
         if (Clickable)
         {
-            <button type="button" class="omni-scheduler__open" @onclick="() => ClickAsync(appointment)"><time datetime="@appointment.Start.ToString("O")">@time</time> <strong>@appointment.Title</strong></button>
+            <button type="button" class="omni-scheduler__open" @onclick="() => ClickAsync(appointment)"><time datetime="@appointment.Start.ToString("O")">@time</time> <strong>@appointment.Title</strong>@if (overlap is not null) { <span class="omni-visually-hidden">@overlap</span> }</button>
         }
         else
         {
             <time datetime="@appointment.Start.ToString("O")">@time</time><strong>@appointment.Title</strong>
+            if (overlap is not null)
+            {
+                <span class="omni-visually-hidden">@overlap</span>
+            }
         }
         if (detailed && !string.IsNullOrWhiteSpace(appointment.Description))
         {
@@ -29,11 +33,22 @@
         }
     }
 
-    // An appointment in a week day, a month day or a time-grid cell.
+    // An appointment in a week day or a month day.
     void AppointmentItem(OmniSchedulerAppointment appointment)
     {
         <div class="@AppointmentCss(appointment)" data-omni-scheduler-appointment="@appointment.Id" draggable="@(Movable ? "true" : null)" @ondragstart="() => StartDrag(appointment)" @ondragend="EndDrag">
             @{ AppointmentBody(appointment, false); }
+        </div>
+    }
+
+    // An appointment of the time grid: it stays in the cell where it starts, and its classes draw it from
+    // there over its duration, beside those it shares its time with. A block too short for its text keeps
+    // it in a tooltip of the browser.
+    void GridAppointment(GridBlock block)
+    {
+        var appointment = block.Appointment;
+        <div class="@BlockCss(block)" title="@($"{appointment.Start.ToString("t", Formats)}–{appointment.End.ToString("t", Formats)} {appointment.Title}")" data-omni-scheduler-appointment="@appointment.Id" data-start="@appointment.Start.ToString("O")" data-end="@appointment.End.ToString("O")" data-duration-minutes="@DurationMinutes(appointment)" draggable="@(Movable ? "true" : null)" @ondragstart="() => StartDrag(appointment)" @ondragend="EndDrag">
+            @{ AppointmentBody(appointment, false, block.Overlaps.Count == 0 ? null : Text("SchedulerOverlaps", string.Join(", ", block.Overlaps))); }
         </div>
     }
 
@@ -58,7 +73,7 @@
     }
 }
 
-<section @ref="_root" @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-scheduler", _moving is null ? null : "omni-scheduler--moving")" aria-busy="@(_loading ? "true" : "false")" @onkeydown="OnKeyDown">
+<section @ref="_root" @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-scheduler", _moving is null ? null : "omni-scheduler--moving", _dragged is null ? null : "omni-scheduler--dragging")" aria-busy="@(_loading ? "true" : "false")" @onkeydown="OnKeyDown">
     <header class="omni-scheduler__header">
         <button type="button" class="omni-button" aria-label="@Text("SchedulerPreviousPeriod")" @onclick="PreviousAsync">‹</button>
         <button type="button" class="omni-button" @onclick="TodayAsync">@Text("Today")</button>
@@ -111,6 +126,7 @@
             var days = _view == OmniCalendarView.Day
                 ? new[] { DateOnly.FromDateTime(date.Date) }
                 : WeekDays(date).Select(day => DateOnly.FromDateTime(day.Date)).ToArray();
+            var blocks = GridBlocks(appointments, days);
             <div class="omni-scheduler-view omni-scheduler-grid" role="region" aria-label="@Text(_view == OmniCalendarView.Day ? "DayViewLabel" : "WeekViewLabel")">
                 <table class="omni-scheduler-grid__table">
                     <thead>
@@ -127,7 +143,7 @@
                         {
                             var slotIndex = slot;
                             var slotStart = SlotStart(slotIndex);
-                            <tr>
+                            <tr class="@(StartsNextDay(slotIndex) ? "omni-scheduler-grid__row--next-day" : null)">
                                 <th scope="row" class="omni-scheduler-grid__time"><time datetime="@slotStart.ToString("HH:mm", System.Globalization.CultureInfo.InvariantCulture)">@slotStart.ToString("t", Formats)</time></th>
                                 @foreach (var day in days)
                                 {
@@ -138,9 +154,9 @@
                                         @ondrop="() => DropAsync(target)"
                                         @ondrop:preventDefault="@Movable">
                                         @{ SlotButton(day, slotIndex); }
-                                        @foreach (var appointment in AppointmentsInSlot(appointments, day, slotIndex))
+                                        @foreach (var block in blocks[(day, slotIndex)])
                                         {
-                                            AppointmentItem(appointment);
+                                            GridAppointment(block);
                                         }
                                         @{ PlaceButton(target); }
                                     </td>

@@ -411,6 +411,7 @@
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Ακύρωση μετακίνησης</value></data>
   <data name="SchedulerMoving" xml:space="preserve"><value>Το {0} επιλέχθηκε: διαλέξτε τη νέα του θέση, Esc για ακύρωση.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>Το {0} παραμένει στη θέση του.</value></data>
+  <data name="SchedulerOverlaps" xml:space="preserve"><value>Επικαλύπτεται με {0}</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>Το {0} μετακινήθηκε. Νέα ώρα: {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>Η τμηματική επιλογή δεν είναι έγκυρη.</value></data>
   <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>Η επιλογή δεν είναι έγκυρη.</value></data>

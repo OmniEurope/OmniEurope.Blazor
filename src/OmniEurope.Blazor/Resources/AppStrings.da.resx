@@ -411,6 +411,7 @@
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Annuller flytningen</value></data>
   <data name="SchedulerMoving" xml:space="preserve"><value>{0} samlet op: vælg den nye placering, Esc for at annullere.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} bliver på sin plads.</value></data>
+  <data name="SchedulerOverlaps" xml:space="preserve"><value>Overlapper {0}</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>{0} flyttet til {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>Det segmenterede valg er ugyldigt.</value></data>
   <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>Valget er ugyldigt.</value></data>

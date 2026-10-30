@@ -411,6 +411,7 @@
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Zrušiť presun</value></data>
   <data name="SchedulerMoving" xml:space="preserve"><value>Presun: {0}. Vyberte nové miesto, Esc na zrušenie.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} zostáva na svojom mieste.</value></data>
+  <data name="SchedulerOverlaps" xml:space="preserve"><value>Prekrýva sa s {0}</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>{0} presunuté na {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>Segmentový výber nie je platný.</value></data>
   <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>Výber nie je platný.</value></data>

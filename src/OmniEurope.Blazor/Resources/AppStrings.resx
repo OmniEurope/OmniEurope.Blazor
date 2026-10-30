@@ -411,6 +411,7 @@
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Annuler le déplacement</value></data>
   <data name="SchedulerMoving" xml:space="preserve"><value>{0} saisi : choisissez son nouvel emplacement, Échap pour annuler.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} reste à sa place.</value></data>
+  <data name="SchedulerOverlaps" xml:space="preserve"><value>Chevauche {0}</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>{0} déplacé au {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>La sélection segmentée n'est pas valide.</value></data>
   <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>Le choix n'est pas valide.</value></data>

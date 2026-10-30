@@ -341,6 +341,7 @@ ctor public OmniEurope.Blazor.Components.OmniRow()
 ctor public OmniEurope.Blazor.Components.OmniScheduler()
 ctor public OmniEurope.Blazor.Components.OmniSchedulerAppointment(System.String Id, System.String Title, System.DateTimeOffset Start, System.DateTimeOffset End, System.String? Description = null)
 ctor public OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove(OmniEurope.Blazor.Components.OmniSchedulerAppointment Appointment, System.DateTimeOffset Start, System.DateTimeOffset End)
+ctor public OmniEurope.Blazor.Components.OmniSchedulerOverlap(OmniEurope.Blazor.Components.OmniSchedulerAppointment First, OmniEurope.Blazor.Components.OmniSchedulerAppointment Second)
 ctor public OmniEurope.Blazor.Components.OmniSchedulerSlot(System.DateTimeOffset Start, System.DateTimeOffset End)
 ctor public OmniEurope.Blazor.Components.OmniSelectBar<TValue>()
 ctor public OmniEurope.Blazor.Components.OmniSelectableCard()
@@ -1702,6 +1703,9 @@ method public OmniEurope.Blazor.Components.OmniSchedulerAppointment.Equals(OmniE
 method public OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove.<Clone>$() : OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove
 method public OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove.Deconstruct(out OmniEurope.Blazor.Components.OmniSchedulerAppointment Appointment, out System.DateTimeOffset Start, out System.DateTimeOffset End) : System.Void
 method public OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove.Equals(OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniSchedulerOverlap.<Clone>$() : OmniEurope.Blazor.Components.OmniSchedulerOverlap
+method public OmniEurope.Blazor.Components.OmniSchedulerOverlap.Deconstruct(out OmniEurope.Blazor.Components.OmniSchedulerAppointment First, out OmniEurope.Blazor.Components.OmniSchedulerAppointment Second) : System.Void
+method public OmniEurope.Blazor.Components.OmniSchedulerOverlap.Equals(OmniEurope.Blazor.Components.OmniSchedulerOverlap? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniSchedulerSlot.<Clone>$() : OmniEurope.Blazor.Components.OmniSchedulerSlot
 method public OmniEurope.Blazor.Components.OmniSchedulerSlot.Deconstruct(out System.DateTimeOffset Start, out System.DateTimeOffset End) : System.Void
 method public OmniEurope.Blazor.Components.OmniSchedulerSlot.Equals(OmniEurope.Blazor.Components.OmniSchedulerSlot? other) : System.Boolean
@@ -2016,6 +2020,9 @@ method public override OmniEurope.Blazor.Components.OmniSchedulerAppointment.ToS
 method public override OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniSchedulerOverlap.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniSchedulerOverlap.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniSchedulerOverlap.ToString() : System.String
 method public override OmniEurope.Blazor.Components.OmniSchedulerSlot.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniSchedulerSlot.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniSchedulerSlot.ToString() : System.String
@@ -2236,6 +2243,9 @@ method public static OmniEurope.Blazor.Components.OmniSchedulerAppointment.op_Eq
 method public static OmniEurope.Blazor.Components.OmniSchedulerAppointment.op_Inequality(OmniEurope.Blazor.Components.OmniSchedulerAppointment? left, OmniEurope.Blazor.Components.OmniSchedulerAppointment? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove.op_Equality(OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove? left, OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove.op_Inequality(OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove? left, OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniSchedulerOverlap.Find(System.Collections.Generic.IEnumerable<OmniEurope.Blazor.Components.OmniSchedulerAppointment> appointments) : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniSchedulerOverlap>
+method public static OmniEurope.Blazor.Components.OmniSchedulerOverlap.op_Equality(OmniEurope.Blazor.Components.OmniSchedulerOverlap? left, OmniEurope.Blazor.Components.OmniSchedulerOverlap? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniSchedulerOverlap.op_Inequality(OmniEurope.Blazor.Components.OmniSchedulerOverlap? left, OmniEurope.Blazor.Components.OmniSchedulerOverlap? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniSchedulerSlot.op_Equality(OmniEurope.Blazor.Components.OmniSchedulerSlot? left, OmniEurope.Blazor.Components.OmniSchedulerSlot? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniSchedulerSlot.op_Inequality(OmniEurope.Blazor.Components.OmniSchedulerSlot? left, OmniEurope.Blazor.Components.OmniSchedulerSlot? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniSidebarState.op_Equality(OmniEurope.Blazor.Components.OmniSidebarState? left, OmniEurope.Blazor.Components.OmniSidebarState? right) : System.Boolean
@@ -3632,6 +3642,8 @@ property public OmniEurope.Blazor.Components.OmniSchedulerAppointment.Title : Sy
 property public OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove.Appointment : OmniEurope.Blazor.Components.OmniSchedulerAppointment {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove.End : System.DateTimeOffset {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove.Start : System.DateTimeOffset {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniSchedulerOverlap.First : OmniEurope.Blazor.Components.OmniSchedulerAppointment {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniSchedulerOverlap.Second : OmniEurope.Blazor.Components.OmniSchedulerAppointment {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniSchedulerSlot.Duration : System.TimeSpan {get(public)}
 property public OmniEurope.Blazor.Components.OmniSchedulerSlot.End : System.DateTimeOffset {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniSchedulerSlot.Start : System.DateTimeOffset {get(public);init(public)}
@@ -4413,6 +4425,7 @@ type public OmniEurope.Blazor.Components.OmniRow [class] : OmniEurope.Blazor.Com
 type public OmniEurope.Blazor.Components.OmniScheduler [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniSchedulerAppointment [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniSchedulerAppointment>
 type public OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove>
+type public OmniEurope.Blazor.Components.OmniSchedulerOverlap [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniSchedulerOverlap>
 type public OmniEurope.Blazor.Components.OmniSchedulerSlot [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniSchedulerSlot>
 type public OmniEurope.Blazor.Components.OmniSelectBar<TValue> [class] : OmniEurope.Blazor.Components.OmniInputBase<TValue>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniSelectableCard [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable

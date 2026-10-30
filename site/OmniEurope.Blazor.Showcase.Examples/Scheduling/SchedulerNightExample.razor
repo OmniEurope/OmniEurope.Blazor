@@ -1,0 +1,20 @@
+@* A night of scheduled runs: a DayEnd earlier than DayStart crosses midnight, so the column holds the evening and the
+   morning after. Each run is drawn over its duration, those sharing their time stand side by side, and the host
+   reads the same pairs from OmniSchedulerOverlap.Find to flag them its own way. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniScheduler Id="scheduler-night"
+                   Date="Tonight"
+                   View="OmniCalendarView.Day"
+                   DayStart="new TimeOnly(20, 0)"
+                   DayEnd="new TimeOnly(8, 0)"
+                   SlotDuration="TimeSpan.FromMinutes(30)"
+                   OnAppointmentMove="OnRunMoved"
+                   Items="Runs" />
+    <OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Align="OmniAlignment.Center" Wrap="true">
+        <OmniBadge Tone="@(Overlaps.Count == 0 ? OmniTone.Success : OmniTone.Warning)">@Overlaps.Count overlaps</OmniBadge>
+        @foreach (var overlap in Overlaps)
+        {
+            <span>@overlap.First.Title and @overlap.Second.Title</span>
+        }
+    </OmniStack>
+</OmniStack>
