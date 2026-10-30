@@ -1,0 +1,68 @@
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
+# PLAN-009 : preuves du lot 4, 2026-10-30
+
+> Lot 4 terminé le 2026-10-30. A360-004, A360-009, A360-010 et l’écart adjacent GRID-PAINT-001 vérifiés. Le nouveau contrat de stabilité est explicitement choisi par le propriétaire.
+
+Base : `develop`, `19d460b219a07879bad91e10e5ef1e32d20410cf`. Périmètre : remplissage des grilles imbriquées, densité des chevrons latéraux, fermeture de la règle CSS avant les exemples d’éditeurs et, sur accord complémentaire, stabilité du premier rendu sous retard d’interop. Commit autorisé, sans push. Version, API, seuils et exceptions de validation inchangés ; le contrat de révélation du rendu interactif est modifié sur décision explicite.
+
+## Reproductions avant modification
+
+| Constat | Observation réelle |
+|---|---|
+| A360-004 | À 1280 × 900, cadre imbriqué de 602 px, grille de 227 px et vide inférieur de 268 px. Les deux propriétés de hauteur valent 0 px. La trace choisit la zone principale de 855 px au lieu du cadre local de 600 px utiles : offset 6 863,5 px, disponibilité calculée −6 049 px. À 1 000 px de hauteur, le recalcul reste négatif. Le cadre simple de 506 px est aussi affecté. |
+| A360-004, régression | Les assertions natives de Boards échouent sur le remplissage du cadre simple. La nouvelle fixture Chromium, exécutée avec l’ancien module publié, échoue sur le cadre contraint imbriqué dans la zone principale, sans erreur console. |
+| A360-009 | Density échoue sur 45 mesures : bouton latéral à 24,66 px et glyphe à 16,66 px, chacun sur les mêmes 21 routes ; trois mesures de grille restent également identiques entre les densités. Les 45 lignes ont été relues, ce ne sont pas seulement des occurrences comptées. |
+| A360-010 | Dans l’éditeur HTML, la zone rendue a bordure et padding à 0 px. Le comparateur a une hauteur calculée de 194 px, sans bordure ni padding. Le CSSOM montre les règles d’éditeurs imbriquées sous le sélecteur des valeurs du diagramme : une accolade manque. |
+
+## Changements bornés
+
+- Le remplissage choisit le premier défileur local ayant une hauteur indépendante du contenu avant la zone principale ou le contenu du dialogue. Une mesure temporaire de marge distingue un cadre contraint d’une enveloppe automatique ; elle restaure immédiatement valeur et priorité sans masquer la grille ni déplacer le focus. La sélection attend le premier rendu visible, puis les dimensions sont observées. Plancher et plafonnement existants restent inchangés.
+- Le bouton latéral prend le jeton de hauteur des contrôles ; son glyphe suit ce même jeton. Position absolue, hystérésis, butées et scripts de défilement restent inchangés.
+- Une seule accolade ferme la règle CSS du diagramme. Aucun autre réglage esthétique du site n’est ajouté.
+
+## Vérifications après modification
+
+| Contrôle | Résultat observé |
+|---|---|
+| Cadres réels | À 1280 × 900 puis 1280 × 1 000 : cadre simple 506 px, grille 453 px ; cadre imbriqué 602 px, grille 495 px, viewport 460 px. Vide inférieur 0 px dans les deux cas ; scrollHeight égale clientHeight, donc aucun second défilement. Capture conservée. |
+| Matrice du module réel | Cinq fixtures DOM/CSS dans Chromium : cadre contraint et enveloppe automatique sous zone principale et contenu de dialogue, puis cadre initialement caché. Remplissage et redimensionnement contrôlés, focus et marge `7px !important` conservés. Il s’agit du module et des styles réellement servis, pas d’un dialogue Blazor complet. |
+| Parcours de grille existants | Requests instrumenté réussit sur la publication sans modification C# : modes virtuel et paginé, 390 et 1 280 px, avec et sans flex hôte ; plancher de 192 px, cellules et actions visibles. Cadre de 800 px dans une fenêtre de 1 102 × 1 206 : plancher de 75dvh plafonné à 644 px, sans double défilement, avec bordure de 3 px également. Boards vérifie lignes de 36 px, groupes virtualisés et molette sur le cadre. |
+| Densité | `eng/Test-ShowcaseHost.ps1 -Probe Density -Parallel 2` sur la publication fraîche : 11 001 mesures sur 79 pages acceptées. Les 42 mesures de chevrons et les trois mesures de grille initialement en échec passent. Les 74 éléments absents de la passe aérée restent annoncés et non comparés, sans nouvelle exception. |
+| Deux éditeurs | Huit mesures et captures inspectées, clair et sombre, 1 280 et 390 px : bordure 1 px, padding 12 px ; comparateur à 384 px de block-size avec racine 16 px, hauteur extérieure 410 px selon son box-sizing existant. Mode choisi par le menu réel ; couleur calculée du texte passant de `rgb(66, 66, 66)` à `rgb(224, 224, 224)`. |
+| Chevrons et voile | Parties chevrons et veil de Scripts réussies : hystérésis et butées, stabilité sur 20 images, géométrie et contenu immobiles, défilement par clic, onglet focalisé hors des chevrons. Voile vérifié à 85 %, 100 % et 50 %, sur contenu et fenêtre entière, en clair et sombre, sans erreur console ni violation CSP. |
+| Publication Release | Réussie sur le code sans trace temporaire. Build Debug de la solution : zéro avertissement et zéro erreur. |
+| API et CSP | API publique : 4 495 signatures acceptées, baseline inchangée. CSP source : 1 056 fichiers acceptés ; fixtures sûre et dangereuse traitées comme attendu. |
+| JavaScript | 74 tests réussis, zéro échec et zéro test ignoré. |
+| Paquet local 1.10.0 | 118 entrées, 60 assets, 23 satellites et 5 entrées de symboles acceptés. Assembly : 2 549 248 octets ; nupkg : 2 180 016, chacun sous 3 145 728. |
+| Identité des assets | Module source, extrait du nupkg, publication et asset servi par le consommateur isolé : même SHA-256 `F59EB8DF6EE116FFE03A73A2AE1D44660DBEF96A8720DBF34019CC58D49DC709`. Bundle CSS : même SHA-256 `24AB8709AD113BE698DE91A8A796382D4799A7EDFE5C84064D01C703EB435BFE` dans les quatre copies. Le nupkg restauré dans le cache isolé a aussi le même SHA-256 que le candidat local. |
+| Suites complètes | Lanceur local, Debug : 10 924 réussites, zéro échec et zéro test ignoré ; TRX `library-tests-20261030-170648142.trx`. Release avec couverture fraîche : 10 924 réussites, zéro échec et zéro test ignoré, TRX et Cobertura uniques conservés ensemble. Les gardes d’architecture et de conventions restent actifs. Les sept nouveaux cas portent sur le contrat de préparation et ses échecs ; les 1 274 tests ciblés des grilles passent aussi. Les doubles d’interop unitaires ne valent pas preuve de navigateur. |
+| Garde documentaire | Deux tests PublicContentGuardTests réussis après indexation de l’annexe et des documents mis à jour. Aucun terme ni chemin privé introduit. |
+| Remise en route | Lanceur local silencieux : état Ready observé ; catalogue, vitrine et endpoint de disponibilité de l’API répondent réellement HTTP 200. |
+
+## Défaut adjacent du dispositif de preuve
+
+La première passe Scripts dépasse l’attente du renommage d’un nœud de carte mentale. Une seconde passe instrumentée reproduit l’échec : la boîte du groupe SVG inclut sa note et son centre touche le fond du canevas. Le double clic crée alors un nœud New ; le focus reste sur le canevas. La correction du seul ciblage de test est autorisée explicitement. Après le pincement, l’action publique d’ajustement ramène les corps des nœuds dans le cadre ; la sonde choisit le corps réellement atteint par le hit-test et vérifie aussi le libellé visé et l’absence de nœud supplémentaire. Aucun code de carte mentale n’est changé, aucune assertion n’est retirée. Trois passes complètes consécutives de Boards réussissent, en 46, 31 et 28 secondes, sans erreur console ni violation CSP.
+
+Le premier essai de ciblage montre qu’après le pincement aucun centre de corps n’est visible, d’où l’ajustement explicite par l’action publique. Les premières captures dites sombres, obtenues par changement direct d’attribut, restent claires : les jetons peints de l’application ont priorité. Ces captures ne valent pas preuve du mode sombre ; la sonde finale utilise le menu réel et vérifie que la couleur calculée change effectivement. Les journaux des essais en échec sont conservés.
+
+## GRID-PAINT-001 : contrat de stabilité, vérifié
+
+Une passe combinant Boards et Requests échoue dans l’assertion existante du premier rendu au contenu : la grille Load passe de cinq colonnes égales de 233 px, visibles, aux largeurs définitives `448,109,167,339,104`. L’instrumentation supplémentaire distingue mutations et images et conserve les temps, l’état busy et les animations CSS. Un passage vert ne clôt pas ce défaut intermittent.
+
+Le traitement adjacent est autorisé, sans assouplir assertions ni protections. Un ralentissement CPU explicite de facteur 4 reproduit le saut dès la première navigation, sur cinq images et 21 mutations. Les deux animations de secours sont terminées alors que la table n’a ni `data-omni-headed` ni `data-omni-sized`. Une seconde mesure retrouve six images et 32 mutations ; les lectures dans les mutations coûtent 1 285 ms au total sur 11 553 ms de trace. Sans ces lectures, le saut subsiste sur sept images : le dispositif de mesure contribue au coût sans expliquer seul le défaut.
+
+Le contrat CSS existant révèle volontairement les lignes après une seconde sans dimensionnement et après cinq secondes pendant le chargement, afin qu’un script absent ou défaillant ne les garde pas masquées. Un module retardé peut donc les montrer avant leur largeur définitive. Deux essais bornés d’ordre d’initialisation ne suppriment pas ce saut sous charge : observateur avant les gestes, puis préparation pendant la première requête Load. Ils sont retirés intégralement. Les 1 267 tests ciblés des grilles passent pendant le second essai, ce qui ne prouve pas le comportement visuel et ne justifie pas de le conserver.
+
+Le propriétaire choisit ensuite explicitement la stabilité visuelle et autorise l’enchaînement des lots 5, 6 et 7. Une table au contenu marquée interactive attend désormais `data-omni-sized`, sans animation de révélation anticipée. Une erreur JavaScript avant l’installation de l’observateur enlève ce portillon, marque le secours et journalise l’erreur quand l’hôte offre un logger. La grille conserve alors ses lignes et ne réinitialise plus ses gestes jusqu’à recréation. Les erreurs après installation, celles des autres modes et les déconnexions continuent à remonter. Sans réponse ni erreur de l’interop, le portillon reste fermé. Le rendu statique garde les secours existants d’une et cinq secondes. Ce changement de contrat est documenté sous Changed, sans nouvelle version.
+
+Deux critères échouent avant correction : le portillon manque en rendu interactif et une erreur d’initialisation remonte sans table de secours. Ils passent après correction, avec les contrôles du rendu statique, du logger absent, de l’absence de boucle, des déconnexions et des erreurs après installation. Le harnais unitaire fournit désormais son type de rendu au moment de Render, après les inscriptions de services ; les modes statiques explicites restent prioritaires. Cette configuration porte uniquement sur le harnais et ne constitue pas une preuve du navigateur.
+
+Trois navigations instrumentées avec CPU ralenti d’un facteur 4 passent sans état visible provisoire. Trois passes complètes consécutives de Requests, avec ce même ralentissement pendant le premier rendu et toutes ses assertions conservées, passent : 227 secondes pour la première passe comprenant également Boards, chevrons, voile et Density, puis 75 et 76 secondes pour Requests seul. Aucun retry ni délai d’attente supplémentaire. Une dernière série de trois navigations instrumentées passe sur la publication finale, après maintien de la compatibilité des conteneurs sans logger.
+
+Un vrai hôte Server consommant uniquement le nupkg local, sans ProjectReference et dans un cache neuf, éprouve trois chemins. JavaScript désactivé : la réponse HTTP statique contient deux lignes, le portillon interactif est absent et le secours CSS les rend visibles, sans requête du module. Requête du module réellement bloquée par le navigateur de test : deux lignes et en-têtes restent visibles, le marqueur d’échec est présent et le journal serveur contient l’erreur ; seules les deux erreurs réseau imposées sont acceptées sur ce parcours. Rechargement sans blocage : dimensions définitives 136 et 1 126 px, deux lignes visibles, console et CSP propres. Captures inspectées ; assets servis comparés au nupkg et aux sources. Ce parcours n’emploie pas de double d’interop.
+
+## Limites
+
+Preuves locales, aucune production ni publication distante. La preuve visuelle porte sur Chromium, la vitrine WebAssembly publiée et le consommateur Server du nupkg. Auto et Hybrid ne sont pas rejoués dans ce lot. La recette transversale du paquet reste au lot 7. La couverture fraîche reproduit exactement les six fichiers du lot 5, une ligne et vingt branches manquantes ; CRAP passe. Les cinq autres constats initiaux et les deux écarts documentaires de la branche du voile restent ouverts.
+
+Le précontrôle signale les huit références NuGet dépassées déjà présentes, sans changement de version. Le serveur d’index des composants est indisponible ; les composants et conventions existants sont consultés directement. Le fichier local de reprise pointe une ancienne branche ; l’état Git réel et le plan canonique ont été utilisés. Plusieurs expirations de l’outil interactif ont conduit à utiliser les sondes Chromium natives pour les mesures. Deux ports de test occupés ont été laissés intacts ; un port temporaire libre a ensuite été alloué. La suite complète dure 943 secondes ; sa capture de piles intermédiaire n’est pas exploitable par l’outil disponible, puis son TRX prouve sa terminaison normale. Captures, états, journaux et TRX restent dans le dossier local de preuves du lot 4.

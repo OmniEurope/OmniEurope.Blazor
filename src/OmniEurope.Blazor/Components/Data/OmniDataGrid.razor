@@ -171,7 +171,7 @@
 
     @* The table itself, alone or inside the frame of the bars. *@
     RenderFragment table = @<div @ref="_viewport" class="@Classes.ViewportClass()">
-        <table class="omni-data-grid__table" role="@(Tree.Active ? "treegrid" : null)" aria-rowcount="@Virtual.RowCountAttribute()" data-omni-sizing="@(SizesToContent ? "content" : null)">
+        <table class="omni-data-grid__table" role="@(Tree.Active ? "treegrid" : null)" aria-rowcount="@Virtual.RowCountAttribute()" data-omni-sizing="@(SizesToContent && !_contentSizingFailed ? "content" : null)" data-omni-sizing-pending="@(SizesToContent && RendererInfo.IsInteractive && !_contentSizingFailed ? "" : null)" data-omni-sizing-failed="@(_contentSizingFailed ? "" : null)">
             @if (!string.IsNullOrWhiteSpace(Caption))
             {
                 <caption>@Caption</caption>

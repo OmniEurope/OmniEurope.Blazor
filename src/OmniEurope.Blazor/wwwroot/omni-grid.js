@@ -299,23 +299,43 @@ export function scrollToOffset(viewport, offset) {
 
 const fills = new Map();
 
-function scrollParent(element) {
-    // The scrolling areas the package itself lays out come first: an ancestor can be overflow:auto
-    // without having a height of its own (it grows with the grid), and sizing the grid from it
-    // measured nothing, the grid collapsed to 0.
-    const owned = element.closest('.omni-main--scrollable, .omni-dialog__content');
-    if (owned) {
-        return owned;
+function constrainsHeight(container, grid) {
+    const height = container.offsetHeight;
+    if (height === 0) {
+        return false;
     }
+    // A small margin change grows an auto-height wrapper, but not an independently sized area.
+    // Restore it before painting, without hiding the grid or disturbing an editing field's focus.
+    const previous = grid.style.getPropertyValue('margin-bottom');
+    const priority = grid.style.getPropertyPriority('margin-bottom');
+    const margin = Number.parseFloat(getComputedStyle(grid).marginBottom) || 0;
+    try {
+        grid.style.setProperty('margin-bottom', `${margin + 2}px`, 'important');
+        return container.offsetHeight === height;
+    } finally {
+        if (previous) {
+            grid.style.setProperty('margin-bottom', previous, priority);
+        } else {
+            grid.style.removeProperty('margin-bottom');
+        }
+    }
+}
 
+function scrollParent(element) {
+    // A bounded nested scroller owns the room before the main area or dialog does. An auto-height
+    // wrapper still defers to that owner: otherwise the grid would size itself from its own height.
+    const owned = element.closest('.omni-main--scrollable, .omni-dialog__content');
     for (let node = element.parentElement; node; node = node.parentElement) {
+        if (node === owned) {
+            return node;
+        }
         const overflow = getComputedStyle(node).overflowY;
-        if (overflow === 'auto' || overflow === 'scroll') {
+        if ((overflow === 'auto' || overflow === 'scroll') && (!owned || constrainsHeight(node, element))) {
             return node;
         }
     }
 
-    return document.scrollingElement ?? document.documentElement;
+    return owned ?? document.scrollingElement ?? document.documentElement;
 }
 
 /**
@@ -336,7 +356,7 @@ export function attachFill(viewport) {
         return;
     }
 
-    const container = scrollParent(grid);
+    let container = null;
     let frame = 0;
     const measure = () => {
         frame = 0;
@@ -345,6 +365,14 @@ export function attachFill(viewport) {
         // again as soon as it shows.
         if (grid.getClientRects().length === 0) {
             return;
+        }
+
+        if (!container) {
+            container = scrollParent(grid);
+            observer?.observe(container);
+            if (container.firstElementChild instanceof HTMLElement) {
+                observer?.observe(container.firstElementChild);
+            }
         }
 
         const page = container === document.scrollingElement || container === document.documentElement;
@@ -381,10 +409,7 @@ export function attachFill(viewport) {
     };
 
     const observer = typeof ResizeObserver === 'function' ? new ResizeObserver(schedule) : null;
-    observer?.observe(container);
-    if (container.firstElementChild instanceof HTMLElement) {
-        observer?.observe(container.firstElementChild);
-    }
+    observer?.observe(grid);
     if (grid.parentElement) {
         observer?.observe(grid.parentElement);
     }

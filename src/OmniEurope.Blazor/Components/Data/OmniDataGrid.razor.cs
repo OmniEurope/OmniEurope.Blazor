@@ -18,6 +18,7 @@ public partial class OmniDataGrid<TItem>
     private OmniDataGridContext<TItem> _context = default!;
     private ElementReference _viewport;
     private bool _disposeRequested;
+    private bool _contentSizingFailed;
 
     /// <summary>Creates the grid and the internal collaborators that hold its state and behaviour.</summary>
     public OmniDataGrid()
@@ -1076,12 +1077,19 @@ public partial class OmniDataGrid<TItem>
         await _lifecycleGate.WaitAsync();
         try
         {
-            if (!_disposeRequested)
+            if (!_disposeRequested && !_contentSizingFailed)
             {
                 await Script.AfterRenderAsync();
                 await Script.FocusEditorAsync();
                 await Chooser.AfterRenderAsync();
             }
+        }
+        catch (JSException exception) when (SizesToContent && !Script.ContentFitAttached && !_disposeRequested)
+        {
+            _contentSizingFailed = true;
+            (Services.GetService(typeof(ILogger<OmniDataGrid<TItem>>)) as ILogger<OmniDataGrid<TItem>>)?.LogError(exception,
+                "Grid content sizing could not initialize. The static table is shown until the grid is recreated.");
+            StateHasChanged();
         }
         finally
         {

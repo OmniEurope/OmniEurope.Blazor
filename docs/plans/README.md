@@ -26,7 +26,7 @@ structurelles ; un plan décrit un travail, pas l'état du produit.
 | [PLAN-006](PLAN-006-demandes-application-cliente-2026-10-28.md) | Neuf demandes d'une application cliente du 2026-10-28 : badges, champ de formulaire, tuile à texte ajusté, filtre de date de grille, trou noir, infobulles | Sans ADR supplémentaire |
 | [PLAN-007](PLAN-007-remediation-audit-360-2026-10-29.md) | Remédiation des huit constats de l'audit 360 du 2026-10-29 : chevron de la barre de choix, en-têtes sur erreur, tests API en CI, SBOM, capacité des visiteurs, dates des préférences, runtime WebAssembly, docs | Sans ADR supplémentaire |
 | [PLAN-008](PLAN-008-demandes-application-cliente-2026-10-29.md) | Neuf demandes d'une application cliente du 2026-10-29 : bouton discret de danger, réglages à plat, saisie avant confirmation, densité de liste, barre de progression segmentée, libellé long, nom court du menu, tuile désactivée, liseré des cartes | Sans ADR supplémentaire |
-| [PLAN-009](PLAN-009-remediation-audit-360-2026-10-30.md) | Lots 1 à 3 livrés : moyens de preuve, tableaux, préférences et contrats d’interaction ; huit constats initiaux et deux écarts documentaires de la branche du voile restent ouverts | Sans ADR supplémentaire |
+| [PLAN-009](PLAN-009-remediation-audit-360-2026-10-30.md) | Lots 1 à 4 livrés, stabilité du premier rendu vérifiée ; cinq constats initiaux et deux écarts documentaires du voile restent ouverts, lots 5 à 7 autorisés | Sans ADR supplémentaire |
 
 ## Archives
 

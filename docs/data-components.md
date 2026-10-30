@@ -144,8 +144,14 @@ Une colonne se déclare par lambda ou par nom de propriété.
   (`data-omni-headed`, `sizingStage` de `grid/content-sizing.js`) ; ses lignes n'apparaissent qu'une fois
   dimensionnées sur les premières vraies lignes, ce qui garde la correction d'affichage sans saut du
   corps. Les largeurs des en-têtes, mesurées sur les titres seuls, peuvent encore s'élargir à l'arrivée de
-  lignes plus larges qu'eux. Sans script, tout s'affiche après une seconde (cinq au plus pendant un
-  chargement).
+  lignes plus larges qu'eux. Dans un rendu interactif, les lignes attendent leur dimensionnement réel,
+  sans révélation à échéance qui ferait apparaître des colonnes provisoires sur une machine chargée.
+  Si l'initialisation JavaScript échoue explicitement, la table de secours est affichée et l'erreur est
+  journalisée par l'hôte lorsque son service de journalisation est disponible ; les gestes JavaScript
+  ne sont plus initialisés jusqu'à recréation de cette grille.
+  Une interop qui reste pendante conserve l'état de préparation. Un rendu statique sans interactivité
+  garde son secours après une seconde (cinq au plus pendant un chargement). Décision du 2026-10-30,
+  PLAN-009 : priorité à la stabilité visuelle.
 
   Un `ColumnSizing` écrit sur la grille l'emporte sur le préréglage (`PresetName="none"` l'écarte).
 - Des colonnes déclarées dans un `@foreach` peuvent capturer la variable de boucle dans leur

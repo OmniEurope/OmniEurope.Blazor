@@ -32,8 +32,15 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 - `OmniConfirmRequest.Details` (`RenderFragment?`), `OmniConfirmRequest.CanConfirm` (`Func<bool>?`) et `OmniConfirmRequest.Refresh()` : la même mécanique pour tout `OmniOverlayService.ConfirmAsync` (contenu sous la question, action désactivée tant que la fonction répond faux, redessin à la demande). Sans eux, le dialogue est inchangé.
 - `OmniSettingsSection.Flat` (`bool`, faux par défaut) : demande d'une application cliente (PLAN-008, W-2), dont les tuiles de réglages faisaient une boîte dans la carte de leur rubrique (le fond et le cadre de la tuile se superposaient à ceux de la carte). Vrai, les tuiles n'ont ni fond, ni cadre, ni couche de givre ; un filet fin sépare deux tuiles d'une colonne, l'espacement seul les sépare dans une rubrique `Paired`. Le survol et la teinte au focus clavier d'un contrôle de la tuile restent. Rien ne change pour une rubrique sans `Flat`.
 
+### Changed
+
+- Grilles interactives avec `ColumnSizing="OmniDataGridColumnSizing.Content"` (PLAN-009, lot 4) : priorité à la stabilité visuelle. Les lignes attendent leur dimensionnement réel, sans révélation anticipée par minuteur. Une erreur JavaScript avant l’installation de l’observateur affiche la table de secours et est journalisée si l’hôte fournit un logger ; les gestes JavaScript attendent alors la recréation de la grille. Les rendus statiques conservent leur secours temporisé. Une interop qui reste pendante conserve l’état de préparation. Aucun changement d’API ni de version.
+
 ### Fixed
 
+- `OmniDataGrid.FillAvailableHeight` (PLAN-009, lot 4) : un cadre local contraint prend la priorité sur la zone principale ou le contenu du dialogue ; les enveloppes de hauteur automatique gardent leur référence existante. Le remplissage se recalcule au redimensionnement et après une apparition différée.
+- Chevrons du menu latéral (PLAN-009, lot 4) : le bouton et son glyphe suivent les jetons de densité existants, en conservant leur position hors du flux et les butées de défilement.
+- Vitrine, éditeurs HTML et de lecture du code (PLAN-009, lot 4) : une accolade manquante empêchait leurs règles CSS de s’appliquer. Les cadres retrouvent leurs bordures, leur padding et la hauteur prévue du comparateur.
 - Sélecteurs de date, d’heure et de date avec heure (PLAN-009, lot 3) : activer `ReadOnly` ou `Disabled` ferme le panneau déjà ouvert sans changer la valeur liée. Après réactivation, la sélection redevient possible.
 - Démonstration des dialogues (PLAN-009, lot 3) : le panneau Information dispose toujours d’une action Close, y compris lorsque `Dismissible` est faux ; les fermetures implicites restent régies par les paramètres existants.
 - `OmniMailTemplateEditor` (PLAN-009, lot 3) : une variable textuelle s’insère au caret de la face source active et remplace sa sélection, par le même chemin d’entrée que le champ ; son token reste présent après le retour à la face visuelle.
