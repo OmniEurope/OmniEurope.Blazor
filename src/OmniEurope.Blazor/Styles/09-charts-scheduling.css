@@ -309,7 +309,7 @@ polyline.omni-chart__line { fill: none; }
    only that line, its time left to assistive technology and to the tooltip of the block. */
 .omni-scheduler-grid .omni-scheduler__appointment--short strong,
 .omni-scheduler-grid .omni-scheduler__appointment--brief strong { flex: 1 1 100%; hyphens: none; white-space: nowrap; }
-.omni-scheduler-grid .omni-scheduler__appointment--brief time { block-size: 1px; clip-path: inset(50%); inline-size: 1px; overflow: hidden; padding: 0; position: absolute; white-space: nowrap; }
+.omni-scheduler-grid .omni-scheduler__appointment--brief time { clip-path: inset(50%); padding: 0; position: absolute; white-space: nowrap; }
 .omni-scheduler-grid .omni-scheduler__open { column-gap: var(--omni-space-xs); flex-direction: row; flex-wrap: wrap; }
 .omni-scheduler-grid .omni-scheduler__appointment--overlapping { outline: var(--omni-border-width) dashed var(--omni-color-warning); outline-offset: calc(-1 * var(--omni-border-width)); }
 :is(.omni-scheduler--moving, .omni-scheduler--dragging) .omni-scheduler-grid__cell > .omni-scheduler__appointment { pointer-events: none; }
