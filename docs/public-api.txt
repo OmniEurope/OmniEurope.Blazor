@@ -3458,6 +3458,7 @@ property public OmniEurope.Blazor.Components.OmniPageVeil.Busy : System.Boolean 
 property public OmniEurope.Blazor.Components.OmniPageVeil.Label : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPageVeil.Logo : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPageVeil.LogoSource : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniPageVeil.Opacity : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPageVeil.Scope : OmniEurope.Blazor.Components.OmniPageVeilScope {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPager.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPager.Justify : OmniEurope.Blazor.Components.OmniJustification {get(public);set(public)} [Parameter]

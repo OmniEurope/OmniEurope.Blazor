@@ -1,9 +1,9 @@
-@* The veil of a page: opaque, covering the content of the page only (the top bar and the side menu stay
-   visible and usable, the veil being declared inside the shell's main area), one constant colour of the
-   theme, the logo of the application at its centre. The package has no logo and animates nothing: the application gives
-   the mark it wants, as markup (Logo) or as an image address (LogoSource), still or animated by itself
-   (the third button animates its own SVG). It appears only after 100 ms of waiting: the last button waits
-   for 50 ms and shows nothing at all. *@
+@* The veil of a page: slightly see-through (Opacity, 85 % by default), covering the content of the page
+   (the top bar and the side menu stay visible and usable, the veil being declared inside the shell's main
+   area) or the whole window (Scope), one constant colour of the theme, the logo of the application at its
+   centre. The package has no logo and animates nothing: the application gives the mark it wants, as markup
+   (Logo) or as an image address (LogoSource), still or animated by itself (one button animates its own
+   SVG). It appears only after 100 ms of waiting: the last button waits for 50 ms and shows nothing at all. *@
 @{
     RenderFragment stillLogo = @<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
         <circle cx="32" cy="32" r="28" fill="none" stroke="currentColor" stroke-width="6" />
@@ -16,10 +16,20 @@
         </circle>
     </svg>;
 }
+<OmniFormField For="page-veil-opacity">
+    <LabelContent>Opacity</LabelContent>
+    <ChildContent>
+        <OmniSlider Id="page-veil-opacity" @bind-Value="Opacity" Step="5" FormatValue="@(value => $"{value:0} %")" />
+    </ChildContent>
+</OmniFormField>
 <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
-    <OmniButton Id="page-veil-markup" Variant="OmniButtonVariant.Secondary" Disabled="@Waiting" OnClick="@(_ => WaitAsync(VeilLogo.Markup, TimeSpan.FromSeconds(2.5)))">
+    <OmniButton Id="page-veil-content" Variant="OmniButtonVariant.Secondary" Disabled="@Waiting" OnClick="@(_ => WaitAsync(VeilLogo.Markup, TimeSpan.FromSeconds(2.5)))">
         <Icon><OmniIcon Name="OmniIconName.Hourglass" /></Icon>
-        <ChildContent><span>Logo as markup</span></ChildContent>
+        <ChildContent><span>Content</span></ChildContent>
+    </OmniButton>
+    <OmniButton Id="page-veil-window" Variant="OmniButtonVariant.Secondary" Disabled="@Waiting" OnClick="@(_ => WaitAsync(VeilLogo.Markup, TimeSpan.FromSeconds(2.5), OmniPageVeilScope.Viewport))">
+        <Icon><OmniIcon Name="OmniIconName.FrameCorners" /></Icon>
+        <ChildContent><span>Whole window</span></ChildContent>
     </OmniButton>
     <OmniButton Id="page-veil-address" Variant="OmniButtonVariant.Secondary" Disabled="@Waiting" OnClick="@(_ => WaitAsync(VeilLogo.Address, TimeSpan.FromSeconds(2.5)))">
         <Icon><OmniIcon Name="OmniIconName.Image" /></Icon>
@@ -33,10 +43,6 @@
         <Icon><OmniIcon Name="OmniIconName.Eye" /></Icon>
         <ChildContent><span>No logo</span></ChildContent>
     </OmniButton>
-    <OmniButton Id="page-veil-window" Variant="OmniButtonVariant.Secondary" Disabled="@Waiting" OnClick="@(_ => WaitAsync(VeilLogo.Markup, TimeSpan.FromSeconds(2.5), OmniPageVeilScope.Viewport))">
-        <Icon><OmniIcon Name="OmniIconName.FrameCorners" /></Icon>
-        <ChildContent><span>Whole window (Scope Viewport)</span></ChildContent>
-    </OmniButton>
     <OmniButton Id="page-veil-short" Variant="OmniButtonVariant.Secondary" Disabled="@Waiting" OnClick="@(_ => WaitAsync(VeilLogo.Markup, TimeSpan.FromMilliseconds(50)))">
         <Icon><OmniIcon Name="OmniIconName.Timer" /></Icon>
         <ChildContent><span>A 50 ms wait (nothing shows)</span></ChildContent>
@@ -45,5 +51,6 @@
 <OmniPageVeil Id="page-veil-demo"
               Busy="@Waiting"
               Scope="@Scope"
+              Opacity="@((int)Opacity)"
               Logo="@(Current switch { VeilLogo.Markup => stillLogo, VeilLogo.Animated => animatedLogo, _ => null })"
               LogoSource="@(Current == VeilLogo.Address ? "showcase-logo.svg" : null)" />

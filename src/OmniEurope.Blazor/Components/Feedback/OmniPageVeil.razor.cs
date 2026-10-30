@@ -1,8 +1,8 @@
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
-/// The wait of a page: an opaque veil over the content of the page, in one constant colour of the
-/// theme (light and dark), with the application's own logo at its centre. It replaces the veils an
+/// The wait of a page: a veil over the content of the page, slightly see-through (<see cref="Opacity"/>),
+/// in one constant colour of the theme (light and dark), with the application's own logo at its centre. It replaces the veils an
 /// application would otherwise lay by hand on each page.
 /// </summary>
 /// <remarks>
@@ -10,11 +10,11 @@ namespace OmniEurope.Blazor.Components;
 /// Nothing animates. The package has no logo and no default animation: the application gives the mark
 /// it wants, still or animated by itself, through <see cref="Logo"/> (free markup: an <c>img</c>, an
 /// inline <c>svg</c>, an <see cref="OmniIcon"/>) or <see cref="LogoSource"/> (an image address), and
-/// passes its animated logo the same way. Without either, the veil is a plain opaque page.
+/// passes its animated logo the same way. Without either, the veil is a plain layer.
 /// </para>
 /// <para>
 /// The veil shows only after 100 ms of waiting, so a short wait shows nothing at all and cannot flicker;
-/// shown, it is fully opaque from its first frame. The delay is the stylesheet's (<c>--omni-page-veil-delay</c>),
+/// shown, it has its full <see cref="Opacity"/> from its first frame. The delay is the stylesheet's (<c>--omni-page-veil-delay</c>),
 /// not a timer: the element exists from the moment <see cref="Busy"/> is true, hidden, and a wait that ends
 /// within the delay removes it unseen. It covers the pointer; it does not trap the keyboard focus, which
 /// is the application's to take (mark the content behind <c>inert</c> when the page must not be reachable).
@@ -68,6 +68,14 @@ public partial class OmniPageVeil : IDisposable
     [Parameter]
     public OmniPageVeilScope Scope { get; set; }
 
+    /// <summary>
+    /// How opaque the background of the veil is, in percent: 85 by default, 100 hides the page entirely, 0 leaves
+    /// it fully visible. Rounded to a step of 5 and kept within 0 and 100, the stylesheet having one class per
+    /// step. Only the background is see-through; the logo stays fully drawn.
+    /// </summary>
+    [Parameter]
+    public int Opacity { get; set; } = 85;
+
     /// <summary>What is announced while the veil is up; the localized "Loading in progress" when null or blank.</summary>
     [Parameter]
     public string? Label { get; set; }
@@ -92,8 +100,10 @@ public partial class OmniPageVeil : IDisposable
 
     internal string EffectiveLabel => LocalizeOr(Label, "LoadingLabel");
 
-    /// <summary>The element's classes: the viewport veil is the base; a veil held by a main area adds how that area frames it.</summary>
-    internal string RootClass => Css("omni-page-veil", _host is null ? null : _host.Scrollable ? "omni-page-veil--frame" : "omni-page-veil--flow");
+    /// <summary>The element's classes: the viewport veil is the base; a veil held by a main area adds how that area frames it, and the opacity is one class per step.</summary>
+    internal string RootClass => Css("omni-page-veil", _host is null ? null : _host.Scrollable ? "omni-page-veil--frame" : "omni-page-veil--flow", $"omni-page-veil--alpha-{OpacityBucket}");
+
+    private int OpacityBucket => Math.Clamp((int)(Math.Round(Opacity / 5d, MidpointRounding.AwayFromZero) * 5), 0, 100);
 
     /// <summary>Hands the veil to its main area (or takes it back) and tells the element to draw again.</summary>
     protected override void OnParametersSet()

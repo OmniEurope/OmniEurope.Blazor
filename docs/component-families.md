@@ -49,6 +49,7 @@ Celles-ci ne sont déclarées nulle part et se lisent avec une valeur de repli :
 | `--omni-busy-veil-color` | `.omni-busy`, `.btn-busy` | `#000000` | Couleur du voile d'un bouton occupé. |
 | `--omni-busy-veil-outset` | `.omni-busy`, `.btn-busy` | bordure du bouton (`--omni-button-border-width`), `0px` ailleurs | Débord du voile hors de la boîte de remplissage : la bordure d'un bouton, rien pour un conteneur (un débord y devenait du défilement). |
 | `--omni-page-veil-delay` | `OmniPageVeil` | `100ms` | Attente avant que le voile de page apparaisse ; une attente plus courte ne montre rien. |
+| `--omni-page-veil-alpha` | `OmniPageVeil` | `85%` | Opacité du fond du voile de page, posée par les classes `omni-page-veil--alpha-N` selon `OmniPageVeil.Opacity`. |
 | `--omni-page-veil-logo-size` | `OmniPageVeil` | `6rem` | Côté du carré où tient le logo du voile de page. |
 | `--omni-wizard-actions-background` | `OmniWizard` (bandeau des boutons) | la surface de carte tant que le bandeau est collé, transparent sinon | Fond du bandeau des boutons tant qu'il est collé au bas de la fenêtre ; se pose sur l'assistant ou un ancêtre. |
 | `--omni-tabs-edge` | `OmniTabs` (bords de défilement des onglets) | `var(--omni-card-background, var(--omni-color-surface))` | Fond sur lequel s'effacent les chevrons de défilement ; à poser quand les onglets sont sur un autre fond que la carte. |

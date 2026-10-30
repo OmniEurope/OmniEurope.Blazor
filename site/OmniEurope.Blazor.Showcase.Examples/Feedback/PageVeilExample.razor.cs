@@ -2,7 +2,7 @@ using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Showcase.Examples.Feedback;
 
-/// <summary>The page veil waiting for a moment over the content, with the logo given as markup, as an image address, animated by the application, or not at all, and once over the whole window.</summary>
+/// <summary>The page veil waiting for a moment over the content or the whole window, at the opacity chosen, with the logo given as markup, as an image address, animated by the application, or not at all.</summary>
 public partial class PageVeilExample
 {
     private enum VeilLogo
@@ -18,6 +18,8 @@ public partial class PageVeilExample
     private VeilLogo Current { get; set; }
 
     private OmniPageVeilScope Scope { get; set; }
+
+    private double Opacity { get; set; } = 85;
 
     /// <summary>
     /// A wait of the given length with the logo asked: the veil exists for exactly that long, and shows

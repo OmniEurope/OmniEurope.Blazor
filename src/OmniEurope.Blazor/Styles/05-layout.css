@@ -478,7 +478,7 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 .omni-page-veil {
     align-items: center;
     animation: omni-page-veil-wait 0s linear var(--omni-page-veil-delay, 100ms) backwards;
-    background: var(--omni-color-surface);
+    background: color-mix(in srgb, var(--omni-color-surface) var(--omni-page-veil-alpha, 85%), transparent);
     color: var(--omni-color-text);
     display: flex;
     inset: 0;
@@ -487,6 +487,29 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
     z-index: var(--omni-z-overlay);
 }
 @keyframes omni-page-veil-wait { from { visibility: hidden; } }
+/* One class per 5 % of OmniPageVeil.Opacity, since a style attribute would break a strict CSP. Only the
+   background is see-through: the logo stays fully drawn. */
+.omni-page-veil--alpha-0 { --omni-page-veil-alpha: 0%; }
+.omni-page-veil--alpha-5 { --omni-page-veil-alpha: 5%; }
+.omni-page-veil--alpha-10 { --omni-page-veil-alpha: 10%; }
+.omni-page-veil--alpha-15 { --omni-page-veil-alpha: 15%; }
+.omni-page-veil--alpha-20 { --omni-page-veil-alpha: 20%; }
+.omni-page-veil--alpha-25 { --omni-page-veil-alpha: 25%; }
+.omni-page-veil--alpha-30 { --omni-page-veil-alpha: 30%; }
+.omni-page-veil--alpha-35 { --omni-page-veil-alpha: 35%; }
+.omni-page-veil--alpha-40 { --omni-page-veil-alpha: 40%; }
+.omni-page-veil--alpha-45 { --omni-page-veil-alpha: 45%; }
+.omni-page-veil--alpha-50 { --omni-page-veil-alpha: 50%; }
+.omni-page-veil--alpha-55 { --omni-page-veil-alpha: 55%; }
+.omni-page-veil--alpha-60 { --omni-page-veil-alpha: 60%; }
+.omni-page-veil--alpha-65 { --omni-page-veil-alpha: 65%; }
+.omni-page-veil--alpha-70 { --omni-page-veil-alpha: 70%; }
+.omni-page-veil--alpha-75 { --omni-page-veil-alpha: 75%; }
+.omni-page-veil--alpha-80 { --omni-page-veil-alpha: 80%; }
+.omni-page-veil--alpha-85 { --omni-page-veil-alpha: 85%; }
+.omni-page-veil--alpha-90 { --omni-page-veil-alpha: 90%; }
+.omni-page-veil--alpha-95 { --omni-page-veil-alpha: 95%; }
+.omni-page-veil--alpha-100 { --omni-page-veil-alpha: 100%; }
 .omni-page-veil--frame, .omni-page-veil--flow { position: absolute; z-index: var(--omni-z-sticky); }
 .omni-page-veil--flow { align-items: flex-start; }
 .omni-page-veil--flow .omni-page-veil__logo { inset-block-start: calc(50dvh - var(--omni-page-veil-logo-size, 6rem) / 2); position: sticky; }

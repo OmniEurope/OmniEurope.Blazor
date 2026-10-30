@@ -7,7 +7,7 @@ using OmniEurope.Blazor.Components;
 namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
-/// The page veil (recette R1-18): an opaque, fixed, constant-coloured layer with the application's own
+/// The page veil (recette R1-18): a slightly see-through, fixed, constant-coloured layer with the application's own
 /// logo at its centre, given as free markup or as an image address, shown only after 100 ms of waiting,
 /// and animating nothing.
 /// </summary>
@@ -157,14 +157,48 @@ public sealed class PageVeilTests : OmniBunitContext
         Assert.Equal("status", root.GetAttribute("role"));
     }
 
+    [Theory]
+    [InlineData(null, 85)]
+    [InlineData(100, 100)]
+    [InlineData(0, 0)]
+    [InlineData(72, 70)]
+    [InlineData(73, 75)]
+    [InlineData(-10, 0)]
+    [InlineData(140, 100)]
+    public void TheOpacity_Is85ByDefault_RoundedToAStepOf5_WithinTheRange(int? opacity, int expected)
+    {
+        var veil = Render<OmniPageVeil>(parameters =>
+        {
+            parameters.Add(component => component.Busy, true);
+            if (opacity is { } value)
+            {
+                parameters.Add(component => component.Opacity, value);
+            }
+        });
+
+        var root = veil.Find(".omni-page-veil");
+        Assert.Contains($"omni-page-veil--alpha-{expected}", root.ClassList);
+        Assert.Null(root.GetAttribute("style"));
+    }
+
     [Fact]
-    public void TheVeil_IsOpaque_Fixed_OfOneThemeColour_AndShowsOnlyAfterTheDelay()
+    public void EveryStepOfTheOpacity_HasItsRule()
+    {
+        for (var step = 0; step <= 100; step += 5)
+        {
+            var rule = ShippedLookTests.Body($".omni-page-veil--alpha-{step}");
+            Assert.Equal($"{step}%", ShippedLookTests.Value(rule, "--omni-page-veil-alpha"));
+        }
+    }
+
+    [Fact]
+    public void TheVeil_IsSeeThrough_Fixed_OfOneThemeColour_AndShowsOnlyAfterTheDelay()
     {
         var rule = ShippedLookTests.Body(".omni-page-veil");
 
         Assert.Equal("fixed", ShippedLookTests.Value(rule, "position"));
         Assert.Equal("0", ShippedLookTests.Value(rule, "inset"));
-        Assert.Equal("var(--omni-color-surface)", ShippedLookTests.Value(rule, "background"));
+        Assert.Equal("color-mix(in srgb, var(--omni-color-surface) var(--omni-page-veil-alpha, 85%), transparent)", ShippedLookTests.Value(rule, "background"));
         Assert.Equal("var(--omni-z-overlay)", ShippedLookTests.Value(rule, "z-index"));
 
         // The 100 ms delay: a zero-length animation whose first keyframe (hidden) is held during the delay
