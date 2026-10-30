@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # PLAN-009 : Remédiation de l’audit 360 du 2026-10-30
 
-> Statut : **ouvert, lots 1 à 4 terminés le 2026-10-30**. Dix constats initiaux et l’écart adjacent GRID-PAINT-001 sont vérifiés ; cinq constats initiaux et deux écarts documentaires du voile restent ouverts. Lots 5 à 7 autorisés, le lot 5 dispose de sa reproduction fraîche. Les corrections adjacentes explicitement autorisées sont tracées dans les annexes de chaque lot.
+> Statut : **clos, sept lots terminés le 2026-10-30**. Les quinze constats initiaux et les deux écarts documentaires du voile sont vérifiés. Les deux intermittences unitaires traitées sur accord explicite passent dix suites complètes consécutives, 10 981 tests chacune. La recette du paquet et de la démo est acceptée avec ses limites documentées, sans modification de version, seuil, baseline ou exception. Aucun push ni déploiement.
 
 ## Objectif et périmètre
 
@@ -75,29 +75,33 @@ Lot 4 livré : les trois constats initiaux sont reproduits puis vérifiés ; Den
 
 ### Lot 5 : rétablir la porte de couverture, P1 bloquant la livraison
 
-- [ ] **A360-007** : recalculer la couverture après les lots précédents, puis couvrir les scénarios publics encore manquants des six fichiers : `OmniValidationSummary.razor`, son code-behind, `OmniMain.razor.cs`, `OmniPanelMenuFilter.cs`, `OmniPanelMenuItem.razor.cs` et `OmniSiteSearch.razor.cs`. Inclure le renommage d’une entrée déjà filtrée et la notification de ses ancêtres.
+- [x] **A360-007** : recalculer la couverture après les lots précédents, puis couvrir les scénarios publics encore manquants des six fichiers : `OmniValidationSummary.razor`, son code-behind, `OmniMain.razor.cs`, `OmniPanelMenuFilter.cs`, `OmniPanelMenuItem.razor.cs` et `OmniSiteSearch.razor.cs`. Inclure le renommage d’une entrée déjà filtrée et la notification de ses ancêtres.
 
 Contrôle : un unique rapport Cobertura frais et le TRX correspondant, tests réellement exécutés, puis `eng/Test-Coverage.ps1` et `eng/Test-Crap.ps1` acceptés. La base auditée avait une ligne et vingt branches manquantes ; remesurer les positions après fusion. Ne pas tester des détails sans comportement observable uniquement pour atteindre un chiffre. Garder baseline, exceptions, seuils et assertions ; si un chemin est prouvé inaccessible, demander une décision explicite plutôt que le masquer. Des tests verts seuls ne clôturent pas les autres défauts.
 
+Lot 5 livré : un rapport global frais et son TRX comptent 10 981 réussites, sans expiration ni omission ; couverture et CRAP acceptés. Les six fichiers initiaux et la branche ajoutée par la fusion externe sont couverts, sans assouplir la porte. Le renommage filtré est aussi vérifié dans le consommateur réel du paquet. Voir les [preuves du lot 5](PLAN-009-lot-5-verifications.md).
+
 ### Lot 6 : remettre les descriptions en accord, P3
 
-- [ ] **A360-012** : corriger la phrase de `docs/analyzers.md` selon le traitement réel des attributs et les exceptions déjà documentées. Vérifier class/id et un attribut minuscule admissible avec l’analyseur réellement embarqué, sans nouveau test unitaire de prose Markdown.
-- [ ] **A360-013** : mettre `docs/browser-scenarios.json` en accord avec les deux langues et deux largeurs réellement exécutées. Distinguer une ancienne mesure de langues longues si elle reste citée. Contrôler la syntaxe JSON et le résultat Languages du lot 1.
-- [ ] **A360-014** : aligner `docs/dependencies.md` sur `.github/dependabot.yml`, sans changer la fréquence ni la politique. Une configuration lue ne sera pas présentée comme une proposition GitHub réellement créée.
-- [ ] **A360-015** : réparer uniquement l’apostrophe invalide du script de la maquette archivée PLAN-004, avec mention datée de réparation documentaire. Vérifier la syntaxe du script réel puis l’initialisation et les interactions de l’aperçu dans un navigateur.
-- [ ] **VEIL-DOC-001, branche du voile** : remplacer le compte rendu « opaque » à 85 % de `eng/scripts-probe/veil.mjs` par la mesure effectivement vérifiée, puis relire le journal de la sonde réelle.
-- [ ] **VEIL-DOC-002, branche du voile** : ranger le changement de défaut du voile sous `Changed` ou `Breaking changes` dans `CHANGELOG.md`, avec la migration `Opacity="100"` déjà présente, conformément à `docs/versioning.md`. Ne choisir aucune nouvelle version.
+- [x] **A360-012** : corriger la phrase de `docs/analyzers.md` selon le traitement réel des attributs et les exceptions déjà documentées. Vérifier class/id et un attribut minuscule admissible avec l’analyseur réellement embarqué, sans nouveau test unitaire de prose Markdown.
+- [x] **A360-013** : mettre `docs/browser-scenarios.json` en accord avec les deux langues et deux largeurs réellement exécutées. Distinguer une ancienne mesure de langues longues si elle reste citée. Contrôler la syntaxe JSON et le résultat Languages du lot 1.
+- [x] **A360-014** : aligner `docs/dependencies.md` sur `.github/dependabot.yml`, sans changer la fréquence ni la politique. Une configuration lue ne sera pas présentée comme une proposition GitHub réellement créée.
+- [x] **A360-015** : réparer uniquement l’apostrophe invalide du script de la maquette archivée PLAN-004, avec mention datée de réparation documentaire. Vérifier la syntaxe du script réel puis l’initialisation et les interactions de l’aperçu dans un navigateur.
+- [x] **VEIL-DOC-001, branche du voile** : remplacer le compte rendu « opaque » à 85 % de `eng/scripts-probe/veil.mjs` par la mesure effectivement vérifiée, puis relire le journal de la sonde réelle.
+- [x] **VEIL-DOC-002, branche du voile** : ranger le changement de défaut du voile sous `Changed` ou `Breaking changes` dans `CHANGELOG.md`, avec la migration `Opacity="100"` déjà présente, conformément à `docs/versioning.md`. Ne choisir aucune nouvelle version.
 
-Contrôle : les quatre descriptions initiales et les deux écarts de branche correspondent aux sources relues et aux preuves citées. Les deux derniers points sont des constats supplémentaires faibles, pas une correction implicite de l’audit initial. Aucun de ces correctifs n’est exécuté lors de la préparation du plan.
+Contrôle : les quatre descriptions initiales et les deux écarts de branche correspondent aux sources relues et aux preuves citées. Les deux derniers points sont des constats supplémentaires faibles, pas une correction implicite de l’audit initial. Les six correctifs sont maintenant vérifiés ; voir les [preuves du lot 6](PLAN-009-lot-6-verifications.md).
 
 ### Lot 7 : recette transversale et cohérence du paquet NuGet
 
-- [ ] Refaire restore verrouillé, build Release sans avertissement, suites appropriées, couverture et CRAP, avec les gardes d’architecture et de conventions actives. Utiliser le lanceur le lanceur local officiel pour les parcours applicatifs.
-- [ ] Produire un nupkg local de la version déjà choisie, vérifier API publique, contenu, analyseur, budgets, ressources et CSP avec les gardes natifs. Aucune publication. Consommer le nupkg dans un projet isolé sans ProjectReference ni cache de l’ancien paquet ; prouver les correctifs de scripts sur les assets réellement extraits/livrés.
-- [ ] Rejouer les contrats d’homogénéité concernés : ReadOnly/Disabled, modes source/visuel, portée et opacité du voile, densité, API/documentation/ressources/démo. Les contrats communs doivent rester identiques entre composants comparables, sauf décision documentée existante.
-- [ ] Vérifier les parcours réels de la démo sur publication fraîche, y compris Scripts, Pickers, Density et Languages après réparation de leurs blocages. Pour un changement partagé touchant Server, WebAssembly, Auto ou Hybrid, utiliser les smoke hosts natifs pertinents et préciser les hôtes réellement éprouvés.
+- [x] Refaire restore verrouillé, build Release sans avertissement, suites appropriées, couverture et CRAP, avec les gardes d’architecture et de conventions actives. Utiliser le lanceur local officiel pour les parcours applicatifs.
+- [x] Produire un nupkg local de la version déjà choisie, vérifier API publique, contenu, analyseur, budgets, ressources et CSP avec les gardes natifs. Aucune publication. Consommer le nupkg dans un projet isolé sans ProjectReference ni cache de l’ancien paquet ; prouver les correctifs de scripts sur les assets réellement extraits/livrés.
+- [x] Rejouer les contrats d’homogénéité concernés : ReadOnly/Disabled, modes source/visuel, portée et opacité du voile, densité, API/documentation/ressources/démo. Les contrats communs doivent rester identiques entre composants comparables, sauf décision documentée existante.
+- [x] Vérifier les parcours réels de la démo sur publication fraîche, y compris Scripts, Pickers, Density et Languages après réparation de leurs blocages. Pour un changement partagé touchant Server, WebAssembly, Auto ou Hybrid, utiliser les smoke hosts natifs pertinents et préciser les hôtes réellement éprouvés.
 
 Contrôle : journal de clôture par constat, avec base Git, fichiers strictement nécessaires, reproduction avant, commande/observation après et limite éventuelle. Zéro clôture sur une seule compilation ou sur le rapport d’un agent non revu. Toute autre intermittence rencontrée reste un défaut ouvert, instrumenté avant correction ; ne pas ajouter de retry. Si une preuve complète ne peut pas être obtenue dans le périmètre autorisé, livrer le résultat comme partiel.
+
+Lot 7 livré : restauration verrouillée, build sans avertissement, dix suites complètes Release consécutives de 10 981 réussites, couverture et CRAP acceptés. Paquet isolé, quatre hôtes et sept sondes de démo vérifiés. Les corrections adjacentes DiffViewer et DataGrid ne changent que leurs attentes de test, sur accords explicites, sans augmentation de délai ni réduction des assertions. Voir les [preuves et limites du lot 7](PLAN-009-lot-7-verifications.md).
 
 ## Ordre, décisions et clôture
 
@@ -105,4 +109,8 @@ Ordre proposé : lot 1 (outils de preuve), lot 2 (exception et préférence), lo
 
 Avant chaque lot, confirmer l’état Git et réutiliser la reproduction conservée. Un correctif non reproductible, un changement d’API, une version, une politique ou une extension architecturale exige une décision supplémentaire. Ne pas corriger un défaut adjacent par opportunité. Les demandes du 2026-10-30 autorisent les lots 1 à 4 et leurs commits finaux, la correction ciblée du test du menu au lot 2, celle du scanner partagé au lot 3 avec un commit distinct et les deux écarts adjacents du lot 4. La dernière décision choisit explicitement la stabilité visuelle et son nouveau contrat de secours, confirme le commit du lot 4 puis autorise les lots 5, 6 et 7. Les seuils, baselines et exceptions de validation restent inchangés. Aucun push ni déploiement autorisé.
 
+La demande suivante autorise explicitement le diagnostic puis la correction ciblée de DiffViewer avec les reproductions et vérifications prévues, la clôture des lots 5 et 7 et le commit final des corrections, sans push. Les délais, assertions et protections restent inchangés. Un accord complémentaire autorise le diagnostic puis la correction du seul test DataGrid de rechargement lent rencontré pendant cette recette, avec les mêmes dix suites complètes.
+
 Clôture : quinze constats initiaux et deux écarts de branche disposent chacun d’une preuve observée ou d’une décision explicite traçable ; les gardes applicables passent sans assouplissement ; les limites d’environnement sont écrites. Tant que ces critères ne sont pas réunis, conserver ce plan ouvert.
+
+Clôture effective le 2026-10-30 : tous les critères ci-dessus sont réunis sur la base vérifiée et les corrections de cette recette. Les limites de preuve sont détaillées dans l’annexe du lot 7.

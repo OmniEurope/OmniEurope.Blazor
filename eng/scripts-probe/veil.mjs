@@ -105,7 +105,7 @@ export async function veilSteps(session, results) {
   const markup = checkShown('logo en balisage', await wait('page-veil-content'));
   checkCentred('logo en balisage', markup.geometry, 'svg');
   const light = markup.color;
-  step(`voile de page : apparu après ${markup.delay.toFixed(0)} ms (jamais avant 90 ms), opaque, couleur constante ${light}, ${markup.frames} images relevées, logo en balisage centré`);
+  step(`voile de page : apparu après ${markup.delay.toFixed(0)} ms (jamais avant 90 ms), fond à ${markup.geometry.alpha}, couleur constante ${light}, ${markup.frames} images relevées, logo en balisage centré`);
 
   // 1b. The whole window: fixed over everything, the header included, the same colour.
   const whole = await wait('page-veil-window');

@@ -185,6 +185,20 @@ public sealed class PassTrackerTests : OmniBunitContext
     }
 
     [Fact]
+    public void APassAfterTheOneUnderWay_RemainsPendingInTheOrderedMarks()
+    {
+        var tracker = Render<OmniPassTracker>(parameters => parameters
+            .Add(component => component.Items, [new("Mot", 3, 1, InProgress: true)]));
+        var marks = tracker.FindAll(".omni-pass-tracker__mark");
+
+        Assert.Equal([
+            "omni-pass-tracker__mark omni-pass-tracker__mark--done",
+            "omni-pass-tracker__mark omni-pass-tracker__mark--active",
+            "omni-pass-tracker__mark"
+        ], marks.Select(mark => mark.ClassName));
+    }
+
+    [Fact]
     public void List_IsNamedAndOrdered()
     {
         var list = RenderWords().Find("ol");

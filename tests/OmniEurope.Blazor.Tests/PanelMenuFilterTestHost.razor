@@ -6,8 +6,8 @@
    host binds Expanded of "Rapports" the way an application keeps it, and counts what is reported back. *@
 <OmniPanelMenu ShowFilter="ShowFilter" Display="Display" @bind-Filter="Filter">
     <OmniPanelMenuItem Id="g-reports" Text="Rapports" Expanded="ReportsExpanded" ExpandedChanged="OnReportsExpandedChanged">
-        <OmniPanelMenuItem Id="g-monthly" Text="Mensuels">
-            <OmniPanelMenuItem Id="l-january" Text="Janvier" Href="/reports/january" />
+        <OmniPanelMenuItem Id="g-monthly" Text="Mensuels" Expanded="MonthlyExpanded">
+            <OmniPanelMenuItem Id="l-january" Text="@JanuaryText" Href="/reports/january" />
             <OmniPanelMenuItem Id="l-february" Text="Février" Href="/reports/february" />
         </OmniPanelMenuItem>
         <OmniPanelMenuItem Id="l-summary" Text="Synthèse" Href="/reports/summary" />
@@ -31,6 +31,10 @@
     [Parameter] public string? Filter { get; set; }
 
     [Parameter] public bool ShowExtra { get; set; }
+
+    [Parameter] public string JanuaryText { get; set; } = "Janvier";
+
+    [Parameter] public bool MonthlyExpanded { get; set; }
 
     public bool ReportsExpanded { get; private set; }
 

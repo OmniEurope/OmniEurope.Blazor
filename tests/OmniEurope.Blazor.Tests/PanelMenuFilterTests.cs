@@ -1,5 +1,6 @@
 using AngleSharp.Dom;
 using Bunit;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using OmniEurope.Blazor.Components;
@@ -233,6 +234,128 @@ public sealed class PanelMenuFilterTests : OmniBunitContext
             Assert.True(host.Find("#l-general").HasAttribute("hidden"));
         });
         Assert.Empty(host.Instance.ExpandedReports);
+    }
+
+    [Fact]
+    public void RenamingAnEntryWhileFilteredRefreshesBothAncestorsAndTheNoMatchLine()
+    {
+        var host = Render<PanelMenuFilterTestHost>(parameters => parameters.Add(component => component.Filter, "audit"));
+        Assert.Empty(Shown(host));
+        Assert.NotEmpty(host.Find(".omni-panel-menu__empty").TextContent);
+
+        host.Render(parameters => parameters.Add(component => component.JanuaryText, "Audit mensuel"));
+        host.WaitForAssertion(() => Assert.Equal(["g-reports", "g-monthly", "l-january"], Shown(host)));
+        Assert.Contains(Open, host.Find("#g-reports").ClassName);
+        Assert.Contains(Open, host.Find("#g-monthly").ClassName);
+        Assert.Equal(string.Empty, host.Find(".omni-panel-menu__empty").TextContent);
+        Assert.Empty(host.Instance.ExpandedReports);
+
+        host.Render(parameters => parameters.Add(component => component.JanuaryText, "Archives"));
+        host.WaitForAssertion(() => Assert.Empty(Shown(host)));
+        Assert.NotEmpty(host.Find(".omni-panel-menu__empty").TextContent);
+        Assert.Empty(host.Instance.ExpandedReports);
+    }
+
+    [Fact]
+    public void RenamingAnUnfilteredEntryDoesNotChangeTheGroupsState()
+    {
+        var host = Render<PanelMenuFilterTestHost>();
+        host.Render(parameters => parameters.Add(component => component.JanuaryText, "Archives"));
+
+        Assert.Contains("Archives", host.Find("#l-january").TextContent, StringComparison.Ordinal);
+        Assert.Equal(AllIds, Shown(host, includeClosedGroups: true));
+        Assert.Contains(Closed, host.Find("#g-reports").ClassName);
+        Assert.Empty(host.Instance.ExpandedReports);
+        host.Find("input[type=search]").Input("archives");
+        Assert.Equal(["g-reports", "g-monthly", "l-january"], Shown(host));
+    }
+
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void AGroupInsideAMatchingBranchKeepsItsExplicitState(bool open)
+    {
+        var host = Render<PanelMenuFilterTestHost>();
+        host.Find(ReportsToggle).Click();
+        const string monthlyToggle = "#g-monthly > .omni-panel-menu__summary > .omni-panel-menu__toggle";
+        host.Find(monthlyToggle).Click();
+        if (!open) host.Find(monthlyToggle).Click();
+
+        host.Find("input[type=search]").Input("rapports");
+
+        Assert.Equal(open ? "true" : "false", host.Find(monthlyToggle).GetAttribute("aria-expanded"));
+        Assert.Equal(!open, host.Find("#g-monthly > .omni-panel-menu__children").HasAttribute("hidden"));
+        Assert.Equal([true], host.Instance.ExpandedReports);
+    }
+
+    [Fact]
+    public void FilterValuesHandleInactiveQueriesAndMissingEntryText()
+    {
+        Assert.False(OmniPanelMenuFilter.None.Active);
+        Assert.False(OmniPanelMenuFilter.None.Matches("Café"));
+        var filter = new OmniPanelMenuFilter("  CAFE  ");
+        Assert.Equal("CAFE", filter.Text);
+        Assert.True(filter.Matches("Un café"));
+        Assert.False(filter.Matches(null));
+        Assert.False(filter.Matches("Thé"));
+    }
+
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void AGroupUnderAnInitiallyMatchingAncestorKeepsItsInitialExpansion(bool expanded)
+    {
+        var host = Render<PanelMenuFilterTestHost>(parameters => parameters
+            .Add(component => component.Filter, "rapports")
+            .Add(component => component.MonthlyExpanded, expanded));
+
+        Assert.False(host.Find("#g-monthly").HasAttribute("hidden"));
+        Assert.Equal(!expanded, host.Find("#g-monthly > .omni-panel-menu__children").HasAttribute("hidden"));
+        Assert.Empty(host.Instance.ExpandedReports);
+    }
+
+    [Fact]
+    public void MinimalCascadingContextsAndTheirRemovalKeepFilteringSafe()
+    {
+        // These are valid default-valued internal contexts, not replacements for a real menu.
+        // The assertions cover the item's nullable cascading dependency contract through its DOM.
+        var context = new OmniPanelMenuContext(OmniPanelMenuDisplay.IconAndText) { Filter = new("absent") };
+        var group = new OmniPanelMenuGroupContext(() => { });
+        var host = Render<CascadingValue<OmniPanelMenuContext>>(parameters => parameters
+            .Add(component => component.Value, context)
+            .AddChildContent<CascadingValue<OmniPanelMenuGroupContext>>(parent => parent
+                .Add(component => component.Value, group)
+                .AddChildContent<OmniPanelMenuItem>(item => item
+                    .Add(component => component.Id, "minimal-item")
+                    .Add(component => component.Text, "Autre")
+                    .Add(component => component.Href, "/other"))));
+        var instance = host.FindComponent<OmniPanelMenuItem>().Instance;
+        var children = host.Instance.ChildContent!;
+        Assert.True(host.Find("#minimal-item").HasAttribute("hidden"));
+
+        host.Render(parameters => parameters
+            .Add(component => component.Value, null!)
+            .AddChildContent(children));
+
+        Assert.Same(instance, host.FindComponent<OmniPanelMenuItem>().Instance);
+        Assert.False(host.Find("#minimal-item").HasAttribute("hidden"));
+        Assert.Contains("Autre", host.Find("#minimal-item").TextContent, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void AFilteredMenuNestedInAStandaloneGroupCanNotifyItsAncestorWithoutAnOuterMenu()
+    {
+        var host = Render<OmniPanelMenuItem>(parameters => parameters
+            .Add(component => component.Text, "Conteneur")
+            .Add(component => component.Expanded, true)
+            .AddChildContent<OmniPanelMenu>(menu => menu
+                .Add(component => component.Filter, "audit")
+                .AddChildContent<OmniPanelMenuItem>(item => item
+                    .Add(component => component.Id, "nested-match")
+                    .Add(component => component.Text, "Audit"))));
+
+        Assert.False(host.Find("#nested-match").HasAttribute("hidden"));
+        Assert.Contains("Audit", host.Markup, StringComparison.Ordinal);
     }
 
     private string Localized(string key) => Services.GetRequiredService<IStringLocalizer<AppStrings>>()[key].Value;

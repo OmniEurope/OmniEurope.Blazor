@@ -1,6 +1,6 @@
 # Dépendances et chaîne d'outillage
 
-Les versions directes sont centralisées dans `Directory.Packages.props`; les résolutions transitives sont figées dans les fichiers `packages.lock.json`. Le fichier `eng/dependency-policy.json` conserve la date et la source de la revue manuelle des versions sensibles. Les mises à jour du SDK .NET et des paquets NuGet se font à la main : aucune proposition automatique.
+Les versions directes sont centralisées dans `Directory.Packages.props`; les résolutions transitives sont figées dans les fichiers `packages.lock.json`. Le fichier `eng/dependency-policy.json` conserve la date et la source de la revue manuelle des versions sensibles. `.github/dependabot.yml` configure des propositions hebdomadaires pour le plancher du SDK .NET (`global.json`) et les paquets NuGet : dix propositions NuGet ouvertes au maximum, mises à jour mineures et correctives regroupées. Les trois paquets Roslyn explicitement exclus suivent le plancher du SDK et changent avec lui pour préserver la compatibilité des analyseurs. Cette configuration ne prouve ni la création effective d'une proposition ni sa fusion ; les changements restent soumis à revue et aux vérifications du dépôt.
 
 ## Décisions vérifiées le 26 octobre 2026
 

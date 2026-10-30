@@ -240,7 +240,7 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
             var rows = Rows.Where(row => request.Filters.All(filter => row.Name.Contains(filter.Value ?? string.Empty, StringComparison.Ordinal))).ToArray();
             return new OmniDataGridResult<Row>(rows, rows.Length);
         });
-        grid.WaitForAssertion(() => Assert.Equal(3, grid.FindAll("tbody tr[data-omni-row-index]").Count));
+        await grid.WaitForAssertionAsync(() => Assert.Equal(3, grid.FindAll("tbody tr[data-omni-row-index]").Count));
 
         try
         {
@@ -248,14 +248,14 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
             preferences.Store!.Put("omni.grid.orders", OldFormat, DateTimeOffset.UtcNow.AddMinutes(1));
             await preferences.Preferences!.SyncAsync(Xunit.TestContext.Current.CancellationToken)
                 .WaitAsync(TimeSpan.FromSeconds(5), Xunit.TestContext.Current.CancellationToken);
-            grid.WaitForAssertion(() => Assert.Equal(2, Volatile.Read(ref requests)));
+            await grid.WaitForAssertionAsync(() => Assert.Equal(2, Volatile.Read(ref requests)));
         }
         finally
         {
             slow.TrySetResult();
         }
 
-        grid.WaitForAssertion(() => Assert.Single(grid.FindAll("tbody tr[data-omni-row-index]")));
+        await grid.WaitForAssertionAsync(() => Assert.Single(grid.FindAll("tbody tr[data-omni-row-index]")));
         await grid.InvokeAsync(() => grid.Instance.Persistence.WhenAppliedAsync());
     }
 

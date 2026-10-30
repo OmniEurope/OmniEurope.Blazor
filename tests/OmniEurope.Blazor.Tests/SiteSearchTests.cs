@@ -193,4 +193,46 @@ public sealed class SiteSearchTests : OmniBunitContext
     {
         Assert.ThrowsAny<Exception>(() => RenderSearch([new("Bad", "javascript:alert(1)")]));
     }
+
+    [Fact]
+    public async Task MissingDestinationsGiveNoMatchesAndClearingTheQueryHidesThatMessage()
+    {
+        var search = Render<OmniSiteSearch>(parameters => parameters.Add(component => component.Destinations, null));
+        await TypeAsync(search, "audit");
+        Assert.Empty(Texts(search));
+        Assert.NotEmpty(search.Find(".omni-site-search__empty").TextContent);
+
+        await search.Find("div[role=search]").TriggerEventAsync("oninput", new ChangeEventArgs { Value = null });
+
+        Assert.Empty(search.FindAll(".omni-site-search__empty"));
+        Assert.Empty(Navigation.History);
+    }
+
+    [Fact]
+    public async Task AnEmptySearchRequestClearsTheNoMatchStateWithoutListingDestinations()
+    {
+        var search = RenderSearch();
+        await TypeAsync(search, "zzzz");
+        Assert.NotEmpty(search.Find(".omni-site-search__empty").TextContent);
+        var autocomplete = search.FindComponent<OmniAutocomplete<OmniSiteSearchDestination>>();
+
+        var options = await search.InvokeAsync(() => autocomplete.Instance.Search!(" \t ", CancellationToken.None));
+
+        Assert.Empty(options);
+        Assert.Empty(search.FindAll(".omni-site-search__empty"));
+        Assert.Empty(Navigation.History);
+    }
+
+    [Fact]
+    public async Task ClearingTheAutocompleteSelectionDoesNotNavigateAndRemovesTheNoMatchMessage()
+    {
+        var search = RenderSearch();
+        await TypeAsync(search, "zzzz");
+        var autocomplete = search.FindComponent<OmniAutocomplete<OmniSiteSearchDestination>>();
+
+        await search.InvokeAsync(() => autocomplete.Instance.ValueChanged.InvokeAsync(null));
+
+        Assert.Empty(search.FindAll(".omni-site-search__empty"));
+        Assert.Empty(Navigation.History);
+    }
 }

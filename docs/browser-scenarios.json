@@ -76,7 +76,7 @@
       "host": "Static WebAssembly showcase with strict CSP headers, served by eng/Test-ShowcaseHost.ps1 (one of its seven default probes; manual gate, not in CI)",
       "script": "eng/Test-ShowcaseLanguagesProbe.mjs",
       "components": ["every component of the showcase gallery"],
-      "assertions": ["every gallery page, the home page, the customizer and the documentation in German, Finnish, Greek and Hungarian, at 1280 and 390 px", "no text node reaches past the padding box of the element laying it out (across by more than 1 px, down by more than half a line)", "text cut on purpose with an ellipsis, inside a scroll container, SVG text and code exempted", "no page scrolls sideways (a width that lasts 600 ms)", "only the rendered page is measured: menus, lists and dialogs stay closed", "the detector sees a box and a row it overflows on purpose before each language, or the probe fails", "fails when nothing is measured", "zero CSP violations", "zero browser console errors"]
+      "assertions": ["every discovered showcase page in English and French, at 1280 and 390 px (four language-width pairs, 316 page measurements for 79 pages on 2026-10-30)", "no text node reaches past the padding box of the element laying it out (across by more than 1 px, down by more than half a line)", "text cut on purpose with an ellipsis, inside a scroll container, SVG text and code exempted", "no page scrolls sideways (a width that lasts 600 ms)", "only the rendered page is measured: menus, lists and dialogs stay closed", "the detector sees a box and a row it overflows on purpose before each language, or the probe fails", "fails when nothing is measured", "zero CSP violations", "zero browser console errors"]
     }
   ]
 }

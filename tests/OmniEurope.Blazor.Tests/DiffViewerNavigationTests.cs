@@ -144,7 +144,7 @@ public sealed class DiffViewerNavigationTests : OmniBunitContext
     }
 
     [Fact]
-    public void ShowNavigation_ButtonsAreDisabledUntilMonacoIsMounted_ThenCallTheScript()
+    public async Task ShowNavigation_ButtonsAreDisabledUntilMonacoIsMounted_ThenCallTheScript()
     {
         var module = JSInterop.SetupModule(ModulePath);
         var load = module.Setup<bool>("load", _ => true);
@@ -157,14 +157,15 @@ public sealed class DiffViewerNavigationTests : OmniBunitContext
         Assert.All(viewer.FindAll(".omni-diff-viewer__bar button"), button => Assert.True(button.HasAttribute("disabled")));
 
         load.SetResult(true);
-        viewer.WaitForAssertion(() => Assert.Single(module.Invocations["mountDiff"]));
+        // Yield the test worker while the renderer resumes the deliberately pending interop.
+        await viewer.WaitForAssertionAsync(() => Assert.Single(module.Invocations["mountDiff"]));
         mount.SetResult(true);
-        viewer.WaitForAssertion(() => Assert.All(viewer.FindAll(".omni-diff-viewer__bar button"), button => Assert.False(button.HasAttribute("disabled"))));
+        await viewer.WaitForAssertionAsync(() => Assert.All(viewer.FindAll(".omni-diff-viewer__bar button"), button => Assert.False(button.HasAttribute("disabled"))));
 
-        viewer.Find(".omni-diff-viewer__next").Click();
-        viewer.Find(".omni-diff-viewer__previous").Click();
+        await viewer.Find(".omni-diff-viewer__next").ClickAsync();
+        await viewer.Find(".omni-diff-viewer__previous").ClickAsync();
 
-        viewer.WaitForAssertion(() => Assert.Equal(["next", "previous"], module.Invocations["goToDiff"].Select(call => call.Arguments[1])));
+        await viewer.WaitForAssertionAsync(() => Assert.Equal(["next", "previous"], module.Invocations["goToDiff"].Select(call => call.Arguments[1])));
     }
 
     [Fact]

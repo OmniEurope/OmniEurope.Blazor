@@ -219,4 +219,48 @@ public sealed class PageVeilContentTests : OmniBunitContext
         Assert.Empty(outer.FindAll(".omni-main-scroll > .omni-page-veil"));
         Assert.Single(outer.FindAll("main main > .omni-page-veil--flow"));
     }
+
+    [Fact]
+    public async Task DisposingTheMainAndItsBusyVeilDoesNotRenderTheDisposedMainAgain()
+    {
+        var main = RenderMain(scrollable: true);
+        var veil = main.FindComponent<OmniPageVeil>();
+        Assert.Single(main.FindAll(".omni-page-veil"));
+        var renders = main.RenderCount;
+
+        await DisposeComponentsAsync();
+
+        Assert.True(main.IsDisposed);
+        Assert.True(veil.IsDisposed);
+        Assert.Equal(renders, main.RenderCount);
+    }
+
+    [Fact]
+    public async Task RemovingAVeilTwiceLeavesTheOtherVeilAndDoesNotRenderAgain()
+    {
+        // Explicit internal idempotence contract: normal public lifecycle callers remove a registered veil once.
+        var main = Render<OmniMain>(parameters => parameters.AddChildContent(builder =>
+        {
+            builder.OpenComponent<OmniPageVeil>(0);
+            builder.AddComponentParameter(1, nameof(OmniPageVeil.Busy), true);
+            builder.AddComponentParameter(2, nameof(OmniPageVeil.Label), "Retiré");
+            builder.CloseComponent();
+            builder.OpenComponent<OmniPageVeil>(3);
+            builder.AddComponentParameter(4, nameof(OmniPageVeil.Busy), true);
+            builder.AddComponentParameter(5, nameof(OmniPageVeil.Label), "Conservé");
+            builder.CloseComponent();
+        }));
+        var veils = main.FindComponents<OmniPageVeil>();
+        Assert.Equal(2, main.FindAll(".omni-page-veil").Count);
+
+        await main.InvokeAsync(() => main.Instance.RemoveVeil(veils[0].Instance));
+        Assert.Single(main.FindAll(".omni-page-veil"));
+        var renders = main.RenderCount;
+
+        await main.InvokeAsync(() => main.Instance.RemoveVeil(veils[0].Instance));
+
+        Assert.Equal(renders, main.RenderCount);
+        Assert.Contains("Conservé", Assert.Single(main.FindAll(".omni-page-veil")).TextContent, StringComparison.Ordinal);
+        Assert.False(veils[1].IsDisposed);
+    }
 }

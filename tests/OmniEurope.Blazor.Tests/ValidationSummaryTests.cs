@@ -1,5 +1,6 @@
 using System.Globalization;
 using Bunit;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using OmniEurope.Blazor.Components;
 
@@ -189,5 +190,35 @@ public sealed class ValidationSummaryTests : OmniBunitContext
         var exception = Assert.ThrowsAny<Exception>(() => Render<OmniValidationSummary>());
 
         Assert.Contains("EditContext", exception.ToString(), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void AHiddenSlotNeverDraws_EvenWhenItMatchesTheRequestedPositionAndThereAreErrors()
+    {
+        _store.Add(_context.Field(nameof(Model.Name)), "Erreur présente");
+        var host = Render<CascadingValue<EditContext>>(parameters => parameters
+            .Add(component => component.Value, _context)
+            .AddChildContent<OmniValidationSummary>(summary => summary
+                .Add(component => component.Position, OmniValidationSummaryPosition.Hidden)
+                .Add(component => component.Slot, OmniValidationSummaryPosition.Hidden)));
+
+        Assert.Single(host.FindComponents<OmniValidationSummary>());
+        Assert.Empty(host.FindAll(".omni-alert"));
+    }
+
+    [Fact]
+    public async Task ChangingParametersWithTheSameEditContextKeepsValidationUpdatesWorking()
+    {
+        var host = RenderHost(title: "Avant");
+        await Raise(host, (nameof(Model.Name), "Premier message"));
+
+        host.Render(parameters => parameters.Add(component => component.Title, "Après"));
+        Assert.Equal("Après", TitleOf(host));
+        await Raise(host, (nameof(Model.Email), "Message remplacé"));
+
+        Assert.Equal("Après", TitleOf(host));
+        Assert.Equal(["Message remplacé"], host.FindAll(".omni-validation-summary li").Select(item => item.TextContent));
+        await Raise(host);
+        Assert.Empty(host.FindAll(".omni-validation-summary"));
     }
 }

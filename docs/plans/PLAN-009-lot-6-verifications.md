@@ -1,0 +1,15 @@
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
+# PLAN-009, lot 6 : descriptions vérifiées
+
+Les quatre constats documentaires initiaux et les deux écarts de la branche du voile sont vérifiés le 2026-10-30. Base de recette : `develop` à `fd0eb60f`, après la fusion externe des demandes clientes. Aucune version, politique ou protection modifiée.
+
+| Constat | Écart avant | Preuve après |
+|---|---|---|
+| A360-012 | Le texte promettait l’acceptation de `class` et `id`, contrairement à OE0001. | Un consommateur isolé du nupkg, sans ProjectReference, refuse les deux attributs avec deux diagnostics OE0001 réels. Le même projet compile ensuite sans avertissement avec `Class`, `Id`, `data-proof` et `aria-label`. La phrase distingue aussi les composants sans capture et le contrôle d’exécution des attributs dynamiques. |
+| A360-013 | Le manifeste annonçait allemand, finnois, grec et hongrois. | Le script et le manifeste concordent sur anglais/français à 1280/390 px. JSON analysé avec succès. Les trois passes du lot 1, Parallel 4, 2 et 1, prouvent chacune 316 mesures pour 79 pages, sans doublon ni fragment vide. La recette fraîche du lot 7 est suivie séparément. L’identifiant historique du scénario reste stable. |
+| A360-014 | Le guide disait qu’aucune proposition automatique n’était prévue. | Relecture de `.github/dependabot.yml` : deux écosystèmes hebdomadaires, limite de dix propositions NuGet, regroupement mineures/correctives et trois exclusions Roslyn. Le guide décrit cette configuration ; aucune proposition distante n’est annoncée ni créée. |
+| A360-015 | L’apostrophe non échappée de `d’application` arrête le script archivé. | L’analyse du script réel échoue avant réparation, puis réussit. Dans Chromium, avant : SyntaxError et zéro thème initialisé. Après : dix thèmes, dix palettes, 47 mesures de contraste et 18 échantillons ; changement de thème, mode sombre, densité compacte, ouverture et fermeture du dialogue par Échap vérifiés, console propre. Capture observée. Réparation documentaire datée, sans modification du comportement historique. |
+| VEIL-DOC-001 | La sonde qualifiait d’opaque le fond à 85 %. | La sonde réelle affiche `fond à 85%`, couleur `color(srgb 1 1 1 / 0.85)`. Les essais 100 %, 85 % et 50 %, le mode sombre, les deux portées et les logos passent ; aucune erreur console ni violation CSP. |
+| VEIL-DOC-002 | Le changement de défaut du voile figurait sous Added. | L’entrée est déplacée sous Changed, sans changement de son contenu ni de version. La migration `Opacity="100"` reste présente. |
+
+Commandes et preuves : compilation réelle du consommateur via le garde .NET ; analyse du script HTML par `node:vm` et du manifeste par `JSON.parse` ; parcours HTTP local de la maquette dans un navigateur privé ; `eng/Test-ShowcaseHost.ps1 -Probe Scripts -Parallel 1` avec la partie `veil` seule sur la publication finale du lot 4. Les journaux et captures sont conservés dans le dossier local de preuves du 2026-10-30. La maquette utilise ses styles historiques et ne constitue pas une preuve du CSS actuel du paquet ; le voile utilise bien les assets publiés du paquet.
