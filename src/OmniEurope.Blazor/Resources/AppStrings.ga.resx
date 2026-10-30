@@ -744,6 +744,6 @@
   <data name="SiteSearchLabel" xml:space="preserve"><value>Cuardaigh an suíomh</value></data>
   <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Cuardaigh…</value></data>
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Gan torthaí</value></data>
-  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} as {2} pasáiste déanta</value></data>
-  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} as {2} pasáiste déanta, ceann ar siúl</value></data>
+  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} as {2, plural, one {# phasáiste} two {# phasáiste} few {# phasáiste} many {# bpasáiste} other {# pasáiste}} déanta</value></data>
+  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} as {2, plural, one {# phasáiste} two {# phasáiste} few {# phasáiste} many {# bpasáiste} other {# pasáiste}} déanta, ceann ar siúl</value></data>
 </root>

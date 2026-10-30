@@ -148,6 +148,40 @@ public sealed class ClientRequestAdditionsTests : OmniBunitContext
 /// <summary><see cref="OmniPassTracker"/>: where each element of a series stands among its passes.</summary>
 public sealed class PassTrackerTests : OmniBunitContext
 {
+    [Theory]
+    [InlineData("fr", 1, 3, false, "1 passage fait sur 3")]
+    [InlineData("fr", 0, 3, true, "0 passage fait sur 3, un en cours")]
+    [InlineData("fr", 2, 3, false, "2 passages faits sur 3")]
+    [InlineData("en", 1, 1, false, "1 of 1 pass done")]
+    [InlineData("en", 1, 3, true, "1 of 3 passes done, one under way")]
+    [InlineData("de", 0, 1, false, "0 von 1 Durchgang abgeschlossen")]
+    [InlineData("sv", 1, 3, false, "1 av 3 omgångar klar")]
+    [InlineData("es", 1, 3, false, "1 de 3 pasadas hecha")]
+    [InlineData("it", 1, 3, false, "1 passaggio completato su 3")]
+    [InlineData("pl", 1, 1, false, "ukończono 1 z 1 przejścia")]
+    [InlineData("cs", 2, 3, false, "dokončeno 2 z 3 průchodů")]
+    [InlineData("cs", 0, 1, true, "dokončeno 0 z 1 průchodu, jeden probíhá")]
+    [InlineData("sl", 2, 3, false, "opravljena 2 od 3 prehodov")]
+    [InlineData("lv", 1, 1, false, "pabeigta 1 no 1 kārtas")]
+    [InlineData("ro", 1, 20, false, "1 din 20 de treceri încheiată")]
+    public void Sentence_AgreesWithItsNumbers(string language, int completed, int passes, bool inProgress, string expected)
+    {
+        var culture = System.Globalization.CultureInfo.CurrentUICulture;
+        System.Globalization.CultureInfo.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo(language);
+        try
+        {
+            var tracker = Render<OmniPassTracker>(parameters => parameters
+                .Add(component => component.Items, [new OmniPassTrackerItem("Mot", passes, completed, inProgress)])
+                .Add(component => component.Label, "Lesson"));
+
+            Assert.EndsWith(expected, tracker.Find(".omni-pass-tracker__item .omni-visually-hidden").TextContent, StringComparison.Ordinal);
+        }
+        finally
+        {
+            System.Globalization.CultureInfo.CurrentUICulture = culture;
+        }
+    }
+
     private static readonly OmniPassTrackerItem[] Words =
     [
         new("Word 1", 3, 2, InProgress: true),

@@ -744,6 +744,6 @@
   <data name="SiteSearchLabel" xml:space="preserve"><value>Hledat na webu</value></data>
   <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Hledat…</value></data>
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Žádné výsledky</value></data>
-  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: dokončeno {1} z {2} průchodů</value></data>
-  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: dokončeno {1} z {2} průchodů, jeden probíhá</value></data>
+  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: dokončeno {1} z {2, plural, one {# průchodu} few {# průchodů} other {# průchodů}}</value></data>
+  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: dokončeno {1} z {2, plural, one {# průchodu} few {# průchodů} other {# průchodů}}, jeden probíhá</value></data>
 </root>

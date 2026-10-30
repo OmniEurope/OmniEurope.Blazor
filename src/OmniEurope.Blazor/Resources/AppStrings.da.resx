@@ -744,6 +744,6 @@
   <data name="SiteSearchLabel" xml:space="preserve"><value>Søg på webstedet</value></data>
   <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Søg…</value></data>
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Ingen resultater</value></data>
-  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} af {2} gennemløb færdige</value></data>
-  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} af {2} gennemløb færdige, et i gang</value></data>
+  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} af {2} gennemløb {1, plural, one {færdigt} other {færdige}}</value></data>
+  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} af {2} gennemløb {1, plural, one {færdigt} other {færdige}}, et i gang</value></data>
 </root>

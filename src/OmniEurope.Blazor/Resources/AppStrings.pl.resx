@@ -744,6 +744,6 @@
   <data name="SiteSearchLabel" xml:space="preserve"><value>Szukaj w witrynie</value></data>
   <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Szukaj…</value></data>
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Brak wyników</value></data>
-  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: ukończono {1} z {2} przejść</value></data>
-  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: ukończono {1} z {2} przejść, jedno w toku</value></data>
+  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: ukończono {1} z {2, plural, one {# przejścia} few {# przejść} many {# przejść} other {# przejść}}</value></data>
+  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: ukończono {1} z {2, plural, one {# przejścia} few {# przejść} many {# przejść} other {# przejść}}, jedno w toku</value></data>
 </root>

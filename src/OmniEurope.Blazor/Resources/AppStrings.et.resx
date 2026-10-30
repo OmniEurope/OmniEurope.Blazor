@@ -744,6 +744,6 @@
   <data name="SiteSearchLabel" xml:space="preserve"><value>Otsi saidilt</value></data>
   <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Otsi…</value></data>
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Tulemusi pole</value></data>
-  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} läbimist {2}-st tehtud</value></data>
-  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} läbimist {2}-st tehtud, üks käimas</value></data>
+  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1, plural, one {# läbimine} other {# läbimist}} {2}-st tehtud</value></data>
+  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1, plural, one {# läbimine} other {# läbimist}} {2}-st tehtud, üks käimas</value></data>
 </root>
