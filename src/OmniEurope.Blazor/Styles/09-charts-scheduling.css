@@ -305,9 +305,17 @@ polyline.omni-chart__line { fill: none; }
 }
 .omni-scheduler-grid .omni-scheduler-grid__cell > .omni-scheduler__appointment:has(> .omni-scheduler__move) { padding-inline-end: calc(1em + var(--omni-cell-pad-y) / 2 + var(--omni-space-xs)); }
 .omni-scheduler-grid .omni-scheduler__appointment:has(> .omni-scheduler__move) time { padding-inline-end: 0; }
+/* A block never shows a cut line: a short one keeps its title on one line with an ellipsis, a brief one shows
+   only that line, its time left to assistive technology and to the tooltip of the block. */
+.omni-scheduler-grid .omni-scheduler__appointment--short strong,
+.omni-scheduler-grid .omni-scheduler__appointment--brief strong { flex: 1 1 100%; hyphens: none; white-space: nowrap; }
+.omni-scheduler-grid .omni-scheduler__appointment--brief time { block-size: 1px; clip-path: inset(50%); inline-size: 1px; overflow: hidden; padding: 0; position: absolute; white-space: nowrap; }
 .omni-scheduler-grid .omni-scheduler__open { column-gap: var(--omni-space-xs); flex-direction: row; flex-wrap: wrap; }
 .omni-scheduler-grid .omni-scheduler__appointment--overlapping { outline: var(--omni-border-width) dashed var(--omni-color-warning); outline-offset: calc(-1 * var(--omni-border-width)); }
 :is(.omni-scheduler--moving, .omni-scheduler--dragging) .omni-scheduler-grid__cell > .omni-scheduler__appointment { pointer-events: none; }
+/* A drag ends on the cell or the day, not on the button of its free area. */
+.omni-scheduler--dragging .omni-scheduler__slot { pointer-events: none; }
+.omni-scheduler__appointment[draggable="true"] .omni-scheduler__open { cursor: grab; }
 .omni-scheduler--moving .omni-scheduler-grid__cell .omni-scheduler__move { pointer-events: auto; }
 .omni-scheduler-grid .omni-scheduler__place { inline-size: fit-content; margin-inline-start: auto; max-inline-size: 100%; position: relative; z-index: 2; }
 .omni-scheduler__at-0-1 { --omni-scheduler-at-0: 1; } .omni-scheduler__at-0-2 { --omni-scheduler-at-0: 2; } .omni-scheduler__at-0-3 { --omni-scheduler-at-0: 3; } .omni-scheduler__at-0-4 { --omni-scheduler-at-0: 4; } .omni-scheduler__at-0-5 { --omni-scheduler-at-0: 5; } .omni-scheduler__at-0-6 { --omni-scheduler-at-0: 6; } .omni-scheduler__at-0-7 { --omni-scheduler-at-0: 7; } .omni-scheduler__at-0-8 { --omni-scheduler-at-0: 8; } .omni-scheduler__at-0-9 { --omni-scheduler-at-0: 9; }

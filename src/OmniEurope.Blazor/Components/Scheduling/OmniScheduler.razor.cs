@@ -38,6 +38,10 @@ public partial class OmniScheduler
     // The shortest block of the time grid, in slots: its one line stays readable. The stylesheet draws the same.
     private const double ShortestBlock = 0.5;
 
+    // Under one slot a block has one line, its title; under two, its time and one line of title.
+    private const double OneLine = 0.9;
+    private const double TwoLinesOfTitle = 2;
+
     // The stylesheet draws this many lanes at most.
     private const int MostLanes = 8;
 
@@ -646,6 +650,7 @@ public partial class OmniScheduler
         {
             AppointmentCss(block.Appointment),
             block.Overlaps.Count == 0 ? null : "omni-scheduler__appointment--overlapping",
+            block.Span < OneLine ? "omni-scheduler__appointment--brief" : block.Span < TwoLinesOfTitle ? "omni-scheduler__appointment--short" : null,
             Digits("at", offset, 2),
             Digits("len", span, 5),
             lanes == 1 ? null : $"omni-scheduler__lanes-{lanes.ToString(CultureInfo.InvariantCulture)}",

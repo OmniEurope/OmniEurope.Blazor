@@ -148,6 +148,22 @@ public sealed class SchedulerGridBlockTests : OmniBunitContext
         Assert.DoesNotContain("omni-scheduler__appointment--overlapping", Block(scheduler, "a").ClassList);
     }
 
+    [Theory]
+    [InlineData(15, "omni-scheduler__appointment--brief")]
+    [InlineData(30, "omni-scheduler__appointment--short")]
+    [InlineData(59, "omni-scheduler__appointment--short")]
+    [InlineData(60, null)]
+    public void Block_SaysHowMuchTextItsHeightHolds(int minutes, string? expected)
+    {
+        var scheduler = RenderGrid(
+            [new("run", "Build", Monday.AddHours(9), Monday.AddHours(9).AddMinutes(minutes))],
+            new TimeOnly(8, 0),
+            new TimeOnly(12, 0));
+
+        var sizes = Block(scheduler, "run").ClassList.Where(item => item is "omni-scheduler__appointment--brief" or "omni-scheduler__appointment--short");
+        Assert.Equal(expected is null ? [] : [expected], sizes);
+    }
+
     [Fact]
     public void BlockClasses_AllExistInTheStylesheet()
     {
