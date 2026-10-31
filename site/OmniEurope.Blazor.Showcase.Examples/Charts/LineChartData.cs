@@ -58,4 +58,16 @@ public static class LineChartData
                 index,
                 [.. Deposits.Select(point => new OmniChartPoint(point.X, (point.Y / 2) + (index * 6)))]))
     ];
+
+    /// <summary>The days of the cost per project.</summary>
+    public static readonly string[] ProjectDays = ["Mon", "Tue", "Wed", "Thu"];
+
+    /// <summary>A cost per day, each point labelled with its project.</summary>
+    public static readonly OmniChartPoint[] ProjectCosts =
+    [
+        new(0, 12, "Alpha · 12 €"),
+        new(1, 30, "Borealis · 30 €"),
+        new(2, 18, "Cygnus · 18 €"),
+        new(3, 26, "Draco · 26 €")
+    ];
 }

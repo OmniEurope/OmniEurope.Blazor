@@ -10,7 +10,7 @@
     {
         if (label.Visible)
         {
-            <g><text x="@OmniChartGeometry.Number(label.X)" y="@OmniChartGeometry.Number(label.Y)" text-anchor="@label.Anchor" dominant-baseline="@label.Baseline">@label.Text</text></g>
+            <g><text class="@label.BarClass" x="@OmniChartGeometry.Number(label.X)" y="@OmniChartGeometry.Number(label.Y)" text-anchor="@label.Anchor" dominant-baseline="@label.Baseline">@label.Text</text></g>
         }
         else
         {

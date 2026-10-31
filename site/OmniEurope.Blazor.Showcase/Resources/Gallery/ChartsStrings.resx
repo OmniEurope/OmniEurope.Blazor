@@ -35,6 +35,10 @@
   <data name="ColumnChartsPreviewTitle" xml:space="preserve"><value>Live chart</value></data>
   <data name="ColumnChartsPreviewHint" xml:space="preserve"><value>Hover a column to read its value.</value></data>
   <data name="ColumnChartsKindsTitle" xml:space="preserve"><value>The three kinds side by side</value></data>
+  <data name="ColumnChartsInsideLabelsTitle" xml:space="preserve"><value>Labels inside the bars</value></data>
+  <data name="ColumnChartsInsideLabelsHint" xml:space="preserve"><value>Each label takes black or white, whichever reads best on its bar in the current theme; a label its bar cannot hold goes past the end of the bar.</value></data>
+  <data name="LineChartsPointLabelTitle" xml:space="preserve"><value>The nearest point under the pointer</value></data>
+  <data name="LineChartsPointLabelHint" xml:space="preserve"><value>Anywhere on the line, the nearest point lights up and shows the Label the host gave it.</value></data>
   <data name="ColumnChartsMaxHeightTitle" xml:space="preserve"><value>Bars under a height ceiling</value></data>
   <data name="ColumnChartsMaxHeightHint" xml:space="preserve"><value>A square chart in a wide card is held under a ceiling; MaxHeight lowers it to 20rem and the drawing keeps its proportions.</value></data>
   <data name="ColumnChartsStackedBarsTitle" xml:space="preserve"><value>Stacked bars</value></data>

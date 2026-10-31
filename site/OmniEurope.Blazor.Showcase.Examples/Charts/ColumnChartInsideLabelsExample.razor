@@ -1,0 +1,8 @@
+@* Each label is written in the bar it names, in black or white whichever reads best on that bar in the current
+   theme; the last bar cannot hold its label, which goes past its end. *@
+<OmniChart Id="demo-chart-inside-labels" Label="Share per model" AspectRatio="2">
+    <OmniCategoryAxis Labels="ColumnChartData.BlankShareNames" />
+    <OmniValueAxis Minimum="0" Maximum="100" />
+    <OmniColumnSeries Horizontal="true" ColorByPoint="true" Title="Share per model" Data="ColumnChartData.ModelShares" />
+    <OmniSeriesDataLabels Inside="true" Data="ColumnChartData.ModelShares" />
+</OmniChart>

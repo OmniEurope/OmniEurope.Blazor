@@ -320,6 +320,10 @@ internal sealed class OmniChartContext
     internal IReadOnlyList<ChartSeriesView> TableSeries =>
         [.. _series.Where(item => item.Kind != OmniChartSeriesKind.Auxiliary).Select(item => new ChartSeriesView(item.Title, item.ColorIndex, item.Data))];
 
+    /// <summary>The lines the chart draws, a line hidden through the legend excepted, in the order they registered.</summary>
+    internal IReadOnlyList<ChartSeriesView> LineSeries =>
+        [.. DrawnSeries.Where(item => item.Kind == OmniChartSeriesKind.Line).Select(item => new ChartSeriesView(item.Title, item.ColorIndex, item.Data))];
+
     /// <summary>The pie and donut series of the chart, in the order they registered.</summary>
     internal IReadOnlyList<PieRegistration> Pies => _pies;
 
@@ -403,7 +407,7 @@ internal sealed class OmniChartContext
     /// Adds or updates a series: its kind, its points, and the title and colour a legend and the data
     /// table name it with (none for markers and data labels, which only decorate another series).
     /// </summary>
-    internal void RegisterSeries(object owner, OmniChartSeriesKind kind, IReadOnlyList<OmniChartPoint> data, string? title = null, int colorIndex = 0)
+    internal void RegisterSeries(object owner, OmniChartSeriesKind kind, IReadOnlyList<OmniChartPoint> data, string? title = null, int colorIndex = 0, bool colorByPoint = false)
     {
         var snapshot = data.ToArray();
         var index = _series.FindIndex(item => ReferenceEquals(item.Owner, owner));
@@ -411,12 +415,13 @@ internal sealed class OmniChartContext
             && _series[index].Kind == kind
             && _series[index].Title == title
             && _series[index].ColorIndex == colorIndex
+            && _series[index].ColorByPoint == colorByPoint
             && _series[index].Data.SequenceEqual(snapshot))
         {
             return;
         }
 
-        var registration = new SeriesRegistration(owner, kind, snapshot, title, colorIndex);
+        var registration = new SeriesRegistration(owner, kind, snapshot, title, colorIndex, colorByPoint);
         if (index >= 0)
         {
             _series[index] = registration;
@@ -605,6 +610,30 @@ internal sealed class OmniChartContext
         return (Math.Min(first, second), start, Math.Abs(first - second), height);
     }
 
+    /// <summary>
+    /// The rectangles of the column or bar series drawn on <paramref name="data"/>, one per point, with
+    /// the colour each one takes, so that a decoration on the same points can read on them. Null when
+    /// no such series is registered.
+    /// </summary>
+    internal IReadOnlyList<ChartBar>? BarsOf(IReadOnlyList<OmniChartPoint> data)
+    {
+        if (_series.Find(item => IsBanded(item.Kind) && item.Data.SequenceEqual(data)) is not { } series)
+        {
+            return null;
+        }
+
+        var stacked = series.Kind is OmniChartSeriesKind.StackedColumn or OmniChartSeriesKind.StackedBar;
+        var horizontal = series.Kind is OmniChartSeriesKind.Bar or OmniChartSeriesKind.StackedBar;
+        var bars = new ChartBar[series.Data.Count];
+        for (var index = 0; index < bars.Length; index++)
+        {
+            var (_, _, width, height) = horizontal ? BarRect(series.Owner, index, stacked) : ColumnRect(series.Owner, index, stacked);
+            bars[index] = new ChartBar(width, height, series.ColorByPoint ? series.ColorIndex + index : series.ColorIndex);
+        }
+
+        return bars;
+    }
+
     internal string Project(OmniChartPoint point) => Project(point.X, point.Y);
 
     /// <summary>
@@ -777,7 +806,7 @@ internal sealed class OmniChartContext
                 }
             }
             _valueDomain = _automaticValueAxes.Count > 0
-                ? RoundOutward(values.Min(), values.Max(), _automaticValueAxes.Values.Max())
+                ? OmniChartGeometry.RoundOutward(values.Min(), values.Max(), _automaticValueAxes.Values.Max())
                 : Expand((values.Min(), values.Max()));
         }
 
@@ -813,31 +842,6 @@ internal sealed class OmniChartContext
 
     private static double Ratio(double value, (double Minimum, double Maximum) domain) =>
         Math.Clamp((value - domain.Minimum) / (domain.Maximum - domain.Minimum), 0, 1);
-
-    // Bounds rounded outward to a step of 1, 2, 2.5 or 5 times a power of ten, the step chosen so that tickCount
-    // graduations from the rounded minimum reach the maximum: every graduation lands on a round number.
-    internal static (double Minimum, double Maximum) RoundOutward(double minimum, double maximum, int tickCount)
-    {
-        var ticks = Math.Max(1, tickCount);
-        if (maximum <= minimum)
-        {
-            maximum = minimum + 1;
-        }
-        var magnitude = Math.Pow(10, Math.Floor(Math.Log10((maximum - minimum) / ticks)));
-        for (var attempt = 0; attempt < 4; attempt++, magnitude *= 10)
-        {
-            foreach (var multiplier in new[] { 1d, 2d, 2.5d, 5d })
-            {
-                var step = multiplier * magnitude;
-                var low = Math.Floor(minimum / step) * step;
-                if (low + (step * ticks) >= maximum - (step * 1e-9))
-                {
-                    return (low, low + (step * ticks));
-                }
-            }
-        }
-        return (minimum, maximum);
-    }
 
     private static (double Minimum, double Maximum) Expand((double Minimum, double Maximum) domain) =>
         domain.Minimum.Equals(domain.Maximum)
@@ -892,8 +896,11 @@ internal sealed class OmniChartContext
     /// <summary>A drawn series as a legend and a data table see it.</summary>
     internal sealed record ChartSeriesView(string? Title, int ColorIndex, IReadOnlyList<OmniChartPoint> Data);
 
+    /// <summary>The size of a column or bar in the drawing, and the colour it is filled with.</summary>
+    internal readonly record struct ChartBar(double Width, double Height, int ColorIndex);
+
     /// <summary>A pie or donut series: its title and its slices, positive values only, in the order they are drawn.</summary>
     internal sealed record PieRegistration(object Owner, string? Title, IReadOnlyList<OmniChartSlice> Slices);
 
-    private sealed record SeriesRegistration(object Owner, OmniChartSeriesKind Kind, IReadOnlyList<OmniChartPoint> Data, string? Title, int ColorIndex);
+    private sealed record SeriesRegistration(object Owner, OmniChartSeriesKind Kind, IReadOnlyList<OmniChartPoint> Data, string? Title, int ColorIndex, bool ColorByPoint = false);
 }

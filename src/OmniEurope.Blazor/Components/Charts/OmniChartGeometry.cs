@@ -9,6 +9,31 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 internal static class OmniChartGeometry
 {
+    // Bounds rounded outward to a step of 1, 2, 2.5 or 5 times a power of ten, the step chosen so that tickCount
+    // graduations from the rounded minimum reach the maximum: every graduation lands on a round number.
+    internal static (double Minimum, double Maximum) RoundOutward(double minimum, double maximum, int tickCount)
+    {
+        var ticks = Math.Max(1, tickCount);
+        if (maximum <= minimum)
+        {
+            maximum = minimum + 1;
+        }
+        var magnitude = Math.Pow(10, Math.Floor(Math.Log10((maximum - minimum) / ticks)));
+        for (var attempt = 0; attempt < 4; attempt++, magnitude *= 10)
+        {
+            foreach (var multiplier in new[] { 1d, 2d, 2.5d, 5d })
+            {
+                var step = multiplier * magnitude;
+                var low = Math.Floor(minimum / step) * step;
+                if (low + (step * ticks) >= maximum - (step * 1e-9))
+                {
+                    return (low, low + (step * ticks));
+                }
+            }
+        }
+        return (minimum, maximum);
+    }
+
     /// <summary>Between a category and its value in a hover text, whatever the chart: "mars · 12".</summary>
     public const string Separator = " · ";
 

@@ -1,3 +1,5 @@
+using OmniEurope.Blazor.Internal;
+
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>The value of each point written above it, or past the end of a horizontal bar.</summary>
@@ -20,10 +22,18 @@ public partial class OmniSeriesDataLabels
 
     /// <summary>
     /// Writes each label inside its bar, from the start of a horizontal bar or under the top of a column,
-    /// outlined with the surface colour so it reads on any bar colour. A label longer than its bar runs on
-    /// past its end. Off by default: above the point, or past the end of a horizontal bar.
+    /// in the colour <see cref="InsideContrast"/> gives it. Off by default: above the point, or past the
+    /// end of a horizontal bar.
     /// </summary>
     [Parameter] public bool Inside { get; set; }
+
+    /// <summary>
+    /// With <see cref="Inside"/>, writes a label in black or white, whichever reads best on the colour of
+    /// its bar in the current theme, and a label its bar cannot hold outside the bar, where it would have
+    /// been without <see cref="Inside"/>. On by default; <c>false</c> keeps every label inside, in the
+    /// text colour outlined with the surface colour, a long one running on past the end of its bar.
+    /// </summary>
+    [Parameter] public bool InsideContrast { get; set; } = true;
 
     private string LabelsClass => Inside ? "omni-chart__labels omni-chart__labels--inside" : "omni-chart__labels";
 
@@ -51,20 +61,24 @@ public partial class OmniSeriesDataLabels
         // Only a chart lays out horizontal bars, so a horizontal layout always has its chart at hand.
         var horizontalChart = ChartContext is { Horizontal: true } chart ? chart : null;
         var horizontal = horizontalChart is not null;
+        // The bars this series of labels is written on, when it follows them.
+        var bars = Inside && InsideContrast ? ChartContext?.BarsOf(Data) : null;
         for (var index = 0; index < Data.Count; index++)
         {
             var projected = Projected(index);
             var text = Text(Data[index]);
+            var bar = bars is not null && index < bars.Count ? bars[index] : (OmniChartContext.ChartBar?)null;
+            var inside = Inside && (bar is not { } held || Holds(held, text, horizontal));
             (double X, string? Anchor) place;
             double y;
             string? baseline;
-            if (Inside && horizontalChart is not null)
+            if (inside && horizontalChart is not null)
             {
                 // Where the value axis starts (zero): a label inside a horizontal bar begins there.
                 place = Placed(horizontalChart.ProjectCoordinates(Data[index] with { Y = 0 }).X + 1.5, text, LabelAnchor.Start);
                 (y, baseline) = (projected.Y, "central");
             }
-            else if (Inside)
+            else if (inside)
             {
                 place = Placed(projected.X, text, LabelAnchor.Middle);
                 (y, baseline) = (projected.Y + 1.5, "hanging");
@@ -80,7 +94,8 @@ public partial class OmniSeriesDataLabels
                 (y, baseline) = (projected.Y - 3, null);
             }
 
-            labels[index] = new DataLabel(place.X, y, place.Anchor, baseline, text, true, projected);
+            var barClass = inside && bar is { } colored ? $"omni-chart__label-on-bar {ChartColor.Class(colored.ColorIndex)}" : null;
+            labels[index] = new DataLabel(place.X, y, place.Anchor, baseline, text, true, projected, barClass);
             if (projected.Y > OmniChartContext.OutOfRangeY / 2)
             {
                 boxes[index] = DataLabelThinning.BoxOf(place.X, y, place.Anchor, baseline, text.Length * OmniChartContext.CharacterWidth, OmniChartContext.FontSize);
@@ -100,7 +115,19 @@ public partial class OmniSeriesDataLabels
     }
 
     /// <summary>One label: where it is written, how, and whether it is drawn or masked.</summary>
-    internal sealed record DataLabel(double X, double Y, string? Anchor, string? Baseline, string Text, bool Visible, (double X, double Y) Point);
+    internal sealed record DataLabel(double X, double Y, string? Anchor, string? Baseline, string Text, bool Visible, (double X, double Y) Point, string? BarClass = null);
+
+    /// <summary>
+    /// Whether a bar holds a label: its estimated width and the margins along a horizontal bar, across a
+    /// column, and the height of the text with, under the top of a column, its margin.
+    /// </summary>
+    private static bool Holds(OmniChartContext.ChartBar bar, string text, bool horizontal)
+    {
+        var width = text.Length * OmniChartContext.CharacterWidth;
+        return horizontal
+            ? width + (2 * InsideMargin) <= bar.Width && OmniChartContext.FontSize <= bar.Height
+            : width <= bar.Width && OmniChartContext.FontSize + (2 * InsideMargin) <= bar.Height;
+    }
 
     private string Text(OmniChartPoint point) => point.Label ?? FormatValue?.Invoke(point.Y) ?? OmniChartGeometry.Display(point.Y);
 
@@ -137,6 +164,9 @@ public partial class OmniSeriesDataLabels
 
     private (double X, double Y) Projected(int index) =>
         ChartContext is null ? OmniChartGeometry.ProjectedPoint(Data, index, Domain) : ChartContext.ProjectCoordinates(Data[index]);
+
+    // The room left between a label inside its bar and the end of the bar.
+    private const double InsideMargin = 1.5;
 
     /// <summary>Removes the labels from their chart.</summary>
     public void Dispose()

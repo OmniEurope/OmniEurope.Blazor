@@ -100,7 +100,7 @@ public sealed class ChartComponentEdgeTests : OmniBunitContext
             .AddChildContent(builder =>
             {
                 Child<OmniColumnSeries>(builder, 0, ("Data", data), ("Horizontal", true), ("ColorByPoint", true), ("ColorIndex", 2));
-                Child<OmniSeriesDataLabels>(builder, 10, ("Data", data), ("Inside", true));
+                Child<OmniSeriesDataLabels>(builder, 10, ("Data", data), ("Inside", true), ("InsideContrast", false));
             }));
 
         chart.WaitForAssertion(() =>

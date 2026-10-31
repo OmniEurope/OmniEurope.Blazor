@@ -1,7 +1,7 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-<figure @attributes="AdditionalAttributes" @ref="_figure" id="@Id" class="@Css("omni-chart", MinWidthClass)">
+<figure @attributes="AdditionalAttributes" @ref="_figure" id="@Id" class="@Css("omni-chart", MinWidthClass, HighlightClass)">
     @* A legend above the chart is the same HTML list as one below, placed before the drawing. *@
     @foreach (var legend in _context.LegendsAbove)
     {
@@ -34,6 +34,7 @@
            narrowing the plot, a series turning it into bands) moves the parts that rendered before it. *@
         @* The shared tooltip comes last: its bands lie over the series, and it renders after the
            parts have registered their points and the value axis its format. *@
+        @* The hover of the points of the lines comes after the parts too, over the markers. *@
         @* While an OmniRangeNavigator shows a range, the parts are clipped a little outside the view box:
            a decoration that walks every point of its own (data labels) has those outside the range sent
            far above it. The group is always there, so the parts keep their place when the range starts. *@
@@ -41,7 +42,7 @@
         {
             <clipPath id="@ClipId"><rect x="@ClipLeft" y="-10" width="@ClipWidth" height="120" /></clipPath>
         }
-        <g class="omni-chart__parts" clip-path="@ClipReference"><CascadingValue Value="_context" IsFixed="false">@ChildContent@SharedTooltipLayer</CascadingValue></g>
+        <g class="omni-chart__parts" clip-path="@ClipReference"><CascadingValue Value="_context" IsFixed="false">@ChildContent@PointHoverLayer@SharedTooltipLayer</CascadingValue></g>
     </svg>
     @* HTML parts under the drawing, such as an OmniRangeNavigator: they share the layout of the chart
        under a name of their own, so a part written in the drawing by mistake can tell. *@

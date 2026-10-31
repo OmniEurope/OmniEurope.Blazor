@@ -13,6 +13,7 @@ internal static class ChartsFamily
                 "Charts/ColumnChartExample.razor", "Charts/ColumnChartExample.razor.cs",
                 "Charts/ColumnChartKindsExample.razor", "Charts/ColumnChartKindsExample.razor.cs",
                 "Charts/ColumnChartMaxHeightExample.razor",
+                "Charts/ColumnChartInsideLabelsExample.razor",
                 "Charts/ColumnChartStackedBarsExample.razor",
                 "Charts/ColumnChartKind.cs", "Charts/ColumnChartData.cs"
             ]),
@@ -24,6 +25,7 @@ internal static class ChartsFamily
                 "Charts/LineChartMonthlyExample.razor",
                 "Charts/LineChartDailyExample.razor", "Charts/LineChartDailyExample.razor.cs",
                 "Charts/LineChartBacklogExample.razor",
+                "Charts/LineChartPointLabelExample.razor",
                 "Charts/LineChartRangeExample.razor", "Charts/LineChartRangeExample.razor.cs",
                 "Charts/LineChartKind.cs", "Charts/LineChartData.cs"
             ]),

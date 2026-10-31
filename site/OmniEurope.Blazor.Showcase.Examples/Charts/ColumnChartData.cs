@@ -46,4 +46,16 @@ public static class ColumnChartData
     /// <param name="value">The count.</param>
     /// <returns>The count as text.</returns>
     public static string FormatCount(double value) => value.ToString("N0", CultureInfo.CurrentCulture);
+
+    /// <summary>No name under the bars of the shares: each label names its bar.</summary>
+    public static readonly string[] BlankShareNames = [string.Empty, string.Empty, string.Empty, string.Empty];
+
+    /// <summary>A share per model, the last too small to hold its label.</summary>
+    public static readonly OmniChartPoint[] ModelShares =
+    [
+        new(0, 62, "Large model · 62%"),
+        new(1, 28, "Medium · 28%"),
+        new(2, 45, "Small model · 45%"),
+        new(3, 2, "Others · 2%")
+    ];
 }

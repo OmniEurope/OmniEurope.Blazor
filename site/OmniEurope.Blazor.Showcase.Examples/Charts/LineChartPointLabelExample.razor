@@ -1,0 +1,8 @@
+@* Anywhere on a line, the nearest point takes a dot and shows the Label the host gave it in the package tooltip. *@
+<OmniChart Id="demo-chart-point-labels" Label="Cost per project" AspectRatio="2">
+    <OmniGridLines />
+    <OmniCategoryAxis Labels="LineChartData.ProjectDays" />
+    <OmniValueAxis Automatic="true" />
+    <OmniLineSeries Title="Cost" Data="LineChartData.ProjectCosts" />
+    <OmniMarkers Data="LineChartData.ProjectCosts" />
+</OmniChart>

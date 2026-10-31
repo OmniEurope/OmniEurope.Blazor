@@ -61,7 +61,7 @@ public partial class OmniColumnSeries
     protected override void OnParametersSet()
     {
         _domain = null;
-        ChartContext?.RegisterSeries(this, Kind, Data, Title, ColorIndex);
+        ChartContext?.RegisterSeries(this, Kind, Data, Title, ColorIndex, ColorByPoint);
     }
 
     // Without a chart around the series, the range of the points is read once per render, not once per rectangle.

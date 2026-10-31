@@ -194,12 +194,12 @@ public sealed class ChartLayoutTests : OmniBunitContext
             Assert.Contains(ys, y => y > OmniChartContext.PlotTop + 5);
         });
 
-        Assert.Equal((0d, 500_000d), OmniChartContext.RoundOutward(0, 431_700, 5));
-        Assert.Equal((0d, 5d), OmniChartContext.RoundOutward(0, 4.2, 5));
-        Assert.Equal((0d, 1.25d), OmniChartContext.RoundOutward(0, 1.1, 5));
-        Assert.Equal((-20d, 30d), OmniChartContext.RoundOutward(-12, 27, 5));
+        Assert.Equal((0d, 500_000d), OmniChartGeometry.RoundOutward(0, 431_700, 5));
+        Assert.Equal((0d, 5d), OmniChartGeometry.RoundOutward(0, 4.2, 5));
+        Assert.Equal((0d, 1.25d), OmniChartGeometry.RoundOutward(0, 1.1, 5));
+        Assert.Equal((-20d, 30d), OmniChartGeometry.RoundOutward(-12, 27, 5));
         // All zero: a unit scale, graduated by 0.2, rather than an empty or inverted one.
-        Assert.Equal((0d, 1d), OmniChartContext.RoundOutward(0, 0, 5));
+        Assert.Equal((0d, 1d), OmniChartGeometry.RoundOutward(0, 0, 5));
     }
 
     [Fact]

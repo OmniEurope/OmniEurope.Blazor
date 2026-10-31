@@ -19,6 +19,7 @@ public partial class OmniChart
     private bool _aspectRatioSet;
     private ElementReference _figure;
     private IJSObjectReference? _module;
+    private Internal.OmniPackageTooltips? _tooltips;
     private string? _appliedMaxHeight;
     private bool _disposed;
 
@@ -64,6 +65,15 @@ public partial class OmniChart
     /// the data table. Off by default: each point, column or marker keeps its own hover text.
     /// </summary>
     [Parameter] public bool SharedTooltip { get; set; }
+
+    /// <summary>
+    /// Shows what the pointer is on. Anywhere on a line, the nearest point takes a dot and shows its text
+    /// in the package tooltip: the <see cref="OmniChartPoint.Label"/> of the point, else the series, the
+    /// category and the value. A column or bar under the pointer stands out from the others. On by default;
+    /// <c>false</c> leaves the drawing still. A <see cref="SharedTooltip"/> lies over the series and replaces
+    /// both.
+    /// </summary>
+    [Parameter] public bool HighlightOnHover { get; set; } = true;
 
     /// <summary>
     /// The narrowest the chart is drawn: in a narrower card (a phone) it keeps this width and scrolls
@@ -117,6 +127,21 @@ public partial class OmniChart
             builder.OpenComponent<OmniChartSharedTooltip>(0);
             builder.AddComponentParameter(1, nameof(OmniChartSharedTooltip.Context), _context);
             builder.AddComponentParameter(2, nameof(OmniChartSharedTooltip.SeriesName), (Func<OmniChartContext.ChartSeriesView, int, string>)SeriesName);
+            builder.CloseComponent();
+        }
+        : null;
+
+    /// <summary>Whether the lines take their hover: the bands of a shared tooltip would cover it.</summary>
+    private bool PointHover => HighlightOnHover && !SharedTooltip;
+
+    private string? HighlightClass => PointHover ? null : "omni-chart--no-highlight";
+
+    /// <summary>The hover zones of the points of the lines, after the parts of the chart; nothing when it is off.</summary>
+    private RenderFragment? PointHoverLayer => PointHover
+        ? builder =>
+        {
+            builder.OpenComponent<OmniChartPointHover>(0);
+            builder.AddComponentParameter(1, nameof(OmniChartPointHover.Context), _context);
             builder.CloseComponent();
         }
         : null;
@@ -186,13 +211,20 @@ public partial class OmniChart
         ?? series.Where(item => row < item.Data.Count).Select(item => OmniChartGeometry.Display(item.Data[row].X)).First();
 
     /// <summary>
-    /// Hands a <see cref="MaxHeight"/> that changed to the interop script, loaded only once a value has
-    /// to be written; a chart that never sets it loads no script. A lost circuit is ignored.
+    /// Turns the package tooltips on once the chart has a line to hover, then hands a
+    /// <see cref="MaxHeight"/> that changed to the interop script, loaded only once a value has to be
+    /// written. A chart with neither loads no script. A lost circuit is ignored.
     /// </summary>
     /// <param name="firstRender">Whether this is the first render.</param>
     /// <returns>The task of the write.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (!_disposed && _tooltips is null && PointHover && _context.LineSeries.Count > 0)
+        {
+            _tooltips = new Internal.OmniPackageTooltips(JavaScript);
+            await _tooltips.InstallAsync();
+        }
+
         if (_disposed || string.Equals(MaxHeight, _appliedMaxHeight, StringComparison.Ordinal))
         {
             return;
@@ -228,6 +260,11 @@ public partial class OmniChart
     {
         _disposed = true;
         Dispose();
+        if (_tooltips is not null)
+        {
+            await _tooltips.DisposeAsync();
+        }
+
         if (_module is null)
         {
             return;

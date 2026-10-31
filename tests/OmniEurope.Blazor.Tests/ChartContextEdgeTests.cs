@@ -167,7 +167,7 @@ public sealed class ChartContextEdgeTests
     [Fact]
     public void BoundsThatAreNotNumbers_AreGivenBackAsTheyCame()
     {
-        var (minimum, maximum) = RoundOutward(double.NaN, 1, 5);
+        var (minimum, maximum) = OmniChartGeometry.RoundOutward(double.NaN, 1, 5);
 
         Assert.True(double.IsNaN(minimum));
         Assert.Equal(1, maximum);

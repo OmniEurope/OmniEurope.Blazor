@@ -35,6 +35,10 @@
   <data name="ColumnChartsPreviewTitle" xml:space="preserve"><value>Graphique en direct</value></data>
   <data name="ColumnChartsPreviewHint" xml:space="preserve"><value>Survolez une colonne pour lire sa valeur.</value></data>
   <data name="ColumnChartsKindsTitle" xml:space="preserve"><value>Les trois types côte à côte</value></data>
+  <data name="ColumnChartsInsideLabelsTitle" xml:space="preserve"><value>Étiquettes dans les barres</value></data>
+  <data name="ColumnChartsInsideLabelsHint" xml:space="preserve"><value>Chaque étiquette s'écrit en noir ou en blanc, ce qui se lit le mieux sur sa barre dans le thème courant ; une étiquette que sa barre ne peut contenir passe après la fin de la barre.</value></data>
+  <data name="LineChartsPointLabelTitle" xml:space="preserve"><value>Le point le plus proche sous le pointeur</value></data>
+  <data name="LineChartsPointLabelHint" xml:space="preserve"><value>Partout sur la ligne, le point le plus proche s'éclaire et montre le Label que l'hôte lui a donné.</value></data>
   <data name="ColumnChartsMaxHeightTitle" xml:space="preserve"><value>Barres sous un plafond de hauteur</value></data>
   <data name="ColumnChartsMaxHeightHint" xml:space="preserve"><value>Un graphique carré dans une carte large est tenu sous un plafond ; MaxHeight l'abaisse à 20rem et le dessin garde ses proportions.</value></data>
   <data name="ColumnChartsStackedBarsTitle" xml:space="preserve"><value>Barres empilées</value></data>

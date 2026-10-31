@@ -43,6 +43,14 @@
 /* The point of a masked data label: an invisible hover target that carries its value (recette R1-12). */
 .omni-chart__labels .omni-chart__label-hit { fill: transparent; pointer-events: all; stroke: none; }
 .omni-chart__labels--inside text { paint-order: stroke; stroke: var(--omni-color-surface); stroke-linejoin: round; stroke-width: 0.6px; }
+/* A label a bar holds takes black or white, whichever reads best on the colour of that bar: the lightness
+   of the colour against the point where both contrast alike, pushed to one end. Past the supported
+   browsers, the text colour keeps its outline. A label never takes the pointer from the bar under it. */
+.omni-chart__labels text { pointer-events: none; }
+.omni-chart__labels .omni-chart__label-on-bar { fill: var(--omni-color-text); stroke: var(--omni-color-surface); }
+@supports (color: oklch(from red l c h)) {
+    .omni-chart__labels .omni-chart__label-on-bar { fill: oklch(from var(--omni-chart-part-color) calc((0.58 - l) * 1000) 0 0); stroke: none; }
+}
 .omni-chart__grid-lines line { stroke: var(--omni-color-border); stroke-dasharray: 4 4; stroke-width: 1px; }
 .omni-chart__markers { stroke: currentColor; stroke-width: 2px; }
 .omni-chart__line,
@@ -61,14 +69,22 @@
    slightly to show which category the text names. */
 .omni-chart__hover-band { fill: transparent; pointer-events: all; }
 .omni-chart__hover-band:hover { fill: var(--omni-color-text); fill-opacity: 0.06; }
-.omni-chart-color-0 { color: var(--omni-chart-color-0); fill: var(--omni-chart-color-0); stroke: var(--omni-chart-color-0); }
-.omni-chart-color-1 { color: var(--omni-chart-color-1); fill: var(--omni-chart-color-1); stroke: var(--omni-chart-color-1); }
-.omni-chart-color-2 { color: var(--omni-chart-color-2); fill: var(--omni-chart-color-2); stroke: var(--omni-chart-color-2); }
-.omni-chart-color-3 { color: var(--omni-chart-color-3); fill: var(--omni-chart-color-3); stroke: var(--omni-chart-color-3); }
-.omni-chart-color-4 { color: var(--omni-chart-color-4); fill: var(--omni-chart-color-4); stroke: var(--omni-chart-color-4); }
-.omni-chart-color-5 { color: var(--omni-chart-color-5); fill: var(--omni-chart-color-5); stroke: var(--omni-chart-color-5); }
-.omni-chart-color-6 { color: var(--omni-chart-color-6); fill: var(--omni-chart-color-6); stroke: var(--omni-chart-color-6); }
-.omni-chart-color-7 { color: var(--omni-chart-color-7); fill: var(--omni-chart-color-7); stroke: var(--omni-chart-color-7); }
+.omni-chart-color-0 { --omni-chart-part-color: var(--omni-chart-color-0); color: var(--omni-chart-color-0); fill: var(--omni-chart-color-0); stroke: var(--omni-chart-color-0); }
+.omni-chart-color-1 { --omni-chart-part-color: var(--omni-chart-color-1); color: var(--omni-chart-color-1); fill: var(--omni-chart-color-1); stroke: var(--omni-chart-color-1); }
+.omni-chart-color-2 { --omni-chart-part-color: var(--omni-chart-color-2); color: var(--omni-chart-color-2); fill: var(--omni-chart-color-2); stroke: var(--omni-chart-color-2); }
+.omni-chart-color-3 { --omni-chart-part-color: var(--omni-chart-color-3); color: var(--omni-chart-color-3); fill: var(--omni-chart-color-3); stroke: var(--omni-chart-color-3); }
+.omni-chart-color-4 { --omni-chart-part-color: var(--omni-chart-color-4); color: var(--omni-chart-color-4); fill: var(--omni-chart-color-4); stroke: var(--omni-chart-color-4); }
+.omni-chart-color-5 { --omni-chart-part-color: var(--omni-chart-color-5); color: var(--omni-chart-color-5); fill: var(--omni-chart-color-5); stroke: var(--omni-chart-color-5); }
+.omni-chart-color-6 { --omni-chart-part-color: var(--omni-chart-color-6); color: var(--omni-chart-color-6); fill: var(--omni-chart-color-6); stroke: var(--omni-chart-color-6); }
+.omni-chart-color-7 { --omni-chart-part-color: var(--omni-chart-color-7); color: var(--omni-chart-color-7); fill: var(--omni-chart-color-7); stroke: var(--omni-chart-color-7); }
+/* The hover of a line: one transparent zone per point, wider than the line so the pointer finds it, and
+   the dot of the zone under the pointer. The zone is drawn in screen pixels like the line it covers. */
+polyline.omni-chart__point-reach { fill: none; pointer-events: stroke; stroke: transparent; stroke-linecap: round; stroke-linejoin: round; stroke-width: 14px; vector-effect: non-scaling-stroke; }
+.omni-chart__point-mark { fill: currentColor; opacity: 0; pointer-events: none; stroke: var(--omni-color-surface); stroke-width: 2px; vector-effect: non-scaling-stroke; }
+.omni-chart__point-zone:hover .omni-chart__point-mark { opacity: 1; }
+/* The hover of a column or bar: it takes a contrasting edge and the others of its series step back. */
+.omni-chart:not(.omni-chart--no-highlight) :is(.omni-chart__columns, .omni-chart__bars) rect:hover { stroke: var(--omni-color-text); stroke-width: 2px; vector-effect: non-scaling-stroke; }
+.omni-chart:not(.omni-chart--no-highlight) :is(.omni-chart__columns, .omni-chart__bars):has(rect:hover) rect:not(:hover) { opacity: 0.6; }
 /* The colour classes also set fill, which a line and a marker must not take: an element plus class
    selector outranks them, where the class alone, declared before them, lost and filled the line as
    a polygon. */

@@ -11,6 +11,7 @@
 
 import { openShowcaseSession, probeOptions } from './ShowcaseCdp.mjs';
 import { boardSteps } from './scripts-probe/boards.mjs';
+import { chartSteps } from './scripts-probe/charts.mjs';
 import { chevronSteps } from './scripts-probe/chevrons.mjs';
 import { columnSteps } from './scripts-probe/columns.mjs';
 import { editorSteps } from './scripts-probe/editor.mjs';
@@ -22,7 +23,7 @@ import { preferenceSteps } from './scripts-probe/preferences.mjs';
 import { requestSteps } from './scripts-probe/requests.mjs';
 import { veilSteps } from './scripts-probe/veil.mjs';
 
-const parts = { overlays: overlaySteps, editor: editorSteps, boards: boardSteps, keys: keySteps, requests: requestSteps, leaks: leakSteps, preferences: preferenceSteps, columns: columnSteps, chevrons: chevronSteps, focus: focusSteps, veil: veilSteps };
+const parts = { overlays: overlaySteps, editor: editorSteps, boards: boardSteps, charts: chartSteps, keys: keySteps, requests: requestSteps, leaks: leakSteps, preferences: preferenceSteps, columns: columnSteps, chevrons: chevronSteps, focus: focusSteps, veil: veilSteps };
 const only = process.env.OMNI_SCRIPTS_ONLY?.split(',').map(name => name.trim()).filter(Boolean);
 // A name that is no part, or a choice that keeps none, would validate a run that drove nothing.
 const unknown = only?.filter(name => !Object.hasOwn(parts, name)) ?? [];
