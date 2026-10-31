@@ -411,6 +411,7 @@
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Ikkanċella ċ-ċaqliq</value></data>
   <data name="SchedulerMoving" xml:space="preserve"><value>{0} inqabad: agħżel il-post il-ġdid tiegħu, Escape biex tikkanċella.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} jibqa' fejn kien.</value></data>
+  <data name="SchedulerOverlaps" xml:space="preserve"><value>Jikkoinċidi ma' {0}</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>{0} imċaqlaq għal {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>L-għażla segmentata mhix valida.</value></data>
   <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>L-għażla mhix valida.</value></data>
@@ -743,6 +744,6 @@
   <data name="SiteSearchLabel" xml:space="preserve"><value>Fittex fis-sit</value></data>
   <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Fittex…</value></data>
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>L-ebda riżultat</value></data>
-  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} minn {2} passaġġi lesti</value></data>
-  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} minn {2} passaġġi lesti, wieħed għaddej</value></data>
+  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} minn {2, plural, one {# passaġġ} two {# passaġġi} few {# passaġġi} many {# passaġġ} other {# passaġġ}} {1, plural, one {lest} two {lesti} few {lesti} many {lesti} other {lesti}}</value></data>
+  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} minn {2, plural, one {# passaġġ} two {# passaġġi} few {# passaġġi} many {# passaġġ} other {# passaġġ}} {1, plural, one {lest} two {lesti} few {lesti} many {lesti} other {lesti}}, wieħed għaddej</value></data>
 </root>

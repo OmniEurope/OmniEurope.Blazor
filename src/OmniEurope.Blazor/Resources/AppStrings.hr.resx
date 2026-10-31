@@ -411,6 +411,7 @@
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Otkaži premještanje</value></data>
   <data name="SchedulerMoving" xml:space="preserve"><value>Odabrano za premještanje: {0}. Odaberite novo mjesto, Esc za odustajanje.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} ostaje na svojem mjestu.</value></data>
+  <data name="SchedulerOverlaps" xml:space="preserve"><value>Preklapa se s {0}</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>{0}: premješteno na {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>Segmentirani odabir nije valjan.</value></data>
   <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>Odabir nije valjan.</value></data>

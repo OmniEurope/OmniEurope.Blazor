@@ -28,6 +28,7 @@
   <data name="SchedulerMovable" xml:space="preserve"><value>Rendez-vous déplaçables</value></data>
   <data name="SchedulerMovableDescription" xml:space="preserve"><value>Un rendez-vous se glisse sur un créneau ou un jour, ou se déplace au clavier par son bouton ; la page applique le déplacement rapporté.</value></data>
   <data name="SchedulerPreviewTitle" xml:space="preserve"><value>Agenda en direct</value></data>
+  <data name="SchedulerNightTitle" xml:space="preserve"><value>Nuit de lancements planifiés</value></data>
   <data name="TimelineTitle" xml:space="preserve"><value>Frise</value></data>
   <data name="TimelineDescription" xml:space="preserve"><value>Frise d&apos;entrées datées : titre, date automatique ou texte libre, entrées sans en-tête.</value></data>
   <data name="TimelineSettingsTitle" xml:space="preserve"><value>Réglages de la frise</value></data>

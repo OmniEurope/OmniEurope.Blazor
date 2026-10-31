@@ -411,6 +411,7 @@
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Atcelt pārvietošanu</value></data>
   <data name="SchedulerMoving" xml:space="preserve"><value>Paņemts: {0}. Izvēlieties jaunu vietu, Esc, lai atceltu.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} paliek savā vietā.</value></data>
+  <data name="SchedulerOverlaps" xml:space="preserve"><value>Pārklājas ar {0}</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>{0} pārvietots uz {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>Segmentētā atlase nav derīga.</value></data>
   <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>Izvēle nav derīga.</value></data>
@@ -743,6 +744,6 @@
   <data name="SiteSearchLabel" xml:space="preserve"><value>Meklēt vietnē</value></data>
   <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Meklēt…</value></data>
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Nav rezultātu</value></data>
-  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: pabeigtas {1} no {2} kārtām</value></data>
-  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: pabeigtas {1} no {2} kārtām, viena notiek</value></data>
+  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1, plural, zero {pabeigtas} one {pabeigta} other {pabeigtas}} {1} no {2, plural, zero {# kārtām} one {# kārtas} other {# kārtām}}</value></data>
+  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1, plural, zero {pabeigtas} one {pabeigta} other {pabeigtas}} {1} no {2, plural, zero {# kārtām} one {# kārtas} other {# kārtām}}, viena notiek</value></data>
 </root>

@@ -411,6 +411,7 @@
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Verschieben abbrechen</value></data>
   <data name="SchedulerMoving" xml:space="preserve"><value>{0} aufgenommen: Wählen Sie den neuen Platz, Esc zum Abbrechen.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} bleibt an seinem Platz.</value></data>
+  <data name="SchedulerOverlaps" xml:space="preserve"><value>Überschneidet sich mit {0}</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>{0} verschoben auf {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>Die segmentierte Auswahl ist ungültig.</value></data>
   <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>Die Auswahl ist ungültig.</value></data>
@@ -743,6 +744,6 @@
   <data name="SiteSearchLabel" xml:space="preserve"><value>Website durchsuchen</value></data>
   <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Suchen…</value></data>
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Keine Ergebnisse</value></data>
-  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} von {2} Durchgängen abgeschlossen</value></data>
-  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} von {2} Durchgängen abgeschlossen, einer läuft</value></data>
+  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} von {2, plural, one {# Durchgang} other {# Durchgängen}} abgeschlossen</value></data>
+  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} von {2, plural, one {# Durchgang} other {# Durchgängen}} abgeschlossen, einer läuft</value></data>
 </root>

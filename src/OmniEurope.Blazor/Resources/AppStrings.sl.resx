@@ -411,6 +411,7 @@
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Prekliči premik</value></data>
   <data name="SchedulerMoving" xml:space="preserve"><value>Izbrano za premik: {0}. Izberite novo mesto, Esc za preklic.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} ostane na svojem mestu.</value></data>
+  <data name="SchedulerOverlaps" xml:space="preserve"><value>Prekriva se z {0}</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>{0}: premaknjeno na {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>Segmentirani izbor ni veljaven.</value></data>
   <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>Izbira ni veljavna.</value></data>
@@ -743,6 +744,6 @@
   <data name="SiteSearchLabel" xml:space="preserve"><value>Išči po spletnem mestu</value></data>
   <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Iskanje…</value></data>
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Ni rezultatov</value></data>
-  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: opravljenih {1} od {2} prehodov</value></data>
-  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: opravljenih {1} od {2} prehodov, eden poteka</value></data>
+  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1, plural, one {opravljen} two {opravljena} few {opravljeni} other {opravljenih}} {1} od {2, plural, one {# prehoda} two {# prehodov} few {# prehodov} other {# prehodov}}</value></data>
+  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1, plural, one {opravljen} two {opravljena} few {opravljeni} other {opravljenih}} {1} od {2, plural, one {# prehoda} two {# prehodov} few {# prehodov} other {# prehodov}}, eden poteka</value></data>
 </root>

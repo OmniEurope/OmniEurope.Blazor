@@ -411,6 +411,7 @@
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Verplaatsen annuleren</value></data>
   <data name="SchedulerMoving" xml:space="preserve"><value>{0} opgepakt: kies de nieuwe plaats, Esc om te annuleren.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} blijft op zijn plaats.</value></data>
+  <data name="SchedulerOverlaps" xml:space="preserve"><value>Overlapt met {0}</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>{0} verplaatst naar {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>De gesegmenteerde selectie is ongeldig.</value></data>
   <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>De keuze is ongeldig.</value></data>
@@ -743,6 +744,6 @@
   <data name="SiteSearchLabel" xml:space="preserve"><value>Zoeken op de site</value></data>
   <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Zoeken…</value></data>
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Geen resultaten</value></data>
-  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} van {2} rondes klaar</value></data>
-  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} van {2} rondes klaar, één bezig</value></data>
+  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} van {2, plural, one {# ronde} other {# rondes}} klaar</value></data>
+  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} van {2, plural, one {# ronde} other {# rondes}} klaar, één bezig</value></data>
 </root>

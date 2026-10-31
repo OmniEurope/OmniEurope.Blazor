@@ -411,6 +411,7 @@
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Ακύρωση μετακίνησης</value></data>
   <data name="SchedulerMoving" xml:space="preserve"><value>Το {0} επιλέχθηκε: διαλέξτε τη νέα του θέση, Esc για ακύρωση.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>Το {0} παραμένει στη θέση του.</value></data>
+  <data name="SchedulerOverlaps" xml:space="preserve"><value>Επικαλύπτεται με {0}</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>Το {0} μετακινήθηκε. Νέα ώρα: {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>Η τμηματική επιλογή δεν είναι έγκυρη.</value></data>
   <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>Η επιλογή δεν είναι έγκυρη.</value></data>
@@ -743,6 +744,6 @@
   <data name="SiteSearchLabel" xml:space="preserve"><value>Αναζήτηση στον ιστότοπο</value></data>
   <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Αναζήτηση…</value></data>
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Κανένα αποτέλεσμα</value></data>
-  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: ολοκληρώθηκαν {1} από {2} περάσματα</value></data>
-  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: ολοκληρώθηκαν {1} από {2} περάσματα, ένα σε εξέλιξη</value></data>
+  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1, plural, one {ολοκληρώθηκε} other {ολοκληρώθηκαν}} {1} από {2, plural, one {# πέρασμα} other {# περάσματα}}</value></data>
+  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1, plural, one {ολοκληρώθηκε} other {ολοκληρώθηκαν}} {1} από {2, plural, one {# πέρασμα} other {# περάσματα}}, ένα σε εξέλιξη</value></data>
 </root>

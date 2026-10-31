@@ -293,7 +293,14 @@ export async function boardSteps(session, results) {
   const carriedData = await html5Drag('.omni-scheduler [data-omni-scheduler-appointment][draggable="true"]', '.omni-scheduler td.omni-scheduler-grid__cell');
   check(carriedData.items?.some(item => item.mimeType === 'text/plain' && item.data === appointment) && carriedData.dragOperationsMask !== undefined,
     `Le glisser ne porte pas l'identifiant du rendez-vous ${appointment} : ${JSON.stringify(carriedData)}.`);
-  step('agenda : rendez-vous glissé avec son identifiant');
+  await waitFor('le déplacement rapporté à la page', "document.querySelector('.gallery-scheduler').textContent.includes('moved to')");
+  step('agenda : rendez-vous glissé avec son identifiant et déposé sur un créneau cliquable');
+
+  // The night grid: a drop over a block lands in the slot under the pointer, not in the cell where that block starts.
+  await evaluate("document.querySelector('#scheduler-night [data-omni-scheduler-appointment=\"backup\"]').scrollIntoView({ block: 'center' })");
+  await html5Drag('#scheduler-night [data-omni-scheduler-appointment="reports"]', '#scheduler-night [data-omni-scheduler-appointment="backup"]');
+  await waitFor('le lancement posé sous le pointeur', "document.querySelector('#scheduler-night [data-omni-scheduler-appointment=\"reports\"]').getAttribute('data-start').includes('T00:00:00')");
+  step('agenda : dépôt sur un bloc, dans le créneau sous le pointeur, après minuit');
 
   // 9. The mind map: a lasso on the background, a pinch, a long press and a double click on a node.
   await session.visit('/components/mind-map', '#demo-mindmap-canvas');

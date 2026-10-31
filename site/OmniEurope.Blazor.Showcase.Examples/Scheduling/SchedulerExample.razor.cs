@@ -12,7 +12,18 @@ public partial class SchedulerExample
 
     private IReadOnlyList<OmniSchedulerAppointment> _appointments = [];
 
+    /// <summary>The appointments created in the dialog, and the texts changed in it.</summary>
+    private readonly List<OmniSchedulerAppointment> _created = [];
+    private readonly Dictionary<string, (string Title, string? Notes)> _edits = [];
+
     private OmniSchedulerSlot? _selectedSlot;
+
+    private bool _dialogOpen;
+    private OmniSchedulerAppointment? _editing;
+    private DateTimeOffset _draftStart;
+    private DateTimeOffset _draftEnd;
+    private string _draftTitle = string.Empty;
+    private string _draftNotes = string.Empty;
 
     private string? _lastEvent;
 
@@ -95,15 +106,49 @@ public partial class SchedulerExample
         await ViewChanged.InvokeAsync(value);
     }
 
-    private void OnSlotClicked(OmniSchedulerSlot slot) => _selectedSlot = slot;
+    private void OnSlotClicked(OmniSchedulerSlot slot)
+    {
+        _selectedSlot = slot;
 
-    private void OnAppointmentClicked(OmniSchedulerAppointment appointment) =>
+        // A whole day of the month or the list gives no hour: the new appointment takes one in the morning.
+        var whole = slot.Duration >= TimeSpan.FromDays(1);
+        OpenDialog(null, whole ? slot.Start.AddHours(9) : slot.Start, whole ? slot.Start.AddHours(10) : slot.End, string.Empty, string.Empty);
+    }
+
+    private void OnAppointmentClicked(OmniSchedulerAppointment appointment)
+    {
         _lastEvent = string.Format(
             Formats,
             "click on \"{0}\", {1:g} to {2:t}",
             appointment.Title,
             appointment.Start,
             appointment.End);
+        OpenDialog(appointment, appointment.Start, appointment.End, appointment.Title, appointment.Description ?? string.Empty);
+    }
+
+    private void OpenDialog(OmniSchedulerAppointment? appointment, DateTimeOffset start, DateTimeOffset end, string title, string notes)
+    {
+        _editing = appointment;
+        (_draftStart, _draftEnd, _draftTitle, _draftNotes) = (start, end, title, notes);
+        _dialogOpen = true;
+    }
+
+    private void SaveDialog()
+    {
+        var notes = string.IsNullOrWhiteSpace(_draftNotes) ? null : _draftNotes;
+        if (_editing is { } appointment)
+        {
+            _edits[appointment.Id] = (_draftTitle, notes);
+        }
+        else
+        {
+            _created.Add(new($"created-{_created.Count}", _draftTitle, _draftStart, _draftEnd, notes));
+        }
+
+        _lastEvent = string.Format(Formats, "\"{0}\" saved", _draftTitle);
+        _dialogOpen = false;
+        _appointments = BuildAppointments();
+    }
 
     private void OnAppointmentMoved(OmniSchedulerAppointmentMove move)
     {
@@ -133,8 +178,17 @@ public partial class SchedulerExample
             appointments.Add(new("saturday-move", "Office move", start.AddDays(5).AddHours(10), start.AddDays(5).AddHours(18), "Whole day"));
         }
 
-        return [.. appointments.Select(appointment => _moves.TryGetValue(appointment.Id, out var moved)
-            ? appointment with { Start = moved.Start, End = moved.End }
-            : appointment)];
+        return [.. appointments.Concat(_created).Select(Applied)];
+    }
+
+    /// <summary>An appointment with what the reader changed since: its place, its texts.</summary>
+    private OmniSchedulerAppointment Applied(OmniSchedulerAppointment appointment)
+    {
+        var moved = _moves.TryGetValue(appointment.Id, out var place)
+            ? appointment with { Start = place.Start, End = place.End }
+            : appointment;
+        return _edits.TryGetValue(appointment.Id, out var texts)
+            ? moved with { Title = texts.Title, Description = texts.Notes }
+            : moved;
     }
 }

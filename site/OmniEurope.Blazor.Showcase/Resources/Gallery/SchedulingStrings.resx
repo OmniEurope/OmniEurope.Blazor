@@ -28,6 +28,7 @@
   <data name="SchedulerMovable" xml:space="preserve"><value>Movable appointments</value></data>
   <data name="SchedulerMovableDescription" xml:space="preserve"><value>An appointment is dragged onto a slot or a day, or moved from the keyboard through its button; the page applies the reported move.</value></data>
   <data name="SchedulerPreviewTitle" xml:space="preserve"><value>Live scheduler</value></data>
+  <data name="SchedulerNightTitle" xml:space="preserve"><value>Night of scheduled runs</value></data>
   <data name="TimelineTitle" xml:space="preserve"><value>Timeline</value></data>
   <data name="TimelineDescription" xml:space="preserve"><value>Timeline of dated entries: title, automatic or custom date text, entries without a header.</value></data>
   <data name="TimelineSettingsTitle" xml:space="preserve"><value>Timeline settings</value></data>

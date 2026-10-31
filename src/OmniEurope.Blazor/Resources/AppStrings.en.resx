@@ -411,6 +411,7 @@
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Cancel the move</value></data>
   <data name="SchedulerMoving" xml:space="preserve"><value>{0} picked up: choose its new position, or press Escape to cancel.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} stays where it was.</value></data>
+  <data name="SchedulerOverlaps" xml:space="preserve"><value>Overlaps {0}</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>{0} moved to {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>The segmented selection is invalid.</value></data>
   <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>The choice is invalid.</value></data>
@@ -743,6 +744,6 @@
   <data name="SiteSearchLabel" xml:space="preserve"><value>Search the site</value></data>
   <data name="SiteSearchPlaceholder" xml:space="preserve"><value>Search…</value></data>
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>No results</value></data>
-  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} of {2} passes done</value></data>
-  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} of {2} passes done, one under way</value></data>
+  <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} of {2, plural, one {# pass} other {# passes}} done</value></data>
+  <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} of {2, plural, one {# pass} other {# passes}} done, one under way</value></data>
 </root>

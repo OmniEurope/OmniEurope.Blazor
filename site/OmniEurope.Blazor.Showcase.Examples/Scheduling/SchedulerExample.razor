@@ -1,7 +1,8 @@
 @* A scheduler with its day, week and month views, driven by the page or by its own toolbar. DayStart and DayEnd
    turn the day and week views into a time grid of SlotDuration slots; without them they stay lists. The scheduler
    never changes Items: it reports a click, a free slot or a move, and the host applies it. An appointment moves
-   only when OnAppointmentMove has a handler. Class marks one appointment apart. *@
+   only when OnAppointmentMove has a handler. Class marks one appointment apart. A click on an appointment or on a
+   free slot opens the host's own dialog: the scheduler reports it, the page decides what to ask. *@
 <OmniStack Gap="OmniSpacing.Medium">
     <OmniScheduler Date="Date"
                    DateChanged="ChangeDate"
@@ -29,4 +30,27 @@
         <span>Last event:</span>
         <OmniBadge Tone="@(_lastEvent is null ? OmniTone.Neutral : OmniTone.Accent)">@(_lastEvent ?? "none")</OmniBadge>
     </OmniStack>
+    <OmniDialog Title="@(_editing is null ? "New appointment" : "Appointment")" Open="_dialogOpen" OpenChanged="@(value => _dialogOpen = value)">
+        <ChildContent>
+            <OmniStack Gap="OmniSpacing.Small">
+                <OmniText Tone="OmniTextTone.Muted">@_draftStart.ToString("f", Formats) to @_draftEnd.ToString("t", Formats)</OmniText>
+                <OmniFormField Label="Title" For="scheduler-dialog-title">
+                    <OmniTextBox Id="scheduler-dialog-title" @bind-Value="_draftTitle" />
+                </OmniFormField>
+                <OmniFormField Label="Notes" For="scheduler-dialog-notes">
+                    <OmniTextArea Id="scheduler-dialog-notes" @bind-Value="_draftNotes" Rows="3" />
+                </OmniFormField>
+            </OmniStack>
+        </ChildContent>
+        <FooterContent>
+            <OmniButton Disabled="@string.IsNullOrWhiteSpace(_draftTitle)" OnClick="SaveDialog">
+                <OmniIcon Name="OmniIconName.Check" />
+                <span>Save</span>
+            </OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(() => _dialogOpen = false)">
+                <OmniIcon Name="OmniIconName.Close" />
+                <span>Cancel</span>
+            </OmniButton>
+        </FooterContent>
+    </OmniDialog>
 </OmniStack>
