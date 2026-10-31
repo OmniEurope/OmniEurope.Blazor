@@ -38,6 +38,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Fixed
 
+- `OmniSelectBar` : l'icône d'une option (`IconTemplate`) est séparée de son texte par `--omni-space-sm`, le même écart que dans un bouton. Elle touchait le texte faute d'écart sur `.omni-select-bar__item` (demande d'une application cliente).
 - `OmniDataGrid.FillAvailableHeight` (PLAN-009, lot 4) : un cadre local contraint prend la priorité sur la zone principale ou le contenu du dialogue ; les enveloppes de hauteur automatique gardent leur référence existante. Le remplissage se recalcule au redimensionnement et après une apparition différée.
 - Chevrons du menu latéral (PLAN-009, lot 4) : le bouton et son glyphe suivent les jetons de densité existants, en conservant leur position hors du flux et les butées de défilement.
 - Vitrine, éditeurs HTML et de lecture du code (PLAN-009, lot 4) : une accolade manquante empêchait leurs règles CSS de s’appliquer. Les cadres retrouvent leurs bordures, leur padding et la hauteur prévue du comparateur.

@@ -457,6 +457,7 @@ select.omni-input.omni-input--large:not([multiple]):not([size]) { block-size: ca
     display: inline-flex;
     flex: 0 0 auto;
     font: inherit;
+    gap: var(--omni-space-sm);
     min-height: var(--omni-control-height);
     padding: 0 var(--omni-space-md);
     white-space: nowrap;
