@@ -75,7 +75,7 @@ public sealed class ChartLegendToggleTests : OmniBunitContext
             Assert.Equal("false", entry.GetAttribute("aria-pressed"));
             Assert.Contains("omni-chart__legend-item--hidden", entry.ParentElement!.ClassList);
             Assert.True(TopTick(chart) < 100);
-            Assert.All(chart.FindAll(".omni-chart__hover-band title"), title => Assert.DoesNotContain("Total", title.TextContent, StringComparison.Ordinal));
+            Assert.All(chart.FindAll(".omni-chart__hover-band"), title => Assert.DoesNotContain("Total", title.GetAttribute("data-omni-tip")!, StringComparison.Ordinal));
         });
 
         chart.FindAll("button.omni-chart__legend-toggle")[1].Click();

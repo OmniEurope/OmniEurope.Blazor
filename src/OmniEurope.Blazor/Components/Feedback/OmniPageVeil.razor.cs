@@ -63,7 +63,8 @@ public partial class OmniPageVeil : IDisposable
     public string? LogoSource { get; set; }
 
     /// <summary>
-    /// How much of the window the veil covers: the content of the page (the default), or the whole window.
+    /// How much of the window the veil covers: the content of the page (the default), the whole window, or
+    /// only the element it is declared in (<see cref="OmniPageVeilScope.Parent"/>).
     /// </summary>
     [Parameter]
     public OmniPageVeilScope Scope { get; set; }
@@ -101,7 +102,11 @@ public partial class OmniPageVeil : IDisposable
     internal string EffectiveLabel => LocalizeOr(Label, "LoadingLabel");
 
     /// <summary>The element's classes: the viewport veil is the base; a veil held by a main area adds how that area frames it, and the opacity is one class per step.</summary>
-    internal string RootClass => Css("omni-page-veil", _host is null ? null : _host.Scrollable ? "omni-page-veil--frame" : "omni-page-veil--flow", $"omni-page-veil--alpha-{OpacityBucket}");
+    internal string RootClass => Css("omni-page-veil", FrameClass, $"omni-page-veil--alpha-{OpacityBucket}");
+
+    private string? FrameClass => Scope == OmniPageVeilScope.Parent
+        ? "omni-page-veil--parent"
+        : _host is null ? null : _host.Scrollable ? "omni-page-veil--frame" : "omni-page-veil--flow";
 
     private int OpacityBucket => Math.Clamp((int)(Math.Round(Opacity / 5d, MidpointRounding.AwayFromZero) * 5), 0, 100);
 

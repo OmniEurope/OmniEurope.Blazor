@@ -107,7 +107,8 @@ public sealed class ChartAccessibilityTests : OmniBunitContext
         var svg = bare.Find("svg");
         Assert.Empty(bare.FindAll("desc"));
         Assert.Null(svg.GetAttribute("aria-describedby"));
-        Assert.Equal(bare.Find("title").Id, svg.GetAttribute("aria-labelledby"));
+        Assert.Empty(bare.FindAll("svg title"));
+        Assert.False(string.IsNullOrEmpty(svg.GetAttribute("aria-label")));
         Assert.Equal("decrit-description", described.Find("svg").GetAttribute("aria-describedby"));
         Assert.Equal("Ventes du semestre", described.Find("#decrit-description").TextContent);
     }
@@ -127,7 +128,7 @@ public sealed class ChartAccessibilityTests : OmniBunitContext
             Assert.Equal("Canal", table.QuerySelector("caption")!.TextContent);
             Assert.Equal(["Guichet", "En ligne"], table.QuerySelectorAll("tbody th").Select(cell => cell.TextContent));
         });
-        Assert.Equal("Guichet · 46", chart.Find(".omni-chart__pie path title").TextContent);
+        Assert.Equal("Guichet · 46", chart.Find(".omni-chart__pie path").GetAttribute("data-omni-tip"));
     }
 
     [Fact]

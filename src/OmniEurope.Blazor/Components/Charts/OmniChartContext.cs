@@ -250,6 +250,16 @@ internal sealed class OmniChartContext
             ? OmniChartGeometry.Pair(category, OmniChartGeometry.Display(point.Y))
             : OmniChartGeometry.Display(point.Y));
 
+    /// <summary>Whether the parts carry their text for the package tooltip (<see cref="OmniChart.Tooltips"/>).</summary>
+    internal bool Tooltips { get; set; } = true;
+
+    /// <summary>
+    /// The <c>data-omni-tip</c> of a part: its text, or nothing without one or with the tooltips off. A part drawn
+    /// outside a chart keeps its text. An SVG <c>title</c> would make the browser draw its own box as well.
+    /// </summary>
+    internal static string? Tip(OmniChartContext? context, string? text) =>
+        context is { Tooltips: false } || string.IsNullOrWhiteSpace(text) ? null : text;
+
     /// <summary>Whether the series of colour <paramref name="colorIndex"/> is hidden through a legend entry.</summary>
     internal bool IsHidden(int colorIndex) => _hiddenColors.Contains(colorIndex);
 

@@ -462,4 +462,52 @@ export async function overlaySteps(session, results) {
   await waitFor('le texte copié', "navigator.clipboard.readText().then(text => text.includes('dotnet test'))");
   await send('Emulation.setFocusEmulationEnabled', { enabled: false });
   step('bloc de code copié dans le presse-papiers');
+
+  // The list of a filterable dropdown in a dialog: fixed under its field, on top, and the dialog's own
+  // scrolling does not grow for it.
+  await session.visit('/components/dialogs', '#dialog-sticky');
+  await evaluate("[...document.querySelectorAll('button')].find(button => button.textContent.trim() === 'Edit the file').click()");
+  await waitFor('le formulaire ouvert', "document.querySelector('#dialogs-example-owner') !== null");
+  const dialogBody = "document.querySelector('.omni-dialog__content')";
+  const room = await evaluate(`${dialogBody}.scrollHeight`);
+  await evaluate("document.querySelector('#dialogs-example-owner').scrollIntoView({ block: 'end' })");
+  await clickOn('#dialogs-example-owner');
+  await waitFor('la liste ouverte', "document.querySelector('.omni-autocomplete__results--floating [role=option]') !== null");
+  await pause(100);
+  const list = await evaluate(`(() => {
+    const list = document.querySelector('.omni-autocomplete__results--floating');
+    const box = list.getBoundingClientRect();
+    const input = document.querySelector('#dialogs-example-owner').getBoundingClientRect();
+    const bottom = document.elementFromPoint(box.left + box.width / 2, box.bottom - 4);
+    return JSON.stringify({
+      position: getComputedStyle(list).position,
+      widths: [box.width, input.width],
+      apart: box.top >= input.bottom - 1 || box.bottom <= input.top + 1,
+      onTop: bottom?.closest('.omni-autocomplete__results') === list,
+      inWindow: box.bottom <= innerHeight && box.top >= 0,
+      scroll: ${dialogBody}.scrollHeight
+    });
+  })()`).then(JSON.parse);
+  check(list.position === 'fixed' && Math.abs(list.widths[0] - list.widths[1]) <= 2 && list.apart && list.onTop && list.inWindow, `liste mal placée : ${JSON.stringify(list)}`);
+  check(list.scroll <= room, `la liste agrandit le défilement du dialogue : ${room} -> ${list.scroll}`);
+  step('liste filtrable au-dessus de son dialogue, sans défilement ajouté');
+
+  // A cell holding controls is never read as cut text: only the cell of plain text shows its tooltip.
+  await session.visit('/components/progress', '#page-veil-card');
+  await evaluate(`(() => {
+    const table = document.createElement('table');
+    table.id = 'probe-cut-cells';
+    table.className = 'omni-data-grid';
+    table.innerHTML = '<tbody><tr><td><button type="button">Une action au nom bien trop long pour la cellule</button></td><td>Un texte bien trop long pour tenir dans sa cellule</td></tr></tbody>';
+    document.querySelector('main').prepend(table);
+    for (const cell of table.querySelectorAll('td')) cell.style.cssText = 'max-width: 60px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;';
+  })()`);
+  const anyTip = "document.querySelector('.omni-title-tooltip--visible') !== null";
+  await hover('#probe-cut-cells td:nth-child(1)');
+  await pause(900);
+  check(!(await evaluate(anyTip)), 'une cellule de commandes montre une bulle de texte coupé');
+  await hover('#probe-cut-cells td:nth-child(2)');
+  await waitFor('la bulle du texte coupé', anyTip);
+  await evaluate("document.getElementById('probe-cut-cells').remove()");
+  step('cellule de commandes sans bulle de texte coupé, cellule de texte avec');
 }

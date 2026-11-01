@@ -36,10 +36,19 @@ public partial class OmniPieSeries
     /// </summary>
     [Parameter] public OmniPieLabels OutsideLabels { get; set; }
 
-    /// <summary>Writes a value for <see cref="OmniPieLabels.NameAndValue"/>; by default the number in the current culture.</summary>
+    /// <summary>Writes a value, in the tooltip of its slice and for <see cref="OmniPieLabels.NameAndValue"/>; by default the number in the current culture.</summary>
     [Parameter] public Func<double, string>? FormatValue { get; set; }
 
+    /// <summary>
+    /// Sets the slices apart, for a chart in pieces: the gap between two slices, in degrees of the rim (2 or 3 for a
+    /// clear gap, 30 at most). The gap keeps its width across a ring. 0, the default, draws the slices touching;
+    /// a slice too small for the gap keeps a part of its angle, and a single slice stays whole.
+    /// </summary>
+    [Parameter] public double SliceGap { get; set; }
+
     private string CssClass => Donut ? "omni-chart__donut" : "omni-chart__pie";
+
+    private string ValueText(double value) => FormatValue?.Invoke(value) ?? OmniChartGeometry.Display(value);
 
     /// <summary>Keeps the slices above zero, computes their angles in proportion to their sum, and registers them with the chart.</summary>
     protected override void OnParametersSet()
@@ -67,7 +76,7 @@ public partial class OmniPieSeries
 
         var texts = _slices.Select(slice => OutsideLabels switch
         {
-            OmniPieLabels.NameAndValue => $"{slice.Label} {FormatValue?.Invoke(slice.Value) ?? OmniChartGeometry.Display(slice.Value)}",
+            OmniPieLabels.NameAndValue => $"{slice.Label} {ValueText(slice.Value)}",
             OmniPieLabels.NameAndPercent => $"{slice.Label} {(slice.Value / total).ToString("P0", CultureInfo.CurrentCulture)}",
             _ => slice.Label
         }).ToArray();
@@ -77,7 +86,10 @@ public partial class OmniPieSeries
         _labels = PieLabelLayout.Place(texts, middles, _radius, halfWidth);
     }
 
-    private string SlicePath(int index) => OmniChartGeometry.Arc(_angles[index], _angles[index + 1], _radius, Donut);
+    private string SlicePath(int index) =>
+        OmniChartGeometry.Arc(_angles[index], _angles[index + 1], _radius, Donut, SliceGap > 0 ? Math.Min(SliceGap, MaxSliceGap) : 0);
+
+    private const double MaxSliceGap = 30;
 
     /// <summary>Removes the series from its chart.</summary>
     public void Dispose()

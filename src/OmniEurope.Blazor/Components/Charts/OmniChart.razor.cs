@@ -76,6 +76,14 @@ public partial class OmniChart
     [Parameter] public bool HighlightOnHover { get; set; } = true;
 
     /// <summary>
+    /// Shows the text of a part (a point, a column or bar, a slice, a masked label) in the package tooltip, at once
+    /// and at the pointer. On by default; <c>false</c> leaves the parts without a tooltip. The chart itself has none,
+    /// its name is for assistive technology; a host that wants one puts <c>data-omni-tip</c> on the chart.
+    /// A <see cref="SharedTooltip"/> keeps its own text.
+    /// </summary>
+    [Parameter] public bool Tooltips { get; set; } = true;
+
+    /// <summary>
     /// The narrowest the chart is drawn: in a narrower card (a phone) it keeps this width and scrolls
     /// sideways in its card, its legends and its <see cref="FooterContent"/> (a range navigator) with it,
     /// instead of shrinking until its text cannot be read. <see cref="OmniChartMinWidth.Auto"/> chooses
@@ -157,8 +165,6 @@ public partial class OmniChart
 
     private string ViewBox => FormattableString.Invariant($"{_context.ViewLeft:0.###} 0 {_context.ViewWidth:0.###} 100");
 
-    private string TitleId => $"{Id ?? _generatedId}-title";
-
     private string DescriptionId => $"{Id ?? _generatedId}-description";
 
     /// <summary>The id of the clip of the parts, only while a range is shown.</summary>
@@ -194,6 +200,7 @@ public partial class OmniChart
 
         // A preset may set the ratio without the markup naming it: a value other than the default counts as set.
         _context.SetAspectRatio(_aspectRatioSet || AspectRatio != 1 ? AspectRatio : null);
+        _context.Tooltips = Tooltips;
     }
 
     /// <summary>Starts listening to the layout of the parts, and redraws the chart whenever it changes.</summary>
@@ -211,15 +218,14 @@ public partial class OmniChart
         ?? series.Where(item => row < item.Data.Count).Select(item => OmniChartGeometry.Display(item.Data[row].X)).First();
 
     /// <summary>
-    /// Turns the package tooltips on once the chart has a line to hover, then hands a
-    /// <see cref="MaxHeight"/> that changed to the interop script, loaded only once a value has to be
-    /// written. A chart with neither loads no script. A lost circuit is ignored.
+    /// Turns the package tooltips on, then hands a <see cref="MaxHeight"/> that changed to the interop
+    /// script, loaded only once a value has to be written. A lost circuit is ignored.
     /// </summary>
     /// <param name="firstRender">Whether this is the first render.</param>
     /// <returns>The task of the write.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!_disposed && _tooltips is null && PointHover && _context.LineSeries.Count > 0)
+        if (!_disposed && _tooltips is null && (Tooltips || SharedTooltip || HighlightOnHover) && (_context.TableSeries.Count > 0 || _context.Pies.Count > 0))
         {
             _tooltips = new Internal.OmniPackageTooltips(JavaScript);
             await _tooltips.InstallAsync();

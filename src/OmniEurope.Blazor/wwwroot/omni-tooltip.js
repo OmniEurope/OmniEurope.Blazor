@@ -1,6 +1,7 @@
 // One delegated set of listeners for every tooltip on the page. A tooltip is a leaf that a grid can
 // repeat hundreds of times, so attaching per instance would cost hundreds of interop calls and
 // hundreds of listeners for a behaviour that only ever concerns the one under the pointer.
+// The parts of a chart come through data-omni-tip: no delay, and a short hold across the gaps between them.
 
 import { placeFloating, fitAxis, viewportSize } from './shared/placement.js';
 
@@ -289,7 +290,49 @@ const CUT_CELL = [
     '.omni-multi-select-compact__text'
 ].join(', ');
 
-const isCut = element => element.scrollWidth > element.clientWidth + 1;
+// A cell that holds controls (the actions of a row) is not a cut text: its controls say what they do.
+const CONTROL = 'button, input, select, textarea, [role="button"]';
+const isCut = element => element.scrollWidth > element.clientWidth + 1 && element.querySelector(CONTROL) === null;
+
+// The parts of a chart show their tip at once. A tip outlives the pointer leaving its part by CHART_HOLD, and
+// so does the highlight of a bar or a slice (omni-chart__part--held): going from one part to the next across
+// the gap between them neither drops the highlight nor flickers.
+const CHART_TIP = '.omni-chart [data-omni-tip]';
+const CHART_HOLD = 500;
+const CHART_PART = ':is(.omni-chart__columns, .omni-chart__bars) rect, :is(.omni-chart__pie, .omni-chart__donut) path';
+const HELD_CLASS = 'omni-chart__part--held';
+let titleHold = 0;
+let heldPart = null;
+let heldTimer = 0;
+
+const releasePart = () => {
+    window.clearTimeout(heldTimer);
+    heldTimer = 0;
+    heldPart?.classList.remove(HELD_CLASS);
+    heldPart = null;
+};
+
+const holdPart = target => {
+    const part = target instanceof Element && !target.closest('.omni-chart--no-highlight') ? target.closest(CHART_PART) : null;
+    if (!part) {
+        return;
+    }
+
+    if (part !== heldPart) {
+        releasePart();
+    }
+
+    window.clearTimeout(heldTimer);
+    heldTimer = 0;
+    heldPart = part;
+    part.classList.add(HELD_CLASS);
+};
+
+const onPartOut = event => {
+    if (event.target === heldPart) {
+        heldTimer = window.setTimeout(releasePart, CHART_HOLD);
+    }
+};
 
 // Any other text cut by its ellipsis, in the package or in the host (a badge, a tile title, a tab label,
 // most of them only at a phone width such as 375 px): the closest element, a few levels up at most, that
@@ -328,6 +371,11 @@ const svgTitled = target => {
 const tipTarget = target => {
     if (!(target instanceof Element)) {
         return null;
+    }
+
+    const part = packageInstalls > 0 ? target.closest(CHART_TIP) : null;
+    if (part) {
+        return part;
     }
 
     const titled = titleInstalls > 0 ? svgTitled(target) ?? target.closest('[title], [data-omni-title]') : null;
@@ -416,6 +464,8 @@ const hideTitle = () => {
     unwatchTitle = null;
     window.clearTimeout(titleTimer);
     titleTimer = 0;
+    window.clearTimeout(titleHold);
+    titleHold = 0;
     restoreTitle(titleTarget);
     titleTarget = null;
     titleBox?.classList.remove('omni-title-tooltip--visible');
@@ -451,8 +501,20 @@ const showTitle = (text, x, y, source) => {
 };
 
 const onTitleOver = event => {
+    titlePointer = { x: event.clientX, y: event.clientY };
+    holdPart(event.target);
     const element = tipTarget(event.target);
+    if (element) {
+        window.clearTimeout(titleHold);
+        titleHold = 0;
+    }
+
     if (element === titleTarget) {
+        return;
+    }
+
+    if (!element && titleTarget?.matches(CHART_TIP)) {
+        titleHold ||= window.setTimeout(hideTitle, CHART_HOLD);
         return;
     }
 
@@ -475,7 +537,7 @@ const onTitleOver = event => {
     }
 
     titleTarget = element;
-    titleTimer = window.setTimeout(() => {
+    const show = () => {
         if (titleTarget === element && element.isConnected) {
             // The pointer last seen, unless it is not over the element (no move since the listeners
             // came, or the element moved under it): then the element itself is the anchor.
@@ -484,7 +546,13 @@ const onTitleOver = event => {
                 && titlePointer.y >= box.top && titlePointer.y <= box.bottom;
             showTitle(text, over ? titlePointer.x : box.left + box.width / 2, over ? titlePointer.y : box.top, element);
         }
-    }, TITLE_DELAY);
+    };
+
+    if (element.matches(CHART_TIP)) {
+        show();
+    } else {
+        titleTimer = window.setTimeout(show, TITLE_DELAY);
+    }
 };
 
 const onTitleMove = event => {
@@ -541,6 +609,7 @@ const onTitleKey = event => {
 const listen = add => {
     const method = add ? 'addEventListener' : 'removeEventListener';
     document[method]('pointerover', onTitleOver, { capture: true, passive: true });
+    document[method]('pointerout', onPartOut, { capture: true, passive: true });
     document[method]('pointermove', onTitleMove, { capture: true, passive: true });
     document[method]('pointerdown', hideTitle, { capture: true, passive: true });
     document[method]('focusin', onTitleFocus, { capture: true, passive: true });
@@ -561,6 +630,7 @@ const acquire = () => {
 const release = () => {
     hideTitle();
     if (titleInstalls + packageInstalls === 0) {
+        releasePart();
         listen(false);
         titleBox?.remove();
         titleBox = null;

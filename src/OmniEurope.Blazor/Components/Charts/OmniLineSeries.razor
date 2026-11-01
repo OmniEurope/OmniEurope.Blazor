@@ -1,7 +1,7 @@
 @namespace OmniEurope.Blazor.Components
 @if (!Hidden)
 {
-    <polyline class="@CssClass" points="@PointText" fill="none"><title>@Title</title></polyline>
+    <polyline class="@CssClass" points="@PointText" fill="none" data-omni-tip="@OmniChartContext.Tip(ChartContext, Title)" />
 }
 
 @implements IDisposable

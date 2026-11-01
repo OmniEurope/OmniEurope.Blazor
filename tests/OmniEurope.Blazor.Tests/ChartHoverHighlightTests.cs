@@ -101,7 +101,6 @@ public sealed class ChartHoverHighlightTests : OmniBunitContext
         {
             var zones = chart.FindAll(".omni-chart__point-zone");
             Assert.Equal(["Nord · 12 €", "Sud · 30 €"], zones.Select(zone => zone.GetAttribute("data-omni-tip")));
-            Assert.Equal("Nord · 12 €", zones[0].QuerySelector("title")!.TextContent);
             Assert.Contains("omni-chart-color-3", zones[0].GetAttribute("class"), StringComparison.Ordinal);
         });
     }
@@ -190,16 +189,20 @@ public sealed class ChartHoverHighlightTests : OmniBunitContext
     }
 
     [Fact]
-    public void AChartWithoutALine_LoadsNoTooltipScript()
+    public void AChartWithBarsLoadsTheTooltipScript_ButNotOneWithBothOff()
     {
         var module = JSInterop.SetupModule(Internal.OmniModules.Tooltip);
 
-        var bars = Chart(builder => Child<OmniColumnSeries>(builder, 0, ("Data", Points(10, 20))));
-        var off = Chart(builder => Child<OmniLineSeries>(builder, 0, ("Data", Points(10, 20))), highlight: false);
-
-        bars.WaitForAssertion(() => Assert.Equal(2, bars.FindAll("rect").Count));
+        var off = Render<OmniChart>(parameters => parameters
+            .Add(component => component.Label, "Ventes")
+            .Add(component => component.Tooltips, false)
+            .Add(component => component.HighlightOnHover, false)
+            .Add(component => component.ChildContent, (RenderFragment)(builder => Child<OmniLineSeries>(builder, 0, ("Data", Points(10, 20))))));
         off.WaitForAssertion(() => Assert.Single(off.FindAll("polyline")));
         Assert.Empty(module.Invocations);
+
+        var bars = Chart(builder => Child<OmniColumnSeries>(builder, 0, ("Data", Points(10, 20))));
+        bars.WaitForAssertion(() => Assert.NotEmpty(module.Invocations));
     }
 
     private IRenderedComponent<OmniChart> Bars(OmniChartPoint[] data, bool horizontal, bool contrast = true, int color = 2) =>
@@ -292,13 +295,79 @@ public sealed class ChartHoverHighlightTests : OmniBunitContext
     }
 
     [Fact]
+    public void TheParts_CarryTheirTextAsATip_AndNoSvgTitle_SoTheBrowserDrawsNoBoxOfItsOwn()
+    {
+        var chart = Chart(builder =>
+        {
+            Child<OmniColumnSeries>(builder, 0, ("Title", "Ventes"), ("Data", Points(3, 5)));
+            Child<OmniLineSeries>(builder, 10, ("Title", "Cible"), ("Data", Points(4, 6)));
+            Child<OmniMarkers>(builder, 20, ("Data", Points(4, 6)));
+        });
+
+        chart.WaitForAssertion(() => Assert.NotEmpty(chart.FindAll(".omni-chart__columns rect[data-omni-tip]")));
+        Assert.Empty(chart.FindAll("svg title"));
+        Assert.False(string.IsNullOrEmpty(chart.Find("svg").GetAttribute("aria-label")));
+        Assert.Null(chart.Find("svg").GetAttribute("data-omni-tip"));
+    }
+
+    [Fact]
+    public void TooltipsOff_LeavesEveryPartWithoutATip_AndKeepsTheHighlight()
+    {
+        var chart = Render<OmniChart>(parameters => parameters
+            .Add(component => component.Label, "Ventes")
+            .Add(component => component.Tooltips, false)
+            .Add(component => component.ChildContent, (RenderFragment)(builder =>
+            {
+                Child<OmniColumnSeries>(builder, 0, ("Data", Points(3, 5)));
+                Child<OmniLineSeries>(builder, 10, ("Data", Points(4, 6)));
+            })));
+
+        chart.WaitForAssertion(() => Assert.NotEmpty(chart.FindAll(".omni-chart__columns rect")));
+        Assert.Empty(chart.FindAll("[data-omni-tip]"));
+        Assert.DoesNotContain("omni-chart--no-highlight", chart.Find("figure").GetAttribute("class"), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void TheTooltipOfASlice_WritesItsValueWithFormatValue()
+    {
+        var chart = Render<OmniChart>(parameters => parameters
+            .Add(component => component.Label, "Origine")
+            .AddChildContent<OmniPieSeries>(pie => pie
+                .Add(component => component.Data, [new OmniChartSlice("Alpha", 2388.576)])
+                .Add(component => component.FormatValue, value => $"{value:0} €")));
+
+        chart.WaitForAssertion(() => Assert.Equal(OmniChartGeometry.Pair("Alpha", $"{2388.576:0} €"), chart.Find("path[data-omni-tip]").GetAttribute("data-omni-tip")));
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void SliceGap_TakesEachSliceAwayFromItsNeighbours_AndZeroLeavesThemTouching(bool donut)
+    {
+        var whole = OmniChartGeometry.Arc(0, 90, 45, donut);
+
+        Assert.Equal(whole, OmniChartGeometry.Arc(0, 90, 45, donut, 0));
+        Assert.NotEqual(whole, OmniChartGeometry.Arc(0, 90, 45, donut, 4));
+        Assert.Equal(OmniChartGeometry.Arc(2, 88, 45, false), OmniChartGeometry.Arc(0, 90, 45, false, 4));
+    }
+
+    [Fact]
+    public void SliceGap_KeepsASmallSliceDrawn_AndASingleSliceWhole()
+    {
+        // 40 % off each end of a 5 degree slice, whatever the gap asks.
+        Assert.Equal(OmniChartGeometry.Arc(2, 3, 45, false), OmniChartGeometry.Arc(0, 5, 45, false, 30));
+        Assert.Equal(OmniChartGeometry.Arc(0, 359.999, 45, true), OmniChartGeometry.Arc(0, 359.999, 45, true, 4));
+    }
+
+    [Fact]
     public void Stylesheet_ShowsTheHoverOfThePoints_TheBars_AndTheLabelColour()
     {
         var css = StylesheetSource.Read();
         Assert.Contains(".omni-chart__point-zone:hover .omni-chart__point-mark { opacity: 1; }", css, StringComparison.Ordinal);
         Assert.Matches(@"polyline\.omni-chart__point-reach \{[^}]*pointer-events: stroke;[^}]*vector-effect: non-scaling-stroke;", css);
-        Assert.Contains(":is(.omni-chart__columns, .omni-chart__bars) rect:hover {", css, StringComparison.Ordinal);
-        Assert.Matches(@"\.omni-chart:not\(\.omni-chart--no-highlight\) :is\(\.omni-chart__columns, \.omni-chart__bars\) rect:hover", css);
+        Assert.Contains(":is(.omni-chart__columns, .omni-chart__bars) :is(rect:hover, rect.omni-chart__part--held)", css, StringComparison.Ordinal);
+        Assert.Contains(":is(.omni-chart__pie, .omni-chart__donut) :is(path:hover, path.omni-chart__part--held)", css, StringComparison.Ordinal);
+        Assert.Matches(@"\.omni-chart:not\(\.omni-chart--no-highlight\) :is\(\.omni-chart__pie, \.omni-chart__donut\):has\(path:hover, path\.omni-chart__part--held\) path:not\(:hover, \.omni-chart__part--held\) \{ opacity: 0\.6; \}", css);
         Assert.Contains(".omni-chart__labels text { pointer-events: none; }", css, StringComparison.Ordinal);
         Assert.Contains("@supports (color: oklch(from red l c h))", css, StringComparison.Ordinal);
         for (var slot = 0; slot < 8; slot++)

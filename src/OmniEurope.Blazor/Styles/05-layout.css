@@ -525,6 +525,10 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 .omni-page-veil--alpha-100 { --omni-page-veil-alpha: 100%; }
 .omni-page-veil--frame, .omni-page-veil--flow { position: absolute; z-index: var(--omni-z-sticky); }
 .omni-page-veil--flow { align-items: flex-start; }
+/* Scope Parent: over the element it is declared in, a card or a chart, whose corners it follows. :where keeps the
+   rule at no weight, so an element already positioned stays as it is. The logo stays inside a short element. */
+:where(:has(> .omni-page-veil--parent)) { position: relative; }
+.omni-page-veil--parent { --omni-page-veil-logo-size: min(6rem, 60cqmin); border-radius: inherit; container-type: size; position: absolute; z-index: 1; }
 .omni-page-veil--flow .omni-page-veil__logo { inset-block-start: calc(50dvh - var(--omni-page-veil-logo-size, 6rem) / 2); position: sticky; }
 .omni-page-veil__logo { block-size: var(--omni-page-veil-logo-size, 6rem); display: inline-flex; inline-size: var(--omni-page-veil-logo-size, 6rem); }
 .omni-page-veil__logo > :is(img, svg) { block-size: 100%; inline-size: 100%; object-fit: contain; }

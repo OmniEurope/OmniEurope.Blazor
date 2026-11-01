@@ -72,8 +72,8 @@ public sealed class ChartSeriesOptionsTests : OmniBunitContext
         chart.WaitForAssertion(() =>
         {
             Assert.Empty(chart.FindAll(".omni-chart__hover"));
-            Assert.Equal(3, chart.FindAll(".omni-chart__columns rect title").Count);
-            Assert.Equal($"Fév · {12.ToString(CultureInfo.CurrentCulture)}", chart.FindAll(".omni-chart__columns rect title")[1].TextContent);
+            Assert.Equal(3, chart.FindAll(".omni-chart__columns rect").Count);
+            Assert.Equal($"Fév · {12.ToString(CultureInfo.CurrentCulture)}", chart.FindAll(".omni-chart__columns rect")[1].GetAttribute("data-omni-tip"));
         });
     }
 
@@ -95,7 +95,7 @@ public sealed class ChartSeriesOptionsTests : OmniBunitContext
             var culture = CultureInfo.CurrentCulture;
             Assert.Equal(
                 $"Fév\nVentes · {12.ToString(culture)}\nSérie 2 · {7.5.ToString(culture)}",
-                bands[1].QuerySelector("title")!.TextContent);
+                bands[1].GetAttribute("data-omni-tip")!);
             Assert.Empty(chart.FindAll(".omni-chart__hover-band[style]"));
         });
     }
@@ -145,7 +145,7 @@ public sealed class ChartSeriesOptionsTests : OmniBunitContext
             Assert.Equal(41, Number(bands[1], "width"), 3);
             Assert.Equal(96, Number(bands[2], "x") + Number(bands[2], "width"), 3);
             // Without a category axis, the category is the X value of the point.
-            Assert.StartsWith($"{1.ToString(CultureInfo.CurrentCulture)}\nTaux · ", bands[1].QuerySelector("title")!.TextContent, StringComparison.Ordinal);
+            Assert.StartsWith($"{1.ToString(CultureInfo.CurrentCulture)}\nTaux · ", bands[1].GetAttribute("data-omni-tip")!, StringComparison.Ordinal);
         });
     }
 
@@ -156,7 +156,7 @@ public sealed class ChartSeriesOptionsTests : OmniBunitContext
 
         chart.WaitForAssertion(() =>
         {
-            var text = chart.FindAll(".omni-chart__hover-band title")[0].TextContent;
+            var text = chart.FindAll(".omni-chart__hover-band")[0].GetAttribute("data-omni-tip");
             var culture = CultureInfo.CurrentCulture;
             Assert.Equal($"Jan\nVentes · {10.ToString("0.00", culture)} %\nSérie 2 · {5.ToString("0.00", culture)} %", text);
         });
@@ -188,7 +188,7 @@ public sealed class ChartSeriesOptionsTests : OmniBunitContext
             Assert.Equal(OmniChartContext.PlotTop, Number(bands[0], "y"), 3);
             Assert.Equal(half, Number(bands[0], "height"), 3);
             Assert.Equal(14, Number(bands[1], "x"), 3);
-            Assert.Equal($"DE\nDossiers · {6.ToString(CultureInfo.CurrentCulture)}", bands[1].QuerySelector("title")!.TextContent);
+            Assert.Equal($"DE\nDossiers · {6.ToString(CultureInfo.CurrentCulture)}", bands[1].GetAttribute("data-omni-tip")!);
         });
     }
 

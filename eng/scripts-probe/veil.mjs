@@ -18,7 +18,7 @@ export async function veilSteps(session, results) {
   // scrolls (OmniMain Scrollable), so the veil is drawn in its non-scrolling frame and must cover that frame
   // exactly: under the header and beside the sidebar, which stay outside it (recette R1-29).
   const recorder = `(() => {
-    const probe = window.__veilProbe = { insertedAt: null, removedAt: null, frames: [], geometry: null, done: false };
+    const probe = window.__veilProbe = { insertedAt: null, removedAt: null, animationStart: null, frames: [], geometry: null, done: false };
     new MutationObserver(records => {
       for (const record of records) {
         for (const node of record.addedNodes) if (node.nodeType === 1 && (node.matches('.omni-page-veil') || node.querySelector('.omni-page-veil'))) probe.insertedAt ??= performance.now();
@@ -30,7 +30,8 @@ export async function veilSteps(session, results) {
       const veil = document.querySelector('.omni-page-veil');
       if (veil) {
         const style = getComputedStyle(veil);
-        probe.frames.push({ t: now, visibility: style.visibility, opacity: style.opacity, color: style.backgroundColor });
+        probe.animationStart ??= veil.getAnimations()[0]?.startTime ?? null;
+        probe.frames.push({ t: now, clock: document.timeline.currentTime, visibility: style.visibility, opacity: style.opacity, color: style.backgroundColor });
         if (style.visibility === 'visible') {
           const logo = veil.querySelector('.omni-page-veil__logo');
           const mark = logo?.firstElementChild ?? null;
@@ -73,11 +74,14 @@ export async function veilSteps(session, results) {
     const hiddenFirst = probe.frames[0]?.visibility === 'hidden';
     const visible = probe.frames.filter(frame => frame.visibility === 'visible');
     check(visible.length > 0, `${label} : le voile n'est jamais devenu visible (${JSON.stringify(distinct(probe.frames, 'visibility'))}).`);
-    const delay = visible[0].t - probe.insertedAt;
+    // On the clock of the animation that holds the veil back: a frame begins before the task that inserted the
+    // veil ends, so a reading against the insertion runs up to a frame short (93 ms measured under load).
+    check(probe.animationStart !== null, `${label} : aucune animation ne retient le voile.`);
+    const delay = visible[0].clock - probe.animationStart;
     check(hiddenFirst, `${label} : le voile était déjà visible à sa première image.`);
-    check(delay >= 95 && delay <= 400, `${label} : le voile est apparu après ${delay.toFixed(0)} ms, il doit apparaître après environ 100 ms.`);
-    const before = probe.frames.filter(frame => frame.t - probe.insertedAt < 90);
-    check(before.every(frame => frame.visibility === 'hidden'), `${label} : le voile était visible avant 90 ms.`);
+    check(delay >= 99.5 && delay <= 400, `${label} : le voile est apparu après ${delay.toFixed(0)} ms, il doit apparaître après environ 100 ms.`);
+    const before = probe.frames.filter(frame => frame.clock - probe.animationStart < 99.5);
+    check(before.every(frame => frame.visibility === 'hidden'), `${label} : le voile était visible avant 100 ms.`);
     check(distinct(visible, 'opacity').join() === '1', `${label} : l'opacité varie ou n'est pas 1 : ${distinct(visible, 'opacity').join(' | ')}.`);
     check(distinct(probe.frames, 'opacity').join() === '1', `${label} : l'opacité varie pendant le délai : ${distinct(probe.frames, 'opacity').join(' | ')}.`);
     check(distinct(visible, 'color').length === 1, `${label} : la couleur varie : ${distinct(visible, 'color').join(' | ')}.`);
@@ -105,7 +109,7 @@ export async function veilSteps(session, results) {
   const markup = checkShown('logo en balisage', await wait('page-veil-content'));
   checkCentred('logo en balisage', markup.geometry, 'svg');
   const light = markup.color;
-  step(`voile de page : apparu après ${markup.delay.toFixed(0)} ms (jamais avant 90 ms), fond à ${markup.geometry.alpha}, couleur constante ${light}, ${markup.frames} images relevées, logo en balisage centré`);
+  step(`voile de page : apparu après ${markup.delay.toFixed(0)} ms (jamais avant 100 ms), fond à ${markup.geometry.alpha}, couleur constante ${light}, ${markup.frames} images relevées, logo en balisage centré`);
 
   // 1b. The whole window: fixed over everything, the header included, the same colour.
   const whole = await wait('page-veil-window');
@@ -173,4 +177,17 @@ export async function veilSteps(session, results) {
   } finally {
     await pickMode(1);
   }
+
+  // The veil of one card: it covers that card, the main area stays out of it, and it leaves with the wait.
+  await session.visit('/components/progress', '#page-veil-card');
+  await session.evaluate("document.getElementById('page-veil-card').click()");
+  await session.waitFor('le voile de la carte', "document.querySelector('#page-veil-card-demo .omni-page-veil--parent') !== null");
+  const cover = await session.evaluate(`(() => {
+    const card = document.getElementById('page-veil-card-demo').getBoundingClientRect();
+    const frame = document.querySelector('#page-veil-card-demo .omni-page-veil--parent').getBoundingClientRect();
+    return JSON.stringify({ card: [card.left, card.top, card.width, card.height], frame: [frame.left, frame.top, frame.width, frame.height] });
+  })()`).then(JSON.parse);
+  session.check(cover.frame.every((value, index) => Math.abs(value - cover.card[index]) <= 2), `voile hors de sa carte : ${JSON.stringify(cover)}`);
+  await session.waitFor('le voile de la carte retiré', "document.querySelector('#page-veil-card-demo .omni-page-veil--parent') === null");
+  results.push('voile limité à sa carte');
 }

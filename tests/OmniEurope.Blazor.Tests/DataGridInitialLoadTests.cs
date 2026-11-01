@@ -56,6 +56,20 @@ public sealed class DataGridInitialLoadTests : OmniBunitContext
     [Theory]
     [InlineData(OmniDataGridScrollMode.Paged)]
     [InlineData(OmniDataGridScrollMode.Virtual)]
+    public void ColumnsDeclaredByAChildComponent_AreInTheFirstRequest_TheOnlyOne(OmniDataGridScrollMode mode)
+    {
+        var requests = new List<OmniDataGridLoadRequest>();
+        var grid = Render<DataGridNestedColumnsTestHost>(parameters => parameters
+            .Add(component => component.ScrollMode, mode)
+            .Add(component => component.Load, request => Answer(requests, request, null)));
+
+        grid.WaitForAssertion(() => Assert.Equal(2, grid.FindAll("tbody tr[data-omni-row-index]").Count));
+        Assert.Equal("Open", Assert.Single(Assert.Single(requests).Filters).Value);
+    }
+
+    [Theory]
+    [InlineData(OmniDataGridScrollMode.Paged)]
+    [InlineData(OmniDataGridScrollMode.Virtual)]
     public void FirstRequest_WaitsForTheSavedStateStillBeingRead_AndCarriesIt(OmniDataGridScrollMode mode)
     {
         // The browser answers after the grid first rendered: the columns registered their defaults, but

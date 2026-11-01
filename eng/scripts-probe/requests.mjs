@@ -325,7 +325,7 @@ export async function requestSteps(session, results) {
     const labels = [...figure.querySelectorAll('.omni-chart__labels text')].map(text => text.getBoundingClientRect()).filter(box => box.bottom > figure.getBoundingClientRect().top);
     let labelOverlaps = 0;
     for (let i = 0; i < labels.length; i++) for (let j = i + 1; j < labels.length; j++) if (overlap(labels[i], labels[j])) labelOverlaps++;
-    const hits = [...figure.querySelectorAll('.omni-chart__label-hit title')].filter(title => title.textContent.trim().length > 0).length;
+    const hits = [...figure.querySelectorAll('.omni-chart__label-hit[data-omni-tip]')].length;
     const ticks = [...figure.querySelectorAll('.omni-range-navigator__ticks text')].map(text => text.getBoundingClientRect());
     let tickOverlaps = 0;
     for (let i = 1; i < ticks.length; i++) if (ticks[i].left < ticks[i - 1].right) tickOverlaps++;

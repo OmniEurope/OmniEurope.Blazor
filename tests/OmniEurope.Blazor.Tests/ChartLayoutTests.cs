@@ -340,7 +340,7 @@ public sealed class ChartLayoutTests : OmniBunitContext
 
         chart.WaitForAssertion(() =>
         {
-            var titles = chart.FindAll(".omni-chart__columns rect title").Select(title => title.TextContent).ToList();
+            var titles = chart.FindAll(".omni-chart__columns rect").Select(title => title.GetAttribute("data-omni-tip")!).ToList();
             Assert.Equal(30, titles.Count);
             Assert.Equal($"02/09 · {101.ToString(CultureInfo.CurrentCulture)}", titles[1]);
         });

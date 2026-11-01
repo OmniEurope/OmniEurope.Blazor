@@ -43,6 +43,12 @@
                         <OmniTextArea Id="dialogs-example-comment" @bind-Value="DraftComment" Rows="3" MaxLength="200" ShowCount="true" />
                     </ChildContent>
                 </OmniFormField>
+                <OmniFormField For="dialogs-example-owner" Description="Its list opens over the dialog, whatever the room left in it.">
+                    <LabelContent>Owner</LabelContent>
+                    <ChildContent>
+                        <OmniDropDown TValue="string" Id="dialogs-example-owner" Options="Owners" Filterable="true" @bind-Value="DraftOwner" />
+                    </ChildContent>
+                </OmniFormField>
                 @if (!HasFooter)
                 {
                     <OmniText Tone="OmniTextTone.Muted">Without a footer, only the cross, Escape and the backdrop close the dialog, and nothing is saved.</OmniText>

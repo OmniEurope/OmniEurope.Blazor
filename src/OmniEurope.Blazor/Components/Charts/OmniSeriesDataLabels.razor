@@ -14,7 +14,7 @@
         }
         else
         {
-            <circle class="omni-chart__label-hit" cx="@OmniChartGeometry.Number(label.Point.X)" cy="@OmniChartGeometry.Number(label.Point.Y)" r="2"><title>@label.Text</title></circle>
+            <circle class="omni-chart__label-hit" cx="@OmniChartGeometry.Number(label.Point.X)" cy="@OmniChartGeometry.Number(label.Point.Y)" r="2" data-omni-tip="@OmniChartContext.Tip(ChartContext, label.Text)" />
         }
     }
 </g>

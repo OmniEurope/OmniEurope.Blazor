@@ -1,4 +1,4 @@
-@* A pie, a ring, a single slice and two slices side by side. The tiles are as many columns as the room allows,
+@* A pie, a ring, a ring in pieces (SliceGap), a single slice and two slices side by side. The tiles are as many columns as the room allows,
    at least 14rem wide. *@
 <OmniTileGrid Columns="4" MinColumnWidth="14rem" EqualHeights="false" Gap="OmniSpacing.Large">
     <OmniStack Gap="OmniSpacing.XSmall">
@@ -11,6 +11,12 @@
         <OmniText Element="OmniTextElement.Strong">Donut</OmniText>
         <OmniChart Label="Donut">
             <OmniPieSeries Title="Files by country" Donut="true" Data="PieChartData.Countries" />
+        </OmniChart>
+    </OmniStack>
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniText Element="OmniTextElement.Strong">Donut in pieces</OmniText>
+        <OmniChart Id="demo-chart-donut-pieces" Label="Donut in pieces">
+            <OmniPieSeries Title="Files by country" Donut="true" SliceGap="3" Data="PieChartData.Countries" />
         </OmniChart>
     </OmniStack>
     <OmniStack Gap="OmniSpacing.XSmall">

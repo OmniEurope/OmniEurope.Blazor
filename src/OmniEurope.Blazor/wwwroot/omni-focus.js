@@ -9,6 +9,7 @@ import { notify } from './shared/notify.js';
 
 export { activateDialog, activateWindow, focusBoundary, restoreFocus } from './focus/dialog.js';
 export { attachPopover, detachPopover } from './focus/popover.js';
+export { attachFloatingList, detachFloatingList } from './focus/floating-list.js';
 export { attachPicker, detachPicker, focusPickerItem } from './focus/picker.js';
 export { configureDisclosure, disposeDisclosure, observeFieldsetToggle, disposeFieldsetToggle } from './focus/disclosure.js';
 export { openMenu, closeMenu, moveMenuFocus } from './focus/menus.js';

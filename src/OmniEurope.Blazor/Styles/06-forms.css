@@ -345,6 +345,8 @@ select.omni-input.omni-input--large:not([multiple]):not([size]) { block-size: ca
     width: 100%;
     z-index: var(--omni-z-popover);
 }
+/* Placed by the script over whatever scrolls or clips around the field (focus/floating-list.js). */
+.omni-autocomplete__results--floating { box-sizing: border-box; inline-size: var(--omni-autocomplete-width, 100%); inset-block-start: var(--omni-autocomplete-y, auto); inset-inline-start: auto; left: var(--omni-autocomplete-x, auto); margin: 0; position: fixed; }
 /* Options, not buttons: the focus stays in the input and the highlighted option (aria-activedescendant)
    carries the --active class. */
 .omni-autocomplete__option {

@@ -68,7 +68,7 @@ public sealed class ChartLabelsAndSizingTests : OmniBunitContext
         });
 
         var texts = chart.FindAll(".omni-chart__labels text");
-        var hits = chart.FindAll(".omni-chart__labels .omni-chart__label-hit title");
+        var hits = chart.FindAll(".omni-chart__labels .omni-chart__label-hit");
         Assert.InRange(texts.Count, 2, 35);
         Assert.Equal(36, texts.Count + hits.Count);
         Assert.Equal(OmniChartGeometry.Display(data[^1].Y), texts[^1].TextContent);
@@ -89,7 +89,7 @@ public sealed class ChartLabelsAndSizingTests : OmniBunitContext
             Assert.True(extents[index].Left >= extents[index - 1].Right, $"Label {index} overlaps the previous one.");
         }
 
-        Assert.All(hits, hit => Assert.False(string.IsNullOrWhiteSpace(hit.TextContent)));
+        Assert.All(hits, hit => Assert.False(string.IsNullOrWhiteSpace(hit.GetAttribute("data-omni-tip"))));
     }
 
     [Fact]
@@ -399,9 +399,9 @@ public sealed class ChartLabelsAndSizingTests : OmniBunitContext
         Assert.Equal(2, texts.Count);
         Assert.EndsWith("…", texts[0].FirstChild!.TextContent, StringComparison.Ordinal);
         Assert.StartsWith("Une étiquett", texts[0].FirstChild!.TextContent, StringComparison.Ordinal);
-        Assert.Equal(Long, texts[0].QuerySelector("title")!.TextContent);
+        Assert.Equal(Long, texts[0].GetAttribute("data-omni-tip"));
         Assert.Equal("B", texts[1].TextContent);
-        Assert.Null(texts[1].QuerySelector("title"));
+        Assert.Null(texts[1].GetAttribute("data-omni-tip"));
     }
 
     [Fact]

@@ -926,6 +926,7 @@ field public static OmniEurope.Blazor.Components.OmniNotificationPlacement.TopSt
 field public static OmniEurope.Blazor.Components.OmniOrientation.Horizontal : OmniEurope.Blazor.Components.OmniOrientation const = 0
 field public static OmniEurope.Blazor.Components.OmniOrientation.Vertical : OmniEurope.Blazor.Components.OmniOrientation const = 1
 field public static OmniEurope.Blazor.Components.OmniPageVeilScope.Content : OmniEurope.Blazor.Components.OmniPageVeilScope const = 0
+field public static OmniEurope.Blazor.Components.OmniPageVeilScope.Parent : OmniEurope.Blazor.Components.OmniPageVeilScope const = 2
 field public static OmniEurope.Blazor.Components.OmniPageVeilScope.Viewport : OmniEurope.Blazor.Components.OmniPageVeilScope const = 1
 field public static OmniEurope.Blazor.Components.OmniPanelMenuDisplay.Icon : OmniEurope.Blazor.Components.OmniPanelMenuDisplay const = 1
 field public static OmniEurope.Blazor.Components.OmniPanelMenuDisplay.IconAndText : OmniEurope.Blazor.Components.OmniPanelMenuDisplay const = 0
@@ -1073,6 +1074,7 @@ method protected override OmniEurope.Blazor.Components.OmniArcGaugeScaleValue.On
 method protected override OmniEurope.Blazor.Components.OmniAreaSeries.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniAreaSeries.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.TryParseValueFromString(System.String? value, out TValue result, out System.String validationErrorMessage) : System.Boolean
 method protected override OmniEurope.Blazor.Components.OmniAxisTitle.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
@@ -2519,6 +2521,7 @@ property public OmniEurope.Blazor.Components.OmniChart.Label : System.String {ge
 property public OmniEurope.Blazor.Components.OmniChart.MaxHeight : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniChart.MinWidth : OmniEurope.Blazor.Components.OmniChartMinWidth {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniChart.SharedTooltip : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniChart.Tooltips : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniChartPoint.Label : System.String? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniChartPoint.X : System.Double {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniChartPoint.Y : System.Double {get(public);init(public)}
@@ -3542,6 +3545,7 @@ property public OmniEurope.Blazor.Components.OmniPieSeries.Data : System.Collect
 property public OmniEurope.Blazor.Components.OmniPieSeries.Donut : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPieSeries.FormatValue : System.Func<System.Double,System.String>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPieSeries.OutsideLabels : OmniEurope.Blazor.Components.OmniPieLabels {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniPieSeries.SliceGap : System.Double {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPieSeries.Title : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPopover.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPopover.Disabled : System.Boolean {get(public);set(public)} [Parameter]

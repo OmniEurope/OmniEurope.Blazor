@@ -24,8 +24,7 @@
     }
     @* One image for assistive technology, named by the title and described by the description when
        there is one; what the drawing shows is read from the data table after it. *@
-    <svg class="@SvgClass" viewBox="@ViewBox" role="img" aria-labelledby="@TitleId" aria-describedby="@(HasDescription ? DescriptionId : null)" preserveAspectRatio="xMidYMid meet">
-        <title id="@TitleId">@Label</title>
+    <svg class="@SvgClass" viewBox="@ViewBox" role="img" aria-label="@Label" aria-describedby="@(HasDescription ? DescriptionId : null)" preserveAspectRatio="xMidYMid meet">
         @if (HasDescription)
         {
             <desc id="@DescriptionId">@Description</desc>

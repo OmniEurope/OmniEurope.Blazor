@@ -34,6 +34,11 @@ public partial class DialogsExample
     [Parameter]
     public OmniDialogInitialFocus InitialFocus { get; set; } = OmniDialogInitialFocus.CloseButton;
 
+    private static readonly IReadOnlyList<OmniOption<string>> Owners =
+        [.. new[] { "Alpha", "Borealis", "Cygnus", "Draco", "Eridanus", "Fornax", "Gemini", "Hydra" }.Select(name => new OmniOption<string>(name, name))];
+
+    private string? DraftOwner { get; set; }
+
     private bool FormOpen { get; set; }
 
     private bool InfoOpen { get; set; }

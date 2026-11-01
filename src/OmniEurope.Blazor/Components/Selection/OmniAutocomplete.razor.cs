@@ -27,6 +27,12 @@ public partial class OmniAutocomplete<TValue>
     // The text that stands for the current value: a free text equal to it is not taken again.
     private string _committedText = string.Empty;
     private ElementReference _input;
+    private ElementReference _root;
+    private ElementReference _resultsList;
+    private IJSObjectReference? _module;
+    private bool _listPlaced;
+
+    [Inject] private IJSRuntime JavaScript { get; set; } = default!;
 
     /// <summary>
     /// Finds the suggestions for what was typed. It receives the text and a token cancelled when a newer
@@ -545,7 +551,7 @@ public partial class OmniAutocomplete<TValue>
     }
 
     /// <summary>Cancels a pending search and releases the form subscription.</summary>
-    public ValueTask DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
         // Blazor calls only DisposeAsync on a component that has both: the form subscription of
         // InputBase is released through its own Dispose.
@@ -553,6 +559,46 @@ public partial class OmniAutocomplete<TValue>
         _searchGeneration++;
         _searchCancellation?.Cancel();
         _searchCancellation?.Dispose();
-        return ValueTask.CompletedTask;
+        if (_module is null)
+        {
+            return;
+        }
+
+        try
+        {
+            await _module.InvokeVoidAsync("detachFloatingList", ResultsId);
+            await _module.DisposeAsync();
+        }
+        catch (JSDisconnectedException)
+        {
+            // The page is gone with its listeners.
+        }
+    }
+
+    /// <summary>
+    /// Hands the open list to the script that places it over whatever clips the field (a dialog, a card) and takes
+    /// it back once closed. Before the script answers the list sits under the field. A lost circuit is ignored.
+    /// </summary>
+    /// <param name="firstRender">Whether this is the first render.</param>
+    /// <returns>The task of the call.</returns>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (IsOpen == _listPlaced)
+        {
+            return;
+        }
+
+        _listPlaced = IsOpen;
+        try
+        {
+            _module ??= await OmniScriptModule.ImportAsync(JavaScript, OmniModules.Focus);
+            await (_listPlaced
+                ? _module.InvokeVoidAsync("attachFloatingList", _root, _resultsList, ResultsId)
+                : _module.InvokeVoidAsync("detachFloatingList", ResultsId));
+        }
+        catch (JSDisconnectedException)
+        {
+            // The page is gone; nothing left to place.
+        }
     }
 }

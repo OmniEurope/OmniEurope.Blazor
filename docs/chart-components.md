@@ -14,7 +14,7 @@ leurs coordonnées dans un même contexte : elles s'alignent par construction.
 | `OmniGridLines` | Lignes de grille du tracé. |
 | `OmniLineSeries`, `OmniAreaSeries` | Série en courbe, ou en aire, empilable (`Stacked`) ; `Dashed` trace la courbe, ou le contour de l'aire, en tirets. |
 | `OmniColumnSeries` | Colonnes verticales groupées par catégorie, empilables (`Stacked`) ; `Horizontal="true"` en fait des barres horizontales sur axes tournés ; `ColorByPoint="true"` donne à chaque rectangle sa couleur de la palette. |
-| `OmniPieSeries` | Secteurs d'un disque, ou d'un anneau (`Donut`). `OutsideLabels` (`OmniPieLabels` : `Name`, `NameAndValue` avec `FormatValue`, `NameAndPercent`) écrit chaque part hors du disque, reliée au milieu de son secteur par un trait de rappel ; les étiquettes de chaque côté s'empilent sans se chevaucher et le disque rétrécit pour leur laisser la place (une étiquette encore trop longue est coupée, son texte entier au survol). |
+| `OmniPieSeries` | Secteurs d'un disque, ou d'un anneau (`Donut`). `FormatValue` écrit la valeur dans l'infobulle de la part et dans `OutsideLabels`. `SliceGap` (`double`, en degrés, 0 par défaut, 30 au plus) écarte les parts, l'écart gardant sa largeur sur tout l'anneau. `SliceGap` (`double`, en degrés, 0 par défaut, 30 au plus) écarte les parts, l'écart gardant sa largeur sur tout l'anneau. `OutsideLabels` (`OmniPieLabels` : `Name`, `NameAndValue` avec `FormatValue`, `NameAndPercent`) écrit chaque part hors du disque, reliée au milieu de son secteur par un trait de rappel ; les étiquettes de chaque côté s'empilent sans se chevaucher et le disque rétrécit pour leur laisser la place (une étiquette encore trop longue est coupée, son texte entier au survol). |
 | `OmniMarkers` | Points marqués sur les valeurs d'une série. |
 | `OmniSeriesDataLabels` | Valeurs écrites sur les points d'une série, avec leur format (`FormatValue`) ; `Inside="true"` les écrit dans la barre ; `InsideContrast` (`bool`, `true` par défaut) les y rend lisibles (voir Survol et lisibilité). Une étiquette qui sortirait de la zone de tracé, d'après sa largeur estimée, s'ancre au bord qu'elle franchirait (début à gauche, fin à droite), au lieu de déborder de la moitié de sa largeur au premier et au dernier point. Une étiquette qui chevaucherait la précédente gardée est masquée, la dernière toujours gardée (la règle de l'axe des catégories) ; la valeur masquée reste lisible au survol de son point. |
 | `OmniLegend` | Légende hors du tracé, à droite, dessous ou dessus. |
@@ -67,14 +67,14 @@ Les parties d'un graphique se déclarent par leurs paramètres de contenu et de 
 - `OmniChart.SharedTooltip` remplace ces textes par point par un texte par catégorie : une bande
   transparente par catégorie (`omni-chart__hover-band`), sur toute la hauteur du tracé (toute sa
   largeur pour des barres), dessinée après les séries pour recevoir le pointeur partout, porte un
-  `title` SVG de la forme « mars », puis « Ventes · 12 » et « Objectif · 15 », une ligne par série dans
+  texte de la forme « mars », puis « Ventes · 12 » et « Objectif · 15 », une ligne par série dans
   leur ordre (une série sans titre prend le nom de repli du tableau, « Série 2 »). Les valeurs y sont
   écrites par le `FormatValue` d'`OmniValueAxis`, sinon dans la culture courante. Les catégories se
   comptent par rang, comme pour l'axe et le tableau : la bande `i` couvre les points de rang `i` ;
   avec des colonnes ou des barres elle est exactement leur bande, avec des courbes seules elle va
   d'un point à mi-chemin des points voisins. Les bandes sont `aria-hidden`, le tableau de données
-  restant l'alternative accessible ; la bande survolée s'assombrit légèrement. Le texte apparaît par
-  l'infobulle native du navigateur, sans script ni style inline.
+  restant l'alternative accessible ; la bande survolée s'assombrit légèrement. Le texte apparaît dans
+  l'infobulle du paquet, sans style inline.
 - Des colonnes ou des barres découpent l'axe des catégories en bandes, une par catégorie, et chaque
   libellé se place au milieu de sa bande. Plusieurs `OmniColumnSeries` se rangent côte à côte dans la
   bande ; toutes les séries empilées y partagent une place. Une ligne tracée avec des colonnes passe
@@ -101,10 +101,11 @@ Les parties d'un graphique se déclarent par leurs paramètres de contenu et de 
 
 ## Survol et lisibilité
 
-Trois comportements actifs par défaut, sans script qui suive le pointeur. `OmniChart.HighlightOnHover="false"` retire les deux premiers, et `OmniSeriesDataLabels.InsideContrast="false"` le troisième.
+Trois comportements actifs par défaut. `OmniChart.HighlightOnHover="false"` retire les deux premiers, et `OmniSeriesDataLabels.InsideContrast="false"` le troisième.
 
 - **Courbes.** Partout sur une `OmniLineSeries`, le point le plus proche prend un disque de la teinte de sa série (rayon 2,5 dans le dessin, cerclé de la couleur de surface) et son texte s'affiche dans l'infobulle du paquet. Le texte est `OmniChartPoint.Label`, tel quel ; sans lui, le titre de la série, la catégorie et la valeur. La ligne est découpée en une zone transparente par point, de 14 pixels d'écran de large, d'un milieu de segment au suivant, dessinée après les parties pour passer aussi au-dessus d'`OmniMarkers`. Le point le plus proche se mesure donc le long de la ligne. Un graphique avec une courbe charge `omni-tooltip.js` ; sans interactivité, les zones et leur disque restent, et le texte reste une infobulle native. Chaque point visible ajoute quatre éléments au dessin (groupe, titre, zone, disque). Les zones sont `aria-hidden`, le tableau de données restant l'alternative accessible. Le survol ne se joue qu'au pointeur.
-- **Colonnes et barres.** Le rectangle survolé prend un contour de 2 pixels de la couleur du texte, et les autres rectangles de sa série passent à 60 % d'opacité (`omni-chart--no-highlight` sur la figure retire ces règles). Une étiquette ne prend jamais le pointeur à la barre sous elle.
+- **Infobulles.** Seules les parties en ont une : un point, une barre, une part, une étiquette masquée. Le texte est porté par `data-omni-tip`, jamais par un `title` SVG : le navigateur ne dessine aucune boîte à lui, il n'y en a jamais deux. Elle s'affiche tout de suite, au pointeur, et survit 500 ms à la sortie de la partie. Le graphique lui-même n'en a pas, son nom est un `aria-label` ; un hôte qui en veut une pose `data-omni-tip` sur `OmniChart`. `OmniChart.Tooltips="false"` retire celles des parties.
+- **Colonnes, barres et parts.** Le rectangle ou la part survolé prend un contour de 2 pixels de la couleur du texte, et les autres parts de sa série passent à 60 % d'opacité (`omni-chart--no-highlight` sur la figure retire ces règles). Le surlignage dure 500 ms après la sortie, ou jusqu'à l'entrée sur la partie suivante : le passage de l'une à l'autre ne clignote pas (`omni-chart__part--held`, posée par `omni-tooltip.js`). Une étiquette ne prend jamais le pointeur à la barre sous elle.
 - **`OmniChart.SharedTooltip`.** Ses bandes couvrent les séries : elles remplacent ces deux survols.
 - **Étiquettes dans les barres.** Avec `Inside`, une étiquette que sa barre contient, d'après sa largeur estimée, s'écrit en noir ou en blanc selon la clarté de la couleur de cette barre dans le thème courant (`ColorByPoint` compris), sans contour : `oklch(from var(--omni-chart-part-color) ...)`, seuil de clarté 0,58. Un navigateur sans couleurs relatives garde la couleur du texte et son contour. Une étiquette que sa barre ne contient pas passe où elle serait sans `Inside`, après le bout de la barre ou au-dessus de la colonne, dans la couleur du texte. Avec `InsideContrast="false"`, toute étiquette reste dans la barre, couleur du texte et contour de surface, une longue débordant de son bout. Sur une série empilée, l'opacité de 75 % n'entre pas dans le calcul. `Inside` sur une série sans barre (une courbe) garde le contour.
 
@@ -190,5 +191,4 @@ courbes seules et en barres, texte et `FormatValue`) et la légende `Top`. Contr
 une page statique produite par bUnit avec la feuille réelle, servie sous CSP stricte (console vide) :
 tirets de 8/7 et 6/4 pixels, trait non mis à l'échelle, remplissage de l'aire gardé, légende avant le
 dessin, et le point au centre d'une colonne touche la bande de sa catégorie (dont le `title` porte les
-trois séries) qui s'assombrit au survol. L'infobulle native elle-même n'est pas capturable et n'a pas
-été vue à l'écran.
+trois séries) qui s'assombrit au survol. L'infobulle du paquet porte ce texte.

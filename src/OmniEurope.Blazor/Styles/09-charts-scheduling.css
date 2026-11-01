@@ -82,9 +82,12 @@
 polyline.omni-chart__point-reach { fill: none; pointer-events: stroke; stroke: transparent; stroke-linecap: round; stroke-linejoin: round; stroke-width: 14px; vector-effect: non-scaling-stroke; }
 .omni-chart__point-mark { fill: currentColor; opacity: 0; pointer-events: none; stroke: var(--omni-color-surface); stroke-width: 2px; vector-effect: non-scaling-stroke; }
 .omni-chart__point-zone:hover .omni-chart__point-mark { opacity: 1; }
-/* The hover of a column or bar: it takes a contrasting edge and the others of its series step back. */
-.omni-chart:not(.omni-chart--no-highlight) :is(.omni-chart__columns, .omni-chart__bars) rect:hover { stroke: var(--omni-color-text); stroke-width: 2px; vector-effect: non-scaling-stroke; }
-.omni-chart:not(.omni-chart--no-highlight) :is(.omni-chart__columns, .omni-chart__bars):has(rect:hover) rect:not(:hover) { opacity: 0.6; }
+/* The hover of a column, a bar or a slice: it takes a contrasting edge and the others of its series step back.
+   omni-chart__part--held keeps it for a moment after the pointer left (omni-tooltip.js), across the gap to the next part. */
+.omni-chart:not(.omni-chart--no-highlight) :is(.omni-chart__columns, .omni-chart__bars) :is(rect:hover, rect.omni-chart__part--held),
+.omni-chart:not(.omni-chart--no-highlight) :is(.omni-chart__pie, .omni-chart__donut) :is(path:hover, path.omni-chart__part--held) { stroke: var(--omni-color-text); stroke-width: 2px; vector-effect: non-scaling-stroke; }
+.omni-chart:not(.omni-chart--no-highlight) :is(.omni-chart__columns, .omni-chart__bars):has(rect:hover, rect.omni-chart__part--held) rect:not(:hover, .omni-chart__part--held),
+.omni-chart:not(.omni-chart--no-highlight) :is(.omni-chart__pie, .omni-chart__donut):has(path:hover, path.omni-chart__part--held) path:not(:hover, .omni-chart__part--held) { opacity: 0.6; }
 /* The colour classes also set fill, which a line and a marker must not take: an element plus class
    selector outranks them, where the class alone, declared before them, lost and filled the line as
    a polygon. */

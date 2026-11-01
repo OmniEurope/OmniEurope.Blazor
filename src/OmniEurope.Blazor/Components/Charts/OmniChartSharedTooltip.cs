@@ -44,9 +44,7 @@ internal sealed class OmniChartSharedTooltip : ComponentBase
             builder.AddAttribute(6, "y", OmniChartGeometry.Number(band.Y));
             builder.AddAttribute(7, "width", OmniChartGeometry.Number(band.Width));
             builder.AddAttribute(8, "height", OmniChartGeometry.Number(band.Height));
-            builder.OpenElement(9, "title");
-            builder.AddContent(10, band.Text);
-            builder.CloseElement();
+            builder.AddAttribute(9, "data-omni-tip", band.Text);
             builder.CloseElement();
         }
 

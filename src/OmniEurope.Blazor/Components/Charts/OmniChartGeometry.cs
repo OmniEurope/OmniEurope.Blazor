@@ -130,26 +130,34 @@ internal static class OmniChartGeometry
         return (Math.Min(baseline, value), 10 + index * slot, Math.Abs(baseline - value), slot * 0.75);
     }
 
-    public static string Arc(double startAngle, double endAngle, double radius, bool donut)
+    public static string Arc(double startAngle, double endAngle, double radius, bool donut, double gap = 0)
     {
-        if (endAngle - startAngle >= 359.99)
+        var sweep = endAngle - startAngle;
+        if (sweep >= 359.99)
         {
             return FullRing(radius, donut ? radius * 0.58 : 0);
         }
 
-        var start = Polar(startAngle, radius);
-        var end = Polar(endAngle, radius);
-        var large = endAngle - startAngle > 180 ? 1 : 0;
+        // Half a gap off each end, never more than 40 % of the slice, so a small slice stays drawn.
+        var cut = Math.Min(gap / 2, sweep * MaxGapShare);
+        var start = Polar(startAngle + cut, radius);
+        var end = Polar(endAngle - cut, radius);
+        var large = sweep - (2 * cut) > 180 ? 1 : 0;
         if (!donut)
         {
             return $"M 50 50 L {start} A {Number(radius)} {Number(radius)} 0 {large} 1 {end} Z";
         }
 
+        // On the inner rim the same width takes a wider angle: the gap keeps its width across the ring.
         var inner = radius * 0.58;
-        var innerEnd = Polar(endAngle, inner);
-        var innerStart = Polar(startAngle, inner);
-        return $"M {start} A {Number(radius)} {Number(radius)} 0 {large} 1 {end} L {innerEnd} A {Number(inner)} {Number(inner)} 0 {large} 0 {innerStart} Z";
+        var innerCut = Math.Min(gap / 2 / 0.58, sweep * MaxGapShare);
+        var innerEnd = Polar(endAngle - innerCut, inner);
+        var innerStart = Polar(startAngle + innerCut, inner);
+        var innerLarge = sweep - (2 * innerCut) > 180 ? 1 : 0;
+        return $"M {start} A {Number(radius)} {Number(radius)} 0 {large} 1 {end} L {innerEnd} A {Number(inner)} {Number(inner)} 0 {innerLarge} 0 {innerStart} Z";
     }
+
+    private const double MaxGapShare = 0.4;
 
     /// <summary>
     /// The arc of a gauge filled to <paramref name="value"/> percent: a half circle that starts at its

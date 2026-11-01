@@ -11,7 +11,7 @@
         }
         var point = Data[index];
         var projected = Projected(index);
-        <circle cx="@OmniChartGeometry.Number(projected.X)" cy="@OmniChartGeometry.Number(projected.Y)" r="@OmniChartGeometry.Number(Radius)"><title>@(ChartContext?.PointTitle(index, point) ?? point.Label ?? OmniChartGeometry.Display(point.Y))</title></circle>
+        <circle cx="@OmniChartGeometry.Number(projected.X)" cy="@OmniChartGeometry.Number(projected.Y)" r="@OmniChartGeometry.Number(Radius)" data-omni-tip="@OmniChartContext.Tip(ChartContext, ChartContext?.PointTitle(index, point) ?? point.Label ?? OmniChartGeometry.Display(point.Y))" />
     }
 </g>
 }

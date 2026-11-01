@@ -64,8 +64,8 @@ public sealed class ChartComponentEdgeTests : OmniBunitContext
         var markers = Render<OmniMarkers>(parameters => parameters.Add(component => component.Data, [new OmniChartPoint(0, 4, "Lundi"), new OmniChartPoint(1, 7)]));
         var columns = Render<OmniColumnSeries>(parameters => parameters.Add(component => component.Data, [new OmniChartPoint(0, 4, "Lundi"), new OmniChartPoint(1, 7)]));
 
-        Assert.Equal(["Lundi", "7"], markers.FindAll("title").Select(title => title.TextContent));
-        Assert.Equal(["Lundi", "7"], columns.FindAll("title").Select(title => title.TextContent));
+        Assert.Equal(["Lundi", "7"], markers.FindAll("[data-omni-tip]").Select(title => title.GetAttribute("data-omni-tip")!));
+        Assert.Equal(["Lundi", "7"], columns.FindAll("[data-omni-tip]").Select(title => title.GetAttribute("data-omni-tip")!));
     }
 
     [Fact]
@@ -164,7 +164,7 @@ public sealed class ChartComponentEdgeTests : OmniBunitContext
 
         chart.WaitForAssertion(() =>
         {
-            var bands = chart.FindAll(".omni-chart__hover-band title").Select(title => title.TextContent).ToArray();
+            var bands = chart.FindAll(".omni-chart__hover-band").Select(title => title.GetAttribute("data-omni-tip")!).ToArray();
             // Avril has no point in any series: no band.
             Assert.Equal(3, bands.Length);
             Assert.Contains("Achats", bands[0], StringComparison.Ordinal);

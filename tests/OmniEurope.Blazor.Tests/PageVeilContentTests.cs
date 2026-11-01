@@ -119,6 +119,20 @@ public sealed class PageVeilContentTests : OmniBunitContext
     }
 
     [Fact]
+    public void TheParentScope_DrawsTheVeilInItsElement_NeverInTheMain()
+    {
+        var main = Render<OmniMain>(parameters => parameters
+            .Add(component => component.Scrollable, true)
+            .AddChildContent<WaitingPage>(page => page.Add(item => item.Busy, true).Add(item => item.Scope, OmniPageVeilScope.Parent)));
+
+        Assert.Contains("omni-page-veil--parent", main.Find("main .page-card > .omni-page-veil").ClassList);
+        Assert.Empty(main.FindAll(".omni-main-scroll > .omni-page-veil"));
+        var css = StylesheetSource.Read();
+        Assert.Contains(":where(:has(> .omni-page-veil--parent)) { position: relative; }", css, StringComparison.Ordinal);
+        Assert.Matches(@"\.omni-page-veil--parent \{[^}]*position: absolute;", css);
+    }
+
+    [Fact]
     public void ChangingTheScope_MovesTheVeilBetweenTheMainAndItsPlace()
     {
         var main = RenderMain(scrollable: true);

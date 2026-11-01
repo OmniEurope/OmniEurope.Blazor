@@ -1,0 +1,10 @@
+@using OmniEurope.Blazor.Components
+@using Row = OmniEurope.Blazor.Tests.DataGridInitialLoadTestHost.Row
+<OmniDataGridColumn TItem="Row" Property="Name" Title="Nom" />
+<OmniDataGridColumn TItem="Row"
+                    Property="Status"
+                    Title="Statut"
+                    Filterable="true"
+                    FilterType="OmniDataGridColumnFilterType.Select"
+                    FilterValues="@(new[] { "Open", "Closed" })"
+                    DefaultFilterValue="Open" />

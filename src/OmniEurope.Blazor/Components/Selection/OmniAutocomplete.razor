@@ -7,7 +7,7 @@
    the suggestions (announced through aria-activedescendant), Enter picks it and Escape closes the list.
    The suggestions are plain options, not buttons: a button inside an option is a second, conflicting
    role that screen readers announce twice. *@
-<div class="@RootClass">
+<div @ref="_root" class="@RootClass">
     <input @attributes="AdditionalAttributes"
            @ref="_input"
            id="@Id"
@@ -57,7 +57,7 @@
     }
     @if (IsOpen)
     {
-        <ul id="@ResultsId" class="omni-autocomplete__results" role="listbox" aria-label="@Internal.OmniAriaLabel.Of(Label, AdditionalAttributes)">
+        <ul @ref="_resultsList" id="@ResultsId" class="omni-autocomplete__results" role="listbox" aria-label="@Internal.OmniAriaLabel.Of(Label, AdditionalAttributes)">
             @{
                 RenderFragment<int> optionItem = at => @<li id="@OptionId(at)"
                     class="@OptionClass(at, _results[at])"

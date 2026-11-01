@@ -4,7 +4,7 @@
     @for (var index = 0; index < _slices.Count; index++)
     {
         var slice = _slices[index];
-        <path class="@ChartColor.Class(index)" d="@SlicePath(index)"><title>@OmniChartGeometry.Pair(slice.Label, OmniChartGeometry.Display(slice.Value))</title></path>
+        <path class="@ChartColor.Class(index)" d="@SlicePath(index)" data-omni-tip="@OmniChartContext.Tip(ChartContext, OmniChartGeometry.Pair(slice.Label, ValueText(slice.Value)))" />
     }
 </g>
 @if (_labels.Count > 0)
@@ -16,7 +16,7 @@
         {
             <g>
                 <polyline points="@label.Points" fill="none" />
-                <text x="@OmniChartGeometry.Number(label.X)" y="@OmniChartGeometry.Number(label.Y)" text-anchor="@label.Anchor" dominant-baseline="central">@label.Text@if (label.Text != label.FullText) { <title>@label.FullText</title> }</text>
+                <text x="@OmniChartGeometry.Number(label.X)" y="@OmniChartGeometry.Number(label.Y)" text-anchor="@label.Anchor" dominant-baseline="central" data-omni-tip="@(label.Text != label.FullText ? OmniChartContext.Tip(ChartContext, label.FullText) : null)">@label.Text</text>
             </g>
         }
     </g>

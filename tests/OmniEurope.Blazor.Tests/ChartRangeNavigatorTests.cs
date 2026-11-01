@@ -94,8 +94,8 @@ public sealed class ChartRangeNavigatorTests : OmniBunitContext
             Assert.Equal(3, host.FindAll(".omni-chart__columns rect").Count);
             Assert.Equal(3, host.Find("polyline.omni-chart__line").GetAttribute("points")!.Split(' ').Length);
             Assert.Equal(3, host.FindAll(".omni-chart__markers circle").Count);
-            Assert.Equal(["Fév", "Mar", "Avr"], host.FindAll(".omni-chart__hover-band title").Select(title => title.TextContent.Split('\n')[0]));
-            Assert.Equal(["Mar · 30", "Avr · 40"], host.FindAll(".omni-chart__columns rect title").Skip(1).Select(title => title.TextContent));
+            Assert.Equal(["Fév", "Mar", "Avr"], host.FindAll(".omni-chart__hover-band").Select(band => band.GetAttribute("data-omni-tip")!.Split('\n')[0]));
+            Assert.Equal(["Mar · 30", "Avr · 40"], host.FindAll(".omni-chart__columns rect").Skip(1).Select(title => title.GetAttribute("data-omni-tip")!));
             // The June value of 600 is out of the range: the axis fits the 40 of April.
             Assert.True(TopTick(host) < 100);
         });

@@ -1,0 +1,17 @@
+@using OmniEurope.Blazor.Components
+@using Row = OmniEurope.Blazor.Tests.DataGridInitialLoadTestHost.Row
+<OmniDataGrid TItem="Row"
+              Load="@Load"
+              KeyOf="@(row => row.Id)"
+              ScrollMode="@ScrollMode"
+              EstimatedRowHeight="40">
+    <Columns>
+        <DataGridNestedColumns />
+    </Columns>
+</OmniDataGrid>
+
+@code {
+    [Parameter] public OmniDataGridScrollMode ScrollMode { get; set; } = OmniDataGridScrollMode.Paged;
+
+    [Parameter] public Func<OmniDataGridLoadRequest, Task<OmniDataGridResult<Row>>>? Load { get; set; }
+}

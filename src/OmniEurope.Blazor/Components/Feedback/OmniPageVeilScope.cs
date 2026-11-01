@@ -11,5 +11,11 @@ public enum OmniPageVeilScope
     Content,
 
     /// <summary>The whole window, the header and the sidebars included, wherever the veil is declared.</summary>
-    Viewport
+    Viewport,
+
+    /// <summary>
+    /// The element the veil is declared in and nothing else: one card or one chart during a long read, the rest of
+    /// the page stays usable. An element that is not positioned yet becomes the veil's frame on its own.
+    /// </summary>
+    Parent
 }

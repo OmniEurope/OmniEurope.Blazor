@@ -31,6 +31,10 @@
         <Icon><OmniIcon Name="OmniIconName.FrameCorners" /></Icon>
         <ChildContent><span>Whole window</span></ChildContent>
     </OmniButton>
+    <OmniButton Id="page-veil-card" Variant="OmniButtonVariant.Secondary" Disabled="@Waiting" OnClick="@(_ => WaitAsync(VeilLogo.Markup, TimeSpan.FromSeconds(2.5), OmniPageVeilScope.Parent))">
+        <Icon><OmniIcon Name="OmniIconName.Hourglass" /></Icon>
+        <ChildContent><span>This card</span></ChildContent>
+    </OmniButton>
     <OmniButton Id="page-veil-address" Variant="OmniButtonVariant.Secondary" Disabled="@Waiting" OnClick="@(_ => WaitAsync(VeilLogo.Address, TimeSpan.FromSeconds(2.5)))">
         <Icon><OmniIcon Name="OmniIconName.Image" /></Icon>
         <ChildContent><span>Logo as image address</span></ChildContent>
@@ -48,8 +52,15 @@
         <ChildContent><span>A 50 ms wait (nothing shows)</span></ChildContent>
     </OmniButton>
 </OmniRow>
+<OmniCard Id="page-veil-card-demo">
+    <OmniText Element="OmniTextElement.Paragraph">Only this card waits with the Parent scope; the rest of the page stays usable.</OmniText>
+    <OmniPageVeil Busy="@(Waiting && Scope == OmniPageVeilScope.Parent)"
+                  Scope="OmniPageVeilScope.Parent"
+                  Opacity="@((int)Opacity)"
+                  Logo="stillLogo" />
+</OmniCard>
 <OmniPageVeil Id="page-veil-demo"
-              Busy="@Waiting"
+              Busy="@(Waiting && Scope != OmniPageVeilScope.Parent)"
               Scope="@Scope"
               Opacity="@((int)Opacity)"
               Logo="@(Current switch { VeilLogo.Markup => stillLogo, VeilLogo.Animated => animatedLogo, _ => null })"
