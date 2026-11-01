@@ -53,7 +53,10 @@ public sealed class ShowcaseApiPreferenceStore(ShowcaseApiHttpClient api, Showca
     }
 
     /// <inheritdoc />
-    /// <remarks>The API answers the preference it now holds, with the date it kept (a future browser date becomes the server's time).</remarks>
+    /// <remarks>
+    /// The API answers the preference it now holds, with the date it kept (a future browser date becomes the server's
+    /// time). An API not redeployed yet answers 204 without a body: the write went through, the sent preference stands.
+    /// </remarks>
     public async Task<OmniPreference> SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(preference);
@@ -61,6 +64,11 @@ public sealed class ShowcaseApiPreferenceStore(ShowcaseApiHttpClient api, Showca
         request.Content = JsonContent.Create(new SaveVisitorPreferenceRequest(preference.Value, preference.UpdatedAt));
         using var response = await api.Http.SendAsync(request, cancellationToken);
         response.EnsureSuccessStatusCode();
+        if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+        {
+            return preference;
+        }
+
         var stored = await response.Content.ReadFromJsonAsync<VisitorPreferenceDto>(cancellationToken)
             ?? throw new InvalidDataException("The preference API answered a write without the stored preference.");
         return new OmniPreference(stored.Key, stored.Value, stored.UpdatedAt);

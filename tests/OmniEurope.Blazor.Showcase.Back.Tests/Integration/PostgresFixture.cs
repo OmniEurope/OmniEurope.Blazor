@@ -11,7 +11,7 @@ namespace OmniEurope.Blazor.Showcase.Back.Tests.Integration;
 /// </summary>
 public sealed class PostgresFixture : IAsyncLifetime
 {
-    private readonly PostgreSqlContainer _container = new PostgreSqlBuilder("postgres:18-alpine").Build();
+    private readonly PostgreSqlContainer _container = new PostgreSqlBuilder("postgres:18-alpine@sha256:10a5c69a83035ab5239f5620d708520e8b28f5aa1f2b20143e6024532edadfb5").Build();
 
     /// <summary>A connection string to a database of its own, not created yet (the migrations create it).</summary>
     public string NewDatabase() =>

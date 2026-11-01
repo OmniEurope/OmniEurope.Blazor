@@ -88,6 +88,20 @@ public sealed class GhostDangerButtonTests : OmniBunitContext
     }
 
     [Fact]
+    public void GhostDanger_OnTheAccentBand_TakesTheTextOfTheBandInEveryState()
+    {
+        var band = Body(".omni-header--accent :is(.omni-button--ghostdanger, .omni-split-button--ghostdanger)");
+
+        // The danger colours are held against the surface and its danger tint, not against the accent.
+        Assert.Equal("var(--omni-color-on-accent)", Value(band, "--omni-button-ink"));
+        Assert.StartsWith("color-mix(in srgb, var(--omni-color-on-accent)", Value(band, "--omni-button-fill-hover"), StringComparison.Ordinal);
+        Assert.StartsWith("color-mix(in srgb, var(--omni-color-on-accent)", Value(band, "--omni-button-fill-active"), StringComparison.Ordinal);
+
+        var press = Rules().Single(rule => rule.Selector.Contains(".omni-header--accent .omni-button--ghostdanger:active:not(:disabled)", StringComparison.Ordinal));
+        Assert.StartsWith("color-mix(in srgb, var(--omni-color-on-accent)", Value(press.Body, "border-color"), StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void SplitGhostDanger_HasTheColoursOfTheButtonAndStaysFlat()
     {
         var button = Body(".omni-button--ghostdanger");

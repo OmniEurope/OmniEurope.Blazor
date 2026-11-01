@@ -65,6 +65,20 @@ public sealed class ShowcaseApiPreferenceStoreTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task Save_AgainstAnApiThatAnswersNoContent_KeepsTheSentPreference()
+    {
+        var store = CreateStore();
+        _api.Respond = _ => new HttpResponseMessage(HttpStatusCode.NoContent);
+        var sent = new OmniPreference("omni.appearance", "{\"theme\":\"givre\"}", Start);
+
+        Assert.Equal(sent, await store.SaveAsync(sent, Token));
+
+        // Only the empty success is tolerated: a refused write stays a failure.
+        _api.Respond = _ => new HttpResponseMessage(HttpStatusCode.ServiceUnavailable);
+        await Assert.ThrowsAsync<HttpRequestException>(() => store.SaveAsync(sent, Token));
+    }
+
+    [Fact]
     public async Task Get_OfAKeyNeverStored_IsNull_ButAnErrorStatusIsAFailure()
     {
         var store = CreateStore();

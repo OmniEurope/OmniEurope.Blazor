@@ -49,6 +49,9 @@ Version cible : `1.11.0` (décision du propriétaire du 2026-11-01). Elle porte 
 
 ### Fixed
 
+- `GhostDanger` (`OmniButton`, `OmniSplitButton`) dans une `OmniHeader` à bandeau d'accent : le texte, le survol, l'appui et le cadre d'appui prennent la couleur de texte du bandeau, car les couleurs du danger ne sont tenues que sur la surface. La sonde de contraste le mesure sur la page Coquille de page.
+- Vitrine, API : une réponse 204 à `PUT /api/preferences/{key}`, celle d'une API pas encore redéployée, garde la préférence envoyée au lieu de faire échouer chaque écriture. Une réponse en erreur reste un échec.
+- Tests et base locale : l'image `postgres:18-alpine` est épinglée par digest, et `eng/Test-DependencyPolicy.ps1` refuse toute image non relue dans les tests, `deploy/` et les workflows.
 - `OmniSelectBar` : l'icône d'une option (`IconTemplate`) est séparée de son texte par `--omni-space-sm`, le même écart que dans un bouton. Elle touchait le texte faute d'écart sur `.omni-select-bar__item` (demande d'une application cliente).
 - `OmniDataGrid.FillAvailableHeight` (PLAN-009, lot 4) : un cadre local contraint prend la priorité sur la zone principale ou le contenu du dialogue ; les enveloppes de hauteur automatique gardent leur référence existante. Le remplissage se recalcule au redimensionnement et après une apparition différée.
 - Chevrons du menu latéral (PLAN-009, lot 4) : le bouton et son glyphe suivent les jetons de densité existants, en conservant leur position hors du flux et les butées de défilement.

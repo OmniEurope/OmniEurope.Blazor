@@ -7,6 +7,7 @@
             <OmniButton Size="OmniControlSize.Small" Variant="OmniButtonVariant.Secondary"
                         aria-controls="shell-end-sidebar" aria-expanded="@Open.ToString().ToLowerInvariant()"
                         OnClick="@(() => Open = !Open)">Menu</OmniButton>
+            <OmniButton Size="OmniControlSize.Small" Variant="OmniButtonVariant.GhostDanger">Sign out</OmniButton>
         </OmniHeader>
         <OmniBody>
             <OmniSidebar Id="shell-end-sidebar" Open="Open" Label="Secondary menu"

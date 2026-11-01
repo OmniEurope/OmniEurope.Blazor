@@ -1,6 +1,7 @@
 # Version guard (STD-SDKPIN): one PR per newer version, never a build failure.
 # Two ecosystems: the .NET SDK floor in global.json and the NuGet packages (Directory.Packages.props).
-# No Docker ecosystem: the repository ships no Dockerfile.
+# No Docker ecosystem: the repository ships no Dockerfile. The PostgreSQL image of the tests is pinned in
+# eng/dependency-policy.json and moved by hand.
 version: 2
 updates:
   - package-ecosystem: "dotnet-sdk"

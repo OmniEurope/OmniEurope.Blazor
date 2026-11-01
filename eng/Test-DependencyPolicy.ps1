@@ -96,4 +96,50 @@ foreach ($file in $workflowFiles) {
     }
 }
 
+# Container images: a tag moves under the same name, so a run could test another image than the reviewed one.
+$imagePatterns = @('^\s*image:\s*["'']?([^\s"''#]+)', 'Builder\("([^"]+)"\)')
+$pinnedImage = '^[^@\s]+:[^@\s]+@sha256:[0-9a-f]{64}$'
+foreach ($fixture in @(
+    @{ Line = '    image: postgres:18-alpine'; Pinned = $false },
+    @{ Line = '    image: "postgres:18-alpine"'; Pinned = $false },
+    @{ Line = 'new PostgreSqlBuilder("postgres:18-alpine").Build();'; Pinned = $false },
+    @{ Line = "    image: postgres:18-alpine@sha256:$('0' * 64)"; Pinned = $true },
+    @{ Line = "new PostgreSqlBuilder(`"postgres:18-alpine@sha256:$('0' * 64)`").Build();"; Pinned = $true }
+)) {
+    $found = @($imagePatterns | ForEach-Object { if ($fixture.Line -match $_) { $Matches[1] } })
+    if ($found.Count -ne 1) { throw "Image parser fixture was not recognized: $($fixture.Line)" }
+    if (($found[0] -cmatch $pinnedImage) -ne $fixture.Pinned) { throw "Image parser fixture produced the wrong verdict: $($fixture.Line)" }
+}
+
+$reviewedImages = @($policy.images.PSObject.Properties | ForEach-Object { [string]$_.Value.reference })
+foreach ($reference in $reviewedImages) {
+    if ($reference -cnotmatch $pinnedImage) { throw "Policy image is not pinned by digest: $reference" }
+}
+$imageFiles = @(
+    $workflowFiles
+    Get-ChildItem -LiteralPath (Join-Path $repoRoot 'deploy') -Recurse -File -Include '*.yml', '*.yaml'
+    Get-ChildItem -LiteralPath (Join-Path $repoRoot 'tests') -Recurse -File -Filter '*.cs' |
+        Where-Object FullName -NotMatch '[\\/](bin|obj)[\\/]'
+)
+$usedImages = [System.Collections.Generic.HashSet[string]]::new()
+foreach ($file in $imageFiles) {
+    $lineNumber = 0
+    foreach ($line in Get-Content -LiteralPath $file.FullName) {
+        $lineNumber++
+        foreach ($pattern in $imagePatterns) {
+            if ($line -notmatch $pattern) { continue }
+            $reference = $Matches[1]
+            # Builder("...") also matches other builders of the tests: only an image reference has a registry name and a tag.
+            if ($reference -notmatch '^[a-z0-9./_-]+(:|@)') { continue }
+            if ($reference -cnotin $reviewedImages) {
+                throw "Unreviewed or mutable image in $($file.Name):$($lineNumber): $reference"
+            }
+            [void]$usedImages.Add($reference)
+        }
+    }
+}
+foreach ($reference in $reviewedImages) {
+    if (-not $usedImages.Contains($reference)) { throw "Policy image is used nowhere: $reference" }
+}
+
 Write-Host $messages.DependencyPolicyPassed

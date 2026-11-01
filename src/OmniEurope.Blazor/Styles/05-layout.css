@@ -154,6 +154,10 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 .omni-header--accent .omni-link,
 .omni-header--accent .omni-button--ghost { color: inherit; }
 .omni-header--accent .omni-button--ghost:hover { background: color-mix(in srgb, currentColor 14%, transparent); }
+/* GhostDanger on the band: its danger colours hold against the surface, not against the accent, so the action takes the text of the band. */
+.omni-header--accent :is(.omni-button--ghostdanger, .omni-split-button--ghostdanger) { --omni-button-fill-active: color-mix(in srgb, var(--omni-color-on-accent) 22%, transparent); --omni-button-fill-hover: color-mix(in srgb, var(--omni-color-on-accent) 14%, transparent); --omni-button-ink: var(--omni-color-on-accent); }
+.omni-header--accent .omni-button--ghostdanger:active:not(:disabled),
+.omni-header--accent .omni-split-button--ghostdanger > :is(.omni-split-button__main, .omni-split-button__toggle):active:not(:disabled) { border-color: color-mix(in srgb, var(--omni-color-on-accent) 55%, transparent); }
 /* OmniWindowControls: the caption buttons of a borderless window take the header's full height, reaching through its
    padding to the top and right edges; 2.875rem wide as a system caption (a width taken from the height, square, was
    unknown when the row was sized and the buttons ran past the header), touching, close in the corner, red on hover. */

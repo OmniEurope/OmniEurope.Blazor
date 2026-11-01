@@ -17,7 +17,8 @@ La vitrine (`site/`) est une application déployée qui ne fait pas partie du pa
 
 - l'API `OmniEurope.Blazor.Showcase.Back` utilise `Npgsql.EntityFrameworkCore.PostgreSQL` `10.0.3` (PostgreSQL est le seul fournisseur), `Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore` `10.0.14` pour `/health/ready` et `Microsoft.EntityFrameworkCore.Design` `10.0.14`, réservé à la génération des migrations (`PrivateAssets=all`, absent de la publication);
 - `tests/OmniEurope.Blazor.Showcase.Back.Tests` utilise `Microsoft.AspNetCore.Mvc.Testing` `10.0.14` et `Testcontainers.PostgreSql` `4.16.0`, qui démarre un vrai PostgreSQL `postgres:18-alpine` dans Docker;
-- la base de développement locale est l'image `postgres:18-alpine` de `deploy/compose/dev-db.compose.yml`.
+- la base de développement locale est l'image `postgres:18-alpine` de `deploy/compose/dev-db.compose.yml`;
+- l'image PostgreSQL est épinglée par digest, relevé du 1er novembre 2026, dans le bloc `images` de `eng/dependency-policy.json`. `eng/Test-DependencyPolicy.ps1` refuse toute image des tests, de `deploy/` ou des workflows qui n'y figure pas à l'identique. Dependabot ne suit pas cette image : une mise à jour se fait à la main, dans la politique et ses deux usages, avec le digest relu sur le registre.
 ## Ressources tierces hors NuGet
 
 Les ressources recopiées dans le dépôt sont déclarées dans `eng/vendored-assets.json`, qui pilote leur section dans `NOTICE.md`, leur composant CycloneDX et la conservation de leur texte de licence. Y figurent aujourd'hui cinq ressources : Phosphor Icons `2.1.1` (MIT), source des tracés intégrés d'`OmniIcon`, et les quatre polices web variables du catalogue `OmniThemeFonts` servies par le paquet (sous-ensemble latin, Fontsource `5.3.0`, OFL-1.1) : Inter, Lexend, Source Serif 4 et JetBrains Mono. Toute mise à jour doit rejouer `eng/Generate-Sbom.ps1` puis `eng/Test-Sbom.ps1`.
