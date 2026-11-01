@@ -160,7 +160,7 @@ public sealed class ControlScaleAndScrollOptionsTests : OmniBunitContext
             .Add(component => component.Items, new[] { new Row(1, "Alpha"), new Row(12, "Beta"), new Row(28, "Gamma") })
             .Add(component => component.Filterable, true)
             .Add(component => component.FilterMode, OmniDataGridFilterMode.SimpleWithMenu)
-            .Add(component => component.ShowHeaderFilterMenu, true)
+            .Add(component => component.FilterPlacement, OmniDataGridFilterPlacement.HeaderMenu)
             .Add(component => component.Columns, (RenderFragment)(builder =>
             {
                 builder.OpenComponent<OmniDataGridColumn<Row>>(0);

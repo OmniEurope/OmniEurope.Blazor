@@ -51,7 +51,7 @@ public partial class OmniLegend
 
     private string EffectiveLabel => string.IsNullOrWhiteSpace(Label) ? StringLocalizer["LegendLabel"].Value : Label;
 
-    private OmniChartContext.LegendRegistration Registration => new(EffectiveLabel, Items, Placement, AllowToggle);
+    private LegendRegistration Registration => new(EffectiveLabel, Items, Placement, AllowToggle);
 
     /// <summary>What the legend draws: from the chart, or its own items in palette order outside one.</summary>
     private IReadOnlyList<OmniChartContext.LegendEntry> Entries =>

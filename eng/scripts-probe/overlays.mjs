@@ -109,6 +109,9 @@ export async function overlaySteps(session, results) {
   await clickOn('#demo-notify-short');
   await clickOn('#demo-notify-long');
   await waitFor('les deux notifications de la pile', "document.querySelectorAll('.omni-notification-region .omni-notification').length === 2");
+  // The stack of the showcase keeps the default corner: the bottom one on the side text ends on.
+  const corner = await evaluate(`(() => { const box = [...document.querySelectorAll('.omni-notification-region .omni-notification')].map(card => card.getBoundingClientRect()); return JSON.stringify({ right: innerWidth - Math.max(...box.map(item => item.right)), bottom: innerHeight - Math.max(...box.map(item => item.bottom)) }); })()`).then(JSON.parse);
+  check(corner.right >= 0 && corner.right < 48 && corner.bottom >= 0 && corner.bottom < 48, `La pile n'est pas dans le coin bas, fin de ligne : ${JSON.stringify(corner)}.`);
   const stackWidths = await evaluate(`[...document.querySelectorAll('.omni-notification-region .omni-notification')].map(card => ({ long: card.classList.contains('omni-notification--long'), width: Math.round(card.getBoundingClientRect().width * 100) / 100 }))`);
   check(stackWidths.some(card => card.long) && stackWidths.some(card => !card.long), `La pile ne montre pas une carte courte et une longue : ${JSON.stringify(stackWidths)}.`);
   check(Math.abs(stackWidths[0].width - stackWidths[1].width) <= 0.5, `Les cartes d'une même pile n'ont pas la même largeur : ${JSON.stringify(stackWidths)}.`);

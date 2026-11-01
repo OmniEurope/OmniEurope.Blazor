@@ -80,8 +80,9 @@
 /* The hover of a line: one transparent zone per point, wider than the line so the pointer finds it, and
    the dot of the zone under the pointer. The zone is drawn in screen pixels like the line it covers. */
 polyline.omni-chart__point-reach { fill: none; pointer-events: stroke; stroke: transparent; stroke-linecap: round; stroke-linejoin: round; stroke-width: 14px; vector-effect: non-scaling-stroke; }
-.omni-chart__point-mark { fill: currentColor; opacity: 0; pointer-events: none; stroke: var(--omni-color-surface); stroke-width: 2px; vector-effect: non-scaling-stroke; }
+.omni-chart__point-mark { fill: currentColor; opacity: 0; pointer-events: all; stroke: var(--omni-color-surface); stroke-width: 2px; vector-effect: non-scaling-stroke; }
 .omni-chart__point-zone:hover .omni-chart__point-mark { opacity: 1; }
+.omni-chart--isolate-line .omni-chart__point-zone { cursor: pointer; }
 /* The hover of a column, a bar or a slice: it takes a contrasting edge and the others of its series step back.
    omni-chart__part--held keeps it for a moment after the pointer left (omni-tooltip.js), across the gap to the next part. */
 .omni-chart:not(.omni-chart--no-highlight) :is(.omni-chart__columns, .omni-chart__bars) :is(rect:hover, rect.omni-chart__part--held),

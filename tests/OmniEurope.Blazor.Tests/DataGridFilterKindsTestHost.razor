@@ -12,7 +12,7 @@
               ExportCsv="@Formats.Contains(OmniTableExportFormat.Csv)"
               ExportExcel="@Formats.Contains(OmniTableExportFormat.Excel)"
               ExportPdf="@Formats.Contains(OmniTableExportFormat.Pdf)"
-              ShowHeaderFilterMenu="@HeaderMenu">
+              FilterPlacement="@(HeaderMenu ? OmniDataGridFilterPlacement.HeaderMenu : OmniDataGridFilterPlacement.Row)">
     <Columns>
         <OmniDataGridColumn TItem="Ticket" Property="Id" Title="N°" Filterable="true" />
         <OmniDataGridColumn TItem="Ticket"

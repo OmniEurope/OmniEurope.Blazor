@@ -14,7 +14,7 @@
               ShowExpandAll="true"
               DetailTemplate="@Detail"
               FilterMode="@FilterMode"
-              ShowHeaderFilterMenu="@ShowHeaderFilterMenu"
+              FilterPlacement="@(ShowHeaderFilterMenu ? OmniDataGridFilterPlacement.HeaderMenu : OmniDataGridFilterPlacement.Row)"
               EditMode="OmniDataGridRowMode.Single">
     <Columns>
         <OmniDataGridColumn TItem="Row" Key="name" Title="Nom" Value="row => row.Name" Frozen="@FreezeName" Width="10rem" Filterable="true">

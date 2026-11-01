@@ -55,7 +55,7 @@ internal sealed class GridFilterControls<TItem>(OmniDataGrid<TItem> grid)
                     nameof(OmniDataGridFilterDate.ValueChanged),
                     EventCallback.Factory.Create<string>(grid, encoded => onChanged(encoded)));
                 builder.CloseComponent();
-                // The popover of a date column that asks for it also holds the From and To range.
+                // The popover of a date column always holds the From and To range too.
                 if (GridFilterEditor<TItem>.HoldsRange(column, inPanel))
                 {
                     OpenDateRange(builder, 4, column, $"{id}-range", value, onChanged);

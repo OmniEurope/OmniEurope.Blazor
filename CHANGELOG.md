@@ -8,6 +8,9 @@ Version cible : `1.11.0` (décision du propriétaire du 2026-11-01). Elle porte 
 
 ### Breaking changes
 
+- `OmniDataGrid.ShowHeaderFilterMenu` (`bool`) est remplacé par `FilterPlacement` (`OmniDataGridFilterPlacement`, `HeaderMenu` par défaut, ou `Row`) : décision du propriétaire du 2026-11-01, l'emplacement se dit explicitement et d'autres valeurs pourront s'ajouter. Migration : `ShowHeaderFilterMenu="false"` devient `FilterPlacement="OmniDataGridFilterPlacement.Row"`, et `ShowHeaderFilterMenu="true"` se retire.
+- `OmniNotificationOptions.Placement` vaut `BottomEnd` par défaut au lieu de `TopEnd` : changement de rendu, les notifications s'empilent dans le coin bas, côté fin de lecture. Une application qui veut l'ancien rendu pose `new OmniNotificationOptions(OmniNotificationPlacement.TopEnd)`.
+
 - `OmniDataGrid` lit `RendererInfo` dès son rendu : un projet qui le rend en bUnit doit poser `SetRendererInfo(new RendererInfo("Server", isInteractive: true))` sur son contexte de test, sinon le rendu lève `MissingRendererInfoException`. Constaté sur 1 875 tests d'une application cliente ; `OmniBunitContext` montre le modèle.
 - `IOmniPreferenceStore.SaveAsync` renvoie `Task<OmniPreference>` au lieu de `Task` : la préférence que le stockage tient pour la clé une fois l'écriture faite. Le stockage fait autorité sur les dates : `OmniPreferences` remplace l'entrée du cache du navigateur par cette réponse (sauf si une écriture locale plus récente l'a remplacée entre-temps), si bien qu'une date corrigée par le serveur (horloge d'un poste en avance) ne bloque plus les valeurs écrites ensuite sur un autre poste (audit A360-002). Migration : renvoyer la préférence enregistrée, `return preference;` pour un stockage qui garde la date reçue. Quand la réponse porte une autre valeur (le stockage gardait une valeur plus récente), le cache la prend et `Changed` est levé avec l'origine `Store`.
 
@@ -15,7 +18,9 @@ Version cible : `1.11.0` (décision du propriétaire du 2026-11-01). Elle porte 
 
 - `OmniScheduler`, grille horaire : demande d'une application cliente. Un rendez-vous se dessine sur sa durée, à la minute près, au lieu de rester dans son créneau de départ ; il est coupé aux bords de la grille, et celui qui en sort entièrement garde un bloc court dans le premier ou le dernier créneau. Les rendez-vous qui partagent du temps se placent côte à côte, huit au plus. Sans style inline ni script : un ensemble fini de classes. Un `DayEnd` antérieur à `DayStart` n'annule plus la grille : elle traverse minuit (voir Added). Vitrine : page Agenda.
 - Infobulles des graphiques (demande d'une application cliente) : le dessin ne porte plus aucun `title` SVG. Le nom du graphique devient un `aria-label`, si bien que le vide du tracé n'affiche plus rien, et chaque partie (point, barre, part, étiquette masquée) porte son texte dans `data-omni-tip`, une seule infobulle, celle du paquet, instantanée, au pointeur, sans `OmniTitleTooltips`. Sans interactivité, un graphique n'a plus de texte de survol. Un hôte ou un test qui lisait ces `title` lit `data-omni-tip`.
-- `OmniChart.HighlightOnHover` : le surlignage d'une barre ou d'une part dure 500 ms après la sortie, ou jusqu'à la partie suivante, et l'infobulle aussi : le passage d'une partie à l'autre ne clignote plus. `OmniPieSeries` et les barres horizontales suivent la même règle que les colonnes.
+- `OmniDataGrid` : dans le menu d'en-tête et en mode `Advanced`, une colonne `Date` montre toujours les deux dates Du et Au sous sa saisie, sans `AdvancedFilter`. Dans la rangée en ligne, elle garde sa seule saisie, et `AdvancedFilter` y ajoute la plage.
+- Couleurs de série des graphiques (demande d'une application cliente, décision du propriétaire du 2026-11-01) : les huit `--omni-chart-color-*` sont désormais fixes, une liste en clair et une en sombre, les mêmes dans tous les thèmes et toutes les palettes, et ne suivent plus l'accent ni les sévérités du thème : bleu, jaune, rouge, vert, violet, sarcelle, rose, gris. Elles sont à ajuster à l'œil et n'ont pas de seuil de contraste. Un hôte garde la main en posant ces propriétés dans sa feuille.
+- `OmniChart.HighlightOnHover` : le surlignage d'une barre ou d'une part dure 200 ms après la sortie, ou jusqu'à la partie suivante, et l'infobulle aussi : le passage d'une partie à l'autre ne clignote plus. Quitter le graphique relâche les deux tout de suite. Sur une courbe, l'infobulle ouverte sur la ligne vient sur le point quand le pointeur l'atteint. `OmniPieSeries` et les barres horizontales suivent la même règle que les colonnes.
 - `OmniChart.HighlightOnHover` (`bool`, vrai par défaut) : changement de rendu par défaut. Sur une `OmniLineSeries`, le point le plus proche du pointeur prend un disque de la teinte de sa série et son texte s'affiche dans l'infobulle ; une colonne ou une barre survolée prend un contour et les autres rectangles de sa série passent à 60 % d'opacité. `OmniChart.SharedTooltip` remplace ces deux survols. Une application qui veut le rendu d'avant pose `HighlightOnHover="false"`. Voir [docs/chart-components.md](docs/chart-components.md).
 - `OmniSeriesDataLabels.InsideContrast` (`bool`, vrai par défaut) : changement de rendu par défaut. Avec `Inside`, une étiquette que sa barre contient s'écrit en noir ou en blanc selon la clarté de la barre dans le thème courant, et une étiquette trop longue passe après la barre. Une application qui veut le rendu d'avant pose `InsideContrast="false"`.
 
@@ -23,6 +28,7 @@ Version cible : `1.11.0` (décision du propriétaire du 2026-11-01). Elle porte 
 
 - `OmniScheduler` accepte une fenêtre qui traverse minuit (`DayStart` 20:00, `DayEnd` 08:00) : la colonne d'un jour porte sa soirée et le matin suivant, `Load` reçoit la plage prolongée, `OnSlotClick` et `OnAppointmentMove` rapportent la vraie date.
 - `OmniChart.Tooltips` (`bool`, vrai par défaut) : `false` retire les infobulles des parties, le surlignage reste. Un hôte qui veut une infobulle sur tout le graphique pose `data-omni-tip` sur `OmniChart`.
+- `OmniChart.IsolateLineOnClick` (`bool`, `false` par défaut) : demande d'une application cliente. Un clic sur une courbe ne garde que sa série, un axe de valeurs automatique se recale sur ce qui reste, et la légende (`OmniLegend.AllowToggle`) rend les autres séries. Vitrine : page Graphiques en courbes.
 - `OmniPieSeries.SliceGap` (`double`, degrés, 0 par défaut, 30 au plus) : demande d'une application cliente, un disque ou un donut en morceaux. L'écart garde sa largeur sur tout l'anneau, une part trop petite garde une partie de son angle et une part seule reste entière. Vitrine : page Graphiques en secteurs.
 - `OmniPageVeilScope.Parent` : demande d'une application cliente, le voile limité à l'élément où il est déclaré, une carte ou un graphique pendant une lecture longue, le reste de la page restant utilisable. L'élément devient son cadre sans rien ajouter, ses coins suivis, et le logo reste dans une carte basse. Vitrine : bouton « This card » de la page Progression.
 - `OmniSchedulerOverlap` et `OmniSchedulerOverlap.Find` : les paires de rendez-vous qui se chevauchent, selon la règle de la grille, pour que l'hôte les signale. Dans la grille, un rendez-vous en chevauchement porte `omni-scheduler__appointment--overlapping` et nomme les autres aux technologies d'assistance (texte `SchedulerOverlaps` dans les 24 langues).
@@ -54,6 +60,7 @@ Version cible : `1.11.0` (décision du propriétaire du 2026-11-01). Elle porte 
 
 ### Fixed
 
+- `OmniDataGrid` : une cellule coupée dont le contenu est enveloppé dans un `OmniTooltip` n'ouvre plus la bulle du texte coupé par-dessus, qui lisait le texte et l'infobulle à la suite : seule l'infobulle de l'hôte s'affiche.
 - `GhostDanger` (`OmniButton`, `OmniSplitButton`) dans une `OmniHeader` à bandeau d'accent : le texte, le survol, l'appui et le cadre d'appui prennent la couleur de texte du bandeau, car les couleurs du danger ne sont tenues que sur la surface. La sonde de contraste le mesure sur la page Coquille de page.
 - Vitrine, API : une réponse 204 à `PUT /api/preferences/{key}`, celle d'une API pas encore redéployée, garde la préférence envoyée au lieu de faire échouer chaque écriture. Une réponse en erreur reste un échec.
 - Tests et base locale : l'image `postgres:18-alpine` est épinglée par digest, et `eng/Test-DependencyPolicy.ps1` refuse toute image non relue dans les tests, `deploy/` et les workflows.
@@ -86,6 +93,9 @@ Version cible : `1.11.0` (décision du propriétaire du 2026-11-01). Elle porte 
 Version mineure : demandes d'une application cliente (recettes R-3 à R-84) sur les badges, les champs de formulaire, les infobulles, l'en-tête de page sur téléphone et le filtre de date des grilles. Elle porte des ruptures assumées, voir [docs/versioning.md](docs/versioning.md) ; chacune est listée sous « Breaking changes », avec sa migration.
 
 ### Breaking changes
+
+- `OmniDataGrid.ShowHeaderFilterMenu` (`bool`) est remplacé par `FilterPlacement` (`OmniDataGridFilterPlacement`, `HeaderMenu` par défaut, ou `Row`) : décision du propriétaire du 2026-11-01, l'emplacement se dit explicitement et d'autres valeurs pourront s'ajouter. Migration : `ShowHeaderFilterMenu="false"` devient `FilterPlacement="OmniDataGridFilterPlacement.Row"`, et `ShowHeaderFilterMenu="true"` se retire.
+- `OmniNotificationOptions.Placement` vaut `BottomEnd` par défaut au lieu de `TopEnd` : changement de rendu, les notifications s'empilent dans le coin bas, côté fin de lecture. Une application qui veut l'ancien rendu pose `new OmniNotificationOptions(OmniNotificationPlacement.TopEnd)`.
 
 - `OmniBadge` est une pilule par défaut (rupture d'aspect). Ancien rendu : `Shape="OmniBadgeShape.Rounded"`.
 - Une colonne de `DateTime`, `DateTimeOffset` ou `DateOnly` sans `FilterType` reçoit le filtre `Date` (saisie de texte) au lieu de `DateRange`. Ancien filtre : `FilterType="OmniDataGridColumnFilterType.DateRange"`.
@@ -207,6 +217,9 @@ Correctif qui porte des ajouts d'API publique, là où SemVer demanderait `1.10.
 Version mineure à ruptures assumées : l'API publique est rendue homogène (un nom par concept, une convention par famille de paramètres) sans couche de compatibilité ni alias `[Obsolete]`, par décision du propriétaire du 2026-10-22, pour le même motif qu'en `1.2.0` (le propriétaire est le seul consommateur du paquet ; voir [docs/versioning.md](docs/versioning.md) et [PLAN-002](docs/plans/PLAN-002-homogeneite-1-9-0.md)). Le compilateur désigne chaque ancien nom : un paramètre inconnu ne compile plus (`OE0001`) et un type renommé n'existe plus. Les conventions qui en résultent sont écrites dans [docs/public-api-conventions.md](docs/public-api-conventions.md). La version porte aussi les durcissements et corrections de l'audit du 2026-10-22.
 
 ### Breaking changes
+
+- `OmniDataGrid.ShowHeaderFilterMenu` (`bool`) est remplacé par `FilterPlacement` (`OmniDataGridFilterPlacement`, `HeaderMenu` par défaut, ou `Row`) : décision du propriétaire du 2026-11-01, l'emplacement se dit explicitement et d'autres valeurs pourront s'ajouter. Migration : `ShowHeaderFilterMenu="false"` devient `FilterPlacement="OmniDataGridFilterPlacement.Row"`, et `ShowHeaderFilterMenu="true"` se retire.
+- `OmniNotificationOptions.Placement` vaut `BottomEnd` par défaut au lieu de `TopEnd` : changement de rendu, les notifications s'empilent dans le coin bas, côté fin de lecture. Une application qui veut l'ancien rendu pose `new OmniNotificationOptions(OmniNotificationPlacement.TopEnd)`.
 
 - Zones remplaçables : un fragment qui remplace une zone porte le suffixe `Content`. Migration : `OmniCard.Header` et `Footer` deviennent `HeaderContent` et `FooterContent` ; `OmniDialog.Footer` et `OmniDialogRequest.Footer` deviennent `FooterContent` ; `OmniDetailShell.Header`, `OmniSidebar.Header` et `OmniProfileMenu.Header` deviennent `HeaderContent` ; `OmniLoginShell.Footer` devient `FooterContent` ; `OmniProfileMenu.Summary` devient `SummaryContent` ; `OmniPageHeader.Actions`, `OmniEmptyState.Actions`, `OmniDescriptionItem.Actions`, `OmniWindowControls.Actions` et `OmniCodeViewer.Actions` deviennent `ActionsContent` ; `OmniCodeViewer.SidePanel` devient `SidePanelContent`. Les fragments qui nomment un objet précis (`Icon`, `Logo`, `Legend`, `Badges`, `Filters`, `OmniDataGrid.Columns`) gardent leur nom (exceptions listées dans la convention).
 - Légende visible et nom accessible : `Title` est le titre visible d'une tuile ou d'un conteneur, `Label` un nom de champ ou un nom accessible. Migration : `OmniStatTile.Label` devient `Title` ; `OmniDescriptionItem.Label` devient `Term` ; `OmniChart.Title` devient `Label` (nom accessible obligatoire du graphique, posé en `title` du SVG).
@@ -374,6 +387,9 @@ Version de correctif qui porte des ajouts d'API, par décision du propriétaire 
 ## [1.8.0] - 2026-10-12
 
 ### Breaking changes
+
+- `OmniDataGrid.ShowHeaderFilterMenu` (`bool`) est remplacé par `FilterPlacement` (`OmniDataGridFilterPlacement`, `HeaderMenu` par défaut, ou `Row`) : décision du propriétaire du 2026-11-01, l'emplacement se dit explicitement et d'autres valeurs pourront s'ajouter. Migration : `ShowHeaderFilterMenu="false"` devient `FilterPlacement="OmniDataGridFilterPlacement.Row"`, et `ShowHeaderFilterMenu="true"` se retire.
+- `OmniNotificationOptions.Placement` vaut `BottomEnd` par défaut au lieu de `TopEnd` : changement de rendu, les notifications s'empilent dans le coin bas, côté fin de lecture. Une application qui veut l'ancien rendu pose `new OmniNotificationOptions(OmniNotificationPlacement.TopEnd)`.
 
 Rupture assumée en version mineure, publiée comme `1.8.0` (décision du propriétaire du 2026-10-11, PLAN-019 ; voir [docs/versioning.md](docs/versioning.md)). Migration complète : [docs/preferences.md](docs/preferences.md), « Migration vers la 1.8.0 ».
 
@@ -552,6 +568,9 @@ Rupture assumée en version mineure, publiée comme `1.8.0` (décision du propri
 
 ### Breaking changes
 
+- `OmniDataGrid.ShowHeaderFilterMenu` (`bool`) est remplacé par `FilterPlacement` (`OmniDataGridFilterPlacement`, `HeaderMenu` par défaut, ou `Row`) : décision du propriétaire du 2026-11-01, l'emplacement se dit explicitement et d'autres valeurs pourront s'ajouter. Migration : `ShowHeaderFilterMenu="false"` devient `FilterPlacement="OmniDataGridFilterPlacement.Row"`, et `ShowHeaderFilterMenu="true"` se retire.
+- `OmniNotificationOptions.Placement` vaut `BottomEnd` par défaut au lieu de `TopEnd` : changement de rendu, les notifications s'empilent dans le coin bas, côté fin de lecture. Une application qui veut l'ancien rendu pose `new OmniNotificationOptions(OmniNotificationPlacement.TopEnd)`.
+
 - `OmniDataGrid` : le filtre d'en-tête (`ShowHeaderFilterMenu`) est actif par défaut, pour tous les sites ; la rangée de filtres en ligne n'est plus rendue que sur demande (`ShowHeaderFilterMenu="false"`). Migration : une grille qui comptait sur la rangée la redemande par `ShowHeaderFilterMenu="false"` (recette R-041).
 
 Les changements de comportement d'`OmniTemplateForm` (R-061) et de variante des boutons d'export (R-031), listés sous « Changed », ne demandent aucune migration.
@@ -605,6 +624,9 @@ Les changements de comportement d'`OmniTemplateForm` (R-061) et de variante des 
 
 ### Breaking changes
 
+- `OmniDataGrid.ShowHeaderFilterMenu` (`bool`) est remplacé par `FilterPlacement` (`OmniDataGridFilterPlacement`, `HeaderMenu` par défaut, ou `Row`) : décision du propriétaire du 2026-11-01, l'emplacement se dit explicitement et d'autres valeurs pourront s'ajouter. Migration : `ShowHeaderFilterMenu="false"` devient `FilterPlacement="OmniDataGridFilterPlacement.Row"`, et `ShowHeaderFilterMenu="true"` se retire.
+- `OmniNotificationOptions.Placement` vaut `BottomEnd` par défaut au lieu de `TopEnd` : changement de rendu, les notifications s'empilent dans le coin bas, côté fin de lecture. Une application qui veut l'ancien rendu pose `new OmniNotificationOptions(OmniNotificationPlacement.TopEnd)`.
+
 - Nom par défaut des fichiers exportés : `OmniDataGrid.ExportFileName` devient `string?`, null par défaut au lieu de `"export"` ; sans lui, la grille nomme le fichier d'après `ExportTitle` puis `Caption`, en minuscules sans accents, et l'horodatage perd ses secondes : `{nom}-{yyyy-MM-dd-HHmm}.{extension}` (`shop-logs-2026-10-01-0840.md`), pour la barre d'export comme pour `OmniMarkdownExportButton` (recette R2-036). Un hôte qui attend `export-…` passe `ExportFileName="export"`. Consigné après publication : les notes de la 1.4.0 l'annonçaient comme un ajout.
 
 ### Added
@@ -646,6 +668,9 @@ Les changements de comportement d'`OmniTemplateForm` (R-061) et de variante des 
 ## [1.3.0] - 2026-09-30
 
 ### Breaking changes
+
+- `OmniDataGrid.ShowHeaderFilterMenu` (`bool`) est remplacé par `FilterPlacement` (`OmniDataGridFilterPlacement`, `HeaderMenu` par défaut, ou `Row`) : décision du propriétaire du 2026-11-01, l'emplacement se dit explicitement et d'autres valeurs pourront s'ajouter. Migration : `ShowHeaderFilterMenu="false"` devient `FilterPlacement="OmniDataGridFilterPlacement.Row"`, et `ShowHeaderFilterMenu="true"` se retire.
+- `OmniNotificationOptions.Placement` vaut `BottomEnd` par défaut au lieu de `TopEnd` : changement de rendu, les notifications s'empilent dans le coin bas, côté fin de lecture. Une application qui veut l'ancien rendu pose `new OmniNotificationOptions(OmniNotificationPlacement.TopEnd)`.
 
 - `OmniDataGridColumn.Filterable` devient `bool?`. Non réglé, il suit le `Filterable` de la grille (`true` par défaut) dès que la colonne a de quoi filtrer (`Property`, `Value`, `FilterPredicate` ou `FilterTemplate`) ; une colonne faite d'un seul `Template` reste sans filtre. `true` ou `false` décide pour la colonne seule : `false` la retire d'une grille filtrée, `true` lui donne un filtre dans une grille dont `Filterable` vaut `false` (qui ne masque donc plus les filtres des colonnes qui le demandent). À faire dans une application : poser `Filterable="false"` sur les colonnes de données qui ne doivent pas être filtrées, ou `Filterable="false"` sur la grille pour garder l'ancien comportement colonne par colonne.
 - Textes du paquet : les clés accordées avec un nombre (`UploadMaximumFiles`, `UploadHintMaximumFiles`, `UploadManySelected`, `UploadFileCountMany`, `AutocompleteManyResults`, `MultiSelectSelected`, `HtmlEditorImportTableRows`, `DataAnnotationsStringLength`, `DataAnnotationsMaxLength`, `DataAnnotationsMinLength`, `RelativeTimeDays`, `RelativeTimeMonths`, `RelativeTimeYears` et leurs pendants `RelativeTimeFuture*`, `LogViewerNewLines`, `UnifiedDiffStats`, `MarkdownExportRowLimit`, `MarkdownExportTruncated`, `MarkdownExportIncomplete`, `MarkdownExportLimitReachedWithoutTotal`) portent un bloc `plural` dans les langues où le nom s'accorde. Un code qui lisait une de ces clés lui-même par `IStringLocalizer<AppStrings>` avec des arguments reçoit une `FormatException` ; un remplacement de l'hôte (`Omni_...`) continue de fonctionner, avec ou sans bloc. En tchèque, polonais, croate, slovaque et slovène, les unités de temps abrégées (`d.`, `mies.`, `god.`) deviennent des mots accordés.
@@ -704,6 +729,9 @@ Les changements de comportement d'`OmniTemplateForm` (R-061) et de variante des 
 ## [1.2.0] - 2026-09-29
 
 ### Breaking changes
+
+- `OmniDataGrid.ShowHeaderFilterMenu` (`bool`) est remplacé par `FilterPlacement` (`OmniDataGridFilterPlacement`, `HeaderMenu` par défaut, ou `Row`) : décision du propriétaire du 2026-11-01, l'emplacement se dit explicitement et d'autres valeurs pourront s'ajouter. Migration : `ShowHeaderFilterMenu="false"` devient `FilterPlacement="OmniDataGridFilterPlacement.Row"`, et `ShowHeaderFilterMenu="true"` se retire.
+- `OmniNotificationOptions.Placement` vaut `BottomEnd` par défaut au lieu de `TopEnd` : changement de rendu, les notifications s'empilent dans le coin bas, côté fin de lecture. Une application qui veut l'ancien rendu pose `new OmniNotificationOptions(OmniNotificationPlacement.TopEnd)`.
 
 - `OmniCheckBox` avec un texte (`ChildContent`, lié à un `bool`) pose `Class` sur le `label.omni-checkbox-label` qui englobe la case et le texte, et non plus sur l'`input` : une règle de l'hôte qui visait la case par cette classe vise désormais la ligne. La case garde `omni-checkbox` et les classes de validation ; sans texte, `Class` reste sur l'`input`.
 - `OmniSidebarToggle.OpenIcon` devient `OmniIconName?`, sans valeur par défaut : menu ouvert, le bouton garde les trois traits tant que la barre latérale tient à côté du contenu et ne montre la croix que sous le seuil mobile (39.99rem). Poser `OpenIcon` impose un glyphe à toutes les largeurs (`Close` rend l'ancien comportement).
@@ -1032,6 +1060,9 @@ Passe de cohérence 1.2.0 (PLAN-007, décision du 2026-09-29 : ruptures sans ali
 ## [1.1.0] - 2026-09-26
 
 ### Breaking changes
+
+- `OmniDataGrid.ShowHeaderFilterMenu` (`bool`) est remplacé par `FilterPlacement` (`OmniDataGridFilterPlacement`, `HeaderMenu` par défaut, ou `Row`) : décision du propriétaire du 2026-11-01, l'emplacement se dit explicitement et d'autres valeurs pourront s'ajouter. Migration : `ShowHeaderFilterMenu="false"` devient `FilterPlacement="OmniDataGridFilterPlacement.Row"`, et `ShowHeaderFilterMenu="true"` se retire.
+- `OmniNotificationOptions.Placement` vaut `BottomEnd` par défaut au lieu de `TopEnd` : changement de rendu, les notifications s'empilent dans le coin bas, côté fin de lecture. Une application qui veut l'ancien rendu pose `new OmniNotificationOptions(OmniNotificationPlacement.TopEnd)`.
 
 - `OmniDropDown` alimenté par `Data` : une `ValueProperty` ou une `TextProperty` qui ne désigne aucune propriété publique d'instance de l'élément lève désormais `InvalidOperationException` en la nommant, au lieu de se rabattre en silence sur l'élément. Migration : corriger le nom de la propriété, ou retirer le paramètre pour que l'élément serve de valeur ou de texte. Aucune couche de compatibilité n'est gardée.
 

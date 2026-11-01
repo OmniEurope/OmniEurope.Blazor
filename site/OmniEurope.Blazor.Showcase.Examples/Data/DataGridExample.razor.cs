@@ -94,9 +94,9 @@ public partial class DataGridExample
     [Parameter]
     public OmniDataGridFilterMode FilterMode { get; set; } = OmniDataGridFilterMode.Simple;
 
-    /// <summary>Whether each title carries a filter menu button.</summary>
+    /// <summary>Where the filters sit: a menu on each title, or a row under the header.</summary>
     [Parameter]
-    public bool ShowHeaderFilterMenu { get; set; }
+    public OmniDataGridFilterPlacement FilterPlacement { get; set; } = OmniDataGridFilterPlacement.Row;
 
     /// <summary>Whether the filter menu closes once a value is picked.</summary>
     [Parameter]

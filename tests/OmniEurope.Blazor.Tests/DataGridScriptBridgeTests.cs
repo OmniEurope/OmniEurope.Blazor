@@ -87,7 +87,7 @@ public sealed class DataGridScriptBridgeTests : OmniBunitContext
         var grid = Render<OmniDataGrid<Row>>(parameters => parameters
             .Add(component => component.Items, Rows)
             .Add(component => component.Columns, Columns(comboFilter: true))
-            .Add(component => component.ShowHeaderFilterMenu, true)
+            .Add(component => component.FilterPlacement, OmniDataGridFilterPlacement.HeaderMenu)
             .Add(component => component.HideFilterMenuOnSelect, hide));
         Assert.Single(module.Invocations["attachFilterMenus"]);
 

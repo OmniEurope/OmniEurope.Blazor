@@ -193,11 +193,11 @@ public partial class OmniDataGridColumn<TItem>
     public bool FilterIncludesTime { get; set; }
 
     /// <summary>
-    /// Adds a From and To range to the filter of a date column (the <see cref="OmniDataGridColumnFilterType.Date"/>
-    /// type), next to its text input: either bound may be left empty. With the inline filter row
-    /// (<c>ShowHeaderFilterMenu</c> off) the text input stays in the row and the range opens from a
-    /// calendar button in the column header; with the header filter menu on, or in the advanced filter
-    /// mode, the range sits under the text input in the same popover. The text input and the range are
+    /// In the inline filter row (<see cref="OmniDataGridFilterPlacement.Row"/>), adds a From and To range to the filter
+    /// of a date column (the <see cref="OmniDataGridColumnFilterType.Date"/> type), next to its text input: either bound
+    /// may be left empty. The text input stays in the row and the range opens from a calendar button in the column
+    /// header. The header filter menu and the advanced filter mode always hold the range, under the text input in the
+    /// same popover, with or without this. The text input and the range are
     /// two editors of one filter, not two filters: the last one used replaces the other, and each shows
     /// what the other set (a range that is not one day, month or year reads as <c>from - to</c> in the
     /// text input). False by default; ignored by the other filter types, and by a column with a

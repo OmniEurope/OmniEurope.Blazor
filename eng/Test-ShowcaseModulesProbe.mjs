@@ -133,7 +133,7 @@ await send('Page.navigate', { url: siteUrl });
 // navigation asked before the router listens changes the address and leaves the home page shown.
 await waitFor('le runtime Blazor', "typeof Blazor !== 'undefined' && typeof Blazor.navigateTo === 'function' && document.getElementById('showcase-theme') !== null");
 
-// 1. Filter popovers of the advanced grid, in the header since ShowHeaderFilterMenu is on by default:
+// 1. Filter popovers of the advanced grid, in the header since FilterPlacement defaults to HeaderMenu:
 // opened by a real click, placed by the script, one open at a time, closed by Escape and by a press
 // outside.
 const popover = column => `.omni-data-grid th[data-omni-col="${column}"] details[data-omni-popover]`;

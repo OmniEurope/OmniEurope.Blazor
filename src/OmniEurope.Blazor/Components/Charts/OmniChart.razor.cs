@@ -84,6 +84,14 @@ public partial class OmniChart
     [Parameter] public bool Tooltips { get; set; } = true;
 
     /// <summary>
+    /// A click on a line keeps its series alone: the others are hidden as through their legend entries, an
+    /// automatic value axis follows what is left, and an <see cref="OmniLegend"/> with
+    /// <see cref="OmniLegend.AllowToggle"/> brings them back. The click lands on the hover zones of the lines, so
+    /// it needs <see cref="HighlightOnHover"/>, no <see cref="SharedTooltip"/>, and interactivity. Off by default.
+    /// </summary>
+    [Parameter] public bool IsolateLineOnClick { get; set; }
+
+    /// <summary>
     /// The narrowest the chart is drawn: in a narrower card (a phone) it keeps this width and scrolls
     /// sideways in its card, its legends and its <see cref="FooterContent"/> (a range navigator) with it,
     /// instead of shrinking until its text cannot be read. <see cref="OmniChartMinWidth.Auto"/> chooses
@@ -144,6 +152,8 @@ public partial class OmniChart
 
     private string? HighlightClass => PointHover ? null : "omni-chart--no-highlight";
 
+    private string? IsolateClass => PointHover && IsolateLineOnClick ? "omni-chart--isolate-line" : null;
+
     /// <summary>The hover zones of the points of the lines, after the parts of the chart; nothing when it is off.</summary>
     private RenderFragment? PointHoverLayer => PointHover
         ? builder =>
@@ -201,6 +211,7 @@ public partial class OmniChart
         // A preset may set the ratio without the markup naming it: a value other than the default counts as set.
         _context.SetAspectRatio(_aspectRatioSet || AspectRatio != 1 ? AspectRatio : null);
         _context.Tooltips = Tooltips;
+        _context.IsolateLineOnClick = IsolateLineOnClick;
     }
 
     /// <summary>Starts listening to the layout of the parts, and redraws the chart whenever it changes.</summary>

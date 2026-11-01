@@ -21,6 +21,9 @@ internal sealed class GridFilterEditor<TItem>(OmniDataGrid<TItem> grid)
     internal bool IsFilterable(OmniDataGridColumnDefinition<TItem> column) =>
         column.Filterable ?? (grid.Filterable && column.HasFilterSource);
 
+    /// <summary>Whether the filter of each column sits in the menu of its header.</summary>
+    internal bool InHeaderMenu => grid.FilterPlacement == OmniDataGridFilterPlacement.HeaderMenu;
+
     /// <summary>Whether the filter row shows each column's condition in a popover (advanced mode).</summary>
     internal bool EditsInPopover => UsesAdvancedFilter;
 
@@ -29,30 +32,30 @@ internal sealed class GridFilterEditor<TItem>(OmniDataGrid<TItem> grid)
     /// filter, so only one of them is ever rendered: turning the header menu on moves the value
     /// control into the header and drops the row.
     /// </summary>
-    internal bool HasFilterRow => !grid.ShowHeaderFilterMenu && grid.ColumnSet.VisibleColumns.Any(IsFilterable);
+    internal bool HasFilterRow => !InHeaderMenu && grid.ColumnSet.VisibleColumns.Any(IsFilterable);
 
     /// <summary>Whether any filter editor of this grid opens something over the rows.</summary>
     internal bool HasPopovers => grid.ColumnSet.VisibleColumns.Any(column => IsFilterable(column)
-        && (grid.ShowHeaderFilterMenu
+        && (InHeaderMenu
             || UsesAdvancedFilter
             || column.FilterTemplate is not null
             || column.FilterType is OmniDataGridColumnFilterType.MultiSelect or OmniDataGridColumnFilterType.Combo
             || ShowsRangeMenu(column)));
 
     /// <summary>
-    /// Whether a date column puts its From and To range in a calendar menu of its header, beside the
-    /// text input of the inline filter row. With the header filter menu on, or in the advanced mode, the
-    /// filter already sits in a popover and holds the range itself, under the text input.
+    /// Whether a date column of the inline filter row asks for its From and To range in a calendar menu of
+    /// its header, beside the text input. In the header filter menu, or in the advanced mode, the filter already
+    /// sits in a popover and always holds the range itself, under the text input.
     /// </summary>
     internal bool ShowsRangeMenu(OmniDataGridColumnDefinition<TItem> column) =>
         column is { AdvancedFilter: true, FilterType: OmniDataGridColumnFilterType.Date, FilterTemplate: null }
         && IsFilterable(column)
-        && !grid.ShowHeaderFilterMenu
+        && !InHeaderMenu
         && !UsesAdvancedFilter;
 
     /// <summary>Whether the popover editor of a date column also holds its From and To range.</summary>
     internal static bool HoldsRange(OmniDataGridColumnDefinition<TItem> column, bool inPanel) =>
-        inPanel && column is { AdvancedFilter: true, FilterType: OmniDataGridColumnFilterType.Date };
+        inPanel && column.FilterType == OmniDataGridColumnFilterType.Date;
 
     /// <summary>
     /// Whether this column's editor is the two-condition one of the advanced mode. A checkable list,

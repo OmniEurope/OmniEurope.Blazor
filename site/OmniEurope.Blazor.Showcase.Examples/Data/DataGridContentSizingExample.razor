@@ -64,6 +64,7 @@
        content, and a title that does not fit wraps. *@
     <div role="group" aria-label="Frame of the grid with declared widths">
         <OmniDataGrid TItem="SiteRow" Id="demo-grid-sizing-declared"
+                      FilterPlacement="OmniDataGridFilterPlacement.Row"
                       Items="SiteData.Sites"
                       Caption="The same columns with declared widths"
                       ColumnSizing="OmniDataGridColumnSizing.Declared"
@@ -77,7 +78,7 @@
                 </OmniDataGridColumn>
                 <OmniDataGridColumn TItem="SiteRow" Property="Visitors" Title="Current visitors" Width="8rem" />
                 <OmniDataGridColumn TItem="SiteRow" Property="Project" Title="Project" MinWidth="8rem" />
-                <OmniDataGridColumn TItem="SiteRow" Property="Since" Title="Since" Width="10rem" FormatString="{0:d}" />
+                <OmniDataGridColumn TItem="SiteRow" Property="Since" Title="Since" Width="10rem" FormatString="{0:d}" AdvancedFilter="true" />
             </Columns>
         </OmniDataGrid>
     </div>

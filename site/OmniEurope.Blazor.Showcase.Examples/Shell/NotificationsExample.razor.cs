@@ -31,7 +31,7 @@ public partial class NotificationsExample : IDisposable
 
     /// <summary>The corner or edge the stack grows from.</summary>
     [Parameter]
-    public OmniNotificationPlacement Placement { get; set; } = OmniNotificationPlacement.TopEnd;
+    public OmniNotificationPlacement Placement { get; set; } = OmniNotificationPlacement.BottomEnd;
 
     /// <summary>Whether each card takes the tint of its role, which drains over the time it has left.</summary>
     [Parameter]

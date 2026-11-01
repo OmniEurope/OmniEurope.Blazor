@@ -42,8 +42,8 @@ public enum OmniDataGridColumnFilterType
     /// The year has four digits; a text that is not a date marks the input invalid
     /// (<c>aria-invalid</c>) and filters nothing. It is what a column reading a <c>DateTime</c>,
     /// <c>DateTimeOffset</c> or <c>DateOnly</c> gets by default (unless its <c>FilterIncludesTime</c> is set,
-    /// which keeps the <see cref="DateRange"/> pickers). The column's <c>AdvancedFilter</c> adds a From and
-    /// To range to the same filter. The value is the same encoded range as <see cref="DateRange"/>
+    /// which keeps the <see cref="DateRange"/> pickers). A popover always adds a From and To range to the
+    /// same filter, and the column's <c>AdvancedFilter</c> brings it to the inline row. The value is the same encoded range as <see cref="DateRange"/>
     /// (<see cref="OmniDataGridDateRange"/>), and the text is read by <see cref="OmniDataGridDateText"/>.
     /// Appended, so the published values keep their numbers.
     /// </summary>

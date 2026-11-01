@@ -41,6 +41,11 @@ internal sealed class OmniChartPointHover : ComponentBase
             builder.OpenElement(3, "g");
             builder.AddAttribute(4, "class", $"omni-chart__point-zone {ChartColor.Class(zone.ColorIndex)}");
             builder.AddAttribute(5, "data-omni-tip", OmniChartContext.Tip(Context, zone.Text));
+            if (Context.IsolateLineOnClick)
+            {
+                builder.AddAttribute(6, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, () => Context.IsolateSeries(zone.ColorIndex)));
+            }
+
             builder.OpenElement(8, "polyline");
             builder.AddAttribute(9, "class", "omni-chart__point-reach");
             builder.AddAttribute(10, "points", zone.Reach);

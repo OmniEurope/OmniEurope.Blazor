@@ -442,14 +442,14 @@ public partial class OmniDataGrid<TItem>
     public OmniDataGridFilterMode FilterMode { get; set; } = OmniDataGridFilterMode.Simple;
 
     /// <summary>
-    /// Moves each column's filter into a popover anchored to its header, in place of the inline filter
-    /// row, which is then not rendered: the header stays one row. The popover holds the same editor
-    /// the row would, for the current <see cref="FilterMode"/> (two conditions with apply and clear in
-    /// <see cref="OmniDataGridFilterMode.Advanced"/>). On by default (recette R-041): a grid that
-    /// wants the inline filter row under its header sets it to false.
+    /// Where the filter editor of each column sits. <see cref="OmniDataGridFilterPlacement.HeaderMenu"/>, the default
+    /// (recette R-041), puts it in a popover anchored to its header, in place of the inline filter row, which is then
+    /// not rendered: the header stays one row. <see cref="OmniDataGridFilterPlacement.Row"/> renders that row under the
+    /// header. Both hold the same editor for the current <see cref="FilterMode"/> (two conditions with apply and clear
+    /// in <see cref="OmniDataGridFilterMode.Advanced"/>).
     /// </summary>
     [Parameter]
-    public bool ShowHeaderFilterMenu { get; set; } = true;
+    public OmniDataGridFilterPlacement FilterPlacement { get; set; } = OmniDataGridFilterPlacement.HeaderMenu;
 
     /// <summary>
     /// Closes a header filter menu as soon as a value is picked in it. A click outside the menu, or

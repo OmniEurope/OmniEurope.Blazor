@@ -250,6 +250,9 @@ internal sealed class OmniChartContext
             ? OmniChartGeometry.Pair(category, OmniChartGeometry.Display(point.Y))
             : OmniChartGeometry.Display(point.Y));
 
+    /// <summary>Whether a click on a line keeps its series alone (<see cref="OmniChart.IsolateLineOnClick"/>).</summary>
+    internal bool IsolateLineOnClick { get; set; }
+
     /// <summary>Whether the parts carry their text for the package tooltip (<see cref="OmniChart.Tooltips"/>).</summary>
     internal bool Tooltips { get; set; } = true;
 
@@ -286,6 +289,19 @@ internal sealed class OmniChartContext
         Changed?.Invoke();
     }
 
+    /// <summary>
+    /// Keeps the series of colour <paramref name="colorIndex"/> alone: every other is hidden as through its
+    /// legend entry, so the value domain follows and the legend brings them back.
+    /// </summary>
+    internal void IsolateSeries(int colorIndex)
+    {
+        _hiddenColors.Clear();
+        _hiddenColors.UnionWith(_series
+            .Where(item => item.Kind != OmniChartSeriesKind.Auxiliary && item.ColorIndex != colorIndex)
+            .Select(item => item.ColorIndex));
+        _domainsDirty = true;
+        Changed?.Invoke();
+    }
     /// <summary>The categories shown, first and last index included; null while every category is shown.</summary>
     internal (int First, int Last)? Range => _range.Window;
 
@@ -872,23 +888,6 @@ internal sealed class OmniChartContext
 
     private double ColumnNeeded(LegendRegistration legend) =>
         LegendTextOffset + LegendEntries(legend).Select(entry => (entry.Text?.Length ?? 0) * CharacterWidth).DefaultIfEmpty(0).Max() + 1;
-
-    /// <summary>
-    /// What one <see cref="OmniLegend"/> asks for, which the chart needs to draw it below the plot:
-    /// its name, its own entries (empty to take them from the series) and its position.
-    /// </summary>
-    internal sealed record LegendRegistration(
-        string Label,
-        IReadOnlyList<string> Items,
-        OmniLegendPlacement Placement,
-        bool AllowToggle = true)
-    {
-        internal bool SameAs(LegendRegistration other) =>
-            Label == other.Label
-            && Placement == other.Placement
-            && AllowToggle == other.AllowToggle
-            && Items.SequenceEqual(other.Items);
-    }
 
     /// <summary>
     /// One entry of a legend: its text, the palette slot of its swatch and, for an entry that names a

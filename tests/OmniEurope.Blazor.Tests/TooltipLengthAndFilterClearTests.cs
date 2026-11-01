@@ -95,7 +95,7 @@ public sealed class TooltipLengthAndFilterClearTests : OmniBunitContext
             .Add(component => component.Items, new[] { new Row(1, "Alpha"), new Row(2, "Beta") })
             .Add(component => component.Filterable, true)
             .Add(component => component.FilterMode, mode)
-            .Add(component => component.ShowHeaderFilterMenu, true)
+            .Add(component => component.FilterPlacement, OmniDataGridFilterPlacement.HeaderMenu)
             .Add(component => component.Columns, (RenderFragment)(builder =>
             {
                 builder.OpenComponent<OmniDataGridColumn<Row>>(0);

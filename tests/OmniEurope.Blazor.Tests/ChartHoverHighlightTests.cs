@@ -47,6 +47,56 @@ public sealed class ChartHoverHighlightTests : OmniBunitContext
         return (double.Parse(dot.GetAttribute("cx")!, CultureInfo.InvariantCulture), double.Parse(dot.GetAttribute("cy")!, CultureInfo.InvariantCulture));
     }
 
+    private IRenderedComponent<OmniChart> TwoLines(bool isolate) =>
+        Render<OmniChart>(parameters => parameters
+            .Add(component => component.Label, "Coûts")
+            .Add(component => component.IsolateLineOnClick, isolate)
+            .AddChildContent(builder =>
+            {
+                Child<OmniValueAxis>(builder, 0, ("Automatic", true));
+                Child<OmniLineSeries>(builder, 10, ("Data", Points(10, 20)), ("Title", "Petite"), ("ColorIndex", 0));
+                Child<OmniLineSeries>(builder, 20, ("Data", Points(1000, 2000)), ("Title", "Grande"), ("ColorIndex", 1));
+                Child<OmniLegend>(builder, 30);
+            }));
+
+    private static string Ticks(IRenderedComponent<OmniChart> chart) =>
+        string.Join('|', chart.FindAll(".omni-chart__axis text").Select(text => text.TextContent));
+
+    [Fact]
+    public void IsolateLineOnClick_KeepsTheSeriesClicked_RescalesTheAxis_AndTheLegendBringsTheOtherBack()
+    {
+        var chart = TwoLines(isolate: true);
+        chart.WaitForAssertion(() => Assert.Equal(2, chart.FindAll("polyline.omni-chart__line").Count));
+        var ticks = Ticks(chart);
+        Assert.Contains("omni-chart--isolate-line", chart.Find("figure").ClassList);
+
+        chart.FindAll(".omni-chart__point-zone.omni-chart-color-0")[0].Click();
+
+        chart.WaitForAssertion(() =>
+        {
+            Assert.Contains("omni-chart-color-0", Assert.Single(chart.FindAll("polyline.omni-chart__line")).ClassList);
+            Assert.NotEqual(ticks, Ticks(chart));
+        });
+
+        chart.Find("[aria-pressed=\"false\"]").Click();
+
+        chart.WaitForAssertion(() =>
+        {
+            Assert.Equal(2, chart.FindAll("polyline.omni-chart__line").Count);
+            Assert.Equal(ticks, Ticks(chart));
+        });
+    }
+
+    [Fact]
+    public void IsolateLineOnClick_IsOffByDefault_AndTheZonesTakeNoClick()
+    {
+        var chart = TwoLines(isolate: false);
+        chart.WaitForAssertion(() => Assert.Equal(2, chart.FindAll("polyline.omni-chart__line").Count));
+
+        Assert.DoesNotContain("omni-chart--isolate-line", chart.Find("figure").ClassList);
+        Assert.Throws<MissingEventHandlerException>(() => chart.FindAll(".omni-chart__point-zone")[0].Click());
+    }
+
     [Fact]
     public void ALine_IsCutIntoOneZonePerPoint_MeetingHalfwayBetweenPoints()
     {

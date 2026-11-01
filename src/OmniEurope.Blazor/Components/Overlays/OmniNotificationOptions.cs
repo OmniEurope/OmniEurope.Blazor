@@ -13,7 +13,7 @@ namespace OmniEurope.Blazor.Components;
 /// list. A burst of them otherwise covers the page it is talking about.
 /// </param>
 public sealed record OmniNotificationOptions(
-    OmniNotificationPlacement Placement = OmniNotificationPlacement.TopEnd,
+    OmniNotificationPlacement Placement = OmniNotificationPlacement.BottomEnd,
     bool ShowCountdown = true,
     bool Dismissible = true,
     bool Group = false);

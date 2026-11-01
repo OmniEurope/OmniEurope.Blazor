@@ -187,6 +187,7 @@ public sealed class NotificationTests : OmniBunitContext
 
         Assert.Contains("omni-notification--tinted", notification.Find("article").ClassList);
         Assert.True(new OmniNotificationOptions().ShowCountdown);
+        Assert.Equal(OmniNotificationPlacement.BottomEnd, new OmniNotificationOptions().Placement);
     }
 
     [Fact]

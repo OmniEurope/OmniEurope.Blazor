@@ -26,6 +26,49 @@ export async function boardSteps(session, results) {
   await mouse('mouseMoved', { x: 5, y: 5 }, { button: 'none' });
   step('cellule coupée lue en bulle');
 
+  // A cut cell whose content an OmniTooltip wraps (R1-41): that tooltip alone, never the box of the cut text on top of
+  // it, which would read the text and the tooltip together. The markup is the one OmniTooltip renders, put in by hand
+  // because no grid of the showcase wraps a cell; the grid renders the cell again when the page is left.
+  await waitFor('la bulle de cellule fermée', "document.querySelector('.omni-title-tooltip--visible') === null");
+  await evaluate(`(() => {
+    const cell = document.getElementById('probe-cut-cell');
+    const text = cell.textContent.trim();
+    cell.textContent = '';
+    const tooltip = cell.appendChild(document.createElement('span'));
+    tooltip.className = 'omni-tooltip';
+    tooltip.id = 'probe-wrapped-tooltip';
+    const trigger = tooltip.appendChild(document.createElement('span'));
+    trigger.className = 'omni-tooltip__trigger';
+    trigger.textContent = text;
+    const content = tooltip.appendChild(document.createElement('span'));
+    content.className = 'omni-tooltip__content';
+    content.setAttribute('role', 'tooltip');
+    content.textContent = text;
+    tooltip.closest('td, .omni-data-grid__cell--text').id = 'probe-wrapped-cell';
+  })()`);
+  check(await evaluate("(cell => cell.scrollWidth > cell.clientWidth + 1)(document.getElementById('probe-wrapped-cell'))"), 'La cellule enveloppée n\'est plus coupée.');
+  // The middle of the cell, not of the trigger: the trigger is as wide as its whole text, which the cell cuts.
+  await hover('#probe-wrapped-cell');
+  await waitFor("l'infobulle de la cellule", "getComputedStyle(document.querySelector('#probe-wrapped-tooltip .omni-tooltip__content')).visibility === 'visible' && getComputedStyle(document.querySelector('#probe-wrapped-tooltip .omni-tooltip__content')).opacity === '1'");
+  await pause(700);
+  check(await evaluate("document.querySelector('.omni-title-tooltip--visible') === null"), 'Deux infobulles sur une cellule coupée enveloppée.');
+  await mouse('mouseMoved', { x: 5, y: 5 }, { button: 'none' });
+  step('cellule coupée enveloppée : une seule infobulle');
+
+  // A date column: in the header menu the text input and both dates, in the inline row the text input alone, its
+  // range behind the calendar button of AdvancedFilter.
+  const dateMenu = 'th[data-omni-col="Filed"] details';
+  await session.visit('/components/data-grid-advanced', `${dateMenu} summary`);
+  await clickOn(`${dateMenu} summary`);
+  await waitFor('le menu de date ouvert', `document.querySelector(${JSON.stringify(`${dateMenu}[open] .omni-data-grid__date-range`)}) !== null`);
+  const dates = await evaluate(`JSON.stringify({ labels: [...document.querySelectorAll(${JSON.stringify(`${dateMenu}[open] .omni-data-grid__date-range-label`)})].map(label => label.textContent.trim()), inputs: document.querySelectorAll(${JSON.stringify(`${dateMenu}[open] .omni-data-grid__date-range input[type="date"]`)}).length, text: document.querySelectorAll(${JSON.stringify(`${dateMenu}[open] input.omni-data-grid__date-text`)}).length })`).then(JSON.parse);
+  check(dates.labels.length === 2 && dates.inputs === 2 && dates.text === 1, `Menu de date sans ses deux dates : ${JSON.stringify(dates)}.`);
+  await key('Escape');
+  await session.visit('/components/data-grid-variants', '#demo-grid-sizing-declared tr.omni-data-grid__filters');
+  const inline = await evaluate(`JSON.stringify({ text: document.querySelectorAll('#demo-grid-sizing-declared tr.omni-data-grid__filters td[data-omni-col="Since"] input.omni-data-grid__date-text').length, range: document.querySelectorAll('#demo-grid-sizing-declared tr.omni-data-grid__filters td[data-omni-col="Since"] .omni-data-grid__date-range').length })`).then(JSON.parse);
+  check(inline.text === 1 && inline.range === 0, `Rangée de date inattendue : ${JSON.stringify(inline)}.`);
+  step(`filtre de date : ${dates.labels.join(' et ')} dans le menu, une seule saisie dans la rangée`);
+
   // A cell cut by a rule of the host (request of a client application of 2026-10-26: every cell of its
   // grids cut by white-space nowrap and an ellipsis), in a grid of no fixed row height and outside a text
   // cell: it shows its text too, and a cell the same rule does not cut shows nothing.

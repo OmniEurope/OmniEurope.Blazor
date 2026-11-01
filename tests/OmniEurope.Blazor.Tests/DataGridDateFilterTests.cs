@@ -151,6 +151,17 @@ public sealed class DataGridDateFilterTests : OmniBunitContext
     }
 
     [Fact]
+    public void InTheHeaderMenu_ADateColumnAlwaysHoldsTheTwoDates_WithoutAdvancedFilter()
+    {
+        var grid = Render<DataGridFilterKindsTestHost>(parameters => parameters.Add(component => component.DateFilter, OmniDataGridColumnFilterType.Text));
+
+        Assert.NotNull(grid.Find(TextInHeader));
+        Assert.NotNull(grid.Find(RangeMenu + " .omni-data-grid__date-range-start"));
+        Assert.NotNull(grid.Find(RangeMenu + " .omni-data-grid__date-range-end"));
+        Assert.Equal(2, grid.FindAll(RangeMenu + " .omni-data-grid__date-range-label").Count);
+    }
+
+    [Fact]
     public void WithoutAdvancedFilter_TheHeaderHasNoRangeMenu()
     {
         var grid = RenderInline();
@@ -223,12 +234,12 @@ public sealed class DataGridDateFilterTests : OmniBunitContext
     }
 
     [Fact]
-    public void WithTheHeaderFilterMenu_ThePopoverHoldsTheTextAlone_OrTheTextAndTheRange()
+    public void WithTheHeaderFilterMenu_ThePopoverHoldsTheTextAndTheRange_AdvancedFilterOrNot()
     {
         var plain = Render<DataGridFilterKindsTestHost>(parameters => parameters
             .Add(component => component.DateFilter, OmniDataGridColumnFilterType.Text));
         Assert.NotNull(plain.Find(TextInHeader));
-        Assert.Empty(plain.FindAll("th[data-omni-col=\"Opened\"] .omni-data-grid__date-range"));
+        Assert.Single(plain.FindAll("th[data-omni-col=\"Opened\"] .omni-data-grid__date-range"));
 
         var advanced = Render<DataGridFilterKindsTestHost>(parameters => parameters
             .Add(component => component.DateFilter, OmniDataGridColumnFilterType.Text)

@@ -266,7 +266,7 @@
                                 @* The header filter menu and the inline filter row are two places for the same
                                    editor: HasFilterRow is false as soon as the menu is on, so a column never shows
                                    the same value control twice. *@
-                                @if (ShowHeaderFilterMenu && FilterEditor.IsFilterable(column))
+                                @if (FilterEditor.InHeaderMenu && FilterEditor.IsFilterable(column))
                                 {
                                     <details class="omni-data-grid__filter-menu omni-data-grid__popover" data-omni-popover @onclick:stopPropagation="true">
                                         <summary class="@Classes.FilterToggleClass(column)" aria-label="@Localize("GridFilterColumn", column.Title)" title="@Localize("GridFilterColumn", column.Title)" aria-haspopup="true">

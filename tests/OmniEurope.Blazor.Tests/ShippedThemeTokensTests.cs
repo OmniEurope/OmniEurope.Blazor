@@ -98,6 +98,22 @@ public sealed class ShippedThemeTokensTests
         Assert.DoesNotContain("--omni-chart-color-7: #4f46e5", Extract(File.ReadAllText(StylesheetPath).ReplaceLineEndings("\n")), StringComparison.Ordinal);
     }
 
+    /// <summary>The eight series are one fixed list per mode: no theme or palette brings two of them together.</summary>
+    [Fact]
+    public void Every_palette_draws_its_series_in_the_same_eight_colours()
+    {
+        static string[] Series(IReadOnlyDictionary<string, string> tokens) =>
+            [.. Enumerable.Range(0, 8).Select(index => tokens[$"--omni-chart-color-{index}"])];
+
+        var first = OmniThemePalettes.All[0];
+        Assert.NotEqual(Series(first.Light), Series(first.Dark));
+        Assert.All(OmniThemePalettes.All, palette =>
+        {
+            Assert.Equal(Series(first.Light), Series(palette.Light));
+            Assert.Equal(Series(first.Dark), Series(palette.Dark));
+        });
+    }
+
     /// <summary>The hue in degrees, or null for a colour too grey to have one (saturation under 0.25).</summary>
     private static double? Hue(string hex)
     {

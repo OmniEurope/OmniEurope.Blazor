@@ -20,7 +20,7 @@ public sealed class DataGridColumnFilterDefaultTests : OmniBunitContext
         {
             // These tests read the inline filter row, which a grid now asks for (R-041).
             parameters.Add(grid => grid.Items, Rows);
-            parameters.Add(grid => grid.ShowHeaderFilterMenu, false);
+            parameters.Add(grid => grid.FilterPlacement, OmniDataGridFilterPlacement.Row);
             if (gridFilterable is { } onGrid)
             {
                 parameters.Add(grid => grid.Filterable, onGrid);
@@ -68,7 +68,7 @@ public sealed class DataGridColumnFilterDefaultTests : OmniBunitContext
                 builder.CloseComponent();
             })));
 
-        Assert.True(grid.Instance.ShowHeaderFilterMenu);
+        Assert.Equal(OmniDataGridFilterPlacement.HeaderMenu, grid.Instance.FilterPlacement);
         Assert.Empty(grid.FindAll(".omni-data-grid__filters"));
         Assert.Single(grid.FindAll("thead .omni-data-grid__filter-menu"));
     }
@@ -113,7 +113,7 @@ public sealed class DataGridColumnFilterDefaultTests : OmniBunitContext
     {
         var grid = Render<OmniDataGrid<Row>>(parameters => parameters
             .Add(grid => grid.Items, Rows)
-            .Add(grid => grid.ShowHeaderFilterMenu, false)
+            .Add(grid => grid.FilterPlacement, OmniDataGridFilterPlacement.Row)
             .Add(grid => grid.Columns, (RenderFragment)(builder =>
             {
                 builder.OpenComponent<OmniDataGridColumn<Row>>(0);
@@ -135,7 +135,7 @@ public sealed class DataGridColumnFilterDefaultTests : OmniBunitContext
         // gets the advanced editor the grid declares, not a plain box.
         var grid = Render<OmniDataGrid<Row>>(parameters => parameters
             .Add(grid => grid.Items, Rows)
-            .Add(grid => grid.ShowHeaderFilterMenu, false)
+            .Add(grid => grid.FilterPlacement, OmniDataGridFilterPlacement.Row)
             .Add(grid => grid.Filterable, false)
             .Add(grid => grid.FilterMode, OmniDataGridFilterMode.Advanced)
             .Add(grid => grid.Columns, (RenderFragment)(builder =>

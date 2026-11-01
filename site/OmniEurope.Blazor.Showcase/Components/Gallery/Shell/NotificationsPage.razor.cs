@@ -8,7 +8,7 @@ public partial class NotificationsPage
     [Inject]
     private IStringLocalizer<ShellStrings> Text { get; set; } = default!;
 
-    private OmniNotificationPlacement Placement { get; set; } = OmniNotificationPlacement.TopEnd;
+    private OmniNotificationPlacement Placement { get; set; } = OmniNotificationPlacement.BottomEnd;
 
     private bool ShowCountdown { get; set; } = true;
 

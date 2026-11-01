@@ -123,14 +123,14 @@
             <OmniSettingsTile Title="@Text["DataGridHeaderFilterMenu"]" Description="@Text["DataGridHeaderMenuDescription"]">
                 <Icon><OmniIcon Name="OmniIconName.Menu" /></Icon>
                 <ChildContent>
-                    <OmniSwitch @bind-Value="ShowHeaderFilterMenu" Disabled="@(!AllowFiltering)" aria-label="@Text["DataGridHeaderFilterMenu"]" />
+                    <OmniSwitch @bind-Value="HeaderFilterMenu" Disabled="@(!AllowFiltering)" aria-label="@Text["DataGridHeaderFilterMenu"]" />
                 </ChildContent>
             </OmniSettingsTile>
 
             <OmniSettingsTile Title="@Text["DataGridHideMenuOnSelect"]" Description="@Text["DataGridHideMenuOnSelectDescription"]">
                 <Icon><OmniIcon Name="OmniIconName.Close" /></Icon>
                 <ChildContent>
-                    <OmniSwitch @bind-Value="HideFilterMenuOnSelect" Disabled="@(!AllowFiltering || !ShowHeaderFilterMenu)" aria-label="@Text["DataGridHideMenuOnSelect"]" />
+                    <OmniSwitch @bind-Value="HideFilterMenuOnSelect" Disabled="@(!AllowFiltering || !HeaderFilterMenu)" aria-label="@Text["DataGridHideMenuOnSelect"]" />
                 </ChildContent>
             </OmniSettingsTile>
 
@@ -342,7 +342,7 @@
                                      AllowSorting="AllowSorting"
                                      Filterable="AllowFiltering"
                                      FilterMode="FilterMode"
-                                     ShowHeaderFilterMenu="ShowHeaderFilterMenu"
+                                     FilterPlacement="@(HeaderFilterMenu ? OmniDataGridFilterPlacement.HeaderMenu : OmniDataGridFilterPlacement.Row)"
                                      HideFilterMenuOnSelect="HideFilterMenuOnSelect"
                                      CaseSensitiveFilters="CaseSensitiveFilters"
                                      IgnoreDiacritics="IgnoreDiacritics"

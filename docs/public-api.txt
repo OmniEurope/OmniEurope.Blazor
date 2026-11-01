@@ -310,7 +310,7 @@ ctor public OmniEurope.Blazor.Components.OmniMultiSelect<TValue>()
 ctor public OmniEurope.Blazor.Components.OmniNavTile()
 ctor public OmniEurope.Blazor.Components.OmniNotification()
 ctor public OmniEurope.Blazor.Components.OmniNotificationMessage(System.Guid Id, System.String Message, OmniEurope.Blazor.Components.OmniSeverity Severity = OmniEurope.Blazor.Components.OmniSeverity.Info, System.String? Title = null)
-ctor public OmniEurope.Blazor.Components.OmniNotificationOptions(OmniEurope.Blazor.Components.OmniNotificationPlacement Placement = OmniEurope.Blazor.Components.OmniNotificationPlacement.TopEnd, System.Boolean ShowCountdown = true, System.Boolean Dismissible = true, System.Boolean Group = false)
+ctor public OmniEurope.Blazor.Components.OmniNotificationOptions(OmniEurope.Blazor.Components.OmniNotificationPlacement Placement = OmniEurope.Blazor.Components.OmniNotificationPlacement.BottomEnd, System.Boolean ShowCountdown = true, System.Boolean Dismissible = true, System.Boolean Group = false)
 ctor public OmniEurope.Blazor.Components.OmniNumeric<TValue>()
 ctor public OmniEurope.Blazor.Components.OmniOption<TValue>(TValue Value, System.String Text, System.Boolean Disabled = false, System.String? Group = null)
 ctor public OmniEurope.Blazor.Components.OmniOverflowMenu()
@@ -511,6 +511,8 @@ field public static OmniEurope.Blazor.Components.OmniDataGridFilterOperator.Less
 field public static OmniEurope.Blazor.Components.OmniDataGridFilterOperator.NotEquals : OmniEurope.Blazor.Components.OmniDataGridFilterOperator const = 2
 field public static OmniEurope.Blazor.Components.OmniDataGridFilterOperator.NotIn : OmniEurope.Blazor.Components.OmniDataGridFilterOperator const = 15
 field public static OmniEurope.Blazor.Components.OmniDataGridFilterOperator.StartsWith : OmniEurope.Blazor.Components.OmniDataGridFilterOperator const = 3
+field public static OmniEurope.Blazor.Components.OmniDataGridFilterPlacement.HeaderMenu : OmniEurope.Blazor.Components.OmniDataGridFilterPlacement const = 0
+field public static OmniEurope.Blazor.Components.OmniDataGridFilterPlacement.Row : OmniEurope.Blazor.Components.OmniDataGridFilterPlacement const = 1
 field public static OmniEurope.Blazor.Components.OmniDataGridHeaderWrap.Truncate : OmniEurope.Blazor.Components.OmniDataGridHeaderWrap const = 1
 field public static OmniEurope.Blazor.Components.OmniDataGridHeaderWrap.Wrap : OmniEurope.Blazor.Components.OmniDataGridHeaderWrap const = 0
 field public static OmniEurope.Blazor.Components.OmniDataGridLines.Both : OmniEurope.Blazor.Components.OmniDataGridLines const = 3
@@ -2517,6 +2519,7 @@ property public OmniEurope.Blazor.Components.OmniChart.DataTableContent : Micros
 property public OmniEurope.Blazor.Components.OmniChart.Description : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniChart.FooterContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniChart.HighlightOnHover : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniChart.IsolateLineOnClick : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniChart.Label : System.String {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniChart.MaxHeight : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniChart.MinWidth : OmniEurope.Blazor.Components.OmniChartMinWidth {get(public);set(public)} [Parameter]
@@ -2694,6 +2697,7 @@ property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportTitle : S
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExportVariants : System.Collections.Generic.IReadOnlyDictionary<OmniEurope.Blazor.Components.OmniTableExportFormat,OmniEurope.Blazor.Components.OmniButtonVariant>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.FillAvailableHeight : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.FilterMode : OmniEurope.Blazor.Components.OmniDataGridFilterMode {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.FilterPlacement : OmniEurope.Blazor.Components.OmniDataGridFilterPlacement {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.Filterable : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.FixedRowHeight : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.FooterBarContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
@@ -2756,7 +2760,6 @@ property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowExportCance
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowFooterBar : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowGroupPanel : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowHeaderBar : System.Boolean {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowHeaderFilterMenu : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowLoadingBar : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowPagingSummary : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowResetLayout : System.Boolean {get(public);set(public)} [Parameter]
@@ -4253,6 +4256,7 @@ type public OmniEurope.Blazor.Components.OmniDataGridFilterDateRange [class] : O
 type public OmniEurope.Blazor.Components.OmniDataGridFilterMode [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniDataGridFilterMultiSelect [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniDataGridFilterOperator [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
+type public OmniEurope.Blazor.Components.OmniDataGridFilterPlacement [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniDataGridFilterText [static-class, static]
 type public OmniEurope.Blazor.Components.OmniDataGridFilterValues [static-class, static]
 type public OmniEurope.Blazor.Components.OmniDataGridGroup [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniDataGridGroup>

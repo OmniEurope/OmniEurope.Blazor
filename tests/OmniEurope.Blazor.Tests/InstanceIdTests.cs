@@ -38,7 +38,7 @@ public sealed class InstanceIdTests : OmniBunitContext
         builder.OpenComponent<OmniDataGrid<Row>>(sequence);
         builder.AddComponentParameter(sequence + 1, nameof(OmniDataGrid<Row>.Items), Rows);
         builder.AddComponentParameter(sequence + 2, nameof(OmniDataGrid<Row>.Filterable), true);
-        builder.AddComponentParameter(sequence + 3, nameof(OmniDataGrid<Row>.ShowHeaderFilterMenu), headerMenu);
+        builder.AddComponentParameter(sequence + 3, nameof(OmniDataGrid<Row>.FilterPlacement), headerMenu ? OmniDataGridFilterPlacement.HeaderMenu : OmniDataGridFilterPlacement.Row);
         builder.AddComponentParameter(sequence + 4, nameof(OmniDataGrid<Row>.PagerPlacement), OmniDataGridPlacement.TopAndBottom);
         builder.AddComponentParameter(sequence + 5, nameof(OmniDataGrid<Row>.PageSizeOptions), new[] { 10, 20 });
         builder.AddComponentParameter(sequence + 6, nameof(OmniDataGrid<Row>.Columns), Columns(searchable));

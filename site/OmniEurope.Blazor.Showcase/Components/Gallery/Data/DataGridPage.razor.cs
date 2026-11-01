@@ -50,7 +50,7 @@ public partial class DataGridPage
 
     private OmniDataGridFilterMode FilterMode { get; set; } = OmniDataGridFilterMode.Simple;
 
-    private bool ShowHeaderFilterMenu { get; set; }
+    private bool HeaderFilterMenu { get; set; }
 
     private bool HideFilterMenuOnSelect { get; set; } = true;
 

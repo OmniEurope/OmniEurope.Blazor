@@ -184,17 +184,12 @@ internal static class ThemePresetFactory
                 ? "inset 0 1px 0 rgb(255 255 255 / 6%), 0 0 4px rgb(0 0 0 / 34%), 0 16px 40px rgb(0 0 0 / 46%)"
                 : "0 0 4px rgb(0 0 0 / 10%), 0 16px 40px rgb(0 0 0 / 16%)",
             ["--omni-layer-acrylic"] = WithAlpha(dark ? ThemeColor.Lighten(surface, 0.07) : ThemeColor.Darken(surface, 0.015), dark ? 0.86 : 0.84),
-            ["--omni-chart-color-0"] = accent,
-            ["--omni-chart-color-1"] = success,
-            ["--omni-chart-color-2"] = warning,
-            ["--omni-chart-color-3"] = info,
-            ["--omni-chart-color-4"] = danger,
         };
 
-        var extraSeries = ExtraSeries([accent, success, warning, info, danger]);
-        for (var index = 0; index < extraSeries.Count; index++)
+        var series = dark ? DarkSeries : LightSeries;
+        for (var index = 0; index < series.Length; index++)
         {
-            tokens[$"--omni-chart-color-{index + 5}"] = Visible(extraSeries[index], surface);
+            tokens[$"--omni-chart-color-{index}"] = series[index];
         }
 
         AddFill(tokens, "accent", accentFill);
@@ -256,80 +251,16 @@ internal static class ThemePresetFactory
     }
 
     /// <summary>
-    /// The categorical colours of series 5 to 7, after the five the palette gives (accent, success,
-    /// warning, information, danger). Candidates are taken in order when their hue stands at least
-    /// <see cref="SeriesHueGap"/> degrees from every chromatic series already chosen, so no extra series
-    /// repeats the palette's accent or a severity (the fixed indigo of series 7 was the accent of
-    /// Opale). The slate is neutral and always fits. Should fewer than three candidates fit, the first
-    /// unused ones complete the set, so every palette gets three colours.
+    /// The eight series of a chart on a light page: blue, yellow, red, green, violet, teal, pink, slate. Fixed in every
+    /// theme and palette, so that the first ones are always clearly apart, whatever the accent (decision of the owner,
+    /// 2026-11-01: colours that differ, adjusted by eye, no contrast threshold).
     /// </summary>
-    private static List<string> ExtraSeries(IEnumerable<string> paletteSeries)
-    {
-        var hues = paletteSeries.Select(Hue).OfType<double>().ToList();
-        var chosen = new List<string>(3);
-        foreach (var candidate in SeriesCandidates)
-        {
-            if (chosen.Count == 3)
-            {
-                break;
-            }
+    private static readonly string[] LightSeries =
+        ["#1565c0", "#f2b705", "#d32f2f", "#2e9e4f", "#8e24aa", "#00897b", "#e0218a", "#5f6b7a"];
 
-            var hue = Hue(candidate);
-            if (hue is null || hues.TrueForAll(taken => HueDistance(taken, hue.Value) >= SeriesHueGap))
-            {
-                chosen.Add(candidate);
-                if (hue is not null)
-                {
-                    hues.Add(hue.Value);
-                }
-            }
-        }
-
-        foreach (var candidate in SeriesCandidates.Where(candidate => !chosen.Contains(candidate)))
-        {
-            if (chosen.Count == 3)
-            {
-                break;
-            }
-
-            chosen.Add(candidate);
-        }
-
-        return chosen;
-    }
-
-    /// <summary>The smallest hue difference, in degrees, below which two series read as one colour.</summary>
-    private const double SeriesHueGap = 36;
-
-    /// <summary>Lime, magenta, rose, teal, violet, indigo, amber, sky, brown, then a neutral slate.</summary>
-    private static readonly string[] SeriesCandidates =
-        ["#65a30d", "#c026d3", "#db2777", "#0d9488", "#7c3aed", "#4f46e5", "#ca8a04", "#0284c7", "#92400e", "#64748b"];
-
-    /// <summary>The hue of a colour in degrees, or <see langword="null"/> for a near-neutral one (saturation under 0.25).</summary>
-    private static double? Hue(string hex)
-    {
-        var (r, g, b) = ThemeColor.Parse(hex);
-        var max = Math.Max(r, Math.Max(g, b));
-        var min = Math.Min(r, Math.Min(g, b));
-        var delta = max - min;
-        var lightness = (max + min) / 510d;
-        var saturation = delta == 0 ? 0 : delta / 255d / (1 - Math.Abs(2 * lightness - 1));
-        if (saturation < 0.25)
-        {
-            return null;
-        }
-
-        double hue = max == r ? (g - b) / (double)delta % 6
-            : max == g ? (b - r) / (double)delta + 2
-            : (r - g) / (double)delta + 4;
-        return (hue * 60 + 360) % 360;
-    }
-
-    private static double HueDistance(double first, double second)
-    {
-        var difference = Math.Abs(first - second) % 360;
-        return Math.Min(difference, 360 - difference);
-    }
+    /// <summary>The same eight series on a dark page.</summary>
+    private static readonly string[] DarkSeries =
+        ["#64a8ff", "#ffd54a", "#ff6b6b", "#5fd38a", "#c77dff", "#4dd0c4", "#ff6fc1", "#9aa7b5"];
 
     /// <summary>
     /// A fill, its text and its two states. Hover and press move the fill away from the colour of its

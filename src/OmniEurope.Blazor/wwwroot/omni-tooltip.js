@@ -290,15 +290,18 @@ const CUT_CELL = [
     '.omni-multi-select-compact__text'
 ].join(', ');
 
-// A cell that holds controls (the actions of a row) is not a cut text: its controls say what they do.
+// A cell that holds controls (the actions of a row) is not a cut text: its controls say what they do. Nor is a cell
+// whose content sits in an OmniTooltip: that tooltip speaks for it, and textContent would read both.
 const CONTROL = 'button, input, select, textarea, [role="button"]';
-const isCut = element => element.scrollWidth > element.clientWidth + 1 && element.querySelector(CONTROL) === null;
+const isCut = element => element.scrollWidth > element.clientWidth + 1 && element.querySelector(`${CONTROL}, .omni-tooltip`) === null;
 
 // The parts of a chart show their tip at once. A tip outlives the pointer leaving its part by CHART_HOLD, and
 // so does the highlight of a bar or a slice (omni-chart__part--held): going from one part to the next across
-// the gap between them neither drops the highlight nor flickers.
+// the gap between them neither drops the highlight nor flickers. Leaving the chart altogether lets both go at once.
 const CHART_TIP = '.omni-chart [data-omni-tip]';
-const CHART_HOLD = 500;
+const CHART_HOLD = 200;
+// The dot of a point of a line: a tip opened on the line stays at the pointer until the pointer reaches it.
+const CHART_MARK = '.omni-chart__point-mark';
 const CHART_PART = ':is(.omni-chart__columns, .omni-chart__bars) rect, :is(.omni-chart__pie, .omni-chart__donut) path';
 const HELD_CLASS = 'omni-chart__part--held';
 let titleHold = 0;
@@ -328,8 +331,18 @@ const holdPart = target => {
     part.classList.add(HELD_CLASS);
 };
 
+const leavesChart = event => {
+    const chart = event.target instanceof Element ? event.target.closest('.omni-chart') : null;
+    return chart !== null && !(event.relatedTarget instanceof Node && chart.contains(event.relatedTarget));
+};
+
 const onPartOut = event => {
-    if (event.target === heldPart) {
+    if (leavesChart(event)) {
+        releasePart();
+        if (titleTarget?.matches(CHART_TIP) && titleTarget !== document.activeElement) {
+            hideTitle();
+        }
+    } else if (event.target === heldPart) {
         heldTimer = window.setTimeout(releasePart, CHART_HOLD);
     }
 };
@@ -500,6 +513,12 @@ const showTitle = (text, x, y, source) => {
     unwatchTitle = source ? watchAnchor(source, hideTitle) : null;
 };
 
+// The tip of a point, on the dot of that point rather than at the pointer.
+const showAtMark = (element, mark) => {
+    const box = mark.getBoundingClientRect();
+    showTitle(titleOf(element), box.left + box.width / 2, box.top, element);
+};
+
 const onTitleOver = event => {
     titlePointer = { x: event.clientX, y: event.clientY };
     holdPart(event.target);
@@ -510,6 +529,10 @@ const onTitleOver = event => {
     }
 
     if (element === titleTarget) {
+        if (element && event.target.matches(CHART_MARK)) {
+            showAtMark(element, event.target);
+        }
+
         return;
     }
 
@@ -548,7 +571,9 @@ const onTitleOver = event => {
         }
     };
 
-    if (element.matches(CHART_TIP)) {
+    if (element.matches(CHART_TIP) && event.target.matches(CHART_MARK)) {
+        showAtMark(element, event.target);
+    } else if (element.matches(CHART_TIP)) {
         show();
     } else {
         titleTimer = window.setTimeout(show, TITLE_DELAY);
