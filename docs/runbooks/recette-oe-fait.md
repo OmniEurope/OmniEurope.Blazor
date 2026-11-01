@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # Recette d'OmniEurope.Blazor, points faits
 
-> Archive des lignes faites et prouvées de `recette-oe-a-faire.md`. Archivées le 2026-10-29 (R1-1 à R1-16, livrées avec 1.10.0 ; R1-17 à R1-23 et R1-25 à R1-29 pour 1.10.1).
+> Archive des lignes faites et prouvées de `recette-oe-a-faire.md`. Archivées le 2026-10-29 (R1-1 à R1-16, livrées avec 1.10.0 ; R1-17 à R1-23 et R1-25 à R1-29 pour 1.11.0).
 
 | N° | Page / composant | Type | Constat | Origine | Justification | État |
 | --- | --- | --- | --- | --- | --- | --- |

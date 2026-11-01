@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # Recette d'OmniEurope.Blazor, points à faire
 
-> Statut : ouverte le 2026-10-09. Prochain numéro : **R1-30**. Version cible : **1.10.1** (décision du propriétaire du 2026-10-29).
+> Statut : ouverte le 2026-10-09. Prochain numéro : **R1-30**. Version cible : **1.11.0** (décision du propriétaire du 2026-11-01).
 
 ## État
 
