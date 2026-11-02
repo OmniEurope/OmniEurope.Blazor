@@ -27,6 +27,8 @@ public partial class SchedulerPage
 
     private bool MarkPastSlots { get; set; } = true;
 
+    private bool ShowViewPicker { get; set; } = true;
+
     private bool IncludeWeekend { get; set; } = true;
 
     private bool TimeGrid { get; set; } = true;

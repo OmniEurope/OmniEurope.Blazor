@@ -74,7 +74,7 @@
 }
 
 <section @ref="_root" @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-scheduler", _moving is null ? null : "omni-scheduler--moving", _dragged is null ? null : "omni-scheduler--dragging")" aria-busy="@(_loading ? "true" : "false")" @onkeydown="OnKeyDown">
-    <header class="omni-scheduler__header">
+    <header class="@(ShowViewPicker ? "omni-scheduler__header" : "omni-scheduler__header omni-scheduler__header--no-picker")">
         <button type="button" class="omni-button" aria-label="@Text("SchedulerPreviousPeriod")" @onclick="PreviousAsync">‹</button>
         <button type="button" class="omni-button" @onclick="TodayAsync">@Text("Today")</button>
         <button type="button" class="omni-button" aria-label="@Text("SchedulerNextPeriod")" @onclick="NextAsync">›</button>
@@ -82,12 +82,15 @@
         {
             <button type="button" class="omni-button omni-scheduler__cancel" @onclick="CancelMove">@Text("SchedulerMoveCancel")</button>
         }
-        <div class="omni-select-bar" role="radiogroup" aria-label="@Text("SchedulerViewLabel")" data-omni-roving @onfocusin="EnablePageKeysAsync">
-            @foreach (var view in Enum.GetValues<OmniCalendarView>())
-            {
-                <button type="button" class="@ViewClass(view)" role="radio" aria-checked="@(_view == view ? "true" : "false")" tabindex="@(_view == view ? "0" : "-1")" @onclick="() => ChangeViewAsync(view)">@ViewLabel(view)</button>
-            }
-        </div>
+        @if (ShowViewPicker)
+        {
+            <div class="omni-select-bar" role="radiogroup" aria-label="@Text("SchedulerViewLabel")" data-omni-roving @onfocusin="EnablePageKeysAsync">
+                @foreach (var view in Enum.GetValues<OmniCalendarView>())
+                {
+                    <button type="button" class="@ViewClass(view)" role="radio" aria-checked="@(_view == view ? "true" : "false")" tabindex="@(_view == view ? "0" : "-1")" @onclick="() => ChangeViewAsync(view)">@ViewLabel(view)</button>
+                }
+            </div>
+        }
     </header>
     @if (_error is not null)
     {

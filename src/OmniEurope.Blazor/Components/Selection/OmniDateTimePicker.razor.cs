@@ -271,6 +271,9 @@ public partial class OmniDateTimePicker
         SetMoment(day.ToDateTime(SelectedTime ?? TimeOnly.MinValue));
         _focusedDate = day;
         _visibleMonth = day;
+        // The panel stays open: a day of the next or previous month redraws the grid and takes the
+        // focused button with it, and a focus left on the page would put Escape out of the panel's reach.
+        Popup.FocusAfterRender(FocusedDaySelector);
     }
 
     private void ChangeTime(PickerTimeChange change)

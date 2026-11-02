@@ -93,5 +93,7 @@
   <data name="StepTimelineSettingsDescription" xml:space="preserve"><value>A pipeline run, as a continuous integration server draws them.</value></data>
   <data name="SchedulerPastSlots" xml:space="preserve"><value>Mark past slots</value></data>
   <data name="SchedulerPastSlotsDescription" xml:space="preserve"><value>Hatches what is already over: the slots of the time grid and the days before today.</value></data>
+  <data name="SchedulerViewPicker" xml:space="preserve"><value>Built-in picker</value></data>
+  <data name="SchedulerViewPickerDescription" xml:space="preserve"><value>Shows the day, week and month picker in the header; a host with its own toolbar hides it.</value></data>
   <data name="GanttFixedTitle" xml:space="preserve"><value>Fixed zoom</value></data>
 </root>

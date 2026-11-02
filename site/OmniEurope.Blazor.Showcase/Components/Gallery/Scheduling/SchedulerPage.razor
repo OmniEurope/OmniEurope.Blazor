@@ -21,6 +21,13 @@
                 </ChildContent>
             </OmniSettingsTile>
 
+            <OmniSettingsTile Title="@Text["SchedulerViewPicker"]" Description="@Text["SchedulerViewPickerDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Layers" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowViewPicker" aria-label="@Text["SchedulerViewPicker"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
             <OmniSettingsTile Title="@Text["SchedulerCulture"]" Description="@Text["SchedulerCultureDescription"]">
                 <Icon><OmniIcon Name="OmniIconName.Globe" /></Icon>
                 <Details>
@@ -69,6 +76,7 @@
             <ChildContent>
                 <SchedulerExample @bind-Date="Anchor"
                                   @bind-View="View"
+                                  ShowViewPicker="ShowViewPicker"
                                   Culture="Culture"
                                   IncludeWeekend="IncludeWeekend"
                                   TimeGrid="TimeGrid"

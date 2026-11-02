@@ -235,6 +235,7 @@ polyline.omni-chart__line { fill: none; }
 .omni-step-timeline__overrun { fill: var(--omni-color-warning); }
 .omni-scheduler { display: grid; gap: var(--omni-space-md); }
 .omni-scheduler__header { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: space-between; }
+.omni-scheduler__header--no-picker { justify-content: flex-start; }
 .omni-scheduler__state { color: var(--omni-color-text-muted); padding: var(--omni-space-lg); text-align: center; }
 .omni-scheduler__date { display: block; font-weight: 650; margin: 0 0 var(--omni-space-xs); }
 .omni-day-view > .omni-scheduler__date { font-size: var(--omni-font-size-h3); }

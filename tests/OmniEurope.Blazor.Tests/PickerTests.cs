@@ -461,6 +461,23 @@ public sealed class PickerTests : OmniBunitContext
     }
 
     [Fact]
+    public void DateTimePicker_ADayOfAnotherMonth_KeepsTheFocusInTheOpenPanel()
+    {
+        var host = RenderHost(model => model.Moment = new DateTime(2026, 9, 21, 14, 30, 0, DateTimeKind.Unspecified));
+        Toggle(host, "moment").Click();
+        host.WaitForAssertion(() => Assert.Single(_module.Invocations["focusPickerItem"]));
+
+        Day(host, "2026-10-01").Click();
+
+        // The grid is redrawn for October and the pressed button goes with it: the focus is put back on
+        // the chosen day, or Escape would go to the page and leave the panel open.
+        Assert.Equal("2026-10-01", host.Find(".omni-calendar__day[tabindex='0']").GetAttribute("data-date"));
+        host.WaitForAssertion(() => Assert.Equal(2, _module.Invocations["focusPickerItem"].Count));
+        Assert.Equal(".omni-calendar__day[tabindex='0']", _module.Invocations["focusPickerItem"][^1].Arguments[1]);
+        Assert.NotEmpty(host.FindAll("[role='dialog']"));
+    }
+
+    [Fact]
     public void DateTimePicker_WithoutValue_AnHourTakesToday_ADayTakesMidnight()
     {
         var host = RenderHost();

@@ -622,7 +622,7 @@
    makes that line exactly the taller of the two; on the baseline the strut overhang was added to it. */
 .omni-data-grid:not(.omni-data-grid--fixed-row-height) tbody tr.omni-data-grid__row--editing > td[data-omni-col]:not(.omni-data-grid__cell--text) { padding-block: max(0px, var(--omni-cell-pad-y) - max(0px, (var(--omni-control-height) - 1lh) / 2)); }
 .omni-data-grid:not(.omni-data-grid--fixed-row-height) tbody tr.omni-data-grid__row--editing > td[data-omni-col]:not(.omni-data-grid__cell--text) :is(input, select, button, .omni-input, .omni-button) { vertical-align: top; }
-.omni-data-grid__spacer td { block-size: var(--omni-grid-spacer, 0px); border: 0; padding: 0; }
+.omni-data-grid__spacer td { border: 0; padding: 0; }
 .omni-data-grid__row--placeholder td { block-size: var(--omni-grid-row-estimate, 2.5rem); }
 .omni-data-grid__group-panel { align-items: center; color: var(--omni-color-text-muted); display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); }
 .omni-data-grid__group-chip { align-items: center; background: var(--omni-color-surface-muted); border-radius: var(--omni-radius); color: var(--omni-color-text); display: inline-flex; gap: var(--omni-space-xs); padding-inline-start: var(--omni-space-sm); }

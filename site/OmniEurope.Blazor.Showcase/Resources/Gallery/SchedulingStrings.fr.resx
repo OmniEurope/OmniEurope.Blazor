@@ -93,5 +93,7 @@
   <data name="StepTimelineSettingsDescription" xml:space="preserve"><value>Une exécution de pipeline, comme un serveur d&apos;intégration continue les dessine.</value></data>
   <data name="SchedulerPastSlots" xml:space="preserve"><value>Hachurer les créneaux passés</value></data>
   <data name="SchedulerPastSlotsDescription" xml:space="preserve"><value>Hachure ce qui est déjà passé : les créneaux de la grille horaire et les jours avant aujourd&apos;hui.</value></data>
+  <data name="SchedulerViewPicker" xml:space="preserve"><value>Sélecteur intégré</value></data>
+  <data name="SchedulerViewPickerDescription" xml:space="preserve"><value>Affiche le choix jour, semaine ou mois dans l&apos;en-tête ; un hôte qui a sa propre barre le retire.</value></data>
   <data name="GanttFixedTitle" xml:space="preserve"><value>Zoom imposé</value></data>
 </root>

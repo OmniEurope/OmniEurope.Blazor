@@ -26,6 +26,16 @@ internal sealed class GridVirtualViewport<TItem>(OmniDataGrid<TItem> grid)
 
     internal GridVirtualRange Range => _range;
 
+    /// <summary>
+    /// The heights of the spacers as the render writes them, invariant: they reach the page in the same
+    /// batch as the rows, where the script's would come one round trip later and show the rows out of place.
+    /// </summary>
+    internal string TopSpacerHeight => SpacerHeight(_range.TopSpacer);
+
+    internal string BottomSpacerHeight => SpacerHeight(_range.BottomSpacer);
+
+    private static string SpacerHeight(double height) => Math.Max(0d, height).ToString(CultureInfo.InvariantCulture);
+
     internal void Sync()
     {
         var estimate = FixedHeight ?? _cssRowEstimate ?? (grid.EstimatedRowHeight is > 0d ? grid.EstimatedRowHeight.Value : 40d);

@@ -63,6 +63,10 @@ public partial class SchedulerExample
     [Parameter]
     public bool MarkPastSlots { get; set; } = true;
 
+    /// <summary>Whether the scheduler draws its own day, week and month picker.</summary>
+    [Parameter]
+    public bool ShowViewPicker { get; set; } = true;
+
     private static DateTimeOffset Today => new(DateTime.Today);
 
     /// <summary>The Monday of the current week: the sample appointments always fall in the week shown.</summary>

@@ -497,6 +497,38 @@ public sealed class SchedulerComponentTests : OmniBunitContext
         Assert.Equal(0, moves);
     }
 
+    [Fact]
+    public void Scheduler_ShowsItsViewPickerByDefault()
+    {
+        var scheduler = Render<OmniScheduler>();
+
+        Assert.Equal(3, scheduler.FindAll(".omni-scheduler__header [role=radio]").Count);
+        Assert.Empty(scheduler.FindAll(".omni-scheduler__header--no-picker"));
+    }
+
+    [Fact]
+    public void Scheduler_WithoutItsViewPicker_KeepsThePeriodButtonsAndTheHostView()
+    {
+        var date = new DateTimeOffset(2026, 6, 8, 0, 0, 0, TimeSpan.Zero);
+        var moved = default(DateTimeOffset?);
+        var scheduler = Render<OmniScheduler>(parameters => parameters
+            .Add(component => component.Date, date)
+            .Add(component => component.DateChanged, value => moved = value)
+            .Add(component => component.View, OmniCalendarView.Day)
+            .Add(component => component.TimeZone, TimeZoneInfo.Utc)
+            .Add(component => component.ShowViewPicker, false));
+
+        Assert.Empty(scheduler.FindAll(".omni-scheduler__header [role=radiogroup]"));
+        Assert.NotEmpty(scheduler.FindAll(".omni-scheduler__header--no-picker"));
+        Assert.NotEmpty(scheduler.FindAll(".omni-day-view"));
+
+        scheduler.FindAll(".omni-scheduler__header > button")[2].Click();
+        Assert.Equal(date.AddDays(1), moved);
+
+        scheduler.Render(parameters => parameters.Add(component => component.View, OmniCalendarView.Week));
+        Assert.NotEmpty(scheduler.FindAll(".omni-week-view"));
+    }
+
     private sealed class FixedTimeProvider(DateTimeOffset value) : TimeProvider
     {
         public override DateTimeOffset GetUtcNow() => value;

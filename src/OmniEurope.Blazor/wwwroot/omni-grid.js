@@ -26,8 +26,8 @@ const attachments = new Map();
 const endOfContent = Number.MAX_VALUE;
 
 function metrics(viewport) {
-    // A render that drops the first rows of the window shortens the content until applyLayout grows the
-    // top spacer: a viewport at its end is pulled back meanwhile (Firefox does so at once). Read then,
+    // Rows measured shorter than estimated shorten the content until the next render moves the
+    // spacers: a viewport at its end is pulled back meanwhile (Firefox does so at once). Read then,
     // that position would bring the rows back, whose render pulls the end away again, endlessly. A
     // viewport at its end therefore reports the end itself, which no transient height can move.
     const atEnd = attachments.get(viewport)?.state.atEnd === true;
@@ -178,13 +178,12 @@ export function sync(viewport, measureRows = true, topSpacer = null, bottomSpace
         return null;
     }
 
-    // A render that drops the first rows of the window shortens the content until the top spacer
-    // takes their place. Read in between, the layout pulls the scroll back by the rows dropped
-    // (Firefox does so at once), and the window computed from that position brings them back: a
-    // short wheel step down never gets past them. The spacers of this render land before any read.
+    // The render already wrote the spacers of its rows; a window computed since may have moved them.
+    // Read on a shortened content, the layout pulls the scroll back (Firefox does so at once), and the
+    // window computed from that position brings the rows back: a short wheel step down never gets
+    // past them. The latest spacers therefore land before any read.
     if (Number.isFinite(topSpacer) && Number.isFinite(bottomSpacer)) {
-        viewport.querySelector('[data-omni-spacer="top"]')?.style.setProperty('--omni-grid-spacer', `${Math.max(0, topSpacer)}px`);
-        viewport.querySelector('[data-omni-spacer="bottom"]')?.style.setProperty('--omni-grid-spacer', `${Math.max(0, bottomSpacer)}px`);
+        sizeSpacers(viewport, topSpacer, bottomSpacer);
     }
 
     // Measuring every rendered row forces a layout on each scroll frame. A grid with a known row
@@ -223,19 +222,35 @@ function rowsChanged(reported, viewport) {
     });
 }
 
-/**
- * Sizes the spacers that stand in for the rows outside the rendered window. Custom properties are
- * used instead of the style attribute so the strict CSP of the library still holds.
- */
+// A grid's spacer is a row whose cell takes its height from the attribute the render writes with the
+// rows; this one only follows the heights a measure moved since, and leaves an equal value alone: a
+// write of the same height still invalidates the table, on every frame of a scroll. The log viewer's
+// spacers are blocks sized by a custom property. Neither touches the style attribute, so the strict
+// CSP still holds.
+function sizeSpacer(spacer, height) {
+    const cell = spacer?.querySelector('td');
+    if (cell) {
+        const value = `${Math.max(0, height)}`;
+        if (cell.getAttribute('height') !== value) {
+            cell.setAttribute('height', value);
+        }
+    } else {
+        spacer?.style.setProperty('--omni-grid-spacer', `${Math.max(0, height)}px`);
+    }
+}
+
+function sizeSpacers(viewport, topSpacer, bottomSpacer) {
+    sizeSpacer(viewport.querySelector('[data-omni-spacer="top"]'), topSpacer);
+    sizeSpacer(viewport.querySelector('[data-omni-spacer="bottom"]'), bottomSpacer);
+}
+
+/** Sizes the spacers that stand in for the rows outside the rendered window, and the viewport. */
 export function applyLayout(viewport, topSpacer, bottomSpacer, height, minHeight) {
     if (!(viewport instanceof HTMLElement)) {
         return;
     }
 
-    const top = viewport.querySelector('[data-omni-spacer="top"]');
-    const bottom = viewport.querySelector('[data-omni-spacer="bottom"]');
-    top?.style.setProperty('--omni-grid-spacer', `${Math.max(0, topSpacer)}px`);
-    bottom?.style.setProperty('--omni-grid-spacer', `${Math.max(0, bottomSpacer)}px`);
+    sizeSpacers(viewport, topSpacer, bottomSpacer);
     if (typeof height === 'string' && height.trim().length > 0) {
         viewport.style.setProperty('--omni-grid-viewport', height.trim());
     } else {

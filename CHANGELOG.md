@@ -26,6 +26,7 @@ Version cible : `1.11.0` (décision du propriétaire du 2026-11-01). Elle porte 
 
 ### Added
 
+- `OmniScheduler.ShowViewPicker` (`bool`, vrai par défaut, même nom que sur `OmniGantt`) : demande d'une application cliente. `false` retire le choix jour, semaine, mois de l'en-tête pour un hôte qui a sa propre barre ; les boutons précédent, aujourd'hui et suivant restent, alignés au début, et `View` reste piloté par l'hôte. Vitrine : bascule « Sélecteur intégré » de la page Agenda.
 - `OmniScheduler` accepte une fenêtre qui traverse minuit (`DayStart` 20:00, `DayEnd` 08:00) : la colonne d'un jour porte sa soirée et le matin suivant, `Load` reçoit la plage prolongée, `OnSlotClick` et `OnAppointmentMove` rapportent la vraie date.
 - `OmniChart.Tooltips` (`bool`, vrai par défaut) : `false` retire les infobulles des parties, le surlignage reste. Un hôte qui veut une infobulle sur tout le graphique pose `data-omni-tip` sur `OmniChart`.
 - `OmniChart.IsolateLineOnClick` (`bool`, `false` par défaut) : demande d'une application cliente. Un clic sur une courbe ne garde que sa série, un axe de valeurs automatique se recale sur ce qui reste, et la légende (`OmniLegend.AllowToggle`) rend les autres séries. Vitrine : page Graphiques en courbes.
@@ -60,6 +61,8 @@ Version cible : `1.11.0` (décision du propriétaire du 2026-11-01). Elle porte 
 
 ### Fixed
 
+- `OmniDateTimePicker` : choisir un jour d'un autre mois garde le focus dans le panneau, sur le jour choisi. Le focus retombait sur la page avec le bouton redessiné, et Échap ne fermait plus le panneau.
+- `OmniDataGrid` virtuelle : les espaceurs sont écrits par le rendu, dans le même lot que les lignes (attribut `height` de leur cellule, sans style en ligne). Posés par script un aller-retour plus tard, ils laissaient les lignes dessinées une ou deux rangées trop haut pendant le défilement quand l'interop est asynchrone, le cas de Blazor Hybrid et de Blazor Server.
 - `OmniDataGrid` : une cellule coupée dont le contenu est enveloppé dans un `OmniTooltip` n'ouvre plus la bulle du texte coupé par-dessus, qui lisait le texte et l'infobulle à la suite : seule l'infobulle de l'hôte s'affiche.
 - `GhostDanger` (`OmniButton`, `OmniSplitButton`) dans une `OmniHeader` à bandeau d'accent : le texte, le survol, l'appui et le cadre d'appui prennent la couleur de texte du bandeau, car les couleurs du danger ne sont tenues que sur la surface. La sonde de contraste le mesure sur la page Coquille de page.
 - Vitrine, API : une réponse 204 à `PUT /api/preferences/{key}`, celle d'une API pas encore redéployée, garde la préférence envoyée au lieu de faire échouer chaque écriture. Une réponse en erreur reste un échec.

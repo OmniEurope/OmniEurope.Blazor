@@ -229,6 +229,36 @@ public sealed class DataGridVirtualizationTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task VirtualizedGrid_RendersTheSpacerHeightsWithItsRows_WhateverTheCulture()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        var previous = CultureInfo.CurrentCulture;
+        try
+        {
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("fr-FR");
+            var grid = Render<OmniDataGrid<int>>(parameters => parameters
+                .Add(component => component.Items, Enumerable.Range(0, 10_000).ToArray())
+                .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
+                .Add(component => component.EstimatedRowHeight, 40.5d));
+            Assert.Equal("0", grid.Find("[data-omni-spacer='top'] td").GetAttribute("height"));
+
+            await grid.InvokeAsync(() => grid.Instance.OnViewportChangedAsync(40_500d, 405d));
+
+            // Row 1000 at the top of the view, three rows of overscan above it, ten rows in view and
+            // three below: what is not rendered is in the spacers, in the markup of this very render.
+            var rendered = grid.FindAll("tbody tr[data-omni-row-index]").Count;
+            Assert.Equal("40378.5", grid.Find("[data-omni-spacer='top'] td").GetAttribute("height"));
+            var bottom = (10_000 - 997 - rendered) * 40.5d;
+            Assert.Equal(bottom.ToString(CultureInfo.InvariantCulture), grid.Find("[data-omni-spacer='bottom'] td").GetAttribute("height"));
+            Assert.DoesNotContain("style=", grid.Markup, StringComparison.OrdinalIgnoreCase);
+        }
+        finally
+        {
+            CultureInfo.CurrentCulture = previous;
+        }
+    }
+
+    [Fact]
     public async Task VirtualizedGrid_MovesItsWindowWhenTheViewportScrolls()
     {
         JSInterop.Mode = JSRuntimeMode.Loose;

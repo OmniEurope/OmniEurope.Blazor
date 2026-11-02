@@ -393,7 +393,7 @@
             <tbody>
                 @if (View.Virtualized)
                 {
-                    <tr class="omni-data-grid__spacer" data-omni-spacer="top" aria-hidden="true"><td colspan="@ColumnSet.ColumnSpan"></td></tr>
+                    <tr class="omni-data-grid__spacer" data-omni-spacer="top" aria-hidden="true"><td colspan="@ColumnSet.ColumnSpan" height="@Virtual.TopSpacerHeight"></td></tr>
                 }
                 @* Waiting for the images of the rows: the template takes the first row, under the headers, and
                    the rows stay laid out but unseen so their images still load. *@
@@ -543,7 +543,7 @@
                 }
                 @if (View.Virtualized)
                 {
-                    <tr class="omni-data-grid__spacer" data-omni-spacer="bottom" aria-hidden="true"><td colspan="@ColumnSet.ColumnSpan"></td></tr>
+                    <tr class="omni-data-grid__spacer" data-omni-spacer="bottom" aria-hidden="true"><td colspan="@ColumnSet.ColumnSpan" height="@Virtual.BottomSpacerHeight"></td></tr>
                 }
             </tbody>
             @if (ColumnSet.HasBottomFooter)

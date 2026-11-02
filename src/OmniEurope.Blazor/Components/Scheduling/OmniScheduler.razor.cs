@@ -101,6 +101,12 @@ public partial class OmniScheduler
     /// <summary>Raised with the new view when the reader picks another one.</summary>
     [Parameter] public EventCallback<OmniCalendarView> ViewChanged { get; set; }
 
+    /// <summary>
+    /// Shows the day, week and month picker of the header; a host with its own toolbar hides it and drives
+    /// <see cref="View"/>. The period buttons stay.
+    /// </summary>
+    [Parameter] public bool ShowViewPicker { get; set; } = true;
+
     /// <summary>The time zone appointments are drawn in and the visible range is computed in.</summary>
     [Parameter] public TimeZoneInfo TimeZone { get; set; } = TimeZoneInfo.Local;
 
