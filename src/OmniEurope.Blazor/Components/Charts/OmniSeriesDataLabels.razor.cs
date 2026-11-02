@@ -69,36 +69,12 @@ public partial class OmniSeriesDataLabels
             var text = Text(Data[index]);
             var bar = bars?[index];
             var inside = Inside && (bar is not { } held || Holds(held, text, horizontal));
-            (double X, string? Anchor) place;
-            double y;
-            string? baseline;
-            if (inside && horizontalChart is not null)
-            {
-                // Where the value axis starts (zero): a label inside a horizontal bar begins there.
-                place = Placed(horizontalChart.ProjectCoordinates(Data[index] with { Y = 0 }).X + 1.5, text, LabelAnchor.Start);
-                (y, baseline) = (projected.Y, "central");
-            }
-            else if (inside)
-            {
-                place = Placed(projected.X, text, LabelAnchor.Middle);
-                (y, baseline) = (projected.Y + 1.5, "hanging");
-            }
-            else if (horizontal)
-            {
-                place = Placed(projected.X + 1.5, text, LabelAnchor.Start);
-                (y, baseline) = (projected.Y, "central");
-            }
-            else
-            {
-                place = Placed(projected.X, text, LabelAnchor.Middle);
-                (y, baseline) = (projected.Y - 3, null);
-            }
-
+            var (x, anchor, y, baseline) = Position(Data[index], projected, text, inside, horizontalChart);
             var barClass = inside && bar is { } colored ? $"omni-chart__label-on-bar {ChartColor.Class(colored.ColorIndex)}" : null;
-            labels[index] = new DataLabel(place.X, y, place.Anchor, baseline, text, true, projected, barClass);
+            labels[index] = new DataLabel(x, y, anchor, baseline, text, true, projected, barClass);
             if (projected.Y > OmniChartContext.OutOfRangeY / 2)
             {
-                boxes[index] = DataLabelThinning.BoxOf(place.X, y, place.Anchor, baseline, text.Length * OmniChartContext.CharacterWidth, OmniChartContext.FontSize);
+                boxes[index] = DataLabelThinning.BoxOf(x, y, anchor, baseline, text.Length * OmniChartContext.CharacterWidth, OmniChartContext.FontSize);
             }
         }
 
@@ -112,6 +88,27 @@ public partial class OmniSeriesDataLabels
         }
 
         return labels;
+    }
+
+    /// <summary>Where a label is written and how: inside its bar or past it, along a horizontal bar or over a point.</summary>
+    private (double X, string? Anchor, double Y, string? Baseline) Position(
+        OmniChartPoint point, (double X, double Y) projected, string text, bool inside, OmniChartContext? horizontalChart)
+    {
+        if (inside && horizontalChart is not null)
+        {
+            // Where the value axis starts (zero): a label inside a horizontal bar begins there.
+            var (x, anchor) = Placed(horizontalChart.ProjectCoordinates(point with { Y = 0 }).X + 1.5, text, LabelAnchor.Start);
+            return (x, anchor, projected.Y, "central");
+        }
+
+        if (horizontalChart is not null)
+        {
+            var (x, anchor) = Placed(projected.X + 1.5, text, LabelAnchor.Start);
+            return (x, anchor, projected.Y, "central");
+        }
+
+        var (middle, middleAnchor) = Placed(projected.X, text, LabelAnchor.Middle);
+        return inside ? (middle, middleAnchor, projected.Y + 1.5, "hanging") : (middle, middleAnchor, projected.Y - 3, null);
     }
 
     /// <summary>One label: where it is written, how, and whether it is drawn or masked.</summary>

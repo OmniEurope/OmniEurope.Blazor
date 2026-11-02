@@ -186,12 +186,7 @@ internal static class ThemePresetFactory
             ["--omni-layer-acrylic"] = WithAlpha(dark ? ThemeColor.Lighten(surface, 0.07) : ThemeColor.Darken(surface, 0.015), dark ? 0.86 : 0.84),
         };
 
-        var series = dark ? DarkSeries : LightSeries;
-        for (var index = 0; index < series.Length; index++)
-        {
-            tokens[$"--omni-chart-color-{index}"] = series[index];
-        }
-
+        AddChartSeries(tokens, dark ? DarkSeries : LightSeries);
         AddFill(tokens, "accent", accentFill);
         AddFill(tokens, "success", successFill);
         AddFill(tokens, "info", infoFill);
@@ -261,6 +256,15 @@ internal static class ThemePresetFactory
     /// <summary>The same eight series on a dark page.</summary>
     private static readonly string[] DarkSeries =
         ["#64a8ff", "#ffd54a", "#ff6b6b", "#5fd38a", "#c77dff", "#4dd0c4", "#ff6fc1", "#9aa7b5"];
+
+    /// <summary>The chart series tokens, numbered from 0.</summary>
+    private static void AddChartSeries(Dictionary<string, string> tokens, string[] series)
+    {
+        for (var index = 0; index < series.Length; index++)
+        {
+            tokens[$"--omni-chart-color-{index}"] = series[index];
+        }
+    }
 
     /// <summary>
     /// A fill, its text and its two states. Hover and press move the fill away from the colour of its
