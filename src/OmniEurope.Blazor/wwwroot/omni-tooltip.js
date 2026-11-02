@@ -536,7 +536,7 @@ const onTitleOver = event => {
         return;
     }
 
-    if (!element && titleTarget?.matches(CHART_TIP)) {
+    if (!element && titleTarget?.matches(CHART_TIP) && titleTarget !== document.activeElement) {
         titleHold ||= window.setTimeout(hideTitle, CHART_HOLD);
         return;
     }

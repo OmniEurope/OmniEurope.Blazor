@@ -6,12 +6,12 @@ namespace OmniEurope.Blazor.Components;
 /// The hover of the lines of an <see cref="OmniChart"/> with <see cref="OmniChart.HighlightOnHover"/>: each
 /// line is cut into one transparent zone per point, from halfway to the previous point to halfway to the
 /// next one, so anywhere on the line the pointer is in the zone of the nearest point. The stylesheet shows
-/// the dot of the zone under the pointer, and the title of the zone is the text of that point.
+/// the dot of the zone under the pointer, and the package tooltip shows the text of that point.
 /// </summary>
 /// <remarks>
 /// Drawn after the parts of the chart, so the zones lie over the markers and the pointer finds them on a
-/// dot too. No script follows the pointer: the zones hold without interactivity, where the title stays a
-/// native hover text. The zones are hidden from assistive technology, for which the chart's data table
+/// dot too. No script follows the pointer: the zones and their dot hold without interactivity, with no
+/// hover text then. The zones are hidden from assistive technology, for which the chart's data table
 /// already lists every value. Written as a render tree so that it stays internal.
 /// </remarks>
 internal sealed class OmniChartPointHover : ComponentBase

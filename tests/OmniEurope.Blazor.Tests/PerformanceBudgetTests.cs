@@ -59,6 +59,27 @@ public sealed class PerformanceBudgetTests : OmniBunitContext
         Assert.True(allocated < 80 * 1024 * 1024, $"Allocations: {allocated} octets");
     }
 
+    [Fact]
+    public void ThousandPointLineInAChart_WithItsHoverZones_StaysWithinRegressionBudget()
+    {
+        var points = Enumerable.Range(0, 1_000)
+            .Select(index => new OmniChartPoint(index / 10d, index % 100))
+            .ToArray();
+        IRenderedComponent<OmniChart> RenderChart() => Render<OmniChart>(parameters => parameters
+            .Add(component => component.Label, "Points")
+            .AddChildContent<OmniLineSeries>(series => series.Add(component => component.Data, points)));
+        using var functionalChart = RenderChart();
+        functionalChart.WaitForAssertion(() => Assert.Equal(1_000, functionalChart.FindAll(".omni-chart__point-zone").Count));
+        var (elapsed, allocated) = MeasureMedian(() =>
+        {
+            using var chart = RenderChart();
+        });
+
+        Assert.True(elapsed < TimeSpan.FromSeconds(3), $"Temps médian: {elapsed}");
+        // Measured at 17 MB on 2026-11-02, with the three elements of each hover zone.
+        Assert.True(allocated < 40 * 1024 * 1024, $"Allocations: {allocated} octets");
+    }
+
     private static (TimeSpan Elapsed, long Allocated) MeasureMedian(Action action)
     {
         action();

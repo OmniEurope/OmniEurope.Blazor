@@ -34,7 +34,9 @@ La grille horaire est un tableau : une ligne par créneau, une colonne par jour.
 dans la cellule où il commence et s'y dessine sur sa durée, à la minute près, en descendant sur les
 lignes suivantes (la position est calculée sur l'heure murale, alignée sur les heures des lignes). Il
 est coupé aux bords de la grille ; celui qui en sort entièrement garde un bloc court dans le premier ou
-le dernier créneau, rien n'est caché. Un bloc mesure au moins un demi-créneau pour rester lisible, et
+le dernier créneau, et celui qui court sur un jour suivant affiché reprend en haut de cette colonne (avec
+`Load`, l'hôte renvoie donc aussi ceux qui commencent avant la plage demandée et s'y prolongent), rien
+n'est caché. Un bloc mesure au moins un demi-créneau pour rester lisible, et
 aucune ligne n'y est coupée en hauteur : sous un créneau il n'affiche que son titre sur une ligne, sous
 deux créneaux son heure et une ligne de titre, avec points de suspension. L'heure reste lue par les
 technologies d'assistance, et le `title` du bloc donne l'horaire et le titre complet. Le

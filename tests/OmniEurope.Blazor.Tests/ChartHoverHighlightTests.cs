@@ -239,6 +239,18 @@ public sealed class ChartHoverHighlightTests : OmniBunitContext
     }
 
     [Fact]
+    public void AChartOfMarkersAlone_TurnsThePackageTooltipsOn()
+    {
+        var module = JSInterop.SetupModule(Internal.OmniModules.Tooltip);
+        module.SetupVoid("installPackageTooltips").SetVoidResult();
+
+        var chart = Chart(builder => Child<OmniMarkers>(builder, 0, ("Data", Points(10, 20))));
+
+        chart.WaitForAssertion(() => Assert.Single(module.Invocations["installPackageTooltips"]));
+        Assert.NotEmpty(chart.FindAll("[data-omni-tip]"));
+    }
+
+    [Fact]
     public void AChartWithBarsLoadsTheTooltipScript_ButNotOneWithBothOff()
     {
         var module = JSInterop.SetupModule(Internal.OmniModules.Tooltip);
@@ -261,6 +273,43 @@ public sealed class ChartHoverHighlightTests : OmniBunitContext
             Child<OmniColumnSeries>(builder, 0, ("Data", data), ("Horizontal", horizontal), ("ColorByPoint", true), ("ColorIndex", color));
             Child<OmniSeriesDataLabels>(builder, 10, ("Data", data), ("Inside", true), ("InsideContrast", contrast));
         });
+
+    [Theory]
+    [InlineData(3, false)]
+    [InlineData(2, true)]
+    public void TwoSeriesOfTheSameValues_InDifferentColours_LeaveALabelWithoutABarToReadOn(int color, bool colorByPoint)
+    {
+        var data = Points(10, 20);
+        var chart = Chart(builder =>
+        {
+            Child<OmniColumnSeries>(builder, 0, ("Data", data), ("ColorIndex", 2));
+            Child<OmniColumnSeries>(builder, 10, ("Data", data), ("ColorIndex", color), ("ColorByPoint", colorByPoint));
+            Child<OmniSeriesDataLabels>(builder, 20, ("Data", data), ("Inside", true));
+        });
+
+        chart.WaitForAssertion(() =>
+        {
+            var labels = chart.FindAll(".omni-chart__labels text");
+            Assert.Equal(2, labels.Count);
+            Assert.All(labels, label => Assert.DoesNotContain("omni-chart__label-on-bar", label.GetAttribute("class") ?? string.Empty, StringComparison.Ordinal));
+        });
+    }
+
+    [Fact]
+    public void TwoSeriesOfTheSameValues_InTheSameColour_StillGiveALabelItsBar()
+    {
+        var data = Points(10, 20);
+        var chart = Chart(builder =>
+        {
+            Child<OmniColumnSeries>(builder, 0, ("Data", data), ("ColorIndex", 2));
+            Child<OmniColumnSeries>(builder, 10, ("Data", data), ("ColorIndex", 2));
+            Child<OmniSeriesDataLabels>(builder, 20, ("Data", data), ("Inside", true));
+        });
+
+        chart.WaitForAssertion(() => Assert.All(
+            chart.FindAll(".omni-chart__labels text"),
+            label => Assert.Equal("omni-chart__label-on-bar omni-chart-color-2", label.GetAttribute("class"))));
+    }
 
     [Theory]
     [InlineData(false)]

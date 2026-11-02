@@ -13,7 +13,8 @@ namespace OmniEurope.Blazor.Components;
 /// With <see cref="DayStart"/> and <see cref="DayEnd"/>, the day and week views become a time grid of
 /// <see cref="SlotDuration"/> slots. An appointment is drawn from its start to its end, to the minute,
 /// and cut at the edges of the grid; one wholly before the first slot or after the last keeps a short
-/// block in that slot. Appointments sharing their time stand side by side, at most eight abreast, and
+/// block in that slot, and one running into a later day shown goes on from the top of that column.
+/// Appointments sharing their time stand side by side, at most eight abreast, and
 /// each one names those it overlaps to assistive technology; <see cref="OmniSchedulerOverlap.Find"/>
 /// gives the host the same pairs. A <see cref="DayEnd"/> earlier than <see cref="DayStart"/> draws a night
 /// grid: the column of a day runs into the morning after, which is loaded with it.
@@ -580,10 +581,18 @@ public partial class OmniScheduler
         var overlapping = OmniSchedulerOverlap.Find(appointments)
             .SelectMany(pair => new[] { (pair.First.Id, pair.Second.Title), (pair.Second.Id, pair.First.Title) })
             .ToLookup(pair => pair.Item1, pair => pair.Item2);
-        return appointments.GroupBy(GridDay)
-            .Where(group => days.Contains(group.Key))
+        return appointments
+            .SelectMany(appointment => ColumnsOf(appointment, days).Select(day => (Day: day, Appointment: appointment)))
+            .GroupBy(item => item.Day, item => item.Appointment)
             .SelectMany(group => LayOutDay(group.Key, group, overlapping))
             .ToLookup(block => (block.Day, block.Slot));
+    }
+
+    /// <summary>The columns shown that draw an appointment: the one it starts in, then each later one it reaches.</summary>
+    private IEnumerable<DateOnly> ColumnsOf(OmniSchedulerAppointment appointment, IReadOnlyCollection<DateOnly> days)
+    {
+        var first = GridDay(appointment);
+        return days.Where(day => day == first || (day > first && appointment.End.DateTime > SlotStartOn(day, 0)));
     }
 
     /// <summary>The column of an appointment: the day it starts on, or the day before in the morning of a night grid.</summary>

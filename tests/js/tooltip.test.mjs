@@ -139,6 +139,40 @@ test('a title tooltip is placed on its element when the last pointer seen is not
     assert.equal(shownTitle(dom).style.getPropertyValue('--omni-title-tooltip-x'), '620px');
 });
 
+// The stub reads no descendant selector: one element stands for the chart and its part.
+const chartTipFixture = async () => {
+    const dom = installDom();
+    const tooltip = await import(`${pathToFileURL(path.join(wwwroot, 'omni-tooltip.js')).href}?tooltip${loads++}`);
+    tooltip.installPackageTooltips();
+    const part = dom.el('rect', { class: 'omni-chart', 'data-omni-tip': 'Janvier : 12' });
+    const empty = dom.el('p');
+    dom.body.append(part);
+    dom.body.append(empty);
+    dom.dispatch('pointerover', { target: part });
+    dom.runTimers();
+    assert.ok(shownTitle(dom).classList.contains('omni-title-tooltip--visible'));
+    return { dom, part, empty };
+};
+
+test('a chart tip closes once its hold is over when the pointer reaches a place without a title', async () => {
+    const { dom, empty } = await chartTipFixture();
+
+    dom.dispatch('pointerover', { target: empty });
+    dom.runTimers();
+
+    assert.ok(!shownTitle(dom).classList.contains('omni-title-tooltip--visible'));
+});
+
+test('a chart tip stays while its element keeps the focus, whatever the pointer reaches', async () => {
+    const { dom, part, empty } = await chartTipFixture();
+    document.activeElement = part;
+
+    dom.dispatch('pointerover', { target: empty });
+    dom.runTimers();
+
+    assert.ok(shownTitle(dom).classList.contains('omni-title-tooltip--visible'));
+});
+
 test('a text cut by its ellipsis anywhere gets the title tooltip with its whole text', async () => {
     const { dom } = await titleFixture();
     const label = dom.el('span', { class: 'host-tile-title', text: 'Environnements' });

@@ -3,6 +3,8 @@
 
 Recette locale du 2026-10-30 sur `develop`, base `fd0eb60f6a2d41e3fe92487cee0f6cb4aa57cd7c` et corrections des lots 5 à 7. **Lot 7 terminé** : dix suites complètes Release consécutives passent, couverture et CRAP acceptés ; paquet, quatre hôtes et sept sondes de démo vérifiés. Les lots 5 à 7 ne changent aucun code produit, seuil, baseline, exception, numéro de version ou politique. Les limites de cette recette locale restent explicites.
 
+**Portée de ces preuves** : elles valent jusqu'à `fd0eb60f` et au paquet 1.10.0 local. Rejoué le 2026-11-02 sur la 1.11.0 publiée : `eng/Test-ShowcaseHost.ps1` sur `a172cb12`, code de sortie 0 pour Pickers, Density, AutoFit, MindMap, Modules, Languages et Scripts (contraste minimal des étiquettes sur barre : 4,98, aucune violation CSP) ; Contrast non rejouée, elle ne tourne que nommée. Un consommateur neuf, cache privé et nuget.org pour seule source, restaure `OmniEurope.Blazor` 1.11.0 (2 214 563 octets, SHA-256 `9C9A3C2A0921A53EFBAF536EBF24599AD69305C1C59E2B8BA69541F5C7D6A066`), publie et sert l'agenda et les graphiques en mode interactif, observés en navigateur. Les dix suites consécutives n'ont pas été rejouées.
+
 ## Contrôles observés
 
 | Contrôle | Résultat et portée |

@@ -39,7 +39,7 @@ export function get(key) {
                 return value;
             }
         } catch {
-            // Read refused: the memory copy answers.
+            // Read refused: the key reads as absent.
         }
     }
 

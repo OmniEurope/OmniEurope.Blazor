@@ -342,6 +342,9 @@ internal sealed class OmniChartContext
 
     private IEnumerable<SeriesRegistration> DrawnSeries => _series.Where(IsDrawn);
 
+    /// <summary>Whether any series is registered, markers and data labels included: those carry tips too.</summary>
+    internal bool HasSeries => _series.Count > 0;
+
     /// <summary>The series a data table lists: every drawn series (markers and data labels excepted), in the order they registered.</summary>
     internal IReadOnlyList<ChartSeriesView> TableSeries =>
         [.. _series.Where(item => item.Kind != OmniChartSeriesKind.Auxiliary).Select(item => new ChartSeriesView(item.Title, item.ColorIndex, item.Data))];
@@ -639,15 +642,18 @@ internal sealed class OmniChartContext
     /// <summary>
     /// The rectangles of the column or bar series drawn on <paramref name="data"/>, one per point, with
     /// the colour each one takes, so that a decoration on the same points can read on them. Null when
-    /// no such series is registered.
+    /// no such series is registered, or when several of different colours share these points, since the
+    /// data alone cannot say which one the decoration sits on.
     /// </summary>
     internal IReadOnlyList<ChartBar>? BarsOf(IReadOnlyList<OmniChartPoint> data)
     {
-        if (_series.Find(item => IsBanded(item.Kind) && item.Data.SequenceEqual(data)) is not { } series)
+        var matching = _series.FindAll(item => IsBanded(item.Kind) && item.Data.SequenceEqual(data));
+        if (matching.Count == 0 || matching.Exists(item => item.ColorIndex != matching[0].ColorIndex || item.ColorByPoint != matching[0].ColorByPoint))
         {
             return null;
         }
 
+        var series = matching[0];
         var stacked = series.Kind is OmniChartSeriesKind.StackedColumn or OmniChartSeriesKind.StackedBar;
         var horizontal = series.Kind is OmniChartSeriesKind.Bar or OmniChartSeriesKind.StackedBar;
         var bars = new ChartBar[series.Data.Count];

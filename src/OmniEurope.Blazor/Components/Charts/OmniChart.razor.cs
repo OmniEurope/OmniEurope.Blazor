@@ -236,7 +236,7 @@ public partial class OmniChart
     /// <returns>The task of the write.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!_disposed && _tooltips is null && (Tooltips || SharedTooltip || HighlightOnHover) && (_context.TableSeries.Count > 0 || _context.Pies.Count > 0))
+        if (!_disposed && _tooltips is null && (Tooltips || SharedTooltip || HighlightOnHover) && (_context.HasSeries || _context.Pies.Count > 0))
         {
             _tooltips = new Internal.OmniPackageTooltips(JavaScript);
             await _tooltips.InstallAsync();

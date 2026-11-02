@@ -40,6 +40,16 @@ public sealed class SchedulerGridBlockTests : OmniBunitContext
         return row.ParentElement!.Children.Index(row);
     }
 
+    /// <summary>The column of the cell a block starts in, the column of the times being the first.</summary>
+    private static int Column(IElement block)
+    {
+        var cell = block.ParentElement!;
+        return cell.ParentElement!.Children.Index(cell);
+    }
+
+    private static IElement[] BlocksByColumn(IRenderedComponent<OmniScheduler> scheduler, string id) =>
+        [.. scheduler.FindAll($"[data-omni-scheduler-appointment='{id}']").OrderBy(Column)];
+
     private static int Hundredths(IElement block, string name) => block.ClassList
         .Where(item => item.StartsWith($"omni-scheduler__{name}-", StringComparison.Ordinal))
         .Select(item => item.Split('-'))
@@ -162,6 +172,68 @@ public sealed class SchedulerGridBlockTests : OmniBunitContext
 
         var sizes = Block(scheduler, "run").ClassList.Where(item => item is "omni-scheduler__appointment--brief" or "omni-scheduler__appointment--short");
         Assert.Equal(expected is null ? [] : [expected], sizes);
+    }
+
+    [Fact]
+    public void AppointmentFromTheDayBefore_GoesOnFromTheTopOfTheColumn_BesideThoseItOverlaps()
+    {
+        var scheduler = RenderGrid(
+            [
+                new("night", "Nuit", Monday.AddHours(-2), Monday.AddHours(10)),
+                new("morning", "Matin", Monday.AddHours(9), Monday.AddHours(11))
+            ],
+            new TimeOnly(8, 0),
+            new TimeOnly(18, 0));
+
+        var block = Block(scheduler, "night");
+        Assert.Equal(0, Row(block));
+        Assert.Equal(400, Hundredths(block, "len"));
+        Assert.Contains("omni-scheduler__lanes-2", block.ClassList);
+        Assert.Contains("omni-scheduler__lane-1", Block(scheduler, "morning").ClassList);
+    }
+
+    [Fact]
+    public void WeekView_DrawsAnAppointmentInTheColumnOfItsStart_AndInTheNextOne()
+    {
+        var scheduler = RenderGrid(
+            [new("night", "Nuit", Monday.AddHours(22), Monday.AddHours(34))],
+            new TimeOnly(8, 0),
+            new TimeOnly(18, 0),
+            OmniCalendarView.Week);
+
+        var blocks = BlocksByColumn(scheduler, "night");
+        Assert.Equal([1, 2], blocks.Select(Column));
+        Assert.Equal(19, Row(blocks[0]));
+        Assert.Equal(0, Row(blocks[1]));
+        Assert.Equal(400, Hundredths(blocks[1], "len"));
+    }
+
+    [Fact]
+    public void NightGrid_DrawsARunOfSeveralNights_InEachColumnItReaches_AndNotInTheNextEvening()
+    {
+        var scheduler = RenderGrid(
+            [new("long", "Longue", Monday.AddHours(23), Monday.AddHours(49))],
+            new TimeOnly(20, 0),
+            new TimeOnly(8, 0),
+            OmniCalendarView.Week);
+
+        var blocks = BlocksByColumn(scheduler, "long");
+        Assert.Equal([1, 2], blocks.Select(Column));
+        Assert.Equal(6, Row(blocks[0]));
+        Assert.Equal(1800, Hundredths(blocks[0], "len"));
+        Assert.Equal(0, Row(blocks[1]));
+        Assert.Equal(1000, Hundredths(blocks[1], "len"));
+    }
+
+    [Fact]
+    public void AppointmentEndingAsTheColumnOpens_DrawsNoBlockThere()
+    {
+        var scheduler = RenderGrid(
+            [new("night", "Nuit", Monday.AddHours(-2), Monday.AddHours(8))],
+            new TimeOnly(8, 0),
+            new TimeOnly(18, 0));
+
+        Assert.Empty(scheduler.FindAll("[data-omni-scheduler-appointment='night']"));
     }
 
     [Fact]
