@@ -1,5 +1,6 @@
 using Bunit;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
@@ -204,6 +205,23 @@ public sealed class AutocompleteOpeningTests : OmniBunitContext
         Assert.Equal("city", input.Id);
         // The label is not wrapped in anything that would swallow the click (the help mark sits outside it).
         Assert.Empty(label.QuerySelectorAll("button, a"));
+    }
+
+    [Fact]
+    public async Task ALostCircuit_FailsNeitherTheOpenListNorItsDisposal()
+    {
+        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
+        var lost = new JSDisconnectedException("circuit perdu");
+        module.SetupVoid("attachFloatingList", _ => true).SetException(lost);
+        module.SetupVoid("detachFloatingList", _ => true).SetException(lost);
+
+        var host = RenderHost();
+        await host.Find("input").FocusAsync(new FocusEventArgs());
+
+        AssertFullListOpen(host);
+        Assert.Single(module.Invocations["attachFloatingList"]);
+        await DisposeComponentsAsync();
+        Assert.Single(module.Invocations["detachFloatingList"]);
     }
 
     [Fact]

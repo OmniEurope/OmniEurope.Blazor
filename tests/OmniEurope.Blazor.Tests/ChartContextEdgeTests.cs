@@ -36,6 +36,25 @@ public sealed class ChartContextEdgeTests
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
+    public void IsolateSeries_ShowsItsSeriesAgain_TellingItsListener(bool listened)
+    {
+        var context = new OmniChartContext();
+        var changes = 0;
+        context.ToggleSeries(3);
+        if (listened)
+        {
+            context.Changed += () => changes++;
+        }
+
+        context.IsolateSeries(3);
+
+        Assert.False(context.IsHidden(3));
+        Assert.Equal(listened ? 1 : 0, changes);
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
     public void Registrations_AddUpdateAndWithdraw_TellingTheirListenerOnlyOfRealChanges(bool listened)
     {
         var context = new OmniChartContext();

@@ -164,7 +164,7 @@ public partial class OmniScheduler
     private bool Movable => OnAppointmentMove.HasDelegate;
     private bool SlotClickable => OnSlotClick.HasDelegate;
     private bool HasTimeGrid => DayStart is { } start && DayEnd is { } end && end != start && SlotDuration > TimeSpan.Zero;
-    private bool CrossesMidnight => HasTimeGrid && DayEnd < DayStart;
+    private bool CrossesMidnight => HasTimeGrid && DayEnd!.Value < DayStart!.Value;
 
     // TimeOnly subtraction wraps around midnight, so this holds for a night grid too.
     private TimeSpan GridLength => DayEnd!.Value - DayStart!.Value;
@@ -590,7 +590,7 @@ public partial class OmniScheduler
     private DateOnly GridDay(OmniSchedulerAppointment appointment)
     {
         var day = DateOnly.FromDateTime(appointment.Start.Date);
-        return CrossesMidnight && TimeOnly.FromTimeSpan(appointment.Start.TimeOfDay) < DayEnd ? day.AddDays(-1) : day;
+        return CrossesMidnight && TimeOnly.FromTimeSpan(appointment.Start.TimeOfDay) < DayEnd!.Value ? day.AddDays(-1) : day;
     }
 
     /// <summary>

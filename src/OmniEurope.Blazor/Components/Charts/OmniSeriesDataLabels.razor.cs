@@ -67,7 +67,7 @@ public partial class OmniSeriesDataLabels
         {
             var projected = Projected(index);
             var text = Text(Data[index]);
-            var bar = bars is not null && index < bars.Count ? bars[index] : (OmniChartContext.ChartBar?)null;
+            var bar = bars?[index];
             var inside = Inside && (bar is not { } held || Holds(held, text, horizontal));
             (double X, string? Anchor) place;
             double y;

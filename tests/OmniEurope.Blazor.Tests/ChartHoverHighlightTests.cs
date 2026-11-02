@@ -262,6 +262,35 @@ public sealed class ChartHoverHighlightTests : OmniBunitContext
             Child<OmniSeriesDataLabels>(builder, 10, ("Data", data), ("Inside", true), ("InsideContrast", contrast));
         });
 
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void ALabelOnAStackedSeries_ReadsOnItsBar(bool horizontal)
+    {
+        var data = Points(80, 60);
+        var chart = Chart(builder =>
+        {
+            Child<OmniColumnSeries>(builder, 0, ("Data", data), ("Horizontal", horizontal), ("Stacked", true), ("ColorIndex", 2));
+            Child<OmniSeriesDataLabels>(builder, 10, ("Data", data), ("Inside", true));
+        });
+
+        chart.WaitForAssertion(() => Assert.All(
+            chart.FindAll(".omni-chart__labels text"),
+            label => Assert.Equal("omni-chart__label-on-bar omni-chart-color-2", label.GetAttribute("class"))));
+    }
+
+    [Fact]
+    public void LabelsInsideWithoutAChart_HaveNoBarToReadOn()
+    {
+        var labels = Render<OmniSeriesDataLabels>(parameters => parameters
+            .Add(component => component.Data, Points(10, 20))
+            .Add(component => component.Inside, true));
+
+        var texts = labels.FindAll("text");
+        Assert.Equal(2, texts.Count);
+        Assert.All(texts, label => Assert.Null(label.GetAttribute("class")));
+    }
+
     [Fact]
     public void ALabelItsBarHolds_TakesTheColourOfThatBar_AndStaysInIt()
     {
