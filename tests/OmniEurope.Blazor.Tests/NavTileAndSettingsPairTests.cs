@@ -26,9 +26,12 @@ public sealed class NavTileAndSettingsPairTests : OmniBunitContext
         Assert.Equal("true", tile.Find(".omni-nav-tile__icon").GetAttribute("aria-hidden"));
         Assert.Equal("Utilisateurs", tile.Find(".omni-nav-tile__title").TextContent);
         Assert.Equal("Comptes et rôles", tile.Find(".omni-nav-tile__description").TextContent);
-        // Hovered, only the shadow changes: no rule of the tile moves it.
-        var hover = ShippedLookTests.Body(".omni-nav-tile:hover");
+        // Hovered (recette R-58), the border, the background and the shadow take the tone, visible on a dark theme
+        // too; no rule of the tile moves it.
+        var hover = ShippedLookTests.Body(".omni-nav-tile:hover:not(.omni-nav-tile--disabled)");
         Assert.Equal("var(--omni-shadow-md)", ShippedLookTests.Value(hover, "box-shadow"));
+        Assert.Equal("color-mix(in srgb, var(--omni-nav-tile-tone) 55%, var(--omni-color-border))", ShippedLookTests.Value(hover, "border-color"));
+        Assert.Equal("color-mix(in srgb, var(--omni-nav-tile-tone) 7%, var(--omni-card-background, var(--omni-color-surface)))", ShippedLookTests.Value(hover, "background"));
         Assert.DoesNotContain(ShippedLookTests.Rules(), rule => rule.Selector.StartsWith(".omni-nav-tile", StringComparison.Ordinal) && rule.Body.Contains("transform", StringComparison.Ordinal));
     }
 
@@ -59,7 +62,9 @@ public sealed class NavTileAndSettingsPairTests : OmniBunitContext
         Assert.Equal("not-allowed", ShippedLookTests.Value(disabled, "cursor"));
         Assert.DoesNotContain("padding", disabled, StringComparison.Ordinal);
         Assert.DoesNotContain("block-size", disabled, StringComparison.Ordinal);
-        Assert.Equal("var(--omni-card-shadow, none)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-nav-tile--disabled:hover"), "box-shadow"));
+        // A disabled tile has no hover at all: the only hover rule of the tile excludes it.
+        Assert.Equal([".omni-nav-tile:hover:not(.omni-nav-tile--disabled)"],
+            ShippedLookTests.Rules().Where(rule => rule.Selector.StartsWith(".omni-nav-tile", StringComparison.Ordinal) && rule.Selector.Contains(":hover", StringComparison.Ordinal)).Select(rule => rule.Selector));
     }
 
     [Fact]
@@ -112,6 +117,36 @@ public sealed class NavTileAndSettingsPairTests : OmniBunitContext
         var tile = Render<OmniNavTile>(parameters => parameters.Add(component => component.Href, "/aide").Add(component => component.Title, "Aide"));
 
         Assert.DoesNotContain(tile.Find("a").ClassList, name => name.StartsWith("omni-nav-tile--fit", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public void ANavTile_WithoutAlignments_CarriesNoAlignmentClass()
+    {
+        var tile = Render<OmniNavTile>(parameters => parameters.Add(component => component.Href, "/aide").Add(component => component.Title, "Aide"));
+
+        Assert.DoesNotContain(tile.Find("a").ClassList, name => name.StartsWith("omni-nav-tile--icon-", StringComparison.Ordinal)
+            || name.StartsWith("omni-nav-tile--title-", StringComparison.Ordinal));
+    }
+
+    [Theory]
+    [InlineData(OmniAlignment.Start, OmniAlignment.Center, "omni-nav-tile--icon-start", "omni-nav-tile--title-center")]
+    [InlineData(OmniAlignment.Center, OmniAlignment.End, "omni-nav-tile--icon-center", "omni-nav-tile--title-end")]
+    [InlineData(OmniAlignment.End, OmniAlignment.Start, "omni-nav-tile--icon-end", "omni-nav-tile--title-start")]
+    [InlineData(OmniAlignment.Stretch, OmniAlignment.Stretch, "omni-nav-tile--icon-start", "omni-nav-tile--title-start")]
+    public void ANavTile_CarriesItsIconAndTitleAlignments_Apart_AlongsideFitTitle(OmniAlignment icon, OmniAlignment title, string iconClass, string titleClass)
+    {
+        var tile = Render<OmniNavTile>(parameters => parameters
+            .Add(component => component.Href, "/aide")
+            .Add(component => component.Title, "Environnements")
+            .Add(component => component.FitTitle, true)
+            .Add(component => component.IconAlign, icon)
+            .Add(component => component.TitleAlign, title));
+
+        var classes = tile.Find("a").ClassList;
+        Assert.Contains(iconClass, classes);
+        Assert.Contains(titleClass, classes);
+        Assert.Contains("omni-nav-tile--fit-16", classes);
+        Assert.Null(tile.Find("a").GetAttribute("style"));
     }
 
     [Theory]

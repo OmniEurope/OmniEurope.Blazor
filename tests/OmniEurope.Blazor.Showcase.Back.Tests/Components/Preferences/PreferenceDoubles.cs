@@ -33,6 +33,17 @@ internal sealed class MemoryVisitorRepository : IVisitorPreferenceRepository
         return Task.CompletedTask;
     }
 
+    public List<string> WriteLocks { get; } = [];
+
+    public Task LockVisitorWritesAsync(string visitorKey, CancellationToken cancellationToken)
+    {
+        WriteLocks.Add(visitorKey);
+        return Task.CompletedTask;
+    }
+
+    public Task<DateTimeOffset?> GetLastReceivedAtAsync(string visitorKey, CancellationToken cancellationToken) =>
+        Task.FromResult(Preferences.Where(preference => preference.VisitorId == visitorKey).Max(preference => (DateTimeOffset?)preference.ReceivedAt));
+
     public Task<int> CountVisitorsAsync(CancellationToken cancellationToken) => Task.FromResult(Visitors.Count);
 
     public void AddVisitor(Visitor visitor) => PendingVisitors.Add(visitor);
@@ -53,7 +64,7 @@ internal sealed class MemoryVisitorRepository : IVisitorPreferenceRepository
 
     public Task<IReadOnlyList<VisitorPreference>> GetChangedSinceAsync(string visitorKey, DateTimeOffset? since, int limit, CancellationToken cancellationToken) =>
         Task.FromResult<IReadOnlyList<VisitorPreference>>([.. Preferences
-            .Where(preference => preference.VisitorId == visitorKey && (since is null || preference.UpdatedAt >= since))
+            .Where(preference => preference.VisitorId == visitorKey && (since is null || preference.ReceivedAt >= since))
             .OrderBy(preference => preference.Key, StringComparer.Ordinal)
             .Take(limit)]);
 

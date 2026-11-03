@@ -81,6 +81,7 @@ public sealed class PreferencesApiTests(PostgresFixture postgres) : IAsyncLifeti
     public async Task Put_ThenGet_RoundTripsThroughPostgreSql()
     {
         var visitor = VisitorPreferenceApi.CreateVisitorId();
+        var before = TimeProvider.System.GetUtcNow();
 
         using var put = await PutAsync(visitor, "omni.appearance", "{\"theme\":\"givre\",\"density\":2}", Written);
         using var get = Message(HttpMethod.Get, $"{VisitorPreferenceApi.Route}/omni.appearance", visitor);
@@ -89,12 +90,12 @@ public sealed class PreferencesApiTests(PostgresFixture postgres) : IAsyncLifeti
         using var changed = await _client.SendAsync(list, Token);
 
         Assert.Equal(HttpStatusCode.OK, put.StatusCode);
-        Assert.Equal(new VisitorPreferenceDto("omni.appearance", "{\"theme\":\"givre\",\"density\":2}", Written),
-            await put.Content.ReadFromJsonAsync<VisitorPreferenceDto>(Token));
-        Assert.Equal(new VisitorPreferenceDto("omni.appearance", "{\"theme\":\"givre\",\"density\":2}", Written),
-            await one.Content.ReadFromJsonAsync<VisitorPreferenceDto>(Token));
-        Assert.Equal([new VisitorPreferenceDto("omni.appearance", "{\"theme\":\"givre\",\"density\":2}", Written)],
-            (await changed.Content.ReadFromJsonAsync<VisitorPreferenceDto[]>(Token))!);
+        var stored = await put.Content.ReadFromJsonAsync<VisitorPreferenceDto>(Token);
+        // The browser's date is kept for arbitration; the receipt date is the server's, at the write.
+        Assert.Equal(new VisitorPreferenceDto("omni.appearance", "{\"theme\":\"givre\",\"density\":2}", Written), stored! with { ReceivedAt = null });
+        Assert.InRange(stored.ReceivedAt!.Value, before.AddTicks(-(before.Ticks % TimeSpan.TicksPerMicrosecond)), TimeProvider.System.GetUtcNow());
+        Assert.Equal(stored, await one.Content.ReadFromJsonAsync<VisitorPreferenceDto>(Token));
+        Assert.Equal([stored], (await changed.Content.ReadFromJsonAsync<VisitorPreferenceDto[]>(Token))!);
     }
 
     [Fact]
@@ -121,11 +122,14 @@ public sealed class PreferencesApiTests(PostgresFixture postgres) : IAsyncLifeti
     {
         var visitor = VisitorPreferenceApi.CreateVisitorId();
         using var first = await PutAsync(visitor, "omni.appearance", "2", Written);
+        var kept = await first.Content.ReadFromJsonAsync<VisitorPreferenceDto>(Token);
 
         using var older = await PutAsync(visitor, "omni.appearance", "1", Written.AddMinutes(-1));
 
+        // The refused write answers the kept row, with its own receipt date: nothing was received.
         Assert.Equal(HttpStatusCode.OK, older.StatusCode);
-        Assert.Equal(new VisitorPreferenceDto("omni.appearance", "2", Written), await older.Content.ReadFromJsonAsync<VisitorPreferenceDto>(Token));
+        Assert.NotNull(kept?.ReceivedAt);
+        Assert.Equal(new VisitorPreferenceDto("omni.appearance", "2", Written, kept.ReceivedAt), await older.Content.ReadFromJsonAsync<VisitorPreferenceDto>(Token));
     }
 
     [Fact]

@@ -73,14 +73,18 @@
     }
 }
 
-<section @ref="_root" @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-scheduler", _moving is null ? null : "omni-scheduler--moving", _dragged is null ? null : "omni-scheduler--dragging")" aria-busy="@(_loading ? "true" : "false")" @onkeydown="OnKeyDown">
+<section @ref="_root" @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-scheduler", SlotHeight == OmniSchedulerSlotHeight.Compact ? "omni-scheduler--slot-compact" : null, _moving is null ? null : "omni-scheduler--moving", _dragged is null ? null : "omni-scheduler--dragging")" aria-busy="@(_loading ? "true" : "false")" @onkeydown="OnKeyDown">
     <header class="@(ShowViewPicker ? "omni-scheduler__header" : "omni-scheduler__header omni-scheduler__header--no-picker")">
-        <button type="button" class="omni-button" aria-label="@Text("SchedulerPreviousPeriod")" @onclick="PreviousAsync">‹</button>
+        <button type="button" class="omni-button" aria-label="@Text("SchedulerPreviousPeriod")" title="@PeriodButtonTitle(false)" @onclick="PreviousAsync">‹</button>
         <button type="button" class="omni-button" @onclick="TodayAsync">@Text("Today")</button>
-        <button type="button" class="omni-button" aria-label="@Text("SchedulerNextPeriod")" @onclick="NextAsync">›</button>
+        <button type="button" class="omni-button" aria-label="@Text("SchedulerNextPeriod")" title="@PeriodButtonTitle(true)" @onclick="NextAsync">›</button>
         @if (_moving is not null)
         {
             <button type="button" class="omni-button omni-scheduler__cancel" @onclick="CancelMove">@Text("SchedulerMoveCancel")</button>
+        }
+        @if (ShowPeriodTitle)
+        {
+            <p class="omni-scheduler__title" aria-live="polite">@PeriodTitle()</p>
         }
         @if (ShowViewPicker)
         {
@@ -137,7 +141,7 @@
                             <th scope="col" class="omni-scheduler-grid__time"><span class="omni-visually-hidden">@Text("SchedulerTimeColumn")</span></th>
                             @foreach (var day in days)
                             {
-                                <th scope="col" class="@DayCss("omni-scheduler-grid__day", day, today)" aria-current="@(day == today ? "date" : null)">@day.ToString("ddd d", Formats)</th>
+                                <th scope="col" class="@DayCss("omni-scheduler-grid__day", day, today)" aria-current="@(day == today ? "date" : null)">@DayHeader(day)</th>
                             }
                         </tr>
                     </thead>
@@ -199,7 +203,7 @@
                                      @ondrop="() => DropAsync(target)"
                                      @ondrop:preventDefault="@Movable">
                                 @{ SlotButton(day, null); }
-                                <time class="omni-scheduler__date" datetime="@day.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)">@weekDay.ToString("ddd d", Formats)</time>
+                                <time class="omni-scheduler__date" datetime="@day.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)">@DayHeader(day)</time>
                                 @foreach (var appointment in AppointmentsOn(appointments, weekDay.Date))
                                 {
                                     AppointmentItem(appointment);

@@ -33,6 +33,17 @@ const matchesCompound = (element, compound) => {
         rest = rest.replace(whole, '');
     }
 
+    // :disabled, as the browser computes it: a form control with its own disabled attribute or inside
+    // a disabled fieldset (the legend exception is not modelled).
+    if (rest.includes(':disabled')) {
+        const control = ['button', 'input', 'select', 'textarea'].includes(element.localName);
+        if (!control || !(element.hasAttribute('disabled') || element.closest('fieldset[disabled]'))) {
+            return false;
+        }
+
+        rest = rest.replace(':disabled', '');
+    }
+
     const tag = /^[a-zA-Z][\w-]*/.exec(rest)?.[0];
     if (tag && element.localName !== tag.toLowerCase()) {
         return false;
@@ -121,6 +132,7 @@ class Element extends Node {
     addEventListener() { }
     removeEventListener() { }
     getBoundingClientRect() { return this.rect; }
+    getClientRects() { return [this.rect]; }
     focus() { this.focused = true; }
     matches(selector) { return matchesSelector(this, selector); }
     contains(other) {

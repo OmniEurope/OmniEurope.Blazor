@@ -124,7 +124,76 @@ public sealed class PublicContentGuardTests
     private static string Footprint(string word) =>
         Convert.ToHexStringLower(SHA256.HashData(Encoding.UTF8.GetBytes(word.ToLowerInvariant())));
 
+    /// <summary>
+    /// The files of the repository: those git tracks in a checkout; in a source tree without <c>.git</c> (a sealed
+    /// source built by a client's quality pipeline), every file on disk that the root <c>.gitignore</c> does not
+    /// exclude, which holds the tracked files and anything else left there. In a checkout the walk is also run and
+    /// must cover every tracked file, so the rule used without git is proven on each run where git is present.
+    /// </summary>
     private static IReadOnlyList<string> TrackedFiles()
+    {
+        var walked = FilesOutsideIgnored();
+        if (!Path.Exists(Path.Combine(Root, ".git")))
+        {
+            return walked;
+        }
+
+        var tracked = GitTrackedFiles();
+        var missed = tracked.Except(walked, StringComparer.Ordinal).Take(20).ToList();
+        Assert.True(missed.Count == 0, "Le parcours sans git manque des fichiers suivis :\n" + string.Join('\n', missed));
+        return tracked;
+    }
+
+    private static IReadOnlyList<string> FilesOutsideIgnored()
+    {
+        var ignoredDirectories = new HashSet<string>(StringComparer.Ordinal);
+        var ignoredNames = new List<Regex>();
+        foreach (var raw in File.ReadAllLines(Path.Combine(Root, ".gitignore")))
+        {
+            var line = raw.Trim();
+            if (line.Length == 0 || line.StartsWith('#'))
+            {
+                continue;
+            }
+
+            // Only the forms the file uses are read: a directory name ("bin/") or a file name with * wildcards
+            // ("*.user"), both at any depth. Anything else would be guessed at, so the guard refuses it.
+            var name = line.EndsWith('/') ? line[..^1] : line;
+            Assert.False(name.Length == 0 || name.IndexOfAny(['!', '/', '\\', '[', '?']) >= 0 || name.Contains("**", StringComparison.Ordinal),
+                $"Motif de .gitignore non pris en charge par le garde sans git : {line}");
+            if (line.EndsWith('/'))
+            {
+                ignoredDirectories.Add(name);
+            }
+            else
+            {
+                ignoredNames.Add(new Regex("^" + Regex.Escape(name).Replace(@"\*", ".*", StringComparison.Ordinal) + "$", RegexOptions.CultureInvariant));
+            }
+        }
+
+        var files = new List<string>();
+        var pending = new Stack<DirectoryInfo>([new DirectoryInfo(Root)]);
+        while (pending.TryPop(out var directory))
+        {
+            foreach (var child in directory.EnumerateDirectories())
+            {
+                if (child.Name != ".git" && !ignoredDirectories.Contains(child.Name))
+                {
+                    pending.Push(child);
+                }
+            }
+
+            files.AddRange(directory.EnumerateFiles()
+                .Where(file => !ignoredNames.Any(pattern => pattern.IsMatch(file.Name)))
+                .Select(file => Path.GetRelativePath(Root, file.FullName).Replace('\\', '/')));
+        }
+
+        // A walk of the wrong folder would prove nothing: the repository holds well over a thousand files.
+        Assert.True(files.Count > 500, $"Le parcours ne trouve que {files.Count} fichiers sous {Root}.");
+        return files;
+    }
+
+    private static IReadOnlyList<string> GitTrackedFiles()
     {
         using var git = Process.Start(new ProcessStartInfo("git", ["-C", Root, "ls-files", "-z"])
         {

@@ -398,6 +398,13 @@
   <data name="LengthValidatorExact" xml:space="preserve"><value>Selle välja pikkus peab olema täpselt {0, plural, one {# märk} other {# märki}}.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Eelmine periood</value></data>
   <data name="SchedulerNextPeriod" xml:space="preserve"><value>Järgmine periood</value></data>
+  <data name="SchedulerPreviousDay" xml:space="preserve"><value>Eelmine päev</value></data>
+  <data name="SchedulerNextDay" xml:space="preserve"><value>Järgmine päev</value></data>
+  <data name="SchedulerPreviousWeek" xml:space="preserve"><value>Eelmine nädal</value></data>
+  <data name="SchedulerNextWeek" xml:space="preserve"><value>Järgmine nädal</value></data>
+  <data name="SchedulerPreviousMonth" xml:space="preserve"><value>Eelmine kuu</value></data>
+  <data name="SchedulerNextMonth" xml:space="preserve"><value>Järgmine kuu</value></data>
+  <data name="SchedulerPeriodRange" xml:space="preserve"><value>{0} – {1}</value></data>
   <data name="SchedulerViewLabel" xml:space="preserve"><value>Kalendrivaade</value></data>
   <data name="SchedulerDay" xml:space="preserve"><value>Päev</value></data>
   <data name="SchedulerWeek" xml:space="preserve"><value>Nädal</value></data>

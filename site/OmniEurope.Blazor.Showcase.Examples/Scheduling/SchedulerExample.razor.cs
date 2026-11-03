@@ -59,6 +59,14 @@ public partial class SchedulerExample
     [Parameter]
     public bool Movable { get; set; } = true;
 
+    /// <summary>The height of a slot of the time grid: standard, or compact (half as high).</summary>
+    [Parameter]
+    public OmniSchedulerSlotHeight SlotHeight { get; set; } = OmniSchedulerSlotHeight.Standard;
+
+    /// <summary>Whether the header writes the period shown.</summary>
+    [Parameter]
+    public bool ShowPeriodTitle { get; set; } = true;
+
     /// <summary>Whether what is already over is hatched.</summary>
     [Parameter]
     public bool MarkPastSlots { get; set; } = true;

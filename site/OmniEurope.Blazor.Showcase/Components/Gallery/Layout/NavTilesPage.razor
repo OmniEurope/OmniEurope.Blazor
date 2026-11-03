@@ -18,6 +18,13 @@
                 </ChildContent>
             </OmniSettingsTile>
 
+            <OmniSettingsTile Title="@Text["NavTilesCenter"]" Description="@Text["NavTilesCenterHint"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Center" aria-label="@Text["NavTilesCenter"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
             <OmniSettingsTile Title="@Text["NavTilesShowDescription"]" Description="@Text["NavTilesShowDescriptionHint"]">
                 <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
                 <ChildContent>
@@ -50,7 +57,7 @@
         <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["NavTilesFitTitleTitle"]</HeaderContent>
             <ChildContent>
-                <NavTilesFitTitleExample FitTitle="FitTitle" />
+                <NavTilesFitTitleExample FitTitle="FitTitle" Alignment="@(Center ? OmniAlignment.Center : null)" />
             </ChildContent>
         </OmniCard>
         <OmniCard Class="gallery-preview">

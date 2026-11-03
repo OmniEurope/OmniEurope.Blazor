@@ -23,10 +23,15 @@ if (!endpoint || !siteUrl) {
 
 const deadline = Date.now() + 20_000;
 let target;
+let pageTargets = [];
 while (Date.now() < deadline) {
   try {
     const targets = await fetch(`${endpoint}/json/list`).then(response => response.json());
-    target = targets.find(candidate => candidate.type === 'page' && candidate.webSocketDebuggerUrl);
+    // Edge lists as "page" its own windows too (edge://sync-confirmation-dialog/, extension background
+    // pages), some of them before the tab the launcher opened. The probe drives that tab, never a
+    // browser dialog: an Escape sent to the sync dialog closes it, and the link with it.
+    pageTargets = targets.filter(candidate => candidate.type === 'page' && candidate.webSocketDebuggerUrl && /^(https?:|about:blank)/.test(candidate.url));
+    target = pageTargets[0];
     if (target) break;
   } catch {
     // The browser may still be starting.
@@ -44,8 +49,58 @@ await new Promise((resolve, reject) => {
 let commandId = 0;
 const pending = new Map();
 const consoleErrors = [];
+
+// Diagnostics of the CDP link. Nothing here waits, retries or hides a failure: a lost link rejects every
+// command in flight with its close code and the command it cut, and any failing exit prints the last ~30
+// exchanges with the lifecycle events of the page (crash, detach, navigation, dialog), instead of ending
+// as Node's silent "unsettled top-level await".
+const startedAt = Date.now();
+const trace = [];
+const record = (kind, label) => {
+  trace.push(`+${String(Date.now() - startedAt).padStart(6)} ms ${kind} ${label}`);
+  if (trace.length > 30) trace.shift();
+};
+const dumpTrace = reason => {
+  const waiting = [...pending].map(([id, entry]) => `#${id} ${entry.method} (envoyée il y a ${Date.now() - entry.sentAt} ms)`);
+  console.error([`[sonde CDP] ${reason}`, `  cible pilotée : ${target.id} ${target.url} (onglets candidats : ${pageTargets.length})`, `  commandes en attente : ${waiting.join(', ') || 'aucune'}`, '  derniers échanges :', ...trace.map(line => `    ${line}`)].join('\n'));
+};
+let closing = false;
+let linkLost = null;
+const loseLink = reason => {
+  if (closing || linkLost) return;
+  linkLost = new Error(reason);
+  for (const [id, entry] of pending) {
+    entry.reject(new Error(`${reason} ; commande en attente #${id} ${entry.method}, envoyée il y a ${Date.now() - entry.sentAt} ms`));
+  }
+  pending.clear();
+  dumpTrace(reason);
+};
+socket.addEventListener('close', event => loseLink(`Connexion CDP fermée (code ${event.code}, raison « ${event.reason} », propre : ${event.wasClean})`));
+socket.addEventListener('error', () => loseLink('Erreur de la connexion CDP'));
+// Any failure prints the last exchanges; a Node that ends while a command waits found no live handle
+// left (an open socket keeps it alive), and the trace says which command it was.
+process.on('exit', code => {
+  if (code !== 0 || pending.size > 0) dumpTrace(`Node se termine (code ${code}), ${pending.size} commande(s) CDP sans réponse`);
+});
+const lifecycle = {
+  'Inspector.detached': params => `détachée : ${params.reason}`,
+  'Inspector.targetCrashed': () => 'page plantée',
+  'Inspector.targetReloadedAfterCrash': () => 'page rechargée après plantage',
+  'Page.javascriptDialogOpening': params => `boîte de dialogue ${params.type} : ${params.message}`,
+  'Page.frameNavigated': params => (params.frame.parentId ? null : `navigation ${params.frame.url}`),
+  'Page.frameStartedLoading': () => 'chargement',
+  'Page.frameStoppedLoading': () => 'chargement terminé',
+  'Target.targetDestroyed': params => `cible détruite ${params.targetId}`,
+  'Target.targetCrashed': params => `cible plantée ${params.targetId} ${params.status}`,
+  'Target.targetInfoChanged': params => `cible ${params.targetInfo.targetId} ${params.targetInfo.url}`
+};
 socket.addEventListener('message', event => {
   const message = JSON.parse(event.data);
+  if (message.id) record('<-', `#${message.id}${message.error ? ` ERREUR ${message.error.message}` : ''}`);
+  else if (lifecycle[message.method]) {
+    const label = lifecycle[message.method](message.params ?? {});
+    if (label) record('evt', `${message.method} ${label}`);
+  }
   if (message.id && pending.has(message.id)) {
     const { resolve, reject } = pending.get(message.id);
     pending.delete(message.id);
@@ -65,9 +120,11 @@ socket.addEventListener('message', event => {
 });
 
 const sendCdp = (method, params = {}) => {
+  if (linkLost) return Promise.reject(new Error(`${linkLost.message} ; ${method} non envoyée`));
   const id = ++commandId;
+  record('->', `#${id} ${method}${method === 'Input.dispatchKeyEvent' ? ` ${params.type} ${params.key}` : ''}`);
   socket.send(JSON.stringify({ id, method, params }));
-  return new Promise((resolve, reject) => pending.set(id, { resolve, reject }));
+  return new Promise((resolve, reject) => pending.set(id, { resolve, reject, method, sentAt: Date.now() }));
 };
 
 const evaluate = async expression => {
@@ -78,11 +135,12 @@ const evaluate = async expression => {
 
 const pause = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds));
 
+// A page expression, or an async test of the probe itself.
 const waitFor = async (description, expression, timeout = 10_000) => {
   const until = Date.now() + timeout;
   while (Date.now() < until) {
     try {
-      if (await evaluate(`Boolean(${expression})`)) return;
+      if (typeof expression === 'function' ? await expression() : await evaluate(`Boolean(${expression})`)) return;
     } catch (error) {
       if (!String(error.message).includes('context was destroyed')) throw error;
     }
@@ -138,6 +196,7 @@ const send = coverage.send;
 await send('Runtime.enable');
 await send('Log.enable');
 await send('Page.enable');
+await send('Target.setDiscoverTargets', { discover: true });
 await coverage.start();
 await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
 // The showcase opens in English; the probe checks the French calendar (mars 2026, lun to dim), so it
@@ -149,6 +208,10 @@ await send('Page.navigate', { url: siteUrl });
 // #showcase-theme is rendered by the application itself; #app is already in the static page, and a
 // navigation asked before the router listens changes the address and leaves the home page shown.
 await waitFor('le runtime Blazor', "typeof Blazor !== 'undefined' && typeof Blazor.navigateTo === 'function' && document.getElementById('showcase-theme') !== null", 20_000);
+// The boot splash covers the whole window until the application hides it, a moment after it rendered: a
+// press made before that lands on the splash (measured: pointerdown on #omni-boot-splash), and the panel
+// it aimed at never opens.
+await waitFor("l'écran de démarrage retiré", "document.getElementById('omni-boot-splash') === null", 20_000);
 await pause(1500);
 await evaluate("Blazor.navigateTo('/components/dates')");
 await waitFor('les sélecteurs de la vitrine', `document.getElementById('dates-form-date') && document.getElementById('dates-form-start') && document.getElementById('dates-form-appointment')`, 15_000);
@@ -356,7 +419,17 @@ const opensOver = state => state.position === 'fixed' && Math.abs(state.under - 
   && state.outside && !state.scroll && state.whole && state.reachable && state.transform === 'none';
 await click('#dates-dialog-open');
 await waitFor('le dialogue ouvert', "document.getElementById('dates-dialog') !== null");
-await pause(400);
+// The drag script of a dialog is imported when the first dialog opens and puts its pointerdown listener on
+// the header some time after the dialog is in the page, and nothing in the page marks it. A press on the
+// header before that moves nothing, and released over the backdrop it closes the dialog: the probe waits
+// for the listener, which the debugger reports, instead of a fixed time.
+const hasListener = async (selector, type) => {
+  const { result } = await send('Runtime.evaluate', { expression: `document.querySelector(${JSON.stringify(selector)})` });
+  if (!result.objectId) return false;
+  const { listeners } = await send('DOMDebugger.getEventListeners', { objectId: result.objectId });
+  return listeners.some(listener => listener.type === type);
+};
+await waitFor('le glisser du dialogue branché sur son en-tête', () => hasListener('#dates-dialog [data-omni-dialog-drag-handle]', 'pointerdown'));
 await click(dialogToggle);
 await waitFor('le calendrier du dialogue', shown(dialogPanel));
 const inDialog = await dialogState();
@@ -389,6 +462,7 @@ const inlineStyles = await evaluate(`document.querySelectorAll('.omni-date [styl
 // The next probe of a shared browser opens the showcase in its own default language.
 await evaluate("localStorage.removeItem('omnieurope.showcase.culture')");
 await coverage.finish();
+closing = true;
 socket.close();
 
 check(csp.length === 0, `Violations CSP : ${csp.join(' | ')}`);

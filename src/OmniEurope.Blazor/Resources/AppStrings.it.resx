@@ -398,6 +398,13 @@
   <data name="LengthValidatorExact" xml:space="preserve"><value>Questo campo deve contenere esattamente {0, plural, one {# carattere} other {# caratteri}}.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Periodo precedente</value></data>
   <data name="SchedulerNextPeriod" xml:space="preserve"><value>Periodo successivo</value></data>
+  <data name="SchedulerPreviousDay" xml:space="preserve"><value>Giorno precedente</value></data>
+  <data name="SchedulerNextDay" xml:space="preserve"><value>Giorno successivo</value></data>
+  <data name="SchedulerPreviousWeek" xml:space="preserve"><value>Settimana precedente</value></data>
+  <data name="SchedulerNextWeek" xml:space="preserve"><value>Settimana successiva</value></data>
+  <data name="SchedulerPreviousMonth" xml:space="preserve"><value>Mese precedente</value></data>
+  <data name="SchedulerNextMonth" xml:space="preserve"><value>Mese successivo</value></data>
+  <data name="SchedulerPeriodRange" xml:space="preserve"><value>{0} – {1}</value></data>
   <data name="SchedulerViewLabel" xml:space="preserve"><value>Visualizzazione calendario</value></data>
   <data name="SchedulerDay" xml:space="preserve"><value>Giorno</value></data>
   <data name="SchedulerWeek" xml:space="preserve"><value>Settimana</value></data>

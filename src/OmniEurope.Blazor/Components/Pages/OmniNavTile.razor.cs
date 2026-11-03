@@ -3,7 +3,7 @@ namespace OmniEurope.Blazor.Components;
 /// <summary>
 /// A navigation tile, the home of an administration area or a hub of sections (recette R-036):
 /// an icon on a square tinted with <see cref="Tone"/>, a title and an optional description, the whole
-/// tile one link to <see cref="Href"/>. Hovered, only its shadow changes; it never moves. Place several
+/// tile one link to <see cref="Href"/>. Hovered, its border, background and shadow take its tone; it never moves. Place several
 /// in an <see cref="OmniRow"/> of <see cref="OmniColumn"/>: a tile fills the height of its column, so a
 /// row of tiles lines up whatever their descriptions.
 /// </summary>
@@ -65,6 +65,29 @@ public partial class OmniNavTile
     /// </summary>
     [Parameter]
     public bool FitTitle { get; set; }
+
+    /// <summary>
+    /// Where the icon sits across the tile. Null by default: centred, or at the start with <see cref="FitTitle"/>.
+    /// <see cref="OmniAlignment.Stretch"/> has no meaning for the icon square and reads as <see cref="OmniAlignment.Start"/>.
+    /// </summary>
+    [Parameter]
+    public OmniAlignment? IconAlign { get; set; }
+
+    /// <summary>
+    /// Where the title and the description sit across the tile, and how their lines align. Null by default: centred,
+    /// or at the start with <see cref="FitTitle"/>, whose title keeps fitting its length whatever the alignment.
+    /// <see cref="OmniAlignment.Stretch"/> has no meaning for a line of text and reads as <see cref="OmniAlignment.Start"/>.
+    /// </summary>
+    [Parameter]
+    public OmniAlignment? TitleAlign { get; set; }
+
+    private static string? AlignClass(string part, OmniAlignment? align) => align switch
+    {
+        null => null,
+        OmniAlignment.Center => $"omni-nav-tile--{part}-center",
+        OmniAlignment.End => $"omni-nav-tile--{part}-end",
+        _ => $"omni-nav-tile--{part}-start"
+    };
 
     private static readonly int[] FitBuckets = [8, 12, 16, 20, 24, 32, 48];
 

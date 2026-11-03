@@ -38,6 +38,8 @@ public sealed class ShowcaseDbContext(DbContextOptions<ShowcaseDbContext> option
             entity.Property(preference => preference.Key).HasMaxLength(VisitorPreferenceApi.MaxKeyLength);
             entity.HasIndex(preference => new { preference.VisitorId, preference.Key }).IsUnique();
             entity.HasIndex(preference => new { preference.VisitorId, preference.UpdatedAt });
+            // The change feed of a visitor reads by receipt date.
+            entity.HasIndex(preference => new { preference.VisitorId, preference.ReceivedAt });
         });
     }
 }

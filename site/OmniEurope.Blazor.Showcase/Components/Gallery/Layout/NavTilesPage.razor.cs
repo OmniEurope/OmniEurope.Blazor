@@ -17,6 +17,8 @@ public partial class NavTilesPage
 
     private bool FitTitle { get; set; } = true;
 
+    private bool Center { get; set; }
+
     private bool DisableLast { get; set; }
 
     private IReadOnlyList<OmniOption<OmniTone>> ToneOptions =>

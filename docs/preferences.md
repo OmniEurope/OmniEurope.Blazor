@@ -83,9 +83,10 @@ la page, sans erreur.
   c'est alors la valeur de la base qui remplace l'entrée (à date égale, la base gagne).
 - **La base gagne quand elle est plus récente.** La synchronisation demande à la base tout ce qui a
   changé depuis la dernière (`GetChangedSinceAsync`) et remplace chaque valeur du cache plus ancienne, en
-  levant `Changed` (`Store`) quand la valeur change. La marque de la dernière synchronisation est la date
-  la plus récente renvoyée par la base, jamais l'horloge du poste : un changement daté par un autre poste
-  n'est pas sauté parce que les deux horloges diffèrent.
+  levant `Changed` (`Store`) quand la valeur change. La marque de la dernière synchronisation est la date de
+  réception (`ReceivedAt`) la plus récente renvoyée par la base, ou sa date `UpdatedAt` pour une préférence
+  que la base ne date pas à réception, jamais l'horloge du poste : un changement daté par un autre poste
+  n'est pas sauté parce que les deux horloges diffèrent. L'arbitrage entre deux valeurs reste sur `UpdatedAt`.
 - **Synchronisation automatique**, avec une base seulement : toutes les `SyncInterval`, chaque fois que
   l'onglet redevient visible (`visibilitychange`) et à la première lecture d'une clé que le cache tient déjà
   (relecture de cette clé seule). Une synchronisation déjà en cours n'est pas doublée : les déclencheurs
@@ -149,9 +150,20 @@ connecté : le paquet ne lui passe jamais d'identité, elle la trouve elle-même
 | Membre | Ce qu'il fait |
 |---|---|
 | `GetAsync(key)` | Une préférence de l'utilisateur, une pierre tombale (`Value` nulle) si elle a été supprimée, ou `null` si la base ne l'a jamais tenue. |
-| `GetChangedSinceAsync(since)` | Toutes les préférences de l'utilisateur modifiées à `since` ou après (`UpdatedAt >= since`), pierres tombales comprises, dans n'importe quel ordre ; `null` demande tout. |
-| `SaveAsync(preference)` | Écrit la préférence en remplaçant celle de même clé, avec la date reçue (`preference.UpdatedAt`) ; une pierre tombale se garde avec sa date. Renvoie la préférence que la base tient ensuite pour cette clé : le stockage fait autorité sur les dates et le cache du navigateur prend cette réponse. Un stockage qui garde la date reçue renvoie `preference` ; un stockage qui la corrige (horloge d'un poste en avance ramenée à l'heure du serveur, précision plus grossière) renvoie la date gardée ; un stockage qui tenait déjà une valeur plus récente et la garde renvoie cette valeur. |
+| `GetChangedSinceAsync(since)` | Toutes les préférences de l'utilisateur reçues à `since` ou après, pierres tombales comprises, dans n'importe quel ordre ; `null` demande tout. `since` est la date de réception la plus récente d'une réponse précédente : un stockage qui renseigne `ReceivedAt` la compare à `ReceivedAt >= since`, un stockage qui le laisse nul à `UpdatedAt >= since`. |
+| `SaveAsync(preference)` | Écrit la préférence en remplaçant celle de même clé, avec la date reçue (`preference.UpdatedAt`) ; une pierre tombale se garde avec sa date. Renvoie la préférence que la base tient ensuite pour cette clé : le stockage fait autorité sur les dates et le cache du navigateur prend cette réponse. Un stockage qui garde la date reçue renvoie `preference` ; un stockage qui la corrige (horloge d'un poste en avance ramenée à l'heure du serveur, précision plus grossière) renvoie la date gardée ; un stockage qui tenait déjà une valeur plus récente et la garde renvoie cette valeur. Un stockage qui renseigne `ReceivedAt` le renvoie avec la préférence qu'il tient. |
 | `GetScopeAsync()` | La partition du cache propre à l'utilisateur (voir plus bas). |
+
+`OmniPreference.ReceivedAt` (facultatif, nul par défaut) est la date à laquelle la base a enregistré la valeur,
+sur sa propre horloge. Il ne sert jamais à arbitrer entre deux valeurs (c'est `UpdatedAt`) : il ne sert que de
+curseur à la synchronisation. Une base qui le renseigne doit l'attribuer de sorte qu'une valeur devenue lisible
+plus tard ne porte jamais un `ReceivedAt` antérieur à celui d'une valeur déjà lisible pour le même
+utilisateur : écritures d'un utilisateur sérialisées (verrou par utilisateur jusqu'au commit), et
+`ReceivedAt` = le plus tard de l'heure du serveur et du dernier `ReceivedAt` de l'utilisateur plus une
+microseconde (le showcase le fait sous un verrou consultatif PostgreSQL par visiteur). Une base qui le
+laisse nul garde le curseur sur `UpdatedAt`, avec une limite : une valeur écrite plus tard mais datée avant
+le curseur (un autre poste dont la date est antérieure à la dernière lue) n'est jamais relue par la
+synchronisation incrémentale, seulement par une lecture complète (un nouveau cache du navigateur).
 
 Une exception d'un membre n'interrompt rien : une lecture qui échoue laisse répondre le cache, une
 écriture qui échoue est rejouée à la synchronisation suivante, un `GetScopeAsync` qui échoue fait
@@ -201,8 +213,11 @@ authentication.AuthenticationStateChanged += async _ => await preferences.ResetU
 | `Key` | texte (200) | La clé de la préférence (`omni.appearance`, `omni.grid.commandes`). |
 | `Value` | texte long, nullable | La valeur JSON ; nulle pour une pierre tombale. |
 | `UpdatedAt` | date avec fuseau (UTC) | La date reçue de `SaveAsync`. |
+| `ReceivedAt` | date avec fuseau (UTC) | La date d'enregistrement par la base, curseur de `GetChangedSinceAsync` (voir le contrat). |
 
-Index unique sur (`UserId`, `Key`), index sur (`UserId`, `UpdatedAt`) pour `GetChangedSinceAsync`.
+Index unique sur (`UserId`, `Key`), index sur (`UserId`, `ReceivedAt`) pour `GetChangedSinceAsync`. L'exemple
+qui suit, plus court, ne renseigne pas `ReceivedAt` : il compare `since` à `UpdatedAt` (index sur
+(`UserId`, `UpdatedAt`)) et garde la limite décrite au contrat.
 
 ### Exemple EF Core (Blazor Server)
 

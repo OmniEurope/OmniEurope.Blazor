@@ -15,4 +15,12 @@ public sealed class VisitorPreference
 
     /// <summary>The browser's date of the change, never replaced by the server clock (except a date in the future).</summary>
     public DateTimeOffset UpdatedAt { get; set; }
+
+    /// <summary>
+    /// When the server recorded the value, on its own clock: the synchronization cursor of the visitor's browsers,
+    /// never compared to arbitrate between two values. Assigned under the visitor's write lock, strictly later than
+    /// every other <see cref="ReceivedAt"/> of the visitor, so a value that becomes readable later never carries an
+    /// earlier one. Rows stored before it existed were given their <see cref="UpdatedAt"/>.
+    /// </summary>
+    public DateTimeOffset ReceivedAt { get; set; }
 }

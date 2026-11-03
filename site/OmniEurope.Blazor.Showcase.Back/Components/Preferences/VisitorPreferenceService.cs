@@ -69,19 +69,18 @@ public sealed class VisitorPreferenceService(
     private async Task<VisitorPreferenceDto> TrySaveAsync(string visitorKey, string key, string? value, DateTimeOffset updatedAt,
         string clientPartition, CancellationToken cancellationToken)
     {
+        // Every write of a visitor holds its write lock until the commit, so its receipt date is assigned once the
+        // previous write of the visitor is readable, and is later than it: a browser that read up to a receipt date
+        // never misses a write that becomes readable afterwards.
+        await using var transaction = await unitOfWork.BeginTransactionAsync(cancellationToken).ConfigureAwait(false);
+        await repository.LockVisitorWritesAsync(visitorKey, cancellationToken).ConfigureAwait(false);
         var now = time.GetUtcNow();
-        var visitor = await repository.FindVisitorAsync(visitorKey, cancellationToken).ConfigureAwait(false);
-        if (visitor is not null)
-        {
-            return await WriteAsync(visitor, visitorKey, key, value, updatedAt, now, cancellationToken).ConfigureAwait(false);
-        }
-
-        // A new visitor: its admission (the capacity count, the insert and the save) holds the admission
+        // A new visitor: its admission (the capacity count, the insert and the save) also holds the admission
         // lock until the commit, so concurrent admissions on every API instance see each other's rows.
-        await using var admission = await unitOfWork.BeginTransactionAsync(cancellationToken).ConfigureAwait(false);
-        var admitted = await AdmitVisitorAsync(visitorKey, clientPartition, now, cancellationToken).ConfigureAwait(false);
-        var outcome = await WriteAsync(admitted, visitorKey, key, value, updatedAt, now, cancellationToken).ConfigureAwait(false);
-        await admission.CommitAsync(cancellationToken).ConfigureAwait(false);
+        var visitor = await repository.FindVisitorAsync(visitorKey, cancellationToken).ConfigureAwait(false)
+            ?? await AdmitVisitorAsync(visitorKey, clientPartition, now, cancellationToken).ConfigureAwait(false);
+        var outcome = await WriteAsync(visitor, visitorKey, key, value, updatedAt, now, cancellationToken).ConfigureAwait(false);
+        await transaction.CommitAsync(cancellationToken).ConfigureAwait(false);
         return outcome;
     }
 
@@ -101,19 +100,33 @@ public sealed class VisitorPreferenceService(
         }
 
         await EnsureQuotaAsync(visitorKey, key, value, cancellationToken).ConfigureAwait(false);
+        var receivedAt = ReceivedAt(now, await repository.GetLastReceivedAtAsync(visitorKey, cancellationToken).ConfigureAwait(false));
         if (stored is null)
         {
-            stored = new VisitorPreference { VisitorId = visitorKey, Key = key, Value = value, UpdatedAt = updatedAt };
+            stored = new VisitorPreference { VisitorId = visitorKey, Key = key, Value = value, UpdatedAt = updatedAt, ReceivedAt = receivedAt };
             repository.AddPreference(stored);
         }
         else
         {
             stored.Value = value;
             stored.UpdatedAt = updatedAt;
+            stored.ReceivedAt = receivedAt;
         }
 
         await unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         return ToDto(stored);
+    }
+
+    /// <summary>
+    /// The receipt date of a write: the server's time at PostgreSQL's precision (the microsecond), or one microsecond
+    /// after the visitor's latest receipt date when the clock has not moved past it (a clock set back, two writes
+    /// within the same microsecond), so the receipt dates of a visitor strictly increase in the order of the writes.
+    /// </summary>
+    internal static DateTimeOffset ReceivedAt(DateTimeOffset now, DateTimeOffset? last)
+    {
+        var utc = now.ToUniversalTime();
+        var truncated = new DateTimeOffset(utc.Ticks - (utc.Ticks % TimeSpan.TicksPerMicrosecond), TimeSpan.Zero);
+        return last is { } previous && truncated <= previous ? previous.ToUniversalTime().AddTicks(TimeSpan.TicksPerMicrosecond) : truncated;
     }
 
     private async Task<Visitor> AdmitVisitorAsync(string visitorKey, string clientPartition, DateTimeOffset now, CancellationToken cancellationToken)
@@ -161,5 +174,5 @@ public sealed class VisitorPreferenceService(
         return repository.TouchAsync(visitorKey, now, now - TouchGranularity, cancellationToken);
     }
 
-    private static VisitorPreferenceDto ToDto(VisitorPreference preference) => new(preference.Key, preference.Value, preference.UpdatedAt);
+    private static VisitorPreferenceDto ToDto(VisitorPreference preference) => new(preference.Key, preference.Value, preference.UpdatedAt, preference.ReceivedAt);
 }

@@ -288,6 +288,8 @@
   <data name="NavTilesTonesTitle" xml:space="preserve"><value>Tones</value></data>
   <data name="NavTilesFitTitle" xml:space="preserve"><value>Fit the title</value></data>
   <data name="NavTilesFitTitleHint" xml:space="preserve"><value>The title shrinks to stay on one line instead of wrapping.</value></data>
+  <data name="NavTilesCenter" xml:space="preserve"><value>Center the icon and the title</value></data>
+  <data name="NavTilesCenterHint" xml:space="preserve"><value>The icon, the title and the description sit in the middle of the tile, title fitted or not.</value></data>
   <data name="NavTilesFitTitleTitle" xml:space="preserve"><value>Titles fitted on one line</value></data>
   <data name="NavTilesDisabled" xml:space="preserve"><value>Disabled tile</value></data>
   <data name="NavTilesDisabledHint" xml:space="preserve"><value>Disabled: the last tile has no link, cannot take focus, is announced as unavailable and is attenuated, at the same size.</value></data>

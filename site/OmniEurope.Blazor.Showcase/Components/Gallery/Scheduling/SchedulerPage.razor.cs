@@ -35,6 +35,10 @@ public partial class SchedulerPage
 
     private bool Movable { get; set; } = true;
 
+    private OmniSchedulerSlotHeight SlotHeight { get; set; } = OmniSchedulerSlotHeight.Standard;
+
+    private bool ShowPeriodTitle { get; set; } = true;
+
     private static DateTimeOffset Today => new(DateTime.Today);
 
     private CultureInfo Culture => CultureInfo.GetCultureInfo(CultureName);
@@ -44,6 +48,12 @@ public partial class SchedulerPage
         new(OmniCalendarView.Day, Text["SchedulerViewDay"]),
         new(OmniCalendarView.Week, Text["SchedulerViewWeek"]),
         new(OmniCalendarView.Month, Text["SchedulerViewMonth"])
+    ];
+
+    private IReadOnlyList<OmniOption<OmniSchedulerSlotHeight>> SlotHeightOptions =>
+    [
+        new(OmniSchedulerSlotHeight.Standard, Text["SchedulerSlotHeightStandard"]),
+        new(OmniSchedulerSlotHeight.Compact, Text["SchedulerSlotHeightCompact"])
     ];
 
     private IReadOnlyList<OmniOption<string>> CultureOptions =>

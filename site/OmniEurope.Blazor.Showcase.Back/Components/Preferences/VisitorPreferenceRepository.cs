@@ -12,6 +12,21 @@ public sealed class VisitorPreferenceRepository(ShowcaseDbContext db) : IVisitor
     public Task LockVisitorAdmissionAsync(CancellationToken cancellationToken) =>
         db.Database.ExecuteSqlAsync($"SELECT pg_advisory_xact_lock({AdmissionLockKey})", cancellationToken);
 
+    /// <summary>
+    /// The first key of the two-key PostgreSQL advisory locks of visitor writes ("OEVW" in ASCII); the second is a hash of
+    /// the visitor. Two-key locks never collide with the single-key <see cref="AdmissionLockKey"/>; two visitors whose
+    /// hashes collide only wait for each other.
+    /// </summary>
+    internal const int VisitorWriteLockSpace = 0x4F45_5657;
+
+    public Task LockVisitorWritesAsync(string visitorKey, CancellationToken cancellationToken) =>
+        db.Database.ExecuteSqlAsync($"SELECT pg_advisory_xact_lock({VisitorWriteLockSpace}, hashtext({visitorKey}))", cancellationToken);
+
+    public Task<DateTimeOffset?> GetLastReceivedAtAsync(string visitorKey, CancellationToken cancellationToken) =>
+        db.VisitorPreferences.AsNoTracking()
+            .Where(preference => preference.VisitorId == visitorKey)
+            .MaxAsync(preference => (DateTimeOffset?)preference.ReceivedAt, cancellationToken);
+
     public Task<Visitor?> FindVisitorAsync(string visitorKey, CancellationToken cancellationToken) =>
         db.Visitors.FirstOrDefaultAsync(visitor => visitor.Id == visitorKey, cancellationToken);
 
@@ -44,7 +59,7 @@ public sealed class VisitorPreferenceRepository(ShowcaseDbContext db) : IVisitor
         var query = db.VisitorPreferences.AsNoTracking().Where(preference => preference.VisitorId == visitorKey);
         if (since is { } from)
         {
-            query = query.Where(preference => preference.UpdatedAt >= from);
+            query = query.Where(preference => preference.ReceivedAt >= from);
         }
 
         return await query.OrderBy(preference => preference.Key).Take(limit).ToListAsync(cancellationToken).ConfigureAwait(false);

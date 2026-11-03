@@ -35,7 +35,7 @@ public sealed class ShowcaseApiPreferenceStore(ShowcaseApiHttpClient api, Showca
         response.EnsureSuccessStatusCode();
         var preference = await response.Content.ReadFromJsonAsync<VisitorPreferenceDto>(cancellationToken)
             ?? throw new InvalidDataException("The preference API answered an empty preference.");
-        return new OmniPreference(preference.Key, preference.Value, preference.UpdatedAt);
+        return ToPreference(preference);
     }
 
     /// <inheritdoc />
@@ -49,7 +49,7 @@ public sealed class ShowcaseApiPreferenceStore(ShowcaseApiHttpClient api, Showca
         response.EnsureSuccessStatusCode();
         var changed = await response.Content.ReadFromJsonAsync<VisitorPreferenceDto[]>(cancellationToken)
             ?? throw new InvalidDataException("The preference API answered an empty list.");
-        return [.. changed.Select(preference => new OmniPreference(preference.Key, preference.Value, preference.UpdatedAt))];
+        return [.. changed.Select(ToPreference)];
     }
 
     /// <inheritdoc />
@@ -71,12 +71,16 @@ public sealed class ShowcaseApiPreferenceStore(ShowcaseApiHttpClient api, Showca
 
         var stored = await response.Content.ReadFromJsonAsync<VisitorPreferenceDto>(cancellationToken)
             ?? throw new InvalidDataException("The preference API answered a write without the stored preference.");
-        return new OmniPreference(stored.Key, stored.Value, stored.UpdatedAt);
+        return ToPreference(stored);
     }
 
     /// <inheritdoc />
     /// <remarks>Read from the browser alone, never from the API: the cache must open while the API is away.</remarks>
     public ValueTask<string> GetScopeAsync(CancellationToken cancellationToken = default) => visitor.GetScopeAsync(cancellationToken);
+
+    /// <summary>The preference of an API answer, with the receipt date the next change feed reads from.</summary>
+    private static OmniPreference ToPreference(VisitorPreferenceDto preference) =>
+        new(preference.Key, preference.Value, preference.UpdatedAt, preference.ReceivedAt);
 
     private async Task<HttpRequestMessage> RequestAsync(HttpMethod method, string path, CancellationToken cancellationToken)
     {

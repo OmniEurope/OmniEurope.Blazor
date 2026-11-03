@@ -325,7 +325,7 @@ ctor public OmniEurope.Blazor.Components.OmniPassTrackerItem(System.String Text,
 ctor public OmniEurope.Blazor.Components.OmniPassword()
 ctor public OmniEurope.Blazor.Components.OmniPieSeries()
 ctor public OmniEurope.Blazor.Components.OmniPopover()
-ctor public OmniEurope.Blazor.Components.OmniPreference(System.String Key, System.String? Value, System.DateTimeOffset UpdatedAt)
+ctor public OmniEurope.Blazor.Components.OmniPreference(System.String Key, System.String? Value, System.DateTimeOffset UpdatedAt, System.DateTimeOffset? ReceivedAt = null)
 ctor public OmniEurope.Blazor.Components.OmniPreferenceChangedEventArgs(System.String Key, System.String? Value, OmniEurope.Blazor.Components.OmniPreferenceChangeOrigin Origin)
 ctor public OmniEurope.Blazor.Components.OmniPreferencesOptions()
 ctor public OmniEurope.Blazor.Components.OmniPresetRegistry()
@@ -947,6 +947,8 @@ field public static OmniEurope.Blazor.Components.OmniPresetRegistry.None : Syste
 field public static OmniEurope.Blazor.Components.OmniProgressShape.Circular : OmniEurope.Blazor.Components.OmniProgressShape const = 1
 field public static OmniEurope.Blazor.Components.OmniProgressShape.Linear : OmniEurope.Blazor.Components.OmniProgressShape const = 0
 field public static OmniEurope.Blazor.Components.OmniReturnUrl.DefaultParameterName : System.String const = "returnUrl"
+field public static OmniEurope.Blazor.Components.OmniSchedulerSlotHeight.Compact : OmniEurope.Blazor.Components.OmniSchedulerSlotHeight const = 1
+field public static OmniEurope.Blazor.Components.OmniSchedulerSlotHeight.Standard : OmniEurope.Blazor.Components.OmniSchedulerSlotHeight const = 0
 field public static OmniEurope.Blazor.Components.OmniSeverity.Danger : OmniEurope.Blazor.Components.OmniSeverity const = 3
 field public static OmniEurope.Blazor.Components.OmniSeverity.Info : OmniEurope.Blazor.Components.OmniSeverity const = 0
 field public static OmniEurope.Blazor.Components.OmniSeverity.Success : OmniEurope.Blazor.Components.OmniSeverity const = 1
@@ -1681,7 +1683,7 @@ method public OmniEurope.Blazor.Components.OmniPopover.CloseAsync() : System.Thr
 method public OmniEurope.Blazor.Components.OmniPopover.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniPopover.OnDismissRequestedAsync(System.Boolean fromKeyboard) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniPreference.<Clone>$() : OmniEurope.Blazor.Components.OmniPreference
-method public OmniEurope.Blazor.Components.OmniPreference.Deconstruct(out System.String Key, out System.String? Value, out System.DateTimeOffset UpdatedAt) : System.Void
+method public OmniEurope.Blazor.Components.OmniPreference.Deconstruct(out System.String Key, out System.String? Value, out System.DateTimeOffset UpdatedAt, out System.DateTimeOffset? ReceivedAt) : System.Void
 method public OmniEurope.Blazor.Components.OmniPreference.Equals(OmniEurope.Blazor.Components.OmniPreference? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniPreferenceChangedEventArgs.<Clone>$() : OmniEurope.Blazor.Components.OmniPreferenceChangedEventArgs
 method public OmniEurope.Blazor.Components.OmniPreferenceChangedEventArgs.Deconstruct(out System.String Key, out System.String? Value, out OmniEurope.Blazor.Components.OmniPreferenceChangeOrigin Origin) : System.Void
@@ -3429,7 +3431,9 @@ property public OmniEurope.Blazor.Components.OmniNavTile.DoubleWidth : System.Bo
 property public OmniEurope.Blazor.Components.OmniNavTile.FitTitle : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNavTile.Href : System.String {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniNavTile.Icon : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniNavTile.IconAlign : OmniEurope.Blazor.Components.OmniAlignment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNavTile.Title : System.String {get(public);set(public)} [Parameter, EditorRequired]
+property public OmniEurope.Blazor.Components.OmniNavTile.TitleAlign : OmniEurope.Blazor.Components.OmniAlignment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNavTile.Tone : OmniEurope.Blazor.Components.OmniTone {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNotification.ActionText : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNotification.CloseLabel : System.String? {get(public);set(public)} [Parameter]
@@ -3564,6 +3568,7 @@ property public OmniEurope.Blazor.Components.OmniPopover.TriggerIcon : Microsoft
 property public OmniEurope.Blazor.Components.OmniPopover.TriggerTitle : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPopover.TriggerVariant : OmniEurope.Blazor.Components.OmniButtonVariant {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPreference.Key : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniPreference.ReceivedAt : System.DateTimeOffset? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniPreference.UpdatedAt : System.DateTimeOffset {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniPreference.Value : System.String? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniPreferenceChangedEventArgs.Key : System.String {get(public);init(public)}
@@ -3627,6 +3632,7 @@ property public OmniEurope.Blazor.Components.OmniScheduler.Culture : System.Glob
 property public OmniEurope.Blazor.Components.OmniScheduler.Date : System.DateTimeOffset {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.DateChanged : Microsoft.AspNetCore.Components.EventCallback<System.DateTimeOffset> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.DayEnd : System.TimeOnly? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniScheduler.DayHeaderFormat : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.DayStart : System.TimeOnly? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.ErrorContent : Microsoft.AspNetCore.Components.RenderFragment<System.Exception>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.Items : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniSchedulerAppointment> {get(public);set(public)} [Parameter]
@@ -3637,8 +3643,10 @@ property public OmniEurope.Blazor.Components.OmniScheduler.OnAppointmentClick : 
 property public OmniEurope.Blazor.Components.OmniScheduler.OnAppointmentMove : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.OnLoadError : Microsoft.AspNetCore.Components.EventCallback<System.Exception> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.OnSlotClick : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniSchedulerSlot> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniScheduler.ShowPeriodTitle : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.ShowViewPicker : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.SlotDuration : System.TimeSpan {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniScheduler.SlotHeight : OmniEurope.Blazor.Components.OmniSchedulerSlotHeight {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.TimeZone : System.TimeZoneInfo {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.View : OmniEurope.Blazor.Components.OmniCalendarView {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.ViewChanged : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniCalendarView> {get(public);set(public)} [Parameter]
@@ -4438,6 +4446,7 @@ type public OmniEurope.Blazor.Components.OmniSchedulerAppointment [class, sealed
 type public OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove>
 type public OmniEurope.Blazor.Components.OmniSchedulerOverlap [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniSchedulerOverlap>
 type public OmniEurope.Blazor.Components.OmniSchedulerSlot [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniSchedulerSlot>
+type public OmniEurope.Blazor.Components.OmniSchedulerSlotHeight [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniSelectBar<TValue> [class] : OmniEurope.Blazor.Components.OmniInputBase<TValue>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniSelectableCard [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniSelectableCardGroup<TValue,TSelection> [class] : OmniEurope.Blazor.Components.OmniInputBase<TSelection>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, OmniEurope.Blazor.Internal.IOmniSelectableCardGroup, System.IDisposable

@@ -295,14 +295,13 @@
 .omni-fact-tile--action:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
 @media (prefers-reduced-motion: reduce) { .omni-fact-tile--action { transition: none; } }
 /* A navigation tile (OmniNavTile): a card that is one link, the icon on a square tinted with its tone,
-   the title, an optional muted description. It fills the height of its column; hovered, only its
-   shadow changes (no movement); the focus ring marks it for the keyboard. */
-.omni-nav-tile { --omni-nav-tile-tone: var(--omni-color-accent-strong); --omni-nav-tile-tint: var(--omni-color-accent-subtle); align-items: center; background: var(--omni-card-background, var(--omni-color-surface)); block-size: 100%; border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-card-shadow, none); box-sizing: border-box; color: var(--omni-color-text); display: flex; flex-direction: column; gap: var(--omni-space-sm); padding: var(--omni-space-lg) var(--omni-space-md); text-align: center; text-decoration: none; transition: box-shadow var(--omni-duration-fast) ease; }
-.omni-nav-tile:hover { box-shadow: var(--omni-shadow-md); }
+   the title, an optional muted description. It fills the height of its column; hovered, its border,
+   background and shadow take its tone (visible on a dark theme too, no movement); the focus ring marks it for the keyboard. */
+.omni-nav-tile { --omni-nav-tile-tone: var(--omni-color-accent-strong); --omni-nav-tile-tint: var(--omni-color-accent-subtle); align-items: center; background: var(--omni-card-background, var(--omni-color-surface)); block-size: 100%; border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-card-shadow, none); box-sizing: border-box; color: var(--omni-color-text); display: flex; flex-direction: column; gap: var(--omni-space-sm); padding: var(--omni-space-lg) var(--omni-space-md); text-align: center; text-decoration: none; transition: background-color var(--omni-duration-fast) ease, border-color var(--omni-duration-fast) ease, box-shadow var(--omni-duration-fast) ease; }
+.omni-nav-tile:hover:not(.omni-nav-tile--disabled) { background: color-mix(in srgb, var(--omni-nav-tile-tone) 7%, var(--omni-card-background, var(--omni-color-surface))); border-color: color-mix(in srgb, var(--omni-nav-tile-tone) 55%, var(--omni-color-border)); box-shadow: var(--omni-shadow-md); }
 /* A disabled tile (OmniNavTile.Disabled) leads nowhere: no link, so no hover lift and no pointer; it is
    attenuated as the library's other disabled surfaces are (0.55) and keeps its size in the tile grid. */
 .omni-nav-tile--disabled { cursor: not-allowed; opacity: 0.55; }
-.omni-nav-tile--disabled:hover { box-shadow: var(--omni-card-shadow, none); }
 .omni-nav-tile:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
 .omni-nav-tile__icon { align-items: center; background: var(--omni-nav-tile-tint); block-size: calc(var(--omni-icon-box) * 4 / 3); border-radius: var(--omni-radius); color: var(--omni-nav-tile-tone); display: inline-flex; flex: none; inline-size: calc(var(--omni-icon-box) * 4 / 3); justify-content: center; }
 .omni-nav-tile__icon .omni-icon { block-size: 1.5rem; inline-size: 1.5rem; }
@@ -319,6 +318,14 @@
 .omni-nav-tile--fit-24 { --omni-nav-tile-fit-chars: 24; }
 .omni-nav-tile--fit-32 { --omni-nav-tile-fit-chars: 32; }
 .omni-nav-tile--fit-48 { --omni-nav-tile-fit-chars: 48; }
+/* IconAlign and TitleAlign: the icon, and the title with its description, placed across the tile apart from each
+   other, over the default of the tile (centred, or start with FitTitle); a fitted title keeps its size. */
+.omni-nav-tile--icon-start > .omni-nav-tile__icon { align-self: flex-start; }
+.omni-nav-tile--icon-center > .omni-nav-tile__icon { align-self: center; }
+.omni-nav-tile--icon-end > .omni-nav-tile__icon { align-self: flex-end; }
+.omni-nav-tile--title-start > :is(.omni-nav-tile__title, .omni-nav-tile__description) { align-self: flex-start; text-align: start; }
+.omni-nav-tile--title-center > :is(.omni-nav-tile__title, .omni-nav-tile__description) { align-self: center; text-align: center; }
+.omni-nav-tile--title-end > :is(.omni-nav-tile__title, .omni-nav-tile__description) { align-self: flex-end; text-align: end; }
 .omni-nav-tile--neutral { --omni-nav-tile-tone: var(--omni-color-text-muted); --omni-nav-tile-tint: var(--omni-color-surface-muted); }
 .omni-nav-tile--info { --omni-nav-tile-tone: var(--omni-color-info); --omni-nav-tile-tint: var(--omni-color-info-subtle); }
 .omni-nav-tile--success { --omni-nav-tile-tone: var(--omni-color-success); --omni-nav-tile-tint: var(--omni-color-success-subtle); }

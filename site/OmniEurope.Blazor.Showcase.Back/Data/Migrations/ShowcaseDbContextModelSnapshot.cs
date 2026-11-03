@@ -59,6 +59,9 @@ namespace OmniEurope.Blazor.Showcase.Back.Data.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
+                    b.Property<DateTimeOffset>("ReceivedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -75,6 +78,8 @@ namespace OmniEurope.Blazor.Showcase.Back.Data.Migrations
 
                     b.HasIndex("VisitorId", "Key")
                         .IsUnique();
+
+                    b.HasIndex("VisitorId", "ReceivedAt");
 
                     b.HasIndex("VisitorId", "UpdatedAt");
 

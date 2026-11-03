@@ -233,9 +233,15 @@ polyline.omni-chart__line { fill: none; }
 /* A running step against its usual duration: the stronger fill up to it, then the overrun from the left. */
 .omni-step-timeline__progress { fill: var(--omni-color-accent-strong); }
 .omni-step-timeline__overrun { fill: var(--omni-color-warning); }
-.omni-scheduler { display: grid; gap: var(--omni-space-md); }
+/* The height of the cells of one slot of the time grid. The cells read it, and the blocks drawn on a duration
+   are sized in percent of the cell they start in, so they follow it. A row is this height plus the padding and
+   the border of its cells: Compact takes both out before halving, so its row is half of a standard row. */
+.omni-scheduler { --omni-scheduler-slot-height: calc(var(--omni-control-height) + var(--omni-space-sm)); display: grid; gap: var(--omni-space-md); }
+.omni-scheduler--slot-compact { --omni-scheduler-slot-height: calc((var(--omni-control-height) + var(--omni-space-sm) - var(--omni-cell-pad-y) - var(--omni-border-width)) / 2); }
 .omni-scheduler__header { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: space-between; }
 .omni-scheduler__header--no-picker { justify-content: flex-start; }
+/* ShowPeriodTitle: the period shown, between the navigation and the view picker. */
+.omni-scheduler__title { flex: 1 1 auto; font-size: var(--omni-font-size-lg); font-weight: 650; margin: 0; min-inline-size: 0; text-align: center; }
 .omni-scheduler__state { color: var(--omni-color-text-muted); padding: var(--omni-space-lg); text-align: center; }
 .omni-scheduler__date { display: block; font-weight: 650; margin: 0 0 var(--omni-space-xs); }
 .omni-day-view > .omni-scheduler__date { font-size: var(--omni-font-size-h3); }
@@ -266,7 +272,7 @@ polyline.omni-chart__line { fill: none; }
 .omni-scheduler-grid__table thead th { background: var(--omni-color-surface-muted); font-size: var(--omni-font-size-sm); font-weight: 650; text-align: center; }
 .omni-scheduler-grid__table thead th.omni-scheduler-grid__day--today { background: var(--omni-color-accent-subtle); color: var(--omni-color-accent-strong); }
 .omni-scheduler-grid__time { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); font-weight: 400; inline-size: 4.5rem; text-align: end; white-space: nowrap; }
-.omni-scheduler-grid__cell { block-size: calc(var(--omni-control-height) + var(--omni-space-sm)); position: relative; }
+.omni-scheduler-grid__cell { block-size: var(--omni-scheduler-slot-height); position: relative; }
 .omni-scheduler-grid__row--next-day > * { border-block-start-color: var(--omni-color-text-muted); }
 .omni-scheduler-grid .omni-scheduler__appointment,
 .omni-week-view .omni-scheduler__appointment,
@@ -331,6 +337,10 @@ polyline.omni-chart__line { fill: none; }
 .omni-scheduler-grid .omni-scheduler__appointment--short strong,
 .omni-scheduler-grid .omni-scheduler__appointment--brief strong { flex: 1 1 100%; hyphens: none; white-space: nowrap; }
 .omni-scheduler-grid .omni-scheduler__appointment--brief time { clip-path: inset(50%); padding: 0; position: absolute; white-space: nowrap; }
+/* A compact slot is half as high: its hour label is one line tall, and a block, tight to its edges, gets the
+   brief and short looks at twice the slots (the stylesheet and the component agree on pixels, not on slots). */
+.omni-scheduler--slot-compact .omni-scheduler-grid__table tbody .omni-scheduler-grid__time { line-height: 1; }
+.omni-scheduler--slot-compact .omni-scheduler-grid .omni-scheduler__appointment { line-height: 1.2; padding-block: 0; }
 .omni-scheduler-grid .omni-scheduler__open { column-gap: var(--omni-space-xs); flex-direction: row; flex-wrap: wrap; }
 .omni-scheduler-grid .omni-scheduler__appointment--overlapping { outline: var(--omni-border-width) dashed var(--omni-color-warning); outline-offset: calc(-1 * var(--omni-border-width)); }
 :is(.omni-scheduler--moving, .omni-scheduler--dragging) .omni-scheduler-grid__cell > .omni-scheduler__appointment { pointer-events: none; }

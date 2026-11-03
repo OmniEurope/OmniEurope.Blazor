@@ -25,6 +25,12 @@
   <data name="SchedulerBackToToday" xml:space="preserve"><value>Aujourd&apos;hui</value></data>
   <data name="SchedulerTimeGrid" xml:space="preserve"><value>Grille horaire</value></data>
   <data name="SchedulerTimeGridDescription" xml:space="preserve"><value>Les vues jour et semaine deviennent une grille de 8 h à 18 h, par créneaux de 30 minutes ; désactivé, elles restent des listes.</value></data>
+  <data name="SchedulerSlotHeight" xml:space="preserve"><value>Hauteur des créneaux</value></data>
+  <data name="SchedulerSlotHeightDescription" xml:space="preserve"><value>Créneaux standard ou compacts (deux fois moins hauts) dans la grille horaire ; les rendez-vous suivent leur durée.</value></data>
+  <data name="SchedulerPeriodTitle" xml:space="preserve"><value>Titre de la période</value></data>
+  <data name="SchedulerPeriodTitleDescription" xml:space="preserve"><value>La date du jour, les bornes de la semaine ou le mois affichés, dans l'en-tête.</value></data>
+  <data name="SchedulerSlotHeightStandard" xml:space="preserve"><value>Standard</value></data>
+  <data name="SchedulerSlotHeightCompact" xml:space="preserve"><value>Compact</value></data>
   <data name="SchedulerMovable" xml:space="preserve"><value>Rendez-vous déplaçables</value></data>
   <data name="SchedulerMovableDescription" xml:space="preserve"><value>Un rendez-vous se glisse sur un créneau ou un jour, ou se déplace au clavier par son bouton ; la page applique le déplacement rapporté.</value></data>
   <data name="SchedulerPreviewTitle" xml:space="preserve"><value>Agenda en direct</value></data>

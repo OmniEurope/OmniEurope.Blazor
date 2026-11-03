@@ -13,7 +13,9 @@ export function focusableElements(container) {
         // take the focus: keeping it would make the trap retry it on every Tab.
         // Out of the tab order too: tabindex -1 on a button (the options of a radio group, which
         // keeps one tab stop) takes it out of the cycle as it does the browser's.
+        // A control disabled by its fieldset (no disabled attribute of its own) is out of it as well.
         .filter(element => element.getAttribute('tabindex') !== '-1'
+            && !element.matches(':disabled')
             && !element.closest('[hidden], [inert]')
             && element.getAttribute('aria-hidden') !== 'true'
             && !element.hasAttribute('data-focus-sentinel')

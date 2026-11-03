@@ -4,12 +4,28 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Breaking changes
+
+- `OmniPreference` reçoit un quatrième paramètre positionnel optionnel `ReceivedAt` : le constructeur à trois arguments reste valable en source, mais la rupture est binaire (recompiler), et la déconstruction à trois variables `var (key, value, updatedAt) = preference;` ne compile plus. Migration : déconstruire en quatre (`var (key, value, updatedAt, _)`) ou lire les propriétés.
+
+### Added
+
+- `OmniNavTile.IconAlign` et `OmniNavTile.TitleAlign` (`OmniAlignment?`, nuls par défaut : placement inchangé) : l'icône, et le titre avec sa description, se placent séparément au début, au centre ou à la fin de la tuile, avec ou sans `FitTitle`. Demande d'une application cliente, recette R-57.
+- `OmniScheduler.SlotHeight` (`OmniSchedulerSlotHeight` : `Standard`, défaut, ou `Compact`, la moitié) règle la hauteur d’un créneau de la grille horaire par une classe qui pose `--omni-scheduler-slot-height`, que lisent les cellules ; les rendez-vous, dessinés en pourcentage de leur cellule, la suivent. En `Compact`, un bloc garde l’aspect qu’il a à la même hauteur en pixels (titre seul sous deux créneaux, heure et une ligne de titre sous quatre). `OmniScheduler.DayHeaderFormat` (`string?`, nul par défaut : `ddd d` inchangé) est le format .NET de l’en-tête de chaque jour de la grille et de la semaine en liste. `OmniScheduler.ShowPeriodTitle` (faux par défaut) écrit la période affichée dans l’en-tête, dans les formats de la culture : « mardi 3 novembre 2026 », « 2 au 8 novembre 2026 », « novembre 2026 » (nouvelle clé `SchedulerPeriodRange` dans les 24 langues). Les boutons précédent et suivant portent un `title` selon la vue (jour, semaine, mois ; nouvelles clés `SchedulerPreviousDay`, `SchedulerNextDay`, `SchedulerPreviousWeek`, `SchedulerNextWeek`, `SchedulerPreviousMonth`, `SchedulerNextMonth` dans les 24 langues) ; leur `aria-label` ne change pas. Demande d’une application cliente, recettes R-40, R-41, R-46.
+
+### Changed
+
+- `OmniNavTile` : au survol, une tuile cliquable prend la teinte de son `Tone` sur la bordure et le fond, en plus de l'ombre, qui seule restait presque invisible sur un thème sombre ; une tuile `Disabled` ne change pas. Recette R-58.
+
 ### Fixed
+
+- Synchronisation des préférences : une écriture reçue après une synchronisation mais datée avant son curseur (un autre appareil, une écriture retardée) n'était jamais relue. Le curseur suit désormais `OmniPreference.ReceivedAt`, date de réception posée par le store ; l'arbitrage reste sur `UpdatedAt`. Un store qui ne pose pas `ReceivedAt` garde l'ancien comportement et sa limite (voir [docs/preferences.md](docs/preferences.md)). L'API de la vitrine pose cette date sous un verrou par visiteur (migration `AddPreferenceReceivedAt`).
 
 - `OmniScheduler` : un rendez-vous qui court sur un jour suivant affiché reprend en haut de cette colonne de la grille horaire, en vue jour comme en vue semaine, au lieu de n'être dessiné que dans la colonne de son départ. Avec `Load`, l'hôte renvoie aussi ceux qui commencent avant la plage demandée et s'y prolongent.
 - `OmniChart` : un graphique qui ne contient que des `OmniMarkers` installe les infobulles du paquet, sans quoi ses `data-omni-tip` ne montraient rien.
 - Infobulles de graphique : un pointeur qui arrive sur un vide ne ferme plus l'infobulle ouverte au clavier sur un élément qui garde le focus.
 - `OmniSeriesDataLabels.InsideContrast` : deux séries de colonnes ou de barres de mêmes valeurs et de couleurs différentes ne donnent plus à l'étiquette la couleur de lecture de la première.
+- Piège de focus des dialogues : un contrôle désactivé par son `fieldset disabled` sort du cycle de Tab, qui restait bloqué devant lui.
 
 ## [1.11.0] - 2026-11-02
 

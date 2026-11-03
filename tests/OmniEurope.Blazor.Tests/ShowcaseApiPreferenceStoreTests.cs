@@ -45,7 +45,7 @@ public sealed class ShowcaseApiPreferenceStoreTests : OmniBunitContext
     public async Task Save_PutsTheValueWithTheVisitorHeader_AnswersTheStoredDate_ThenGetReadsItBack()
     {
         var store = CreateStore();
-        _api.Respond = request => Json(new VisitorPreferenceDto("omni.appearance", "{\"theme\":\"givre\"}", Start));
+        _api.Respond = request => Json(new VisitorPreferenceDto("omni.appearance", "{\"theme\":\"givre\"}", Start, Start.AddSeconds(5)));
 
         // The browser's date is a day ahead; the API answers the date it kept.
         var acknowledged = await store.SaveAsync(new OmniPreference("omni.appearance", "{\"theme\":\"givre\"}", Start.AddDays(1)), Token);
@@ -58,8 +58,8 @@ public sealed class ShowcaseApiPreferenceStoreTests : OmniBunitContext
         Assert.True(VisitorPreferenceApi.IsValidVisitorId(put.Visitor));
         var body = JsonSerializer.Deserialize<SaveVisitorPreferenceRequest>(put.Body!, JsonSerializerOptions.Web);
         Assert.Equal(new SaveVisitorPreferenceRequest("{\"theme\":\"givre\"}", Start.AddDays(1)), body);
-        Assert.Equal(new OmniPreference("omni.appearance", "{\"theme\":\"givre\"}", Start), acknowledged);
-        Assert.Equal(new OmniPreference("omni.appearance", "{\"theme\":\"givre\"}", Start), read);
+        Assert.Equal(new OmniPreference("omni.appearance", "{\"theme\":\"givre\"}", Start, Start.AddSeconds(5)), acknowledged);
+        Assert.Equal(new OmniPreference("omni.appearance", "{\"theme\":\"givre\"}", Start, Start.AddSeconds(5)), read);
         // The visitor id never travels in the address.
         Assert.All(_api.Requests, request => Assert.DoesNotContain(put.Visitor!, request.Uri, StringComparison.Ordinal));
     }
@@ -93,11 +93,12 @@ public sealed class ShowcaseApiPreferenceStoreTests : OmniBunitContext
     public async Task GetChangedSince_SendsTheDateInUtc_AndReadsTheList()
     {
         var store = CreateStore();
-        _api.Respond = _ => Json(new[] { new VisitorPreferenceDto("omni.appearance", null, Start) });
+        // A row without a receipt date (an API deployed before it) reads with none.
+        _api.Respond = _ => Json(new[] { new VisitorPreferenceDto("omni.appearance", null, Start, Start.AddSeconds(5)), new VisitorPreferenceDto("omni.density", "1", Start) });
 
         var changed = await store.GetChangedSinceAsync(new DateTimeOffset(2026, 10, 27, 10, 0, 0, TimeSpan.FromHours(2)), Token);
 
-        Assert.Equal([new OmniPreference("omni.appearance", null, Start)], changed);
+        Assert.Equal([new OmniPreference("omni.appearance", null, Start, Start.AddSeconds(5)), new OmniPreference("omni.density", "1", Start)], changed);
         Assert.Equal("https://api.showcase.example/api/preferences?since=2026-10-27T08%3A00%3A00.0000000%2B00%3A00", _api.Requests[0].Uri);
     }
 

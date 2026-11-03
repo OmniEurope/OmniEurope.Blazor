@@ -39,7 +39,8 @@ public partial class OmniScheduler
     // The shortest block of the time grid, in slots: its one line stays readable. The stylesheet draws the same.
     private const double ShortestBlock = 0.5;
 
-    // Under one slot a block has one line, its title; under two, its time and one line of title.
+    // Under one slot a block has one line, its title; under two, its time and one line of title. These are
+    // slots of the standard height: a compact slot is half as high, so the same heights span twice as many.
     private const double OneLine = 0.9;
     private const double TwoLinesOfTitle = 2;
 
@@ -152,6 +153,29 @@ public partial class OmniScheduler
     /// system clock otherwise), in <see cref="TimeZone"/>. False by default: nothing is marked.
     /// </summary>
     [Parameter] public bool MarkPastSlots { get; set; }
+
+    /// <summary>
+    /// The height of a slot of the time grid: <see cref="OmniSchedulerSlotHeight.Standard"/> (the default),
+    /// or <see cref="OmniSchedulerSlotHeight.Compact"/>, half of it, to see a long day on a large screen.
+    /// An appointment is drawn on its duration, so it follows the slot; in Compact, a block gets the looks it has
+    /// at the same height: under two slots its title alone (its time stays in its tooltip and for assistive
+    /// technology), under four its time and one line of title.
+    /// </summary>
+    [Parameter] public OmniSchedulerSlotHeight SlotHeight { get; set; } = OmniSchedulerSlotHeight.Standard;
+
+    /// <summary>
+    /// A .NET date format (such as <c>"dddd d MMM"</c>) applied with <see cref="Culture"/> (the current
+    /// culture when it is null) to the header of each day of the time grid and over each day of the week list.
+    /// Null (the default) writes the abbreviated day name and the day number (<c>"ddd d"</c>).
+    /// </summary>
+    [Parameter] public string? DayHeaderFormat { get; set; }
+
+    /// <summary>
+    /// Writes the title of the period shown in the header, in the patterns of <see cref="Culture"/>: the long date of
+    /// a day ("mardi 3 novembre 2026"), the first and last days of a week ("2 au 8 novembre 2026"), the month
+    /// ("novembre 2026"). False by default: the header holds the navigation and the view picker only.
+    /// </summary>
+    [Parameter] public bool ShowPeriodTitle { get; set; }
 
     internal string Announcement => _announcement;
 
@@ -416,6 +440,27 @@ public partial class OmniScheduler
         await ReloadAsync();
     }
 
+    // The header of a day of the time grid or of the week list, in the pattern of the host or "ddd d".
+    // A DateTime, not a DateOnly: a pattern with a time part is then written as zeros rather than refused.
+    private string DayHeader(DateOnly day) => day.ToDateTime(TimeOnly.MinValue).ToString(DayHeaderFormat ?? "ddd d", Formats);
+
+    // The title of a period button: the day, week or month the button leads to.
+    private string PeriodButtonTitle(bool next) => Text(_view switch
+    {
+        OmniCalendarView.Day => next ? "SchedulerNextDay" : "SchedulerPreviousDay",
+        OmniCalendarView.Week => next ? "SchedulerNextWeek" : "SchedulerPreviousWeek",
+        _ => next ? "SchedulerNextMonth" : "SchedulerPreviousMonth"
+    });
+
+    private string PeriodTitle()
+    {
+        var day = DateOnly.FromDateTime(_date.DateTime);
+        var week = WeekDays(_date).Select(date => DateOnly.FromDateTime(date.DateTime)).ToList();
+        return _view == OmniCalendarView.Week
+            ? SchedulerPeriodTitle.Of(_view, week[0], week[^1], Formats, (start, end) => Text("SchedulerPeriodRange", start, end))
+            : SchedulerPeriodTitle.Of(_view, day, day, Formats, (start, _) => start);
+    }
+
     private string ViewClass(OmniCalendarView view) => _view == view ? "omni-select-bar__item omni-select-bar__item--selected" : "omni-select-bar__item";
 
     /// <summary>The culture dates are written in: <see cref="Culture"/>, else the current culture.</summary>
@@ -661,11 +706,12 @@ public partial class OmniScheduler
         var span = Math.Min((int)Math.Round(block.Span * 100), 99_999);
         var lanes = Math.Min(block.Lanes, MostLanes);
         var lane = Math.Min(block.Lane, MostLanes - 1);
+        var slotsPerStandardSlot = SlotHeight == OmniSchedulerSlotHeight.Compact ? 2 : 1;
         return string.Join(' ', new[]
         {
             AppointmentCss(block.Appointment),
             block.Overlaps.Count == 0 ? null : "omni-scheduler__appointment--overlapping",
-            block.Span < OneLine ? "omni-scheduler__appointment--brief" : block.Span < TwoLinesOfTitle ? "omni-scheduler__appointment--short" : null,
+            block.Span < OneLine * slotsPerStandardSlot ? "omni-scheduler__appointment--brief" : block.Span < TwoLinesOfTitle * slotsPerStandardSlot ? "omni-scheduler__appointment--short" : null,
             Digits("at", offset, 2),
             Digits("len", span, 5),
             lanes == 1 ? null : $"omni-scheduler__lanes-{lanes.ToString(CultureInfo.InvariantCulture)}",

@@ -23,6 +23,17 @@ public interface IVisitorPreferenceRepository
     /// <remarks>Only meaningful inside <see cref="Shared.IUnitOfWork.BeginTransactionAsync"/>: outside, the lock ends with the statement.</remarks>
     Task LockVisitorAdmissionAsync(CancellationToken cancellationToken);
 
+    /// <summary>
+    /// Waits for, then holds until the end of the open transaction, the write lock of one visitor, across every API
+    /// instance on the database: the writes of a visitor run one after the other, so each receipt date is assigned
+    /// after the previous write is readable.
+    /// </summary>
+    /// <remarks>Only meaningful inside <see cref="Shared.IUnitOfWork.BeginTransactionAsync"/>: outside, the lock ends with the statement.</remarks>
+    Task LockVisitorWritesAsync(string visitorKey, CancellationToken cancellationToken);
+
+    /// <summary>The latest <see cref="VisitorPreference.ReceivedAt"/> of the visitor's preferences, or null when it holds none.</summary>
+    Task<DateTimeOffset?> GetLastReceivedAtAsync(string visitorKey, CancellationToken cancellationToken);
+
     Task<int> CountVisitorsAsync(CancellationToken cancellationToken);
 
     void AddVisitor(Visitor visitor);
@@ -37,7 +48,10 @@ public interface IVisitorPreferenceRepository
     /// <summary>The preference, untracked, or null.</summary>
     Task<VisitorPreference?> GetPreferenceAsync(string visitorKey, string key, CancellationToken cancellationToken);
 
-    /// <summary>The preferences changed at or after <paramref name="since"/> (all when null), untracked, at most <paramref name="limit"/>.</summary>
+    /// <summary>
+    /// The preferences the server received at or after <paramref name="since"/> (by <see cref="VisitorPreference.ReceivedAt"/>;
+    /// all when null), untracked, at most <paramref name="limit"/>.
+    /// </summary>
     Task<IReadOnlyList<VisitorPreference>> GetChangedSinceAsync(string visitorKey, DateTimeOffset? since, int limit, CancellationToken cancellationToken);
 
     /// <summary>Moves the last-seen date to <paramref name="seenAt"/> when it is older than <paramref name="staleBefore"/>.</summary>

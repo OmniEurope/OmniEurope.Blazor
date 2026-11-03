@@ -52,6 +52,23 @@
                 </ChildContent>
             </OmniSettingsTile>
 
+            <OmniSettingsTile Title="@Text["SchedulerSlotHeight"]" Description="@Text["SchedulerSlotHeightDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniSchedulerSlotHeight"
+                                   Options="SlotHeightOptions"
+                                   @bind-Value="SlotHeight"
+                                   Label="@Text["SchedulerSlotHeight"]" />
+                </Details>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["SchedulerPeriodTitle"]" Description="@Text["SchedulerPeriodTitleDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowPeriodTitle" aria-label="@Text["SchedulerPeriodTitle"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
             <OmniSettingsTile Title="@Text["SchedulerMovable"]" Description="@Text["SchedulerMovableDescription"]">
                 <Icon><OmniIcon Name="OmniIconName.Swap" /></Icon>
                 <ChildContent>
@@ -80,6 +97,8 @@
                                   Culture="Culture"
                                   IncludeWeekend="IncludeWeekend"
                                   TimeGrid="TimeGrid"
+                                  SlotHeight="SlotHeight"
+                                  ShowPeriodTitle="ShowPeriodTitle"
                                   Movable="Movable"
                                   MarkPastSlots="MarkPastSlots" />
             </ChildContent>

@@ -11,14 +11,17 @@ public interface IVisitorPreferenceService
     /// <summary>One preference, or null when the visitor never stored it (an unknown visitor holds nothing).</summary>
     Task<VisitorPreferenceDto?> GetAsync(string? visitorId, string? key, CancellationToken cancellationToken);
 
-    /// <summary>The preferences changed at or after <paramref name="since"/>, every one when null.</summary>
+    /// <summary>
+    /// The preferences the server received at or after <paramref name="since"/> (a <see cref="VisitorPreferenceDto.ReceivedAt"/>
+    /// of an earlier answer), every one when null.
+    /// </summary>
     Task<IReadOnlyList<VisitorPreferenceDto>> GetChangedSinceAsync(string? visitorId, DateTimeOffset? since, CancellationToken cancellationToken);
 
     /// <summary>Stores one preference unless a value at least as recent is stored, within the visitor's quotas.</summary>
     /// <returns>
     /// The preference the server now holds for the key, with the date it keeps (the server is the authority
     /// for dates): the written value at its date, or at the server's time when that date was in the future,
-    /// or the later value it already held.
+    /// or the later value it already held, each with its <see cref="VisitorPreferenceDto.ReceivedAt"/>.
     /// </returns>
     /// <param name="visitorId">The raw visitor id of the request.</param>
     /// <param name="key">The preference key of the route.</param>

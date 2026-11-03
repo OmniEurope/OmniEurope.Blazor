@@ -74,7 +74,8 @@ public sealed class DemoPreferenceStore(IJSRuntime javaScript) : IOmniPreference
     /// <inheritdoc />
     public ValueTask<string> GetScopeAsync(CancellationToken cancellationToken = default) => ValueTask.FromResult(Scope);
 
-    // A row is the JSON of an OmniPreference ({"Key","Value","UpdatedAt"}); one that does not read is ignored.
+    // A row is the JSON of an OmniPreference ({"Key","Value","UpdatedAt","ReceivedAt"}); one that does not read is ignored.
+    // The demo leaves ReceivedAt null: the cursor stays on UpdatedAt, which the change feed above compares.
     private static OmniPreference? Parse(string? row)
     {
         if (string.IsNullOrEmpty(row))

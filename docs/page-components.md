@@ -204,6 +204,14 @@ calcule d'après la longueur de `Title`, arrondie à un palier (8, 12, 16, 20, 2
 classe et jamais un style en ligne) et s'arrête à 0,75rem ; en dessous, le titre est coupé par des points
 de suspension. Le calcul compte 0,6em par caractère : une police très large peut couper un titre un peu avant.
 
+`IconAlign` et `TitleAlign` (`OmniAlignment?`, nuls par défaut ; demande d'une application cliente, recette R-57)
+placent séparément l'icône, et le titre avec sa description, en travers de la tuile : `Start`, `Center` ou
+`End`, `Stretch` valant `Start`. Nuls, la tuile garde son placement : centré, ou au début avec `FitTitle`.
+Avec `FitTitle`, le titre continue d'adapter sa taille à sa longueur quel que soit l'alignement.
+
+Au survol (recette R-58), une tuile qui mène quelque part prend la teinte de son `Tone` sur la bordure et
+le fond, en plus de l'ombre, pour rester visible sur un thème sombre ; une tuile `Disabled` ne change pas.
+
 ```razor
 <OmniRow Gap="OmniSpacing.Medium">
     <OmniColumn Span="12" MediumSpan="4">

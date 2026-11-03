@@ -398,6 +398,13 @@
   <data name="LengthValidatorExact" xml:space="preserve"><value>To polje mora vsebovati natanko {0, plural, one {# znak} two {# znaka} few {# znake} other {# znakov}}.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Prejšnje obdobje</value></data>
   <data name="SchedulerNextPeriod" xml:space="preserve"><value>Naslednje obdobje</value></data>
+  <data name="SchedulerPreviousDay" xml:space="preserve"><value>Prejšnji dan</value></data>
+  <data name="SchedulerNextDay" xml:space="preserve"><value>Naslednji dan</value></data>
+  <data name="SchedulerPreviousWeek" xml:space="preserve"><value>Prejšnji teden</value></data>
+  <data name="SchedulerNextWeek" xml:space="preserve"><value>Naslednji teden</value></data>
+  <data name="SchedulerPreviousMonth" xml:space="preserve"><value>Prejšnji mesec</value></data>
+  <data name="SchedulerNextMonth" xml:space="preserve"><value>Naslednji mesec</value></data>
+  <data name="SchedulerPeriodRange" xml:space="preserve"><value>{0} – {1}</value></data>
   <data name="SchedulerViewLabel" xml:space="preserve"><value>Pogled koledarja</value></data>
   <data name="SchedulerDay" xml:space="preserve"><value>Dan</value></data>
   <data name="SchedulerWeek" xml:space="preserve"><value>Teden</value></data>

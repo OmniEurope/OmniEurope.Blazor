@@ -41,7 +41,8 @@ internal sealed class PreferenceSynchronizer(IOmniPreferenceStore store, Prefere
         }
 
         // The mark is a date of the store's own preferences, never this device's clock, so a change
-        // dated by another device is not skipped because the two clocks differ.
+        // dated by another device is not skipped because the two clocks differ: the store's receipt date when
+        // it sets one, so a value received later but dated earlier (another device) is still read next time.
         if (watermark is { } next && (since is not { } previous || next > previous))
         {
             await cache.WriteLastSyncAsync(next, cancellationToken);
@@ -68,7 +69,11 @@ internal sealed class PreferenceSynchronizer(IOmniPreferenceStore store, Prefere
         return elapsed >= TimeSpan.Zero && elapsed < gap;
     }
 
-    /// <summary>The latest store value of each key listed, and the latest date of the list.</summary>
+    /// <summary>
+    /// The latest store value of each key listed (by <see cref="OmniPreference.UpdatedAt"/>, the arbitration date),
+    /// and the cursor of the next read: the latest <see cref="OmniPreference.ReceivedAt"/> of the list, or
+    /// <see cref="OmniPreference.UpdatedAt"/> for a preference the store did not stamp.
+    /// </summary>
     private static (Dictionary<string, OmniPreference> Stored, DateTimeOffset? Watermark) Latest(IReadOnlyList<OmniPreference> changes)
     {
         var stored = new Dictionary<string, OmniPreference>(StringComparer.Ordinal);
@@ -85,7 +90,8 @@ internal sealed class PreferenceSynchronizer(IOmniPreferenceStore store, Prefere
                 stored[preference.Key] = preference;
             }
 
-            watermark = watermark is { } mark && mark >= preference.UpdatedAt ? mark : preference.UpdatedAt;
+            var received = preference.ReceivedAt ?? preference.UpdatedAt;
+            watermark = watermark is { } mark && mark >= received ? mark : received;
         }
 
         return (stored, watermark);

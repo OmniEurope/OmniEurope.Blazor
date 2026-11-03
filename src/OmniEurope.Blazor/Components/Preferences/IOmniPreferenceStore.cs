@@ -29,7 +29,13 @@ public interface IOmniPreferenceStore
     Task<OmniPreference?> GetAsync(string key, CancellationToken cancellationToken = default);
 
     /// <summary>Reads every preference of the signed-in user changed at or after <paramref name="since"/>, tombstones included.</summary>
-    /// <param name="since">The <see cref="OmniPreference.UpdatedAt"/> from which to read; null reads every preference.</param>
+    /// <param name="since">
+    /// The cursor from which to read; null reads every preference. It is the latest
+    /// <see cref="OmniPreference.ReceivedAt"/> (or, for a preference without one, <see cref="OmniPreference.UpdatedAt"/>)
+    /// of a previous answer: a store that sets <see cref="OmniPreference.ReceivedAt"/> compares it to that date,
+    /// so a value written later but dated earlier (another device) is still returned; a store that leaves it
+    /// null compares it to <see cref="OmniPreference.UpdatedAt"/>.
+    /// </param>
     /// <param name="cancellationToken">Cancels the read.</param>
     /// <returns>The preferences changed since that moment, in any order.</returns>
     Task<IReadOnlyList<OmniPreference>> GetChangedSinceAsync(DateTimeOffset? since, CancellationToken cancellationToken = default);
@@ -46,7 +52,8 @@ public interface IOmniPreferenceStore
     /// dates, and <see cref="OmniPreferences"/> replaces the cached entry with this answer. A store that
     /// keeps the received date returns <paramref name="preference"/>; one that corrects it (a browser clock
     /// in the future, a coarser date precision) returns the date it kept; one that already held a later
-    /// value of the key, and kept it, returns that value.
+    /// value of the key, and kept it, returns that value. A store that tracks <see cref="OmniPreference.ReceivedAt"/>
+    /// returns it with the preference it holds.
     /// </returns>
     Task<OmniPreference> SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default);
 
