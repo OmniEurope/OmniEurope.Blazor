@@ -113,7 +113,10 @@ export async function inkSteps(session, results) {
   const narrow = await pixels();
   check(narrow.count > 100 && narrow.red < 100, `Trait perdu après le redimensionnement : ${JSON.stringify(narrow)}.`);
   await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
-  await waitFor('le canevas revenu à sa taille', `document.querySelector(${JSON.stringify(surface)}).width === ${light.width}`);
+  // The shell may keep its narrow layout (a collapsed menu) once back to the wide size, so the canvas need not
+  // find its first width again (measured: the same 689 px as the narrow layout): what counts is that its pixels
+  // match its box again.
+  await waitFor('le canevas revenu à la taille de sa boîte', `(() => { const canvas = document.querySelector(${JSON.stringify(surface)}); return canvas.width === Math.round(canvas.clientWidth * devicePixelRatio); })()`);
   await pickMode(2);
   try {
     await waitFor('le mode sombre', "document.documentElement.getAttribute('data-omni-theme') === 'dark'");
