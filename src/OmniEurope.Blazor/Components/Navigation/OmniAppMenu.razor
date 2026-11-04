@@ -82,7 +82,7 @@
                     <span class="omni-app-menu__version">@Version</span>
                     @if (OnSignOut.HasDelegate)
                     {
-                        <OmniButton Variant="OmniButtonVariant.Secondary" Class="omni-app-menu__sign-out" OnClick="SignOutAsync">
+                        <OmniButton Variant="OmniButtonVariant.Primary" Class="omni-app-menu__sign-out" OnClick="SignOutAsync">
                             <Icon><OmniIcon Name="OmniIconName.SignOut" /></Icon><ChildContent><span>@Localize("AppMenuSignOut")</span></ChildContent>
                         </OmniButton>
                     }

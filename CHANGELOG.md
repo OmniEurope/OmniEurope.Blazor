@@ -16,6 +16,8 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 ### Changed
 
 - `OmniNavTile` : au survol, une tuile cliquable prend la teinte de son `Tone` sur la bordure et le fond, en plus de l'ombre, qui seule restait presque invisible sur un thème sombre ; une tuile `Disabled` ne change pas. Recette R-58.
+- `OmniAppMenu` : la langue choisie se place à la fin de sa ligne, contre son chevron, alignée sur les boutons de mode du dessous, au lieu du début de sa zone quand le menu est plus large que son minimum. Toute la ligne ouvre toujours la liste, qui s'ouvre sous la ligne ; l'anneau de focus entoure la ligne. Recette R-32.
+- `OmniAppMenu` : le bouton de déconnexion passe de `Secondary` à `Primary`, la couleur principale du thème et du mode, icône conservée. Recette R-31.
 
 ### Fixed
 

@@ -230,6 +230,9 @@ public sealed class AppMenuTests : OmniBunitContext
         Assert.Equal("flags/fr.svg", menu.Find(".omni-app-menu__flag").GetAttribute("src"));
         Assert.Equal("Boutique v0.4.0", menu.Find(".omni-app-menu__version").TextContent);
         Assert.Equal("Déconnexion", menu.Find(".omni-app-menu__sign-out").TextContent.Trim());
+        // Signing out wears the theme's main colour, its icon kept (recette R-31).
+        Assert.Contains("omni-button--primary", menu.Find(".omni-app-menu__sign-out").ClassList);
+        Assert.Single(menu.FindAll(".omni-app-menu__sign-out .omni-icon"));
         Assert.Equal("Paramètres", menu.Find(".omni-app-menu__settings").TextContent.Trim());
         Assert.Equal("omni-app-menu__identity", order[0]);
         Assert.Equal("omni-app-menu__extra", order[1]);
@@ -465,11 +468,23 @@ public sealed class AppMenuTests : OmniBunitContext
         Assert.Equal("select", actionable[0].LocalName);
         Assert.Equal("Langue", actionable[0].GetAttribute("aria-label"));
 
-        // The stylesheet stretches the list over the row, and lets the click through the rest.
+        // The stylesheet lays the list over the row, and lets the click through the rest: sized to its value at the
+        // end of the row (the language stands at the end, as the mode buttons above it), plus a start padding as wide
+        // as the row, which the row clips.
         var list = ShippedLookTests.Body(".omni-app-menu .omni-app-menu__language-row > select.omni-app-menu__language.omni-input");
         Assert.Equal("absolute", ShippedLookTests.Value(list, "position"));
-        Assert.Equal("100%", ShippedLookTests.Value(list, "inline-size"));
+        Assert.Equal("auto 0", ShippedLookTests.Value(list, "inset-inline"));
+        Assert.Equal("content", ShippedLookTests.Value(list, "field-sizing"));
+        Assert.Equal("100% var(--omni-space-md)", ShippedLookTests.Value(list, "padding-inline"));
         Assert.Equal("100%", ShippedLookTests.Value(list, "block-size"));
+        var languageRow = ShippedLookTests.Body(".omni-app-menu__language-row");
+        Assert.Equal("clip", ShippedLookTests.Value(languageRow, "overflow"));
+        // The open list hangs from the row, not from the list box that starts before it.
+        Assert.Equal("--omni-app-menu-language", ShippedLookTests.Value(languageRow, "anchor-name"));
+        Assert.Equal("--omni-app-menu-language", ShippedLookTests.Value(
+            ShippedLookTests.Body(".omni-app-menu .omni-app-menu__language-row > select.omni-app-menu__language.omni-input::picker(select)"), "position-anchor"));
+        Assert.Equal("var(--omni-focus-ring-inset)", ShippedLookTests.Value(
+            ShippedLookTests.Body(".omni-app-menu__language-row:has(> select.omni-app-menu__language:focus-visible)::after"), "box-shadow"));
         Assert.Equal("none", ShippedLookTests.Value(ShippedLookTests.Body(".omni-app-menu__language-row > :is(.omni-icon, .omni-app-menu__label, .omni-app-menu__flag)"), "pointer-events"));
     }
 }

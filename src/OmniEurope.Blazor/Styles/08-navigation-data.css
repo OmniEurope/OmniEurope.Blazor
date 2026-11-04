@@ -186,14 +186,21 @@
    shows its value after a label zone of fixed width, the chevron at the end. The list is out of the flow,
    so it gives the row no width: the row reserves a value zone itself, or the panel stays at its minimum
    width and the clipped list overflows it with a horizontal scrollbar (R1-26). */
-.omni-app-menu__language-row { --omni-app-menu-label-zone: 6rem; --omni-app-menu-flag-zone: 0rem; --omni-app-menu-value-zone: 6rem; min-inline-size: calc(var(--omni-space-md) + 1.5rem + var(--omni-space-sm) + var(--omni-app-menu-label-zone) + var(--omni-space-sm) + var(--omni-app-menu-flag-zone) + var(--omni-app-menu-value-zone) + var(--omni-space-md)); position: relative; }
+.omni-app-menu__language-row { --omni-app-menu-label-zone: 6rem; --omni-app-menu-flag-zone: 0rem; --omni-app-menu-value-zone: 6rem; min-inline-size: calc(var(--omni-space-md) + 1.5rem + var(--omni-space-sm) + var(--omni-app-menu-label-zone) + var(--omni-space-sm) + var(--omni-app-menu-flag-zone) + var(--omni-app-menu-value-zone) + var(--omni-space-md)); anchor-name: --omni-app-menu-language; overflow: clip; position: relative; }
 .omni-app-menu__language-row:has(.omni-app-menu__flag) { --omni-app-menu-flag-zone: calc(1.5rem + var(--omni-space-sm)); }
 .omni-app-menu__language-row > :is(.omni-icon, .omni-app-menu__label, .omni-app-menu__flag) { pointer-events: none; position: relative; z-index: 1; }
 .omni-app-menu__language-row > .omni-app-menu__label { flex: none; inline-size: var(--omni-app-menu-label-zone); }
 .omni-app-menu__language-row > .omni-app-menu__flag { flex: none; inline-size: 1.5rem; object-fit: contain; }
-.omni-app-menu .omni-app-menu__language-row > select.omni-app-menu__language.omni-input { background: transparent; border: 0; border-radius: 0; box-shadow: none; inset: 0; inline-size: 100%; min-block-size: 0; min-inline-size: 0; block-size: 100%; padding-block: 0; padding-inline: calc(var(--omni-space-md) + 1.5rem + var(--omni-space-sm) + var(--omni-app-menu-label-zone) + var(--omni-space-sm) + var(--omni-app-menu-flag-zone)) var(--omni-space-md); position: absolute; }
+/* The list sits at the end of the row, as wide as its value and chevron (so they stand at the end, as the mode buttons
+   above), plus a start padding as wide as the row: it still covers the whole row, the row clips what passes its start. The
+   width stops at the value zone, so a long language name never runs under the label. */
+.omni-app-menu .omni-app-menu__language-row > select.omni-app-menu__language.omni-input { background: transparent; border: 0; border-radius: 0; box-shadow: none; field-sizing: content; inset-block: 0; inset-inline: auto 0; inline-size: auto; max-inline-size: calc(200% - (var(--omni-space-md) + 1.5rem + var(--omni-space-sm) + var(--omni-app-menu-label-zone) + var(--omni-space-sm) + var(--omni-app-menu-flag-zone))); min-block-size: 0; min-inline-size: 0; block-size: 100%; padding-block: 0; padding-inline: 100% var(--omni-space-md); position: absolute; }
 .omni-app-menu .omni-app-menu__language-row > select.omni-app-menu__language.omni-input:hover:not(:disabled) { background: var(--omni-color-surface-highlight); border-color: transparent; }
-.omni-app-menu .omni-app-menu__language-row > select.omni-app-menu__language.omni-input:focus-visible { box-shadow: var(--omni-focus-ring-inset); outline: none; }
+.omni-app-menu .omni-app-menu__language-row > select.omni-app-menu__language.omni-input:focus-visible { outline: none; }
+/* The open list hangs from the row, not from the list box, which starts before the row. */
+.omni-app-menu .omni-app-menu__language-row > select.omni-app-menu__language.omni-input::picker(select) { position-anchor: --omni-app-menu-language; }
+/* The ring goes on the row: the list's own start edge lies outside it, clipped. */
+.omni-app-menu__language-row:has(> select.omni-app-menu__language:focus-visible)::after { box-shadow: var(--omni-focus-ring-inset); content: ""; inset: 0; pointer-events: none; position: absolute; z-index: 1; }
 .omni-app-menu__flag { block-size: 1rem; border-radius: 2px; inline-size: auto; }
 /* Light, dark, system, in the appearance window: three joined square buttons, only the outer corners rounded. */
 .omni-appearance-window__modes { display: inline-flex; flex: none; }
