@@ -127,4 +127,14 @@
   <data name="DocumentViewerHighlightDescription" xml:space="preserve"><value>Seule une page HTML a des champs : l'image d'une page n'a pas de coordonnées de champs, rien n'y est donc surligné.</value></data>
   <data name="DocumentViewerPreviewTitle" xml:space="preserve"><value>Contrat de livraison</value></data>
   <data name="DocumentViewerPreviewDescription" xml:space="preserve"><value>La page 1 est une image numérisée, la page 2 du HTML avec des champs. Survolez un champ ou atteignez-le avec Tab pour lire son libellé ; cliquez dessus ou appuyez sur Entrée pour signaler son identifiant.</value></data>
+  <data name="StructuredDocumentTitle" xml:space="preserve"><value>Document structuré</value></data>
+  <data name="StructuredDocumentDescription" xml:space="preserve"><value>Un éditeur structuré minimal : du texte modifié sur place, des champs remplis avec la saisie qui leur correspond, un dessin sous un paragraphe, et le jeu de changements que reçoit l'hôte.</value></data>
+  <data name="StructuredDocumentSettingsTitle" xml:space="preserve"><value>Réglages du document structuré</value></data>
+  <data name="StructuredDocumentSettingsDescription" xml:space="preserve"><value>Ce que le lecteur peut modifier dans le document.</value></data>
+  <data name="StructuredDocumentReadOnly" xml:space="preserve"><value>Lecture seule</value></data>
+  <data name="StructuredDocumentReadOnlyDescription" xml:space="preserve"><value>Le texte ne se saisit plus, les champs n'ouvrent rien et les boutons de dessin disparaissent.</value></data>
+  <data name="StructuredDocumentDrawings" xml:space="preserve"><value>Dessins</value></data>
+  <data name="StructuredDocumentDrawingsDescription" xml:space="preserve"><value>Chaque paragraphe propose un bouton qui ouvre une zone de dessin ; les traits et un PNG transparent rejoignent le jeu de changements.</value></data>
+  <data name="StructuredDocumentPreviewTitle" xml:space="preserve"><value>Ordre de service</value></data>
+  <data name="StructuredDocumentPreviewDescription" xml:space="preserve"><value>Saisissez dans le texte, cliquez un champ (client, date, priorité, conditions de paiement, montant) pour le remplir, et dessinez une signature sous le dernier paragraphe. Le jeu de changements ci-dessous est ce que reçoit l'hôte après chaque modification.</value></data>
 </root>

@@ -1,0 +1,27 @@
+/* OmniDocumentEditor: a structured document edited in place, paragraph by paragraph.
+   A run of text is a span made editable by the contenteditable attribute the component writes (plaintext-only), so it is
+   plain text on one line (pre-wrap keeps the spaces the reader types); an empty run still has a width and a caret thanks to
+   the zero-width space of :empty. A field is a chip (an OmniPopover trigger) that shows its label and its value; a drawing is
+   an inline SVG sized by its width and height attributes and kept inside the editor by max-inline-size. Colours are tokens, so
+   the dark theme needs nothing of its own. */
+.omni-document-editor { background: var(--omni-card-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-sizing: border-box; color: var(--omni-color-text); display: grid; gap: var(--omni-space-md); min-inline-size: 0; padding: var(--omni-space-md); }
+.omni-document-editor__block { display: grid; gap: var(--omni-space-xs); justify-items: start; min-inline-size: 0; }
+.omni-document-editor__paragraph { line-height: 1.9; max-inline-size: 100%; overflow-wrap: anywhere; }
+.omni-document-editor__run { border-radius: var(--omni-radius-sm); outline: none; white-space: pre-wrap; }
+.omni-document-editor__run:empty { display: inline-block; min-inline-size: 2ch; }
+.omni-document-editor__run:empty::before { content: "\200b"; }
+.omni-document-editor__run[contenteditable]:hover { background: var(--omni-color-surface-hover); }
+.omni-document-editor__run[contenteditable]:focus { box-shadow: var(--omni-focus-ring); }
+.omni-document-editor__run--changed { background: var(--omni-color-accent-subtle); }
+.omni-document-editor__field { display: inline-block; vertical-align: baseline; }
+.omni-document-editor__chip { line-height: 1.4; }
+.omni-document-editor__chip--readonly { background: var(--omni-color-surface-muted); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius-sm); padding: 0 var(--omni-space-xs); }
+.omni-document-editor__chip--changed { box-shadow: 0 0 0 1px var(--omni-color-accent); }
+.omni-document-editor__chip-label { color: var(--omni-color-text-muted); }
+.omni-document-editor__chip-value--empty { color: var(--omni-color-text-muted); font-style: italic; }
+.omni-document-editor__editor { display: grid; gap: var(--omni-space-sm); min-inline-size: 14rem; }
+/* The calendar of a date field opens inside the popover panel, whose translate and backdrop filter make it the containing block of a fixed element: the picker's fixed placement would then put the calendar far outside the window. It is laid out in the flow of the popover instead, under the date input, without the frame the popover already draws. */
+.omni-document-editor__editor .omni-calendar { backdrop-filter: none; border: 0; box-shadow: none; padding: 0; position: static; }
+.omni-document-editor__drawing { max-inline-size: 100%; min-inline-size: 0; }
+.omni-document-editor__sheet { background: var(--omni-grid-background, var(--omni-card-background, var(--omni-color-surface))); block-size: auto; border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); box-sizing: border-box; color: var(--omni-color-text); display: block; max-inline-size: 100%; }
+.omni-document-editor--readonly .omni-document-editor__run { cursor: default; }

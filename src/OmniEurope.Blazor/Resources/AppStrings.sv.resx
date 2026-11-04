@@ -770,4 +770,11 @@
   <data name="DocumentViewerPageIndicator" xml:space="preserve"><value>Sida {0} / {1}</value></data>
   <data name="DocumentViewerPageLabel" xml:space="preserve"><value>Sida {0} av {1}</value></data>
   <data name="DocumentViewerEmpty" xml:space="preserve"><value>Inga sidor att visa.</value></data>
+  <data name="DocumentEditorBlockLabel" xml:space="preserve"><value>Stycke {0} av {1}</value></data>
+  <data name="DocumentEditorRunLabel" xml:space="preserve"><value>Redigerbar text</value></data>
+  <data name="DocumentEditorFieldEmpty" xml:space="preserve"><value>ska fyllas i</value></data>
+  <data name="DocumentEditorInsertDrawing" xml:space="preserve"><value>Infoga en teckning</value></data>
+  <data name="DocumentEditorReplaceDrawing" xml:space="preserve"><value>Ersätt teckningen</value></data>
+  <data name="DocumentEditorDrawing" xml:space="preserve"><value>Teckning</value></data>
+  <data name="DocumentEditorDrawingApply" xml:space="preserve"><value>Bekräfta</value></data>
 </root>

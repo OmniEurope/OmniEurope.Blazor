@@ -770,4 +770,11 @@
   <data name="DocumentViewerPageIndicator" xml:space="preserve"><value>Sivu {0} / {1}</value></data>
   <data name="DocumentViewerPageLabel" xml:space="preserve"><value>Sivu {0} sivusta {1}</value></data>
   <data name="DocumentViewerEmpty" xml:space="preserve"><value>Ei näytettäviä sivuja.</value></data>
+  <data name="DocumentEditorBlockLabel" xml:space="preserve"><value>Kappale {0} / {1}</value></data>
+  <data name="DocumentEditorRunLabel" xml:space="preserve"><value>Muokattava teksti</value></data>
+  <data name="DocumentEditorFieldEmpty" xml:space="preserve"><value>täytettävä</value></data>
+  <data name="DocumentEditorInsertDrawing" xml:space="preserve"><value>Lisää piirros</value></data>
+  <data name="DocumentEditorReplaceDrawing" xml:space="preserve"><value>Korvaa piirros</value></data>
+  <data name="DocumentEditorDrawing" xml:space="preserve"><value>Piirros</value></data>
+  <data name="DocumentEditorDrawingApply" xml:space="preserve"><value>Vahvista</value></data>
 </root>

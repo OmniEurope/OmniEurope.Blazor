@@ -127,4 +127,14 @@
   <data name="DocumentViewerHighlightDescription" xml:space="preserve"><value>Only an HTML page has fields: a picture of a page has no field coordinates, so nothing is highlighted on it.</value></data>
   <data name="DocumentViewerPreviewTitle" xml:space="preserve"><value>Delivery contract</value></data>
   <data name="DocumentViewerPreviewDescription" xml:space="preserve"><value>Page 1 is a scanned picture, page 2 is HTML with fields. Hover a field or reach it with Tab to read its label; click it or press Enter to report its tag.</value></data>
+  <data name="StructuredDocumentTitle" xml:space="preserve"><value>Structured document</value></data>
+  <data name="StructuredDocumentDescription" xml:space="preserve"><value>A minimal structured editor: text edited in place, fields filled in with the matching input, a drawing under a paragraph, and the change set the host receives.</value></data>
+  <data name="StructuredDocumentSettingsTitle" xml:space="preserve"><value>Structured document settings</value></data>
+  <data name="StructuredDocumentSettingsDescription" xml:space="preserve"><value>What the reader may change in the document.</value></data>
+  <data name="StructuredDocumentReadOnly" xml:space="preserve"><value>Read only</value></data>
+  <data name="StructuredDocumentReadOnlyDescription" xml:space="preserve"><value>The text cannot be typed in, the fields open nothing and the drawing buttons are gone.</value></data>
+  <data name="StructuredDocumentDrawings" xml:space="preserve"><value>Drawings</value></data>
+  <data name="StructuredDocumentDrawingsDescription" xml:space="preserve"><value>Each paragraph offers a button that opens a drawing pad; the strokes and a transparent PNG join the change set.</value></data>
+  <data name="StructuredDocumentPreviewTitle" xml:space="preserve"><value>Service order</value></data>
+  <data name="StructuredDocumentPreviewDescription" xml:space="preserve"><value>Type in the text, click a field (customer, date, priority, payment terms, amount) to fill it in, and draw a signature under the last paragraph. The change set below is what the host receives after each edit.</value></data>
 </root>

@@ -770,4 +770,11 @@
   <data name="DocumentViewerPageIndicator" xml:space="preserve"><value>Página {0} / {1}</value></data>
   <data name="DocumentViewerPageLabel" xml:space="preserve"><value>Página {0} de {1}</value></data>
   <data name="DocumentViewerEmpty" xml:space="preserve"><value>Nenhuma página para mostrar.</value></data>
+  <data name="DocumentEditorBlockLabel" xml:space="preserve"><value>Parágrafo {0} de {1}</value></data>
+  <data name="DocumentEditorRunLabel" xml:space="preserve"><value>Texto editável</value></data>
+  <data name="DocumentEditorFieldEmpty" xml:space="preserve"><value>a preencher</value></data>
+  <data name="DocumentEditorInsertDrawing" xml:space="preserve"><value>Inserir um desenho</value></data>
+  <data name="DocumentEditorReplaceDrawing" xml:space="preserve"><value>Substituir o desenho</value></data>
+  <data name="DocumentEditorDrawing" xml:space="preserve"><value>Desenho</value></data>
+  <data name="DocumentEditorDrawingApply" xml:space="preserve"><value>Confirmar</value></data>
 </root>

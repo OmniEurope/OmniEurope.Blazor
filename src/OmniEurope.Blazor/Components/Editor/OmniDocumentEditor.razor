@@ -1,0 +1,166 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+
+@* A minimal structured editor: the runs of text are edited in place as plain text (spans made editable by the stylesheet's
+   contenteditable attribute, read back by omni-structured-document.js), the fields are chips that open the matching
+   input in a popover, and each paragraph may hold a drawing made in a dialog. The text of a run is rendered once per
+   document, so a render never overwrites what the reader typed; a new document (or ResetChanges) changes the key of
+   the paragraphs, which draws them again. *@
+<div @ref="_root"
+     @attributes="AdditionalAttributes"
+     id="@RootId"
+     class="@Css("omni-document-editor", ReadOnly ? "omni-document-editor--readonly" : null)"
+     role="region"
+     aria-label="@EffectiveLabel">
+    @{
+        RenderFragment<OmniDocumentRun> runView = run => @<span @key="@((_generation, run.Id))"
+                  class="@RunClass(run)"
+                  data-omni-run="@run.Id"
+                  contenteditable="@RunEditable"
+                  role="@(ReadOnly ? null : "textbox")"
+                  aria-label="@(ReadOnly ? null : Localize("DocumentEditorRunLabel"))">@run.Text</span>;
+
+        RenderFragment<OmniDocumentField> fieldEditor = field => @<div class="omni-document-editor__editor">
+            @switch (field.Kind)
+            {
+                case OmniDocumentFieldKind.Date:
+                    var date = new FieldSlot<DateOnly?>(DateOf(field));
+                    <OmniDatePicker aria-label="@field.Label"
+                                    @bind-Value:get="date.Value"
+                                    @bind-Value:set="value => ChooseDateAsync(field, value)" />
+                    break;
+                case OmniDocumentFieldKind.Number:
+                    var number = new FieldSlot<decimal?>(NumberOf(field));
+                    <OmniNumeric TValue="decimal?"
+                                 aria-label="@field.Label"
+                                 @bind-Value:get="number.Value"
+                                 @bind-Value:set="value => ChooseNumberAsync(field, value)" />
+                    break;
+                case OmniDocumentFieldKind.List when field.AllowFreeText:
+                    var free = new FieldSlot<string?>(ValueOf(field));
+                    <OmniAutocomplete TValue="string"
+                                      Label="@field.Label"
+                                      Debounce="TimeSpan.Zero"
+                                      MinimumLength="0"
+                                      ShowToggle="true"
+                                      AllowFreeText="true"
+                                      Search="@((text, _) => SearchItemsAsync(field, text))"
+                                      @bind-Value:get="free.Value"
+                                      @bind-Value:set="value => ChooseAsync(field, value)" />
+                    break;
+                case OmniDocumentFieldKind.List:
+                    var choice = new FieldSlot<string?>(ValueOf(field));
+                    <OmniDropDown TValue="string"
+                                  Label="@field.Label"
+                                  AllowEmpty="true"
+                                  Options="OptionsOf(field)"
+                                  @bind-Value:get="choice.Value"
+                                  @bind-Value:set="value => ChooseAsync(field, value)" />
+                    break;
+                default:
+                    var text = new FieldSlot<string?>(ValueOf(field));
+                    <OmniTextBox aria-label="@field.Label"
+                                 @bind-Value:get="text.Value"
+                                 @bind-Value:set="value => ChooseAsync(field, value)" />
+                    break;
+            }
+        </div>;
+
+        RenderFragment<OmniDocumentField> fieldView = field => @<span @key="@((_generation, field.Id))" class="omni-document-editor__field">
+            @if (ReadOnly)
+            {
+                <span class="@FieldChipClass(field, readOnly: true)"><span class="omni-document-editor__chip-label">@field.Label</span> <span class="@FieldValueClass(field)">@FieldText(field)</span></span>
+            }
+            else
+            {
+                <OmniPopover TriggerVariant="OmniButtonVariant.Secondary"
+                             TriggerClass="@FieldChipClass(field, readOnly: false)"
+                             Size="OmniControlSize.Small"
+                             PopupLabel="@field.Label"
+                             Placement="OmniPopoverPlacement.BottomStart">
+                    <TriggerContent><span class="omni-document-editor__chip-label">@field.Label</span> <span class="@FieldValueClass(field)">@FieldText(field)</span></TriggerContent>
+                    <ChildContent>@fieldEditor(field)</ChildContent>
+                </OmniPopover>
+            }
+        </span>;
+    }
+    @for (var at = 0; at < Document.Blocks.Count; at++)
+    {
+        var block = Document.Blocks[at];
+        <div @key="@((_generation, block.Id))"
+             class="omni-document-editor__block"
+             role="group"
+             aria-label="@Localize("DocumentEditorBlockLabel", at + 1, Document.Blocks.Count)">
+            <div class="omni-document-editor__paragraph">
+                @foreach (var inline in block.Inlines)
+                {
+                    if (inline is OmniDocumentRun run)
+                    {
+                        @runView(run)
+                    }
+                    else
+                    {
+                        @fieldView((OmniDocumentField)inline)
+                    }
+                }
+            </div>
+            @if (DrawingOf(block) is { } drawing)
+            {
+                <div class="omni-document-editor__drawing">
+                    <svg class="omni-document-editor__sheet"
+                         viewBox="0 0 @Number(SheetWidth(drawing)) @Number(SheetHeight(drawing))"
+                         width="@Number(SheetWidth(drawing))"
+                         height="@Number(SheetHeight(drawing))"
+                         role="img"
+                         aria-label="@Localize("DocumentEditorDrawing")"
+                         focusable="false">
+                        @foreach (var stroke in drawing.Strokes)
+                        {
+                            if (stroke.Points.Count == 1)
+                            {
+                                <circle cx="@Number(stroke.Points[0].X * SheetWidth(drawing))"
+                                        cy="@Number(stroke.Points[0].Y * SheetHeight(drawing))"
+                                        r="@Number(Math.Max(LineWidth(stroke, drawing), 0.5) / 2)"
+                                        fill="@stroke.Color" />
+                            }
+                            else
+                            {
+                                <polyline points="@PointsOf(stroke, drawing)"
+                                          fill="none"
+                                          stroke="@stroke.Color"
+                                          stroke-width="@Number(Math.Max(LineWidth(stroke, drawing), 0.5))"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round" />
+                            }
+                        }
+                    </svg>
+                </div>
+            }
+            @if (AllowDrawings && !ReadOnly)
+            {
+                <OmniButton Variant="OmniButtonVariant.Ghost"
+                            Size="OmniControlSize.Small"
+                            Class="omni-document-editor__draw"
+                            OnClick="() => OpenDrawing(block)">
+                    <Icon><OmniIcon Name="OmniIconName.Palette" Size="OmniControlSize.Small" /></Icon>
+                    <ChildContent>@(DrawingOf(block) is null ? Localize("DocumentEditorInsertDrawing") : Localize("DocumentEditorReplaceDrawing"))</ChildContent>
+                </OmniButton>
+            }
+        </div>
+    }
+    <OmniDialog Open="@(_draftBlock is not null)"
+                OpenChanged="CloseDrawing"
+                Title="@Localize("DocumentEditorDrawing")">
+        <ChildContent>
+            <OmniInkCanvas @ref="_draftCanvas"
+                           @bind-Value="_draft"
+                           AspectRatio="DraftAspect"
+                           Label="@Localize("DocumentEditorDrawing")" />
+        </ChildContent>
+        <FooterContent>
+            <OmniButton Variant="OmniButtonVariant.Ghost" OnClick="CancelDrawing">@Localize("Cancel")</OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Primary" Disabled="@(_draft.Count == 0)" OnClick="ApplyDrawingAsync">@Localize("DocumentEditorDrawingApply")</OmniButton>
+        </FooterContent>
+    </OmniDialog>
+</div>

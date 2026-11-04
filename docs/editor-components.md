@@ -1,6 +1,6 @@
 # Éditeurs : WYSIWYG, traitement de texte et code
 
-La famille Editor couvre neuf composants :
+La famille Editor couvre onze composants :
 
 | Composant | Rôle |
 | --- | --- |
@@ -14,8 +14,9 @@ La famille Editor couvre neuf composants :
 | `OmniCharacterPalette` | Rangée de caractères fournis par l'hôte (lettres de la langue saisie) ; un clic rend le caractère sans retirer le focus d'un éditeur. |
 | `OmniMailTemplateEditor` | Modèle de mail : objet, corps `OmniHtmlEditor`, variables insérées au curseur, aperçu du mail rendu ; `OmniMailRenderer` rend le modèle côté serveur pour les clients de messagerie. |
 | `OmniInkCanvas` | Zone de dessin à main levée (souris, stylet avec pression, doigt) : traits en coordonnées relatives, couleur, épaisseur, Annuler, Effacer, export en PNG transparent. |
+| `OmniDocumentEditor` | Éditeur structuré minimal d'un document converti par l'hôte (modèle neutre `OmniDocument`) : texte modifié sur place, champs remplis avec la saisie de leur type (texte, date, liste, nombre), dessin sous un paragraphe, jeu de changements rapporté à l'hôte. |
 
-`OmniHtmlEditor` produit du HTML assaini ; `OmniMailTemplateEditor` en fait un modèle de mail ; `OmniCodeEditor` édite du texte brut ; `OmniCharacterPalette` fournit des caractères à insérer ; `OmniInkCanvas` recueille un dessin ; les cinq autres affichent sans éditer.
+`OmniHtmlEditor` produit du HTML assaini ; `OmniMailTemplateEditor` en fait un modèle de mail ; `OmniCodeEditor` édite du texte brut ; `OmniCharacterPalette` fournit des caractères à insérer ; `OmniInkCanvas` recueille un dessin ; `OmniDocumentEditor` modifie un document converti par l'hôte ; les cinq autres affichent sans éditer.
 
 ## OmniHtmlEditor
 
@@ -765,6 +766,28 @@ La différence avec `OmniImage.Fit` est voulue : `OmniImageFit` dit comment une 
 ```
 
 Limites : l'infobulle d'un champ s'ouvre au clavier comme à la souris (focus visible), mais le tactile n'a pas été éprouvé sur un écran réel. Le calcul de l'ajustement et de la page en vue est vérifié par des tests du script (`tests/js/document-viewer.test.mjs`) ; la page de la vitrine les montre, mais aucune sonde de navigateur ne les mesure encore, et le script reste hors de la couverture JavaScript des sondes tant qu'une sonde ne l'exerce pas.
+
+## OmniDocumentEditor : document structuré
+
+`OmniDocumentEditor` est un éditeur structuré minimal pour un document que l'hôte a converti : le composant ne connaît aucun format de fichier et le paquet ne référence aucune bibliothèque de documents (l'hôte transforme son document, par exemple un fichier de traitement de texte, en `OmniDocument`, puis applique en retour le jeu de changements). Il n'a ni barre de mise en forme ni édition de paragraphe : on modifie le texte des passages, on remplit des champs, on dessine sous un paragraphe.
+
+**Le modèle.** `OmniDocument(Blocks)` porte des `OmniDocumentBlock(Id, Inlines, Drawing?)` (un paragraphe). Un paragraphe est une suite d'`OmniDocumentInline` : `OmniDocumentRun(Id, Text, StyleKey?)`, un passage de texte, ou `OmniDocumentField(Id, Tag, Label, Kind, Value?, Items?, AllowFreeText)`, un champ. `Kind` est un `OmniDocumentFieldKind` (`Text`, `Date`, `List`, `Number`). Une valeur est toujours une chaîne : une date s'écrit `yyyy-MM-dd`, un nombre en culture invariante (`1250.5`), une valeur de liste est l'un des `Items` (ou n'importe quel texte quand `AllowFreeText` est vrai). `OmniDocumentDrawing(Strokes, WidthPt, HeightPt)` est un dessin d'`OmniInkStroke` sur une feuille dont la taille est en points. Les identifiants sont ceux de l'hôte, uniques dans le document (blocs entre eux, passages et champs ensemble) : le jeu de changements les reprend, jamais un index. Le modèle est vérifié quand le document arrive : un identifiant vide ou en double, un champ de liste sans élément qui n'accepte pas le texte libre, une valeur qui ne convient pas au type du champ, un dessin sans taille utilisable lèvent une `ArgumentException` qui dit quoi corriger, `null` une `ArgumentNullException`. Le composant ne modifie jamais le document reçu.
+
+**Le texte.** Un passage se modifie sur place, en texte brut sur une seule ligne (`contenteditable="plaintext-only"`, `"true"` dans un navigateur qui ne connaît pas cette valeur) : Entrée ne fait rien, un collage ou un glisser-déposer insère le texte brut du presse-papiers, sauts de ligne remplacés par des espaces. `omni-structured-document.js` relit le texte à chaque saisie et à la sortie du passage ; .NET dessine le texte une seule fois par document, si bien qu'un rendu n'écrase jamais ce que le lecteur a tapé. `StyleClasses` (`Func<string, string?>`) donne la classe CSS d'un passage d'après sa `StyleKey` opaque : c'est du rendu, le jeu de changements n'en parle pas.
+
+**Les champs.** Un champ est une pastille (libellé et valeur, « à renseigner » sans valeur) qui ouvre, au clic, à Entrée ou à Espace, une bulle `OmniPopover` avec la saisie de son type : `OmniTextBox` pour `Text`, `OmniDatePicker` pour `Date` (son calendrier se déplie dans la bulle), `OmniNumeric` pour `Number`, `OmniDropDown` sur les `Items` pour `List`, `OmniAutocomplete` sur les `Items` quand `AllowFreeText` est vrai. Un choix s'applique dès qu'il est fait (un texte ou un nombre à la frappe) et la bulle reste ouverte ; Échap ou un clic dehors la ferme, Échap rendant le focus à la pastille. `Culture` ne règle que l'affichage de la date et du nombre sur la pastille : le sélecteur de date et le champ numérique suivent la culture de la page, comme tout le paquet.
+
+**Les dessins.** Avec `AllowDrawings` (vrai par défaut), chaque paragraphe a un bouton « Insérer un dessin » (puis « Remplacer le dessin ») qui ouvre un `OmniDialog` autour d'un `OmniInkCanvas` aux proportions de la feuille (400 par 150 points pour un dessin neuf). Valider range les traits et un PNG transparent (`ExportPngAsync`, à `points x 96 / 72` pixels) dans le jeu de changements et dessine les traits sous le paragraphe, en SVG en ligne (attributs seuls, aucune adresse `data:`) ; le paragraphe montre chaque trait d'une seule ligne de son épaisseur, la pression du stylet ne façonne que le PNG. `AllowDrawings` faux montre encore les dessins du document.
+
+**Le jeu de changements.** `OnChange` (`EventCallback<OmniDocumentChangeSet>`) est levé après chaque modification avec ce qui a changé depuis le document reçu en dernier : `Runs` (`OmniRunTextChange(RunId, Text)`), `Fields` (`OmniFieldValueChange(FieldId, Tag, Value?)`), `Drawings` (`OmniDrawingChange(BlockId, Drawing, Png)`), chacun dans l'ordre du document, `IsEmpty` disant s'il n'y a rien. Remettre un passage ou un champ à ce que dit le document le retire du jeu, et lève quand même `OnChange`. `GetChangeSet()` rend le jeu courant à tout moment ; `ResetChanges()` le vide et redessine le document tel que reçu. Donner une autre instance de `Document` repart de zéro ; garder la même garde les modifications. `ReadOnly` coupe toute modification (texte, pastilles, boutons de dessin). `Label` nomme la région (« Document » par défaut) ; chaque paragraphe est un groupe nommé « Paragraphe n sur N ».
+
+```razor
+<OmniDocumentEditor Document="@Order" StyleClasses="@StyleOf" OnChange="@(changes => Changes = changes)" />
+```
+
+La feuille de style (`14-document-editor.css`) n'emploie que des jetons : les thèmes clair et sombre n'ont pas de règle propre. Le calendrier d'un champ date est posé dans le flux de la bulle, car le placement fixe du sélecteur n'y tient pas (la bulle crée son propre repère de positionnement, ce qui renvoyait le calendrier hors de la fenêtre, mesuré en navigateur).
+
+Limites : la saisie est vérifiée dans Chromium par la sonde `structured` (voir [testing.md](testing.md)) ; la composition IME, le tactile et Firefox ou Safari n'ont pas été éprouvés. Le dessin affiché sous un paragraphe est celui du dernier dessin validé : il n'y a ni dessin par passage ni édition d'un trait existant. Le thème sombre n'a pas été contrôlé à l'écran (les couleurs sont des jetons).
 
 ## Limites connues
 
