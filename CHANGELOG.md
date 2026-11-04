@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Added
+
+- `OmniDocumentViewer` (famille Editor) : visionneuse en lecture seule d'un document converti par l'hôte, page par page (PLAN-010, lot 2, demande d'une application cliente). `Pages` (`IReadOnlyList<OmniDocumentPage>`) porte des pages dont chacune a exactement une source : `ImageUrl`, `Image` (octets PNG) ou `Html` (avec `WidthPt` et `HeightPt` facultatifs) ; une page invalide fait lever `ArgumentException`. Le HTML est assaini de nouveau par la liste du paquet (`SanitizerPolicy` la fusionne avec celle par défaut) : script, gestionnaires `on*`, `style` et adresses `javascript:` sont retirés. Un élément `data-oe-field="tag"` est un champ : surligné, focalisable, libellé (`FieldLabels`) dans l'infobulle du paquet au survol et au focus, `OnFieldClick` levé au clic et sur Entrée ; **les champs n'existent que sur les pages HTML** (`HighlightFields`), une page image n'a pas de coordonnées de champs. `Zoom` / `ZoomChanged` (1 = 100 %, de 0,25 à 4), `Fit` / `FitChanged` (`OmniDocumentFit` : `Width`, défaut, `None`) et barre d'outils (`ShowToolbar` : zoom arrière, zoom avant, ajustement à la largeur, indicateur « Page n / N »). Script `omni-document-viewer.js` (CSSOM seulement, aucun style en ligne), 8 textes localisés dans les 24 langues, page « Visionneuse de document » de la vitrine. Voir [docs/editor-components.md](docs/editor-components.md).
+
 ## [1.11.1] - 2026-11-04
 
 Version corrective demandée par le propriétaire : demandes d'une application cliente (recettes R-31, R-32, R-40, R-41, R-46, R-57, R-58) et corrections de l'audit 360 du 2026-11-03. Elle porte une rupture binaire assumée et des ajouts d'API, voir [docs/versioning.md](docs/versioning.md).

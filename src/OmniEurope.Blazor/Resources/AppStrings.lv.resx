@@ -753,4 +753,12 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Nav rezultātu</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1, plural, zero {pabeigtas} one {pabeigta} other {pabeigtas}} {1} no {2, plural, zero {# kārtām} one {# kārtas} other {# kārtām}}</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1, plural, zero {pabeigtas} one {pabeigta} other {pabeigtas}} {1} no {2, plural, zero {# kārtām} one {# kārtas} other {# kārtām}}, viena notiek</value></data>
+  <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokuments</value></data>
+  <data name="DocumentViewerToolbar" xml:space="preserve"><value>Dokumenta rīkjosla</value></data>
+  <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Tālināt</value></data>
+  <data name="DocumentViewerZoomIn" xml:space="preserve"><value>Tuvināt</value></data>
+  <data name="DocumentViewerFitWidth" xml:space="preserve"><value>Pielāgot platumam</value></data>
+  <data name="DocumentViewerPageIndicator" xml:space="preserve"><value>{0}. lappuse / {1}</value></data>
+  <data name="DocumentViewerPageLabel" xml:space="preserve"><value>{0}. lappuse no {1}</value></data>
+  <data name="DocumentViewerEmpty" xml:space="preserve"><value>Nav rādāmu lappušu.</value></data>
 </root>

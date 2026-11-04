@@ -19,6 +19,7 @@ Les variations visuelles dynamiques passent par un ensemble fini de classes CSS,
 - `omni-boot.js` : avant Blazor, jetons de l'instantané de la portée (`OmniThemeScope.SnapshotKey`) posés sur la racine et sur la portée, puis retirés à la passation ;
 - `omni-code-editor.js` : hauteur de l'éditeur (`--omni-code-editor-height`) ;
 - `omni-html-editor.js` : nombre de lignes de la surface (`--omni-html-editor-rows`) ;
+- `omni-document-viewer.js` : zoom de la visionneuse de document (`--omni-document-zoom` sur la zone des pages) et taille de chaque page (`--omni-document-page-width`, `--omni-document-page-height`), écrits par `setProperty` ;
 - `omni-focus.js` : position de tout menu du moteur commun, sous son déclencheur ou au pointeur (`--omni-menu-x`, `--omni-menu-y`), décalage d'un popover recadré dans la fenêtre (`--omni-popover-shift-x`) et position du panneau d'un sélecteur de date ou d'heure sous son champ (`--omni-picker-x`, `--omni-picker-y`, posées sur le panneau, qui quitte la page avec elles) ;
 - `omni-black-hole.js` : couleur d'un jeton du thème lue par une sonde masquée (`style.color`), retirée aussitôt lue ; le fond de Trou noir est dessiné par WebGL sur le `canvas` d'`OmniThemeScope`, sans style.
 

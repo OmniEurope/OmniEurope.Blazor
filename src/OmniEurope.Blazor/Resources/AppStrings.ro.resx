@@ -753,4 +753,12 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Niciun rezultat</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} din {2, plural, one {# trecere} few {# treceri} other {# de treceri}} {1, plural, one {încheiată} few {încheiate} other {încheiate}}</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} din {2, plural, one {# trecere} few {# treceri} other {# de treceri}} {1, plural, one {încheiată} few {încheiate} other {încheiate}}, una în curs</value></data>
+  <data name="DocumentViewerLabel" xml:space="preserve"><value>Document</value></data>
+  <data name="DocumentViewerToolbar" xml:space="preserve"><value>Bara de instrumente a documentului</value></data>
+  <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Micșorare</value></data>
+  <data name="DocumentViewerZoomIn" xml:space="preserve"><value>Mărire</value></data>
+  <data name="DocumentViewerFitWidth" xml:space="preserve"><value>Potrivire la lățime</value></data>
+  <data name="DocumentViewerPageIndicator" xml:space="preserve"><value>Pagina {0} / {1}</value></data>
+  <data name="DocumentViewerPageLabel" xml:space="preserve"><value>Pagina {0} din {1}</value></data>
+  <data name="DocumentViewerEmpty" xml:space="preserve"><value>Nicio pagină de afișat.</value></data>
 </root>

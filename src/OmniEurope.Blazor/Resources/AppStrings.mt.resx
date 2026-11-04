@@ -753,4 +753,12 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>L-ebda riżultat</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} minn {2, plural, one {# passaġġ} two {# passaġġi} few {# passaġġi} many {# passaġġ} other {# passaġġ}} {1, plural, one {lest} two {lesti} few {lesti} many {lesti} other {lesti}}</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} minn {2, plural, one {# passaġġ} two {# passaġġi} few {# passaġġi} many {# passaġġ} other {# passaġġ}} {1, plural, one {lest} two {lesti} few {lesti} many {lesti} other {lesti}}, wieħed għaddej</value></data>
+  <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokument</value></data>
+  <data name="DocumentViewerToolbar" xml:space="preserve"><value>Toolbar tad-dokument</value></data>
+  <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Żum 'l barra</value></data>
+  <data name="DocumentViewerZoomIn" xml:space="preserve"><value>Żum 'l ġewwa</value></data>
+  <data name="DocumentViewerFitWidth" xml:space="preserve"><value>Adatta għall-wisa'</value></data>
+  <data name="DocumentViewerPageIndicator" xml:space="preserve"><value>Paġna {0} / {1}</value></data>
+  <data name="DocumentViewerPageLabel" xml:space="preserve"><value>Paġna {0} minn {1}</value></data>
+  <data name="DocumentViewerEmpty" xml:space="preserve"><value>L-ebda paġna x'turi.</value></data>
 </root>

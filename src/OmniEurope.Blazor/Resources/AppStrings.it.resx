@@ -753,4 +753,12 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Nessun risultato</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1, plural, one {# passaggio completato} many {# di passaggi completati} other {# passaggi completati}} su {2}</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1, plural, one {# passaggio completato} many {# di passaggi completati} other {# passaggi completati}} su {2}, uno in corso</value></data>
+  <data name="DocumentViewerLabel" xml:space="preserve"><value>Documento</value></data>
+  <data name="DocumentViewerToolbar" xml:space="preserve"><value>Barra degli strumenti del documento</value></data>
+  <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Riduci</value></data>
+  <data name="DocumentViewerZoomIn" xml:space="preserve"><value>Ingrandisci</value></data>
+  <data name="DocumentViewerFitWidth" xml:space="preserve"><value>Adatta alla larghezza</value></data>
+  <data name="DocumentViewerPageIndicator" xml:space="preserve"><value>Pagina {0} / {1}</value></data>
+  <data name="DocumentViewerPageLabel" xml:space="preserve"><value>Pagina {0} di {1}</value></data>
+  <data name="DocumentViewerEmpty" xml:space="preserve"><value>Nessuna pagina da mostrare.</value></data>
 </root>

@@ -753,4 +753,12 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Gan torthaí</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} as {2, plural, one {# phasáiste} two {# phasáiste} few {# phasáiste} many {# bpasáiste} other {# pasáiste}} déanta</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} as {2, plural, one {# phasáiste} two {# phasáiste} few {# phasáiste} many {# bpasáiste} other {# pasáiste}} déanta, ceann ar siúl</value></data>
+  <data name="DocumentViewerLabel" xml:space="preserve"><value>Doiciméad</value></data>
+  <data name="DocumentViewerToolbar" xml:space="preserve"><value>Barra uirlisí an doiciméid</value></data>
+  <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Zúmáil amach</value></data>
+  <data name="DocumentViewerZoomIn" xml:space="preserve"><value>Zúmáil isteach</value></data>
+  <data name="DocumentViewerFitWidth" xml:space="preserve"><value>Oiriúnaigh don leithead</value></data>
+  <data name="DocumentViewerPageIndicator" xml:space="preserve"><value>Leathanach {0} / {1}</value></data>
+  <data name="DocumentViewerPageLabel" xml:space="preserve"><value>Leathanach {0} as {1}</value></data>
+  <data name="DocumentViewerEmpty" xml:space="preserve"><value>Níl aon leathanach le taispeáint.</value></data>
 </root>

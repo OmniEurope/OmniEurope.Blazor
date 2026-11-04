@@ -753,4 +753,12 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Geen resultaten</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} van {2, plural, one {# ronde} other {# rondes}} klaar</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} van {2, plural, one {# ronde} other {# rondes}} klaar, één bezig</value></data>
+  <data name="DocumentViewerLabel" xml:space="preserve"><value>Document</value></data>
+  <data name="DocumentViewerToolbar" xml:space="preserve"><value>Werkbalk van het document</value></data>
+  <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Uitzoomen</value></data>
+  <data name="DocumentViewerZoomIn" xml:space="preserve"><value>Inzoomen</value></data>
+  <data name="DocumentViewerFitWidth" xml:space="preserve"><value>Aan breedte aanpassen</value></data>
+  <data name="DocumentViewerPageIndicator" xml:space="preserve"><value>Pagina {0} / {1}</value></data>
+  <data name="DocumentViewerPageLabel" xml:space="preserve"><value>Pagina {0} van {1}</value></data>
+  <data name="DocumentViewerEmpty" xml:space="preserve"><value>Geen pagina om weer te geven.</value></data>
 </root>

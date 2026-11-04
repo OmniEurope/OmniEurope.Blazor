@@ -99,4 +99,18 @@
   <data name="CodeReadingExcerptTitle" xml:space="preserve"><value>Ligne surlignée et extrait</value></data>
   <data name="CodeReadingNavigationTitle" xml:space="preserve"><value>Navigation entre les modifications</value></data>
   <data name="CodeReadingNavigationDescription" xml:space="preserve"><value>La barre propre à la visionneuse (ShowNavigation), puis une comparaison qui remplit son cadre sous une barre de la page. Le moteur en texte brut garde désactivés les boutons précédent et suivant : ils fonctionnent une fois Monaco monté.</value></data>
+  <data name="DocumentViewerTitle" xml:space="preserve"><value>Visionneuse de document</value></data>
+  <data name="DocumentViewerDescription" xml:space="preserve"><value>Un document en lecture seule, page par page : une page image et une page HTML dont les champs sont surlignés, avec zoom, ajustement à la largeur et indicateur de page.</value></data>
+  <data name="DocumentViewerSettingsTitle" xml:space="preserve"><value>Réglages de la visionneuse</value></data>
+  <data name="DocumentViewerSettingsDescription" xml:space="preserve"><value>La taille des pages, la barre d'outils et les champs.</value></data>
+  <data name="DocumentViewerFit" xml:space="preserve"><value>Ajustement</value></data>
+  <data name="DocumentViewerFitDescription" xml:space="preserve"><value>Largeur suit la largeur de la visionneuse ; Aucun garde le zoom choisi par le lecteur. Un zoom choisi dans la barre d'outils met fin à l'ajustement.</value></data>
+  <data name="DocumentViewerFitWidth" xml:space="preserve"><value>Largeur</value></data>
+  <data name="DocumentViewerFitNone" xml:space="preserve"><value>Aucun</value></data>
+  <data name="DocumentViewerToolbar" xml:space="preserve"><value>Barre d'outils</value></data>
+  <data name="DocumentViewerToolbarDescription" xml:space="preserve"><value>Zoom arrière, zoom avant, ajustement à la largeur et indicateur de page.</value></data>
+  <data name="DocumentViewerHighlight" xml:space="preserve"><value>Surligner les champs</value></data>
+  <data name="DocumentViewerHighlightDescription" xml:space="preserve"><value>Seule une page HTML a des champs : l'image d'une page n'a pas de coordonnées de champs, rien n'y est donc surligné.</value></data>
+  <data name="DocumentViewerPreviewTitle" xml:space="preserve"><value>Contrat de livraison</value></data>
+  <data name="DocumentViewerPreviewDescription" xml:space="preserve"><value>La page 1 est une image numérisée, la page 2 du HTML avec des champs. Survolez un champ ou atteignez-le avec Tab pour lire son libellé ; cliquez dessus ou appuyez sur Entrée pour signaler son identifiant.</value></data>
 </root>

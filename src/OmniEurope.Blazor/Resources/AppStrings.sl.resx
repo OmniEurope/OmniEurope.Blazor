@@ -753,4 +753,12 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Ni rezultatov</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1, plural, one {opravljen} two {opravljena} few {opravljeni} other {opravljenih}} {1} od {2, plural, one {# prehoda} two {# prehodov} few {# prehodov} other {# prehodov}}</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1, plural, one {opravljen} two {opravljena} few {opravljeni} other {opravljenih}} {1} od {2, plural, one {# prehoda} two {# prehodov} few {# prehodov} other {# prehodov}}, eden poteka</value></data>
+  <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokument</value></data>
+  <data name="DocumentViewerToolbar" xml:space="preserve"><value>Orodna vrstica dokumenta</value></data>
+  <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Pomanjšaj</value></data>
+  <data name="DocumentViewerZoomIn" xml:space="preserve"><value>Povečaj</value></data>
+  <data name="DocumentViewerFitWidth" xml:space="preserve"><value>Prilagodi širini</value></data>
+  <data name="DocumentViewerPageIndicator" xml:space="preserve"><value>Stran {0} / {1}</value></data>
+  <data name="DocumentViewerPageLabel" xml:space="preserve"><value>Stran {0} od {1}</value></data>
+  <data name="DocumentViewerEmpty" xml:space="preserve"><value>Ni strani za prikaz.</value></data>
 </root>

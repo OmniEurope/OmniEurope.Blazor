@@ -753,4 +753,12 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Tulemusi pole</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1, plural, one {# läbimine} other {# läbimist}} {2}-st tehtud</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1, plural, one {# läbimine} other {# läbimist}} {2}-st tehtud, üks käimas</value></data>
+  <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokument</value></data>
+  <data name="DocumentViewerToolbar" xml:space="preserve"><value>Dokumendi tööriistariba</value></data>
+  <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Suumi välja</value></data>
+  <data name="DocumentViewerZoomIn" xml:space="preserve"><value>Suumi sisse</value></data>
+  <data name="DocumentViewerFitWidth" xml:space="preserve"><value>Sobita laiusele</value></data>
+  <data name="DocumentViewerPageIndicator" xml:space="preserve"><value>Lehekülg {0} / {1}</value></data>
+  <data name="DocumentViewerPageLabel" xml:space="preserve"><value>Lehekülg {0} {1}-st</value></data>
+  <data name="DocumentViewerEmpty" xml:space="preserve"><value>Näidatavaid lehekülgi pole.</value></data>
 </root>

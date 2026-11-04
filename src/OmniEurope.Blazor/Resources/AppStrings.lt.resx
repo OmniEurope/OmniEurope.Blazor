@@ -753,4 +753,12 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Rezultatų nėra</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: atlikta {1} iš {2, plural, one {# perėjimo} few {# perėjimų} other {# perėjimų}}</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: atlikta {1} iš {2, plural, one {# perėjimo} few {# perėjimų} other {# perėjimų}}, vienas vyksta</value></data>
+  <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokumentas</value></data>
+  <data name="DocumentViewerToolbar" xml:space="preserve"><value>Dokumento įrankių juosta</value></data>
+  <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Sumažinti</value></data>
+  <data name="DocumentViewerZoomIn" xml:space="preserve"><value>Padidinti</value></data>
+  <data name="DocumentViewerFitWidth" xml:space="preserve"><value>Pritaikyti pagal plotį</value></data>
+  <data name="DocumentViewerPageIndicator" xml:space="preserve"><value>{0} puslapis / {1}</value></data>
+  <data name="DocumentViewerPageLabel" xml:space="preserve"><value>{0} puslapis iš {1}</value></data>
+  <data name="DocumentViewerEmpty" xml:space="preserve"><value>Nėra rodytinų puslapių.</value></data>
 </root>

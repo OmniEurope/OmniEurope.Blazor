@@ -753,4 +753,12 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Nincs találat</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {2} menetből {1} kész</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {2} menetből {1} kész, egy folyamatban</value></data>
+  <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokumentum</value></data>
+  <data name="DocumentViewerToolbar" xml:space="preserve"><value>Dokumentum eszköztára</value></data>
+  <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Kicsinyítés</value></data>
+  <data name="DocumentViewerZoomIn" xml:space="preserve"><value>Nagyítás</value></data>
+  <data name="DocumentViewerFitWidth" xml:space="preserve"><value>Illesztés szélességhez</value></data>
+  <data name="DocumentViewerPageIndicator" xml:space="preserve"><value>{0}. oldal / {1}</value></data>
+  <data name="DocumentViewerPageLabel" xml:space="preserve"><value>{0}. oldal, összesen {1}</value></data>
+  <data name="DocumentViewerEmpty" xml:space="preserve"><value>Nincs megjeleníthető oldal.</value></data>
 </root>

@@ -1,0 +1,38 @@
+@page "/components/document-viewer"
+@using OmniEurope.Blazor.Showcase.Examples.Editor
+
+<GalleryPageFrame Slug="document-viewer">
+    <Settings>
+        <OmniSettingsSection Title="@Text["DocumentViewerSettingsTitle"]" Description="@Text["DocumentViewerSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["DocumentViewerFit"]" Description="@Text["DocumentViewerFitDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.FrameCorners" /></Icon>
+                <ChildContent>
+                    <OmniSelectBar TValue="OmniDocumentFit" Options="@FitOptions" @bind-Value="Fit" Label="@Text["DocumentViewerFit"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DocumentViewerToolbar"]" Description="@Text["DocumentViewerToolbarDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.MagnifyingGlassPlus" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowToolbar" aria-label="@Text["DocumentViewerToolbar"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DocumentViewerHighlight"]" Description="@Text["DocumentViewerHighlightDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Highlighter" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="HighlightFields" aria-label="@Text["DocumentViewerHighlight"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["DocumentViewerPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["DocumentViewerPreviewDescription"]</OmniText>
+                <DocumentViewerExample @bind-Fit="Fit" @bind-Zoom="Zoom" ShowToolbar="ShowToolbar" HighlightFields="HighlightFields" />
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

@@ -1,6 +1,6 @@
 # Éditeurs : WYSIWYG, traitement de texte et code
 
-La famille Editor couvre huit composants :
+La famille Editor couvre neuf composants :
 
 | Composant | Rôle |
 | --- | --- |
@@ -10,10 +10,11 @@ La famille Editor couvre huit composants :
 | `OmniCodeViewer` | Code en lecture seule, numéroté, lignes surlignées et liens, bouton de copie. |
 | `OmniCodeBlock` | Commande, extrait ou jeton à copier ; un secret reste masqué jusqu'à ce qu'on le révèle. |
 | `OmniUnifiedDiff` | Diff unifié (`git diff`) dessiné sans Monaco, un bloc repliable par fichier. |
+| `OmniDocumentViewer` | Document converti par l'hôte, lu page par page : pages image ou HTML assaini, champs `data-oe-field` surlignés sur les pages HTML, zoom et ajustement à la largeur. |
 | `OmniCharacterPalette` | Rangée de caractères fournis par l'hôte (lettres de la langue saisie) ; un clic rend le caractère sans retirer le focus d'un éditeur. |
 | `OmniMailTemplateEditor` | Modèle de mail : objet, corps `OmniHtmlEditor`, variables insérées au curseur, aperçu du mail rendu ; `OmniMailRenderer` rend le modèle côté serveur pour les clients de messagerie. |
 
-`OmniHtmlEditor` produit du HTML assaini ; `OmniMailTemplateEditor` en fait un modèle de mail ; `OmniCodeEditor` édite du texte brut ; `OmniCharacterPalette` fournit des caractères à insérer ; les quatre autres affichent sans éditer.
+`OmniHtmlEditor` produit du HTML assaini ; `OmniMailTemplateEditor` en fait un modèle de mail ; `OmniCodeEditor` édite du texte brut ; `OmniCharacterPalette` fournit des caractères à insérer ; les cinq autres affichent sans éditer.
 
 ## OmniHtmlEditor
 
@@ -672,6 +673,24 @@ malformé (nombres hors d'un `int`) est ignoré. Il marche donc sous la politiqu
 actions à l'en-tête de chaque fichier.
 
 `Diff` (`string?`) reçoit le texte du diff ; il est ignoré quand `Files` (`IReadOnlyList<OmniDiffFile>?`) est donné, ce qui sert à passer des fichiers déjà lus par `OmniUnifiedDiffParser.Parse` ou construits par l'hôte. `Collapsible` (vrai par défaut) permet de replier chaque fichier par son en-tête. `EmptyText` (`string?`) dit ce que montre un diff vide ; nul, le texte localisé du paquet (« Aucune modification. »).
+
+## OmniDocumentViewer : document page par page
+
+`OmniDocumentViewer` montre, en lecture seule, un document que l'hôte a converti : le composant ne connaît aucun format de fichier. `Pages` (`IReadOnlyList<OmniDocumentPage>`) porte les pages dans l'ordre de lecture ; chaque `OmniDocumentPage(Number, ImageUrl, Image, Html, WidthPt, HeightPt)` a exactement une source : l'adresse d'une image (`ImageUrl`), les octets d'un PNG (`Image`, dessiné par une adresse `data:` : l'hôte autorise `data:` dans `img-src`) ou du HTML (`Html`). Une page sans source, avec deux sources, avec un numéro sous 1, avec des octets qui ne sont pas un PNG ou avec une taille qui n'est pas un nombre positif fait lever `ArgumentException`, qui nomme la page. La liste est relue quand le paramètre reçoit une autre liste : la remplacer, ne pas la modifier sur place. `WidthPt` et `HeightPt` (points, 595,3 par 841,9 pour une page A4) donnent la taille de la page ; sans eux, une image garde sa largeur propre et le HTML prend une largeur A4. `Label` (`string?`) nomme la zone des pages, « Document » quand il est nul ; chaque page est un groupe nommé « Page n sur N ».
+
+**HTML assaini une seconde fois.** Le HTML de l'hôte passe par la liste d'autorisations du paquet (celle d'`OmniHtmlEditor`, voir `OmniHtmlSanitizerPolicy`) augmentée d'un seul attribut, `data-oe-field`. Un script, un attribut de gestionnaire (`on*`), un `style`, un cadre intégré ou une adresse `javascript:` sont retirés ; une balise non permise disparaît. `SanitizerPolicy` (`OmniHtmlSanitizerPolicy?`) élargit cette liste (images, classes, attributs) et se fusionne avec la liste par défaut ; elle ne peut jamais autoriser ce qu'aucune politique n'autorise (un nom interdit lève `ArgumentException`). Le HTML n'est pas écrit comme du balisage : il est dessiné élément par élément dans l'arbre de rendu, si bien qu'aucun texte du document n'est lu comme du balisage. Comme `style` est retiré, un convertisseur qui a besoin de classes les déclare dans `SanitizerPolicy.AdditionalCssClasses` et les fournit par la feuille de l'application.
+
+**Champs.** Un élément de `data-oe-field="tag"` est un champ : surligné, focalisable (`tabindex="0"`), il affiche son libellé dans l'infobulle du paquet (`data-omni-tip`, le même moteur que le reste du paquet) au survol et au focus, et lève `OnFieldClick` (`EventCallback<string>`, avec le tag) au clic et sur Entrée. `FieldLabels` (`IReadOnlyDictionary<string, string>?`) donne le libellé de chaque tag ; un tag absent ou un libellé vide affiche le tag lui-même. `HighlightFields` (vrai par défaut) à faux dessine un document sans champs et ne lève jamais `OnFieldClick`. **Les champs n'existent que sur les pages HTML** : l'image d'une page n'a pas de coordonnées de champs, rien n'y est surligné ni cliquable (demande de l'application cliente, PLAN-010). Les champs imbriqués lèvent chacun leur propre tag ; un lien dans un champ lève aussi le champ.
+
+**Zoom et ajustement.** `Zoom` (`double`, 1 = 100 %, de 0,25 à 4, 1 si ce n'est pas un nombre) et `ZoomChanged` s'appliquent aux images et au HTML de la même façon (la propriété CSS `zoom` de chaque page). `Fit` (`OmniDocumentFit`, `Width` par défaut) : avec `Width`, le zoom est calculé par `omni-document-viewer.js` pour que la page la plus large remplisse la zone, à chaque redimensionnement et à chaque image chargée, puis rapporté par `ZoomChanged` ; avec `None`, la page reste au `Zoom` du lecteur. `FitChanged` est levé quand la barre d'outils change l'ajustement : le bouton d'ajustement le passe à `Width`, un zoom avant ou arrière le passe à `None` (les pas tombent sur des multiples de 25 %). Un `Zoom` que l'hôte change met fin à l'ajustement et prend la valeur ; un `Fit` que l'hôte change est pris tel quel. `ShowToolbar` (vrai par défaut) montre zoom arrière, zoom avant, ajustement à la largeur (bouton à bascule, `aria-pressed`) et l'indicateur « Page n / N » ; la page en vue est la page qui remplit le plus la zone, rapportée par le même script au défilement.
+
+La différence avec `OmniImage.Fit` est voulue : `OmniImageFit` dit comment une image remplit son cadre (`Contain`, `Cover`, `Natural`), `OmniDocumentFit` dit si le zoom suit la largeur de la visionneuse. Le script n'écrit que le CSSOM (`--omni-document-zoom` sur la zone, `--omni-document-page-width` et `--omni-document-page-height` sur chaque page), jamais un attribut `style` : la CSP stricte tient. Les couleurs sont des jetons (thèmes clair et sombre sans règle propre) ; `--omni-document-viewer-height` (40rem) plafonne la zone qui défile, `--omni-document-background` et `--omni-document-page-background` remplacent le bureau et le papier.
+
+```razor
+<OmniDocumentViewer Pages="@Pages" FieldLabels="@Labels" @bind-Zoom="Zoom" OnFieldClick="OpenField" />
+```
+
+Limites : l'infobulle d'un champ s'ouvre au clavier comme à la souris (focus visible), mais le tactile n'a pas été éprouvé sur un écran réel. Le calcul de l'ajustement et de la page en vue est vérifié par des tests du script (`tests/js/document-viewer.test.mjs`) ; la page de la vitrine les montre, mais aucune sonde de navigateur ne les mesure encore, et le script reste hors de la couverture JavaScript des sondes tant qu'une sonde ne l'exerce pas.
 
 ## Limites connues
 

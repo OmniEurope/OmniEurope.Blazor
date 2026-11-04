@@ -753,4 +753,12 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Няма резултати</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1, plural, one {завършено} other {завършени}} {1} от {2, plural, one {# преминаване} other {# преминавания}}</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1, plural, one {завършено} other {завършени}} {1} от {2, plural, one {# преминаване} other {# преминавания}}, едно в ход</value></data>
+  <data name="DocumentViewerLabel" xml:space="preserve"><value>Документ</value></data>
+  <data name="DocumentViewerToolbar" xml:space="preserve"><value>Лента с инструменти за документа</value></data>
+  <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Намаляване</value></data>
+  <data name="DocumentViewerZoomIn" xml:space="preserve"><value>Увеличаване</value></data>
+  <data name="DocumentViewerFitWidth" xml:space="preserve"><value>Побиране по ширина</value></data>
+  <data name="DocumentViewerPageIndicator" xml:space="preserve"><value>Страница {0} / {1}</value></data>
+  <data name="DocumentViewerPageLabel" xml:space="preserve"><value>Страница {0} от {1}</value></data>
+  <data name="DocumentViewerEmpty" xml:space="preserve"><value>Няма страници за показване.</value></data>
 </root>
