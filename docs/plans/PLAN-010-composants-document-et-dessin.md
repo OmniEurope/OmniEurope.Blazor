@@ -1,6 +1,6 @@
 # PLAN-010 - Composants de document et de dessin
 
-> Statut : ouvert le 2026-11-04. Demande d'une application cliente (module de modèles Word). Version visée : `1.12.0` (ajouts sans rupture ; numéro final et publication décidés par le propriétaire).
+> Statut : ouvert le 2026-11-04. Demande d'une application cliente (module de modèles Word). Version : `1.12.0`, décidée par le propriétaire le 2026-11-04 ; la publication reste à sa demande.
 
 ## Contrainte
 
@@ -11,8 +11,8 @@
 | Lot | Contenu | Critère d'acceptation | Statut |
 | --- | --- | --- | --- |
 | 1 | `OmniInkCanvas` : traits (`OmniInkStroke`, `OmniInkPoint`, coordonnées 0..1, pression), couleur, épaisseur, Annuler, Effacer, export PNG transparent (octets, data URL) | Dessin souris et tactile simulé vu dans la vitrine, clair et sombre ; Ctrl+Z et Effacer au clavier ; PNG exporté transparent à la taille demandée | À faire |
-| 2 | `OmniDocumentViewer` : pages image ou HTML re-sanitisé, champs `data-oe-field` surlignés, focusables, infobulle du libellé ; zoom, ajustement à la largeur, page n/N | Pages image et HTML vues dans la vitrine ; infobulle au survol et au focus ; un script injecté dans le HTML est retiré | À faire |
-| 3 | `OmniDocumentEditor` : blocs, runs (texte, `StyleKey` opaque), champs (texte, date, liste, nombre), dessin par bloc via `OmniInkCanvas` ; `OmniDocumentChangeSet` (runs, champs, dessins avec traits et PNG) | Texte d'un run modifié, champ date et liste réglés, dessin inséré : le jeu de changements reçu par l'hôte de la vitrine les contient tous | À faire |
+| 2 | `OmniDocumentViewer` : pages image ou HTML re-sanitisé, champs `data-oe-field` surlignés sur les pages HTML seulement, focusables, infobulle du libellé ; zoom, ajustement à la largeur, page n/N | Pages image et HTML vues dans la vitrine ; infobulle au survol et au focus ; un script injecté dans le HTML est retiré | À faire |
+| 3 | `OmniDocumentEditor` : blocs, runs (texte, `StyleKey` opaque), champs (texte, date, liste avec `AllowFreeText` pour une saisie libre hors des éléments, nombre), dessin par bloc via `OmniInkCanvas` ; `OmniDocumentChangeSet` (runs, champs, dessins avec traits et PNG) | Texte d'un run modifié, champ date et liste réglés, dessin inséré : le jeu de changements reçu par l'hôte de la vitrine les contient tous | À faire |
 | 4 | Intégration : CHANGELOG, index des composants, API publique, suite complète et gates, recette navigateur | CI locale complète verte, recette des trois composants dans la vitrine | À faire |
 
 ## Hors périmètre
