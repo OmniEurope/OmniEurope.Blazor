@@ -1,0 +1,21 @@
+@* A document read page by page: the cover sheet is a picture, the contract is HTML. The fields of the HTML page are highlighted,
+   reachable with Tab, tipped with their label on hover and on focus, and report their tag on click and Enter. The zoom is bound:
+   it follows the toolbar, and the width fit writes the zoom it computed. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniDocumentViewer Id="document-viewer"
+                        Label="Delivery contract"
+                        Pages="DocumentViewerSamples.Pages"
+                        FieldLabels="DocumentViewerSamples.FieldLabels"
+                        Zoom="Zoom"
+                        ZoomChanged="OnZoomChangedAsync"
+                        Fit="Fit"
+                        FitChanged="OnFitChangedAsync"
+                        ShowToolbar="ShowToolbar"
+                        HighlightFields="HighlightFields"
+                        OnFieldClick="OnFieldClickAsync" />
+    <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+        <OmniIcon Name="OmniIconName.Tag" />
+        <span>Last field activated:</span>
+        <OmniBadge Id="document-viewer-field" Tone="OmniTone.Info">@LastField</OmniBadge>
+    </OmniRow>
+</OmniStack>

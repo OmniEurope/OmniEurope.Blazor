@@ -762,4 +762,12 @@
   <data name="InkClear" xml:space="preserve"><value>Vymazat kresbu</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Poslední tah byl vrácen zpět</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Kresba byla vymazána</value></data>
+  <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokument</value></data>
+  <data name="DocumentViewerToolbar" xml:space="preserve"><value>Panel nástrojů dokumentu</value></data>
+  <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Oddálit</value></data>
+  <data name="DocumentViewerZoomIn" xml:space="preserve"><value>Přiblížit</value></data>
+  <data name="DocumentViewerFitWidth" xml:space="preserve"><value>Přizpůsobit šířce</value></data>
+  <data name="DocumentViewerPageIndicator" xml:space="preserve"><value>Strana {0} / {1}</value></data>
+  <data name="DocumentViewerPageLabel" xml:space="preserve"><value>Strana {0} z {1}</value></data>
+  <data name="DocumentViewerEmpty" xml:space="preserve"><value>Žádná strana k zobrazení.</value></data>
 </root>

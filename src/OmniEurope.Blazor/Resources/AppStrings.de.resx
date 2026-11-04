@@ -762,4 +762,12 @@
   <data name="InkClear" xml:space="preserve"><value>Zeichnung löschen</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Letzter Strich rückgängig gemacht</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Zeichnung gelöscht</value></data>
+  <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokument</value></data>
+  <data name="DocumentViewerToolbar" xml:space="preserve"><value>Dokument-Symbolleiste</value></data>
+  <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Verkleinern</value></data>
+  <data name="DocumentViewerZoomIn" xml:space="preserve"><value>Vergrößern</value></data>
+  <data name="DocumentViewerFitWidth" xml:space="preserve"><value>An Breite anpassen</value></data>
+  <data name="DocumentViewerPageIndicator" xml:space="preserve"><value>Seite {0} / {1}</value></data>
+  <data name="DocumentViewerPageLabel" xml:space="preserve"><value>Seite {0} von {1}</value></data>
+  <data name="DocumentViewerEmpty" xml:space="preserve"><value>Keine Seite zum Anzeigen.</value></data>
 </root>

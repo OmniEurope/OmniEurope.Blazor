@@ -762,4 +762,12 @@
   <data name="InkClear" xml:space="preserve"><value>Διαγραφή σχεδίου</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Η τελευταία γραμμή αναιρέθηκε</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Το σχέδιο διαγράφηκε</value></data>
+  <data name="DocumentViewerLabel" xml:space="preserve"><value>Έγγραφο</value></data>
+  <data name="DocumentViewerToolbar" xml:space="preserve"><value>Γραμμή εργαλείων εγγράφου</value></data>
+  <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Σμίκρυνση</value></data>
+  <data name="DocumentViewerZoomIn" xml:space="preserve"><value>Μεγέθυνση</value></data>
+  <data name="DocumentViewerFitWidth" xml:space="preserve"><value>Προσαρμογή στο πλάτος</value></data>
+  <data name="DocumentViewerPageIndicator" xml:space="preserve"><value>Σελίδα {0} / {1}</value></data>
+  <data name="DocumentViewerPageLabel" xml:space="preserve"><value>Σελίδα {0} από {1}</value></data>
+  <data name="DocumentViewerEmpty" xml:space="preserve"><value>Δεν υπάρχει σελίδα για εμφάνιση.</value></data>
 </root>

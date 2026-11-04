@@ -762,4 +762,12 @@
   <data name="InkClear" xml:space="preserve"><value>Rensa ritningen</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Sista linjen ångrad</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Ritningen rensad</value></data>
+  <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokument</value></data>
+  <data name="DocumentViewerToolbar" xml:space="preserve"><value>Dokumentets verktygsfält</value></data>
+  <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Zooma ut</value></data>
+  <data name="DocumentViewerZoomIn" xml:space="preserve"><value>Zooma in</value></data>
+  <data name="DocumentViewerFitWidth" xml:space="preserve"><value>Anpassa till bredden</value></data>
+  <data name="DocumentViewerPageIndicator" xml:space="preserve"><value>Sida {0} / {1}</value></data>
+  <data name="DocumentViewerPageLabel" xml:space="preserve"><value>Sida {0} av {1}</value></data>
+  <data name="DocumentViewerEmpty" xml:space="preserve"><value>Inga sidor att visa.</value></data>
 </root>

@@ -1,0 +1,25 @@
+/* OmniDocumentViewer: a document read page by page, on a desk.
+   The zoom, the width and the minimum height of a page are custom properties written by omni-document-viewer.js
+   (--omni-document-zoom on the viewport, --omni-document-page-width and --omni-document-page-height on a page): no
+   style attribute. The page is paper at its natural size in CSS pixels, scaled by the CSS zoom property, so a
+   picture and an HTML page zoom the same way. Colours are tokens, so the dark theme needs nothing of its own.
+   --omni-document-viewer-height (40rem) caps the scroll area; --omni-document-background and
+   --omni-document-page-background replace the desk and the paper. */
+.omni-document-viewer { background: var(--omni-card-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); display: grid; min-inline-size: 0; overflow: hidden; }
+.omni-document-viewer__toolbar { align-items: center; background: var(--omni-color-surface-muted); border-block-end: var(--omni-border-width) solid var(--omni-color-border); display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); padding: var(--omni-space-xs) var(--omni-space-sm); }
+.omni-document-viewer__zoom { font-variant-numeric: tabular-nums; min-inline-size: 3.5rem; text-align: center; }
+.omni-document-viewer__indicator { color: var(--omni-color-text-muted); font-variant-numeric: tabular-nums; margin-inline-start: auto; }
+.omni-document-viewer__viewport { background: var(--omni-document-background, var(--omni-color-surface-muted)); max-block-size: var(--omni-document-viewer-height, 40rem); min-inline-size: 0; outline: none; overflow: auto; padding: var(--omni-space-md); scrollbar-gutter: stable; }
+.omni-document-viewer__viewport:focus-visible { box-shadow: var(--omni-focus-ring-inset); }
+.omni-document-viewer__empty { color: var(--omni-color-text-muted); margin: 0; padding: var(--omni-space-md); text-align: center; }
+.omni-document-viewer__page { background: var(--omni-document-page-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-color-border); box-sizing: border-box; color: var(--omni-color-text); display: block; inline-size: var(--omni-document-page-width, 794px); margin-block: 0 var(--omni-space-md); margin-inline: auto; zoom: var(--omni-document-zoom, 1); }
+.omni-document-viewer__page:last-child { margin-block-end: 0; }
+.omni-document-viewer__page--html { min-block-size: var(--omni-document-page-height, 0); }
+.omni-document-viewer__image { block-size: auto; display: block; inline-size: 100%; }
+.omni-document-viewer__content { font-family: var(--omni-font-family); font-size: 11pt; line-height: 1.45; overflow-wrap: anywhere; padding: 72px; }
+.omni-document-viewer__content table { border-collapse: collapse; inline-size: 100%; }
+.omni-document-viewer__content :is(th, td) { border: var(--omni-border-width) solid var(--omni-color-border); padding: 0.25em 0.5em; text-align: start; vertical-align: top; }
+.omni-document-viewer__content a { color: var(--omni-color-accent-strong); }
+.omni-document-viewer__field { background: var(--omni-color-accent-subtle); border-radius: var(--omni-radius-sm); box-shadow: 0 0 0 1px var(--omni-color-accent); cursor: pointer; }
+.omni-document-viewer__field:hover { box-shadow: 0 0 0 2px var(--omni-color-accent); }
+.omni-document-viewer__field:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }

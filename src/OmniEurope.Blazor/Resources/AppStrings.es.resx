@@ -762,4 +762,12 @@
   <data name="InkClear" xml:space="preserve"><value>Borrar el dibujo</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Último trazo deshecho</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Dibujo borrado</value></data>
+  <data name="DocumentViewerLabel" xml:space="preserve"><value>Documento</value></data>
+  <data name="DocumentViewerToolbar" xml:space="preserve"><value>Barra de herramientas del documento</value></data>
+  <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Alejar</value></data>
+  <data name="DocumentViewerZoomIn" xml:space="preserve"><value>Acercar</value></data>
+  <data name="DocumentViewerFitWidth" xml:space="preserve"><value>Ajustar al ancho</value></data>
+  <data name="DocumentViewerPageIndicator" xml:space="preserve"><value>Página {0} / {1}</value></data>
+  <data name="DocumentViewerPageLabel" xml:space="preserve"><value>Página {0} de {1}</value></data>
+  <data name="DocumentViewerEmpty" xml:space="preserve"><value>No hay ninguna página que mostrar.</value></data>
 </root>

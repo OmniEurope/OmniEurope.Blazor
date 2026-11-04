@@ -762,4 +762,12 @@
   <data name="InkClear" xml:space="preserve"><value>Clear drawing</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Last stroke undone</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Drawing cleared</value></data>
+  <data name="DocumentViewerLabel" xml:space="preserve"><value>Document</value></data>
+  <data name="DocumentViewerToolbar" xml:space="preserve"><value>Document toolbar</value></data>
+  <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Zoom out</value></data>
+  <data name="DocumentViewerZoomIn" xml:space="preserve"><value>Zoom in</value></data>
+  <data name="DocumentViewerFitWidth" xml:space="preserve"><value>Fit to width</value></data>
+  <data name="DocumentViewerPageIndicator" xml:space="preserve"><value>Page {0} / {1}</value></data>
+  <data name="DocumentViewerPageLabel" xml:space="preserve"><value>Page {0} of {1}</value></data>
+  <data name="DocumentViewerEmpty" xml:space="preserve"><value>No page to show.</value></data>
 </root>

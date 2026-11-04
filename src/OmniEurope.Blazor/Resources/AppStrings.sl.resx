@@ -762,4 +762,12 @@
   <data name="InkClear" xml:space="preserve"><value>Izbriši risbo</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Zadnja poteza je razveljavljena</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Risba je izbrisana</value></data>
+  <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokument</value></data>
+  <data name="DocumentViewerToolbar" xml:space="preserve"><value>Orodna vrstica dokumenta</value></data>
+  <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Pomanjšaj</value></data>
+  <data name="DocumentViewerZoomIn" xml:space="preserve"><value>Povečaj</value></data>
+  <data name="DocumentViewerFitWidth" xml:space="preserve"><value>Prilagodi širini</value></data>
+  <data name="DocumentViewerPageIndicator" xml:space="preserve"><value>Stran {0} / {1}</value></data>
+  <data name="DocumentViewerPageLabel" xml:space="preserve"><value>Stran {0} od {1}</value></data>
+  <data name="DocumentViewerEmpty" xml:space="preserve"><value>Ni strani za prikaz.</value></data>
 </root>

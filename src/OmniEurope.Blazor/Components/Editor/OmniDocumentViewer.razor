@@ -1,0 +1,55 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+
+@* A document shown page by page, read-only. The scroll area is the one focus stop of the pages (the arrow and page keys
+   scroll it); the fields of an HTML page are focus stops of their own. The sizes and the zoom reach the pages through
+   custom properties written by omni-document-viewer.js, never through a style attribute. *@
+<div class="@Css("omni-document-viewer")">
+    @if (ShowToolbar)
+    {
+        <div class="omni-document-viewer__toolbar" role="toolbar" aria-label="@Localize("DocumentViewerToolbar")" aria-controls="@ViewportId">
+            <OmniButton Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small" Label="@Localize("DocumentViewerZoomOut")" title="@Localize("DocumentViewerZoomOut")"
+                        Class="omni-document-viewer__zoom-out" Disabled="@(_zoom <= MinimumZoom)" OnClick="ZoomOutAsync">
+                <Icon><OmniIcon Name="OmniIconName.MagnifyingGlassMinus" Size="OmniControlSize.Small" /></Icon>
+            </OmniButton>
+            <span class="omni-document-viewer__zoom" role="status">@ZoomText</span>
+            <OmniButton Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small" Label="@Localize("DocumentViewerZoomIn")" title="@Localize("DocumentViewerZoomIn")"
+                        Class="omni-document-viewer__zoom-in" Disabled="@(_zoom >= MaximumZoom)" OnClick="ZoomInAsync">
+                <Icon><OmniIcon Name="OmniIconName.MagnifyingGlassPlus" Size="OmniControlSize.Small" /></Icon>
+            </OmniButton>
+            <OmniButton Variant="@(_fit == OmniDocumentFit.Width ? OmniButtonVariant.Secondary : OmniButtonVariant.Ghost)" Size="OmniControlSize.Small"
+                        Label="@Localize("DocumentViewerFitWidth")" title="@Localize("DocumentViewerFitWidth")" aria-pressed="@(_fit == OmniDocumentFit.Width ? "true" : "false")"
+                        Class="omni-document-viewer__fit" OnClick="FitWidthAsync">
+                <Icon><OmniIcon Name="OmniIconName.FrameCorners" Size="OmniControlSize.Small" /></Icon>
+            </OmniButton>
+            @if (_views.Count > 0)
+            {
+                <span class="omni-document-viewer__indicator">@PageIndicator</span>
+            }
+        </div>
+    }
+    <div @attributes="AdditionalAttributes" @ref="_viewport" id="@ViewportId" class="omni-document-viewer__viewport" role="region" tabindex="0" aria-label="@EffectiveLabel">
+        @if (_views.Count == 0)
+        {
+            <p class="omni-document-viewer__empty">@Localize("DocumentViewerEmpty")</p>
+        }
+        else
+        {
+            foreach (var view in _views)
+            {
+                <div @key="view" class="@(view.Body is null ? "omni-document-viewer__page omni-document-viewer__page--image" : "omni-document-viewer__page omni-document-viewer__page--html")"
+                     role="group" aria-label="@PageLabel(view)" data-width-pt="@Points(view.Page.WidthPt)" data-height-pt="@Points(view.Page.HeightPt)">
+                    @if (view.Body is { } body)
+                    {
+                        <div class="omni-document-viewer__content">@Content(body)</div>
+                    }
+                    else
+                    {
+                        <img class="omni-document-viewer__image" src="@view.ImageSource" alt="@PageLabel(view)" decoding="async" draggable="false" />
+                    }
+                </div>
+            }
+        }
+    </div>
+</div>

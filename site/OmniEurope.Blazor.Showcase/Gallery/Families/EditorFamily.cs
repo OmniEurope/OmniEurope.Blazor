@@ -34,6 +34,13 @@ internal static class EditorFamily
                 "Editor/InkCanvasExample.razor", "Editor/InkCanvasExample.razor.cs",
                 "Editor/InkSamples.cs"
             ]),
+        // The pages of a document the host converted, read only: a picture page and an HTML page whose fields answer.
+        new("document-viewer", "DocumentViewerTitle", "DocumentViewerDescription", OmniIconName.FileDoc,
+            ["OmniDocumentViewer"],
+            [
+                "Editor/DocumentViewerExample.razor", "Editor/DocumentViewerExample.razor.cs",
+                "Editor/DocumentViewerSamples.cs"
+            ]),
         new("code-editor", "CodeEditorTitle", "CodeEditorDescription", OmniIconName.BracketsCurly,
             ["OmniCodeEditor"],
             [

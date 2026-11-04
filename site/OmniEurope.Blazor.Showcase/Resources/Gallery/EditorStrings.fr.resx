@@ -113,4 +113,18 @@
   <data name="InkCanvasDisabledDescription" xml:space="preserve"><value>La zone sort de l'ordre de tabulation et la barre d'outils est désactivée.</value></data>
   <data name="InkCanvasPreviewTitle" xml:space="preserve"><value>Signature</value></data>
   <data name="InkCanvasPreviewDescription" xml:space="preserve"><value>Dessinez ci-dessous. Ctrl+Z annule le dernier trait et Suppr efface le dessin quand la zone a le focus.</value></data>
+  <data name="DocumentViewerTitle" xml:space="preserve"><value>Visionneuse de document</value></data>
+  <data name="DocumentViewerDescription" xml:space="preserve"><value>Un document en lecture seule, page par page : une page image et une page HTML dont les champs sont surlignés, avec zoom, ajustement à la largeur et indicateur de page.</value></data>
+  <data name="DocumentViewerSettingsTitle" xml:space="preserve"><value>Réglages de la visionneuse</value></data>
+  <data name="DocumentViewerSettingsDescription" xml:space="preserve"><value>La taille des pages, la barre d'outils et les champs.</value></data>
+  <data name="DocumentViewerFit" xml:space="preserve"><value>Ajustement</value></data>
+  <data name="DocumentViewerFitDescription" xml:space="preserve"><value>Largeur suit la largeur de la visionneuse ; Aucun garde le zoom choisi par le lecteur. Un zoom choisi dans la barre d'outils met fin à l'ajustement.</value></data>
+  <data name="DocumentViewerFitWidth" xml:space="preserve"><value>Largeur</value></data>
+  <data name="DocumentViewerFitNone" xml:space="preserve"><value>Aucun</value></data>
+  <data name="DocumentViewerToolbar" xml:space="preserve"><value>Barre d'outils</value></data>
+  <data name="DocumentViewerToolbarDescription" xml:space="preserve"><value>Zoom arrière, zoom avant, ajustement à la largeur et indicateur de page.</value></data>
+  <data name="DocumentViewerHighlight" xml:space="preserve"><value>Surligner les champs</value></data>
+  <data name="DocumentViewerHighlightDescription" xml:space="preserve"><value>Seule une page HTML a des champs : l'image d'une page n'a pas de coordonnées de champs, rien n'y est donc surligné.</value></data>
+  <data name="DocumentViewerPreviewTitle" xml:space="preserve"><value>Contrat de livraison</value></data>
+  <data name="DocumentViewerPreviewDescription" xml:space="preserve"><value>La page 1 est une image numérisée, la page 2 du HTML avec des champs. Survolez un champ ou atteignez-le avec Tab pour lire son libellé ; cliquez dessus ou appuyez sur Entrée pour signaler son identifiant.</value></data>
 </root>

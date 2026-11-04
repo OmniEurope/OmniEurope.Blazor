@@ -24,6 +24,9 @@ internal static class OmniModules
     /// <summary>File download, for the HTML editor and the Markdown export button.</summary>
     internal const string DocumentEditor = Root + "omni-document-editor.js";
 
+    /// <summary>The document viewer: the size of its pages, the zoom that fits their width and the page in view.</summary>
+    internal const string DocumentViewer = Root + "omni-document-viewer.js";
+
     /// <summary>Focus management, roving focus, outside-click and menu dismissal.</summary>
     internal const string Focus = Root + "omni-focus.js";
 

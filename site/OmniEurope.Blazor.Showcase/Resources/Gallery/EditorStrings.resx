@@ -113,4 +113,18 @@
   <data name="InkCanvasDisabledDescription" xml:space="preserve"><value>The area leaves the tab order and the toolbar is disabled.</value></data>
   <data name="InkCanvasPreviewTitle" xml:space="preserve"><value>Signature</value></data>
   <data name="InkCanvasPreviewDescription" xml:space="preserve"><value>Draw below. Ctrl+Z undoes the last stroke and Delete clears the drawing when the area has the focus.</value></data>
+  <data name="DocumentViewerTitle" xml:space="preserve"><value>Document viewer</value></data>
+  <data name="DocumentViewerDescription" xml:space="preserve"><value>A read-only document, page by page: a picture page and an HTML page whose fields are highlighted, with zoom, fit to width and a page indicator.</value></data>
+  <data name="DocumentViewerSettingsTitle" xml:space="preserve"><value>Document viewer settings</value></data>
+  <data name="DocumentViewerSettingsDescription" xml:space="preserve"><value>How the pages are sized, the toolbar and the fields.</value></data>
+  <data name="DocumentViewerFit" xml:space="preserve"><value>Fit</value></data>
+  <data name="DocumentViewerFitDescription" xml:space="preserve"><value>Width follows the width of the viewer; None keeps the zoom the reader chose. A zoom chosen on the toolbar ends the fit.</value></data>
+  <data name="DocumentViewerFitWidth" xml:space="preserve"><value>Width</value></data>
+  <data name="DocumentViewerFitNone" xml:space="preserve"><value>None</value></data>
+  <data name="DocumentViewerToolbar" xml:space="preserve"><value>Toolbar</value></data>
+  <data name="DocumentViewerToolbarDescription" xml:space="preserve"><value>Zoom out, zoom in, fit width and the page indicator.</value></data>
+  <data name="DocumentViewerHighlight" xml:space="preserve"><value>Highlight fields</value></data>
+  <data name="DocumentViewerHighlightDescription" xml:space="preserve"><value>Only an HTML page has fields: a picture of a page has no field coordinates, so nothing is highlighted on it.</value></data>
+  <data name="DocumentViewerPreviewTitle" xml:space="preserve"><value>Delivery contract</value></data>
+  <data name="DocumentViewerPreviewDescription" xml:space="preserve"><value>Page 1 is a scanned picture, page 2 is HTML with fields. Hover a field or reach it with Tab to read its label; click it or press Enter to report its tag.</value></data>
 </root>

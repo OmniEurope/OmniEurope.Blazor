@@ -762,4 +762,12 @@
   <data name="InkClear" xml:space="preserve"><value>Neħħi t-tpinġija</value></data>
   <data name="InkUndone" xml:space="preserve"><value>L-aħħar linja ġiet ikkanċellata</value></data>
   <data name="InkCleared" xml:space="preserve"><value>It-tpinġija tneħħiet</value></data>
+  <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokument</value></data>
+  <data name="DocumentViewerToolbar" xml:space="preserve"><value>Toolbar tad-dokument</value></data>
+  <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Żum 'l barra</value></data>
+  <data name="DocumentViewerZoomIn" xml:space="preserve"><value>Żum 'l ġewwa</value></data>
+  <data name="DocumentViewerFitWidth" xml:space="preserve"><value>Adatta għall-wisa'</value></data>
+  <data name="DocumentViewerPageIndicator" xml:space="preserve"><value>Paġna {0} / {1}</value></data>
+  <data name="DocumentViewerPageLabel" xml:space="preserve"><value>Paġna {0} minn {1}</value></data>
+  <data name="DocumentViewerEmpty" xml:space="preserve"><value>L-ebda paġna x'turi.</value></data>
 </root>
