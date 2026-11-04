@@ -69,6 +69,9 @@ internal static class OmniModules
     /// <summary>The spreadsheet surface: editor focus and cell reveal.</summary>
     internal const string Spreadsheet = Root + "omni-spreadsheet.js";
 
+    /// <summary>The structured document editor: the plain-text editing of the runs of a paragraph, read back by their identifier.</summary>
+    internal const string StructuredDocument = Root + "omni-structured-document.js";
+
     /// <summary>The theme scope: applying and clearing its tokens.</summary>
     internal const string Theme = Root + "omni-theme.js";
 

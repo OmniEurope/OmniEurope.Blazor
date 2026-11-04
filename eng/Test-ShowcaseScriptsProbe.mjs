@@ -22,9 +22,10 @@ import { leakSteps } from './scripts-probe/leaks.mjs';
 import { overlaySteps } from './scripts-probe/overlays.mjs';
 import { preferenceSteps } from './scripts-probe/preferences.mjs';
 import { requestSteps } from './scripts-probe/requests.mjs';
+import { structuredDocumentSteps } from './scripts-probe/structured-document.mjs';
 import { veilSteps } from './scripts-probe/veil.mjs';
 
-const parts = { overlays: overlaySteps, editor: editorSteps, boards: boardSteps, charts: chartSteps, keys: keySteps, requests: requestSteps, leaks: leakSteps, preferences: preferenceSteps, columns: columnSteps, chevrons: chevronSteps, focus: focusSteps, veil: veilSteps, ink: inkSteps };
+const parts = { overlays: overlaySteps, editor: editorSteps, boards: boardSteps, charts: chartSteps, keys: keySteps, requests: requestSteps, leaks: leakSteps, preferences: preferenceSteps, columns: columnSteps, chevrons: chevronSteps, focus: focusSteps, veil: veilSteps, ink: inkSteps, structured: structuredDocumentSteps };
 const only = process.env.OMNI_SCRIPTS_ONLY?.split(',').map(name => name.trim()).filter(Boolean);
 // A name that is no part, or a choice that keeps none, would validate a run that drove nothing.
 const unknown = only?.filter(name => !Object.hasOwn(parts, name)) ?? [];

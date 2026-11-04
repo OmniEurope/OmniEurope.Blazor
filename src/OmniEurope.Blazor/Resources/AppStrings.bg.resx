@@ -770,4 +770,11 @@
   <data name="DocumentViewerPageIndicator" xml:space="preserve"><value>Страница {0} / {1}</value></data>
   <data name="DocumentViewerPageLabel" xml:space="preserve"><value>Страница {0} от {1}</value></data>
   <data name="DocumentViewerEmpty" xml:space="preserve"><value>Няма страници за показване.</value></data>
+  <data name="DocumentEditorBlockLabel" xml:space="preserve"><value>Абзац {0} от {1}</value></data>
+  <data name="DocumentEditorRunLabel" xml:space="preserve"><value>Редактируем текст</value></data>
+  <data name="DocumentEditorFieldEmpty" xml:space="preserve"><value>за попълване</value></data>
+  <data name="DocumentEditorInsertDrawing" xml:space="preserve"><value>Вмъкване на рисунка</value></data>
+  <data name="DocumentEditorReplaceDrawing" xml:space="preserve"><value>Замяна на рисунката</value></data>
+  <data name="DocumentEditorDrawing" xml:space="preserve"><value>Рисунка</value></data>
+  <data name="DocumentEditorDrawingApply" xml:space="preserve"><value>Потвърждаване</value></data>
 </root>

@@ -1,0 +1,20 @@
+@* A structured document edited in place: type in the text, click a field to fill it in, draw under a paragraph. The host owns the
+   document; the editor reports a change set after each edit, shown below as JSON-like text. A host applies that change set to
+   its own document, then gives the editor a new document (the Start over button gives a fresh one). *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniDocumentEditor Id="structured-demo"
+                        Label="Service order"
+                        Document="Document"
+                        ReadOnly="ReadOnly"
+                        AllowDrawings="AllowDrawings"
+                        StyleClasses="StyleClassOf"
+                        OnChange="OnChangeAsync" />
+    <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+        <OmniBadge Id="structured-count" Tone="OmniTone.Info">@ChangeCount @(ChangeCount == 1 ? "change" : "changes")</OmniBadge>
+        <OmniButton Id="structured-reset" Variant="OmniButtonVariant.Secondary" OnClick="StartOver">
+            <OmniIcon Name="OmniIconName.ArrowUUpLeft" />
+            <span>Start over</span>
+        </OmniButton>
+    </OmniRow>
+    <OmniCodeBlock Id="structured-changes" Title="Change set" Language="json" Code="@ChangeText" />
+</OmniStack>

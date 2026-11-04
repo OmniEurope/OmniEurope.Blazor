@@ -1088,3 +1088,8 @@
     max-inline-size: 100%;
     block-size: auto;
 }
+
+/* Structured document page: the style key "emphasis" the example host puts on a run is drawn bold. */
+.gallery-structured-emphasis {
+    font-weight: 700;
+}

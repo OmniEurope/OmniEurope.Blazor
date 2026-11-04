@@ -1,0 +1,31 @@
+@page "/components/structured-document"
+@using OmniEurope.Blazor.Showcase.Examples.Editor
+
+<GalleryPageFrame Slug="structured-document">
+    <Settings>
+        <OmniSettingsSection Title="@Text["StructuredDocumentSettingsTitle"]" Description="@Text["StructuredDocumentSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["StructuredDocumentReadOnly"]" Description="@Text["StructuredDocumentReadOnlyDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ReadOnly" aria-label="@Text["StructuredDocumentReadOnly"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["StructuredDocumentDrawings"]" Description="@Text["StructuredDocumentDrawingsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Palette" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="AllowDrawings" aria-label="@Text["StructuredDocumentDrawings"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["StructuredDocumentPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["StructuredDocumentPreviewDescription"]</OmniText>
+                <StructuredDocumentExample ReadOnly="ReadOnly" AllowDrawings="AllowDrawings" />
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

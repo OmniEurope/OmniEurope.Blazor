@@ -770,4 +770,11 @@
   <data name="DocumentViewerPageIndicator" xml:space="preserve"><value>Stranica {0} / {1}</value></data>
   <data name="DocumentViewerPageLabel" xml:space="preserve"><value>Stranica {0} od {1}</value></data>
   <data name="DocumentViewerEmpty" xml:space="preserve"><value>Nema stranica za prikaz.</value></data>
+  <data name="DocumentEditorBlockLabel" xml:space="preserve"><value>Odlomak {0} od {1}</value></data>
+  <data name="DocumentEditorRunLabel" xml:space="preserve"><value>Tekst koji se može uređivati</value></data>
+  <data name="DocumentEditorFieldEmpty" xml:space="preserve"><value>za ispunjavanje</value></data>
+  <data name="DocumentEditorInsertDrawing" xml:space="preserve"><value>Umetni crtež</value></data>
+  <data name="DocumentEditorReplaceDrawing" xml:space="preserve"><value>Zamijeni crtež</value></data>
+  <data name="DocumentEditorDrawing" xml:space="preserve"><value>Crtež</value></data>
+  <data name="DocumentEditorDrawingApply" xml:space="preserve"><value>Potvrdi</value></data>
 </root>

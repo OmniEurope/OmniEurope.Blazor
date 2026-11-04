@@ -770,4 +770,11 @@
   <data name="DocumentViewerPageIndicator" xml:space="preserve"><value>Pagina {0} / {1}</value></data>
   <data name="DocumentViewerPageLabel" xml:space="preserve"><value>Pagina {0} din {1}</value></data>
   <data name="DocumentViewerEmpty" xml:space="preserve"><value>Nicio pagină de afișat.</value></data>
+  <data name="DocumentEditorBlockLabel" xml:space="preserve"><value>Paragraful {0} din {1}</value></data>
+  <data name="DocumentEditorRunLabel" xml:space="preserve"><value>Text editabil</value></data>
+  <data name="DocumentEditorFieldEmpty" xml:space="preserve"><value>de completat</value></data>
+  <data name="DocumentEditorInsertDrawing" xml:space="preserve"><value>Inserează un desen</value></data>
+  <data name="DocumentEditorReplaceDrawing" xml:space="preserve"><value>Înlocuiește desenul</value></data>
+  <data name="DocumentEditorDrawing" xml:space="preserve"><value>Desen</value></data>
+  <data name="DocumentEditorDrawingApply" xml:space="preserve"><value>Confirmă</value></data>
 </root>

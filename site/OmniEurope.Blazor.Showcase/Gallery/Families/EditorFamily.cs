@@ -41,6 +41,13 @@ internal static class EditorFamily
                 "Editor/DocumentViewerExample.razor", "Editor/DocumentViewerExample.razor.cs",
                 "Editor/DocumentViewerSamples.cs"
             ]),
+        // A document the host converted to the neutral model, edited in place: text, fields, a drawing, and the change set reported back.
+        new("structured-document", "StructuredDocumentTitle", "StructuredDocumentDescription", OmniIconName.FileDoc,
+            ["OmniDocumentEditor"],
+            [
+                "Editor/StructuredDocumentExample.razor", "Editor/StructuredDocumentExample.razor.cs",
+                "Editor/StructuredDocumentSamples.cs"
+            ]),
         new("code-editor", "CodeEditorTitle", "CodeEditorDescription", OmniIconName.BracketsCurly,
             ["OmniCodeEditor"],
             [
