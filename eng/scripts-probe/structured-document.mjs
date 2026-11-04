@@ -26,7 +26,9 @@ export async function structuredDocumentSteps(session, results) {
   const openChip = async label => {
     check(await chip(label), `Le champ « ${label} » est introuvable.`);
     await clickOn(`${editor} [data-probe-chip="${label}"]`);
-    await waitFor(`le champ « ${label} » ouvert`, `document.querySelector(${JSON.stringify(editor + ' .omni-document-editor__editor')}) !== null`);
+    // Open means what a reader gets: the input of the field holds the focus (the popover script moves it in once
+    // attached). Escape sent before that reaches the chip, which does not close the popover.
+    await waitFor(`le champ « ${label} » ouvert, sa saisie au focus`, `document.querySelector(${JSON.stringify(editor + ' .omni-document-editor__editor')})?.contains(document.activeElement) === true`);
   };
   const closeChip = async label => {
     await key('Escape', 'Escape', 27);
@@ -104,7 +106,10 @@ export async function structuredDocumentSteps(session, results) {
   // with their PNG.
   const insert = `${editor} .omni-document-editor__block:nth-of-type(3) .omni-document-editor__draw`;
   await clickOn(insert);
-  await waitFor('la zone de dessin du dialogue', "document.querySelector('.omni-dialog canvas.omni-ink-canvas__surface') !== null && document.querySelector('.omni-dialog canvas.omni-ink-canvas__surface').width > 0");
+  // A canvas is 300 pixels wide before any script: ready means omni-ink-canvas.js attached and sized it to its box,
+  // and the dialog done moving in, so the stroke lands where it is aimed (measured: a stroke sent earlier was lost).
+  await waitFor('la zone de dessin du dialogue, attachée', "(() => { const canvas = document.querySelector('.omni-dialog canvas.omni-ink-canvas__surface'); return canvas !== null && canvas.clientWidth > 0 && canvas.clientWidth !== 300 && canvas.width === Math.round(canvas.clientWidth * devicePixelRatio); })()");
+  await waitFor('le dialogue immobile', "(() => { const box = document.querySelector('.omni-dialog canvas.omni-ink-canvas__surface').getBoundingClientRect(); const now = box.left + ',' + box.top + ',' + box.width; const same = window.__probeInkBox === now; window.__probeInkBox = now; return same; })()");
   check(await evaluate("(() => { const apply = [...document.querySelectorAll('.omni-dialog button')].find(button => button.classList.contains('omni-button--primary')); return apply?.disabled === true; })()"), 'Confirmer est actif sans aucun trait.');
   const frame = await evaluate("(() => { const b = document.querySelector('.omni-dialog canvas.omni-ink-canvas__surface').getBoundingClientRect(); return JSON.stringify({ left: b.left, top: b.top, width: b.width, height: b.height }); })()").then(JSON.parse);
   const at = (x, y) => ({ x: frame.left + frame.width * x, y: frame.top + frame.height * y });

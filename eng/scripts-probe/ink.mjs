@@ -108,7 +108,9 @@ export async function inkSteps(session, results) {
   await waitForStrokes('la vague seule', 1);
   const light = await pixels();
   check(light.red < 100, `Trait de la couleur du thème pas sombre en clair : ${JSON.stringify(light)}.`);
-  await send('Emulation.setDeviceMetricsOverride', { width: 760, height: 900, deviceScaleFactor: 1, mobile: false });
+  // Narrow enough that the canvas shrinks whatever layout the earlier parts left the shell in (measured: at 760 px
+  // a shell already in its narrow layout kept the canvas at the same 689 px).
+  await send('Emulation.setDeviceMetricsOverride', { width: 480, height: 900, deviceScaleFactor: 1, mobile: false });
   await waitFor('le canevas redessiné à la nouvelle taille', `document.querySelector(${JSON.stringify(surface)}).width !== ${light.width}`);
   const narrow = await pixels();
   check(narrow.count > 100 && narrow.red < 100, `Trait perdu après le redimensionnement : ${JSON.stringify(narrow)}.`);
