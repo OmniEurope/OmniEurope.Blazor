@@ -753,4 +753,13 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Gan torthaí</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} as {2, plural, one {# phasáiste} two {# phasáiste} few {# phasáiste} many {# bpasáiste} other {# pasáiste}} déanta</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} as {2, plural, one {# phasáiste} two {# phasáiste} few {# phasáiste} many {# bpasáiste} other {# pasáiste}} déanta, ceann ar siúl</value></data>
+  <data name="InkCanvasLabel" xml:space="preserve"><value>Limistéar líníochta</value></data>
+  <data name="InkCanvasHelp" xml:space="preserve"><value>Tarraing le luch, peann nó méar. Cealaíonn Ctrl+Z an stróc deireanach agus glanann Delete an líníocht.</value></data>
+  <data name="InkToolbar" xml:space="preserve"><value>Uirlisí líníochta</value></data>
+  <data name="InkColor" xml:space="preserve"><value>Dath an stróic</value></data>
+  <data name="InkWidth" xml:space="preserve"><value>Leithead an stróic</value></data>
+  <data name="InkUndo" xml:space="preserve"><value>Cealaigh an stróc deireanach</value></data>
+  <data name="InkClear" xml:space="preserve"><value>Glan an líníocht</value></data>
+  <data name="InkUndone" xml:space="preserve"><value>Cealaíodh an stróc deireanach</value></data>
+  <data name="InkCleared" xml:space="preserve"><value>Glanadh an líníocht</value></data>
 </root>

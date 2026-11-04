@@ -753,4 +753,13 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Κανένα αποτέλεσμα</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1, plural, one {ολοκληρώθηκε} other {ολοκληρώθηκαν}} {1} από {2, plural, one {# πέρασμα} other {# περάσματα}}</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1, plural, one {ολοκληρώθηκε} other {ολοκληρώθηκαν}} {1} από {2, plural, one {# πέρασμα} other {# περάσματα}}, ένα σε εξέλιξη</value></data>
+  <data name="InkCanvasLabel" xml:space="preserve"><value>Περιοχή σχεδίασης</value></data>
+  <data name="InkCanvasHelp" xml:space="preserve"><value>Σχεδιάστε με ποντίκι, στυλό ή δάχτυλο. Το Ctrl+Z αναιρεί την τελευταία γραμμή, το Delete διαγράφει το σχέδιο.</value></data>
+  <data name="InkToolbar" xml:space="preserve"><value>Εργαλεία σχεδίασης</value></data>
+  <data name="InkColor" xml:space="preserve"><value>Χρώμα γραμμής</value></data>
+  <data name="InkWidth" xml:space="preserve"><value>Πάχος γραμμής</value></data>
+  <data name="InkUndo" xml:space="preserve"><value>Αναίρεση τελευταίας γραμμής</value></data>
+  <data name="InkClear" xml:space="preserve"><value>Διαγραφή σχεδίου</value></data>
+  <data name="InkUndone" xml:space="preserve"><value>Η τελευταία γραμμή αναιρέθηκε</value></data>
+  <data name="InkCleared" xml:space="preserve"><value>Το σχέδιο διαγράφηκε</value></data>
 </root>

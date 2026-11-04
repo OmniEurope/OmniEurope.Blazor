@@ -753,4 +753,13 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>L-ebda riżultat</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} minn {2, plural, one {# passaġġ} two {# passaġġi} few {# passaġġi} many {# passaġġ} other {# passaġġ}} {1, plural, one {lest} two {lesti} few {lesti} many {lesti} other {lesti}}</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} minn {2, plural, one {# passaġġ} two {# passaġġi} few {# passaġġi} many {# passaġġ} other {# passaġġ}} {1, plural, one {lest} two {lesti} few {lesti} many {lesti} other {lesti}}, wieħed għaddej</value></data>
+  <data name="InkCanvasLabel" xml:space="preserve"><value>Żona tat-tpinġija</value></data>
+  <data name="InkCanvasHelp" xml:space="preserve"><value>Ipinġi b'maws, pinna jew subgħajk. Ctrl+Z jikkanċella l-aħħar linja u Delete jneħħi t-tpinġija.</value></data>
+  <data name="InkToolbar" xml:space="preserve"><value>Għodod tat-tpinġija</value></data>
+  <data name="InkColor" xml:space="preserve"><value>Kulur tal-linja</value></data>
+  <data name="InkWidth" xml:space="preserve"><value>Wisa' tal-linja</value></data>
+  <data name="InkUndo" xml:space="preserve"><value>Ikkanċella l-aħħar linja</value></data>
+  <data name="InkClear" xml:space="preserve"><value>Neħħi t-tpinġija</value></data>
+  <data name="InkUndone" xml:space="preserve"><value>L-aħħar linja ġiet ikkanċellata</value></data>
+  <data name="InkCleared" xml:space="preserve"><value>It-tpinġija tneħħiet</value></data>
 </root>

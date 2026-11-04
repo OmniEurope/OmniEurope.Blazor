@@ -753,4 +753,13 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>No results</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} of {2, plural, one {# pass} other {# passes}} done</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} of {2, plural, one {# pass} other {# passes}} done, one under way</value></data>
+  <data name="InkCanvasLabel" xml:space="preserve"><value>Drawing area</value></data>
+  <data name="InkCanvasHelp" xml:space="preserve"><value>Draw with a mouse, a pen or a finger. Ctrl+Z undoes the last stroke, Delete clears the drawing.</value></data>
+  <data name="InkToolbar" xml:space="preserve"><value>Drawing tools</value></data>
+  <data name="InkColor" xml:space="preserve"><value>Stroke colour</value></data>
+  <data name="InkWidth" xml:space="preserve"><value>Stroke width</value></data>
+  <data name="InkUndo" xml:space="preserve"><value>Undo last stroke</value></data>
+  <data name="InkClear" xml:space="preserve"><value>Clear drawing</value></data>
+  <data name="InkUndone" xml:space="preserve"><value>Last stroke undone</value></data>
+  <data name="InkCleared" xml:space="preserve"><value>Drawing cleared</value></data>
 </root>

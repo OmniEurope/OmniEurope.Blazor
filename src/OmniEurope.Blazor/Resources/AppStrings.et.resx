@@ -753,4 +753,13 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Tulemusi pole</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1, plural, one {# läbimine} other {# läbimist}} {2}-st tehtud</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1, plural, one {# läbimine} other {# läbimist}} {2}-st tehtud, üks käimas</value></data>
+  <data name="InkCanvasLabel" xml:space="preserve"><value>Joonistusala</value></data>
+  <data name="InkCanvasHelp" xml:space="preserve"><value>Joonistage hiire, pliiatsi või sõrmega. Ctrl+Z võtab viimase joone tagasi, Delete kustutab joonise.</value></data>
+  <data name="InkToolbar" xml:space="preserve"><value>Joonistusriistad</value></data>
+  <data name="InkColor" xml:space="preserve"><value>Joone värv</value></data>
+  <data name="InkWidth" xml:space="preserve"><value>Joone paksus</value></data>
+  <data name="InkUndo" xml:space="preserve"><value>Võta viimane joon tagasi</value></data>
+  <data name="InkClear" xml:space="preserve"><value>Kustuta joonis</value></data>
+  <data name="InkUndone" xml:space="preserve"><value>Viimane joon on tagasi võetud</value></data>
+  <data name="InkCleared" xml:space="preserve"><value>Joonis on kustutatud</value></data>
 </root>

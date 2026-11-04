@@ -67,6 +67,7 @@ component OmniEurope.Blazor.Components.OmniHeading
 component OmniEurope.Blazor.Components.OmniHtmlEditor
 component OmniEurope.Blazor.Components.OmniIcon
 component OmniEurope.Blazor.Components.OmniImage
+component OmniEurope.Blazor.Components.OmniInkCanvas
 component OmniEurope.Blazor.Components.OmniInputBase<TValue>
 component OmniEurope.Blazor.Components.OmniKanban<TItem>
 component OmniEurope.Blazor.Components.OmniLabel
@@ -272,6 +273,9 @@ ctor public OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy()
 ctor public OmniEurope.Blazor.Components.OmniIcon()
 ctor public OmniEurope.Blazor.Components.OmniIconGlyph(System.String pathData, System.Int32 viewBoxSize)
 ctor public OmniEurope.Blazor.Components.OmniImage()
+ctor public OmniEurope.Blazor.Components.OmniInkCanvas()
+ctor public OmniEurope.Blazor.Components.OmniInkPoint(System.Double X, System.Double Y, System.Double? Pressure)
+ctor public OmniEurope.Blazor.Components.OmniInkStroke(System.String Color, System.Double Width, System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniInkPoint> Points)
 ctor public OmniEurope.Blazor.Components.OmniKanban<TItem>()
 ctor public OmniEurope.Blazor.Components.OmniKanbanColumn(System.String Key, System.String Title)
 ctor public OmniEurope.Blazor.Components.OmniKanbanMove<TItem>(TItem Item, System.String FromColumn, System.String ToColumn, System.Int32 Index)
@@ -880,6 +884,8 @@ field public static OmniEurope.Blazor.Components.OmniImageFit.Cover : OmniEurope
 field public static OmniEurope.Blazor.Components.OmniImageFit.Natural : OmniEurope.Blazor.Components.OmniImageFit const = 0
 field public static OmniEurope.Blazor.Components.OmniImageLoading.Eager : OmniEurope.Blazor.Components.OmniImageLoading const = 0
 field public static OmniEurope.Blazor.Components.OmniImageLoading.Lazy : OmniEurope.Blazor.Components.OmniImageLoading const = 1
+field public static OmniEurope.Blazor.Components.OmniInkStroke.ReferenceWidth : System.Double const = 600
+field public static OmniEurope.Blazor.Components.OmniInkStroke.ThemeColor : System.String const = "currentColor"
 field public static OmniEurope.Blazor.Components.OmniJustification.Between : OmniEurope.Blazor.Components.OmniJustification const = 3
 field public static OmniEurope.Blazor.Components.OmniJustification.Center : OmniEurope.Blazor.Components.OmniJustification const = 1
 field public static OmniEurope.Blazor.Components.OmniJustification.End : OmniEurope.Blazor.Components.OmniJustification const = 2
@@ -1204,6 +1210,9 @@ method protected override OmniEurope.Blazor.Components.OmniHtmlEditor.TryParseVa
 method protected override OmniEurope.Blazor.Components.OmniIcon.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniImage.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniImage.OnParametersSet() : System.Void
+method protected override OmniEurope.Blazor.Components.OmniInkCanvas.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniInkCanvas.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
+method protected override OmniEurope.Blazor.Components.OmniInkCanvas.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniInputBase<TValue>.Dispose(System.Boolean disposing) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniInputBase<TValue>.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniKanban<TItem>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
@@ -1598,6 +1607,16 @@ method public OmniEurope.Blazor.Components.OmniHtmlEditorTableReader.Deconstruct
 method public OmniEurope.Blazor.Components.OmniHtmlEditorTableReader.Equals(OmniEurope.Blazor.Components.OmniHtmlEditorTableReader? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.<Clone>$() : OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy
 method public OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.Equals(OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniInkCanvas.ClearAsync() : System.Threading.Tasks.Task
+method public OmniEurope.Blazor.Components.OmniInkCanvas.DisposeAsync() : System.Threading.Tasks.ValueTask
+method public OmniEurope.Blazor.Components.OmniInkCanvas.ExportDataUrlAsync(System.Int32 width, System.Int32 height) : System.Threading.Tasks.Task<System.String>
+method public OmniEurope.Blazor.Components.OmniInkCanvas.ExportPngAsync(System.Int32 width, System.Int32 height) : System.Threading.Tasks.Task<System.Byte[]>
+method public OmniEurope.Blazor.Components.OmniInkCanvas.UndoAsync() : System.Threading.Tasks.Task
+method public OmniEurope.Blazor.Components.OmniInkPoint.Deconstruct(out System.Double X, out System.Double Y, out System.Double? Pressure) : System.Void
+method public OmniEurope.Blazor.Components.OmniInkPoint.Equals(OmniEurope.Blazor.Components.OmniInkPoint other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniInkStroke.<Clone>$() : OmniEurope.Blazor.Components.OmniInkStroke
+method public OmniEurope.Blazor.Components.OmniInkStroke.Deconstruct(out System.String Color, out System.Double Width, out System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniInkPoint> Points) : System.Void
+method public OmniEurope.Blazor.Components.OmniInkStroke.Equals(OmniEurope.Blazor.Components.OmniInkStroke? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniKanban<TItem>.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniKanbanColumn.<Clone>$() : OmniEurope.Blazor.Components.OmniKanbanColumn
 method public OmniEurope.Blazor.Components.OmniKanbanColumn.Deconstruct(out System.String Key, out System.String Title) : System.Void
@@ -1959,6 +1978,12 @@ method public override OmniEurope.Blazor.Components.OmniHtmlEditorTableReader.To
 method public override OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniInkPoint.Equals(System.Object obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniInkPoint.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniInkPoint.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniInkStroke.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniInkStroke.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniInkStroke.ToString() : System.String
 method public override OmniEurope.Blazor.Components.OmniInputBase<TValue>.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView parameters) : System.Threading.Tasks.Task
 method public override OmniEurope.Blazor.Components.OmniKanbanColumn.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniKanbanColumn.GetHashCode() : System.Int32
@@ -2196,6 +2221,10 @@ method public static OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.Merge(
 method public static OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.op_Equality(OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy? left, OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.op_Inequality(OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy? left, OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniIconGlyph.Phosphor(System.String pathData) : OmniEurope.Blazor.Components.OmniIconGlyph
+method public static OmniEurope.Blazor.Components.OmniInkPoint.op_Equality(OmniEurope.Blazor.Components.OmniInkPoint left, OmniEurope.Blazor.Components.OmniInkPoint right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniInkPoint.op_Inequality(OmniEurope.Blazor.Components.OmniInkPoint left, OmniEurope.Blazor.Components.OmniInkPoint right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniInkStroke.op_Equality(OmniEurope.Blazor.Components.OmniInkStroke? left, OmniEurope.Blazor.Components.OmniInkStroke? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniInkStroke.op_Inequality(OmniEurope.Blazor.Components.OmniInkStroke? left, OmniEurope.Blazor.Components.OmniInkStroke? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniKanbanColumn.op_Equality(OmniEurope.Blazor.Components.OmniKanbanColumn? left, OmniEurope.Blazor.Components.OmniKanbanColumn? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniKanbanColumn.op_Inequality(OmniEurope.Blazor.Components.OmniKanbanColumn? left, OmniEurope.Blazor.Components.OmniKanbanColumn? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniKanbanMove<TItem>.op_Equality(OmniEurope.Blazor.Components.OmniKanbanMove<TItem>? left, OmniEurope.Blazor.Components.OmniKanbanMove<TItem>? right) : System.Boolean
@@ -3199,6 +3228,23 @@ property public OmniEurope.Blazor.Components.OmniImage.Height : System.Int32? {g
 property public OmniEurope.Blazor.Components.OmniImage.Loading : OmniEurope.Blazor.Components.OmniImageLoading {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniImage.Source : System.String {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniImage.Width : System.Int32? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniInkCanvas.AspectRatio : System.Double? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniInkCanvas.Color : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniInkCanvas.Disabled : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniInkCanvas.Height : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniInkCanvas.Label : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniInkCanvas.ReadOnly : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniInkCanvas.ShowToolbar : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniInkCanvas.StrokeWidth : System.Double {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniInkCanvas.Value : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniInkStroke> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniInkCanvas.ValueChanged : Microsoft.AspNetCore.Components.EventCallback<System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniInkStroke>> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniInkCanvas.Width : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniInkPoint.Pressure : System.Double? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniInkPoint.X : System.Double {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniInkPoint.Y : System.Double {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniInkStroke.Color : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniInkStroke.Points : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniInkPoint> {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniInkStroke.Width : System.Double {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniInputBase<TValue>.Class : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniInputBase<TValue>.Id : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniInputBase<TValue>.PresetName : System.String? {get(public);set(public)} [Parameter]
@@ -4354,6 +4400,9 @@ type public OmniEurope.Blazor.Components.OmniIconName [enum, sealed] : System.IC
 type public OmniEurope.Blazor.Components.OmniImage [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniImageFit [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniImageLoading [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
+type public OmniEurope.Blazor.Components.OmniInkCanvas [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
+type public OmniEurope.Blazor.Components.OmniInkPoint [struct, sealed] : System.ValueType, System.IEquatable<OmniEurope.Blazor.Components.OmniInkPoint>
+type public OmniEurope.Blazor.Components.OmniInkStroke [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniInkStroke>
 type public OmniEurope.Blazor.Components.OmniInputBase<TValue> [class, abstract] : Microsoft.AspNetCore.Components.Forms.InputBase<TValue>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniJustification [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniKanban<TItem> [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable

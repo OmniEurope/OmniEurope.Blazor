@@ -99,4 +99,18 @@
   <data name="CodeReadingExcerptTitle" xml:space="preserve"><value>Highlighted line and excerpt</value></data>
   <data name="CodeReadingNavigationTitle" xml:space="preserve"><value>Navigation between changes</value></data>
   <data name="CodeReadingNavigationDescription" xml:space="preserve"><value>The viewer's own bar (ShowNavigation), then a comparison filling its frame under a bar owned by the page. The plain text engine keeps the previous and next buttons disabled: they work once Monaco is mounted.</value></data>
+  <data name="InkCanvasTitle" xml:space="preserve"><value>Drawing pad</value></data>
+  <data name="InkCanvasDescription" xml:space="preserve"><value>Freehand drawing with a mouse, a pen or a finger: colour and width, undo and clear, and an export as a transparent PNG.</value></data>
+  <data name="InkCanvasSettingsTitle" xml:space="preserve"><value>Drawing pad settings</value></data>
+  <data name="InkCanvasSettingsDescription" xml:space="preserve"><value>What the pad shows and what it accepts.</value></data>
+  <data name="InkCanvasToolbar" xml:space="preserve"><value>Toolbar</value></data>
+  <data name="InkCanvasToolbarDescription" xml:space="preserve"><value>Colour, width, Undo and Clear above the drawing area.</value></data>
+  <data name="InkCanvasWide" xml:space="preserve"><value>Signature shape</value></data>
+  <data name="InkCanvasWideDescription" xml:space="preserve"><value>An area three times wider than high (AspectRatio) instead of the default 12rem height.</value></data>
+  <data name="InkCanvasReadOnly" xml:space="preserve"><value>Read only</value></data>
+  <data name="InkCanvasReadOnlyDescription" xml:space="preserve"><value>The drawing stays visible and focusable but cannot be changed.</value></data>
+  <data name="InkCanvasDisabled" xml:space="preserve"><value>Disabled</value></data>
+  <data name="InkCanvasDisabledDescription" xml:space="preserve"><value>The area leaves the tab order and the toolbar is disabled.</value></data>
+  <data name="InkCanvasPreviewTitle" xml:space="preserve"><value>Signature</value></data>
+  <data name="InkCanvasPreviewDescription" xml:space="preserve"><value>Draw below. Ctrl+Z undoes the last stroke and Delete clears the drawing when the area has the focus.</value></data>
 </root>

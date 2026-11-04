@@ -1067,3 +1067,24 @@
     border-radius: var(--omni-radius);
     padding: var(--omni-space-md);
 }
+
+/* Drawing pad page: the exported PNG on a chequered backdrop, so that its transparent background shows. */
+.gallery-ink-backdrop {
+    background-color: var(--omni-color-surface);
+    background-image:
+        linear-gradient(45deg, var(--omni-color-surface-muted) 25%, transparent 25%, transparent 75%, var(--omni-color-surface-muted) 75%),
+        linear-gradient(45deg, var(--omni-color-surface-muted) 25%, transparent 25%, transparent 75%, var(--omni-color-surface-muted) 75%);
+    background-position: 0 0, 0.5rem 0.5rem;
+    background-size: 1rem 1rem;
+    border: var(--omni-border-width) solid var(--omni-color-border);
+    border-radius: var(--omni-radius);
+    max-inline-size: 100%;
+    overflow: auto;
+    padding: var(--omni-space-sm);
+}
+
+.gallery-ink-backdrop img {
+    display: block;
+    max-inline-size: 100%;
+    block-size: auto;
+}

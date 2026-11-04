@@ -344,4 +344,17 @@
 .omni-settings-tile--toggle .omni-settings-tile__row > :not(.omni-settings-tile__icon, .omni-settings-tile__text),
 .omni-settings-tile--toggle > :not(.omni-settings-tile__row) { position: relative; }
 @media (prefers-reduced-motion: reduce) { .omni-settings-tile, .omni-appearance-settings__row, .omni-stat-tile--action { transition: none; } }
+/* The freehand drawing pad (OmniInkCanvas): a framed surface under an optional toolbar. The size of the surface
+   comes from --omni-ink-width, --omni-ink-height and --omni-ink-aspect, which omni-ink-canvas.js sets on the root
+   from the component parameters. The canvas fills the frame without sizing it, and takes every touch for drawing. */
+.omni-ink-canvas { display: flex; flex-direction: column; inline-size: var(--omni-ink-width, 100%); max-inline-size: 100%; }
+.omni-ink-canvas__toolbar { align-items: center; background: var(--omni-color-surface-muted); border: var(--omni-border-width) solid var(--omni-color-border); border-block-end: 0; border-radius: var(--omni-radius) var(--omni-radius) 0 0; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); padding: var(--omni-space-xs) var(--omni-space-sm); }
+.omni-ink-canvas__width { inline-size: 8rem; }
+.omni-ink-canvas__frame { aspect-ratio: var(--omni-ink-aspect, auto); background: var(--omni-grid-background, var(--omni-card-background, var(--omni-color-surface))); block-size: var(--omni-ink-height, 12rem); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); box-sizing: border-box; color: var(--omni-color-text); inline-size: 100%; overflow: hidden; position: relative; }
+.omni-ink-canvas__toolbar + .omni-visually-hidden + .omni-ink-canvas__frame { border-radius: 0 0 var(--omni-radius) var(--omni-radius); }
+.omni-ink-canvas__surface { block-size: 100%; cursor: crosshair; display: block; inline-size: 100%; inset: 0; position: absolute; touch-action: none; user-select: none; }
+.omni-ink-canvas__surface:focus-visible { box-shadow: var(--omni-focus-ring-inset); outline: none; }
+.omni-ink-canvas--readonly .omni-ink-canvas__surface { cursor: default; }
+.omni-ink-canvas--disabled { opacity: 0.5; }
+.omni-ink-canvas--disabled .omni-ink-canvas__surface { cursor: not-allowed; }
 

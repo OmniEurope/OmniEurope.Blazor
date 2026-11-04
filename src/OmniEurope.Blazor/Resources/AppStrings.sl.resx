@@ -753,4 +753,13 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Ni rezultatov</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1, plural, one {opravljen} two {opravljena} few {opravljeni} other {opravljenih}} {1} od {2, plural, one {# prehoda} two {# prehodov} few {# prehodov} other {# prehodov}}</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1, plural, one {opravljen} two {opravljena} few {opravljeni} other {opravljenih}} {1} od {2, plural, one {# prehoda} two {# prehodov} few {# prehodov} other {# prehodov}}, eden poteka</value></data>
+  <data name="InkCanvasLabel" xml:space="preserve"><value>Območje risanja</value></data>
+  <data name="InkCanvasHelp" xml:space="preserve"><value>Rišite z miško, peresom ali prstom. Ctrl+Z razveljavi zadnjo potezo, Delete izbriše risbo.</value></data>
+  <data name="InkToolbar" xml:space="preserve"><value>Orodja za risanje</value></data>
+  <data name="InkColor" xml:space="preserve"><value>Barva poteze</value></data>
+  <data name="InkWidth" xml:space="preserve"><value>Debelina poteze</value></data>
+  <data name="InkUndo" xml:space="preserve"><value>Razveljavi zadnjo potezo</value></data>
+  <data name="InkClear" xml:space="preserve"><value>Izbriši risbo</value></data>
+  <data name="InkUndone" xml:space="preserve"><value>Zadnja poteza je razveljavljena</value></data>
+  <data name="InkCleared" xml:space="preserve"><value>Risba je izbrisana</value></data>
 </root>

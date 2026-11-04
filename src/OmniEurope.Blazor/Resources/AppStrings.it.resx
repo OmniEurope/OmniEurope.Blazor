@@ -753,4 +753,13 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Nessun risultato</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1, plural, one {# passaggio completato} many {# di passaggi completati} other {# passaggi completati}} su {2}</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1, plural, one {# passaggio completato} many {# di passaggi completati} other {# passaggi completati}} su {2}, uno in corso</value></data>
+  <data name="InkCanvasLabel" xml:space="preserve"><value>Area di disegno</value></data>
+  <data name="InkCanvasHelp" xml:space="preserve"><value>Disegna con il mouse, la penna o il dito. Ctrl+Z annulla l'ultimo tratto, Canc cancella il disegno.</value></data>
+  <data name="InkToolbar" xml:space="preserve"><value>Strumenti di disegno</value></data>
+  <data name="InkColor" xml:space="preserve"><value>Colore del tratto</value></data>
+  <data name="InkWidth" xml:space="preserve"><value>Spessore del tratto</value></data>
+  <data name="InkUndo" xml:space="preserve"><value>Annulla l'ultimo tratto</value></data>
+  <data name="InkClear" xml:space="preserve"><value>Cancella il disegno</value></data>
+  <data name="InkUndone" xml:space="preserve"><value>Ultimo tratto annullato</value></data>
+  <data name="InkCleared" xml:space="preserve"><value>Disegno cancellato</value></data>
 </root>

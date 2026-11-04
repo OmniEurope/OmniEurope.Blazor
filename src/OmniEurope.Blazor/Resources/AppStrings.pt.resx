@@ -753,4 +753,13 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Sem resultados</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} de {2, plural, one {# passagem} many {# de passagens} other {# passagens}} {1, plural, one {feita} many {feitas} other {feitas}}</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} de {2, plural, one {# passagem} many {# de passagens} other {# passagens}} {1, plural, one {feita} many {feitas} other {feitas}}, uma em curso</value></data>
+  <data name="InkCanvasLabel" xml:space="preserve"><value>Área de desenho</value></data>
+  <data name="InkCanvasHelp" xml:space="preserve"><value>Desenhe com o rato, uma caneta ou o dedo. Ctrl+Z desfaz o último traço e Delete apaga o desenho.</value></data>
+  <data name="InkToolbar" xml:space="preserve"><value>Ferramentas de desenho</value></data>
+  <data name="InkColor" xml:space="preserve"><value>Cor do traço</value></data>
+  <data name="InkWidth" xml:space="preserve"><value>Espessura do traço</value></data>
+  <data name="InkUndo" xml:space="preserve"><value>Desfazer o último traço</value></data>
+  <data name="InkClear" xml:space="preserve"><value>Apagar o desenho</value></data>
+  <data name="InkUndone" xml:space="preserve"><value>Último traço desfeito</value></data>
+  <data name="InkCleared" xml:space="preserve"><value>Desenho apagado</value></data>
 </root>

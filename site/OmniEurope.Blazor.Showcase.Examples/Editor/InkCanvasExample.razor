@@ -1,0 +1,30 @@
+@* A freehand drawing pad: the strokes are the bound value, the count below follows them, and the drawing exports as a
+   transparent PNG (shown here on a chequered backdrop, so the transparency can be seen). *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniInkCanvas @ref="_canvas"
+                   Id="ink-demo"
+                   @bind-Value="Strokes"
+                   Label="Signature"
+                   ShowToolbar="ShowToolbar"
+                   ReadOnly="ReadOnly"
+                   Disabled="Disabled"
+                   AspectRatio="@(Wide ? 3d : null)" />
+    <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+        <OmniBadge Id="ink-count" Tone="OmniTone.Info">@Strokes.Count @(Strokes.Count == 1 ? "stroke" : "strokes")</OmniBadge>
+        <OmniButton Id="ink-sample" Variant="OmniButtonVariant.Secondary" OnClick="LoadSample">
+            <OmniIcon Name="OmniIconName.Edit" />
+            <span>Load a sample</span>
+        </OmniButton>
+        <OmniButton Id="ink-export" Variant="OmniButtonVariant.Secondary" OnClick="ExportAsync">
+            <OmniIcon Name="OmniIconName.Image" />
+            <span>Export as PNG</span>
+        </OmniButton>
+    </OmniRow>
+    @if (Exported is not null)
+    {
+        <div class="gallery-ink-backdrop">
+            <img id="ink-export-image" src="@Exported" alt="The exported drawing" width="@ExportWidth" height="@ExportHeight" />
+        </div>
+        <OmniText Tone="OmniTextTone.Muted">A @ExportWidth by @ExportHeight pixel PNG with a transparent background; strokes in the theme colour are written in black.</OmniText>
+    }
+</OmniStack>

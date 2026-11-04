@@ -28,6 +28,12 @@ internal static class EditorFamily
             [
                 "Editor/DocumentEditorExample.razor", "Editor/DocumentEditorExample.razor.cs"
             ]),
+        new("ink-canvas", "InkCanvasTitle", "InkCanvasDescription", OmniIconName.Palette,
+            ["OmniInkCanvas"],
+            [
+                "Editor/InkCanvasExample.razor", "Editor/InkCanvasExample.razor.cs",
+                "Editor/InkSamples.cs"
+            ]),
         new("code-editor", "CodeEditorTitle", "CodeEditorDescription", OmniIconName.BracketsCurly,
             ["OmniCodeEditor"],
             [
