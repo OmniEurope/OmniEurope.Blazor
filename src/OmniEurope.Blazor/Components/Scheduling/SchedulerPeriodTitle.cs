@@ -1,16 +1,19 @@
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The title of the period an <see cref="OmniScheduler"/> shows, in the patterns of its culture: the long date of a
-/// day, the year and month of a month, and the first and last days of a week joined by the library's range text,
-/// the start written without the year (and without the month, where the culture writes the month after the day)
-/// when both ends share it: "2 au 8 novembre 2026", "30 novembre au 6 décembre 2026".
+/// day, the year and month of a month, and the first and last days of a week joined by the library's range text.
+/// Both days of a week are written in full, without the weekday, and the start drops the words it shares with the
+/// end: its shared tail where the culture writes the day first ("2 au 8 novembre 2026", "2 – 8 de noviembre de
+/// 2026"), its shared head where it writes the year first ("2. – 2026. november 8."), the tail on a tie; a week
+/// across a new year keeps its start whole.
 /// </summary>
-internal static class SchedulerPeriodTitle
+internal static partial class SchedulerPeriodTitle
 {
-    private static readonly char[] Separators = [' ', ',', ' '];
+    private static readonly char[] Separators = [' ', ',', ' '];
 
     internal static string Of(OmniCalendarView view, DateOnly first, DateOnly last, CultureInfo culture, Func<string, string, string> range) => view switch
     {
@@ -21,39 +24,53 @@ internal static class SchedulerPeriodTitle
 
     private static string Week(DateOnly first, DateOnly last, CultureInfo culture, Func<string, string, string> range)
     {
-        var full = Without(culture.DateTimeFormat.LongDatePattern, "dddd");
-        var start = full;
-        if (first.Year == last.Year)
-        {
-            start = Without(start, "yyyy");
-            // The month leaves the start only where it follows the day ("d MMMM"): "MMMM d" would lose its month.
-            if (first.Month == last.Month && start.IndexOf("MMMM", StringComparison.Ordinal) > start.IndexOf('d', StringComparison.Ordinal))
-            {
-                start = Without(start, "MMMM");
-            }
-        }
-
-        return range(Write(first, start, culture), Write(last, full, culture));
+        var pattern = WithoutWeekday(culture.DateTimeFormat.LongDatePattern);
+        var end = Write(last, pattern, culture);
+        var start = Write(first, pattern, culture);
+        // Across a new year nothing is shared that the reader could take from the end alone.
+        return range(first.Year == last.Year ? Shorten(start, end) : start, end);
     }
 
-    // A pattern of one letter ("d", left of "d MMMM yyyy") is a standard format to .NET: "%d" is the custom one.
     private static string Write(DateOnly date, string pattern, CultureInfo culture) =>
-        date.ToDateTime(TimeOnly.MinValue).ToString(pattern.Length == 1 ? "%" + pattern : pattern, culture);
+        date.ToDateTime(TimeOnly.MinValue).ToString(pattern, culture);
 
-    /// <summary>A pattern without one of its parts and the spaces and commas that went with it; a dot stays, it marks
-    /// the day in German ("2.").</summary>
-    private static string Without(string pattern, string part)
+    /// <summary>The long date pattern without its weekday and the spaces and commas around it.</summary>
+    private static string WithoutWeekday(string pattern)
     {
-        var index = pattern.IndexOf(part, StringComparison.Ordinal);
-        if (index < 0)
+        var index = pattern.IndexOf("dddd", StringComparison.Ordinal);
+        return index < 0
+            ? pattern
+            : (pattern[..index].TrimEnd(Separators) + " " + pattern[(index + 4)..].TrimStart(Separators)).Trim(Separators);
+    }
+
+    /// <summary>The start of a week without the words it shares with the end. The start keeps at least its first
+    /// word, so a day that differs is never lost.</summary>
+    private static string Shorten(string start, string end)
+    {
+        var startWords = Words().Matches(start);
+        var endWords = Words().Matches(end);
+        var most = Math.Min(startWords.Count - 1, endWords.Count);
+        var tail = 0;
+        while (tail < most && startWords[startWords.Count - 1 - tail].Value == endWords[endWords.Count - 1 - tail].Value)
         {
-            return pattern;
+            tail++;
         }
 
-        var end = index + part.Length;
-        var before = pattern[..index].TrimEnd(Separators);
-        var after = pattern[end..].TrimStart(Separators);
-        // A part that stood between two others leaves one space between them.
-        return before.Length > 0 && after.Length > 0 ? $"{before} {after}" : before + after;
+        var head = 0;
+        while (head < most && startWords[head].Value == endWords[head].Value)
+        {
+            head++;
+        }
+
+        if (tail >= head)
+        {
+            var last = startWords[startWords.Count - 1 - tail];
+            return start[..(last.Index + last.Length)].TrimEnd(Separators);
+        }
+
+        return start[startWords[head].Index..];
     }
+
+    [GeneratedRegex(@"\S+")]
+    private static partial Regex Words();
 }
