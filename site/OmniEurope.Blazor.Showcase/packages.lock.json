@@ -277,7 +277,7 @@
       "omnieurope.blazor.showcase.examples": {
         "type": "Project",
         "dependencies": {
-          "OmniEurope.Blazor": "[1.11.0, )"
+          "OmniEurope.Blazor": "[1.11.1, )"
         }
       },
       "omnieurope.blazor.showcase.shared": {

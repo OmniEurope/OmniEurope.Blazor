@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+## [1.11.1] - 2026-11-04
+
+Version corrective demandée par le propriétaire : demandes d'une application cliente (recettes R-31, R-32, R-40, R-41, R-46, R-57, R-58) et corrections de l'audit 360 du 2026-11-03. Elle porte une rupture binaire assumée et des ajouts d'API, voir [docs/versioning.md](docs/versioning.md).
+
 ### Breaking changes
 
 - `OmniPreference` reçoit un quatrième paramètre positionnel optionnel `ReceivedAt` : le constructeur à trois arguments reste valable en source, mais la rupture est binaire (recompiler), et la déconstruction à trois variables `var (key, value, updatedAt) = preference;` ne compile plus. Migration : déconstruire en quatre (`var (key, value, updatedAt, _)`) ou lire les propriétés.
