@@ -753,4 +753,13 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Няма резултати</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1, plural, one {завършено} other {завършени}} {1} от {2, plural, one {# преминаване} other {# преминавания}}</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1, plural, one {завършено} other {завършени}} {1} от {2, plural, one {# преминаване} other {# преминавания}}, едно в ход</value></data>
+  <data name="InkCanvasLabel" xml:space="preserve"><value>Област за рисуване</value></data>
+  <data name="InkCanvasHelp" xml:space="preserve"><value>Рисувайте с мишка, писалка или пръст. Ctrl+Z отменя последния щрих, Delete изчиства рисунката.</value></data>
+  <data name="InkToolbar" xml:space="preserve"><value>Инструменти за рисуване</value></data>
+  <data name="InkColor" xml:space="preserve"><value>Цвят на щриха</value></data>
+  <data name="InkWidth" xml:space="preserve"><value>Дебелина на щриха</value></data>
+  <data name="InkUndo" xml:space="preserve"><value>Отмяна на последния щрих</value></data>
+  <data name="InkClear" xml:space="preserve"><value>Изчистване на рисунката</value></data>
+  <data name="InkUndone" xml:space="preserve"><value>Последният щрих е отменен</value></data>
+  <data name="InkCleared" xml:space="preserve"><value>Рисунката е изчистена</value></data>
 </root>

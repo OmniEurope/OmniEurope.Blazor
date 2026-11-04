@@ -1,0 +1,61 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+
+@* A freehand drawing pad. The strokes are the value; omni-ink-canvas.js reads the pointer on the canvas, draws the
+   stroke being put down and reports it when the pointer is released. The pen (colour and width) is read by the
+   script from the data attributes of the canvas, so changing it costs no call. *@
+<div @ref="_root"
+     @attributes="AdditionalAttributes"
+     id="@BaseId"
+     class="@Css("omni-ink-canvas", Disabled ? "omni-ink-canvas--disabled" : null, ReadOnly ? "omni-ink-canvas--readonly" : null)">
+    @if (ShowToolbar)
+    {
+        <div class="omni-ink-canvas__toolbar" role="toolbar" aria-label="@Localize("InkToolbar")">
+            <OmniColorPicker Class="omni-ink-canvas__color"
+                             ShowValue="false"
+                             Disabled="@Locked"
+                             aria-label="@Localize("InkColor")"
+                             title="@Localize("InkColor")"
+                             @bind-Value:get="PickerColor"
+                             @bind-Value:set="ChooseColor" />
+            <OmniSlider Class="omni-ink-canvas__width"
+                        Minimum="1"
+                        Maximum="12"
+                        Step="0.5"
+                        ShowValue="false"
+                        Disabled="@Locked"
+                        aria-label="@Localize("InkWidth")"
+                        title="@Localize("InkWidth")"
+                        @bind-Value:get="PenWidth"
+                        @bind-Value:set="ChooseWidth" />
+            <OmniButton Variant="OmniButtonVariant.Ghost"
+                        Label="@Localize("InkUndo")"
+                        title="@Localize("InkUndo")"
+                        Disabled="@(!CanUndo)"
+                        OnClick="UndoAsync">
+                <Icon><OmniIcon Name="OmniIconName.ArrowUUpLeft" /></Icon>
+            </OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Ghost"
+                        Label="@Localize("InkClear")"
+                        title="@Localize("InkClear")"
+                        Disabled="@(!CanUndo)"
+                        OnClick="ClearAsync">
+                <Icon><OmniIcon Name="OmniIconName.Eraser" /></Icon>
+            </OmniButton>
+        </div>
+    }
+    <p id="@HelpId" class="omni-visually-hidden">@Localize("InkCanvasHelp")</p>
+    <div class="omni-ink-canvas__frame">
+        <canvas @ref="_canvas"
+                class="omni-ink-canvas__surface"
+                role="img"
+                tabindex="@(Disabled ? null : "0")"
+                aria-label="@EffectiveLabel"
+                aria-describedby="@HelpId"
+                data-omni-ink-color="@StrokeColor"
+                data-omni-ink-width="@PenWidth.ToString("0.##", CultureInfo.InvariantCulture)"
+                data-omni-ink-locked="@(Locked ? "true" : null)"></canvas>
+    </div>
+    <div class="omni-visually-hidden" role="status" aria-live="polite" aria-atomic="true">@_announcement</div>
+</div>

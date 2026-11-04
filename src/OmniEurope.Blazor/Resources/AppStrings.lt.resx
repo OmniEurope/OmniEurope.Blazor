@@ -753,4 +753,13 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Rezultatų nėra</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: atlikta {1} iš {2, plural, one {# perėjimo} few {# perėjimų} other {# perėjimų}}</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: atlikta {1} iš {2, plural, one {# perėjimo} few {# perėjimų} other {# perėjimų}}, vienas vyksta</value></data>
+  <data name="InkCanvasLabel" xml:space="preserve"><value>Piešimo sritis</value></data>
+  <data name="InkCanvasHelp" xml:space="preserve"><value>Piešite pele, rašikliu ar pirštu. Ctrl+Z atšaukia paskutinį brūkšnį, Delete išvalo piešinį.</value></data>
+  <data name="InkToolbar" xml:space="preserve"><value>Piešimo įrankiai</value></data>
+  <data name="InkColor" xml:space="preserve"><value>Brūkšnio spalva</value></data>
+  <data name="InkWidth" xml:space="preserve"><value>Brūkšnio storis</value></data>
+  <data name="InkUndo" xml:space="preserve"><value>Atšaukti paskutinį brūkšnį</value></data>
+  <data name="InkClear" xml:space="preserve"><value>Išvalyti piešinį</value></data>
+  <data name="InkUndone" xml:space="preserve"><value>Paskutinis brūkšnys atšauktas</value></data>
+  <data name="InkCleared" xml:space="preserve"><value>Piešinys išvalytas</value></data>
 </root>

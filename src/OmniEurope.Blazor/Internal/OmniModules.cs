@@ -33,6 +33,9 @@ internal static class OmniModules
     /// <summary>The HTML editor surface.</summary>
     internal const string HtmlEditor = Root + "omni-html-editor.js";
 
+    /// <summary>The freehand drawing pad: pointer input, drawing, theme and size redraws, PNG export.</summary>
+    internal const string InkCanvas = Root + "omni-ink-canvas.js";
+
     /// <summary>The drag data of the tree items.</summary>
     internal const string Tree = Root + "omni-tree.js";
 

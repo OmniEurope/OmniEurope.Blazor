@@ -753,4 +753,13 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Inga resultat</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} av {2, plural, one {# omgång} other {# omgångar}} {1, plural, one {klar} other {klara}}</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} av {2, plural, one {# omgång} other {# omgångar}} {1, plural, one {klar} other {klara}}, en pågår</value></data>
+  <data name="InkCanvasLabel" xml:space="preserve"><value>Ritområde</value></data>
+  <data name="InkCanvasHelp" xml:space="preserve"><value>Rita med mus, penna eller finger. Ctrl+Z ångrar sista linjen och Delete rensar ritningen.</value></data>
+  <data name="InkToolbar" xml:space="preserve"><value>Ritverktyg</value></data>
+  <data name="InkColor" xml:space="preserve"><value>Linjefärg</value></data>
+  <data name="InkWidth" xml:space="preserve"><value>Linjetjocklek</value></data>
+  <data name="InkUndo" xml:space="preserve"><value>Ångra sista linjen</value></data>
+  <data name="InkClear" xml:space="preserve"><value>Rensa ritningen</value></data>
+  <data name="InkUndone" xml:space="preserve"><value>Sista linjen ångrad</value></data>
+  <data name="InkCleared" xml:space="preserve"><value>Ritningen rensad</value></data>
 </root>

@@ -753,4 +753,13 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Žádné výsledky</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: dokončeno {1} z {2, plural, one {# průchodu} few {# průchodů} other {# průchodů}}</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: dokončeno {1} z {2, plural, one {# průchodu} few {# průchodů} other {# průchodů}}, jeden probíhá</value></data>
+  <data name="InkCanvasLabel" xml:space="preserve"><value>Kreslicí plocha</value></data>
+  <data name="InkCanvasHelp" xml:space="preserve"><value>Kreslete myší, perem nebo prstem. Ctrl+Z vrátí zpět poslední tah, Delete vymaže kresbu.</value></data>
+  <data name="InkToolbar" xml:space="preserve"><value>Nástroje kreslení</value></data>
+  <data name="InkColor" xml:space="preserve"><value>Barva tahu</value></data>
+  <data name="InkWidth" xml:space="preserve"><value>Tloušťka tahu</value></data>
+  <data name="InkUndo" xml:space="preserve"><value>Vrátit zpět poslední tah</value></data>
+  <data name="InkClear" xml:space="preserve"><value>Vymazat kresbu</value></data>
+  <data name="InkUndone" xml:space="preserve"><value>Poslední tah byl vrácen zpět</value></data>
+  <data name="InkCleared" xml:space="preserve"><value>Kresba byla vymazána</value></data>
 </root>

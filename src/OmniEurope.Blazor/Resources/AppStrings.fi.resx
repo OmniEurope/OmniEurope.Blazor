@@ -753,4 +753,13 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Ei tuloksia</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1}/{2} kierrosta tehty</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1}/{2} kierrosta tehty, yksi käynnissä</value></data>
+  <data name="InkCanvasLabel" xml:space="preserve"><value>Piirtoalue</value></data>
+  <data name="InkCanvasHelp" xml:space="preserve"><value>Piirrä hiirellä, kynällä tai sormella. Ctrl+Z kumoaa viimeisen vedon ja Delete tyhjentää piirroksen.</value></data>
+  <data name="InkToolbar" xml:space="preserve"><value>Piirtotyökalut</value></data>
+  <data name="InkColor" xml:space="preserve"><value>Vedon väri</value></data>
+  <data name="InkWidth" xml:space="preserve"><value>Vedon paksuus</value></data>
+  <data name="InkUndo" xml:space="preserve"><value>Kumoa viimeinen veto</value></data>
+  <data name="InkClear" xml:space="preserve"><value>Tyhjennä piirros</value></data>
+  <data name="InkUndone" xml:space="preserve"><value>Viimeinen veto kumottu</value></data>
+  <data name="InkCleared" xml:space="preserve"><value>Piirros tyhjennetty</value></data>
 </root>

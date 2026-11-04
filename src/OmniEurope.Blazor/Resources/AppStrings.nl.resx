@@ -753,4 +753,13 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Geen resultaten</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} van {2, plural, one {# ronde} other {# rondes}} klaar</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} van {2, plural, one {# ronde} other {# rondes}} klaar, één bezig</value></data>
+  <data name="InkCanvasLabel" xml:space="preserve"><value>Tekengebied</value></data>
+  <data name="InkCanvasHelp" xml:space="preserve"><value>Teken met een muis, pen of vinger. Ctrl+Z maakt de laatste lijn ongedaan, Delete wist de tekening.</value></data>
+  <data name="InkToolbar" xml:space="preserve"><value>Tekengereedschap</value></data>
+  <data name="InkColor" xml:space="preserve"><value>Lijnkleur</value></data>
+  <data name="InkWidth" xml:space="preserve"><value>Lijndikte</value></data>
+  <data name="InkUndo" xml:space="preserve"><value>Laatste lijn ongedaan maken</value></data>
+  <data name="InkClear" xml:space="preserve"><value>Tekening wissen</value></data>
+  <data name="InkUndone" xml:space="preserve"><value>Laatste lijn ongedaan gemaakt</value></data>
+  <data name="InkCleared" xml:space="preserve"><value>Tekening gewist</value></data>
 </root>

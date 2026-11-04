@@ -1,6 +1,6 @@
 # Éditeurs : WYSIWYG, traitement de texte et code
 
-La famille Editor couvre huit composants :
+La famille Editor couvre neuf composants :
 
 | Composant | Rôle |
 | --- | --- |
@@ -12,8 +12,9 @@ La famille Editor couvre huit composants :
 | `OmniUnifiedDiff` | Diff unifié (`git diff`) dessiné sans Monaco, un bloc repliable par fichier. |
 | `OmniCharacterPalette` | Rangée de caractères fournis par l'hôte (lettres de la langue saisie) ; un clic rend le caractère sans retirer le focus d'un éditeur. |
 | `OmniMailTemplateEditor` | Modèle de mail : objet, corps `OmniHtmlEditor`, variables insérées au curseur, aperçu du mail rendu ; `OmniMailRenderer` rend le modèle côté serveur pour les clients de messagerie. |
+| `OmniInkCanvas` | Zone de dessin à main levée (souris, stylet avec pression, doigt) : traits en coordonnées relatives, couleur, épaisseur, Annuler, Effacer, export en PNG transparent. |
 
-`OmniHtmlEditor` produit du HTML assaini ; `OmniMailTemplateEditor` en fait un modèle de mail ; `OmniCodeEditor` édite du texte brut ; `OmniCharacterPalette` fournit des caractères à insérer ; les quatre autres affichent sans éditer.
+`OmniHtmlEditor` produit du HTML assaini ; `OmniMailTemplateEditor` en fait un modèle de mail ; `OmniCodeEditor` édite du texte brut ; `OmniCharacterPalette` fournit des caractères à insérer ; `OmniInkCanvas` recueille un dessin ; les quatre autres affichent sans éditer.
 
 ## OmniHtmlEditor
 
@@ -672,6 +673,79 @@ malformé (nombres hors d'un `int`) est ignoré. Il marche donc sous la politiqu
 actions à l'en-tête de chaque fichier.
 
 `Diff` (`string?`) reçoit le texte du diff ; il est ignoré quand `Files` (`IReadOnlyList<OmniDiffFile>?`) est donné, ce qui sert à passer des fichiers déjà lus par `OmniUnifiedDiffParser.Parse` ou construits par l'hôte. `Collapsible` (vrai par défaut) permet de replier chaque fichier par son en-tête. `EmptyText` (`string?`) dit ce que montre un diff vide ; nul, le texte localisé du paquet (« Aucune modification. »).
+
+## OmniInkCanvas : dessin à main levée
+
+`OmniInkCanvas` est une zone de dessin : la souris, le stylet (avec sa pression) ou le doigt tracent des
+lignes sur un `<canvas>`, que le composant garde comme une liste de traits et sait exporter en PNG
+transparent. Un petit module (`omni-ink-canvas.js`) lit les événements de pointeur (`touch-action: none`
+dans la feuille de style, pointeur capturé pour que le trait continue hors du canevas) et dessine ;
+.NET garde la valeur. Aucun style en ligne, aucun script en ligne : la taille de la zone passe par des
+propriétés CSS personnalisées posées par le script (CSSOM), comme les autres composants à hauteur réglable.
+
+### Le trait : `OmniInkStroke` et `OmniInkPoint`
+
+`OmniInkStroke(Color, Width, Points)` est un enregistrement immuable ; `OmniInkPoint(X, Y, Pressure)` en est un
+point. `X` et `Y` sont **relatifs** à la zone, de 0 (bord gauche, bord haut) à 1 (bord droit, bord bas) : un
+trait ne dépend pas de la taille à laquelle il a été dessiné, et se redessine à l'identique après un
+redimensionnement. `Pressure` (`double?`, de 0 à 1) est la pression du stylet ; `null` pour une souris ou un
+doigt. Une pression de 0,5 trace la ligne à l'épaisseur du trait, moins de pression l'amincit, plus l'épaissit.
+Un trait d'un seul point est un point (un clic).
+
+`Width` est l'épaisseur en pixels CSS **pour une zone large de `OmniInkStroke.ReferenceWidth` (600 pixels)** et
+suit la largeur de la zone : sur une zone de 300 pixels, `Width = 2` trace une ligne de 1 pixel ; sur une zone
+de 1200 pixels, de 4 pixels. Le dessin garde ainsi son aspect à toute taille, comme une image. À l'export,
+une image de `w` pixels de large reçoit des lignes de `Width × w / 600` pixels. `Color` est une couleur CSS
+(`#1a73e8`, `rgb(0 0 0)`, `navy`) ou `OmniInkStroke.ThemeColor` (`currentColor`), la couleur du texte du thème,
+qui suit un changement de thème (clair ou sombre) sans que le dessin soit refait.
+
+### Paramètres
+
+- `Value` (`IReadOnlyList<OmniInkStroke>`, vide par défaut, jamais `null`) et `ValueChanged` : le composant ne
+  modifie jamais la liste reçue, il en lève une nouvelle à chaque trait, annulation et effacement, et dessine
+  celle que l'hôte donne quand ce n'est pas celle qu'il a levée en dernier. Sans liaison, il garde son dessin.
+- `Color` (`string?`) : la couleur des prochains traits ; `null` (défaut) pour la couleur du texte du thème.
+  `StrokeWidth` (`double`, 2 par défaut, au-dessus de zéro) : leur épaisseur, à la largeur de référence. Le
+  champ couleur et le curseur de la barre d'outils les remplacent jusqu'à ce que le paramètre change.
+- `Width` et `Height` : la taille de la zone, des longueurs CSS validées comme celles de `OmniLogViewer.Height`
+  (chiffres, unité en minuscules ; `Width` : `px`, `rem`, `em`, `ch`, `vw`, `%`, au-dessus de zéro ; `Height` : `px`,
+  `rem`, `em`, `vh`, `%`) ; une autre valeur lève `ArgumentException`. Par défaut 100 % de large et 12rem de
+  haut. `AspectRatio` (`double?`, largeur divisée par hauteur) remplace `Height` : la hauteur suit la largeur
+  (3 pour un cadre de signature trois fois plus large que haut) ; une valeur qui n'est pas un nombre au-dessus de
+  zéro lève `ArgumentOutOfRangeException`.
+- `ShowToolbar` (vrai par défaut) : la barre d'outils au-dessus de la zone, avec les composants du paquet :
+  couleur (`OmniColorPicker`), épaisseur (`OmniSlider`), Annuler et Effacer (`OmniButton`).
+- `Disabled` : rien ne se dessine, la barre est désactivée et la zone sort de l'ordre de tabulation. `ReadOnly` :
+  le dessin reste visible et focalisable, rien ne se trace ni ne s'annule ni ne s'efface, la barre est
+  désactivée (même contrat que les autres composants de saisie).
+- `Label` (`string?`) : le nom accessible de la zone ; `null` donne le texte localisé « Zone de dessin ».
+
+### Méthodes
+
+- `UndoAsync()` retire le dernier trait et `ClearAsync()` les retire tous, chacun levant `ValueChanged` ; sur un
+  dessin vide, rien. Ce sont les méthodes de l'hôte : elles marchent aussi en `ReadOnly` ou `Disabled`.
+- `ExportPngAsync(int width, int height)` dessine les traits sur fond **transparent** et rend les octets d'un
+  PNG de `width` par `height` pixels (1 à 8192, sinon `ArgumentOutOfRangeException`). Les positions relatives
+  sont étirées sur l'image : donner le rapport de la zone garde ses proportions. Un trait en couleur de thème
+  est écrit **en noir** (une image n'a pas de thème). `ExportDataUrlAsync(int width, int height)` rend la même
+  image sous forme d'adresse `data:image/png;base64,…`. L'export exige le script : appelé après la fin de vie du
+  composant, il lève `ObjectDisposedException`.
+
+### Clavier et accessibilité
+
+La zone est un `role="img"` nommé par `Label` et décrit par une aide masquée ; elle est focalisable (Tab, et un
+appui dessus lui donne le focus). Quand elle a le focus, **Ctrl+Z** (Cmd+Z) annule le dernier trait et
+**Suppr** efface le dessin ; chaque action est annoncée dans une zone `role="status"`. Les boutons de la barre
+sont dans l'ordre de tabulation et nommés (nom et infobulle). Les couleurs viennent des jetons du thème
+(clair et sombre) ; le dessin se redessine quand le thème, le schéma de couleur du système ou la taille de la
+zone change. Les textes (zone, aide, barre, couleur, épaisseur, Annuler, Effacer, annonces) sont localisés
+dans les 24 langues du paquet.
+
+### Limites
+
+Le tracé est lissé par des courbes entre les points (souris, doigt) ou segment par segment avec la pression
+(stylet) ; il n'y a ni gomme au trait, ni rétablissement, ni sélection d'un trait. Le dessin à plusieurs doigts
+n'est pas pris en charge : seul le pointeur principal trace.
 
 ## Limites connues
 

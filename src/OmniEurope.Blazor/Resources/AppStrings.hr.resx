@@ -753,4 +753,13 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Nema rezultata</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: dovršeno {1} od {2} prolaza</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: dovršeno {1} od {2} prolaza, jedan u tijeku</value></data>
+  <data name="InkCanvasLabel" xml:space="preserve"><value>Površina za crtanje</value></data>
+  <data name="InkCanvasHelp" xml:space="preserve"><value>Crtajte mišem, olovkom ili prstom. Ctrl+Z poništava zadnji potez, a Delete briše crtež.</value></data>
+  <data name="InkToolbar" xml:space="preserve"><value>Alati za crtanje</value></data>
+  <data name="InkColor" xml:space="preserve"><value>Boja poteza</value></data>
+  <data name="InkWidth" xml:space="preserve"><value>Debljina poteza</value></data>
+  <data name="InkUndo" xml:space="preserve"><value>Poništi zadnji potez</value></data>
+  <data name="InkClear" xml:space="preserve"><value>Izbriši crtež</value></data>
+  <data name="InkUndone" xml:space="preserve"><value>Zadnji potez je poništen</value></data>
+  <data name="InkCleared" xml:space="preserve"><value>Crtež je izbrisan</value></data>
 </root>

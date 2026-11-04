@@ -99,4 +99,18 @@
   <data name="CodeReadingExcerptTitle" xml:space="preserve"><value>Ligne surlignée et extrait</value></data>
   <data name="CodeReadingNavigationTitle" xml:space="preserve"><value>Navigation entre les modifications</value></data>
   <data name="CodeReadingNavigationDescription" xml:space="preserve"><value>La barre propre à la visionneuse (ShowNavigation), puis une comparaison qui remplit son cadre sous une barre de la page. Le moteur en texte brut garde désactivés les boutons précédent et suivant : ils fonctionnent une fois Monaco monté.</value></data>
+  <data name="InkCanvasTitle" xml:space="preserve"><value>Zone de dessin</value></data>
+  <data name="InkCanvasDescription" xml:space="preserve"><value>Dessin à main levée à la souris, au stylet ou au doigt : couleur et épaisseur, annulation et effacement, et export en PNG transparent.</value></data>
+  <data name="InkCanvasSettingsTitle" xml:space="preserve"><value>Réglages de la zone de dessin</value></data>
+  <data name="InkCanvasSettingsDescription" xml:space="preserve"><value>Ce que la zone montre et ce qu'elle accepte.</value></data>
+  <data name="InkCanvasToolbar" xml:space="preserve"><value>Barre d'outils</value></data>
+  <data name="InkCanvasToolbarDescription" xml:space="preserve"><value>Couleur, épaisseur, Annuler et Effacer au-dessus de la zone de dessin.</value></data>
+  <data name="InkCanvasWide" xml:space="preserve"><value>Forme de signature</value></data>
+  <data name="InkCanvasWideDescription" xml:space="preserve"><value>Une zone trois fois plus large que haute (AspectRatio) au lieu de la hauteur de 12rem par défaut.</value></data>
+  <data name="InkCanvasReadOnly" xml:space="preserve"><value>Lecture seule</value></data>
+  <data name="InkCanvasReadOnlyDescription" xml:space="preserve"><value>Le dessin reste visible et focalisable mais ne peut pas être modifié.</value></data>
+  <data name="InkCanvasDisabled" xml:space="preserve"><value>Désactivée</value></data>
+  <data name="InkCanvasDisabledDescription" xml:space="preserve"><value>La zone sort de l'ordre de tabulation et la barre d'outils est désactivée.</value></data>
+  <data name="InkCanvasPreviewTitle" xml:space="preserve"><value>Signature</value></data>
+  <data name="InkCanvasPreviewDescription" xml:space="preserve"><value>Dessinez ci-dessous. Ctrl+Z annule le dernier trait et Suppr efface le dessin quand la zone a le focus.</value></data>
 </root>

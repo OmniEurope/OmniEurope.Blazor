@@ -753,4 +753,13 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Žiadne výsledky</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: dokončené {1} z {2, plural, one {# prechodu} few {# prechodov} other {# prechodov}}</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: dokončené {1} z {2, plural, one {# prechodu} few {# prechodov} other {# prechodov}}, jeden prebieha</value></data>
+  <data name="InkCanvasLabel" xml:space="preserve"><value>Kresliaca plocha</value></data>
+  <data name="InkCanvasHelp" xml:space="preserve"><value>Kreslite myšou, perom alebo prstom. Ctrl+Z vráti späť posledný ťah, Delete vymaže kresbu.</value></data>
+  <data name="InkToolbar" xml:space="preserve"><value>Nástroje na kreslenie</value></data>
+  <data name="InkColor" xml:space="preserve"><value>Farba ťahu</value></data>
+  <data name="InkWidth" xml:space="preserve"><value>Hrúbka ťahu</value></data>
+  <data name="InkUndo" xml:space="preserve"><value>Vrátiť späť posledný ťah</value></data>
+  <data name="InkClear" xml:space="preserve"><value>Vymazať kresbu</value></data>
+  <data name="InkUndone" xml:space="preserve"><value>Posledný ťah bol vrátený späť</value></data>
+  <data name="InkCleared" xml:space="preserve"><value>Kresba bola vymazaná</value></data>
 </root>

@@ -753,4 +753,13 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Nincs találat</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {2} menetből {1} kész</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {2} menetből {1} kész, egy folyamatban</value></data>
+  <data name="InkCanvasLabel" xml:space="preserve"><value>Rajzterület</value></data>
+  <data name="InkCanvasHelp" xml:space="preserve"><value>Rajzoljon egérrel, tollal vagy ujjal. A Ctrl+Z visszavonja az utolsó vonalat, a Delete törli a rajzot.</value></data>
+  <data name="InkToolbar" xml:space="preserve"><value>Rajzeszközök</value></data>
+  <data name="InkColor" xml:space="preserve"><value>Vonal színe</value></data>
+  <data name="InkWidth" xml:space="preserve"><value>Vonalvastagság</value></data>
+  <data name="InkUndo" xml:space="preserve"><value>Utolsó vonal visszavonása</value></data>
+  <data name="InkClear" xml:space="preserve"><value>Rajz törlése</value></data>
+  <data name="InkUndone" xml:space="preserve"><value>Az utolsó vonal visszavonva</value></data>
+  <data name="InkCleared" xml:space="preserve"><value>A rajz törölve</value></data>
 </root>

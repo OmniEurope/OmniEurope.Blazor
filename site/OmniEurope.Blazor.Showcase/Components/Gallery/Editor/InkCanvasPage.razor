@@ -1,0 +1,45 @@
+@page "/components/ink-canvas"
+@using OmniEurope.Blazor.Showcase.Examples.Editor
+
+<GalleryPageFrame Slug="ink-canvas">
+    <Settings>
+        <OmniSettingsSection Title="@Text["InkCanvasSettingsTitle"]" Description="@Text["InkCanvasSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["InkCanvasToolbar"]" Description="@Text["InkCanvasToolbarDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Palette" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowToolbar" aria-label="@Text["InkCanvasToolbar"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["InkCanvasWide"]" Description="@Text["InkCanvasWideDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Image" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Wide" aria-label="@Text["InkCanvasWide"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["InkCanvasReadOnly"]" Description="@Text["InkCanvasReadOnlyDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ReadOnly" aria-label="@Text["InkCanvasReadOnly"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["InkCanvasDisabled"]" Description="@Text["InkCanvasDisabledDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Prohibit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Disabled" aria-label="@Text["InkCanvasDisabled"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["InkCanvasPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["InkCanvasPreviewDescription"]</OmniText>
+                <InkCanvasExample ShowToolbar="ShowToolbar" Wide="Wide" ReadOnly="ReadOnly" Disabled="Disabled" />
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

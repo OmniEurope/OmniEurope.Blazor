@@ -753,4 +753,13 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Brak wyników</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: ukończono {1} z {2, plural, one {# przejścia} few {# przejść} many {# przejść} other {# przejść}}</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: ukończono {1} z {2, plural, one {# przejścia} few {# przejść} many {# przejść} other {# przejść}}, jedno w toku</value></data>
+  <data name="InkCanvasLabel" xml:space="preserve"><value>Obszar rysowania</value></data>
+  <data name="InkCanvasHelp" xml:space="preserve"><value>Rysuj myszą, rysikiem lub palcem. Ctrl+Z cofa ostatnią kreskę, a Delete czyści rysunek.</value></data>
+  <data name="InkToolbar" xml:space="preserve"><value>Narzędzia rysowania</value></data>
+  <data name="InkColor" xml:space="preserve"><value>Kolor kreski</value></data>
+  <data name="InkWidth" xml:space="preserve"><value>Grubość kreski</value></data>
+  <data name="InkUndo" xml:space="preserve"><value>Cofnij ostatnią kreskę</value></data>
+  <data name="InkClear" xml:space="preserve"><value>Wyczyść rysunek</value></data>
+  <data name="InkUndone" xml:space="preserve"><value>Cofnięto ostatnią kreskę</value></data>
+  <data name="InkCleared" xml:space="preserve"><value>Wyczyszczono rysunek</value></data>
 </root>

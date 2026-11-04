@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Added
+
+- Nouveau composant `OmniInkCanvas` (famille Editor, PLAN-010 lot 1) : zone de dessin à main levée, à la souris, au stylet (avec la pression) ou au doigt, sur un `<canvas>` piloté par `omni-ink-canvas.js` (événements de pointeur, pointeur capturé, `touch-action: none`). Le dessin est la liste `Value` / `ValueChanged` de `OmniInkStroke(Color, Width, Points)` et `OmniInkPoint(X, Y, Pressure)`, `X` et `Y` relatifs à la zone (0 à 1) et l'épaisseur exprimée pour une zone large de `OmniInkStroke.ReferenceWidth` (600 pixels, proportionnelle à la largeur), si bien qu'un dessin garde son aspect à toute taille et se redessine après un redimensionnement ou un changement de thème (`OmniInkStroke.ThemeColor` suit la couleur du texte du thème). Paramètres `Color`, `StrokeWidth`, `Width`, `Height`, `AspectRatio`, `Disabled`, `ReadOnly`, `ShowToolbar` (couleur, épaisseur, Annuler, Effacer avec les composants du paquet) et `Label` ; méthodes `UndoAsync`, `ClearAsync`, `ExportPngAsync(width, height)` (PNG à fond transparent, traits de couleur de thème en noir) et `ExportDataUrlAsync(width, height)` ; Ctrl+Z annule et Suppr efface quand la zone a le focus, avec annonce. Neuf textes localisés dans les 24 langues, page `ink-canvas` de la vitrine, guide dans `docs/editor-components.md`.
+
 ## [1.11.1] - 2026-11-04
 
 Version corrective demandée par le propriétaire : demandes d'une application cliente (recettes R-31, R-32, R-40, R-41, R-46, R-57, R-58) et corrections de l'audit 360 du 2026-11-03. Elle porte une rupture binaire assumée et des ajouts d'API, voir [docs/versioning.md](docs/versioning.md).

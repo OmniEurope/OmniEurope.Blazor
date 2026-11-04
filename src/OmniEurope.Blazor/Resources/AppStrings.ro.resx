@@ -753,4 +753,13 @@
   <data name="SiteSearchNoMatch" xml:space="preserve"><value>Niciun rezultat</value></data>
   <data name="PassTrackerItem" xml:space="preserve"><value>{0}: {1} din {2, plural, one {# trecere} few {# treceri} other {# de treceri}} {1, plural, one {încheiată} few {încheiate} other {încheiate}}</value></data>
   <data name="PassTrackerItemInProgress" xml:space="preserve"><value>{0}: {1} din {2, plural, one {# trecere} few {# treceri} other {# de treceri}} {1, plural, one {încheiată} few {încheiate} other {încheiate}}, una în curs</value></data>
+  <data name="InkCanvasLabel" xml:space="preserve"><value>Zonă de desen</value></data>
+  <data name="InkCanvasHelp" xml:space="preserve"><value>Desenați cu mouse-ul, cu un stilou digital sau cu degetul. Ctrl+Z anulează ultima linie, iar Delete șterge desenul.</value></data>
+  <data name="InkToolbar" xml:space="preserve"><value>Instrumente de desen</value></data>
+  <data name="InkColor" xml:space="preserve"><value>Culoarea liniei</value></data>
+  <data name="InkWidth" xml:space="preserve"><value>Grosimea liniei</value></data>
+  <data name="InkUndo" xml:space="preserve"><value>Anulează ultima linie</value></data>
+  <data name="InkClear" xml:space="preserve"><value>Șterge desenul</value></data>
+  <data name="InkUndone" xml:space="preserve"><value>Ultima linie a fost anulată</value></data>
+  <data name="InkCleared" xml:space="preserve"><value>Desenul a fost șters</value></data>
 </root>
