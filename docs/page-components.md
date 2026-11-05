@@ -203,6 +203,13 @@ mot n'est coupé, et le titre et la description sont alignés à gauche au lieu 
 calcule d'après la longueur de `Title`, arrondie à un palier (8, 12, 16, 20, 24, 32 ou 48 caractères, une
 classe et jamais un style en ligne) et s'arrête à 0,75rem ; en dessous, le titre est coupé par des points
 de suspension. Le calcul compte 0,6em par caractère : une police très large peut couper un titre un peu avant.
+Dans une `OmniTileGrid`, les tuiles à `FitTitle` partagent une seule taille de titre (recette R-9) : chacune
+déclare la longueur de son titre à la grille, qui retient la plus longue (exacte jusqu'à 32 caractères, puis les
+paliers 40 et 48) et la porte en classe (`omni-tile-grid--fit-N`, une propriété CSS que les tuiles héritent). La
+taille se calcule alors d'après la largeur réelle d'une tuile et ce titre le plus long : « Qualité » n'est pas plus
+petit qu'« Environnements » tant que celui-ci tient, puis tous diminuent ensemble, jusqu'au même plancher de
+0,75rem, quand le plus long toucherait le bord. La grille ne se rend de nouveau que si cette longueur change ;
+l'ajout, le retrait ou le changement du titre d'une tuile la met à jour. Hors grille, la tuile garde son palier propre.
 
 `IconAlign` et `TitleAlign` (`OmniAlignment?`, nuls par défaut ; demande d'une application cliente, recette R-57)
 placent séparément l'icône, et le titre avec sa description, en travers de la tuile : `Start`, `Center` ou

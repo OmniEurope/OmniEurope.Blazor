@@ -291,6 +291,8 @@
   <data name="NavTilesCenter" xml:space="preserve"><value>Centrer l'icône et le titre</value></data>
   <data name="NavTilesCenterHint" xml:space="preserve"><value>L'icône, le titre et la description se placent au milieu de la tuile, titre ajusté ou non.</value></data>
   <data name="NavTilesFitTitleTitle" xml:space="preserve"><value>Titres ajustés sur une ligne</value></data>
+  <data name="NavTilesFitGridTitle" xml:space="preserve"><value>Titres ajustés dans une grille de six</value></data>
+  <data name="NavTilesFitGridDescription" xml:space="preserve"><value>Dans une grille, toutes les tuiles avec FitTitle prennent la taille qu'exige le titre le plus long, calculée d'après la largeur réelle d'une tuile : un titre court n'est pas plus petit qu'un titre long tant qu'il y a de la place, et tous rétrécissent ensemble, jusqu'au même plancher, quand le plus long toucherait le bord.</value></data>
   <data name="NavTilesDisabled" xml:space="preserve"><value>Tuile désactivée</value></data>
   <data name="NavTilesDisabledHint" xml:space="preserve"><value>Disabled : la dernière tuile n'a plus de lien, ne prend plus le focus, est annoncée comme indisponible et atténuée, à la même taille.</value></data>
   <data name="NavTilesToneNeutral" xml:space="preserve"><value>Neutre</value></data>

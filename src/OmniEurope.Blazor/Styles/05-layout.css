@@ -108,6 +108,43 @@
 .omni-tile-grid.omni-tile-grid--uniform { --omni-tile-min: var(--omni-tile-min-width); grid-auto-columns: 0px; grid-auto-rows: minmax(var(--omni-tile-height), 1fr); grid-template-columns: repeat(auto-fill, minmax(max(min(var(--omni-tile-min), 100%), calc((100% - (var(--omni-tile-columns) - 1) * var(--omni-tile-gap)) / var(--omni-tile-columns))), 1fr)); }
 .omni-tile-grid--uniform > .omni-tile--double { grid-column: auto; }
 .omni-tile-grid--uniform.omni-tile-grid--multi-column > .omni-tile--double { grid-column: span 2; }
+/* FitTitle in a grid: every OmniNavTile with FitTitle sizes its title for the longest title of the grid, so the
+   grid carries the length, in characters (exact up to 32, then 40 and 48), as a custom property its tiles inherit
+   (a class per length, never an inline style); the size itself is computed from the real tile width. */
+.omni-tile-grid--fit-1 { --omni-tile-grid-fit-chars: 1; }
+.omni-tile-grid--fit-2 { --omni-tile-grid-fit-chars: 2; }
+.omni-tile-grid--fit-3 { --omni-tile-grid-fit-chars: 3; }
+.omni-tile-grid--fit-4 { --omni-tile-grid-fit-chars: 4; }
+.omni-tile-grid--fit-5 { --omni-tile-grid-fit-chars: 5; }
+.omni-tile-grid--fit-6 { --omni-tile-grid-fit-chars: 6; }
+.omni-tile-grid--fit-7 { --omni-tile-grid-fit-chars: 7; }
+.omni-tile-grid--fit-8 { --omni-tile-grid-fit-chars: 8; }
+.omni-tile-grid--fit-9 { --omni-tile-grid-fit-chars: 9; }
+.omni-tile-grid--fit-10 { --omni-tile-grid-fit-chars: 10; }
+.omni-tile-grid--fit-11 { --omni-tile-grid-fit-chars: 11; }
+.omni-tile-grid--fit-12 { --omni-tile-grid-fit-chars: 12; }
+.omni-tile-grid--fit-13 { --omni-tile-grid-fit-chars: 13; }
+.omni-tile-grid--fit-14 { --omni-tile-grid-fit-chars: 14; }
+.omni-tile-grid--fit-15 { --omni-tile-grid-fit-chars: 15; }
+.omni-tile-grid--fit-16 { --omni-tile-grid-fit-chars: 16; }
+.omni-tile-grid--fit-17 { --omni-tile-grid-fit-chars: 17; }
+.omni-tile-grid--fit-18 { --omni-tile-grid-fit-chars: 18; }
+.omni-tile-grid--fit-19 { --omni-tile-grid-fit-chars: 19; }
+.omni-tile-grid--fit-20 { --omni-tile-grid-fit-chars: 20; }
+.omni-tile-grid--fit-21 { --omni-tile-grid-fit-chars: 21; }
+.omni-tile-grid--fit-22 { --omni-tile-grid-fit-chars: 22; }
+.omni-tile-grid--fit-23 { --omni-tile-grid-fit-chars: 23; }
+.omni-tile-grid--fit-24 { --omni-tile-grid-fit-chars: 24; }
+.omni-tile-grid--fit-25 { --omni-tile-grid-fit-chars: 25; }
+.omni-tile-grid--fit-26 { --omni-tile-grid-fit-chars: 26; }
+.omni-tile-grid--fit-27 { --omni-tile-grid-fit-chars: 27; }
+.omni-tile-grid--fit-28 { --omni-tile-grid-fit-chars: 28; }
+.omni-tile-grid--fit-29 { --omni-tile-grid-fit-chars: 29; }
+.omni-tile-grid--fit-30 { --omni-tile-grid-fit-chars: 30; }
+.omni-tile-grid--fit-31 { --omni-tile-grid-fit-chars: 31; }
+.omni-tile-grid--fit-32 { --omni-tile-grid-fit-chars: 32; }
+.omni-tile-grid--fit-40 { --omni-tile-grid-fit-chars: 40; }
+.omni-tile-grid--fit-48 { --omni-tile-grid-fit-chars: 48; }
 
 .omni-layout { --omni-sidebar-inset: calc(var(--omni-item-pad-y) + var(--omni-space-xs)); --omni-sidebar-rail: calc(2 * var(--omni-sidebar-inset) + 1.25rem); box-sizing: border-box; margin-inline: auto; width: 100%; }
 .omni-main { --omni-main-max-width: 100%; display: block; min-width: 0; }

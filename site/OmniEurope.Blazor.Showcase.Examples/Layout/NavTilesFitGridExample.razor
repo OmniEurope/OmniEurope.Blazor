@@ -1,0 +1,23 @@
+@* FitTitle in a grid: every tile takes the size the longest title of the grid needs, computed from the real
+   width of a tile, so "Qualité" is as large as "Environnements" while there is room, and all of them shrink
+   together, to the same floor, only when the longest title would touch the edge of its tile. *@
+<OmniTileGrid Id="demo-nav-fit-grid" Columns="6">
+    <OmniNavTile Id="demo-nav-fit-quality" Href="components/nav-tiles" Title="Qualité" FitTitle="true">
+        <Icon><OmniIcon Name="OmniIconName.ArrowRight" /></Icon>
+    </OmniNavTile>
+    <OmniNavTile Id="demo-nav-fit-pipelines" Href="components/nav-tiles" Title="Pipelines" Tone="OmniTone.Info" FitTitle="true">
+        <Icon><OmniIcon Name="OmniIconName.Layers" /></Icon>
+    </OmniNavTile>
+    <OmniNavTile Id="demo-nav-fit-libraries" Href="components/nav-tiles" Title="Bibliothèques" Tone="OmniTone.Success" FitTitle="true">
+        <Icon><OmniIcon Name="OmniIconName.Database" /></Icon>
+    </OmniNavTile>
+    <OmniNavTile Id="demo-nav-fit-environments" Href="components/nav-tiles" Title="Environnements" Tone="OmniTone.Warning" FitTitle="true">
+        <Icon><OmniIcon Name="OmniIconName.Settings" /></Icon>
+    </OmniNavTile>
+    <OmniNavTile Id="demo-nav-fit-help" Href="components/nav-tiles" Title="Aide" FitTitle="true">
+        <Icon><OmniIcon Name="OmniIconName.Bell" /></Icon>
+    </OmniNavTile>
+    <OmniNavTile Id="demo-nav-fit-access" Href="components/nav-tiles" Title="Accès" Tone="OmniTone.Info" FitTitle="true">
+        <Icon><OmniIcon Name="OmniIconName.User" /></Icon>
+    </OmniNavTile>
+</OmniTileGrid>
