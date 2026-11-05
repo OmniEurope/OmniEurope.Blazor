@@ -105,8 +105,12 @@ l'enregistre), le rendez-vous restant à sa place sinon. Il se fait de deux faç
 Un créneau donne le nouveau début ; un jour garde l'heure du rendez-vous. La durée ne change jamais,
 et un dépôt à l'endroit où il commence déjà ne rapporte rien. La vue jour sans grille n'offre pas de
 destination. `omni-scheduler.js` n'est chargé que si `OnAppointmentMove` est posé, et ne fait que
-donner au glisser les données que certains navigateurs exigent pour le commencer ; il n'écrit aucun
-style.
+donner au glisser les données que certains navigateurs exigent pour le commencer, puis marquer la
+racine de `data-omni-scheduler-carrying` à la tâche qui suit le `dragstart`, jusqu'au `dragend` ou au
+dépôt ; il n'écrit aucun style. Les blocs ne laissent passer le pointeur vers les cellules que sous
+cette marque : un bloc devenu transparent au pointeur pendant son `dragstart` voit son glisser
+abandonné par certains Chromium (celui de Playwright 1.63), et un bloc d'une heure ne pourrait alors
+pas être posé sur sa propre demi-heure.
 
 ## Frise : `OmniTimeline`
 

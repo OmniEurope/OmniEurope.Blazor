@@ -343,7 +343,8 @@ polyline.omni-chart__line { fill: none; }
 .omni-scheduler--slot-compact .omni-scheduler-grid .omni-scheduler__appointment { line-height: 1.2; padding-block: 0; }
 .omni-scheduler-grid .omni-scheduler__open { column-gap: var(--omni-space-xs); flex-direction: row; flex-wrap: wrap; }
 .omni-scheduler-grid .omni-scheduler__appointment--overlapping { outline: var(--omni-border-width) dashed var(--omni-color-warning); outline-offset: calc(-1 * var(--omni-border-width)); }
-:is(.omni-scheduler--moving, .omni-scheduler--dragging) .omni-scheduler-grid__cell > .omni-scheduler__appointment { pointer-events: none; }
+/* The blocks let a drag through to the cells only once it runs (data-omni-scheduler-carrying, set by omni-scheduler.js after the dragstart): a source that stops being hit-testable while its drag starts is abandoned by Chromium. */
+:is(.omni-scheduler--moving, .omni-scheduler--dragging[data-omni-scheduler-carrying]) .omni-scheduler-grid__cell > .omni-scheduler__appointment { pointer-events: none; }
 /* A drag ends on the cell or the day, not on the button of its free area. */
 .omni-scheduler--dragging .omni-scheduler__slot { pointer-events: none; }
 .omni-scheduler__appointment[draggable="true"] .omni-scheduler__open { cursor: grab; }

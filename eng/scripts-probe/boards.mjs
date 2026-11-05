@@ -339,6 +339,77 @@ export async function boardSteps(session, results) {
   await waitFor('le déplacement rapporté à la page', "document.querySelector('.gallery-scheduler').textContent.includes('moved to')");
   step('agenda : rendez-vous glissé avec son identifiant et déposé sur un créneau cliquable');
 
+  // A drag driven as Playwright drives a real mouse: the drag starts on a move past the threshold, then the pointer
+  // travels in steps to its slot and drops. Chromium 1243 (Playwright 1.63) abandons a drag whose source turns
+  // transparent to the pointer while it starts (Aetheus R-3); the browser of the probes no longer does, so the probe
+  // reads what that one would have seen: when .NET renders its dragging class, the block is still under the
+  // pointer, and it lets the pointer through to the cells only once the drag runs. Three times, each move reported.
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    const id = attempt === 3 ? 'cleanup' : 'reports';
+    const run = `#scheduler-night [data-omni-scheduler-appointment="${id}"]`;
+    await evaluate(`document.querySelector(${JSON.stringify(run)}).scrollIntoView({ block: 'center' })`);
+    const before = await evaluate(`document.querySelector(${JSON.stringify(run)}).getAttribute('data-start')`);
+    const from = await pointOf(run);
+    // Two slots in view away from the block, then a run of an hour and a half dropped on its own last half hour:
+    // it lands there only if the pointer passes through the block to the cell underneath.
+    const slot = await evaluate(`(() => {
+      const block = document.querySelector(${JSON.stringify(run)}).getBoundingClientRect();
+      if (${attempt} === 3) return { x: Math.round(block.left + block.width / 2), y: Math.round(block.bottom - 4) };
+      const cells = [...document.querySelectorAll('#scheduler-night td.omni-scheduler-grid__cell')]
+        .filter(cell => !cell.querySelector('[data-omni-scheduler-appointment="reports"]'))
+        .map(cell => cell.getBoundingClientRect())
+        .filter(box => box.top > 120 && box.bottom < innerHeight - 20 && box.top > block.bottom + 4);
+      const box = cells[(${attempt} - 1) * 2];
+      return { x: Math.round(box.left + box.width / 2), y: Math.round(box.top + box.height / 2) };
+    })()`);
+    await evaluate(`(() => {
+      const root = document.getElementById('scheduler-night');
+      const block = () => root.querySelector(${JSON.stringify(run)});
+      window.__omniCarry = { atClass: null, during: [] };
+      const observer = new MutationObserver(() => {
+        if (window.__omniCarry.atClass === null && root.classList.contains('omni-scheduler--dragging')) {
+          window.__omniCarry.atClass = getComputedStyle(block()).pointerEvents;
+          observer.disconnect();
+        }
+      });
+      observer.observe(root, { attributes: true, attributeFilter: ['class'] });
+      root.addEventListener('dragover', () => window.__omniCarry.during.push(getComputedStyle(block()).pointerEvents), { capture: true });
+    })()`);
+    let intercepted = null;
+    const stopIntercept = session.on('Input.dragIntercepted', params => { intercepted = params.data; });
+    await send('Input.setInterceptDrags', { enabled: true });
+    try {
+      await mouse('mouseMoved', from, { button: 'none' });
+      await mouse('mousePressed', from);
+      for (let index = 1; index <= 4 && !intercepted; index++) {
+        await mouse('mouseMoved', { x: from.x, y: from.y + index * 3 }, { buttons: 1 });
+        await pause(16);
+      }
+      const until = Date.now() + 3_000;
+      while (!intercepted && Date.now() < until) await pause(20);
+      check(intercepted !== null, `Glisser à la souris non démarré (essai ${attempt}).`);
+      // The render the drag start causes lands before the pointer goes on.
+      await pause(60);
+      await send('Input.dispatchDragEvent', { type: 'dragEnter', x: from.x, y: from.y + 12, data: intercepted });
+      for (let index = 1; index <= 8; index++) {
+        const point = { x: Math.round(from.x + (slot.x - from.x) * index / 8), y: Math.round(from.y + 12 + (slot.y - from.y - 12) * index / 8) };
+        await send('Input.dispatchDragEvent', { type: 'dragOver', x: point.x, y: point.y, data: intercepted });
+        await pause(16);
+      }
+      await send('Input.dispatchDragEvent', { type: 'drop', x: slot.x, y: slot.y, data: intercepted });
+      await mouse('mouseReleased', slot);
+    } finally {
+      stopIntercept();
+      await send('Input.setInterceptDrags', { enabled: false });
+    }
+
+    await waitFor(`le déplacement à la souris rapporté (essai ${attempt})`, `document.querySelector(${JSON.stringify(run)}).getAttribute('data-start') !== ${JSON.stringify(before)}`);
+    const carry = await evaluate('window.__omniCarry');
+    check(carry.atClass === 'auto', `Bloc transparent au pointeur dès le rendu du glisser, avant qu'il ne parte (essai ${attempt}) : ${JSON.stringify(carry)}.`);
+    check(carry.during.includes('none'), `Bloc jamais traversé par le pointeur pendant le glisser (essai ${attempt}) : ${JSON.stringify(carry)}.`);
+  }
+  step('agenda : glisser à la souris mené pas à pas, bloc visé jusqu\'au départ puis traversé, trois fois, chaque déplacement rapporté');
+
   // The night grid: a drop over a block lands in the slot under the pointer, not in the cell where that block starts.
   await evaluate("document.querySelector('#scheduler-night [data-omni-scheduler-appointment=\"backup\"]').scrollIntoView({ block: 'center' })");
   await html5Drag('#scheduler-night [data-omni-scheduler-appointment="reports"]', '#scheduler-night [data-omni-scheduler-appointment="backup"]');
