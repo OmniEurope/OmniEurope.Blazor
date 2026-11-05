@@ -27,12 +27,14 @@
                 case OmniDocumentFieldKind.Date:
                     var date = new FieldSlot<DateOnly?>(DateOf(field));
                     <OmniDatePicker aria-label="@field.Label"
+                                    Culture="Culture"
                                     @bind-Value:get="date.Value"
                                     @bind-Value:set="value => ChooseDateAsync(field, value)" />
                     break;
                 case OmniDocumentFieldKind.Number:
                     var number = new FieldSlot<decimal?>(NumberOf(field));
                     <OmniNumeric TValue="decimal?"
+                                 Culture="Culture"
                                  aria-label="@field.Label"
                                  @bind-Value:get="number.Value"
                                  @bind-Value:set="value => ChooseNumberAsync(field, value)" />
