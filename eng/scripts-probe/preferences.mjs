@@ -198,6 +198,21 @@ export async function preferenceSteps(session, results) {
   check(Date.parse((await evaluate(demoState)).syncMark) === Date.parse(latest), 'Marque de synchronisation non avancée par la synchronisation périodique.');
   step('base de démonstration : synchronisation périodique, ligne plus récente appliquée sans action');
 
+  // 5e. A write a reload interrupted (client application request): the cache keeps it unconfirmed and later
+  // than the store row, the page reloads with no periodic synchronization, and the opening sends it to the
+  // store at once instead of leaving another device on the old value until the next synchronization.
+  const interrupted = new Date(Date.parse(latest) + 60_000).toISOString();
+  const beforeReload = await evaluate(demoState);
+  check(beforeReload.row.Value.appearance === 'Light', `Ligne de la base inattendue avant l'écriture interrompue : ${JSON.stringify(beforeReload.row)}.`);
+  await evaluate(`localStorage.setItem('${demoCacheKey}', ${JSON.stringify(JSON.stringify({ Value: JSON.stringify({ ...beforeReload.cache.Value, appearance: 'Dark' }), UpdatedAt: interrupted, Dirty: true }))})`);
+  await reload('?store=demo');
+  check(await evaluate('window.omniShowcaseDemoStore.active') === 0, 'Une synchronisation périodique de démonstration tourne : la preuve ne vaut rien.');
+  const reloadedAt = Date.now();
+  await waitFor('l\'écriture interrompue envoyée à la base dès l\'ouverture', `(state => state.row?.Value?.appearance === 'Dark' && Date.parse(state.row.UpdatedAt) === ${Date.parse(interrupted)} && state.cache?.Dirty === false)(${demoState})`);
+  const sentAfter = Date.now() - reloadedAt;
+  check(await previewMode() === 'dark', `Aperçu inattendu après l'envoi de l'écriture interrompue : ${await previewMode()}.`);
+  step(`base de démonstration : écriture interrompue par un rechargement envoyée à la base dès l'ouverture (${sentAfter} ms), sans synchronisation périodique`);
+
   // Away from the store before clearing, so no synchronization writes the cache back meanwhile.
   await reload();
   await evaluate(clearPreferences);

@@ -81,6 +81,11 @@ la page, sans erreur.
 - **Rejeu des valeurs non confirmées.** À chaque synchronisation, chaque entrée non confirmée est
   réécrite dans la base, sauf si la base tient pour cette clé une valeur aussi récente ou plus récente :
   c'est alors la valeur de la base qui remplace l'entrée (à date égale, la base gagne).
+  Les entrées qu'une page précédente a laissées non confirmées (un rechargement qui a interrompu une
+  écriture) sont aussi envoyées dès l'ouverture du cache, sans attendre `SyncInterval`, sous le même
+  arbitrage par date et sous la barrière de la synchronisation : seules celles lues à l'ouverture, une
+  écriture faite ensuite par la page partant par son propre envoi. Un cache sans entrée non confirmée ne coûte
+  rien de plus à la base.
 - **La base gagne quand elle est plus récente.** La synchronisation demande à la base tout ce qui a
   changé depuis la dernière (`GetChangedSinceAsync`) et remplace chaque valeur du cache plus ancienne, en
   levant `Changed` (`Store`) quand la valeur change. La marque de la dernière synchronisation est la date de

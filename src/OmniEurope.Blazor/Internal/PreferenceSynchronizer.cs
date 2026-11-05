@@ -125,6 +125,31 @@ internal sealed class PreferenceSynchronizer(IOmniPreferenceStore store, Prefere
     }
 
 
+    /// <summary>
+    /// Sends the entries left unconfirmed in the browser cache by an earlier page (a reload that interrupted a
+    /// write), as a synchronization would: each one the store holds no later value for is written, the others
+    /// give way to the store's value. Only those entries: a write this page makes meanwhile is sent by its own
+    /// push. Nothing is sent when the store now answers for another user than the cache belongs to.
+    /// </summary>
+    internal async Task SendPendingAsync(PreferenceCache cache, Dictionary<string, PreferenceCacheEntry> pending,
+        List<OmniPreferenceChangedEventArgs> changes, CancellationToken cancellationToken)
+    {
+        if (await UserChangedAsync(cache, wait: true, cancellationToken) != false)
+        {
+            return;
+        }
+
+        var stored = new Dictionary<string, OmniPreference>(StringComparer.Ordinal);
+        await PushDirtyAsync(cache, pending, stored, changes, cancellationToken);
+        foreach (var (key, preference) in stored)
+        {
+            if (await ApplyStoredAsync(cache, key, preference, cancellationToken) is { } change)
+            {
+                changes.Add(change);
+            }
+        }
+    }
+
     /// <summary>A store value in place of the cached one when it wins; the change to raise, if any.</summary>
     internal async Task<OmniPreferenceChangedEventArgs?> ApplyStoredAsync(PreferenceCache cache, string key, OmniPreference stored, CancellationToken cancellationToken)
     {

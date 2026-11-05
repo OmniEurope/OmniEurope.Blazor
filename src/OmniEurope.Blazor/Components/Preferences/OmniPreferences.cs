@@ -714,6 +714,53 @@ public sealed class OmniPreferences : IAsyncDisposable
         {
             session.Schedule(_time.CreateTimer(_ => Track(SyncInBackgroundAsync(cache, limited: false)), null, _syncInterval, _syncInterval));
         }
+
+        if (hasStore && await PendingAtOpeningAsync(cache) is { Count: > 0 } pending)
+        {
+            Track(SendPendingAsync(cache, pending));
+        }
+    }
+
+    /// <summary>
+    /// The entries an earlier page left unconfirmed (a reload that interrupted a write): the first read of
+    /// such a key keeps it, being later than the store's value, without sending it, so until the periodic
+    /// synchronization another device read the old value (client application request). Read during the
+    /// opening, before any write of this page reaches the cache, so a write made now is never taken for one of
+    /// them; a cache that cannot be read sends nothing now and leaves them to the next synchronization.
+    /// </summary>
+    private async Task<Dictionary<string, PreferenceCacheEntry>?> PendingAtOpeningAsync(PreferenceCache cache)
+    {
+        try
+        {
+            return (await cache.EntriesAsync(_stopping)).Where(pair => pair.Value.Dirty).ToDictionary(StringComparer.Ordinal);
+        }
+        catch (Exception exception) when (exception is not OperationCanceledException || !_stopping.IsCancellationRequested)
+        {
+            _logger.LogWarning(exception, "The unconfirmed preferences of the browser cache could not be read at the opening; the next synchronization sends them.");
+            return null;
+        }
+    }
+
+    /// <summary>Sends, in the background, the entries left unconfirmed by an earlier page, without waiting for the synchronization interval.</summary>
+    private async Task SendPendingAsync(PreferenceCache cache, Dictionary<string, PreferenceCacheEntry> pending)
+    {
+        await Task.Yield();
+        var changes = new List<OmniPreferenceChangedEventArgs>();
+        // Under the synchronization gate: a synchronization pushes the same entries, and the one that comes
+        // second finds them confirmed instead of writing them twice.
+        await RunInBackgroundAsync(async token =>
+        {
+            await _syncGate.WaitAsync(token);
+            try
+            {
+                await _sync!.SendPendingAsync(cache, pending, changes, token);
+            }
+            finally
+            {
+                _syncGate.Release();
+            }
+        });
+        await RaiseAllAsync(changes);
     }
 
     private async Task OnStoredAsync(PreferenceCache cache, string storageKey)

@@ -162,6 +162,75 @@ public sealed class PreferencesTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task Open_AWriteAReloadInterrupted_IsSentAtOnce_WithoutWaitingForTheSyncInterval()
+    {
+        // The client application case: textSize set to 6, the page reloaded before the store took it. The cache
+        // of the browser keeps it unconfirmed, the store still has 5; the periodic synchronization is a minute away.
+        _browser.Storage[Key("u-7f3a", "textSize")] = Entry("6", Start, dirty: true);
+        _store.Put("textSize", "5", Start.AddMinutes(-10));
+        var preferences = Create();
+
+        Assert.Equal(6, await preferences.GetAsync<int>("textSize", Token));
+        await preferences.WhenIdleAsync();
+
+        Assert.Equal(new OmniPreference("textSize", "6", Start), Assert.Single(_store.Saved));
+        Assert.Equal("6", _store["textSize"]!.Value);
+        Assert.False(Cached("textSize")!.Dirty);
+        // No clock moved, no timer fired: the opening sent it.
+        Assert.Equal(Start, _time.Now);
+    }
+
+    [Fact]
+    public async Task Open_AnUnconfirmedValueOlderThanTheStoreOne_GivesWayToTheStoreAtOnce()
+    {
+        // The arbitration by date is unchanged: a later value written on another device wins over the pending one.
+        _browser.Storage[Key("u-7f3a", "textSize")] = Entry("6", Start.AddMinutes(-10), dirty: true);
+        _store.Put("textSize", "4", Start.AddMinutes(-5));
+        var preferences = Create();
+
+        await preferences.GetAsync<int>("textSize", Token);
+        await preferences.WhenIdleAsync();
+
+        Assert.Empty(_store.Saved);
+        Assert.Equal(new PreferenceCacheEntry("4", Start.AddMinutes(-5), false), Cached("textSize"));
+        Assert.Equal(4, await preferences.GetAsync<int>("textSize", Token));
+    }
+
+    [Fact]
+    public async Task Open_AWriteMadeAtOnceOverAPendingValue_IsTheOneTheStoreKeeps_AndNothingIsSentTwice()
+    {
+        // The page writes the key again before the opening's send ran: that write is sent by its own push, the
+        // pending value it replaced is not written over it, and no value reaches the store twice.
+        _browser.Storage[Key("u-7f3a", "textSize")] = Entry("6", Start.AddMinutes(-1), dirty: true);
+        _store.Put("textSize", "5", Start.AddMinutes(-10));
+        var preferences = Create();
+
+        await preferences.SetAsync("textSize", 7, Token);
+        await preferences.SyncAsync(Token);
+        await preferences.WhenIdleAsync();
+
+        Assert.Equal("7", _store["textSize"]!.Value);
+        Assert.Single(_store.Saved, saved => saved.Value == "7");
+        Assert.Equal("7", _store.Saved.Last().Value);
+        Assert.Equal(new PreferenceCacheEntry("7", Start, false), Cached("textSize"));
+    }
+
+    [Fact]
+    public async Task Open_WithNothingPending_ReadsNoChangesFromTheStore()
+    {
+        // The opening sends pending writes only: a cache with none costs the store nothing more than before.
+        _browser.Storage[Key("u-7f3a", "textSize")] = Entry("6", Start);
+        _store.Put("textSize", "6", Start);
+        var preferences = Create();
+
+        await preferences.GetAsync<int>("textSize", Token);
+        await preferences.WhenIdleAsync();
+
+        Assert.Empty(_store.ChangedSinceCalls);
+        Assert.Empty(_store.Saved);
+    }
+
+    [Fact]
     public async Task Set_WithADeviceClockAhead_TakesTheStoreDate_SoALaterStoreWriteStillWins()
     {
         // The audit scenario: this device's clock is a day ahead, the server keeps its own time instead.
