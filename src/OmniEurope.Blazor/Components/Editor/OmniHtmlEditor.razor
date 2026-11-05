@@ -212,7 +212,8 @@
                         </div>
                         <input class="omni-html-editor__link-input omni-html-editor__char-search" type="search" autocomplete="off"
                                aria-label="@Localize("HtmlEditorCharSearch")" placeholder="@Localize("HtmlEditorCharSearch")"
-                               value="@_panels.CharacterSearch" @oninput="args => _panels.CharacterSearch = args.Value?.ToString() ?? string.Empty" />
+                               value="@_panels.CharacterSearch" @oninput="args => _panels.CharacterSearch = args.Value?.ToString() ?? string.Empty"
+                               @onkeydown="args => _panels.CloseOnEscape(args.Key)" @onkeydown:stopPropagation="true" />
                         <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="_panels.Close">
                             <Icon><OmniIcon Name="OmniIconName.Close" /></Icon>
                             <ChildContent><span>@Localize("HtmlEditorClosePanel")</span></ChildContent>

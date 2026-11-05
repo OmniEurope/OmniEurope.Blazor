@@ -14,6 +14,10 @@ public partial class OmniDataGridFilterCombo
 {
     private int _activeIndex = -1;
     private bool _open;
+    // The Escape that closed the list is held back from the handlers around the field (a dialog that closes on
+    // Escape) until its key is released: Blazor WebAssembly renders after the handler of the field and before the
+    // event moves up, so by then the list is closed and only this flag still says the key was consumed.
+    private bool _escapeConsumed;
 
     /// <summary>The typed text, which is the filter value.</summary>
     [Parameter]
@@ -47,6 +51,10 @@ public partial class OmniDataGridFilterCombo
 
     private bool IsOpen => _open && Matches.Count > 0;
 
+    private EventCallback<KeyboardEventArgs> EscapeReleaseHandler => _escapeConsumed ? EventCallback.Factory.Create<KeyboardEventArgs>(this, ReleaseEscape) : default;
+
+    private void ReleaseEscape(KeyboardEventArgs _) => _escapeConsumed = false;
+
     private string? ActiveOptionId => IsOpen && _activeIndex >= 0 ? OptionId(_activeIndex) : null;
 
     private string OptionId(int index) => $"{ListId}-{index}";
@@ -67,6 +75,12 @@ public partial class OmniDataGridFilterCombo
 
     private void OpenList() => _open = true;
 
+    private void BlurList()
+    {
+        _escapeConsumed = false;
+        CloseList();
+    }
+
     private void CloseList()
     {
         _open = false;
@@ -83,6 +97,11 @@ public partial class OmniDataGridFilterCombo
     private async Task OnKeyDownAsync(KeyboardEventArgs args)
     {
         var matches = Matches;
+        if (args.Key != "Escape")
+        {
+            _escapeConsumed = false;
+        }
+
         switch (args.Key)
         {
             case "ArrowDown" when matches.Count > 0:
@@ -97,6 +116,7 @@ public partial class OmniDataGridFilterCombo
                 await PickAsync(matches[_activeIndex]);
                 break;
             case "Escape":
+                _escapeConsumed = _escapeConsumed || IsOpen;
                 CloseList();
                 break;
         }

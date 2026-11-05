@@ -54,6 +54,7 @@
   <data name="HtmlEditorAnnotatedDescription" xml:space="preserve"><value>The editor keeps the markup of the host (notes in asides, data attributes), reports where the caret is and enables the table commands inside a cell. Click a note to tick it.</value></data>
   <data name="HtmlEditorExtensionTitle" xml:space="preserve"><value>Extension: notes, proofreading and suggestions</value></data>
   <data name="HtmlEditorExtensionDescription" xml:space="preserve"><value>An extension brings a note command (Ctrl+Shift+N), a click that marks a note as read, a context menu, a proofreader and text suggestions (Tab accepts). The second editor runs the same proofreader on a text that starts read-only.</value></data>
+  <data name="HtmlEditorDialogTitle" xml:space="preserve"><value>In a dialog</value></data>
   <data name="HtmlEditorMailTitle" xml:space="preserve"><value>Mail template</value></data>
   <data name="HtmlEditorMailDescription" xml:space="preserve"><value>Subject, body and variables: a variable button writes its token at the caret, the Preview tab shows the mail as a mail client receives it, and Send a test hands it to the application. Nothing is sent here.</value></data>
   <data name="HtmlEditorIconsTitle" xml:space="preserve"><value>Toolbar icons</value></data>

@@ -229,7 +229,10 @@ défaut) :
   nœud de texte par nœud de texte, donc sans toucher au gras, aux liens ni aux éléments autour.
 - `InsertSpecialCharacter` : un panneau de caractères par catégorie (courants, monnaies, flèches,
   mathématiques, grec, juridique), avec une recherche sur le nom localisé ; le caractère choisi est tapé
-  au curseur (échappé en face source).
+  au curseur (échappé en face source). Échap dans la recherche ferme le panneau, rend le focus à la
+  surface et ne remonte pas (un dialogue qui contient l'éditeur reste ouvert) ; le navigateur ne vide jamais
+  le champ de recherche à cette touche (`omni-html-editor.js` annule ce vidage). Rouvrir le panneau remet
+  la recherche à zéro.
 - `ImportTable` : un panneau de fichier qui lit un CSV ou un TSV (cellules entre guillemets, guillemets
   doublés, sauts de ligne dans une cellule), plus les formats des lecteurs d'extension, montre un aperçu,
   propose la première ligne en en-tête (cochée d'office quand elle ne contient aucun nombre) et insère le

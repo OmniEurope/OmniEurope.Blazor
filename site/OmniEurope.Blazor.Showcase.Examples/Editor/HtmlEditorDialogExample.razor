@@ -1,0 +1,15 @@
+@* The editor in a dialog: Escape in the search of the special characters closes that panel, keeps the text typed
+   there, gives the focus back to the surface and leaves the dialog open; a second Escape closes the dialog. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniButton Id="editor-dialog-open" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => Open = true)">
+        <Icon><OmniIcon Name="OmniIconName.Edit" /></Icon>
+        <ChildContent><span>Edit in a dialog</span></ChildContent>
+    </OmniButton>
+    <OmniDialog Id="editor-dialog" Title="Edit the text" @bind-Open="Open" Size="OmniDialogSize.Large">
+        <OmniHtmlEditor Id="editor-in-dialog"
+                        @bind-Value="Body"
+                        Label="Text"
+                        Rows="6"
+                        Commands="DialogCommands" />
+    </OmniDialog>
+</OmniStack>

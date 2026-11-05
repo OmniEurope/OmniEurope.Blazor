@@ -26,7 +26,8 @@ internal static class SelectionFamily
             ["OmniMultiSelect", "OmniListBox"],
             [
                 "Selection/MultiSelectExample.razor", "Selection/MultiSelectExample.razor.cs",
-                "Selection/MultiSelectGalleryExample.razor", "Selection/MultiSelectGalleryExample.razor.cs"
+                "Selection/MultiSelectGalleryExample.razor", "Selection/MultiSelectGalleryExample.razor.cs",
+                "Selection/FieldsDialogExample.razor", "Selection/FieldsDialogExample.razor.cs"
             ]),
         new("lists", "ListsTitle", "ListsDescription", OmniIconName.NumberedList,
             ["OmniListBox", "OmniCheckBoxList"],

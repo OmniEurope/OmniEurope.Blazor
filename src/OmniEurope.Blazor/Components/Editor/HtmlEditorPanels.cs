@@ -56,6 +56,20 @@ internal sealed class HtmlEditorPanels
     /// <summary>Hides the panel.</summary>
     internal void Close() => Current = HtmlEditorPanel.None;
 
+    /// <summary>
+    /// Hides the panel on Escape typed in its search, and goes no further (a dialog around the editor stays open):
+    /// the editing script, which sees the same key, cancels the browser's own emptying of a search field and gives
+    /// the focus back to the surface.
+    /// </summary>
+    /// <param name="key">The key pressed.</param>
+    internal void CloseOnEscape(string key)
+    {
+        if (key == "Escape")
+        {
+            Close();
+        }
+    }
+
     /// <summary>Shows the special characters of a category, the search emptied.</summary>
     internal void ChooseCategory(string category)
     {

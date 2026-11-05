@@ -18,7 +18,7 @@
 // editing in tables.js, the text an extension proposes after the caret in suggestions.js and the
 // passages a proofreader flags in proofreading.js.
 import {
-    editors, allowedClasses, normalise, elementOf, caretOffset, placeCaret, joinInstead, insertHtmlAt, editorState, openSurface
+    editors, allowedClasses, normalise, elementOf, caretOffset, placeCaret, joinInstead, insertHtmlAt, editorState, openSurface, cancelCharacterSearchEscape
 } from './html-editor/model.js';
 import { describe, apply, readClipboard } from './html-editor/commands.js';
 import { startDrag, endDrag, placeDrop } from './html-editor/dragging.js';
@@ -62,6 +62,9 @@ export function mount(surface, dotnet, html, options, editable = true) {
     listen(state, surface, 'keydown', event => keydown(state, event));
     listen(state, surface, 'beforeinput', event => beforeInput(state, event));
     listen(state, surface, 'focusout', () => flush(state));
+    // The search of the special characters sits beside the surface, in the same frame: Escape there gives the focus back.
+    listen(state, surface.closest('.omni-html-editor') ?? surface, 'keydown', event => cancelCharacterSearchEscape(event, () => restore(state)));
+
     listen(state, document, 'selectionchange', () => selectionChanged(state));
     listen(state, surface, 'click', event => activate(state, event));
     listen(state, surface, 'contextmenu', event => contextMenu(state, event));
