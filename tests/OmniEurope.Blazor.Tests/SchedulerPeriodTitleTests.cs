@@ -53,6 +53,39 @@ public sealed class SchedulerPeriodTitleTests : OmniBunitContext
         Assert.Equal("polite", title.GetAttribute("aria-live"));
     }
 
+    private IRenderedComponent<OmniScheduler> RenderWeek(DateTimeOffset date, CultureInfo culture) =>
+        Render<OmniScheduler>(parameters => parameters
+            .Add(component => component.Date, date)
+            .Add(component => component.View, OmniCalendarView.Week)
+            .Add(component => component.TimeZone, TimeZoneInfo.Utc)
+            .Add(component => component.Culture, culture)
+            .Add(component => component.ShowPeriodTitle, true));
+
+    [Fact]
+    public void AWeek_WhoseDaysShareNoWord_KeepsBothDaysWhole()
+    {
+        // A long date of the day alone: "26" and "1" share neither a head nor a tail.
+        var culture = (CultureInfo)CultureInfo.GetCultureInfo("fr-FR").Clone();
+        culture.DateTimeFormat.LongDatePattern = "%d";
+
+        Assert.Equal("26 au 1", RenderWeek(On(2026, 10, 28), culture).Find(".omni-scheduler__title").TextContent);
+    }
+
+    [Fact]
+    public void AWeek_WhoseEndIsAllSharedWords_KeepsTheEndWhole()
+    {
+        // The end ("Y") is both the shared head and the shared tail of the start ("Y Y"): dropping its head would leave
+        // nothing, so the end stays whole.
+        var culture = (CultureInfo)CultureInfo.GetCultureInfo("fr-FR").Clone();
+        var months = (string[])culture.DateTimeFormat.MonthNames.Clone();
+        months[9] = "Y Y";
+        months[10] = "Y";
+        culture.DateTimeFormat.MonthNames = months;
+        culture.DateTimeFormat.LongDatePattern = "MMMM";
+
+        Assert.Equal("Y au Y", RenderWeek(On(2026, 10, 28), culture).Find(".omni-scheduler__title").TextContent);
+    }
+
     [Fact]
     public void AWeek_InACultureWhoseLongDateHasNoWeekday_KeepsItsPatternWhole()
     {

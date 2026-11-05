@@ -462,6 +462,23 @@ public sealed class InkCanvasTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task ThemeColour_ThatIsNotAHex_TheSameAgain_OrAfterDispose_ChangesNothing()
+    {
+        var canvas = RenderCanvas();
+        await canvas.InvokeAsync(() => canvas.Instance.HandleThemeColorAsync("#101010"));
+
+        await canvas.InvokeAsync(() => canvas.Instance.HandleThemeColorAsync("rgb(1, 2, 3)"));
+        Assert.Equal("#101010", canvas.Find("input[type=color]").GetAttribute("value"));
+
+        await canvas.InvokeAsync(() => canvas.Instance.HandleThemeColorAsync("#101010"));
+        Assert.Equal("#101010", canvas.Find("input[type=color]").GetAttribute("value"));
+
+        await canvas.Instance.DisposeAsync();
+        await canvas.InvokeAsync(() => canvas.Instance.HandleThemeColorAsync("#202020"));
+        Assert.Equal("#101010", canvas.Find("input[type=color]").GetAttribute("value"));
+    }
+
+    [Fact]
     public void Pen_ByDefault_IsTheThemeColourAndAWidthOfTwo()
     {
         var canvas = RenderCanvas();
