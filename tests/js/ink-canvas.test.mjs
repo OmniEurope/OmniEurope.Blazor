@@ -75,8 +75,9 @@ installPage();
 const ink = await import(pathToFileURL(path.join(wwwroot, 'omni-ink-canvas.js')).href);
 
 // A canvas 600 by 200 CSS pixels whose box starts at (10, 20), and the .NET side that records what it is told.
-const pad = ({ width = 600, height = 200, locked = false, color = 'currentColor', penWidth = '2', scope = null } = {}) => {
+const pad = ({ width = 600, height = 200, locked = false, color = 'currentColor', penWidth = '2', scope = null, text = null } = {}) => {
     installPage();
+    if (text) globalThis.getComputedStyle = () => ({ color: text });
     const listeners = new Map();
     const context = new FakeContext();
     const dotnet = { calls: [], invokeMethodAsync(method, ...values) { this.calls.push([method, ...values]); return Promise.resolve(); } };
@@ -98,13 +99,13 @@ const pad = ({ width = 600, height = 200, locked = false, color = 'currentColor'
         setPointerCapture(id) { this.captured = id; },
         focus(options) { this.focused = true; this.focusOptions = options; }
     };
-    ink.attach(canvas, dotnet);
+    const resolved = ink.attach(canvas, dotnet);
     const fire = (type, event) => {
         const prevented = { value: false };
         listeners.get(type)?.({ type, preventDefault: () => { prevented.value = true; }, ...event });
         return prevented.value;
     };
-    return { canvas, dotnet, context, fire, listeners };
+    return { canvas, dotnet, context, fire, listeners, resolved };
 };
 
 const pointer = (x, y, extra = {}) => ({ pointerId: 1, isPrimary: true, pointerType: 'mouse', button: 0, clientX: 10 + x, clientY: 20 + y, pressure: 0.5, ...extra });
@@ -133,6 +134,30 @@ test('the theme colour is resolved from the canvas, not drawn as a keyword', () 
     fire('pointermove', pointer(60, 60));
 
     assert.equal(context.of('stroke').at(-1)[1], 'rgb(1, 2, 3)');
+});
+
+test('attach returns the theme colour resolved on the canvas as a #rrggbb hex', () => {
+    assert.equal(pad().resolved, '#010203');
+    assert.equal(pad({ text: 'rgba(224, 224, 224, 0.5)' }).resolved, '#e0e0e0');
+    assert.equal(pad({ text: 'rgb(224 224 224 / 50%)' }).resolved, '#e0e0e0');
+});
+
+test('attach returns null when the computed colour is not a resolvable rgb', () => {
+    installPage();
+    globalThis.getComputedStyle = () => ({ color: '' });
+    const none = ink.attach({ clientWidth: 1, clientHeight: 1, dataset: {}, addEventListener() {}, removeEventListener() {}, closest: () => null, getContext: () => new FakeContext() }, { invokeMethodAsync: () => Promise.resolve() });
+    assert.equal(none, null);
+});
+
+test('a theme change tells .NET the new resolved colour, once, only when it changed', () => {
+    const { dotnet } = pad();
+    const theme = observers.find(item => item.options?.attributeFilter);
+    globalThis.getComputedStyle = () => ({ color: 'rgb(224, 224, 224)' });
+
+    theme.callback();
+    theme.callback();
+
+    assert.deepEqual(dotnet.calls, [['OnThemeColor', '#e0e0e0']]);
 });
 
 test('a click is a dot, drawn as a filled circle of the stroke width', () => {

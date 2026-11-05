@@ -141,12 +141,27 @@ function tell(dotnet, method, ...values) {
     }
 }
 
-export function attach(canvas, dotnet) {
-    if (!canvas || pads.has(canvas)) {
-        return;
+// The computed colour as #rrggbb, the alpha ignored: the colour field of the toolbar only takes a hex. Null when
+// the browser gave nothing this can read (no rgb() form yet).
+function resolveHex(canvas) {
+    const match = /^rgba?\(\s*([\d.]+)[\s,]+([\d.]+)[\s,]+([\d.]+)/i.exec(getComputedStyle(canvas).color ?? '');
+    if (!match) {
+        return null;
     }
 
-    const pad = { canvas, strokes: [], active: null, observers: [] };
+    return '#' + match.slice(1, 4).map(part => Math.min(255, Math.round(Number.parseFloat(part))).toString(16).padStart(2, '0')).join('');
+}
+
+/**
+ * Attaches the pointer and keyboard handling to the canvas. Returns the theme colour resolved on the canvas as a
+ * #rrggbb hex (null when unresolved); a later change of it is told to .NET by OnThemeColor.
+ */
+export function attach(canvas, dotnet) {
+    if (!canvas || pads.has(canvas)) {
+        return null;
+    }
+
+    const pad = { canvas, strokes: [], active: null, observers: [], hex: resolveHex(canvas) };
 
     const onPointerDown = event => {
         if (pad.active || !event.isPrimary || (event.pointerType === 'mouse' && event.button !== 0) || isLocked(canvas)) {
@@ -221,6 +236,14 @@ export function attach(canvas, dotnet) {
 
     // One repaint for every reason the pixels may be stale: a new size, a new theme colour, a new colour scheme.
     const repaint = () => redraw(pad);
+    const retheme = () => {
+        repaint();
+        const hex = resolveHex(canvas);
+        if (hex && hex !== pad.hex) {
+            pad.hex = hex;
+            tell(dotnet, 'OnThemeColor', hex);
+        }
+    };
 
     canvas.addEventListener('pointerdown', onPointerDown);
     canvas.addEventListener('pointermove', onPointerMove);
@@ -231,9 +254,9 @@ export function attach(canvas, dotnet) {
     const resize = new ResizeObserver(repaint);
     resize.observe(canvas);
     const scheme = window.matchMedia('(prefers-color-scheme: dark)');
-    scheme.addEventListener('change', repaint);
+    scheme.addEventListener('change', retheme);
     const scope = canvas.closest('[data-omni-theme]') ?? document.documentElement;
-    const theme = new MutationObserver(repaint);
+    const theme = new MutationObserver(retheme);
     theme.observe(scope, { attributes: true, attributeFilter: ['data-omni-theme', 'style', 'class'] });
 
     pad.release = () => {
@@ -244,10 +267,11 @@ export function attach(canvas, dotnet) {
         canvas.removeEventListener('keydown', onKeyDown);
         resize.disconnect();
         theme.disconnect();
-        scheme.removeEventListener('change', repaint);
+        scheme.removeEventListener('change', retheme);
     };
 
     pads.set(canvas, pad);
+    return pad.hex;
 }
 
 export function detach(canvas) {
