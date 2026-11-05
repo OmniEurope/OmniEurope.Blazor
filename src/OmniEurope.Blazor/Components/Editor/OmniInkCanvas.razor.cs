@@ -36,6 +36,7 @@ public partial class OmniInkCanvas
     private string? _seenColor;
     private double _seenStrokeWidth = double.NaN;
     private string? _chosenColor;
+    private string? _themeColor;
     private double? _chosenWidth;
     private string? _appliedLayout;
     private string _announcement = string.Empty;
@@ -58,7 +59,10 @@ public partial class OmniInkCanvas
 
     /// <summary>
     /// The colour of the next strokes, as a CSS colour. Null, the default, draws in the text colour of the theme
-    /// (<see cref="OmniInkStroke.ThemeColor"/>). The toolbar colour field overrides it until this parameter changes.
+    /// (<see cref="OmniInkStroke.ThemeColor"/>), and the toolbar colour field then shows that colour as the browser
+    /// resolved it on the canvas (read when the script attaches, and again when the script sees the theme attribute, the
+    /// style or class of the theme scope or the system colour scheme change); it is black until then, for instance
+    /// before the first render in the browser. The toolbar colour field overrides it until this parameter changes.
     /// </summary>
     [Parameter]
     public string? Color { get; set; }
@@ -128,7 +132,7 @@ public partial class OmniInkCanvas
 
     private string StrokeColor => PenColor ?? OmniInkStroke.ThemeColor;
 
-    private string PickerColor => IsHexColor(PenColor) ? PenColor! : DefaultPickerColor;
+    private string PickerColor => IsHexColor(PenColor) ? PenColor! : PenColor is null && _themeColor is not null ? _themeColor : DefaultPickerColor;
 
     private double PenWidth => _chosenWidth ?? StrokeWidth;
 
@@ -212,8 +216,13 @@ public partial class OmniInkCanvas
             if (!_attached)
             {
                 _attached = true;
-                _bridge = DotNetObjectReference.Create(new Internal.InkCanvasInteropBridge(HandleStrokeAsync, HandleUndoKeyAsync, HandleClearKeyAsync));
-                await module.InvokeVoidAsync("attach", _canvas, _bridge);
+                _bridge = DotNetObjectReference.Create(new Internal.InkCanvasInteropBridge(HandleStrokeAsync, HandleUndoKeyAsync, HandleClearKeyAsync, HandleThemeColorAsync));
+                var themeColor = await module.InvokeAsync<string?>("attach", _canvas, _bridge);
+                if (IsHexColor(themeColor) && themeColor != _themeColor)
+                {
+                    _themeColor = themeColor;
+                    StateHasChanged();
+                }
             }
 
             var layout = $"{Width}|{Height}|{AspectRatio?.ToString(CultureInfo.InvariantCulture)}";
@@ -353,6 +362,19 @@ public partial class OmniInkCanvas
     internal Task HandleUndoKeyAsync() => Locked || _disposed ? Task.CompletedTask : UndoAsync();
 
     internal Task HandleClearKeyAsync() => Locked || _disposed ? Task.CompletedTask : ClearAsync();
+
+    // The script reports the theme colour it resolved on the canvas when it changes (theme attribute, scope style or
+    // class, system colour scheme); the colour field shows it while the pen is the theme colour.
+    internal Task HandleThemeColorAsync(string color)
+    {
+        if (_disposed || !IsHexColor(color) || color == _themeColor)
+        {
+            return Task.CompletedTask;
+        }
+
+        _themeColor = color;
+        return InvokeAsync(StateHasChanged);
+    }
 
     private void ChooseColor(string? color) => _chosenColor = color;
 

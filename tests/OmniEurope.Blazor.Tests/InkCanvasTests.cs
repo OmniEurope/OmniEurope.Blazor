@@ -385,13 +385,15 @@ public sealed class InkCanvasTests : OmniBunitContext
         var bridge = new InkCanvasInteropBridge(
             (color, width, points) => { calls.Add($"stroke {color} {width} {points.Length}"); return Task.CompletedTask; },
             () => { calls.Add("undo"); return Task.CompletedTask; },
-            () => { calls.Add("clear"); return Task.CompletedTask; });
+            () => { calls.Add("clear"); return Task.CompletedTask; },
+            color => { calls.Add($"theme {color}"); return Task.CompletedTask; });
 
         await bridge.OnStroke("red", 2, [1, 2, 3]);
         await bridge.OnUndo();
         await bridge.OnClear();
+        await bridge.OnThemeColor("#e0e0e0");
 
-        Assert.Equal(["stroke red 2 3", "undo", "clear"], calls);
+        Assert.Equal(["stroke red 2 3", "undo", "clear", "theme #e0e0e0"], calls);
     }
 
     // ----- Toolbar -----------------------------------------------------------------------------------
@@ -432,6 +434,31 @@ public sealed class InkCanvasTests : OmniBunitContext
         canvas.Render(parameters => parameters.Add(c => c.ReadOnly, false));
         Assert.False(canvas.Find("input[type=color]").HasAttribute("disabled"));
         Assert.All(canvas.FindAll("[role=toolbar] button"), button => Assert.False(button.HasAttribute("disabled")));
+    }
+
+    [Fact]
+    public void Swatch_FollowsTheThemeColourTheScriptResolved_WhenThePenIsTheThemeColour()
+    {
+        _module.Setup<string?>("attach", _ => true).SetResult("#e0e0e0");
+
+        var canvas = RenderCanvas();
+
+        Assert.Equal("currentColor", canvas.Find("canvas").GetAttribute("data-omni-ink-color"));
+        Assert.Equal("#e0e0e0", canvas.Find("input[type=color]").GetAttribute("value"));
+    }
+
+    [Fact]
+    public async Task Swatch_FollowsALaterThemeChangeTheScriptReports_ButNotAChosenColour()
+    {
+        var canvas = RenderCanvas();
+        Assert.Equal("#000000", canvas.Find("input[type=color]").GetAttribute("value"));
+
+        await canvas.InvokeAsync(() => canvas.Instance.HandleThemeColorAsync("#101010"));
+        Assert.Equal("#101010", canvas.Find("input[type=color]").GetAttribute("value"));
+
+        canvas.Find("input[type=color]").Input("#ff0000");
+        await canvas.InvokeAsync(() => canvas.Instance.HandleThemeColorAsync("#202020"));
+        Assert.Equal("#FF0000", canvas.Find("input[type=color]").GetAttribute("value"));
     }
 
     [Fact]

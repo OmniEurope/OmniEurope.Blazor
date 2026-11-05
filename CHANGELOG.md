@@ -13,6 +13,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 ### Fixed
 
 - `OmniDocumentEditor.Culture` n'agissait que sur les pastilles : le sélecteur de date et le champ numérique qu'une pastille ouvre suivaient la culture de la page. `OmniDatePicker.Culture` et `OmniNumeric<TValue>.Culture` (`CultureInfo?`, nulles par défaut : la culture de la page, comportement inchangé) sont ajoutés et l'éditeur y transmet la sienne. Sur `OmniDatePicker`, la date est écrite et lue dans cette culture et le calendrier en prend les noms de mois et de jours et le premier jour de la semaine ; sur `OmniNumeric`, un texte saisi sans point est lu dans cette culture (`1,5` vaut 1,5 en `de-DE`). Le champ numérique écrit toujours sa valeur en culture invariante (un `<input type="number">` ne lit que cette forme) : le séparateur décimal dessiné reste celui du navigateur. Ajout d'API : deux propriétés `Culture`.
+- `OmniInkCanvas` : sans `Color`, la pastille de couleur de la barre d'outils affiche désormais la couleur de thème réellement résolue sur la zone de dessin (le script la lit à l'attache et la redonne quand le thème, le style ou la classe de la portée de thème ou le schéma de couleurs du système change), au lieu de `#000000` qui contredisait l'encre claire du thème sombre ; le noir ne reste que tant que rien n'est résolu. Un choix dans le sélecteur ou un `Color` explicite ne change pas.
 
 ## [1.11.1] - 2026-11-04
 
