@@ -358,13 +358,10 @@ public partial class OmniHtmlEditor
 
     private async Task SyncScriptsAsync()
     {
-        if (_mode == OmniHtmlEditorMode.Visual)
+        await (_mode == OmniHtmlEditorMode.Visual ? Visual.SyncAsync() : SourceFace.WatchInputAsync());
+        if (_disposed)
         {
-            await Visual.SyncAsync();
-            if (_disposed)
-            {
-                return;
-            }
+            return;
         }
 
         await ToolbarFit.SyncAsync(_toolbar, ToolbarRows);
@@ -583,7 +580,7 @@ public partial class OmniHtmlEditor
     /// Takes in what was typed in the visual surface and not yet reported, so a command, the history
     /// or a mode switch never acts on a value a quarter of a second old.
     /// </summary>
-    private Task CaptureVisualAsync() => _visual is null ? Task.CompletedTask : _visual.CaptureAsync();
+    private Task CaptureVisualAsync() => Task.WhenAll(SourceFace.FlushInputAsync(), _visual is null ? Task.CompletedTask : _visual.CaptureAsync());
 
     /// <summary>
     /// Takes in a surface the host changed through its own script, outside a command (a click on
@@ -832,6 +829,8 @@ public partial class OmniHtmlEditor
         {
             return;
         }
+
+        await SourceFace.FlushInputAsync();
 
         if (_mode == OmniHtmlEditorMode.Visual)
         {
