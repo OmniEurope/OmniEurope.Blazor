@@ -177,7 +177,27 @@ const place = (tooltip, x, y) => {
     tooltip.classList.toggle('omni-tooltip--below', below);
     // Placed again on every move: the box to compare with is the trigger's now.
     unwatchTracked?.();
-    unwatchTracked = watchAnchor(tooltip.querySelector('.omni-tooltip__trigger') ?? tooltip, clear);
+    unwatchTracked = watchAnchor(tooltip.querySelector('.omni-tooltip__trigger') ?? tooltip, letGo);
+};
+
+// Placed on its trigger, as the keyboard places it: centred over it, kept inside the window.
+const anchorOn = tooltip => {
+    const trigger = tooltip.querySelector('.omni-tooltip__trigger') ?? tooltip;
+    const box = trigger.getBoundingClientRect();
+    place(tooltip, box.left + (box.width / 2), box.top);
+};
+
+// The script lets go of a tooltip whose coordinates no longer describe anything (its trigger moved, the
+// page scrolled). One that the pointer or the focus still holds open stays open anyway, by the
+// stylesheet alone, which centres it over its trigger with no bound: near an edge of the window, the start
+// or the end of every line was cut off (client application request). Such a tooltip is placed again on
+// its trigger, inside the window; the others close.
+const letGo = () => {
+    const tooltip = tracked;
+    clear();
+    if (tooltip?.isConnected && tooltip.matches(':hover, :focus-within')) {
+        anchorOn(tooltip);
+    }
 };
 
 const onPointerMove = event => {
@@ -212,9 +232,7 @@ const onFocusIn = event => {
         return;
     }
 
-    const trigger = tooltip.querySelector('.omni-tooltip__trigger') ?? tooltip;
-    const box = trigger.getBoundingClientRect();
-    place(tooltip, box.left + (box.width / 2), box.top);
+    anchorOn(tooltip);
 };
 
 export function install() {
@@ -234,7 +252,7 @@ export function install() {
         }
     }, { capture: true, passive: true });
     // A page that scrolls under a held pointer would leave the tooltip at coordinates that no longer
-    // describe anything; dropping it is truer than dragging a stale box along.
+    // describe anything; it is let go (letGo), and placed again on its trigger if it stays open.
     // A pointer press on "Show more" must not move the focus into the tooltip: the focus would keep
     // it open (focus-within) after the pointer has left. The click still fires; the keyboard still
     // reaches the action with Tab.
@@ -246,7 +264,7 @@ export function install() {
     // Scrolling the unfolded text of a long tooltip is not a page scroll: that one stays open.
     document.addEventListener('scroll', event => {
         if (!(event.target instanceof Element && event.target.closest('.omni-tooltip__content'))) {
-            clear();
+            letGo();
         }
     }, { capture: true, passive: true });
 }

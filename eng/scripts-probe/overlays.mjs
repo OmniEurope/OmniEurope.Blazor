@@ -158,7 +158,41 @@ export async function overlaySteps(session, results) {
   await hover('button[title], [data-omni-title]');
   await waitFor('l\'aide de l\'attribut title', "document.querySelector('.omni-title-tooltip.omni-title-tooltip--visible')?.textContent.trim().length > 0");
   await mouse('mouseMoved', { x: 5, y: 5 }, { button: 'none' });
-  step('bulle d\'aide placée, dépliée dans la fenêtre ; aide d\'un attribut title');
+
+  // A wide tooltip whose trigger sits 20 px from an edge stays inside the window, its arrow on the trigger, at
+  // 1280 and 375 px; and still so once a scroll made the script let it go while the pointer holds it open
+  // (the stylesheet alone centred it with no bound: the start of each line was cut off, client application request).
+  for (const width of [1280, 375]) {
+    await send('Emulation.setDeviceMetricsOverride', { width, height: 900, deviceScaleFactor: 1, mobile: false });
+    for (const edge of ['left', 'right']) {
+      await evaluate(`(() => {
+        const host = document.getElementById('tooltip-expandable');
+        host.style.position = 'fixed'; host.style.top = '400px'; host.style.zIndex = '1000';
+        host.style.left = ${JSON.stringify(edge === 'left' ? '20px' : 'auto')}; host.style.right = ${JSON.stringify(edge === 'right' ? '20px' : 'auto')};
+      })()`);
+      await pause(100);
+      await hover('#tooltip-expandable .omni-tooltip__trigger');
+      await waitFor(`l'aide large ouverte à ${edge === 'left' ? 'gauche' : 'droite'} en ${width} px`, "getComputedStyle(document.querySelector('#tooltip-expandable .omni-tooltip__content')).visibility === 'visible'");
+      for (const moment of ['ouverte', 'après un défilement']) {
+        if (moment !== 'ouverte') {
+          await evaluate("document.body.dispatchEvent(new Event('scroll'))");
+          await pause(100);
+        }
+        const box = await evaluate(`(() => {
+          const content = document.querySelector('#tooltip-expandable .omni-tooltip__content');
+          const box = content.getBoundingClientRect();
+          const trigger = document.querySelector('#tooltip-expandable .omni-tooltip__trigger').getBoundingClientRect();
+          return { left: box.left, right: box.right, width: innerWidth, arrow: box.left + parseFloat(getComputedStyle(content, '::after').left), centre: trigger.left + trigger.width / 2 };
+        })()`);
+        check(box.left >= 0 && box.right <= box.width && Math.abs(box.arrow - box.centre) <= 2,
+          `Aide large hors de la fenêtre ou flèche loin du déclencheur (${edge}, ${width} px, ${moment}) : ${JSON.stringify(box)}.`);
+      }
+      await mouse('mouseMoved', { x: 5, y: 5 }, { button: 'none' });
+    }
+  }
+  await evaluate("(() => { const host = document.getElementById('tooltip-expandable'); ['position', 'top', 'left', 'right', 'z-index'].forEach(name => host.style.removeProperty(name)); })()");
+  await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
+  step('bulle d\'aide placée, dépliée dans la fenêtre ; aide large au bord gauche et droit, 1280 et 375 px, défilement compris ; aide d\'un attribut title');
 
   // 5. A compact multiple choice: a click inside keeps it open, Escape and a press outside close it.
   await session.visit('/components/multi-select', '#multiselect-compact');
@@ -323,7 +357,11 @@ export async function overlaySteps(session, results) {
   await clickOn('#demo-appearance-window');
   await waitFor('la fenêtre d\'apparence', "document.querySelector('.omni-appearance-window input[type=\"range\"][aria-label]') !== null");
   await evaluate(`(() => { const range = [...document.querySelectorAll('.omni-appearance-window input[type="range"]')][1]; range.value = '7'; range.dispatchEvent(new Event('input', { bubbles: true })); range.dispatchEvent(new Event('change', { bubbles: true })); })()`);
-  await waitFor('la taille des contrôles posée', "document.documentElement.dataset.oeControlSize === '7'");
+  await waitFor('la taille des contrôles posée', "document.documentElement.dataset.oeControlSize === '7'").catch(async error => {
+    // What the window held when the size did not land: which ranges, their values and names, and the size set.
+    const state = await evaluate(`JSON.stringify({ size: document.documentElement.dataset.oeControlSize ?? null, ranges: [...document.querySelectorAll('.omni-appearance-window input[type="range"]')].map(range => ({ label: range.getAttribute('aria-label'), value: range.value, min: range.min, max: range.max, connected: range.isConnected })) })`);
+    throw new Error(`${error.message} État : ${state}`);
+  });
   // The probe browser draws WebGL in software, which omni-black-hole.js refuses
   // (failIfMajorPerformanceCaveat) for the CSS field: the request loses that flag here so the drawing
   // path runs, and its slow frames bring the guard that holds the field still.

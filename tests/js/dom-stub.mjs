@@ -1,6 +1,7 @@
 // A minimal DOM for the unit tests of the package scripts, run by node without any dependency. It
 // implements only what the scripts under test read: elements with attributes, classes, style
-// variables, simple selectors (tag, .class, [attribute], [attribute="value"], :not(...), commas),
+// variables, simple selectors (tag, .class, [attribute], [attribute="value"], :not(...), :disabled,
+// :hover from document.hovered, :focus-within from document.activeElement, commas),
 // listeners dispatched by hand and a fake timer queue. It proves the logic of a script; the layout,
 // the focus and the real events stay the business of the browser probes.
 
@@ -42,6 +43,30 @@ const matchesCompound = (element, compound) => {
         }
 
         rest = rest.replace(':disabled', '');
+    }
+
+    // :hover, from the element a test puts under the pointer (document.hovered, its ancestors included, as
+    // the browser computes it), and :focus-within, the active element inside the element or on it.
+    if (rest.includes(':hover')) {
+        let hovered = false;
+        for (let node = globalThis.document?.hovered; node && !hovered; node = node.parentElement) {
+            hovered = node === element;
+        }
+
+        if (!hovered) {
+            return false;
+        }
+
+        rest = rest.replace(':hover', '');
+    }
+
+    if (rest.includes(':focus-within')) {
+        const active = globalThis.document?.activeElement;
+        if (!active || !element.contains(active)) {
+            return false;
+        }
+
+        rest = rest.replace(':focus-within', '');
     }
 
     const tag = /^[a-zA-Z][\w-]*/.exec(rest)?.[0];

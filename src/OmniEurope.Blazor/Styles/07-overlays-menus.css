@@ -197,7 +197,8 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-tooltip--below .omni-tooltip__content::after { border-bottom-color: var(--omni-color-inverse-surface); border-top-color: transparent; inset-block-end: 100%; inset-block-start: auto; }
 /* MaxWidth: the widest the open box grows before it wraps; the text wraps, it is never cut. */
 .omni-tooltip--narrow:is(:hover, :focus-within, .omni-tooltip--tracked) .omni-tooltip__content { max-width: 12rem; }
-.omni-tooltip--wide:is(:hover, :focus-within, .omni-tooltip--tracked) .omni-tooltip__content { max-width: min(28rem, 100vw - 1rem); }
+/* The box stays 1rem narrower than the window, its padding included (its width is the content-box one). */
+.omni-tooltip--wide:is(:hover, :focus-within, .omni-tooltip--tracked) .omni-tooltip__content { max-width: min(28rem, 100vw - 1rem - 2 * (var(--omni-button-pad-x) - 0.25rem)); }
 /* A long text opens on a preview and a "Show more" action. The box then takes the pointer, and a
    transparent bridge over the gap between it and the pointer keeps the hover alive on the way up
    (or down when it is flipped below), so the action can be reached. Unfolded, the box scrolls
