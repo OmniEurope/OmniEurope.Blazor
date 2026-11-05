@@ -62,6 +62,11 @@ public partial class OmniNavTile
     /// up to a step of 8, 12, 16, 20, 24, 32 or 48 characters, so the markup carries a class, never an inline
     /// style) and stops at 0.75rem; under that size the title is cut with an ellipsis. For a tile used
     /// in a narrow column, such as six per row. False by default: the title wraps and is centred.
+    /// Inside an <see cref="OmniTileGrid"/> the tiles that fit their title share one size instead: the grid
+    /// takes the longest of their titles (its exact length up to 32 characters, then 40 and 48), computes the size
+    /// from the real width of a tile, and every one of them uses it, so a short title is never smaller than a
+    /// longer one while there is room. The title shrinks only when the longest one would touch the edge of the
+    /// tile, down to the same floor.
     /// </summary>
     [Parameter]
     public bool FitTitle { get; set; }
@@ -109,17 +114,26 @@ public partial class OmniNavTile
         }
     }
 
-    /// <summary>Tells the tile grid around the tile whether it is double width.</summary>
+    /// <summary>Tells the tile grid around the tile whether it is double width, and the length of its title when it fits it.</summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
         OmniTileGridScope.Track(ref _countedIn, TileGrid, DoubleWidth);
+        if (FitTitle)
+        {
+            TileGrid?.SetFitTitle(this, Title?.Length ?? 0);
+        }
+        else
+        {
+            TileGrid?.ClearFitTitle(this);
+        }
     }
 
-    /// <summary>Tells the tile grid around the tile that it no longer holds a double-width tile.</summary>
+    /// <summary>Tells the tile grid around the tile that it no longer holds a double-width tile nor a title to fit.</summary>
     public void Dispose()
     {
         OmniTileGridScope.Track(ref _countedIn, null, false);
+        TileGrid?.ClearFitTitle(this);
         GC.SuppressFinalize(this);
     }
 }

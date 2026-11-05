@@ -291,6 +291,8 @@
   <data name="NavTilesCenter" xml:space="preserve"><value>Center the icon and the title</value></data>
   <data name="NavTilesCenterHint" xml:space="preserve"><value>The icon, the title and the description sit in the middle of the tile, title fitted or not.</value></data>
   <data name="NavTilesFitTitleTitle" xml:space="preserve"><value>Titles fitted on one line</value></data>
+  <data name="NavTilesFitGridTitle" xml:space="preserve"><value>Fitted titles in a grid of six</value></data>
+  <data name="NavTilesFitGridDescription" xml:space="preserve"><value>In a grid, every tile with FitTitle takes the size the longest title needs, computed from the real width of a tile: a short title is not smaller than a long one while there is room, and all of them shrink together, to the same floor, when the longest would touch the edge.</value></data>
   <data name="NavTilesDisabled" xml:space="preserve"><value>Disabled tile</value></data>
   <data name="NavTilesDisabledHint" xml:space="preserve"><value>Disabled: the last tile has no link, cannot take focus, is announced as unavailable and is attenuated, at the same size.</value></data>
   <data name="NavTilesToneNeutral" xml:space="preserve"><value>Neutral</value></data>

@@ -6,19 +6,27 @@ namespace OmniEurope.Blazor.Internal;
 /// grid has two, which the stylesheet cannot tell, so a grid whose columns follow its own width
 /// (<c>MinColumnWidth</c> or <c>UniformSize</c>) has the script watch its columns while it holds a double tile. A
 /// grid with neither, and a grid with no double tile and no <c>MinColumnWidth</c>, loads no script at all. A lost
-/// circuit is ignored.
+/// circuit is ignored. The tiles that fit their title tell it the length of their title too, and the grid renders
+/// the class of the longest, so that every one of them sizes its title alike.
 /// </summary>
 internal sealed class OmniTileGridScope(IJSRuntime javaScript, Action refresh) : IAsyncDisposable
 {
     private ElementReference _grid;
     private IJSObjectReference? _module;
     private string? _appliedKey;
+    private readonly Dictionary<object, int> _fitTitles = new(ReferenceEqualityComparer.Instance);
     private int _doubleTiles;
     private bool _watchable;
     private bool _disposed;
 
     /// <summary>Whether a tile of the grid is <c>DoubleWidth</c>.</summary>
     internal bool HasDoubleTile => _doubleTiles > 0;
+
+    /// <summary>
+    /// The title length, in characters, that every <c>FitTitle</c> tile of the grid sizes its title for: the
+    /// longest title of those tiles, rounded up to a step of the stylesheet. Zero while no such tile is in the grid.
+    /// </summary>
+    internal int FitStep { get; private set; }
 
     /// <summary>
     /// Keeps what a tile has told its grid in step with its parameters: counts the tile once while it is double
@@ -101,6 +109,75 @@ internal sealed class OmniTileGridScope(IJSRuntime javaScript, Action refresh) :
         {
             // The page is gone with the script.
         }
+    }
+
+    /// <summary>
+    /// Records the title length of a <c>FitTitle</c> tile of the grid, or updates it. The grid re-renders only when
+    /// the size class its tiles share changes, so a tile that tells the same length again costs nothing.
+    /// </summary>
+    /// <param name="tile">The tile, compared by reference.</param>
+    /// <param name="titleLength">The length of the tile's title.</param>
+    internal void SetFitTitle(object tile, int titleLength)
+    {
+        _fitTitles[tile] = titleLength;
+        RefreshFitStep();
+    }
+
+    /// <summary>Forgets a tile that is no longer a <c>FitTitle</c> tile of the grid, or is gone.</summary>
+    /// <param name="tile">The tile, compared by reference.</param>
+    internal void ClearFitTitle(object tile)
+    {
+        if (_fitTitles.Remove(tile))
+        {
+            RefreshFitStep();
+        }
+    }
+
+    // The step is the longest title, rounded up to a step of the stylesheet (see StepFor).
+    private void RefreshFitStep()
+    {
+        var longest = 0;
+        foreach (var length in _fitTitles.Values)
+        {
+            longest = Math.Max(longest, length);
+        }
+
+        var step = _fitTitles.Count == 0 ? 0 : StepFor(longest);
+        if (step == FitStep)
+        {
+            return;
+        }
+
+        FitStep = step;
+        if (!_disposed)
+        {
+            refresh();
+        }
+    }
+
+    private static readonly int[] CoarseFitSteps = [40, 48];
+
+    /// <summary>
+    /// The step of the stylesheet (<c>omni-tile-grid--fit-N</c>) that holds a title of this many characters: the
+    /// exact length from 1 to 32, then 40 and 48 for the rare longer ones, 48 for anything beyond. A length of
+    /// zero or less reads as 1.
+    /// </summary>
+    internal static int StepFor(int length)
+    {
+        if (length <= 32)
+        {
+            return Math.Max(length, 1);
+        }
+
+        foreach (var step in CoarseFitSteps)
+        {
+            if (length <= step)
+            {
+                return step;
+            }
+        }
+
+        return CoarseFitSteps[^1];
     }
 
     private void Add()

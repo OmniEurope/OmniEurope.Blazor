@@ -318,6 +318,9 @@
 .omni-nav-tile--fit-24 { --omni-nav-tile-fit-chars: 24; }
 .omni-nav-tile--fit-32 { --omni-nav-tile-fit-chars: 32; }
 .omni-nav-tile--fit-48 { --omni-nav-tile-fit-chars: 48; }
+/* In a tile grid the tile takes the length of the grid's longest fitted title (custom property of the grid, a class
+   per length) instead of a step of its own, so every fitted title of the grid has one size. */
+.omni-nav-tile--fit-grid { --omni-nav-tile-fit-chars: var(--omni-tile-grid-fit-chars, 16); }
 /* IconAlign and TitleAlign: the icon, and the title with its description, placed across the tile apart from each
    other, over the default of the tile (centred, or start with FitTitle); a fitted title keeps its size. */
 .omni-nav-tile--icon-start > .omni-nav-tile__icon { align-self: flex-start; }

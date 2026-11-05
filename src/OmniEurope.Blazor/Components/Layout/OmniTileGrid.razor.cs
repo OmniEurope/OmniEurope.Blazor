@@ -21,7 +21,9 @@ namespace OmniEurope.Blazor.Components;
 /// <c>--omni-tile-min-width</c> (18rem by default, or <see cref="MinColumnWidth"/>), and every tile as tall as the
 /// tallest of the grid and never shorter than the density's tile height (<c>--omni-tile-height</c>). In both
 /// options a <c>DoubleWidth</c> tile spans two columns only where the grid has two or more. A grid with neither
-/// loads no script and renders as it always has.
+/// loads no script and renders as it always has. Whatever the options, the <see cref="OmniNavTile"/> tiles with
+/// <c>FitTitle</c> of the grid share one title size, set by the longest of their titles (a class of the grid,
+/// <c>omni-tile-grid--fit-N</c>), and the grid renders once more only when that length changes.
 /// </remarks>
 public partial class OmniTileGrid
 {
@@ -101,7 +103,8 @@ public partial class OmniTileGrid
         $"omni-tile-grid--gap-{OmniSpacingTokens.Suffix(Gap)}",
         EqualHeights ? null : "omni-tile-grid--natural-heights",
         MinColumnWidth is null ? null : "omni-tile-grid--fluid",
-        UniformSize ? "omni-tile-grid--uniform" : null
+        UniformSize ? "omni-tile-grid--uniform" : null,
+        _scope is { FitStep: > 0 } ? $"omni-tile-grid--fit-{_scope.FitStep}" : null
     ];
 
     // The class attribute exactly as rendered: a new string replaces the one the script marked, so it is part of
