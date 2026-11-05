@@ -86,7 +86,7 @@ et la choisissent, Début et Fin à la première et à la dernière, les options
 </OmniMultiSelect>
 ```
 
-`OmniAutocomplete<TValue>` reçoit une fonction asynchrone annulable, applique un délai (`Debounce`, un `TimeSpan`, 250 ms par défaut) et annonce le nombre de résultats dans une région live. Une option n'est engagée dans le modèle qu'après sélection explicite (sauf avec `AllowFreeText`, voir plus bas). Le clavier est celui d'une liste déroulante combinée : flèches, Début et Fin parcourent les suggestions (`aria-activedescendant`, options en `li role="option"`), Entrée choisit, Échap ferme. Un échec de recherche lève `OnSearchError` avec l'exception et affiche `SearchErrorMessage` (texte localisé par défaut).
+`OmniAutocomplete<TValue>` reçoit une fonction asynchrone annulable, applique un délai (`Debounce`, un `TimeSpan`, 250 ms par défaut) et annonce le nombre de résultats dans une région live. Une option n'est engagée dans le modèle qu'après sélection explicite (sauf avec `AllowFreeText`, voir plus bas). Le clavier est celui d'une liste déroulante combinée : flèches, Début et Fin parcourent les suggestions (`aria-activedescendant`, options en `li role="option"`), Entrée choisit, Échap ferme la liste ouverte (et ne vide jamais le champ : le champ natif de recherche se vide de lui-même à Échap dans les navigateurs Chromium, `omni-focus.js` annule ce vidage, liste fermée comprise, où la touche continue d'atteindre la page, par exemple un dialogue qui se ferme dessus). Un échec de recherche lève `OnSearchError` avec l'exception et affiche `SearchErrorMessage` (texte localisé par défaut).
 
 `MinimumLength` (`int`, 1 par défaut) est le nombre de caractères à taper avant qu'une recherche parte ; 0 cherche aussi dans un champ vide.
 
@@ -117,6 +117,20 @@ localisé de valeur invalide.
 ```razor
 <OmniAutocomplete TValue="string" @bind-Value="modele" Search="ChercherModelesAsync"
                   MinimumLength="0" ShowToggle="true" AllowFreeText="true" />
+```
+
+`ReplaceTextOnType` (`bool`, `false`) fait remplacer le texte du champ par ce qu'on tape, comme la liste déroulante
+combinée d'un traitement de texte : entrer dans le champ en sélectionne le texte (le relâchement de la souris ne
+défait pas cette sélection), et une fois une suggestion choisie (clic dessus, ou Entrée sur celle en surbrillance) le
+premier texte inséré, frappé, collé, dicté ou composé, remplace le texte choisi au lieu de s'y ajouter. Une flèche
+gauche ou droite, Début, Fin, un appui dans le champ ou sa sortie mettent fin à cet état : le texte tapé ensuite
+s'ajoute au texte. Faux par défaut, car la sélection à l'entrée change le comportement des champs existants ; le
+comportement vient du script du champ (`omni-focus.js`) et n'a pas d'effet sans lui. Démonstration : page
+Autocomplete de la vitrine, « Remplacer en tapant » ; preuve en navigateur : partie `combo` de la sonde des scripts.
+
+```razor
+<OmniAutocomplete TValue="string" @bind-Value="modele" Search="ChercherModelesAsync"
+                  MinimumLength="0" ShowToggle="true" AllowFreeText="true" ReplaceTextOnType="true" />
 ```
 
 ## Menus : profil et contextuel

@@ -5,7 +5,7 @@ namespace OmniEurope.Blazor.Components;
 /// <summary>
 /// A text field that suggests values as the user types, following the editable combobox pattern: the
 /// arrows move through the suggestions while the focus stays in the field, Enter picks the highlighted
-/// one, Escape closes the list, and Home and End reach the first and last suggestion while one is highlighted.
+/// one, Escape closes the list (and never empties the field), and Home and End reach the first and last suggestion while one is highlighted.
 /// </summary>
 /// <typeparam name="TValue">The value each suggestion carries.</typeparam>
 public partial class OmniAutocomplete<TValue>
@@ -31,6 +31,9 @@ public partial class OmniAutocomplete<TValue>
     private ElementReference _resultsList;
     private IJSObjectReference? _module;
     private bool _listPlaced;
+    // The field the script is attached to, and the ReplaceTextOnType it was attached with.
+    private bool _fieldAttached;
+    private bool _attachedReplace;
 
     [Inject] private IJSRuntime JavaScript { get; set; } = default!;
 
@@ -111,6 +114,18 @@ public partial class OmniAutocomplete<TValue>
     /// </summary>
     [Parameter]
     public RenderFragment<OmniOption<TValue>>? OptionIconTemplate { get; set; }
+
+    /// <summary>
+    /// Makes the text typed replace the text in the field instead of extending it, as in a word processor's combo
+    /// box. Entering the field selects its text, and after a suggestion is picked (a click on it, or Enter on the
+    /// highlighted one) the first text inserted, whether typed, pasted, dictated or composed, replaces the
+    /// picked text. Moving the caret (arrows, Home, End), pressing in the field or leaving it ends that state, and
+    /// what is typed after is joined to the text. It needs the field's script, so it has no effect before the
+    /// first render, nor where scripts do not run. False by default: the text of a field keeps what is typed
+    /// where the caret is.
+    /// </summary>
+    [Parameter]
+    public bool ReplaceTextOnType { get; set; }
 
     /// <summary>
     /// Draws at the end of the field the chevron of a drop-down list, for a field that offers a closed
@@ -566,6 +581,11 @@ public partial class OmniAutocomplete<TValue>
 
         try
         {
+            if (_fieldAttached)
+            {
+                await _module.InvokeVoidAsync("detachComboInput", _input);
+            }
+
             await _module.InvokeVoidAsync("detachFloatingList", ResultsId);
             await _module.DisposeAsync();
         }
@@ -576,25 +596,38 @@ public partial class OmniAutocomplete<TValue>
     }
 
     /// <summary>
-    /// Hands the open list to the script that places it over whatever clips the field (a dialog, a card) and takes
-    /// it back once closed. Before the script answers the list sits under the field. A lost circuit is ignored.
+    /// Hands the field to the script that keeps Escape from emptying it (and, with <see cref="ReplaceTextOnType"/>,
+    /// makes typing replace the text), and the open list to the script that places it over whatever clips the field
+    /// (a dialog, a card) and takes it back once closed. Before the script answers the list sits under the field. A
+    /// lost circuit is ignored.
     /// </summary>
     /// <param name="firstRender">Whether this is the first render.</param>
     /// <returns>The task of the call.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (IsOpen == _listPlaced)
+        var fieldChanged = !_fieldAttached || _attachedReplace != ReplaceTextOnType;
+        if (!fieldChanged && IsOpen == _listPlaced)
         {
             return;
         }
 
-        _listPlaced = IsOpen;
         try
         {
             _module ??= await OmniScriptModule.ImportAsync(JavaScript, OmniModules.Focus);
-            await (_listPlaced
-                ? _module.InvokeVoidAsync("attachFloatingList", _root, _resultsList, ResultsId)
-                : _module.InvokeVoidAsync("detachFloatingList", ResultsId));
+            if (fieldChanged)
+            {
+                _fieldAttached = true;
+                _attachedReplace = ReplaceTextOnType;
+                await _module.InvokeVoidAsync("attachComboInput", _root, _input, ReplaceTextOnType);
+            }
+
+            if (IsOpen != _listPlaced)
+            {
+                _listPlaced = IsOpen;
+                await (_listPlaced
+                    ? _module.InvokeVoidAsync("attachFloatingList", _root, _resultsList, ResultsId)
+                    : _module.InvokeVoidAsync("detachFloatingList", ResultsId));
+            }
         }
         catch (JSDisconnectedException)
         {

@@ -1,0 +1,20 @@
+@* Replace on type (ReplaceTextOnType): entering the field selects its text, and after a suggestion is picked the
+   first text typed replaces it instead of joining it, as in a word processor's combo box. Moving the caret with
+   an arrow, Home or End, or pressing in the field, goes back to editing the text. Escape closes the list and
+   never empties the field. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniFormField For="autocomplete-replace" Description="Pick a model, then type: the picked name is replaced.">
+        <LabelContent>Model</LabelContent>
+        <ChildContent>
+            <OmniAutocomplete TValue="string"
+                              Id="autocomplete-replace"
+                              @bind-Value="Model"
+                              Search="SearchModelsAsync"
+                              MinimumLength="0"
+                              ShowToggle="true"
+                              AllowFreeText="true"
+                              ReplaceTextOnType="true" />
+        </ChildContent>
+    </OmniFormField>
+    <OmniText Id="autocomplete-replace-value" Tone="OmniTextTone.Muted">Bound value: <code>@(Model ?? "-")</code></OmniText>
+</OmniStack>

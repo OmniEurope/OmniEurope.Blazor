@@ -19,6 +19,7 @@ internal static class SelectionFamily
                 "Selection/AutocompleteExample.razor", "Selection/AutocompleteExample.razor.cs",
                 "Selection/AutocompleteGalleryExample.razor", "Selection/AutocompleteGalleryExample.razor.cs",
                 "Selection/AutocompleteFreeTextExample.razor", "Selection/AutocompleteFreeTextExample.razor.cs",
+                "Selection/AutocompleteReplaceExample.razor", "Selection/AutocompleteReplaceExample.razor.cs",
                 "Selection/AutocompleteCities.cs"
             ]),
         new("multi-select", "MultiSelectTitle", "MultiSelectDescription", OmniIconName.Tag,
