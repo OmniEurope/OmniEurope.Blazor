@@ -50,7 +50,7 @@ public sealed class InkCanvasTests : OmniBunitContext
         var help = canvas.Find($"#{surface.GetAttribute("aria-describedby")}");
         Assert.Contains("Ctrl+Z", help.TextContent, StringComparison.Ordinal);
         Assert.Contains("omni-visually-hidden", help.ClassName, StringComparison.Ordinal);
-        Assert.NotNull(canvas.Find(".omni-ink-canvas__frame canvas"));
+        Assert.Single(canvas.FindAll(".omni-ink-canvas__frame canvas"));
         Assert.DoesNotContain("style=", canvas.Markup, StringComparison.OrdinalIgnoreCase);
         Assert.Equal("polite", canvas.Find("[role=status]").GetAttribute("aria-live"));
     }
@@ -419,7 +419,7 @@ public sealed class InkCanvasTests : OmniBunitContext
         var canvas = RenderCanvas(parameters => parameters.Add(c => c.ShowToolbar, false));
 
         Assert.Empty(canvas.FindAll("[role=toolbar]"));
-        Assert.NotNull(canvas.Find("canvas"));
+        Assert.Single(canvas.FindAll("canvas"));
     }
 
     [Fact]

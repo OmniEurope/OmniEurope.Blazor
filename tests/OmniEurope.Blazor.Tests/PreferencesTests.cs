@@ -181,6 +181,49 @@ public sealed class PreferencesTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task Open_WhenThePendingEntriesCannotBeRead_LogsAWarning_AndTheNextSyncSendsThem()
+    {
+        _browser.Storage[Key("u-7f3a", "textSize")] = Entry("6", Start, dirty: true);
+        _store.Put("textSize", "5", Start.AddMinutes(-10));
+        _browser.FailuresOnce["entries"] = new JSException("storage unavailable");
+        var preferences = Create();
+
+        await preferences.GetAsync<int>("textSize", Token);
+        await preferences.WhenIdleAsync();
+
+        Assert.Contains(_logger.Entries, entry => entry.Level == Microsoft.Extensions.Logging.LogLevel.Warning && entry.Message.Contains("at the opening", StringComparison.Ordinal));
+        Assert.Empty(_store.Saved);
+        Assert.True(Cached("textSize")!.Dirty);
+
+        await preferences.SyncAsync(Token);
+
+        Assert.Equal(new OmniPreference("textSize", "6", Start), Assert.Single(_store.Saved));
+        Assert.False(Cached("textSize")!.Dirty);
+    }
+
+    [Fact]
+    public async Task Open_WhenTheStoreNowAnswersForAnotherUser_SendsNothingPending()
+    {
+        _browser.Storage[Key("u-7f3a", "textSize")] = Entry("6", Start, dirty: true);
+        _store.Put("textSize", "5", Start.AddMinutes(-10));
+        _browser.OnInvoke = identifier =>
+        {
+            if (identifier == "entries")
+            {
+                _store.Scope = "u-other";
+            }
+        };
+        var preferences = Create();
+
+        await preferences.GetAsync<int>("textSize", Token);
+        await preferences.WhenIdleAsync();
+
+        Assert.Empty(_store.Saved);
+        Assert.Equal("5", _store["textSize"]!.Value);
+        Assert.True(Cached("textSize")!.Dirty);
+    }
+
+    [Fact]
     public async Task Open_AnUnconfirmedValueOlderThanTheStoreOne_GivesWayToTheStoreAtOnce()
     {
         // The arbitration by date is unchanged: a later value written on another device wins over the pending one.

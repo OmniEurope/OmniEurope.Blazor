@@ -35,12 +35,16 @@ internal sealed class PreferenceBrowser : IJSRuntime, IJSObjectReference
     /// <summary>When set, each read of the cache answers once this task completes, as a slow browser would.</summary>
     public Task? GetRelease { get; set; }
 
+    /// <summary>Called with the function name before each call, for a test to change the world at that moment.</summary>
+    public Action<string>? OnInvoke { get; set; }
+
     public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) =>
         InvokeAsync<TValue>(identifier, CancellationToken.None, args);
 
     public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args)
     {
         args ??= [];
+        OnInvoke?.Invoke(identifier);
         if (Failures.TryGetValue(identifier, out var failure) || FailuresOnce.TryRemove(identifier, out failure))
         {
             return ValueTask.FromException<TValue>(failure);

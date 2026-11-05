@@ -377,7 +377,7 @@ public sealed class DocumentEditorTests : OmniBunitContext
         Assert.Equal([new OmniFieldValueChange("f-customer", "customer", "Globex")], change.Fields);
         Assert.Equal("Globex", ChipText(editor, "Customer"));
         Assert.Contains("omni-document-editor__chip--changed", Chip(editor, "Customer").ClassName, StringComparison.Ordinal);
-        Assert.NotNull(editor.Find(".omni-popover__panel"));
+        Assert.Single(editor.FindAll(".omni-popover__panel"));
 
         await editor.Find(".omni-popover__panel input").InputAsync(new ChangeEventArgs { Value = "Acme" });
 

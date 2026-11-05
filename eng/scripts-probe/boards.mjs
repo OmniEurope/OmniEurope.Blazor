@@ -341,7 +341,7 @@ export async function boardSteps(session, results) {
 
   // A drag driven as Playwright drives a real mouse: the drag starts on a move past the threshold, then the pointer
   // travels in steps to its slot and drops. Chromium 1243 (Playwright 1.63) abandons a drag whose source turns
-  // transparent to the pointer while it starts (Aetheus R-3); the browser of the probes no longer does, so the probe
+  // transparent to the pointer while it starts; the browser of the probes no longer does, so the probe
   // reads what that one would have seen: when .NET renders its dragging class, the block is still under the
   // pointer, and it lets the pointer through to the cells only once the drag runs. Three times, each move reported.
   for (let attempt = 1; attempt <= 3; attempt++) {
@@ -373,7 +373,9 @@ export async function boardSteps(session, results) {
         }
       });
       observer.observe(root, { attributes: true, attributeFilter: ['class'] });
-      root.addEventListener('dragover', () => window.__omniCarry.during.push(getComputedStyle(block()).pointerEvents), { capture: true });
+      const during = () => window.__omniCarry.during.push(getComputedStyle(block()).pointerEvents);
+      root.addEventListener('dragover', during, { capture: true });
+      window.__omniCarryStop = () => { observer.disconnect(); root.removeEventListener('dragover', during, { capture: true }); };
     })()`);
     let intercepted = null;
     const stopIntercept = session.on('Input.dragIntercepted', params => { intercepted = params.data; });
@@ -403,8 +405,13 @@ export async function boardSteps(session, results) {
       await send('Input.setInterceptDrags', { enabled: false });
     }
 
-    await waitFor(`le déplacement à la souris rapporté (essai ${attempt})`, `document.querySelector(${JSON.stringify(run)}).getAttribute('data-start') !== ${JSON.stringify(before)}`);
-    const carry = await evaluate('window.__omniCarry');
+    let carry;
+    try {
+      await waitFor(`le déplacement à la souris rapporté (essai ${attempt})`, `document.querySelector(${JSON.stringify(run)}).getAttribute('data-start') !== ${JSON.stringify(before)}`);
+      carry = await evaluate('window.__omniCarry');
+    } finally {
+      await evaluate('window.__omniCarryStop?.()');
+    }
     check(carry.atClass === 'auto', `Bloc transparent au pointeur dès le rendu du glisser, avant qu'il ne parte (essai ${attempt}) : ${JSON.stringify(carry)}.`);
     check(carry.during.includes('none'), `Bloc jamais traversé par le pointeur pendant le glisser (essai ${attempt}) : ${JSON.stringify(carry)}.`);
   }

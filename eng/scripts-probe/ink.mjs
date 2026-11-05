@@ -147,7 +147,7 @@ export async function inkSteps(session, results) {
   // 8. The signature shape: the height follows the width.
   await clickOn('[role=switch][aria-label="Signature shape"]');
   await waitFor('la forme de signature', `(() => { const b = document.querySelector(${JSON.stringify(surface)}).getBoundingClientRect(); return Math.abs(b.width / b.height - 3) < 0.05; })()`);
-  await waitFor('le dessin gardé à la nouvelle forme', `document.querySelector(${JSON.stringify(surface)}).height > 0`);
+  await waitFor('le dessin gardé à la nouvelle forme', `(() => { const c = document.querySelector(${JSON.stringify(surface)}); return c.height === Math.max(1, Math.round(c.clientHeight * (devicePixelRatio || 1))); })()`);
   check((await pixels()).count > 100, 'Le dessin disparaît quand la forme change.');
   step('forme de signature : hauteur égale au tiers de la largeur, dessin gardé');
 

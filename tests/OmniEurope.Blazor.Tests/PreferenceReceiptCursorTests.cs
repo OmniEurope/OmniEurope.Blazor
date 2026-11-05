@@ -39,7 +39,7 @@ public sealed class PreferenceReceiptCursorTests
 
         Assert.Equal("new", await preferences.GetAsync<string>("b", Token));
         Assert.Equal([null, store.ReceivedOf("a")], store.ChangedSinceCalls);
-        Assert.True(late.ReceivedAt < Device.AddMinutes(-1));
+        Assert.True(late.ReceivedAt > store.ReceivedOf("a") && late.UpdatedAt < Device.AddMinutes(-1));
     }
 
     [Fact]

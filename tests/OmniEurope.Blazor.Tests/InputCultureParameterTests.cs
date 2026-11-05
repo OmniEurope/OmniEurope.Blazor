@@ -43,7 +43,7 @@ public sealed class InputCultureParameterTests : OmniBunitContext
     {
         var changes = new List<DateOnly?>();
         var american = RenderPicker(American, new DateOnly(2026, 9, 21), changes);
-        var german = RenderPicker(German, new DateOnly(2026, 9, 21));
+        var german = RenderPicker(German, new DateOnly(2026, 9, 21), changes);
 
         Assert.Equal("09/21/2026", american.Find("input").GetAttribute("value"));
         Assert.Equal("21.09.2026", german.Find("input").GetAttribute("value"));
@@ -52,6 +52,7 @@ public sealed class InputCultureParameterTests : OmniBunitContext
         Assert.Equal([new DateOnly(2026, 10, 2)], changes);
 
         german.Find("input").Change("02.10.2026");
+        Assert.Equal([new DateOnly(2026, 10, 2), new DateOnly(2026, 10, 2)], changes);
         Assert.Equal("02.10.2026", german.Find("input").GetAttribute("value"));
     }
 

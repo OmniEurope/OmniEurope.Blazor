@@ -112,7 +112,7 @@ public sealed class AutocompleteReplaceTextTests : OmniBunitContext
 
         var autocomplete = RenderModels(replace: true);
 
-        Assert.NotNull(autocomplete.Find("input"));
+        Assert.Single(autocomplete.FindAll("input"));
         await DisposeComponentsAsync();
     }
 

@@ -5,7 +5,7 @@ namespace OmniEurope.Blazor.Components;
 /// forms, an image served by address, a PNG held in memory, or HTML.
 /// </summary>
 /// <param name="Number">The number of the page in the document, from 1. It names the page for assistive technology.</param>
-/// <param name="ImageUrl">The address of a picture of the page, served by the host (a path of the application, an <c>https</c> address or a <c>blob:</c> address).</param>
+/// <param name="ImageUrl">The address of a picture of the page, served by the host (a path of the application, an <c>https</c> address or a <c>blob:</c> address). It is written as given into the <c>src</c> of an image and not filtered, as <see cref="OmniImage.Source"/>: the host gives only addresses it trusts.</param>
 /// <param name="Image">The bytes of a PNG picture of the page, drawn as a <c>data:</c> address.</param>
 /// <param name="Html">
 /// The HTML of the page, written by the host's own converter. The viewer sanitises it again with the package
