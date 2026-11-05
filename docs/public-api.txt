@@ -3070,6 +3070,7 @@ property public OmniEurope.Blazor.Components.OmniDataList<TItem>.LoadingContent 
 property public OmniEurope.Blazor.Components.OmniDataList<TItem>.OnLoadError : Microsoft.AspNetCore.Components.EventCallback<System.Exception> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataList<TItem>.Virtualize : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDatePicker.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDatePicker.Culture : System.Globalization.CultureInfo? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDatePicker.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDatePicker.Maximum : System.DateOnly? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDatePicker.Minimum : System.DateOnly? {get(public);set(public)} [Parameter]
@@ -3685,6 +3686,7 @@ property public OmniEurope.Blazor.Components.OmniNotificationOptions.Placement :
 property public OmniEurope.Blazor.Components.OmniNotificationOptions.ShowCountdown : System.Boolean {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniNumeric<TValue>.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNumeric<TValue>.Clamp : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniNumeric<TValue>.Culture : System.Globalization.CultureInfo? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNumeric<TValue>.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNumeric<TValue>.Maximum : System.Double? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNumeric<TValue>.Minimum : System.Double? {get(public);set(public)} [Parameter]

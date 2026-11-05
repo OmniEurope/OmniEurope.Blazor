@@ -58,6 +58,14 @@ public partial class OmniDatePicker
     [Parameter]
     public string? Placeholder { get; set; }
 
+    /// <summary>
+    /// The culture the date is written and read in, and the calendar's month names, day names and first day of the week
+    /// come from. Null, the default, is the culture of the page. The localized texts (toggle, Today, Clear) stay in the
+    /// language of the page.
+    /// </summary>
+    [Parameter]
+    public CultureInfo? Culture { get; set; }
+
     // Class goes on the outermost element; the validation classes of the form stay on the input they describe.
     private string RootClass => OmniEurope.Blazor.Internal.CssClassBuilder.Combine(["omni-date", "omni-date--date", Class]);
 
@@ -65,7 +73,7 @@ public partial class OmniDatePicker
 
     private PickerPopup Popup => _popup ??= new PickerPopup(JavaScript, DismissAsync);
 
-    private static CultureInfo Culture => CultureInfo.CurrentCulture;
+    private CultureInfo EffectiveCulture => Culture ?? CultureInfo.CurrentCulture;
 
     private string PanelId => $"{Id ?? _generatedId}-calendar";
 
@@ -76,14 +84,14 @@ public partial class OmniDatePicker
     private bool TodayIsOutside => PickerCalendar.IsOutside(Today, Minimum, Maximum);
 
     private string EffectivePlaceholder => Placeholder
-        ?? PickerFormat.Placeholder(PickerFormat.DatePattern(Culture), PickerLetters.From(key => Localize(key)));
+        ?? PickerFormat.Placeholder(PickerFormat.DatePattern(EffectiveCulture), PickerLetters.From(key => Localize(key)));
 
     // Built here rather than as a tag: the grid is internal, and Razor only finds public components.
     private RenderFragment CalendarContent => builder =>
     {
         builder.OpenComponent<PickerCalendar>(0);
         builder.AddComponentParameter(1, nameof(PickerCalendar.IdPrefix), PanelId);
-        builder.AddComponentParameter(2, nameof(PickerCalendar.Culture), Culture);
+        builder.AddComponentParameter(2, nameof(PickerCalendar.Culture), EffectiveCulture);
         builder.AddComponentParameter(3, nameof(PickerCalendar.VisibleMonth), _visibleMonth);
         builder.AddComponentParameter(4, nameof(PickerCalendar.FocusedDate), _focusedDate);
         builder.AddComponentParameter(5, nameof(PickerCalendar.SelectedDate), CurrentValue);
@@ -127,7 +135,7 @@ public partial class OmniDatePicker
     /// <param name="value">The date, or null.</param>
     /// <returns>The text of the date, or null for no date.</returns>
     protected override string? FormatValueAsString(DateOnly? value) =>
-        value?.ToString(PickerFormat.DatePattern(Culture), Culture);
+        value?.ToString(PickerFormat.DatePattern(EffectiveCulture), EffectiveCulture);
 
     /// <summary>
     /// Reads the culture's short date, the ISO shape (<c>yyyy-MM-dd</c>) or what the culture's parser
@@ -146,7 +154,7 @@ public partial class OmniDatePicker
             return true;
         }
 
-        if (PickerFormat.TryParseDate(value, Culture, out var date) && !PickerCalendar.IsOutside(date, Minimum, Maximum))
+        if (PickerFormat.TryParseDate(value, EffectiveCulture, out var date) && !PickerCalendar.IsOutside(date, Minimum, Maximum))
         {
             result = date;
             validationErrorMessage = null!;

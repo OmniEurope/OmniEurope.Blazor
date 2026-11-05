@@ -34,8 +34,9 @@ namespace OmniEurope.Blazor.Components;
 /// the pen pressure shapes only the PNG. <see cref="ReadOnly"/> turns all editing off.
 /// </para>
 /// <para>
-/// <see cref="Culture"/> formats the date and number a field chip shows. The date picker and the number input a chip opens
-/// follow the culture of the page, like every input of the package.
+/// <see cref="Culture"/> formats the date and number a field chip shows, and is handed to the <see cref="OmniDatePicker"/> and the
+/// <see cref="OmniNumeric{TValue}"/> a chip opens: the date is written and read, and the calendar named, in that culture, and a number
+/// typed with a comma is read in it. Null, the default, is the culture of the page for all of them.
 /// </para>
 /// </remarks>
 public partial class OmniDocumentEditor : IAsyncDisposable

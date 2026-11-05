@@ -322,6 +322,44 @@ public sealed class DocumentEditorTests : OmniBunitContext
         Assert.Equal(DateOnly.Parse("2026-11-04", CultureInfo.InvariantCulture).ToString("d", CultureInfo.CurrentCulture), ChipText(editor, "Delivery"));
     }
 
+    [Fact]
+    public async Task TheDatePickerAChipOpens_FollowsTheCultureOfTheEditor_NotThePage()
+    {
+        var editor = RenderEditor(configure: parameters => parameters.Add(component => component.Culture, new CultureInfo("de-DE")));
+        var panel = OpenChip(editor, "Delivery");
+        var input = panel.QuerySelector("input")!;
+
+        Assert.Equal("04.11.2026", input.GetAttribute("value"));
+        Assert.Equal("04.11.2026", ChipText(editor, "Delivery"));
+
+        await input.ChangeAsync(new ChangeEventArgs { Value = "01.12.2026" });
+
+        Assert.Equal([new OmniFieldValueChange("f-date", "delivery", "2026-12-01")], Assert.Single(_raised).Fields);
+        panel.QuerySelector("button.omni-date__toggle")!.Click();
+        Assert.Equal("Dezember 2026", editor.Find(".omni-calendar__title").TextContent);
+    }
+
+    [Fact]
+    public async Task TheNumericInputAChipOpens_ReadsATextInTheCultureOfTheEditor_NotThePage()
+    {
+        var previous = CultureInfo.CurrentCulture;
+        try
+        {
+            CultureInfo.CurrentCulture = new CultureInfo("en-US");
+            var editor = RenderEditor(configure: parameters => parameters.Add(component => component.Culture, new CultureInfo("de-DE")));
+            var input = OpenChip(editor, "Amount").QuerySelector("input[type=number]")!;
+
+            await input.ChangeAsync(new ChangeEventArgs { Value = "1,5" });
+
+            // de-DE reads the comma as a decimal separator; the page (en-US) would read 15.
+            Assert.Equal([new OmniFieldValueChange("f-amount", "amount", "1.5")], Assert.Single(_raised).Fields);
+        }
+        finally
+        {
+            CultureInfo.CurrentCulture = previous;
+        }
+    }
+
     // ----- Fields: editing ---------------------------------------------------------------------------
 
     [Fact]

@@ -47,6 +47,14 @@ public partial class OmniNumeric<TValue>
     [Parameter]
     public bool Clamp { get; set; }
 
+    /// <summary>
+    /// The culture a typed text without a period is read in (<c>1,5</c> is 1.5 in <c>de-DE</c>). Null, the default, is the culture
+    /// of the page. The field still writes its value in the invariant culture, the only form a number input reads, so how the
+    /// browser draws the decimal separator stays the browser's own.
+    /// </summary>
+    [Parameter]
+    public CultureInfo? Culture { get; set; }
+
     // What the reader typed, rendered once more after a clamp. The input is not bound with @bind, so
     // Blazor does not know the browser's text: when the bound value is already the bound (20 shown,
     // 150 typed), the next render would carry the same "20" and leave "150" on screen. Rendering the
@@ -87,7 +95,8 @@ public partial class OmniNumeric<TValue>
             ? number.ToString(null, System.Globalization.CultureInfo.InvariantCulture)
             : base.FormatValueAsString(value);
     /// <summary>
-    /// Parses the text in the invariant culture when it holds a period, in the current culture otherwise,
+    /// Parses the text in the invariant culture when it holds a period, in <see cref="Culture"/> (the culture of the page when
+    /// null) otherwise,
     /// then brings it within the bounds when <see cref="Clamp"/> is on. A text that does not parse fails
     /// with the localized "The entered value is invalid.", naming the field when a display name is set.
     /// </summary>
@@ -95,7 +104,7 @@ public partial class OmniNumeric<TValue>
     {
         var culture = value?.Contains('.', StringComparison.Ordinal) == true
             ? System.Globalization.CultureInfo.InvariantCulture
-            : System.Globalization.CultureInfo.CurrentCulture;
+            : Culture ?? System.Globalization.CultureInfo.CurrentCulture;
         if (BindConverter.TryConvertTo<TValue>(value, culture, out var parsedValue))
         {
             result = Clamp ? ClampToBounds(parsedValue) : parsedValue;
