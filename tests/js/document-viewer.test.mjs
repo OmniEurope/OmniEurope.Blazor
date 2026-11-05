@@ -209,3 +209,23 @@ test('detach of a viewport the script does not hold, or of a removed one (null),
     assert.doesNotThrow(() => detach(null));
     assert.doesNotThrow(() => detach(undefined));
 });
+
+test('a view change reported to a viewer .NET already released is dropped, not left as an unhandled rejection', async () => {
+    const { viewport } = viewerWith({ width: 800, height: 500 }, [{ attributes: { 'data-width-pt': '400' } }]);
+    const rejections = [];
+    const onRejection = reason => rejections.push(reason);
+    process.on('unhandledRejection', onRejection);
+    let told = 0;
+    const gone = { invokeMethodAsync: () => { told++; return Promise.reject(new Error('There is no tracked object with id 6.')); } };
+
+    // Fitted, the zoom changes on attach: the script reports it at once.
+    attach(viewport, gone, 1, true, 0.25, 4);
+    // Two turns: the rejection settles, then Node reports it as unhandled if nothing caught it.
+    await new Promise(resolve => setImmediate(resolve));
+    await new Promise(resolve => setImmediate(resolve));
+    process.off('unhandledRejection', onRejection);
+    detach(viewport);
+
+    assert.equal(told, 1);
+    assert.deepEqual(rejections, []);
+});

@@ -60,7 +60,8 @@ function report(viewport, state, pages) {
     if (Math.abs(state.zoom - state.reportedZoom) > TOLERANCE || page !== state.reportedPage) {
         state.reportedZoom = state.zoom;
         state.reportedPage = page;
-        state.dotNet.invokeMethodAsync('OnViewChangedAsync', state.zoom, page);
+        // A report still on its way when the viewer leaves the page finds its .NET object released: nobody is left to tell.
+        state.dotNet.invokeMethodAsync('OnViewChangedAsync', state.zoom, page)?.catch?.(() => { });
     }
 }
 
