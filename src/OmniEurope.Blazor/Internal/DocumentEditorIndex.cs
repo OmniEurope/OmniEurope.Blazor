@@ -12,7 +12,7 @@ internal sealed class DocumentEditorIndex
     /// <summary>The date format of a <see cref="OmniDocumentFieldKind.Date"/> value.</summary>
     internal const string DateFormat = "yyyy-MM-dd";
 
-    /// <summary>The largest side of a drawing in pixels, the limit of <see cref="OmniInkCanvas.ExportPngAsync(int, int)"/>.</summary>
+    /// <summary>The largest side of a drawing in pixels, the limit of <see cref="OmniInkCanvas.ExportPngAsync(int, int, CancellationToken)"/>.</summary>
     private const int MaxDrawingSide = 8192;
 
     private DocumentEditorIndex()

@@ -309,31 +309,37 @@ public partial class OmniInkCanvas
     /// </summary>
     /// <param name="width">The width of the image in pixels, from 1 to 8192.</param>
     /// <param name="height">The height of the image in pixels, from 1 to 8192.</param>
+    /// <param name="cancellationToken">Cancels the export, before or while the script draws; no partial image is returned.</param>
     /// <returns>The bytes of a PNG image with an alpha channel, fully transparent where nothing is drawn.</returns>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="width"/> or <paramref name="height"/> is outside 1 to 8192.</exception>
     /// <exception cref="ObjectDisposedException">The canvas has been disposed.</exception>
-    public async Task<byte[]> ExportPngAsync(int width, int height)
+    /// <exception cref="OperationCanceledException"><paramref name="cancellationToken"/> was cancelled.</exception>
+    public async Task<byte[]> ExportPngAsync(int width, int height, CancellationToken cancellationToken = default)
     {
         ArgumentOutOfRangeException.ThrowIfLessThan(width, 1);
         ArgumentOutOfRangeException.ThrowIfGreaterThan(width, MaxExportSide);
         ArgumentOutOfRangeException.ThrowIfLessThan(height, 1);
         ArgumentOutOfRangeException.ThrowIfGreaterThan(height, MaxExportSide);
         ObjectDisposedException.ThrowIf(_disposed, this);
-        var module = await ModuleAsync();
+        cancellationToken.ThrowIfCancellationRequested();
+        // The shared script load is not cancelled with this call: only this caller stops waiting for it.
+        var module = await ModuleAsync().WaitAsync(cancellationToken);
         // Null only when the canvas was disposed while its script loaded.
         ObjectDisposedException.ThrowIf(module is null, this);
         var (colors, widths, points) = Internal.InkStrokeCodec.Pack(_strokes);
-        return await module!.InvokeAsync<byte[]>("exportPng", colors, widths, points, width, height);
+        return await module!.InvokeAsync<byte[]>("exportPng", cancellationToken, colors, widths, points, width, height);
     }
 
     /// <summary>The PNG of <see cref="ExportPngAsync"/> as a <c>data:image/png;base64,</c> address, for an <c>img</c> source or a download link.</summary>
     /// <param name="width">The width of the image in pixels, from 1 to 8192.</param>
     /// <param name="height">The height of the image in pixels, from 1 to 8192.</param>
+    /// <param name="cancellationToken">Cancels the export, before or while the script draws; no partial address is returned.</param>
     /// <returns>The data URL of the image.</returns>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="width"/> or <paramref name="height"/> is outside 1 to 8192.</exception>
     /// <exception cref="ObjectDisposedException">The canvas has been disposed.</exception>
-    public async Task<string> ExportDataUrlAsync(int width, int height)
-        => "data:image/png;base64," + Convert.ToBase64String(await ExportPngAsync(width, height));
+    /// <exception cref="OperationCanceledException"><paramref name="cancellationToken"/> was cancelled.</exception>
+    public async Task<string> ExportDataUrlAsync(int width, int height, CancellationToken cancellationToken = default)
+        => "data:image/png;base64," + Convert.ToBase64String(await ExportPngAsync(width, height, cancellationToken));
 
     /// <summary>A stroke the script finished drawing: it is already on the canvas, so only the value is updated.</summary>
     internal Task HandleStrokeAsync(string color, double width, double[] points) => InvokeAsync(async () =>
