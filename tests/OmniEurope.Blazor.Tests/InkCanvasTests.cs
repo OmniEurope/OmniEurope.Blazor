@@ -197,7 +197,7 @@ public sealed class InkCanvasTests : OmniBunitContext
 
         Assert.Single(_module.Invocations["detach"]);
         Assert.Equal(raised, _raised.Count);
-        await Assert.ThrowsAsync<ObjectDisposedException>(() => canvas.Instance.ExportPngAsync(10, 10));
+        await Assert.ThrowsAsync<ObjectDisposedException>(() => canvas.Instance.ExportPngAsync(10, 10, Xunit.TestContext.Current.CancellationToken));
     }
 
     [Fact]
@@ -212,7 +212,7 @@ public sealed class InkCanvasTests : OmniBunitContext
         var runtime = new ManualJSRuntime { HoldImports = true };
         Services.AddSingleton<IJSRuntime>(runtime);
         var canvas = RenderCanvas();
-        var export = canvas.Instance.ExportPngAsync(10, 10);
+        var export = canvas.Instance.ExportPngAsync(10, 10, Xunit.TestContext.Current.CancellationToken);
 
         var disposing = canvas.Instance.DisposeAsync().AsTask();
         runtime.PendingImport.SetResult(runtime.Module);
@@ -540,7 +540,7 @@ public sealed class InkCanvasTests : OmniBunitContext
         _module.Setup<byte[]>("exportPng", _ => true).SetResult(png);
         var canvas = RenderCanvas(parameters => parameters.Add(c => c.Value, [Stroke()]));
 
-        var bytes = await canvas.Instance.ExportPngAsync(300, 100);
+        var bytes = await canvas.Instance.ExportPngAsync(300, 100, Xunit.TestContext.Current.CancellationToken);
 
         Assert.Equal(png, bytes);
         var arguments = Assert.Single(_module.Invocations["exportPng"]).Arguments;
@@ -557,7 +557,7 @@ public sealed class InkCanvasTests : OmniBunitContext
         _module.Setup<byte[]>("exportPng", _ => true).SetResult([1, 2, 3]);
         var canvas = RenderCanvas();
 
-        var url = await canvas.Instance.ExportDataUrlAsync(8, 4);
+        var url = await canvas.Instance.ExportDataUrlAsync(8, 4, Xunit.TestContext.Current.CancellationToken);
 
         Assert.Equal("data:image/png;base64,AQID", url);
     }
@@ -572,8 +572,8 @@ public sealed class InkCanvasTests : OmniBunitContext
     {
         var canvas = RenderCanvas();
 
-        await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => canvas.Instance.ExportPngAsync(width, height));
-        await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => canvas.Instance.ExportDataUrlAsync(width, height));
+        await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => canvas.Instance.ExportPngAsync(width, height, Xunit.TestContext.Current.CancellationToken));
+        await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => canvas.Instance.ExportDataUrlAsync(width, height, Xunit.TestContext.Current.CancellationToken));
         Assert.Empty(_module.Invocations["exportPng"]);
     }
 
@@ -583,10 +583,59 @@ public sealed class InkCanvasTests : OmniBunitContext
         _module.Setup<byte[]>("exportPng", _ => true).SetResult([]);
         var canvas = RenderCanvas();
 
-        await canvas.Instance.ExportPngAsync(8192, 8192);
-        await canvas.Instance.ExportPngAsync(1, 1);
+        await canvas.Instance.ExportPngAsync(8192, 8192, Xunit.TestContext.Current.CancellationToken);
+        await canvas.Instance.ExportPngAsync(1, 1, Xunit.TestContext.Current.CancellationToken);
 
         Assert.Equal(2, _module.Invocations["exportPng"].Count);
+    }
+
+    [Fact]
+    public async Task Export_WithACancelledToken_Throws_AndNeverReachesTheScript()
+    {
+        var canvas = RenderCanvas();
+        using var source = new CancellationTokenSource();
+        await source.CancelAsync();
+
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => canvas.Instance.ExportPngAsync(10, 10, source.Token));
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => canvas.Instance.ExportDataUrlAsync(10, 10, source.Token));
+
+        Assert.Empty(_module.Invocations["exportPng"]);
+    }
+
+    [Fact]
+    public async Task Export_PassesTheTokenToTheScriptCall_AndCancellingWhilePendingThrowsWithoutAResult()
+    {
+        _module.Setup<byte[]>("exportPng", _ => true);
+        var canvas = RenderCanvas();
+        using var source = new CancellationTokenSource();
+
+        var export = canvas.Instance.ExportPngAsync(10, 10, source.Token);
+        var invocation = Assert.Single(_module.Invocations["exportPng"]);
+        Assert.Equal(source.Token, invocation.CancellationToken);
+        Assert.False(export.IsCompleted);
+
+        await source.CancelAsync();
+
+        // bUnit's double reports a cancelled pending call as its own exception rather than an OperationCanceledException;
+        // the point here is that the token reached the call and the export yields no result once it is cancelled.
+        await Assert.ThrowsAnyAsync<Exception>(() => export);
+        Assert.False(export.IsCompletedSuccessfully);
+    }
+
+    [Fact]
+    public async Task Export_CancelledWhileTheScriptLoads_Throws_AndLeavesTheSharedLoadAlone()
+    {
+        var runtime = new ManualJSRuntime { HoldImports = true };
+        Services.AddSingleton<IJSRuntime>(runtime);
+        var canvas = RenderCanvas();
+        using var source = new CancellationTokenSource();
+
+        var export = canvas.Instance.ExportPngAsync(10, 10, source.Token);
+        await source.CancelAsync();
+
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => export);
+        Assert.Empty(runtime.Module.Calls);
+        runtime.PendingImport.SetResult(runtime.Module);
     }
 
     // ----- Localization ------------------------------------------------------------------------------

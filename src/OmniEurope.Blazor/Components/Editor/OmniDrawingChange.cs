@@ -6,6 +6,6 @@ namespace OmniEurope.Blazor.Components;
 /// <param name="Png">
 /// The drawing as a PNG with a transparent background, <see cref="OmniDocumentDrawing.WidthPt"/> by
 /// <see cref="OmniDocumentDrawing.HeightPt"/> converted to pixels at 96 dpi (points times 96 over 72, rounded), made by
-/// <see cref="OmniInkCanvas.ExportPngAsync(int, int)"/>; a stroke without a colour is black in it.
+/// <see cref="OmniInkCanvas.ExportPngAsync(int, int, CancellationToken)"/>; a stroke without a colour is black in it.
 /// </param>
 public sealed record OmniDrawingChange(string BlockId, OmniDocumentDrawing Drawing, byte[] Png);

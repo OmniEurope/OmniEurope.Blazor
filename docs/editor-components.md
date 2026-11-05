@@ -726,12 +726,12 @@ qui suit un changement de thème (clair ou sombre) sans que le dessin soit refai
 
 - `UndoAsync()` retire le dernier trait et `ClearAsync()` les retire tous, chacun levant `ValueChanged` ; sur un
   dessin vide, rien. Ce sont les méthodes de l'hôte : elles marchent aussi en `ReadOnly` ou `Disabled`.
-- `ExportPngAsync(int width, int height)` dessine les traits sur fond **transparent** et rend les octets d'un
+- `ExportPngAsync(int width, int height, CancellationToken cancellationToken = default)` dessine les traits sur fond **transparent** et rend les octets d'un
   PNG de `width` par `height` pixels (1 à 8192, sinon `ArgumentOutOfRangeException`). Les positions relatives
   sont étirées sur l'image : donner le rapport de la zone garde ses proportions. Un trait en couleur de thème
-  est écrit **en noir** (une image n'a pas de thème). `ExportDataUrlAsync(int width, int height)` rend la même
+  est écrit **en noir** (une image n'a pas de thème). `ExportDataUrlAsync(int width, int height, CancellationToken cancellationToken = default)` rend la même
   image sous forme d'adresse `data:image/png;base64,…`. L'export exige le script : appelé après la fin de vie du
-  composant, il lève `ObjectDisposedException`.
+  composant, il lève `ObjectDisposedException`. Le jeton annule l'export, avant ou pendant le dessin par le script : `OperationCanceledException`, aucun résultat partiel.
 
 ### Clavier et accessibilité
 

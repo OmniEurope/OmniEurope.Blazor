@@ -1670,8 +1670,8 @@ method public OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.<Clone>$() : 
 method public OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.Equals(OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniInkCanvas.ClearAsync() : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniInkCanvas.DisposeAsync() : System.Threading.Tasks.ValueTask
-method public OmniEurope.Blazor.Components.OmniInkCanvas.ExportDataUrlAsync(System.Int32 width, System.Int32 height) : System.Threading.Tasks.Task<System.String>
-method public OmniEurope.Blazor.Components.OmniInkCanvas.ExportPngAsync(System.Int32 width, System.Int32 height) : System.Threading.Tasks.Task<System.Byte[]>
+method public OmniEurope.Blazor.Components.OmniInkCanvas.ExportDataUrlAsync(System.Int32 width, System.Int32 height, System.Threading.CancellationToken cancellationToken = null) : System.Threading.Tasks.Task<System.String>
+method public OmniEurope.Blazor.Components.OmniInkCanvas.ExportPngAsync(System.Int32 width, System.Int32 height, System.Threading.CancellationToken cancellationToken = null) : System.Threading.Tasks.Task<System.Byte[]>
 method public OmniEurope.Blazor.Components.OmniInkCanvas.UndoAsync() : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniInkPoint.Deconstruct(out System.Double X, out System.Double Y, out System.Double? Pressure) : System.Void
 method public OmniEurope.Blazor.Components.OmniInkPoint.Equals(OmniEurope.Blazor.Components.OmniInkPoint other) : System.Boolean
