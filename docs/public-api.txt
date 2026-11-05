@@ -2617,6 +2617,7 @@ property public OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.OptionIcon
 property public OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.ParseFreeText : System.Func<System.String,TValue>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.Placeholder : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.ReadOnly : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.ReplaceTextOnType : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.Search : System.Func<System.String,System.Threading.CancellationToken,System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniOption<TValue>>>>? {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.SearchErrorMessage : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.ShowToggle : System.Boolean {get(public);set(public)} [Parameter]

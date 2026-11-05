@@ -211,6 +211,7 @@
   <data name="UploadSizeMegabytes" xml:space="preserve"><value>{0} Mo</value></data>
   <data name="UploadTitle" xml:space="preserve"><value>Fichiers</value></data>
   <data name="AutocompleteFreeTextTitle" xml:space="preserve"><value>Saisie libre</value></data>
+  <data name="AutocompleteReplaceTitle" xml:space="preserve"><value>Remplacer en tapant</value></data>
   <data name="RadioButtonsErrorTitle" xml:space="preserve"><value>Avec une erreur</value></data>
   <data name="ListsColumnsTitle" xml:space="preserve"><value>En colonnes</value></data>
   <data name="SelectableCardsTonesTitle" xml:space="preserve"><value>Tons</value></data>
