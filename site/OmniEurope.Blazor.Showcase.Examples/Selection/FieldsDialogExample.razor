@@ -1,0 +1,46 @@
+@* Lists in a dialog: a first Escape closes the open list of the field that has the focus and leaves the dialog
+   open, a second Escape closes the dialog. The search text of the multiple selection is kept when its panel
+   closes on Escape. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniButton Id="fields-dialog-open" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => Open = true)">
+        <Icon><OmniIcon Name="OmniIconName.Tag" /></Icon>
+        <ChildContent><span>Choose in a dialog</span></ChildContent>
+    </OmniButton>
+    <OmniDialog Id="fields-dialog" Title="Choices" @bind-Open="Open" Size="OmniDialogSize.Small">
+        <OmniStack Gap="OmniSpacing.Small">
+            <OmniFormField For="fields-dialog-model">
+                <LabelContent>Model</LabelContent>
+                <ChildContent>
+                    <OmniAutocomplete TValue="string"
+                                      Id="fields-dialog-model"
+                                      @bind-Value="Model"
+                                      Search="SearchModelsAsync"
+                                      MinimumLength="0"
+                                      ShowToggle="true" />
+                </ChildContent>
+            </OmniFormField>
+            <OmniFormField For="fields-dialog-size">
+                <LabelContent>Size</LabelContent>
+                <ChildContent>
+                    <OmniDropDown TValue="string"
+                                  Id="fields-dialog-size"
+                                  Options="SizeOptions"
+                                  @bind-Value="Size"
+                                  Filterable="true" />
+                </ChildContent>
+            </OmniFormField>
+            <OmniFormField For="fields-dialog-countries">
+                <LabelContent>Countries</LabelContent>
+                <ChildContent>
+                    <OmniMultiSelect TValue="string"
+                                     Id="fields-dialog-countries"
+                                     Options="CountryOptions"
+                                     @bind-Value="Countries"
+                                     Filterable="true"
+                                     @bind-FilterText="CountrySearch" />
+                </ChildContent>
+            </OmniFormField>
+        </OmniStack>
+    </OmniDialog>
+    <OmniText Id="fields-dialog-state" Tone="OmniTextTone.Muted">Model: <code>@(Model ?? "-")</code>, countries: <code>@(Countries.Count == 0 ? "-" : string.Join(", ", Countries))</code>, size: <code>@(Size ?? "-")</code>, search: <code>@(CountrySearch ?? "null")</code></OmniText>
+</OmniStack>

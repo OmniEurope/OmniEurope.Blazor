@@ -67,6 +67,7 @@
   <data name="MultiSelectDisabledDescription" xml:space="preserve"><value>Tout le contrôle est grisé.</value></data>
   <data name="MultiSelectPreviewTitle" xml:space="preserve"><value>Aperçu en direct</value></data>
   <data name="MultiSelectGalleryTitle" xml:space="preserve"><value>Galerie</value></data>
+  <data name="MultiSelectDialogTitle" xml:space="preserve"><value>Dans un dialogue</value></data>
   <data name="ListsTitle" xml:space="preserve"><value>Listes</value></data>
   <data name="ListsDescription" xml:space="preserve"><value>Deux listes toujours ouvertes : une zone de liste pour une seule valeur, une liste de cases pour plusieurs.</value></data>
   <data name="ListsSettingsTitle" xml:space="preserve"><value>Réglages des listes</value></data>

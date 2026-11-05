@@ -464,6 +464,16 @@ export function escapeAttribute(text) {
     return escapeHtml(text).replace(/"/g, '&quot;');
 }
 
+// Escape in the search of the special characters: .NET closes the panel; here the browser's own emptying of a
+// search field on Escape is cancelled, so the text typed is never lost, then afterCancel runs (the focus goes back
+// to the surface).
+export function cancelCharacterSearchEscape(event, afterCancel) {
+    if (event.key === 'Escape' && event.target instanceof Element && event.target.matches('.omni-html-editor__char-search')) {
+        event.preventDefault();
+        afterCancel();
+    }
+}
+
 // Ends a mount: the surface Blazor rendered closed and aria-busy opens (unless the editor is read-only or
 // disabled) and says it is ready, data-omni-ready="true" being the public signal hosts and their tests wait for.
 export function openSurface(surface, editable) {

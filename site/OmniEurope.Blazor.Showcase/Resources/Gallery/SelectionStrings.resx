@@ -67,6 +67,7 @@
   <data name="MultiSelectDisabledDescription" xml:space="preserve"><value>The whole control is greyed out.</value></data>
   <data name="MultiSelectPreviewTitle" xml:space="preserve"><value>Live preview</value></data>
   <data name="MultiSelectGalleryTitle" xml:space="preserve"><value>Gallery</value></data>
+  <data name="MultiSelectDialogTitle" xml:space="preserve"><value>In a dialog</value></data>
   <data name="ListsTitle" xml:space="preserve"><value>Lists</value></data>
   <data name="ListsDescription" xml:space="preserve"><value>Two always-open lists: a list box for a single value, a check box list for several.</value></data>
   <data name="ListsSettingsTitle" xml:space="preserve"><value>List settings</value></data>

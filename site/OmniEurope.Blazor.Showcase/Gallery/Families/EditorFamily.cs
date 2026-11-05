@@ -18,6 +18,7 @@ internal static class EditorFamily
                 "Editor/HtmlEditorHostCommandsExample.razor", "Editor/HtmlEditorHostCommandsExample.razor.cs",
                 "Editor/HtmlEditorAnnotatedExample.razor", "Editor/HtmlEditorAnnotatedExample.razor.cs",
                 "Editor/HtmlEditorExtensionExample.razor", "Editor/HtmlEditorExtensionExample.razor.cs",
+                "Editor/HtmlEditorDialogExample.razor", "Editor/HtmlEditorDialogExample.razor.cs",
                 "Editor/MailTemplateExample.razor", "Editor/MailTemplateExample.razor.cs",
                 "Editor/HtmlEditorIconsExample.razor",
                 "Editor/HtmlEditorToolbarChoice.cs", "Editor/HtmlEditorSamples.cs", "Editor/SampleProofreader.cs"

@@ -39,6 +39,9 @@ export function configureDisclosure(details, closeOnOutsideClick, closeOnItem) {
     state.onKeyDown = event => {
         if (event.key === 'Escape' && details.open) {
             event.stopPropagation();
+            // A search field in the panel empties itself on Escape in Chromium: closing the panel is all
+            // the key does, so that native clearing is cancelled.
+            event.preventDefault();
             details.open = false;
             details.querySelector(':scope > summary')?.focus({ preventScroll: true });
         }

@@ -1,7 +1,9 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-<div @attributes="AdditionalAttributes" class="@Css("omni-combo")">
+@* While the list is open, no key pressed in the field goes up to a Blazor handler around it, so a dialog
+   holding the grid never closes on the Escape meant for the list. *@
+<div @attributes="AdditionalAttributes" class="@Css("omni-combo")" @onkeydown:stopPropagation="@(IsOpen || _escapeConsumed)">
     <input id="@Id"
            type="text"
            class="omni-input omni-data-grid__filter omni-combo__input"
@@ -15,8 +17,9 @@
            value="@Value"
            @oninput="OnInputAsync"
            @onkeydown="OnKeyDownAsync"
+           @onkeyup="EscapeReleaseHandler"
            @onfocus="OpenList"
-           @onblur="CloseList" />
+           @onblur="BlurList" />
     @if (IsOpen)
     {
         // Matches filters the suggestions on every read: read once per render.

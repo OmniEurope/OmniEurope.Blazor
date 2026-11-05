@@ -2,7 +2,10 @@
 // 2026-11-05, requested by a client application that patched this in its own script): with
 // ReplaceTextOnType the first text typed after a suggestion is picked replaces it, an arrow ends that
 // state and the text is then extended, entering the field selects its text; and Escape never empties the
-// field, whatever the autocomplete (the native search field empties itself on Escape in Chromium).
+// field, whatever the autocomplete (the native search field empties itself on Escape in Chromium). The same
+// Escape in a dialog (step 6): the list of an autocomplete or of a filterable drop-down, the panel of a multiple
+// selection and the character panel of the HTML editor close without closing the dialog, a second Escape closes
+// it, and the search text typed in the last two is never emptied by the browser.
 
 export async function comboSteps(session, results) {
   const { evaluate, waitFor, key, check, clickOn, pause } = session;
@@ -107,4 +110,114 @@ export async function comboSteps(session, results) {
   await escape();
   await tab();
   step('ReplaceTextOnType : entrer dans le champ à la souris en sélectionne le texte, que le relâchement ne défait pas');
+
+  // 6. Escape in a dialog (the owner's decision of 2026-11-05): the Escape that closes the open list of a field
+  // inside an OmniDialog must not close the dialog, the next one does. The dialog closes on a Blazor handler, so a
+  // list that consumes Escape has to keep it from reaching it. Each field is driven by real keys and real clicks.
+  const dialogOpen = id => evaluate(`document.getElementById(${JSON.stringify(id)}) !== null`);
+  const openDialog = async (buttonId, dialogId) => {
+    await clickOn(`#${buttonId}`);
+    await waitFor(`le dialogue ${dialogId} ouvert`, `document.getElementById('${dialogId}') !== null`);
+    await pause(300);
+  };
+  const closeDialogByEscape = async dialogId => {
+    await escape();
+    await waitFor(`le dialogue ${dialogId} refermé par un second Échap`, `document.getElementById('${dialogId}') === null`);
+  };
+  const inDialog = dialogId => evaluate(`document.getElementById(${JSON.stringify(dialogId)}).contains(document.activeElement)`);
+  // Records, in the page, what happens to a search field around the next Escape: the input events it receives
+  // (the browser's own emptying fires one) and whether a script cancelled the key (read on an ancestor of the field,
+  // after the listeners of the package that sit lower).
+  const watchEscape = (selector, name, holder = 'document') => evaluate(`(() => {
+    const search = document.querySelector(${JSON.stringify(selector)});
+    const record = window[${JSON.stringify(name)}] = { prevented: null, inputs: [] };
+    search.addEventListener('input', () => record.inputs.push(search.value));
+    (${holder === 'document' ? 'document' : `document.querySelector(${JSON.stringify(holder)})`}).addEventListener('keydown', event => { if (event.key === 'Escape') record.prevented = event.defaultPrevented; }, { once: true });
+  })()`);
+
+  await session.visit('/components/multi-select', '#fields-dialog-open');
+
+  // 6a. The autocomplete: its list open, a first Escape closes the list and the dialog stays, a second closes the dialog.
+  await openDialog('fields-dialog-open', 'fields-dialog');
+  await clickOn('#fields-dialog-model');
+  await typeText('model-m');
+  await waitFor('la liste de l\'autocomplétion ouverte', `${field('fields-dialog-model')}.getAttribute('aria-expanded') === 'true'`);
+  await escape();
+  await waitFor('la liste refermée par Échap', `(${field('fields-dialog-model')}?.getAttribute('aria-expanded') ?? 'false') === 'false'`);
+  await pause(300);
+  check(await dialogOpen('fields-dialog'), 'Le premier Échap, qui ferme la liste de l\'autocomplétion, a aussi fermé le dialogue.');
+  check(await valueOf('fields-dialog-model') === 'model-m', `Échap a changé le champ : « ${await valueOf('fields-dialog-model')} ».`);
+  await closeDialogByEscape('fields-dialog');
+  step('Échap dans un dialogue : la liste ouverte d\'un OmniAutocomplete se ferme, le dialogue reste ouvert et un second Échap le ferme');
+
+  // 6b. The Tab trap of the dialog still works with a list open (its native listener is not reached by the Blazor
+  // stop of the key): Tab and Shift+Tab leave the field for its neighbours, inside the dialog.
+  const shiftTab = () => key('Tab', 'Tab', 9, 8);
+  await openDialog('fields-dialog-open', 'fields-dialog');
+  await clickOn('#fields-dialog-model');
+  await waitFor('la liste de l\'autocomplétion ouverte', `${field('fields-dialog-model')}.getAttribute('aria-expanded') === 'true'`);
+  await tab();
+  await waitFor('le focus passé au choix filtrable', `document.activeElement === ${field('fields-dialog-size')}`);
+  await shiftTab();
+  await waitFor('le focus revenu à l\'autocomplétion, sa liste rouverte', `document.activeElement === ${field('fields-dialog-model')} && ${field('fields-dialog-model')}.getAttribute('aria-expanded') === 'true'`);
+  check(await inDialog('fields-dialog'), 'Le focus a quitté le dialogue : le piège de Tab est cassé.');
+  await evaluate("document.getElementById('fields-dialog').querySelector('.omni-dialog__close').focus()");
+  await closeDialogByEscape('fields-dialog');
+  step('Échap dans un dialogue : le piège de Tab du dialogue fonctionne avec une liste ouverte (Tab et Maj+Tab passent aux champs voisins du dialogue)');
+
+  // 6c. The multiple selection: the panel open with a search text typed, a first Escape closes the panel and the
+  // dialog stays, the text typed stays in the search field and .NET never hears of an emptied one, a second Escape
+  // closes the dialog.
+  await openDialog('fields-dialog-open', 'fields-dialog');
+  await clickOn('#fields-dialog-countries > summary');
+  await waitFor('le panneau de la sélection multiple ouvert', `${field('fields-dialog-countries')}.open === true`);
+  await clickOn('#fields-dialog-countries input[type=search]');
+  await typeText('ger');
+  await waitFor('le texte de recherche pris par .NET', "document.getElementById('fields-dialog-state').textContent.includes('search: ger')");
+  await watchEscape('#fields-dialog-countries input[type=search]', '__multiSelectEscape', '#fields-dialog-countries');
+  await escape();
+  await waitFor('le panneau refermé par Échap', `${field('fields-dialog-countries')}?.open !== true`);
+  await pause(400);
+  check(await dialogOpen('fields-dialog'), 'Le premier Échap, qui ferme le panneau de la sélection multiple, a aussi fermé le dialogue.');
+  const kept = await evaluate("document.querySelector('#fields-dialog-countries input[type=search]').value");
+  check(kept === 'ger', `Échap a vidé le champ de recherche de la sélection multiple : « ${kept} » lu.`);
+  const multiSelectEscape = await evaluate('window.__multiSelectEscape');
+  check(multiSelectEscape.prevented === true, 'Échap n\'a pas été annulé dans le champ de recherche : le navigateur le vide.');
+  check(multiSelectEscape.inputs.length === 0, `Le champ de recherche a reçu un événement input à l'Échap : ${JSON.stringify(multiSelectEscape.inputs)}.`);
+  check(await evaluate("document.getElementById('fields-dialog-state').textContent.includes('search: ger')"), 'Le texte de recherche lié n\'est plus « ger » : .NET a reçu un champ vidé.');
+  await closeDialogByEscape('fields-dialog');
+  step('Échap dans un dialogue : le panneau de l\'OmniMultiSelect se ferme, le dialogue reste ouvert, le texte du filtre reste (jamais vidé, .NET ne reçoit rien) et un second Échap ferme le dialogue');
+
+  // 6d. The filterable drop-down is an autocomplete: same behaviour.
+  await openDialog('fields-dialog-open', 'fields-dialog');
+  await clickOn('#fields-dialog-size');
+  await waitFor('la liste du choix filtrable ouverte', `${field('fields-dialog-size')}.getAttribute('aria-expanded') === 'true'`);
+  await escape();
+  await waitFor('la liste refermée par Échap', `(${field('fields-dialog-size')}?.getAttribute('aria-expanded') ?? 'false') === 'false'`);
+  await pause(300);
+  check(await dialogOpen('fields-dialog'), 'Le premier Échap, qui ferme la liste du choix filtrable, a aussi fermé le dialogue.');
+  await closeDialogByEscape('fields-dialog');
+  step('Échap dans un dialogue : la liste d\'un OmniDropDown filtrable se ferme, le dialogue reste ouvert et un second Échap le ferme');
+
+  // 6e. The character search of the HTML editor: Escape closes the panel, the key is cancelled so the browser does
+  // not empty the search field, the focus goes back to the surface and the dialog stays open; a second Escape closes it.
+  await session.visit('/components/html-editor', '#editor-dialog-open');
+  await openDialog('editor-dialog-open', 'editor-dialog');
+  await waitFor('la surface de l\'éditeur prête', "document.getElementById('editor-in-dialog')?.getAttribute('data-omni-ready') === 'true'");
+  await clickOn('#editor-dialog [data-command="insert-special-character"]');
+  await waitFor('le panneau des caractères ouvert', "document.querySelector('#editor-dialog .omni-html-editor__char-search') !== null");
+  await clickOn('#editor-dialog .omni-html-editor__char-search');
+  await typeText('eur');
+  await waitFor('le texte cherché dans le champ', "document.querySelector('#editor-dialog .omni-html-editor__char-search').value === 'eur'");
+  await watchEscape('#editor-dialog .omni-html-editor__char-search', '__charSearchEscape');
+  await escape();
+  await waitFor('le panneau des caractères refermé par Échap', "document.querySelector('#editor-dialog .omni-html-editor__char-search') === null");
+  await pause(300);
+  check(await dialogOpen('editor-dialog'), 'Échap dans la recherche de caractères a fermé le dialogue.');
+  const charSearchEscape = await evaluate('window.__charSearchEscape');
+  check(charSearchEscape.prevented === true, 'Échap n\'a pas été annulé dans la recherche de caractères : le navigateur vide le champ.');
+  check(charSearchEscape.inputs.length === 0, `La recherche de caractères a reçu un événement input à l'Échap : ${JSON.stringify(charSearchEscape.inputs)}.`);
+  check(await evaluate("document.activeElement === document.getElementById('editor-in-dialog')"), 'Le focus n\'est pas revenu à la surface de l\'éditeur.');
+  await closeDialogByEscape('editor-dialog');
+  step('Échap dans la recherche de caractères de l\'éditeur HTML : le panneau se ferme, le navigateur ne vide pas le champ, le focus revient à la surface, le dialogue reste ouvert et un second Échap le ferme');
 }

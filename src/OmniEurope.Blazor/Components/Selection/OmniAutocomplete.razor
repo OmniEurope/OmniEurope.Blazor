@@ -6,8 +6,10 @@
 @* The editable combobox pattern: the focus stays in the input, the arrows move a visual focus through
    the suggestions (announced through aria-activedescendant), Enter picks it and Escape closes the list.
    The suggestions are plain options, not buttons: a button inside an option is a second, conflicting
-   role that screen readers announce twice. *@
-<div @ref="_root" class="@RootClass">
+   role that screen readers announce twice. While the list is open, no key pressed in the field goes up to
+   a Blazor handler around it, so a dialog holding the field never closes on the Escape meant for the list; the
+   Escape that closed the list stays held back until its key is released (see _escapeConsumed). *@
+<div @ref="_root" class="@RootClass" @onkeydown:stopPropagation="@(IsOpen || _escapeConsumed)">
     <input @attributes="AdditionalAttributes"
            @ref="_input"
            id="@Id"
@@ -29,6 +31,7 @@
            aria-describedby="@CombinedAriaDescribedBy"
            @oninput="HandleInputAsync"
            @onkeydown="HandleKeyDownAsync"
+           @onkeyup="EscapeReleaseHandler"
            @onfocus="OpenOnFocusCallback"
            @onclick="OpenOnClickCallback"
            @onblur="HandleBlur" />

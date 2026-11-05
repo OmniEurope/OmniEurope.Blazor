@@ -54,6 +54,7 @@
   <data name="HtmlEditorAnnotatedDescription" xml:space="preserve"><value>L'éditeur garde le balisage de l'hôte (notes dans des aside, attributs data), signale où se trouve le curseur et active les commandes de tableau dans une cellule. Un clic sur une note la coche.</value></data>
   <data name="HtmlEditorExtensionTitle" xml:space="preserve"><value>Extension : notes, correcteur et suggestions</value></data>
   <data name="HtmlEditorExtensionDescription" xml:space="preserve"><value>Une extension apporte une commande de note (Ctrl+Maj+N), un clic qui marque une note comme relue, un menu contextuel, un correcteur et des suggestions de texte (Tab les accepte). Le second éditeur applique le même correcteur à un texte d'abord en lecture seule.</value></data>
+  <data name="HtmlEditorDialogTitle" xml:space="preserve"><value>Dans un dialogue</value></data>
   <data name="HtmlEditorMailTitle" xml:space="preserve"><value>Modèle de mail</value></data>
   <data name="HtmlEditorMailDescription" xml:space="preserve"><value>Objet, corps et variables : un bouton de variable écrit son jeton au curseur, l'onglet Aperçu montre le mail tel qu'un client de messagerie le reçoit, et Envoyer un essai le remet à l'application. Rien n'est envoyé ici.</value></data>
   <data name="HtmlEditorIconsTitle" xml:space="preserve"><value>Icônes des barres d'outils</value></data>
