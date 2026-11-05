@@ -203,3 +203,9 @@ test('detach releases the observer, the listeners and the zoom', () => {
     assert.deepEqual(cancelled, [frame]);
     assert.equal(viewport.style.getPropertyValue('--omni-document-zoom'), '');
 });
+
+test('detach of a viewport the script does not hold, or of a removed one (null), does nothing', () => {
+    // Disposed after the page left: Blazor resolves the removed element to null, never attached here.
+    assert.doesNotThrow(() => detach(null));
+    assert.doesNotThrow(() => detach(undefined));
+});
