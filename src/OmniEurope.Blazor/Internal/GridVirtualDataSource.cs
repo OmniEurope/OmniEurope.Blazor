@@ -35,6 +35,12 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
 
     internal int CachedItemCount => _items.Count;
 
+    /// <summary>
+    /// Changes every time rows enter or leave the cache (a block loaded, a block evicted, a refresh, a reset):
+    /// <see cref="CachedItems"/> keeps its identity and can keep its count while a block replaces another.
+    /// </summary>
+    internal int CacheVersion { get; private set; }
+
     internal bool TryGet(int index, out TItem item) => _items.TryGetValue(index, out item!);
 
     internal void Reset()
@@ -44,6 +50,7 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
         _cancellation?.Dispose();
         _cancellation = null;
         _items.Clear();
+        CacheVersion++;
         _loadedBlocks.Clear();
         _inFlight.Clear();
         _activeCalls = 0;
@@ -135,6 +142,7 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
                 TotalCount = result.TotalCount;
                 HasLoaded = true;
                 _loadedBlocks.Add(block);
+                CacheVersion++;
                 for (var offset = 0; offset < result.Items.Count; offset++)
                 {
                     _items[(block * size) + offset] = result.Items[offset];
@@ -284,6 +292,7 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
         }
 
         _items.Clear();
+        CacheVersion++;
         _loadedBlocks.Clear();
         foreach (var (index, item) in fresh)
         {
@@ -317,6 +326,7 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
         foreach (var block in stale)
         {
             _loadedBlocks.Remove(block);
+            CacheVersion++;
             for (var offset = 0; offset < size; offset++)
             {
                 _items.Remove((block * size) + offset);
