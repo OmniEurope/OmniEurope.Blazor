@@ -4,7 +4,7 @@
   "packages": [
     {
       "id": "AngleSharp",
-      "version": "1.7.2",
+      "version": "1.9.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -22,26 +22,13 @@
         "site/OmniEurope.Blazor.Showcase.Examples/packages.lock.json",
         "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
-        "tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
-      ]
-    },
-    {
-      "id": "AngleSharp",
-      "version": "1.8.6",
-      "license": {
-        "kind": "expression",
-        "value": "MIT",
-        "url": null,
-        "localFile": null,
-        "localFileSha256": null
-      },
-      "lockFiles": [
+        "tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
     },
     {
       "id": "AngleSharp.Css",
-      "version": "1.0.2",
+      "version": "1.3.1",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -59,20 +46,7 @@
         "site/OmniEurope.Blazor.Showcase.Examples/packages.lock.json",
         "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
-        "tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
-      ]
-    },
-    {
-      "id": "AngleSharp.Css",
-      "version": "1.2.0",
-      "license": {
-        "kind": "expression",
-        "value": "MIT",
-        "url": null,
-        "localFile": null,
-        "localFileSha256": null
-      },
-      "lockFiles": [
+        "tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
     },
@@ -233,7 +207,7 @@
     },
     {
       "id": "HtmlSanitizer",
-      "version": "9.2.1039",
+      "version": "10.0.1120",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1736,7 +1710,7 @@
     },
     {
       "id": "Microsoft.Testing.Extensions.TrxReport",
-      "version": "2.5.1",
+      "version": "2.5.2",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1753,7 +1727,7 @@
     },
     {
       "id": "Microsoft.Testing.Extensions.TrxReport.Abstractions",
-      "version": "2.5.1",
+      "version": "2.5.2",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1770,7 +1744,7 @@
     },
     {
       "id": "Microsoft.Testing.Platform",
-      "version": "2.5.1",
+      "version": "2.5.2",
       "license": {
         "kind": "expression",
         "value": "MIT",
