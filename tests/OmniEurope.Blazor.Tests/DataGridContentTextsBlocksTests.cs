@@ -53,6 +53,23 @@ public sealed class DataGridContentTextsBlocksTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task ABlockThatReplacesAnotherInTheFullCache_HandsOverTheTextsOfItsRows()
+    {
+        var grid = RenderBlocks(nameof(Row.A));
+
+        // Past the 24 blocks the cache holds, each new block evicts an old one: the cache keeps its identity and its count.
+        for (var block = 1; block <= 30; block++)
+        {
+            await ScrollToBlockAsync(grid, block);
+            var push = LastPush();
+            Assert.Contains($"A{block * BlockSize:D6}", push.Texts[nameof(Row.A)]);
+        }
+
+        // Only what the script does not hold yet, added to its own.
+        Assert.True(LastPush().Append);
+    }
+
+    [Fact]
     public async Task ABlockWithNothingNewHandsOverNothing()
     {
         var grid = RenderBlocks(nameof(Row.Fixed));

@@ -99,6 +99,12 @@ internal sealed class GridDataView<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisp
         ? VirtualLocalItems
         : Virtualized ? _virtualSource.CachedItems : _remote.Items;
 
+    /// <summary>
+    /// Changes when the rows of <see cref="LoadedItems"/> are renewed inside a collection that keeps its identity
+    /// (the block cache of a virtualized grid evicts a block as it loads another); constant for every other source.
+    /// </summary>
+    internal int LoadedItemsVersion => grid.Load is not null && Virtualized ? _virtualSource.CacheVersion : 0;
+
     internal void InvalidateLocalProjection()
     {
         _localProjection = null;

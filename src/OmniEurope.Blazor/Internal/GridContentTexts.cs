@@ -19,6 +19,8 @@ internal sealed record GridContentTextsUpdate(IReadOnlyDictionary<string, string
 /// A virtualized grid that fetches blocks grows one row collection: each block then hands over only the
 /// texts the script does not hold yet, to be added to its own, instead of the whole set again, whose size
 /// grows with every block fetched (a scroll through the cache would send it over and over).
+/// A block that replaces another in the full cache changes neither the collection nor its count: the version
+/// of the cache tells the renewal, and the texts of the rows that came in are added the same way.
 /// </summary>
 internal sealed class GridContentTexts<TItem>(OmniDataGrid<TItem> grid)
 {
@@ -31,6 +33,7 @@ internal sealed class GridContentTexts<TItem>(OmniDataGrid<TItem> grid)
 
     private object? _items;
     private int _count;
+    private int _version;
     private string? _columns;
     // The texts the script holds by column key, as handed over (replaced, then added to).
     private Dictionary<string, HashSet<string>>? _sent;
@@ -50,18 +53,21 @@ internal sealed class GridContentTexts<TItem>(OmniDataGrid<TItem> grid)
         var columns = grid.ColumnSet.VisibleColumns.Where(IsMeasuredFromTexts).ToList();
         var items = grid.View.LoadedItems();
         // Every source of the loaded rows is a collection (a list, a page, the values of the block cache): a count
-        // without enumerating. The fetched blocks grow inside the same collection, which the count catches.
+        // without enumerating. Blocks fetched grow the same collection, which the count catches; past the cache cap a
+        // block replaces another with the same count, which the version of the cache catches.
         var count = items.Count();
+        var version = grid.View.LoadedItemsVersion;
         var signature = string.Join('|', columns.Select(column => $"{column.Key}:{column.FormatString}"));
         var sameRows = ReferenceEquals(items, _items) && signature == _columns;
-        if (sameRows && count == _count)
+        if (sameRows && count == _count && version == _version)
         {
             return null;
         }
 
-        // The same collection with more rows and the same columns: blocks fetched into the cache.
-        var grown = sameRows && count > _count;
-        (_items, _count, _columns) = (items, count, signature);
+        // The same collection with at least as many rows and the same columns: blocks fetched into the cache, some
+        // maybe replacing others.
+        var grown = sameRows && count >= _count;
+        (_items, _count, _version, _columns) = (items, count, version, signature);
 
         var fresh = columns.ToDictionary(column => column.Key, column => grid.ColumnLayout.LoadedTexts(column) ?? [], StringComparer.Ordinal);
         if (grown && NewTexts(fresh) is { } added)
