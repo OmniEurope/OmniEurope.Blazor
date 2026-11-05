@@ -37,6 +37,71 @@ export function wrapTextSelection(element, prefix, suffix) {
     };
 }
 
+// The text area of the source face of OmniHtmlEditor. A paste or an automated write of several lines raises one
+// input event per line, each carrying the text so far, and every event crossing to .NET serialises the whole text
+// (minutes for a few hundred kilobytes, the page frozen meanwhile). The page script no longer sees the input events
+// of the text area one by one: one input event, with the final text, is raised once quietMs went by without another.
+// takeHeldInput hands that text over at once when .NET needs it before then (a command, a switch of face).
+const heldInputs = new WeakMap();
+
+export function holdInputBursts(element, quietMs) {
+    if (!(element instanceof HTMLTextAreaElement) || heldInputs.has(element)) {
+        return;
+    }
+
+    const state = { held: false, releasing: false, timer: 0 };
+    // The held text reaches the page at once, in the order of the events, before whatever the reader does next is
+    // handled: a press anywhere (a host Save button, which some browsers do not even focus), leaving the text area, or
+    // a shortcut. Its input event is dispatched synchronously, so the page handles it before that press or key.
+    const release = () => {
+        if (!state.held) {
+            return;
+        }
+
+        clearTimeout(state.timer);
+        state.held = false;
+        document.removeEventListener('pointerdown', release, true);
+        state.releasing = true;
+        element.dispatchEvent(new Event('input', { bubbles: true }));
+        state.releasing = false;
+    };
+    state.release = release;
+    heldInputs.set(element, state);
+    element.addEventListener('input', event => {
+        if (state.releasing) {
+            return;
+        }
+
+        event.stopPropagation();
+        if (!state.held) {
+            state.held = true;
+            document.addEventListener('pointerdown', release, true);
+        }
+
+        clearTimeout(state.timer);
+        state.timer = setTimeout(release, quietMs);
+    }, true);
+    element.addEventListener('blur', release, true);
+    element.addEventListener('keydown', event => {
+        if (event.ctrlKey || event.metaKey || event.altKey) {
+            release();
+        }
+    }, true);
+}
+
+// The text a burst of input left held, or null when there is none; the page never sees the event of that text.
+export function takeHeldInput(element) {
+    const state = heldInputs.get(element);
+    if (!state?.held) {
+        return null;
+    }
+
+    clearTimeout(state.timer);
+    state.held = false;
+    document.removeEventListener('pointerdown', state.release, true);
+    return element.value;
+}
+
 export function restoreTextSelection(element, start, end) {
     if (!(element instanceof HTMLTextAreaElement)) {
         throw new TypeError('A textarea is required.');

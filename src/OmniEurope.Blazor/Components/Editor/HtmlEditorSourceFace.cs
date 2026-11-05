@@ -12,6 +12,40 @@ internal sealed class HtmlEditorSourceFace(OmniHtmlEditor owner, IJSRuntime java
 {
     private const string InteropModulePath = OmniModules.Interop;
 
+    private readonly HtmlEditorPreview _preview = new();
+    private const int QuietMilliseconds = 150;
+
+    /// <summary>The markup under the text area: the value sanitised, again only when it or the policy changed.</summary>
+    internal string PreviewOf(string? value, OmniHtmlSanitizerPolicy? policy, bool isSanitized) => _preview.Of(value, policy, isSanitized);
+
+    /// <summary>Has the script raise one input event, with the final text, once the typing paused (see <c>holdInputBursts</c>); idempotent per text area.</summary>
+    internal async Task WatchInputAsync()
+    {
+        // A locked editor takes no input: nothing to keep from the page.
+        if (owner.IsLocked)
+        {
+            return;
+        }
+
+        await using var module = await OmniScriptModule.ImportAsync(javaScript, InteropModulePath);
+        await module.InvokeVoidAsync("holdInputBursts", owner.SourceElement, QuietMilliseconds);
+    }
+
+    /// <summary>Commits the text a burst of input left held in the script, so whatever acts next acts on what was typed.</summary>
+    internal async Task FlushInputAsync()
+    {
+        if (owner.CurrentMode != OmniHtmlEditorMode.Source || owner.IsLocked)
+        {
+            return;
+        }
+
+        await using var module = await OmniScriptModule.ImportAsync(javaScript, InteropModulePath);
+        if (await module.InvokeAsync<string?>("takeHeldInput", owner.SourceElement) is { } text)
+        {
+            await owner.CommitAsync(owner.Clean(text));
+        }
+    }
+
     private const string TableSource =
         "<table><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table>";
 
@@ -78,6 +112,7 @@ internal sealed class HtmlEditorSourceFace(OmniHtmlEditor owner, IJSRuntime java
     /// </summary>
     internal async Task WrapSelectionAsync(string prefix, string suffix)
     {
+        await FlushInputAsync();
         await using var module = await OmniScriptModule.ImportAsync(javaScript, InteropModulePath);
         var result = await module.InvokeAsync<JsonElement>("wrapTextSelection", owner.SourceElement, prefix, suffix);
         var value = result.GetProperty("value").GetString() ?? string.Empty;

@@ -322,8 +322,8 @@
                           @oninput="HandleInputAsync"></textarea>
                 @if (ShowPreview)
                 {
-                    @* nosemgrep - Clean runs OmniHtmlSanitizer with the editor policy before the markup is written *@
-                    <div class="omni-html-editor__preview omni-rich-text" aria-label="@Localize("HtmlEditorPreview")">@((MarkupString)Clean(CurrentValue))</div>
+                    @* nosemgrep - PreviewMarkup is the value through OmniHtmlSanitizer with the editor policy, or the value the editor sanitised itself *@
+                    <div class="omni-html-editor__preview omni-rich-text" aria-label="@Localize("HtmlEditorPreview")">@((MarkupString)SourceFace.PreviewOf(CurrentValue, EffectivePolicy, IsKnownClean(CurrentValue)))</div>
                 }
             }
         </section>;

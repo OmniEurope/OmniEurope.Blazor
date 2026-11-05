@@ -115,7 +115,8 @@ internal static class OmniHtmlSanitizer
     internal static IReadOnlyList<string>? ClassesOf(OmniHtmlSanitizerPolicy? policy) =>
         policy?.AllowAnyClass == true ? null : [.. AllowedClassNames, .. (policy?.AdditionalCssClasses ?? []).Select(Normalize)];
 
-    private static HtmlSanitizer For(OmniHtmlSanitizerPolicy? policy) =>
+    /// <summary>The sanitiser built for <paramref name="policy"/>, kept for the policy's lifetime; internal so a test can count its runs.</summary>
+    internal static HtmlSanitizer For(OmniHtmlSanitizerPolicy? policy) =>
         policy is null ? Sanitizer : PolicySanitizers.GetValue(policy, CreateSanitizer);
 
     private static HtmlSanitizer CreateSanitizer(OmniHtmlSanitizerPolicy? policy)
