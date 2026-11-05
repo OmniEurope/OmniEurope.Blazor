@@ -6,10 +6,8 @@ Les textes de licence distribués dans les paquets tiers sont conservés sous `d
 
 | Package | Version | Licence déclarée | Nature | Source locale |
 |---|---:|---|---|---|
-| `AngleSharp` | `1.7.2` | MIT | `expression` | - |
-| `AngleSharp` | `1.8.6` | MIT | `expression` | - |
-| `AngleSharp.Css` | `1.0.2` | MIT | `expression` | - |
-| `AngleSharp.Css` | `1.2.0` | MIT | `expression` | - |
+| `AngleSharp` | `1.9.0` | MIT | `expression` | - |
+| `AngleSharp.Css` | `1.3.1` | MIT | `expression` | - |
 | `AngleSharp.Diffing` | `1.1.1` | MIT | `expression` | - |
 | `BouncyCastle.Cryptography` | `2.7.0` | MIT | `expression` | - |
 | `bunit` | `2.13.3` | MIT | `expression` | - |
@@ -21,7 +19,7 @@ Les textes de licence distribués dans les paquets tiers sont conservés sous `d
 | `Docker.DotNet.Enhanced.NPipe` | `4.3.3` | MIT | `expression` | - |
 | `Docker.DotNet.Enhanced.Unix` | `4.3.3` | MIT | `expression` | - |
 | `Docker.DotNet.Enhanced.X509` | `4.3.3` | MIT | `expression` | - |
-| `HtmlSanitizer` | `9.2.1039` | MIT | `expression` | - |
+| `HtmlSanitizer` | `10.0.1120` | MIT | `expression` | - |
 | `Humanizer.Core` | `2.14.1` | MIT | `expression` | - |
 | `Microsoft.ApplicationInsights` | `2.23.0` | MIT | `expression` | - |
 | `Microsoft.AspNetCore.App.Internal.Assets` | `10.0.14` | MIT | `expression` | - |
@@ -111,9 +109,9 @@ Les textes de licence distribués dans les paquets tiers sont conservés sous `d
 | `Microsoft.NET.Sdk.WebAssembly.Pack` | `10.0.14` | MIT | `expression` | - |
 | `Microsoft.NETCore.Platforms` | `1.1.0` | http://go.microsoft.com/fwlink/?LinkId=329770 | `url` | - |
 | `Microsoft.Testing.Extensions.Telemetry` | `2.5.1` | MIT | `expression` | - |
-| `Microsoft.Testing.Extensions.TrxReport` | `2.5.1` | MIT | `expression` | - |
-| `Microsoft.Testing.Extensions.TrxReport.Abstractions` | `2.5.1` | MIT | `expression` | - |
-| `Microsoft.Testing.Platform` | `2.5.1` | MIT | `expression` | - |
+| `Microsoft.Testing.Extensions.TrxReport` | `2.5.2` | MIT | `expression` | - |
+| `Microsoft.Testing.Extensions.TrxReport.Abstractions` | `2.5.2` | MIT | `expression` | - |
+| `Microsoft.Testing.Platform` | `2.5.2` | MIT | `expression` | - |
 | `Microsoft.Testing.Platform.MSBuild` | `2.5.1` | MIT | `expression` | - |
 | `Microsoft.VisualStudio.SolutionPersistence` | `1.0.52` | MIT | `expression` | - |
 | `Microsoft.Web.WebView2` | `1.0.4314.35` | LICENSE.txt | `file` | `docs/third-party-licenses/Microsoft.Web.WebView2--1.0.4314.35--LICENSE.txt` |

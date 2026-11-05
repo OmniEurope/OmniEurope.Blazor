@@ -24,9 +24,9 @@
     {
       "type": "library",
       "name": "AngleSharp",
-      "version": "1.7.2",
-      "bom-ref": "pkg:nuget/AngleSharp@1.7.2",
-      "purl": "pkg:nuget/AngleSharp@1.7.2",
+      "version": "1.9.0",
+      "bom-ref": "pkg:nuget/AngleSharp@1.9.0",
+      "purl": "pkg:nuget/AngleSharp@1.9.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -39,38 +39,16 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json;samples/OmniEurope.Blazor.Catalog/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase.Examples/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "name": "AngleSharp",
-      "version": "1.8.6",
-      "bom-ref": "pkg:nuget/AngleSharp@1.8.6",
-      "purl": "pkg:nuget/AngleSharp@1.8.6",
-      "licenses": [
-        {
-          "expression": "MIT"
-        }
-      ],
-      "properties": [
-        {
-          "name": "omnieurope:license-kind",
-          "value": "expression"
-        },
-        {
-          "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json;samples/OmniEurope.Blazor.Catalog/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase.Examples/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
     {
       "type": "library",
       "name": "AngleSharp.Css",
-      "version": "1.0.2",
-      "bom-ref": "pkg:nuget/AngleSharp.Css@1.0.2",
-      "purl": "pkg:nuget/AngleSharp.Css@1.0.2",
+      "version": "1.3.1",
+      "bom-ref": "pkg:nuget/AngleSharp.Css@1.3.1",
+      "purl": "pkg:nuget/AngleSharp.Css@1.3.1",
       "licenses": [
         {
           "expression": "MIT"
@@ -83,29 +61,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json;samples/OmniEurope.Blazor.Catalog/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase.Examples/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "name": "AngleSharp.Css",
-      "version": "1.2.0",
-      "bom-ref": "pkg:nuget/AngleSharp.Css@1.2.0",
-      "purl": "pkg:nuget/AngleSharp.Css@1.2.0",
-      "licenses": [
-        {
-          "expression": "MIT"
-        }
-      ],
-      "properties": [
-        {
-          "name": "omnieurope:license-kind",
-          "value": "expression"
-        },
-        {
-          "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json;samples/OmniEurope.Blazor.Catalog/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase.Examples/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -354,9 +310,9 @@
     {
       "type": "library",
       "name": "HtmlSanitizer",
-      "version": "9.2.1039",
-      "bom-ref": "pkg:nuget/HtmlSanitizer@9.2.1039",
-      "purl": "pkg:nuget/HtmlSanitizer@9.2.1039",
+      "version": "10.0.1120",
+      "bom-ref": "pkg:nuget/HtmlSanitizer@10.0.1120",
+      "purl": "pkg:nuget/HtmlSanitizer@10.0.1120",
       "licenses": [
         {
           "expression": "MIT"
@@ -2340,9 +2296,9 @@
     {
       "type": "library",
       "name": "Microsoft.Testing.Extensions.TrxReport",
-      "version": "2.5.1",
-      "bom-ref": "pkg:nuget/Microsoft.Testing.Extensions.TrxReport@2.5.1",
-      "purl": "pkg:nuget/Microsoft.Testing.Extensions.TrxReport@2.5.1",
+      "version": "2.5.2",
+      "bom-ref": "pkg:nuget/Microsoft.Testing.Extensions.TrxReport@2.5.2",
+      "purl": "pkg:nuget/Microsoft.Testing.Extensions.TrxReport@2.5.2",
       "licenses": [
         {
           "expression": "MIT"
@@ -2362,9 +2318,9 @@
     {
       "type": "library",
       "name": "Microsoft.Testing.Extensions.TrxReport.Abstractions",
-      "version": "2.5.1",
-      "bom-ref": "pkg:nuget/Microsoft.Testing.Extensions.TrxReport.Abstractions@2.5.1",
-      "purl": "pkg:nuget/Microsoft.Testing.Extensions.TrxReport.Abstractions@2.5.1",
+      "version": "2.5.2",
+      "bom-ref": "pkg:nuget/Microsoft.Testing.Extensions.TrxReport.Abstractions@2.5.2",
+      "purl": "pkg:nuget/Microsoft.Testing.Extensions.TrxReport.Abstractions@2.5.2",
       "licenses": [
         {
           "expression": "MIT"
@@ -2384,9 +2340,9 @@
     {
       "type": "library",
       "name": "Microsoft.Testing.Platform",
-      "version": "2.5.1",
-      "bom-ref": "pkg:nuget/Microsoft.Testing.Platform@2.5.1",
-      "purl": "pkg:nuget/Microsoft.Testing.Platform@2.5.1",
+      "version": "2.5.2",
+      "bom-ref": "pkg:nuget/Microsoft.Testing.Platform@2.5.2",
+      "purl": "pkg:nuget/Microsoft.Testing.Platform@2.5.2",
       "licenses": [
         {
           "expression": "MIT"
