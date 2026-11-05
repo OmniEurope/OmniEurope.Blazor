@@ -172,6 +172,8 @@ export function attach(dialog) {
 
     handle.addEventListener('pointerdown', onPointerDown);
     attached.set(dialog, { handle, onPointerDown });
+    // The move cursor and the touch-action of the header wait for this mark: before it, a press would be lost.
+    dialog.setAttribute('data-omni-dialog-drag-ready', '');
 }
 
 export function detach(dialog) {
@@ -184,6 +186,7 @@ export function detach(dialog) {
     const state = attached.get(dialog);
     if (!state) return;
     state.handle.removeEventListener('pointerdown', state.onPointerDown);
+    dialog.removeAttribute('data-omni-dialog-drag-ready');
     attached.delete(dialog);
 }
 

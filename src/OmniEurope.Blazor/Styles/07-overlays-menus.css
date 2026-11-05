@@ -37,13 +37,14 @@ body:has(.omni-overlay) { overflow: hidden; }
 /* OmniDialog.FreezeScale: the content is frozen at the width it had, so a scroll bar that comes later
    must not take its room from it; the gutter is held from the start. */
 .omni-dialog[data-omni-scale-frozen] > .omni-dialog__content { scrollbar-gutter: stable; }
-/* Dragged by its relative offsets (omni-dialog.js writes left and top): unlike a transform, they leave
+/* The header shows the move cursor only once omni-dialog.js listens to it (data-omni-dialog-drag-ready).
+   Dragged by its relative offsets (omni-dialog.js writes left and top): unlike a transform, they leave
    the position: fixed surfaces the dialog holds anchored to the window. */
 .omni-dialog--draggable { position: relative; }
 /* The hidden focus sentinels of a modal are pinned to its corner: left where the flow puts them, the
    last one hangs under a positioned dialog and gives it a scrollbar for three pixels. */
 .omni-dialog > [data-focus-sentinel] { inset-block-start: 0; inset-inline-start: 0; }
-.omni-dialog--draggable .omni-dialog__header { cursor: move; touch-action: none; user-select: none; }
+.omni-dialog--draggable[data-omni-dialog-drag-ready] .omni-dialog__header { cursor: move; touch-action: none; user-select: none; }
 .omni-dialog__content { padding: calc(var(--omni-card-pad) + 2px); }
 /* Boutons de dialogue : au bout du pied, l'action puis Annuler (Secondary, neutre), chacun avec son icône. */
 .omni-dialog__footer { align-items: center; border-block-start: var(--omni-border-width) solid var(--omni-color-border); display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: end; padding: calc(var(--omni-card-pad) - 2px) calc(var(--omni-card-pad) + 2px); }

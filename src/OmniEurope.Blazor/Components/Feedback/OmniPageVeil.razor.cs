@@ -57,7 +57,9 @@ public partial class OmniPageVeil : IDisposable
 
     /// <summary>
     /// The logo as an image address (<c>src</c> of an <c>img</c>), for an application whose logo is a file.
-    /// Ignored when <see cref="Logo"/> is given; null or blank, the default, draws no image.
+    /// Ignored when <see cref="Logo"/> is given; null or blank, the default, draws no image. Like
+    /// <c>OmniImage.Source</c> and the header logo, the address is written as given, without
+    /// <c>OmniUriPolicy</c>: an image address runs no script, and a <c>data:image/...</c> logo stays possible.
     /// </summary>
     [Parameter]
     public string? LogoSource { get; set; }

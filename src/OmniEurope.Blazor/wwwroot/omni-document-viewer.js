@@ -121,6 +121,8 @@ export function update(viewport, zoom, fit) {
 
 export function detach(viewport) {
     const state = states.get(viewport);
+    // Disposed after the page left, Blazor hands a removed viewport over as null: nothing is held for it.
+    if (!state) return;
     state.observer.disconnect();
     viewport.removeEventListener('load', state.onLoad, true);
     viewport.removeEventListener('scroll', state.onScroll);
