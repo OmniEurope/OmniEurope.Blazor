@@ -112,6 +112,10 @@ const EXEMPT_SELF = [
   // next (BodyHeight, min(24rem, 60vh) by default): the height of a frame, not of a control. The
   // controls the steps hold are measured.
   ['.omni-wizard__body', 'cadre de hauteur fixe voulue (BodyHeight, min(24rem, 60vh) par défaut) pour que la page ne saute pas d\'une étape à l\'autre'],
+  // The frame of OmniInkCanvas and its surface are the drawing sheet: Height (12rem by default) or AspectRatio
+  // gives their shape, which a signature must keep whatever the page density (owner decision 2026-11-05). The
+  // toolbar above the sheet is outside the frame and stays measured.
+  ['.omni-ink-canvas__frame, .omni-ink-canvas__surface', 'feuille de dessin : sa forme (Height ou AspectRatio) ne dépend pas de la densité, une signature garde ses proportions'],
   // A grid Height (applied as --omni-grid-viewport on the viewport) is the consumer's explicit length, as
   // MaxHeight is; the rows inside are measured.
   ['.omni-data-grid__viewport[style*="--omni-grid-viewport:"]', 'hauteur explicite du consommateur (paramètre Height), que la densité ne remplace pas'],
