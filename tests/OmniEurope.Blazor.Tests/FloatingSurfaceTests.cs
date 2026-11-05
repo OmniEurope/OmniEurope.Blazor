@@ -47,6 +47,13 @@ public sealed class FloatingSurfaceTests
     }
 
     [Fact]
+    public void The_draggable_header_shows_the_move_cursor_only_once_the_script_is_attached()
+    {
+        Assert.Equal("move", ShippedLookTests.Value(ShippedLookTests.Body(".omni-dialog--draggable[data-omni-dialog-drag-ready] .omni-dialog__header"), "cursor"));
+        Assert.DoesNotContain(".omni-dialog--draggable .omni-dialog__header {", ShippedLookTests.Css, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void The_open_list_of_a_select_is_dressed_only_where_the_browser_allows_it()
     {
         var css = ShippedLookTests.Css;
