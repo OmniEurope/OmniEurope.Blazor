@@ -116,12 +116,31 @@ while (Date.now() < dialogDeadline && !(await evaluate(`Boolean(document.querySe
   await evaluate(`document.querySelector('#catalog-open-dialog').click()`);
   await new Promise(resolve => setTimeout(resolve, 100));
 }
-await waitFor(
-  `Boolean(document.querySelector('[role="dialog"][aria-modal="true"]') && document.querySelector('[role="dialog"]').contains(document.activeElement))`,
-  'Le dialogue ne s\'est pas ouvert avec un focus contenu.'
-);
-await evaluate(`document.querySelector('.omni-dialog__close').click()`);
-await waitFor(`!document.querySelector('[role="dialog"]')`, 'Le dialogue ne s\'est pas fermé.');
+// A click before the circuit is interactive is lost, hence the retries; under load a retry can land after the first
+// click was heard, and each click opens one more dialog over the others. The dialog on top, the last opened, is the
+// one that must be modal and hold the focus.
+const topDialog = `Array.from(document.querySelectorAll('[role="dialog"]')).at(-1)`;
+try {
+  await waitFor(
+    `(() => { const top = ${topDialog}; return Boolean(top && top.getAttribute('aria-modal') === 'true' && top.contains(document.activeElement)); })()`,
+    'Le dialogue ne s\'est pas ouvert avec un focus contenu.'
+  );
+} catch (error) {
+  // Where the focus is and what the page holds, so a failure names its cause rather than only its symptom.
+  const state = await evaluate(`JSON.stringify({
+    dialogs: document.querySelectorAll('[role="dialog"]').length,
+    modal: Boolean(document.querySelector('[role="dialog"][aria-modal="true"]')),
+    active: document.activeElement ? document.activeElement.tagName + '#' + document.activeElement.id + '.' + document.activeElement.className : null,
+    hasFocus: document.hasFocus(),
+    visibility: document.visibilityState
+  })`);
+  throw new Error(`${error.message} État : ${state}`);
+}
+// Each dialog closes by its own close button, the top one first.
+for (let open = await evaluate(`document.querySelectorAll('[role="dialog"]').length`); open > 0; open--) {
+  await evaluate(`${topDialog}.querySelector('.omni-dialog__close').click()`);
+  await waitFor(`document.querySelectorAll('[role="dialog"]').length === ${open - 1}`, 'Le dialogue ne s\'est pas fermé.');
+}
 
 const notificationDeadline = Date.now() + 10_000;
 while (Date.now() < notificationDeadline && !(await evaluate(`Boolean(document.querySelector('.omni-notification'))`))) {
