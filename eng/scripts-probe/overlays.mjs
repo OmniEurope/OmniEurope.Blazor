@@ -449,6 +449,22 @@ export async function overlaySteps(session, results) {
             await settle();
             combinations++;
             const problems = measure();
+            // An overflow seen once in fifty runs (Octet, 1 to 3 px, no element named) and never reproduced:
+            // the failure says whether it lasts, which fonts were still loading, what was animating and
+            // which elements reached the edge.
+            if (problems.length > 0) {
+              const dialog = windowOf();
+              const limit = dialog.getBoundingClientRect().left + dialog.clientLeft + dialog.clientWidth;
+              const diag = {
+                fonts: document.fonts.status, pending: [...document.fonts].filter(face => face.status !== 'loaded' && face.status !== 'unloaded').map(face => `${face.family}:${face.status}`),
+                anims: document.getAnimations().filter(animation => animation.playState === 'running').map(animation => `${String(animation.effect?.target?.className?.baseVal ?? animation.effect?.target?.className ?? '').slice(0, 40)}:${animation.transitionProperty ?? animation.animationName}`).slice(0, 6),
+                edges: [...dialog.querySelectorAll('*')].map(element => ({ element, right: element.getBoundingClientRect().right })).filter(item => item.right > limit - 0.5).sort((a, b) => b.right - a.right).slice(0, 4).map(item => `${item.element.tagName.toLowerCase()}.${String(item.element.className.baseVal ?? item.element.className).trim().split(/\s+/).slice(0, 2).join('.')}@${item.right.toFixed(2)}`),
+                limit: limit.toFixed(2), width: dialog.getBoundingClientRect().width.toFixed(2)
+              };
+              await new Promise(resolve => setTimeout(resolve, 500));
+              diag.after = measure();
+              problems.push(`DIAG ${JSON.stringify(diag)}`);
+            }
             if (problems.length > 0) failures.push(`${theme.text} / mode ${shown} / texte ${level} / densité ${density} / ${innerWidth} px : ${problems.slice(0, 4).join(', ')}`);
           }
         }
