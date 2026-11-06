@@ -177,6 +177,14 @@ public partial class OmniScheduler
     /// </summary>
     [Parameter] public bool ShowPeriodTitle { get; set; }
 
+    /// <summary>
+    /// Marks, in the time grid, an appointment that shares its time with another: the dashed outline
+    /// <c>omni-scheduler__appointment--overlapping</c> and a hidden text naming the others. True by default.
+    /// False for a host whose own rule of an overlap differs: the side-by-side lanes stay, and only an
+    /// appointment with <see cref="OmniSchedulerAppointment.OverlapText"/> is marked.
+    /// </summary>
+    [Parameter] public bool ShowOverlaps { get; set; } = true;
+
     internal string Announcement => _announcement;
 
     /// <summary>The date drawn: <see cref="Date"/>, or the period the reader navigated to since.</summary>
@@ -696,6 +704,16 @@ public partial class OmniScheduler
     }
 
     /// <summary>
+    /// The overlap a block names to assistive technology, which also marks it: the host's
+    /// <see cref="OmniSchedulerAppointment.OverlapText"/> first, else, with <see cref="ShowOverlaps"/>, the
+    /// appointments it shares its time with; null when there is none.
+    /// </summary>
+    private string? OverlapText(GridBlock block) =>
+        !string.IsNullOrWhiteSpace(block.Appointment.OverlapText)
+            ? block.Appointment.OverlapText
+            : ShowOverlaps && block.Overlaps.Count > 0 ? Text("SchedulerOverlaps", string.Join(", ", block.Overlaps)) : null;
+
+    /// <summary>
     /// The classes of a block. An inline style being out of reach, its place and height are written digit
     /// by digit in hundredths of a slot, each digit a class setting a custom property the stylesheet adds
     /// up; the zero digits are left out. Past <see cref="MostLanes"/> lanes, the last one is shared.
@@ -710,7 +728,7 @@ public partial class OmniScheduler
         return string.Join(' ', new[]
         {
             AppointmentCss(block.Appointment),
-            block.Overlaps.Count == 0 ? null : "omni-scheduler__appointment--overlapping",
+            OverlapText(block) is null ? null : "omni-scheduler__appointment--overlapping",
             block.Span < OneLine * slotsPerStandardSlot ? "omni-scheduler__appointment--brief" : block.Span < TwoLinesOfTitle * slotsPerStandardSlot ? "omni-scheduler__appointment--short" : null,
             Digits("at", offset, 2),
             Digits("len", span, 5),

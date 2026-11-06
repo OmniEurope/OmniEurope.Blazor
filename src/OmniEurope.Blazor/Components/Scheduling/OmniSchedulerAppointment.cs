@@ -15,4 +15,11 @@ public sealed record OmniSchedulerAppointment(
 {
     /// <summary>Classes added to the appointment's element, for a host that marks some appointments apart.</summary>
     public string? Class { get; init; }
+
+    /// <summary>
+    /// The overlap the host computed itself, named to assistive technology in the time grid in place of the
+    /// scheduler's own, and marking the appointment as overlapping, whatever <see cref="OmniScheduler.ShowOverlaps"/>.
+    /// Null or blank: the scheduler's own mark applies.
+    /// </summary>
+    public string? OverlapText { get; init; }
 }

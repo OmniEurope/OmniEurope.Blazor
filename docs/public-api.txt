@@ -2984,7 +2984,7 @@ property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Property 
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Resizable : System.Boolean? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.SortOrder : OmniEurope.Blazor.Components.OmniDataGridSortOrder? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.SortProperty : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.SortValue : System.Func<TItem, System.IComparable?>? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.SortValue : System.Func<TItem,System.IComparable?>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Sortable : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Template : Microsoft.AspNetCore.Components.RenderFragment<TItem>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.TextAlign : OmniEurope.Blazor.Components.OmniAlignment {get(public);set(public)} [Parameter]
@@ -3876,6 +3876,7 @@ property public OmniEurope.Blazor.Components.OmniScheduler.OnAppointmentClick : 
 property public OmniEurope.Blazor.Components.OmniScheduler.OnAppointmentMove : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.OnLoadError : Microsoft.AspNetCore.Components.EventCallback<System.Exception> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.OnSlotClick : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniSchedulerSlot> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniScheduler.ShowOverlaps : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.ShowPeriodTitle : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.ShowViewPicker : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.SlotDuration : System.TimeSpan {get(public);set(public)} [Parameter]
@@ -3887,6 +3888,7 @@ property public OmniEurope.Blazor.Components.OmniSchedulerAppointment.Class : Sy
 property public OmniEurope.Blazor.Components.OmniSchedulerAppointment.Description : System.String? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniSchedulerAppointment.End : System.DateTimeOffset {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniSchedulerAppointment.Id : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniSchedulerAppointment.OverlapText : System.String? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniSchedulerAppointment.Start : System.DateTimeOffset {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniSchedulerAppointment.Title : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove.Appointment : OmniEurope.Blazor.Components.OmniSchedulerAppointment {get(public);init(public)}

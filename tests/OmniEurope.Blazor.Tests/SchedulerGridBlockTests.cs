@@ -143,6 +143,69 @@ public sealed class SchedulerGridBlockTests : OmniBunitContext
         Assert.Null(Block(scheduler, "c").QuerySelector(".omni-visually-hidden"));
     }
 
+    private static readonly OmniSchedulerAppointment[] Sharing =
+    [
+        new("a", "Compilation", Monday.AddHours(8), Monday.AddHours(10)),
+        new("b", "Tests", Monday.AddHours(9), Monday.AddHours(10))
+    ];
+
+    /// <summary>The lane of a block and the lanes of its chain, from its classes (lane 0 and one lane write none).</summary>
+    private static (int Lane, int Lanes) LanesOf(IElement block)
+    {
+        int Read(string prefix, int absent) => block.ClassList
+            .Where(item => item.StartsWith(prefix, StringComparison.Ordinal))
+            .Select(item => int.Parse(item[prefix.Length..], CultureInfo.InvariantCulture))
+            .DefaultIfEmpty(absent)
+            .Single();
+
+        return (Read("omni-scheduler__lane-", 0), Read("omni-scheduler__lanes-", 1));
+    }
+
+    [Fact]
+    public void ShowOverlapsOff_DropsTheMarkAndTheText_ButKeepsTheLanes()
+    {
+        var shown = RenderGrid(Sharing, new TimeOnly(8, 0), new TimeOnly(12, 0));
+        var hidden = RenderGrid(Sharing, new TimeOnly(8, 0), new TimeOnly(12, 0), more: parameters => parameters.Add(component => component.ShowOverlaps, false));
+
+        foreach (var id in new[] { "a", "b" })
+        {
+            Assert.DoesNotContain("omni-scheduler__appointment--overlapping", Block(hidden, id).ClassList);
+            Assert.Null(Block(hidden, id).QuerySelector(".omni-visually-hidden"));
+            Assert.DoesNotContain("Chevauche", Block(hidden, id).TextContent, StringComparison.Ordinal);
+            Assert.Equal(LanesOf(Block(shown, id)), LanesOf(Block(hidden, id)));
+        }
+
+        Assert.Equal((1, 2), LanesOf(Block(hidden, "b")));
+    }
+
+    [Fact]
+    public void OverlapText_ReplacesTheSchedulersOwn_AndMarksTheAppointment_EvenWithShowOverlapsOff()
+    {
+        foreach (var showOverlaps in new[] { true, false })
+        {
+            var scheduler = RenderGrid(
+                [Sharing[0] with { OverlapText = "9 exécutions pour 8 exécuteurs" }, Sharing[1], new("c", "Paquet", Monday.AddHours(11), Monday.AddHours(12)) { OverlapText = "Attend un exécuteur" }],
+                new TimeOnly(8, 0),
+                new TimeOnly(12, 0),
+                more: parameters => parameters.Add(component => component.ShowOverlaps, showOverlaps));
+
+            Assert.Equal("9 exécutions pour 8 exécuteurs", Block(scheduler, "a").QuerySelector(".omni-visually-hidden")!.TextContent);
+            Assert.Contains("omni-scheduler__appointment--overlapping", Block(scheduler, "a").ClassList);
+            Assert.Equal("Attend un exécuteur", Block(scheduler, "c").QuerySelector(".omni-visually-hidden")!.TextContent);
+            Assert.Contains("omni-scheduler__appointment--overlapping", Block(scheduler, "c").ClassList);
+            Assert.Equal(showOverlaps, Block(scheduler, "b").ClassList.Contains("omni-scheduler__appointment--overlapping"));
+            Assert.Equal(showOverlaps ? "Chevauche Compilation" : null, Block(scheduler, "b").QuerySelector(".omni-visually-hidden")?.TextContent);
+        }
+    }
+
+    [Fact]
+    public void BlankOverlapText_LeavesTheSchedulersOwnMark()
+    {
+        var scheduler = RenderGrid([Sharing[0] with { OverlapText = "  " }, Sharing[1]], new TimeOnly(8, 0), new TimeOnly(12, 0));
+
+        Assert.Equal("Chevauche Tests", Block(scheduler, "a").QuerySelector(".omni-visually-hidden")!.TextContent);
+    }
+
     [Fact]
     public void BriefAppointments_ThatDoNotOverlap_StillTakeTwoLanes_WithoutTheOverlapMark()
     {

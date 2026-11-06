@@ -48,7 +48,7 @@
     {
         var appointment = block.Appointment;
         <div class="@BlockCss(block)" title="@($"{appointment.Start.ToString("t", Formats)}–{appointment.End.ToString("t", Formats)} {appointment.Title}")" data-omni-scheduler-appointment="@appointment.Id" data-start="@appointment.Start.ToString("O")" data-end="@appointment.End.ToString("O")" data-duration-minutes="@DurationMinutes(appointment)" draggable="@(Movable ? "true" : null)" @ondragstart="() => StartDrag(appointment)" @ondragend="EndDrag">
-            @{ AppointmentBody(appointment, false, block.Overlaps.Count == 0 ? null : Text("SchedulerOverlaps", string.Join(", ", block.Overlaps))); }
+            @{ AppointmentBody(appointment, false, OverlapText(block)); }
         </div>
     }
 

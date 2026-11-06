@@ -62,6 +62,12 @@ dépend pas du rendu ; l'hôte l'appelle sur ses données, et `Class` lui permet
 rendez-vous selon sa propre règle. Aucun événement n'est levé pendant un glissé : le déplacement n'est
 rapporté qu'au dépôt, et un chevauchement se constate après que l'hôte l'a appliqué.
 
+`ShowOverlaps="false"` retire cette marque et ce texte (les colonnes côte à côte restent), pour un
+hôte dont la règle du chevauchement diffère, par exemple une capacité d'exécuteurs. L'hôte qui
+calcule ses chevauchements renseigne `OmniSchedulerAppointment.OverlapText` : ce texte remplace celui
+du planificateur et marque le rendez-vous, quel que soit `ShowOverlaps` (nul ou blanc : marque du
+planificateur).
+
 Pendant un glissé ou un déplacement au clavier, les blocs laissent passer le pointeur : un dépôt vise
 la cellule sous le pointeur, même couverte par un bloc.
 
