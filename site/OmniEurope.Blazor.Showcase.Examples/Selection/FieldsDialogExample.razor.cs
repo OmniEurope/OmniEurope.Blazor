@@ -2,7 +2,7 @@ using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Showcase.Examples.Selection;
 
-/// <summary>An autocomplete, a multiple selection and a filterable drop-down inside a dialog.</summary>
+/// <summary>An autocomplete, a multiple selection, a filterable drop-down and the three pickers inside a dialog.</summary>
 public partial class FieldsDialogExample
 {
     private static readonly string[] Models = ["model-small", "model-medium", "model-large", "model-vision"];
@@ -27,6 +27,12 @@ public partial class FieldsDialogExample
     private string? Size { get; set; }
 
     private string? CountrySearch { get; set; }
+
+    private DateOnly? Date { get; set; }
+
+    private DateTime? Moment { get; set; }
+
+    private TimeOnly? Time { get; set; }
 
     /// <summary>Stands in for a remote lookup: the component only asks for matches, it does not care where they come from.</summary>
     private static Task<IReadOnlyList<OmniOption<string>>> SearchModelsAsync(string term, CancellationToken cancellationToken)

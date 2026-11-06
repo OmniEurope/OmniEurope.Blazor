@@ -1,6 +1,7 @@
-@* Lists in a dialog: a first Escape closes the open list of the field that has the focus and leaves the dialog
-   open, a second Escape closes the dialog. The search text of the multiple selection is kept when its panel
-   closes on Escape. *@
+@* Lists in a dialog: a first Escape closes the open list or panel of the field that has the focus (a date, time or
+   date and time picker included) and leaves the dialog open, a second Escape closes the dialog. The search text of
+   the multiple selection is kept when its panel closes on Escape, and a closed multiple selection takes one Tab stop
+   (its summary) in the focus cycle of the dialog. *@
 <OmniStack Gap="OmniSpacing.Small">
     <OmniButton Id="fields-dialog-open" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => Open = true)">
         <Icon><OmniIcon Name="OmniIconName.Tag" /></Icon>
@@ -38,6 +39,24 @@
                                      @bind-Value="Countries"
                                      Filterable="true"
                                      @bind-FilterText="CountrySearch" />
+                </ChildContent>
+            </OmniFormField>
+            <OmniFormField For="fields-dialog-date">
+                <LabelContent>Date</LabelContent>
+                <ChildContent>
+                    <OmniDatePicker Id="fields-dialog-date" @bind-Value="Date" />
+                </ChildContent>
+            </OmniFormField>
+            <OmniFormField For="fields-dialog-moment">
+                <LabelContent>Date and time</LabelContent>
+                <ChildContent>
+                    <OmniDateTimePicker Id="fields-dialog-moment" @bind-Value="Moment" />
+                </ChildContent>
+            </OmniFormField>
+            <OmniFormField For="fields-dialog-time">
+                <LabelContent>Time</LabelContent>
+                <ChildContent>
+                    <OmniTimePicker Id="fields-dialog-time" Step="TimeSpan.FromMinutes(15)" @bind-Value="Time" />
                 </ChildContent>
             </OmniFormField>
         </OmniStack>
