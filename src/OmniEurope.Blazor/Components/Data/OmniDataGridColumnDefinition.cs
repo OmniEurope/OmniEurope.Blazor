@@ -15,7 +15,7 @@ internal sealed class OmniDataGridColumnDefinition<TItem>
     public required Func<TItem, object?> Value { get; set; }
     public string? Property { get; init; }
     public string? SortProperty { get; init; }
-    public Func<TItem, object?>? SortValue { get; init; }
+    public Func<TItem, object?>? SortValue { get; set; }
     public RenderFragment<TItem>? Template { get; set; }
     public RenderFragment<TItem>? EditTemplate { get; set; }
     public RenderFragment? FooterContent { get; set; }

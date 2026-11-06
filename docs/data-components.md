@@ -61,7 +61,7 @@ Une colonne se déclare par lambda ou par nom de propriété.
 ```
 
 - `Property` accepte un chemin pointé (`Customer.Name`). Un maillon nul rend `null` au lieu de lever.
-  `SortProperty` sépare la valeur triée de la valeur affichée.
+  `SortProperty` sépare la valeur triée de la valeur affichée ; `SortValue` (`Func<TItem, IComparable?>`) fait de même par un accesseur, par exemple la position d'un rang dans un ordre qui n'est pas alphabétique. Affichage, filtres et export lisent toujours `Value`. Avec `Load`, le descripteur de tri reste inchangé : trier est le travail de l'hôte.
 - `Key` est facultatif : il retombe sur `Property`, puis sur `Title`.
 - `FormatString` applique un format composite, `Template` un rendu libre.
 - `Width` et `MinWidth` sont des longueurs CSS. `Frozen` colle la colonne au bord de début ; les

@@ -42,6 +42,17 @@ public partial class OmniDataGridColumn<TItem>
     [Parameter]
     public string? SortProperty { get; set; }
 
+    /// <summary>
+    /// Reads the value the rows are sorted by, when it differs from the one shown: for example the position of
+    /// a rank in an order that is not alphabetical. Null by default: the grid sorts by <see cref="SortProperty"/>,
+    /// then by <see cref="Value"/> or <see cref="Property"/>, as before. Cell rendering, filters (including the
+    /// multiple-selection list) and export keep reading <see cref="Value"/>. Applies to the client-side sort,
+    /// single or multiple columns; with <c>Load</c> the grid only passes the sort descriptor (column key and
+    /// direction), unchanged, and sorting is the host's job.
+    /// </summary>
+    [Parameter]
+    public Func<TItem, IComparable?>? SortValue { get; set; }
+
     /// <summary>Content of each body cell, in place of the value as text.</summary>
     [Parameter]
     public RenderFragment<TItem>? Template { get; set; }
@@ -344,7 +355,9 @@ public partial class OmniDataGridColumn<TItem>
         var accessor = Value
             ?? GridPropertyAccessor.Create<TItem>(Property)
             ?? (static _ => null);
-        var sortAccessor = GridPropertyAccessor.Create<TItem>(SortProperty);
+        var sortAccessor = SortValue is { } sortValue
+            ? (Func<TItem, object?>)(item => sortValue(item))
+            : GridPropertyAccessor.Create<TItem>(SortProperty);
 
         var definition = new OmniDataGridColumnDefinition<TItem>
         {
@@ -444,6 +457,7 @@ public partial class OmniDataGridColumn<TItem>
         // Read only when an export runs, never while rendering: adopted without asking for a render.
         registered.ExportValue = latest.ExportValue;
         registered.Value = latest.Value;
+        registered.SortValue = latest.SortValue;
         registered.Template = latest.Template;
         registered.EditTemplate = latest.EditTemplate;
         registered.FooterContent = latest.FooterContent;
@@ -506,6 +520,7 @@ public partial class OmniDataGridColumn<TItem>
         left.Key == right.Key
         && left.Title == right.Title
         && Equivalent(left.Value, right.Value)
+        && Equivalent(left.SortValue, right.SortValue)
         && string.Equals(left.Property, right.Property, StringComparison.Ordinal)
         && string.Equals(left.SortProperty, right.SortProperty, StringComparison.Ordinal)
         && string.Equals(left.FormatString, right.FormatString, StringComparison.Ordinal)
