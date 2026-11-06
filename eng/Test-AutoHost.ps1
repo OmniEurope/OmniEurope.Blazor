@@ -105,6 +105,9 @@ try {
     New-Item -ItemType Directory -Path $browserProfile | Out-Null
     $browserArguments = @(
         '--headless=new', '--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox',
+        # Edge signs a fresh profile in with the Windows account and opens its sync dialog as a tab, which
+        # hides the probed page: its animation frames stop and a probe waiting on one never ends.
+        '--no-first-run', '--no-default-browser-check', '--disable-sync', '--disable-features=msImplicitSignin,msEdgeSyncConsent',
         "--lang=$BrowserLanguage", "--accept-lang=$BrowserLanguage",
         '--remote-debugging-port=0', "--user-data-dir=$browserProfile", $baseUri
     )
