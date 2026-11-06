@@ -354,6 +354,35 @@ function scrollParent(element) {
 }
 
 /**
+ * What the grid draws around its row viewport (frame border and padding, toolbar, group panel, pager),
+ * read from where the boxes are rather than as the grid's height less the viewport's: when the MinHeight
+ * floor (75dvh) makes the viewport taller than the grid, that difference turned negative, the room grew by
+ * the overflow and kept the floor above the grid, so the last row ran past the window. The bars above are the
+ * viewport's offset in the grid; the bars below, what the grid's laid-out children reach under the viewport.
+ * Positioned children (an open filter or menu) take no room and are left out.
+ */
+function barsAround(grid, viewport) {
+    const gridBox = grid.getBoundingClientRect();
+    const viewportBox = viewport.getBoundingClientRect();
+    const gridStyle = getComputedStyle(grid);
+    let contentBottom = viewportBox.bottom;
+    for (const child of grid.children) {
+        const childStyle = getComputedStyle(child);
+        if (childStyle.position === 'absolute' || childStyle.position === 'fixed' || child.getClientRects().length === 0) {
+            continue;
+        }
+
+        contentBottom = Math.max(contentBottom, child.getBoundingClientRect().bottom + (Number.parseFloat(childStyle.marginBottom) || 0));
+    }
+
+    const above = viewportBox.top - gridBox.top;
+    const below = contentBottom - viewportBox.bottom
+        + (Number.parseFloat(gridStyle.paddingBottom) || 0)
+        + (Number.parseFloat(gridStyle.borderBottomWidth) || 0);
+    return Math.max(0, above + below);
+}
+
+/**
  * Fill mode sized from what is really left: the distance from the top of the grid to the bottom of
  * the area that scrolls it, less that area's bottom padding. A height of 100% only works when every
  * ancestor has a definite height, which a grid nested in tabs or a detail layout rarely has, so it
@@ -414,8 +443,7 @@ export function attachFill(viewport) {
         // The room left to the rows: that height less what the grid draws around its viewport (toolbar,
         // group panel, pager, frame border), read from the grid as it is laid out. The stylesheet caps the
         // MinHeight floor by it, so a grid starting low in the page never runs past the bottom.
-        const bars = grid.getBoundingClientRect().height - viewport.getBoundingClientRect().height;
-        grid.style.setProperty('--omni-grid-viewport-room', `${Math.max(0, Math.floor(available - bars))}px`);
+        grid.style.setProperty('--omni-grid-viewport-room', `${Math.max(0, Math.floor(available - barsAround(grid, viewport)))}px`);
     };
     const schedule = () => {
         if (frame === 0) {
