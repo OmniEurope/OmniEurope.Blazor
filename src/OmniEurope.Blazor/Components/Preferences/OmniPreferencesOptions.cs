@@ -23,4 +23,12 @@ public sealed class OmniPreferencesOptions
     /// <see cref="TimeSpan.Zero"/> removes the limit; any other value must be positive.
     /// </summary>
     public TimeSpan MinSyncGap { get; set; } = TimeSpan.FromSeconds(30);
+
+    /// <summary>
+    /// What the preferences are while the store names no signed-in user (<see cref="OmniPreferences.NoUserScope"/>):
+    /// <see cref="OmniSignedOutPreferences.Defaults"/> by default (defaults, nothing kept), or
+    /// <see cref="OmniSignedOutPreferences.Browser"/> to keep the visitor's preferences in the browser, merged into
+    /// the account at sign-in. Without a store there is no signed-out state, and this has no effect.
+    /// </summary>
+    public OmniSignedOutPreferences SignedOut { get; set; } = OmniSignedOutPreferences.Defaults;
 }

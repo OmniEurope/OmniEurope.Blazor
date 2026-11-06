@@ -192,13 +192,38 @@ préférences se lisent à leurs valeurs par défaut, sans avertissement, et le 
 d'autre ; une valeur écrite entre-temps reste dans la mémoire du circuit, ni dans le navigateur ni en base. La
 portée est redemandée à la lecture ou à l'écriture suivante.
 
+### Visiteur non connecté : préférences du navigateur
+
+`OmniPreferencesOptions.SignedOut` vaut `OmniSignedOutPreferences.Defaults` par défaut (comportement ci-dessus).
+Avec `OmniSignedOutPreferences.Browser`, un visiteur non connecté garde ses préférences dans son navigateur : elles
+se lisent et s'écrivent dans un cache `localStorage` à part (portée `visitor`, clés `omni:pref:visitor:<clé>`), que
+le magasin ne voit jamais (`GetScopeAsync` est seule appelée, pour détecter la connexion). Sans magasin, l'option
+n'a pas d'effet (il n'y a pas d'état déconnecté). Un magasin ne doit pas rendre `visitor` comme portée d'un
+utilisateur dans ce mode (`InvalidOperationException`).
+
+```csharp
+builder.Services.AddOmniEuropePreferences<EfPreferenceStore>(options =>
+    options.SignedOut = OmniSignedOutPreferences.Browser);
+```
+
+- **Connexion** (`ResetUserAsync`, ou le premier usage suivant) : clé par clé, la valeur du compte l'emporte si le
+  magasin en a une (elle remplace la valeur locale visible, levée par `Changed` avec l'origine `UserChanged`) ;
+  sinon la valeur que le visiteur a changée est enregistrée dans le compte. Chaque valeur du visiteur n'est
+  fusionnée qu'une fois : elle n'est jamais enregistrée dans un compte qui se connecte plus tard. Un magasin qui
+  échoue pendant la fusion est journalisé ; la fusion est reprise à l'appel suivant.
+- **Valeurs du compte** : tout ce que le cache du compte écrit (synchronisation, écriture) est copié aussi dans le
+  cache du visiteur, si bien que ce navigateur garde les dernières valeurs du compte après la déconnexion.
+- **Déconnexion** : le service retourne au cache du visiteur, qui contient ces dernières valeurs du compte
+  (levées avec l'origine `UserChanged`) ; les changements suivants restent locaux, sans appel au magasin, ni
+  synchronisation, et seront proposés au prochain compte qui se connecte.
+
 ### Changement d'utilisateur sans recharger la page
 
 Après une connexion, une déconnexion ou un changement de compte, l'hôte appelle
 `OmniPreferences.ResetUserAsync()` pour que le nouvel utilisateur voie ses préférences tout de suite (sans
 cet appel, le service s'en aperçoit au premier usage suivant, voir la partition par utilisateur plus haut). La portée est redemandée au magasin, le cache du navigateur de l'ancien
 utilisateur est laissé tel quel (il est cloisonné par utilisateur), les valeurs écrites sans utilisateur sont
-abandonnées, puis chaque préférence lue ou écrite dans le circuit est relue pour le nouvel utilisateur et
+abandonnées (fusionnées dans le compte avec `OmniSignedOutPreferences.Browser`), puis chaque préférence lue ou écrite dans le circuit est relue pour le nouvel utilisateur et
 levée par `Changed` avec l'origine `OmniPreferenceChangeOrigin.UserChanged` (valeur nulle quand il n'en a
 pas). `OmniAppearanceState`, les grilles à `StateKey` et tout écouteur de l'hôte qui traite les origines autres
 que `Local` affichent alors les préférences du nouvel utilisateur, ou leurs valeurs par défaut. Une

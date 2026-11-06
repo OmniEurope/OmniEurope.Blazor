@@ -150,6 +150,70 @@ internal sealed class PreferenceSynchronizer(IOmniPreferenceStore store, Prefere
         }
     }
 
+    /// <summary>
+    /// Merges the signed-out visitor's unconfirmed preferences (<see cref="PreferenceCache.Mirror"/> of
+    /// <paramref name="cache"/>, <see cref="Components.OmniSignedOutPreferences.Browser"/>) into the account the cache belongs to,
+    /// key by key: the account's value wins when the store holds one; otherwise the visitor's value is saved to the
+    /// account (a removal the account never held has nothing to remove). Either way the visitor's entry is then
+    /// confirmed, so it is merged once, and never into a later account. A store that fails throws: nothing is
+    /// confirmed for the key it failed on, and the next opening merges again.
+    /// </summary>
+    internal async Task MergeVisitorAsync(PreferenceCache cache, List<OmniPreferenceChangedEventArgs> changes, CancellationToken cancellationToken)
+    {
+        if (cache.Mirror is not { } visitor)
+        {
+            return;
+        }
+
+        foreach (var (key, local) in (await visitor.EntriesAsync(cancellationToken)).Where(pair => pair.Value.Dirty))
+        {
+            var stored = await access.CallAsync(current => current.GetAsync(key, cancellationToken), cancellationToken);
+            if (stored is not null)
+            {
+                if (await ApplyStoredAsync(cache, key, stored, cancellationToken) is { } applied)
+                {
+                    changes.Add(applied);
+                }
+            }
+            else if (local.Value is not null && await QueueVisitorValueAsync(cache, key, local, cancellationToken)
+                && await PushAsync(cache, new OmniPreference(key, local.Value, local.UpdatedAt), cancellationToken) is { } kept)
+            {
+                changes.Add(kept);
+            }
+
+            await ConfirmVisitorAsync(visitor, key, local, cancellationToken);
+        }
+    }
+
+    /// <summary>Caches the visitor's value as the account's unconfirmed one, unless the account's cache already holds a later or equal entry; whether it did.</summary>
+    private async Task<bool> QueueVisitorValueAsync(PreferenceCache cache, string key, PreferenceCacheEntry local, CancellationToken cancellationToken)
+    {
+        await cacheGate.WaitAsync(cancellationToken);
+        try
+        {
+            if (await cache.ReadAsync(key, cancellationToken) is { } current && current.UpdatedAt >= local.UpdatedAt)
+            {
+                return false;
+            }
+
+            await cache.WriteAsync(key, new(local.Value, local.UpdatedAt, Dirty: true), cancellationToken);
+            return true;
+        }
+        finally
+        {
+            cacheGate.Release();
+        }
+    }
+
+    /// <summary>Marks the visitor's entry merged, unless it changed since it was read (the mirror may have replaced it with the account's value, already confirmed).</summary>
+    private static async Task ConfirmVisitorAsync(PreferenceCache visitor, string key, PreferenceCacheEntry merged, CancellationToken cancellationToken)
+    {
+        if (await visitor.ReadAsync(key, cancellationToken) is { Dirty: true } current && current == merged)
+        {
+            await visitor.WriteAsync(key, merged with { Dirty = false }, cancellationToken);
+        }
+    }
+
     /// <summary>A store value in place of the cached one when it wins; the change to raise, if any.</summary>
     internal async Task<OmniPreferenceChangedEventArgs?> ApplyStoredAsync(PreferenceCache cache, string key, OmniPreference stored, CancellationToken cancellationToken)
     {
@@ -240,7 +304,7 @@ internal sealed class PreferenceSynchronizer(IOmniPreferenceStore store, Prefere
         {
             Func<IOmniPreferenceStore, Task<string?>> ask = async current => await current.GetScopeAsync(cancellationToken);
             var scope = wait ? await access.CallAsync(ask, cancellationToken) : await access.CallIfIdleAsync(ask, cancellationToken);
-            return scope is not null && scope != cache.Scope;
+            return scope is not null && scope != cache.StoreScope;
         }
         catch (Exception exception) when (exception is not OperationCanceledException || !cancellationToken.IsCancellationRequested)
         {

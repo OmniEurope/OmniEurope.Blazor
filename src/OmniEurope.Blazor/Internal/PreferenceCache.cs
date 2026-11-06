@@ -15,14 +15,32 @@ internal sealed record PreferenceCacheEntry(string? Value, DateTimeOffset Update
 /// The key format and the entry encoding live here; the script only reads and writes strings, and falls back
 /// to memory when the browser refuses its storage.
 /// </summary>
-internal sealed class PreferenceCache(IJSObjectReference module, string scope)
+/// <remarks>
+/// A cache of a signed-in user may have a <paramref name="mirror"/>, the cache of the signed-out visitor
+/// (<see cref="Components.OmniSignedOutPreferences.Browser"/>): every entry written here is copied there, confirmed, so the browser
+/// keeps the account's last values after sign-out. The visitor's own entries are written unconfirmed (dirty): they
+/// have yet to be merged into an account.
+/// </remarks>
+internal sealed class PreferenceCache(IJSObjectReference module, string scope, bool isVisitor = false, PreferenceCache? mirror = null)
 {
+    /// <summary>The scope of the signed-out visitor's cache; a store may not use it for a user in <see cref="Components.OmniSignedOutPreferences.Browser"/> mode.</summary>
+    internal const string VisitorScope = "visitor";
+
     internal const string KeyPrefix = "omni:pref:";
     internal const string SyncPrefix = "omni:pref-sync:";
     internal const string SyncedPrefix = "omni:pref-synced:";
 
     /// <summary>The scope (the user's partition) this cache belongs to.</summary>
     internal string Scope { get; } = scope;
+
+    /// <summary>Whether this is the signed-out visitor's cache: it never talks to the store.</summary>
+    internal bool IsVisitor { get; } = isVisitor;
+
+    /// <summary>What the store answers as its scope while this cache is the one in use: the user's scope, or <see cref="Components.OmniPreferences.NoUserScope"/> for the visitor.</summary>
+    internal string StoreScope { get; } = isVisitor ? Components.OmniPreferences.NoUserScope : scope;
+
+    /// <summary>The visitor's cache that copies every write of this one; null when there is none.</summary>
+    internal PreferenceCache? Mirror { get; } = mirror;
 
     /// <summary>The prefix of every entry of this scope.</summary>
     internal string Prefix { get; } = KeyPrefix + scope + ":";
@@ -42,8 +60,14 @@ internal sealed class PreferenceCache(IJSObjectReference module, string scope)
     internal async Task<PreferenceCacheEntry?> ReadAsync(string key, CancellationToken cancellationToken) =>
         Parse(await module.InvokeAsync<string?>("get", cancellationToken, StorageKey(key)));
 
-    internal async Task WriteAsync(string key, PreferenceCacheEntry entry, CancellationToken cancellationToken) =>
+    internal async Task WriteAsync(string key, PreferenceCacheEntry entry, CancellationToken cancellationToken)
+    {
         await module.InvokeVoidAsync("set", cancellationToken, StorageKey(key), JsonSerializer.Serialize(entry));
+        if (Mirror is not null)
+        {
+            await Mirror.WriteAsync(key, entry with { Dirty = false }, cancellationToken);
+        }
+    }
 
     /// <summary>Every readable entry of this scope; an entry that no longer parses is left out.</summary>
     internal async Task<Dictionary<string, PreferenceCacheEntry>> EntriesAsync(CancellationToken cancellationToken)
