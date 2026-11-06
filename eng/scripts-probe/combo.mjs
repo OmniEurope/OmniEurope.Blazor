@@ -220,4 +220,67 @@ export async function comboSteps(session, results) {
   check(await evaluate("document.activeElement === document.getElementById('editor-in-dialog')"), 'Le focus n\'est pas revenu à la surface de l\'éditeur.');
   await closeDialogByEscape('editor-dialog');
   step('Échap dans la recherche de caractères de l\'éditeur HTML : le panneau se ferme, le navigateur ne vide pas le champ, le focus revient à la surface, le dialogue reste ouvert et un second Échap le ferme');
+
+  // 6f. The date, date and time and time pickers: their panel is fixed to the window, and the Escape that closes it
+  // must not close the dialog, the next one does, with the focus in the panel or in the text field of the picker.
+  // The picker closes on Escape through a keydown listener that omni-focus.js attaches a few milliseconds after the
+  // panel shows (3 to 20 ms measured): an Escape sent before that is held back from the dialog but closes nothing,
+  // which a person cannot press fast enough to meet and a probe can (it failed 2 runs in 10 sent at once). The probe
+  // therefore waits for the listener, which the debugger reports, instead of a fixed time.
+  const pickerListens = async id => {
+    const { result } = await session.send('Runtime.evaluate', { expression: `document.getElementById(${JSON.stringify(id)}).closest('.omni-date')` });
+    const { listeners } = await session.send('DOMDebugger.getEventListeners', { objectId: result.objectId });
+    await session.send('Runtime.releaseObject', { objectId: result.objectId });
+    return listeners.some(listener => listener.type === 'keydown');
+  };
+  await session.visit('/components/multi-select', '#fields-dialog-open');
+  for (const [id, label] of [['fields-dialog-date', 'date'], ['fields-dialog-moment', 'date et heure'], ['fields-dialog-time', 'heure']]) {
+    const panel = '#fields-dialog .omni-calendar';
+    for (const fromField of [false, true]) {
+      await openDialog('fields-dialog-open', 'fields-dialog');
+      await clickOn(`#${id} ~ .omni-date__toggle`);
+      await waitFor(`le panneau du sélecteur de ${label} ouvert`, `document.querySelector('${panel}') !== null`);
+      if (fromField) {
+        await clickOn(`#${id}`);
+        check(await evaluate(`document.activeElement === ${field(id)}`), `Le focus n'est pas dans le champ du sélecteur de ${label}.`);
+      }
+      for (const until = Date.now() + 5000; !await pickerListens(id);) {
+        check(Date.now() < until, `Le sélecteur de ${label} n'a pas branché l'écoute d'Échap.`);
+        await pause(5);
+      }
+      await escape();
+      await waitFor(`le panneau du sélecteur de ${label} refermé par Échap`, `document.querySelector('${panel}') === null`);
+      await pause(400);
+      check(await dialogOpen('fields-dialog'), `Le premier Échap, qui ferme le panneau du sélecteur de ${label}${fromField ? ' (focus dans le champ)' : ''}, a aussi fermé le dialogue.`);
+      await closeDialogByEscape('fields-dialog');
+    }
+  }
+  step('Échap dans un dialogue : le panneau d\'un sélecteur de date, de date et heure et d\'heure se ferme (focus dans le panneau ou dans le champ), le dialogue reste ouvert et un second Échap le ferme');
+
+  // 6g. The Tab trap of the dialog cycles over what takes the focus on screen: a closed multiple selection is its
+  // summary alone (the filter field hidden in its closed panel cannot take the focus, and counted in the cycle it
+  // swallowed the Tab). Forward from the summary, backward from the next field, and a whole turn of the dialog.
+  await session.visit('/components/multi-select', '#fields-dialog-open');
+  await openDialog('fields-dialog-open', 'fields-dialog');
+  check(await evaluate(`${field('fields-dialog-countries')}.open === false`), 'La sélection multiple devrait être fermée.');
+  await evaluate("document.querySelector('#fields-dialog-countries > summary').focus()");
+  await tab();
+  await waitFor('le focus passé du résumé de la sélection multiple au champ de date', `document.activeElement === ${field('fields-dialog-date')}`);
+  await shiftTab();
+  await waitFor('le focus revenu au résumé de la sélection multiple', "document.activeElement === document.querySelector('#fields-dialog-countries > summary')");
+  const visited = [];
+  await evaluate("document.querySelector('#fields-dialog .omni-dialog__close').focus()");
+  for (let turn = 0; turn < 16; turn++) {
+    const before = await evaluate('document.activeElement' + ".outerHTML.slice(0, 80)");
+    await tab();
+    await pause(60);
+    const after = await evaluate(`(() => { const active = document.activeElement; const hidden = active.closest('details:not([open])') !== null && active.tagName !== 'SUMMARY'; return { html: active.outerHTML.slice(0, 80), inDialog: document.getElementById('fields-dialog').contains(active), hidden }; })()`);
+    check(after.inDialog && !after.hidden, `Un Tab a mené le focus hors du cycle visible du dialogue : ${JSON.stringify(after)}.`);
+    check(after.html !== before, `Un Tab n'a pas déplacé le focus (piège bloqué sur un élément caché ?) : ${after.html}.`);
+    visited.push(after.html);
+  }
+  check(new Set(visited).size >= 8, `Le cycle de Tab du dialogue ne parcourt pas ses champs : ${JSON.stringify(visited)}.`);
+  await evaluate("document.querySelector('#fields-dialog .omni-dialog__close').focus()");
+  await closeDialogByEscape('fields-dialog');
+  step('Tab dans un dialogue : le cycle ne compte que les éléments visibles (le champ de filtre d\'une sélection multiple fermée est ignoré, son résumé garde un arrêt)');
 }

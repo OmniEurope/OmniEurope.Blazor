@@ -2,13 +2,29 @@
 // restoreFocus: the focus trap and the focus return of dialogs and windows.
 import { returnTargets, rememberTarget } from './shared.js';
 
+// The summary of a closed <details> is its one visible stop; whatever the panel holds (the filter field and
+// the options of a multiple selection) is not laid out and cannot take the focus until the panel opens.
+function summaryOf(details) {
+    return Array.from(details.children).find(child => child.localName === 'summary');
+}
+
+function isHiddenByClosedDetails(element) {
+    for (let closed = element.closest('details:not([open])'); closed; closed = closed.parentElement?.closest('details:not([open])')) {
+        if (!summaryOf(closed)?.contains(element)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 export function focusableElements(container) {
     if (!container) {
         return [];
     }
 
     return Array.from(container.querySelectorAll(
-        'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'))
+        'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), summary, [tabindex]:not([tabindex="-1"])'))
         // An element under a hidden or inert ancestor, or not laid out at all (display: none), cannot
         // take the focus: keeping it would make the trap retry it on every Tab.
         // Out of the tab order too: tabindex -1 on a button (the options of a radio group, which
@@ -17,6 +33,8 @@ export function focusableElements(container) {
         .filter(element => element.getAttribute('tabindex') !== '-1'
             && !element.matches(':disabled')
             && !element.closest('[hidden], [inert]')
+            && !isHiddenByClosedDetails(element)
+            && (element.localName !== 'summary' || (element.parentElement?.localName === 'details' && summaryOf(element.parentElement) === element))
             && element.getAttribute('aria-hidden') !== 'true'
             && !element.hasAttribute('data-focus-sentinel')
             && element.getClientRects().length > 0);
