@@ -266,6 +266,38 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task Window_keeps_a_palette_and_a_font_picked_while_the_host_still_writes_the_theme()
+    {
+        var events = new List<string>();
+        var themeWritten = new TaskCompletionSource();
+        var forest = OmniThemePalettes.All[1];
+        var inter = OmniThemeFonts.All.Single(font => font.Name == "Inter");
+        IRenderedComponent<OmniAppearanceWindow>? window = null;
+        // The host writes the theme to an account: its callback completes later; it binds the palette and the
+        // font back into the window as each one is picked.
+        window = Render<OmniAppearanceWindow>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.Preset, OmniThemePresets.All.Single(item => item.Name == "Papier"))
+            .Add(component => component.Palette, OmniThemePalettes.All[0])
+            .Add(component => component.Font, OmniThemeFonts.All.Single(font => font.Name == "JetBrains Mono"))
+            .Add(component => component.PresetChanged, async value => { events.Add($"theme:{value?.Name}"); await themeWritten.Task; })
+            .Add(component => component.PaletteChanged, value => { events.Add($"palette:{value?.Name ?? "null"}"); window!.Render(more => more.Add(component => component.Palette, value)); })
+            .Add(component => component.FontChanged, value => { events.Add($"font:{value?.Name ?? "null"}"); window!.Render(more => more.Add(component => component.Font, value)); }));
+
+        window.Find("select[aria-label='Thème']").Change("2");
+        await window.InvokeAsync(async () =>
+        {
+            await window.Instance.PaletteChanged.InvokeAsync(forest);
+            await window.Instance.FontChanged.InvokeAsync(inter);
+        });
+        themeWritten.SetResult();
+
+        window.WaitForAssertion(() => Assert.Equal(["theme:Galet", $"palette:{forest.Name}", $"font:{inter.Name}"], events));
+        Assert.Equal(forest, window.Instance.Palette);
+        Assert.Equal(inter, window.Instance.Font);
+    }
+
+    [Fact]
     public void Edit_is_the_main_action_of_its_row()
     {
         var settings = Render<OmniAppearanceSettings>();

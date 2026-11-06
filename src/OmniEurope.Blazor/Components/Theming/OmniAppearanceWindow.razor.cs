@@ -350,15 +350,22 @@ public partial class OmniAppearanceWindow : IDisposable
     /// <summary>The new theme, then null for the palette and the font chosen for the previous one.</summary>
     private Task ChangeThemeAsync(OmniThemePreset? preset) => InBatchAsync(() => ChangeThemeCoreAsync(preset));
 
+    /// <remarks>
+    /// The palette and the font reset are the ones in force when the theme was picked: a host that writes the
+    /// theme slowly (an account round trip) may receive a palette or a font picked in the meantime, which
+    /// the new theme keeps.
+    /// </remarks>
     private async Task ChangeThemeCoreAsync(OmniThemePreset? preset)
     {
+        var palette = Palette;
+        var font = Font;
         await PresetChanged.InvokeAsync(preset);
-        if (Palette is not null && PaletteChanged.HasDelegate)
+        if (palette is not null && Equals(Palette, palette) && PaletteChanged.HasDelegate)
         {
             await PaletteChanged.InvokeAsync(null);
         }
 
-        if (Font is not null && FontChanged.HasDelegate)
+        if (font is not null && Equals(Font, font) && FontChanged.HasDelegate)
         {
             await FontChanged.InvokeAsync(null);
         }
