@@ -679,8 +679,7 @@ public sealed class OmniPreferences : IAsyncDisposable
         await RaiseAllAsync(changes);
     }
 
-    private void ForgetOpening(
-Task<PreferenceSession?> opening)
+    private void ForgetOpening(Task<PreferenceSession?> opening)
     {
         lock (_gate)
         {
