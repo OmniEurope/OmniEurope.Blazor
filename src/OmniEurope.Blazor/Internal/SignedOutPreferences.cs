@@ -1,7 +1,7 @@
 namespace OmniEurope.Blazor.Internal;
 
 /// <summary>
-/// The preferences of a circuit with no signed-in user yet (the store answered
+/// The preferences of a circuit with no signed-in user yet, in <see cref="Components.OmniSignedOutPreferences.Defaults"/> mode (the store answered
 /// <see cref="Components.OmniPreferences.NoUserScope"/>): kept in memory only, never in the browser cache,
 /// which belongs to a user, nor in the store. Reads give what was written in this circuit, else nothing,
 /// so every component keeps its defaults; the values go when a user signs in

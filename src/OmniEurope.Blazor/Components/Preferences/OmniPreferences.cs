@@ -37,6 +37,15 @@ namespace OmniEurope.Blazor.Components;
 /// While the page is prerendered, without JavaScript, reads and writes go to the store directly and
 /// the browser cache is left alone; without a store they read nothing and keep nothing.
 /// </para>
+/// <para>
+/// Signed out (<see cref="NoUserScope"/>), the preferences read as their defaults by default. With
+/// <see cref="OmniPreferencesOptions.SignedOut"/> set to <see cref="OmniSignedOutPreferences.Browser"/>, the visitor's
+/// preferences are read and written in a browser cache of their own and the store is not called for them. At
+/// sign-in, each preference the visitor changed goes to the account unless the account holds one, which
+/// wins and replaces the visitor's value visible meanwhile (<see cref="OmniPreferenceChangeOrigin.UserChanged"/>);
+/// the account's values are also copied into the visitor's cache, so after sign-out this browser keeps them
+/// and later changes stay local.
+/// </para>
 /// </remarks>
 public sealed class OmniPreferences : IAsyncDisposable
 {
@@ -45,9 +54,10 @@ public sealed class OmniPreferences : IAsyncDisposable
     /// <summary>
     /// The scope an <see cref="IOmniPreferenceStore"/> answers while no user is signed in (an empty string): the
     /// preferences then read as <c>default</c>, so every component keeps its own defaults, and a value written
-    /// meanwhile is kept in the circuit's memory only, never in the browser cache nor in the store. Nothing is
-    /// logged. The scope is asked again at the next read or write; <see cref="ResetUserAsync"/> applies at once
-    /// the preferences of the user who signs in.
+    /// meanwhile is kept in the circuit's memory only, never in the browser cache nor in the store (unless
+    /// <see cref="OmniPreferencesOptions.SignedOut"/> is <see cref="OmniSignedOutPreferences.Browser"/>: the visitor's
+    /// preferences are then kept in the browser, never in the store). Nothing is logged. The scope is asked again
+    /// at the next read or write; <see cref="ResetUserAsync"/> applies at once the preferences of the user who signs in.
     /// </summary>
     public const string NoUserScope = "";
 
@@ -57,6 +67,7 @@ public sealed class OmniPreferences : IAsyncDisposable
     private readonly TimeProvider _time;
     private readonly TimeSpan _syncInterval;
     private readonly TimeSpan _minSyncGap;
+    private readonly OmniSignedOutPreferences _signedOutMode;
     private readonly CancellationTokenSource _disposal = new();
     private readonly CancellationToken _stopping;
     private readonly SemaphoreSlim _syncGate = new(1, 1);
@@ -87,6 +98,11 @@ public sealed class OmniPreferences : IAsyncDisposable
             throw new ArgumentOutOfRangeException(nameof(options), interval, "OmniPreferencesOptions.SyncInterval must be positive, or Timeout.InfiniteTimeSpan.");
         }
 
+        if (!Enum.IsDefined(options.SignedOut))
+        {
+            throw new ArgumentOutOfRangeException(nameof(options), options.SignedOut, "OmniPreferencesOptions.SignedOut must be a defined OmniSignedOutPreferences value.");
+        }
+
         var gap = options.MinSyncGap;
         if (gap < TimeSpan.Zero)
         {
@@ -101,6 +117,7 @@ public sealed class OmniPreferences : IAsyncDisposable
         _time = time;
         _syncInterval = interval;
         _minSyncGap = gap;
+        _signedOutMode = options.SignedOut;
         _stopping = _disposal.Token;
     }
 
@@ -160,7 +177,8 @@ public sealed class OmniPreferences : IAsyncDisposable
     /// <returns>A task that completes once the synchronization is over.</returns>
     public async Task SyncAsync(CancellationToken cancellationToken = default)
     {
-        if (_store is null || await OpenAsync(cancellationToken) is not { } cache)
+        // The signed-out visitor's browser cache (Browser mode) has nothing to synchronize with.
+        if (_store is null || await OpenAsync(cancellationToken) is not { IsVisitor: false } cache)
         {
             return;
         }
@@ -192,7 +210,8 @@ public sealed class OmniPreferences : IAsyncDisposable
     /// read, write and synchronization, but only this call raises the new user's preferences straight away
     /// instead of at the next use. The browser cache of the former user is left (it is partitioned by user),
     /// the store is asked for the new user's scope, the values written while no user was signed in are
-    /// dropped, then every preference read or written in this circuit is read again for the new user and
+    /// dropped (in <see cref="OmniSignedOutPreferences.Browser"/> mode they are merged into the account instead, and
+    /// the account's values stay in the visitor's browser cache), then every preference read or written in this circuit is read again for the new user and
     /// raised through <see cref="Changed"/> with <see cref="OmniPreferenceChangeOrigin.UserChanged"/>, so
     /// <see cref="OmniAppearanceState"/>, the grids with a <c>StateKey</c> and any host listener show the new
     /// user's preferences (or their defaults when the user has none). A synchronization or a write under way
@@ -341,7 +360,7 @@ public sealed class OmniPreferences : IAsyncDisposable
         }
 
         var cached = await cache.ReadAsync(key, cancellationToken);
-        if (_store is null)
+        if (_store is null || cache.IsVisitor)
         {
             return cached?.Value;
         }
@@ -470,7 +489,7 @@ public sealed class OmniPreferences : IAsyncDisposable
             await RaiseAsync(new(key, value, OmniPreferenceChangeOrigin.Local));
         }
 
-        if (_store is not null && await _sync!.PushAsync(cache, preference, cancellationToken) is { } kept)
+        if (_store is not null && cache is not { IsVisitor: true } && await _sync!.PushAsync(cache, preference, cancellationToken) is { } kept)
         {
             await RaiseAsync(kept);
         }
@@ -622,6 +641,7 @@ public sealed class OmniPreferences : IAsyncDisposable
         switch (_sync is null ? false : await _sync.UserChangedAsync(session.Cache, wait: false, cancellationToken))
         {
             case false:
+                await MergeVisitorOnceAsync(session, cancellationToken);
                 return session.Cache;
             case true:
                 await ResetUserAsync(cancellationToken);
@@ -632,7 +652,35 @@ public sealed class OmniPreferences : IAsyncDisposable
         }
     }
 
-    private void ForgetOpening(Task<PreferenceSession?> opening)
+    /// <summary>
+    /// Browser mode, an account's opening: merges once the visitor's unconfirmed preferences into the account
+    /// before the first read, write or synchronization of this opening, which wait for it. Outside the opening
+    /// task, so that a change of user (which waits for an opening to end) never waits on a merge. A merge
+    /// that failed is logged, kept for the next call to try again, and never fails the caller.
+    /// </summary>
+    private async Task MergeVisitorOnceAsync(PreferenceSession session, CancellationToken cancellationToken)
+    {
+        if (session.Cache.Mirror is null)
+        {
+            return;
+        }
+
+        var changes = new List<OmniPreferenceChangedEventArgs>();
+        await session.MergedAsync(async () =>
+        {
+            var done = false;
+            await RunInBackgroundAsync(async token =>
+            {
+                await _sync!.MergeVisitorAsync(session.Cache, changes, token);
+                done = true;
+            });
+            return done;
+        }, cancellationToken);
+        await RaiseAllAsync(changes);
+    }
+
+    private void ForgetOpening(
+Task<PreferenceSession?> opening)
     {
         lock (_gate)
         {
@@ -646,6 +694,7 @@ public sealed class OmniPreferences : IAsyncDisposable
     private async Task<PreferenceSession?> OpenCoreAsync()
     {
         var scope = LocalScope;
+        var visitor = _signedOut.Active && _signedOutMode == OmniSignedOutPreferences.Browser;
         if (_store is not null)
         {
             try
@@ -658,16 +707,23 @@ public sealed class OmniPreferences : IAsyncDisposable
                 return null;
             }
 
-            // No user signed in yet: the defaults, quietly, until the store names one.
+            // No user signed in yet: the defaults, quietly, until the store names one (or, in Browser mode,
+            // the visitor's own browser cache, opened below).
             _signedOut.Active = scope == NoUserScope;
-            if (_signedOut.Active)
+            visitor = _signedOut.Active && _signedOutMode == OmniSignedOutPreferences.Browser;
+            if (_signedOut.Active && !visitor)
             {
                 return null;
             }
 
-            if (string.IsNullOrWhiteSpace(scope) || scope.Contains(':', StringComparison.Ordinal))
+            if (!visitor && (string.IsNullOrWhiteSpace(scope) || scope.Contains(':', StringComparison.Ordinal)))
             {
                 throw new InvalidOperationException("IOmniPreferenceStore.GetScopeAsync must return a non-blank scope without a colon, or NoUserScope while no user is signed in.");
+            }
+
+            if (_signedOutMode == OmniSignedOutPreferences.Browser && scope == PreferenceCache.VisitorScope)
+            {
+                throw new InvalidOperationException($"IOmniPreferenceStore.GetScopeAsync must not return \"{PreferenceCache.VisitorScope}\" when OmniPreferencesOptions.SignedOut is Browser: that scope is the signed-out visitor's browser cache.");
             }
         }
 
@@ -686,7 +742,7 @@ public sealed class OmniPreferences : IAsyncDisposable
             return null;
         }
 
-        var session = new PreferenceSession(module, scope);
+        var session = new PreferenceSession(module, scope, visitor, mirrorToVisitor: _store is not null && _signedOutMode == OmniSignedOutPreferences.Browser);
         try
         {
             await WatchAsync(session);
@@ -704,7 +760,8 @@ public sealed class OmniPreferences : IAsyncDisposable
     private async Task WatchAsync(PreferenceSession session)
     {
         var cache = session.Cache;
-        var hasStore = _store is not null;
+        // The visitor's cache never talks to the store: no synchronization, no unconfirmed entries to send.
+        var hasStore = _store is not null && !cache.IsVisitor;
         await session.WatchAsync(
             new PreferenceInteropBridge(
                 onVisible: () => hasStore ? SyncInBackgroundAsync(cache, limited: true) : Task.CompletedTask,

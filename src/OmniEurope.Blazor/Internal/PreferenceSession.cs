@@ -9,14 +9,63 @@ namespace OmniEurope.Blazor.Internal;
 /// opening replaced by a change of user (<see cref="Components.OmniPreferences.ResetUserAsync"/>) never leaks
 /// into, nor releases, the opening that follows it.
 /// </summary>
-internal sealed class PreferenceSession(IJSObjectReference module, string scope)
+internal sealed class PreferenceSession(IJSObjectReference module, string scope, bool visitor = false, bool mirrorToVisitor = false)
 {
     private DotNetObjectReference<PreferenceInteropBridge>? _bridge;
     private int _watcher;
     private ITimer? _timer;
+    private readonly Lock _mergeGate = new();
+    private Task? _merged;
 
     /// <summary>The cache of the scope this opening was made for.</summary>
-    internal PreferenceCache Cache { get; } = new(module, scope);
+    internal PreferenceCache Cache { get; } = visitor
+        ? new(module, PreferenceCache.VisitorScope, isVisitor: true)
+        : new(module, scope, mirror: mirrorToVisitor ? new PreferenceCache(module, PreferenceCache.VisitorScope, isVisitor: true) : null);
+
+    /// <summary>
+    /// Runs <paramref name="merge"/> (the merge of the visitor's preferences into this opening's account,
+    /// <see cref="Components.OmniSignedOutPreferences.Browser"/>) for the first caller, and makes every other wait for it. A merge
+    /// that reports failure (false) is forgotten, so the next caller runs it again.
+    /// </summary>
+    internal async Task MergedAsync(Func<Task<bool>> merge, CancellationToken cancellationToken)
+    {
+        TaskCompletionSource? mine = null;
+        Task merged;
+        lock (_mergeGate)
+        {
+            if (_merged is null)
+            {
+                mine = new(TaskCreationOptions.RunContinuationsAsynchronously);
+                _merged = mine.Task;
+            }
+
+            merged = _merged;
+        }
+
+        if (mine is null)
+        {
+            await merged.WaitAsync(cancellationToken);
+            return;
+        }
+
+        var done = false;
+        try
+        {
+            done = await merge();
+        }
+        finally
+        {
+            if (!done)
+            {
+                lock (_mergeGate)
+                {
+                    _merged = null;
+                }
+            }
+
+            mine.SetResult();
+        }
+    }
 
     /// <summary>Starts the script's watch of the scope; the bridge is released again when the watch fails.</summary>
     internal async Task WatchAsync(PreferenceInteropBridge bridge, CancellationToken cancellationToken)

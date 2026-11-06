@@ -989,6 +989,8 @@ field public static OmniEurope.Blazor.Components.OmniSidebarReveal.Overlay : Omn
 field public static OmniEurope.Blazor.Components.OmniSidebarReveal.Push : OmniEurope.Blazor.Components.OmniSidebarReveal const = 0
 field public static OmniEurope.Blazor.Components.OmniSidebarTransition.Instant : OmniEurope.Blazor.Components.OmniSidebarTransition const = 0
 field public static OmniEurope.Blazor.Components.OmniSidebarTransition.Smooth : OmniEurope.Blazor.Components.OmniSidebarTransition const = 1
+field public static OmniEurope.Blazor.Components.OmniSignedOutPreferences.Browser : OmniEurope.Blazor.Components.OmniSignedOutPreferences const = 1
+field public static OmniEurope.Blazor.Components.OmniSignedOutPreferences.Defaults : OmniEurope.Blazor.Components.OmniSignedOutPreferences const = 0
 field public static OmniEurope.Blazor.Components.OmniSkeletonShape.Circle : OmniEurope.Blazor.Components.OmniSkeletonShape const = 2
 field public static OmniEurope.Blazor.Components.OmniSkeletonShape.Rectangle : OmniEurope.Blazor.Components.OmniSkeletonShape const = 1
 field public static OmniEurope.Blazor.Components.OmniSkeletonShape.Text : OmniEurope.Blazor.Components.OmniSkeletonShape const = 0
@@ -3802,6 +3804,7 @@ property public OmniEurope.Blazor.Components.OmniPreferenceChangedEventArgs.Key 
 property public OmniEurope.Blazor.Components.OmniPreferenceChangedEventArgs.Origin : OmniEurope.Blazor.Components.OmniPreferenceChangeOrigin {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniPreferenceChangedEventArgs.Value : System.String? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniPreferencesOptions.MinSyncGap : System.TimeSpan {get(public);set(public)}
+property public OmniEurope.Blazor.Components.OmniPreferencesOptions.SignedOut : OmniEurope.Blazor.Components.OmniSignedOutPreferences {get(public);set(public)}
 property public OmniEurope.Blazor.Components.OmniPreferencesOptions.SyncInterval : System.TimeSpan {get(public);set(public)}
 property public OmniEurope.Blazor.Components.OmniProfileMenu.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniProfileMenu.CloseOnOutsideClick : System.Boolean {get(public);set(public)} [Parameter]
@@ -4710,6 +4713,7 @@ type public OmniEurope.Blazor.Components.OmniSidebarReveal [enum, sealed] : Syst
 type public OmniEurope.Blazor.Components.OmniSidebarState [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniSidebarState>
 type public OmniEurope.Blazor.Components.OmniSidebarToggle [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniSidebarTransition [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
+type public OmniEurope.Blazor.Components.OmniSignedOutPreferences [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniSiteSearch [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniSiteSearchDestination [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniSiteSearchDestination>
 type public OmniEurope.Blazor.Components.OmniSkeleton [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
