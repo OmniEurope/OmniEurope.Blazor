@@ -73,6 +73,105 @@ public sealed class PreferenceUserSwitchConcurrencyTests
     }
 
     /// <summary>
+    /// A reader that notices the account is held while the visitor's entries are merged into the account's first opening:
+    /// any call made now waits for that merge, then takes the opening it was given, which a reset may release meanwhile.
+    /// </summary>
+    private async Task<(Task<string?> Reader, FrameworkBrowser.Held Merging)> HoldTheAccountsFirstMergeAsync(OmniPreferences preferences)
+    {
+        await preferences.SetAsync("theme", "aplat", Token);
+        _store.User = "anne";
+        var merging = _browser.Hold("entries", prefix => prefix == VisitorPrefix);
+        var reader = preferences.GetAsync<string>("theme", Token);
+        await merging.WhenReached.WaitAsync(Patience, Token);
+        return (reader, merging);
+    }
+
+    [Fact]
+    public async Task ASynchronization_WaitingForAnOpeningThatAResetReleasesMeanwhile_RunsOnTheCurrentOpeningInstead()
+    {
+        await using var preferences = Open();
+        var (reader, merging) = await HoldTheAccountsFirstMergeAsync(preferences);
+
+        // The synchronization takes the account's opening and waits for its merge, then a reset replaces the opening.
+        var synchronizing = preferences.SyncAsync(Token);
+        await preferences.ResetUserAsync(Token).WaitAsync(Patience, Token);
+
+        merging.Release();
+        await synchronizing.WaitAsync(Patience, Token);
+        Assert.Equal("aplat", await reader.WaitAsync(Patience, Token));
+
+        Assert.Equal("\"aplat\"", _store.Of("anne")["theme"]?.Value);
+        Assert.Equal(1, _browser.LiveModules);
+    }
+
+    [Fact]
+    public async Task AWrite_WaitingForAnOpeningThatAResetReleasesMeanwhile_IsCachedAndSavedOnTheCurrentOpeningInstead()
+    {
+        await using var preferences = Open();
+        var (reader, merging) = await HoldTheAccountsFirstMergeAsync(preferences);
+
+        var writing = preferences.SetAsync("size", "grand", Token);
+        await preferences.ResetUserAsync(Token).WaitAsync(Patience, Token);
+
+        merging.Release();
+        await writing.WaitAsync(Patience, Token);
+        Assert.Equal("aplat", await reader.WaitAsync(Patience, Token));
+        await preferences.WhenIdleAsync();
+
+        Assert.Equal("grand", await preferences.GetAsync<string>("size", Token));
+        Assert.Equal("\"grand\"", _store.Of("anne")["size"]?.Value);
+        Assert.Contains("grand", _browser.Stored("omni:pref:anne:size"), StringComparison.Ordinal);
+        Assert.Equal(1, _browser.LiveModules);
+    }
+
+    [Fact]
+    public async Task AWrite_WhoseOpeningIsReleasedWhileTheStoreSavesIt_CompletesAndIsNotSavedAgain()
+    {
+        await using var preferences = Open();
+        _store.User = "anne";
+        Assert.Null(await preferences.GetAsync<string>("theme", Token));
+        await preferences.WhenIdleAsync();
+
+        // The value is cached; the store is busy saving it when a reset releases the opening the write was made on.
+        var saving = _store.PauseNextSave();
+        var writing = preferences.SetAsync("size", "grand", Token);
+        await saving.WhenReached.WaitAsync(Patience, Token);
+        var released = _browser.NextDisposal();
+        var resetting = preferences.ResetUserAsync(Token);
+        await released.WaitAsync(Patience, Token);
+
+        saving.Release();
+        await writing.WaitAsync(Patience, Token);
+        await resetting.WaitAsync(Patience, Token);
+        await preferences.WhenIdleAsync();
+
+        Assert.Equal("grand", await preferences.GetAsync<string>("size", Token));
+        var sent = Assert.Single(_store.Of("anne").Saved, saved => saved.Key == "size");
+        Assert.Equal("\"grand\"", sent.Value);
+        Assert.Equal(1, _browser.LiveModules);
+    }
+
+    [Fact]
+    public async Task AWrite_WhoseOpeningIsReleasedByTheDisposalWhileTheStoreSavesIt_FailsAsDisposed()
+    {
+        var preferences = Open();
+        _store.User = "anne";
+        Assert.Null(await preferences.GetAsync<string>("theme", Token));
+        await preferences.WhenIdleAsync();
+
+        var saving = _store.PauseNextSave();
+        var writing = preferences.SetAsync("size", "grand", Token);
+        await saving.WhenReached.WaitAsync(Patience, Token);
+        await preferences.DisposeAsync();
+
+        saving.Release();
+
+        // The service is gone: nothing takes over the write, so the caller is told, as for any use after disposal.
+        await Assert.ThrowsAsync<ObjectDisposedException>(() => writing.WaitAsync(Patience, Token));
+        Assert.Equal(0, _browser.LiveModules);
+    }
+
+    /// <summary>
     /// <c>omni-preferences.js</c> over the real <see cref="JSRuntime"/>: the framework makes the module a
     /// <c>JSObjectReference</c> and refuses a call on it once disposed. Every answer comes from another thread, as a
     /// real round trip does; a test can hold one call already issued (<see cref="Hold"/>).
@@ -84,6 +183,7 @@ public sealed class PreferenceUserSwitchConcurrencyTests
         private readonly List<Held> _held = [];
         private long _nextModule;
         private int _live;
+        private TaskCompletionSource _disposed = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
         /// <summary>How many modules are imported and not yet disposed by their owner.</summary>
         public int LiveModules
@@ -94,6 +194,25 @@ public sealed class PreferenceUserSwitchConcurrencyTests
                 {
                     return _live;
                 }
+            }
+        }
+
+        /// <summary>The text of a storage entry, as the script holds it.</summary>
+        public string Stored(string key)
+        {
+            lock (_gate)
+            {
+                return _storage[key];
+            }
+        }
+
+        /// <summary>Completes when the next module is disposed by its owner: from then on it refuses every call.</summary>
+        public Task NextDisposal()
+        {
+            lock (_gate)
+            {
+                _disposed = new(TaskCreationOptions.RunContinuationsAsynchronously);
+                return _disposed.Task;
             }
         }
 
@@ -115,6 +234,7 @@ public sealed class PreferenceUserSwitchConcurrencyTests
                 lock (_gate)
                 {
                     _live--;
+                    _disposed.TrySetResult();
                 }
 
                 if (taskId == 0)
@@ -201,7 +321,19 @@ public sealed class PreferenceUserSwitchConcurrencyTests
     {
         private readonly ConcurrentDictionary<string, MemoryPreferenceStore> _accounts = new(StringComparer.Ordinal);
 
+        private Pause? _pause;
+
         public volatile string? User;
+
+        public MemoryPreferenceStore Of(string user) => _accounts.GetOrAdd(user, name => new MemoryPreferenceStore { Scope = name });
+
+        /// <summary>The next save waits, inside the store, until the test releases it.</summary>
+        public Pause PauseNextSave()
+        {
+            var pause = new Pause();
+            _pause = pause;
+            return pause;
+        }
 
         private MemoryPreferenceStore Current() =>
             _accounts.GetOrAdd(User ?? throw new InvalidOperationException("No user is signed in: the store must not be called."), name => new MemoryPreferenceStore { Scope = name });
@@ -211,8 +343,33 @@ public sealed class PreferenceUserSwitchConcurrencyTests
         public Task<IReadOnlyList<OmniPreference>> GetChangedSinceAsync(DateTimeOffset? since, CancellationToken cancellationToken = default) =>
             Current().GetChangedSinceAsync(since, cancellationToken);
 
-        public Task<OmniPreference> SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default) => Current().SaveAsync(preference, cancellationToken);
+        public async Task<OmniPreference> SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default)
+        {
+            if (Interlocked.Exchange(ref _pause, null) is { } pause)
+            {
+                await pause.WaitAsync();
+            }
+
+            return await Current().SaveAsync(preference, cancellationToken);
+        }
 
         public ValueTask<string> GetScopeAsync(CancellationToken cancellationToken = default) => ValueTask.FromResult(User ?? OmniPreferences.NoUserScope);
+    }
+
+    /// <summary>A call held by the test: it says when it was reached, and waits to be released.</summary>
+    private sealed class Pause
+    {
+        private readonly TaskCompletionSource _reached = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private readonly TaskCompletionSource _released = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public Task WhenReached => _reached.Task;
+
+        public void Release() => _released.TrySetResult();
+
+        internal Task WaitAsync()
+        {
+            _reached.TrySetResult();
+            return _released.Task;
+        }
     }
 }
