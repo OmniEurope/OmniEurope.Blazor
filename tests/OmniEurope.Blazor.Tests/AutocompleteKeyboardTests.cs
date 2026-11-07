@@ -89,6 +89,26 @@ public sealed class AutocompleteKeyboardTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task HomeAndEnd_LeaveTheCaretToTheText_WhenNothingIsHighlighted_OrTheListIsClosed()
+    {
+        var autocomplete = RenderCities();
+        await autocomplete.Find("input").InputAsync(new ChangeEventArgs { Value = "br" });
+
+        await autocomplete.Find("input").KeyDownAsync(new KeyboardEventArgs { Key = "Home" });
+        Assert.Null(autocomplete.Find("input").GetAttribute("aria-activedescendant"));
+        Assert.Equal(3, autocomplete.FindAll("[role=option]").Count);
+
+        await autocomplete.Find("input").KeyDownAsync(new KeyboardEventArgs { Key = "Escape" });
+        Assert.Equal("false", autocomplete.Find("input").GetAttribute("aria-expanded"));
+
+        await autocomplete.Find("input").KeyDownAsync(new KeyboardEventArgs { Key = "Home" });
+        await autocomplete.Find("input").KeyDownAsync(new KeyboardEventArgs { Key = "End" });
+        Assert.Equal("false", autocomplete.Find("input").GetAttribute("aria-expanded"));
+        Assert.Null(autocomplete.Find("input").GetAttribute("aria-activedescendant"));
+        Assert.Empty(autocomplete.FindAll("[role=option]"));
+    }
+
+    [Fact]
     public async Task Enter_PicksTheHighlightedSuggestion()
     {
         string? picked = null;
