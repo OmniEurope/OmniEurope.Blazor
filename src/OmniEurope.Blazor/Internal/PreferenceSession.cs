@@ -87,9 +87,54 @@ internal sealed class PreferenceSession(IJSObjectReference module, string scope,
     /// <summary>Keeps the periodic synchronization timer, stopped with the session.</summary>
     internal void Schedule(ITimer timer) => _timer = timer;
 
+    /// <summary>Waits for an opening to end, however it ends; a caller's cancellation is the only exception raised.</summary>
+    internal static async Task EndedAsync(Task<PreferenceSession?>? opening, CancellationToken cancellationToken)
+    {
+        if (opening is null)
+        {
+            return;
+        }
+
+        try
+        {
+            await opening.WaitAsync(cancellationToken);
+        }
+        catch (Exception) when (!cancellationToken.IsCancellationRequested)
+        {
+            // A failed opening released what it had started, and published nothing.
+        }
+    }
+
+    /// <summary>Stops the synchronization of an opening and releases its script and its listeners.</summary>
+    internal static async Task ReleaseAsync(Task<PreferenceSession?>? opening)
+    {
+        if (opening is null)
+        {
+            return;
+        }
+
+        PreferenceSession? session;
+        try
+        {
+            session = await opening;
+        }
+        catch (Exception)
+        {
+            // A failed or cancelled opening released what it had started, and published nothing.
+            return;
+        }
+
+        if (session is not null)
+        {
+            await session.ReleaseAsync();
+        }
+    }
+
     /// <summary>Stops the timer, the watch and the listeners, and releases the script module.</summary>
     internal async Task ReleaseAsync()
     {
+        // Marked before the module goes: a reader still on this cache knows why its next call fails.
+        Cache.MarkReleased();
         _timer?.Dispose();
         _timer = null;
         var watcher = _watcher;

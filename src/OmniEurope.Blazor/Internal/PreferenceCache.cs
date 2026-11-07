@@ -45,6 +45,32 @@ internal sealed class PreferenceCache(IJSObjectReference module, string scope, b
     /// <summary>The prefix of every entry of this scope.</summary>
     internal string Prefix { get; } = KeyPrefix + scope + ":";
 
+    /// <summary>
+    /// The keys this opening has read once from the store (guarded by the owner's lock): each opening, so each user,
+    /// asks the store anew, and a reader that retries on a newer opening is never taken for one already refreshed.
+    /// </summary>
+    internal HashSet<string> Refreshed { get; } = new(StringComparer.Ordinal);
+
+    /// <summary>
+    /// The first read of a key not cached yet, while the store answers (guarded by the owner's lock): a read of the same
+    /// key made meanwhile on this opening waits for it instead of taking the empty cache for an absent preference.
+    /// </summary>
+    internal Dictionary<string, Task<string?>> FirstReads { get; } = new(StringComparer.Ordinal);
+
+    private volatile bool _released;
+
+    /// <summary>
+    /// Whether the opening of this cache was released (a change of user, the disposal): its script module refuses
+    /// every call, and a caller that meets <see cref="ObjectDisposedException"/> on it takes the current opening instead.
+    /// </summary>
+    internal bool Released => _released;
+
+    internal void MarkReleased()
+    {
+        _released = true;
+        Mirror?.MarkReleased();
+    }
+
     private string SyncKey { get; } = SyncPrefix + scope;
 
     private string SyncedKey { get; } = SyncedPrefix + scope;

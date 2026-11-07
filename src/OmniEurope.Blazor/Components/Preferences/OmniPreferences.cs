@@ -78,10 +78,6 @@ public sealed class OmniPreferences : IAsyncDisposable
     // Each read-decide-write of a cached entry runs alone, so a write made meanwhile is never lost.
     private readonly SemaphoreSlim _cacheGate = new(1, 1);
     private readonly Lock _gate = new();
-    private readonly HashSet<string> _refreshed = new(StringComparer.Ordinal);
-    // The first read of a key not cached yet, while the store answers: a read of the same key made
-    // meanwhile waits for it instead of taking the empty cache for an absent preference.
-    private readonly Dictionary<string, Task<string?>> _firstReads = new(StringComparer.Ordinal);
     private readonly List<Task> _background = [];
     // Every key read or written in this circuit: announced again when the signed-in user changes.
     private readonly HashSet<string> _known = new(StringComparer.Ordinal);
@@ -190,6 +186,10 @@ public sealed class OmniPreferences : IAsyncDisposable
         {
             ran = await _sync!.SyncAsync(cache, changes, cancellationToken);
         }
+        catch (ObjectDisposedException) when (Superseded(cache))
+        {
+            // A change of user released this opening meanwhile: take the user signed in now, below.
+        }
         finally
         {
             _syncGate.Release();
@@ -237,19 +237,17 @@ public sealed class OmniPreferences : IAsyncDisposable
                     former = _opening;
                 }
 
-                await EndedAsync(former, cancellationToken);
+                await PreferenceSession.EndedAsync(former, cancellationToken);
                 lock (_gate)
                 {
                     _opening = null;
-                    _refreshed.Clear();
-                    // A first read still under way answers its own callers, for the former user; a read made
-                    // from now on asks the new user's cache.
-                    _firstReads.Clear();
+                    // Every opening reads its keys anew from the store (PreferenceCache.Refreshed): a first read still
+                    // under way answers its own callers, for the former user.
                     keys = [.. _known];
                 }
 
                 _signedOut.Clear();
-                await ReleaseAsync(former);
+                await PreferenceSession.ReleaseAsync(former);
             }
             finally
             {
@@ -285,51 +283,8 @@ public sealed class OmniPreferences : IAsyncDisposable
             _opening = null;
         }
 
-        await ReleaseAsync(opening);
+        await PreferenceSession.ReleaseAsync(opening);
         _disposal.Dispose();
-    }
-
-    /// <summary>Waits for an opening to end, however it ends; a caller's cancellation is the only exception raised.</summary>
-    private static async Task EndedAsync(Task<PreferenceSession?>? opening, CancellationToken cancellationToken)
-    {
-        if (opening is null)
-        {
-            return;
-        }
-
-        try
-        {
-            await opening.WaitAsync(cancellationToken);
-        }
-        catch (Exception) when (!cancellationToken.IsCancellationRequested)
-        {
-            // A failed opening released what it had started, and published nothing.
-        }
-    }
-
-    /// <summary>Stops the synchronization of an opening and releases its script and its listeners.</summary>
-    private static async Task ReleaseAsync(Task<PreferenceSession?>? opening)
-    {
-        if (opening is null)
-        {
-            return;
-        }
-
-        PreferenceSession? session;
-        try
-        {
-            session = await opening;
-        }
-        catch (Exception)
-        {
-            // A failed or cancelled opening released what it had started, and published nothing.
-            return;
-        }
-
-        if (session is not null)
-        {
-            await session.ReleaseAsync();
-        }
     }
 
     /// <summary>Whether the host registered a store: the preferences are then partitioned by its user scope.</summary>
@@ -348,7 +303,28 @@ public sealed class OmniPreferences : IAsyncDisposable
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(key);
         Know(key);
-        var cache = await OpenAsync(cancellationToken);
+        while (true)
+        {
+            var cache = await OpenAsync(cancellationToken);
+            try
+            {
+                return await ReadFromAsync(cache, key, cancellationToken);
+            }
+            catch (ObjectDisposedException) when (Superseded(cache))
+            {
+                // A change of user released this opening while it was read: read again for the user signed in now.
+            }
+        }
+    }
+
+    /// <summary>
+    /// Whether <paramref name="cache"/> was released by a change of user while the service lives on: a call that failed on
+    /// it is made again on the current opening.
+    /// </summary>
+    private bool Superseded(PreferenceCache? cache) => cache is { Released: true } && !_disposed;
+
+    private async Task<string?> ReadFromAsync(PreferenceCache? cache, string key, CancellationToken cancellationToken)
+    {
         if (cache is null && _signedOut.Active)
         {
             return _signedOut.Read(key);
@@ -370,7 +346,7 @@ public sealed class OmniPreferences : IAsyncDisposable
         var refresh = false;
         lock (_gate)
         {
-            if (_refreshed.Add(key))
+            if (cache.Refreshed.Add(key))
             {
                 if (cached is not null)
                 {
@@ -381,10 +357,10 @@ public sealed class OmniPreferences : IAsyncDisposable
                     // Registered before it runs: a read that comes while the store answers finds it.
                     started = new(TaskCreationOptions.RunContinuationsAsynchronously);
                     firstRead = started.Task;
-                    _firstReads[key] = firstRead;
+                    cache.FirstReads[key] = firstRead;
                 }
             }
-            else if (_firstReads.TryGetValue(key, out var pending))
+            else if (cache.FirstReads.TryGetValue(key, out var pending))
             {
                 firstRead = pending;
             }
@@ -437,9 +413,9 @@ public sealed class OmniPreferences : IAsyncDisposable
             lock (_gate)
             {
                 // Only its own entry: a reset of the user may have registered a newer read of the key meanwhile.
-                if (_firstReads.TryGetValue(key, out var registered) && registered == result.Task)
+                if (cache.FirstReads.TryGetValue(key, out var registered) && registered == result.Task)
                 {
-                    _firstReads.Remove(key);
+                    cache.FirstReads.Remove(key);
                 }
             }
         }
@@ -449,49 +425,80 @@ public sealed class OmniPreferences : IAsyncDisposable
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(key);
         Know(key);
-        var cache = await OpenAsync(cancellationToken);
-        if (cache is null && _signedOut.Active)
+        PreferenceCache? cache;
+        OmniPreference preference;
+        bool? changed;
+        while (true)
         {
-            // No user signed in: the value lives in this circuit only, neither cached nor stored.
-            if (_signedOut.Write(key, value))
+            cache = await OpenAsync(cancellationToken);
+            if (cache is null && _signedOut.Active)
             {
-                await RaiseAsync(new(key, value, OmniPreferenceChangeOrigin.Local));
+                // No user signed in: the value lives in this circuit only, neither cached nor stored.
+                if (_signedOut.Write(key, value))
+                {
+                    await RaiseAsync(new(key, value, OmniPreferenceChangeOrigin.Local));
+                }
+
+                return;
             }
 
+            preference = new OmniPreference(key, value, _time.GetUtcNow());
+            try
+            {
+                changed = cache is null ? true : await CacheWriteAsync(cache, preference, cancellationToken);
+                break;
+            }
+            catch (ObjectDisposedException) when (Superseded(cache))
+            {
+                // A change of user released this opening before the value was cached: write it for the user signed in now.
+            }
+        }
+
+        if (changed is null)
+        {
             return;
         }
 
-        var preference = new OmniPreference(key, value, _time.GetUtcNow());
-        var changed = true;
-        if (cache is not null)
-        {
-            await _cacheGate.WaitAsync(cancellationToken);
-            try
-            {
-                var current = await cache.ReadAsync(key, cancellationToken);
-                if (current is not null && current.Value == value)
-                {
-                    return;
-                }
-
-                // A removal of a value never cached still reaches the store, which may hold it.
-                changed = current is not null || value is not null;
-                await cache.WriteAsync(key, new(value, preference.UpdatedAt, Dirty: _store is not null), cancellationToken);
-            }
-            finally
-            {
-                _cacheGate.Release();
-            }
-        }
-
-        if (changed)
+        if (changed.Value)
         {
             await RaiseAsync(new(key, value, OmniPreferenceChangeOrigin.Local));
         }
 
-        if (_store is not null && cache is not { IsVisitor: true } && await _sync!.PushAsync(cache, preference, cancellationToken) is { } kept)
+        try
         {
-            await RaiseAsync(kept);
+            if (_store is not null && cache is not { IsVisitor: true } && await _sync!.PushAsync(cache, preference, cancellationToken) is { } kept)
+            {
+                await RaiseAsync(kept);
+            }
+        }
+        catch (ObjectDisposedException) when (Superseded(cache))
+        {
+            // A change of user released this opening once the value was cached: it stays unconfirmed in the former user's
+            // cache, which sends it at that user's next synchronization.
+        }
+    }
+
+    /// <summary>
+    /// Caches a written value; null when it equals the cached one (nothing to write), otherwise whether the preference
+    /// changes (a removal of a value never cached does not, yet still reaches the store, which may hold it).
+    /// </summary>
+    private async Task<bool?> CacheWriteAsync(PreferenceCache cache, OmniPreference preference, CancellationToken cancellationToken)
+    {
+        await _cacheGate.WaitAsync(cancellationToken);
+        try
+        {
+            var current = await cache.ReadAsync(preference.Key, cancellationToken);
+            if (current is not null && current.Value == preference.Value)
+            {
+                return null;
+            }
+
+            await cache.WriteAsync(preference.Key, new(preference.Value, preference.UpdatedAt, Dirty: _store is not null), cancellationToken);
+            return current is not null || preference.Value is not null;
+        }
+        finally
+        {
+            _cacheGate.Release();
         }
     }
 
