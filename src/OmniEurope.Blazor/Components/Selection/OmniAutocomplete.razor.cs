@@ -373,6 +373,20 @@ public partial class OmniAutocomplete<TValue>
             case "ArrowUp":
                 await OpenOrMoveAsync(forward: false);
                 break;
+            default:
+                HandleListKey(args.Key);
+                break;
+        }
+    }
+
+    /// <summary>
+    /// The keys of <see cref="HandleKeyDownAsync"/> that act on the list without awaiting anything: Home,
+    /// End and Enter on the highlighted suggestion, Enter on free text, Escape on an open list.
+    /// </summary>
+    private void HandleListKey(string key)
+    {
+        switch (key)
+        {
             case "Home" when IsOpen && _activeIndex >= 0:
                 _activeIndex = 0;
                 break;
