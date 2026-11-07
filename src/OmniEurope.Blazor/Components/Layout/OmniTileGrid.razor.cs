@@ -104,7 +104,7 @@ public partial class OmniTileGrid
         EqualHeights ? null : "omni-tile-grid--natural-heights",
         MinColumnWidth is null ? null : "omni-tile-grid--fluid",
         UniformSize ? "omni-tile-grid--uniform" : null,
-        _scope is { FitStep: > 0 } ? $"omni-tile-grid--fit-{_scope.FitStep}" : null
+        _scope!.FitStep > 0 ? $"omni-tile-grid--fit-{_scope.FitStep}" : null
     ];
 
     // The class attribute exactly as rendered: a new string replaces the one the script marked, so it is part of
