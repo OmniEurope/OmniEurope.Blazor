@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+## [1.12.0] - 2026-11-07
+
+Version mineure demandée par le propriétaire : composants de la famille Editor (`OmniInkCanvas`, `OmniDocumentViewer`, `OmniDocumentEditor`, PLAN-010), ajouts d'API demandés par les applications clientes et corrections. Aucune rupture d'API.
+
 ### Added
 
 - `OmniScheduler.ShowOverlaps` (`bool`, `true` par défaut : comportement inchangé) et `OmniSchedulerAppointment.OverlapText` (`string?`) : à `false`, la grille horaire ne pose plus la classe `omni-scheduler__appointment--overlapping` ni le texte masqué « Chevauche … » sur les rendez-vous qui partagent du temps ; les colonnes côte à côte restent identiques. `OverlapText`, renseigné par un hôte qui calcule ses propres chevauchements (par exemple au-delà d'une capacité d'exécuteurs), remplace ce texte et marque le rendez-vous, quel que soit `ShowOverlaps` ; nul ou blanc, la marque du planificateur s'applique. Demande d'une application cliente dont la page affichait deux définitions contradictoires du chevauchement.
