@@ -93,6 +93,22 @@ public sealed class EscapeInDialogTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task FilterCombo_AnEscapeHeldDown_KeepsBeingConsumed_AfterTheListClosed_UntilTheKeyIsReleased()
+    {
+        var openChanges = new List<bool>();
+        var dialog = RenderDialog(openChanges, FilterCombo);
+        await dialog.Find("input").KeyDownAsync(new KeyboardEventArgs { Key = "ArrowDown" });
+        await dialog.Find("input").KeyDownAsync(new KeyboardEventArgs { Key = "Escape" });
+        Assert.Empty(dialog.FindAll("[role=option]"));
+
+        // The key repeats while held: the list is already closed, yet this Escape is the same press, not the dialog's.
+        await dialog.Find("input").KeyDownAsync(new KeyboardEventArgs { Key = "Escape" });
+
+        Assert.Empty(dialog.FindAll("[role=option]"));
+        Assert.Empty(openChanges);
+    }
+
+    [Fact]
     public async Task Escape_InTheCharacterSearchOfTheEditor_ClosesThePanelAndLeavesTheDialog_ASecondEscapeClosesTheDialog()
     {
         var module = JSInterop.SetupModule(Internal.OmniModules.HtmlEditor);

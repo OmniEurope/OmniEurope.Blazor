@@ -172,6 +172,22 @@ public sealed class SiteSearchTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task WithoutAnOpenList_EscapeReachesTheSearch_AndTakesTheNoMatchLineAway_WhileOtherKeysLeaveIt()
+    {
+        var search = RenderSearch();
+        await TypeAsync(search, "zzzz");
+        Assert.Empty(search.FindAll("[role=listbox]"));
+        Assert.Equal("Aucun résultat", search.Find(".omni-site-search__empty").TextContent.Trim());
+
+        await search.Find("input").KeyDownAsync(new KeyboardEventArgs { Key = "Tab" });
+        Assert.Equal("Aucun résultat", search.Find(".omni-site-search__empty").TextContent.Trim());
+
+        await search.Find("input").KeyDownAsync(new KeyboardEventArgs { Key = "Escape" });
+        Assert.Empty(search.FindAll(".omni-site-search__empty"));
+        Assert.Empty(Navigation.History);
+    }
+
+    [Fact]
     public void TheNameAndTheHint_AreLocalized_AndCanBeOverridden()
     {
         var byDefault = RenderSearch();

@@ -70,6 +70,16 @@ public sealed class TileGridFitTitleTests : OmniBunitContext
         Assert.DoesNotContain("style=", grid.Markup, StringComparison.OrdinalIgnoreCase);
     }
 
+    [Fact]
+    public void InAGrid_AFitTitleTile_WithANullTitle_CountsAsTheSmallestStep_AndLeavesTheLongerTitlesTheirs()
+    {
+        var grid = Grid((null!, true));
+        Assert.Equal(["omni-tile-grid--fit-1"], GridFitClasses(grid));
+
+        Show(grid, (null!, true), ("Pipelines", true));
+        Assert.Equal(["omni-tile-grid--fit-9"], GridFitClasses(grid));
+    }
+
     [Theory]
     [InlineData(1, 1)]
     [InlineData(14, 14)]
