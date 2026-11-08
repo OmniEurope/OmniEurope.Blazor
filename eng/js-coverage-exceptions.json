@@ -42,6 +42,16 @@
       "reason": "(anonyme) ligne 64 : le .catch(() => { }) de OnToolbarOverflow, appelé seulement si l'appel .NET est rejeté (éditeur détruit pendant un ajustement de la barre)."
     },
     {
+      "file": "omni-document-viewer.js",
+      "functions": 1,
+      "reason": "(anonyme) ligne 64 : le .catch(() => { }) de report, appelé seulement si l'appel .NET OnViewChangedAsync est rejeté (visualiseur détruit pendant qu'un rapport de zoom ou de page était en vol) ; aucune action d'un lecteur ne produit ce rejet de façon déterministe."
+    },
+    {
+      "file": "omni-ink-canvas.js",
+      "functions": 1,
+      "reason": "(anonyme) ligne 138 : le gestionnaire de rejet () => { } de tell, appelé seulement si l'appel .NET est rejeté (zone de dessin détruite pendant qu'un trait ou un réglage était en vol) ; aucune action d'un lecteur ne produit ce rejet de façon déterministe."
+    },
+    {
       "file": "omni-kanban.js",
       "functions": 1,
       "reason": "(anonyme) ligne 70 : le .catch(() => { }) de OnCardKey, appelé seulement si l'appel .NET est rejeté (tableau détruit pendant la frappe)."
@@ -75,7 +85,7 @@
     {
       "file": "omniInterop.js",
       "functions": 1,
-      "reason": "setDocumentMetadata (ligne 49) : posée par l'hôte qui gère lui-même la langue et le titre du document (échantillons WasmSmoke et HybridSmoke), jamais par un composant du paquet ni par la vitrine. Exécutée dans un vrai navigateur par eng/Test-WasmHost.ps1, qui vérifie le titre posé (--assert-title)."
+      "reason": "setDocumentMetadata (ligne 114) : posée par l'hôte qui gère lui-même la langue et le titre du document (échantillons WasmSmoke et HybridSmoke), jamais par un composant du paquet ni par la vitrine. Exécutée dans un vrai navigateur par eng/Test-WasmHost.ps1, qui vérifie le titre posé (--assert-title)."
     }
   ]
 }

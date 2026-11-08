@@ -254,6 +254,32 @@ export async function editorSteps(session, results) {
   check(/<(strong|b)>/.test(wrapped.value) && wrapped.end - wrapped.start === 4 && wrapped.focused, `Sélection de la source mal enveloppée : ${JSON.stringify(wrapped)}.`);
   step('source : sélection enveloppée et rendue');
 
+  // The source text area holds a burst of typing back (omniInterop.js holdInputBursts: one input event, 150 ms after the
+  // last one). A shortcut with Ctrl, Meta or Alt hands the held text to .NET at once: the typed text reaches the visual
+  // editor bound to the same value although no quiet time went by, and its input event is raised while that key is handled.
+  await evaluate(`(() => {
+    const area = document.querySelector(${JSON.stringify(area)});
+    window.__probeHeld?.abort();
+    const stop = window.__probeHeld = new AbortController();
+    window.__probeInputs = 0;
+    window.__probeKey = null;
+    document.addEventListener('input', event => { if (event.target === area) window.__probeInputs++; }, { signal: stop.signal });
+    window.addEventListener('keydown', () => {
+      window.__probeKey = { before: window.__probeInputs, after: -1 };
+      setTimeout(() => { window.__probeKey.after = window.__probeInputs; }, 0);
+    }, { capture: true, signal: stop.signal });
+    area.focus();
+    area.setSelectionRange(area.value.length, area.value.length);
+  })()`);
+  await type(' HELDBURST');
+  await key('Home', 'Home', 36, 2);
+  await waitFor('le raccourci traité', 'window.__probeKey?.after >= 0');
+  const released = await evaluate('JSON.stringify(window.__probeKey)').then(JSON.parse);
+  check(released.before === 0 && released.after === 1, `Le texte retenu n'est pas rendu par le raccourci Ctrl : ${JSON.stringify(released)}.`);
+  await waitFor('le texte tapé dans le corps lié, sans attendre le délai de repos', `${surface('editor-body')}.textContent.includes('HELDBURST')`);
+  await evaluate('window.__probeHeld.abort()');
+  step('source : texte tapé retenu, rendu au raccourci Ctrl avant le délai de repos, repris par l\'éditeur visuel lié');
+
   // 3. #editor-extended: case, proofreading, suggestions, inline element and context menu.
   await scrollTo('editor-extended');
   await select('editor-extended', 'checker');
