@@ -448,9 +448,9 @@
 .omni-badge--width-large { min-inline-size: var(--omni-badge-width-large, 10em); }
 /* Size: Small is shorter with smaller text, Large taller with larger text (a grade letter, a score); Medium, the
    default, writes no class. The height is --omni-badge-height, so a one-character or icon-only badge stays a square
-   of that height. */
-.omni-badge--small { --omni-badge-height: 1.125rem; font-size: calc(var(--omni-control-font) - 0.1875rem); }
-.omni-badge--large { --omni-badge-height: 2rem; font-size: calc(var(--omni-control-font) + 0.25rem); }
+   of that height. Both follow the density through --omni-control-height (1.125rem and 2rem in the comfortable one). */
+.omni-badge--small { --omni-badge-height: calc(var(--omni-control-height) - 0.625rem); font-size: calc(var(--omni-control-font) - 0.1875rem); }
+.omni-badge--large { --omni-badge-height: calc(var(--omni-control-height) + 0.25rem); font-size: calc(var(--omni-control-font) + 0.25rem); }
 .omni-badge--neutral { --omni-badge-ink: var(--omni-color-text-muted); }
 .omni-badge--accent { --omni-badge-ink: var(--omni-color-accent-strong); }
 .omni-badge--info { --omni-badge-ink: var(--omni-color-info); }

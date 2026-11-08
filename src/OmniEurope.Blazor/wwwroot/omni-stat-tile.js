@@ -12,10 +12,12 @@ const tiles = new WeakMap();
 // text still overflows at the floor, data-fit="wrap" (the stylesheet lets it wrap). No tooltip: nothing is cut.
 const valueSteps = ['shrink-1', 'shrink-2', 'shrink-3', 'wrap'];
 
+// No tolerance, unlike the label: the value is clipped, not ellipsed, and a pixel of slack let a text that overflows
+// its box by more than a pixel keep its size, its last glyph cut.
 function fitValue(value) {
     value.removeAttribute('data-fit');
     for (const step of valueSteps) {
-        if (value.scrollWidth <= value.clientWidth + 1) {
+        if (value.scrollWidth <= value.clientWidth) {
             return;
         }
 

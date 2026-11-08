@@ -4,6 +4,11 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Fixed
+
+- `OmniBadge.Size` : `Small` et `Large` suivent la densité (`--omni-control-height` moins 0,625 rem, plus 0,25 rem), au lieu des hauteurs fixes de 1,125 et 2 rem de la 1.12.1 qui restaient les mêmes en densité compacte et aérée. En densité confortable, rendu inchangé. Preuve : sonde de densité de la vitrine verte (11 499 éléments, 82 pages).
+- `OmniStatTile` : la valeur est réduite dès qu'elle dépasse sa boîte, sans la tolérance d'un pixel qui laissait un « 12 » rogné de plus d'un pixel dans une tuile étroite (grille de six colonnes à 1280 px). Preuve : sonde des langues verte, en et fr, à 1280 et 390 px.
+
 ### Changed
 
 - Les champs texte gardent l'historique du navigateur (demande d'une application cliente, recette R-13) : `OmniTextBox`, `OmniTextArea`, `OmniPassword` et `OmniNumeric` écrivent un `name`, le chemin de la valeur liée (`Project.Name`) : celui que Blazor écrit en rendu statique, calculé par OE dans un formulaire interactif où Blazor n'en écrit aucun ; un attribut `name` de l'appelant le remplace. `Autocomplete` reste nul par défaut (aucun attribut) : un jeton inventé, essayé un temps, échoue à la règle axe `autocomplete-valid` (WCAG 1.3.5) ; pour dire ce que tient un champ, poser un jeton WHATWG (`organization`, `name`, `off`). Preuve : `FieldNameAutocompleteTests` ; dans Chrome 156 sur la vitrine, axe-core 4.14 sans violation `autocomplete-valid` (pages Validation et Mise en page de formulaire ; la contre-épreuve avec `autocomplete="omni-text"` échoue), et après l'envoi réel d'un `EditForm` interactif la valeur saisie est enregistrée dans l'historique du champ `Contact.Name`. Non observé : l'affichage du menu natif de suggestions, hors de portée du protocole de débogage.
