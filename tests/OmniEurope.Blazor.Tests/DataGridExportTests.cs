@@ -176,6 +176,25 @@ public sealed class DataGridExportTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task AnExportOnlyColumn_AfterColumnsTheExportSkips_FollowsTheLastWrittenOne_AndOneThatOptsOutIsLeftOut()
+    {
+        var host = Render<DataGridExportTestHost>(parameters => parameters
+            .Add(component => component.Items, Rows)
+            .Add(component => component.WithTrailingExportOnly, true)
+            .Add(component => component.Formats, [OmniTableExportFormat.Csv]));
+
+        await Button(host, "CSV").ClickAsync(new());
+
+        // "Lieu" is declared after "Interne" (not exportable) and "Masquée" (hidden): it follows "Statut", the last
+        // column declared before it that the export writes. "Règle" is export-only but not exportable: it is left out.
+        var csv = CsvOf(Assert.Single(_download.Invocations["download"]));
+        var lines = csv.TrimStart('﻿').Split("\r\n", StringSplitOptions.RemoveEmptyEntries);
+        Assert.Equal("N°;Nom;Montant;Jour;Statut;Lieu", lines[0]);
+        Assert.EndsWith(";place-1", lines[1]);
+        Assert.DoesNotContain("rule-", csv, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public async Task WithoutAnExportOnlyColumn_TheExportKeepsItsColumns()
     {
         var host = Render<DataGridExportTestHost>(parameters => parameters

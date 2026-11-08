@@ -48,6 +48,11 @@
         </OmniDataGridColumn>
         <OmniDataGridColumn TItem="Row" Property="Secret" Title="Interne" Exportable="false" />
         <OmniDataGridColumn TItem="Row" Property="Name" Key="hidden" Title="Masquée" Visible="false" />
+        @if (WithTrailingExportOnly)
+        {
+            <OmniDataGridColumn TItem="Row" Key="rule" Title="Règle" ExportValue="@(row => $"rule-{row.Id}")" ExportOnly="true" Exportable="false" />
+            <OmniDataGridColumn TItem="Row" Key="place" Title="Lieu" ExportValue="@(row => $"place-{row.Id}")" ExportOnly="true" />
+        }
         <OmniDataGridColumn TItem="Row" Title="Actions">
             <Template Context="row"><button type="button">Ouvrir</button></Template>
         </OmniDataGridColumn>
@@ -107,6 +112,7 @@
     [Parameter] public bool OnlyTemplates { get; set; }
 
     [Parameter] public bool WithExportOnly { get; set; }
+    [Parameter] public bool WithTrailingExportOnly { get; set; }
 
     [Parameter] public bool ShowExportButtonText { get; set; }
     [Parameter] public bool ShowExportCancel { get; set; }
