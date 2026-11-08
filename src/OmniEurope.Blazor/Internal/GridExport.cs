@@ -101,10 +101,45 @@ internal sealed class GridExport<TItem>(OmniDataGrid<TItem> grid) : IAsyncDispos
         _ => OmniIconName.Download
     };
 
-    /// <summary>The columns an export writes: the visible ones that read a value, unless they opted out.</summary>
-    internal IReadOnlyList<OmniDataGridColumnDefinition<TItem>> Columns() => grid.ColumnSet.VisibleColumns
-        .Where(column => column.Exportable && (column.ExportValue is not null || column.HasValueSource))
-        .ToArray();
+    /// <summary>
+    /// The columns an export writes: the visible ones that read a value, unless they opted out, in the reader's order,
+    /// plus the export-only ones, each placed after the nearest column declared before it that is written.
+    /// </summary>
+    internal IReadOnlyList<OmniDataGridColumnDefinition<TItem>> Columns()
+    {
+        static bool Writes(OmniDataGridColumnDefinition<TItem> column) =>
+            column.Exportable && (column.ExportValue is not null || column.HasValueSource);
+
+        var written = grid.ColumnSet.VisibleColumns.Where(Writes).ToList();
+        var declared = grid.ColumnSet.Declared;
+        if (!declared.Any(column => column.ExportOnly))
+        {
+            return written;
+        }
+
+        for (var index = 0; index < declared.Count; index++)
+        {
+            if (!declared[index].ExportOnly || !Writes(declared[index]))
+            {
+                continue;
+            }
+
+            var at = 0;
+            for (var before = index - 1; before >= 0; before--)
+            {
+                var position = written.IndexOf(declared[before]);
+                if (position >= 0)
+                {
+                    at = position + 1;
+                    break;
+                }
+            }
+
+            written.Insert(at, declared[index]);
+        }
+
+        return written;
+    }
 
     /// <summary>Reads the rows, writes the file and hands it to the browser. One export at a time.</summary>
     internal async Task RunAsync(OmniTableExportFormat format)
