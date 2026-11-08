@@ -44,7 +44,14 @@ public partial class OmniNavTile
     [Parameter]
     public RenderFragment? Icon { get; set; }
 
-    /// <summary>The tone of the square and its icon; <see cref="OmniTone.Accent"/> by default.</summary>
+    /// <summary>
+    /// The tone of the square and its icon; <see cref="OmniTone.Accent"/> by default. Inside an <see cref="OmniTileGrid"/>,
+    /// a tile given no tone takes one of six hues of its own instead, in the order of the tiles of the grid (amber, blue,
+    /// red, cyan, magenta, green, then again), so that no tile shares the hue of the one before it. The hues are the bright
+    /// ANSI colours of the theme (<c>--omni-ansi-9</c> to <c>--omni-ansi-14</c>, which a host may replace with
+    /// <c>--omni-tile-hue-1</c> to <c>--omni-tile-hue-6</c>): they read at 4.5:1 on the surface and on the 12 % tint of
+    /// their own square, in light and dark mode. A tone set explicitly, <see cref="OmniTone.Accent"/> included, wins.
+    /// </summary>
     [Parameter]
     public OmniTone Tone { get; set; } = OmniTone.Accent;
 
@@ -93,6 +100,22 @@ public partial class OmniNavTile
         OmniAlignment.End => $"omni-nav-tile--{part}-end",
         _ => $"omni-nav-tile--{part}-start"
     };
+
+    private bool _toneSet;
+
+    /// <summary>The class of the tone: the hue of its rank in a tile grid when no tone was given, the tone's own otherwise.</summary>
+    private string ToneClass => TileGrid is not null && !_toneSet
+        ? "omni-nav-tile--auto"
+        : $"omni-nav-tile--{Tone.ToString().ToLowerInvariant()}";
+
+    /// <summary>Notes whether <see cref="Tone"/> is among the parameters given, then sets them.</summary>
+    /// <param name="parameters">The parameters supplied by the parent.</param>
+    /// <returns>The task of the base implementation.</returns>
+    public override Task SetParametersAsync(ParameterView parameters)
+    {
+        _toneSet = parameters.TryGetValue<OmniTone>(nameof(Tone), out _);
+        return base.SetParametersAsync(parameters);
+    }
 
     private static readonly int[] FitBuckets = [8, 12, 16, 20, 24, 32, 48];
 

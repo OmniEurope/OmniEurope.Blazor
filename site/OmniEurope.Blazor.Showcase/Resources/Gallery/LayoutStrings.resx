@@ -286,6 +286,8 @@
   <data name="NavTilesShowDescriptionHint" xml:space="preserve"><value>Description parameter: a muted line under the title, what is found there.</value></data>
   <data name="NavTilesPreviewTitle" xml:space="preserve"><value>Live preview</value></data>
   <data name="NavTilesTonesTitle" xml:space="preserve"><value>Tones</value></data>
+  <data name="NavTilesAutoHueTitle" xml:space="preserve"><value>Automatic hues in a grid</value></data>
+  <data name="NavTilesAutoHueDescription" xml:space="preserve"><value>In a tile grid, a tile given no tone takes the hue of its rank, six hues in turn, never that of the tile before it. A tone set explicitly wins (the last tile).</value></data>
   <data name="NavTilesFitTitle" xml:space="preserve"><value>Fit the title</value></data>
   <data name="NavTilesFitTitleHint" xml:space="preserve"><value>The title shrinks to stay on one line instead of wrapping.</value></data>
   <data name="NavTilesCenter" xml:space="preserve"><value>Center the icon and the title</value></data>

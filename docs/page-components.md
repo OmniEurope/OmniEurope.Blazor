@@ -189,6 +189,14 @@ seule l'ombre change, la tuile ne bouge pas. Elle prend la hauteur de sa colonne
 une `OmniTileGrid`, toutes les tuiles ont la même largeur et la même hauteur, et `DoubleWidth` en étale une
 sur deux colonnes (« Règle des tuiles » dans [layout-components.md](layout-components.md)).
 
+Dans une `OmniTileGrid`, une tuile sans `Tone` (demande d'une application cliente, recette R1-17) prend la teinte
+de son rang parmi les tuiles de la grille, six teintes à tour de rôle (ambre, bleu, rouge, cyan, magenta, vert) :
+aucune tuile n'a la teinte de la précédente, et l'application n'a aucune couleur à choisir. Ce sont les couleurs
+ANSI vives du thème (`--omni-ansi-9` à `--omni-ansi-14`), tenues à 4,5:1 sur la tuile et sur leur carré teinté à
+12 %, en clair comme en sombre ; un hôte peut les remplacer par `--omni-tile-hue-1` à `--omni-tile-hue-6`. Un
+`Tone` posé explicitement, `Accent` compris, gagne. Hors grille, ou si la tuile n'est pas un enfant direct de la
+grille, le défaut reste `Accent`.
+
 `Disabled` (faux par défaut ; demande d'une application cliente, lot W-8) est pour la tuile qui ne mène nulle
 part pour l'instant (rien à examiner, un droit absent) : elle n'a plus d'attribut `href`, donc ne s'ouvre ni
 au clic ni au clic du milieu et ne prend pas le focus au clavier ; elle porte `role="link"` et

@@ -286,6 +286,8 @@
   <data name="NavTilesShowDescriptionHint" xml:space="preserve"><value>Paramètre Description : une ligne atténuée sous le titre, ce qu'on trouve derrière.</value></data>
   <data name="NavTilesPreviewTitle" xml:space="preserve"><value>Aperçu en direct</value></data>
   <data name="NavTilesTonesTitle" xml:space="preserve"><value>Tons</value></data>
+  <data name="NavTilesAutoHueTitle" xml:space="preserve"><value>Teintes automatiques dans une grille</value></data>
+  <data name="NavTilesAutoHueDescription" xml:space="preserve"><value>Dans une grille de tuiles, une tuile sans ton prend la teinte de son rang, six teintes à tour de rôle, jamais celle de la tuile précédente. Un ton posé explicitement gagne (la dernière tuile).</value></data>
   <data name="NavTilesFitTitle" xml:space="preserve"><value>Ajuster le titre</value></data>
   <data name="NavTilesFitTitleHint" xml:space="preserve"><value>Le titre rétrécit pour tenir sur une ligne au lieu de passer à la ligne.</value></data>
   <data name="NavTilesCenter" xml:space="preserve"><value>Centrer l'icône et le titre</value></data>

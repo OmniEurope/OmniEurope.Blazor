@@ -334,6 +334,19 @@
 .omni-nav-tile--success { --omni-nav-tile-tone: var(--omni-color-success); --omni-nav-tile-tint: var(--omni-color-success-subtle); }
 .omni-nav-tile--warning { --omni-nav-tile-tone: var(--omni-color-warning); --omni-nav-tile-tint: var(--omni-color-warning-subtle); }
 .omni-nav-tile--danger { --omni-nav-tile-tone: var(--omni-color-danger); --omni-nav-tile-tint: var(--omni-color-danger-subtle); }
+/* A tile of a tile grid given no tone (recette Atlas R1-17) takes the hue of its rank among the tiles of the grid,
+   six hues in turn chosen far apart (amber, blue, red, cyan, magenta, green): no tile shares the hue of the one before
+   it, nor of the first one after the sixth. The hues are the bright ANSI colours of the theme, held by the generator at
+   4.5:1 on the surface and on a 12 % background of a colour, so the icon reads on its square tinted at 12 % in both
+   modes. Resolved here, at the tile, so a dark scope nested in a light page gets its own; a host may replace them
+   with --omni-tile-hue-1 to --omni-tile-hue-6. A tile not directly in the grid keeps the accent of the base rule. */
+.omni-tile-grid > .omni-nav-tile--auto { --omni-nav-tile-tint: color-mix(in srgb, var(--omni-nav-tile-tone) 12%, var(--omni-card-background, var(--omni-color-surface))); }
+.omni-tile-grid > .omni-nav-tile--auto:nth-child(6n + 1 of .omni-nav-tile) { --omni-nav-tile-tone: var(--omni-tile-hue-1, var(--omni-ansi-11)); }
+.omni-tile-grid > .omni-nav-tile--auto:nth-child(6n + 2 of .omni-nav-tile) { --omni-nav-tile-tone: var(--omni-tile-hue-2, var(--omni-ansi-12)); }
+.omni-tile-grid > .omni-nav-tile--auto:nth-child(6n + 3 of .omni-nav-tile) { --omni-nav-tile-tone: var(--omni-tile-hue-3, var(--omni-ansi-9)); }
+.omni-tile-grid > .omni-nav-tile--auto:nth-child(6n + 4 of .omni-nav-tile) { --omni-nav-tile-tone: var(--omni-tile-hue-4, var(--omni-ansi-14)); }
+.omni-tile-grid > .omni-nav-tile--auto:nth-child(6n + 5 of .omni-nav-tile) { --omni-nav-tile-tone: var(--omni-tile-hue-5, var(--omni-ansi-13)); }
+.omni-tile-grid > .omni-nav-tile--auto:nth-child(6n of .omni-nav-tile) { --omni-nav-tile-tone: var(--omni-tile-hue-6, var(--omni-ansi-10)); }
 @media (prefers-reduced-motion: reduce) { .omni-nav-tile { transition: none; } }
 .omni-settings-tile__row { align-items: center; display: flex; flex-wrap: wrap; gap: 0.75rem 1rem; }
 .omni-settings-tile__icon { align-items: center; background: var(--omni-color-accent-subtle); block-size: var(--omni-icon-box); border-radius: var(--omni-radius); color: var(--omni-color-accent-strong); display: inline-flex; flex: 0 0 auto; inline-size: var(--omni-icon-box); justify-content: center; }

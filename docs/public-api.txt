@@ -2121,6 +2121,7 @@ method public override OmniEurope.Blazor.Components.OmniMindMapNote.ToString() :
 method public override OmniEurope.Blazor.Components.OmniMindMapViewState.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniMindMapViewState.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniMindMapViewState.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniNavTile.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView parameters) : System.Threading.Tasks.Task
 method public override OmniEurope.Blazor.Components.OmniNotificationMessage.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniNotificationMessage.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniNotificationMessage.ToString() : System.String
