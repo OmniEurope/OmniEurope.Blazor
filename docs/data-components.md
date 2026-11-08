@@ -1016,7 +1016,12 @@ par défaut des boutons).
 - **Colonnes.** Les colonnes visibles qui lisent une valeur (`Property` ou `Value`). Une colonne faite
   d'un seul `Template` (actions) n'est pas écrite, sauf si elle donne `ExportValue`, qui remplace aussi la
   valeur d'une colonne dont le gabarit montre autre chose (un statut traduit). `Exportable="false"` retire
-  une colonne de l'export.
+  une colonne de l'export. À l'inverse, `ExportOnly="true"` (demande d'une application cliente, recette R-18)
+  déclare une colonne de détail que l'écran ne dessine jamais (ni en-tête, ni cellules, ni sélecteur de
+  colonnes, ni tri, filtre ou groupement) mais que chaque export écrit ; elle a besoin d'une source de valeur
+  (`Property`, `Value` ou `ExportValue`). Dans le fichier, elle suit la colonne écrite déclarée juste avant elle.
+  Une colonne que le lecteur masque dans le sélecteur reste hors de l'export. Ne lui donnez pas de
+  `DefaultFilterValue` : ce filtre s'appliquerait encore aux lignes sans être visible.
 - **Document.** `OmniTableExportDocument` : titre (`ExportTitle`, à défaut `Caption`), lignes d'en-tête
   (`ExportFields`, puis un filtre actif par ligne, ajouté par la grille), colonnes avec leur nature
   (`Text`, `Number`, `Date`, `Boolean`), cellules (le texte affiché, et la valeur typée quand il y en a
