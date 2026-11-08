@@ -1033,7 +1033,6 @@ field public static OmniEurope.Blazor.Components.OmniTableExportValueKind.Date :
 field public static OmniEurope.Blazor.Components.OmniTableExportValueKind.Number : OmniEurope.Blazor.Components.OmniTableExportValueKind const = 1
 field public static OmniEurope.Blazor.Components.OmniTableExportValueKind.Text : OmniEurope.Blazor.Components.OmniTableExportValueKind const = 0
 field public static OmniEurope.Blazor.Components.OmniTableExporter.XlsxContentType : System.String const = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-field public static OmniEurope.Blazor.Components.OmniTextBox.NeutralAutocomplete : System.String const = "omni-text"
 field public static OmniEurope.Blazor.Components.OmniTextBoxType.Email : OmniEurope.Blazor.Components.OmniTextBoxType const = 1
 field public static OmniEurope.Blazor.Components.OmniTextBoxType.Search : OmniEurope.Blazor.Components.OmniTextBoxType const = 4
 field public static OmniEurope.Blazor.Components.OmniTextBoxType.Tel : OmniEurope.Blazor.Components.OmniTextBoxType const = 2

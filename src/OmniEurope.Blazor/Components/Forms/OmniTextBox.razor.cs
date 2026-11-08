@@ -19,27 +19,14 @@ public partial class OmniTextBox
     public string? Placeholder { get; set; }
 
     /// <summary>
-    /// The browser autofill hint (<c>autocomplete</c>), such as <c>name</c>, <c>organization</c>, <c>email</c>
-    /// or <c>off</c>. Null, the default, writes <see cref="NeutralAutocomplete"/> on a text or search field:
-    /// the browser keeps proposing the values already typed in a field of the same <c>name</c>, but never
-    /// guesses from the label that a field is a card holder or an address line to fill (recette R-13). On an
-    /// email, telephone or address field, null writes no attribute and leaves the browser's own behaviour.
+    /// The browser autofill hint (<c>autocomplete</c>), a WHATWG token such as <c>name</c>, <c>organization</c>,
+    /// <c>email</c>, <c>username</c> or <c>off</c>. Null, the default, writes no attribute and leaves the browser's
+    /// own behaviour: it keeps the history of the values typed under the field's <c>name</c> (recette R-13), and
+    /// may guess a profile type from the label (a field labelled "Nom" reads as a full name); give a token to say
+    /// what the field holds. Never an invented token: accessibility audits (axe <c>autocomplete-valid</c>) reject it.
     /// </summary>
     [Parameter]
     public string? Autocomplete { get; set; }
-
-    /// <summary>
-    /// The token written when <see cref="Autocomplete"/> is null on a text or search field: a value no browser
-    /// recognises, which Chrome reads as "no autofill type" (no card, address or contact suggestion) while
-    /// it still saves and proposes the history of the field.
-    /// </summary>
-    public const string NeutralAutocomplete = "omni-text";
-
-    // An autocomplete given as a plain attribute is kept: the attribute written here would replace it.
-    private string? AutocompleteAttribute => Autocomplete
-        ?? (AdditionalAttributes?.TryGetValue("autocomplete", out var given) == true
-            ? given?.ToString()
-            : Type is OmniTextBoxType.Text or OmniTextBoxType.Search ? NeutralAutocomplete : null);
 
     /// <summary>Disables the field: it cannot be focused, edited or submitted.</summary>
     [Parameter]

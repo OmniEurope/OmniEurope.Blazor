@@ -7,9 +7,10 @@ namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
 /// recette R-13: the text fields keep the browser's history of typed values. They write a <c>name</c>, the path of
-/// the bound member (Chrome keys the history by it), and a text field given no autocomplete writes a token no browser
-/// recognises, which Chrome reads as "no autofill type": no card or address guessed from a label such as "Nom". The
-/// browser's reading of the token is measured in Chrome (chrome://autofill-internals), not here.
+/// the bound member, under which Chrome keeps that history, also in an interactive form where Blazor writes none. A
+/// text box given no autocomplete writes none either: an invented token would fail the accessibility audits (axe
+/// <c>autocomplete-valid</c>), and the browser's own behaviour keeps the history. What Chrome saves is measured in
+/// Chrome (chrome://autofill-internals), not here.
 /// </summary>
 public sealed class FieldNameAutocompleteTests : OmniBunitContext
 {
@@ -27,15 +28,21 @@ public sealed class FieldNameAutocompleteTests : OmniBunitContext
     // The edit context of an interactive EditForm, where Blazor itself writes no name (it does only in a static render).
     private readonly EditContext _form = new(new object()) { ShouldUseFieldIdentifiers = false };
 
-    [Fact]
-    public void A_text_box_given_no_parameter_is_named_by_the_bound_member_and_writes_the_neutral_token()
+    [Theory]
+    [InlineData(OmniTextBoxType.Text)]
+    [InlineData(OmniTextBoxType.Search)]
+    [InlineData(OmniTextBoxType.Email)]
+    [InlineData(OmniTextBoxType.Tel)]
+    [InlineData(OmniTextBoxType.Url)]
+    public void A_text_box_given_no_parameter_is_named_by_the_bound_member_and_writes_no_autocomplete(OmniTextBoxType type)
     {
         var input = Render<OmniTextBox>(parameters => parameters.AddCascadingValue(_form)
+            .Add(component => component.Type, type)
             .Add(component => component.Value, Project.Name)
             .Add(component => component.ValueExpression, () => Project.Name)).Find("input");
 
         Assert.Equal("Project.Name", input.GetAttribute("name"));
-        Assert.Equal(OmniTextBox.NeutralAutocomplete, input.GetAttribute("autocomplete"));
+        Assert.False(input.HasAttribute("autocomplete"));
     }
 
     [Fact]
@@ -48,7 +55,7 @@ public sealed class FieldNameAutocompleteTests : OmniBunitContext
     }
 
     [Fact]
-    public void A_name_and_an_autocomplete_given_by_the_caller_win()
+    public void A_name_and_an_autocomplete_given_as_attributes_win()
     {
         var input = Render<OmniTextBox>(parameters => parameters.AddCascadingValue(_form)
             .Add(component => component.ValueExpression, () => Project.Name)
@@ -60,41 +67,27 @@ public sealed class FieldNameAutocompleteTests : OmniBunitContext
     }
 
     [Theory]
-    [InlineData("organization", "organization")]
-    [InlineData("off", "off")]
-    public void The_autocomplete_parameter_wins_over_the_neutral_token(string given, string expected)
+    [InlineData("organization")]
+    [InlineData("name")]
+    [InlineData("off")]
+    public void The_autocomplete_parameter_is_written_as_given(string given)
     {
         var input = Render<OmniTextBox>(parameters => parameters.AddCascadingValue(_form)
             .Add(component => component.ValueExpression, () => Project.Name)
             .Add(component => component.Autocomplete, given)).Find("input");
 
-        Assert.Equal(expected, input.GetAttribute("autocomplete"));
-    }
-
-    [Theory]
-    [InlineData(OmniTextBoxType.Text, OmniTextBox.NeutralAutocomplete)]
-    [InlineData(OmniTextBoxType.Search, OmniTextBox.NeutralAutocomplete)]
-    [InlineData(OmniTextBoxType.Email, null)]
-    [InlineData(OmniTextBoxType.Tel, null)]
-    [InlineData(OmniTextBoxType.Url, null)]
-    public void Only_text_and_search_fields_take_the_neutral_token(OmniTextBoxType type, string? expected)
-    {
-        var input = Render<OmniTextBox>(parameters => parameters.AddCascadingValue(_form)
-            .Add(component => component.Type, type)
-            .Add(component => component.ValueExpression, () => Project.Name)).Find("input");
-
-        Assert.Equal(expected, input.GetAttribute("autocomplete"));
+        Assert.Equal(given, input.GetAttribute("autocomplete"));
     }
 
     [Fact]
-    public void The_wrapped_text_box_writes_the_name_and_the_token_on_its_input()
+    public void The_wrapped_text_box_writes_the_name_on_its_input()
     {
         var input = Render<OmniTextBox>(parameters => parameters.AddCascadingValue(_form)
             .Add(component => component.ShowCopy, true)
             .Add(component => component.ValueExpression, () => Project.Name)).Find("input");
 
         Assert.Equal("Project.Name", input.GetAttribute("name"));
-        Assert.Equal(OmniTextBox.NeutralAutocomplete, input.GetAttribute("autocomplete"));
+        Assert.False(input.HasAttribute("autocomplete"));
     }
 
     [Fact]
