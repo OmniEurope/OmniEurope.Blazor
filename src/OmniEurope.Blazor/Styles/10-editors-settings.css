@@ -347,7 +347,7 @@
 .omni-nav-tile--success { --omni-nav-tile-tone: var(--omni-color-success); --omni-nav-tile-tint: var(--omni-color-success-subtle); }
 .omni-nav-tile--warning { --omni-nav-tile-tone: var(--omni-color-warning); --omni-nav-tile-tint: var(--omni-color-warning-subtle); }
 .omni-nav-tile--danger { --omni-nav-tile-tone: var(--omni-color-danger); --omni-nav-tile-tint: var(--omni-color-danger-subtle); }
-/* A tile of a tile grid given no tone (recette Atlas R1-17) takes the hue of its rank among the tiles of the grid,
+/* A tile of a tile grid given no tone (recette R1-17) takes the hue of its rank among the tiles of the grid,
    six hues in turn chosen far apart (amber, blue, red, cyan, magenta, green): no tile shares the hue of the one before
    it, nor of the first one after the sixth. The hues are the bright ANSI colours of the theme, held by the generator at
    4.5:1 on the surface and on a 12 % background of a colour, so the icon reads on its square tinted at 12 % in both

@@ -6,7 +6,7 @@ using OmniEurope.Blazor.Internal;
 namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
-/// recette Atlas R1-17: a navigation tile of a tile grid given no tone takes a hue of its own, the hue of its rank
+/// recette R1-17: a navigation tile of a tile grid given no tone takes a hue of its own, the hue of its rank
 /// among the tiles of the grid, six hues in turn; a tone set explicitly wins, and a tile outside a grid keeps the
 /// accent. The classes and the rules are proved here, the hues on every theme and palette in both modes; the colours
 /// measured in a real browser (see the showcase).
