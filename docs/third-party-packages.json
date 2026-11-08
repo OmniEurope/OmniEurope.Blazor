@@ -4,7 +4,7 @@
   "packages": [
     {
       "id": "AngleSharp",
-      "version": "1.9.0",
+      "version": "1.10.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -13,22 +13,12 @@
         "localFileSha256": null
       },
       "lockFiles": [
-        "eng/OmniEurope.PublicApiGuard/packages.lock.json",
-        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
-        "samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json",
-        "samples/OmniEurope.Blazor.Catalog/packages.lock.json",
-        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
-        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
-        "site/OmniEurope.Blazor.Showcase.Examples/packages.lock.json",
-        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
-        "src/OmniEurope.Blazor/packages.lock.json",
-        "tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
     },
     {
-      "id": "AngleSharp.Css",
-      "version": "1.3.1",
+      "id": "AngleSharp",
+      "version": "1.9.1",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -46,7 +36,43 @@
         "site/OmniEurope.Blazor.Showcase.Examples/packages.lock.json",
         "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
-        "tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json",
+        "tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "AngleSharp.Css",
+      "version": "1.3.2",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.PublicApiGuard/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.Catalog/packages.lock.json",
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase.Examples/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
+        "src/OmniEurope.Blazor/packages.lock.json",
+        "tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "AngleSharp.Css",
+      "version": "1.4.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
     },
@@ -80,7 +106,7 @@
     },
     {
       "id": "bunit",
-      "version": "2.13.3",
+      "version": "2.14.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -207,7 +233,7 @@
     },
     {
       "id": "HtmlSanitizer",
-      "version": "10.0.1120",
+      "version": "11.0.16",
       "license": {
         "kind": "expression",
         "value": "MIT",

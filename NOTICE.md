@@ -6,11 +6,13 @@ Les textes de licence distribués dans les paquets tiers sont conservés sous `d
 
 | Package | Version | Licence déclarée | Nature | Source locale |
 |---|---:|---|---|---|
-| `AngleSharp` | `1.9.0` | MIT | `expression` | - |
-| `AngleSharp.Css` | `1.3.1` | MIT | `expression` | - |
+| `AngleSharp` | `1.10.0` | MIT | `expression` | - |
+| `AngleSharp` | `1.9.1` | MIT | `expression` | - |
+| `AngleSharp.Css` | `1.3.2` | MIT | `expression` | - |
+| `AngleSharp.Css` | `1.4.0` | MIT | `expression` | - |
 | `AngleSharp.Diffing` | `1.1.1` | MIT | `expression` | - |
 | `BouncyCastle.Cryptography` | `2.7.0` | MIT | `expression` | - |
-| `bunit` | `2.13.3` | MIT | `expression` | - |
+| `bunit` | `2.14.0` | MIT | `expression` | - |
 | `coverlet.MTP` | `10.1.0` | MIT | `expression` | - |
 | `Docker.DotNet.Enhanced` | `4.3.3` | MIT | `expression` | - |
 | `Docker.DotNet.Enhanced.Handler.Abstractions` | `4.3.3` | MIT | `expression` | - |
@@ -19,7 +21,7 @@ Les textes de licence distribués dans les paquets tiers sont conservés sous `d
 | `Docker.DotNet.Enhanced.NPipe` | `4.3.3` | MIT | `expression` | - |
 | `Docker.DotNet.Enhanced.Unix` | `4.3.3` | MIT | `expression` | - |
 | `Docker.DotNet.Enhanced.X509` | `4.3.3` | MIT | `expression` | - |
-| `HtmlSanitizer` | `10.0.1120` | MIT | `expression` | - |
+| `HtmlSanitizer` | `11.0.16` | MIT | `expression` | - |
 | `Humanizer.Core` | `2.14.1` | MIT | `expression` | - |
 | `Microsoft.ApplicationInsights` | `2.23.0` | MIT | `expression` | - |
 | `Microsoft.AspNetCore.App.Internal.Assets` | `10.0.14` | MIT | `expression` | - |

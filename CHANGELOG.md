@@ -4,11 +4,20 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+## [1.12.1] - 2026-11-08
+
+Version corrective décidée par le propriétaire (rester en `1.12`, voir `docs/versioning.md`) : ajouts demandés par les applications clientes, dépendances à jour. Aucune rupture d'API.
+
 ### Added
 
 - Teintes automatiques des `OmniNavTile` dans une `OmniTileGrid` : une tuile sans `Tone` prend la teinte de son rang parmi les tuiles de la grille, six teintes à tour de rôle (ambre, bleu, rouge, cyan, magenta, vert), jamais celle de la tuile précédente. Ce sont les couleurs ANSI vives du thème (`--omni-ansi-9` à `--omni-ansi-14`, remplaçables par `--omni-tile-hue-1` à `--omni-tile-hue-6`), à 4,5:1 au moins sur leur carré teinté à 12 % et sur la tuile, en clair et en sombre, sur tous les thèmes et palettes. Un `Tone` posé explicitement gagne ; hors grille, le défaut reste `Accent`. Changement visible : les tuiles de grille sans ton, jusqu'ici toutes en accent, prennent désormais ces teintes. Demande d'une application cliente (recette R1-17). Preuve : `NavTileAutoHueTests` (classes, règles, contraste et écart de teinte sur toute la matrice des thèmes), mesure dans la vitrine (icône à 5,8:1 sur son carré en clair, 6,6:1 en sombre).
 - `OmniDataGridColumn.ExportOnly` (`bool`, `false` par défaut : comportement inchangé) : une colonne déclarée mais jamais dessinée (ni cellule d'en-tête, ni cellules de corps, absente du sélecteur de colonnes, ni triée, filtrée ou groupée) que tous les exports de la grille écrivent (Markdown, CSV, Excel, PDF), pour les colonnes de détail d'un rapport (description, lieu, règle, dates). Elle a besoin d'une source de valeur (`Property`, `Value` ou `ExportValue`) et de `Exportable` à vrai ; `Visible` est ignoré. Dans le fichier, elle suit la colonne écrite la plus proche déclarée avant elle ; les autres colonnes gardent l'ordre du lecteur. Une colonne que le lecteur masque dans le sélecteur de colonnes reste hors de l'export : seul ce paramètre fait entrer une colonne masquée. Demande d'une application cliente (recette R-18). Preuve : `DataGridExportTests` (CSV et Excel, rendu sans la colonne, défaut inchangé).
 - `OmniStatTile.Size` et `OmniBadge.Size` (`OmniControlSize`, `Medium` par défaut : rendu inchangé), demandes d'une application cliente (recette R-25) qui redéfinissait ces tailles par sa propre feuille de style. `OmniStatTile` : `Small` rend la tuile compacte (marges réduites, valeur de départ 1,125 rem), `Large` plus aérée (1,75 rem) ; classes `omni-stat-tile--small` et `omni-stat-tile--large`. `OmniBadge` : `Small` (hauteur 1,125 rem) et `Large` (2 rem, texte plus grand, pour une lettre de note) posent `--omni-badge-height` et la taille du texte ; classes `omni-badge--small` et `omni-badge--large`. Exemples de la vitrine : `BadgeSizesExample` (page Badges), `StatTilesFitExample` et `StatTilesSizesExample` (page Tuiles de statistique).
+
+### Changed
+
+- Les `OmniNavTile` d'une `OmniTileGrid` sans `Tone`, jusqu'ici toutes en accent, prennent une teinte automatique de leur rang (voir « Added »). Pour retrouver l'ancien rendu, poser `Tone="OmniTone.Accent"`.
+- `HtmlSanitizer` passe de `10.0.1120` à `11.0.16` (AngleSharp `1.9.1`, AngleSharp.Css `1.3.2`) et `bunit` de `2.13.3` à `2.14.0`, dernières versions stables. `Microsoft.CodeAnalysis.CSharp` reste en `5.0.0` (lié au compilateur du plancher du SDK, `docs/dependencies.md`).
 
 ### Fixed
 
