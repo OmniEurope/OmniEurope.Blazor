@@ -4,7 +4,8 @@
 @* Class goes on the wrapper, the outermost element; Id and the additional attributes on the text area,
    the control. *@
 <div class="@WrapperCss("omni-text-area")">
-    <textarea @attributes="AdditionalAttributes"
+    <textarea name="@FieldName"
+              @attributes="AdditionalAttributes"
               id="@Id"
               class="@InnerInputCss("omni-input", "omni-text-area__input")"
               rows="@Rows"

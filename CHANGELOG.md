@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Changed
+
+- Les champs texte gardent l'historique du navigateur (demande d'une application cliente, recette R-13) : `OmniTextBox`, `OmniTextArea`, `OmniPassword` et `OmniNumeric` écrivent un `name`, le chemin de la valeur liée (`Project.Name`) : celui que Blazor écrit en rendu statique, calculé par OE dans un formulaire interactif où Blazor n'en écrit aucun ; un attribut `name` de l'appelant le remplace. Sans `Autocomplete`, un `OmniTextBox` de type texte ou recherche écrit le jeton neutre `OmniTextBox.NeutralAutocomplete` (`omni-text`, nouvelle constante publique) : mesuré dans Chrome 156 (`chrome://autofill-internals`), un champ libellé « Nom » sans jeton est classé `NAME_FULL` (remplissage de profil), avec ce jeton `HTML_TYPE_UNRECOGNIZED (disabling autofill)`, et, après l'envoi réel d'un `EditForm` interactif de la vitrine (page Validation), Chrome détecte la soumission et enregistre la valeur saisie dans l'historique du champ `Contact.Name`. Non observé : l'affichage du menu natif de suggestions, hors de portée du protocole de débogage. Changement visible : un hôte qui comptait sur le remplissage d'adresse d'un `OmniTextBox` sans jeton doit désormais le nommer (`Autocomplete="name"`, `"street-address"`, ...). Preuve : `FieldNameAutocompleteTests`.
+
 ## [1.12.1] - 2026-11-08
 
 Version corrective décidée par le propriétaire (rester en `1.12`, voir `docs/versioning.md`) : ajouts demandés par les applications clientes, dépendances à jour. Aucune rupture d'API.

@@ -2,7 +2,8 @@
 @typeparam TValue
 @inherits OmniInputBase<TValue>
 
-<input @attributes="AdditionalAttributes"
+<input name="@FieldName"
+       @attributes="AdditionalAttributes"
        id="@Id"
        class="@InputCss("omni-input", "omni-numeric")"
        type="number"

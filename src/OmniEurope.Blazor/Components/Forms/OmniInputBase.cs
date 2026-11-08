@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Localization;
@@ -76,6 +77,60 @@ public abstract class OmniInputBase<TValue> : InputBase<TValue>
     /// <summary>The enclosing <see cref="OmniFormField"/>, told whether the bound property is required.</summary>
     [CascadingParameter]
     private FormFieldRequirement? EnclosingRequirement { get; set; }
+
+    private Expression? _namedExpression;
+    private string? _expressionName;
+
+    /// <summary>
+    /// The <c>name</c> of the input, under which the browser keeps the history of the values typed in it
+    /// (recette R-13): the name Blazor gives the field in a statically rendered form; in an interactive one,
+    /// where Blazor writes none, the path of the bound member (<c>Project.Name</c> for
+    /// <c>@bind-Value="Project.Name"</c>), else <see cref="Id"/>. It is written before the additional
+    /// attributes, so a <c>name</c> given by the caller wins.
+    /// </summary>
+    private protected string? FieldName
+    {
+        get
+        {
+            if (!string.IsNullOrEmpty(NameAttributeValue))
+            {
+                return NameAttributeValue;
+            }
+
+            if (!ReferenceEquals(_namedExpression, ValueExpression))
+            {
+                _namedExpression = ValueExpression;
+                _expressionName = MemberPath(ValueExpression?.Body);
+            }
+
+            return _expressionName ?? Id;
+        }
+    }
+
+    /// <summary>The dotted path of a chain of members read from a captured value, or null when the chain holds anything else.</summary>
+    /// <param name="expression">The body of the value expression.</param>
+    internal static string? MemberPath(Expression? expression)
+    {
+        while (expression is UnaryExpression { NodeType: ExpressionType.Convert } convert)
+        {
+            expression = convert.Operand;
+        }
+
+        var names = new List<string>();
+        while (expression is MemberExpression member)
+        {
+            names.Add(member.Member.Name);
+            expression = member.Expression;
+        }
+
+        if (names.Count == 0 || expression is not (null or ConstantExpression))
+        {
+            return null;
+        }
+
+        names.Reverse();
+        return string.Join('.', names);
+    }
 
     /// <summary><c>"true"</c> while the edit context holds a message for the bound field, else null.</summary>
     protected string? AriaInvalid => EditContext is not null && EditContext.GetValidationMessages(FieldIdentifier).Any()

@@ -9,13 +9,14 @@
    the input. *@
 @if (Icon is null && !ShowCopy)
 {
-    <input @attributes="AdditionalAttributes"
+    <input name="@FieldName"
+           @attributes="AdditionalAttributes"
            id="@Id"
            class="@InputCss("omni-input", "omni-text-box")"
            type="@TypeAttribute"
            value="@CurrentValueAsString"
            placeholder="@Placeholder"
-           autocomplete="@Autocomplete"
+           autocomplete="@AutocompleteAttribute"
            disabled="@Disabled"
            readonly="@ReadOnly"
            aria-invalid="@AriaInvalid"
@@ -30,13 +31,14 @@ else
         {
             <span class="omni-text-box-field__icon" aria-hidden="true">@Icon</span>
         }
-        <input @attributes="AdditionalAttributes"
+        <input name="@FieldName"
+               @attributes="AdditionalAttributes"
                id="@Id"
                class="@InnerInputCss("omni-input", "omni-text-box", Icon is not null ? "omni-text-box--icon" : null)"
                type="@TypeAttribute"
                value="@CurrentValueAsString"
                placeholder="@Placeholder"
-               autocomplete="@Autocomplete"
+               autocomplete="@AutocompleteAttribute"
                disabled="@Disabled"
                readonly="@ReadOnly"
                aria-invalid="@AriaInvalid"
