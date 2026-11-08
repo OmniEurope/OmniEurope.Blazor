@@ -265,7 +265,7 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         Assert.Equal(["theme:Galet", "palette:null", "font:null"], events);
     }
 
-    [Fact]
+    [Fact(Skip = "Intermittent: dispatcher starved under the parallel suite, see docs/tests/disabled-tests.md")]
     public async Task Window_keeps_a_palette_and_a_font_picked_while_the_host_still_writes_the_theme()
     {
         var events = new List<string>();

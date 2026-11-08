@@ -100,7 +100,8 @@ public abstract class OmniInputBase<TValue> : InputBase<TValue>
             if (!ReferenceEquals(_namedExpression, ValueExpression))
             {
                 _namedExpression = ValueExpression;
-                _expressionName = MemberPath(ValueExpression?.Body);
+                // Never null once rendered: InputBase refuses parameters without a ValueExpression.
+                _expressionName = MemberPath(ValueExpression!.Body);
             }
 
             return _expressionName ?? Id;

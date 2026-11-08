@@ -113,8 +113,8 @@ public sealed class StatTileAndBadgeSizeTests : OmniBunitContext
         var small = Body(".omni-badge--small");
         var large = Body(".omni-badge--large");
 
-        Assert.Equal("1.125rem", Value(small, "--omni-badge-height"));
-        Assert.Equal("2rem", Value(large, "--omni-badge-height"));
+        Assert.Equal("calc(var(--omni-control-height) - 0.625rem)", Value(small, "--omni-badge-height"));
+        Assert.Equal("calc(var(--omni-control-height) + 0.25rem)", Value(large, "--omni-badge-height"));
         Assert.Contains("--omni-control-font) - 0.1875rem", Value(small, "font-size"), StringComparison.Ordinal);
         Assert.Contains("--omni-control-font) + 0.25rem", Value(large, "font-size"), StringComparison.Ordinal);
     }

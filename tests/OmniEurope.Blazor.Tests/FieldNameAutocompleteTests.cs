@@ -124,6 +124,18 @@ public sealed class FieldNameAutocompleteTests : OmniBunitContext
         Assert.Equal("names[0]", input.GetAttribute("name"));
     }
 
+    [Fact]
+    public void A_field_keeps_its_name_across_renders_of_the_same_bound_value()
+    {
+        var bound = Render<OmniTextBox>(parameters => parameters.AddCascadingValue(_form)
+            .Add(component => component.ValueExpression, () => Project.Name));
+        bound.Render(parameters => parameters.Add(component => component.Placeholder, "Name"));
+
+        Assert.Equal("Project.Name", bound.Find("input").GetAttribute("name"));
+    }
+
+    private static string Shared { get; } = string.Empty;
+
     private static ProjectModel Make() => new();
 
     [Fact]
@@ -137,5 +149,7 @@ public sealed class FieldNameAutocompleteTests : OmniBunitContext
         Expression<Func<string>> fromCall = () => Make().Name;
         Assert.Null(OmniInputBase<string>.MemberPath(fromCall.Body));
         Assert.Null(OmniInputBase<string>.MemberPath(null));
+        Expression<Func<string>> staticMember = () => Shared;
+        Assert.Equal("Shared", OmniInputBase<string>.MemberPath(staticMember.Body));
     }
 }

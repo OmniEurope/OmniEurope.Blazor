@@ -253,7 +253,7 @@ public sealed class OptInEvolutionTests : OmniBunitContext
                 .Add(component => component.Minimum, 0d)
                 .Add(component => component.Maximum, 100d));
 
-            numeric.MarkupMatches("""<input class="omni-input omni-numeric" type="number" value="5" min="0" max="100" />""");
+            numeric.MarkupMatches("""<input name="value" class="omni-input omni-numeric" type="number" value="5" min="0" max="100" />""");
 
             numeric.Find("input").Change("150");
             Assert.Equal(150, value);
