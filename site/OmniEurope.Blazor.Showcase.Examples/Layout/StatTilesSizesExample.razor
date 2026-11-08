@@ -1,0 +1,37 @@
+@* Size: Small is the compact tile (tighter padding, a smaller value), Medium the standard one, Large the roomy one.
+   The value starts from the size of the tile and still shrinks to fit its width. The same figures in the three. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniTileGrid Id="demo-stat-tile-size-small" Columns="3">
+        <OmniStatTile Size="OmniControlSize.Small" Value="12,4 k" Title="Tokens today">
+            <Icon><OmniIcon Name="OmniIconName.ChartBar" /></Icon>
+        </OmniStatTile>
+        <OmniStatTile Size="OmniControlSize.Small" Value="08/11/2026 10:27" Title="Updated">
+            <Icon><OmniIcon Name="OmniIconName.CalendarBlank" /></Icon>
+        </OmniStatTile>
+        <OmniStatTile Size="OmniControlSize.Small" Value="83 %" Title="Weekly">
+            <Icon><OmniIcon Name="OmniIconName.Check" /></Icon>
+        </OmniStatTile>
+    </OmniTileGrid>
+    <OmniTileGrid Id="demo-stat-tile-size-medium" Columns="3">
+        <OmniStatTile Value="12,4 k" Title="Tokens today">
+            <Icon><OmniIcon Name="OmniIconName.ChartBar" /></Icon>
+        </OmniStatTile>
+        <OmniStatTile Value="08/11/2026 10:27" Title="Updated">
+            <Icon><OmniIcon Name="OmniIconName.CalendarBlank" /></Icon>
+        </OmniStatTile>
+        <OmniStatTile Value="83 %" Title="Weekly">
+            <Icon><OmniIcon Name="OmniIconName.Check" /></Icon>
+        </OmniStatTile>
+    </OmniTileGrid>
+    <OmniTileGrid Id="demo-stat-tile-size-large" Columns="3">
+        <OmniStatTile Size="OmniControlSize.Large" Value="12,4 k" Title="Tokens today">
+            <Icon><OmniIcon Name="OmniIconName.ChartBar" /></Icon>
+        </OmniStatTile>
+        <OmniStatTile Size="OmniControlSize.Large" Value="08/11/2026 10:27" Title="Updated">
+            <Icon><OmniIcon Name="OmniIconName.CalendarBlank" /></Icon>
+        </OmniStatTile>
+        <OmniStatTile Size="OmniControlSize.Large" Value="83 %" Title="Weekly">
+            <Icon><OmniIcon Name="OmniIconName.Check" /></Icon>
+        </OmniStatTile>
+    </OmniTileGrid>
+</OmniStack>

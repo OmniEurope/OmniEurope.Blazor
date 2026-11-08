@@ -32,6 +32,14 @@ public static class BadgeLabels
         _ => "Pill"
     };
 
+    /// <summary>The word for a badge size.</summary>
+    public static string SizeOf(OmniControlSize size) => size switch
+    {
+        OmniControlSize.Small => "Small",
+        OmniControlSize.Large => "Large",
+        _ => "Medium"
+    };
+
     /// <summary>The words for an ink of the solid badge.</summary>
     public static string InkOf(OmniBadgeInk ink) => ink switch
     {

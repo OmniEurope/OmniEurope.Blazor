@@ -69,6 +69,17 @@ public partial class OmniStatTile
     [Parameter]
     public bool WrapTitle { get; set; }
 
+    /// <summary>
+    /// The size of the tile: <see cref="OmniControlSize.Small"/> is the compact tile (tighter padding, a
+    /// smaller value), <see cref="OmniControlSize.Large"/> a roomier one (wider padding, a larger value),
+    /// <see cref="OmniControlSize.Medium"/>, the default, the standard tile. It sets the padding and the
+    /// size the value starts from; the value still shrinks to fit the tile width, then wraps, whatever the
+    /// size. The icon square and the caption keep their size. Written as the modifier class
+    /// <c>omni-stat-tile--small</c> or <c>omni-stat-tile--large</c> (none for Medium).
+    /// </summary>
+    [Parameter]
+    public OmniControlSize Size { get; set; } = OmniControlSize.Medium;
+
     /// <summary>Checks that <see cref="Href"/> and <see cref="OnClick"/> are not both given and that the address is safe.</summary>
     /// <exception cref="ArgumentException"><see cref="Href"/> and <see cref="OnClick"/> are both given.</exception>
     /// <exception cref="InvalidOperationException"><see cref="Href"/> uses a scheme that is not allowed, or is a relative address that names another host (`//host`).</exception>
@@ -80,8 +91,9 @@ public partial class OmniStatTile
     }
 
     /// <summary>
-    /// Attaches the script that keeps the label on one line: smaller when it does not fit, then cut with
-    /// an ellipsis and its whole text in the hover tooltip. The tile is a button with <see cref="OnClick"/>,
+    /// Attaches the script that keeps the label on one line (smaller when it does not fit, then cut with
+    /// an ellipsis and its whole text in the hover tooltip) and fits the value to the tile (smaller in up to
+    /// three steps, then wrapped, never cut). The tile is a button with <see cref="OnClick"/>,
     /// a link with <see cref="Href"/> and a plain block without either, three different elements: when one of them comes or goes, the
     /// script leaves the former element and follows the new one. A lost circuit is ignored.
     /// </summary>
@@ -148,6 +160,13 @@ public partial class OmniStatTile
 
         GC.SuppressFinalize(this);
     }
+
+    private string? SizeClass => Size switch
+    {
+        OmniControlSize.Small => "omni-stat-tile--small",
+        OmniControlSize.Large => "omni-stat-tile--large",
+        _ => null,
+    };
 
     private string AccessibleName => string.IsNullOrWhiteSpace(Value) ? Title : Localize("LabelValuePair", Title, Value);
 }

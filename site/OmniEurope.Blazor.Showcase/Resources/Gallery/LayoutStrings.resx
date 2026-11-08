@@ -265,6 +265,10 @@
   <data name="StatTilesColumnsTitle" xml:space="preserve"><value>Tiles in columns</value></data>
   <data name="StatTilesWrapTitle" xml:space="preserve"><value>A long caption that wraps</value></data>
   <data name="StatTilesWrapDescription" xml:space="preserve"><value>With WrapTitle the caption wraps at its normal size instead of shrinking and being cut. In these six narrow columns the first tile wraps, the second keeps the caption on one line, and every tile of the grid keeps the same height.</value></data>
+  <data name="StatTilesFitTitle" xml:space="preserve"><value>A value that fits its tile</value></data>
+  <data name="StatTilesFitDescription" xml:space="preserve"><value>The value is never cut: a short figure keeps its size, a longer one (a date and a time, a git hash, a duration) shrinks in up to three steps to show whole, and at the smallest size it wraps. Four columns make the tiles narrow.</value></data>
+  <data name="StatTilesSizesTitle" xml:space="preserve"><value>Sizes</value></data>
+  <data name="StatTilesSizesDescription" xml:space="preserve"><value>Size sets the padding and the size the value starts from: Small (compact), Medium (the default) and Large, with the same three figures in each row.</value></data>
   <data name="StatTilesColumnsDescription" xml:space="preserve"><value>The second tile is clickable. The title of a tile stays on one line: smaller when it does not fit, then cut with an ellipsis, its whole text in the tooltip (third tile, narrowed to a small column).</value></data>
   <data name="StatTilesFactsTitle" xml:space="preserve"><value>Fact tiles</value></data>
   <data name="StatTilesFactsDescription" xml:space="preserve"><value>A title, then rows of icon, term and value on three columns shared by the tiles of the grid, so they line up. A value too long is cut with an ellipsis and read whole in the tooltip. The first tile carries linked values, the second a badge, the third is a single link.</value></data>

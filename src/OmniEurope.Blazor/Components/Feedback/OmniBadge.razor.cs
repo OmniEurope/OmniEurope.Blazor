@@ -43,6 +43,17 @@ public partial class OmniBadge
     public OmniBadgeWidth Width { get; set; } = OmniBadgeWidth.Auto;
 
     /// <summary>
+    /// The size of the badge: <see cref="OmniControlSize.Small"/> is a shorter badge with smaller text,
+    /// <see cref="OmniControlSize.Large"/> a taller one with larger text (a grade letter, a score),
+    /// <see cref="OmniControlSize.Medium"/>, the default, the standard badge. It sets the height of the badge
+    /// (the <c>--omni-badge-height</c> property, which is also the minimum width of the badge and the side of an icon-only
+    /// badge) and its font size, through the modifier class <c>omni-badge--small</c> or
+    /// <c>omni-badge--large</c> (none for Medium). Colours, shape and width steps are unchanged.
+    /// </summary>
+    [Parameter]
+    public OmniControlSize Size { get; set; } = OmniControlSize.Medium;
+
+    /// <summary>
     /// The corners of the badge, whatever its <see cref="Fill"/>: <see cref="OmniBadgeShape.Pill"/>, the
     /// default, fully rounded ends; <see cref="OmniBadgeShape.Rounded"/>, the small radius of the theme (the
     /// look before the pill); <see cref="OmniBadgeShape.Square"/>, no radius. Colours, border and height are
@@ -95,7 +106,7 @@ public partial class OmniBadge
 
     private string? AccessibleName => OmniAriaLabel.Of(Label, AdditionalAttributes);
 
-    private string BadgeClass => Css("omni-badge", $"omni-badge--{Tone.ToString().ToLowerInvariant()}", $"omni-badge--{Fill.ToString().ToLowerInvariant()}", IconOnly ? "omni-badge--icon" : null, LeadingIcon ? "omni-badge--leading-icon" : null, Clickable ? "omni-badge--action" : null, ShapeClass, InkClass, WidthClass);
+    private string BadgeClass => Css("omni-badge", $"omni-badge--{Tone.ToString().ToLowerInvariant()}", $"omni-badge--{Fill.ToString().ToLowerInvariant()}", IconOnly ? "omni-badge--icon" : null, LeadingIcon ? "omni-badge--leading-icon" : null, Clickable ? "omni-badge--action" : null, ShapeClass, InkClass, WidthClass, SizeClass);
 
     /// <summary>Checks that <see cref="Href"/> and <see cref="OnClick"/> are not both given and that the address is safe.</summary>
     /// <exception cref="ArgumentException"><see cref="Href"/> and <see cref="OnClick"/> are both given.</exception>
@@ -143,6 +154,13 @@ public partial class OmniBadge
     {
         OmniBadgeInk.WhiteOutlined => "omni-badge--ink-white-outlined",
         OmniBadgeInk.Black => "omni-badge--ink-black",
+        _ => null,
+    };
+
+    private string? SizeClass => Size switch
+    {
+        OmniControlSize.Small => "omni-badge--small",
+        OmniControlSize.Large => "omni-badge--large",
         _ => null,
     };
 

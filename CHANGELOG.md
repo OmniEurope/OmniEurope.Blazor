@@ -4,6 +4,14 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Added
+
+- `OmniStatTile.Size` et `OmniBadge.Size` (`OmniControlSize`, `Medium` par défaut : rendu inchangé), demandes d'une application cliente (recette R-25) qui redéfinissait ces tailles par sa propre feuille de style. `OmniStatTile` : `Small` rend la tuile compacte (marges réduites, valeur de départ 1,125 rem), `Large` plus aérée (1,75 rem) ; classes `omni-stat-tile--small` et `omni-stat-tile--large`. `OmniBadge` : `Small` (hauteur 1,125 rem) et `Large` (2 rem, texte plus grand, pour une lettre de note) posent `--omni-badge-height` et la taille du texte ; classes `omni-badge--small` et `omni-badge--large`. Exemples de la vitrine : `BadgeSizesExample` (page Badges), `StatTilesFitExample` et `StatTilesSizesExample` (page Tuiles de statistique).
+
+### Fixed
+
+- `OmniStatTile` : la valeur est ajustée à la largeur de la tuile et n'est plus jamais coupée de points de suspension (« 08/11/2026 10:27 » ou un hash git sortait « 08/11/2026 1... »). Le script de la tuile (`omni-stat-tile.js`), qui ajustait déjà le titre, marque la valeur `data-fit="shrink-1"`, `shrink-2` puis `shrink-3` quand elle déborde (84 %, 72 % puis 62 % de sa taille de départ, jamais sous 0,8125 rem), puis `data-fit="wrap"` : à la plus petite taille elle passe à la ligne plutôt que d'être coupée. Une valeur courte garde 1,375 rem. Le texte de la valeur n'a plus de points de suspension ni d'infobulle ; avant la première mesure du script, une valeur trop large est seulement rognée. Aucune rupture d'API publique.
+
 ## [1.12.0] - 2026-11-07
 
 Version mineure demandée par le propriétaire : composants de la famille Editor (`OmniInkCanvas`, `OmniDocumentViewer`, `OmniDocumentEditor`, PLAN-010), ajouts d'API demandés par les applications clientes et corrections. Aucune rupture d'API.

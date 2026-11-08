@@ -94,6 +94,8 @@ internal static class LayoutFamily
                 "Layout/StatTilesGalleryExample.razor", "Layout/StatTilesGalleryExample.razor.cs",
                 "Layout/StatTilesColumnsExample.razor", "Layout/StatTilesColumnsExample.razor.cs",
                 "Layout/StatTilesWrapExample.razor",
+                "Layout/StatTilesFitExample.razor",
+                "Layout/StatTilesSizesExample.razor",
                 "Layout/FactTilesExample.razor",
                 "Layout/FactTilesNarrowExample.razor",
                 "Layout/TileGridExample.razor", "Layout/TileGridExample.razor.cs",
