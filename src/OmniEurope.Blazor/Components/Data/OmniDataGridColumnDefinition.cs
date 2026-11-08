@@ -81,6 +81,8 @@ internal sealed class OmniDataGridColumnDefinition<TItem>
     /// <summary>The value an export writes, in place of <see cref="Value"/>.</summary>
     public Func<TItem, object?>? ExportValue { get; set; }
     public bool Exportable { get; init; } = true;
+    /// <summary>Not drawn on screen, written by every export.</summary>
+    public bool ExportOnly { get; init; }
     /// <summary>The column declares a property or a value: an export can write it without an <see cref="ExportValue"/>.</summary>
     public bool HasValueSource { get; init; }
 }

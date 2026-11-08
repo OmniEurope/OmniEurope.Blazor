@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Added
+
+- `OmniDataGridColumn.ExportOnly` (`bool`, `false` par défaut : comportement inchangé) : une colonne déclarée mais jamais dessinée (ni cellule d'en-tête, ni cellules de corps, absente du sélecteur de colonnes, ni triée, filtrée ou groupée) que tous les exports de la grille écrivent (Markdown, CSV, Excel, PDF), pour les colonnes de détail d'un rapport (description, lieu, règle, dates). Elle a besoin d'une source de valeur (`Property`, `Value` ou `ExportValue`) et de `Exportable` à vrai ; `Visible` est ignoré. Dans le fichier, elle suit la colonne écrite la plus proche déclarée avant elle ; les autres colonnes gardent l'ordre du lecteur. Une colonne que le lecteur masque dans le sélecteur de colonnes reste hors de l'export : seul ce paramètre fait entrer une colonne masquée. Demande d'une application cliente (recette R-18). Preuve : `DataGridExportTests` (CSV et Excel, rendu sans la colonne, défaut inchangé).
+
 ## [1.12.0] - 2026-11-07
 
 Version mineure demandée par le propriétaire : composants de la famille Editor (`OmniInkCanvas`, `OmniDocumentViewer`, `OmniDocumentEditor`, PLAN-010), ajouts d'API demandés par les applications clientes et corrections. Aucune rupture d'API.

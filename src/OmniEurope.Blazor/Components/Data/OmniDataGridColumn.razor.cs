@@ -139,6 +139,17 @@ public partial class OmniDataGridColumn<TItem>
     [Parameter]
     public bool Exportable { get; set; } = true;
 
+    /// <summary>
+    /// Declares a column that is not drawn on screen (no header cell, no body cell, not listed in the column chooser,
+    /// never sorted, filtered or grouped) yet is written by every export of the grid: the detail columns of a report
+    /// (description, location, dates). False by default. It still needs a value source (<see cref="Property"/>,
+    /// <see cref="Value"/> or <see cref="ExportValue"/>) and <see cref="Exportable"/> left true. In the file it sits
+    /// after the nearest column declared before it that the export writes. A column the reader hid in the column
+    /// chooser stays out of the export; only this parameter opts a hidden column in. <see cref="Visible"/> is ignored.
+    /// </summary>
+    [Parameter]
+    public bool ExportOnly { get; set; }
+
     /// <summary>Composite format applied to the cell value, for example <c>{0:n2}</c>.</summary>
     [Parameter]
     public string? FormatString { get; set; }
@@ -411,6 +422,7 @@ public partial class OmniDataGridColumn<TItem>
             HighlightOnHover = HighlightOnHover,
             ExportValue = ExportValue,
             Exportable = Exportable,
+            ExportOnly = ExportOnly,
             HasValueSource = Property is not null || Value is not null
         };
         if (Context is null)
@@ -528,6 +540,7 @@ public partial class OmniDataGridColumn<TItem>
         && left.SortOrder == right.SortOrder
         && Equivalent(left.ExportValue, right.ExportValue)
         && left.Exportable == right.Exportable
+        && left.ExportOnly == right.ExportOnly
         && left.HasValueSource == right.HasValueSource;
 
     private static bool SameTemplates(OmniDataGridColumnDefinition<TItem> left, OmniDataGridColumnDefinition<TItem> right) =>

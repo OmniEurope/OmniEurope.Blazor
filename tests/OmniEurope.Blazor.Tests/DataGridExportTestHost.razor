@@ -38,6 +38,10 @@
         <OmniDataGridColumn TItem="Row" Property="Id" Title="N°" />
         <OmniDataGridColumn TItem="Row" Property="Name" Title="Nom" DefaultFilterValue="@NameFilter" SortOrder="@NameSort" />
         <OmniDataGridColumn TItem="Row" Property="Amount" Title="Montant" FormatString="{0:n2} EUR" />
+        @if (WithExportOnly)
+        {
+            <OmniDataGridColumn TItem="Row" Key="detail" Title="Détail" ExportValue="@(row => $"note-{row.Id}")" ExportOnly="true" />
+        }
         <OmniDataGridColumn TItem="Row" Property="Day" Title="Jour" />
         <OmniDataGridColumn TItem="Row" Title="Statut" ExportValue="@(row => row.Paid ? "payée" : "due")">
             <Template Context="row"><strong>@(row.Paid ? "payée" : "due")</strong></Template>
@@ -101,6 +105,8 @@
     [Parameter] public IReadOnlyDictionary<OmniTableExportFormat, OmniButtonVariant>? Variants { get; set; }
 
     [Parameter] public bool OnlyTemplates { get; set; }
+
+    [Parameter] public bool WithExportOnly { get; set; }
 
     [Parameter] public bool ShowExportButtonText { get; set; }
     [Parameter] public bool ShowExportCancel { get; set; }

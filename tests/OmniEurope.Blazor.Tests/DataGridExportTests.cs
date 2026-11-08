@@ -136,6 +136,59 @@ public sealed class DataGridExportTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task AnExportOnlyColumn_IsNotDrawn_YetIsInTheCsv_AfterTheColumnDeclaredBeforeIt()
+    {
+        var host = Render<DataGridExportTestHost>(parameters => parameters
+            .Add(component => component.Items, Rows)
+            .Add(component => component.WithExportOnly, true)
+            .Add(component => component.Formats, [OmniTableExportFormat.Csv]));
+
+        Assert.DoesNotContain("Détail", host.FindAll("th").Select(header => header.TextContent));
+        Assert.DoesNotContain("note-1", host.Markup);
+
+        await Button(host, "CSV").ClickAsync(new());
+
+        var lines = CsvOf(Assert.Single(_download.Invocations["download"])).TrimStart('﻿').Split("\r\n", StringSplitOptions.RemoveEmptyEntries);
+        Assert.Equal("N°;Nom;Montant;Détail;Jour;Statut", lines[0]);
+        Assert.StartsWith("1;Delta;1234,5;note-1;01/09/2026;payée", lines[1]);
+    }
+
+    [Fact]
+    public async Task AnExportOnlyColumn_IsInTheExcelFileToo()
+    {
+        var host = Render<DataGridExportTestHost>(parameters => parameters
+            .Add(component => component.Items, Rows)
+            .Add(component => component.WithExportOnly, true)
+            .Add(component => component.Formats, [OmniTableExportFormat.Excel]));
+
+        await Button(host, "Excel").ClickAsync(new());
+
+        Assert.Equal(["N°", "Nom", "Montant", "Détail", "Jour", "Statut"], host.Instance.Exported!.Columns.Select(column => column.Title));
+        var bytes = (byte[])Assert.Single(_download.Invocations["download"]).Arguments[2]!;
+        using var archive = new System.IO.Compression.ZipArchive(new MemoryStream(bytes));
+        var text = string.Concat(archive.Entries.Select(entry =>
+        {
+            using var reader = new StreamReader(entry.Open());
+            return reader.ReadToEnd();
+        }));
+        Assert.Contains("Détail", text);
+        Assert.Contains("note-1", text);
+    }
+
+    [Fact]
+    public async Task WithoutAnExportOnlyColumn_TheExportKeepsItsColumns()
+    {
+        var host = Render<DataGridExportTestHost>(parameters => parameters
+            .Add(component => component.Items, Rows)
+            .Add(component => component.Formats, [OmniTableExportFormat.Csv]));
+
+        await Button(host, "CSV").ClickAsync(new());
+
+        var lines = CsvOf(Assert.Single(_download.Invocations["download"])).TrimStart('﻿').Split("\r\n", StringSplitOptions.RemoveEmptyEntries);
+        Assert.Equal("N°;Nom;Montant;Jour;Statut", lines[0]);
+    }
+
+    [Fact]
     public async Task Csv_OfALocalGrid_HoldsEveryFilteredRowInTheSortOrder_NotThePage()
     {
         var host = Render<DataGridExportTestHost>(parameters => parameters

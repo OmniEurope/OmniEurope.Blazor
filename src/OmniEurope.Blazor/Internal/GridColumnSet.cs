@@ -31,7 +31,7 @@ internal sealed class GridColumnSet<TItem>(OmniDataGrid<TItem> grid)
 
     /// <summary>The registered columns, none while they are awaited, or the implicit column when there is none.</summary>
     internal IReadOnlyList<OmniDataGridColumnDefinition<TItem>> EffectiveColumns =>
-        _columns.Count > 0 ? _columns
+        _columns.Count > 0 ? (_columns.Exists(column => column.ExportOnly) ? [.. _columns.Where(column => !column.ExportOnly)] : _columns)
         : AwaitingColumns ? Array.Empty<OmniDataGridColumnDefinition<TItem>>()
         : [ImplicitColumn];
 
