@@ -125,6 +125,8 @@
   <data name="BadgesShapeSquare" xml:space="preserve"><value>Square</value></data>
   <data name="BadgesShapesTitle" xml:space="preserve"><value>Shapes</value></data>
   <data name="BadgesShapesDescription" xml:space="preserve"><value>Pill is the default; Rounded keeps the small radius of the theme and Square has none. Colours and borders do not change.</value></data>
+  <data name="BadgesSizesTitle" xml:space="preserve"><value>Sizes</value></data>
+  <data name="BadgesSizesDescription" xml:space="preserve"><value>Small is a shorter badge with smaller text, Medium is the default, Large is taller with larger text, for a grade letter or a score.</value></data>
   <data name="BadgesLabel" xml:space="preserve"><value>Label</value></data>
   <data name="BadgesLabelDescription" xml:space="preserve"><value>The text shown inside the badge.</value></data>
   <data name="BadgesLabelDefault" xml:space="preserve"><value>New</value></data>

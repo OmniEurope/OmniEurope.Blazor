@@ -1,0 +1,21 @@
+@* Size: Small is a shorter badge with smaller text, Medium the standard one, Large a taller one with larger text, for
+   a grade letter or a score. Same tones and fills in the three. *@
+<OmniStack Gap="OmniSpacing.Small">
+    @foreach (var size in Sizes)
+    {
+        <OmniRow @key="size" Gap="OmniSpacing.Small" Align="OmniAlignment.Center" Wrap="true">
+            <OmniColumn Span="12" MediumSpan="2"><OmniText Element="OmniTextElement.Strong">@BadgeLabels.SizeOf(size)</OmniText></OmniColumn>
+            <OmniColumn Span="12" MediumSpan="9">
+                <OmniRow Gap="OmniSpacing.Small" Align="OmniAlignment.Center" Wrap="true">
+                    <OmniBadge Tone="OmniTone.Success" Size="size">A</OmniBadge>
+                    <OmniBadge Tone="OmniTone.Danger" Size="size">F</OmniBadge>
+                    <OmniBadge Tone="OmniTone.Accent" Size="size">New</OmniBadge>
+                    <OmniBadge Tone="OmniTone.Success" Fill="OmniFill.Tonal" Size="size">Published</OmniBadge>
+                    <OmniBadge Tone="OmniTone.Info" Fill="OmniFill.Outline" Size="size">In review</OmniBadge>
+                    <OmniBadge Tone="OmniTone.Warning" Fill="OmniFill.Tonal" Size="size"><Icon><OmniIcon Name="OmniIconName.Tag" /></Icon><ChildContent>Tag</ChildContent></OmniBadge>
+                    <OmniBadge Tone="OmniTone.Neutral" Fill="OmniFill.Outline" Size="size"><Icon><OmniIcon Name="OmniIconName.Tag" Label="Tag" /></Icon></OmniBadge>
+                </OmniRow>
+            </OmniColumn>
+        </OmniRow>
+    }
+</OmniStack>

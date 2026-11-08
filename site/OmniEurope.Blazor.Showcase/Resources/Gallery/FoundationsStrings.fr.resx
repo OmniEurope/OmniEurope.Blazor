@@ -125,6 +125,8 @@
   <data name="BadgesShapeSquare" xml:space="preserve"><value>Carré</value></data>
   <data name="BadgesShapesTitle" xml:space="preserve"><value>Formes</value></data>
   <data name="BadgesShapesDescription" xml:space="preserve"><value>La pilule est la forme par défaut ; Arrondi garde le petit rayon du thème et Carré n'en a aucun. Les couleurs et les bordures ne changent pas.</value></data>
+  <data name="BadgesSizesTitle" xml:space="preserve"><value>Tailles</value></data>
+  <data name="BadgesSizesDescription" xml:space="preserve"><value>Small est un badge plus bas au texte plus petit, Medium est la taille par défaut, Large est plus haut au texte plus grand, pour une lettre de note ou un score.</value></data>
   <data name="BadgesLabel" xml:space="preserve"><value>Libellé</value></data>
   <data name="BadgesLabelDescription" xml:space="preserve"><value>Le texte affiché dans le badge.</value></data>
   <data name="BadgesLabelDefault" xml:space="preserve"><value>Nouveau</value></data>

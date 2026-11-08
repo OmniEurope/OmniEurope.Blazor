@@ -2,7 +2,8 @@ namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The size of a control, shared by <see cref="OmniButton"/>, <see cref="OmniToggleButton"/> and the
-/// other controls that expose a <c>Size</c> parameter. It sets the height, padding and icon size
+/// other controls that expose a <c>Size</c> parameter, including <see cref="OmniBadge"/> (its height and text) and
+/// <see cref="OmniStatTile"/> (its padding and value). On a button it sets the height, padding and icon size
 /// through a CSS modifier class.
 /// </summary>
 public enum OmniControlSize

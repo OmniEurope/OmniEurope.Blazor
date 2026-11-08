@@ -1,4 +1,4 @@
-// The label of OmniStatTile stays on one line (recette R1-15): when it does not fit its tile, the
+// The label and the value of OmniStatTile are fitted to the tile. The label stays on one line (recette R1-15): when it does not fit its tile, the
 // module marks it data-fit="shrink", which the stylesheet writes in a smaller size (0.6875rem, the
 // readable floor); when it still does not fit, data-fit="clip": the stylesheet cuts it with an ellipsis
 // and the module lends the whole text to its title, so the hover tooltip reads it. It is measured again
@@ -7,7 +7,28 @@
 // writes a style. The title is an attribute Blazor never renders on the label, so Blazor leaves it.
 const tiles = new WeakMap();
 
+// The value of the tile is fitted the same way (recette R-25), but never cut: data-fit="shrink-1", then
+// "shrink-2", then "shrink-3" (the stylesheet writes each in a smaller size, down to its floor), and when the
+// text still overflows at the floor, data-fit="wrap" (the stylesheet lets it wrap). No tooltip: nothing is cut.
+const valueSteps = ['shrink-1', 'shrink-2', 'shrink-3', 'wrap'];
+
+function fitValue(value) {
+    value.removeAttribute('data-fit');
+    for (const step of valueSteps) {
+        if (value.scrollWidth <= value.clientWidth + 1) {
+            return;
+        }
+
+        value.setAttribute('data-fit', step);
+    }
+}
+
 function fit(tile) {
+    const value = tile.querySelector('.omni-stat-tile__value');
+    if (value) {
+        fitValue(value);
+    }
+
     const label = tile.querySelector('.omni-stat-tile__label');
     if (!label) {
         return;

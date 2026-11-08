@@ -1,0 +1,17 @@
+@* The value of a stat tile fits the tile and is never cut: a short figure keeps its size, a longer one (a date and a
+   time, a short git hash, a duration) takes a smaller one so that it shows whole, and at the smallest size a value
+   that still does not fit wraps. Four columns make the tiles narrow, as on a dashboard or a phone. *@
+<OmniTileGrid Id="demo-stat-tile-fit-grid" Columns="4">
+    <OmniStatTile Id="demo-stat-tile-fit-date" Value="08/11/2026 10:27" Title="Last deployment">
+        <Icon><OmniIcon Name="OmniIconName.CalendarBlank" /></Icon>
+    </OmniStatTile>
+    <OmniStatTile Id="demo-stat-tile-fit-sha" Value="a3f9c01d7e5b84c2f6a0" Title="Commit">
+        <Icon><OmniIcon Name="OmniIconName.Tag" /></Icon>
+    </OmniStatTile>
+    <OmniStatTile Id="demo-stat-tile-fit-short" Value="82 %" Title="Accuracy">
+        <Icon><OmniIcon Name="OmniIconName.Check" /></Icon>
+    </OmniStatTile>
+    <OmniStatTile Id="demo-stat-tile-fit-long" Value="3 days 14 hours 27 minutes" Title="Uptime">
+        <Icon><OmniIcon Name="OmniIconName.Star" /></Icon>
+    </OmniStatTile>
+</OmniTileGrid>
