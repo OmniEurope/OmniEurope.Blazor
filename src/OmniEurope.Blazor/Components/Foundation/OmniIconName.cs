@@ -505,5 +505,7 @@ public enum OmniIconName
     /// <summary>Percent sign.</summary>
     Percent,
     /// <summary>Leaf: ecology, environmental footprint.</summary>
-    Leaf
+    Leaf,
+    /// <summary>Shield with a cross inside: a security problem, a failed or refused protection.</summary>
+    ShieldX
 }

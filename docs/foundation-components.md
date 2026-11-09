@@ -73,7 +73,7 @@ La mise en page de la barre (où la recherche se place, l'écart entre les actio
 
 ## Icônes
 
-Les tracés intégrés proviennent du poids `regular` de [Phosphor Icons](https://github.com/phosphor-icons/core) `2.1.1` (MIT), repris tels quels. Le paquet embarque un catalogue choisi : les tracés qu'il dessine lui-même et chaque icône que ses applications affichent, un tracé par valeur d'`OmniIconName`. Le catalogue complet n'est jamais distribué ; une application à qui il manque une icône l'ajoute au catalogue, par son nom : une valeur en fin d'`OmniIconName` et une ligne dans `src/OmniEurope.Blazor/Internal/PhosphorIcons.txt` (le nom, une tabulation, le tracé). Ce fichier est incorporé tel quel à l'assembly, en UTF-8, et le paquet le lit une fois, au premier rendu d'une icône.
+Les tracés intégrés proviennent du poids `regular` de [Phosphor Icons](https://github.com/phosphor-icons/core) `2.1.1` (MIT), repris tels quels, sauf `ShieldX` : le jeu n'a pas de bouclier à croix, son tracé assemble le contour de `shield-check` et la croix de `x-circle`. Le paquet embarque un catalogue choisi : les tracés qu'il dessine lui-même et chaque icône que ses applications affichent, un tracé par valeur d'`OmniIconName`. Le catalogue complet n'est jamais distribué ; une application à qui il manque une icône l'ajoute au catalogue, par son nom : une valeur en fin d'`OmniIconName` et une ligne dans `src/OmniEurope.Blazor/Internal/PhosphorIcons.txt` (le nom, une tabulation, le tracé). Ce fichier est incorporé tel quel à l'assembly, en UTF-8, et le paquet le lit une fois, au premier rendu d'une icône.
 
 Pour un tracé ponctuel, Phosphor ou non, le paramètre `Glyph` reste disponible.
 

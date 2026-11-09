@@ -262,5 +262,6 @@ public static class IconCatalog
         OmniIconName.CurrencyBtc,
         OmniIconName.Percent,
         OmniIconName.Leaf,
+        OmniIconName.ShieldX,
     ];
 }

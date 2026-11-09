@@ -9,7 +9,7 @@
       "supplier": "Phosphor Icons",
       "homepage": "https://github.com/phosphor-icons/core",
       "reference": "https://www.npmjs.com/package/@phosphor-icons/core/v/2.1.1",
-      "usage": "Tracés intégrés d'OmniIcon, repris tels quels des poids regular et fill (StarFilled).",
+      "usage": "Tracés intégrés d'OmniIcon, repris tels quels des poids regular et fill (StarFilled) ; ShieldX assemble le contour de shield-check et la croix de x-circle.",
       "vendoredFiles": [
         "src/OmniEurope.Blazor/Internal/PhosphorIconGlyphs.cs",
         "src/OmniEurope.Blazor/Internal/PhosphorIcons.txt"

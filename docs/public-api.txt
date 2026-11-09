@@ -847,6 +847,7 @@ field public static OmniEurope.Blazor.Components.OmniIconName.ShareNetwork : Omn
 field public static OmniEurope.Blazor.Components.OmniIconName.ShieldCheck : OmniEurope.Blazor.Components.OmniIconName const = 70
 field public static OmniEurope.Blazor.Components.OmniIconName.ShieldSlash : OmniEurope.Blazor.Components.OmniIconName const = 135
 field public static OmniEurope.Blazor.Components.OmniIconName.ShieldWarning : OmniEurope.Blazor.Components.OmniIconName const = 124
+field public static OmniEurope.Blazor.Components.OmniIconName.ShieldX : OmniEurope.Blazor.Components.OmniIconName const = 250
 field public static OmniEurope.Blazor.Components.OmniIconName.Shuffle : OmniEurope.Blazor.Components.OmniIconName const = 205
 field public static OmniEurope.Blazor.Components.OmniIconName.Sidebar : OmniEurope.Blazor.Components.OmniIconName const = 71
 field public static OmniEurope.Blazor.Components.OmniIconName.SignIn : OmniEurope.Blazor.Components.OmniIconName const = 158
