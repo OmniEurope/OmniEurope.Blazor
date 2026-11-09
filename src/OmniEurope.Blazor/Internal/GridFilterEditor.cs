@@ -53,9 +53,33 @@ internal sealed class GridFilterEditor<TItem>(OmniDataGrid<TItem> grid)
         && !InHeaderMenu
         && !UsesAdvancedFilter;
 
-    /// <summary>Whether the popover editor of a date column also holds its From and To range.</summary>
-    internal static bool HoldsRange(OmniDataGridColumnDefinition<TItem> column, bool inPanel) =>
-        inPanel && column.FilterType == OmniDataGridColumnFilterType.Date;
+    /// <summary>
+    /// The editor of the header filter menu for a date column: its own choice, else the grid's.
+    /// </summary>
+    private OmniDataGridDateFilterEditor HeaderMenuDateEditor(OmniDataGridColumnDefinition<TItem> column) =>
+        column.HeaderMenuDateFilter ?? grid.HeaderMenuDateFilter;
+
+    private bool ChoosesDateEditor(OmniDataGridColumnDefinition<TItem> column) =>
+        InHeaderMenu && column.FilterType == OmniDataGridColumnFilterType.Date;
+
+    /// <summary>
+    /// Whether a date column shows its typed field: in the inline row and its popovers always, in the header menu
+    /// unless the column holds the range alone.
+    /// </summary>
+    internal bool ShowsDateText(OmniDataGridColumnDefinition<TItem> column) =>
+        !ChoosesDateEditor(column) || HeaderMenuDateEditor(column) == OmniDataGridDateFilterEditor.Single;
+
+    /// <summary>
+    /// Whether a date column's editor holds its From and To range. In the header menu, the range is the editor
+    /// unless the column picks the typed field. In the inline row, the advanced mode popover holds it under the
+    /// typed field only for a column with <c>AdvancedFilter</c>; the row itself never does (its calendar menu
+    /// is separate, see <see cref="ShowsRangeMenu"/>).
+    /// </summary>
+    internal bool HoldsRange(OmniDataGridColumnDefinition<TItem> column, bool inPanel) =>
+        column.FilterType == OmniDataGridColumnFilterType.Date
+        && (InHeaderMenu
+            ? HeaderMenuDateEditor(column) == OmniDataGridDateFilterEditor.Range
+            : inPanel && column.AdvancedFilter);
 
     /// <summary>
     /// Whether this column's editor is the two-condition one of the advanced mode. A checkable list,

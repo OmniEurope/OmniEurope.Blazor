@@ -258,6 +258,8 @@
   <data name="VariantsCappedTitle" xml:space="preserve"><value>Capped height</value></data>
   <data name="VariantsCasesHint" xml:space="preserve"><value>The grid in its everyday form, one column of each filter shape and text alignment, and an export bar at the foot.</value></data>
   <data name="VariantsCasesTitle" xml:space="preserve"><value>Open cases</value></data>
+  <data name="VariantsDateFilterHint" xml:space="preserve"><value>A date column filters from a From and To range in the header menu, from its typed field in the filter row; HeaderMenuDateFilter="Single" puts the typed field in the menu too. Both edit one value.</value></data>
+  <data name="VariantsDateFilterTitle" xml:space="preserve"><value>Date filter editor</value></data>
   <data name="VariantsEditHint" xml:space="preserve"><value>Edit from the pencil or a double click, or from a single click in a cell.</value></data>
   <data name="VariantsEditTitle" xml:space="preserve"><value>Editing in place</value></data>
   <data name="VariantsFillBoxHint" xml:space="preserve"><value>Settings above, a grid below that takes the rest of a fixed-height frame; the frame scrolls when the settings leave it nothing.</value></data>

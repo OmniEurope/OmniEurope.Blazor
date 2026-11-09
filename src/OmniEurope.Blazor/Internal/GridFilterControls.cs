@@ -47,18 +47,24 @@ internal sealed class GridFilterControls<TItem>(OmniDataGrid<TItem> grid)
                 break;
 
             case OmniDataGridColumnFilterType.Date:
-                builder.OpenComponent<OmniDataGridFilterDate>(0);
-                builder.AddComponentParameter(1, nameof(OmniDataGridFilterDate.Id), id);
-                builder.AddComponentParameter(2, nameof(OmniDataGridFilterDate.Value), value);
-                builder.AddComponentParameter(
-                    3,
-                    nameof(OmniDataGridFilterDate.ValueChanged),
-                    EventCallback.Factory.Create<string>(grid, encoded => onChanged(encoded)));
-                builder.CloseComponent();
-                // The popover of a date column always holds the From and To range too.
-                if (GridFilterEditor<TItem>.HoldsRange(column, inPanel))
+                // The header menu holds the range or the typed field, by the column's choice; the row, the typed
+                // field. The range alone takes the id of the editor, so the label of the editor points at it.
+                var text = editor.ShowsDateText(column);
+                if (text)
                 {
-                    OpenDateRange(builder, 4, column, $"{id}-range", value, onChanged);
+                    builder.OpenComponent<OmniDataGridFilterDate>(0);
+                    builder.AddComponentParameter(1, nameof(OmniDataGridFilterDate.Id), id);
+                    builder.AddComponentParameter(2, nameof(OmniDataGridFilterDate.Value), value);
+                    builder.AddComponentParameter(
+                        3,
+                        nameof(OmniDataGridFilterDate.ValueChanged),
+                        EventCallback.Factory.Create<string>(grid, encoded => onChanged(encoded)));
+                    builder.CloseComponent();
+                }
+
+                if (editor.HoldsRange(column, inPanel))
+                {
+                    OpenDateRange(builder, 4, column, text ? $"{id}-range" : id, value, onChanged);
                 }
 
                 break;

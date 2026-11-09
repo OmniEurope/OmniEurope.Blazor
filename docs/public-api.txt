@@ -510,6 +510,8 @@ field public static OmniEurope.Blazor.Components.OmniDataGridColumnFilterType.Se
 field public static OmniEurope.Blazor.Components.OmniDataGridColumnFilterType.Text : OmniEurope.Blazor.Components.OmniDataGridColumnFilterType const = 0
 field public static OmniEurope.Blazor.Components.OmniDataGridColumnSizing.Content : OmniEurope.Blazor.Components.OmniDataGridColumnSizing const = 1
 field public static OmniEurope.Blazor.Components.OmniDataGridColumnSizing.Declared : OmniEurope.Blazor.Components.OmniDataGridColumnSizing const = 0
+field public static OmniEurope.Blazor.Components.OmniDataGridDateFilterEditor.Range : OmniEurope.Blazor.Components.OmniDataGridDateFilterEditor const = 0
+field public static OmniEurope.Blazor.Components.OmniDataGridDateFilterEditor.Single : OmniEurope.Blazor.Components.OmniDataGridDateFilterEditor const = 1
 field public static OmniEurope.Blazor.Components.OmniDataGridEditTrigger.Action : OmniEurope.Blazor.Components.OmniDataGridEditTrigger const = 0
 field public static OmniEurope.Blazor.Components.OmniDataGridEditTrigger.Cell : OmniEurope.Blazor.Components.OmniDataGridEditTrigger const = 1
 field public static OmniEurope.Blazor.Components.OmniDataGridFilterMode.Advanced : OmniEurope.Blazor.Components.OmniDataGridFilterMode const = 2
@@ -2873,6 +2875,7 @@ property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.Groups : System
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.GroupsChanged : Microsoft.AspNetCore.Components.EventCallback<System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniDataGridGroup>> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.HeaderBarContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.HeaderBarExport : OmniEurope.Blazor.Components.OmniDataGridBarExport {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.HeaderMenuDateFilter : OmniEurope.Blazor.Components.OmniDataGridDateFilterEditor {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.HeaderWrap : OmniEurope.Blazor.Components.OmniDataGridHeaderWrap {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.Height : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.HideFilterMenuOnSelect : System.Boolean {get(public);set(public)} [Parameter]
@@ -2979,6 +2982,7 @@ property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Groupable
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Grow : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.HeaderClass : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.HeaderContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.HeaderMenuDateFilter : OmniEurope.Blazor.Components.OmniDataGridDateFilterEditor? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Hideable : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.HighlightOnHover : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Key : System.String? {get(public);set(public)} [Parameter]
@@ -4493,6 +4497,7 @@ type public OmniEurope.Blazor.Components.OmniDataGridColumnFilterType [enum, sea
 type public OmniEurope.Blazor.Components.OmniDataGridColumnOrderChange [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniDataGridColumnOrderChange>
 type public OmniEurope.Blazor.Components.OmniDataGridColumnSizing [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniDataGridColumnWidthChange [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniDataGridColumnWidthChange>
+type public OmniEurope.Blazor.Components.OmniDataGridDateFilterEditor [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniDataGridDateRange [static-class, static]
 type public OmniEurope.Blazor.Components.OmniDataGridDateText [static-class, static]
 type public OmniEurope.Blazor.Components.OmniDataGridEditTrigger [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32

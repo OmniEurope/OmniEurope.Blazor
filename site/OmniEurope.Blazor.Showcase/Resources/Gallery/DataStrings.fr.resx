@@ -258,6 +258,8 @@
   <data name="VariantsCappedTitle" xml:space="preserve"><value>Hauteur plafonnée</value></data>
   <data name="VariantsCasesHint" xml:space="preserve"><value>La grille dans sa forme courante, une colonne de chaque forme de filtre et d&apos;alignement, et une barre d&apos;export en pied.</value></data>
   <data name="VariantsCasesTitle" xml:space="preserve"><value>Dossiers ouverts</value></data>
+  <data name="VariantsDateFilterHint" xml:space="preserve"><value>Une colonne de dates se filtre par une plage Du / Au dans le menu d'en-tête, par sa saisie dans la rangée de filtres ; HeaderMenuDateFilter="Single" met aussi la saisie dans le menu. Les deux modifient une seule valeur.</value></data>
+  <data name="VariantsDateFilterTitle" xml:space="preserve"><value>Éditeur du filtre de date</value></data>
   <data name="VariantsEditHint" xml:space="preserve"><value>Modifier depuis le crayon ou un double clic, ou depuis un simple clic dans une cellule.</value></data>
   <data name="VariantsEditTitle" xml:space="preserve"><value>Édition sur place</value></data>
   <data name="VariantsFillBoxHint" xml:space="preserve"><value>Des réglages au-dessus, une grille en dessous qui prend le reste d&apos;un cadre de hauteur fixe ; le cadre défile quand les réglages ne lui laissent rien.</value></data>

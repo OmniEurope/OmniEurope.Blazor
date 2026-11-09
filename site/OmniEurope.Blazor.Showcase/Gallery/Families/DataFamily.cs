@@ -20,6 +20,7 @@ internal static class DataFamily
             ["OmniDataGrid", "OmniDataGridFilterDate", "OmniDataGridFilterDateRange", "OmniImage", "OmniLink", "OmniTableExportDownloader"],
             [
                 "Data/DataGridCasesExample.razor",
+                "Data/DataGridDateFilterEditorExample.razor",
                 "Data/DataGridContentSizingExample.razor", "Data/DataGridContentSizingExample.razor.cs",
                 "Data/DataGridTemplatedSizingExample.razor", "Data/DataGridTemplatedSizingExample.razor.cs",
                 "Data/DataGridTruncationExample.razor",

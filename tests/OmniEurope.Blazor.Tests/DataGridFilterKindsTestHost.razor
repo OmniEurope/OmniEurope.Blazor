@@ -12,6 +12,7 @@
               ExportCsv="@Formats.Contains(OmniTableExportFormat.Csv)"
               ExportExcel="@Formats.Contains(OmniTableExportFormat.Excel)"
               ExportPdf="@Formats.Contains(OmniTableExportFormat.Pdf)"
+              HeaderMenuDateFilter="@GridDateEditor"
               FilterPlacement="@(HeaderMenu ? OmniDataGridFilterPlacement.HeaderMenu : OmniDataGridFilterPlacement.Row)">
     <Columns>
         <OmniDataGridColumn TItem="Ticket" Property="Id" Title="N°" Filterable="true" />
@@ -28,6 +29,7 @@
                             Filterable="true"
                             FilterType="@DateFilter"
                             AdvancedFilter="@AdvancedDate"
+                            HeaderMenuDateFilter="@ColumnDateEditor"
                             FilterIncludesTime="@IncludesTime" />
     </Columns>
 </OmniDataGrid>
@@ -53,6 +55,10 @@
     [Parameter] public bool AdvancedDate { get; set; }
 
     [Parameter] public bool HeaderMenu { get; set; } = true;
+
+    [Parameter] public OmniDataGridDateFilterEditor GridDateEditor { get; set; } = OmniDataGridDateFilterEditor.Range;
+
+    [Parameter] public OmniDataGridDateFilterEditor? ColumnDateEditor { get; set; }
 
     [Parameter] public OmniDataGridFilterMode FilterMode { get; set; } = OmniDataGridFilterMode.Simple;
 
