@@ -780,4 +780,5 @@
   <data name="NavTileFavoriteAdd" xml:space="preserve"><value>Hozzáadás a kedvencekhez</value></data>
   <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Eltávolítás a kedvencek közül</value></data>
   <data name="BadgeRemove" xml:space="preserve"><value>Eltávolítás</value></data>
+  <data name="DurationLabel" xml:space="preserve"><value>Időtartam</value></data>
 </root>

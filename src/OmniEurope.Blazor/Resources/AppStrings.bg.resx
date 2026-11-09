@@ -780,4 +780,5 @@
   <data name="NavTileFavoriteAdd" xml:space="preserve"><value>Добавяне в любими</value></data>
   <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Премахване от любимите</value></data>
   <data name="BadgeRemove" xml:space="preserve"><value>Премахване</value></data>
+  <data name="DurationLabel" xml:space="preserve"><value>Продължителност</value></data>
 </root>

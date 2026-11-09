@@ -15,10 +15,11 @@ internal static class FormsFamily
                 "Forms/TextFieldStatesExample.razor", "Forms/TextFieldStatesExample.razor.cs"
             ]),
         new("numbers", "NumbersTitle", "NumbersDescription", OmniIconName.NumberedList,
-            ["OmniNumeric", "OmniTemplateForm"],
+            ["OmniNumeric", "OmniDurationPicker", "OmniTemplateForm"],
             [
                 "Forms/NumbersExample.razor", "Forms/NumbersExample.razor.cs",
-                "Forms/NumberUsesExample.razor", "Forms/NumberUsesExample.razor.cs"
+                "Forms/NumberUsesExample.razor", "Forms/NumberUsesExample.razor.cs",
+                "Forms/DurationExample.razor", "Forms/DurationExample.razor.cs"
             ]),
         new("checkboxes-switches", "TogglesTitle", "TogglesDescription", OmniIconName.CheckCircle,
             ["OmniCheckBox", "OmniSwitch"],

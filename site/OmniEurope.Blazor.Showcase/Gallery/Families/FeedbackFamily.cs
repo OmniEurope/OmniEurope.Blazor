@@ -35,6 +35,11 @@ internal static class FeedbackFamily
                 "Feedback/SkeletonShapesExample.razor", "Feedback/SkeletonShapesExample.razor.cs",
                 "Feedback/SkeletonLinesExample.razor", "Feedback/SkeletonLinesExample.razor.cs",
                 "Feedback/SkeletonComposedExample.razor", "Feedback/SkeletonComposedExample.razor.cs"
+            ]),
+        new("country-flags", "CountryFlagsTitle", "CountryFlagsDescription", OmniIconName.Flag,
+            ["OmniCountryFlag"],
+            [
+                "Feedback/CountryFlagExample.razor", "Feedback/CountryFlagExample.razor.cs"
             ])
     ]);
 }

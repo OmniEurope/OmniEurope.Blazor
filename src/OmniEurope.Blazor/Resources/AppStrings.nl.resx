@@ -780,4 +780,5 @@
   <data name="NavTileFavoriteAdd" xml:space="preserve"><value>Toevoegen aan favorieten</value></data>
   <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Verwijderen uit favorieten</value></data>
   <data name="BadgeRemove" xml:space="preserve"><value>Verwijderen</value></data>
+  <data name="DurationLabel" xml:space="preserve"><value>Duur</value></data>
 </root>

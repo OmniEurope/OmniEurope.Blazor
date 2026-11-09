@@ -780,4 +780,5 @@
   <data name="NavTileFavoriteAdd" xml:space="preserve"><value>Προσθήκη στα αγαπημένα</value></data>
   <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Αφαίρεση από τα αγαπημένα</value></data>
   <data name="BadgeRemove" xml:space="preserve"><value>Αφαίρεση</value></data>
+  <data name="DurationLabel" xml:space="preserve"><value>Διάρκεια</value></data>
 </root>

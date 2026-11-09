@@ -780,4 +780,5 @@
   <data name="NavTileFavoriteAdd" xml:space="preserve"><value>Pievienot izlasei</value></data>
   <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Noņemt no izlases</value></data>
   <data name="BadgeRemove" xml:space="preserve"><value>Noņemt</value></data>
+  <data name="DurationLabel" xml:space="preserve"><value>Ilgums</value></data>
 </root>

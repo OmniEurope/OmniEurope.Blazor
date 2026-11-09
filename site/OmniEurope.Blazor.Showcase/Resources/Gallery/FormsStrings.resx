@@ -129,4 +129,5 @@
   <data name="FormLayoutsSummaryHidden" xml:space="preserve"><value>Hidden</value></data>
   <data name="ValidationInlineKeysTitle" xml:space="preserve"><value>Inline row keys</value></data>
   <data name="ValidationInlineKeysDescription" xml:space="preserve"><value>OmniInlineFormKeyHost saves the editors it wraps on Ctrl+Enter (Cmd+Enter on a Mac) and cancels on Escape; a plain Enter still adds a line in the text area.</value></data>
+  <data name="NumbersDurationTitle" xml:space="preserve"><value>Duration</value></data>
 </root>

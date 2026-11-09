@@ -91,4 +91,12 @@
   <data name="ProgressVeilTitle" xml:space="preserve"><value>Page wait veil</value></data>
   <data name="ProgressVeilDescription" xml:space="preserve"><value>A slightly see-through veil (Opacity, 85 % by default) over the content of the page (under the top bar and beside the side menu, which stay usable) or the whole window (Scope), of one constant theme colour, with the application's own logo at its centre: given as markup (Logo), as an image address (LogoSource) or as an animated mark of its own. The package animates nothing. It appears only after 100 ms of waiting: a very short wait shows nothing, so nothing flickers.</value></data>
   <data name="ProgressPassTrackerTitle" xml:space="preserve"><value>Several passes per element</value></data>
-</root>
+  <data name="CountryFlagsTitle" xml:space="preserve"><value>Country flags</value></data>
+  <data name="CountryFlagsDescription" xml:space="preserve"><value>A country shown by its flag and its ISO code, named in the page language. The picture address comes from a template the host gives; without one, the flag is its code in a badge.</value></data>
+  <data name="CountryFlagsSettingsTitle" xml:space="preserve"><value>Flags under test</value></data>
+  <data name="CountryFlagsSettingsDescription" xml:space="preserve"><value>Each setting applies to every flag of the preview.</value></data>
+  <data name="CountryFlagsUseTemplate" xml:space="preserve"><value>Picture template</value></data>
+  <data name="CountryFlagsUseTemplateDescription" xml:space="preserve"><value>Gives the picture address template of the page; without it each flag is its code in a badge.</value></data>
+  <data name="CountryFlagsShowCode" xml:space="preserve"><value>Show the code</value></data>
+  <data name="CountryFlagsShowCodeDescription" xml:space="preserve"><value>Writes the ISO code beside the picture; a flag without a picture always shows it.</value></data>
+  <data name="CountryFlagsPreviewTitle" xml:space="preserve"><value>Preview</value></data></root>

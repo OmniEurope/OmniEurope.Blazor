@@ -780,4 +780,5 @@
   <data name="NavTileFavoriteAdd" xml:space="preserve"><value>Cuir leis na ceanáin</value></data>
   <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Bain de na ceanáin</value></data>
   <data name="BadgeRemove" xml:space="preserve"><value>Bain</value></data>
+  <data name="DurationLabel" xml:space="preserve"><value>Fad</value></data>
 </root>

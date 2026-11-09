@@ -780,4 +780,5 @@
   <data name="NavTileFavoriteAdd" xml:space="preserve"><value>Pridėti prie mėgstamiausių</value></data>
   <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Pašalinti iš mėgstamiausių</value></data>
   <data name="BadgeRemove" xml:space="preserve"><value>Pašalinti</value></data>
+  <data name="DurationLabel" xml:space="preserve"><value>Trukmė</value></data>
 </root>

@@ -1,0 +1,28 @@
+@page "/components/country-flags"
+@using OmniEurope.Blazor.Showcase.Examples.Feedback
+
+<GalleryPageFrame Slug="country-flags">
+    <Settings>
+        <OmniSettingsSection Title="@Text["CountryFlagsSettingsTitle"]" Description="@Text["CountryFlagsSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["CountryFlagsUseTemplate"]" Description="@Text["CountryFlagsUseTemplateDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Globe" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="UseTemplate" aria-label="@Text["CountryFlagsUseTemplate"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["CountryFlagsShowCode"]" Description="@Text["CountryFlagsShowCodeDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowCode" aria-label="@Text["CountryFlagsShowCode"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["CountryFlagsPreviewTitle"]</HeaderContent>
+            <ChildContent><CountryFlagExample UseTemplate="UseTemplate" ShowCode="ShowCode" /></ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

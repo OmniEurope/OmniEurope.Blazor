@@ -780,4 +780,5 @@
   <data name="NavTileFavoriteAdd" xml:space="preserve"><value>Lisää suosikkeihin</value></data>
   <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Poista suosikeista</value></data>
   <data name="BadgeRemove" xml:space="preserve"><value>Poista</value></data>
+  <data name="DurationLabel" xml:space="preserve"><value>Kesto</value></data>
 </root>
