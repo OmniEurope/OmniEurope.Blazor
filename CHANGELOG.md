@@ -4,6 +4,8 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+## [1.12.2] - 2026-11-09
+
 ### Added
 
 - `OmniScheduler.Orientation` (`OmniOrientation`, `Vertical` par défaut : le comportement actuel, sans changement de balisage) : `Horizontal` déroule le temps de la grille horaire des vues jour et semaine le long de la ligne, les heures des créneaux en têtes de colonnes et une ligne par jour, chaque rendez-vous dessiné de son début à sa fin le long de sa ligne (la classe `omni-scheduler--horizontal` sur la racine, une ligne aussi haute que sa chaîne de rendez-vous la plus chargée, la grille qui défile dans sa boîte avec les jours fixes). La vue mois et les listes sans grille ne changent pas. Le glissé et le déplacement par bouton passent par les mêmes cellules (le dépôt lit le jour et le créneau de la cellule sous le pointeur) : `OnAppointmentMove` reçoit le même début dans les deux orientations. Le gabarit de la galerie propose le choix Verticale / Horizontale.

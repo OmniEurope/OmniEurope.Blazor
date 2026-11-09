@@ -73,7 +73,7 @@ Une colonne se déclare par lambda ou par nom de propriété.
   pourcentage compte comme une colonne sans largeur. `MinWidth` est tenue exactement quand elle
   porte sur la seule colonne sans largeur ; à plusieurs, ces colonnes se partagent la place à
   parts égales au-dessus de ce minimum global.
-- Une colonne alignée à la fin (`TextAlign`, un `OmniAlignment` : `Start` par défaut, `Center`, `End`) aligne aussi son titre, à la fin de l'en-tête. `Stretch` n'a pas de sens pour du texte : il se lit comme `Start`.
+- `TextAlign` (un `OmniAlignment` : `Start` par défaut, `Center`, `End`) aligne les cellules d'une colonne, jamais son en-tête : le titre reste au début de l'en-tête, même pour une colonne numérique alignée à la fin. `HeaderAlign` (`OmniAlignment?`, nul par défaut : au début) aligne l'en-tête seul, à la fin ou au centre, le titre toujours avant ses icônes de filtre et de tri. `Stretch` n'a pas de sens pour du texte : il se lit comme `Start`.
 - `TextAlign`, `Class`, `HeaderClass`, `Visible`, `Hideable`, `Resizable`, `Sortable`, `Filterable` et
   `Groupable` complètent la déclaration (`Hideable` : voir « Réordonner, masquer et réinitialiser les
   colonnes »). `HeaderContent` remplace le titre, `FooterContent` la cellule
