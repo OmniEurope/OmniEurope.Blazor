@@ -439,6 +439,12 @@
 .omni-badge--action { cursor: pointer; font-family: inherit; margin: 0; text-decoration: none; }
 .omni-badge.omni-badge--action:hover { background-image: linear-gradient(color-mix(in srgb, currentColor 14%, transparent), color-mix(in srgb, currentColor 14%, transparent)); text-decoration: underline; }
 .omni-badge--action:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+/* Removable: the badge ends with a small close button, a real button that inherits the ink of the badge. */
+.omni-badge--removable { padding-inline-end: 0.25rem; }
+.omni-badge__remove { align-items: center; appearance: none; background: transparent; block-size: 1.25em; border: 0; border-radius: 50%; color: inherit; cursor: pointer; display: inline-flex; flex: none; font: inherit; inline-size: 1.25em; justify-content: center; margin: 0 0 0 0.25em; opacity: 0.8; padding: 0; }
+.omni-badge__remove:hover { background: color-mix(in srgb, currentColor 18%, transparent); opacity: 1; }
+.omni-badge__remove:focus-visible { box-shadow: var(--omni-focus-ring); opacity: 1; outline: none; }
+.omni-badge__remove .omni-icon { block-size: 0.9em; inline-size: 0.9em; }
 /* A common floor (OmniBadge.Width, recette R1-23): the badges of one column or list that carry the same
    step line up on the same width, whatever their words; a longer text widens its own badge. The floors
    are tokens in em of the badge's text, so they follow the density and the font, and a host retunes

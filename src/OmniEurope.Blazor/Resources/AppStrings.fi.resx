@@ -777,4 +777,7 @@
   <data name="DocumentEditorReplaceDrawing" xml:space="preserve"><value>Korvaa piirros</value></data>
   <data name="DocumentEditorDrawing" xml:space="preserve"><value>Piirros</value></data>
   <data name="DocumentEditorDrawingApply" xml:space="preserve"><value>Vahvista</value></data>
+  <data name="NavTileFavoriteAdd" xml:space="preserve"><value>Lisää suosikkeihin</value></data>
+  <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Poista suosikeista</value></data>
+  <data name="BadgeRemove" xml:space="preserve"><value>Poista</value></data>
 </root>

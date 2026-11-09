@@ -93,6 +93,25 @@ public partial class OmniNavTile
     [Parameter]
     public OmniAlignment? TitleAlign { get; set; }
 
+    /// <summary>
+    /// Draws a star toggle in the corner of the tile and sets whether the tile is a favorite: true is a filled
+    /// star, false an outlined one. Null, the default, draws no toggle. The toggle is a real
+    /// <c>&lt;button type="button"&gt;</c> with <c>aria-pressed</c> and a localized name ("Add to favorites" or
+    /// "Remove from favorites"), laid over the tile as a sibling of the link, never inside it: a click on the star
+    /// never follows the link. The tile and the toggle are then wrapped in a host box (<c>omni-nav-tile-host</c>)
+    /// that takes the place of the link in a <see cref="OmniTileGrid"/>. Bind it with <c>@bind-IsFavorite</c>.
+    /// </summary>
+    [Parameter]
+    public bool? IsFavorite { get; set; }
+
+    /// <summary>Called with the new value when the star toggle is activated; the tile does not change <see cref="IsFavorite"/> itself.</summary>
+    [Parameter]
+    public EventCallback<bool> IsFavoriteChanged { get; set; }
+
+    private string FavoriteName => Localize(IsFavorite == true ? "NavTileFavoriteRemove" : "NavTileFavoriteAdd");
+
+    private Task ToggleFavoriteAsync() => IsFavoriteChanged.InvokeAsync(IsFavorite != true);
+
     private static string? AlignClass(string part, OmniAlignment? align) => align switch
     {
         null => null,

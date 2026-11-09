@@ -777,4 +777,7 @@
   <data name="DocumentEditorReplaceDrawing" xml:space="preserve"><value>Nahradit kresbu</value></data>
   <data name="DocumentEditorDrawing" xml:space="preserve"><value>Kresba</value></data>
   <data name="DocumentEditorDrawingApply" xml:space="preserve"><value>Potvrdit</value></data>
+  <data name="NavTileFavoriteAdd" xml:space="preserve"><value>Přidat do oblíbených</value></data>
+  <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Odebrat z oblíbených</value></data>
+  <data name="BadgeRemove" xml:space="preserve"><value>Odebrat</value></data>
 </root>

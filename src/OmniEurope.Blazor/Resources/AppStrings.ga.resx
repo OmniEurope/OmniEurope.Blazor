@@ -777,4 +777,7 @@
   <data name="DocumentEditorReplaceDrawing" xml:space="preserve"><value>Ionadaigh an líníocht</value></data>
   <data name="DocumentEditorDrawing" xml:space="preserve"><value>Líníocht</value></data>
   <data name="DocumentEditorDrawingApply" xml:space="preserve"><value>Deimhnigh</value></data>
+  <data name="NavTileFavoriteAdd" xml:space="preserve"><value>Cuir leis na ceanáin</value></data>
+  <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Bain de na ceanáin</value></data>
+  <data name="BadgeRemove" xml:space="preserve"><value>Bain</value></data>
 </root>

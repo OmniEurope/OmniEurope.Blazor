@@ -311,4 +311,6 @@
   <data name="NavTilesGridDescription" xml:space="preserve"><value>MinColumnWidth: the column count follows the width of the grid itself, not the window's. Beside a side menu the grid has fewer, wider columns; a DoubleWidth tile takes two columns where the grid has two, one otherwise.</value></data>
   <data name="CardsSurfacesTitle" xml:space="preserve"><value>Surfaces of the mockup</value></data>
   <data name="CardsSurfacesDescription" xml:space="preserve"><value>An account menu on the layer of floating surfaces, tabs, a side menu whose current item is marked by its fill and text weight, a link and a tooltip. Cards and menus read the shape of the theme (fill, stroke, radius and shadow).</value></data>
+  <data name="NavTilesFavoriteTitle" xml:space="preserve"><value>Favorite toggle</value></data>
+  <data name="NavTilesFavoriteDescription" xml:space="preserve"><value>IsFavorite draws a star in the corner of the tile, bound with @bind-IsFavorite. The star is a button beside the link, not inside it: toggling it never opens the destination.</value></data>
 </root>

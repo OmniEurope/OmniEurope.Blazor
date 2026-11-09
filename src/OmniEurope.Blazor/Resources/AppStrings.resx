@@ -777,4 +777,7 @@
   <data name="DocumentEditorReplaceDrawing" xml:space="preserve"><value>Remplacer le dessin</value></data>
   <data name="DocumentEditorDrawing" xml:space="preserve"><value>Dessin</value></data>
   <data name="DocumentEditorDrawingApply" xml:space="preserve"><value>Valider</value></data>
+  <data name="NavTileFavoriteAdd" xml:space="preserve"><value>Ajouter aux favoris</value></data>
+  <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Retirer des favoris</value></data>
+  <data name="BadgeRemove" xml:space="preserve"><value>Retirer</value></data>
 </root>

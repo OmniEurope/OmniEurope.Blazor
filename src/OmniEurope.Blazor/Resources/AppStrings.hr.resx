@@ -777,4 +777,7 @@
   <data name="DocumentEditorReplaceDrawing" xml:space="preserve"><value>Zamijeni crtež</value></data>
   <data name="DocumentEditorDrawing" xml:space="preserve"><value>Crtež</value></data>
   <data name="DocumentEditorDrawingApply" xml:space="preserve"><value>Potvrdi</value></data>
+  <data name="NavTileFavoriteAdd" xml:space="preserve"><value>Dodaj u favorite</value></data>
+  <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Ukloni iz favorita</value></data>
+  <data name="BadgeRemove" xml:space="preserve"><value>Ukloni</value></data>
 </root>

@@ -777,4 +777,7 @@
   <data name="DocumentEditorReplaceDrawing" xml:space="preserve"><value>Pakeisti brėžinį</value></data>
   <data name="DocumentEditorDrawing" xml:space="preserve"><value>Brėžinys</value></data>
   <data name="DocumentEditorDrawingApply" xml:space="preserve"><value>Patvirtinti</value></data>
+  <data name="NavTileFavoriteAdd" xml:space="preserve"><value>Pridėti prie mėgstamiausių</value></data>
+  <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Pašalinti iš mėgstamiausių</value></data>
+  <data name="BadgeRemove" xml:space="preserve"><value>Pašalinti</value></data>
 </root>

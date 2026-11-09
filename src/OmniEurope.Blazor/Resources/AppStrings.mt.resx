@@ -777,4 +777,7 @@
   <data name="DocumentEditorReplaceDrawing" xml:space="preserve"><value>Ibdel id-disinn</value></data>
   <data name="DocumentEditorDrawing" xml:space="preserve"><value>Disinn</value></data>
   <data name="DocumentEditorDrawingApply" xml:space="preserve"><value>Ikkonferma</value></data>
+  <data name="NavTileFavoriteAdd" xml:space="preserve"><value>Żid mal-favoriti</value></data>
+  <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Neħħi mill-favoriti</value></data>
+  <data name="BadgeRemove" xml:space="preserve"><value>Neħħi</value></data>
 </root>

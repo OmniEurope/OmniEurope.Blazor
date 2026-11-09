@@ -777,4 +777,7 @@
   <data name="DocumentEditorReplaceDrawing" xml:space="preserve"><value>Aizstāt zīmējumu</value></data>
   <data name="DocumentEditorDrawing" xml:space="preserve"><value>Zīmējums</value></data>
   <data name="DocumentEditorDrawingApply" xml:space="preserve"><value>Apstiprināt</value></data>
+  <data name="NavTileFavoriteAdd" xml:space="preserve"><value>Pievienot izlasei</value></data>
+  <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Noņemt no izlases</value></data>
+  <data name="BadgeRemove" xml:space="preserve"><value>Noņemt</value></data>
 </root>
