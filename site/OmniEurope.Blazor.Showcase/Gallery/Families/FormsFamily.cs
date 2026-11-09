@@ -29,14 +29,15 @@ internal static class FormsFamily
         new("validation", "ValidationTitle", "ValidationDescription", OmniIconName.ShieldCheck,
             [
                 "OmniTemplateForm", "OmniRequiredValidator", "OmniEmailValidator", "OmniLengthValidator",
-                "OmniDataAnnotationsValidator", "OmniDynamicForm", "OmniFormActions", "OmniValidationSummary"
+                "OmniDataAnnotationsValidator", "OmniDynamicForm", "OmniFormActions", "OmniValidationSummary", "OmniInlineFormKeyHost"
             ],
             [
                 "Forms/SignUpValidationExample.razor", "Forms/SignUpValidationExample.razor.cs",
                 "Forms/SignUpModel.cs", "Forms/ValidationMessagePlacement.cs", "Forms/ValidationSuccessFeedback.cs",
                 "Forms/AnnotationsValidationExample.razor", "Forms/AnnotationsValidationExample.razor.cs",
                 "Forms/ContactModel.cs",
-                "Forms/DynamicFormExample.razor", "Forms/DynamicFormExample.razor.cs"
+                "Forms/DynamicFormExample.razor", "Forms/DynamicFormExample.razor.cs",
+                "Forms/InlineFormKeysExample.razor", "Forms/InlineFormKeysExample.razor.cs"
             ]),
         new("unsaved-changes", "UnsavedChangesTitle", "UnsavedChangesDescription", OmniIconName.Warning,
             ["OmniUnsavedChangesGuard", "OmniTemplateForm"],

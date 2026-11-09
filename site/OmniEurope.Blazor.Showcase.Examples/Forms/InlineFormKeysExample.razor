@@ -1,0 +1,9 @@
+@* An inline row of editors inside OmniInlineFormKeyHost: Ctrl+Enter (Cmd+Enter on a Mac) saves it and Escape
+   cancels it. A plain Enter in the text area still adds a line. *@
+<OmniInlineFormKeyHost OnSubmit="Save" OnCancel="Cancel">
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniTextBox Id="demo-inline-title" @bind-Value="Title" Placeholder="Title" aria-label="Title" />
+        <OmniTextArea Id="demo-inline-notes" @bind-Value="Notes" Placeholder="Notes" aria-label="Notes" />
+        <OmniText Id="demo-inline-status" Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Status</OmniText>
+    </OmniStack>
+</OmniInlineFormKeyHost>

@@ -1,0 +1,18 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+@* The text with each match of the filter in a mark of the combos' class, so the shipped style applies.
+   The segments are plain text nodes: Blazor encodes them, nothing is written as markup. *@
+<span @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-filter-highlight")">
+    @foreach (var segment in OmniTextMatch.Split(Text ?? string.Empty, Filter, IgnoreCase))
+    {
+        if (segment.Matched)
+        {
+            <mark class="omni-combo__match">@segment.Text</mark>
+        }
+        else
+        {
+            @segment.Text
+        }
+    }
+</span>

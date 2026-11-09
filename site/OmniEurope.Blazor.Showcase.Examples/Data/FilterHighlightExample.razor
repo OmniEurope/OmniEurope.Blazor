@@ -1,0 +1,12 @@
+@* A filter box narrows a list of cities; each name that stays marks the typed text (OmniFilterHighlight),
+   with the same comparison and style as the suggestions of the grid filters. Case can be made to matter. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniTextBox Id="demo-highlight-filter" @bind-Value="Filter" Placeholder="Type a part of a city" aria-label="Filter the cities" />
+    <OmniSwitch Id="demo-highlight-case" @bind-Value="MatchCase" aria-label="Match case" />
+    <ul id="demo-highlight-list">
+        @foreach (var city in Visible)
+        {
+            <li><OmniFilterHighlight Text="@city" Filter="@Filter" IgnoreCase="!MatchCase" /></li>
+        }
+    </ul>
+</OmniStack>

@@ -1,0 +1,13 @@
+@* One button hands a text file the example generates to the browser (OmniFileDownloader): a Blob behind a
+   link, nothing sent over the network. The line under the button says what was handed over. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniRow Gap="OmniSpacing.Small">
+        <OmniButton Id="demo-download-bytes" OnClick="DownloadBytesAsync">
+            <Icon><OmniIcon Name="OmniIconName.Download" /></Icon><ChildContent><span>Download a text file</span></ChildContent>
+        </OmniButton>
+        <OmniButton Id="demo-download-stream" Variant="OmniButtonVariant.Secondary" OnClick="DownloadStreamAsync">
+            <Icon><OmniIcon Name="OmniIconName.Download" /></Icon><ChildContent><span>Download from a stream</span></ChildContent>
+        </OmniButton>
+    </OmniRow>
+    <OmniText Id="demo-download-status" Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Status</OmniText>
+</OmniStack>

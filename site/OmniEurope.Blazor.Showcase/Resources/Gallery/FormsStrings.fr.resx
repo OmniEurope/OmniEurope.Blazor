@@ -127,4 +127,6 @@
   <data name="FormLayoutsSummaryTop" xml:space="preserve"><value>Haut</value></data>
   <data name="FormLayoutsSummaryBottom" xml:space="preserve"><value>Bas</value></data>
   <data name="FormLayoutsSummaryHidden" xml:space="preserve"><value>Masqué</value></data>
+  <data name="ValidationInlineKeysTitle" xml:space="preserve"><value>Touches d&apos;une ligne en place</value></data>
+  <data name="ValidationInlineKeysDescription" xml:space="preserve"><value>OmniInlineFormKeyHost enregistre les éditeurs qu&apos;il entoure sur Ctrl+Entrée (Cmd+Entrée sur Mac) et annule sur Échap ; une Entrée seule ajoute toujours une ligne dans la zone de texte.</value></data>
 </root>

@@ -277,4 +277,8 @@
   <data name="VariantsTreeTitle" xml:space="preserve"><value>Tree grid</value></data>
   <data name="VariantsTruncationHint" xml:space="preserve"><value>A long value is cut with an ellipsis, whole in its tooltip; in a narrow frame the columns share what is left.</value></data>
   <data name="VariantsTruncationTitle" xml:space="preserve"><value>Truncated values</value></data>
+  <data name="VariantsHighlightTitle" xml:space="preserve"><value>Filter highlight</value></data>
+  <data name="VariantsHighlightHint" xml:space="preserve"><value>A filter box narrows the list; OmniFilterHighlight marks the typed text in each name that stays, with the style of the grid filter suggestions.</value></data>
+  <data name="VariantsDownloadTitle" xml:space="preserve"><value>File download</value></data>
+  <data name="VariantsDownloadHint" xml:space="preserve"><value>OmniFileDownloader hands a file held in memory, or read from a stream, to the browser; nothing is sent over the network.</value></data>
 </root>

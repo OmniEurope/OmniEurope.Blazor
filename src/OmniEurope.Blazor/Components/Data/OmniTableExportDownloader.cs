@@ -1,5 +1,3 @@
-using Microsoft.JSInterop;
-
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
@@ -9,9 +7,8 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 public sealed class OmniTableExportDownloader : IAsyncDisposable
 {
-    private readonly IJSRuntime _javaScript;
+    private readonly OmniFileDownloader _files;
     private readonly OmniTableExporter _exporter;
-    private IJSObjectReference? _module;
 
     /// <summary>Creates the downloader; <c>AddOmniEuropeBlazor</c> registers one per scope.</summary>
     /// <param name="javaScript">The runtime that triggers the download.</param>
@@ -21,7 +18,7 @@ public sealed class OmniTableExportDownloader : IAsyncDisposable
     {
         ArgumentNullException.ThrowIfNull(javaScript);
         ArgumentNullException.ThrowIfNull(exporter);
-        _javaScript = javaScript;
+        _files = new OmniFileDownloader(javaScript);
         _exporter = exporter;
     }
 
@@ -43,27 +40,11 @@ public sealed class OmniTableExportDownloader : IAsyncDisposable
         ArgumentNullException.ThrowIfNull(document);
         ArgumentException.ThrowIfNullOrWhiteSpace(fileName);
         var file = await _exporter.RenderAsync(document, format, cancellationToken);
-        _module ??= await Internal.OmniScriptModule.ImportAsync(_javaScript, Internal.OmniModules.DocumentEditor, cancellationToken);
-        await _module.InvokeVoidAsync("download", cancellationToken, $"{fileName.Trim()}.{file.Extension}", file.ContentType, file.Content.ToArray());
+        await _files.DownloadAsync(file.Content.ToArray(), $"{fileName.Trim()}.{file.Extension}", file.ContentType, cancellationToken);
         return file;
     }
 
     /// <summary>Releases the download script module.</summary>
     /// <returns>A task that completes when the module is released.</returns>
-    public async ValueTask DisposeAsync()
-    {
-        if (_module is not null)
-        {
-            try
-            {
-                await _module.DisposeAsync();
-            }
-            catch (JSDisconnectedException)
-            {
-                // The circuit is already gone, and the module with it.
-            }
-
-            _module = null;
-        }
-    }
+    public ValueTask DisposeAsync() => _files.DisposeAsync();
 }
