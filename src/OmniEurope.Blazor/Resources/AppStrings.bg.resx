@@ -777,4 +777,7 @@
   <data name="DocumentEditorReplaceDrawing" xml:space="preserve"><value>Замяна на рисунката</value></data>
   <data name="DocumentEditorDrawing" xml:space="preserve"><value>Рисунка</value></data>
   <data name="DocumentEditorDrawingApply" xml:space="preserve"><value>Потвърждаване</value></data>
+  <data name="NavTileFavoriteAdd" xml:space="preserve"><value>Добавяне в любими</value></data>
+  <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Премахване от любимите</value></data>
+  <data name="BadgeRemove" xml:space="preserve"><value>Премахване</value></data>
 </root>

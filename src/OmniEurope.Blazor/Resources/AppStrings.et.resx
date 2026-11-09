@@ -777,4 +777,7 @@
   <data name="DocumentEditorReplaceDrawing" xml:space="preserve"><value>Asenda joonistus</value></data>
   <data name="DocumentEditorDrawing" xml:space="preserve"><value>Joonistus</value></data>
   <data name="DocumentEditorDrawingApply" xml:space="preserve"><value>Kinnita</value></data>
+  <data name="NavTileFavoriteAdd" xml:space="preserve"><value>Lisa lemmikutesse</value></data>
+  <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Eemalda lemmikutest</value></data>
+  <data name="BadgeRemove" xml:space="preserve"><value>Eemalda</value></data>
 </root>

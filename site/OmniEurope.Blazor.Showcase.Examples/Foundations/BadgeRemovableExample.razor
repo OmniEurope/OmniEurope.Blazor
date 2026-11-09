@@ -1,0 +1,12 @@
+@* A chip list built with OmniBadge alone: Removable adds the close button, OnRemove removes the chip from the list.
+   The button is named "Remove" followed by the text of the chip. *@
+<OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Small" Align="OmniAlignment.Center" Wrap="true" Id="gallery-badge-removable">
+    @foreach (var destination in Destinations)
+    {
+        <OmniBadge @key="destination" Tone="OmniTone.Accent" Fill="OmniFill.Tonal" Removable="true" OnRemove="() => Remove(destination)">@destination</OmniBadge>
+    }
+    @if (Destinations.Count == 0)
+    {
+        <OmniText Tone="OmniTextTone.Muted">No destination left.</OmniText>
+    }
+</OmniStack>

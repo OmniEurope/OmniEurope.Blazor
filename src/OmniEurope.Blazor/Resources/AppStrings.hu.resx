@@ -777,4 +777,7 @@
   <data name="DocumentEditorReplaceDrawing" xml:space="preserve"><value>Rajz cseréje</value></data>
   <data name="DocumentEditorDrawing" xml:space="preserve"><value>Rajz</value></data>
   <data name="DocumentEditorDrawingApply" xml:space="preserve"><value>Jóváhagyás</value></data>
+  <data name="NavTileFavoriteAdd" xml:space="preserve"><value>Hozzáadás a kedvencekhez</value></data>
+  <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Eltávolítás a kedvencek közül</value></data>
+  <data name="BadgeRemove" xml:space="preserve"><value>Eltávolítás</value></data>
 </root>

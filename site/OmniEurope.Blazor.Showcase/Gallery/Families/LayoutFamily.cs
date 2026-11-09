@@ -108,6 +108,7 @@ internal static class LayoutFamily
                 "Layout/NavTilesExample.razor", "Layout/NavTilesExample.razor.cs",
                 "Layout/NavTilesTonesExample.razor", "Layout/NavTilesTonesExample.razor.cs",
                 "Layout/NavTilesAutoHueExample.razor",
+                "Layout/NavTilesFavoriteExample.razor", "Layout/NavTilesFavoriteExample.razor.cs",
                 "Layout/NavTilesFitTitleExample.razor", "Layout/NavTilesFitTitleExample.razor.cs",
                 "Layout/NavTilesFitGridExample.razor",
                 "Layout/TileGridFluidExample.razor", "Layout/TileGridFluidExample.razor.cs"

@@ -62,6 +62,13 @@
             </ChildContent>
         </OmniCard>
         <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["NavTilesFavoriteTitle"]</HeaderContent>
+            <ChildContent>
+                <NavTilesFavoriteExample />
+                <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Text["NavTilesFavoriteDescription"]</OmniText>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard Class="gallery-preview">
             <HeaderContent>@Text["NavTilesFitTitleTitle"]</HeaderContent>
             <ChildContent>
                 <NavTilesFitTitleExample FitTitle="FitTitle" Alignment="@(Center ? OmniAlignment.Center : null)" />

@@ -174,4 +174,6 @@
   <data name="ImagesSourcesTitle" xml:space="preserve"><value>Sources</value></data>
   <data name="BadgesActionsTitle" xml:space="preserve"><value>Badges that act</value></data>
   <data name="BadgesActionsDescription" xml:space="preserve"><value>A one-character badge is at least a square. With OnClick it becomes a real button, with Href a real link, both named by Label: a counter that opens what it counts, without a button around it.</value></data>
+  <data name="BadgesRemovableTitle" xml:space="preserve"><value>Removable badges</value></data>
+  <data name="BadgesRemovableDescription" xml:space="preserve"><value>Removable adds a close button at the end of the badge and OnRemove reports it: a chip list needs no markup of its own. The button is a real button, named Remove followed by the text, and Delete or Backspace on it removes too.</value></data>
 </root>

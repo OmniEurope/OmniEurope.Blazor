@@ -33,5 +33,18 @@ else
           class="@BadgeClass">
         @Icon
         @TextPart
+        @if (Removable)
+        {
+            <button type="button"
+                    id="@RemoveId"
+                    class="omni-badge__remove"
+                    aria-label="@RemoveName"
+                    aria-labelledby="@RemoveLabelledBy"
+                    title="@RemoveName"
+                    @onclick="OnRemove"
+                    @onkeydown="OnRemoveKeyDownAsync">
+                <OmniIcon Name="OmniIconName.Close" />
+            </button>
+        }
     </span>
 }

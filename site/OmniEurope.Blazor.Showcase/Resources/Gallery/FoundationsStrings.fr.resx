@@ -174,4 +174,6 @@
   <data name="ImagesSourcesTitle" xml:space="preserve"><value>Sources</value></data>
   <data name="BadgesActionsTitle" xml:space="preserve"><value>Badges qui agissent</value></data>
   <data name="BadgesActionsDescription" xml:space="preserve"><value>Un badge d&apos;un seul caractère est au moins un carré. Avec OnClick il devient un vrai bouton, avec Href un vrai lien, nommés par Label : un compteur qui ouvre ce qu&apos;il compte, sans bouton autour.</value></data>
+  <data name="BadgesRemovableTitle" xml:space="preserve"><value>Badges amovibles</value></data>
+  <data name="BadgesRemovableDescription" xml:space="preserve"><value>Removable ajoute un bouton de fermeture à la fin du badge et OnRemove le signale : une liste de pastilles n'a besoin d'aucun balisage propre. Le bouton est un vrai bouton, nommé Retirer suivi du texte, et Suppr ou Retour arrière dessus retire aussi.</value></data>
 </root>

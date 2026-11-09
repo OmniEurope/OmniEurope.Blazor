@@ -99,6 +99,53 @@ public partial class OmniBadge
     [Parameter]
     public string? Label { get; set; }
 
+    /// <summary>
+    /// Adds a small remove button (a close icon) at the end of the badge, to build a list of removable chips
+    /// (selected destinations, filters, tags) with this component alone. Activating it, by click, Enter or
+    /// Space, or pressing Delete or Backspace on it, calls <see cref="OnRemove"/>; the badge removes nothing
+    /// itself. It is a real <c>&lt;button type="button"&gt;</c> with a focus ring. Only a plain badge can be
+    /// removable: it cannot be combined with <see cref="OnClick"/> or <see cref="Href"/>, whose root is
+    /// already a button or a link. False by default.
+    /// </summary>
+    [Parameter]
+    public bool Removable { get; set; }
+
+    /// <summary>Called when the remove button of a <see cref="Removable"/> badge is activated.</summary>
+    [Parameter]
+    public EventCallback OnRemove { get; set; }
+
+    /// <summary>
+    /// The accessible name of the remove button of a <see cref="Removable"/> badge, whole ("Remove Paris"), for
+    /// a host that wants its own wording. Null, the default: <see cref="Label"/> when it is given, written in
+    /// the localized "Remove {0}" form; otherwise the localized word "Remove" followed by the text of the
+    /// badge (the button is named by itself and the text, through <c>aria-labelledby</c>). No effect on a badge
+    /// that is not removable.
+    /// </summary>
+    [Parameter]
+    public string? RemoveLabel { get; set; }
+
+    private static int s_nextRemoveId;
+
+    private readonly int _removeSerial = Interlocked.Increment(ref s_nextRemoveId);
+
+    private string RemoveId => $"omni-badge-remove-{_removeSerial}";
+
+    private string TextId => $"omni-badge-text-{_removeSerial}";
+
+    private bool NamedWhole => !string.IsNullOrWhiteSpace(RemoveLabel) || !string.IsNullOrWhiteSpace(Label);
+
+    private string RemoveName => !string.IsNullOrWhiteSpace(RemoveLabel) ? RemoveLabel : !string.IsNullOrWhiteSpace(Label) ? Localize("UploadRemove", Label) : Localize("BadgeRemove");
+
+    private string? RemoveLabelledBy => NamedWhole || ChildContent is null ? null : $"{RemoveId} {TextId}";
+
+    private async Task OnRemoveKeyDownAsync(KeyboardEventArgs args)
+    {
+        if (args.Key is "Delete" or "Backspace")
+        {
+            await OnRemove.InvokeAsync();
+        }
+    }
+
     private string? _safeHref;
 
     /// <summary>Whether the badge is a button or a link instead of a plain span.</summary>
@@ -106,15 +153,20 @@ public partial class OmniBadge
 
     private string? AccessibleName => OmniAriaLabel.Of(Label, AdditionalAttributes);
 
-    private string BadgeClass => Css("omni-badge", $"omni-badge--{Tone.ToString().ToLowerInvariant()}", $"omni-badge--{Fill.ToString().ToLowerInvariant()}", IconOnly ? "omni-badge--icon" : null, LeadingIcon ? "omni-badge--leading-icon" : null, Clickable ? "omni-badge--action" : null, ShapeClass, InkClass, WidthClass, SizeClass);
+    private string BadgeClass => Css("omni-badge", $"omni-badge--{Tone.ToString().ToLowerInvariant()}", $"omni-badge--{Fill.ToString().ToLowerInvariant()}", IconOnly ? "omni-badge--icon" : null, LeadingIcon ? "omni-badge--leading-icon" : null, Clickable ? "omni-badge--action" : null, Removable ? "omni-badge--removable" : null, ShapeClass, InkClass, WidthClass, SizeClass);
 
     /// <summary>Checks that <see cref="Href"/> and <see cref="OnClick"/> are not both given and that the address is safe.</summary>
-    /// <exception cref="ArgumentException"><see cref="Href"/> and <see cref="OnClick"/> are both given.</exception>
+    /// <exception cref="ArgumentException"><see cref="Href"/> and <see cref="OnClick"/> are both given, or the badge is <see cref="Removable"/> with either.</exception>
     /// <exception cref="InvalidOperationException"><see cref="Href"/> uses a scheme that is not allowed, or is a relative address that names another host (<c>//host</c>).</exception>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
         var hasHref = !string.IsNullOrWhiteSpace(Href);
+        if (Removable && (hasHref || OnClick.HasDelegate))
+        {
+            throw new ArgumentException("A removable OmniBadge is a plain badge: it cannot also take Href or OnClick.", nameof(Removable));
+        }
+
         if (hasHref && OnClick.HasDelegate)
         {
             throw new ArgumentException("OmniBadge takes either Href (a link) or OnClick (a button), not both.", nameof(Href));
@@ -138,7 +190,12 @@ public partial class OmniBadge
     {
         builder.OpenElement(0, "span");
         builder.AddAttribute(1, "class", "omni-badge__text");
-        builder.AddContent(2, ChildContent);
+        if (Removable)
+        {
+            builder.AddAttribute(3, "id", TextId);
+        }
+
+        builder.AddContent(4, ChildContent);
         builder.CloseElement();
     };
 

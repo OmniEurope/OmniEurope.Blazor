@@ -777,4 +777,7 @@
   <data name="DocumentEditorReplaceDrawing" xml:space="preserve"><value>Erstat tegningen</value></data>
   <data name="DocumentEditorDrawing" xml:space="preserve"><value>Tegning</value></data>
   <data name="DocumentEditorDrawingApply" xml:space="preserve"><value>Bekræft</value></data>
+  <data name="NavTileFavoriteAdd" xml:space="preserve"><value>Føj til favoritter</value></data>
+  <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Fjern fra favoritter</value></data>
+  <data name="BadgeRemove" xml:space="preserve"><value>Fjern</value></data>
 </root>

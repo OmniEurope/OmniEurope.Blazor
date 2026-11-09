@@ -199,6 +199,13 @@ ANSI vives du thème (`--omni-ansi-9` à `--omni-ansi-14`), tenues à 4,5:1 sur 
 `Tone` posé explicitement, `Accent` compris, gagne. Hors grille, ou si la tuile n'est pas un enfant direct de la
 grille, le défaut reste `Accent`.
 
+`IsFavorite` (`bool?`, nul par défaut : aucune bascule) dessine une étoile dans le coin de la tuile, pleine pour un
+favori, vide sinon ; `IsFavoriteChanged` (`EventCallback<bool>`) reçoit la nouvelle valeur, d'où `@bind-IsFavorite`. L'étoile est un
+vrai `<button type="button">` avec `aria-pressed` et un nom localisé (« Ajouter aux favoris », « Retirer des favoris »),
+frère du lien et jamais dedans (un bouton dans un lien est une imbrication invalide) : l'activer ne suit jamais le lien. Avec
+`IsFavorite`, le lien et l'étoile sont dans une boîte `div.omni-nav-tile-host` qui prend la place du lien dans une `OmniTileGrid`
+(`DoubleWidth` passe alors sur la boîte). Sans `IsFavorite`, le balisage est celui d'avant.
+
 `Disabled` (faux par défaut ; demande d'une application cliente, lot W-8) est pour la tuile qui ne mène nulle
 part pour l'instant (rien à examiner, un droit absent) : elle n'a plus d'attribut `href`, donc ne s'ouvre ni
 au clic ni au clic du milieu et ne prend pas le focus au clavier ; elle porte `role="link"` et
