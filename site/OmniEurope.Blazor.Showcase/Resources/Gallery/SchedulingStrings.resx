@@ -27,6 +27,10 @@
   <data name="SchedulerTimeGridDescription" xml:space="preserve"><value>The day and week views become a grid from 8 am to 6 pm, in 30-minute slots; turned off, they stay lists.</value></data>
   <data name="SchedulerSlotHeight" xml:space="preserve"><value>Slot height</value></data>
   <data name="SchedulerSlotHeightDescription" xml:space="preserve"><value>Standard or compact (half as high) slots in the time grid; appointments follow their duration.</value></data>
+  <data name="SchedulerOrientation" xml:space="preserve"><value>Orientation</value></data>
+  <data name="SchedulerOrientationDescription" xml:space="preserve"><value>Vertical runs the time down the time grid, one column per day; horizontal runs it across, one row per day. The month view is unchanged.</value></data>
+  <data name="SchedulerOrientationVertical" xml:space="preserve"><value>Vertical</value></data>
+  <data name="SchedulerOrientationHorizontal" xml:space="preserve"><value>Horizontal</value></data>
   <data name="SchedulerPeriodTitle" xml:space="preserve"><value>Period title</value></data>
   <data name="SchedulerPeriodTitleDescription" xml:space="preserve"><value>The day, the bounds of the week or the month shown, in the header.</value></data>
   <data name="SchedulerSlotHeightStandard" xml:space="preserve"><value>Standard</value></data>

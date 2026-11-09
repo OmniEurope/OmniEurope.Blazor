@@ -164,6 +164,18 @@ public partial class OmniScheduler
     [Parameter] public OmniSchedulerSlotHeight SlotHeight { get; set; } = OmniSchedulerSlotHeight.Standard;
 
     /// <summary>
+    /// The direction of the time axis of the time grid of the day and week views:
+    /// <see cref="OmniOrientation.Vertical"/> (the default) runs the time down the page, one column per day;
+    /// <see cref="OmniOrientation.Horizontal"/> runs it across the page, the slot times as column headers and
+    /// one row per day, each appointment drawn from its start to its end along the row. The month view and the
+    /// lists drawn without a time grid are not affected. Moving works the same either way: a drop reads the day
+    /// and the slot of the cell under the pointer, and the move button of an appointment reaches the same cells.
+    /// In Horizontal, <see cref="SlotHeight"/> sets the width of a slot, and a row grows with the appointments
+    /// that share their time. A narrow screen scrolls the grid, not the page.
+    /// </summary>
+    [Parameter] public OmniOrientation Orientation { get; set; } = OmniOrientation.Vertical;
+
+    /// <summary>
     /// A .NET date format (such as <c>"dddd d MMM"</c>) applied with <see cref="Culture"/> (the current
     /// culture when it is null) to the header of each day of the time grid and over each day of the week list.
     /// Null (the default) writes the abbreviated day name and the day number (<c>"ddd d"</c>).
@@ -197,6 +209,7 @@ public partial class OmniScheduler
     private bool Movable => OnAppointmentMove.HasDelegate;
     private bool SlotClickable => OnSlotClick.HasDelegate;
     private bool HasTimeGrid => DayStart is { } start && DayEnd is { } end && end != start && SlotDuration > TimeSpan.Zero;
+    private bool Horizontal => Orientation == OmniOrientation.Horizontal;
     private bool CrossesMidnight => HasTimeGrid && DayEnd!.Value < DayStart!.Value;
 
     // TimeOnly subtraction wraps around midnight, so this holds for a night grid too.
@@ -753,6 +766,25 @@ public partial class OmniScheduler
     {
         var start = DayStart!.Value.ToTimeSpan() + SlotDuration * slot;
         return CrossesMidnight && start >= TimeSpan.FromDays(1) && start - SlotDuration < TimeSpan.FromDays(1);
+    }
+
+    // A cell of the time grid. In Horizontal the first cell of a night grid on the next date also carries the marker
+    // of its column, as the row does in Vertical.
+    private string CellCss(DateOnly day, int slot, DateOnly today, MoveTarget target)
+    {
+        var css = PastCss(TargetCss(DayCss("omni-scheduler-grid__cell", day, today), target), day, slot);
+        return Horizontal && StartsNextDay(slot) ? $"{css} omni-scheduler-grid__col--next-day" : css;
+    }
+
+    // The header of a slot of a horizontal time grid.
+    private string SlotHeaderCss(int slot) =>
+        StartsNextDay(slot) ? "omni-scheduler-grid__time omni-scheduler-grid__col--next-day" : "omni-scheduler-grid__time";
+
+    // A horizontal row is as many lanes high as its busiest chain of appointments, so each lane keeps one line.
+    private static string? RowLanesCss(DateOnly day, ILookup<(DateOnly Day, int Slot), GridBlock> blocks)
+    {
+        var lanes = Math.Min(blocks.Where(group => group.Key.Day == day).SelectMany(group => group).Select(block => block.Lanes).DefaultIfEmpty(1).Max(), MostLanes);
+        return lanes == 1 ? null : $"omni-scheduler-grid__row--lanes-{lanes.ToString(CultureInfo.InvariantCulture)}";
     }
 
     private static string DayCss(string baseClass, DateOnly day, DateOnly today) =>

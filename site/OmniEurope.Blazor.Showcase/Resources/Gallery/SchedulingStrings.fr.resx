@@ -27,6 +27,10 @@
   <data name="SchedulerTimeGridDescription" xml:space="preserve"><value>Les vues jour et semaine deviennent une grille de 8 h à 18 h, par créneaux de 30 minutes ; désactivé, elles restent des listes.</value></data>
   <data name="SchedulerSlotHeight" xml:space="preserve"><value>Hauteur des créneaux</value></data>
   <data name="SchedulerSlotHeightDescription" xml:space="preserve"><value>Créneaux standard ou compacts (deux fois moins hauts) dans la grille horaire ; les rendez-vous suivent leur durée.</value></data>
+  <data name="SchedulerOrientation" xml:space="preserve"><value>Orientation</value></data>
+  <data name="SchedulerOrientationDescription" xml:space="preserve"><value>Verticale déroule le temps de haut en bas de la grille horaire, une colonne par jour ; horizontale le déroule de gauche à droite, une ligne par jour. La vue mensuelle ne change pas.</value></data>
+  <data name="SchedulerOrientationVertical" xml:space="preserve"><value>Verticale</value></data>
+  <data name="SchedulerOrientationHorizontal" xml:space="preserve"><value>Horizontale</value></data>
   <data name="SchedulerPeriodTitle" xml:space="preserve"><value>Titre de la période</value></data>
   <data name="SchedulerPeriodTitleDescription" xml:space="preserve"><value>La date du jour, les bornes de la semaine ou le mois affichés, dans l'en-tête.</value></data>
   <data name="SchedulerSlotHeightStandard" xml:space="preserve"><value>Standard</value></data>

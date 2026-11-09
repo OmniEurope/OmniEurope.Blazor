@@ -62,6 +62,16 @@
                 </Details>
             </OmniSettingsTile>
 
+            <OmniSettingsTile Title="@Text["SchedulerOrientation"]" Description="@Text["SchedulerOrientationDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Layers" /></Icon>
+                <Details>
+                    <OmniSelectBar TValue="OmniOrientation"
+                                   Options="OrientationOptions"
+                                   @bind-Value="Orientation"
+                                   Label="@Text["SchedulerOrientation"]" />
+                </Details>
+            </OmniSettingsTile>
+
             <OmniSettingsTile Title="@Text["SchedulerPeriodTitle"]" Description="@Text["SchedulerPeriodTitleDescription"]">
                 <Icon><OmniIcon Name="OmniIconName.TextSize" /></Icon>
                 <ChildContent>
@@ -98,6 +108,7 @@
                                   IncludeWeekend="IncludeWeekend"
                                   TimeGrid="TimeGrid"
                                   SlotHeight="SlotHeight"
+                                  Orientation="Orientation"
                                   ShowPeriodTitle="ShowPeriodTitle"
                                   Movable="Movable"
                                   MarkPastSlots="MarkPastSlots" />
