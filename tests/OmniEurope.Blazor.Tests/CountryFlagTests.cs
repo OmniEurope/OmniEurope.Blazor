@@ -92,6 +92,95 @@ public sealed class CountryFlagTests : OmniBunitContext
     }
 
     [Fact]
+    public void ShowCode_false_without_a_picture_still_shows_the_code()
+    {
+        var flag = Render<OmniCountryFlag>(p => p.Add(c => c.CountryCode, "FR").Add(c => c.ShowCode, false));
+
+        Assert.Empty(flag.FindAll("img"));
+        Assert.Equal("FR", flag.Find(".omni-country-flag__code").TextContent);
+    }
+
+    [Fact]
+    public void A_code_of_two_non_ascii_letters_is_not_a_country()
+    {
+        var flag = Render<OmniCountryFlag>(p => p.Add(c => c.CountryCode, "éé").Add(c => c.ImageUrlTemplate, Template));
+
+        Assert.Empty(flag.FindAll("img"));
+        Assert.Equal("ÉÉ", flag.Find(".omni-country-flag").GetAttribute("aria-label"));
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("F")]
+    [InlineData("FRA")]
+    [InlineData("F1")]
+    [InlineData("ZZ")]
+    [InlineData("ÉÉ")]
+    public void RegionOf_is_null_unless_the_code_is_a_known_two_letter_region(string? code)
+    {
+        Assert.Null(OmniCountryFlag.RegionOf(code));
+    }
+
+    [Fact]
+    public void RegionOf_returns_the_region_of_a_known_code()
+    {
+        Assert.Equal("FR", OmniCountryFlag.RegionOf("FR")!.TwoLetterISORegionName);
+    }
+
+    [Theory]
+    [InlineData("fr", "fr-DE")]
+    [InlineData("en", "en-DE")]
+    [InlineData("iv", "en-DE")]
+    [InlineData("tlh", "en-DE")]
+    [InlineData("", "en-DE")]
+    public void NameOf_asks_for_the_culture_of_the_page_language_and_defaults_to_english(string language, string expectedCulture)
+    {
+        string? requested = null;
+
+        OmniCountryFlag.NameOf("DE", "Deutschland", language, name =>
+        {
+            requested = name;
+            throw new CultureNotFoundException();
+        });
+
+        Assert.Equal(expectedCulture, requested);
+    }
+
+    [Fact]
+    public void NameOf_takes_the_country_from_the_parentheses_of_the_culture_name()
+    {
+        var previous = CultureInfo.CurrentUICulture;
+        try
+        {
+            CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
+
+            Assert.Equal("Germany", OmniCountryFlag.NameOf("DE", "Deutschland", "fr", CultureInfo.GetCultureInfo));
+        }
+        finally
+        {
+            CultureInfo.CurrentUICulture = previous;
+        }
+    }
+    [Fact]
+    public void NameOf_uses_the_region_own_name_when_the_culture_does_not_exist()
+    {
+        Assert.Equal("Deutschland", OmniCountryFlag.NameOf("DE", "Deutschland", "en", _ => throw new CultureNotFoundException()));
+    }
+
+    [Fact]
+    public void NameOf_uses_the_region_own_name_when_the_culture_name_has_no_country_in_parentheses()
+    {
+        Assert.Equal("Deutschland", OmniCountryFlag.NameOf("DE", "Deutschland", "en", _ => CultureInfo.GetCultureInfo("de")));
+    }
+
+    [Fact]
+    public void NameOf_is_null_when_nothing_names_the_country()
+    {
+        Assert.Null(OmniCountryFlag.NameOf("DE", " ", "en", _ => CultureInfo.GetCultureInfo("de")));
+    }
+
+    [Fact]
     public void A_blank_code_draws_nothing()
     {
         var flag = Render<OmniCountryFlag>(p => p.Add(c => c.CountryCode, "  "));

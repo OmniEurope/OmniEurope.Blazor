@@ -1,6 +1,7 @@
 using System.Globalization;
 using AngleSharp.Dom;
 using Bunit;
+using Microsoft.Extensions.DependencyInjection;
 using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
@@ -154,5 +155,97 @@ public sealed class SchedulerOrientationTests : OmniBunitContext
         Assert.Empty(scheduler.FindAll(".omni-scheduler-grid"));
         Assert.Single(scheduler.FindAll(".omni-month-view"));
         Assert.Equal(7, scheduler.FindAll(".omni-month-view__weekday").Count);
+    }
+
+    [Fact]
+    public void Horizontal_NightGridCrossingMidnight_MarksTheColumnOfTheNextDay()
+    {
+        // 22:00 to 02:00 in one-hour slots: slots 0 and 1 are the evening, slots 2 and 3 the next morning.
+        var scheduler = Render<OmniScheduler>(parameters => parameters
+            .Add(component => component.Date, Monday)
+            .Add(component => component.View, OmniCalendarView.Week)
+            .Add(component => component.TimeZone, TimeZoneInfo.Utc)
+            .Add(component => component.Orientation, OmniOrientation.Horizontal)
+            .Add(component => component.DayStart, new TimeOnly(22, 0))
+            .Add(component => component.DayEnd, new TimeOnly(2, 0)));
+
+        const string Marker = "omni-scheduler-grid__col--next-day";
+        var headers = scheduler.FindAll(".omni-scheduler-grid__table thead th.omni-scheduler-grid__time");
+        Assert.Equal(4, headers.Count);
+        Assert.Equal("00:00", headers[2].QuerySelector("time")!.GetAttribute("datetime"));
+        Assert.Equal([2], headers.Select((header, index) => (header, index)).Where(item => item.header.ClassList.Contains(Marker)).Select(item => item.index));
+
+        var rows = scheduler.FindAll(".omni-scheduler-grid__table tbody tr");
+        Assert.Equal(7, rows.Count);
+        Assert.All(rows, row =>
+        {
+            var cells = row.QuerySelectorAll("td");
+            Assert.Equal(4, cells.Length);
+            Assert.Equal([2], cells.Select((cell, index) => (cell, index)).Where(item => item.cell.ClassList.Contains(Marker)).Select(item => item.index));
+        });
+    }
+
+    [Fact]
+    public void Horizontal_DayStartingAtMidnightOrSameDayGrid_HasNoNextDayMarker()
+    {
+        var scheduler = RenderWeek(OmniOrientation.Horizontal, []);
+
+        Assert.Empty(scheduler.FindAll(".omni-scheduler-grid__col--next-day"));
+    }
+
+    [Fact]
+    public void AnAppointmentRemovedFromTheItemsBeforeTheClick_IsNotReported_NotPickedUp_AndNotDragged()
+    {
+        var items = new List<OmniSchedulerAppointment>
+        {
+            new("a", "Revue", Monday.AddHours(9), Monday.AddHours(10)),
+            new("b", "Comité", Monday.AddHours(10), Monday.AddHours(11)),
+            new("c", "Appel", Monday.AddHours(8), Monday.AddHours(9))
+        };
+        var clicked = new List<string>();
+        OmniSchedulerAppointmentMove? moved = null;
+        var scheduler = Render<OmniScheduler>(parameters => parameters
+            .Add(component => component.Date, Monday)
+            .Add(component => component.View, OmniCalendarView.Week)
+            .Add(component => component.TimeZone, TimeZoneInfo.Utc)
+            .Add(component => component.DayStart, new TimeOnly(8, 0))
+            .Add(component => component.DayEnd, new TimeOnly(12, 0))
+            .Add(component => component.Items, items)
+            .Add(component => component.OnAppointmentClick, (OmniSchedulerAppointment appointment) => clicked.Add(appointment.Id))
+            .Add(component => component.OnAppointmentMove, (OmniSchedulerAppointmentMove move) => moved = move));
+        var open = scheduler.Find("[data-omni-scheduler-appointment='a'] .omni-scheduler__open");
+        var pickUp = scheduler.Find("[data-omni-scheduler-appointment='b'] .omni-scheduler__move");
+        var dragged = scheduler.Find("[data-omni-scheduler-appointment='c']");
+
+        // The list changes under the scheduler without a new render: each handler still holds its old appointment.
+        items.RemoveAt(0);
+        open.Click();
+        items.RemoveAt(0);
+        pickUp.Click();
+        items.RemoveAt(0);
+        dragged.DragStart();
+        Cell(scheduler, OmniOrientation.Vertical, 2, 2).Drop();
+
+        Assert.Empty(clicked);
+        Assert.Empty(scheduler.FindAll(".omni-scheduler__place"));
+        Assert.Null(moved);
+    }
+
+    [Fact]
+    public void Horizontal_MarksTheRowOfTodayAndOnlyThatRow()
+    {
+        Services.AddSingleton<TimeProvider>(new FixedTimeProvider(Monday.AddDays(1).AddHours(10)));
+
+        var scheduler = RenderWeek(OmniOrientation.Horizontal, []);
+
+        var rows = scheduler.FindAll(".omni-scheduler-grid__table tbody tr");
+        Assert.Equal("date", rows[1].QuerySelector("th")!.GetAttribute("aria-current"));
+        Assert.Contains("omni-scheduler-grid__day--today", rows[1].QuerySelector("th")!.ClassList);
+        Assert.Equal([1], rows.Select((row, index) => (row, index)).Where(item => item.row.QuerySelector("th")!.HasAttribute("aria-current")).Select(item => item.index));
+    }
+
+    private sealed class FixedTimeProvider(DateTimeOffset value) : TimeProvider
+    {
+        public override DateTimeOffset GetUtcNow() => value;
     }
 }

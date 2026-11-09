@@ -75,6 +75,10 @@ public sealed class DurationPickerTests : OmniBunitContext
 
         Assert.Null(_value);
         Assert.All(picker.FindAll("input"), input => Assert.True(string.IsNullOrEmpty(input.GetAttribute("value"))));
+
+        // Still no value: nothing changes.
+        picker.Render(parameters => parameters.Add(component => component.Value, (TimeSpan?)null));
+        Assert.All(picker.FindAll("input"), input => Assert.True(string.IsNullOrEmpty(input.GetAttribute("value"))));
     }
 
     [Fact]
@@ -168,6 +172,73 @@ public sealed class DurationPickerTests : OmniBunitContext
         var group = form.Find("[role=group]");
         Assert.Contains("invalid", group.ClassName);
         Assert.Equal("true", group.GetAttribute("aria-invalid"));
+    }
+
+    [Fact]
+    public void A_value_changed_from_outside_replaces_the_fields_and_an_unchanged_one_keeps_them()
+    {
+        var picker = RenderPicker(new TimeSpan(1, 5, 0));
+
+        picker.Render(parameters => parameters.Add(component => component.Value, new TimeSpan(3, 10, 0)));
+        Assert.Equal(["3", "10"], picker.FindAll("input").Select(input => input.GetAttribute("value")));
+
+        picker.Render(parameters => parameters.Add(component => component.Value, (TimeSpan?)null));
+        Assert.All(picker.FindAll("input"), input => Assert.True(string.IsNullOrEmpty(input.GetAttribute("value"))));
+
+        picker.Render(parameters => parameters.Add(component => component.Value, new TimeSpan(0, 20, 0)));
+        Assert.Equal(["0", "20"], picker.FindAll("input").Select(input => input.GetAttribute("value")));
+
+        // Same value again: the fields are not rewritten, the group stays as it is.
+        picker.Render(parameters => parameters.Add(component => component.Value, new TimeSpan(0, 20, 0)));
+        Assert.Equal(["0", "20"], picker.FindAll("input").Select(input => input.GetAttribute("value")));
+    }
+
+    [Fact]
+    public void Emptying_the_hours_of_a_duration_under_an_hour_leaves_the_hours_empty()
+    {
+        var picker = RenderPicker(new TimeSpan(0, 45, 0));
+        Assert.Equal("0", picker.FindAll("input")[0].GetAttribute("value"));
+
+        picker.FindAll("input")[0].Change(string.Empty);
+
+        Assert.Equal(new TimeSpan(0, 45, 0), _value);
+        Assert.True(string.IsNullOrEmpty(picker.FindAll("input")[0].GetAttribute("value")));
+        Assert.Equal("45", picker.FindAll("input")[1].GetAttribute("value"));
+    }
+
+    [Fact]
+    public void Minutes_carried_over_an_empty_hours_field_fill_the_hours()
+    {
+        var picker = RenderPicker();
+
+        picker.FindAll("input")[1].Change("75");
+
+        Assert.Equal(new TimeSpan(1, 15, 0), _value);
+        Assert.Equal(["1", "15"], picker.FindAll("input").Select(input => input.GetAttribute("value")));
+    }
+
+    [Fact]
+    public void Text_parsing_reads_a_duration_in_the_invariant_culture_and_reports_the_invalid_ones()
+    {
+        _value = null;
+        var picker = Render<ParsingPicker>(parameters => parameters.Add(component => component.ValueExpression, () => _value));
+
+        Assert.True(picker.Instance.Parse("  ", out var empty, out var emptyMessage));
+        Assert.Null(empty);
+        Assert.Equal(string.Empty, emptyMessage);
+
+        Assert.True(picker.Instance.Parse("01:30:00", out var parsed, out var parsedMessage));
+        Assert.Equal(new TimeSpan(1, 30, 0), parsed);
+        Assert.Equal(string.Empty, parsedMessage);
+
+        Assert.False(picker.Instance.Parse("abc", out var invalid, out var invalidMessage));
+        Assert.Null(invalid);
+        Assert.False(string.IsNullOrWhiteSpace(invalidMessage));
+    }
+
+    private sealed class ParsingPicker : OmniDurationPicker
+    {
+        public bool Parse(string? value, out TimeSpan? result, out string message) => TryParseValueFromString(value, out result, out message);
     }
 
     private sealed class Model

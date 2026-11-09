@@ -375,7 +375,8 @@ polyline.omni-chart__line { fill: none; }
 .omni-scheduler--horizontal .omni-scheduler-grid__table tbody tr { --omni-scheduler-slot-height: calc(var(--omni-scheduler-lane-height) * var(--omni-scheduler-row-lanes, 1)); }
 .omni-scheduler--horizontal .omni-scheduler-grid__cell { inline-size: var(--omni-scheduler-slot-width); min-inline-size: var(--omni-scheduler-slot-width); }
 .omni-scheduler-grid__row--lanes-2 { --omni-scheduler-row-lanes: 2; } .omni-scheduler-grid__row--lanes-3 { --omni-scheduler-row-lanes: 3; } .omni-scheduler-grid__row--lanes-4 { --omni-scheduler-row-lanes: 4; } .omni-scheduler-grid__row--lanes-5 { --omni-scheduler-row-lanes: 5; } .omni-scheduler-grid__row--lanes-6 { --omni-scheduler-row-lanes: 6; } .omni-scheduler-grid__row--lanes-7 { --omni-scheduler-row-lanes: 7; } .omni-scheduler-grid__row--lanes-8 { --omni-scheduler-row-lanes: 8; }
-.omni-scheduler-grid__table .omni-scheduler-grid__col--next-day { border-inline-start-color: var(--omni-color-text-muted); }
+/* The line before the first slot of the next date: the table collapses its borders, where the cell before a line wins, so the colour goes on the end of that cell. */
+.omni-scheduler-grid__table :is(td, th):has(+ .omni-scheduler-grid__col--next-day) { border-inline-end-color: var(--omni-color-text-muted); }
 .omni-scheduler--horizontal .omni-scheduler-grid .omni-scheduler-grid__cell > .omni-scheduler__appointment {
   --omni-scheduler-col: calc(100% + var(--omni-border-width));
   block-size: calc(100% / var(--omni-scheduler-lanes, 1));

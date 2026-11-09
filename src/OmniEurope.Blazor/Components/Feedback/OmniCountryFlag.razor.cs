@@ -43,26 +43,24 @@ public partial class OmniCountryFlag
     private string? Code => string.IsNullOrWhiteSpace(CountryCode) ? null : CountryCode.Trim().ToUpperInvariant();
 
     // Two letters the runtime knows as a region: "ZZ" and "F1" are codes, not countries.
-    private RegionInfo? Region
-    {
-        get
-        {
-            if (Code is not { Length: 2 } code || !code.All(letter => letter is >= 'A' and <= 'Z'))
-            {
-                return null;
-            }
+    private RegionInfo? Region => RegionOf(Code);
 
-            try
-            {
-                return new RegionInfo(code);
-            }
-            catch (ArgumentException)
-            {
-                return null;
-            }
+    internal static RegionInfo? RegionOf(string? code)
+    {
+        if (code is not { Length: 2 } || !code.All(letter => letter is >= 'A' and <= 'Z'))
+        {
+            return null;
+        }
+
+        try
+        {
+            return new RegionInfo(code);
+        }
+        catch (ArgumentException)
+        {
+            return null;
         }
     }
-
     private bool IsValidCode => Region is not null;
 
     private string? ImageUrl
@@ -89,32 +87,26 @@ public partial class OmniCountryFlag
     // RegionInfo.DisplayName is the region's own language on this runtime, not the page's. The display
     // name of the culture "{page language}-{CODE}" is localized in the page language (for example
     // "(Germany)"): the country is what its parentheses hold.
-    private string? CountryName
+    private string? CountryName =>
+        Region is { } region ? NameOf(region.TwoLetterISORegionName, region.DisplayName, CultureInfo.CurrentUICulture.TwoLetterISOLanguageName, CultureInfo.GetCultureInfo) : null;
+
+    internal static string? NameOf(string regionCode, string regionDisplayName, string language, Func<string, CultureInfo> cultureOf)
     {
-        get
+        try
         {
-            if (Region is not { } region)
+            var display = cultureOf($"{(language.Length == 2 && language != "iv" ? language : "en")}-{regionCode}").DisplayName;
+            var open = display.LastIndexOf('(');
+            var close = display.LastIndexOf(')');
+            if (open >= 0 && close > open + 1)
             {
-                return null;
+                return display[(open + 1)..close].Trim();
             }
-
-            var language = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            try
-            {
-                var display = CultureInfo.GetCultureInfo($"{(language.Length == 2 && language != "iv" ? language : "en")}-{region.TwoLetterISORegionName}").DisplayName;
-                var open = display.LastIndexOf('(');
-                var close = display.LastIndexOf(')');
-                if (open >= 0 && close > open + 1)
-                {
-                    return display[(open + 1)..close].Trim();
-                }
-            }
-            catch (CultureNotFoundException)
-            {
-                // No such culture on this runtime: the region's own name below.
-            }
-
-            return string.IsNullOrWhiteSpace(region.DisplayName) ? null : region.DisplayName;
         }
+        catch (CultureNotFoundException)
+        {
+            // No such culture on this runtime: the region's own name below.
+        }
+
+        return string.IsNullOrWhiteSpace(regionDisplayName) ? null : regionDisplayName;
     }
 }
