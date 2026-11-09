@@ -23,6 +23,21 @@ public sealed class NavTileFavoriteTests : OmniBunitContext
         Assert.Equal("A", tile.Find("a.omni-nav-tile .omni-nav-tile__title").TextContent);
     }
 
+    [Fact]
+    public void Class_GoesOnTheLinkOnly_NeverOnTheHostOrTheStar()
+    {
+        var tile = Render<OmniNavTile>(parameters => parameters
+            .Add(component => component.Href, "/a")
+            .Add(component => component.Title, "A")
+            .Add(component => component.Class, "requires-online-navigation")
+            .Add(component => component.IsFavorite, false));
+
+        Assert.Single(tile.FindAll(".requires-online-navigation"));
+        Assert.True(tile.Find("a.omni-nav-tile").ClassList.Contains("requires-online-navigation"));
+        Assert.False(tile.Find(".omni-nav-tile-host").ClassList.Contains("requires-online-navigation"));
+        Assert.False(tile.Find("button.omni-nav-tile__favorite").ClassList.Contains("requires-online-navigation"));
+    }
+
     [Theory]
     [InlineData(true, "true", "Retirer des favoris")]
     [InlineData(false, "false", "Ajouter aux favoris")]

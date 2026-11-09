@@ -28,10 +28,10 @@
 }
 else
 {
-    <div class="@Css("omni-nav-tile-host", DoubleWidth ? "omni-tile--double" : null)">
+    <div class="@CssClassBuilder.Combine(["omni-nav-tile-host", DoubleWidth ? "omni-tile--double" : null])">
         @tile
         <button type="button"
-                class="@Css("omni-nav-tile__favorite", IsFavorite.Value ? "omni-nav-tile__favorite--on" : null)"
+                class="@CssClassBuilder.Combine(["omni-nav-tile__favorite", IsFavorite.Value ? "omni-nav-tile__favorite--on" : null])"
                 aria-pressed="@(IsFavorite.Value ? "true" : "false")"
                 aria-label="@FavoriteName"
                 title="@FavoriteName"

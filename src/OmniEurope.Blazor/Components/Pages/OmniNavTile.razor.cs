@@ -99,7 +99,9 @@ public partial class OmniNavTile
     /// <c>&lt;button type="button"&gt;</c> with <c>aria-pressed</c> and a localized name ("Add to favorites" or
     /// "Remove from favorites"), laid over the tile as a sibling of the link, never inside it: a click on the star
     /// never follows the link. The tile and the toggle are then wrapped in a host box (<c>omni-nav-tile-host</c>)
-    /// that takes the place of the link in a <see cref="OmniTileGrid"/>. Bind it with <c>@bind-IsFavorite</c>.
+    /// that takes the place of the link in a <see cref="OmniTileGrid"/>. <c>Class</c> stays on the link alone, never on
+    /// the host or the star, so a class that marks the link (an offline guard, for example) never reaches the toggle.
+    /// Bind it with <c>@bind-IsFavorite</c>.
     /// </summary>
     [Parameter]
     public bool? IsFavorite { get; set; }
