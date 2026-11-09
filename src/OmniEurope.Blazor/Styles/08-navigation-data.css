@@ -528,7 +528,7 @@
 .omni-data-grid__table .omni-data-grid__column--align-center { text-align: center; }
 .omni-data-grid__table .omni-data-grid__column--align-end { text-align: end; }
 .omni-data-grid th.omni-data-grid__column--align-center .omni-data-grid__header { justify-content: center; }
-/* An end-aligned header keeps the reading order, title first then its icons, all pushed to the end of the
+/* A header aligned at the end (HeaderAlign End; by default every header stays at the start) keeps the reading order, title first then its icons, all pushed to the end of the
    cell beside the right-aligned values (OEAPP-23): the order was reversed, which drew the icons before the title. */
 .omni-data-grid th.omni-data-grid__column--align-end .omni-data-grid__header { justify-content: flex-end; }
 /* Centred and end-aligned sortable headers: the sort icon margin-inline-start: auto (start columns pin

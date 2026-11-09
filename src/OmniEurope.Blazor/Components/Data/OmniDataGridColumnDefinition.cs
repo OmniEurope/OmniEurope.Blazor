@@ -71,6 +71,8 @@ internal sealed class OmniDataGridColumnDefinition<TItem>
     /// <summary>With content sizing, the column's header and cells wrap instead of staying on one line.</summary>
     public bool Wrap { get; init; }
     public OmniAlignment TextAlign { get; init; }
+    /// <summary>The alignment of the header, null for the start whatever the cells do.</summary>
+    public OmniAlignment? HeaderAlign { get; init; }
     /// <summary>The property read is a number: the column aligns at the end unless its alignment was set.</summary>
     public bool Numeric { get; init; }
     public string? Class { get; init; }

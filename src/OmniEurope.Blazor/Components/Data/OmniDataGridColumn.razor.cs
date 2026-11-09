@@ -316,12 +316,21 @@ public partial class OmniDataGridColumn<TItem>
     public bool Wrap { get; set; }
 
     /// <summary>
-    /// Alignment of the header and the cells. Left at the start, a number column aligns at the end in
+    /// Alignment of the cells. Left at the start, a number column aligns at the end in
     /// figures of one width, unless it has a <see cref="Template"/>. Text has no cross axis to fill:
     /// <see cref="OmniAlignment.Stretch"/> reads as <see cref="OmniAlignment.Start"/>.
     /// </summary>
     [Parameter]
     public OmniAlignment TextAlign { get; set; }
+
+    /// <summary>
+    /// Alignment of the header (title, then its filter and sort icons). Null by default: the header stays at the
+    /// start whatever <see cref="TextAlign"/> does to the cells, so every title of the grid starts on the same
+    /// side. <see cref="OmniAlignment.End"/> or <see cref="OmniAlignment.Center"/> moves it on purpose, the icons
+    /// still after the title; <see cref="OmniAlignment.Stretch"/> reads as <see cref="OmniAlignment.Start"/>.
+    /// </summary>
+    [Parameter]
+    public OmniAlignment? HeaderAlign { get; set; }
 
     /// <summary>
     /// CSS class added to each body cell and footer cell of the column. A templated column opts into the
@@ -415,6 +424,7 @@ public partial class OmniDataGridColumn<TItem>
             Grow = Grow,
             Wrap = Wrap,
             TextAlign = TextAlign,
+            HeaderAlign = HeaderAlign,
             Numeric = GridPropertyAccessor.IsNumeric<TItem>(Property),
             Class = Class,
             HeaderClass = HeaderClass,
@@ -577,6 +587,7 @@ public partial class OmniDataGridColumn<TItem>
         && string.Equals(left.MinWidth, right.MinWidth, StringComparison.Ordinal)
         && (left.Truncate, left.Grow, left.Wrap).Equals((right.Truncate, right.Grow, right.Wrap))
         && left.TextAlign == right.TextAlign
+        && left.HeaderAlign == right.HeaderAlign
         && string.Equals(left.Class, right.Class, StringComparison.Ordinal)
         && string.Equals(left.HeaderClass, right.HeaderClass, StringComparison.Ordinal)
         && left.Groupable == right.Groupable

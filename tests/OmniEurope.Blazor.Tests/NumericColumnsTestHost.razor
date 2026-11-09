@@ -1,6 +1,6 @@
 @* Columns of every alignment case for the numeric cell: a text property, a numeric property left at
    the default alignment, a numeric property aligned explicitly (centred, or stretched, which a column reads as the start), a numeric value read by a lambda, and a
-   numeric property drawn by its own template. *@
+   numeric property drawn by its own template; and two headers placed on purpose (HeaderAlign), the cells kept to their own alignment. *@
 <OmniDataGrid TItem="NumericRun"
               Items="@Runs"
               SelectionMode="OmniDataGridSelectionMode.Single"
@@ -13,6 +13,8 @@
         <OmniDataGridColumn TItem="NumericRun" Key="stretched-number" Title="Étiré" Property="Duration" TextAlign="OmniAlignment.Stretch" />
         <OmniDataGridColumn TItem="NumericRun" Key="stretched-text" Title="Libellé" Property="Name" TextAlign="OmniAlignment.Stretch" />
         <OmniDataGridColumn TItem="NumericRun" Key="lambda" Title="Calcul" Value="run => run.Duration * 2" />
+        <OmniDataGridColumn TItem="NumericRun" Key="header-end" Title="Total" Property="Duration" HeaderAlign="OmniAlignment.End" />
+        <OmniDataGridColumn TItem="NumericRun" Key="header-center" Title="Code" Property="Name" TextAlign="OmniAlignment.End" HeaderAlign="OmniAlignment.Center" />
         <OmniDataGridColumn TItem="NumericRun" Key="templated" Title="Numéro" Property="Duration">
             <Template Context="run"><a href="#">#@run.Duration</a></Template>
         </OmniDataGridColumn>

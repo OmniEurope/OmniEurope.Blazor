@@ -66,10 +66,23 @@ internal sealed class GridCssClasses<TItem>(OmniDataGrid<TItem> grid)
     // Text has no cross axis to fill: Stretch reads as Start.
     private static bool IsStart(OmniAlignment alignment) => alignment is OmniAlignment.Start or OmniAlignment.Stretch;
 
-    internal string ColumnClass(OmniDataGridColumnDefinition<TItem> column, bool header) => CssClassBuilder.Combine([
-        IsNumericCell(column)
+    // The header follows HeaderAlign, the start by default, never the cells: every title of the grid starts on
+    // the same side, an end-aligned figure column included (a client rule: everything at the start).
+    private static string AlignmentClass(OmniDataGridColumnDefinition<TItem> column, bool header)
+    {
+        if (header)
+        {
+            var alignment = column.HeaderAlign ?? OmniAlignment.Start;
+            return $"omni-data-grid__column--align-{(IsStart(alignment) ? "start" : alignment.ToString().ToLowerInvariant())}";
+        }
+
+        return IsNumericCell(column)
             ? "omni-data-grid__column--align-end omni-data-grid__cell--numeric"
-            : $"omni-data-grid__column--align-{(IsStart(column.TextAlign) ? "start" : column.TextAlign.ToString().ToLowerInvariant())}",
+            : $"omni-data-grid__column--align-{(IsStart(column.TextAlign) ? "start" : column.TextAlign.ToString().ToLowerInvariant())}";
+    }
+
+    internal string ColumnClass(OmniDataGridColumnDefinition<TItem> column, bool header) => CssClassBuilder.Combine([
+        AlignmentClass(column, header),
         column.Frozen ? "omni-data-grid__column--frozen" : null,
         SizingClass(column),
         grid.HighlightActiveColumn && grid.Query.IsColumnActive(column) ? "omni-data-grid__column--active" : null,

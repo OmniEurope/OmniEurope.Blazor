@@ -323,8 +323,21 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
         string[] Classes(string key) => grid.FindAll($"tbody td[data-omni-col='{key}']").Select(cell => cell.ClassName ?? string.Empty).ToArray();
         var header = grid.FindAll("thead th").Single(cell => cell.TextContent.Contains("Durée", StringComparison.Ordinal));
 
-        Assert.Contains("omni-data-grid__cell--numeric", header.ClassList);
-        Assert.All(new[] { "name", "duration", "cost", "stretched-number", "stretched-text", "lambda", "templated" }, key => Assert.Equal(2, Classes(key).Length));
+        // The header of an end-aligned figure column stays at the start, like every title of the grid (client
+        // rule: everything at the start); only its cells take the end and the figures of one width.
+        Assert.Contains("omni-data-grid__column--align-start", header.ClassList);
+        Assert.DoesNotContain("omni-data-grid__column--align-end", header.ClassList);
+        Assert.DoesNotContain("omni-data-grid__cell--numeric", header.ClassList);
+        Assert.All(new[] { "name", "duration", "cost", "stretched-number", "stretched-text", "lambda", "templated", "header-end", "header-center" }, key => Assert.Equal(2, Classes(key).Length));
+        // HeaderAlign places a header on purpose, whatever its cells do.
+        var placedEnd = grid.FindAll("thead th").Single(cell => cell.TextContent.Contains("Total", StringComparison.Ordinal));
+        Assert.Contains("omni-data-grid__column--align-end", placedEnd.ClassList);
+        Assert.All(Classes("header-end"), value => Assert.Contains("omni-data-grid__cell--numeric", value, StringComparison.Ordinal));
+        var placedCentre = grid.FindAll("thead th").Single(cell => cell.TextContent.Contains("Code", StringComparison.Ordinal));
+        Assert.Contains("omni-data-grid__column--align-center", placedCentre.ClassList);
+        Assert.All(Classes("header-center"), value => Assert.Contains("omni-data-grid__column--align-end", value, StringComparison.Ordinal));
+        var centred = grid.FindAll("thead th").Single(cell => cell.TextContent.Contains("Coût", StringComparison.Ordinal));
+        Assert.Contains("omni-data-grid__column--align-start", centred.ClassList);
         Assert.All(Classes("duration"), value => Assert.Contains("omni-data-grid__cell--numeric", value, StringComparison.Ordinal));
         Assert.All(Classes("name"), value => Assert.DoesNotContain("omni-data-grid__cell--numeric", value, StringComparison.Ordinal));
         Assert.All(Classes("cost"), value =>
