@@ -171,4 +171,20 @@ public sealed class DataGridColumnAlignmentCssTests
 
         throw new FormatException($"Unbalanced parentheses in '{selector}'.");
     }
+
+    /// <summary>
+    /// An end-aligned header reads like every other one, title first then its filter and sort icons
+    /// (OEAPP-23): the header content goes to the end of the cell without reversing its order. A
+    /// <c>row-reverse</c> drew the icons before the title.
+    /// </summary>
+    [Fact]
+    public void EndAlignedHeader_KeepsTheTitleBeforeItsIcons()
+    {
+        var header = Assert.Single(ShippedLookTests.Rules(), rule =>
+            rule.Selector.Contains(".omni-data-grid__column--align-end", StringComparison.Ordinal)
+            && rule.Selector.EndsWith(".omni-data-grid__header", StringComparison.Ordinal));
+        Assert.Equal("flex-end", ShippedLookTests.Value(header.Body, "justify-content"));
+        Assert.DoesNotContain(ShippedLookTests.Rules(), rule =>
+            rule.Selector.Contains("omni-data-grid", StringComparison.Ordinal) && rule.Body.Contains("row-reverse", StringComparison.Ordinal));
+    }
 }

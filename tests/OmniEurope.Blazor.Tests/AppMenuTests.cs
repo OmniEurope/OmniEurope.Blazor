@@ -461,9 +461,11 @@ public sealed class AppMenuTests : OmniBunitContext
             .Add(component => component.OnThemeOpen, () => { }));
         menu.Find(".omni-app-menu__trigger").Click();
 
-        // One actionable element in the row, named "Langue"; the icon, the label and the flag are not.
+        // One actionable element in the row, named "Langue"; the icon, the label and the flag are not. The button
+        // inside the select is its own closed face (OmniDropDown, appearance: base-select), part of that one list.
         var row = menu.Find(".omni-app-menu__language-row");
-        var actionable = row.QuerySelectorAll("button, a, select, input, [role], [tabindex]");
+        var actionable = row.QuerySelectorAll("button:not(select > .omni-drop-down__face), a, select, input, [role], [tabindex]");
+        Assert.Single(row.QuerySelectorAll("select > .omni-drop-down__face"));
         Assert.Single(actionable);
         Assert.Equal("select", actionable[0].LocalName);
         Assert.Equal("Langue", actionable[0].GetAttribute("aria-label"));

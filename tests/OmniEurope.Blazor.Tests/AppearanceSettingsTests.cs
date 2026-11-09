@@ -265,7 +265,7 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         Assert.Equal(["theme:Galet", "palette:null", "font:null"], events);
     }
 
-    [Fact(Skip = "Intermittent: dispatcher starved under the parallel suite, see docs/tests/disabled-tests.md")]
+    [Fact]
     public async Task Window_keeps_a_palette_and_a_font_picked_while_the_host_still_writes_the_theme()
     {
         var events = new List<string>();
@@ -284,15 +284,18 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
             .Add(component => component.PaletteChanged, value => { events.Add($"palette:{value?.Name ?? "null"}"); window!.Render(more => more.Add(component => component.Palette, value)); })
             .Add(component => component.FontChanged, value => { events.Add($"font:{value?.Name ?? "null"}"); window!.Render(more => more.Add(component => component.Font, value)); }));
 
-        window.Find("select[aria-label='Thème']").Change("2");
+        // The theme change is held until the host has written it: awaiting its handler, rather than waiting a
+        // bounded time for a render, keeps the test independent of how busy the thread pool is.
+        var themeChange = window.Find("select[aria-label='Thème']").ChangeAsync(new Microsoft.AspNetCore.Components.ChangeEventArgs { Value = "2" });
         await window.InvokeAsync(async () =>
         {
             await window.Instance.PaletteChanged.InvokeAsync(forest);
             await window.Instance.FontChanged.InvokeAsync(inter);
         });
         themeWritten.SetResult();
+        await themeChange;
 
-        window.WaitForAssertion(() => Assert.Equal(["theme:Galet", $"palette:{forest.Name}", $"font:{inter.Name}"], events));
+        Assert.Equal(["theme:Galet", $"palette:{forest.Name}", $"font:{inter.Name}"], events);
         Assert.Equal(forest, window.Instance.Palette);
         Assert.Equal(inter, window.Instance.Font);
     }

@@ -83,6 +83,10 @@ select.omni-input.omni-input--large:not([multiple]):not([size]) { block-size: ca
     select.omni-input:not([multiple]):not([size])::picker(select) { appearance: base-select; }
     select.omni-input:not([multiple]):not([size]) { align-items: center; cursor: pointer; display: inline-flex; gap: var(--omni-space-sm); justify-content: space-between; }
     select.omni-input:not([multiple]):not([size]):disabled { cursor: not-allowed; }
+    /* The closed face of OmniDropDown: the chosen text shrinks with the field and ends with an ellipsis,
+       never a second line (a long label in a narrow field, at a large text size, spilled out of it). */
+    select.omni-input > .omni-drop-down__face { all: unset; align-items: center; display: flex; flex: 1 1 auto; min-inline-size: 0; overflow: hidden; }
+    select.omni-input > .omni-drop-down__face > selectedcontent { display: block; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     /* A chevron cut out of a small block, as light as the one the system drew; it turns up while the list is open. */
     select.omni-input:not([multiple]):not([size])::picker-icon { background: var(--omni-color-text-muted); block-size: 0.375em; clip-path: polygon(0 0, 13% 0, 50% 74%, 87% 0, 100% 0, 50% 100%); content: ""; flex: none; inline-size: 0.6875em; }
     select.omni-input:not([multiple]):not([size]):open::picker-icon { scale: 1 -1; }

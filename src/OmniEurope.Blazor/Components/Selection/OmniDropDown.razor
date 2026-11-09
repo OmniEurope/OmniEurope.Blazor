@@ -50,6 +50,10 @@ else
             aria-describedby="@AriaDescribedBy"
             value="@SelectedOptionValue"
             @onchange="HandleChange">
+        @* Where the browser styles a select (appearance: base-select), this button draws its closed face: the
+           chosen text sits in its own box, so a label longer than the field ends with an ellipsis instead of
+           wrapping onto a second line out of the field. Other browsers ignore it and draw the system select. *@
+        <button type="button" class="omni-drop-down__face" disabled="@Disabled"><selectedcontent></selectedcontent></button>
         @if (AllowEmpty)
         {
             <option value="">@EffectivePlaceholder</option>
