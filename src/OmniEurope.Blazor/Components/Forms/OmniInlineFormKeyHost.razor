@@ -1,0 +1,7 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+@* Listens to the keys of the editors inside it: the event bubbles from the field to this element and
+   stops here, so it must sit in the same cell or row as the editors. display: contents keeps the layout
+   of the host. Nothing is prevented, so Enter keeps its meaning in a text area or a selector. *@
+<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-inline-form-keys")" @onkeydown="OnKeyDownAsync">@ChildContent</div>

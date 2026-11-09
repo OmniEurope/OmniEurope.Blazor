@@ -14,3 +14,8 @@ export function download(fileName, mimeType, content) {
     link.remove();
     window.setTimeout(() => URL.revokeObjectURL(url), 0);
 }
+
+// The same hand-over for a file the .NET side streams (DotNetStreamReference), read whole into the Blob.
+export async function downloadStream(fileName, mimeType, stream) {
+    download(fileName, mimeType, await stream.arrayBuffer());
+}

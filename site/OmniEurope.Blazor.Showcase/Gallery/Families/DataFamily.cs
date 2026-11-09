@@ -17,7 +17,7 @@ internal static class DataFamily
                 "Data/Flight.cs"
             ]),
         new("data-grid-variants", "DataGridVariantsTitle", "DataGridVariantsDescription", OmniIconName.Rows,
-            ["OmniDataGrid", "OmniDataGridFilterDate", "OmniDataGridFilterDateRange", "OmniImage", "OmniLink", "OmniTableExportDownloader"],
+            ["OmniDataGrid", "OmniDataGridFilterDate", "OmniDataGridFilterDateRange", "OmniImage", "OmniLink", "OmniTableExportDownloader", "OmniFilterHighlight", "OmniFileDownloader"],
             [
                 "Data/DataGridCasesExample.razor",
                 "Data/DataGridDateFilterEditorExample.razor",
@@ -31,6 +31,8 @@ internal static class DataFamily
                 "Data/DataGridPicturesExample.razor", "Data/DataGridPicturesExample.razor.cs",
                 "Data/DataGridFillExample.razor", "Data/DataGridFillExample.razor.cs",
                 "Data/DataGridFillBoxExample.razor", "Data/DataGridFillBoxExample.razor.cs",
+                "Data/FilterHighlightExample.razor", "Data/FilterHighlightExample.razor.cs",
+                "Data/FileDownloadExample.razor", "Data/FileDownloadExample.razor.cs",
                 "Data/CaseRow.cs", "Data/SiteRow.cs", "Data/StatementLine.cs", "Data/PipelineRun.cs"
             ]),
         new("data-grid-runs", "DataGridRunsTitle", "DataGridRunsDescription", OmniIconName.Gauge,

@@ -52,6 +52,8 @@ public static class OmniEuropeBlazorServiceCollectionExtensions
             provider.GetServices<IOmniTableExportRenderer>()));
         // The download of a table the host built itself, in any of those formats.
         services.TryAddScoped<OmniTableExportDownloader>();
+        // The download of any file the host holds, bytes or stream, which the table downloader builds on.
+        services.TryAddScoped<OmniFileDownloader>();
         // The user preferences: the browser cache alone, or in step with the host's
         // IOmniPreferenceStore once AddOmniEuropePreferences registers one.
         AddPreferences(services);

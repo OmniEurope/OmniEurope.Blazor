@@ -1053,6 +1053,8 @@ par défaut des boutons).
   `OmniTableExportDownloader` (même enregistrement) écrit un tableau que l'hôte construit lui-même, un
   compte de résultat ou un bilan, et le remet au navigateur : `DownloadAsync(document, format, fileName)`
   télécharge `{fileName}.{extension}` et rend le fichier.
+- **Un fichier quelconque.** `OmniFileDownloader` (même enregistrement) remet au navigateur un fichier que l'hôte détient : `DownloadAsync(byte[] content, fileName, contentType)` ou, pour un gros fichier, `DownloadAsync(Stream content, fileName, contentType)` (le flux est lu par `DotNetStreamReference` et reste ouvert, à l'appelant de le libérer). Un Blob derrière une URL d'objet que suit un lien caché, révoquée ensuite : aucun réseau, aucune autorisation CSP. Un nom ou un type vide lève `ArgumentException`. `OmniTableExportDownloader` s'appuie dessus.
+- **Texte filtré.** `OmniFilterHighlight` (`Text`, `Filter`, `IgnoreCase`) marque chaque occurrence du filtre dans un texte, pour une cellule ou une liste qu'un champ de filtre réduit : même comparaison et même classe `omni-combo__match` que les suggestions des filtres de grille.
 
 ```csharp
 @inject OmniTableExportDownloader Telechargement

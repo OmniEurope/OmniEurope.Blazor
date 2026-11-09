@@ -277,4 +277,8 @@
   <data name="VariantsTreeTitle" xml:space="preserve"><value>Grille en arbre</value></data>
   <data name="VariantsTruncationHint" xml:space="preserve"><value>Une valeur longue est coupée par une ellipse, entière dans son infobulle ; dans un cadre étroit, les colonnes se partagent ce qui reste.</value></data>
   <data name="VariantsTruncationTitle" xml:space="preserve"><value>Valeurs tronquées</value></data>
+  <data name="VariantsHighlightTitle" xml:space="preserve"><value>Surlignage d&apos;un filtre</value></data>
+  <data name="VariantsHighlightHint" xml:space="preserve"><value>Un champ de filtre réduit la liste ; OmniFilterHighlight marque le texte saisi dans chaque nom restant, au style des suggestions des filtres de la grille.</value></data>
+  <data name="VariantsDownloadTitle" xml:space="preserve"><value>Téléchargement de fichier</value></data>
+  <data name="VariantsDownloadHint" xml:space="preserve"><value>OmniFileDownloader remet au navigateur un fichier gardé en mémoire ou lu depuis un flux ; rien n&apos;est envoyé sur le réseau.</value></data>
 </root>
