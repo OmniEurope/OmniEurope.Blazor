@@ -63,6 +63,26 @@
         }
     }
 
+    // A cell of the time grid, the same in both orientations: the free area of the slot of a day, the blocks
+    // that start in it, and the button that puts a carried appointment there. The cell is the drop target, so a
+    // drop reads the day and the slot of the cell under the pointer whichever way the time axis runs.
+    void GridCell(DateOnly day, int slotIndex, DateOnly today, ILookup<(DateOnly Day, int Slot), GridBlock> blocks)
+    {
+        var target = new MoveTarget(day, slotIndex);
+        <td class="@CellCss(day, slotIndex, today, target)"
+            @ondragenter="() => DragEnter(target)"
+            @ondragover:preventDefault="@Movable"
+            @ondrop="() => DropAsync(target)"
+            @ondrop:preventDefault="@Movable">
+            @{ SlotButton(day, slotIndex); }
+            @foreach (var block in blocks[(day, slotIndex)])
+            {
+                GridAppointment(block);
+            }
+            @{ PlaceButton(target); }
+        </td>
+    }
+
     // While an appointment is picked up, the button that puts it in this cell.
     void PlaceButton(MoveTarget target)
     {
@@ -73,7 +93,7 @@
     }
 }
 
-<section @ref="_root" @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-scheduler", SlotHeight == OmniSchedulerSlotHeight.Compact ? "omni-scheduler--slot-compact" : null, _moving is null ? null : "omni-scheduler--moving", _dragged is null ? null : "omni-scheduler--dragging")" aria-busy="@(_loading ? "true" : "false")" @onkeydown="OnKeyDown">
+<section @ref="_root" @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-scheduler", SlotHeight == OmniSchedulerSlotHeight.Compact ? "omni-scheduler--slot-compact" : null, Horizontal ? "omni-scheduler--horizontal" : null, _moving is null ? null : "omni-scheduler--moving", _dragged is null ? null : "omni-scheduler--dragging")" aria-busy="@(_loading ? "true" : "false")" @onkeydown="OnKeyDown">
     <header class="@(ShowViewPicker ? "omni-scheduler__header" : "omni-scheduler__header omni-scheduler__header--no-picker")">
         <button type="button" class="omni-button" aria-label="@Text("SchedulerPreviousPeriod")" title="@PeriodButtonTitle(false)" @onclick="PreviousAsync">‹</button>
         <button type="button" class="omni-button" @onclick="TodayAsync">@Text("Today")</button>
@@ -136,41 +156,57 @@
             var blocks = GridBlocks(appointments, days);
             <div class="omni-scheduler-view omni-scheduler-grid" role="region" aria-label="@Text(_view == OmniCalendarView.Day ? "DayViewLabel" : "WeekViewLabel")">
                 <table class="omni-scheduler-grid__table">
-                    <thead>
-                        <tr>
-                            <th scope="col" class="omni-scheduler-grid__time"><span class="omni-visually-hidden">@Text("SchedulerTimeColumn")</span></th>
-                            @foreach (var day in days)
-                            {
-                                <th scope="col" class="@DayCss("omni-scheduler-grid__day", day, today)" aria-current="@(day == today ? "date" : null)">@DayHeader(day)</th>
-                            }
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (var slot = 0; slot < SlotCount; slot++)
-                        {
-                            var slotIndex = slot;
-                            var slotStart = SlotStart(slotIndex);
-                            <tr class="@(StartsNextDay(slotIndex) ? "omni-scheduler-grid__row--next-day" : null)">
-                                <th scope="row" class="omni-scheduler-grid__time"><time datetime="@slotStart.ToString("HH:mm", System.Globalization.CultureInfo.InvariantCulture)">@slotStart.ToString("t", Formats)</time></th>
-                                @foreach (var day in days)
+                    @if (Horizontal)
+                    {
+                        <thead>
+                            <tr>
+                                <th scope="col" class="omni-scheduler-grid__corner"><span class="omni-visually-hidden">@Text("SchedulerTimeColumn")</span></th>
+                                @for (var slot = 0; slot < SlotCount; slot++)
                                 {
-                                    var target = new MoveTarget(day, slotIndex);
-                                    <td class="@PastCss(TargetCss(DayCss("omni-scheduler-grid__cell", day, today), target), day, slotIndex)"
-                                        @ondragenter="() => DragEnter(target)"
-                                        @ondragover:preventDefault="@Movable"
-                                        @ondrop="() => DropAsync(target)"
-                                        @ondrop:preventDefault="@Movable">
-                                        @{ SlotButton(day, slotIndex); }
-                                        @foreach (var block in blocks[(day, slotIndex)])
-                                        {
-                                            GridAppointment(block);
-                                        }
-                                        @{ PlaceButton(target); }
-                                    </td>
+                                    var slotStart = SlotStart(slot);
+                                    <th scope="col" class="@SlotHeaderCss(slot)"><time datetime="@slotStart.ToString("HH:mm", System.Globalization.CultureInfo.InvariantCulture)">@slotStart.ToString("t", Formats)</time></th>
                                 }
                             </tr>
-                        }
-                    </tbody>
+                        </thead>
+                        <tbody>
+                            @foreach (var day in days)
+                            {
+                                <tr class="@RowLanesCss(day, blocks)">
+                                    <th scope="row" class="@DayCss("omni-scheduler-grid__day", day, today)" aria-current="@(day == today ? "date" : null)">@DayHeader(day)</th>
+                                    @for (var slot = 0; slot < SlotCount; slot++)
+                                    {
+                                        GridCell(day, slot, today, blocks);
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    }
+                    else
+                    {
+                        <thead>
+                            <tr>
+                                <th scope="col" class="omni-scheduler-grid__time"><span class="omni-visually-hidden">@Text("SchedulerTimeColumn")</span></th>
+                                @foreach (var day in days)
+                                {
+                                    <th scope="col" class="@DayCss("omni-scheduler-grid__day", day, today)" aria-current="@(day == today ? "date" : null)">@DayHeader(day)</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (var slot = 0; slot < SlotCount; slot++)
+                            {
+                                var slotIndex = slot;
+                                var slotStart = SlotStart(slotIndex);
+                                <tr class="@(StartsNextDay(slotIndex) ? "omni-scheduler-grid__row--next-day" : null)">
+                                    <th scope="row" class="omni-scheduler-grid__time"><time datetime="@slotStart.ToString("HH:mm", System.Globalization.CultureInfo.InvariantCulture)">@slotStart.ToString("t", Formats)</time></th>
+                                    @foreach (var day in days)
+                                    {
+                                        GridCell(day, slotIndex, today, blocks);
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    }
                 </table>
             </div>
         }

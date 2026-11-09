@@ -37,6 +37,8 @@ public partial class SchedulerPage
 
     private OmniSchedulerSlotHeight SlotHeight { get; set; } = OmniSchedulerSlotHeight.Standard;
 
+    private OmniOrientation Orientation { get; set; } = OmniOrientation.Vertical;
+
     private bool ShowPeriodTitle { get; set; } = true;
 
     private static DateTimeOffset Today => new(DateTime.Today);
@@ -54,6 +56,12 @@ public partial class SchedulerPage
     [
         new(OmniSchedulerSlotHeight.Standard, Text["SchedulerSlotHeightStandard"]),
         new(OmniSchedulerSlotHeight.Compact, Text["SchedulerSlotHeightCompact"])
+    ];
+
+    private IReadOnlyList<OmniOption<OmniOrientation>> OrientationOptions =>
+    [
+        new(OmniOrientation.Vertical, Text["SchedulerOrientationVertical"]),
+        new(OmniOrientation.Horizontal, Text["SchedulerOrientationHorizontal"])
     ];
 
     private IReadOnlyList<OmniOption<string>> CultureOptions =>

@@ -76,3 +76,39 @@ test('detach ends a drag in progress and stops listening', async () => {
     assert.equal(dom.listenerCount('dragend'), 0);
     assert.equal(handlers.has('dragstart'), false);
 });
+
+// Orientation Horizontal runs the time along the row. The script computes no drop target: a drop is read by
+// .NET from the cell under the pointer (its day and slot), so the drag has to behave the same whichever way the
+// time axis runs. This pins that the script keys on the appointment and the root only, never on the orientation
+// class, and that it writes nothing a horizontal grid would have to interpret.
+async function loadHorizontal() {
+    const dom = installDom();
+    const script = await import(pathToFileURL(path.join(wwwroot, 'omni-scheduler.js')).href);
+    const cell = dom.el('td', { class: 'omni-scheduler-grid__cell' });
+    const block = dom.el('div', { 'data-omni-scheduler-appointment': 'reports' });
+    cell.append(block);
+    const root = dom.el('section', { class: 'omni-scheduler omni-scheduler--horizontal' }, cell);
+    const handlers = new Map();
+    root.addEventListener = (type, handler) => handlers.set(type, handler);
+    root.removeEventListener = type => handlers.delete(type);
+    dom.body.append(root);
+    script.attach(root);
+    const data = [];
+    const dragStart = () => handlers.get('dragstart')?.({ target: block, dataTransfer: { setData: (type, value) => data.push([type, value]) } });
+    return { dom, root, data, dragStart };
+}
+
+test('a horizontal scheduler drags like a vertical one: the appointment id, then the carrying mark, no other write', async () => {
+    const { dom, root, data, dragStart } = await loadHorizontal();
+
+    dragStart();
+    assert.deepEqual(data, [['text/plain', 'reports']]);
+    assert.equal(root.hasAttribute(carrying), false);
+    dom.runTimers();
+    assert.equal(root.hasAttribute(carrying), true);
+    assert.deepEqual([...root.attributes.keys()], [carrying]);
+    assert.equal(root.classList.contains('omni-scheduler--horizontal'), true);
+
+    dom.dispatch('drop', {});
+    assert.equal(root.hasAttribute(carrying), false);
+});

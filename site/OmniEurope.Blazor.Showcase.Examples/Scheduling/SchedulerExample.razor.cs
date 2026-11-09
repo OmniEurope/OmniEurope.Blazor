@@ -63,6 +63,10 @@ public partial class SchedulerExample
     [Parameter]
     public OmniSchedulerSlotHeight SlotHeight { get; set; } = OmniSchedulerSlotHeight.Standard;
 
+    /// <summary>The direction of the time axis of the time grid: vertical (the default) or horizontal.</summary>
+    [Parameter]
+    public OmniOrientation Orientation { get; set; } = OmniOrientation.Vertical;
+
     /// <summary>Whether the header writes the period shown.</summary>
     [Parameter]
     public bool ShowPeriodTitle { get; set; } = true;

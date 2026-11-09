@@ -3884,6 +3884,7 @@ property public OmniEurope.Blazor.Components.OmniScheduler.OnAppointmentClick : 
 property public OmniEurope.Blazor.Components.OmniScheduler.OnAppointmentMove : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.OnLoadError : Microsoft.AspNetCore.Components.EventCallback<System.Exception> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.OnSlotClick : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniSchedulerSlot> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniScheduler.Orientation : OmniEurope.Blazor.Components.OmniOrientation {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.ShowOverlaps : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.ShowPeriodTitle : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.ShowViewPicker : System.Boolean {get(public);set(public)} [Parameter]

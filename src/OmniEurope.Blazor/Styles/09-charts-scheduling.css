@@ -359,6 +359,36 @@ polyline.omni-chart__line { fill: none; }
 .omni-scheduler__len-4-1 { --omni-scheduler-len-4: 1; } .omni-scheduler__len-4-2 { --omni-scheduler-len-4: 2; } .omni-scheduler__len-4-3 { --omni-scheduler-len-4: 3; } .omni-scheduler__len-4-4 { --omni-scheduler-len-4: 4; } .omni-scheduler__len-4-5 { --omni-scheduler-len-4: 5; } .omni-scheduler__len-4-6 { --omni-scheduler-len-4: 6; } .omni-scheduler__len-4-7 { --omni-scheduler-len-4: 7; } .omni-scheduler__len-4-8 { --omni-scheduler-len-4: 8; } .omni-scheduler__len-4-9 { --omni-scheduler-len-4: 9; }
 .omni-scheduler__lanes-2 { --omni-scheduler-lanes: 2; } .omni-scheduler__lanes-3 { --omni-scheduler-lanes: 3; } .omni-scheduler__lanes-4 { --omni-scheduler-lanes: 4; } .omni-scheduler__lanes-5 { --omni-scheduler-lanes: 5; } .omni-scheduler__lanes-6 { --omni-scheduler-lanes: 6; } .omni-scheduler__lanes-7 { --omni-scheduler-lanes: 7; } .omni-scheduler__lanes-8 { --omni-scheduler-lanes: 8; }
 .omni-scheduler__lane-1 { --omni-scheduler-lane: 1; } .omni-scheduler__lane-2 { --omni-scheduler-lane: 2; } .omni-scheduler__lane-3 { --omni-scheduler-lane: 3; } .omni-scheduler__lane-4 { --omni-scheduler-lane: 4; } .omni-scheduler__lane-5 { --omni-scheduler-lane: 5; } .omni-scheduler__lane-6 { --omni-scheduler-lane: 6; } .omni-scheduler__lane-7 { --omni-scheduler-lane: 7; }
+/* Orientation Horizontal: the time runs along the row. The slot times head the columns, each day is a row, and a
+   block still stays in the cell where it starts and reaches along the row over the next cells (one column is the
+   width of its cell plus the shared border), its lane giving its height. A row is as many lanes high as its busiest
+   chain (a row-lanes class), a lane being one standard line whatever the slot height: Compact narrows the slots. The row sets the slot height
+   token its cells read, so the cell keeps its single sizing rule.
+   The grid scrolls inside its box, the day headers staying in view. */
+.omni-scheduler--horizontal { --omni-scheduler-slot-width: 6rem; --omni-scheduler-day-width: 5.5rem; --omni-scheduler-lane-height: calc(var(--omni-control-height) + var(--omni-space-sm)); }
+.omni-scheduler--horizontal.omni-scheduler--slot-compact { --omni-scheduler-slot-width: 3rem; }
+.omni-scheduler--horizontal .omni-scheduler-grid__table { min-inline-size: 0; table-layout: auto; }
+.omni-scheduler--horizontal .omni-scheduler-grid__table thead .omni-scheduler-grid__time { inline-size: var(--omni-scheduler-slot-width); min-inline-size: var(--omni-scheduler-slot-width); text-align: start; }
+.omni-scheduler--horizontal .omni-scheduler-grid__corner { inline-size: var(--omni-scheduler-day-width); min-inline-size: var(--omni-scheduler-day-width); inset-inline-start: 0; position: sticky; z-index: 3; }
+.omni-scheduler--horizontal .omni-scheduler-grid__table tbody th.omni-scheduler-grid__day { background: var(--omni-color-surface-muted); font-size: var(--omni-font-size-sm); font-weight: 650; inline-size: var(--omni-scheduler-day-width); inset-inline-start: 0; min-inline-size: var(--omni-scheduler-day-width); position: sticky; text-align: start; vertical-align: middle; white-space: nowrap; z-index: 3; }
+.omni-scheduler--horizontal .omni-scheduler-grid__table tbody th.omni-scheduler-grid__day--today { background: var(--omni-color-accent-subtle); color: var(--omni-color-accent-strong); }
+.omni-scheduler--horizontal .omni-scheduler-grid__table tbody tr { --omni-scheduler-slot-height: calc(var(--omni-scheduler-lane-height) * var(--omni-scheduler-row-lanes, 1)); }
+.omni-scheduler--horizontal .omni-scheduler-grid__cell { inline-size: var(--omni-scheduler-slot-width); min-inline-size: var(--omni-scheduler-slot-width); }
+.omni-scheduler-grid__row--lanes-2 { --omni-scheduler-row-lanes: 2; } .omni-scheduler-grid__row--lanes-3 { --omni-scheduler-row-lanes: 3; } .omni-scheduler-grid__row--lanes-4 { --omni-scheduler-row-lanes: 4; } .omni-scheduler-grid__row--lanes-5 { --omni-scheduler-row-lanes: 5; } .omni-scheduler-grid__row--lanes-6 { --omni-scheduler-row-lanes: 6; } .omni-scheduler-grid__row--lanes-7 { --omni-scheduler-row-lanes: 7; } .omni-scheduler-grid__row--lanes-8 { --omni-scheduler-row-lanes: 8; }
+.omni-scheduler-grid__table .omni-scheduler-grid__col--next-day { border-inline-start-color: var(--omni-color-text-muted); }
+.omni-scheduler--horizontal .omni-scheduler-grid .omni-scheduler-grid__cell > .omni-scheduler__appointment {
+  --omni-scheduler-col: calc(100% + var(--omni-border-width));
+  block-size: calc(100% / var(--omni-scheduler-lanes, 1));
+  flex-wrap: nowrap;
+  inline-size: calc(var(--omni-scheduler-col) * (var(--omni-scheduler-len-0, 0) / 100 + var(--omni-scheduler-len-1, 0) / 10 + var(--omni-scheduler-len-2, 0) + var(--omni-scheduler-len-3, 0) * 10 + var(--omni-scheduler-len-4, 0) * 100) - var(--omni-border-width));
+  inset-block-start: calc(100% / var(--omni-scheduler-lanes, 1) * var(--omni-scheduler-lane, 0));
+  inset-inline-start: calc(var(--omni-scheduler-col) * (var(--omni-scheduler-at-0, 0) / 100 + var(--omni-scheduler-at-1, 0) / 10));
+  min-block-size: 0;
+  min-inline-size: 50%;
+}
+.omni-scheduler--horizontal .omni-scheduler-grid .omni-scheduler__open { flex-wrap: nowrap; }
+.omni-scheduler--horizontal .omni-scheduler-grid .omni-scheduler__appointment strong { white-space: nowrap; }
+.omni-scheduler--horizontal .omni-scheduler-grid .omni-scheduler__place { inline-size: 100%; margin-inline-start: 0; }
 /* MarkPastSlots: a slot or a day already over is hatched (a pattern, not a colour alone, over the tint of
    today or of a drop target) and its date muted. Last in the file so its image wins over their shorthand. */
 .omni-scheduler__past { background-image: repeating-linear-gradient(135deg, transparent 0 0.375rem, color-mix(in srgb, var(--omni-color-text-muted) 24%, transparent) 0.375rem 0.5rem); }
