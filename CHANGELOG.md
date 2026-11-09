@@ -7,6 +7,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 ### Added
 
 - `OmniDataGrid.HeaderMenuDateFilter` et `OmniDataGridColumn.HeaderMenuDateFilter` (`OmniDataGridDateFilterEditor?`, valeurs `Range` et `Single` ; `Range` par défaut sur la grille, nul sur la colonne qui suit alors la grille) : choisissent l'éditeur du menu d'en-tête pour une colonne de dates. `Single` y met la saisie d'un jour, d'un mois ou d'une année, comme la rangée de filtres, à la place de la plage Du / Au ; le choix de la colonne l'emporte sur celui de la grille. Les deux éditeurs lisent et écrivent la même valeur encodée. Demande d'une application cliente (R-40). Preuve : `DataGridDateFilterTests` (défaut, option par colonne, option par grille, colonne qui l'emporte sur la grille, valeur partagée) ; exemple `DataGridDateFilterEditorExample` (page Data grid variants).
+- `OmniDataGridColumn.HeaderAlign` (`OmniAlignment?`, nul par défaut : l'en-tête au début) : aligne l'en-tête d'une colonne à la fin ou au centre, sans toucher ses cellules ; le titre reste avant ses icônes. Preuve : dans la vitrine, « Amount » (`HeaderAlign="OmniAlignment.End"`) a son titre à la fin de son en-tête, au-dessus des montants alignés à la fin ; `ShippedLookDensityTests` (en-têtes `Total` et `Code`).
 
 ### Fixed
 
@@ -15,10 +16,6 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 - `OmniDatePicker`, `OmniTimePicker`, `OmniDateTimePicker` : un Échap tapé sur le bouton d'ouverture juste après l'ouverture du panneau, avant que `omni-focus.js` n'écoute (3 à 20 ms, le temps de l'import du module à la première ouverture), était retenu sans rien fermer. Le sélecteur ferme alors le panneau lui-même, une fois l'événement remonté (fermé pendant, en WebAssembly, la racine cessait de retenir Échap et le dialogue autour se fermait aussi) ; ensuite, le script garde la main. Preuve : `PickerEarlyEscapeTests` (import du module retenu : rouge sans le correctif, vert avec) ; la sonde `combo` envoie désormais cet Échap sans attendre le script, dans un dialogue, sur les trois sélecteurs : 10 passes sur 10, panneau fermé et dialogue resté ouvert.
 - `OmniBadge.Size` : `Small` et `Large` suivent la densité (`--omni-control-height` moins 0,625 rem, plus 0,25 rem), au lieu des hauteurs fixes de 1,125 et 2 rem de la 1.12.1 qui restaient les mêmes en densité compacte et aérée. En densité confortable, rendu inchangé. Preuve : sonde de densité de la vitrine verte (11 499 éléments, 82 pages).
 - `OmniStatTile` : la valeur est réduite dès qu'elle dépasse sa boîte, sans la tolérance d'un pixel qui laissait un « 12 » rogné de plus d'un pixel dans une tuile étroite (grille de six colonnes à 1280 px). Preuve : sonde des langues verte, en et fr, à 1280 et 390 px.
-
-### Added
-
-- `OmniDataGridColumn.HeaderAlign` (`OmniAlignment?`, nul par défaut : l'en-tête au début) : aligne l'en-tête d'une colonne à la fin ou au centre, sans toucher ses cellules ; le titre reste avant ses icônes. Preuve : dans la vitrine, « Amount » (`HeaderAlign="OmniAlignment.End"`) a son titre à la fin de son en-tête, au-dessus des montants alignés à la fin ; `ShippedLookDensityTests` (en-têtes `Total` et `Code`).
 
 ### Changed
 

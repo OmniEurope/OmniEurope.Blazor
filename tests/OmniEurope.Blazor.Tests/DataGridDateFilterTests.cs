@@ -325,6 +325,18 @@ public sealed class DataGridDateFilterTests : OmniBunitContext
     }
 
     [Fact]
+    public void InTheAdvancedMode_WithoutAdvancedFilter_TheRowPopoverHoldsTheTypedFieldAlone()
+    {
+        var grid = Render<DataGridFilterKindsTestHost>(parameters => parameters
+            .Add(component => component.DateFilter, OmniDataGridColumnFilterType.Text)
+            .Add(component => component.HeaderMenu, false)
+            .Add(component => component.FilterMode, OmniDataGridFilterMode.Advanced));
+
+        Assert.NotEmpty(grid.FindAll("td[data-omni-col=\"Opened\"] input.omni-data-grid__date-text"));
+        Assert.Empty(grid.FindAll("td[data-omni-col=\"Opened\"] .omni-data-grid__date-range"));
+    }
+
+    [Fact]
     public void InTheAdvancedMode_TheDateKeepsItsSingleEditor_AndAppliesAsItChanges()
     {
         using var _ = French();

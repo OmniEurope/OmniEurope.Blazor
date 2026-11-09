@@ -2980,6 +2980,7 @@ property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.GroupAggr
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.GroupFooterTemplate : Microsoft.AspNetCore.Components.RenderFragment<OmniEurope.Blazor.Components.OmniDataGridGroupContext<TItem>>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Groupable : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.Grow : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.HeaderAlign : OmniEurope.Blazor.Components.OmniAlignment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.HeaderClass : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.HeaderContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.HeaderMenuDateFilter : OmniEurope.Blazor.Components.OmniDataGridDateFilterEditor? {get(public);set(public)} [Parameter]

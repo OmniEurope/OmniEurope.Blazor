@@ -73,13 +73,12 @@ internal sealed class GridFilterEditor<TItem>(OmniDataGrid<TItem> grid)
     /// Whether a date column's editor holds its From and To range. In the header menu, the range is the editor
     /// unless the column picks the typed field. In the inline row, the advanced mode popover holds it under the
     /// typed field only for a column with <c>AdvancedFilter</c>; the row itself never does (its calendar menu
-    /// is separate, see <see cref="ShowsRangeMenu"/>).
+    /// is separate, see <see cref="ShowsRangeMenu"/>). Asked only for a column whose filter type is Date.
     /// </summary>
     internal bool HoldsRange(OmniDataGridColumnDefinition<TItem> column, bool inPanel) =>
-        column.FilterType == OmniDataGridColumnFilterType.Date
-        && (InHeaderMenu
+        InHeaderMenu
             ? HeaderMenuDateEditor(column) == OmniDataGridDateFilterEditor.Range
-            : inPanel && column.AdvancedFilter);
+            : inPanel && column.AdvancedFilter;
 
     /// <summary>
     /// Whether this column's editor is the two-condition one of the advanced mode. A checkable list,
