@@ -1,0 +1,40 @@
+@* The filter editor of a date column, by filter placement.
+   Header menu (the default): the From and To range alone. The same menu with HeaderMenuDateFilter="Single" on the
+   grid (a column sets its own, which wins over the grid: the Due column): the typed field alone, as in the inline row. Inline filter
+   row: the typed field alone, a day, a month or a year (24/03/2026, 03/2026, 2026). The range and the typed
+   field read and write the same encoded value. *@
+<OmniStack Gap="OmniSpacing.Large">
+    <OmniDataGrid TItem="CaseRow" Id="demo-grid-date-menu-range"
+                  Items="CaseData.Rows"
+                  HeaderMenuDateFilter="OmniDataGridDateFilterEditor.Range"
+                  Caption="Header menu: From and To range"
+                  ScrollMode="OmniDataGridScrollMode.All">
+        <Columns>
+            <OmniDataGridColumn TItem="CaseRow" Property="Reference" Title="Reference" />
+            <OmniDataGridColumn TItem="CaseRow" Property="Filed" Title="Filed" FormatString="{0:d}" FilterType="OmniDataGridColumnFilterType.Date" />
+        </Columns>
+    </OmniDataGrid>
+
+    <OmniDataGrid TItem="CaseRow" Id="demo-grid-date-menu-single"
+                  Items="CaseData.Rows"
+                  HeaderMenuDateFilter="OmniDataGridDateFilterEditor.Single"
+                  Caption="Header menu: typed field (option), one column back on the range"
+                  ScrollMode="OmniDataGridScrollMode.All">
+        <Columns>
+            <OmniDataGridColumn TItem="CaseRow" Property="Reference" Title="Reference" />
+            <OmniDataGridColumn TItem="CaseRow" Property="Filed" Title="Filed" FormatString="{0:d}" FilterType="OmniDataGridColumnFilterType.Date" />
+            <OmniDataGridColumn TItem="CaseRow" Key="due" Title="Due (range)" Value="@(row => row.Filed.AddDays(14))" FormatString="{0:d}" FilterType="OmniDataGridColumnFilterType.Date" Filterable="true" HeaderMenuDateFilter="OmniDataGridDateFilterEditor.Range" />
+        </Columns>
+    </OmniDataGrid>
+
+    <OmniDataGrid TItem="CaseRow" Id="demo-grid-date-row"
+                  Items="CaseData.Rows"
+                  FilterPlacement="OmniDataGridFilterPlacement.Row"
+                  Caption="Filter row: typed field"
+                  ScrollMode="OmniDataGridScrollMode.All">
+        <Columns>
+            <OmniDataGridColumn TItem="CaseRow" Property="Reference" Title="Reference" />
+            <OmniDataGridColumn TItem="CaseRow" Property="Filed" Title="Filed" FormatString="{0:d}" FilterType="OmniDataGridColumnFilterType.Date" />
+        </Columns>
+    </OmniDataGrid>
+</OmniStack>

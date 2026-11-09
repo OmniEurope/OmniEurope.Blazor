@@ -47,6 +47,8 @@ internal sealed class OmniDataGridColumnDefinition<TItem>
     public bool FilterIncludesTime { get; init; }
     /// <summary>A Date filter also offers its From and To range; ignored by the other types.</summary>
     public bool AdvancedFilter { get; init; }
+    /// <summary>The editor of the header filter menu for a date column; null follows the grid.</summary>
+    public OmniDataGridDateFilterEditor? HeaderMenuDateFilter { get; init; }
     /// <summary>The enum the column reads, when it reads one: its members are the filter candidates.</summary>
     public Type? EnumType { get; init; }
     /// <summary>The type the column reads (nullable unwrapped), or null when it is not known from a property.</summary>

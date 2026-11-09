@@ -5,7 +5,8 @@ public enum OmniDataGridFilterPlacement
 {
     /// <summary>
     /// In a menu opened from the funnel of each column title: the header stays one row. The menu holds the same
-    /// editor as the row, and a date column always shows its From and To range there.
+    /// editor as the row, except a date column, which shows its From and To range alone (its <c>HeaderMenuDateFilter</c>
+    /// picks the typed field instead).
     /// </summary>
     HeaderMenu,
 

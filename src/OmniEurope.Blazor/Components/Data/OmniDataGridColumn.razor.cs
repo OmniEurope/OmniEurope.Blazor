@@ -218,8 +218,8 @@ public partial class OmniDataGridColumn<TItem>
     /// In the inline filter row (<see cref="OmniDataGridFilterPlacement.Row"/>), adds a From and To range to the filter
     /// of a date column (the <see cref="OmniDataGridColumnFilterType.Date"/> type), next to its text input: either bound
     /// may be left empty. The text input stays in the row and the range opens from a calendar button in the column
-    /// header. The header filter menu and the advanced filter mode always hold the range, under the text input in the
-    /// same popover, with or without this. The text input and the range are
+    /// header. In the advanced filter mode of that row, the popover holds the range under the text input only with
+    /// this. The header filter menu does not use it: <see cref="HeaderMenuDateFilter"/> picks its editor. The text input and the range are
     /// two editors of one filter, not two filters: the last one used replaces the other, and each shows
     /// what the other set (a range that is not one day, month or year reads as <c>from - to</c> in the
     /// text input). False by default; ignored by the other filter types, and by a column with a
@@ -227,6 +227,18 @@ public partial class OmniDataGridColumn<TItem>
     /// </summary>
     [Parameter]
     public bool AdvancedFilter { get; set; }
+
+    /// <summary>
+    /// Which editor the header filter menu (<see cref="OmniDataGridFilterPlacement.HeaderMenu"/>) holds for this date
+    /// column (the <see cref="OmniDataGridColumnFilterType.Date"/> type): <see cref="OmniDataGridDateFilterEditor.Range"/>,
+    /// the From and To range alone, or <see cref="OmniDataGridDateFilterEditor.Single"/>, the typed field alone, the
+    /// one the inline filter row (<see cref="OmniDataGridFilterPlacement.Row"/>) always shows. Null follows the grid's
+    /// <see cref="OmniDataGrid{TItem}.HeaderMenuDateFilter"/> (Range by default). Both editors read and write the same
+    /// encoded value. Ignored by the other filter types, in the inline row, and by a column with a
+    /// <see cref="FilterTemplate"/>.
+    /// </summary>
+    [Parameter]
+    public OmniDataGridDateFilterEditor? HeaderMenuDateFilter { get; set; }
 
     /// <summary>
     /// The operators this column offers, in this order, when the grid shows an operator choice.
@@ -400,6 +412,7 @@ public partial class OmniDataGridColumn<TItem>
             DefaultFilterValue = DefaultFilterValue,
             FilterIncludesTime = FilterIncludesTime,
             AdvancedFilter = AdvancedFilter,
+            HeaderMenuDateFilter = HeaderMenuDateFilter,
             EnumType = GridPropertyAccessor.EnumType<TItem>(Property),
             ValueType = GridPropertyAccessor.ValueType<TItem>(Property),
             FilterOperators = FilterOperators,
@@ -565,6 +578,7 @@ public partial class OmniDataGridColumn<TItem>
         && string.Equals(left.DefaultFilterValue, right.DefaultFilterValue, StringComparison.Ordinal)
         && left.FilterIncludesTime == right.FilterIncludesTime
         && left.AdvancedFilter == right.AdvancedFilter
+        && left.HeaderMenuDateFilter == right.HeaderMenuDateFilter
         && SameContent(left.FilterOperators, right.FilterOperators)
         && left.FilterOperator == right.FilterOperator;
 

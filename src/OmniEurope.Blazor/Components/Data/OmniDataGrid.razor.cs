@@ -452,6 +452,17 @@ public partial class OmniDataGrid<TItem>
     public OmniDataGridFilterPlacement FilterPlacement { get; set; } = OmniDataGridFilterPlacement.HeaderMenu;
 
     /// <summary>
+    /// Which editor the header filter menu holds for a date column (<see cref="OmniDataGridColumnFilterType.Date"/>),
+    /// for every column that does not set its own <see cref="OmniDataGridColumn{TItem}.HeaderMenuDateFilter"/>:
+    /// <see cref="OmniDataGridDateFilterEditor.Range"/>, the default, the From and To range alone;
+    /// <see cref="OmniDataGridDateFilterEditor.Single"/>, the typed field alone. The inline filter row
+    /// (<see cref="OmniDataGridFilterPlacement.Row"/>) always shows the typed field. Both editors read and write the
+    /// same encoded value.
+    /// </summary>
+    [Parameter]
+    public OmniDataGridDateFilterEditor HeaderMenuDateFilter { get; set; } = OmniDataGridDateFilterEditor.Range;
+
+    /// <summary>
     /// Closes a header filter menu as soon as a value is picked in it. A click outside the menu, or
     /// the Escape key, always closes it whatever this is set to.
     /// </summary>

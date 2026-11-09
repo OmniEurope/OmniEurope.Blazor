@@ -151,14 +151,88 @@ public sealed class DataGridDateFilterTests : OmniBunitContext
     }
 
     [Fact]
-    public void InTheHeaderMenu_ADateColumnAlwaysHoldsTheTwoDates_WithoutAdvancedFilter()
+    public void InTheHeaderMenu_ADateColumnHoldsTheRangeAlone_ByDefault()
     {
         var grid = Render<DataGridFilterKindsTestHost>(parameters => parameters.Add(component => component.DateFilter, OmniDataGridColumnFilterType.Text));
 
-        Assert.NotNull(grid.Find(TextInHeader));
+        Assert.Empty(grid.FindAll(TextInHeader));
         Assert.NotNull(grid.Find(RangeMenu + " .omni-data-grid__date-range-start"));
         Assert.NotNull(grid.Find(RangeMenu + " .omni-data-grid__date-range-end"));
         Assert.Equal(2, grid.FindAll(RangeMenu + " .omni-data-grid__date-range-label").Count);
+        // The label of the editor points at the start picker.
+        var label = grid.Find("th[data-omni-col=\"Opened\"] label.omni-visually-hidden");
+        Assert.Equal(grid.Find(RangeMenu + " .omni-data-grid__date-range-start").Id, label.GetAttribute("for"));
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void InTheHeaderMenu_TheSingleOption_HoldsTheTypedFieldAlone_ByColumnOrByGrid(bool byGrid)
+    {
+        var grid = Render<DataGridFilterKindsTestHost>(parameters =>
+        {
+            parameters.Add(component => component.DateFilter, OmniDataGridColumnFilterType.Text);
+            if (byGrid)
+            {
+                parameters.Add(component => component.GridDateEditor, OmniDataGridDateFilterEditor.Single);
+            }
+            else
+            {
+                parameters.Add(component => component.ColumnDateEditor, OmniDataGridDateFilterEditor.Single);
+            }
+        });
+
+        Assert.NotNull(grid.Find(TextInHeader));
+        Assert.Empty(grid.FindAll("th[data-omni-col=\"Opened\"] .omni-data-grid__date-range"));
+        Assert.Single(grid.FindAll("th[data-omni-col=\"Opened\"] details"));
+    }
+
+    [Fact]
+    public void TheColumnChoice_WinsOverTheGridDefault()
+    {
+        var singleOverRange = Render<DataGridFilterKindsTestHost>(parameters => parameters
+            .Add(component => component.DateFilter, OmniDataGridColumnFilterType.Text)
+            .Add(component => component.ColumnDateEditor, OmniDataGridDateFilterEditor.Single));
+        Assert.NotNull(singleOverRange.Find(TextInHeader));
+        Assert.Empty(singleOverRange.FindAll(".omni-data-grid__date-range"));
+
+        var rangeOverSingle = Render<DataGridFilterKindsTestHost>(parameters => parameters
+            .Add(component => component.DateFilter, OmniDataGridColumnFilterType.Text)
+            .Add(component => component.GridDateEditor, OmniDataGridDateFilterEditor.Single)
+            .Add(component => component.ColumnDateEditor, OmniDataGridDateFilterEditor.Range));
+        Assert.Empty(rangeOverSingle.FindAll(TextInHeader));
+        Assert.NotNull(rangeOverSingle.Find(RangeMenu));
+    }
+
+    [Fact]
+    public void TheOption_IsIgnoredByTheInlineRow_WhichKeepsTheTypedFieldAlone()
+    {
+        var grid = Render<DataGridFilterKindsTestHost>(parameters => parameters
+            .Add(component => component.DateFilter, OmniDataGridColumnFilterType.Text)
+            .Add(component => component.HeaderMenu, false)
+            .Add(component => component.GridDateEditor, OmniDataGridDateFilterEditor.Range)
+            .Add(component => component.ColumnDateEditor, OmniDataGridDateFilterEditor.Range));
+
+        Assert.NotNull(grid.Find(TextInRow));
+        Assert.Empty(grid.FindAll(".omni-data-grid__date-range"));
+    }
+
+    [Fact]
+    public void TheTypedFieldAndTheRangeOfTheHeaderMenu_ShareOneEncodedValue()
+    {
+        using var _ = French();
+        var grid = Render<DataGridFilterKindsTestHost>(parameters => parameters
+            .Add(component => component.DateFilter, OmniDataGridColumnFilterType.Text));
+
+        grid.Find(RangeMenu + " .omni-data-grid__date-range-start").Change("2026-08-25");
+        Assert.Equal(2, grid.FindAll("tbody tr").Count);
+
+        // The same filter, shown by the typed field once the grid is told to use it.
+        grid.Render(parameters => parameters
+            .Add(component => component.DateFilter, OmniDataGridColumnFilterType.Text)
+            .Add(component => component.GridDateEditor, OmniDataGridDateFilterEditor.Single));
+        Assert.Equal("25/08/2026 -", grid.Find(TextInHeader).GetAttribute("value"));
+        Assert.Equal(2, grid.FindAll("tbody tr").Count);
     }
 
     [Fact]
@@ -234,17 +308,17 @@ public sealed class DataGridDateFilterTests : OmniBunitContext
     }
 
     [Fact]
-    public void WithTheHeaderFilterMenu_ThePopoverHoldsTheTextAndTheRange_AdvancedFilterOrNot()
+    public void WithTheHeaderFilterMenu_ThePopoverHoldsTheRangeAlone_AdvancedFilterOrNot()
     {
         var plain = Render<DataGridFilterKindsTestHost>(parameters => parameters
             .Add(component => component.DateFilter, OmniDataGridColumnFilterType.Text));
-        Assert.NotNull(plain.Find(TextInHeader));
+        Assert.Empty(plain.FindAll(TextInHeader));
         Assert.Single(plain.FindAll("th[data-omni-col=\"Opened\"] .omni-data-grid__date-range"));
 
         var advanced = Render<DataGridFilterKindsTestHost>(parameters => parameters
             .Add(component => component.DateFilter, OmniDataGridColumnFilterType.Text)
             .Add(component => component.AdvancedDate, true));
-        Assert.NotNull(advanced.Find(TextInHeader));
+        Assert.Empty(advanced.FindAll(TextInHeader));
         Assert.Single(advanced.FindAll("th[data-omni-col=\"Opened\"] .omni-data-grid__date-range"));
         // One popover, not a second menu beside it.
         Assert.Single(advanced.FindAll("th[data-omni-col=\"Opened\"] details"));
