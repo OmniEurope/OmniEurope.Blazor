@@ -777,4 +777,5 @@
   <data name="DocumentEditorReplaceDrawing" xml:space="preserve"><value>Erstat tegningen</value></data>
   <data name="DocumentEditorDrawing" xml:space="preserve"><value>Tegning</value></data>
   <data name="DocumentEditorDrawingApply" xml:space="preserve"><value>Bekræft</value></data>
+  <data name="DurationLabel" xml:space="preserve"><value>Varighed</value></data>
 </root>

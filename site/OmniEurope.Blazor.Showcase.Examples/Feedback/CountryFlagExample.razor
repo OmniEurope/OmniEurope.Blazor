@@ -1,0 +1,7 @@
+@* Country flags from an ISO 3166-1 code. The library hard-codes no image host: the page gives this template (a host does the same on the component, or once for every flag through a preset). Without a template, or with an invalid code, a flag is its code in a badge; the name is the country in the page language. *@
+<OmniStack Orientation="OmniOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true" Align="OmniAlignment.Center">
+    @foreach (var country in Codes)
+    {
+        <OmniCountryFlag CountryCode="@country" ShowCode="ShowCode" ImageUrlTemplate="@(UseTemplate ? Template : null)" />
+    }
+</OmniStack>

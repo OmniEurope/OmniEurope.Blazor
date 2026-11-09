@@ -34,6 +34,7 @@ component OmniEurope.Blazor.Components.OmniComponentsHost
 component OmniEurope.Blazor.Components.OmniConnectionOverlay
 component OmniEurope.Blazor.Components.OmniContextMenu
 component OmniEurope.Blazor.Components.OmniCopyButton
+component OmniEurope.Blazor.Components.OmniCountryFlag
 component OmniEurope.Blazor.Components.OmniDataAnnotationsValidator
 component OmniEurope.Blazor.Components.OmniDataGrid<TItem>
 component OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>
@@ -53,6 +54,7 @@ component OmniEurope.Blazor.Components.OmniDivider
 component OmniEurope.Blazor.Components.OmniDocumentEditor
 component OmniEurope.Blazor.Components.OmniDocumentViewer
 component OmniEurope.Blazor.Components.OmniDropDown<TValue>
+component OmniEurope.Blazor.Components.OmniDurationPicker
 component OmniEurope.Blazor.Components.OmniDynamicForm
 component OmniEurope.Blazor.Components.OmniEmailValidator
 component OmniEurope.Blazor.Components.OmniEmptyState
@@ -214,6 +216,7 @@ ctor public OmniEurope.Blazor.Components.OmniConfirmRequest(System.String Title,
 ctor public OmniEurope.Blazor.Components.OmniConnectionOverlay()
 ctor public OmniEurope.Blazor.Components.OmniContextMenu()
 ctor public OmniEurope.Blazor.Components.OmniCopyButton()
+ctor public OmniEurope.Blazor.Components.OmniCountryFlag()
 ctor public OmniEurope.Blazor.Components.OmniDataAnnotationsValidator()
 ctor public OmniEurope.Blazor.Components.OmniDataGrid<TItem>()
 ctor public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>()
@@ -253,6 +256,7 @@ ctor public OmniEurope.Blazor.Components.OmniDocumentRun(System.String Id, Syste
 ctor public OmniEurope.Blazor.Components.OmniDocumentViewer()
 ctor public OmniEurope.Blazor.Components.OmniDrawingChange(System.String BlockId, OmniEurope.Blazor.Components.OmniDocumentDrawing Drawing, System.Byte[] Png)
 ctor public OmniEurope.Blazor.Components.OmniDropDown<TValue>()
+ctor public OmniEurope.Blazor.Components.OmniDurationPicker()
 ctor public OmniEurope.Blazor.Components.OmniDynamicField(System.String Name, System.String Label, OmniEurope.Blazor.Components.OmniDynamicFieldKind Kind = OmniEurope.Blazor.Components.OmniDynamicFieldKind.Text)
 ctor public OmniEurope.Blazor.Components.OmniDynamicForm()
 ctor public OmniEurope.Blazor.Components.OmniEmailValidator()
@@ -1162,6 +1166,7 @@ method protected override OmniEurope.Blazor.Components.OmniContextMenu.BuildRend
 method protected override OmniEurope.Blazor.Components.OmniContextMenu.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniContextMenu.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniCopyButton.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniCountryFlag.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDataAnnotationsValidator.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDataGrid<TItem>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
@@ -1212,6 +1217,9 @@ method protected override OmniEurope.Blazor.Components.OmniDocumentViewer.OnPara
 method protected override OmniEurope.Blazor.Components.OmniDropDown<TValue>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDropDown<TValue>.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniDropDown<TValue>.TryParseValueFromString(System.String? value, out TValue result, out System.String validationErrorMessage) : System.Boolean
+method protected override OmniEurope.Blazor.Components.OmniDurationPicker.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniDurationPicker.OnParametersSet() : System.Void
+method protected override OmniEurope.Blazor.Components.OmniDurationPicker.TryParseValueFromString(System.String? value, out System.TimeSpan? result, out System.String validationErrorMessage) : System.Boolean
 method protected override OmniEurope.Blazor.Components.OmniDynamicForm.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDynamicForm.OnInitialized() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDynamicForm.OnParametersSetAsync() : System.Threading.Tasks.Task
@@ -2820,6 +2828,9 @@ property public OmniEurope.Blazor.Components.OmniCopyButton.Size : OmniEurope.Bl
 property public OmniEurope.Blazor.Components.OmniCopyButton.Text : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniCopyButton.TextFactory : System.Func<System.Threading.Tasks.Task<System.String>>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniCopyButton.Variant : OmniEurope.Blazor.Components.OmniButtonVariant {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniCountryFlag.CountryCode : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniCountryFlag.ImageUrlTemplate : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniCountryFlag.ShowCode : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataAnnotationsValidator.Localizer : Microsoft.Extensions.Localization.IStringLocalizer? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.AllGroupsExpanded : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.AllowAlternatingRows : System.Boolean {get(public);set(public)} [Parameter]
@@ -3236,6 +3247,12 @@ property public OmniEurope.Blazor.Components.OmniDropDown<TValue>.Label : System
 property public OmniEurope.Blazor.Components.OmniDropDown<TValue>.Options : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniOption<TValue>> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDropDown<TValue>.Placeholder : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDropDown<TValue>.ReadOnly : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDurationPicker.Disabled : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDurationPicker.Label : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDurationPicker.Max : System.TimeSpan? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDurationPicker.Min : System.TimeSpan? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDurationPicker.MinuteStep : System.Int32 {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDurationPicker.ReadOnly : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDynamicField.DefaultValue : System.String? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniDynamicField.Description : System.String? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniDynamicField.Kind : OmniEurope.Blazor.Components.OmniDynamicFieldKind {get(public);init(public)}
@@ -4488,6 +4505,7 @@ type public OmniEurope.Blazor.Components.OmniConnectionState [enum, sealed] : Sy
 type public OmniEurope.Blazor.Components.OmniContextMenu [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, OmniEurope.Blazor.Internal.IOmniMenu, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniControlSize [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniCopyButton [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
+type public OmniEurope.Blazor.Components.OmniCountryFlag [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniDataAnnotationsValidator [class, sealed] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniDataGrid<TItem> [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniDataGridAggregate [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
@@ -4561,6 +4579,7 @@ type public OmniEurope.Blazor.Components.OmniDocumentRun [class, sealed] : OmniE
 type public OmniEurope.Blazor.Components.OmniDocumentViewer [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniDrawingChange [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniDrawingChange>
 type public OmniEurope.Blazor.Components.OmniDropDown<TValue> [class] : OmniEurope.Blazor.Components.OmniInputBase<TValue>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
+type public OmniEurope.Blazor.Components.OmniDurationPicker [class] : OmniEurope.Blazor.Components.OmniInputBase<System.TimeSpan?>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniDynamicField [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniDynamicField>
 type public OmniEurope.Blazor.Components.OmniDynamicFieldKind [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniDynamicForm [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable

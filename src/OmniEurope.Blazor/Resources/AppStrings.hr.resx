@@ -777,4 +777,5 @@
   <data name="DocumentEditorReplaceDrawing" xml:space="preserve"><value>Zamijeni crtež</value></data>
   <data name="DocumentEditorDrawing" xml:space="preserve"><value>Crtež</value></data>
   <data name="DocumentEditorDrawingApply" xml:space="preserve"><value>Potvrdi</value></data>
+  <data name="DurationLabel" xml:space="preserve"><value>Trajanje</value></data>
 </root>

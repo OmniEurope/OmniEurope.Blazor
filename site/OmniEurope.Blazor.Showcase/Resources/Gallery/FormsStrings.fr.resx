@@ -127,4 +127,5 @@
   <data name="FormLayoutsSummaryTop" xml:space="preserve"><value>Haut</value></data>
   <data name="FormLayoutsSummaryBottom" xml:space="preserve"><value>Bas</value></data>
   <data name="FormLayoutsSummaryHidden" xml:space="preserve"><value>Masqué</value></data>
+  <data name="NumbersDurationTitle" xml:space="preserve"><value>Durée</value></data>
 </root>

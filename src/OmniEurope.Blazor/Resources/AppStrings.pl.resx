@@ -777,4 +777,5 @@
   <data name="DocumentEditorReplaceDrawing" xml:space="preserve"><value>Zastąp rysunek</value></data>
   <data name="DocumentEditorDrawing" xml:space="preserve"><value>Rysunek</value></data>
   <data name="DocumentEditorDrawingApply" xml:space="preserve"><value>Zatwierdź</value></data>
+  <data name="DurationLabel" xml:space="preserve"><value>Czas trwania</value></data>
 </root>

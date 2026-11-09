@@ -777,4 +777,5 @@
   <data name="DocumentEditorReplaceDrawing" xml:space="preserve"><value>Ibdel id-disinn</value></data>
   <data name="DocumentEditorDrawing" xml:space="preserve"><value>Disinn</value></data>
   <data name="DocumentEditorDrawingApply" xml:space="preserve"><value>Ikkonferma</value></data>
+  <data name="DurationLabel" xml:space="preserve"><value>Tul ta' żmien</value></data>
 </root>

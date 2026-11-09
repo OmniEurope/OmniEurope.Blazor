@@ -91,4 +91,12 @@
   <data name="ProgressVeilTitle" xml:space="preserve"><value>Voile d&apos;attente de page</value></data>
   <data name="ProgressVeilDescription" xml:space="preserve"><value>Un voile légèrement transparent (Opacity, 85 % par défaut) posé sur le contenu de la page (sous la barre du haut et à côté du menu latéral, qui restent utilisables) ou sur toute la fenêtre (Scope), d&apos;une couleur constante du thème, avec le logo de l&apos;application en son centre : donné en balisage (Logo), en adresse d&apos;image (LogoSource) ou en logo animé par l&apos;application. Le paquet n&apos;anime rien. Il n&apos;apparaît qu&apos;après 100 ms d&apos;attente : une attente très courte ne montre rien, donc rien ne clignote.</value></data>
   <data name="ProgressPassTrackerTitle" xml:space="preserve"><value>Plusieurs passages par élément</value></data>
-</root>
+  <data name="CountryFlagsTitle" xml:space="preserve"><value>Drapeaux de pays</value></data>
+  <data name="CountryFlagsDescription" xml:space="preserve"><value>Un pays montré par son drapeau et son code ISO, nommé dans la langue de la page. L&apos;adresse de l&apos;image vient d&apos;un modèle que donne l&apos;hôte ; sans lui, le drapeau est son code dans une pastille.</value></data>
+  <data name="CountryFlagsSettingsTitle" xml:space="preserve"><value>Drapeaux à l&apos;essai</value></data>
+  <data name="CountryFlagsSettingsDescription" xml:space="preserve"><value>Chaque réglage s&apos;applique à tous les drapeaux de l&apos;aperçu.</value></data>
+  <data name="CountryFlagsUseTemplate" xml:space="preserve"><value>Modèle d&apos;image</value></data>
+  <data name="CountryFlagsUseTemplateDescription" xml:space="preserve"><value>Donne le modèle d&apos;adresse d&apos;image de la page ; sans lui, chaque drapeau est son code dans une pastille.</value></data>
+  <data name="CountryFlagsShowCode" xml:space="preserve"><value>Afficher le code</value></data>
+  <data name="CountryFlagsShowCodeDescription" xml:space="preserve"><value>Écrit le code ISO à côté de l&apos;image ; un drapeau sans image le montre toujours.</value></data>
+  <data name="CountryFlagsPreviewTitle" xml:space="preserve"><value>Aperçu</value></data></root>

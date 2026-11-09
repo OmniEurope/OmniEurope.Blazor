@@ -1,0 +1,24 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+@if (Code is not null)
+{
+    @* One image for assistive technologies, named by the country: the flag and the code inside are
+       decorative, so the name is read once. *@
+    <span @attributes="AdditionalAttributes"
+          id="@Id"
+          class="@Css("omni-country-flag", ImageUrl is null ? "omni-country-flag--badge" : null)"
+          role="img"
+          aria-label="@AccessibleName"
+          title="@AccessibleName">
+        @if (ImageUrl is not null)
+        {
+            <OmniImage Class="omni-country-flag__image" Source="@ImageUrl" Alt="" Loading="OmniImageLoading.Lazy"
+                       referrerpolicy="no-referrer" aria-hidden="true" />
+        }
+        @if (ShowCode || ImageUrl is null)
+        {
+            <span class="omni-country-flag__code" aria-hidden="true">@Code</span>
+        }
+    </span>
+}

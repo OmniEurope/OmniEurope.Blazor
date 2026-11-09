@@ -777,4 +777,5 @@
   <data name="DocumentEditorReplaceDrawing" xml:space="preserve"><value>Aizstāt zīmējumu</value></data>
   <data name="DocumentEditorDrawing" xml:space="preserve"><value>Zīmējums</value></data>
   <data name="DocumentEditorDrawingApply" xml:space="preserve"><value>Apstiprināt</value></data>
+  <data name="DurationLabel" xml:space="preserve"><value>Ilgums</value></data>
 </root>

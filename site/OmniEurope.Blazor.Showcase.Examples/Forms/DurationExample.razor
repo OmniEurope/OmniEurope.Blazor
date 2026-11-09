@@ -1,0 +1,18 @@
+@* A duration bound to a nullable TimeSpan, in hours and minutes. Minutes of an hour or more carry into the hours, both fields empty is null, and Max brings a longer entry back to the bound. *@
+<OmniStack Gap="OmniSpacing.Small">
+    <OmniFormField For="duration-spent" Description="Hours and minutes, five minutes at a time.">
+        <LabelContent>Time spent</LabelContent>
+        <ChildContent>
+            <OmniDurationPicker Id="duration-spent" @bind-Value="Spent" MinuteStep="5" />
+        </ChildContent>
+    </OmniFormField>
+    <OmniText Tone="OmniTextTone.Muted">Bound value: <code>@(Spent?.ToString() ?? "null")</code></OmniText>
+    <OmniFormField For="duration-capped" Description="At most eight hours: a longer entry is brought back.">
+        <LabelContent>Working day</LabelContent>
+        <ChildContent>
+            <OmniDurationPicker Id="duration-capped" @bind-Value="Capped" Max="TimeSpan.FromHours(8)" />
+        </ChildContent>
+    </OmniFormField>
+    <OmniDurationPicker @bind-Value="Frozen" ReadOnly="true" Label="Duration, read only" />
+    <OmniDurationPicker @bind-Value="Frozen" Disabled="true" Label="Duration, disabled" />
+</OmniStack>

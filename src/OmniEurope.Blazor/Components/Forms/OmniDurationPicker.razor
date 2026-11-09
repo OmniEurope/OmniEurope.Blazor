@@ -1,0 +1,31 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniInputBase<TimeSpan?>
+
+@* One group of two number fields, hours then minutes, bound to a nullable TimeSpan. The inner fields are
+   OmniNumeric over private state: they take no part in the edit context or in the enclosing form field,
+   which belong to the group's own value. A @key that moves when an entry is normalised (minutes carried
+   into hours) makes the browser show the normalised text instead of the typed one. *@
+<div @attributes="AdditionalAttributes"
+     class="@InputCss("omni-duration")"
+     role="group"
+     aria-label="@(GroupLabelledBy is null ? EffectiveLabel : null)"
+     aria-labelledby="@GroupLabelledBy"
+     aria-invalid="@AriaInvalid"
+     aria-disabled="@(Disabled ? "true" : null)">
+    <CascadingValue TValue="EditContext" Value="null" IsFixed="true">
+        <CascadingValue TValue="Internal.FormFieldRequirement" Value="null" IsFixed="true">
+            <CascadingValue TValue="Internal.OmniFormFieldLabel" Value="null" IsFixed="true">
+                <OmniNumeric @key="_revision" TValue="int?" Id="@Id" Class="omni-duration__field" Minimum="0" Maximum="@MaximumHours" Step="1"
+                             Disabled="Disabled" ReadOnly="ReadOnly" Size="Size"
+                             aria-label="@Localize("TimePickerHours")"
+                             Value="_hours" ValueChanged="SetHours" ValueExpression="@(() => _hours)" />
+                <span class="omni-duration__unit" aria-hidden="true">@Localize("FormatHour")</span>
+                <OmniNumeric @key="_revision + 1000000" TValue="int?" Class="omni-duration__field" Minimum="0" Step="MinuteStep"
+                             Disabled="Disabled" ReadOnly="ReadOnly" Size="Size"
+                             aria-label="@Localize("TimePickerMinutes")"
+                             Value="_minutes" ValueChanged="SetMinutes" ValueExpression="@(() => _minutes)" />
+                <span class="omni-duration__unit" aria-hidden="true">@Localize("FormatMinute")</span>
+            </CascadingValue>
+        </CascadingValue>
+    </CascadingValue>
+</div>

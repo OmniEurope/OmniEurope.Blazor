@@ -777,4 +777,5 @@
   <data name="DocumentEditorReplaceDrawing" xml:space="preserve"><value>Pakeisti brėžinį</value></data>
   <data name="DocumentEditorDrawing" xml:space="preserve"><value>Brėžinys</value></data>
   <data name="DocumentEditorDrawingApply" xml:space="preserve"><value>Patvirtinti</value></data>
+  <data name="DurationLabel" xml:space="preserve"><value>Trukmė</value></data>
 </root>
