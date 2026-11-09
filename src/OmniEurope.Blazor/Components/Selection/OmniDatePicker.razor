@@ -27,7 +27,8 @@
                 aria-expanded="@(Popup.IsOpen ? "true" : "false")"
                 aria-controls="@(Popup.IsOpen ? PanelId : null)"
                 disabled="@(Disabled || ReadOnly)"
-                @onclick="Toggle">
+                @onclick="Toggle"
+                @onkeydown="OnToggleKeyDown">
             <svg class="omni-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" focusable="false" aria-hidden="true"><rect height="16" rx="2" width="18" x="3" y="5"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>
         </button>
     </div>

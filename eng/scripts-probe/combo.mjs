@@ -224,9 +224,10 @@ export async function comboSteps(session, results) {
   // 6f. The date, date and time and time pickers: their panel is fixed to the window, and the Escape that closes it
   // must not close the dialog, the next one does, with the focus in the panel or in the text field of the picker.
   // The picker closes on Escape through a keydown listener that omni-focus.js attaches a few milliseconds after the
-  // panel shows (3 to 20 ms measured): an Escape sent before that is held back from the dialog but closes nothing,
-  // which a person cannot press fast enough to meet and a probe can (it failed 2 runs in 10 sent at once). The probe
-  // therefore waits for the listener, which the debugger reports, instead of a fixed time.
+  // panel shows (3 to 20 ms measured). With the focus still on the toggle that opened it, the picker closes the
+  // panel itself until then: the Escape goes at once, without waiting. Once the focus is moved into the text field,
+  // only the script hears Escape, and a probe can type faster than it attaches (a person cannot): that case waits
+  // for the listener, which the debugger reports, instead of a fixed time.
   const pickerListens = async id => {
     const { result } = await session.send('Runtime.evaluate', { expression: `document.getElementById(${JSON.stringify(id)}).closest('.omni-date')` });
     const { listeners } = await session.send('DOMDebugger.getEventListeners', { objectId: result.objectId });
@@ -239,12 +240,16 @@ export async function comboSteps(session, results) {
     for (const fromField of [false, true]) {
       await openDialog('fields-dialog-open', 'fields-dialog');
       await clickOn(`#${id} ~ .omni-date__toggle`);
-      await waitFor(`le panneau du sélecteur de ${label} ouvert`, `document.querySelector('${panel}') !== null`);
+      // Seen once, never reproduced: the click on the toggle opened no panel. The failure says what the page held.
+      await waitFor(`le panneau du sélecteur de ${label} ouvert`, `document.querySelector('${panel}') !== null`).catch(async error => {
+        const state = await evaluate(`JSON.stringify((() => { const toggle = document.querySelector('#${id} ~ .omni-date__toggle'); const box = toggle?.getBoundingClientRect(); const hit = box ? document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2) : null; return { expanded: toggle?.getAttribute('aria-expanded') ?? null, disabled: toggle?.disabled ?? null, box: box ? [Math.round(box.left), Math.round(box.top), Math.round(box.width), Math.round(box.height)] : null, hit: hit ? hit.tagName.toLowerCase() + '.' + String(hit.className.baseVal ?? hit.className).split(' ')[0] : null, hitIsToggle: !!hit && !!toggle && toggle.contains(hit), active: document.activeElement?.id || document.activeElement?.tagName, dialog: !!document.querySelector('#fields-dialog'), panels: document.querySelectorAll('.omni-calendar').length }; })())`);
+        throw new Error(`${error.message} État : ${state}`);
+      });
       if (fromField) {
         await clickOn(`#${id}`);
         check(await evaluate(`document.activeElement === ${field(id)}`), `Le focus n'est pas dans le champ du sélecteur de ${label}.`);
       }
-      for (const until = Date.now() + 5000; !await pickerListens(id);) {
+      for (const until = Date.now() + 5000; fromField && !await pickerListens(id);) {
         check(Date.now() < until, `Le sélecteur de ${label} n'a pas branché l'écoute d'Échap.`);
         await pause(5);
       }

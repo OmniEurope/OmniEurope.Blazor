@@ -42,6 +42,14 @@ internal sealed class PickerPopup(IJSRuntime javaScript, Func<bool, Task> dismis
         _restoreOnClose = restoreFocus;
     }
 
+    /// <summary>
+    /// Whether a key pressed on the toggle is an Escape the script cannot see yet: the panel is open, but the
+    /// listener of <c>omni-focus.js</c> is attached only after the render that opens it (and the module import
+    /// on the first opening). The picker closes the panel itself then, so an Escape typed at once is not lost.
+    /// Once attached, the script handles Escape and stops it at the picker root.
+    /// </summary>
+    internal bool IsEscapeBeforeAttach(KeyboardEventArgs args) => IsOpen && !_attached && args.Key == "Escape";
+
     /// <summary>Moves the focus, after the next render, to the element the selector names in the panel.</summary>
     internal void FocusAfterRender(string selector) => _focusSelector = selector;
 
