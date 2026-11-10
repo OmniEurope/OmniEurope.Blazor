@@ -90,6 +90,8 @@ A `ProjectReference` to the library does not bring the analyzer packed in the Nu
 <ProjectReference Include="path/to/src/OmniEurope.Blazor.Analyzers/OmniEurope.Blazor.Analyzers.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 ```
 
+Several checkouts (or worktrees) that build the same OmniEurope.Blazor sources at once do not share its `obj` and `bin`: built from a consumer's `.sln` or `.slnx`, each OE project writes under `obj/consumers/<solution>-<hash>/` and `bin/consumers/<solution>-<hash>/`, keyed by the consumer's solution directory, so there is nothing to set. A build without a solution (`dotnet build App.csproj`) keeps the shared `obj` and `bin`; such a consumer passes `-p:OmniEuropeConsumerId=<name>` to get its own folders.
+
 ## Content Security Policy
 
 The library targets, at minimum, a policy that grants neither `'unsafe-inline'` to `style-src` nor `'unsafe-eval'` to `script-src`. WebAssembly and Interactive Auto hosts add `'wasm-unsafe-eval'` to `script-src` for the .NET runtime itself; nothing broader is required by the rest of the library.

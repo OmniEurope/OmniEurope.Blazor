@@ -9,6 +9,26 @@
     <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
+  <!-- Consumers that build these sources through a ProjectReference (UseLocalOmniEurope in Aetheus, Atlas...)
+       each get their own obj and bin, so two checkouts or worktrees building at once never share
+       OmniEurope.Blazor.dll (MSB4018 "being used by another process"). The key is OmniEuropeConsumerId when
+       the consumer sets it, otherwise the consumer's solution: SolutionDir is a global property of a .sln or
+       .slnx build, restore included, and flows to every referenced project. A solution inside this
+       repository, or a build without a solution, keeps the usual obj and bin. Set before the SDK reads
+       BaseIntermediateOutputPath, so project.assets.json lands in the same per-consumer obj. -->
+  <PropertyGroup>
+    <_OmniEuropeRepositoryRoot>$([MSBuild]::NormalizeDirectory('$(MSBuildThisFileDirectory)'))</_OmniEuropeRepositoryRoot>
+    <_OmniEuropeConsumerSolution Condition="'$(SolutionDir)' != '' and '$(SolutionDir)' != '*Undefined*'">$([MSBuild]::NormalizeDirectory('$(SolutionDir)'))</_OmniEuropeConsumerSolution>
+    <_OmniEuropeConsumerSolution Condition="'$(_OmniEuropeConsumerSolution)' != '' and $(_OmniEuropeConsumerSolution.StartsWith('$(_OmniEuropeRepositoryRoot)', StringComparison.OrdinalIgnoreCase))"></_OmniEuropeConsumerSolution>
+    <OmniEuropeConsumerKey Condition="'$(OmniEuropeConsumerId)' != ''">$(OmniEuropeConsumerId)</OmniEuropeConsumerKey>
+    <OmniEuropeConsumerKey Condition="'$(OmniEuropeConsumerKey)' == '' and '$(_OmniEuropeConsumerSolution)' != ''">$([System.IO.Path]::GetFileName($(_OmniEuropeConsumerSolution.TrimEnd('\').TrimEnd('/'))))-$([MSBuild]::StableStringHash($(_OmniEuropeConsumerSolution.ToLowerInvariant())).ToString('x8'))</OmniEuropeConsumerKey>
+    <BaseIntermediateOutputPath Condition="'$(OmniEuropeConsumerKey)' != ''">$(MSBuildProjectDirectory)\obj\consumers\$(OmniEuropeConsumerKey)\</BaseIntermediateOutputPath>
+    <BaseOutputPath Condition="'$(OmniEuropeConsumerKey)' != ''">$(MSBuildProjectDirectory)\bin\consumers\$(OmniEuropeConsumerKey)\</BaseOutputPath>
+    <!-- With a per-consumer base, the SDK only excludes that base from the default items: the repository's
+         own obj and bin (generated sources of earlier builds) must stay out of the compilation as well. -->
+    <DefaultItemExcludes>$(DefaultItemExcludes);obj/**;bin/**</DefaultItemExcludes>
+  </PropertyGroup>
+
   <ItemGroup Condition="'$(MSBuildProjectName)' != 'OmniEurope.Analyzers'">
     <ProjectReference Include="$(MSBuildThisFileDirectory)eng\OmniEurope.Analyzers\OmniEurope.Analyzers.csproj"
                       OutputItemType="Analyzer"
