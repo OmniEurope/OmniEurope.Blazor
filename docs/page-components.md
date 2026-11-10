@@ -196,8 +196,10 @@ de son rang parmi les tuiles de la grille, six teintes à tour de rôle (ambre, 
 aucune tuile n'a la teinte de la précédente, et l'application n'a aucune couleur à choisir. Ce sont les couleurs
 ANSI vives du thème (`--omni-ansi-9` à `--omni-ansi-14`), tenues à 4,5:1 sur la tuile et sur leur carré teinté à
 12 %, en clair comme en sombre ; un hôte peut les remplacer par `--omni-tile-hue-1` à `--omni-tile-hue-6`. Un
-`Tone` posé explicitement, `Accent` compris, gagne. Hors grille, ou si la tuile n'est pas un enfant direct de la
-grille, le défaut reste `Accent`.
+`Tone` posé explicitement, `Accent` compris, gagne. Une tuile avec `IsFavorite` est enveloppée dans sa boîte
+(`omni-nav-tile-host`), enfant direct de la grille à sa place : le rang compte ensemble les tuiles et ces boîtes, si bien
+qu'une tuile favorite prend la teinte de sa place comme les autres. Hors grille, ou si la tuile (ou sa boîte) n'est
+pas un enfant direct de la grille, le défaut reste `Accent`.
 
 `IsFavorite` (`bool?`, nul par défaut : aucune bascule) dessine une étoile dans le coin de la tuile, pleine pour un
 favori, vide sinon ; `IsFavoriteChanged` (`EventCallback<bool>`) reçoit la nouvelle valeur, d'où `@bind-IsFavorite`. L'étoile est un

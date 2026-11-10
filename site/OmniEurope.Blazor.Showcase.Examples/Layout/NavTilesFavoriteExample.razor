@@ -1,14 +1,14 @@
 @* A favorite toggle on a navigation tile: IsFavorite draws the star in the corner, bound two ways. The star is a
-   sibling of the link, so toggling it never opens the destination. *@
-<OmniRow Gap="OmniSpacing.Medium" Id="gallery-nav-tile-favorites">
-    <OmniColumn Span="12" MediumSpan="4">
-        <OmniNavTile Id="gallery-nav-tile-favorite-cards" Href="components/cards" Title="Cards" Description="Content framed in a header, a body and a footer" @bind-IsFavorite="CardsFavorite">
-            <Icon><OmniIcon Name="OmniIconName.Cards" /></Icon>
-        </OmniNavTile>
-    </OmniColumn>
-    <OmniColumn Span="12" MediumSpan="4">
-        <OmniNavTile Id="gallery-nav-tile-favorite-stats" Href="components/stat-tiles" Title="Stat tiles" Description="A figure, its label and a detail line" @bind-IsFavorite="StatsFavorite">
-            <Icon><OmniIcon Name="OmniIconName.ChartBar" /></Icon>
-        </OmniNavTile>
-    </OmniColumn>
-</OmniRow>
+   sibling of the link, so toggling it never opens the destination. In a tile grid a tile with or without a star takes
+   the hue of its rank, the star's host box counting as one tile. *@
+<OmniTileGrid Id="gallery-nav-tile-favorites" Columns="3">
+    <OmniNavTile Id="gallery-nav-tile-favorite-cards" Href="components/cards" Title="Cards" Description="Content framed in a header, a body and a footer" @bind-IsFavorite="CardsFavorite">
+        <Icon><OmniIcon Name="OmniIconName.Cards" /></Icon>
+    </OmniNavTile>
+    <OmniNavTile Id="gallery-nav-tile-favorite-stats" Href="components/stat-tiles" Title="Stat tiles" Description="A figure, its label and a detail line" @bind-IsFavorite="StatsFavorite">
+        <Icon><OmniIcon Name="OmniIconName.ChartBar" /></Icon>
+    </OmniNavTile>
+    <OmniNavTile Id="gallery-nav-tile-favorite-grids" Href="components/nav-tiles" Title="Navigation tiles" Description="A tile without a star, third in the grid">
+        <Icon><OmniIcon Name="OmniIconName.SquaresFour" /></Icon>
+    </OmniNavTile>
+</OmniTileGrid>

@@ -39,6 +39,19 @@ public sealed class NavTileAutoHueTests : OmniBunitContext
         });
     }
 
+    /// <summary>A favourite tile sits in its host box, a direct child of the grid that the rank rules count, and keeps the automatic hue class.</summary>
+    [Fact]
+    public void A_favourite_tile_of_a_grid_takes_the_automatic_hue_in_its_host_box()
+    {
+        var grid = Render<OmniTileGrid>(parameters => parameters
+            .AddChildContent<OmniNavTile>(tile => tile.Add(component => component.Href, "/a").Add(component => component.Title, "A"))
+            .AddChildContent<OmniNavTile>(tile => tile.Add(component => component.Href, "/b").Add(component => component.Title, "B").Add(component => component.IsFavorite, true)));
+
+        var favourite = grid.Find(".omni-tile-grid > .omni-nav-tile-host > a.omni-nav-tile");
+        Assert.Contains("omni-nav-tile--auto", favourite.ClassList);
+        Assert.Contains("omni-nav-tile--auto", grid.Find(".omni-tile-grid > a.omni-nav-tile").ClassList);
+    }
+
     [Theory]
     [InlineData(OmniTone.Accent, "omni-nav-tile--accent")]
     [InlineData(OmniTone.Success, "omni-nav-tile--success")]
@@ -84,14 +97,16 @@ public sealed class NavTileAutoHueTests : OmniBunitContext
         string[] ranks = ["6n + 1", "6n + 2", "6n + 3", "6n + 4", "6n + 5", "6n"];
         for (var rank = 0; rank < ranks.Length; rank++)
         {
-            var body = ShippedLookTests.Body($".omni-tile-grid > .omni-nav-tile--auto:nth-child({ranks[rank]} of .omni-nav-tile)");
+            // The rank counts the tiles and the host boxes of favourite tiles together; the rule reaches the tile in either.
+            var rankOf = $":nth-child({ranks[rank]} of .omni-nav-tile, .omni-nav-tile-host)";
+            var body = ShippedLookTests.Body($".omni-tile-grid > .omni-nav-tile--auto{rankOf}, .omni-tile-grid > .omni-nav-tile-host{rankOf} > .omni-nav-tile--auto");
             Assert.Equal($"var(--omni-tile-hue-{rank + 1}, var(--omni-ansi-{AnsiOfRank[rank]}))", ShippedLookTests.Value(body, "--omni-nav-tile-tone"));
         }
 
         var share = string.Create(CultureInfo.InvariantCulture, $"{AnsiTokenBuilder.BackgroundShare * 100:0}%");
         Assert.Equal(
             $"color-mix(in srgb, var(--omni-nav-tile-tone) {share}, var(--omni-card-background, var(--omni-color-surface)))",
-            ShippedLookTests.Value(ShippedLookTests.Body(".omni-tile-grid > .omni-nav-tile--auto"), "--omni-nav-tile-tint"));
+            ShippedLookTests.Value(ShippedLookTests.Body(".omni-tile-grid > .omni-nav-tile--auto, .omni-tile-grid > .omni-nav-tile-host > .omni-nav-tile--auto"), "--omni-nav-tile-tint"));
     }
 
     /// <summary>On every theme and palette, in both modes, the icon of each hue reads at 4.5:1 on its tinted square and on the tile.</summary>
