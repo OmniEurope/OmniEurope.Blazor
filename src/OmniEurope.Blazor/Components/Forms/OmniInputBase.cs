@@ -83,9 +83,11 @@ public abstract class OmniInputBase<TValue> : InputBase<TValue>
 
     /// <summary>
     /// The <c>name</c> of the input, under which the browser keeps the history of the values typed in it
-    /// (recette R-13): the name Blazor gives the field in a statically rendered form; in an interactive one,
-    /// where Blazor writes none, the path of the bound member (<c>Project.Name</c> for
-    /// <c>@bind-Value="Project.Name"</c>), else <see cref="Id"/>. It is written before the additional
+    /// (recette R-13): the name Blazor gives the field in a statically rendered form, which its model binding
+    /// reads back; in an interactive one, where Blazor writes none, <see cref="Id"/> when it is set, else the
+    /// type of the bound model followed by the member path (<c>ProjectFormModel.Name</c> for
+    /// <c>@bind-Value="_model.Name"</c> on a <c>ProjectFormModel _model</c>), so that two forms whose models
+    /// both have a <c>Name</c> keep two histories. It is written before the additional
     /// attributes, so a <c>name</c> given by the caller wins.
     /// </summary>
     private protected string? FieldName
@@ -97,6 +99,11 @@ public abstract class OmniInputBase<TValue> : InputBase<TValue>
                 return NameAttributeValue;
             }
 
+            if (!string.IsNullOrEmpty(Id))
+            {
+                return Id;
+            }
+
             if (!ReferenceEquals(_namedExpression, ValueExpression))
             {
                 _namedExpression = ValueExpression;
@@ -104,11 +111,16 @@ public abstract class OmniInputBase<TValue> : InputBase<TValue>
                 _expressionName = MemberPath(ValueExpression!.Body);
             }
 
-            return _expressionName ?? Id;
+            return _expressionName;
         }
     }
 
-    /// <summary>The dotted path of a chain of members read from a captured value, or null when the chain holds anything else.</summary>
+    /// <summary>
+    /// The history name of a chain of members read from a captured value: the type of the first member read
+    /// (the model), then the members read from it, dotted (<c>ProjectFormModel.Name</c> for <c>_model.Name</c>).
+    /// A single member is named after the type that declares it (<c>ProjectPage.Title</c> for <c>Title</c>).
+    /// Null when the chain holds anything else than members.
+    /// </summary>
     /// <param name="expression">The body of the value expression.</param>
     internal static string? MemberPath(Expression? expression)
     {
@@ -117,20 +129,41 @@ public abstract class OmniInputBase<TValue> : InputBase<TValue>
             expression = convert.Operand;
         }
 
-        var names = new List<string>();
+        var members = new List<MemberExpression>();
         while (expression is MemberExpression member)
         {
-            names.Add(member.Member.Name);
+            members.Add(member);
             expression = member.Expression;
         }
 
-        if (names.Count == 0 || expression is not (null or ConstantExpression))
+        if (members.Count == 0 || expression is not (null or ConstantExpression))
         {
             return null;
         }
 
-        names.Reverse();
+        members.Reverse();
+        var root = members[0].Member;
+        var names = new List<string>(members.Count + 1);
+        if (members.Count == 1)
+        {
+            names.Add(TypeName(root.DeclaringType));
+            names.Add(root.Name);
+        }
+        else
+        {
+            names.Add(TypeName(members[0].Type));
+            names.AddRange(members.Skip(1).Select(member => member.Member.Name));
+        }
+
         return string.Join('.', names);
+    }
+
+    /// <summary>The name of a type without the arity of a generic one (<c>List</c> for <c>List`1</c>).</summary>
+    private static string TypeName(Type? type)
+    {
+        var name = type?.Name ?? "Field";
+        var tick = name.IndexOf('`', StringComparison.Ordinal);
+        return tick < 0 ? name : name[..tick];
     }
 
     /// <summary><c>"true"</c> while the edit context holds a message for the bound field, else null.</summary>

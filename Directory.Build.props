@@ -9,7 +9,7 @@
     <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
-  <!-- Consumers that build these sources through a ProjectReference (UseLocalOmniEurope in Aetheus, Atlas...)
+  <!-- Consumers that build these sources through a ProjectReference (a local-sources switch of the consuming application)
        each get their own obj and bin, so two checkouts or worktrees building at once never share
        OmniEurope.Blazor.dll (MSB4018 "being used by another process"). The key is OmniEuropeConsumerId when
        the consumer sets it, otherwise the consumer's solution: SolutionDir is a global property of a .sln or
