@@ -56,6 +56,17 @@ public partial class OmniNavTile
     public OmniTone Tone { get; set; } = OmniTone.Accent;
 
     /// <summary>
+    /// Tints the whole tile with its tone instead of the icon square alone: a diagonal gradient of the tone over the card
+    /// background, 16 % to 8 % at rest and 34 % to 20 % hovered or focused in light mode, 12 % to 6 % and 20 % to 12 % in dark
+    /// mode, and a border taken from the tone. Inside an <see cref="OmniTileGrid"/> the tone is the hue of the tile's rank, so
+    /// each tile of a home menu has a colour of its own, favourite tiles included. The title and the description keep
+    /// 4.5:1 on the strongest tint of every hue, in both modes: the description takes the text colour, the muted grey falling
+    /// under 4.5:1 on a tint. The icon square keeps its own tint. False by default.
+    /// </summary>
+    [Parameter]
+    public bool Tinted { get; set; }
+
+    /// <summary>
     /// In an <see cref="OmniTileGrid"/>, the tile spans two columns instead of one where the grid has two or
     /// more. Ignored elsewhere. False by default.
     /// </summary>

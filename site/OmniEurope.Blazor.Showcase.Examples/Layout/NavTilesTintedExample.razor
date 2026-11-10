@@ -1,0 +1,9 @@
+@* A home menu of tinted tiles: Tinted lays the hue of each tile's rank over the whole tile, stronger hovered or
+   focused, so every destination has a colour of its own. The favourite tile, wrapped in its host box, keeps the
+   hue of its place. *@
+<OmniTileGrid Id="demo-nav-tinted" MinColumnWidth="12rem">
+    <OmniNavTile Id="demo-nav-tinted-trips" Href="components/nav-tiles" Title="Voyages" Description="Destinations et hôtels" Tinted="true"><Icon><OmniIcon Name="OmniIconName.Layers" /></Icon></OmniNavTile>
+    <OmniNavTile Id="demo-nav-tinted-games" Href="components/nav-tiles" Title="Jeux" Description="Parties et scores" Tinted="true" @bind-IsFavorite="GamesFavorite"><Icon><OmniIcon Name="OmniIconName.SquaresFour" /></Icon></OmniNavTile>
+    <OmniNavTile Id="demo-nav-tinted-docs" Href="components/nav-tiles" Title="Documents" Description="Notes et fichiers" Tinted="true"><Icon><OmniIcon Name="OmniIconName.Database" /></Icon></OmniNavTile>
+    <OmniNavTile Id="demo-nav-tinted-random" Href="components/nav-tiles" Title="Aléatoire" Description="Une idée au hasard" Tinted="true"><Icon><OmniIcon Name="OmniIconName.ArrowRight" /></Icon></OmniNavTile>
+</OmniTileGrid>

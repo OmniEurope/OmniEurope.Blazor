@@ -201,6 +201,13 @@ ANSI vives du thème (`--omni-ansi-9` à `--omni-ansi-14`), tenues à 4,5:1 sur 
 qu'une tuile favorite prend la teinte de sa place comme les autres. Hors grille, ou si la tuile (ou sa boîte) n'est
 pas un enfant direct de la grille, le défaut reste `Accent`.
 
+`Tinted` (`false` par défaut, demande d'une application cliente) teinte toute la tuile de son ton, et non le seul carré de
+l'icône : un dégradé diagonal du ton sur le fond de carte, de 16 % à 8 % au repos et de 34 % à 20 % au survol ou au focus
+en clair, de 12 % à 6 % et de 20 % à 12 % en sombre, et une bordure tirée du ton. Dans une `OmniTileGrid`, c'est la teinte
+du rang : chaque destination d'un menu d'accueil a sa couleur, tuiles favorites comprises. La description prend la
+couleur du texte, le gris atténué tombant vers 3:1 sur une teinte ; le titre et la description tiennent 4,5:1 sur la
+teinte la plus forte de chaque rang, sur chaque thème et palette, en clair comme en sombre (`NavTileTintedTests`).
+
 `IsFavorite` (`bool?`, nul par défaut : aucune bascule) dessine une étoile dans le coin de la tuile, pleine pour un
 favori, vide sinon ; `IsFavoriteChanged` (`EventCallback<bool>`) reçoit la nouvelle valeur, d'où `@bind-IsFavorite`. L'étoile est un
 vrai `<button type="button">` avec `aria-pressed` et un nom localisé (« Ajouter aux favoris », « Retirer des favoris »),

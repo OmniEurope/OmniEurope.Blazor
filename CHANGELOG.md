@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Added
+
+- `OmniNavTile.Tinted` (`bool`, `false` par défaut) : teinte toute la tuile de son ton, et non le seul carré de l'icône, par un dégradé diagonal sur le fond de carte (16 % à 8 % au repos, 34 % à 20 % au survol ou au focus en clair ; 12 % à 6 % et 20 % à 12 % en sombre) et une bordure tirée du ton. Dans une `OmniTileGrid`, c'est la teinte du rang : chaque destination d'un menu d'accueil a sa couleur, tuiles favorites comprises. La description d'une tuile teintée prend la couleur du texte : le gris atténué tombait vers 3:1 sur la teinte. Demande d'une application cliente. Preuve : `NavTileTintedTests` (classe, règles de la feuille, parts du mode sombre, 4,5:1 du texte sur la teinte la plus forte de chaque rang pour chaque thème et palette dans les deux modes) ; dans la vitrine, exemple « Tinted tiles » de la page Navigation tiles : quatre tuiles (dont une favorite) ambre, bleu, rouge et cyan, dégradé plus fort au survol, en clair et en sombre (fond de carte `rgb(41, 41, 41)`, tuiles teintées distinctes).
+
 ### Fixed
 
 - `OmniNavTile` dans une `OmniTileGrid` : une tuile avec `IsFavorite` perdait la teinte de son rang et gardait l'accent, car elle est enveloppée dans sa boîte `omni-nav-tile-host` et les règles de teinte ne visaient que les tuiles enfants directs de la grille. Le rang compte maintenant ensemble les tuiles et ces boîtes, et la règle atteint la tuile dans sa boîte (fond du carré à 12 % compris). Dans une grille qui mélange les deux, une tuile sans étoile placée après une tuile favorite prend désormais la teinte de sa vraie place. Demande d'une application cliente. Preuve : `NavTileAutoHueTests` (règles de la feuille, classe de la tuile favorite) ; dans la vitrine, exemple « Favorite toggle » de la page Navigation tiles, maintenant dans une grille : Cards et Stat tiles (favorites) puis Navigation tiles prennent ambre, bleu et rouge (`#795100`, `#195a97`, `#a62925`), les teintes des trois premières tuiles de la grille sans favori.

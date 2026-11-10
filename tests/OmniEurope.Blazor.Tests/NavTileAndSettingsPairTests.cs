@@ -62,9 +62,10 @@ public sealed class NavTileAndSettingsPairTests : OmniBunitContext
         Assert.Equal("not-allowed", ShippedLookTests.Value(disabled, "cursor"));
         Assert.DoesNotContain("padding", disabled, StringComparison.Ordinal);
         Assert.DoesNotContain("block-size", disabled, StringComparison.Ordinal);
-        // A disabled tile has no hover at all: the only hover rule of the tile excludes it.
-        Assert.Equal([".omni-nav-tile:hover:not(.omni-nav-tile--disabled)"],
-            ShippedLookTests.Rules().Where(rule => rule.Selector.StartsWith(".omni-nav-tile", StringComparison.Ordinal) && rule.Selector.Contains(":hover", StringComparison.Ordinal)).Select(rule => rule.Selector));
+        // A disabled tile has no hover at all: every hover rule of the tile (the base one, the tinted one) excludes it.
+        var hovers = ShippedLookTests.Rules().Where(rule => rule.Selector.StartsWith(".omni-nav-tile", StringComparison.Ordinal) && rule.Selector.Contains(":hover", StringComparison.Ordinal)).Select(rule => rule.Selector).ToList();
+        Assert.Equal([".omni-nav-tile:hover:not(.omni-nav-tile--disabled)", ".omni-nav-tile--tinted:is(:hover, :focus-visible):not(.omni-nav-tile--disabled)"], hovers);
+        Assert.All(hovers, selector => Assert.EndsWith(":not(.omni-nav-tile--disabled)", selector, StringComparison.Ordinal));
     }
 
     [Fact]

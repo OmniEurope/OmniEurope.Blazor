@@ -290,6 +290,8 @@
   <data name="NavTilesShowDescriptionHint" xml:space="preserve"><value>Description parameter: a muted line under the title, what is found there.</value></data>
   <data name="NavTilesPreviewTitle" xml:space="preserve"><value>Live preview</value></data>
   <data name="NavTilesTonesTitle" xml:space="preserve"><value>Tones</value></data>
+  <data name="NavTilesTintedTitle" xml:space="preserve"><value>Tinted tiles</value></data>
+  <data name="NavTilesTintedDescription" xml:space="preserve"><value>Tinted lays the hue of each tile's rank over the whole tile, stronger hovered or focused: every destination of a home menu has a colour of its own, the favourite tile included. The description takes the text colour to keep 4.5:1 on the tint.</value></data>
   <data name="NavTilesAutoHueTitle" xml:space="preserve"><value>Automatic hues in a grid</value></data>
   <data name="NavTilesAutoHueDescription" xml:space="preserve"><value>In a tile grid, a tile given no tone takes the hue of its rank, six hues in turn, never that of the tile before it. A tone set explicitly wins (the last tile).</value></data>
   <data name="NavTilesFitTitle" xml:space="preserve"><value>Fit the title</value></data>

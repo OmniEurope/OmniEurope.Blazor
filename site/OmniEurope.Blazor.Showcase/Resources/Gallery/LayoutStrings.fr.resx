@@ -290,6 +290,8 @@
   <data name="NavTilesShowDescriptionHint" xml:space="preserve"><value>Paramètre Description : une ligne atténuée sous le titre, ce qu'on trouve derrière.</value></data>
   <data name="NavTilesPreviewTitle" xml:space="preserve"><value>Aperçu en direct</value></data>
   <data name="NavTilesTonesTitle" xml:space="preserve"><value>Tons</value></data>
+  <data name="NavTilesTintedTitle" xml:space="preserve"><value>Tuiles teintées</value></data>
+  <data name="NavTilesTintedDescription" xml:space="preserve"><value>Tinted pose la teinte du rang de chaque tuile sur toute la tuile, plus forte au survol ou au focus : chaque destination d'un menu d'accueil a sa couleur, la tuile favorite comprise. La description prend la couleur du texte pour garder 4,5:1 sur la teinte.</value></data>
   <data name="NavTilesAutoHueTitle" xml:space="preserve"><value>Teintes automatiques dans une grille</value></data>
   <data name="NavTilesAutoHueDescription" xml:space="preserve"><value>Dans une grille de tuiles, une tuile sans ton prend la teinte de son rang, six teintes à tour de rôle, jamais celle de la tuile précédente. Un ton posé explicitement gagne (la dernière tuile).</value></data>
   <data name="NavTilesFitTitle" xml:space="preserve"><value>Ajuster le titre</value></data>

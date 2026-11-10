@@ -368,6 +368,35 @@ button.omni-nav-tile__favorite--on, button.omni-nav-tile__favorite--on:hover { c
 .omni-tile-grid > .omni-nav-tile--auto:nth-child(6n + 4 of .omni-nav-tile, .omni-nav-tile-host), .omni-tile-grid > .omni-nav-tile-host:nth-child(6n + 4 of .omni-nav-tile, .omni-nav-tile-host) > .omni-nav-tile--auto { --omni-nav-tile-tone: var(--omni-tile-hue-4, var(--omni-ansi-14)); }
 .omni-tile-grid > .omni-nav-tile--auto:nth-child(6n + 5 of .omni-nav-tile, .omni-nav-tile-host), .omni-tile-grid > .omni-nav-tile-host:nth-child(6n + 5 of .omni-nav-tile, .omni-nav-tile-host) > .omni-nav-tile--auto { --omni-nav-tile-tone: var(--omni-tile-hue-5, var(--omni-ansi-13)); }
 .omni-tile-grid > .omni-nav-tile--auto:nth-child(6n of .omni-nav-tile, .omni-nav-tile-host), .omni-tile-grid > .omni-nav-tile-host:nth-child(6n of .omni-nav-tile, .omni-nav-tile-host) > .omni-nav-tile--auto { --omni-nav-tile-tone: var(--omni-tile-hue-6, var(--omni-ansi-10)); }
+/* Tinted (OmniNavTile.Tinted): the whole tile takes its tone, a diagonal gradient over the card background, stronger
+   hovered or focused, and a border from the tone. The shares are lower in dark mode, where a bright hue over a dark
+   surface reads stronger. The muted grey of the description falls under 4.5:1 on a tint, so a tinted tile writes its
+   description in the text colour, which keeps 4.5:1 on the strongest tint of every hue (NavTileTintedTests). Declared after
+   the base hover rule, which it replaces for a tinted tile; the icon square keeps its own tint. */
+[data-omni-theme="light"],
+[data-omni-theme="system"] {
+    --omni-nav-tile-tinted-from: 16%;
+    --omni-nav-tile-tinted-to: 8%;
+    --omni-nav-tile-tinted-hover-from: 34%;
+    --omni-nav-tile-tinted-hover-to: 20%;
+}
+[data-omni-theme="dark"] {
+    --omni-nav-tile-tinted-from: 12%;
+    --omni-nav-tile-tinted-to: 6%;
+    --omni-nav-tile-tinted-hover-from: 20%;
+    --omni-nav-tile-tinted-hover-to: 12%;
+}
+@media (prefers-color-scheme: dark) {
+    [data-omni-theme="system"] {
+        --omni-nav-tile-tinted-from: 12%;
+        --omni-nav-tile-tinted-to: 6%;
+        --omni-nav-tile-tinted-hover-from: 20%;
+        --omni-nav-tile-tinted-hover-to: 12%;
+    }
+}
+.omni-nav-tile--tinted { background: linear-gradient(135deg, color-mix(in srgb, var(--omni-nav-tile-tone) var(--omni-nav-tile-tinted-from, 16%), var(--omni-card-background, var(--omni-color-surface))), color-mix(in srgb, var(--omni-nav-tile-tone) var(--omni-nav-tile-tinted-to, 8%), var(--omni-card-background, var(--omni-color-surface)))); border-color: color-mix(in srgb, var(--omni-nav-tile-tone) 30%, var(--omni-color-border)); }
+.omni-nav-tile--tinted:is(:hover, :focus-visible):not(.omni-nav-tile--disabled) { background: linear-gradient(135deg, color-mix(in srgb, var(--omni-nav-tile-tone) var(--omni-nav-tile-tinted-hover-from, 34%), var(--omni-card-background, var(--omni-color-surface))), color-mix(in srgb, var(--omni-nav-tile-tone) var(--omni-nav-tile-tinted-hover-to, 20%), var(--omni-card-background, var(--omni-color-surface)))); border-color: color-mix(in srgb, var(--omni-nav-tile-tone) 55%, var(--omni-color-border)); }
+.omni-nav-tile--tinted .omni-nav-tile__description { color: var(--omni-color-text); }
 @media (prefers-reduced-motion: reduce) { .omni-nav-tile { transition: none; } }
 .omni-settings-tile__row { align-items: center; display: flex; flex-wrap: wrap; gap: 0.75rem 1rem; }
 .omni-settings-tile__icon { align-items: center; background: var(--omni-color-accent-subtle); block-size: var(--omni-icon-box); border-radius: var(--omni-radius); color: var(--omni-color-accent-strong); display: inline-flex; flex: 0 0 auto; inline-size: var(--omni-icon-box); justify-content: center; }

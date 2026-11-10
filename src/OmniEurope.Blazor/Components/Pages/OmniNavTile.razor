@@ -10,7 +10,7 @@
    toggle are siblings in a host box: a button nested in a link is invalid, and a click on the star must
    never follow the link. *@
 @{
-    RenderFragment tile = @<a @attributes="AdditionalAttributes" id="@Id" href="@LinkTarget" role="@(Disabled ? "link" : null)" aria-disabled="@(Disabled ? "true" : null)" class="@Css("omni-nav-tile", ToneClass, Disabled ? "omni-nav-tile--disabled" : null, DoubleWidth && IsFavorite is null ? "omni-tile--double" : null, FitTitle ? (TileGrid is null ? $"omni-nav-tile--fit omni-nav-tile--fit-{FitBucket}" : "omni-nav-tile--fit omni-nav-tile--fit-grid") : null, AlignClass("icon", IconAlign), AlignClass("title", TitleAlign))">
+    RenderFragment tile = @<a @attributes="AdditionalAttributes" id="@Id" href="@LinkTarget" role="@(Disabled ? "link" : null)" aria-disabled="@(Disabled ? "true" : null)" class="@Css("omni-nav-tile", ToneClass, Tinted ? "omni-nav-tile--tinted" : null, Disabled ? "omni-nav-tile--disabled" : null, DoubleWidth && IsFavorite is null ? "omni-tile--double" : null, FitTitle ? (TileGrid is null ? $"omni-nav-tile--fit omni-nav-tile--fit-{FitBucket}" : "omni-nav-tile--fit omni-nav-tile--fit-grid") : null, AlignClass("icon", IconAlign), AlignClass("title", TitleAlign))">
         @if (Icon is not null)
         {
             <span class="omni-nav-tile__icon" aria-hidden="true">@Icon</span>
