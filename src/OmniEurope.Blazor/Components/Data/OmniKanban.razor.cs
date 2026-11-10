@@ -224,7 +224,9 @@ public partial class OmniKanban<TItem>
     // ----- Keyboard ------------------------------------------------------------------------
 
     /// <summary>A key pressed on a card itself, forwarded by the script: Space, Enter, Escape or an arrow.</summary>
-    internal Task HandleCardKeyAsync(string card, string key) => InvokeAsync(async () =>
+    internal Task HandleCardKeyAsync(string card, string key) => InvokeAsync(() => ApplyCardKeyAsync(card, key));
+
+    private async Task ApplyCardKeyAsync(string card, string key)
     {
         if (_disposed || !CanMove
             || !int.TryParse(card, NumberStyles.None, CultureInfo.InvariantCulture, out var index)
@@ -241,42 +243,51 @@ public partial class OmniKanban<TItem>
             abandoned = true;
         }
 
-        switch (key)
+        if (!await TryApplyKeyAsync(index, key))
         {
-            case " " or "Enter" when _grabbed < 0:
-                Grab(index);
-                break;
-            case " " or "Enter":
-                await DropGrabbedAsync();
-                break;
-            case "Escape" when _grabbed >= 0:
-                CancelGrab();
-                break;
-            case "ArrowUp" when _grabbed >= 0:
-                MoveWithinColumn(-1);
-                break;
-            case "ArrowDown" when _grabbed >= 0:
-                MoveWithinColumn(1);
-                break;
-            case "ArrowLeft" when _grabbed >= 0:
-                MoveAcrossColumns(-1);
-                break;
-            case "ArrowRight" when _grabbed >= 0:
-                MoveAcrossColumns(1);
-                break;
-            default:
-                if (abandoned)
-                {
-                    // Nothing else to do with this key, but the abandoned card goes back and says so.
-                    StateHasChanged();
-                }
+            if (abandoned)
+            {
+                // Nothing else to do with this key, but the abandoned card goes back and says so.
+                StateHasChanged();
+            }
 
-                return;
+            return;
         }
 
         _focusCard = card;
         StateHasChanged();
-    });
+    }
+
+    /// <summary>Picks up, drops, cancels or moves the card for <paramref name="key"/>; false when the key means nothing in the current state.</summary>
+    private async Task<bool> TryApplyKeyAsync(int index, string key)
+    {
+        switch (key)
+        {
+            case " " or "Enter" when _grabbed < 0:
+                Grab(index);
+                return true;
+            case " " or "Enter":
+                await DropGrabbedAsync();
+                return true;
+            case "Escape" when _grabbed >= 0:
+                CancelGrab();
+                return true;
+            case "ArrowUp" when _grabbed >= 0:
+                MoveWithinColumn(-1);
+                return true;
+            case "ArrowDown" when _grabbed >= 0:
+                MoveWithinColumn(1);
+                return true;
+            case "ArrowLeft" when _grabbed >= 0:
+                MoveAcrossColumns(-1);
+                return true;
+            case "ArrowRight" when _grabbed >= 0:
+                MoveAcrossColumns(1);
+                return true;
+            default:
+                return false;
+        }
+    }
 
     private void Grab(int index)
     {

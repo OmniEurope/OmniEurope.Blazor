@@ -112,62 +112,72 @@ internal static partial class OmniHtmlText
             if (child is IText text)
             {
                 builder.Append(preformatted ? text.Data : Whitespace().Replace(text.Data, " "));
-                continue;
             }
-
-            if (child is not IElement element)
+            else if (child is IElement element)
             {
-                continue;
-            }
-
-            var name = element.LocalName;
-            switch (name)
-            {
-                case "br":
-                    builder.Append('\n');
-                    break;
-                case "hr":
-                    builder.Append("\n\n----\n\n");
-                    break;
-                case "li":
+                if (element.LocalName == "li")
+                {
                     ordinal++;
-                    builder.Append('\n');
-                    builder.Append(string.Equals(parent.LocalName, "ol", StringComparison.Ordinal)
-                        ? $"{ordinal.ToString(CultureInfo.InvariantCulture)}. "
-                        : "- ");
-                    AppendChildren(element, builder, preformatted);
-                    break;
-                case "tr":
-                    builder.Append('\n');
-                    var cells = element.Children.Where(cell => cell.LocalName is "td" or "th").ToArray();
-                    for (var index = 0; index < cells.Length; index++)
-                    {
-                        if (index > 0)
-                        {
-                            builder.Append('\t');
-                        }
+                }
 
-                        var cell = new StringBuilder();
-                        AppendChildren(cells[index], cell, preformatted);
-                        builder.Append(Whitespace().Replace(cell.ToString(), " ").Trim());
-                    }
-
-                    break;
-                default:
-                    var separated = SeparatedBlocks.Contains(name);
-                    if (separated)
-                    {
-                        builder.Append("\n\n");
-                    }
-
-                    AppendChildren(element, builder, preformatted || name == "pre");
-                    if (separated)
-                    {
-                        builder.Append("\n\n");
-                    }
-
-                    break;
+                AppendElement(parent, element, ordinal, builder, preformatted);
             }
+        }
+    }
+
+    private static void AppendElement(IElement parent, IElement element, int ordinal, StringBuilder builder, bool preformatted)
+    {
+        var name = element.LocalName;
+        switch (name)
+        {
+            case "br":
+                builder.Append('\n');
+                break;
+            case "hr":
+                builder.Append("\n\n----\n\n");
+                break;
+            case "li":
+                builder.Append('\n');
+                builder.Append(string.Equals(parent.LocalName, "ol", StringComparison.Ordinal)
+                    ? $"{ordinal.ToString(CultureInfo.InvariantCulture)}. "
+                    : "- ");
+                AppendChildren(element, builder, preformatted);
+                break;
+            case "tr":
+                builder.Append('\n');
+                AppendCells(element, builder, preformatted);
+                break;
+            default:
+                var separated = SeparatedBlocks.Contains(name);
+                if (separated)
+                {
+                    builder.Append("\n\n");
+                }
+
+                AppendChildren(element, builder, preformatted || name == "pre");
+                if (separated)
+                {
+                    builder.Append("\n\n");
+                }
+
+                break;
+        }
+    }
+
+    /// <summary>The cells of a table row, one tab apart, each flattened to a single line.</summary>
+    private static void AppendCells(IElement row, StringBuilder builder, bool preformatted)
+    {
+        var cells = row.Children.Where(cell => cell.LocalName is "td" or "th").ToArray();
+        for (var index = 0; index < cells.Length; index++)
+        {
+            if (index > 0)
+            {
+                builder.Append('\t');
+            }
+
+            var cell = new StringBuilder();
+            AppendChildren(cells[index], cell, preformatted);
+            builder.Append(Whitespace().Replace(cell.ToString(), " ").Trim());
         }
     }
 

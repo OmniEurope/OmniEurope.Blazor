@@ -107,47 +107,13 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
                     return changed;
                 }
 
-                if (!_inFlight.TryGetValue(block, out var entry))
-                {
-                    entry = InFlightBlock.Start(loader, block * size, size, token);
-                    _inFlight[block] = entry;
-                }
-
-                OmniDataGridResult<TItem> result;
-                try
-                {
-                    result = await entry.Request.WaitAsync(entry.Token);
-                }
-                catch (OperationCanceledException) when (entry.Token.IsCancellationRequested && !token.IsCancellationRequested)
-                {
-                    // The block left the window and was cancelled: not an error, nothing to keep.
-                    return changed;
-                }
-                finally
-                {
-                    // Only this generation owns the entry: a reset cleared it, and a newer query may
-                    // already have put its own request for the same block there.
-                    if (generation == _generation && _inFlight.TryGetValue(block, out var current) && ReferenceEquals(current, entry))
-                    {
-                        _inFlight.Remove(block);
-                        entry.Release();
-                    }
-                }
-
-                if (generation != _generation || token.IsCancellationRequested || entry.Token.IsCancellationRequested)
+                var result = await AwaitBlockAsync(block, size, loader, token, generation);
+                if (result is null)
                 {
                     return changed;
                 }
 
-                TotalCount = result.TotalCount;
-                HasLoaded = true;
-                _loadedBlocks.Add(block);
-                CacheVersion++;
-                for (var offset = 0; offset < result.Items.Count; offset++)
-                {
-                    _items[(block * size) + offset] = result.Items[offset];
-                }
-
+                Store(block, size, result);
                 changed = true;
             }
 
@@ -174,6 +140,60 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
         }
 
         return changed;
+    }
+
+    /// <summary>
+    /// Awaits the request of one block, starting it when no request is in flight for it. Null when the
+    /// answer must be dropped: the block left the window and was cancelled, a reset or a newer query
+    /// superseded this call, or its token was cancelled.
+    /// </summary>
+    private async Task<OmniDataGridResult<TItem>?> AwaitBlockAsync(
+        int block,
+        int size,
+        Func<int, int, CancellationToken, Task<OmniDataGridResult<TItem>>> loader,
+        CancellationToken token,
+        int generation)
+    {
+        if (!_inFlight.TryGetValue(block, out var entry))
+        {
+            entry = InFlightBlock.Start(loader, block * size, size, token);
+            _inFlight[block] = entry;
+        }
+
+        OmniDataGridResult<TItem> result;
+        try
+        {
+            result = await entry.Request.WaitAsync(entry.Token);
+        }
+        catch (OperationCanceledException) when (entry.Token.IsCancellationRequested && !token.IsCancellationRequested)
+        {
+            // The block left the window and was cancelled: not an error, nothing to keep.
+            return null;
+        }
+        finally
+        {
+            // Only this generation owns the entry: a reset cleared it, and a newer query may
+            // already have put its own request for the same block there.
+            if (generation == _generation && _inFlight.TryGetValue(block, out var current) && ReferenceEquals(current, entry))
+            {
+                _inFlight.Remove(block);
+                entry.Release();
+            }
+        }
+
+        return generation != _generation || token.IsCancellationRequested || entry.Token.IsCancellationRequested ? null : result;
+    }
+
+    private void Store(int block, int size, OmniDataGridResult<TItem> result)
+    {
+        TotalCount = result.TotalCount;
+        HasLoaded = true;
+        _loadedBlocks.Add(block);
+        CacheVersion++;
+        for (var offset = 0; offset < result.Items.Count; offset++)
+        {
+            _items[(block * size) + offset] = result.Items[offset];
+        }
     }
 
     private void CancelOutside(int firstBlock, int lastBlock)

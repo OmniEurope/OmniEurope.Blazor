@@ -41,46 +41,51 @@ internal sealed class GridAggregates<TItem>(OmniDataGrid<TItem> grid)
         }
 
         var values = items.Select(read).Where(value => value is not null).Select(value => value!).ToList();
-        switch (aggregate)
+        return aggregate switch
         {
-            case OmniDataGridAggregate.Sum:
-            case OmniDataGridAggregate.Average:
-                var numbers = values.Where(IsNumber).ToList();
-                if (aggregate == OmniDataGridAggregate.Average && numbers.Count == 0)
-                {
-                    return null;
-                }
+            OmniDataGridAggregate.Sum or OmniDataGridAggregate.Average => SumOrAverage(values, aggregate),
+            OmniDataGridAggregate.Min or OmniDataGridAggregate.Max => MinOrMax(values, aggregate),
+            _ => null
+        };
+    }
 
-                if (numbers.Any(value => value is double or float))
-                {
-                    var total = numbers.Sum(value => Convert.ToDouble(value, CultureInfo.InvariantCulture));
-                    return aggregate == OmniDataGridAggregate.Sum ? total : total / numbers.Count;
-                }
-
-                var sum = numbers.Sum(value => Convert.ToDecimal(value, CultureInfo.InvariantCulture));
-                return aggregate == OmniDataGridAggregate.Sum ? sum : sum / numbers.Count;
-            case OmniDataGridAggregate.Min:
-            case OmniDataGridAggregate.Max:
-                var comparable = values.OfType<IComparable>().Where(value => value.GetType() == values[0].GetType()).ToList();
-                if (comparable.Count == 0)
-                {
-                    return null;
-                }
-
-                var best = comparable[0];
-                foreach (var value in comparable)
-                {
-                    var order = value.CompareTo(best);
-                    if (aggregate == OmniDataGridAggregate.Min ? order < 0 : order > 0)
-                    {
-                        best = value;
-                    }
-                }
-
-                return best;
-            default:
-                return null;
+    private static object? SumOrAverage(List<object> values, OmniDataGridAggregate aggregate)
+    {
+        var numbers = values.Where(IsNumber).ToList();
+        if (aggregate == OmniDataGridAggregate.Average && numbers.Count == 0)
+        {
+            return null;
         }
+
+        if (numbers.Any(value => value is double or float))
+        {
+            var total = numbers.Sum(value => Convert.ToDouble(value, CultureInfo.InvariantCulture));
+            return aggregate == OmniDataGridAggregate.Sum ? total : total / numbers.Count;
+        }
+
+        var sum = numbers.Sum(value => Convert.ToDecimal(value, CultureInfo.InvariantCulture));
+        return aggregate == OmniDataGridAggregate.Sum ? sum : sum / numbers.Count;
+    }
+
+    private static object? MinOrMax(List<object> values, OmniDataGridAggregate aggregate)
+    {
+        var comparable = values.OfType<IComparable>().Where(value => value.GetType() == values[0].GetType()).ToList();
+        if (comparable.Count == 0)
+        {
+            return null;
+        }
+
+        var best = comparable[0];
+        foreach (var value in comparable)
+        {
+            var order = value.CompareTo(best);
+            if (aggregate == OmniDataGridAggregate.Min ? order < 0 : order > 0)
+            {
+                best = value;
+            }
+        }
+
+        return best;
     }
 
     private static bool IsNumber(object value) =>

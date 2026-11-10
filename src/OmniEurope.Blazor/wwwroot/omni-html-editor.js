@@ -45,6 +45,7 @@ export function mount(surface, dotnet, html, options, editable = true) {
     const state = editorState(surface, dotnet);
     editors.set(surface, state);
     configure(surface, options);
+    // nosemgrep - html is the value .NET sanitised with OmniHtmlSanitizer (Clean) before sending it; the surface is a contenteditable the sanitiser output is meant for.
     surface.innerHTML = html ?? '';
     normalise(surface);
     state.sent = surface.innerHTML;
@@ -137,6 +138,7 @@ export function setHtml(surface, html) {
     state.timer = 0;
     const focused = surface.contains(document.activeElement);
     const offset = focused ? caretOffset(surface) : -1;
+    // nosemgrep - html is the value .NET sanitised with OmniHtmlSanitizer (Clean) before sending it.
     surface.innerHTML = html ?? '';
     normalise(surface);
     state.sent = surface.innerHTML;
@@ -334,6 +336,7 @@ export function selectedText(surface) {
 // where the replaced element was.
 function replaceNode(target, html) {
     const template = document.createElement('template');
+    // nosemgrep - html comes from replaceClosest, which .NET sanitises (Clean) before calling; the template content is inert until inserted.
     template.innerHTML = html ?? '';
     const last = template.content.lastChild;
     target.replaceWith(template.content);

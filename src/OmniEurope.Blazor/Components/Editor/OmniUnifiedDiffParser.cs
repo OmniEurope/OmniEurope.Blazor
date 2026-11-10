@@ -19,133 +19,158 @@ public static partial class OmniUnifiedDiffParser
     /// <summary>The files of <paramref name="diff"/>, in order; none for an empty text.</summary>
     public static IReadOnlyList<OmniDiffFile> Parse(string? diff)
     {
-        var files = new List<OmniDiffFile>();
+        var reader = new DiffReader();
         if (string.IsNullOrEmpty(diff))
         {
-            return files;
-        }
-
-        FileBuilder? file = null;
-        HunkBuilder? hunk = null;
-        var oldLeft = 0;
-        var newLeft = 0;
-
-        void Flush()
-        {
-            if (file is not null)
-            {
-                files.Add(file.Build());
-            }
-
-            file = null;
-            hunk = null;
-            oldLeft = 0;
-            newLeft = 0;
+            return reader.Files;
         }
 
         foreach (var raw in diff.Split('\n'))
         {
-            var line = raw.EndsWith('\r') ? raw[..^1] : raw;
+            reader.Read(raw.EndsWith('\r') ? raw[..^1] : raw);
+        }
 
-            if (hunk is not null && (oldLeft > 0 || newLeft > 0))
+        reader.Flush();
+        return reader.Files;
+    }
+
+    /// <summary>The reading state of one diff: the file and the hunk being filled, and the lines each side of the hunk still owes.</summary>
+    private sealed class DiffReader
+    {
+        private FileBuilder? _file;
+        private HunkBuilder? _hunk;
+        private int _oldLeft;
+        private int _newLeft;
+
+        internal List<OmniDiffFile> Files { get; } = [];
+
+        internal void Read(string line)
+        {
+            if (_hunk is not null && (_oldLeft > 0 || _newLeft > 0) && ReadBodyLine(_hunk, line))
             {
-                // Inside a hunk, the header counts say what each line is. An empty line stands for an
-                // unchanged empty line whose leading space a tool or an editor trimmed.
-                var marker = line.Length == 0 ? ' ' : line[0];
-                var text = line.Length == 0 ? string.Empty : line[1..];
-                if (marker == ' ')
-                {
-                    hunk.Add(OmniDiffLineKind.Context, text, true, true);
-                    oldLeft--;
-                    newLeft--;
-                    continue;
-                }
-
-                if (marker == '+')
-                {
-                    hunk.Add(OmniDiffLineKind.Added, text, false, true);
-                    newLeft--;
-                    continue;
-                }
-
-                if (marker == '-')
-                {
-                    hunk.Add(OmniDiffLineKind.Removed, text, true, false);
-                    oldLeft--;
-                    continue;
-                }
-
-                if (marker == '\\')
-                {
-                    hunk.Add(OmniDiffLineKind.Note, line[1..].Trim(), false, false);
-                    continue;
-                }
-
-                // Shorter than its header declared: the hunk ends here and the line is read as a header.
-                oldLeft = 0;
-                newLeft = 0;
+                return;
             }
 
-            if (hunk is not null && line.StartsWith('\\'))
+            if (_hunk is not null && line.StartsWith('\\'))
             {
-                hunk.Add(OmniDiffLineKind.Note, line[1..].Trim(), false, false);
-                continue;
+                _hunk.Add(OmniDiffLineKind.Note, line[1..].Trim(), false, false);
+                return;
             }
 
             if (line.StartsWith("diff --git ", StringComparison.Ordinal))
             {
                 Flush();
-                file = FileBuilder.FromGitHeader(line["diff --git ".Length..]);
-                continue;
+                _file = FileBuilder.FromGitHeader(line["diff --git ".Length..]);
+                return;
             }
 
             var header = HunkHeader().Match(line);
             if (header.Success)
             {
-                // The numbers come from external text: a range that does not fit an int, line numbers
-                // included, makes the header malformed, and the hunk is skipped rather than thrown on.
-                if (!TryRange(header.Groups[1], header.Groups[2], out var oldStart, out var oldCount)
-                    || !TryRange(header.Groups[3], header.Groups[4], out var newStart, out var newCount))
-                {
-                    hunk = null;
-                    oldLeft = 0;
-                    newLeft = 0;
-                    continue;
-                }
-
-                file ??= new FileBuilder();
-                hunk = file.StartHunk(line, oldStart, oldCount, newStart, newCount);
-                oldLeft = hunk.OldCount;
-                newLeft = hunk.NewCount;
-                continue;
+                StartHunk(line, header);
+                return;
             }
 
-            if (line.StartsWith("--- ", StringComparison.Ordinal))
-            {
-                if (file is null || file.HasHunks)
-                {
-                    Flush();
-                    file = new FileBuilder();
-                }
+            ReadFileHeader(line);
+        }
 
-                file.SetOldPath(PathOf(line[4..]));
-                continue;
+        internal void Flush()
+        {
+            if (_file is not null)
+            {
+                Files.Add(_file.Build());
             }
 
-            if (line.StartsWith("+++ ", StringComparison.Ordinal) && file is not null && !file.HasHunks)
-            {
-                file.SetNewPath(PathOf(line[4..]));
-                continue;
-            }
+            _file = null;
+            _hunk = null;
+            EndHunkBody();
+        }
 
-            if (file is not null && !file.HasHunks)
+        private void EndHunkBody()
+        {
+            _oldLeft = 0;
+            _newLeft = 0;
+        }
+
+        /// <summary>
+        /// Inside a hunk, the header counts say what each line is. An empty line stands for an unchanged empty
+        /// line whose leading space a tool or an editor trimmed. False when the line is shorter than its header
+        /// declared: the hunk ends there and the line is read as a header.
+        /// </summary>
+        private bool ReadBodyLine(HunkBuilder hunk, string line)
+        {
+            var marker = line.Length == 0 ? ' ' : line[0];
+            var text = line.Length == 0 ? string.Empty : line[1..];
+            switch (marker)
             {
-                file.ReadExtendedHeader(line);
+                case ' ':
+                    hunk.Add(OmniDiffLineKind.Context, text, true, true);
+                    _oldLeft--;
+                    _newLeft--;
+                    return true;
+                case '+':
+                    hunk.Add(OmniDiffLineKind.Added, text, false, true);
+                    _newLeft--;
+                    return true;
+                case '-':
+                    hunk.Add(OmniDiffLineKind.Removed, text, true, false);
+                    _oldLeft--;
+                    return true;
+                case '\\':
+                    hunk.Add(OmniDiffLineKind.Note, line[1..].Trim(), false, false);
+                    return true;
+                default:
+                    EndHunkBody();
+                    return false;
             }
         }
 
-        Flush();
-        return files;
+        private void StartHunk(string line, Match header)
+        {
+            // The numbers come from external text: a range that does not fit an int, line numbers
+            // included, makes the header malformed, and the hunk is skipped rather than thrown on.
+            if (!TryRange(header.Groups[1], header.Groups[2], out var oldStart, out var oldCount)
+                || !TryRange(header.Groups[3], header.Groups[4], out var newStart, out var newCount))
+            {
+                _hunk = null;
+                EndHunkBody();
+                return;
+            }
+
+            _file ??= new FileBuilder();
+            _hunk = _file.StartHunk(line, oldStart, oldCount, newStart, newCount);
+            _oldLeft = _hunk.OldCount;
+            _newLeft = _hunk.NewCount;
+        }
+
+        /// <summary>The <c>---</c> and <c>+++</c> lines and the extended header lines (mode, rename, binary) that precede the hunks of a file.</summary>
+        private void ReadFileHeader(string line)
+        {
+            if (line.StartsWith("--- ", StringComparison.Ordinal))
+            {
+                if (_file is null || _file.HasHunks)
+                {
+                    Flush();
+                    _file = new FileBuilder();
+                }
+
+                _file.SetOldPath(PathOf(line[4..]));
+                return;
+            }
+
+            if (_file is null || _file.HasHunks)
+            {
+                return;
+            }
+
+            if (line.StartsWith("+++ ", StringComparison.Ordinal))
+            {
+                _file.SetNewPath(PathOf(line[4..]));
+                return;
+            }
+
+            _file.ReadExtendedHeader(line);
+        }
     }
 
     /// <summary>

@@ -325,14 +325,9 @@ public sealed class OmniPreferences : IAsyncDisposable
 
     private async Task<string?> ReadFromAsync(PreferenceCache? cache, string key, CancellationToken cancellationToken)
     {
-        if (cache is null && _signedOut.Active)
-        {
-            return _signedOut.Read(key);
-        }
-
         if (cache is null)
         {
-            return _store is null ? null : (await _storeAccess!.TryGetAsync(key, cancellationToken))?.Value;
+            return await ReadUncachedAsync(key, cancellationToken);
         }
 
         var cached = await cache.ReadAsync(key, cancellationToken);
@@ -341,31 +336,7 @@ public sealed class OmniPreferences : IAsyncDisposable
             return cached?.Value;
         }
 
-        Task<string?>? firstRead = null;
-        TaskCompletionSource<string?>? started = null;
-        var refresh = false;
-        lock (_gate)
-        {
-            if (cache.Refreshed.Add(key))
-            {
-                if (cached is not null)
-                {
-                    refresh = true;
-                }
-                else
-                {
-                    // Registered before it runs: a read that comes while the store answers finds it.
-                    started = new(TaskCreationOptions.RunContinuationsAsynchronously);
-                    firstRead = started.Task;
-                    cache.FirstReads[key] = firstRead;
-                }
-            }
-            else if (cache.FirstReads.TryGetValue(key, out var pending))
-            {
-                firstRead = pending;
-            }
-        }
-
+        var (firstRead, started, refresh) = ClaimRead(cache, key, cached is not null);
         if (refresh)
         {
             Track(RefreshAsync(cache, key));
@@ -379,6 +350,43 @@ public sealed class OmniPreferences : IAsyncDisposable
 
         // A key read before, whose first read is over: the cache holds what the store said.
         return firstRead is null ? cached?.Value : await firstRead.WaitAsync(cancellationToken);
+    }
+
+    /// <summary>A read with no cache open: the signed-out values of this circuit, else the store itself, else nothing.</summary>
+    private async Task<string?> ReadUncachedAsync(string key, CancellationToken cancellationToken)
+    {
+        if (_signedOut.Active)
+        {
+            return _signedOut.Read(key);
+        }
+
+        return _store is null ? null : (await _storeAccess!.TryGetAsync(key, cancellationToken))?.Value;
+    }
+
+    /// <summary>
+    /// Decides, under the gate, what a read of <paramref name="key"/> owes the store: a refresh behind a cached value, the
+    /// first read of a key nothing caches (<c>Started</c>, the caller then runs it), or the wait for a first read already
+    /// under way (<c>FirstRead</c>).
+    /// </summary>
+    private (Task<string?>? FirstRead, TaskCompletionSource<string?>? Started, bool Refresh) ClaimRead(PreferenceCache cache, string key, bool isCached)
+    {
+        lock (_gate)
+        {
+            if (!cache.Refreshed.Add(key))
+            {
+                return (cache.FirstReads.GetValueOrDefault(key), null, false);
+            }
+
+            if (isCached)
+            {
+                return (null, null, true);
+            }
+
+            // Registered before it runs: a read that comes while the store answers finds it.
+            var started = new TaskCompletionSource<string?>(TaskCreationOptions.RunContinuationsAsynchronously);
+            cache.FirstReads[key] = started.Task;
+            return (started.Task, started, false);
+        }
     }
 
     /// <summary>

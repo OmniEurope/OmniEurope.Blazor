@@ -89,24 +89,15 @@ internal static class ThemePresetFactory
         // own: the fill is the authored accent moved until it clears the non-text ratio on BOTH
         // surfaces, so it can be the same in light and dark (an indigo too deep for a dark page is
         // lightened once, for both). ReadableFill then keeps its label readable.
-        var ownDarkAccent = palette.DarkAccent is not null
-            && !string.Equals(palette.DarkAccent, palette.Accent, StringComparison.OrdinalIgnoreCase);
-        var accentFill = ReadableFill(ownDarkAccent
-            ? Visible(accentColor, surface)
-            : Visible(Visible(palette.Accent, palette.LightSurface), palette.DarkSurface));
-        var successFill = ReadableFill(Visible(palette.Success, surface));
-        var infoFill = ReadableFill(Visible(palette.Info, surface));
-        var warningFill = ReadableFill(Visible(palette.Warning, surface));
-        var dangerFill = ReadableFill(Visible(palette.Danger, surface));
+        var fills = BuildFills(palette, accentColor, surface);
+        var (accentFill, successFill, infoFill, warningFill, dangerFill) = (fills.Accent, fills.Success, fills.Info, fills.Warning, fills.Danger);
 
         var warningDeep = PushApart(warningFill, OnDeep, BodyTextRatio);
         var dangerDeep = PushApart(dangerFill, OnDeep, BodyTextRatio);
         var infoBright = PushApart(infoFill, OnBright, BodyTextRatio);
         var successBright = PushApart(successFill, OnBright, BodyTextRatio);
 
-        var surfaceMuted = dark ? ThemeColor.Lighten(surface, 0.06) : ThemeColor.Darken(surface, 0.04);
-        var surfaceHover = dark ? ThemeColor.Lighten(surface, 0.12) : ThemeColor.Darken(surface, 0.08);
-        var surfaceHighlight = dark ? ThemeColor.Lighten(surface, 0.16) : ThemeColor.Darken(surface, 0.1);
+        var (surfaceMuted, surfaceHover, surfaceHighlight) = RaisedSurfaces(surface, dark);
         // The strong accent is text on the page and on its hover and highlight rows: it clears the body
         // ratio against the furthest of them, the highlight, and not only against the plain surface.
         var accentStrong = PushApart(
@@ -166,26 +157,10 @@ internal static class ThemePresetFactory
             ["--omni-color-neutral-fill"] = neutralFill,
             ["--omni-color-neutral-fill-hover"] = TowardWhileReadable(neutralFill, text, text, 0.1),
             ["--omni-color-neutral-fill-active"] = TowardWhileReadable(neutralFill, text, text, 0.18),
-            // Elevation depends on the mode, not on the palette: a 22 % black shadow disappears on a
-            // dark page, and the top-edge highlight only exists in dark mode.
-            ["--omni-elevation-shadow"] = dark ? "rgb(0 0 0 / 60%)" : "rgb(0 0 0 / 22%)",
-            ["--omni-elevation-shadow-soft"] = dark ? "rgb(0 0 0 / 40%)" : "rgb(0 0 0 / 12%)",
-            ["--omni-elevation-highlight"] = dark ? "rgb(255 255 255 / 7%)" : "rgb(255 255 255 / 0%)",
-            // Trial (PLAN-004 T14), kept together so that removing it is one commit: a layer drawn
-            // after the menus of a desktop system, recreated from the rendering, no code reused. In
-            // dark mode the layer is one step lighter than the page with a light hairline and a top
-            // highlight, since a shadow alone detaches nothing there.
-            ["--omni-layer-fill"] = dark ? ThemeColor.Lighten(surface, 0.05) : surface,
-            ["--omni-layer-stroke"] = dark ? "rgb(255 255 255 / 9%)" : "rgb(0 0 0 / 7%)",
-            ["--omni-layer-shadow"] = dark
-                ? "inset 0 1px 0 rgb(255 255 255 / 5%), 0 0 2px rgb(0 0 0 / 30%), 0 4px 10px rgb(0 0 0 / 34%)"
-                : "0 0 2px rgb(0 0 0 / 10%), 0 4px 10px rgb(0 0 0 / 8%)",
-            ["--omni-layer-shadow-deep"] = dark
-                ? "inset 0 1px 0 rgb(255 255 255 / 6%), 0 0 4px rgb(0 0 0 / 34%), 0 16px 40px rgb(0 0 0 / 46%)"
-                : "0 0 4px rgb(0 0 0 / 10%), 0 16px 40px rgb(0 0 0 / 16%)",
-            ["--omni-layer-acrylic"] = WithAlpha(dark ? ThemeColor.Lighten(surface, 0.07) : ThemeColor.Darken(surface, 0.015), dark ? 0.86 : 0.84),
         };
 
+        AddElevationTokens(tokens, dark);
+        AddLayerTokens(tokens, surface, dark);
         AddChartSeries(tokens, dark ? DarkSeries : LightSeries);
         AddFill(tokens, "accent", accentFill);
         AddFill(tokens, "success", successFill);
@@ -203,6 +178,55 @@ internal static class ThemePresetFactory
         });
         AnsiTokenBuilder.AddTo(tokens, dark);
         return tokens;
+    }
+
+    /// <summary>Elevation depends on the mode, not on the palette: a 22 % black shadow disappears on a dark page, and the top-edge highlight only exists in dark mode.</summary>
+    private static void AddElevationTokens(Dictionary<string, string> tokens, bool dark)
+    {
+        tokens["--omni-elevation-shadow"] = dark ? "rgb(0 0 0 / 60%)" : "rgb(0 0 0 / 22%)";
+        tokens["--omni-elevation-shadow-soft"] = dark ? "rgb(0 0 0 / 40%)" : "rgb(0 0 0 / 12%)";
+        tokens["--omni-elevation-highlight"] = dark ? "rgb(255 255 255 / 7%)" : "rgb(255 255 255 / 0%)";
+    }
+
+    /// <summary>
+    /// Trial (PLAN-004 T14), kept together so that removing it is one commit: a layer drawn after the menus of a
+    /// desktop system, recreated from the rendering, no code reused. In dark mode the layer is one step lighter than
+    /// the page with a light hairline and a top highlight, since a shadow alone detaches nothing there.
+    /// </summary>
+    private static void AddLayerTokens(Dictionary<string, string> tokens, string surface, bool dark)
+    {
+        tokens["--omni-layer-fill"] = dark ? ThemeColor.Lighten(surface, 0.05) : surface;
+        tokens["--omni-layer-stroke"] = dark ? "rgb(255 255 255 / 9%)" : "rgb(0 0 0 / 7%)";
+        tokens["--omni-layer-shadow"] = dark
+            ? "inset 0 1px 0 rgb(255 255 255 / 5%), 0 0 2px rgb(0 0 0 / 30%), 0 4px 10px rgb(0 0 0 / 34%)"
+            : "0 0 2px rgb(0 0 0 / 10%), 0 4px 10px rgb(0 0 0 / 8%)";
+        tokens["--omni-layer-shadow-deep"] = dark
+            ? "inset 0 1px 0 rgb(255 255 255 / 6%), 0 0 4px rgb(0 0 0 / 34%), 0 16px 40px rgb(0 0 0 / 46%)"
+            : "0 0 4px rgb(0 0 0 / 10%), 0 16px 40px rgb(0 0 0 / 16%)";
+        tokens["--omni-layer-acrylic"] = WithAlpha(dark ? ThemeColor.Lighten(surface, 0.07) : ThemeColor.Darken(surface, 0.015), dark ? 0.86 : 0.84);
+    }
+
+    /// <summary>The muted, hovered and highlighted rows of a page surface: lighter in dark mode, darker in light mode.</summary>
+    private static (string Muted, string Hover, string Highlight) RaisedSurfaces(string surface, bool dark) => dark
+        ? (ThemeColor.Lighten(surface, 0.06), ThemeColor.Lighten(surface, 0.12), ThemeColor.Lighten(surface, 0.16))
+        : (ThemeColor.Darken(surface, 0.04), ThemeColor.Darken(surface, 0.08), ThemeColor.Darken(surface, 0.1));
+
+    private readonly record struct Fills(string Accent, string Success, string Info, string Warning, string Danger);
+
+    /// <summary>The fill of each tone: the authored colour moved until it stands out from the surface, then made readable.</summary>
+    private static Fills BuildFills(PaletteDefinition palette, string accentColor, string surface)
+    {
+        var ownDarkAccent = palette.DarkAccent is not null
+            && !string.Equals(palette.DarkAccent, palette.Accent, StringComparison.OrdinalIgnoreCase);
+        var accentFill = ReadableFill(ownDarkAccent
+            ? Visible(accentColor, surface)
+            : Visible(Visible(palette.Accent, palette.LightSurface), palette.DarkSurface));
+        return new Fills(
+            accentFill,
+            ReadableFill(Visible(palette.Success, surface)),
+            ReadableFill(Visible(palette.Info, surface)),
+            ReadableFill(Visible(palette.Warning, surface)),
+            ReadableFill(Visible(palette.Danger, surface)));
     }
 
     /// <summary>

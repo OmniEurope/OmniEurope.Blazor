@@ -77,78 +77,72 @@ export function describe(surface) {
     return `${pressed.join(' ')}|${tag}|${align}|${size}`;
 }
 
+/// The commands the browser runs by name, with nothing to decide: action -> execCommand name.
+const nativeCommands = {
+    bold: 'bold',
+    italic: 'italic',
+    underline: 'underline',
+    subscript: 'subscript',
+    superscript: 'superscript',
+    strikethrough: 'strikeThrough',
+    insertparagraph: 'insertParagraph'
+};
+
+const alignActions = new Set(['alignleft', 'aligncenter', 'alignright', 'alignjustify']);
+
+const tableActions = new Set([
+    'addrowabove', 'addrowbelow', 'deleterow', 'addcolumnbefore', 'addcolumnafter', 'deletecolumn',
+    'mergecellright', 'mergecelldown', 'splitcell', 'setcellspan'
+]);
+
 export function apply(surface, range, action, argument) {
     const within = selector => {
         const found = elementOf(range.startContainer)?.closest(selector);
         return found && found !== surface && surface.contains(found) ? found : null;
     };
+    const context = { surface, range, action, argument, within };
 
+    if (Object.hasOwn(nativeCommands, action)) {
+        document.execCommand(nativeCommands[action]);
+    }
+    else if (action === 'cut' || action === 'copy') {
+        // The only commands that wait: for the clipboard, where the browser refuses its own command.
+        return copySelection(range, action === 'cut');
+    }
+    else if (alignActions.has(action)) {
+        applyAlignment(surface, action.slice('align'.length));
+    }
+    else if (tableActions.has(action)) {
+        const cell = within('td,th');
+        if (cell) {
+            editTable(cell, action, argument);
+        }
+    }
+    else {
+        // Each group says whether it knows the action; an action none knows does nothing.
+        if (!applyInline(context) && !applyBlock(context)) {
+            applyInsertion(context);
+        }
+    }
+
+    return undefined;
+}
+
+// Marks and runs of text: the highlight, the inline code, the size, the link, the case, the formatting.
+function applyInline({ surface, range, action, argument, within }) {
     switch (action) {
-        case 'bold':
-        case 'italic':
-        case 'underline':
-        case 'subscript':
-        case 'superscript':
-            document.execCommand(action);
-            break;
-        case 'strikethrough':
-            document.execCommand('strikeThrough');
-            break;
         case 'highlight':
             toggleHighlight(range, within);
-            break;
+            return true;
         case 'inlinecode':
             toggleInlineCode(range, within);
-            break;
-        case 'blockformat':
-            document.execCommand('formatBlock', false, `<${/^h[1-4]$/.test(argument) ? argument : 'p'}>`);
-            break;
+            return true;
         case 'fontsize':
             applySize(surface, argument in sizeClasses ? argument : 'normal');
-            break;
-        case 'bulletlist':
-        case 'numberedlist': {
-            // The same list asked again inside itself turns its items back into paragraphs.
-            const item = within('li');
-            const same = action === 'bulletlist' ? 'UL' : 'OL';
-            if (item && item.parentElement?.tagName === same) {
-                unlist(range, item);
-            }
-            else {
-                document.execCommand(action === 'bulletlist' ? 'insertUnorderedList' : 'insertOrderedList');
-            }
-            break;
-        }
-        case 'indent':
-            if (within('li')) {
-                document.execCommand('indent');
-            }
-            else {
-                document.execCommand('formatBlock', false, '<blockquote>');
-            }
-            break;
-        case 'outdent':
-            if (within('li')) {
-                document.execCommand('outdent');
-            }
-            else {
-                unwrapQuote(within('blockquote'));
-            }
-            break;
-        case 'quote':
-            if (within('blockquote')) {
-                unwrapQuote(within('blockquote'));
-            }
-            else {
-                document.execCommand('formatBlock', false, '<blockquote>');
-            }
-            break;
-        case 'codeblock':
-            document.execCommand('formatBlock', false, within('pre') ? '<p>' : '<pre>');
-            break;
+            return true;
         case 'link':
             applyLink(surface, range, within, argument);
-            break;
+            return true;
         case 'unlink':
             if (within('a')) {
                 unwrap(within('a'));
@@ -156,60 +150,94 @@ export function apply(surface, range, action, argument) {
             else {
                 document.execCommand('unlink');
             }
-            break;
-        case 'alignleft':
-        case 'aligncenter':
-        case 'alignright':
-        case 'alignjustify':
-            applyAlignment(surface, action.slice('align'.length));
-            break;
-        case 'inserttable':
-            insertHtmlAt(surface, range, tableHtml(argument));
-            break;
+            return true;
+        case 'changecase':
+            changeCase(surface, range, argument);
+            return true;
         case 'clearformatting':
             clearFormatting(surface);
-            break;
+            return true;
+        default:
+            return false;
+    }
+}
+
+// Blocks: the block tag, lists, indentation, quotes and code blocks.
+function applyBlock({ range, action, argument, within }) {
+    switch (action) {
+        case 'blockformat':
+            document.execCommand('formatBlock', false, `<${/^h[1-4]$/.test(argument) ? argument : 'p'}>`);
+            return true;
+        case 'bulletlist':
+        case 'numberedlist':
+            toggleList(range, action, within);
+            return true;
+        case 'indent':
+            if (within('li')) {
+                document.execCommand('indent');
+            }
+            else {
+                document.execCommand('formatBlock', false, '<blockquote>');
+            }
+            return true;
+        case 'outdent':
+            if (within('li')) {
+                document.execCommand('outdent');
+            }
+            else {
+                unwrapQuote(within('blockquote'));
+            }
+            return true;
+        case 'quote':
+            if (within('blockquote')) {
+                unwrapQuote(within('blockquote'));
+            }
+            else {
+                document.execCommand('formatBlock', false, '<blockquote>');
+            }
+            return true;
+        case 'codeblock':
+            document.execCommand('formatBlock', false, within('pre') ? '<p>' : '<pre>');
+            return true;
+        default:
+            return false;
+    }
+}
+
+// Content put in at the caret: a table, HTML .NET has sanitised, plain text.
+function applyInsertion({ surface, range, action, argument }) {
+    switch (action) {
+        case 'inserttable':
+            insertHtmlAt(surface, range, tableHtml(argument));
+            return true;
         case 'inserthtml':
             if (argument) {
                 insertHtmlAt(surface, range, argument);
             }
-            break;
+            return true;
         case 'inserttext':
             if (argument) {
                 document.execCommand('insertText', false, argument);
             }
-            break;
-        case 'changecase':
-            changeCase(surface, range, argument);
-            break;
-        case 'cut':
-        case 'copy':
-            return copySelection(range, action === 'cut');
-        case 'insertparagraph':
-            document.execCommand('insertParagraph');
-            break;
-        case 'addrowabove':
-        case 'addrowbelow':
-        case 'deleterow':
-        case 'addcolumnbefore':
-        case 'addcolumnafter':
-        case 'deletecolumn':
-        case 'mergecellright':
-        case 'mergecelldown':
-        case 'splitcell':
-        case 'setcellspan': {
-            const cell = within('td,th');
-            if (cell) {
-                editTable(cell, action, argument);
-            }
-            break;
-        }
+            return true;
         default:
-            break;
+            return false;
     }
 }
 
-// Rewrites the case of the selected text in place, text node by text node, so every bold, link or
+// The same list asked again inside itself turns its items back into paragraphs.
+function toggleList(range, action, within) {
+    const item = within('li');
+    const same = action === 'bulletlist' ? 'UL' : 'OL';
+    if (item && item.parentElement?.tagName === same) {
+        unlist(range, item);
+    }
+    else {
+        document.execCommand(action === 'bulletlist' ? 'insertUnorderedList' : 'insertOrderedList');
+    }
+}
+
+/ Rewrites the case of the selected text in place, text node by text node, so every bold, link or
 // note around it stays. Title case capitalises a letter that follows a space, including across nodes.
 // A mark around the selection, or none: the caret in a mark unwraps it, keeping its text.
 function toggleHighlight(range, within) {

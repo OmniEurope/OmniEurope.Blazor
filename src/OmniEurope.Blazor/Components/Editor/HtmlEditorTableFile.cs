@@ -62,73 +62,101 @@ internal static class HtmlEditorTableFile
     /// </summary>
     internal static IReadOnlyList<IReadOnlyList<string>> ReadDelimited(string text, char delimiter, out bool truncated)
     {
-        var rows = new List<IReadOnlyList<string>>();
-        var row = new List<string>();
-        var cell = new StringBuilder();
-        var quoted = false;
-
-        void EndRow()
-        {
-            row.Add(cell.ToString());
-            cell.Clear();
-            if (row.Any(value => !string.IsNullOrWhiteSpace(value)))
-            {
-                rows.Add(row);
-            }
-
-            row = [];
-        }
+        var reader = new DelimitedReader(delimiter);
 
         // One row more than kept is read, to know the file went beyond the limit.
-        for (var index = 0; index < text.Length && rows.Count < MaxRows + 2; index++)
+        for (var index = 0; index < text.Length && reader.Rows.Count < MaxRows + 2; index++)
+        {
+            index = reader.Read(text, index);
+        }
+
+        reader.Finish();
+        return Shape(reader.Rows, out truncated);
+    }
+
+    /// <summary>The state of a CSV or TSV read: the rows done, the row and the cell being filled, and whether a quote is open.</summary>
+    private sealed class DelimitedReader(char delimiter)
+    {
+        private List<string> _row = [];
+        private readonly StringBuilder _cell = new();
+        private bool _quoted;
+
+        internal List<IReadOnlyList<string>> Rows { get; } = [];
+
+        /// <summary>Reads the character at <paramref name="index"/>; returns the index of the last character it used.</summary>
+        internal int Read(string text, int index)
         {
             var character = text[index];
-            if (quoted)
+            if (_quoted)
             {
-                if (character != '"')
-                {
-                    cell.Append(character);
-                }
-                else if (index + 1 < text.Length && text[index + 1] == '"')
-                {
-                    cell.Append('"');
-                    index++;
-                }
-                else
-                {
-                    quoted = false;
-                }
+                return ReadQuoted(text, index);
             }
-            else if (character == '"' && cell.Length == 0)
+
+            if (character == '"' && _cell.Length == 0)
             {
-                quoted = true;
+                _quoted = true;
             }
             else if (character == delimiter)
             {
-                row.Add(cell.ToString());
-                cell.Clear();
+                _row.Add(_cell.ToString());
+                _cell.Clear();
             }
             else if (character is '\r' or '\n')
             {
-                if (character == '\r' && index + 1 < text.Length && text[index + 1] == '\n')
-                {
-                    index++;
-                }
-
+                // A CRLF pair ends the row once.
+                var pair = character == '\r' && index + 1 < text.Length && text[index + 1] == '\n';
                 EndRow();
+                return pair ? index + 1 : index;
             }
             else
             {
-                cell.Append(character);
+                _cell.Append(character);
+            }
+
+            return index;
+        }
+
+        /// <summary>The row a text ends on, when it has no final line break.</summary>
+        internal void Finish()
+        {
+            if (_cell.Length > 0 || _row.Count > 0)
+            {
+                EndRow();
             }
         }
 
-        if (cell.Length > 0 || row.Count > 0)
+        private int ReadQuoted(string text, int index)
         {
-            EndRow();
+            var character = text[index];
+            if (character != '"')
+            {
+                _cell.Append(character);
+            }
+            else if (index + 1 < text.Length && text[index + 1] == '"')
+            {
+                // A doubled quote is one literal quote.
+                _cell.Append('"');
+                return index + 1;
+            }
+            else
+            {
+                _quoted = false;
+            }
+
+            return index;
         }
 
-        return Shape(rows, out truncated);
+        private void EndRow()
+        {
+            _row.Add(_cell.ToString());
+            _cell.Clear();
+            if (_row.Any(value => !string.IsNullOrWhiteSpace(value)))
+            {
+                Rows.Add(_row);
+            }
+
+            _row = [];
+        }
     }
 
     /// <summary>

@@ -138,6 +138,7 @@ function join(first, second) {
 // a caret inside a list or a table, is left to insertHTML.
 export function insertBlocks(surface, range, html) {
     const template = document.createElement('template');
+    // nosemgrep - every caller passes sanitized HTML (OmniHtmlSanitizer output) or markup it escaped itself (tableHtml, escapeHtml).
     template.innerHTML = html;
     const nodes = [...template.content.childNodes];
     if (!nodes.some(node => node.nodeType === Node.ELEMENT_NODE && node.matches('p,h1,h2,h3,h4,h5,h6,blockquote,pre,ul,ol,table,div,hr'))) {

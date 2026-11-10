@@ -71,6 +71,12 @@ internal static class GridPropertyAccessor
 
     private static readonly ConcurrentDictionary<(Type Type, string Path), bool> NumericCache = new();
 
+    private static readonly HashSet<Type> NumericTypes =
+    [
+        typeof(int), typeof(long), typeof(short), typeof(byte), typeof(uint), typeof(ulong), typeof(ushort),
+        typeof(sbyte), typeof(decimal), typeof(double), typeof(float)
+    ];
+
     /// <summary>
     /// Whether the dotted path ends on a number (integer or decimal, nullable or not), so the grid
     /// can align the column at the end in figures of one width. An unknown path is not numeric.
@@ -82,38 +88,21 @@ internal static class GridPropertyAccessor
             return false;
         }
 
-        return NumericCache.GetOrAdd((typeof(TItem), path), static key =>
-        {
-            var current = key.Type;
-            foreach (var segment in key.Path.Split('.', StringSplitOptions.RemoveEmptyEntries))
-            {
-                var member = FindMember(current, segment);
-                if (member is null)
-                {
-                    return false;
-                }
-
-                current = member is PropertyInfo property ? property.PropertyType : ((FieldInfo)member).FieldType;
-            }
-
-            var type = Nullable.GetUnderlyingType(current) ?? current;
-            return type == typeof(int) || type == typeof(long) || type == typeof(short) || type == typeof(byte)
-                || type == typeof(uint) || type == typeof(ulong) || type == typeof(ushort) || type == typeof(sbyte)
-                || type == typeof(decimal) || type == typeof(double) || type == typeof(float);
-        });
+        return NumericCache.GetOrAdd(
+            (typeof(TItem), path),
+            static key => ResolveValueType(key.Type, key.Path) is { } type && NumericTypes.Contains(type));
     }
+
     /// <summary>
     /// The value type the dotted path ends on, nullable unwrapped, or null for an unknown path. The
     /// filter menu offers the operators that type can be compared with.
     /// </summary>
-    internal static Type? ValueType<TItem>(string? path)
-    {
-        if (string.IsNullOrWhiteSpace(path))
-        {
-            return null;
-        }
+    internal static Type? ValueType<TItem>(string? path) =>
+        string.IsNullOrWhiteSpace(path) ? null : ResolveValueType(typeof(TItem), path);
 
-        var current = typeof(TItem);
+    private static Type? ResolveValueType(Type root, string path)
+    {
+        var current = root;
         foreach (var segment in path.Split('.', StringSplitOptions.RemoveEmptyEntries))
         {
             var member = FindMember(current, segment);
