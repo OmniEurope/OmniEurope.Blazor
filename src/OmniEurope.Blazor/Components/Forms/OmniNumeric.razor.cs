@@ -65,9 +65,28 @@ public partial class OmniNumeric<TValue>
 
     private string? DisplayValue => _typedBeforeClamp ?? CurrentValueAsString;
 
-    private void HandleChange(ChangeEventArgs args)
+    // The text typed since the last commit. The value is still committed on change (focus out), so a
+    // half-typed number is never parsed, clamped or validated keystroke by keystroke; but Enter commits
+    // it at once, before the keydown bubbles to a host that submits on it (OmniInlineFormKeyHost on
+    // Ctrl+Enter, a form on Enter), which would otherwise read the previous value. Null when nothing
+    // is pending.
+    private string? _pendingText;
+
+    private void HandleInput(ChangeEventArgs args) => _pendingText = args.Value?.ToString() ?? string.Empty;
+
+    private void HandleKeyDown(KeyboardEventArgs args)
     {
-        var typed = args.Value?.ToString();
+        if (args.Key is "Enter" or "NumpadEnter" && _pendingText is not null)
+        {
+            Commit(_pendingText);
+        }
+    }
+
+    private void HandleChange(ChangeEventArgs args) => Commit(args.Value?.ToString());
+
+    private void Commit(string? typed)
+    {
+        _pendingText = null;
         _clamped = false;
         CurrentValueAsString = typed;
         if (_clamped)

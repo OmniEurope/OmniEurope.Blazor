@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Fixed
+
+- `OmniNumeric` : dans un `OmniInlineFormKeyHost`, Ctrl+Entrée soumettait la ligne avec l'ancienne valeur du dernier champ numérique, encore jamais quitté (345 tapé, `null` reçu), car le champ ne publiait sa valeur qu'à l'événement `change`, au départ du focus. Le champ retient maintenant le texte tapé et le publie dès Entrée ou Entrée du pavé numérique, avant que la touche ne remonte à l'hôte (ou à un formulaire qui soumet sur Entrée). La valeur reste publiée au départ du focus comme avant, jamais à chaque frappe : un nombre à moitié tapé n'est ni lu, ni borné, ni validé. Aucun changement d'API publique. Demande d'une application cliente. Preuve : `InlineFormKeyHostTests` (échoue sans la correction) ; dans la vitrine, exemple « Inline row keys » de la page Validation, 345 puis 12.5 tapés dans Price et Ctrl+Entrée sans quitter le champ affichent « price 345 » puis « price 12.5 ».
+
 ## [1.12.2] - 2026-11-09
 
 ### Added

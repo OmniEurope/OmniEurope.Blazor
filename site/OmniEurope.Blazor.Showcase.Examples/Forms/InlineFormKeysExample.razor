@@ -1,9 +1,11 @@
 @* An inline row of editors inside OmniInlineFormKeyHost: Ctrl+Enter (Cmd+Enter on a Mac) saves it and Escape
-   cancels it. A plain Enter in the text area still adds a line. *@
+   cancels it. A plain Enter in the text area still adds a line. The price is the last field: Ctrl+Enter saves the number
+   just typed, without leaving the field first. *@
 <OmniInlineFormKeyHost OnSubmit="Save" OnCancel="Cancel">
     <OmniStack Gap="OmniSpacing.Small">
         <OmniTextBox Id="demo-inline-title" @bind-Value="Title" Placeholder="Title" aria-label="Title" />
         <OmniTextArea Id="demo-inline-notes" @bind-Value="Notes" Placeholder="Notes" aria-label="Notes" />
+        <OmniNumeric Id="demo-inline-price" TValue="decimal?" @bind-Value="Price" Placeholder="Price" aria-label="Price" />
         <OmniText Id="demo-inline-status" Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Status</OmniText>
     </OmniStack>
 </OmniInlineFormKeyHost>
