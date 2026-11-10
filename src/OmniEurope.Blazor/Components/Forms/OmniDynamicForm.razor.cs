@@ -97,51 +97,14 @@ public partial class OmniDynamicForm : IDisposable
 
         if (fieldsChanged)
         {
-            foreach (var name in _states.Keys.Where(name => Fields.All(field => !string.Equals(field.Name, name, StringComparison.OrdinalIgnoreCase))).ToArray())
-            {
-                _states.Remove(name);
-                _messages.Remove(name);
-                _shown.Remove(name);
-            }
+            ForgetRemovedFields();
         }
 
         if (fieldsChanged || valuesChanged)
         {
             foreach (var field in Fields)
             {
-                if (!_states.TryGetValue(field.Name, out var state))
-                {
-                    state = new FieldState();
-                    _states[field.Name] = state;
-                }
-                else if (!valuesChanged)
-                {
-                    if (state.Kind == field.Kind)
-                    {
-                        continue;
-                    }
-
-                    // Same name, another kind: each kind reads its own member, so the value is carried over.
-                    if (state.Write(state.Kind) is { } held)
-                    {
-                        state.Load(field.Kind, held);
-                        continue;
-                    }
-                }
-
-                if (Values is not null && Values.TryGetValue(field.Name, out var value))
-                {
-                    state.Load(field.Kind, value);
-                }
-                else if (field.DefaultValue is not null)
-                {
-                    state.Load(field.Kind, field.DefaultValue);
-                    _seedPending = true;
-                }
-                else
-                {
-                    state.Load(field.Kind, null);
-                }
+                LoadField(field, valuesChanged);
             }
 
             _store.Clear();
@@ -155,6 +118,57 @@ public partial class OmniDynamicForm : IDisposable
         {
             _seedPending = false;
             await EmitAsync();
+        }
+    }
+
+    private void ForgetRemovedFields()
+    {
+        foreach (var name in _states.Keys.Where(name => Fields.All(field => !string.Equals(field.Name, name, StringComparison.OrdinalIgnoreCase))).ToArray())
+        {
+            _states.Remove(name);
+            _messages.Remove(name);
+            _shown.Remove(name);
+        }
+    }
+
+    /// <summary>
+    /// Reloads one field: a field already held keeps what it holds when only its kind changed (converted to the new
+    /// kind), else it takes its incoming value, else its default (which asks for a seed emission), else empty.
+    /// </summary>
+    private void LoadField(OmniDynamicField field, bool valuesChanged)
+    {
+        if (!_states.TryGetValue(field.Name, out var state))
+        {
+            state = new FieldState();
+            _states[field.Name] = state;
+        }
+        else if (!valuesChanged)
+        {
+            if (state.Kind == field.Kind)
+            {
+                return;
+            }
+
+            // Same name, another kind: each kind reads its own member, so the value is carried over.
+            if (state.Write(state.Kind) is { } held)
+            {
+                state.Load(field.Kind, held);
+                return;
+            }
+        }
+
+        if (Values is not null && Values.TryGetValue(field.Name, out var value))
+        {
+            state.Load(field.Kind, value);
+        }
+        else if (field.DefaultValue is not null)
+        {
+            state.Load(field.Kind, field.DefaultValue);
+            _seedPending = true;
+        }
+        else
+        {
+            state.Load(field.Kind, null);
         }
     }
 

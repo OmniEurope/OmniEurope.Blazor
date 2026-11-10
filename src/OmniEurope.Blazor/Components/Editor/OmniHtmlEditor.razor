@@ -263,7 +263,31 @@
                             <p class="omni-html-editor__panel-note" role="status">@Localize("HtmlEditorImportTableTruncated")</p>
                         }
                         <div class="omni-html-editor__table-preview omni-rich-text" role="region" aria-label="@Localize("HtmlEditorImportTablePreview")">
-                            @((MarkupString)HtmlEditorTableFile.ToHtml(rows.Take(6).ToList(), _panels.TableHeader))
+                            @* The first rows as a table built from markup, each cell encoded by Razor: no raw HTML from the imported file reaches the page. *@
+                            <table>
+                                @if (_panels.TableHeader)
+                                {
+                                    <thead>
+                                        <tr>
+                                            @foreach (var cell in rows[0])
+                                            {
+                                                <th>@cell</th>
+                                            }
+                                        </tr>
+                                    </thead>
+                                }
+                                <tbody>
+                                    @foreach (var row in rows.Take(6).Skip(_panels.TableHeader ? 1 : 0).Take(HtmlEditorTableFile.MaxRows))
+                                    {
+                                        <tr>
+                                            @foreach (var cell in row)
+                                            {
+                                                <td>@cell</td>
+                                            }
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
                         <div class="omni-html-editor__panel-bar">
                             <OmniCheckBox Class="omni-html-editor__check" @bind-Value="_panels.TableHeader">@Localize("HtmlEditorImportTableHeader")</OmniCheckBox>

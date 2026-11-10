@@ -113,24 +113,7 @@ public partial class OmniDurationPicker
             return;
         }
 
-        TimeSpan? result = null;
-        if (hours is not null || minutes is not null)
-        {
-            var total = (long)Math.Max(hours ?? 0, 0) * 60 + Math.Max(minutes ?? 0, 0);
-            var span = TimeSpan.FromMinutes(Math.Min(total, (long)TimeSpan.MaxValue.TotalMinutes));
-            if (Min is { } min && span < min)
-            {
-                span = min;
-            }
-
-            if (Max is { } max && span > max)
-            {
-                span = max;
-            }
-
-            result = span;
-        }
-
+        var result = Bounded(hours, minutes);
         Show(result);
         // A field left empty stays empty while its share is zero: only when both are empty is the group null.
         _hours = hours is null && _hours == 0 ? null : _hours;
@@ -144,5 +127,28 @@ public partial class OmniDurationPicker
 
         _synced = result;
         CurrentValue = result;
+    }
+
+    /// <summary>The duration the two fields hold, held between <see cref="Min"/> and <see cref="Max"/>; null when both are empty.</summary>
+    private TimeSpan? Bounded(int? hours, int? minutes)
+    {
+        if (hours is null && minutes is null)
+        {
+            return null;
+        }
+
+        var total = (long)Math.Max(hours ?? 0, 0) * 60 + Math.Max(minutes ?? 0, 0);
+        var span = TimeSpan.FromMinutes(Math.Min(total, (long)TimeSpan.MaxValue.TotalMinutes));
+        if (Min is { } min && span < min)
+        {
+            span = min;
+        }
+
+        if (Max is { } max && span > max)
+        {
+            span = max;
+        }
+
+        return span;
     }
 }

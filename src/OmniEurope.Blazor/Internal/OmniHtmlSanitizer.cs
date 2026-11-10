@@ -129,6 +129,44 @@ internal static class OmniHtmlSanitizer
                 entry => Normalize(entry.Key),
                 entry => entry.Value.Select(Normalize).ToHashSet(StringComparer.OrdinalIgnoreCase),
                 StringComparer.OrdinalIgnoreCase);
+        RejectForbiddenEntries(policy, extraTags, extraAttributes, extraClasses, tagAttributes);
+
+        var sanitizer = new HtmlSanitizer();
+        ApplyAllowLists(sanitizer, policy, extraTags, extraAttributes, extraClasses);
+
+        // HtmlSanitizer only knows attributes allowed everywhere: one granted to some elements only is
+        // allowed everywhere there, then removed below from the elements it was not granted to.
+        var globalAttributes = new HashSet<string>(sanitizer.AllowedAttributes, StringComparer.OrdinalIgnoreCase);
+        var scopedAttributes = tagAttributes.Values
+            .SelectMany(names => names)
+            .Where(name => !globalAttributes.Contains(name))
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        sanitizer.AllowedAttributes.UnionWith(scopedAttributes);
+
+        if (policy?.AllowImageDataUris == true)
+        {
+            sanitizer.FilterUrl += static (_, eventArgs) => AllowImageDataUri(eventArgs);
+        }
+
+        sanitizer.RemovingTag += static (_, eventArgs) =>
+        {
+            if (eventArgs.Reason == RemoveReason.NotAllowedTag && TransparentTagNames.Contains(eventArgs.Tag.LocalName))
+            {
+                KeepChildren(eventArgs.Tag);
+            }
+        };
+        sanitizer.PostProcessNode += (_, eventArgs) => PostProcess(eventArgs.Node, scopedAttributes, tagAttributes);
+        return sanitizer;
+    }
+
+    /// <summary>Fails where the host set the policy when it names an element, an attribute or a class that can never be allowed.</summary>
+    private static void RejectForbiddenEntries(
+        OmniHtmlSanitizerPolicy? policy,
+        string[] extraTags,
+        string[] extraAttributes,
+        string[] extraClasses,
+        Dictionary<string, HashSet<string>> tagAttributes)
+    {
         var forbiddenTag = extraTags.Concat(tagAttributes.Keys).FirstOrDefault(ForbiddenTagNames.Contains);
         if (forbiddenTag is not null)
         {
@@ -146,8 +184,16 @@ internal static class OmniHtmlSanitizer
         {
             throw new ArgumentException($"'{invalidClass}' is not a single CSS class name.", nameof(policy));
         }
+    }
 
-        var sanitizer = new HtmlSanitizer();
+    /// <summary>Replaces every default of the sanitiser with the closed lists of the package, plus the policy's own additions.</summary>
+    private static void ApplyAllowLists(
+        HtmlSanitizer sanitizer,
+        OmniHtmlSanitizerPolicy? policy,
+        string[] extraTags,
+        string[] extraAttributes,
+        string[] extraClasses)
+    {
         sanitizer.AllowedTags.Clear();
         sanitizer.AllowedTags.UnionWith(AllowedTagNames);
         sanitizer.AllowedTags.UnionWith(extraTags);
@@ -169,66 +215,48 @@ internal static class OmniHtmlSanitizer
         sanitizer.UriAttributes.UnionWith(UriAttributeNames);
         sanitizer.AllowedCssProperties.Clear();
         sanitizer.AllowedAtRules.Clear();
+    }
 
-        // HtmlSanitizer only knows attributes allowed everywhere: one granted to some elements only is
-        // allowed everywhere there, then removed below from the elements it was not granted to.
-        var globalAttributes = new HashSet<string>(sanitizer.AllowedAttributes, StringComparer.OrdinalIgnoreCase);
-        var scopedAttributes = tagAttributes.Values
-            .SelectMany(names => names)
-            .Where(name => !globalAttributes.Contains(name))
-            .ToHashSet(StringComparer.OrdinalIgnoreCase);
-        sanitizer.AllowedAttributes.UnionWith(scopedAttributes);
-
-        if (policy?.AllowImageDataUris == true)
+    /// <summary>Keeps a <c>data:image/...</c> source on an image when the policy allows it, and nowhere else.</summary>
+    private static void AllowImageDataUri(FilterUrlEventArgs eventArgs)
+    {
+        if (eventArgs.SanitizedUrl is null
+            && eventArgs.Tag is IHtmlImageElement
+            && ImageDataUri.IsMatch(eventArgs.OriginalUrl.Trim()))
         {
-            sanitizer.FilterUrl += static (_, eventArgs) =>
-            {
-                if (eventArgs.SanitizedUrl is null
-                    && eventArgs.Tag is IHtmlImageElement
-                    && ImageDataUri.IsMatch(eventArgs.OriginalUrl.Trim()))
-                {
-                    eventArgs.SanitizedUrl = eventArgs.OriginalUrl.Trim();
-                }
-            };
+            eventArgs.SanitizedUrl = eventArgs.OriginalUrl.Trim();
+        }
+    }
+
+    /// <summary>Per node, after the sanitiser: links get their <c>rel</c>, empty classes go, scoped attributes leave the elements they were not granted to.</summary>
+    private static void PostProcess(INode node, HashSet<string> scopedAttributes, Dictionary<string, HashSet<string>> tagAttributes)
+    {
+        if (node is IHtmlAnchorElement anchor && anchor.HasAttribute("href"))
+        {
+            anchor.SetAttribute("rel", "noopener noreferrer");
         }
 
-        sanitizer.RemovingTag += static (_, eventArgs) =>
+        if (node is not IElement element)
         {
-            if (eventArgs.Reason == RemoveReason.NotAllowedTag && TransparentTagNames.Contains(eventArgs.Tag.LocalName))
-            {
-                KeepChildren(eventArgs.Tag);
-            }
-        };
-        sanitizer.PostProcessNode += (_, eventArgs) =>
+            return;
+        }
+
+        if (element.HasAttribute("class") && string.IsNullOrWhiteSpace(element.GetAttribute("class")))
         {
-            if (eventArgs.Node is IHtmlAnchorElement anchor && anchor.HasAttribute("href"))
-            {
-                anchor.SetAttribute("rel", "noopener noreferrer");
-            }
+            element.RemoveAttribute("class");
+        }
 
-            if (eventArgs.Node is not IElement element)
+        if (scopedAttributes.Count > 0)
+        {
+            tagAttributes.TryGetValue(element.LocalName, out var granted);
+            foreach (var name in element.Attributes.Select(attribute => attribute.Name).ToArray())
             {
-                return;
-            }
-
-            if (element.HasAttribute("class") && string.IsNullOrWhiteSpace(element.GetAttribute("class")))
-            {
-                element.RemoveAttribute("class");
-            }
-
-            if (scopedAttributes.Count > 0)
-            {
-                tagAttributes.TryGetValue(element.LocalName, out var granted);
-                foreach (var name in element.Attributes.Select(attribute => attribute.Name).ToArray())
+                if (scopedAttributes.Contains(name) && granted?.Contains(name) != true)
                 {
-                    if (scopedAttributes.Contains(name) && granted?.Contains(name) != true)
-                    {
-                        element.RemoveAttribute(name);
-                    }
+                    element.RemoveAttribute(name);
                 }
             }
-        };
-        return sanitizer;
+        }
     }
 
     private static bool IsForbiddenAttribute(string name) =>

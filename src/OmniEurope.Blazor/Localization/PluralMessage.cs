@@ -153,15 +153,7 @@ internal static class PluralMessage
     {
         block = default!;
         var cursor = start + 1;
-        SkipSpaces(text, ref cursor);
-        var digits = cursor;
-        while (cursor < text.Length && char.IsAsciiDigit(text[cursor]))
-        {
-            cursor++;
-        }
-
-        if (!int.TryParse(text.AsSpan(digits, cursor - digits), NumberStyles.None, CultureInfo.InvariantCulture, out var argument)
-            || !Expect(text, ref cursor, ',') || !ExpectKeyword(text, ref cursor) || !Expect(text, ref cursor, ','))
+        if (!TryReadHeader(text, ref cursor, out var argument))
         {
             return false;
         }
@@ -181,35 +173,62 @@ internal static class PluralMessage
                 return forms.Count > 0;
             }
 
-            var selector = cursor;
-            while (cursor < text.Length && !char.IsWhiteSpace(text[cursor]) && text[cursor] != '{' && text[cursor] != '}')
-            {
-                cursor++;
-            }
-
-            var name = text[selector..cursor];
-            SkipSpaces(text, ref cursor);
-            if (name.Length == 0 || cursor >= text.Length || text[cursor] != '{')
+            if (!TryReadForm(text, ref cursor, out var name, out var form))
             {
                 return false;
             }
 
-            var open = cursor;
-            var depth = 0;
-            do
-            {
-                depth += text[cursor] == '{' ? 1 : text[cursor] == '}' ? -1 : 0;
-                cursor++;
-            }
-            while (depth > 0 && cursor < text.Length);
-
-            if (depth != 0)
-            {
-                return false;
-            }
-
-            forms[name] = text[(open + 1)..(cursor - 1)];
+            forms[name] = form;
         }
+    }
+
+    /// <summary>Reads <c>index, plural,</c>: the argument index, the keyword and both commas.</summary>
+    private static bool TryReadHeader(string text, ref int cursor, out int argument)
+    {
+        SkipSpaces(text, ref cursor);
+        var digits = cursor;
+        while (cursor < text.Length && char.IsAsciiDigit(text[cursor]))
+        {
+            cursor++;
+        }
+
+        return int.TryParse(text.AsSpan(digits, cursor - digits), NumberStyles.None, CultureInfo.InvariantCulture, out argument)
+            && Expect(text, ref cursor, ',') && ExpectKeyword(text, ref cursor) && Expect(text, ref cursor, ',');
+    }
+
+    /// <summary>Reads one <c>selector {form}</c> pair, the form being the balanced text between the braces.</summary>
+    private static bool TryReadForm(string text, ref int cursor, out string name, out string form)
+    {
+        name = form = string.Empty;
+        var selector = cursor;
+        while (cursor < text.Length && !char.IsWhiteSpace(text[cursor]) && text[cursor] != '{' && text[cursor] != '}')
+        {
+            cursor++;
+        }
+
+        name = text[selector..cursor];
+        SkipSpaces(text, ref cursor);
+        if (name.Length == 0 || cursor >= text.Length || text[cursor] != '{')
+        {
+            return false;
+        }
+
+        var open = cursor;
+        var depth = 0;
+        do
+        {
+            depth += text[cursor] == '{' ? 1 : text[cursor] == '}' ? -1 : 0;
+            cursor++;
+        }
+        while (depth > 0 && cursor < text.Length);
+
+        if (depth != 0)
+        {
+            return false;
+        }
+
+        form = text[(open + 1)..(cursor - 1)];
+        return true;
     }
 
     private static void SkipSpaces(string text, ref int cursor)

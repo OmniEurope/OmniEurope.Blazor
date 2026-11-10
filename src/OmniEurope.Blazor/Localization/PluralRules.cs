@@ -36,28 +36,82 @@ internal static class PluralRules
     internal static string Category(string language, long count)
     {
         var n = count == long.MinValue ? long.MaxValue : Math.Abs(count);
-        var tens = n % 10;
-        var hundreds = n % 100;
-        return Normalise(language) switch
-        {
-            "fr" => n <= 1 ? One : Million(n),
-            "es" or "it" or "pt" => n == 1 ? One : Million(n),
-            "cs" or "sk" => n == 1 ? One : n is >= 2 and <= 4 ? Few : Other,
-            "pl" => n == 1 ? One
-                : tens is >= 2 and <= 4 && hundreds is not (>= 12 and <= 14) ? Few
-                : Many,
-            "hr" => tens == 1 && hundreds != 11 ? One
-                : tens is >= 2 and <= 4 && hundreds is not (>= 12 and <= 14) ? Few
-                : Other,
-            "sl" => hundreds == 1 ? One : hundreds == 2 ? Two : hundreds is 3 or 4 ? Few : Other,
-            "lt" => hundreds is >= 11 and <= 19 ? Other : tens == 1 ? One : tens >= 2 ? Few : Other,
-            "lv" => tens == 0 || hundreds is >= 11 and <= 19 ? Zero : tens == 1 ? One : Other,
-            "ro" => n == 1 ? One : n == 0 || hundreds is >= 1 and <= 19 ? Few : Other,
-            "ga" => n == 1 ? One : n == 2 ? Two : n is >= 3 and <= 6 ? Few : n is >= 7 and <= 10 ? Many : Other,
-            "mt" => n == 1 ? One : n == 2 ? Two : n == 0 || hundreds is >= 3 and <= 10 ? Few : hundreds is >= 11 and <= 19 ? Many : Other,
-            _ => n == 1 ? One : Other
-        };
+        return Rules.TryGetValue(Normalise(language), out var rule) ? rule(n) : OneOrOther(n);
     }
+
+    private static string OneOrOther(long n) => n == 1 ? One : Other;
+
+    private static string French(long n) => n <= 1 ? One : Million(n);
+
+    private static string Romance(long n) => n == 1 ? One : Million(n);
+
+    private static string Czech(long n) => n == 1 ? One : n is >= 2 and <= 4 ? Few : Other;
+
+    private static string Polish(long n)
+    {
+        var (tens, hundreds) = (n % 10, n % 100);
+        return n == 1 ? One : IsFewEnding(tens, hundreds) ? Few : Many;
+    }
+
+    private static string Croatian(long n)
+    {
+        var (tens, hundreds) = (n % 10, n % 100);
+        return tens == 1 && hundreds != 11 ? One : IsFewEnding(tens, hundreds) ? Few : Other;
+    }
+
+    private static string Slovenian(long n)
+    {
+        var hundreds = n % 100;
+        return hundreds == 1 ? One : hundreds == 2 ? Two : hundreds is 3 or 4 ? Few : Other;
+    }
+
+    private static string Lithuanian(long n)
+    {
+        var (tens, hundreds) = (n % 10, n % 100);
+        return hundreds is >= 11 and <= 19 ? Other : tens == 1 ? One : tens >= 2 ? Few : Other;
+    }
+
+    private static string Latvian(long n)
+    {
+        var (tens, hundreds) = (n % 10, n % 100);
+        return tens == 0 || hundreds is >= 11 and <= 19 ? Zero : tens == 1 ? One : Other;
+    }
+
+    private static string Romanian(long n)
+    {
+        var hundreds = n % 100;
+        return n == 1 ? One : n == 0 || hundreds is >= 1 and <= 19 ? Few : Other;
+    }
+
+    private static string Irish(long n) =>
+        n == 1 ? One : n == 2 ? Two : n is >= 3 and <= 6 ? Few : n is >= 7 and <= 10 ? Many : Other;
+
+    private static string Maltese(long n)
+    {
+        var hundreds = n % 100;
+        return n == 1 ? One : n == 2 ? Two : n == 0 || hundreds is >= 3 and <= 10 ? Few : hundreds is >= 11 and <= 19 ? Many : Other;
+    }
+
+    /// <summary>The Slavic "2 to 4, but not 12 to 14" ending of Polish and Croatian.</summary>
+    private static bool IsFewEnding(long tens, long hundreds) => tens is >= 2 and <= 4 && hundreds is not (>= 12 and <= 14);
+
+    private static readonly Dictionary<string, Func<long, string>> Rules = new(StringComparer.Ordinal)
+    {
+        ["fr"] = French,
+        ["es"] = Romance,
+        ["it"] = Romance,
+        ["pt"] = Romance,
+        ["cs"] = Czech,
+        ["sk"] = Czech,
+        ["pl"] = Polish,
+        ["hr"] = Croatian,
+        ["sl"] = Slovenian,
+        ["lt"] = Lithuanian,
+        ["lv"] = Latvian,
+        ["ro"] = Romanian,
+        ["ga"] = Irish,
+        ["mt"] = Maltese
+    };
 
     /// <summary>Whole millions take <c>many</c> in the Romance languages ("1 000 000 de lignes").</summary>
     private static string Million(long n) => n != 0 && n % 1_000_000 == 0 ? Many : Other;
