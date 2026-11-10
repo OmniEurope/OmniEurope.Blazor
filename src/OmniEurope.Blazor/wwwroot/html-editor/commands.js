@@ -237,7 +237,7 @@ function toggleList(range, action, within) {
     }
 }
 
-/ Rewrites the case of the selected text in place, text node by text node, so every bold, link or
+// Rewrites the case of the selected text in place, text node by text node, so every bold, link or
 // note around it stays. Title case capitalises a letter that follows a space, including across nodes.
 // A mark around the selection, or none: the caret in a mark unwraps it, keeping its text.
 function toggleHighlight(range, within) {
