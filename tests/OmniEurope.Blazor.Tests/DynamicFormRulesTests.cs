@@ -21,6 +21,17 @@ public sealed class DynamicFormRulesTests : OmniBunitContext
         [.. form.FindAll("[id$='-error']").Select(error => error.TextContent.Trim())];
 
     [Fact]
+    public void EachTextField_IsNamedAfterItsField_SoTheBrowserKeepsOneStableHistoryPerField()
+    {
+        var form = RenderForm([
+            new("host", "Host"),
+            new("port", "Port", OmniDynamicFieldKind.Number),
+            new("notes", "Notes", OmniDynamicFieldKind.MultilineText)], null);
+
+        Assert.Equal(["host", "port", "notes"], form.FindAll("input[name], textarea[name]").Select(field => field.GetAttribute("name")));
+    }
+
+    [Fact]
     public void TwoFieldsWithOneName_AreRefused_IgnoringCase()
     {
         var error = Assert.Throws<ArgumentException>(() => RenderForm([new("port", "Port"), new("PORT", "Port bis")], null));

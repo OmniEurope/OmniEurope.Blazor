@@ -3,7 +3,8 @@
 @implements IDisposable
 
 @* Each field is an ordinary form field of the package, bound to a small state object so that the edit
-   context, and with it aria-invalid and the validation classes, sees one model member per field. *@
+   context, and with it aria-invalid and the validation classes, sees one model member per field. A text
+   field is named after the Name of its field, stable across renders, so the browser keeps its history. *@
 <CascadingValue Value="_context" IsFixed="true">
     <div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-dynamic-form")">
         @for (var fieldIndex = 0; fieldIndex < Fields.Count; fieldIndex++)
@@ -32,17 +33,17 @@
                         case OmniDynamicFieldKind.Number:
                             <OmniNumeric TValue="decimal?" Id="@inputId" Disabled="@Disabled" AriaDescribedBy="@describedBy"
                                          Minimum="@((double?)field.Minimum)" Maximum="@((double?)field.Maximum)" Step="@((double?)field.Step)"
-                                         Placeholder="@field.Placeholder" aria-required="@RequiredAttribute(field)"
+                                         Placeholder="@field.Placeholder" aria-required="@RequiredAttribute(field)" name="@field.Name"
                                          @bind-Value="state.Number" @bind-Value:after="() => ChangedAsync(field)" />
                             break;
                         case OmniDynamicFieldKind.MultilineText:
                             <OmniTextArea Id="@inputId" Rows="@Math.Max(1, field.Rows)" Disabled="@Disabled" AriaDescribedBy="@describedBy"
-                                          Placeholder="@field.Placeholder" aria-required="@RequiredAttribute(field)"
+                                          Placeholder="@field.Placeholder" aria-required="@RequiredAttribute(field)" name="@field.Name"
                                           @bind-Value="state.Text" @bind-Value:after="() => ChangedAsync(field)" />
                             break;
                         default:
                             <OmniTextBox Id="@inputId" Disabled="@Disabled" AriaDescribedBy="@describedBy"
-                                         Placeholder="@field.Placeholder" aria-required="@RequiredAttribute(field)"
+                                         Placeholder="@field.Placeholder" aria-required="@RequiredAttribute(field)" name="@field.Name"
                                          @bind-Value="state.Text" @bind-Value:after="() => ChangedAsync(field)" />
                             break;
                     }
