@@ -50,6 +50,20 @@ internal sealed class PickerPopup(IJSRuntime javaScript, Func<bool, Task> dismis
     /// </summary>
     internal bool IsEscapeBeforeAttach(KeyboardEventArgs args) => IsOpen && !_attached && args.Key == "Escape";
 
+    /// <summary>
+    /// Handles a key pressed on the toggle: an Escape typed before the script listens closes the panel here. The
+    /// panel closes once the event has finished its way up: closed during it (WebAssembly renders at once), the
+    /// root would stop holding Escape back, and the dialog around the picker would close with it.
+    /// </summary>
+    internal async Task HandleToggleKeyDownAsync(KeyboardEventArgs args)
+    {
+        if (IsEscapeBeforeAttach(args))
+        {
+            await Task.Yield();
+            Close(restoreFocus: true);
+        }
+    }
+
     /// <summary>Moves the focus, after the next render, to the element the selector names in the panel.</summary>
     internal void FocusAfterRender(string selector) => _focusSelector = selector;
 

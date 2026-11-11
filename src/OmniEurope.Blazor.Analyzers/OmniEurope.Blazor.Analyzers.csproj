@@ -1,8 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <!--
-    The analyzer shipped in the OmniEurope.Blazor package (analyzers/dotnet/cs/). It must load in every
-    compiler from the global.json floor on, so it references the SDK-floor Roslyn (STD-SDKPIN) and
-    never ships it: the compiler that loads the analyzer provides Microsoft.CodeAnalysis.
+    The analyzer shipped in the OmniEurope.Blazor package (analyzers/dotnet/cs/). It is loaded by the
+    consumer's compiler, and the package supports net10.0 consumers on any .NET 10 SDK: it references
+    the Roslyn of SDK 10.0.100 (5.0.0), not the repository's central version, and never ships it. A newer
+    reference is refused by an older compiler (CS9057) and the rule then silently stops running.
   -->
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -18,6 +19,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" VersionOverride="5.0.0" PrivateAssets="all" />
   </ItemGroup>
 </Project>

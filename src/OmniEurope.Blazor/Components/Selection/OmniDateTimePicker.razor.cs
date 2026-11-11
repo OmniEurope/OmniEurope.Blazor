@@ -307,17 +307,7 @@ public partial class OmniDateTimePicker
         _focusedDate = PickerCalendar.Clamp(PickerCalendar.AddMonths(_focusedDate, step), MinimumDate, MaximumDate);
     }
 
-    // An Escape typed on the toggle before the script listens closes the panel here (PickerPopup.IsEscapeBeforeAttach).
-    // The panel closes once the event has finished its way up: closed during it (WebAssembly renders at once), the
-    // root would stop holding Escape back, and the dialog around the picker would close with it.
-    private async Task OnToggleKeyDown(KeyboardEventArgs args)
-    {
-        if (Popup.IsEscapeBeforeAttach(args))
-        {
-            await Task.Yield();
-            Popup.Close(restoreFocus: true);
-        }
-    }
+    private Task OnToggleKeyDown(KeyboardEventArgs args) => Popup.HandleToggleKeyDownAsync(args);
 
     private Task DismissAsync(bool fromKeyboard) => InvokeAsync(() =>
     {

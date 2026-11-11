@@ -44,7 +44,7 @@
     "Microsoft.CodeAnalysis.CSharp": {
       "version": "5.9.0",
       "status": "toolchain-bound",
-      "reason": "The latest Roslyn published on NuGet.org. The compiler of the .NET 11 SDK floor (11.0.100) is 5.12.0, not published there: a Roslyn analyzer cannot reference a compiler newer than the SDK that loads it (CS9057), and a project that references this repository by ProjectReference loads the analyzers with its own SDK, so the analyzers reference a published compiler that any 11.0 SDK loads. Moves to the compiler of the SDK floor once that version is published.",
+      "reason": "The latest Roslyn published on NuGet.org. The compiler of the .NET 11 SDK floor (11.0.100) is 5.12.0, not published there: a Roslyn analyzer cannot reference a compiler newer than the SDK that loads it (CS9057), and a project that references this repository by ProjectReference loads the analyzers with its own SDK, so the analyzers reference a published compiler that any 11.0 SDK loads. Moves to the compiler of the SDK floor once that version is published. Exception: the analyzer shipped in the NuGet package (src/OmniEurope.Blazor.Analyzers) overrides this with 5.0.0 (VersionOverride), the Roslyn of SDK 10.0.100, so every .NET 10 SDK loads it; eng/Test-Package.ps1 enforces that bound.",
       "source": "https://www.nuget.org/packages/Microsoft.CodeAnalysis.CSharp/"
     },
     "Microsoft.AspNetCore.Components.WebView": {

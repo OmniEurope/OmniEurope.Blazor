@@ -106,6 +106,29 @@ public sealed class InlineFormKeyHostTests : OmniBunitContext
     }
 
     [Fact]
+    public void Typing_RendersNothing_UntilEnterCommits()
+    {
+        var cut = Render<OmniNumeric<decimal?>>(parameters => parameters
+            .Add(field => field.Value, _price)
+            .Add(field => field.ValueChanged, EventCallback.Factory.Create<decimal?>(this, value => _price = value))
+            .Add(field => field.ValueExpression, () => _price));
+        var input = cut.Find("input");
+        var rendersBefore = cut.RenderCount;
+
+        input.Input("3");
+        input.Input("34");
+        input.KeyDown(new KeyboardEventArgs { Key = "4" });
+
+        // Recording keystrokes re-renders nothing (a server circuit would send a diff per keystroke).
+        Assert.Equal(rendersBefore, cut.RenderCount);
+
+        input.KeyDown(new KeyboardEventArgs { Key = "Enter" });
+
+        Assert.Equal(34m, _price);
+        Assert.True(cut.RenderCount > rendersBefore);
+    }
+
+    [Fact]
     public void Typing_WithoutEnter_DoesNotCommitBeforeTheChange()
     {
         var commits = 0;

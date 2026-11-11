@@ -3,7 +3,7 @@
 
 @* While the list is open, no key pressed in the field goes up to a Blazor handler around it, so a dialog
    holding the grid never closes on the Escape meant for the list. *@
-<div @attributes="AdditionalAttributes" class="@Css("omni-combo")" @onkeydown:stopPropagation="@(IsOpen || _escapeConsumed)">
+<div @attributes="AdditionalAttributes" class="@Css("omni-combo")" @onkeydown:stopPropagation="@(IsOpen || _escape.IsConsumed)">
     <input id="@Id"
            type="text"
            class="omni-input omni-data-grid__filter omni-combo__input"
@@ -17,7 +17,7 @@
            value="@Value"
            @oninput="OnInputAsync"
            @onkeydown="OnKeyDownAsync"
-           @onkeyup="EscapeReleaseHandler"
+           @onkeyup="_escape.ReleaseHandler"
            @onfocus="OpenList"
            @onblur="BlurList" />
     @if (IsOpen)

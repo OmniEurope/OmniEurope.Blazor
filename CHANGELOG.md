@@ -4,6 +4,11 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Corrigé
+
+- L'analyseur `OE0001` livré dans le paquet référence de nouveau Roslyn 5.0.0 (SDK 10.0.100) : en 1.13.0 il référençait 5.9.0, qu'un SDK .NET 10 antérieur à 10.0.4xx refuse de charger (CS9057), si bien que la règle cessait de s'exécuter sans erreur chez ces consommateurs net10.0. `eng/Test-Package.ps1` refuse désormais un analyseur livré qui référence une Roslyn plus récente.
+- `OmniNumeric` ne se redessine plus à chaque frappe : la saisie et les touches autres qu'Entrée sont seulement mémorisées (sur un circuit serveur, chaque frappe renvoyait un rendu pour rien) ; Entrée valide et redessine comme avant.
+
 ## [1.13.0] - 2026-11-11
 
 ### Added

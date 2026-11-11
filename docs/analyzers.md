@@ -23,7 +23,7 @@ Les règles non applicables restent des garde-fous préventifs; elles ne justifi
 
 ## Analyseur livré dans le paquet : `OE0001`
 
-Les règles `GEN*` ne servent qu'à la construction de ce dépôt. `src/OmniEurope.Blazor.Analyzers` est au contraire livré aux consommateurs : le paquet NuGet porte `analyzers/dotnet/cs/OmniEurope.Blazor.Analyzers.dll`, seule entrée admise sous `analyzers/` par `eng/Test-Package.ps1` (le compilateur qui charge l'analyseur fournit Roslyn, le paquet n'en embarque aucune copie). Il référence `Microsoft.CodeAnalysis.CSharp` `5.0.0` comme l'autre projet (STD-SDKPIN).
+Les règles `GEN*` ne servent qu'à la construction de ce dépôt. `src/OmniEurope.Blazor.Analyzers` est au contraire livré aux consommateurs : le paquet NuGet porte `analyzers/dotnet/cs/OmniEurope.Blazor.Analyzers.dll`, seule entrée admise sous `analyzers/` par `eng/Test-Package.ps1` (le compilateur qui charge l'analyseur fournit Roslyn, le paquet n'en embarque aucune copie). Il référence `Microsoft.CodeAnalysis.CSharp` `5.0.0` (`VersionOverride`), la Roslyn du SDK 10.0.100 : le paquet accepte les consommateurs net10.0 sur tout SDK .NET 10, et un compilateur refuse un analyseur qui référence une Roslyn plus récente que la sienne (CS9057). Les analyseurs `GEN*` du dépôt suivent la version centrale (5.9.0). `eng/Test-Package.ps1` vérifie cette borne dans le paquet.
 
 | Diagnostic | Sévérité | Contrat |
 | --- | --- | --- |

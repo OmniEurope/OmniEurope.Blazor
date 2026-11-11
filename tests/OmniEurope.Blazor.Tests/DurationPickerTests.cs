@@ -136,10 +136,10 @@ public sealed class DurationPickerTests : OmniBunitContext
     public void Disabled_and_read_only_reach_both_fields_and_a_read_only_entry_changes_nothing()
     {
         var disabled = RenderPicker(null, parameters => parameters.Add(component => component.Disabled, true));
-        Assert.All(disabled.FindAll("input"), input => Assert.True(input.HasAttribute("disabled")));
+        Assert.Equal(2, disabled.FindAll("input").Count(input => input.HasAttribute("disabled")));
 
         var readOnly = RenderPicker(TimeSpan.FromHours(1), parameters => parameters.Add(component => component.ReadOnly, true));
-        Assert.All(readOnly.FindAll("input"), input => Assert.True(input.HasAttribute("readonly")));
+        Assert.Equal(2, readOnly.FindAll("input").Count(input => input.HasAttribute("readonly")));
         readOnly.FindAll("input")[0].Change("5");
         Assert.Equal(TimeSpan.FromHours(1), _value);
     }

@@ -72,6 +72,19 @@ public partial class OmniNumeric<TValue>
     // is pending.
     private string? _pendingText;
 
+    // Recording a keystroke changes nothing on screen: these two handlers do not re-render the field (on
+    // a server circuit each keystroke would otherwise send a render diff back for nothing). Enter
+    // commits and renders explicitly.
+    private readonly Action<ChangeEventArgs> _onInput;
+    private readonly Action<KeyboardEventArgs> _onKeyDown;
+
+    /// <summary>Creates the field with its non-rendering keystroke handlers.</summary>
+    public OmniNumeric()
+    {
+        _onInput = Internal.NonRenderingHandler<ChangeEventArgs>.For(HandleInput);
+        _onKeyDown = Internal.NonRenderingHandler<KeyboardEventArgs>.For(HandleKeyDown);
+    }
+
     private void HandleInput(ChangeEventArgs args) => _pendingText = args.Value?.ToString() ?? string.Empty;
 
     private void HandleKeyDown(KeyboardEventArgs args)
@@ -79,6 +92,7 @@ public partial class OmniNumeric<TValue>
         if (args.Key is "Enter" or "NumpadEnter" && _pendingText is not null)
         {
             Commit(_pendingText);
+            StateHasChanged();
         }
     }
 

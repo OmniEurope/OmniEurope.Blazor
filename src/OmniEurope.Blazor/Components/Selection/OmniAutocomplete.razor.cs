@@ -21,10 +21,8 @@ public partial class OmniAutocomplete<TValue>
     private bool _hasShownValue;
     private int _activeIndex = -1;
     private bool _closed;
-    // The Escape that closed the list is held back from the handlers around the field (a dialog that closes on
-    // Escape) until its key is released. Blazor WebAssembly renders after the handler of the field and before the
-    // event moves up, so by then the list is closed and only this flag still says the key was consumed.
-    private bool _escapeConsumed;
+    private EscapeGuard? _escapeGuard;
+    private EscapeGuard _escape => _escapeGuard ??= new EscapeGuard(this);
     private bool _opening;
     // Counts the closings (blur, Escape, Enter, chevron): a full list on its way is not shown after one.
     private int _closings;
@@ -169,8 +167,6 @@ public partial class OmniAutocomplete<TValue>
     private string ErrorId => $"{BaseId}-error";
     private string OptionId(int index) => $"{ResultsId}-{index.ToString(CultureInfo.InvariantCulture)}";
     private bool IsOpen => !_closed && _results.Count > 0;
-    private EventCallback<KeyboardEventArgs> EscapeReleaseHandler => _escapeConsumed ? EventCallback.Factory.Create<KeyboardEventArgs>(this, ReleaseEscape) : default;
-    private void ReleaseEscape(KeyboardEventArgs _) => _escapeConsumed = false;
     // Every change of the suggestions resets the highlight, so a highlighted index is always one of them.
     private string? ActiveOptionId => IsOpen && _activeIndex >= 0 ? OptionId(_activeIndex) : null;
 
@@ -362,7 +358,7 @@ public partial class OmniAutocomplete<TValue>
 
         if (args.Key != "Escape")
         {
-            _escapeConsumed = false;
+            _escape.Reset();
         }
 
         switch (args.Key)
@@ -402,7 +398,7 @@ public partial class OmniAutocomplete<TValue>
                 break;
             case "Escape" when IsOpen:
                 Close();
-                _escapeConsumed = true;
+                _escape.Consume();
                 break;
         }
     }
@@ -506,7 +502,7 @@ public partial class OmniAutocomplete<TValue>
 
     private void HandleBlur()
     {
-        _escapeConsumed = false;
+        _escape.Reset();
         Close();
         if (AllowFreeText)
         {

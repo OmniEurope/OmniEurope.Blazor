@@ -113,6 +113,30 @@ try {
         throw "Package carries unexpected analyzer entries: $($unexpectedAnalyzers -join ', ')"
     }
 
+    # The consumer's compiler refuses an analyzer that references a newer Roslyn (CS9057) and the rule
+    # silently stops running: the shipped analyzer must reference the Roslyn of the oldest supported SDK.
+    $analyzerEntry = $archive.GetEntry('analyzers/dotnet/cs/OmniEurope.Blazor.Analyzers.dll')
+    if ($null -ne $analyzerEntry) {
+        $analyzerBytes = [IO.MemoryStream]::new()
+        $analyzerStream = $analyzerEntry.Open()
+        try { $analyzerStream.CopyTo($analyzerBytes) } finally { $analyzerStream.Dispose() }
+        $analyzerBytes.Position = 0
+        $peReader = [System.Reflection.PortableExecutable.PEReader]::new($analyzerBytes)
+        try {
+            $metadata = [System.Reflection.Metadata.PEReaderExtensions]::GetMetadataReader($peReader)
+            $maximumRoslyn = [version]'5.0.0.0'
+            $tooNew = @($metadata.AssemblyReferences |
+                ForEach-Object { $metadata.GetAssemblyReference($_) } |
+                Where-Object { $metadata.GetString($_.Name) -like 'Microsoft.CodeAnalysis*' -and $_.Version -gt $maximumRoslyn } |
+                ForEach-Object { "$($metadata.GetString($_.Name)) $($_.Version)" })
+            if ($tooNew.Count -gt 0) {
+                throw "The shipped analyzer references a Roslyn newer than $maximumRoslyn (SDK 10.0.100), which an older .NET 10 SDK refuses to load: $($tooNew -join ', ')"
+            }
+        } finally {
+            $peReader.Dispose()
+        }
+    }
+
     # Content files land in every consuming host's wwwroot: the stylesheet ships only as the minified
     # static web asset, and its commented source must never ride along as content.
     $contentEntries = @($entries | Where-Object { $_ -match '^(content|contentFiles)/' })

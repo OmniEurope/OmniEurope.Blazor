@@ -95,5 +95,6 @@ public sealed class FileDownloaderTests : OmniBunitContext
         await Downloader().DownloadAsync([2], "b.bin", cancellationToken: Xunit.TestContext.Current.CancellationToken);
 
         Assert.Equal(2, module.Invocations["download"].Count);
+        Assert.Single(JSInterop.Invocations["import"]);
     }
 }

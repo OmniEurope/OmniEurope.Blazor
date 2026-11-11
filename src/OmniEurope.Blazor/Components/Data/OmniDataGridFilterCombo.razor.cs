@@ -14,10 +14,8 @@ public partial class OmniDataGridFilterCombo
 {
     private int _activeIndex = -1;
     private bool _open;
-    // The Escape that closed the list is held back from the handlers around the field (a dialog that closes on
-    // Escape) until its key is released: Blazor WebAssembly renders after the handler of the field and before the
-    // event moves up, so by then the list is closed and only this flag still says the key was consumed.
-    private bool _escapeConsumed;
+    private EscapeGuard? _escapeGuard;
+    private EscapeGuard _escape => _escapeGuard ??= new EscapeGuard(this);
 
     /// <summary>The typed text, which is the filter value.</summary>
     [Parameter]
@@ -51,10 +49,6 @@ public partial class OmniDataGridFilterCombo
 
     private bool IsOpen => _open && Matches.Count > 0;
 
-    private EventCallback<KeyboardEventArgs> EscapeReleaseHandler => _escapeConsumed ? EventCallback.Factory.Create<KeyboardEventArgs>(this, ReleaseEscape) : default;
-
-    private void ReleaseEscape(KeyboardEventArgs _) => _escapeConsumed = false;
-
     private string? ActiveOptionId => IsOpen && _activeIndex >= 0 ? OptionId(_activeIndex) : null;
 
     private string OptionId(int index) => $"{ListId}-{index}";
@@ -77,7 +71,7 @@ public partial class OmniDataGridFilterCombo
 
     private void BlurList()
     {
-        _escapeConsumed = false;
+        _escape.Reset();
         CloseList();
     }
 
@@ -99,7 +93,7 @@ public partial class OmniDataGridFilterCombo
         var matches = Matches;
         if (args.Key != "Escape")
         {
-            _escapeConsumed = false;
+            _escape.Reset();
         }
 
         switch (args.Key)
@@ -116,7 +110,11 @@ public partial class OmniDataGridFilterCombo
                 await PickAsync(matches[_activeIndex]);
                 break;
             case "Escape":
-                _escapeConsumed = _escapeConsumed || IsOpen;
+                if (IsOpen)
+                {
+                    _escape.Consume();
+                }
+
                 CloseList();
                 break;
         }

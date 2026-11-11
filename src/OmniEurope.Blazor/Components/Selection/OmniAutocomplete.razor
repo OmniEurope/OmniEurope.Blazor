@@ -8,8 +8,8 @@
    The suggestions are plain options, not buttons: a button inside an option is a second, conflicting
    role that screen readers announce twice. While the list is open, no key pressed in the field goes up to
    a Blazor handler around it, so a dialog holding the field never closes on the Escape meant for the list; the
-   Escape that closed the list stays held back until its key is released (see _escapeConsumed). *@
-<div @ref="_root" class="@RootClass" @onkeydown:stopPropagation="@(IsOpen || _escapeConsumed)">
+   Escape that closed the list stays held back until its key is released (see _escape.IsConsumed). *@
+<div @ref="_root" class="@RootClass" @onkeydown:stopPropagation="@(IsOpen || _escape.IsConsumed)">
     <input @attributes="AdditionalAttributes"
            @ref="_input"
            id="@Id"
@@ -31,7 +31,7 @@
            aria-describedby="@CombinedAriaDescribedBy"
            @oninput="HandleInputAsync"
            @onkeydown="HandleKeyDownAsync"
-           @onkeyup="EscapeReleaseHandler"
+           @onkeyup="_escape.ReleaseHandler"
            @onfocus="OpenOnFocusCallback"
            @onclick="OpenOnClickCallback"
            @onblur="HandleBlur" />
