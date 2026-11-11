@@ -4,6 +4,8 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+## [1.13.0] - 2026-11-11
+
 ### Added
 
 - `OmniNavTile.Tinted` (`bool`, `false` par défaut) : teinte toute la tuile de son ton, et non le seul carré de l'icône, par un dégradé diagonal sur le fond de carte (16 % à 8 % au repos, 34 % à 20 % au survol ou au focus en clair ; 12 % à 6 % et 20 % à 12 % en sombre) et une bordure tirée du ton. Dans une `OmniTileGrid`, c'est la teinte du rang : chaque destination d'un menu d'accueil a sa couleur, tuiles favorites comprises. La description d'une tuile teintée prend la couleur du texte : le gris atténué tombait vers 3:1 sur la teinte. Demande d'une application cliente. Preuve : `NavTileTintedTests` (classe, règles de la feuille, parts du mode sombre, 4,5:1 du texte sur la teinte la plus forte de chaque rang pour chaque thème et palette dans les deux modes) ; dans la vitrine, exemple « Tinted tiles » de la page Navigation tiles : quatre tuiles (dont une favorite) ambre, bleu, rouge et cyan, dégradé plus fort au survol, en clair et en sombre (fond de carte `rgb(41, 41, 41)`, tuiles teintées distinctes).
