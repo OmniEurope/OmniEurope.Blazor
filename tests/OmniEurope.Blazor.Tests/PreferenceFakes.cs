@@ -22,15 +22,15 @@ internal sealed class PreferenceBrowser : IJSRuntime, IJSObjectReference
     /// <summary>Calls that fail once, by function name, then answer again.</summary>
     public ConcurrentDictionary<string, Exception> FailuresOnce { get; } = new(StringComparer.Ordinal);
 
-    public int Imports { get; private set; }
+    public int Imports { get; internal set; }
 
-    public int Writes { get; private set; }
+    public int Writes { get; internal set; }
 
     public List<string> WatchedPrefixes { get; } = [];
 
     public List<int> Unwatched { get; } = [];
 
-    public PreferenceInteropBridge? Bridge { get; private set; }
+    public PreferenceInteropBridge? Bridge { get; internal set; }
 
     /// <summary>When set, each read of the cache answers once this task completes, as a slow browser would.</summary>
     public Task? GetRelease { get; set; }
@@ -39,36 +39,10 @@ internal sealed class PreferenceBrowser : IJSRuntime, IJSObjectReference
     public Action<string>? OnInvoke { get; set; }
 
     public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) =>
-        InvokeAsync<TValue>(identifier, CancellationToken.None, args);
+        PreferenceBrowserScript.Invoke<TValue>(this, identifier, CancellationToken.None, args);
 
-    public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args)
-    {
-        args ??= [];
-        OnInvoke?.Invoke(identifier);
-        if (Failures.TryGetValue(identifier, out var failure) || FailuresOnce.TryRemove(identifier, out failure))
-        {
-            return ValueTask.FromException<TValue>(failure);
-        }
-
-        if (identifier == "get" && GetRelease is { } release)
-        {
-            return DelayedGetAsync<TValue>((string)args[0]!, release, cancellationToken);
-        }
-
-        object? answer = identifier switch
-        {
-            "import" when ImportFailure is not null => throw ImportFailure,
-            "import" => Import((string)args[0]!),
-            "get" => Storage.TryGetValue((string)args[0]!, out var value) ? value : null,
-            "set" => Set((string)args[0]!, (string)args[1]!),
-            "entries" => Storage.Where(pair => pair.Key.StartsWith((string)args[0]!, StringComparison.Ordinal))
-                .Select(pair => new[] { pair.Key, pair.Value }).ToArray(),
-            "watch" => Watch((DotNetObjectReference<PreferenceInteropBridge>)args[0]!, (string)args[1]!),
-            "unwatch" => Unwatch((int)args[0]!),
-            _ => throw new InvalidOperationException($"Unexpected call {identifier}."),
-        };
-        return ValueTask.FromResult((TValue)answer!);
-    }
+    public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) =>
+        PreferenceBrowserScript.Invoke<TValue>(this, identifier, cancellationToken, args);
 
     public int Disposals { get; private set; }
 
@@ -80,37 +54,70 @@ internal sealed class PreferenceBrowser : IJSRuntime, IJSObjectReference
         Disposals++;
         return DisposeFailure is null ? ValueTask.CompletedTask : ValueTask.FromException(DisposeFailure);
     }
+}
 
-    private async ValueTask<TValue> DelayedGetAsync<TValue>(string key, Task release, CancellationToken cancellationToken)
+/// <summary>The scripted answers of <see cref="PreferenceBrowser"/>, kept apart from its interop surface.</summary>
+internal static class PreferenceBrowserScript
+{
+    internal static ValueTask<TValue> Invoke<TValue>(PreferenceBrowser browser, string identifier, CancellationToken cancellationToken, object?[]? args)
+    {
+        args ??= [];
+        browser.OnInvoke?.Invoke(identifier);
+        if (browser.Failures.TryGetValue(identifier, out var failure) || browser.FailuresOnce.TryRemove(identifier, out failure))
+        {
+            return ValueTask.FromException<TValue>(failure);
+        }
+
+        if (identifier == "get" && browser.GetRelease is { } release)
+        {
+            return DelayedGetAsync<TValue>(browser, (string)args[0]!, release, cancellationToken);
+        }
+
+        object? answer = identifier switch
+        {
+            "import" when browser.ImportFailure is not null => throw browser.ImportFailure,
+            "import" => Import(browser, (string)args[0]!),
+            "get" => browser.Storage.TryGetValue((string)args[0]!, out var value) ? value : null,
+            "set" => Set(browser, (string)args[0]!, (string)args[1]!),
+            "entries" => browser.Storage.Where(pair => pair.Key.StartsWith((string)args[0]!, StringComparison.Ordinal))
+                .Select(pair => new[] { pair.Key, pair.Value }).ToArray(),
+            "watch" => Watch(browser, (DotNetObjectReference<PreferenceInteropBridge>)args[0]!, (string)args[1]!),
+            "unwatch" => Unwatch(browser, (int)args[0]!),
+            _ => throw new InvalidOperationException($"Unexpected call {identifier}."),
+        };
+        return ValueTask.FromResult((TValue)answer!);
+    }
+
+    private static async ValueTask<TValue> DelayedGetAsync<TValue>(PreferenceBrowser browser, string key, Task release, CancellationToken cancellationToken)
     {
         await release.WaitAsync(cancellationToken);
-        return (TValue)(object?)(Storage.TryGetValue(key, out var value) ? value : null)!;
+        return (TValue)(object?)(browser.Storage.TryGetValue(key, out var value) ? value : null)!;
     }
 
-    private PreferenceBrowser Import(string path)
+    private static PreferenceBrowser Import(PreferenceBrowser browser, string path)
     {
         Assert.Equal(OmniModules.Preferences, path);
-        Imports++;
-        return this;
+        browser.Imports++;
+        return browser;
     }
 
-    private object? Set(string key, string value)
+    private static object? Set(PreferenceBrowser browser, string key, string value)
     {
-        Writes++;
-        Storage[key] = value;
+        browser.Writes++;
+        browser.Storage[key] = value;
         return null;
     }
 
-    private object Watch(DotNetObjectReference<PreferenceInteropBridge> reference, string prefix)
+    private static object Watch(PreferenceBrowser browser, DotNetObjectReference<PreferenceInteropBridge> reference, string prefix)
     {
-        Bridge = reference.Value;
-        WatchedPrefixes.Add(prefix);
+        browser.Bridge = reference.Value;
+        browser.WatchedPrefixes.Add(prefix);
         return 7;
     }
 
-    private object? Unwatch(int id)
+    private static object? Unwatch(PreferenceBrowser browser, int id)
     {
-        Unwatched.Add(id);
+        browser.Unwatched.Add(id);
         return null;
     }
 }

@@ -207,7 +207,7 @@ public partial class OmniCodeEditor
         _bridge ??= DotNetObjectReference.Create(new CodeEditorInteropBridge(this));
         _editorValue = CurrentValue ?? string.Empty;
         _appliedOptions = OptionsSignature();
-        if (!await module.InvokeAsync<bool>("mount", _host, _bridge, Options(_editorValue)))
+        if (!await module.InvokeTrackedAsync<bool>("mount", _host, _bridge, Options(_editorValue)))
         {
             Monaco.Mounted = false;
             _phase = CodePhase.Failed;
@@ -222,14 +222,14 @@ public partial class OmniCodeEditor
         if (!string.Equals(value, _editorValue, StringComparison.Ordinal))
         {
             _editorValue = value;
-            await module.InvokeVoidAsync("setValue", _host, _editorValue);
+            await module.InvokeVoidTrackedAsync("setValue", _host, _editorValue);
         }
 
         var signature = OptionsSignature();
         if (!string.Equals(signature, _appliedOptions, StringComparison.Ordinal))
         {
             _appliedOptions = signature;
-            await module.InvokeVoidAsync("configure", _host, Options(null));
+            await module.InvokeVoidTrackedAsync("configure", _host, Options(null));
         }
     }
 

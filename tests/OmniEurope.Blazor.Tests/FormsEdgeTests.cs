@@ -129,7 +129,7 @@ public sealed class FormsEdgeTests : OmniBunitContext
     }
 
     [Fact]
-    public void TextBox_HandsItsDelayedTextToTheFormOnValidation()
+    public async Task TextBox_HandsItsDelayedTextToTheFormOnValidation()
     {
         var form = new EditContext(new object());
         var changes = new List<string>();
@@ -140,7 +140,7 @@ public sealed class FormsEdgeTests : OmniBunitContext
             .Add(component => component.ValueExpression, () => _text));
 
         _ = box.Find("input").InputAsync(new ChangeEventArgs { Value = "attendu" });
-        form.Validate();
+        await box.InvokeAsync(() => form.ValidateAsync(Xunit.TestContext.Current.CancellationToken));
 
         Assert.Equal(["attendu"], changes);
     }
@@ -193,7 +193,7 @@ public sealed class FormsEdgeTests : OmniBunitContext
             .Add(component => component.For, () => _text)));
 
     [Fact]
-    public void Validators_WithoutTheirMessage_StillMarkTheField_AndUseTheHostMessage()
+    public async Task Validators_WithoutTheirMessage_StillMarkTheField_AndUseTheHostMessage()
     {
         var model = new Model();
         var form = new EditContext(model);
@@ -212,7 +212,7 @@ public sealed class FormsEdgeTests : OmniBunitContext
             .Add(component => component.For, () => model.Name)
             .Add(component => component.ShowMessage, false));
 
-        form.Validate();
+        await form.ValidateAsync(Xunit.TestContext.Current.CancellationToken);
 
         Assert.Contains("Le nom manque.", form.GetValidationMessages());
         Assert.Empty(required.FindAll("*"));
@@ -307,7 +307,7 @@ public sealed class FormsEdgeTests : OmniBunitContext
     }
 
     [Fact]
-    public void RequiredValidator_OfANumber_AcceptsAnyValue()
+    public async Task RequiredValidator_OfANumber_AcceptsAnyValue()
     {
         var model = new Counted();
         var form = new EditContext(model);
@@ -315,7 +315,7 @@ public sealed class FormsEdgeTests : OmniBunitContext
             .AddCascadingValue(form)
             .Add(component => component.For, () => model.Count));
 
-        Assert.True(form.Validate());
+        Assert.True(await form.ValidateAsync(Xunit.TestContext.Current.CancellationToken));
     }
 
     public sealed class Counted

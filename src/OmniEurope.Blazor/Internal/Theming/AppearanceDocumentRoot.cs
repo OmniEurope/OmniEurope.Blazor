@@ -77,6 +77,6 @@ internal sealed class AppearanceDocumentRoot(IJSRuntime javaScript, ILogger logg
     }
 
     private ValueTask WriteAsync(string setting, int level) => level == AppearanceLook.DefaultLevel
-        ? _module!.InvokeVoidAsync("clear" + setting)
-        : _module!.InvokeVoidAsync("set" + setting, level);
+        ? _module!.InvokeVoidTrackedAsync("clear" + setting)
+        : _module!.InvokeVoidTrackedAsync("set" + setting, level);
 }

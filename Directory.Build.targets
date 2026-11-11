@@ -1,17 +1,17 @@
 <Project>
   <!--
     STD-SDKPIN: the SDK injects three implicit package references into the WebAssembly hosts, at the
-    version of the runtime it bundles (Microsoft.NETCoreSdk.BundledVersions.props): 10.0.6 under SDK
-    10.0.202, 10.0.11 under 10.0.303, 10.0.12 under 10.0.401. Left implicit, each packages.lock.json
+    version of the runtime it bundles (Microsoft.NETCoreSdk.BundledVersions.props): on .NET 10 it was 10.0.6 under SDK
+    10.0.202, 10.0.11 under 10.0.303, 10.0.12 under 10.0.401, and 11.0.0 under 11.0.100. Left implicit, each packages.lock.json
     only restores in locked mode under the band that wrote it (NU1004 under any other, ADR-001).
-    Pinned here, they no longer follow the SDK: every 10.0 SDK from the global.json floor resolves
+    Pinned here, they no longer follow the SDK: every 11.0 SDK from the global.json floor resolves
     the same versions and the locks stay valid. Moving this pin is a deliberate commit, aligned with
     the Microsoft.AspNetCore.* versions of Directory.Packages.props, followed by a Release restore.
   -->
   <!-- The items are updated by name, every target framework row at once: MSBuild forbids a metadata
-       condition outside a target, and this repository only targets net10.0. -->
+       condition outside a target, and this repository only targets net11.0. -->
   <PropertyGroup>
-    <OmniImplicitSdkPackVersion>10.0.14</OmniImplicitSdkPackVersion>
+    <OmniImplicitSdkPackVersion>11.0.0</OmniImplicitSdkPackVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,8 +27,8 @@
     The Mono runtime pack of the WebAssembly hosts (Microsoft.NETCore.App.Runtime.Mono.browser-wasm, whose
     native libraries end up in dotnet.native.wasm) follows the same pin. An installed wasm-tools workload
     rewrites its version to the runtime it bundles (WorkloadManifest.targets of
-    microsoft.net.workload.mono.toolchain.current, 10.0.13 under workload manifest 10.0.113), below the SDK's
-    own runtime, so the security fixes of a runtime patch (GHSA-p3jp-9v83-76w9, Brotli, fixed in 10.0.14)
+    microsoft.net.workload.mono.toolchain.current, 10.0.13 under workload manifest 10.0.113 on .NET 10), below the SDK's
+    own runtime, so the security fixes of a runtime patch (GHSA-p3jp-9v83-76w9, Brotli, fixed in 10.0.14 and in 11.0.0)
     never reached a publish. That rewrite is an evaluation-time item update, so the pin runs in a target,
     after evaluation, before the framework references are resolved (restore and build alike). A pack
     missing from the dotnet packs folder is restored from NuGet; eng/Test-WasmRuntimeVersion.ps1 checks
@@ -36,7 +36,7 @@
   -->
   <Target Name="OmniPinMonoRuntimePack" BeforeTargets="ProcessFrameworkReferences">
     <ItemGroup>
-      <KnownRuntimePack Condition="'%(KnownRuntimePack.Identity)' == 'Microsoft.NETCore.App' and '%(KnownRuntimePack.TargetFramework)' == 'net10.0' and '%(KnownRuntimePack.RuntimePackLabels)' == 'Mono'">
+      <KnownRuntimePack Condition="'%(KnownRuntimePack.Identity)' == 'Microsoft.NETCore.App' and '%(KnownRuntimePack.TargetFramework)' == 'net11.0' and '%(KnownRuntimePack.RuntimePackLabels)' == 'Mono'">
         <LatestRuntimeFrameworkVersion>$(OmniImplicitSdkPackVersion)</LatestRuntimeFrameworkVersion>
       </KnownRuntimePack>
     </ItemGroup>

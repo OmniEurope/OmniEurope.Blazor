@@ -22,7 +22,7 @@ function New-Publish([string]$Name, [string]$NativeVersion, [string]$ScriptVersi
 function Assert-Rejected([string]$Path, [string]$Case) {
     # The call is expected to fail; its exit code is captured and cleared so a pwsh CI step does not
     # end with it (see Test-CspFixtures.ps1).
-    & pwsh -NoProfile -File $guard -PublishPath $Path -ExpectedVersion 10.0.14 *> $null
+    & pwsh -NoProfile -File $guard -PublishPath $Path -ExpectedVersion 11.0.0 *> $null
     $exitCode = $LASTEXITCODE
     $global:LASTEXITCODE = 0
     if ($exitCode -eq 0) {
@@ -31,10 +31,10 @@ function Assert-Rejected([string]$Path, [string]$Case) {
 }
 
 try {
-    & $guard -PublishPath (New-Publish 'pinned' '10.0.14.0' '10.0.14') -ExpectedVersion 10.0.14
-    Assert-Rejected (New-Publish 'older' '10.0.13.0' '10.0.13') 'an older runtime'
+    & $guard -PublishPath (New-Publish 'pinned' '11.0.0.0' '11.0.0') -ExpectedVersion 11.0.0
+    Assert-Rejected (New-Publish 'older' '10.0.15.0' '10.0.15') 'an older runtime'
     Assert-Rejected (New-Publish 'empty' $null $null) 'a publish with no runtime'
-    Assert-Rejected (New-Publish 'script' '10.0.14.0' '10.0.13') 'a runtime script of another version'
+    Assert-Rejected (New-Publish 'script' '11.0.0.0' '10.0.15') 'a runtime script of another version'
     Write-Host 'WebAssembly runtime guard fixtures passed: pinned accepted, older, missing and mismatched rejected.'
 }
 finally {

@@ -38,7 +38,7 @@ try {
         '^compliance/third-party-packages\.json$',
         '^compliance/vendored-assets\.json$',
         '^compliance/licenses/.+$',
-        '^lib/net10\.0/OmniEurope\.Blazor\.dll$',
+        '^lib/net11\.0/OmniEurope\.Blazor\.dll$',
         '^analyzers/dotnet/cs/OmniEurope\.Blazor\.Analyzers\.dll$',
         '^staticwebassets/omnieurope\.blazor\.css$',
         '^staticwebassets/omniInterop\.js$'
@@ -69,7 +69,7 @@ try {
         Sort-Object -Unique)
     if ($cultures.Count -eq 0) { throw "No translated resource file found under $resourceRoot." }
     $missingSatellites = @($cultures |
-        ForEach-Object { "lib/net10.0/$_/OmniEurope.Blazor.resources.dll" } |
+        ForEach-Object { "lib/net11.0/$_/OmniEurope.Blazor.resources.dll" } |
         Where-Object { $entries -cnotcontains $_ })
     if ($missingSatellites.Count -gt 0) {
         throw "Package is missing satellite resource assemblies: $($missingSatellites -join ', ')"
@@ -179,7 +179,7 @@ if ($SymbolPackagePath) {
     $symbols = [System.IO.Compression.ZipFile]::OpenRead($resolvedSymbols)
     try {
         $symbolEntries = @($symbols.Entries.FullName)
-        if ($symbolEntries -notcontains 'lib/net10.0/OmniEurope.Blazor.pdb') { throw 'Portable PDB is missing from the symbol package.' }
+        if ($symbolEntries -notcontains 'lib/net11.0/OmniEurope.Blazor.pdb') { throw 'Portable PDB is missing from the symbol package.' }
         Write-Host "NuGet symbols passed: $($symbolEntries.Count) entries."
     } finally {
         $symbols.Dispose()

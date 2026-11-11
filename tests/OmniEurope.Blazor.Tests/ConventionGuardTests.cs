@@ -326,6 +326,9 @@ public sealed partial class ConventionGuardTests
         ("10.0.2", "5.3.0"),
         ("10.0.3", "5.6.0"),
         ("10.0.4", "5.9.0"),
+        // The compiler of SDK 11.0.1xx is 5.12.0, not published on NuGet.org: the analyzers reference the latest published
+        // Roslyn, 5.9.0, which any 11.0 SDK (5.12.0 or later) loads.
+        ("11.0.1", "5.9.0"),
     ];
 
     /// <summary>
@@ -374,12 +377,12 @@ public sealed partial class ConventionGuardTests
         Assert.Contains("wrapTextSelection", editor, StringComparison.Ordinal);
         Assert.Contains("restoreTextSelection", editor, StringComparison.Ordinal);
         Assert.Contains("setSelectionRange(6, 10)", Read("eng", "Test-CatalogProbe.mjs"), StringComparison.Ordinal);
-        Assert.Contains("Microsoft.Maui.Controls\" Version=\"10.0.101", packages, StringComparison.Ordinal);
-        Assert.Contains("Microsoft.AspNetCore.Components.WebView.Maui\" Version=\"10.0.101", packages, StringComparison.Ordinal);
+        Assert.Contains("Microsoft.Maui.Controls\" Version=\"11.0.10", packages, StringComparison.Ordinal);
+        Assert.Contains("Microsoft.AspNetCore.Components.WebView.Maui\" Version=\"11.0.10", packages, StringComparison.Ordinal);
         var hybridDependencies = hybridLock.RootElement.GetProperty("dependencies").EnumerateObject()
-            .First(framework => framework.Name.StartsWith("net10.0-windows10.0.19041", StringComparison.Ordinal)).Value;
-        Assert.Equal("10.0.101", hybridDependencies.GetProperty("Microsoft.Maui.Controls").GetProperty("resolved").GetString());
-        Assert.Equal("10.0.101", hybridDependencies.GetProperty("Microsoft.AspNetCore.Components.WebView.Maui").GetProperty("resolved").GetString());
+            .First(framework => framework.Name.StartsWith("net11.0-windows10.0.19041", StringComparison.Ordinal)).Value;
+        Assert.Equal("11.0.10", hybridDependencies.GetProperty("Microsoft.Maui.Controls").GetProperty("resolved").GetString());
+        Assert.Equal("11.0.10", hybridDependencies.GetProperty("Microsoft.AspNetCore.Components.WebView.Maui").GetProperty("resolved").GetString());
     }
 
     [Fact]

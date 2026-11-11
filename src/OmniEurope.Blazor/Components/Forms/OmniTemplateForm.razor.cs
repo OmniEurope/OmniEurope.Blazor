@@ -134,9 +134,9 @@ where TModel : class
     private async Task HandleValidSubmitAsync(EditContext context)
     {
         // The guard reads what it was last rendered with: render it released before the handler runs,
-        // so a save that navigates away is never held by its own form.
+        // so a save that navigates away is never held by its own form. The EventCallback of this component
+        // renders it at the first await, which the yield makes certain to be reached before the handler.
         _submitting = true;
-        StateHasChanged();
         await Task.Yield();
         try
         {

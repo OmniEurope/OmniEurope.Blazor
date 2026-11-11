@@ -461,7 +461,7 @@ public partial class OmniLogViewer : IAsyncDisposable
         if (!_attached)
         {
             _selfReference ??= DotNetObjectReference.Create(new LogViewerInteropBridge(OnViewportChangedAsync));
-            await _module.InvokeVoidAsync("attach", _viewport, _selfReference, _following);
+            await _module.InvokeVoidTrackedAsync("attach", _viewport, _selfReference, _following);
             _attached = true;
             _sentFollowing = _following;
         }
@@ -469,10 +469,10 @@ public partial class OmniLogViewer : IAsyncDisposable
         if (_sentFollowing != _following)
         {
             _sentFollowing = _following;
-            await _module.InvokeVoidAsync("setFollowing", _viewport, _following);
+            await _module.InvokeVoidTrackedAsync("setFollowing", _viewport, _following);
         }
 
-        var snapshot = await _module.InvokeAsync<GridViewportSnapshot?>("sync", _viewport, true);
+        var snapshot = await _module.InvokeTrackedAsync<GridViewportSnapshot?>("sync", _viewport, true);
         if (_disposed)
         {
             return;
@@ -482,7 +482,7 @@ public partial class OmniLogViewer : IAsyncDisposable
         var previous = _range;
         ComputeRange();
         _appliedHeight = Height;
-        await _module.InvokeVoidAsync("applyLayout", _viewport, _range.TopSpacer, _range.BottomSpacer, _appliedHeight, null);
+        await _module.InvokeVoidTrackedAsync("applyLayout", _viewport, _range.TopSpacer, _range.BottomSpacer, _appliedHeight, null);
         if (_disposed)
         {
             return;
@@ -491,11 +491,11 @@ public partial class OmniLogViewer : IAsyncDisposable
         if (_pendingReveal is { } offset)
         {
             _pendingReveal = null;
-            await _module.InvokeVoidAsync("reveal", _viewport, offset);
+            await _module.InvokeVoidTrackedAsync("reveal", _viewport, offset);
         }
         else if (_following)
         {
-            await _module.InvokeAsync<bool>("pin", _viewport);
+            await _module.InvokeTrackedAsync<bool>("pin", _viewport);
         }
 
         if (moved || previous != _range)

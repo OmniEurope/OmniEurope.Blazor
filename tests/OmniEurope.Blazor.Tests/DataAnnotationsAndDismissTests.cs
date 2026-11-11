@@ -11,11 +11,11 @@ namespace OmniEurope.Blazor.Tests;
 public sealed class DataAnnotationsAndDismissTests : OmniBunitContext
 {
     [Fact]
-    public void Validator_WritesTheStandardMessagesInFrench()
+    public async Task Validator_WritesTheStandardMessagesInFrench()
     {
         var host = RenderIn("fr-FR");
 
-        InCulture("fr-FR", () => host.Instance.EditContext.Validate());
+        await InCultureAsync("fr-FR", () => host.Instance.EditContext.ValidateAsync());
 
         // Like DataAnnotations' own Validator, a failed Required is the only message of its field.
         Assert.Equal(["Le champ Nom du projet est obligatoire."], host.Instance.MessagesFor("Name"));
@@ -25,11 +25,11 @@ public sealed class DataAnnotationsAndDismissTests : OmniBunitContext
     }
 
     [Fact]
-    public void Validator_WritesTheStandardMessagesInEnglish()
+    public async Task Validator_WritesTheStandardMessagesInEnglish()
     {
         var host = RenderIn("en-US");
 
-        InCulture("en-US", () => host.Instance.EditContext.Validate());
+        await InCultureAsync("en-US", () => host.Instance.EditContext.ValidateAsync());
 
         Assert.Contains("The Nom du projet field is required.", host.Instance.MessagesFor("Name"));
         Assert.Contains("The Réplicas field must be between 1 and 10.", host.Instance.MessagesFor("Replicas"));
@@ -48,21 +48,21 @@ public sealed class DataAnnotationsAndDismissTests : OmniBunitContext
     }
 
     [Fact]
-    public void Validator_ReportsARuleCarriedByTheModelTypeOnTheMembersItNames()
+    public async Task Validator_ReportsARuleCarriedByTheModelTypeOnTheMembersItNames()
     {
         var booking = new Booking { Start = new DateOnly(2026, 9, 30), End = new DateOnly(2026, 9, 27) };
         var context = new EditContext(booking);
         Render<OmniDataAnnotationsValidator>(parameters => parameters.AddCascadingValue(context));
 
-        Assert.False(context.Validate());
+        Assert.False(await context.ValidateAsync(Xunit.TestContext.Current.CancellationToken));
         Assert.Equal(["La fin précède le début."], context.GetValidationMessages(new FieldIdentifier(booking, nameof(Booking.End))));
 
         booking.End = new DateOnly(2026, 10, 2);
-        Assert.True(context.Validate());
+        Assert.True(await context.ValidateAsync(Xunit.TestContext.Current.CancellationToken));
     }
 
     [Fact]
-    public void Validator_TranslatesACustomMessageKeyAndAFieldNameThroughTheHostLocalizer()
+    public async Task Validator_TranslatesACustomMessageKeyAndAFieldNameThroughTheHostLocalizer()
     {
         var host = RenderIn("fr-FR", new DictionaryLocalizer(new Dictionary<string, string>
         {
@@ -70,7 +70,7 @@ public sealed class DataAnnotationsAndDismissTests : OmniBunitContext
             ["Mail"] = "Courriel",
         }));
 
-        InCulture("fr-FR", () => host.Instance.EditContext.Validate());
+        await InCultureAsync("fr-FR", () => host.Instance.EditContext.ValidateAsync());
 
         Assert.Contains("L'identifiant court est obligatoire.", host.Instance.MessagesFor("Slug"));
         Assert.Contains("Le champ Courriel n'est pas une adresse e-mail valide.", host.Instance.MessagesFor("Mail"));
@@ -111,6 +111,23 @@ public sealed class DataAnnotationsAndDismissTests : OmniBunitContext
         InCulture(culture, () => host = Render<DataAnnotationsValidatorTestHost>(parameters => parameters
             .Add(component => component.Localizer, localizer)));
         return host!;
+    }
+
+    private static async Task InCultureAsync(string name, Func<Task> action)
+    {
+        var previous = CultureInfo.CurrentUICulture;
+        var previousCulture = CultureInfo.CurrentCulture;
+        try
+        {
+            CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo(name);
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(name);
+            await action();
+        }
+        finally
+        {
+            CultureInfo.CurrentUICulture = previous;
+            CultureInfo.CurrentCulture = previousCulture;
+        }
     }
 
     private static void InCulture(string name, Action action)

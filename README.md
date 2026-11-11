@@ -43,7 +43,7 @@ More than a hundred components, one static stylesheet, no inline style, no `unsa
 
 ## Getting started
 
-Requires .NET 10.
+Requires .NET 11.
 
 Install the package:
 

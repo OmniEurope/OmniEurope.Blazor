@@ -83,3 +83,9 @@ et les quatre gardes sont réécrites sur cette forme.
 
 L'exclusion correspondante est déclarée dans la configuration locale du contrôle des règles
 (règle `STD-SDKPIN`, chemin `global.json`), avec cet ADR pour raison.
+
+## Note du 2026-11-11
+
+Cet ADR est déjà remplacé par ADR-002. Le plancher du SDK est passé à `11.0.100` par décision de
+l'utilisateur du 2026-11-11 (voir la note d'ADR-002) ; les valeurs `10.0.x` ci-dessus décrivent l'état du
+2026-09 et ne sont pas mises à jour.

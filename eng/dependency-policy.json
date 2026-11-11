@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "reviewedAt": "2026-11-05",
+  "reviewedAt": "2026-11-11",
   "packages": {
     "bunit": {
-      "version": "2.14.0",
+      "version": "2.15.2",
       "status": "latest-stable",
       "source": "https://www.nuget.org/packages/bunit/"
     },
@@ -13,28 +13,28 @@
       "source": "https://www.nuget.org/packages/coverlet.MTP/"
     },
     "HtmlSanitizer": {
-      "version": "11.0.16",
+      "version": "11.0.26",
       "status": "latest-stable",
       "source": "https://www.nuget.org/packages/HtmlSanitizer/"
     },
     "Microsoft.Extensions.Localization": {
-      "version": "10.0.14",
+      "version": "11.0.0",
       "status": "latest-stable",
       "source": "https://www.nuget.org/packages/Microsoft.Extensions.Localization/"
     },
     "Microsoft.AspNetCore.Components.Web": {
-      "version": "10.0.14",
+      "version": "11.0.0",
       "status": "latest-stable",
       "source": "https://www.nuget.org/packages/Microsoft.AspNetCore.Components.Web/"
     },
     "Microsoft.CodeAnalysis.CSharp": {
-      "version": "5.0.0",
+      "version": "5.9.0",
       "status": "toolchain-bound",
-      "reason": "The compiler of the first .NET 10 SDK (10.0.100). A Roslyn analyzer cannot reference a compiler newer than the SDK that loads it (CS9057); a project that references this repository by ProjectReference loads the analyzer with its own SDK, so the analyzer references the oldest .NET 10 compiler and any 10.0 SDK loads it.",
+      "reason": "The latest Roslyn published on NuGet.org. The compiler of the .NET 11 SDK floor (11.0.100) is 5.12.0, not published there: a Roslyn analyzer cannot reference a compiler newer than the SDK that loads it (CS9057), and a project that references this repository by ProjectReference loads the analyzers with its own SDK, so the analyzers reference a published compiler that any 11.0 SDK loads. Moves to the compiler of the SDK floor once that version is published.",
       "source": "https://www.nuget.org/packages/Microsoft.CodeAnalysis.CSharp/"
     },
     "Microsoft.AspNetCore.Components.WebView": {
-      "version": "10.0.14",
+      "version": "11.0.0",
       "status": "latest-stable",
       "source": "https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebView/"
     },
@@ -44,25 +44,27 @@
       "source": "https://www.nuget.org/packages/Microsoft.Web.WebView2/"
     },
     "Microsoft.AspNetCore.Components.WebView.Maui": {
-      "version": "10.0.101",
-      "status": "servicing-baseline"
+      "version": "11.0.10",
+      "status": "latest-stable",
+      "source": "https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebView.Maui/"
     },
     "Microsoft.Maui.Controls": {
-      "version": "10.0.101",
-      "status": "servicing-baseline"
+      "version": "11.0.10",
+      "status": "latest-stable",
+      "source": "https://www.nuget.org/packages/Microsoft.Maui.Controls/"
     },
     "Microsoft.AspNetCore.Components.WebAssembly": {
-      "version": "10.0.14",
+      "version": "11.0.0",
       "status": "latest-stable",
       "source": "https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebAssembly/"
     },
     "Microsoft.AspNetCore.Components.WebAssembly.DevServer": {
-      "version": "10.0.14",
+      "version": "11.0.0",
       "status": "latest-stable",
       "source": "https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebAssembly.DevServer/"
     },
     "Microsoft.AspNetCore.Components.WebAssembly.Server": {
-      "version": "10.0.14",
+      "version": "11.0.0",
       "status": "latest-stable",
       "source": "https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebAssembly.Server/"
     },
@@ -72,29 +74,32 @@
       "source": "https://www.nuget.org/packages/Microsoft.Testing.Extensions.TrxReport/"
     },
     "xunit.v3": {
-      "version": "4.0.2",
+      "version": "4.0.3",
       "status": "latest-stable",
       "source": "https://www.nuget.org/packages/xunit.v3/"
     },
     "Microsoft.AspNetCore.Mvc.Testing": {
-      "version": "10.0.14",
+      "version": "11.0.0",
       "status": "latest-stable",
       "source": "https://www.nuget.org/packages/Microsoft.AspNetCore.Mvc.Testing/"
     },
     "Microsoft.EntityFrameworkCore.Design": {
-      "version": "10.0.14",
-      "status": "latest-stable",
-      "source": "https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Design/"
+      "version": "10.0.15",
+      "status": "upstream-bound",
+      "source": "https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Design/",
+      "reason": "EF Core 10 stays until Npgsql.EntityFrameworkCore.PostgreSQL publishes a stable 11 (only 11.0.0-rc.3 exists on 2026-11-11): an EF Core provider must match the EF Core major."
     },
     "Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore": {
-      "version": "10.0.14",
-      "status": "latest-stable",
-      "source": "https://www.nuget.org/packages/Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore/"
+      "version": "10.0.15",
+      "status": "upstream-bound",
+      "source": "https://www.nuget.org/packages/Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore/",
+      "reason": "EF Core 10 stays until Npgsql.EntityFrameworkCore.PostgreSQL publishes a stable 11 (only 11.0.0-rc.3 exists on 2026-11-11): an EF Core provider must match the EF Core major."
     },
     "Npgsql.EntityFrameworkCore.PostgreSQL": {
       "version": "10.0.3",
-      "status": "latest-stable",
-      "source": "https://www.nuget.org/packages/Npgsql.EntityFrameworkCore.PostgreSQL/"
+      "status": "upstream-bound",
+      "source": "https://www.nuget.org/packages/Npgsql.EntityFrameworkCore.PostgreSQL/",
+      "reason": "The latest stable release on NuGet.org is 10.0.3 (11.0.0-rc.3 is the newest 11 build): the showcase API stays on EF Core 10 until a stable 11 is published."
     },
     "Testcontainers.PostgreSql": {
       "version": "4.16.0",
@@ -110,7 +115,7 @@
     }
   },
   "toolchain": {
-    "sdk": "10.0.100",
+    "sdk": "11.0.100",
     "rollForward": "latestFeature"
   }
 }

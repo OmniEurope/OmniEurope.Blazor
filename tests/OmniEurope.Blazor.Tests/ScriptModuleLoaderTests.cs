@@ -130,9 +130,9 @@ public sealed class ScriptModuleLoaderTests : OmniBunitContext
     }
 
     /// <summary>The bUnit runtime, failing the first imports with the scripted exceptions then answering for real.</summary>
-    private sealed class ScriptedImports(IJSRuntime inner, IReadOnlyList<Exception> failures) : IJSRuntime
+    internal sealed class ScriptedImports(IJSRuntime inner, IReadOnlyList<Exception> failures) : IJSRuntime
     {
-        public int Attempts { get; private set; }
+        public int Attempts { get; internal set; }
 
         public List<string> Paths { get; } = [];
 
@@ -140,23 +140,37 @@ public sealed class ScriptModuleLoaderTests : OmniBunitContext
 
         public Action? OnFailure { get; set; }
 
+        internal IReadOnlyList<Exception> Failures => failures;
+
+        /// <summary>The real import of the wrapped runtime, held as a delegate so it is not invoked through its script interface.</summary>
+        internal Func<string, CancellationToken, object?[]?, ValueTask<IJSObjectReference>> Forward { get; } = inner.InvokeAsync<IJSObjectReference>;
+
         public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args)
-            => InvokeAsync<TValue>(identifier, CancellationToken.None, args);
+            => ScriptedImportsScript.Import<TValue>(this, identifier, CancellationToken.None, args);
 
         public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args)
-        {
-            Assert.Equal("import", identifier);
-            Paths.Add((string)args![0]!);
-            Tokens.Add(cancellationToken);
-            if (Attempts < failures.Count)
-            {
-                var failure = failures[Attempts++];
-                OnFailure?.Invoke();
-                return ValueTask.FromException<TValue>(failure);
-            }
-
-            Attempts++;
-            return inner.InvokeAsync<TValue>(identifier, cancellationToken, args);
-        }
+            => ScriptedImportsScript.Import<TValue>(this, identifier, cancellationToken, args);
     }
+}
+
+/// <summary>The scripted answers of <see cref="ScriptModuleLoaderTests.ScriptedImports"/>, kept apart from its script interface.</summary>
+file static class ScriptedImportsScript
+{
+    internal static ValueTask<TValue> Import<TValue>(ScriptModuleLoaderTests.ScriptedImports runtime, string identifier, CancellationToken cancellationToken, object?[]? args)
+    {
+        Assert.Equal("import", identifier);
+        runtime.Paths.Add((string)args![0]!);
+        runtime.Tokens.Add(cancellationToken);
+        if (runtime.Attempts < runtime.Failures.Count)
+        {
+            var failure = runtime.Failures[runtime.Attempts++];
+            runtime.OnFailure?.Invoke();
+            return ValueTask.FromException<TValue>(failure);
+        }
+
+        runtime.Attempts++;
+        return As<TValue>(runtime.Forward(identifier, cancellationToken, args));
+    }
+
+    private static async ValueTask<TValue> As<TValue>(ValueTask<IJSObjectReference> module) => (TValue)(object)await module;
 }

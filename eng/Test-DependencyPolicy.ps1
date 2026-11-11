@@ -61,7 +61,7 @@ foreach ($id in @('bunit', 'coverlet.MTP')) {
 }
 
 $hybridLock = Get-Content -LiteralPath (Join-Path $repoRoot 'samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json') -Raw | ConvertFrom-Json
-$hybridFramework = @($hybridLock.dependencies.PSObject.Properties | Where-Object Name -Like 'net10.0-windows*')[0].Value
+$hybridFramework = @($hybridLock.dependencies.PSObject.Properties | Where-Object Name -Like 'net11.0-windows*')[0].Value
 foreach ($id in @('Microsoft.Maui.Controls', 'Microsoft.AspNetCore.Components.WebView.Maui')) {
     $entry = $hybridFramework.PSObject.Properties[$id]
     if ($null -eq $entry -or [string]$entry.Value.resolved -ne [string]$policy.packages.$id.version) {

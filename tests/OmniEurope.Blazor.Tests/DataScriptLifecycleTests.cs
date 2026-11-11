@@ -298,10 +298,11 @@ public sealed class DataScriptLifecycleTests : OmniBunitContext
 
 
     /// <summary>A runtime whose import can be held, with a module that refuses calls once released.</summary>
-    private sealed class GatedRuntime : IJSRuntime
+    internal sealed class GatedRuntime : IJSRuntime
     {
-        private readonly TaskCompletionSource<IJSObjectReference> _import = new(TaskCreationOptions.RunContinuationsAsynchronously);
-        private int _imports;
+        internal TaskCompletionSource<IJSObjectReference> PendingImport { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        internal System.Runtime.CompilerServices.StrongBox<int> ImportCounter { get; } = new();
 
         internal GatedModule Module { get; } = new();
 
@@ -313,50 +314,24 @@ public sealed class DataScriptLifecycleTests : OmniBunitContext
 
         internal List<string> DirectCalls { get; } = [];
 
-        internal int Imports => _imports;
-
-        internal void ReleaseImport() => _import.SetResult(Module);
-
-        internal Task WaitForCallAsync(string name) => Module.Called(name).WaitAsync(Limit);
+        internal int Imports => ImportCounter.Value;
 
         public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) =>
-            InvokeAsync<TValue>(identifier, CancellationToken.None, args);
+            GatedScript.InvokeAsync<TValue>(this, identifier);
 
-        public async ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args)
-        {
-            if (identifier != "import")
-            {
-                DirectCalls.Add(identifier);
-                if (Gates.TryGetValue(identifier, out var gate))
-                {
-                    await gate.Task;
-                }
-
-                return default!;
-            }
-
-            if (ImportFailures.TryDequeue(out var failure))
-            {
-                await Task.Yield();
-                throw failure;
-            }
-
-            Interlocked.Increment(ref _imports);
-            return HoldImport ? (TValue)await _import.Task : (TValue)(object)Module;
-        }
+        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) =>
+            GatedScript.InvokeAsync<TValue>(this, identifier);
     }
 
-    private sealed class GatedModule : IJSObjectReference
+    internal sealed class GatedModule : IJSObjectReference
     {
-        private bool _disposed;
+        internal bool Disposed { get; set; }
 
-        private readonly System.Collections.Concurrent.ConcurrentDictionary<string, TaskCompletionSource> _signals = new(StringComparer.Ordinal);
+        internal System.Collections.Concurrent.ConcurrentDictionary<string, TaskCompletionSource> Signals { get; } = new(StringComparer.Ordinal);
 
         internal List<string> Calls { get; } = [];
 
         internal List<string> CallsAfterDisposal { get; } = [];
-
-        internal Task Called(string name) => Signal(name).Task;
 
         internal Dictionary<string, Exception> Failures { get; } = new(StringComparer.Ordinal);
 
@@ -364,39 +339,78 @@ public sealed class DataScriptLifecycleTests : OmniBunitContext
 
         internal TaskCompletionSource Disposal { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
-        private TaskCompletionSource Signal(string name) => _signals.GetOrAdd(name, _ => new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously));
-
         public ValueTask DisposeAsync()
         {
-            _disposed = true;
+            Disposed = true;
             Disposal.TrySetResult();
             return ValueTask.CompletedTask;
         }
 
         public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) =>
-            InvokeAsync<TValue>(identifier, CancellationToken.None, args);
+            GatedScript.InvokeAsync<TValue>(this, identifier);
 
-        public async ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args)
+        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) =>
+            GatedScript.InvokeAsync<TValue>(this, identifier);
+    }
+}
+
+/// <summary>The control surface and the call logic of the gated runtime and module, kept apart from their script interface.</summary>
+file static class GatedScript
+{
+    private static readonly TimeSpan Limit = TimeSpan.FromSeconds(5);
+
+    internal static void ReleaseImport(this DataScriptLifecycleTests.GatedRuntime runtime) => runtime.PendingImport.SetResult(runtime.Module);
+
+    internal static Task WaitForCallAsync(this DataScriptLifecycleTests.GatedRuntime runtime, string name) => Called(runtime.Module, name).WaitAsync(Limit);
+
+    internal static Task Called(this DataScriptLifecycleTests.GatedModule module, string name) => Signal(module, name).Task;
+
+    private static TaskCompletionSource Signal(DataScriptLifecycleTests.GatedModule module, string name) =>
+        module.Signals.GetOrAdd(name, _ => new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously));
+
+    internal static async ValueTask<TValue> InvokeAsync<TValue>(DataScriptLifecycleTests.GatedRuntime runtime, string identifier)
+    {
+        if (identifier != "import")
         {
-            if (_disposed)
-            {
-                CallsAfterDisposal.Add(identifier);
-                throw new ObjectDisposedException(nameof(GatedModule));
-            }
-
-            Calls.Add(identifier);
-            Signal(identifier).TrySetResult();
-            if (Failures.TryGetValue(identifier, out var failure))
-            {
-                throw failure;
-            }
-
-            if (Gates.TryGetValue(identifier, out var gate))
+            runtime.DirectCalls.Add(identifier);
+            if (runtime.Gates.TryGetValue(identifier, out var gate))
             {
                 await gate.Task;
             }
 
             return default!;
         }
+
+        if (runtime.ImportFailures.TryDequeue(out var failure))
+        {
+            await Task.Yield();
+            throw failure;
+        }
+
+        Interlocked.Increment(ref runtime.ImportCounter.Value);
+        return runtime.HoldImport ? (TValue)await runtime.PendingImport.Task : (TValue)(object)runtime.Module;
+    }
+
+    internal static async ValueTask<TValue> InvokeAsync<TValue>(DataScriptLifecycleTests.GatedModule module, string identifier)
+    {
+        if (module.Disposed)
+        {
+            module.CallsAfterDisposal.Add(identifier);
+            throw new ObjectDisposedException(nameof(DataScriptLifecycleTests.GatedModule));
+        }
+
+        module.Calls.Add(identifier);
+        Signal(module, identifier).TrySetResult();
+        if (module.Failures.TryGetValue(identifier, out var failure))
+        {
+            throw failure;
+        }
+
+        if (module.Gates.TryGetValue(identifier, out var gate))
+        {
+            await gate.Task;
+        }
+
+        return default!;
     }
 }

@@ -107,13 +107,13 @@ public sealed class DataAnnotationsValidatorTests : OmniBunitContext
         Assert.Single(context.GetValidationMessages(new FieldIdentifier(model, field)));
 
     [Fact]
-    public void EveryRule_HasItsPackageMessage()
+    public async Task EveryRule_HasItsPackageMessage()
     {
         var model = new Rules();
         var context = new EditContext(model);
         RenderValidator(context);
 
-        context.Validate();
+        await context.ValidateAsync(Xunit.TestContext.Current.CancellationToken);
 
         Assert.Equal("Le champ Short doit contenir au plus 5 caractères.", Single(context, model, nameof(Rules.Short)));
         Assert.Equal("Le champ Capped doit contenir au plus 3 caractères.", Single(context, model, nameof(Rules.Capped)));
@@ -128,38 +128,38 @@ public sealed class DataAnnotationsValidatorTests : OmniBunitContext
     }
 
     [Fact]
-    public void ModelMessages_FromAResourceOrAMissingKey_AreTheRulesOwnText()
+    public async Task ModelMessages_FromAResourceOrAMissingKey_AreTheRulesOwnText()
     {
         var model = new Rules();
         var context = new EditContext(model);
         RenderValidator(context);
 
-        context.Validate();
+        await context.ValidateAsync(Xunit.TestContext.Current.CancellationToken);
 
         Assert.Equal("Message de ressource", Single(context, model, nameof(Rules.FromResource)));
         Assert.Equal("Clé absente", Single(context, model, nameof(Rules.Custom)));
     }
 
     [Fact]
-    public void CustomMessageKey_UnknownToTheHostLocalizer_KeepsTheRulesText()
+    public async Task CustomMessageKey_UnknownToTheHostLocalizer_KeepsTheRulesText()
     {
         var model = new Rules();
         var context = new EditContext(model);
         RenderValidator(context, new Texts(new Dictionary<string, string>()));
 
-        context.Validate();
+        await context.ValidateAsync(Xunit.TestContext.Current.CancellationToken);
 
         Assert.Equal("Clé absente", Single(context, model, nameof(Rules.Custom)));
     }
 
     [Fact]
-    public void ModelRules_AndValidatableObject_ReportOnTheirMembers_OrOnTheModel()
+    public async Task ModelRules_AndValidatableObject_ReportOnTheirMembers_OrOnTheModel()
     {
         var model = new Whole();
         var context = new EditContext(model);
         RenderValidator(context);
 
-        context.Validate();
+        await context.ValidateAsync(Xunit.TestContext.Current.CancellationToken);
 
         Assert.Equal("Sur deux champs", Single(context, model, nameof(Whole.Left)));
         Assert.Equal("Sur deux champs", Single(context, model, nameof(Whole.Right)));
@@ -168,7 +168,7 @@ public sealed class DataAnnotationsValidatorTests : OmniBunitContext
     }
 
     [Fact]
-    public void ValidatableObjectMessage_WrittenAsAResourceKey_IsTranslatedByTheHostLocalizer()
+    public async Task ValidatableObjectMessage_WrittenAsAResourceKey_IsTranslatedByTheHostLocalizer()
     {
         // Like an attribute's ErrorMessage, a validatable result may carry a resource key of the host
         // (PLAN-001, G-D30-01): it is looked up, and a key the host does not know stays as written.
@@ -176,7 +176,7 @@ public sealed class DataAnnotationsValidatorTests : OmniBunitContext
         var context = new EditContext(model);
         RenderValidator(context, new Texts(new Dictionary<string, string> { ["Sur deux champs"] = "Gauche et droite diffèrent" }));
 
-        context.Validate();
+        await context.ValidateAsync(Xunit.TestContext.Current.CancellationToken);
 
         Assert.Equal("Gauche et droite diffèrent", Single(context, model, nameof(Whole.Left)));
         Assert.Equal("Gauche et droite diffèrent", Single(context, model, nameof(Whole.Right)));
@@ -184,12 +184,12 @@ public sealed class DataAnnotationsValidatorTests : OmniBunitContext
     }
 
     [Fact]
-    public void ChangedFieldThatIsNoProperty_ClearsItsMessagesOnly()
+    public async Task ChangedFieldThatIsNoProperty_ClearsItsMessagesOnly()
     {
         var model = new Rules();
         var context = new EditContext(model);
         RenderValidator(context);
-        context.Validate();
+        await context.ValidateAsync(Xunit.TestContext.Current.CancellationToken);
 
         context.NotifyFieldChanged(new FieldIdentifier(model, "NotAProperty"));
 
@@ -203,7 +203,7 @@ public sealed class DataAnnotationsValidatorTests : OmniBunitContext
     }
 
     [Fact]
-    public void NewEditContext_MovesTheValidatorOver_AndTheOldOneIsLeft()
+    public async Task NewEditContext_MovesTheValidatorOver_AndTheOldOneIsLeft()
     {
         var first = new Rules();
         var firstContext = new EditContext(first);
@@ -212,7 +212,7 @@ public sealed class DataAnnotationsValidatorTests : OmniBunitContext
             .AddChildContent<OmniDataAnnotationsValidator>());
         // CascadingValue takes its whole parameter set: the child content is passed again each time.
         cascade.Render(parameters => parameters.Add(component => component.Value, firstContext).AddChildContent<OmniDataAnnotationsValidator>());
-        firstContext.Validate();
+        await firstContext.ValidateAsync(Xunit.TestContext.Current.CancellationToken);
         Assert.NotEmpty(firstContext.GetValidationMessages());
 
         var second = new Rules();
@@ -221,14 +221,14 @@ public sealed class DataAnnotationsValidatorTests : OmniBunitContext
 
         // The old context lost its messages and its validator; the new one validates.
         Assert.Empty(firstContext.GetValidationMessages());
-        firstContext.Validate();
+        await firstContext.ValidateAsync(Xunit.TestContext.Current.CancellationToken);
         Assert.Empty(firstContext.GetValidationMessages());
-        secondContext.Validate();
+        await secondContext.ValidateAsync(Xunit.TestContext.Current.CancellationToken);
         Assert.NotEmpty(secondContext.GetValidationMessages());
     }
 
     [Fact]
-    public void ValidatorDisposedByAnEarlierHandler_IgnoresTheEventItWasStillIn()
+    public async Task ValidatorDisposedByAnEarlierHandler_IgnoresTheEventItWasStillIn()
     {
         // The edit context invokes the handlers it held when the event started: a handler that
         // disposes the validator first does not stop the validator's own handler from being called.
@@ -237,7 +237,7 @@ public sealed class DataAnnotationsValidatorTests : OmniBunitContext
         OmniDataAnnotationsValidator? validator = null;
         context.OnValidationRequested += (_, _) => validator!.Dispose();
         validator = RenderValidator(context).Instance;
-        Assert.True(context.Validate());
+        Assert.True(await context.ValidateAsync(Xunit.TestContext.Current.CancellationToken));
 
         var changed = new EditContext(new Rules());
         OmniDataAnnotationsValidator? other = null;

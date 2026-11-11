@@ -653,7 +653,7 @@ public partial class OmniHtmlEditor
         }
 
         var name = string.IsNullOrWhiteSpace(FileName) ? "document" : FileName.Trim();
-        await _downloadModule.InvokeVoidAsync("download", name + extension, mimeType, content);
+        await _downloadModule.InvokeVoidTrackedAsync("download", name + extension, mimeType, content);
     }
 
     internal Task<bool> ReplaceClosestAsync(string selector, string html) => Visual.ReplaceClosestAsync(selector, html);

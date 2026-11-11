@@ -59,7 +59,7 @@ public partial class ProgressPage : IDisposable
             {
                 await Task.Delay(TickInterval, run.Token);
                 Value = Math.Min(100, Value + 1);
-                StateHasChanged();
+                await InvokeAsync(StateHasChanged);
             }
         }
         catch (OperationCanceledException)

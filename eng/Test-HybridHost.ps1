@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [string]$ExecutablePath = (Join-Path $PSScriptRoot '..\samples\OmniEurope.Blazor.HybridSmoke\bin\Release\net10.0-windows10.0.19041.0\win-x64\OmniEurope.Blazor.HybridSmoke.exe'),
+    [string]$ExecutablePath = (Join-Path $PSScriptRoot '..\samples\OmniEurope.Blazor.HybridSmoke\bin\Release\net11.0-windows10.0.19041.0\win-x64\OmniEurope.Blazor.HybridSmoke.exe'),
     [int]$ReadyTimeoutSeconds = 90
 )
 

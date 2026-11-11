@@ -189,7 +189,7 @@ public sealed class InteractionComponentTests : OmniBunitContext
     {
         var form = Render<FormTestHost>();
 
-        Assert.False(await form.InvokeAsync(() => form.Instance.EditContext.Validate()));
+        Assert.False(await form.InvokeAsync(() => form.Instance.EditContext.ValidateAsync()));
         Assert.Contains("Ce champ est obligatoire.", form.Instance.EditContext.GetValidationMessages());
         form.WaitForAssertion(() =>
         {
@@ -203,7 +203,7 @@ public sealed class InteractionComponentTests : OmniBunitContext
 
         form.Find("#name").Input("Alice");
 
-        Assert.True(await form.InvokeAsync(() => form.Instance.EditContext.Validate()));
+        Assert.True(await form.InvokeAsync(() => form.Instance.EditContext.ValidateAsync()));
         Assert.Empty(form.Instance.EditContext.GetValidationMessages());
         form.WaitForAssertion(() => Assert.All(form.FindAll(".omni-validation-message"), message => Assert.Equal(string.Empty, message.TextContent)));
     }
@@ -251,12 +251,12 @@ public sealed class InteractionComponentTests : OmniBunitContext
     {
         var form = Render<FormTestHost>();
 
-        Assert.False(await form.InvokeAsync(() => form.Instance.EditContext.Validate()));
+        Assert.False(await form.InvokeAsync(() => form.Instance.EditContext.ValidateAsync()));
         Assert.Contains("Ce champ est obligatoire.", form.Instance.EditContext.GetValidationMessages());
 
         form.Find("#name").Input("Alice");
 
-        Assert.True(await form.InvokeAsync(() => form.Instance.EditContext.Validate()));
+        Assert.True(await form.InvokeAsync(() => form.Instance.EditContext.ValidateAsync()));
     }
 
     [Fact]
@@ -265,15 +265,15 @@ public sealed class InteractionComponentTests : OmniBunitContext
         var host = Render<ValidatorLifecycleTestHost>();
         var originalContext = host.Instance.EditContext;
 
-        Assert.True(await host.InvokeAsync(() => host.Instance.EditContext.Validate()));
+        Assert.True(await host.InvokeAsync(() => host.Instance.EditContext.ValidateAsync()));
         host.Instance.ValidateTheBlankField();
         host.Render();
-        Assert.False(await host.InvokeAsync(() => host.Instance.EditContext.Validate()));
+        Assert.False(await host.InvokeAsync(() => host.Instance.EditContext.ValidateAsync()));
         Assert.Contains("Ce champ est obligatoire.", host.Instance.EditContext.GetValidationMessages());
 
         host.Instance.ReplaceModel();
         host.Render();
-        Assert.False(await host.InvokeAsync(() => host.Instance.EditContext.Validate()));
+        Assert.False(await host.InvokeAsync(() => host.Instance.EditContext.ValidateAsync()));
         Assert.Contains("Ce champ est obligatoire.", host.Instance.EditContext.GetValidationMessages());
         Assert.Empty(originalContext.GetValidationMessages());
     }

@@ -327,7 +327,7 @@ public partial class OmniInkCanvas
         // Null only when the canvas was disposed while its script loaded.
         ObjectDisposedException.ThrowIf(module is null, this);
         var (colors, widths, points) = Internal.InkStrokeCodec.Pack(_strokes);
-        return await module!.InvokeAsync<byte[]>("exportPng", cancellationToken, colors, widths, points, width, height);
+        return await module!.InvokeTrackedAsync<byte[]>("exportPng", cancellationToken, colors, widths, points, width, height);
     }
 
     /// <summary>The PNG of <see cref="ExportPngAsync"/> as a <c>data:image/png;base64,</c> address, for an <c>img</c> source or a download link.</summary>

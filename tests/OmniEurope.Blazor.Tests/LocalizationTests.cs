@@ -197,7 +197,7 @@ public sealed class LocalizationTests : OmniBunitContext
             CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
             var form = Render<FormTestHost>();
 
-            Assert.False(await form.InvokeAsync(() => form.Instance.EditContext.Validate()));
+            Assert.False(await form.InvokeAsync(() => form.Instance.EditContext.ValidateAsync()));
             var messages = form.Instance.EditContext.GetValidationMessages().ToArray();
             Assert.Contains("This field is required.", messages);
         }

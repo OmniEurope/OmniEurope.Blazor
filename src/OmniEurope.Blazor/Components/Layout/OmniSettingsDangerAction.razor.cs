@@ -182,7 +182,7 @@ public partial class OmniSettingsDangerAction
                     $"{nameof(OmniSettingsDangerAction)}.{nameof(ConfirmDetails)} needs an {nameof(OmniComponentsHost)} to draw it: the browser's own question has no room for a field.");
             }
 
-            return CanConfirm && await JavaScript.InvokeAsync<bool>("confirm", message);
+            return CanConfirm && await JavaScript.InvokeTrackedAsync<bool>("confirm", message);
         }
 
         var request = new OmniConfirmRequest(string.IsNullOrWhiteSpace(ConfirmTitle) ? Title : ConfirmTitle, message)

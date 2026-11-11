@@ -62,7 +62,7 @@ public sealed class BehaviourAuditTests : OmniBunitContext
     }
 
     [Fact]
-    public void ValidatorMovedToAnotherField_ForgetsTheMessageOfTheFirst()
+    public async Task ValidatorMovedToAnotherField_ForgetsTheMessageOfTheFirst()
     {
         var person = new Person();
         var form = new EditContext(person);
@@ -70,7 +70,7 @@ public sealed class BehaviourAuditTests : OmniBunitContext
             .AddCascadingValue(form)
             .Add(component => component.For, () => person.Name)
             .Add(component => component.Message, "Le champ manque."));
-        form.Validate();
+        await form.ValidateAsync(Xunit.TestContext.Current.CancellationToken);
         Assert.Equal("Le champ manque.", required.Find(".omni-validation-message").TextContent);
 
         required.Render(parameters => parameters
@@ -80,7 +80,7 @@ public sealed class BehaviourAuditTests : OmniBunitContext
         Assert.Empty(form.GetValidationMessages());
 
         // The same field given again keeps what it showed.
-        form.Validate();
+        await form.ValidateAsync(Xunit.TestContext.Current.CancellationToken);
         required.Render(parameters => parameters
             .Add(component => component.For, () => person.City)
             .Add(component => component.Message, "Autre."));

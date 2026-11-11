@@ -74,7 +74,6 @@ public partial class ConnectionOverlayExample : IDisposable
     {
         Reconnecting = true;
         Countdown = 0;
-        StateHasChanged();
         if (!await DelayAsync(TimeSpan.FromSeconds(1)))
         {
             return;

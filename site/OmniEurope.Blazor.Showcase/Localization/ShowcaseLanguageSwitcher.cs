@@ -33,7 +33,18 @@ public sealed class ShowcaseLanguageSwitcher(IJSRuntime js, NavigationManager na
             return false;
         }
 
-        if (!await js.InvokeAsync<bool>("omniShowcaseCulture.save", ShowcaseLanguages.StorageKey, language.Code).ConfigureAwait(true))
+        bool saved;
+        try
+        {
+            saved = await js.InvokeAsync<bool>("omniShowcaseCulture.save", ShowcaseLanguages.StorageKey, language.Code).ConfigureAwait(true);
+        }
+        catch (JSException)
+        {
+            // The culture script failed: the language was not stored, so the page is not reloaded.
+            saved = false;
+        }
+
+        if (!saved)
         {
             return false;
         }

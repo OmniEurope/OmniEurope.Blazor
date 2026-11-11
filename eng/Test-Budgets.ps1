@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
-    [string]$ShippedCssPath = (Join-Path $PSScriptRoot '..\src\OmniEurope.Blazor\obj\Release\net10.0\omni-stylesheet\omnieurope.blazor.css'),
-    [string]$AssemblyPath = (Join-Path $PSScriptRoot '..\src\OmniEurope.Blazor\bin\Release\net10.0\OmniEurope.Blazor.dll'),
+    [string]$ShippedCssPath = (Join-Path $PSScriptRoot '..\src\OmniEurope.Blazor\obj\Release\net11.0\omni-stylesheet\omnieurope.blazor.css'),
+    [string]$AssemblyPath = (Join-Path $PSScriptRoot '..\src\OmniEurope.Blazor\bin\Release\net11.0\OmniEurope.Blazor.dll'),
     [string]$PackagePath
 )
 

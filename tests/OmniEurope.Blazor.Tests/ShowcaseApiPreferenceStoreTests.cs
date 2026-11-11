@@ -210,35 +210,42 @@ public sealed class ShowcaseApiPreferenceStoreTests : OmniBunitContext
     }
 
     /// <summary>The browser's <c>localStorage</c> for <see cref="ShowcaseVisitor"/>, which can refuse every call.</summary>
-    private sealed class VisitorStorage : IJSRuntime
+    internal sealed class VisitorStorage : IJSRuntime
     {
         public Dictionary<string, string> Values { get; } = new(StringComparer.Ordinal);
 
         public JSException? Failure { get; set; }
 
-        public int Writes { get; private set; }
+        public int Writes { get; internal set; }
 
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) => InvokeAsync<TValue>(identifier, CancellationToken.None, args);
+        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) => VisitorStorageScript.Answer<TValue>(this, identifier, args);
 
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args)
+        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) =>
+            VisitorStorageScript.Answer<TValue>(this, identifier, args);
+    }
+}
+
+/// <summary>The answers of <see cref="ShowcaseApiPreferenceStoreTests.VisitorStorage"/>, kept apart from its script interface.</summary>
+file static class VisitorStorageScript
+{
+    internal static ValueTask<TValue> Answer<TValue>(ShowcaseApiPreferenceStoreTests.VisitorStorage storage, string identifier, object?[]? args)
+    {
+        if (storage.Failure is not null)
         {
-            if (Failure is not null)
-            {
-                return ValueTask.FromException<TValue>(Failure);
-            }
+            return ValueTask.FromException<TValue>(storage.Failure);
+        }
 
-            args ??= [];
-            switch (identifier)
-            {
-                case "localStorage.getItem":
-                    return ValueTask.FromResult((TValue)(object?)(Values.TryGetValue((string)args[0]!, out var value) ? value : null)!);
-                case "localStorage.setItem":
-                    Writes++;
-                    Values[(string)args[0]!] = (string)args[1]!;
-                    return ValueTask.FromResult(default(TValue)!);
-                default:
-                    throw new InvalidOperationException($"Unexpected call {identifier}.");
-            }
+        args ??= [];
+        switch (identifier)
+        {
+            case "localStorage.getItem":
+                return ValueTask.FromResult((TValue)(object?)(storage.Values.TryGetValue((string)args[0]!, out var value) ? value : null)!);
+            case "localStorage.setItem":
+                storage.Writes++;
+                storage.Values[(string)args[0]!] = (string)args[1]!;
+                return ValueTask.FromResult(default(TValue)!);
+            default:
+                throw new InvalidOperationException($"Unexpected call {identifier}.");
         }
     }
 }

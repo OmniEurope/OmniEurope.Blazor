@@ -22,29 +22,11 @@ internal sealed class ManualJSRuntime : IJSRuntime
     /// <summary>Imports held until released, by the end of the module path; the other imports answer at once.</summary>
     public Dictionary<string, TaskCompletionSource> ImportGates { get; } = new(StringComparer.Ordinal);
 
-    public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args)
-    {
-        if (identifier != "import")
-        {
-            return ValueTask.FromResult(default(TValue)!);
-        }
+    public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) =>
+        ManualJSRuntimeScript.Invoke<TValue>(this, identifier, args);
 
-        if (ImportFailure is not null)
-        {
-            return ValueTask.FromException<TValue>(ImportFailure);
-        }
-
-        if (args is [string path, ..] && ImportGates.FirstOrDefault(gate => path.EndsWith(gate.Key, StringComparison.Ordinal)).Value is { } gated)
-        {
-            return new ValueTask<TValue>(gated.Task.ContinueWith(_ => (TValue)(object)Module, TaskScheduler.Default));
-        }
-
-        return HoldImports
-            ? new ValueTask<TValue>(PendingImport.Task.ContinueWith(task => (TValue)task.Result, TaskScheduler.Default))
-            : ValueTask.FromResult((TValue)(object)Module);
-    }
-
-    public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) => InvokeAsync<TValue>(identifier, args);
+    public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) =>
+        ManualJSRuntimeScript.Invoke<TValue>(this, identifier, args);
 }
 
 /// <summary>A module that records its calls and its release, and can fail the release or a call.</summary>
@@ -71,19 +53,49 @@ internal sealed class RecordingModule : IJSObjectReference
         return DisposeFailure is null ? ValueTask.CompletedTask : ValueTask.FromException(DisposeFailure);
     }
 
-    public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args)
+    public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) =>
+        ManualJSRuntimeScript.Invoke<TValue>(this, identifier, args);
+
+    public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) =>
+        ManualJSRuntimeScript.Invoke<TValue>(this, identifier, args);
+}
+
+/// <summary>The scripted answers of <see cref="ManualJSRuntime"/> and <see cref="RecordingModule"/>, kept apart from their interop surface.</summary>
+internal static class ManualJSRuntimeScript
+{
+    internal static ValueTask<TValue> Invoke<TValue>(ManualJSRuntime runtime, string identifier, object?[]? args)
     {
-        Calls.Add(identifier);
-        if (CallFailures.TryGetValue(identifier, out var failure))
+        if (identifier != "import")
+        {
+            return ValueTask.FromResult(default(TValue)!);
+        }
+
+        if (runtime.ImportFailure is not null)
+        {
+            return ValueTask.FromException<TValue>(runtime.ImportFailure);
+        }
+
+        if (args is [string path, ..] && runtime.ImportGates.FirstOrDefault(gate => path.EndsWith(gate.Key, StringComparison.Ordinal)).Value is { } gated)
+        {
+            return new ValueTask<TValue>(gated.Task.ContinueWith(_ => (TValue)(object)runtime.Module, TaskScheduler.Default));
+        }
+
+        return runtime.HoldImports
+            ? new ValueTask<TValue>(runtime.PendingImport.Task.ContinueWith(task => (TValue)task.Result, TaskScheduler.Default))
+            : ValueTask.FromResult((TValue)(object)runtime.Module);
+    }
+
+    internal static ValueTask<TValue> Invoke<TValue>(RecordingModule module, string identifier, object?[]? args)
+    {
+        module.Calls.Add(identifier);
+        if (module.CallFailures.TryGetValue(identifier, out var failure))
         {
             return ValueTask.FromException<TValue>(failure);
         }
 
-        var result = Answers.TryGetValue(identifier, out var answer) ? (TValue)answer! : default(TValue)!;
-        return Gates.TryGetValue(identifier, out var gate)
+        var result = module.Answers.TryGetValue(identifier, out var answer) ? (TValue)answer! : default(TValue)!;
+        return module.Gates.TryGetValue(identifier, out var gate)
             ? new ValueTask<TValue>(gate.Task.ContinueWith(_ => result, TaskScheduler.Default))
             : ValueTask.FromResult(result);
     }
-
-    public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) => InvokeAsync<TValue>(identifier, args);
 }

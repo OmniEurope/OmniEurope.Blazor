@@ -2,9 +2,9 @@
 
 ## Texte légal officiel
 
-Le fichier `LICENSE` conserve textuellement les deux tirets cadratins du texte anglais officiel EUPL-1.2. Ils constituent l'unique exception à la gate typographique U+2014; le code, les scripts, les configurations et les autres documents doivent rester sans ce caractère. La version de référence est publiée par la Commission européenne dans les [textes officiels EUPL-1.2](https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12).
+Le fichier `LICENSE` conserve textuellement les deux tirets cadratins du texte anglais officiel EUPL-1.2. Ils constituent l'unique exception à la gate typographique U+2014; le code, les scripts, les configurations et les autres documents doivent rester sans ce caractère. La version de référence est publiée par la Commission européenne dans les [textes officiels EUPL-1.2]`https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12).
 
-La compilation active `Deterministic` dans `Directory.Build.props` et les dépendances sont verrouillées par les fichiers `packages.lock.json`. `global.json` déclare un plancher SDK (`version: 10.0.100`, `rollForward: latestFeature`) : toute bande `10.0` à partir de `10.0.100` convient, et les paquets implicites du SDK sont épinglés dans `Directory.Build.targets`, si bien que les verrous ne dépendent pas de la bande résolue (ADR-002). `eng/Test-SdkBand.ps1` lit `global.json` et applique ce plancher dans les deux jobs de CI, sans recopier le numéro. Le workload set n'est plus figé, car `setup-dotnet` n'en installe aucun et le pin faisait échouer la résolution MSBuild de tout projet, y compris ceux qui n'utilisent aucun workload; seul le job MAUI installe `maui-windows`.
+La compilation active `Deterministic` dans `Directory.Build.props` et les dépendances sont verrouillées par les fichiers `packages.lock.json`. `global.json` déclare un plancher SDK ``version: 11.0.100`, `rollForward: latestFeature`) : toute bande `11.0` à partir de `11.0.100` convient, et les paquets implicites du SDK sont épinglés dans `Directory.Build.targets`, si bien que les verrous ne dépendent pas de la bande résolue `ADR-002). `eng/Test-SdkBand.ps1` lit `global.json` et applique ce plancher dans les deux jobs de CI, sans recopier le numéro. Le workload set n'est plus figé, car `setup-dotnet` n'en installe aucun et le pin faisait échouer la résolution MSBuild de tout projet, y compris ceux qui n'utilisent aucun workload; seul le job MAUI installe `maui-windows`.
 
 `.gitattributes` impose LF à tout fichier suivi, sauf `docs/third-party-licenses/`, laissé sans conversion. Ces textes sont copiés octet pour octet depuis les paquets NuGet puis hachés comme preuve : les convertir ferait diverger le hash entre un poste Windows et la CI pour un contenu identique.
 
@@ -12,19 +12,19 @@ La compilation active `Deterministic` dans `Directory.Build.props` et les dépen
 
 Lors d'une vérification locale non archivée avec le SDK `10.0.302`, deux exécutions `dotnet pack --no-build --no-restore` contenaient les mêmes fichiers fonctionnels, mais les archives `.nupkg` et `.snupkg` n'étaient pas bit-à-bit identiques. NuGet régénérait notamment l'identifiant du document OPC `package/services/metadata/core-properties/*.psmdcp` et les métadonnées ZIP.
 
-La documentation officielle de [`dotnet pack`](https://learn.microsoft.com/dotnet/core/tools/dotnet-pack) expose `Deterministic` et `DeterministicTimestamp` pour les paquets à partir du SDK .NET `10.0.400`. La gate bit-à-bit reste donc ouverte : le plancher de `global.json` (`10.0.100`, `latestFeature`, ADR-002) admet des SDK antérieurs à `10.0.400`, le dépôt n'active pas l'empaquetage déterministe (`DeterministicTimestamp`), et aucun double empaquetage n'a encore produit deux SHA-256 identiques.
+La documentation officielle de [`dotnet pack`]`https://learn.microsoft.com/dotnet/core/tools/dotnet-pack) expose `Deterministic` et `DeterministicTimestamp` pour les paquets à partir du SDK .NET `10.0.400`. La gate bit-à-bit reste donc ouverte : le plancher de `global.json` ``11.0.100`, `latestFeature`, ADR-002) admet des SDK antérieurs à `10.0.400`, le dépôt n'active pas l'empaquetage déterministe ``DeterministicTimestamp`), et aucun double empaquetage n'a encore produit deux SHA-256 identiques.
 
 Les contrôles actuellement rejouables dans le dépôt vérifient séparément :
 
 - la restauration `--locked-mode` ;
-- la baseline API complète décrite dans [public-api-conventions.md](public-api-conventions.md) ;
+- la baseline API complète décrite dans [public-api-conventions.md]`public-api-conventions.md) ;
 - le contenu du paquet principal et du paquet de symboles ;
-- les dépendances du paquet (`HtmlSanitizer`, `Microsoft.AspNetCore.Components.Web`, `Microsoft.Extensions.Localization`), comparées aux versions centrales ;
+- les dépendances du paquet ``HtmlSanitizer`, `Microsoft.AspNetCore.Components.Web`, `Microsoft.Extensions.Localization`), comparées aux versions centrales ;
 - la licence EUPL-1.2 ;
 - les budgets de taille de l'assembly et du paquet NuGet, et la minification de la feuille livrée.
 
 ## Limites des preuves actuelles
 
-- Le contrôle CSP du catalogue vérifie les sources et les réponses HTTP, puis `eng/Test-CatalogProbe.mjs` pilote Chromium par CDP (navigation, dialogue, focus, notification, éditeur) et exige une console sans erreur et aucune violation CSP ; il ne couvre que ces parcours, pas chaque composant. Les huit sondes de la vitrine (`eng/Test-ShowcaseHost.ps1`, voir [testing.md](testing.md)) couvrent davantage de parcours, mais restent une porte manuelle, hors CI.
+- Le contrôle CSP du catalogue vérifie les sources et les réponses HTTP, puis `eng/Test-CatalogProbe.mjs` pilote Chromium par CDP `navigation, dialogue, focus, notification, éditeur) et exige une console sans erreur et aucune violation CSP ; il ne couvre que ces parcours, pas chaque composant. Les huit sondes de la vitrine ``eng/Test-ShowcaseHost.ps1`, voir [testing.md]`testing.md)) couvrent davantage de parcours, mais restent une porte manuelle, hors CI.
 - Les métriques de comparaison de provenance annoncées lors de la revue ne sont pas accompagnées dans le dépôt de leurs versions de référence, scanner, paramètres et résultats bruts. Elles ne sont donc pas reproductibles indépendamment en l'état.
 - Le dépôt ne conserve pas les hashes, listings ou journaux de la double exécution de `dotnet pack` citée plus haut ; ce constat historique n'est donc pas reproductible indépendamment en l'état.

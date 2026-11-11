@@ -24,9 +24,11 @@ These license terms are an agreement between you and Microsoft Corporation (or o
 
     a) Distribution Rights. The code and test files described below are distributable if included with the software.
 
-        i. Image Library. You may copy and distribute images, graphics, and animations in the Image Library as described in the software documentation; and
+        i. Any files that are binplaced with your application by the WindowsAppSDK NuGet package are, by definition, permitted to be redistributed.  This applies to both framework package dependent and self-contained deployments.
 
-        ii. Third Party Distribution. You may permit distributors of your applications to copy and distribute any of this distributable code you elect to distribute with your applications.
+        ii. Image Library. You may copy and distribute images, graphics, and animations in the Image Library as described in the software documentation; and
+
+        iii. Third Party Distribution. You may permit distributors of your applications to copy and distribute any of this distributable code you elect to distribute with your applications.
 
     b) Distribution Requirements. For any code you distribute, you must:
 

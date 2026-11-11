@@ -91,7 +91,7 @@ public sealed class ShippedStylesheetTests
         else
         {
             var configuration = typeof(ShippedStylesheetTests).Assembly.GetCustomAttribute<AssemblyConfigurationAttribute>()!.Configuration;
-            root = Path.Combine(Root, "src", "OmniEurope.Blazor", "obj", configuration, "net10.0", "omni-stylesheet");
+            root = Path.Combine(Root, "src", "OmniEurope.Blazor", "obj", configuration, "net11.0", "omni-stylesheet");
         }
 
         var path = Path.Combine(root, relativePath);

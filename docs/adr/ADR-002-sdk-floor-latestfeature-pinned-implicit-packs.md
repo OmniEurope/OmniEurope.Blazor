@@ -83,3 +83,13 @@ Acceptées :
   d'alignement le rappelle.
 - Un SDK plus ancien que `10.0.12` compile les hôtes WebAssembly avec des packs `10.0.12` ; prouvé
   sous `10.0.202` par les sondes navigateur ci-dessus, à revérifier si un écart apparaît.
+
+## Note du 2026-11-11 : plancher relevé à `11.0.100`
+
+Par décision de l'utilisateur du 2026-11-11, le dépôt passe à .NET 11 (GA du 2026-11-10) : `global.json`
+déclare désormais `version: 11.0.100` en `rollForward: latestFeature`, tous les projets visent `net11.0`
+(l'hôte MAUI `net11.0-windows10.0.19041.0`) et `OmniImplicitSdkPackVersion` vaut `11.0.0`, aligné sur les
+paquets `Microsoft.AspNetCore.*`. Le mécanisme décrit ci-dessus est inchangé ; seules ses valeurs bougent.
+Le texte de cet ADR reste celui du 2026-09-25 et décrit la bande `10.0`. Les verrous ont été régénérés et
+la restauration `--locked-mode` en Release repasse sous `11.0.100` (seul SDK 11 disponible sur le poste :
+les bandes `11.0.2xx` et suivantes ne sont pas encore exercées).

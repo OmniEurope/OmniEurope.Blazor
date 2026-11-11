@@ -18,6 +18,6 @@ valide que si un ADR de ce dépôt la porte.
 | ADR | Titre | Statut |
 |---|---|---|
 | [ADR-001](ADR-001-global-json-rollforward-latestpatch.md) | `global.json` garde `rollForward: latestPatch` (dérogation à `STD-SDKPIN` du kit) | Remplacé par ADR-002 |
-| [ADR-002](ADR-002-sdk-floor-latestfeature-pinned-implicit-packs.md) | Plancher SDK `10.0.100` en `latestFeature`, paquets implicites du SDK épinglés | Accepté |
+| [ADR-002](ADR-002-sdk-floor-latestfeature-pinned-implicit-packs.md) | Plancher SDK `10.0.100` en `latestFeature`, paquets implicites du SDK épinglés (plancher relevé à `11.0.100` le 2026-11-11) | Accepté |
 
 Prochain numéro libre : `ADR-003`.

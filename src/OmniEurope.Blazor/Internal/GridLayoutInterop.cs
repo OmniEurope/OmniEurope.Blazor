@@ -43,7 +43,7 @@ internal sealed class GridLayoutInterop<TItem>(OmniDataGrid<TItem> grid)
         }
 
         var module = await grid.Script.ModuleAsync();
-        await module.InvokeVoidAsync("applyMaxHeight", grid.Viewport, maxHeight);
+        await module.InvokeVoidTrackedAsync("applyMaxHeight", grid.Viewport, maxHeight);
         _appliedMaxHeight = maxHeight;
     }
 
@@ -64,7 +64,7 @@ internal sealed class GridLayoutInterop<TItem>(OmniDataGrid<TItem> grid)
         }
 
         var module = await grid.Script.ModuleAsync();
-        await module.InvokeVoidAsync("applyLayout", grid.Viewport, 0d, 0d, grid.Height, EffectiveMinHeight);
+        await module.InvokeVoidTrackedAsync("applyLayout", grid.Viewport, 0d, 0d, grid.Height, EffectiveMinHeight);
         _appliedHeight = HeightSignature;
         await ApplyColumnLayoutAsync();
         await ApplyRowHeightAsync(rowHeight);
@@ -74,7 +74,7 @@ internal sealed class GridLayoutInterop<TItem>(OmniDataGrid<TItem> grid)
     internal async Task ApplyVirtualLayoutAsync(IJSObjectReference module)
     {
         var range = grid.Virtual.Range;
-        await module.InvokeVoidAsync("applyLayout", grid.Viewport, range.TopSpacer, range.BottomSpacer, grid.Height, EffectiveMinHeight);
+        await module.InvokeVoidTrackedAsync("applyLayout", grid.Viewport, range.TopSpacer, range.BottomSpacer, grid.Height, EffectiveMinHeight);
         _appliedHeight = HeightSignature;
     }
 
@@ -90,7 +90,7 @@ internal sealed class GridLayoutInterop<TItem>(OmniDataGrid<TItem> grid)
             return;
         }
 
-        await module.InvokeVoidAsync("applyFrozen", grid.Viewport);
+        await module.InvokeVoidTrackedAsync("applyFrozen", grid.Viewport);
     }
 
     internal async Task ApplyRowHeightAsync(double? rowHeight)
@@ -102,7 +102,7 @@ internal sealed class GridLayoutInterop<TItem>(OmniDataGrid<TItem> grid)
 
         _appliedRowHeight = rowHeight;
         var module = await grid.Script.ModuleAsync();
-        await module.InvokeVoidAsync("applyRowHeight", grid.Viewport, rowHeight);
+        await module.InvokeVoidTrackedAsync("applyRowHeight", grid.Viewport, rowHeight);
     }
 
     /// <summary>
@@ -130,6 +130,6 @@ internal sealed class GridLayoutInterop<TItem>(OmniDataGrid<TItem> grid)
         }
 
         _appliedColumnLayout = signature;
-        await module.InvokeVoidAsync("applyColumns", grid.Viewport, grid.ColumnLayout.Specs(), grid.ColumnLayout.TableMinimumWidth());
+        await module.InvokeVoidTrackedAsync("applyColumns", grid.Viewport, grid.ColumnLayout.Specs(), grid.ColumnLayout.TableMinimumWidth());
     }
 }

@@ -312,14 +312,14 @@ public partial class OmniDocumentViewer : IAsyncDisposable
             _attached = true;
             _pushed = (_zoom, fitting, _version);
             _reference = DotNetObjectReference.Create(new DocumentViewerInteropBridge(OnViewChangedAsync));
-            await _module.InvokeVoidAsync("attach", _viewport, _reference, _zoom, fitting, MinimumZoom, MaximumZoom);
+            await _module.InvokeVoidTrackedAsync("attach", _viewport, _reference, _zoom, fitting, MinimumZoom, MaximumZoom);
             return;
         }
 
         if (_pushed != (_zoom, fitting, _version))
         {
             _pushed = (_zoom, fitting, _version);
-            await _module.InvokeVoidAsync("update", _viewport, _zoom, fitting);
+            await _module.InvokeVoidTrackedAsync("update", _viewport, _zoom, fitting);
         }
     }
 

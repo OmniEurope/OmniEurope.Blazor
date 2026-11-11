@@ -125,7 +125,16 @@ public partial class MainLayout : IAsyncDisposable
         // menu pushed open for the second the asynchronous read would take.
         if (Js is IJSInProcessRuntime inProcess)
         {
-            _narrowViewport = inProcess.Invoke<bool>("omniShowcaseLayout.narrow");
+            try
+            {
+                _narrowViewport = inProcess.Invoke<bool>("omniShowcaseLayout.narrow");
+            }
+            catch (JSException)
+            {
+                // The layout script did not load: the desktop layout stays, as for a wide viewport.
+                _narrowViewport = false;
+            }
+
             _sidebarOpen = !_narrowViewport;
         }
     }
@@ -140,10 +149,18 @@ public partial class MainLayout : IAsyncDisposable
         await Theme.InitializeAsync().ConfigureAwait(false);
 
         // Read once, then followed: the subscription reports only the crossings, not the state a page opens in.
-        _narrowViewport = await Js.InvokeAsync<bool>("omniShowcaseLayout.narrow");
-        _sidebarOpen = !_narrowViewport;
-        _viewportHandler = DotNetObjectReference.Create(this);
-        await Js.InvokeVoidAsync("omniShowcaseLayout.watch", _viewportHandler);
+        try
+        {
+            _narrowViewport = await Js.InvokeAsync<bool>("omniShowcaseLayout.narrow");
+            _sidebarOpen = !_narrowViewport;
+            _viewportHandler = DotNetObjectReference.Create(this);
+            await Js.InvokeVoidAsync("omniShowcaseLayout.watch", _viewportHandler);
+        }
+        catch (JSException)
+        {
+            // The layout script did not load: the page keeps the layout it opened in and follows no viewport.
+        }
+
         await InvokeAsync(StateHasChanged);
     }
 

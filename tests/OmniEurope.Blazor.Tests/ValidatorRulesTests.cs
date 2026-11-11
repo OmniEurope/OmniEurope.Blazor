@@ -8,7 +8,7 @@ public sealed class ValidatorRulesTests : OmniBunitContext
 {
     private static string[] MessagesFor(IRenderedComponent<ValidatorRulesTestHost> host, string field)
     {
-        host.InvokeAsync(() => host.Instance.EditContext.Validate()).GetAwaiter().GetResult();
+        host.InvokeAsync(() => host.Instance.EditContext.ValidateAsync()).GetAwaiter().GetResult();
         return host.Instance.EditContext.GetValidationMessages(new FieldIdentifier(host.Instance.Model, field)).ToArray();
     }
 

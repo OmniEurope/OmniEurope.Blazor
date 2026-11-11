@@ -84,11 +84,11 @@ internal sealed class PreferenceCache(IJSObjectReference module, string scope, b
             : null;
 
     internal async Task<PreferenceCacheEntry?> ReadAsync(string key, CancellationToken cancellationToken) =>
-        Parse(await module.InvokeAsync<string?>("get", cancellationToken, StorageKey(key)));
+        Parse(await module.InvokeTrackedAsync<string?>("get", cancellationToken, StorageKey(key)));
 
     internal async Task WriteAsync(string key, PreferenceCacheEntry entry, CancellationToken cancellationToken)
     {
-        await module.InvokeVoidAsync("set", cancellationToken, StorageKey(key), JsonSerializer.Serialize(entry));
+        await module.InvokeVoidTrackedAsync("set", cancellationToken, StorageKey(key), JsonSerializer.Serialize(entry));
         if (Mirror is not null)
         {
             await Mirror.WriteAsync(key, entry with { Dirty = false }, cancellationToken);
@@ -98,7 +98,7 @@ internal sealed class PreferenceCache(IJSObjectReference module, string scope, b
     /// <summary>Every readable entry of this scope; an entry that no longer parses is left out.</summary>
     internal async Task<Dictionary<string, PreferenceCacheEntry>> EntriesAsync(CancellationToken cancellationToken)
     {
-        var pairs = await module.InvokeAsync<string[][]>("entries", cancellationToken, Prefix);
+        var pairs = await module.InvokeTrackedAsync<string[][]>("entries", cancellationToken, Prefix);
         var entries = new Dictionary<string, PreferenceCacheEntry>(StringComparer.Ordinal);
         foreach (var pair in pairs)
         {
@@ -113,22 +113,22 @@ internal sealed class PreferenceCache(IJSObjectReference module, string scope, b
 
     internal async Task<DateTimeOffset?> ReadLastSyncAsync(CancellationToken cancellationToken)
     {
-        var text = await module.InvokeAsync<string?>("get", cancellationToken, SyncKey);
+        var text = await module.InvokeTrackedAsync<string?>("get", cancellationToken, SyncKey);
         return DateTimeOffset.TryParse(text, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out var value) ? value : null;
     }
 
     internal async Task WriteLastSyncAsync(DateTimeOffset value, CancellationToken cancellationToken) =>
-        await module.InvokeVoidAsync("set", cancellationToken, SyncKey, value.ToString("O", CultureInfo.InvariantCulture));
+        await module.InvokeVoidTrackedAsync("set", cancellationToken, SyncKey, value.ToString("O", CultureInfo.InvariantCulture));
 
     /// <summary>When a synchronization of this scope last completed, by this device's clock; null when none did.</summary>
     internal async Task<DateTimeOffset?> ReadSyncedAtAsync(CancellationToken cancellationToken)
     {
-        var text = await module.InvokeAsync<string?>("get", cancellationToken, SyncedKey);
+        var text = await module.InvokeTrackedAsync<string?>("get", cancellationToken, SyncedKey);
         return DateTimeOffset.TryParse(text, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out var value) ? value : null;
     }
 
     internal async Task WriteSyncedAtAsync(DateTimeOffset value, CancellationToken cancellationToken) =>
-        await module.InvokeVoidAsync("set", cancellationToken, SyncedKey, value.ToString("O", CultureInfo.InvariantCulture));
+        await module.InvokeVoidTrackedAsync("set", cancellationToken, SyncedKey, value.ToString("O", CultureInfo.InvariantCulture));
 
     private static PreferenceCacheEntry? Parse(string? json)
     {

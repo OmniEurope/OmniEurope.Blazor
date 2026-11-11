@@ -17,7 +17,7 @@ try {
     $expanded = Join-Path $resolvedTempRoot 'expanded'
     $contaminated = Join-Path $resolvedTempRoot 'contaminated.nupkg'
     [IO.Compression.ZipFile]::ExtractToDirectory($resolvedPackage, $expanded)
-    $payload = Join-Path $expanded 'lib/net10.0/payload.pdb'
+    $payload = Join-Path $expanded 'lib/net11.0/payload.pdb'
     [IO.File]::WriteAllBytes($payload, [byte[]](0x42, 0x53, 0x4A, 0x42))
     [IO.Compression.ZipFile]::CreateFromDirectory($expanded, $contaminated)
 
@@ -38,7 +38,7 @@ try {
     # Second fixture: the commented stylesheet source packed as a content file, the defect a NoBuild
     # pack once produced. It must be rejected even though every expected entry is still present.
     Remove-Item -LiteralPath $payload -Force
-    $contentFile = Join-Path $expanded 'contentFiles/any/net10.0/wwwroot/omnieurope.blazor.css'
+    $contentFile = Join-Path $expanded 'contentFiles/any/net11.0/wwwroot/omnieurope.blazor.css'
     New-Item -ItemType Directory -Force -Path (Split-Path -Parent $contentFile) | Out-Null
     [IO.File]::WriteAllText($contentFile, '/* source */ .omni-button { color: red; }')
     $withContent = Join-Path $resolvedTempRoot 'with-content.nupkg'
