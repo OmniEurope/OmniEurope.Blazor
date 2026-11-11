@@ -82,7 +82,9 @@ try {
     [IO.File]::WriteAllText($nuspecPath, $nuspecText.Replace($group.Value, $tamperedGroup))
     $wrongGroup = Join-Path $resolvedTempRoot 'wrong-group.nupkg'
     [IO.Compression.ZipFile]::CreateFromDirectory($expanded, $wrongGroup)
-    $output = & $pwsh -NoProfile -File (Join-Path $PSScriptRoot 'Test-Package.ps1') -PackagePath $wrongGroup 2>&1
+    # The reason is read from the raw exception message: the console error view wraps a long message at
+    # the host width (narrow on the CI runner), which split "on net10.0" across lines and failed the match.
+    $output = & $pwsh -NoProfile -Command "try { & '$(Join-Path $PSScriptRoot 'Test-Package.ps1')' -PackagePath '$wrongGroup' } catch { [Console]::Error.WriteLine(`$_.Exception.Message); exit 1 }" 2>&1
     $groupExitCode = $LASTEXITCODE
     $global:LASTEXITCODE = 0
     if ($groupExitCode -eq 0) { throw 'The package fixture with an 11.0 dependency in its net10.0 group unexpectedly passed.' }
