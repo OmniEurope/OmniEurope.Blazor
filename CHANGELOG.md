@@ -4,10 +4,6 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
-### Fixed
-
-- `OmniHtmlEditor` en vue source : un tableau large dans l'aperçu élargissait l'éditeur au-delà de son conteneur, avec la barre d'outils et son menu « Plus d'actions », qui sortaient de l'écran. La colonne de l'éditeur est maintenant `minmax(0, 1fr)` et l'aperçu défile horizontalement. Demande d'une application cliente. Preuve : page WYSIWYG editor de la vitrine, éditeur en vue source dans un conteneur de 500 px avec un tableau de 1 702 px, barre d'outils passée de 1 702 à 498 px, aperçu défilant.
-
 ## [1.13.0] - 2026-11-11
 
 ### Added
@@ -23,6 +19,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Fixed
 
+- `OmniHtmlEditor` en vue source : un tableau large dans l'aperçu élargissait l'éditeur au-delà de son conteneur, avec la barre d'outils et son menu « Plus d'actions », qui sortaient de l'écran. La colonne de l'éditeur est maintenant `minmax(0, 1fr)` et l'aperçu défile horizontalement. Demande d'une application cliente. Preuve : page WYSIWYG editor de la vitrine, éditeur en vue source dans un conteneur de 500 px avec un tableau de 1 702 px, barre d'outils passée de 1 702 à 498 px, aperçu défilant.
 - `OmniTabs` avec `ScrollablePanels` : la barre de défilement du panneau touchait le bord droit du contenu. Le panneau défilant réserve maintenant la place de sa barre (`scrollbar-gutter: stable`) et laisse `--omni-space-sm` entre le contenu et la barre, donc la barre ne touche plus le contenu et la largeur du contenu ne change pas quand la barre apparaît. Demande d'une application cliente. Preuve : exemple `ScrollingTabsExample` de la page Page shell en 1366x900, écart contenu/barre passé de 0 à 8 px, contenu de 718 px avec et sans débordement.
 - `OmniNavTile` dans une `OmniTileGrid` : une tuile avec `IsFavorite` perdait la teinte de son rang et gardait l'accent, car elle est enveloppée dans sa boîte `omni-nav-tile-host` et les règles de teinte ne visaient que les tuiles enfants directs de la grille. Le rang compte maintenant ensemble les tuiles et ces boîtes, et la règle atteint la tuile dans sa boîte (fond du carré à 12 % compris). Dans une grille qui mélange les deux, une tuile sans étoile placée après une tuile favorite prend désormais la teinte de sa vraie place. Demande d'une application cliente. Preuve : `NavTileAutoHueTests` (règles de la feuille, classe de la tuile favorite) ; dans la vitrine, exemple « Favorite toggle » de la page Navigation tiles, maintenant dans une grille : Cards et Stat tiles (favorites) puis Navigation tiles prennent ambre, bleu et rouge (`#795100`, `#195a97`, `#a62925`), les teintes des trois premières tuiles de la grille sans favori.
 - Construction depuis les sources : deux dépôts (ou worktrees) qui construisent OE par `ProjectReference` en même temps écrivaient le même `obj` et le même `bin` et échouaient (`MSB4018`, « OmniEurope.Blazor.dll being used by another process »). Construit depuis la solution d'un consommateur, chaque projet d'OE écrit maintenant sous `obj/consumers/<solution>-<hash>/` et `bin/consumers/<solution>-<hash>/` (clé tirée de `SolutionDir`, restauration comprise) ; `-p:OmniEuropeConsumerId=<nom>` fixe la clé à la main, pour un build sans solution. Les builds d'OE lui-même gardent `obj` et `bin`. Demande de l'organisation. Preuve : deux solutions consommatrices construites en parallèle (`--no-incremental`), 0 erreur, chacune avec son `project.assets.json` et sa `OmniEurope.Blazor.dll` ; build de `OmniEurope.Blazor.slnx` inchangé (`bin/Debug/net10.0`).
