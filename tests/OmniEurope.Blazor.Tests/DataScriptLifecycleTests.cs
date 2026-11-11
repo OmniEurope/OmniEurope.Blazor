@@ -174,6 +174,7 @@ public sealed class DataScriptLifecycleTests : OmniBunitContext
             .Add(component => component.Items, Enumerable.Range(0, 200).ToArray())
             .Add(component => component.Virtualize, true)
             .Add(component => component.ItemTemplate, item => builder => builder.AddContent(0, item)));
+        runtime.ImportFailureGate.SetResult();
         await Task.Delay(100, Xunit.TestContext.Current.CancellationToken);
         Assert.DoesNotContain("attachList", runtime.Module.Calls);
 
@@ -245,6 +246,7 @@ public sealed class DataScriptLifecycleTests : OmniBunitContext
         var runtime = UseRuntime();
         runtime.ImportFailures.Enqueue(new InvalidOperationException("import failed"));
         var tree = Render<OmniTree<int>>(parameters => parameters.Add(component => component.AllowDragDrop, true));
+        runtime.ImportFailureGate.SetResult();
         await Task.Delay(100, Xunit.TestContext.Current.CancellationToken);
         Assert.DoesNotContain("attachTreeDrag", runtime.Module.Calls);
 
@@ -309,6 +311,9 @@ public sealed class DataScriptLifecycleTests : OmniBunitContext
 
         internal Queue<Exception> ImportFailures { get; } = new();
 
+        /// <summary>Released by the test once the first render returned; a queued import failure waits for it.</summary>
+        internal TaskCompletionSource ImportFailureGate { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
         internal Dictionary<string, TaskCompletionSource<object?>> Gates { get; } = new(StringComparer.Ordinal);
 
         internal List<string> DirectCalls { get; } = [];
@@ -337,7 +342,9 @@ public sealed class DataScriptLifecycleTests : OmniBunitContext
 
             if (ImportFailures.TryDequeue(out var failure))
             {
-                await Task.Yield();
+                // Held until the test releases it, so the failure never lands inside the first render on a
+                // fast machine: the renderer then reports it on the next render, whatever the timing.
+                await ImportFailureGate.Task;
                 throw failure;
             }
 
