@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Fixed
+
+- `OmniHtmlEditor` en vue source : un tableau large dans l'aperçu élargissait l'éditeur au-delà de son conteneur, avec la barre d'outils et son menu « Plus d'actions », qui sortaient de l'écran. La colonne de l'éditeur est maintenant `minmax(0, 1fr)` et l'aperçu défile horizontalement. Demande d'une application cliente. Preuve : page WYSIWYG editor de la vitrine, éditeur en vue source dans un conteneur de 500 px avec un tableau de 1 702 px, barre d'outils passée de 1 702 à 498 px, aperçu défilant.
+
 ## [1.13.0] - 2026-11-11
 
 ### Added

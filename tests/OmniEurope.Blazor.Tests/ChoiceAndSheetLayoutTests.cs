@@ -40,6 +40,16 @@ public sealed class ChoiceAndSheetLayoutTests
         Assert.Equal("hidden", ShippedLookTests.Value(toolbar, "overflow"));
     }
 
+    [Fact]
+    public void HtmlEditor_KeepsItsContainerWidth_AndScrollsAWidePreview()
+    {
+        // A wide table in the source view's preview must not widen the editor (and its toolbar and menu)
+        // past its container: the single grid column may shrink to zero, the preview scrolls on its own.
+        var editor = ShippedLookTests.Body(".omni-html-editor, .omni-code-editor");
+        Assert.Equal("minmax(0, 1fr)", ShippedLookTests.Value(editor, "grid-template-columns"));
+        Assert.Equal("auto", ShippedLookTests.Value(ShippedLookTests.Body(".omni-html-editor__preview"), "overflow-x"));
+    }
+
     [Theory]
     [InlineData(".omni-checkbox-nullable")]
     [InlineData(".omni-switch")]

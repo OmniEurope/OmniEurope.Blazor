@@ -1,7 +1,9 @@
 /* Editors, viewers, logs, the spreadsheet, the Gantt chart and the mind map are frames drawn like the
    grid's: the card's rule, radius and shadow, and the grid's fill (a theme's --omni-grid-background, the
-   card fill otherwise), so a theme's frame reaches them and a reading surface stays a plain panel. */
-.omni-html-editor, .omni-code-editor { background: var(--omni-grid-background, var(--omni-card-background, var(--omni-color-surface))); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-card-shadow, 0 0 #0000); display: grid; overflow: hidden; }
+   card fill otherwise), so a theme's frame reaches them and a reading surface stays a plain panel.
+   The single column is minmax(0, 1fr): wide content (a table of the preview) never widens the editor past
+   its container, so the toolbar and its menu stay in view and the wide part scrolls on its own. */
+.omni-html-editor, .omni-code-editor { background: var(--omni-grid-background, var(--omni-card-background, var(--omni-color-surface))); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-card-shadow, 0 0 #0000); display: grid; grid-template-columns: minmax(0, 1fr); overflow: hidden; }
 .omni-html-editor__toolbar, .omni-html-editor__link { align-items: center; background: var(--omni-color-surface-muted); border-block-end: var(--omni-border-width) solid var(--omni-color-border); display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); padding: var(--omni-space-xs); }
 .omni-html-editor__toolbar button, .omni-html-editor__select, .omni-html-editor__link-input { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius-sm); color: var(--omni-color-text); cursor: pointer; font: inherit; min-height: calc(var(--omni-control-height) + 0.5rem); }
 .omni-html-editor__toolbar button { align-items: center; display: inline-flex; justify-content: center; min-width: calc(var(--omni-control-height) + 0.5rem); }
@@ -78,7 +80,7 @@
 :is(.omni-html-editor__source, .omni-html-editor__surface, .omni-code-editor__fallback):focus-visible { box-shadow: var(--omni-focus-ring-inset); outline: none; }
 .omni-html-editor__surface { min-height: calc(var(--omni-html-editor-rows, 12) * 1.5em); overflow-wrap: anywhere; padding: var(--omni-space-md); }
 .omni-html-editor__surface[contenteditable="false"] { background: var(--omni-color-surface-muted); }
-.omni-html-editor__preview { border-block-start: var(--omni-border-width) solid var(--omni-color-border); min-height: 4rem; padding: var(--omni-space-md); }
+.omni-html-editor__preview { border-block-start: var(--omni-border-width) solid var(--omni-color-border); min-height: 4rem; overflow-x: auto; padding: var(--omni-space-md); }
 .omni-rich-text > :first-child { margin-block-start: 0; }
 /* A quotation reads as set apart by a muted panel and its indent, never by an edge bar. */
 .omni-rich-text blockquote { background: var(--omni-color-surface-muted); border-radius: var(--omni-radius-sm); margin-inline: 0; padding: var(--omni-space-sm) var(--omni-space-md); }
