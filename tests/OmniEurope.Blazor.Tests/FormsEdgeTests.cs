@@ -1,6 +1,7 @@
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Components.Web;
 using OmniEurope.Blazor.Components;
 using Microsoft.Extensions.DependencyInjection;
 using OmniEurope.Blazor.Internal;
@@ -73,6 +74,39 @@ public sealed class FormsEdgeTests : OmniBunitContext
         Assert.Contains("Quantité", string.Join(' ', form.GetValidationMessages()), StringComparison.Ordinal);
         numeric.Find("input").Change((object?)null);
         numeric.Find("input").Change(" ");
+
+        Assert.Equal([null], changes);
+    }
+
+    [Theory]
+    [InlineData("Enter")]
+    [InlineData("NumpadEnter")]
+    public void Numeric_EnterWithNothingTyped_CommitsNothing(string key)
+    {
+        var changes = new List<int?>();
+        var numeric = Render<OmniNumeric<int?>>(parameters => parameters
+            .Add(component => component.Value, 5)
+            .Add(component => component.ValueChanged, next => changes.Add(next))
+            .Add(component => component.ValueExpression, () => _number));
+
+        numeric.Find("input").KeyDown(new KeyboardEventArgs { Key = key });
+
+        Assert.Empty(changes);
+        Assert.Equal("5", numeric.Find("input").GetAttribute("value"));
+    }
+
+    [Fact]
+    public void Numeric_ANullInput_IsEmptyPendingText_ThatEnterCommitsAsNoNumber()
+    {
+        var changes = new List<int?>();
+        var numeric = Render<OmniNumeric<int?>>(parameters => parameters
+            .Add(component => component.Value, 5)
+            .Add(component => component.ValueChanged, next => changes.Add(next))
+            .Add(component => component.ValueExpression, () => _number));
+
+        numeric.Find("input").Input(new ChangeEventArgs { Value = null });
+        Assert.Empty(changes);
+        numeric.Find("input").KeyDown(new KeyboardEventArgs { Key = "Enter" });
 
         Assert.Equal([null], changes);
     }

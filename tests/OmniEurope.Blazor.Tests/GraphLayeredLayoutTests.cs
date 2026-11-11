@@ -225,6 +225,20 @@ public sealed class GraphLayeredLayoutTests
     }
 
     [Fact]
+    public void Placement_SkipsAnEmptyLayer_AndKeepsTheNodesAroundItWhereTheyArePacked()
+    {
+        // Layering never leaves a layer empty, but the placement takes any layers it is given.
+        List<int>[] layers = [[0, 1], [], [2]];
+        List<List<int>> none = [[], [], []];
+
+        var cross = GraphLayerPlacement.Place(layers, none, none, [40, 40, 40], [false, false, false], 40);
+
+        // The first layer is packed 80 apart (half of each size plus the gap); the lone node of the last
+        // layer is centred on it, and neither has a neighbour that would pull it away.
+        Assert.Equal([0d, 80d, 40d], cross);
+    }
+
+    [Fact]
     public void Options_HaveTheDocumentedDefaults()
     {
         var options = new OmniGraphLayoutOptions();

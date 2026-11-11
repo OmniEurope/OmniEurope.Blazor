@@ -124,4 +124,20 @@ public sealed class DynamicFormRulesTests : OmniBunitContext
         form.Render(parameters => parameters.Add(component => component.Values, new Dictionary<string, string>()));
         Assert.Equal(["Nom est obligatoire."], Messages(form));
     }
+
+    [Fact]
+    public void ANewFieldList_WithTheSameKinds_KeepsWhatWasTyped_AndTakesTheNewLabels()
+    {
+        IReadOnlyList<OmniDynamicField> before = [new OmniDynamicField("name", "Nom")];
+        IReadOnlyList<OmniDynamicField> after = [new OmniDynamicField("name", "Nom du serveur")];
+        var form = RenderForm(before, new Dictionary<string, string> { ["name"] = "srv" });
+        form.Find("input").Input("typed");
+
+        // Same name and kind, the values the host passes unchanged: the field is not reloaded from them.
+        form.Render(parameters => parameters.Add(component => component.Fields, after));
+
+        Assert.Equal("typed", form.Instance.CurrentValues["name"]);
+        Assert.Equal("typed", form.Find("input").GetAttribute("value"));
+        Assert.Contains("Nom du serveur", form.Markup, StringComparison.Ordinal);
+    }
 }

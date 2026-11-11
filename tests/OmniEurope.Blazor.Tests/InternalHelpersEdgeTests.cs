@@ -1,5 +1,8 @@
 using System.Globalization;
 using System.IO.Compression;
+using System.Linq.Expressions;
+using System.Reflection;
+using System.Reflection.Emit;
 using OmniEurope.Blazor.Components;
 using OmniEurope.Blazor.Internal;
 
@@ -302,6 +305,24 @@ public sealed class InternalHelpersEdgeTests
         Assert.Equal("Hôte", OmniAriaLabel.Of(" ", host));
         Assert.Null(OmniAriaLabel.Of(null, null));
         Assert.Null(OmniAriaLabel.Of(null, new Dictionary<string, object> { ["aria-label"] = null! }));
+    }
+
+    // ---- history name of a bound field ------------------------------------------------------------
+
+    [Fact]
+    public void MemberPath_OfAMemberWithoutADeclaringType_FallsBackToTheNameField()
+    {
+        // A module-level (global) field has no declaring type: the only member a value expression can read
+        // that way. Emitted on the fly, as no C# source can declare one.
+        var module = AssemblyBuilder
+            .DefineDynamicAssembly(new AssemblyName("OmniGlobalMembers"), AssemblyBuilderAccess.Run)
+            .DefineDynamicModule("OmniGlobalMembers");
+        module.DefineUninitializedData("GlobalValue", 4, FieldAttributes.Public);
+        module.CreateGlobalFunctions();
+        var field = module.GetField("GlobalValue") ?? throw new InvalidOperationException("The global field was not emitted.");
+        Assert.Null(field.DeclaringType);
+
+        Assert.Equal("Field.GlobalValue", OmniInputBase<string>.MemberPath(Expression.Field(null, field)));
     }
 
     // ---- sanitiser --------------------------------------------------------------------------------

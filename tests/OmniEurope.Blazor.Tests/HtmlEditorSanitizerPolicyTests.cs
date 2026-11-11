@@ -69,6 +69,25 @@ public sealed class HtmlEditorSanitizerPolicyTests : OmniBunitContext
     }
 
     [Fact]
+    public void AllowImageDataUris_LeavesAnAddressTheSanitiserAlreadyAccepted_AsItIs()
+    {
+        var policy = AknPolicy with { AllowImageDataUris = true };
+
+        Assert.Equal(
+            "<img src=\"https://example.test/a.png\" alt=\"Plan\">",
+            OmniHtmlSanitizer.Sanitize("<img src=\"https://example.test/a.png\" alt=\"Plan\">", policy));
+    }
+
+    [Fact]
+    public void AllowAnyClass_StillDropsAClassAttributeThatHoldsOnlyWhitespace()
+    {
+        var policy = new OmniHtmlSanitizerPolicy { AllowAnyClass = true };
+
+        Assert.Equal("<p>A</p>", OmniHtmlSanitizer.Sanitize("<p class=\"   \">A</p>", policy));
+        Assert.Equal("<p class=\"kept\">A</p>", OmniHtmlSanitizer.Sanitize("<p class=\"kept\">A</p>", policy));
+    }
+
+    [Fact]
     public void AMark_IsKeptByTheBuiltInList()
     {
         Assert.Equal("<p>A <mark>B</mark></p>", OmniHtmlSanitizer.Sanitize("<p>A <mark>B</mark></p>"));
