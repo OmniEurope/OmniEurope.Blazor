@@ -442,6 +442,28 @@
     {
       "type": "library",
       "name": "Microsoft.AspNetCore.Authorization",
+      "version": "10.0.15",
+      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Authorization@10.0.15",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.Authorization@10.0.15",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.AspNetCore.Authorization",
       "version": "11.0.0",
       "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Authorization@11.0.0",
       "purl": "pkg:nuget/Microsoft.AspNetCore.Authorization@11.0.0",
@@ -458,6 +480,28 @@
         {
           "name": "omnieurope:lock-files",
           "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase.Examples/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.AspNetCore.Components",
+      "version": "10.0.15",
+      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components@10.0.15",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.Components@10.0.15",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -486,6 +530,28 @@
     {
       "type": "library",
       "name": "Microsoft.AspNetCore.Components.Analyzers",
+      "version": "10.0.15",
+      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.Analyzers@10.0.15",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.Components.Analyzers@10.0.15",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.AspNetCore.Components.Analyzers",
       "version": "11.0.0",
       "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.Analyzers@11.0.0",
       "purl": "pkg:nuget/Microsoft.AspNetCore.Components.Analyzers@11.0.0",
@@ -502,6 +568,28 @@
         {
           "name": "omnieurope:lock-files",
           "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase.Examples/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.AspNetCore.Components.Authorization",
+      "version": "10.0.13",
+      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.Authorization@10.0.13",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.Components.Authorization@10.0.13",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -530,6 +618,28 @@
     {
       "type": "library",
       "name": "Microsoft.AspNetCore.Components.Forms",
+      "version": "10.0.15",
+      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.Forms@10.0.15",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.Components.Forms@10.0.15",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.AspNetCore.Components.Forms",
       "version": "11.0.0",
       "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.Forms@11.0.0",
       "purl": "pkg:nuget/Microsoft.AspNetCore.Components.Forms@11.0.0",
@@ -546,6 +656,28 @@
         {
           "name": "omnieurope:lock-files",
           "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase.Examples/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.AspNetCore.Components.Web",
+      "version": "10.0.15",
+      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.Web@10.0.15",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.Components.Web@10.0.15",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -574,6 +706,28 @@
     {
       "type": "library",
       "name": "Microsoft.AspNetCore.Components.WebAssembly",
+      "version": "10.0.13",
+      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.WebAssembly@10.0.13",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.Components.WebAssembly@10.0.13",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.AspNetCore.Components.WebAssembly",
       "version": "11.0.0",
       "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.WebAssembly@11.0.0",
       "purl": "pkg:nuget/Microsoft.AspNetCore.Components.WebAssembly@11.0.0",
@@ -590,6 +744,28 @@
         {
           "name": "omnieurope:lock-files",
           "value": "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.AspNetCore.Components.WebAssembly.Authentication",
+      "version": "10.0.13",
+      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.WebAssembly.Authentication@10.0.13",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.Components.WebAssembly.Authentication@10.0.13",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -700,6 +876,28 @@
         {
           "name": "omnieurope:lock-files",
           "value": "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.AspNetCore.Metadata",
+      "version": "10.0.15",
+      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Metadata@10.0.15",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.Metadata@10.0.15",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -1123,6 +1321,50 @@
     },
     {
       "type": "library",
+      "name": "Microsoft.Extensions.Caching.Abstractions",
+      "version": "10.0.13",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Caching.Abstractions@10.0.13",
+      "purl": "pkg:nuget/Microsoft.Extensions.Caching.Abstractions@10.0.13",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.Extensions.Caching.Memory",
+      "version": "10.0.13",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Caching.Memory@10.0.13",
+      "purl": "pkg:nuget/Microsoft.Extensions.Caching.Memory@10.0.13",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
       "name": "Microsoft.Extensions.Caching.Memory",
       "version": "10.0.15",
       "bom-ref": "pkg:nuget/Microsoft.Extensions.Caching.Memory@10.0.15",
@@ -1168,6 +1410,28 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Configuration",
+      "version": "10.0.15",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Configuration@10.0.15",
+      "purl": "pkg:nuget/Microsoft.Extensions.Configuration@10.0.15",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.Extensions.Configuration",
       "version": "11.0.0",
       "bom-ref": "pkg:nuget/Microsoft.Extensions.Configuration@11.0.0",
       "purl": "pkg:nuget/Microsoft.Extensions.Configuration@11.0.0",
@@ -1184,6 +1448,50 @@
         {
           "name": "omnieurope:lock-files",
           "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase.Examples/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Showcase.Back.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.Extensions.Configuration.Abstractions",
+      "version": "10.0.15",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Configuration.Abstractions@10.0.15",
+      "purl": "pkg:nuget/Microsoft.Extensions.Configuration.Abstractions@10.0.15",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.Extensions.Configuration.Binder",
+      "version": "10.0.15",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Configuration.Binder@10.0.15",
+      "purl": "pkg:nuget/Microsoft.Extensions.Configuration.Binder@10.0.15",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -1256,6 +1564,28 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Configuration.FileExtensions",
+      "version": "10.0.13",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Configuration.FileExtensions@10.0.13",
+      "purl": "pkg:nuget/Microsoft.Extensions.Configuration.FileExtensions@10.0.13",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.Extensions.Configuration.FileExtensions",
       "version": "11.0.0",
       "bom-ref": "pkg:nuget/Microsoft.Extensions.Configuration.FileExtensions@11.0.0",
       "purl": "pkg:nuget/Microsoft.Extensions.Configuration.FileExtensions@11.0.0",
@@ -1272,6 +1602,28 @@
         {
           "name": "omnieurope:lock-files",
           "value": "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;tests/OmniEurope.Blazor.Showcase.Back.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.Extensions.Configuration.Json",
+      "version": "10.0.13",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Configuration.Json@10.0.13",
+      "purl": "pkg:nuget/Microsoft.Extensions.Configuration.Json@10.0.13",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -1322,6 +1674,28 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.DependencyInjection",
+      "version": "10.0.15",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.DependencyInjection@10.0.15",
+      "purl": "pkg:nuget/Microsoft.Extensions.DependencyInjection@10.0.15",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.Extensions.DependencyInjection",
       "version": "11.0.0",
       "bom-ref": "pkg:nuget/Microsoft.Extensions.DependencyInjection@11.0.0",
       "purl": "pkg:nuget/Microsoft.Extensions.DependencyInjection@11.0.0",
@@ -1338,6 +1712,28 @@
         {
           "name": "omnieurope:lock-files",
           "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase.Examples/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Showcase.Back.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.Extensions.DependencyInjection.Abstractions",
+      "version": "10.0.15",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.DependencyInjection.Abstractions@10.0.15",
+      "purl": "pkg:nuget/Microsoft.Extensions.DependencyInjection.Abstractions@10.0.15",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -1388,6 +1784,28 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Diagnostics",
+      "version": "10.0.15",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Diagnostics@10.0.15",
+      "purl": "pkg:nuget/Microsoft.Extensions.Diagnostics@10.0.15",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.Extensions.Diagnostics",
       "version": "11.0.0",
       "bom-ref": "pkg:nuget/Microsoft.Extensions.Diagnostics@11.0.0",
       "purl": "pkg:nuget/Microsoft.Extensions.Diagnostics@11.0.0",
@@ -1404,6 +1822,28 @@
         {
           "name": "omnieurope:lock-files",
           "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase.Examples/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Showcase.Back.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.Extensions.Diagnostics.Abstractions",
+      "version": "10.0.15",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Diagnostics.Abstractions@10.0.15",
+      "purl": "pkg:nuget/Microsoft.Extensions.Diagnostics.Abstractions@10.0.15",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -1475,6 +1915,28 @@
     },
     {
       "type": "library",
+      "name": "Microsoft.Extensions.FileProviders.Abstractions",
+      "version": "10.0.13",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.FileProviders.Abstractions@10.0.13",
+      "purl": "pkg:nuget/Microsoft.Extensions.FileProviders.Abstractions@10.0.13",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
       "name": "Microsoft.Extensions.FileProviders.Composite",
       "version": "11.0.0",
       "bom-ref": "pkg:nuget/Microsoft.Extensions.FileProviders.Composite@11.0.0",
@@ -1520,6 +1982,28 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.FileProviders.Physical",
+      "version": "10.0.13",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.FileProviders.Physical@10.0.13",
+      "purl": "pkg:nuget/Microsoft.Extensions.FileProviders.Physical@10.0.13",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.Extensions.FileProviders.Physical",
       "version": "11.0.0",
       "bom-ref": "pkg:nuget/Microsoft.Extensions.FileProviders.Physical@11.0.0",
       "purl": "pkg:nuget/Microsoft.Extensions.FileProviders.Physical@11.0.0",
@@ -1536,6 +2020,28 @@
         {
           "name": "omnieurope:lock-files",
           "value": "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;tests/OmniEurope.Blazor.Showcase.Back.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.Extensions.FileSystemGlobbing",
+      "version": "10.0.13",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.FileSystemGlobbing@10.0.13",
+      "purl": "pkg:nuget/Microsoft.Extensions.FileSystemGlobbing@10.0.13",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -1586,6 +2092,28 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Localization",
+      "version": "10.0.15",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Localization@10.0.15",
+      "purl": "pkg:nuget/Microsoft.Extensions.Localization@10.0.15",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.Extensions.Localization",
       "version": "11.0.0",
       "bom-ref": "pkg:nuget/Microsoft.Extensions.Localization@11.0.0",
       "purl": "pkg:nuget/Microsoft.Extensions.Localization@11.0.0",
@@ -1602,6 +2130,28 @@
         {
           "name": "omnieurope:lock-files",
           "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase.Examples/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.Extensions.Localization.Abstractions",
+      "version": "10.0.15",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Localization.Abstractions@10.0.15",
+      "purl": "pkg:nuget/Microsoft.Extensions.Localization.Abstractions@10.0.15",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -1630,6 +2180,28 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Logging",
+      "version": "10.0.13",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Logging@10.0.13",
+      "purl": "pkg:nuget/Microsoft.Extensions.Logging@10.0.13",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.Extensions.Logging",
       "version": "11.0.0",
       "bom-ref": "pkg:nuget/Microsoft.Extensions.Logging@11.0.0",
       "purl": "pkg:nuget/Microsoft.Extensions.Logging@11.0.0",
@@ -1646,6 +2218,28 @@
         {
           "name": "omnieurope:lock-files",
           "value": "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;tests/OmniEurope.Blazor.Showcase.Back.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.Extensions.Logging.Abstractions",
+      "version": "10.0.15",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Logging.Abstractions@10.0.15",
+      "purl": "pkg:nuget/Microsoft.Extensions.Logging.Abstractions@10.0.15",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -1761,6 +2355,50 @@
     },
     {
       "type": "library",
+      "name": "Microsoft.Extensions.Options",
+      "version": "10.0.15",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Options@10.0.15",
+      "purl": "pkg:nuget/Microsoft.Extensions.Options@10.0.15",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.Extensions.Options.ConfigurationExtensions",
+      "version": "10.0.15",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Options.ConfigurationExtensions@10.0.15",
+      "purl": "pkg:nuget/Microsoft.Extensions.Options.ConfigurationExtensions@10.0.15",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
       "name": "Microsoft.Extensions.Options.ConfigurationExtensions",
       "version": "11.0.0",
       "bom-ref": "pkg:nuget/Microsoft.Extensions.Options.ConfigurationExtensions@11.0.0",
@@ -1778,6 +2416,50 @@
         {
           "name": "omnieurope:lock-files",
           "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase.Examples/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Showcase.Back.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.Extensions.Primitives",
+      "version": "10.0.15",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Primitives@10.0.15",
+      "purl": "pkg:nuget/Microsoft.Extensions.Primitives@10.0.15",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.Extensions.Validation",
+      "version": "10.0.15",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Validation@10.0.15",
+      "purl": "pkg:nuget/Microsoft.Extensions.Validation@10.0.15",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -1853,6 +2535,28 @@
     {
       "type": "library",
       "name": "Microsoft.JSInterop",
+      "version": "10.0.15",
+      "bom-ref": "pkg:nuget/Microsoft.JSInterop@10.0.15",
+      "purl": "pkg:nuget/Microsoft.JSInterop@10.0.15",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.JSInterop",
       "version": "11.0.0",
       "bom-ref": "pkg:nuget/Microsoft.JSInterop@11.0.0",
       "purl": "pkg:nuget/Microsoft.JSInterop@11.0.0",
@@ -1869,6 +2573,28 @@
         {
           "name": "omnieurope:lock-files",
           "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase.Examples/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.JSInterop.WebAssembly",
+      "version": "10.0.13",
+      "bom-ref": "pkg:nuget/Microsoft.JSInterop.WebAssembly@10.0.13",
+      "purl": "pkg:nuget/Microsoft.JSInterop.WebAssembly@10.0.13",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },

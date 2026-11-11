@@ -115,7 +115,7 @@ public sealed class NavTileAutoHueTests : OmniBunitContext
     public void Each_hue_reads_on_its_square_and_on_the_tile(string themeName, string paletteName, OmniAppearance mode)
     {
         var tokens = TokensOf(themeName, paletteName, mode);
-        var tile = ShowcaseThemeTests.Resolve(tokens, tokens.TryGetValue("--omni-card-background", out var card) ? card : tokens["--omni-color-surface"]);
+        var tile = ThemeTokenResolution.Resolve(tokens, tokens.TryGetValue("--omni-card-background", out var card) ? card : tokens["--omni-color-surface"]);
 
         var failures = new List<string>();
         foreach (var (rank, hue) in Hues(tokens))
@@ -157,7 +157,7 @@ public sealed class NavTileAutoHueTests : OmniBunitContext
             .For(mode);
 
     private static IEnumerable<(int Rank, string Hue)> Hues(IReadOnlyDictionary<string, string> tokens) =>
-        AnsiOfRank.Select((ansi, rank) => (rank + 1, ShowcaseThemeTests.Resolve(tokens, tokens[$"--omni-ansi-{ansi}"])));
+        AnsiOfRank.Select((ansi, rank) => (rank + 1, ThemeTokenResolution.Resolve(tokens, tokens[$"--omni-ansi-{ansi}"])));
 
     private static double HueAngle(string hex)
     {

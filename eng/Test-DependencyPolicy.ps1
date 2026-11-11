@@ -8,9 +8,42 @@ $repoRoot = Split-Path -Parent $PSScriptRoot
 $messages = Import-PowerShellDataFile (Join-Path $PSScriptRoot 'PowerShellMessages.psd1')
 $policy = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'dependency-policy.json') -Raw | ConvertFrom-Json
 [xml]$central = Get-Content -LiteralPath (Join-Path $repoRoot 'Directory.Packages.props') -Raw
+# A PackageVersion row is unconditional, or split by target framework in exactly two rows:
+# Condition="'$(TargetFramework)' == '<tfm>'" (the version of that framework, policy frameworkVersions.<tfm>)
+# and Condition="'$(TargetFramework)' != '<tfm>'" (the version of every other framework, policy version).
+# Any other condition is refused, so a row the guard cannot read never escapes it.
 $versions = @{}
+$frameworkVersions = @{}
+$excludedFrameworks = @{}
 foreach ($entry in @($central.Project.ItemGroup.PackageVersion)) {
-    $versions[[string]$entry.Include] = [string]$entry.Version
+    $id = [string]$entry.Include
+    $condition = [string]$entry.Condition
+    if ([string]::IsNullOrWhiteSpace($condition)) {
+        if ($versions.ContainsKey($id)) { throw "Directory.Packages.props declares $id twice." }
+        $versions[$id] = [string]$entry.Version
+    }
+    elseif ($condition -match "^\s*'\`$\(TargetFramework\)'\s*==\s*'([^']+)'\s*$") {
+        if (-not $frameworkVersions.ContainsKey($id)) { $frameworkVersions[$id] = @{} }
+        if ($frameworkVersions[$id].ContainsKey($Matches[1])) { throw "Directory.Packages.props declares $id twice for $($Matches[1])." }
+        $frameworkVersions[$id][$Matches[1]] = [string]$entry.Version
+    }
+    elseif ($condition -match "^\s*'\`$\(TargetFramework\)'\s*!=\s*'([^']+)'\s*$") {
+        if ($versions.ContainsKey($id)) { throw "Directory.Packages.props declares $id twice." }
+        $versions[$id] = [string]$entry.Version
+        $excludedFrameworks[$id] = $Matches[1]
+    }
+    else {
+        throw "Unsupported PackageVersion condition for ${id}: $condition"
+    }
+}
+foreach ($id in $frameworkVersions.Keys) {
+    $frameworks = @($frameworkVersions[$id].Keys)
+    if (-not $versions.ContainsKey($id) -or $frameworks.Count -ne 1 -or $excludedFrameworks[$id] -cne $frameworks[0]) {
+        throw "$id must pair its '== $($frameworks -join ', ')' row with one '!=' row on the same target framework."
+    }
+}
+foreach ($id in $excludedFrameworks.Keys) {
+    if (-not $frameworkVersions.ContainsKey($id)) { throw "$id excludes $($excludedFrameworks[$id]) without a row for it." }
 }
 
 foreach ($package in $policy.packages.PSObject.Properties) {
@@ -19,6 +52,16 @@ foreach ($package in $policy.packages.PSObject.Properties) {
     }
     if ($versions[$package.Name] -ne [string]$package.Value.version) {
         throw "Policy drift for $($package.Name): expected $($package.Value.version), found $($versions[$package.Name])."
+    }
+    $declared = if ($frameworkVersions.ContainsKey($package.Name)) { $frameworkVersions[$package.Name] } else { @{} }
+    $reviewed = @(if ($package.Value.frameworkVersions) { $package.Value.frameworkVersions.PSObject.Properties })
+    if ($declared.Count -ne $reviewed.Count) {
+        throw "Policy drift for $($package.Name): $($reviewed.Count) reviewed target framework rows, $($declared.Count) in Directory.Packages.props."
+    }
+    foreach ($framework in $reviewed) {
+        if (-not $declared.ContainsKey($framework.Name) -or $declared[$framework.Name] -ne [string]$framework.Value.version) {
+            throw "Policy drift for $($package.Name) on $($framework.Name): expected $($framework.Value.version), found $($declared[$framework.Name])."
+        }
     }
 }
 if ($versions.Count -ne @($policy.packages.PSObject.Properties).Count) {
@@ -41,6 +84,17 @@ if (-not $SkipCatalogCheck) {
             $drift = "NuGet catalog drift for $($package.Name): reviewed $($package.Value.version), latest stable $latest."
             if ($env:GITHUB_ACTIONS -eq 'true') { Write-Host "::warning::$drift" } else { Write-Warning $drift }
         }
+        # A per-framework row (latest-stable-patch) follows the newest stable patch of its own major.minor line.
+        foreach ($framework in @(if ($package.Value.frameworkVersions) { $package.Value.frameworkVersions.PSObject.Properties })) {
+            if ([string]$framework.Value.status -ne 'latest-stable-patch') { continue }
+            $reviewedVersion = [version][string]$framework.Value.version
+            $line = "$($reviewedVersion.Major).$($reviewedVersion.Minor)."
+            $latestPatch = @($catalog.versions | Where-Object { $_ -notmatch '-' -and $_.StartsWith($line) } | Select-Object -Last 1)
+            if ($latestPatch.Count -ne 1 -or [string]$latestPatch[0] -cne [string]$framework.Value.version) {
+                $drift = "NuGet catalog drift for $($package.Name) on $($framework.Name): reviewed $($framework.Value.version), latest stable $line* $latestPatch."
+                if ($env:GITHUB_ACTIONS -eq 'true') { Write-Host "::warning::$drift" } else { Write-Warning $drift }
+            }
+        }
     }
 }
 
@@ -52,11 +106,36 @@ if ([string]$global.sdk.version -ne [string]$policy.toolchain.sdk -or
 }
 
 $testLock = Get-Content -LiteralPath (Join-Path $repoRoot 'tests/OmniEurope.Blazor.Tests/packages.lock.json') -Raw | ConvertFrom-Json
-$testFramework = @($testLock.dependencies.PSObject.Properties)[0].Value
-foreach ($id in @('bunit', 'coverlet.MTP')) {
-    $entry = $testFramework.PSObject.Properties[$id]
-    if ($null -eq $entry -or [string]$entry.Value.resolved -ne [string]$policy.packages.$id.version) {
-        throw "Test lock does not resolve $id at the reviewed version."
+$testFrameworks = @($testLock.dependencies.PSObject.Properties)
+if ($testFrameworks.Count -eq 0) { throw 'Test lock has no target framework.' }
+foreach ($testFramework in $testFrameworks) {
+    foreach ($id in @('bunit', 'coverlet.MTP')) {
+        $entry = $testFramework.Value.PSObject.Properties[$id]
+        if ($null -eq $entry -or [string]$entry.Value.resolved -ne [string]$policy.packages.$id.version) {
+            throw "Test lock does not resolve $id at the reviewed version for $($testFramework.Name)."
+        }
+    }
+}
+
+# The package lock: each target framework of the library resolves its framework packages at the reviewed
+# version of that framework (frameworkVersions.<tfm>, otherwise version), so lib/net10.0 never ships with 11.0.
+$libraryLock = Get-Content -LiteralPath (Join-Path $repoRoot 'src/OmniEurope.Blazor/packages.lock.json') -Raw | ConvertFrom-Json
+[xml]$libraryProject = Get-Content -LiteralPath (Join-Path $repoRoot 'src/OmniEurope.Blazor/OmniEurope.Blazor.csproj') -Raw
+$libraryFrameworks = @(([string]$libraryProject.Project.PropertyGroup.TargetFrameworks).Split(';', [StringSplitOptions]::RemoveEmptyEntries))
+if ($libraryFrameworks.Count -eq 0) { throw 'OmniEurope.Blazor.csproj declares no TargetFrameworks.' }
+foreach ($framework in $libraryFrameworks) {
+    $resolved = $libraryLock.dependencies.PSObject.Properties[$framework]
+    if ($null -eq $resolved) { throw "Library lock has no $framework section." }
+    foreach ($reference in @($libraryProject.Project.ItemGroup.PackageReference)) {
+        $id = [string]$reference.Include
+        $reviewed = $policy.packages.$id
+        $expected = if ($reviewed.frameworkVersions -and $reviewed.frameworkVersions.PSObject.Properties[$framework]) {
+            [string]$reviewed.frameworkVersions.$framework.version
+        } else { [string]$reviewed.version }
+        $entry = $resolved.Value.PSObject.Properties[$id]
+        if ($null -eq $entry -or [string]$entry.Value.resolved -ne $expected) {
+            throw "Library lock resolves $id at $($entry.Value.resolved) for $framework, reviewed $expected."
+        }
     }
 }
 

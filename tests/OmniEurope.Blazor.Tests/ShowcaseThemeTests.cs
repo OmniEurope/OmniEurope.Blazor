@@ -174,7 +174,7 @@ public sealed class ShowcaseThemeTests
             foreach (var mode in new[] { OmniAppearance.Light, OmniAppearance.Dark })
             {
                 var tokens = preset.For(mode);
-                var contrast = ThemeColor.Contrast(Resolve(tokens, tokens["--omni-color-text"]), Resolve(tokens, tokens["--omni-color-surface"]));
+                var contrast = ThemeColor.Contrast(ThemeTokenResolution.Resolve(tokens, tokens["--omni-color-text"]), ThemeTokenResolution.Resolve(tokens, tokens["--omni-color-surface"]));
                 Assert.True(
                     contrast >= 4.5,
                     $"{preset.Name} in {mode}: body text contrast is {contrast:F2}, below the 4.5 minimum.");
@@ -190,7 +190,7 @@ public sealed class ShowcaseThemeTests
             foreach (var mode in new[] { OmniAppearance.Light, OmniAppearance.Dark })
             {
                 var tokens = preset.For(mode);
-                var contrast = ThemeColor.Contrast(Resolve(tokens, tokens["--omni-color-accent"]), Resolve(tokens, tokens["--omni-color-surface"]));
+                var contrast = ThemeColor.Contrast(ThemeTokenResolution.Resolve(tokens, tokens["--omni-color-accent"]), ThemeTokenResolution.Resolve(tokens, tokens["--omni-color-surface"]));
                 Assert.True(
                     contrast >= 3.0,
                     $"{preset.Name} in {mode}: accent contrast is {contrast:F2}, below the 3.0 minimum.");
@@ -216,7 +216,7 @@ public sealed class ShowcaseThemeTests
                              ("--omni-color-inverse-surface", "--omni-color-on-inverse")
                          })
                 {
-                    var contrast = ThemeColor.Contrast(Resolve(tokens, tokens[fill]), Resolve(tokens, tokens[over]));
+                    var contrast = ThemeColor.Contrast(ThemeTokenResolution.Resolve(tokens, tokens[fill]), ThemeTokenResolution.Resolve(tokens, tokens[over]));
                     Assert.True(
                         contrast >= 4.5,
                         $"{preset.Name} in {mode}: {over} over {fill} is {contrast:F2}, below the 4.5 minimum.");
@@ -254,7 +254,7 @@ public sealed class ShowcaseThemeTests
                 var tokens = preset.For(mode);
                 foreach (var (text, background) in pairs)
                 {
-                    var contrast = ThemeColor.Contrast(Resolve(tokens, tokens[text]), Resolve(tokens, tokens[background]));
+                    var contrast = ThemeColor.Contrast(ThemeTokenResolution.Resolve(tokens, tokens[text]), ThemeTokenResolution.Resolve(tokens, tokens[background]));
                     Assert.True(
                         contrast >= 4.5,
                         $"{preset.Name} in {mode}: {text} on {background} is {contrast:F2}, below the 4.5 minimum.");
@@ -276,7 +276,7 @@ public sealed class ShowcaseThemeTests
             foreach (var mode in new[] { OmniAppearance.Light, OmniAppearance.Dark })
             {
                 var tokens = preset.For(mode);
-                var border = Resolve(tokens, tokens["--omni-color-border"]);
+                var border = ThemeTokenResolution.Resolve(tokens, tokens["--omni-color-border"]);
                 var contrast = ThemeColor.Contrast(border, tokens["--omni-color-surface"]);
                 Assert.True(
                     contrast >= 1.7,
@@ -316,52 +316,6 @@ public sealed class ShowcaseThemeTests
     {
         var names = OmniThemePresets.All.Select(preset => preset.Name).ToArray();
         Assert.Equal(names.Length, names.Distinct(StringComparer.Ordinal).Count());
-    }
-
-    /// <summary>
-    /// Resolves the two forms a theme uses for a colour it derives: a token reference and a
-    /// <c>color-mix</c> of two of them in sRGB. Anything else fails the test rather than being
-    /// guessed, so a new form has to be taught here before it can ship.
-    /// </summary>
-    internal static string Resolve(IReadOnlyDictionary<string, string> tokens, string value)
-    {
-        if (Regex.IsMatch(value, "^#[0-9a-f]{6}$", RegexOptions.IgnoreCase))
-        {
-            return value;
-        }
-
-        var reference = Regex.Match(value, @"^var\((?<name>--omni-[a-z0-9-]+)\)$");
-        if (reference.Success)
-        {
-            return Resolve(tokens, tokens[reference.Groups["name"].Value]);
-        }
-
-        var mix = Regex.Match(value, @"^color-mix\(in srgb, (?<first>var\(--omni-[a-z0-9-]+\)) (?<share>\d+)%, (?<second>var\(--omni-[a-z0-9-]+\)|transparent)\)$");
-        Assert.True(mix.Success, $"Unsupported colour form: {value}");
-        var share = int.Parse(mix.Groups["share"].Value, System.Globalization.CultureInfo.InvariantCulture) / 100d;
-
-        // A colour mixed with transparent is that colour at the share's opacity, measured where it is
-        // laid: over the page surface (a theme's backdrop is measured separately, see
-        // ThemeContrastMatrixTests.Text_reads_on_every_stop_of_a_theme_backdrop).
-        var second = mix.Groups["second"].Value == "transparent" ? tokens["--omni-color-surface"] : Resolve(tokens, mix.Groups["second"].Value);
-        return ThemeColor.Mix(Resolve(tokens, mix.Groups["first"].Value), second, share);
-    }
-
-    /// <summary>
-    /// A colour value laid over <paramref name="ground"/> instead of the page surface: the same as
-    /// <see cref="Resolve"/> for an opaque value, and for a colour mixed with transparent, that colour at
-    /// its opacity over the given ground.
-    /// </summary>
-    internal static string ResolveOver(IReadOnlyDictionary<string, string> tokens, string value, string ground)
-    {
-        var mix = Regex.Match(value, @"^color-mix\(in srgb, (?<first>var\(--omni-[a-z0-9-]+\)) (?<share>\d+)%, transparent\)$");
-        if (!mix.Success)
-        {
-            return Resolve(tokens, value);
-        }
-
-        var share = int.Parse(mix.Groups["share"].Value, System.Globalization.CultureInfo.InvariantCulture) / 100d;
-        return ThemeColor.Mix(Resolve(tokens, mix.Groups["first"].Value), ground, share);
     }
 
     /// <summary>

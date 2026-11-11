@@ -17,6 +17,9 @@ jobs:
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
           global-json-file: global.json
+          # STD-SDKPIN exception (owner decision 2026-11-11): 10.0.x only brings the .NET 10 runtime the
+          # net10.0 library suite runs on; global.json still selects the SDK (Test-SdkBand checks it).
+          dotnet-version: 10.0.x
       - name: Verify the SDK feature band
         shell: pwsh
         run: ./eng/Test-SdkBand.ps1
@@ -56,11 +59,25 @@ jobs:
         # global.json runs dotnet test on Microsoft.Testing.Platform: the runner is xunit.v3 itself,
         # the TRX comes from Microsoft.Testing.Extensions.TrxReport and the Cobertura from coverlet.MTP.
         # Coverage is restricted to the published library; bUnit and the showcase are not the subject.
+        # The suite targets net10.0 and net11.0 like the package: the coverage and CRAP gates read the net11.0
+        # run (the one that also holds the showcase tests), the net10.0 run below must pass on its own.
         run: >-
           dotnet test --project tests/OmniEurope.Blazor.Tests/OmniEurope.Blazor.Tests.csproj
+          --framework net11.0
           --configuration Release --no-build --no-progress
           --report-trx --report-trx-filename tests.trx --results-directory artifacts/coverage
           --coverlet --coverlet-output-format cobertura --coverlet-include "[OmniEurope.Blazor]*"
+      - name: Unit tests on net10.0
+        # lib/net10.0 of the package against the 10.0 framework packages, on the .NET 10 runtime.
+        run: >-
+          dotnet test --project tests/OmniEurope.Blazor.Tests/OmniEurope.Blazor.Tests.csproj
+          --framework net10.0
+          --configuration Release --no-build --no-progress
+          --report-trx --report-trx-filename tests-net10.trx --results-directory artifacts/tests-net10
+      - name: Verify net10.0 test results
+        shell: pwsh
+        run: |
+          if (-not (Get-ChildItem artifacts/tests-net10 -Filter tests-net10.trx -Recurse -File)) { throw 'The net10.0 library suite produced no TRX.' }
       - name: Verify coverage artifact
         shell: pwsh
         run: ./eng/Test-Coverage.ps1 -CoverageRoot artifacts/coverage

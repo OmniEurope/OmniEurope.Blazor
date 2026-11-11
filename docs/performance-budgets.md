@@ -7,11 +7,12 @@ La feuille CSS n'a pas de budget de taille, retiré à la demande du propriétai
 Le budget de l'assembly est passé de 1,5 à 2 Mio le 2026-09-18, sur décision du propriétaire : la DLL atteignait 1 557 504 octets (99 %) après l'arrivée des composants d'une application cliente, du catalogue de thèmes et palettes et des sélecteurs de date et d'heure, et les composants de la barre d'application restaient à ajouter.
 Il est passé de 2 à 3 Mio le 2026-10-09, sur décision du propriétaire : la DLL atteignait 2 113 024 octets (101 %) avec le navigateur de plage des graphiques, le thème Trou blanc et la largeur du contenu.
 Le budget du paquet NuGet est passé de 2 à 3 Mio le 2026-10-23, sur décision du propriétaire, au plafond de l'assembly : la 1.9.0 atteignait 2,01 Mio par une croissance réelle (assembly, documentation XML, modules de script), sans contenu parasite.
+Depuis le 2026-11-11, sur décision du propriétaire, le paquet cible net10.0 et net11.0 et porte donc une assembly par framework : son budget devient 3 Mio par framework livré (6 Mio aujourd'hui), compté dans le paquet lui-même, et chaque assembly garde son propre budget de 3 Mio.
 
 | Artefact ou scénario | Budget Release |
 |---|---:|
-| Assembly principal | 3 Mio |
-| Paquet NuGet `.nupkg` | 3 Mio |
+| Assembly principal (chaque framework) | 3 Mio |
+| Paquet NuGet `.nupkg` | 3 Mio par framework livré |
 | Rendu de 1 000 boutons bUnit | 5 s et 160 Mio alloués |
 | DataGrid local, source de 10 000 lignes, page de 50 | 3 s et 160 Mio alloués |
 | SVG de 1 000 points | 3 s et 80 Mio alloués |

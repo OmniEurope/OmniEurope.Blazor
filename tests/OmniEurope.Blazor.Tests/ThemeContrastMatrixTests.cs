@@ -158,12 +158,12 @@ public sealed partial class ThemeContrastMatrixTests
         var theme = OmniThemePresets.All.Single(entry => entry.Name == themeName);
         var palette = OmniThemePalettes.All.Single(entry => entry.Name == paletteName);
         var tokens = theme.With(palette).For(mode);
-        var fill = ShowcaseThemeTests.Resolve(tokens, tokens["--omni-badge-solid-fill-neutral"]);
+        var fill = ThemeTokenResolution.Resolve(tokens, tokens["--omni-badge-solid-fill-neutral"]);
 
         var failures = new List<string>();
         foreach (var frame in new[] { "--omni-card-background", "--omni-layer-fill" })
         {
-            var value = ShowcaseThemeTests.Resolve(tokens, tokens.TryGetValue(frame, out var own) ? own : tokens["--omni-color-surface"]);
+            var value = ThemeTokenResolution.Resolve(tokens, tokens.TryGetValue(frame, out var own) ? own : tokens["--omni-color-surface"]);
             var contrast = ThemeColor.Contrast(fill, value);
             if (contrast < Component)
             {
@@ -220,8 +220,8 @@ public sealed partial class ThemeContrastMatrixTests
         foreach (var tone in Enum.GetValues<OmniTone>())
         {
             var (fillReference, inkReference) = SolidBadgeDeclarations(tone);
-            var fill = ShowcaseThemeTests.Resolve(tokens, fillReference);
-            var ink = ShowcaseThemeTests.Resolve(tokens, inkReference);
+            var fill = ThemeTokenResolution.Resolve(tokens, fillReference);
+            var ink = ThemeTokenResolution.Resolve(tokens, inkReference);
             var contrast = ThemeColor.Contrast(ink, fill);
             var problems = new List<string>();
             if (!string.Equals(ink, wanted, StringComparison.OrdinalIgnoreCase))
@@ -279,7 +279,7 @@ public sealed partial class ThemeContrastMatrixTests
         var palette = OmniThemePalettes.All.Single(entry => entry.Name == paletteName);
         var tokens = theme.With(palette).For(mode);
         var baseBody = ShippedLookTests.Body(".omni-badge--solid.omni-badge--ink-black");
-        var ink = ShowcaseThemeTests.Resolve(tokens, ShippedLookTests.Value(baseBody, "color"));
+        var ink = ThemeTokenResolution.Resolve(tokens, ShippedLookTests.Value(baseBody, "color"));
 
         var failures = new List<string>();
         foreach (var tone in Enum.GetValues<OmniTone>())
@@ -287,7 +287,7 @@ public sealed partial class ThemeContrastMatrixTests
             var own = $".omni-badge--solid.omni-badge--ink-black.omni-badge--{tone.ToString().ToLowerInvariant()}";
             var body = ShippedLookTests.Css.Contains(own + " {", StringComparison.Ordinal) ? ShippedLookTests.Body(own) : baseBody;
             var fillReference = ShippedLookTests.Value(body, "background");
-            var fill = ShowcaseThemeTests.Resolve(tokens, fillReference);
+            var fill = ThemeTokenResolution.Resolve(tokens, fillReference);
             var contrast = ThemeColor.Contrast(ink, fill);
             if (ThemeColor.Parse(ink) != ThemeColor.Parse(SolidBadgeBlackInk))
             {
@@ -318,11 +318,11 @@ public sealed partial class ThemeContrastMatrixTests
         var tokens = theme.With(palette).For(mode);
         // The frame of the stylesheet: --omni-grid-background, else the card fill, else the surface; a
         // translucent one is read over the opaque surface the sticky header lays behind its cells.
-        var frame = ShowcaseThemeTests.Resolve(tokens, tokens.TryGetValue("--omni-grid-background", out var grid) ? grid
+        var frame = ThemeTokenResolution.Resolve(tokens, tokens.TryGetValue("--omni-grid-background", out var grid) ? grid
             : tokens.TryGetValue("--omni-card-background", out var card) ? card
             : tokens["--omni-color-surface"]);
-        var fill = ThemeColor.Mix(ShowcaseThemeTests.Resolve(tokens, tokens["--omni-color-text"]), frame, 0.06);
-        var ink = ShowcaseThemeTests.Resolve(tokens, tokens["--omni-color-text-muted"]);
+        var fill = ThemeColor.Mix(ThemeTokenResolution.Resolve(tokens, tokens["--omni-color-text"]), frame, 0.06);
+        var ink = ThemeTokenResolution.Resolve(tokens, tokens["--omni-color-text-muted"]);
 
         var contrast = ThemeColor.Contrast(ink, fill);
         var failures = contrast < Text
@@ -377,11 +377,11 @@ public sealed partial class ThemeContrastMatrixTests
         var failures = new List<string>();
         foreach (var stop in stops)
         {
-            var ground = ShowcaseThemeTests.Resolve(tokens, tokens[stop]);
-            var card = ShowcaseThemeTests.ResolveOver(tokens, tokens["--omni-card-background"], ground);
+            var ground = ThemeTokenResolution.Resolve(tokens, tokens[stop]);
+            var card = ThemeTokenResolution.ResolveOver(tokens, tokens["--omni-card-background"], ground);
             foreach (var (text, ratio) in new[] { ("--omni-color-text", Text), ("--omni-color-text-muted", Text), ("--omni-color-accent-strong", Text) })
             {
-                var ink = ShowcaseThemeTests.Resolve(tokens, tokens[text]);
+                var ink = ThemeTokenResolution.Resolve(tokens, tokens[text]);
                 foreach (var (where, background) in new[] { (stop, ground), ($"card over {stop}", card) })
                 {
                     var contrast = ThemeColor.Contrast(ink, background);
@@ -392,14 +392,14 @@ public sealed partial class ThemeContrastMatrixTests
                 }
             }
 
-            var border = ShowcaseThemeTests.Resolve(tokens, tokens["--omni-color-border"]);
+            var border = ThemeTokenResolution.Resolve(tokens, tokens["--omni-color-border"]);
             var borderContrast = ThemeColor.Contrast(border, ground);
             if (borderContrast < BorderFloor)
             {
                 failures.Add(string.Create(CultureInfo.InvariantCulture, $"--omni-color-border ({border}) on {stop} ({ground}): {borderContrast:F2}, below {BorderFloor:F1}"));
             }
 
-            var badge = ShowcaseThemeTests.Resolve(tokens, tokens["--omni-badge-solid-fill-neutral"]);
+            var badge = ThemeTokenResolution.Resolve(tokens, tokens["--omni-badge-solid-fill-neutral"]);
             var badgeContrast = ThemeColor.Contrast(badge, card);
             if (badgeContrast < Component)
             {
@@ -474,6 +474,8 @@ public sealed partial class ThemeContrastMatrixTests
         Assert.Equal((expected * Pairs.Length) + RenderingMarginPairs.Length, checks);
     }
 
+#if OMNI_SHOWCASE_REFERENCED
+    // The showcase is referenced on net11.0 only (OmniEurope.Blazor.Tests.csproj): this check of its audit runs there.
     /// <summary>
     /// The customizer's live audit (<see cref="Showcase.Theming.ContrastAudit"/>) shows a visitor the
     /// pairs of the mockup: each must be one this matrix holds on every set, at the same threshold, or
@@ -491,6 +493,7 @@ public sealed partial class ThemeContrastMatrixTests
             .ToArray();
         Assert.True(foreign.Length == 0, $"Audit pairs absent from the matrix or at another threshold:\n{string.Join('\n', foreign)}");
     }
+#endif
 
     private static List<(string Foreground, string ForegroundValue, string Background, string BackgroundValue, double Contrast, double Required)> Measure(
         string themeName, string paletteName, OmniAppearance mode)
@@ -519,8 +522,8 @@ public sealed partial class ThemeContrastMatrixTests
     private static (string, string, string, string, double, double) Check(
         IReadOnlyDictionary<string, string> tokens, string foreground, string background, double ratio)
     {
-        var foregroundValue = ShowcaseThemeTests.Resolve(tokens, tokens[foreground]);
-        var backgroundValue = ShowcaseThemeTests.Resolve(tokens, tokens[background]);
+        var foregroundValue = ThemeTokenResolution.Resolve(tokens, tokens[foreground]);
+        var backgroundValue = ThemeTokenResolution.Resolve(tokens, tokens[background]);
         return (foreground, foregroundValue, background, backgroundValue, ThemeColor.Contrast(foregroundValue, backgroundValue), ratio);
     }
 }

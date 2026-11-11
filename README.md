@@ -43,7 +43,7 @@ More than a hundred components, one static stylesheet, no inline style, no `unsa
 
 ## Getting started
 
-Requires .NET 11.
+Requires .NET 10 or .NET 11: the package ships `lib/net10.0` (built against the ASP.NET Core 10.0 packages) and `lib/net11.0` (ASP.NET Core 11.0), and NuGet picks the one matching the consuming project. Building this repository itself needs the .NET 11 SDK.
 
 Install the package:
 

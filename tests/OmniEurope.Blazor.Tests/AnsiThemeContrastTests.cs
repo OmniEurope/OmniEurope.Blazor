@@ -20,7 +20,7 @@ public sealed class AnsiThemeContrastTests
             .For(mode);
 
     private static string[] AnsiColors(IReadOnlyDictionary<string, string> tokens) =>
-        [.. Enumerable.Range(0, 16).Select(index => ShowcaseThemeTests.Resolve(tokens, tokens[$"--omni-ansi-{index}"]))];
+        [.. Enumerable.Range(0, 16).Select(index => ThemeTokenResolution.Resolve(tokens, tokens[$"--omni-ansi-{index}"]))];
 
     /// <summary>
     /// The grounds a log line is drawn on, as the stylesheet resolves <c>--omni-log-viewer-surface</c>:
@@ -32,7 +32,7 @@ public sealed class AnsiThemeContrastTests
         var declared = tokens.TryGetValue("--omni-grid-background", out var grid) ? grid
             : tokens.TryGetValue("--omni-card-background", out var card) ? card
             : tokens["--omni-color-surface"];
-        var surfaces = new List<(string, string)> { ("the log surface", ShowcaseThemeTests.Resolve(tokens, declared)) };
+        var surfaces = new List<(string, string)> { ("the log surface", ThemeTokenResolution.Resolve(tokens, declared)) };
         if (darkOnlyInLight || !tokens.TryGetValue("--omni-backdrop", out var backdrop) || backdrop == "none")
         {
             return surfaces;
@@ -40,7 +40,7 @@ public sealed class AnsiThemeContrastTests
 
         foreach (var stop in tokens.Keys.Where(key => key.StartsWith("--omni-backdrop-", StringComparison.Ordinal)).Order(StringComparer.Ordinal))
         {
-            surfaces.Add(($"the log surface over {stop}", ShowcaseThemeTests.ResolveOver(tokens, declared, ShowcaseThemeTests.Resolve(tokens, tokens[stop]))));
+            surfaces.Add(($"the log surface over {stop}", ThemeTokenResolution.ResolveOver(tokens, declared, ThemeTokenResolution.Resolve(tokens, tokens[stop]))));
         }
 
         return surfaces;
@@ -83,7 +83,7 @@ public sealed class AnsiThemeContrastTests
     {
         var tokens = TokensOf(themeName, paletteName, mode);
         var colors = AnsiColors(tokens);
-        var defaultText = ShowcaseThemeTests.Resolve(tokens, tokens["--omni-color-text"]);
+        var defaultText = ThemeTokenResolution.Resolve(tokens, tokens["--omni-color-text"]);
 
         var failures = new List<string>();
         foreach (var (where, surface) in LogSurfaces(tokens, DarkOnlyInLight(themeName, mode)))
@@ -120,7 +120,7 @@ public sealed class AnsiThemeContrastTests
         var failures = new List<string>();
         foreach (var tint in new[] { "--omni-color-warning-subtle", "--omni-color-danger-subtle" })
         {
-            var row = ShowcaseThemeTests.Resolve(tokens, tokens[tint]);
+            var row = ThemeTokenResolution.Resolve(tokens, tokens[tint]);
             for (var index = 0; index < colors.Length; index++)
             {
                 var contrast = ThemeColor.Contrast(colors[index], row);

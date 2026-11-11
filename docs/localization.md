@@ -1,6 +1,6 @@
 # Localisation
 
-`OmniEurope.Blazor` fournit le marqueur public `AppStrings` et ses ressources dans les 24 langues officielles de l'Union européenne : le français en culture neutre (`AppStrings.resx`, sans suffixe), puis `en`, `bg`, `cs`, `da`, `de`, `el`, `es`, `et`, `fi`, `ga`, `hr`, `hu`, `it`, `lt`, `lv`, `mt`, `nl`, `pl`, `pt`, `ro`, `sk`, `sl` et `sv`, en cultures neutres (`pt` et non `pt-BR`) : une culture régionale comme `de-AT` retombe sur `de`. Chaque langue autre que le français est livrée en assembly satellite (`lib/net11.0/<langue>/OmniEurope.Blazor.resources.dll`), et `eng/Test-Package.ps1` échoue si le paquet en perd une. L'hôte active le contrat une seule fois :
+`OmniEurope.Blazor` fournit le marqueur public `AppStrings` et ses ressources dans les 24 langues officielles de l'Union européenne : le français en culture neutre (`AppStrings.resx`, sans suffixe), puis `en`, `bg`, `cs`, `da`, `de`, `el`, `es`, `et`, `fi`, `ga`, `hr`, `hu`, `it`, `lt`, `lv`, `mt`, `nl`, `pl`, `pt`, `ro`, `sk`, `sl` et `sv`, en cultures neutres (`pt` et non `pt-BR`) : une culture régionale comme `de-AT` retombe sur `de`. Chaque langue autre que le français est livrée en assembly satellite (`lib/net10.0/<langue>/OmniEurope.Blazor.resources.dll` et `lib/net11.0/<langue>/OmniEurope.Blazor.resources.dll`), et `eng/Test-Package.ps1` échoue si le paquet en perd une. L'hôte active le contrat une seule fois :
 
 ```csharp
 builder.Services.AddOmniEuropeBlazor();

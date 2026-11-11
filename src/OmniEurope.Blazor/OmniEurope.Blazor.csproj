@@ -1,5 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
   <PropertyGroup>
+    <!-- The package ships lib/net10.0 and lib/net11.0 (user decision 2026-11-11, net9.0 dropped): a .NET 10
+         consumer keeps the 10.0 framework packages, a .NET 11 consumer gets the 11.0 ones. -->
+    <TargetFrameworks>net10.0;net11.0</TargetFrameworks>
+    <!-- Clears the single net11.0 of Directory.Build.props, or the outer build would not fan out. -->
+    <TargetFramework></TargetFramework>
     <EnforceRazorCodeBehind>true</EnforceRazorCodeBehind>
     <!-- Every public member carries an XML doc (CS1591 is an error under TreatWarningsAsErrors): the
          file ships in the package so consumers get IntelliSense. -->

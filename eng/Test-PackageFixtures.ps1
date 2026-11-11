@@ -17,7 +17,7 @@ try {
     $expanded = Join-Path $resolvedTempRoot 'expanded'
     $contaminated = Join-Path $resolvedTempRoot 'contaminated.nupkg'
     [IO.Compression.ZipFile]::ExtractToDirectory($resolvedPackage, $expanded)
-    $payload = Join-Path $expanded 'lib/net11.0/payload.pdb'
+    $payload = Join-Path $expanded 'lib/net10.0/payload.pdb'
     [IO.File]::WriteAllBytes($payload, [byte[]](0x42, 0x53, 0x4A, 0x42))
     [IO.Compression.ZipFile]::CreateFromDirectory($expanded, $contaminated)
 
@@ -38,7 +38,7 @@ try {
     # Second fixture: the commented stylesheet source packed as a content file, the defect a NoBuild
     # pack once produced. It must be rejected even though every expected entry is still present.
     Remove-Item -LiteralPath $payload -Force
-    $contentFile = Join-Path $expanded 'contentFiles/any/net11.0/wwwroot/omnieurope.blazor.css'
+    $contentFile = Join-Path $expanded 'contentFiles/any/net10.0/wwwroot/omnieurope.blazor.css'
     New-Item -ItemType Directory -Force -Path (Split-Path -Parent $contentFile) | Out-Null
     [IO.File]::WriteAllText($contentFile, '/* source */ .omni-button { color: red; }')
     $withContent = Join-Path $resolvedTempRoot 'with-content.nupkg'
@@ -69,6 +69,43 @@ try {
     }
 
     Write-Host 'Package fixture carrying a Roslyn assembly was rejected by content inspection.'
+
+    # Fourth fixture: the net10.0 dependency group pointing at an 11.0 framework package. A .NET 10 consumer
+    # would then fail to restore (NU1202): each group must carry the central version of its own framework.
+    Remove-Item -LiteralPath $roslyn -Force
+    $nuspecPath = Join-Path $expanded 'OmniEurope.Blazor.nuspec'
+    $nuspecText = [IO.File]::ReadAllText($nuspecPath)
+    $group = [regex]::Match($nuspecText, '(?s)<group targetFramework="net10\.0">.*?</group>')
+    if (-not $group.Success) { throw 'The package under test has no net10.0 dependency group to tamper with.' }
+    $tamperedGroup = [regex]::new('version="10\.0\.\d+"').Replace($group.Value, 'version="11.0.0"', 1)
+    if ($tamperedGroup -ceq $group.Value) { throw 'The net10.0 dependency group of the package under test has no 10.0 dependency.' }
+    [IO.File]::WriteAllText($nuspecPath, $nuspecText.Replace($group.Value, $tamperedGroup))
+    $wrongGroup = Join-Path $resolvedTempRoot 'wrong-group.nupkg'
+    [IO.Compression.ZipFile]::CreateFromDirectory($expanded, $wrongGroup)
+    $output = & $pwsh -NoProfile -File (Join-Path $PSScriptRoot 'Test-Package.ps1') -PackagePath $wrongGroup 2>&1
+    $groupExitCode = $LASTEXITCODE
+    $global:LASTEXITCODE = 0
+    if ($groupExitCode -eq 0) { throw 'The package fixture with an 11.0 dependency in its net10.0 group unexpectedly passed.' }
+    if (($output -join "`n") -notmatch 'NuGet dependency mismatch for .+ on net10\.0') {
+        throw "The package fixture with a wrong net10.0 dependency failed for the wrong reason: $($output -join ' | ')"
+    }
+
+    Write-Host 'Package fixture with an 11.0 dependency in its net10.0 group was rejected by nuspec inspection.'
+
+    # Fifth fixture: a package that lost lib/net10.0, the multi-targeting silently dropped.
+    [IO.File]::WriteAllText($nuspecPath, $nuspecText)
+    Remove-Item -LiteralPath (Join-Path $expanded 'lib/net10.0') -Recurse -Force
+    $withoutNet10 = Join-Path $resolvedTempRoot 'without-net10.nupkg'
+    [IO.Compression.ZipFile]::CreateFromDirectory($expanded, $withoutNet10)
+    $output = & $pwsh -NoProfile -File (Join-Path $PSScriptRoot 'Test-Package.ps1') -PackagePath $withoutNet10 2>&1
+    $net10ExitCode = $LASTEXITCODE
+    $global:LASTEXITCODE = 0
+    if ($net10ExitCode -eq 0) { throw 'The package fixture without lib/net10.0 unexpectedly passed.' }
+    if (($output -join "`n") -notmatch 'Package entry missing: \^lib/net10\\\.0/') {
+        throw "The package fixture without lib/net10.0 failed for the wrong reason: $($output -join ' | ')"
+    }
+
+    Write-Host 'Package fixture without lib/net10.0 was rejected by content inspection.'
 } finally {
     if (Test-Path -LiteralPath $resolvedTempRoot) {
         Remove-Item -LiteralPath $resolvedTempRoot -Recurse -Force

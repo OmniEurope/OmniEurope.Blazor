@@ -171,10 +171,10 @@ public sealed partial class DataGridEditRowAndDefaultsTests : OmniBunitContext
         var theme = OmniThemePresets.All.Single(entry => entry.Name == themeName);
         var palette = OmniThemePalettes.All.Single(entry => entry.Name == paletteName);
         var tokens = theme.With(palette).For(mode);
-        var frame = ShowcaseThemeTests.Resolve(tokens, tokens.TryGetValue("--omni-grid-background", out var grid) ? grid
+        var frame = ThemeTokenResolution.Resolve(tokens, tokens.TryGetValue("--omni-grid-background", out var grid) ? grid
             : tokens.TryGetValue("--omni-card-background", out var card) ? card
             : tokens["--omni-color-surface"]);
-        var stripe = ThemeColor.Mix(ShowcaseThemeTests.Resolve(tokens, tokens["--omni-color-text"]), frame, StripeShare(dark: true));
+        var stripe = ThemeColor.Mix(ThemeTokenResolution.Resolve(tokens, tokens["--omni-color-text"]), frame, StripeShare(dark: true));
 
         var contrast = ThemeColor.Contrast(stripe, frame);
         Assert.True(contrast >= StripeFloor, string.Create(CultureInfo.InvariantCulture, $"{themeName} + {paletteName}: alternate row {stripe} on frame {frame}: {contrast:F3}, below {StripeFloor:F2}"));

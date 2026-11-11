@@ -84,17 +84,17 @@ public sealed class NavTileTintedTests : OmniBunitContext
         var tokens = OmniThemePresets.All.Single(entry => entry.Name == themeName)
             .With(OmniThemePalettes.All.Single(entry => entry.Name == paletteName))
             .For(mode);
-        var card = ShowcaseThemeTests.Resolve(tokens, tokens.TryGetValue("--omni-card-background", out var background) ? background : tokens["--omni-color-surface"]);
+        var card = ThemeTokenResolution.Resolve(tokens, tokens.TryGetValue("--omni-card-background", out var background) ? background : tokens["--omni-color-surface"]);
         var share = mode == OmniAppearance.Dark ? 0.20 : 0.34;
 
         var failures = new List<string>();
         foreach (var (rank, ansi) in AnsiOfRank.Select((ansi, index) => (index + 1, ansi)))
         {
-            var hue = ShowcaseThemeTests.Resolve(tokens, tokens[$"--omni-ansi-{ansi}"]);
+            var hue = ThemeTokenResolution.Resolve(tokens, tokens[$"--omni-ansi-{ansi}"]);
             var ground = ThemeColor.Mix(hue, card, share);
             foreach (var token in new[] { "--omni-color-text" })
             {
-                var text = ShowcaseThemeTests.Resolve(tokens, tokens[token]);
+                var text = ThemeTokenResolution.Resolve(tokens, tokens[token]);
                 var contrast = ThemeColor.Contrast(text, ground);
                 if (contrast < Text)
                 {

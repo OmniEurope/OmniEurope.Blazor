@@ -278,6 +278,27 @@ public sealed partial class ConventionGuardTests
     }
 
     /// <summary>
+    /// The package ships lib/net10.0 and lib/net11.0 (user decision 2026-11-11), and the library suite and the
+    /// public API guard run on both, so the net10.0 build is exercised and not only compiled. Dropping a
+    /// framework from one of them is a deliberate change of this guard.
+    /// </summary>
+    [Fact]
+    public void Package_TheLibrarySuite_AndThePublicApiGuard_TargetNet10AndNet11()
+    {
+        foreach (var project in new[]
+        {
+            Read("src", "OmniEurope.Blazor", "OmniEurope.Blazor.csproj"),
+            Read("tests", "OmniEurope.Blazor.Tests", "OmniEurope.Blazor.Tests.csproj"),
+            Read("eng", "OmniEurope.PublicApiGuard", "OmniEurope.PublicApiGuard.csproj"),
+        })
+        {
+            Assert.Contains("<TargetFrameworks>net10.0;net11.0</TargetFrameworks>", project, StringComparison.Ordinal);
+            // Directory.Build.props sets a single TargetFramework; left in place it would stop the fan-out.
+            Assert.Contains("<TargetFramework></TargetFramework>", project, StringComparison.Ordinal);
+        }
+    }
+
+    /// <summary>
     /// The SDK injects Microsoft.NET.ILLink.Tasks, Microsoft.NET.Sdk.WebAssembly.Pack and
     /// Microsoft.AspNetCore.App.Internal.Assets into the WebAssembly hosts at the version of the runtime
     /// it bundles. Directory.Build.targets pins them so every SDK from the floor writes the same locks
@@ -290,7 +311,8 @@ public sealed partial class ConventionGuardTests
         var pin = Regex.Match(targets, "<OmniImplicitSdkPackVersion>([^<]+)</OmniImplicitSdkPackVersion>");
         var central = Regex.Match(
             Read("Directory.Packages.props"),
-            "<PackageVersion Include=\"Microsoft\\.AspNetCore\\.Components\\.Web\" Version=\"([^\"]+)\" />");
+            // The row every target framework but net10.0 resolves: the hosts that receive the implicit packs are net11.0.
+            "<PackageVersion Include=\"Microsoft\\.AspNetCore\\.Components\\.Web\" Version=\"([^\"]+)\" Condition=\"'\\$\\(TargetFramework\\)' != 'net10\\.0'\" />");
 
         Assert.True(pin.Success, "Directory.Build.targets must declare OmniImplicitSdkPackVersion.");
         Assert.True(central.Success, "Directory.Packages.props must pin Microsoft.AspNetCore.Components.Web.");

@@ -1,5 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
   <PropertyGroup>
+    <!-- Both target frameworks of the package run the suite: the net10.0 run exercises lib/net10.0 against the
+         10.0 framework packages, not only its compilation. Clears the single net11.0 of Directory.Build.props. -->
+    <TargetFrameworks>net10.0;net11.0</TargetFrameworks>
+    <TargetFramework></TargetFramework>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
     <OutputType>Exe</OutputType>
@@ -14,7 +18,20 @@
 
   <ItemGroup>
     <ProjectReference Include="../../src/OmniEurope.Blazor/OmniEurope.Blazor.csproj" />
+  </ItemGroup>
+
+  <!-- The showcase is a net11.0 application, not part of the package: its tests (Showcase*.cs, and
+       ShippedStylesheetTests.cs, which reads the showcase theme catalogue) run on net11.0 only. -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net11.0'">
+    <!-- Guards the one showcase check that lives in a library test file (ThemeContrastMatrixTests). -->
+    <DefineConstants>$(DefineConstants);OMNI_SHOWCASE_REFERENCED</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net11.0'">
     <ProjectReference Include="../../site/OmniEurope.Blazor.Showcase/OmniEurope.Blazor.Showcase.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
+    <Compile Remove="Showcase*.cs" />
+    <Compile Remove="ShippedStylesheetTests.cs" />
   </ItemGroup>
 </Project>
 

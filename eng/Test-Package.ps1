@@ -26,6 +26,28 @@ function Read-EntryText([System.IO.Compression.ZipArchiveEntry]$Entry) {
     try { return $reader.ReadToEnd() } finally { $reader.Dispose() }
 }
 $repoRoot = Split-Path -Parent $PSScriptRoot
+# The package ships one lib folder per target framework of the library project, and only those.
+[xml]$project = Get-Content -LiteralPath (Join-Path $repoRoot 'src/OmniEurope.Blazor/OmniEurope.Blazor.csproj') -Raw
+$frameworks = @(([string]$project.Project.PropertyGroup.TargetFrameworks).Split(';', [StringSplitOptions]::RemoveEmptyEntries) |
+    ForEach-Object { $_.Trim() })
+if ($frameworks.Count -lt 2 -or $frameworks -cnotcontains 'net10.0' -or $frameworks -cnotcontains 'net11.0') {
+    throw "OmniEurope.Blazor.csproj must target net10.0 and net11.0, found '$($frameworks -join ';')'."
+}
+
+# The central version a PackageReference resolves for one target framework: an unconditional row, or the
+# '== <tfm>' / '!= <tfm>' pair of Directory.Packages.props (the only conditions Test-DependencyPolicy.ps1 accepts).
+function Get-CentralVersion([xml]$Central, [string]$Id, [string]$Framework) {
+    $found = @(foreach ($row in @($Central.Project.ItemGroup.PackageVersion | Where-Object { [string]$_.Include -ceq $Id })) {
+        $condition = [string]$row.Condition
+        if ([string]::IsNullOrWhiteSpace($condition)) { [string]$row.Version }
+        elseif ($condition -match "^\s*'\`$\(TargetFramework\)'\s*==\s*'([^']+)'\s*$") { if ($Matches[1] -ceq $Framework) { [string]$row.Version } }
+        elseif ($condition -match "^\s*'\`$\(TargetFramework\)'\s*!=\s*'([^']+)'\s*$") { if ($Matches[1] -cne $Framework) { [string]$row.Version } }
+        else { throw "Unsupported PackageVersion condition for ${Id}: $condition" }
+    })
+    if ($found.Count -ne 1) { throw "Central version of $Id for $Framework is ambiguous or missing ($($found.Count) rows)." }
+    return $found[0]
+}
+
 $resolved = (Resolve-Path -LiteralPath $PackagePath).Path
 $archive = [System.IO.Compression.ZipFile]::OpenRead($resolved)
 try {
@@ -38,13 +60,21 @@ try {
         '^compliance/third-party-packages\.json$',
         '^compliance/vendored-assets\.json$',
         '^compliance/licenses/.+$',
-        '^lib/net11\.0/OmniEurope\.Blazor\.dll$',
+
         '^analyzers/dotnet/cs/OmniEurope\.Blazor\.Analyzers\.dll$',
         '^staticwebassets/omnieurope\.blazor\.css$',
         '^staticwebassets/omniInterop\.js$'
     )
+    foreach ($framework in $frameworks) {
+        $requiredPatterns += "^lib/$([regex]::Escape($framework))/OmniEurope\.Blazor\.dll$"
+        $requiredPatterns += "^lib/$([regex]::Escape($framework))/OmniEurope\.Blazor\.xml$"
+    }
     foreach ($pattern in $requiredPatterns) {
         if (-not ($entries -match $pattern)) { throw "Package entry missing: $pattern" }
+    }
+    $libFolders = @($entries | Where-Object { $_ -match '^lib/([^/]+)/' } | ForEach-Object { ($_ -split '/')[1] } | Sort-Object -Unique)
+    if (Compare-Object @($frameworks | Sort-Object) $libFolders) {
+        throw "Package lib folders ($($libFolders -join ', ')) differ from the target frameworks ($($frameworks -join ', '))."
     }
 
     # Every file of the library's wwwroot is a static web asset a host loads by its path (the JS
@@ -69,7 +99,7 @@ try {
         Sort-Object -Unique)
     if ($cultures.Count -eq 0) { throw "No translated resource file found under $resourceRoot." }
     $missingSatellites = @($cultures |
-        ForEach-Object { "lib/net11.0/$_/OmniEurope.Blazor.resources.dll" } |
+        ForEach-Object { $culture = $_; $frameworks | ForEach-Object { "lib/$_/$culture/OmniEurope.Blazor.resources.dll" } } |
         Where-Object { $entries -cnotcontains $_ })
     if ($missingSatellites.Count -gt 0) {
         throw "Package is missing satellite resource assemblies: $($missingSatellites -join ', ')"
@@ -141,35 +171,46 @@ try {
     if ($nuspec -notmatch '<license type="expression">EUPL-1\.2</license>') { throw 'NuGet license expression is missing or incorrect.' }
 
     [xml]$central = Get-Content -LiteralPath (Join-Path $repoRoot 'Directory.Packages.props') -Raw
-    [xml]$project = Get-Content -LiteralPath (Join-Path $repoRoot 'src/OmniEurope.Blazor/OmniEurope.Blazor.csproj') -Raw
-    $centralVersions = @{}
-    foreach ($version in @($central.Project.ItemGroup.PackageVersion)) {
-        $centralVersions[[string]$version.Include] = [string]$version.Version
+    # One dependency group per target framework, each at the central version of that framework (a .NET 10
+    # consumer must get the 10.0 framework packages, never 11.0).
+    $groups = @($nuspecDocument.SelectNodes("//*[local-name()='dependencies']/*[local-name()='group']"))
+    $groupFrameworks = @($groups | ForEach-Object { [string]$_.targetFramework } | Sort-Object)
+    $expectedGroups = @($frameworks | Sort-Object)
+    if ($groups.Count -ne $frameworks.Count -or (Compare-Object $expectedGroups $groupFrameworks)) {
+        throw "NuGet dependency groups ($($groupFrameworks -join ', ')) differ from the target frameworks ($($frameworks -join ', '))."
     }
-    $expectedDependencies = @{}
-    foreach ($reference in @($project.Project.ItemGroup.PackageReference)) {
-        $id = [string]$reference.Include
-        if (-not $centralVersions.ContainsKey($id)) { throw "Central version missing for package dependency $id." }
-        $expectedDependencies[$id] = $centralVersions[$id]
+    if (@($nuspecDocument.SelectNodes("//*[local-name()='dependencies']/*[local-name()='dependency']")).Count -gt 0) {
+        throw 'NuGet package declares dependencies outside a target framework group.'
     }
-    $actualDependencies = @{}
-    foreach ($dependency in @($nuspecDocument.SelectNodes("//*[local-name()='dependency']"))) {
-        $id = [string]$dependency.id
-        if ($actualDependencies.ContainsKey($id)) { throw "Duplicate nuspec dependency: $id" }
-        $actualDependencies[$id] = [string]$dependency.version
-    }
-    if ($actualDependencies.Count -ne $expectedDependencies.Count) {
-        throw "NuGet dependency count mismatch: expected $($expectedDependencies.Count), found $($actualDependencies.Count)."
-    }
-    foreach ($dependency in $expectedDependencies.GetEnumerator()) {
-        if (-not $actualDependencies.ContainsKey($dependency.Key) -or $actualDependencies[$dependency.Key] -cne $dependency.Value) {
-            throw "NuGet dependency mismatch for $($dependency.Key): expected $($dependency.Value), found $($actualDependencies[$dependency.Key])."
+    $dependencySummary = @()
+    foreach ($framework in $frameworks) {
+        $group = @($groups | Where-Object { [string]$_.targetFramework -ceq $framework })[0]
+        $expectedDependencies = @{}
+        foreach ($reference in @($project.Project.ItemGroup.PackageReference)) {
+            $id = [string]$reference.Include
+            $expectedDependencies[$id] = Get-CentralVersion $central $id $framework
         }
+        $actualDependencies = @{}
+        foreach ($dependency in @($group.SelectNodes("*[local-name()='dependency']"))) {
+            $id = [string]$dependency.id
+            if ($actualDependencies.ContainsKey($id)) { throw "Duplicate nuspec dependency for ${framework}: $id" }
+            $actualDependencies[$id] = [string]$dependency.version
+        }
+        if ($actualDependencies.Count -ne $expectedDependencies.Count) {
+            throw "NuGet dependency count mismatch for ${framework}: expected $($expectedDependencies.Count), found $($actualDependencies.Count)."
+        }
+        foreach ($dependency in $expectedDependencies.GetEnumerator()) {
+            if (-not $actualDependencies.ContainsKey($dependency.Key) -or $actualDependencies[$dependency.Key] -cne $dependency.Value) {
+                throw "NuGet dependency mismatch for $($dependency.Key) on ${framework}: expected $($dependency.Value), found $($actualDependencies[$dependency.Key])."
+            }
+        }
+        $dependencySummary += "$framework ($(@($expectedDependencies.GetEnumerator() | Sort-Object Key | ForEach-Object { "$($_.Key) $($_.Value)" }) -join ', '))"
     }
     if ($nuspec -match 'Microsoft\.AspNetCore\.App|frameworkReference') {
         throw 'NuGet package still declares a server-only framework reference.'
     }
-    Write-Host "NuGet content passed: $($entries.Count) entries, $($expectedAssets.Count) static web assets, $($cultures.Count) satellite cultures ($($cultures -join ', '))."
+    Write-Host "NuGet content passed: $($entries.Count) entries, lib $($frameworks -join ' + '), $($expectedAssets.Count) static web assets, $($cultures.Count) satellite cultures per framework ($($cultures -join ', '))."
+    Write-Host "NuGet dependencies passed: $($dependencySummary -join '; ')."
 } finally {
     $archive.Dispose()
 }
@@ -179,7 +220,9 @@ if ($SymbolPackagePath) {
     $symbols = [System.IO.Compression.ZipFile]::OpenRead($resolvedSymbols)
     try {
         $symbolEntries = @($symbols.Entries.FullName)
-        if ($symbolEntries -notcontains 'lib/net11.0/OmniEurope.Blazor.pdb') { throw 'Portable PDB is missing from the symbol package.' }
+        foreach ($framework in $frameworks) {
+            if ($symbolEntries -notcontains "lib/$framework/OmniEurope.Blazor.pdb") { throw "Portable PDB of $framework is missing from the symbol package." }
+        }
         Write-Host "NuGet symbols passed: $($symbolEntries.Count) entries."
     } finally {
         $symbols.Dispose()

@@ -6,8 +6,13 @@
     <PackageVersion Include="bunit" Version="2.15.2" />
     <PackageVersion Include="coverlet.MTP" Version="10.1.0" />
     <PackageVersion Include="HtmlSanitizer" Version="11.0.26" />
-    <PackageVersion Include="Microsoft.Extensions.Localization" Version="11.0.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="11.0.0" />
+    <!-- The package targets net10.0 and net11.0 (user decision 2026-11-11): its two framework packages resolve
+         the latest 10.0 patch for the net10.0 build and 11.0 for every other target framework. The rows are
+         read by eng/Test-DependencyPolicy.ps1 and eng/Test-Package.ps1, which accept only these two forms. -->
+    <PackageVersion Include="Microsoft.Extensions.Localization" Version="11.0.0" Condition="'$(TargetFramework)' != 'net10.0'" />
+    <PackageVersion Include="Microsoft.Extensions.Localization" Version="10.0.15" Condition="'$(TargetFramework)' == 'net10.0'" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="11.0.0" Condition="'$(TargetFramework)' != 'net10.0'" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="10.0.15" Condition="'$(TargetFramework)' == 'net10.0'" />
     <PackageVersion Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="11.0.10" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Components.WebView" Version="11.0.0" />

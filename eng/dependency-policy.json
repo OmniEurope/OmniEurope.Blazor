@@ -20,12 +20,26 @@
     "Microsoft.Extensions.Localization": {
       "version": "11.0.0",
       "status": "latest-stable",
-      "source": "https://www.nuget.org/packages/Microsoft.Extensions.Localization/"
+      "source": "https://www.nuget.org/packages/Microsoft.Extensions.Localization/",
+      "frameworkVersions": {
+        "net10.0": {
+          "version": "10.0.15",
+          "status": "latest-stable-patch",
+          "reason": "The package also targets net10.0 (user decision 2026-11-11): its .NET 10 build references the latest stable 10.0 patch, so a .NET 10 consumer never pulls an 11.0 framework package."
+        }
+      }
     },
     "Microsoft.AspNetCore.Components.Web": {
       "version": "11.0.0",
       "status": "latest-stable",
-      "source": "https://www.nuget.org/packages/Microsoft.AspNetCore.Components.Web/"
+      "source": "https://www.nuget.org/packages/Microsoft.AspNetCore.Components.Web/",
+      "frameworkVersions": {
+        "net10.0": {
+          "version": "10.0.15",
+          "status": "latest-stable-patch",
+          "reason": "The package also targets net10.0 (user decision 2026-11-11): its .NET 10 build references the latest stable 10.0 patch, so a .NET 10 consumer never pulls an 11.0 framework package."
+        }
+      }
     },
     "Microsoft.CodeAnalysis.CSharp": {
       "version": "5.9.0",
