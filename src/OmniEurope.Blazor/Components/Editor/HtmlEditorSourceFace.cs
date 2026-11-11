@@ -28,7 +28,7 @@ internal sealed class HtmlEditorSourceFace(OmniHtmlEditor owner, IJSRuntime java
         }
 
         await using var module = await OmniScriptModule.ImportAsync(javaScript, InteropModulePath);
-        await module.InvokeVoidTrackedAsync("holdInputBursts", owner.SourceElement, QuietMilliseconds);
+        await module.InvokeVoidAsync("holdInputBursts", owner.SourceElement, QuietMilliseconds);
     }
 
     /// <summary>Commits the text a burst of input left held in the script, so whatever acts next acts on what was typed.</summary>
@@ -40,7 +40,7 @@ internal sealed class HtmlEditorSourceFace(OmniHtmlEditor owner, IJSRuntime java
         }
 
         await using var module = await OmniScriptModule.ImportAsync(javaScript, InteropModulePath);
-        if (await module.InvokeTrackedAsync<string?>("takeHeldInput", owner.SourceElement) is { } text)
+        if (await module.InvokeAsync<string?>("takeHeldInput", owner.SourceElement) is { } text)
         {
             await owner.CommitAsync(owner.Clean(text));
         }
@@ -114,13 +114,13 @@ internal sealed class HtmlEditorSourceFace(OmniHtmlEditor owner, IJSRuntime java
     {
         await FlushInputAsync();
         await using var module = await OmniScriptModule.ImportAsync(javaScript, InteropModulePath);
-        var result = await module.InvokeTrackedAsync<JsonElement>("wrapTextSelection", owner.SourceElement, prefix, suffix);
+        var result = await module.InvokeAsync<JsonElement>("wrapTextSelection", owner.SourceElement, prefix, suffix);
         var value = result.GetProperty("value").GetString() ?? string.Empty;
         var start = result.GetProperty("selectionStart").GetInt32();
         var end = result.GetProperty("selectionEnd").GetInt32();
         await owner.CommitAsync(owner.Clean(value));
         await owner.RenderAsync();
-        await module.InvokeVoidTrackedAsync("restoreTextSelection", owner.SourceElement, start, end);
+        await module.InvokeVoidAsync("restoreTextSelection", owner.SourceElement, start, end);
     }
 
     // Reached through ExecuteAsync only, which OmniHtmlEditor.RunBuiltInAsync calls when it is not locked.

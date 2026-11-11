@@ -148,32 +148,14 @@ public partial class Customizer : IDisposable
 
     private async Task CopyAsync()
     {
-        var copied = false;
-        try
-        {
-            copied = await Js.InvokeAsync<bool>("omniShowcaseTheme.copy", Theme.ExportCss()).ConfigureAwait(false);
-        }
-        catch (JSException)
-        {
-            // The theme script failed: reported to the visitor as a copy that did not happen.
-        }
-
+        var copied = await Js.InvokeAsync<bool>("omniShowcaseTheme.copy", Theme.ExportCss()).ConfigureAwait(false);
         Report(copied, "CustomizeCopied", "CustomizeCopyFailed");
     }
 
     private async Task DownloadAsync()
     {
-        var saved = false;
-        try
-        {
-            saved = await Js.InvokeAsync<bool>("omniShowcaseTheme.download", "omnieurope-theme.css", Theme.ExportCss())
-                .ConfigureAwait(false);
-        }
-        catch (JSException)
-        {
-            // The theme script failed: reported to the visitor as a download that did not happen.
-        }
-
+        var saved = await Js.InvokeAsync<bool>("omniShowcaseTheme.download", "omnieurope-theme.css", Theme.ExportCss())
+            .ConfigureAwait(false);
         Report(saved, "CustomizeDownloaded", "CustomizeDownloadFailed");
     }
 

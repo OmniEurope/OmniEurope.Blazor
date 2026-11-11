@@ -213,11 +213,11 @@ public partial class OmniSidebar
         _escapeAttached = floating;
         if (floating)
         {
-            await module.InvokeVoidTrackedAsync("attachEscape", _escapeKey, _selfReference);
+            await module.InvokeVoidAsync("attachEscape", _escapeKey, _selfReference);
         }
         else
         {
-            await module.InvokeVoidTrackedAsync("detachEscape", _escapeKey);
+            await module.InvokeVoidAsync("detachEscape", _escapeKey);
         }
     }
 

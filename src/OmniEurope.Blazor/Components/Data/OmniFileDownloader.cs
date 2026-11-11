@@ -37,7 +37,7 @@ public sealed class OmniFileDownloader : IAsyncDisposable
         ArgumentException.ThrowIfNullOrWhiteSpace(fileName);
         ArgumentException.ThrowIfNullOrWhiteSpace(contentType);
         var module = await ModuleAsync(cancellationToken);
-        await module.InvokeVoidTrackedAsync("download", cancellationToken, fileName.Trim(), contentType.Trim(), content);
+        await module.InvokeVoidAsync("download", cancellationToken, fileName.Trim(), contentType.Trim(), content);
     }
 
     /// <summary>
@@ -65,7 +65,7 @@ public sealed class OmniFileDownloader : IAsyncDisposable
 
         var module = await ModuleAsync(cancellationToken);
         using var reference = new DotNetStreamReference(content, leaveOpen: true);
-        await module.InvokeVoidTrackedAsync("downloadStream", cancellationToken, fileName.Trim(), contentType.Trim(), reference);
+        await module.InvokeVoidAsync("downloadStream", cancellationToken, fileName.Trim(), contentType.Trim(), reference);
     }
 
     /// <summary>Releases the download script module.</summary>

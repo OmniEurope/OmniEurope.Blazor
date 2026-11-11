@@ -237,11 +237,11 @@ public partial class OmniDataList<TItem>
         if (!_attached)
         {
             _selfReference ??= DotNetObjectReference.Create(new ListInteropBridge(OnViewportChangedAsync));
-            await module.InvokeVoidTrackedAsync("attachList", _root, _selfReference);
+            await module.InvokeVoidAsync("attachList", _root, _selfReference);
             _attached = true;
         }
 
-        var snapshot = await module.InvokeTrackedAsync<GridViewportSnapshot?>("syncList", _root);
+        var snapshot = await module.InvokeAsync<GridViewportSnapshot?>("syncList", _root);
         if (_disposed)
         {
             return;
@@ -250,7 +250,7 @@ public partial class OmniDataList<TItem>
         var moved = ApplySnapshot(snapshot);
         var previous = _range;
         SyncWindow();
-        await module.InvokeVoidTrackedAsync("applyListLayout", _root, _range.TopSpacer, _range.BottomSpacer);
+        await module.InvokeVoidAsync("applyListLayout", _root, _range.TopSpacer, _range.BottomSpacer);
         if (moved || previous != _range)
         {
             StateHasChanged();

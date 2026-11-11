@@ -511,21 +511,14 @@ public sealed class ShowcaseThemeStateTests
         public List<(string Identifier, object?[] Arguments)> Calls { get; } = [];
 
         public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) =>
-            RecordingJsScript.Record<TValue>(Calls, Stored, identifier, args);
+            InvokeAsync<TValue>(identifier, CancellationToken.None, args);
 
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) =>
-            RecordingJsScript.Record<TValue>(Calls, Stored, identifier, args);
-    }
-}
-
-/// <summary>The answers of the recording runtime of <see cref="ShowcaseThemeStateTests"/>, kept apart from its script interface.</summary>
-file static class RecordingJsScript
-{
-    internal static ValueTask<TValue> Record<TValue>(List<(string Identifier, object?[] Arguments)> calls, string? stored, string identifier, object?[]? args)
-    {
-        calls.Add((identifier, args ?? []));
-        return identifier is "omniShowcaseTheme.load" && stored is TValue value
-            ? ValueTask.FromResult(value)
-            : ValueTask.FromResult<TValue>(default!);
+        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args)
+        {
+            Calls.Add((identifier, args ?? []));
+            return identifier is "omniShowcaseTheme.load" && Stored is TValue stored
+                ? ValueTask.FromResult(stored)
+                : ValueTask.FromResult<TValue>(default!);
+        }
     }
 }

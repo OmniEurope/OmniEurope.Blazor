@@ -58,58 +58,43 @@ public sealed class LateJsAcquisitionTests
     }
 
     /// <summary>A runtime whose module import stays pending until the test completes it.</summary>
-    internal sealed class PendingImportRuntime : IJSRuntime
+    private sealed class PendingImportRuntime : IJSRuntime
     {
         private readonly TaskCompletionSource<IJSObjectReference> _import = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
         internal RecordingModule Module { get; } = new();
 
-        internal TaskCompletionSource<IJSObjectReference> Import => _import;
+        internal void Complete() => _import.SetResult(Module);
 
         public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) =>
-            PendingImportScript.ImportAsync<TValue>(_import, identifier);
+            InvokeAsync<TValue>(identifier, CancellationToken.None, args);
 
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) =>
-            PendingImportScript.ImportAsync<TValue>(_import, identifier);
+        public async ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args)
+        {
+            Assert.Equal("import", identifier);
+            return (TValue)await _import.Task;
+        }
     }
 
-    internal sealed class RecordingModule : IJSObjectReference
+    private sealed class RecordingModule : IJSObjectReference
     {
         internal List<string> Calls { get; } = [];
 
         internal bool Disposed { get; private set; }
 
         public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) =>
-            RecordingScript.Record<TValue>(Calls, identifier);
+            InvokeAsync<TValue>(identifier, CancellationToken.None, args);
 
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) =>
-            RecordingScript.Record<TValue>(Calls, identifier);
+        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args)
+        {
+            Calls.Add(identifier);
+            return ValueTask.FromResult(default(TValue)!);
+        }
 
         public ValueTask DisposeAsync()
         {
             Disposed = true;
             return ValueTask.CompletedTask;
         }
-    }
-}
-
-/// <summary>The control surface of <see cref="LateJsAcquisitionTests"/> runtime, kept apart from its script interface.</summary>
-file static class RecordingScript
-{
-    internal static ValueTask<TValue> Record<TValue>(List<string> calls, string identifier)
-    {
-        calls.Add(identifier);
-        return ValueTask.FromResult(default(TValue)!);
-    }
-}
-
-file static class PendingImportScript
-{
-    internal static void Complete(this LateJsAcquisitionTests.PendingImportRuntime runtime) => runtime.Import.SetResult(runtime.Module);
-
-    internal static async ValueTask<TValue> ImportAsync<TValue>(TaskCompletionSource<IJSObjectReference> import, string identifier)
-    {
-        Assert.Equal("import", identifier);
-        return (TValue)await import.Task;
     }
 }

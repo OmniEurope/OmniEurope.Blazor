@@ -55,14 +55,14 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
     // The resize gesture is attached only once the module is loaded.
     internal bool CanAutoFit => _resizeAttached;
 
-    internal Task AutoFitColumnAsync(string key) => _gridModule!.InvokeVoidTrackedAsync("autoFitColumn", grid.Viewport, key).AsTask();
+    internal Task AutoFitColumnAsync(string key) => _gridModule!.InvokeVoidAsync("autoFitColumn", grid.Viewport, key).AsTask();
 
     /// <summary>Scrolls the viewport to an offset; nothing while the script is not loaded.</summary>
     internal async Task ScrollToOffsetAsync(double offset)
     {
         if (_gridModule is not null)
         {
-            await _gridModule.InvokeVoidTrackedAsync("scrollToOffset", grid.Viewport, offset);
+            await _gridModule.InvokeVoidAsync("scrollToOffset", grid.Viewport, offset);
         }
     }
 
@@ -104,7 +104,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         await EnsureColumnHoverAsync();
         if (!_virtualAttached)
         {
-            await module.InvokeVoidTrackedAsync("attach", grid.Viewport, SelfReference);
+            await module.InvokeVoidAsync("attach", grid.Viewport, SelfReference);
             _virtualAttached = true;
         }
 
@@ -112,7 +112,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         // when the item rows themselves have a fixed height. The spacers of the rows just rendered
         // are set before anything is read, so the scroll is never measured on a shortened content.
         var viewport = grid.Virtual;
-        var snapshot = await module.InvokeTrackedAsync<GridViewportSnapshot?>("sync", grid.Viewport, !viewport.RowsAreFixed || grid.View.StructuredVirtual, viewport.Range.TopSpacer, viewport.Range.BottomSpacer);
+        var snapshot = await module.InvokeAsync<GridViewportSnapshot?>("sync", grid.Viewport, !viewport.RowsAreFixed || grid.View.StructuredVirtual, viewport.Range.TopSpacer, viewport.Range.BottomSpacer);
         var moved = viewport.ApplySnapshot(snapshot);
         var previous = viewport.Range;
         viewport.Sync();
@@ -144,7 +144,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         }
 
         var module = await ModuleAsync();
-        if (await module.InvokeTrackedAsync<bool>("focusEditor", grid.Viewport, grid.Editing.FocusColumn))
+        if (await module.InvokeAsync<bool>("focusEditor", grid.Viewport, grid.Editing.FocusColumn))
         {
             grid.Editing.FocusGiven();
         }
@@ -162,7 +162,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         }
 
         var module = await ModuleAsync();
-        await module.InvokeVoidTrackedAsync("installPackageTooltips");
+        await module.InvokeVoidAsync("installPackageTooltips");
         _cutTooltipsInstalled = true;
     }
 
@@ -179,7 +179,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         }
 
         var module = await ModuleAsync();
-        await module.InvokeVoidTrackedAsync("attachContentFit", grid.Viewport);
+        await module.InvokeVoidAsync("attachContentFit", grid.Viewport);
         _contentFitAttached = true;
     }
 
@@ -196,7 +196,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         }
 
         var module = await ModuleAsync();
-        await module.InvokeVoidTrackedAsync("setContentTexts", grid.Viewport, update.Texts, update.Append);
+        await module.InvokeVoidAsync("setContentTexts", grid.Viewport, update.Texts, update.Append);
     }
 
     /// <summary>
@@ -211,7 +211,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         }
 
         var module = await ModuleAsync();
-        await module.InvokeVoidTrackedAsync("attachColumnHover", grid.Viewport);
+        await module.InvokeVoidAsync("attachColumnHover", grid.Viewport);
         _columnHoverAttached = true;
     }
 
@@ -257,7 +257,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         }
 
         var module = await ModuleAsync();
-        await module.InvokeVoidTrackedAsync("attachResize", grid.Viewport, SelfReference, GridColumnLayout<TItem>.MinimumColumnWidth);
+        await module.InvokeVoidAsync("attachResize", grid.Viewport, SelfReference, GridColumnLayout<TItem>.MinimumColumnWidth);
         _resizeAttached = true;
     }
 
@@ -273,7 +273,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         }
 
         var module = await ModuleAsync();
-        await module.InvokeVoidTrackedAsync("attachReorder", grid.Viewport, SelfReference);
+        await module.InvokeVoidAsync("attachReorder", grid.Viewport, SelfReference);
         _reorderAttached = true;
     }
 
@@ -281,7 +281,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
     internal async Task FocusMoveControlAsync(Microsoft.AspNetCore.Components.ElementReference list, string key, int step)
     {
         var module = await ModuleAsync();
-        await module.InvokeVoidTrackedAsync("focusMoveControl", list, key, step);
+        await module.InvokeVoidAsync("focusMoveControl", list, key, step);
     }
 
     /// <summary>
@@ -301,7 +301,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         var module = await ModuleAsync();
         var self = SelfReference;
         _frozenScrollAttached = true;
-        var scrolled = await module.InvokeTrackedAsync<bool>("attachFrozenScroll", grid.Viewport, self);
+        var scrolled = await module.InvokeAsync<bool>("attachFrozenScroll", grid.Viewport, self);
         if (scrolled != frozen.HorizontallyScrolled)
         {
             frozen.ApplyHorizontalScroll(scrolled);
@@ -320,7 +320,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
             return;
         }
 
-        await _gridModule.InvokeVoidTrackedAsync("closeFilterMenus", grid.Viewport);
+        await _gridModule.InvokeVoidAsync("closeFilterMenus", grid.Viewport);
     }
 
     /// <summary>
@@ -337,7 +337,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         }
 
         var module = await ModuleAsync();
-        await module.InvokeVoidTrackedAsync("attachFilterMenus", grid.Viewport, grid.HideFilterMenuOnSelect);
+        await module.InvokeVoidAsync("attachFilterMenus", grid.Viewport, grid.HideFilterMenuOnSelect);
         _filterMenuAttached = true;
     }
 
@@ -353,7 +353,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         var module = await ModuleAsync();
         if (scope is null)
         {
-            await module.InvokeVoidTrackedAsync("detachWheelScope", grid.Viewport);
+            await module.InvokeVoidAsync("detachWheelScope", grid.Viewport);
         }
         else
         {
@@ -383,7 +383,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         }
 
         var module = await ModuleAsync();
-        await module.InvokeVoidTrackedAsync(grid.FillAvailableHeight ? "attachFill" : "detachFill", grid.Viewport);
+        await module.InvokeVoidAsync(grid.FillAvailableHeight ? "attachFill" : "detachFill", grid.Viewport);
         _fillAttached = grid.FillAvailableHeight;
     }
 
@@ -404,11 +404,11 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         var module = await ModuleAsync();
         if (wanted)
         {
-            await module.InvokeVoidTrackedAsync("attachEditCell", grid.Viewport, SelfReference);
+            await module.InvokeVoidAsync("attachEditCell", grid.Viewport, SelfReference);
         }
         else
         {
-            await module.InvokeVoidTrackedAsync("detachEditCell", grid.Viewport);
+            await module.InvokeVoidAsync("detachEditCell", grid.Viewport);
         }
 
         _editCellAttached = wanted;

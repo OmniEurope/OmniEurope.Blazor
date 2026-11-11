@@ -28,22 +28,20 @@ internal static class OmniScriptModule
     internal static async ValueTask<IJSObjectReference> ImportAsync(
         IJSRuntime javaScript, string path, CancellationToken cancellationToken)
     {
-        // Each attempt is its own guarded call: the one retry is the whole of the handling, so a lost circuit,
-        // a cancellation and a second JSException leave the loop untouched.
-        for (var attempt = 0; ; attempt++)
+        try
         {
-            try
-            {
-                return cancellationToken.CanBeCanceled
-                    ? await javaScript.InvokeAsync<IJSObjectReference>("import", cancellationToken, path)
-                    : await javaScript.InvokeAsync<IJSObjectReference>("import", path);
-            }
-            catch (JSException) when (attempt == 0 && !cancellationToken.IsCancellationRequested)
-            {
-                // The module request failed on the way: one more attempt.
-            }
+            return await InvokeImportAsync(javaScript, path, cancellationToken);
+        }
+        catch (JSException) when (!cancellationToken.IsCancellationRequested)
+        {
+            return await InvokeImportAsync(javaScript, path, cancellationToken);
         }
     }
+
+    private static ValueTask<IJSObjectReference> InvokeImportAsync(IJSRuntime javaScript, string path, CancellationToken cancellationToken)
+        => cancellationToken.CanBeCanceled
+            ? javaScript.InvokeAsync<IJSObjectReference>("import", cancellationToken, path)
+            : javaScript.InvokeAsync<IJSObjectReference>("import", path);
 
     /// <summary>
     /// Imports the module at <paramref name="path"/> like <see cref="ImportAsync(IJSRuntime, string, CancellationToken)"/>.

@@ -278,11 +278,19 @@ public sealed class EditorDefectFixTests : OmniBunitContext
     {
         public List<(RecordingModule Module, TaskCompletionSource Gate, string Path)> Imports { get; } = [];
 
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) =>
-            QueuedScript.Invoke<TValue>(Imports, identifier, args);
+        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args)
+        {
+            if (identifier != "import")
+            {
+                return ValueTask.FromResult(default(TValue)!);
+            }
 
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) =>
-            QueuedScript.Invoke<TValue>(Imports, identifier, args);
+            var import = (new RecordingModule(), new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously), args?[0]?.ToString() ?? string.Empty);
+            Imports.Add(import);
+            return new ValueTask<TValue>(import.Item2.Task.ContinueWith(_ => (TValue)(object)import.Item1, TaskScheduler.Default));
+        }
+
+        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) => InvokeAsync<TValue>(identifier, args);
     }
 
     // How many of the modules were released, once all but one have been (or after about ten seconds).
@@ -421,21 +429,5 @@ public sealed class EditorDefectFixTests : OmniBunitContext
         var empty = RenderEditor(string.Empty);
         Assert.Equal(string.Empty, (await empty.Instance.ExportTextAsync()).Trim());
         Assert.Contains("<body", await empty.Instance.ExportHtmlAsync(), StringComparison.Ordinal);
-    }
-}
-
-/// <summary>The import logic of the queued runtime, kept apart from its script interface.</summary>
-file static class QueuedScript
-{
-    internal static ValueTask<TValue> Invoke<TValue>(List<(RecordingModule Module, TaskCompletionSource Gate, string Path)> imports, string identifier, object?[]? args)
-    {
-        if (identifier != "import")
-        {
-            return ValueTask.FromResult(default(TValue)!);
-        }
-
-        var import = (new RecordingModule(), new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously), args?[0]?.ToString() ?? string.Empty);
-        imports.Add(import);
-        return new ValueTask<TValue>(import.Item2.Task.ContinueWith(_ => (TValue)(object)import.Item1, TaskScheduler.Default));
     }
 }

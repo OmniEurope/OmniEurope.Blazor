@@ -212,14 +212,14 @@ public partial class OmniSpreadsheet
                 return;
             }
 
-            await _module.InvokeVoidTrackedAsync("attach", _root);
+            await _module.InvokeVoidAsync("attach", _root);
             _attached = true;
         }
 
         if (_focusEditor && _editing == EditSource.Cell)
         {
             _focusEditor = false;
-            await _module!.InvokeVoidTrackedAsync("focusEditor", _editor);
+            await _module!.InvokeVoidAsync("focusEditor", _editor);
             if (_disposed)
             {
                 return;
@@ -238,7 +238,7 @@ public partial class OmniSpreadsheet
         if (_reveal && HasCells)
         {
             _reveal = false;
-            await _module!.InvokeVoidTrackedAsync("reveal", _root, CellId(_row, _column));
+            await _module!.InvokeVoidAsync("reveal", _root, CellId(_row, _column));
         }
     }
 

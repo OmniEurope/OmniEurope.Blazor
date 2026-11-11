@@ -16,9 +16,6 @@ public partial class App
     [Inject]
     private OmniOverlayService Overlays { get; set; } = default!;
 
-    [Inject]
-    private Microsoft.Extensions.Logging.ILogger<App> Logger { get; set; } = default!;
-
     // A grouped grid with detail rows, virtualized over its whole set: one group per hundred rows,
     // one detail row opened every fifty.
     private const int GroupedRowCount = 10_000;
@@ -69,20 +66,11 @@ public partial class App
             return;
         }
 
-        // The smoke host must fail loudly: a script that does not load is logged for the console probe, then rethrown.
-        try
-        {
-            await using var module = await JavaScript.InvokeAsync<IJSObjectReference>("import", "./_content/OmniEurope.Blazor/omniInterop.js");
-            await module.InvokeVoidAsync(
-                "setDocumentMetadata",
-                System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName,
-                Text["PageTitle"].Value);
-        }
-        catch (JSException exception)
-        {
-            Microsoft.Extensions.Logging.LoggerExtensions.LogError(Logger, exception, "The document metadata script failed.");
-            throw;
-        }
+        await using var module = await JavaScript.InvokeAsync<IJSObjectReference>("import", "./_content/OmniEurope.Blazor/omniInterop.js");
+        await module.InvokeVoidAsync(
+            "setDocumentMetadata",
+            System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName,
+            Text["PageTitle"].Value);
     }
 }
 

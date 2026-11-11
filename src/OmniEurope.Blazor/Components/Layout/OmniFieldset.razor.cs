@@ -88,14 +88,14 @@ public partial class OmniFieldset
         {
             _module ??= await Internal.OmniScriptModule.ImportAsync(JavaScript, ModulePath);
             _selfReference ??= DotNetObjectReference.Create(_toggleInterop);
-            await _module.InvokeVoidTrackedAsync("observeFieldsetToggle", _details, _selfReference);
+            await _module.InvokeVoidAsync("observeFieldsetToggle", _details, _selfReference);
             _observing = true;
         }
         else if (_module is not null)
         {
             // Either the callback went away or the disclosure did; a removed element resolves to
             // null in the script, which then has nothing to release.
-            await _module.InvokeVoidTrackedAsync("disposeFieldsetToggle", _details);
+            await _module.InvokeVoidAsync("disposeFieldsetToggle", _details);
             _observing = false;
         }
     }

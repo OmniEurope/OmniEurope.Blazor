@@ -54,14 +54,8 @@ public sealed class PickerEarlyEscapeTests : OmniBunitContext
     /// <summary>A script runtime whose module imports never complete, as on a slow first opening.</summary>
     private sealed class HeldImports : IJSRuntime
     {
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) => HeldScript.Never<TValue>();
+        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) => new(new TaskCompletionSource<TValue>().Task);
 
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) => HeldScript.Never<TValue>();
+        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) => InvokeAsync<TValue>(identifier, args);
     }
-}
-
-/// <summary>The never-completing import of the held runtime, kept apart from its script interface.</summary>
-file static class HeldScript
-{
-    internal static ValueTask<TValue> Never<TValue>() => new(new TaskCompletionSource<TValue>().Task);
 }

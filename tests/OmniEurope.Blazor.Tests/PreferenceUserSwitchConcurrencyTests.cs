@@ -174,38 +174,67 @@ public sealed class PreferenceUserSwitchConcurrencyTests
     /// <summary>
     /// <c>omni-preferences.js</c> over the real <see cref="JSRuntime"/>: the framework makes the module a
     /// <c>JSObjectReference</c> and refuses a call on it once disposed. Every answer comes from another thread, as a
-    /// real round trip does; a test can hold one call already issued (<c>Hold</c>).
-    /// The control surface (<c>Stored</c>, <c>NextDisposal</c>, <c>Hold</c>) is kept apart in <c>FrameworkBrowserControl</c>.
+    /// real round trip does; a test can hold one call already issued (<see cref="Hold"/>).
     /// </summary>
-    internal sealed class FrameworkBrowser : JSRuntime
+    private sealed class FrameworkBrowser : JSRuntime
     {
-        internal readonly Lock Gate = new();
-        internal readonly Dictionary<string, string> Storage = new(StringComparer.Ordinal);
-        internal readonly List<Held> HeldCalls = [];
-        internal long NextModule;
-        internal int Live;
-        internal TaskCompletionSource Disposed = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private readonly Lock _gate = new();
+        private readonly Dictionary<string, string> _storage = new(StringComparer.Ordinal);
+        private readonly List<Held> _held = [];
+        private long _nextModule;
+        private int _live;
+        private TaskCompletionSource _disposed = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
         /// <summary>How many modules are imported and not yet disposed by their owner.</summary>
         public int LiveModules
         {
             get
             {
-                lock (Gate)
+                lock (_gate)
                 {
-                    return Live;
+                    return _live;
                 }
             }
+        }
+
+        /// <summary>The text of a storage entry, as the script holds it.</summary>
+        public string Stored(string key)
+        {
+            lock (_gate)
+            {
+                return _storage[key];
+            }
+        }
+
+        /// <summary>Completes when the next module is disposed by its owner: from then on it refuses every call.</summary>
+        public Task NextDisposal()
+        {
+            lock (_gate)
+            {
+                _disposed = new(TaskCreationOptions.RunContinuationsAsynchronously);
+                return _disposed.Task;
+            }
+        }
+
+        public Held Hold(string identifier, Func<string?, bool> firstArgument)
+        {
+            var held = new Held(identifier, firstArgument);
+            lock (_gate)
+            {
+                _held.Add(held);
+            }
+
+            return held;
         }
 
         protected override void BeginInvokeJS(long taskId, string identifier, string? argsJson, JSCallResultType resultType, long targetInstanceId)
         {
             if (identifier.Contains("disposeJSObjectReferenceById", StringComparison.Ordinal))
             {
-                lock (Gate)
+                lock (_gate)
                 {
-                    Live--;
-                    Disposed.TrySetResult();
+                    _live--;
+                    _disposed.TrySetResult();
                 }
 
                 if (taskId == 0)
@@ -217,9 +246,9 @@ public sealed class PreferenceUserSwitchConcurrencyTests
             var arguments = argsJson is null ? [] : JsonSerializer.Deserialize<JsonElement[]>(argsJson)!;
             var first = arguments.Length > 0 && arguments[0].ValueKind == JsonValueKind.String ? arguments[0].GetString() : null;
             Held? held;
-            lock (Gate)
+            lock (_gate)
             {
-                held = HeldCalls.FirstOrDefault(candidate => !candidate.Taken && candidate.Identifier == identifier && candidate.FirstArgument(first));
+                held = _held.FirstOrDefault(candidate => !candidate.Taken && candidate.Identifier == identifier && candidate.FirstArgument(first));
                 held?.Take();
             }
 
@@ -232,12 +261,36 @@ public sealed class PreferenceUserSwitchConcurrencyTests
                     await held.Released;
                 }
 
-                DotNetDispatcher.EndInvokeJS(this, $"[{taskId},true,{FrameworkBrowserControl.Answer(this, identifier, arguments, first)}]");
+                DotNetDispatcher.EndInvokeJS(this, $"[{taskId},true,{Answer(identifier, arguments, first)}]");
             });
         }
 
         protected override void EndInvokeDotNet(DotNetInvocationInfo invocationInfo, in DotNetInvocationResult invocationResult)
         {
+        }
+
+        private string Answer(string identifier, JsonElement[] arguments, string? first)
+        {
+            lock (_gate)
+            {
+                switch (identifier)
+                {
+                    case "import":
+                        _live++;
+                        return $$"""{"__jsObjectId":{{++_nextModule}}}""";
+                    case "get":
+                        return _storage.TryGetValue(first!, out var value) ? JsonSerializer.Serialize(value) : "null";
+                    case "set":
+                        _storage[first!] = arguments[1].GetString()!;
+                        return "null";
+                    case "entries":
+                        return JsonSerializer.Serialize(_storage.Where(pair => pair.Key.StartsWith(first!, StringComparison.Ordinal)).Select(pair => new[] { pair.Key, pair.Value }));
+                    case "watch":
+                        return "1";
+                    default:
+                        return "null";
+                }
+            }
         }
 
         internal sealed class Held(string identifier, Func<string?, bool> firstArgument)
@@ -317,64 +370,6 @@ public sealed class PreferenceUserSwitchConcurrencyTests
         {
             _reached.TrySetResult();
             return _released.Task;
-        }
-    }
-}
-
-/// <summary>The control surface and the answers of the framework browser, kept apart from its <see cref="IJSRuntime"/> surface.</summary>
-file static class FrameworkBrowserControl
-{
-    /// <summary>The text of a storage entry, as the script holds it.</summary>
-    internal static string Stored(this PreferenceUserSwitchConcurrencyTests.FrameworkBrowser browser, string key)
-    {
-        lock (browser.Gate)
-        {
-            return browser.Storage[key];
-        }
-    }
-
-    /// <summary>Completes when the next module is disposed by its owner: from then on it refuses every call.</summary>
-    internal static Task NextDisposal(this PreferenceUserSwitchConcurrencyTests.FrameworkBrowser browser)
-    {
-        lock (browser.Gate)
-        {
-            browser.Disposed = new(TaskCreationOptions.RunContinuationsAsynchronously);
-            return browser.Disposed.Task;
-        }
-    }
-
-    internal static PreferenceUserSwitchConcurrencyTests.FrameworkBrowser.Held Hold(this PreferenceUserSwitchConcurrencyTests.FrameworkBrowser browser, string identifier, Func<string?, bool> firstArgument)
-    {
-        var held = new PreferenceUserSwitchConcurrencyTests.FrameworkBrowser.Held(identifier, firstArgument);
-        lock (browser.Gate)
-        {
-            browser.HeldCalls.Add(held);
-        }
-
-        return held;
-    }
-
-    internal static string Answer(PreferenceUserSwitchConcurrencyTests.FrameworkBrowser browser, string identifier, JsonElement[] arguments, string? first)
-    {
-        lock (browser.Gate)
-        {
-            switch (identifier)
-            {
-                case "import":
-                    browser.Live++;
-                    return $$"""{"__jsObjectId":{{++browser.NextModule}}}""";
-                case "get":
-                    return browser.Storage.TryGetValue(first!, out var value) ? JsonSerializer.Serialize(value) : "null";
-                case "set":
-                    browser.Storage[first!] = arguments[1].GetString()!;
-                    return "null";
-                case "entries":
-                    return JsonSerializer.Serialize(browser.Storage.Where(pair => pair.Key.StartsWith(first!, StringComparison.Ordinal)).Select(pair => new[] { pair.Key, pair.Value }));
-                case "watch":
-                    return "1";
-                default:
-                    return "null";
-            }
         }
     }
 }

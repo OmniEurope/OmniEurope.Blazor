@@ -44,6 +44,9 @@ dotnet_diagnostic.GEN006.severity = warning
 dotnet_diagnostic.GEN007.severity = error
 dotnet_diagnostic.GEN008.severity = error
 
+# BL0016 (.NET 11 Blazor analyzer: guard every JS interop call with try/catch) is off in every project (user decision 2026-11-11): it contradicts the rule "no try/catch unless mandatory"; a JS failure bubbles to the ErrorBoundary and the logs.
+dotnet_diagnostic.BL0016.severity = none
+
 [**/Migrations/*.cs]
 dotnet_diagnostic.CA1861.severity = none
 dotnet_diagnostic.GEN003.severity = none

@@ -19,9 +19,6 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
 {
     private const string StorageKey = "omnieurope.showcase.theme";
 
-    // A script that fails is an application fault: it surfaces as an exception that names the script.
-    private const string ScriptFailure = "The showcase theme script failed.";
-
     // Keys of the stored entry that are not tokens. Every token name starts with "--", so the two
     // kinds cannot collide, and an entry written before the theme and palette existed (a plain map
     // of edited tokens) still reads as the edits it was.
@@ -124,17 +121,8 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
     public async Task InitializeAsync(CancellationToken cancellationToken = default)
     {
         _tokens = await reader.ReadAsync(cancellationToken).ConfigureAwait(false);
-        string? stored;
-        try
-        {
-            stored = await js.InvokeAsync<string?>("omniShowcaseTheme.load", cancellationToken, StorageKey)
-                .ConfigureAwait(false);
-        }
-        catch (JSException exception)
-        {
-            throw new InvalidOperationException(ScriptFailure, exception);
-        }
-
+        var stored = await js.InvokeAsync<string?>("omniShowcaseTheme.load", cancellationToken, StorageKey)
+            .ConfigureAwait(false);
         if (!string.IsNullOrWhiteSpace(stored))
         {
             Restore(stored);
@@ -374,21 +362,14 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
     private async Task PushAsync(CancellationToken cancellationToken)
     {
         Painted = _painted with { Light = Light, Dark = Dark };
-        try
-        {
-            await js.InvokeVoidAsync(
-                "omniShowcaseTheme.apply",
-                cancellationToken,
-                Light,
-                Dark,
-                EffectiveMode.ToString().ToLowerInvariant(),
-                StorageKey,
-                Serialize()).ConfigureAwait(false);
-        }
-        catch (JSException exception)
-        {
-            throw new InvalidOperationException(ScriptFailure, exception);
-        }
+        await js.InvokeVoidAsync(
+            "omniShowcaseTheme.apply",
+            cancellationToken,
+            Light,
+            Dark,
+            EffectiveMode.ToString().ToLowerInvariant(),
+            StorageKey,
+            Serialize()).ConfigureAwait(false);
         Changed?.Invoke();
     }
 }

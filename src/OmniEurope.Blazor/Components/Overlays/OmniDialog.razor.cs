@@ -185,7 +185,7 @@ public partial class OmniDialog
         await OpenChanged.InvokeAsync(false);
         if (_focusModule is not null)
         {
-            await _focusModule.InvokeVoidTrackedAsync("restoreFocus", _focusKey);
+            await _focusModule.InvokeVoidAsync("restoreFocus", _focusKey);
         }
     }
 
@@ -248,8 +248,8 @@ public partial class OmniDialog
             return;
         }
 
-        if (Width is null) await module.InvokeVoidTrackedAsync("clearWidth", _dialog);
-        else await module.InvokeVoidTrackedAsync("setWidth", _dialog, Width);
+        if (Width is null) await module.InvokeVoidAsync("clearWidth", _dialog);
+        else await module.InvokeVoidAsync("setWidth", _dialog, Width);
         _appliedWidth = Width;
     }
 
@@ -281,14 +281,14 @@ public partial class OmniDialog
                 return;
             }
 
-            await module.InvokeVoidTrackedAsync("attach", _dialog);
-            if (FreezeScale) await module.InvokeVoidTrackedAsync("freezeScale", _dialog);
+            await module.InvokeVoidAsync("attach", _dialog);
+            if (FreezeScale) await module.InvokeVoidAsync("freezeScale", _dialog);
             _attached = true;
         }
         else if (!Open && _attached)
         {
             // Attached only once the module was loaded.
-            await _dialogModule!.InvokeVoidTrackedAsync("detach", _dialog);
+            await _dialogModule!.InvokeVoidAsync("detach", _dialog);
             _attached = false;
         }
     }
@@ -310,26 +310,26 @@ public partial class OmniDialog
             var holdBackdrop = !(CloseOnBackdrop && Dismissible);
             if (!Modal)
             {
-                if (InitialFocusTarget is { } target) await focus.InvokeVoidTrackedAsync("activateWindow", _dialog, _focusKey, target);
-                else await focus.InvokeVoidTrackedAsync("activateWindow", _dialog, _focusKey);
+                if (InitialFocusTarget is { } target) await focus.InvokeVoidAsync("activateWindow", _dialog, _focusKey, target);
+                else await focus.InvokeVoidAsync("activateWindow", _dialog, _focusKey);
             }
             else if (InitialFocusTarget is { } target)
             {
-                await focus.InvokeVoidTrackedAsync("activateDialog", _dialog, _focusKey, holdBackdrop, target);
+                await focus.InvokeVoidAsync("activateDialog", _dialog, _focusKey, holdBackdrop, target);
             }
             else if (!holdBackdrop)
             {
-                await focus.InvokeVoidTrackedAsync("activateDialog", _dialog, _focusKey);
+                await focus.InvokeVoidAsync("activateDialog", _dialog, _focusKey);
             }
             else
             {
-                await focus.InvokeVoidTrackedAsync("activateDialog", _dialog, _focusKey, true);
+                await focus.InvokeVoidAsync("activateDialog", _dialog, _focusKey, true);
             }
         }
         else if (!Open && _focusActivated)
         {
             _focusActivated = false;
-            await focus.InvokeVoidTrackedAsync("restoreFocus", _focusKey);
+            await focus.InvokeVoidAsync("restoreFocus", _focusKey);
         }
     }
 
@@ -349,7 +349,7 @@ public partial class OmniDialog
     {
         if (_focusModule is not null)
         {
-            await _focusModule.InvokeVoidTrackedAsync("focusBoundary", _dialog, last);
+            await _focusModule.InvokeVoidAsync("focusBoundary", _dialog, last);
         }
 
     }

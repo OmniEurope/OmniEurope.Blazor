@@ -82,7 +82,7 @@ internal sealed class MonacoHost(IJSRuntime javaScript, Func<string> modulePath,
             return false;
         }
 
-        await Module!.InvokeVoidTrackedAsync("setHeight", root, height);
+        await Module!.InvokeVoidAsync("setHeight", root, height);
         return true;
     }
 
@@ -97,7 +97,7 @@ internal sealed class MonacoHost(IJSRuntime javaScript, Func<string> modulePath,
             return null;
         }
 
-        return await Module!.InvokeTrackedAsync<bool>("load", monacoPath, CultureInfo.CurrentUICulture.Name, LoadTimeoutMilliseconds);
+        return await Module!.InvokeAsync<bool>("load", monacoPath, CultureInfo.CurrentUICulture.Name, LoadTimeoutMilliseconds);
     }
 
     /// <summary>Disposes the mounted editor, if any, through the script's <paramref name="disposeMethod"/>.</summary>
@@ -106,7 +106,7 @@ internal sealed class MonacoHost(IJSRuntime javaScript, Func<string> modulePath,
         if (Mounted && Module is not null)
         {
             Mounted = false;
-            await Module.InvokeVoidTrackedAsync(disposeMethod, host);
+            await Module.InvokeVoidAsync(disposeMethod, host);
         }
 
         Mounted = false;

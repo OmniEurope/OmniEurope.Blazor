@@ -77,21 +77,21 @@ internal sealed class PickerPopup(IJSRuntime javaScript, Func<bool, Task> dismis
 
             _bridge ??= DotNetObjectReference.Create(new PickerPopupBridge(dismissed));
             _attached = true;
-            await _module.InvokeVoidTrackedAsync("attachPicker", root, panel, toggle, _bridge, Key);
+            await _module.InvokeVoidAsync("attachPicker", root, panel, toggle, _bridge, Key);
         }
         else if (!IsOpen && _attached)
         {
             _attached = false;
             var restore = _restoreOnClose;
             _restoreOnClose = false;
-            await _module!.InvokeVoidTrackedAsync("detachPicker", Key, restore);
+            await _module!.InvokeVoidAsync("detachPicker", Key, restore);
             return;
         }
 
         if (IsOpen && _focusSelector is { } selector && _module is not null)
         {
             _focusSelector = null;
-            await _module.InvokeVoidTrackedAsync("focusPickerItem", panel, selector);
+            await _module.InvokeVoidAsync("focusPickerItem", panel, selector);
         }
     }
 

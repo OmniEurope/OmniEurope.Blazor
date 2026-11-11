@@ -15,6 +15,8 @@ Le projet `eng/OmniEurope.Analyzers` fournit les diagnostics `GEN*` compilés av
 
 Les descripteurs déclarent une sévérité par défaut plus basse (`GEN001` erreur, `GEN006` information, les autres avertissement) ; `.editorconfig` les relève comme ci-dessus pour ce dépôt, et les dossiers `Migrations` éteignent `GEN003` et `GEN008`.
 
+Règle de l'analyseur Blazor du SDK 11 éteinte : `BL0016` (garder chaque appel d'interopérabilité JavaScript par un `try/catch`) est à `none` dans `.editorconfig`, par décision de l'utilisateur du 2026-11-11 valable pour tous les projets, car elle contredit la règle « pas de `try/catch` sauf obligation » ; un échec JavaScript remonte à l'`ErrorBoundary` et aux journaux.
+
 La suite dédiée `eng/OmniEurope.Analyzers.Tests` exécute chaque diagnostic contre un cas positif et un cas négatif au moyen d'une compilation Roslyn réelle. Les règles sémantiques lient les symboles BCL, LINQ, EF et ASP.NET Core au lieu de se fier à leur texte ou à un nom homonyme. `GEN008` n'accepte comme preuve de génération que les attributs de générateurs connus; une méthode `partial` utilisateur sans corps ne constitue pas une exemption.
 
 Les règles non applicables restent des garde-fous préventifs; elles ne justifient ni couche applicative, ni dépôt, ni contrôleur fictif.

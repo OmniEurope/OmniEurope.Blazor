@@ -212,7 +212,7 @@ public partial class OmniMailTemplateEditor
         _tokenSurface = surface;
         if (surface is { } attached && await ModuleAsync() is { } module)
         {
-            await module.InvokeTrackedAsync<int>("attachTokens", attached);
+            await module.InvokeAsync<int>("attachTokens", attached);
         }
     }
 
@@ -234,7 +234,7 @@ public partial class OmniMailTemplateEditor
         _drawn = html;
         if (await ModuleAsync() is { } module)
         {
-            await module.InvokeVoidTrackedAsync("render", _preview, html);
+            await module.InvokeVoidAsync("render", _preview, html);
         }
     }
 
@@ -324,7 +324,7 @@ public partial class OmniMailTemplateEditor
         {
             if (await ModuleAsync() is { } module)
             {
-                await module.InvokeTrackedAsync<bool>("insertAtCaret", SubjectId, variable.Token);
+                await module.InvokeAsync<bool>("insertAtCaret", SubjectId, variable.Token);
             }
 
             return;
@@ -336,7 +336,7 @@ public partial class OmniMailTemplateEditor
             {
                 if (await ModuleAsync() is { } module)
                 {
-                    await module.InvokeTrackedAsync<bool>("insertAtCaret", _editor.SurfaceId, variable.Token);
+                    await module.InvokeAsync<bool>("insertAtCaret", _editor.SurfaceId, variable.Token);
                 }
             }
             else

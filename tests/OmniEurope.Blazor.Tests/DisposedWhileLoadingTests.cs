@@ -278,38 +278,55 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
     }
 
     /// <summary>A runtime whose first import fails, as a lost network does, and whose later imports answer a recording module.</summary>
-    internal sealed class FlakyImportRuntime : IJSRuntime
+    private sealed class FlakyImportRuntime : IJSRuntime
     {
         public RecordingModule Module { get; } = new();
 
-        public int Imports { get; internal set; }
+        public int Imports { get; private set; }
 
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) =>
-            ImportRuntimeControl.FlakyImport<TValue>(this, identifier);
+        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args)
+        {
+            if (identifier != "import")
+            {
+                return ValueTask.FromResult(default(TValue)!);
+            }
+
+            return ++Imports == 1
+                ? ValueTask.FromException<TValue>(new InvalidOperationException("The script could not be loaded."))
+                : ValueTask.FromResult((TValue)(object)Module);
+        }
 
         public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) =>
-            ImportRuntimeControl.FlakyImport<TValue>(this, identifier);
+            InvokeAsync<TValue>(identifier, args);
     }
 
-    /// <summary>A runtime whose one import is held until <c>Arrive</c>, and which counts the imports asked.</summary>
-    internal sealed class CountingImportRuntime : IJSRuntime
+    /// <summary>A runtime whose one import is held until <see cref="Arrive"/>, and which counts the imports asked.</summary>
+    private sealed class CountingImportRuntime : IJSRuntime
     {
         private readonly TaskCompletionSource<IJSObjectReference> _arrival = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
         public CountedModule Module { get; } = new();
 
-        public int Imports { get; internal set; }
+        public int Imports { get; private set; }
 
-        internal TaskCompletionSource<IJSObjectReference> Arrival => _arrival;
+        public void Arrive() => _arrival.SetResult(Module);
 
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) =>
-            ImportRuntimeControl.CountingImport<TValue>(this, identifier);
+        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args)
+        {
+            if (identifier == "import")
+            {
+                Imports++;
+                return new(_arrival.Task.ContinueWith(task => (TValue)task.Result, TaskScheduler.Default));
+            }
+
+            return ValueTask.FromResult(default(TValue)!);
+        }
 
         public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) =>
-            ImportRuntimeControl.CountingImport<TValue>(this, identifier);
+            InvokeAsync<TValue>(identifier, args);
     }
 
-    internal sealed class CountedModule : IJSObjectReference
+    private sealed class CountedModule : IJSObjectReference
     {
         private int _disposals;
 
@@ -324,35 +341,6 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
         public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) => ValueTask.FromResult(default(TValue)!);
 
         public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) =>
-            ValueTask.FromResult(default(TValue)!);
-    }
-}
-
-/// <summary>The control surface and the script answers of the import runtimes, kept apart from their script interface.</summary>
-file static class ImportRuntimeControl
-{
-    internal static void Arrive(this DisposedWhileLoadingTests.CountingImportRuntime runtime) => runtime.Arrival.SetResult(runtime.Module);
-
-    internal static ValueTask<TValue> FlakyImport<TValue>(DisposedWhileLoadingTests.FlakyImportRuntime runtime, string identifier)
-    {
-        if (identifier != "import")
-        {
-            return ValueTask.FromResult(default(TValue)!);
-        }
-
-        return ++runtime.Imports == 1
-            ? ValueTask.FromException<TValue>(new InvalidOperationException("The script could not be loaded."))
-            : ValueTask.FromResult((TValue)(object)runtime.Module);
-    }
-
-    internal static ValueTask<TValue> CountingImport<TValue>(DisposedWhileLoadingTests.CountingImportRuntime runtime, string identifier)
-    {
-        if (identifier == "import")
-        {
-            runtime.Imports++;
-            return new(runtime.Arrival.Task.ContinueWith(task => (TValue)task.Result, TaskScheduler.Default));
-        }
-
-        return ValueTask.FromResult(default(TValue)!);
+            InvokeAsync<TValue>(identifier, args);
     }
 }

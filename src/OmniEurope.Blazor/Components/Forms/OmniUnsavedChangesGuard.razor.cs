@@ -64,7 +64,7 @@ public partial class OmniUnsavedChangesGuard
         }
         else
         {
-            leave = await JavaScript.InvokeTrackedAsync<bool>("confirm", context.CancellationToken, message);
+            leave = await JavaScript.InvokeAsync<bool>("confirm", context.CancellationToken, message);
         }
 
         if (!leave)

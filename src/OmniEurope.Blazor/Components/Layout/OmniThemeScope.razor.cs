@@ -234,12 +234,12 @@ public partial class OmniThemeScope
 
         if (follow)
         {
-            await (await LoadThemeModuleAsync()).InvokeVoidTrackedAsync("followSystem", _element);
+            await (await LoadThemeModuleAsync()).InvokeVoidAsync("followSystem", _element);
         }
         else
         {
             // Light or dark: the markup carries the value again, the script only stops listening.
-            await _themeModule!.InvokeVoidTrackedAsync("unfollowSystem", _element);
+            await _themeModule!.InvokeVoidAsync("unfollowSystem", _element);
         }
 
         _followingSystem = follow;
@@ -267,12 +267,12 @@ public partial class OmniThemeScope
         var density = Density.ToString().ToLowerInvariant();
         if (shared is null)
         {
-            await module.InvokeVoidTrackedAsync("snapshot", _element, key, SnapshotVersion, AppearanceValue, density, BackdropMotion, light, dark);
+            await module.InvokeVoidAsync("snapshot", _element, key, SnapshotVersion, AppearanceValue, density, BackdropMotion, light, dark);
         }
         else
         {
             // Following the state, the scope also owns the root levels: the boot copy lays them before the first paint.
-            await module.InvokeVoidTrackedAsync("snapshot", _element, key, SnapshotVersion, AppearanceValue, density, BackdropMotion, light, dark,
+            await module.InvokeVoidAsync("snapshot", _element, key, SnapshotVersion, AppearanceValue, density, BackdropMotion, light, dark,
                 shared.TextSizeLevel, shared.ControlSizeLevel);
         }
 
@@ -307,11 +307,11 @@ public partial class OmniThemeScope
         var (light, dark) = Resolve();
         if (light is null || dark is null)
         {
-            await module.InvokeVoidTrackedAsync("clear", _element, handOver);
+            await module.InvokeVoidAsync("clear", _element, handOver);
         }
         else
         {
-            await module.InvokeVoidTrackedAsync("apply", _element, light, dark, AppearanceValue, handOver);
+            await module.InvokeVoidAsync("apply", _element, light, dark, AppearanceValue, handOver);
         }
 
         _appliedPreset = Preset;
@@ -342,7 +342,7 @@ public partial class OmniThemeScope
             {
                 // The canvas is already out of the page, so it cannot be named: the module stops every
                 // canvas it draws that the page dropped (a still field has no loop that would notice).
-                await _canvasModule!.InvokeVoidTrackedAsync("sweep");
+                await _canvasModule!.InvokeVoidAsync("sweep");
                 _canvasRunning = false;
                 _canvasDrawn = false;
                 StateHasChanged();
@@ -354,7 +354,7 @@ public partial class OmniThemeScope
         _canvasModule ??= await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.BlackHole);
         if (!_canvasRunning || _canvasMotion != BackdropMotion)
         {
-            var drawn = await _canvasModule.InvokeTrackedAsync<bool>("start", _canvas, _element, BackdropMotion);
+            var drawn = await _canvasModule.InvokeAsync<bool>("start", _canvas, _element, BackdropMotion);
             _canvasRunning = true;
             _canvasMotion = BackdropMotion;
             if (drawn != _canvasDrawn)
@@ -365,7 +365,7 @@ public partial class OmniThemeScope
         }
         else if (tokensChanged)
         {
-            await _canvasModule.InvokeVoidTrackedAsync("refresh", _canvas);
+            await _canvasModule.InvokeVoidAsync("refresh", _canvas);
         }
     }
 

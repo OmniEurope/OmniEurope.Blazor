@@ -173,7 +173,7 @@ internal sealed class OmniMenuController : IAsyncDisposable
             _shown = true;
             _placementPending = false;
             _reference ??= DotNetObjectReference.Create(new DismissInterop(_dismissAsync));
-            await module.InvokeVoidTrackedAsync(
+            await module.InvokeVoidAsync(
                 "openMenu",
                 menuId,
                 Key,
@@ -246,7 +246,7 @@ internal sealed class OmniMenuController : IAsyncDisposable
             case "ArrowDown" or "ArrowUp" or "Home" or "End":
                 if (_module is not null)
                 {
-                    await _module.InvokeVoidTrackedAsync("moveMenuFocus", menuId, args.Key);
+                    await _module.InvokeVoidAsync("moveMenuFocus", menuId, args.Key);
                 }
 
                 break;

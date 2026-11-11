@@ -114,7 +114,7 @@ internal sealed class HtmlEditorVisualSurface(OmniHtmlEditor owner, IJSRuntime j
             _tracking = owner.TracksSelection;
             _set = owner.ExtensionSet;
             _locked = owner.IsLocked;
-            await _module.InvokeVoidTrackedAsync("mount", owner.SurfaceElement, _bridge, owner.Clean(owner.EditorValue), Options, !owner.IsLocked);
+            await _module.InvokeVoidAsync("mount", owner.SurfaceElement, _bridge, owner.Clean(owner.EditorValue), Options, !owner.IsLocked);
             // The script opened the surface and set data-omni-ready at the end of its mount; the next render
             // writes the same attributes, so Blazor and the script agree without a render of its own.
             SurfaceReady = Mounted;
@@ -124,7 +124,7 @@ internal sealed class HtmlEditorVisualSurface(OmniHtmlEditor owner, IJSRuntime j
             if (!string.Equals(owner.EditorValue, _value, StringComparison.Ordinal))
             {
                 _value = owner.EditorValue;
-                await _module.InvokeVoidTrackedAsync("setHtml", owner.SurfaceElement, owner.Clean(owner.EditorValue));
+                await _module.InvokeVoidAsync("setHtml", owner.SurfaceElement, owner.Clean(owner.EditorValue));
             }
 
             // The policy belongs to the extension set: the same set is the same policy.
@@ -133,7 +133,7 @@ internal sealed class HtmlEditorVisualSurface(OmniHtmlEditor owner, IJSRuntime j
                 _rows = owner.Rows;
                 _tracking = owner.TracksSelection;
                 _set = owner.ExtensionSet;
-                await _module.InvokeVoidTrackedAsync("configure", owner.SurfaceElement, Options);
+                await _module.InvokeVoidAsync("configure", owner.SurfaceElement, Options);
             }
 
             // A locked editor answers the proofreading script "nothing checked", which it keeps no answer
@@ -143,7 +143,7 @@ internal sealed class HtmlEditorVisualSurface(OmniHtmlEditor owner, IJSRuntime j
                 _locked = owner.IsLocked;
                 if (!_locked)
                 {
-                    await _module.InvokeVoidTrackedAsync("proofreadRecheck", owner.SurfaceElement);
+                    await _module.InvokeVoidAsync("proofreadRecheck", owner.SurfaceElement);
                 }
             }
         }
@@ -168,7 +168,7 @@ internal sealed class HtmlEditorVisualSurface(OmniHtmlEditor owner, IJSRuntime j
             return;
         }
 
-        var html = await _module!.InvokeTrackedAsync<string?>("exec", owner.SurfaceElement, action, argument);
+        var html = await _module!.InvokeAsync<string?>("exec", owner.SurfaceElement, action, argument);
         if (html is not null)
         {
             await CommitResultAsync(html);
@@ -186,7 +186,7 @@ internal sealed class HtmlEditorVisualSurface(OmniHtmlEditor owner, IJSRuntime j
             return;
         }
 
-        var html = await _module!.InvokeTrackedAsync<string?>("read", owner.SurfaceElement);
+        var html = await _module!.InvokeAsync<string?>("read", owner.SurfaceElement);
         if (html is not null)
         {
             await CommitResultAsync(html);
@@ -204,7 +204,7 @@ internal sealed class HtmlEditorVisualSurface(OmniHtmlEditor owner, IJSRuntime j
             return;
         }
 
-        var html = await _module!.InvokeTrackedAsync<string?>("read", owner.SurfaceElement);
+        var html = await _module!.InvokeAsync<string?>("read", owner.SurfaceElement);
         if (html is null)
         {
             return;
@@ -230,7 +230,7 @@ internal sealed class HtmlEditorVisualSurface(OmniHtmlEditor owner, IJSRuntime j
         }
 
         await CaptureAsync();
-        var result = await _module!.InvokeTrackedAsync<string?>("replaceClosest", owner.SurfaceElement, selector, owner.Clean(html));
+        var result = await _module!.InvokeAsync<string?>("replaceClosest", owner.SurfaceElement, selector, owner.Clean(html));
         if (result is null)
         {
             return false;
@@ -254,7 +254,7 @@ internal sealed class HtmlEditorVisualSurface(OmniHtmlEditor owner, IJSRuntime j
         }
 
         await CaptureAsync();
-        var result = await _module!.InvokeTrackedAsync<string?>(function, owner.SurfaceElement, argument());
+        var result = await _module!.InvokeAsync<string?>(function, owner.SurfaceElement, argument());
         if (result is not null)
         {
             await CommitResultAsync(result);
@@ -269,7 +269,7 @@ internal sealed class HtmlEditorVisualSurface(OmniHtmlEditor owner, IJSRuntime j
             return new(owner.CurrentHtml, string.Empty);
         }
 
-        var json = await _module!.InvokeTrackedAsync<string?>("aroundCaret", owner.SurfaceElement);
+        var json = await _module!.InvokeAsync<string?>("aroundCaret", owner.SurfaceElement);
         if (string.IsNullOrEmpty(json))
         {
             return new(owner.CurrentHtml, string.Empty);
@@ -282,7 +282,7 @@ internal sealed class HtmlEditorVisualSurface(OmniHtmlEditor owner, IJSRuntime j
     /// <summary>The text selected in the surface; empty outside the visual face.</summary>
     internal async Task<string> GetSelectedTextAsync() =>
         Visual && Ready
-            ? await _module!.InvokeTrackedAsync<string?>("selectedText", owner.SurfaceElement) ?? string.Empty
+            ? await _module!.InvokeAsync<string?>("selectedText", owner.SurfaceElement) ?? string.Empty
             : string.Empty;
 
     /// <summary>Inserts text at the caret; nothing outside the visual face.</summary>
@@ -296,7 +296,7 @@ internal sealed class HtmlEditorVisualSurface(OmniHtmlEditor owner, IJSRuntime j
     {
         if (Editable)
         {
-            await _module!.InvokeVoidTrackedAsync("proofreadReplace", owner.SurfaceElement, text);
+            await _module!.InvokeVoidAsync("proofreadReplace", owner.SurfaceElement, text);
         }
     }
 
@@ -305,7 +305,7 @@ internal sealed class HtmlEditorVisualSurface(OmniHtmlEditor owner, IJSRuntime j
     {
         if (Ready)
         {
-            await _module!.InvokeVoidTrackedAsync("proofreadIgnore", owner.SurfaceElement);
+            await _module!.InvokeVoidAsync("proofreadIgnore", owner.SurfaceElement);
         }
     }
 
@@ -314,7 +314,7 @@ internal sealed class HtmlEditorVisualSurface(OmniHtmlEditor owner, IJSRuntime j
     {
         if (Ready)
         {
-            await _module!.InvokeVoidTrackedAsync("proofreadRecheck", owner.SurfaceElement);
+            await _module!.InvokeVoidAsync("proofreadRecheck", owner.SurfaceElement);
         }
     }
 
@@ -323,7 +323,7 @@ internal sealed class HtmlEditorVisualSurface(OmniHtmlEditor owner, IJSRuntime j
     {
         if (Ready)
         {
-            await _module!.InvokeVoidTrackedAsync("restoreMenuSelection", owner.SurfaceElement);
+            await _module!.InvokeVoidAsync("restoreMenuSelection", owner.SurfaceElement);
         }
     }
 
@@ -333,7 +333,7 @@ internal sealed class HtmlEditorVisualSurface(OmniHtmlEditor owner, IJSRuntime j
         if (Ready)
         {
             Mounted = false;
-            await _module!.InvokeVoidTrackedAsync("dispose", owner.SurfaceElement);
+            await _module!.InvokeVoidAsync("dispose", owner.SurfaceElement);
         }
 
         SurfaceReady = false;

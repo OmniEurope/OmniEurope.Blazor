@@ -274,7 +274,7 @@ public partial class OmniDiffViewer
         _bridge ??= DotNetObjectReference.Create(new DiffViewerInteropBridge(HandleModifiedChangedAsync));
         (_shownOriginal, _shownModified) = (Original ?? string.Empty, Modified ?? string.Empty);
         _appliedOptions = OptionsSignature();
-        if (!await module.InvokeTrackedAsync<bool>("mountDiff", _host, _bridge, Options(_shownOriginal, _shownModified)))
+        if (!await module.InvokeAsync<bool>("mountDiff", _host, _bridge, Options(_shownOriginal, _shownModified)))
         {
             Monaco.Mounted = false;
             _phase = DiffPhase.Failed;
@@ -294,14 +294,14 @@ public partial class OmniDiffViewer
         if (!string.Equals(original, _shownOriginal, StringComparison.Ordinal) || !string.Equals(modified, _shownModified, StringComparison.Ordinal))
         {
             (_shownOriginal, _shownModified) = (original, modified);
-            await module.InvokeVoidTrackedAsync("setDiff", _host, _shownOriginal, _shownModified);
+            await module.InvokeVoidAsync("setDiff", _host, _shownOriginal, _shownModified);
         }
 
         var signature = OptionsSignature();
         if (!string.Equals(signature, _appliedOptions, StringComparison.Ordinal))
         {
             _appliedOptions = signature;
-            await module.InvokeVoidTrackedAsync("configureDiff", _host, Options(null, null));
+            await module.InvokeVoidAsync("configureDiff", _host, Options(null, null));
         }
     }
 

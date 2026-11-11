@@ -41,7 +41,7 @@ internal sealed class OmniDisclosureDismissal(IJSRuntime javaScript) : IAsyncDis
 
         // Recorded before the call, so that a disposal during it releases this element.
         _element = details;
-        await _module.InvokeVoidTrackedAsync("configureDisclosure", details, closeOnOutsideClick, closeOnItem);
+        await _module.InvokeVoidAsync("configureDisclosure", details, closeOnOutsideClick, closeOnItem);
         _configuredId = details.Id;
         _closeOnOutsideClick = closeOnOutsideClick;
         _closeOnItem = closeOnItem;

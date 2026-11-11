@@ -22,9 +22,6 @@ public sealed class DemoPreferenceStore(IJSRuntime javaScript) : IOmniPreference
     /// <summary>The cache partition of the demonstration: its entries are <c>omni:pref:demo:&lt;key&gt;</c>.</summary>
     public const string Scope = "demo";
 
-    // A script that fails reaches the package as a store failure, which it logs and retries (a real store fails the same way).
-    private const string StoreFailure = "The demonstration store script failed.";
-
     /// <summary>
     /// What the address asks for, read before the host is built: null without <c>?store=demo</c>; with
     /// it, the periodic synchronization interval (<c>&amp;sync=&lt;seconds&gt;</c>), or
@@ -55,31 +52,13 @@ public sealed class DemoPreferenceStore(IJSRuntime javaScript) : IOmniPreference
     }
 
     /// <inheritdoc />
-    public async Task<OmniPreference?> GetAsync(string key, CancellationToken cancellationToken = default)
-    {
-        try
-        {
-            return Parse(await javaScript.InvokeAsync<string?>("omniShowcaseDemoStore.get", cancellationToken, key));
-        }
-        catch (JSException exception)
-        {
-            throw new InvalidOperationException(StoreFailure, exception);
-        }
-    }
+    public async Task<OmniPreference?> GetAsync(string key, CancellationToken cancellationToken = default) =>
+        Parse(await javaScript.InvokeAsync<string?>("omniShowcaseDemoStore.get", cancellationToken, key));
 
     /// <inheritdoc />
     public async Task<IReadOnlyList<OmniPreference>> GetChangedSinceAsync(DateTimeOffset? since, CancellationToken cancellationToken = default)
     {
-        string?[] rows;
-        try
-        {
-            rows = await javaScript.InvokeAsync<string?[]>("omniShowcaseDemoStore.all", cancellationToken);
-        }
-        catch (JSException exception)
-        {
-            throw new InvalidOperationException(StoreFailure, exception);
-        }
-
+        var rows = await javaScript.InvokeAsync<string?[]>("omniShowcaseDemoStore.all", cancellationToken);
         return [.. rows.Select(Parse).OfType<OmniPreference>().Where(row => since is not { } from || row.UpdatedAt >= from)];
     }
 
@@ -88,15 +67,7 @@ public sealed class DemoPreferenceStore(IJSRuntime javaScript) : IOmniPreference
     public async Task<OmniPreference> SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(preference);
-        try
-        {
-            await javaScript.InvokeVoidAsync("omniShowcaseDemoStore.save", cancellationToken, preference.Key, JsonSerializer.Serialize(preference));
-        }
-        catch (JSException exception)
-        {
-            throw new InvalidOperationException(StoreFailure, exception);
-        }
-
+        await javaScript.InvokeVoidAsync("omniShowcaseDemoStore.save", cancellationToken, preference.Key, JsonSerializer.Serialize(preference));
         return preference;
     }
 
