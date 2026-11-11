@@ -50,7 +50,23 @@ internal sealed class ManualJSRuntime : IJSRuntime
 /// <summary>A module that records its calls and its release, and can fail the release or a call.</summary>
 internal sealed class RecordingModule : IJSObjectReference
 {
-    public List<string> Calls { get; } = [];
+    private readonly Lock _callsLock = new();
+    private readonly List<string> _calls = [];
+
+    /// <summary>
+    /// A snapshot of the calls: components call from pool threads while the test reads, which once broke an
+    /// enumeration on the CI runner ("Collection was modified").
+    /// </summary>
+    public IReadOnlyList<string> Calls
+    {
+        get
+        {
+            lock (_callsLock)
+            {
+                return [.. _calls];
+            }
+        }
+    }
 
     public TaskCompletionSource Disposal { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
@@ -73,7 +89,11 @@ internal sealed class RecordingModule : IJSObjectReference
 
     public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args)
     {
-        Calls.Add(identifier);
+        lock (_callsLock)
+        {
+            _calls.Add(identifier);
+        }
+
         if (CallFailures.TryGetValue(identifier, out var failure))
         {
             return ValueTask.FromException<TValue>(failure);

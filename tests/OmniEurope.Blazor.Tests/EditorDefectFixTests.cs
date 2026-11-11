@@ -276,7 +276,20 @@ public sealed class EditorDefectFixTests : OmniBunitContext
     /// <summary>A runtime whose imports each answer a module of their own, once the test lets them.</summary>
     private sealed class QueuedJSRuntime : IJSRuntime
     {
-        public List<(RecordingModule Module, TaskCompletionSource Gate, string Path)> Imports { get; } = [];
+        private readonly Lock _importsLock = new();
+        private readonly List<(RecordingModule Module, TaskCompletionSource Gate, string Path)> _imports = [];
+
+        /// <summary>A snapshot: the editors import from pool threads while the test reads the list.</summary>
+        public IReadOnlyList<(RecordingModule Module, TaskCompletionSource Gate, string Path)> Imports
+        {
+            get
+            {
+                lock (_importsLock)
+                {
+                    return [.. _imports];
+                }
+            }
+        }
 
         public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args)
         {
@@ -286,7 +299,11 @@ public sealed class EditorDefectFixTests : OmniBunitContext
             }
 
             var import = (new RecordingModule(), new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously), args?[0]?.ToString() ?? string.Empty);
-            Imports.Add(import);
+            lock (_importsLock)
+            {
+                _imports.Add(import);
+            }
+
             return new ValueTask<TValue>(import.Item2.Task.ContinueWith(_ => (TValue)(object)import.Item1, TaskScheduler.Default));
         }
 
@@ -336,6 +353,8 @@ public sealed class EditorDefectFixTests : OmniBunitContext
         var previews = runtime.Imports.Where(import => import.Path == OmniModules.MailPreview).ToList();
         Assert.True(previews.Count >= 2);
 
+        // Imports is a snapshot: releasing one can let the editor start another, which once modified the list
+        // being enumerated on the CI runner.
         foreach (var import in runtime.Imports)
         {
             import.Gate.SetResult();
