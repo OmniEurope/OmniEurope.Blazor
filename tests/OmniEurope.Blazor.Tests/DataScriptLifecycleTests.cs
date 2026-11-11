@@ -235,6 +235,7 @@ public sealed class DataScriptLifecycleTests : OmniBunitContext
         runtime.ImportFailures.Enqueue(new JSDisconnectedException("perdu"));
 
         Render<OmniTree<int>>(parameters => parameters.Add(component => component.AllowDragDrop, true));
+        runtime.ImportFailureGate.SetResult();
 
         await SettleAsync();
         Assert.DoesNotContain("attachTreeDrag", runtime.Module.Calls);
