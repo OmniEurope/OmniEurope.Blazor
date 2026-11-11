@@ -104,7 +104,11 @@ public sealed class ControlScaleAndScrollOptionsTests : OmniBunitContext
 
         Assert.DoesNotContain("omni-tabs--scrollable-panels", plain.Markup, StringComparison.Ordinal);
         Assert.Contains("omni-tabs--scrollable-panels", scrolling.Find(".omni-tabs").ClassName, StringComparison.Ordinal);
-        Assert.Equal("auto", ShippedLookTests.Value(ShippedLookTests.Body(".omni-tabs--scrollable-panels > .omni-tabs__panel"), "overflow-y"));
+        var panel = ShippedLookTests.Body(".omni-tabs--scrollable-panels > .omni-tabs__panel");
+        Assert.Equal("auto", ShippedLookTests.Value(panel, "overflow-y"));
+        // The scrollbar keeps its own gutter and a gap from the content, so it never touches the content.
+        Assert.Equal("stable", ShippedLookTests.Value(panel, "scrollbar-gutter"));
+        Assert.Equal("var(--omni-space-sm)", ShippedLookTests.Value(panel, "padding-inline-end"));
     }
 
     // ---- grid wheel scope ----

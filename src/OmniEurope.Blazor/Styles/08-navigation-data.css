@@ -106,9 +106,11 @@
     padding: var(--omni-space-md) 0 0;
 }
 /* ScrollablePanels: the tabs fill their sized parent and only the selected panel scrolls, so the strip
-   stays put. The scroll stops at the panel's edge rather than chaining to the page behind it. */
+   stays put. The scroll stops at the panel's edge rather than chaining to the page behind it. The
+   scrollbar's gutter is always reserved and the content keeps a --omni-space-sm gap before it, so the bar
+   never touches the content and the content keeps its width whether the bar shows or not. */
 .omni-tabs--scrollable-panels { block-size: 100%; min-block-size: 0; }
-.omni-tabs--scrollable-panels > .omni-tabs__panel { flex: 1 1 auto; min-block-size: 0; overflow-y: auto; overscroll-behavior-y: contain; }
+.omni-tabs--scrollable-panels > .omni-tabs__panel { flex: 1 1 auto; min-block-size: 0; overflow-y: auto; overscroll-behavior-y: contain; padding-inline-end: var(--omni-space-sm); scrollbar-gutter: stable; }
 .omni-tabs__panel[hidden],
 .omni-steps__panel[hidden] { display: none; }
 .omni-steps__list { display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); }
