@@ -12,6 +12,10 @@
        same way, so the canvas sits between the field and the content. */
     --omni-scope-isolation: auto;
     --omni-scope-motion: none;
+    /* The tile of each layer of a backdrop made of shapes (Aplat, Epure), one entry per layer of --omni-backdrop. */
+    --omni-scope-backdrop-size: auto;
+    --omni-scope-backdrop-position: 0% 0%;
+    --omni-scope-backdrop-repeat: repeat;
     /* The field a theme draws on a canvas (Trou noir's black hole), read by OmniThemeScope. */
     --omni-scope-canvas: none;
     /* The page colour of a theme that wants it deeper than the palette surface (Trou noir); initial

@@ -177,14 +177,20 @@ internal static class ThemeCatalog
                 ("--omni-radius", "0.5rem"), ("--omni-radius-sm", "0.375rem"), ("--omni-radius-lg", "1rem"),
                 ("--omni-button-radius", "1.125rem 0.25rem"), ("--omni-card-radius", "2rem 0.375rem"), ("--omni-alert-radius", "1.25rem 0.375rem"),
                 ("--omni-card-border-width", "0"),
+                // The card stays the layer fill of the shipped look; the contrast checks of a backdrop read it.
+                ("--omni-card-background", "var(--omni-layer-fill)"),
+                // The rule stays legible over the tint of the backdrop (the contrast checks measure it on every stop).
+                ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 40%, var(--omni-color-surface))"),
                 ("--omni-card-shadow", "0 0 0 1px color-mix(in srgb, var(--omni-color-accent) 24%, transparent), 0 0.75rem 1.75rem color-mix(in srgb, var(--omni-color-accent) 16%, transparent)"),
                 ("--omni-button-shadow", "0 0.25rem 0.75rem color-mix(in srgb, var(--omni-color-accent) 28%, transparent)"),
                 ("--omni-button-font-weight", "600"),
                 ("--omni-font-family", Soft)),
             Shape(
+                ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 36%, var(--omni-color-surface))"),
                 ("--omni-card-background", "color-mix(in srgb, var(--omni-color-accent) 6%, var(--omni-color-surface))"),
                 ("--omni-card-shadow", "0 0 0 1px color-mix(in srgb, var(--omni-color-accent) 32%, transparent), 0 0.75rem 1.75rem rgb(0 0 0 / 40%), 0 0 2rem color-mix(in srgb, var(--omni-color-accent) 10%, transparent)"),
-                ("--omni-button-shadow", "0 0.25rem 0.875rem color-mix(in srgb, var(--omni-color-accent) 40%, transparent)"))),
+                ("--omni-button-shadow", "0 0.25rem 0.875rem color-mix(in srgb, var(--omni-color-accent) 40%, transparent)")),
+            DefaultBackdrop: "Nénuphar"),
 
         new("Velours", "Biseaux, reflets internes et ombres profondes.", "Prune",
             Shape(
@@ -196,13 +202,17 @@ internal static class ThemeCatalog
                 // Velvet has a pile: the card is warmed by the accent, lit along its top edge and sits on
                 // a deep shadow; a button is a cushion, lit above and shaded below.
                 ("--omni-card-background", "color-mix(in srgb, var(--omni-color-accent) 4%, var(--omni-color-surface))"),
+                // The rule stays legible over the tint of the backdrop (the contrast checks measure it on every stop).
+                ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 40%, var(--omni-color-surface))"),
                 ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 70%), 0 0 0 1px color-mix(in srgb, var(--omni-color-text) 10%, transparent), 0 0.25rem 0.5rem rgb(0 0 0 / 8%), 0 1.25rem 2.5rem rgb(0 0 0 / 20%)"),
                 ("--omni-button-shadow", "inset 0 1px 0 rgb(255 255 255 / 30%), inset 0 -0.125rem 0 rgb(0 0 0 / 16%), 0 0.25rem 0.625rem rgb(0 0 0 / 24%)"),
                 ("--omni-button-font-weight", "600"),
                 ("--omni-font-family", Sans), ("--omni-heading-font-family", Transitional), ("--omni-heading-font-weight", "600")),
             Shape(
+                ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 36%, var(--omni-color-surface))"),
                 // The bright top edge of the light card would be a white line at night.
-                ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 10%), 0 0 0 1px color-mix(in srgb, var(--omni-color-text) 9%, transparent), 0 1.25rem 2.5rem rgb(0 0 0 / 45%)"))),
+                ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 10%), 0 0 0 1px color-mix(in srgb, var(--omni-color-text) 9%, transparent), 0 1.25rem 2.5rem rgb(0 0 0 / 45%)")),
+            DefaultBackdrop: "Velours"),
 
         // Neumorphism: the surfaces are the colour of the page and stand out by a pair of soft shadows,
         // a light one up and to the left, a dark one down and to the right; a press turns them inward.
@@ -240,7 +250,8 @@ internal static class ThemeCatalog
                 ("--omni-button-shadow", "-0.3125rem -0.3125rem 0.75rem rgb(255 255 255 / 10%), 0.3125rem 0.3125rem 0.75rem rgb(0 0 0 / 70%)"),
                 ("--omni-input-shadow", "inset 0.1875rem 0.1875rem 0.4375rem rgb(0 0 0 / 55%), inset -0.1875rem -0.1875rem 0.4375rem rgb(255 255 255 / 7%)"),
                 ("--omni-overlay-shadow", "-0.375rem -0.375rem 1rem rgb(255 255 255 / 6%), 0.625rem 0.75rem 1.75rem rgb(0 0 0 / 60%)")),
-            ContrastWaiver: "Relief par ombres douces : bordures et marques non textuelles sous les seuils WCAG."),
+            ContrastWaiver: "Relief par ombres douces : bordures et marques non textuelles sous les seuils WCAG.",
+            DefaultBackdrop: "Relief"),
 
         // Glassmorphism, airy glass: frosted panes over a colour field painted by the theme scope. The
         // field is four very large orbs of the palette with no hard core (the accent as lavender, the
@@ -354,7 +365,8 @@ internal static class ThemeCatalog
                 ("--omni-color-accent-fill-active", "color-mix(in srgb, var(--omni-color-accent) 30%, var(--omni-color-text))"),
                 ("--omni-color-neutral-fill-hover", "color-mix(in srgb, var(--omni-color-info-fill) 40%, var(--omni-color-surface))"),
                 ("--omni-color-neutral-fill-active", "color-mix(in srgb, var(--omni-color-info-fill) 46%, var(--omni-color-surface))")),
-            ContrastWaiver: "Aplats de couleur vifs : certaines paires de texte et de fond passent sous les seuils WCAG."),
+            ContrastWaiver: "Aplats de couleur vifs : certaines paires de texte et de fond passent sous les seuils WCAG.",
+            DefaultBackdrop: "Aplat"),
 
         // Minimalism: black on white, no shadow, no radius, hairlines, very large bold headings. The
         // primary action is drawn in ink and the palette's accent is kept for one discreet place: the
@@ -370,6 +382,8 @@ internal static class ThemeCatalog
                 ("--omni-color-accent-fill-active", "color-mix(in srgb, var(--omni-color-accent-strong) 60%, var(--omni-color-text))"),
                 ("--omni-color-on-accent-fill", "var(--omni-color-surface)"),
                 ("--omni-card-background", "var(--omni-color-surface)"),
+                // The hairline stays legible over the dots of the backdrop (the contrast checks measure it on every stop).
+                ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 40%, var(--omni-color-surface))"),
                 ("--omni-card-border-color", "var(--omni-color-border)"),
                 ("--omni-card-shadow", NoShadow), ("--omni-button-shadow", NoShadow), ("--omni-alert-shadow", NoShadow),
                 ("--omni-overlay-background", "var(--omni-color-surface)"), ("--omni-overlay-filter", "none"),
@@ -383,7 +397,8 @@ internal static class ThemeCatalog
                 ("--omni-heading-font-weight", "800"), ("--omni-heading-letter-spacing", "-0.03em"),
                 ("--omni-button-font-weight", "500"),
                 ("--omni-font-family", Humanist)),
-            Shape()),
+            Shape(("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 36%, var(--omni-color-surface))")),
+            DefaultBackdrop: "Épure"),
 
         // A black hole, the same in both modes but turned over (owner decision of 2026-10-09: its light half is
         // the white hole tried in review R1-3, no theme of its own). High on the right, the horizon is a disc

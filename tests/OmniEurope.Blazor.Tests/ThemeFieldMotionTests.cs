@@ -185,8 +185,9 @@ public sealed class ThemeFieldMotionTests : OmniBunitContext
         var moving = new List<string>();
         foreach (var preset in OmniThemePresets.All)
         {
-            // The angle turns the CSS field (Givre); a field drawn on a canvas (Trou noir) moves with its shader.
+            // The angle turns the CSS field (Givre), or the place of its tiles (Aplat); a field drawn on a canvas (Trou noir) moves with its shader.
             var reads = (preset.Shape.TryGetValue("--omni-backdrop", out var drawn) && drawn.Contains(Turn, StringComparison.Ordinal))
+                || (preset.Shape.TryGetValue("--omni-scope-backdrop-position", out var placed) && placed.Contains(Turn, StringComparison.Ordinal))
                 || preset.Shape.ContainsKey("--omni-scope-canvas");
             var moves = preset.Shape.TryGetValue(MotionToken, out var motion);
             Assert.True(reads == moves, $"{preset.Name}: the field reads the angle = {reads}, the theme sets the motion = {moves}.");
@@ -201,8 +202,9 @@ public sealed class ThemeFieldMotionTests : OmniBunitContext
             }
         }
 
-        // Owner decision of 2026-09-30: Givre and Trou noir move their field, no other theme does.
-        Assert.Equal(["Givre", "Trou noir"], moving);
+        // Owner decisions of 2026-09-30 and 2026-11-12 (review R1-3): Givre and Trou noir move their field, and so do the
+        // themes whose backdrop was validated as animated; the others stay still.
+        Assert.Equal(["Nénuphar", "Velours", "Relief", "Givre", "Aplat", "Épure", "Trou noir"], moving);
     }
 
     [Fact]
@@ -256,6 +258,7 @@ public sealed class ThemeFieldMotionTests : OmniBunitContext
     [Theory]
     [InlineData("Givre", true)]
     [InlineData("Trou noir", true)]
+    [InlineData("Aplat", true)]
     [InlineData("Essentiel", false)]
     [InlineData("Néon", false)]
     public void The_window_offers_the_setting_only_under_a_theme_that_moves_its_field(string themeName, bool offered)

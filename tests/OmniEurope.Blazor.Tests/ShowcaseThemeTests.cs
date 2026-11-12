@@ -67,6 +67,9 @@ public sealed class ShowcaseThemeTests
     /// </summary>
     [Theory]
     [InlineData("--omni-backdrop", ThemeTokenGroup.Elevation)]
+    [InlineData("--omni-scope-backdrop-size", ThemeTokenGroup.Elevation)]
+    [InlineData("--omni-scope-backdrop-position", ThemeTokenGroup.Elevation)]
+    [InlineData("--omni-scope-backdrop-repeat", ThemeTokenGroup.Elevation)]
     [InlineData("--omni-card-filter", ThemeTokenGroup.Elevation)]
     [InlineData("--omni-scrim-filter", ThemeTokenGroup.Elevation)]
     [InlineData("--omni-dialog-background", ThemeTokenGroup.Shape)]
