@@ -69,6 +69,9 @@ public partial class MainLayout : IAsyncDisposable
     /// <summary>The theme the menu and the window show: null while it is the first of the catalogue, the shipped one.</summary>
     private OmniThemePreset? LookPreset => ReferenceEquals(Theme.Theme, OmniThemePresets.All[0]) ? null : Theme.Theme;
 
+    /// <summary>The width of the content: the whole width when the visitor asked for it, the wide column otherwise.</summary>
+    private OmniLayoutWidth ContentWidth => Theme.FullWidth ? OmniLayoutWidth.FullWidth : OmniLayoutWidth.Wide;
+
     /// <summary>The palette the window shows: null while it is the one the theme comes with.</summary>
     private OmniThemePalette? WindowPalette => Theme.HasThemePalette ? null : Theme.Palette;
 
@@ -206,6 +209,14 @@ public partial class MainLayout : IAsyncDisposable
         palette is null ? Theme.ResetPaletteAsync() : Theme.SelectPaletteAsync(palette);
 
     private Task SetDensityAsync(OmniDensity density) => Theme.SetDensityAsync(density);
+
+    private Task SetFontAsync(OmniThemeFont? font) => Theme.SetFontAsync(font);
+
+    private Task SetTextSizeLevelAsync(int level) => Theme.SetTextSizeLevelAsync(level);
+
+    private Task SetControlSizeLevelAsync(int level) => Theme.SetControlSizeLevelAsync(level);
+
+    private Task SetFullWidthAsync(bool fullWidth) => Theme.SetFullWidthAsync(fullWidth);
 
     private Task SetBackdropMotionAsync(bool moves) => Theme.SetBackdropMotionAsync(moves);
 
