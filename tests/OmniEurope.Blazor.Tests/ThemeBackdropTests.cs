@@ -236,9 +236,11 @@ public sealed class ThemeBackdropTests : OmniBunitContext
 
         var options = window.Find("select[aria-label='Fond']").QuerySelectorAll("option").Select(option => option.TextContent);
         Assert.Equal(["Aucun", "Givre (défaut)", "Trou noir"], options);
-        // The motion switch sits on the title line of the backdrop row.
+        // The animation switch has a row of its own, right under the backdrop row (review R1-1).
         var label = window.Find("#" + window.Find("[role=switch]").GetAttribute("aria-labelledby"));
-        Assert.NotNull(label.Closest(".omni-appearance-settings__row")!.QuerySelector("select[aria-label='Fond']"));
+        var animation = label.Closest(".omni-appearance-settings__row")!;
+        Assert.Null(animation.QuerySelector("select"));
+        Assert.Same(window.Find("select[aria-label='Fond']").Closest(".omni-appearance-settings__row"), animation.PreviousElementSibling);
 
         window.Find("select[aria-label='Fond']").Change("0");
         Assert.Same(OmniThemeBackdrops.None, picked);
@@ -266,7 +268,7 @@ public sealed class ThemeBackdropTests : OmniBunitContext
         var window = Window(Theme("Givre"), backdrop, value => backdrop = value);
 
         var row = window.Find("select[aria-label='Fond']").Closest(".omni-appearance-settings__row")!;
-        row.QuerySelectorAll("button").Single(button => button.TextContent.Trim() == "Défaut").Click();
+        row.QuerySelectorAll("button").Single(button => button.GetAttribute("aria-label") == "Défaut").Click();
         Assert.Null(backdrop);
 
         backdrop = OmniThemeBackdrops.None;

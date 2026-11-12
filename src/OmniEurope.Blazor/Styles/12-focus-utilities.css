@@ -40,43 +40,49 @@
 /* A window has no scrim under it: its fill is laid over the surface of the page, so a theme whose
    dialog fill is translucent (Givre's, made for its frosted scrim) does not let the page read through. */
 .omni-window-layer > .omni-dialog { background: linear-gradient(var(--omni-dialog-background, var(--omni-card-background, var(--omni-color-surface))), var(--omni-dialog-background, var(--omni-card-background, var(--omni-color-surface)))), var(--omni-color-surface); pointer-events: auto; font-size: var(--omni-font-size-base); }
-/* The appearance window: one grid of rows, two by two (theme and palette, the two sizes, then the
-   density and the font), wider than it is tall. The window never exceeds the screen, and its rows fall
-   back to one column as soon as two of 19rem no longer fit; at its full width a third never does. */
-.omni-appearance-window { inline-size: 46rem; max-inline-size: calc(100vw - 2rem); }
-.omni-appearance-settings--window { grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); }
-/* Every row reads the same: its name on a line, its controls across the width under it, then the
-   slider of a scale or the motion of a moving theme. A name line is as tall as a control whatever the
-   size of the controls, so the selects of two rows of a line (theme and palette, density and font)
-   start at the same height; the shorter row keeps its content at the top. */
-.omni-appearance-settings--window .omni-appearance-settings__row { align-content: start; flex-wrap: wrap; min-inline-size: 0; }
-.omni-appearance-settings--window .omni-appearance-settings__label { flex: 1 1 100%; min-block-size: max(var(--omni-icon-box), var(--omni-control-height)); min-inline-size: 6em; }
-/* Nothing in the window may widen it, whatever the theme: a row can shrink to its track instead of
-   holding its content width, and the controls row wraps (the select first, taking the width left, the
-   buttons under it when a theme widens them - the Retro theme: uppercase, weight 800, offset shadows)
-   instead of running past the track. The select gives way to 8rem, the buttons keep their own width. */
-.omni-appearance-settings--window .omni-appearance-settings__actions { flex: 1 1 100%; flex-wrap: wrap; min-inline-size: 0; }
+/* The appearance window, laid out as the options of a video game (review R1-1): one narrow column of
+   short lines, the label at the start and the control filling the rest of the line, in three titled
+   sections (style, text, layout). The label column and the control column are shared by every line
+   through nested subgrids, so the controls line up whatever the length of each label. The structure
+   is the same on a phone: the window takes the width of the screen, the controls the width that remains. */
+.omni-appearance-window { inline-size: 34rem; max-inline-size: calc(100vw - 2rem); }
+.omni-appearance-settings--window { align-content: start; column-gap: var(--omni-space-md); grid-template-columns: fit-content(9rem) minmax(0, 1fr); inline-size: 100%; row-gap: var(--omni-space-md); }
+.omni-appearance-window__section { display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; min-inline-size: 0; row-gap: var(--omni-space-sm); }
+.omni-appearance-window__heading { align-items: center; color: var(--omni-color-text-muted); display: flex; font-size: var(--omni-font-size-sm); font-weight: 650; gap: var(--omni-space-sm); grid-column: 1 / -1; line-height: 1.25; margin: 0; }
+.omni-appearance-window__heading::after { background: var(--omni-color-border); block-size: var(--omni-border-width); content: ""; flex: 1 1 auto; }
+/* A line is a bare row, not the settings tile of the page: no fill, rule, padding or hover. */
+.omni-appearance-settings--window .omni-appearance-settings__row { align-items: center; background: transparent; border: 0; display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; min-inline-size: 0; padding: 0; }
+.omni-appearance-settings--window .omni-appearance-settings__row:hover { background: transparent; }
+.omni-appearance-settings--window .omni-appearance-settings__row::before { content: none; }
+.omni-appearance-settings--window .omni-appearance-settings__label { gap: var(--omni-space-xs); margin-inline-end: 0; min-inline-size: 0; }
+.omni-appearance-settings--window .omni-appearance-settings__label .omni-icon { background: none; block-size: 1.25rem; color: var(--omni-color-accent); inline-size: 1.25rem; padding: 0; }
+/* Nothing in the window may widen it, whatever the theme: the controls of a line wrap (the select
+   first, taking the width left, the buttons under it when a theme widens them - the Retro theme:
+   uppercase, weight 800, offset shadows) instead of running past the track. The select gives way to
+   8rem, the buttons keep their own width, the percentage of a scale takes what is left between them. */
+.omni-appearance-settings--window .omni-appearance-settings__actions { flex-wrap: wrap; inline-size: 100%; min-inline-size: 0; }
 .omni-appearance-settings--window .omni-appearance-settings__actions:has(.omni-drop-down) { display: flex; inline-size: 100%; }
 .omni-appearance-settings--window .omni-appearance-settings__actions > .omni-drop-down { flex: 1 1 8rem; min-inline-size: 0; }
 .omni-appearance-settings--window .omni-appearance-settings__actions > .omni-button { flex: none; }
-
-.omni-appearance-settings__motion { align-items: center; display: flex; flex: 1 1 100%; gap: var(--omni-space-sm); }
-/* On the theme title line (point 86 of the review), the motion switch sits at the end of the label
-   line instead of under it: the label gives up the full width it takes in the window. */
-.omni-appearance-settings--window .omni-appearance-settings__label:has(+ .omni-appearance-settings__motion) { flex: 1 1 auto; }
-.omni-appearance-settings__label + .omni-appearance-settings__motion { flex: 0 0 auto; margin-inline-start: auto; }
-/* The mode joined to the palette sits on the title line the same way (review point 92). */
-.omni-appearance-settings--window .omni-appearance-settings__label:has(+ .omni-appearance-window__modes) { flex: 1 1 auto; }
-.omni-appearance-settings__label + .omni-appearance-window__modes { margin-inline-start: auto; }
-.omni-appearance-settings__motion > span { align-items: center; display: inline-flex; gap: var(--omni-space-xs); }
+.omni-appearance-settings--window .omni-appearance-settings__actions > .omni-badge { flex: 1 1 auto; justify-content: center; min-block-size: var(--omni-control-height); min-inline-size: 3.5em; }
+/* The mode and the choices of a few (density, width) fill the control column, their options sharing it equally. */
+.omni-appearance-settings--window .omni-appearance-window__modes { display: flex; flex: 1 1 auto; }
+.omni-appearance-settings--window .omni-appearance-window__modes > .omni-button.omni-appearance-window__mode { flex: 1 1 0; inline-size: auto; }
+.omni-appearance-settings--window .omni-select-bar { display: flex; inline-size: 100%; }
+.omni-appearance-settings--window .omni-select-bar__viewport { flex: 1 1 auto; }
+.omni-appearance-settings--window .omni-select-bar__item { flex: 1 1 auto; justify-content: center; padding-inline: var(--omni-space-sm); }
+/* On a phone the label icons give their width to the control. */
+@media (max-width: 39.99rem) {
+    .omni-appearance-settings--window { column-gap: var(--omni-space-sm); }
+    .omni-appearance-settings--window .omni-appearance-settings__label .omni-icon { display: none; }
+}
 /* The footer: the actions on the whole look at the start (random, all back to the defaults), the
-   decision at the end (Apply, then Restore, owner order of 2026-10-02); on a narrow window the decision wraps under, still at the end. */
+   decision at the end (Cancel, then Apply, owner order of 2026-11-12); on a narrow window the decision wraps under, still at the end. */
 .omni-appearance-window__footer { align-items: center; display: flex; flex: 1 1 100%; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: space-between; }
 .omni-appearance-window__tools, .omni-appearance-window__decision { display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); }
 .omni-appearance-window__tools, .omni-appearance-window__decision { max-inline-size: 100%; min-inline-size: 0; }
 .omni-appearance-window__footer .omni-button { flex: none; max-inline-size: 100%; white-space: nowrap; }
 .omni-appearance-window__decision { margin-inline-start: auto; }
-.omni-appearance-settings--window .omni-badge { inline-size: 3.25em; min-height: var(--omni-control-height); }
 
 .omni-data-grid--preparing tbody > tr:not(.omni-data-grid__preparation, .omni-data-grid__spacer) { visibility: hidden; }
 .omni-rating { display: inline-flex; align-items: center; gap: 0; white-space: nowrap; color: var(--omni-color-warning); }

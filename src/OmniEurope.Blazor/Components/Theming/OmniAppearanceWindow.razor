@@ -1,117 +1,150 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-@* The window of the look, one grid of rows laid two by two where it is wide enough: theme and palette
-   (the mode on its title line), font and backdrop, density, then the text size and the size of the controls. The
-   motion of a backdrop that moves sits on the title line of the backdrop row (of the theme row without it). Modeless
-   and draggable, so the page stays in view while the user tries a setting; each row shows only once the host binds its
-   change, so the window never offers a setting that does nothing. Every row is a group named by its
-   label, so its buttons are read with it. The footer holds the actions on the whole look: a random
-   one, all back to the defaults, then Apply, which keeps the current look, and Restore, which puts
-   back the look the window opened on (owner decision of 2026-10-02: Apply before Restore). *@
+@* The window of the look, laid out as the options of a video game (review R1-1): one line per setting, a
+   short label at the start and the control filling the rest of the line, under three titled sections. Style:
+   the mode, the theme, the palette, the background and its animation. Text: the font and the text size.
+   Layout: the density, the size of the controls and the width of the content. The same structure on a
+   phone as on a desktop. Modeless and draggable, so the page stays in view while the user tries a setting;
+   each row shows only once the host binds its change (a section only once one of its rows shows), so the
+   window never offers a setting that does nothing. A row whose value has a default carries an icon
+   button that puts it back. The footer holds the actions on the whole look: a random one, all back to
+   the defaults, then Cancel, which puts back the look the window opened on, and Apply, which keeps the
+   current look (owner decision of 2026-11-12: Cancel before Apply, Cancel in the secondary look). *@
+@{
+    // The icon button that puts a row back to its default: named and described by the localized "Default".
+    RenderFragment ResetButton(bool disabled, Func<Task> reset) => @<OmniButton Variant="OmniButtonVariant.Secondary" Class="omni-appearance-settings__reset" Disabled="@disabled" Label="@Localize("SettingsDefault")" title="@Localize("SettingsDefault")" OnClick="@(() => reset())"><Icon><OmniIcon Name="OmniIconName.Reset" /></Icon></OmniButton>;
+
+    // The animation of a backdrop that moves: a switch named by the row's label.
+    RenderFragment MotionRow() => @<div class="omni-appearance-settings__row">
+        <span class="omni-appearance-settings__label" id="@RowId("motion")"><OmniIcon Name="OmniIconName.Sparkle" /> @Localize("SettingsBackdropMotion")</span>
+        <div class="omni-appearance-settings__actions">
+            <OmniSwitch TValue="bool" Value="BackdropMotion" ValueChanged="SetBackdropMotionAsync" ValueExpression="@(() => BackdropMotion)" aria-labelledby="@RowId("motion")" />
+        </div>
+    </div>;
+
+    // A scale row, the same for the text size and the size of the controls: reduce, the percentage drawn,
+    // enlarge, then back to the default, as one group named by the label and described by the percentage.
+    RenderFragment ScaleRow(ScaleSetting setting) => @<div class="omni-appearance-settings__row">
+        <span class="omni-appearance-settings__label" id="@RowId(setting.Key)"><OmniIcon Name="@setting.Icon" /> @Localize(setting.NameKey)</span>
+        <div class="omni-appearance-settings__actions" role="group" aria-labelledby="@RowId(setting.Key)" aria-describedby="@RowId(setting.Key + "-level")">
+            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(setting.Level <= AppearanceLook.MinimumLevel)" Label="@Localize(setting.DecreaseKey)" OnClick="@(() => ChangeLevelAsync(setting, setting.Level - 1))"><Icon><OmniIcon Name="OmniIconName.Remove" /></Icon></OmniButton>
+            <OmniBadge Id="@RowId(setting.Key + "-level")" Tone="OmniTone.Accent" Fill="OmniFill.Solid">@Localize("SettingsScaleValue", ScalePercent(setting.Level))</OmniBadge>
+            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(setting.Level >= AppearanceLook.MaximumLevel)" Label="@Localize(setting.IncreaseKey)" OnClick="@(() => ChangeLevelAsync(setting, setting.Level + 1))"><Icon><OmniIcon Name="OmniIconName.Add" /></Icon></OmniButton>
+            @ResetButton(setting.Level == AppearanceLook.DefaultLevel, () => ChangeLevelAsync(setting, AppearanceLook.DefaultLevel))
+        </div>
+    </div>;
+}
 <OmniDialog AdditionalAttributes="AdditionalAttributes" Id="@Id" Class="@Css("omni-appearance-window")"
             Open="@Open" OpenChanged="OnDialogOpenChangedAsync" Modal="false" Draggable="true" FreezeScale="true" Title="@EffectiveTitle">
     <ChildContent>
         @if (ShowsRows)
         {
             <div class="omni-appearance-settings omni-appearance-settings--window">
-                @if (PresetChanged.HasDelegate)
+                @if (ShowsStyle)
                 {
-                    <div class="omni-appearance-settings__row">
-                        <span class="omni-appearance-settings__label" id="@RowId("theme")"><OmniIcon Name="OmniIconName.Layers" /> @Localize("SettingsTheme")</span>
-                        @if (ShowsBackdropMotion && !BackdropChanged.HasDelegate)
-                        {
-                            @* On the title line, aligned to the end: the switch adds no height to the row. *@
-                            @MotionSwitch
-                        }
-                        <div class="omni-appearance-settings__actions" role="group" aria-labelledby="@RowId("theme")">
-                            <OmniDropDown TValue="string" Options="@ThemeOptions" @bind-Value:get="ThemeName" @bind-Value:set="SetThemeAsync" Label="@Localize("SettingsTheme")" />
-                            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(Preset is null)" OnClick="ResetThemeAsync"><Icon><OmniIcon Name="OmniIconName.Reset" /></Icon><ChildContent><span>@Localize("SettingsDefault")</span></ChildContent></OmniButton>
-                        </div>
-                    </div>
-                }
-                @if (PaletteChanged.HasDelegate || AppearanceChanged.HasDelegate)
-                {
-                    @* The mode joins the palette tile as three icon buttons in one group, as in the
-                       application menu (review point 92): on its title line, aligned to the end like
-                       the motion of the theme, so the list keeps its width. With no palette bound the mode
-                       keeps the row for itself. The chosen mode reads by its state (radio), not by its
-                       colour alone. *@
-                    <div class="omni-appearance-settings__row">
-                        <span class="omni-appearance-settings__label" id="@RowId("palette")"><OmniIcon Name="@(PaletteChanged.HasDelegate ? OmniIconName.Palette : OmniIconName.ThemeSystem)" /> @Localize(PaletteChanged.HasDelegate ? "SettingsPalette" : "SettingsMode")</span>
+                    <div class="omni-appearance-window__section" role="group" aria-labelledby="@RowId("section-style")">
+                        <h3 class="omni-appearance-window__heading" id="@RowId("section-style")">@Localize("SettingsSectionStyle")</h3>
                         @if (AppearanceChanged.HasDelegate)
                         {
-                            @ModeGroup
+                            @* The mode: three icon buttons in one group, as in the application menu, on the
+                               first line. The chosen mode reads by its state (radio), not by its colour alone. *@
+                            <div class="omni-appearance-settings__row">
+                                <span class="omni-appearance-settings__label" id="@RowId("mode")"><OmniIcon Name="OmniIconName.ThemeSystem" /> @Localize("SettingsMode")</span>
+                                <div class="omni-appearance-settings__actions">
+                                    @ModeGroup
+                                </div>
+                            </div>
+                        }
+                        @if (PresetChanged.HasDelegate)
+                        {
+                            <div class="omni-appearance-settings__row">
+                                <span class="omni-appearance-settings__label" id="@RowId("theme")"><OmniIcon Name="OmniIconName.Layers" /> @Localize("SettingsTheme")</span>
+                                <div class="omni-appearance-settings__actions" role="group" aria-labelledby="@RowId("theme")">
+                                    <OmniDropDown TValue="string" Options="@ThemeOptions" @bind-Value:get="ThemeName" @bind-Value:set="SetThemeAsync" Label="@Localize("SettingsTheme")" />
+                                    @ResetButton(Preset is null, ResetThemeAsync)
+                                </div>
+                            </div>
                         }
                         @if (PaletteChanged.HasDelegate)
                         {
-                            <div class="omni-appearance-settings__actions" role="group" aria-labelledby="@RowId("palette")">
-                                <OmniDropDown TValue="string" Options="@PaletteOptions" @bind-Value:get="PaletteName" @bind-Value:set="SetPaletteAsync" Label="@Localize("SettingsPalette")" />
-                                <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(Palette is null)" OnClick="ResetPaletteAsync"><Icon><OmniIcon Name="OmniIconName.Reset" /></Icon><ChildContent><span>@Localize("SettingsDefault")</span></ChildContent></OmniButton>
+                            <div class="omni-appearance-settings__row">
+                                <span class="omni-appearance-settings__label" id="@RowId("palette")"><OmniIcon Name="OmniIconName.Palette" /> @Localize("SettingsPalette")</span>
+                                <div class="omni-appearance-settings__actions" role="group" aria-labelledby="@RowId("palette")">
+                                    <OmniDropDown TValue="string" Options="@PaletteOptions" @bind-Value:get="PaletteName" @bind-Value:set="SetPaletteAsync" Label="@Localize("SettingsPalette")" />
+                                    @ResetButton(Palette is null, ResetPaletteAsync)
+                                </div>
                             </div>
                         }
-                    </div>
-                }
-                @if (FontChanged.HasDelegate)
-                {
-                    <div class="omni-appearance-settings__row">
-                        <span class="omni-appearance-settings__label" id="@RowId("font")"><OmniIcon Name="OmniIconName.TextItalic" /> @Localize("SettingsFont")</span>
-                        <div class="omni-appearance-settings__actions" role="group" aria-labelledby="@RowId("font")">
-                            <OmniDropDown TValue="string" Options="@FontOptions" @bind-Value:get="FontName" @bind-Value:set="SetFontAsync" Label="@Localize("SettingsFont")" />
-                            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(Font is null)" OnClick="ResetFontAsync"><Icon><OmniIcon Name="OmniIconName.Reset" /></Icon><ChildContent><span>@Localize("SettingsDefault")</span></ChildContent></OmniButton>
-                        </div>
-                    </div>
-                }
-                @if (BackdropChanged.HasDelegate)
-                {
-                    @* The backdrop drawn behind the page (review R1-2), right before the motion that animates
-                       it: the switch sits on the title line of this row, aligned to the end. Under Essentiel the
-                       list holds the plain page alone. *@
-                    <div class="omni-appearance-settings__row">
-                        <span class="omni-appearance-settings__label" id="@RowId("backdrop")"><OmniIcon Name="OmniIconName.Image" /> @Localize("SettingsBackdrop")</span>
+                        @if (BackdropChanged.HasDelegate)
+                        {
+                            @* The backdrop drawn behind the page (review R1-2). Under Essentiel the list holds the
+                               plain page alone. *@
+                            <div class="omni-appearance-settings__row">
+                                <span class="omni-appearance-settings__label" id="@RowId("backdrop")"><OmniIcon Name="OmniIconName.Image" /> @Localize("SettingsBackdrop")</span>
+                                <div class="omni-appearance-settings__actions" role="group" aria-labelledby="@RowId("backdrop")">
+                                    <OmniDropDown TValue="string" Options="@BackdropOptions" @bind-Value:get="BackdropName" @bind-Value:set="SetBackdropAsync" Label="@Localize("SettingsBackdrop")" />
+                                    @ResetButton(Backdrop is null, ResetBackdropAsync)
+                                </div>
+                            </div>
+                        }
                         @if (ShowsBackdropMotion)
                         {
-                            @MotionSwitch
+                            @* The animation of a backdrop that moves, on a row of its own right under the backdrop. *@
+                            @MotionRow()
                         }
-                        <div class="omni-appearance-settings__actions" role="group" aria-labelledby="@RowId("backdrop")">
-                            <OmniDropDown TValue="string" Options="@BackdropOptions" @bind-Value:get="BackdropName" @bind-Value:set="SetBackdropAsync" Label="@Localize("SettingsBackdrop")" />
-                            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(Backdrop is null)" OnClick="ResetBackdropAsync"><Icon><OmniIcon Name="OmniIconName.Reset" /></Icon><ChildContent><span>@Localize("SettingsDefault")</span></ChildContent></OmniButton>
-                        </div>
                     </div>
                 }
-                @if (ShowsBackdropMotion && !PresetChanged.HasDelegate && !BackdropChanged.HasDelegate)
+                @if (ShowsText)
                 {
-                    @* No theme nor backdrop row to sit under: the motion keeps a row of its own. *@
-                    <div class="omni-appearance-settings__row">@MotionSwitch</div>
-                }
-                @if (DensityChanged.HasDelegate)
-                {
-                    <div class="omni-appearance-settings__row">
-                        <span class="omni-appearance-settings__label"><OmniIcon Name="OmniIconName.Rows" /> @Localize("SettingsDensity")</span>
-                        <div class="omni-appearance-settings__actions">
-                            <OmniSelectBar TValue="OmniDensity" Options="@DensityOptions" Label="@Localize("SettingsDensity")"
-                                           @bind-Value:get="Density" @bind-Value:set="SetDensityAsync" />
-                        </div>
+                    <div class="omni-appearance-window__section" role="group" aria-labelledby="@RowId("section-text")">
+                        <h3 class="omni-appearance-window__heading" id="@RowId("section-text")">@Localize("SettingsSectionText")</h3>
+                        @if (FontChanged.HasDelegate)
+                        {
+                            <div class="omni-appearance-settings__row">
+                                <span class="omni-appearance-settings__label" id="@RowId("font")"><OmniIcon Name="OmniIconName.TextItalic" /> @Localize("SettingsFont")</span>
+                                <div class="omni-appearance-settings__actions" role="group" aria-labelledby="@RowId("font")">
+                                    <OmniDropDown TValue="string" Options="@FontOptions" @bind-Value:get="FontName" @bind-Value:set="SetFontAsync" Label="@Localize("SettingsFont")" />
+                                    @ResetButton(Font is null, ResetFontAsync)
+                                </div>
+                            </div>
+                        }
+                        @if (TextSizeLevelChanged.HasDelegate)
+                        {
+                            @ScaleRow(TextSizeScale)
+                        }
                     </div>
                 }
-                @if (TextSizeLevelChanged.HasDelegate)
+                @if (ShowsLayout)
                 {
-                    @ScaleRow(TextSizeScale)
-                }
-                @if (ControlSizeLevelChanged.HasDelegate)
-                {
-                    @ScaleRow(ControlSizeScale)
-                }
-                @if (FullWidthChanged.HasDelegate)
-                {
-                    @* Centred column or the whole width (review R1-1): the host keeps its own column and
-                       passes the whole width to its main area when asked. *@
-                    <div class="omni-appearance-settings__row">
-                        <span class="omni-appearance-settings__label"><OmniIcon Name="OmniIconName.Layout" /> @Localize("SettingsContentWidth")</span>
-                        <div class="omni-appearance-settings__actions">
-                            <OmniSelectBar TValue="bool" Options="@WidthOptions" Label="@Localize("SettingsContentWidth")"
-                                           @bind-Value:get="FullWidth" @bind-Value:set="SetFullWidthAsync" />
-                        </div>
+                    <div class="omni-appearance-window__section" role="group" aria-labelledby="@RowId("section-layout")">
+                        <h3 class="omni-appearance-window__heading" id="@RowId("section-layout")">@Localize("SettingsSectionLayout")</h3>
+                        @if (DensityChanged.HasDelegate)
+                        {
+                            <div class="omni-appearance-settings__row">
+                                <span class="omni-appearance-settings__label"><OmniIcon Name="OmniIconName.Rows" /> @Localize("SettingsDensity")</span>
+                                <div class="omni-appearance-settings__actions">
+                                    <OmniSelectBar TValue="OmniDensity" Options="@DensityOptions" Label="@Localize("SettingsDensity")"
+                                                   @bind-Value:get="Density" @bind-Value:set="SetDensityAsync" />
+                                </div>
+                            </div>
+                        }
+                        @if (ControlSizeLevelChanged.HasDelegate)
+                        {
+                            @ScaleRow(ControlSizeScale)
+                        }
+                        @if (FullWidthChanged.HasDelegate)
+                        {
+                            @* Centred column or the whole width: the host keeps its own column and passes the
+                               whole width to its main area when asked. *@
+                            <div class="omni-appearance-settings__row">
+                                <span class="omni-appearance-settings__label"><OmniIcon Name="OmniIconName.Layout" /> @Localize("SettingsContentWidth")</span>
+                                <div class="omni-appearance-settings__actions">
+                                    <OmniSelectBar TValue="bool" Options="@WidthOptions" Label="@Localize("SettingsContentWidth")"
+                                                   @bind-Value:get="FullWidth" @bind-Value:set="SetFullWidthAsync" />
+                                </div>
+                            </div>
+                        }
                     </div>
                 }
             </div>
@@ -129,8 +162,8 @@
                     <OmniButton Variant="OmniButtonVariant.Secondary" Class="omni-appearance-window__reset" Disabled="@IsDefaultLook" OnClick="ResetAllAsync"><Icon><OmniIcon Name="OmniIconName.Reset" /></Icon><ChildContent><span>@Localize("SettingsResetAll")</span></ChildContent></OmniButton>
                 </div>
                 <div class="omni-appearance-window__decision">
+                    <OmniButton Variant="OmniButtonVariant.Secondary" Class="omni-appearance-window__cancel" OnClick="CancelAsync"><Icon><OmniIcon Name="OmniIconName.Restore" /></Icon><ChildContent><span>@Localize("SettingsRestore")</span></ChildContent></OmniButton>
                     <OmniButton Variant="OmniButtonVariant.Primary" Class="omni-appearance-window__apply" OnClick="ApplyAsync"><Icon><OmniIcon Name="OmniIconName.Check" /></Icon><ChildContent><span>@Localize("SettingsApply")</span></ChildContent></OmniButton>
-                    <OmniButton Variant="OmniButtonVariant.Danger" Class="omni-appearance-window__cancel" OnClick="CancelAsync"><Icon><OmniIcon Name="OmniIconName.Restore" /></Icon><ChildContent><span>@Localize("SettingsRestore")</span></ChildContent></OmniButton>
                 </div>
             </div>
         }

@@ -276,7 +276,7 @@ public sealed class ThemeFieldMotionTests : OmniBunitContext
 
         var toggle = Assert.Single(switches);
         Assert.Equal("true", toggle.GetAttribute("aria-checked"));
-        Assert.Equal("Fond animé", window.Find("#" + toggle.GetAttribute("aria-labelledby")).TextContent.Trim());
+        Assert.Equal("Animation", window.Find("#" + toggle.GetAttribute("aria-labelledby")).TextContent.Trim());
         toggle.Click();
         Assert.False(picked);
     }

@@ -225,7 +225,9 @@ public sealed class LayoutThemingEdgeTests : OmniBunitContext
             .Add(component => component.FontChanged, next => font = next)
             .Add(component => component.ControlSizeLevelChanged, _ => { }));
 
-        var resets = window.FindAll("button").Where(button => button.TextContent.Trim() == "Défaut").ToList();
+        // Review R1-1: the resets are icon buttons named "Défaut" (theme, palette, font, and the size of the controls).
+        var resets = window.FindAll("button").Where(button => button.GetAttribute("aria-label") == "Défaut").ToList();
+        Assert.Equal(4, resets.Count);
         foreach (var reset in resets)
         {
             reset.Click();

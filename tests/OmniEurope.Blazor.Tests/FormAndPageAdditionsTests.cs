@@ -491,7 +491,7 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
         settings.Find(".omni-appearance-settings__row--scale button").Click();
 
         var names = settings.FindAll(".omni-appearance-window .omni-appearance-settings--window .omni-appearance-settings__label").Select(label => label.TextContent.Trim());
-        Assert.Equal(["Thème", "Palette", "Densité", "Taille du texte"], names);
+        Assert.Equal(["Thème", "Palette", "Taille", "Densité"], names);
     }
 
     // ---- grid loading bar -----------------------------------------------------------------------
