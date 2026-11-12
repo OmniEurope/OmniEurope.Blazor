@@ -83,6 +83,10 @@
     .omni-appearance-settings--window .omni-appearance-settings__label .omni-icon { display: none; }
     /* A phone: the items of a choice bar (Density: Compact, Comfortable, Spacious) take the narrow space a word needs, so the three fit the control column at 375 px. */
     .omni-appearance-settings--window .omni-select-bar__item { padding-inline: var(--omni-space-xs); }
+    /* A theme that widens its words (Retro, Octet: capitals, letter spacing) or a larger text size still
+       does not fit the three of them beside the label: on a phone a choice bar takes the whole line under
+       its label, so its options never scroll out of sight. */
+    .omni-appearance-settings--window .omni-appearance-settings__row:has(.omni-select-bar) > .omni-appearance-settings__actions { grid-column: 1 / -1; }
 }
 /* The footer: the actions on the whole look at the start (random, all back to the defaults), the decision
    at the end (Cancel, then Apply, owner order of 2026-11-12). Each group takes the width its buttons need
