@@ -8,11 +8,11 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 /// <remarks>
 /// A scope whose markup writes none of <see cref="Appearance"/>, <see cref="Density"/>, <see cref="Preset"/>,
-/// <see cref="Palette"/>, <see cref="Font"/> and <see cref="BackdropMotion"/> follows the user's
-/// <see cref="OmniAppearanceState"/>: it takes those six from it, repaints when it changes, lays its text
+/// <see cref="Palette"/>, <see cref="Font"/>, <see cref="Backdrop"/> and <see cref="BackdropMotion"/> follows the user's
+/// <see cref="OmniAppearanceState"/>: it takes those seven from it, repaints when it changes, lays its text
 /// size and size of the controls on the document root (<c>data-oe-text-size</c>, <c>data-oe-control-size</c>)
 /// and keeps both levels in its snapshot. It draws nothing until the preference is read. A scope that
-/// writes any of the six is controlled by its host, as before, and leaves the state alone.
+/// writes any of the seven is controlled by its host, as before, and leaves the state alone.
 /// </remarks>
 public partial class OmniThemeScope
 {
@@ -26,6 +26,8 @@ public partial class OmniThemeScope
     private OmniThemePreset? _appliedPreset;
     private OmniThemePalette? _appliedPalette;
     private OmniThemeFont? _appliedFont;
+    private OmniThemeBackdrop? _appliedBackdrop;
+    private string? _canvasScript;
     private OmniAppearance _appliedAppearance;
     private ElementReference _canvas;
     private IJSObjectReference? _canvasModule;
@@ -67,7 +69,7 @@ public partial class OmniThemeScope
     /// <summary>
     /// A palette from <see cref="OmniThemePalettes"/> to paint this scope with. With a
     /// <see cref="Preset"/>, the theme keeps its shape and takes these colours
-    /// (<see cref="OmniThemePreset.With"/>); without one, only the colours change and the shipped
+    /// (<see cref="OmniThemePreset.With(OmniThemePalette)"/>); without one, only the colours change and the shipped
     /// shape stays. Null keeps the preset's own palette.
     /// </summary>
     [Parameter]
@@ -81,9 +83,18 @@ public partial class OmniThemeScope
     public OmniThemeFont? Font { get; set; }
 
     /// <summary>
-    /// Whether a theme that moves its colour field (Givre, Trou noir) may move it; true by default.
-    /// False holds the field still (<c>data-omni-backdrop-motion="off"</c>). A theme without a moving
-    /// field ignores it, and a system set to reduce motion holds the field still whatever the value.
+    /// A backdrop from <see cref="OmniThemeBackdrops"/> to draw the <see cref="Preset"/> over, in place
+    /// of its own (<see cref="OmniThemePreset.With(OmniThemeBackdrop)"/>); <see cref="OmniThemeBackdrops.None"/>
+    /// leaves the plain page. Null keeps the theme's own backdrop. A backdrop the theme does not offer
+    /// (<see cref="OmniThemePresets.BackdropsFor"/>: any under Essentiel, or without a preset) is not drawn.
+    /// </summary>
+    [Parameter]
+    public OmniThemeBackdrop? Backdrop { get; set; }
+
+    /// <summary>
+    /// Whether a backdrop that moves (Givre, Trou noir) may move; true by default. False holds the
+    /// field still (<c>data-omni-backdrop-motion="off"</c>). A still backdrop ignores it, and a system
+    /// set to reduce motion holds the field still whatever the value.
     /// </summary>
     [Parameter]
     public bool BackdropMotion { get; set; } = true;
@@ -125,7 +136,7 @@ public partial class OmniThemeScope
 
     /// <summary>
     /// Decides, from the parameters of the first render, whether the scope follows the user's
-    /// <see cref="OmniAppearanceState"/> (none of its six appearance parameters written), then applies them.
+    /// <see cref="OmniAppearanceState"/> (none of its seven appearance parameters written), then applies them.
     /// </summary>
     /// <param name="parameters">The parameters given by the renderer.</param>
     public override Task SetParametersAsync(ParameterView parameters)
@@ -134,7 +145,7 @@ public partial class OmniThemeScope
         {
             _decided = true;
             var hostControls = AppearanceFollower.Sets(parameters, nameof(Appearance), nameof(Density), nameof(Preset),
-                nameof(Palette), nameof(Font), nameof(BackdropMotion));
+                nameof(Palette), nameof(Font), nameof(Backdrop), nameof(BackdropMotion));
             _shared = AppearanceFollower.Start(SharedAppearance, hostControls, () => InvokeAsync(() =>
             {
                 FollowState();
@@ -187,6 +198,7 @@ public partial class OmniThemeScope
         Preset = state.Preset;
         Palette = state.Palette;
         Font = state.Font;
+        Backdrop = state.Backdrop;
         BackdropMotion = state.BackdropMotion;
     }
 
@@ -255,7 +267,7 @@ public partial class OmniThemeScope
         }
 
         var shared = _shared?.State;
-        var state = new SnapshotState(key, EffectiveAppearance, Density, BackdropMotion, Preset, Palette, Font,
+        var state = new SnapshotState(key, EffectiveAppearance, Density, BackdropMotion, Preset, Palette, Font, DrawnBackdrop,
             shared?.TextSizeLevel, shared?.ControlSizeLevel);
         if (state == _writtenSnapshot)
         {
@@ -288,13 +300,15 @@ public partial class OmniThemeScope
         OmniThemePreset? Preset,
         OmniThemePalette? Palette,
         OmniThemeFont? Font,
+        OmniThemeBackdrop? Backdrop,
         int? TextSizeLevel,
         int? ControlSizeLevel);
 
     /// <summary>Writes or clears the tokens when the look changed; true when it did.</summary>
     private async Task<bool> ApplyTokensAsync()
     {
-        var unchanged = ReferenceEquals(Preset, _appliedPreset) && ReferenceEquals(Palette, _appliedPalette) && ReferenceEquals(Font, _appliedFont);
+        var unchanged = ReferenceEquals(Preset, _appliedPreset) && ReferenceEquals(Palette, _appliedPalette) && ReferenceEquals(Font, _appliedFont)
+            && ReferenceEquals(DrawnBackdrop, _appliedBackdrop);
         if (unchanged && ((Preset is null && Palette is null && Font is null) || EffectiveAppearance == _appliedAppearance))
         {
             return false;
@@ -317,16 +331,27 @@ public partial class OmniThemeScope
         _appliedPreset = Preset;
         _appliedPalette = Palette;
         _appliedFont = Font;
+        _appliedBackdrop = DrawnBackdrop;
         _appliedAppearance = EffectiveAppearance;
         return true;
     }
 
     /// <summary>
-    /// The field a theme draws on a canvas rather than in CSS (`--omni-scope-canvas`, Trou noir's black
-    /// hole through `omni-black-hole.js`), or null for every other theme. The script reads the kind of the
-    /// mode drawn (black-hole, white-hole) from the scope's tokens, so a change of mode only repaints.
+    /// The backdrop the scope draws its preset over: <see cref="Backdrop"/> when the theme offers it, the
+    /// one the preset carries otherwise (its own); null without a preset, which paints no backdrop.
     /// </summary>
-    private string? CanvasField => Preset?.Shape.GetValueOrDefault("--omni-scope-canvas") is { } kind && kind != "none" ? kind : null;
+    private OmniThemeBackdrop? DrawnBackdrop => Preset is null ? null : AppearanceChoices.EffectiveBackdrop(Preset, Backdrop);
+
+    /// <summary>The preset as the scope draws it, over <see cref="DrawnBackdrop"/>; null without a preset.</summary>
+    private OmniThemePreset? DrawnPreset => Preset?.With(DrawnBackdrop!);
+
+    /// <summary>
+    /// The script of the field a backdrop draws on a canvas rather than in CSS (`--omni-scope-canvas`,
+    /// Trou noir's black hole through `omni-black-hole.js`), or null for every other one. The script reads
+    /// the kind of the mode drawn (black-hole, white-hole) from the scope's tokens, so a change of mode
+    /// only repaints.
+    /// </summary>
+    private string? CanvasField => BackdropCatalog.CanvasScriptFor(DrawnPreset?.Shape.GetValueOrDefault("--omni-scope-canvas"));
 
     /// <summary>
     /// Starts the canvas field when the theme asks for one, restarts it when the motion setting
@@ -336,7 +361,8 @@ public partial class OmniThemeScope
     /// </summary>
     private async Task SyncCanvasAsync(bool tokensChanged)
     {
-        if (CanvasField is null)
+        var script = CanvasField;
+        if (script is null)
         {
             if (_canvasRunning)
             {
@@ -351,7 +377,17 @@ public partial class OmniThemeScope
             return;
         }
 
-        _canvasModule ??= await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.BlackHole);
+        if (_canvasModule is not null && _canvasScript != script)
+        {
+            // Another canvas backdrop: the script of the previous one lets the canvas go first.
+            await _canvasModule.InvokeVoidAsync("stop", _canvas);
+            await _canvasModule.DisposeAsync();
+            _canvasModule = null;
+            _canvasRunning = false;
+        }
+
+        _canvasScript = script;
+        _canvasModule ??= await Internal.OmniScriptModule.ImportAsync(JavaScript, script);
         if (!_canvasRunning || _canvasMotion != BackdropMotion)
         {
             var drawn = await _canvasModule.InvokeAsync<bool>("start", _canvas, _element, BackdropMotion);
@@ -399,9 +435,9 @@ public partial class OmniThemeScope
 
     private (IReadOnlyDictionary<string, string>? Light, IReadOnlyDictionary<string, string>? Dark) ResolveColours()
     {
-        if (Preset is not null)
+        if (DrawnPreset is { } drawn)
         {
-            var painted = Palette is null ? Preset : Preset.With(Palette);
+            var painted = Palette is null ? drawn : drawn.With(Palette);
             return (painted.Light, painted.Dark);
         }
 

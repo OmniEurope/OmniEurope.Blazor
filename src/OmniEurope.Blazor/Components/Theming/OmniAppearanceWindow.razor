@@ -2,8 +2,8 @@
 @inherits OmniComponentBase
 
 @* The window of the look, one grid of rows laid two by two where it is wide enough: theme and palette
-   (the mode on its title line), font and density, then the text size and the size of the controls. The
-   motion of a theme that moves its field sits on the title line of the theme it belongs to. Modeless
+   (the mode on its title line), font and backdrop, density, then the text size and the size of the controls. The
+   motion of a backdrop that moves sits on the title line of the backdrop row (of the theme row without it). Modeless
    and draggable, so the page stays in view while the user tries a setting; each row shows only once the host binds its
    change, so the window never offers a setting that does nothing. Every row is a group named by its
    label, so its buttons are read with it. The footer holds the actions on the whole look: a random
@@ -19,7 +19,7 @@
                 {
                     <div class="omni-appearance-settings__row">
                         <span class="omni-appearance-settings__label" id="@RowId("theme")"><OmniIcon Name="OmniIconName.Layers" /> @Localize("SettingsTheme")</span>
-                        @if (ShowsBackdropMotion)
+                        @if (ShowsBackdropMotion && !BackdropChanged.HasDelegate)
                         {
                             @* On the title line, aligned to the end: the switch adds no height to the row. *@
                             @MotionSwitch
@@ -62,9 +62,26 @@
                         </div>
                     </div>
                 }
-                @if (ShowsBackdropMotion && !PresetChanged.HasDelegate)
+                @if (BackdropChanged.HasDelegate)
                 {
-                    @* No theme row to sit under: the motion keeps a row of its own. *@
+                    @* The backdrop drawn behind the page (review R1-2), right before the motion that animates
+                       it: the switch sits on the title line of this row, aligned to the end. Under Essentiel the
+                       list holds the plain page alone. *@
+                    <div class="omni-appearance-settings__row">
+                        <span class="omni-appearance-settings__label" id="@RowId("backdrop")"><OmniIcon Name="OmniIconName.Image" /> @Localize("SettingsBackdrop")</span>
+                        @if (ShowsBackdropMotion)
+                        {
+                            @MotionSwitch
+                        }
+                        <div class="omni-appearance-settings__actions" role="group" aria-labelledby="@RowId("backdrop")">
+                            <OmniDropDown TValue="string" Options="@BackdropOptions" @bind-Value:get="BackdropName" @bind-Value:set="SetBackdropAsync" Label="@Localize("SettingsBackdrop")" />
+                            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(Backdrop is null)" OnClick="ResetBackdropAsync"><Icon><OmniIcon Name="OmniIconName.Reset" /></Icon><ChildContent><span>@Localize("SettingsDefault")</span></ChildContent></OmniButton>
+                        </div>
+                    </div>
+                }
+                @if (ShowsBackdropMotion && !PresetChanged.HasDelegate && !BackdropChanged.HasDelegate)
+                {
+                    @* No theme nor backdrop row to sit under: the motion keeps a row of its own. *@
                     <div class="omni-appearance-settings__row">@MotionSwitch</div>
                 }
                 @if (DensityChanged.HasDelegate)

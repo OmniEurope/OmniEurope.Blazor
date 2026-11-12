@@ -28,6 +28,8 @@
   <data name="ContentWidthCentered" xml:space="preserve"><value>Keskel</value></data>
   <data name="ContentWidthFull" xml:space="preserve"><value>Täislaius</value></data>
   <data name="SettingsBackdropMotion" xml:space="preserve"><value>Animeeritud taust</value></data>
+  <data name="SettingsBackdrop" xml:space="preserve"><value>Taust</value></data>
+  <data name="SettingsBackdropNone" xml:space="preserve"><value>Puudub</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Juhtelementide suurus</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Vaikimisi</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Juhuslik</value></data>

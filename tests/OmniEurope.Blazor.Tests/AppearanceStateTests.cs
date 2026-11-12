@@ -409,7 +409,7 @@ public sealed class AppearanceStateTests : OmniBunitContext
             ControlSizeLevel = 3,
             FullWidth = true
         }, look);
-        Assert.Equal(new AppearancePreference(1, "Dark", "Givre", null, "Inter", "Compact", true, 5, 3, true), look.ToPreference());
+        Assert.Equal(new AppearancePreference(1, "Dark", "Givre", null, "Inter", null, "Compact", true, 5, 3, true), look.ToPreference());
     }
 
     [Fact]

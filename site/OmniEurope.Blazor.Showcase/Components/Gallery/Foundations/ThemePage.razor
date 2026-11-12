@@ -14,6 +14,7 @@
                                 Density="@Look.Density" DensityChanged="@SetDensityAsync"
                                 Font="@PreviewFont" FontChanged="@SetFont"
                                 FullWidth="@PreviewFullWidth" FullWidthChanged="@SetFullWidth"
+                                Backdrop="@Look.Backdrop" BackdropChanged="@SetBackdropAsync"
                                 BackdropMotion="@Look.BackdropMotion" BackdropMotionChanged="@SetBackdropMotionAsync" />
 
         <OmniSettingsSection Title="@Text["ThemeSettingsTitle"]" Description="@Text["ThemeSettingsDescription"]">
@@ -56,6 +57,7 @@
                               FullWidth="@PreviewFullWidth" FullWidthChanged="@SetFullWidth"
                               Preset="@Look.Theme" PresetChanged="@SetPresetAsync"
                               Palette="@PaletteSetting" PaletteChanged="@SetPaletteAsync"
+                              Backdrop="@Look.Backdrop" BackdropChanged="@SetBackdropAsync"
                               BackdropMotion="@Look.BackdropMotion" BackdropMotionChanged="@SetBackdropMotionAsync"
                               Title="@Text["ThemeWindowTitle"]" />
     </Settings>
@@ -104,7 +106,7 @@
                     </OmniRow>
                     <div class="gallery-theme-frame">
                         <ThemeScopeExample Appearance="ScopeAppearance" Density="ScopeDensity" Preset="Look.Theme" Palette="Look.Palette"
-                                           Font="PreviewFont" BackdropMotion="Look.BackdropMotion" FullWidth="PreviewFullWidth" />
+                                           Font="PreviewFont" Backdrop="Look.Backdrop" BackdropMotion="Look.BackdropMotion" FullWidth="PreviewFullWidth" />
                     </div>
                 </OmniStack>
             </ChildContent>

@@ -209,6 +209,9 @@ public partial class MainLayout : IAsyncDisposable
 
     private Task SetBackdropMotionAsync(bool moves) => Theme.SetBackdropMotionAsync(moves);
 
+    /// <summary>A backdrop draws the theme over it; null returns to the backdrop the theme comes with.</summary>
+    private Task SetBackdropAsync(OmniThemeBackdrop? backdrop) => Theme.SelectBackdropAsync(backdrop);
+
     private void OnLocationChanged(object? sender, LocationChangedEventArgs e) => InvokeAsync(StateHasChanged);
 
     private void OnThemeChanged() => InvokeAsync(StateHasChanged);

@@ -28,6 +28,8 @@
   <data name="ContentWidthCentered" xml:space="preserve"><value>Wyśrodkowana</value></data>
   <data name="ContentWidthFull" xml:space="preserve"><value>Pełna szerokość</value></data>
   <data name="SettingsBackdropMotion" xml:space="preserve"><value>Animowane tło</value></data>
+  <data name="SettingsBackdrop" xml:space="preserve"><value>Tło</value></data>
+  <data name="SettingsBackdropNone" xml:space="preserve"><value>Brak</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Rozmiar kontrolek</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Domyślnie</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Losowo</value></data>

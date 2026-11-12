@@ -28,6 +28,8 @@
   <data name="ContentWidthCentered" xml:space="preserve"><value>Centrēts</value></data>
   <data name="ContentWidthFull" xml:space="preserve"><value>Pilns platums</value></data>
   <data name="SettingsBackdropMotion" xml:space="preserve"><value>Animēts fons</value></data>
+  <data name="SettingsBackdrop" xml:space="preserve"><value>Fons</value></data>
+  <data name="SettingsBackdropNone" xml:space="preserve"><value>Nav</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Vadīklu lielums</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Noklusējums</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Nejauši</value></data>

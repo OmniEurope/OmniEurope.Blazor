@@ -8,7 +8,8 @@ namespace OmniEurope.Blazor.Internal;
 /// <param name="Description">One line describing the theme.</param>
 /// <param name="DefaultPalette">The name of the palette the theme is shown with by default.</param>
 /// <param name="Shape">
-/// Radii, border widths, shadows, fonts and the way buttons are drawn, laid over both modes.
+/// Radii, border widths, shadows, fonts and the way buttons are drawn, laid over both modes. The field
+/// behind the page is not part of it: it is the theme's backdrop (<paramref name="DefaultBackdrop"/>).
 /// </param>
 /// <param name="DarkShape">
 /// Shape tokens laid over the dark mode only, after <paramref name="Shape"/>: a black shadow at 10 %
@@ -21,6 +22,14 @@ namespace OmniEurope.Blazor.Internal;
 /// the focus ring, which stays mandatory everywhere.
 /// </param>
 /// <param name="DarkOnly">True for a theme drawn in dark mode only, whatever mode the host asks.</param>
+/// <param name="DefaultBackdrop">
+/// The name of the backdrop of <see cref="BackdropCatalog"/> the theme is drawn over by default, or null
+/// for the plain page (<see cref="BackdropCatalog.NoneName"/>).
+/// </param>
+/// <param name="OffersBackdrops">
+/// False for a theme that offers no backdrop at all, only the plain page (Essentiel, owner decision of
+/// 2026-11-12); true for every other theme, which offers every backdrop of the catalogue.
+/// </param>
 internal sealed record ThemeDefinition(
     string Name,
     string Description,
@@ -28,4 +37,6 @@ internal sealed record ThemeDefinition(
     IReadOnlyDictionary<string, string> Shape,
     IReadOnlyDictionary<string, string> DarkShape,
     string? ContrastWaiver = null,
-    bool DarkOnly = false);
+    bool DarkOnly = false,
+    string? DefaultBackdrop = null,
+    bool OffersBackdrops = true);

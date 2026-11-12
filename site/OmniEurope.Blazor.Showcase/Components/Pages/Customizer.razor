@@ -48,7 +48,15 @@
                           @bind-Value:get="Theme.Density" @bind-Value:set="SetDensityAsync" />
         </ChildContent>
     </OmniFormField>
-    @* Offered only under a theme that moves its colour field (Givre, Trou noir). *@
+    @* The backdrop the theme is drawn over (review R1-2): the plain page alone under Essentiel. *@
+    <OmniFormField For="workshop-backdrop">
+        <LabelContent>@Text["WorkshopBackdrop"]</LabelContent>
+        <ChildContent>
+            <OmniDropDown TValue="string" Id="workshop-backdrop" Options="BackdropOptions"
+                          @bind-Value:get="Theme.DrawnBackdrop.Name" @bind-Value:set="SelectBackdropAsync" />
+        </ChildContent>
+    </OmniFormField>
+    @* Offered only over a backdrop that moves its colour field (Givre, Trou noir). *@
     @if (Theme.MovesBackdrop)
     {
         <div class="showcase-workshop-bar__field">

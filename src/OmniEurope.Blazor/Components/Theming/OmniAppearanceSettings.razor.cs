@@ -2,15 +2,15 @@ namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Controlled appearance picker: the mode (light, dark, system) inline, then a row that opens the
-/// <see cref="OmniAppearanceWindow"/> for the theme, the palette with the mode, the font and the scales. The host
+/// <see cref="OmniAppearanceWindow"/> for the theme, the palette with the mode, the font, the backdrop and the scales. The host
 /// keeps every value and applies it to its theme scope; this component only raises the changes.
 /// </summary>
 /// <remarks>
-/// A new theme comes with its own palette and font: picking one raises <see cref="PresetChanged"/>, then
-/// <see cref="PaletteChanged"/> and <see cref="FontChanged"/> with null for a palette or a font chosen
+/// A new theme comes with its own palette, font and backdrop: picking one raises <see cref="PresetChanged"/>, then
+/// <see cref="PaletteChanged"/>, <see cref="FontChanged"/> and <see cref="BackdropChanged"/> with null for a palette, a font or a backdrop chosen
 /// for the previous theme, as <see cref="OmniAppearanceWindow"/> does.
 /// <para>
-/// Settings whose markup writes none of the eighteen appearance parameters (the nine values, from
+/// Settings whose markup writes none of the twenty appearance parameters (the ten values, from
 /// <see cref="Appearance"/> to <see cref="FullWidth"/>, and their change callbacks) follow the user's
 /// <see cref="OmniAppearanceState"/> instead, with every setting of the window: values read from the
 /// state, changes written to it. Writing any of them keeps the component controlled by the host, as
@@ -26,7 +26,7 @@ public partial class OmniAppearanceSettings : IDisposable
     private static readonly string[] AppearanceParameters =
     [
         nameof(Appearance), nameof(AppearanceChanged), nameof(Preset), nameof(PresetChanged), nameof(Palette), nameof(PaletteChanged),
-        nameof(Font), nameof(FontChanged), nameof(BackdropMotion), nameof(BackdropMotionChanged), nameof(TextSizeLevel),
+        nameof(Font), nameof(FontChanged), nameof(Backdrop), nameof(BackdropChanged), nameof(BackdropMotion), nameof(BackdropMotionChanged), nameof(TextSizeLevel),
         nameof(TextSizeLevelChanged), nameof(Density), nameof(DensityChanged), nameof(ControlSizeLevel), nameof(ControlSizeLevelChanged),
         nameof(FullWidth), nameof(FullWidthChanged)
     ];
@@ -70,6 +70,12 @@ public partial class OmniAppearanceSettings : IDisposable
 
     /// <summary>Raised with the font picked in the window, null for the theme's own; bound, the window shows the font row.</summary>
     [Parameter] public EventCallback<OmniThemeFont?> FontChanged { get; set; }
+
+    /// <summary>The chosen backdrop, or null for the one the theme is drawn over; the host applies it through <see cref="OmniThemeScope.Backdrop"/>.</summary>
+    [Parameter] public OmniThemeBackdrop? Backdrop { get; set; }
+
+    /// <summary>Raised with the backdrop picked in the window, null for the theme's own; bound, the window shows the backdrop row.</summary>
+    [Parameter] public EventCallback<OmniThemeBackdrop?> BackdropChanged { get; set; }
 
     /// <summary>
     /// Whether the theme may move its colour field; the host applies it through
@@ -170,6 +176,11 @@ public partial class OmniAppearanceSettings : IDisposable
         ? EventCallback.Factory.Create<OmniThemeFont?>(this, ChangeFontAsync)
         : default;
 
+    /// <summary>The window gets the backdrop change only when the host binds it, as it shows the row only then.</summary>
+    private EventCallback<OmniThemeBackdrop?> WindowBackdropChanged => BackdropChanged.HasDelegate
+        ? EventCallback.Factory.Create<OmniThemeBackdrop?>(this, ChangeBackdropAsync)
+        : default;
+
     /// <summary>The window gets the field motion change only when the host binds it, as it shows the row only then.</summary>
     private EventCallback<bool> WindowBackdropMotionChanged => BackdropMotionChanged.HasDelegate
         ? EventCallback.Factory.Create<bool>(this, ChangeBackdropMotionAsync)
@@ -227,6 +238,8 @@ public partial class OmniAppearanceSettings : IDisposable
         PaletteChanged = EventCallback.Factory.Create<OmniThemePalette?>(this, state.SetPaletteAsync);
         Font = state.Font;
         FontChanged = EventCallback.Factory.Create<OmniThemeFont?>(this, state.SetFontAsync);
+        Backdrop = state.Backdrop;
+        BackdropChanged = EventCallback.Factory.Create<OmniThemeBackdrop?>(this, state.SetBackdropAsync);
         BackdropMotion = state.BackdropMotion;
         BackdropMotionChanged = EventCallback.Factory.Create<bool>(this, state.SetBackdropMotionAsync);
         TextSizeLevel = state.TextSizeLevel;
@@ -270,6 +283,8 @@ public partial class OmniAppearanceSettings : IDisposable
     private Task ChangePaletteAsync(OmniThemePalette? palette) => PaletteChanged.InvokeAsync(palette);
 
     private Task ChangeFontAsync(OmniThemeFont? font) => FontChanged.InvokeAsync(font);
+
+    private Task ChangeBackdropAsync(OmniThemeBackdrop? backdrop) => BackdropChanged.InvokeAsync(backdrop);
 
     private Task ChangeBackdropMotionAsync(bool moves) => BackdropMotionChanged.InvokeAsync(moves);
 

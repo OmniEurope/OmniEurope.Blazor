@@ -13,6 +13,7 @@ internal sealed record AppearanceLook(
     OmniThemePreset? Preset,
     OmniThemePalette? Palette,
     OmniThemeFont? Font,
+    OmniThemeBackdrop? Backdrop,
     OmniDensity Density,
     bool BackdropMotion,
     int TextSizeLevel,
@@ -29,11 +30,11 @@ internal sealed record AppearanceLook(
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
 
     internal static AppearanceLook Default { get; } = new(
-        OmniAppearance.System, null, null, null, OmniDensity.Comfortable, true, DefaultLevel, DefaultLevel, false);
+        OmniAppearance.System, null, null, null, null, OmniDensity.Comfortable, true, DefaultLevel, DefaultLevel, false);
 
     /// <summary>The preference written for this look: names for the catalogue entries and the enumerations.</summary>
     internal AppearancePreference ToPreference() => new(
-        Version, Appearance.ToString(), Preset?.Name, Palette?.Name, Font?.Name, Density.ToString(),
+        Version, Appearance.ToString(), Preset?.Name, Palette?.Name, Font?.Name, Backdrop?.Name, Density.ToString(),
         BackdropMotion, TextSizeLevel, ControlSizeLevel, FullWidth);
 
     /// <summary>The look a stored JSON value reads as; a value that does not parse reads as the defaults.</summary>
@@ -70,6 +71,7 @@ internal sealed record AppearanceLook(
             OmniThemePresets.All.FirstOrDefault(theme => theme.Name == preference.Preset),
             OmniThemePalettes.All.FirstOrDefault(palette => palette.Name == preference.Palette),
             OmniThemeFonts.All.FirstOrDefault(font => font.Name == preference.Font),
+            OmniThemeBackdrops.All.FirstOrDefault(backdrop => backdrop.Name == preference.Backdrop),
             Named<OmniDensity>(preference.Density) ?? Default.Density,
             preference.BackdropMotion ?? Default.BackdropMotion,
             Level(preference.TextSize),
@@ -108,6 +110,7 @@ internal sealed record AppearancePreference(
     string? Preset,
     string? Palette,
     string? Font,
+    string? Backdrop,
     string? Density,
     bool? BackdropMotion,
     int? TextSize,

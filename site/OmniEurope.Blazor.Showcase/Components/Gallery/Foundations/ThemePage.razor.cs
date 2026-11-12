@@ -90,6 +90,9 @@ public partial class ThemePage : IDisposable
 
     private Task SetBackdropMotionAsync(bool moves) => Look.SetBackdropMotionAsync(moves);
 
+    /// <summary>A backdrop picked in the settings or in the window; null returns to the backdrop of the theme.</summary>
+    private Task SetBackdropAsync(OmniThemeBackdrop? backdrop) => Look.SelectBackdropAsync(backdrop);
+
     private void SetFont(OmniThemeFont? font) => PreviewFont = font;
 
     private void SetFullWidth(bool fullWidth) => PreviewFullWidth = fullWidth;

@@ -135,6 +135,14 @@ public partial class Customizer : IDisposable
 
     private Task SetBackdropMotionAsync(bool moves) => Theme.SetBackdropMotionAsync(moves);
 
+    /// <summary>The backdrops the theme offers, by name; the plain page reads in the visitor's language.</summary>
+    private IReadOnlyList<OmniOption<string>> BackdropOptions =>
+        [.. OmniThemePresets.BackdropsFor(Theme.Theme).Select(backdrop => new OmniOption<string>(
+            backdrop.Name, ReferenceEquals(backdrop, OmniThemeBackdrops.None) ? Text["WorkshopBackdropNone"].Value : backdrop.Name))];
+
+    private Task SelectBackdropAsync(string? name) =>
+        Theme.SelectBackdropAsync(OmniThemePresets.BackdropsFor(Theme.Theme).FirstOrDefault(backdrop => backdrop.Name == name));
+
     private void OnThemeChanged() => InvokeAsync(StateHasChanged);
 
     private async Task ApplyAsync(ThemeToken token, ChangeEventArgs args)

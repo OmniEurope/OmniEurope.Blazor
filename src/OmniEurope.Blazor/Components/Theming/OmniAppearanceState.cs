@@ -5,7 +5,7 @@ using OmniEurope.Blazor.Internal;
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
-/// The user's appearance (mode, theme, palette, font, density, backdrop motion, text size, size of the
+/// The user's appearance (mode, theme, palette, font, backdrop, density, backdrop motion, text size, size of the
 /// controls, content width), kept as one user preference through <see cref="OmniPreferences"/>, under
 /// <see cref="PreferenceKey"/>. Registered as scoped by <c>AddOmniEuropeBlazor</c>.
 /// </summary>
@@ -20,10 +20,10 @@ namespace OmniEurope.Blazor.Components;
 /// </para>
 /// <para>
 /// The defaults are the parameter defaults of those components: system mode, the shipped theme,
-/// comfortable density, a moving backdrop, levels 5 and the host's centred column. The preference is
+/// the theme's own backdrop, comfortable density, a moving backdrop, levels 5 and the host's centred column. The preference is
 /// JSON with the enumerations and the catalogue entries (<see cref="OmniThemePresets"/>,
-/// <see cref="OmniThemePalettes"/>, <see cref="OmniThemeFonts"/>) by name; a name the catalogue does not
-/// hold, or a level out of 1 to 10, keeps that setting's default. A theme, palette or font built by the
+/// <see cref="OmniThemePalettes"/>, <see cref="OmniThemeFonts"/>, <see cref="OmniThemeBackdrops"/>) by name; a name the catalogue does not
+/// hold, or a level out of 1 to 10, keeps that setting's default. A theme, palette, font or backdrop built by the
 /// host holds for the session but reads back as the default.
 /// </para>
 /// <para>
@@ -74,6 +74,9 @@ public sealed class OmniAppearanceState : IDisposable
 
     /// <summary>The font, or null for the one the theme is drawn with.</summary>
     public OmniThemeFont? Font => _look.Font;
+
+    /// <summary>The backdrop, or null for the theme's own (<see cref="OmniThemePresets.DefaultBackdropFor"/>).</summary>
+    public OmniThemeBackdrop? Backdrop => _look.Backdrop;
 
     /// <summary>The density; <see cref="OmniDensity.Comfortable"/> by default.</summary>
     public OmniDensity Density => _look.Density;
@@ -134,11 +137,11 @@ public sealed class OmniAppearanceState : IDisposable
         return UpdateAsync(look => look with { Appearance = appearance });
     }
 
-    /// <summary>Sets the theme; a new theme drops the palette and the font chosen for the previous one.</summary>
+    /// <summary>Sets the theme; a new theme drops the palette, the font and the backdrop chosen for the previous one.</summary>
     /// <param name="preset">The theme, or null for the shipped one.</param>
     /// <returns>A task that completes once the preference is written.</returns>
     public Task SetPresetAsync(OmniThemePreset? preset) =>
-        UpdateAsync(look => Equals(look.Preset, preset) ? look : look with { Preset = preset, Palette = null, Font = null });
+        UpdateAsync(look => Equals(look.Preset, preset) ? look : look with { Preset = preset, Palette = null, Font = null, Backdrop = null });
 
     /// <summary>Sets the palette.</summary>
     /// <param name="palette">The palette, or null for the theme's own.</param>
@@ -149,6 +152,11 @@ public sealed class OmniAppearanceState : IDisposable
     /// <param name="font">The font, or null for the theme's own.</param>
     /// <returns>A task that completes once the preference is written.</returns>
     public Task SetFontAsync(OmniThemeFont? font) => UpdateAsync(look => look with { Font = font });
+
+    /// <summary>Sets the backdrop the theme is drawn over.</summary>
+    /// <param name="backdrop">The backdrop, or null for the theme's own.</param>
+    /// <returns>A task that completes once the preference is written.</returns>
+    public Task SetBackdropAsync(OmniThemeBackdrop? backdrop) => UpdateAsync(look => look with { Backdrop = backdrop });
 
     /// <summary>Sets the density.</summary>
     /// <param name="density">A defined <see cref="OmniDensity"/>.</param>

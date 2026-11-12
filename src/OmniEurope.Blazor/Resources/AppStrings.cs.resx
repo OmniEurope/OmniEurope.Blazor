@@ -28,6 +28,8 @@
   <data name="ContentWidthCentered" xml:space="preserve"><value>Na střed</value></data>
   <data name="ContentWidthFull" xml:space="preserve"><value>Plná šířka</value></data>
   <data name="SettingsBackdropMotion" xml:space="preserve"><value>Animované pozadí</value></data>
+  <data name="SettingsBackdrop" xml:space="preserve"><value>Pozadí</value></data>
+  <data name="SettingsBackdropNone" xml:space="preserve"><value>Žádné</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Velikost ovládacích prvků</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Výchozí</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Náhodně</value></data>

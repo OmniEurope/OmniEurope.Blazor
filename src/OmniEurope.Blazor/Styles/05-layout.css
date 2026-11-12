@@ -626,8 +626,8 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
     .omni-progress--indeterminate .omni-progress__indicator { background: currentColor; opacity: 0.45; transform: none; width: 100%; }
 }
 
-/* A theme may move its colour field (Givre, Trou noir). --omni-scope-turn is an angle that makes one
-   turn per cycle; the theme reads it in its --omni-backdrop (the orbit of a colour orb, the origin of a
+/* A backdrop may move its colour field (Givre, Trou noir). --omni-scope-turn is an angle that makes one
+   turn per cycle; the backdrop reads it in its --omni-backdrop (the orbit of a colour orb, the origin of a
    ring). Both are registered as not inherited: the angle then interpolates, and neither it nor the
    field it moves is recomputed on every element of the scope at each step. Without @property the
    angle jumps from nothing to a full turn, the same picture, so the field stays still. */
@@ -669,12 +669,13 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
     color: var(--omni-color-text);
     font-family: var(--omni-font-family);
 }
-/* A theme may draw its field on a canvas where a background cannot (--omni-scope-canvas, Trou noir's
+/* A backdrop may draw its field on a canvas where a background cannot (--omni-scope-canvas, Trou noir's
    lensed black hole, omni-black-hole.js): fixed to the viewport under the content of the isolated
-   scope, taking no pointer. While it draws, the scope drops the CSS field it replaces; without WebGL the
-   canvas stays empty and that field shows. */
+   scope, taking no pointer. While it draws, the scope drops the CSS field it replaces and isolates, so the
+   canvas sits above its page whatever the theme the backdrop is drawn under (Trou noir's own isolates
+   already, review R1-2); without WebGL the canvas stays empty and that field shows. */
 .omni-theme-scope__canvas { block-size: 100vh; inline-size: 100vw; inset: 0; pointer-events: none; position: fixed; z-index: -1; }
-.omni-theme-scope--canvas { background-image: none; }
+.omni-theme-scope--canvas { background-image: none; isolation: isolate; }
 /* The field stands still when the scope asks for it (OmniThemeScope.BackdropMotion) and whenever the
    user asked the system for less motion. */
 .omni-theme-scope[data-omni-backdrop-motion="off"] { animation: none; }

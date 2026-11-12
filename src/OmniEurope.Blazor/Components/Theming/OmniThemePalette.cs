@@ -5,7 +5,7 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 /// <remarks>
 /// Any palette paints any theme: hand it to <see cref="OmniThemeScope.Palette"/> next to a
-/// <see cref="OmniThemeScope.Preset"/>, or combine them yourself with <see cref="OmniThemePreset.With"/>.
+/// <see cref="OmniThemeScope.Preset"/>, or combine them yourself with <see cref="OmniThemePreset.With(OmniThemePalette)"/>.
 /// Given alone to a scope, it changes the colours and keeps the shipped shape.
 /// </remarks>
 /// <param name="Name">The palette name as shown in a picker.</param>

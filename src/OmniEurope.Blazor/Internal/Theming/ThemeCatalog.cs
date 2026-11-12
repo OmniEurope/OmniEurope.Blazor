@@ -51,7 +51,9 @@ internal static class ThemeCatalog
                 ("--omni-overlay-shadow", "var(--omni-layer-shadow-deep)"),
                 ("--omni-button-font-weight", "500"), ("--omni-heading-font-weight", "600"),
                 ("--omni-font-family", Sans)),
-            Shape()),
+            Shape(),
+            // Owner decision of 2026-11-12 (review R1-2): the default theme draws no backdrop and offers none.
+            OffersBackdrops: false),
 
         new("Ardoise", "Angles vifs, aucune ombre, capitales espacées.", "Océan",
             Shape(
@@ -258,12 +260,6 @@ internal static class ThemeCatalog
                 ("--omni-button-press-transform", "scale(0.96)"), ("--omni-button-press-shadow", "inset 0 0.125rem 0.5rem rgb(0 0 0 / 20%)"),
                 ("--omni-radius", "0.875rem"), ("--omni-radius-sm", "0.625rem"), ("--omni-radius-lg", "1.5rem"),
                 ("--omni-button-radius", "999px"), ("--omni-card-radius", "1.5rem"), ("--omni-alert-radius", "1.125rem"),
-                ("--omni-backdrop-start", "color-mix(in srgb, var(--omni-color-info-fill) 42%, var(--omni-color-surface))"),
-                ("--omni-backdrop-middle", "color-mix(in srgb, var(--omni-color-accent-fill) 34%, var(--omni-color-surface))"),
-                ("--omni-backdrop-end", "color-mix(in srgb, var(--omni-color-success-fill) 34%, var(--omni-color-surface))"),
-                ("--omni-backdrop-glow", "color-mix(in srgb, var(--omni-color-warning-fill) 36%, var(--omni-color-surface))"),
-                ("--omni-backdrop", GivreField),
-                ("--omni-scope-motion", "omni-scope-turn 120s linear infinite"),
                 ("--omni-shell-background", "color-mix(in srgb, var(--omni-color-surface) 62%, transparent)"),
                 // One hook frosts every card surface; the scope isolates so the frost paints just above the field.
                 ("--omni-scope-isolation", "isolate"),
@@ -296,10 +292,6 @@ internal static class ThemeCatalog
                 ("--omni-button-font-weight", "500"), ("--omni-heading-font-weight", "600"),
                 ("--omni-font-family", Sans)),
             Shape(
-                ("--omni-backdrop-start", "color-mix(in srgb, var(--omni-color-info-fill) 50%, var(--omni-color-surface))"),
-                ("--omni-backdrop-middle", "color-mix(in srgb, var(--omni-color-accent-fill) 58%, var(--omni-color-surface))"),
-                ("--omni-backdrop-end", "color-mix(in srgb, var(--omni-color-success-fill) 40%, var(--omni-color-surface))"),
-                ("--omni-backdrop-glow", "color-mix(in srgb, var(--omni-color-danger-fill) 26%, var(--omni-color-surface))"),
                 ("--omni-shell-background", "color-mix(in srgb, var(--omni-color-surface) 50%, transparent)"),
                 ("--omni-color-text-muted", "color-mix(in srgb, var(--omni-color-text) 80%, var(--omni-color-surface))"),
                 ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 28%, transparent)"),
@@ -318,7 +310,8 @@ internal static class ThemeCatalog
                 ("--omni-overlay-background", "color-mix(in srgb, var(--omni-color-surface) 76%, transparent)"),
                 ("--omni-color-overlay", "rgb(0 0 0 / 45%)"),
                 ("--omni-overlay-shadow", "inset 0 1px 0 rgb(255 255 255 / 12%), 0 1.25rem 3rem rgb(0 0 0 / 48%)")),
-            ContrastWaiver: "Panneaux translucides sur un fond coloré : la lisibilité dépend du fond, les seuils WCAG ne sont pas garantis."),
+            ContrastWaiver: "Panneaux translucides sur un fond coloré : la lisibilité dépend du fond, les seuils WCAG ne sont pas garantis.",
+            DefaultBackdrop: "Givre"),
 
         // Flat design: no shadow, no gradient, no relief anywhere; solid colour fields, pill buttons,
         // large rounded cards told apart by their fill alone, and a press that only changes the fill. Below the
@@ -395,7 +388,7 @@ internal static class ThemeCatalog
         // A black hole, the same in both modes but turned over (owner decision of 2026-10-09: its light half is
         // the white hole tried in review R1-3, no theme of its own). High on the right, the horizon is a disc
         // ringed by a thin photon ring, its accretion disc tilted down to the left and bent by the hole, the
-        // far side arching over the horizon (a WebGL shader, omni-black-hole.js). Dark, the page is the
+        // far side arching over the horizon (its own backdrop, TrouNoirBackdrop, review R1-2). Dark, the page is the
         // palette's surface taken three quarters of the way to black and the disc is drawn in light, white
         // hot at the inner edge then the accent; light, the page is the surface a quarter of the way to
         // white and the shader draws the same disc in ink, its colours inverted (black-hole and white-hole,
@@ -408,23 +401,14 @@ internal static class ThemeCatalog
                 ("--omni-button-press-transform", "scale(0.96)"), ("--omni-button-press-shadow", "inset 0 0 0.75rem rgb(0 0 0 / 18%)"),
                 ("--omni-radius", "0.5rem"), ("--omni-radius-sm", "0.375rem"), ("--omni-radius-lg", "0.875rem"),
                 ("--omni-button-radius", "0.5rem"), ("--omni-card-radius", "0.875rem"), ("--omni-alert-radius", "0.625rem"),
-                // The field without WebGL: the stops are drawn from the text over the surface (a theme writes no
-                // colour of its own), a sober ring around a horizon of the page colour; the rule, the neutral
-                // badge and the text still read on them with every palette.
-                ("--omni-backdrop-disk", "color-mix(in srgb, var(--omni-color-text) 9%, var(--omni-color-surface))"),
                 // A firmer rule than the palette's, for its floor on the stops of the field: on a light page they
                 // sit closer to it than on a black one.
                 ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 40%, var(--omni-color-surface))"),
-                ("--omni-backdrop", TrouNoirField),
-                // The lensed hole is drawn by a shader on the scope's canvas, which a background cannot do; the
-                // field above is what shows without WebGL. Light, the disc is ink on the page.
-                ("--omni-scope-canvas", "white-hole"),
                 // The page a quarter of the way from the surface to white, a neutral white as the shadows are
                 // neutral black: the shader's ink reads on it, and text and fills, measured against the
                 // surface, only gain contrast.
                 ("--omni-scope-page", "color-mix(in srgb, var(--omni-color-surface) 75%, rgb(255 255 255 / 100%))"),
                 ("--omni-scope-isolation", "isolate"),
-                ("--omni-scope-motion", "omni-scope-turn 120s linear infinite"),
                 ("--omni-card-background", "color-mix(in srgb, var(--omni-color-surface) 78%, transparent)"),
                 ("--omni-card-border-color", "color-mix(in srgb, var(--omni-color-text) 12%, transparent)"),
                 ("--omni-card-shadow", "0 1px 3px rgb(0 0 0 / 6%)"),
@@ -442,7 +426,6 @@ internal static class ThemeCatalog
                 // Dark: the light falls in, the button shrinks and darkens from its edge.
                 ("--omni-button-press-shadow", "inset 0 0 0.75rem rgb(0 0 0 / 55%)"),
                 ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 36%, var(--omni-color-surface))"),
-                ("--omni-scope-canvas", "black-hole"),
                 // A deep black page whatever the palette: its dark surface three quarters of the way to black
                 // (owner decision of 2026-10-02), a neutral black as the shadows are.
                 ("--omni-scope-page", "color-mix(in srgb, var(--omni-color-surface) 25%, rgb(0 0 0 / 100%))"),
@@ -456,7 +439,8 @@ internal static class ThemeCatalog
                 // The grid stays at 3 %: its header darkens the frame by 6 % more, and muted titles must still
                 // read there.
                 ("--omni-grid-background", "color-mix(in srgb, var(--omni-color-text) 3%, var(--omni-color-surface))"),
-                ("--omni-dialog-background", "color-mix(in srgb, var(--omni-color-text) 5%, var(--omni-color-surface))"))),
+                ("--omni-dialog-background", "color-mix(in srgb, var(--omni-color-text) 5%, var(--omni-color-surface))")),
+            DefaultBackdrop: "Trou noir"),
     ];
 
     /// <summary>
@@ -474,33 +458,6 @@ internal static class ThemeCatalog
     /// scrolling list): 2 px of solid accent within the edge.
     /// </summary>
     private const string FocusRingInset = "inset 0 0 0 2px var(--omni-color-accent)";
-
-    /// <summary>The angle the scope turns once per cycle of a moving field (see the stylesheet, <c>--omni-scope-turn</c>).</summary>
-    private const string Turn = "var(--omni-scope-turn)";
-
-    /// <summary>
-    /// Givre's colour field: four very large orbs (lavender, a warm glow, sky and mint: the stops the
-    /// contrast checks measure), each fading from its centre with no hard core and sized on the
-    /// viewport, so they overlap under the content instead of staying in the corners. Laid as radial
-    /// gradients over a base that drifts from the page towards the information hue, pinned to the
-    /// viewport by the scope, so the frosted panes scroll over it. The centre of each orb rides a
-    /// small orbit read from the scope's turning angle: with the motion off the angle is zero and the
-    /// field is still.
-    /// </summary>
-    private const string GivreField =
-        $"radial-gradient(circle at calc(14% + 5% * cos({Turn})) calc(10% + 6% * sin({Turn})), var(--omni-backdrop-middle) 0, transparent 46vmax), "
-        + $"radial-gradient(circle at calc(90% + 4% * sin({Turn})) calc(6% + 5% * cos({Turn})), var(--omni-backdrop-glow) 0, transparent 30vmax), "
-        + $"radial-gradient(circle at calc(30% + 6% * sin({Turn} * 2)) calc(66% + 5% * cos({Turn})), var(--omni-backdrop-start) 0, transparent 44vmax), "
-        + $"radial-gradient(circle at calc(88% + 5% * cos({Turn})) calc(82% + 6% * sin({Turn} * 2)), var(--omni-backdrop-end) 0, transparent 48vmax), "
-        + "linear-gradient(160deg, var(--omni-color-surface), color-mix(in srgb, var(--omni-color-info-fill) 8%, var(--omni-color-surface)))";
-
-    /// <summary>
-    /// Trou noir's field without WebGL, where the shader puts the hole (high on the right, a shadow of
-    /// 9vmax): the horizon in the page colour and its thin photon ring, with no halo around them.
-    /// </summary>
-    private const string TrouNoirField =
-        "radial-gradient(circle at 76% 26%, var(--omni-color-surface) 0 9vmax, transparent 9.1vmax), "
-        + "radial-gradient(circle at 76% 26%, transparent 0 9.05vmax, var(--omni-backdrop-disk) 9.3vmax, transparent 10.4vmax)";
 
     /// <summary>
     /// Relief's dark shadow in light mode: the page darkened, so the shadow keeps the hue of the

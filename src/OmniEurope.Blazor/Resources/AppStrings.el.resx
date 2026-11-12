@@ -28,6 +28,8 @@
   <data name="ContentWidthCentered" xml:space="preserve"><value>Στο κέντρο</value></data>
   <data name="ContentWidthFull" xml:space="preserve"><value>Πλήρες πλάτος</value></data>
   <data name="SettingsBackdropMotion" xml:space="preserve"><value>Κινούμενο φόντο</value></data>
+  <data name="SettingsBackdrop" xml:space="preserve"><value>Φόντο</value></data>
+  <data name="SettingsBackdropNone" xml:space="preserve"><value>Κανένα</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Μέγεθος στοιχείων ελέγχου</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Προεπιλογή</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Τυχαία</value></data>

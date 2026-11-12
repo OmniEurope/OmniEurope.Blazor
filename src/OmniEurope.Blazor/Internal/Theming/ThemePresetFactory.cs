@@ -48,17 +48,22 @@ internal static class ThemePresetFactory
             BuildColors(palette, OmniAppearance.Dark));
     }
 
-    /// <summary>Builds a theme painted with the given palette.</summary>
-    public static OmniThemePreset CreatePreset(ThemeDefinition theme, OmniThemePalette palette)
+    /// <summary>
+    /// Builds a theme painted with the given palette and drawn over the given backdrop, its own: the
+    /// backdrop's tokens join the theme's shape, so a theme of the catalogue carries them as it always did.
+    /// </summary>
+    public static OmniThemePreset CreatePreset(ThemeDefinition theme, OmniThemePalette palette, OmniThemeBackdrop backdrop)
     {
         ArgumentNullException.ThrowIfNull(theme);
         ArgumentNullException.ThrowIfNull(palette);
+        ArgumentNullException.ThrowIfNull(backdrop);
         var bare = new OmniThemePreset(theme.Name, theme.Description, palette.Light, palette.Dark)
         {
-            Shape = theme.Shape,
-            DarkShape = theme.DarkShape,
+            Shape = OmniThemePreset.Merge(theme.Shape, backdrop.Shape),
+            DarkShape = OmniThemePreset.Merge(theme.DarkShape, backdrop.DarkShape),
             ContrastWaiver = theme.ContrastWaiver,
             DarkOnly = theme.DarkOnly,
+            Backdrop = backdrop,
         };
         return bare.With(palette);
     }

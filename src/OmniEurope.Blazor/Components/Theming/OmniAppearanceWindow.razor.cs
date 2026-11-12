@@ -8,12 +8,12 @@ namespace OmniEurope.Blazor.Components;
 /// <see cref="Open"/>; <see cref="OmniAppearanceSettings"/> opens the same window from its look row.
 /// </summary>
 /// <remarks>
-/// A new theme comes with its own palette and font: picking one here raises <see cref="PresetChanged"/>,
-/// then <see cref="PaletteChanged"/> and <see cref="FontChanged"/> with null for a palette or a font
+/// A new theme comes with its own palette, font and backdrop: picking one here raises <see cref="PresetChanged"/>,
+/// then <see cref="PaletteChanged"/>, <see cref="FontChanged"/> and <see cref="BackdropChanged"/> with null for a palette, a font or a backdrop
 /// chosen for the previous theme (when they are bound), exactly as <see cref="OmniAppearanceSettings"/>
 /// does. The host only stores what it receives.
 /// <para>
-/// A window whose markup writes none of the eighteen appearance parameters (the nine values, from
+/// A window whose markup writes none of the twenty appearance parameters (the ten values, from
 /// <see cref="Appearance"/> to <see cref="FullWidth"/>, and their change callbacks) follows the user's
 /// <see cref="OmniAppearanceState"/> instead: it shows every row, reads the values from the state and
 /// writes the changes to it, so the host only opens it (<see cref="Open"/>). Writing any of them keeps
@@ -30,7 +30,7 @@ public partial class OmniAppearanceWindow : IDisposable
     private static readonly string[] AppearanceParameters =
     [
         nameof(Appearance), nameof(AppearanceChanged), nameof(Preset), nameof(PresetChanged), nameof(Palette), nameof(PaletteChanged),
-        nameof(Font), nameof(FontChanged), nameof(BackdropMotion), nameof(BackdropMotionChanged), nameof(TextSizeLevel),
+        nameof(Font), nameof(FontChanged), nameof(Backdrop), nameof(BackdropChanged), nameof(BackdropMotion), nameof(BackdropMotionChanged), nameof(TextSizeLevel),
         nameof(TextSizeLevelChanged), nameof(Density), nameof(DensityChanged), nameof(ControlSizeLevel), nameof(ControlSizeLevelChanged),
         nameof(FullWidth), nameof(FullWidthChanged)
     ];
@@ -89,15 +89,30 @@ public partial class OmniAppearanceWindow : IDisposable
     public EventCallback<OmniThemeFont?> FontChanged { get; set; }
 
     /// <summary>
-    /// Whether the theme may move its colour field; the host applies it through
+    /// The chosen backdrop, or null for the one the theme is drawn over; the host applies it through
+    /// <see cref="OmniThemeScope.Backdrop"/>.
+    /// </summary>
+    [Parameter]
+    public OmniThemeBackdrop? Backdrop { get; set; }
+
+    /// <summary>
+    /// Raised with the backdrop picked, null for the theme's own; bound, it shows the backdrop row, which
+    /// offers the backdrops of <see cref="OmniThemePresets.BackdropsFor"/> (only the plain page under Essentiel).
+    /// </summary>
+    [Parameter]
+    public EventCallback<OmniThemeBackdrop?> BackdropChanged { get; set; }
+
+    /// <summary>
+    /// Whether the backdrop may move its colour field; the host applies it through
     /// <see cref="OmniThemeScope.BackdropMotion"/>. True by default.
     /// </summary>
     [Parameter]
     public bool BackdropMotion { get; set; } = true;
 
     /// <summary>
-    /// Raised with the choice; bound, it shows the row under a theme that moves its field (Givre,
-    /// Trou noir), and under no other: the setting would do nothing there.
+    /// Raised with the choice; bound, it shows the switch over a backdrop that moves (Givre, Trou noir),
+    /// and over no other: the setting would do nothing there. It sits on the title line of the backdrop
+    /// row when that row shows, of the theme row otherwise.
     /// </summary>
     [Parameter]
     public EventCallback<bool> BackdropMotionChanged { get; set; }
@@ -150,7 +165,7 @@ public partial class OmniAppearanceWindow : IDisposable
     /// The look as the host passed it: what <see cref="ResetAllAsync"/> compares with the defaults and
     /// what the window keeps when it opens.
     /// </summary>
-    private Look Current => new(Appearance, Preset, Palette, Font, BackdropMotion, TextSizeLevel, Density, ControlSizeLevel, FullWidth);
+    private Look Current => new(Appearance, Preset, Palette, Font, Backdrop, BackdropMotion, TextSizeLevel, Density, ControlSizeLevel, FullWidth);
 
     private bool IsDefaultLook => Current == Look.Default;
 
@@ -219,6 +234,8 @@ public partial class OmniAppearanceWindow : IDisposable
         PaletteChanged = EventCallback.Factory.Create<OmniThemePalette?>(this, state.SetPaletteAsync);
         Font = state.Font;
         FontChanged = EventCallback.Factory.Create<OmniThemeFont?>(this, state.SetFontAsync);
+        Backdrop = state.Backdrop;
+        BackdropChanged = EventCallback.Factory.Create<OmniThemeBackdrop?>(this, state.SetBackdropAsync);
         BackdropMotion = state.BackdropMotion;
         BackdropMotionChanged = EventCallback.Factory.Create<bool>(this, state.SetBackdropMotionAsync);
         TextSizeLevel = state.TextSizeLevel;
@@ -255,7 +272,7 @@ public partial class OmniAppearanceWindow : IDisposable
     private Task ResetAllAsync() => ApplyLookAsync(Look.Default);
 
     /// <summary>
-    /// Raises the change of every bound setting that differs from <paramref name="look"/>. The palette and
+    /// Raises the change of every bound setting that differs from <paramref name="look"/>. The palette, the backdrop and
     /// the font follow a new theme even when they look unchanged, since the host drops them with it.
     /// </summary>
     private Task ApplyLookAsync(Look look) => InBatchAsync(() => ApplyLookCoreAsync(look));
@@ -274,6 +291,7 @@ public partial class OmniAppearanceWindow : IDisposable
         await RaiseAsync(PresetChanged, themeChanged, look.Preset);
         await RaiseAsync(PaletteChanged, themeChanged || !Equals(current.Palette, look.Palette), look.Palette);
         await RaiseAsync(FontChanged, themeChanged || !Equals(current.Font, look.Font), look.Font);
+        await RaiseAsync(BackdropChanged, themeChanged || !Equals(current.Backdrop, look.Backdrop), look.Backdrop);
         await RaiseAsync(BackdropMotionChanged, current.BackdropMotion != look.BackdropMotion, look.BackdropMotion);
         await RaiseAsync(TextSizeLevelChanged, current.TextSizeLevel != look.TextSizeLevel, look.TextSizeLevel);
         await RaiseAsync(DensityChanged, current.Density != look.Density, look.Density);
@@ -285,9 +303,9 @@ public partial class OmniAppearanceWindow : IDisposable
     private static Task RaiseAsync<T>(EventCallback<T> changed, bool differs, T value) =>
         changed.HasDelegate && differs ? changed.InvokeAsync(value) : Task.CompletedTask;
 
-    private bool ShowsBackdropMotion => BackdropMotionChanged.HasDelegate && AppearanceChoices.MovesBackdrop(Preset);
+    private bool ShowsBackdropMotion => BackdropMotionChanged.HasDelegate && AppearanceChoices.MovesBackdrop(Preset, Backdrop);
 
-    private bool ShowsRows => AppearanceChanged.HasDelegate || PresetChanged.HasDelegate || PaletteChanged.HasDelegate || FontChanged.HasDelegate || ShowsBackdropMotion
+    private bool ShowsRows => AppearanceChanged.HasDelegate || PresetChanged.HasDelegate || PaletteChanged.HasDelegate || FontChanged.HasDelegate || BackdropChanged.HasDelegate || ShowsBackdropMotion
         || TextSizeLevelChanged.HasDelegate || DensityChanged.HasDelegate || ControlSizeLevelChanged.HasDelegate || FullWidthChanged.HasDelegate;
 
     /// <summary>The mode a theme drawn in one mode only fixes, or null.</summary>
@@ -308,11 +326,16 @@ public partial class OmniAppearanceWindow : IDisposable
 
     private string FontName => AppearanceChoices.FontName(Preset, Font);
 
+    private string BackdropName => AppearanceChoices.BackdropName(Preset, Backdrop);
+
     private IReadOnlyList<OmniOption<string>> ThemeOptions => AppearanceChoices.ThemeOptions(Localize("SettingsDefaultSuffix"));
 
     private IReadOnlyList<OmniOption<string>> PaletteOptions => AppearanceChoices.PaletteOptions(Preset, Localize("SettingsDefaultSuffix"));
 
     private IReadOnlyList<OmniOption<string>> FontOptions => AppearanceChoices.FontOptions(Preset, Localize("SettingsDefaultSuffix"));
+
+    private IReadOnlyList<OmniOption<string>> BackdropOptions =>
+        AppearanceChoices.BackdropOptions(Preset, Localize("SettingsDefaultSuffix"), Localize("SettingsBackdropNone"));
 
     private IReadOnlyList<OmniOption<OmniDensity>> DensityOptions =>
         [.. Enum.GetValues<OmniDensity>().Select(density => new OmniOption<OmniDensity>(density, Localize(DensityKey(density))))];
@@ -347,11 +370,11 @@ public partial class OmniAppearanceWindow : IDisposable
 
     private Task ResetThemeAsync() => ChangeThemeAsync(null);
 
-    /// <summary>The new theme, then null for the palette and the font chosen for the previous one.</summary>
+    /// <summary>The new theme, then null for the palette, the font and the backdrop chosen for the previous one.</summary>
     private Task ChangeThemeAsync(OmniThemePreset? preset) => InBatchAsync(() => ChangeThemeCoreAsync(preset));
 
     /// <remarks>
-    /// The palette and the font reset are the ones in force when the theme was picked: a host that writes the
+    /// The palette, the font and the backdrop reset are the ones in force when the theme was picked: a host that writes the
     /// theme slowly (an account round trip) may receive a palette or a font picked in the meantime, which
     /// the new theme keeps.
     /// </remarks>
@@ -359,6 +382,7 @@ public partial class OmniAppearanceWindow : IDisposable
     {
         var palette = Palette;
         var font = Font;
+        var backdrop = Backdrop;
         await PresetChanged.InvokeAsync(preset);
         if (palette is not null && Equals(Palette, palette) && PaletteChanged.HasDelegate)
         {
@@ -369,14 +393,19 @@ public partial class OmniAppearanceWindow : IDisposable
         {
             await FontChanged.InvokeAsync(null);
         }
+
+        if (backdrop is not null && Equals(Backdrop, backdrop) && BackdropChanged.HasDelegate)
+        {
+            await BackdropChanged.InvokeAsync(null);
+        }
     }
 
     /// <summary>
     /// A theme drawn at random, other than the current one, and with it a palette other than the one in
     /// force when the palette is bound: any palette paints any theme. A font other than the one in force
-    /// is drawn the same way when the font is bound.
+    /// is drawn the same way when the font is bound; the new theme comes over its own backdrop.
     /// </summary>
-    private Task RandomLookAsync() => InBatchAsync(() => AppearanceChoices.RandomLookAsync(Preset, Palette, Font, PresetChanged, PaletteChanged, FontChanged));
+    private Task RandomLookAsync() => InBatchAsync(() => AppearanceChoices.RandomLookAsync(Preset, Palette, Font, PresetChanged, PaletteChanged, FontChanged, Backdrop, BackdropChanged));
 
     private Task SetPaletteAsync(string? name) => PaletteChanged.InvokeAsync(AppearanceChoices.Palette(Preset, name));
 
@@ -385,6 +414,10 @@ public partial class OmniAppearanceWindow : IDisposable
     private Task SetFontAsync(string? name) => FontChanged.InvokeAsync(AppearanceChoices.Font(Preset, name));
 
     private Task ResetFontAsync() => FontChanged.InvokeAsync(null);
+
+    private Task SetBackdropAsync(string? name) => BackdropChanged.InvokeAsync(AppearanceChoices.Backdrop(Preset, name));
+
+    private Task ResetBackdropAsync() => BackdropChanged.InvokeAsync(null);
 
     private Task SetBackdropMotionAsync(bool moves) => BackdropMotionChanged.InvokeAsync(moves);
 
@@ -515,6 +548,7 @@ public partial class OmniAppearanceWindow : IDisposable
         OmniThemePreset? Preset,
         OmniThemePalette? Palette,
         OmniThemeFont? Font,
+        OmniThemeBackdrop? Backdrop,
         bool BackdropMotion,
         int TextSizeLevel,
         OmniDensity Density,
@@ -522,7 +556,7 @@ public partial class OmniAppearanceWindow : IDisposable
         bool FullWidth)
     {
         /// <summary>The look of a host that never chose anything: the parameters' own defaults.</summary>
-        public static Look Default { get; } = new(OmniAppearance.System, null, null, null, true, 5, OmniDensity.Comfortable, 5, false);
+        public static Look Default { get; } = new(OmniAppearance.System, null, null, null, null, true, 5, OmniDensity.Comfortable, 5, false);
     }
 
     /// <summary>What differs between the scale rows: ids, icon, texts, level, change and the slider's binding.</summary>

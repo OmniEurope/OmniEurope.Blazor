@@ -28,6 +28,8 @@
   <data name="ContentWidthCentered" xml:space="preserve"><value>Centrirano</value></data>
   <data name="ContentWidthFull" xml:space="preserve"><value>Puna širina</value></data>
   <data name="SettingsBackdropMotion" xml:space="preserve"><value>Animirana pozadina</value></data>
+  <data name="SettingsBackdrop" xml:space="preserve"><value>Pozadina</value></data>
+  <data name="SettingsBackdropNone" xml:space="preserve"><value>Bez pozadine</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Veličina kontrola</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Zadano</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Nasumično</value></data>

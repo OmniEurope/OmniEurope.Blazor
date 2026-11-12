@@ -245,15 +245,31 @@ Ils lisent quatorze crochets de la feuille, neutres pour tout autre thème et re
 
 Sans `backdrop-filter`, un calque flottant translucide retombe sur la surface opaque (`@supports not`).
 
+#### Fonds (`OmniThemeBackdrop`)
+
+Le fond dessiné derrière la page est un réglage d'apparence, comme la palette (recette R1-2, décisions du propriétaire du 2026-11-12). `OmniThemeBackdrops.All` est le catalogue : `OmniThemeBackdrops.None` (« Aucun », la page unie) d'abord, puis Givre (les taches pastel en orbite) et Trou noir (le disque d'accrétion). Chaque thème a son fond par défaut, `OmniThemePresets.DefaultBackdropFor` : Givre et Trou noir le leur, Essentiel et les autres thèmes « Aucun » tant que leur fond n'existe pas. Essentiel n'en propose aucun : `OmniThemePresets.BackdropsFor` ne rend sous lui que « Aucun », et tous les fonds sous les autres thèmes. Un thème du catalogue porte les jetons de son fond (`OmniThemePreset.Backdrop`), si bien que son rendu par défaut est celui d'avant ; `OmniThemePreset.With(OmniThemeBackdrop)` retire les jetons du fond porté puis pose ceux de l'autre, et `OmniThemeScope.Backdrop` (nul : le fond du thème) le fait pour la portée, sauf sous un thème qui ne propose pas ce fond. Sous « Aucun », le thème garde tout le reste de sa forme (le dépoli de Givre, la page profonde de Trou noir) sur la page unie.
+
+La fenêtre de l'apparence montre la ligne « Fond » quand l'hôte lie `BackdropChanged` (`OmniAppearanceSettings` la transmet) : une liste du catalogue, le fond du thème suffixé « (défaut) » comme les palettes, « Aucun » traduit dans les 24 langues, et le bouton « Défaut ». L'interrupteur « Fond animé » se place au bout de la ligne de titre du fond. Un nouveau thème remet le fond à celui du thème (`null`), comme la palette et la police ; « Tout réinitialiser » aussi. Le choix est gardé par nom dans la préférence (`backdrop`, `OmniAppearanceState.Backdrop`, `SetBackdropAsync`) ; un nom absent ou inconnu garde le fond du thème. L'instantané de démarrage (`SnapshotKey`) rejoue les jetons peints, fond compris.
+
+Ajouter un fond :
+
+1. un fichier `src/OmniEurope.Blazor/Internal/Theming/Backdrops/<Nom>Backdrop.cs` qui expose un `BackdropDefinition` : le nom (en français, jamais traduit, comme les noms de thème : c'est la clé de la préférence), une ligne de description, les jetons des deux modes (`Shape`) et ceux du seul mode sombre (`DarkShape`) ;
+2. une ligne dans `BackdropCatalog.All`, puis, pour le thème qui le porte par défaut, `DefaultBackdrop: "<Nom>"` dans `ThemeCatalog`. Rien d'autre : la fenêtre, la préférence, l'instantané et la vitrine le prennent du catalogue ;
+3. le dessin : `--omni-backdrop` (calques d'image, fixés à la fenêtre par la portée) et ses arrêts `--omni-backdrop-*`, que les contrôles de contraste mesurent. Les couleurs viennent des jetons de la palette (`var(--omni-color-*)`, `color-mix`), jamais d'une couleur écrite, hors le noir et le blanc neutres. Une règle que les jetons ne savent pas porter (des `@keyframes` propres) va dans une feuille de `src/OmniEurope.Blazor/Styles/` ;
+4. le mouvement : `--omni-scope-motion: omni-scope-turn <N>s linear infinite` (jamais moins d'une minute) et `var(--omni-scope-turn)` lu dans `--omni-backdrop`. L'interrupteur « Fond animé » (`data-omni-backdrop-motion="off"`) et `prefers-reduced-motion: reduce` figent alors le fond sans autre code ; un fond immobile ne pose pas `--omni-scope-motion`, et l'interrupteur ne s'affiche pas ;
+5. un fond sur un canvas : `--omni-scope-canvas: <genre>` dans les jetons et `CanvasScript` (un module de `OmniModules`) dans la définition. Le module exporte `start(canvas, scope, motion)` (rend `true` s'il dessine), `refresh(canvas)`, `stop(canvas)` et `sweep()`, lit ses couleurs dans les jetons calculés de la portée, ne dessine qu'une image quand `motion` vaut `false` ou que le mouvement est réduit, et ne touche le DOM que par l'API du canvas et le CSSOM (CSP stricte : aucun attribut `style`, aucune feuille injectée, aucun script en ligne). Le fond CSS reste le repli sans WebGL ; la portée s'isole tant que le canvas dessine.
+
+Chaque couple thème et fond hors défaut n'est pas mesuré par les tests de contraste : seuls les thèmes du catalogue, chacun sur son propre fond, le sont.
+
 #### Fond animé
 
-Givre et Trou noir font bouger leur fond, et eux seuls (décision du propriétaire du 2026-09-30, figée dans `ThemeFieldMotionTests`). Le mouvement de Givre est en CSS pur, sans script ; celui de Trou noir est dessiné par `omni-black-hole.js` (WebGL, 30 images par seconde, en pause quand la page est cachée, une seule image si `BackdropMotion` est coupé ou si le mouvement est réduit, réglage suivi quand il change ; un WebGL que le navigateur signale lent, rendu en logiciel, garde le fond CSS, et trois images de suite espacées de plus de 100 ms font passer à l'image fixe). Pour le fond CSS :
+Les fonds Givre et Trou noir bougent, et eux seuls (décision du propriétaire du 2026-09-30, figée dans `ThemeFieldMotionTests` pour les thèmes sur leur propre fond). Le mouvement de Givre est en CSS pur, sans script ; celui de Trou noir est dessiné par `omni-black-hole.js` (WebGL, 30 images par seconde, en pause quand la page est cachée, une seule image si `BackdropMotion` est coupé ou si le mouvement est réduit, réglage suivi quand il change ; un WebGL que le navigateur signale lent, rendu en logiciel, garde le fond CSS, et trois images de suite espacées de plus de 100 ms font passer à l'image fixe). Pour le fond CSS :
 
 - la feuille enregistre un angle, `@property --omni-scope-turn` (`<angle>`, non hérité, `0deg`), qu'une animation `omni-scope-turn` mène à 360 degrés ; `--omni-backdrop` est enregistré non hérité lui aussi, pour que ni l'angle ni le fond ne soient recalculés sur chaque élément de la portée à chaque image ;
-- la portée porte `animation: var(--omni-scope-motion, none)` ; un thème qui bouge pose `--omni-scope-motion: omni-scope-turn <N>s linear infinite` (120 s pour Givre comme pour Trou noir, jamais moins d'une minute) et lit `var(--omni-scope-turn)` dans son `--omni-backdrop` : l'orbite des taches de Givre ;
+- la portée porte `animation: var(--omni-scope-motion, none)` ; un fond qui bouge pose `--omni-scope-motion: omni-scope-turn <N>s linear infinite` (120 s pour Givre comme pour Trou noir, jamais moins d'une minute) et lit `var(--omni-scope-turn)` dans son `--omni-backdrop` : l'orbite des taches de Givre ;
 - le fond reste immobile, angle à zéro, quand `OmniThemeScope.BackdropMotion` vaut `false` (la portée pose `data-omni-backdrop-motion="off"`) et toujours sous `prefers-reduced-motion: reduce`. Un navigateur sans `@property` garde lui aussi le fond immobile.
 
-`BackdropMotion` vaut `true` par défaut. `OmniAppearanceWindow` et `OmniAppearanceSettings` exposent `BackdropMotion` et `BackdropMotionChanged` : la ligne « Fond animé » (un interrupteur, texte dans les 24 langues) n'apparaît que sous un thème qui bouge son fond et, quand l'hôte lie des paramètres d'apparence, seulement s'il lie le changement ; l'hôte stocke alors la valeur et la remet à sa portée. Sans liaison, la valeur va dans `OmniAppearanceState`.
+`BackdropMotion` vaut `true` par défaut. `OmniAppearanceWindow` et `OmniAppearanceSettings` exposent `BackdropMotion` et `BackdropMotionChanged` : la ligne « Fond animé » (un interrupteur, texte dans les 24 langues) n'apparaît que sur un fond qui bouge et, quand l'hôte lie des paramètres d'apparence, seulement s'il lie le changement ; l'hôte stocke alors la valeur et la remet à sa portée. Sans liaison, la valeur va dans `OmniAppearanceState`.
 
 ```razor
 <OmniThemeScope Preset="@_preset" BackdropMotion="@_backdropMotion">
@@ -293,16 +309,16 @@ l'ouverture de cette fenêtre, ce qui permet à l'hôte de retirer son éventuel
 Cette fenêtre est aussi un composant, `OmniAppearanceWindow`, qu'un hôte ouvre depuis sa propre entrée
 de menu (« Thème ») par `Open`/`OpenChanged`. Plus large que haute (46rem, jamais plus que l'écran), elle
 range ses réglages deux par deux, dans l'ordre de lecture : thème et palette, police et densité,
-taille du texte et taille des contrôles, puis largeur du contenu ; l'interrupteur « Fond animé » se place au bout de la ligne de
-titre du thème. Quand l'hôte lie `AppearanceChanged` (avec `Appearance`), le mode s'affiche en trois
+taille du texte et taille des contrôles, puis largeur du contenu ; la ligne « Fond » suit la police, et l'interrupteur « Fond animé » se place au bout de sa ligne de
+titre (de celle du thème si le fond n'est pas lié). Quand l'hôte lie `AppearanceChanged` (avec `Appearance`), le mode s'affiche en trois
 boutons icônes collés au bout de la ligne de titre de la palette (sur une ligne
 à lui si la palette n'est pas liée), figé en sombre sous un thème `DarkOnly`. Une seule colonne dès que deux de 19rem ne tiennent
 plus. Quel que soit le thème, la fenêtre ne défile jamais en largeur : un thème qui élargit ses boutons (Rétro : capitales, graisse 800, ombres décalées) fait passer à la ligne la rangée de contrôles d'un réglage (la liste prend la largeur restante, jusqu'à 8rem, et le bouton « Par défaut » garde la sienne), et les deux groupes du pied passent à la ligne sans créer de largeur à faire défiler. Dans le pied de la fenêtre, le bouton « Aléatoire » tire un thème autre que le courant et, si la
 palette est liée, une palette autre que celle en vigueur, et de même une police si elle est liée (`PresetChanged`, `PaletteChanged`, puis
-`FontChanged` avec `null` pour une police choisie pour l'ancien thème). Quand l'hôte lie des paramètres d'apparence, chaque ligne n'apparaît que s'il lie son changement
-(`AppearanceChanged`, `PresetChanged`, `PaletteChanged`, `FontChanged`, `TextSizeLevelChanged`, `DensityChanged`,
-`ControlSizeLevelChanged`, `FullWidthChanged`) ; la ligne « Fond animé » (`BackdropMotionChanged`) demande en plus un thème
-qui bouge son fond (voir « Fond animé »). Chaque ligne est un groupe nommé par son libellé ; les boutons moins et plus
+`FontChanged` avec `null` pour une police choisie pour l'ancien thème, `BackdropChanged` avec `null` pour un fond choisi pour lui). Quand l'hôte lie des paramètres d'apparence, chaque ligne n'apparaît que s'il lie son changement
+(`AppearanceChanged`, `PresetChanged`, `PaletteChanged`, `FontChanged`, `BackdropChanged`, `TextSizeLevelChanged`, `DensityChanged`,
+`ControlSizeLevelChanged`, `FullWidthChanged`) ; la ligne « Fond animé » (`BackdropMotionChanged`) demande en plus un fond
+qui bouge (voir « Fond animé »). Chaque ligne est un groupe nommé par son libellé ; les boutons moins et plus
 d'une échelle portent des noms distincts.
 La ligne « Largeur du contenu » (`FullWidth`, `FullWidthChanged`, recette R1-1) choisit entre « Centré »
 (`false`, par défaut) et « Pleine largeur » (`true`). Le composant ne fait que lever le choix : l'hôte
@@ -368,7 +384,7 @@ défaut de ce seul réglage ; une valeur illisible les garde tous. Les défauts 
 des composants (système, Essentiel, `Comfortable`, fond animé, niveaux 5, colonne centrée), si bien
 qu'une application qui passe au service ne voit rien changer tant que l'utilisateur ne choisit rien.
 
-Membres : neuf propriétés en lecture (`Appearance`, `Preset`, `Palette`, `Font`, `Density`,
+Membres : dix propriétés en lecture (`Appearance`, `Preset`, `Palette`, `Font`, `Backdrop`, `Density`,
 `BackdropMotion`, `TextSizeLevel`, `ControlSizeLevel`, `FullWidth`), `LoadAsync(CancellationToken)` qui
 lit la préférence, une méthode d'écriture par réglage (`SetAppearanceAsync` … `SetFullWidthAsync`) et
 l'événement `Changed` (`Action`), qui peut être levé hors du fil du rendu (valeur reçue de la base ou
@@ -377,7 +393,7 @@ d'un autre onglet) : un composant passe par `InvokeAsync`.
 Les composants le suivent sans câblage quand l'hôte ne les contrôle pas ; le choix se fait au premier
 rendu, d'après ce que le balisage écrit :
 
-- `OmniThemeScope` qui n'écrit aucun de `Appearance`, `Density`, `Preset`, `Palette`, `Font`,
+- `OmniThemeScope` qui n'écrit aucun de `Appearance`, `Density`, `Preset`, `Palette`, `Font`, `Backdrop`,
   `BackdropMotion` : il les prend dans l'état, pose la taille du texte et des contrôles sur la racine du
   document (`data-oe-text-size`, `data-oe-control-size` ; le niveau 5 retire l'attribut, le dernier
   scope qui part retire les deux) et les ajoute à son instantané (`SnapshotKey`), qu'`omni-boot.js` pose

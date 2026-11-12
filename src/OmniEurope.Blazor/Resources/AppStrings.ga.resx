@@ -28,6 +28,8 @@
   <data name="ContentWidthCentered" xml:space="preserve"><value>I lár</value></data>
   <data name="ContentWidthFull" xml:space="preserve"><value>Leithead iomlán</value></data>
   <data name="SettingsBackdropMotion" xml:space="preserve"><value>Cúlra beoite</value></data>
+  <data name="SettingsBackdrop" xml:space="preserve"><value>Cúlra</value></data>
+  <data name="SettingsBackdropNone" xml:space="preserve"><value>Dada</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Méid na rialtán</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Réamhshocrú</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Randamach</value></data>

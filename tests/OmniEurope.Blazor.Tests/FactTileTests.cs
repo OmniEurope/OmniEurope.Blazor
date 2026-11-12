@@ -272,13 +272,16 @@ public sealed class FactTileTests : OmniBunitContext
         Assert.Equal("0", ShippedLookTests.Value(reach, "min-inline-size"));
         Assert.Equal("0", ShippedLookTests.Value(reach, "min-block-size"));
 
-        // The columns: a fixed icon track, a label track in rem capped at 40% of the rows (so a large text size
-        // never pushes the rows out of a narrow tile), the rest for the value, shared by the rows block and, as a
-        // subgrid, by every row; tiles of one width resolve them alike, so they match from one tile to the next.
+        // The columns: a fixed icon track, then the label and the value halving the rest (R1-4), shared by the
+        // rows block and, as a subgrid, by every row; a host may still fix the label track with
+        // --omni-fact-tile-label-width; tiles of one width resolve them alike, so they match from one tile to the next.
         var rows = ShippedLookTests.Body(".omni-fact-tile__rows");
         Assert.Equal("var(--omni-fact-tile-columns)", ShippedLookTests.Value(rows, "grid-template-columns"));
-        Assert.Contains("--omni-fact-tile-columns: var(--omni-fact-tile-icon-width, 1.25rem) minmax(0, min(var(--omni-fact-tile-label-width, 6.5rem), 40%)) minmax(0, 1fr)", rows, StringComparison.Ordinal);
+        Assert.Contains("--omni-fact-tile-columns: var(--omni-fact-tile-icon-width, 1.25rem) minmax(0, var(--omni-fact-tile-label-width, 1fr)) minmax(0, 1fr)", rows, StringComparison.Ordinal);
         Assert.Equal("grid", ShippedLookTests.Value(rows, "display"));
+        // The value is drawn a step under the body text, at the label size (R1-4), the label a step under it again.
+        Assert.Equal("var(--omni-font-size-label)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-fact-tile__value"), "font-size"));
+        Assert.Equal("var(--omni-font-size-sm)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-fact-tile__label"), "font-size"));
         Assert.Equal("auto", ShippedLookTests.Value(rows, "overflow-y"));
         var row = ShippedLookTests.Body(".omni-fact-tile__row");
         Assert.Contains("grid-template-columns: subgrid", row, StringComparison.Ordinal);

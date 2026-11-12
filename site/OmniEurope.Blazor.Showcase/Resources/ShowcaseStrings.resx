@@ -97,6 +97,8 @@
   <data name="WorkshopDensitySpacious" xml:space="preserve"><value>Spacious</value></data>
   <data name="WorkshopDensityInherited" xml:space="preserve"><value>Inherited</value></data>
   <data name="WorkshopSectionDensity" xml:space="preserve"><value>Density</value></data>
+  <data name="WorkshopBackdrop" xml:space="preserve"><value>Background</value></data>
+  <data name="WorkshopBackdropNone" xml:space="preserve"><value>None</value></data>
   <data name="WorkshopMotion" xml:space="preserve"><value>Animated background</value></data>
   <data name="WorkshopHover" xml:space="preserve"><value>Hover</value></data>
   <data name="WorkshopHoverForce" xml:space="preserve"><value>Force</value></data>

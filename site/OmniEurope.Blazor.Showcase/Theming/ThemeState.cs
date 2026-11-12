@@ -27,6 +27,7 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
     private const string ModeKey = "mode";
     private const string DensityKey = "density";
     private const string MotionKey = "motion";
+    private const string BackdropKey = "backdrop";
 
     /// <summary>The shape token a theme sets when it moves its colour field.</summary>
     private const string MotionToken = "--omni-scope-motion";
@@ -83,8 +84,17 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
     /// <summary>Whether the theme may move its colour field; the layout hands it to its theme scope.</summary>
     public bool BackdropMotion { get; private set; } = true;
 
-    /// <summary>Whether the theme moves its colour field, so the setting that holds it still has something to hold.</summary>
-    public bool MovesBackdrop => Theme.Shape.ContainsKey(MotionToken);
+    /// <summary>Whether the backdrop drawn moves its colour field, so the setting that holds it still has something to hold.</summary>
+    public bool MovesBackdrop => _painted.Shape.ContainsKey(MotionToken);
+
+    /// <summary>
+    /// The backdrop chosen for the theme, or null for the one the theme comes with; a backdrop the theme does
+    /// not offer (any under Essentiel) is not drawn.
+    /// </summary>
+    public OmniThemeBackdrop? Backdrop { get; private set; }
+
+    /// <summary>The backdrop the page is drawn over: <see cref="Backdrop"/> when the theme offers it, the theme's own otherwise.</summary>
+    public OmniThemeBackdrop DrawnBackdrop => Backdrop is { } chosen && OmniThemePresets.BackdropsFor(Theme).Contains(chosen) ? chosen : OmniThemePresets.DefaultBackdropFor(Theme);
 
     /// <summary>The tokens the visitor edited by hand, laid over both halves of the combination.</summary>
     public IReadOnlyDictionary<string, string> Edits => _edits;
@@ -161,7 +171,7 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
     }
 
     /// <summary>
-    /// Picks a theme, painted with its own palette: a theme is chosen whole, and the palette picker
+    /// Picks a theme, painted with its own palette over its own backdrop: a theme is chosen whole, and the palette picker
     /// then repaints it. The edits, made for the previous combination, are dropped.
     /// </summary>
     public async Task SelectThemeAsync(OmniThemePreset theme, CancellationToken cancellationToken = default)
@@ -169,6 +179,7 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
         ArgumentNullException.ThrowIfNull(theme);
         Theme = theme;
         Palette = DefaultPaletteOf(theme);
+        Backdrop = null;
         _edits.Clear();
         Repaint();
         await PushAsync(cancellationToken).ConfigureAwait(false);
@@ -206,6 +217,23 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
     public async Task SetBackdropMotionAsync(bool moves, CancellationToken cancellationToken = default)
     {
         BackdropMotion = moves;
+        await PushAsync(cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Draws the theme over another backdrop, or over its own with null; the theme, its palette and the
+    /// edits stay, the edits of the previous backdrop's tokens aside: they are dropped with it.
+    /// </summary>
+    public async Task SelectBackdropAsync(OmniThemeBackdrop? backdrop, CancellationToken cancellationToken = default)
+    {
+        var leaving = DrawnBackdrop;
+        Backdrop = backdrop is null || ReferenceEquals(backdrop, OmniThemePresets.DefaultBackdropFor(Theme)) ? null : backdrop;
+        foreach (var name in leaving.Shape.Keys.Concat(leaving.DarkShape.Keys))
+        {
+            _edits.Remove(name);
+        }
+
+        Repaint();
         await PushAsync(cancellationToken).ConfigureAwait(false);
     }
 
@@ -285,7 +313,7 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
         }
     }
 
-    private void Repaint() => _painted = Theme.With(Palette);
+    private void Repaint() => _painted = Theme.With(Palette).With(DrawnBackdrop);
 
     /// <summary>The current name of a stored theme or palette name, the name itself when it was never renamed.</summary>
     private static string LegacyName(string stored, IReadOnlyDictionary<string, string> renamed) =>
@@ -338,6 +366,12 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
             BackdropMotion = parsedMotion;
         }
 
+        // Empty or absent: the theme's own backdrop. A name the catalogue no longer has keeps it too.
+        if (saved.TryGetValue(BackdropKey, out var backdropName))
+        {
+            Backdrop = OmniThemeBackdrops.All.FirstOrDefault(backdrop => backdrop.Name == backdropName);
+        }
+
         foreach (var (name, value) in saved.Where(entry => entry.Key.StartsWith("--", StringComparison.Ordinal)))
         {
             _edits[name] = value;
@@ -354,7 +388,8 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
             [PaletteKey] = Palette.Name,
             [ModeKey] = Mode.ToString(),
             [DensityKey] = Density.ToString(),
-            [MotionKey] = BackdropMotion.ToString()
+            [MotionKey] = BackdropMotion.ToString(),
+            [BackdropKey] = Backdrop?.Name ?? string.Empty
         };
         return JsonSerializer.Serialize(saved);
     }

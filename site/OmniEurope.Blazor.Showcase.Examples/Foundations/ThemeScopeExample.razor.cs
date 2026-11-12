@@ -26,7 +26,11 @@ public partial class ThemeScopeExample
     [Parameter]
     public OmniThemeFont? Font { get; set; }
 
-    /// <summary>Whether a theme that moves its backdrop may move it; only some themes have one.</summary>
+    /// <summary>The backdrop the theme is drawn over, or null for its own.</summary>
+    [Parameter]
+    public OmniThemeBackdrop? Backdrop { get; set; }
+
+    /// <summary>Whether a backdrop that moves may move; only some backdrops do.</summary>
     [Parameter]
     public bool BackdropMotion { get; set; } = true;
 

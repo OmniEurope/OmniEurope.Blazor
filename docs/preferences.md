@@ -472,7 +472,7 @@ Une application qui tenait son propre service d'apparence (cookie ou `localStora
 composants peut le retirer :
 
 1. Délier les paramètres d'apparence pour que les composants suivent `OmniAppearanceState` :
-   `OmniThemeScope` sans `Appearance`, `Density`, `Preset`, `Palette`, `Font`, `BackdropMotion` ;
+   `OmniThemeScope` sans `Appearance`, `Density`, `Preset`, `Palette`, `Font`, `Backdrop`, `BackdropMotion` ;
    `OmniAppearanceWindow` et `OmniAppearanceSettings` sans aucun des dix-huit paramètres d'apparence
    (les neuf valeurs et leurs `…Changed`), l'hôte ne gardant que l'ouverture ; `OmniAppMenu` sans
    `Appearance`, `AppearanceChanged` ni `Preset`. Le choix se fait au premier rendu, composant par

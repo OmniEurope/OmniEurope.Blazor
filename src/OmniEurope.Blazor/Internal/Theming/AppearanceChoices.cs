@@ -3,8 +3,8 @@ using OmniEurope.Blazor.Components;
 namespace OmniEurope.Blazor.Internal;
 
 /// <summary>
-/// The theme, palette and font lists of the appearance settings and of the appearance window, one
-/// source for both: the option that stands for the default theme, the default palette and font of each
+/// The theme, palette, font and backdrop lists of the appearance settings and of the appearance window, one
+/// source for both: the option that stands for the default theme, the default palette, font and backdrop of each
 /// theme and the "(default)" suffix of the choice a theme is drawn with.
 /// </summary>
 internal static class AppearanceChoices
@@ -14,8 +14,6 @@ internal static class AppearanceChoices
 
     internal static OmniThemePreset EffectivePreset(OmniThemePreset? preset) => preset ?? OmniThemePresets.All[0];
 
-    /// <summary>Whether the theme moves its colour field, so a setting that holds it still has something to hold.</summary>
-    internal static bool MovesBackdrop(OmniThemePreset? preset) => EffectivePreset(preset).Shape.ContainsKey("--omni-scope-motion");
 
     internal static string ThemeName(OmniThemePreset? preset) =>
         preset is null || ReferenceEquals(preset, OmniThemePresets.All[0]) ? DefaultTheme : preset.Name;
@@ -61,7 +59,8 @@ internal static class AppearanceChoices
     /// The random look of the appearance window and of the application menu: a theme other than the one in
     /// force, and with it a palette and a font other than those in force when their change is bound (any
     /// palette paints any theme, any font sets it). What equals the new theme's own comes back as null, as
-    /// when it is picked in the list.
+    /// when it is picked in the list. The backdrop is not drawn: the new theme comes over its own one, as
+    /// when it is picked in the list (null when the change is bound and another backdrop was chosen).
     /// </summary>
     internal static async Task RandomLookAsync(
         OmniThemePreset? currentPreset,
@@ -69,8 +68,15 @@ internal static class AppearanceChoices
         OmniThemeFont? currentFont,
         EventCallback<OmniThemePreset?> presetChanged,
         EventCallback<OmniThemePalette?> paletteChanged,
-        EventCallback<OmniThemeFont?> fontChanged)
+        EventCallback<OmniThemeFont?> fontChanged,
+        OmniThemeBackdrop? currentBackdrop = null,
+        EventCallback<OmniThemeBackdrop?> backdropChanged = default)
     {
+        if (currentBackdrop is not null && backdropChanged.HasDelegate)
+        {
+            await backdropChanged.InvokeAsync(null);
+        }
+
         var theme = RandomOther(OmniThemePresets.All, EffectivePreset(currentPreset));
         var preset = Theme(ThemeName(theme));
         var paletteInForce = PaletteName(currentPreset, currentPalette);
@@ -109,6 +115,48 @@ internal static class AppearanceChoices
         name == OmniThemePresets.DefaultFontFor(EffectivePreset(preset)).Name
             ? null
             : OmniThemeFonts.All.FirstOrDefault(font => font.Name == name);
+
+    /// <summary>
+    /// The backdrop a theme is drawn over: <paramref name="backdrop"/> when the theme offers it
+    /// (<see cref="OmniThemePresets.BackdropsFor"/>), the one the theme carries otherwise (its own for a theme
+    /// of the catalogue, <see cref="OmniThemePreset.Backdrop"/>). Under Essentiel, which offers
+    /// none, a backdrop chosen for another theme is never drawn.
+    /// </summary>
+    internal static OmniThemeBackdrop EffectiveBackdrop(OmniThemePreset? preset, OmniThemeBackdrop? backdrop) =>
+        backdrop is not null && OmniThemePresets.BackdropsFor(EffectivePreset(preset)).Contains(backdrop)
+            ? backdrop
+            : EffectivePreset(preset).Backdrop;
+
+    /// <summary>The theme in force drawn over the backdrop in force, for what it then moves or draws.</summary>
+    internal static OmniThemePreset Drawn(OmniThemePreset? preset, OmniThemeBackdrop? backdrop) =>
+        backdrop is null ? EffectivePreset(preset) : EffectivePreset(preset).With(EffectiveBackdrop(preset, backdrop));
+
+    /// <summary>Whether the theme moves its colour field over the backdrop in force, so a setting that holds it still has something to hold.</summary>
+    internal static bool MovesBackdrop(OmniThemePreset? preset, OmniThemeBackdrop? backdrop) =>
+        Drawn(preset, backdrop).Shape.ContainsKey("--omni-scope-motion");
+
+    /// <summary>The name of the backdrop a theme is drawn over when <paramref name="backdrop"/> is null or not offered.</summary>
+    internal static string BackdropName(OmniThemePreset? preset, OmniThemeBackdrop? backdrop) => EffectiveBackdrop(preset, backdrop).Name;
+
+    /// <summary>
+    /// The backdrops the theme offers, its own one suffixed as the default; the plain page reads as
+    /// <paramref name="noneLabel"/> (a word of the user's language) rather than by its catalogue name.
+    /// </summary>
+    internal static IReadOnlyList<OmniOption<string>> BackdropOptions(OmniThemePreset? preset, string defaultSuffix, string noneLabel)
+    {
+        var fallback = OmniThemePresets.DefaultBackdropFor(EffectivePreset(preset));
+        return [.. OmniThemePresets.BackdropsFor(EffectivePreset(preset)).Select(backdrop =>
+        {
+            var label = ReferenceEquals(backdrop, OmniThemeBackdrops.None) ? noneLabel : backdrop.Name;
+            return new OmniOption<string>(backdrop.Name, ReferenceEquals(backdrop, fallback) ? $"{label} ({defaultSuffix})" : label);
+        })];
+    }
+
+    /// <summary>The backdrop an option names; null for the theme's own backdrop or a name the theme does not offer.</summary>
+    internal static OmniThemeBackdrop? Backdrop(OmniThemePreset? preset, string? name) =>
+        name == OmniThemePresets.DefaultBackdropFor(EffectivePreset(preset)).Name
+            ? null
+            : OmniThemePresets.BackdropsFor(EffectivePreset(preset)).FirstOrDefault(backdrop => backdrop.Name == name);
 
     /// <summary>The palette an option names; null for the theme's own palette or an unknown name.</summary>
     internal static OmniThemePalette? Palette(OmniThemePreset? preset, string? name) =>
